@@ -1,5 +1,5 @@
-Web Renderer
-==============
+Superdesk Web Renderer
+======================
 
 WebPublisher is templates engine + articles/pages render component for Superdesk WebPublisher. Thanks to Web Renderer, templators can design themes and work with templates engine.
 
