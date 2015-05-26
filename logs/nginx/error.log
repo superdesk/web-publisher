@@ -1,0 +1,22 @@
+2015/05/25 15:04:08 [emerg] 1#0: host not found in upstream "php:9000" in /etc/nginx/conf.d/upstream.conf:1
+2015/05/25 15:05:24 [emerg] 1#0: host not found in upstream "php:9000" in /etc/nginx/conf.d/upstream.conf:1
+2015/05/25 15:06:22 [emerg] 1#0: host not found in upstream "php:9000" in /etc/nginx/conf.d/upstream.conf:1
+2015/05/25 15:08:45 [emerg] 1#0: host not found in upstream "php:9000" in /etc/nginx/conf.d/upstream.conf:1
+2015/05/25 15:09:25 [emerg] 1#0: host not found in upstream "php:9000" in /etc/nginx/conf.d/upstream.conf:1
+2015/05/25 15:09:49 [emerg] 1#0: host not found in upstream "php:9000" in /etc/nginx/conf.d/upstream.conf:1
+2015/05/25 15:22:18 [emerg] 1#0: host not found in upstream "*:9000" in /etc/nginx/conf.d/upstream.conf:1
+2015/05/25 15:23:53 [emerg] 1#0: host not found in upstream "nginx:9000" in /etc/nginx/conf.d/upstream.conf:1
+2015/05/25 15:24:55 [emerg] 1#0: host not found in upstream "nginx_1:9000" in /etc/nginx/conf.d/upstream.conf:1
+2015/05/25 15:27:58 [emerg] 1#0: no port in upstream "php-upstream" in /etc/nginx/sites-enabled/webrenderer:15
+2015/05/25 15:35:22 [emerg] 1#0: "upstream" directive is not allowed here in /etc/nginx/sites-enabled/webrenderer:14
+2015/05/25 15:54:48 [emerg] 1#0: invalid number of arguments in "fastcgi_pass" directive in /etc/nginx/sites-enabled/webrenderer:15
+2015/05/25 16:08:56 [emerg] 1#0: host not found in upstream "php:9000" in /etc/nginx/conf.d/upstream.conf:1
+2015/05/25 16:09:29 [emerg] 1#0: host not found in upstream "php:9000" in /etc/nginx/conf.d/upstream.conf:1
+2015/05/25 16:13:20 [emerg] 1#0: host not found in upstream "php:9000" in /etc/nginx/conf.d/upstream.conf:1
+2015/05/25 16:13:57 [emerg] 1#0: directive "fastcgi_pass" is not terminated by ";" in /etc/nginx/sites-enabled/webrenderer:15
+2015/05/25 16:15:44 [emerg] 1#0: directive "fastcgi_pass" is not terminated by ";" in /etc/nginx/sites-enabled/webrenderer:16
+2015/05/25 16:28:07 [emerg] 1#0: directive "fastcgi_pass" is not terminated by ";" in /etc/nginx/sites-enabled/webrenderer:16
+2015/05/25 16:38:08 [emerg] 1#0: host not found in upstream "*" in /etc/nginx/sites-enabled/webrenderer:16
+2015/05/25 16:42:40 [emerg] 1#0: host not found in upstream "php:9000" in /etc/nginx/conf.d/upstream.conf:1
+2015/05/25 16:43:07 [emerg] 1#0: host not found in upstream "php:9000" in /etc/nginx/conf.d/upstream.conf:1
+2015/05/25 16:43:56 [emerg] 1#0: host not found in upstream "*" in /etc/nginx/sites-enabled/webrenderer:16

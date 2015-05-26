@@ -1,0 +1,15 @@
+php:
+    image: webrenderer/php-fpm
+    expose:
+        - 9000:9000
+nginx:
+    image: webrenderer/nginx
+    ports:
+        - 80:80
+    links:
+        - php
+    volumes:
+        - .:/var/www/webrenderer
+        - logs/webrenderer:/var/www/webrenderer/app/logs
+        - logs/nginx/:/var/log/nginx
+    tty: true
