@@ -1,9 +1,9 @@
 {
     "name": "superdesk/web-renderer",
-    "license": "proprietary",
+    "license":"GPL-3.0",
     "type": "project",
     "autoload": {
-        "psr-0": {
+        "psr-4": {
             "": "src/"
         }
     },
