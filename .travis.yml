@@ -8,4 +8,4 @@ before_script:
 
 script:
   - bin/phpspec run
-  - phpunit -c /app
+  - phpunit -c app/
