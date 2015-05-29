@@ -1,0 +1,11 @@
+language: php
+php:
+  - 5.6
+  - nightly
+
+before_script:
+  - composer install
+
+script:
+  - bin/phpspec run
+  - phpunit -c /app
