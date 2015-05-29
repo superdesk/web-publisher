@@ -20,12 +20,10 @@ framework:
     validation:      { enable_annotations: true }
     templating:
         engines: ['twig']
-        #assets_version: SomeVersionScheme
     default_locale:  "%locale%"
     trusted_hosts:   ~
     trusted_proxies: ~
     session:
-        # handler_id set to null will use default session handler from php.ini
         handler_id:  ~
     fragments:       ~
     http_method_override: true
@@ -44,6 +42,9 @@ liip_theme:
         app_resource:
             - %%app_path%%/themes/%%current_theme%%/%%current_device%%/%%template%%
 
+twig_cache:
+    service: doctrine_cache.providers.doctrine.orm.default_metadata_cache
+
 # Doctrine Configuration
 doctrine:
     dbal:
@@ -54,12 +55,6 @@ doctrine:
         user:     "%database_user%"
         password: "%database_password%"
         charset:  UTF8
-        # if using pdo_sqlite as your database driver:
-        #   1. add the path in parameters.yml
-        #     e.g. database_path: "%kernel.root_dir%/data/data.db3"
-        #   2. Uncomment database_path in parameters.yml.dist
-        #   3. Uncomment next line:
-        #     path:     "%database_path%"
 
     orm:
         auto_generate_proxy_classes: "%kernel.debug%"

@@ -18,9 +18,9 @@
         "symfony/monolog-bundle": "~2.4",
         "sensio/distribution-bundle": "~3.0,>=3.0.12",
         "sensio/framework-extra-bundle": "~3.0,>=3.0.2",
-        "incenteev/composer-parameter-handler": "~2.0",
         "friendsofsymfony/http-cache-bundle": "~1.0",
-        "liip/theme-bundle": "1.2.0"
+        "liip/theme-bundle": "1.2.0",
+        "emanueleminotto/twig-cache-bundle": "^0.2.1"
     },
     "require-dev": {
         "sensio/generator-bundle": "~2.3"
@@ -51,9 +51,6 @@
     "extra": {
         "symfony-app-dir": "app",
         "symfony-web-dir": "web",
-        "symfony-assets-install": "relative",
-        "incenteev-parameters": {
-            "file": "app/config/parameters.yml"
-        }
+        "symfony-assets-install": "relative"
     }
 }

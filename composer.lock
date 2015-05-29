@@ -4,8 +4,60 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "0d5a08eb8fed24f2a43b70e2968b0047",
+    "hash": "e4e76362d9e0667877f565417781042d",
     "packages": [
+        {
+            "name": "asm89/twig-cache-extension",
+            "version": "1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/asm89/twig-cache-extension.git",
+                "reference": "92edc2ab522997fd0a2a02b6b9e89b3e08ac5c60"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/asm89/twig-cache-extension/zipball/92edc2ab522997fd0a2a02b6b9e89b3e08ac5c60",
+                "reference": "92edc2ab522997fd0a2a02b6b9e89b3e08ac5c60",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.2",
+                "twig/twig": "1.*"
+            },
+            "require-dev": {
+                "doctrine/cache": "1.*"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "Asm89\\Twig\\CacheExtension\\": "lib/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Alexander",
+                    "email": "iam.asm89@gmail.com",
+                    "homepage": "http://asm89.github.io/"
+                }
+            ],
+            "description": "Caching template fragments with Twig.",
+            "homepage": "https://github.com/asm89/twig-cache-extension",
+            "keywords": [
+                "cache",
+                "extension",
+                "twig"
+            ],
+            "time": "2014-05-31 13:57:16"
+        },
         {
             "name": "doctrine/annotations",
             "version": "v1.2.4",
@@ -700,6 +752,54 @@
                 "orm"
             ],
             "time": "2014-12-16 13:45:01"
+        },
+        {
+            "name": "emanueleminotto/twig-cache-bundle",
+            "version": "0.2.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/EmanueleMinotto/TwigCacheBundle.git",
+                "reference": "b95176493376dc81f7f9f09fd898da819b20354e"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/EmanueleMinotto/TwigCacheBundle/zipball/b95176493376dc81f7f9f09fd898da819b20354e",
+                "reference": "b95176493376dc81f7f9f09fd898da819b20354e",
+                "shasum": ""
+            },
+            "require": {
+                "asm89/twig-cache-extension": "~1.0"
+            },
+            "require-dev": {
+                "doctrine/cache": "~1.4",
+                "phpunit/phpunit": "~4.4",
+                "symfony/framework-bundle": "~2.6",
+                "symfony/twig-bundle": "~2.6"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "EmanueleMinotto\\TwigCacheBundle\\": "."
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Emanuele Minotto",
+                    "email": "minottoemanuele@gmail.com"
+                }
+            ],
+            "description": "Symfony 2 Bundle for asm89/twig-cache-extension",
+            "keywords": [
+                "bundle",
+                "cache",
+                "symfony",
+                "twig"
+            ],
+            "time": "2015-02-20 00:45:27"
         },
         {
             "name": "friendsofsymfony/http-cache",

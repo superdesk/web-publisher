@@ -7,6 +7,7 @@ Contents:
    :maxdepth: 2
 
    themes
+   templates
 
 
 Indices and tables

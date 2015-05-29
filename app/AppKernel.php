@@ -17,6 +17,7 @@ class AppKernel extends Kernel
             new FOS\HttpCacheBundle\FOSHttpCacheBundle(),
             new Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle(),
             new Liip\ThemeBundle\LiipThemeBundle(),
+            new EmanueleMinotto\TwigCacheBundle\TwigCacheBundle(),
             new AppBundle\AppBundle(),
         );
 
