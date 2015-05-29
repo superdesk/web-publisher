@@ -8,7 +8,7 @@
         }
     },
     "require": {
-        "php": ">=5.3.3",
+        "php": ">=5.6",
         "symfony/symfony": "~2.7@beta",
         "doctrine/orm": "~2.2,>=2.2.3,<2.5",
         "doctrine/dbal": "<2.5",
@@ -23,7 +23,8 @@
         "liip/theme-bundle": "1.2.0"
     },
     "require-dev": {
-        "sensio/generator-bundle": "~2.3"
+        "sensio/generator-bundle": "~2.3",
+        "phpspec/phpspec": "~2.0"
     },
     "scripts": {
         "post-install-cmd": [

@@ -3,6 +3,10 @@ Superdesk Web Renderer
 
 WebPublisher is templates engine + articles/pages render component for Superdesk WebPublisher. Thanks to Web Renderer, templators can design themes and work with templates engine.
 
+## Documentation
+
+Full documentation can be found here: [http://web-renderer.readthedocs.org/][1]
+
 ### Web Renderer contains:
 
  * templates engine based on twig
@@ -29,7 +33,7 @@ WebPublisher is templates engine + articles/pages render component for Superdesk
 
 #### Build php and nginx images:
 
-```
+```bash
 docker build -t webrenderer/php-fpm docker/php-fpm/
 docker build -t webrenderer/nginx docker/nginx/
 ```
@@ -39,3 +43,16 @@ add ```webrenderer.dev``` to ```/etc/hosts``` (with ip of your virtualbox machin
 #### Run:
 
 ```docker-compose up```
+
+[1]: http://web-renderer.readthedocs.org/
+
+## Testing
+
+For unit tests use PHPSpec tests, for functional tests use PHPUnit and Behat for integration.
+
+How to run tests?
+
+```bash
+phpunit -c /app # PHPUnit tests (functional)
+php vendor/bin/phpspec run # PHPSpec tests
+```
