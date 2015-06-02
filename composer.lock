@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "4cac11d1294836cea563447b2249bf91",
+    "hash": "c69defafad7ea513740b198d5fe469f6",
     "packages": [
         {
             "name": "asm89/twig-cache-extension",
@@ -1151,17 +1151,17 @@
         },
         {
             "name": "liip/theme-bundle",
-            "version": "1.2.0",
+            "version": "dev-master",
             "target-dir": "Liip/ThemeBundle",
             "source": {
                 "type": "git",
                 "url": "https://github.com/liip/LiipThemeBundle.git",
-                "reference": "238322091d1f1d7ceea44720fe46c63e9dc515c4"
+                "reference": "6bf4f4ae70b0c884c8620360f5e49c5f82f4e308"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/liip/LiipThemeBundle/zipball/238322091d1f1d7ceea44720fe46c63e9dc515c4",
-                "reference": "238322091d1f1d7ceea44720fe46c63e9dc515c4",
+                "url": "https://api.github.com/repos/liip/LiipThemeBundle/zipball/6bf4f4ae70b0c884c8620360f5e49c5f82f4e308",
+                "reference": "6bf4f4ae70b0c884c8620360f5e49c5f82f4e308",
                 "shasum": ""
             },
             "require": {
@@ -1171,7 +1171,8 @@
             },
             "require-dev": {
                 "kriswallsmith/assetic": "~1.1",
-                "phpunit/phpunit": "~4.5",
+                "phpunit/php-code-coverage": "@stable",
+                "phpunit/phpunit": "~4.5@stable",
                 "symfony/console": "~2.0",
                 "symfony/expression-language": "~2.6",
                 "twig/twig": "~1.0"
@@ -1206,7 +1207,7 @@
                 "themes",
                 "theming"
             ],
-            "time": "2015-04-23 20:12:08"
+            "time": "2015-06-02 10:27:35"
         },
         {
             "name": "monolog/monolog",
@@ -2442,7 +2443,8 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
-        "symfony/symfony": 10
+        "symfony/symfony": 10,
+        "liip/theme-bundle": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,
