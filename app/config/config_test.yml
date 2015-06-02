@@ -14,3 +14,12 @@ web_profiler:
 
 swiftmailer:
     disable_delivery: true
+
+liip_theme:
+    themes: ['theme_test',]
+    active_theme: 'theme_test'
+    load_controllers: false
+    autodetect_theme: true
+    path_patterns:
+        app_resource:
+            - %%app_path%%/themes/%%current_theme%%/%%current_device%%/%%template%%

@@ -6,7 +6,7 @@ Overview
 
 Superdesk Web Publisher themes system is build on top of fast, flexible and easy to use Twig templates. 
 
-Themes are located under :doc:`app/Resources/themes` directory. Theme can provide templates used for customization of rendered site.
+Themes are located under :code:`app/Resources/themes` directory. Theme can provide templates used for customization of rendered site.
 
 Basic theme must have following structure:
 
@@ -25,7 +25,7 @@ Basic theme must have following structure:
 
 Superdesk Web Publisher provides easy way to create device specific templates. This solution gives you oportunity to put in your templates only needed and realy used on that device type elements. 
 
-Suported device types: :doc:`desktop, phone, tablet, plain`.
+Suported device types: :code:`desktop, phone, tablet, plain`.
 
 Device type specific theme would look like this:
 
@@ -55,4 +55,4 @@ Device type specific theme would look like this:
 
 .. note::
 
-    If device will not be recognized by system then it will fallback to :doc:`desktop` type. If there is no :doc:`deskopt` direcotry with required template file then system will try to load template from default (root level) directories.
+    If device will not be recognized by system then it will fallback to :code:`desktop` type. If there is no :code:`desktop` direcotry with required template file then system will try to load template from default (root level) directories.
