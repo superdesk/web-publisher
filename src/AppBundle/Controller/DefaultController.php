@@ -15,6 +15,6 @@ class DefaultController extends Controller
     public function indexAction()
     {
         sleep(3);
-        return $this->render('views/index2.html.twig');
+        return $this->render('views/index.html.twig');
     }
 }
