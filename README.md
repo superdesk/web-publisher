@@ -1,6 +1,11 @@
 Superdesk Web Renderer
 ======================
 
+[![Build Status](https://travis-ci.org/superdesk/web-renderer.svg?branch=master)](https://travis-ci.org/superdesk/web-renderer) 
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/superdesk/web-renderer/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/superdesk/web-renderer/?branch=master) 
+[![Dependency Status](https://www.versioneye.com/user/projects/556eccea663430000a300100/badge.svg?style=flat)](https://www.versioneye.com/user/projects/556eccea663430000a300100) 
+[![SensioLabsInsight](https://insight.sensiolabs.com/projects/63e28e0c-a2f4-40ec-bf8f-79a5ce8bd3e7/big.png)](https://insight.sensiolabs.com/projects/63e28e0c-a2f4-40ec-bf8f-79a5ce8bd3e7)
+
 WebPublisher is templates engine + articles/pages render component for Superdesk WebPublisher. Thanks to Web Renderer, templators can design themes and work with templates engine.
 
 ## Documentation

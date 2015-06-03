@@ -25,6 +25,7 @@ framework:
     trusted_proxies: ~
     session:
         handler_id:  ~
+        name: SUPERDESKWEBRENDERER
     fragments:       ~
     http_method_override: true
 
@@ -41,6 +42,7 @@ liip_theme:
     path_patterns:
         app_resource:
             - %%app_path%%/themes/%%current_theme%%/%%current_device%%/%%template%%
+            - %%app_path%%/views/%%current_device%%/%%template%%
 
 twig_cache:
     service: doctrine_cache.providers.doctrine.orm.default_metadata_cache
