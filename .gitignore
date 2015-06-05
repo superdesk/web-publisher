@@ -11,4 +11,5 @@
 /composer.phar
 /vendor/
 /web/bundles/
+/web/config.php
 logs/

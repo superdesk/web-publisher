@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "c69defafad7ea513740b198d5fe469f6",
+    "hash": "4d0e8b0f9b2d4f853749687185f3b822",
     "packages": [
         {
             "name": "asm89/twig-cache-extension",
@@ -804,28 +804,27 @@
         },
         {
             "name": "friendsofsymfony/http-cache",
-            "version": "1.3.2",
+            "version": "1.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/FriendsOfSymfony/FOSHttpCache.git",
-                "reference": "6269866289ce9b80b7e569b4cffdc829fbe7452b"
+                "reference": "54117e25b9a0ac4568d33f349d62ef83d2301b76"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSHttpCache/zipball/6269866289ce9b80b7e569b4cffdc829fbe7452b",
-                "reference": "6269866289ce9b80b7e569b4cffdc829fbe7452b",
+                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSHttpCache/zipball/54117e25b9a0ac4568d33f349d62ef83d2301b76",
+                "reference": "54117e25b9a0ac4568d33f349d62ef83d2301b76",
                 "shasum": ""
             },
             "require": {
-                "guzzle/guzzle": "~3.0",
+                "guzzle/guzzle": "~3.8",
                 "php": ">=5.3.3",
                 "symfony/event-dispatcher": "~2.3",
                 "symfony/options-resolver": "~2.3"
             },
             "require-dev": {
-                "guzzle/plugin-mock": "*",
-                "mockery/mockery": "*",
-                "monolog/monolog": "*",
+                "mockery/mockery": "~0.9.1",
+                "monolog/monolog": "~1.0",
                 "symfony/http-kernel": "~2.3",
                 "symfony/process": "~2.3"
             },
@@ -835,7 +834,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.3.x-dev"
+                    "dev-master": "1.4.x-dev"
                 }
             },
             "autoload": {
@@ -873,24 +872,24 @@
                 "purge",
                 "varnish"
             ],
-            "time": "2015-05-08 08:56:21"
+            "time": "2015-06-02 07:31:35"
         },
         {
             "name": "friendsofsymfony/http-cache-bundle",
-            "version": "1.2.1",
+            "version": "1.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/FriendsOfSymfony/FOSHttpCacheBundle.git",
-                "reference": "89c09ec37eab20dd784423b5ede10a3b3e3dbdc2"
+                "reference": "db5d4b3107595c5835af0d960fcd75e85ef23617"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSHttpCacheBundle/zipball/89c09ec37eab20dd784423b5ede10a3b3e3dbdc2",
-                "reference": "89c09ec37eab20dd784423b5ede10a3b3e3dbdc2",
+                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSHttpCacheBundle/zipball/db5d4b3107595c5835af0d960fcd75e85ef23617",
+                "reference": "db5d4b3107595c5835af0d960fcd75e85ef23617",
                 "shasum": ""
             },
             "require": {
-                "friendsofsymfony/http-cache": "~1.2",
+                "friendsofsymfony/http-cache": "~1.4",
                 "php": ">=5.3.3",
                 "symfony/framework-bundle": "~2.3"
             },
@@ -913,7 +912,7 @@
             "type": "symfony-bundle",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.2.x-dev"
+                    "dev-master": "1.3.x-dev"
                 }
             },
             "autoload": {
@@ -950,7 +949,7 @@
                 "purge",
                 "varnish"
             ],
-            "time": "2015-02-20 15:34:57"
+            "time": "2015-06-04 22:15:06"
         },
         {
             "name": "guzzle/guzzle",
@@ -1049,17 +1048,16 @@
         },
         {
             "name": "incenteev/composer-parameter-handler",
-            "version": "v2.1.0",
-            "target-dir": "Incenteev/ParameterHandler",
+            "version": "v2.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Incenteev/ParameterHandler.git",
-                "reference": "143272a0a09c62616a3c8011fc165a10c6b35241"
+                "reference": "84a205fe80a46101607bafbc423019527893ddd0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Incenteev/ParameterHandler/zipball/143272a0a09c62616a3c8011fc165a10c6b35241",
-                "reference": "143272a0a09c62616a3c8011fc165a10c6b35241",
+                "url": "https://api.github.com/repos/Incenteev/ParameterHandler/zipball/84a205fe80a46101607bafbc423019527893ddd0",
+                "reference": "84a205fe80a46101607bafbc423019527893ddd0",
                 "shasum": ""
             },
             "require": {
@@ -1078,8 +1076,8 @@
                 }
             },
             "autoload": {
-                "psr-0": {
-                    "Incenteev\\ParameterHandler": ""
+                "psr-4": {
+                    "Incenteev\\ParameterHandler\\": ""
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -1097,7 +1095,7 @@
             "keywords": [
                 "parameters management"
             ],
-            "time": "2013-12-07 10:10:39"
+            "time": "2015-06-03 08:27:03"
         },
         {
             "name": "jdorn/sql-formatter",
@@ -1156,12 +1154,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/liip/LiipThemeBundle.git",
-                "reference": "6bf4f4ae70b0c884c8620360f5e49c5f82f4e308"
+                "reference": "570692ef6c96717d5383f1f6d6bcc31ec0e5afde"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/liip/LiipThemeBundle/zipball/6bf4f4ae70b0c884c8620360f5e49c5f82f4e308",
-                "reference": "6bf4f4ae70b0c884c8620360f5e49c5f82f4e308",
+                "url": "https://api.github.com/repos/liip/LiipThemeBundle/zipball/570692ef6c96717d5383f1f6d6bcc31ec0e5afde",
+                "reference": "570692ef6c96717d5383f1f6d6bcc31ec0e5afde",
                 "shasum": ""
             },
             "require": {
@@ -1207,7 +1205,7 @@
                 "themes",
                 "theming"
             ],
-            "time": "2015-06-02 10:27:35"
+            "time": "2015-06-04 09:10:21"
         },
         {
             "name": "monolog/monolog",
@@ -1322,17 +1320,17 @@
         },
         {
             "name": "sensio/distribution-bundle",
-            "version": "v3.0.28",
+            "version": "v3.0.29",
             "target-dir": "Sensio/Bundle/DistributionBundle",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sensiolabs/SensioDistributionBundle.git",
-                "reference": "8175618b07793b9d43c3be931f3d8d4c14c9e866"
+                "reference": "12e0f5410c7893c297a0a73fd0949d9d48da1e5b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sensiolabs/SensioDistributionBundle/zipball/8175618b07793b9d43c3be931f3d8d4c14c9e866",
-                "reference": "8175618b07793b9d43c3be931f3d8d4c14c9e866",
+                "url": "https://api.github.com/repos/sensiolabs/SensioDistributionBundle/zipball/12e0f5410c7893c297a0a73fd0949d9d48da1e5b",
+                "reference": "12e0f5410c7893c297a0a73fd0949d9d48da1e5b",
                 "shasum": ""
             },
             "require": {
@@ -1378,20 +1376,20 @@
                 "configuration",
                 "distribution"
             ],
-            "time": "2015-06-01 15:04:20"
+            "time": "2015-06-04 13:44:14"
         },
         {
             "name": "sensio/framework-extra-bundle",
-            "version": "v3.0.8",
+            "version": "v3.0.9",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sensiolabs/SensioFrameworkExtraBundle.git",
-                "reference": "a30fc18bf147bc25faf6b1d54bf55cfad4b63cba"
+                "reference": "0616fd568da051adc19ca63006cc808531ba2da4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sensiolabs/SensioFrameworkExtraBundle/zipball/a30fc18bf147bc25faf6b1d54bf55cfad4b63cba",
-                "reference": "a30fc18bf147bc25faf6b1d54bf55cfad4b63cba",
+                "url": "https://api.github.com/repos/sensiolabs/SensioFrameworkExtraBundle/zipball/0616fd568da051adc19ca63006cc808531ba2da4",
+                "reference": "0616fd568da051adc19ca63006cc808531ba2da4",
                 "shasum": ""
             },
             "require": {
@@ -1433,7 +1431,7 @@
                 "annotations",
                 "controllers"
             ],
-            "time": "2015-05-29 18:27:23"
+            "time": "2015-06-05 13:59:21"
         },
         {
             "name": "sensiolabs/security-checker",
