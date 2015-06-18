@@ -1,12 +1,12 @@
 php:
-    image: webrenderer/php-fpm
+    build: docker/php-fpm
     expose:
         - 9000:9000
     command: composer
     volumes:
         - .:/var/www/webrenderer
 nginx:
-    image: webrenderer/nginx
+    build: docker/nginx
     ports:
         - 80:80
     links:

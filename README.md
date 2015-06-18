@@ -36,18 +36,21 @@ Full documentation can be found here: [http://web-renderer.readthedocs.org/][1]
 
 ## How to build it with docker:
 
-#### Build php and nginx images:
+#### Setup
+
+Add ```127.0.0.1 webrenderer.dev``` to ```/etc/hosts```. **Mac users** use the ip of your virtualbox (e.g. ```boot2docker ip```).
+
+#### Build:
 
 ```bash
-docker build -t webrenderer/php-fpm docker/php-fpm/
-docker build -t webrenderer/nginx docker/nginx/
+docker-compose build
 ```
-
-add ```webrenderer.dev``` to ```/etc/hosts``` (with ip of your virtualbox machine: ```boot2docker ip```).
 
 #### Run:
 
-```docker-compose up```
+```bash
+docker-compose up
+```
 
 [1]: http://web-renderer.readthedocs.org/
 
