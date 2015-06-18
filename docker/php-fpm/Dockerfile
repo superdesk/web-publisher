@@ -9,10 +9,14 @@ RUN apt-get update && apt-get install -y php5-common php5-cli php5-fpm php5-mcry
 ADD webrenderer.ini /etc/php5/fpm/conf.d/
 ADD webrenderer.ini /etc/php5/cli/conf.d/
 
+RUN mkdir /usr/share/webrenderer
+ADD docker-entrypoint.sh /usr/share/webrenderer/
+RUN chmod -R 777 /usr/share/webrenderer
+
 ADD webrenderer.pool.conf /etc/php5/fpm/pool.d/
 
 RUN usermod -u 1000 www-data
 
-CMD ["php5-fpm", "-F"]
+ENTRYPOINT ["/usr/share/webrenderer/docker-entrypoint.sh"]
 
 EXPOSE 9000

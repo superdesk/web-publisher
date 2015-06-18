@@ -2,6 +2,9 @@ php:
     image: webrenderer/php-fpm
     expose:
         - 9000:9000
+    command: composer
+    volumes:
+        - .:/var/www/webrenderer
 nginx:
     image: webrenderer/nginx
     ports:
