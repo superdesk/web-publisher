@@ -1,8 +1,6 @@
 FROM debian:jessie
 
-MAINTAINER Rafał Muszyński <rafal.muszynski@sourcefabric.org>
-
-RUN apt-get update && apt-get install -y curl php5-cli
+RUN apt-get update && apt-get install -y curl php5-cli php5-curl
 
 RUN curl -sS https://getcomposer.org/installer | php
 RUN mv composer.phar /usr/local/bin/composer
