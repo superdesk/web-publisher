@@ -2,8 +2,9 @@ php:
     build: docker/php-fpm
     expose:
         - 9000:9000
+    volumes_from:
+        - renderer
     volumes:
-        - .:/var/www/webrenderer
         - logs/nginx/:/var/log/nginx
 nginx:
     build: docker/nginx
@@ -11,15 +12,13 @@ nginx:
         - 80:80
     links:
         - php
+    volumes_from:
+        - renderer
     volumes:
-        - .:/var/www/webrenderer
         - logs/nginx/:/var/log/nginx
 
 renderer:
     build: docker/renderer
-    links:
-        - php
-        - nginx
     volumes:
         - .:/var/www/webrenderer
         - logs/webrenderer:/var/www/webrenderer/app/logs
