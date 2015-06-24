@@ -2,24 +2,17 @@ php:
     build: docker/php-fpm
     expose:
         - 9000:9000
-    volumes_from:
-        - renderer
+    command: composer
     volumes:
-        - logs/nginx/:/var/log/nginx
+        - .:/var/www/webrenderer
 nginx:
     build: docker/nginx
     ports:
         - 80:80
     links:
         - php
-    volumes_from:
-        - renderer
-    volumes:
-        - logs/nginx/:/var/log/nginx
-
-renderer:
-    build: docker/renderer
     volumes:
         - .:/var/www/webrenderer
         - logs/webrenderer:/var/www/webrenderer/app/logs
+        - logs/nginx/:/var/log/nginx
     tty: true
