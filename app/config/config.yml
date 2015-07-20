@@ -25,13 +25,14 @@ framework:
     trusted_proxies: ~
     session:
         handler_id:  ~
+        name: SUPERDESKWEBRENDERER
     fragments:       ~
     http_method_override: true
 
 # Twig Configuration
 twig:
     debug:            "%kernel.debug%"
-    strict_variables: "%kernel.debug%"
+    strict_variables: false
 
 liip_theme:
     themes: ['theme_1', 'theme_2', 'theme_3']
@@ -41,6 +42,7 @@ liip_theme:
     path_patterns:
         app_resource:
             - %%app_path%%/themes/%%current_theme%%/%%current_device%%/%%template%%
+            - %%app_path%%/views/%%current_device%%/%%template%%
 
 twig_cache:
     service: doctrine_cache.providers.doctrine.orm.default_metadata_cache

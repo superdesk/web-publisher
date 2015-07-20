@@ -1,0 +1,10 @@
+Article:
+    description: Article Meta is representation of Article in Superdesk Web Publisher.
+    properties:
+        title:
+            description: "Article title, max 160 characters, can't have any html tags"
+            type: text
+        keywords:
+            description: "Article keywords"
+            type: text
+    to_string: title

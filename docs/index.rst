@@ -1,19 +1,23 @@
 Welcome to Superdesk Web Renderer's documentation!
 ==================================================
 
-Contents:
+Templator documentation: 
 
 .. toctree::
+   :caption: Themes
    :maxdepth: 2
 
    themes
-   templates
+
+.. toctree::
+   :maxdepth: 4
+   :caption: Templates System
+
+   templates_system
 
 
-Indices and tables
-==================
+.. toctree::
+   :caption: Optimizations
+   :maxdepth: 2
 
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
-
+   templates_caching
