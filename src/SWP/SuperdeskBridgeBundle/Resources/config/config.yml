@@ -1,0 +1,4 @@
+parameters:
+    superdeskbridge:
+        host: publicapi
+        port: 5050

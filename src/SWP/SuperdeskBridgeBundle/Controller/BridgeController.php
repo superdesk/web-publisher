@@ -1,0 +1,65 @@
+<?php
+
+/**
+ * @copyright 2015 Sourcefabric z.ú.
+ * @author Mischa Gorinskat <mischa.gorinskat@sourcefabric.org>
+ * @license http://www.gnu.org/licenses/gpl-3.0.txt
+ */
+
+namespace SWP\SuperdeskBridgeBundle\Controller;
+
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Request;
+use SWP\SuperdeskBridgeBundle\Exception\BridgeException;
+
+/**
+ * @Route("/bridge")
+ */
+class BridgeController extends Controller
+{
+    /**
+     * @Route("/{endpoint}/")
+     * @Route("/{endpoint}/{objectId}/")
+     * @Method("GET")
+     *
+     * Indexaction for bridge controller
+     *
+     * @param Request     $request
+     * @param string      $endpoint Endpoint of the api
+     * @param string|null $objectId Identifier of object to retrieve
+     *
+     * @return Response
+     */
+    public function indexAction(Request $request, $endpoint, $objectId = null)
+    {
+        $bridge = $this->container->get('swp_sd_bridge.bridge');
+        $parameters = $request->query->all();
+        $endpointPath = sprintf('/%s', $endpoint);
+
+        if (!in_array($endpointPath, $bridge->getAvailableEndpoints())) {
+            throw new BridgeException(sprintf('Endpoint %s not supported.', $endpoint));
+        }
+
+        if ($endpointPath === $bridge::SUPERDESK_ENDPOINT_ITEMS) {
+            if (!is_null($objectId)) {
+                $data = $bridge->getItem($objectId);
+            } else {
+                $data = $bridge->getItems($parameters);
+            }
+        } elseif ($endpointPath === $bridge::SUPERDESK_ENDPOINT_PACKAGES) {
+            // TODO: Check if we can do this nicer
+            $resolve = (isset($parameters['resolveItems']) && $parameters['resolveItems']) ? true : false;
+            unset($parameters['resolveItems']);
+
+            if (!is_null($objectId)) {
+                $data = $bridge->getPackage($objectId, $resolve);
+            } else {
+                $data = $bridge->getPackages($parameters, $resolve);
+            }
+        }
+
+        return $this->render('SWPSuperdeskBridgeBundle:Default:data_dump.html.twig', array('data' => $data));
+    }
+}

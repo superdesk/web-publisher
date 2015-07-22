@@ -22,7 +22,8 @@
         "incenteev/composer-parameter-handler": "~2.0",
         "friendsofsymfony/http-cache-bundle": "~1.0",
         "liip/theme-bundle": "1.2.*@dev",
-        "emanueleminotto/twig-cache-bundle": "^0.2.1"
+        "emanueleminotto/twig-cache-bundle": "^0.2.1",
+        "guzzlehttp/guzzle": "6.0.*"
     },
     "require-dev": {
         "sensio/generator-bundle": "~2.3",

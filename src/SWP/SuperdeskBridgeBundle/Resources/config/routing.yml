@@ -1,0 +1,4 @@
+swp_superdesk_bridge_homepage:
+    resource: "@SWPSuperdeskBridgeBundle/Controller/"
+    type: annotation
+    prefix: /
