@@ -4,8 +4,73 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "4d0e8b0f9b2d4f853749687185f3b822",
+    "hash": "c8c5de2c4a06c7e5ae21b76aaf772728",
     "packages": [
+        {
+            "name": "ahilles107/updater",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/ahilles107/updater.git",
+                "reference": "624d0f8ea432f503eb92e51c677dab03b43b0fef"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/ahilles107/updater/zipball/33e297878bb1edf8da37eadd534c1121d9e51a29",
+                "reference": "624d0f8ea432f503eb92e51c677dab03b43b0fef",
+                "shasum": ""
+            },
+            "require": {
+                "justinrainbow/json-schema": "1.1.*",
+                "php": ">=5.3.2",
+                "seld/jsonlint": "1.*",
+                "symfony/console": "~2.3",
+                "symfony/filesystem": "~2.3",
+                "symfony/finder": "~2.2",
+                "symfony/process": "~2.1@dev"
+            },
+            "require-dev": {
+                "phpspec/phpspec": "2.0.*@dev",
+                "phpunit/phpunit": "~3.7.10"
+            },
+            "bin": [
+                "bin/updater"
+            ],
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "Updater": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Paweł Mikołajczuk",
+                    "email": "mikolajczuk.private@gmail.com",
+                    "homepage": "https://github.com/ahilles107"
+                },
+                {
+                    "name": "Rafał Muszyński",
+                    "email": "rafal.muszynski@sourcefabric.org",
+                    "homepage": "https://github.com/takeit"
+                }
+            ],
+            "description": "Application Updater",
+            "homepage": "https://github.com/ahilles107/updater",
+            "keywords": [
+                "update",
+                "upgrade"
+            ],
+            "time": "2014-10-08 09:31:36"
+        },
         {
             "name": "asm89/twig-cache-extension",
             "version": "1.0.0",
@@ -628,6 +693,60 @@
             "time": "2014-12-20 21:24:13"
         },
         {
+            "name": "doctrine/instantiator",
+            "version": "1.0.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/doctrine/instantiator.git",
+                "reference": "f976e5de371104877ebc89bd8fecb0019ed9c119"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/doctrine/instantiator/zipball/f976e5de371104877ebc89bd8fecb0019ed9c119",
+                "reference": "f976e5de371104877ebc89bd8fecb0019ed9c119",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3,<8.0-DEV"
+            },
+            "require-dev": {
+                "athletic/athletic": "~0.1.8",
+                "ext-pdo": "*",
+                "ext-phar": "*",
+                "phpunit/phpunit": "~4.0",
+                "squizlabs/php_codesniffer": "2.0.*@ALPHA"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "Doctrine\\Instantiator\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Marco Pivetta",
+                    "email": "ocramius@gmail.com",
+                    "homepage": "http://ocramius.github.com/"
+                }
+            ],
+            "description": "A small, lightweight utility to instantiate objects in PHP without invoking their constructors",
+            "homepage": "https://github.com/doctrine/instantiator",
+            "keywords": [
+                "constructor",
+                "instantiate"
+            ],
+            "time": "2014-10-13 12:58:55"
+        },
+        {
             "name": "doctrine/lexer",
             "version": "v1.0.1",
             "source": {
@@ -952,6 +1071,90 @@
             "time": "2015-06-04 22:15:06"
         },
         {
+            "name": "friendsofsymfony/rest-bundle",
+            "version": "dev-master",
+            "target-dir": "FOS/RestBundle",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/FriendsOfSymfony/FOSRestBundle.git",
+                "reference": "2d4241622bd76bd95c5fd76537730e6427fb307b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSRestBundle/zipball/2d4241622bd76bd95c5fd76537730e6427fb307b",
+                "reference": "2d4241622bd76bd95c5fd76537730e6427fb307b",
+                "shasum": ""
+            },
+            "require": {
+                "doctrine/inflector": "~1.0",
+                "php": ">=5.3.9",
+                "psr/log": "~1.0",
+                "symfony/framework-bundle": "~2.3",
+                "symfony/http-kernel": "~2.3,>=2.3.24",
+                "willdurand/jsonp-callback-validator": "~1.0",
+                "willdurand/negotiation": "~1.2"
+            },
+            "conflict": {
+                "jms/serializer": "<0.12",
+                "jms/serializer-bundle": "<0.11",
+                "symfony/validator": ">=2.5.0,<2.5.5"
+            },
+            "require-dev": {
+                "jms/serializer": "~0.13|~1.0",
+                "jms/serializer-bundle": "~0.12|~1.0",
+                "phpoption/phpoption": "~1.1.0",
+                "sensio/framework-extra-bundle": "~3.0",
+                "symfony/browser-kit": "~2.3",
+                "symfony/dependency-injection": "~2.3",
+                "symfony/form": "~2.3",
+                "symfony/security": "~2.3",
+                "symfony/serializer": "~2.3",
+                "symfony/validator": "~2.3",
+                "symfony/yaml": "~2.3"
+            },
+            "suggest": {
+                "jms/serializer-bundle": "Add support for advanced serialization capabilities, recommended, requires ~0.12||~1.0",
+                "sensio/framework-extra-bundle": "Add support for route annotations and the view response listener, requires ~3.0",
+                "symfony/serializer": "Add support for basic serialization capabilities and xml decoding, requires ~2.3",
+                "symfony/validator": "Add support for validation capabilities in the ParamFetcher, requires ~2.3"
+            },
+            "type": "symfony-bundle",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.8-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "FOS\\RestBundle": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Lukas Kahwe Smith",
+                    "email": "smith@pooteeweet.org"
+                },
+                {
+                    "name": "FriendsOfSymfony Community",
+                    "homepage": "https://github.com/friendsofsymfony/FOSRestBundle/contributors"
+                },
+                {
+                    "name": "Konstantin Kudryashov",
+                    "email": "ever.zet@gmail.com"
+                }
+            ],
+            "description": "This Bundle provides various tools to rapidly develop RESTful API's with Symfony2",
+            "homepage": "http://friendsofsymfony.github.com",
+            "keywords": [
+                "rest"
+            ],
+            "time": "2015-07-08 07:03:59"
+        },
+        {
             "name": "guzzle/guzzle",
             "version": "v3.9.3",
             "source": {
@@ -1045,6 +1248,177 @@
                 "web service"
             ],
             "time": "2015-03-18 18:23:50"
+        },
+        {
+            "name": "guzzlehttp/guzzle",
+            "version": "6.0.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/guzzle/guzzle.git",
+                "reference": "a8dfeff00eb84616a17fea7a4d72af35e750410f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/guzzle/guzzle/zipball/a8dfeff00eb84616a17fea7a4d72af35e750410f",
+                "reference": "a8dfeff00eb84616a17fea7a4d72af35e750410f",
+                "shasum": ""
+            },
+            "require": {
+                "guzzlehttp/promises": "~1.0",
+                "guzzlehttp/psr7": "~1.1",
+                "php": ">=5.5.0"
+            },
+            "require-dev": {
+                "ext-curl": "*",
+                "phpunit/phpunit": "~4.0",
+                "psr/log": "~1.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "6.0-dev"
+                }
+            },
+            "autoload": {
+                "files": [
+                    "src/functions_include.php"
+                ],
+                "psr-4": {
+                    "GuzzleHttp\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Michael Dowling",
+                    "email": "mtdowling@gmail.com",
+                    "homepage": "https://github.com/mtdowling"
+                }
+            ],
+            "description": "Guzzle is a PHP HTTP client library",
+            "homepage": "http://guzzlephp.org/",
+            "keywords": [
+                "client",
+                "curl",
+                "framework",
+                "http",
+                "http client",
+                "rest",
+                "web service"
+            ],
+            "time": "2015-07-04 20:09:24"
+        },
+        {
+            "name": "guzzlehttp/promises",
+            "version": "1.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/guzzle/promises.git",
+                "reference": "2ee5bc7f1a92efecc90da7f6711a53a7be26b5b7"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/guzzle/promises/zipball/2ee5bc7f1a92efecc90da7f6711a53a7be26b5b7",
+                "reference": "2ee5bc7f1a92efecc90da7f6711a53a7be26b5b7",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.5.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~4.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "GuzzleHttp\\Promise\\": "src/"
+                },
+                "files": [
+                    "src/functions.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Michael Dowling",
+                    "email": "mtdowling@gmail.com",
+                    "homepage": "https://github.com/mtdowling"
+                }
+            ],
+            "description": "Guzzle promises library",
+            "keywords": [
+                "promise"
+            ],
+            "time": "2015-06-24 16:16:25"
+        },
+        {
+            "name": "guzzlehttp/psr7",
+            "version": "1.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/guzzle/psr7.git",
+                "reference": "af0e1758de355eb113917ad79c3c0e3604bce4bd"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/guzzle/psr7/zipball/af0e1758de355eb113917ad79c3c0e3604bce4bd",
+                "reference": "af0e1758de355eb113917ad79c3c0e3604bce4bd",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.4.0",
+                "psr/http-message": "~1.0"
+            },
+            "provide": {
+                "psr/http-message-implementation": "1.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~4.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "GuzzleHttp\\Psr7\\": "src/"
+                },
+                "files": [
+                    "src/functions.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Michael Dowling",
+                    "email": "mtdowling@gmail.com",
+                    "homepage": "https://github.com/mtdowling"
+                }
+            ],
+            "description": "PSR-7 message implementation",
+            "keywords": [
+                "http",
+                "message",
+                "stream",
+                "uri"
+            ],
+            "time": "2015-06-24 19:55:15"
         },
         {
             "name": "incenteev/composer-parameter-handler",
@@ -1148,6 +1522,287 @@
             "time": "2014-01-12 16:20:24"
         },
         {
+            "name": "jms/metadata",
+            "version": "1.5.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/schmittjoh/metadata.git",
+                "reference": "22b72455559a25777cfd28c4ffda81ff7639f353"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/schmittjoh/metadata/zipball/22b72455559a25777cfd28c4ffda81ff7639f353",
+                "reference": "22b72455559a25777cfd28c4ffda81ff7639f353",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "require-dev": {
+                "doctrine/cache": "~1.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.5.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "Metadata\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache"
+            ],
+            "authors": [
+                {
+                    "name": "Johannes Schmitt",
+                    "email": "schmittjoh@gmail.com",
+                    "homepage": "https://github.com/schmittjoh",
+                    "role": "Developer of wrapped JMSSerializerBundle"
+                }
+            ],
+            "description": "Class/method/property metadata management in PHP",
+            "keywords": [
+                "annotations",
+                "metadata",
+                "xml",
+                "yaml"
+            ],
+            "time": "2014-07-12 07:13:19"
+        },
+        {
+            "name": "jms/parser-lib",
+            "version": "1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/schmittjoh/parser-lib.git",
+                "reference": "c509473bc1b4866415627af0e1c6cc8ac97fa51d"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/schmittjoh/parser-lib/zipball/c509473bc1b4866415627af0e1c6cc8ac97fa51d",
+                "reference": "c509473bc1b4866415627af0e1c6cc8ac97fa51d",
+                "shasum": ""
+            },
+            "require": {
+                "phpoption/phpoption": ">=0.9,<2.0-dev"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "JMS\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache2"
+            ],
+            "description": "A library for easily creating recursive-descent parsers.",
+            "time": "2012-11-18 18:08:43"
+        },
+        {
+            "name": "jms/serializer",
+            "version": "1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/schmittjoh/serializer.git",
+                "reference": "a29d9a204efc3ca3f39a9d182a83fd34462fef3f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/schmittjoh/serializer/zipball/a29d9a204efc3ca3f39a9d182a83fd34462fef3f",
+                "reference": "a29d9a204efc3ca3f39a9d182a83fd34462fef3f",
+                "shasum": ""
+            },
+            "require": {
+                "doctrine/annotations": "1.*",
+                "doctrine/instantiator": "~1.0.3",
+                "jms/metadata": "~1.1",
+                "jms/parser-lib": "1.*",
+                "php": ">=5.4.0",
+                "phpcollection/phpcollection": "~0.1"
+            },
+            "require-dev": {
+                "doctrine/orm": "~2.1",
+                "doctrine/phpcr-odm": "~1.0.1",
+                "jackalope/jackalope-doctrine-dbal": "1.0.*",
+                "phpunit/phpunit": "~4.0",
+                "propel/propel1": "~1.7",
+                "symfony/filesystem": "2.*",
+                "symfony/form": "~2.1",
+                "symfony/translation": "~2.0",
+                "symfony/validator": "~2.0",
+                "symfony/yaml": "2.*",
+                "twig/twig": ">=1.8,<2.0-dev"
+            },
+            "suggest": {
+                "symfony/yaml": "Required if you'd like to serialize data to YAML format."
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "0.17-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "JMS\\Serializer": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache2"
+            ],
+            "authors": [
+                {
+                    "name": "Johannes M. Schmitt",
+                    "email": "schmittjoh@gmail.com"
+                }
+            ],
+            "description": "Library for (de-)serializing data of any complexity; supports XML, JSON, and YAML.",
+            "homepage": "http://jmsyst.com/libs/serializer",
+            "keywords": [
+                "deserialization",
+                "jaxb",
+                "json",
+                "serialization",
+                "xml"
+            ],
+            "time": "2015-06-16 11:50:24"
+        },
+        {
+            "name": "jms/serializer-bundle",
+            "version": "dev-master",
+            "target-dir": "JMS/SerializerBundle",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/schmittjoh/JMSSerializerBundle.git",
+                "reference": "d0215e9ba257cc43aa54b6525423fb816d779c91"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/schmittjoh/JMSSerializerBundle/zipball/d0215e9ba257cc43aa54b6525423fb816d779c91",
+                "reference": "d0215e9ba257cc43aa54b6525423fb816d779c91",
+                "shasum": ""
+            },
+            "require": {
+                "jms/serializer": "^1.0.0",
+                "php": ">=5.3.2",
+                "symfony/framework-bundle": "~2.1"
+            },
+            "require-dev": {
+                "doctrine/doctrine-bundle": "*",
+                "doctrine/orm": "*",
+                "symfony/browser-kit": "*",
+                "symfony/class-loader": "*",
+                "symfony/css-selector": "*",
+                "symfony/finder": "*",
+                "symfony/form": "*",
+                "symfony/process": "*",
+                "symfony/stopwatch": "*",
+                "symfony/twig-bundle": "*",
+                "symfony/validator": "*",
+                "symfony/yaml": "*"
+            },
+            "suggest": {
+                "jms/di-extra-bundle": "Required to get lazy loading (de)serialization visitors, ~1.3"
+            },
+            "type": "symfony-bundle",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.1-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "JMS\\SerializerBundle": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache2"
+            ],
+            "authors": [
+                {
+                    "name": "Johannes M. Schmitt",
+                    "email": "schmittjoh@gmail.com"
+                }
+            ],
+            "description": "Allows you to easily serialize, and deserialize data of any complexity",
+            "homepage": "http://jmsyst.com/bundles/JMSSerializerBundle",
+            "keywords": [
+                "deserialization",
+                "jaxb",
+                "json",
+                "serialization",
+                "xml"
+            ],
+            "time": "2015-06-25 11:04:52"
+        },
+        {
+            "name": "justinrainbow/json-schema",
+            "version": "1.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/justinrainbow/json-schema.git",
+                "reference": "05ff6d8d79fe3ad190b0663d80d3f9deee79416c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/justinrainbow/json-schema/zipball/05ff6d8d79fe3ad190b0663d80d3f9deee79416c",
+                "reference": "05ff6d8d79fe3ad190b0663d80d3f9deee79416c",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "JsonSchema": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "NewBSD"
+            ],
+            "authors": [
+                {
+                    "name": "Igor Wiedler",
+                    "email": "igor@wiedler.ch",
+                    "homepage": "http://wiedler.ch/igor/"
+                },
+                {
+                    "name": "Bruno Prieto Reis",
+                    "email": "bruno.p.reis@gmail.com"
+                },
+                {
+                    "name": "Justin Rainbow",
+                    "email": "justin.rainbow@gmail.com"
+                },
+                {
+                    "name": "Robert Schönthal",
+                    "email": "robert.schoenthal@gmail.com",
+                    "homepage": "http://digitalkaoz.net"
+                }
+            ],
+            "description": "A library to validate a json schema.",
+            "homepage": "https://github.com/justinrainbow/json-schema",
+            "keywords": [
+                "json",
+                "schema"
+            ],
+            "time": "2012-01-03 00:33:17"
+        },
+        {
             "name": "liip/theme-bundle",
             "version": "dev-master",
             "target-dir": "Liip/ThemeBundle",
@@ -1206,6 +1861,57 @@
                 "theming"
             ],
             "time": "2015-06-04 09:10:21"
+        },
+        {
+            "name": "michelf/php-markdown",
+            "version": "1.5.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/michelf/php-markdown.git",
+                "reference": "e1aabe18173231ebcefc90e615565742fc1c7fd9"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/michelf/php-markdown/zipball/e1aabe18173231ebcefc90e615565742fc1c7fd9",
+                "reference": "e1aabe18173231ebcefc90e615565742fc1c7fd9",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-lib": "1.4.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "Michelf": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "John Gruber",
+                    "homepage": "http://daringfireball.net/"
+                },
+                {
+                    "name": "Michel Fortin",
+                    "email": "michel.fortin@michelf.ca",
+                    "homepage": "https://michelf.ca/",
+                    "role": "Developer"
+                }
+            ],
+            "description": "PHP Markdown",
+            "homepage": "https://michelf.ca/projects/php-markdown/",
+            "keywords": [
+                "markdown"
+            ],
+            "time": "2015-03-01 12:03:08"
         },
         {
             "name": "monolog/monolog",
@@ -1281,6 +1987,232 @@
             "time": "2015-03-09 09:58:04"
         },
         {
+            "name": "nelmio/api-doc-bundle",
+            "version": "2.9.0",
+            "target-dir": "Nelmio/ApiDocBundle",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/nelmio/NelmioApiDocBundle.git",
+                "reference": "de31760fd84a45fadbb4fe24db050b5e29ea70d1"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/nelmio/NelmioApiDocBundle/zipball/de31760fd84a45fadbb4fe24db050b5e29ea70d1",
+                "reference": "de31760fd84a45fadbb4fe24db050b5e29ea70d1",
+                "shasum": ""
+            },
+            "require": {
+                "michelf/php-markdown": "~1.4",
+                "symfony/console": "~2.1",
+                "symfony/framework-bundle": "~2.1",
+                "symfony/twig-bundle": "~2.1"
+            },
+            "conflict": {
+                "jms/serializer": "<0.12",
+                "jms/serializer-bundle": "<0.11"
+            },
+            "require-dev": {
+                "dunglas/api-bundle": "dev-master",
+                "friendsofsymfony/rest-bundle": "~1.0",
+                "jms/serializer-bundle": ">=0.11",
+                "sensio/framework-extra-bundle": "~3.0",
+                "symfony/browser-kit": "~2.1",
+                "symfony/css-selector": "~2.1",
+                "symfony/form": "~2.1",
+                "symfony/serializer": "~2.7@dev",
+                "symfony/validator": "~2.1",
+                "symfony/yaml": "~2.1"
+            },
+            "suggest": {
+                "dunglas/api-bundle": "For making use of resources definitions of DunglasApiBundle.",
+                "friendsofsymfony/rest-bundle": "For making use of REST information in the doc.",
+                "jms/serializer": "For making use of serializer information in the doc.",
+                "symfony/form": "For using form definitions as input.",
+                "symfony/validator": "For making use of validator information in the doc."
+            },
+            "type": "symfony-bundle",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.9.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "Nelmio\\ApiDocBundle": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Nelmio",
+                    "homepage": "http://nelm.io"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://github.com/nelmio/NelmioApiDocBundle/contributors"
+                }
+            ],
+            "description": "Generates documentation for your REST API from annotations",
+            "keywords": [
+                "api",
+                "doc",
+                "documentation",
+                "rest"
+            ],
+            "time": "2015-05-16 17:16:14"
+        },
+        {
+            "name": "phpcollection/phpcollection",
+            "version": "0.4.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/schmittjoh/php-collection.git",
+                "reference": "b8bf55a0a929ca43b01232b36719f176f86c7e83"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/schmittjoh/php-collection/zipball/b8bf55a0a929ca43b01232b36719f176f86c7e83",
+                "reference": "b8bf55a0a929ca43b01232b36719f176f86c7e83",
+                "shasum": ""
+            },
+            "require": {
+                "phpoption/phpoption": "1.*"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "0.3-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "PhpCollection": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache2"
+            ],
+            "authors": [
+                {
+                    "name": "Johannes Schmitt",
+                    "email": "schmittjoh@gmail.com",
+                    "homepage": "https://github.com/schmittjoh",
+                    "role": "Developer of wrapped JMSSerializerBundle"
+                }
+            ],
+            "description": "General-Purpose Collection Library for PHP",
+            "keywords": [
+                "collection",
+                "list",
+                "map",
+                "sequence",
+                "set"
+            ],
+            "time": "2014-03-11 13:46:42"
+        },
+        {
+            "name": "phpoption/phpoption",
+            "version": "1.4.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/schmittjoh/php-option.git",
+                "reference": "5d099bcf0393908bf4ad69cc47dafb785d51f7f5"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/schmittjoh/php-option/zipball/5d099bcf0393908bf4ad69cc47dafb785d51f7f5",
+                "reference": "5d099bcf0393908bf4ad69cc47dafb785d51f7f5",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.3-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "PhpOption\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache2"
+            ],
+            "authors": [
+                {
+                    "name": "Johannes Schmitt",
+                    "email": "schmittjoh@gmail.com",
+                    "homepage": "https://github.com/schmittjoh",
+                    "role": "Developer of wrapped JMSSerializerBundle"
+                }
+            ],
+            "description": "Option Type for PHP",
+            "keywords": [
+                "language",
+                "option",
+                "php",
+                "type"
+            ],
+            "time": "2014-01-09 22:37:17"
+        },
+        {
+            "name": "psr/http-message",
+            "version": "1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/php-fig/http-message.git",
+                "reference": "85d63699f0dbedb190bbd4b0d2b9dc707ea4c298"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/php-fig/http-message/zipball/85d63699f0dbedb190bbd4b0d2b9dc707ea4c298",
+                "reference": "85d63699f0dbedb190bbd4b0d2b9dc707ea4c298",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Psr\\Http\\Message\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "PHP-FIG",
+                    "homepage": "http://www.php-fig.org/"
+                }
+            ],
+            "description": "Common interface for HTTP messages",
+            "keywords": [
+                "http",
+                "http-message",
+                "psr",
+                "psr-7",
+                "request",
+                "response"
+            ],
+            "time": "2015-05-04 20:22:00"
+        },
+        {
             "name": "psr/log",
             "version": "1.0.0",
             "source": {
@@ -1317,6 +2249,52 @@
                 "psr-3"
             ],
             "time": "2012-12-21 11:40:51"
+        },
+        {
+            "name": "seld/jsonlint",
+            "version": "1.3.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Seldaek/jsonlint.git",
+                "reference": "863ae85c6d3ef60ca49cb12bd051c4a0648c40c4"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Seldaek/jsonlint/zipball/863ae85c6d3ef60ca49cb12bd051c4a0648c40c4",
+                "reference": "863ae85c6d3ef60ca49cb12bd051c4a0648c40c4",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "bin": [
+                "bin/jsonlint"
+            ],
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Seld\\JsonLint\\": "src/Seld/JsonLint/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Jordi Boggiano",
+                    "email": "j.boggiano@seld.be",
+                    "homepage": "http://seld.be"
+                }
+            ],
+            "description": "JSON Linter",
+            "keywords": [
+                "json",
+                "linter",
+                "parser",
+                "validator"
+            ],
+            "time": "2015-01-04 21:18:15"
         },
         {
             "name": "sensio/distribution-bundle",
@@ -1876,42 +2854,83 @@
                 "templating"
             ],
             "time": "2015-04-19 08:30:27"
-        }
-    ],
-    "packages-dev": [
+        },
         {
-            "name": "doctrine/instantiator",
-            "version": "1.0.4",
+            "name": "vierbergenlars/php-semver",
+            "version": "3.0.1",
             "source": {
                 "type": "git",
-                "url": "https://github.com/doctrine/instantiator.git",
-                "reference": "f976e5de371104877ebc89bd8fecb0019ed9c119"
+                "url": "https://github.com/vierbergenlars/php-semver.git",
+                "reference": "516bb3061577e60e9420cbecc479362d3ad8c7f1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/instantiator/zipball/f976e5de371104877ebc89bd8fecb0019ed9c119",
-                "reference": "f976e5de371104877ebc89bd8fecb0019ed9c119",
+                "url": "https://api.github.com/repos/vierbergenlars/php-semver/zipball/516bb3061577e60e9420cbecc479362d3ad8c7f1",
+                "reference": "516bb3061577e60e9420cbecc479362d3ad8c7f1",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.3,<8.0-DEV"
+                "php": ">=5.3.0"
             },
             "require-dev": {
-                "athletic/athletic": "~0.1.8",
-                "ext-pdo": "*",
-                "ext-phar": "*",
-                "phpunit/phpunit": "~4.0",
-                "squizlabs/php_codesniffer": "2.0.*@ALPHA"
+                "simpletest/simpletest": "1.1.*"
             },
+            "bin": [
+                "bin/semver",
+                "bin/update-versions"
+            ],
             "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "1.0.x-dev"
-                }
-            },
             "autoload": {
                 "psr-0": {
-                    "Doctrine\\Instantiator\\": "src"
+                    "vierbergenlars\\SemVer\\": "src/",
+                    "vierbergenlars\\LibJs\\": "src/"
+                },
+                "classmap": [
+                    "src/vierbergenlars/SemVer/internal.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Lars Vierbergen",
+                    "email": "vierbergenlars@gmail.com"
+                }
+            ],
+            "description": "The Semantic Versioner for PHP",
+            "keywords": [
+                "semantic",
+                "semver",
+                "versioning"
+            ],
+            "time": "2015-05-02 19:28:54"
+        },
+        {
+            "name": "willdurand/jsonp-callback-validator",
+            "version": "v1.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/willdurand/JsonpCallbackValidator.git",
+                "reference": "1a7d388bb521959e612ef50c5c7b1691b097e909"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/willdurand/JsonpCallbackValidator/zipball/1a7d388bb521959e612ef50c5c7b1691b097e909",
+                "reference": "1a7d388bb521959e612ef50c5c7b1691b097e909",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~3.7"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "JsonpCallbackValidator": "src/"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -1920,19 +2939,65 @@
             ],
             "authors": [
                 {
-                    "name": "Marco Pivetta",
-                    "email": "ocramius@gmail.com",
-                    "homepage": "http://ocramius.github.com/"
+                    "name": "William Durand",
+                    "email": "william.durand1@gmail.com",
+                    "homepage": "http://www.willdurand.fr"
                 }
             ],
-            "description": "A small, lightweight utility to instantiate objects in PHP without invoking their constructors",
-            "homepage": "https://github.com/doctrine/instantiator",
-            "keywords": [
-                "constructor",
-                "instantiate"
-            ],
-            "time": "2014-10-13 12:58:55"
+            "description": "JSONP callback validator.",
+            "time": "2014-01-20 22:35:06"
         },
+        {
+            "name": "willdurand/negotiation",
+            "version": "1.3.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/willdurand/Negotiation.git",
+                "reference": "d7fa4ce4a0436915b9ba9f7cb5ff37719f0a834c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/willdurand/Negotiation/zipball/d7fa4ce4a0436915b9ba9f7cb5ff37719f0a834c",
+                "reference": "d7fa4ce4a0436915b9ba9f7cb5ff37719f0a834c",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.3-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "Negotiation": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "William Durand",
+                    "email": "william.durand1@gmail.com"
+                }
+            ],
+            "description": "Content Negotiation tools for PHP provided as a standalone library.",
+            "homepage": "http://williamdurand.fr/Negotiation/",
+            "keywords": [
+                "accept",
+                "content",
+                "format",
+                "header",
+                "negotiation"
+            ],
+            "time": "2014-10-02 07:26:00"
+        }
+    ],
+    "packages-dev": [
         {
             "name": "phpdocumentor/reflection-docblock",
             "version": "2.0.4",
@@ -2442,7 +3507,11 @@
     "minimum-stability": "stable",
     "stability-flags": {
         "symfony/symfony": 10,
-        "liip/theme-bundle": 20
+        "liip/theme-bundle": 20,
+        "jms/serializer-bundle": 20,
+        "ahilles107/updater": 20,
+        "friendsofsymfony/rest-bundle": 20,
+        "nelmio/api-doc-bundle": 0
     },
     "prefer-stable": false,
     "prefer-lowest": false,

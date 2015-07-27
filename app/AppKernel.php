@@ -19,6 +19,10 @@ class AppKernel extends Kernel
             new Liip\ThemeBundle\LiipThemeBundle(),
             new EmanueleMinotto\TwigCacheBundle\TwigCacheBundle(),
             new AppBundle\AppBundle(),
+            new SWP\UpdaterBundle\SWPUpdaterBundle(),
+            new FOS\RestBundle\FOSRestBundle(),
+            new JMS\SerializerBundle\JMSSerializerBundle(),
+            new Nelmio\ApiDocBundle\NelmioApiDocBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

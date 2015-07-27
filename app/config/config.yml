@@ -71,3 +71,19 @@ swiftmailer:
     spool:     { type: memory }
 
 fos_http_cache: ~
+
+fos_rest:
+    view:
+        view_response_listener: force
+        default_engine: twig
+        view_response_listener: true
+    format_listener:
+        rules:
+            -
+                path: ^/
+                priorities: [ html, json, xml ]
+                fallback_format: ~
+                prefer_extension: true
+
+sensio_framework_extra:
+    view:    { annotations: false }

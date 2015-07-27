@@ -22,7 +22,13 @@
         "incenteev/composer-parameter-handler": "~2.0",
         "friendsofsymfony/http-cache-bundle": "~1.0",
         "liip/theme-bundle": "1.2.*@dev",
-        "emanueleminotto/twig-cache-bundle": "^0.2.1"
+        "emanueleminotto/twig-cache-bundle": "^0.2.1",
+        "jms/serializer-bundle": "^1.1@dev",
+        "ahilles107/updater": "1.0.x-dev",
+        "friendsofsymfony/rest-bundle": "^1.8@dev",
+        "nelmio/api-doc-bundle": "@stable",
+        "guzzlehttp/guzzle": "^6.0",
+        "vierbergenlars/php-semver": "^3.0"
     },
     "require-dev": {
         "sensio/generator-bundle": "~2.3",

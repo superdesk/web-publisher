@@ -1,3 +1,7 @@
+swp_updater:
+    resource: "@SWPUpdaterBundle/Resources/config/routing.yml"
+    prefix:   /
+
 app:
     resource: "@AppBundle/Controller/"
     type:     annotation

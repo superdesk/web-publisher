@@ -1,0 +1,30 @@
+{
+    "name": "swp/updater-bundle",
+    "type": "symfony-bundle",
+    "description": "Provides automatic Symfony2 apps upgrades",
+    "keywords": ["upgrading", "upgrade", "update", "autoupdate"],
+    "license":"GPL-3.0",
+    "minimum-stability": "dev",
+    "authors": [
+        {
+            "name": "Sourcefabric z.ú",
+            "homepage": "http://www.sourcefabric.org"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.3",
+        "symfony/framework-bundle": "~2.0",
+        "friendsofsymfony/rest-bundle": "^1.7.1",
+        "ahilles107/updater": "1.0.x-dev",
+        "jms/serializer-bundle": "^1.0",
+        "vierbergenlars/php-semver": "^3.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "~4.5@stable",
+        "phpunit/php-code-coverage": "@stable"
+    },
+    "autoload": {
+        "psr-4": { "SWP\\UpdaterBundle": "" }
+    },
+    "target-dir": "SWP/UpdaterBundle"
+}
