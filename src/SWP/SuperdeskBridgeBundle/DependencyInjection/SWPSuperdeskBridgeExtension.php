@@ -1,7 +1,7 @@
 <?php
 
 /**
- * This file is part of the PHP SDK library for the Superdesk Content API.
+ * This file is part of the Superdesk Web Publisher Bridge for the Content API.
  *
  * Copyright 2015 Sourcefabric z.u. and contributors.
  *
