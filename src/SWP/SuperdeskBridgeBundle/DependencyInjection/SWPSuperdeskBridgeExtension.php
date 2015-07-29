@@ -1,5 +1,17 @@
 <?php
 
+/**
+ * This file is part of the PHP SDK library for the Superdesk Content API.
+ *
+ * Copyright 2015 Sourcefabric z.u. and contributors.
+ *
+ * For the full copyright and license information, please see the
+ * AUTHORS and LICENSE files distributed with this source code.
+ *
+ * @copyright 2015 Sourcefabric z.ú.
+ * @license http://www.superdesk.org/license
+ */
+
 namespace SWP\SuperdeskBridgeBundle\DependencyInjection;
 
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -23,14 +35,5 @@ class SWPSuperdeskBridgeExtension extends Extension
 
         $configuration = new Configuration();
         $config = $this->processConfiguration($configuration, $configs);
-
-        $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
-        $loader->load('services.yml');
-
-        if ('dev' === $env) {
-            $loader->load('config_dev.yml');
-        } else {
-            $loader->load('config.yml');
-        }
     }
 }
