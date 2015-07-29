@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "ac5d67bca3ef0bbc92776786b1b14bb7",
+    "hash": "e1d79bd8d729682dd6dc018885d0f0d5",
     "packages": [
         {
             "name": "asm89/twig-cache-extension",
@@ -1699,6 +1699,46 @@
             "time": "2015-05-28 14:22:40"
         },
         {
+            "name": "superdesk/contentapi-sdk-php",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/m038/superdesk-contentapi-sdk-php.git",
+                "reference": "c328a9b706ab7a31e2588a2b0e68a22673355306"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/m038/superdesk-contentapi-sdk-php/zipball/c328a9b706ab7a31e2588a2b0e68a22673355306",
+                "reference": "c328a9b706ab7a31e2588a2b0e68a22673355306",
+                "shasum": ""
+            },
+            "require": {
+                "guzzlehttp/guzzle": "6.0.*",
+                "php": ">=5.5"
+            },
+            "require-dev": {
+                "phpspec/phpspec": "~2.0"
+            },
+            "type": "project",
+            "autoload": {
+                "psr-4": {
+                    "": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-3.0"
+            ],
+            "authors": [
+                {
+                    "name": "Mischa Gorinskat",
+                    "email": "mischa.gorinskat@sourcefabric.org"
+                }
+            ],
+            "description": "Superdesk Content API SDK written in PHP",
+            "time": "2015-07-29 10:23:12"
+        },
+        {
             "name": "swiftmailer/swiftmailer",
             "version": "v5.4.0",
             "source": {
@@ -2662,7 +2702,8 @@
     "minimum-stability": "stable",
     "stability-flags": {
         "symfony/symfony": 10,
-        "liip/theme-bundle": 20
+        "liip/theme-bundle": 20,
+        "superdesk/contentapi-sdk-php": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,

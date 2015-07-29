@@ -1,9 +1,0 @@
-services:
-
-    swp_sd_bridge.bridge:
-        class: SWP\SuperdeskBridgeBundle\Bridge\Bridge
-        arguments: [@swp_sd_bridge.client, %superdeskbridge%]
-
-    swp_sd_bridge.client:
-        class: SWP\SuperdeskBridgeBundle\Client\Client
-        arguments: [%superdeskbridge%]

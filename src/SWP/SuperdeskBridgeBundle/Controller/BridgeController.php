@@ -18,7 +18,9 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
-use SWP\SuperdeskBridgeBundle\Exception\BridgeException;
+use Superdesk\ContentApiSdk\Bridge\Bridge;
+use Superdesk\ContentApiSdk\Client\Client;
+use Superdesk\ContentApiSdk\Exception\BridgeException;
 
 /**
  * @Route("/bridge")
@@ -40,7 +42,8 @@ class BridgeController extends Controller
      */
     public function indexAction(Request $request, $endpoint, $objectId = null)
     {
-        $bridge = $this->container->get('swp_sd_bridge.bridge');
+        $bridgeConfig = $this->container->getParameter('superdeskbridge');
+        $bridge = new Bridge(new Client(), $bridgeConfig);
         $parameters = $request->query->all();
         $endpointPath = sprintf('/%s', $endpoint);
 

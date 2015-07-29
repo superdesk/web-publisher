@@ -23,7 +23,8 @@
         "friendsofsymfony/http-cache-bundle": "~1.0",
         "liip/theme-bundle": "1.2.*@dev",
         "emanueleminotto/twig-cache-bundle": "^0.2.1",
-        "guzzlehttp/guzzle": "6.0.*"
+        "guzzlehttp/guzzle": "6.0.*",
+        "superdesk/contentapi-sdk-php": "dev-master"
     },
     "require-dev": {
         "sensio/generator-bundle": "~2.3",
