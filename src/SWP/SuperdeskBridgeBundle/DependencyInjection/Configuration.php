@@ -43,7 +43,7 @@ class Configuration implements ConfigurationInterface
                 ->integerNode('port')
                     ->defaultValue(5050)
                 ->end()
-                ->scalarNode('options')->end()
+                ->variableNode('options')->end()
             ->end()
         ;
 

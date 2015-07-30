@@ -43,10 +43,12 @@ class BridgeController extends Controller
     public function indexAction(Request $request, $endpoint, $objectId = null)
     {
         $data = array();
-        $bridgeConfig = array();
-        if ($this->container->hasParameter('superdeskbridge')) {
-            $bridgeConfig = $this->container->getParameter('superdeskbridge');
-        }
+        $bridgeConfig = array(
+            'protocol' => $this->container->getParameter('swp_superdesk_bridge.protocol'),
+            'host' => $this->container->getParameter('swp_superdesk_bridge.host'),
+            'port' => $this->container->getParameter('swp_superdesk_bridge.port'),
+            'options' => $this->container->getParameter('swp_superdesk_bridge.options'),
+        );
 
         $bridge = new Bridge(new Client(), $bridgeConfig);
         $parameters = $request->query->all();
