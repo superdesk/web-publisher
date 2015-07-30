@@ -42,6 +42,7 @@ class BridgeController extends Controller
      */
     public function indexAction(Request $request, $endpoint, $objectId = null)
     {
+        $data = array();
         $bridgeConfig = array();
         if ($this->container->hasParameter('superdeskbridge')) {
             $bridgeConfig = $this->container->getParameter('superdeskbridge');
