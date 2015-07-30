@@ -12,28 +12,6 @@ WebPublisher is templates engine + articles/pages render component for Superdesk
 
 Full documentation can be found here: [http://web-renderer.readthedocs.org/][1]
 
-### Web Renderer contains:
-
- * templates engine based on twig
- * plugins system
- * rest api for content
-
-### main features:
-
-* content storage for articles
-* provide plugins system for WebPublisher and Webdesk (with rest api)
-
-
-### technology stack
-
-* PHP >- 5.5
-* Symfony >= 2.8
-* Twig 
-* Behat
-* PhpSpec
-* postgresql
-* elasticsearch
-
 ## How to build it with docker:
 
 #### Setup
@@ -61,6 +39,11 @@ For unit tests use PHPSpec tests, for functional tests use PHPUnit and Behat for
 How to run tests?
 
 ```bash
-phpunit -c /app # PHPUnit tests (functional)
-php vendor/bin/phpspec run # PHPSpec tests
+phpunit -c app/ # PHPUnit
+php bin/phpspec run # PHPSpec
 ```
+
+## Superdesk Web Renderer is possible thanks to other Sourcefabric initiatives:
+
+* [swp/templates-system](https://github.com/SuperdeskWebPublisher/templates-system) [![Build Status](https://travis-ci.org/SuperdeskWebPublisher/templates-system.svg?branch=master)](https://travis-ci.org/SuperdeskWebPublisher/templates-system) [![Code Climate](https://codeclimate.com/github/SuperdeskWebPublisher/templates-system/badges/gpa.svg)](https://codeclimate.com/github/SuperdeskWebPublisher/templates-system) [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/SuperdeskWebPublisher/templates-system/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/SuperdeskWebPublisher/templates-system/?branch=master) 
+

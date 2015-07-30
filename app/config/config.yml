@@ -32,7 +32,7 @@ framework:
 # Twig Configuration
 twig:
     debug:            "%kernel.debug%"
-    strict_variables: "%kernel.debug%"
+    strict_variables: false
 
 liip_theme:
     themes: ['theme_1', 'theme_2', 'theme_3']
