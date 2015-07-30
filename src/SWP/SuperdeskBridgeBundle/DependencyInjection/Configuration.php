@@ -32,6 +32,21 @@ class Configuration implements ConfigurationInterface
         $treeBuilder = new TreeBuilder();
         $rootNode = $treeBuilder->root('swp_superdesk_bridge');
 
+        $rootNode
+            ->children()
+                ->scalarNode('protocol')
+                    ->defaultValue('http')
+                ->end()
+                ->scalarNode('host')
+                    ->defaultValue('localhost')
+                ->end()
+                ->integerNode('port')
+                    ->defaultValue(5050)
+                ->end()
+                ->scalarNode('options')->end()
+            ->end()
+        ;
+
         return $treeBuilder;
     }
 }
