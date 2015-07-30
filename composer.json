@@ -28,7 +28,8 @@
         "friendsofsymfony/rest-bundle": "^1.8@dev",
         "nelmio/api-doc-bundle": "@stable",
         "guzzlehttp/guzzle": "^6.0",
-        "vierbergenlars/php-semver": "^3.0"
+        "vierbergenlars/php-semver": "^3.0",
+        "willdurand/hateoas-bundle": "^1.0"
     },
     "require-dev": {
         "sensio/generator-bundle": "~2.3",

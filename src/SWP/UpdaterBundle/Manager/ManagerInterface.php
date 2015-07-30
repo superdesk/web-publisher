@@ -4,8 +4,6 @@ namespace SWP\UpdaterBundle\Manager;
 
 /**
  * Update manager interface.
- *
- * @author Rafał Muszyński <rafal.muszynski@sourcefabric.org>
  */
 interface ManagerInterface
 {
@@ -14,7 +12,7 @@ interface ManagerInterface
      *
      * @return array Available updates
      */
-    public function getAllUpdates();
+    public function getUpdatesToApply();
 
     /**
      * Checks if new updates are available.

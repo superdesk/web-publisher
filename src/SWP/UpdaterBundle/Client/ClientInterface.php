@@ -12,18 +12,23 @@ use GuzzleHttp\Exception\ConnectException;
 interface ClientInterface
 {
     /**
-     * Gets the list of available updates,
-     * provided by update server API.
+     * Makes an API call to an external server
+     * to get the data from.
      *
-     * @return array List of updates
+     * @param string $endpoint API endpoint to call
+     * @param array  $options  Array of parameters
+     *
+     * @return array|string Response from the server
      */
-    public function getUpdates();
+    public function call($endpoint = '/', array $options = array());
 
     /**
      * Checks whethere the connection to
      * a remote update server is alive.
      *
-     * @throws ConnectException
+     * @param string $endpoint API endpoint
+     *
+     * @throws ConnectException When connection is dead
      */
-    public function isAlive();
+    public function isAlive($endpoint = '/');
 }

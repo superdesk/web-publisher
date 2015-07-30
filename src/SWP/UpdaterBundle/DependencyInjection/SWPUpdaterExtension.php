@@ -8,7 +8,7 @@ use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 use Symfony\Component\DependencyInjection\Loader;
 
 /**
- * This is the class that loads and manages your bundle configuration
+ * This is the class that loads and manages your bundle configuration.
  *
  * To learn more see {@link http://symfony.com/doc/current/cookbook/bundles/extension.html}
  */
@@ -19,10 +19,29 @@ class SWPUpdaterExtension extends Extension
      */
     public function load(array $configs, ContainerBuilder $container)
     {
-        $configuration = new Configuration();
-        $config = $this->processConfiguration($configuration, $configs);
+        $config = $this->processConfiguration(new Configuration(), $configs);
 
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.yml');
+
+        if (!empty($config['client'])) {
+            $container->setParameter($this->getAlias().'.client.base_uri', $config['client']);
+        }
+
+        if (!empty($config['version_class'])) {
+            $container->setParameter($this->getAlias().'.version_class', $config['version_class']);
+        }
+
+        if ($config['temp_dir'] === 'default') {
+            $container->setParameter(
+                $this->getAlias().'.temp_dir',
+                $container->getParameter('kernel.cache_dir')
+            );
+        } else {
+            $container->setParameter(
+                $this->getAlias().'.temp_dir',
+                $container->getParameter('kernel.root_dir').'/'.$config['temp_dir']
+            );
+        }
     }
 }

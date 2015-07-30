@@ -3,6 +3,7 @@
 namespace SWP\UpdaterBundle\Manager;
 
 use SWP\UpdaterBundle\Client\ClientInterface;
+use SWP\UpdaterBundle\Version\VersionInterface;
 use vierbergenlars\SemVer\version;
 
 /**
@@ -17,7 +18,7 @@ abstract class AbstractManager implements ManagerInterface
      *
      * @var string
      */
-    protected $currentVersion = '0.0.0';
+    protected $currentVersion;
 
     /**
      * List of available updates.
@@ -31,7 +32,7 @@ abstract class AbstractManager implements ManagerInterface
      *
      * @var string
      */
-    protected $latestVersion = '';
+    protected $latestVersion = '0.0.0';
 
     /**
      * @var ClientInterface
@@ -39,59 +40,43 @@ abstract class AbstractManager implements ManagerInterface
     protected $client;
 
     /**
+     * @var Temp directory to store update packages.
+     */
+    protected $tempDir;
+
+    /**
      * Construct.
      *
-     * @param ClientInterface $client Update server client
+     * @param ClientInterface  $client  Client
+     * @param VersionInterface $version Version
      */
-    public function __construct(ClientInterface $client)
+    public function __construct(ClientInterface $client, VersionInterface $version, $tempDir)
     {
         $this->client = $client;
-        // TODO
-        // inject here Setting service to get the current app version.
+        $this->currentVersion = $version->getVersion();
+        $this->tempDir = $tempDir;
     }
 
     /**
-     * Checks for the latest version from the available ones.
+     * Copies remote file to the server where
+     * the app is installed.
      *
-     * @param array $versions An array of versions
+     * @param string $fromUrl Remote file url
+     * @param string $version Copied file name
      *
      * @return bool
      */
-    protected function checkForLatestVersion(array $versions)
+    protected function copyRemoteFile($fromUrl, $name)
     {
-        $this->latestVersion = '0.0.0';
-        foreach ($versions as $versionRaw => $packageDetails) {
-            $semver = new version($versionRaw);
-            if ($semver->valid() === null) {
-                // could not parse version
-                continue;
-            }
+        try {
+            $this->client->get($fromUrl, [
+                'save_to' => $this->tempDir.'/'.$name.'.zip',
+            ]);
 
-            if (version::gt($versionRaw, $this->currentVersion)) {
-                if (version::gt($versionRaw, $this->latestVersion)) {
-                    $this->latestVersion = $versionRaw;
-                }
-
-                $this->updates[] = array_merge(array(
-                    'version' => $versionRaw,
-                ), (array) $packageDetails);
-            }
+            return true;
+        } catch (\Exception $e) {
+            return false;
         }
-
-        $this->sortVersions();
-
-        return $this->isNewVersionAvailable();
-    }
-
-    /**
-     * Sorts an array of versions by values.
-     * Descending order based on Semantic Versioning.
-     */
-    protected function sortVersions()
-    {
-        usort($this->updates, function ($first, $second) {
-            return version::compare($first['version'], $second['version']);
-        });
     }
 
     /**
@@ -99,7 +84,7 @@ abstract class AbstractManager implements ManagerInterface
      *
      * @return bool
      */
-    public function isNewVersionAvailable()
+    protected function isNewVersionAvailable()
     {
         return version::gt($this->latestVersion, $this->currentVersion);
     }

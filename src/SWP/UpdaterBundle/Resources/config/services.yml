@@ -1,8 +1,15 @@
 services:
     swp_updater.client:
-        class: SWP\UpdaterBundle\Client\Client
-        arguments: [{base_uri: 'http://rafal.sourcefabric.net'}]
+        class: SWP\UpdaterBundle\Client\RemoteClient
+        arguments: ["%swp_updater.client.base_uri%"]
+
+    swp_updater.version:
+        class: %swp_updater.version_class%
 
     swp_updater.manager:
         class: SWP\UpdaterBundle\Manager\UpdateManager
-        arguments: ["@swp_updater.client"]
+        arguments: ["@swp_updater.client", "@swp_updater.version", "%swp_updater.temp_dir%"]
+
+    swp_updater.controller:
+        class: SWP\UpdaterBundle\Controller\UpdaterController
+        arguments: ["@swp_updater.manager"]

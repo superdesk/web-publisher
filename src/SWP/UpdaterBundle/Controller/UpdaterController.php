@@ -6,14 +6,34 @@ use FOS\RestBundle\Controller\FOSRestController;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Symfony\Component\HttpFoundation\Response;
 use FOS\RestBundle\Controller\Annotations as Rest;
-use FOS\RestBundle\View as FOSView;
-use SWP\UpdaterBundle\Client\ConnectionException;
-use GuzzleHttp\Exception\ClientException;
+use Symfony\Component\HttpFoundation\Request;
 
 class UpdaterController extends FOSRestController
 {
+    /**
+     * This is the documentation description of your method, it will appear
+     * on a specific pane. It will read all the text until the first
+     * annotation.
+     *
+     * @ApiDoc(
+     *  resource=true,
+     *  description="This is a description of your API method",
+     *  parameters={
+     *      {"name"="action", "dataType"="string", "required"=true, "description"="Updater action"}
+     *  }
+     * )
+     * @Route("/api/updates/update", options={"expose"=true})
+     * @Method("POST")
+     * @Rest\View()
+     */
+    public function updateAction(Request $request)
+    {
+        $params = $request->request->all();
+        $updater = $this->container->get('swp_updater.manager');
+        $updater->updateInstance($params);
+    }
+
     /**
      * This is the documentation description of your method, it will appear
      * on a specific pane. It will read all the text until the first
@@ -27,29 +47,87 @@ class UpdaterController extends FOSRestController
      *      {"name"="another-filter", "dataType"="string", "pattern"="(foo|bar) ASC|DESC"}
      *  }
      * )
-     * @Route("/updater/check", defaults={"_format"="json"}, options={"expose"=true})
-     * @Rest\View(serializerGroups={"list"})
+     * @Route("/api/updates/check", options={"expose"=true})
+     * @Method("GET")
+     * @Rest\View()
      */
-    public function getAction()
+    public function checkAction()
     {
         $updater = $this->container->get('swp_updater.manager');
-        $response = new Response();
+        $updater->checkUpdates();
 
-        try {
-            $updater->checkUpdates();
-            if ($updater->isNewVersionAvailable()) {
-                dump('New version is available: '.$updater->getLatestVersion());
-            } else {
-                dump('Your app is up to date');
-            }
-        } catch (ConnectionException $exception) {
-            $response->setContent($exception->getMessage());
-        } catch (ClientException $exception) {
-            $response->setContent($exception->getMessage());
-        }
+        return array(
+            '_items' => $updater->getUpdatesToApply(),
+        );
+    }
 
-        return new FOSView\View('test');
+    /**
+     * Gets the latest available version.
+     *
+     * @ApiDoc(
+     *  resource=true,
+     *  description="This is a description of your API method",
+     *  filters={
+     *      {"name"="a-filter", "dataType"="integer"},
+     *      {"name"="another-filter", "dataType"="string", "pattern"="(foo|bar) ASC|DESC"}
+     *  }
+     * )
+     * @Route("/api/updates/latest", options={"expose"=true})
+     * @Method("GET")
+     * @Rest\View()
+     */
+    public function latestAction()
+    {
+        $updater = $this->container->get('swp_updater.manager');
 
-        return $response;
+        return $updater->getLatestVersion();
+    }
+
+    /**
+     * This is the documentation description of your method, it will appear
+     * on a specific pane. It will read all the text until the first
+     * annotation.
+     *
+     * @ApiDoc(
+     *  resource=true,
+     *  description="This is a description of your API method",
+     *  filters={
+     *      {"name"="a-filter", "dataType"="integer"},
+     *      {"name"="another-filter", "dataType"="string", "pattern"="(foo|bar) ASC|DESC"}
+     *  }
+     * )
+     * @Route("/api/updates/download/{resource}", options={"expose"=true})
+     * @Method("GET")
+     * @Rest\View()
+     */
+    public function downloadAction($resource)
+    {
+        $updater = $this->container->get('swp_updater.manager');
+        $updater->downloadUpdates($resource);
+    }
+
+    /**
+     * This is the documentation description of your method, it will appear
+     * on a specific pane. It will read all the text until the first
+     * annotation.
+     *
+     * @ApiDoc(
+     *  resource=true,
+     *  description="This is a description of your API method",
+     *  filters={
+     *      {"name"="a-filter", "dataType"="integer"},
+     *      {"name"="another-filter", "dataType"="string", "pattern"="(foo|bar) ASC|DESC"}
+     *  }
+     * )
+     * @Route("/api/updates/install/{resource}", options={"expose"=true})
+     * @Method("GET")
+     * @Rest\View()
+     */
+    public function installAction($resource)
+    {
+        $updater = $this->container->get('swp_updater.manager');
+        $updater->installUpdates($resource);
+
+        return true;
     }
 }
