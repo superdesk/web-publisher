@@ -1,8 +1,5 @@
-Templates
-===============
-
-Caching
---------
+Templates Caching
+=================
 
 For now we support just themplate blocks caching with :code:`cache` block.
 

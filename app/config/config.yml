@@ -33,8 +33,8 @@ framework:
 # Twig Configuration
 twig:
     debug:            "%kernel.debug%"
-    strict_variables: "%kernel.debug%"
     exception_controller: 'FOS\RestBundle\Controller\ExceptionController::showAction'
+    strict_variables: false
 
 liip_theme:
     themes: ['theme_1', 'theme_2', 'theme_3']
