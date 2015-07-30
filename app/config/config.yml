@@ -7,6 +7,7 @@ imports:
 # http://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
     locale: en
+    swp_updater.version.class: SWP\UpdaterBundle\Version\Version
 
 framework:
     #esi:             ~
@@ -33,6 +34,7 @@ framework:
 twig:
     debug:            "%kernel.debug%"
     strict_variables: "%kernel.debug%"
+    exception_controller: 'FOS\RestBundle\Controller\ExceptionController::showAction'
 
 liip_theme:
     themes: ['theme_1', 'theme_2', 'theme_3']
@@ -73,17 +75,34 @@ swiftmailer:
 fos_http_cache: ~
 
 fos_rest:
+    routing_loader:
+        default_format: json
     view:
-        view_response_listener: force
-        default_engine: twig
-        view_response_listener: true
+        formats:
+            json: true
+        view_response_listener: 'force'
     format_listener:
         rules:
-            -
-                path: ^/
-                priorities: [ html, json, xml ]
-                fallback_format: ~
-                prefer_extension: true
+            - { path: '^/api', priorities: ['json'], fallback_format: json, prefer_extension: true }
+            - { path: '^/', stop: true }
+    exception:
+        codes:
+            'Symfony\Component\Routing\Exception\ResourceNotFoundException': 404
+        messages:
+            'Symfony\Component\Routing\Exception\ResourceNotFoundException': true
 
 sensio_framework_extra:
     view:    { annotations: false }
+
+swp_updater:
+    version_class: %swp_updater.version.class%
+    client:
+        base_uri: http://rafal.sourcefabric.net
+
+jms_serializer:
+    metadata:
+        auto_detection: true
+        directories:
+            swp-updater:
+                namespace_prefix: "SWP\\UpdaterBundle\\Model"
+                path: "@SWPUpdaterBundle/Resources/config/serializer"

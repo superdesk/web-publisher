@@ -3,19 +3,21 @@
 namespace SWP\UpdaterBundle\Model;
 
 use Updater\Package\Package;
+use Hateoas\Configuration\Annotation as Hateoas;
 
 /**
  * Update package model class.
+ *
+ * @Hateoas\Relation("self", href = "expr('/api/updates/latest')")
  */
 class UpdatePackage extends Package
 {
     /**
-     * Construct method for class. Converts data (string via json_decode or
-     * array/object) to properties.
+     * Construct method for class.
      *
-     * @param mixed $data
+     * @param array $data
      */
-    public function __construct($data = null)
+    public function __construct(array $data = array())
     {
         foreach ($data as $key => $value) {
             $this->$key = $value;

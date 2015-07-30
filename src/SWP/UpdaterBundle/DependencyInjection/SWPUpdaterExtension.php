@@ -43,5 +43,17 @@ class SWPUpdaterExtension extends Extension
                 $container->getParameter('kernel.root_dir').'/'.$config['temp_dir']
             );
         }
+
+        if ($config['target_dir'] === 'default') {
+            $container->setParameter(
+                $this->getAlias().'.target_dir',
+                $container->getParameter('kernel.root_dir').'/../'
+            );
+        } else {
+            $container->setParameter(
+                $this->getAlias().'.target_dir',
+                $config['target_dir']
+            );
+        }
     }
 }

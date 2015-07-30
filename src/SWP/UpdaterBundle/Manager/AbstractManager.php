@@ -4,6 +4,9 @@ namespace SWP\UpdaterBundle\Manager;
 
 use SWP\UpdaterBundle\Client\ClientInterface;
 use SWP\UpdaterBundle\Version\VersionInterface;
+use Symfony\Component\Console\Input\ArrayInput;
+use Symfony\Component\Console\Output\BufferedOutput;
+use Updater\Console\Application;
 use vierbergenlars\SemVer\version;
 
 /**
@@ -45,16 +48,22 @@ abstract class AbstractManager implements ManagerInterface
     protected $tempDir;
 
     /**
+     * @var App target directory.
+     */
+    protected $targetDir;
+
+    /**
      * Construct.
      *
      * @param ClientInterface  $client  Client
      * @param VersionInterface $version Version
      */
-    public function __construct(ClientInterface $client, VersionInterface $version, $tempDir)
+    public function __construct(ClientInterface $client, VersionInterface $version, array $options = array())
     {
         $this->client = $client;
         $this->currentVersion = $version->getVersion();
-        $this->tempDir = $tempDir;
+        $this->tempDir = $options['temp_dir'];
+        $this->targetDir = $options['target_dir'];
     }
 
     /**
@@ -77,6 +86,41 @@ abstract class AbstractManager implements ManagerInterface
         } catch (\Exception $e) {
             return false;
         }
+    }
+
+    /**
+     * Runs command with given parameters.
+     *
+     * @param array $parameters Command parameters
+     *
+     * @return string Command output
+     */
+    protected function runCommand(array $parameters = array())
+    {
+        $input = new ArrayInput($parameters);
+        $output = new BufferedOutput();
+        $app = new Application();
+        $app->setAutoExit(false);
+        $app->run($input, $output);
+
+        return $output->fetch();
+    }
+
+    /**
+     * Sorts an array of packages by version.
+     * Descending order based on Semantic Versioning.
+     *
+     * @param array $array Array of objects
+     */
+    protected function sortPackagesByVersion(array $array = array())
+    {
+        usort($array, function ($first, $second) {
+            if ($first instanceof UpdatePackage && $second instanceof UpdatePackage) {
+                return version::compare($first->getVersion(), $second->getVersion());
+            }
+        });
+
+        return $array;
     }
 
     /**

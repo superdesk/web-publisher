@@ -2,8 +2,6 @@
 
 namespace SWP\UpdaterBundle\Manager;
 
-use Symfony\Component\Console\Input\ArrayInput;
-use Symfony\Component\Console\Output\NullOutput;
 use SWP\UpdaterBundle\Model\UpdatePackage;
 
 /**
@@ -66,7 +64,7 @@ class UpdateManager extends AbstractManager
     {
         $response = $this->client->call(self::LATEST_VERSION_ENDPOINT);
 
-        return $response;
+        return new UpdatePackage($response);
     }
 
     /**
@@ -76,7 +74,7 @@ class UpdateManager extends AbstractManager
     public function downloadCoreUpdates()
     {
         foreach ((array) $this->updates['core'] as $update) {
-            $this->copyRemoteFile($update['url'], $update['version']);
+            $this->copyRemoteFile($update->url, $update->getVersion());
         }
     }
 
@@ -99,7 +97,7 @@ class UpdateManager extends AbstractManager
                 break;
 
             default:
-                throw new \Exception('Invalid action.');
+                throw new \InvalidArgumentException('Invalid action.');
         }
     }
 
@@ -108,22 +106,29 @@ class UpdateManager extends AbstractManager
         $requiredParameters = array('action');
         foreach ($requiredParameters as $param) {
             if (!array_key_exists($param, $parameters)) {
-                throw new \Exception('Wrong parameters.');
+                throw new \InvalidArgumentException('Invalid arguments passed!');
             }
         }
     }
 
+    /**
+     * Updates the core by calling Updater "update" command.
+     */
     public function updateCore()
     {
-        /*$input = new ArrayInput(array(
-            'target' => __DIR__.'/../../sample_app',
-            'temp_dir' => __DIR__.'/../../sample_app/cache',
-            'package_dir' => __DIR__.'/../../packages/update-4.3.1.zip',
-            '--rollback' => false,
-        ));
-
-        $output = new NullOutput();
-                $app = new \Updater\Console\Application();
-                var_dump($app->get('update'));die;*/
+        try {
+            $sortedVersions = $this->sortPackagesByVersion($this->updates['core']);
+            foreach ($sortedVersions as $update) {
+                $this->runCommand(array(
+                    'command' => 'update',
+                    'target' => $this->targetDir,
+                    'temp_dir' => $this->tempDir,
+                    'package_dir' => $this->tempDir.'/'.$update->getVersion().'.zip',
+                ));
+            }
+        } catch (\Exception $e) {
+            var_dump($e->getMessage());
+            die;
+        }
     }
 }

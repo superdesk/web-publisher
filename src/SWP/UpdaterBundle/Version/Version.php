@@ -12,7 +12,7 @@ final class Version implements VersionInterface
      *
      * @var string
      */
-    private $version = '0.2.0';
+    private $version = '0.1.0';
 
     /**
      * Gets the value of version.
