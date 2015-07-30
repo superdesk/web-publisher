@@ -4,7 +4,7 @@ Superdesk Content API Bridge bundle
 Configuration options
 
 ```yml
-    superdeskbridge:
+    swp_superdesk_bridge:
         protocol: http
         host: publicapi
         port: 5050
@@ -17,7 +17,7 @@ makeApiCall in the ClientInterface.
 E.g.
 
 ```yml
-    superdeskbridge:
+    swp_superdesk_bridge:
         options:
             curl:
                 10203: # CURLOPT_RESOLVE

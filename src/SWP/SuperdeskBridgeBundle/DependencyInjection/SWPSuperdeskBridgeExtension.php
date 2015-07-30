@@ -31,9 +31,20 @@ class SWPSuperdeskBridgeExtension extends Extension
      */
     public function load(array $configs, ContainerBuilder $container)
     {
-        $env = $container->getParameter('kernel.environment');
-
         $configuration = new Configuration();
         $config = $this->processConfiguration($configuration, $configs);
+
+        if (!empty($config['protocol'])) {
+            $container->setParameter($this->getAlias().'.protocol', $config['protocol']);
+        }
+        if (!empty($config['host'])) {
+            $container->setParameter($this->getAlias().'.host', $config['host']);
+        }
+        if (!empty($config['port'])) {
+            $container->setParameter($this->getAlias().'.port', $config['port']);
+        }
+        if (!empty($config['options'])) {
+            $container->setParameter($this->getAlias().'.options', $config['options']);
+        }
     }
 }
