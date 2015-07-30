@@ -10,9 +10,9 @@
     },
     "require": {
         "php": ">=5.5",
-        "symfony/symfony": "~2.7@beta",
-        "doctrine/orm": "~2.2,>=2.2.3,<2.5",
-        "doctrine/dbal": "<2.5",
+        "symfony/symfony": "~2.7.2",
+        "doctrine/orm": "2.5.0",
+        "doctrine/dbal": "2.5.1",
         "doctrine/doctrine-bundle": "~1.4",
         "twig/extensions": "~1.0",
         "symfony/swiftmailer-bundle": "~2.3",
@@ -21,10 +21,12 @@
         "sensio/framework-extra-bundle": "~3.0,>=3.0.2",
         "incenteev/composer-parameter-handler": "~2.0",
         "friendsofsymfony/http-cache-bundle": "~1.0",
-        "liip/theme-bundle": "1.2.*@dev",
-        "emanueleminotto/twig-cache-bundle": "^0.2.1",
         "guzzlehttp/guzzle": "6.0.*",
-        "superdesk/contentapi-sdk-php": "dev-master"
+        "superdesk/contentapi-sdk-php": "dev-master",
+        "liip/theme-bundle": "1.3.0",
+        "emanueleminotto/twig-cache-bundle": "^0.2.1",
+        "doctrine/inflector": "^1.0",
+        "swp/templates-system": "1.0.x-dev"
     },
     "require-dev": {
         "sensio/generator-bundle": "~2.3",

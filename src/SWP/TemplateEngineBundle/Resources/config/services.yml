@@ -1,0 +1,37 @@
+services:
+    swp_template_engine_loader_chain:
+        class: SWP\TemplatesSystem\Gimme\Loader\ChainLoader
+
+    swp_template_engine_context:
+        class: SWP\TemplatesSystem\Gimme\Context\Context
+    context:
+        alias: swp_template_engine_context
+
+    swp_template_engine_loader_article:
+        class: SWP\TemplatesSystem\Gimme\Loader\ArticleLoader
+        arguments:
+            - %kernel.root_dir%
+        tags:
+            - { name: swp.meta_loader }
+
+    swp_template_engine_twig_extension.gimme:
+        class: SWP\TemplatesSystem\Twig\Extension\GimmeExtension
+        public: false
+        arguments:
+            - @swp_template_engine_context
+            - @swp_template_engine_loader_chain
+        tags:
+            - { name: twig.extension }
+
+    swp_template_engine_context_reader:
+        class: SWP\TemplateEngineBundle\Annotation\ContextReader
+        arguments:
+            - @annotation_reader
+
+    swp_template_engine_context_listener:
+        class: SWP\TemplateEngineBundle\EventListener\ContextListener
+        arguments:
+            - @swp_template_engine_context_reader
+            - @swp_template_engine_context
+        tags:
+            - { name: kernel.event_listener, event: kernel.controller, method: onKernelController }

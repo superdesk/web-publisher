@@ -20,6 +20,7 @@ class AppKernel extends Kernel
             new EmanueleMinotto\TwigCacheBundle\TwigCacheBundle(),
             new AppBundle\AppBundle(),
             new SWP\SuperdeskBridgeBundle\SWPSuperdeskBridgeBundle(),
+            new SWP\TemplateEngineBundle\SWPTemplateEngineBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {
