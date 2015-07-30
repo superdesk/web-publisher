@@ -1,8 +1,0 @@
-parameters:
-    superdeskbridge:
-        host: publicapi
-        port: 5050
-        options:
-            curl:
-                10203:
-                 - "publicapi:5050:172.17.0.11"  # CURLOPT_RESOLVE
