@@ -18,7 +18,7 @@ class AppKernel extends Kernel
             new Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle(),
             new Liip\ThemeBundle\LiipThemeBundle(),
             new EmanueleMinotto\TwigCacheBundle\TwigCacheBundle(),
-            new AppBundle\AppBundle(),
+            new SWP\WebRendererBundle\SWPWebRendererBundle(),
             new SWP\UpdaterBundle\SWPUpdaterBundle(),
             new FOS\RestBundle\FOSRestBundle(),
             new JMS\SerializerBundle\JMSSerializerBundle(),

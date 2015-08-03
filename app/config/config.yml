@@ -98,7 +98,7 @@ swp_updater:
     version_class: %swp_updater.version.class%
     monolog_channel: true
     client:
-        base_uri: http://rafal.sourcefabric.net
+        base_uri: http://rafal.sourcefabric.net #https://updates.sourcefabric.org
 
 jms_serializer:
     metadata:
