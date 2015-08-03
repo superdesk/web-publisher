@@ -32,7 +32,6 @@ class SWPUpdaterExtension extends Extension
     public function load(array $configs, ContainerBuilder $container)
     {
         $config = $this->processConfiguration(new Configuration(), $configs);
-
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.yml');
 
@@ -44,7 +43,7 @@ class SWPUpdaterExtension extends Extension
             $container->setParameter($this->getAlias().'.version_class', $config['version_class']);
         }
 
-        if ($config['temp_dir'] === 'default') {
+        if ($this->isDefault($config['temp_dir'])) {
             $container->setParameter(
                 $this->getAlias().'.temp_dir',
                 $container->getParameter('kernel.cache_dir')
@@ -56,7 +55,7 @@ class SWPUpdaterExtension extends Extension
             );
         }
 
-        if ($config['target_dir'] === 'default') {
+        if ($this->isDefault($config['target_dir'])) {
             $container->setParameter(
                 $this->getAlias().'.target_dir',
                 $container->getParameter('kernel.root_dir').'/../'
@@ -67,5 +66,18 @@ class SWPUpdaterExtension extends Extension
                 $config['target_dir']
             );
         }
+
+        if (true === $config['monolog_channel']) {
+            $container->setParameter($this->getAlias().'.monolog_channel', true);
+        }
+    }
+
+    private function isDefault($dir)
+    {
+        if ($dir === 'default') {
+            return true;
+        }
+
+        return false;
     }
 }

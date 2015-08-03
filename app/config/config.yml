@@ -96,6 +96,7 @@ sensio_framework_extra:
 
 swp_updater:
     version_class: %swp_updater.version.class%
+    monolog_channel: true
     client:
         base_uri: http://rafal.sourcefabric.net
 
@@ -106,15 +107,8 @@ jms_serializer:
 monolog:
     channels: ["updater"]
     handlers:
-        main:
-            type:  rotating_file
-            path:  %kernel.logs_dir%/%kernel.environment%.log
-            level: debug
-            # max number of log files to keep
-            # defaults to zero, which means infinite files
-            max_files: 10
         updater:
             type:  rotating_file
             path:  %kernel.logs_dir%/updater_%kernel.environment%.log
-            level: error
+            level: info
             max_files: 10

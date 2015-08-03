@@ -30,6 +30,13 @@ class UpdateManager extends AbstractManager
     const RESOURCE_CORE = 'core';
 
     /**
+     * Available updates channels.
+     *
+     * @var array
+     */
+    private $channels = array('default', 'security', 'nightly');
+
+    /**
      * Latest update.
      *
      * @var UpdatePackage
@@ -46,11 +53,14 @@ class UpdateManager extends AbstractManager
     /**
      * {@inheritdoc}
      */
-    public function getAvailableUpdates()
+    public function getAvailableUpdates($channel = '')
     {
         $response = $this->client->call(
             self::UPDATES_ENDPOINT,
-            ['coreVersion' => $this->getCurrentVersion()]
+            array(
+                'coreVersion' => $this->getCurrentVersion(),
+                'channel' => in_array($channel, $this->channels) ? $channel : $this->channels[0],
+            )
         );
 
         if (isset($response['_items']) && !empty($response['_items'])) {
@@ -177,6 +187,8 @@ class UpdateManager extends AbstractManager
                 ));
             }
 
+            $this->addLogInfo('Started updating application\'s core...');
+
             $result = Updater::runUpdateCommand(array(
                 'target' => $this->targetDir,
                 'temp_dir' => $this->tempDir,
@@ -187,12 +199,16 @@ class UpdateManager extends AbstractManager
                 throw new \Exception('Could not update the instance.');
             }
 
+            $this->addLogInfo('Successfully updated application\'s core...');
+
             $this->cleanUp($packagePath);
         }
     }
 
     private function cleanUp($packagePath)
     {
+        $this->addLogInfo('Started cleaning up...');
         unlink($packagePath);
+        $this->addLogInfo('Successfully cleaned up...');
     }
 }

@@ -55,21 +55,26 @@ abstract class AbstractManager implements ManagerInterface
      */
     protected $targetDir;
 
+    /**
+     * Logger.
+     *
+     * @var LoggerInterface
+     */
     protected $logger;
 
     /**
      * Construct.
      *
-     * @param ClientInterface  $client  Client
-     * @param VersionInterface $version Version
-     * @param LoggerInterface  $logger  Logger
-     * @param array            $options An array of options
+     * @param ClientInterface      $client  Client
+     * @param VersionInterface     $version Version
+     * @param array                $options An array of options
+     * @param LoggerInterface|null $logger  Logger
      */
     public function __construct(
         ClientInterface $client,
         VersionInterface $version,
-        LoggerInterface $logger,
-        array $options = array()
+        array $options = array(),
+        LoggerInterface $logger = null
     ) {
         $this->client = $client;
         $this->currentVersion = $version->getVersion();
@@ -83,9 +88,35 @@ abstract class AbstractManager implements ManagerInterface
      *
      * @return LoggerInterface Logger
      */
-    public function getLogger()
+    protected function getLogger()
     {
         return $this->logger;
+    }
+
+    /**
+     * Gets the logger instance.
+     *
+     * @return LoggerInterface Logger
+     */
+    protected function hasLogger()
+    {
+        if ($this->logger) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Adds logger info message.
+     *
+     * @param string $message Message
+     */
+    protected function addLogInfo($message)
+    {
+        if ($this->hasLogger()) {
+            $this->getLogger()->info($message);
+        }
     }
 
     /**
@@ -107,6 +138,8 @@ abstract class AbstractManager implements ManagerInterface
                 $this->client->get($fromUrl, [
                     'save_to' => $filePath,
                 ]);
+
+                $this->addLogInfo('Successfully downloaded update file: '.$filePath);
 
                 return true;
             }

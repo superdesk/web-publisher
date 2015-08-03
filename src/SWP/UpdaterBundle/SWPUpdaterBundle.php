@@ -15,7 +15,14 @@
 namespace SWP\UpdaterBundle;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
+use SWP\UpdaterBundle\DependencyInjection\Compiler\MonologCompilerPass;
 
 class SWPUpdaterBundle extends Bundle
 {
+    public function build(ContainerBuilder $container)
+    {
+        parent::build($container);
+        $container->addCompilerPass(new MonologCompilerPass());
+    }
 }

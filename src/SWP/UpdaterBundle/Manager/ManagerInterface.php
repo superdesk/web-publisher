@@ -22,9 +22,11 @@ interface ManagerInterface
     /**
      * Gets all available updates.
      *
+     * @param $channel Updates channel
+     *
      * @return array Available updates
      */
-    public function getAvailableUpdates();
+    public function getAvailableUpdates($channel);
 
     /**
      * Gets the latest available update.

@@ -26,7 +26,7 @@ interface ClientInterface
      * @param string $endpoint API endpoint to call
      * @param array  $options  Array of parameters
      *
-     * @return array|string Response from the server
+     * @return array Response from the server
      */
     public function call($endpoint = '/', array $options = array());
 }

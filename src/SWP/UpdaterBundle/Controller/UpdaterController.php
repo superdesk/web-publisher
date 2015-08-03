@@ -84,6 +84,10 @@ class UpdaterController extends FOSRestController
 
     /**
      * Gets all availbale updates which can be downloaded and installed.
+     * Updates can be fetched by diffrent channels: security, default, nightly.
+     * * security - security updates,
+     * * default - default updates (stable ones),
+     * * nightly - not stable updates.
      *
      * @ApiDoc(
      *     resource=true,
@@ -93,16 +97,16 @@ class UpdaterController extends FOSRestController
      *         404="Returned when updates are not available."
      *     }
      * )
-     * @Route("/api/updates/", options={"expose"=true})
+     * @Route("/api/updates/{channel}", options={"expose"=true})
      * @Method("GET")
      * @Rest\View(statusCode=200)
      */
-    public function getAction()
+    public function getAction($channel = '')
     {
         $updater = $this->container->get('swp_updater.manager');
 
         return array(
-            '_items' => $updater->getAvailableUpdates(),
+            '_items' => $updater->getAvailableUpdates($channel),
         );
     }
 
