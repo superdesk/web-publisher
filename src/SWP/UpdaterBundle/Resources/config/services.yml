@@ -8,7 +8,7 @@ services:
 
     swp_updater.manager:
         class: SWP\UpdaterBundle\Manager\UpdateManager
-        arguments: ["@swp_updater.client", "@swp_updater.version", {temp_dir: "%swp_updater.temp_dir%", target_dir: "%swp_updater.target_dir%"}]
+        arguments: ["@swp_updater.client", "@swp_updater.version", "@logger", {temp_dir: "%swp_updater.temp_dir%", target_dir: "%swp_updater.target_dir%"}]
 
     swp_updater.controller:
         class: SWP\UpdaterBundle\Controller\UpdaterController

@@ -31,7 +31,8 @@
         "guzzlehttp/guzzle": "^6.0",
         "vierbergenlars/php-semver": "^3.0",
         "willdurand/hateoas-bundle": "^1.0",
-        "swp/templates-system": "1.0.x-dev"
+        "swp/templates-system": "1.0.x-dev",
+        "monolog/monolog": "^1.15"
     },
     "require-dev": {
         "sensio/generator-bundle": "~2.3",

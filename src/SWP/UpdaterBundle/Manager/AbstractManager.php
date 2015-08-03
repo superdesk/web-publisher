@@ -1,18 +1,28 @@
 <?php
 
+/**
+ * This file is part of the Superdesk Web Publisher Updater Bundle.
+ *
+ * Copyright 2015 Sourcefabric z.u. and contributors.
+ *
+ * For the full copyright and license information, please see the
+ * AUTHORS and LICENSE files distributed with this source code.
+ *
+ * @copyright 2015 Sourcefabric z.ú.
+ * @license http://www.superdesk.org/license
+ */
+
 namespace SWP\UpdaterBundle\Manager;
 
 use SWP\UpdaterBundle\Client\ClientInterface;
 use SWP\UpdaterBundle\Version\VersionInterface;
-use Symfony\Component\Console\Input\ArrayInput;
-use Symfony\Component\Console\Output\BufferedOutput;
-use Updater\Console\Application;
 use vierbergenlars\SemVer\version;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use SWP\UpdaterBundle\Model\UpdatePackage;
+use Symfony\Component\HttpKernel\Log\LoggerInterface;
 
 /**
  * Abstract update manager.
- *
- * @author Rafał Muszyński <rafal.muszynski@sourcefabric.org>
  */
 abstract class AbstractManager implements ManagerInterface
 {
@@ -22,13 +32,6 @@ abstract class AbstractManager implements ManagerInterface
      * @var string
      */
     protected $currentVersion;
-
-    /**
-     * List of available updates.
-     *
-     * @var array
-     */
-    protected $updates = array();
 
     /**
      * The latest app version.
@@ -52,18 +55,37 @@ abstract class AbstractManager implements ManagerInterface
      */
     protected $targetDir;
 
+    protected $logger;
+
     /**
      * Construct.
      *
      * @param ClientInterface  $client  Client
      * @param VersionInterface $version Version
+     * @param LoggerInterface  $logger  Logger
+     * @param array            $options An array of options
      */
-    public function __construct(ClientInterface $client, VersionInterface $version, array $options = array())
-    {
+    public function __construct(
+        ClientInterface $client,
+        VersionInterface $version,
+        LoggerInterface $logger,
+        array $options = array()
+    ) {
         $this->client = $client;
         $this->currentVersion = $version->getVersion();
         $this->tempDir = $options['temp_dir'];
         $this->targetDir = $options['target_dir'];
+        $this->logger = $logger;
+    }
+
+    /**
+     * Gets the logger instance.
+     *
+     * @return LoggerInterface Logger
+     */
+    public function getLogger()
+    {
+        return $this->logger;
     }
 
     /**
@@ -71,39 +93,30 @@ abstract class AbstractManager implements ManagerInterface
      * the app is installed.
      *
      * @param string $fromUrl Remote file url
-     * @param string $version Copied file name
+     * @param string $name    Copied file name
      *
-     * @return bool
+     * @return bool True on success
+     *
+     * @throws NotFoundHttpException When file not found
      */
     protected function copyRemoteFile($fromUrl, $name)
     {
         try {
-            $this->client->get($fromUrl, [
-                'save_to' => $this->tempDir.'/'.$name.'.zip',
-            ]);
+            $filePath = $this->tempDir.'/'.$name.'.zip';
+            if (!file_exists($filePath)) {
+                $this->client->get($fromUrl, [
+                    'save_to' => $filePath,
+                ]);
 
-            return true;
+                return true;
+            }
         } catch (\Exception $e) {
-            return false;
+            throw new NotFoundHttpException(
+                'Could not find file at the specified path: '.$fromUrl,
+                $e,
+                $e->getCode()
+            );
         }
-    }
-
-    /**
-     * Runs command with given parameters.
-     *
-     * @param array $parameters Command parameters
-     *
-     * @return string Command output
-     */
-    protected function runCommand(array $parameters = array())
-    {
-        $input = new ArrayInput($parameters);
-        $output = new BufferedOutput();
-        $app = new Application();
-        $app->setAutoExit(false);
-        $app->run($input, $output);
-
-        return $output->fetch();
     }
 
     /**
@@ -121,15 +134,5 @@ abstract class AbstractManager implements ManagerInterface
         });
 
         return $array;
-    }
-
-    /**
-     * Checks if a new version is available.
-     *
-     * @return bool
-     */
-    protected function isNewVersionAvailable()
-    {
-        return version::gt($this->latestVersion, $this->currentVersion);
     }
 }

@@ -1,8 +1,22 @@
 <?php
 
+/**
+ * This file is part of the Superdesk Web Publisher Updater Bundle.
+ *
+ * Copyright 2015 Sourcefabric z.u. and contributors.
+ *
+ * For the full copyright and license information, please see the
+ * AUTHORS and LICENSE files distributed with this source code.
+ *
+ * @copyright 2015 Sourcefabric z.ú.
+ * @license http://www.superdesk.org/license
+ */
+
 namespace SWP\UpdaterBundle\Client;
 
 use GuzzleHttp\Client as BaseClient;
+use GuzzleHttp\Exception\ConnectException;
+use Symfony\Component\HttpKernel\Exception\ServiceUnavailableHttpException;
 
 /**
  * Remote Client class.
@@ -10,12 +24,15 @@ use GuzzleHttp\Client as BaseClient;
  */
 class RemoteClient extends BaseClient implements ClientInterface
 {
+    private $baseUri;
+
     /**
      * {@inheritdoc}
      */
     public function __construct(array $config = array())
     {
         parent::__construct($config);
+        $this->baseUri = $config['base_uri'];
     }
 
     /**
@@ -23,18 +40,18 @@ class RemoteClient extends BaseClient implements ClientInterface
      */
     public function call($endpoint = '/', array $options = array())
     {
-        $this->isAlive();
-        $response = $this->get($endpoint, $options);
+        try {
+            $response = $this->get($endpoint, $options);
+        } catch (ConnectException $e) {
+            throw new ServiceUnavailableHttpException(
+                null,
+                'Could not resolve host: '.$this->baseUri,
+                $e,
+                $e->getCode()
+            );
+        }
 
         return $this->decode($response);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function isAlive($endpoint = '/')
-    {
-        $this->get($endpoint);
     }
 
     private function decode($response)

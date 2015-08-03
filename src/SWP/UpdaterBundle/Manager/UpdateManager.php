@@ -1,8 +1,22 @@
 <?php
 
+/**
+ * This file is part of the Superdesk Web Publisher Updater Bundle.
+ *
+ * Copyright 2015 Sourcefabric z.u. and contributors.
+ *
+ * For the full copyright and license information, please see the
+ * AUTHORS and LICENSE files distributed with this source code.
+ *
+ * @copyright 2015 Sourcefabric z.ú.
+ * @license http://www.superdesk.org/license
+ */
+
 namespace SWP\UpdaterBundle\Manager;
 
 use SWP\UpdaterBundle\Model\UpdatePackage;
+use Symfony\Component\HttpKernel\Exception\UnprocessableEntityHttpException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
  * Update manager.
@@ -13,20 +27,27 @@ class UpdateManager extends AbstractManager
     const CORE_ENDPOINT = '/core.json';
     const LATEST_VERSION_ENDPOINT = '/check2.json';
 
-    const CORE_DOWNLOAD_ACTION = 'core_download';
-    const CORE_UPDATE_ACTION = 'core_update';
+    const RESOURCE_CORE = 'core';
 
-    protected $forceDownload = false;
+    /**
+     * Latest update.
+     *
+     * @var UpdatePackage
+     */
+    private $latestUpdate;
+
+    /**
+     * List of available updates.
+     *
+     * @var array
+     */
+    private $availableUpdates = array();
 
     /**
      * {@inheritdoc}
      */
-    public function checkUpdates()
+    public function getAvailableUpdates()
     {
-        if (!empty($this->getUpdatesToApply())) {
-            return $this->getUpdatesToApply();
-        }
-
         $response = $this->client->call(
             self::UPDATES_ENDPOINT,
             ['coreVersion' => $this->getCurrentVersion()]
@@ -35,10 +56,16 @@ class UpdateManager extends AbstractManager
         if (isset($response['_items']) && !empty($response['_items'])) {
             foreach ($response['_items'] as $key => $resource) {
                 foreach ($resource as $value) {
-                    $this->updates[$key][] = new UpdatePackage($value);
+                    $this->availableUpdates[$key][] = new UpdatePackage($value);
                 }
             }
         }
+
+        if (empty($this->availableUpdates)) {
+            throw new NotFoundHttpException('No update packages available.');
+        }
+
+        return $this->availableUpdates;
     }
 
     /**
@@ -50,21 +77,29 @@ class UpdateManager extends AbstractManager
     }
 
     /**
-     * {@inheritdoc}
+     * Gets the latest version.
+     *
+     * @return string|null Latest version
      */
-    public function getUpdatesToApply()
+    public function getLatestVersion()
     {
-        return $this->updates;
+        $latestUpdate = $this->getLatestUpdate();
+        if ($latestUpdate) {
+            return $latestUpdate->getVersion();
+        }
     }
 
     /**
      * {@inheritdoc}
      */
-    public function getLatestVersion()
+    public function getLatestUpdate()
     {
-        $response = $this->client->call(self::LATEST_VERSION_ENDPOINT);
+        if (!$this->latestUpdate) {
+            $response = $this->client->call(self::LATEST_VERSION_ENDPOINT);
+            $this->latestUpdate = new UpdatePackage($response);
+        }
 
-        return new UpdatePackage($response);
+        return $this->latestUpdate;
     }
 
     /**
@@ -73,41 +108,55 @@ class UpdateManager extends AbstractManager
      */
     public function downloadCoreUpdates()
     {
-        foreach ((array) $this->updates['core'] as $update) {
+        foreach ((array) $this->availableUpdates['core'] as $update) {
             $this->copyRemoteFile($update->url, $update->getVersion());
         }
     }
 
     /**
-     * Apply all available updates
-     * to the current app instance.
+     * Downloads available updates to the app instance
+     * (see temp_dir configuration option), by default to app's cache folder.
      *
-     * @param array $parameters Parameters
+     * @param string $resource Resource type (e.g. core, plugin etc.)
+     *
+     * @throws UnprocessableEntityHttpException When resource doesn't exist
      */
-    public function updateInstance(array $parameters = array())
+    public function download($resource)
     {
-        $this->validateParameters($parameters);
-        $this->checkUpdates();
-        switch ($parameters['action']) {
-            case self::CORE_DOWNLOAD_ACTION:
+        $this->getAvailableUpdates();
+        switch ($resource) {
+            case self::RESOURCE_CORE:
                 $this->downloadCoreUpdates();
                 break;
-            case self::CORE_UPDATE_ACTION:
+
+            default:
+                throw new UnprocessableEntityHttpException(sprintf(
+                    'Resource "%s" doesn\'t exist!',
+                    $resource
+                ));
+        }
+    }
+
+    /**
+     * Apply available updates to the app by given resource.
+     *
+     * @param string $resource Resource type (e.g. core, plugin etc.)
+     *
+     * @throws UnprocessableEntityHttpException When resource doesn't exist
+     */
+    public function applyUpdates($resource)
+    {
+        $this->getAvailableUpdates();
+        switch ($resource) {
+            case self::RESOURCE_CORE:
                 $this->updateCore();
                 break;
 
             default:
-                throw new \InvalidArgumentException('Invalid action.');
-        }
-    }
-
-    public function validateParameters(array $parameters = array())
-    {
-        $requiredParameters = array('action');
-        foreach ($requiredParameters as $param) {
-            if (!array_key_exists($param, $parameters)) {
-                throw new \InvalidArgumentException('Invalid arguments passed!');
-            }
+                throw new UnprocessableEntityHttpException(sprintf(
+                    'Resource "%s" doesn\'t exist!',
+                    $resource
+                ));
         }
     }
 
@@ -116,19 +165,34 @@ class UpdateManager extends AbstractManager
      */
     public function updateCore()
     {
-        try {
-            $sortedVersions = $this->sortPackagesByVersion($this->updates['core']);
-            foreach ($sortedVersions as $update) {
-                $this->runCommand(array(
-                    'command' => 'update',
-                    'target' => $this->targetDir,
-                    'temp_dir' => $this->tempDir,
-                    'package_dir' => $this->tempDir.'/'.$update->getVersion().'.zip',
+        $sortedVersions = $this->sortPackagesByVersion($this->availableUpdates['core']);
+        foreach ($sortedVersions as $update) {
+            $packageName = $update->getVersion().'.zip';
+            $packagePath = $this->tempDir.'/'.$packageName;
+            if (!file_exists($packagePath)) {
+                throw new NotFoundHttpException(sprintf(
+                    'Update packge %s could not be found at %s',
+                    $packageName,
+                    $this->tempDir
                 ));
             }
-        } catch (\Exception $e) {
-            var_dump($e->getMessage());
-            die;
+
+            $result = Updater::runUpdateCommand(array(
+                'target' => $this->targetDir,
+                'temp_dir' => $this->tempDir,
+                'package_dir' => $packagePath,
+            ));
+
+            if ($result !== 0) {
+                throw new \Exception('Could not update the instance.');
+            }
+
+            $this->cleanUp($packagePath);
         }
+    }
+
+    private function cleanUp($packagePath)
+    {
+        unlink($packagePath);
     }
 }

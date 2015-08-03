@@ -14,19 +14,20 @@
 
 namespace SWP\UpdaterBundle\Client;
 
-/**
- * Client interface.
- */
-interface ClientInterface
+use Exception;
+
+class ConnectionException extends Exception
 {
-    /**
-     * Makes an API call to an external server
-     * to get the data from.
-     *
-     * @param string $endpoint API endpoint to call
-     * @param array  $options  Array of parameters
-     *
-     * @return array|string Response from the server
-     */
-    public function call($endpoint = '/', array $options = array());
+    protected $errors;
+
+    public function __construct($message, $errors = array(), Exception $previous = null)
+    {
+        parent::__construct($message, 0, $previous);
+        $this->errors = $errors;
+    }
+
+    public function getErrors()
+    {
+        return $this->errors;
+    }
 }

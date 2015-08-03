@@ -102,7 +102,19 @@ swp_updater:
 jms_serializer:
     metadata:
         auto_detection: true
-        directories:
-            swp-updater:
-                namespace_prefix: "SWP\\UpdaterBundle\\Model"
-                path: "@SWPUpdaterBundle/Resources/config/serializer"
+
+monolog:
+    channels: ["updater"]
+    handlers:
+        main:
+            type:  rotating_file
+            path:  %kernel.logs_dir%/%kernel.environment%.log
+            level: debug
+            # max number of log files to keep
+            # defaults to zero, which means infinite files
+            max_files: 10
+        updater:
+            type:  rotating_file
+            path:  %kernel.logs_dir%/updater_%kernel.environment%.log
+            level: error
+            max_files: 10
