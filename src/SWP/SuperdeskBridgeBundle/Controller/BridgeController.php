@@ -18,9 +18,9 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
-use Superdesk\ContentApiSdk\Bridge\Bridge;
+use Superdesk\ContentApiSdk\ContentApiSdk;
 use Superdesk\ContentApiSdk\Client\Client;
-use Superdesk\ContentApiSdk\Exception\BridgeException;
+use Superdesk\ContentApiSdk\Exception\ContentApiException;
 
 /**
  * @Route("/bridge")
@@ -44,18 +44,16 @@ class BridgeController extends Controller
     {
         $data = array();
         $bridgeConfig = array(
-            'protocol' => $this->container->getParameter('swp_superdesk_bridge.protocol'),
-            'host' => $this->container->getParameter('swp_superdesk_bridge.host'),
-            'port' => $this->container->getParameter('swp_superdesk_bridge.port'),
+            'base_uri' => $this->container->getParameter('swp_superdesk_bridge.base_uri'),
             'options' => $this->container->getParameter('swp_superdesk_bridge.options'),
         );
 
-        $bridge = new Bridge(new Client(), $bridgeConfig);
+        $bridge = new ContentApiSdk(new Client($bridgeConfig));
         $parameters = $request->query->all();
         $endpointPath = sprintf('/%s', $endpoint);
 
         if (!in_array($endpointPath, $bridge->getAvailableEndpoints())) {
-            throw new BridgeException(sprintf('Endpoint %s not supported.', $endpoint));
+            throw new ContentApiException(sprintf('Endpoint %s not supported.', $endpoint));
         }
 
         if ($endpointPath === $bridge::SUPERDESK_ENDPOINT_ITEMS) {

@@ -34,14 +34,8 @@ class Configuration implements ConfigurationInterface
 
         $rootNode
             ->children()
-                ->scalarNode('protocol')
-                    ->defaultValue('http')
-                ->end()
-                ->scalarNode('host')
-                    ->defaultValue('localhost')
-                ->end()
-                ->integerNode('port')
-                    ->defaultValue(5050)
+                ->scalarNode('base_uri')
+                    ->defaultValue('http://localhost:5050')
                 ->end()
                 ->variableNode('options')->end()
             ->end()
