@@ -1,7 +1,7 @@
 <?php
 
 /**
- * This file is part of the Superdesk Web Publisher Updater Bundle.
+ * This file is part of the Superdesk Web Publisher WebRenderer Bundle.
  *
  * Copyright 2015 Sourcefabric z.u. and contributors.
  *
@@ -11,8 +11,9 @@
  * @copyright 2015 Sourcefabric z.ú.
  * @license http://www.superdesk.org/license
  */
+namespace SWP\WebRendererBundle\Version;
 
-namespace SWP\UpdaterBundle\Version;
+use SWP\UpdaterBundle\Version\VersionInterface;
 
 /**
  * Application version class.
@@ -24,12 +25,10 @@ final class Version implements VersionInterface
      *
      * @var string
      */
-    private $version = '0.1.0';
+    private $version = '0.0.1';
 
     /**
-     * Gets the value of version.
-     *
-     * @return mixed
+     * {@inheritdoc}
      */
     public function getVersion()
     {
@@ -37,11 +36,7 @@ final class Version implements VersionInterface
     }
 
     /**
-     * Sets the value of version.
-     *
-     * @param mixed $version the version
-     *
-     * @return self
+     * {@inheritdoc}
      */
     public function setVersion($version)
     {

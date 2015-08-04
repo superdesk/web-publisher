@@ -11,7 +11,6 @@
  * @copyright 2015 Sourcefabric z.ú.
  * @license http://www.superdesk.org/license
  */
-
 namespace SWP\UpdaterBundle\DependencyInjection;
 
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -35,9 +34,21 @@ class SWPUpdaterExtension extends Extension
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.yml');
 
+        $clientConfig = array();
         if (!empty($config['client'])) {
-            $container->setParameter($this->getAlias().'.client.base_uri', $config['client']);
+            foreach (array('base_uri') as $key) {
+                $clientConfig[$key] = $config['client'][$key];
+            }
+
+            $container->setParameter($this->getAlias().'.client', $clientConfig);
         }
+
+        $options = array();
+        if ($container->hasParameter($this->getAlias().'.client.options')) {
+            $options = $container->getParameter($this->getAlias().'.client.options', array());
+        }
+
+        $container->setParameter($this->getAlias().'.client.options', $options);
 
         if (!empty($config['version_class'])) {
             $container->setParameter($this->getAlias().'.version_class', $config['version_class']);

@@ -94,9 +94,9 @@ abstract class AbstractManager implements ManagerInterface
     }
 
     /**
-     * Gets the logger instance.
+     * Has the logger instance.
      *
-     * @return LoggerInterface Logger
+     * @return bool
      */
     protected function hasLogger()
     {

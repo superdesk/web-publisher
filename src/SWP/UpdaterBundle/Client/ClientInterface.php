@@ -11,7 +11,6 @@
  * @copyright 2015 Sourcefabric z.ú.
  * @license http://www.superdesk.org/license
  */
-
 namespace SWP\UpdaterBundle\Client;
 
 /**
@@ -23,10 +22,11 @@ interface ClientInterface
      * Makes an API call to an external server
      * to get the data from.
      *
-     * @param string $endpoint API endpoint to call
-     * @param array  $options  Array of parameters
+     * @param string $endpoint  API endpoint to call
+     * @param array  $arguments An array of arguments
+     * @param arrat  $options   An array of extra parameters
      *
      * @return array Response from the server
      */
-    public function call($endpoint = '/', array $options = array());
+    public function call($endpoint = '/', array $arguments = array(), array $options = array());
 }

@@ -11,7 +11,6 @@
  * @copyright 2015 Sourcefabric z.ú.
  * @license http://www.superdesk.org/license
  */
-
 namespace SWP\UpdaterBundle\DependencyInjection;
 
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
@@ -48,9 +47,11 @@ class Configuration implements ConfigurationInterface
                     ->defaultValue('default')
                 ->end()
                 ->arrayNode('client')
+                    ->addDefaultsIfNotSet()
                     ->children()
                         ->scalarNode('base_uri')
                             ->cannotBeEmpty()
+                            ->isRequired()
                         ->end()
                     ->end()
                 ->end()

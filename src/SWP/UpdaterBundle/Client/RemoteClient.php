@@ -11,7 +11,6 @@
  * @copyright 2015 Sourcefabric z.ú.
  * @license http://www.superdesk.org/license
  */
-
 namespace SWP\UpdaterBundle\Client;
 
 use GuzzleHttp\Client as BaseClient;
@@ -24,34 +23,51 @@ use Symfony\Component\HttpKernel\Exception\ServiceUnavailableHttpException;
  */
 class RemoteClient extends BaseClient implements ClientInterface
 {
+    private $options = array();
     private $baseUri;
 
     /**
      * {@inheritdoc}
      */
-    public function __construct(array $config = array())
+    public function __construct(array $config = array(), array $options = array())
     {
         parent::__construct($config);
-        $this->baseUri = $config['base_uri'];
+        $this->options = $options;
+        $this->baseUri = rtrim($config['base_uri'], '/');
     }
 
     /**
      * {@inheritdoc}
      */
-    public function call($endpoint = '/', array $options = array())
+    public function call($endpoint = '/', array $arguments = array(), array $options = array())
     {
         try {
-            $response = $this->get($endpoint, $options);
+            $response = $this->get(
+                $endpoint,
+                $this->process($arguments, $options)
+            );
         } catch (ConnectException $e) {
             throw new ServiceUnavailableHttpException(
                 null,
-                'Could not resolve host: '.$this->baseUri,
+                'Could not resolve host: '.$this->config['base_uri'],
                 $e,
                 $e->getCode()
             );
         }
 
         return $this->decode($response);
+    }
+
+    private function process($arguments, $options)
+    {
+        if (!empty($options)) {
+            $this->options = array_merge($this->options, $options);
+        }
+
+        // add query parameters
+        $this->options['query'] = $arguments;
+
+        return $this->options;
     }
 
     private function decode($response)

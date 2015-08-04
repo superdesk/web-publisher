@@ -11,7 +11,6 @@
  * @copyright 2015 Sourcefabric z.ú.
  * @license http://www.superdesk.org/license
  */
-
 namespace SWP\UpdaterBundle\Manager;
 
 use SWP\UpdaterBundle\Model\UpdatePackage;
@@ -25,7 +24,7 @@ class UpdateManager extends AbstractManager
 {
     const UPDATES_ENDPOINT = '/check.json';
     const CORE_ENDPOINT = '/core.json';
-    const LATEST_VERSION_ENDPOINT = '/check2.json';
+    const LATEST_VERSION_ENDPOINT = '/latest_version.json';
 
     const RESOURCE_CORE = 'core';
 
