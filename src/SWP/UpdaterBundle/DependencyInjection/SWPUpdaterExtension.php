@@ -45,7 +45,7 @@ class SWPUpdaterExtension extends Extension
 
         $options = array();
         if ($container->hasParameter($this->getAlias().'.client.options')) {
-            $options = $container->getParameter($this->getAlias().'.client.options', array());
+            $options = $container->getParameter($this->getAlias().'.client.options');
         }
 
         $container->setParameter($this->getAlias().'.client.options', $options);

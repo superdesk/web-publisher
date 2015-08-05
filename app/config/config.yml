@@ -7,7 +7,6 @@ imports:
 # http://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
     locale: en
-    swp_updater.version.class: SWP\UpdaterBundle\Version\Version
 
 framework:
     #esi:             ~
@@ -96,19 +95,5 @@ sensio_framework_extra:
 
 swp_updater:
     version_class: %swp_updater.version.class%
-    monolog_channel: true
     client:
-        base_uri: http://rafal.sourcefabric.net #https://updates.sourcefabric.org
-
-jms_serializer:
-    metadata:
-        auto_detection: true
-
-monolog:
-    channels: ["updater"]
-    handlers:
-        updater:
-            type:  rotating_file
-            path:  %kernel.logs_dir%/updater_%kernel.environment%.log
-            level: info
-            max_files: 10
+        base_uri: http://updates.sourcefabric.org

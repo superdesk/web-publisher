@@ -33,7 +33,7 @@ class RemoteClient extends BaseClient implements ClientInterface
     {
         parent::__construct($config);
         $this->options = $options;
-        $this->baseUri = rtrim($config['base_uri'], '/');
+        $this->baseUri = $config['base_uri'];
     }
 
     /**
@@ -49,7 +49,7 @@ class RemoteClient extends BaseClient implements ClientInterface
         } catch (ConnectException $e) {
             throw new ServiceUnavailableHttpException(
                 null,
-                'Could not resolve host: '.$this->config['base_uri'],
+                'Could not resolve host: '.$this->baseUri,
                 $e,
                 $e->getCode()
             );

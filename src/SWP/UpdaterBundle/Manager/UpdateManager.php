@@ -178,6 +178,7 @@ class UpdateManager extends AbstractManager
         foreach ($sortedVersions as $update) {
             $packageName = $update->getVersion().'.zip';
             $packagePath = $this->tempDir.'/'.$packageName;
+            $this->addLogInfo('Started updating application\'s core...');
             if (!file_exists($packagePath)) {
                 throw new NotFoundHttpException(sprintf(
                     'Update packge %s could not be found at %s',
@@ -185,8 +186,6 @@ class UpdateManager extends AbstractManager
                     $this->tempDir
                 ));
             }
-
-            $this->addLogInfo('Started updating application\'s core...');
 
             $result = Updater::runUpdateCommand(array(
                 'target' => $this->targetDir,
