@@ -18,7 +18,9 @@
         "ahilles107/updater": "1.0.x-dev",
         "jms/serializer-bundle": "^1.0",
         "vierbergenlars/php-semver": "^3.0",
-        "guzzlehttp/guzzle": "^6.0@dev"
+        "guzzlehttp/guzzle": "^6.0",
+        "nelmio/api-doc-bundle": "@stable",
+        "willdurand/hateoas-bundle": "^1.0"
     },
     "require-dev": {
         "phpunit/phpunit": "~4.5@stable",
