@@ -12,7 +12,7 @@
  * @license http://www.superdesk.org/license
  */
 
-namespace SWP\SuperdeskBridgeBundle\DependencyInjection;
+namespace SWP\BridgeBundle\DependencyInjection;
 
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Config\FileLocator;

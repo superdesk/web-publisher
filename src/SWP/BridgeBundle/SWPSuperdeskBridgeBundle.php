@@ -12,10 +12,10 @@
  * @license http://www.superdesk.org/license
  */
 
-namespace SWP\SuperdeskBridgeBundle;
+namespace SWP\BridgeBundle;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
-class SWPSuperdeskBridgeBundle extends Bundle
+class SWPBridgeBundle extends Bundle
 {
 }

@@ -12,7 +12,7 @@
  * @license http://www.superdesk.org/license
  */
 
-namespace SWP\SuperdeskBridgeBundle\Controller;
+namespace SWP\BridgeBundle\Controller;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -74,6 +74,6 @@ class BridgeController extends Controller
             }
         }
 
-        return $this->render('SWPSuperdeskBridgeBundle:Default:data_dump.html.twig', array('data' => $data));
+        return $this->render('SWPBridgeBundle:Default:data_dump.html.twig', array('data' => $data));
     }
 }
