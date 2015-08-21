@@ -1,4 +1,5 @@
-<?php 
+<?php
+
 /**
  * This file is part of the Superdesk Web Publisher Template Engine Bundle
  *
