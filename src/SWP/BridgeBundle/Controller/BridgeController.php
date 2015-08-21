@@ -44,8 +44,8 @@ class BridgeController extends Controller
     {
         $data = array();
         $bridgeConfig = array(
-            'base_uri' => $this->container->getParameter('swp_superdesk_bridge.base_uri'),
-            'options' => $this->container->getParameter('swp_superdesk_bridge.options'),
+            'base_uri' => $this->container->getParameter('swp_bridge.base_uri'),
+            'options' => $this->container->getParameter('swp_bridge.options'),
         );
 
         $bridge = new ContentApiSdk(new Client($bridgeConfig));

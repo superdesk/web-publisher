@@ -6,14 +6,14 @@ Configuration options
 
 Option | Documentation
 --- | ---
-swp_superdesk_bridge.base_uri | Fill in the address for your content api instance 
+swp_bridge.base_uri | Fill in the address for your content api instance 
 
 
 Example Configuration
 ------
 
 ```yml
-    swp_superdesk_bridge.base_uri: 'http://localhost:5050' 
+    swp_bridge.base_uri: 'http://localhost:5050' 
 ```
 
 Via the options parameter its possible to set default options / headers for 
@@ -29,8 +29,8 @@ hostname resolving, practical for you dev environment.
 E.g.
 
 ```yml
-    swp_superdesk_bridge.base_uri: http://publicapi:5050
-    swp_superdesk_bridge.options:
+    swp_bridge.base_uri: http://publicapi:5050
+    swp_bridge.options:
             curl:
                 10203: # CURLOPT_RESOLVE
                  - "publicapi:5050:localhost"  # This will resolve the host publicapi to your localhost 
