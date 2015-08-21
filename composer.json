@@ -21,6 +21,8 @@
         "sensio/framework-extra-bundle": "~3.0,>=3.0.2",
         "incenteev/composer-parameter-handler": "~2.0",
         "friendsofsymfony/http-cache-bundle": "~1.0",
+        "guzzlehttp/guzzle": "6.0.*",
+        "superdesk/contentapi-sdk-php": "dev-master",
         "liip/theme-bundle": "1.3.0",
         "emanueleminotto/twig-cache-bundle": "^0.2.1",
         "doctrine/inflector": "^1.0",
