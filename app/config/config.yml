@@ -25,7 +25,7 @@ framework:
     trusted_proxies: ~
     session:
         handler_id:  ~
-        name: SUPERDESKWEBRENDERER
+        name: SUPERDESKWEBPUBLISHER
     fragments:       ~
     http_method_override: true
 
@@ -50,7 +50,7 @@ twig_cache:
 # Doctrine Configuration
 doctrine:
     dbal:
-        driver:   pdo_mysql
+        driver:   pdo_pgsql
         host:     "%database_host%"
         port:     "%database_port%"
         dbname:   "%database_name%"
@@ -71,3 +71,27 @@ swiftmailer:
     spool:     { type: memory }
 
 fos_http_cache: ~
+
+doctrine_phpcr:
+    session:
+        backend:
+            type: doctrinedbal
+            # requires DoctrineCacheBundle
+            # caches:
+            #     meta: doctrine_cache.providers.phpcr_meta
+            #     nodes: doctrine_cache.providers.phpcr_nodes
+            logging: true
+            profiling: true
+        workspace: default
+        username: admin
+        password: admin
+
+oneup_flysystem:
+    adapters:
+        swp_local:
+            local:
+                directory: %kernel.root_dir%/Resources/uploads
+
+    filesystems:
+        my_filesystem:
+            adapter: swp_local
