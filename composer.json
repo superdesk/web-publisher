@@ -28,7 +28,8 @@
         "jackalope/jackalope-doctrine-dbal": "1.2.*",
         "doctrine/phpcr-odm": "1.2.*",
         "doctrine/phpcr-bundle": "1.2.*",
-        "oneup/flysystem-bundle": "^1.1"
+        "oneup/flysystem-bundle": "^1.1",
+        "halleck45/phpmetrics-collector-bundle": "v0.0.1"
     },
     "require-dev": {
         "sensio/generator-bundle": "~2.3",
