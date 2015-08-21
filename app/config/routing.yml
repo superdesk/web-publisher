@@ -1,5 +1,5 @@
 swp_superdesk_bridge:
-    resource: "@SWPSuperdeskBridgeBundle/Resources/config/routing.yml"
+    resource: "@SWPBridgeBundle/Resources/config/routing.yml"
     prefix:   /
 
 app:
