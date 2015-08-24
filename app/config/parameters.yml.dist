@@ -17,3 +17,4 @@ parameters:
 
     # A secret key that's used to generate certain security-related tokens
     secret:            SuperSecretTokenPleaseChangeIt
+    swp_updater.version.class: "SWP\WebRendererBundle\Version\Version"
