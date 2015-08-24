@@ -1,0 +1,14 @@
+services:
+    swp_updater.client:
+        class: SWP\UpdaterBundle\Client\RemoteClient
+        arguments: ["%swp_updater.client%", "%swp_updater.client.options%"]
+
+    swp_updater.version:
+        class: %swp_updater.version_class%
+
+    swp_updater.manager:
+        class: SWP\UpdaterBundle\Manager\UpdateManager
+        arguments:
+            - "@swp_updater.client"
+            - "@swp_updater.version"
+            - {temp_dir: "%swp_updater.temp_dir%", target_dir: "%swp_updater.target_dir%"}

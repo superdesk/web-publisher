@@ -13,15 +13,22 @@ class AppKernel extends Kernel
             new Symfony\Bundle\TwigBundle\TwigBundle(),
             new Symfony\Bundle\MonologBundle\MonologBundle(),
             new Symfony\Bundle\SwiftmailerBundle\SwiftmailerBundle(),
-            new Doctrine\Bundle\DoctrineBundle\DoctrineBundle(),
-            new FOS\HttpCacheBundle\FOSHttpCacheBundle(),
             new Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle(),
+
+            new Doctrine\Bundle\DoctrineBundle\DoctrineBundle(),
+            new Doctrine\Bundle\PHPCRBundle\DoctrinePHPCRBundle(),
+            new FOS\HttpCacheBundle\FOSHttpCacheBundle(),
+            
             new Liip\ThemeBundle\LiipThemeBundle(),
             new EmanueleMinotto\TwigCacheBundle\TwigCacheBundle(),
-            new Doctrine\Bundle\PHPCRBundle\DoctrinePHPCRBundle(),
-            new AppBundle\AppBundle(),
-            new SWP\TemplateEngineBundle\SWPTemplateEngineBundle(),
+            new FOS\RestBundle\FOSRestBundle(),
+            new JMS\SerializerBundle\JMSSerializerBundle(),
+            new Nelmio\ApiDocBundle\NelmioApiDocBundle(),
             new Oneup\FlysystemBundle\OneupFlysystemBundle(),
+
+            new SWP\TemplateEngineBundle\SWPTemplateEngineBundle(),
+            new SWP\WebRendererBundle\SWPWebRendererBundle(),
+            new SWP\UpdaterBundle\SWPUpdaterBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {
