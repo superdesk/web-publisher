@@ -32,6 +32,7 @@ framework:
 # Twig Configuration
 twig:
     debug:            "%kernel.debug%"
+    exception_controller: 'FOS\RestBundle\Controller\ExceptionController::showAction'
     strict_variables: false
 
 liip_theme:
@@ -95,3 +96,28 @@ oneup_flysystem:
     filesystems:
         my_filesystem:
             adapter: swp_local
+
+fos_rest:
+    routing_loader:
+        default_format: json
+    view:
+        formats:
+            json: true
+        view_response_listener: 'force'
+    format_listener:
+        rules:
+            - { path: '^/api', priorities: ['json'], fallback_format: json, prefer_extension: true }
+            - { path: '^/', stop: true }
+    exception:
+        codes:
+            'Symfony\Component\Routing\Exception\ResourceNotFoundException': 404
+        messages:
+            'Symfony\Component\Routing\Exception\ResourceNotFoundException': true
+
+sensio_framework_extra:
+    view:    { annotations: false }
+
+swp_updater:
+    version_class: %swp_updater.version.class%
+    client:
+        base_uri: http://updates.sourcefabric.org
