@@ -10,13 +10,13 @@ class DefaultControllerTest extends WebTestCase
     public static function setUpBeforeClass()
     {
         $filesystem = new Filesystem();
-        $filesystem->mirror(__DIR__.'/../Fixtures/theme_1', __DIR__.'/../../../../app/Resources/themes/theme_test');
+        $filesystem->mirror(__DIR__.'/../Fixtures/theme_1', __DIR__.'/../../../../../app/Resources/themes/theme_test');
     }
 
     public static function tearDownAfterClass()
     {
         $filesystem = new Filesystem();
-        $filesystem->remove(__DIR__.'/../../../../app/Resources/themes/theme_test');
+        $filesystem->remove(__DIR__.'/../../../../../app/Resources/themes/theme_test');
     }
 
     public function testIndexOnPhone()
@@ -70,7 +70,7 @@ class DefaultControllerTest extends WebTestCase
     public function testIndexWithoutDeviceTemplate()
     {
         $filesystem = new Filesystem();
-        $filesystem->remove(__DIR__.'/../../../../app/Resources/themes/theme_test/desktop/index.html.twig');
+        $filesystem->remove(__DIR__.'/../../../../../app/Resources/themes/theme_test/desktop/index.html.twig');
 
         $client = static::createClient();
 
