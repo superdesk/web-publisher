@@ -29,12 +29,13 @@
         "jackalope/jackalope-doctrine-dbal": "1.2.*",
         "oneup/flysystem-bundle": "^1.1",
         "halleck45/phpmetrics-collector-bundle": "v0.0.1",
-        "swp/templates-system": "1.1.x-dev",
+        "swp/templates-system": "^1.0@dev",
         "swp/updater-bundle": "^1.0@dev"
     },
     "require-dev": {
         "sensio/generator-bundle": "~2.3",
-        "phpspec/phpspec": "~2.0"
+        "phpspec/phpspec": "~2.0",
+        "phpunit/phpunit": "4.6.*"
     },
     "scripts": {
         "post-install-cmd": [
