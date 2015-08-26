@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "70f2145dd176a90eb692f934b5a8c156",
+    "hash": "d78d589725b27d4939fa220c597c022f",
     "packages": [
         {
             "name": "ahilles107/updater",
@@ -1423,12 +1423,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/guzzle/guzzle.git",
-                "reference": "d687700d601f8b5f19b99ffc1c0f6af835a3c7b7"
+                "reference": "36e021d6f26185f0a39ed8de509bb6b8f0283d45"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/guzzle/guzzle/zipball/d687700d601f8b5f19b99ffc1c0f6af835a3c7b7",
-                "reference": "d687700d601f8b5f19b99ffc1c0f6af835a3c7b7",
+                "url": "https://api.github.com/repos/guzzle/guzzle/zipball/36e021d6f26185f0a39ed8de509bb6b8f0283d45",
+                "reference": "36e021d6f26185f0a39ed8de509bb6b8f0283d45",
                 "shasum": ""
             },
             "require": {
@@ -1477,7 +1477,7 @@
                 "rest",
                 "web service"
             ],
-            "time": "2015-08-15 20:48:15"
+            "time": "2015-08-24 17:09:43"
         },
         {
             "name": "guzzlehttp/promises",
@@ -1703,12 +1703,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/hoaproject/Compiler.git",
-                "reference": "287851eef84b064f6213e9197b07f0e573c5da1a"
+                "reference": "f72e659616041dcfe22dcab1b5fd84795883e7b6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/hoaproject/Compiler/zipball/287851eef84b064f6213e9197b07f0e573c5da1a",
-                "reference": "287851eef84b064f6213e9197b07f0e573c5da1a",
+                "url": "https://api.github.com/repos/hoaproject/Compiler/zipball/f72e659616041dcfe22dcab1b5fd84795883e7b6",
+                "reference": "f72e659616041dcfe22dcab1b5fd84795883e7b6",
                 "shasum": ""
             },
             "require": {
@@ -1775,7 +1775,7 @@
                 "trace",
                 "uniform"
             ],
-            "time": "2015-08-03 09:22:38"
+            "time": "2015-08-25 06:04:36"
         },
         {
             "name": "hoa/core",
@@ -1966,12 +1966,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/hoaproject/Math.git",
-                "reference": "337876afd4d9f97cf8b05ad6b6b154787d89feec"
+                "reference": "934e10201999572872375df56bc91d5b5191b1e0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/hoaproject/Math/zipball/337876afd4d9f97cf8b05ad6b6b154787d89feec",
-                "reference": "337876afd4d9f97cf8b05ad6b6b154787d89feec",
+                "url": "https://api.github.com/repos/hoaproject/Math/zipball/934e10201999572872375df56bc91d5b5191b1e0",
+                "reference": "934e10201999572872375df56bc91d5b5191b1e0",
                 "shasum": ""
             },
             "require": {
@@ -2020,7 +2020,7 @@
                 "sampler",
                 "set"
             ],
-            "time": "2015-08-03 09:38:11"
+            "time": "2015-08-25 05:55:04"
         },
         {
             "name": "hoa/regex",
@@ -2616,12 +2616,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/schmittjoh/serializer.git",
-                "reference": "fea70c4598e00c933db65aa600b2d2fc7e97c570"
+                "reference": "7b3d6c2ba99566e41dc3abe2bbcd9fb41e365042"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/schmittjoh/serializer/zipball/fea70c4598e00c933db65aa600b2d2fc7e97c570",
-                "reference": "fea70c4598e00c933db65aa600b2d2fc7e97c570",
+                "url": "https://api.github.com/repos/schmittjoh/serializer/zipball/7b3d6c2ba99566e41dc3abe2bbcd9fb41e365042",
+                "reference": "7b3d6c2ba99566e41dc3abe2bbcd9fb41e365042",
                 "shasum": ""
             },
             "require": {
@@ -2631,6 +2631,9 @@
                 "jms/parser-lib": "1.*",
                 "php": ">=5.4.0",
                 "phpcollection/phpcollection": "~0.1"
+            },
+            "conflict": {
+                "twig/twig": "<1.12"
             },
             "require-dev": {
                 "doctrine/orm": "~2.1",
@@ -2643,7 +2646,7 @@
                 "symfony/translation": "~2.0",
                 "symfony/validator": "~2.0",
                 "symfony/yaml": "2.*",
-                "twig/twig": ">=1.8,<2.0-dev"
+                "twig/twig": "~1.12|~2.0"
             },
             "suggest": {
                 "symfony/yaml": "Required if you'd like to serialize data to YAML format."
@@ -2678,7 +2681,7 @@
                 "serialization",
                 "xml"
             ],
-            "time": "2015-07-30 15:41:24"
+            "time": "2015-08-25 16:16:52"
         },
         {
             "name": "jms/serializer-bundle",
@@ -3409,20 +3412,23 @@
         },
         {
             "name": "phpoption/phpoption",
-            "version": "1.4.0",
+            "version": "1.5.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/schmittjoh/php-option.git",
-                "reference": "5d099bcf0393908bf4ad69cc47dafb785d51f7f5"
+                "reference": "94e644f7d2051a5f0fcf77d81605f152eecff0ed"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/schmittjoh/php-option/zipball/5d099bcf0393908bf4ad69cc47dafb785d51f7f5",
-                "reference": "5d099bcf0393908bf4ad69cc47dafb785d51f7f5",
+                "url": "https://api.github.com/repos/schmittjoh/php-option/zipball/94e644f7d2051a5f0fcf77d81605f152eecff0ed",
+                "reference": "94e644f7d2051a5f0fcf77d81605f152eecff0ed",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.3.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "4.7.*"
             },
             "type": "library",
             "extra": {
@@ -3441,10 +3447,8 @@
             ],
             "authors": [
                 {
-                    "name": "Johannes Schmitt",
-                    "email": "schmittjoh@gmail.com",
-                    "homepage": "https://github.com/schmittjoh",
-                    "role": "Developer of wrapped JMSSerializerBundle"
+                    "name": "Johannes M. Schmitt",
+                    "email": "schmittjoh@gmail.com"
                 }
             ],
             "description": "Option Type for PHP",
@@ -3454,7 +3458,7 @@
                 "php",
                 "type"
             ],
-            "time": "2014-01-09 22:37:17"
+            "time": "2015-07-25 16:39:46"
         },
         {
             "name": "psr/http-message",
@@ -3757,6 +3761,57 @@
             "time": "2015-08-11 12:11:25"
         },
         {
+            "name": "superdesk/contentapi-sdk-php",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/superdesk/contentapi-sdk-php.git",
+                "reference": "e39845b7448f74bbd4384ca780208ff0148e727d"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/superdesk/contentapi-sdk-php/zipball/e39845b7448f74bbd4384ca780208ff0148e727d",
+                "reference": "e39845b7448f74bbd4384ca780208ff0148e727d",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3"
+            },
+            "require-dev": {
+                "phpspec/phpspec": "~2.0"
+            },
+            "type": "project",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-3.0"
+            ],
+            "authors": [
+                {
+                    "name": "Mischa Gorinskat",
+                    "email": "mischa.gorinskat@sourcefabric.org"
+                }
+            ],
+            "description": "Superdesk Content API SDK written in PHP",
+            "keywords": [
+                "Content API SDK",
+                "Superdesk",
+                "Superdesk Content API",
+                "Superdesk SDK",
+                "Superdesk Web Publisher"
+            ],
+            "time": "2015-08-26 12:45:43"
+        },
+        {
             "name": "swiftmailer/swiftmailer",
             "version": "5.x-dev",
             "source": {
@@ -3808,6 +3863,58 @@
                 "mailer"
             ],
             "time": "2015-07-15 23:24:06"
+        },
+        {
+            "name": "swp/bridge-bundle",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/SuperdeskWebPublisher/SWPBridgeBundle.git",
+                "reference": "af210327e736ae68d9603f6bf0bb98a728166d12"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/SuperdeskWebPublisher/SWPBridgeBundle/zipball/af210327e736ae68d9603f6bf0bb98a728166d12",
+                "reference": "af210327e736ae68d9603f6bf0bb98a728166d12",
+                "shasum": ""
+            },
+            "require": {
+                "guzzlehttp/guzzle": "^6.0",
+                "php": ">=5.5",
+                "superdesk/contentapi-sdk-php": "1.0.*"
+            },
+            "require-dev": {
+                "doctrine/doctrine-bundle": "~1.4",
+                "phpspec/phpspec": "~2.0",
+                "phpunit/php-code-coverage": "@stable",
+                "phpunit/phpunit": "~4.5@stable",
+                "sensio/framework-extra-bundle": "~3.0,>=3.0.2",
+                "symfony/browser-kit": "2.8.x-dev",
+                "symfony/framework-bundle": "2.8.x-dev"
+            },
+            "type": "symfony-bundle",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "SWP\\BridgeBundle\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-3.0"
+            ],
+            "authors": [
+                {
+                    "name": "Mischa Gorinskat",
+                    "email": "mischa.gorinskat@sourcefabric.org"
+                }
+            ],
+            "description": "Bundle which acts as a bridge between the Superdesk Web publisher and the Superdesk Content API.",
+            "time": "2015-08-26 12:58:09"
         },
         {
             "name": "swp/templates-system",
@@ -3985,6 +4092,64 @@
             "time": "2015-08-01 17:21:06"
         },
         {
+            "name": "symfony/security-acl",
+            "version": "2.8.x-dev",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/security-acl.git",
+                "reference": "ec72d7849cd334b161c60ceb6e8f6fa05a507516"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/security-acl/zipball/ec72d7849cd334b161c60ceb6e8f6fa05a507516",
+                "reference": "ec72d7849cd334b161c60ceb6e8f6fa05a507516",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.9",
+                "symfony/security-core": "~2.4|~3.0.0"
+            },
+            "require-dev": {
+                "doctrine/common": "~2.2",
+                "doctrine/dbal": "~2.2",
+                "psr/log": "~1.0",
+                "symfony/phpunit-bridge": "~2.7|~3.0.0"
+            },
+            "suggest": {
+                "doctrine/dbal": "For using the built-in ACL implementation",
+                "symfony/class-loader": "For using the ACL generateSql script",
+                "symfony/finder": "For using the ACL generateSql script"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.8-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Symfony\\Component\\Security\\Acl\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Fabien Potencier",
+                    "email": "fabien@symfony.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
+                }
+            ],
+            "description": "Symfony Security Component - ACL (Access Control List)",
+            "homepage": "https://symfony.com",
+            "time": "2015-07-22 11:24:41"
+        },
+        {
             "name": "symfony/swiftmailer-bundle",
             "version": "dev-master",
             "source": {
@@ -4047,18 +4212,19 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/symfony.git",
-                "reference": "e7772723bd406168c0bcbe0c6f089f7b3f20380b"
+                "reference": "f3bfc1920a129d9f2e05e0bab25fd7395ac247ac"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/symfony/zipball/e7772723bd406168c0bcbe0c6f089f7b3f20380b",
-                "reference": "e7772723bd406168c0bcbe0c6f089f7b3f20380b",
+                "url": "https://api.github.com/repos/symfony/symfony/zipball/f3bfc1920a129d9f2e05e0bab25fd7395ac247ac",
+                "reference": "f3bfc1920a129d9f2e05e0bab25fd7395ac247ac",
                 "shasum": ""
             },
             "require": {
                 "doctrine/common": "~2.3",
                 "php": ">=5.3.9",
                 "psr/log": "~1.0",
+                "symfony/security-acl": "~2.8",
                 "twig/twig": "~1.20|~2.0"
             },
             "replace": {
@@ -4115,8 +4281,7 @@
                 "ircmaxell/password-compat": "~1.0",
                 "monolog/monolog": "~1.11",
                 "ocramius/proxy-manager": "~0.4|~1.0",
-                "symfony/phpunit-bridge": "self.version",
-                "symfony/security-acl": "~2.8"
+                "symfony/phpunit-bridge": "self.version"
             },
             "type": "library",
             "extra": {
@@ -4161,7 +4326,7 @@
             "keywords": [
                 "framework"
             ],
-            "time": "2015-08-24 08:59:28"
+            "time": "2015-08-26 08:49:20"
         },
         {
             "name": "twig/extensions",
@@ -4221,12 +4386,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/twigphp/Twig.git",
-                "reference": "71b4dc2572eb822552e394a254a7bdf16be15448"
+                "reference": "91c9f50716c4bd708fae41fd740def979a338b73"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/twigphp/Twig/zipball/71b4dc2572eb822552e394a254a7bdf16be15448",
-                "reference": "71b4dc2572eb822552e394a254a7bdf16be15448",
+                "url": "https://api.github.com/repos/twigphp/Twig/zipball/91c9f50716c4bd708fae41fd740def979a338b73",
+                "reference": "91c9f50716c4bd708fae41fd740def979a338b73",
                 "shasum": ""
             },
             "require": {
@@ -4274,7 +4439,7 @@
             "keywords": [
                 "templating"
             ],
-            "time": "2015-08-24 09:58:37"
+            "time": "2015-08-26 09:02:09"
         },
         {
             "name": "vierbergenlars/php-semver",
@@ -5550,7 +5715,8 @@
     "stability-flags": {
         "symfony/symfony": 20,
         "swp/templates-system": 20,
-        "swp/updater-bundle": 20
+        "swp/updater-bundle": 20,
+        "swp/bridge-bundle": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,
