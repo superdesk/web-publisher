@@ -121,3 +121,6 @@ swp_updater:
     version_class: %swp_updater.version.class%
     client:
         base_uri: http://updates.sourcefabric.org
+
+swp_bridge:
+    base_uri: 'http://example.com:5050'
