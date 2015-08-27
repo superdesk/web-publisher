@@ -7,9 +7,9 @@ use SWP\WebRendererBundle\Routing\Loader\PagesLoader;
 class PagesLoaderTest extends WebTestCase
 {
     /**
-     * @var \Doctrine\ORM\EntityManager
+     * @var \SWP\WebRendererBundle\Routing\Loader\PagesLoader
      */
-    private $em;
+    private $pagesLoader;
 
     /**
      * {@inheritDoc}
@@ -17,27 +17,18 @@ class PagesLoaderTest extends WebTestCase
     public function setUp()
     {
         self::bootKernel();
-        $this->em = $this->getContainer()->get('doctrine')->getManager();
+        $this->pagesLoader = new PagesLoader($this->getContainer()->get('doctrine'));
     }
 
     public function testPagesLoaderWithoutPages()
     {
         $this->loadFixtures([]);
+        $this->assertCount(0, $this->pagesLoader->load('.'));
 
-        $pagesLoader = new PagesLoader($this->em);
-        $routes = $pagesLoader->load('.');
-        $this->assertCount(0, $routes);
-    }
-
-    public function testPagesLoaderWithPages()
-    {
         $this->loadFixtures([
             'SWP\WebRendererBundle\Tests\Fixtures\ORM\LoadPagesData'
         ]);
-
-        $pagesLoader = new PagesLoader($this->em);
-        $routes = $pagesLoader->load('.');
-        $this->assertCount(1, $routes);
+        $this->assertCount(1, $this->pagesLoader->load('.'));
     }
 
     /**
@@ -46,6 +37,6 @@ class PagesLoaderTest extends WebTestCase
     protected function tearDown()
     {
         parent::tearDown();
-        $this->em->close();
+        $this->getContainer()->get('doctrine')->getManager()->close();
     }
 }

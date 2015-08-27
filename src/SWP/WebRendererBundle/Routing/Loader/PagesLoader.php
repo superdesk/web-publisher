@@ -21,16 +21,16 @@ use Symfony\Component\Config\Loader\Loader;
 
 /**
  * Pages Loader loads routes from a Pages entries.
- * 
+ *
  * You can needt to configure loader in routing.yml file
- * 
+ *
  * pages:
  *     type: pages
  */
 class PagesLoader extends Loader
 {
     /**
-     * 
+     *
      * @var \Doctrine\ORM\EntityManager
      */
     protected $em;
@@ -38,13 +38,13 @@ class PagesLoader extends Loader
     /**
      * Constructor.
      *
-     * @param \Doctrine\ORM\EntityManager $em the Doctrine Entity Manager
+     * @param \Symfony\Bridge\Doctrine\ManagerRegistry$managerRegistry
      */
-    public function __construct(\Doctrine\ORM\EntityManager $em)
+    public function __construct(\Doctrine\Bundle\DoctrineBundle\Registry $managerRegistry)
     {
-        $this->em = $em;
-    }   
-    
+        $this->em = $managerRegistry->getManager();
+    }
+
     /**
      * Loads routes from pages in the database
      *
@@ -63,14 +63,14 @@ class PagesLoader extends Loader
                 'template' => $page->getTemplateName()
             )));
         }
-        
+
         return $collection;
     }
 
     /**
      * Returns true if this class supports the given type (db).
      *
-     * @param mixed  $resource the name of a table with title and slug field 
+     * @param mixed  $resource the name of a table with title and slug field
      * @param string $type     The resource type (db)
      *
      * @return boolean True if this class supports the given type (db), false otherwise

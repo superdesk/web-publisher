@@ -45,7 +45,6 @@ class DefaultControllerTest extends WebTestCase
     {
         $this->loadFixtures([]);
         $client = static::createClient();
-        $filesystem = new Filesystem();
         foreach (self::$devices as $userAgent => $filter) {
             if (!in_array($userAgent, ['no_agent_0', 'no_agent_1'])) {
                 $client->setServerParameters([
@@ -54,6 +53,7 @@ class DefaultControllerTest extends WebTestCase
             }
 
             if ($userAgent === 'no_agent_1') {
+                $filesystem = new Filesystem();
                 $filesystem->remove(__DIR__.'/../../../../../app/Resources/themes/theme_test/desktop/index.html.twig');
             }
 

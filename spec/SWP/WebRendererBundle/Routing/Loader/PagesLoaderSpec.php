@@ -10,12 +10,14 @@ use Symfony\Component\Routing\RouteCollection;
 class PagesLoaderSpec extends ObjectBehavior
 {
     /**
+     * @param \Doctrine\Bundle\DoctrineBundle\Registry $managerRegistry
      * @param \Doctrine\ORM\EntityManager $em
      * @param \Doctrine\ORM\AbstractQuery $query
      */
-    function let($em, $query)
+    function let($managerRegistry, $em, $query)
     {
-        $this->beConstructedWith($em);
+        $this->beConstructedWith($managerRegistry);
+        $managerRegistry->getManager()->willReturn($em);
         $em->createQuery(Argument::any('string'))->willReturn($query);
         $query->execute()->willReturn([]);
     }
