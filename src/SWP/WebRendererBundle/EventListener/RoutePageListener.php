@@ -34,7 +34,8 @@ class RoutePageListener
      * @param Registry $registryManager
      * @param Context  $context
      */
-    public function __construct(Registry $registryManager, Context $context) {
+    public function __construct(Registry $registryManager, Context $context)
+    {
         $this->registryManager = $registryManager;
         $this->context = $context;
     }

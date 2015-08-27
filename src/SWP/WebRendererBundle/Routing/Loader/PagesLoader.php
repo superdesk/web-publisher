@@ -30,7 +30,6 @@ use Symfony\Component\Config\Loader\Loader;
 class PagesLoader extends Loader
 {
     /**
-     *
      * @var \Doctrine\ORM\EntityManager
      */
     protected $em;
@@ -55,8 +54,7 @@ class PagesLoader extends Loader
         $collection = new RouteCollection();
 
         $pages = $this->em->createQuery('SELECT partial p.{id, templateName, slug, name} FROM \SWP\WebRendererBundle\Entity\Page p')->execute();
-        foreach ($pages as $page)
-        {
+        foreach ($pages as $page) {
             $collection->add('swp_page_'.strtolower($page->getName()), new Route($page->getSlug(), array(
                 '_controller' => '\SWP\WebRendererBundle\Controller\DefaultController::indexAction',
                 'page_id' => $page->getId(),

@@ -3922,12 +3922,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/SuperdeskWebPublisher/templates-system.git",
-                "reference": "291a4e95813baa41b04d7cadc6a7bb9fd2af45c3"
+                "reference": "8f552d5cf0e4af722b34d171dd2e6cc8f5298dc6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/SuperdeskWebPublisher/templates-system/zipball/291a4e95813baa41b04d7cadc6a7bb9fd2af45c3",
-                "reference": "291a4e95813baa41b04d7cadc6a7bb9fd2af45c3",
+                "url": "https://api.github.com/repos/SuperdeskWebPublisher/templates-system/zipball/8f552d5cf0e4af722b34d171dd2e6cc8f5298dc6",
+                "reference": "8f552d5cf0e4af722b34d171dd2e6cc8f5298dc6",
                 "shasum": ""
             },
             "require": {
@@ -3969,7 +3969,7 @@
                 "templates",
                 "twig"
             ],
-            "time": "2015-08-24 09:37:17"
+            "time": "2015-08-27 14:03:28"
         },
         {
             "name": "swp/updater-bundle",
@@ -4212,12 +4212,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/symfony.git",
-                "reference": "43531349032a74c9e47bcc551575085d9a28914d"
+                "reference": "6fd401997565ab51466da37ced4b8bcefa817275"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/symfony/zipball/43531349032a74c9e47bcc551575085d9a28914d",
-                "reference": "43531349032a74c9e47bcc551575085d9a28914d",
+                "url": "https://api.github.com/repos/symfony/symfony/zipball/6fd401997565ab51466da37ced4b8bcefa817275",
+                "reference": "6fd401997565ab51466da37ced4b8bcefa817275",
                 "shasum": ""
             },
             "require": {
@@ -4326,7 +4326,7 @@
             "keywords": [
                 "framework"
             ],
-            "time": "2015-08-27 07:19:36"
+            "time": "2015-08-27 13:34:10"
         },
         {
             "name": "twig/extensions",

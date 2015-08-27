@@ -25,15 +25,14 @@ class RoutePageListenerTest extends WebTestCase
 
         $registryManager = $this->getContainer()->get('doctrine');
         $context = $this->getContainer()->get('swp_template_engine_context');
-        $genericEvent =
 
         $kernelRequestListener = new RoutePageListener($registryManager, $context);
-        $getResponseEvent = new GenericEvent(null, [
+        $genericEvent = new GenericEvent(null, [
             'pageId' => 1,
             'route_name' => 'swp_page_about',
         ]);
 
-        $kernelRequestListener->onRoutePage($getResponseEvent);
+        $kernelRequestListener->onRoutePage($genericEvent);
 
         $this->assertInternalType('array', $context->getCurrentPage());
     }
