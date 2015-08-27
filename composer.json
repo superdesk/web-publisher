@@ -1,8 +1,27 @@
 {
     "name": "superdesk/web-renderer",
     "description": "WebRenderer is part of Superdesk WebPublisher - new generation publishing system for journalists and newsrooms.",
-    "license":"GPL-3.0",
     "type": "project",
+    "keywords": ["Superdesk Web Publisher", "Superdesk Web Publisher Bundle", "Superdesk", "Content API SDK BRidge", "Superdesk Content API", "Superdesk Bridge"],
+     "authors": [
+        {
+            "name": "Paweł Mikołajczuk",
+            "email": "mikolajczuk.private@gmail.com"
+        },
+        {
+            "name": "Rafał Muszyński",
+            "email": "rafal.muszynski@sourcefabric.org"
+        },
+        {
+            "name": "Mark Lewis",
+            "email": "mark.lewis@sourcefabric.org"
+        },
+        {
+            "name": "Mischa Gorinskat",
+            "email": "mischa.gorinskat@sourcefabric.org"
+        }
+    ],
+    "license":"GPL-3.0",
     "autoload": {
         "psr-4": {
             "": "src/"
@@ -30,7 +49,8 @@
         "oneup/flysystem-bundle": "^1.1",
         "halleck45/phpmetrics-collector-bundle": "v0.0.1",
         "swp/templates-system": "^1.0@dev",
-        "swp/updater-bundle": "^1.0@dev"
+        "swp/updater-bundle": "^1.0@dev",
+        "swp/bridge-bundle": "^1.0@dev"
     },
     "require-dev": {
         "sensio/generator-bundle": "~2.3",

@@ -8,4 +8,6 @@ swp_webrenderer:
 
 swp_updater:
     resource: "@SWPUpdaterBundle/Resources/config/routing.yml"
-    prefix:   /
+
+swp_bridge:
+    resource: "@SWPBridgeBundle/Resources/config/routing.yml"
