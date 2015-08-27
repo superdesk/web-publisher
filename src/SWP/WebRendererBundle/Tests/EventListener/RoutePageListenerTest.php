@@ -4,7 +4,6 @@ namespace SWP\WebRendererBundle\Tests\EventListener;
 
 use Liip\FunctionalTestBundle\Test\WebTestCase;
 use SWP\WebRendererBundle\EventListener\RoutePageListener;
-use Symfony\Component\HttpKernel\HttpKernelInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
 
 
