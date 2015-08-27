@@ -52,7 +52,7 @@ class RoutePageListener
             ->getArrayResult();
 
         if (count($page)) {
-            $page['route_name'] = $event->getArguments()['route_name'];
+            $page[0]['route_name'] = $event->getArguments()['route_name'];
             $this->context->setCurrentPage($page[0]);
         }
 
