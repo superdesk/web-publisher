@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "70f2145dd176a90eb692f934b5a8c156",
+    "hash": "1c2541bc9382675b554615110afe24fe",
     "packages": [
         {
             "name": "ahilles107/updater",
@@ -644,7 +644,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/inflector/zipball/b0b2feffb47906a03b570777c07044c529d1d124",
+                "url": "https://api.github.com/repos/doctrine/inflector/zipball/63c61ba4f8f20c9a013e0fb5b6c0a8d0002f87a9",
                 "reference": "b0b2feffb47906a03b570777c07044c529d1d124",
                 "shasum": ""
             },
@@ -1427,7 +1427,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/guzzle/guzzle/zipball/d687700d601f8b5f19b99ffc1c0f6af835a3c7b7",
+                "url": "https://api.github.com/repos/guzzle/guzzle/zipball/36e021d6f26185f0a39ed8de509bb6b8f0283d45",
                 "reference": "d687700d601f8b5f19b99ffc1c0f6af835a3c7b7",
                 "shasum": ""
             },
@@ -1707,7 +1707,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/hoaproject/Compiler/zipball/287851eef84b064f6213e9197b07f0e573c5da1a",
+                "url": "https://api.github.com/repos/hoaproject/Compiler/zipball/f72e659616041dcfe22dcab1b5fd84795883e7b6",
                 "reference": "287851eef84b064f6213e9197b07f0e573c5da1a",
                 "shasum": ""
             },
@@ -1917,7 +1917,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/hoaproject/Iterator/zipball/bcbe4f2b1d2c4ccf7e7bff2f684f9008a62ffab5",
+                "url": "https://api.github.com/repos/hoaproject/Iterator/zipball/da7cede754da388cf8097c83344c41739720054c",
                 "reference": "bcbe4f2b1d2c4ccf7e7bff2f684f9008a62ffab5",
                 "shasum": ""
             },
@@ -1970,7 +1970,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/hoaproject/Math/zipball/337876afd4d9f97cf8b05ad6b6b154787d89feec",
+                "url": "https://api.github.com/repos/hoaproject/Math/zipball/934e10201999572872375df56bc91d5b5191b1e0",
                 "reference": "337876afd4d9f97cf8b05ad6b6b154787d89feec",
                 "shasum": ""
             },
@@ -2620,7 +2620,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/schmittjoh/serializer/zipball/fea70c4598e00c933db65aa600b2d2fc7e97c570",
+                "url": "https://api.github.com/repos/schmittjoh/serializer/zipball/7b3d6c2ba99566e41dc3abe2bbcd9fb41e365042",
                 "reference": "fea70c4598e00c933db65aa600b2d2fc7e97c570",
                 "shasum": ""
             },
@@ -4051,7 +4051,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/symfony/zipball/e7772723bd406168c0bcbe0c6f089f7b3f20380b",
+                "url": "https://api.github.com/repos/symfony/symfony/zipball/43531349032a74c9e47bcc551575085d9a28914d",
                 "reference": "e7772723bd406168c0bcbe0c6f089f7b3f20380b",
                 "shasum": ""
             },
@@ -4225,7 +4225,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/twigphp/Twig/zipball/71b4dc2572eb822552e394a254a7bdf16be15448",
+                "url": "https://api.github.com/repos/twigphp/Twig/zipball/91c9f50716c4bd708fae41fd740def979a338b73",
                 "reference": "71b4dc2572eb822552e394a254a7bdf16be15448",
                 "shasum": ""
             },
@@ -4536,6 +4536,177 @@
         }
     ],
     "packages-dev": [
+        {
+            "name": "doctrine/data-fixtures",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/doctrine/data-fixtures.git",
+                "reference": "bd44f6b6e40247b6530bc8abe802e4e4d914976a"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/doctrine/data-fixtures/zipball/bd44f6b6e40247b6530bc8abe802e4e4d914976a",
+                "reference": "bd44f6b6e40247b6530bc8abe802e4e4d914976a",
+                "shasum": ""
+            },
+            "require": {
+                "doctrine/common": "~2.2",
+                "php": ">=5.3.2"
+            },
+            "conflict": {
+                "doctrine/orm": "< 2.4"
+            },
+            "require-dev": {
+                "doctrine/orm": "~2.4"
+            },
+            "suggest": {
+                "doctrine/mongodb-odm": "For loading MongoDB ODM fixtures",
+                "doctrine/orm": "For loading ORM fixtures",
+                "doctrine/phpcr-odm": "For loading PHPCR ODM fixtures"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.1.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "Doctrine\\Common\\DataFixtures": "lib/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Jonathan Wage",
+                    "email": "jonwage@gmail.com"
+                }
+            ],
+            "description": "Data Fixtures for all Doctrine Object Managers",
+            "homepage": "http://www.doctrine-project.org",
+            "keywords": [
+                "database"
+            ],
+            "time": "2015-03-30 12:14:13"
+        },
+        {
+            "name": "doctrine/doctrine-fixtures-bundle",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/doctrine/DoctrineFixturesBundle.git",
+                "reference": "817c2d233fde0fe85cb7e4d25d43fbfcd028aef8"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/doctrine/DoctrineFixturesBundle/zipball/817c2d233fde0fe85cb7e4d25d43fbfcd028aef8",
+                "reference": "817c2d233fde0fe85cb7e4d25d43fbfcd028aef8",
+                "shasum": ""
+            },
+            "require": {
+                "doctrine/data-fixtures": "~1.0",
+                "doctrine/doctrine-bundle": "~1.0",
+                "php": ">=5.3.2",
+                "symfony/doctrine-bridge": "~2.1"
+            },
+            "type": "symfony-bundle",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.2.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Doctrine\\Bundle\\FixturesBundle\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Symfony Community",
+                    "homepage": "http://symfony.com/contributors"
+                },
+                {
+                    "name": "Doctrine Project",
+                    "homepage": "http://www.doctrine-project.org"
+                },
+                {
+                    "name": "Fabien Potencier",
+                    "email": "fabien@symfony.com"
+                }
+            ],
+            "description": "Symfony DoctrineFixturesBundle",
+            "homepage": "http://www.doctrine-project.org",
+            "keywords": [
+                "Fixture",
+                "persistence"
+            ],
+            "time": "2015-08-04 22:43:14"
+        },
+        {
+            "name": "liip/functional-test-bundle",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/liip/LiipFunctionalTestBundle.git",
+                "reference": "e53b4b8b57b637e8243c17ace55b96a9441e25f2"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/liip/LiipFunctionalTestBundle/zipball/e53b4b8b57b637e8243c17ace55b96a9441e25f2",
+                "reference": "e53b4b8b57b637e8243c17ace55b96a9441e25f2",
+                "shasum": ""
+            },
+            "require": {
+                "doctrine/common": "2.*",
+                "php": ">=5.3.2",
+                "symfony/browser-kit": "~2.0",
+                "symfony/framework-bundle": "~2.0"
+            },
+            "suggest": {
+                "doctrine/dbal": "Required when using the fixture loading functionality with an ORM and SQLite",
+                "doctrine/doctrine-fixtures-bundle": "Required when using the fixture loading functionality",
+                "doctrine/orm": "Required when using the fixture loading functionality with an ORM and SQLite",
+                "nelmio/alice": "Required when using loadFixtureFiles functionality"
+            },
+            "type": "symfony-bundle",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.3.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Liip\\FunctionalTestBundle\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Liip AG",
+                    "homepage": "http://www.liip.ch/"
+                },
+                {
+                    "name": "Community contributions",
+                    "homepage": "https://github.com/liip/LiipFunctionalTestBundle/contributors"
+                }
+            ],
+            "description": "This bundles provides additional functional test-cases for Symfony2 applications",
+            "keywords": [
+                "Symfony2"
+            ],
+            "time": "2015-07-22 12:04:35"
+        },
         {
             "name": "phpdocumentor/reflection-docblock",
             "version": "2.0.4",
@@ -5550,7 +5721,9 @@
     "stability-flags": {
         "symfony/symfony": 20,
         "swp/templates-system": 20,
-        "swp/updater-bundle": 20
+        "swp/updater-bundle": 20,
+        "liip/functional-test-bundle": 20,
+        "doctrine/doctrine-fixtures-bundle": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,

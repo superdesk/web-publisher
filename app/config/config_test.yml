@@ -4,9 +4,15 @@ imports:
 framework:
     test: ~
     session:
-        storage_id: session.storage.mock_file
+        storage_id: session.storage.filesystem
     profiler:
         collect: false
+doctrine:
+    dbal:
+        driver: pdo_sqlite
+        path:     %kernel.cache_dir%/test.db
+
+liip_functional_test: ~
 
 web_profiler:
     toolbar: false

@@ -25,10 +25,13 @@ SWP\WebRendererBundle\Entity\Page:
             type: string
             length: 255
             column: external_url
+            nullable: true
         contentPath:
             type: string
             length: 255
             column: content_path
+            nullable: true
         articles:
             type: array
+            nullable: true
     lifecycleCallbacks: {  }

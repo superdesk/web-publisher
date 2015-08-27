@@ -1,8 +1,20 @@
 <?php
 
+/**
+ * This file is part of the Superdesk Web Publisher Web Renderer Bundle
+ *
+ * Copyright 2015 Sourcefabric z.u. and contributors.
+ *
+ * For the full copyright and license information, please see the
+ * AUTHORS and LICENSE files distributed with this source code.
+ *
+ * @copyright 2015 Sourcefabric z.ú.
+ * @license http://www.superdesk.org/license
+ */
+
 namespace SWP\WebRendererBundle\Tests\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use Liip\FunctionalTestBundle\Test\WebTestCase;
 use Symfony\Component\Filesystem\Filesystem;
 
 class DefaultControllerTest extends WebTestCase
@@ -31,13 +43,14 @@ class DefaultControllerTest extends WebTestCase
 
     public function testIndexOnDevices()
     {
+        $this->loadFixtures([]);
         $client = static::createClient();
         $filesystem = new Filesystem();
         foreach (self::$devices as $userAgent => $filter) {
             if (!in_array($userAgent, ['no_agent_0', 'no_agent_1'])) {
-                $client->setServerParameters(array(
+                $client->setServerParameters([
                     'HTTP_USER_AGENT' => $userAgent,
-                ));
+                ]);
             }
 
             if ($userAgent === 'no_agent_1') {

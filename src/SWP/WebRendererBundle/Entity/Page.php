@@ -1,5 +1,17 @@
 <?php
 
+/**
+ * This file is part of the Superdesk Web Publisher Web Renderer Bundle
+ *
+ * Copyright 2015 Sourcefabric z.u. and contributors.
+ *
+ * For the full copyright and license information, please see the
+ * AUTHORS and LICENSE files distributed with this source code.
+ *
+ * @copyright 2015 Sourcefabric z.ú.
+ * @license http://www.superdesk.org/license
+ */
+
 namespace SWP\WebRendererBundle\Entity;
 
 /**
@@ -7,6 +19,10 @@ namespace SWP\WebRendererBundle\Entity;
  */
 class Page
 {
+    const PAGE_TYPE_EEXTERNAL_URL = 0;
+    const PAGE_TYPE_CONTENT = 1;
+    const PAGE_TYPE_CONTAINER = 2;
+
     /**
      * @var integer
      */
@@ -89,7 +105,7 @@ class Page
      *
      * @return Page
      */
-    public function setType($type)
+    public function setType($type = self::PAGE_TYPE_EEXTERNAL_URL)
     {
         $this->type = $type;
 

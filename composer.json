@@ -35,7 +35,9 @@
     "require-dev": {
         "sensio/generator-bundle": "~2.3",
         "phpspec/phpspec": "~2.0",
-        "phpunit/phpunit": "4.6.*"
+        "phpunit/phpunit": "4.6.*",
+        "liip/functional-test-bundle": "^1.3@dev",
+        "doctrine/doctrine-fixtures-bundle": "^2.2@dev"
     },
     "scripts": {
         "post-install-cmd": [

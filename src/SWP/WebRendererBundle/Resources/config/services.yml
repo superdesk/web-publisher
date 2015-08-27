@@ -1,0 +1,7 @@
+services:
+    swp_renderer_routing_loader:
+        class: SWP\WebRendererBundle\Routing\Loader\PagesLoader
+        arguments:
+            - @doctrine.orm.entity_manager
+        tags:
+            - { name: routing.loader }
