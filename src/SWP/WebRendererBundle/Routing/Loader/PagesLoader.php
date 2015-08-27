@@ -57,7 +57,7 @@ class PagesLoader extends Loader
         $pages = $this->em->createQuery('SELECT partial p.{id, templateName, slug, name} FROM \SWP\WebRendererBundle\Entity\Page p')->execute();
         foreach ($pages as $page)
         {
-            $collection->add('swp_'.strtolower($page->getName()), new Route($page->getSlug(), array(
+            $collection->add('swp_page_'.strtolower($page->getName()), new Route($page->getSlug(), array(
                 '_controller' => '\SWP\WebRendererBundle\Controller\DefaultController::indexAction',
                 'page_id' => $page->getId(),
                 'template' => $page->getTemplateName()

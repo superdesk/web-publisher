@@ -20,7 +20,7 @@ class PagesLoaderTest extends WebTestCase
         $this->pagesLoader = new PagesLoader($this->getContainer()->get('doctrine'));
     }
 
-    public function testPagesLoaderWithoutPages()
+    public function testPagesLoader()
     {
         $this->loadFixtures([]);
         $this->assertCount(0, $this->pagesLoader->load('.'));
@@ -29,6 +29,8 @@ class PagesLoaderTest extends WebTestCase
             'SWP\WebRendererBundle\Tests\Fixtures\ORM\LoadPagesData'
         ]);
         $this->assertCount(1, $this->pagesLoader->load('.'));
+
+        $this->assertTrue($this->pagesLoader->supports('.', 'pages'));
     }
 
     /**
