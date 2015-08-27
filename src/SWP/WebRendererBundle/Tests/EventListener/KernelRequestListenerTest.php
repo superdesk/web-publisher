@@ -19,7 +19,7 @@ class KernelRequestListenerTest extends WebTestCase
 
     public function testEmitingContextPageEvent()
     {
-        $masterRequest = Request::create('/about-us', 'GET' );
+        $masterRequest = Request::create('/about-us', 'GET');
         $masterRequest->attributes->set('page_id', 1);
         $eventDispatcher = $this->getContainer()->get('event_dispatcher');
 
