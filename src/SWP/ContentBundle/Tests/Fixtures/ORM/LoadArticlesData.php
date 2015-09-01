@@ -1,7 +1,7 @@
 <?php
 
 /**
- * This file is part of the Superdesk Web Publisher Web Renderer Bundle
+ * This file is part of the Superdesk Web Publisher Content Bundle.
  *
  * Copyright 2015 Sourcefabric z.u. and contributors.
  *
@@ -12,27 +12,23 @@
  * @license http://www.superdesk.org/license
  */
 
-namespace SWP\WebRendererBundle\Tests\Fixtures\ORM;
+namespace SWP\ContentBundle\Tests\Fixtures\ORM;
 
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
-use SWP\WebRendererBundle\Entity\Page;
+use SWP\ContentBundle\Document\Article;
 
-class LoadPagesData implements FixtureInterface
+
+class LoadArticlesData implements FixtureInterface
 {
     /**
      * {@inheritDoc}
      */
     public function load(ObjectManager $manager)
     {
-        $page = new Page();
-        $page->setName('About us')
-            ->setType(Page::PAGE_TYPE_CONTENT)
-            ->setSlug('about-us')
-            ->setTemplateName('static.html.twig')
-            ->setContentPath('/swp/content/about-us');
-
-        $manager->persist($page);
+        $article = new Article();
+        $article->setTitle("Test article");
+        $manager->persist($article);
         $manager->flush();
     }
 }

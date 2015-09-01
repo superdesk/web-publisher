@@ -26,7 +26,21 @@ final class Version implements VersionInterface
      *
      * @var string
      */
-    private $version = '0.0.1';
+    protected $version = '0.0.1';
+
+    /**
+     * Code name string
+     *
+     * @var string
+     */
+    protected $codeName = 'N/A';
+
+    /**
+     * Release date string
+     *
+     * @var string
+     */
+    protected $releaseDate = '2015-09-01';
 
     /**
      * {@inheritdoc}
@@ -42,6 +56,54 @@ final class Version implements VersionInterface
     public function setVersion($version)
     {
         $this->version = $version;
+
+        return $this;
+    }
+
+    /**
+     * Gets the Code name string.
+     *
+     * @return string
+     */
+    public function getCodeName()
+    {
+        return $this->codeName;
+    }
+
+    /**
+     * Sets the Code name string.
+     *
+     * @param string $codeName the code name
+     *
+     * @return self
+     */
+    public function setCodeName($codeName)
+    {
+        $this->codeName = $codeName;
+
+        return $this;
+    }
+
+    /**
+     * Gets the Release date string.
+     *
+     * @return string
+     */
+    public function getReleaseDate()
+    {
+        return $this->releaseDate;
+    }
+
+    /**
+     * Sets the Release date string.
+     *
+     * @param string $releaseDate the release date
+     *
+     * @return self
+     */
+    public function setReleaseDate($releaseDate)
+    {
+        $this->releaseDate = $releaseDate;
 
         return $this;
     }

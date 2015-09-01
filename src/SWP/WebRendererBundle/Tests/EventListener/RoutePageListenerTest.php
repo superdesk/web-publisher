@@ -29,7 +29,7 @@ class RoutePageListenerTest extends WebTestCase
         $kernelRequestListener = new RoutePageListener($registryManager, $context);
         $genericEvent = new GenericEvent(null, [
             'pageId' => 1,
-            'route_name' => 'swp_page_about',
+            'route_name' => 'swp_page_about_us',
         ]);
 
         $kernelRequestListener->onRoutePage($genericEvent);

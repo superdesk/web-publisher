@@ -13,3 +13,4 @@
 /web/bundles/
 /web/config.php
 logs/
+build/

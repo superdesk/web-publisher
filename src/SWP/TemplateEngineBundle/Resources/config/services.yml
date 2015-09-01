@@ -7,13 +7,6 @@ services:
     context:
         alias: swp_template_engine_context
 
-    swp_template_engine_loader_article:
-        class: SWP\TemplatesSystem\Gimme\Loader\ArticleLoader
-        arguments:
-            - %kernel.root_dir%
-        tags:
-            - { name: swp.meta_loader }
-
     swp_template_engine_twig_extension.gimme:
         class: SWP\TemplatesSystem\Twig\Extension\GimmeExtension
         public: false
@@ -35,3 +28,10 @@ services:
             - @swp_template_engine_context
         tags:
             - { name: kernel.event_listener, event: kernel.controller, method: onKernelController }
+
+    swp_template_engine.data_collector.context_collector:
+        class: SWP\TemplateEngineBundle\DataCollector\ContextDataCollector
+        arguments:
+            - @swp_template_engine_context
+        tags:
+            - { name: data_collector, template: "SWPTemplateEngineBundle:Collector:contextCollector", id: "context_collector" }

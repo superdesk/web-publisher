@@ -74,6 +74,9 @@ swiftmailer:
 fos_http_cache: ~
 
 doctrine_phpcr:
+    odm:
+        auto_mapping: true
+        auto_generate_proxy_classes: "%kernel.debug%"
     session:
         backend:
             type: doctrinedbal
@@ -84,8 +87,6 @@ doctrine_phpcr:
             logging: true
             profiling: true
         workspace: default
-        username: admin
-        password: admin
 
 oneup_flysystem:
     adapters:

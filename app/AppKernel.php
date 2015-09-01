@@ -30,6 +30,7 @@ class AppKernel extends Kernel
             new SWP\WebRendererBundle\SWPWebRendererBundle(),
             new SWP\UpdaterBundle\SWPUpdaterBundle(),
             new SWP\BridgeBundle\SWPBridgeBundle(),
+            new SWP\ContentBundle\SWPContentBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {
