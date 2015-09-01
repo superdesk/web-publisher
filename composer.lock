@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "39119480f8c62a9e65bc436476f83289",
+    "hash": "bf53b042aa6f2d71eeea20e05ca710dd",
     "packages": [
         {
             "name": "ahilles107/updater",
@@ -811,16 +811,16 @@
         },
         {
             "name": "doctrine/orm",
-            "version": "v2.5.0",
+            "version": "v2.5.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/doctrine2.git",
-                "reference": "aa80c7d2c55a372f5f9f825f5c66dbda53a6e3fe"
+                "reference": "e6a83bedbe67579cb0bfb688e982e617943a2945"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/doctrine2/zipball/aa80c7d2c55a372f5f9f825f5c66dbda53a6e3fe",
-                "reference": "aa80c7d2c55a372f5f9f825f5c66dbda53a6e3fe",
+                "url": "https://api.github.com/repos/doctrine/doctrine2/zipball/e6a83bedbe67579cb0bfb688e982e617943a2945",
+                "reference": "e6a83bedbe67579cb0bfb688e982e617943a2945",
                 "shasum": ""
             },
             "require": {
@@ -884,7 +884,7 @@
                 "database",
                 "orm"
             ],
-            "time": "2015-04-02 20:40:18"
+            "time": "2015-08-31 12:59:39"
         },
         {
             "name": "doctrine/phpcr-bundle",
@@ -1778,12 +1778,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/hoaproject/Core.git",
-                "reference": "54f1c4eac817de324fadff0d1a1322d2328b5497"
+                "reference": "020d38ca75b2164ba2651127542748f8d4263bad"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/hoaproject/Core/zipball/54f1c4eac817de324fadff0d1a1322d2328b5497",
-                "reference": "54f1c4eac817de324fadff0d1a1322d2328b5497",
+                "url": "https://api.github.com/repos/hoaproject/Core/zipball/020d38ca75b2164ba2651127542748f8d4263bad",
+                "reference": "020d38ca75b2164ba2651127542748f8d4263bad",
                 "shasum": ""
             },
             "require": {
@@ -1840,7 +1840,7 @@
                 "parameter",
                 "protocol"
             ],
-            "time": "2015-08-14 14:47:47"
+            "time": "2015-09-01 14:08:10"
         },
         {
             "name": "hoa/file",
@@ -3917,12 +3917,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/SuperdeskWebPublisher/templates-system.git",
-                "reference": "8f552d5cf0e4af722b34d171dd2e6cc8f5298dc6"
+                "reference": "7afd4310c102915e39566f3e4f00474d8be20e52"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/SuperdeskWebPublisher/templates-system/zipball/8f552d5cf0e4af722b34d171dd2e6cc8f5298dc6",
-                "reference": "8f552d5cf0e4af722b34d171dd2e6cc8f5298dc6",
+                "url": "https://api.github.com/repos/SuperdeskWebPublisher/templates-system/zipball/7afd4310c102915e39566f3e4f00474d8be20e52",
+                "reference": "7afd4310c102915e39566f3e4f00474d8be20e52",
                 "shasum": ""
             },
             "require": {
@@ -3964,7 +3964,7 @@
                 "templates",
                 "twig"
             ],
-            "time": "2015-08-27 14:03:28"
+            "time": "2015-09-01 13:22:16"
         },
         {
             "name": "swp/updater-bundle",
@@ -4207,12 +4207,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/symfony.git",
-                "reference": "922a53442711bbfa95d8f179b889bd58592302be"
+                "reference": "d76cc03382bca2c9e961195ec4c9b6261c09938e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/symfony/zipball/922a53442711bbfa95d8f179b889bd58592302be",
-                "reference": "922a53442711bbfa95d8f179b889bd58592302be",
+                "url": "https://api.github.com/repos/symfony/symfony/zipball/d76cc03382bca2c9e961195ec4c9b6261c09938e",
+                "reference": "d76cc03382bca2c9e961195ec4c9b6261c09938e",
                 "shasum": ""
             },
             "require": {
@@ -4321,7 +4321,7 @@
             "keywords": [
                 "framework"
             ],
-            "time": "2015-09-01 07:33:03"
+            "time": "2015-09-01 13:59:44"
         },
         {
             "name": "twig/extensions",
@@ -5142,7 +5142,7 @@
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.3.3",
+                "php": ">=5.6",
                 "phpunit/php-file-iterator": "~1.3",
                 "phpunit/php-text-template": "~1.2",
                 "phpunit/php-token-stream": "~1.3",

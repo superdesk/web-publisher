@@ -16,17 +16,19 @@ namespace SWP\WebRendererBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use SWP\TemplatesSystem\Gimme\Meta\Meta;
 
 class ContentController extends Controller
 {
-    public function renderAction(Request $request)
+    public function renderAction()
     {
         $context = $this->container->get('context');
         $metaLoader = $this->container->get('swp_template_engine_loader_chain');
         $currentPage = $context->getCurrentPage();
 
-        $context->registerMeta('article', $metaLoader->load('article', ['contentPath' => $currentPage['contentPath']]));
+        $article = $metaLoader->load('article', ['contentPath' => $currentPage['contentPath']]);
+        if ($article) {
+            $context->registerMeta('article', $article);
+        }
 
         return $this->render('views/'.$currentPage['templateName']);
     }

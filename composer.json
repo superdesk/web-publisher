@@ -34,7 +34,7 @@
         "symfony/monolog-bundle": "~2.4",
         "sensio/distribution-bundle": "~3.0,>=3.0.12",
         "sensio/framework-extra-bundle": "~3.0,>=3.0.2",
-        "doctrine/orm": "2.5.0",
+        "doctrine/orm": "2.5.1",
         "doctrine/dbal": "2.5.1",
         "doctrine/doctrine-bundle": "~1.4",
         "doctrine/phpcr-odm": "1.2.*",
