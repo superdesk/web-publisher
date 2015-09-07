@@ -19,7 +19,7 @@ namespace SWP\WebRendererBundle\Entity;
  */
 class Page
 {
-    const PAGE_TYPE_EEXTERNAL_URL = 0;
+    const PAGE_TYPE_EXTERNAL_URL = 0;
     const PAGE_TYPE_CONTENT = 1;
     const PAGE_TYPE_CONTAINER = 2;
 

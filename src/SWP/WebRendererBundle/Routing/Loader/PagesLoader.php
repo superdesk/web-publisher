@@ -22,7 +22,7 @@ use Symfony\Component\Config\Loader\Loader;
 /**
  * Pages Loader loads routes from a Pages entries.
  *
- * You can needt to configure loader in routing.yml file
+ * You can need to configure loader in routing.yml file
  *
  * pages:
  *     type: pages

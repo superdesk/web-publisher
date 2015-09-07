@@ -1,4 +1,4 @@
-swp_webrendere_pages:
+swp_webrenderer_pages:
     resource: .
     type: pages
 

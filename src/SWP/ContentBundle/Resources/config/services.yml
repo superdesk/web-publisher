@@ -14,3 +14,6 @@ services:
             - @doctrine_phpcr.odm.document_manager
         tags:
             - { name: swp.meta_loader }
+
+    document_manager:
+        alias: doctrine_phpcr.odm.document_manager
