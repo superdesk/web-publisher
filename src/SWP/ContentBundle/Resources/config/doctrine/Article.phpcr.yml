@@ -1,0 +1,9 @@
+SWP\ContentBundle\Document\Article:
+    repositoryClass: SWP\ContentBundle\Document\ArticleRepository
+    id:
+        fieldName: id
+        generator:
+            strategy: repository
+    fields:
+        title:
+            type: string

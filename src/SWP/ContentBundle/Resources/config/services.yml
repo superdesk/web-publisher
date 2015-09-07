@@ -1,0 +1,19 @@
+services:
+    swp_renderer.phpcr.initializer:
+        class: Doctrine\Bundle\PHPCRBundle\Initializer\GenericInitializer
+        arguments:
+            - SWP ContentBundle paths
+            - [ "/swp/content" ]
+        tags:
+            - { name: "doctrine_phpcr.initializer" }
+
+    swp_template_engine.loader.article:
+        class: SWP\ContentBundle\Loader\ArticleLoader
+        arguments:
+            - %kernel.root_dir%
+            - @doctrine_phpcr.odm.document_manager
+        tags:
+            - { name: swp.meta_loader }
+
+    document_manager:
+        alias: doctrine_phpcr.odm.document_manager

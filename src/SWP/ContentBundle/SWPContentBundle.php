@@ -1,7 +1,7 @@
 <?php
 
 /**
- * This file is part of the Superdesk Web Publisher Web Renderer Bundle
+ * This file is part of the Superdesk Web Publisher Content Bundle.
  *
  * Copyright 2015 Sourcefabric z.u. and contributors.
  *
@@ -12,10 +12,10 @@
  * @license http://www.superdesk.org/license
  */
 
-namespace SWP\WebRendererBundle;
+namespace SWP\ContentBundle;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
-class SWPWebRendererBundle extends Bundle
+class SWPContentBundle extends Bundle
 {
 }

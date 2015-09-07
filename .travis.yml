@@ -2,20 +2,20 @@ language: php
 php:
   - 5.6
   - 5.5
-  - nightly
+  - 7.0
   - hhvm
 
 matrix:
+  fast_finish: true
   allow_failures:
     - php: hhvm
-    - php: nightly
 
 before_script:
-  - composer install
+  - composer install --no-interaction --prefer-source
 
 script:
-  - bin/phpspec run
-  - phpunit -c app/
+  - bin/phpspec run --format=pretty
+  - phpunit -c app/ --coverage-text
 
 notifications:
   hipchat:

@@ -1,0 +1,37 @@
+SWP\WebRendererBundle\Entity\Page:
+    type: entity
+    table: null
+    repositoryClass: SWP\WebRendererBundle\Entity\PageRepository
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        name:
+            type: string
+            length: 255
+        type:
+            type: integer
+        slug:
+            type: string
+            length: 255
+        templateName:
+            type: string
+            length: 255
+            column: template_name
+        externalUrl:
+            type: string
+            length: 255
+            column: external_url
+            nullable: true
+        contentPath:
+            type: string
+            length: 255
+            column: content_path
+            nullable: true
+        articles:
+            type: array
+            nullable: true
+    lifecycleCallbacks: {  }

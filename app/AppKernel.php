@@ -30,6 +30,7 @@ class AppKernel extends Kernel
             new SWP\WebRendererBundle\SWPWebRendererBundle(),
             new SWP\UpdaterBundle\SWPUpdaterBundle(),
             new SWP\BridgeBundle\SWPBridgeBundle(),
+            new SWP\ContentBundle\SWPContentBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {
@@ -38,6 +39,8 @@ class AppKernel extends Kernel
             $bundles[] = new Sensio\Bundle\DistributionBundle\SensioDistributionBundle();
             $bundles[] = new Sensio\Bundle\GeneratorBundle\SensioGeneratorBundle();
             $bundles[] = new Hal\Bundle\PhpMetricsCollector\PhpMetricsCollectorBundle();
+            $bundles[] = new Liip\FunctionalTestBundle\LiipFunctionalTestBundle();
+            $bundles[] = new Doctrine\Bundle\FixturesBundle\DoctrineFixturesBundle();
         }
 
         return $bundles;
