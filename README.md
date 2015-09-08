@@ -37,9 +37,9 @@ Create database in your PostgreSQL server (it's required) manually. Remember to 
 Then execute the following commands in terminal:
 
 ```bash
+php app/console doctrine:schema:update --force
 php app/console doctrine:phpcr:init:dbal --force
 php app/console doctrine:phpcr:repository:init
-php app/console doctrine:schema:update --force
 ```
 
 [1]: http://web-renderer.readthedocs.org/
