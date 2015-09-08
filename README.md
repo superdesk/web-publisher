@@ -32,7 +32,7 @@ docker-compose up
 
 #### Updating database schema
 
-Create database in your PostgreSQL server (its required) manually. Remember to put database config into parameters.yml.
+Create database in your PostgreSQL server (it's required) manually. Remember to put database config into parameters.yml.
 
 Then execute the following commands in terminal:
 
