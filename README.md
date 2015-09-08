@@ -30,6 +30,18 @@ docker-compose build
 docker-compose up
 ```
 
+#### Updating database schema
+
+Create database in your PostgreSQL server (its required) manually. Remember to put database config into parameters.yml.
+
+Then execute the following commands in terminal:
+
+```bash
+php app/console doctrine:phpcr:init:dbal --force
+php app/console doctrine:phpcr:repository:init
+php app/console doctrine:schema:update --force
+```
+
 [1]: http://web-renderer.readthedocs.org/
 
 ## Testing
