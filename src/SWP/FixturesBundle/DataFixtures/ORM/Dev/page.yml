@@ -1,0 +1,7 @@
+SWP\WebRendererBundle\Entity\Page:
+    page{1..10}:
+        name: <word()>
+        type: 1
+        slug: <slug()>
+        templateName: "static.html.twig"
+        contentPath: "/swp/content/<slug()>"

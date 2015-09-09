@@ -1,7 +1,7 @@
 <?php
 
 /**
- * This file is part of the Superdesk Web Publisher Web Renderer Bundle
+ * This file is part of the Superdesk Web Publisher Web Renderer Bundle.
  *
  * Copyright 2015 Sourcefabric z.u. and contributors.
  *
@@ -11,7 +11,6 @@
  * @copyright 2015 Sourcefabric z.ú.
  * @license http://www.superdesk.org/license
  */
-
 namespace SWP\WebRendererBundle\Tests\Controller;
 
 use Liip\FunctionalTestBundle\Test\WebTestCase;
@@ -19,7 +18,6 @@ use Symfony\Component\Filesystem\Filesystem;
 
 class DefaultControllerTest extends WebTestCase
 {
-
     protected static $devices = [
         'Mozilla/5.0 (iPhone; U; CPU iPhone OS 4_3_3 like Mac OS X; en-us) AppleWebKit/533.17.9 (KHTML, like Gecko) Version/5.0.2 Mobile/8J2 Safari/6533.18.5' => 'html:contains("theme_test/phone/index.html.twig")',
         'Mozilla/5.0 (iPad; U; CPU OS 4_3_3 like Mac OS X; en-us) AppleWebKit/533.17.9 (KHTML, like Gecko) Version/5.0.2 Mobile/8J2 Safari/6533.18.5' => 'html:contains("theme_test/tablet/index.html.twig")',
@@ -27,7 +25,6 @@ class DefaultControllerTest extends WebTestCase
         'no_agent_0' => 'html:contains("theme_test/desktop/index.html.twig")',
         'no_agent_1' => 'html:contains("Homepage theme_test")',
     ];
-
 
     public static function setUpBeforeClass()
     {
@@ -43,7 +40,7 @@ class DefaultControllerTest extends WebTestCase
 
     public function testIndexOnDevices()
     {
-        $this->loadFixtures([]);
+        $this->loadFixtureFiles([]);
         $client = static::createClient();
         foreach (self::$devices as $userAgent => $filter) {
             if (!in_array($userAgent, ['no_agent_0', 'no_agent_1'])) {

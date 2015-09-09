@@ -1,0 +1,3 @@
+SWP\ContentBundle\Document\Article:
+    article4:
+        title: "Test article"

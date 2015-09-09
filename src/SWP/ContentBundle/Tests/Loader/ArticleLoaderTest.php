@@ -11,7 +11,6 @@
  * @copyright 2015 Sourcefabric z.ú.
  * @license http://www.superdesk.org/license
  */
-
 namespace SWP\ContentBundle\Tests;
 
 use Liip\FunctionalTestBundle\Test\WebTestCase;
@@ -21,7 +20,7 @@ use SWP\TemplatesSystem\Gimme\Loader\LoaderInterface;
 class ArticleLoaderTest extends WebTestCase
 {
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function setUp()
     {
@@ -34,9 +33,9 @@ class ArticleLoaderTest extends WebTestCase
 
     public function testFindNewArticle()
     {
-        $this->loadFixtures([
-            'SWP\ContentBundle\Tests\Fixtures\ORM\LoadArticlesData'
-        ], null, 'doctrine_phpcr');
+        $this->loadFixtureFiles([
+            '@SWPFixturesBundle/DataFixtures/PHPCR/Test/article.yml',
+        ], true, null, 'doctrine_phpcr');
 
         $articleLoader = new ArticleLoader(
             $this->getContainer()->getParameter('kernel.root_dir'),
@@ -48,6 +47,7 @@ class ArticleLoaderTest extends WebTestCase
         $this->assertFalse($articleLoader->isSupported('items'));
 
         $article = $articleLoader->load('article', ['contentPath' => '/swp/content/test-article']);
+
         $this->assertInstanceOf('SWP\TemplatesSystem\Gimme\Meta\Meta', $article);
 
         $this->assertFalse($articleLoader->load('article', ['contentPath' => '/swp/content/test-articles']));

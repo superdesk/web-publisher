@@ -1,7 +1,7 @@
 <?php
 
 /**
- * This file is part of the Superdesk Web Publisher Web Renderer Bundle
+ * This file is part of the Superdesk Web Publisher Web Renderer Bundle.
  *
  * Copyright 2015 Sourcefabric z.u. and contributors.
  *
@@ -11,7 +11,6 @@
  * @copyright 2015 Sourcefabric z.ú.
  * @license http://www.superdesk.org/license
  */
-
 namespace SWP\WebRendererBundle\Tests\Controller;
 
 use Liip\FunctionalTestBundle\Test\WebTestCase;
@@ -21,14 +20,14 @@ use SWP\ContentBundle\Document\Article;
 class ContentControllerTest extends WebTestCase
 {
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function setUp()
     {
         self::bootKernel();
 
-        $this->loadFixtures([
-            'SWP\WebRendererBundle\Tests\Fixtures\ORM\LoadPagesData'
+        $this->loadFixtureFiles([
+            '@SWPFixturesBundle/DataFixtures/ORM/Test/page.yml',
         ]);
 
         $this->runCommand('doctrine:phpcr:init:dbal', ['--force' => true, '--env' => 'test'], true);
@@ -51,11 +50,11 @@ class ContentControllerTest extends WebTestCase
     {
         $manager = $this->getContainer()->get('doctrine_phpcr.odm.document_manager');
         $article = new Article();
-        $article->setTitle("About us");
+        $article->setTitle('About us');
         $manager->persist($article);
         $manager->flush();
 
-        $this->assertTrue($article->getTitle() === "About us");
+        $this->assertTrue($article->getTitle() === 'About us');
 
         $client = static::createClient();
         $crawler = $client->request('GET', '/about-us');
