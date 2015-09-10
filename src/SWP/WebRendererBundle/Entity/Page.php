@@ -105,7 +105,7 @@ class Page
      *
      * @return Page
      */
-    public function setType($type = self::PAGE_TYPE_EEXTERNAL_URL)
+    public function setType($type = self::PAGE_TYPE_EXTERNAL_URL)
     {
         $this->type = $type;
 

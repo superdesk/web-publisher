@@ -4,6 +4,9 @@ Article:
         title:
             description: "Article title"
             type: text
+        content:
+            description: "Article content"
+            type: text
         id:
             description: "Article identifier"
             type: text

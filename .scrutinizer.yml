@@ -1,0 +1,15 @@
+filter:
+    excluded_paths:
+        - 'spec/*'
+        - 'Tests/*'
+        - 'src/*Bundle/Tests/'
+    paths:
+        - 'src/*'
+checks:
+    php: true
+
+coding_style:
+    php:
+        spaces:
+            around_operators:
+                concatenation: false

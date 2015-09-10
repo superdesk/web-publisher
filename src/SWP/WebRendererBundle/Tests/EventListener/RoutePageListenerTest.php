@@ -6,11 +6,10 @@ use Liip\FunctionalTestBundle\Test\WebTestCase;
 use SWP\WebRendererBundle\EventListener\RoutePageListener;
 use Symfony\Component\EventDispatcher\GenericEvent;
 
-
 class RoutePageListenerTest extends WebTestCase
 {
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function setUp()
     {
@@ -20,7 +19,7 @@ class RoutePageListenerTest extends WebTestCase
     public function testPagesLoaderWithoutPages()
     {
         $this->loadFixtures([
-            'SWP\WebRendererBundle\Tests\Fixtures\ORM\LoadPagesData'
+            'SWP\FixturesBundle\DataFixtures\ORM\LoadPagesData',
         ]);
 
         $registryManager = $this->getContainer()->get('doctrine');
@@ -38,7 +37,7 @@ class RoutePageListenerTest extends WebTestCase
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     protected function tearDown()
     {
