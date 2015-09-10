@@ -1,3 +1,7 @@
 SWP\ContentBundle\Document\Article:
     article1:
         title: "Test article"
+    article2:
+        title: "Features"
+    article3:
+        title: "Get Involved"
