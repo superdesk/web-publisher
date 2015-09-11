@@ -89,7 +89,7 @@ EOT
         try {
             if ($input->getOption('delete')) {
                 $question = new ConfirmationQuestion(
-                    '<question>This will override your current theme: "'.$name.'". Continue with this action? (yes/no)<question> <comment>[yes]</comment> ',
+                    '<question>This will override your current theme: "'.$name.'", if exists. Continue with this action? (yes/no)<question> <comment>[yes]</comment> ',
                     true,
                     '/^(y|j)/i'
                 );
@@ -108,7 +108,7 @@ EOT
             }
 
             $question = new ConfirmationQuestion(
-                '<question>This will override your current theme: "'.$name.'". Continue with this action? (yes/no)<question> <comment>[yes]</comment> ',
+                '<question>This will override your current theme: "'.$name.'", if exists. Continue with this action? (yes/no)<question> <comment>[yes]</comment> ',
                 true,
                 '/^(y|j)/i'
             );

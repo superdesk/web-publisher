@@ -17,11 +17,12 @@ use Symfony\Component\Console\Tester\CommandTester;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use SWP\FixturesBundle\Command\ThemeSetupCommand;
+use Symfony\Component\Filesystem\Filesystem;
 
 class ThemeSetupCommandTest extends KernelTestCase
 {
-    const DELETED_MSG_REGEXP = '/Theme "theme_1" has been deleted successfully!/';
-    const SUCCESS_MSG_REGEXP = '/Theme "theme_1" has been setup successfully!/';
+    const DELETED_MSG_REGEXP = '/Theme "theme_testing" has been deleted successfully!/';
+    const SUCCESS_MSG_REGEXP = '/Theme "theme_testing" has been setup successfully!/';
 
     private $commandTester;
     private $command;
@@ -37,6 +38,12 @@ class ThemeSetupCommandTest extends KernelTestCase
         $this->commandTester = new CommandTester($this->command);
     }
 
+    public static function tearDownAfterClass()
+    {
+        $filesystem = new Filesystem();
+        $filesystem->remove(__DIR__.'/../../../../../app/Resources/themes/theme_testing');
+    }
+
     /**
      * @covers SWP\FixturesBundle\Command\ThemeSetupCommand
      * @covers SWP\FixturesBundle\Command\ThemeSetupCommand::execute
@@ -49,20 +56,31 @@ class ThemeSetupCommandTest extends KernelTestCase
             )
         );
 
-        $this->assertRegExp('/theme_1/', $this->commandTester->getDisplay());
+        $stub = $this->getMock('Symfony\Component\Filesystem\Filesystem', array('mirror'));
+        $stub->expects($this->at(0))
+            ->method('mirror')
+            ->with('/some/source/dir', '/some/target/dir')
+            ->will($this->returnValue(null));
+
+        $this->assertNull($stub->mirror('/some/source/dir', '/some/target/dir'));
+
+        $this->assertRegExp(
+            '/Theme "theme_1" has been setup successfully!/',
+            $this->commandTester->getDisplay()
+        );
     }
 
     public function testExecuteWithThemeName()
     {
         $this->commandTester->execute(
             array(
-                'name' => 'theme',
+                'name' => 'theme_testing',
                 '--force' => true,
             )
         );
 
         $this->assertRegExp(
-            '/Theme "theme" has been setup successfully!/',
+            self::SUCCESS_MSG_REGEXP,
             $this->commandTester->getDisplay()
         );
     }
@@ -78,7 +96,7 @@ class ThemeSetupCommandTest extends KernelTestCase
         $this->commandTester = new CommandTester($this->command);
         $this->commandTester->execute(
             array(
-                'name' => 'theme_1',
+                'name' => 'theme_testing',
             )
         );
 
@@ -99,7 +117,7 @@ class ThemeSetupCommandTest extends KernelTestCase
         $this->commandTester = new CommandTester($this->command);
         $this->commandTester->execute(
             array(
-                'name' => 'theme_1',
+                'name' => 'theme_testing',
                 '--delete' => true,
             )
         );
@@ -114,7 +132,7 @@ class ThemeSetupCommandTest extends KernelTestCase
     {
         $this->commandTester->execute(
             array(
-                'name' => 'theme_1',
+                'name' => 'theme_testing',
                 '--delete' => true,
                 '--force' => true,
             )
@@ -137,7 +155,7 @@ class ThemeSetupCommandTest extends KernelTestCase
         $this->commandTester = new CommandTester($this->command);
         $this->commandTester->execute(
             array(
-                'name' => 'theme_1',
+                'name' => 'theme_testing',
                 '--delete' => true,
             )
         );
@@ -156,7 +174,7 @@ class ThemeSetupCommandTest extends KernelTestCase
         $this->commandTester = new CommandTester($this->command);
         $this->commandTester->execute(
             array(
-                'name' => 'theme_1',
+                'name' => 'theme_testing',
             )
         );
 
@@ -184,7 +202,7 @@ class ThemeSetupCommandTest extends KernelTestCase
 
         $this->commandTester->execute(
             array(
-                'name' => 'fake_theme_not_existing',
+                'name' => 'theme_testing',
             )
         );
 
