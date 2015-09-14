@@ -51,6 +51,7 @@ class ContentControllerTest extends WebTestCase
         $manager = $this->getContainer()->get('doctrine_phpcr.odm.document_manager');
         $article = new Article();
         $article->setTitle('About us');
+        $article->setContent('Lorem ipsum');
         $manager->persist($article);
         $manager->flush();
 
@@ -61,6 +62,7 @@ class ContentControllerTest extends WebTestCase
 
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
         $this->assertTrue($crawler->filter('html:contains("About us")')->count() === 1);
+        $this->assertTrue($crawler->filter('html:contains("Lorem ipsum")')->count() === 1);
         $this->assertTrue($crawler->filter('html:contains("Id: /swp/content/about-us")')->count() === 1);
     }
 }

@@ -1,7 +1,7 @@
 <?php
 
 /**
- * This file is part of the Superdesk Web Publisher Web Renderer Bundle
+ * This file is part of the Superdesk Web Publisher Web Renderer Bundle.
  *
  * Copyright 2015 Sourcefabric z.u. and contributors.
  *
@@ -11,11 +11,10 @@
  * @copyright 2015 Sourcefabric z.ú.
  * @license http://www.superdesk.org/license
  */
-
 namespace SWP\WebRendererBundle\Entity;
 
 /**
- * Page
+ * Page.
  */
 class Page
 {
@@ -24,7 +23,7 @@ class Page
     const PAGE_TYPE_CONTAINER = 2;
 
     /**
-     * @var integer
+     * @var int
      */
     private $id;
 
@@ -34,7 +33,7 @@ class Page
     private $name;
 
     /**
-     * @var integer
+     * @var int
      */
     private $type;
 
@@ -63,11 +62,10 @@ class Page
      */
     private $articles;
 
-
     /**
-     * Get id
+     * Get id.
      *
-     * @return integer
+     * @return int
      */
     public function getId()
     {
@@ -75,7 +73,7 @@ class Page
     }
 
     /**
-     * Set name
+     * Set name.
      *
      * @param string $name
      *
@@ -89,7 +87,7 @@ class Page
     }
 
     /**
-     * Get name
+     * Get name.
      *
      * @return string
      */
@@ -99,13 +97,13 @@ class Page
     }
 
     /**
-     * Set type
+     * Set type.
      *
-     * @param integer $type
+     * @param int $type
      *
      * @return Page
      */
-    public function setType($type = self::PAGE_TYPE_EEXTERNAL_URL)
+    public function setType($type = self::PAGE_TYPE_EXTERNAL_URL)
     {
         $this->type = $type;
 
@@ -113,9 +111,9 @@ class Page
     }
 
     /**
-     * Get type
+     * Get type.
      *
-     * @return integer
+     * @return int
      */
     public function getType()
     {
@@ -123,7 +121,7 @@ class Page
     }
 
     /**
-     * Set slug
+     * Set slug.
      *
      * @param string $slug
      *
@@ -137,7 +135,7 @@ class Page
     }
 
     /**
-     * Get slug
+     * Get slug.
      *
      * @return string
      */
@@ -147,7 +145,7 @@ class Page
     }
 
     /**
-     * Set templateName
+     * Set templateName.
      *
      * @param string $templateName
      *
@@ -161,7 +159,7 @@ class Page
     }
 
     /**
-     * Get templateName
+     * Get templateName.
      *
      * @return string
      */
@@ -171,7 +169,7 @@ class Page
     }
 
     /**
-     * Set externalUrl
+     * Set externalUrl.
      *
      * @param string $externalUrl
      *
@@ -185,7 +183,7 @@ class Page
     }
 
     /**
-     * Get externalUrl
+     * Get externalUrl.
      *
      * @return string
      */
@@ -195,7 +193,7 @@ class Page
     }
 
     /**
-     * Set contentPath
+     * Set contentPath.
      *
      * @param string $contentPath
      *
@@ -209,7 +207,7 @@ class Page
     }
 
     /**
-     * Get contentPath
+     * Get contentPath.
      *
      * @return string
      */
@@ -219,7 +217,7 @@ class Page
     }
 
     /**
-     * Set articles
+     * Set articles.
      *
      * @param array $articles
      *
@@ -233,7 +231,7 @@ class Page
     }
 
     /**
-     * Get articles
+     * Get articles.
      *
      * @return array
      */
@@ -242,4 +240,3 @@ class Page
         return $this->articles;
     }
 }
-
