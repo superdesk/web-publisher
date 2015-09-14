@@ -17,9 +17,31 @@ namespace SWP\ContentBundle\Document;
 class DocumentInterface
 {
     /**
-     * Get the document identifier
+     * Gets the document identifier
      *
      * @return string
      */
     public function getId();
+
+    /**
+     * Gets the version of the document
+     *
+     * @return int|null Returns version as integer or null whem not used
+     */
+    public function getVersion();
+
+    /**
+     * Gets the locale for the current document
+     *
+     * @return string Returns the locale in string format
+     */
+    public function getLocale();
+
+    /**
+     * Checks if the document has any translatable properties
+     *
+     * @return boolean
+     */
+    public function isTranslatable();
+
 }
