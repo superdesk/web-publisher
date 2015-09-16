@@ -14,34 +14,28 @@
 
 namespace SWP\ContentBundle\Document;
 
-interface DocumentInterface
+/**
+ * Version interface for documents
+ */
+interface VersionInterface
 {
     /**
-     * Gets the document identifier
+     * Gets the version in your format
      *
-     * @return string
-     */
-    public function getId();
-
-    /**
-     * Gets the version of the document
-     *
-     * @return int|null Returns version as integer or null whem not used
+     * @return mixed
      */
     public function getVersion();
 
     /**
-     * Gets the locale for the current document
+     * Method which checks if first version is greater then the second version.
      *
-     * @return string Returns the locale in string format
-     */
-    public function getLocale();
-
-    /**
-     * Checks if the document has any translatable properties
+     * @param  VersionInterface $version1 Version to be compared
+     * @param  VersionInterface $version2 Version to be compared with
      *
      * @return boolean
      */
-    public function isTranslatable();
-
+    public static function greaterThan(
+        VersionInterface $version1,
+        VersionInterface $version2
+    );
 }

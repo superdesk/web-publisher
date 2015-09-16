@@ -14,16 +14,21 @@
 
 namespace SWP\ContentBundle\Storage;
 
-class StorageInterface
+use SWP\ContentBundle\Document\VersionInterface;
+use SWP\ContentBundle\Document\LocaleInterface;
+
+interface StorageInterface
 {
     /**
      * Fetch a document from the storage facility
      *
-     * @param  string $documentId Document identifier
+     * @param string $documentId Document identifier
+     * @param VersionInterface|null $version Version of the document to retrieve
+     * @param LocaleInterface Locale to retrieve
      *
      * @return \SWP\ContentBundle\Document\DocumentInterface
      */
-    public function fetchDocument($documentId);
+    public function fetchDocument($documentId, $verion = null, $locale = null);
 
     /**
      * Fetch multiple documents based on a list of parameters

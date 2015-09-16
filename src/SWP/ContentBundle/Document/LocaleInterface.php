@@ -12,11 +12,12 @@
  * @license http://www.superdesk.org/license
  */
 
-namespace SWP\ContentBundle\Storage;
+namespace SWP\ContentBundle\Document;
 
 /**
- * Main exception for storagebundle
+ * Locale interface for documents
  */
-class StorageException extends \Exception
+interface LocaleInterface
 {
+
 }
