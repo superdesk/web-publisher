@@ -1,0 +1,26 @@
+swp_content_article_get:
+    pattern:  /articles/{id}
+    defaults: { _controller: SWPContentBundle:ApiArticle:get, _format: ~ }
+    requirements:
+        _method: GET
+        id: "\d+"
+
+swp_content_article_new:
+    pattern:  /articles
+    defaults: { _controller: SWPContentBundle:ApiArticle:new, _format: ~ }
+    requirements:
+        _method: POST
+
+swp_content_article_edit:
+    pattern:  /articles/{id}
+    defaults: { _controller: SWPContentBundle:ApiArticle:edit, _format: ~ }
+    requirements:
+        _method: PUT
+        id: "\d+"
+
+swp_content_article_edit:
+    pattern:  /articles/{id}
+    defaults: { _controller: SWPContentBundle:ApiArticle:remove, _format: ~ }
+    requirements:
+        _method: DELETE
+        id: "\d+"

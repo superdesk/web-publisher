@@ -27,6 +27,7 @@ interface StorageInterface
      * @param LocaleInterface Locale to retrieve
      *
      * @return \SWP\ContentBundle\Document\DocumentInterface
+     * @throws \SWP\ContentBundle\Document\DocumentNotFoundException
      */
     public function fetchDocument($documentId, $version = null, $locale = null);
 
