@@ -22,13 +22,13 @@ interface StorageInterface
     /**
      * Fetch a document from the storage facility
      *
-     * @param string $documentId Document identifier
+     * @param mixed $documentId Document identifier
      * @param VersionInterface|null $version Version of the document to retrieve
      * @param LocaleInterface Locale to retrieve
      *
      * @return \SWP\ContentBundle\Document\DocumentInterface
      */
-    public function fetchDocument($documentId, $verion = null, $locale = null);
+    public function fetchDocument($documentId, $version = null, $locale = null);
 
     /**
      * Fetch multiple documents based on a list of parameters
@@ -47,16 +47,24 @@ interface StorageInterface
      * @return boolean Returns true on succes, throws exception on failure
      * @throws \SWP\ContentBundle\Storage\StorageException\StorageSaveException
      */
-    public function saveDocument($documentId);
+    public function saveDocument($document);
 
     /**
      * Remove a document from the storage facility
      *
-     * @param  string $documentId Document identifier
+     * @param  mixed $documentId Document identifier
      *
      * @return boolean Returns true on succes, throws exception on failure
      * @throws \SWP\ContentBundle\Storage\StorageException\StorageDeleteException
      */
     public function deleteDocument($documentId);
 
+    /**
+     * Checks whether a document exists
+     *
+     * @param  mixed $documentId Document identifier
+     *
+     * @return boolean
+     */
+    public function documentExists($documentId);
 }

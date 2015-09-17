@@ -19,5 +19,10 @@ namespace SWP\ContentBundle\Document;
  */
 interface LocaleInterface
 {
-
+    /**
+     * Returns locale according to RFCXXXX spec
+     *
+     * @return string
+     */
+    public function getLocale();
 }

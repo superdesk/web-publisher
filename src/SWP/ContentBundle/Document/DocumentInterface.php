@@ -19,21 +19,21 @@ interface DocumentInterface
     /**
      * Gets the document identifier
      *
-     * @return string
+     * @return mixed
      */
     public function getId();
 
     /**
      * Gets the version of the document
      *
-     * @return int|null Returns version as integer or null whem not used
+     * @return VersionInterface Returns version object
      */
     public function getVersion();
 
     /**
      * Gets the locale for the current document
      *
-     * @return string Returns the locale in string format
+     * @return LocaleInterface Returns the locale object
      */
     public function getLocale();
 
