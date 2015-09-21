@@ -15,8 +15,8 @@
 namespace SWP\ContentBundle\Document;
 
 /**
- * Exception when documents cannot be found
+ * Exception when thrown document is locked
  */
-class DocumentNotFoundException extends DocumentException
+class DocumentLockedException extends DocumentException
 {
 }

@@ -14,7 +14,7 @@
 
 namespace SWP\ContentBundle\Document;
 
-class Article
+class Article implements DocumentInterface
 {
     protected $id;
     protected $title;

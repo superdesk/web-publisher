@@ -14,9 +14,11 @@
 
 namespace SWP\ContentBundle\Document;
 
+use SWP\ContentBundle\Storage\StorageException;
+
 /**
- * Exception when documents cannot be found
+ * General exception for Document related errors
  */
-class DocumentNotFoundException extends DocumentException
+class DocumentException extends StorageException
 {
 }
