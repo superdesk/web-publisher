@@ -1,0 +1,7 @@
+SWP\ContentBundle\Model\PageContent:
+    pagecontent1:
+        page: "@page2"
+        contentPath: "/swp/content/features"
+    pagecontent2:
+        page: "@page3"
+        contentPath: "/swp/content/test-article"

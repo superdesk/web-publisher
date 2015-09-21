@@ -1,7 +1,7 @@
-SWP\WebRendererBundle\Entity\Page:
+SWP\ContentBundle\Model\Page:
     type: entity
     table: null
-    repositoryClass: SWP\WebRendererBundle\Entity\PageRepository
+    repositoryClass: SWP\ContentBundle\Repository\PageRepository
     id:
         id:
             type: integer
@@ -31,7 +31,15 @@ SWP\WebRendererBundle\Entity\Page:
             length: 255
             column: content_path
             nullable: true
-        articles:
-            type: array
-            nullable: true
+            unique: true
+    oneToMany:
+        contents:
+            targetEntity: SWP\ContentBundle\Model\PageContent
+            mappedBy: page
+    manyToOne:
+        parent:
+            targetEntity: SWP\ContentBundle\Model\Page
+            joinColumn:
+                name: parent_id
+                referencedColumnName: id
     lifecycleCallbacks: {  }

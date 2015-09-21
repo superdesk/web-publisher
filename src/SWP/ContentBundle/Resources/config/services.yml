@@ -12,8 +12,18 @@ services:
         arguments:
             - %kernel.root_dir%
             - @doctrine_phpcr.odm.document_manager
+            - @doctrine.orm.entity_manager
         tags:
             - { name: swp.meta_loader }
 
     document_manager:
         alias: doctrine_phpcr.odm.document_manager
+
+    swp_template_engine.twig.extension.content:
+        class: SWP\ContentBundle\Twig\Extension\ContentExtension
+        public: false
+        arguments:
+            - @doctrine
+            - @router
+        tags:
+            - { name: twig.extension }

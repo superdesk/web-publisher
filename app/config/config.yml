@@ -61,7 +61,12 @@ doctrine:
 
     orm:
         auto_generate_proxy_classes: "%kernel.debug%"
-        auto_mapping: true
+        auto_mapping: false
+        mappings:
+            SWPContentBundle:
+                type: yml
+                prefix: "SWP\ContentBundle\Model"
+                dir: Resources/config/doctrine
 
 # Swiftmailer Configuration
 swiftmailer:

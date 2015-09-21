@@ -7,4 +7,11 @@
     <a href="{{ path('swp_page_about_us') }}">About Us</a>
     <a href="{{ path('swp_page_features') }}">Features</a>
     <a href="{{ path('swp_page_get_involved') }}">Get Involved</a>
+
+    <h2>News</h2>
+    <ul>
+    {% gimmelist article from articles with {'pageName': 'News'} %}
+        <li><a href="{{ gimmeUrl(article) }}">{{ article.title }} </a></li>
+    {% endgimmelist %}
+    </ul>
 {% endblock %}
