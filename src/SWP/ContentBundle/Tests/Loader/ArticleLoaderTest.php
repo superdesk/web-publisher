@@ -40,7 +40,8 @@ class ArticleLoaderTest extends WebTestCase
 
         $articleLoader = new ArticleLoader(
             $this->getContainer()->getParameter('kernel.root_dir'),
-            $this->getContainer()->get('doctrine_phpcr.odm.document_manager')
+            $this->getContainer()->get('doctrine_phpcr.odm.document_manager'),
+            $this->getContainer()->get('doctrine.orm.entity_manager')
         );
 
         $this->assertTrue($articleLoader->isSupported('article'));

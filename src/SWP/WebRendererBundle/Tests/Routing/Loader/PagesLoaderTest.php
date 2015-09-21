@@ -29,7 +29,7 @@ class PagesLoaderTest extends WebTestCase
         $this->loadFixtures([
             'SWP\FixturesBundle\DataFixtures\ORM\LoadPagesData',
         ]);
-        $this->assertCount(1, $this->pagesLoader->load('.'));
+        $this->assertCount(2, $this->pagesLoader->load('.'));
 
         $this->assertTrue($this->pagesLoader->supports('.', 'pages'));
     }
