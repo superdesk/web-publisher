@@ -1,0 +1,4 @@
+SWP\ContentBundle\Document\Article:
+    article1:
+        title: "Test article"
+        content: "<paragraph()>"

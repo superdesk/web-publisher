@@ -7,3 +7,5 @@ SWP\ContentBundle\Document\Article:
     fields:
         title:
             type: string
+        content:
+            type: string

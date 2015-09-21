@@ -37,7 +37,7 @@ twig:
 
 liip_theme:
     themes: ['theme_1', 'theme_2', 'theme_3']
-    active_theme: 'theme_1'
+    active_theme: "%active_theme%"
     load_controllers: false
     autodetect_theme: true
     path_patterns:
