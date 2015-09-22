@@ -16,14 +16,19 @@ namespace SWP\ContentBundle\Storage;
 
 use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\ODM\PHPCR\DocumentManager;
+use InvalidArgumentException;
 use SWP\ContentBundle\Document\DocumentNotFoundException;
 use SWP\ContentBundle\Document\DocumentLockedException;
 use SWP\ContentBundle\Storage\StorageException;
 
+/**
+ * Generic Doctrine storage implementation. All Doctrine storage libraries
+ * implement the Doctrine\Common\Persistence\ObjectManager interface.
+ */
 class DoctrineStorage extends AbstractStorage
 {
     /**
-     * Doctrine document manager
+     * Doctrine object manager.
      *
      * @var \Doctrine\Common\Persistence\ObjectManager
      */
@@ -37,10 +42,13 @@ class DoctrineStorage extends AbstractStorage
     /**
      * {@inheritdoc}
      */
-    public function fetchDocument($documentId, $version = null, $locale = null)
-    {
-        // TODO: check if we need to change null
-        $document = $this->manager->find(null, $documentId);
+    public function fetchDocument(
+        $class,
+        $id,
+        VersionInterface $version = null,
+        LocaleInterface $locale = null
+    ) {
+        $document = $this->manager->find($class, $documentId);
 
         if (is_null($document) {
             throw new DocumentNotFoundException('Document doesn\'t exist.');
@@ -52,10 +60,13 @@ class DoctrineStorage extends AbstractStorage
     /**
      * {@inheritdoc}
      */
-    public function fetchDocuments($documentIds, $version = null, $locale = null)
-    {
-        // TODO: check if we need to change null
-        $documents = $this->manager->find(null, $documentIds);
+    public function fetchDocuments(
+        $class,
+        array $id,
+        VersionInterface $version = null,
+        LocaleInterface $locale = null
+    ) {
+        $documents = $this->manager->find($class, $documentIds);
 
         if (is_null($documents) {
             throw new DocumentNotFoundException('Document doesn\'t exist.');
@@ -67,15 +78,35 @@ class DoctrineStorage extends AbstractStorage
     /**
      * {@inheritdoc}
      */
-    public function searchDocuments($parameters, $order = null, $limit = null, $offset= null, $onlyFirst = false)
+    public function searchDocuments($classes, $parameters)
     {
-        // TODO: we should supply parameter for GetRepository
-        $repository = $this->manager->getRepository();
+        $classes = (is_string($classes)) ? array($classes) : $classes;
 
-        if ($onlyFirst) {
-            $documents = $repository->findOneBy($parameters);
-        } else {
-            $documents = $repository->findBy($parameters, $order, $limit, $offset);
+        if (!is_array($classes)) {
+            throw new InvalidArgumentException('Invalid datatype for first argument.');
+        }
+        if (!is_null($parameters) || !is_array($parameters)) {
+            throw new InvalidArgumentException('Invalid datatype for second argument.');
+        }
+
+        $repositories = array();
+        foreach ($classes as $class) {
+            $repositories[] = $this->manager->getRepository($class);
+        }
+        if (count($repositories) <= 0) {
+            throw new StorageException('No repositories to select from.');
+        }
+
+        $specialParameters = $this->extractSpecialParameters($parameters);
+        $parameters = array_diff_assoc($parameters, $specialParameters);
+
+        foreach ($repositories as $repository) {
+            $documents = $repository->findBy(
+                $parameters,
+                $specialParameters['orderfull'],
+                $specialParameters['limit'],
+                $specialParameters['offset']
+            );
         }
 
         if (is_null($documents) {

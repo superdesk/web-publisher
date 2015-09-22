@@ -17,11 +17,16 @@ namespace SWP\ContentBundle\Storage\Doctrine;
 use Doctrine\ODM\PHPCR\DocumentManagerInterface;
 use SWP\ContentBundle\Storage\DoctrineStorage;
 use SWP\ContentBundle\Document\DocumentNotFoundException;
+use SWP\ContentBundle\Document\LocaleInterface;
+use SWP\ContentBundle\Document\VersionInterface;
 
+/**
+ * Doctine PHPCR ODM specific implementation.
+ */
 class PHPCRStorage extends DoctrineStorage
 {
     /**
-     * Doctrine document manager
+     * Doctrine PHPCR object manager.
      *
      * @var \Doctrine\ODM\PHPCR\DocumentManagerInterface
      */
@@ -37,6 +42,11 @@ class PHPCRStorage extends DoctrineStorage
      */
     protected $supportsLocale = true;
 
+    /**
+     * {@inheritdoc}
+     */
+    protected $supportsLocking = true;
+
     public function __construct(DocumentManagerInterface $documentManager)
     {
         $this->manager = $documentManager;
@@ -47,10 +57,14 @@ class PHPCRStorage extends DoctrineStorage
      */
     public function fetchDocument($documentId, $version = null, $locale = null)
     {
-        // TODO: check if we need to change null
-        $document = $this->manager->find(null, $documentId);
-        // TODO: Built in fetching versions
-        // TODO: Built in fetching specific locale
+        // TODO: Change code to query, so we can support version AND locale in one
+        if ($locale instanceof LocaleInterface) {
+            $document = $this->manager->findTranslation(null, $documentId, $locale->getLocale(), true);
+        } elseif ($version instanceof VersionInterface) {
+            $document = $this->manager->findVersionByName(null, $documentId, $version->getVersion());
+        } else {
+            $document = $this->manager->find(null, $documentId);
+        }
 
         if (is_null($document) {
             throw new DocumentNotFoundException('Document doesn\'t exist.');
@@ -107,6 +121,7 @@ class PHPCRStorage extends DoctrineStorage
         } else {
             try {
                 // TODO: Automatically create new version on each save (maybe via parameter?)
+                $this->manager->checkpoint($document);
                 $this->manager->persist($document);
                 $this->manager->flush();
             } catch(\Exception $e) {
@@ -126,8 +141,9 @@ class PHPCRStorage extends DoctrineStorage
 
         $document = $this->fetch($documentId);
         $this->manager->remove($document);
-        $this->manager->flush();
+        $this->manager->flush($document);
     }
+
 
     /**
      * {@inheritdoc}
