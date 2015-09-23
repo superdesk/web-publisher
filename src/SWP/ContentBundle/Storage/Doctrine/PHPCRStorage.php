@@ -15,10 +15,12 @@
 namespace SWP\ContentBundle\Storage\Doctrine;
 
 use Doctrine\ODM\PHPCR\DocumentManagerInterface;
+use InvalidArgumentException;
 use SWP\ContentBundle\Storage\DoctrineStorage;
 use SWP\ContentBundle\Document\DocumentNotFoundException;
 use SWP\ContentBundle\Document\LocaleInterface;
 use SWP\ContentBundle\Document\VersionInterface;
+use SWP\ContentBundle\Search\SearchCriteria;
 
 /**
  * Doctine PHPCR ODM specific implementation.
@@ -55,15 +57,15 @@ class PHPCRStorage extends DoctrineStorage
     /**
      * {@inheritdoc}
      */
-    public function fetchDocument($documentId, $version = null, $locale = null)
+    public function fetchDocument($class, $documentId, $version = null, $locale = null)
     {
         // TODO: Change code to query, so we can support version AND locale in one
         if ($locale instanceof LocaleInterface) {
-            $document = $this->manager->findTranslation(null, $documentId, $locale->getLocale(), true);
+            $document = $this->manager->findTranslation($class, $documentId, $locale->getLocale(), true);
         } elseif ($version instanceof VersionInterface) {
-            $document = $this->manager->findVersionByName(null, $documentId, $version->getVersion());
+            $document = $this->manager->findVersionByName($class, $documentId, $version->getVersion());
         } else {
-            $document = $this->manager->find(null, $documentId);
+            $document = $this->manager->find($class, $documentId);
         }
 
         if (is_null($document) {
@@ -76,10 +78,10 @@ class PHPCRStorage extends DoctrineStorage
     /**
      * {@inheritdoc}
      */
-    public function fetchDocuments($documentIds, $version = null, $locale = null)
+    public function fetchDocuments($class, $documentIds, $version = null, $locale = null)
     {
         // TODO: check if we need to change null
-        $documents = $this->manager->findMany(null, $documentIds);
+        $documents = $this->manager->findMany($class, $documentIds);
         // TODO: Built in fetching versions (not sure if possible with multiple documents)
         // TODO: Built in fetching specific locale
 
@@ -93,19 +95,42 @@ class PHPCRStorage extends DoctrineStorage
     /**
      * {@inheritdoc}
      */
-    public function searchDocuments($parameters, $order = null, $limit = null, $offset= null, $onlyFirst = false)
+    public function searchDocuments($classes, SearchCriteria $criteria = null)
     {
-        // TODO: we should supply parameter for GetRepository
-        $repository = $this->manager->getRepository();
+        // TODO: CHeck if we need to overwrite this from DoctrineStorage.php or if we can just same method code
+        $classes = (is_string($classes)) ? array($classes) : $classes;
+        $repositories = array();
+        $documents = array();
 
-        if ($onlyFirst) {
-            $documents = $repository->findOneBy($parameters);
-        } else {
-            $documents = $repository->findBy($parameters, $order, $limit, $offset);
+        if (!is_array($classes)) {
+            throw new InvalidArgumentException('Invalid datatype for first argument.');
         }
 
-        if (is_null($documents) {
-            throw new DocumentNotFoundException('Document doesn\'t exist.');
+        foreach ($classes as $class) {
+            // TODO: Check if this throws an exception when repository class does not exist or smth
+            $repositories[$class] = $this->manager->getRepository($class);
+        }
+        if (count($repositories) <= 0) {
+            throw new StorageException('No repositories to select from.');
+        }
+
+        if (is_null($criteria)) {
+            foreach ($repositories as $class => $repository) {
+                $documents[$class] = $repository->findAll();
+            }
+        } else {
+            foreach ($repositories as $class => $repository) {
+                $documents[$class] = $repository->findBy(
+                    $criteria->all(),
+                    $criteria->getOrderby(),
+                    $criteria->getLimit(),
+                    $criteria->getOffset()
+                );
+            }
+        }
+
+        if (count($documents)) {
+            throw new DocumentNotFoundException('No documents found.');
         }
 
         return $documents;
@@ -120,7 +145,6 @@ class PHPCRStorage extends DoctrineStorage
             throw new DocumentLockedException('Cannot overwrite a locked Document.');
         } else {
             try {
-                // TODO: Automatically create new version on each save (maybe via parameter?)
                 $this->manager->checkpoint($document);
                 $this->manager->persist($document);
                 $this->manager->flush();
@@ -133,23 +157,44 @@ class PHPCRStorage extends DoctrineStorage
     /**
      * {@inheritdoc}
      */
-    public function deleteDocument($documentId, $forceWhenLocked = false)
+    public function deleteDocument($class, $documentId, $forceWhenLocked = false)
     {
         if ($this->documentIsLocked($documentId) && !$forceWhenLocked) {
             throw new DocumentLockedException('Cannot delete a locked Document.');
         }
 
-        $document = $this->fetch($documentId);
+        $document = $this->fetch($class, $documentId);
         $this->manager->remove($document);
         $this->manager->flush($document);
     }
 
+    /**
+     * {@inheritdoc}
+     */
+    public function lockDocument($class, $documentId)
+    {
+        // TODO: Check if we need to call parent here, which does supprtsLocking check
+        // parent::lockDocument($class, $documentId);
+
+        return $this->manager->checkin($class, $documentId);
+    }
 
     /**
      * {@inheritdoc}
      */
-    public function documentExists($documentId)
+    public function unlockDocument($class, $documentId)
     {
-        return (!is_null($this->manager->find(null, $documentId)));
+        // TODO: Check if we need to call parent here, which does supprtsLocking check
+        // parent::unlockDocument($class, $documentId);
+
+        return $this->manager->checkout($class, $documentId);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function documentExists($class, $documentId)
+    {
+        return (!is_null($this->manager->find($class, $documentId)));
     }
 }

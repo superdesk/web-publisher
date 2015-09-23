@@ -139,13 +139,13 @@ class DoctrineStorage extends AbstractStorage
     /**
      * {@inheritdoc}
      */
-    public function deleteDocument($documentId, $forceWhenLocked = false)
+    public function deleteDocument($class, $documentId, $forceWhenLocked = false)
     {
         if ($this->documentIsLocked($documentId) && !$forceWhenLocked) {
             throw new DocumentLockedException('Cannot delete a locked Document.');
         }
 
-        $document = $this->fetch($documentId);
+        $document = $this->fetch($class, $documentId);
         $this->manager->remove($document);
         $this->manager->flush();
     }
