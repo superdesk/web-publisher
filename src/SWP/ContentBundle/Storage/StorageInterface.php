@@ -16,6 +16,7 @@ namespace SWP\ContentBundle\Storage;
 
 use SWP\ContentBundle\Document\VersionInterface;
 use SWP\ContentBundle\Document\LocaleInterface;
+use SWP\ContentBundle\Search\SearchCriteriaInterface;
 
 interface StorageInterface
 {
@@ -61,21 +62,15 @@ interface StorageInterface
     /**
      * Search documents based on a list of parameters.
      *
-     * @param array|string $classes Classes in which to search (all parameters will
-     *     be used on all classes)
-     * @param array|null $parameters Array container parameters, the following
-     *     array structure should be supported (if it makes sense for the current
-     *     storage implementation), all values can also be null or keys not set:
-     *         array(
-     *             'orderby' => array(<fieldname>)|<fieldname>|null,
-     *             'order' => array('desc|asc')|'desc|asc'|null,
-     *             'limit' => [0-1]+|null,
-     *             'offset' => [0-1]+|null,
-     *         )
+     * @param array|string $classes Classes in which to search
+     * @param SearchCriteriaInterface|null $parameters Search criteria
      *
      * @return \SWP\ContentBundle\Document\DocumentInterface[]|null List of Documents or null
      */
-    public function searchDocuments($classes, array $parameters = null);
+    public function searchDocuments(
+        $classes,
+        SearchCriteriaInterface $parameters = null
+    );
 
     /**
      * Stores a document in the storage facility.

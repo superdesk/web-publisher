@@ -20,6 +20,7 @@ use InvalidArgumentException;
 use SWP\ContentBundle\Document\DocumentNotFoundException;
 use SWP\ContentBundle\Document\DocumentLockedException;
 use SWP\ContentBundle\Storage\StorageException;
+use SWP\ContentBundle\Search\SearchCriteria;
 
 /**
  * Generic Doctrine storage implementation. All Doctrine storage libraries
@@ -44,7 +45,7 @@ class DoctrineStorage extends AbstractStorage
      */
     public function fetchDocument(
         $class,
-        $id,
+        $documentId,
         VersionInterface $version = null,
         LocaleInterface $locale = null
     ) {
@@ -62,7 +63,7 @@ class DoctrineStorage extends AbstractStorage
      */
     public function fetchDocuments(
         $class,
-        array $id,
+        array $documentIds,
         VersionInterface $version = null,
         LocaleInterface $locale = null
     ) {
@@ -78,39 +79,41 @@ class DoctrineStorage extends AbstractStorage
     /**
      * {@inheritdoc}
      */
-    public function searchDocuments($classes, $parameters)
+    public function searchDocuments($classes, SearchCriteria $criteria = null)
     {
         $classes = (is_string($classes)) ? array($classes) : $classes;
+        $repositories = array();
+        $documents = array();
 
         if (!is_array($classes)) {
             throw new InvalidArgumentException('Invalid datatype for first argument.');
         }
-        if (!is_null($parameters) || !is_array($parameters)) {
-            throw new InvalidArgumentException('Invalid datatype for second argument.');
-        }
 
-        $repositories = array();
         foreach ($classes as $class) {
-            $repositories[] = $this->manager->getRepository($class);
+            // TODO: Check if this throws an exception when repository class does not exist or smth
+            $repositories[$class] = $this->manager->getRepository($class);
         }
         if (count($repositories) <= 0) {
             throw new StorageException('No repositories to select from.');
         }
 
-        $specialParameters = $this->extractSpecialParameters($parameters);
-        $parameters = array_diff_assoc($parameters, $specialParameters);
-
-        foreach ($repositories as $repository) {
-            $documents = $repository->findBy(
-                $parameters,
-                $specialParameters['orderfull'],
-                $specialParameters['limit'],
-                $specialParameters['offset']
-            );
+        if (is_null($criteria)) {
+            foreach ($repositories as $class => $repository) {
+                $documents[$class] = $repository->findAll();
+            }
+        } else {
+            foreach ($repositories as $class => $repository) {
+                $documents[$class] = $repository->findBy(
+                    $criteria->all(),
+                    $criteria->getOrderby(),
+                    $criteria->getLimit(),
+                    $criteria->getOffset()
+                );
+            }
         }
 
-        if (is_null($documents) {
-            throw new DocumentNotFoundException('Document doesn\'t exist.');
+        if (count($documents)) {
+            throw new DocumentNotFoundException('No documents found.');
         }
 
         return $documents;
@@ -121,7 +124,7 @@ class DoctrineStorage extends AbstractStorage
      */
     public function saveDocument($document, $forceWhenLocked = false)
     {
-        if ($this->documentExists($document->getId()) && $this->documentIdLocked($document->getId()) && !$forceWhenLocked) {
+        if ($this->documentExists($document->getId()) && $this->documentIsLocked($document->getId()) && !$forceWhenLocked) {
             throw new DocumentLockedException('Cannot overwrite a locked Document.');
         } else {
             try {
@@ -150,8 +153,8 @@ class DoctrineStorage extends AbstractStorage
     /**
      * {@inheritdoc}
      */
-    public function documentExists($documentId)
+    public function documentExists($class, $documentId)
     {
-        return (!is_null($this->manager->find(null, $documentId)));
+        return (!is_null($this->manager->find($class, $documentId)));
     }
 }
