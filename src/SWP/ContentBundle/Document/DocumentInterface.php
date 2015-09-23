@@ -24,24 +24,23 @@ interface DocumentInterface
     public function getId();
 
     /**
-     * Gets the version of the document
+     * Gets the UUID
      *
-     * @return VersionInterface Returns version object
+     * @return mixed
      */
-    public function getVersion();
+    public function getUuid();
 
     /**
-     * Gets the locale for the current document
-     *
-     * @return LocaleInterface Returns the locale object
-     */
-    public function getLocale();
-
-    /**
-     * Checks if the document has any translatable properties
+     * Checks if the document is transtable, implements DocumentTranslatableInterface
      *
      * @return boolean
      */
     public function isTranslatable();
 
+    /**
+     * Checks if the document is versionable, implements DocumentVersionableInterface
+     *
+     * @return boolean
+     */
+    public function isVersionalble();
 }

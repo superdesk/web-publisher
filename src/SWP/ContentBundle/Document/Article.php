@@ -16,6 +16,8 @@ namespace SWP\ContentBundle\Document;
 
 class Article implements DocumentInterface
 {
+    use DocumentTrait, DocumentTranslatableTrait, DocumentVersionbleTrait;
+
     protected $id;
     protected $title;
 
