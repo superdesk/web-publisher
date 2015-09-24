@@ -10,7 +10,7 @@ use Symfony\Component\HttpFoundation\Request;
 class KernelRequestListenerTest extends WebTestCase
 {
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function setUp()
     {

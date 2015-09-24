@@ -1,7 +1,7 @@
 <?php
 
 /**
- * This file is part of the Superdesk Web Publisher Web Renderer Bundle
+ * This file is part of the Superdesk Web Publisher Web Renderer Bundle.
  *
  * Copyright 2015 Sourcefabric z.u. and contributors.
  *
@@ -29,14 +29,14 @@ final class Version implements VersionInterface
     protected $version = '0.0.1';
 
     /**
-     * Code name string
+     * Code name string.
      *
      * @var string
      */
     protected $codeName = 'N/A';
 
     /**
-     * Release date string
+     * Release date string.
      *
      * @var string
      */

@@ -16,8 +16,6 @@ namespace SWP\ContentBundle\Tests\DependencyInjection;
 
 use SWP\ContentBundle\DependencyInjection\SWPContentExtension;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\Config\FileLocator;
-use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 
 class SWPContentExtensionTest extends \PHPUnit_Framework_TestCase
 {
@@ -40,5 +38,4 @@ class SWPContentExtensionTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($this->container->has('swp_renderer.phpcr.initializer'));
         $this->assertTrue($this->container->has('swp_template_engine.loader.article'));
     }
-
 }

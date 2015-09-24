@@ -11,6 +11,7 @@
  * @copyright 2015 Sourcefabric z.ú.
  * @license http://www.superdesk.org/license
  */
+
 namespace SWP\FixturesBundle\DataFixtures\ORM;
 
 use Doctrine\Common\DataFixtures\FixtureInterface;

@@ -1,7 +1,7 @@
 <?php
 
 /**
- * This file is part of the Superdesk Web Publisher Web Renderer Bundle
+ * This file is part of the Superdesk Web Publisher Web Renderer Bundle.
  *
  * Copyright 2015 Sourcefabric z.u. and contributors.
  *
@@ -41,9 +41,9 @@ class RoutePageListener
     }
 
     /**
-     * Fill template engine context with informations about current page
+     * Fill template engine context with informations about current page.
      *
-     * @param  GenericEvent $event
+     * @param GenericEvent $event
      */
     public function onRoutePage(GenericEvent $event)
     {
