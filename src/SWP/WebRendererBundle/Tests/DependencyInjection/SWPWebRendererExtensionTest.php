@@ -1,7 +1,7 @@
 <?php
 
 /**
- * This file is part of the Superdesk Web Publisher Web Renderer Bundle
+ * This file is part of the Superdesk Web Publisher Web Renderer Bundle.
  *
  * Copyright 2015 Sourcefabric z.u. and contributors.
  *
@@ -16,8 +16,6 @@ namespace SWP\WebRendererBundle\Tests\DependencyInjection;
 
 use SWP\WebRendererBundle\DependencyInjection\SWPWebRendererExtension;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\Config\FileLocator;
-use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 
 class SWPWebRendererExtensionTest extends \PHPUnit_Framework_TestCase
 {
@@ -41,5 +39,4 @@ class SWPWebRendererExtensionTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($this->container->has('swp_renderer.listener.kernel_request'));
         $this->assertTrue($this->container->has('swp_renderer.listener.route_page'));
     }
-
 }

@@ -40,7 +40,7 @@ class ArticleLoader implements LoaderInterface
     }
 
     /**
-     * Load meta object by provided type and parameters
+     * Load meta object by provided type and parameters.
      *
      * @MetaLoaderDoc(
      *     description="Article Loader loads articles from Content Repository",
@@ -68,11 +68,11 @@ class ArticleLoader implements LoaderInterface
     }
 
     /**
-     * Checks if Loader supports provided type
+     * Checks if Loader supports provided type.
      *
      * @param string $type
      *
-     * @return boolean
+     * @return bool
      */
     public function isSupported($type)
     {

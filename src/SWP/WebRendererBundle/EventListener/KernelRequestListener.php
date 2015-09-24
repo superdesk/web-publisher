@@ -1,7 +1,7 @@
 <?php
 
 /**
- * This file is part of the Superdesk Web Publisher Web Renderer Bundle
+ * This file is part of the Superdesk Web Publisher Web Renderer Bundle.
  *
  * Copyright 2015 Sourcefabric z.u. and contributors.
  *
@@ -39,7 +39,7 @@ class KernelRequestListener
             // Notify listeners (eg. RoutePageListener) about Page associated to requested route
             $this->eventDispatcher->dispatch('swp.context.page', new GenericEvent(null, [
                 'pageId' => $event->getRequest()->attributes->get('page_id'),
-                'route_name' => $event->getRequest()->attributes->get('_route')
+                'route_name' => $event->getRequest()->attributes->get('_route'),
             ]));
         }
 
