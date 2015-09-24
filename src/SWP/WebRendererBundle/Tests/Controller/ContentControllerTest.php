@@ -11,11 +11,12 @@
  * @copyright 2015 Sourcefabric z.ú.
  * @license http://www.superdesk.org/license
  */
+
 namespace SWP\WebRendererBundle\Tests\Controller;
 
 use Liip\FunctionalTestBundle\Test\WebTestCase;
-use Symfony\Component\Filesystem\Filesystem;
 use SWP\ContentBundle\Document\Article;
+use Symfony\Component\Filesystem\Filesystem;
 
 class ContentControllerTest extends WebTestCase
 {

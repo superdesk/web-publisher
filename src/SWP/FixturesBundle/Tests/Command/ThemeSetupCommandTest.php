@@ -11,12 +11,13 @@
  * @copyright 2015 Sourcefabric z.ú.
  * @license http://www.superdesk.org/license
  */
+
 namespace SWP\FixturesBundleBundle\Tests\Command;
 
-use Symfony\Component\Console\Tester\CommandTester;
+use SWP\FixturesBundle\Command\ThemeSetupCommand;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
-use SWP\FixturesBundle\Command\ThemeSetupCommand;
+use Symfony\Component\Console\Tester\CommandTester;
 use Symfony\Component\Filesystem\Filesystem;
 
 class ThemeSetupCommandTest extends KernelTestCase
@@ -51,12 +52,12 @@ class ThemeSetupCommandTest extends KernelTestCase
     public function testExecute()
     {
         $this->commandTester->execute(
-            array(
+            [
                 '--force' => true,
-            )
+            ]
         );
 
-        $stub = $this->getMock('Symfony\Component\Filesystem\Filesystem', array('mirror'));
+        $stub = $this->getMock('Symfony\Component\Filesystem\Filesystem', ['mirror']);
         $stub->expects($this->at(0))
             ->method('mirror')
             ->with('/some/source/dir', '/some/target/dir')
@@ -73,10 +74,10 @@ class ThemeSetupCommandTest extends KernelTestCase
     public function testExecuteWithThemeName()
     {
         $this->commandTester->execute(
-            array(
-                'name' => 'theme_testing',
+            [
+                'name'    => 'theme_testing',
                 '--force' => true,
-            )
+            ]
         );
 
         $this->assertRegExp(
@@ -87,7 +88,7 @@ class ThemeSetupCommandTest extends KernelTestCase
 
     public function testExecuteWithAskConfirmation()
     {
-        $dialog = $this->getMock('Symfony\Component\Console\Helper\QuestionHelper', array('ask'));
+        $dialog = $this->getMock('Symfony\Component\Console\Helper\QuestionHelper', ['ask']);
         $dialog->expects($this->at(0))
             ->method('ask')
             ->will($this->returnValue(true)); //confirm yes
@@ -95,9 +96,9 @@ class ThemeSetupCommandTest extends KernelTestCase
         $this->command->getHelperSet()->set($dialog, 'question');
         $this->commandTester = new CommandTester($this->command);
         $this->commandTester->execute(
-            array(
+            [
                 'name' => 'theme_testing',
-            )
+            ]
         );
 
         $this->assertRegExp(
@@ -108,7 +109,7 @@ class ThemeSetupCommandTest extends KernelTestCase
 
     public function testExecuteWithAskConfirmationOnDelete()
     {
-        $dialog = $this->getMock('Symfony\Component\Console\Helper\QuestionHelper', array('ask'));
+        $dialog = $this->getMock('Symfony\Component\Console\Helper\QuestionHelper', ['ask']);
         $dialog->expects($this->at(0))
             ->method('ask')
             ->will($this->returnValue(true)); //confirm yes
@@ -116,10 +117,10 @@ class ThemeSetupCommandTest extends KernelTestCase
         $this->command->getHelperSet()->set($dialog, 'question');
         $this->commandTester = new CommandTester($this->command);
         $this->commandTester->execute(
-            array(
-                'name' => 'theme_testing',
+            [
+                'name'     => 'theme_testing',
                 '--delete' => true,
-            )
+            ]
         );
 
         $this->assertRegExp(
@@ -131,11 +132,11 @@ class ThemeSetupCommandTest extends KernelTestCase
     public function testExecuteWithOnDelete()
     {
         $this->commandTester->execute(
-            array(
-                'name' => 'theme_testing',
+            [
+                'name'     => 'theme_testing',
                 '--delete' => true,
-                '--force' => true,
-            )
+                '--force'  => true,
+            ]
         );
 
         $this->assertRegExp(
@@ -146,7 +147,7 @@ class ThemeSetupCommandTest extends KernelTestCase
 
     public function testExecuteWithAskNoOnDelete()
     {
-        $dialog = $this->getMock('Symfony\Component\Console\Helper\QuestionHelper', array('ask'));
+        $dialog = $this->getMock('Symfony\Component\Console\Helper\QuestionHelper', ['ask']);
         $dialog->expects($this->at(0))
             ->method('ask')
             ->will($this->returnValue(false)); //confirm no
@@ -154,10 +155,10 @@ class ThemeSetupCommandTest extends KernelTestCase
         $this->command->getHelperSet()->set($dialog, 'question');
         $this->commandTester = new CommandTester($this->command);
         $this->commandTester->execute(
-            array(
-                'name' => 'theme_testing',
+            [
+                'name'     => 'theme_testing',
                 '--delete' => true,
-            )
+            ]
         );
 
         $this->assertSame('', $this->commandTester->getDisplay());
@@ -165,7 +166,7 @@ class ThemeSetupCommandTest extends KernelTestCase
 
     public function testExecuteWithAskNo()
     {
-        $dialog = $this->getMock('Symfony\Component\Console\Helper\QuestionHelper', array('ask'));
+        $dialog = $this->getMock('Symfony\Component\Console\Helper\QuestionHelper', ['ask']);
         $dialog->expects($this->at(0))
             ->method('ask')
             ->will($this->returnValue(false)); //confirm no
@@ -173,9 +174,9 @@ class ThemeSetupCommandTest extends KernelTestCase
         $this->command->getHelperSet()->set($dialog, 'question');
         $this->commandTester = new CommandTester($this->command);
         $this->commandTester->execute(
-            array(
+            [
                 'name' => 'theme_testing',
-            )
+            ]
         );
 
         $this->assertSame('', $this->commandTester->getDisplay());
@@ -186,7 +187,7 @@ class ThemeSetupCommandTest extends KernelTestCase
      */
     public function testExecuteWhenException()
     {
-        $dialog = $this->getMock('Symfony\Component\Console\Helper\QuestionHelper', array('ask'));
+        $dialog = $this->getMock('Symfony\Component\Console\Helper\QuestionHelper', ['ask']);
         $dialog->expects($this->at(0))
             ->method('ask')
             ->will($this->returnValue(true)); //confirm yes
@@ -194,16 +195,16 @@ class ThemeSetupCommandTest extends KernelTestCase
         $this->command->getHelperSet()->set($dialog, 'question');
         $this->commandTester = new CommandTester($this->command);
 
-        $stub = $this->getMock('Symfony\Component\Filesystem\Filesystem', array('mirror'));
+        $stub = $this->getMock('Symfony\Component\Filesystem\Filesystem', ['mirror']);
         $stub->expects($this->at(0))
             ->method('mirror')
             ->with('/some/fake/source/dir', '/some/target/dir')
             ->will($this->throwException(new \Exception()));
 
         $this->commandTester->execute(
-            array(
+            [
                 'name' => 'theme_testing',
-            )
+            ]
         );
 
         $this->assertNull($stub->mirror('/some/fake/source/dir', '/some/target/dir'));

@@ -1,7 +1,7 @@
 <?php
 
 /**
- * This file is part of the Superdesk Web Publisher Web Renderer Bundle
+ * This file is part of the Superdesk Web Publisher Web Renderer Bundle.
  *
  * Copyright 2015 Sourcefabric z.u. and contributors.
  *
@@ -14,10 +14,9 @@
 
 namespace SWP\WebRendererBundle\Routing\Loader;
 
-use Doctrine\ORM\EntityManager;
-use Symfony\Component\Routing\RouteCollection;
-use Symfony\Component\Routing\Route;
 use Symfony\Component\Config\Loader\Loader;
+use Symfony\Component\Routing\Route;
+use Symfony\Component\Routing\RouteCollection;
 
 /**
  * Pages Loader loads routes from a Pages entries.
@@ -45,7 +44,7 @@ class PagesLoader extends Loader
     }
 
     /**
-     * Loads routes from pages in the database
+     * Loads routes from pages in the database.
      *
      * @return RouteCollection the collection of routes stored in the database table
      */
@@ -55,11 +54,11 @@ class PagesLoader extends Loader
 
         $pages = $this->em->createQuery('SELECT partial p.{id, templateName, slug, name} FROM \SWP\WebRendererBundle\Entity\Page p')->execute();
         foreach ($pages as $page) {
-            $collection->add('swp_page_'.strtolower(str_replace(' ', '_', $page->getName())), new Route($page->getSlug(), array(
+            $collection->add('swp_page_'.strtolower(str_replace(' ', '_', $page->getName())), new Route($page->getSlug(), [
                 '_controller' => '\SWP\WebRendererBundle\Controller\ContentController::renderAction',
-                'page_id' => $page->getId(),
-                'template' => $page->getTemplateName()
-            )));
+                'page_id'     => $page->getId(),
+                'template'    => $page->getTemplateName(),
+            ]));
         }
 
         return $collection;
@@ -71,7 +70,7 @@ class PagesLoader extends Loader
      * @param mixed  $resource the name of a table with title and slug field
      * @param string $type     The resource type (db)
      *
-     * @return boolean True if this class supports the given type (db), false otherwise
+     * @return bool True if this class supports the given type (db), false otherwise
      */
     public function supports($resource, $type = null)
     {

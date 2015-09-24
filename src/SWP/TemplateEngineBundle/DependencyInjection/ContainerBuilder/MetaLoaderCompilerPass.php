@@ -1,7 +1,7 @@
 <?php
 
 /**
- * This file is part of the Superdesk Web Publisher Template Engine Bundle
+ * This file is part of the Superdesk Web Publisher Template Engine Bundle.
  *
  * Copyright 2015 Sourcefabric z.u. and contributors.
  *
@@ -14,8 +14,8 @@
 
 namespace SWP\TemplateEngineBundle\DependencyInjection\ContainerBuilder;
 
-use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Reference;
 
 class MetaLoaderCompilerPass implements CompilerPassInterface
@@ -36,7 +36,7 @@ class MetaLoaderCompilerPass implements CompilerPassInterface
         foreach ($taggedServices as $id => $tags) {
             $definition->addMethodCall(
                 'addLoader',
-                array(new Reference($id))
+                [new Reference($id)]
             );
         }
     }

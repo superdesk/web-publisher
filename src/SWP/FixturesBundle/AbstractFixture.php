@@ -11,13 +11,14 @@
  * @copyright 2015 Sourcefabric z.ú.
  * @license http://www.superdesk.org/license
  */
+
 namespace SWP\FixturesBundle;
 
+use Doctrine\Common\DataFixtures\AbstractFixture as BaseFixture;
+use Doctrine\Common\Persistence\ObjectManager;
+use Nelmio\Alice\Fixtures;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use Nelmio\Alice\Fixtures;
-use Doctrine\Common\Persistence\ObjectManager;
-use Doctrine\Common\DataFixtures\AbstractFixture as BaseFixture;
 
 /**
  * Abstract fixture class.
