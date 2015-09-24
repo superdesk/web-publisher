@@ -1,7 +1,7 @@
 <?php
 
 /**
- * This file is part of the Superdesk Web Publisher Template Engine Bundle
+ * This file is part of the Superdesk Web Publisher Template Engine Bundle.
  *
  * Copyright 2015 Sourcefabric z.u. and contributors.
  *
@@ -15,7 +15,6 @@
 namespace SWP\TemplateEngineBundle\Annotation;
 
 use Doctrine\Common\Annotations\Reader;
-use SWP\TemplateEngineBundle\Annotation\Context;
 
 class ContextReader
 {
@@ -29,7 +28,7 @@ class ContextReader
     }
 
     /**
-     * Read Context annotation from controller
+     * Read Context annotation from controller.
      *
      * @param object $originalObject Array with controller object and method name
      *

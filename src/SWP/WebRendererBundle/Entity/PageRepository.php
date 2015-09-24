@@ -1,7 +1,7 @@
 <?php
 
 /**
- * This file is part of the Superdesk Web Publisher Web Renderer Bundle
+ * This file is part of the Superdesk Web Publisher Web Renderer Bundle.
  *
  * Copyright 2015 Sourcefabric z.u. and contributors.
  *
@@ -15,12 +15,12 @@
 namespace SWP\WebRendererBundle\Entity;
 
 /**
- * PageRepository
+ * PageRepository.
  */
 class PageRepository extends \Doctrine\ORM\EntityRepository
 {
     /**
-     * Get Query for Page searched by id
+     * Get Query for Page searched by id.
      *
      * @param int $pageId
      *

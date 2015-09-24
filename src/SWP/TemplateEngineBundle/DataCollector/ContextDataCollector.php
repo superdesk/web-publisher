@@ -1,7 +1,7 @@
 <?php
 
 /**
- * This file is part of the Superdesk Web Publisher Template Engine Bundle
+ * This file is part of the Superdesk Web Publisher Template Engine Bundle.
  *
  * Copyright 2015 Sourcefabric z.u. and contributors.
  *
@@ -14,23 +14,24 @@
 
 namespace SWP\TemplateEngineBundle\DataCollector;
 
-use Symfony\Component\HttpKernel\DataCollector\DataCollector;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\DataCollector\DataCollector;
 
 class ContextDataCollector extends DataCollector
 {
     protected $context;
 
-    public function __construct($context) {
+    public function __construct($context)
+    {
         $this->context = $context;
     }
 
     public function collect(Request $request, Response $response, \Exception $exception = null)
     {
-        $this->data = array(
-            'context' => $this->context
-        );
+        $this->data = [
+            'context' => $this->context,
+        ];
     }
 
     public function getContext()

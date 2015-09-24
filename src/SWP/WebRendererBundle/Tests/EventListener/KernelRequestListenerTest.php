@@ -4,13 +4,13 @@ namespace SWP\WebRendererBundle\Tests\EventListener;
 
 use Liip\FunctionalTestBundle\Test\WebTestCase;
 use SWP\WebRendererBundle\EventListener\KernelRequestListener;
-use Symfony\Component\HttpKernel\HttpKernelInterface;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\HttpKernelInterface;
 
 class KernelRequestListenerTest extends WebTestCase
 {
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function setUp()
     {

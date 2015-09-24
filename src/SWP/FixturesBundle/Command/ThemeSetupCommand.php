@@ -11,15 +11,16 @@
  * @copyright 2015 Sourcefabric z.ú.
  * @license http://www.superdesk.org/license
  */
+
 namespace SWP\FixturesBundle\Command;
 
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
+use Symfony\Component\Filesystem\Filesystem;
 
 class ThemeSetupCommand extends ContainerAwareCommand
 {
@@ -67,8 +68,7 @@ To force an action, you need to add an option: <info>--force</info>:
 
 Demo theme can be found in "SWPFixturesBundle/Resources/themes".
 EOT
-            )
-        ;
+            );
     }
 
     /**

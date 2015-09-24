@@ -1,7 +1,7 @@
 <?php
 
 /**
- * This file is part of the Superdesk Web Publisher Web Renderer Bundle
+ * This file is part of the Superdesk Web Publisher Web Renderer Bundle.
  *
  * Copyright 2015 Sourcefabric z.u. and contributors.
  *
@@ -14,9 +14,9 @@
 
 namespace SWP\WebRendererBundle\EventListener;
 
-use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
+use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 
 class KernelRequestListener
 {
@@ -38,8 +38,8 @@ class KernelRequestListener
         if ($event->isMasterRequest() && $event->getRequest()->attributes->has('page_id')) {
             // Notify listeners (eg. RoutePageListener) about Page associated to requested route
             $this->eventDispatcher->dispatch('swp.context.page', new GenericEvent(null, [
-                'pageId' => $event->getRequest()->attributes->get('page_id'),
-                'route_name' => $event->getRequest()->attributes->get('_route')
+                'pageId'     => $event->getRequest()->attributes->get('page_id'),
+                'route_name' => $event->getRequest()->attributes->get('_route'),
             ]));
         }
 
