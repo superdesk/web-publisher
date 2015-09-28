@@ -264,7 +264,12 @@ class Page
      */
     public function getRouteName()
     {
-        return 'swp_page_'.strtolower(str_replace(' ', '_', $this->getName()));
+        $pageName = $this->getName();
+        if ($this->getParent()) {
+            $pageName = $this->getParent()->getName().'_'.$this->slug;
+        }
+
+        return 'swp_page_'.strtolower(str_replace(' ', '_', $pageName));
     }
 
     /**

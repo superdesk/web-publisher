@@ -46,7 +46,7 @@ class PageContentRepository extends \Doctrine\ORM\EntityRepository
      *
      * @return \Doctrine\ORM\Query
      */
-    public function getForContentPath($contentPath)
+    public function getByContentPath($contentPath)
     {
         $qb = $this->createQueryBuilder('pa')
             ->where('pa.contentPath = :contentPath')

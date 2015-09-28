@@ -28,7 +28,7 @@ class ContentControllerTest extends WebTestCase
         self::bootKernel();
 
         $this->loadFixtures([
-            'SWP\FixturesBundle\DataFixtures\ORM\LoadPagesData'
+            'SWP\FixturesBundle\DataFixtures\ORM\LoadPagesData',
         ]);
 
         $this->runCommand('doctrine:phpcr:init:dbal', ['--force' => true, '--env' => 'test'], true);

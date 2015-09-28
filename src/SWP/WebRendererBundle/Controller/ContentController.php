@@ -56,7 +56,7 @@ class ContentController extends Controller
             $article = $metaLoader->load('article', $parameters);
 
             if (!$article) {
-                throw new NotFoundHttpException("Requested page was not found");
+                throw new NotFoundHttpException('Requested page was not found');
             }
         }
 

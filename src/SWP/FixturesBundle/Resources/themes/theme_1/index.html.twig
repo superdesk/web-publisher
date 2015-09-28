@@ -11,7 +11,7 @@
     <h2>News</h2>
     <ul>
     {% gimmelist article from articles with {'pageName': 'News'} %}
-        <li><a href="{{ generateUrlForArticle(article) }}">{{ article.title }} </a></li>
+        <li><a href="{{ gimmeUrl(article) }}">{{ article.title }} </a></li>
     {% endgimmelist %}
     </ul>
 {% endblock %}

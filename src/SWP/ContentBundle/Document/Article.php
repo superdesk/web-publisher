@@ -18,12 +18,24 @@ use Behat\Transliterator\Transliterator;
 
 class Article
 {
+    /**
+     * @var int
+     */
     protected $id;
 
+    /**
+     * @var string
+     */
     protected $title;
 
+    /**
+     * @var string
+     */
     protected $content;
 
+    /**
+     * @var string
+     */
     protected $slug;
 
     /**
@@ -57,7 +69,7 @@ class Article
     {
         $this->title = $title;
 
-        $this->slug = Transliterator::urlize($this->title);
+        $this->setSlug(Transliterator::urlize($this->title));
 
         return $this;
     }
@@ -89,7 +101,7 @@ class Article
     /**
      * Gets the value of content.
      *
-     * @return mixed
+     * @return string
      */
     public function getContent()
     {
@@ -99,7 +111,7 @@ class Article
     /**
      * Sets the value of content.
      *
-     * @param mixed $content the content
+     * @param string $content the content
      *
      * @return self
      */

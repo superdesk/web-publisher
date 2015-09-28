@@ -17,6 +17,7 @@ namespace SWP\ContentBundle\Tests;
 use Liip\FunctionalTestBundle\Test\WebTestCase;
 use SWP\ContentBundle\Loader\ArticleLoader;
 use SWP\TemplatesSystem\Gimme\Loader\LoaderInterface;
+use SWP\ContentBundle\Document\Article;
 
 class ArticleLoaderTest extends WebTestCase
 {
@@ -27,16 +28,22 @@ class ArticleLoaderTest extends WebTestCase
     {
         self::bootKernel();
 
-        $this->runCommand('doctrine:schema:drop', ['--force' => true, '--env' => 'test'], true);
+        $this->loadFixtures([
+            'SWP\FixturesBundle\DataFixtures\ORM\LoadPagesData',
+        ]);
+
         $this->runCommand('doctrine:phpcr:init:dbal', ['--force' => true, '--env' => 'test'], true);
         $this->runCommand('doctrine:phpcr:repository:init', ['--env' => 'test'], true);
     }
 
     public function testFindNewArticle()
     {
-        $this->loadFixtures([
-            'SWP\FixturesBundle\DataFixtures\PHPCR\LoadArticlesData',
-        ], null, 'doctrine_phpcr');
+        $manager = $this->getContainer()->get('doctrine_phpcr.odm.document_manager');
+        $article = new Article();
+        $article->setTitle('Test Article');
+        $article->setContent('Test Article lipsum');
+        $manager->persist($article);
+        $manager->flush();
 
         $articleLoader = new ArticleLoader(
             $this->getContainer()->getParameter('kernel.root_dir'),
@@ -53,5 +60,16 @@ class ArticleLoaderTest extends WebTestCase
 
         $this->assertFalse($articleLoader->load('article', ['contentPath' => '/swp/content/test-articles']));
         $this->assertFalse($articleLoader->load('article', ['contentPath' => '/swp/content/test-article'], LoaderInterface::COLLECTION));
+
+        $article = new Article();
+        $article->setTitle('Features');
+        $article->setContent('Features ipsum');
+        $manager->persist($article);
+        $manager->flush();
+
+        $this->assertTrue(count($articleLoader->load('article', ['pageName' => 'News'], LoaderInterface::COLLECTION)) == 1);
+        $this->assertFalse($articleLoader->load('article', ['pageName' => 'Features'], LoaderInterface::COLLECTION));
+
+        $this->assertFalse($articleLoader->load('article', null, LoaderInterface::COLLECTION));
     }
 }

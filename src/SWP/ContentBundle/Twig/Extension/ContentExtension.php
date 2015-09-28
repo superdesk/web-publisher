@@ -15,15 +15,26 @@
 namespace SWP\ContentBundle\Twig\Extension;
 
 use SWP\ContentBundle\Document\Article;
-use SWP\ContentBundle\Model\Page;
+use Doctrine\ORM\EntityManager;
+use Symfony\Component\Routing\Router;
 
 class ContentExtension extends \Twig_Extension
 {
+    /**
+     * Entity Manager.
+     *
+     * @var EntityManager
+     */
     protected $em;
 
+    /**
+     * Router.
+     *
+     * @var Router
+     */
     protected $router;
 
-    public function __construct($em, $router)
+    public function __construct(EntityManager $em, Router $router)
     {
         $this->em = $em;
         $this->router = $router;
@@ -32,7 +43,7 @@ class ContentExtension extends \Twig_Extension
     public function getFunctions()
     {
         return array(
-            'generateUrlFor*' => new \Twig_SimpleFunction('generateUrlFor*', array($this, 'generateUrlFor')),
+            'gimmeUrl' => new \Twig_SimpleFunction('gimmeUrl', array($this, 'gimmeUrl')),
         );
     }
 
@@ -41,11 +52,12 @@ class ContentExtension extends \Twig_Extension
         return 'swp_content';
     }
 
-    public function generateUrlFor($name, $object) {
+    public function gimmeUrl($object)
+    {
         if (is_object($object) && method_exists($object, 'getValues')) {
-            if ($name == 'Article' && $object->getValues() instanceof Article) {
+            if ($object->getValues() instanceof Article) {
                 $pageArticle = $this->em->getRepository('SWP\ContentBundle\Model\PageContent')
-                    ->getForContentPath($object->getValues()->getId())
+                    ->getByContentPath($object->getValues()->getId())
                     ->getOneOrNullResult();
 
                 if ($pageArticle) {

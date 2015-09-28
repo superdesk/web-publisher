@@ -5,8 +5,14 @@ SWP\ContentBundle\Model\Page:
         slug: "about-us"
         templateName: "static.html.twig"
         contentPath: "/swp/content/about-us"
-    page4:
+    page2:
         name: "News"
         type: 2
         slug: "news"
         templateName: "article.html.twig"
+    page3:
+        name: "Sport"
+        type: 2
+        slug: "sport"
+        templateName: "static.html.twig"
+        parent: "@page2"

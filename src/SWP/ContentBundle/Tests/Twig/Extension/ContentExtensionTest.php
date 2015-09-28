@@ -32,13 +32,13 @@ class ContentExtensionTest extends WebTestCase
         $generateUrlFor = false;
         foreach ($functions as $name => $function) {
             if ($function instanceof \Twig_SimpleFunction) {
-                if ($function->getName() == 'generateUrlFor*') {
+                if ($function->getName() == 'gimmeUrl') {
                     $generateUrlFor = true;
                 }
             }
         }
 
-        $this->assertTrue($generateUrlFor, 'Should find "generateUrlFor*" to be a valid function');
+        $this->assertTrue($generateUrlFor, 'Should find "gimmeUrl" to be a valid function');
     }
 
     public function testGetName()
@@ -47,18 +47,17 @@ class ContentExtensionTest extends WebTestCase
             $this->getContainer()->get('doctrine.orm.entity_manager'),
             $this->getContainer()->get('router')
         );
-        $this->assertEquals('swp_content', $contentExtension->getName(), 'Should have name "gitHubGist"');
+        $this->assertEquals('swp_content', $contentExtension->getName(), 'Should have name "swp_content"');
     }
 
     public function testGenerateUrlFor()
     {
         $this->loadFixtures([
-            'SWP\FixturesBundle\DataFixtures\ORM\LoadPagesData'
+            'SWP\FixturesBundle\DataFixtures\ORM\LoadPagesData',
         ]);
 
         $this->runCommand('doctrine:phpcr:init:dbal', ['--force' => true, '--env' => 'test'], true);
         $this->runCommand('doctrine:phpcr:repository:init', ['--env' => 'test'], true);
-        $this->runCommand('theme:setup', ['--env' => 'test', '--force' => true, 'name' => 'theme_test'], true);
 
         $manager = $this->getContainer()->get('doctrine_phpcr.odm.document_manager');
         $article = new Article();
@@ -75,23 +74,17 @@ class ContentExtensionTest extends WebTestCase
         );
 
         $articleLoader = $this->getContainer()->get('swp_template_engine.loader.article');
-        $featuresUrl = $contentExtension->generateUrlFor('Article', $articleLoader->load('article', ['contentPath' => '/swp/content/features']));
+        $featuresUrl = $contentExtension->gimmeUrl($articleLoader->load('article', ['contentPath' => '/swp/content/features']));
         $this->assertEquals('/news/features', $featuresUrl, 'Should generate url for Features article under News page: /news/features');
 
-        $wrongUrlType = $contentExtension->generateUrlFor('Articles', $articleLoader->load('article', ['contentPath' => '/swp/content/features']));
-        $this->assertEquals(false, $wrongUrlType, 'Should return false for not implemented url type');
+        $wrongObject = $contentExtension->gimmeUrl([]);
+        $this->assertEquals(false, $wrongObject, 'Should return false when wrong object is passed');
 
-        $wrongObject = $contentExtension->generateUrlFor('Article', []);
-        $this->assertEquals(false, $wrongUrlType, 'Should return false for not wrong object is passed');
-
-        $wrongObject = $contentExtension->generateUrlFor(
-            'Articles',
-            new Meta(
-                $this->getContainer()->getParameter('kernel.root_dir').'/Resources/meta/article.yml',
-                []
-            )
-        );
-        $this->assertEquals(false, $wrongUrlType, 'Should return false for not wrong object is passed');
+        $wrongObject = $contentExtension->gimmeUrl(new Meta(
+            $this->getContainer()->getParameter('kernel.root_dir').'/Resources/meta/article.yml',
+            []
+        ));
+        $this->assertEquals(false, $wrongObject, 'Should return false when meta with vrong values object is passed');
 
         $article = new Article();
         $article->setTitle('Contact');
@@ -99,7 +92,15 @@ class ContentExtensionTest extends WebTestCase
         $manager->persist($article);
         $manager->flush();
 
-        $wrongUrlType = $contentExtension->generateUrlFor('Article', $articleLoader->load('article', ['contentPath' => '/swp/content/contact']));
-        $this->assertEquals(false, $wrongUrlType, 'Should return false for not existing pageArticle');
+        $wrongUrlType = $contentExtension->gimmeUrl($articleLoader->load('article', ['contentPath' => '/swp/content/contact']));
+        $this->assertFalse($wrongUrlType, 'Should return false for not existing pageArticle');
+
+         $article = new Article();
+        $article->setTitle('Test Article');
+        $article->setContent('Test Article lipsum ');
+        $manager->persist($article);
+        $manager->flush();
+        $childPageUrl = $contentExtension->gimmeUrl($articleLoader->load('article', ['contentPath' => '/swp/content/test-article']));
+        $this->assertEquals('/news/sport/test-article', $childPageUrl, 'Should generate url for Test Article article under Sport page with News as a parent page: /news/sport/test-article');
     }
 }
