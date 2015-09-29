@@ -24,7 +24,7 @@ class ContentExtensionTest extends WebTestCase
     public function testGetFunctions()
     {
         $contentExtension = new ContentExtension(
-            $this->getContainer()->get('doctrine.orm.entity_manager'),
+            $this->getContainer()->get('doctrine'),
             $this->getContainer()->get('router')
         );
         $functions = $contentExtension->getFunctions();
@@ -44,7 +44,7 @@ class ContentExtensionTest extends WebTestCase
     public function testGetName()
     {
         $contentExtension = new ContentExtension(
-            $this->getContainer()->get('doctrine.orm.entity_manager'),
+            $this->getContainer()->get('doctrine'),
             $this->getContainer()->get('router')
         );
         $this->assertEquals('swp_content', $contentExtension->getName(), 'Should have name "swp_content"');
@@ -69,7 +69,7 @@ class ContentExtensionTest extends WebTestCase
         $this->assertTrue($article->getTitle() === 'Features');
 
         $contentExtension = new ContentExtension(
-            $this->getContainer()->get('doctrine.orm.entity_manager'),
+            $this->getContainer()->get('doctrine'),
             $this->getContainer()->get('router')
         );
 
@@ -95,7 +95,7 @@ class ContentExtensionTest extends WebTestCase
         $wrongUrlType = $contentExtension->gimmeUrl($articleLoader->load('article', ['contentPath' => '/swp/content/contact']));
         $this->assertFalse($wrongUrlType, 'Should return false for not existing pageArticle');
 
-         $article = new Article();
+        $article = new Article();
         $article->setTitle('Test Article');
         $article->setContent('Test Article lipsum ');
         $manager->persist($article);

@@ -15,7 +15,7 @@
 namespace SWP\ContentBundle\Twig\Extension;
 
 use SWP\ContentBundle\Document\Article;
-use Doctrine\ORM\EntityManager;
+use Doctrine\Bundle\DoctrineBundle\Registry;
 use Symfony\Component\Routing\Router;
 
 class ContentExtension extends \Twig_Extension
@@ -23,9 +23,9 @@ class ContentExtension extends \Twig_Extension
     /**
      * Entity Manager.
      *
-     * @var EntityManager
+     * @var \Doctrine\Common\Persistence\ObjectManager
      */
-    protected $em;
+    protected $om;
 
     /**
      * Router.
@@ -34,9 +34,9 @@ class ContentExtension extends \Twig_Extension
      */
     protected $router;
 
-    public function __construct(EntityManager $em, Router $router)
+    public function __construct(Registry $doctrine, Router $router)
     {
-        $this->em = $em;
+        $this->om = $doctrine->getManager();
         $this->router = $router;
     }
 
@@ -56,7 +56,7 @@ class ContentExtension extends \Twig_Extension
     {
         if (is_object($object) && method_exists($object, 'getValues')) {
             if ($object->getValues() instanceof Article) {
-                $pageArticle = $this->em->getRepository('SWP\ContentBundle\Model\PageContent')
+                $pageArticle = $this->om->getRepository('SWP\ContentBundle\Model\PageContent')
                     ->getByContentPath($object->getValues()->getId())
                     ->getOneOrNullResult();
 

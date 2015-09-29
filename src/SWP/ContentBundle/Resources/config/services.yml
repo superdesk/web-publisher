@@ -23,7 +23,7 @@ services:
         class: SWP\ContentBundle\Twig\Extension\ContentExtension
         public: false
         arguments:
-            - @doctrine.orm.entity_manager
+            - @doctrine
             - @router
         tags:
             - { name: twig.extension }
