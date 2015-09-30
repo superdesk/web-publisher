@@ -4,7 +4,7 @@ namespace spec\SWP\WebRendererBundle\Routing\Loader;
 
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
-use SWP\WebRendererBundle\Entity\Page;
+use SWP\ContentBundle\Model\Page;
 
 class PagesLoaderSpec extends ObjectBehavior
 {

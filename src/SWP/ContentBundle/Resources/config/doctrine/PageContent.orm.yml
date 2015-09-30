@@ -1,0 +1,23 @@
+SWP\ContentBundle\Model\PageContent:
+    type: entity
+    table: null
+    repositoryClass: SWP\ContentBundle\Repository\PageContentRepository
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        contentPath:
+            column: content_path
+            type: string
+            nullable: true
+    manyToOne:
+        page:
+            targetEntity: SWP\ContentBundle\Model\Page
+            inversedBy: contents
+            joinColumn:
+                name: page_id
+                referencedColumnName: id
+    lifecycleCallbacks: {}

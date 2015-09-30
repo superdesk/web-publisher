@@ -23,7 +23,7 @@ Tag :code:`gimme` have one required parameter and one optional:
         {{ article.title }}
     {% endgimme %}
 
-Meta Loaders sometimes requires some special parameters - like article number, language, user id etc.. 
+Meta Loaders sometimes requires some special parameters - like article number, language, user id etc..
 
 .. code-block:: twig
 
@@ -54,12 +54,31 @@ all parameters:
 
 .. code-block:: twig
 
-    {% gimmelist article from articles|start(0)|limit(10)|order('id', 'desc') 
-        with {foo: 'bar', param1: 'value1'} 
+    {% gimmelist article from articles|start(0)|limit(10)|order('id', 'desc')
+        with {foo: 'bar', param1: 'value1'}
         if article.title == "New Article 1"
     %}
         {{ article.title }}
     {% endgimmelist %}
+
+gimmeUrl
+````````
+
+Generate url for Meta object (if possible).
+
+Function :code:`gimmeUrl` have one required parameter:
+
+* {required} Meta object for witch you want generate url (so far we support only article)
+
+example:
+
+.. code-block:: twig
+
+    {% gimmelist article from articles %}
+        <a href="{{ gimmeUrl(article) }}">{{ article.title }}</a>
+    {% endgimmelist %}
+
+
 
 How to work with Meta objects
 -----------------------------

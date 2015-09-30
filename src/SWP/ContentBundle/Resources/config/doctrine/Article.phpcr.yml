@@ -9,3 +9,5 @@ SWP\ContentBundle\Document\Article:
             type: string
         content:
             type: string
+        slug:
+            type: string
