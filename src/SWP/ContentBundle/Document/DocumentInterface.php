@@ -28,19 +28,34 @@ interface DocumentInterface
      *
      * @return mixed
      */
-    public function getUuid();
+    // TODO: Should we enforce this or not?
+    // public function getUuid();
 
     /**
-     * Checks if the document is transtable, implements DocumentTranslatableInterface
+     * Checks if the document is transtable, implements TranslatableDocumentInterface
      *
      * @return boolean
      */
     public function isTranslatable();
 
     /**
-     * Checks if the document is versionable, implements DocumentVersionableInterface
+     * Checks if the document is versionable, implements VersionableDocumentInterface
      *
      * @return boolean
      */
-    public function isVersionalble();
+    public function isVersionable();
+
+    /**
+     * Get the creation date and time
+     *
+     * @return \DateTime
+     */
+    public function getCreated();
+
+    /**
+     * Get the date and time of last modification
+     *
+     * @return \DateTime|null Returns null only when never edited
+     */
+    public function getLastModified();
 }

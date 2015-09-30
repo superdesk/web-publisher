@@ -16,6 +16,8 @@ namespace SWP\ContentBundle\Document;
 
 trait VersionableDocumentTrait
 {
+    // TODO: Check if we should implement a PHPCR specific implementation for this
+    // or if that should into a seperate trait
     protected $versionName;
 
     protected $versionCreated;
@@ -28,5 +30,13 @@ trait VersionableDocumentTrait
     public function getVersionCreated()
     {
         return $this->versionCreated;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function isVersionable()
+    {
+        return true;
     }
 }

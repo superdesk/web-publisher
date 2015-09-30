@@ -24,6 +24,20 @@ trait DocumentTrait
     protected $id;
 
     /**
+     * Creation date
+     *
+     * @var \DateTime
+     */
+    protected $created;
+
+    /**
+     * Last modification date
+     *
+     * @var \DateTime
+     */
+    protected $lastModified;
+
+    /**
      * Gets the document identifier
      *
      * @return mixed
@@ -31,5 +45,21 @@ trait DocumentTrait
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getCreated()
+    {
+        return $this->created;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getLastModified()
+    {
+        return $this->lastModified;
     }
 }

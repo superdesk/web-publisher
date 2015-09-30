@@ -14,32 +14,26 @@
 
 namespace SWP\ContentBundle\Document;
 
-use SWP\ContentBundle\Document\LocaleInterface;
-
-trait TranslatableDocumentTrait
+/**
+ * Base document for all documents to extend
+ */
+class BaseDocument implements DocumentInterface
 {
-    /**
-     * Locale for document
-     *
-     * @var LocaleInterface
-     */
-    protected $locale;
-
-    /**
-     * Returns locale
-     *
-     * @return VersionInterface
-     */
-    public function getLocale()
-    {
-        return $this->locale();
-    }
+    use DocumentTrait;
 
     /**
      * {@inheritdoc}
      */
     public function isTranslatable()
     {
-        return true;
+        return false;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function isVersionble()
+    {
+        return false;
     }
 }

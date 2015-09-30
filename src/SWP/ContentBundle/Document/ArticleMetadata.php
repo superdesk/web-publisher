@@ -14,32 +14,30 @@
 
 namespace SWP\ContentBundle\Document;
 
-use SWP\ContentBundle\Document\LocaleInterface;
-
-trait TranslatableDocumentTrait
+class ArticleMetadata extends BaseDocument implements
+    TranslatableDocumentInterface,
+    VersionableDocumentInterface
 {
-    /**
-     * Locale for document
-     *
-     * @var LocaleInterface
-     */
-    protected $locale;
+    use TranslatableDocumentTrait, VersionableDocumentTrait;
 
     /**
-     * Returns locale
+     * Article to which the metadata belong
      *
-     * @return VersionInterface
+     * @var Article
      */
-    public function getLocale()
-    {
-        return $this->locale();
-    }
+    protected $article;
 
     /**
-     * {@inheritdoc}
+     * Key name of the metadata entry
+     *
+     * @var string
      */
-    public function isTranslatable()
-    {
-        return true;
-    }
+    protected $key;
+
+    /**
+     * Value of the metadata entry
+     *
+     * @var mixed
+     */
+    protected $value;
 }
