@@ -14,21 +14,46 @@
 
 namespace SWP\ContentBundle\Document;
 
-class Article
+class Article extends BaseDocument implements
+    TranslatableDocumentInterface,
+    VersionableDocumentInterface
 {
-    protected $id;
+    use TranslatableDocumentTrait, VersionableDocumentTrait;
+
+    /**
+     * Article title
+     *
+     * @var string
+     */
     protected $title;
+
+    /**
+     * Article content
+     *
+     * @var string
+     */
     protected $content;
 
     /**
-     * Gets the value of id.
+     * Status of the article
      *
-     * @return mixed
+     * @var ['y','n','s']
      */
-    public function getId()
-    {
-        return $this->id;
-    }
+    protected $status;
+
+    /**
+     * Publication date of article
+     *
+     * @var \DateTime|null Returns null when not published
+     */
+    protected $published;
+
+    /**
+     * Article metadata
+     *
+     * @var ArticleMetadata[]
+     */
+    protected $metadata;
 
     /**
      * Gets the value of title.
@@ -74,6 +99,78 @@ class Article
     public function setContent($content)
     {
         $this->content = $content;
+
+        return $this;
+    }
+
+    /**
+     * Gets the value of status.
+     *
+     * @return ['y','n','s']
+     */
+    public function getStatus()
+    {
+        return $this->status;
+    }
+
+    /**
+     * Sets the value of status.
+     *
+     * @param ['y','n','s'] $status Value to set
+     *
+     * @return self
+     */
+    public function setStatus($status)
+    {
+        $this->status = $status;
+
+        return $this;
+    }
+
+    /**
+     * Gets the value of published.
+     *
+     * @return \DateTime|null
+     */
+    public function getPublished()
+    {
+        return $this->published;
+    }
+
+    /**
+     * Sets the value of published.
+     *
+     * @param \DateTime|null $published Value to set
+     *
+     * @return self
+     */
+    public function setPublished(\DateTime $published = null)
+    {
+        $this->published = $published;
+
+        return $this;
+    }
+
+    /**
+     * Gets the value of metadata.
+     *
+     * @return ArticleMetadata[]
+     */
+    public function getMetadata()
+    {
+        return $this->metadata;
+    }
+
+    /**
+     * Sets the value for metadata.
+     *
+     * @param ArticleMetadata[] $metadata Value to set
+     *
+     * @return self
+     */
+    public function setMetadata(array $metadata = null)
+    {
+        $this->metadata = $metadata;
 
         return $this;
     }
