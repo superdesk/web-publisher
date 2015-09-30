@@ -59,14 +59,22 @@ class PHPCRStorage extends DoctrineStorage
      */
     public function fetchDocument($class, $documentId, $version = null, $locale = null)
     {
-        // TODO: Change code to query, so we can support version AND locale in one
+        $queryBuilder = $this->manager->createQueryBuilder();
+
         if ($locale instanceof LocaleInterface) {
-            $document = $this->manager->findTranslation($class, $documentId, $locale->getLocale(), true);
-        } elseif ($version instanceof VersionInterface) {
-            $document = $this->manager->findVersionByName($class, $documentId, $version->getVersion());
-        } else {
-            $document = $this->manager->find($class, $documentId);
+            $queryBuilder->setlocale($locale->getLocale());
         }
+
+        $queryBuilder->from()->document($class);
+        $queryBuilder->where()->eq()->field('id')->literal($documentId);
+
+        if ($version instanceof VersionInterface) {
+            // TODO: Check if this actually works!
+            $queryBuilder->andWhere()->eq()->field('versionName')->literal($version->getVersion());
+        }
+
+        $query = $queryBuilder->getQuery();
+        $document = $query->getSingleResult();
 
         if (is_null($document) {
             throw new DocumentNotFoundException('Document doesn\'t exist.');
@@ -97,7 +105,7 @@ class PHPCRStorage extends DoctrineStorage
      */
     public function searchDocuments($classes, SearchCriteria $criteria = null)
     {
-        // TODO: CHeck if we need to overwrite this from DoctrineStorage.php or if we can just same method code
+        // TODO: Check if we need to overwrite this from DoctrineStorage.php or if we can just same method code
         $classes = (is_string($classes)) ? array($classes) : $classes;
         $repositories = array();
         $documents = array();
@@ -173,9 +181,6 @@ class PHPCRStorage extends DoctrineStorage
      */
     public function lockDocument($class, $documentId)
     {
-        // TODO: Check if we need to call parent here, which does supprtsLocking check
-        // parent::lockDocument($class, $documentId);
-
         return $this->manager->checkin($class, $documentId);
     }
 
@@ -184,9 +189,6 @@ class PHPCRStorage extends DoctrineStorage
      */
     public function unlockDocument($class, $documentId)
     {
-        // TODO: Check if we need to call parent here, which does supprtsLocking check
-        // parent::unlockDocument($class, $documentId);
-
         return $this->manager->checkout($class, $documentId);
     }
 
