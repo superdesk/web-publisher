@@ -26,8 +26,10 @@ class LoadPagesData extends AbstractFixture implements FixtureInterface
     public function load(ObjectManager $manager)
     {
         $env = $this->getEnvironment();
-        $this->loadFixtures(
-            '@SWPFixturesBundle/Resources/fixtures/ORM/'.$env.'/page.yml',
+        $this->loadFixtures([
+                '@SWPFixturesBundle/Resources/fixtures/ORM/'.$env.'/page.yml',
+                '@SWPFixturesBundle/Resources/fixtures/ORM/'.$env.'/pagecontent.yml',
+            ],
             $manager
         );
     }

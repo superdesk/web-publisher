@@ -1,7 +1,18 @@
-SWP\WebRendererBundle\Entity\Page:
+SWP\ContentBundle\Model\Page:
     page1:
         name: "About Us"
         type: 1
         slug: "about-us"
         templateName: "static.html.twig"
         contentPath: "/swp/content/about-us"
+    page2:
+        name: "News"
+        type: 2
+        slug: "news"
+        templateName: "article.html.twig"
+    page3:
+        name: "Sport"
+        type: 2
+        slug: "sport"
+        templateName: "static.html.twig"
+        parent: "@page2"

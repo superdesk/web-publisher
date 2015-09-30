@@ -48,7 +48,7 @@ class RoutePageListener
     public function onRoutePage(GenericEvent $event)
     {
         $em = $this->registryManager->getManager();
-        $page = $em->getRepository('SWP\WebRendererBundle\Entity\Page')
+        $page = $em->getRepository('SWP\ContentBundle\Model\Page')
             ->getById($event->getArguments()['pageId'])
             ->getArrayResult();
 
