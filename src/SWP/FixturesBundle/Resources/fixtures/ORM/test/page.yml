@@ -1,0 +1,7 @@
+SWP\WebRendererBundle\Entity\Page:
+    page1:
+        name: "About Us"
+        type: 1
+        slug: "about-us"
+        templateName: "static.html.twig"
+        contentPath: "/swp/content/about-us"

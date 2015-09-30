@@ -21,7 +21,7 @@ use SWP\TemplatesSystem\Gimme\Loader\LoaderInterface;
 class ArticleLoaderTest extends WebTestCase
 {
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function setUp()
     {
@@ -35,7 +35,7 @@ class ArticleLoaderTest extends WebTestCase
     public function testFindNewArticle()
     {
         $this->loadFixtures([
-            'SWP\ContentBundle\Tests\Fixtures\ORM\LoadArticlesData'
+            'SWP\FixturesBundle\DataFixtures\PHPCR\LoadArticlesData',
         ], null, 'doctrine_phpcr');
 
         $articleLoader = new ArticleLoader(

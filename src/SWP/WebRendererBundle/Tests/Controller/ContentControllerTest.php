@@ -1,7 +1,7 @@
 <?php
 
 /**
- * This file is part of the Superdesk Web Publisher Web Renderer Bundle
+ * This file is part of the Superdesk Web Publisher Web Renderer Bundle.
  *
  * Copyright 2015 Sourcefabric z.u. and contributors.
  *
@@ -21,14 +21,14 @@ use SWP\ContentBundle\Document\Article;
 class ContentControllerTest extends WebTestCase
 {
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function setUp()
     {
         self::bootKernel();
 
         $this->loadFixtures([
-            'SWP\WebRendererBundle\Tests\Fixtures\ORM\LoadPagesData'
+            'SWP\FixturesBundle\DataFixtures\ORM\LoadPagesData',
         ]);
 
         $this->runCommand('doctrine:phpcr:init:dbal', ['--force' => true, '--env' => 'test'], true);
@@ -51,17 +51,19 @@ class ContentControllerTest extends WebTestCase
     {
         $manager = $this->getContainer()->get('doctrine_phpcr.odm.document_manager');
         $article = new Article();
-        $article->setTitle("About us");
+        $article->setTitle('About us');
+        $article->setContent('Lorem ipsum');
         $manager->persist($article);
         $manager->flush();
 
-        $this->assertTrue($article->getTitle() === "About us");
+        $this->assertTrue($article->getTitle() === 'About us');
 
         $client = static::createClient();
         $crawler = $client->request('GET', '/about-us');
 
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
         $this->assertTrue($crawler->filter('html:contains("About us")')->count() === 1);
+        $this->assertTrue($crawler->filter('html:contains("Lorem ipsum")')->count() === 1);
         $this->assertTrue($crawler->filter('html:contains("Id: /swp/content/about-us")')->count() === 1);
     }
 }

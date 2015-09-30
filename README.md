@@ -38,7 +38,6 @@ Then execute the following commands in terminal:
 
 ```bash
 php app/console doctrine:schema:update --force
-php app/console doctrine:phpcr:init:dbal --force
 php app/console doctrine:phpcr:repository:init
 ```
 

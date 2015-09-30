@@ -16,18 +16,18 @@ namespace SWP\ContentBundle\Document;
 
 use Doctrine\ODM\PHPCR\Id\RepositoryIdInterface;
 use Doctrine\ODM\PHPCR\DocumentRepository as BaseDocumentRepository;
-use Doctrine\ODM\PHPCR\Mapping\Annotations as PHPCR;
 
 class ArticleRepository extends BaseDocumentRepository implements RepositoryIdInterface
 {
     /**
-     * Generate a document id
+     * Generate a document id.
      *
      * @param object $document
+     *
      * @return string
      */
     public function generateId($document, $parent = null)
     {
-        return '/swp/content/'.strtolower(str_replace(" ", "-", $document->getTitle()));
+        return '/swp/content/'.strtolower(str_replace(' ', '-', $document->getTitle()));
     }
 }

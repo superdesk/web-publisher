@@ -1,4 +1,5 @@
 <?php
+
 namespace SWP\WebRendererBundle\Tests\Routing\Loader;
 
 use Liip\FunctionalTestBundle\Test\WebTestCase;
@@ -12,7 +13,7 @@ class PagesLoaderTest extends WebTestCase
     private $pagesLoader;
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function setUp()
     {
@@ -26,7 +27,7 @@ class PagesLoaderTest extends WebTestCase
         $this->assertCount(0, $this->pagesLoader->load('.'));
 
         $this->loadFixtures([
-            'SWP\WebRendererBundle\Tests\Fixtures\ORM\LoadPagesData'
+            'SWP\FixturesBundle\DataFixtures\ORM\LoadPagesData',
         ]);
         $this->assertCount(1, $this->pagesLoader->load('.'));
 
@@ -34,7 +35,7 @@ class PagesLoaderTest extends WebTestCase
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     protected function tearDown()
     {

@@ -20,7 +20,7 @@ use SWP\ContentBundle\Document\Article;
 class ContentRepositoryTest extends WebTestCase
 {
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function setUp()
     {
@@ -34,7 +34,7 @@ class ContentRepositoryTest extends WebTestCase
     public function testFindNewArticle()
     {
         $this->loadFixtures([
-            'SWP\ContentBundle\Tests\Fixtures\ORM\LoadArticlesData'
+            'SWP\FixturesBundle\DataFixtures\PHPCR\LoadArticlesData',
         ], null, 'doctrine_phpcr');
 
         $dm = $this->getContainer()->get('doctrine_phpcr.odm.document_manager');

@@ -1,7 +1,7 @@
 <?php
 
 /**
- * This file is part of the Superdesk Web Publisher Content Bundle.
+ * This file is part of the Superdesk Web Publisher Fixtures Bundle.
  *
  * Copyright 2015 Sourcefabric z.u. and contributors.
  *
@@ -12,23 +12,23 @@
  * @license http://www.superdesk.org/license
  */
 
-namespace SWP\ContentBundle\Tests\Fixtures\ORM;
+namespace SWP\FixturesBundle\DataFixtures\ORM;
 
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
-use SWP\ContentBundle\Document\Article;
+use SWP\FixturesBundle\AbstractFixture;
 
-
-class LoadArticlesData implements FixtureInterface
+class LoadPagesData extends AbstractFixture implements FixtureInterface
 {
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function load(ObjectManager $manager)
     {
-        $article = new Article();
-        $article->setTitle("Test article");
-        $manager->persist($article);
-        $manager->flush();
+        $env = $this->getEnvironment();
+        $this->loadFixtures(
+            '@SWPFixturesBundle/Resources/fixtures/ORM/'.$env.'/page.yml',
+            $manager
+        );
     }
 }

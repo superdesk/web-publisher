@@ -18,6 +18,9 @@ class Article implements DocumentInterface
 {
     use DocumentTrait, DocumentTranslatableTrait, DocumentVersionbleTrait;
 
+    protected $title;
+    protected $content;
+
     /**
      * Article title
      *
@@ -45,6 +48,30 @@ class Article implements DocumentInterface
     public function setTitle($title)
     {
         $this->title = $title;
+
+        return $this;
+    }
+
+    /**
+     * Gets the value of content.
+     *
+     * @return mixed
+     */
+    public function getContent()
+    {
+        return $this->content;
+    }
+
+    /**
+     * Sets the value of content.
+     *
+     * @param mixed $content the content
+     *
+     * @return self
+     */
+    public function setContent($content)
+    {
+        $this->content = $content;
 
         return $this;
     }
