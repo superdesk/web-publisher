@@ -18,18 +18,12 @@ class Article implements DocumentInterface
 {
     use DocumentTrait, DocumentTranslatableTrait, DocumentVersionbleTrait;
 
-    protected $id;
-    protected $title;
-
     /**
-     * Gets the value of id.
+     * Article title
      *
-     * @return mixed
+     * @var string
      */
-    public function getId()
-    {
-        return $this->id;
-    }
+    protected $title;
 
     /**
      * Gets the value of title.

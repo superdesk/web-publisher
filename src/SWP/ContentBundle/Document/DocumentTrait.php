@@ -24,7 +24,9 @@ trait DocumentTrait
     protected $id;
 
     /**
-     * {@inheritdoc}
+     * Gets the document identifier
+     *
+     * @return mixed
      */
     public function getId()
     {
