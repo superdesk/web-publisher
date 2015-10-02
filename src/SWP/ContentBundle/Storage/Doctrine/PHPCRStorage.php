@@ -57,8 +57,12 @@ class PHPCRStorage extends DoctrineStorage
     /**
      * {@inheritdoc}
      */
-    public function fetchDocument($class, $documentId, $version = null, $locale = null)
-    {
+    public function fetchDocument(
+        $class,
+        $documentId,
+        VersionInterface $version = null,
+        LocaleInterface $locale = null
+    ) {
         $queryBuilder = $this->manager->createQueryBuilder();
 
         if ($locale instanceof LocaleInterface) {

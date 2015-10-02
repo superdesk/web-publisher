@@ -17,3 +17,15 @@ services:
 
     document_manager:
         alias: doctrine_phpcr.odm.document_manager
+
+    storage:
+        class: SWP\ContentBundle\Storage\Doctrine\PHPCRStorage
+        arguments:
+            - document_manager
+
+    manager.article:
+        class: SWP\ContentBundle\Manager\ArticleManager
+        arguments:
+            - storage
+            - %swp_content.document.version_class%
+            - %swp_content.document.locale_class%
