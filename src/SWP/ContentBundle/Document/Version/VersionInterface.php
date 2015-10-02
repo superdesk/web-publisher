@@ -12,7 +12,9 @@
  * @license http://www.superdesk.org/license
  */
 
-namespace SWP\ContentBundle\Document;
+namespace SWP\ContentBundle\Document\Version;
+
+use Locale;
 
 /**
  * Version interface for documents
@@ -20,11 +22,25 @@ namespace SWP\ContentBundle\Document;
 interface VersionInterface
 {
     /**
-     * Gets the version in your format
+     * Initialize Version object, setting version via first argument.
+     *
+     * @param mixed $version
+     */
+    public function __construct($version);
+
+    /**
+     * Gets the version in your format.
      *
      * @return mixed
      */
     public function getVersion();
+
+    /**
+     * Set version in your format.
+     *
+     * @param mixed $version
+     */
+    public function setVersion($version);
 
     /**
      * Method which checks if first version is greater then the second version.

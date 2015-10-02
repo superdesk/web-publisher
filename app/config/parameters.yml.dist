@@ -19,3 +19,5 @@ parameters:
     secret:            SuperSecretTokenPleaseChangeIt
     swp_updater.version.class: "SWP\WebRendererBundle\Version\Version"
     active_theme: "theme_1"
+    swp_content.document.version_class: "SWP\ContentBundle\Document\Version\DefaultVersion"
+    swp_content.document.locale_class: "SWP\ContentBundle\Document\Locale\DefaultLocale"
