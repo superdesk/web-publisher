@@ -1,0 +1,169 @@
+<!doctype html>
+<html class="no-js">
+  <head>
+    <meta charset="utf-8">
+    <title>Web Publisher</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+     <!-- Superdesk styles -->
+    <link rel="stylesheet" href="styles/css/vp-bootstrap.css">
+    <link rel="stylesheet" href="styles/css/webpublisher.css">
+    <link rel="stylesheet" href="styles/css/app.css">
+
+    <!-- build:css styles/css/jquery.jcrop.css -->
+    <link rel="stylesheet" href="scripts/bower_components/jcrop/css/jquery.Jcrop.css">
+    <!-- endbuild -->
+
+    <link rel="stylesheet" href="scripts/bower_components/font-awesome/css/font-awesome.min.css">
+
+  </head>
+  <body>
+
+    <div sd-superdesk-view></div>
+
+    <!-- this does not work when compiled into vendor file -->
+    <script src="//maps.google.com/maps/api/js?sensor=false"></script>
+
+    <!-- build:js scripts/vendor.js -->
+    <script src="scripts/bower_components/jquery/dist/jquery.js"></script>
+    <script src="scripts/bower_components/jquery-ui/jquery-ui.js"></script>
+    <script src="scripts/bower_components/angular/angular.js"></script>
+    <script src="scripts/bower_components/gridster/dist/jquery.gridster.with-extras.js"></script>
+    <script src="scripts/bower_components/medium-editor/dist/js/medium-editor.js"></script>
+    <script src="scripts/bower_components/ment.io/dist/mentio.js"></script>
+    <script src="scripts/bower_components/rangy/rangy-core.js"></script>
+    <script src="scripts/bower_components/rangy/rangy-selectionsaverestore.js"></script>
+    <script src="scripts/bower_components/jszip/dist/jszip.js"></script>
+    <script src="scripts/bower_components/file-saver.js/FileSaver.js"></script>
+    <script src="scripts/bower_components/requirejs/require.js"></script>
+    <script src="scripts/bower_components/ngmap/build/scripts/ng-map.min.js"></script>
+    <!-- endbuild -->
+
+    <!-- build:js scripts/superdesk-core.js -->
+    <script src="scripts/bower_components/superdesk/client/app/scripts/superdesk/editor/editor.js"></script>
+    <script src="scripts/bower_components/superdesk/client/app/scripts/superdesk/features/features.js"></script>
+    <script src="scripts/bower_components/superdesk/client/app/scripts/superdesk/services/asset.js"></script>
+    <script src="scripts/bower_components/superdesk/client/app/scripts/superdesk/list/list.js"></script>
+    <script src="scripts/bower_components/superdesk/client/app/scripts/superdesk/keyboard/keyboard.js"></script>
+
+    <script src="scripts/bower_components/superdesk/client/app/scripts/superdesk/privileges/privileges.js"></script>
+    <script src="scripts/bower_components/superdesk/client/app/scripts/superdesk/notification/notification.js"></script>
+    <script src="scripts/bower_components/superdesk/client/app/scripts/superdesk/itemList/itemList.js"></script>
+
+    <script src="scripts/bower_components/superdesk/client/app/scripts/superdesk/menu/menu.js"></script>
+    <script src="scripts/bower_components/superdesk/client/app/scripts/superdesk/menu/notifications/notifications.js"></script>
+
+    <script src="scripts/bower_components/superdesk/client/app/scripts/superdesk-workspace/content/content.js"></script>
+    <script src="scripts/bower_components/superdesk/client/app/scripts/superdesk-dashboard/workspace-tasks/tasks.js"></script>
+
+    <script src="scripts/bower_components/superdesk/client/app/scripts/superdesk-users/users.js"></script>
+    <script src="scripts/bower_components/superdesk/client/app/scripts/superdesk-users/profile.js"></script>
+    <script src="scripts/bower_components/superdesk/client/app/scripts/superdesk-users/activity/activity.js"></script>
+    <script src="scripts/bower_components/superdesk/client/app/scripts/superdesk-users/import/import.js"></script>
+    <script src="scripts/bower_components/superdesk/client/app/scripts/superdesk-groups/groups.js"></script>
+
+    <script src="scripts/bower_components/superdesk/client/app/scripts/superdesk-publish/publish.js"></script>
+    <script src="scripts/bower_components/superdesk/client/app/scripts/superdesk-publish/filters/publish-filters.js"></script>
+    <script src="scripts/bower_components/superdesk/client/app/scripts/superdesk-templates/templates.js"></script>
+
+    <script src="scripts/bower_components/superdesk/client/app/scripts/templates.js"></script>
+    <!-- endbuild -->
+
+    <!-- build:js scripts/superdesk.js -->
+    <script src="scripts/bower_components/superdesk/client/app/scripts/superdesk-desks/aggregate.js"></script>
+    <script src="scripts/bower_components/superdesk/client/app/scripts/superdesk-desks/aggregate-widget/aggregate.js"></script>
+    <script src="scripts/bower_components/superdesk/client/app/scripts/superdesk-desks/desks.js"></script>
+    <script src="scripts/bower_components/superdesk/client/app/scripts/superdesk-authoring/authoring.js"></script>
+    <script src="scripts/bower_components/superdesk/client/app/scripts/superdesk-authoring/widgets/widgets.js"></script>
+    <script src="scripts/bower_components/superdesk/client/app/scripts/superdesk-authoring/comments/comments.js"></script>
+    <script src="scripts/bower_components/superdesk/client/app/scripts/superdesk-authoring/versioning/versioning.js"></script>
+    <script src="scripts/bower_components/superdesk/client/app/scripts/superdesk-authoring/versioning/versions/versions.js"></script>
+    <script src="scripts/bower_components/superdesk/client/app/scripts/superdesk-authoring/versioning/history/history.js"></script>
+    <script src="scripts/bower_components/superdesk/client/app/scripts/superdesk-authoring/metadata/metadata.js"></script>
+    <script src="scripts/bower_components/superdesk/client/app/scripts/superdesk-authoring/workqueue/workqueue.js"></script>
+    <script src="scripts/bower_components/superdesk/client/app/scripts/superdesk-authoring/packages/packages.js"></script>
+    <script src="scripts/bower_components/superdesk/client/app/scripts/superdesk-authoring/editor/find-replace.js"></script>
+    <script src="scripts/bower_components/superdesk/client/app/scripts/superdesk-authoring/multiedit/multiedit.js"></script>
+    <script src="scripts/bower_components/superdesk/client/app/scripts/superdesk-authoring/macros/macros.js"></script>
+
+    <script src="scripts/bower_components/superdesk/client/app/scripts/superdesk-search/search.js"></script>
+    <script src="scripts/bower_components/superdesk/client/app/scripts/superdesk-legal-archive/legal_archive.js"></script>
+    <script src="scripts/bower_components/superdesk/client/app/scripts/superdesk-stream/stream.js"></script>
+    <script src="scripts/bower_components/superdesk/client/app/scripts/superdesk-packaging/packaging.js"></script>
+    <script src="scripts/bower_components/superdesk/client/app/scripts/superdesk-highlights/highlights.js"></script>
+    <script src="scripts/bower_components/superdesk/client/app/scripts/superdesk-dictionaries/dictionaries.js"></script>
+    <script src="scripts/bower_components/superdesk/client/app/scripts/superdesk-archive/directives.js"></script>
+    <script src="scripts/bower_components/superdesk/client/app/scripts/superdesk/editor/spellcheck/spellcheck.js"></script>
+
+    <script src="scripts/bower_components/superdesk/client/app/scripts/superdesk-monitoring/monitoring.js"></script>
+    <script src="scripts/bower_components/superdesk/client/app/scripts/superdesk-workspace/workspace.js"></script>
+
+    <script src="scripts/bower_components/superdesk/client/app/scripts/superdesk/services/image-factory.js"></script>
+
+    <!-- endbuild -->
+
+    <!-- build:js scripts/webpublisher.js -->
+    <script src="scripts/webpublisher/module.js"></script>
+    <script src="scripts/wp-templates.js"></script>
+    <!-- endbuild -->
+
+    <!-- build:js scripts/config.js -->
+    <script src="scripts/config.js"></script>
+    <!-- endbuild -->
+
+    <!-- build:js scripts/main.js -->
+    <script src="scripts/main.js"></script>
+    <!-- endbuild -->
+
+    <script>
+        var config = <%= grunt.toJSON(config) %>;
+        config.paths = {
+            superdesk: 'scripts/bower_components/superdesk/client/app/'
+        };
+        var modules = [
+            'superdesk.settings',
+            'superdesk.dashboard',
+            'superdesk.users',
+            'superdesk.archive',
+            'superdesk.archive.directives',
+            'superdesk.ingest',
+            //'superdesk.scratchpad',
+            'superdesk.desks',
+            'superdesk.groups',
+            'superdesk.authoring',
+            'superdesk.authoring.multiedit',
+            'superdesk.packaging',
+            'superdesk.editor',
+            'superdesk.editor.spellcheck',
+            'superdesk.notification',
+            'superdesk.highlights',
+            'superdesk.dictionaries',
+
+            'superdesk.users.import',
+            'superdesk.users.profile',
+            'superdesk.users.activity',
+            'superdesk.stream',
+            'superdesk.publish',
+            'superdesk.templates',
+            'superdesk.monitoring',
+            'templates',
+
+            'wp.templates',
+
+            'webpublisher.help'
+        ];
+
+        require([
+            'main',
+            'superdesk-settings/module',
+            'superdesk-dashboard/module',
+            'superdesk-archive/module',
+            'superdesk-ingest/module'
+        ], function(bootstrap) {
+            bootstrap(config, modules);
+        });
+    </script>
+  </body>
+</html>
