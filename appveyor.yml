@@ -6,10 +6,10 @@ clone_folder: C:\projects\webrenderer
 cache:
   #https://getcomposer.org/doc/03-cli.md#composer-cache-dir
   - '%LOCALAPPDATA%\Composer\files'
-  - c:\php -> appveyor.yml
+  - c:\tools\php -> appveyor.yml
 
 init:
-  - SET PATH=C:\Program Files\OpenSSL;c:\php;%PATH%
+  - SET PATH=C:\Program Files\OpenSSL;c:\tools\php;%PATH%
 
 environment:
   matrix:
@@ -20,7 +20,7 @@ environment:
 install:
   - cinst -y OpenSSL.Light
   - cinst -y php
-  - cd c:\php
+  - cd c:\tools\php
   - copy php.ini-production php.ini /Y
   - echo date.timezone="UTC" >> php.ini
   - echo extension_dir=ext >> php.ini
