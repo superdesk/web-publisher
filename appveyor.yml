@@ -31,7 +31,6 @@ install:
   - IF %PHP%==1 echo extension=php_openssl.dll >> php.ini
   - IF %PHP%==1 echo extension=php_mbstring.dll >> php.ini
   - IF %PHP%==1 echo extension=php_fileinfo.dll >> php.ini
-  - IF %PHP%==1 echo memory_limit=1G >> php.ini
   - cd c:\projects\webrenderer
   - appveyor DownloadFile https://getcomposer.org/composer.phar
   - php composer.phar update %COMPOSER_OPTIONS% --prefer-source --no-interaction --no-progress --profile
