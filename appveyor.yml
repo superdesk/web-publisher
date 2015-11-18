@@ -1,7 +1,9 @@
 build: false
-shallow_clone: false
-platform: 'x86'
-clone_folder: C:\projects\webrenderer
+shallow_clone: true
+platform:
+  - x86
+  - x64
+clone_folder: c:\projects\webrenderer
 
 cache:
   #https://getcomposer.org/doc/03-cli.md#composer-cache-dir
@@ -10,6 +12,7 @@ cache:
 
 init:
   - SET PATH=C:\Program Files\OpenSSL;c:\tools\php;%PATH%
+  - SET PHP=1
 
 environment:
   matrix:
@@ -18,20 +21,21 @@ environment:
 
 
 install:
-  - cinst -y OpenSSL.Light
-  - cinst -y php
-  - cd c:\tools\php
-  - copy php.ini-production php.ini /Y
-  - echo date.timezone="UTC" >> php.ini
-  - echo extension_dir=ext >> php.ini
-  - echo extension=php_openssl.dll >> php.ini
-  - echo extension=php_mbstring.dll >> php.ini
-  - echo extension=php_fileinfo.dll >> php.ini
-  - echo memory_limit=1G >> php.ini
+  - IF EXIST c:\tools\php (SET PHP=0)
+  - IF %PHP%==1 cinst -y OpenSSL.Light
+  - IF %PHP%==1 cinst -y php
+  - IF %PHP%==1 cd c:\tools\php
+  - IF %PHP%==1 copy php.ini-production php.ini /Y
+  - IF %PHP%==1 echo date.timezone="UTC" >> php.ini
+  - IF %PHP%==1 echo extension_dir=ext >> php.ini
+  - IF %PHP%==1 echo extension=php_openssl.dll >> php.ini
+  - IF %PHP%==1 echo extension=php_mbstring.dll >> php.ini
+  - IF %PHP%==1 echo extension=php_fileinfo.dll >> php.ini
+  - IF %PHP%==1 echo memory_limit=1G >> php.ini
   - cd c:\projects\webrenderer
   - appveyor DownloadFile https://getcomposer.org/composer.phar
-  - php composer.phar update %COMPOSER_OPTIONS% --prefer-source --no-interaction --no-progress
+  - php composer.phar update %COMPOSER_OPTIONS% --prefer-source --no-interaction --no-progress --profile
 
 test_script:
   - cd c:\projects\webrenderer
-  - vendor\bin\phpunit.bat --verbose
+  - vendor\bin\phpunit.bat -c app/ --verbose
