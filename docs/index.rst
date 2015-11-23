@@ -21,3 +21,11 @@ Templator documentation:
    :maxdepth: 2
 
    templates_caching
+
+Developer documentation:
+
+.. toctree::
+   :caption: Fixtures
+   :maxdepth: 2
+
+   fixtures

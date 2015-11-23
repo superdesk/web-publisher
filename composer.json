@@ -51,7 +51,9 @@
         "halleck45/phpmetrics-collector-bundle": "v0.0.1",
         "swp/templates-system": "^1.0@dev",
         "swp/updater-bundle": "^1.0@dev",
-        "swp/bridge-bundle": "^1.0@dev"
+        "swp/bridge-bundle": "^1.0@dev",
+        "behat/transliterator": "^1.1@dev",
+        "ramsey/uuid": "^3.0"
     },
     "require-dev": {
         "sensio/generator-bundle": "~2.3",

@@ -28,16 +28,12 @@ class ContentControllerTest extends WebTestCase
 
         $this->loadFixtureFiles([
             '@SWPFixturesBundle/DataFixtures/ORM/Test/page.yml',
+            '@SWPFixturesBundle/DataFixtures/ORM/Test/pagecontent.yml',
         ]);
 
         $this->runCommand('doctrine:phpcr:init:dbal', ['--force' => true, '--env' => 'test'], true);
         $this->runCommand('doctrine:phpcr:repository:init', ['--env' => 'test'], true);
-    }
-
-    public static function setUpBeforeClass()
-    {
-        $filesystem = new Filesystem();
-        $filesystem->mirror(__DIR__.'/../Fixtures/theme_1', __DIR__.'/../../../../../app/Resources/themes/theme_test');
+        $this->runCommand('theme:setup', ['--env' => 'test', '--force' => true, 'name' => 'theme_test'], true);
     }
 
     public static function tearDownAfterClass()
@@ -64,5 +60,35 @@ class ContentControllerTest extends WebTestCase
         $this->assertTrue($crawler->filter('html:contains("About us")')->count() === 1);
         $this->assertTrue($crawler->filter('html:contains("Lorem ipsum")')->count() === 1);
         $this->assertTrue($crawler->filter('html:contains("Id: /swp/content/about-us")')->count() === 1);
+    }
+
+    public function testLoadingContainerPageArticle()
+    {
+        $manager = $this->getContainer()->get('doctrine_phpcr.odm.document_manager');
+        $article = new Article();
+        $article->setTitle('Features');
+        $article->setContent('Features ipsum');
+        $manager->persist($article);
+        $manager->flush();
+
+        $this->assertTrue($article->getTitle() === 'Features');
+
+        $client = static::createClient();
+        $crawler = $client->request('GET', '/news/features');
+
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+        $this->assertTrue($crawler->filter('html:contains("Features")')->count() === 1);
+        $this->assertTrue($crawler->filter('html:contains("Features ipsum")')->count() === 1);
+        $this->assertTrue($crawler->filter('html:contains("Id: /swp/content/features")')->count() === 1);
+    }
+
+    public function testLoadingNotExistingArticleUnderContainerPage()
+    {
+        $manager = $this->getContainer()->get('doctrine_phpcr.odm.document_manager');
+
+        $client = static::createClient();
+        $crawler = $client->request('GET', '/news/features');
+
+        $this->assertEquals(404, $client->getResponse()->getStatusCode());
     }
 }

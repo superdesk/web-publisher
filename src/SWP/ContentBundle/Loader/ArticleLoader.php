@@ -30,22 +30,27 @@ class ArticleLoader implements LoaderInterface
      */
     protected $dm;
 
+    protected $em;
+
     /**
      * @param string $rootDir path to application root directory
      */
-    public function __construct($rootDir, DocumentManager $dm)
+    public function __construct($rootDir, DocumentManager $dm, $em)
     {
         $this->rootDir = $rootDir;
         $this->dm = $dm;
+        $this->em = $em;
     }
 
     /**
-     * Load meta object by provided type and parameters
+     * Load meta object by provided type and parameters.
      *
      * @MetaLoaderDoc(
      *     description="Article Loader loads articles from Content Repository",
      *     parameters={
-     *         contentPath="SINGLE|required content path"
+     *         contentPath="SINGLE|required content path",
+     *         slug="SINGLE|required content slug",
+     *         pageName="COLLECTiON|name of Page for required articles"
      *     }
      * )
      *
@@ -57,10 +62,46 @@ class ArticleLoader implements LoaderInterface
      */
     public function load($type, $parameters, $responseType = LoaderInterface::SINGLE)
     {
+        $article = null;
+        if (empty($parameters)) {
+            $parameters = [];
+        }
+
         if ($responseType === LoaderInterface::SINGLE) {
-            $article = $this->dm->find('SWP\ContentBundle\Document\Article', $parameters['contentPath']);
-            if ($article) {
+            if (array_key_exists('contentPath', $parameters)) {
+                $article = $this->dm->find('SWP\ContentBundle\Document\Article', $parameters['contentPath']);
+            } elseif (array_key_exists('slug', $parameters)) {
+                $article = $this->dm->getRepository('SWP\ContentBundle\Document\Article')
+                    ->findOneBy(array('slug' => $parameters['slug']));
+            }
+
+            if (!is_null($article)) {
                 return new Meta($this->rootDir.'/Resources/meta/article.yml', $article);
+            }
+        } elseif ($responseType === LoaderInterface::COLLECTION) {
+            if (array_key_exists('pageName', $parameters)) {
+                $page = $this->em->getRepository('SWP\ContentBundle\Model\Page')->getByName($parameters['pageName'])
+                    ->getOneOrNullResult();
+
+                if ($page) {
+                    $articlePages = $this->em->getRepository('SWP\ContentBundle\Model\PageContent')
+                        ->getForPage($page)
+                        ->getResult();
+
+                    $articles = [];
+                    foreach ($articlePages as $articlePage) {
+                        $article = $this->dm->find('SWP\ContentBundle\Document\Article', $articlePage->getContentPath());
+
+                        if (!is_null($article)) {
+                            $articles[] = new Meta(
+                                $this->rootDir.'/Resources/meta/article.yml',
+                                $article
+                            );
+                        }
+                    }
+
+                    return $articles;
+                }
             }
         }
 
@@ -68,11 +109,11 @@ class ArticleLoader implements LoaderInterface
     }
 
     /**
-     * Checks if Loader supports provided type
+     * Checks if Loader supports provided type.
      *
      * @param string $type
      *
-     * @return boolean
+     * @return bool
      */
     public function isSupported($type)
     {

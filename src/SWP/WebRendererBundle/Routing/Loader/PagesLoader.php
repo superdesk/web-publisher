@@ -1,7 +1,7 @@
 <?php
 
 /**
- * This file is part of the Superdesk Web Publisher Web Renderer Bundle
+ * This file is part of the Superdesk Web Publisher Web Renderer Bundle.
  *
  * Copyright 2015 Sourcefabric z.u. and contributors.
  *
@@ -14,10 +14,11 @@
 
 namespace SWP\WebRendererBundle\Routing\Loader;
 
-use Doctrine\ORM\EntityManager;
 use Symfony\Component\Routing\RouteCollection;
 use Symfony\Component\Routing\Route;
 use Symfony\Component\Config\Loader\Loader;
+use SWP\ContentBundle\Model\Page;
+use Doctrine\Bundle\DoctrineBundle\Registry;
 
 /**
  * Pages Loader loads routes from a Pages entries.
@@ -37,15 +38,15 @@ class PagesLoader extends Loader
     /**
      * Constructor.
      *
-     * @param \Symfony\Bridge\Doctrine\ManagerRegistry$managerRegistry
+     * @param \Symfony\Bridge\Doctrine\Registry $managerRegistry
      */
-    public function __construct(\Doctrine\Bundle\DoctrineBundle\Registry $managerRegistry)
+    public function __construct(Registry $managerRegistry)
     {
         $this->em = $managerRegistry->getManager();
     }
 
     /**
-     * Loads routes from pages in the database
+     * Loads routes from pages in the database.
      *
      * @return RouteCollection the collection of routes stored in the database table
      */
@@ -53,13 +54,27 @@ class PagesLoader extends Loader
     {
         $collection = new RouteCollection();
 
-        $pages = $this->em->createQuery('SELECT partial p.{id, templateName, slug, name} FROM \SWP\WebRendererBundle\Entity\Page p')->execute();
+        $pages = $this->em->createQuery('SELECT partial p.{id, templateName, slug, name, type, parent} FROM \SWP\ContentBundle\Model\Page p')->execute();
         foreach ($pages as $page) {
-            $collection->add('swp_page_'.strtolower(str_replace(' ', '_', $page->getName())), new Route($page->getSlug(), array(
-                '_controller' => '\SWP\WebRendererBundle\Controller\ContentController::renderAction',
-                'page_id' => $page->getId(),
-                'template' => $page->getTemplateName()
-            )));
+            if ($page->getType() === Page::PAGE_TYPE_CONTENT) {
+                $collection->add(
+                    $page->getRouteName(),
+                    new Route($page->getSlug(), array(
+                        '_controller' => '\SWP\WebRendererBundle\Controller\ContentController::renderContentPageAction',
+                        'page_id' => $page->getId(),
+                        'template' => $page->getTemplateName(),
+                    ))
+                );
+            } elseif ($page->getType() === Page::PAGE_TYPE_CONTAINER) {
+                $collection->add(
+                    $page->getRouteName(),
+                    new Route($page->getSlug().'/{contentSlug}', array(
+                        '_controller' => '\SWP\WebRendererBundle\Controller\ContentController::renderContainerPageAction',
+                        'page_id' => $page->getId(),
+                        'template' => $page->getTemplateName(),
+                    ))
+                );
+            }
         }
 
         return $collection;
@@ -71,7 +86,7 @@ class PagesLoader extends Loader
      * @param mixed  $resource the name of a table with title and slug field
      * @param string $type     The resource type (db)
      *
-     * @return boolean True if this class supports the given type (db), false otherwise
+     * @return bool True if this class supports the given type (db), false otherwise
      */
     public function supports($resource, $type = null)
     {

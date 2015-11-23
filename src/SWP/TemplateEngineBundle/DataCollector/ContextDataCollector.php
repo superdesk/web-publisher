@@ -1,7 +1,7 @@
 <?php
 
 /**
- * This file is part of the Superdesk Web Publisher Template Engine Bundle
+ * This file is part of the Superdesk Web Publisher Template Engine Bundle.
  *
  * Copyright 2015 Sourcefabric z.u. and contributors.
  *
@@ -22,14 +22,15 @@ class ContextDataCollector extends DataCollector
 {
     protected $context;
 
-    public function __construct($context) {
+    public function __construct($context)
+    {
         $this->context = $context;
     }
 
     public function collect(Request $request, Response $response, \Exception $exception = null)
     {
         $this->data = array(
-            'context' => $this->context
+            'context' => $this->context,
         );
     }
 

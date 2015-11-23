@@ -1,4 +1,4 @@
-SWP\WebRendererBundle\Entity\Page:
+SWP\ContentBundle\Model\Page:
     page1:
         name: "About Us"
         type: 1
@@ -17,3 +17,8 @@ SWP\WebRendererBundle\Entity\Page:
         slug: "get-involved"
         templateName: "involved.html.twig"
         contentPath: "/swp/content/get-involved"
+    page4:
+        name: "News"
+        type: 2
+        slug: "news"
+        templateName: "article.html.twig"

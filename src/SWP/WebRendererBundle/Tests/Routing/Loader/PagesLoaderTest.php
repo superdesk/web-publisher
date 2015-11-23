@@ -28,9 +28,10 @@ class PagesLoaderTest extends WebTestCase
 
         $this->loadFixtureFiles([
             '@SWPFixturesBundle/DataFixtures/ORM/Test/page.yml',
+            '@SWPFixturesBundle/DataFixtures/ORM/Test/pagecontent.yml',
         ]);
 
-        $this->assertCount(1, $this->pagesLoader->load('.'));
+        $this->assertTrue(count($this->pagesLoader->load('.')) > 0);
 
         $this->assertTrue($this->pagesLoader->supports('.', 'pages'));
     }
