@@ -11,7 +11,6 @@
  * @copyright 2015 Sourcefabric z.ú.
  * @license http://www.superdesk.org/license
  */
-
 namespace SWP\WebRendererBundle\Tests\Controller;
 
 use Liip\FunctionalTestBundle\Test\WebTestCase;
@@ -27,8 +26,9 @@ class ContentControllerTest extends WebTestCase
     {
         self::bootKernel();
 
-        $this->loadFixtures([
-            'SWP\FixturesBundle\DataFixtures\ORM\LoadPagesData',
+        $this->loadFixtureFiles([
+            '@SWPFixturesBundle/DataFixtures/ORM/Test/page.yml',
+            '@SWPFixturesBundle/DataFixtures/ORM/Test/pagecontent.yml',
         ]);
 
         $this->runCommand('doctrine:phpcr:init:dbal', ['--force' => true, '--env' => 'test'], true);
