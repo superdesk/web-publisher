@@ -1,4 +1,5 @@
 build: false
+shallow_clone: true
 platform:
   - x86
   - x64
@@ -24,6 +25,7 @@ install:
   - IF %PHP%==1 echo extension=php_openssl.dll >> php.ini
   - IF %PHP%==1 echo extension=php_mbstring.dll >> php.ini
   - IF %PHP%==1 echo extension=php_fileinfo.dll >> php.ini
+  - IF %PHP%==1 echo extension=php_curl.dll >> php.ini
   - cd c:\projects\webrenderer
   - appveyor DownloadFile https://getcomposer.org/composer.phar
   - php composer.phar install --prefer-source --no-interaction --no-progress
