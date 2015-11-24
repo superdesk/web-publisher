@@ -27,7 +27,7 @@ install:
   - IF %PHP%==1 echo extension=php_fileinfo.dll >> php.ini
   - cd c:\projects\webrenderer
   - appveyor DownloadFile https://getcomposer.org/composer.phar
-  - php composer.phar install --prefer-dist --no-interaction --no-progress --profile
+  - php composer.phar install --prefer-source --no-interaction --no-progress
 
 test_script:
   - cd c:\projects\webrenderer
