@@ -92,14 +92,10 @@ where, for example, ``<paragraph(20)>`` is one of the
 `fzaninotto/Faker`_ formatter, which tells Alice to generate 20
 paragraphs filled with fake data.
 
-For the convention, Alice YAML files should be placed inside
-``FixturesBundle/DataFixtures/<db_driver>/<environment>``, where ``<environment>`` is the current environment name (Dev, Test) and
-``<db_driver>`` is the database driver.
-
-For instance, having ``FixturesBundle/DataFixtures/ORM/Test/page.yml`` Alice
-fixture, we will be able to persist fake data defined in YAML file into
-the databse (using Doctrine ORM driver), only when ``test`` environment
-is set in ``AppKernel.php`` or when provided as a parameter in console command which loads the fixtures:
+If your fixture is saved as a ``FixturesBundle/DataFixtures/ORM/Test/page.yml``, you will be able to
+persist the fake data based on the configuration defined in YAML file, into the databse (using Doctrine ORM driver).
+This can only happen when ``test`` environment
+is set in ``AppKernel.php`` or when it is provided as a parameter in console command which loads the fixtures:
 
 .. code:: bash
 
