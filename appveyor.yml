@@ -14,12 +14,6 @@ init:
   - SET PATH=C:\Program Files\OpenSSL;c:\tools\php;%PATH%
   - SET PHP=1
 
-environment:
-  matrix:
-    - COMPOSER_OPTIONS: ""
-    - COMPOSER_OPTIONS: --prefer-lowest --prefer-stable
-
-
 install:
   - IF EXIST c:\tools\php (SET PHP=0)
   - IF %PHP%==1 cinst -y OpenSSL.Light
@@ -33,7 +27,7 @@ install:
   - IF %PHP%==1 echo extension=php_fileinfo.dll >> php.ini
   - cd c:\projects\webrenderer
   - appveyor DownloadFile https://getcomposer.org/composer.phar
-  - php composer.phar update %COMPOSER_OPTIONS% --prefer-source --no-interaction --no-progress --profile
+  - php composer.phar install --prefer-dist --no-interaction --no-progress --profile
 
 test_script:
   - cd c:\projects\webrenderer
