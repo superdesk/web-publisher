@@ -132,21 +132,20 @@ if [[ "$DEPENDENCIES" = true ]]; then
 
     which -s php
     if [[ $? != 0 ]] ; then
-        echo "Installing php55";
-        brew install php55
+        echo "Installing php56";
+        brew install php5&
     fi
 
     php -i | grep "PDO Driver for PostgreSQL => enabled"
     if [[ $? != 0 ]] ; then
-        echo "Installing php55-pdo-pgsql";
-        brew install php55-pdo-pgsql
+        echo "Installing php56-pdo-pgsql";
+        brew install php56-pdo-pgsql
     fi
 
     which -s composer 
     if [[ $? != 0 ]] ; then
         echo "Installing composer";
-        curl -sS https://getcomposer.org/installer | php
-        mv composer.phar /usr/local/bin/composer
+        brew install composer
     fi
 fi
 
