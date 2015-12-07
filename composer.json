@@ -55,7 +55,8 @@
         "swp/bridge-bundle": "^1.0@dev",
         "behat/transliterator": "^1.1@dev",
         "willdurand/hateoas-bundle": "^1.0",
-        "knplabs/knp-paginator-bundle": "^2.4@dev"
+        "knplabs/knp-paginator-bundle": "^2.4@dev",
+        "ramsey/uuid": "^3.0"
     },
     "require-dev": {
         "sensio/generator-bundle": "~2.3",
@@ -63,10 +64,10 @@
         "phpunit/phpunit": "4.8.*",
         "phpunit/php-code-coverage": "2.2.2",
         "liip/functional-test-bundle": "^1.3@dev",
-        "doctrine/doctrine-fixtures-bundle": "^2.2@dev",
-        "nelmio/alice": "^2.0.@dev",
-        "henrikbjorn/phpspec-code-coverage" : "1.*@dev",
-        "symfony/phpunit-bridge": "^3.1@dev"
+        "symfony/phpunit-bridge": "^3.1@dev",
+        "doctrine/data-fixtures": "~1.0",
+        "hautelook/alice-bundle": "dev-master",
+        "henrikbjorn/phpspec-code-coverage" : "1.*@dev"
     },
     "scripts": {
         "post-install-cmd": [
