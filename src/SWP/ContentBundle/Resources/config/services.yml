@@ -11,19 +11,28 @@ services:
         class: SWP\ContentBundle\Loader\ArticleLoader
         arguments:
             - %kernel.root_dir%
-            - @doctrine_phpcr.odm.document_manager
-            - @doctrine.orm.entity_manager
+            - "@doctrine_phpcr.odm.document_manager"
+            - "@doctrine.orm.entity_manager"
         tags:
             - { name: swp.meta_loader }
 
     document_manager:
         alias: doctrine_phpcr.odm.document_manager
 
+    swp_content_bundle.factory.knp_paginator_representation:
+        class: SWP\ContentBundle\Factory\KnpPaginatorRepresentationFactory
+        arguments:
+            - 'page'
+            - 10
+
+    swp_pagination_rep:
+        alias: swp_content_bundle.factory.knp_paginator_representation
+
     swp_template_engine.twig.extension.content:
         class: SWP\ContentBundle\Twig\Extension\ContentExtension
         public: false
         arguments:
-            - @doctrine
-            - @router
+            - "@doctrine"
+            - "@router"
         tags:
             - { name: twig.extension }

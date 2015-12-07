@@ -10,7 +10,7 @@ parameters:
 
 framework:
     #esi:             ~
-    #translator:      { fallbacks: ["%locale%"] }
+    translator:      { fallbacks: ["%locale%"] }
     secret:          "%secret%"
     router:
         resource: "%kernel.root_dir%/config/routing.yml"
@@ -32,7 +32,7 @@ framework:
 # Twig Configuration
 twig:
     debug:            "%kernel.debug%"
-    exception_controller: 'FOS\RestBundle\Controller\ExceptionController::showAction'
+    exception_controller: "FOS\\RestBundle\\Controller\\ExceptionController::showAction"
     strict_variables: false
 
 liip_theme:
@@ -42,8 +42,8 @@ liip_theme:
     autodetect_theme: true
     path_patterns:
         app_resource:
-            - %%app_path%%/themes/%%current_theme%%/%%current_device%%/%%template%%
-            - %%app_path%%/views/%%current_device%%/%%template%%
+            - "%%app_path%%/themes/%%current_theme%%/%%current_device%%/%%template%%"
+            - "%%app_path%%/views/%%current_device%%/%%template%%"
 
 twig_cache:
     service: doctrine_cache.providers.doctrine.orm.default_metadata_cache
@@ -65,7 +65,11 @@ doctrine:
         mappings:
             SWPContentBundle:
                 type: yml
-                prefix: "SWP\ContentBundle\Model"
+                prefix: "SWP\\ContentBundle\\Model"
+                dir: Resources/config/doctrine
+            SWPTemplateEngineBundle:
+                type: yml
+                prefix: "SWP\\TemplateEngineBundle\\Model"
                 dir: Resources/config/doctrine
 
 # Swiftmailer Configuration
@@ -97,36 +101,56 @@ oneup_flysystem:
     adapters:
         swp_local:
             local:
-                directory: %kernel.root_dir%/Resources/uploads
+                directory: "%kernel.root_dir%/Resources/uploads"
 
     filesystems:
         my_filesystem:
             adapter: swp_local
 
 fos_rest:
+    zone:
+        - { path: ^/api/* }
+    versioning:
+        enabled: true 
+        resolvers:
+            query: true
     routing_loader:
         default_format: json
     view:
         formats:
             json: true
         view_response_listener: 'force'
+    serializer:
+        serialize_null: true
     format_listener:
         rules:
-            - { path: '^/api', priorities: ['json'], fallback_format: json, prefer_extension: true }
-            - { path: '^/', stop: true }
+            - { path: "^/api", priorities: ['json'], fallback_format: json, prefer_extension: true }
+            - { path: "^/", stop: true }
+    body_listener:
+        decoders:
+            json: fos_rest.decoder.jsontoform
+    disable_csrf_role: ROLE_API
     exception:
         codes:
-            'Symfony\Component\Routing\Exception\ResourceNotFoundException': 404
+            "Symfony\\Component\\Routing\\Exception\\ResourceNotFoundException": 404
         messages:
-            'Symfony\Component\Routing\Exception\ResourceNotFoundException': true
+            "Symfony\\Component\\Routing\\Exception\\ResourceNotFoundException": true
 
 sensio_framework_extra:
     view:    { annotations: false }
 
+knp_paginator:
+    page_range: 10
+    default_options:
+        page_name: page
+        sort_field_name: sort
+        sort_direction_name: direction
+        distinct: true
+
 swp_updater:
-    version_class: %swp_updater.version.class%
+    version_class: "%swp_updater.version.class%"
     client:
-        base_uri: http://updates.sourcefabric.org
+        base_uri: "http://updates.sourcefabric.org"
 
 swp_bridge:
-    base_uri: 'http://superdesk.dev:5050'
+    base_uri: "http://superdesk.dev:5050"

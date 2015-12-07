@@ -1,0 +1,23 @@
+SWP\TemplateEngineBundle\Model\ContainerData:
+    type: entity
+    table: null
+    repositoryClass: SWP\TemplateEngineBundle\Repository\ContainerDataRepository
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        key:
+            type: string
+            length: 255
+        value:
+            type: string
+            length: 255
+    manyToOne:
+        container:
+            targetEntity: SWP\TemplateEngineBundle\Model\Container
+            joinColumn:
+                name: container_id
+                referencedColumnName: id

@@ -7,31 +7,44 @@ services:
     context:
         alias: swp_template_engine_context
 
+    swp_template_engine_container:
+        class: SWP\TemplateEngineBundle\Service\ContainerService
+        arguments:
+            - "@doctrine"
+
     swp_template_engine_twig_extension.gimme:
         class: SWP\TemplatesSystem\Twig\Extension\GimmeExtension
         public: false
         arguments:
-            - @swp_template_engine_context
-            - @swp_template_engine_loader_chain
+            - "@swp_template_engine_context"
+            - "@swp_template_engine_loader_chain"
+        tags:
+            - { name: twig.extension }
+
+    swp_template_engine_twig_extension.container:
+        class: SWP\TemplatesSystem\Twig\Extension\ContainerExtension
+        public: false
+        arguments:
+            - "@swp_template_engine_container"
         tags:
             - { name: twig.extension }
 
     swp_template_engine_context_reader:
         class: SWP\TemplateEngineBundle\Annotation\ContextReader
         arguments:
-            - @annotation_reader
+            - "@annotation_reader"
 
     swp_template_engine_context_listener:
         class: SWP\TemplateEngineBundle\EventListener\ContextListener
         arguments:
-            - @swp_template_engine_context_reader
-            - @swp_template_engine_context
+            - "@swp_template_engine_context_reader"
+            - "@swp_template_engine_context"
         tags:
             - { name: kernel.event_listener, event: kernel.controller, method: onKernelController }
 
     swp_template_engine.data_collector.context_collector:
         class: SWP\TemplateEngineBundle\DataCollector\ContextDataCollector
         arguments:
-            - @swp_template_engine_context
+            - "@swp_template_engine_context"
         tags:
             - { name: data_collector, template: "SWPTemplateEngineBundle:Collector:contextCollector", id: "context_collector" }

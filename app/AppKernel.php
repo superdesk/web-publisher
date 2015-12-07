@@ -15,14 +15,15 @@ class AppKernel extends Kernel
             new Symfony\Bundle\SwiftmailerBundle\SwiftmailerBundle(),
             new Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle(),
 
+            new JMS\SerializerBundle\JMSSerializerBundle(),
             new Doctrine\Bundle\DoctrineBundle\DoctrineBundle(),
             new Doctrine\Bundle\PHPCRBundle\DoctrinePHPCRBundle(),
             new FOS\HttpCacheBundle\FOSHttpCacheBundle(),
-
+            new Knp\Bundle\PaginatorBundle\KnpPaginatorBundle(),
             new Liip\ThemeBundle\LiipThemeBundle(),
             new EmanueleMinotto\TwigCacheBundle\TwigCacheBundle(),
             new FOS\RestBundle\FOSRestBundle(),
-            new JMS\SerializerBundle\JMSSerializerBundle(),
+            new Bazinga\Bundle\HateoasBundle\BazingaHateoasBundle(),
             new Nelmio\ApiDocBundle\NelmioApiDocBundle(),
             new Oneup\FlysystemBundle\OneupFlysystemBundle(),
 

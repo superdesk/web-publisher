@@ -11,6 +11,15 @@ web_profiler:
     toolbar: true
     intercept_redirects: false
 
+twig:
+    cache: false
+    debug: true
+
+services:
+    twig.extension.debug:
+        class: Twig_Extension_Debug
+        tags:
+                - { name: 'twig.extension' }
 monolog:
     handlers:
         main:
