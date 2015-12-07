@@ -15,7 +15,6 @@ namespace SWP\ContentBundle\Loader;
 
 use SWP\TemplatesSystem\Gimme\Loader\LoaderInterface;
 use SWP\TemplatesSystem\Gimme\Meta\Meta;
-use Doctrine\ODM\PHPCR\DocumentManager;
 
 class ArticleLoader implements LoaderInterface
 {
@@ -24,21 +23,19 @@ class ArticleLoader implements LoaderInterface
      */
     protected $rootDir;
 
-    /**
-     * @var DocumentManager
-     */
     protected $dm;
 
     protected $em;
 
+    protected $container;
+
     /**
      * @param string $rootDir path to application root directory
      */
-    public function __construct($rootDir, DocumentManager $dm, $em)
+    public function __construct($rootDir, $container)
     {
         $this->rootDir = $rootDir;
-        $this->dm = $dm;
-        $this->em = $em;
+        $this->container = $container;
     }
 
     /**
@@ -61,6 +58,9 @@ class ArticleLoader implements LoaderInterface
      */
     public function load($type, $parameters, $responseType = LoaderInterface::SINGLE)
     {
+        $this->dm = $this->container->get('doctrine_phpcr.odm.document_manager');
+        $this->em = $this->container->get('doctrine')->getManager();
+
         $article = null;
         if (empty($parameters)) {
             $parameters = [];

@@ -11,8 +11,7 @@ services:
         class: SWP\ContentBundle\Loader\ArticleLoader
         arguments:
             - %kernel.root_dir%
-            - "@doctrine_phpcr.odm.document_manager"
-            - "@doctrine.orm.entity_manager"
+            - "@service_container"
         tags:
             - { name: swp.meta_loader }
 
