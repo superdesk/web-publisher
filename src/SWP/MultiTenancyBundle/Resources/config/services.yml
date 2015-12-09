@@ -1,0 +1,34 @@
+services:
+    swp_multi_tenancy.tenant_repository:
+        class: Doctrine\ORM\EntityRepository
+        factory_service: doctrine.orm.default_entity_manager
+        factory_method: getRepository
+        arguments:
+            - SWP\MultiTenancyBundle\Model\Tenant
+
+    swp_multi_tenancy.tenant_resolver:
+       class: SWP\MultiTenancyBundle\Resolver\TenantResolver
+       arguments:
+        - %domain%
+        - @swp_multi_tenancy.tenant_repository
+
+    swp_multi_tenancy.tenant_context:
+       class: SWP\MultiTenancyBundle\Context\TenantContext
+       arguments:
+        - @swp_multi_tenancy.tenant_resolver
+        - @request_stack
+
+    swp_multi_tenancy.tenant_listener:
+        class: SWP\MultiTenancyBundle\EventListener\TenantListener
+        arguments:
+            - @doctrine.orm.entity_manager
+            - @swp_multi_tenancy.tenant_context
+        tags:
+            - { name: kernel.event_listener, event: kernel.request }
+
+    #swp_multi_tenancy.tenant_subscriber:
+    #    class: SWP\MultiTenancyBundle\EventListener\TenantSubscriber
+    #    arguments:
+    #        - @swp_multi_tenancy.tenant_resolver
+    #    tags:
+    #        - { name: doctrine.event_subscriber }
