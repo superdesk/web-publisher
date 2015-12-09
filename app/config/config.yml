@@ -7,6 +7,7 @@ imports:
 # http://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
     locale: en
+    swp_multi_tenancy.tenant.class: SWP\MultiTenancyBundle\Model\TenantInterface
 
 framework:
     #esi:             ~
@@ -60,13 +61,34 @@ doctrine:
         charset:  UTF8
 
     orm:
+        resolve_target_entities:
+            SWP\MultiTenancyBundle\Model\TenantInterface: %swp_multi_tenancy.tenant.class%
         auto_generate_proxy_classes: "%kernel.debug%"
-        auto_mapping: false
-        mappings:
-            SWPContentBundle:
-                type: yml
-                prefix: "SWP\ContentBundle\Model"
-                dir: Resources/config/doctrine
+        entity_managers:
+            default:
+                naming_strategy: doctrine.orm.naming_strategy.underscore
+                auto_mapping: false
+                mappings:
+                    SWPContentBundle:
+                        type: yml
+                        prefix: "SWP\ContentBundle\Model"
+                        dir: Resources/config/doctrine
+                    SWPMultiTenancyBundle:
+                        type: yml
+                        prefix: "SWP\MultiTenancyBundle\Model"
+                        dir: Resources/config/doctrine
+                    gedmo_loggable:
+                        type: annotation
+                        prefix: Gedmo\Loggable\Entity
+                        dir: "%kernel.root_dir%/../vendor/gedmo/doctrine-extensions/lib/Gedmo/Loggable/Entity"
+                        is_bundle: false
+                filters:
+                    soft-deleteable:
+                        class: Gedmo\SoftDeleteable\Filter\SoftDeleteableFilter
+                        enabled: true
+                    tenantable:
+                        class: SWP\MultiTenancyBundle\Query\Filter\TenantableFilter
+                        enabled: true
 
 # Swiftmailer Configuration
 swiftmailer:
@@ -130,3 +152,11 @@ swp_updater:
 
 swp_bridge:
     base_uri: 'http://superdesk.dev:5050'
+
+stof_doctrine_extensions:
+    default_locale: %locale%
+    orm:
+        default:
+            timestampable: true
+            softdeleteable: true
+            loggable: true

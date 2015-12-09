@@ -37,6 +37,8 @@ SWP\ContentBundle\Model\Page:
             targetEntity: SWP\ContentBundle\Model\PageContent
             mappedBy: page
     manyToOne:
+        tenant:
+            targetEntity: SWP\MultiTenancyBundle\Model\Tenant
         parent:
             targetEntity: SWP\ContentBundle\Model\Page
             joinColumn:
