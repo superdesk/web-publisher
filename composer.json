@@ -25,7 +25,10 @@
     "autoload": {
         "psr-4": {
             "": "src/"
-        }
+        },
+        "exclude-from-classmap": [
+            "**/Tests/", "**/spec/"
+        ]
     },
     "require": {
         "php": ">=5.5",
