@@ -69,10 +69,15 @@ class Container implements ContainerInterface
      */
     protected $data;
 
+    /**
+     * @var ArrayCollection
+     */
+    protected $widgets;
 
     public function __construct()
     {
         $this->data = new ArrayCollection();
+        $this->widgets = new ArrayCollection();
         $this->setType(self::TYPE_SIMPLE);
         $this->setVisible(true);
     }
@@ -275,6 +280,54 @@ class Container implements ContainerInterface
     public function setType($type)
     {
         $this->type = $type;
+
+        return $this;
+    }
+
+    /**
+     * Gets the value of widgets.
+     *
+     * @return ArrayCollection
+     */
+    public function getWidgets()
+    {
+        return $this->widgets;
+    }
+
+    /**
+     * Sets the value of widgets.
+     *
+     * @param ArrayCollection $widgets the widgets
+     *
+     * @return self
+     */
+    public function setWidgets(ArrayCollection $widgets)
+    {
+        $this->widgets = $widgets;
+
+        return $this;
+    }
+
+    /**
+     * Add widget to container
+     *
+     * @param $widget
+     */
+    public function addWidget($widget)
+    {
+        $this->widgets->add($widget);
+
+        return $this;
+    }
+
+    /**
+     * Remove widget to container
+     *
+     * @param $widget
+     */
+    public function removeWidget($widget)
+    {
+        $this->widgets->removeElement($widget);
 
         return $this;
     }

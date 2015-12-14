@@ -26,7 +26,7 @@ class ContainerService
         $this->objectManager = $doctrine->getManager();
     }
 
-    public function getContainer($name, $parameters, $createIfNotExists = true)
+    public function getContainer($name, array $parameters, $createIfNotExists = true)
     {
         $containerEntity = $this->objectManager->getRepository('SWP\TemplateEngineBundle\Model\Container')
             ->getByName($name)
@@ -35,13 +35,25 @@ class ContainerService
         if (!$containerEntity && $createIfNotExists) {
             $containerEntity = $this->createNewContainer($name, $parameters);
         }
-        
+
+        $widgets = [];
+        $containerWidgets = $this->objectManager->getRepository('SWP\TemplateEngineBundle\Model\ContainerWidget')
+            ->getSortedWidgets(['container' => $containerEntity])
+            ->getResult();
+
+        foreach ($containerWidgets as $containerWidget) {
+            $widgetModel = $containerWidget->getWidget();
+            $widgetClass = $widgetModel->getType();
+            $widgets[] = new $widgetClass($widgetModel);
+        }
+
         $container = new SimpleContainer($containerEntity);
+        $container->setWidgets($widgets);
 
         return $container;
     }
 
-    public function createNewContainer($name, $parameters = array())
+    public function createNewContainer($name, array $parameters = array())
     {
         $containerEntity = new Container();
         $containerEntity->setName($name);

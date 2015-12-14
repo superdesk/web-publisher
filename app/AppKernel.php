@@ -26,6 +26,7 @@ class AppKernel extends Kernel
             new Bazinga\Bundle\HateoasBundle\BazingaHateoasBundle(),
             new Nelmio\ApiDocBundle\NelmioApiDocBundle(),
             new Oneup\FlysystemBundle\OneupFlysystemBundle(),
+            new Stof\DoctrineExtensionsBundle\StofDoctrineExtensionsBundle(),
 
             new SWP\TemplateEngineBundle\SWPTemplateEngineBundle(),
             new SWP\WebRendererBundle\SWPWebRendererBundle(),

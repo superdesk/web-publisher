@@ -1,0 +1,29 @@
+SWP\TemplateEngineBundle\Model\Widget:
+    exclusion_policy: ALL
+    properties:
+        id:
+            expose: true
+            type: integer
+        name:
+            expose: true
+            type: string
+            serialized_name: name
+        type:
+            expose: true
+            type: string
+            serialized_name: type
+        visible:
+            expose: true
+            type: boolean
+            serialized_name: visible
+        parameters:
+            expose: true
+            type: array
+            serialized_name: parameters
+    relations:
+        -
+            rel: self
+            href:
+                route: swp_api_templates_get_widget
+                parameters:
+                    id: expr(object.getId())

@@ -1,0 +1,31 @@
+SWP\TemplateEngineBundle\Model\ContainerWidget:
+    type: entity
+    table: containers_widgets
+    repositoryClass: SWP\TemplateEngineBundle\Repository\ContainerWidgetRepository
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    uniqueConstraints:
+        container_widget_idx:
+            columns: [ container_id, widget_id ]
+    fields:
+        position:
+            type: integer
+            gedmo:
+                - sortablePosition
+    manyToOne:
+        widget:
+            targetEntity: SWP\TemplateEngineBundle\Model\Widget
+            joinColumn:
+                name: widget_id
+                referencedColumnName: id
+        container:
+            targetEntity: SWP\TemplateEngineBundle\Model\Container
+            joinColumn:
+                name: container_id
+                referencedColumnName: id
+            gedmo:
+                - sortableGroup

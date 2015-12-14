@@ -34,3 +34,6 @@ SWP\TemplateEngineBundle\Model\Container:
         data:
             targetEntity: SWP\TemplateEngineBundle\Model\ContainerData
             mappedBy: container
+        widgets:
+            targetEntity: SWP\TemplateEngineBundle\Model\ContainerWidget
+            mappedBy: container

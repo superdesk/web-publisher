@@ -56,7 +56,8 @@
         "behat/transliterator": "^1.1@dev",
         "willdurand/hateoas-bundle": "^1.0",
         "knplabs/knp-paginator-bundle": "^2.4@dev",
-        "ramsey/uuid": "^3.0"
+        "ramsey/uuid": "^3.0",
+        "stof/doctrine-extensions-bundle": "^1.2"
     },
     "require-dev": {
         "sensio/generator-bundle": "~2.3",

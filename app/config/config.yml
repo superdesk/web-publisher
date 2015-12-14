@@ -62,6 +62,8 @@ doctrine:
     orm:
         auto_generate_proxy_classes: "%kernel.debug%"
         auto_mapping: false
+        metadata_cache_driver: redis
+        query_cache_driver: redis
         mappings:
             SWPContentBundle:
                 type: yml
@@ -111,7 +113,7 @@ fos_rest:
     zone:
         - { path: ^/api/* }
     versioning:
-        enabled: true 
+        enabled: true
         resolvers:
             query: true
     routing_loader:
@@ -154,3 +156,14 @@ swp_updater:
 
 swp_bridge:
     base_uri: "http://superdesk.dev:5050"
+
+stof_doctrine_extensions:
+    default_locale: %locale%
+    orm:
+        default:
+            timestampable: true
+            softdeleteable: true
+            loggable: true
+            sortable: true
+nelmio_api_doc:
+    request_listener: false

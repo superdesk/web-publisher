@@ -18,26 +18,25 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 
-class ContainerType extends AbstractType
+class WidgetType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('name', null, ['required' => false])
-            ->add('height', null, ['required' => false])
-            ->add('width', null, ['required' => false])
-            ->add('styles', null, ['required' => false])
+            ->add('name')
+            ->add('type')
             ->add('visible', ChoiceType::class, [
                 'choices'  => ['1' => true, '0' => false],
                 'choices_as_values' => false]
             )
-            ->add('cssClass', null, ['required' => false]);
+            ->add('parameters', TextType::class);
     }
 
     public function getName()
     {
-        return 'container';
+        return 'widget';
     }
 
     public function setDefaultOptions(OptionsResolverInterface $resolver)

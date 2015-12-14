@@ -19,11 +19,12 @@ use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use FOS\RestBundle\Controller\Annotations as Rest;
-use SWP\ContentBundle\Factory\KnpPaginatorRepresentationFactory;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\UnprocessableEntityHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use SWP\TemplateEngineBundle\Form\Type\ContainerType;
+use SWP\TemplateEngineBundle\Model\Widget;
+use SWP\TemplateEngineBundle\Model\ContainerWidget;
 
 class ContainerController extends FOSRestController
 {
@@ -37,7 +38,7 @@ class ContainerController extends FOSRestController
      *         200="Returned on success."
      *     }
      * )
-     * @Route("/api/{version}/templates/containers/", options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_templates_list")
+     * @Route("/api/{version}/templates/containers/", options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_templates_list_containers")
      * @Method("GET")
      * @Rest\View(statusCode=200)
      */
@@ -46,13 +47,13 @@ class ContainerController extends FOSRestController
         $entityManager = $this->get('doctrine')->getManager();
         $paginator = $this->get('knp_paginator');
         $containers = $paginator->paginate($entityManager->getRepository('SWP\TemplateEngineBundle\Model\Container')->getAll());
-    
+
         if (count($containers) == 0) {
             throw new NotFoundHttpException('Containers were not found.');
         }
 
         return $this->container->get('swp_pagination_rep')
-            ->createRepresentation($containers, $request, 'containers');
+            ->createRepresentation($containers, $request);
     }
 
     /**
@@ -67,7 +68,7 @@ class ContainerController extends FOSRestController
      *         422="Container id is not number"
      *     }
      * )
-     * @Route("/api/{version}/templates/containers/{id}", options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_templates_get")
+     * @Route("/api/{version}/templates/containers/{id}", options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_templates_get_container")
      * @Method("GET")
      * @Rest\View(statusCode=200)
      */
@@ -100,8 +101,8 @@ class ContainerController extends FOSRestController
      *     },
      *     input="SWP\TemplateEngineBundle\Form\Type\ContainerType"
      * )
-     * @Route("/api/{version}/templates/containers/{id}", options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_templates_update")
-     * @Method("PATCH|PUT")
+     * @Route("/api/{version}/templates/containers/{id}", options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_templates_update_container")
+     * @Method("PATCH")
      * @Rest\View(statusCode=200)
      */
     public function updateAction(Request $request, $id)
@@ -129,5 +130,135 @@ class ContainerController extends FOSRestController
         }
 
         return $form;
+    }
+
+    /**
+     * Link or Unlink resource with Container.
+     *
+     * **link or unlink widget**:
+     *
+     *     header name: "link"
+     *     header value: "</api/{version}/templates/widgets/{id}; rel="widget">"
+     *
+     * or with specific position:
+     *
+     *     header name: "link"
+     *     header value: "</api/{version}/templates/widgets/{id}; rel="widget">,<1; rel="widget-position">"
+     *
+     * @ApiDoc(
+     *     statusCodes={
+     *         201="Returned when successful",
+     *         404="Returned when resource not found",
+     *         409={
+     *           "Returned when the link already exists",
+     *         }
+     *     }
+     * )
+     *
+     * @Route("/api/{version}/templates/containers/{id}", defaults={"version"="v1"}, name="swp_api_templates_link_container")
+     *
+     * @Method("LINK|UNLINK")
+     * @Rest\View(statusCode=201)
+     *
+     * @return Article
+     */
+    public function linkUnlinkToContainerAction(Request $request, $id)
+    {
+        if (!$id || !is_numeric($id)) {
+            throw new UnprocessableEntityHttpException('You need to provide container Id (integer).');
+        }
+
+        $entityManager = $this->get('doctrine')->getManager();
+        $container = $entityManager->getRepository('SWP\TemplateEngineBundle\Model\Container')->getById($id)->getOneOrNullResult();
+
+        if (!$container) {
+            throw new NotFoundHttpException('Container with this id was not found.');
+        }
+
+        $matched = false;
+        foreach ($request->attributes->get('links', array()) as $key => $objectArray) {
+            if (!is_array($objectArray)) {
+                continue;
+            }
+
+            $resourceType = $objectArray['resourceType'];
+            $object = $objectArray['object'];
+
+            if ($object instanceof \Exception) {
+                throw $object;
+            }
+
+            if ($object instanceof Widget) {
+                $containerWidget = $entityManager->getRepository('SWP\TemplateEngineBundle\Model\ContainerWidget')
+                    ->findOneBy([
+                        'widget' => $object,
+                        'container' => $container
+                    ]);
+                if ($request->getMethod() === 'LINK') {
+                    $position = false;
+                    if (count($notConvertedLinks = $this->getNotConvertedLinks($request)) > 0) {
+                        foreach ($notConvertedLinks as $link) {
+                            if (isset($link['resourceType']) && $link['resourceType'] == 'widget-position') {
+                                $position = $link['resource'];
+                            }
+                        }
+                    }
+
+                    if ($position === false && $containerWidget) {
+                        throw new \Exception('Widget is already linked to container', 409);
+                    }
+
+                    if (!$containerWidget) {
+                        $containerWidget = new ContainerWidget($container, $object);
+                        $entityManager->persist($containerWidget);
+                    }
+
+                    if ($position !== false) {
+                        $containerWidget->setPosition($position);
+                        $entityManager->persist($containerWidget);
+                        $entityManager->flush($containerWidget);
+                    }
+
+                } else if ($request->getMethod() === 'UNLINK') {
+                    if (!$container->getWidgets()->contains($containerWidget)) {
+                        throw new \Exception('Widget is not linked to container', 409);
+                    }
+                    $entityManager->remove($containerWidget);
+                }
+
+                $entityManager->flush();
+                $matched = true;
+                break;
+            }
+        }
+        if ($matched === false) {
+            throw new NotFoundHttpException('Any supported link object was not found');
+        }
+
+        return $container;
+    }
+
+    private function getNotConvertedLinks($request)
+    {
+        $links = array();
+        foreach ($request->attributes->get('links') as $idx => $link) {
+            if (is_string($link)) {
+                $linkParams = explode(';', trim($link));
+                $resourceType = null;
+                if (count($linkParams) > 1) {
+                    $resourceType = trim(preg_replace('/<|>/', '', $linkParams[1]));
+                    $resourceType = str_replace('"', '', str_replace('rel=', '', $resourceType));
+                }
+                $resource = array_shift($linkParams);
+                $resource = preg_replace('/<|>/', '', $resource);
+
+                $links[] = array(
+                    'resource' => $resource,
+                    'resourceType' => $resourceType,
+                );
+            }
+        }
+
+        return $links;
     }
 }

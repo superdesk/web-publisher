@@ -22,7 +22,13 @@ services:
         class: SWP\ContentBundle\Factory\KnpPaginatorRepresentationFactory
         arguments:
             - 'page'
-            - 10
+            - 'limit'
+
+    swp_content_bundle.listener.link_request:
+        class: SWP\ContentBundle\EventListener\LinkRequestListener
+        arguments:  ["@controller_resolver", "@router"]
+        tags:
+            - { name: kernel.event_listener, event: kernel.request, method: onKernelRequest }
 
     swp_pagination_rep:
         alias: swp_content_bundle.factory.knp_paginator_representation
