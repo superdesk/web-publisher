@@ -62,8 +62,8 @@ doctrine:
     orm:
         auto_generate_proxy_classes: "%kernel.debug%"
         auto_mapping: false
-        metadata_cache_driver: redis
-        query_cache_driver: redis
+        metadata_cache_driver: %doctrine_cache_driver%
+        query_cache_driver: %doctrine_cache_driver%
         mappings:
             SWPContentBundle:
                 type: yml
