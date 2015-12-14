@@ -16,7 +16,7 @@ matrix:
 
 before_script:
   - if [[ $TRAVIS_PHP_VERSION =~ 5.[56] ]] ; then echo 'extension="redis.so"' >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini; fi;
-  - if [[ $TRAVIS_PHP_VERSION =~ 5.[56] ]] ; thencat ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini|grep redis; fi;
+  - if [[ $TRAVIS_PHP_VERSION =~ 5.[56] ]] ; then cat ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini|grep redis; fi;
   - phpenv rehash
   - composer install --no-interaction --prefer-source
 
