@@ -1,0 +1,23 @@
+parameters:
+    logger_database.class: SWP\AnalyticsBundle\Logger\DatabaseHandler
+
+services:
+    monolog.processor.request:
+        class: SWP\AnalyticsBundle\Processor\RequestProcessor
+        arguments:  [ @session ]
+        tags:
+            - { name: monolog.processor, method: processRecord }
+            - { name: kernel.event_listener, event: kernel.request, method: onKernelRequest}
+
+    logger_database:
+        class: %logger_database.class%
+        calls:
+            - [ setContainer, [ @service_container ] ]
+
+    tools.backtrace_logger_listener:
+        class: SWP\AnalyticsBundle\EventListener\BacktraceLoggerListener
+        arguments:
+            - @logger
+        tags:
+            - {name: "monolog.logger", channel: "backtrace"}
+            - {name: "kernel.event_listener", event: "kernel.exception", method: "onKernelException"}

@@ -213,7 +213,7 @@ if [[ "$VHOSTCONFIG" = true ]]; then
 
     echo "Backing up existing /etc/apache2/extra/httpd-vhosts.conf"
     sudo cp /etc/apache2/extra/httpd-vhosts.conf /etc/apache2/extra/httpd-vhosts.conf.bak
-    (sed '/# START webrenderer.dev.conf/,/# END webrenderer.dev.conf/d' /etc/apache2/extra/httpd-vhosts.conf; cat webrenderer.dev.conf ) > $SCRIPTPATH/httpd-vhosts.conf.tpl
+    (sed '/# START webrenderer.dev.conf/,/# END webrenderer.dev.conf/d' /etc/apache2/extra/httpd-vhosts.conf; cat $SCRIPTPATH/webrenderer.dev.conf ) > $SCRIPTPATH/httpd-vhosts.conf.tpl
     sudo sh -c "sed 's/\$WEBRENDERERDIR/$NSDIR/g' $SCRIPTPATH/httpd-vhosts.conf.tpl > /etc/apache2/extra/httpd-vhosts.conf"
     sudo apachectl restart
     rm -rf $SCRIPTPATH/httpd-vhosts.conf.tpl
