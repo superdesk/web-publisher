@@ -101,7 +101,7 @@
         "incenteev-parameters": {
             "file": "app/config/parameters.yml",
             "env-map": {
-                "doctrine_cache_driver": "DOCTRINE_CACHE_DRIVER",
+                "doctrine_cache_driver": "DOCTRINE_CACHE_DRIVER"
             }
         }
     }
