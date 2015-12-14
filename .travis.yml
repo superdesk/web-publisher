@@ -1,12 +1,6 @@
 language: php
 services:
   - redis-server
-php:
-  - 5.6
-  - 5.5
-  - 7.0
-  - hhvm
-
 matrix:
   fast_finish: true
   include:
@@ -16,6 +10,7 @@ matrix:
       env: DOCTRINE_CACHE_DRIVER="redis"
     - php: 7.0
       env: DOCTRINE_CACHE_DRIVER="array"
+    - php: hhvm
   allow_failures:
     - php: hhvm
 
