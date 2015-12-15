@@ -55,7 +55,7 @@ class TenantSubscriberSpec extends ObjectBehavior
 
         $tenantAware->setTenant($tenant)->shouldBeCalled();
 
-        $this->prePersist($event);
+        $this->prePersist($event)->shouldBeNull();
     }
 
     public function it_sets_only_tenant_aware_interface_implementation_on_pre_presist(
@@ -66,6 +66,6 @@ class TenantSubscriberSpec extends ObjectBehavior
         $event->getEntity()->willReturn($item);
         $tenantAware->setTenant(Argument::any())->shouldNotBeCalled();
 
-        $this->prePersist($event);
+        $this->prePersist($event)->shouldBeNull();
     }
 }

@@ -5,20 +5,24 @@ SWP\ContentBundle\Model\Page:
         slug: "about-us"
         templateName: "static.html.twig"
         contentPath: "/swp/content/about-us"
+        tenant: "@tenant1"
     page2:
         name: "Features"
         type: 1
         slug: "features"
         templateName: "features.html.twig"
         contentPath: "/swp/content/features"
+        tenant: "@tenant1"
     page3:
         name: "Get Involved"
         type: 1
         slug: "get-involved"
         templateName: "involved.html.twig"
         contentPath: "/swp/content/get-involved"
+        tenant: "@tenant2"
     page4:
         name: "News"
         type: 2
         slug: "news"
         templateName: "article.html.twig"
+        tenant: "@tenant1"

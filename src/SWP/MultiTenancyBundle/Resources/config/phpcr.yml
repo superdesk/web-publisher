@@ -1,0 +1,9 @@
+services:
+    swp_multi_tenancy.phpcr.initializer:
+        class: SWP\MultiTenancyBundle\Initializer\PHPCRBasePathsInitializer
+        arguments:
+            - %swp_multi_tenancy.persistence.phpcr.content_paths%
+            - @swp_multi_tenancy.tenant_provider
+            - %swp_multi_tenancy.persistence.phpcr.rootpath%
+        tags:
+            - { name: "doctrine_phpcr.initializer" }

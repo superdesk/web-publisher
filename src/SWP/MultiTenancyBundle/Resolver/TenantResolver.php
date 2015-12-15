@@ -55,9 +55,9 @@ class TenantResolver implements TenantResolverInterface
 
         if (!$tenant) {
             throw new NotFoundHttpException(sprintf(
-                'Subdomain "%s" at "%s" host not found!',
-                $subdomain,
-                $this->domain
+                'No site for host "%s", subdomain "%s"',
+                $this->domain,
+                $subdomain
             ));
         }
 

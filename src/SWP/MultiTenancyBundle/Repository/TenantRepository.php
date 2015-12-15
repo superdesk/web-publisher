@@ -28,9 +28,23 @@ class TenantRepository extends EntityRepository implements TenantRepositoryInter
         return $this
             ->createQueryBuilder('t')
             ->where('t.subdomain = :subdomain')
+            ->andWhere('t.enabled = true')
             ->setParameter('subdomain', $subdomain)
             ->getQuery()
             ->getOneOrNullResult()
+        ;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function findAvailableTenants()
+    {
+        return $this
+            ->createQueryBuilder('t')
+            ->where('t.enabled = true')
+            ->getQuery()
+            ->getArrayResult()
         ;
     }
 }

@@ -160,3 +160,10 @@ stof_doctrine_extensions:
             timestampable: true
             softdeleteable: true
             loggable: true
+
+swp_multi_tenancy:
+    persistence:
+        phpcr:
+            enabled: true
+            rootpath: "/swp/"
+            content_paths: %swp_multi_tenancy.phpcr.contentpaths%

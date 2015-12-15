@@ -20,3 +20,4 @@ parameters:
     swp_updater.version.class: "SWP\WebRendererBundle\Version\Version"
     active_theme: "theme_1"
     domain: wps.dev
+    swp_multi_tenancy.phpcr.contentpaths: ['content']

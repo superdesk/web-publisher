@@ -14,6 +14,7 @@
 namespace SWP\WebRendererBundle\EventListener;
 
 use Symfony\Component\EventDispatcher\GenericEvent;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Doctrine\Bundle\DoctrineBundle\Registry;
 use SWP\TemplatesSystem\Gimme\Context\Context;
 
@@ -51,11 +52,11 @@ class RoutePageListener
             ->getById($event->getArguments()['pageId'])
             ->getArrayResult();
 
-        if (count($page)) {
-            $page[0]['route_name'] = $event->getArguments()['route_name'];
-            $this->context->setCurrentPage($page[0]);
+        if (empty($page)) {
+            throw new NotFoundHttpException('No route found');
         }
 
-        return;
+        $page[0]['route_name'] = $event->getArguments()['route_name'];
+        $this->context->setCurrentPage($page[0]);
     }
 }

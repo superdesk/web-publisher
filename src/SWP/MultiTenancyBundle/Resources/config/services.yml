@@ -26,6 +26,11 @@ services:
         tags:
             - { name: kernel.event_listener, event: kernel.request }
 
+    swp_multi_tenancy.tenant_provider:
+       class: SWP\MultiTenancyBundle\Provider\TenantProvider
+       arguments:
+        - @swp_multi_tenancy.tenant_repository
+
     #swp_multi_tenancy.tenant_subscriber:
     #    class: SWP\MultiTenancyBundle\EventListener\TenantSubscriber
     #    arguments:

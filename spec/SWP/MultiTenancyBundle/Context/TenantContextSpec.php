@@ -42,7 +42,7 @@ class TenantContextSpec extends ObjectBehavior
         $tenant->getSubdomain()->willReturn('example1');
         $tenant->getName()->willReturn('example1');
 
-        $this->setTenant($tenant);
+        $this->setTenant($tenant)->shouldBeNull();
     }
 
     public function it_should_get_resolved_tenant(TenantInterface $tenant, Request $request, $tenantResolver, $requestStack)
@@ -58,7 +58,7 @@ class TenantContextSpec extends ObjectBehavior
 
         $tenantResolver->resolve($host)->shouldBeCalled()->willReturn($tenant);
 
-        $this->getTenant();
+        $this->getTenant()->shouldReturn($tenant);
     }
 
     public function it_should_get_cached_tenant(TenantInterface $tenant, Request $request, $tenantResolver, $requestStack)
@@ -72,10 +72,10 @@ class TenantContextSpec extends ObjectBehavior
         $tenant->getSubdomain()->willReturn('example1');
         $tenant->getName()->willReturn('example1');
 
-        $this->setTenant($tenant);
+        $this->setTenant($tenant)->shouldBeNull();
 
         $tenantResolver->resolve($host)->shouldNotBeCalled();
 
-        $this->getTenant();
+        $this->getTenant()->shouldReturn($tenant);
     }
 }

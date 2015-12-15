@@ -28,4 +28,11 @@ interface TenantRepositoryInterface
      * @throws \Doctrine\ORM\NonUniqueResultException
      */
     public function findBySubdomain($subdomain);
+
+    /**
+     * Finds all available tenants.
+     *
+     * @return [] An array of tenants
+     */
+    public function findAvailableTenants();
 }

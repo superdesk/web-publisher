@@ -36,7 +36,7 @@ final class TenantListener implements EventSubscriberInterface
      * Construct.
      *
      * @param EntityManagerInterface $entityManager
-     * @param TenantContextInterface $tenantResolver
+     * @param TenantContextInterface $tenantContext
      */
     public function __construct(EntityManagerInterface $entityManager, TenantContextInterface $tenantContext)
     {
