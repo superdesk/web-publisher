@@ -25,6 +25,10 @@ class DefaultController extends Controller
      */
     public function indexAction()
     {
-        return $this->render('views/index.html.twig');
+        $tenantContext = $this->get('swp_multi_tenancy.tenant_context');
+
+        return $this->render('views/index.html.twig', [
+            'tenant' => $tenantContext->getTenant(),
+        ]);
     }
 }

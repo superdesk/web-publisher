@@ -210,11 +210,9 @@ stof_doctrine_extensions:
 nelmio_api_doc:
     request_listener: false
 
-services:
-    swp_renderer.phpcr.initializer:
-        class: Doctrine\Bundle\PHPCRBundle\Initializer\GenericInitializer
-        arguments:
-            - SWP ContentBundle paths
-            - [ "/swp/content", "/swp/routes" ]
-        tags:
-            - { name: "doctrine_phpcr.initializer" }
+swp_multi_tenancy:
+    persistence:
+        phpcr:
+            enabled: true
+            rootpath: "/swp/"
+            content_paths: %swp_multi_tenancy.phpcr.contentpaths%

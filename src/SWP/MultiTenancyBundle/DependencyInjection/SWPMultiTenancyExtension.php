@@ -16,7 +16,7 @@ namespace SWP\MultiTenancyBundle\DependencyInjection;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
-use Symfony\Component\DependencyInjection\Loader;
+use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 
 /**
  * This is the class that loads and manages your bundle configuration.
@@ -33,7 +33,28 @@ class SWPMultiTenancyExtension extends Extension
         $configuration = new Configuration();
         $config = $this->processConfiguration($configuration, $configs);
 
-        $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
+        $loader = new YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.yml');
+
+        if ($config['persistence']['phpcr']['enabled']) {
+            $this->loadPhpcr($config['persistence']['phpcr'], $loader, $container);
+        }
+    }
+
+    public function loadPhpcr($config, YamlFileLoader $loader, ContainerBuilder $container)
+    {
+        $keys = array(
+            'rootpath' => 'rootpath',
+            'content_paths' => 'content_paths',
+        );
+
+        foreach ($keys as $sourceKey => $targetKey) {
+            $container->setParameter(
+                $this->getAlias().'.persistence.phpcr.'.$targetKey,
+                $config[$sourceKey]
+            );
+        }
+
+        $loader->load('phpcr.yml');
     }
 }

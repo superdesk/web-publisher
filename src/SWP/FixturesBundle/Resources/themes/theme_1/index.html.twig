@@ -18,4 +18,6 @@
         <li><a href="{{ url(article) }}">{{ article.title }} </a></li>
     {% endgimmelist %}
     </ul>
+    <br>
+    <p><strong>Current tenant:</strong> {{ tenant.subdomain }} (name: {{ tenant.name }})</p>
 {% endblock %}

@@ -52,6 +52,6 @@ class TenantListenerSpec extends ObjectBehavior
         $tenantContext->getTenant()->shouldBeCalled()->willReturn($fakeTenant);
         $entityManager->getFilters()->shouldNotBeCalled();
 
-        $this->onKernelRequest($event);
+        $this->onKernelRequest($event)->shouldBeNull();
     }
 }

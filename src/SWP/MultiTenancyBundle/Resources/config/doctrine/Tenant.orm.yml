@@ -19,6 +19,8 @@ SWP\MultiTenancyBundle\Model\Tenant:
         subdomain:
             type: string
             length: 255
+        enabled:
+            type: boolean
         createdAt:
             type: datetime
             gedmo:

@@ -45,6 +45,7 @@ class TenantRepositorySpec extends ObjectBehavior
         $builder->select('t')->shouldBeCalled()->willReturn($builder);
         $builder->from(Argument::any(), 't', Argument::cetera())->shouldBeCalled()->willReturn($builder);
         $builder->where('t.subdomain = :subdomain')->shouldBeCalled()->willReturn($builder);
+        $builder->andWhere('t.enabled = true')->shouldBeCalled()->willReturn($builder);
         $builder->setParameter('subdomain', 'example1')->shouldBeCalled()->willReturn($builder);
         $builder->getQuery()->shouldBeCalled()->willReturn($query);
         $query->getOneOrNullResult()->shouldBeCalled();

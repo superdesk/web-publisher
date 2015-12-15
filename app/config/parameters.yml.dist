@@ -21,3 +21,4 @@ parameters:
     active_theme: "theme_1"
     doctrine_cache_driver: "array"
     domain: wps.dev
+    swp_multi_tenancy.phpcr.contentpaths: ['content']

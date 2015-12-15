@@ -27,6 +27,9 @@ class ArticleRepository extends BaseDocumentRepository implements RepositoryIdIn
      */
     public function generateId($document, $parent = null)
     {
-        return '/swp/content/'.strtolower(str_replace(' ', '-', $document->getTitle()));
+        /*
+         * TODO generate dynamic id based on current tenant
+         */
+        return '/swp/client1/content/'.strtolower(str_replace(' ', '-', $document->getTitle()));
     }
 }

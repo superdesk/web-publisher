@@ -25,6 +25,16 @@ class TenantContext implements TenantContextInterface
     private $tenant;
 
     /**
+     * @var TenantResolverInterface
+     */
+    private $tenantResolver;
+
+    /**
+     * @var RequestStack
+     */
+    private $requestStack;
+
+    /**
      * Construct.
      *
      * @param TenantResolverInterface $tenantResolver
