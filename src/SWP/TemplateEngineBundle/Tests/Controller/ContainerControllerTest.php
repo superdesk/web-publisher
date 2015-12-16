@@ -31,8 +31,8 @@ class ContainerControllerTest extends WebTestCase
         self::bootKernel();
 
         $this->loadFixtureFiles([
-            '@SWPFixturesBundle/DataFixtures/ORM/Test/container.yml',
-            '@SWPFixturesBundle/DataFixtures/ORM/Test/widget.yml'
+            '@SWPFixturesBundle/DataFixtures/ORM/Test/Container.yml',
+            '@SWPFixturesBundle/DataFixtures/ORM/Test/Widget.yml'
         ]);
 
         $this->router = $manager = $this->getContainer()->get('router');
