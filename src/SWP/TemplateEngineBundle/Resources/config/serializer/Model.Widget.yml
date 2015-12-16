@@ -18,7 +18,7 @@ SWP\TemplateEngineBundle\Model\Widget:
             serialized_name: visible
         parameters:
             expose: true
-            type: array
+            type: string
             serialized_name: parameters
     relations:
         -

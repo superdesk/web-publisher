@@ -54,7 +54,7 @@
         "swp/updater-bundle": "^1.0@dev",
         "swp/bridge-bundle": "^1.0@dev",
         "behat/transliterator": "^1.1@dev",
-        "willdurand/hateoas-bundle": "^1.0",
+        "willdurand/hateoas-bundle": "^1.1",
         "knplabs/knp-paginator-bundle": "^2.4@dev",
         "ramsey/uuid": "^3.0",
         "stof/doctrine-extensions-bundle": "^1.2"

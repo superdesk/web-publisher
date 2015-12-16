@@ -6,6 +6,7 @@ framework:
     session:
         storage_id: session.storage.filesystem
     profiler:
+        enabled: true
         collect: false
 
 doctrine:

@@ -16,7 +16,7 @@ namespace SWP\TemplateEngineBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
 class ContainerType extends AbstractType
@@ -29,18 +29,13 @@ class ContainerType extends AbstractType
             ->add('width', null, ['required' => false])
             ->add('styles', null, ['required' => false])
             ->add('visible', ChoiceType::class, [
-                'choices'  => ['1' => true, '0' => false],
-                'choices_as_values' => false]
-            )
+                'choices'  => [true => 1, false => 0],
+                'choices_as_values' => true,
+            ])
             ->add('cssClass', null, ['required' => false]);
     }
 
-    public function getName()
-    {
-        return 'container';
-    }
-
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(['csrf_protection'   => false]);
     }

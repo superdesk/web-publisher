@@ -1,0 +1,11 @@
+SWP\TemplateEngineBundle\Model\Widget:
+    widget1:
+        name: "HtmlWidget number 1"
+        type: 1
+        visible: true
+        parameters: '{"html_body": "sample widget with <span style=\"color:red;\">html</span>"}'
+    widget2:
+        name: "HtmlWidget number 2"
+        type: 1
+        visible: true
+        parameters: '{"html_body": "sample widget with html 2"}'

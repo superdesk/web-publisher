@@ -43,20 +43,21 @@ class KnpPaginatorRepresentationFactory
     }
 
     /**
-     * @param AbstractPagination $pagination  The pagination
-     * @param Route      $route  The collection's route
-     * @param mixed      $inline Most of the time, a custom `CollectionRepresentation` instance
+     * @param AbstractPagination $pagination
+     * @param Request            $request
+     * @param string             $collectionName
      *
      * @return PaginatedRepresentation
      */
     public function createRepresentation(AbstractPagination $pagination, Request $request, $collectionName = '_items')
     {
         $route = new Route($request->get('_route'), $request->query->all());
+        $routeParameters = is_array($route->getParameters())? $route->getParameters() : [];
 
         return new PaginatedRepresentation(
             new CollectionRepresentation($pagination->getItems(), $collectionName),
             $route->getName(),
-            $route->getParameters(),
+            $routeParameters,
             $pagination->getCurrentPageNumber(),
             $pagination->getItemNumberPerPage(),
             intval(ceil($pagination->getTotalItemCount() / $pagination->getItemNumberPerPage())),

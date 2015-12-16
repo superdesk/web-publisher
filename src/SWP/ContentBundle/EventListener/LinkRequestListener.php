@@ -20,6 +20,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 use Symfony\Component\HttpKernel\KernelEvents;
 use Symfony\Component\HttpKernel\Event\FilterControllerEvent;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class LinkRequestListener
 {
@@ -27,6 +28,10 @@ class LinkRequestListener
      * @var ControllerResolverInterface
      */
     protected $resolver;
+
+    /**
+     * @var UrlMatcherInterface
+     */
     protected $urlMatcher;
 
     /**
@@ -42,13 +47,13 @@ class LinkRequestListener
     /**
      * @param GetResponseEvent $event
      */
-    public function onKernelRequest(GetResponseEvent $event)
+    public function onKernelRequest(GetResponseEvent $event, $eventName, EventDispatcherInterface $dispatcher)
     {
         if (!$event->getRequest()->headers->has('link')) {
             return;
         }
 
-        $links  = array();
+        $links  = [];
         $header = $event->getRequest()->headers->get('link');
 
         /*
@@ -73,8 +78,7 @@ class LinkRequestListener
         $stubRequest = new Request();
 
         foreach ($links as $idx => $link) {
-            // Force the GET method to avoid the use of the
-            // previous method (LINK/UNLINK)
+            // Force the GET method to avoid the use of the previous method (LINK/UNLINK)
             $this->urlMatcher->getContext()->setMethod('GET');
 
             $linkParams = explode(';', trim($link));
@@ -102,8 +106,8 @@ class LinkRequestListener
 
             $subEvent = new FilterControllerEvent($event->getKernel(), $controller, $stubRequest, HttpKernelInterface::SUB_REQUEST);
             $kernelSubEvent = new GetResponseEvent($event->getKernel(), $stubRequest, HttpKernelInterface::SUB_REQUEST);
-            $event->getDispatcher()->dispatch(KernelEvents::REQUEST, $kernelSubEvent);
-            $event->getDispatcher()->dispatch(KernelEvents::CONTROLLER, $subEvent);
+            $dispatcher->dispatch(KernelEvents::REQUEST, $kernelSubEvent);
+            $dispatcher->dispatch(KernelEvents::CONTROLLER, $subEvent);
             $controller = $subEvent->getController();
 
             $arguments = $this->resolver->getArguments($stubRequest, $controller);
@@ -114,15 +118,10 @@ class LinkRequestListener
                 if (!is_object($result)) {
                     continue;
                 }
-                $links[$idx] = array(
-                    'object' => $result,
-                    'resourceType' => $resourceType
-                );
+
+                $links[$idx] = ['object' => $result,'resourceType' => $resourceType];
             } catch (\Exception $e) {
-                $links[$idx] = array(
-                    'object' => $e,
-                    'resourceType' => 'exception'
-                );
+                $links[$idx] = ['object' => $e,'resourceType' => 'exception'];
 
                 continue;
             }
@@ -130,5 +129,7 @@ class LinkRequestListener
 
         $event->getRequest()->attributes->set('links', $links);
         $this->urlMatcher->getContext()->setMethod($requestMethod);
+
+        return $links;
     }
 }

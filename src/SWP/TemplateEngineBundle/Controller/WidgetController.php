@@ -46,7 +46,7 @@ class WidgetController extends FOSRestController
         $entityManager = $this->get('doctrine')->getManager();
         $paginator = $this->get('knp_paginator');
         $widgets = $paginator->paginate($entityManager->getRepository('SWP\TemplateEngineBundle\Model\Widget')->getAll());
-    
+
         if (count($widgets) == 0) {
             throw new NotFoundHttpException('Widgets were not found.');
         }
@@ -107,7 +107,7 @@ class WidgetController extends FOSRestController
         $entityManager = $this->get('doctrine')->getManager();
 
         $widget = new Widget();
-        $form = $this->createForm(new WidgetType(), $widget);
+        $form = $this->createForm(WidgetType::class, $widget);
         $form->handleRequest($request);
         if ($form->isValid()) {
             $entityManager->persist($widget);
