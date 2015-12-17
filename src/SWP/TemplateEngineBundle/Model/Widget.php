@@ -152,9 +152,7 @@ class Widget implements WidgetInterface
     }
 
     /**
-     * Gets the value of parameters.
-     *
-     * @return []
+     * @inheritdoc
      */
     public function getParameters()
     {

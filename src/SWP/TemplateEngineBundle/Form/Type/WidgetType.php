@@ -15,6 +15,7 @@
 namespace SWP\TemplateEngineBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\CallbackTransformer;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -31,7 +32,23 @@ class WidgetType extends AbstractType
                 'choices'  => [true => '1', false => '0'],
                 'choices_as_values' => true
             ])
-            ->add('parameters', TextType::class);
+            ->add('parameters', TextType::class)
+            ->addModelTransformer(new CallbackTransformer(
+                function ($originalDescription) {
+                    if (is_array($originalDescription->getParameters())) {
+                         $originalDescription->setParameters(json_encode($originalDescription->getParameters()));
+                    }
+
+                    return $originalDescription;
+                },
+                function ($submittedDescription) {
+                    if (is_string($submittedDescription->getParameters())) {
+                        $submittedDescription->setParameters(json_decode($submittedDescription->getParameters(), true));
+                    }
+
+                    return $submittedDescription;
+                }
+            ));
     }
 
     public function configureOptions(OptionsResolver $resolver)

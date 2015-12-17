@@ -7,19 +7,15 @@ SWP\TemplateEngineBundle\Model\Widget:
         name:
             expose: true
             type: string
-            serialized_name: name
         type:
             expose: true
             type: string
-            serialized_name: type
         visible:
             expose: true
             type: boolean
-            serialized_name: visible
         parameters:
             expose: true
-            type: string
-            serialized_name: parameters
+            type: array
     relations:
         -
             rel: self
