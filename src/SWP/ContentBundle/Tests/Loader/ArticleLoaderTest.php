@@ -11,6 +11,7 @@
  * @copyright 2015 Sourcefabric z.ú.
  * @license http://www.superdesk.org/license
  */
+
 namespace SWP\ContentBundle\Tests;
 
 use Liip\FunctionalTestBundle\Test\WebTestCase;
@@ -27,10 +28,9 @@ class ArticleLoaderTest extends WebTestCase
     {
         self::bootKernel();
 
-        $this->loadFixtureFiles([
-            '@SWPFixturesBundle/DataFixtures/ORM/Test/page.yml',
-            '@SWPFixturesBundle/DataFixtures/ORM/Test/pagecontent.yml',
-        ]);
+        $this->loadFixtures([
+            'SWP\FixturesBundle\DataFixtures\PHPCR\LoadArticlesData',
+        ], null, 'doctrine_phpcr');
 
         $this->runCommand('doctrine:phpcr:init:dbal', ['--force' => true, '--env' => 'test'], true);
         $this->runCommand('doctrine:phpcr:repository:init', ['--env' => 'test'], true);
@@ -39,11 +39,6 @@ class ArticleLoaderTest extends WebTestCase
     public function testFindNewArticle()
     {
         $manager = $this->getContainer()->get('doctrine_phpcr.odm.document_manager');
-        $article = new Article();
-        $article->setTitle('Test Article');
-        $article->setContent('Test Article lipsum');
-        $manager->persist($article);
-        $manager->flush();
 
         $articleLoader = new ArticleLoader(
             $this->getContainer()->getParameter('kernel.root_dir'),
@@ -60,12 +55,6 @@ class ArticleLoaderTest extends WebTestCase
 
         $this->assertFalse($articleLoader->load('article', ['contentPath' => '/swp/content/test-articles']));
         $this->assertFalse($articleLoader->load('article', ['contentPath' => '/swp/content/test-article'], LoaderInterface::COLLECTION));
-
-        $article = new Article();
-        $article->setTitle('Features');
-        $article->setContent('Features ipsum');
-        $manager->persist($article);
-        $manager->flush();
 
         $this->assertTrue(count($articleLoader->load('article', ['route' => '/news'], LoaderInterface::COLLECTION)) == 1);
         $this->assertFalse($articleLoader->load('article', ['route' => '/news1'], LoaderInterface::COLLECTION));

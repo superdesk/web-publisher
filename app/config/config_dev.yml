@@ -49,11 +49,3 @@ swp_bridge:
         curl: # http://guzzle.readthedocs.org/en/latest/faq.html#how-can-i-add-custom-curl-options
             10203: # integer value of CURLOPT_RESOLVE
                  - "superdesk.dev:5050:localhost"  # This will resolve the host example.com to your localhost
-
-hautelook_alice:
-    db_drivers:
-        orm: ~          # Enable Doctrine ORM if is registered
-        phpcr: ~        # Enable Doctrine PHPCR ODM if is registered
-    locale: en_US       # Locale to used for faker; must be a valid Faker locale otherwise will fallback to en_EN
-    seed: 1             # A seed to make sure faker generates data consistently across runs, set to null to disable
-    persist_once: false # Only persist objects once if multiple files are passed

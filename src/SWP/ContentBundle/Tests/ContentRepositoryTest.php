@@ -11,6 +11,7 @@
  * @copyright 2015 Sourcefabric z.ú.
  * @license http://www.superdesk.org/license
  */
+
 namespace SWP\ContentBundle\Tests;
 
 use Liip\FunctionalTestBundle\Test\WebTestCase;
@@ -32,9 +33,9 @@ class ContentRepositoryTest extends WebTestCase
 
     public function testFindNewArticle()
     {
-        $this->loadFixtureFiles([
-            '@SWPFixturesBundle/DataFixtures/PHPCR/Test/article.yml',
-        ], true, null, 'doctrine_phpcr');
+        $this->loadFixtures([
+            'SWP\FixturesBundle\DataFixtures\PHPCR\LoadArticlesData',
+        ], null, 'doctrine_phpcr');
 
         $dm = $this->getContainer()->get('doctrine_phpcr.odm.document_manager');
         $articles = $dm->getRepository('SWP\ContentBundle\Document\Article')->findAll();

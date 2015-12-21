@@ -11,6 +11,7 @@
  * @copyright 2015 Sourcefabric z.ú.
  * @license http://www.superdesk.org/license
  */
+
 namespace SWP\ContentBundle\Tests\DependencyInjection;
 
 use SWP\ContentBundle\DependencyInjection\SWPContentExtension;
