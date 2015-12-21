@@ -18,9 +18,8 @@ class RoutePageListenerTest extends WebTestCase
 
     public function testPagesLoaderWithoutPages()
     {
-        $this->loadFixtureFiles([
-            '@SWPFixturesBundle/DataFixtures/ORM/Test/page.yml',
-            '@SWPFixturesBundle/DataFixtures/ORM/Test/pagecontent.yml',
+        $this->loadFixtures([
+            'SWP\FixturesBundle\DataFixtures\ORM\LoadPagesData',
         ]);
 
         $registryManager = $this->getContainer()->get('doctrine');

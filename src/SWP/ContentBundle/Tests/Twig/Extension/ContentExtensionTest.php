@@ -11,6 +11,7 @@
  * @copyright 2015 Sourcefabric z.ú.
  * @license http://www.superdesk.org/license
  */
+
 namespace SWP\ContentBundle\Tests\Twig\Extension;
 
 use Liip\FunctionalTestBundle\Test\WebTestCase;
@@ -51,9 +52,8 @@ class ContentExtensionTest extends WebTestCase
 
     public function testGenerateUrlFor()
     {
-        $this->loadFixtureFiles([
-            '@SWPFixturesBundle/DataFixtures/ORM/Test/page.yml',
-            '@SWPFixturesBundle/DataFixtures/ORM/Test/pagecontent.yml',
+        $this->loadFixtures([
+            'SWP\FixturesBundle\DataFixtures\ORM\LoadPagesData',
         ]);
 
         $this->runCommand('doctrine:phpcr:init:dbal', ['--force' => true, '--env' => 'test'], true);

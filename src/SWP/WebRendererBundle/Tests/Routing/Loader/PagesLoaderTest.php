@@ -23,14 +23,12 @@ class PagesLoaderTest extends WebTestCase
 
     public function testPagesLoader()
     {
-        $this->loadFixtureFiles([]);
+        $this->loadFixtures([]);
         $this->assertCount(0, $this->pagesLoader->load('.'));
 
-        $this->loadFixtureFiles([
-            '@SWPFixturesBundle/DataFixtures/ORM/Test/page.yml',
-            '@SWPFixturesBundle/DataFixtures/ORM/Test/pagecontent.yml',
+        $this->loadFixtures([
+            'SWP\FixturesBundle\DataFixtures\ORM\LoadPagesData',
         ]);
-
         $this->assertTrue(count($this->pagesLoader->load('.')) > 0);
 
         $this->assertTrue($this->pagesLoader->supports('.', 'pages'));

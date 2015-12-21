@@ -11,6 +11,7 @@
  * @copyright 2015 Sourcefabric z.ú.
  * @license http://www.superdesk.org/license
  */
+
 namespace SWP\WebRendererBundle\Tests\Controller;
 
 use Liip\FunctionalTestBundle\Test\WebTestCase;
@@ -40,7 +41,7 @@ class DefaultControllerTest extends WebTestCase
 
     public function testIndexOnDevices()
     {
-        $this->loadFixtureFiles([]);
+        $this->loadFixtures([]);
         $client = static::createClient();
         foreach (self::$devices as $userAgent => $filter) {
             if (!in_array($userAgent, ['no_agent_0', 'no_agent_1'])) {
