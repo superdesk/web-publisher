@@ -11,7 +11,6 @@
  * @copyright 2015 Sourcefabric z.ú.
  * @license http://www.superdesk.org/license
  */
-
 namespace SWP\WebRendererBundle\Tests\Controller;
 
 use Liip\FunctionalTestBundle\Test\WebTestCase;
@@ -27,7 +26,14 @@ class ContentControllerTest extends WebTestCase
     {
         self::bootKernel();
 
+<<<<<<< HEAD
         $this->loadFixtures([]);
+=======
+        $this->loadFixtureFiles([
+            '@SWPFixturesBundle/DataFixtures/ORM/Test/page.yml',
+            '@SWPFixturesBundle/DataFixtures/ORM/Test/pagecontent.yml',
+        ]);
+>>>>>>> 70dc51089110c31ab30b1d704342f8f2bfa566e1
 
         $this->runCommand('doctrine:phpcr:init:dbal', ['--force' => true, '--env' => 'test'], true);
         $this->runCommand('doctrine:phpcr:repository:init', ['--env' => 'test'], true);
@@ -77,9 +83,8 @@ class ContentControllerTest extends WebTestCase
 
     public function testLoadingNotExistingArticleUnderContainerPage()
     {
-
         $client = static::createClient();
-        $crawler = $client->request('GET', '/news/features');
+        $client->request('GET', '/news/features');
 
         $this->assertEquals(404, $client->getResponse()->getStatusCode());
     }
