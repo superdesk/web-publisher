@@ -1,7 +1,3 @@
-swp_webrenderer_pages:
-    resource: .
-    type: pages
-
 swp_webrenderer:
     resource: "@SWPWebRendererBundle/Controller/"
     type:     annotation

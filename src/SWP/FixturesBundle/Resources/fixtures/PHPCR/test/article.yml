@@ -1,7 +1,12 @@
 SWP\ContentBundle\Document\Article:
+    news_article:
+        title: "Test news article"
+        content: "<paragraph(20)>"
+        route: "/swp/routes/news"
     article1:
         title: "Test article"
         content: "<paragraph()>"
     article2:
         title: "Features"
         content: "<paragraph(20)>"
+        route: "/swp/routes/articles/features"

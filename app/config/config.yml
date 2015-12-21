@@ -10,7 +10,7 @@ parameters:
 
 framework:
     #esi:             ~
-    #translator:      { fallbacks: ["%locale%"] }
+    translator:      { fallbacks: ["%locale%"] }
     secret:          "%secret%"
     router:
         resource: "%kernel.root_dir%/config/routing.yml"
@@ -67,6 +67,30 @@ doctrine:
                 type: yml
                 prefix: "SWP\ContentBundle\Model"
                 dir: Resources/config/doctrine
+doctrine_cache:
+    providers:
+        metadata_chain:
+            chain:
+                providers:
+                    #- metadata_redis
+                    - metadata_array
+        metadata_array:
+            type: array
+            namespace: swp_metadata
+        metadata_redis:
+            type: redis
+            namespace: swp_metadata
+        nodes_chain:
+            chain:
+                providers:
+                    #- nodes_redis
+                    - nodes_array
+        nodes_array:
+            type: array
+            namespace: swp_nodes
+        nodes_redis:
+            type: redis
+            namespace: swp_nodes
 
 # Swiftmailer Configuration
 swiftmailer:
@@ -85,13 +109,24 @@ doctrine_phpcr:
     session:
         backend:
             type: doctrinedbal
-            # requires DoctrineCacheBundle
-            # caches:
-            #     meta: doctrine_cache.providers.phpcr_meta
-            #     nodes: doctrine_cache.providers.phpcr_nodes
+            caches:
+                meta: doctrine_cache.providers.metadata_chain
+                nodes: doctrine_cache.providers.nodes_chain
             logging: true
             profiling: true
         workspace: default
+
+cmf_routing:
+    chain:
+        routers_by_id:
+            router.default: 200
+            cmf_routing.dynamic_router: 100
+    dynamic:
+        route_collection_limit: 100
+        persistence:
+            phpcr:
+                enabled: true
+                route_basepaths: "/swp/routes"
 
 oneup_flysystem:
     adapters:

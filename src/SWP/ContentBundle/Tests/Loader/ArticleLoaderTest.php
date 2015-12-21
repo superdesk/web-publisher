@@ -28,9 +28,7 @@ class ArticleLoaderTest extends WebTestCase
     {
         self::bootKernel();
 
-        $this->loadFixtures([
-            'SWP\FixturesBundle\DataFixtures\ORM\LoadPagesData',
-        ]);
+        $this->loadFixtures([]);
 
         $this->runCommand('doctrine:phpcr:init:dbal', ['--force' => true, '--env' => 'test'], true);
         $this->runCommand('doctrine:phpcr:repository:init', ['--env' => 'test'], true);
@@ -67,8 +65,8 @@ class ArticleLoaderTest extends WebTestCase
         $manager->persist($article);
         $manager->flush();
 
-        $this->assertTrue(count($articleLoader->load('article', ['pageName' => 'News'], LoaderInterface::COLLECTION)) == 1);
-        $this->assertFalse($articleLoader->load('article', ['pageName' => 'Features'], LoaderInterface::COLLECTION));
+        $this->assertTrue(count($articleLoader->load('article', ['route' => '/news'], LoaderInterface::COLLECTION)) == 1);
+        $this->assertFalse($articleLoader->load('article', ['route' => '/news1'], LoaderInterface::COLLECTION));
 
         $this->assertFalse($articleLoader->load('article', null, LoaderInterface::COLLECTION));
     }

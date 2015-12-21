@@ -1,11 +1,4 @@
 services:
-    swp_renderer.routing.loader:
-        class: SWP\WebRendererBundle\Routing\Loader\PagesLoader
-        arguments:
-            - @doctrine
-        tags:
-            - { name: routing.loader }
-
     swp_renderer.listener.kernel_request:
         class: SWP\WebRendererBundle\EventListener\KernelRequestListener
         arguments:
@@ -13,10 +6,6 @@ services:
         tags:
             - { name: kernel.event_listener, event: kernel.request, method: onKernelRequest }
 
-    swp_renderer.listener.route_page:
-        class: SWP\WebRendererBundle\EventListener\RoutePageListener
-        arguments:
-            - @doctrine
-            - @swp_template_engine_context
-        tags:
-            - { name: kernel.event_listener, event: swp.context.page, method: onRoutePage }
+# override default cmf dynamic router with our implementation (with support for Meta Article)
+parameters:
+    cmf_routing.dynamic_router.class: SWP\WebRendererBundle\Routing\MetaRouter

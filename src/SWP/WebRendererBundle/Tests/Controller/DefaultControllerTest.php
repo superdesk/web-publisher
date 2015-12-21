@@ -41,7 +41,9 @@ class DefaultControllerTest extends WebTestCase
 
     public function testIndexOnDevices()
     {
-        $this->loadFixtures([]);
+        $this->runCommand('doctrine:phpcr:init:dbal', ['--force' => true, '--env' => 'test'], true);
+        $this->runCommand('doctrine:phpcr:repository:init', ['--env' => 'test'], true);
+
         $client = static::createClient();
         foreach (self::$devices as $userAgent => $filter) {
             if (!in_array($userAgent, ['no_agent_0', 'no_agent_1'])) {
@@ -57,8 +59,8 @@ class DefaultControllerTest extends WebTestCase
 
             $crawler = $client->request('GET', '/');
 
-            $this->assertEquals(200, $client->getResponse()->getStatusCode());
-            $this->assertTrue($crawler->filter($filter)->count() > 0);
+            $this->assertEquals(200, $client->getResponse()->getStatusCode(), 'Wrong response code');
+            $this->assertTrue($crawler->filter($filter)->count() > 0, 'Wrong filter');
         }
     }
 }

@@ -24,7 +24,6 @@ class DefaultController extends Controller
     /**
      * @Route("/", name="homepage")
      * @Method("GET")
-     * @Cache(expires="+ 5 min", public=true)
      */
     public function indexAction()
     {

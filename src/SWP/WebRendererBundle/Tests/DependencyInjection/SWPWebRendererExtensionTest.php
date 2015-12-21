@@ -35,8 +35,6 @@ class SWPWebRendererExtensionTest extends \PHPUnit_Framework_TestCase
         $this->extension->load([], $this->container);
 
         $this->assertTrue($this->container->hasExtension('swp_web_renderer'));
-        $this->assertTrue($this->container->has('swp_renderer.routing.loader'));
         $this->assertTrue($this->container->has('swp_renderer.listener.kernel_request'));
-        $this->assertTrue($this->container->has('swp_renderer.listener.route_page'));
     }
 }

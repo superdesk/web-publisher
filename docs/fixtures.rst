@@ -105,11 +105,11 @@ For the convention, Alice YAML files should be placed inside
 ``Resources/fixtures/<db_driver>/<environment>``, where is current
 environment name (dev, test).
 
-For instance, having ``Resources/fixtures/ORM/test/page.yml`` Alice
+For instance, having ``Resources/fixtures/PHPCR/test/article.yml`` Alice
 fixture, we will be able to persist fake data defined in YAML file into
-the databse (using Doctrine ORM driver), only when ``test`` environment
+the databse (using Doctrine PHPCR driver), only when ``test`` environment
 is set or defined differently in
-``SWP\FixturesBundle\DataFixtures\ORM\LoadPagesData.php``.
+``SWP\FixturesBundle\DataFixtures\PHPCR\LoadArticlesData.php``.
 
 There is a lot of flexibility on how to define fixtures, so it’s up to
 developer how to create them.

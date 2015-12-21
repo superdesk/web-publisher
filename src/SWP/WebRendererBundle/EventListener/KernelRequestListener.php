@@ -43,6 +43,6 @@ class KernelRequestListener
             ]));
         }
 
-        return;
+        return true;
     }
 }
