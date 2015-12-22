@@ -75,22 +75,12 @@ doctrine:
                 dir: Resources/config/doctrine
 doctrine_cache:
     providers:
-        metadata_chain:
-            chain:
-                providers:
-                    - metadata_redis
-                    - metadata_array
         metadata_array:
             type: array
             namespace: swp_metadata
         metadata_redis:
             type: redis
             namespace: swp_metadata
-        nodes_chain:
-            chain:
-                providers:
-                    - nodes_redis
-                    - nodes_array
         nodes_array:
             type: array
             namespace: swp_nodes
@@ -116,8 +106,8 @@ doctrine_phpcr:
         backend:
             type: doctrinedbal
             caches:
-                meta: doctrine_cache.providers.metadata_chain
-                nodes: doctrine_cache.providers.nodes_chain
+                meta: doctrine_cache.providers.metadata_%doctrine_cache_driver%
+                nodes: doctrine_cache.providers.nodes_%doctrine_cache_driver%
             logging: true
             profiling: true
         workspace: default
