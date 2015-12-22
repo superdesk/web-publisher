@@ -3,7 +3,7 @@ services:
         class: Doctrine\Bundle\PHPCRBundle\Initializer\GenericInitializer
         arguments:
             - SWP ContentBundle paths
-            - [ "/swp/content" ]
+            - [ "/swp/content", "/swp/routes" ]
         tags:
             - { name: "doctrine_phpcr.initializer" }
 
@@ -32,12 +32,3 @@ services:
 
     swp_pagination_rep:
         alias: swp_content_bundle.factory.knp_paginator_representation
-
-    swp_template_engine.twig.extension.content:
-        class: SWP\ContentBundle\Twig\Extension\ContentExtension
-        public: false
-        arguments:
-            - "@doctrine"
-            - "@router"
-        tags:
-            - { name: twig.extension }

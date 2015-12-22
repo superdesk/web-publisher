@@ -28,10 +28,6 @@ class KernelRequestListenerTest extends WebTestCase
             $this->getContainer()->get('kernel'), $masterRequest, HttpKernelInterface::MASTER_REQUEST
         );
 
-        $kernelRequestListener->onKernelRequest($getResponseEvent);
-        $this->assertTrue(array_key_exists(
-            'swp.context.page.SWP\WebRendererBundle\EventListener\RoutePageListener::onRoutePage',
-            $eventDispatcher->getCalledListeners()
-        ));
+        $this->assertTrue($kernelRequestListener->onKernelRequest($getResponseEvent));
     }
 }

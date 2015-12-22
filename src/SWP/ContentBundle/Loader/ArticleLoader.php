@@ -11,6 +11,7 @@
  * @copyright 2015 Sourcefabric z.ú.
  * @license http://www.superdesk.org/license
  */
+
 namespace SWP\ContentBundle\Loader;
 
 use SWP\TemplatesSystem\Gimme\Loader\LoaderInterface;
@@ -69,6 +70,8 @@ class ArticleLoader implements LoaderInterface
         if ($responseType === LoaderInterface::SINGLE) {
             if (array_key_exists('contentPath', $parameters)) {
                 $article = $this->dm->find('SWP\ContentBundle\Document\Article', $parameters['contentPath']);
+            } else if (array_key_exists('article', $parameters)) {
+                $article = $parameters['article'];
             } elseif (array_key_exists('slug', $parameters)) {
                 $article = $this->dm->getRepository('SWP\ContentBundle\Document\Article')
                     ->findOneBy(array('slug' => $parameters['slug']));
@@ -78,28 +81,22 @@ class ArticleLoader implements LoaderInterface
                 return new Meta($this->rootDir.'/Resources/meta/article.yml', $article);
             }
         } elseif ($responseType === LoaderInterface::COLLECTION) {
-            if (array_key_exists('pageName', $parameters)) {
-                $page = $this->em->getRepository('SWP\ContentBundle\Model\Page')->getByName($parameters['pageName'])
-                    ->getOneOrNullResult();
+            if (array_key_exists('route', $parameters)) {
+                $route = $this->dm->find(null, '/swp/routes'.$parameters['route']);
+                if ($route) {
+                    $articles = $this->dm->getReferrers($route, null, null, null, 'SWP\ContentBundle\Document\Article');
 
-                if ($page) {
-                    $articlePages = $this->em->getRepository('SWP\ContentBundle\Model\PageContent')
-                        ->getForPage($page)
-                        ->getResult();
-
-                    $articles = [];
-                    foreach ($articlePages as $articlePage) {
-                        $article = $this->dm->find('SWP\ContentBundle\Document\Article', $articlePage->getContentPath());
-
+                    $metas = [];
+                    foreach ($articles as $article) {
                         if (!is_null($article)) {
-                            $articles[] = new Meta(
+                            $metas[] = new Meta(
                                 $this->rootDir.'/Resources/meta/article.yml',
                                 $article
                             );
                         }
                     }
 
-                    return $articles;
+                    return $metas;
                 }
             }
         }

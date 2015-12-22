@@ -7,65 +7,75 @@ Overview
 Fixtures Bundle helps developers to create fixtures/fake data that can be
 used for the development or/and testing purposes.
 
-It relies on the following 3rd party bundles:
-
--  `DoctrineFixturesBundle`_ (gives possibility to load data fixtures programmatically into the Doctrine ORM or ODM)
--  `AliceBundle`_ (bundle to manage fixtures with nelmio/alice and fzaninotto/Faker):
-    - `fzaninotto/Faker`_ (generates fake data for you)
-    - `nelmio/alice`_ (It gives you a few essential tools to make it very easy to generate complex data with constraints in a readable and easy to edit way)
+It relies on the following 3rd party libraries: -
+`DoctrineFixturesBundle`_ (gives possibility to load data fixtures
+programmatically into the Doctrine ORM or ODM) - `fzaninotto/Faker`_
+(generates fake data for you) - `nelmio/alice`_ (It gives you a few
+essential tools to make it very easy to generate complex data with
+constraints in a readable and easy to edit way)
 
 It also gives the possibility to setup, ready to use demo theme, needed
-for the development and shows how to use fixtures in PHPUnit tests.
+for the development.
 
 How to use it
 ==============
 
 The following chapter describes how to make use of the Fixtures Bundle features.
 
-Bundle configuration
+Creating a simple PHP fixture class
 -----------------------------------
 
-Add the below configuration to your ``config_dev.yml`` file:
+Fixtures should be created inside
+``SWP\FixturesBundle\DataFixtures\<db_driver>`` directory and for the
+convention, should be called like: ``LoadPagesData``,
+``LoadArticlesData``, ``LoadUsersData`` etc.
 
-.. code:: yaml
+Replace ``db_driver`` either with ``ORM`` for the Doctrine ORM or
+``PHPCR`` for the Doctrine PHPCR ODM.
 
-    # app/config/config_dev.yml
-    hautelook_alice:
-        db_drivers:
-            orm: ~          # Enable Doctrine ORM if is registered
-            phpcr: ~        # Enable Doctrine PHPCR ODM if is registered
-        locale: en_US       # Locale to used for faker; must be a valid Faker locale otherwise will fallback to en_EN
-        seed: 1             # A seed to make sure faker generates data consistently across runs, set to null to disable
-        persist_once: false # Only persist objects once if multiple files are passed
+Example Fixture class:
 
-To your ``AppKernel.php`` add:
+.. code-block:: php
 
-.. code:: php
+    <?php
+    namespace SWP\FixturesBundle\DataFixtures\ORM;
 
-    // app/AppKernel.php
-    if (in_array($this->getEnvironment(), array('dev', 'test'))) {
-          ...
-          $bundles[] = new Hautelook\AliceBundle\HautelookAliceBundle();
-          $bundles[] = new SWP\FixturesBundle\SWPFixturesBundle();
-          ...
+    use Doctrine\Common\DataFixtures\FixtureInterface;
+    use Doctrine\Common\Persistence\ObjectManager;
+    use SWP\FixturesBundle\AbstractFixture;
+
+    class LoadPagesData extends AbstractFixture implements FixtureInterface
+    {
+        /**
+         * {@inheritdoc}
+         */
+        public function load(ObjectManager $manager)
+        {
+            $env = $this->getEnvironment();
+            $this->loadFixtures(
+                '@SWPFixturesBundle/Resources/fixtures/ORM/'.$env.'/page.yml',
+                $manager
+            );
+        }
     }
+
+Each fixture class extends AbstractFixture class and implements
+FixtureInterface, this way we can use ``load`` method, inside which we
+can create some objects using PHP and/or make use of `nelmio/alice`_ and
+`fzaninotto/Faker`_ by loading fixtures in YAML format, as shown in the
+example above.
 
 Creating a simple Alice fixture (YAML format)
 ---------------------------------------------
 
-Fixtures should be created inside
-``SWPFixturesBundle/DataFixtures/<db_driver>/<environment>``, where
-``<environment>`` is the current environment name (Dev, Test) and
-``<db_driver>`` is the database driver.
-
-Replace ``db_driver`` either with ``ORM`` for the Doctrine ORM or
-``PHPCR`` for the Doctrine PHPCR ODM.
+For more details on how to create Alice fixtures, please see
+`documentation`_ as a reference.
 
 Example Alice fixture:
 
 .. code-block:: yaml
 
-    SWP\ContentBundle\Model\Page:
+    SWP\WebRendererBundle\Entity\Page:
         page1:
             name: "About Us"
             type: 1
@@ -84,36 +94,31 @@ Example Alice fixture:
             slug: "get-involved"
             templateName: "involved.html.twig"
             contentPath: "/swp/content/get-involved"
-            parent: "@page1"
 
 The above configuration states that we want to persist into database,
-three objects of type ``SWP\ContentBundle\Model\Page``. We can use faker `formatters`_
+three objects of type ``SWP\WebRendererBundle\Entity\Page``. We can use faker `formatters`_
 where, for example, ``<paragraph(20)>`` is one of the
 `fzaninotto/Faker`_ formatter, which tells Alice to generate 20
 paragraphs filled with fake data.
 
-If your fixture is saved as a ``FixturesBundle/DataFixtures/ORM/Test/page.yml``, you will be able to
-persist the fake data based on the configuration defined in YAML file, into the databse (using Doctrine ORM driver).
-This can only happen when ``test`` environment
-is set in ``AppKernel.php`` or when it is provided as a parameter in console command which loads the fixtures:
+For the convention, Alice YAML files should be placed inside
+``Resources/fixtures/<db_driver>/<environment>``, where is current
+environment name (dev, test).
 
-.. code:: bash
-
-    $ php app/console h:d:f:l --env=test
-
-Please, see `documentation`_ for more details about environment specific
-fixtures.
+For instance, having ``Resources/fixtures/ORM/test/page.yml`` Alice
+fixture, we will be able to persist fake data defined in YAML file into
+the databse (using Doctrine ORM driver), only when ``test`` environment
+is set or defined differently in
+``SWP\FixturesBundle\DataFixtures\ORM\LoadPagesData.php``.
 
 There is a lot of flexibility on how to define fixtures, so it’s up to
 developer how to create them.
-
-For more details on how to create Alice fixtures, please read `here`_ as a reference.
 
 Loading all fixtures
 ---------------------------------------------
 
 **Note:** Remember to update your database schema before loading
-fixtures! To do it, run in terminal the following commands:
+fixtures! To do it, run in terminal:
 
 .. code-block:: bash
 
@@ -125,57 +130,35 @@ you must execute console commands in terminal:
 
 To load Doctrine ORM fixtures:
 
-.. code:: bash
+.. code-block:: bash
 
-    $ php app/console h:d:f:l --append
-    # see php app/console h:d:f:l --help for more details
+    $ php app/console doctrine:fixtures:load --append
+    # see php app/console doctrine:fixtures:load --help for more details
 
 To load Doctrine PHCR fixtures:
 
-.. code:: bash
+.. code-block:: bash
 
-    $ php app/console h:d:phpcr:f:l --append
-    # see php app/console h:d:phpcr:f:l --help for more details
+    $ php app/console doctrine:phpcr:fixtures:load
+    # see php app/console doctrine:phpcr:fixtures:load --help for more details
 
-After executing the above commands, your database will be filled with the
+After executing above commands, your database will be filled with the
 fake data, which can be used by themes.
-
-Loading fixtures in PHPUnit tests
----------------------------------------------
-
-Loading PHPCR fixtures:
-
-.. code:: php
-
-    $this->loadFixtureFiles([
-       '@SWPFixturesBundle/DataFixtures/PHPCR/Test/article.yml',
-    ], true, null, 'doctrine_phpcr');
-
-Loading ORM fixtures:
-
-.. code:: php
-
-    $this->loadFixtureFiles([
-       '@SWPFixturesBundle/DataFixtures/ORM/Test/page.yml',
-       '@SWPFixturesBundle/DataFixtures/ORM/Test/pagecontent.yml',
-    ]);
 
 Setting up demo theme
 ---------------------------------------------
 
-To make it easier to start with the WebPublisher, we have created a simple
-demo theme. To set this theme as a active one, you need to execute the
+To make it easier to start with the WebPublisher, we created a simple
+demo theme. To set this theme as an active one, you need to execute the
 following console command in terminal:
 
-.. code:: bash
+.. code-block:: bash
 
     $ php app/console theme:setup
     # see php app/console theme:setup --help for more details
 
+.. _formatters: https://github.com/fzaninotto/Faker#formatters
 .. _DoctrineFixturesBundle: https://github.com/doctrine/DoctrineFixturesBundle
-.. _AliceBundle: https://github.com/hautelook/AliceBundle
 .. _fzaninotto/Faker: https://github.com/fzaninotto/Faker
 .. _nelmio/alice: https://github.com/nelmio/alice
-.. _formatters: https://github.com/fzaninotto/Faker#formatters
-.. _documentation: https://github.com/hautelook/AliceBundle/blob/master/src/Resources/doc/advanced-usage.md#environment-specific-fixtures
-.. _here: https://github.com/nelmio/alice#table-of-contents
+.. _documentation: https://github.com/nelmio/alice/blob/master/doc/complete-reference.md#complete-reference

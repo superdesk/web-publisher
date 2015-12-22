@@ -11,6 +11,7 @@
  * @copyright 2015 Sourcefabric z.ú.
  * @license http://www.superdesk.org/license
  */
+
 namespace SWP\WebRendererBundle\EventListener;
 
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
@@ -42,6 +43,6 @@ class KernelRequestListener
             ]));
         }
 
-        return;
+        return true;
     }
 }

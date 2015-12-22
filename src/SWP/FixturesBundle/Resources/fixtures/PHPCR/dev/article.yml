@@ -1,10 +1,11 @@
 SWP\ContentBundle\Document\Article:
-    article1:
-        title: "Test article"
+    article{1..5}:
+        title: "<catchPhrase()>"
         content: "<paragraph(20)>"
-    article2:
+        route: "/swp/routes/news"
+    article_features:
         title: "Features"
         content: "<paragraph(20)>"
-    article3:
+    article_get_invlolved:
         title: "Get Involved"
         content: "<paragraph(20)>"

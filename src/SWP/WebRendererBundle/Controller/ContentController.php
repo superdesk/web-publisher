@@ -11,19 +11,21 @@
  * @copyright 2015 Sourcefabric z.ú.
  * @license http://www.superdesk.org/license
  */
+
 namespace SWP\WebRendererBundle\Controller;
 
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Request;
 
 class ContentController extends Controller
 {
     /**
      * Render content Page.
      */
-    public function renderContentPageAction()
+    public function renderContentPageAction(Request $request, $contentDocument)
     {
-        return $this->renderPage('content');
+        return $this->renderPage('content', ['article' => $contentDocument]);
     }
 
     /**
@@ -31,9 +33,9 @@ class ContentController extends Controller
      *
      * @param string $contentSlug
      */
-    public function renderContainerPageAction($contentSlug)
+    public function renderContainerPageAction(Request $request, $slug)
     {
-        return $this->renderPage('container', ['slug' => $contentSlug]);
+        return $this->renderPage('container', ['slug' => $slug]);
     }
 
     /**
@@ -46,11 +48,10 @@ class ContentController extends Controller
     {
         $context = $this->container->get('context');
         $metaLoader = $this->container->get('swp_template_engine_loader_chain');
-        $currentPage = $context->getCurrentPage();
         $article = null;
 
-        if ($type == 'content' && !is_null($currentPage['contentPath'])) {
-            $article = $metaLoader->load('article', ['contentPath' => $currentPage['contentPath']]);
+        if ($type == 'content' && !is_null($parameters['article'])) {
+            $article = $metaLoader->load('article', ['article' => $parameters['article']]);
         } elseif ($type == 'container') {
             $article = $metaLoader->load('article', $parameters);
 
@@ -63,6 +64,6 @@ class ContentController extends Controller
             $context->registerMeta('article', $article);
         }
 
-        return $this->render('views/'.$currentPage['templateName']);
+        return $this->render('views/article.html.twig');
     }
 }
