@@ -20,7 +20,6 @@ class AppKernel extends Kernel
             new Doctrine\Bundle\PHPCRBundle\DoctrinePHPCRBundle(),
             new FOS\HttpCacheBundle\FOSHttpCacheBundle(),
             new Knp\Bundle\PaginatorBundle\KnpPaginatorBundle(),
-            new Doctrine\Bundle\DoctrineCacheBundle\DoctrineCacheBundle(),
             new Liip\ThemeBundle\LiipThemeBundle(),
             new EmanueleMinotto\TwigCacheBundle\TwigCacheBundle(),
             new FOS\RestBundle\FOSRestBundle(),

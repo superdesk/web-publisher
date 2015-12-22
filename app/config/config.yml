@@ -73,20 +73,6 @@ doctrine:
                 type: yml
                 prefix: "SWP\\TemplateEngineBundle\\Model"
                 dir: Resources/config/doctrine
-doctrine_cache:
-    providers:
-        metadata_array:
-            type: array
-            namespace: swp_metadata
-        metadata_redis:
-            type: redis
-            namespace: swp_metadata
-        nodes_array:
-            type: array
-            namespace: swp_nodes
-        nodes_redis:
-            type: redis
-            namespace: swp_nodes
 
 # Swiftmailer Configuration
 swiftmailer:
@@ -104,9 +90,6 @@ doctrine_phpcr:
         auto_generate_proxy_classes: "%kernel.debug%"
     session:
         backend:
-            caches:
-                meta: doctrine_cache.providers.metadata_%doctrine_cache_driver%
-                nodes: doctrine_cache.providers.nodes_%doctrine_cache_driver%
             type: doctrinedbal
             logging: true
             profiling: true

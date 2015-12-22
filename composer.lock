@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "9cffd9519f8f07f80b70b0359a28682d",
-    "content-hash": "a68b34077f651a261468807dd32904c7",
+    "hash": "ef401bcef30c91cb658a39188743d672",
+    "content-hash": "9a841646764e8019d475636d2be032e1",
     "packages": [
         {
             "name": "ahilles107/updater",
@@ -372,16 +372,16 @@
         },
         {
             "name": "doctrine/common",
-            "version": "v2.5.1",
+            "version": "2.5.x-dev",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/common.git",
-                "reference": "0009b8f0d4a917aabc971fb089eba80e872f83f9"
+                "reference": "11b994b8d19e4f258e6597cac3638305bfe38ee9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/common/zipball/0009b8f0d4a917aabc971fb089eba80e872f83f9",
-                "reference": "0009b8f0d4a917aabc971fb089eba80e872f83f9",
+                "url": "https://api.github.com/repos/doctrine/common/zipball/11b994b8d19e4f258e6597cac3638305bfe38ee9",
+                "reference": "11b994b8d19e4f258e6597cac3638305bfe38ee9",
                 "shasum": ""
             },
             "require": {
@@ -398,7 +398,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.6.x-dev"
+                    "dev-master": "2.5.x-dev"
                 }
             },
             "autoload": {
@@ -441,7 +441,7 @@
                 "persistence",
                 "spl"
             ],
-            "time": "2015-08-31 13:00:22"
+            "time": "2015-12-04 12:51:11"
         },
         {
             "name": "doctrine/data-fixtures",
@@ -502,16 +502,16 @@
         },
         {
             "name": "doctrine/dbal",
-            "version": "v2.5.1",
+            "version": "2.5.x-dev",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/dbal.git",
-                "reference": "628c2256b646ae2417d44e063bce8aec5199d48d"
+                "reference": "e4a9c0257fc63b1d11195d5716d31d0e78ca6629"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/dbal/zipball/628c2256b646ae2417d44e063bce8aec5199d48d",
-                "reference": "628c2256b646ae2417d44e063bce8aec5199d48d",
+                "url": "https://api.github.com/repos/doctrine/dbal/zipball/e4a9c0257fc63b1d11195d5716d31d0e78ca6629",
+                "reference": "e4a9c0257fc63b1d11195d5716d31d0e78ca6629",
                 "shasum": ""
             },
             "require": {
@@ -569,7 +569,7 @@
                 "persistence",
                 "queryobject"
             ],
-            "time": "2015-01-12 21:52:47"
+            "time": "2015-12-15 18:45:43"
         },
         {
             "name": "doctrine/doctrine-bundle",
@@ -915,16 +915,16 @@
         },
         {
             "name": "doctrine/orm",
-            "version": "v2.5.1",
+            "version": "2.5.x-dev",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/doctrine2.git",
-                "reference": "e6a83bedbe67579cb0bfb688e982e617943a2945"
+                "reference": "7065ff0ac93de21f207c9bac6ba60bbec685fdeb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/doctrine2/zipball/e6a83bedbe67579cb0bfb688e982e617943a2945",
-                "reference": "e6a83bedbe67579cb0bfb688e982e617943a2945",
+                "url": "https://api.github.com/repos/doctrine/doctrine2/zipball/7065ff0ac93de21f207c9bac6ba60bbec685fdeb",
+                "reference": "7065ff0ac93de21f207c9bac6ba60bbec685fdeb",
                 "shasum": ""
             },
             "require": {
@@ -935,12 +935,12 @@
                 "doctrine/instantiator": "~1.0.1",
                 "ext-pdo": "*",
                 "php": ">=5.4",
-                "symfony/console": "~2.5"
+                "symfony/console": "~2.5|~3.0"
             },
             "require-dev": {
                 "phpunit/phpunit": "~4.0",
                 "satooshi/php-coveralls": "dev-master",
-                "symfony/yaml": "~2.1"
+                "symfony/yaml": "~2.3|~3.0"
             },
             "suggest": {
                 "symfony/yaml": "If you want to use YAML Metadata Mapping Driver"
@@ -988,7 +988,7 @@
                 "database",
                 "orm"
             ],
-            "time": "2015-08-31 12:59:39"
+            "time": "2015-12-11 20:35:18"
         },
         {
             "name": "doctrine/phpcr-bundle",
@@ -1936,30 +1936,30 @@
         },
         {
             "name": "jackalope/jackalope-doctrine-dbal",
-            "version": "1.2.x-dev",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/jackalope/jackalope-doctrine-dbal.git",
-                "reference": "d80439e095a12750094af0df769744aaa6dea1b7"
+                "reference": "c46108b947ccf027e103dd9369e5c1fe6f4ecbac"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/jackalope/jackalope-doctrine-dbal/zipball/d80439e095a12750094af0df769744aaa6dea1b7",
-                "reference": "d80439e095a12750094af0df769744aaa6dea1b7",
+                "url": "https://api.github.com/repos/jackalope/jackalope-doctrine-dbal/zipball/c46108b947ccf027e103dd9369e5c1fe6f4ecbac",
+                "reference": "c46108b947ccf027e103dd9369e5c1fe6f4ecbac",
                 "shasum": ""
             },
             "require": {
                 "doctrine/dbal": ">=2.4.5,<3.0.x-dev",
-                "jackalope/jackalope": "~1.2.0",
+                "jackalope/jackalope": "~1.2.6",
                 "php": ">=5.3.3",
                 "phpcr/phpcr": "~2.1.2",
-                "phpcr/phpcr-utils": "~1.2,>=1.2.4"
+                "phpcr/phpcr-utils": "^1.2.8"
             },
             "provide": {
                 "jackalope/jackalope-transport": "1.1.0"
             },
             "require-dev": {
-                "phpcr/phpcr-api-tests": "2.1.4",
+                "phpcr/phpcr-api-tests": "2.1.11",
                 "phpunit/dbunit": "~1.3",
                 "phpunit/phpunit": "4.7.*",
                 "psr/log": "~1.0"
@@ -1970,7 +1970,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.2-dev"
+                    "dev-master": "1.3-dev"
                 }
             },
             "autoload": {
@@ -1996,7 +1996,7 @@
                 "phpcr",
                 "transport implementation"
             ],
-            "time": "2015-06-25 11:19:27"
+            "time": "2015-11-10 13:45:51"
         },
         {
             "name": "jdorn/sql-formatter",
@@ -4513,12 +4513,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/symfony.git",
-                "reference": "6fa4d5b8f121c2473f4d135642673961983c9b12"
+                "reference": "352049c505cd14346917108d764d1fa12ac9f1f0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/symfony/zipball/6fa4d5b8f121c2473f4d135642673961983c9b12",
-                "reference": "6fa4d5b8f121c2473f4d135642673961983c9b12",
+                "url": "https://api.github.com/repos/symfony/symfony/zipball/352049c505cd14346917108d764d1fa12ac9f1f0",
+                "reference": "352049c505cd14346917108d764d1fa12ac9f1f0",
                 "shasum": ""
             },
             "require": {
@@ -4638,7 +4638,7 @@
             "keywords": [
                 "framework"
             ],
-            "time": "2015-12-22 10:27:54"
+            "time": "2015-12-22 13:04:57"
         },
         {
             "name": "twig/extensions",
