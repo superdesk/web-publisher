@@ -16,6 +16,12 @@ doctrine:
             default:
                 driver:   pdo_sqlite
                 path:     "%kernel.cache_dir%/test.db3"
+doctrine_phpcr:
+    session:
+        backend:
+            caches:
+                meta: doctrine_cache.providers.metadata_array
+                nodes: doctrine_cache.providers.nodes_array
 
 liip_functional_test: ~
 

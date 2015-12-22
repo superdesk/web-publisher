@@ -27,9 +27,11 @@ class ContentControllerTest extends WebTestCase
     {
         self::bootKernel();
 
-        $this->runCommand('doctrine:schema:drop', ['--force' => true, '--env' => 'test'], true);
         $this->runCommand('doctrine:phpcr:init:dbal', ['--force' => true, '--env' => 'test'], true);
         $this->runCommand('doctrine:phpcr:repository:init', ['--env' => 'test'], true);
+        $this->loadFixtures([
+            'SWP\FixturesBundle\DataFixtures\PHPCR\LoadArticlesData',
+        ], null, 'doctrine_phpcr');
         $this->runCommand('theme:setup', ['--env' => 'test', '--force' => true, 'name' => 'theme_test'], true);
     }
 
@@ -41,10 +43,6 @@ class ContentControllerTest extends WebTestCase
 
     public function testLoadingContainerPageArticle()
     {
-        $this->loadFixtures([
-            'SWP\FixturesBundle\DataFixtures\PHPCR\LoadArticlesData',
-        ], null, 'doctrine_phpcr');
-
         $client = static::createClient();
         $crawler = $client->request('GET', '/articles/features');
 

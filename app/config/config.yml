@@ -104,10 +104,10 @@ doctrine_phpcr:
         auto_generate_proxy_classes: "%kernel.debug%"
     session:
         backend:
-            type: doctrinedbal
             caches:
                 meta: doctrine_cache.providers.metadata_%doctrine_cache_driver%
                 nodes: doctrine_cache.providers.nodes_%doctrine_cache_driver%
+            type: doctrinedbal
             logging: true
             profiling: true
         workspace: default
@@ -123,16 +123,6 @@ cmf_routing:
             phpcr:
                 enabled: true
                 route_basepaths: "/swp/routes"
-
-oneup_flysystem:
-    adapters:
-        swp_local:
-            local:
-                directory: "%kernel.root_dir%/Resources/uploads"
-
-    filesystems:
-        my_filesystem:
-            adapter: swp_local
 
 fos_rest:
     zone:
@@ -192,3 +182,12 @@ stof_doctrine_extensions:
             sortable: true
 nelmio_api_doc:
     request_listener: false
+
+services:
+    swp_renderer.phpcr.initializer:
+        class: Doctrine\Bundle\PHPCRBundle\Initializer\GenericInitializer
+        arguments:
+            - SWP ContentBundle paths
+            - [ "/swp/content", "/swp/routes" ]
+        tags:
+            - { name: "doctrine_phpcr.initializer" }

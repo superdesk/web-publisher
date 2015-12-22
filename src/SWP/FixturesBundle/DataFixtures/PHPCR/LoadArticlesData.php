@@ -46,26 +46,18 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface
                     'parent' => '/swp/routes',
                     'name' => 'news',
                     'variablePattern' => '/{slug}',
-                    'requirements' => [
-                        'slug' => '[a-zA-Z1-9\-_\/]+'
-                    ],
-                    'defaults' => [
-                        '_controller' => '\SWP\WebRendererBundle\Controller\ContentController::renderContainerPageAction'
-                    ]
+                    'requirements' => ['slug' => '[a-zA-Z1-9\-_\/]+'],
+                    'defaults' => ['_controller' => '\SWP\WebRendererBundle\Controller\ContentController::renderContainerPageAction']
                 ],
                 [
                     'parent' => '/swp/routes',
                     'name' => 'articles',
-                    'defaults' => [
-                        '_controller' => '\SWP\WebRendererBundle\Controller\ContentController::renderContentPageAction'
-                    ]
+                    'defaults' => ['_controller' => '\SWP\WebRendererBundle\Controller\ContentController::renderContentPageAction']
                 ],
                 [
                     'parent' => '/swp/routes/articles',
                     'name' => 'features',
-                    'defaults' => [
-                        '_controller' => '\SWP\WebRendererBundle\Controller\ContentController::renderContentPageAction'
-                    ]
+                    'defaults' => ['_controller' => '\SWP\WebRendererBundle\Controller\ContentController::renderContentPageAction']
                 ]
             ],
             'test' => [
@@ -73,26 +65,18 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface
                     'parent' => '/swp/routes',
                     'name' => 'news',
                     'variablePattern' => '/{slug}',
-                    'requirements' => [
-                        'slug' => '[a-zA-Z1-9\-_\/]+'
-                    ],
-                    'defaults' => [
-                        '_controller' => '\SWP\WebRendererBundle\Controller\ContentController::renderContainerPageAction'
-                    ]
+                    'requirements' => ['slug' => '[a-zA-Z1-9\-_\/]+'],
+                    'defaults' => ['_controller' => '\SWP\WebRendererBundle\Controller\ContentController::renderContainerPageAction']
                 ],
                 [
                     'parent' => '/swp/routes',
                     'name' => 'articles',
-                    'defaults' => [
-                        '_controller' => '\SWP\WebRendererBundle\Controller\ContentController::renderContentPageAction'
-                    ]
+                    'defaults' => ['_controller' => '\SWP\WebRendererBundle\Controller\ContentController::renderContentPageAction']
                 ],
                 [
                     'parent' => '/swp/routes/articles',
                     'name' => 'features',
-                    'defaults' => [
-                        '_controller' => '\SWP\WebRendererBundle\Controller\ContentController::renderContentPageAction'
-                    ]
+                    'defaults' => ['_controller' => '\SWP\WebRendererBundle\Controller\ContentController::renderContentPageAction']
                 ]
             ]
         ];

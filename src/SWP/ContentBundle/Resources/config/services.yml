@@ -1,12 +1,4 @@
 services:
-    swp_renderer.phpcr.initializer:
-        class: Doctrine\Bundle\PHPCRBundle\Initializer\GenericInitializer
-        arguments:
-            - SWP ContentBundle paths
-            - [ "/swp/content", "/swp/routes" ]
-        tags:
-            - { name: "doctrine_phpcr.initializer" }
-
     swp_template_engine.loader.article:
         class: SWP\ContentBundle\Loader\ArticleLoader
         arguments:

@@ -20,6 +20,7 @@ services:
         class: Twig_Extension_Debug
         tags:
                 - { name: 'twig.extension' }
+
 monolog:
     handlers:
         main:
