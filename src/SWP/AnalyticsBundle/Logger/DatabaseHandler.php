@@ -50,17 +50,15 @@ class DatabaseHandler extends AbstractProcessingHandler
     {
         // Ensure the doctrine channel is ignored (unless its greater than a warning error), otherwise you will create an infinite loop, as doctrine like to log.. a lot..
         if( 'doctrine' == $record['channel'] ) {
-
             if( (int)$record['level'] >= Logger::WARNING ) {
-                error_log($record['message']);
+                //error_log($record['message']);
             }
 
             return;
         }
         // Only log errors greater than a warning
-        // TODO - you could ideally add this into configuration variable
+        // TODO - we should ideally add this into configuration variable
         if( (int)$record['level'] >= Logger::WARNING ) {
-
             try
             {
                 // Logs are inserted as separate SQL statements, separate to the current transactions that may exist within the entity manager.
@@ -69,14 +67,14 @@ class DatabaseHandler extends AbstractProcessingHandler
 
                 $created = date('Y-m-d H:i:s');
 
-                $serverData = $record['extra']['serverData'];
+                $serverData = $record['extra']['server_data'];
 
-                $stmt = $em->getConnection()->prepare('INSERT INTO analytics_log(log, level, serverData, modified, created)
+                $stmt = $em->getConnection()->prepare('INSERT INTO analytics_log(log, level, server_data, modified, created)
                                         VALUES(' . $conn->quote($record['message']) . ', \'' . $record['level'] . '\', ' . $conn->quote($serverData) . ', \'' . $created . '\', \'' . $created . '\');');
                 $stmt->execute();
 
             } catch( \Exception $e ) {
-
+                print($e->getMessage() . '<br>');
                 // Fallback to just writing to php error logs if something really bad happens
                 error_log($record['message']);
                 error_log($e->getMessage());

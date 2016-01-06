@@ -49,6 +49,8 @@ class ContentController extends Controller
         // start render timer
         $stopwatch->start($view);
         $context = $this->container->get('context');
+        $logger = $this->container->get('logger');
+
         $metaLoader = $this->container->get('swp_template_engine_loader_chain');
         $article = null;
 
@@ -78,6 +80,7 @@ class ContentController extends Controller
         $event = $stopwatch->stop($view);
 
         // TODO: log the event with the analytics logger here
+        $logger->error(print_r($event, true));
 
         return $response;
 >>>>>>> SWP-10: Create Analytics Bundle - initial commit:src/SWP/WebRendererBundle/Controller/ContentController.php

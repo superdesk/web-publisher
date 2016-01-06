@@ -11,65 +11,69 @@
  * @copyright 2015 Sourcefabric z.ú.
  * @license http://www.superdesk.org/license
  */
-namespace SWP\AnalyticsBundle\Entity;
+namespace SWP\AnalyticsBundle\Model;
 
-use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
- *
- * @ORM\Entity(repositoryClass="SWP\AnalyticsBundle\Repository\AnalyticsLogRepository")
- * @ORM\Table(name="analytics_log")
+ * AnalyticsLog
  */
 class AnalyticsLog
 {
     /**
-     * @ORM\Id
-     * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue(strategy="AUTO")
+     * @var int
      */
     private $id;
 
     /**
-     * @ORM\Column(type="text", nullable=true)
+     * @var string
      */
     private $log;
 
     /**
-     * @ORM\Column(type="text", nullable=true)
+     * @var @string
      */
     private $serverData;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
+     * @var @string
      */
     private $level;
 
     /**
-     * @ORM\Column(type="datetime")
+     * @var datetime
      */
     private $modified;
 
     /**
-     * @ORM\Column(type="datetime")
+     * @var datetime
      */
     private $created;
 
     /**
-     * @ORM\PreUpdate
+     * Set modified
+     *
+     * @return AnalyticsLog
      */
     public function setModifiedValue()
     {
         $this->modified = new \DateTime();
+
+        return $this;
     }
 
     /**
-     * @ORM\PrePersist
+     * Set created
+     *
+     * @return AnalyticsLog
      */
     public function setCreatedValue()
     {
         $this->modified = new \DateTime();
 
         $this->created = new \DateTime();
+
+        return $this;
     }
 
     /**
@@ -86,6 +90,7 @@ class AnalyticsLog
      * Set log
      *
      * @param string $log
+     *
      * @return AnalyticsLog
      */
     public function setLog($log)
@@ -109,6 +114,7 @@ class AnalyticsLog
      * Set serverData
      *
      * @param string $serverData
+     *
      * @return AnalyticsLog
      */
     public function setServerData($serverData)
@@ -132,6 +138,7 @@ class AnalyticsLog
      * Set level
      *
      * @param string $level
+     *
      * @return AnalyticsLog
      */
     public function setLevel($level)
@@ -155,6 +162,7 @@ class AnalyticsLog
      * Set modified
      *
      * @param \DateTime $modified
+     *
      * @return AnalyticsLog
      */
     public function setModified($modified)
@@ -178,6 +186,7 @@ class AnalyticsLog
      * Set created
      *
      * @param \DateTime $created
+     *
      * @return AnalyticsLog
      */
     public function setCreated($created)

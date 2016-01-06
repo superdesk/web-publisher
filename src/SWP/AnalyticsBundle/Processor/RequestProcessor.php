@@ -27,7 +27,7 @@ class RequestProcessor extends WebProcessor
 
     public function processRecord(array $record)
     {
-        $record['extra']['serverData'] = "";
+        $record['extra']['server_data'] = "";
 
         if( is_array($this->serverData) ) {
             foreach ($this->serverData as $key => $value) {
@@ -36,7 +36,7 @@ class RequestProcessor extends WebProcessor
                     $value = print_r($value, true);
                 }
 
-                $record['extra']['serverData'] .= $key . ": " . $value . "\n";
+                $record['extra']['server_data'] .= $key . ": " . $value . "\n";
             }
         }
 
@@ -46,7 +46,7 @@ class RequestProcessor extends WebProcessor
                 $value = print_r($value, true);
             }
 
-            $record['extra']['serverData'] .= $key . ": " . $value . "\n";
+            $record['extra']['server_data'] .= $key . ": " . $value . "\n";
         }
 
         return $record;
