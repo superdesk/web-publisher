@@ -46,7 +46,7 @@ liip_theme:
             - "%%app_path%%/views/%%current_device%%/%%template%%"
 
 twig_cache:
-    service: doctrine_cache.providers.doctrine.orm.default_metadata_cache
+    service: "doctrine_cache.providers.main_cache"
 
 # Doctrine Configuration
 doctrine:
@@ -62,8 +62,12 @@ doctrine:
     orm:
         auto_generate_proxy_classes: "%kernel.debug%"
         auto_mapping: false
-        metadata_cache_driver: %doctrine_cache_driver%
-        query_cache_driver: %doctrine_cache_driver%
+        metadata_cache_driver:
+            type: service
+            id: doctrine_cache.providers.main_cache
+        query_cache_driver:
+            type: service
+            id: doctrine_cache.providers.main_cache
         mappings:
             SWPContentBundle:
                 type: yml
@@ -73,6 +77,11 @@ doctrine:
                 type: yml
                 prefix: "SWP\\TemplateEngineBundle\\Model"
                 dir: Resources/config/doctrine
+
+doctrine_cache:
+    providers:
+        main_cache:
+            type: %doctrine_cache_driver%
 
 # Swiftmailer Configuration
 swiftmailer:
@@ -88,11 +97,17 @@ doctrine_phpcr:
     odm:
         auto_mapping: true
         auto_generate_proxy_classes: "%kernel.debug%"
+        metadata_cache_driver:
+            type: service
+            id: doctrine_cache.providers.main_cache
     session:
         backend:
             type: doctrinedbal
             logging: true
             profiling: true
+            caches:
+                meta: doctrine_cache.providers.main_cache
+                nodes: doctrine_cache.providers.main_cache
         workspace: default
 
 cmf_routing:

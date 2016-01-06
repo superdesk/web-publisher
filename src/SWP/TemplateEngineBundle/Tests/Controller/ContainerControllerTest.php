@@ -1,7 +1,7 @@
 <?php
 
 /**
- * This file is part of the Superdesk Web Publisher Web Renderer Bundle.
+ * This file is part of the Superdesk Web Publisher Template Engine Bundle.
  *
  * Copyright 2015 Sourcefabric z.u. and contributors.
  *
@@ -11,7 +11,8 @@
  * @copyright 2015 Sourcefabric z.ú.
  * @license http://www.superdesk.org/license
  */
-namespace SWP\WebRendererBundle\Tests\Controller;
+
+namespace SWP\TemplateEngineBundle\Tests\Controller;
 
 use Liip\FunctionalTestBundle\Test\WebTestCase;
 use Symfony\Component\Filesystem\Filesystem;
@@ -89,6 +90,33 @@ class ContainerControllerTest extends WebTestCase
 
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
         $this->assertEquals($client->getResponse()->getContent(), '{"id":1,"type":1,"name":"Simple Container 1","width":402,"height":400,"styles":"color: #00000","css_class":"col-md-12","visible":true,"data":[],"widgets":[],"_links":{"self":{"href":"\/api\/v1\/templates\/containers\/1"}}}');
+    }
+
+    public function testUpdateDataApi()
+    {
+        $client = static::createClient();
+        $client->request('PATCH', $this->router->generate('swp_api_templates_update_container', ['id' => 1]), [
+            'container' => [
+                'data' => [
+                    'key_1-test' => 'value_1-test',
+                    'key_2-test' => 'value 2'
+                ],
+            ]
+        ]);
+
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+        $this->assertEquals($client->getResponse()->getContent(), '{"id":1,"type":1,"name":"Simple Container 1","width":300,"height":400,"styles":"color: #00000","css_class":"col-md-12","visible":true,"data":[{"key":"key_1-test","value":"value_1-test"},{"key":"key_2-test","value":"value 2"}],"widgets":[],"_links":{"self":{"href":"\/api\/v1\/templates\/containers\/1"}}}');
+
+        $client->request('PATCH', $this->router->generate('swp_api_templates_update_container', ['id' => 1]), [
+            'container' => [
+                'data' => [
+                    'test-key' => 'test-value'
+                ],
+            ]
+        ]);
+
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+        $this->assertEquals($client->getResponse()->getContent(), '{"id":1,"type":1,"name":"Simple Container 1","width":300,"height":400,"styles":"color: #00000","css_class":"col-md-12","visible":true,"data":[{"key":"test-key","value":"test-value"}],"widgets":[],"_links":{"self":{"href":"\/api\/v1\/templates\/containers\/1"}}}');
     }
 
     public function testLinkingWidgetToContainerApi()

@@ -14,16 +14,24 @@
 
 namespace SWP\TemplateEngineBundle\Service;
 
-use SWP\TemplatesSystem\Gimme\Container\SimpleContainer;
+use SWP\TemplateEngineBundle\Container\SimpleContainer;
 use SWP\TemplateEngineBundle\Model\Container;
+use SWP\TemplateEngineBundle\Model\ContainerData;
 
 class ContainerService
 {
-    protected $objectManager;
+    const OPEN_TAG_TEMPLATE = '<div id="swp_container_{{ id }}" class="swp_container {{ class }}" style="{% if height %}height: {{ height }}px;{% endif %}{% if width %}width: {{width}}px;{% endif %}{{styles}}"{% for value in data %} data-{{value.getKey()}}="{{value.getValue()}}"{% endfor %} >';
+    const CLOSE_TAG_TEMPLATE = '</div>';
 
-    public function __construct($doctrine)
+    protected $objectManager;
+    protected $cacheDir = false;
+
+    public function __construct($doctrine, $cacheDir, $debug)
     {
         $this->objectManager = $doctrine->getManager();
+        if (!$debug) {
+            $this->cacheDir = $cacheDir.'/twig';
+        }
     }
 
     public function getContainer($name, array $parameters, $createIfNotExists = true)
@@ -47,10 +55,22 @@ class ContainerService
             $widgets[] = new $widgetClass($widgetModel);
         }
 
-        $container = new SimpleContainer($containerEntity);
+        $container = new SimpleContainer($containerEntity, $this->getRenderer());
         $container->setWidgets($widgets);
 
         return $container;
+    }
+
+    public function getRenderer()
+    {
+        return new \Twig_Environment(
+            new \Twig_Loader_Array([
+                'open_tag' => self::OPEN_TAG_TEMPLATE,
+                'close_tag' => self::CLOSE_TAG_TEMPLATE
+            ]), [
+                'cache' => $this->cacheDir
+            ]
+        );
     }
 
     public function createNewContainer($name, array $parameters = array())
@@ -74,6 +94,13 @@ class ContainerService
                 case 'visible':
                     $containerEntity->setVisible($value);
                     break;
+                case 'data':
+                    foreach ($value as $dataKey => $dataValue) {
+                        $containerData = new ContainerData($dataKey, $dataValue);
+                        $containerData->setContainer($containerEntity);
+                        $this->objectManager->persist($containerData);
+                        $containerEntity->addData($containerData);
+                    }
             }
         }
         $this->objectManager->persist($containerEntity);

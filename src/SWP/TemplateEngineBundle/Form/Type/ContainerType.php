@@ -16,23 +16,31 @@ namespace SWP\TemplateEngineBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\CallbackTransformer;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 class ContainerType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('name', null, ['required' => false])
-            ->add('height', null, ['required' => false])
-            ->add('width', null, ['required' => false])
-            ->add('styles', null, ['required' => false])
+            ->add('name', null)
+            ->add('height', null)
+            ->add('width', null)
+            ->add('styles', null)
             ->add('visible', ChoiceType::class, [
                 'choices'  => [true => 1, false => 0],
                 'choices_as_values' => true,
             ])
-            ->add('cssClass', null, ['required' => false]);
+            ->add('cssClass', null)
+            ->add('data', CollectionType::class, [
+                    'entry_type' => TextType::class,
+                    'allow_extra_fields' => true
+                ]
+            );
     }
 
     public function configureOptions(OptionsResolver $resolver)

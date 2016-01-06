@@ -35,14 +35,14 @@ class WidgetType extends AbstractType
             ->add('parameters', TextType::class)
             ->addModelTransformer(new CallbackTransformer(
                 function ($originalDescription) {
-                    if (is_array($originalDescription->getParameters())) {
+                    if ($originalDescription && is_array($originalDescription->getParameters())) {
                          $originalDescription->setParameters(json_encode($originalDescription->getParameters()));
                     }
 
                     return $originalDescription;
                 },
                 function ($submittedDescription) {
-                    if (is_string($submittedDescription->getParameters())) {
+                    if ($submittedDescription && is_string($submittedDescription->getParameters())) {
                         $submittedDescription->setParameters(json_decode($submittedDescription->getParameters(), true));
                     }
 

@@ -93,11 +93,25 @@ class Container implements ContainerInterface
     }
 
     /**
+     * Set id
+     *
+     * @param integer $id
+     *
+     * @return self
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
+
+        return $this;
+    }
+
+    /**
      * Set name.
      *
      * @param string $name
      *
-     * @return Page
+     * @return self
      */
     public function setName($name)
     {
@@ -256,6 +270,19 @@ class Container implements ContainerInterface
     public function setData(ArrayCollection $data)
     {
         $this->data = $data;
+
+        return $this;
+    }
+
+
+    /**
+     * Add ContainerData to container
+     *
+     * @param $containerData
+     */
+    public function addData($containerData)
+    {
+        $this->data->add($containerData);
 
         return $this;
     }

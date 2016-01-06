@@ -16,27 +16,18 @@ namespace SWP\ContentBundle\Loader;
 
 use SWP\TemplatesSystem\Gimme\Loader\LoaderInterface;
 use SWP\TemplatesSystem\Gimme\Meta\Meta;
+use Symfony\Component\Yaml\Parser;
 
 class ArticleLoader implements LoaderInterface
 {
-    /**
-     * @var string
-     */
-    protected $rootDir;
-
-    protected $dm;
-
-    protected $em;
-
-    protected $container;
+    protected $serviceContainer;
 
     /**
      * @param string $rootDir path to application root directory
      */
-    public function __construct($rootDir, $container)
+    public function __construct($serviceContainer)
     {
-        $this->rootDir = $rootDir;
-        $this->container = $container;
+        $this->serviceContainer = $serviceContainer;
     }
 
     /**
@@ -59,38 +50,52 @@ class ArticleLoader implements LoaderInterface
      */
     public function load($type, $parameters, $responseType = LoaderInterface::SINGLE)
     {
-        $this->dm = $this->container->get('doctrine_phpcr.odm.document_manager');
-        $this->em = $this->container->get('doctrine')->getManager();
+        $dm = $this->serviceContainer->get('doctrine_phpcr.odm.document_manager');
+        $configurationPath = $this->serviceContainer->getParameter('kernel.root_dir').'/Resources/meta/article.yml';
+        $metadataCache = $this->serviceContainer->get('doctrine_cache.providers.main_cache');
 
         $article = null;
         if (empty($parameters)) {
             $parameters = [];
         }
 
+        // Cache meta configuration
+        $cacheKey = md5($configurationPath);
+        if (!$metadataCache->contains($cacheKey)) {
+            if (!is_readable($configurationPath)) {
+                throw new \InvalidArgumentException("Configuration file is not readable for parser");
+            }
+            $yaml = new Parser();
+            $configuration = $yaml->parse(file_get_contents($configurationPath));
+            $metadataCache->save($cacheKey, $configuration);
+        } else {
+            $configuration = $metadataCache->fetch($cacheKey);
+        }
+
         if ($responseType === LoaderInterface::SINGLE) {
             if (array_key_exists('contentPath', $parameters)) {
-                $article = $this->dm->find('SWP\ContentBundle\Document\Article', $parameters['contentPath']);
+                $article = $dm->find('SWP\ContentBundle\Document\Article', $parameters['contentPath']);
             } else if (array_key_exists('article', $parameters)) {
                 $article = $parameters['article'];
             } elseif (array_key_exists('slug', $parameters)) {
-                $article = $this->dm->getRepository('SWP\ContentBundle\Document\Article')
+                $article = $dm->getRepository('SWP\ContentBundle\Document\Article')
                     ->findOneBy(array('slug' => $parameters['slug']));
             }
 
             if (!is_null($article)) {
-                return new Meta($this->rootDir.'/Resources/meta/article.yml', $article);
+                return new Meta($configuration, $article);
             }
         } elseif ($responseType === LoaderInterface::COLLECTION) {
             if (array_key_exists('route', $parameters)) {
-                $route = $this->dm->find(null, '/swp/routes'.$parameters['route']);
+                $route = $dm->find(null, '/swp/routes'.$parameters['route']);
                 if ($route) {
-                    $articles = $this->dm->getReferrers($route, null, null, null, 'SWP\ContentBundle\Document\Article');
+                    $articles = $dm->getReferrers($route, null, null, null, 'SWP\ContentBundle\Document\Article');
 
                     $metas = [];
                     foreach ($articles as $article) {
                         if (!is_null($article)) {
                             $metas[] = new Meta(
-                                $this->rootDir.'/Resources/meta/article.yml',
+                                $configuration,
                                 $article
                             );
                         }

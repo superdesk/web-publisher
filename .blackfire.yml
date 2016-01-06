@@ -1,0 +1,18 @@
+tests:
+    "App should be fast":
+        path: "/*"
+        assertions:
+            - metrics.twig.attributes.php.get.count == 0
+            - metrics.sql.connections.count == 1
+
+    "App on production should not use cache":
+        path: "/*"
+        assertions:
+            # no Twig/Smarty compilation
+            - metrics.twig.compile.count == 0
+            # no Symfony metadata checks
+            - metrics.symfony.config_check.count == 0
+            # no Doctrine parsing
+            - metrics.doctrine.annotations.parsed.count + metrics.doctrine.annotations.read.count + metrics.doctrine.dql.parsed.count + metrics.doctrine.entities.metadata.count == 0
+            # no YAML loaded
+            - metrics.symfony.yaml.reads.count == 0

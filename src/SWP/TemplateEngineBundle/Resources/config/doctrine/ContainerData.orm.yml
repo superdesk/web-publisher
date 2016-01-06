@@ -18,6 +18,7 @@ SWP\TemplateEngineBundle\Model\ContainerData:
     manyToOne:
         container:
             targetEntity: SWP\TemplateEngineBundle\Model\Container
+            inversedBy: data
             joinColumn:
                 name: container_id
                 referencedColumnName: id

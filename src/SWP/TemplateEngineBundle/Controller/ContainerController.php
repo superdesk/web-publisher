@@ -25,6 +25,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use SWP\TemplateEngineBundle\Form\Type\ContainerType;
 use SWP\TemplateEngineBundle\Model\Widget;
 use SWP\TemplateEngineBundle\Model\ContainerWidget;
+use SWP\TemplateEngineBundle\Model\ContainerData;
 
 class ContainerController extends FOSRestController
 {
@@ -124,9 +125,25 @@ class ContainerController extends FOSRestController
 
         $form->handleRequest($request);
         if ($form->isValid()) {
-            $entityManager->flush($container);
+            $extraData = $form->get('data')->getExtraData();
+            if ($extraData && is_array($extraData)) {
+                // Remove old containerData's
+                foreach ($container->getData() as $containerData) {
+                    $entityManager->remove($containerData);
+                }
 
+                // Apply new containerData's
+                foreach ($extraData as $key => $value) {
+                    $containerData = new ContainerData($key, $value);
+                    $containerData->setContainer($container);
+                    $entityManager->persist($containerData);
+                    $container->addData($containerData);
+                }
+            }
+
+            $entityManager->flush($container);
             $entityManager->refresh($container);
+
             return $container;
         }
 

@@ -41,7 +41,6 @@ class ArticleLoaderTest extends WebTestCase
         $manager = $this->getContainer()->get('doctrine_phpcr.odm.document_manager');
 
         $articleLoader = new ArticleLoader(
-            $this->getContainer()->getParameter('kernel.root_dir'),
             $this->getContainer()
         );
 

@@ -42,6 +42,18 @@ class ContainerData
     protected $container;
 
     /**
+     * @param string $key
+     * @param string $value
+     */
+    public function __construct($key, $value)
+    {
+        $this->setKey($key);
+        $this->setValue($value);
+
+        return $this;
+    }
+
+    /**
      * Gets the value of id.
      *
      * @return int
@@ -121,5 +133,10 @@ class ContainerData
         $this->container = $container;
 
         return $this;
+    }
+
+    public function __toString()
+    {
+        return $this->getValue();
     }
 }

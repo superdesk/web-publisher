@@ -19,7 +19,7 @@ SWP\TemplateEngineBundle\Model\Widget:
             type: boolean
         parameters:
             type: json_array
-    manyToMany:
+    oneToMany:
         containers:
             targetEntity: SWP\TemplateEngineBundle\Model\ContainerWidget
             mappedBy: widget

@@ -19,11 +19,13 @@ SWP\TemplateEngineBundle\Model\ContainerWidget:
     manyToOne:
         widget:
             targetEntity: SWP\TemplateEngineBundle\Model\Widget
+            inversedBy: containers
             joinColumn:
                 name: widget_id
                 referencedColumnName: id
         container:
             targetEntity: SWP\TemplateEngineBundle\Model\Container
+            inversedBy: widgets
             joinColumn:
                 name: container_id
                 referencedColumnName: id
