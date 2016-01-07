@@ -1,6 +1,6 @@
 SWP\AnalyticsBundle\Model\AnalyticsLog:
     type: entity
-    table: null
+    table: analytics_log
     repositoryClass: SWP\AnalyticsBundle\Repository\AnalyticsLogRepository
     id:
         id:
@@ -14,7 +14,7 @@ SWP\AnalyticsBundle\Model\AnalyticsLog:
             nullable: true
         serverData:
             type: text
-            name: server_data
+            column: server_data
             nullable: true
         level:
             type: string

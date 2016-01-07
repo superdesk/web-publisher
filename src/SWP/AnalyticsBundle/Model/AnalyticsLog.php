@@ -23,32 +23,32 @@ class AnalyticsLog
     /**
      * @var int
      */
-    private $id;
+    protected $id;
 
     /**
      * @var string
      */
-    private $log;
+    protected $log;
 
     /**
      * @var @string
      */
-    private $serverData;
+    protected $serverData;
 
     /**
      * @var @string
      */
-    private $level;
+    protected $level;
 
     /**
      * @var datetime
      */
-    private $modified;
+     protected $modified;
 
     /**
      * @var datetime
      */
-    private $created;
+    protected $created;
 
     /**
      * Set modified

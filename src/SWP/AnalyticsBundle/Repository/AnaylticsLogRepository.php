@@ -23,15 +23,10 @@ class AnalyticsLogRepository extends EntityRepository
     public function findLatest()
     {
         $qb = $this->createQueryBuilder('l');
-
         $qb->add('orderBy', 'l.id DESC');
-
         $qb->setMaxResults(200);
 
-        //Get our query
-        $q = $qb->getQuery();
+        return $qb->getQuery();
 
-        //Return result
-        return $q->getResult();
     }
 }
