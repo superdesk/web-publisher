@@ -75,7 +75,7 @@ class ContainerControllerTest extends WebTestCase
             ]
         ]);
 
-        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+        $this->assertEquals(201, $client->getResponse()->getStatusCode());
         $this->assertEquals($client->getResponse()->getContent(), '{"id":1,"type":1,"name":"Simple Container 1","width":401,"height":301,"styles":"color: #00001","css_class":"col-md-11","visible":false,"data":[],"widgets":[],"_links":{"self":{"href":"\/api\/v1\/templates\/containers\/1"}}}');
     }
 
@@ -88,7 +88,7 @@ class ContainerControllerTest extends WebTestCase
             ]
         ]);
 
-        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+        $this->assertEquals(201, $client->getResponse()->getStatusCode());
         $this->assertEquals($client->getResponse()->getContent(), '{"id":1,"type":1,"name":"Simple Container 1","width":402,"height":400,"styles":"color: #00000","css_class":"col-md-12","visible":true,"data":[],"widgets":[],"_links":{"self":{"href":"\/api\/v1\/templates\/containers\/1"}}}');
     }
 
@@ -104,7 +104,7 @@ class ContainerControllerTest extends WebTestCase
             ]
         ]);
 
-        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+        $this->assertEquals(201, $client->getResponse()->getStatusCode());
         $this->assertEquals($client->getResponse()->getContent(), '{"id":1,"type":1,"name":"Simple Container 1","width":300,"height":400,"styles":"color: #00000","css_class":"col-md-12","visible":true,"data":[{"key":"key_1-test","value":"value_1-test"},{"key":"key_2-test","value":"value 2"}],"widgets":[],"_links":{"self":{"href":"\/api\/v1\/templates\/containers\/1"}}}');
 
         $client->request('PATCH', $this->router->generate('swp_api_templates_update_container', ['id' => 1]), [

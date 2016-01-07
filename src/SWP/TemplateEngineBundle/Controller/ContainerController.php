@@ -93,7 +93,7 @@ class ContainerController extends FOSRestController
      *     resource=true,
      *     description="Update single container",
      *     statusCodes={
-     *         200="Returned on success.",
+     *         201="Returned on success.",
      *         404="Container not found",
      *         422="Container id is not number"
      *     },
@@ -140,7 +140,7 @@ class ContainerController extends FOSRestController
             $entityManager->flush($container);
             $entityManager->refresh($container);
 
-            return $this->handleView(View::create($container, 200));
+            return $this->handleView(View::create($container, 201));
         }
 
         return $this->handleView(View::create($form, 200));

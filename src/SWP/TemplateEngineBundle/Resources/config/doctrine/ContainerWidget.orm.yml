@@ -7,7 +7,7 @@ SWP\TemplateEngineBundle\Model\ContainerWidget:
             type: integer
             id: true
             generator:
-                strategy: AUTO
+                strategy: IDENTITY
     uniqueConstraints:
         container_widget_idx:
             columns: [ container_id, widget_id ]

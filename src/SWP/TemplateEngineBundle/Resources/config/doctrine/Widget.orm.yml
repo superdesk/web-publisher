@@ -7,7 +7,7 @@ SWP\TemplateEngineBundle\Model\Widget:
             type: integer
             id: true
             generator:
-                strategy: AUTO
+                strategy: IDENTITY
     fields:
         name:
             type: string

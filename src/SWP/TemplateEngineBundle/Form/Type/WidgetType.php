@@ -27,12 +27,16 @@ class WidgetType extends AbstractType
     {
         $builder
             ->add('name')
-            ->add('type')
+            ->add('type', null, [
+                'required'  => false
+            ])
             ->add('visible', ChoiceType::class, [
                 'choices'  => [true => '1', false => '0'],
                 'choices_as_values' => true
             ])
-            ->add('parameters', TextType::class)
+            ->add('parameters', TextType::class, [
+                'required'  => false
+            ])
             ->addModelTransformer(new CallbackTransformer(
                 function ($originalDescription) {
                     if ($originalDescription && is_array($originalDescription->getParameters())) {
@@ -44,6 +48,8 @@ class WidgetType extends AbstractType
                 function ($submittedDescription) {
                     if ($submittedDescription && is_string($submittedDescription->getParameters())) {
                         $submittedDescription->setParameters(json_decode($submittedDescription->getParameters(), true));
+                    } elseif ($submittedDescription && !is_array($submittedDescription->getParameters())) {
+                        $submittedDescription->setParameters([]);
                     }
 
                     return $submittedDescription;

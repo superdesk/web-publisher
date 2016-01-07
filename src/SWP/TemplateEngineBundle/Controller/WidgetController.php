@@ -120,4 +120,87 @@ class WidgetController extends FOSRestController
 
         return $this->handleView(View::create($form, 400));
     }
+
+    /**
+     * Delete single widget
+     *
+     * @ApiDoc(
+     *     resource=true,
+     *     description="Delete single widget",
+     *     statusCodes={
+     *         204="Returned on success.",
+     *         404="Widget not found",
+     *         422="Widget id is not number"
+     *     }
+     * )
+     * @Route("/api/{version}/templates/widgets/{id}", options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_templates_delete_widget")
+     * @Method("DELETE")
+     */
+    public function deleteAction(Request $request, $id)
+    {
+        if (!$id || !is_numeric($id)) {
+            throw new UnprocessableEntityHttpException('You need to provide widget Id (integer).');
+        }
+
+        $entityManager = $this->get('doctrine')->getManager();
+        $widget = $entityManager->getRepository('SWP\TemplateEngineBundle\Model\Widget')->getById($id)->getOneOrNullResult();
+
+        if (!$widget) {
+            throw new NotFoundHttpException('Widget with this id was not found.');
+        }
+
+        foreach ($widget->getContainers() as $containerWidget) {
+            $entityManager->remove($containerWidget);
+        }
+
+        $entityManager->remove($widget);
+        $entityManager->flush();
+
+        return $this->handleView(View::create(null, 204));
+    }
+
+    /**
+     * Update single widget
+     *
+     * @ApiDoc(
+     *     resource=true,
+     *     description="Update single widget",
+     *     statusCodes={
+     *         201="Returned on success.",
+     *         404="Widget not found",
+     *         422="Widget id is not number",
+     *         405="Method Not Allowed"
+     *     },
+     *     input="SWP\TemplateEngineBundle\Form\Type\WidgetType"
+     * )
+     * @Route("/api/{version}/templates/widgets/{id}", options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_templates_update_widget")
+     * @Method("PATCH")
+     */
+    public function updateAction(Request $request, $id)
+    {
+        if (!$id || !is_numeric($id)) {
+            throw new UnprocessableEntityHttpException('You need to provide container Id (integer).');
+        }
+
+        $entityManager = $this->get('doctrine')->getManager();
+        $widget = $entityManager->getRepository('SWP\TemplateEngineBundle\Model\Widget')->getById($id)->getOneOrNullResult();
+
+        if (!$widget) {
+            throw new NotFoundHttpException('Widget with this id was not found.');
+        }
+
+        $form = $this->createForm(WidgetType::class, $widget, array(
+            'method' => $request->getMethod(),
+        ));
+
+        $form->handleRequest($request);
+        if ($form->isValid()) {
+            $entityManager->flush($widget);
+            $entityManager->refresh($widget);
+
+            return $this->handleView(View::create($widget, 201));
+        }
+
+        return $this->handleView(View::create($form, 200));
+    }
 }

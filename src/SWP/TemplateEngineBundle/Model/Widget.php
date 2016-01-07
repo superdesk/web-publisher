@@ -62,7 +62,8 @@ class Widget implements WidgetInterface
     public function __construct()
     {
         $this->parameters = [];
-        $this->setVisible(true);
+        $this->setVisible();
+        $this->setType();
     }
 
     /**
@@ -116,7 +117,7 @@ class Widget implements WidgetInterface
      *
      * @return self
      */
-    public function setVisible($visible)
+    public function setVisible($visible = true)
     {
         $this->visible = $visible;
 
@@ -166,7 +167,7 @@ class Widget implements WidgetInterface
      *
      * @return self
      */
-    public function setParameters($parameters)
+    public function setParameters($parameters = array())
     {
         $this->parameters = $parameters;
 
