@@ -18,7 +18,7 @@ use FOS\RestBundle\Controller\FOSRestController;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use FOS\RestBundle\Controller\Annotations as Rest;
+use FOS\RestBundle\View\View;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\UnprocessableEntityHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -39,7 +39,6 @@ class WidgetController extends FOSRestController
      * )
      * @Route("/api/{version}/templates/widgtes/", options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_templates_list_widgets")
      * @Method("GET")
-     * @Rest\View(statusCode=200)
      */
     public function listAction(Request $request)
     {
@@ -51,8 +50,7 @@ class WidgetController extends FOSRestController
             throw new NotFoundHttpException('Widgets were not found.');
         }
 
-        return $this->container->get('swp_pagination_rep')
-            ->createRepresentation($widgets, $request);
+        return $this->handleView(View::create($this->container->get('swp_pagination_rep')->createRepresentation($widgets, $request), 200));
     }
 
     /**
@@ -69,7 +67,6 @@ class WidgetController extends FOSRestController
      * )
      * @Route("/api/{version}/templates/widgets/{id}", options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_templates_get_widget")
      * @Method("GET")
-     * @Rest\View(statusCode=200)
      */
     public function getAction(Request $request, $id)
     {
@@ -84,7 +81,12 @@ class WidgetController extends FOSRestController
             throw new NotFoundHttpException('Widget with this id was not found.');
         }
 
-        return $widget;
+        // return clean object for LINK requests
+        if ($request->attributes->get('_link_request', false) === true) {
+            return $widget;
+        }
+
+        return $this->handleView(View::create($widget, 200));
     }
 
     /**
@@ -94,13 +96,13 @@ class WidgetController extends FOSRestController
      *     resource=true,
      *     description="Create new widget",
      *     statusCodes={
-     *         200="Returned on success."
+     *         201="Returned on success.",
+     *         400="Returned when form have errors"
      *     },
      *     input="SWP\TemplateEngineBundle\Form\Type\WidgetType"
      * )
      * @Route("/api/{version}/templates/widgets", options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_templates_create_widget")
      * @Method("POST")
-     * @Rest\View(statusCode=200)
      */
     public function createAction(Request $request)
     {
@@ -113,9 +115,9 @@ class WidgetController extends FOSRestController
             $entityManager->persist($widget);
             $entityManager->flush();
 
-            return $widget;
+            return $this->handleView(View::create($widget, 201));
         }
 
-        return $form;
+        return $this->handleView(View::create($form, 400));
     }
 }

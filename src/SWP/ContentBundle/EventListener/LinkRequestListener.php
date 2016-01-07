@@ -111,7 +111,7 @@ class LinkRequestListener
             $controller = $subEvent->getController();
 
             $arguments = $this->resolver->getArguments($stubRequest, $controller);
-
+            $arguments[0]->attributes->set('_link_request', true);
             try {
                 $result = call_user_func_array($controller, $arguments);
                 // Our api returns objects for single resources

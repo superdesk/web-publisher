@@ -126,15 +126,13 @@ fos_rest:
     zone:
         - { path: ^/api/* }
     versioning:
-        enabled: true
-        resolvers:
-            query: true
+        enabled: false
     routing_loader:
         default_format: json
     view:
         formats:
             json: true
-        view_response_listener: 'force'
+        view_response_listener: false
     serializer:
         serialize_null: true
     format_listener:

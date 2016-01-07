@@ -18,7 +18,7 @@ use FOS\RestBundle\Controller\FOSRestController;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use FOS\RestBundle\Controller\Annotations as Rest;
+use FOS\RestBundle\View\View;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\UnprocessableEntityHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -41,7 +41,6 @@ class ContainerController extends FOSRestController
      * )
      * @Route("/api/{version}/templates/containers/", options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_templates_list_containers")
      * @Method("GET")
-     * @Rest\View(statusCode=200)
      */
     public function listAction(Request $request)
     {
@@ -53,8 +52,7 @@ class ContainerController extends FOSRestController
             throw new NotFoundHttpException('Containers were not found.');
         }
 
-        return $this->container->get('swp_pagination_rep')
-            ->createRepresentation($containers, $request);
+        return $this->handleView(View::create($this->container->get('swp_pagination_rep')->createRepresentation($containers, $request), 200));
     }
 
     /**
@@ -71,7 +69,6 @@ class ContainerController extends FOSRestController
      * )
      * @Route("/api/{version}/templates/containers/{id}", options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_templates_get_container")
      * @Method("GET")
-     * @Rest\View(statusCode=200)
      */
     public function getAction(Request $request, $id)
     {
@@ -86,7 +83,7 @@ class ContainerController extends FOSRestController
             throw new NotFoundHttpException('Container with this id was not found.');
         }
 
-        return $container;
+        return $this->handleView(View::create($container, 200));
     }
 
     /**
@@ -104,7 +101,6 @@ class ContainerController extends FOSRestController
      * )
      * @Route("/api/{version}/templates/containers/{id}", options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_templates_update_container")
      * @Method("PATCH")
-     * @Rest\View(statusCode=200)
      */
     public function updateAction(Request $request, $id)
     {
@@ -144,10 +140,10 @@ class ContainerController extends FOSRestController
             $entityManager->flush($container);
             $entityManager->refresh($container);
 
-            return $container;
+            return $this->handleView(View::create($container, 200));
         }
 
-        return $form;
+        return $this->handleView(View::create($form, 200));
     }
 
     /**
@@ -176,7 +172,6 @@ class ContainerController extends FOSRestController
      * @Route("/api/{version}/templates/containers/{id}", defaults={"version"="v1"}, name="swp_api_templates_link_container")
      *
      * @Method("LINK|UNLINK")
-     * @Rest\View(statusCode=201)
      *
      * @return Article
      */
@@ -187,7 +182,9 @@ class ContainerController extends FOSRestController
         }
 
         $entityManager = $this->get('doctrine')->getManager();
-        $container = $entityManager->getRepository('SWP\TemplateEngineBundle\Model\Container')->getById($id)->getOneOrNullResult();
+        $container = $entityManager->getRepository('SWP\TemplateEngineBundle\Model\Container')
+            ->getById($id)
+            ->getOneOrNullResult();
 
         if (!$container) {
             throw new NotFoundHttpException('Container with this id was not found.');
@@ -253,7 +250,7 @@ class ContainerController extends FOSRestController
             throw new NotFoundHttpException('Any supported link object was not found');
         }
 
-        return $container;
+        return $this->handleView(View::create($container, 201));
     }
 
     private function getNotConvertedLinks($request)
