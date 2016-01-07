@@ -115,7 +115,7 @@ class ContainerControllerTest extends WebTestCase
             ]
         ]);
 
-        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+        $this->assertEquals(201, $client->getResponse()->getStatusCode());
         $this->assertEquals($client->getResponse()->getContent(), '{"id":1,"type":1,"name":"Simple Container 1","width":300,"height":400,"styles":"color: #00000","css_class":"col-md-12","visible":true,"data":[{"key":"test-key","value":"test-value"}],"widgets":[],"_links":{"self":{"href":"\/api\/v1\/templates\/containers\/1"}}}');
     }
 
