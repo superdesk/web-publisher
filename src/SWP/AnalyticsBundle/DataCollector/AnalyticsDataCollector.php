@@ -17,7 +17,6 @@ use Symfony\Component\HttpKernel\DataCollector\DataCollector;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use SWP\AnalyticsBundle\Model\AnalyticsLog;
-use SWP\AnalyticsBundle\Repository\AnalyticsLogd;
 
 class AnalyticsDataCollector extends DataCollector
 {
