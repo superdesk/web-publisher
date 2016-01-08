@@ -61,12 +61,12 @@ class AnalyticsLog
     protected $memory;
 
     /**
-     * @var datetime
+     * @var \DateTime
      */
      protected $modified;
 
     /**
-     * @var datetime
+     * @var \DateTime
      */
     protected $created;
 

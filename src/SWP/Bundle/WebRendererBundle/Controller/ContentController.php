@@ -46,7 +46,6 @@ class ContentController extends Controller implements AnalyzedControllerInterfac
     private function renderPage($type, $parameters = [])
     {
         $context = $this->container->get('context');
-        $logger = $this->container->get('logger');
 
         $metaLoader = $this->container->get('swp_template_engine_loader_chain');
         $article = null;

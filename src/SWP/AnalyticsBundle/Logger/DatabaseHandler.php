@@ -26,7 +26,6 @@ class DatabaseHandler extends AbstractProcessingHandler
     protected $_container;
 
     /**
-     * @param string $stream
      * @param integer $level The minimum logging level at which this handler will be triggered
      * @param Boolean $bubble Whether the messages that are handled can bubble up the stack or not
      */
@@ -68,15 +67,7 @@ class DatabaseHandler extends AbstractProcessingHandler
         if( (int)$record['level'] >= Logger::INFO ) {
             try
             {
-                /**
-                 * Logs are inserted as separate SQL statements, separate
-                 * to the current transactions that may exist within the
-                 * entity manager.
-                 */
                 $em = $this->_container->get('doctrine')->getEntityManager();
-                $conn = $em->getConnection();
-
-                $created = date('Y-m-d H:i:s');
                 $analyticsLog = new AnalyticsLog();
                 $analyticsLog->setLog($record['message'])
                     ->setServerData($record['server_data'])

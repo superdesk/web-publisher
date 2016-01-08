@@ -28,8 +28,6 @@ class RequestProcessor extends WebProcessor
 
     public function processRecord(array $record)
     {
-        $requestUri = $this->_request->getUri();
-
         $record['uri'] = $this->_request->getUri();
         $record['server_data'] = "";
 
