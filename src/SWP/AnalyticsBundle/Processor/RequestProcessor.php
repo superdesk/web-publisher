@@ -13,40 +13,40 @@
  */
 namespace SWP\AnalyticsBundle\Processor;
 
-use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Bridge\Monolog\Processor\WebProcessor;
+use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\HttpFoundation\Request;
 
 class RequestProcessor extends WebProcessor
 {
-    private $_session;
+    protected $_request;
 
-    public function __construct(Session $session)
+    public function setRequest(ContainerInterface $container)
     {
-        $this->_session = $session;
+        $this->_request = $container->get('request');
     }
 
     public function processRecord(array $record)
     {
-        $record['extra']['server_data'] = "";
+        $requestUri = $this->_request->getUri();
+
+        $record['uri'] = $this->_request->getUri();
+        $record['server_data'] = "";
 
         if( is_array($this->serverData) ) {
             foreach ($this->serverData as $key => $value) {
-
                 if( is_array($value) ) {
                     $value = print_r($value, true);
                 }
-
-                $record['extra']['server_data'] .= $key . ": " . $value . "\n";
+                $record['server_data'] .= $key . ": " . $value . "\n";
             }
         }
 
-        foreach ($_SERVER as $key => $value) {
-
+        foreach ($this->_request->request->all() as $key => $value) {
             if( is_array($value) ) {
                 $value = print_r($value, true);
             }
-
-            $record['extra']['server_data'] .= $key . ": " . $value . "\n";
+            $record['server_data'] .= $key . ": " . $value . "\n";
         }
 
         return $record;

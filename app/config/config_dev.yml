@@ -47,7 +47,7 @@ monolog:
         analytics:
             type: service
             level: debug 
-            id: logger_database
+            id: swp.analytics.logger_database
             channels: ["analytics"]
         # uncomment to get logging in your browser
         # you may have to allow bigger header sizes in your Web server configuration

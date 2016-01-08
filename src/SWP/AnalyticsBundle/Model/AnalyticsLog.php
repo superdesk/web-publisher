@@ -41,6 +41,26 @@ class AnalyticsLog
     protected $level;
 
     /**
+     * @var @string
+     */
+    protected $uri;
+
+    /**
+     * @var @string
+     */
+    protected $template;
+
+    /**
+     * @var @int
+     */
+    protected $duration;
+
+    /**
+     * @var @int
+     */
+    protected $memory;
+
+    /**
      * @var datetime
      */
      protected $modified;
@@ -156,6 +176,102 @@ class AnalyticsLog
     public function getLevel()
     {
         return $this->level;
+    }
+
+    /**
+     * Set uri
+     *
+     * @param string $uri
+     *
+     * @return AnalyticsLog
+     */
+    public function setUri($uri)
+    {
+        $this->uri = $uri;
+
+        return $this;
+    }
+
+    /**
+     * Get uri
+     *
+     * @return string
+     */
+    public function getUri()
+    {
+        return $this->uri;
+    }
+
+    /**
+     * Get template
+     *
+     * @return string
+     */
+    public function getTemplate()
+    {
+        return $this->template;
+    }
+
+    /**
+     * Set template
+     *
+     * @param string $template
+     *
+     * @return AnalyticsLog
+     */
+    public function setTemplate($template)
+    {
+        $this->template = $template;
+
+        return $this;
+    }
+
+    /**
+     * Get duration
+     *
+     * @return string
+     */
+    public function getDuration()
+    {
+        return $this->duration;
+    }
+
+    /**
+     * Set duration 
+     *
+     * @param int $duration
+     *
+     * @return AnalyticsLog
+     */
+    public function setDuration($duration)
+    {
+        $this->duration = $duration;
+
+        return $this;
+    }
+
+    /**
+     * Get memory 
+     *
+     * @return int
+     */
+    public function getMemory()
+    {
+        return $this->memory;
+    }
+
+    /**
+     * Set memory 
+     *
+     * @param string $memory
+     *
+     * @return AnalyticsLog
+     */
+    public function setMemory($memory)
+    {
+        $this->memory = $memory;
+
+        return $this;
     }
 
     /**

@@ -1,12 +1,22 @@
 services:
+    swp.analytics.render_listener:
+        class:  SWP\AnalyticsBundle\EventListener\RenderListener
+        calls:
+            - [ setContainer, [ @service_container ] ]
+        tags:
+            - { name: monolog.processor, method: processRecord }
+            - { name: kernel.event_listener, event: kernel.controller, method: onKernelController}
+            - { name: kernel.event_listener, event: kernel.response, method: onKernelResponse }
+
     monolog.processor.request:
         class: SWP\AnalyticsBundle\Processor\RequestProcessor
-        arguments:  [ @session ]
+        calls:
+            - [ setRequest, ["@service_container"]]
         tags:
             - { name: monolog.processor, method: processRecord }
             - { name: kernel.event_listener, event: kernel.request, method: onKernelRequest}
 
-    logger_database:
+    swp.analytics.logger_database:
         class: SWP\AnalyticsBundle\Logger\DatabaseHandler
         calls:
             - [ setContainer, [ @service_container ] ]

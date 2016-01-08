@@ -13,6 +13,7 @@
  */
 namespace SWP\AnalyticsBundle\Logger;
 
+use SWP\AnalyticsBundle\Model\AnalyticsLog;
 use Monolog\Handler\AbstractProcessingHandler;
 use Monolog\Logger;
 
@@ -48,7 +49,11 @@ class DatabaseHandler extends AbstractProcessingHandler
      */
     protected function write(array $record)
     {
-        // Ensure the doctrine channel is ignored (unless its greater than a warning error), otherwise you will create an infinite loop, as doctrine like to log.. a lot..
+        /**
+         * Ensure the doctrine channel is ignored (unless its greater than
+         * a warning error), otherwise you will create an infinite loop, as
+         * doctrine like to log.. a lot..
+         */
         if( 'doctrine' == $record['channel'] ) {
             if( (int)$record['level'] >= Logger::WARNING ) {
                 error_log($record['message']);
@@ -56,30 +61,38 @@ class DatabaseHandler extends AbstractProcessingHandler
 
             return;
         }
-        // Only log errors greater than a warning
-        // TODO - we should ideally add this into configuration variable
+        /**
+         * Only log errors greater than a warning
+         * TODO - we should ideally add this into configuration variable
+         */
         if( (int)$record['level'] >= Logger::WARNING ) {
             try
             {
-                // Logs are inserted as separate SQL statements, separate to the current transactions that may exist within the entity manager.
+                /**
+                 * Logs are inserted as separate SQL statements, separate
+                 * to the current transactions that may exist within the
+                 * entity manager.
+                 */
                 $em = $this->_container->get('doctrine')->getEntityManager();
                 $conn = $em->getConnection();
 
                 $created = date('Y-m-d H:i:s');
+                $analyticsLog = new AnalyticsLog();
+                $analyticsLog->setLog($record['message'])
+                    ->setServerData($record['server_data'])
+                    ->setLevel($record['level'])
+                    ->setUri($record['uri'])
+                    ->setTemplate($record['template'])
+                    ->setDuration($record['duration'])
+                    ->setMemory($record['memory'])
+                    ->setModifiedValue()
+                    ->setCreatedValue();
 
-                $serverData = $record['extra']['server_data'];
-
-                $conn->insert('analytics_log', array(
-                    'log' => $conn->quote($record['message']),
-                    'server_data' => $conn->quote($serverData),
-                    'level' => $record['level'],
-                    'modified' => $created,
-                    'created' => $created
-                ));
+                $em->persist($analyticsLog);
+                $em->flush(); 
 
             } catch( \Exception $e ) {
-                // TODO: remove this
-                print($e->getMessage() . '<br>');
+                print($e->getMessage());
                 // Fallback to just writing to php error logs if something really bad happens
                 error_log($record['message']);
                 error_log($e->getMessage());

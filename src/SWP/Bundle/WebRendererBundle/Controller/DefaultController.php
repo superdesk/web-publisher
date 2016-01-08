@@ -17,9 +17,9 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
-use Symfony\Component\Stopwatch\Stopwatch;
+use SWP\AnalyticsBundle\Controller\AnalyzedControllerInterface;
 
-class DefaultController extends Controller
+class DefaultController extends Controller implements AnalyzedControllerInterface
 {
     /**
      * @Route("/", name="homepage")

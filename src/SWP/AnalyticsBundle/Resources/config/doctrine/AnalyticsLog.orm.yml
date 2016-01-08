@@ -20,6 +20,20 @@ SWP\AnalyticsBundle\Model\AnalyticsLog:
             type: string
             length: 255
             nullable: true
+        uri:
+            type: string
+            length: 255
+            nullable: true
+        template:
+            type: string
+            length: 255
+            nullable: true
+        duration:
+            type: integer
+            nullable: true
+        memory:
+            type: integer
+            nullable: true
         modified:
             type: datetime
         created:

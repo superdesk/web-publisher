@@ -17,9 +17,9 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Stopwatch\Stopwatch;
+use SWP\AnalyticsBundle\Controller\AnalyzedControllerInterface;
 
-class ContentController extends Controller
+class ContentController extends Controller implements AnalyzedControllerInterface
 {
     /**
      * Render content Page.
@@ -45,9 +45,6 @@ class ContentController extends Controller
      */
     private function renderPage($type, $parameters = [])
     {
-        $stopwatch = new Stopwatch();
-        // start render timer
-        $stopwatch->start($view);
         $context = $this->container->get('context');
         $logger = $this->container->get('logger');
 
@@ -68,14 +65,11 @@ class ContentController extends Controller
             $context->registerMeta('article', $article);
         }
 
-<<<<<<< cfbf743d70139569af9be1efbd637f3f3f126d65:src/SWP/Bundle/WebRendererBundle/Controller/ContentController.php
         $tenantContext = $this->get('swp_multi_tenancy.tenant_context');
 
-        return $this->render('article.html.twig', [
+        $response = $this->render('article.html.twig', [
             'tenant' => $tenantContext->getTenant(),
         ]);
-=======
-        $response = $this->render('views/'.$currentPage['templateName']);
 
         $event = $stopwatch->stop($view);
 
@@ -83,7 +77,6 @@ class ContentController extends Controller
         $logger->error(print_r($event, true));
 
         return $response;
->>>>>>> SWP-10: Create Analytics Bundle - initial commit:src/SWP/WebRendererBundle/Controller/ContentController.php
     }
 
 }
