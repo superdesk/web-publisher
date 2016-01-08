@@ -65,7 +65,7 @@ class DatabaseHandler extends AbstractProcessingHandler
          * Only log errors greater than a warning
          * TODO - we should ideally add this into configuration variable
          */
-        if( (int)$record['level'] >= Logger::WARNING ) {
+        if( (int)$record['level'] >= Logger::INFO ) {
             try
             {
                 /**

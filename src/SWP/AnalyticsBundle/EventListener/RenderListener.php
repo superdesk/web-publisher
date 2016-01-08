@@ -15,6 +15,7 @@ namespace SWP\AnalyticsBundle\EventListener;
 
 use Symfony\Bridge\Monolog\Processor\WebProcessor;
 use Symfony\Component\HttpKernel\Event\FilterControllerEvent;
+use Symfony\Component\HttpKernel\Event\GetResponseForControllerResultEvent;
 use Symfony\Component\HttpKernel\Event\FilterResponseEvent;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Stopwatch\Stopwatch; 
@@ -67,6 +68,29 @@ class RenderListener extends WebProcessor
         }
     }
 
+    /**
+     * triggered when a controller returns anything other than a Response object
+     */
+    public function onKernelView(GetResponseForControllerResultEvent $event)
+    {
+        $requestUri = $event->getRequest()->getUri();
+        $this->_currentPage = $this->_container->get('context')->getCurrentPage();
+        $this->_currentTemplate = 'how the heck do I get the $view that was passed during Controller->render()';
+ 
+        // find out if this is a profiler request, if not don't analyze it
+        try {
+            $this->_stopwatchEvent = $this->_stopwatch->stop($requestUri);
+        } catch (\LogicException $e) {
+            // do nothing, we shouldn't be analyzing this controller
+            return false;
+        }
+        $this->_logger->error('view event');
+    }
+
+    /**
+     * triggered when a controller returns a Response object
+     * this is default for Controller->render()
+     */
     public function onKernelResponse(FilterResponseEvent $event)
     {
         $requestUri = $event->getRequest()->getUri();

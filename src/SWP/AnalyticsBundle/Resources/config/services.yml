@@ -6,6 +6,7 @@ services:
         tags:
             - { name: monolog.processor, method: processRecord }
             - { name: kernel.event_listener, event: kernel.controller, method: onKernelController}
+            - { name: kernel.event_listener, event: kernel.view, method: onKernelView }
             - { name: kernel.event_listener, event: kernel.response, method: onKernelResponse }
 
     monolog.processor.request:
@@ -20,3 +21,10 @@ services:
         class: SWP\AnalyticsBundle\Logger\DatabaseHandler
         calls:
             - [ setContainer, [ @service_container ] ]
+
+    swp.analytics.data_collector.analytics_collector:
+        class: SWP\AnalyticsBundle\DataCollector\AnalyticsDataCollector
+        arguments:
+            - @service_container
+        tags:
+            - { name: data_collector, template: "SWPAnalyticsBundle:Collector:analyticsCollector", id: "analytics_collector" }
