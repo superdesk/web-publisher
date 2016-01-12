@@ -11,7 +11,6 @@
  * @copyright 2015 Sourcefabric z.ú.
  * @license http://www.superdesk.org/license
  */
-
 namespace SWP\TemplateEngineBundle\Service;
 
 use SWP\TemplateEngineBundle\Container\SimpleContainer;
@@ -66,9 +65,9 @@ class ContainerService
         return new \Twig_Environment(
             new \Twig_Loader_Array([
                 'open_tag' => self::OPEN_TAG_TEMPLATE,
-                'close_tag' => self::CLOSE_TAG_TEMPLATE
+                'close_tag' => self::CLOSE_TAG_TEMPLATE,
             ]), [
-                'cache' => $this->cacheDir
+                'cache' => $this->cacheDir,
             ]
         );
     }

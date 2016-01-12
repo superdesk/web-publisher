@@ -11,7 +11,6 @@
  * @copyright 2015 Sourcefabric z.ú.
  * @license http://www.superdesk.org/license
  */
-
 namespace SWP\TemplateEngineBundle\Model;
 
 use Doctrine\Common\Collections\ArrayCollection;
@@ -30,7 +29,7 @@ class Container implements ContainerInterface
     protected $id;
 
     /**
-     * @var integer
+     * @var int
      */
     protected $type;
 
@@ -40,12 +39,12 @@ class Container implements ContainerInterface
     protected $name;
 
     /**
-     * @var integer
+     * @var int
      */
     protected $width;
 
     /**
-     * @var integer
+     * @var int
      */
     protected $height;
 
@@ -60,7 +59,7 @@ class Container implements ContainerInterface
     protected $cssClass;
 
     /**
-     * @var boolean
+     * @var bool
      */
     protected $visible;
 
@@ -93,9 +92,9 @@ class Container implements ContainerInterface
     }
 
     /**
-     * Set id
+     * Set id.
      *
-     * @param integer $id
+     * @param int $id
      *
      * @return self
      */
@@ -133,7 +132,7 @@ class Container implements ContainerInterface
     /**
      * Gets the value of width.
      *
-     * @return integer
+     * @return int
      */
     public function getWidth()
     {
@@ -143,7 +142,7 @@ class Container implements ContainerInterface
     /**
      * Sets the value of width.
      *
-     * @param integer $width the width
+     * @param int $width the width
      *
      * @return self
      */
@@ -157,7 +156,7 @@ class Container implements ContainerInterface
     /**
      * Gets the value of height.
      *
-     * @return integer
+     * @return int
      */
     public function getHeight()
     {
@@ -167,7 +166,7 @@ class Container implements ContainerInterface
     /**
      * Sets the value of height.
      *
-     * @param integer $height the height
+     * @param int $height the height
      *
      * @return self
      */
@@ -229,7 +228,7 @@ class Container implements ContainerInterface
     /**
      * Gets the value of visible.
      *
-     * @return boolean
+     * @return bool
      */
     public function getVisible()
     {
@@ -239,7 +238,7 @@ class Container implements ContainerInterface
     /**
      * Sets the value of visible.
      *
-     * @param boolean $visible the visible
+     * @param bool $visible the visible
      *
      * @return self
      */
@@ -274,9 +273,8 @@ class Container implements ContainerInterface
         return $this;
     }
 
-
     /**
-     * Add ContainerData to container
+     * Add ContainerData to container.
      *
      * @param $containerData
      */
@@ -290,7 +288,7 @@ class Container implements ContainerInterface
     /**
      * Gets the value of type.
      *
-     * @return integer
+     * @return int
      */
     public function getType()
     {
@@ -300,7 +298,7 @@ class Container implements ContainerInterface
     /**
      * Sets the value of type.
      *
-     * @param integer $type the type
+     * @param int $type the type
      *
      * @return self
      */
@@ -336,7 +334,7 @@ class Container implements ContainerInterface
     }
 
     /**
-     * Add widget to container
+     * Add widget to container.
      *
      * @param $widget
      */
@@ -348,7 +346,7 @@ class Container implements ContainerInterface
     }
 
     /**
-     * Remove widget to container
+     * Remove widget to container.
      *
      * @param $widget
      */

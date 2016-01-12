@@ -11,7 +11,6 @@
  * @copyright 2015 Sourcefabric z.ú.
  * @license http://www.superdesk.org/license
  */
-
 namespace SWP\TemplateEngineBundle\Controller;
 
 use FOS\RestBundle\Controller\FOSRestController;
@@ -30,7 +29,7 @@ use SWP\TemplateEngineBundle\Model\ContainerData;
 class ContainerController extends FOSRestController
 {
     /**
-     * Lists all registered containers
+     * Lists all registered containers.
      *
      * @ApiDoc(
      *     resource=true,
@@ -56,7 +55,7 @@ class ContainerController extends FOSRestController
     }
 
     /**
-     * Get single container
+     * Get single container.
      *
      * @ApiDoc(
      *     resource=true,
@@ -87,7 +86,7 @@ class ContainerController extends FOSRestController
     }
 
     /**
-     * Update single container
+     * Update single container.
      *
      * @ApiDoc(
      *     resource=true,
@@ -207,7 +206,7 @@ class ContainerController extends FOSRestController
                 $containerWidget = $entityManager->getRepository('SWP\TemplateEngineBundle\Model\ContainerWidget')
                     ->findOneBy([
                         'widget' => $object,
-                        'container' => $container
+                        'container' => $container,
                     ]);
                 if ($request->getMethod() === 'LINK') {
                     $position = false;
@@ -233,8 +232,7 @@ class ContainerController extends FOSRestController
                         $entityManager->persist($containerWidget);
                         $entityManager->flush($containerWidget);
                     }
-
-                } else if ($request->getMethod() === 'UNLINK') {
+                } elseif ($request->getMethod() === 'UNLINK') {
                     if (!$container->getWidgets()->contains($containerWidget)) {
                         throw new \Exception('Widget is not linked to container', 409);
                     }

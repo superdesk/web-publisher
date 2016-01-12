@@ -11,7 +11,6 @@
  * @copyright 2015 Sourcefabric z.ú.
  * @license http://www.superdesk.org/license
  */
-
 namespace SWP\TemplateEngineBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
@@ -28,19 +27,19 @@ class WidgetType extends AbstractType
         $builder
             ->add('name')
             ->add('type', null, [
-                'required'  => false
+                'required' => false,
             ])
             ->add('visible', ChoiceType::class, [
-                'choices'  => [true => '1', false => '0'],
-                'choices_as_values' => true
+                'choices' => [true => '1', false => '0'],
+                'choices_as_values' => true,
             ])
             ->add('parameters', TextType::class, [
-                'required'  => false
+                'required' => false,
             ])
             ->addModelTransformer(new CallbackTransformer(
                 function ($originalDescription) {
                     if ($originalDescription && is_array($originalDescription->getParameters())) {
-                         $originalDescription->setParameters(json_encode($originalDescription->getParameters()));
+                        $originalDescription->setParameters(json_encode($originalDescription->getParameters()));
                     }
 
                     return $originalDescription;
@@ -59,6 +58,6 @@ class WidgetType extends AbstractType
 
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(['csrf_protection'   => false]);
+        $resolver->setDefaults(['csrf_protection' => false]);
     }
 }

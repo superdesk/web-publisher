@@ -53,7 +53,7 @@ class LinkRequestListener
             return;
         }
 
-        $links  = [];
+        $links = [];
         $header = $event->getRequest()->headers->get('link');
 
         /*
@@ -64,7 +64,7 @@ class LinkRequestListener
          * http://tools.ietf.org/html/rfc2068#section-19.6.2.4
          */
         while (preg_match('/^((?:[^"]|"[^"]*")*?),/', $header, $matches)) {
-            $header  = trim(substr($header, strlen($matches[0])));
+            $header = trim(substr($header, strlen($matches[0])));
             $links[] = $matches[1];
         }
 
@@ -85,10 +85,10 @@ class LinkRequestListener
             $resourceType = null;
             if (count($linkParams) > 1) {
                 $resourceType = trim(preg_replace('/<|>/', '', $linkParams[1]));
-                $resourceType = str_replace("\"", "", str_replace("rel=", "", $resourceType));
+                $resourceType = str_replace('"', '', str_replace('rel=', '', $resourceType));
             }
-            $resource   = array_shift($linkParams);
-            $resource   = preg_replace('/<|>/', '', $resource);
+            $resource = array_shift($linkParams);
+            $resource = preg_replace('/<|>/', '', $resource);
             $tempRequest = Request::create($resource);
 
             try {
@@ -119,9 +119,9 @@ class LinkRequestListener
                     continue;
                 }
 
-                $links[$idx] = ['object' => $result,'resourceType' => $resourceType];
+                $links[$idx] = ['object' => $result, 'resourceType' => $resourceType];
             } catch (\Exception $e) {
-                $links[$idx] = ['object' => $e,'resourceType' => 'exception'];
+                $links[$idx] = ['object' => $e, 'resourceType' => 'exception'];
 
                 continue;
             }

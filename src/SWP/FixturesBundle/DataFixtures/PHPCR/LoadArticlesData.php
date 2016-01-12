@@ -11,7 +11,6 @@
  * @copyright 2015 Sourcefabric z.ú.
  * @license http://www.superdesk.org/license
  */
-
 namespace SWP\FixturesBundle\DataFixtures\PHPCR;
 
 use Doctrine\Common\DataFixtures\FixtureInterface;
@@ -47,18 +46,18 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface
                     'name' => 'news',
                     'variablePattern' => '/{slug}',
                     'requirements' => ['slug' => '[a-zA-Z1-9\-_\/]+'],
-                    'defaults' => ['_controller' => '\SWP\WebRendererBundle\Controller\ContentController::renderContainerPageAction']
+                    'defaults' => ['_controller' => '\SWP\WebRendererBundle\Controller\ContentController::renderContainerPageAction'],
                 ],
                 [
                     'parent' => '/swp/routes',
                     'name' => 'articles',
-                    'defaults' => ['_controller' => '\SWP\WebRendererBundle\Controller\ContentController::renderContentPageAction']
+                    'defaults' => ['_controller' => '\SWP\WebRendererBundle\Controller\ContentController::renderContentPageAction'],
                 ],
                 [
                     'parent' => '/swp/routes/articles',
                     'name' => 'features',
-                    'defaults' => ['_controller' => '\SWP\WebRendererBundle\Controller\ContentController::renderContentPageAction']
-                ]
+                    'defaults' => ['_controller' => '\SWP\WebRendererBundle\Controller\ContentController::renderContentPageAction'],
+                ],
             ],
             'test' => [
                 [
@@ -66,19 +65,19 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface
                     'name' => 'news',
                     'variablePattern' => '/{slug}',
                     'requirements' => ['slug' => '[a-zA-Z1-9\-_\/]+'],
-                    'defaults' => ['_controller' => '\SWP\WebRendererBundle\Controller\ContentController::renderContainerPageAction']
+                    'defaults' => ['_controller' => '\SWP\WebRendererBundle\Controller\ContentController::renderContainerPageAction'],
                 ],
                 [
                     'parent' => '/swp/routes',
                     'name' => 'articles',
-                    'defaults' => ['_controller' => '\SWP\WebRendererBundle\Controller\ContentController::renderContentPageAction']
+                    'defaults' => ['_controller' => '\SWP\WebRendererBundle\Controller\ContentController::renderContentPageAction'],
                 ],
                 [
                     'parent' => '/swp/routes/articles',
                     'name' => 'features',
-                    'defaults' => ['_controller' => '\SWP\WebRendererBundle\Controller\ContentController::renderContentPageAction']
-                ]
-            ]
+                    'defaults' => ['_controller' => '\SWP\WebRendererBundle\Controller\ContentController::renderContentPageAction'],
+                ],
+            ],
         ];
 
         foreach ($routes[$env] as $routeData) {
@@ -117,7 +116,7 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface
                 [
                     'path' => '/swp/routes/articles/features',
                     'content' => '/swp/content/features',
-                ]
+                ],
             ],
             'test' => [
                 [
@@ -127,8 +126,8 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface
                 [
                     'path' => '/swp/routes/articles/features',
                     'content' => '/swp/content/features',
-                ]
-            ]
+                ],
+            ],
         ];
 
         foreach ($routes[$env] as $routeData) {

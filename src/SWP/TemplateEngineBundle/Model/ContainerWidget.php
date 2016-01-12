@@ -11,12 +11,7 @@
  * @copyright 2015 Sourcefabric z.ú.
  * @license http://www.superdesk.org/license
  */
-
 namespace SWP\TemplateEngineBundle\Model;
-
-use Doctrine\Common\Collections\ArrayCollection;
-use SWP\TemplatesSystem\Gimme\Model\ContainerInterface;
-use SWP\TemplateEngineBundle\Model\Widget;
 
 /**
  * ContainerWidget.
@@ -24,7 +19,7 @@ use SWP\TemplateEngineBundle\Model\Widget;
 class ContainerWidget
 {
     /**
-     * @var integer
+     * @var int
      */
     protected $id;
 
@@ -39,7 +34,7 @@ class ContainerWidget
     protected $container;
 
     /**
-     * @var integer
+     * @var int
      */
     protected $position;
 
@@ -51,9 +46,9 @@ class ContainerWidget
     }
 
     /**
-     * Set widget position
+     * Set widget position.
      *
-     * @param integer $position
+     * @param int $position
      *
      * @return self
      */
@@ -65,7 +60,7 @@ class ContainerWidget
     }
 
     /**
-     * Get Widget
+     * Get Widget.
      *
      * @return Widget
      */

@@ -11,12 +11,10 @@
  * @copyright 2015 Sourcefabric z.ú.
  * @license http://www.superdesk.org/license
  */
-
 namespace SWP\TemplateEngineBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\Form\CallbackTransformer;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
@@ -32,19 +30,19 @@ class ContainerType extends AbstractType
             ->add('width', null)
             ->add('styles', null)
             ->add('visible', ChoiceType::class, [
-                'choices'  => [true => 1, false => 0],
+                'choices' => [true => 1, false => 0],
                 'choices_as_values' => true,
             ])
             ->add('cssClass', null)
             ->add('data', CollectionType::class, [
                     'entry_type' => TextType::class,
-                    'allow_extra_fields' => true
+                    'allow_extra_fields' => true,
                 ]
             );
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(['csrf_protection'   => false]);
+        $resolver->setDefaults(['csrf_protection' => false]);
     }
 }

@@ -11,7 +11,6 @@
  * @copyright 2015 Sourcefabric z.ú.
  * @license http://www.superdesk.org/license
  */
-
 namespace SWP\TemplateEngineBundle\Controller;
 
 use FOS\RestBundle\Controller\FOSRestController;
@@ -28,7 +27,7 @@ use SWP\TemplateEngineBundle\Form\Type\WidgetType;
 class WidgetController extends FOSRestController
 {
     /**
-     * Lists all registered widgets
+     * Lists all registered widgets.
      *
      * @ApiDoc(
      *     resource=true,
@@ -54,7 +53,7 @@ class WidgetController extends FOSRestController
     }
 
     /**
-     * Get single widget
+     * Get single widget.
      *
      * @ApiDoc(
      *     resource=true,
@@ -90,7 +89,7 @@ class WidgetController extends FOSRestController
     }
 
     /**
-     * Create new widget
+     * Create new widget.
      *
      * @ApiDoc(
      *     resource=true,
@@ -122,7 +121,7 @@ class WidgetController extends FOSRestController
     }
 
     /**
-     * Delete single widget
+     * Delete single widget.
      *
      * @ApiDoc(
      *     resource=true,
@@ -160,7 +159,7 @@ class WidgetController extends FOSRestController
     }
 
     /**
-     * Update single widget
+     * Update single widget.
      *
      * @ApiDoc(
      *     resource=true,

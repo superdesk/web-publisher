@@ -11,7 +11,6 @@
  * @copyright 2015 Sourcefabric z.ú.
  * @license http://www.superdesk.org/license
  */
-
 namespace SWP\ContentBundle\Loader;
 
 use SWP\TemplatesSystem\Gimme\Loader\LoaderInterface;
@@ -63,7 +62,7 @@ class ArticleLoader implements LoaderInterface
         $cacheKey = md5($configurationPath);
         if (!$metadataCache->contains($cacheKey)) {
             if (!is_readable($configurationPath)) {
-                throw new \InvalidArgumentException("Configuration file is not readable for parser");
+                throw new \InvalidArgumentException('Configuration file is not readable for parser');
             }
             $yaml = new Parser();
             $configuration = $yaml->parse(file_get_contents($configurationPath));
@@ -75,7 +74,7 @@ class ArticleLoader implements LoaderInterface
         if ($responseType === LoaderInterface::SINGLE) {
             if (array_key_exists('contentPath', $parameters)) {
                 $article = $dm->find('SWP\ContentBundle\Document\Article', $parameters['contentPath']);
-            } else if (array_key_exists('article', $parameters)) {
+            } elseif (array_key_exists('article', $parameters)) {
                 $article = $parameters['article'];
             } elseif (array_key_exists('slug', $parameters)) {
                 $article = $dm->getRepository('SWP\ContentBundle\Document\Article')
