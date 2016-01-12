@@ -8,4 +8,5 @@ Project repository: https://github.com/SuperdeskWebPublisher/templates-system
    :glob:
 
    _templates_system/templates
+   _templates_system/containers_and_widgets
    _templates_system/developers

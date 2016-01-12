@@ -6,7 +6,39 @@ Templates
 Gimme and SWP custom Twig tags
 ------------------------------
 
-Gimme allows you fetch nedded Meta object in any place of your template file. It supports single Meta objects (with :code:`gimme` ) and collections of Meta objects (with :code:`gimme_list`).
+Gimme allows you fetch nedded Meta object in any place of your template file. It supports single Meta objects (with :code:`gimme` ) and collections of Meta objects (with :code:`gimmelist`).
+
+container
+`````````
+
+Tag :code:`container` have one required and one optional parameters:
+
+ * (required) container unique name ex.: *frontpage_sidebar*
+ * (optional) keyword :code:`with` and default parameters for containers (they are used to create container on theme instalation).
+
+.. code-block:: twig
+
+     {% container 'frontpage_sidebar' with {
+         'width': 400,
+         'height': 500,
+         'styles': 'border: solid 1px red',
+         'class': 'css_class_name',
+         'data': {'custom-key': value}
+     }%}
+     {% endcontainer %}
+
+This container tag will render that html code:
+
+.. code-block:: html
+
+    <div id="frontpage_sidebar" class="swp_container css_class_name" style="width: 300px; height: 500px; border: solid 1px red;" data-custom-key="value"></div>
+
+Available container parameters:
+ * [integer] width - container width
+ * [integer] height - container height
+ * [string] styles - container inline styles
+ * [string] class - container class string
+ * [string] data - json object string with html-data properties (keys and values)
 
 gimme
 `````
@@ -38,9 +70,9 @@ gimmelist
 Tag :code:`gimmelist` have two required parameter and two optional:
 
  * (required) Name of variable available inside block: :code:`article`
- * (required) Keword :code:`from` and type of requested Meta's in collection: :code:`from articles` with filters passed to Meta Loader as extra parameters (:code:`start`, :code:`limit`, :code:`order`)
- * (optional) Keword :code:`with` and parameters for Meta Loader ex.: :code:`with {foo: 'bar', param1: 'value1'}`
- * (optional) Keword :code:`if` and expresion used for results filtering
+ * (required) Keyword :code:`from` and type of requested Meta's in collection: :code:`from articles` with filters passed to Meta Loader as extra parameters (:code:`start`, :code:`limit`, :code:`order`)
+ * (optional) Keyword :code:`with` and parameters for Meta Loader ex.: :code:`with {foo: 'bar', param1: 'value1'}`
+ * (optional) Keyword :code:`if` and expression used for results filtering
 
 required parameters:
 
@@ -61,29 +93,11 @@ all parameters:
         {{ article.title }}
     {% endgimmelist %}
 
-gimmeUrl
-````````
-
-Generate url for Meta object (if possible).
-
-Function :code:`gimmeUrl` have one required parameter:
-
-* {required} Meta object for witch you want generate url (so far we support only article)
-
-example:
-
-.. code-block:: twig
-
-    {% gimmelist article from articles %}
-        <a href="{{ gimmeUrl(article) }}">{{ article.title }}</a>
-    {% endgimmelist %}
-
-
 
 How to work with Meta objects
 -----------------------------
 
-On template level every variable in Context and fetched by :code:`gimme` and :code:`gimme_list` is representation of Meta objects.
+On template level every variable in Context and fetched by :code:`gimme` and :code:`gimmelist` is representation of Meta objects.
 
 
 **dump**
@@ -104,3 +118,17 @@ On template level every variable in Context and fetched by :code:`gimme` and :co
 
     {{ article.title }}
     {{ article['title']}}
+
+**generate url**
+
+.. code-block:: twig
+
+    {{ url(article) }}
+
+example in gimmelist
+
+.. code-block:: twig
+
+    {% gimmelist article from articles %}
+        <li><a href="{{ url(article) }}">{{ article.title }} </a></li>
+    {% endgimmelist %}
