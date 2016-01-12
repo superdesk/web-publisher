@@ -79,7 +79,7 @@ class Widget implements WidgetInterface
      *
      * @param string $name
      *
-     * @return Page
+     * @return Widget
      */
     public function setName($name)
     {
@@ -125,7 +125,7 @@ class Widget implements WidgetInterface
     /**
      * Gets the value of type.
      *
-     * @return int
+     * @return string
      */
     public function getType()
     {

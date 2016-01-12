@@ -172,7 +172,7 @@ class ContainerController extends FOSRestController
      *
      * @Method("LINK|UNLINK")
      *
-     * @return Article
+     * @return \Symfony\Component\HttpFoundation\Response
      */
     public function linkUnlinkToContainerAction(Request $request, $id)
     {
@@ -251,6 +251,9 @@ class ContainerController extends FOSRestController
         return $this->handleView(View::create($container, 201));
     }
 
+    /**
+     * @param Request $request
+     */
     private function getNotConvertedLinks($request)
     {
         $links = array();

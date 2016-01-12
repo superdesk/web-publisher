@@ -29,8 +29,6 @@ class ContentController extends Controller
 
     /**
      * Render container Page.
-     *
-     * @param string $contentSlug
      */
     public function renderContainerPageAction(Request $request, $slug)
     {

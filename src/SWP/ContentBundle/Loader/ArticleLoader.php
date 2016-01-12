@@ -22,7 +22,6 @@ class ArticleLoader implements LoaderInterface
     protected $serviceContainer;
 
     /**
-     * @param string $rootDir path to application root directory
      */
     public function __construct($serviceContainer)
     {
