@@ -11,7 +11,6 @@
  * @copyright 2015 Sourcefabric z.ú.
  * @license http://www.superdesk.org/license
  */
-
 namespace SWP\ContentBundle\Factory;
 
 use Hateoas\Configuration\Route;
@@ -38,7 +37,7 @@ class KnpPaginatorRepresentationFactory
      */
     public function __construct($pageParameterName = null, $limitParameterName = null)
     {
-        $this->pageParameterName  = $pageParameterName;
+        $this->pageParameterName = $pageParameterName;
         $this->limitParameterName = $limitParameterName;
     }
 
@@ -52,7 +51,7 @@ class KnpPaginatorRepresentationFactory
     public function createRepresentation(AbstractPagination $pagination, Request $request, $collectionName = '_items')
     {
         $route = new Route($request->get('_route'), $request->query->all());
-        $routeParameters = is_array($route->getParameters())? $route->getParameters() : [];
+        $routeParameters = is_array($route->getParameters()) ? $route->getParameters() : [];
 
         return new PaginatedRepresentation(
             new CollectionRepresentation($pagination->getItems(), $collectionName),

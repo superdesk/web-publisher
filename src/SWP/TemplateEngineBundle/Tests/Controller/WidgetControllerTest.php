@@ -11,14 +11,9 @@
  * @copyright 2015 Sourcefabric z.ú.
  * @license http://www.superdesk.org/license
  */
-
 namespace SWP\TemplateEngineBundle\Tests\Controller;
 
 use Liip\FunctionalTestBundle\Test\WebTestCase;
-use Symfony\Component\Filesystem\Filesystem;
-use SWP\ContentBundle\Document\Article;
-use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
-
 
 class WidgetControllerTest extends WebTestCase
 {
@@ -32,7 +27,7 @@ class WidgetControllerTest extends WebTestCase
         self::bootKernel();
 
         $this->loadFixtureFiles([
-            '@SWPFixturesBundle/DataFixtures/ORM/Test/Widget.yml'
+            '@SWPFixturesBundle/DataFixtures/ORM/Test/Widget.yml',
         ]);
 
         $this->router = $manager = $this->getContainer()->get('router');
@@ -67,7 +62,7 @@ class WidgetControllerTest extends WebTestCase
             'widget' => [
                 'name' => 'Simple html widget',
                 'visible' => 0,
-            ]
+            ],
         ]);
 
         $this->assertEquals(201, $client->getResponse()->getStatusCode());
@@ -84,9 +79,9 @@ class WidgetControllerTest extends WebTestCase
                 'visible' => 0,
                 'parameters' => [
                     'html_body' => 'sample widget with <span style=\'color:red\'>html</span>',
-                    'extra_param' => 'extra value'
-                ]
-            ]
+                    'extra_param' => 'extra value',
+                ],
+            ],
         ]);
 
         $this->assertEquals(201, $client->getResponse()->getStatusCode());

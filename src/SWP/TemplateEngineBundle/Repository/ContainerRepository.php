@@ -12,7 +12,6 @@
  * @copyright 2015 Sourcefabric z.ú.
  * @license http://www.superdesk.org/license
  */
-
 namespace SWP\TemplateEngineBundle\Repository;
 
 /**
@@ -57,7 +56,7 @@ class ContainerRepository extends \Doctrine\ORM\EntityRepository
     }
 
     /**
-     * Get Query for all Containers
+     * Get Query for all Containers.
      *
      * @return \Doctrine\ORM\Query
      */

@@ -11,7 +11,6 @@
  * @copyright 2015 Sourcefabric z.ú.
  * @license http://www.superdesk.org/license
  */
-
 namespace SWP\TemplateEngineBundle\Tests\Container;
 
 use SWP\TemplateEngineBundle\Container\SimpleContainer;
@@ -30,15 +29,15 @@ class SimpleContainerTest extends \PHPUnit_Framework_TestCase
         return new \Twig_Environment(
             new \Twig_Loader_Array([
                 'open_tag' => self::OPEN_TAG_TEMPLATE,
-                'close_tag' => self::CLOSE_TAG_TEMPLATE
+                'close_tag' => self::CLOSE_TAG_TEMPLATE,
             ])
         );
     }
 
     public function setUp()
     {
-    	$containerEntity = new \SWP\TemplateEngineBundle\Model\Container();
-    	$containerEntity->setId(1);
+        $containerEntity = new \SWP\TemplateEngineBundle\Model\Container();
+        $containerEntity->setId(1);
 
         $this->container = new SimpleContainer($containerEntity, $this->getRenderer());
     }
@@ -50,26 +49,26 @@ class SimpleContainerTest extends \PHPUnit_Framework_TestCase
 
     public function testSimpleRendering()
     {
-    	$this->assertEquals($this->container->renderOpenTag(), '<div id="swp_container_1" class="swp_container " style="" >');
-    	$this->assertEquals($this->container->renderCloseTag(), '</div>');
+        $this->assertEquals($this->container->renderOpenTag(), '<div id="swp_container_1" class="swp_container " style="" >');
+        $this->assertEquals($this->container->renderCloseTag(), '</div>');
     }
 
     public function testAdvancedRendering()
     {
-    	$containerEntity = new \SWP\TemplateEngineBundle\Model\Container();
-    	$containerEntity->setId(2);
+        $containerEntity = new \SWP\TemplateEngineBundle\Model\Container();
+        $containerEntity->setId(2);
         foreach (['key1' => true, 'key2' => 'false', 'key3' => false] as $key => $value) {
             $containerData = new \SWP\TemplateEngineBundle\Model\ContainerData($key, $value);
             $containerEntity->addData($containerData);
         }
-    	$containerEntity->setWidth(400);
-    	$containerEntity->setHeight(300);
-    	$containerEntity->setCssClass('simple-css-class');
-    	$containerEntity->setStyles('border: 1px solid red;');
-    	$containerEntity->setName('simple_container');
+        $containerEntity->setWidth(400);
+        $containerEntity->setHeight(300);
+        $containerEntity->setCssClass('simple-css-class');
+        $containerEntity->setStyles('border: 1px solid red;');
+        $containerEntity->setName('simple_container');
         $container = new SimpleContainer($containerEntity, $this->getRenderer());
 
-    	$this->assertEquals($container->renderOpenTag(), '<div id="swp_container_2" class="swp_container simple-css-class" style="height: 300px;width: 400px;border: 1px solid red;" data-key1="1" data-key2="false" data-key3="" >');
+        $this->assertEquals($container->renderOpenTag(), '<div id="swp_container_2" class="swp_container simple-css-class" style="height: 300px;width: 400px;border: 1px solid red;" data-key1="1" data-key2="false" data-key3="" >');
     }
 
     public function testWidgets()
@@ -78,9 +77,9 @@ class SimpleContainerTest extends \PHPUnit_Framework_TestCase
         $widgetEntity->setParameters(['html_body' => 'simple html body']);
         $widget = new HtmlWidget($widgetEntity);
 
-    	$this->assertEquals($this->container->setWidgets([$widget, $widget]), $this->container);
-    	$this->assertEquals($this->container->hasWidgets(), true);
-    	$this->assertEquals($this->container->renderWidgets(), <<<EOF
+        $this->assertEquals($this->container->setWidgets([$widget, $widget]), $this->container);
+        $this->assertEquals($this->container->hasWidgets(), true);
+        $this->assertEquals($this->container->renderWidgets(), <<<EOF
 simple html body
 simple html body
 EOF

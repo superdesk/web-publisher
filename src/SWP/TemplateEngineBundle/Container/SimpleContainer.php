@@ -11,7 +11,6 @@
  * @copyright 2015 Sourcefabric z.ú.
  * @license http://www.superdesk.org/license
  */
-
 namespace SWP\TemplateEngineBundle\Container;
 
 use SWP\TemplatesSystem\Gimme\Model\ContainerInterface;
@@ -46,7 +45,7 @@ class SimpleContainer
             'width' => $this->containerEntity->getWidth(),
             'styles' => $this->containerEntity->getStyles(),
             'visible' => $this->containerEntity->getVisible(),
-            'data' => $this->containerEntity->getData()
+            'data' => $this->containerEntity->getData(),
         ));
     }
 

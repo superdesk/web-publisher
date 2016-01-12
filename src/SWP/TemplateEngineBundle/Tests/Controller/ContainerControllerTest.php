@@ -11,14 +11,9 @@
  * @copyright 2015 Sourcefabric z.ú.
  * @license http://www.superdesk.org/license
  */
-
 namespace SWP\TemplateEngineBundle\Tests\Controller;
 
 use Liip\FunctionalTestBundle\Test\WebTestCase;
-use Symfony\Component\Filesystem\Filesystem;
-use SWP\ContentBundle\Document\Article;
-use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
-
 
 class ContainerControllerTest extends WebTestCase
 {
@@ -33,7 +28,7 @@ class ContainerControllerTest extends WebTestCase
 
         $this->loadFixtureFiles([
             '@SWPFixturesBundle/DataFixtures/ORM/Test/Container.yml',
-            '@SWPFixturesBundle/DataFixtures/ORM/Test/Widget.yml'
+            '@SWPFixturesBundle/DataFixtures/ORM/Test/Widget.yml',
         ]);
 
         $this->router = $manager = $this->getContainer()->get('router');
@@ -72,7 +67,7 @@ class ContainerControllerTest extends WebTestCase
                 'styles' => 'color: #00001',
                 'visible' => 0,
                 'cssClass' => 'col-md-11',
-            ]
+            ],
         ]);
 
         $this->assertEquals(201, $client->getResponse()->getStatusCode());
@@ -85,7 +80,7 @@ class ContainerControllerTest extends WebTestCase
         $client->request('PATCH', $this->router->generate('swp_api_templates_update_container', ['id' => 1]), [
             'container' => [
                 'width' => '402',
-            ]
+            ],
         ]);
 
         $this->assertEquals(201, $client->getResponse()->getStatusCode());
@@ -99,9 +94,9 @@ class ContainerControllerTest extends WebTestCase
             'container' => [
                 'data' => [
                     'key_1-test' => 'value_1-test',
-                    'key_2-test' => 'value 2'
+                    'key_2-test' => 'value 2',
                 ],
-            ]
+            ],
         ]);
 
         $this->assertEquals(201, $client->getResponse()->getStatusCode());
@@ -110,9 +105,9 @@ class ContainerControllerTest extends WebTestCase
         $client->request('PATCH', $this->router->generate('swp_api_templates_update_container', ['id' => 1]), [
             'container' => [
                 'data' => [
-                    'test-key' => 'test-value'
+                    'test-key' => 'test-value',
                 ],
-            ]
+            ],
         ]);
 
         $this->assertEquals(201, $client->getResponse()->getStatusCode());
@@ -123,7 +118,7 @@ class ContainerControllerTest extends WebTestCase
     {
         $client = static::createClient();
         $client->request('LINK', $this->router->generate('swp_api_templates_link_container', ['id' => 1]), [], [], [
-            'HTTP_LINK' => '</api/v1/templates/widgets/1; rel="widget">'
+            'HTTP_LINK' => '</api/v1/templates/widgets/1; rel="widget">',
         ]);
         $this->assertEquals(201, $client->getResponse()->getStatusCode());
         $this->assertEquals(
@@ -136,10 +131,10 @@ class ContainerControllerTest extends WebTestCase
     {
         $client = static::createClient();
         $client->request('LINK', $this->router->generate('swp_api_templates_link_container', ['id' => 1]), [], [], [
-            'HTTP_LINK' => '</api/v1/templates/widgets/1; rel="widget">'
+            'HTTP_LINK' => '</api/v1/templates/widgets/1; rel="widget">',
         ]);
         $client->request('UNLINK', $this->router->generate('swp_api_templates_link_container', ['id' => 1]), [], [], [
-            'HTTP_LINK' => '</api/v1/templates/widgets/1; rel="widget">'
+            'HTTP_LINK' => '</api/v1/templates/widgets/1; rel="widget">',
         ]);
 
         $this->assertEquals(201, $client->getResponse()->getStatusCode());
@@ -150,7 +145,7 @@ class ContainerControllerTest extends WebTestCase
     {
         $client = static::createClient();
         $client->request('LINK', $this->router->generate('swp_api_templates_link_container', ['id' => 1]), [], [], [
-            'HTTP_LINK' => '</api/v1/templates/widgets/1; rel="widget">'
+            'HTTP_LINK' => '</api/v1/templates/widgets/1; rel="widget">',
         ]);
         $this->assertEquals(201, $client->getResponse()->getStatusCode());
         $this->assertEquals(
@@ -160,7 +155,7 @@ class ContainerControllerTest extends WebTestCase
 
         // Move widget 2 on position 1
         $client->request('LINK', $this->router->generate('swp_api_templates_link_container', ['id' => 1]), [], [], [
-            'HTTP_LINK' => '</api/v1/templates/widgets/2; rel="widget">,<1; rel="widget-position">'
+            'HTTP_LINK' => '</api/v1/templates/widgets/2; rel="widget">,<1; rel="widget-position">',
         ]);
         $this->assertEquals(
             '{"id":1,"type":1,"name":"Simple Container 1","width":300,"height":400,"styles":"color: #00000","css_class":"col-md-12","visible":true,"data":[],"widgets":[{"id":1,"widget":{"id":1,"type":"\\\\SWP\\\TemplatesSystem\\\Gimme\\\Widget\\\HtmlWidget","name":"HtmlWidget number 1","visible":true,"parameters":{"html_body":"sample widget with <span style=\'color:red\'>html<\/span>"},"_links":{"self":{"href":"\/api\/v1\/templates\/widgets\/1"}}},"position":"0"},{"id":2,"widget":{"id":2,"type":"\\\SWP\\\TemplatesSystem\\\Gimme\\\Widget\\\HtmlWidget","name":"HtmlWidget number 2","visible":true,"parameters":{"html_body":"sample widget with html 2"},"_links":{"self":{"href":"\/api\/v1\/templates\/widgets\/2"}}},"position":"1"}],"_links":{"self":{"href":"\/api\/v1\/templates\/containers\/1"}}}',
@@ -169,7 +164,7 @@ class ContainerControllerTest extends WebTestCase
 
         // Move widget 2 on position 0
         $client->request('LINK', $this->router->generate('swp_api_templates_link_container', ['id' => 1]), [], [], [
-            'HTTP_LINK' => '</api/v1/templates/widgets/2; rel="widget">,<0; rel="widget-position">'
+            'HTTP_LINK' => '</api/v1/templates/widgets/2; rel="widget">,<0; rel="widget-position">',
         ]);
         $this->assertEquals(
             '{"id":1,"type":1,"name":"Simple Container 1","width":300,"height":400,"styles":"color: #00000","css_class":"col-md-12","visible":true,"data":[],"widgets":[{"id":1,"widget":{"id":1,"type":"\\\\SWP\\\TemplatesSystem\\\Gimme\\\Widget\\\HtmlWidget","name":"HtmlWidget number 1","visible":true,"parameters":{"html_body":"sample widget with <span style=\'color:red\'>html<\/span>"},"_links":{"self":{"href":"\/api\/v1\/templates\/widgets\/1"}}},"position":"1"},{"id":2,"widget":{"id":2,"type":"\\\SWP\\\TemplatesSystem\\\Gimme\\\Widget\\\HtmlWidget","name":"HtmlWidget number 2","visible":true,"parameters":{"html_body":"sample widget with html 2"},"_links":{"self":{"href":"\/api\/v1\/templates\/widgets\/2"}}},"position":"0"}],"_links":{"self":{"href":"\/api\/v1\/templates\/containers\/1"}}}',
@@ -178,7 +173,7 @@ class ContainerControllerTest extends WebTestCase
 
         // Move widget to on last position (1) with parameter: -1
         $client->request('LINK', $this->router->generate('swp_api_templates_link_container', ['id' => 1]), [], [], [
-            'HTTP_LINK' => '</api/v1/templates/widgets/2; rel="widget">,<-1; rel="widget-position">'
+            'HTTP_LINK' => '</api/v1/templates/widgets/2; rel="widget">,<-1; rel="widget-position">',
         ]);
         $this->assertEquals(
             '{"id":1,"type":1,"name":"Simple Container 1","width":300,"height":400,"styles":"color: #00000","css_class":"col-md-12","visible":true,"data":[],"widgets":[{"id":1,"widget":{"id":1,"type":"\\\\SWP\\\TemplatesSystem\\\Gimme\\\Widget\\\HtmlWidget","name":"HtmlWidget number 1","visible":true,"parameters":{"html_body":"sample widget with <span style=\'color:red\'>html<\/span>"},"_links":{"self":{"href":"\/api\/v1\/templates\/widgets\/1"}}},"position":"0"},{"id":2,"widget":{"id":2,"type":"\\\SWP\\\TemplatesSystem\\\Gimme\\\Widget\\\HtmlWidget","name":"HtmlWidget number 2","visible":true,"parameters":{"html_body":"sample widget with html 2"},"_links":{"self":{"href":"\/api\/v1\/templates\/widgets\/2"}}},"position":"1"}],"_links":{"self":{"href":"\/api\/v1\/templates\/containers\/1"}}}',

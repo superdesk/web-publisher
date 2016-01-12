@@ -11,10 +11,7 @@
  * @copyright 2015 Sourcefabric z.ú.
  * @license http://www.superdesk.org/license
  */
-
 namespace SWP\TemplateEngineBundle\Model;
-
-use SWP\TemplateEngineBundle\Model\Container;
 
 /**
  * ContainerData.
