@@ -19,6 +19,9 @@ SWP\TemplateEngineBundle\Model\Widget:
             type: boolean
         parameters:
             type: json_array
+    manyToOne:
+        tenant:
+            targetEntity: SWP\Component\MultiTenancy\Model\Tenant
     oneToMany:
         containers:
             targetEntity: SWP\TemplateEngineBundle\Model\ContainerWidget

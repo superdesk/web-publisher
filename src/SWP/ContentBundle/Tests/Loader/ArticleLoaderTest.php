@@ -53,7 +53,7 @@ class ArticleLoaderTest extends WebTestCase
         $this->assertFalse($articleLoader->load('article', ['contentPath' => '/swp/content/test-articles']));
         $this->assertFalse($articleLoader->load('article', ['contentPath' => '/swp/content/test-article'], LoaderInterface::COLLECTION));
 
-        $this->assertTrue(count($articleLoader->load('article', ['route' => '/news'], LoaderInterface::COLLECTION)) == 1);
+        $this->assertTrue(count($articleLoader->load('article', ['route' => '/news'], LoaderInterface::COLLECTION)) == 4);
         $this->assertFalse($articleLoader->load('article', ['route' => '/news1'], LoaderInterface::COLLECTION));
 
         $this->assertFalse($articleLoader->load('article', null, LoaderInterface::COLLECTION));

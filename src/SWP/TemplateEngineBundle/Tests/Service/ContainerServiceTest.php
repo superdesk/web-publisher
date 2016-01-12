@@ -28,7 +28,7 @@ class ContainerServiceTest extends WebTestCase
 
     public function testDebugConstruct()
     {
-        $containerService = new ContainerService(
+        new ContainerService(
             $this->getContainer()->get('doctrine'),
             $this->getContainer()->getParameter('kernel.cache_dir'),
             true
@@ -37,7 +37,7 @@ class ContainerServiceTest extends WebTestCase
 
     public function testProductionConstruct()
     {
-        $containerService = new ContainerService(
+        new ContainerService(
             $this->getContainer()->get('doctrine'),
             $this->getContainer()->getParameter('kernel.cache_dir'),
             false
@@ -56,8 +56,8 @@ class ContainerServiceTest extends WebTestCase
 
     public function testCreateNewContainer()
     {
-        $this->runCommand('doctrine:schema:drop', ['--force' => true, '--env' => 'test'], true);
-        $this->runCommand('doctrine:schema:create', ['--env' => 'test'], true);
+        $this->createAndPopulateDatabase();
+        $tenantContext = $this->getContainer()->get('swp_multi_tenancy.tenant_context');
 
         $containerService = new ContainerService(
             $this->getContainer()->get('doctrine'),
@@ -84,12 +84,12 @@ class ContainerServiceTest extends WebTestCase
         $this->assertEquals('border: 1px solid red;', $containerEntity->getStyles());
         $this->assertEquals(true, $containerEntity->getVisible());
         $this->assertEquals(1, count($containerEntity->getData()));
+        $this->assertEquals($tenantContext->getTenant(), $containerEntity->getTenant());
     }
 
     public function testGetContainerException()
     {
-        $this->runCommand('doctrine:schema:drop', ['--force' => true, '--env' => 'test'], true);
-        $this->runCommand('doctrine:schema:create', ['--env' => 'test'], true);
+        $this->createAndPopulateDatabase();
 
         $containerService = new ContainerService(
             $this->getContainer()->get('doctrine'),
@@ -98,13 +98,12 @@ class ContainerServiceTest extends WebTestCase
         );
 
         $this->setExpectedException('\Exception');
-        $containerEntity = $containerService->getContainer('test container', [], false);
+        $containerService->getContainer('test container', [], false);
     }
 
     public function testGetContainer()
     {
-        $this->runCommand('doctrine:schema:drop', ['--force' => true, '--env' => 'test'], true);
-        $this->runCommand('doctrine:schema:create', ['--env' => 'test'], true);
+        $this->createAndPopulateDatabase();
 
         $containerService = new ContainerService(
             $this->getContainer()->get('doctrine'),
@@ -114,5 +113,15 @@ class ContainerServiceTest extends WebTestCase
 
         $containerEntity = $containerService->getContainer('test container', ['data' => ['key' => 'value']]);
         $this->assertInstanceOf('\SWP\TemplateEngineBundle\Container\SimpleContainer', $containerEntity);
+    }
+
+    private function createAndPopulateDatabase()
+    {
+        $this->runCommand('doctrine:schema:drop', ['--force' => true, '--env' => 'test'], true);
+        $this->runCommand('doctrine:doctrine:schema:update', ['--force' => true, '--env' => 'test'], true);
+
+        $this->loadFixtureFiles([
+            '@SWPFixturesBundle/Resources/fixtures/ORM/test/tenant.yml',
+        ]);
     }
 }

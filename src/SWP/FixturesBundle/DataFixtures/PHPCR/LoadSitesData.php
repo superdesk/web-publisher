@@ -30,7 +30,7 @@ class LoadSitesData extends AbstractFixture implements FixtureInterface
             throw new \Exception('Could not find /swp/default document!');
         }
 
-        $page = $manager->find(null, '/swp/default/routes/homepage');
+        $page = $manager->find('SWP\ContentBundle\Document\Route', '/swp/default/routes/homepage');
 
         $site->setHomepage($page);
         $manager->persist($page);
@@ -41,7 +41,7 @@ class LoadSitesData extends AbstractFixture implements FixtureInterface
             throw new \Exception('Could not find /swp/cllient document!');
         }
 
-        $page2 = $manager->find(null, '/swp/client1/routes/homepage');
+        $page2 = $manager->find('SWP\ContentBundle\Document\Route', '/swp/client1/routes/homepage');
 
         $site->setHomepage($page2);
         $manager->persist($page2);

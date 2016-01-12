@@ -30,6 +30,16 @@
             "**/Tests/", "**/spec/"
         ]
     },
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/takeit/SWPMultiTenancyBundle"
+        },
+        {
+            "type": "vcs",
+            "url": "https://github.com/takeit/multi-tenancy"
+        }
+    ],
     "require": {
         "php": ">=5.5",
         "symfony/symfony": "2.8.x-dev",
@@ -52,7 +62,6 @@
         "liip/theme-bundle": "1.3.0",
         "jackalope/jackalope-doctrine-dbal": "1.3.*",
         "oneup/flysystem-bundle": "^1.1",
-        "halleck45/phpmetrics-collector-bundle": "v0.0.1",
         "swp/templates-system": "dev-master#69806574e20bce67da16259ec6e43879ba64411c",
         "swp/updater-bundle": "^1.0@dev",
         "swp/bridge-bundle": "^1.0@dev",
@@ -61,7 +70,8 @@
         "knplabs/knp-paginator-bundle": "^2.4@dev",
         "symfony-cmf/routing-bundle": "^1.3",
         "doctrine/doctrine-cache-bundle": "1.0.*",
-        "stof/doctrine-extensions-bundle": "^1.2"
+        "stof/doctrine-extensions-bundle": "^1.2",
+        "swp/multi-tenancy-bundle": "^1.0@dev"
     },
     "require-dev": {
         "sensio/generator-bundle": "~2.3",

@@ -83,10 +83,13 @@ class ArticleLoader implements LoaderInterface
             }
         } elseif ($responseType === LoaderInterface::COLLECTION) {
             if (array_key_exists('route', $parameters)) {
-                $route = $this->dm->find(null, '/swp/default/routes'.$parameters['route']);
+                $pathBuilder = $this->serviceContainer->get('swp_multi_tenancy.path_builder');
+                $route = $dm->find(null, $pathBuilder->build(
+                    $this->serviceContainer->getParameter('swp_multi_tenancy.phpcr.route_basepaths')[0].$parameters['route']
+                ));
+
                 if ($route) {
                     $articles = $dm->getReferrers($route, null, null, null, 'SWP\ContentBundle\Document\Article');
-
                     $metas = [];
                     foreach ($articles as $article) {
                         if (!is_null($article)) {

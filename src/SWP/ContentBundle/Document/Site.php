@@ -13,40 +13,10 @@
  */
 namespace SWP\ContentBundle\Document;
 
-use SWP\MultiTenancyBundle\Document\SiteDocumentInterface;
+use SWP\MultiTenancyBundle\Document\Site as BaseSite;
 
-class Site implements SiteDocumentInterface
+class Site extends BaseSite
 {
-    /**
-     * @var string
-     */
-    protected $id;
-
-    /**
-     * @var Route
-     */
-    protected $homepage;
-
-    /**
-     * @var object
-     */
-    protected $children;
-
-    public function setId($id)
-    {
-        $this->id = $id;
-    }
-
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    public function getChildren()
-    {
-        return $this->children;
-    }
-
     /**
      * Gets the value of homepage.
      *

@@ -14,6 +14,7 @@
 namespace SWP\TemplateEngineBundle\Tests\Controller;
 
 use Liip\FunctionalTestBundle\Test\WebTestCase;
+use SWP\Component\MultiTenancy\Model\Tenant;
 
 class ContainerControllerTest extends WebTestCase
 {
@@ -31,11 +32,10 @@ class ContainerControllerTest extends WebTestCase
             '@SWPFixturesBundle/DataFixtures/ORM/Test/Widget.yml',
         ]);
 
-        $this->router = $this->getContainer()->get('router');
-
-        $this->runCommand('doctrine:phpcr:init:dbal', ['--force' => true, '--env' => 'test'], true);
         $this->runCommand('doctrine:phpcr:repository:init', ['--env' => 'test'], true);
         $this->runCommand('theme:setup', ['--env' => 'test', '--force' => true, 'name' => 'theme_test'], true);
+
+        $this->router = $this->getContainer()->get('router');
     }
 
     public function testListContainersApi()

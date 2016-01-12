@@ -7,7 +7,7 @@ imports:
 # http://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
     locale: en
-    swp_multi_tenancy.tenant.class: SWP\MultiTenancyBundle\Model\TenantInterface
+    swp_multi_tenancy.tenant.class: SWP\Component\MultiTenancy\Model\Tenant
 
 framework:
     #esi:             ~
@@ -62,7 +62,7 @@ doctrine:
 
     orm:
         resolve_target_entities:
-            SWP\MultiTenancyBundle\Model\TenantInterface: %swp_multi_tenancy.tenant.class%
+            SWP\Component\MultiTenancy\Model\TenantInterface: %swp_multi_tenancy.tenant.class%
         auto_generate_proxy_classes: "%kernel.debug%"
 <<<<<<< HEAD
         auto_mapping: false
@@ -93,7 +93,7 @@ doctrine:
                         dir: Resources/config/doctrine
                     SWPMultiTenancyBundle:
                         type: yml
-                        prefix: "SWP\MultiTenancyBundle\Model"
+                        prefix: "SWP\Component\MultiTenancy\Model"
                         dir: Resources/config/doctrine
                     gedmo_loggable:
                         type: annotation
@@ -213,7 +213,7 @@ nelmio_api_doc:
 swp_multi_tenancy:
     persistence:
         phpcr:
-            enabled: true
+            enabled: true #enabled: false
             # basepath: "/cms" Symfony cmf core bundle, add possibility to override core bundle's base path and makes it tenant aware?
             basepath: %swp_multi_tenancy.phpcr.basepath%
             route_basepaths: %swp_multi_tenancy.phpcr.route_basepaths% # ~ - to use the RoutingBundle default route base paths.

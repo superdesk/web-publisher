@@ -13,6 +13,8 @@
  */
 namespace SWP\TemplateEngineBundle\Model;
 
+use SWP\Component\MultiTenancy\Model\TenantAwareInterface;
+use SWP\Component\MultiTenancy\Model\TenantInterface;
 use SWP\TemplatesSystem\Gimme\Model\WidgetInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 
