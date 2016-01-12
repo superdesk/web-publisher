@@ -1,18 +1,14 @@
 SWP\ContentBundle\Document\Article:
-    repositoryClass: SWP\ContentBundle\Document\ArticleRepository
     referenceable: true
-    id:
-        fieldName: id
-        generator:
-            strategy: repository
+    parentdocument: parent
+    nodename: title
+    id: id
     fields:
-        title:
-            type: string
         content:
             type: string
         slug:
             type: string
     referenceOne:
         route:
-            targetDocument: "\\Symfony\\Cmf\\Bundle\\RoutingBundle\\Doctrine\\Phpcr\\Route"
+            targetDocument: "\\SWP\\ContentBundle\\Document\\Route"
             strategy: hard

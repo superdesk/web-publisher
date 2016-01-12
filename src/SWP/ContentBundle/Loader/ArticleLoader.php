@@ -70,7 +70,7 @@ class ArticleLoader implements LoaderInterface
 
         if ($responseType === LoaderInterface::SINGLE) {
             if (array_key_exists('contentPath', $parameters)) {
-                $article = $dm->find('SWP\ContentBundle\Document\Article', $parameters['contentPath']);
+                $article = $this->dm->find('SWP\ContentBundle\Document\Article', $parameters['contentPath']);
             } elseif (array_key_exists('article', $parameters)) {
                 $article = $parameters['article'];
             } elseif (array_key_exists('slug', $parameters)) {
@@ -83,7 +83,7 @@ class ArticleLoader implements LoaderInterface
             }
         } elseif ($responseType === LoaderInterface::COLLECTION) {
             if (array_key_exists('route', $parameters)) {
-                $route = $dm->find(null, '/swp/routes'.$parameters['route']);
+                $route = $this->dm->find(null, '/swp/default/routes'.$parameters['route']);
                 if ($route) {
                     $articles = $dm->getReferrers($route, null, null, null, 'SWP\ContentBundle\Document\Article');
 

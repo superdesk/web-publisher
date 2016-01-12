@@ -16,6 +16,7 @@ namespace SWP\MultiTenancyBundle\Context;
 use SWP\MultiTenancyBundle\Model\TenantInterface;
 use SWP\MultiTenancyBundle\Resolver\TenantResolverInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
+use SWP\MultiTenancyBundle\Model\Tenant;
 
 class TenantContext implements TenantContextInterface
 {
@@ -51,7 +52,12 @@ class TenantContext implements TenantContextInterface
      */
     public function getTenant()
     {
-        $host = $this->requestStack->getCurrentRequest()->getHost();
+        $currentRequest = $this->requestStack->getCurrentRequest();
+        if (!$currentRequest) {
+            return new Tenant();
+        }
+
+        $host = $currentRequest->getHost();
         // TODO add caching to not resolve the hostname each time
         if (null === $this->tenant) {
             $this->tenant = $this->tenantResolver->resolve($host);

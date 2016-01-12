@@ -18,38 +18,74 @@ use SWP\MultiTenancyBundle\Context\TenantContextInterface;
 
 class TenantAwarePathBuilder implements TenantAwarePathBuilderInterface
 {
+    private $tenantContext;
+
+    private $rootPath;
+
+    /**
+     * Construct.
+     *
+     * @param TenantContextInterface $tenantContext Tenant context
+     * @param string                 $rootPath      PHPCR root path (e.g. /swp)
+     */
     public function __construct(TenantContextInterface $tenantContext, $rootPath)
     {
         $this->tenantContext = $tenantContext;
         $this->rootPath = $rootPath;
+        $this->setTenantAwareRootPath();
     }
 
-    public function build($path)
+    /**
+     * {@inheritdoc}
+     */
+    public function build($data, $context = null)
+    {
+        return $this->absolutize($data, $context);
+    }
+
+    /**
+     * Absolutize path or paths based on current context when provided.
+     *
+     * @param string|array $data    Path or paths
+     * @param string       $context Path absolute context
+     *
+     * @return string|array Tenant aware paths
+     */
+    protected function absolutize($data, $context = null)
+    {
+        if (is_array($data)) {
+            $tenantAwarePaths = [];
+            foreach ($data as $path) {
+                $tenantAwarePaths[] = $this->absolutizePath($path, $context);
+            }
+
+            return $tenantAwarePaths;
+        }
+
+        return $this->absolutizePath($data, $context);
+    }
+
+    /**
+     * Sets PHPCR tree root path to be tenant aware, based on current tenant.
+     */
+    protected function setTenantAwareRootPath()
     {
         $tenantSubdomain = $this->tenantContext->getTenant()->getSubdomain();
         if ($tenantSubdomain) {
-            $this->rootPath = $this->rootPath.DIRECTORY_SEPARATOR.$tenantSubdomain;
+            $this->rootPath = $this->absolutizePath($tenantSubdomain);
         }
-
-        if (is_array($path)) {
-            return $this->buildPaths($path);
-        }
-
-        return $this->absolutizePath($path);
     }
 
-    private function buildPaths($paths)
+    private function absolutizePath($path, $context = null)
     {
-        $tenantAwarePaths = [];
-        foreach ($paths as $path) {
-            $tenantAwarePaths[] = $this->absolutizePath($path);
+        if ($context) {
+            $context = $this->rootPath.DIRECTORY_SEPARATOR.$context;
         }
 
-        return $tenantAwarePaths;
-    }
+        if ('/' === $path[0]) {
+            $path = $context ?: $this->rootPath;
+        }
 
-    private function absolutizePath($path)
-    {
-        return PathHelper::absolutizePath($path, $this->rootPath);
+        return PathHelper::absolutizePath($path, $context ?: $this->rootPath);
     }
 }

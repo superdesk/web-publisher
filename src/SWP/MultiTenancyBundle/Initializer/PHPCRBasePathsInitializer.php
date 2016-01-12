@@ -18,6 +18,9 @@ use Doctrine\Bundle\PHPCRBundle\Initializer\InitializerInterface;
 use Doctrine\Bundle\PHPCRBundle\ManagerRegistry;
 use PHPCR\SessionInterface;
 use SWP\MultiTenancyBundle\Provider\TenantProviderInterface;
+use SWP\MultiTenancyBundle\Doctrine\PHPCR\TenantAwarePathBuilderInterface;
+use SWP\MultiTenancyBundle\Document\SiteDocumentInterface;
+use Symfony\Component\HttpFoundation\File\Exception\UnexpectedTypeException;
 
 /**
  * PHPCR Base Paths Repository Initializer.
@@ -41,28 +44,31 @@ class PHPCRBasePathsInitializer implements InitializerInterface
     /**
      * @var string
      */
-    private $rootPath;
+    private $pathBuilder;
 
     /**
-     * @var string|null
+     * @var string
      */
-    private $cnd;
+    private $siteClass;
 
     /**
      * Construct.
      *
-     * @param array                   $paths          Content paths
-     * @param TenantProviderInterface $tenantProvider Tenants provider
-     * @param string                  $rootPath       Root path
-     * @param string|null             $cnd            Node type and namespace definitions in cnd
-     *                                                format, pass null to not create any node types.
+     * @param array                           $paths          Content paths
+     * @param TenantProviderInterface         $tenantProvider Tenants provider
+     * @param TenantAwarePathBuilderInterface $pathBuilder    Path builder
+     * @param string                          $siteClass      Site document class
      */
-    public function __construct(array $paths, TenantProviderInterface $tenantProvider, $rootPath, $cnd = null)
-    {
+    public function __construct(
+        array $paths,
+        TenantProviderInterface $tenantProvider,
+        TenantAwarePathBuilderInterface $pathBuilder,
+        $siteClass
+    ) {
         $this->paths = $paths;
         $this->tenantProvider = $tenantProvider;
-        $this->rootPath = $rootPath;
-        $this->cnd = $cnd;
+        $this->pathBuilder = $pathBuilder;
+        $this->siteClass = $siteClass;
     }
 
     /**
@@ -71,21 +77,13 @@ class PHPCRBasePathsInitializer implements InitializerInterface
     public function init(ManagerRegistry $registry)
     {
         $session = $registry->getConnection();
-
-        if ($this->cnd) {
-            $this->registerCnd($session, $this->cnd);
-        }
+        $this->dm = $registry->getManager();
 
         $basePaths = $this->getBasePaths();
-
+        $this->dm->flush();
         if (count($basePaths)) {
             $this->createBasePaths($session, $basePaths);
         }
-    }
-
-    private function registerCnd(SessionInterface $session, $cnd)
-    {
-        $session->getWorkspace()->getNodeTypeManager()->registerNodeTypesCnd($cnd, true);
     }
 
     private function getBasePaths()
@@ -97,10 +95,19 @@ class PHPCRBasePathsInitializer implements InitializerInterface
 
     private function genereteBasePaths(array $tenants = array())
     {
+        $basePaths = array();
         foreach ($tenants as $tenant) {
             foreach ($this->paths as $path) {
-                $basePaths[] = $this->rootPath.DIRECTORY_SEPARATOR.$tenant['subdomain'].DIRECTORY_SEPARATOR.$path;
+                $basePaths[] = $this->pathBuilder->build($path, $tenant['subdomain']);
             }
+
+            $site = new $this->siteClass();
+            if (!$site instanceof SiteDocumentInterface) {
+                throw new UnexpectedTypeException($site, 'SWP\MultiTenancyBundle\Document\SiteDocumentInterface');
+            }
+
+            $site->setId($this->pathBuilder->build('/', $tenant['subdomain']));
+            $this->dm->persist($site);
         }
 
         return $basePaths;

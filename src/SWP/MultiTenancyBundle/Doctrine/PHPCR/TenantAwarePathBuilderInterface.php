@@ -14,22 +14,22 @@
 namespace SWP\MultiTenancyBundle\Doctrine\PHPCR;
 
 /**
- * The Path Builder responsibility is to build PHPCR route paths based on root path,
- * current tenant and route name (e.g. /swp/tenant1/routes, /swp/tenant2/routes).
+ * The Tenant Aware Path Builder responsibility is to build
+ * PHPCR base paths which are tenant aware.
  */
 interface TenantAwarePathBuilderInterface
 {
     /**
-     * Example output /swp/tenant1/routes.
-     * This service should inject TenantContext.
+     * Builds tenant aware PHPCR base paths.
+     * This method adds tenant subdomain name after the root path (/swp)
+     * (e.g. /swp/tenant1/...).
      *
-     * use https://github.com/phpcr/phpcr-utils/blob/master/src/PHPCR/Util/PathHelper.php#L194
+     * Usage: $pathBuilder->build($data);
      *
-     * usage: $pathBuilder->build($pathName);
+     * @param string|array $data    An array of base paths.
+     * @param string       $context The absolute path context to make path absolute if needed.
      *
-     * @param string|array $path [description]
-     *
-     * @return [type] [description]
+     * @return string|array Tenant aware base paths.
      */
-    public function build($path);
+    public function build($data, $context = null);
 }

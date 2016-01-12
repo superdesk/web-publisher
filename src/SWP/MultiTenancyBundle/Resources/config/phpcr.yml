@@ -2,8 +2,24 @@ services:
     swp_multi_tenancy.phpcr.initializer:
         class: SWP\MultiTenancyBundle\Initializer\PHPCRBasePathsInitializer
         arguments:
-            - %swp_multi_tenancy.persistence.phpcr.content_paths%
+            - %swp_multi_tenancy.persistence.phpcr.base_paths%
             - @swp_multi_tenancy.tenant_provider
-            - %swp_multi_tenancy.persistence.phpcr.rootpath%
+            - @swp_multi_tenancy.path_builder
+            - %swp_multi_tenancy.persistence.phpcr.site_document.class%
         tags:
-            - { name: "doctrine_phpcr.initializer" }
+            - { name: "doctrine_phpcr.initializer", priority: 50 }
+
+    swp_multi_tenancy.path_builder:
+       class: SWP\MultiTenancyBundle\Doctrine\PHPCR\TenantAwarePathBuilder
+       arguments:
+        - @swp_multi_tenancy.tenant_context
+        - %swp_multi_tenancy.persistence.phpcr.basepath%
+
+    swp_multi_tenancy.candidates_configurator:
+       class: SWP\MultiTenancyBundle\Doctrine\PHPCR\CmfCandidatesConfigurator
+       arguments:
+        - @swp_multi_tenancy.path_builder
+        - %swp_multi_tenancy.persistence.phpcr.route_basepaths%
+
+    swp_multi_tenancy.tenant_aware_router:
+        class: %swp_multi_tenancy.persistence.phpcr.router.class%

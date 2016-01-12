@@ -18,9 +18,10 @@ use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\Reference;
 
 /**
- * Overrides Symfony CMF routing base paths to make the routes aware of current tenant.
+ * Configures Symfony CMF PrefixCandidates service by adding
+ * custom configurator which sets tenant aware base paths.
  */
-class OverridePrefixCandidatesCompilerPass implements CompilerPassInterface
+class ConfigurePrefixCandidatesCompilerPass implements CompilerPassInterface
 {
     /**
      * {@inheritdoc}
@@ -33,8 +34,6 @@ class OverridePrefixCandidatesCompilerPass implements CompilerPassInterface
         }
 
         $container->getDefinition('cmf_routing.phpcr_candidates_prefix')
-            //->setClass($container->getParameter('swp_multi_tenancy.phpcr_candidates_prefix.class'))
-            //->replaceArgument(0, new Reference('swp_multi_tenancy.path_builder'))
             ->setConfigurator([
                 new Reference('swp_multi_tenancy.candidates_configurator'),
                 'configure',

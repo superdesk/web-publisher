@@ -1,10 +1,11 @@
 services:
-    swp_renderer.listener.kernel_request:
-        class: SWP\WebRendererBundle\EventListener\KernelRequestListener
-        arguments:
-            - "@event_dispatcher"
-        tags:
-            - { name: kernel.event_listener, event: kernel.request, method: onKernelRequest }
+    swp_renderer.phpcr.initializer:
+         class: Doctrine\Bundle\PHPCRBundle\Initializer\GenericInitializer
+         arguments:
+             - Default initializer
+             - [ "%swp_multi_tenancy.persistence.phpcr.basepath%" ]
+         tags:
+             - { name: "doctrine_phpcr.initializer", priority: 100 }
 
 # override default cmf dynamic router with our implementation (with support for Meta Article)
 parameters:

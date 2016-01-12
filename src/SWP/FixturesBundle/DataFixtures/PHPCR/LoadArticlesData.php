@@ -16,7 +16,7 @@ namespace SWP\FixturesBundle\DataFixtures\PHPCR;
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use SWP\FixturesBundle\AbstractFixture;
-use Symfony\Cmf\Bundle\RoutingBundle\Doctrine\Phpcr\Route;
+use SWP\ContentBundle\Document\Route;
 
 class LoadArticlesData extends AbstractFixture implements FixtureInterface
 {
@@ -28,10 +28,28 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface
         $env = $this->getEnvironment();
         $this->loadRoutes($env, $manager);
 
-        $this->loadFixtures(
+        /*$this->loadFixtures(
             '@SWPFixturesBundle/Resources/fixtures/PHPCR/'.$env.'/article.yml',
             $manager
-        );
+        );*/
+
+        $article = new \SWP\ContentBundle\Document\Article();
+        $article->setParentDocument($manager->find(null, '/swp/default/content'));
+        $article->setTitle('features');
+        $article->setContent('shitty features content');
+        $article->setRoute($manager->find(null, '/swp/default/routes/articles/features'));
+        $article->setSlug('features');
+        $manager->persist($article);
+        $manager->flush();
+
+        $article = new \SWP\ContentBundle\Document\Article();
+        $article->setParentDocument($manager->find(null, '/swp/default/content'));
+        $article->setTitle('article1');
+        $article->setContent('article 1 content');
+        $article->setRoute($manager->find(null, '/swp/default/routes/news'));
+        $article->setSlug('article-1');
+        $manager->persist($article);
+        $manager->flush();
 
         $this->setRoutesContent($env, $manager);
         $manager->flush();
@@ -42,21 +60,43 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface
         $routes = [
             'dev' => [
                 [
-                    'parent' => '/swp/routes',
+                    'parent' => '/swp/default/routes',
                     'name' => 'news',
                     'variablePattern' => '/{slug}',
-                    'requirements' => ['slug' => '[a-zA-Z1-9\-_\/]+'],
-                    'defaults' => ['_controller' => '\SWP\WebRendererBundle\Controller\ContentController::renderContainerPageAction'],
+                    'requirements' => [
+                        'slug' => '[a-zA-Z1-9\-_\/]+',
+                    ],
+                    'defaults' => [
+                        '_controller' => '\SWP\WebRendererBundle\Controller\ContentController::renderContainerPageAction',
+                    ],
                 ],
                 [
-                    'parent' => '/swp/routes',
+                    'parent' => '/swp/default/routes',
                     'name' => 'articles',
-                    'defaults' => ['_controller' => '\SWP\WebRendererBundle\Controller\ContentController::renderContentPageAction'],
+                    'defaults' => [
+                        '_controller' => '\SWP\WebRendererBundle\Controller\ContentController::renderContentPageAction',
+                    ],
                 ],
                 [
-                    'parent' => '/swp/routes/articles',
+                    'parent' => '/swp/default/routes/articles',
                     'name' => 'features',
-                    'defaults' => ['_controller' => '\SWP\WebRendererBundle\Controller\ContentController::renderContentPageAction'],
+                    'defaults' => [
+                        '_controller' => '\SWP\WebRendererBundle\Controller\ContentController::renderContentPageAction',
+                    ],
+                ],
+                [
+                    'parent' => '/swp/default/routes',
+                    'name' => 'homepage',
+                    'defaults' => [
+                        '_controller' => '\SWP\WebRendererBundle\Controller\ContentController::renderContainerPageAction',
+                    ],
+                ],
+                [
+                    'parent' => '/swp/client1/routes',
+                    'name' => 'homepage',
+                    'defaults' => [
+                        '_controller' => '\SWP\WebRendererBundle\Controller\ContentController::renderContainerPageAction',
+                    ],
                 ],
             ],
             'test' => [
@@ -64,18 +104,26 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface
                     'parent' => '/swp/routes',
                     'name' => 'news',
                     'variablePattern' => '/{slug}',
-                    'requirements' => ['slug' => '[a-zA-Z1-9\-_\/]+'],
-                    'defaults' => ['_controller' => '\SWP\WebRendererBundle\Controller\ContentController::renderContainerPageAction'],
+                    'requirements' => [
+                        'slug' => '[a-zA-Z1-9\-_\/]+',
+                    ],
+                    'defaults' => [
+                        '_controller' => '\SWP\WebRendererBundle\Controller\ContentController::renderContainerPageAction',
+                    ],
                 ],
                 [
                     'parent' => '/swp/routes',
                     'name' => 'articles',
-                    'defaults' => ['_controller' => '\SWP\WebRendererBundle\Controller\ContentController::renderContentPageAction'],
+                    'defaults' => [
+                        '_controller' => '\SWP\WebRendererBundle\Controller\ContentController::renderContentPageAction',
+                    ],
                 ],
                 [
                     'parent' => '/swp/routes/articles',
                     'name' => 'features',
-                    'defaults' => ['_controller' => '\SWP\WebRendererBundle\Controller\ContentController::renderContentPageAction'],
+                    'defaults' => [
+                        '_controller' => '\SWP\WebRendererBundle\Controller\ContentController::renderContentPageAction',
+                    ],
                 ],
             ],
         ];
@@ -111,12 +159,12 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface
         $routes = [
             'dev' => [
                 [
-                    'path' => '/swp/routes/news',
-                    'content' => '/swp/content/features',
+                    'path' => '/swp/default/routes/news',
+                    'content' => '/swp/default/content/features',
                 ],
                 [
-                    'path' => '/swp/routes/articles/features',
-                    'content' => '/swp/content/features',
+                    'path' => '/swp/default/routes/articles/features',
+                    'content' => '/swp/default/content/features',
                 ],
             ],
             'test' => [

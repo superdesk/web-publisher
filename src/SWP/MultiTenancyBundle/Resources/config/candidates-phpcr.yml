@@ -1,2 +1,0 @@
-parameters:
-    swp_multi_tenancy.phpcr_candidates_prefix.class: SWP\MultiTenancyBundle\Doctrine\PHPCR\PrefixCandidates

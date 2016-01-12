@@ -27,8 +27,26 @@ class DefaultController extends Controller
     {
         $tenantContext = $this->get('swp_multi_tenancy.tenant_context');
 
+        $manager = $this->get('doctrine_phpcr')->getManager();
+        $site = $manager->find('SWP\ContentBundle\Document\Site', '/swp/'.$tenantContext->getTenant()->getSubdomain());
+        $homepage = $site->getHomepage();
+
+        if (!$homepage) {
+            throw $this->createNotFoundException('No homepage configured!');
+        }
+
+        return $this->forward('SWPWebRendererBundle:Default:page', [
+            'contentDocument' => $homepage,
+        ]);
+    }
+
+    public function pageAction($contentDocument)
+    {
+        $tenantContext = $this->get('swp_multi_tenancy.tenant_context');
+
         return $this->render('views/index.html.twig', [
             'tenant' => $tenantContext->getTenant(),
+            'page' => $contentDocument,
         ]);
     }
 }

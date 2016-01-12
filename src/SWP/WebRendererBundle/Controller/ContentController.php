@@ -63,7 +63,7 @@ class ContentController extends Controller
 
         $tenantContext = $this->get('swp_multi_tenancy.tenant_context');
 
-        return $this->render('views/'.$currentPage['templateName'], [
+        return $this->render('views/article.html.twig', [
             'tenant' => $tenantContext->getTenant(),
         ]);
     }

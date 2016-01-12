@@ -38,14 +38,18 @@ class SWPMultiTenancyExtension extends Extension
 
         if ($config['persistence']['phpcr']['enabled']) {
             $this->loadPhpcr($config['persistence']['phpcr'], $loader, $container);
+            $container->setParameter($this->getAlias().'.backend_type_phpcr', true);
         }
     }
 
     public function loadPhpcr($config, YamlFileLoader $loader, ContainerBuilder $container)
     {
         $keys = array(
-            'rootpath' => 'rootpath',
-            'content_paths' => 'content_paths',
+            'basepath' => 'basepath',
+            'route_basepaths' => 'route_basepaths',
+            'content_basepath' => 'content_basepath',
+            'site_document_class' => 'site_document.class',
+            'tenant_aware_router_class' => 'router.class',
         );
 
         foreach ($keys as $sourceKey => $targetKey) {
@@ -54,6 +58,13 @@ class SWPMultiTenancyExtension extends Extension
                 $config[$sourceKey]
             );
         }
+
+        array_push($config['route_basepaths'], $config['content_basepath']);
+
+        $container->setParameter(
+            $this->getAlias().'.persistence.phpcr.base_paths',
+            $config['route_basepaths']
+        );
 
         $loader->load('phpcr.yml');
     }
