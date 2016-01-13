@@ -25,6 +25,7 @@ class ContainerService
     protected $objectManager;
     protected $cacheDir;
     protected $debug;
+    protected $renderer = false;
 
     public function __construct($doctrine, $cacheDir, $debug = false)
     {
@@ -64,18 +65,24 @@ class ContainerService
 
     public function getRenderer()
     {
+        if ($this->renderer !== false) {
+            return $this->renderer;
+        }
+
         $options = [];
         if ($this->debug == false) {
             // not debug turn set cache dir
             $options['cache'] = $this->cacheDir;
         }
 
-        return new \Twig_Environment(
+        $this->renderer = new \Twig_Environment(
             new \Twig_Loader_Array([
                 'open_tag' => self::OPEN_TAG_TEMPLATE,
                 'close_tag' => self::CLOSE_TAG_TEMPLATE,
             ]), $options
         );
+
+        return $this->renderer;
     }
 
     public function createNewContainer($name, array $parameters = array())
