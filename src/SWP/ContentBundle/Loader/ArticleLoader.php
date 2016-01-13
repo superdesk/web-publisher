@@ -21,8 +21,6 @@ class ArticleLoader implements LoaderInterface
 {
     protected $serviceContainer;
 
-    /**
-     */
     public function __construct($serviceContainer)
     {
         $this->serviceContainer = $serviceContainer;

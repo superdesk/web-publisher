@@ -23,17 +23,17 @@ class ContainerService
     const CLOSE_TAG_TEMPLATE = '</div>';
 
     protected $objectManager;
-    protected $cacheDir = false;
+    protected $cacheDir;
+    protected $debug;
 
-    public function __construct($doctrine, $cacheDir, $debug)
+    public function __construct($doctrine, $cacheDir, $debug = false)
     {
         $this->objectManager = $doctrine->getManager();
-        if (!$debug) {
-            $this->cacheDir = $cacheDir.'/twig';
-        }
+        $this->cacheDir = $cacheDir.'/twig';
+        $this->debug = $debug;
     }
 
-    public function getContainer($name, array $parameters, $createIfNotExists = true)
+    public function getContainer($name, array $parameters = [], $createIfNotExists = true)
     {
         $containerEntity = $this->objectManager->getRepository('SWP\TemplateEngineBundle\Model\Container')
             ->getByName($name)
@@ -41,6 +41,8 @@ class ContainerService
 
         if (!$containerEntity && $createIfNotExists) {
             $containerEntity = $this->createNewContainer($name, $parameters);
+        } elseif (!$containerEntity) {
+            throw new \Exception("Container was not found");
         }
 
         $widgets = [];
@@ -62,13 +64,17 @@ class ContainerService
 
     public function getRenderer()
     {
+        $options = [];
+        if ($this->debug == false) {
+            // not debug turn set cache dir
+            $options['cache'] = $this->cacheDir;
+        }
+
         return new \Twig_Environment(
             new \Twig_Loader_Array([
                 'open_tag' => self::OPEN_TAG_TEMPLATE,
                 'close_tag' => self::CLOSE_TAG_TEMPLATE,
-            ]), [
-                'cache' => $this->cacheDir,
-            ]
+            ]), $options
         );
     }
 

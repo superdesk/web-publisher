@@ -30,7 +30,7 @@ class WidgetControllerTest extends WebTestCase
             '@SWPFixturesBundle/DataFixtures/ORM/Test/Widget.yml',
         ]);
 
-        $this->router = $manager = $this->getContainer()->get('router');
+        $this->router = $this->getContainer()->get('router');
 
         $this->runCommand('doctrine:phpcr:init:dbal', ['--force' => true, '--env' => 'test'], true);
         $this->runCommand('doctrine:phpcr:repository:init', ['--env' => 'test'], true);
