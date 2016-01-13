@@ -13,13 +13,10 @@
  */
 namespace SWP\TemplateEngineBundle\Tests\Container;
 
-use SWP\TemplateEngineBundle\Container\SimpleContainer;
-use SWP\TemplateEngineBundle\Model\Widget;
-use SWP\TemplatesSystem\Gimme\Widget\HtmlWidget;
 use SWP\TemplateEngineBundle\Service\ContainerService;
 use Liip\FunctionalTestBundle\Test\WebTestCase;
 
-class WidgetControllerTest extends WebTestCase
+class ContainerServiceTest extends WebTestCase
 {
     /**
      * {@inheritdoc}
@@ -75,8 +72,8 @@ class WidgetControllerTest extends WebTestCase
             'styles' => 'border: 1px solid red;',
             'visible' => true,
             'data' => [
-                'key' => 'value'
-            ]
+                'key' => 'value',
+            ],
         ];
 
         $containerEntity = $containerService->createNewContainer('test Container', $containerParameters);
