@@ -42,7 +42,7 @@ class ContainerService
         if (!$containerEntity && $createIfNotExists) {
             $containerEntity = $this->createNewContainer($name, $parameters);
         } elseif (!$containerEntity) {
-            throw new \Exception("Container was not found");
+            throw new \Exception('Container was not found');
         }
 
         $widgets = [];
