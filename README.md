@@ -18,17 +18,21 @@ Full documentation can be found here: [http://web-renderer.readthedocs.org/][1]
 
 Add ```127.0.0.1 webrenderer.dev``` to ```/etc/hosts```. **Mac users** use the ip of your virtualbox (e.g. ```boot2docker ip```).
 
-#### Build:
+#### Build
 
 ```bash
 docker-compose build
 ```
 
-#### Run:
+#### Run
 
 ```bash
 docker-compose up
 ```
+
+#### View
+
+Go to http://webrenderer.dev/app_dev.php for viewing the app in dev mode.
 
 #### Updating database schema
 

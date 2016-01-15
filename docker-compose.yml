@@ -3,6 +3,8 @@ php:
     expose:
         - 9000:9000
     command: composer
+    links:
+        - postgres
     volumes:
         - .:/var/www/webrenderer
 nginx:
@@ -16,3 +18,12 @@ nginx:
         - logs/webrenderer:/var/www/webrenderer/app/logs
         - logs/nginx/:/var/log/nginx
     tty: true
+postgres:
+    image: postgres
+    ports:
+        - 5432:5432
+    environment:
+        LC_ALL: C.UTF-8
+        POSTGRES_USER: root
+        POSTGRES_PASSWORD: null
+        POSTGRES_DB: symfony
