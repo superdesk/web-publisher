@@ -58,6 +58,13 @@ php app/console doctrine:schema:update --force
 php app/console doctrine:phpcr:repository:init
 ```
 
+Commands when using docker:
+
+```bash
+docker-compose run --rm php php /var/www/webrenderer/app/console doctrine:schema:update --force
+docker-compose run --rm php php /var/www/webrenderer/app/console doctrine:phpcr:repository:init
+```
+
 [1]: http://web-renderer.readthedocs.org/
 
 ## Testing
