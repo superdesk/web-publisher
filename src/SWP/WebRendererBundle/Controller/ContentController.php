@@ -63,6 +63,10 @@ class ContentController extends Controller
             $context->registerMeta('article', $article);
         }
 
-        return $this->render('views/'.$currentPage['templateName']);
+        $tenantContext = $this->get('swp_multi_tenancy.tenant_context');
+
+        return $this->render('views/'.$currentPage['templateName'], [
+            'tenant' => $tenantContext->getTenant(),
+        ]);
     }
 }

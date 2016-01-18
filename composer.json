@@ -56,11 +56,12 @@
         "swp/updater-bundle": "^1.0@dev",
         "swp/bridge-bundle": "^1.0@dev",
         "behat/transliterator": "^1.1@dev",
+        "stof/doctrine-extensions-bundle": "^1.2",
         "ramsey/uuid": "^3.0"
     },
     "require-dev": {
         "sensio/generator-bundle": "~2.3",
-        "phpspec/phpspec": "~2.0",
+        "phpspec/phpspec": "^2.4",
         "phpunit/phpunit": "4.8.*",
         "phpunit/php-code-coverage": "2.2.2",
         "liip/functional-test-bundle": "^1.3@dev",

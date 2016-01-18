@@ -1,0 +1,4 @@
+SWP\MultiTenancyBundle\Model\Tenant:
+    tenant1:
+        name: "Default tenant"
+        subdomain: "default"

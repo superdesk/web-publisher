@@ -1,0 +1,40 @@
+SWP\MultiTenancyBundle\Model\Tenant:
+    type: entity
+    table: swp_tenant
+    repositoryClass: SWP\MultiTenancyBundle\Repository\TenantRepository
+    gedmo:
+        soft_deleteable:
+            field_name: deletedAt
+            time_aware: false
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        name:
+            type: string
+            length: 255
+        subdomain:
+            type: string
+            length: 255
+        enabled:
+            type: boolean
+        createdAt:
+            type: datetime
+            gedmo:
+                timestampable:
+                    on: create
+        updatedAt:
+            type: datetime
+            nullable: true
+            gedmo:
+                timestampable:
+                    on: update
+        deletedAt:
+            type: datetime
+            nullable: true
+            gedmo:
+                timestampable:
+                    on: update

@@ -14,11 +14,13 @@
 namespace SWP\ContentBundle\Model;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use SWP\MultiTenancyBundle\Model\TenantAwareInterface;
+use SWP\MultiTenancyBundle\Model\TenantInterface;
 
 /**
  * Page.
  */
-class Page
+class Page implements TenantAwareInterface
 {
     const PAGE_TYPE_EXTERNAL_URL = 0;
     const PAGE_TYPE_CONTENT = 1;
@@ -68,6 +70,11 @@ class Page
      * @var Page
      */
     protected $parent;
+
+    /**
+     * @var TenantInterface
+     */
+    protected $tenant;
 
     public function __construct()
     {
@@ -302,5 +309,21 @@ class Page
         }
 
         return false;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getTenant()
+    {
+        return $this->tenant;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setTenant(TenantInterface $tenant)
+    {
+        $this->tenant = $tenant;
     }
 }
