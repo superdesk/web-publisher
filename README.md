@@ -30,11 +30,24 @@ docker-compose build
 docker-compose up
 ```
 
+#### Configure
+
+Make sure to adapt the following values in your configuration file:
+
+```yaml
+# app/config/parameters.yml
+parameters:
+    database_host: postgres
+    database_user: postgres
+```
+
+The database with the name _symfony_ will be automatically created via Docker.
+
 #### View
 
 Go to http://webrenderer.dev/app_dev.php for viewing the app in dev mode.
 
-#### Updating database schema
+### Updating database schema
 
 Create database in your PostgreSQL server (it's required) manually. Remember to put database config into parameters.yml.
 

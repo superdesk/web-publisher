@@ -19,11 +19,13 @@ nginx:
         - logs/nginx/:/var/log/nginx
     tty: true
 postgres:
-    image: postgres
+    image: postgres:latest
     ports:
         - 5432:5432
+    volumes:
+        - docker/pgsql/data:/var/lib/postgresql
+        - docker/pgsql/config:/etc/postgresql
+        - logs/pgsql:/var/log/postgresql
     environment:
         LC_ALL: C.UTF-8
-        POSTGRES_USER: root
-        POSTGRES_PASSWORD: null
         POSTGRES_DB: symfony
