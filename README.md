@@ -18,19 +18,36 @@ Full documentation can be found here: [http://web-renderer.readthedocs.org/][1]
 
 Add ```127.0.0.1 webrenderer.dev``` to ```/etc/hosts```. **Mac users** use the ip of your virtualbox (e.g. ```boot2docker ip```).
 
-#### Build:
+#### Build
 
 ```bash
 docker-compose build
 ```
 
-#### Run:
+#### Run
 
 ```bash
 docker-compose up
 ```
 
-#### Updating database schema
+#### Configure
+
+Make sure to adapt the following values in your configuration file:
+
+```yaml
+# app/config/parameters.yml
+parameters:
+    database_host: postgres
+    database_user: postgres
+```
+
+The database with the name _symfony_ will be automatically created via Docker.
+
+#### View
+
+Go to http://webrenderer.dev/app_dev.php for viewing the app in dev mode.
+
+### Updating database schema
 
 Create database in your PostgreSQL server (it's required) manually. Remember to put database config into parameters.yml.
 
@@ -39,6 +56,13 @@ Then execute the following commands in terminal:
 ```bash
 php app/console doctrine:schema:update --force
 php app/console doctrine:phpcr:repository:init
+```
+
+Commands when using docker:
+
+```bash
+docker-compose run --rm php php /var/www/webrenderer/app/console doctrine:schema:update --force
+docker-compose run --rm php php /var/www/webrenderer/app/console doctrine:phpcr:repository:init
 ```
 
 [1]: http://web-renderer.readthedocs.org/

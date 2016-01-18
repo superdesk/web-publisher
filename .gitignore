@@ -10,6 +10,10 @@
 /bin/
 /docs/_build/
 /composer.phar
+/docker/pgsql/config/*
+!/docker/pgsql/config/.gitkeep
+/docker/pgsql/data/*
+!/docker/pgsql/data/.gitkeep
 /vendor/
 /web/bundles/
 /web/config.php
