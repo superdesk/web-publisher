@@ -2,7 +2,7 @@ services:
     swp.analytics.render_listener:
         class:  SWP\AnalyticsBundle\EventListener\RenderListener
         calls:
-            - [ setContainer, [ @service_container ] ]
+            - [ setContainer, ["@service_container"]]
         tags:
             - { name: monolog.processor, method: processRecord }
             - { name: kernel.event_listener, event: kernel.controller, method: onKernelController}
@@ -20,7 +20,7 @@ services:
     swp.analytics.logger_database:
         class: SWP\AnalyticsBundle\Logger\DatabaseHandler
         calls:
-            - [ setContainer, [ @service_container ] ]
+            - [ setContainer, ["@service_container"]]
 
     swp.analytics.data_collector.analytics_collector:
         class: SWP\AnalyticsBundle\DataCollector\AnalyticsDataCollector

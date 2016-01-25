@@ -27,27 +27,34 @@ class AnalyticsDataCollector extends DataCollector
     public function __construct($container)
     {
         $this->_container = $container;
-        $this->_em = $container->get('doctrine')->getEntityManager();
+        $this->_em = $container->get('doctrine')->getManager();
     }
 
     public function collect(Request $request, Response $response, \Exception $exception = null)
     {
         $previous = array(); 
-        $latest = $this->_em->getRepository('SWP\AnalyticsBundle\Model\AnalyticsLog')
-            ->getLatest(1)
-            ->getSingleResult();
 
-        $logs = $this->_em->getRepository('SWP\AnalyticsBundle\Model\AnalyticsLog')
-            ->getLatestByUri($latest->getUri())
-            ->getResult();
-   
-        foreach($logs as $log) {
-            array_push($previous, array(
-                'created' => $log->getCreated()->format('Y-m-d H:i:s'),
-                'duration' => $log->getDuration(),
-                'memory' => (($log->getMemory()/1024)/1024), 
-                'uri' => $log->getUri()
-            ));
+        try {
+            $latest = $this->_em->getRepository('SWP\AnalyticsBundle\Model\AnalyticsLog')
+                ->getLatest(1)
+                ->getSingleResult();
+
+            $logs = $this->_em->getRepository('SWP\AnalyticsBundle\Model\AnalyticsLog')
+                ->getLatestByUri($latest->getUri())
+                ->getResult();
+       
+            foreach($logs as $log) {
+                array_push($previous, array(
+                    'created' => $log->getCreated()->format('Y-m-d H:i:s'),
+                    'duration' => $log->getDuration(),
+                    'memory' => (($log->getMemory()/1024)/1024), 
+                    'uri' => $log->getUri()
+                ));
+            }
+        } catch(\Exception $e) {
+            // no analytics logs, so just return emtpy array
+            $this->data = array('context' => array());
+            return;
         }
         
         $data = array(
