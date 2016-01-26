@@ -25,28 +25,28 @@ use SWP\AnalyticsBundle\Controller\AnalyzedControllerInterface;
 class RenderListener extends WebProcessor
 {
 
-    protected $_stopwatch;
+    protected $stopwatch;
 
-    protected $_stopwatchEvent;
+    protected $stopwatchEvent;
 
-    protected $_container;
+    protected $container;
 
-    protected $_logger;
+    protected $logger;
 
-    protected $_currentPage;
+    protected $currentPage;
 
-    protected $_currentTemplate;
+    protected $currentTemplate;
 
     public function __construct()
     {
-        $this->_stopwatch = new Stopwatch();
-        $this->_stopwatchEvent = null;
+        $this->stopwatch = new Stopwatch();
+        $this->stopwatchEvent = null;
     }
 
     public function setContainer(ContainerInterface $container)
     {
-        $this->_container = $container;
-        $this->_logger = $container->get('monolog.logger.analytics'); 
+        $this->container = $container;
+        $this->logger = $container->get('monolog.logger.analytics'); 
     }
 
     public function onKernelController(FilterControllerEvent $event)
@@ -63,8 +63,8 @@ class RenderListener extends WebProcessor
 
         // find out if this is a profiler request, if not don't analyze it
         if ($controller[0] instanceof AnalyzedControllerInterface) {
-            $this->_stopwatch->start($event->getRequest()->getUri());
-            $this->_stopwatchEvent = null;
+            $this->stopwatch->start($event->getRequest()->getUri());
+            $this->stopwatchEvent = null;
         }
     }
 
@@ -74,17 +74,17 @@ class RenderListener extends WebProcessor
     public function onKernelView(GetResponseForControllerResultEvent $event)
     {
         $requestUri = $event->getRequest()->getUri();
-        $this->_currentPage = $this->_container->get('context')->getCurrentPage();
-        $this->_currentTemplate = 'how the heck do I get the $view that was passed during Controller->render()';
+        $this->currentPage = $this->container->get('context')->getCurrentPage();
+        $this->currentTemplate = 'how the heck do I get the $view that was passed during Controller->render()';
  
         // find out if this is a profiler request, if not don't analyze it
         try {
-            $this->_stopwatchEvent = $this->_stopwatch->stop($requestUri);
+            $this->stopwatchEvent = $this->stopwatch->stop($requestUri);
         } catch (\LogicException $e) {
             // do nothing, we shouldn't be analyzing this controller
             return false;
         }
-        $this->_logger->error('view event');
+        $this->logger->error('view event');
     }
 
     /**
@@ -94,24 +94,24 @@ class RenderListener extends WebProcessor
     public function onKernelResponse(FilterResponseEvent $event)
     {
         $requestUri = $event->getRequest()->getUri();
-        $this->_currentPage = $this->_container->get('context')->getCurrentPage();
-        $this->_currentTemplate = 'how the heck do I get the $view that was passed during Controller->render()';
+        $this->currentPage = $this->container->get('context')->getCurrentPage();
+        $this->currentTemplate = 'how the heck do I get the $view that was passed during Controller->render()';
  
         // find out if this is a profiler request, if not don't analyze it
         try {
-            $this->_stopwatchEvent = $this->_stopwatch->stop($requestUri);
+            $this->stopwatchEvent = $this->stopwatch->stop($requestUri);
         } catch (\LogicException $e) {
             // do nothing, we shouldn't be analyzing this controller
             return false;
         }
-        $this->_logger->error('response event');
+        $this->logger->error('response event');
     }
 
     public function processRecord(array $record)
     {
-        $record['duration'] = ($this->_stopwatchEvent) ? $this->_stopwatchEvent->getDuration() : 0;
-        $record['memory'] = ($this->_stopwatchEvent) ? $this->_stopwatchEvent->getMemory() : 0;
-        $record['template'] = ($this->_currentTemplate) ? $this->_currentTemplate : '';
+        $record['duration'] = ($this->stopwatchEvent) ? $this->stopwatchEvent->getDuration() : 0;
+        $record['memory'] = ($this->stopwatchEvent) ? $this->stopwatchEvent->getMemory() : 0;
+        $record['template'] = ($this->currentTemplate) ? $this->currentTemplate : '';
 
         return $record;
     }

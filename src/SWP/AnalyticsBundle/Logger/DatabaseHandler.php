@@ -23,7 +23,7 @@ use Monolog\Logger;
  */
 class DatabaseHandler extends AbstractProcessingHandler
 {
-    protected $_container;
+    protected $container;
 
     /**
      * @param integer $level The minimum logging level at which this handler will be triggered
@@ -40,7 +40,7 @@ class DatabaseHandler extends AbstractProcessingHandler
      */
     public function setContainer($container)
     {
-        $this->_container = $container;
+        $this->container = $container;
     }
 
     /**
@@ -67,7 +67,7 @@ class DatabaseHandler extends AbstractProcessingHandler
         if( (int)$record['level'] >= Logger::INFO ) {
             try
             {
-                $em = $this->_container->get('doctrine')->getEntityManager();
+                $em = $this->container->get('doctrine')->getEntityManager();
                 $analyticsLog = new AnalyticsLog();
                 $analyticsLog->setLog($record['message'])
                     ->setServerData($record['server_data'])

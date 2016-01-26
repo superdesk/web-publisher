@@ -20,14 +20,14 @@ use SWP\AnalyticsBundle\Model\AnalyticsLog;
 
 class AnalyticsDataCollector extends DataCollector
 {
-    protected $_container;
+    protected $container;
 
-    protected $_em;
+    protected $em;
 
     public function __construct($container)
     {
-        $this->_container = $container;
-        $this->_em = $container->get('doctrine')->getManager();
+        $this->container = $container;
+        $this->em = $container->get('doctrine')->getManager();
     }
 
     public function collect(Request $request, Response $response, \Exception $exception = null)
@@ -35,11 +35,11 @@ class AnalyticsDataCollector extends DataCollector
         $previous = array(); 
 
         try {
-            $latest = $this->_em->getRepository('SWP\AnalyticsBundle\Model\AnalyticsLog')
+            $latest = $this->em->getRepository('SWP\AnalyticsBundle\Model\AnalyticsLog')
                 ->getLatest(1)
                 ->getSingleResult();
 
-            $logs = $this->_em->getRepository('SWP\AnalyticsBundle\Model\AnalyticsLog')
+            $logs = $this->em->getRepository('SWP\AnalyticsBundle\Model\AnalyticsLog')
                 ->getLatestByUri($latest->getUri())
                 ->getResult();
        

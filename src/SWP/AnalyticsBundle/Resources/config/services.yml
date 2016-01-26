@@ -12,7 +12,7 @@ services:
     monolog.processor.request:
         class: SWP\AnalyticsBundle\Processor\RequestProcessor
         calls:
-            - [ setRequest, ["@service_container"]]
+            - [ setRequest, ["@request_stack"]]
         tags:
             - { name: monolog.processor, method: processRecord }
             - { name: kernel.event_listener, event: kernel.request, method: onKernelRequest}

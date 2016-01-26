@@ -15,20 +15,21 @@ namespace SWP\AnalyticsBundle\Processor;
 
 use Symfony\Bridge\Monolog\Processor\WebProcessor;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\RequestStack;
 
 class RequestProcessor extends WebProcessor
 {
-    protected $_request;
+    protected $requestStack;
 
-    public function setRequest(ContainerInterface $container)
+    public function setRequest(RequestStack $requestStack)
     {
-        $this->_request = $container->get('request');
+        $this->requestStack = $requestStack;
     }
 
     public function processRecord(array $record)
     {
-        $record['uri'] = $this->_request->getUri();
+        $request = $this->requestStack->getCurrentRequest();
+        $record['uri'] = $request->getUri();
         $record['server_data'] = "";
 
         if( is_array($this->serverData) ) {
@@ -40,7 +41,7 @@ class RequestProcessor extends WebProcessor
             }
         }
 
-        foreach ($this->_request->request->all() as $key => $value) {
+        foreach ($request->request->all() as $key => $value) {
             if( is_array($value) ) {
                 $value = print_r($value, true);
             }
