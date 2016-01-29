@@ -1,0 +1,25 @@
+SWP\TemplateEngineBundle\Model\Widget:
+    type: entity
+    table: null
+    repositoryClass: SWP\TemplateEngineBundle\Repository\ContainerRepository
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: IDENTITY
+    fields:
+        name:
+            type: string
+            length: 255
+            unique: true
+        type:
+            type: string
+        visible:
+            type: boolean
+        parameters:
+            type: json_array
+    oneToMany:
+        containers:
+            targetEntity: SWP\TemplateEngineBundle\Model\ContainerWidget
+            mappedBy: widget

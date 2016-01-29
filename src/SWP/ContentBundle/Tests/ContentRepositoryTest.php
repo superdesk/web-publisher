@@ -32,13 +32,13 @@ class ContentRepositoryTest extends WebTestCase
 
     public function testFindNewArticle()
     {
-        $this->loadFixtureFiles([
-            '@SWPFixturesBundle/DataFixtures/PHPCR/Test/article.yml',
-        ], true, null, 'doctrine_phpcr');
+        $this->loadFixtures([
+            'SWP\FixturesBundle\DataFixtures\PHPCR\LoadArticlesData',
+        ], null, 'doctrine_phpcr');
 
         $dm = $this->getContainer()->get('doctrine_phpcr.odm.document_manager');
         $articles = $dm->getRepository('SWP\ContentBundle\Document\Article')->findAll();
-        $this->assertTrue(count($articles) === 2);
+        $this->assertTrue(count($articles) === 3);
 
         $article = $dm->find('SWP\ContentBundle\Document\Article', '/swp/content/test-article');
         $this->assertInstanceOf('SWP\ContentBundle\Document\Article', $article);

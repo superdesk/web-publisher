@@ -14,6 +14,7 @@
 namespace SWP\ContentBundle\Document;
 
 use Behat\Transliterator\Transliterator;
+use Symfony\Cmf\Bundle\RoutingBundle\Doctrine\Phpcr\Route;
 
 class Article
 {
@@ -36,6 +37,11 @@ class Article
      * @var string
      */
     protected $slug;
+
+    /**
+     * @var Route
+     */
+    protected $route;
 
     /**
      * Gets the value of id.
@@ -119,5 +125,17 @@ class Article
         $this->content = $content;
 
         return $this;
+    }
+
+    public function setRoute(Route $route)
+    {
+        $this->route = $route;
+
+        return $this;
+    }
+
+    public function getRoute()
+    {
+        return $this->route;
     }
 }

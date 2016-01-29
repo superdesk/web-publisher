@@ -10,7 +10,7 @@ parameters:
 
 framework:
     #esi:             ~
-    #translator:      { fallbacks: ["%locale%"] }
+    translator:      { fallbacks: ["%locale%"] }
     secret:          "%secret%"
     router:
         resource: "%kernel.root_dir%/config/routing.yml"
@@ -32,7 +32,7 @@ framework:
 # Twig Configuration
 twig:
     debug:            "%kernel.debug%"
-    exception_controller: 'FOS\RestBundle\Controller\ExceptionController::showAction'
+    exception_controller: "FOS\\RestBundle\\Controller\\ExceptionController::showAction"
     strict_variables: false
 
 liip_theme:
@@ -42,11 +42,11 @@ liip_theme:
     autodetect_theme: true
     path_patterns:
         app_resource:
-            - %%app_path%%/themes/%%current_theme%%/%%current_device%%/%%template%%
-            - %%app_path%%/views/%%current_device%%/%%template%%
+            - "%%app_path%%/themes/%%current_theme%%/%%current_device%%/%%template%%"
+            - "%%app_path%%/views/%%current_device%%/%%template%%"
 
 twig_cache:
-    service: doctrine_cache.providers.doctrine.orm.default_metadata_cache
+    service: "doctrine_cache.providers.main_cache"
 
 # Doctrine Configuration
 doctrine:
@@ -62,11 +62,26 @@ doctrine:
     orm:
         auto_generate_proxy_classes: "%kernel.debug%"
         auto_mapping: false
+        metadata_cache_driver:
+            type: service
+            id: doctrine_cache.providers.main_cache
+        query_cache_driver:
+            type: service
+            id: doctrine_cache.providers.main_cache
         mappings:
             SWPContentBundle:
                 type: yml
-                prefix: "SWP\ContentBundle\Model"
+                prefix: "SWP\\ContentBundle\\Model"
                 dir: Resources/config/doctrine
+            SWPTemplateEngineBundle:
+                type: yml
+                prefix: "SWP\\TemplateEngineBundle\\Model"
+                dir: Resources/config/doctrine
+
+doctrine_cache:
+    providers:
+        main_cache:
+            type: %doctrine_cache_driver%
 
 # Swiftmailer Configuration
 swiftmailer:
@@ -82,51 +97,93 @@ doctrine_phpcr:
     odm:
         auto_mapping: true
         auto_generate_proxy_classes: "%kernel.debug%"
+        metadata_cache_driver:
+            type: service
+            id: doctrine_cache.providers.main_cache
     session:
         backend:
             type: doctrinedbal
-            # requires DoctrineCacheBundle
-            # caches:
-            #     meta: doctrine_cache.providers.phpcr_meta
-            #     nodes: doctrine_cache.providers.phpcr_nodes
             logging: true
             profiling: true
+            caches:
+                meta: doctrine_cache.providers.main_cache
+                nodes: doctrine_cache.providers.main_cache
         workspace: default
 
-oneup_flysystem:
-    adapters:
-        swp_local:
-            local:
-                directory: %kernel.root_dir%/Resources/uploads
-
-    filesystems:
-        my_filesystem:
-            adapter: swp_local
+cmf_routing:
+    chain:
+        routers_by_id:
+            router.default: 200
+            cmf_routing.dynamic_router: 100
+    dynamic:
+        route_collection_limit: 100
+        persistence:
+            phpcr:
+                enabled: true
+                route_basepaths: "/swp/routes"
 
 fos_rest:
+    zone:
+        - { path: ^/api/* }
+    versioning:
+        enabled: false
     routing_loader:
         default_format: json
     view:
         formats:
             json: true
-        view_response_listener: 'force'
+        view_response_listener: false
+    serializer:
+        serialize_null: true
     format_listener:
         rules:
-            - { path: '^/api', priorities: ['json'], fallback_format: json, prefer_extension: true }
-            - { path: '^/', stop: true }
+            - { path: "^/api", priorities: ['json'], fallback_format: json, prefer_extension: true }
+            - { path: "^/", stop: true }
+    body_listener:
+        decoders:
+            json: fos_rest.decoder.jsontoform
+    disable_csrf_role: ROLE_API
     exception:
         codes:
-            'Symfony\Component\Routing\Exception\ResourceNotFoundException': 404
+            "Symfony\\Component\\Routing\\Exception\\ResourceNotFoundException": 404
         messages:
-            'Symfony\Component\Routing\Exception\ResourceNotFoundException': true
+            "Symfony\\Component\\Routing\\Exception\\ResourceNotFoundException": true
 
 sensio_framework_extra:
     view:    { annotations: false }
 
+knp_paginator:
+    page_range: 10
+    default_options:
+        page_name: page
+        sort_field_name: sort
+        sort_direction_name: direction
+        distinct: true
+
 swp_updater:
-    version_class: %swp_updater.version.class%
+    version_class: "%swp_updater.version.class%"
     client:
-        base_uri: http://updates.sourcefabric.org
+        base_uri: "http://updates.sourcefabric.org"
 
 swp_bridge:
-    base_uri: 'http://superdesk.dev:5050'
+    base_uri: "http://superdesk.dev:5050"
+
+stof_doctrine_extensions:
+    default_locale: %locale%
+    orm:
+        default:
+            timestampable: true
+            softdeleteable: true
+            loggable: true
+            sortable: true
+nelmio_api_doc:
+    request_listener: false
+
+services:
+    swp_renderer.phpcr.initializer:
+        class: Doctrine\Bundle\PHPCRBundle\Initializer\GenericInitializer
+        arguments:
+            - SWP ContentBundle paths
+            - [ "/swp/content", "/swp/routes" ]
+        tags:
+            - { name: "doctrine_phpcr.initializer" }

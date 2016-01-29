@@ -1,5 +1,6 @@
 SWP\ContentBundle\Document\Article:
     repositoryClass: SWP\ContentBundle\Document\ArticleRepository
+    referenceable: true
     id:
         fieldName: id
         generator:
@@ -11,3 +12,7 @@ SWP\ContentBundle\Document\Article:
             type: string
         slug:
             type: string
+    referenceOne:
+        route:
+            targetDocument: "\\Symfony\\Cmf\\Bundle\\RoutingBundle\\Doctrine\\Phpcr\\Route"
+            strategy: hard

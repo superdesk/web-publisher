@@ -1,23 +1,31 @@
 language: php
-php:
-  - 5.6
-  - 5.5
-  - 7.0
-  - hhvm
-
+services:
+  - redis-server
 matrix:
   fast_finish: true
+  include:
+    - php: 5.5
+      env: DOCTRINE_CACHE_DRIVER="redis"
+    - php: 5.6
+      env: DOCTRINE_CACHE_DRIVER="redis"
+    - php: 7.0
+      env: DOCTRINE_CACHE_DRIVER="array"
+    - php: hhvm
+      env: DOCTRINE_CACHE_DRIVER="array"
   allow_failures:
     - php: hhvm
 
 before_script:
+  - if [[ $TRAVIS_PHP_VERSION =~ 5.[56] ]] ; then echo 'extension="redis.so"' >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini; fi;
+  - if [[ $TRAVIS_PHP_VERSION =~ 5.[56] ]] ; then cat ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini|grep redis; fi;
+  - phpenv rehash
   - composer install --no-interaction --prefer-source
 
 script:
   - bin/phpspec run --format=pretty
-  - phpunit -c app/ --coverage-text
+  - phpunit -c app/
 
-notifications:
-  hipchat:
-    rooms:
-      secure: dqqpZkkSZJgI0LECgv+cOCeqqMYobCGUJeD9GNXWvlyDQM9QoHisj55Pqlcp8cZLQgBMVPmG2frFGuPJDaehZgy9ymxQGPmsJfR73ybsLZ4kP8tP/d3boiBRApTU9qCzXvzVg0d29I5mKinjHZyvY4qw+qyffzQBkWaGf7yLOuZ9jaOkjxp0znfn33wEaY1pZSDjNYDwKuYwPPGCRqLrEIDYAIyiwegW+oLinJuqDF6B64HhXu6c8pjEwL4tLH4Rl+MzGQQE8J4nZHbJZ4fsaC8zdB+f5oStS6PJ0p+KXPPmQQWyfXz6z/xIz40y3o364vASSSrquW3chPTPDj0wnkb6r8BnySa3UaRzjBrCtxYPDBK7dkZLQ2xmteJoyGSKm6wE5p6XJPPBoCJBtDfFtEDcPuJodDUTgRP/OorX0aLKGtBapnE1WLZdVEGr4e1hnaLvQ85G9qtWuiQ+QLD10ltNNl6U3UHEKjI9x3GeI2i0MABw7uZpJKfdlXPL++yPtJan7zj+8lR/adOdGUVzyMqVj0iFh9TfbsY9y+VkA0STfBiGE7OIGxCuN4vL24oyIFl4Jv4p/1Abr04LOfgytPv3406D0gxFYvhQJMeoZogpxc7JZ6wvmrkUlcZMB/5L/abht5xnKvDpjL/DAwaiTcV8ECjAylCPL71CL0FpjO0=
+cache:
+  directories:
+    - vendor
+    - $HOME/.composer/cache

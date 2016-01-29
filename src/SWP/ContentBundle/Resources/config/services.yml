@@ -1,29 +1,25 @@
 services:
-    swp_renderer.phpcr.initializer:
-        class: Doctrine\Bundle\PHPCRBundle\Initializer\GenericInitializer
-        arguments:
-            - SWP ContentBundle paths
-            - [ "/swp/content" ]
-        tags:
-            - { name: "doctrine_phpcr.initializer" }
-
     swp_template_engine.loader.article:
         class: SWP\ContentBundle\Loader\ArticleLoader
         arguments:
-            - %kernel.root_dir%
-            - @doctrine_phpcr.odm.document_manager
-            - @doctrine.orm.entity_manager
+            - "@service_container"
         tags:
             - { name: swp.meta_loader }
 
     document_manager:
         alias: doctrine_phpcr.odm.document_manager
 
-    swp_template_engine.twig.extension.content:
-        class: SWP\ContentBundle\Twig\Extension\ContentExtension
-        public: false
+    swp_content_bundle.factory.knp_paginator_representation:
+        class: SWP\ContentBundle\Factory\KnpPaginatorRepresentationFactory
         arguments:
-            - @doctrine
-            - @router
+            - 'page'
+            - 'limit'
+
+    swp_content_bundle.listener.link_request:
+        class: SWP\ContentBundle\EventListener\LinkRequestListener
+        arguments:  ["@controller_resolver", "@router"]
         tags:
-            - { name: twig.extension }
+            - { name: kernel.event_listener, event: kernel.request, method: onKernelRequest }
+
+    swp_pagination_rep:
+        alias: swp_content_bundle.factory.knp_paginator_representation

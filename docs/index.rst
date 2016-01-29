@@ -1,7 +1,7 @@
 Welcome to Superdesk Web Renderer's documentation!
 ==================================================
 
-Templator documentation: 
+Templator documentation:
 
 .. toctree::
    :caption: Themes

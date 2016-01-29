@@ -1,7 +1,0 @@
-SWP\ContentBundle\Document\Article:
-    article1:
-        title: "Test article"
-        content: "<paragraph()>"
-    article2:
-        title: "Features"
-        content: "<paragraph(20)>"

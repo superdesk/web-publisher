@@ -1,6 +1,6 @@
-swp_webrenderer_pages:
-    resource: .
-    type: pages
+swp_templateengine:
+    resource: "@SWPTemplateEngineBundle/Controller/"
+    type:     annotation
 
 swp_webrenderer:
     resource: "@SWPWebRendererBundle/Controller/"
