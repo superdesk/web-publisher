@@ -43,7 +43,7 @@ class SimpleContainer
     }
 
     /**
-     * Set Widgets
+     * Set Widgets.
      *
      * @param array $widgets
      */
@@ -55,7 +55,7 @@ class SimpleContainer
     }
 
     /**
-     * Render open tag for container
+     * Render open tag for container.
      *
      * @return string
      */
@@ -73,9 +73,9 @@ class SimpleContainer
     }
 
     /**
-     * Check if container has items
+     * Check if container has items.
      *
-     * @return boolean
+     * @return bool
      */
     public function hasWidgets()
     {
@@ -87,7 +87,7 @@ class SimpleContainer
     }
 
     /**
-     * Go through widgets render them and collect output of rendering
+     * Go through widgets render them and collect output of rendering.
      *
      * @return string
      */
@@ -102,9 +102,9 @@ class SimpleContainer
     }
 
     /**
-     * Check if container is visible
+     * Check if container is visible.
      *
-     * @return boolean
+     * @return bool
      */
     public function isVisible()
     {
@@ -112,7 +112,7 @@ class SimpleContainer
     }
 
     /**
-     * Render close tag for container
+     * Render close tag for container.
      *
      * @return string
      */
