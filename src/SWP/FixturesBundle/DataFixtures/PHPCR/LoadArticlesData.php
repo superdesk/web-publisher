@@ -85,16 +85,17 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface
             $route->setParentDocument($manager->find(null, $routeData['parent']));
             $route->setName($routeData['name']);
 
-            if (array_key_exists('variablePattern', $routeData)) {
+            if (isset($routeData['variablePattern'])) {
                 $route->setVariablePattern($routeData['variablePattern']);
             }
-            if (array_key_exists('requirements', $routeData)) {
+
+            if (isset($routeData['requirements'])) {
                 foreach ($routeData['requirements'] as $key => $value) {
                     $route->setRequirement($key, $value);
                 }
             }
 
-            if (array_key_exists('defaults', $routeData)) {
+            if (isset($routeData['defaults'])) {
                 foreach ($routeData['defaults'] as $key => $value) {
                     $route->setDefault($key, $value);
                 }

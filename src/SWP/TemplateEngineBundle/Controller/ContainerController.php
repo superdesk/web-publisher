@@ -71,7 +71,7 @@ class ContainerController extends FOSRestController
      */
     public function getAction(Request $request, $id)
     {
-        if (!$id || !is_numeric($id)) {
+        if (!$id || !is_int($id)) {
             throw new UnprocessableEntityHttpException('You need to provide container Id (integer).');
         }
 
@@ -103,7 +103,7 @@ class ContainerController extends FOSRestController
      */
     public function updateAction(Request $request, $id)
     {
-        if (!$id || !is_numeric($id)) {
+        if (!$id || !is_int($id)) {
             throw new UnprocessableEntityHttpException('You need to provide container Id (integer).');
         }
 
@@ -176,7 +176,7 @@ class ContainerController extends FOSRestController
      */
     public function linkUnlinkToContainerAction(Request $request, $id)
     {
-        if (!$id || !is_numeric($id)) {
+        if (!$id || !is_int($id)) {
             throw new UnprocessableEntityHttpException('You need to provide container Id (integer).');
         }
 

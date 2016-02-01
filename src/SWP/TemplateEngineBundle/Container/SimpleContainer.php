@@ -17,18 +17,36 @@ use SWP\TemplatesSystem\Gimme\Model\ContainerInterface;
 
 class SimpleContainer
 {
+    /**
+     * @var ContainerInterface
+     */
     protected $containerEntity;
 
+    /**
+     * @var \Twig_Environment
+     */
     protected $renderer;
 
+    /**
+     * @var array
+     */
     protected $widgets = [];
 
-    public function __construct(ContainerInterface $containerEntity, $renderer)
+    /**
+     * @param ContainerInterface $containerEntity
+     * @param \Twig_Environment  $renderer
+     */
+    public function __construct(ContainerInterface $containerEntity, \Twig_Environment $renderer)
     {
         $this->containerEntity = $containerEntity;
         $this->renderer = $renderer;
     }
 
+    /**
+     * Set Widgets
+     *
+     * @param array $widgets
+     */
     public function setWidgets($widgets)
     {
         $this->widgets = $widgets;
@@ -36,6 +54,11 @@ class SimpleContainer
         return $this;
     }
 
+    /**
+     * Render open tag for container
+     *
+     * @return string
+     */
     public function renderOpenTag()
     {
         return $this->renderer->render('open_tag', array(
@@ -49,6 +72,11 @@ class SimpleContainer
         ));
     }
 
+    /**
+     * Check if container has items
+     *
+     * @return boolean
+     */
     public function hasWidgets()
     {
         if (count($this->widgets) > 0) {
@@ -58,6 +86,11 @@ class SimpleContainer
         return false;
     }
 
+    /**
+     * Go through widgets render them and collect output of rendering
+     *
+     * @return string
+     */
     public function renderWidgets()
     {
         $widgetsOutput = [];
@@ -68,11 +101,21 @@ class SimpleContainer
         return implode("\n", $widgetsOutput);
     }
 
+    /**
+     * Check if container is visible
+     *
+     * @return boolean
+     */
     public function isVisible()
     {
         return $this->containerEntity->getVisible();
     }
 
+    /**
+     * Render close tag for container
+     *
+     * @return string
+     */
     public function renderCloseTag()
     {
         return $this->renderer->render('close_tag');
