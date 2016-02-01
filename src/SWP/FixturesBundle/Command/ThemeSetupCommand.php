@@ -52,7 +52,7 @@ class ThemeSetupCommand extends ContainerAwareCommand
                 'If set, forces to execute an action without confirmation.'
             )
             ->setHelp(
-<<<EOT
+<<<'EOT'
 The <info>theme:setup</info> command copies theme to your application themes folder (app/Resources/themes):
 
   <info>./app/console theme:setup</info>
