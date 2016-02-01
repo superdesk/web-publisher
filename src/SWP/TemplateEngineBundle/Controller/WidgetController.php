@@ -64,12 +64,12 @@ class WidgetController extends FOSRestController
      *         422="Widget id is not number"
      *     }
      * )
-     * @Route("/api/{version}/templates/widgets/{id}", options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_templates_get_widget")
+     * @Route("/api/{version}/templates/widgets/{id}", requirements={"id"="\d+"}, options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_templates_get_widget")
      * @Method("GET")
      */
     public function getAction(Request $request, $id)
     {
-        if (!$id || !is_int($id)) {
+        if (!$id) {
             throw new UnprocessableEntityHttpException('You need to provide widget Id (integer).');
         }
 
@@ -132,12 +132,12 @@ class WidgetController extends FOSRestController
      *         422="Widget id is not number"
      *     }
      * )
-     * @Route("/api/{version}/templates/widgets/{id}", options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_templates_delete_widget")
+     * @Route("/api/{version}/templates/widgets/{id}", requirements={"id"="\d+"}, options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_templates_delete_widget")
      * @Method("DELETE")
      */
     public function deleteAction(Request $request, $id)
     {
-        if (!$id || !is_int($id)) {
+        if (!$id) {
             throw new UnprocessableEntityHttpException('You need to provide widget Id (integer).');
         }
 
@@ -172,12 +172,12 @@ class WidgetController extends FOSRestController
      *     },
      *     input="SWP\TemplateEngineBundle\Form\Type\WidgetType"
      * )
-     * @Route("/api/{version}/templates/widgets/{id}", options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_templates_update_widget")
+     * @Route("/api/{version}/templates/widgets/{id}", requirements={"id"="\d+"}, options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_templates_update_widget")
      * @Method("PATCH")
      */
     public function updateAction(Request $request, $id)
     {
-        if (!$id || !is_int($id)) {
+        if (!$id) {
             throw new UnprocessableEntityHttpException('You need to provide container Id (integer).');
         }
 
