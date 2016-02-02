@@ -52,6 +52,10 @@ class KnpPaginatorRepresentationFactory
     {
         $route = new Route($request->get('_route'), $request->query->all());
         $routeParameters = is_array($route->getParameters()) ? $route->getParameters() : [];
+        $numberOfPages = 1;
+        if ($pagination->getTotalItemCount() > 0 && $pagination->getItemNumberPerPage() > 0) {
+            $numberOfPages = intval(ceil($pagination->getTotalItemCount() / $pagination->getItemNumberPerPage()));
+        }
 
         return new PaginatedRepresentation(
             new CollectionRepresentation($pagination->getItems(), $collectionName),
@@ -59,7 +63,7 @@ class KnpPaginatorRepresentationFactory
             $routeParameters,
             $pagination->getCurrentPageNumber(),
             $pagination->getItemNumberPerPage(),
-            intval(ceil($pagination->getTotalItemCount() / $pagination->getItemNumberPerPage())),
+            $numberOfPages,
             $this->getPageParameterName(),
             $this->getLimitParameterName(),
             $route->isAbsolute(),

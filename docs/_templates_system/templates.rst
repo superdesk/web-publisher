@@ -6,7 +6,7 @@ Templates
 Gimme and SWP custom Twig tags
 ------------------------------
 
-Gimme allows you fetch nedded Meta object in any place of your template file. It supports single Meta objects (with :code:`gimme` ) and collections of Meta objects (with :code:`gimmelist`).
+Gimme allows you fetch needed Meta object in any place of your template file. It supports single Meta objects (with :code:`gimme` ) and collections of Meta objects (with :code:`gimmelist`).
 
 container
 `````````
@@ -123,7 +123,8 @@ On template level every variable in Context and fetched by :code:`gimme` and :co
 
 .. code-block:: twig
 
-    {{ url(article) }}
+    {{ url(article) }} // absolute url
+    {{ path(article) }} // relative path
 
 example in gimmelist
 

@@ -66,12 +66,12 @@ class ContainerController extends FOSRestController
      *         422="Container id is not number"
      *     }
      * )
-     * @Route("/api/{version}/templates/containers/{id}", options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_templates_get_container")
+     * @Route("/api/{version}/templates/containers/{id}", requirements={"id"="\d+"}, options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_templates_get_container")
      * @Method("GET")
      */
     public function getAction(Request $request, $id)
     {
-        if (!$id || !is_numeric($id)) {
+        if (!$id) {
             throw new UnprocessableEntityHttpException('You need to provide container Id (integer).');
         }
 
@@ -98,12 +98,12 @@ class ContainerController extends FOSRestController
      *     },
      *     input="SWP\TemplateEngineBundle\Form\Type\ContainerType"
      * )
-     * @Route("/api/{version}/templates/containers/{id}", options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_templates_update_container")
+     * @Route("/api/{version}/templates/containers/{id}", requirements={"id"="\d+"}, options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_templates_update_container")
      * @Method("PATCH")
      */
     public function updateAction(Request $request, $id)
     {
-        if (!$id || !is_numeric($id)) {
+        if (!$id) {
             throw new UnprocessableEntityHttpException('You need to provide container Id (integer).');
         }
 
@@ -168,7 +168,7 @@ class ContainerController extends FOSRestController
      *     }
      * )
      *
-     * @Route("/api/{version}/templates/containers/{id}", defaults={"version"="v1"}, name="swp_api_templates_link_container")
+     * @Route("/api/{version}/templates/containers/{id}", requirements={"id"="\d+"}, defaults={"version"="v1"}, name="swp_api_templates_link_container")
      *
      * @Method("LINK|UNLINK")
      *
@@ -176,7 +176,7 @@ class ContainerController extends FOSRestController
      */
     public function linkUnlinkToContainerAction(Request $request, $id)
     {
-        if (!$id || !is_numeric($id)) {
+        if (!$id) {
             throw new UnprocessableEntityHttpException('You need to provide container Id (integer).');
         }
 
