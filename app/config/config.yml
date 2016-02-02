@@ -136,6 +136,7 @@ doctrine_phpcr:
             type: doctrinedbal
             logging: true
             profiling: true
+            check_login_on_server: false
             caches:
                 meta: doctrine_cache.providers.main_cache
                 nodes: doctrine_cache.providers.main_cache
@@ -195,9 +196,6 @@ swp_updater:
     version_class: "%swp_updater.version.class%"
     client:
         base_uri: "http://updates.sourcefabric.org"
-
-swp_bridge:
-    base_uri: "http://superdesk.dev:5050"
 
 stof_doctrine_extensions:
     default_locale: %locale%
