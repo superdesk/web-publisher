@@ -29,3 +29,40 @@ Developer documentation:
    :maxdepth: 2
 
    fixtures
+
+
+Symfony Bundles
+---------------
+
+Documentation of all WebPublisher Bundles.
+
+.. toctree::
+   :hidden:
+
+   bundles/index
+
+.. include:: /bundles/map.rst.inc
+
+Components
+----------
+
+PHP Components
+
+.. toctree::
+   :hidden:
+
+   components/index
+
+.. include:: /components/map.rst.inc
+
+Contributing
+------------
+
+A guide on how to contribute to our project.
+
+.. toctree::
+   :hidden:
+
+   contributing/index
+
+.. include:: /contributing/map.rst.inc

@@ -7,7 +7,6 @@ imports:
 # http://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
     locale: en
-    swp_multi_tenancy.tenant.class: SWP\Component\MultiTenancy\Model\Tenant
 
 framework:
     #esi:             ~
@@ -61,8 +60,6 @@ doctrine:
         charset:  UTF8
 
     orm:
-        resolve_target_entities:
-            SWP\Component\MultiTenancy\Model\TenantInterface: %swp_multi_tenancy.tenant.class%
         auto_generate_proxy_classes: "%kernel.debug%"
 <<<<<<< HEAD
         auto_mapping: false

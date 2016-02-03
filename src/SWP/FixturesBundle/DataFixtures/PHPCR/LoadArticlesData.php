@@ -186,4 +186,54 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface
             }
         }
     }
+
+    /**
+     * Sets articles manually (not via Alice) for test env due to fatal error:
+     * Method PHPCRProxies\__CG__\Doctrine\ODM\PHPCR\Document\Generic::__toString() must not throw an exception.
+     */
+    public function loadArticles($env, $manager)
+    {
+        $articles = [
+            'test' => [
+                [
+                    'title' => 'Test news article',
+                    'content' => 'Test news article content',
+                    'route' => '/swp/default/routes/news',
+                    'parent' => '/swp/default/content',
+                ],
+                [
+                    'title' => 'Test article',
+                    'content' => 'Test article content',
+                    'route' => '/swp/default/routes/news',
+                    'parent' => '/swp/default/content',
+                ],
+                [
+                    'title' => 'Features',
+                    'content' => 'Features content',
+                    'route' => '/swp/default/routes/news',
+                    'parent' => '/swp/default/content',
+                ],
+                [
+                    'title' => 'Features client1',
+                    'content' => 'Features client1 content',
+                    'route' => '/swp/default/routes/news',
+                    'parent' => '/swp/client1/content',
+                ],
+            ],
+        ];
+
+        if (isset($articles[$env])) {
+            foreach ($articles[$env] as $articleData) {
+                $article = new Article();
+                $article->setParent($manager->find(null, $articleData['parent']));
+                $article->setTitle($articleData['title']);
+                $article->setContent($articleData['content']);
+                $article->setRoute($manager->find(null, $articleData['route']));
+
+                $manager->persist($article);
+            }
+
+            $manager->flush();
+        }
+    }
 }
