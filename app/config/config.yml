@@ -211,11 +211,5 @@ nelmio_api_doc:
 swp_multi_tenancy:
     persistence:
         phpcr:
-            enabled: true #enabled: false
-            # basepath: "/cms" Symfony cmf core bundle, add possibility to override core bundle's base path and makes it tenant aware?
-            basepath: %swp_multi_tenancy.phpcr.basepath%
-            route_basepaths: %swp_multi_tenancy.phpcr.route_basepaths% # ~ - to use the RoutingBundle default route base paths.
-            # default routing bundle path is /cms/routes. This bundle will make the path tenant aware. Like /cms/tenant1/routes
-            # If route base paths option is set, custom names will be used provided (%swp_multi_tenancy.phpcr.route_basepaths%).
-            content_basepath: %swp_multi_tenancy.phpcr.content_basepath% # ~
+            enabled: true
             site_document_class: "SWP\ContentBundle\Document\Site"

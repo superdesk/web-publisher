@@ -85,7 +85,9 @@ class ArticleLoader implements LoaderInterface
             if (array_key_exists('route', $parameters)) {
                 $pathBuilder = $this->serviceContainer->get('swp_multi_tenancy.path_builder');
                 $route = $dm->find(null, $pathBuilder->build(
-                    $this->serviceContainer->getParameter('swp_multi_tenancy.phpcr.route_basepaths')[0].$parameters['route']
+                    $this->serviceContainer->getParameter(
+                        'swp_multi_tenancy.persistence.phpcr.route_basepaths'
+                    )[0].$parameters['route']
                 ));
 
                 if ($route) {
