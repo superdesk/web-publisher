@@ -22,5 +22,6 @@ By default, this bundle uses Doctrine ORM to retrieve tenant objects from the st
     services
     models
     interfaces
+    commands
     configuration
     tutorials/index

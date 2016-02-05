@@ -12,7 +12,7 @@ following command to download the latest stable version:
     $ composer require swp/multi-tenancy-bundle
 
 This command requires you to have Composer installed globally. If it's not installed `globally`_,
-download the `` .phar`` file `locally`_ as explained in Composer documentation.
+download the ``.phar`` file `locally`_ as explained in Composer documentation.
 
 Enable the bundle and its dependencies
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -98,7 +98,7 @@ Enable Doctrine extension in your config file
 
 Enable needed extensions by adding the configuration below to your config file.
 
-    .. code-block:: yaml
+.. code-block:: yaml
 
         # app/config/config.yml
         stof_doctrine_extensions:
@@ -118,7 +118,7 @@ Add the extensions to your mapping
 Loggable extension needs its default entity to be configured in order to work properly.
 Register its mapping in Doctrine by adding the following configuration to your config file.
 
-    .. code-block:: yaml
+.. code-block:: yaml
 
         # app/config/config.yml
         doctrine:
@@ -134,15 +134,15 @@ Register its mapping in Doctrine by adding the following configuration to your c
 
 .. note::
 
-  If you are using the short syntax for the ORM configuration, the mappings key is directly under ``orm``:
+  If you are using the short syntax for the ORM configuration, the mappings key is directly under ``orm:``
 
 
-Add the extensions to your mapping
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Enable SoftDeleteableFilter
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-To make use of SoftDeleteable behavior, you need to enable the Doctrine filter.
+To make use of SoftDeleteable behavior, you need to enable the Doctrine ORM filter.
 
-    .. code-block:: yaml
+.. code-block:: yaml
 
         # app/config/config.yml
         doctrine:
@@ -164,10 +164,25 @@ Add the domain parameter
 Add the following parameter to your parameters file, so the current tenant can be resolved and matched against
 configured domain.
 
-    .. code-block:: yaml
+.. code-block:: yaml
 
         # app/config/parameters.yml
         domain: example.com
+
+
+Update your database schema
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. note::
+
+  This step assumes you have already the database configured and created.
+
+Execute the following commands in terminal:
+
+.. code-block:: bash
+
+    php app/console doctrine:schema:update --force
+    php app/console doctrine:phpcr:repository:init
 
 
 That's it, the bundle is configured properly now!
