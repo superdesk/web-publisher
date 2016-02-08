@@ -30,7 +30,7 @@ class Site extends BaseSite
     /**
      * Sets the value of homepage.
      *
-     * @param mixed $homepage the homepage
+     * @param Route $homepage the homepage
      */
     public function setHomepage(Route $homepage)
     {
