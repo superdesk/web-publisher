@@ -30,16 +30,6 @@
             "**/Tests/", "**/spec/"
         ]
     },
-    "repositories": [
-        {
-            "type": "vcs",
-            "url": "https://github.com/takeit/SWPMultiTenancyBundle"
-        },
-        {
-            "type": "vcs",
-            "url": "https://github.com/takeit/multi-tenancy"
-        }
-    ],
     "require": {
         "php": ">=5.5",
         "symfony/symfony": "2.8.x-dev",

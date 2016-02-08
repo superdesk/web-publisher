@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "245d09382828164f9afe7308785e6dad",
-    "content-hash": "83ca5ca6f06d7486cd50cb0f5815d336",
+    "hash": "9ab1d161a940fae6e6fa285973e821c7",
+    "content-hash": "e2ea2f04c40c341674e4ed0fc5484b72",
     "packages": [
         {
             "name": "ahilles107/updater",
@@ -2601,7 +2601,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/jackalope/jackalope/zipball/d908efddf111a97ad2c02a4e180cb23c8f0d0275",
+                "url": "https://api.github.com/repos/jackalope/jackalope/zipball/daa1a31268165af21c02d633b5b408280d9e734b",
                 "reference": "d908efddf111a97ad2c02a4e180cb23c8f0d0275",
                 "shasum": ""
             },
@@ -4529,12 +4529,12 @@
             "version": "dev-master",
             "source": {
                 "type": "git",
-                "url": "https://github.com/takeit/multi-tenancy.git",
-                "reference": "5783cb096c1ccc865d4ee5a152a59a29f2b66e93"
+                "url": "https://github.com/SuperdeskWebPublisher/multi-tenancy.git",
+                "reference": "196138bcd6c76fbc84328afd17bbb6e046c45f0f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/takeit/multi-tenancy/zipball/5783cb096c1ccc865d4ee5a152a59a29f2b66e93",
+                "url": "https://api.github.com/repos/SuperdeskWebPublisher/multi-tenancy/zipball/196138bcd6c76fbc84328afd17bbb6e046c45f0f",
                 "reference": "5783cb096c1ccc865d4ee5a152a59a29f2b66e93",
                 "shasum": ""
             },
@@ -4597,12 +4597,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/takeit/SWPMultiTenancyBundle.git",
-                "reference": "87b53260b3df33538f4f80bbeeb1847645bd2828"
+                "reference": "c4aa99551eef3d092b72080d46c9fde6425f32f4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/takeit/SWPMultiTenancyBundle/zipball/87b53260b3df33538f4f80bbeeb1847645bd2828",
-                "reference": "87b53260b3df33538f4f80bbeeb1847645bd2828",
+                "url": "https://api.github.com/repos/takeit/SWPMultiTenancyBundle/zipball/c4aa99551eef3d092b72080d46c9fde6425f32f4",
+                "reference": "c4aa99551eef3d092b72080d46c9fde6425f32f4",
                 "shasum": ""
             },
             "require": {
@@ -4666,7 +4666,7 @@
             "support": {
                 "source": "https://github.com/takeit/SWPMultiTenancyBundle/tree/master"
             },
-            "time": "2016-02-08 10:25:33"
+            "time": "2016-02-08 11:09:41"
         },
         {
             "name": "swp/templates-system",

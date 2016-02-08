@@ -182,6 +182,7 @@ Execute the following commands in terminal:
 .. code-block:: bash
 
     php app/console doctrine:schema:update --force
+    php app/console swp:tenant:create --default
     php app/console doctrine:phpcr:repository:init
 
 
