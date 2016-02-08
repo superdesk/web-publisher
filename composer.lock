@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "9ab1d161a940fae6e6fa285973e821c7",
-    "content-hash": "e2ea2f04c40c341674e4ed0fc5484b72",
+    "hash": "245d09382828164f9afe7308785e6dad",
+    "content-hash": "83ca5ca6f06d7486cd50cb0f5815d336",
     "packages": [
         {
             "name": "ahilles107/updater",
@@ -2601,7 +2601,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/jackalope/jackalope/zipball/daa1a31268165af21c02d633b5b408280d9e734b",
+                "url": "https://api.github.com/repos/jackalope/jackalope/zipball/d908efddf111a97ad2c02a4e180cb23c8f0d0275",
                 "reference": "d908efddf111a97ad2c02a4e180cb23c8f0d0275",
                 "shasum": ""
             },
@@ -4529,12 +4529,12 @@
             "version": "dev-master",
             "source": {
                 "type": "git",
-                "url": "https://github.com/SuperdeskWebPublisher/multi-tenancy.git",
-                "reference": "196138bcd6c76fbc84328afd17bbb6e046c45f0f"
+                "url": "https://github.com/takeit/multi-tenancy.git",
+                "reference": "5783cb096c1ccc865d4ee5a152a59a29f2b66e93"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/SuperdeskWebPublisher/multi-tenancy/zipball/196138bcd6c76fbc84328afd17bbb6e046c45f0f",
+                "url": "https://api.github.com/repos/takeit/multi-tenancy/zipball/5783cb096c1ccc865d4ee5a152a59a29f2b66e93",
                 "reference": "5783cb096c1ccc865d4ee5a152a59a29f2b66e93",
                 "shasum": ""
             },

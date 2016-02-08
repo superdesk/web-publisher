@@ -42,9 +42,11 @@ class ContentRepositoryTest extends WebTestCase
 
         $dm = $this->getContainer()->get('doctrine_phpcr.odm.document_manager');
         $articles = $dm->getRepository('SWP\ContentBundle\Document\Article')->findAll();
-        $this->assertTrue(count($articles) === 3);
+        $this->assertTrue(count($articles) === 4);
+        $article = $dm->find('SWP\ContentBundle\Document\Article', '/swp/default/content/test-article');
+        $this->assertInstanceOf('SWP\ContentBundle\Document\Article', $article);
 
-        $article = $dm->find('SWP\ContentBundle\Document\Article', '/swp/content/test-article');
+        $article = $dm->find('SWP\ContentBundle\Document\Article', '/swp/client1/content/features-client1');
         $this->assertInstanceOf('SWP\ContentBundle\Document\Article', $article);
     }
 }

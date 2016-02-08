@@ -38,7 +38,7 @@ class LoadSitesData extends AbstractFixture implements FixtureInterface
         $site = $manager->find('SWP\ContentBundle\Document\Site', '/swp/client1');
 
         if (!$site) {
-            throw new \Exception('Could not find /swp/cllient document!');
+            throw new \Exception('Could not find /swp/client1 document!');
         }
 
         $page2 = $manager->find('SWP\ContentBundle\Document\Route', '/swp/client1/routes/homepage');

@@ -21,7 +21,7 @@ use SWP\TemplatesSystem\Gimme\Model\ContainerInterface;
 /**
  * Container.
  */
-class Container implements ContainerInterface
+class Container implements ContainerInterface, TenantAwareInterface
 {
     const TYPE_SIMPLE = 1;
 
@@ -74,6 +74,11 @@ class Container implements ContainerInterface
      * @var ArrayCollection
      */
     protected $widgets;
+
+    /**
+     * @var TenantInterface
+     */
+    protected $tenant;
 
     public function __construct()
     {
@@ -357,5 +362,21 @@ class Container implements ContainerInterface
         $this->widgets->removeElement($widget);
 
         return $this;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getTenant()
+    {
+        return $this->tenant;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setTenant(TenantInterface $tenant)
+    {
+        $this->tenant = $tenant;
     }
 }

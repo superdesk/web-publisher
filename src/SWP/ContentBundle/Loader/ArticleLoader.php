@@ -70,7 +70,7 @@ class ArticleLoader implements LoaderInterface
 
         if ($responseType === LoaderInterface::SINGLE) {
             if (array_key_exists('contentPath', $parameters)) {
-                $article = $this->dm->find('SWP\ContentBundle\Document\Article', $parameters['contentPath']);
+                $article = $dm->find('SWP\ContentBundle\Document\Article', $parameters['contentPath']);
             } elseif (array_key_exists('article', $parameters)) {
                 $article = $parameters['article'];
             } elseif (array_key_exists('slug', $parameters)) {

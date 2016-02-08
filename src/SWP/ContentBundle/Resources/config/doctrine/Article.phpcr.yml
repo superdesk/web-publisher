@@ -1,12 +1,12 @@
 SWP\ContentBundle\Document\Article:
     referenceable: true
     parentdocument: parent
-    nodename: title
+    nodename: slug
     id: id
     fields:
         content:
             type: string
-        slug:
+        title:
             type: string
     referenceOne:
         route:

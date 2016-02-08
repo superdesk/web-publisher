@@ -144,7 +144,7 @@ class Article
         return $this->route;
     }
 
-    public function setParentDocument($parent)
+    public function setParent($parent)
     {
         if (!is_object($parent)) {
             throw new InvalidArgumentException('Parent must be an object '.gettype($parent).' given.');
@@ -155,7 +155,7 @@ class Article
         return $this;
     }
 
-    public function getParentDocument()
+    public function getParent()
     {
         return $this->parent;
     }

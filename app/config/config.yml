@@ -61,32 +61,24 @@ doctrine:
 
     orm:
         auto_generate_proxy_classes: "%kernel.debug%"
-<<<<<<< HEAD
-        auto_mapping: false
-        metadata_cache_driver:
-            type: service
-            id: doctrine_cache.providers.main_cache
-        query_cache_driver:
-            type: service
-            id: doctrine_cache.providers.main_cache
-        mappings:
-            SWPContentBundle:
-                type: yml
-                prefix: "SWP\\ContentBundle\\Model"
-                dir: Resources/config/doctrine
-            SWPTemplateEngineBundle:
-                type: yml
-                prefix: "SWP\\TemplateEngineBundle\\Model"
-                dir: Resources/config/doctrine
-=======
         entity_managers:
             default:
                 naming_strategy: doctrine.orm.naming_strategy.underscore
                 auto_mapping: false
+                metadata_cache_driver:
+                    type: service
+                    id: doctrine_cache.providers.main_cache
+                query_cache_driver:
+                    type: service
+                    id: doctrine_cache.providers.main_cache
                 mappings:
                     SWPContentBundle:
                         type: yml
                         prefix: "SWP\ContentBundle\Model"
+                        dir: Resources/config/doctrine
+                    SWPTemplateEngineBundle:
+                        type: yml
+                        prefix: "SWP\\TemplateEngineBundle\\Model"
                         dir: Resources/config/doctrine
                     SWPMultiTenancyBundle:
                         type: yml
@@ -104,7 +96,6 @@ doctrine:
                     tenantable:
                         class: SWP\MultiTenancyBundle\Query\Filter\TenantableFilter
                         enabled: true
->>>>>>> d8467da... SWP-83 & SWP-81 multitenancy ORM
 
 doctrine_cache:
     providers:
@@ -205,8 +196,6 @@ stof_doctrine_extensions:
             softdeleteable: true
             loggable: true
             sortable: true
-nelmio_api_doc:
-    request_listener: false
 
 swp_multi_tenancy:
     persistence:
