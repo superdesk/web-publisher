@@ -26,6 +26,7 @@ Configuration
                     content_basepath: "content"
                     tenant_aware_router_class: SWP\MultiTenancyBundle\Routing\TenantAwareRouter
                     site_document_class: SWP\MultiTenancyBundle\Document\Site
+                    document_class: SWP\MultiTenancyBundle\Document\Page
 
 ``enabled``
 ***********
@@ -73,3 +74,10 @@ Site document fully qualified class name to use. This document represents curren
 **type**: ``string`` **default**: ``SWP\MultiTenancyBundle\Routing\TenantAwareRouter``
 
 TenantAwareRouter service's fully qualified class name to use.
+
+``document_class``
+******************
+
+**type**: ``string`` **default**: ``SWP\MultiTenancyBundle\Document\Page``
+
+The class for the pages used by ``PHPCRBasePathsInitializer``. You can provide your own class if using custom class.

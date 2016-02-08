@@ -13,8 +13,8 @@
  */
 namespace SWP\ContentBundle\Document;
 
-use Symfony\Cmf\Bundle\RoutingBundle\Doctrine\Phpcr\Route as BaseRoute;
+use SWP\MultiTenancyBundle\Document\Page;
 
-class Route extends BaseRoute
+class Route extends Page
 {
 }

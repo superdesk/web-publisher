@@ -1362,7 +1362,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSRestBundle/zipball/98adac0da9a74dd1c4225b36c728f0e4638940ae",
+                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSRestBundle/zipball/89edb3309e39348a7ddc8dfca1f9d62529430b83",
                 "reference": "044f4e06f9aa85592269b2ead0e05b3547678bde",
                 "shasum": ""
             },
@@ -1446,7 +1446,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Atlantic18/DoctrineExtensions/zipball/5a7e0f7e21a097f09bf40229f6138a0d48145b52",
+                "url": "https://api.github.com/repos/Atlantic18/DoctrineExtensions/zipball/08be3017f45cea64d6f10ec1c67c39c96f1e8ac3",
                 "reference": "518de47a502e42bc2cd8cdf6f2e934d38b900374",
                 "shasum": ""
             },
@@ -3194,7 +3194,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/flysystem/zipball/dc5691b9a875961822aa713b8e77fb8b4a7a6de9",
+                "url": "https://api.github.com/repos/thephpleague/flysystem/zipball/35b0af4532c72da9ad533c810251d2af7c32a410",
                 "reference": "3130ff9232cef15883516a8d382af7f149677e0d",
                 "shasum": ""
             },
@@ -4597,17 +4597,18 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/takeit/SWPMultiTenancyBundle.git",
-                "reference": "6e4df352441322492a0cb2aebf5b351f8bd248f7"
+                "reference": "87b53260b3df33538f4f80bbeeb1847645bd2828"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/takeit/SWPMultiTenancyBundle/zipball/6e4df352441322492a0cb2aebf5b351f8bd248f7",
-                "reference": "6e4df352441322492a0cb2aebf5b351f8bd248f7",
+                "url": "https://api.github.com/repos/takeit/SWPMultiTenancyBundle/zipball/87b53260b3df33538f4f80bbeeb1847645bd2828",
+                "reference": "87b53260b3df33538f4f80bbeeb1847645bd2828",
                 "shasum": ""
             },
             "require": {
                 "doctrine/doctrine-bundle": "~1.3",
                 "php": ">=5.4|^7.0",
+                "stof/doctrine-extensions-bundle": "~1.1",
                 "swp/multi-tenancy": "^1.0@dev",
                 "symfony/framework-bundle": "~2.4|~3.0"
             },
@@ -4665,7 +4666,7 @@
             "support": {
                 "source": "https://github.com/takeit/SWPMultiTenancyBundle/tree/master"
             },
-            "time": "2016-02-02 12:56:46"
+            "time": "2016-02-08 10:25:33"
         },
         {
             "name": "swp/templates-system",
@@ -5495,7 +5496,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/symfony/zipball/bad218d44ec4c29e4f73182b53d5e3a5747493da",
+                "url": "https://api.github.com/repos/symfony/symfony/zipball/9d04018350436809a3948b81e076a776bb75192c",
                 "reference": "be80b0a40f3ff26c57dee062f83e328efe3f50cb",
                 "shasum": ""
             },
@@ -6060,7 +6061,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/fzaninotto/Faker/zipball/b312ab9d0c446971069e22a524fec01c7cddc75e",
+                "url": "https://api.github.com/repos/fzaninotto/Faker/zipball/8d8e0e1a6151a46ea5cda344e2234b7225c61e7a",
                 "reference": "43835130f04a51265bcf41b8d69e16a266a2485d",
                 "shasum": ""
             },
@@ -6153,7 +6154,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/liip/LiipFunctionalTestBundle/zipball/1382ed3a04efa777084e6112c02a9ccd23901325",
+                "url": "https://api.github.com/repos/liip/LiipFunctionalTestBundle/zipball/633cb540c509e5c40b1139813214b29371e6988a",
                 "reference": "0981fc0a18678b50a53410496239b602dc5a355b",
                 "shasum": ""
             },
@@ -6732,7 +6733,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/dfb11aa5236376b4fc63853cf746af39fe780e72",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/1ae3a683f38fe24d4b69ef35da82bd211e1894fb",
                 "reference": "ea76b17bced0500a28098626b84eda12dbcf119c",
                 "shasum": ""
             },

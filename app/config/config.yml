@@ -213,3 +213,7 @@ swp_multi_tenancy:
         phpcr:
             enabled: true
             site_document_class: "SWP\ContentBundle\Document\Site"
+            document_class: "SWP\ContentBundle\Document\Route"
+
+nelmio_api_doc:
+    request_listener: false
