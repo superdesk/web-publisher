@@ -61,22 +61,41 @@ doctrine:
 
     orm:
         auto_generate_proxy_classes: "%kernel.debug%"
-        auto_mapping: false
-        metadata_cache_driver:
-            type: service
-            id: doctrine_cache.providers.main_cache
-        query_cache_driver:
-            type: service
-            id: doctrine_cache.providers.main_cache
-        mappings:
-            SWPContentBundle:
-                type: yml
-                prefix: "SWP\\ContentBundle\\Model"
-                dir: Resources/config/doctrine
-            SWPTemplateEngineBundle:
-                type: yml
-                prefix: "SWP\\TemplateEngineBundle\\Model"
-                dir: Resources/config/doctrine
+        entity_managers:
+            default:
+                naming_strategy: doctrine.orm.naming_strategy.underscore
+                auto_mapping: false
+                metadata_cache_driver:
+                    type: service
+                    id: doctrine_cache.providers.main_cache
+                query_cache_driver:
+                    type: service
+                    id: doctrine_cache.providers.main_cache
+                mappings:
+                    SWPContentBundle:
+                        type: yml
+                        prefix: "SWP\ContentBundle\Model"
+                        dir: Resources/config/doctrine
+                    SWPTemplateEngineBundle:
+                        type: yml
+                        prefix: "SWP\\TemplateEngineBundle\\Model"
+                        dir: Resources/config/doctrine
+                    SWPMultiTenancyBundle:
+                        type: yml
+                        prefix: "SWP\Component\MultiTenancy\Model"
+                        dir: Resources/config/doctrine
+                    gedmo_loggable:
+                        type: annotation
+                        prefix: Gedmo\Loggable\Entity
+                        dir: "%kernel.root_dir%/../vendor/gedmo/doctrine-extensions/lib/Gedmo/Loggable/Entity"
+                        is_bundle: false
+                filters:
+                    soft-deleteable:
+                        class: Gedmo\SoftDeleteable\Filter\SoftDeleteableFilter
+                        enabled: true
+                    tenantable:
+                        class: SWP\MultiTenancyBundle\Query\Filter\TenantableFilter
+                        enabled: true
 
 doctrine_cache:
     providers:
@@ -105,6 +124,7 @@ doctrine_phpcr:
             type: doctrinedbal
             logging: true
             profiling: true
+            check_login_on_server: false
             caches:
                 meta: doctrine_cache.providers.main_cache
                 nodes: doctrine_cache.providers.main_cache
@@ -114,13 +134,13 @@ cmf_routing:
     chain:
         routers_by_id:
             router.default: 200
+            swp_multi_tenancy.tenant_aware_router: 150
             cmf_routing.dynamic_router: 100
     dynamic:
         route_collection_limit: 100
         persistence:
             phpcr:
                 enabled: true
-                route_basepaths: "/swp/routes"
 
 fos_rest:
     zone:
@@ -176,14 +196,13 @@ stof_doctrine_extensions:
             softdeleteable: true
             loggable: true
             sortable: true
+
+swp_multi_tenancy:
+    persistence:
+        phpcr:
+            enabled: true
+            site_document_class: "SWP\ContentBundle\Document\Site"
+            document_class: "SWP\ContentBundle\Document\Route"
+
 nelmio_api_doc:
     request_listener: false
-
-services:
-    swp_renderer.phpcr.initializer:
-        class: Doctrine\Bundle\PHPCRBundle\Initializer\GenericInitializer
-        arguments:
-            - SWP ContentBundle paths
-            - [ "/swp/content", "/swp/routes" ]
-        tags:
-            - { name: "doctrine_phpcr.initializer" }

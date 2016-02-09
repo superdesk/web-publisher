@@ -1,0 +1,1 @@
+* :doc:`/bundles/SWPMultiTenancyBundle/index`

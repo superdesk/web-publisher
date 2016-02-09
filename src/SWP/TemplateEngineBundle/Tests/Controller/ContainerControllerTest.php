@@ -14,6 +14,7 @@
 namespace SWP\TemplateEngineBundle\Tests\Controller;
 
 use Liip\FunctionalTestBundle\Test\WebTestCase;
+use SWP\Component\MultiTenancy\Model\Tenant;
 
 class ContainerControllerTest extends WebTestCase
 {
@@ -25,17 +26,19 @@ class ContainerControllerTest extends WebTestCase
     public function setUp()
     {
         self::bootKernel();
+        $this->runCommand('doctrine:schema:drop', ['--force' => true, '--env' => 'test'], true);
+        $this->runCommand('doctrine:doctrine:schema:update', ['--force' => true, '--env' => 'test'], true);
 
         $this->loadFixtureFiles([
-            '@SWPFixturesBundle/DataFixtures/ORM/Test/Container.yml',
-            '@SWPFixturesBundle/DataFixtures/ORM/Test/Widget.yml',
+            '@SWPFixturesBundle/Resources/fixtures/ORM/test/tenant.yml',
+            '@SWPFixturesBundle/Resources/fixtures/ORM/test/Container.yml',
+            '@SWPFixturesBundle/Resources/fixtures/ORM/test/Widget.yml',
         ]);
 
-        $this->router = $this->getContainer()->get('router');
-
-        $this->runCommand('doctrine:phpcr:init:dbal', ['--force' => true, '--env' => 'test'], true);
         $this->runCommand('doctrine:phpcr:repository:init', ['--env' => 'test'], true);
         $this->runCommand('theme:setup', ['--env' => 'test', '--force' => true, 'name' => 'theme_test'], true);
+
+        $this->router = $this->getContainer()->get('router');
     }
 
     public function testListContainersApi()

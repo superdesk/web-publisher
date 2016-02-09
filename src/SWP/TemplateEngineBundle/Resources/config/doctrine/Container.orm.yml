@@ -30,6 +30,9 @@ SWP\TemplateEngineBundle\Model\Container:
             nullable: true
         visible:
             type: boolean
+    manyToOne:
+        tenant:
+            targetEntity: SWP\Component\MultiTenancy\Model\Tenant
     oneToMany:
         data:
             targetEntity: SWP\TemplateEngineBundle\Model\ContainerData

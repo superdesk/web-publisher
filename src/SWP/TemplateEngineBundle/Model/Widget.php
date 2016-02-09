@@ -13,13 +13,15 @@
  */
 namespace SWP\TemplateEngineBundle\Model;
 
+use SWP\Component\MultiTenancy\Model\TenantAwareInterface;
+use SWP\Component\MultiTenancy\Model\TenantInterface;
 use SWP\TemplatesSystem\Gimme\Model\WidgetInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Widget.
  */
-class Widget implements WidgetInterface
+class Widget implements WidgetInterface, TenantAwareInterface
 {
     const TYPE_HTML = 1;
 
@@ -56,6 +58,11 @@ class Widget implements WidgetInterface
      * @var ArrayCollection
      */
     protected $containers;
+
+    /**
+     * @var TenantInterface
+     */
+    protected $tenant;
 
     public function __construct()
     {
@@ -194,5 +201,21 @@ class Widget implements WidgetInterface
         $this->containers = $containers;
 
         return $this;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getTenant()
+    {
+        return $this->tenant;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setTenant(TenantInterface $tenant)
+    {
+        $this->tenant = $tenant;
     }
 }

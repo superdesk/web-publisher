@@ -25,6 +25,20 @@ class DefaultController extends Controller
      */
     public function indexAction()
     {
-        return $this->render('views/index.html.twig');
+        $pathBuilder = $this->get('swp_multi_tenancy.path_builder');
+        $manager = $this->get('doctrine_phpcr')->getManager();
+        $site = $manager->find('SWP\ContentBundle\Document\Site', $pathBuilder->build('/'));
+        $homepage = $site->getHomepage();
+
+        if (!$homepage) {
+            throw $this->createNotFoundException('No homepage configured!');
+        }
+
+        $tenantContext = $this->get('swp_multi_tenancy.tenant_context');
+
+        return $this->render('views/index.html.twig', [
+            'tenant' => $tenantContext->getTenant(),
+            'page' => $homepage,
+        ]);
     }
 }

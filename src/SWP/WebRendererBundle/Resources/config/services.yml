@@ -1,11 +1,3 @@
-services:
-    swp_renderer.listener.kernel_request:
-        class: SWP\WebRendererBundle\EventListener\KernelRequestListener
-        arguments:
-            - "@event_dispatcher"
-        tags:
-            - { name: kernel.event_listener, event: kernel.request, method: onKernelRequest }
-
 # override default cmf dynamic router with our implementation (with support for Meta Article)
 parameters:
     cmf_routing.dynamic_router.class: SWP\WebRendererBundle\Routing\MetaRouter

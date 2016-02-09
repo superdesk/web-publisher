@@ -14,7 +14,7 @@
 namespace SWP\ContentBundle\Document;
 
 use Behat\Transliterator\Transliterator;
-use Symfony\Cmf\Bundle\RoutingBundle\Doctrine\Phpcr\Route;
+use Doctrine\ODM\PHPCR\Exception\InvalidArgumentException;
 
 class Article
 {
@@ -42,6 +42,11 @@ class Article
      * @var Route
      */
     protected $route;
+
+    /**
+     * @var object
+     */
+    protected $parent;
 
     /**
      * Gets the value of id.
@@ -137,5 +142,21 @@ class Article
     public function getRoute()
     {
         return $this->route;
+    }
+
+    public function setParent($parent)
+    {
+        if (!is_object($parent)) {
+            throw new InvalidArgumentException('Parent must be an object '.gettype($parent).' given.');
+        }
+
+        $this->parent = $parent;
+
+        return $this;
+    }
+
+    public function getParent()
+    {
+        return $this->parent;
     }
 }

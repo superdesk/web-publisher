@@ -19,4 +19,5 @@ parameters:
     secret:            SuperSecretTokenPleaseChangeIt
     swp_updater.version.class: "SWP\WebRendererBundle\Version\Version"
     active_theme: "theme_1"
+    domain: wps.dev
     doctrine_cache_driver: "array"

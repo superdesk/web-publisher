@@ -47,7 +47,7 @@ The database with the name _symfony_ will be automatically created via Docker.
 
 Go to http://webrenderer.dev/app_dev.php for viewing the app in dev mode.
 
-### Updating database schema
+### Updating database schema and creating the default tenant
 
 Create database in your PostgreSQL server (it's required) manually. Remember to put database config into parameters.yml.
 
@@ -55,6 +55,7 @@ Then execute the following commands in terminal:
 
 ```bash
 php app/console doctrine:schema:update --force
+php app/console swp:tenant:create --default
 php app/console doctrine:phpcr:repository:init
 ```
 
@@ -62,8 +63,12 @@ Commands when using docker:
 
 ```bash
 docker-compose run --rm php php /var/www/webrenderer/app/console doctrine:schema:update --force
+docker-compose run --rm php php /var/www/webrenderer/app/console swp:tenant:create --default
 docker-compose run --rm php php /var/www/webrenderer/app/console doctrine:phpcr:repository:init
 ```
+
+`swp:tenant:create --default` console command, creates a new, default tenant which is 
+needed to run the WebPublisher.
 
 [1]: http://web-renderer.readthedocs.org/
 

@@ -1,0 +1,1 @@
+* :doc:`/components/MultiTenancy/index`

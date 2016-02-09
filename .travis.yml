@@ -1,19 +1,36 @@
 language: php
+
+sudo: false
+
 services:
   - redis-server
+
+php:
+  - 5.5
+  - 5.6
+  - 7.0
+  - hhvm
+
+env:
+  global:
+    - SYMFONY_ENV="test"
+  matrix:
+   - DOCTRINE_CACHE_DRIVER="redis"
+
 matrix:
-  fast_finish: true
+  exclude:
+    - php: 7.0
+      env: DOCTRINE_CACHE_DRIVER="redis"
+    - php: hhvm
+      env: DOCTRINE_CACHE_DRIVER="redis"
   include:
-    - php: 5.5
-      env: DOCTRINE_CACHE_DRIVER="redis"
-    - php: 5.6
-      env: DOCTRINE_CACHE_DRIVER="redis"
     - php: 7.0
       env: DOCTRINE_CACHE_DRIVER="array"
     - php: hhvm
       env: DOCTRINE_CACHE_DRIVER="array"
   allow_failures:
     - php: hhvm
+  fast_finish: true
 
 before_script:
   - if [[ $TRAVIS_PHP_VERSION =~ 5.[56] ]] ; then echo 'extension="redis.so"' >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini; fi;

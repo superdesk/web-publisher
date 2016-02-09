@@ -1,0 +1,7 @@
+SWP\Component\MultiTenancy\Model\Tenant:
+    tenant1:
+        name: "Default tenant"
+        subdomain: "default"
+    tenant2:
+        name: "<company()>"
+        subdomain: "client1"

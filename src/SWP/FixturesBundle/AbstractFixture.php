@@ -50,14 +50,22 @@ abstract class AbstractFixture extends BaseFixture implements ContainerAwareInte
     /**
      * Loads Alice fixtures.
      *
-     * @param array|string  $paths   Fixtures paths
-     * @param ObjectManager $manager Object manager
+     * @param array|string  $paths      Fixtures path(s)
+     * @param ObjectManager $manager    Object manager
+     * @param array         $parameters Extra parameters
      */
-    public function loadFixtures($paths, $manager)
+    public function loadFixtures($paths, $manager, $parameters = [])
     {
-        Fixtures::load($this->locateResources($paths), $manager);
+        Fixtures::load($this->locateResources($paths), $manager, $parameters);
     }
 
+    /**
+     * Locates the fixtures resources.
+     *
+     * @param array|string $paths Fixtures path(s)
+     *
+     * @return array|string the path(s)
+     */
     protected function locateResources($paths)
     {
         $kernel = $this->container->get('kernel');
