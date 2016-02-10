@@ -19,7 +19,11 @@ import shlex
 # If extensions (or modules to document with autodoc) are in another directory,
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
-#sys.path.insert(0, os.path.abspath('.'))
+sys.path.append(os.path.abspath('_extensions'))
+
+# loading PhpLexer
+from sphinx.highlighting import lexers
+from pygments.lexers.web import PhpLexer
 
 # -- General configuration ------------------------------------------------
 
@@ -34,7 +38,11 @@ extensions = [
     'sphinx.ext.doctest',
     'sphinx.ext.intersphinx',
     'sphinx.ext.todo',
+    'sensio.sphinx.refinclude',
     'sensio.sphinx.configurationblock',
+    'sensio.sphinx.phpcode',
+    'sensio.sphinx.bestpractice',
+    'sensio.sphinx.codeblock',
 ]
 
 # Add any paths that contain templates here, relative to this directory.
@@ -80,7 +88,7 @@ language = None
 
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.
-exclude_patterns = ['_build']
+exclude_patterns = ['_build', '_extensions']
 
 # The reST default role (used for this markup: `text`) to use for all
 # documents.
@@ -108,6 +116,15 @@ pygments_style = 'sphinx'
 
 # If true, `todo` and `todoList` produce output, else they produce nothing.
 todo_include_todos = True
+
+# -- Sensio Extension Options ----------------------------------------------
+
+# enable highlighting for PHP code not between ``<?php ... ?>`` by default
+lexers['php'] = PhpLexer(startinline=True)
+lexers['php-annotations'] = PhpLexer(startinline=True)
+
+# use PHP as the primary domain
+primary_domain = 'php'
 
 
 # -- Options for HTML output ----------------------------------------------
@@ -143,7 +160,7 @@ html_theme = 'sphinx_rtd_theme'
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
 # so a file named "default.css" will overwrite the builtin "default.css".
-html_static_path = ['_static']
+#html_static_path = ['_static']
 
 # Add any extra paths that contain custom files (such as robots.txt or
 # .htaccess) here, relative to this directory. These files are copied
