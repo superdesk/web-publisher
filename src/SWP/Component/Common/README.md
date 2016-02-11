@@ -1,0 +1,2 @@
+# common
+Superdesk WebPublisher Common

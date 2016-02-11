@@ -74,6 +74,9 @@
         "nelmio/alice": "^2.0.@dev",
         "henrikbjorn/phpspec-code-coverage" : "1.*@dev"
     },
+    "replace": {
+        "swp/common": "self.version"
+    },
     "scripts": {
         "post-install-cmd": [
             "Incenteev\\ParameterHandler\\ScriptHandler::buildParameters",
