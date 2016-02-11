@@ -1,4 +1,4 @@
-Welcome to Superdesk Web Renderer's documentation!
+Welcome to Superdesk Web Publisher's documentation!
 ==================================================
 
 Templator documentation:

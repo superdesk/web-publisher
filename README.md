@@ -1,22 +1,23 @@
-Superdesk Web Renderer
+Superdesk Web Publisher
 ======================
 
-[![Build Status](https://travis-ci.org/superdesk/web-renderer.svg?branch=master)](https://travis-ci.org/superdesk/web-renderer)
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/superdesk/web-renderer/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/superdesk/web-renderer/?branch=master)
-[![Dependency Status](https://www.versioneye.com/user/projects/556eccea663430000a300100/badge.svg?style=flat)](https://www.versioneye.com/user/projects/556eccea663430000a300100)
-[![SensioLabsInsight](https://insight.sensiolabs.com/projects/63e28e0c-a2f4-40ec-bf8f-79a5ce8bd3e7/small.png)](https://insight.sensiolabs.com/projects/63e28e0c-a2f4-40ec-bf8f-79a5ce8bd3e7)
+[![Build Status](https://travis-ci.org/superdesk/web-publisher.svg?branch=master)](https://travis-ci.org/superdesk/web-publisher)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/superdesk/web-publisher/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/superdesk/web-publisher/?branch=master)
+[![Dependency Status](https://www.versioneye.com/user/projects/56bc97382a29ed00396b3760/badge.svg?style=flat)](https://www.versioneye.com/user/projects/56bc97382a29ed00396b3760)
+[![SensioLabsInsight](https://insight.sensiolabs.com/projects/c1d40e6d-f4c3-42fa-af0e-d4a4e521d435/mini.png)](https://insight.sensiolabs.com/projects/c1d40e6d-f4c3-42fa-af0e-d4a4e521d435)
 
-WebPublisher is templates engine + articles/pages render component for Superdesk WebPublisher. Thanks to Web Renderer, templators can design themes and work with templates engine.
+Superdesk Web Publisher - the next generation publishing platform for journalists and newsrooms.
 
 ## Documentation
 
-Full documentation can be found here: [http://web-renderer.readthedocs.org/][1]
+Full documentation can be found here: [http://superdesk-web-publisher.readthedocs.org][1]
+
 
 ## How to build it with docker:
 
 #### Setup
 
-Add ```127.0.0.1 webrenderer.dev``` to ```/etc/hosts```. **Mac users** use the ip of your virtualbox (e.g. ```boot2docker ip```).
+Add ```127.0.0.1 webpublisher.dev``` to ```/etc/hosts```. **Mac users** use the ip of your virtualbox (e.g. ```boot2docker ip```).
 
 #### Build
 
@@ -45,7 +46,7 @@ The database with the name _symfony_ will be automatically created via Docker.
 
 #### View
 
-Go to http://webrenderer.dev/app_dev.php for viewing the app in dev mode.
+Go to http://webpublisher.dev/app_dev.php for viewing the app in dev mode.
 
 ### Updating database schema and creating the default tenant
 
@@ -62,15 +63,15 @@ php app/console doctrine:phpcr:repository:init
 Commands when using docker:
 
 ```bash
-docker-compose run --rm php php /var/www/webrenderer/app/console doctrine:schema:update --force
-docker-compose run --rm php php /var/www/webrenderer/app/console swp:tenant:create --default
-docker-compose run --rm php php /var/www/webrenderer/app/console doctrine:phpcr:repository:init
+docker-compose run --rm php php /var/www/webpublisher/app/console doctrine:schema:update --force
+docker-compose run --rm php php /var/www/webpublisher/app/console swp:tenant:create --default
+docker-compose run --rm php php /var/www/webpublisher/app/console doctrine:phpcr:repository:init
 ```
 
 `swp:tenant:create --default` console command, creates a new, default tenant which is 
 needed to run the WebPublisher.
 
-[1]: http://web-renderer.readthedocs.org/
+[1]: http://superdesk-web-publisher.readthedocs.org/en/latest/
 
 ## Testing
 
@@ -89,7 +90,8 @@ php bin/phpspec run --config=spec/phpspec-cov-html.yml
 php bin/phpunit -c app/ --coverage-text
 ```
 
-## Superdesk Web Renderer is possible thanks to other Sourcefabric initiatives:
+## Superdesk Web Publisher is possible thanks to other Sourcefabric initiatives:
 
 * [swp/templates-system](https://github.com/SuperdeskWebPublisher/templates-system) [![Build Status](https://travis-ci.org/SuperdeskWebPublisher/templates-system.svg?branch=master)](https://travis-ci.org/SuperdeskWebPublisher/templates-system) [![Code Climate](https://codeclimate.com/github/SuperdeskWebPublisher/templates-system/badges/gpa.svg)](https://codeclimate.com/github/SuperdeskWebPublisher/templates-system) [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/SuperdeskWebPublisher/templates-system/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/SuperdeskWebPublisher/templates-system/?branch=master)
+* [swp/multi-tenancy](https://github.com/SuperdeskWebPublisher/multi-tenancy) [![Build Status](https://travis-ci.org/SuperdeskWebPublisher/multi-tenancy.svg?branch=master)](https://travis-ci.org/SuperdeskWebPublisher/multi-tenancy) [![Code Climate](https://codeclimate.com/github/SuperdeskWebPublisher/multi-tenancy/badges/gpa.svg)](https://codeclimate.com/github/SuperdeskWebPublisher/multi-tenancy) [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/SuperdeskWebPublisher/multi-tenancy/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/SuperdeskWebPublisher/multi-tenancy/?branch=master) [![SensioLabsInsight](https://insight.sensiolabs.com/projects/34801a37-b258-4fbf-b395-7ae004218334/mini.png)](https://insight.sensiolabs.com/projects/34801a37-b258-4fbf-b395-7ae004218334)
 

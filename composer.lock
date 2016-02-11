@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "9ab1d161a940fae6e6fa285973e821c7",
-    "content-hash": "e2ea2f04c40c341674e4ed0fc5484b72",
+    "hash": "9c763f33d2859690e5f78f19adcbb125",
+    "content-hash": "be5383291e25e27b12fad28ec8e794e8",
     "packages": [
         {
             "name": "ahilles107/updater",
@@ -1682,7 +1682,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/guzzle/promises/zipball/581943b46d0736605e4ef4676e9a820bbfff7388",
+                "url": "https://api.github.com/repos/guzzle/promises/zipball/b59321a17f3e3ebc14f2bbbf73b4d065a88cf3f6",
                 "reference": "b1e1c0d55f8083c71eda2c28c12a228d708294ea",
                 "shasum": ""
             },
@@ -4472,59 +4472,6 @@
             "time": "2015-08-26 12:58:09"
         },
         {
-            "name": "swp/common",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/SuperdeskWebPublisher/common.git",
-                "reference": "497993a52b4b03a2ee9db701bb84c595b9a92f64"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/SuperdeskWebPublisher/common/zipball/497993a52b4b03a2ee9db701bb84c595b9a92f64",
-                "reference": "497993a52b4b03a2ee9db701bb84c595b9a92f64",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.4|^7.0"
-            },
-            "require-dev": {
-                "phpspec/phpspec": "^2.4"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "1.0.x-dev"
-                }
-            },
-            "autoload": {
-                "exclude-from-classmap": [
-                    "spec/"
-                ],
-                "psr-4": {
-                    "SWP\\Component\\Common\\": ""
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "GPL-3.0"
-            ],
-            "authors": [
-                {
-                    "name": "Rafał Muszyński",
-                    "email": "rafal.muszynski@sourcefabric.org"
-                }
-            ],
-            "description": "Common library - common interfaces, models etc. used in PHP apps.",
-            "keywords": [
-                "Superdesk",
-                "common",
-                "library",
-                "publisher"
-            ],
-            "time": "2016-02-01 14:20:50"
-        },
-        {
             "name": "swp/multi-tenancy",
             "version": "dev-master",
             "source": {
@@ -6725,7 +6672,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/1ae3a683f38fe24d4b69ef35da82bd211e1894fb",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/6e351261f9cd33daf205a131a1ba61c6d33bd483",
                 "reference": "ea76b17bced0500a28098626b84eda12dbcf119c",
                 "shasum": ""
             },

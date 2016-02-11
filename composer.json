@@ -1,8 +1,20 @@
 {
-    "name": "superdesk/web-renderer",
-    "description": "WebRenderer is part of Superdesk WebPublisher - new generation publishing system for journalists and newsrooms.",
+    "name": "superdesk/web-publisher",
+    "description": "Superdesk Web Publisher - the next generation publishing platform for journalists and newsrooms.",
     "type": "project",
-    "keywords": ["Superdesk Web Publisher", "Superdesk Web Publisher Bundle", "Superdesk", "Content API SDK BRidge", "Superdesk Content API", "Superdesk Bridge"],
+    "keywords": [
+        "superdesk",
+        "webpublisher",
+        "publisher",
+        "content",
+        "bridge",
+        "tool",
+        "publishing",
+        "journalism",
+        "newsroom",
+        "news",
+        "media"
+    ],
      "authors": [
         {
             "name": "Paweł Mikołajczuk",
@@ -74,6 +86,9 @@
         "nelmio/alice": "^2.0.@dev",
         "henrikbjorn/phpspec-code-coverage" : "1.*@dev"
     },
+    "replace": {
+        "swp/common": "self.version"
+    },
     "scripts": {
         "post-install-cmd": [
             "Incenteev\\ParameterHandler\\ScriptHandler::buildParameters",
@@ -99,6 +114,9 @@
     },
     "minimum-stability":"dev",
     "extra": {
+        "branch-alias": {
+            "dev-master": "0.1-dev"
+        },
         "symfony-app-dir": "app",
         "symfony-web-dir": "web",
         "symfony-assets-install": "relative",
