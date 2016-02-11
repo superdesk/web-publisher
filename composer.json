@@ -114,6 +114,9 @@
     },
     "minimum-stability":"dev",
     "extra": {
+        "branch-alias": {
+            "dev-master": "1.0.x-dev"
+        },
         "symfony-app-dir": "app",
         "symfony-web-dir": "web",
         "symfony-assets-install": "relative",
