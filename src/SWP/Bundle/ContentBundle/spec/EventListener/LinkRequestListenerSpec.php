@@ -1,7 +1,7 @@
 <?php
 
 /**
- * This file is part of the Superdesk Web Publisher.
+ * This file is part of the Superdesk Web Publisher Content Bundle.
  *
  * Copyright 2015 Sourcefabric z.u. and contributors.
  *
@@ -11,7 +11,7 @@
  * @copyright 2015 Sourcefabric z.ú.
  * @license http://www.superdesk.org/license
  */
-namespace spec\SWP\ContentBundle\EventListener;
+namespace spec\SWP\Bundle\ContentBundle\EventListener;
 
 use PhpSpec\ObjectBehavior;
 

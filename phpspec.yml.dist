@@ -1,0 +1,26 @@
+suites:
+    # components
+    MultiTenancy_suite:
+        namespace: SWP\Component\MultiTenancy
+        psr4_prefix: SWP\Component\MultiTenancy
+        spec_path: src/SWP/Component/MultiTenancy
+        src_path: src/SWP/Component/MultiTenancy
+
+    # bundles
+    MultiTenancyBundle_suite:
+        namespace: SWP\Bundle\MultiTenancyBundle
+        psr4_prefix: SWP\Bundle\MultiTenancyBundle
+        spec_path: src/SWP/Bundle/MultiTenancyBundle
+        src_path: src/SWP/Bundle/MultiTenancyBundle
+    ContentBundle_suite:
+        namespace: SWP\Bundle\ContentBundle
+        psr4_prefix: SWP\Bundle\ContentBundle
+        spec_path: src/SWP/Bundle/ContentBundle
+        src_path: src/SWP/Bundle/ContentBundle
+
+#extensions:
+#    - PhpSpec\Extension\CodeCoverageExtension
+
+#code_coverage:
+#    output: build/coverage
+#    format: html

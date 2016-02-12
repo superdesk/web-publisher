@@ -14,7 +14,7 @@
     "require": {
         "php": ">=5.4|^7.0",
         "symfony/framework-bundle": "~2.4|~3.0",
-        "swp/multi-tenancy": "^1.0@dev",
+        "swp/multi-tenancy": "^0.1",
         "doctrine/doctrine-bundle": "~1.3",
         "stof/doctrine-extensions-bundle": "~1.1"
     },
@@ -36,12 +36,12 @@
             "Tests/",
             "spec/"
         ],
-        "psr-4": { "SWP\\MultiTenancyBundle\\": "" }
+        "psr-4": { "SWP\\Bundle\\MultiTenancyBundle\\": "" }
     },
     "autoload-dev": {
         "psr-4": {
-            "SWP\\MultiTenancyBundle\\Tests\\": "Tests/",
-            "SWP\\MultiTenancyBundle\\spec\\": "spec/"
+            "SWP\\Bundle\\MultiTenancyBundle\\Tests\\": "Tests/",
+            "SWP\\Bundle\\MultiTenancyBundle\\spec\\": "spec/"
         }
     },
     "config": {

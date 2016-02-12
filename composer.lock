@@ -3837,12 +3837,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpcr/phpcr-utils.git",
-                "reference": "3d9dbc86f38fe8250d3a1525ab2627d9a392961a"
+                "reference": "9f51c3ebfcd1afd83d52f8735a4b14f8bee7e210"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpcr/phpcr-utils/zipball/3d9dbc86f38fe8250d3a1525ab2627d9a392961a",
-                "reference": "3d9dbc86f38fe8250d3a1525ab2627d9a392961a",
+                "url": "https://api.github.com/repos/phpcr/phpcr-utils/zipball/9f51c3ebfcd1afd83d52f8735a4b14f8bee7e210",
+                "reference": "9f51c3ebfcd1afd83d52f8735a4b14f8bee7e210",
                 "shasum": ""
             },
             "require": {
@@ -3900,7 +3900,7 @@
                 "contentrepository",
                 "phpcr"
             ],
-            "time": "2016-02-12 12:07:12"
+            "time": "2016-02-12 13:58:06"
         },
         {
             "name": "phpoption/phpoption",
