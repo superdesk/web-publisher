@@ -10,5 +10,5 @@ parameters:
     mailer_user: null
     mailer_password: null
     secret: SuperSecretTokenPleaseChangeIt
-    swp_updater.version.class: SWP\WebRendererBundle\Version\Version
+    swp_updater.version.class: SWP\Bundle\WebRendererBundle\Version\Version
     active_theme: theme_1

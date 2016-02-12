@@ -1,0 +1,19 @@
+SWP\Bundle\TemplateEngineBundle\Model\Container:
+    container1:
+        name: "Simple Container 1"
+        type: 1
+        width: 300
+        height: 400
+        styles: "color: #00000"
+        cssClass: "col-md-12"
+        visible: true
+        tenant: "@tenant1"
+    container2:
+        name: "Simple Container 2"
+        type: 1
+        width: 400
+        height: 500
+        styles: "border: 1px solid red;"
+        cssClass: "col-md-6"
+        visible: true
+        tenant: "@tenant1"

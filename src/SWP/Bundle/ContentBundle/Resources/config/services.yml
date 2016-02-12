@@ -1,0 +1,25 @@
+services:
+    swp_template_engine.loader.article:
+        class: SWP\Bundle\ContentBundle\Loader\ArticleLoader
+        arguments:
+            - "@service_container"
+        tags:
+            - { name: swp.meta_loader }
+
+    document_manager:
+        alias: doctrine_phpcr.odm.document_manager
+
+    swp_content_bundle.factory.knp_paginator_representation:
+        class: SWP\Bundle\ContentBundle\Factory\KnpPaginatorRepresentationFactory
+        arguments:
+            - 'page'
+            - 'limit'
+
+    swp_content_bundle.listener.link_request:
+        class: SWP\Bundle\ContentBundle\EventListener\LinkRequestListener
+        arguments:  ["@controller_resolver", "@router"]
+        tags:
+            - { name: kernel.event_listener, event: kernel.request, method: onKernelRequest }
+
+    swp_pagination_rep:
+        alias: swp_content_bundle.factory.knp_paginator_representation

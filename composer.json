@@ -1,8 +1,20 @@
 {
-    "name": "superdesk/web-renderer",
-    "description": "WebRenderer is part of Superdesk WebPublisher - new generation publishing system for journalists and newsrooms.",
+    "name": "superdesk/web-publisher",
+    "description": "Superdesk Web Publisher - the next generation publishing platform for journalists and newsrooms.",
     "type": "project",
-    "keywords": ["Superdesk Web Publisher", "Superdesk Web Publisher Bundle", "Superdesk", "Content API SDK BRidge", "Superdesk Content API", "Superdesk Bridge"],
+    "keywords": [
+        "superdesk",
+        "webpublisher",
+        "publisher",
+        "content",
+        "bridge",
+        "tool",
+        "publishing",
+        "journalism",
+        "newsroom",
+        "news",
+        "media"
+    ],
      "authors": [
         {
             "name": "Paweł Mikołajczuk",
@@ -62,8 +74,7 @@
         "stof/doctrine-extensions-bundle": "^1.2",
         "symfony-cmf/routing-bundle": "^1.3",
         "doctrine/doctrine-cache-bundle": "1.0.*",
-        "halleck45/phpmetrics-collector-bundle": "v0.0.1",
-        "swp/multi-tenancy-bundle": "^1.0@dev"
+        "halleck45/phpmetrics-collector-bundle": "v0.0.1"
     },
     "require-dev": {
         "sensio/generator-bundle": "~2.3",
@@ -73,7 +84,13 @@
         "liip/functional-test-bundle": "^1.3@dev",
         "doctrine/doctrine-fixtures-bundle": "^2.2@dev",
         "nelmio/alice": "^2.0.@dev",
-        "henrikbjorn/phpspec-code-coverage" : "1.*@dev"
+        "henrikbjorn/phpspec-code-coverage" : "1.*@dev",
+        "matthiasnoback/symfony-dependency-injection-test": "^0.7"
+    },
+    "replace": {
+        "swp/common": "self.version",
+        "swp/multi-tenancy": "self.version",
+        "swp/multi-tenancy-bundle": "self.version"
     },
     "scripts": {
         "post-install-cmd": [
@@ -100,6 +117,9 @@
     },
     "minimum-stability":"dev",
     "extra": {
+        "branch-alias": {
+            "dev-master": "0.1-dev"
+        },
         "symfony-app-dir": "app",
         "symfony-web-dir": "web",
         "symfony-assets-install": "relative",

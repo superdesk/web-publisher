@@ -1,0 +1,9 @@
+SWP\Bundle\TemplateEngineBundle\Model\ContainerData:
+    exclusion_policy: ALL
+    properties:
+        key:
+            expose: true
+            type: string
+        value:
+            expose: true
+            type: string

@@ -1,0 +1,12 @@
+SWP\Bundle\TemplateEngineBundle\Model\ContainerWidget:
+    exclusion_policy: ALL
+    properties:
+        id:
+            expose: true
+            type: integer
+        widget:
+            expose: true
+            type: SWP\Bundle\TemplateEngineBundle\Model\Widget
+        position:
+            expose: true
+            type: string

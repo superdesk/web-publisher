@@ -1,0 +1,5 @@
+suites:
+    main:
+        namespace: SWP\Component\MultiTenancy
+        psr4_prefix: SWP\Component\MultiTenancy
+        src_path: .
