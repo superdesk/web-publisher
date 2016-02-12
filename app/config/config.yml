@@ -74,15 +74,15 @@ doctrine:
                 mappings:
                     SWPContentBundle:
                         type: yml
-                        prefix: "SWP\Bundle\ContentBundle\Model"
+                        prefix: SWP\Bundle\ContentBundle\Model
                         dir: Resources/config/doctrine
                     SWPTemplateEngineBundle:
                         type: yml
-                        prefix: "SWP\Bundle\TemplateEngineBundle\Model"
+                        prefix: SWP\Bundle\TemplateEngineBundle\Model
                         dir: Resources/config/doctrine
                     SWPMultiTenancyBundle:
                         type: yml
-                        prefix: "SWP\Component\MultiTenancy\Model"
+                        prefix: SWP\Component\MultiTenancy\Model
                         dir: Resources/config/doctrine
                     gedmo_loggable:
                         type: annotation
@@ -198,8 +198,8 @@ swp_multi_tenancy:
     persistence:
         phpcr:
             enabled: true
-            site_document_class: "SWP\Bundle\ContentBundle\Document\Site"
-            document_class: "SWP\Bundle\ContentBundle\Document\Route"
+            site_document_class: SWP\Bundle\ContentBundle\Document\Site
+            document_class: SWP\Bundle\ContentBundle\Document\Route
 
 nelmio_api_doc:
     request_listener: false
