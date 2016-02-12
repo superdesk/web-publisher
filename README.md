@@ -85,10 +85,27 @@ php bin/phpspec run # PHPSpec
 ```
 
 To see current code tests coverage run:
+
+For PHPSpec copy`phpspec.yaml.dist` to `phpspec.yaml` and uncomment:
+
+```yaml
+#extensions:
+#    - PhpSpec\Extension\CodeCoverageExtension
+
+#code_coverage:
+#    output: build/coverage
+#    format: html
 ```
-php bin/phpspec run --config=spec/phpspec-cov-html.yml
+
+and re-run PHPSpec.
+
+For PHPUnit:
+
+```
 php bin/phpunit -c app/ --coverage-text
 ```
+
+**Note:** remember to enable `Xdebug` to generate the coverage.
 
 ## Superdesk Web Publisher is possible thanks to other Sourcefabric initiatives:
 

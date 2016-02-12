@@ -17,7 +17,7 @@ parameters:
 
     # A secret key that's used to generate certain security-related tokens
     secret:            SuperSecretTokenPleaseChangeIt
-    swp_updater.version.class: "SWP\WebRendererBundle\Version\Version"
+    swp_updater.version.class: "SWP\Bundle\WebRendererBundle\Version\Version"
     active_theme: "theme_1"
     domain: wps.dev
     doctrine_cache_driver: "array"

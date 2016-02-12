@@ -29,12 +29,12 @@ class AppKernel extends Kernel
             new Symfony\Cmf\Bundle\RoutingBundle\CmfRoutingBundle(),
             new Doctrine\Bundle\DoctrineCacheBundle\DoctrineCacheBundle(),
 
-            new SWP\MultiTenancyBundle\SWPMultiTenancyBundle(),
-            new SWP\TemplateEngineBundle\SWPTemplateEngineBundle(),
-            new SWP\WebRendererBundle\SWPWebRendererBundle(),
+            new SWP\Bundle\MultiTenancyBundle\SWPMultiTenancyBundle(),
+            new SWP\Bundle\TemplateEngineBundle\SWPTemplateEngineBundle(),
+            new SWP\Bundle\WebRendererBundle\SWPWebRendererBundle(),
             new SWP\UpdaterBundle\SWPUpdaterBundle(),
             new SWP\BridgeBundle\SWPBridgeBundle(),
-            new SWP\ContentBundle\SWPContentBundle(),
+            new SWP\Bundle\ContentBundle\SWPContentBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {
@@ -45,7 +45,7 @@ class AppKernel extends Kernel
             $bundles[] = new Hal\Bundle\PhpMetricsCollector\PhpMetricsCollectorBundle();
             $bundles[] = new Liip\FunctionalTestBundle\LiipFunctionalTestBundle();
             $bundles[] = new Doctrine\Bundle\FixturesBundle\DoctrineFixturesBundle();
-            $bundles[] = new SWP\FixturesBundle\SWPFixturesBundle();
+            $bundles[] = new SWP\Bundle\FixturesBundle\SWPFixturesBundle();
         }
 
         return $bundles;
