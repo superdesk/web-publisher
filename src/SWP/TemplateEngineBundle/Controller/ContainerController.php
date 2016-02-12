@@ -17,10 +17,12 @@ use FOS\RestBundle\Controller\FOSRestController;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
 use FOS\RestBundle\View\View;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\UnprocessableEntityHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use SWP\TemplateEngineBundle\Event\HttpCacheEvent;
 use SWP\TemplateEngineBundle\Form\Type\ContainerType;
 use SWP\TemplateEngineBundle\Model\Widget;
 use SWP\TemplateEngineBundle\Model\ContainerWidget;
@@ -68,15 +70,14 @@ class ContainerController extends FOSRestController
      * )
      * @Route("/api/{version}/templates/containers/{id}", requirements={"id"="\d+"}, options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_templates_get_container")
      * @Method("GET")
+     * @Cache(expires="10 hours", public=true)
      */
     public function getAction(Request $request, $id)
     {
-        if (!$id) {
-            throw new UnprocessableEntityHttpException('You need to provide container Id (integer).');
-        }
-
-        $entityManager = $this->get('doctrine')->getManager();
-        $container = $entityManager->getRepository('SWP\TemplateEngineBundle\Model\Container')->getById($id)->getOneOrNullResult();
+        $container = $this->get('doctrine')->getManager()
+            ->getRepository('SWP\TemplateEngineBundle\Model\Container')
+            ->getById($id)
+            ->getOneOrNullResult();
 
         if (!$container) {
             throw new NotFoundHttpException('Container with this id was not found.');
@@ -103,12 +104,10 @@ class ContainerController extends FOSRestController
      */
     public function updateAction(Request $request, $id)
     {
-        if (!$id) {
-            throw new UnprocessableEntityHttpException('You need to provide container Id (integer).');
-        }
-
         $entityManager = $this->get('doctrine')->getManager();
-        $container = $entityManager->getRepository('SWP\TemplateEngineBundle\Model\Container')->getById($id)->getOneOrNullResult();
+        $container = $entityManager->getRepository('SWP\TemplateEngineBundle\Model\Container')
+            ->getById($id)
+            ->getOneOrNullResult();
 
         if (!$container) {
             throw new NotFoundHttpException('Container with this id was not found.');
@@ -136,8 +135,15 @@ class ContainerController extends FOSRestController
                 }
             }
 
+            $this->get('dispatcher')->dispatch('swp_http_cache.clear', new HttpCacheEvent($container));
+
             $entityManager->flush($container);
             $entityManager->refresh($container);
+            $this->get('fos_http_cache.cache_manager')
+                ->invalidateRoute('swp_api_templates_list_containers')
+                ->invalidateRoute('swp_api_templates_get_container', array('id' => $id))
+                ->flush();
+
 
             return $this->handleView(View::create($container, 201));
         }
@@ -240,6 +246,10 @@ class ContainerController extends FOSRestController
                 }
 
                 $entityManager->flush();
+                $this->get('fos_http_cache.cache_manager')
+                    ->invalidateRoute('swp_api_templates_list_containers')
+                    ->invalidateRoute('swp_api_templates_get_container', array('id' => $id))
+                    ->flush();
                 $matched = true;
                 break;
             }

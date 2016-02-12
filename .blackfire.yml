@@ -1,12 +1,12 @@
 tests:
     "App should be fast":
-        path: "/*"
+        path:  "/.*"
         assertions:
             - metrics.twig.attributes.php.get.count == 0
-            - metrics.sql.connections.count == 1
+            - metrics.sql.connections.count <= 1
 
-    "App on production should not use cache":
-        path: "/*"
+    "App on production should not regenerate file cache":
+        path:  "/.*"
         assertions:
             # no Twig/Smarty compilation
             - metrics.twig.compile.count == 0

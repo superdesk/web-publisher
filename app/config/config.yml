@@ -110,7 +110,13 @@ swiftmailer:
     password:  "%mailer_password%"
     spool:     { type: memory }
 
-fos_http_cache: ~
+fos_http_cache:
+    proxy_client:
+        symfony:
+            servers: webrenderer.dev
+            base_url: webrenderer.dev
+    invalidation:
+        enabled: true
 
 doctrine_phpcr:
     odm:

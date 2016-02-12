@@ -4164,7 +4164,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sensiolabs/SensioFrameworkExtraBundle/zipball/48996e0ef3c9f23c98979c5edfee05d3cd0a5f6c",
+                "url": "https://api.github.com/repos/sensiolabs/SensioFrameworkExtraBundle/zipball/912f6b65680533f6c8017251c7b739f231d81aec",
                 "reference": "3e8936fe13aa4086644977d334d8fcd275f50357",
                 "shasum": ""
             },
@@ -4589,20 +4589,20 @@
             "support": {
                 "source": "https://github.com/takeit/multi-tenancy/tree/master"
             },
-            "time": "2016-02-02 12:45:34"
+            "time": "2016-02-08 12:10:03"
         },
         {
             "name": "swp/multi-tenancy-bundle",
             "version": "dev-master",
             "source": {
                 "type": "git",
-                "url": "https://github.com/takeit/SWPMultiTenancyBundle.git",
-                "reference": "c4aa99551eef3d092b72080d46c9fde6425f32f4"
+                "url": "https://github.com/SuperdeskWebPublisher/SWPMultiTenancyBundle.git",
+                "reference": "119f8834ebaa9274ffb6b9f3b8798d985fa5d7af"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/takeit/SWPMultiTenancyBundle/zipball/c4aa99551eef3d092b72080d46c9fde6425f32f4",
-                "reference": "c4aa99551eef3d092b72080d46c9fde6425f32f4",
+                "url": "https://api.github.com/repos/SuperdeskWebPublisher/SWPMultiTenancyBundle/zipball/119f8834ebaa9274ffb6b9f3b8798d985fa5d7af",
+                "reference": "119f8834ebaa9274ffb6b9f3b8798d985fa5d7af",
                 "shasum": ""
             },
             "require": {
@@ -4640,12 +4640,7 @@
                     "SWP\\MultiTenancyBundle\\": ""
                 }
             },
-            "autoload-dev": {
-                "psr-4": {
-                    "SWP\\MultiTenancyBundle\\Tests\\": "Tests/",
-                    "SWP\\MultiTenancyBundle\\spec\\": "spec/"
-                }
-            },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "GPL-3.0"
             ],
@@ -4657,16 +4652,13 @@
             ],
             "description": "This bundle provides tools to build multi-tenant architecture for PHP applications.",
             "keywords": [
+                "Superdesk",
                 "multi-tenancy",
                 "saas",
-                "superdesk",
                 "tenant",
                 "webpublisher"
             ],
-            "support": {
-                "source": "https://github.com/takeit/SWPMultiTenancyBundle/tree/master"
-            },
-            "time": "2016-02-08 11:09:41"
+            "time": "2016-02-08 13:11:11"
         },
         {
             "name": "swp/templates-system",
@@ -5496,7 +5488,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/symfony/zipball/9d04018350436809a3948b81e076a776bb75192c",
+                "url": "https://api.github.com/repos/symfony/symfony/zipball/3c382c54c50ea146c768978b147fd9f347a2df27",
                 "reference": "be80b0a40f3ff26c57dee062f83e328efe3f50cb",
                 "shasum": ""
             },
@@ -6061,7 +6053,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/fzaninotto/Faker/zipball/8d8e0e1a6151a46ea5cda344e2234b7225c61e7a",
+                "url": "https://api.github.com/repos/fzaninotto/Faker/zipball/ff1d463edb2c74e39f4ec76f7eb99fd47b237507",
                 "reference": "43835130f04a51265bcf41b8d69e16a266a2485d",
                 "shasum": ""
             },
@@ -6154,7 +6146,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/liip/LiipFunctionalTestBundle/zipball/633cb540c509e5c40b1139813214b29371e6988a",
+                "url": "https://api.github.com/repos/liip/LiipFunctionalTestBundle/zipball/8211a2e06ac0c939d1d8f19c26850f4a7d6cb5ac",
                 "reference": "0981fc0a18678b50a53410496239b602dc5a355b",
                 "shasum": ""
             },

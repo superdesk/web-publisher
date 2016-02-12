@@ -17,11 +17,12 @@ use Doctrine\Common\Collections\ArrayCollection;
 use SWP\Component\MultiTenancy\Model\TenantAwareInterface;
 use SWP\Component\MultiTenancy\Model\TenantInterface;
 use SWP\TemplatesSystem\Gimme\Model\ContainerInterface;
+use SWP\Component\Common\Model\TimestampableInterface;
 
 /**
  * Container.
  */
-class Container implements ContainerInterface, TenantAwareInterface
+class Container implements ContainerInterface, TenantAwareInterface, TimestampableInterface
 {
     const TYPE_SIMPLE = 1;
 
@@ -80,8 +81,19 @@ class Container implements ContainerInterface, TenantAwareInterface
      */
     protected $tenant;
 
+    /**
+     * @var \DateTime
+     */
+    protected $createdAt;
+
+    /**
+     * @var \DateTime
+     */
+    protected $updatedAt = null;
+
     public function __construct()
     {
+        $this->createdAt = new \DateTime();
         $this->data = new ArrayCollection();
         $this->widgets = new ArrayCollection();
         $this->setType(self::TYPE_SIMPLE);
@@ -378,5 +390,41 @@ class Container implements ContainerInterface, TenantAwareInterface
     public function setTenant(TenantInterface $tenant)
     {
         $this->tenant = $tenant;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getCreatedAt()
+    {
+        return $this->createdAt;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setCreatedAt(\DateTime $createdAt)
+    {
+        $this->createdAt = $createdAt;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getUpdatedAt()
+    {
+        if (is_null($this->updatedAt)) {
+            return $this->createdAt;
+        }
+
+        return $this->updatedAt;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setUpdatedAt(\DateTime $updatedAt)
+    {
+        $this->updatedAt = $updatedAt;
     }
 }

@@ -30,6 +30,19 @@ SWP\TemplateEngineBundle\Model\Container:
             nullable: true
         visible:
             type: boolean
+        createdAt:
+            type: datetime
+            options:
+                default: "now"
+            gedmo:
+                timestampable:
+                    on: create
+        updatedAt:
+            type: datetime
+            nullable: true
+            gedmo:
+                timestampable:
+                    on: update
     manyToOne:
         tenant:
             targetEntity: SWP\Component\MultiTenancy\Model\Tenant

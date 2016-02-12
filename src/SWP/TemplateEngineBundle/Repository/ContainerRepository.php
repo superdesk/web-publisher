@@ -56,6 +56,23 @@ class ContainerRepository extends \Doctrine\ORM\EntityRepository
     }
 
     /**
+     * Get Query for Container searched by id but only with id, createdAt and updatedAt fields.
+     *
+     * @param string $id
+     *
+     * @return \Doctrine\ORM\Query
+     */
+    public function getHttpCacheCheckQuery($id)
+    {
+        $query = $this->getEntityManager()->createQuery("select partial c.{id,createdAt,updatedAt} from SWP\TemplateEngineBundle\Model\Container c WHERE c.id = :id");
+        $query->setParameters([
+            'id' => $id,
+        ]);
+
+        return $query;
+    }
+
+    /**
      * Get Query for all Containers.
      *
      * @return \Doctrine\ORM\Query
