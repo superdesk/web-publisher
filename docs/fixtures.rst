@@ -42,7 +42,7 @@ Example Fixture class:
 
     use Doctrine\Common\DataFixtures\FixtureInterface;
     use Doctrine\Common\Persistence\ObjectManager;
-    use SWP\FixturesBundle\AbstractFixture;
+    use SWP\Bundle\FixturesBundle\AbstractFixture;
 
     class LoadPagesData extends AbstractFixture implements FixtureInterface
     {

@@ -74,11 +74,11 @@ doctrine:
                 mappings:
                     SWPContentBundle:
                         type: yml
-                        prefix: "SWP\ContentBundle\Model"
+                        prefix: "SWP\Bundle\ContentBundle\Model"
                         dir: Resources/config/doctrine
                     SWPTemplateEngineBundle:
                         type: yml
-                        prefix: "SWP\\TemplateEngineBundle\\Model"
+                        prefix: "SWP\Bundle\TemplateEngineBundle\Model"
                         dir: Resources/config/doctrine
                     SWPMultiTenancyBundle:
                         type: yml
@@ -94,7 +94,7 @@ doctrine:
                         class: Gedmo\SoftDeleteable\Filter\SoftDeleteableFilter
                         enabled: true
                     tenantable:
-                        class: SWP\MultiTenancyBundle\Query\Filter\TenantableFilter
+                        class: SWP\Bundle\MultiTenancyBundle\Query\Filter\TenantableFilter
                         enabled: true
 
 doctrine_cache:
@@ -185,9 +185,6 @@ swp_updater:
     client:
         base_uri: "http://updates.sourcefabric.org"
 
-swp_bridge:
-    base_uri: "http://superdesk.dev:5050"
-
 stof_doctrine_extensions:
     default_locale: %locale%
     orm:
@@ -201,8 +198,8 @@ swp_multi_tenancy:
     persistence:
         phpcr:
             enabled: true
-            site_document_class: "SWP\ContentBundle\Document\Site"
-            document_class: "SWP\ContentBundle\Document\Route"
+            site_document_class: "SWP\Bundle\ContentBundle\Document\Site"
+            document_class: "SWP\Bundle\ContentBundle\Document\Route"
 
 nelmio_api_doc:
     request_listener: false

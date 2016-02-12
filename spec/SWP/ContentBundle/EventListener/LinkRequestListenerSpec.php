@@ -28,6 +28,6 @@ class LinkRequestListenerSpec extends ObjectBehavior
 
     public function it_is_initializable()
     {
-        $this->shouldHaveType('SWP\ContentBundle\EventListener\LinkRequestListener');
+        $this->shouldHaveType('SWP\Bundle\ContentBundle\EventListener\LinkRequestListener');
     }
 }

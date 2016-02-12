@@ -1,0 +1,14 @@
+SWP\Bundle\ContentBundle\Document\Article:
+    referenceable: true
+    parentdocument: parent
+    nodename: slug
+    id: id
+    fields:
+        content:
+            type: string
+        title:
+            type: string
+    referenceOne:
+        route:
+            targetDocument: "\\SWP\\Bundle\\ContentBundle\\Document\\Route"
+            strategy: hard

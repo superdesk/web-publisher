@@ -1,3 +1,0 @@
-# override default cmf dynamic router with our implementation (with support for Meta Article)
-parameters:
-    cmf_routing.dynamic_router.class: SWP\WebRendererBundle\Routing\MetaRouter

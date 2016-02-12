@@ -19,7 +19,7 @@ class VersionSpec extends ObjectBehavior
 {
     public function it_is_initializable()
     {
-        $this->shouldHaveType('SWP\WebRendererBundle\Version\Version');
+        $this->shouldHaveType('SWP\Bundle\WebRendererBundle\Version\Version');
         $this->shouldImplement('SWP\UpdaterBundle\Version\VersionInterface');
     }
 

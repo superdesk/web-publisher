@@ -1,0 +1,42 @@
+{
+    "name": "swp/multi-tenancy",
+    "type": "library",
+    "description": "Multi-tenancy handling for PHP apps.",
+    "keywords": ["multi-tenancy", "multi-tenancy", "tenant", "superdesk", "publisher", "library"],
+    "authors": [
+        {
+            "name": "Rafał Muszyński",
+            "email": "rafal.muszynski@sourcefabric.org"
+        }
+    ],
+    "license":"GPL-3.0",
+    "require": {
+        "php": ">=5.4|^7.0",
+        "swp/common": "^1.0@dev"
+    },
+    "require-dev": {
+        "phpspec/phpspec": "^2.4",
+        "phpcr/phpcr-utils": "^1.2"
+    },
+    "suggest": {
+        "phpcr/phpcr-utils": "When using Tenant Aware Path Builder"
+    },
+    "config": {
+        "bin-dir": "bin"
+    },
+    "autoload": {
+        "exclude-from-classmap": [
+            "spec/"
+        ],
+        "psr-4": { "SWP\\Component\\MultiTenancy\\": "" }
+    },
+    "autoload-dev": {
+        "psr-4": { "SWP\\Component\\MultiTenancy\\spec\\": "spec/" }
+    },
+    "minimum-stability": "dev",
+    "extra": {
+        "branch-alias": {
+            "dev-master": "0.1-dev"
+        }
+    }
+}
