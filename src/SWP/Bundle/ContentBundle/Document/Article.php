@@ -15,7 +15,6 @@ namespace SWP\Bundle\ContentBundle\Document;
 
 use Behat\Transliterator\Transliterator;
 use Doctrine\ODM\PHPCR\Exception\InvalidArgumentException;
-use SWP\Bundle\ContentBundle\Document\Route;
 
 class Article
 {

@@ -73,7 +73,7 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface
                     'defaults' => [
                         '_controller' => '\SWP\Bundle\WebRendererBundle\Controller\ContentController::renderContentPageAction',
                     ],
-                ]
+                ],
             ],
             'test' => [
                 [
@@ -132,7 +132,7 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface
                     'defaults' => [
                         '_controller' => '\SWP\Bundle\WebRendererBundle\Controller\ContentController::renderContainerPageAction',
                     ],
-                ]
+                ],
             ],
         ];
 

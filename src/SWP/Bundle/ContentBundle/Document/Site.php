@@ -13,7 +13,6 @@
  */
 namespace SWP\Bundle\ContentBundle\Document;
 
-use SWP\Bundle\ContentBundle\Document\Route;
 use SWP\Bundle\MultiTenancyBundle\Document\Site as BaseSite;
 
 class Site extends BaseSite

@@ -7,7 +7,7 @@ use FOS\HttpCache\SymfonyCache\RefreshSubscriber;
 
 class AppCache extends EventDispatchingHttpCache
 {
-/**
+    /**
  * Overwrite constructor to register event subscribers for FOSHttpCache.
  */
 public function __construct(HttpKernelInterface $kernel, $cacheDir = null)

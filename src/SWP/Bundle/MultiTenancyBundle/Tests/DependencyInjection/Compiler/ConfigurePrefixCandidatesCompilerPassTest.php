@@ -61,7 +61,7 @@ class ConfigurePrefixCandidatesCompilerPassTest extends AbstractCompilerPassTest
         $this->container->setParameter('swp_multi_tenancy.backend_type_phpcr', true);
         $this->container->setParameter('cmf_routing.backend_type_phpcr', true);
         $this->container->setParameter('kernel.bundles', [
-            'CmfRoutingBundle' => true
+            'CmfRoutingBundle' => true,
         ]);
         $this->container->setParameter('swp_multi_tenancy.persistence.phpcr.route_basepaths', ['routes']);
         $this->container->setParameter(
@@ -83,7 +83,7 @@ class ConfigurePrefixCandidatesCompilerPassTest extends AbstractCompilerPassTest
             'cmf_routing.phpcr_candidates_prefix',
             'setPathBuilder',
             [
-                new Reference('swp_multi_tenancy.path_builder')
+                new Reference('swp_multi_tenancy.path_builder'),
             ]
         );
 
@@ -91,7 +91,7 @@ class ConfigurePrefixCandidatesCompilerPassTest extends AbstractCompilerPassTest
             'cmf_routing.phpcr_candidates_prefix',
             'setRoutePathsNames',
             [
-                $this->container->getParameter('swp_multi_tenancy.persistence.phpcr.route_basepaths')
+                $this->container->getParameter('swp_multi_tenancy.persistence.phpcr.route_basepaths'),
             ]
         );
     }

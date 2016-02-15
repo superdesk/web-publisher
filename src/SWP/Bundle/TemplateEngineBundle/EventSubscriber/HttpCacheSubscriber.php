@@ -34,8 +34,8 @@ class HttpCacheSubscriber implements EventSubscriberInterface
     {
         return [
            HttpCacheEvent::EVENT_NAME => [
-               ['clearContainers', 0]
-           ]
+               ['clearContainers', 0],
+           ],
        ];
     }
 
@@ -44,7 +44,7 @@ class HttpCacheSubscriber implements EventSubscriberInterface
         $this->cacheManager->invalidateRoute('swp_api_templates_list_containers');
         if ($event->getSubject() instanceof Container) {
             $this->cacheManager->invalidateRoute('swp_api_templates_get_container', [
-                'id' => $event->getSubject()->getId()
+                'id' => $event->getSubject()->getId(),
             ]);
         }
 
