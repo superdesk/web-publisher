@@ -62,7 +62,7 @@
         "incenteev/composer-parameter-handler": "~2.0",
         "friendsofsymfony/http-cache-bundle": "~1.0",
         "friendsofsymfony/rest-bundle": "2.0.x-dev",
-        "liip/theme-bundle": "1.3.0",
+        "liip/theme-bundle": "1.4.0",
         "jackalope/jackalope-doctrine-dbal": "1.3.*",
         "oneup/flysystem-bundle": "^1.1",
         "swp/templates-system": "^1.0@dev",

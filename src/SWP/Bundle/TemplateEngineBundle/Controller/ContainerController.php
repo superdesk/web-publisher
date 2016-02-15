@@ -11,7 +11,7 @@
  * @copyright 2015 Sourcefabric z.ú.
  * @license http://www.superdesk.org/license
  */
-namespace SWP\TemplateEngineBundle\Controller;
+namespace SWP\Bundle\TemplateEngineBundle\Controller;
 
 use FOS\RestBundle\Controller\FOSRestController;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
@@ -22,11 +22,11 @@ use FOS\RestBundle\View\View;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\UnprocessableEntityHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use SWP\TemplateEngineBundle\Event\HttpCacheEvent;
-use SWP\TemplateEngineBundle\Form\Type\ContainerType;
-use SWP\TemplateEngineBundle\Model\Widget;
-use SWP\TemplateEngineBundle\Model\ContainerWidget;
-use SWP\TemplateEngineBundle\Model\ContainerData;
+use SWP\Bundle\TemplateEngineBundle\Event\HttpCacheEvent;
+use SWP\Bundle\TemplateEngineBundle\Form\Type\ContainerType;
+use SWP\Bundle\TemplateEngineBundle\Model\Widget;
+use SWP\Bundle\TemplateEngineBundle\Model\ContainerWidget;
+use SWP\Bundle\TemplateEngineBundle\Model\ContainerData;
 
 class ContainerController extends FOSRestController
 {
@@ -47,7 +47,7 @@ class ContainerController extends FOSRestController
     {
         $entityManager = $this->get('doctrine')->getManager();
         $paginator = $this->get('knp_paginator');
-        $containers = $paginator->paginate($entityManager->getRepository('SWP\TemplateEngineBundle\Model\Container')->getAll());
+        $containers = $paginator->paginate($entityManager->getRepository('SWP\Bundle\TemplateEngineBundle\Model\Container')->getAll());
 
         if (count($containers) == 0) {
             throw new NotFoundHttpException('Containers were not found.');
@@ -75,7 +75,7 @@ class ContainerController extends FOSRestController
     public function getAction(Request $request, $id)
     {
         $container = $this->get('doctrine')->getManager()
-            ->getRepository('SWP\TemplateEngineBundle\Model\Container')
+            ->getRepository('SWP\Bundle\TemplateEngineBundle\Model\Container')
             ->getById($id)
             ->getOneOrNullResult();
 
@@ -97,7 +97,7 @@ class ContainerController extends FOSRestController
      *         404="Container not found",
      *         422="Container id is not number"
      *     },
-     *     input="SWP\TemplateEngineBundle\Form\Type\ContainerType"
+     *     input="SWP\Bundle\TemplateEngineBundle\Form\Type\ContainerType"
      * )
      * @Route("/api/{version}/templates/containers/{id}", requirements={"id"="\d+"}, options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_templates_update_container")
      * @Method("PATCH")
@@ -105,7 +105,7 @@ class ContainerController extends FOSRestController
     public function updateAction(Request $request, $id)
     {
         $entityManager = $this->get('doctrine')->getManager();
-        $container = $entityManager->getRepository('SWP\TemplateEngineBundle\Model\Container')
+        $container = $entityManager->getRepository('SWP\Bundle\TemplateEngineBundle\Model\Container')
             ->getById($id)
             ->getOneOrNullResult();
 
@@ -135,7 +135,7 @@ class ContainerController extends FOSRestController
                 }
             }
 
-            $this->get('dispatcher')->dispatch(HttpCacheEvent::CLEAR, new HttpCacheEvent($container));
+            //$this->get('dispatcher')->dispatch(HttpCacheEvent::CLEAR, new HttpCacheEvent($container));
 
             $entityManager->flush($container);
             $entityManager->refresh($container);
@@ -187,7 +187,7 @@ class ContainerController extends FOSRestController
         }
 
         $entityManager = $this->get('doctrine')->getManager();
-        $container = $entityManager->getRepository('SWP\TemplateEngineBundle\Model\Container')
+        $container = $entityManager->getRepository('SWP\Bundle\TemplateEngineBundle\Model\Container')
             ->getById($id)
             ->getOneOrNullResult();
 
@@ -209,7 +209,7 @@ class ContainerController extends FOSRestController
             }
 
             if ($object instanceof Widget) {
-                $containerWidget = $entityManager->getRepository('SWP\TemplateEngineBundle\Model\ContainerWidget')
+                $containerWidget = $entityManager->getRepository('SWP\Bundle\TemplateEngineBundle\Model\ContainerWidget')
                     ->findOneBy([
                         'widget' => $object,
                         'container' => $container,

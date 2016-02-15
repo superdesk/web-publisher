@@ -36,7 +36,7 @@ class DefaultController extends Controller
 
         $tenantContext = $this->get('swp_multi_tenancy.tenant_context');
 
-        return $this->render('views/index.html.twig', [
+        return $this->render('index.html.twig', [
             'tenant' => $tenantContext->getTenant(),
             'page' => $homepage,
         ]);
