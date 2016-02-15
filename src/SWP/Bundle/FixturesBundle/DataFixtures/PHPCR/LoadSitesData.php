@@ -31,9 +31,7 @@ class LoadSitesData extends AbstractFixture implements FixtureInterface
         }
 
         $page = $manager->find('SWP\Bundle\ContentBundle\Document\Route', '/swp/default/routes/homepage');
-
         $site->setHomepage($page);
-        $manager->persist($page);
 
         $site = $manager->find('SWP\Bundle\ContentBundle\Document\Site', '/swp/client1');
 
@@ -42,9 +40,7 @@ class LoadSitesData extends AbstractFixture implements FixtureInterface
         }
 
         $page2 = $manager->find('SWP\Bundle\ContentBundle\Document\Route', '/swp/client1/routes/homepage');
-
         $site->setHomepage($page2);
-        $manager->persist($page2);
         $manager->flush();
     }
 }

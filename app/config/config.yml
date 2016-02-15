@@ -43,7 +43,9 @@ liip_theme:
     path_patterns:
         app_resource:
             - "%%app_path%%/themes/%%current_theme%%/%%current_device%%/%%template%%"
+            - "%%app_path%%/themes/%%current_theme%%/%%template%%"
             - "%%app_path%%/views/%%current_device%%/%%template%%"
+            - "%%app_path%%/views/%%template%%"
 
 twig_cache:
     service: "doctrine_cache.providers.main_cache"

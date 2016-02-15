@@ -111,6 +111,10 @@ class LinkRequestListener
             $controller = $subEvent->getController();
 
             $arguments = $this->resolver->getArguments($stubRequest, $controller);
+            if (!isset($arguments[0])) {
+                continue;
+            }
+
             $arguments[0]->attributes->set('_link_request', true);
             try {
                 $result = call_user_func_array($controller, $arguments);

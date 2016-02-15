@@ -73,21 +73,7 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface
                     'defaults' => [
                         '_controller' => '\SWP\Bundle\WebRendererBundle\Controller\ContentController::renderContentPageAction',
                     ],
-                ],
-                [
-                    'parent' => '/swp/default/routes',
-                    'name' => 'homepage',
-                    'defaults' => [
-                        '_controller' => '\SWP\Bundle\WebRendererBundle\Controller\ContentController::renderContainerPageAction',
-                    ],
-                ],
-                [
-                    'parent' => '/swp/client1/routes',
-                    'name' => 'homepage',
-                    'defaults' => [
-                        '_controller' => '\SWP\Bundle\WebRendererBundle\Controller\ContentController::renderContainerPageAction',
-                    ],
-                ],
+                ]
             ],
             'test' => [
                 [
@@ -135,7 +121,7 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface
                     'defaults' => [
                         '_controller' => '\SWP\Bundle\WebRendererBundle\Controller\ContentController::renderContainerPageAction',
                     ],
-                ],
+                ]
             ],
         ];
 

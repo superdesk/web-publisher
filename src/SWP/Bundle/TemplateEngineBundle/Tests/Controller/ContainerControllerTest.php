@@ -62,6 +62,7 @@ class ContainerControllerTest extends WebTestCase
     public function testUpdateContainerApi()
     {
         $client = static::createClient();
+        $client->enableProfiler();
         $client->request('PATCH', $this->router->generate('swp_api_templates_update_container', ['id' => 1]), [
             'container' => [
                 'name' => 'Simple Container 1',
