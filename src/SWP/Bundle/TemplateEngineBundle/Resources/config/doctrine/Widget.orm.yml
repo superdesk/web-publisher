@@ -19,6 +19,19 @@ SWP\Bundle\TemplateEngineBundle\Model\Widget:
             type: boolean
         parameters:
             type: json_array
+        createdAt:
+            type: datetime
+            options:
+                default: "now"
+            gedmo:
+                timestampable:
+                    on: create
+        updatedAt:
+            type: datetime
+            nullable: true
+            gedmo:
+                timestampable:
+                    on: update
     manyToOne:
         tenant:
             targetEntity: SWP\Component\MultiTenancy\Model\Tenant

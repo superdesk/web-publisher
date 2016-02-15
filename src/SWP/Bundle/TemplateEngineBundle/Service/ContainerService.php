@@ -16,6 +16,7 @@ namespace SWP\Bundle\TemplateEngineBundle\Service;
 use SWP\Bundle\TemplateEngineBundle\Container\SimpleContainer;
 use SWP\Bundle\TemplateEngineBundle\Model\Container;
 use SWP\Bundle\TemplateEngineBundle\Model\ContainerData;
+use SWP\Component\Common\Event\HttpCacheEvent;
 
 class ContainerService
 {
@@ -26,12 +27,14 @@ class ContainerService
     protected $cacheDir;
     protected $debug;
     protected $renderer = false;
+    protected $eventDispatcher;
 
-    public function __construct($doctrine, $cacheDir, $debug = false)
+    public function __construct($doctrine, $cacheDir, $eventDispatcher, $debug = false)
     {
         $this->objectManager = $doctrine->getManager();
         $this->cacheDir = $cacheDir.'/twig';
         $this->debug = $debug;
+        $this->eventDispatcher = $eventDispatcher;
     }
 
     public function getContainer($name, array $parameters = [], $createIfNotExists = true)
@@ -117,6 +120,9 @@ class ContainerService
         }
         $this->objectManager->persist($containerEntity);
         $this->objectManager->flush();
+
+        $this->eventDispatcher
+            ->dispatch(HttpCacheEvent::EVENT_NAME, new HttpCacheEvent($containerEntity));
 
         return $containerEntity;
     }

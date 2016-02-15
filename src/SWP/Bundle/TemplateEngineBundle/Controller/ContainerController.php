@@ -22,11 +22,11 @@ use FOS\RestBundle\View\View;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\UnprocessableEntityHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use SWP\Bundle\TemplateEngineBundle\Event\HttpCacheEvent;
 use SWP\Bundle\TemplateEngineBundle\Form\Type\ContainerType;
 use SWP\Bundle\TemplateEngineBundle\Model\Widget;
 use SWP\Bundle\TemplateEngineBundle\Model\ContainerWidget;
 use SWP\Bundle\TemplateEngineBundle\Model\ContainerData;
+use SWP\Component\Common\Event\HttpCacheEvent;
 
 class ContainerController extends FOSRestController
 {
@@ -42,6 +42,7 @@ class ContainerController extends FOSRestController
      * )
      * @Route("/api/{version}/templates/containers/", options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_templates_list_containers")
      * @Method("GET")
+     * @Cache(expires="10 minutes", public=true)
      */
     public function listAction(Request $request)
     {
@@ -70,7 +71,7 @@ class ContainerController extends FOSRestController
      * )
      * @Route("/api/{version}/templates/containers/{id}", requirements={"id"="\d+"}, options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_templates_get_container")
      * @Method("GET")
-     * @Cache(expires="10 hours", public=true)
+     * @Cache(expires="10 minutes", public=true)
      */
     public function getAction(Request $request, $id)
     {
@@ -82,6 +83,9 @@ class ContainerController extends FOSRestController
         if (!$container) {
             throw new NotFoundHttpException('Container with this id was not found.');
         }
+
+        $this->get('event_dispatcher')
+            ->dispatch(HttpCacheEvent::EVENT_NAME, new HttpCacheEvent($container));
 
         return $this->handleView(View::create($container, 200));
     }
@@ -135,15 +139,10 @@ class ContainerController extends FOSRestController
                 }
             }
 
-            //$this->get('dispatcher')->dispatch(HttpCacheEvent::CLEAR, new HttpCacheEvent($container));
-
             $entityManager->flush($container);
             $entityManager->refresh($container);
-            $this->get('fos_http_cache.cache_manager')
-                ->invalidateRoute('swp_api_templates_list_containers')
-                ->invalidateRoute('swp_api_templates_get_container', array('id' => $id))
-                ->flush();
-
+            $this->get('event_dispatcher')
+                ->dispatch(HttpCacheEvent::EVENT_NAME, new HttpCacheEvent($container));
 
             return $this->handleView(View::create($container, 201));
         }
@@ -246,10 +245,8 @@ class ContainerController extends FOSRestController
                 }
 
                 $entityManager->flush();
-                $this->get('fos_http_cache.cache_manager')
-                    ->invalidateRoute('swp_api_templates_list_containers')
-                    ->invalidateRoute('swp_api_templates_get_container', array('id' => $id))
-                    ->flush();
+                $this->get('event_dispatcher')
+                    ->dispatch(HttpCacheEvent::EVENT_NAME, new HttpCacheEvent($container));
                 $matched = true;
                 break;
             }

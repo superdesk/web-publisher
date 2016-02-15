@@ -13,6 +13,7 @@
  */
 namespace SWP\Bundle\TemplateEngineBundle\Model;
 
+use SWP\Component\Common\Model\TimestampableInterface;
 use SWP\Component\MultiTenancy\Model\TenantAwareInterface;
 use SWP\Component\MultiTenancy\Model\TenantInterface;
 use SWP\TemplatesSystem\Gimme\Model\WidgetInterface;
@@ -21,7 +22,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 /**
  * Widget.
  */
-class Widget implements WidgetInterface, TenantAwareInterface
+class Widget implements WidgetInterface, TenantAwareInterface, TimestampableInterface
 {
     const TYPE_HTML = 1;
 
@@ -64,8 +65,19 @@ class Widget implements WidgetInterface, TenantAwareInterface
      */
     protected $tenant;
 
+    /**
+     * @var \DateTime
+     */
+    protected $createdAt;
+
+    /**
+     * @var \DateTime
+     */
+    protected $updatedAt = null;
+
     public function __construct()
     {
+        $this->createdAt = new \DateTime();
         $this->parameters = [];
         $this->setVisible();
         $this->setType();
@@ -217,5 +229,41 @@ class Widget implements WidgetInterface, TenantAwareInterface
     public function setTenant(TenantInterface $tenant)
     {
         $this->tenant = $tenant;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getCreatedAt()
+    {
+        return $this->createdAt;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setCreatedAt(\DateTime $createdAt)
+    {
+        $this->createdAt = $createdAt;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getUpdatedAt()
+    {
+        if (is_null($this->updatedAt)) {
+            return $this->createdAt;
+        }
+
+        return $this->updatedAt;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setUpdatedAt(\DateTime $updatedAt)
+    {
+        $this->updatedAt = $updatedAt;
     }
 }

@@ -7,7 +7,6 @@ imports:
 # http://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
     locale: en
-
 framework:
     #esi:             ~
     translator:      { fallbacks: ["%locale%"] }
@@ -113,10 +112,12 @@ swiftmailer:
     spool:     { type: memory }
 
 fos_http_cache:
+    cache_manager:
+        enabled: true
+        generate_url_type: 0
     proxy_client:
         symfony:
-            servers: webrenderer.dev
-            base_url: webrenderer.dev
+            servers: %cache_servers%
     invalidation:
         enabled: true
 
