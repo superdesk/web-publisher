@@ -14,7 +14,6 @@
 namespace SWP\Bundle\TemplateEngineBundle\Annotation;
 
 use Doctrine\Common\Annotations\Reader;
-use SWP\Bundle\TemplateEngineBundle\Annotation\Context;
 
 class ContextReader
 {

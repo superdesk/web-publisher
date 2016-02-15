@@ -13,8 +13,6 @@
  */
 namespace SWP\Bundle\TemplateEngineBundle\Model;
 
-use SWP\Bundle\TemplateEngineBundle\Model\Container;
-
 /**
  * ContainerData.
  */

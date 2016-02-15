@@ -48,7 +48,7 @@ class CreateTenantCommand extends ContainerAwareCommand
                 new InputOption('default', null, InputOption::VALUE_NONE, 'Creates the default tenant'),
             ])
             ->setHelp(
-                <<<EOT
+                <<<'EOT'
                 The <info>%command.name%</info> command creates a new tenant.
 EOT
             )

@@ -18,7 +18,6 @@ use Prophecy\Argument;
 use Doctrine\ORM\Mapping\ClassMetadata;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\QueryBuilder;
-use Doctrine\ORM\Query\Expr;
 use Doctrine\ORM\AbstractQuery;
 
 class TenantRepositorySpec extends ObjectBehavior

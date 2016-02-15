@@ -13,9 +13,6 @@
  */
 namespace SWP\Bundle\TemplateEngineBundle\Model;
 
-use SWP\Bundle\TemplateEngineBundle\Model\Container;
-use SWP\Bundle\TemplateEngineBundle\Model\Widget;
-
 /**
  * ContainerWidget.
  */
