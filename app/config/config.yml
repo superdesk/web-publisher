@@ -7,7 +7,6 @@ imports:
 # http://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
     locale: en
-
 framework:
     #esi:             ~
     translator:      { fallbacks: ["%locale%"] }
@@ -43,7 +42,9 @@ liip_theme:
     path_patterns:
         app_resource:
             - "%%app_path%%/themes/%%current_theme%%/%%current_device%%/%%template%%"
+            - "%%app_path%%/themes/%%current_theme%%/%%template%%"
             - "%%app_path%%/views/%%current_device%%/%%template%%"
+            - "%%app_path%%/views/%%template%%"
 
 twig_cache:
     service: "doctrine_cache.providers.main_cache"
@@ -74,15 +75,15 @@ doctrine:
                 mappings:
                     SWPContentBundle:
                         type: yml
-                        prefix: "SWP\ContentBundle\Model"
+                        prefix: SWP\Bundle\ContentBundle\Model
                         dir: Resources/config/doctrine
                     SWPTemplateEngineBundle:
                         type: yml
-                        prefix: "SWP\\TemplateEngineBundle\\Model"
+                        prefix: SWP\Bundle\TemplateEngineBundle\Model
                         dir: Resources/config/doctrine
                     SWPMultiTenancyBundle:
                         type: yml
-                        prefix: "SWP\Component\MultiTenancy\Model"
+                        prefix: SWP\Component\MultiTenancy\Model
                         dir: Resources/config/doctrine
                     gedmo_loggable:
                         type: annotation
@@ -94,7 +95,7 @@ doctrine:
                         class: Gedmo\SoftDeleteable\Filter\SoftDeleteableFilter
                         enabled: true
                     tenantable:
-                        class: SWP\MultiTenancyBundle\Query\Filter\TenantableFilter
+                        class: SWP\Bundle\MultiTenancyBundle\Query\Filter\TenantableFilter
                         enabled: true
 
 doctrine_cache:
@@ -110,7 +111,15 @@ swiftmailer:
     password:  "%mailer_password%"
     spool:     { type: memory }
 
-fos_http_cache: ~
+fos_http_cache:
+    cache_manager:
+        enabled: true
+        generate_url_type: 0
+    proxy_client:
+        symfony:
+            servers: %cache_servers%
+    invalidation:
+        enabled: true
 
 doctrine_phpcr:
     odm:
@@ -185,9 +194,6 @@ swp_updater:
     client:
         base_uri: "http://updates.sourcefabric.org"
 
-swp_bridge:
-    base_uri: "http://superdesk.dev:5050"
-
 stof_doctrine_extensions:
     default_locale: %locale%
     orm:
@@ -201,8 +207,8 @@ swp_multi_tenancy:
     persistence:
         phpcr:
             enabled: true
-            site_document_class: "SWP\ContentBundle\Document\Site"
-            document_class: "SWP\ContentBundle\Document\Route"
+            site_document_class: SWP\Bundle\ContentBundle\Document\Site
+            document_class: SWP\Bundle\ContentBundle\Document\Route
 
 nelmio_api_doc:
     request_listener: false

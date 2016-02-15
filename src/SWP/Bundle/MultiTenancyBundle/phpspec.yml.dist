@@ -1,0 +1,5 @@
+suites:
+    main:
+        namespace: SWP\Bundle\MultiTenancyBundle
+        psr4_prefix: SWP\Bundle\MultiTenancyBundle
+        src_path: .
