@@ -31,6 +31,7 @@ class ContainerServiceTest extends WebTestCase
         new ContainerService(
             $this->getContainer()->get('doctrine'),
             $this->getContainer()->getParameter('kernel.cache_dir'),
+            $this->getContainer()->get('event_dispatcher'),
             true
         );
     }
@@ -40,6 +41,7 @@ class ContainerServiceTest extends WebTestCase
         new ContainerService(
             $this->getContainer()->get('doctrine'),
             $this->getContainer()->getParameter('kernel.cache_dir'),
+            $this->getContainer()->get('event_dispatcher'),
             false
         );
     }
@@ -48,7 +50,8 @@ class ContainerServiceTest extends WebTestCase
     {
         $containerService = new ContainerService(
             $this->getContainer()->get('doctrine'),
-            $this->getContainer()->getParameter('kernel.cache_dir')
+            $this->getContainer()->getParameter('kernel.cache_dir'),
+            $this->getContainer()->get('event_dispatcher')
         );
 
         $this->assertInstanceOf('\Twig_Environment', $containerService->getRenderer());
@@ -62,6 +65,7 @@ class ContainerServiceTest extends WebTestCase
         $containerService = new ContainerService(
             $this->getContainer()->get('doctrine'),
             $this->getContainer()->getParameter('kernel.cache_dir'),
+            $this->getContainer()->get('event_dispatcher'),
             true
         );
 
@@ -94,6 +98,7 @@ class ContainerServiceTest extends WebTestCase
         $containerService = new ContainerService(
             $this->getContainer()->get('doctrine'),
             $this->getContainer()->getParameter('kernel.cache_dir'),
+            $this->getContainer()->get('event_dispatcher'),
             true
         );
 
@@ -108,6 +113,7 @@ class ContainerServiceTest extends WebTestCase
         $containerService = new ContainerService(
             $this->getContainer()->get('doctrine'),
             $this->getContainer()->getParameter('kernel.cache_dir'),
+            $this->getContainer()->get('event_dispatcher'),
             true
         );
 

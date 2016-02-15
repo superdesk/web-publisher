@@ -81,12 +81,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/asm89/twig-cache-extension.git",
-                "reference": "6cbd0120eee32b27277566798fa35f79b053b3a0"
+                "reference": "7b16bd429d3d1681ffb26319d2d9db1920cb9389"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/asm89/twig-cache-extension/zipball/6cbd0120eee32b27277566798fa35f79b053b3a0",
-                "reference": "6cbd0120eee32b27277566798fa35f79b053b3a0",
+                "url": "https://api.github.com/repos/asm89/twig-cache-extension/zipball/7b16bd429d3d1681ffb26319d2d9db1920cb9389",
+                "reference": "7b16bd429d3d1681ffb26319d2d9db1920cb9389",
                 "shasum": ""
             },
             "require": {
@@ -99,7 +99,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.1-dev"
+                    "dev-master": "1.2-dev"
                 }
             },
             "autoload": {
@@ -124,7 +124,7 @@
                 "extension",
                 "twig"
             ],
-            "time": "2015-10-17 20:49:52"
+            "time": "2016-02-14 13:55:53"
         },
         {
             "name": "behat/transliterator",
@@ -1066,12 +1066,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/phpcr-odm.git",
-                "reference": "f353b2f3897f2502595ef4ce8b19e86ee6660625"
+                "reference": "0f4c0eef2c24aa846feb500aa683d453af8cb540"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/phpcr-odm/zipball/f353b2f3897f2502595ef4ce8b19e86ee6660625",
-                "reference": "f353b2f3897f2502595ef4ce8b19e86ee6660625",
+                "url": "https://api.github.com/repos/doctrine/phpcr-odm/zipball/0f4c0eef2c24aa846feb500aa683d453af8cb540",
+                "reference": "0f4c0eef2c24aa846feb500aa683d453af8cb540",
                 "shasum": ""
             },
             "require": {
@@ -1138,7 +1138,7 @@
                 "odm",
                 "phpcr"
             ],
-            "time": "2016-01-13 08:21:38"
+            "time": "2016-02-15 15:32:57"
         },
         {
             "name": "emanueleminotto/twig-cache-bundle",
@@ -1358,12 +1358,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/FriendsOfSymfony/FOSRestBundle.git",
-                "reference": "89edb3309e39348a7ddc8dfca1f9d62529430b83"
+                "reference": "3364f440c068028f766e8707ed911f16371b4cfd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSRestBundle/zipball/89edb3309e39348a7ddc8dfca1f9d62529430b83",
-                "reference": "89edb3309e39348a7ddc8dfca1f9d62529430b83",
+                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSRestBundle/zipball/3364f440c068028f766e8707ed911f16371b4cfd",
+                "reference": "3364f440c068028f766e8707ed911f16371b4cfd",
                 "shasum": ""
             },
             "require": {
@@ -1434,7 +1434,7 @@
             "keywords": [
                 "rest"
             ],
-            "time": "2016-02-05 16:31:52"
+            "time": "2016-02-14 13:32:34"
         },
         {
             "name": "gedmo/doctrine-extensions",
@@ -3190,12 +3190,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/thephpleague/flysystem.git",
-                "reference": "35b0af4532c72da9ad533c810251d2af7c32a410"
+                "reference": "39fbfeec0eb00cd9fa2e6b93d13e2c6e6a42dfcb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/flysystem/zipball/35b0af4532c72da9ad533c810251d2af7c32a410",
-                "reference": "35b0af4532c72da9ad533c810251d2af7c32a410",
+                "url": "https://api.github.com/repos/thephpleague/flysystem/zipball/39fbfeec0eb00cd9fa2e6b93d13e2c6e6a42dfcb",
+                "reference": "39fbfeec0eb00cd9fa2e6b93d13e2c6e6a42dfcb",
                 "shasum": ""
             },
             "require": {
@@ -3265,7 +3265,7 @@
                 "sftp",
                 "storage"
             ],
-            "time": "2016-02-03 22:34:28"
+            "time": "2016-02-15 08:38:16"
         },
         {
             "name": "liip/theme-bundle",
@@ -3462,12 +3462,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/nelmio/NelmioApiDocBundle.git",
-                "reference": "5d9c47bbad2e064340cabfd3f96f5057a80773c4"
+                "reference": "07545629aa99441cfec1c18619050a346ea273f9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nelmio/NelmioApiDocBundle/zipball/5d9c47bbad2e064340cabfd3f96f5057a80773c4",
-                "reference": "5d9c47bbad2e064340cabfd3f96f5057a80773c4",
+                "url": "https://api.github.com/repos/nelmio/NelmioApiDocBundle/zipball/07545629aa99441cfec1c18619050a346ea273f9",
+                "reference": "07545629aa99441cfec1c18619050a346ea273f9",
                 "shasum": ""
             },
             "require": {
@@ -3537,7 +3537,7 @@
                 "documentation",
                 "rest"
             ],
-            "time": "2016-01-08 12:33:10"
+            "time": "2016-02-14 16:45:10"
         },
         {
             "name": "oneup/flysystem-bundle",
@@ -4848,17 +4848,20 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/polyfill-intl-icu.git",
-                "reference": "66b0bb4abda229bc073eff6bbc8f2685bdaac165"
+                "reference": "3392ea0037a4bf9230b81363145776e4fdce66a9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/polyfill-intl-icu/zipball/66b0bb4abda229bc073eff6bbc8f2685bdaac165",
-                "reference": "66b0bb4abda229bc073eff6bbc8f2685bdaac165",
+                "url": "https://api.github.com/repos/symfony/polyfill-intl-icu/zipball/3392ea0037a4bf9230b81363145776e4fdce66a9",
+                "reference": "3392ea0037a4bf9230b81363145776e4fdce66a9",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.3.3",
                 "symfony/intl": "~2.3|~3.0"
+            },
+            "suggest": {
+                "ext-intl": "For best performance"
             },
             "type": "library",
             "extra": {
@@ -4895,7 +4898,7 @@
                 "portable",
                 "shim"
             ],
-            "time": "2016-01-20 09:13:37"
+            "time": "2016-02-15 04:08:08"
         },
         {
             "name": "symfony/polyfill-mbstring",
@@ -5361,12 +5364,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/symfony.git",
-                "reference": "9e598a464f38d77a4ddaae7fb266f3e1375cb542"
+                "reference": "d6418d4b367f9b3fd89387fdbd7c2ecc945c037b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/symfony/zipball/9e598a464f38d77a4ddaae7fb266f3e1375cb542",
-                "reference": "9e598a464f38d77a4ddaae7fb266f3e1375cb542",
+                "url": "https://api.github.com/repos/symfony/symfony/zipball/d6418d4b367f9b3fd89387fdbd7c2ecc945c037b",
+                "reference": "d6418d4b367f9b3fd89387fdbd7c2ecc945c037b",
                 "shasum": ""
             },
             "require": {
@@ -5487,7 +5490,7 @@
             "keywords": [
                 "framework"
             ],
-            "time": "2016-02-12 16:18:49"
+            "time": "2016-02-15 09:18:04"
         },
         {
             "name": "twig/extensions",
@@ -6408,12 +6411,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpspec/prophecy.git",
-                "reference": "e55e3e32a870bd4f05425fa4f717b52bd40e5659"
+                "reference": "ce91d434b3dc443a3294c4535747765e84d11094"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpspec/prophecy/zipball/e55e3e32a870bd4f05425fa4f717b52bd40e5659",
-                "reference": "e55e3e32a870bd4f05425fa4f717b52bd40e5659",
+                "url": "https://api.github.com/repos/phpspec/prophecy/zipball/ce91d434b3dc443a3294c4535747765e84d11094",
+                "reference": "ce91d434b3dc443a3294c4535747765e84d11094",
                 "shasum": ""
             },
             "require": {
@@ -6429,7 +6432,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.5.x-dev"
+                    "dev-master": "1.6.x-dev"
                 }
             },
             "autoload": {
@@ -6462,7 +6465,7 @@
                 "spy",
                 "stub"
             ],
-            "time": "2015-12-28 13:26:33"
+            "time": "2016-02-15 13:39:12"
         },
         {
             "name": "phpunit/php-code-coverage",

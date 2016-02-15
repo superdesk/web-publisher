@@ -68,7 +68,7 @@ docker-compose run --rm php php /var/www/webpublisher/app/console swp:tenant:cre
 docker-compose run --rm php php /var/www/webpublisher/app/console doctrine:phpcr:repository:init
 ```
 
-`swp:tenant:create --default` console command, creates a new, default tenant which is 
+`swp:tenant:create --default` console command, creates a new, default tenant which is
 needed to run the WebPublisher.
 
 [1]: http://superdesk-web-publisher.readthedocs.org/en/latest/
@@ -86,7 +86,7 @@ php bin/phpspec run # PHPSpec
 
 To see current code tests coverage run:
 
-For PHPSpec copy`phpspec.yaml.dist` to `phpspec.yaml` and uncomment:
+For PHPSpec copy`phpspec.yml.dist` to `phpspec.yml` and uncomment:
 
 ```yaml
 #extensions:
@@ -111,4 +111,3 @@ php bin/phpunit -c app/ --coverage-text
 
 * [swp/templates-system](https://github.com/SuperdeskWebPublisher/templates-system) [![Build Status](https://travis-ci.org/SuperdeskWebPublisher/templates-system.svg?branch=master)](https://travis-ci.org/SuperdeskWebPublisher/templates-system) [![Code Climate](https://codeclimate.com/github/SuperdeskWebPublisher/templates-system/badges/gpa.svg)](https://codeclimate.com/github/SuperdeskWebPublisher/templates-system) [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/SuperdeskWebPublisher/templates-system/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/SuperdeskWebPublisher/templates-system/?branch=master)
 * [swp/multi-tenancy](https://github.com/SuperdeskWebPublisher/multi-tenancy) [![Build Status](https://travis-ci.org/SuperdeskWebPublisher/multi-tenancy.svg?branch=master)](https://travis-ci.org/SuperdeskWebPublisher/multi-tenancy) [![Code Climate](https://codeclimate.com/github/SuperdeskWebPublisher/multi-tenancy/badges/gpa.svg)](https://codeclimate.com/github/SuperdeskWebPublisher/multi-tenancy) [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/SuperdeskWebPublisher/multi-tenancy/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/SuperdeskWebPublisher/multi-tenancy/?branch=master) [![SensioLabsInsight](https://insight.sensiolabs.com/projects/34801a37-b258-4fbf-b395-7ae004218334/mini.png)](https://insight.sensiolabs.com/projects/34801a37-b258-4fbf-b395-7ae004218334)
-
