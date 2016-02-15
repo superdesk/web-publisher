@@ -86,7 +86,7 @@ php bin/phpspec run # PHPSpec
 
 To see current code tests coverage run:
 
-For PHPSpec copy`phpspec.yaml.dist` to `phpspec.yaml` and uncomment:
+For PHPSpec copy`phpspec.yml.dist` to `phpspec.yml` and uncomment:
 
 ```yaml
 #extensions:

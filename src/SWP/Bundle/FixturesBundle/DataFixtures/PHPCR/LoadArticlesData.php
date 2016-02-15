@@ -88,6 +88,17 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface
                     ],
                 ],
                 [
+                    'parent' => '/swp/client1/routes',
+                    'name' => 'news',
+                    'variablePattern' => '/{slug}',
+                    'requirements' => [
+                        'slug' => '[a-zA-Z1-9\-_\/]+',
+                    ],
+                    'defaults' => [
+                        '_controller' => '\SWP\Bundle\WebRendererBundle\Controller\ContentController::renderContainerPageAction',
+                    ],
+                ],
+                [
                     'parent' => '/swp/default/routes',
                     'name' => 'articles',
                     'defaults' => [
@@ -198,6 +209,16 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface
      */
     public function loadArticles($env, $manager)
     {
+        if ($env !== 'test') {
+            $this->loadFixtures(
+                '@SWPFixturesBundle/Resources/fixtures/PHPCR/'.$env.'/article.yml',
+                $manager,
+                [
+                    'providers' => [$this],
+                ]
+            );
+        }
+
         $articles = [
             'test' => [
                 [
@@ -221,7 +242,7 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface
                 [
                     'title' => 'Features client1',
                     'content' => 'Features client1 content',
-                    'route' => '/swp/default/routes/news',
+                    'route' => '/swp/client1/routes/news',
                     'parent' => '/swp/client1/content',
                 ],
             ],

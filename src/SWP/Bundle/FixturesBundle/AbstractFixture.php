@@ -60,6 +60,19 @@ abstract class AbstractFixture extends BaseFixture implements ContainerAwareInte
     }
 
     /**
+     * Finds the PHPCR node by given id/path.
+     *
+     * @param string|null $className Document class name
+     * @param string      $id        PHPCR path
+     *
+     * @return string|null
+     */
+    public function find($className, $id)
+    {
+        return $this->container->get('document_manager')->find($className, $id);
+    }
+
+    /**
      * Locates the fixtures resources.
      *
      * @param array|string $paths Fixtures path(s)
