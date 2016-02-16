@@ -12,7 +12,7 @@
     "license":"GPL-3.0",
     "require": {
         "php": ">=5.4|^7.0",
-        "swp/common": "^1.0@dev"
+        "swp/common": "~0.1.0"
     },
     "require-dev": {
         "phpspec/phpspec": "^2.4",
