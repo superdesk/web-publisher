@@ -1,0 +1,8 @@
+{
+    "name": "swp/default-theme",
+    "extra": {
+        "sylius-theme": {
+            "title": "Superdesk Web Publisher default theme"
+        }
+    }
+}

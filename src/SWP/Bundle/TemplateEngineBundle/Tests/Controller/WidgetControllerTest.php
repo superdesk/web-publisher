@@ -74,7 +74,6 @@ class WidgetControllerTest extends WebTestCase
     public function testUpdateWidgetApi()
     {
         $client = static::createClient();
-        $client->enableProfiler();
         $client->request('PATCH', $this->router->generate('swp_api_templates_update_widget', ['id' => 1]), [
             'widget' => [
                 'name' => 'Simple Updated html widget',
@@ -93,7 +92,6 @@ class WidgetControllerTest extends WebTestCase
     public function testDeleteWidgetApi()
     {
         $client = static::createClient();
-        $client->enableProfiler();
         $client->request('DELETE', $this->router->generate('swp_api_templates_delete_widget', ['id' => 1]));
 
         $this->assertEquals(204, $client->getResponse()->getStatusCode());

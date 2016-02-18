@@ -108,7 +108,7 @@ class WidgetController extends FOSRestController
         $entityManager = $this->get('doctrine')->getManager();
 
         $widget = new Widget();
-        $form = $this->createForm(WidgetType::class, $widget);
+        $form = $this->createForm(new WidgetType(), $widget);
         $form->handleRequest($request);
         if ($form->isValid()) {
             $entityManager->persist($widget);
@@ -188,7 +188,7 @@ class WidgetController extends FOSRestController
             throw new NotFoundHttpException('Widget with this id was not found.');
         }
 
-        $form = $this->createForm(WidgetType::class, $widget, array(
+        $form = $this->createForm(new WidgetType(), $widget, array(
             'method' => $request->getMethod(),
         ));
 
