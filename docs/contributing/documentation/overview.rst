@@ -293,5 +293,5 @@ definitely don't want you to waste your time!
 .. _reStructuredText: http://docutils.sourceforge.net/rst.html
 .. _GitHub: https://github.com/
 .. _`fork the repository`: https://help.github.com/articles/fork-a-repo
-.. _`Superdesk Web Publisher Contributors`: https://github.com/superdesk/web-publisher/blob/master/CONTRIBUTORS.md
+.. _`Superdesk Web Publisher Contributors`: https://github.com/superdesk/web-publisher/blob/master/AUTHORS.md
 .. _`sync your fork`: https://help.github.com/articles/syncing-a-fork

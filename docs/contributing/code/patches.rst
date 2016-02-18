@@ -244,7 +244,7 @@ possible:
     | Deprecations? | [yes|no]
     | Tests pass?   | [yes|no]
     | Fixed tickets | [comma separated list of tickets fixed by the PR]
-    | License       | GPLv3
+    | License       | https://www.superdesk.org/license
 
 An example submission could now look as follows:
 
@@ -258,7 +258,7 @@ An example submission could now look as follows:
     | Deprecations? | no
     | Tests pass?   | yes
     | Fixed tickets | #12, #43
-    | License       | GPLv3
+    | License       | https://www.superdesk.org/license
 
 The whole table must be included (do **not** remove lines that you think are
 not relevant). For simple typos, minor changes in the PHPDocs, or changes in
@@ -269,7 +269,7 @@ translation files, use the shorter version of the check-list:
     | Q             | A
     | ------------- | ---
     | Fixed tickets | [comma separated list of tickets fixed by the PR]
-    | License       | GPLv3
+    | License       | https://www.superdesk.org/license
 
 Some answers to the questions trigger some more requirements:
 
