@@ -19,11 +19,11 @@ for the details on how to do it. Thanks!
 License
 -----------
 
-See the complete license [here](http://www.superdesk.org/license).
+See the complete license [here](LICENSE.md).
 
 Contributors
 -------
 
-This bundle is a Sourcefabric z.ú. and contributors initiative.
+This component is a Sourcefabric z.ú. and contributors initiative.
 
-List of all contributors can be found [here](https://github.com/SuperdeskWebPublisher/SWPMultiTenancyBundle/graphs/contributors).
+List of all authors and contributors can be found [here](AUTHORS.md).

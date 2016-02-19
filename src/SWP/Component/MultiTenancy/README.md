@@ -16,11 +16,11 @@ You want to contribute to the component? That's great and we really appreciate i
 License
 -----------
 
-See the complete license [here](http://www.superdesk.org/license).
+See the complete license [here](LICENSE.md).
 
 Contributors
 -------
 
 This component is a Sourcefabric z.ú. and contributors initiative.
 
-List of all contributors can be found [here](https://github.com/SuperdeskWebPublisher/multi-tenancy/graphs/contributors).
+List of all authors and contributors can be found [here](AUTHORS.md).

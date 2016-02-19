@@ -99,7 +99,7 @@ The License
 ~~~~~~~~~~~
 
 Before you start, you must know that all the patches you are going to submit
-must be released under the `provided`_ license, unless explicitly specified in your
+must be released under the GPLv3 license, unless explicitly specified in your
 commits.
 
 
@@ -244,7 +244,7 @@ possible:
     | Deprecations? | [yes|no]
     | Tests pass?   | [yes|no]
     | Fixed tickets | [comma separated list of tickets fixed by the PR]
-    | License       | https://www.superdesk.org/license
+    | License       | GPLv3
 
 An example submission could now look as follows:
 
@@ -258,7 +258,7 @@ An example submission could now look as follows:
     | Deprecations? | no
     | Tests pass?   | yes
     | Fixed tickets | #12, #43
-    | License       | https://www.superdesk.org/license
+    | License       | GPLv3
 
 The whole table must be included (do **not** remove lines that you think are
 not relevant). For simple typos, minor changes in the PHPDocs, or changes in
@@ -269,7 +269,7 @@ translation files, use the shorter version of the check-list:
     | Q             | A
     | ------------- | ---
     | Fixed tickets | [comma separated list of tickets fixed by the PR]
-    | License       | https://www.superdesk.org/license
+    | License       | GPLv3
 
 Some answers to the questions trigger some more requirements:
 
@@ -288,7 +288,7 @@ Some answers to the questions trigger some more requirements:
 * If you answer no to "Tests pass", you must add an item to a todo-list with
   the actions that must be done to fix the tests;
 
-* If the "license" is not as `provided`_ here, just don't submit the pull request as it won't
+* If the "license" is not as GPLv3 here, just don't submit the pull request as it won't
   be accepted anyway.
 
 If some of the previous requirements are not met, create a todo-list and add
@@ -349,7 +349,6 @@ convert many commits to one commit.
 .. _GitHub: https://github.com/join
 .. _`GitHub's Documentation`: https://help.github.com/articles/ignoring-files
 .. _Superdesk Web Publisher repository: https://github.com/superdesk/web-publisher
-.. _provided: https://www.superdesk.org/license
 .. _travis-ci.org: https://travis-ci.org/
 .. _`travis-ci.org status icon`: http://about.travis-ci.org/docs/user/status-images/
 .. _`travis-ci.org Getting Started Guide`: http://about.travis-ci.org/docs/user/getting-started/
