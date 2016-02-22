@@ -40,48 +40,6 @@ class DefaultControllerTest extends WebTestCase
         $this->runCommand('doctrine:phpcr:repository:init', ['--env' => 'test'], true);
     }
 
-    public static function setUpBeforeClass()
-    {
-        $filesystem = new Filesystem();
-        $filesystem->mirror(__DIR__.'/../Fixtures/theme_1', __DIR__.'/../../../../../../app/Resources/themes/theme_test');
-    }
-
-    public static function tearDownAfterClass()
-    {
-        $filesystem = new Filesystem();
-        $filesystem->remove(__DIR__.'/../../../../../../app/Resources/themes/theme_test');
-    }
-
-    public function testIndexOnDevices()
-    {
-        $this->loadFixtures([
-            'SWP\Bundle\FixturesBundle\DataFixtures\PHPCR\LoadArticlesData',
-            'SWP\Bundle\FixturesBundle\DataFixtures\PHPCR\LoadSitesData',
-        ], null, 'doctrine_phpcr');
-
-        $client = static::createClient();
-        foreach (self::$devices as $userAgent => $filter) {
-            if (!in_array($userAgent, ['no_agent_0', 'no_agent_1'])) {
-                $client->setServerParameters([
-                    'HTTP_USER_AGENT' => $userAgent,
-                ]);
-            }
-
-            if ($userAgent === 'no_agent_1') {
-                $filesystem = new Filesystem();
-                $filesystem->remove(__DIR__.'/../../../../../../app/Resources/themes/theme_test/desktop/index.html.twig');
-            }
-
-            $crawler = $client->request('GET', '/');
-            $this->assertEquals(200, $client->getResponse()->getStatusCode(), 'Wrong response code');
-            $this->assertGreaterThan(
-                0,
-                $crawler->filter($filter)->count(),
-                'Wrong filter'
-            );
-        }
-    }
-
     public function testHomepageNotConfigured()
     {
         $this->loadFixtures([

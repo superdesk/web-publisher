@@ -34,18 +34,11 @@ twig:
     exception_controller: "FOS\\RestBundle\\Controller\\ExceptionController::showAction"
     strict_variables: false
 
-liip_theme:
-    themes: ['theme_1', 'theme_2', 'theme_3']
-    active_theme: "%active_theme%"
-    load_controllers: false
-    autodetect_theme: true
-    path_patterns:
-        app_resource:
-            - "%%app_path%%/themes/%%current_theme%%/%%current_device%%/%%template%%"
-            - "%%app_path%%/themes/%%current_theme%%/%%template%%"
-            - "%%app_path%%/views/%%current_device%%/%%template%%"
-            - "%%app_path%%/views/%%template%%"
-
+sylius_theme:
+    sources:
+        filesystem:
+            locations:
+                - "%kernel.root_dir%/themes"
 twig_cache:
     service: "doctrine_cache.providers.main_cache"
 
@@ -114,7 +107,7 @@ swiftmailer:
 fos_http_cache:
     cache_manager:
         enabled: true
-        generate_url_type: 0
+        generate_url_type: false
     proxy_client:
         symfony:
             servers: %cache_servers%

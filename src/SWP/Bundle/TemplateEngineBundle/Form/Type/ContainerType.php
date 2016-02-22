@@ -29,13 +29,12 @@ class ContainerType extends AbstractType
             ->add('height', null)
             ->add('width', null)
             ->add('styles', null)
-            ->add('visible', ChoiceType::class, [
+            ->add('visible', 'choice', [
                 'choices' => [true => 1, false => 0],
                 'choices_as_values' => true,
             ])
             ->add('cssClass', null)
-            ->add('data', CollectionType::class, [
-                    'entry_type' => TextType::class,
+            ->add('data', 'collection', [
                     'allow_extra_fields' => true,
                 ]
             );
@@ -44,5 +43,10 @@ class ContainerType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(['csrf_protection' => false]);
+    }
+
+    public function getName()
+    {
+        return 'container';
     }
 }

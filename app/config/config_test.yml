@@ -20,18 +20,15 @@ doctrine:
 
 liip_functional_test: ~
 
+sylius_theme:
+    sources:
+        filesystem:
+            locations:
+                - "%kernel.root_dir%/../src/SWP/Bundle/WebRendererBundle/Tests/Fixtures/themes"
+
 web_profiler:
     toolbar: false
     intercept_redirects: false
 
 swiftmailer:
     disable_delivery: true
-
-liip_theme:
-    themes: ["theme_test"]
-    active_theme: "theme_test"
-    load_controllers: false
-    autodetect_theme: true
-    path_patterns:
-        app_resource:
-            - "%%app_path%%/themes/%%current_theme%%/%%current_device%%/%%template%%"

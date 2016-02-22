@@ -29,11 +29,11 @@ class WidgetType extends AbstractType
             ->add('type', null, [
                 'required' => false,
             ])
-            ->add('visible', ChoiceType::class, [
+            ->add('visible', 'choice', [
                 'choices' => [true => '1', false => '0'],
                 'choices_as_values' => true,
             ])
-            ->add('parameters', TextType::class, [
+            ->add('parameters', 'text', [
                 'required' => false,
             ])
             ->addModelTransformer(new CallbackTransformer(
@@ -59,5 +59,10 @@ class WidgetType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(['csrf_protection' => false]);
+    }
+
+    public function getName()
+    {
+        return 'widget';
     }
 }

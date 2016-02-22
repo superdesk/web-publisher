@@ -1,0 +1,29 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    Welcome to Demo Theme!
+
+    <a href="{{ url('homepage') }}">Home</a>
+    <a href="{{ url('/routes/articles/features') }}">Features</a>
+    <a href="{{ url('/routes/articles/get-involved') }}">Get Involved</a>
+
+
+    {% container 'container_name' with {
+        'width': 400,
+        'height': 500,
+        'styles': 'border: solid 1px red',
+        'class': 'css_class_name',
+        'data': {'custom-key': 'value'}
+    }%}
+    {% endcontainer %}
+
+    <h2>News</h2>
+    <ul>
+        {% gimmelist article from articles with {'route': '/news'} %}
+        <li><a href="{{ url(article) }}">{{ article.title }} </a></li>
+        {% endgimmelist %}
+    </ul>
+    <br>
+    <p><strong>Current tenant:</strong> {{ tenant.subdomain }} (name: {{ tenant.name }})</p>
+    <p><strong>Assigned homepage:</strong> {{ page.name }} (id: {{ page.id }})</p>
+{% endblock %}

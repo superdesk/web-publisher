@@ -44,7 +44,7 @@
     },
     "require": {
         "php": ">=5.5",
-        "symfony/symfony": "2.8.x-dev",
+        "symfony/symfony": "2.7.x-dev",
         "symfony/swiftmailer-bundle": "~2.3",
         "symfony/monolog-bundle": "~2.4",
         "sensio/distribution-bundle": "~3.0,>=3.0.12",
@@ -62,7 +62,6 @@
         "incenteev/composer-parameter-handler": "~2.0",
         "friendsofsymfony/http-cache-bundle": "~1.0",
         "friendsofsymfony/rest-bundle": "2.0.x-dev",
-        "liip/theme-bundle": "1.4.0",
         "jackalope/jackalope-doctrine-dbal": "1.3.*",
         "oneup/flysystem-bundle": "^1.1",
         "swp/templates-system": "^1.0@dev",
@@ -74,7 +73,7 @@
         "stof/doctrine-extensions-bundle": "^1.2",
         "symfony-cmf/routing-bundle": "^1.3",
         "doctrine/doctrine-cache-bundle": "1.0.*",
-        "halleck45/phpmetrics-collector-bundle": "v0.0.1"
+        "sylius/theme-bundle": "0.17.x-dev"
     },
     "require-dev": {
         "sensio/generator-bundle": "~2.3",
@@ -85,7 +84,8 @@
         "doctrine/doctrine-fixtures-bundle": "^2.2@dev",
         "nelmio/alice": "^2.0.@dev",
         "henrikbjorn/phpspec-code-coverage" : "1.*@dev",
-        "matthiasnoback/symfony-dependency-injection-test": "^0.7"
+        "matthiasnoback/symfony-dependency-injection-test": "^0.7",
+        "halleck45/phpmetrics-collector-bundle": "v0.0.1"
     },
     "replace": {
         "swp/common": "self.version",
@@ -99,8 +99,7 @@
             "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::clearCache",
             "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installAssets",
             "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installRequirementsFile",
-            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::removeSymfonyStandardFiles",
-            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::prepareDeploymentTarget"
+            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::removeSymfonyStandardFiles"
         ],
         "post-update-cmd": [
             "Incenteev\\ParameterHandler\\ScriptHandler::buildParameters",
@@ -108,8 +107,7 @@
             "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::clearCache",
             "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installAssets",
             "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installRequirementsFile",
-            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::removeSymfonyStandardFiles",
-            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::prepareDeploymentTarget"
+            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::removeSymfonyStandardFiles"
         ]
     },
     "config": {

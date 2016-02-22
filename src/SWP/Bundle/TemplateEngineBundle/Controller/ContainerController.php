@@ -117,7 +117,7 @@ class ContainerController extends FOSRestController
             throw new NotFoundHttpException('Container with this id was not found.');
         }
 
-        $form = $this->createForm(ContainerType::class, $container, array(
+        $form = $this->createForm(new ContainerType(), $container, array(
             'method' => $request->getMethod(),
         ));
 
