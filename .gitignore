@@ -6,7 +6,7 @@
 /app/logs/*
 !app/logs/.gitkeep
 /app/phpunit.xml
-/app/Resources/themes/
+/app/themes/
 /bin/
 /docs/_build/
 /composer.phar

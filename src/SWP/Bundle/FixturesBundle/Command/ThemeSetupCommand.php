@@ -23,7 +23,7 @@ use Symfony\Component\Console\Question\ConfirmationQuestion;
 
 class ThemeSetupCommand extends ContainerAwareCommand
 {
-    const DEFAULT_THEME_NAME = 'theme_1';
+    const DEFAULT_THEME_NAME = 'DefaultTheme';
 
     /**
      * {@inheritdoc}
@@ -53,7 +53,7 @@ class ThemeSetupCommand extends ContainerAwareCommand
             )
             ->setHelp(
 <<<'EOT'
-The <info>theme:setup</info> command copies theme to your application themes folder (app/Resources/themes):
+The <info>theme:setup</info> command copies theme to your application themes folder (app/themes):
 
   <info>./app/console theme:setup</info>
 
@@ -83,7 +83,7 @@ EOT
         $force = true === $input->getOption('force');
 
         if (!$name) {
-            $name = $this->getActiveThemeName();
+            $name = self::DEFAULT_THEME_NAME;
         }
 
         try {
@@ -100,7 +100,7 @@ EOT
                     }
                 }
 
-                $fileSystem->remove($kernel->getRootDir().'/Resources/themes/'.$name);
+                $fileSystem->remove($kernel->getRootDir().'/themes/'.$name);
 
                 $output->writeln('<info>Theme "'.$name.'" has been deleted successfully!</info>');
 
@@ -120,8 +120,8 @@ EOT
             }
 
             $fileSystem->mirror(
-                $kernel->locateResource('@SWPFixturesBundle/Resources/themes/'.self::DEFAULT_THEME_NAME),
-                $kernel->getRootDir().'/Resources/themes/'.$name,
+                $kernel->locateResource('@SWPFixturesBundle/Resources/themes/'.$name),
+                $kernel->getRootDir().'/themes/'.$name,
                 null,
                 ['override' => true, 'delete' => true]
             );
@@ -131,10 +131,5 @@ EOT
             $output->writeln('<error>Theme "'.$name.'" could not be setup!</error>');
             $output->writeln('<error>Stacktrace: '.$e->getMessage().'</error>');
         }
-    }
-
-    private function getActiveThemeName()
-    {
-        return $this->getContainer()->getParameter('active_theme');
     }
 }
