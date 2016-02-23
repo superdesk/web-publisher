@@ -19,3 +19,10 @@ services:
         arguments:
             - "@filesystem"
             - "@swp_webrenderer.detection.device_detection"
+
+    sylius.theme.locator.bundle_resource:
+        class: SWP\Bundle\WebRendererBundle\Locator\BundleResourceLocator
+        arguments:
+            - "@filesystem"
+            - "@kernel"
+            - "@swp_webrenderer.detection.device_detection"
