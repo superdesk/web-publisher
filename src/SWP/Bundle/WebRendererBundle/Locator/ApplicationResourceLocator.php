@@ -19,7 +19,6 @@ use Sylius\Bundle\ThemeBundle\Locator\ResourceLocatorInterface;
 use Sylius\Bundle\ThemeBundle\Locator\ResourceNotFoundException;
 use SWP\Bundle\WebRendererBundle\Detection\DeviceDetectionInterface;
 
-
 class ApplicationResourceLocator implements ResourceLocatorInterface
 {
     /**

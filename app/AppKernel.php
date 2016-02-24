@@ -47,7 +47,7 @@ class AppKernel extends Kernel
             $bundles[] = new SWP\Bundle\FixturesBundle\SWPFixturesBundle();
         }
 
-        if (in_array($this->getEnvironment(),['test'])) {
+        if (in_array($this->getEnvironment(), ['test'])) {
             $bundles[] = new Liip\FunctionalTestBundle\LiipFunctionalTestBundle();
         }
 
