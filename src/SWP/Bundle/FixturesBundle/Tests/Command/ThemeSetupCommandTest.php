@@ -21,8 +21,8 @@ use Symfony\Component\Filesystem\Filesystem;
 
 class ThemeSetupCommandTest extends KernelTestCase
 {
-    const DELETED_MSG_REGEXP = '/Theme "theme_testing" has been deleted successfully!/';
-    const SUCCESS_MSG_REGEXP = '/Theme "theme_testing" has been setup successfully!/';
+    const DELETED_MSG_REGEXP = '/Theme "DefaultTheme" has been deleted successfully!/';
+    const SUCCESS_MSG_REGEXP = '/Theme "DefaultTheme" has been setup successfully!/';
 
     private $commandTester;
     private $command;
@@ -41,7 +41,7 @@ class ThemeSetupCommandTest extends KernelTestCase
     public static function tearDownAfterClass()
     {
         $filesystem = new Filesystem();
-        $filesystem->remove(__DIR__.'/../../../../../../app/Resources/themes/theme_testing');
+        $filesystem->remove(__DIR__.'/../../../../../../app/themes/DefaultTheme');
     }
 
     /**
@@ -65,7 +65,7 @@ class ThemeSetupCommandTest extends KernelTestCase
         $this->assertNull($stub->mirror('/some/source/dir', '/some/target/dir'));
 
         $this->assertRegExp(
-            '/Theme "theme_1" has been setup successfully!/',
+            '/Theme "DefaultTheme" has been setup successfully!/',
             $this->commandTester->getDisplay()
         );
     }
@@ -74,7 +74,7 @@ class ThemeSetupCommandTest extends KernelTestCase
     {
         $this->commandTester->execute(
             array(
-                'name' => 'theme_testing',
+                'name' => 'DefaultTheme',
                 '--force' => true,
             )
         );
@@ -96,7 +96,7 @@ class ThemeSetupCommandTest extends KernelTestCase
         $this->commandTester = new CommandTester($this->command);
         $this->commandTester->execute(
             array(
-                'name' => 'theme_testing',
+                'name' => 'DefaultTheme',
             )
         );
 
@@ -117,7 +117,7 @@ class ThemeSetupCommandTest extends KernelTestCase
         $this->commandTester = new CommandTester($this->command);
         $this->commandTester->execute(
             array(
-                'name' => 'theme_testing',
+                'name' => 'DefaultTheme',
                 '--delete' => true,
             )
         );
@@ -132,7 +132,7 @@ class ThemeSetupCommandTest extends KernelTestCase
     {
         $this->commandTester->execute(
             array(
-                'name' => 'theme_testing',
+                'name' => 'DefaultTheme',
                 '--delete' => true,
                 '--force' => true,
             )
@@ -155,7 +155,7 @@ class ThemeSetupCommandTest extends KernelTestCase
         $this->commandTester = new CommandTester($this->command);
         $this->commandTester->execute(
             array(
-                'name' => 'theme_testing',
+                'name' => 'DefaultTheme',
                 '--delete' => true,
             )
         );
@@ -174,7 +174,7 @@ class ThemeSetupCommandTest extends KernelTestCase
         $this->commandTester = new CommandTester($this->command);
         $this->commandTester->execute(
             array(
-                'name' => 'theme_testing',
+                'name' => 'DefaultTheme',
             )
         );
 
@@ -202,7 +202,7 @@ class ThemeSetupCommandTest extends KernelTestCase
 
         $this->commandTester->execute(
             array(
-                'name' => 'theme_testing',
+                'name' => 'DefaultTheme',
             )
         );
 
