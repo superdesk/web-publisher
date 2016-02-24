@@ -1,5 +1,5 @@
 Welcome to Superdesk Web Publisher's documentation!
-==================================================
+===================================================
 
 Templator documentation:
 
