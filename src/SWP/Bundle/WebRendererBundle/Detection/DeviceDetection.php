@@ -1,20 +1,19 @@
 <?php
 
- /**
-  * This file is part of the Superdesk Web Publisher Web Renderer Bundle.
-  *
-  * Copyright 2016 Sourcefabric z.u. and contributors.
-  *
-  * For the full copyright and license information, please see the
-  * AUTHORS and LICENSE files distributed with this source code.
-  *
-  * Some parts of that file were taken from the Liip/ThemeBundle
-  * (c) Liip AG
-  *
-  * @copyright 2016 Sourcefabric z.ú.
-  * @license http://www.superdesk.org/license
-  */
-
+/**
+ * This file is part of the Superdesk Web Publisher Web Renderer Bundle.
+ *
+ * Copyright 2016 Sourcefabric z.u. and contributors.
+ *
+ * For the full copyright and license information, please see the
+ * AUTHORS and LICENSE files distributed with this source code.
+ *
+ * Some parts of that file were taken from the Liip/ThemeBundle
+ * (c) Liip AG
+ *
+ * @copyright 2016 Sourcefabric z.ú.
+ * @license http://www.superdesk.org/license
+ */
 namespace SWP\Bundle\WebRendererBundle\Detection;
 
 class DeviceDetection implements DeviceDetectionInterface
@@ -89,7 +88,7 @@ class DeviceDetection implements DeviceDetectionInterface
     }
 
     /**
-     * Initialize detection
+     * Initialize detection.
      */
     protected function init()
     {
@@ -105,8 +104,9 @@ class DeviceDetection implements DeviceDetectionInterface
     }
 
     /**
-     * Process userAgent string and determine device and type
-     * @param  string $userAgent
+     * Process userAgent string and determine device and type.
+     *
+     * @param string $userAgent
      *
      * @return array
      */
