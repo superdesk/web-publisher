@@ -32,7 +32,7 @@ class ActiveThemeListener
 
     /**
      * @param ThemeRepositoryInterface $themeRepository
-     * @param ThemeContextInterface $themeContext
+     * @param ThemeContextInterface    $themeContext
      */
     public function __construct(ThemeRepositoryInterface $themeRepository, ThemeContextInterface $themeContext)
     {

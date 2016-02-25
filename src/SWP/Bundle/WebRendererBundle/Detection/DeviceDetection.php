@@ -17,8 +17,6 @@
 
 namespace SWP\Bundle\WebRendererBundle\Detection;
 
-use SWP\Bundle\WebRendererBundle\Detection\DeviceDetectionInterface;
-
 class DeviceDetection implements DeviceDetectionInterface
 {
     /**
