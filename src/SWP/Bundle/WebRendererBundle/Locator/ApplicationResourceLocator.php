@@ -55,6 +55,12 @@ class ApplicationResourceLocator implements ResourceLocatorInterface
         throw new ResourceNotFoundException($resourceName, $theme);
     }
 
+    /**
+     * @param  string         $resourceName
+     * @param  ThemeInterface $theme
+     *
+     * @return array
+     */
     protected function getApplicationPaths($resourceName, ThemeInterface $theme)
     {
         $paths = array(sprintf('%s/%s', $theme->getPath(), $resourceName));

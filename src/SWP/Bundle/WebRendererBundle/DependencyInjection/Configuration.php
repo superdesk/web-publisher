@@ -34,9 +34,6 @@ class Configuration implements ConfigurationInterface
                 ->arrayNode('device_listener')
                     ->canBeEnabled()
                     ->info('Enable device detection in templates loader')
-                    ->children()
-                        ->scalarNode('enabled')->defaultFalse()->end()
-                    ->end()
                 ->end()
             ->end();
 

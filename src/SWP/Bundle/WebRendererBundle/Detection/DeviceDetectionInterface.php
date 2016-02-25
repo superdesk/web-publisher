@@ -15,7 +15,13 @@ namespace SWP\Bundle\WebRendererBundle\Detection;
 
 interface DeviceDetectionInterface
 {
+    /**
+     * @param string $userAgent
+     */
     public function setUserAgent($userAgent);
 
+    /**
+     * @return string
+     */
     public function getType();
 }

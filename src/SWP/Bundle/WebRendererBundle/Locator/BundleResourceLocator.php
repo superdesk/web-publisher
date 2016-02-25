@@ -66,18 +66,23 @@ class BundleResourceLocator implements ResourceLocatorInterface
         throw new ResourceNotFoundException($resourcePath, $theme);
     }
 
-    protected function getBundlePaths($resourcePath, $theme)
+    /**
+     * @param string         $resourcePath
+     * @param ThemeInterface $theme
+     */
+    protected function getBundlePaths($resourcePath, ThemeInterface $theme)
     {
         $bundleName = $this->getBundleNameFromResourcePath($resourcePath);
         $resourceName = $this->getResourceNameFromResourcePath($resourcePath);
         $bundles = $this->kernel->getBundle($bundleName, false);
-
         $paths = array();
-        foreach ($bundles as $bundle) {
-            if ($this->deviceDetection->getType() !== null) {
-                $paths[] = sprintf('%s/%s/%s/%s', $theme->getPath(), $this->deviceDetection->getType(), $bundle->getName(), $resourceName);
+        if (is_array($bundles)) {
+            foreach ($bundles as $bundle) {
+                if ($this->deviceDetection->getType() !== null) {
+                    $paths[] = sprintf('%s/%s/%s/%s', $theme->getPath(), $this->deviceDetection->getType(), $bundle->getName(), $resourceName);
+                }
+                $paths[] = sprintf('%s/%s/%s', $theme->getPath(), $bundle->getName(), $resourceName);
             }
-            $paths[] = sprintf('%s/%s/%s', $theme->getPath(), $bundle->getName(), $resourceName);
         }
 
         return $paths;

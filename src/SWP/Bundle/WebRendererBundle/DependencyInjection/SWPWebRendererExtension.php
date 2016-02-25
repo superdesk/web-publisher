@@ -33,10 +33,10 @@ class SWPWebRendererExtension extends Extension
         $config = $this->processConfiguration(new Configuration(), $configs);
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.yml');
-        $this->loadBodyListener($config, $loader, $container);
+        $this->loadBodyListener($config, $loader);
     }
 
-    private function loadBodyListener(array $config, Loader\YamlFileLoader $loader, ContainerBuilder $container)
+    private function loadBodyListener(array $config, Loader\YamlFileLoader $loader)
     {
         if ($config['device_listener']['enabled']) {
             $loader->load('device_listener.yml');
