@@ -123,9 +123,9 @@ class DeviceDetection implements DeviceDetectionInterface
         return array(null, null);
     }
 
-     /**
-      * {@inheritdoc}
-      */
+    /**
+     * {@inheritdoc}
+     */
     public function getType()
     {
         $this->init();

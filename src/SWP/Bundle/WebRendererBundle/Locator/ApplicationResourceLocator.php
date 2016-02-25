@@ -56,8 +56,8 @@ class ApplicationResourceLocator implements ResourceLocatorInterface
     }
 
     /**
-     * @param  string         $resourceName
-     * @param  ThemeInterface $theme
+     * @param string         $resourceName
+     * @param ThemeInterface $theme
      *
      * @return array
      */
