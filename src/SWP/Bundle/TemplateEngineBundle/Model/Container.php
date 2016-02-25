@@ -295,9 +295,9 @@ class Container implements ContainerInterface, TenantAwareInterface, Timestampab
     /**
      * Add ContainerData to container.
      *
-     * @param $containerData
+     * @param ContainerData $containerData
      */
-    public function addData($containerData)
+    public function addData(ContainerData $containerData)
     {
         $this->data->add($containerData);
 

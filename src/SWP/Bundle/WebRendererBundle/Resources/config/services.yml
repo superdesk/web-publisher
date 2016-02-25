@@ -10,3 +10,19 @@ services:
             - "@sylius.theme.context"
         tags:
             - { name: kernel.event_listener, event: kernel.request, method: onKernelRequest }
+
+    swp_webrenderer.detection.device_detection:
+        class: SWP\Bundle\WebRendererBundle\Detection\DeviceDetection
+
+    sylius.theme.locator.application_resource:
+        class: SWP\Bundle\WebRendererBundle\Locator\ApplicationResourceLocator
+        arguments:
+            - "@filesystem"
+            - "@swp_webrenderer.detection.device_detection"
+
+    sylius.theme.locator.bundle_resource:
+        class: SWP\Bundle\WebRendererBundle\Locator\BundleResourceLocator
+        arguments:
+            - "@filesystem"
+            - "@kernel"
+            - "@swp_webrenderer.detection.device_detection"

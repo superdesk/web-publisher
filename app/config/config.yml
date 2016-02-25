@@ -203,5 +203,9 @@ swp_multi_tenancy:
             site_document_class: SWP\Bundle\ContentBundle\Document\Site
             document_class: SWP\Bundle\ContentBundle\Document\Route
 
+swp_web_renderer:
+    device_listener:
+        enabled: true
+
 nelmio_api_doc:
     request_listener: false
