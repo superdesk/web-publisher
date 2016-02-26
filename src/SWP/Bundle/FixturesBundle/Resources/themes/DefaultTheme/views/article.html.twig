@@ -1,12 +1,13 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="UTF-8" />
-    </head>
-    <body>
-        <h2>{{gimme.article.title}}</h2>
-        <p>Id: {{gimme.article.id}}</p>
-        <p>Content: {{gimme.article.content}}</p>
-        <p><strong>Current tenant:</strong> {{ tenant.subdomain }} (name: {{ tenant.name }})</p>
-    </body>
-</html>
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h2>{{gimme.article.title}}</h2>
+    <p>Id: {{gimme.article.id}}</p>
+    <p>Content: {{gimme.article.content}}</p>
+    <p><strong>Current tenant:</strong> {{ tenant.subdomain }} (name: {{ tenant.name }})</p>
+{% endblock %}
+
+{% block template_code%}
+<h3>Template code used to render that page <small><a href="#" class="js-toggle-code">show/hide</a></small></h3>
+<pre class="js-template-code" style="display:none;">{{ source(_self.getTemplateName())|escape('html') }}</pre>
+{% endblock %}

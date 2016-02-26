@@ -1,29 +1,34 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    Welcome to Demo Theme!
+    <div class="row">
+        <div class="jumbotron" style="margin-top:20px;">
+            <h1 class="display-3">Welcome to Default Theme!</h1>
+            <p class="lead">This is a Demo Theme. Check in action all awesome features provided by Superdesk Web Publisher.</p>
+        </div>
+        
+        {% container 'container_name' with {
+            'styles': 'border: solid 1px red',
+            'class': 'col-md-8',
+            'data': {'custom-key': 'value'}
+        }%}
+        <h2>Default container header</h2>
+        <p>Minions ipsum voluptate nisi reprehenderit occaecat. Enim hahaha bappleees cillum bappleees. Elit officia daa ullamco. Ullamco bappleees reprehenderit aliqua veniam bananaaaa. Minim sed aaaaaah laboris veniam. Pepete aliqua veniam sit amet quis butt tatata bala tu jiji quis minim.</p>
+        {% endcontainer %}
 
-    <a href="{{ url('homepage') }}">Home</a>
-    <a href="{{ url('/routes/articles/features') }}">Features</a>
-    <a href="{{ url('/routes/articles/get-involved') }}">Get Involved</a>
+        <div class="col-md-4">
+        <h2>News</h2>
+        <ul>
+            {% gimmelist article from articles with {'route': '/news'} %}
+            <li><a href="{{ url(article) }}">{{ article.title }} </a></li>
+            {% endgimmelist %}
+        </ul>
+        <br>
+        </div>
+    </div>
+{% endblock %}
 
-
-    {% container 'container_name' with {
-        'width': 400,
-        'height': 500,
-        'styles': 'border: solid 1px red',
-        'class': 'css_class_name',
-        'data': {'custom-key': 'value'}
-    }%}
-    {% endcontainer %}
-
-    <h2>News</h2>
-    <ul>
-        {% gimmelist article from articles with {'route': '/news'} %}
-        <li><a href="{{ url(article) }}">{{ article.title }} </a></li>
-        {% endgimmelist %}
-    </ul>
-    <br>
-    <p><strong>Current tenant:</strong> {{ tenant.subdomain }} (name: {{ tenant.name }})</p>
-    <p><strong>Assigned homepage:</strong> {{ page.name }} (id: {{ page.id }})</p>
+{% block template_code%}
+<h3>Template code used to render that page <small><a href="#" class="js-toggle-code">show/hide</a></small></h3>
+<pre class="js-template-code" style="display:none;">{{ source(_self.getTemplateName())|escape('html') }}</pre>
 {% endblock %}
