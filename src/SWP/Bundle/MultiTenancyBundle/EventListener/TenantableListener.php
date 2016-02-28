@@ -53,8 +53,8 @@ class TenantableListener implements EventSubscriberInterface
     public function onKernelRequest()
     {
         $tenant = $this->tenantContext->getTenant();
-        $tenantId = $tenant->getId();
-        if ($tenantId) {
+        if ($tenant) {
+            $tenantId = $tenant->getId();
             $this->entityManager
                 ->getFilters()
                 ->enable('tenantable')

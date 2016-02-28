@@ -16,6 +16,8 @@ class AppKernel extends Kernel
             new Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle(),
 
             new JMS\SerializerBundle\JMSSerializerBundle(),
+            new Sylius\Bundle\ThemeBundle\SyliusThemeBundle(),
+            new Sylius\Bundle\ResourceBundle\SyliusResourceBundle(),
             new Doctrine\Bundle\DoctrineBundle\DoctrineBundle(),
             new Doctrine\Bundle\PHPCRBundle\DoctrinePHPCRBundle(),
             new FOS\HttpCacheBundle\FOSHttpCacheBundle(),
@@ -27,7 +29,6 @@ class AppKernel extends Kernel
             new Stof\DoctrineExtensionsBundle\StofDoctrineExtensionsBundle(),
             new Symfony\Cmf\Bundle\RoutingBundle\CmfRoutingBundle(),
             new Doctrine\Bundle\DoctrineCacheBundle\DoctrineCacheBundle(),
-            new Sylius\Bundle\ThemeBundle\SyliusThemeBundle(),
 
             new SWP\Bundle\MultiTenancyBundle\SWPMultiTenancyBundle(),
             new SWP\Bundle\TemplateEngineBundle\SWPTemplateEngineBundle(),

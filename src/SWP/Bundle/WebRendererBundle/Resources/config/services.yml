@@ -6,8 +6,8 @@ services:
     swp_webrenderer.listener.active_theme:
         class: SWP\Bundle\WebRendererBundle\EventListener\ActiveThemeListener
         arguments:
-            - "@sylius.theme.repository"
-            - "@sylius.theme.context"
+            - "@sylius.repository.theme"
+            - "@sylius.context.theme"
         tags:
             - { name: kernel.event_listener, event: kernel.request, method: onKernelRequest }
 

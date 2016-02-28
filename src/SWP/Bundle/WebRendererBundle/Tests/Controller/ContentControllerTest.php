@@ -27,14 +27,11 @@ class ContentControllerTest extends WebTestCase
 
         $this->runCommand('doctrine:schema:drop', ['--force' => true, '--env' => 'test'], true);
         $this->runCommand('doctrine:doctrine:schema:update', ['--force' => true, '--env' => 'test'], true);
-
         $this->loadFixtureFiles([
             '@SWPFixturesBundle/Resources/fixtures/ORM/test/tenant.yml',
         ]);
-
         $this->runCommand('doctrine:phpcr:repository:init', ['--env' => 'test'], true);
-
-        $this->runCommand('theme:setup', ['--env' => 'test', '--force' => true, 'name' => 'theme_test'], true);
+        $this->getContainer()->get('sylius.theme.synchronizer')->synchronize();
     }
 
     public static function tearDownAfterClass()
