@@ -50,9 +50,10 @@ class ActiveThemeListener
             return;
         }
 
-        $this->themeContext->setTheme(
-            // for now just hardcode default theme
-            $this->themeRepository->findOneByName('swp/default-theme')
-        );
+        // TODO: replace it with current tenant theme
+        $theme = $this->themeRepository->findOneByName('swp/default-theme');
+        if ($theme) {
+            $this->themeContext->setTheme($theme);
+        }
     }
 }

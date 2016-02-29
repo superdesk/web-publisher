@@ -11,8 +11,7 @@ parameters:
 services:
     swp_multi_tenancy.tenant_repository:
         class: Doctrine\ORM\EntityRepository
-        factory_service: doctrine.orm.default_entity_manager
-        factory_method: getRepository
+        factory: ["@doctrine.orm.entity_manager", getRepository]
         arguments:
             - %swp_multi_tenancy.tenant.class%
 

@@ -107,7 +107,7 @@ swiftmailer:
 fos_http_cache:
     cache_manager:
         enabled: true
-        generate_url_type: false
+        generate_url_type: 0
     proxy_client:
         symfony:
             servers: %cache_servers%
