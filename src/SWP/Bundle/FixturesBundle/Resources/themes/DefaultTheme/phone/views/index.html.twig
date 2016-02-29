@@ -1,9 +1,22 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="UTF-8" />
-    </head>
-    <body>
-        <h2>phone index.html.twig</h2>
-    </body>
-</html>
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="row">
+        <div class="col-md-12">
+        <h2>News</h2>
+        <ul>
+            {% gimmelist article from articles with {'route': '/news'} %}
+            <li>
+                <a href="{{ url(article) }}"><h3>{{ article.title }}</h3></a>
+                <p>{{ article.content|truncate(150) }}</p>
+            </li>
+            {% endgimmelist %}
+        </ul>
+        </div>
+    </div>
+{% endblock %}
+
+{% block template_code%}
+<h3>Template code used to render that page <small><a href="#" class="js-toggle-code">show/hide</a></small></h3>
+<pre class="js-template-code" style="display:none;">{{ source(_self.getTemplateName())|escape('html') }}</pre>
+{% endblock %}
