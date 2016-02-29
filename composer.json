@@ -43,7 +43,7 @@
         ]
     },
     "require": {
-        "php": ">=5.5",
+        "php": ">=5.5.11",
         "symfony/symfony": "2.7.x-dev",
         "symfony/swiftmailer-bundle": "~2.3",
         "symfony/monolog-bundle": "~2.4",
