@@ -7,6 +7,8 @@ parameters:
     database_name:     symfony
     database_user:     root
     database_password: ~
+    # your postgres/mysql server version
+    server_version:    9
     # You should uncomment this if you want use pdo_sqlite
     # database_path: "%kernel.root_dir%/data.db3"
 
