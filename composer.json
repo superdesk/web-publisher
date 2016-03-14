@@ -96,7 +96,8 @@
     "replace": {
         "swp/common": "self.version",
         "swp/multi-tenancy": "self.version",
-        "swp/multi-tenancy-bundle": "self.version"
+        "swp/multi-tenancy-bundle": "self.version",
+        "swp/analytics-bundle": "self.version"
     },
     "scripts": {
         "post-install-cmd": [
