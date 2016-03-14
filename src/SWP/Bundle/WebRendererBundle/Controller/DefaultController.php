@@ -16,8 +16,10 @@ namespace SWP\Bundle\WebRendererBundle\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
+use SWP\AnalyticsBundle\Controller\AnalyzedControllerInterface;
 
-class DefaultController extends Controller
+class DefaultController extends Controller implements AnalyzedControllerInterface
 {
     /**
      * @Route("/", name="homepage")
@@ -25,6 +27,11 @@ class DefaultController extends Controller
      */
     public function indexAction()
     {
+        // start anayltics
+        $logger = $this->container->get('monolog.logger.analytics');
+        $stopwatch = new Stopwatch();
+        $stopwatch->start('homepage');
+
         $pathBuilder = $this->get('swp_multi_tenancy.path_builder');
         $manager = $this->get('doctrine_phpcr')->getManager();
         $site = $manager->find('SWP\Bundle\ContentBundle\Document\Site', $pathBuilder->build('/'));
@@ -36,9 +43,15 @@ class DefaultController extends Controller
 
         $tenantContext = $this->get('swp_multi_tenancy.tenant_context');
 
-        return $this->render('index.html.twig', [
+        $response =  $this->render('index.html.twig', [
             'tenant' => $tenantContext->getTenant(),
             'page' => $homepage,
         ]);
+
+        $event = $stopwatch->stop('homepage');
+        // TODO: log the event with the analytics logger here
+        $logger->error('This shit took ' . $event->getDuration() . ' milliseconds and used ' . $event->getMemory() . ' bytes of memory');
+
+        return $response;
     }
 }

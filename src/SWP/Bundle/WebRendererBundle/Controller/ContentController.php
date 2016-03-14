@@ -16,8 +16,10 @@ namespace SWP\Bundle\WebRendererBundle\Controller;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use SWP\AnalyticsBundle\Controller\AnalyzedControllerInterface;
 
-class ContentController extends Controller
+class ContentController extends Controller implements AnalyzedControllerInterface
 {
     /**
      * Render content Page.
@@ -44,6 +46,7 @@ class ContentController extends Controller
     private function renderPage($type, $parameters = [])
     {
         $context = $this->container->get('context');
+
         $metaLoader = $this->container->get('swp_template_engine_loader_chain');
         $article = null;
 
@@ -63,8 +66,16 @@ class ContentController extends Controller
 
         $tenantContext = $this->get('swp_multi_tenancy.tenant_context');
 
-        return $this->render('article.html.twig', [
+        $response = $this->render('article.html.twig', [
             'tenant' => $tenantContext->getTenant(),
         ]);
+
+        $event = $stopwatch->stop($view);
+
+        // TODO: log the event with the analytics logger here
+        $logger->error(print_r($event, true));
+
+        return $response;
     }
+
 }

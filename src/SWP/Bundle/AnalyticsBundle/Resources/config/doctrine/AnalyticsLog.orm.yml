@@ -1,0 +1,41 @@
+SWP\AnalyticsBundle\Model\AnalyticsLog:
+    type: entity
+    table: analytics_log
+    repositoryClass: SWP\AnalyticsBundle\Repository\AnalyticsLogRepository
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        log:
+            type: text
+            nullable: true
+        serverData:
+            type: text
+            column: server_data
+            nullable: true
+        level:
+            type: string
+            length: 255
+            nullable: true
+        uri:
+            type: string
+            length: 255
+            nullable: true
+        template:
+            type: string
+            length: 255
+            nullable: true
+        duration:
+            type: integer
+            nullable: true
+        memory:
+            type: integer
+            nullable: true
+        modified:
+            type: datetime
+        created:
+            type: datetime
+    lifecycleCallbacks: {}

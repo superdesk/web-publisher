@@ -6,6 +6,7 @@ imports:
 #        cache: apc
 
 monolog:
+    channels: ["analytics"]
     handlers:
         main:
             type:         fingers_crossed
@@ -17,3 +18,9 @@ monolog:
             level: debug
         console:
             type:  console
+        # for logging analytics with SWP\AnalyticsBundle only
+        analytics:
+            type: service
+            level: debug
+            id: swp.analytics.logger_database
+            channels: ["analytics"]

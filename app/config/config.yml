@@ -67,6 +67,10 @@ doctrine:
                     type: service
                     id: doctrine_cache.providers.main_cache
                 mappings:
+                    SWPAnalyticsBundle:
+                        type: yml
+                        prefix: SWP\AnalyticsBundle\Model
+                        dir: Resources/config/doctrine
                     SWPContentBundle:
                         type: yml
                         prefix: SWP\Bundle\ContentBundle\Model
