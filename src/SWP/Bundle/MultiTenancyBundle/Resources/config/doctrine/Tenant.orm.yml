@@ -20,6 +20,10 @@ SWP\Component\MultiTenancy\Model\Tenant:
         subdomain:
             type: string
             length: 255
+        themeName:
+            type: string
+            length: 255
+            nullable: true
         enabled:
             type: boolean
         createdAt:

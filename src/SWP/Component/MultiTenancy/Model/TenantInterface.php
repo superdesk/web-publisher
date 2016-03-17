@@ -63,4 +63,18 @@ interface TenantInterface extends TimestampableInterface, EnableableInterface, S
      * @param string $name The tenant name
      */
     public function setName($name);
+
+    /**
+     * Gets tenant theme name
+     *
+     * @return string The theme name
+     */
+    public function getThemeName();
+
+    /**
+     * Sets tenant theme name
+     *
+     * @param string $themeName The theme name
+     */
+    public function setThemeName($themeName);
 }
