@@ -35,10 +35,12 @@ twig:
     strict_variables: false
 
 sylius_theme:
+    context: "swp_webrenderer.theme.context.tenant_aware"
     sources:
         filesystem:
             locations:
                 - "%kernel.root_dir%/themes"
+                #- "%kernel.root_dir%/themes/%%current%%"
 twig_cache:
     service: "doctrine_cache.providers.main_cache"
 

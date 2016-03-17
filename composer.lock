@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "aa389938b98fbb2326ea512fd6635323",
-    "content-hash": "ea3c7933c733577c1630f3ea4922153e",
+    "hash": "f5e492f1b56df28b8d3bd2fc944d091d",
+    "content-hash": "21289dd6d2950a0a90042c9c1b246323",
     "packages": [
         {
             "name": "ahilles107/updater",
@@ -1365,7 +1365,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSRestBundle/zipball/ff191543ecc1c9cd24986726d1518e602b918f18",
+                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSRestBundle/zipball/a0e671ad11228cd2000bd75a96048e95b0b57e52",
                 "reference": "ff191543ecc1c9cd24986726d1518e602b918f18",
                 "shasum": ""
             },
@@ -3831,7 +3831,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Sylius/Resource/zipball/62580963e07a2b40de07813a01c73ad462c4d200",
+                "url": "https://api.github.com/repos/Sylius/Resource/zipball/301276714d8c8b41f36e02827d434af0767d0f3c",
                 "reference": "62580963e07a2b40de07813a01c73ad462c4d200",
                 "shasum": ""
             },
@@ -3898,7 +3898,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Sylius/SyliusResourceBundle/zipball/7ce7929385f4b34bd56f9276e215a683d43945be",
+                "url": "https://api.github.com/repos/Sylius/SyliusResourceBundle/zipball/62ccc3e41741dd5b573f48eccf137b14e54a2727",
                 "reference": "7ce7929385f4b34bd56f9276e215a683d43945be",
                 "shasum": ""
             },
@@ -4013,7 +4013,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Sylius/Storage/zipball/68d6354ca8f9fb84100c72759adf360742c5f258",
+                "url": "https://api.github.com/repos/Sylius/Storage/zipball/d9674079cd8a0ad26ca6c626023103c774ab80d1",
                 "reference": "68d6354ca8f9fb84100c72759adf360742c5f258",
                 "shasum": ""
             },
@@ -4063,16 +4063,16 @@
         },
         {
             "name": "sylius/theme-bundle",
-            "version": "dev-master",
+            "version": "v0.17.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Sylius/SyliusThemeBundle.git",
-                "reference": "0902aca23d4d6d0c8677d2695a6252497fba895b"
+                "reference": "00ff2d6b1afff58e3a080cae7a6cf2b95e575c74"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Sylius/SyliusThemeBundle/zipball/0902aca23d4d6d0c8677d2695a6252497fba895b",
-                "reference": "0902aca23d4d6d0c8677d2695a6252497fba895b",
+                "url": "https://api.github.com/repos/Sylius/SyliusThemeBundle/zipball/00ff2d6b1afff58e3a080cae7a6cf2b95e575c74",
+                "reference": "00ff2d6b1afff58e3a080cae7a6cf2b95e575c74",
                 "shasum": ""
             },
             "require": {
@@ -4125,7 +4125,7 @@
                 "themes",
                 "theming"
             ],
-            "time": "2016-02-26 14:27:42"
+            "time": "2016-03-01 10:52:25"
         },
         {
             "name": "symfony-cmf/routing",
@@ -4888,7 +4888,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/symfony/zipball/aadaeecb47bc4a0766acc3d6cf50834e41ca9076",
+                "url": "https://api.github.com/repos/symfony/symfony/zipball/254b4e9e9134ca38edd33334e229e41306282b22",
                 "reference": "aadaeecb47bc4a0766acc3d6cf50834e41ca9076",
                 "shasum": ""
             },
@@ -7712,7 +7712,6 @@
         "swp/bridge-bundle": 20,
         "behat/transliterator": 20,
         "knplabs/knp-paginator-bundle": 20,
-        "sylius/theme-bundle": 20,
         "liip/functional-test-bundle": 20,
         "doctrine/doctrine-fixtures-bundle": 20,
         "nelmio/alice": 20,
