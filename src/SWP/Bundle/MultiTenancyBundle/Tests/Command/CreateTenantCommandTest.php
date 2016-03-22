@@ -36,13 +36,13 @@ class CreateTenantCommandTest extends \PHPUnit_Framework_TestCase
      */
     public function testExecuteWhenCreatingNewTenant()
     {
-        $this->dialog->setInputStream($this->getInputStream("subdomain\nTest\n"));
+        $this->dialog->setInputStream($this->getInputStream("subdomain\nTest\nswp/theme\n"));
         $this->command->setContainer($this->getMockContainer(null, 'subdomain'));
         $this->commandTester = new CommandTester($this->command);
         $this->commandTester->execute(array('command' => $this->command->getName()));
 
         $this->assertRegExp(
-            '/Please enter subdomain:Please enter name:Tenant Test has been created and enabled!/',
+            '/Please enter subdomain:Please enter name:Please enter theme:Tenant Test has been created and enabled!/',
             $this->commandTester->getDisplay()
         );
     }
@@ -89,7 +89,7 @@ class CreateTenantCommandTest extends \PHPUnit_Framework_TestCase
      */
     public function testExecuteDisabledTenant()
     {
-        $this->dialog->setInputStream($this->getInputStream("example\nExample\n"));
+        $this->dialog->setInputStream($this->getInputStream("example\nExample\nswp/theme\n"));
         $this->command->setContainer($this->getMockContainer(null, 'example'));
         $this->commandTester = new CommandTester($this->command);
         $this->commandTester->execute(array(
@@ -98,7 +98,7 @@ class CreateTenantCommandTest extends \PHPUnit_Framework_TestCase
         ));
 
         $this->assertRegExp(
-            '/Please enter subdomain:Please enter name:Tenant Example has been created and disabled!/',
+            '/Please enter subdomain:Please enter name:Please enter theme:Tenant Example has been created and disabled!/',
             $this->commandTester->getDisplay()
         );
     }
