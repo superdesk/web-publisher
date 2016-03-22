@@ -31,7 +31,7 @@ class CreateTenantCommand extends ContainerAwareCommand
     /**
      * @var array
      */
-    protected $arguments = ['subdomain', 'name'];
+    protected $arguments = ['subdomain', 'name', 'theme'];
 
     /**
      * {@inheritdoc}
@@ -44,6 +44,7 @@ class CreateTenantCommand extends ContainerAwareCommand
             ->setDefinition([
                 new InputArgument($this->arguments[0], InputArgument::OPTIONAL, 'Subdomain name'),
                 new InputArgument($this->arguments[1], InputArgument::OPTIONAL, 'Tenant name'),
+                new InputArgument($this->arguments[2], InputArgument::OPTIONAL, 'Tenant theme (e.g. \'swp/default-theme\''),
                 new InputOption('disabled', null, InputOption::VALUE_NONE, 'Set the tenant as a disabled'),
                 new InputOption('default', null, InputOption::VALUE_NONE, 'Creates the default tenant'),
             ])
@@ -62,12 +63,14 @@ EOT
     {
         $subdomain = $input->getArgument($this->arguments[0]);
         $name = $input->getArgument($this->arguments[1]);
+        $theme = $input->getArgument($this->arguments[2]);
         $default = $input->getOption('default');
         $disabled = $input->getOption('disabled');
 
         if ($default) {
             $subdomain = 'default';
             $name = 'Default tenant';
+            $theme = 'swp/default-theme';
         }
 
         $tenant = $this->getTenantRepository()->findBySubdomain($subdomain);
@@ -75,7 +78,7 @@ EOT
             throw new \InvalidArgumentException(sprintf('Tenant with subdomain "%s" already exists!', $subdomain));
         }
 
-        $tenant = $this->createTenant($subdomain, $name, $disabled);
+        $tenant = $this->createTenant($subdomain, $name, $disabled, $theme);
 
         $this->getEntityManager()->persist($tenant);
         $this->getEntityManager()->flush();
@@ -130,15 +133,17 @@ EOT
      * @param $subdomain
      * @param $name
      * @param $disabled
+     * @param $theme
      *
      * @return TenantInterface
      */
-    protected function createTenant($subdomain, $name, $disabled)
+    protected function createTenant($subdomain, $name, $disabled, $theme)
     {
         $tenant = new Tenant();
         $tenant->setSubdomain($subdomain);
         $tenant->setName($name);
         $tenant->setEnabled(!$disabled);
+        $tenant->setThemeName($theme);
 
         return $tenant;
     }
