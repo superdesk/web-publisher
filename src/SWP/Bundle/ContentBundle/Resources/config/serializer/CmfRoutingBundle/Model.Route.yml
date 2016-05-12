@@ -1,0 +1,14 @@
+Symfony\Cmf\Bundle\RoutingBundle\Model\Route:
+    exclusion_policy: ALL
+    properties:
+        id:
+            expose: true
+            type: string
+        content:
+            expose: true
+        staticPrefix:
+            expose: true
+            type: string
+        variablePattern:
+            expose: true
+            type: string
