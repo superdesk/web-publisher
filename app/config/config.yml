@@ -35,7 +35,9 @@ twig:
     strict_variables: false
 
 sylius_theme:
-    context: "swp_webrenderer.theme.context.tenant_aware"
+    context:
+        service_id: "swp_webrenderer.theme.context.tenant_aware"
+        context_aware_paths: true
     sources:
         filesystem:
             locations:
@@ -83,10 +85,14 @@ doctrine:
                         type: yml
                         prefix: SWP\Component\MultiTenancy\Model
                         dir: Resources/config/doctrine
-                    SyliusThemeBundle:
+                    SWPWebRendererBundle:
                         type: yml
-                        prefix: Sylius\Bundle\ThemeBundle\Model
+                        prefix: SWP\Bundle\WebRendererBundle\Model
                         dir: Resources/config/doctrine
+                    #SyliusThemeBundle: #to remove
+                    #    type: yml
+                    #    prefix: Sylius\Bundle\ThemeBundle\Model
+                    #    dir: Resources/config/doctrine
                     gedmo_loggable:
                         type: annotation
                         prefix: Gedmo\Loggable\Entity
@@ -206,6 +212,10 @@ stof_doctrine_extensions:
             sortable: true
 
 swp_multi_tenancy:
+    resources:
+        tenant:
+            classes:
+                model: SWP\Bundle\WebRendererBundle\Model\Tenant
     persistence:
         phpcr:
             enabled: true
