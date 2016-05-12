@@ -35,12 +35,10 @@ twig:
     strict_variables: false
 
 sylius_theme:
-    context:
-        service_id: "swp_webrenderer.theme.context.tenant_aware"
-        context_aware_paths: true
+    context: "swp_webrenderer.theme.context.tenant_aware"
     sources:
         filesystem:
-            locations:
+            directories:
                 - "%kernel.root_dir%/themes"
                 #- "%kernel.root_dir%/themes/%%context%%"
 twig_cache:
@@ -228,3 +226,13 @@ swp_web_renderer:
 
 nelmio_api_doc:
     request_listener: false
+
+jms_serializer:
+    metadata:
+        directories:
+            CmfRoutingBundle:
+                namespace_prefix: Symfony\Cmf\Bundle\RoutingBundle
+                path: "@SWPContentBundle/Resources/config/serializer/CmfRoutingBundle"
+            SymfonyRouting:
+                namespace_prefix: Symfony\Component\Routing
+                path: "@SWPContentBundle/Resources/config/serializer/SymfonyRouting"
