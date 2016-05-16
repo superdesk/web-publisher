@@ -3,14 +3,6 @@ parameters:
     cmf_routing.dynamic_router.class: SWP\Bundle\WebRendererBundle\Routing\MetaRouter
 
 services:
-    swp_webrenderer.listener.active_theme:
-        class: SWP\Bundle\WebRendererBundle\EventListener\ActiveThemeListener
-        arguments:
-            - "@sylius.repository.theme"
-            - "@sylius.context.theme"
-        tags:
-            - { name: kernel.event_listener, event: kernel.request, method: onKernelRequest }
-
     swp_webrenderer.detection.device_detection:
         class: SWP\Bundle\WebRendererBundle\Detection\DeviceDetection
 
