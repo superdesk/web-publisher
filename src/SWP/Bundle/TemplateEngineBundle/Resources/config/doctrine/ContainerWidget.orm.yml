@@ -1,6 +1,6 @@
 SWP\Bundle\TemplateEngineBundle\Model\ContainerWidget:
     type: entity
-    table: containers_widgets
+    table: swp_container_widgets
     repositoryClass: SWP\Bundle\TemplateEngineBundle\Repository\ContainerWidgetRepository
     id:
         id:

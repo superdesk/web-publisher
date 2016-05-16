@@ -14,6 +14,7 @@
 namespace SWP\Bundle\MultiTenancyBundle;
 
 use SWP\Bundle\MultiTenancyBundle\DependencyInjection\Compiler\ConfigurePrefixCandidatesCompilerPass;
+use SWP\Bundle\MultiTenancyBundle\DependencyInjection\Compiler\RegisterTenantFactoryCompilerPass;
 use SWP\Bundle\MultiTenancyBundle\DependencyInjection\Compiler\TenantAwareRouterCompilerPass;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
@@ -25,5 +26,6 @@ class SWPMultiTenancyBundle extends Bundle
         parent::build($container);
         $container->addCompilerPass(new ConfigurePrefixCandidatesCompilerPass());
         $container->addCompilerPass(new TenantAwareRouterCompilerPass());
+        $container->addCompilerPass(new RegisterTenantFactoryCompilerPass());
     }
 }

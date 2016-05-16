@@ -35,10 +35,10 @@ twig:
     strict_variables: false
 
 sylius_theme:
+    context: "swp_webrenderer.theme.context.tenant_aware"
     sources:
-        filesystem:
-            locations:
-                - "%kernel.root_dir%/themes"
+        tenantable: ~
+
 twig_cache:
     service: "doctrine_cache.providers.main_cache"
 
@@ -53,6 +53,8 @@ doctrine:
         password: "%database_password%"
         charset:  UTF8
         server_version: "%server_version%"
+        mapping_types:
+            json: string
 
     orm:
         auto_generate_proxy_classes: "%kernel.debug%"
@@ -78,6 +80,10 @@ doctrine:
                     SWPMultiTenancyBundle:
                         type: yml
                         prefix: SWP\Component\MultiTenancy\Model
+                        dir: Resources/config/doctrine
+                    SWPWebRendererBundle:
+                        type: yml
+                        prefix: SWP\Bundle\WebRendererBundle\Model
                         dir: Resources/config/doctrine
                     gedmo_loggable:
                         type: annotation
@@ -198,6 +204,10 @@ stof_doctrine_extensions:
             sortable: true
 
 swp_multi_tenancy:
+    resources:
+        tenant:
+            classes:
+                model: SWP\Bundle\WebRendererBundle\Model\Tenant
     persistence:
         phpcr:
             enabled: true
@@ -210,3 +220,13 @@ swp_web_renderer:
 
 nelmio_api_doc:
     request_listener: false
+
+jms_serializer:
+    metadata:
+        directories:
+            CmfRoutingBundle:
+                namespace_prefix: Symfony\Cmf\Bundle\RoutingBundle
+                path: "@SWPContentBundle/Resources/config/serializer/CmfRoutingBundle"
+            SymfonyRouting:
+                namespace_prefix: Symfony\Component\Routing
+                path: "@SWPContentBundle/Resources/config/serializer/SymfonyRouting"

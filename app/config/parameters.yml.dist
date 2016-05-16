@@ -18,8 +18,8 @@ parameters:
     mailer_password:   ~
 
     # A secret key that's used to generate certain security-related tokens
-    secret:            SuperSecretTokenPleaseChangeIt
-    swp_updater.version.class: "SWP\Bundle\WebRendererBundle\Version\Version"
+    secret: SuperSecretTokenPleaseChangeIt
+    swp_updater.version.class: "SWP\\Bundle\\WebRendererBundle\\Version\\Version"
     active_theme: "theme_1"
     domain: wps.dev
     # Comma separated list of caching servers

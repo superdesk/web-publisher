@@ -18,6 +18,12 @@ suites:
         spec_path: src/SWP/Bundle/ContentBundle
         src_path: src/SWP/Bundle/ContentBundle
 
+    WebRendererBundle_suite:
+        namespace: SWP\Bundle\WebRendererBundle
+        psr4_prefix: SWP\Bundle\WebRendererBundle
+        spec_path: src/SWP/Bundle/WebRendererBundle
+        src_path: src/SWP/Bundle/WebRendererBundle
+
 #extensions:
 #    - PhpSpec\Extension\CodeCoverageExtension
 
