@@ -1,5 +1,5 @@
 SWP\Component\MultiTenancy\Model\Tenant:
-    type: entity
+    type: mappedSuperclass
     table: swp_tenant
     repositoryClass: SWP\Bundle\MultiTenancyBundle\Repository\TenantRepository
     gedmo:

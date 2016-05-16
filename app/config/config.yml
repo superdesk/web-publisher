@@ -35,10 +35,10 @@ twig:
     strict_variables: false
 
 sylius_theme:
+    context: "swp_webrenderer.theme.context.tenant_aware"
     sources:
-        filesystem:
-            locations:
-                - "%kernel.root_dir%/themes"
+        tenantable: ~
+
 twig_cache:
     service: "doctrine_cache.providers.main_cache"
 
@@ -79,6 +79,13 @@ doctrine:
                         type: yml
                         prefix: SWP\Component\MultiTenancy\Model
                         dir: Resources/config/doctrine
+<<<<<<< HEAD
+=======
+                    SWPWebRendererBundle:
+                        type: yml
+                        prefix: SWP\Bundle\WebRendererBundle\Model
+                        dir: Resources/config/doctrine
+>>>>>>> 8405f06... tenant aware themes
                     gedmo_loggable:
                         type: annotation
                         prefix: Gedmo\Loggable\Entity
