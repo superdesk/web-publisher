@@ -15,6 +15,7 @@ namespace SWP\Bundle\MultiTenancyBundle\DependencyInjection;
 
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Config\FileLocator;
+use Symfony\Component\DependencyInjection\Reference;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 
@@ -44,6 +45,11 @@ class SWPMultiTenancyExtension extends Extension
         $container->setParameter(
             $this->getAlias().'.tenant.class',
             $config['resources']['tenant']['classes']['model']
+        );
+
+        $container->setParameter(
+            $this->getAlias().'.factory.tenant',
+            $config['resources']['tenant']['classes']['factory']
         );
     }
 

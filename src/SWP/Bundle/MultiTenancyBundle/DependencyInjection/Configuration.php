@@ -13,6 +13,7 @@
  */
 namespace SWP\Bundle\MultiTenancyBundle\DependencyInjection;
 
+use SWP\Component\MultiTenancy\Factory\TenantFactory;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
 
@@ -44,6 +45,10 @@ class Configuration implements ConfigurationInterface
                                             ->defaultValue('SWP\Component\MultiTenancy\Model\Tenant')
                                             ->cannotBeEmpty()
                                             ->info('The FQCN for the Tenant model')
+                                        ->end()
+                                        ->scalarNode('factory')
+                                            ->defaultValue(TenantFactory::class)
+                                            ->info('The FQCN of the Tenant Factory class.')
                                         ->end()
                                     ->end()
                                 ->end()
