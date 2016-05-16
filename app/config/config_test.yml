@@ -23,7 +23,7 @@ liip_functional_test: ~
 sylius_theme:
     sources:
         filesystem:
-            locations:
+            directories:
                 - "%kernel.root_dir%/../src/SWP/Bundle/WebRendererBundle/Tests/Fixtures/themes"
 
 web_profiler:

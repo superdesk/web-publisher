@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "aa389938b98fbb2326ea512fd6635323",
-    "content-hash": "ea3c7933c733577c1630f3ea4922153e",
+    "hash": "2783aa141eb14f371ffcbb4d2714cb36",
+    "content-hash": "188bad498d5b3fb4c17389be15fb6fc8",
     "packages": [
         {
             "name": "ahilles107/updater",
@@ -987,16 +987,16 @@
         },
         {
             "name": "doctrine/phpcr-bundle",
-            "version": "1.3.2",
+            "version": "1.3.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/DoctrinePHPCRBundle.git",
-                "reference": "6d47b039d37483a33c2e70b50b8ad9ffe06ac166"
+                "reference": "b3f9c4c9672ce66eb90a2b381dfa3c507bb308f7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/DoctrinePHPCRBundle/zipball/6d47b039d37483a33c2e70b50b8ad9ffe06ac166",
-                "reference": "6d47b039d37483a33c2e70b50b8ad9ffe06ac166",
+                "url": "https://api.github.com/repos/doctrine/DoctrinePHPCRBundle/zipball/b3f9c4c9672ce66eb90a2b381dfa3c507bb308f7",
+                "reference": "b3f9c4c9672ce66eb90a2b381dfa3c507bb308f7",
                 "shasum": ""
             },
             "require": {
@@ -1061,20 +1061,20 @@
                 "persistence",
                 "phpcr"
             ],
-            "time": "2016-02-19 16:15:20"
+            "time": "2016-03-29 13:34:07"
         },
         {
             "name": "doctrine/phpcr-odm",
-            "version": "1.3.0",
+            "version": "1.3.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/phpcr-odm.git",
-                "reference": "62bbd2f469c464ad6c300fb9fa7712c8e004396c"
+                "reference": "094accbb0c5e3394cde29b26ec1db8f7abeb08c0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/phpcr-odm/zipball/62bbd2f469c464ad6c300fb9fa7712c8e004396c",
-                "reference": "62bbd2f469c464ad6c300fb9fa7712c8e004396c",
+                "url": "https://api.github.com/repos/doctrine/phpcr-odm/zipball/094accbb0c5e3394cde29b26ec1db8f7abeb08c0",
+                "reference": "094accbb0c5e3394cde29b26ec1db8f7abeb08c0",
                 "shasum": ""
             },
             "require": {
@@ -1141,20 +1141,20 @@
                 "odm",
                 "phpcr"
             ],
-            "time": "2015-12-08 16:42:00"
+            "time": "2016-04-06 05:20:39"
         },
         {
             "name": "emanueleminotto/twig-cache-bundle",
-            "version": "1.0.2",
+            "version": "1.0.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/EmanueleMinotto/TwigCacheBundle.git",
-                "reference": "0eb46e72727717c1a83206560d4adfa8bc627fd1"
+                "reference": "37aa9e138d730f2089e2d57703e2c5b35ecd8b96"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/EmanueleMinotto/TwigCacheBundle/zipball/0eb46e72727717c1a83206560d4adfa8bc627fd1",
-                "reference": "0eb46e72727717c1a83206560d4adfa8bc627fd1",
+                "url": "https://api.github.com/repos/EmanueleMinotto/TwigCacheBundle/zipball/37aa9e138d730f2089e2d57703e2c5b35ecd8b96",
+                "reference": "37aa9e138d730f2089e2d57703e2c5b35ecd8b96",
                 "shasum": ""
             },
             "require": {
@@ -1201,7 +1201,7 @@
                 "symfony",
                 "twig"
             ],
-            "time": "2016-01-30 13:04:44"
+            "time": "2016-04-05 07:36:38"
         },
         {
             "name": "friendsofsymfony/http-cache",
@@ -1357,31 +1357,35 @@
         },
         {
             "name": "friendsofsymfony/rest-bundle",
-            "version": "dev-master",
+            "version": "2.0.x-dev",
             "source": {
                 "type": "git",
                 "url": "https://github.com/FriendsOfSymfony/FOSRestBundle.git",
-                "reference": "ff191543ecc1c9cd24986726d1518e602b918f18"
+                "reference": "6cb06732d26d632f2d5b8e96133ac1dcd101aec1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSRestBundle/zipball/ff191543ecc1c9cd24986726d1518e602b918f18",
-                "reference": "ff191543ecc1c9cd24986726d1518e602b918f18",
+                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSRestBundle/zipball/6cb06732d26d632f2d5b8e96133ac1dcd101aec1",
+                "reference": "6cb06732d26d632f2d5b8e96133ac1dcd101aec1",
                 "shasum": ""
             },
             "require": {
                 "doctrine/inflector": "^1.0",
                 "php": "^5.5.9|~7.0",
                 "psr/log": "^1.0",
+                "symfony/finder": "^2.7|^3.0",
                 "symfony/framework-bundle": "^2.7|^3.0",
                 "symfony/routing": "^2.7|^3.0",
                 "willdurand/jsonp-callback-validator": "^1.0",
                 "willdurand/negotiation": "^2.0"
             },
+            "conflict": {
+                "sensio/framework-extra-bundle": "<3.0.13"
+            },
             "require-dev": {
                 "jms/serializer-bundle": "^1.0",
                 "phpoption/phpoption": "^1.1",
-                "sensio/framework-extra-bundle": "^3.0",
+                "sensio/framework-extra-bundle": "^3.0.13",
                 "sllh/php-cs-fixer-styleci-bridge": "^1.3",
                 "symfony/browser-kit": "^2.7|^3.0",
                 "symfony/css-selector": "^2.7|^3.0",
@@ -1390,7 +1394,7 @@
                 "symfony/form": "^2.7|^3.0",
                 "symfony/phpunit-bridge": "~2.7|^3.0",
                 "symfony/security-bundle": "^2.7|^3.0",
-                "symfony/serializer": "^2.7|^3.0",
+                "symfony/serializer": "^2.7.11|^3.0.4",
                 "symfony/twig-bundle": "^2.7|^3.0",
                 "symfony/validator": "^2.7|^3.0",
                 "symfony/web-profiler-bundle": "^2.7|^3.0",
@@ -1437,10 +1441,10 @@
                 "rest"
             ],
             "support": {
-                "source": "https://github.com/FriendsOfSymfony/FOSRestBundle/tree/master",
+                "source": "https://github.com/FriendsOfSymfony/FOSRestBundle/tree/2.0.0-BETA3",
                 "issues": "https://github.com/FriendsOfSymfony/FOSRestBundle/issues"
             },
-            "time": "2016-02-28 19:46:25"
+            "time": "2016-05-15 23:41:36"
         },
         {
             "name": "gedmo/doctrine-extensions",
@@ -1618,16 +1622,16 @@
         },
         {
             "name": "guzzlehttp/guzzle",
-            "version": "6.1.1",
+            "version": "6.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/guzzle/guzzle.git",
-                "reference": "c6851d6e48f63b69357cbfa55bca116448140e0c"
+                "reference": "d094e337976dff9d8e2424e8485872194e768662"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/guzzle/guzzle/zipball/c6851d6e48f63b69357cbfa55bca116448140e0c",
-                "reference": "c6851d6e48f63b69357cbfa55bca116448140e0c",
+                "url": "https://api.github.com/repos/guzzle/guzzle/zipball/d094e337976dff9d8e2424e8485872194e768662",
+                "reference": "d094e337976dff9d8e2424e8485872194e768662",
                 "shasum": ""
             },
             "require": {
@@ -1643,7 +1647,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "6.1-dev"
+                    "dev-master": "6.2-dev"
                 }
             },
             "autoload": {
@@ -1676,20 +1680,20 @@
                 "rest",
                 "web service"
             ],
-            "time": "2015-11-23 00:47:50"
+            "time": "2016-03-21 20:02:09"
         },
         {
             "name": "guzzlehttp/promises",
-            "version": "1.0.3",
+            "version": "1.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/guzzle/promises.git",
-                "reference": "b1e1c0d55f8083c71eda2c28c12a228d708294ea"
+                "reference": "bb9024c526b22f3fe6ae55a561fd70653d470aa8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/guzzle/promises/zipball/b1e1c0d55f8083c71eda2c28c12a228d708294ea",
-                "reference": "b1e1c0d55f8083c71eda2c28c12a228d708294ea",
+                "url": "https://api.github.com/repos/guzzle/promises/zipball/bb9024c526b22f3fe6ae55a561fd70653d470aa8",
+                "reference": "bb9024c526b22f3fe6ae55a561fd70653d470aa8",
                 "shasum": ""
             },
             "require": {
@@ -1727,20 +1731,20 @@
             "keywords": [
                 "promise"
             ],
-            "time": "2015-10-15 22:28:00"
+            "time": "2016-03-08 01:15:46"
         },
         {
             "name": "guzzlehttp/psr7",
-            "version": "1.2.3",
+            "version": "1.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/guzzle/psr7.git",
-                "reference": "2e89629ff057ebb49492ba08e6995d3a6a80021b"
+                "reference": "31382fef2889136415751badebbd1cb022a4ed72"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/guzzle/psr7/zipball/2e89629ff057ebb49492ba08e6995d3a6a80021b",
-                "reference": "2e89629ff057ebb49492ba08e6995d3a6a80021b",
+                "url": "https://api.github.com/repos/guzzle/psr7/zipball/31382fef2889136415751badebbd1cb022a4ed72",
+                "reference": "31382fef2889136415751badebbd1cb022a4ed72",
                 "shasum": ""
             },
             "require": {
@@ -1785,7 +1789,7 @@
                 "stream",
                 "uri"
             ],
-            "time": "2016-02-18 21:54:00"
+            "time": "2016-04-13 19:56:01"
         },
         {
             "name": "incenteev/composer-parameter-handler",
@@ -1939,12 +1943,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/jackalope/jackalope-doctrine-dbal.git",
-                "reference": "a7a0543095a6bb3067075bb599a6fedd07769dca"
+                "reference": "121c087f4ebda828be178dc3cc92fab2e9ffaab6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/jackalope/jackalope-doctrine-dbal/zipball/a7a0543095a6bb3067075bb599a6fedd07769dca",
-                "reference": "a7a0543095a6bb3067075bb599a6fedd07769dca",
+                "url": "https://api.github.com/repos/jackalope/jackalope-doctrine-dbal/zipball/121c087f4ebda828be178dc3cc92fab2e9ffaab6",
+                "reference": "121c087f4ebda828be178dc3cc92fab2e9ffaab6",
                 "shasum": ""
             },
             "require": {
@@ -1958,7 +1962,7 @@
                 "jackalope/jackalope-transport": "1.1.0"
             },
             "require-dev": {
-                "phpcr/phpcr-api-tests": "2.1.14",
+                "phpcr/phpcr-api-tests": "2.1.15",
                 "phpunit/dbunit": "~1.3",
                 "phpunit/phpunit": "4.7.*",
                 "psr/log": "~1.0"
@@ -1995,7 +1999,7 @@
                 "phpcr",
                 "transport implementation"
             ],
-            "time": "2016-02-16 14:38:51"
+            "time": "2016-04-25 06:11:48"
         },
         {
             "name": "jdorn/sql-formatter",
@@ -2345,16 +2349,16 @@
         },
         {
             "name": "knplabs/knp-components",
-            "version": "1.3.2",
+            "version": "1.3.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/KnpLabs/knp-components.git",
-                "reference": "4503275e4f1a0e9667aa65b0ebed842ef2d8d8ba"
+                "reference": "bc49e739d1cce94d783b1e23bc5b263b38dc47da"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/KnpLabs/knp-components/zipball/4503275e4f1a0e9667aa65b0ebed842ef2d8d8ba",
-                "reference": "4503275e4f1a0e9667aa65b0ebed842ef2d8d8ba",
+                "url": "https://api.github.com/repos/KnpLabs/knp-components/zipball/bc49e739d1cce94d783b1e23bc5b263b38dc47da",
+                "reference": "bc49e739d1cce94d783b1e23bc5b263b38dc47da",
                 "shasum": ""
             },
             "require": {
@@ -2363,6 +2367,8 @@
             "require-dev": {
                 "doctrine/mongodb-odm": "~1.0@beta",
                 "doctrine/orm": "~2.4",
+                "doctrine/phpcr-odm": "~1.2",
+                "jackalope/jackalope-doctrine-dbal": "~1.2",
                 "phpunit/phpunit": "~4.2",
                 "ruflin/elastica": "~1.0",
                 "symfony/event-dispatcher": "~2.5"
@@ -2371,6 +2377,7 @@
                 "doctrine/common": "to allow usage pagination with Doctrine ArrayCollection",
                 "doctrine/mongodb-odm": "to allow usage pagination with Doctrine ODM MongoDB",
                 "doctrine/orm": "to allow usage pagination with Doctrine ORM",
+                "doctrine/phpcr-odm": "to allow usage pagination with Doctrine ODM PHPCR",
                 "propel/propel1": "to allow usage pagination with Propel ORM",
                 "ruflin/Elastica": "to allow usage pagination with ElasticSearch Client",
                 "solarium/solarium": "to allow usage pagination with Solarium Client"
@@ -2409,20 +2416,20 @@
                 "pager",
                 "paginator"
             ],
-            "time": "2015-09-01 10:54:53"
+            "time": "2016-04-21 06:26:20"
         },
         {
             "name": "knplabs/knp-paginator-bundle",
-            "version": "2.5.1",
+            "version": "2.5.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/KnpLabs/KnpPaginatorBundle.git",
-                "reference": "5147740faff4d32e6f42acf64475314c35320fa4"
+                "reference": "c988761005504007c6c87d6a557641281194a0e5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/KnpLabs/KnpPaginatorBundle/zipball/5147740faff4d32e6f42acf64475314c35320fa4",
-                "reference": "5147740faff4d32e6f42acf64475314c35320fa4",
+                "url": "https://api.github.com/repos/KnpLabs/KnpPaginatorBundle/zipball/c988761005504007c6c87d6a557641281194a0e5",
+                "reference": "c988761005504007c6c87d6a557641281194a0e5",
                 "shasum": ""
             },
             "require": {
@@ -2437,7 +2444,7 @@
             "type": "symfony-bundle",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.4.x-dev"
+                    "dev-master": "2.5.x-dev"
                 }
             },
             "autoload": {
@@ -2470,20 +2477,20 @@
                 "pagination",
                 "paginator"
             ],
-            "time": "2015-11-23 17:51:40"
+            "time": "2016-04-20 11:40:30"
         },
         {
             "name": "league/flysystem",
-            "version": "1.0.17",
+            "version": "1.0.22",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thephpleague/flysystem.git",
-                "reference": "02f5b6c9a8b9278c8381e3361e7bd9d641c740ca"
+                "reference": "bd73a91703969a2d20ab4bfbf971d6c2cbe36612"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/flysystem/zipball/02f5b6c9a8b9278c8381e3361e7bd9d641c740ca",
-                "reference": "02f5b6c9a8b9278c8381e3361e7bd9d641c740ca",
+                "url": "https://api.github.com/repos/thephpleague/flysystem/zipball/bd73a91703969a2d20ab4bfbf971d6c2cbe36612",
+                "reference": "bd73a91703969a2d20ab4bfbf971d6c2cbe36612",
                 "shasum": ""
             },
             "require": {
@@ -2553,7 +2560,7 @@
                 "sftp",
                 "storage"
             ],
-            "time": "2016-02-19 15:35:38"
+            "time": "2016-04-28 06:53:12"
         },
         {
             "name": "michelf/php-markdown",
@@ -2608,16 +2615,16 @@
         },
         {
             "name": "monolog/monolog",
-            "version": "1.17.2",
+            "version": "1.19.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Seldaek/monolog.git",
-                "reference": "bee7f0dc9c3e0b69a6039697533dca1e845c8c24"
+                "reference": "5f56ed5212dc509c8dc8caeba2715732abb32dbf"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/bee7f0dc9c3e0b69a6039697533dca1e845c8c24",
-                "reference": "bee7f0dc9c3e0b69a6039697533dca1e845c8c24",
+                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/5f56ed5212dc509c8dc8caeba2715732abb32dbf",
+                "reference": "5f56ed5212dc509c8dc8caeba2715732abb32dbf",
                 "shasum": ""
             },
             "require": {
@@ -2632,13 +2639,13 @@
                 "doctrine/couchdb": "~1.0@dev",
                 "graylog2/gelf-php": "~1.0",
                 "jakub-onderka/php-parallel-lint": "0.9",
+                "php-amqplib/php-amqplib": "~2.4",
                 "php-console/php-console": "^3.1.3",
                 "phpunit/phpunit": "~4.5",
                 "phpunit/phpunit-mock-objects": "2.3.0",
                 "raven/raven": "^0.13",
                 "ruflin/elastica": ">=0.90 <3.0",
-                "swiftmailer/swiftmailer": "~5.3",
-                "videlalvaro/php-amqplib": "~2.4"
+                "swiftmailer/swiftmailer": "~5.3"
             },
             "suggest": {
                 "aws/aws-sdk-php": "Allow sending log messages to AWS services like DynamoDB",
@@ -2646,16 +2653,17 @@
                 "ext-amqp": "Allow sending log messages to an AMQP server (1.0+ required)",
                 "ext-mongo": "Allow sending log messages to a MongoDB server",
                 "graylog2/gelf-php": "Allow sending log messages to a GrayLog2 server",
+                "mongodb/mongodb": "Allow sending log messages to a MongoDB server via PHP Driver",
+                "php-amqplib/php-amqplib": "Allow sending log messages to an AMQP server using php-amqplib",
                 "php-console/php-console": "Allow sending log messages to Google Chrome",
                 "raven/raven": "Allow sending log messages to a Sentry server",
                 "rollbar/rollbar": "Allow sending log messages to Rollbar",
-                "ruflin/elastica": "Allow sending log messages to an Elastic Search server",
-                "videlalvaro/php-amqplib": "Allow sending log messages to an AMQP server using php-amqplib"
+                "ruflin/elastica": "Allow sending log messages to an Elastic Search server"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.16.x-dev"
+                    "dev-master": "2.0.x-dev"
                 }
             },
             "autoload": {
@@ -2681,21 +2689,21 @@
                 "logging",
                 "psr-3"
             ],
-            "time": "2015-10-14 12:51:02"
+            "time": "2016-04-12 18:29:35"
         },
         {
             "name": "nelmio/api-doc-bundle",
-            "version": "2.11.2",
+            "version": "2.12.0",
             "target-dir": "Nelmio/ApiDocBundle",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nelmio/NelmioApiDocBundle.git",
-                "reference": "1ae2cfa9a50279d722d6b6e7b02322cef948d55d"
+                "reference": "6793b701570f5f426678309910b2440c8f5d1d9e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nelmio/NelmioApiDocBundle/zipball/1ae2cfa9a50279d722d6b6e7b02322cef948d55d",
-                "reference": "1ae2cfa9a50279d722d6b6e7b02322cef948d55d",
+                "url": "https://api.github.com/repos/nelmio/NelmioApiDocBundle/zipball/6793b701570f5f426678309910b2440c8f5d1d9e",
+                "reference": "6793b701570f5f426678309910b2440c8f5d1d9e",
                 "shasum": ""
             },
             "require": {
@@ -2708,6 +2716,7 @@
             "conflict": {
                 "jms/serializer": "<0.12",
                 "jms/serializer-bundle": "<0.11",
+                "symfony/symfony": "~2.7.8",
                 "twig/twig": "<1.12"
             },
             "require-dev": {
@@ -2736,7 +2745,7 @@
             "type": "symfony-bundle",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.11-dev"
+                    "dev-master": "2.12-dev"
                 }
             },
             "autoload": {
@@ -2765,7 +2774,7 @@
                 "documentation",
                 "rest"
             ],
-            "time": "2015-12-16 15:17:51"
+            "time": "2016-03-21 11:19:12"
         },
         {
             "name": "oneup/flysystem-bundle",
@@ -2909,16 +2918,16 @@
         },
         {
             "name": "paragonie/random_compat",
-            "version": "v1.2.0",
+            "version": "v1.4.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/paragonie/random_compat.git",
-                "reference": "b0e69d10852716b2ccbdff69c75c477637220790"
+                "reference": "c7e26a21ba357863de030f0b9e701c7d04593774"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/paragonie/random_compat/zipball/b0e69d10852716b2ccbdff69c75c477637220790",
-                "reference": "b0e69d10852716b2ccbdff69c75c477637220790",
+                "url": "https://api.github.com/repos/paragonie/random_compat/zipball/c7e26a21ba357863de030f0b9e701c7d04593774",
+                "reference": "c7e26a21ba357863de030f0b9e701c7d04593774",
                 "shasum": ""
             },
             "require": {
@@ -2953,7 +2962,7 @@
                 "pseudorandom",
                 "random"
             ],
-            "time": "2016-02-06 03:52:05"
+            "time": "2016-03-18 20:34:03"
         },
         {
             "name": "phpcollection/phpcollection",
@@ -3316,17 +3325,17 @@
         },
         {
             "name": "sensio/distribution-bundle",
-            "version": "v3.0.35",
+            "version": "v3.0.36",
             "target-dir": "Sensio/Bundle/DistributionBundle",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sensiolabs/SensioDistributionBundle.git",
-                "reference": "abc5b0ce28f72f838922aa0e0a107ba270dbabb5"
+                "reference": "964a56e855acac38d4a81920b3a86543f7e8492f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sensiolabs/SensioDistributionBundle/zipball/abc5b0ce28f72f838922aa0e0a107ba270dbabb5",
-                "reference": "abc5b0ce28f72f838922aa0e0a107ba270dbabb5",
+                "url": "https://api.github.com/repos/sensiolabs/SensioDistributionBundle/zipball/964a56e855acac38d4a81920b3a86543f7e8492f",
+                "reference": "964a56e855acac38d4a81920b3a86543f7e8492f",
                 "shasum": ""
             },
             "require": {
@@ -3372,20 +3381,20 @@
                 "configuration",
                 "distribution"
             ],
-            "time": "2015-12-08 17:53:19"
+            "time": "2016-04-25 20:46:43"
         },
         {
             "name": "sensio/framework-extra-bundle",
-            "version": "v3.0.13",
+            "version": "v3.0.16",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sensiolabs/SensioFrameworkExtraBundle.git",
-                "reference": "bf6be511f4f66d368baeb2cab617203d73cccf4e"
+                "reference": "507a15f56fa7699f6cc8c2c7de4080b19ce22546"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sensiolabs/SensioFrameworkExtraBundle/zipball/bf6be511f4f66d368baeb2cab617203d73cccf4e",
-                "reference": "bf6be511f4f66d368baeb2cab617203d73cccf4e",
+                "url": "https://api.github.com/repos/sensiolabs/SensioFrameworkExtraBundle/zipball/507a15f56fa7699f6cc8c2c7de4080b19ce22546",
+                "reference": "507a15f56fa7699f6cc8c2c7de4080b19ce22546",
                 "shasum": ""
             },
             "require": {
@@ -3434,7 +3443,7 @@
                 "annotations",
                 "controllers"
             ],
-            "time": "2016-02-12 08:17:23"
+            "time": "2016-03-25 17:08:27"
         },
         {
             "name": "sensiolabs/security-checker",
@@ -3599,16 +3608,16 @@
         },
         {
             "name": "swiftmailer/swiftmailer",
-            "version": "v5.4.1",
+            "version": "v5.4.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/swiftmailer/swiftmailer.git",
-                "reference": "0697e6aa65c83edf97bb0f23d8763f94e3f11421"
+                "reference": "d8db871a54619458a805229a057ea2af33c753e8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/swiftmailer/swiftmailer/zipball/0697e6aa65c83edf97bb0f23d8763f94e3f11421",
-                "reference": "0697e6aa65c83edf97bb0f23d8763f94e3f11421",
+                "url": "https://api.github.com/repos/swiftmailer/swiftmailer/zipball/d8db871a54619458a805229a057ea2af33c753e8",
+                "reference": "d8db871a54619458a805229a057ea2af33c753e8",
                 "shasum": ""
             },
             "require": {
@@ -3648,7 +3657,7 @@
                 "mail",
                 "mailer"
             ],
-            "time": "2015-06-06 14:19:39"
+            "time": "2016-05-01 08:45:47"
         },
         {
             "name": "swp/bridge-bundle",
@@ -3822,278 +3831,39 @@
             "time": "2016-01-07 09:16:25"
         },
         {
-            "name": "sylius/resource",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/Sylius/Resource.git",
-                "reference": "62580963e07a2b40de07813a01c73ad462c4d200"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/Sylius/Resource/zipball/62580963e07a2b40de07813a01c73ad462c4d200",
-                "reference": "62580963e07a2b40de07813a01c73ad462c4d200",
-                "shasum": ""
-            },
-            "require": {
-                "doctrine/collections": "~1.0",
-                "doctrine/common": "~2.3",
-                "pagerfanta/pagerfanta": "^1.0",
-                "php": "^5.5.9|^7.0",
-                "symfony/event-dispatcher": "^2.7",
-                "symfony/property-access": "^2.7",
-                "winzou/state-machine": "~0.1"
-            },
-            "require-dev": {
-                "phpspec/phpspec": "^2.4"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "0.17-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Sylius\\Component\\Resource\\": ""
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Sylius project",
-                    "homepage": "http://sylius.org"
-                },
-                {
-                    "name": "Community contributions",
-                    "homepage": "http://github.com/Sylius/Sylius/contributors"
-                },
-                {
-                    "name": "Paweł Jędrzejewski",
-                    "homepage": "http://pjedrzejewski.com"
-                }
-            ],
-            "description": "Basic resource interfaces for PHP applications.",
-            "homepage": "http://sylius.org",
-            "keywords": [
-                "api",
-                "doctrine",
-                "ecommerce",
-                "resource",
-                "shop",
-                "sylius"
-            ],
-            "time": "2016-01-29 16:34:34"
-        },
-        {
-            "name": "sylius/resource-bundle",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/Sylius/SyliusResourceBundle.git",
-                "reference": "7ce7929385f4b34bd56f9276e215a683d43945be"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/Sylius/SyliusResourceBundle/zipball/7ce7929385f4b34bd56f9276e215a683d43945be",
-                "reference": "7ce7929385f4b34bd56f9276e215a683d43945be",
-                "shasum": ""
-            },
-            "require": {
-                "doctrine/doctrine-bundle": "~1.3",
-                "friendsofsymfony/rest-bundle": "~1.5",
-                "jms/serializer-bundle": "^0.13|^1.0",
-                "php": "^5.5.9|^7.0",
-                "stof/doctrine-extensions-bundle": "~1.1",
-                "sylius/resource": "0.17.*",
-                "sylius/storage": "0.17.*",
-                "symfony/expression-language": "^2.7",
-                "symfony/form": "^2.7",
-                "symfony/framework-bundle": "^2.7.7",
-                "symfony/twig-bundle": "^2.7",
-                "symfony/validator": "^2.7",
-                "symfony/yaml": "^2.7",
-                "white-october/pagerfanta-bundle": "^1.0",
-                "willdurand/hateoas-bundle": "^0.4|^1.0"
-            },
-            "require-dev": {
-                "akeneo/phpspec-skip-example-extension": "~1.2",
-                "doctrine/mongodb-odm": "^1.0",
-                "doctrine/orm": "^2.4.8,<2.5",
-                "doctrine/phpcr-odm": "^1.3",
-                "incenteev/composer-parameter-handler": "~2.0",
-                "jackalope/jackalope": "^1.2",
-                "jackalope/jackalope-doctrine-dbal": "^1.2",
-                "lakion/api-test-case": "^1.0@dev",
-                "matthiasnoback/symfony-dependency-injection-test": "0.*",
-                "mongofill/mongofill": "dev-master",
-                "phpspec/phpspec": "^2.4",
-                "phpunit/phpunit": "^4.8",
-                "sensio/generator-bundle": "^3.0",
-                "sylius/rbac-bundle": "0.17.*",
-                "sylius/translation-bundle": "0.17.*",
-                "twig/twig": "~1.11"
-            },
-            "suggest": {
-                "doctrine/mongodb-odm": "1.0.*@dev",
-                "doctrine/orm": "^2.4.8,<2.5",
-                "doctrine/phpcr-bundle": "~1.1",
-                "sylius/rbac-bundle": "0.17.*",
-                "sylius/translation-bundle": "0.17.*"
-            },
-            "type": "symfony-bundle",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "0.17-dev"
-                },
-                "incenteev-parameters": {
-                    "file": "test/app/config/parameters.yml",
-                    "dist-file": "test/app/config/parameters.yml.dist"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Sylius\\Bundle\\ResourceBundle\\": ""
-                }
-            },
-            "autoload-dev": {
-                "psr-4": {
-                    "Sylius\\Bundle\\ResourceBundle\\spec\\": "spec/",
-                    "AppBundle\\": "test/src/AppBundle/"
-                }
-            },
-            "scripts": {
-                "post-install-cmd": [
-                    "Incenteev\\ParameterHandler\\ScriptHandler::buildParameters"
-                ],
-                "post-update-cmd": [
-                    "Incenteev\\ParameterHandler\\ScriptHandler::buildParameters"
-                ]
-            },
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Paweł Jędrzejewski",
-                    "homepage": "http://pjedrzejewski.com"
-                },
-                {
-                    "name": "Sylius project",
-                    "homepage": "http://sylius.org"
-                },
-                {
-                    "name": "Community contributions",
-                    "homepage": "http://github.com/Sylius/Sylius/contributors"
-                }
-            ],
-            "description": "Resource component for Sylius.",
-            "homepage": "http://sylius.org",
-            "keywords": [
-                "persistence",
-                "resource",
-                "storage",
-                "sylius"
-            ],
-            "support": {
-                "source": "https://github.com/Sylius/SyliusResourceBundle/tree/master"
-            },
-            "time": "2016-02-24 13:14:07"
-        },
-        {
-            "name": "sylius/storage",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/Sylius/Storage.git",
-                "reference": "68d6354ca8f9fb84100c72759adf360742c5f258"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/Sylius/Storage/zipball/68d6354ca8f9fb84100c72759adf360742c5f258",
-                "reference": "68d6354ca8f9fb84100c72759adf360742c5f258",
-                "shasum": ""
-            },
-            "require": {
-                "php": "^5.5.9|^7.0"
-            },
-            "require-dev": {
-                "doctrine/cache": "~1.3",
-                "phpspec/phpspec": "^2.4",
-                "symfony/http-foundation": "^2.7"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "0.17-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Sylius\\Component\\Storage\\": ""
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Sylius project",
-                    "homepage": "http://sylius.org"
-                },
-                {
-                    "name": "Community contributions",
-                    "homepage": "http://github.com/Sylius/Sylius/contributors"
-                },
-                {
-                    "name": "Paweł Jędrzejewski",
-                    "homepage": "http://pjedrzejewski.com"
-                }
-            ],
-            "description": "Component allowing easily & unified storage handling for PHP applications.",
-            "homepage": "http://sylius.org",
-            "keywords": [
-                "storage"
-            ],
-            "time": "2016-01-29 16:34:34"
-        },
-        {
             "name": "sylius/theme-bundle",
             "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Sylius/SyliusThemeBundle.git",
-                "reference": "0902aca23d4d6d0c8677d2695a6252497fba895b"
+                "reference": "a46a150eb1c472727f80d62f6b8aaf3fbac6669c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Sylius/SyliusThemeBundle/zipball/0902aca23d4d6d0c8677d2695a6252497fba895b",
-                "reference": "0902aca23d4d6d0c8677d2695a6252497fba895b",
+                "url": "https://api.github.com/repos/Sylius/SyliusThemeBundle/zipball/a46a150eb1c472727f80d62f6b8aaf3fbac6669c",
+                "reference": "a46a150eb1c472727f80d62f6b8aaf3fbac6669c",
                 "shasum": ""
             },
             "require": {
                 "php": "^5.5.9|^7.0",
-                "sylius/resource-bundle": "^0.17",
                 "symfony/symfony": "^2.7.7",
                 "zendframework/zend-hydrator": "^1.0|^2.0"
             },
             "require-dev": {
-                "doctrine/doctrine-bundle": "^1.6",
-                "doctrine/orm": "^2.5",
                 "matthiasnoback/symfony-config-test": "^1.4.0",
                 "matthiasnoback/symfony-dependency-injection-test": "^0.7.6",
+                "mikey179/vfsstream": "^1.6",
                 "phpspec/phpspec": "^2.4",
                 "phpunit/phpunit": "^4.1",
-                "symfony/twig-bundle": "^2.7.7"
+                "sylius/settings-bundle": "^0.18"
+            },
+            "suggest": {
+                "sylius/settings-bundle": "Support for theme settings"
             },
             "type": "symfony-bundle",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "0.17-dev"
+                    "dev-master": "0.18-dev"
                 }
             },
             "autoload": {
@@ -4125,40 +3895,42 @@
                 "themes",
                 "theming"
             ],
-            "time": "2016-02-26 14:27:42"
+            "time": "2016-05-12 12:31:54"
         },
         {
             "name": "symfony-cmf/routing",
-            "version": "1.3.0",
+            "version": "1.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony-cmf/Routing.git",
-                "reference": "8e87981d72c6930a27585dcd3119f3199f6cb2a6"
+                "reference": "b93704ca098334f56e9b317932f21a4362e620db"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony-cmf/Routing/zipball/8e87981d72c6930a27585dcd3119f3199f6cb2a6",
-                "reference": "8e87981d72c6930a27585dcd3119f3199f6cb2a6",
+                "url": "https://api.github.com/repos/symfony-cmf/Routing/zipball/b93704ca098334f56e9b317932f21a4362e620db",
+                "reference": "b93704ca098334f56e9b317932f21a4362e620db",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.3.3",
-                "psr/log": "~1.0",
-                "symfony/http-kernel": "~2.2",
-                "symfony/routing": "~2.2"
+                "php": "^5.3.9|^7.0",
+                "psr/log": "1.*",
+                "symfony/http-kernel": "^2.2|3.*",
+                "symfony/routing": "^2.2|3.*"
             },
             "require-dev": {
-                "symfony/config": "~2.2",
-                "symfony/dependency-injection": "~2.0@stable",
-                "symfony/event-dispatcher": "~2.1"
+                "friendsofsymfony/jsrouting-bundle": "^1.1",
+                "symfony-cmf/testing": "^1.3",
+                "symfony/config": "^2.2|3.*",
+                "symfony/dependency-injection": "^2.0.5|3.*",
+                "symfony/event-dispatcher": "^2.1|3.*"
             },
             "suggest": {
-                "symfony/event-dispatcher": "DynamicRouter can optionally trigger an event at the start of matching. Minimal version ~2.1"
+                "symfony/event-dispatcher": "DynamicRouter can optionally trigger an event at the start of matching. Minimal version (~2.1)"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.3-dev"
+                    "dev-master": "1.4-dev"
                 }
             },
             "autoload": {
@@ -4182,49 +3954,51 @@
                 "database",
                 "routing"
             ],
-            "time": "2014-10-20 20:55:17"
+            "time": "2016-03-31 09:11:39"
         },
         {
             "name": "symfony-cmf/routing-bundle",
-            "version": "1.3.5",
+            "version": "1.4.0",
             "source": {
                 "type": "git",
-                "url": "https://github.com/symfony-cmf/RoutingBundle.git",
-                "reference": "c4950dda9c4f60d2186d24bf7c7e1b4c05f5daf6"
+                "url": "https://github.com/symfony-cmf/routing-bundle.git",
+                "reference": "cd358f852fe5323407fbd67931c0e034f735660b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony-cmf/RoutingBundle/zipball/c4950dda9c4f60d2186d24bf7c7e1b4c05f5daf6",
-                "reference": "c4950dda9c4f60d2186d24bf7c7e1b4c05f5daf6",
+                "url": "https://api.github.com/repos/symfony-cmf/routing-bundle/zipball/cd358f852fe5323407fbd67931c0e034f735660b",
+                "reference": "cd358f852fe5323407fbd67931c0e034f735660b",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.3.3",
-                "symfony-cmf/routing": "~1.2",
+                "php": "^5.3.9|^7.0",
+                "symfony-cmf/routing": "^1.4.0",
                 "symfony/framework-bundle": "~2.3"
             },
             "require-dev": {
+                "doctrine/data-fixtures": "^1.0.0",
                 "doctrine/orm": "~2.3",
-                "matthiasnoback/symfony-config-test": "0.*",
-                "matthiasnoback/symfony-dependency-injection-test": "0.*",
-                "sonata-project/doctrine-phpcr-admin-bundle": "~1.1",
+                "doctrine/phpcr-odm": "~1.3",
+                "matthiasnoback/symfony-config-test": "^1.3.1",
+                "matthiasnoback/symfony-dependency-injection-test": "~0.6",
+                "phpunit/php-code-coverage": "@stable",
+                "sonata-project/doctrine-phpcr-admin-bundle": "^1.1",
                 "symfony-cmf/core-bundle": "~1.1",
-                "symfony-cmf/testing": "~1.1",
-                "symfony/monolog-bundle": "~2.3",
-                "symfony/symfony": "2.6.*"
+                "symfony-cmf/testing": "~1.3",
+                "symfony/monolog-bundle": "~2.3"
             },
             "suggest": {
-                "doctrine/orm": "To enable support for the ORM entities",
+                "doctrine/orm": "To enable support for the ORM entities (^2.3)",
                 "doctrine/phpcr-bundle": "To enable support for the PHPCR ODM documents",
-                "doctrine/phpcr-odm": "To enable support for the PHPCR ODM documents",
-                "sonata-project/doctrine-phpcr-admin-bundle": "To provide an admin interface for the PHPCR ODM documents",
+                "doctrine/phpcr-odm": "To enable support for the PHPCR ODM documents (^1.3)",
+                "sonata-project/doctrine-phpcr-admin-bundle": "To provide an admin interface for the PHPCR ODM documents (^1.1)",
                 "symfony-cmf/content-bundle": "To optionally use the configured value for 'content_basepath' from the CoreBundle",
-                "symfony-cmf/core-bundle": "To use the provided Doctrine\\Phpcr documents and for easier configuration"
+                "symfony-cmf/core-bundle": "To use the provided Doctrine\\Phpcr documents and for easier configuration (^1.1)"
             },
             "type": "symfony-bundle",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.3-dev"
+                    "dev-master": "1.4-dev"
                 }
             },
             "autoload": {
@@ -4248,24 +4022,24 @@
                 "database",
                 "routing"
             ],
-            "time": "2015-06-23 19:16:42"
+            "time": "2016-03-31 09:49:58"
         },
         {
             "name": "symfony/monolog-bundle",
-            "version": "v2.8.2",
+            "version": "2.11.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/monolog-bundle.git",
-                "reference": "84785c4d44801c4dd82829fa2e1820cacfe2c46f"
+                "reference": "e7caf4936c7be82bc6d68df87f1d23a0d5bf6e00"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/monolog-bundle/zipball/84785c4d44801c4dd82829fa2e1820cacfe2c46f",
-                "reference": "84785c4d44801c4dd82829fa2e1820cacfe2c46f",
+                "url": "https://api.github.com/repos/symfony/monolog-bundle/zipball/e7caf4936c7be82bc6d68df87f1d23a0d5bf6e00",
+                "reference": "e7caf4936c7be82bc6d68df87f1d23a0d5bf6e00",
                 "shasum": ""
             },
             "require": {
-                "monolog/monolog": "~1.8",
+                "monolog/monolog": "~1.18",
                 "php": ">=5.3.2",
                 "symfony/config": "~2.3|~3.0",
                 "symfony/dependency-injection": "~2.3|~3.0",
@@ -4273,13 +4047,14 @@
                 "symfony/monolog-bridge": "~2.3|~3.0"
             },
             "require-dev": {
+                "phpunit/phpunit": "^4.8",
                 "symfony/console": "~2.3|~3.0",
                 "symfony/yaml": "~2.3|~3.0"
             },
             "type": "symfony-bundle",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.8.x-dev"
+                    "dev-master": "2.x-dev"
                 }
             },
             "autoload": {
@@ -4307,20 +4082,20 @@
                 "log",
                 "logging"
             ],
-            "time": "2015-11-17 10:02:29"
+            "time": "2016-04-13 16:21:01"
         },
         {
             "name": "symfony/polyfill-apcu",
-            "version": "v1.1.0",
+            "version": "v1.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/polyfill-apcu.git",
-                "reference": "d1911e6caeb4b6a4c8e2d5c46b978a66b3745e4c"
+                "reference": "0c901e4e65a2f7ece68f0fd249b56d6ad3adc214"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/polyfill-apcu/zipball/d1911e6caeb4b6a4c8e2d5c46b978a66b3745e4c",
-                "reference": "d1911e6caeb4b6a4c8e2d5c46b978a66b3745e4c",
+                "url": "https://api.github.com/repos/symfony/polyfill-apcu/zipball/0c901e4e65a2f7ece68f0fd249b56d6ad3adc214",
+                "reference": "0c901e4e65a2f7ece68f0fd249b56d6ad3adc214",
                 "shasum": ""
             },
             "require": {
@@ -4335,9 +4110,6 @@
             "autoload": {
                 "files": [
                     "bootstrap.php"
-                ],
-                "classmap": [
-                    "Resources/stubs"
                 ]
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -4363,25 +4135,28 @@
                 "portable",
                 "shim"
             ],
-            "time": "2016-01-20 09:13:37"
+            "time": "2016-03-03 16:49:40"
         },
         {
             "name": "symfony/polyfill-intl-icu",
-            "version": "v1.1.0",
+            "version": "v1.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/polyfill-intl-icu.git",
-                "reference": "66b0bb4abda229bc073eff6bbc8f2685bdaac165"
+                "reference": "8328069d9f5322f0e7b3c3518485acfdc94c3942"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/polyfill-intl-icu/zipball/66b0bb4abda229bc073eff6bbc8f2685bdaac165",
-                "reference": "66b0bb4abda229bc073eff6bbc8f2685bdaac165",
+                "url": "https://api.github.com/repos/symfony/polyfill-intl-icu/zipball/8328069d9f5322f0e7b3c3518485acfdc94c3942",
+                "reference": "8328069d9f5322f0e7b3c3518485acfdc94c3942",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.3.3",
                 "symfony/intl": "~2.3|~3.0"
+            },
+            "suggest": {
+                "ext-intl": "For best performance"
             },
             "type": "library",
             "extra": {
@@ -4418,11 +4193,11 @@
                 "portable",
                 "shim"
             ],
-            "time": "2016-01-20 09:13:37"
+            "time": "2016-02-26 16:18:12"
         },
         {
             "name": "symfony/polyfill-mbstring",
-            "version": "v1.1.0",
+            "version": "v1.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/polyfill-mbstring.git",
@@ -4481,16 +4256,16 @@
         },
         {
             "name": "symfony/polyfill-php54",
-            "version": "v1.1.0",
+            "version": "v1.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/polyfill-php54.git",
-                "reference": "74663d5a2ff3c530c1bc0571500e0feec9094054"
+                "reference": "9ba741ca01c77282ecf5796c2c1d667f03454ffb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/polyfill-php54/zipball/74663d5a2ff3c530c1bc0571500e0feec9094054",
-                "reference": "74663d5a2ff3c530c1bc0571500e0feec9094054",
+                "url": "https://api.github.com/repos/symfony/polyfill-php54/zipball/9ba741ca01c77282ecf5796c2c1d667f03454ffb",
+                "reference": "9ba741ca01c77282ecf5796c2c1d667f03454ffb",
                 "shasum": ""
             },
             "require": {
@@ -4535,11 +4310,11 @@
                 "portable",
                 "shim"
             ],
-            "time": "2016-01-20 09:13:37"
+            "time": "2016-01-25 19:13:00"
         },
         {
             "name": "symfony/polyfill-php55",
-            "version": "v1.1.0",
+            "version": "v1.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/polyfill-php55.git",
@@ -4595,7 +4370,7 @@
         },
         {
             "name": "symfony/polyfill-php56",
-            "version": "v1.1.0",
+            "version": "v1.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/polyfill-php56.git",
@@ -4651,16 +4426,16 @@
         },
         {
             "name": "symfony/polyfill-php70",
-            "version": "v1.1.0",
+            "version": "v1.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/polyfill-php70.git",
-                "reference": "8428ceddbbaf102f2906769a8ef2438220c5cb95"
+                "reference": "386c1be9cad3ab531425211919e78c37971be4ce"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/polyfill-php70/zipball/8428ceddbbaf102f2906769a8ef2438220c5cb95",
-                "reference": "8428ceddbbaf102f2906769a8ef2438220c5cb95",
+                "url": "https://api.github.com/repos/symfony/polyfill-php70/zipball/386c1be9cad3ab531425211919e78c37971be4ce",
+                "reference": "386c1be9cad3ab531425211919e78c37971be4ce",
                 "shasum": ""
             },
             "require": {
@@ -4706,11 +4481,11 @@
                 "portable",
                 "shim"
             ],
-            "time": "2016-01-25 08:44:42"
+            "time": "2016-01-28 22:42:02"
         },
         {
             "name": "symfony/polyfill-util",
-            "version": "v1.1.0",
+            "version": "v1.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/polyfill-util.git",
@@ -4762,27 +4537,27 @@
         },
         {
             "name": "symfony/security-acl",
-            "version": "v2.8.0",
+            "version": "v3.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/security-acl.git",
-                "reference": "4a3f7327ad215242c78f6564ad4ea6d2db1b8347"
+                "reference": "053b49bf4aa333a392c83296855989bcf88ddad1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/security-acl/zipball/4a3f7327ad215242c78f6564ad4ea6d2db1b8347",
-                "reference": "4a3f7327ad215242c78f6564ad4ea6d2db1b8347",
+                "url": "https://api.github.com/repos/symfony/security-acl/zipball/053b49bf4aa333a392c83296855989bcf88ddad1",
+                "reference": "053b49bf4aa333a392c83296855989bcf88ddad1",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.3.9",
-                "symfony/security-core": "~2.4|~3.0.0"
+                "php": ">=5.5.9",
+                "symfony/security-core": "~2.8|~3.0"
             },
             "require-dev": {
                 "doctrine/common": "~2.2",
                 "doctrine/dbal": "~2.2",
                 "psr/log": "~1.0",
-                "symfony/phpunit-bridge": "~2.7|~3.0.0"
+                "symfony/phpunit-bridge": "~2.8|~3.0"
             },
             "suggest": {
                 "doctrine/dbal": "For using the built-in ACL implementation",
@@ -4792,7 +4567,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.8-dev"
+                    "dev-master": "3.0-dev"
                 }
             },
             "autoload": {
@@ -4819,7 +4594,7 @@
             ],
             "description": "Symfony Security Component - ACL (Access Control List)",
             "homepage": "https://symfony.com",
-            "time": "2015-12-28 09:39:09"
+            "time": "2015-12-28 09:39:46"
         },
         {
             "name": "symfony/swiftmailer-bundle",
@@ -4884,12 +4659,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/symfony.git",
-                "reference": "aadaeecb47bc4a0766acc3d6cf50834e41ca9076"
+                "reference": "bcdf568a1977cf7e5f7eb0ff5faea830ac76b51e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/symfony/zipball/aadaeecb47bc4a0766acc3d6cf50834e41ca9076",
-                "reference": "aadaeecb47bc4a0766acc3d6cf50834e41ca9076",
+                "url": "https://api.github.com/repos/symfony/symfony/zipball/bcdf568a1977cf7e5f7eb0ff5faea830ac76b51e",
+                "reference": "bcdf568a1977cf7e5f7eb0ff5faea830ac76b51e",
                 "shasum": ""
             },
             "require": {
@@ -4904,7 +4679,7 @@
                 "symfony/polyfill-php56": "~1.0",
                 "symfony/polyfill-php70": "~1.0",
                 "symfony/polyfill-util": "~1.0",
-                "symfony/security-acl": "~2.7",
+                "symfony/security-acl": "~2.7|~3.0.0",
                 "twig/twig": "~1.23|~2.0"
             },
             "conflict": {
@@ -5010,7 +4785,7 @@
             "keywords": [
                 "framework"
             ],
-            "time": "2016-02-28 21:27:55"
+            "time": "2016-05-13 18:03:14"
         },
         {
             "name": "twig/extensions",
@@ -5178,58 +4953,6 @@
             "time": "2015-05-02 19:28:54"
         },
         {
-            "name": "white-october/pagerfanta-bundle",
-            "version": "v1.0.5",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/whiteoctober/WhiteOctoberPagerfantaBundle.git",
-                "reference": "e6b020f9c2af6fa5a46d780039c57fdb89003f6c"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/whiteoctober/WhiteOctoberPagerfantaBundle/zipball/e6b020f9c2af6fa5a46d780039c57fdb89003f6c",
-                "reference": "e6b020f9c2af6fa5a46d780039c57fdb89003f6c",
-                "shasum": ""
-            },
-            "require": {
-                "pagerfanta/pagerfanta": "1.0.*",
-                "symfony/framework-bundle": "~2.3|~3.0",
-                "symfony/property-access": "~2.3|~3.0",
-                "symfony/twig-bundle": "~2.3|~3.0"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "~3.7",
-                "symfony/symfony": "~2.3|~3.0"
-            },
-            "type": "symfony-bundle",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "1.0.x-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "WhiteOctober\\PagerfantaBundle\\": ""
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Pablo Díez",
-                    "email": "pablodip@gmail.com"
-                }
-            ],
-            "description": "Bundle to use Pagerfanta with Symfony2",
-            "keywords": [
-                "page",
-                "paging"
-            ],
-            "time": "2015-12-06 17:16:06"
-        },
-        {
             "name": "willdurand/hateoas",
             "version": "2.9.1",
             "source": {
@@ -5295,17 +5018,17 @@
         },
         {
             "name": "willdurand/hateoas-bundle",
-            "version": "1.1.0",
+            "version": "1.1.1",
             "target-dir": "Bazinga/Bundle/HateoasBundle",
             "source": {
                 "type": "git",
                 "url": "https://github.com/willdurand/BazingaHateoasBundle.git",
-                "reference": "205a5a16899716f33edfb7a5afc4d451d0d2d0b2"
+                "reference": "a53f6f1d3d8cda3fa8cdd90773cb48e9647a08c5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/willdurand/BazingaHateoasBundle/zipball/205a5a16899716f33edfb7a5afc4d451d0d2d0b2",
-                "reference": "205a5a16899716f33edfb7a5afc4d451d0d2d0b2",
+                "url": "https://api.github.com/repos/willdurand/BazingaHateoasBundle/zipball/a53f6f1d3d8cda3fa8cdd90773cb48e9647a08c5",
+                "reference": "a53f6f1d3d8cda3fa8cdd90773cb48e9647a08c5",
                 "shasum": ""
             },
             "require": {
@@ -5314,6 +5037,7 @@
                 "willdurand/hateoas": "~2.9"
             },
             "require-dev": {
+                "phpunit/phpunit": "~4.5",
                 "symfony/expression-language": "~2.4 || ~3.0",
                 "twig/twig": "~1.12"
             },
@@ -5343,7 +5067,7 @@
                 "HATEOAS",
                 "rest"
             ],
-            "time": "2015-12-07 08:25:05"
+            "time": "2016-02-22 13:12:41"
         },
         {
             "name": "willdurand/jsonp-callback-validator",
@@ -5435,67 +5159,17 @@
             "time": "2015-11-21 14:23:02"
         },
         {
-            "name": "winzou/state-machine",
-            "version": "0.2.2",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/winzou/state-machine.git",
-                "reference": "aa54434dac9e0e41f3d1bead53f7e45b5df8a86d"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/winzou/state-machine/zipball/aa54434dac9e0e41f3d1bead53f7e45b5df8a86d",
-                "reference": "aa54434dac9e0e41f3d1bead53f7e45b5df8a86d",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.3.0",
-                "symfony/event-dispatcher": "~2.1",
-                "symfony/expression-language": "~2.4",
-                "symfony/property-access": "~2.1"
-            },
-            "require-dev": {
-                "phpspec/phpspec": "~2.0"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-0": {
-                    "SM": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Alexandre Bacco",
-                    "email": "alexandre.bacco@gmail.com",
-                    "homepage": "http://alex.bacco.fr"
-                }
-            ],
-            "description": "A very lightweight yet powerful PHP state machine",
-            "homepage": "https://github.com/winzou/StateMachine",
-            "keywords": [
-                "callback",
-                "event",
-                "state",
-                "statemachine"
-            ],
-            "time": "2014-12-05 02:14:37"
-        },
-        {
             "name": "zendframework/zend-hydrator",
-            "version": "2.1.0",
+            "version": "2.2.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/zendframework/zend-hydrator.git",
-                "reference": "2c8a6ec8320ea48a8a17a22a1404cece7aaf76e9"
+                "reference": "0ac0d3e569781f1895670b0c8d0dc7f25b8a3182"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/zendframework/zend-hydrator/zipball/2c8a6ec8320ea48a8a17a22a1404cece7aaf76e9",
-                "reference": "2c8a6ec8320ea48a8a17a22a1404cece7aaf76e9",
+                "url": "https://api.github.com/repos/zendframework/zend-hydrator/zipball/0ac0d3e569781f1895670b0c8d0dc7f25b8a3182",
+                "reference": "0ac0d3e569781f1895670b0c8d0dc7f25b8a3182",
                 "shasum": ""
             },
             "require": {
@@ -5503,8 +5177,8 @@
                 "zendframework/zend-stdlib": "^3.0"
             },
             "require-dev": {
-                "phpunit/phpunit": "~4.0",
-                "squizlabs/php_codesniffer": "^2.0@dev",
+                "phpunit/phpunit": "^4.5",
+                "squizlabs/php_codesniffer": "^2.3.1",
                 "zendframework/zend-eventmanager": "^3.0",
                 "zendframework/zend-filter": "^2.6",
                 "zendframework/zend-inputfilter": "^2.6",
@@ -5522,8 +5196,12 @@
                 "branch-alias": {
                     "dev-release-1.0": "1.0-dev",
                     "dev-release-1.1": "1.1-dev",
-                    "dev-master": "2.1-dev",
-                    "dev-develop": "2.2-dev"
+                    "dev-master": "2.2-dev",
+                    "dev-develop": "2.3-dev"
+                },
+                "zf": {
+                    "component": "Zend\\Hydrator",
+                    "config-provider": "Zend\\Hydrator\\ConfigProvider"
                 }
             },
             "autoload": {
@@ -5540,20 +5218,20 @@
                 "hydrator",
                 "zf2"
             ],
-            "time": "2016-02-18 22:31:17"
+            "time": "2016-04-18 17:59:29"
         },
         {
             "name": "zendframework/zend-stdlib",
-            "version": "3.0.0",
+            "version": "3.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/zendframework/zend-stdlib.git",
-                "reference": "22eb098958980fbbe6b9a06f209f5a4b496cc0c1"
+                "reference": "8bafa58574204bdff03c275d1d618aaa601588ae"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/zendframework/zend-stdlib/zipball/22eb098958980fbbe6b9a06f209f5a4b496cc0c1",
-                "reference": "22eb098958980fbbe6b9a06f209f5a4b496cc0c1",
+                "url": "https://api.github.com/repos/zendframework/zend-stdlib/zipball/8bafa58574204bdff03c275d1d618aaa601588ae",
+                "reference": "8bafa58574204bdff03c275d1d618aaa601588ae",
                 "shasum": ""
             },
             "require": {
@@ -5585,7 +5263,7 @@
                 "stdlib",
                 "zf2"
             ],
-            "time": "2016-02-03 16:53:37"
+            "time": "2016-04-12 21:19:36"
         }
     ],
     "packages-dev": [
@@ -5648,33 +5326,29 @@
         },
         {
             "name": "fzaninotto/faker",
-            "version": "v1.5.0",
+            "version": "v1.6.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/fzaninotto/Faker.git",
-                "reference": "d0190b156bcca848d401fb80f31f504f37141c8d"
+                "reference": "44f9a286a04b80c76a4e5fb7aad8bb539b920123"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/fzaninotto/Faker/zipball/d0190b156bcca848d401fb80f31f504f37141c8d",
-                "reference": "d0190b156bcca848d401fb80f31f504f37141c8d",
+                "url": "https://api.github.com/repos/fzaninotto/Faker/zipball/44f9a286a04b80c76a4e5fb7aad8bb539b920123",
+                "reference": "44f9a286a04b80c76a4e5fb7aad8bb539b920123",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.3.3"
+                "php": "^5.3.3|^7.0"
             },
             "require-dev": {
+                "ext-intl": "*",
                 "phpunit/phpunit": "~4.0",
                 "squizlabs/php_codesniffer": "~1.5"
             },
-            "suggest": {
-                "ext-intl": "*"
-            },
             "type": "library",
             "extra": {
-                "branch-alias": {
-                    "dev-master": "1.5.x-dev"
-                }
+                "branch-alias": []
             },
             "autoload": {
                 "psr-4": {
@@ -5696,120 +5370,7 @@
                 "faker",
                 "fixtures"
             ],
-            "time": "2015-05-29 06:29:14"
-        },
-        {
-            "name": "halleck45/phpmetrics",
-            "version": "v1.8.3",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/Halleck45/PhpMetrics.git",
-                "reference": "01736a038e34c1ec71ceec46388777988b95bd5c"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/Halleck45/PhpMetrics/zipball/01736a038e34c1ec71ceec46388777988b95bd5c",
-                "reference": "01736a038e34c1ec71ceec46388777988b95bd5c",
-                "shasum": ""
-            },
-            "require": {
-                "ext-dom": "*",
-                "hoa/ruler": "~1.0",
-                "php": ">=5.4",
-                "symfony/config": "~2.4",
-                "symfony/console": "~2.5",
-                "symfony/yaml": "~2.4",
-                "twig/twig": "~1.15"
-            },
-            "replace": {
-                "halleck45/php-metrics": "*"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "~4.1"
-            },
-            "bin": [
-                "bin/phpmetrics"
-            ],
-            "type": "library",
-            "autoload": {
-                "psr-0": {
-                    "Hal\\": "./src/"
-                },
-                "files": [
-                    "./compatibility.php"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Jean-François Lépine",
-                    "email": "lepinejeanfrancois@yahoo.fr",
-                    "homepage": "http://www.lepine.pro",
-                    "role": "Copyright Holder"
-                }
-            ],
-            "description": "Static analyzis tool for PHP : Coupling, Cyclomatic complexity, Maintainability Index, Halstead's metrics... and more !",
-            "homepage": "http://www.phpmetrics.org",
-            "keywords": [
-                "analysis",
-                "qa",
-                "quality",
-                "testing"
-            ],
-            "time": "2015-12-15 11:13:53"
-        },
-        {
-            "name": "halleck45/phpmetrics-collector-bundle",
-            "version": "v0.0.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/Halleck45/PhpMetricsCollectorBundle.git",
-                "reference": "5a776f42e25eec726c3d308b4274c34454b614dc"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/Halleck45/PhpMetricsCollectorBundle/zipball/5a776f42e25eec726c3d308b4274c34454b614dc",
-                "reference": "5a776f42e25eec726c3d308b4274c34454b614dc",
-                "shasum": ""
-            },
-            "require": {
-                "halleck45/phpmetrics": ">=1.2.0"
-            },
-            "require-dev": {
-                "symfony/browser-kit": ">=2.2,<3",
-                "symfony/class-loader": ">=2.2,<3",
-                "symfony/finder": ">=2.2,<3",
-                "symfony/framework-bundle": ">=2.2,<3",
-                "symfony/twig-bundle": ">=2.2,<3",
-                "symfony/web-profiler-bundle": ">=2.2,<3"
-            },
-            "type": "symfony-bundle",
-            "autoload": {
-                "psr-0": {
-                    "Hal\\Bundle\\PhpMetricsCollector\\": [
-                        "src/"
-                    ]
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Jean-François Lépine",
-                    "homepage": "http://blog.lepine.pro"
-                }
-            ],
-            "description": "Display PhpMetrics informations in Symfony2 Debug bar",
-            "keywords": [
-                "Symfony2",
-                "phpmetrics"
-            ],
-            "time": "2015-08-20 11:52:04"
+            "time": "2016-04-29 12:21:54"
         },
         {
             "name": "henrikbjorn/phpspec-code-coverage",
@@ -5853,621 +5414,17 @@
             "time": "2014-12-11 11:43:15"
         },
         {
-            "name": "hoa/compiler",
-            "version": "2.15.10.29",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/hoaproject/Compiler.git",
-                "reference": "ec0849fd3c1472fbcd86c3c961981f0cfe1f8d39"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/hoaproject/Compiler/zipball/ec0849fd3c1472fbcd86c3c961981f0cfe1f8d39",
-                "reference": "ec0849fd3c1472fbcd86c3c961981f0cfe1f8d39",
-                "shasum": ""
-            },
-            "require": {
-                "hoa/core": "~2.0",
-                "hoa/file": "~0.0",
-                "hoa/iterator": "~1.0",
-                "hoa/math": "~0.0",
-                "hoa/regex": "~0.0",
-                "hoa/visitor": "~1.0"
-            },
-            "require-dev": {
-                "hoa/json": "~1.0",
-                "hoa/test": "~1.0"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "2.x-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Hoa\\Compiler\\": "."
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "BSD-3-Clause"
-            ],
-            "authors": [
-                {
-                    "name": "Ivan Enderlin",
-                    "email": "ivan.enderlin@hoa-project.net"
-                },
-                {
-                    "name": "Hoa community",
-                    "homepage": "http://hoa-project.net/"
-                }
-            ],
-            "description": "The Hoa\\Compiler library.",
-            "homepage": "http://hoa-project.net/",
-            "keywords": [
-                "algebraic",
-                "ast",
-                "compiler",
-                "context-free",
-                "coverage",
-                "exhaustive",
-                "grammar",
-                "isotropic",
-                "language",
-                "lexer",
-                "library",
-                "ll1",
-                "llk",
-                "parser",
-                "pp",
-                "random",
-                "regular",
-                "rule",
-                "sampler",
-                "syntax",
-                "token",
-                "trace",
-                "uniform"
-            ],
-            "time": "2015-10-29 21:35:12"
-        },
-        {
-            "name": "hoa/core",
-            "version": "2.15.11.09",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/hoaproject/Core.git",
-                "reference": "5538b1e90e2c66c90df5cc45e03fb85d047be900"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/hoaproject/Core/zipball/5538b1e90e2c66c90df5cc45e03fb85d047be900",
-                "reference": "5538b1e90e2c66c90df5cc45e03fb85d047be900",
-                "shasum": ""
-            },
-            "require": {
-                "ext-spl": "*",
-                "php": ">=5.4.0"
-            },
-            "require-dev": {
-                "hoa/test": "~1.0"
-            },
-            "suggest": {
-                "ext-mbstring": "ext/mbstring must be present (or a third implementation).",
-                "hoa/cli": "To use the `hoa` script."
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "2.x-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Hoa\\Core\\": "."
-                },
-                "files": [
-                    "Core.php"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "BSD-3-Clause"
-            ],
-            "authors": [
-                {
-                    "name": "Ivan Enderlin",
-                    "email": "ivan.enderlin@hoa-project.net"
-                },
-                {
-                    "name": "Hoa community",
-                    "homepage": "http://hoa-project.net/"
-                }
-            ],
-            "description": "The Hoa\\Core library.",
-            "homepage": "http://hoa-project.net/",
-            "keywords": [
-                "consistency",
-                "core",
-                "data",
-                "event",
-                "library",
-                "listener",
-                "parameter",
-                "protocol"
-            ],
-            "time": "2015-11-09 06:51:06"
-        },
-        {
-            "name": "hoa/file",
-            "version": "0.15.11.09",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/hoaproject/File.git",
-                "reference": "f46fe552ff79cb6c93a2ff9c25cfbc134fbd57ee"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/hoaproject/File/zipball/f46fe552ff79cb6c93a2ff9c25cfbc134fbd57ee",
-                "reference": "f46fe552ff79cb6c93a2ff9c25cfbc134fbd57ee",
-                "shasum": ""
-            },
-            "require": {
-                "hoa/core": "~2.0",
-                "hoa/iterator": "~1.0",
-                "hoa/stream": "~0.0"
-            },
-            "require-dev": {
-                "hoa/test": "~1.0"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "0.x-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Hoa\\File\\": "."
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "BSD-3-Clause"
-            ],
-            "authors": [
-                {
-                    "name": "Ivan Enderlin",
-                    "email": "ivan.enderlin@hoa-project.net"
-                },
-                {
-                    "name": "Hoa community",
-                    "homepage": "http://hoa-project.net/"
-                }
-            ],
-            "description": "The Hoa\\File library.",
-            "homepage": "http://hoa-project.net/",
-            "keywords": [
-                "Socket",
-                "directory",
-                "file",
-                "finder",
-                "library",
-                "link",
-                "temporary"
-            ],
-            "time": "2015-11-09 06:55:20"
-        },
-        {
-            "name": "hoa/iterator",
-            "version": "1.15.10.29",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/hoaproject/Iterator.git",
-                "reference": "a64ed9fd62579a34e4450134d6d1abdf77d54435"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/hoaproject/Iterator/zipball/a64ed9fd62579a34e4450134d6d1abdf77d54435",
-                "reference": "a64ed9fd62579a34e4450134d6d1abdf77d54435",
-                "shasum": ""
-            },
-            "require": {
-                "hoa/core": "~2.0"
-            },
-            "require-dev": {
-                "hoa/test": "~1.0"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "1.x-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Hoa\\Iterator\\": "."
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "BSD-3-Clause"
-            ],
-            "authors": [
-                {
-                    "name": "Ivan Enderlin",
-                    "email": "ivan.enderlin@hoa-project.net"
-                },
-                {
-                    "name": "Hoa community",
-                    "homepage": "http://hoa-project.net/"
-                }
-            ],
-            "description": "The Hoa\\Iterator library.",
-            "homepage": "http://hoa-project.net/",
-            "keywords": [
-                "iterator",
-                "library"
-            ],
-            "time": "2015-10-29 21:37:16"
-        },
-        {
-            "name": "hoa/math",
-            "version": "0.15.10.26",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/hoaproject/Math.git",
-                "reference": "62631c65d9a4f1b8bb4c4a3d6cdff0e8971d684e"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/hoaproject/Math/zipball/62631c65d9a4f1b8bb4c4a3d6cdff0e8971d684e",
-                "reference": "62631c65d9a4f1b8bb4c4a3d6cdff0e8971d684e",
-                "shasum": ""
-            },
-            "require": {
-                "hoa/compiler": "~2.0",
-                "hoa/core": "~2.0",
-                "hoa/iterator": "~1.0"
-            },
-            "require-dev": {
-                "hoa/test": "~1.0"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "0.x-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Hoa\\Math\\": "."
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "BSD-3-Clause"
-            ],
-            "authors": [
-                {
-                    "name": "Ivan Enderlin",
-                    "email": "ivan.enderlin@hoa-project.net"
-                },
-                {
-                    "name": "Hoa community",
-                    "homepage": "http://hoa-project.net/"
-                }
-            ],
-            "description": "The Hoa\\Math library.",
-            "homepage": "http://hoa-project.net/",
-            "keywords": [
-                "arrangement",
-                "combination",
-                "combinatorics",
-                "counting",
-                "library",
-                "math",
-                "permutation",
-                "sampler",
-                "set"
-            ],
-            "time": "2015-10-26 15:22:52"
-        },
-        {
-            "name": "hoa/regex",
-            "version": "0.15.08.13",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/hoaproject/Regex.git",
-                "reference": "2ef8a77ef3885ca202fcd9c31a8e54c44cd04232"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/hoaproject/Regex/zipball/2ef8a77ef3885ca202fcd9c31a8e54c44cd04232",
-                "reference": "2ef8a77ef3885ca202fcd9c31a8e54c44cd04232",
-                "shasum": ""
-            },
-            "require": {
-                "hoa/core": "~2.0",
-                "hoa/math": "~0.0",
-                "hoa/ustring": "~3.0",
-                "hoa/visitor": "~1.0"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "0.x-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Hoa\\Regex\\": "."
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "BSD-3-Clause"
-            ],
-            "authors": [
-                {
-                    "name": "Ivan Enderlin",
-                    "email": "ivan.enderlin@hoa-project.net"
-                },
-                {
-                    "name": "Hoa community",
-                    "homepage": "http://hoa-project.net/"
-                }
-            ],
-            "description": "The Hoa\\Regex library.",
-            "homepage": "http://hoa-project.net/",
-            "keywords": [
-                "compiler",
-                "library",
-                "regex"
-            ],
-            "time": "2015-08-13 06:48:47"
-        },
-        {
-            "name": "hoa/ruler",
-            "version": "1.15.11.09",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/hoaproject/Ruler.git",
-                "reference": "9afc9ae032d40b6dc10bff85c9126cf516953925"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/hoaproject/Ruler/zipball/9afc9ae032d40b6dc10bff85c9126cf516953925",
-                "reference": "9afc9ae032d40b6dc10bff85c9126cf516953925",
-                "shasum": ""
-            },
-            "require": {
-                "hoa/compiler": "~2.0",
-                "hoa/core": "~2.0",
-                "hoa/file": "~0.0",
-                "hoa/visitor": "~1.0"
-            },
-            "require-dev": {
-                "hoa/test": "~1.0"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "1.x-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Hoa\\Ruler\\": "."
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "BSD-3-Clause"
-            ],
-            "authors": [
-                {
-                    "name": "Ivan Enderlin",
-                    "email": "ivan.enderlin@hoa-project.net"
-                },
-                {
-                    "name": "Hoa community",
-                    "homepage": "http://hoa-project.net/"
-                }
-            ],
-            "description": "The Hoa\\Ruler library.",
-            "homepage": "http://hoa-project.net/",
-            "keywords": [
-                "library",
-                "ruler"
-            ],
-            "time": "2015-11-09 06:58:52"
-        },
-        {
-            "name": "hoa/stream",
-            "version": "0.15.10.26",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/hoaproject/Stream.git",
-                "reference": "3bc446bc00849bf51166adc415d77aa375d48d8c"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/hoaproject/Stream/zipball/3bc446bc00849bf51166adc415d77aa375d48d8c",
-                "reference": "3bc446bc00849bf51166adc415d77aa375d48d8c",
-                "shasum": ""
-            },
-            "require": {
-                "hoa/core": "~2.0"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "0.x-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Hoa\\Stream\\": "."
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "BSD-3-Clause"
-            ],
-            "authors": [
-                {
-                    "name": "Ivan Enderlin",
-                    "email": "ivan.enderlin@hoa-project.net"
-                },
-                {
-                    "name": "Hoa community",
-                    "homepage": "http://hoa-project.net/"
-                }
-            ],
-            "description": "The Hoa\\Stream library.",
-            "homepage": "http://hoa-project.net/",
-            "keywords": [
-                "Context",
-                "bucket",
-                "composite",
-                "filter",
-                "in",
-                "library",
-                "out",
-                "protocol",
-                "stream",
-                "wrapper"
-            ],
-            "time": "2015-10-26 12:21:43"
-        },
-        {
-            "name": "hoa/ustring",
-            "version": "3.15.11.09",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/hoaproject/Ustring.git",
-                "reference": "8506be4910212b1a2beb9014763a8a4fbd871001"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/hoaproject/Ustring/zipball/8506be4910212b1a2beb9014763a8a4fbd871001",
-                "reference": "8506be4910212b1a2beb9014763a8a4fbd871001",
-                "shasum": ""
-            },
-            "require": {
-                "hoa/core": "~2.0"
-            },
-            "require-dev": {
-                "hoa/test": "~1.0"
-            },
-            "suggest": {
-                "ext-iconv": "ext/iconv must be present (or a third implementation) to use Hoa\\Ustring::transcode().",
-                "ext-intl": "To get a better Hoa\\Ustring::toAscii() and Hoa\\Ustring::compareTo()."
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "3.x-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Hoa\\Ustring\\": "."
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "BSD-3-Clause"
-            ],
-            "authors": [
-                {
-                    "name": "Ivan Enderlin",
-                    "email": "ivan.enderlin@hoa-project.net"
-                },
-                {
-                    "name": "Hoa community",
-                    "homepage": "http://hoa-project.net/"
-                }
-            ],
-            "description": "The Hoa\\Ustring library.",
-            "homepage": "http://hoa-project.net/",
-            "keywords": [
-                "library",
-                "search",
-                "string",
-                "unicode"
-            ],
-            "time": "2015-11-09 06:44:33"
-        },
-        {
-            "name": "hoa/visitor",
-            "version": "1.15.08.17",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/hoaproject/Visitor.git",
-                "reference": "e30bfff741f71979f6476a41548e34afe8053c67"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/hoaproject/Visitor/zipball/e30bfff741f71979f6476a41548e34afe8053c67",
-                "reference": "e30bfff741f71979f6476a41548e34afe8053c67",
-                "shasum": ""
-            },
-            "require": {
-                "hoa/core": "~2.0"
-            },
-            "require-dev": {
-                "hoa/test": "~1.0"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "1.x-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Hoa\\Visitor\\": "."
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "BSD-3-Clause"
-            ],
-            "authors": [
-                {
-                    "name": "Ivan Enderlin",
-                    "email": "ivan.enderlin@hoa-project.net"
-                },
-                {
-                    "name": "Hoa community",
-                    "homepage": "http://hoa-project.net/"
-                }
-            ],
-            "description": "The Hoa\\Visitor library.",
-            "homepage": "http://hoa-project.net/",
-            "keywords": [
-                "library",
-                "structure",
-                "visit",
-                "visitor"
-            ],
-            "time": "2015-08-17 06:30:58"
-        },
-        {
             "name": "liip/functional-test-bundle",
-            "version": "1.5.0",
+            "version": "1.6.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/liip/LiipFunctionalTestBundle.git",
-                "reference": "7c6558640d63b4e18ec0bc244f69e34b193d755d"
+                "reference": "f3606bff7fcf7208a482f88d4cd216ebf4af194e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/liip/LiipFunctionalTestBundle/zipball/7c6558640d63b4e18ec0bc244f69e34b193d755d",
-                "reference": "7c6558640d63b4e18ec0bc244f69e34b193d755d",
+                "url": "https://api.github.com/repos/liip/LiipFunctionalTestBundle/zipball/f3606bff7fcf7208a482f88d4cd216ebf4af194e",
+                "reference": "f3606bff7fcf7208a482f88d4cd216ebf4af194e",
                 "shasum": ""
             },
             "require": {
@@ -6477,6 +5434,7 @@
                 "symfony/framework-bundle": "2.3.*|~2.7|~3.0"
             },
             "require-dev": {
+                "brianium/paratest": "~0.12.0|~0.13.2",
                 "doctrine/doctrine-fixtures-bundle": "~2.3",
                 "doctrine/orm": "^2.4.8",
                 "doctrine/phpcr-bundle": "~1.3",
@@ -6491,6 +5449,7 @@
                 "twig/twig": "~1.12"
             },
             "suggest": {
+                "brianium/paratest": "Required when using paratest to parallelize tests",
                 "doctrine/dbal": "Required when using the fixture loading functionality with an ORM and SQLite",
                 "doctrine/doctrine-fixtures-bundle": "Required when using the fixture loading functionality",
                 "doctrine/orm": "Required when using the fixture loading functionality with an ORM and SQLite",
@@ -6501,7 +5460,7 @@
             "type": "symfony-bundle",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.5.x-dev"
+                    "dev-master": "1.6.x-dev"
                 }
             },
             "autoload": {
@@ -6527,7 +5486,7 @@
             "keywords": [
                 "Symfony2"
             ],
-            "time": "2016-02-24 09:03:40"
+            "time": "2016-05-10 22:04:27"
         },
         {
             "name": "matthiasnoback/symfony-config-test",
@@ -6769,16 +5728,16 @@
         },
         {
             "name": "phpspec/phpspec",
-            "version": "2.4.1",
+            "version": "2.5.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpspec/phpspec.git",
-                "reference": "5528ce1e93a1efa090c9404aba3395c329b4e6ed"
+                "reference": "385ecb015e97c13818074f1517928b24d4a26067"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpspec/phpspec/zipball/5528ce1e93a1efa090c9404aba3395c329b4e6ed",
-                "reference": "5528ce1e93a1efa090c9404aba3395c329b4e6ed",
+                "url": "https://api.github.com/repos/phpspec/phpspec/zipball/385ecb015e97c13818074f1517928b24d4a26067",
+                "reference": "385ecb015e97c13818074f1517928b24d4a26067",
                 "shasum": ""
             },
             "require": {
@@ -6843,7 +5802,7 @@
                 "testing",
                 "tests"
             ],
-            "time": "2016-01-01 10:17:54"
+            "time": "2016-03-20 20:34:32"
         },
         {
             "name": "phpspec/prophecy",
@@ -7059,20 +6018,23 @@
         },
         {
             "name": "phpunit/php-timer",
-            "version": "1.0.7",
+            "version": "1.0.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/php-timer.git",
-                "reference": "3e82f4e9fc92665fafd9157568e4dcb01d014e5b"
+                "reference": "38e9124049cf1a164f1e4537caf19c99bf1eb260"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/php-timer/zipball/3e82f4e9fc92665fafd9157568e4dcb01d014e5b",
-                "reference": "3e82f4e9fc92665fafd9157568e4dcb01d014e5b",
+                "url": "https://api.github.com/repos/sebastianbergmann/php-timer/zipball/38e9124049cf1a164f1e4537caf19c99bf1eb260",
+                "reference": "38e9124049cf1a164f1e4537caf19c99bf1eb260",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.3.3"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~4|~5"
             },
             "type": "library",
             "autoload": {
@@ -7096,7 +6058,7 @@
             "keywords": [
                 "timer"
             ],
-            "time": "2015-06-21 08:01:12"
+            "time": "2016-05-12 18:03:57"
         },
         {
             "name": "phpunit/php-token-stream",
@@ -7149,16 +6111,16 @@
         },
         {
             "name": "phpunit/phpunit",
-            "version": "4.8.23",
+            "version": "4.8.25",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "6e351261f9cd33daf205a131a1ba61c6d33bd483"
+                "reference": "6d1588a6542a52ed89636e5a9876bc7502bbb853"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/6e351261f9cd33daf205a131a1ba61c6d33bd483",
-                "reference": "6e351261f9cd33daf205a131a1ba61c6d33bd483",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/6d1588a6542a52ed89636e5a9876bc7502bbb853",
+                "reference": "6d1588a6542a52ed89636e5a9876bc7502bbb853",
                 "shasum": ""
             },
             "require": {
@@ -7172,7 +6134,7 @@
                 "phpunit/php-code-coverage": "~2.1",
                 "phpunit/php-file-iterator": "~1.4",
                 "phpunit/php-text-template": "~1.2",
-                "phpunit/php-timer": ">=1.0.6",
+                "phpunit/php-timer": "^1.0.6",
                 "phpunit/phpunit-mock-objects": "~2.3",
                 "sebastian/comparator": "~1.1",
                 "sebastian/diff": "~1.2",
@@ -7217,7 +6179,7 @@
                 "testing",
                 "xunit"
             ],
-            "time": "2016-02-11 14:56:33"
+            "time": "2016-05-10 18:47:12"
         },
         {
             "name": "phpunit/phpunit-mock-objects",
@@ -7393,16 +6355,16 @@
         },
         {
             "name": "sebastian/environment",
-            "version": "1.3.5",
+            "version": "1.3.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/environment.git",
-                "reference": "dc7a29032cf72b54f36dac15a1ca5b3a1b6029bf"
+                "reference": "2292b116f43c272ff4328083096114f84ea46a56"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/environment/zipball/dc7a29032cf72b54f36dac15a1ca5b3a1b6029bf",
-                "reference": "dc7a29032cf72b54f36dac15a1ca5b3a1b6029bf",
+                "url": "https://api.github.com/repos/sebastianbergmann/environment/zipball/2292b116f43c272ff4328083096114f84ea46a56",
+                "reference": "2292b116f43c272ff4328083096114f84ea46a56",
                 "shasum": ""
             },
             "require": {
@@ -7439,7 +6401,7 @@
                 "environment",
                 "hhvm"
             ],
-            "time": "2016-02-26 18:40:46"
+            "time": "2016-05-04 07:59:13"
         },
         {
             "name": "sebastian/exporter",

@@ -204,6 +204,10 @@ stof_doctrine_extensions:
             sortable: true
 
 swp_multi_tenancy:
+    resources:
+        tenant:
+            classes:
+                model: SWP\Bundle\WebRendererBundle\Model\Tenant
     persistence:
         phpcr:
             enabled: true
