@@ -11,8 +11,10 @@
  * @copyright 2016 Sourcefabric z.ú.
  * @license http://www.superdesk.org/license
  */
+
 namespace SWP\Bundle\WebRendererBundle\Theme;
 
+use SWP\Component\Common\Model\TenantInterface;
 use SWP\Component\MultiTenancy\Context\TenantContextInterface;
 use Sylius\Bundle\ThemeBundle\Context\ThemeContextInterface;
 use Sylius\Bundle\ThemeBundle\Repository\ThemeRepositoryInterface;
@@ -49,9 +51,9 @@ final class TenantAwareThemeContext implements ThemeContextInterface
      */
     public function getTheme()
     {
+        /* @var TenantInterface $tenant */
         $tenant = $this->tenantContext->getTenant();
-        $themeName = $tenant->getThemeName();
 
-        return $this->themeRepository->findOneByName($themeName);
+        return $this->themeRepository->findOneByName($tenant->getThemeName());
     }
 }

@@ -31,11 +31,6 @@ class Tenant implements TenantInterface
     protected $name;
 
     /**
-     * @var string
-     */
-    protected $themeName;
-
-    /**
      * @var bool
      */
     protected $enabled = true;
@@ -109,22 +104,6 @@ class Tenant implements TenantInterface
     public function setName($name)
     {
         $this->name = $name;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getThemeName()
-    {
-        return $this->themeName;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function setThemeName($themeName)
-    {
-        $this->themeName = $themeName;
     }
 
     /**

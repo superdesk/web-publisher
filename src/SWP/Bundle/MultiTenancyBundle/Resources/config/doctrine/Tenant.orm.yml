@@ -1,5 +1,5 @@
 SWP\Component\MultiTenancy\Model\Tenant:
-    type: entity
+    type: mappedSuperclass
     table: swp_tenant
     repositoryClass: SWP\Bundle\MultiTenancyBundle\Repository\TenantRepository
     gedmo:
@@ -20,10 +20,6 @@ SWP\Component\MultiTenancy\Model\Tenant:
         subdomain:
             type: string
             length: 255
-        themeName:
-            type: string
-            length: 255
-            nullable: true
         enabled:
             type: boolean
         createdAt:

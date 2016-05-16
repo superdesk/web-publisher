@@ -20,8 +20,8 @@ services:
             - "@swp_webrenderer.detection.device_detection"
 
     swp_webrenderer.theme.context.tenant_aware:
-            class: SWP\Bundle\WebRendererBundle\Theme\TenantAwareThemeContext
-            public: false
-            arguments:
-                - "@swp_multi_tenancy.tenant_context"
-                - "@sylius.repository.theme"
+        class: SWP\Bundle\WebRendererBundle\Theme\TenantAwareThemeContext
+        # public: false
+        arguments:
+            - "@swp_multi_tenancy.tenant_context"
+            - "@sylius.repository.theme"

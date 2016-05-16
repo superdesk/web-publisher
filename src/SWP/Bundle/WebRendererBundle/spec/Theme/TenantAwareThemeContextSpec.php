@@ -11,14 +11,19 @@
  * @copyright 2016 Sourcefabric z.ú.
  * @license http://www.superdesk.org/license
  */
+
 namespace spec\SWP\Bundle\WebRendererBundle\Theme;
 
 use PhpSpec\ObjectBehavior;
+use SWP\Bundle\WebRendererBundle\Theme\TenantAwareThemeContext;
+use SWP\Component\Common\Model\TenantInterface;
 use SWP\Component\MultiTenancy\Context\TenantContextInterface;
-use SWP\Component\MultiTenancy\Model\TenantInterface;
 use Sylius\Bundle\ThemeBundle\Model\ThemeInterface;
 use Sylius\Bundle\ThemeBundle\Repository\ThemeRepositoryInterface;
 
+/**
+ * @mixin TenantAwareThemeContext
+ */
 class TenantAwareThemeContextSpec extends ObjectBehavior
 {
     function let(TenantContextInterface $tenantContext, ThemeRepositoryInterface $themeRepository)
@@ -28,7 +33,7 @@ class TenantAwareThemeContextSpec extends ObjectBehavior
 
     function it_is_initializable()
     {
-        $this->shouldHaveType('SWP\Bundle\WebRendererBundle\Theme\TenantAwareThemeContext');
+        $this->shouldHaveType(TenantAwareThemeContext::class);
     }
 
     function it_returns_a_theme(

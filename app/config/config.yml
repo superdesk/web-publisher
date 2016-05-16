@@ -37,10 +37,8 @@ twig:
 sylius_theme:
     context: "swp_webrenderer.theme.context.tenant_aware"
     sources:
-        filesystem:
-            directories:
-                - "%kernel.root_dir%/themes"
-                #- "%kernel.root_dir%/themes/%%context%%"
+        tenantable: ~
+
 twig_cache:
     service: "doctrine_cache.providers.main_cache"
 
@@ -87,10 +85,6 @@ doctrine:
                         type: yml
                         prefix: SWP\Bundle\WebRendererBundle\Model
                         dir: Resources/config/doctrine
-                    #SyliusThemeBundle: #to remove
-                    #    type: yml
-                    #    prefix: Sylius\Bundle\ThemeBundle\Model
-                    #    dir: Resources/config/doctrine
                     gedmo_loggable:
                         type: annotation
                         prefix: Gedmo\Loggable\Entity
