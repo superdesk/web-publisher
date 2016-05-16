@@ -53,6 +53,8 @@ doctrine:
         password: "%database_password%"
         charset:  UTF8
         server_version: "%server_version%"
+        mapping_types:
+            json: string
 
     orm:
         auto_generate_proxy_classes: "%kernel.debug%"
@@ -79,13 +81,10 @@ doctrine:
                         type: yml
                         prefix: SWP\Component\MultiTenancy\Model
                         dir: Resources/config/doctrine
-<<<<<<< HEAD
-=======
                     SWPWebRendererBundle:
                         type: yml
                         prefix: SWP\Bundle\WebRendererBundle\Model
                         dir: Resources/config/doctrine
->>>>>>> 8405f06... tenant aware themes
                     gedmo_loggable:
                         type: annotation
                         prefix: Gedmo\Loggable\Entity
