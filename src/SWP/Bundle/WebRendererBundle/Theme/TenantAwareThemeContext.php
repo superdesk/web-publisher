@@ -37,8 +37,8 @@ final class TenantAwareThemeContext implements ThemeContextInterface
     /**
      * TenantAwareThemeContext constructor.
      *
-     * @param TenantContextInterface   $tenantContext
-     * @param ThemeRepositoryInterface $themeRepository
+     * @param TenantContextInterface   $tenantContext   Tenant context
+     * @param ThemeRepositoryInterface $themeRepository Theme repository
      */
     public function __construct(TenantContextInterface $tenantContext, ThemeRepositoryInterface $themeRepository)
     {

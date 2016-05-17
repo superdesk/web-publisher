@@ -30,12 +30,12 @@ class RegisterTenantFactoryCompilerPass implements CompilerPassInterface
      */
     public function process(ContainerBuilder $container)
     {
-        if (!$container->hasParameter('swp_multi_tenancy.factory.tenant')) {
+        if (!$container->hasParameter('swp_multi_tenancy.factory.tenant.class')) {
             return;
         }
 
         $tenantFactoryDefinition = new Definition(
-            $container->getParameter('swp_multi_tenancy.factory.tenant'),
+            $container->getParameter('swp_multi_tenancy.factory.tenant.class'),
             [
                 new Parameter('swp_multi_tenancy.tenant.class'),
             ]

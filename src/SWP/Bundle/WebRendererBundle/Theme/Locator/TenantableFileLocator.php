@@ -31,9 +31,9 @@ class TenantableFileLocator implements FileLocatorInterface
     private $paths;
 
     /**
-     * @param FinderFactoryInterface $finderFactory
+     * @param FinderFactoryInterface $finderFactory Finder factory
      * @param array                  $paths         An array of paths where to look for resources
-     * @param PathHelperInterface    $helper
+     * @param PathHelperInterface    $helper        Path helper
      */
     public function __construct(FinderFactoryInterface $finderFactory, array $paths, PathHelperInterface $helper)
     {
@@ -60,6 +60,8 @@ class TenantableFileLocator implements FileLocatorInterface
     /**
      * @param string $name
      *
+     * @throws \InvalidArgumentException
+     * 
      * @return \Generator
      */
     private function doLocateFilesNamed($name)

@@ -48,7 +48,7 @@ class SWPMultiTenancyExtension extends Extension
         );
 
         $container->setParameter(
-            $this->getAlias().'.factory.tenant',
+            $this->getAlias().'.factory.tenant.class',
             $config['resources']['tenant']['classes']['factory']
         );
     }

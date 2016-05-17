@@ -75,7 +75,7 @@ You can also install our demo DefaultTheme - run following commands:
 
 ```bash
 php app/console theme:setup -f
-php app/console sylius:theme:synchronize
+php app/console sylius:theme:assets:install
 ```
 
 [1]: http://superdesk-web-publisher.readthedocs.org/en/latest/

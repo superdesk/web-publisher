@@ -11,4 +11,3 @@ parameters:
     mailer_password: null
     secret: SuperSecretTokenPleaseChangeIt
     swp_updater.version.class: SWP\Bundle\WebRendererBundle\Version\Version
-    active_theme: theme_1

@@ -1,4 +1,4 @@
-SWP\Component\MultiTenancy\Model\Tenant:
+SWP\Bundle\WebRendererBundle\Model\Tenant:
     tenant1:
         name: "Default tenant"
         subdomain: "default"

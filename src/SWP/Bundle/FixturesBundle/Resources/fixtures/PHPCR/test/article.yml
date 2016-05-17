@@ -1,0 +1,21 @@
+SWP\Bundle\ContentBundle\Document\Article:
+    article1:
+        title: "Test news article"
+        content: "Test news article content"
+        parent: <find(null, '/swp/default/content')>
+        route: <find(null, '/swp/default/routes/news')>
+    article2:
+        title: "Test article"
+        content: "Test article content"
+        parent: <find(null, '/swp/default/content')>
+        route: <find(null, '/swp/default/routes/news')>
+    article3:
+        title: "Features"
+        content: "Features content"
+        parent: <find(null, '/swp/default/content')>
+        route: <find(null, '/swp/default/routes/news')>
+    article4:
+        title: "Features client1"
+        content: "Features client1 content"
+        parent: <find(null, '/swp/client1/content')>
+        route: <find(null, '/swp/default/routes/news')>

@@ -11,6 +11,7 @@
  * @copyright 2015 Sourcefabric z.ú.
  * @license http://www.superdesk.org/license
  */
+
 namespace SWP\Bundle\TemplateEngineBundle\Tests\Controller;
 
 use Liip\FunctionalTestBundle\Test\WebTestCase;
@@ -36,7 +37,6 @@ class ContainerControllerTest extends WebTestCase
         ]);
 
         $this->runCommand('doctrine:phpcr:repository:init', ['--env' => 'test'], true);
-        $this->runCommand('theme:setup', ['--env' => 'test', '--force' => true, 'name' => 'theme_test'], true);
 
         $this->router = $this->getContainer()->get('router');
     }

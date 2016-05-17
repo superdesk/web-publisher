@@ -40,8 +40,8 @@ class RegisterTenantFactoryCompilerPassSpec extends ObjectBehavior
     function it_creates_default_definition_of_tenant_factory(
         ContainerBuilder $container
     ) {
-        $container->hasParameter('swp_multi_tenancy.factory.tenant')->willReturn(true);
-        $container->getParameter('swp_multi_tenancy.factory.tenant')->willReturn(TenantFactory::class);
+        $container->hasParameter('swp_multi_tenancy.factory.tenant.class')->willReturn(true);
+        $container->getParameter('swp_multi_tenancy.factory.tenant.class')->willReturn(TenantFactory::class);
         $tenantFactoryDefinition = new Definition(
             TenantFactory::class,
             [
@@ -57,8 +57,8 @@ class RegisterTenantFactoryCompilerPassSpec extends ObjectBehavior
     function it_does_not_create_default_definition_of_tenant_factory_if_tenant_factory_is_not_set(
         ContainerBuilder $container
     ) {
-        $container->hasParameter('swp_multi_tenancy.factory.tenant')->willReturn(false);
-        $container->getParameter('swp_multi_tenancy.factory.tenant')->shouldNotBeCalled();
+        $container->hasParameter('swp_multi_tenancy.factory.tenant.class')->willReturn(false);
+        $container->getParameter('swp_multi_tenancy.factory.tenant.class')->shouldNotBeCalled();
         $tenantFactoryDefinition = new Definition(
             TenantFactory::class,
             [
