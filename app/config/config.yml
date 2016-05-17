@@ -31,7 +31,6 @@ framework:
 # Twig Configuration
 twig:
     debug:            "%kernel.debug%"
-    #exception_controller: "FOS\\RestBundle\\Controller\\ExceptionController::showAction"
     strict_variables: false
 
 sylius_theme:
