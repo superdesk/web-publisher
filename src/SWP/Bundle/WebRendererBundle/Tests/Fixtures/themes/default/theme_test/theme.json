@@ -1,0 +1,13 @@
+{
+    "name": "swp/default-theme",
+    "title": "Default Theme",
+    "description": "Superdesk Web Publisher default theme",
+    "authors": [
+        {
+            "name": "Sourcefabric z.ú.",
+            "email": "contact@sourcefabric.org",
+            "homepage": "https://www.sourcefabric.org",
+            "role": "Organization"
+        }
+    ]
+}

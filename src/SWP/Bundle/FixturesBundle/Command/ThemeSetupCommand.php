@@ -61,11 +61,11 @@ The <info>theme:setup</info> command copies theme to your application themes fol
 
 You can also optionally specify the delete (<info>--delete</info>) option to delete theme by name:
 
-  <info>./app/console theme:setup <name> <tenantName> --delete</info>
+  <info>./app/console theme:setup <name> --delete</info>
 
 To force an action, you need to add an option: <info>--force</info>:
 
-  <info>./app/console theme:setup <name> <tenantName> --delete --force</info>
+  <info>./app/console theme:setup <name> --delete --force</info>
 
 Demo theme can be found in "SWPFixturesBundle/Resources/themes".
 EOT

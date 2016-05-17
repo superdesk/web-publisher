@@ -32,13 +32,6 @@ class ContentControllerTest extends WebTestCase
             '@SWPFixturesBundle/Resources/fixtures/ORM/test/tenant.yml',
         ]);
         $this->runCommand('doctrine:phpcr:repository:init', ['--env' => 'test'], true);
-        $this->runCommand('theme:setup', ['--env' => 'test', '--force' => true, 'name' => 'theme_test'], true);
-    }
-
-    public static function tearDownAfterClass()
-    {
-        $filesystem = new Filesystem();
-        $filesystem->remove(__DIR__.'/../../../../../../app/themes/default');
     }
 
     public function testLoadingContainerPageArticle()
