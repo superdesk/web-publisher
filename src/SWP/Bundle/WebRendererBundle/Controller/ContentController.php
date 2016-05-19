@@ -22,7 +22,7 @@ class ContentController extends Controller
     /**
      * Render content Page.
      */
-    public function renderContentPageAction(Request $request, $contentDocument)
+    public function renderContentPageAction(Request $request, $contentDocument = null)
     {
         return $this->renderPage('content', ['article' => $contentDocument]);
     }

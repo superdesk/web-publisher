@@ -31,13 +31,12 @@ framework:
 # Twig Configuration
 twig:
     debug:            "%kernel.debug%"
-    exception_controller: "FOS\\RestBundle\\Controller\\ExceptionController::showAction"
     strict_variables: false
 
 sylius_theme:
     sources:
         filesystem:
-            locations:
+            directories:
                 - "%kernel.root_dir%/themes"
 twig_cache:
     service: "doctrine_cache.providers.main_cache"
@@ -210,3 +209,13 @@ swp_web_renderer:
 
 nelmio_api_doc:
     request_listener: false
+
+jms_serializer:
+    metadata:
+        directories:
+            CmfRoutingBundle:
+                namespace_prefix: Symfony\Cmf\Bundle\RoutingBundle
+                path: "@SWPContentBundle/Resources/config/serializer/CmfRoutingBundle"
+            SymfonyRouting:
+                namespace_prefix: Symfony\Component\Routing
+                path: "@SWPContentBundle/Resources/config/serializer/SymfonyRouting"

@@ -36,7 +36,6 @@ class DefaultControllerTest extends WebTestCase
         ]);
 
         $this->runCommand('doctrine:phpcr:repository:init', ['--env' => 'test'], true);
-        $this->getContainer()->get('sylius.theme.synchronizer')->synchronize();
     }
 
     public function testIndexOnDevices()
