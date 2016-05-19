@@ -84,9 +84,6 @@ class ContainerController extends FOSRestController
             throw new NotFoundHttpException('Container with this id was not found.');
         }
 
-        $this->get('event_dispatcher')
-            ->dispatch(HttpCacheEvent::EVENT_NAME, new HttpCacheEvent($container));
-
         return $this->handleView(View::create($container, 200));
     }
 
