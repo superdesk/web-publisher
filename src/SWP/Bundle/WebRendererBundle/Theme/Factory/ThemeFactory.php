@@ -12,14 +12,18 @@
  * @license http://www.superdesk.org/license
  */
 
-namespace SWP\Bundle\WebRendererBundle\Theme\Helper;
+namespace SWP\Bundle\WebRendererBundle\Theme\Factory;
 
-interface PathHelperInterface
+use SWP\Bundle\WebRendererBundle\Theme\Model\Theme;
+use Sylius\Bundle\ThemeBundle\Factory\ThemeFactoryInterface;
+
+class ThemeFactory implements ThemeFactoryInterface
 {
     /**
-     * @return array
-     *
-     * @throws InvalidConfigurationException If not allowed to make context aware paths.
+     * {@inheritdoc}
      */
-    public function applySuffixFor(array $paths = []);
+    public function create($name, $path)
+    {
+        return new Theme($name, $path);
+    }
 }

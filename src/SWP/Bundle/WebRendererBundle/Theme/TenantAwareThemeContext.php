@@ -14,6 +14,7 @@
 
 namespace SWP\Bundle\WebRendererBundle\Theme;
 
+use SWP\Bundle\WebRendererBundle\Theme\Helper\ThemeHelper;
 use SWP\Component\Common\Model\TenantInterface;
 use SWP\Component\MultiTenancy\Context\TenantContextInterface;
 use Sylius\Bundle\ThemeBundle\Context\ThemeContextInterface;
@@ -40,8 +41,10 @@ final class TenantAwareThemeContext implements ThemeContextInterface
      * @param TenantContextInterface   $tenantContext   Tenant context
      * @param ThemeRepositoryInterface $themeRepository Theme repository
      */
-    public function __construct(TenantContextInterface $tenantContext, ThemeRepositoryInterface $themeRepository)
-    {
+    public function __construct(
+        TenantContextInterface $tenantContext,
+        ThemeRepositoryInterface $themeRepository
+    ) {
         $this->tenantContext = $tenantContext;
         $this->themeRepository = $themeRepository;
     }
@@ -54,6 +57,11 @@ final class TenantAwareThemeContext implements ThemeContextInterface
         /* @var TenantInterface $tenant */
         $tenant = $this->tenantContext->getTenant();
 
-        return $this->themeRepository->findOneByName($tenant->getThemeName());
+        return $this->themeRepository->findOneByName($this->resolveThemeName($tenant));
+    }
+
+    private function resolveThemeName(TenantInterface $tenant)
+    {
+        return $tenant->getThemeName().ThemeHelper::SUFFIX_SEPARATOR.$tenant->getSubdomain();
     }
 }

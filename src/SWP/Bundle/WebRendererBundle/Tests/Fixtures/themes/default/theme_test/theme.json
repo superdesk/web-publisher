@@ -1,7 +1,7 @@
 {
-    "name": "swp/default-theme",
-    "title": "Default Theme",
-    "description": "Superdesk Web Publisher default theme",
+    "name": "swp/test-theme",
+    "title": "Test Theme",
+    "description": "Superdesk Web Publisher test theme",
     "authors": [
         {
             "name": "Sourcefabric z.ú.",

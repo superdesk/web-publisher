@@ -14,12 +14,11 @@
 
 namespace SWP\Bundle\WebRendererBundle\Theme\Configuration;
 
-use SWP\Bundle\WebRendererBundle\Theme\Helper\PathHelper;
-use SWP\Bundle\WebRendererBundle\Theme\Locator\TenantableFileLocator;
+use SWP\Bundle\WebRendererBundle\Theme\Helper\ThemeHelper;
 use Sylius\Bundle\ThemeBundle\Configuration\ConfigurationSourceFactoryInterface;
-use Sylius\Bundle\ThemeBundle\Configuration\Filesystem\FilesystemConfigurationProvider;
 use Sylius\Bundle\ThemeBundle\Configuration\Filesystem\JsonFileConfigurationLoader;
 use Sylius\Bundle\ThemeBundle\Configuration\Filesystem\ProcessingConfigurationLoader;
+use Sylius\Bundle\ThemeBundle\Locator\RecursiveFileLocator;
 use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
@@ -50,14 +49,9 @@ final class TenantableConfigurationSourceFactory implements ConfigurationSourceF
      */
     public function initializeSource(ContainerBuilder $container, array $config)
     {
-        $pathHelper = new Definition(PathHelper::class, [
-            new Reference('swp_multi_tenancy.tenant_context'),
-        ]);
-
-        $tenantableFileLocator = new Definition(TenantableFileLocator::class, [
+        $recursiveFileLocator = new Definition(RecursiveFileLocator::class, [
             new Reference('sylius.theme.finder_factory'),
             $config['directories'],
-            $pathHelper,
         ]);
 
         $configurationLoader = new Definition(ProcessingConfigurationLoader::class, [
@@ -67,10 +61,13 @@ final class TenantableConfigurationSourceFactory implements ConfigurationSourceF
             new Reference('sylius.theme.configuration.processor'),
         ]);
 
-        $configurationProvider = new Definition(FilesystemConfigurationProvider::class, [
-            $tenantableFileLocator,
+        $configurationProvider = new Definition(TenantableConfigurationProvider::class, [
+            $recursiveFileLocator,
             $configurationLoader,
             $config['filename'],
+            new Definition(ThemeHelper::class, [
+                $config['directories'],
+            ]),
         ]);
 
         return $configurationProvider;
