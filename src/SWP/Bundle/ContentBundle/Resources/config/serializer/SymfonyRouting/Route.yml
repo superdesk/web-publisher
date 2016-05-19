@@ -1,0 +1,2 @@
+Symfony\Component\Routing\Route:
+    exclusion_policy: ALL

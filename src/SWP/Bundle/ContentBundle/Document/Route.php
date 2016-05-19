@@ -17,4 +17,6 @@ use SWP\Bundle\MultiTenancyBundle\Document\Page;
 
 class Route extends Page
 {
+    const TYPE_CONTENT = 'content';
+    const TYPE_COLLECTION = 'collection';
 }

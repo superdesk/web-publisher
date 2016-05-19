@@ -52,7 +52,7 @@ class ContentControllerTest extends WebTestCase
         $this->assertTrue($crawler->filter('html:contains("Current tenant: default")')->count() === 1);
     }
 
-    /*public function testLoadingNotExistingArticleUnderContainerPage()
+    public function testLoadingNotExistingArticleUnderContainerPage()
     {
         $this->loadFixtures([
             'SWP\Bundle\FixturesBundle\DataFixtures\PHPCR\LoadArticlesData',
@@ -62,5 +62,5 @@ class ContentControllerTest extends WebTestCase
         $client->request('GET', '/news/featuress');
 
         $this->assertEquals(404, $client->getResponse()->getStatusCode());
-    }*/
+    }
 }

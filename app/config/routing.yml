@@ -2,6 +2,10 @@ swp_templateengine:
     resource: "@SWPTemplateEngineBundle/Controller/"
     type:     annotation
 
+swp_content:
+    resource: "@SWPContentBundle/Controller/"
+    type:     annotation
+
 swp_webrenderer:
     resource: "@SWPWebRendererBundle/Controller/"
     type:     annotation
