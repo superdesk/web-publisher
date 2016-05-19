@@ -31,7 +31,6 @@ class ContentControllerTest extends WebTestCase
             '@SWPFixturesBundle/Resources/fixtures/ORM/test/tenant.yml',
         ]);
         $this->runCommand('doctrine:phpcr:repository:init', ['--env' => 'test'], true);
-        //$this->getContainer()->get('sylius.theme.synchronizer')->synchronize();
     }
 
     public static function tearDownAfterClass()

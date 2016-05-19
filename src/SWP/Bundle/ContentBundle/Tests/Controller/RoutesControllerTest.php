@@ -125,6 +125,4 @@ class RoutesControllerTest extends WebTestCase
         $client->request('DELETE', $this->router->generate('swp_api_content_delete_routes', ['id' => '/simple-test-route']));
         $this->assertEquals(204, $client->getResponse()->getStatusCode());
     }
-
-    // create 2 routes parent and child, try to delete parent, delete child, delete parent.
 }
