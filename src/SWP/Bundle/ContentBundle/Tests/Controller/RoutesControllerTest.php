@@ -30,7 +30,7 @@ class RoutesControllerTest extends WebTestCase
         $this->runCommand('doctrine:doctrine:schema:update', ['--force' => true, '--env' => 'test'], true);
 
         $this->loadFixtureFiles([
-            '@SWPFixturesBundle/Resources/fixtures/ORM/test/tenant.yml'
+            '@SWPFixturesBundle/Resources/fixtures/ORM/test/tenant.yml',
         ]);
 
         $this->runCommand('doctrine:phpcr:repository:init', ['--env' => 'test'], true);
@@ -114,7 +114,6 @@ class RoutesControllerTest extends WebTestCase
         ]);
         $this->assertEquals(201, $client->getResponse()->getStatusCode());
         $this->assertEquals('{"id":"\/swp\/default\/routes\/simple-test-route\/simple-child-test-route","content":null,"static_prefix":null,"variable_pattern":null,"name":"simple-child-test-route","children":[],"id_prefix":"\/swp\/default\/routes","_links":{"self":{"href":"\/api\/v1\/content\/routes\/\/simple-test-route\/simple-child-test-route"}}}', $client->getResponse()->getContent());
-
 
         $client->request('DELETE', $this->router->generate('swp_api_content_delete_routes', ['id' => '/simple-test-route']));
         $this->assertEquals(409, $client->getResponse()->getStatusCode());

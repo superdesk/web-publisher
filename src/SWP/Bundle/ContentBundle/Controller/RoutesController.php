@@ -78,7 +78,7 @@ class RoutesController extends FOSRestController
         $manager = $this->get('doctrine_phpcr')->getManager();
         $routeBasepath = $this->get('swp_multi_tenancy.path_builder')
             ->build($this->getParameter('swp_multi_tenancy.persistence.phpcr.base_paths')[0]);
-        $route = $manager->find('SWP\Bundle\ContentBundle\Document\Route', $routeBasepath . $id);
+        $route = $manager->find('SWP\Bundle\ContentBundle\Document\Route', $routeBasepath.$id);
 
         if (!$route) {
             throw new NotFoundHttpException('Route was not found.');
@@ -105,7 +105,7 @@ class RoutesController extends FOSRestController
         $manager = $this->get('doctrine_phpcr')->getManager();
         $routeBasepath = $this->get('swp_multi_tenancy.path_builder')
             ->build($this->getParameter('swp_multi_tenancy.persistence.phpcr.base_paths')[0]);
-        $route = $manager->find('SWP\Bundle\ContentBundle\Document\Route', $routeBasepath . $id);
+        $route = $manager->find('SWP\Bundle\ContentBundle\Document\Route', $routeBasepath.$id);
 
         if (!$route) {
             throw new NotFoundHttpException('Route was not found.');
@@ -148,7 +148,7 @@ class RoutesController extends FOSRestController
         $form->handleRequest($request);
         if ($form->isValid()) {
             $formData = $form->getData();
-            if (!isset($formData['parent']) || is_null($formData['parent']) ) {
+            if (!isset($formData['parent']) || is_null($formData['parent'])) {
                 $formData['parent'] = '/';
             }
 
@@ -186,7 +186,7 @@ class RoutesController extends FOSRestController
         $manager = $this->get('doctrine_phpcr')->getManager();
         $routeBasepath = $this->get('swp_multi_tenancy.path_builder')
             ->build($this->getParameter('swp_multi_tenancy.persistence.phpcr.base_paths')[0]);
-        $route = $manager->find('SWP\Bundle\ContentBundle\Document\Route', $routeBasepath . $id);
+        $route = $manager->find('SWP\Bundle\ContentBundle\Document\Route', $routeBasepath.$id);
         if (!$route) {
             throw new NotFoundHttpException('Route was not found.');
         }
@@ -213,8 +213,8 @@ class RoutesController extends FOSRestController
 
         if (isset($routeData['parent'])) {
             $routeBasepath = $this->get('swp_multi_tenancy.path_builder')->build($basepaths[0]);
-            if (!is_null($routeData['parent']) && $routeData['parent'] !== '/' ) {
-                $parentRoute = $manager->find('SWP\Bundle\ContentBundle\Document\Route', $routeBasepath . $routeData['parent']);
+            if (!is_null($routeData['parent']) && $routeData['parent'] !== '/') {
+                $parentRoute = $manager->find('SWP\Bundle\ContentBundle\Document\Route', $routeBasepath.$routeData['parent']);
 
                 if ($parentRoute) {
                     $route->setParentDocument($parentRoute);
@@ -226,7 +226,7 @@ class RoutesController extends FOSRestController
 
         if (isset($routeData['content']) && !is_null($routeData['content'])) {
             $contentBasepath = $this->get('swp_multi_tenancy.path_builder')->build($basepaths[1]);
-            $routeContent = $manager->find('SWP\Bundle\ContentBundle\Document\Article', $contentBasepath . $routeData['content']);
+            $routeContent = $manager->find('SWP\Bundle\ContentBundle\Document\Article', $contentBasepath.$routeData['content']);
 
             if ($routeContent) {
                 $route->setContent($routeContent);
@@ -241,7 +241,7 @@ class RoutesController extends FOSRestController
             $route->setDefault('_controller', '\SWP\Bundle\WebRendererBundle\Controller\ContentController::renderContentPageAction');
             $route->setVariablePattern(null);
             $route->setRequirements([]);
-        } else if (isset($routeData['type'])) {
+        } elseif (isset($routeData['type'])) {
             $route->setDefault('_controller', '\SWP\Bundle\WebRendererBundle\Controller\ContentController::renderContainerPageAction');
             $route->setVariablePattern('/{slug}');
             $route->setRequirement('slug', '[a-zA-Z1-9\-_\/]+');
