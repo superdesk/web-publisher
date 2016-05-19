@@ -87,23 +87,4 @@ class DefaultControllerTest extends WebTestCase
         $this->assertEquals(1, $crawler->filter('html:contains("Current tenant: default")')->count());
         $this->assertEquals(1, $crawler->filter('html:contains("id: /swp/default/routes/homepage")')->count());
     }
-
-    /*public function testNoTheme()
-    {
-        $client = static::createClient();
-
-        
-        $filesystem = new Filesystem();
-        
-        //$filesystem->mirror();
-        //var_dump(__DIR__.'../');die;
-        $filesystem->rename(__DIR__.'/../Fixtures/themes/default/theme_test/theme.json', __DIR__.'/../Fixtures/themes/default/theme_test/theme.bak');
-
-        $client->request('GET', '/');
-
-        $this->assertEquals(500, $client->getResponse()->getStatusCode());
-
-        $filesystem->rename(__DIR__.'/../Fixtures/themes/default/theme.json.temp', __DIR__.'/../Fixtures/themes/default/theme_test/theme.json');
-
-    }*/
 }
