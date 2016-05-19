@@ -43,18 +43,22 @@ class TenantAwareThemeContextSpec extends ObjectBehavior
         ThemeRepositoryInterface $themeRepository
     ) {
         $tenantContext->getTenant()->willReturn($tenant);
+        $tenant->getSubdomain()->willReturn('subdomain1');
         $tenant->getThemeName()->willReturn('swp/default-theme');
-        $themeRepository->findOneByName('swp/default-theme')->willReturn($theme);
+        $themeRepository->findOneByName('swp/default-theme@subdomain1')->willReturn($theme);
 
         $this->getTheme()->shouldReturn($theme);
     }
 
     function it_returns_null_if_tenant_has_no_theme(
         TenantContextInterface $tenantContext,
-        TenantInterface $tenant
+        TenantInterface $tenant,
+        $themeRepository
     ) {
-        $tenantContext->getTenant()->willReturn($tenant);
+        $tenant->getSubdomain()->willReturn('subdomain');
         $tenant->getThemeName()->willReturn(null);
+        $tenantContext->getTenant()->willReturn($tenant);
+        $themeRepository->findOneByName(null)->shouldBeCalled()->willReturn(null);
         $this->getTheme()->shouldReturn(null);
     }
 }

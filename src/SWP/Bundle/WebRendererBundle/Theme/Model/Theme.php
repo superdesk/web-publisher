@@ -21,6 +21,10 @@ class Theme extends BaseTheme
 {
     public function __construct($name, $path)
     {
-        parent::__construct(strstr($name, ThemeHelper::SUFFIX_SEPARATOR, true), $path);
+        if ($tempName = strstr($name, ThemeHelper::SUFFIX_SEPARATOR, true)) {
+            $name = $tempName;
+        }
+
+        parent::__construct($name, $path);
     }
 }

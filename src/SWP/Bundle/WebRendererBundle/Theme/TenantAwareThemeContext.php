@@ -62,6 +62,11 @@ final class TenantAwareThemeContext implements ThemeContextInterface
 
     private function resolveThemeName(TenantInterface $tenant)
     {
-        return $tenant->getThemeName().ThemeHelper::SUFFIX_SEPARATOR.$tenant->getSubdomain();
+        $themeName = $tenant->getThemeName();
+        if (null !== $themeName) {
+            return $tenant->getThemeName().ThemeHelper::SUFFIX_SEPARATOR.$tenant->getSubdomain();
+        }
+
+        return $themeName;
     }
 }
