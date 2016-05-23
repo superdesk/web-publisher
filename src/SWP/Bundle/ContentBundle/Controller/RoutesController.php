@@ -73,7 +73,7 @@ class RoutesController extends FOSRestController
      *
      * @Cache(expires="10 minutes", public=true)
      */
-    public function getAction(Request $request, $id)
+    public function getAction($id)
     {
         $manager = $this->get('doctrine_phpcr')->getManager();
         $routeBasepath = $this->get('swp_multi_tenancy.path_builder')
@@ -100,7 +100,7 @@ class RoutesController extends FOSRestController
      * @Route("/api/{version}/content/routes/{id}", options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_content_delete_routes", requirements={"id"=".+"})
      * @Method("DELETE")
      */
-    public function deleteAction(Request $request, $id)
+    public function deleteAction($id)
     {
         $manager = $this->get('doctrine_phpcr')->getManager();
         $routeBasepath = $this->get('swp_multi_tenancy.path_builder')
