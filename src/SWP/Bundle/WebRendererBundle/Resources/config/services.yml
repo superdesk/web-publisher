@@ -1,5 +1,5 @@
 parameters:
-    # override default cmf dynamic router with our implementation (with support for Meta Article)
+    # override default cmf dynamic router with our implementation (with support for Meta classes)
     cmf_routing.dynamic_router.class: SWP\Bundle\WebRendererBundle\Routing\MetaRouter
     # override Sylius default ThemeFactory
     sylius.factory.theme.class: SWP\Bundle\WebRendererBundle\Theme\Factory\ThemeFactory
@@ -23,7 +23,7 @@ services:
 
     swp_webrenderer.theme.context.tenant_aware:
         class: SWP\Bundle\WebRendererBundle\Theme\TenantAwareThemeContext
-        # public: false
+        public: false
         arguments:
             - "@swp_multi_tenancy.tenant_context"
             - "@sylius.repository.theme"
