@@ -35,13 +35,8 @@ class DefaultController extends Controller
             throw $this->createNotFoundException('No homepage configured!');
         }
 
-        $tenantContext = $this->get('swp_multi_tenancy.tenant_context');
-        $themeContext = $this->get('swp_webrenderer.theme.context.tenant_aware');
-
         return $this->render('index.html.twig', [
-            'tenant' => $tenantContext->getTenant(), // TODO remove, or create twig function
             'page' => $homepage,
-            'theme' => $themeContext->getTheme(), // TODO remove, or  create twig function
         ]);
     }
 }
