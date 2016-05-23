@@ -3,6 +3,7 @@ parameters:
     cmf_routing.dynamic_router.class: SWP\Bundle\WebRendererBundle\Routing\MetaRouter
     # override Sylius default ThemeFactory
     sylius.factory.theme.class: SWP\Bundle\WebRendererBundle\Theme\Factory\ThemeFactory
+    swp_webrenderer.twig_extension.class: SWP\Bundle\WebRendererBundle\Twig\WebRendererExtension
 
 services:
     swp_webrenderer.detection.device_detection:
@@ -27,3 +28,11 @@ services:
         arguments:
             - "@swp_multi_tenancy.tenant_context"
             - "@sylius.repository.theme"
+
+    swp_webrenderer.twig_extension:
+        class: '%swp_webrenderer.twig_extension.class%'
+        public: false
+        arguments:
+            - '@swp_webrenderer.theme.context.tenant_aware'
+        tags:
+            - { name: twig.extension }
