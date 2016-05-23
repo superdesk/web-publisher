@@ -14,7 +14,6 @@
 
 namespace SWP\Bundle\MultiTenancyBundle\DependencyInjection\Compiler;
 
-use SWP\Component\MultiTenancy\Factory\TenantFactory;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\Definition;
