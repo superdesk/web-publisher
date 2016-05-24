@@ -53,7 +53,7 @@ class RegisterTenantFactoryCompilerPassSpec extends ObjectBehavior
         $this->process($container);
     }
 
-    function it_does_not_create_default_definition_of_tenant_factory_if_tenant_factory_is_not_set(
+    function it_should_not_set_tenant_factory_if_class_is_not_set(
         ContainerBuilder $container
     ) {
         $container->hasParameter('swp_multi_tenancy.factory.tenant.class')->willReturn(false);
