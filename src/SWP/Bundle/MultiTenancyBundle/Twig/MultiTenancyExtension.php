@@ -11,7 +11,6 @@
  * @copyright 2016 Sourcefabric z.ú.
  * @license http://www.superdesk.org/license
  */
-
 namespace SWP\Bundle\MultiTenancyBundle\Twig;
 
 use SWP\Component\MultiTenancy\Context\TenantContextInterface;

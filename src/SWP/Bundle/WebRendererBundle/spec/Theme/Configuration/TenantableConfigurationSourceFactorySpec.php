@@ -11,11 +11,9 @@
  * @copyright 2016 Sourcefabric z.ú.
  * @license http://www.superdesk.org/license
  */
-
 namespace spec\SWP\Bundle\WebRendererBundle\Theme\Configuration;
 
 use PhpSpec\ObjectBehavior;
-use Prophecy\Argument;
 use SWP\Bundle\WebRendererBundle\Theme\Configuration\TenantableConfigurationSourceFactory;
 use Sylius\Bundle\ThemeBundle\Configuration\ConfigurationSourceFactoryInterface;
 

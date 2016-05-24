@@ -11,7 +11,6 @@
  * @copyright 2016 Sourcefabric z.ú.
  * @license http://www.superdesk.org/license
  */
-
 namespace spec\SWP\Bundle\MultiTenancyBundle\Twig;
 
 use PhpSpec\ObjectBehavior;
@@ -44,7 +43,7 @@ class MultiTenancyExtensionSpec extends ObjectBehavior
         $tenantContext->getTenant()->shouldBeCalled()->willReturn($tenant);
 
         $globals = [
-            'organization' => $tenant
+            'organization' => $tenant,
         ];
 
         $this->getGlobals()->shouldReturn($globals);

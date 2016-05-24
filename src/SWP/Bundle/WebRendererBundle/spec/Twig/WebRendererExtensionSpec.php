@@ -11,7 +11,6 @@
  * @copyright 2016 Sourcefabric z.ú.
  * @license http://www.superdesk.org/license
  */
-
 namespace spec\SWP\Bundle\WebRendererBundle\Twig;
 
 use PhpSpec\ObjectBehavior;
@@ -45,7 +44,7 @@ class WebRendererExtensionSpec extends ObjectBehavior
         $themeContext->getTheme()->shouldBeCalled()->willReturn($theme);
 
         $globals = [
-            'theme' => $theme
+            'theme' => $theme,
         ];
 
         $this->getGlobals()->shouldReturn($globals);

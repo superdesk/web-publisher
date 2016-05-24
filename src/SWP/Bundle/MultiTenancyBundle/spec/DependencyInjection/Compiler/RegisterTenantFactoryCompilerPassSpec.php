@@ -11,7 +11,6 @@
  * @copyright 2016 Sourcefabric z.ú.
  * @license http://www.superdesk.org/license
  */
-
 namespace spec\SWP\Bundle\MultiTenancyBundle\DependencyInjection\Compiler;
 
 use PhpSpec\ObjectBehavior;
