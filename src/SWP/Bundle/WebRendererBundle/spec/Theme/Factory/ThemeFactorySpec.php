@@ -3,7 +3,6 @@
 namespace spec\SWP\Bundle\WebRendererBundle\Theme\Factory;
 
 use PhpSpec\ObjectBehavior;
-use Prophecy\Argument;
 use SWP\Bundle\WebRendererBundle\Theme\Factory\ThemeFactory;
 use Sylius\Bundle\ThemeBundle\Factory\ThemeFactoryInterface;
 use Sylius\Bundle\ThemeBundle\Model\ThemeInterface;

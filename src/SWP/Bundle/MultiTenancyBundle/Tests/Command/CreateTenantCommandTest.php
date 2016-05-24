@@ -11,7 +11,6 @@
  * @copyright 2016 Sourcefabric z.ú.
  * @license http://www.superdesk.org/license
  */
-
 namespace SWP\Bundle\MultiTenancyBundle\Tests\Command;
 
 use SWP\Bundle\MultiTenancyBundle\Command\CreateTenantCommand;
