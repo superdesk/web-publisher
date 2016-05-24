@@ -32,7 +32,7 @@ class CreateTenantCommandTest extends \PHPUnit_Framework_TestCase
         $application->add(new CreateTenantCommand());
         $this->command = $application->get('swp:tenant:create');
         $this->dialog = $this->command->getHelper('dialog');
-        $this->factory = new TenantFactory(Tenant::class);
+        $this->factory = new TenantFactory('SWP\Component\MultiTenancy\Model\Tenant');
     }
 
     /**
