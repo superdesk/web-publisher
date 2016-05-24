@@ -1,6 +1,6 @@
 SWP\Bundle\TemplateEngineBundle\Model\ContainerData:
     type: entity
-    table: null
+    table: swp_container_data
     repositoryClass: SWP\Bundle\TemplateEngineBundle\Repository\ContainerDataRepository
     id:
         id:

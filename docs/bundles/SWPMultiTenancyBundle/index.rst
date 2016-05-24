@@ -23,5 +23,6 @@ By default, this bundle uses Doctrine ORM to retrieve tenant objects from the st
     models
     interfaces
     commands
+    twig
     configuration
     tutorials/index

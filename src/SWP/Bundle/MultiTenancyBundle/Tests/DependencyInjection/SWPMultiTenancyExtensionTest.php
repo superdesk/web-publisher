@@ -61,6 +61,16 @@ class SWPMultiTenancyExtensionTest extends \PHPUnit_Framework_TestCase
             $container->getParameter('swp_multi_tenancy.persistence.phpcr.base_paths')
         );
 
+        $this->assertEquals(
+            'SWP\Component\MultiTenancy\Model\Tenant',
+            $container->getParameter('swp_multi_tenancy.tenant.class')
+        );
+
+        $this->assertEquals(
+            'SWP\Component\MultiTenancy\Factory\TenantFactory',
+            $container->getParameter('swp_multi_tenancy.factory.tenant.class')
+        );
+
         $this->assertTrue($container->hasParameter('swp_multi_tenancy.backend_type_phpcr'));
     }
 

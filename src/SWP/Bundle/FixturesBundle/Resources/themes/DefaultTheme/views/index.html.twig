@@ -16,6 +16,19 @@
         <p>Minions ipsum voluptate nisi reprehenderit occaecat. Enim hahaha bappleees cillum bappleees. Elit officia daa ullamco. Ullamco bappleees reprehenderit aliqua veniam bananaaaa. Minim sed aaaaaah laboris veniam. Pepete aliqua veniam sit amet quis butt tatata bala tu jiji quis minim.</p>
         {% endcontainer %}
 
+        <p><strong>Assigned homepage:</strong> {{ page.name }} (id: {{ page.id }})</p>
+        <h4><strong>Current theme details:</strong></h4>
+        <p><strong>Path:</strong> {{ theme.path }}</p>
+        <p><strong>Name:</strong> {{ theme.name }}</p>
+        <p><strong>Description:</strong> {{ theme.description }}</p>
+        <p><strong>Title:</strong> {{ theme.title }}</p>
+        <p><strong>Authors:</strong></p>
+        <ul>
+            {% for author in theme.authors %}
+                <li>{{ author.name }} ({{ author.email }}), {{ author.homepage }}, {{ author.role }}</li>
+            {% endfor %}
+        </ul>
+
         <div class="col-md-4">
         <h2>News</h2>
         <ul>

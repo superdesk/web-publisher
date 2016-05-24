@@ -11,6 +11,7 @@
  * @copyright 2015 Sourcefabric z.ú.
  * @license http://www.superdesk.org/license
  */
+
 namespace SWP\Bundle\WebRendererBundle\Tests\Controller;
 
 use Liip\FunctionalTestBundle\Test\WebTestCase;
@@ -27,16 +28,11 @@ class ContentControllerTest extends WebTestCase
 
         $this->runCommand('doctrine:schema:drop', ['--force' => true, '--env' => 'test'], true);
         $this->runCommand('doctrine:doctrine:schema:update', ['--force' => true, '--env' => 'test'], true);
+
         $this->loadFixtureFiles([
             '@SWPFixturesBundle/Resources/fixtures/ORM/test/tenant.yml',
         ]);
         $this->runCommand('doctrine:phpcr:repository:init', ['--env' => 'test'], true);
-    }
-
-    public static function tearDownAfterClass()
-    {
-        $filesystem = new Filesystem();
-        $filesystem->remove(__DIR__.'/../../../../../../app/Resources/themes/theme_test');
     }
 
     public function testLoadingContainerPageArticle()

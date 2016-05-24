@@ -11,6 +11,7 @@
  * @copyright 2015 Sourcefabric z.ú.
  * @license http://www.superdesk.org/license
  */
+
 namespace SWP\Bundle\WebRendererBundle\Controller;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -30,14 +31,11 @@ class DefaultController extends Controller
         $site = $manager->find('SWP\Bundle\ContentBundle\Document\Site', $pathBuilder->build('/'));
         $homepage = $site->getHomepage();
 
-        if (!$homepage) {
+        if (null === $homepage) {
             throw $this->createNotFoundException('No homepage configured!');
         }
 
-        $tenantContext = $this->get('swp_multi_tenancy.tenant_context');
-
         return $this->render('index.html.twig', [
-            'tenant' => $tenantContext->getTenant(),
             'page' => $homepage,
         ]);
     }

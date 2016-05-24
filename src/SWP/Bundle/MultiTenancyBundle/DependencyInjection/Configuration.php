@@ -11,8 +11,11 @@
  * @copyright 2015 Sourcefabric z.ú.
  * @license http://www.superdesk.org/license
  */
+
 namespace SWP\Bundle\MultiTenancyBundle\DependencyInjection;
 
+use SWP\Component\MultiTenancy\Factory\TenantFactory;
+use SWP\Component\MultiTenancy\Model\Tenant;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
 
@@ -31,6 +34,30 @@ class Configuration implements ConfigurationInterface
         $treeBuilder = new TreeBuilder();
         $treeBuilder->root('swp_multi_tenancy')
             ->children()
+                ->arrayNode('resources')
+                    ->addDefaultsIfNotSet()
+                    ->children()
+                        ->arrayNode('tenant')
+                            ->addDefaultsIfNotSet()
+                            ->children()
+                                ->arrayNode('classes')
+                                    ->addDefaultsIfNotSet()
+                                    ->children()
+                                        ->scalarNode('model')
+                                            ->defaultValue(Tenant::class)
+                                            ->cannotBeEmpty()
+                                            ->info('The FQCN of the Tenant model class.')
+                                        ->end()
+                                        ->scalarNode('factory')
+                                            ->defaultValue(TenantFactory::class)
+                                            ->info('The FQCN of the Tenant Factory class.')
+                                        ->end()
+                                    ->end()
+                                ->end()
+                            ->end()
+                        ->end()
+                    ->end()
+                ->end()
                 ->arrayNode('persistence')
                     ->addDefaultsIfNotSet()
                     ->children()

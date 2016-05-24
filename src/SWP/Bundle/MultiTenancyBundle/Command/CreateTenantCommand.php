@@ -11,6 +11,7 @@
  * @copyright 2016 Sourcefabric z.ú.
  * @license http://www.superdesk.org/license
  */
+
 namespace SWP\Bundle\MultiTenancyBundle\Command;
 
 use Doctrine\ORM\EntityManagerInterface;
@@ -135,7 +136,8 @@ EOT
      */
     protected function createTenant($subdomain, $name, $disabled)
     {
-        $tenant = new Tenant();
+        $tenantFactory = $this->getContainer()->get('swp_multi_tenancy.factory.tenant');
+        $tenant = $tenantFactory->create();
         $tenant->setSubdomain($subdomain);
         $tenant->setName($name);
         $tenant->setEnabled(!$disabled);

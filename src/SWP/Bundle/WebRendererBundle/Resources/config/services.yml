@@ -1,16 +1,11 @@
-# override default cmf dynamic router with our implementation (with support for Meta Article)
 parameters:
+    # override default cmf dynamic router with our implementation (with support for Meta classes)
     cmf_routing.dynamic_router.class: SWP\Bundle\WebRendererBundle\Routing\MetaRouter
+    # override Sylius default ThemeFactory
+    sylius.factory.theme.class: SWP\Bundle\WebRendererBundle\Theme\Factory\ThemeFactory
+    swp_webrenderer.twig_extension.class: SWP\Bundle\WebRendererBundle\Twig\WebRendererExtension
 
 services:
-    swp_webrenderer.listener.active_theme:
-        class: SWP\Bundle\WebRendererBundle\EventListener\ActiveThemeListener
-        arguments:
-            - "@sylius.repository.theme"
-            - "@sylius.context.theme"
-        tags:
-            - { name: kernel.event_listener, event: kernel.request, method: onKernelRequest }
-
     swp_webrenderer.detection.device_detection:
         class: SWP\Bundle\WebRendererBundle\Detection\DeviceDetection
 
@@ -26,3 +21,18 @@ services:
             - "@filesystem"
             - "@kernel"
             - "@swp_webrenderer.detection.device_detection"
+
+    swp_webrenderer.theme.context.tenant_aware:
+        class: SWP\Bundle\WebRendererBundle\Theme\TenantAwareThemeContext
+        public: false
+        arguments:
+            - "@swp_multi_tenancy.tenant_context"
+            - "@sylius.repository.theme"
+
+    swp_webrenderer.twig_extension:
+        class: '%swp_webrenderer.twig_extension.class%'
+        public: false
+        arguments:
+            - '@swp_webrenderer.theme.context.tenant_aware'
+        tags:
+            - { name: twig.extension }

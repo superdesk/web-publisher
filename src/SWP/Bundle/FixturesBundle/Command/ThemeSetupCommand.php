@@ -11,6 +11,7 @@
  * @copyright 2015 Sourcefabric z.ú.
  * @license http://www.superdesk.org/license
  */
+
 namespace SWP\Bundle\FixturesBundle\Command;
 
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
@@ -24,6 +25,7 @@ use Symfony\Component\Console\Question\ConfirmationQuestion;
 class ThemeSetupCommand extends ContainerAwareCommand
 {
     const DEFAULT_THEME_NAME = 'DefaultTheme';
+    const THEMES_PATH = '/themes/default';
 
     /**
      * {@inheritdoc}
@@ -32,7 +34,7 @@ class ThemeSetupCommand extends ContainerAwareCommand
     {
         $this
             ->setName('theme:setup')
-            ->setDescription('Sets (copies) demo theme for development purposes.')
+            ->setDescription('Sets (copies)/deletes theme(s) for development purposes.')
             ->addArgument(
                 'name',
                 InputArgument::OPTIONAL,
@@ -53,17 +55,17 @@ class ThemeSetupCommand extends ContainerAwareCommand
             )
             ->setHelp(
 <<<'EOT'
-The <info>theme:setup</info> command copies theme to your application themes folder (app/themes):
+The <info>%command.name%</info> command copies theme to your application themes folder (app/themes):
 
-  <info>./app/console theme:setup</info>
+  <info>%command.full_name%</info>
 
 You can also optionally specify the delete (<info>--delete</info>) option to delete theme by name:
 
-  <info>./app/console theme:setup <name> --delete</info>
+  <info>%command.full_name% <name> --delete</info>
 
 To force an action, you need to add an option: <info>--force</info>:
 
-  <info>./app/console theme:setup <name> --delete --force</info>
+  <info>%command.full_name% <name> --delete --force</info>
 
 Demo theme can be found in "SWPFixturesBundle/Resources/themes".
 EOT
@@ -82,14 +84,17 @@ EOT
         $helper = $this->getHelper('question');
         $force = true === $input->getOption('force');
 
-        if (!$name) {
+        if (null === $name) {
             $name = self::DEFAULT_THEME_NAME;
         }
+
+        $tenantThemeDir = $kernel->getRootDir().self::THEMES_PATH;
+        $themeDir = $tenantThemeDir.\DIRECTORY_SEPARATOR.$name;
 
         try {
             if ($input->getOption('delete')) {
                 $question = new ConfirmationQuestion(
-                    '<question>This will override your current theme: "'.$name.'", if exists. Continue with this action? (yes/no)<question> <comment>[yes]</comment> ',
+                    '<question>This will delete your current theme: "'.$name.'", if exists. Continue with this action? (yes/no)<question> <comment>[yes]</comment> ',
                     true,
                     '/^(y|j)/i'
                 );
@@ -100,7 +105,10 @@ EOT
                     }
                 }
 
-                $fileSystem->remove($kernel->getRootDir().'/themes/'.$name);
+                $fileSystem->remove($themeDir);
+                if (!(new \FilesystemIterator($tenantThemeDir))->valid()) {
+                    $fileSystem->remove($tenantThemeDir);
+                }
 
                 $output->writeln('<info>Theme "'.$name.'" has been deleted successfully!</info>');
 
@@ -121,7 +129,7 @@ EOT
 
             $fileSystem->mirror(
                 $kernel->locateResource('@SWPFixturesBundle/Resources/themes/'.$name),
-                $kernel->getRootDir().'/themes/'.$name,
+                $themeDir,
                 null,
                 ['override' => true, 'delete' => true]
             );
