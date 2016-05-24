@@ -58,12 +58,8 @@ class AbstractFixtureTest extends KernelTestCase
     private function createStub($paths)
     {
         $stub = $this->getMockForAbstractClass('SWP\Bundle\FixturesBundle\AbstractFixture');
-        $stub->expects($this->any())
-             ->method('loadFixtures')
-             ->with($paths, $this->manager)
-             ->will($this->returnValue(null));
-
         $stub->setContainer($this->container);
+        $stub->loadFixtures($paths, $this->manager);
 
         return $stub;
     }
