@@ -15,7 +15,6 @@ namespace spec\SWP\Component\MultiTenancy\Factory;
 
 use PhpSpec\ObjectBehavior;
 use SWP\Component\MultiTenancy\Factory\TenantFactory;
-use SWP\Component\MultiTenancy\Factory\TenantFactoryInterface;
 use SWP\Component\MultiTenancy\Model\Tenant;
 
 /**
@@ -25,17 +24,17 @@ class TenantFactorySpec extends ObjectBehavior
 {
     function let()
     {
-        $this->beConstructedWith(Tenant::class);
+        $this->beConstructedWith('SWP\Component\MultiTenancy\Model\Tenant');
     }
 
     function it_is_initializable()
     {
-        $this->shouldHaveType(TenantFactory::class);
+        $this->shouldHaveType('SWP\Component\MultiTenancy\Factory\TenantFactory');
     }
 
     function it_implements_tenant_factory_interface()
     {
-        $this->shouldImplement(TenantFactoryInterface::class);
+        $this->shouldImplement('SWP\Component\MultiTenancy\Factory\TenantFactoryInterface');
     }
 
     function it_creates_a_new_empty_tenant()

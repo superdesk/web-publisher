@@ -15,8 +15,6 @@ namespace spec\SWP\Bundle\MultiTenancyBundle\DependencyInjection\Compiler;
 
 use PhpSpec\ObjectBehavior;
 use SWP\Bundle\MultiTenancyBundle\DependencyInjection\Compiler\RegisterTenantFactoryCompilerPass;
-use SWP\Component\MultiTenancy\Factory\TenantFactory;
-use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Parameter;
@@ -28,21 +26,21 @@ class RegisterTenantFactoryCompilerPassSpec extends ObjectBehavior
 {
     function it_is_initializable()
     {
-        $this->shouldHaveType(RegisterTenantFactoryCompilerPass::class);
+        $this->shouldHaveType('SWP\Bundle\MultiTenancyBundle\DependencyInjection\Compiler\RegisterTenantFactoryCompilerPass');
     }
 
     function it_implements_compiler_pass_interface()
     {
-        $this->shouldImplement(CompilerPassInterface::class);
+        $this->shouldImplement('Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface');
     }
 
     function it_creates_default_definition_of_tenant_factory(
         ContainerBuilder $container
     ) {
         $container->hasParameter('swp_multi_tenancy.factory.tenant.class')->willReturn(true);
-        $container->getParameter('swp_multi_tenancy.factory.tenant.class')->willReturn(TenantFactory::class);
+        $container->getParameter('swp_multi_tenancy.factory.tenant.class')->willReturn('SWP\Component\MultiTenancy\Factory\TenantFactory');
         $tenantFactoryDefinition = new Definition(
-            TenantFactory::class,
+            'SWP\Component\MultiTenancy\Factory\TenantFactory',
             [
                 new Parameter('swp_multi_tenancy.tenant.class'),
             ]
@@ -59,7 +57,7 @@ class RegisterTenantFactoryCompilerPassSpec extends ObjectBehavior
         $container->hasParameter('swp_multi_tenancy.factory.tenant.class')->willReturn(false);
         $container->getParameter('swp_multi_tenancy.factory.tenant.class')->shouldNotBeCalled();
         $tenantFactoryDefinition = new Definition(
-            TenantFactory::class,
+            'SWP\Component\MultiTenancy\Factory\TenantFactory',
             [
                 new Parameter('swp_multi_tenancy.tenant.class'),
             ]

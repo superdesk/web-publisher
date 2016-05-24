@@ -15,8 +15,6 @@ namespace SWP\Bundle\MultiTenancyBundle\Tests\DependencyInjection\Compiler;
 
 use Matthias\SymfonyDependencyInjectionTest\PhpUnit\AbstractCompilerPassTestCase;
 use SWP\Bundle\MultiTenancyBundle\DependencyInjection\Compiler\RegisterTenantFactoryCompilerPass;
-use SWP\Component\MultiTenancy\Factory\TenantFactory;
-use SWP\Component\MultiTenancy\Model\Tenant;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 
@@ -35,8 +33,11 @@ class RegisterTenantFactoryCompilerPassTest extends AbstractCompilerPassTestCase
      */
     public function testProcess()
     {
-        $this->container->setParameter('swp_multi_tenancy.factory.tenant.class', TenantFactory::class);
-        $this->container->setParameter('swp_multi_tenancy.tenant.class', Tenant::class);
+        $this->container->setParameter(
+            'swp_multi_tenancy.factory.tenant.class',
+            'SWP\Component\MultiTenancy\Factory\TenantFactory'
+        );
+        $this->container->setParameter('swp_multi_tenancy.tenant.class', 'SWP\Component\MultiTenancy\Model\Tenant');
 
         $collectingService = new Definition();
         $this->setDefinition('swp_multi_tenancy.factory.tenant', $collectingService);
@@ -45,13 +46,13 @@ class RegisterTenantFactoryCompilerPassTest extends AbstractCompilerPassTestCase
 
         $this->assertContainerBuilderHasService(
             'swp_multi_tenancy.factory.tenant',
-            TenantFactory::class
+            'SWP\Component\MultiTenancy\Factory\TenantFactory'
         );
     }
 
     public function testProcessWhenNoParam()
     {
-        $this->container->setParameter('swp_multi_tenancy.tenant.class', Tenant::class);
+        $this->container->setParameter('swp_multi_tenancy.tenant.class', 'SWP\Component\MultiTenancy\Model\Tenant');
 
         $collectingService = new Definition();
         $this->setDefinition('swp_multi_tenancy.factory.tenant', $collectingService);

@@ -17,8 +17,10 @@ use PhpSpec\ObjectBehavior;
 use SWP\Bundle\MultiTenancyBundle\Twig\MultiTenancyExtension;
 use SWP\Component\MultiTenancy\Context\TenantContextInterface;
 use SWP\Component\MultiTenancy\Model\TenantInterface;
-use Twig_Extension;
 
+/**
+ * @mixin MultiTenancyExtension
+ */
 class MultiTenancyExtensionSpec extends ObjectBehavior
 {
     function let(TenantContextInterface $tenantContext)
@@ -28,12 +30,12 @@ class MultiTenancyExtensionSpec extends ObjectBehavior
 
     function it_is_initializable()
     {
-        $this->shouldHaveType(MultiTenancyExtension::class);
+        $this->shouldHaveType('SWP\Bundle\MultiTenancyBundle\Twig\MultiTenancyExtension');
     }
 
     function it_is_a_twig_extension()
     {
-        $this->shouldHaveType(Twig_Extension::class);
+        $this->shouldHaveType('Twig_Extension');
     }
 
     function it_should_return_global_variables(TenantInterface $tenant, TenantContextInterface $tenantContext)
