@@ -63,3 +63,14 @@ TenantRepositoryInterface
 
 This interface should be implemented by repositories responsible
 for storing the :ref:`component_tenant_model_tenant` objects.
+
+Factory Interfaces
+------------------
+
+.. _component_tenant_factory_factory-interface:
+
+TenantFactoryInterface
+~~~~~~~~~~~~~~~~~~~~~~
+
+This interface should be implemented by tenant factories which are
+responsible for creating an objects of type :ref:`component_tenant_model_tenant-interface`.

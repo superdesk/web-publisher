@@ -106,3 +106,21 @@ The ``build`` method method builds the PHPCR path. It accepts as a first argumen
 .. note::
 
    This service implements the :ref:`component_tenant_resolver_tenant-resolver-interface`.
+
+TenantFactory
+-------------
+
+The **TenantFactory** allows you to create an objects of type :ref:`component_tenant_model_tenant-interface`.
+
+.. code-block:: php
+
+   <?php
+
+    // ..
+   use SWP\Component\MultiTenancy\Model\Tenant;
+   use SWP\Component\MultiTenancy\Factory\TenantFactory;
+
+   $tenantFactory = new TenantFactory(Tenant::class);
+   $tenant = $tenantFactory->create();
+
+   var_dump($tenant);

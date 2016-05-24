@@ -1,13 +1,65 @@
 Configuration Reference
 =======================
 
-The SWPMultitEnancyBundle can be configured under the ``swp_multi_tenancy`` key in your configuration file.
+The SWPMultiTenancyBundle can be configured under the ``swp_multi_tenancy`` key in your configuration file.
 This section describes the whole bundle's configuration.
 
 .. _reference-configuration-tenant-configuration:
 
 Configuration
 -------------
+
+.. code-block:: yaml
+
+        # app/config/config.yml
+        swp_multi_tenancy:
+            resources:
+                tenant:
+                    classes:
+                        model: SWP\Component\MultiTenancy\Model\Tenant
+                        factory: SWP\Component\MultiTenancy\Factory\TenantFactory
+            persistence:
+                phpcr:
+                    enabled: true
+                    route_basepaths: ["routes"]
+                    content_basepath: "content"
+                    tenant_aware_router_class: SWP\MultiTenancyBundle\Routing\TenantAwareRouter
+                    site_document_class: SWP\MultiTenancyBundle\Document\Site
+                    document_class: SWP\MultiTenancyBundle\Document\Page
+
+
+``resources``
+.............
+
+``tenant``
+""""""""""
+
+``classes``
+"""""""""""
+
+.. code-block:: yaml
+
+        # app/config/config.yml
+        swp_multi_tenancy:
+            resources:
+                tenant:
+                    classes:
+                        model: SWP\Component\MultiTenancy\Model\Tenant
+                        factory: SWP\Component\MultiTenancy\Factory\TenantFactory
+
+``model``
+*********
+
+**type**: ``string`` **default**: ``SWP\Component\MultiTenancy\Model\Tenant``
+
+The FQCN of the Tenant model class which is of type :ref:`component_tenant_model_tenant-interface`.
+
+``factory``
+***********
+
+**type**: ``string`` **default**: ``SWP\Component\MultiTenancy\Factory\TenantFactory``
+
+The FQCN of the Tenant Factory class.
 
 ``persistence``
 ...............
