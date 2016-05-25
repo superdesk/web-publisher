@@ -3,6 +3,4 @@
 The License
 -----------
 
-See the complete license `here`_.
-
-.. _here: http://www.superdesk.org/license
+Superdesk Web Publisher is released under the `GNU Affero General Public License, version 3 <https://github.com/superdesk/web-publisher/blob/master/LICENSE.md>`_.

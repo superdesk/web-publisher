@@ -148,7 +148,7 @@ fake data, which can be used by themes.
 Setting up demo theme
 ---------------------------------------------
 
-To make it easier to start with the WebPublisher, we created a simple
+To make it easier to start with the Web Publisher, we created a simple
 demo theme. To set this theme as an active one, you need to execute the
 following console command in terminal:
 

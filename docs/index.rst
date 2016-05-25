@@ -1,64 +1,46 @@
-Welcome to Superdesk Web Publisher's documentation!
-===================================================
+Superdesk Web Publisher technical documentation
+===============================================
 
-Templator documentation:
+*The next generation publishing platform for journalists and newsrooms*
+
+Superdesk Web Publisher is a lightweight open source renderer which takes news articles from an API feed and delivers them directly to readers via the Internet. The code is released under the `GNU Affero General Public License, version 3 <https://github.com/superdesk/web-publisher/blob/master/LICENSE.md>`_.
+
+The Web Publisher is designed to work with the `Superdesk <https://www.superdesk.org/>`_ news room management system from `Sourcefabric <https://www.sourcefabric.org/>`_, but could be made to work with any compatible API. It is written in PHP and runs on a standard web server or in a Docker container. A PostgreSQL database is also required. 
+
+The presentation of articles is taken care of by a flexible, device-responsive themes system which can be customised to match your publication. 
+
+This documentation includes text and code examples from the Symfony and Sylius projects, released under the `Creative Commons BY-SA 3.0 <http://creativecommons.org/licenses/by-sa/3.0/>`_ license. 
+Pull requests to `improve the documentation <http://superdesk-web-publisher.readthedocs.io/en/latest/contributing/documentation/index.html>`_ are very welcome.
+
+Documentation for theme designers
+---------------------------------
 
 .. toctree::
-   :caption: Themes
+   :caption: For designers
    :maxdepth: 2
 
    themes
-
-.. toctree::
-   :maxdepth: 4
-   :caption: Templates System
-
    templates_system
-
-
-.. toctree::
-   :caption: Optimizations
-   :maxdepth: 2
-
    templates_caching
 
-Developer documentation:
+Documentation for developers
+----------------------------
 
 .. toctree::
-   :caption: Fixtures
+   :caption: For developers
    :maxdepth: 2
 
    fixtures
-
-
-Symfony Bundles
----------------
-
-Documentation of all WebPublisher Bundles.
-
-.. toctree::
-   :hidden:
-
    bundles/index
 
 .. include:: /bundles/map.rst.inc
-
-Components
-----------
-
-PHP Components
-
-.. toctree::
-   :hidden:
 
    components/index
 
 .. include:: /components/map.rst.inc
 
-Contributing
-------------
-
-A guide on how to contribute to our project.
+Contributing to Web Publisher
+-----------------------------
 
 .. toctree::
    :hidden:
