@@ -1,0 +1,37 @@
+{
+    "name": "swp/bridge-bundle",
+    "type": "symfony-bundle",
+    "description": "Bundle which acts as a bridge between the Superdesk Web publisher and the Superdesk Content API.",
+    "license": "GPL-3.0",
+    "minimum-stability": "dev",
+    "authors": [
+        {
+            "name": "Mischa Gorinskat",
+            "email": "mischa.gorinskat@sourcefabric.org"
+        }
+    ],
+    "require": {
+        "php": ">=5.5",
+        "guzzlehttp/guzzle": "^6.0",
+        "superdesk/contentapi-sdk-php": "dev-master"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "~4.5@stable",
+        "phpunit/php-code-coverage": "@stable",
+        "phpspec/phpspec": "~2.0",
+        "symfony/framework-bundle": "2.8.x-dev",
+        "sensio/framework-extra-bundle": "~3.0,>=3.0.2",
+        "doctrine/doctrine-bundle": "~1.4",
+        "symfony/browser-kit": "2.8.x-dev"
+    },
+    "autoload": {
+        "psr-4": {
+            "SWP\\BridgeBundle\\": ""
+        }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.0-dev"
+        }
+    }
+}

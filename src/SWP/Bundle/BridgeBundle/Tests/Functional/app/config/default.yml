@@ -1,0 +1,16 @@
+framework:
+    secret: "Three can keep a secret, if two of them are dead."
+    router: { resource: "%kernel.root_dir%/%kernel.test_case%/routing.yml" }
+    test: ~
+
+swp_bridge:
+    api:
+        host: 'example.com'
+        port: 8000
+        protocol: 'http'
+    auth:
+        client_id: 'my_client_id'
+        username: 'my_username'
+        password: 'my_password'
+    options:
+        curl: 'dummy'
