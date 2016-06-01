@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "2f79f376f5647595cf0c362b5428974d",
-    "content-hash": "f9e58def753da2b62e7305b4be4133b0",
+    "hash": "4bf200b8873af65d5eee3de3ed74b373",
+    "content-hash": "8867b90849eb3f8b04ebedb0b6fdf30f",
     "packages": [
         {
             "name": "ahilles107/updater",
@@ -6642,7 +6642,7 @@
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
-        "php": ">=5.5.11"
+        "php": "^5.6|^7.0"
     },
     "platform-dev": []
 }
