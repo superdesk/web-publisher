@@ -11,7 +11,6 @@
  * @copyright 2015 Sourcefabric z.ú.
  * @license http://www.superdesk.org/license
  */
-
 namespace spec\SWP\Bundle\BridgeBundle\Client;
 
 use PhpSpec\ObjectBehavior;
@@ -42,7 +41,7 @@ class GuzzleClientSpec extends ObjectBehavior
     {
         $headers = array(
             'Authorization: some authorization token',
-            'X-Custom-Header: Blaat blaat'
+            'X-Custom-Header: Blaat blaat',
         );
         $response = $this->makeCall('http://httpbin.org/headers', $headers);
         $response->shouldHaveKey('body');

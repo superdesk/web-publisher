@@ -11,7 +11,6 @@
  * @copyright 2015 Sourcefabric z.ú.
  * @license http://www.superdesk.org/license
  */
-
 namespace SWP\Bundle\BridgeBundle\Tests\DependencyInjection;
 
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -34,7 +33,7 @@ class SWPBridgeExtensionTest extends \PHPUnit_Framework_TestCase
             'swp_bridge.auth.client_id' => 'my_client_id',
             'swp_bridge.auth.username' => 'my_username',
             'swp_bridge.auth.password' => 'my_password',
-            'swp_bridge.options' => array('curl' => 'dummy')
+            'swp_bridge.options' => array('curl' => 'dummy'),
         );
 
         $container = $this->createContainer($data);
@@ -119,16 +118,16 @@ class SWPBridgeExtensionTest extends \PHPUnit_Framework_TestCase
             'api' => array(
                 'host' => 'example.com',
                 'port' => 8000,
-                'protocol' => 'http'
+                'protocol' => 'http',
             ),
             'auth' => array(
                 'client_id' => 'my_client_id',
                 'username' => 'my_username',
-                'password' => 'my_password'
+                'password' => 'my_password',
             ),
             'options' => array(
-                'curl' => 'dummy'
-            )
+                'curl' => 'dummy',
+            ),
         );
     }
 

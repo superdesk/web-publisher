@@ -11,13 +11,10 @@
  * @copyright 2015 Sourcefabric z.ú.
  * @license http://www.superdesk.org/license
  */
-
 namespace SWP\Bundle\BridgeBundle\DependencyInjection;
 
 use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\Config\FileLocator;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
-use Symfony\Component\DependencyInjection\Loader;
 
 /**
  * This is the class that loads and manages your bundle configuration.
@@ -49,6 +46,6 @@ class SWPBridgeExtension extends Extension
         if (isset($config['options']) && is_array($config['options'])) {
             $defaultOptions = $config['options'];
         }
-        $container->setParameter($this->getAlias() . '.options', $defaultOptions);
+        $container->setParameter($this->getAlias().'.options', $defaultOptions);
     }
 }
