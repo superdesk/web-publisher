@@ -33,7 +33,7 @@ class AppKernel extends Kernel
             new SWP\Bundle\TemplateEngineBundle\SWPTemplateEngineBundle(),
             new SWP\Bundle\WebRendererBundle\SWPWebRendererBundle(),
             new SWP\UpdaterBundle\SWPUpdaterBundle(),
-            new SWP\BridgeBundle\SWPBridgeBundle(),
+            new SWP\Bundle\BridgeBundle\SWPBridgeBundle(),
             new SWP\Bundle\ContentBundle\SWPContentBundle(),
         );
 
