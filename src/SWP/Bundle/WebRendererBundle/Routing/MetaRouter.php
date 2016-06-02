@@ -15,7 +15,7 @@ namespace SWP\Bundle\WebRendererBundle\Routing;
 
 use Symfony\Cmf\Bundle\RoutingBundle\Routing\DynamicRouter;
 use SWP\TemplatesSystem\Gimme\Meta\Meta;
-use SWP\Bundle\ContentBundle\Document\Article;
+use SWP\Bundle\ContentBundle\Doctrine\Phpcr\Article;
 
 class MetaRouter extends DynamicRouter
 {

@@ -1,16 +1,16 @@
-SWP\Bundle\ContentBundle\Document\Article:
+SWP\Bundle\ContentBundle\Doctrine\Phpcr\Article:
     article{1..5}:
         title: "<catchPhrase()>"
-        content: "<paragraph(20)>"
+        body: "<paragraph(20)>"
         parent: <find(null, '/swp/default/content')>
         route: "/swp/default/routes/news"
     article_features:
         title: "Features"
-        content: "<paragraph(20)>"
+        body: "<paragraph(20)>"
         parent: <find(null, '/swp/default/content')>
         route: "/swp/default/routes/articles/features"
     article_get_invlolved:
         title: "Get Involved"
-        content: "<paragraph(20)>"
+        body: "<paragraph(20)>"
         parent: <find(null, '/swp/default/content')>
         route: "/swp/default/routes/articles"

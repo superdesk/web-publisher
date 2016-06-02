@@ -27,7 +27,7 @@ class DefaultController extends Controller
     {
         $pathBuilder = $this->get('swp_multi_tenancy.path_builder');
         $manager = $this->get('doctrine_phpcr')->getManager();
-        $site = $manager->find('SWP\Bundle\ContentBundle\Document\Site', $pathBuilder->build('/'));
+        $site = $manager->find('SWP\Bundle\ContentBundle\Doctrine\Phpcr\Site', $pathBuilder->build('/'));
         $homepage = $site->getHomepage();
 
         if (null === $homepage) {

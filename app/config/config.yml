@@ -68,10 +68,6 @@ doctrine:
                     type: service
                     id: doctrine_cache.providers.main_cache
                 mappings:
-                    SWPContentBundle:
-                        type: yml
-                        prefix: SWP\Bundle\ContentBundle\Model
-                        dir: Resources/config/doctrine
                     SWPTemplateEngineBundle:
                         type: yml
                         prefix: SWP\Bundle\TemplateEngineBundle\Model
@@ -210,12 +206,16 @@ swp_multi_tenancy:
     persistence:
         phpcr:
             enabled: true
-            site_document_class: SWP\Bundle\ContentBundle\Document\Site
-            document_class: SWP\Bundle\ContentBundle\Document\Route
+            site_document_class: SWP\Bundle\ContentBundle\Doctrine\Phpcr\Site
+            document_class: SWP\Bundle\ContentBundle\Doctrine\Phpcr\Route
 
 swp_web_renderer:
     device_listener:
         enabled: true
+
+swp_content:
+    persistence:
+        phpcr: true
 
 nelmio_api_doc:
     request_listener: false
