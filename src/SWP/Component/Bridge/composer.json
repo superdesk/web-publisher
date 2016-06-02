@@ -1,0 +1,37 @@
+{
+    "name": "swp/bridge",
+    "type": "library",
+    "description": "Tools which helps to make a connection between Superdesk and Superdesk Web Publisher",
+    "keywords": ["connection", "bridge", "tenant", "superdesk", "publisher", "library", "symfony"],
+    "authors": [
+        {
+            "name": "Rafał Muszyński",
+            "email": "rafal.muszynski@sourcefabric.org"
+        }
+    ],
+    "license":"AGPL-3.0",
+    "require": {
+        "php": "^5.6|^7.0"
+    },
+    "require-dev": {
+        "phpspec/phpspec": "^2.4"
+    },
+    "config": {
+        "bin-dir": "bin"
+    },
+    "autoload": {
+        "exclude-from-classmap": [
+            "spec/"
+        ],
+        "psr-4": { "SWP\\Component\\Bridge\\": "" }
+    },
+    "autoload-dev": {
+        "psr-4": { "SWP\\Component\\Bridge\\spec\\": "spec/" }
+    },
+    "minimum-stability": "dev",
+    "extra": {
+        "branch-alias": {
+            "dev-master": "0.1-dev"
+        }
+    }
+}

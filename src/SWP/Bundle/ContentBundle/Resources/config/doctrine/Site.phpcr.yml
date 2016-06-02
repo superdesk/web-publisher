@@ -1,8 +1,0 @@
-SWP\Bundle\ContentBundle\Document\Site:
-    referenceable: true
-    id: id
-    children: ~
-    referenceOne:
-        homepage:
-            targetDocument: "\\SWP\\Bundle\\ContentBundle\\Document\\Route"
-            strategy: hard

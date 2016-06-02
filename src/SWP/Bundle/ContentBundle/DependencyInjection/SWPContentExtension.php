@@ -30,7 +30,30 @@ class SWPContentExtension extends Extension
      */
     public function load(array $configs, ContainerBuilder $container)
     {
+        $config = $this->processConfiguration(new Configuration(), $configs);
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.yml');
+
+        if ($config['persistence']['phpcr']['enabled']) {
+            $this->loadPhpcrProvider($config['persistence']['phpcr'], $container);
+        }
+
+        if ($config['persistence']['orm']['enabled']) {
+            $this->loadOrmProvider($config['persistence']['orm'], $container);
+        }
+    }
+
+    private function loadPhpcrProvider($config, ContainerBuilder $container)
+    {
+        $container->setParameter('swp_content.backend_type_phpcr', true);
+
+        $container->setParameter('swp_content.dynamic.persistence.phpcr.manager_name', $config['manager_name']);
+    }
+
+    private function loadOrmProvider($config, ContainerBuilder $container)
+    {
+
+        $container->setParameter('swp_content.backend_type_orm', true);
+        $container->setParameter('swp_content.dynamic.persistence.orm.manager_name', $config['manager_name']);
     }
 }

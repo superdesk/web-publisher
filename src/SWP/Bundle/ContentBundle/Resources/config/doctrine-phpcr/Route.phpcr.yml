@@ -1,2 +1,2 @@
 SWP\Bundle\ContentBundle\Doctrine\Phpcr\Route:
-    exclusion_policy: ALL
+    referenceable: true

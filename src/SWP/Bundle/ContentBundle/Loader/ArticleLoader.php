@@ -70,11 +70,11 @@ class ArticleLoader implements LoaderInterface
 
         if ($responseType === LoaderInterface::SINGLE) {
             if (array_key_exists('contentPath', $parameters)) {
-                $article = $dm->find('SWP\Bundle\ContentBundle\Document\Article', $parameters['contentPath']);
+                $article = $dm->find('SWP\Bundle\ContentBundle\Doctrine\Phpcr\Article', $parameters['contentPath']);
             } elseif (array_key_exists('article', $parameters)) {
                 $article = $parameters['article'];
             } elseif (array_key_exists('slug', $parameters)) {
-                $article = $dm->getRepository('SWP\Bundle\ContentBundle\Document\Article')
+                $article = $dm->getRepository('SWP\Bundle\ContentBundle\Doctrine\Phpcr\Article')
                     ->findOneBy(array('slug' => $parameters['slug']));
             }
 
@@ -91,7 +91,7 @@ class ArticleLoader implements LoaderInterface
                 ));
 
                 if ($route) {
-                    $articles = $dm->getReferrers($route, null, null, null, 'SWP\Bundle\ContentBundle\Document\Article');
+                    $articles = $dm->getReferrers($route, null, null, null, 'SWP\Bundle\ContentBundle\Doctrine\Phpcr\Article');
                     $metas = [];
                     foreach ($articles as $article) {
                         if (!is_null($article)) {

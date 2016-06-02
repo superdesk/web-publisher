@@ -1,14 +1,14 @@
-SWP\Bundle\ContentBundle\Document\Article:
+SWP\Bundle\ContentBundle\Doctrine\Phpcr\Article:
     referenceable: true
     parentdocument: parent
     nodename: slug
     id: id
     fields:
-        content:
+        body:
             type: string
         title:
             type: string
     referenceOne:
         route:
-            targetDocument: "\\SWP\\Bundle\\ContentBundle\\Document\\Route"
+            targetDocument: "\\SWP\\Bundle\\ContentBundle\\Doctrine\\Phpcr\\Route"
             strategy: hard

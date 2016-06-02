@@ -1,0 +1,8 @@
+SWP\Bundle\ContentBundle\Doctrine\Phpcr\Site:
+    referenceable: true
+    id: id
+    children: ~
+    referenceOne:
+        homepage:
+            targetDocument: "\\SWP\\Bundle\\ContentBundle\\Doctrine\\Phpcr\\Route"
+            strategy: hard
