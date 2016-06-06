@@ -1,0 +1,19 @@
+SWP\Bundle\ContentBundle\Document\Article:
+    exclusion_policy: ALL
+    properties:
+        id:
+            expose: true
+            type: string
+        title:
+            expose: true
+            type: string
+        content:
+            expose: true
+            type: string
+        slug:
+            expose: true
+            type: string
+        route:
+            expose: true
+        parent:
+            expose: true
