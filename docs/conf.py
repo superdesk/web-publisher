@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Superdesk Web Renderer documentation build configuration file, created by
+# Superdesk Web Publisher documentation build configuration file, created by
 # sphinx-quickstart on Wed May 27 11:27:06 2015.
 #
 # This file is execfile()d with the current directory set to its
@@ -60,8 +60,8 @@ source_suffix = '.rst'
 master_doc = 'index'
 
 # General information about the project.
-project = u'Superdesk Web Renderer'
-copyright = u'2015, Sourcefabric z.ú.'
+project = u'Superdesk Web Publisher'
+copyright = u'2016, Sourcefabric z.ú.'
 author = u'Sourcefabric z.ú.'
 
 # The version info for the project you're documenting, acts as replacement for
@@ -223,7 +223,7 @@ html_theme = 'sphinx_rtd_theme'
 #html_search_scorer = 'scorer.js'
 
 # Output file base name for HTML help builder.
-htmlhelp_basename = 'SuperdeskWebRendererdoc'
+htmlhelp_basename = 'SuperdeskWebPublisherdoc'
 
 # -- Options for LaTeX output ---------------------------------------------
 
@@ -245,7 +245,7 @@ latex_elements = {
 # (source start file, target name, title,
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
-  (master_doc, 'SuperdeskWebRenderer.tex', u'Superdesk Web Renderer Documentation',
+  (master_doc, 'SuperdeskWebPublisher.tex', u'Superdesk Web Publisher Documentation',
    u'Sourcefabric z.ú.', 'manual'),
 ]
 
@@ -275,7 +275,7 @@ latex_documents = [
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
 man_pages = [
-    (master_doc, 'superdeskwebrenderer', u'Superdesk Web Renderer Documentation',
+    (master_doc, 'superdeskwebpublisher', u'Superdesk Web Publisher Documentation',
      [author], 1)
 ]
 
@@ -289,8 +289,8 @@ man_pages = [
 # (source start file, target name, title, author,
 #  dir menu entry, description, category)
 texinfo_documents = [
-  (master_doc, 'SuperdeskWebRenderer', u'Superdesk Web Renderer Documentation',
-   author, 'SuperdeskWebRenderer', 'One line description of project.',
+  (master_doc, 'SuperdeskWebPublisher', u'Superdesk Web Publisher Documentation',
+   author, 'SuperdeskWebPublisher', 'The next generation publishing platform for journalists and newsrooms',
    'Miscellaneous'),
 ]
 

@@ -1,35 +1,30 @@
 Containers and widgets concept
 ==============================
 
-Template file can have (this is not required feature) multiple or one containers.
-Every container can have default value which can be overridden by attached to container widgets.
-This same container can be placed in many templates or even many times on this same template.
+Containers are intended to give editors more control over templates. Properly implemented, they can transform a theme.
 
-What is Container
+What is a Container?
+````````````````````
+
+A template file can optionally have one or more containers, `block` elements that can be overriden in specific places.
+For example, article sidebar content, footer, or front page content blocks.
+This same container can be placed in many different templates, or even many times in the same template.
+
+Every container can have default parameters and content, and can be hidden when not needed. 
+The container twig tag keeps HTML syntax always up to date with JavaScript live management expectations.
+Container default values can be overridden by widgets.
+
+What is a Widget?
 `````````````````
 
-Containers are the way to give move control over template for editors. Properly implemented they can transform one theme into many various end results.
-Every container can have default parameters and content, can be also hidden when not needed. Container twig tag keep html syntax always up to date with javascript front live management expectations.
-
-What is Widget
-``````````````
-
-Widget can replace default container value. Many widgets can be attached to container, they can be also reordered. Can be many types of widget which can represent different features.
-
-Widget examples:
+Widgets can be attached to a container in any order. Many types of widget can represent different features, for example:
 
  * Newsletter signup form
- * Facebook components like page widget or comments widget
- * Simple HTML widget wit your own custom html rendered by widget
+ * Facebook components, like a page widget or comments widget
+ * Simple HTML widget with your own custom HTML rendered by widget
  * Airtime player widget
- * etc.
 
-How to build flexible templates
-```````````````````````````````
+Do widgets and containers work with caches?
+```````````````````````````````````````````
 
-Most important is to use containers as your `block` elements in template, and allow for users to override specific places - ex. article sidebar content, fotter, front page content blocks.
-
-Are widgets and containers works with cache?
-````````````````````````````````````````````
-
-Yes, they work good with all caching systems inside WebPublisher.
+Yes, they are designed to work well with all caching systems used by Web Publisher.

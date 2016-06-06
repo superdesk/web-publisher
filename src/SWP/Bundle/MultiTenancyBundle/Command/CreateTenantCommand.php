@@ -135,7 +135,8 @@ EOT
      */
     protected function createTenant($subdomain, $name, $disabled)
     {
-        $tenant = new Tenant();
+        $tenantFactory = $this->getContainer()->get('swp_multi_tenancy.factory.tenant');
+        $tenant = $tenantFactory->create();
         $tenant->setSubdomain($subdomain);
         $tenant->setName($name);
         $tenant->setEnabled(!$disabled);

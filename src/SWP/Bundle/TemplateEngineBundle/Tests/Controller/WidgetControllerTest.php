@@ -34,7 +34,6 @@ class WidgetControllerTest extends WebTestCase
         ]);
 
         $this->runCommand('doctrine:phpcr:repository:init', ['--env' => 'test'], true);
-        $this->runCommand('theme:setup', ['--env' => 'test', '--force' => true, 'name' => 'theme_test'], true);
 
         $this->router = $this->getContainer()->get('router');
     }

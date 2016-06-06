@@ -40,6 +40,16 @@ class SWPMultiTenancyExtension extends Extension
             $this->loadPhpcr($config['persistence']['phpcr'], $loader, $container);
             $container->setParameter($this->getAlias().'.backend_type_phpcr', true);
         }
+
+        $container->setParameter(
+            $this->getAlias().'.tenant.class',
+            $config['resources']['tenant']['classes']['model']
+        );
+
+        $container->setParameter(
+            $this->getAlias().'.factory.tenant.class',
+            $config['resources']['tenant']['classes']['factory']
+        );
     }
 
     public function loadPhpcr($config, YamlFileLoader $loader, ContainerBuilder $container)

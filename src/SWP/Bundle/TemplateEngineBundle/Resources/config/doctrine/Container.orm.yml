@@ -1,6 +1,6 @@
 SWP\Bundle\TemplateEngineBundle\Model\Container:
     type: entity
-    table: null
+    table: swp_container
     repositoryClass: SWP\Bundle\TemplateEngineBundle\Repository\ContainerRepository
     id:
         id:
@@ -12,7 +12,6 @@ SWP\Bundle\TemplateEngineBundle\Model\Container:
         name:
             type: string
             length: 255
-            unique: true
         type:
             type: integer
         width:
@@ -43,9 +42,12 @@ SWP\Bundle\TemplateEngineBundle\Model\Container:
             gedmo:
                 timestampable:
                     on: update
+    uniqueConstraints:
+        name_idx:
+          columns: [ name, tenant_id ]
     manyToOne:
         tenant:
-            targetEntity: SWP\Component\MultiTenancy\Model\Tenant
+            targetEntity: SWP\Bundle\WebRendererBundle\Model\Tenant
     oneToMany:
         data:
             targetEntity: SWP\Bundle\TemplateEngineBundle\Model\ContainerData

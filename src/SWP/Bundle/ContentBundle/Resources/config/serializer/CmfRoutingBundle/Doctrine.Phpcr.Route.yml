@@ -1,0 +1,11 @@
+Symfony\Cmf\Bundle\RoutingBundle\Doctrine\Phpcr\Route:
+    exclusion_policy: ALL
+    properties:
+        children:
+            expose: true
+            type: array
+        idPrefix:
+            expose: true
+        name:
+            expose: true
+            type: string

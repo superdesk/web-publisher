@@ -1,7 +1,7 @@
-Templates Caching
-=================
+Template Caching
+================
 
-For now we support just themplate blocks caching with :code:`cache` block.
+For now we support just template block caching with the :code:`cache` block.
 
 :code:`Cache` block is simple, and accepts only two parameters: cache key and strategy object (with strategy key and value).
 
@@ -28,14 +28,14 @@ For now we support just themplate blocks caching with :code:`cache` block.
             Hello {{ name }}!
         {% endcache %}
 
-There is no need to invalidate keys - system will clear not used cache entries automaticaly. 
+There is no need to invalidate keys - the system will clear unused cache entries automatically. 
 
 Strategies
 ``````````
 
 There are two available cache strategies: :code:`lifetime` and :code:`generational`.
 
-With :code:`lifetime` as a strategy key you need provide :code:`time` with value in seconds.
+With :code:`lifetime` as a strategy key you need to provide :code:`time` with a value in seconds.
 
 .. code-block:: twig
 
@@ -44,7 +44,7 @@ With :code:`lifetime` as a strategy key you need provide :code:`time` with value
         {# heavy lifting template stuff here, include/render other partials etc #}
     {% endcache %}
 
-With :code:`generational` as a strategy key you need provide :code:`gen` with object or array as value.
+With :code:`generational` as a strategy key you need to provide :code:`gen` with object or array as the value.
 
 .. code-block:: twig
 

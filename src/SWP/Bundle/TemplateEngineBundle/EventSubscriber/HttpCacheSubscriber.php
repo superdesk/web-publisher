@@ -16,6 +16,7 @@ namespace SWP\Bundle\TemplateEngineBundle\EventSubscriber;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use SWP\Component\Common\Event\HttpCacheEvent;
 use SWP\Bundle\TemplateEngineBundle\Model\Container;
+use SWP\Bundle\ContentBundle\Document\Route;
 use FOS\HttpCache\Exception\ExceptionCollection;
 
 class HttpCacheSubscriber implements EventSubscriberInterface
@@ -34,17 +35,24 @@ class HttpCacheSubscriber implements EventSubscriberInterface
     {
         return [
            HttpCacheEvent::EVENT_NAME => [
-               ['clearContainers', 0],
+               ['clearCache', 0],
            ],
        ];
     }
 
-    public function clearContainers(HttpCacheEvent $event)
+    public function clearCache(HttpCacheEvent $event)
     {
-        $this->cacheManager->invalidateRoute('swp_api_templates_list_containers');
         if ($event->getSubject() instanceof Container) {
+            $this->cacheManager->invalidateRoute('swp_api_templates_list_containers');
             $this->cacheManager->invalidateRoute('swp_api_templates_get_container', [
                 'id' => $event->getSubject()->getId(),
+            ]);
+        }
+
+        if ($event->getSubject() instanceof Route) {
+            $this->cacheManager->invalidateRoute('swp_api_content_list_routes');
+            $this->cacheManager->invalidateRoute('swp_api_content_show_routes', [
+                'id' => $event->getSubject()->getPath(),
             ]);
         }
 

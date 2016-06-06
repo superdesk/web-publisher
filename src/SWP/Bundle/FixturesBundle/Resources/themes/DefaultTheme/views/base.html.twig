@@ -31,8 +31,7 @@
             </nav>
             {% block body %}{% endblock %}
             <footer>
-                <p><strong>Current tenant:</strong> {{ tenant.subdomain }} (name: {{ tenant.name }})</p>
-                <p><strong>Assigned homepage:</strong> {{ page.name }} (id: {{ page.id }})</p>
+                <p><strong>Current tenant:</strong> {{ organization.subdomain }} (name: {{ organization.name }})</p>
                 <hr />
                 {% block template_code %}{% endblock %}
             </footer>

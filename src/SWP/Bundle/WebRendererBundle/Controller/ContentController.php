@@ -17,14 +17,15 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use SWP\AnalyticsBundle\Controller\AnalyzedControllerInterface;
+use SWP\Bundle\AnalyticsBundle\Controller\AnalyzedControllerInterface;
+use Symfony\Component\Stopwatch\Stopwatch;
 
 class ContentController extends Controller implements AnalyzedControllerInterface
 {
     /**
      * Render content Page.
      */
-    public function renderContentPageAction(Request $request, $contentDocument)
+    public function renderContentPageAction(Request $request, $contentDocument = null)
     {
         return $this->renderPage('content', ['article' => $contentDocument]);
     }
@@ -45,7 +46,10 @@ class ContentController extends Controller implements AnalyzedControllerInterfac
      */
     private function renderPage($type, $parameters = [])
     {
-        $context = $this->container->get('context');
+        // start anayltics
+        $logger = $this->container->get('monolog.logger.analytics');
+        $stopwatch = new Stopwatch();
+        $stopwatch->start('article');
 
         $metaLoader = $this->container->get('swp_template_engine_loader_chain');
         $article = null;
@@ -61,6 +65,7 @@ class ContentController extends Controller implements AnalyzedControllerInterfac
         }
 
         if ($article) {
+            $context = $this->container->get('context');
             $context->registerMeta('article', $article);
         }
 
@@ -70,7 +75,7 @@ class ContentController extends Controller implements AnalyzedControllerInterfac
             'tenant' => $tenantContext->getTenant(),
         ]);
 
-        $event = $stopwatch->stop($view);
+        $event = $stopwatch->stop('article');
 
         // TODO: log the event with the analytics logger here
         $logger->error(print_r($event, true));

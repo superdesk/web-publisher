@@ -11,7 +11,7 @@
  * @copyright 2015 Sourcefabric z.ú.
  * @license http://www.superdesk.org/license
  */
-namespace SWP\AnalyticsBundle\Processor;
+namespace SWP\Bundle\AnalyticsBundle\Processor;
 
 use Symfony\Bridge\Monolog\Processor\WebProcessor;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -29,25 +29,30 @@ class RequestProcessor extends WebProcessor
     public function processRecord(array $record)
     {
         $request = $this->requestStack->getCurrentRequest();
-        $record['uri'] = $request->getUri();
-        $record['server_data'] = "";
+        if (!is_null($request)) {
+            $record['uri'] = $request->getUri();
 
-        if( is_array($this->serverData) ) {
-            foreach ($this->serverData as $key => $value) {
-                if( is_array($value) ) {
-                    $value = print_r($value, true);
+            $record['server_data'] = '';
+
+            if (is_array($this->serverData)) {
+                foreach ($this->serverData as $key => $value) {
+                    $this->addKeyValue($record, $key, $value);
                 }
-                $record['server_data'] .= $key . ": " . $value . "\n";
             }
-        }
 
-        foreach ($request->request->all() as $key => $value) {
-            if( is_array($value) ) {
-                $value = print_r($value, true);
+            foreach ($request->request->all() as $key => $value) {
+                $this->addKeyValue($record, $key, $value);
             }
-            $record['server_data'] .= $key . ": " . $value . "\n";
         }
 
         return $record;
+    }
+
+    private function addKeyValue(&$record, $key, $value)
+    {
+        if (is_array($value)) {
+            $value = print_r($value, true);
+        }
+        $record['server_data'] .= $key.': '.$value."\n";
     }
 }

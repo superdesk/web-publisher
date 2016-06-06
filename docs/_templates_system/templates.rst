@@ -6,15 +6,17 @@ Templates
 Gimme and SWP custom Twig tags
 ------------------------------
 
-Gimme allows you fetch needed Meta object in any place of your template file. It supports single Meta objects (with :code:`gimme` ) and collections of Meta objects (with :code:`gimmelist`).
+Gimme allows you to fetch the Meta object you need in any place of your template. It supports single Meta objects (with :code:`gimme` ) and collections of Meta objects (with :code:`gimmelist`).
 
 container
 `````````
 
-Tag :code:`container` have one required and one optional parameters:
+The :code:`container` tag has one required parameter and one optional parameter:
 
  * (required) container unique name ex.: *frontpage_sidebar*
- * (optional) keyword :code:`with` and default parameters for containers (they are used to create container on theme instalation).
+ * (optional) keyword :code:`with` and default parameters for containers (used to create the container on theme installation).
+
+Here is an example of a container tag:
 
 .. code-block:: twig
 
@@ -27,26 +29,27 @@ Tag :code:`container` have one required and one optional parameters:
      }%}
      {% endcontainer %}
 
-This container tag will render that html code:
+This container tag will render the HTML code:
 
 .. code-block:: html
 
-    <div id="frontpage_sidebar" class="swp_container css_class_name" style="width: 300px; height: 500px; border: solid 1px red;" data-custom-key="value"></div>
+    <div id="frontpage_sidebar" class="swp_container css_class_name" style="width: 400px; height: 500px; border: solid 1px red;" data-custom-key="value"></div>
 
-Available container parameters:
+The available container parameters are:
+
  * [integer] width - container width
  * [integer] height - container height
  * [string] styles - container inline styles
  * [string] class - container class string
- * [string] data - json object string with html-data properties (keys and values)
+ * [string] data - JSON object string with html-data properties (keys and values)
 
 gimme
 `````
 
-Tag :code:`gimme` have one required parameter and one optional:
+The tag :code:`gimme` has one required parameter and one optional parameter:
 
- * (required) Meta object type (and name of variable available inside block) ex.: *article*
- * (optional) Keword :code:`with` and parameters for Meta Loader ex.: :code:`{ param: "value" }`
+ * (required) Meta object type (and name of variable available inside block), for example: *article*
+ * (optional) Keword :code:`with` and parameters for Meta Loader, for example: :code:`{ param: "value" }`
 
 .. code-block:: twig
 
@@ -55,7 +58,7 @@ Tag :code:`gimme` have one required parameter and one optional:
         {{ article.title }}
     {% endgimme %}
 
-Meta Loaders sometimes requires some special parameters - like article number, language, user id etc..
+Meta Loaders sometimes requires special parameters - like the article number, language of the article, user id, etc..
 
 .. code-block:: twig
 
@@ -67,14 +70,14 @@ Meta Loaders sometimes requires some special parameters - like article number, l
 gimmelist
 `````````
 
-Tag :code:`gimmelist` have two required parameter and two optional:
+Tag :code:`gimmelist` have two required parameters and two optional parameters:
 
  * (required) Name of variable available inside block: :code:`article`
- * (required) Keyword :code:`from` and type of requested Meta's in collection: :code:`from articles` with filters passed to Meta Loader as extra parameters (:code:`start`, :code:`limit`, :code:`order`)
+ * (required) Keyword :code:`from` and type of requested Metas in collection: :code:`from articles` with filters passed to Meta Loader as extra parameters (:code:`start`, :code:`limit`, :code:`order`)
  * (optional) Keyword :code:`with` and parameters for Meta Loader ex.: :code:`with {foo: 'bar', param1: 'value1'}`
  * (optional) Keyword :code:`if` and expression used for results filtering
 
-required parameters:
+Here is an example of the required parameters:
 
 .. code-block:: twig
 
@@ -82,7 +85,7 @@ required parameters:
         {{ article.title }}
     {% endgimmelist %}
 
-all parameters:
+An here's an example using all parameters:
 
 .. code-block:: twig
 
@@ -97,7 +100,7 @@ all parameters:
 How to work with Meta objects
 -----------------------------
 
-On template level every variable in Context and fetched by :code:`gimme` and :code:`gimmelist` is representation of Meta objects.
+On the template level, every variable in Context and fetched by :code:`gimme` and :code:`gimmelist` is a representation of Meta objects.
 
 
 **dump**
@@ -110,7 +113,7 @@ On template level every variable in Context and fetched by :code:`gimme` and :co
 
 .. code-block:: twig
 
-    {{ article }} - it meta configuration have filled to_string property then value of this property will be printed, json representation otherwise
+    {{ article }} - if the meta configuration has the to_string property then the value of this property will be printed, otherwise it will be represented as JSON.
 
 **access property**
 
@@ -126,7 +129,7 @@ On template level every variable in Context and fetched by :code:`gimme` and :co
     {{ url(article) }} // absolute url
     {{ path(article) }} // relative path
 
-example in gimmelist
+Here's an example using gimmelist:
 
 .. code-block:: twig
 

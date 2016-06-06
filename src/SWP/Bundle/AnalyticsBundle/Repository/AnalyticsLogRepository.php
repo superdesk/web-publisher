@@ -11,12 +11,12 @@
  * @copyright 2015 Sourcefabric z.ú.
  * @license http://www.superdesk.org/license
  */
-namespace SWP\AnalyticsBundle\Repository;
+namespace SWP\Bundle\AnalyticsBundle\Repository;
 
 class AnalyticsLogRepository extends \Doctrine\ORM\EntityRepository
 {
     /**
-     * Find the latest logs
+     * Find the latest logs.
      */
     public function getLatest($maxResults = 20)
     {
@@ -28,7 +28,7 @@ class AnalyticsLogRepository extends \Doctrine\ORM\EntityRepository
     }
 
     /**
-     * Find the latest logs byUri
+     * Find the latest logs byUri.
      */
     public function getLatestByUri($uri, $maxResults = 20)
     {

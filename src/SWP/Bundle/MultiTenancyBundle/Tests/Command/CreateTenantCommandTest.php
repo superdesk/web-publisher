@@ -14,6 +14,8 @@
 namespace SWP\Bundle\MultiTenancyBundle\Tests\Command;
 
 use SWP\Bundle\MultiTenancyBundle\Command\CreateTenantCommand;
+use SWP\Component\MultiTenancy\Factory\TenantFactory;
+use SWP\Component\MultiTenancy\Model\Tenant;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
 
@@ -22,6 +24,7 @@ class CreateTenantCommandTest extends \PHPUnit_Framework_TestCase
     private $commandTester;
     private $command;
     private $dialog;
+    private $factory;
 
     public function setUp()
     {
@@ -29,6 +32,7 @@ class CreateTenantCommandTest extends \PHPUnit_Framework_TestCase
         $application->add(new CreateTenantCommand());
         $this->command = $application->get('swp:tenant:create');
         $this->dialog = $this->command->getHelper('dialog');
+        $this->factory = new TenantFactory('SWP\Component\MultiTenancy\Model\Tenant');
     }
 
     /**
@@ -140,6 +144,7 @@ class CreateTenantCommandTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValueMap([
                 ['doctrine.orm.entity_manager', 1, $mockDoctrine],
                 ['swp_multi_tenancy.tenant_repository', 1, $mockRepo],
+                ['swp_multi_tenancy.factory.tenant', 1, $this->factory],
             ]));
 
         return $mockContainer;

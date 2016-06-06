@@ -1,7 +1,7 @@
-SWP\AnalyticsBundle\Model\AnalyticsLog:
+SWP\Bundle\AnalyticsBundle\Model\AnalyticsLog:
     type: entity
     table: analytics_log
-    repositoryClass: SWP\AnalyticsBundle\Repository\AnalyticsLogRepository
+    repositoryClass: SWP\Bundle\AnalyticsBundle\Repository\AnalyticsLogRepository
     id:
         id:
             type: integer

@@ -17,6 +17,16 @@ suites:
         psr4_prefix: SWP\Bundle\ContentBundle
         spec_path: src/SWP/Bundle/ContentBundle
         src_path: src/SWP/Bundle/ContentBundle
+    WebRendererBundle_suite:
+        namespace: SWP\Bundle\WebRendererBundle
+        psr4_prefix: SWP\Bundle\WebRendererBundle
+        spec_path: src/SWP/Bundle/WebRendererBundle
+        src_path: src/SWP/Bundle/WebRendererBundle
+    BridgeBundle_suite:
+        namespace: SWP\Bundle\BridgeBundle
+        psr4_prefix: SWP\Bundle\BridgeBundle
+        spec_path: src/SWP/Bundle/BridgeBundle
+        src_path: src/SWP/Bundle/BridgeBundle
 
 #extensions:
 #    - PhpSpec\Extension\CodeCoverageExtension

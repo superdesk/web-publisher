@@ -11,16 +11,15 @@
  * @copyright 2015 Sourcefabric z.ú.
  * @license http://www.superdesk.org/license
  */
-namespace SWP\AnalyticsBundle\EventListener;
+namespace SWP\Bundle\AnalyticsBundle\EventListener;
 
 use Symfony\Bridge\Monolog\Processor\WebProcessor;
 use Symfony\Component\HttpKernel\Event\FilterControllerEvent;
 use Symfony\Component\HttpKernel\Event\GetResponseForControllerResultEvent;
 use Symfony\Component\HttpKernel\Event\FilterResponseEvent;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use Symfony\Component\Stopwatch\Stopwatch; 
-
-use SWP\AnalyticsBundle\Controller\AnalyzedControllerInterface;
+use Symfony\Component\Stopwatch\Stopwatch;
+use SWP\Bundle\AnalyticsBundle\Controller\AnalyzedControllerInterface;
 
 class RenderListener extends WebProcessor
 {
@@ -46,7 +45,7 @@ class RenderListener extends WebProcessor
     public function setContainer(ContainerInterface $container)
     {
         $this->container = $container;
-        $this->logger = $container->get('monolog.logger.analytics'); 
+        $this->logger = $container->get('monolog.logger.analytics');
     }
 
     public function onKernelController(FilterControllerEvent $event)
@@ -69,7 +68,7 @@ class RenderListener extends WebProcessor
     }
 
     /**
-     * triggered when a controller returns anything other than a Response object
+     * triggered when a controller returns anything other than a Response object.
      */
     public function onKernelView(GetResponseForControllerResultEvent $event)
     {
@@ -89,7 +88,7 @@ class RenderListener extends WebProcessor
 
     /**
      * triggered when a controller returns a Response object
-     * this is default for Controller->render()
+     * this is default for Controller->render().
      */
     public function onKernelResponse(FilterResponseEvent $event)
     {
@@ -104,7 +103,7 @@ class RenderListener extends WebProcessor
             // do nothing, we shouldn't be analyzing this controller
             return false;
         }
-        $this->logger->error('response event');
+        $this->logger->debug('response event');
     }
 
     public function processRecord(array $record)

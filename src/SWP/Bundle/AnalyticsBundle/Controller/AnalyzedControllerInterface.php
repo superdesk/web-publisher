@@ -11,11 +11,11 @@
  * @copyright 2015 Sourcefabric z.ú.
  * @license http://www.superdesk.org/license
  */
-namespace SWP\AnalyticsBundle\Controller;
+namespace SWP\Bundle\AnalyticsBundle\Controller;
 
 interface AnalyzedControllerInterface
 {
-    /**
+    /*
      * Empty placeholder interface used to determine
      * if a controller should be performance analzed
      * with this bundle

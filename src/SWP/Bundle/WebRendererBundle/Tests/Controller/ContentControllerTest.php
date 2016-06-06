@@ -14,7 +14,6 @@
 namespace SWP\Bundle\WebRendererBundle\Tests\Controller;
 
 use Liip\FunctionalTestBundle\Test\WebTestCase;
-use Symfony\Component\Filesystem\Filesystem;
 
 class ContentControllerTest extends WebTestCase
 {
@@ -27,17 +26,11 @@ class ContentControllerTest extends WebTestCase
 
         $this->runCommand('doctrine:schema:drop', ['--force' => true, '--env' => 'test'], true);
         $this->runCommand('doctrine:doctrine:schema:update', ['--force' => true, '--env' => 'test'], true);
+
         $this->loadFixtureFiles([
             '@SWPFixturesBundle/Resources/fixtures/ORM/test/tenant.yml',
         ]);
         $this->runCommand('doctrine:phpcr:repository:init', ['--env' => 'test'], true);
-        $this->getContainer()->get('sylius.theme.synchronizer')->synchronize();
-    }
-
-    public static function tearDownAfterClass()
-    {
-        $filesystem = new Filesystem();
-        $filesystem->remove(__DIR__.'/../../../../../../app/Resources/themes/theme_test');
     }
 
     public function testLoadingContainerPageArticle()

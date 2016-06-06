@@ -11,9 +11,9 @@
  * @copyright 2015 Sourcefabric z.ú.
  * @license http://www.superdesk.org/license
  */
-namespace SWP\AnalyticsBundle\Logger;
+namespace SWP\Bundle\AnalyticsBundle\Logger;
 
-use SWP\AnalyticsBundle\Model\AnalyticsLog;
+use SWP\Bundle\AnalyticsBundle\Model\AnalyticsLog;
 use Monolog\Handler\AbstractProcessingHandler;
 use Monolog\Logger;
 
@@ -35,7 +35,6 @@ class DatabaseHandler extends AbstractProcessingHandler
     }
 
     /**
-     *
      * @param type $container
      */
     public function setContainer($container)
@@ -53,8 +52,8 @@ class DatabaseHandler extends AbstractProcessingHandler
          * a warning error), otherwise you will create an infinite loop, as
          * doctrine like to log.. a lot..
          */
-        if( 'doctrine' == $record['channel'] ) {
-            if( (int)$record['level'] >= Logger::WARNING ) {
+        if ('doctrine' == $record['channel']) {
+            if ((int)$record['level'] >= Logger::WARNING) {
                 error_log($record['message']);
             }
 
@@ -64,9 +63,8 @@ class DatabaseHandler extends AbstractProcessingHandler
          * Only log errors greater than a warning
          * TODO - we should ideally add this into configuration variable
          */
-        if( (int)$record['level'] >= Logger::INFO ) {
-            try
-            {
+        if ((int)$record['level'] >= Logger::INFO) {
+            try {
                 $em = $this->container->get('doctrine')->getEntityManager();
                 $analyticsLog = new AnalyticsLog();
                 $analyticsLog->setLog($record['message'])
@@ -80,9 +78,9 @@ class DatabaseHandler extends AbstractProcessingHandler
                     ->setCreatedValue();
 
                 $em->persist($analyticsLog);
-                $em->flush(); 
+                $em->flush();
 
-            } catch( \Exception $e ) {
+            } catch (\Exception $e) {
                 print($e->getMessage());
                 // Fallback to just writing to php error logs if something really bad happens
                 error_log($record['message']);

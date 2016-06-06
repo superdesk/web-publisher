@@ -11,12 +11,10 @@
  * @copyright 2015 Sourcefabric z.ú.
  * @license http://www.superdesk.org/license
  */
-namespace SWP\AnalyticsBundle\Model;
-
-use Doctrine\Common\Collections\ArrayCollection;
+namespace SWP\Bundle\AnalyticsBundle\Model;
 
 /**
- * AnalyticsLog
+ * AnalyticsLog-
  */
 class AnalyticsLog
 {
@@ -63,7 +61,7 @@ class AnalyticsLog
     /**
      * @var \DateTime
      */
-     protected $modified;
+    protected $modified;
 
     /**
      * @var \DateTime
@@ -107,7 +105,7 @@ class AnalyticsLog
     }
 
     /**
-     * Set log
+     * Set log.
      *
      * @param string $log
      *
@@ -121,7 +119,7 @@ class AnalyticsLog
     }
 
     /**
-     * Get log
+     * Get log.
      *
      * @return string
      */
@@ -131,7 +129,7 @@ class AnalyticsLog
     }
 
     /**
-     * Set serverData
+     * Set serverData.
      *
      * @param string $serverData
      *
@@ -145,7 +143,7 @@ class AnalyticsLog
     }
 
     /**
-     * Get serverData
+     * Get serverData.
      *
      * @return string
      */
@@ -155,7 +153,7 @@ class AnalyticsLog
     }
 
     /**
-     * Set level
+     * Set level.
      *
      * @param string $level
      *
@@ -169,7 +167,7 @@ class AnalyticsLog
     }
 
     /**
-     * Get level
+     * Get level.
      *
      * @return string
      */
@@ -179,7 +177,7 @@ class AnalyticsLog
     }
 
     /**
-     * Set uri
+     * Set uri.
      *
      * @param string $uri
      *
@@ -193,7 +191,7 @@ class AnalyticsLog
     }
 
     /**
-     * Get uri
+     * Get uri.
      *
      * @return string
      */
@@ -203,7 +201,7 @@ class AnalyticsLog
     }
 
     /**
-     * Get template
+     * Get template.
      *
      * @return string
      */
@@ -213,7 +211,7 @@ class AnalyticsLog
     }
 
     /**
-     * Set template
+     * Set template.
      *
      * @param string $template
      *
@@ -227,7 +225,7 @@ class AnalyticsLog
     }
 
     /**
-     * Get duration
+     * Get duration.
      *
      * @return string
      */
@@ -237,7 +235,7 @@ class AnalyticsLog
     }
 
     /**
-     * Set duration 
+     * Set duration.
      *
      * @param int $duration
      *
@@ -251,7 +249,7 @@ class AnalyticsLog
     }
 
     /**
-     * Get memory 
+     * Get memory.
      *
      * @return int
      */
@@ -261,7 +259,7 @@ class AnalyticsLog
     }
 
     /**
-     * Set memory 
+     * Set memory.
      *
      * @param string $memory
      *
@@ -275,7 +273,7 @@ class AnalyticsLog
     }
 
     /**
-     * Set modified
+     * Set modified.
      *
      * @param \DateTime $modified
      *
@@ -289,7 +287,7 @@ class AnalyticsLog
     }
 
     /**
-     * Get modified
+     * Get modified.
      *
      * @return \DateTime
      */
@@ -299,7 +297,7 @@ class AnalyticsLog
     }
 
     /**
-     * Set created
+     * Set created.
      *
      * @param \DateTime $created
      *
@@ -313,7 +311,7 @@ class AnalyticsLog
     }
 
     /**
-     * Get created
+     * Get created.
      *
      * @return \DateTime
      */

@@ -13,6 +13,8 @@
  */
 namespace SWP\Component\MultiTenancy\Resolver;
 
+use SWP\Component\MultiTenancy\Exception\TenantNotFoundException;
+use SWP\Component\MultiTenancy\Model\TenantInterface;
 use SWP\Component\MultiTenancy\Repository\TenantRepositoryInterface;
 
 /**
@@ -47,14 +49,15 @@ class TenantResolver implements TenantResolverInterface
      */
     public function resolve($host = null)
     {
-        // fallback to default tenant
         if (null === $host) {
             $host = self::DEFAULT_TENANT;
         }
 
-        $subdomain = $this->extractSubdomain($host);
+        $tenant = $this->tenantRepository->findBySubdomain($this->extractSubdomain($host));
 
-        return $this->tenantRepository->findBySubdomain($subdomain);
+        $this->assertTenantIsFound($tenant);
+
+        return $tenant;
     }
 
     /**
@@ -77,5 +80,17 @@ class TenantResolver implements TenantResolverInterface
         }
 
         return $subdomain;
+    }
+
+    /**
+     * @param TenantInterface|null $tenant
+     *
+     * @throws TenantNotFoundException
+     */
+    private function assertTenantIsFound(TenantInterface $tenant = null)
+    {
+        if (null === $tenant) {
+            throw new TenantNotFoundException();
+        }
     }
 }
