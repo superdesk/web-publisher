@@ -5,6 +5,11 @@ suites:
         psr4_prefix: SWP\Component\MultiTenancy
         spec_path: src/SWP/Component/MultiTenancy
         src_path: src/SWP/Component/MultiTenancy
+    Bridge_suite:
+        namespace: SWP\Component\Bridge
+        psr4_prefix: SWP\Component\Bridge
+        spec_path: src/SWP/Component/Bridge
+        src_path: src/SWP/Component/Bridge
 
     # bundles
     MultiTenancyBundle_suite:

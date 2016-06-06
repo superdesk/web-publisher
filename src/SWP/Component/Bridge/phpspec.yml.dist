@@ -1,0 +1,5 @@
+suites:
+    main:
+        namespace: SWP\Component\Bridge
+        psr4_prefix: SWP\Component\Bridge
+        src_path: .
