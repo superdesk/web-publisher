@@ -1,0 +1,38 @@
+{
+		"uri" : "http://ninjs.example.com/newsitems/20130709med123",
+		"type" : "text",
+		"profile" : "text-only",
+		"versioncreated" : "2013-07-09T10:37:00Z",
+		"copyrightnotice" : "Copyright 2013 The News Agency, www.tna.org - all rights reserved.",
+		"language" : "en",
+		"person" : [{
+				"name" : "Francesco Schettino",
+				"rel" : "about",
+				"scheme" : "http://www.freebase.com/m/",
+				"code" : "0hzcydt"
+		}],
+		"place" : [{
+				"name" : "Grossetto",
+				"rel" : "mentions"
+		},
+				{
+						"name" : "Tuscany",
+						"rel" : "mentions"
+				},
+				{
+						"name" : "Italy",
+						"rel" : "mentions",
+						"scheme" : "http://cvx.iptc.org/iso3166-1a2/",
+						"code" : "it"
+				}
+		],
+		"organisation" : [{
+				"name" : "Costa Crociere SpA",
+				"rel" : "mentions"
+		}],
+		"byline" : "Paulo Santalucia and Frances d'Emilio",
+		"located" : "Grossetto, Italy",
+		"headline" : "Captain of wrecked cruise ship on trial in Italy",
+		"body_text" : "GROSSETO, Italy (AP) -- The trial of the captain of the shipwrecked Costa Concordia cruise liner has begun in a theater converted into a courtroom in Tuscany to accommodate all the survivors and relatives of the 32 victims who want to see justice carried out in the 2012 tragedy. The sole defendant, Francesco Schettino, his eyes shaded by sunglasses and slipping into a back door, made no comment to reporters as he arrived for his trial Tuesday on charges of multiple manslaughter, abandoning ship and causing the shipwreck near the island of Giglio. His lawyer, Domenico Pepe, told reporters that, as expected, the judge was postponing the hearing due to an eight-day nationwide lawyers' strike. Pepe said some 1,000 witnesses are expected to eventually testify. Many of them are expected to be from among the 4,2000 passengers and crew aboard the ship that struck a jagged reef off Giglio, took on water and capsized. Schettino has denied wrongdoing.",
+		"body_xhtml" : "<p>GROSSETO, Italy (AP) -- The trial of the captain of the shipwrecked Costa Concordia cruise liner has begun in a theater converted into a courtroom in Tuscany to accommodate all the survivors and relatives of the 32 victims who want to see justice carried out in the 2012 tragedy.</p><p>The sole defendant, Francesco Schettino, his eyes shaded by sunglasses and slipping into a back door, made no comment to reporters as he arrived for his trial Tuesday on charges of multiple manslaughter, abandoning ship and causing the shipwreck near the island of Giglio.</p><p>His lawyer, Domenico Pepe, told reporters that, as expected, the judge was postponing the hearing due to an eight-day nationwide lawyers' strike.</p><p>Pepe said some 1,000 witnesses are expected to eventually testify. Many of them are expected to be from among the 4,2000 passengers and crew aboard the ship that struck a jagged reef off Giglio, took on water and capsized. Schettino has denied wrongdoing.</p>"
+}

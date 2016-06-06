@@ -1,5 +1,16 @@
 <?php
 
+/**
+ * This file is part of the Superdesk Web Publisher Bridge Component.
+ *
+ * Copyright 2016 Sourcefabric z.ú. and contributors.
+ *
+ * For the full copyright and license information, please see the
+ * AUTHORS and LICENSE files distributed with this source code.
+ *
+ * @copyright 2016 Sourcefabric z.ú.
+ * @license http://www.superdesk.org/license
+ */
 namespace spec\SWP\Component\Bridge\Validator;
 
 use JsonSchema\Validator;
@@ -14,11 +25,6 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class NinjsValidatorSpec extends ObjectBehavior
 {
-    function let(Validator $validator)
-    {
-        $this->beConstructedWith($validator);
-    }
-
     function it_is_initializable()
     {
         $this->shouldHaveType(NinjsValidator::class);
@@ -30,21 +36,14 @@ class NinjsValidatorSpec extends ObjectBehavior
         $this->shouldImplement(ValidatorInterface::class);
     }
 
-    function its_isValid_method_should_return_false(Request $request)
+    function its_isValid_method_should_return_false()
     {
-        $request->getContent()->willReturn('fake example content');
-
-        $this->isValid($request)->shouldReturn(false);
+        $this->isValid('fake example content')->shouldReturn(false);
     }
 
-    function its_isValid_method_should_return_true(Request $request, Validator $validator)
+    function its_isValid_method_should_return_true()
     {
-        $request->getContent()->willReturn('valid json content');
-        $this->setSchema('example schema');
-        $validator->check('valid json content', 'example schema')->shouldBeCalled();
-        $validator->isValid()->willReturn(true);
-
-        $this->isValid($request)->shouldReturn(true);
+        $this->isValid(file_get_contents(__DIR__.'/../ninjs.json'))->shouldReturn(true);
     }
 
     function it_has_a_format()

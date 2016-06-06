@@ -13,8 +13,15 @@
  */
 namespace SWP\Bundle\BridgeBundle;
 
+use SWP\Bundle\BridgeBundle\DependencyInjection\Compiler\RegisterPipelineValidatorsCompilerPass;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
 class SWPBridgeBundle extends Bundle
 {
+    public function build(ContainerBuilder $container)
+    {
+        parent::build($container);
+        $container->addCompilerPass(new RegisterPipelineValidatorsCompilerPass());
+    }
 }

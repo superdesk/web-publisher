@@ -1,0 +1,9 @@
+services:
+    swp_bridge.http_push.validator_chain:
+        class: SWP\Component\Bridge\ValidatorChain
+
+    swp_bridge.http_push.validator.ninjs:
+        class: SWP\Component\Bridge\Validator\NinjsValidator
+        public: false
+        tags:
+            - { name: validator.http_push_validator, alias: http_push.ninjs }

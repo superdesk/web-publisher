@@ -1,23 +1,32 @@
 <?php
 
+/**
+ * This file is part of the Superdesk Web Publisher Bridge Component.
+ *
+ * Copyright 2016 Sourcefabric z.ú. and contributors.
+ *
+ * For the full copyright and license information, please see the
+ * AUTHORS and LICENSE files distributed with this source code.
+ *
+ * @copyright 2016 Sourcefabric z.ú.
+ * @license http://www.superdesk.org/license
+ */
 namespace SWP\Component\Bridge\Validator;
 
-use Symfony\Component\HttpFoundation\Request;
-
 /**
- * Validates Request data against specific schema.
+ * Validates data against specific schema.
  */
 interface ValidatorInterface
 {
     /**
      * Validates data against specific schema.
      *
-     * @param Request $request The request to validate
+     * @param string $data The data string to validate
      *
      * @return bool If the returned value is 'true', validation
      *              succeeded, otherwise it failed.
      */
-    public function isValid(Request $request);
+    public function isValid($data);
 
     /**
      * Gets current validator schema.
@@ -25,13 +34,6 @@ interface ValidatorInterface
      * @return string
      */
     public function getSchema();
-
-    /**
-     * Sets schema against which the data will be validated.
-     * 
-     * @param string $schema
-     */
-    public function setSchema($schema = '');
 
     /**
      * Gets validator format.

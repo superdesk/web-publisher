@@ -1,45 +1,36 @@
 <?php
-/**
- * @author Rafał Muszyński <rafal.muszynski@sourcefabric.org>
- * @copyright 2015 Sourcefabric z.ú.
- * @license http://www.gnu.org/licenses/gpl-3.0.txt
- */
 
+/**
+ * This file is part of the Superdesk Web Publisher Bridge Component.
+ *
+ * Copyright 2016 Sourcefabric z.ú. and contributors.
+ *
+ * For the full copyright and license information, please see the
+ * AUTHORS and LICENSE files distributed with this source code.
+ *
+ * @copyright 2016 Sourcefabric z.ú.
+ * @license http://www.superdesk.org/license
+ */
 namespace SWP\Component\Bridge\Validator;
 
 use JsonSchema\Validator;
-use Symfony\Component\HttpFoundation\Request;
 
 class JsonValidator implements ValidatorInterface
 {
-    /**
-     * @var Validator
-     */
-    protected $validator;
-
     /**
      * @var string
      */
     protected $schema = '';
 
     /**
-     * JsonValidator constructor.
-     *
-     * @param Validator $validator
-     */
-    public function __construct(Validator $validator)
-    {
-        $this->validator = $validator;
-    }
-
-    /**
      * {@inheritdoc}
      */
-    public function isValid(Request $request)
+    public function isValid($data)
     {
-        $this->validator->check($request->getContent(), $this->getSchema());
+        $validator = new Validator();
+        $validator->check(json_decode($data), json_decode($this->getSchema()));
 
-        if ($this->validator->isValid()) {
+        if ($validator->isValid()) {
             return true;
         }
 
@@ -52,14 +43,6 @@ class JsonValidator implements ValidatorInterface
     public function getSchema()
     {
         return $this->schema;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function setSchema($schema = '')
-    {
-        $this->schema = $schema;
     }
 
     /**

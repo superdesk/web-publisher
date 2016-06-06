@@ -1,0 +1,44 @@
+<?php
+
+namespace spec\SWP\Bundle\BridgeBundle\DependencyInjection\Compiler;
+
+use PhpSpec\ObjectBehavior;
+use Prophecy\Argument;
+use SWP\Bundle\BridgeBundle\DependencyInjection\Compiler\RegisterPipelineValidatorsCompilerPass;
+use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\Definition;
+
+/**
+ * @mixin RegisterPipelineValidatorsCompilerPass
+ */
+class RegisterPipelineValidatorsCompilerPassSpec extends ObjectBehavior
+{
+    function it_is_initializable()
+    {
+        $this->shouldHaveType(RegisterPipelineValidatorsCompilerPass::class);
+    }
+
+    function it_is_compiler_pass()
+    {
+        $this->shouldImplement(CompilerPassInterface::class);
+    }
+
+    function it_processes(ContainerBuilder $container, Definition $definition)
+    {
+        $container->hasDefinition('swp_bridge.http_push.validator_chain')->willreturn(true);
+        $container->getDefinition('swp_bridge.http_push.validator_chain')->willreturn($definition);
+        $container->findTaggedServiceIds('validator.http_push_validator')->willreturn([
+            'id' => [
+                [
+                    'alias' => 'alias',
+                ],
+            ],
+        ]);
+
+        $definition->addMethodCall('addValidator', Argument::type('array'))->shouldBeCalled();
+
+        $this->process($container);
+    }
+
+}
