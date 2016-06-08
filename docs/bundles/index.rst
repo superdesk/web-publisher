@@ -2,7 +2,6 @@ Symfony Bundles
 ===============
 
 .. toctree::
-   :hidden:
 
    SWPMultiTenancyBundle/index
 
