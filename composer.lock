@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "59ba3e9c4c95c05c88722a037da2300b",
-    "content-hash": "0c4f36606df71663ceb9b5b45b704ccd",
+    "hash": "4bf200b8873af65d5eee3de3ed74b373",
+    "content-hash": "8867b90849eb3f8b04ebedb0b6fdf30f",
     "packages": [
         {
             "name": "ahilles107/updater",
@@ -2782,20 +2782,20 @@
         },
         {
             "name": "oneup/flysystem-bundle",
-            "version": "1.3.0",
+            "version": "1.4.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/1up-lab/OneupFlysystemBundle.git",
-                "reference": "3bfc01fd917b513cfccaffa2255bfc376300ed3f"
+                "reference": "2459169ed38e38bff1471ce0b25d4b341d0a938f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/1up-lab/OneupFlysystemBundle/zipball/3bfc01fd917b513cfccaffa2255bfc376300ed3f",
-                "reference": "3bfc01fd917b513cfccaffa2255bfc376300ed3f",
+                "url": "https://api.github.com/repos/1up-lab/OneupFlysystemBundle/zipball/2459169ed38e38bff1471ce0b25d4b341d0a938f",
+                "reference": "2459169ed38e38bff1471ce0b25d4b341d0a938f",
                 "shasum": ""
             },
             "require": {
-                "league/flysystem": "~1.0",
+                "league/flysystem": "^1.0.14",
                 "php": ">=5.4.0",
                 "symfony/framework-bundle": "~2.0|~3.0"
             },
@@ -2851,7 +2851,7 @@
                 "abstraction",
                 "filesystem"
             ],
-            "time": "2016-02-02 08:39:55"
+            "time": "2016-05-31 11:05:39"
         },
         {
             "name": "pagerfanta/pagerfanta",
@@ -3664,58 +3664,6 @@
             "time": "2016-05-01 08:45:47"
         },
         {
-            "name": "swp/bridge-bundle",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/SuperdeskWebPublisher/SWPBridgeBundle.git",
-                "reference": "825e208f695e8448bbee036fb8ac4577202d9528"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/SuperdeskWebPublisher/SWPBridgeBundle/zipball/825e208f695e8448bbee036fb8ac4577202d9528",
-                "reference": "825e208f695e8448bbee036fb8ac4577202d9528",
-                "shasum": ""
-            },
-            "require": {
-                "guzzlehttp/guzzle": "^6.0",
-                "php": ">=5.5",
-                "superdesk/contentapi-sdk-php": "dev-master"
-            },
-            "require-dev": {
-                "doctrine/doctrine-bundle": "~1.4",
-                "phpspec/phpspec": "~2.0",
-                "phpunit/php-code-coverage": "@stable",
-                "phpunit/phpunit": "~4.5@stable",
-                "sensio/framework-extra-bundle": "~3.0,>=3.0.2",
-                "symfony/browser-kit": "2.8.x-dev",
-                "symfony/framework-bundle": "2.8.x-dev"
-            },
-            "type": "symfony-bundle",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "1.0-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "SWP\\BridgeBundle\\": ""
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "GPL-3.0"
-            ],
-            "authors": [
-                {
-                    "name": "Mischa Gorinskat",
-                    "email": "mischa.gorinskat@sourcefabric.org"
-                }
-            ],
-            "description": "Bundle which acts as a bridge between the Superdesk Web publisher and the Superdesk Content API.",
-            "time": "2016-01-18 16:25:13"
-        },
-        {
             "name": "swp/templates-system",
             "version": "v1.0.2",
             "source": {
@@ -3849,8 +3797,8 @@
                 "shasum": ""
             },
             "require": {
-                "php": "^5.5.9|^7.0",
-                "symfony/symfony": "^2.7.7",
+                "php": "^5.6|^7.0",
+                "symfony/symfony": "^2.8",
                 "zendframework/zend-hydrator": "^1.0|^2.0"
             },
             "require-dev": {
@@ -4663,12 +4611,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/symfony.git",
-                "reference": "39a18cd95d1c726f5de7342045711559ae4a72f5"
+                "reference": "e617502ba257fa1d0228621db28599a237e3df5c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/symfony/zipball/39a18cd95d1c726f5de7342045711559ae4a72f5",
-                "reference": "39a18cd95d1c726f5de7342045711559ae4a72f5",
+                "url": "https://api.github.com/repos/symfony/symfony/zipball/e617502ba257fa1d0228621db28599a237e3df5c",
+                "reference": "e617502ba257fa1d0228621db28599a237e3df5c",
                 "shasum": ""
             },
             "require": {
@@ -4789,7 +4737,7 @@
             "keywords": [
                 "framework"
             ],
-            "time": "2016-05-19 07:30:57"
+            "time": "2016-05-30 06:57:11"
         },
         {
             "name": "twig/extensions",
@@ -4845,16 +4793,16 @@
         },
         {
             "name": "twig/twig",
-            "version": "v1.24.0",
+            "version": "v1.24.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/twigphp/Twig.git",
-                "reference": "3e5aa30ebfbafd5951fb1b01e338e1800ce7e0e8"
+                "reference": "3566d311a92aae4deec6e48682dc5a4528c4a512"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/twigphp/Twig/zipball/3e5aa30ebfbafd5951fb1b01e338e1800ce7e0e8",
-                "reference": "3e5aa30ebfbafd5951fb1b01e338e1800ce7e0e8",
+                "url": "https://api.github.com/repos/twigphp/Twig/zipball/3566d311a92aae4deec6e48682dc5a4528c4a512",
+                "reference": "3566d311a92aae4deec6e48682dc5a4528c4a512",
                 "shasum": ""
             },
             "require": {
@@ -4902,7 +4850,7 @@
             "keywords": [
                 "templating"
             ],
-            "time": "2016-01-25 21:22:18"
+            "time": "2016-05-30 09:11:59"
         },
         {
             "name": "vierbergenlars/php-semver",
@@ -6682,10 +6630,10 @@
         "friendsofsymfony/rest-bundle": 20,
         "swp/templates-system": 20,
         "swp/updater-bundle": 20,
-        "swp/bridge-bundle": 20,
         "behat/transliterator": 20,
         "knplabs/knp-paginator-bundle": 20,
         "sylius/theme-bundle": 20,
+        "superdesk/contentapi-sdk-php": 20,
         "liip/functional-test-bundle": 20,
         "doctrine/doctrine-fixtures-bundle": 20,
         "nelmio/alice": 20,
@@ -6694,7 +6642,7 @@
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
-        "php": ">=5.5.11"
+        "php": "^5.6|^7.0"
     },
     "platform-dev": []
 }
