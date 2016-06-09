@@ -1,30 +1,14 @@
 services:
-    swp.analytics.render_listener:
-        class:  SWP\Bundle\AnalyticsBundle\EventListener\RenderListener
-        calls:
-            - [ setContainer, ["@service_container"]]
-        tags:
-            - { name: monolog.processor, method: processRecord }
-            - { name: kernel.event_listener, event: kernel.controller, method: onKernelController}
-            - { name: kernel.event_listener, event: kernel.view, method: onKernelView }
-            - { name: kernel.event_listener, event: kernel.response, method: onKernelResponse }
-
-    monolog.processor.request:
-        class: SWP\Bundle\AnalyticsBundle\Processor\RequestProcessor
-        calls:
-            - [ setRequest, ["@request_stack"]]
-        tags:
-            - { name: monolog.processor, method: processRecord }
-            - { name: kernel.event_listener, event: kernel.request, method: onKernelRequest}
-
-    swp.analytics.logger_database:
-        class: SWP\Bundle\AnalyticsBundle\Logger\DatabaseHandler
-        calls:
-            - [ setContainer, ["@service_container"]]
-
-    swp.analytics.data_collector.analytics_collector:
-        class: SWP\Bundle\AnalyticsBundle\DataCollector\AnalyticsDataCollector
+    swp.analytics.requestmetric_repository:
+        class: SWP\Bundle\AnalyticsBundle\Repository
+        factory: ["@doctrine.orm.entity_manager", getRepository]
         arguments:
-            - @service_container
+            - SWP\Bundle\AnalyticsBundle\Model\RequestMetric
+
+    swp.analytics.kernel_listener:
+        class:  SWP\Bundle\AnalyticsBundle\EventListener\KernelListener
+        calls:
+            - [setRequestMetricRepository, ['@swp.analytics.requestmetric_repository']]
         tags:
-            - { name: data_collector, template: "SWPAnalyticsBundle:Collector:analyticsCollector", id: "analytics_collector" }
+            - { name: kernel.event_listener, event: kernel.request, method: onKernelRequest }
+            - { name: kernel.event_listener, event: kernel.response, method: onKernelResponse }

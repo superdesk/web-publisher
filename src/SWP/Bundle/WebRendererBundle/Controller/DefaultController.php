@@ -17,10 +17,9 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
-use SWP\Bundle\AnalyticsBundle\Controller\AnalyzedControllerInterface;
 use Symfony\Component\Stopwatch\Stopwatch;
 
-class DefaultController extends Controller implements AnalyzedControllerInterface
+class DefaultController extends Controller
 {
     /**
      * @Route("/", name="homepage")
@@ -28,11 +27,6 @@ class DefaultController extends Controller implements AnalyzedControllerInterfac
      */
     public function indexAction()
     {
-        // start anayltics
-        $logger = $this->container->get('monolog.logger.analytics');
-        $stopwatch = new Stopwatch();
-        $stopwatch->start('homepage');
-
         $pathBuilder = $this->get('swp_multi_tenancy.path_builder');
         $manager = $this->get('doctrine_phpcr')->getManager();
         $site = $manager->find('SWP\Bundle\ContentBundle\Document\Site', $pathBuilder->build('/'));
@@ -48,10 +42,6 @@ class DefaultController extends Controller implements AnalyzedControllerInterfac
             'tenant' => $tenantContext->getTenant(),
             'page' => $homepage,
         ]);
-
-        $event = $stopwatch->stop('homepage');
-        // TODO: log the event with the analytics logger here
-        $logger->debug('This shit took '.$event->getDuration().' milliseconds and used '.$event->getMemory().' bytes of memory');
 
         return $response;
     }

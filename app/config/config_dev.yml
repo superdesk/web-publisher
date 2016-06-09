@@ -43,12 +43,6 @@ monolog:
                 VERBOSITY_VERY_VERBOSE: NOTICE
                 VERBOSITY_DEBUG: DEBUG
             channels: ["doctrine"]
-        # for logging analytics with SWP\Bundle\AnalyticsBundle only
-        analytics:
-            type: service
-            level: debug 
-            id: swp.analytics.logger_database
-            channels: ["analytics"]
         # uncomment to get logging in your browser
         # you may have to allow bigger header sizes in your Web server configuration
         #firephp:

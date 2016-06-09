@@ -17,10 +17,9 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use SWP\Bundle\AnalyticsBundle\Controller\AnalyzedControllerInterface;
 use Symfony\Component\Stopwatch\Stopwatch;
 
-class ContentController extends Controller implements AnalyzedControllerInterface
+class ContentController extends Controller
 {
     /**
      * Render content Page.
@@ -46,11 +45,6 @@ class ContentController extends Controller implements AnalyzedControllerInterfac
      */
     private function renderPage($type, $parameters = [])
     {
-        // start anayltics
-        $logger = $this->container->get('monolog.logger.analytics');
-        $stopwatch = new Stopwatch();
-        $stopwatch->start('article');
-
         $metaLoader = $this->container->get('swp_template_engine_loader_chain');
         $article = null;
 
@@ -74,11 +68,6 @@ class ContentController extends Controller implements AnalyzedControllerInterfac
         $response = $this->render('article.html.twig', [
             'tenant' => $tenantContext->getTenant(),
         ]);
-
-        $event = $stopwatch->stop('article');
-
-        // TODO: log the event with the analytics logger here
-        $logger->error(print_r($event, true));
 
         return $response;
     }
