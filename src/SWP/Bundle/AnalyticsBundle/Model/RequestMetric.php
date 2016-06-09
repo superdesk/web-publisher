@@ -14,7 +14,7 @@
 namespace SWP\Bundle\AnalyticsBundle\Model;
 
 /**
- * RequestMetric -
+ * RequestMetric -.
  */
 class RequestMetric
 {
@@ -43,9 +43,9 @@ class RequestMetric
     protected $created;
 
     /**
-     * Get id
+     * Get id.
      *
-     * @return integer
+     * @return int
      */
     public function getId()
     {

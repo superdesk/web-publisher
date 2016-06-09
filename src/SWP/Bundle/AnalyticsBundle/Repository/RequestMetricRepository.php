@@ -18,8 +18,7 @@ use SWP\Bundle\AnalyticsBundle\Model\RequestMetric;
 class RequestMetricRepository extends \Doctrine\ORM\EntityRepository
 {
     /**
-     * @param RequestMetric $requestMetric
-     * Persists object and flushes the entity manager
+     * @param RequestMetric $requestMetric Persists object and flushes the entity manager
      */
     public function save(RequestMetric $requestMetric)
     {

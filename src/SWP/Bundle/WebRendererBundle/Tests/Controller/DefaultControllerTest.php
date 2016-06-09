@@ -52,7 +52,7 @@ class DefaultControllerTest extends WebTestCase
                 ]);
             }
             $crawler = $client->request('GET', '/');
-            $this->assertEquals(200, $client->getResponse()->getStatusCode(), 'Wrong response code');
+            $this->assertEquals(200, $client->getResponse()->getStatusCode(), 'Wrong response code with device ' . $userAgent);
             $this->assertGreaterThan(0, $crawler->filter($filter)->count(), 'Wrong filter');
         }
     }
