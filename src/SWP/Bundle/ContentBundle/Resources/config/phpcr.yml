@@ -1,0 +1,19 @@
+parameters:
+    swp.phpcr_odm.repository.class: SWP\Bundle\ContentBundle\Doctrine\Phpcr\DocumentRepository
+    swp_content_bundle.article.manager.class: SWP\Bundle\ContentBundle\Doctrine\ArticleManager
+    swp_content_bundle.route.manager.class: SWP\Bundle\ContentBundle\Doctrine\Phpcr\RouteManager
+
+services:
+    swp.manager.article.phpcr:
+        class: '%swp_content_bundle.article.manager.class%'
+        arguments:
+            - '@swp.manager.article.default'
+            - '@swp.repository.article'
+            - '@swp_multi_tenancy.path_builder'
+
+    swp.manager.route.phpcr:
+        class: '%swp_content_bundle.route.manager.class%'
+        arguments:
+            - '@swp.manager.route.default'
+            - '@swp.repository.route'
+            - '@swp_multi_tenancy.path_builder'
