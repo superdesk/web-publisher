@@ -22,7 +22,6 @@ services:
                 - { name: 'twig.extension' }
 
 monolog:
-    channels: ["analytics"]
     handlers:
         main:
             type:   stream

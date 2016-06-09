@@ -6,7 +6,6 @@ imports:
 #        cache: apc
 
 monolog:
-    channels: ["analytics"]
     handlers:
         main:
             type:         fingers_crossed
