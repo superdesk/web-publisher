@@ -73,7 +73,7 @@ class KernelListener
         }
 
         $requestUri = $event->getRequest()->getUri();
- 
+
         // find out if this is a profiler request, if not don't analyze it
         try {
             $this->stopwatchEvent = $this->stopwatch->stop($requestUri);
@@ -85,11 +85,13 @@ class KernelListener
         $duration = $this->stopwatchEvent->getDuration();
         $route = $event->getRequest()->get('_route');
 
-        $requestMetric = new RequestMetric();
-        $requestMetric
-            ->setUri($requestUri)
-            ->setDuration($duration)
-            ->setRoute($route);
-        $this->requestMetricRepository->save($requestMetric);
+        if (!is_null($route)) {
+            $requestMetric = new RequestMetric();
+            $requestMetric
+                ->setUri($requestUri)
+                ->setDuration($duration)
+                ->setRoute($route);
+            $this->requestMetricRepository->save($requestMetric);
+        }
     }
 }
