@@ -11,6 +11,7 @@
  * @copyright 2015 Sourcefabric z.ú.
  * @license http://www.superdesk.org/license
  */
+
 namespace SWP\Bundle\ContentBundle;
 
 use Doctrine\Bundle\PHPCRBundle\DependencyInjection\Compiler\DoctrinePhpcrMappingsPass;
@@ -78,11 +79,11 @@ class SWPContentBundle extends Bundle
             $doctrineOrmCompiler::createYamlMappingDriver(
                 array(
                     realpath(__DIR__.'/Resources/config/doctrine-model') => 'SWP\Bundle\ContentBundle\Model',
-                    realpath(__DIR__.'/Resources/config/doctrine-orm') => 'SWP\Bundle\ContentBundle\Doctrine\Orm',
+                    realpath(__DIR__.'/Resources/config/doctrine-orm') => 'SWP\Bundle\ContentBundle\Doctrine\ORM',
                 ),
                 array('swp_content.dynamic.persistence.orm.manager_name'),
-                'cmf_routing.backend_type_orm',
-                array('SWPContentBundle' => 'SWP\Bundle\ContentBundle\Doctrine\Orm')
+                'swp_content.backend_type_orm',
+                array('SWPContentBundle' => 'SWP\Bundle\ContentBundle\Doctrine\ORM')
             )
         );
     }

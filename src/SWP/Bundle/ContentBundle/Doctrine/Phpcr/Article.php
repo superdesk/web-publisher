@@ -11,8 +11,10 @@
  * @copyright 2016 Sourcefabric z.ú.
  * @license http://www.superdesk.org/license
  */
+
 namespace SWP\Bundle\ContentBundle\Doctrine\Phpcr;
 
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ODM\PHPCR\Exception\InvalidArgumentException;
 use Doctrine\ODM\PHPCR\HierarchyInterface;
 use SWP\Bundle\ContentBundle\Model\Article as BaseArticle;
@@ -30,6 +32,13 @@ class Article extends BaseArticle implements HierarchyInterface
      * @var object
      */
     protected $parent;
+
+    /**
+     * Child article documents.
+     *
+     * @var Collection
+     */
+    protected $children;
 
     public function setRoute(Route $route)
     {
@@ -77,5 +86,13 @@ class Article extends BaseArticle implements HierarchyInterface
         }
 
         $this->parent = $parent;
+    }
+
+    /**
+     * @return Collection
+     */
+    public function getChildren()
+    {
+        return $this->children;
     }
 }

@@ -1,33 +1,61 @@
 <?php
-/**
- * @author Rafał Muszyński <rafal.muszynski@sourcefabric.org>
- * @copyright 2015 Sourcefabric z.ú.
- * @license http://www.gnu.org/licenses/gpl-3.0.txt
- */
 
-namespace SWP\Bundle\ContentBundle\Model;
+namespace SWP\Bundle\ContentBundle\Doctrine;
 
+use Doctrine\Common\Persistence\ObjectManager;
+use SWP\Bundle\ContentBundle\Doctrine\Phpcr\Article;
+use SWP\Bundle\ContentBundle\Model\AbstractManager;
+use SWP\Bundle\ContentBundle\Model\ArticleInterface;
+use SWP\Bundle\ContentBundle\Model\ArticleManagerInterface;
+use SWP\Component\MultiTenancy\PathBuilder\TenantAwarePathBuilderInterface;
 
-class ArticleManager extends AbstractManager
+final class ArticleManager extends AbstractManager implements ArticleManagerInterface
 {
+    private $objectManager;
+    private $repository;
+    private $class;
+    private $pathBuilder;
 
-    public function findArticleBy(array $criteria)
-    {
-        // TODO: Implement findArticleBy() method.
-    }
-
-    public function createArticle()
-    {
-        // TODO: Implement createArticle() method.
-    }
-
-    public function deleteArticle(ArticleInterface $article)
-    {
-        // TODO: Implement deleteArticle() method.
+    public function __construct(
+        ObjectManager $objectManager,
+        ArticleRepositoryInterface $repository,
+        TenantAwarePathBuilderInterface $pathBuilder
+    ) {
+        $this->objectManager = $objectManager;
+        $this->repository = $repository;
+        $this->class = $repository->getClassName();
+        $this->pathBuilder = $pathBuilder;
     }
 
     public function updateArticle(ArticleInterface $article)
     {
-        // TODO: Implement updateArticle() method.
+        $this->objectManager->flush();
+    }
+
+    public function getObjectClass()
+    {
+        return $this->class;
+    }
+
+    public function findOneBy($id)
+    {
+        $this->repository->find($this->pathBuilder->build($id));
+    }
+
+    public function getChildrenBy($path)
+    {
+        $children = $this->objectManager
+            ->find(null, $this->pathBuilder->build($path))
+            ->getChildren()
+        ;
+
+        $articles = [];
+        foreach ($children as $child) {
+            if ($child instanceof Article) {
+                $articles[] = $child;
+            }
+        }
+
+        return $articles;
     }
 }

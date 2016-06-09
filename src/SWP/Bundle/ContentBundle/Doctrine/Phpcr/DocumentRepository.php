@@ -1,13 +1,9 @@
 <?php
-/**
- * @author Rafał Muszyński <rafal.muszynski@sourcefabric.org>
- * @copyright 2015 Sourcefabric z.ú.
- * @license http://www.gnu.org/licenses/gpl-3.0.txt
- */
 
 namespace SWP\Bundle\ContentBundle\Doctrine\Phpcr;
 
 use Doctrine\ODM\PHPCR\DocumentRepository as BaseDocumentRepository;
+use SWP\Component\Common\Model\PersistableInterface;
 use SWP\Component\Common\Repository\RepositoryInterface;
 
 class DocumentRepository extends BaseDocumentRepository implements RepositoryInterface
@@ -15,7 +11,7 @@ class DocumentRepository extends BaseDocumentRepository implements RepositoryInt
     /**
      * {@inheritdoc}
      */
-    public function add($object)
+    public function add(PersistableInterface $object)
     {
         $this->dm->persist($object);
         $this->dm->flush();
@@ -24,7 +20,7 @@ class DocumentRepository extends BaseDocumentRepository implements RepositoryInt
     /**
      * {@inheritdoc}
      */
-    public function remove($object)
+    public function remove(PersistableInterface $object)
     {
         if (null !== $this->find($object->getId())) {
             $this->dm->remove($object);

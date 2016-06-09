@@ -46,10 +46,10 @@ class RoutesController extends FOSRestController
      */
     public function listAction(Request $request)
     {
-        $manager = $this->get('doctrine_phpcr')->getManager();
+        $repository = $this->get('swp.repository.route');
         $basepath = $this->get('swp_multi_tenancy.path_builder')
             ->build($this->getParameter('swp_multi_tenancy.persistence.phpcr.route_basepaths')[0]);
-        $baseroute = $manager->find('SWP\Bundle\ContentBundle\Doctrine\Phpcr\Route', $basepath);
+        $baseroute = $repository ->find($basepath);
         $routes = [];
 
         if ($baseroute) {
@@ -76,10 +76,9 @@ class RoutesController extends FOSRestController
      */
     public function getAction($id)
     {
-        $manager = $this->get('doctrine_phpcr')->getManager();
         $routeBasepath = $this->get('swp_multi_tenancy.path_builder')
             ->build($this->getParameter('swp_multi_tenancy.persistence.phpcr.base_paths')[0]);
-        $route = $manager->find('SWP\Bundle\ContentBundle\Doctrine\Phpcr\Route', $routeBasepath.$id);
+        $route = $this->get('swp.repository.route')->find($routeBasepath.$id);
 
         if (!$route) {
             throw new NotFoundHttpException('Route was not found.');
@@ -103,10 +102,9 @@ class RoutesController extends FOSRestController
      */
     public function deleteAction($id)
     {
-        $manager = $this->get('doctrine_phpcr')->getManager();
         $routeBasepath = $this->get('swp_multi_tenancy.path_builder')
             ->build($this->getParameter('swp_multi_tenancy.persistence.phpcr.base_paths')[0]);
-        $route = $manager->find('SWP\Bundle\ContentBundle\Doctrine\Phpcr\Route', $routeBasepath.$id);
+        $route = $this->get('swp.repository.route')->find($routeBasepath.$id);
 
         if (!$route) {
             throw new NotFoundHttpException('Route was not found.');
@@ -143,8 +141,6 @@ class RoutesController extends FOSRestController
      */
     public function createAction(Request $request)
     {
-        $manager = $this->get('doctrine_phpcr')->getManager();
-
         $form = $this->createForm(new RouteType(), [], ['method' => $request->getMethod()]);
         $form->handleRequest($request);
         if ($form->isValid()) {
@@ -154,8 +150,7 @@ class RoutesController extends FOSRestController
             }
 
             $route = $this->handleRouteUpdate(new Phpcr\Route(), $formData);
-            $manager->persist($route);
-            $manager->flush();
+            $this->get('swp.repository.route')->add($route);
 
             $this->get('event_dispatcher')
                 ->dispatch(HttpCacheEvent::EVENT_NAME, new HttpCacheEvent($route));
@@ -187,7 +182,7 @@ class RoutesController extends FOSRestController
         $manager = $this->get('doctrine_phpcr')->getManager();
         $routeBasepath = $this->get('swp_multi_tenancy.path_builder')
             ->build($this->getParameter('swp_multi_tenancy.persistence.phpcr.base_paths')[0]);
-        $route = $manager->find('SWP\Bundle\ContentBundle\Doctrine\Phpcr\Route', $routeBasepath.$id);
+        $route = $this->get('swp.repository.route')->find($routeBasepath.$id);
         if (!$route) {
             throw new NotFoundHttpException('Route was not found.');
         }
@@ -209,25 +204,25 @@ class RoutesController extends FOSRestController
 
     private function handleRouteUpdate($route, $routeData)
     {
-        $manager = $this->get('doctrine_phpcr')->getManager();
+        $repository = $this->get('swp.repository.route');
         $basepaths = $this->getParameter('swp_multi_tenancy.persistence.phpcr.base_paths');
 
         if (isset($routeData['parent'])) {
             $routeBasepath = $this->get('swp_multi_tenancy.path_builder')->build($basepaths[0]);
             if (!is_null($routeData['parent']) && $routeData['parent'] !== '/') {
-                $parentRoute = $manager->find('SWP\Bundle\ContentBundle\Doctrine\Phpcr\Route', $routeBasepath.$routeData['parent']);
+                $parentRoute = $repository->find($routeBasepath.$routeData['parent']);
 
                 if ($parentRoute) {
                     $route->setParentDocument($parentRoute);
                 }
             } else {
-                $route->setParentDocument($manager->find('SWP\Bundle\ContentBundle\Doctrine\Phpcr\Route', $routeBasepath));
+                $route->setParentDocument($repository->find($routeBasepath));
             }
         }
 
         if (isset($routeData['content']) && !is_null($routeData['content'])) {
             $contentBasepath = $this->get('swp_multi_tenancy.path_builder')->build($basepaths[1]);
-            $routeContent = $manager->find('SWP\Bundle\ContentBundle\Doctrine\Phpcr\Article', $contentBasepath.$routeData['content']);
+            $routeContent = $this->get('swp.repository.article')->find($contentBasepath.$routeData['content']);
 
             if ($routeContent) {
                 $route->setContent($routeContent);

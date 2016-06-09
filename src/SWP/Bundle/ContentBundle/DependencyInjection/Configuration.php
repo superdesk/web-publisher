@@ -11,8 +11,13 @@
  * @copyright 2016 Sourcefabric z.ú.
  * @license http://www.superdesk.org/license
  */
+
 namespace SWP\Bundle\ContentBundle\DependencyInjection;
 
+use SWP\Bundle\ContentBundle\Doctrine\Phpcr\Article;
+use SWP\Bundle\ContentBundle\Doctrine\Phpcr\ArticleRepository;
+use SWP\Bundle\ContentBundle\Doctrine\Phpcr\Route;
+use SWP\Bundle\ContentBundle\Doctrine\Phpcr\Site;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
 
@@ -38,8 +43,37 @@ class Configuration implements ConfigurationInterface
                             ->addDefaultsIfNotSet()
                             ->canBeEnabled()
                             ->children()
-                                ->scalarNode('manager_name')
-                                    ->defaultNull()
+                                ->scalarNode('object_manager_name')
+                                    ->defaultValue('default')
+                                ->end()
+                                    ->scalarNode('article_manager_name')
+                                    ->defaultValue('swp.manager.article.phpcr')
+                                ->end()
+                                ->arrayNode('repositories')
+                                    ->addDefaultsIfNotSet()
+                                    ->children()
+                                        ->arrayNode('article')
+                                            ->addDefaultsIfNotSet()
+                                            ->children()
+                                                ->scalarNode('model')->cannotBeEmpty()->defaultValue(Article::class)->end()
+                                                ->scalarNode('class')->defaultValue(ArticleRepository::class)->end()
+                                            ->end()
+                                        ->end()
+                                        ->arrayNode('site')
+                                            ->addDefaultsIfNotSet()
+                                            ->children()
+                                                ->scalarNode('model')->cannotBeEmpty()->defaultValue(Site::class)->end()
+                                                ->scalarNode('class')->defaultValue(null)->end()
+                                            ->end()
+                                        ->end()
+                                        ->arrayNode('route')
+                                            ->addDefaultsIfNotSet()
+                                            ->children()
+                                                ->scalarNode('model')->cannotBeEmpty()->defaultValue(Route::class)->end()
+                                                ->scalarNode('class')->defaultValue(null)->end()
+                                            ->end()
+                                        ->end()
+                                    ->end()
                                 ->end()
                             ->end()
                         ->end() // phpcr

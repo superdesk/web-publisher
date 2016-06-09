@@ -11,8 +11,10 @@
  * @copyright 2015 Sourcefabric z.ú.
  * @license http://www.superdesk.org/license
  */
+
 namespace SWP\Bundle\ContentBundle\DependencyInjection;
 
+use SWP\Bundle\ContentBundle\DependencyInjection\Driver\DriverFactory;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
@@ -36,24 +38,35 @@ class SWPContentExtension extends Extension
 
         if ($config['persistence']['phpcr']['enabled']) {
             $this->loadPhpcrProvider($config['persistence']['phpcr'], $container);
+            $loader->load('phpcr.yml');
         }
 
         if ($config['persistence']['orm']['enabled']) {
             $this->loadOrmProvider($config['persistence']['orm'], $container);
         }
+
+        //$container->setAlias('swp.manager.article', 'swp.manager.article.default');
     }
 
     private function loadPhpcrProvider($config, ContainerBuilder $container)
     {
+        $container->setParameter('swp_content.dynamic.persistence.phpcr.manager_name', $config['object_manager_name']);
         $container->setParameter('swp_content.backend_type_phpcr', true);
-
-        $container->setParameter('swp_content.dynamic.persistence.phpcr.manager_name', $config['manager_name']);
+        $this->loadDriver('phpcr', $container, $config);
+        $container->setAlias('swp.manager.article', $config['article_manager_name']);
     }
 
     private function loadOrmProvider($config, ContainerBuilder $container)
     {
-
+        $container->setParameter('swp_content.dynamic.persistence.phpcr.manager_name', $config['object_manager_name']);
         $container->setParameter('swp_content.backend_type_orm', true);
-        $container->setParameter('swp_content.dynamic.persistence.orm.manager_name', $config['manager_name']);
+        $this->loadDriver('orm', $container, $config);
+        $container->setAlias('swp.manager.article', $config['article_manager_name']);
+    }
+
+    private function loadDriver($type, $container, $config)
+    {
+        $driver = DriverFactory::createDriver($type);
+        $driver->load($container, $config);
     }
 }

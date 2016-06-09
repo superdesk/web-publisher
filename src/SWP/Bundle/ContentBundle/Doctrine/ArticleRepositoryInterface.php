@@ -1,15 +1,17 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: rafal
- * Date: 08.06.2016
- * Time: 12:33
- */
 
 namespace SWP\Bundle\ContentBundle\Doctrine;
 
+use SWP\Bundle\ContentBundle\Model\ArticleInterface;
 
-interface ArticleRepository
+interface ArticleRepositoryInterface
 {
-
+    /**
+     * Finds one article by slug.
+     * 
+     * @param string $slug
+     *
+     * @return ArticleInterface
+     */
+    public function findOneBySlug($slug);
 }

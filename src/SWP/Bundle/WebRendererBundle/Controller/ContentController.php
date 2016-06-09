@@ -11,26 +11,35 @@
  * @copyright 2015 Sourcefabric z.ú.
  * @license http://www.superdesk.org/license
  */
+
 namespace SWP\Bundle\WebRendererBundle\Controller;
 
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\HttpFoundation\Request;
 
 class ContentController extends Controller
 {
     /**
      * Render content Page.
+     *
+     * @param object|null $contentDocument
+     *
+     * @return Response
      */
-    public function renderContentPageAction(Request $request, $contentDocument = null)
+    public function renderContentPageAction($contentDocument = null)
     {
         return $this->renderPage('content', ['article' => $contentDocument]);
     }
 
     /**
      * Render container Page.
+     *
+     * @param string $slug
+     *
+     * @return Response
      */
-    public function renderContainerPageAction(Request $request, $slug)
+    public function renderContainerPageAction($slug)
     {
         return $this->renderPage('container', ['slug' => $slug]);
     }
@@ -40,6 +49,8 @@ class ContentController extends Controller
      *
      * @param string $type
      * @param array  $parameters
+     *
+     * @return Response
      */
     private function renderPage($type, $parameters = [])
     {
@@ -61,10 +72,6 @@ class ContentController extends Controller
             $context->registerMeta('article', $article);
         }
 
-        $tenantContext = $this->get('swp_multi_tenancy.tenant_context');
-
-        return $this->render('article.html.twig', [
-            'tenant' => $tenantContext->getTenant(),
-        ]);
+        return $this->render('article.html.twig');
     }
 }

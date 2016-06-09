@@ -11,6 +11,7 @@
  * @copyright 2015 Sourcefabric z.ú.
  * @license http://www.superdesk.org/license
  */
+
 namespace SWP\Bundle\ContentBundle\Controller;
 
 use FOS\RestBundle\Controller\FOSRestController;
@@ -20,14 +21,12 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
 use FOS\RestBundle\View\View;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
-use SWP\Bundle\ContentBundle\Document\Article;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class ArticlesController extends FOSRestController
 {
     /**
-     * List all articles for current tenant
+     * List all articles for current tenant.
      *
      * @ApiDoc(
      *     resource=true,
@@ -43,20 +42,14 @@ class ArticlesController extends FOSRestController
      */
     public function listAction(Request $request)
     {
-        $manager = $this->get('doctrine_phpcr')->getManager();
-        $articlesBasepath = $this->get('swp_multi_tenancy.path_builder')
-            ->build($this->getParameter('swp_multi_tenancy.persistence.phpcr.base_paths')[1]);
+        $manager = $this->get('swp.manager.article');
+        $articles = $manager->getChildrenBy($this->getParameter('swp_multi_tenancy.persistence.phpcr.base_paths')[1]);
+        $articles = $this->get('knp_paginator')->paginate(
+            $articles,
+            $request->get('page', 1),
+            $request->get('limit', 10)
+        );
 
-        $basepathChildrens = $manager->find(null, $articlesBasepath)->getChildren();
-
-        $articles = array();
-        foreach ($basepathChildrens as $child) {
-            if ($child instanceof Article) {
-                $articles[] = $child;
-            }
-        }
-
-        $articles = $this->get('knp_paginator')->paginate($articles, $request->get('page', 1), $request->get('limit', 10));
         $view = View::create($this->get('swp_pagination_rep')->createRepresentation($articles, $request), 200);
 
         return $this->handleView($view);
@@ -79,10 +72,9 @@ class ArticlesController extends FOSRestController
      */
     public function getAction($id)
     {
-        $manager = $this->get('doctrine_phpcr')->getManager();
-        $articlesBasepath = $this->get('swp_multi_tenancy.path_builder')
-            ->build($this->getParameter('swp_multi_tenancy.persistence.phpcr.base_paths')[1]);
-        $article = $manager->find('SWP\Bundle\ContentBundle\Document\Article', $articlesBasepath.$id);
+        $article = $this->get('swp.manager.article')
+            ->findOneBy($this->getParameter('swp_multi_tenancy.persistence.phpcr.base_paths')[1].$id)
+        ;
 
         if (!$article) {
             throw new NotFoundHttpException('Article was not found.');

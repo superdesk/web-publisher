@@ -11,6 +11,7 @@
  * @copyright 2015 Sourcefabric z.ú.
  * @license http://www.superdesk.org/license
  */
+
 namespace SWP\Bundle\WebRendererBundle\Controller;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -26,8 +27,7 @@ class DefaultController extends Controller
     public function indexAction()
     {
         $pathBuilder = $this->get('swp_multi_tenancy.path_builder');
-        $manager = $this->get('doctrine_phpcr')->getManager();
-        $site = $manager->find('SWP\Bundle\ContentBundle\Doctrine\Phpcr\Site', $pathBuilder->build('/'));
+        $site = $this->get('swp.repository.site')->find($pathBuilder->build('/'));
         $homepage = $site->getHomepage();
 
         if (null === $homepage) {

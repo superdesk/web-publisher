@@ -1,4 +1,5 @@
 SWP\Bundle\ContentBundle\Doctrine\Phpcr\Article:
+    repositoryClass: SWP\Bundle\ContentBundle\Doctrine\Phpcr\ArticleRepository
     referenceable: true
     parentdocument: parent
     nodename: slug
