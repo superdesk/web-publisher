@@ -1,4 +1,4 @@
-SWP\Bundle\ContentBundle\Doctrine\Phpcr\Article:
+SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\Article:
     article{1..5}:
         title: "<catchPhrase()>"
         body: "<paragraph(20)>"

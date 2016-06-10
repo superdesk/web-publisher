@@ -24,22 +24,22 @@ class LoadSitesData extends AbstractFixture implements FixtureInterface
      */
     public function load(ObjectManager $manager)
     {
-        $site = $manager->find('SWP\Bundle\ContentBundle\Doctrine\Phpcr\Site', '/swp/default');
+        $site = $manager->find('SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\Site', '/swp/default');
 
         if (!$site) {
             throw new \Exception('Could not find /swp/default document!');
         }
 
-        $page = $manager->find('SWP\Bundle\ContentBundle\Doctrine\Phpcr\Route', '/swp/default/routes/homepage');
+        $page = $manager->find('SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\Route', '/swp/default/routes/homepage');
         $site->setHomepage($page);
 
-        $site = $manager->find('SWP\Bundle\ContentBundle\Doctrine\Phpcr\Site', '/swp/client1');
+        $site = $manager->find('SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\Site', '/swp/client1');
 
         if (!$site) {
             throw new \Exception('Could not find /swp/client1 document!');
         }
 
-        $page2 = $manager->find('SWP\Bundle\ContentBundle\Doctrine\Phpcr\Route', '/swp/client1/routes/homepage');
+        $page2 = $manager->find('SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\Route', '/swp/client1/routes/homepage');
         $site->setHomepage($page2);
         $manager->flush();
     }

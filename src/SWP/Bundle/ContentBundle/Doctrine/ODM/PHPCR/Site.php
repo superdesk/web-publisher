@@ -11,11 +11,12 @@
  * @copyright 2016 Sourcefabric z.ú.
  * @license http://www.superdesk.org/license
  */
-namespace SWP\Bundle\ContentBundle\Doctrine\Phpcr;
+namespace SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR;
 
 use SWP\Bundle\MultiTenancyBundle\Document\Site as BaseSite;
+use SWP\Component\Storage\Model\PersistableInterface;
 
-class Site extends BaseSite
+class Site extends BaseSite implements PersistableInterface
 {
     /**
      * Gets the value of homepage.

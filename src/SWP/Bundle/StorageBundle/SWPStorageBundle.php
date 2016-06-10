@@ -1,7 +1,7 @@
 <?php
 
 /**
- * This file is part of the Superdesk Web Publisher Content Bundle.
+ * This file is part of the Superdesk Web Publisher Storage Bundle.
  *
  * Copyright 2016 Sourcefabric z.ú. and contributors.
  *
@@ -11,12 +11,10 @@
  * @copyright 2016 Sourcefabric z.ú.
  * @license http://www.superdesk.org/license
  */
-namespace SWP\Bundle\ContentBundle\Doctrine\Phpcr;
+namespace SWP\Bundle\StorageBundle;
 
-use SWP\Bundle\MultiTenancyBundle\Document\Page;
+use Symfony\Component\HttpKernel\Bundle\Bundle;
 
-class Route extends Page
+class SWPStorageBundle extends Bundle
 {
-    const TYPE_CONTENT = 'content';
-    const TYPE_COLLECTION = 'collection';
 }

@@ -11,10 +11,10 @@
  * @copyright 2015 Sourcefabric z.ú.
  * @license http://www.superdesk.org/license
  */
-
 namespace SWP\Bundle\ContentBundle\DependencyInjection;
 
-use SWP\Bundle\ContentBundle\DependencyInjection\Driver\DriverFactory;
+use SWP\Bundle\StorageBundle\DependencyInjection\Driver\DriverFactory;
+use SWP\Component\Storage\Drivers;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
@@ -40,27 +40,17 @@ class SWPContentExtension extends Extension
             $this->loadPhpcrProvider($config['persistence']['phpcr'], $container);
             $loader->load('phpcr.yml');
         }
-
-        if ($config['persistence']['orm']['enabled']) {
-            $this->loadOrmProvider($config['persistence']['orm'], $container);
-        }
-
-        //$container->setAlias('swp.manager.article', 'swp.manager.article.default');
     }
 
     private function loadPhpcrProvider($config, ContainerBuilder $container)
     {
-        $container->setParameter('swp_content.dynamic.persistence.phpcr.manager_name', $config['object_manager_name']);
-        $container->setParameter('swp_content.backend_type_phpcr', true);
-        $this->loadDriver('phpcr', $container, $config);
-        $container->setAlias('swp.manager.article', $config['article_manager_name']);
-    }
+        $container->setParameter(
+            sprintf('%s.persistence.phpcr.manager_name', $this->getAlias()),
+            $config['object_manager_name']
+        );
 
-    private function loadOrmProvider($config, ContainerBuilder $container)
-    {
-        $container->setParameter('swp_content.dynamic.persistence.phpcr.manager_name', $config['object_manager_name']);
-        $container->setParameter('swp_content.backend_type_orm', true);
-        $this->loadDriver('orm', $container, $config);
+        $container->setParameter('swp_content.backend_type_phpcr', true);
+        $this->loadDriver(Drivers::DRIVER_DOCTRINE_PHPCR_ODM, $container, $config);
         $container->setAlias('swp.manager.article', $config['article_manager_name']);
     }
 

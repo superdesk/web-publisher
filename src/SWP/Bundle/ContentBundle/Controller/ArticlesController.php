@@ -11,7 +11,6 @@
  * @copyright 2015 Sourcefabric z.ú.
  * @license http://www.superdesk.org/license
  */
-
 namespace SWP\Bundle\ContentBundle\Controller;
 
 use FOS\RestBundle\Controller\FOSRestController;
@@ -56,11 +55,11 @@ class ArticlesController extends FOSRestController
     }
 
     /**
-     * Show single tenenat article.
+     * Show single tenant article.
      *
      * @ApiDoc(
      *     resource=true,
-     *     description="Show single tenenat article",
+     *     description="Show single tenant article",
      *     statusCodes={
      *         200="Returned on success."
      *     }

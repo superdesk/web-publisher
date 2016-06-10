@@ -11,7 +11,6 @@
  * @copyright 2015 Sourcefabric z.ú.
  * @license http://www.superdesk.org/license
  */
-
 namespace SWP\Bundle\ContentBundle\Controller;
 
 use FOS\RestBundle\Controller\FOSRestController;
@@ -24,7 +23,7 @@ use Symfony\Component\HttpKernel\Exception\ConflictHttpException;
 use FOS\RestBundle\View\View;
 use Symfony\Component\HttpFoundation\Request;
 use SWP\Bundle\ContentBundle\Form\Type\RouteType;
-use SWP\Bundle\ContentBundle\Doctrine\Phpcr;
+use SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR;
 use SWP\Component\Common\Event\HttpCacheEvent;
 
 class RoutesController extends FOSRestController
@@ -49,7 +48,7 @@ class RoutesController extends FOSRestController
         $repository = $this->get('swp.repository.route');
         $basepath = $this->get('swp_multi_tenancy.path_builder')
             ->build($this->getParameter('swp_multi_tenancy.persistence.phpcr.route_basepaths')[0]);
-        $baseroute = $repository ->find($basepath);
+        $baseroute = $repository->find($basepath);
         $routes = [];
 
         if ($baseroute) {
@@ -102,9 +101,10 @@ class RoutesController extends FOSRestController
      */
     public function deleteAction($id)
     {
+        $repository = $this->get('swp.repository.route');
         $routeBasepath = $this->get('swp_multi_tenancy.path_builder')
             ->build($this->getParameter('swp_multi_tenancy.persistence.phpcr.base_paths')[0]);
-        $route = $this->get('swp.repository.route')->find($routeBasepath.$id);
+        $route = $repository->find($routeBasepath.$id);
 
         if (!$route) {
             throw new NotFoundHttpException('Route was not found.');
@@ -117,8 +117,7 @@ class RoutesController extends FOSRestController
             throw new ConflictHttpException('Route have children routes or content attached to it.');
         }
 
-        $manager->remove($route);
-        $manager->flush();
+        $repository->remove($route);
 
         return $this->handleView(View::create(true, 204));
     }
@@ -149,7 +148,8 @@ class RoutesController extends FOSRestController
                 $formData['parent'] = '/';
             }
 
-            $route = $this->handleRouteUpdate(new Phpcr\Route(), $formData);
+            // todo replace with factory
+            $route = $this->handleRouteUpdate(new PHPCR\Route(), $formData);
             $this->get('swp.repository.route')->add($route);
 
             $this->get('event_dispatcher')
@@ -179,10 +179,11 @@ class RoutesController extends FOSRestController
      */
     public function updateAction(Request $request, $id)
     {
-        $manager = $this->get('doctrine_phpcr')->getManager();
+        $repository = $this->get('swp.repository.route');
+        $manager = $this->get('swp.object_manager.route');
         $routeBasepath = $this->get('swp_multi_tenancy.path_builder')
             ->build($this->getParameter('swp_multi_tenancy.persistence.phpcr.base_paths')[0]);
-        $route = $this->get('swp.repository.route')->find($routeBasepath.$id);
+        $route = $repository->find($routeBasepath.$id);
         if (!$route) {
             throw new NotFoundHttpException('Route was not found.');
         }
@@ -233,7 +234,8 @@ class RoutesController extends FOSRestController
             $route->setName($routeData['name']);
         }
 
-        if (isset($routeData['type']) && $routeData['type'] == Phpcr\Route::TYPE_CONTENT) {
+        // TODO replace with factory
+        if (isset($routeData['type']) && $routeData['type'] == PHPCR\Route::TYPE_CONTENT) {
             $route->setDefault('_controller', '\SWP\Bundle\WebRendererBundle\Controller\ContentController::renderContentPageAction');
             $route->setVariablePattern(null);
             $route->setRequirements([]);

@@ -1,6 +1,17 @@
 <?php
 
-namespace SWP\Bundle\ContentBundle\DependencyInjection\Driver;
+/**
+ * This file is part of the Superdesk Web Publisher Storage Bundle.
+ *
+ * Copyright 2016 Sourcefabric z.ú. and contributors.
+ *
+ * For the full copyright and license information, please see the
+ * AUTHORS and LICENSE files distributed with this source code.
+ *
+ * @copyright 2016 Sourcefabric z.ú.
+ * @license http://www.superdesk.org/license
+ */
+namespace SWP\Bundle\StorageBundle\DependencyInjection\Driver;
 
 use Symfony\Component\DependencyInjection\Alias;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -10,9 +21,12 @@ use Symfony\Component\DependencyInjection\Reference;
 
 abstract class AbstractDriver implements PersistenceDriverInterface
 {
+    /**
+     * {@inheritdoc}
+     */
     protected function createRepositoryDefinition(ContainerBuilder $container, $config)
     {
-        $repositoryClass = new Parameter('swp.phpcr_odm.repository.class');
+        $repositoryClass = $this->getDriverRepositoryParameter();
 
         if (isset($config['class'])) {
             $repositoryClass = $config['class'];
@@ -27,14 +41,20 @@ abstract class AbstractDriver implements PersistenceDriverInterface
         $container->setDefinition('swp.repository.'.$config['name'], $definition);
     }
 
+    /**
+     * {@inheritdoc}
+     */
     protected function createObjectManagerAlias(ContainerBuilder $container, $config)
     {
         $container->setAlias(
-            'swp.manager.'.$config['name'].'.default',
+            'swp.object_manager.'.$config['name'],
             new Alias($this->getObjectManagerId())
         );
     }
 
+    /**
+     * {@inheritdoc}
+     */
     protected function getClassMetadataDefinition(array $config)
     {
         $definition = new Definition($this->getClassMetadataClassName());
@@ -45,5 +65,13 @@ abstract class AbstractDriver implements PersistenceDriverInterface
         ;
 
         return $definition;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getDriverRepositoryParameter()
+    {
+        return new Parameter('swp.phpcr_odm.repository.class');
     }
 }

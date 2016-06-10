@@ -206,8 +206,8 @@ swp_multi_tenancy:
     persistence:
         phpcr:
             enabled: true
-            site_document_class: SWP\Bundle\ContentBundle\Doctrine\Phpcr\Site
-            document_class: SWP\Bundle\ContentBundle\Doctrine\Phpcr\Route
+            site_document_class: SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\Site
+            document_class: SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\Route
 
 swp_web_renderer:
     device_listener:

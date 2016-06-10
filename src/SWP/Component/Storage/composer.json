@@ -1,0 +1,43 @@
+{
+    "name": "swp/storage",
+    "type": "library",
+    "description": "Build persistence agnostic storage layer.",
+    "keywords": ["driver", "agnostic", "storage", "superdesk", "publisher", "library", "doctrine"],
+    "authors": [
+        {
+            "name": "Rafał Muszyński",
+            "email": "rafal.muszynski@sourcefabric.org"
+        }
+    ],
+    "license":"AGPL-3.0",
+    "require": {
+        "php": ">=5.4|^7.0"
+    },
+    "require-dev": {
+        "phpspec/phpspec": "^2.4",
+        "symfony/dependency-injection": "~2.8|~3.0",
+        "doctrine/common": "^2.6"
+    },
+    "suggest": {
+        "symfony/dependency-injection": "To make use of abstract Bundle class.",
+        "doctrine/common": "To make use of Repository interface"
+    },
+    "config": {
+        "bin-dir": "bin"
+    },
+    "autoload": {
+        "exclude-from-classmap": [
+            "spec/"
+        ],
+        "psr-4": { "SWP\\Component\\Storage\\": "" }
+    },
+    "autoload-dev": {
+        "psr-4": { "SWP\\Component\\Storage\\spec\\": "spec/" }
+    },
+    "minimum-stability": "dev",
+    "extra": {
+        "branch-alias": {
+            "dev-master": "0.1-dev"
+        }
+    }
+}

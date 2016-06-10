@@ -11,8 +11,7 @@
  * @copyright 2016 Sourcefabric z.ú.
  * @license http://www.superdesk.org/license
  */
-
-namespace SWP\Bundle\ContentBundle\Doctrine\Phpcr;
+namespace SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR;
 
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ODM\PHPCR\Exception\InvalidArgumentException;

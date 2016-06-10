@@ -11,13 +11,12 @@
  * @copyright 2016 Sourcefabric z.ú.
  * @license http://www.superdesk.org/license
  */
-
 namespace SWP\Bundle\ContentBundle\DependencyInjection;
 
-use SWP\Bundle\ContentBundle\Doctrine\Phpcr\Article;
-use SWP\Bundle\ContentBundle\Doctrine\Phpcr\ArticleRepository;
-use SWP\Bundle\ContentBundle\Doctrine\Phpcr\Route;
-use SWP\Bundle\ContentBundle\Doctrine\Phpcr\Site;
+use SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\Article;
+use SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\ArticleRepository;
+use SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\Route;
+use SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\Site;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
 
@@ -77,15 +76,6 @@ class Configuration implements ConfigurationInterface
                                 ->end()
                             ->end()
                         ->end() // phpcr
-                        ->arrayNode('orm')
-                            ->addDefaultsIfNotSet()
-                            ->canBeEnabled()
-                            ->children()
-                                ->scalarNode('manager_name')
-                                    ->defaultNull()
-                                ->end()
-                            ->end()
-                        ->end() // orm
                     ->end()
                 ->end()
             ->end();

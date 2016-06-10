@@ -97,7 +97,9 @@
         "swp/multi-tenancy": "self.version",
         "swp/multi-tenancy-bundle": "self.version",
         "swp/bridge-bundle": "self.version",
-        "swp/bridge": "self.version"
+        "swp/bridge": "self.version",
+        "swp/storage-bundle": "self.version",
+        "swp/storage": "self.version"
     },
     "scripts": {
         "post-install-cmd": [

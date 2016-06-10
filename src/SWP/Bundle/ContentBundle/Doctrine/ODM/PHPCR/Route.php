@@ -11,18 +11,13 @@
  * @copyright 2016 Sourcefabric z.ú.
  * @license http://www.superdesk.org/license
  */
-namespace SWP\Bundle\ContentBundle\Doctrine;
+namespace SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR;
 
-use SWP\Bundle\ContentBundle\Model\ArticleInterface;
+use SWP\Bundle\ContentBundle\Model\RouteInterface;
+use SWP\Bundle\MultiTenancyBundle\Document\Page;
 
-interface ArticleRepositoryInterface
+class Route extends Page implements RouteInterface
 {
-    /**
-     * Finds one article by slug.
-     * 
-     * @param string $slug
-     *
-     * @return ArticleInterface
-     */
-    public function findOneBySlug($slug);
+    const TYPE_CONTENT = 'content';
+    const TYPE_COLLECTION = 'collection';
 }

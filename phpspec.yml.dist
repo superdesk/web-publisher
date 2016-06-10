@@ -10,6 +10,11 @@ suites:
         psr4_prefix: SWP\Component\Bridge
         spec_path: src/SWP/Component/Bridge
         src_path: src/SWP/Component/Bridge
+    Storage_suite:
+        namespace: SWP\Component\Storage
+        psr4_prefix: SWP\Component\Storage
+        spec_path: src/SWP/Component/Storage
+        src_path: src/SWP/Component/Storage
 
     # bundles
     MultiTenancyBundle_suite:

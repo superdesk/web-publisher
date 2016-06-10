@@ -1,5 +1,5 @@
-SWP\Bundle\ContentBundle\Doctrine\Phpcr\Article:
-    repositoryClass: SWP\Bundle\ContentBundle\Doctrine\Phpcr\ArticleRepository
+SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\Article:
+    repositoryClass: SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\ArticleRepository
     referenceable: true
     parentdocument: parent
     nodename: slug
@@ -11,5 +11,5 @@ SWP\Bundle\ContentBundle\Doctrine\Phpcr\Article:
             type: string
     referenceOne:
         route:
-            targetDocument: "\\SWP\\Bundle\\ContentBundle\\Doctrine\\Phpcr\\Route"
+            targetDocument: "\\SWP\\Bundle\\ContentBundle\\Doctrine\\ODM\\PHPCR\\Route"
             strategy: hard

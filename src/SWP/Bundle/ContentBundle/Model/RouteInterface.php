@@ -11,18 +11,10 @@
  * @copyright 2016 Sourcefabric z.ú.
  * @license http://www.superdesk.org/license
  */
-namespace SWP\Bundle\ContentBundle\Doctrine;
+namespace SWP\Bundle\ContentBundle\Model;
 
-use SWP\Bundle\ContentBundle\Model\ArticleInterface;
+use SWP\Component\Storage\Model\PersistableInterface;
 
-interface ArticleRepositoryInterface
+interface RouteInterface extends PersistableInterface
 {
-    /**
-     * Finds one article by slug.
-     * 
-     * @param string $slug
-     *
-     * @return ArticleInterface
-     */
-    public function findOneBySlug($slug);
 }

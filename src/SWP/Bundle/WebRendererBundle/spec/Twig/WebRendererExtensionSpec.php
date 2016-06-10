@@ -31,6 +31,11 @@ class WebRendererExtensionSpec extends ObjectBehavior
         $this->shouldHaveType(WebRendererExtension::class);
     }
 
+    function it_implements_an_interface()
+    {
+        $this->shouldImplement(\Twig_Extension_GlobalsInterface::class);
+    }
+
     function it_is_a_twig_extension()
     {
         $this->shouldHaveType(Twig_Extension::class);

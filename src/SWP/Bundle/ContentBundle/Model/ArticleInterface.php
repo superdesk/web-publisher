@@ -15,8 +15,9 @@ namespace SWP\Bundle\ContentBundle\Model;
 
 use SWP\Component\Common\Model\TimestampableInterface;
 use SWP\Component\Common\Model\TranslatableInterface;
+use SWP\Component\Storage\Model\PersistableInterface;
 
-interface ArticleInterface extends TimestampableInterface, TranslatableInterface
+interface ArticleInterface extends TimestampableInterface, TranslatableInterface, PersistableInterface
 {
     /**
      * @return mixed

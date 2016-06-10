@@ -33,6 +33,11 @@ class MultiTenancyExtensionSpec extends ObjectBehavior
         $this->shouldHaveType('SWP\Bundle\MultiTenancyBundle\Twig\MultiTenancyExtension');
     }
 
+    function it_implements_an_interface()
+    {
+        $this->shouldImplement('Twig_Extension_GlobalsInterface');
+    }
+
     function it_is_a_twig_extension()
     {
         $this->shouldHaveType('Twig_Extension');

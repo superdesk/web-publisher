@@ -16,7 +16,7 @@ namespace SWP\Bundle\TemplateEngineBundle\EventSubscriber;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use SWP\Component\Common\Event\HttpCacheEvent;
 use SWP\Bundle\TemplateEngineBundle\Model\Container;
-use SWP\Bundle\ContentBundle\Doctrine\Phpcr\Route;
+use SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\Route;
 use FOS\HttpCache\Exception\ExceptionCollection;
 
 class HttpCacheSubscriber implements EventSubscriberInterface

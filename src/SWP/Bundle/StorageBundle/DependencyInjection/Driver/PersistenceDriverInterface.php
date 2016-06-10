@@ -1,8 +1,20 @@
 <?php
 
-namespace SWP\Bundle\ContentBundle\DependencyInjection\Driver;
+/**
+ * This file is part of the Superdesk Web Publisher Storage Bundle.
+ *
+ * Copyright 2016 Sourcefabric z.ú. and contributors.
+ *
+ * For the full copyright and license information, please see the
+ * AUTHORS and LICENSE files distributed with this source code.
+ *
+ * @copyright 2016 Sourcefabric z.ú.
+ * @license http://www.superdesk.org/license
+ */
+namespace SWP\Bundle\StorageBundle\DependencyInjection\Driver;
 
 use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\Parameter;
 
 interface PersistenceDriverInterface
 {
@@ -34,4 +46,11 @@ interface PersistenceDriverInterface
      * @param string $type
      */
     public function isSupported($type);
+
+    /**
+     * Gets the repository class name model for driver.
+     *
+     * @return Parameter
+     */
+    public function getDriverRepositoryParameter();
 }

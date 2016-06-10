@@ -15,7 +15,7 @@ namespace SWP\Bundle\WebRendererBundle\Twig;
 
 use Sylius\Bundle\ThemeBundle\Context\ThemeContextInterface;
 
-class WebRendererExtension extends \Twig_Extension
+class WebRendererExtension extends \Twig_Extension implements \Twig_Extension_GlobalsInterface
 {
     /**
      * @var ThemeContextInterface

@@ -1,2 +1,2 @@
-SWP\Bundle\ContentBundle\Doctrine\Phpcr\Route:
+SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\Route:
     exclusion_policy: ALL
