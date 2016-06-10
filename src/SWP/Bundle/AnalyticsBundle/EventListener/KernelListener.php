@@ -32,17 +32,10 @@ class KernelListener
      */
     protected $stopwatchEvent;
 
-
     /**
      * @var RequestMetricRepository
      */
     protected $requestMetricRepository;
-
-    public function __construct()
-    {
-        $this->stopwatch = null;
-        $this->stopwatchEvent = null;
-    }
 
     public function setRequestMetricRepository(RequestMetricRepository $requestMetricRepository)
     {
@@ -85,13 +78,14 @@ class KernelListener
         $duration = $this->stopwatchEvent->getDuration();
         $route = $event->getRequest()->get('_route');
 
+        // Route is null here in test environment
         if (!is_null($route)) {
             $requestMetric = new RequestMetric();
             $requestMetric
                 ->setUri($requestUri)
                 ->setDuration($duration)
                 ->setRoute($route);
-            $this->requestMetricRepository->save($requestMetric);
+            $this->requestMetricRepository->persistAndFlush($requestMetric);
         }
     }
 }
