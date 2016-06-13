@@ -12,32 +12,23 @@ The presentation of articles is taken care of by a flexible, device-responsive t
 This documentation includes text and code examples from the Symfony and Sylius projects, released under the `Creative Commons BY-SA 3.0 <http://creativecommons.org/licenses/by-sa/3.0/>`_ license. 
 Pull requests to `improve the documentation <http://superdesk-web-publisher.readthedocs.io/en/latest/contributing/documentation/index.html>`_ are very welcome.
 
-Documentation for theme designers
----------------------------------
-
 .. toctree::
-   :caption: For designers
+   :caption: Documentation for theme designers
    :maxdepth: 2
 
    themes
    templates_system
    templates_caching
 
-Documentation for developers
-----------------------------
-
 .. toctree::
-   :caption: For developers
+   :caption: Documentation for developers
    :maxdepth: 2
 
+   cookbook/composer
    fixtures
    bundles/index
-
-.. include:: /bundles/map.rst.inc
-
    components/index
-
-.. include:: /components/map.rst.inc
+   template_developers/index
 
 Contributing to Web Publisher
 -----------------------------

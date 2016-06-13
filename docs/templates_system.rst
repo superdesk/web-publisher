@@ -7,6 +7,5 @@ The Superdesk Web Publisher templates system has its own git repository, at: htt
    :maxdepth: 4
    :glob:
 
-   _templates_system/templates
-   _templates_system/containers_and_widgets
-   _templates_system/developers
+   templates_system/templates
+   templates_system/containers_and_widgets
