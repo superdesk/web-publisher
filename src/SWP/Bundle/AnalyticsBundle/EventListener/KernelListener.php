@@ -3,12 +3,12 @@
 /**
  * This file is part of the Superdesk Web Publisher Template Engine Bundle.
  *
- * Copyright 2015 Sourcefabric z.u. and contributors.
+ * Copyright 2015 Sourcefabric z.ú. and contributors.
  *
  * For the full copyright and license information, please see the
  * AUTHORS and LICENSE files distributed with this source code.
  *
- * @copyright 2015 Sourcefabric z.ú.
+ * @copyright 2016 Sourcefabric z.ú.
  * @license http://www.superdesk.org/license
  */
 namespace SWP\Bundle\AnalyticsBundle\EventListener;
@@ -52,7 +52,7 @@ class KernelListener
 
         // Todo: check for configured routes
         // Ignore web debug toolbar
-        if (!is_null($route) && $route !== '_wdt') {
+        if (null !== $route && '_wdt' !== $route ) {
             $this->stopwatch = new Stopwatch();
             $this->stopwatch->start($event->getRequest()->getUri());
         }
@@ -61,7 +61,7 @@ class KernelListener
 
     public function onKernelResponse(FilterResponseEvent $event)
     {
-        if (is_null($this->stopwatch)) {
+        if (null !== $this->stopwatch) {
             return;
         }
 
@@ -79,7 +79,7 @@ class KernelListener
         $route = $event->getRequest()->get('_route');
 
         // Route is null here in test environment
-        if (!is_null($route)) {
+        if (null !== $route) {
             $requestMetric = new RequestMetric();
             $requestMetric
                 ->setUri($requestUri)
