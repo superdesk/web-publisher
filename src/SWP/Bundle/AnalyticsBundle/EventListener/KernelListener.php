@@ -52,7 +52,7 @@ class KernelListener
 
         // Todo: check for configured routes
         // Ignore web debug toolbar
-        if (null !== $route && '_wdt' !== $route ) {
+        if (null !== $route && '_wdt' !== $route) {
             $this->stopwatch = new Stopwatch();
             $this->stopwatch->start($event->getRequest()->getUri());
         }
