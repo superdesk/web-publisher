@@ -43,7 +43,6 @@ class ContentController extends Controller
      */
     private function renderPage($type, $parameters = [])
     {
-        $context = $this->container->get('context');
         $metaLoader = $this->container->get('swp_template_engine_loader_chain');
         $article = null;
 
@@ -58,13 +57,16 @@ class ContentController extends Controller
         }
 
         if ($article) {
+            $context = $this->container->get('context');
             $context->registerMeta('article', $article);
         }
 
         $tenantContext = $this->get('swp_multi_tenancy.tenant_context');
 
-        return $this->render('article.html.twig', [
+        $response = $this->render('article.html.twig', [
             'tenant' => $tenantContext->getTenant(),
         ]);
+
+        return $response;
     }
 }
