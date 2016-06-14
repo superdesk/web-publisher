@@ -5,8 +5,8 @@ services:
         arguments:
             - SWP\Bundle\AnalyticsBundle\Model\RequestMetric
 
-    swp.analytics.kernel_listener:
-        class:  SWP\Bundle\AnalyticsBundle\EventListener\KernelListener
+    swp.analytics.metrics_listener:
+        class:  SWP\Bundle\AnalyticsBundle\EventListener\MetricsListener
         calls:
             - [setRequestMetricRepository, ['@swp.analytics.requestmetric_repository']]
         tags:

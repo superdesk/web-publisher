@@ -20,7 +20,7 @@ use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use Symfony\Component\Stopwatch\Stopwatch;
 use Symfony\Component\Stopwatch\StopwatchEvent;
 
-class KernelListener
+class MetricsListener
 {
     /**
      * @var Stopwatch
@@ -58,10 +58,15 @@ class KernelListener
         }
     }
 
-
     public function onKernelResponse(FilterResponseEvent $event)
     {
-        if (null !== $this->stopwatch) {
+        // Route is null here in test environment
+        $route = $event->getRequest()->get('_route');
+        if (null === $route) {
+            return;
+        }
+
+        if (null === $this->stopwatch) {
             return;
         }
 
@@ -76,16 +81,11 @@ class KernelListener
         }
 
         $duration = $this->stopwatchEvent->getDuration();
-        $route = $event->getRequest()->get('_route');
-
-        // Route is null here in test environment
-        if (null !== $route) {
-            $requestMetric = new RequestMetric();
-            $requestMetric
-                ->setUri($requestUri)
-                ->setDuration($duration)
-                ->setRoute($route);
-            $this->requestMetricRepository->persistAndFlush($requestMetric);
-        }
+        $requestMetric = new RequestMetric();
+        $requestMetric
+            ->setUri($requestUri)
+            ->setDuration($duration)
+            ->setRoute($route);
+        $this->requestMetricRepository->persistAndFlush($requestMetric);
     }
 }

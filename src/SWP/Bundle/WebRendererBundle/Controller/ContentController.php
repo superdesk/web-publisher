@@ -69,5 +69,4 @@ class ContentController extends Controller
 
         return $response;
     }
-
 }
