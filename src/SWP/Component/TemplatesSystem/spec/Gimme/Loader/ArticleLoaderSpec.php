@@ -26,12 +26,12 @@ class ArticleLoaderSpec extends ObjectBehavior
 
     function it_is_initializable()
     {
-        $this->shouldHaveType('SWP\TemplatesSystem\Gimme\Loader\ArticleLoader');
+        $this->shouldHaveType('SWP\Component\TemplatesSystem\Gimme\Loader\ArticleLoader');
     }
 
     function it_should_load_meta()
     {
-        $this->load('article', array(), \SWP\TemplatesSystem\Gimme\Loader\LoaderInterface::SINGLE)->shouldBeAnInstanceOf('SWP\TemplatesSystem\Gimme\Meta\Meta');
+        $this->load('article', array(), \SWP\Component\TemplatesSystem\Gimme\Loader\LoaderInterface::SINGLE)->shouldBeAnInstanceOf('SWP\Component\TemplatesSystem\Gimme\Meta\Meta');
     }
 
     function it_should_check_if_type_is_supported()

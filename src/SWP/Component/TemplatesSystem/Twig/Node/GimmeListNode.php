@@ -79,7 +79,7 @@ class GimmeListNode extends \Twig_Node
         $compiler->write("\$swpCollectionMetaLoader".$i." = \$this->env->getExtension('swp_gimme')->getLoader();\n")
             ->write("")->subcompile($this->getNode('collectionType'))->raw(" = twig_ensure_traversable(\$swpCollectionMetaLoader".$i."->load(\"")->raw($collectionTypeName)->raw("\", ");
                 $compiler->raw("\$parameters");
-                $compiler->raw(", \SWP\TemplatesSystem\Gimme\Loader\LoaderInterface::COLLECTION));\n");
+                $compiler->raw(", \SWP\Component\TemplatesSystem\Gimme\Loader\LoaderInterface::COLLECTION));\n");
 
         // the (array) cast bypasses a PHP 5.2.6 bug
         $compiler->write("\$context['_parent'] = (array) \$context;\n");

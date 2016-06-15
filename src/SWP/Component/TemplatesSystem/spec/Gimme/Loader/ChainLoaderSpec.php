@@ -29,13 +29,13 @@ class ChainLoaderSpec extends ObjectBehavior
     {
         $articleLoader->isSupported(Argument::exact('article'))->willReturn(true);
         $articleLoader->isSupported(Argument::exact('article2'))->willReturn(false);
-        $articleLoader->load(Argument::exact('article'), Argument::type('array'), \SWP\TemplatesSystem\Gimme\Loader\LoaderInterface::SINGLE)->willReturn($meta);
+        $articleLoader->load(Argument::exact('article'), Argument::type('array'), \SWP\Component\TemplatesSystem\Gimme\Loader\LoaderInterface::SINGLE)->willReturn($meta);
 
     }
 
     function it_is_initializable()
     {
-        $this->shouldHaveType('SWP\TemplatesSystem\Gimme\Loader\ChainLoader');
+        $this->shouldHaveType('SWP\Component\TemplatesSystem\Gimme\Loader\ChainLoader');
     }
 
     function it_should_add_new_loader($articleLoader)
