@@ -16,7 +16,7 @@ namespace SWP\Bundle\TemplateEngineBundle\Model;
 use Doctrine\Common\Collections\ArrayCollection;
 use SWP\Component\MultiTenancy\Model\TenantAwareInterface;
 use SWP\Component\MultiTenancy\Model\TenantInterface;
-use SWP\TemplatesSystem\Gimme\Model\ContainerInterface;
+use SWP\Component\TemplatesSystem\Gimme\Model\ContainerInterface;
 use SWP\Component\Common\Model\TimestampableInterface;
 
 /**

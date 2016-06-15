@@ -13,7 +13,7 @@
  */
 namespace SWP\Bundle\TemplateEngineBundle\Container;
 
-use SWP\TemplatesSystem\Gimme\Model\ContainerInterface;
+use SWP\Component\TemplatesSystem\Gimme\Model\ContainerInterface;
 
 class SimpleContainer
 {

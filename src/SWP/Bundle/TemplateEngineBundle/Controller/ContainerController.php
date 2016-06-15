@@ -23,7 +23,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\UnprocessableEntityHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use SWP\Bundle\TemplateEngineBundle\Form\Type\ContainerType;
-use SWP\Bundle\TemplateEngineBundle\Model\Widget;
+use SWP\Bundle\TemplateEngineBundle\Model\WidgetModel;
 use SWP\Bundle\TemplateEngineBundle\Model\ContainerWidget;
 use SWP\Bundle\TemplateEngineBundle\Model\ContainerData;
 use SWP\Component\Common\Event\HttpCacheEvent;
@@ -204,7 +204,7 @@ class ContainerController extends FOSRestController
                 throw $object;
             }
 
-            if ($object instanceof Widget) {
+            if ($object instanceof WidgetModel) {
                 $containerWidget = $entityManager->getRepository('SWP\Bundle\TemplateEngineBundle\Model\ContainerWidget')
                     ->findOneBy([
                         'widget' => $object,
@@ -221,7 +221,7 @@ class ContainerController extends FOSRestController
                     }
 
                     if ($position === false && $containerWidget) {
-                        throw new \Exception('Widget is already linked to container', 409);
+                        throw new \Exception('WidgetModel is already linked to container', 409);
                     }
 
                     if (!$containerWidget) {
@@ -236,7 +236,7 @@ class ContainerController extends FOSRestController
                     }
                 } elseif ($request->getMethod() === 'UNLINK') {
                     if (!$container->getWidgets()->contains($containerWidget)) {
-                        throw new \Exception('Widget is not linked to container', 409);
+                        throw new \Exception('WidgetModel is not linked to container', 409);
                     }
                     $entityManager->remove($containerWidget);
                 }

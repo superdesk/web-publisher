@@ -13,8 +13,8 @@
  */
 namespace SWP\Bundle\ContentBundle\Loader;
 
-use SWP\TemplatesSystem\Gimme\Loader\LoaderInterface;
-use SWP\TemplatesSystem\Gimme\Meta\Meta;
+use SWP\Component\TemplatesSystem\Gimme\Loader\LoaderInterface;
+use SWP\Component\TemplatesSystem\Gimme\Meta\Meta;
 use Symfony\Component\Yaml\Parser;
 
 class ArticleLoader implements LoaderInterface

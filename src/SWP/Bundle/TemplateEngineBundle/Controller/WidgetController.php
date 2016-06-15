@@ -21,7 +21,7 @@ use FOS\RestBundle\View\View;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\UnprocessableEntityHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use SWP\Bundle\TemplateEngineBundle\Model\Widget;
+use SWP\Bundle\TemplateEngineBundle\Model\WidgetModel;
 use SWP\Bundle\TemplateEngineBundle\Form\Type\WidgetType;
 
 class WidgetController extends FOSRestController
@@ -43,7 +43,7 @@ class WidgetController extends FOSRestController
     {
         $entityManager = $this->get('doctrine')->getManager();
         $paginator = $this->get('knp_paginator');
-        $widgets = $paginator->paginate($entityManager->getRepository('SWP\Bundle\TemplateEngineBundle\Model\Widget')->getAll());
+        $widgets = $paginator->paginate($entityManager->getRepository('SWP\Bundle\TemplateEngineBundle\Model\WidgetModel')->getAll());
 
         if (count($widgets) == 0) {
             throw new NotFoundHttpException('Widgets were not found.');
@@ -60,8 +60,8 @@ class WidgetController extends FOSRestController
      *     description="Get single widget",
      *     statusCodes={
      *         200="Returned on success.",
-     *         404="Widget not found",
-     *         422="Widget id is not number"
+     *         404="WidgetModel not found",
+     *         422="WidgetModel id is not number"
      *     }
      * )
      * @Route("/api/{version}/templates/widgets/{id}", requirements={"id"="\d+"}, options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_templates_get_widget")
@@ -74,10 +74,10 @@ class WidgetController extends FOSRestController
         }
 
         $entityManager = $this->get('doctrine')->getManager();
-        $widget = $entityManager->getRepository('SWP\Bundle\TemplateEngineBundle\Model\Widget')->getById($id)->getOneOrNullResult();
+        $widget = $entityManager->getRepository('SWP\Bundle\TemplateEngineBundle\Model\WidgetModel')->getById($id)->getOneOrNullResult();
 
         if (!$widget) {
-            throw new NotFoundHttpException('Widget with this id was not found.');
+            throw new NotFoundHttpException('WidgetModel with this id was not found.');
         }
 
         // return clean object for LINK requests
@@ -107,7 +107,7 @@ class WidgetController extends FOSRestController
     {
         $entityManager = $this->get('doctrine')->getManager();
 
-        $widget = new Widget();
+        $widget = new WidgetModel();
         $form = $this->createForm(new WidgetType(), $widget);
         $form->handleRequest($request);
         if ($form->isValid()) {
@@ -128,8 +128,8 @@ class WidgetController extends FOSRestController
      *     description="Delete single widget",
      *     statusCodes={
      *         204="Returned on success.",
-     *         404="Widget not found",
-     *         422="Widget id is not number"
+     *         404="WidgetModel not found",
+     *         422="WidgetModel id is not number"
      *     }
      * )
      * @Route("/api/{version}/templates/widgets/{id}", requirements={"id"="\d+"}, options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_templates_delete_widget")
@@ -142,10 +142,10 @@ class WidgetController extends FOSRestController
         }
 
         $entityManager = $this->get('doctrine')->getManager();
-        $widget = $entityManager->getRepository('SWP\Bundle\TemplateEngineBundle\Model\Widget')->getById($id)->getOneOrNullResult();
+        $widget = $entityManager->getRepository('SWP\Bundle\TemplateEngineBundle\Model\WidgetModel')->getById($id)->getOneOrNullResult();
 
         if (!$widget) {
-            throw new NotFoundHttpException('Widget with this id was not found.');
+            throw new NotFoundHttpException('WidgetModel with this id was not found.');
         }
 
         foreach ($widget->getContainers() as $containerWidget) {
@@ -166,8 +166,8 @@ class WidgetController extends FOSRestController
      *     description="Update single widget",
      *     statusCodes={
      *         201="Returned on success.",
-     *         404="Widget not found",
-     *         422="Widget id is not number",
+     *         404="WidgetModel not found",
+     *         422="WidgetModel id is not number",
      *         405="Method Not Allowed"
      *     },
      *     input="SWP\Bundle\TemplateEngineBundle\Form\Type\WidgetType"
@@ -182,10 +182,10 @@ class WidgetController extends FOSRestController
         }
 
         $entityManager = $this->get('doctrine')->getManager();
-        $widget = $entityManager->getRepository('SWP\Bundle\TemplateEngineBundle\Model\Widget')->getById($id)->getOneOrNullResult();
+        $widget = $entityManager->getRepository('SWP\Bundle\TemplateEngineBundle\Model\WidgetModel')->getById($id)->getOneOrNullResult();
 
         if (!$widget) {
-            throw new NotFoundHttpException('Widget with this id was not found.');
+            throw new NotFoundHttpException('WidgetModel with this id was not found.');
         }
 
         $form = $this->createForm(new WidgetType(), $widget, array(
