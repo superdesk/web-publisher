@@ -34,8 +34,10 @@ class DefaultController extends Controller
             throw $this->createNotFoundException('No homepage configured!');
         }
 
-        return $this->render('index.html.twig', [
+        $response = $this->render('index.html.twig', [
             'page' => $homepage,
         ]);
+
+        return $response;
     }
 }
