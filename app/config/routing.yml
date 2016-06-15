@@ -14,4 +14,5 @@ swp_updater:
     resource: "@SWPUpdaterBundle/Resources/config/routing.yml"
 
 swp_bridge:
-    resource: "@SWPBridgeBundle/Resources/config/routing.yml"
+    resource: "@SWPBridgeBundle/Controller"
+    type:     annotation

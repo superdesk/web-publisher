@@ -1,7 +1,7 @@
 <?php
 
 /**
- * This file is part of the Superdesk Web Publisher Storage Bundle.
+ * This file is part of the Superdesk Web Publisher Storage Component.
  *
  * Copyright 2016 Sourcefabric z.ú. and contributors.
  *
@@ -11,16 +11,27 @@
  * @copyright 2016 Sourcefabric z.ú.
  * @license http://www.superdesk.org/license
  */
-namespace SWP\Bundle\StorageBundle\DependencyInjection\Driver;
+namespace SWP\Component\Storage\DependencyInjection\Driver;
 
 use Symfony\Component\DependencyInjection\Alias;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
-use Symfony\Component\DependencyInjection\Parameter;
 use Symfony\Component\DependencyInjection\Reference;
 
 abstract class AbstractDriver implements PersistenceDriverInterface
 {
+    /**
+     * {@inheritdoc}
+     */
+    public function load(ContainerBuilder $container, array $config)
+    {
+        foreach ($config['repositories'] as $key => $repositoryConfig) {
+            $repositoryConfig['name'] = $key;
+            $this->createObjectManagerAlias($container, $repositoryConfig);
+            $this->createRepositoryDefinition($container, $repositoryConfig);
+        }
+    }
+
     /**
      * {@inheritdoc}
      */
@@ -39,6 +50,17 @@ abstract class AbstractDriver implements PersistenceDriverInterface
         ]);
 
         $container->setDefinition('swp.repository.'.$config['name'], $definition);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function createFactoryDefinition(ContainerBuilder $container, $config)
+    {
+        $definition = new Definition($config['class']);
+        $definition->setArguments([$config['model']]);
+
+        $container->setDefinition('swp.factory.'.$config['name'], $definition);
     }
 
     /**
@@ -65,13 +87,5 @@ abstract class AbstractDriver implements PersistenceDriverInterface
         ;
 
         return $definition;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getDriverRepositoryParameter()
-    {
-        return new Parameter('swp.phpcr_odm.repository.class');
     }
 }

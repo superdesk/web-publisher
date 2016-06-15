@@ -41,8 +41,6 @@ class ValidatorChainSpec extends ObjectBehavior
 
     function it_should_return_list_of_validators(ValidatorInterface $validator)
     {
-        $validator->getFormat()->willReturn('format');
-        $validator->getSchema()->willReturn('schema');
         $this->addValidator($validator, 'alias');
 
         $validators = ['alias' => $validator];
@@ -52,18 +50,12 @@ class ValidatorChainSpec extends ObjectBehavior
 
     function it_should_add_a_new_validator(ValidatorInterface $validator)
     {
-        $validator->getFormat()->willReturn('format');
-        $validator->getSchema()->willReturn('schema');
-
         $this->addValidator($validator, 'alias');
         $this->getValidator('alias')->shouldReturn($validator);
     }
 
     function it_should_throw_an_exception_when_adding_existing_validator(ValidatorInterface $validator)
     {
-        $validator->getFormat()->willReturn('format');
-        $validator->getSchema()->willReturn('schema');
-
         $this->addValidator($validator, 'alias');
 
         $this->shouldThrow(RuntimeException::class)->duringAddValidator($validator, 'alias');
@@ -71,9 +63,6 @@ class ValidatorChainSpec extends ObjectBehavior
 
     function it_should_throw_an_exception_when_validator_doesnt_exist(ValidatorInterface $validator)
     {
-        $validator->getFormat()->willReturn('format');
-        $validator->getSchema()->willReturn('schema');
-
         $this->addValidator($validator, 'alias');
 
         $this->shouldThrow(RuntimeException::class)->duringGetValidator('fake_alias');

@@ -17,7 +17,7 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\Reference;
 
-class RegisterPipelineValidatorsCompilerPass implements CompilerPassInterface
+class ValidatorsCompilerPass implements CompilerPassInterface
 {
     public function process(ContainerBuilder $container)
     {
@@ -25,9 +25,7 @@ class RegisterPipelineValidatorsCompilerPass implements CompilerPassInterface
             return;
         }
 
-        $definition = $container->getDefinition(
-            'swp_bridge.http_push.validator_chain'
-        );
+        $definition = $container->getDefinition('swp_bridge.http_push.validator_chain');
 
         foreach ($container->findTaggedServiceIds('validator.http_push_validator') as $id => $tags) {
             foreach ($tags as $attributes) {

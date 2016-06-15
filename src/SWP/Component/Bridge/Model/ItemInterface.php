@@ -16,7 +16,12 @@ namespace SWP\Component\Bridge\Model;
 interface ItemInterface extends ContentInterface
 {
     /**
-     * @return PackageInterface
+     * @return string
      */
-    public function getPackage();
+    public function getBody();
+
+    /**
+     * @param string $body
+     */
+    public function setBody($body);
 }

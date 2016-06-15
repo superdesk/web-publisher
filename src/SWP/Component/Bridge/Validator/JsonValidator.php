@@ -15,7 +15,7 @@ namespace SWP\Component\Bridge\Validator;
 
 use JsonSchema\Validator;
 
-class JsonValidator implements ValidatorInterface
+class JsonValidator implements ValidatorInterface, ValidatorOptionsInterface
 {
     /**
      * @var string

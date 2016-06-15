@@ -62,7 +62,7 @@ abstract class Bundle extends BaseBundle implements BundleInterface
                                 $this->getNamespaces(),
                                 [$this->getConfigFilesPath($driver)],
                                 [sprintf('%s.persistence.manager_name', $this->getBundlePrefix())],
-                                sprintf('%s.backend_type_.%s', $this->getBundlePrefix(), $driver)
+                                sprintf('%s.backend_type_%s', $this->getBundlePrefix(), $driver)
                             ));
                             break;
                     }

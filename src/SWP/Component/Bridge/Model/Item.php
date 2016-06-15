@@ -13,26 +13,31 @@
  */
 namespace SWP\Component\Bridge\Model;
 
-class Item extends BaseContent implements ItemInterface
+use SWP\Component\Common\Model\TimestampableInterface;
+use SWP\Component\Common\Model\TimestampableTrait;
+
+class Item extends BaseContent implements ItemInterface, TimestampableInterface
 {
-    /**
-     * @var PackageInterface[]
-     */
-    protected $package;
+    use TimestampableTrait;
 
     /**
-     * @return PackageInterface
+     * @var string
      */
-    public function getPackage()
+    protected $body;
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getBody()
     {
-        return $this->package;
+        return $this->body;
     }
 
     /**
-     * @param PackageInterface $package
+     * {@inheritdoc}
      */
-    public function setPackage(PackageInterface $package)
+    public function setBody($body)
     {
-        $this->package = $package;
+        $this->body = $body;
     }
 }

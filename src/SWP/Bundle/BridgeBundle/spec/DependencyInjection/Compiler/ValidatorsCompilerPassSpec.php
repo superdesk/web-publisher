@@ -15,19 +15,19 @@ namespace spec\SWP\Bundle\BridgeBundle\DependencyInjection\Compiler;
 
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
-use SWP\Bundle\BridgeBundle\DependencyInjection\Compiler\RegisterPipelineValidatorsCompilerPass;
+use SWP\Bundle\BridgeBundle\DependencyInjection\Compiler\ValidatorsCompilerPass;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 
 /**
- * @mixin RegisterPipelineValidatorsCompilerPass
+ * @mixin ValidatorsCompilerPass
  */
-class RegisterPipelineValidatorsCompilerPassSpec extends ObjectBehavior
+class ValidatorsCompilerPassSpec extends ObjectBehavior
 {
     function it_is_initializable()
     {
-        $this->shouldHaveType(RegisterPipelineValidatorsCompilerPass::class);
+        $this->shouldHaveType(ValidatorsCompilerPass::class);
     }
 
     function it_is_compiler_pass()

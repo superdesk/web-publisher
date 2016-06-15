@@ -1,6 +1,5 @@
 parameters:
     swp_content_bundle.article.manager.class: SWP\Bundle\ContentBundle\Doctrine\ArticleManager
-    swp_content_bundle.route.manager.class: SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\RouteManager
 
 services:
     swp.manager.article.phpcr:

@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "a6dbd2dc22a03f9d3072320720ff5f23",
-    "content-hash": "6d60ed589d972dddebb0c90cd57bd355",
+    "hash": "459a773a433e9c121be97113cdfaf5e2",
+    "content-hash": "d677761c65a37eb666e6b097774cf1e9",
     "packages": [
         {
             "name": "ahilles107/updater",
@@ -2565,6 +2565,53 @@
                 "storage"
             ],
             "time": "2016-04-28 06:53:12"
+        },
+        {
+            "name": "league/pipeline",
+            "version": "0.2.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/thephpleague/pipeline.git",
+                "reference": "c79ce70462364cb98ecae4d9b74554483a82d706"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/thephpleague/pipeline/zipball/c79ce70462364cb98ecae4d9b74554483a82d706",
+                "reference": "c79ce70462364cb98ecae4d9b74554483a82d706",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.5"
+            },
+            "require-dev": {
+                "henrikbjorn/phpspec-code-coverage": "^1.0",
+                "phpspec/phpspec": "^2.2"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "League\\Pipeline\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Frank de Jonge",
+                    "email": "info@frenky.net"
+                }
+            ],
+            "description": "A plug and play pipeline implementation.",
+            "keywords": [
+                "composition",
+                "design pattern",
+                "pattern",
+                "pipeline",
+                "sequential"
+            ],
+            "time": "2016-03-23 13:41:04"
         },
         {
             "name": "michelf/php-markdown",

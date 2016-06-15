@@ -15,5 +15,10 @@ namespace SWP\Component\Storage\Model;
 
 interface PersistableInterface
 {
+    /**
+     * Gets identifier.
+     *
+     * @return string|int
+     */
     public function getId();
 }

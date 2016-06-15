@@ -33,16 +33,21 @@ class NinjsValidator extends JsonValidator
         }
     },
     "properties" : {
-        "uri" : {
+        "guid" : {
             "description" : "The identifier for this news object",
             "type" : "string",
-            "format" : "uri",
+            "format" : "guid",
             "required" : true
         },
         "type" : {
             "description" : "The generic news type of this news object",
             "type" : "string",
             "enum" : ["text", "audio", "video", "picture", "graphic", "composite"]
+        },
+        "slugline" : {
+            "description" : "The slugline",
+            "type" : "string",
+            "required" : true
         },
         "mimetype" : {
             "description" : "A MIME type which applies to this news object",
@@ -80,6 +85,10 @@ class NinjsValidator extends JsonValidator
             "description" : "The editorial urgency of the content from 1 to 9. 1 represents the highest urgency, 9 the lowest.",
             "type" : "number"
         },
+        "priority" : {
+            "description" : "The editorial priority of the content from 1 to 9. 1 represents the highest priority, 9 the lowest.",
+            "type" : "number"
+        },
         "copyrightholder" : {
             "description" : "The person or organisation claiming the intellectual property for the content.",
             "type" : "string"
@@ -95,6 +104,24 @@ class NinjsValidator extends JsonValidator
         "language" : {
             "description" : "The human language used by the content. The value should follow IETF BCP47",
             "type" : "string"
+        },
+        "service" : {
+            "description" : "A service e.g. World Photos, UK News etc.",
+            "type" : "array",
+            "items" : {
+                "type" : "object",
+                "additionalProperties" : false,
+                "properties" : {
+                    "name" : {
+                        "description" : "The name of a service",
+                        "type" : "string"
+                    },
+                    "code" : {
+                        "description": "The code for the service in a scheme (= controlled vocabulary) which is identified by the scheme property",
+                        "type" : "string"
+                    }
+                }
+            }
         },
         "person" : {
             "description" : "An individual human being",
@@ -194,8 +221,28 @@ class NinjsValidator extends JsonValidator
                         "type" : "string",
                         "format" : "uri"
                     },
-                    "code" : {
+                    "qcode" : {
                         "description": "The code for the place in a scheme (= controlled vocabulary) which is identified by the scheme property",
+                        "type" : "string"
+                    },
+                    "state" : {
+                        "description" : "The state for the place",
+                        "type" : "string"
+                    },
+                    "group" : {
+                        "description" : "The place group",
+                        "type" : "string"
+                    },
+                    "name" : {
+                        "description" : "The place name",
+                        "type" : "string"
+                    },
+                    "country" : {
+                        "description" : "The country name",
+                        "type" : "string"
+                    },
+                    "world_region" : {
+                        "description" : "The world region",
                         "type" : "string"
                     }
                 }

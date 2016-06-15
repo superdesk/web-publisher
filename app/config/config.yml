@@ -1,4 +1,5 @@
 imports:
+    - { resource: "@SWPBridgeBundle/Resources/config/app/config.yml" }
     - { resource: parameters.yml }
     - { resource: security.yml }
     - { resource: services.yml }
@@ -216,6 +217,10 @@ swp_web_renderer:
 swp_content:
     persistence:
         phpcr: true
+
+swp_bridge:
+    persistence:
+        orm: true
 
 nelmio_api_doc:
     request_listener: false

@@ -23,6 +23,16 @@ interface ContentInterface
     /**
      * @return string
      */
+    public function getGuid();
+
+    /**
+     * @param string $guid
+     */
+    public function setGuid($guid);
+
+    /**
+     * @return string
+     */
     public function getHeadline();
 
     /**
@@ -49,16 +59,6 @@ interface ContentInterface
      * @param string $slugline
      */
     public function setSlugline($slugline);
-
-    /**
-     * @return \DateTime
-     */
-    public function getCreatedAt();
-
-    /**
-     * @param \DateTime $createdAt
-     */
-    public function setCreatedAt($createdAt);
 
     /**
      * @return string
@@ -89,16 +89,6 @@ interface ContentInterface
      * @param string $type
      */
     public function setType($type);
-
-    /**
-     * @return string
-     */
-    public function getBody();
-
-    /**
-     * @param string $body
-     */
-    public function setBody($body);
 
     /**
      * @return array

@@ -34,7 +34,6 @@ class SWPContentBundle extends Bundle
     public function getNamespaces()
     {
         return [
-            $this->getConfigFilesPath('model') => 'SWP\Bundle\ContentBundle\Model',
             $this->getConfigFilesPath(Drivers::DRIVER_DOCTRINE_PHPCR_ODM) => 'SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR',
         ];
     }

@@ -16,7 +16,7 @@ namespace SWP\Component\Bridge;
 use SWP\Component\Bridge\Exception\RuntimeException;
 use SWP\Component\Bridge\Validator\ValidatorInterface;
 
-class ValidatorChain implements ChainValidatorInterface
+class ValidatorChain implements ValidatorInterface, ChainValidatorInterface
 {
     /**
      * @var ValidatorInterface[]
@@ -50,12 +50,26 @@ class ValidatorChain implements ChainValidatorInterface
     {
         if (!isset($this->validators[$alias])) {
             throw new RuntimeException(sprintf(
-                'Unknown validators selected ("%s"), available are: %s',
+                'Unknown validator selected ("%s"), available are: %s',
                 $alias,
                 implode(', ', array_keys($this->validators))
             ));
         }
 
         return $this->validators[$alias];
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function isValid($value)
+    {
+        foreach ($this->validators as $validator) {
+            if ($validator->isValid($value)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

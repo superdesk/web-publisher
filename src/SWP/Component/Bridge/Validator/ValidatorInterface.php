@@ -14,31 +14,17 @@
 namespace SWP\Component\Bridge\Validator;
 
 /**
- * Validates data against specific schema.
+ * Validates value.
  */
 interface ValidatorInterface
 {
     /**
-     * Validates data against specific schema.
+     * Validates value against specific schema.
      *
-     * @param string $data The data string to validate
+     * @param string $value The data string to validate
      *
      * @return bool If the returned value is 'true', validation
      *              succeeded, otherwise it failed.
      */
-    public function isValid($data);
-
-    /**
-     * Gets current validator schema.
-     *
-     * @return string
-     */
-    public function getSchema();
-
-    /**
-     * Gets validator format.
-     *
-     * @return string
-     */
-    public function getFormat();
+    public function isValid($value);
 }

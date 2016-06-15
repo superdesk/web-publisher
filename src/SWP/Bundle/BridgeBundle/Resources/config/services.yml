@@ -1,13 +1,6 @@
-parameters:
-    swp_bridge.http_push.validator_chain.class: SWP\Component\Bridge\ValidatorChain
-    swp_bridge.http_push.validator.ninjs.class: SWP\Component\Bridge\Validator\NinjsValidator
-
 services:
-    swp_bridge.http_push.validator_chain:
-        class: '%swp_bridge.http_push.validator_chain.class%'
-
-    swp_bridge.http_push.validator.ninjs:
-        class: '%swp_bridge.http_push.validator.ninjs.class%'
-        public: false
-        tags:
-            - { name: validator.http_push_validator, alias: http_push.ninjs }
+    # move it into an appropriate place (CoreBundle?)
+    swp.serializer:
+        class: SWP\Bridge\JMSSerializerBundle\JMSSerializer
+        arguments:
+            - "@jms_serializer"

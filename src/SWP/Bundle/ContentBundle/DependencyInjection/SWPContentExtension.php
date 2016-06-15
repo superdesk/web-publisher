@@ -13,11 +13,10 @@
  */
 namespace SWP\Bundle\ContentBundle\DependencyInjection;
 
-use SWP\Bundle\StorageBundle\DependencyInjection\Driver\DriverFactory;
 use SWP\Component\Storage\Drivers;
+use SWP\Component\Storage\Extension\Extension;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Config\FileLocator;
-use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 use Symfony\Component\DependencyInjection\Loader;
 
 /**
@@ -50,13 +49,7 @@ class SWPContentExtension extends Extension
         );
 
         $container->setParameter('swp_content.backend_type_phpcr', true);
-        $this->loadDriver(Drivers::DRIVER_DOCTRINE_PHPCR_ODM, $container, $config);
+        $this->registerStorage(Drivers::DRIVER_DOCTRINE_PHPCR_ODM, $config, $container);
         $container->setAlias('swp.manager.article', $config['article_manager_name']);
-    }
-
-    private function loadDriver($type, $container, $config)
-    {
-        $driver = DriverFactory::createDriver($type);
-        $driver->load($container, $config);
     }
 }

@@ -55,7 +55,7 @@ final class ArticleManager implements ArticleManagerInterface
      */
     public function findOneBy($id)
     {
-        $this->repository->find($this->pathBuilder->build($id));
+        return $this->repository->find($this->pathBuilder->build($id));
     }
 
     /**

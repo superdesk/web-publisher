@@ -1,7 +1,7 @@
 <?php
 
 /**
- * This file is part of the Superdesk Web Publisher Storage Bundle.
+ * This file is part of the Superdesk Web Publisher Storage Component.
  *
  * Copyright 2016 Sourcefabric z.ú. and contributors.
  *
@@ -11,7 +11,9 @@
  * @copyright 2016 Sourcefabric z.ú.
  * @license http://www.superdesk.org/license
  */
-namespace SWP\Bundle\StorageBundle\DependencyInjection\Driver;
+namespace SWP\Component\Storage\DependencyInjection\Factory;
+
+use SWP\Component\Storage\DependencyInjection\Driver\PersistenceDriverInterface;
 
 interface DriverFactoryInterface
 {

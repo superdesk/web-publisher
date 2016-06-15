@@ -1,27 +1,53 @@
 <?php
 
 /**
- * This file is part of the Superdesk Web Publisher Bridge for the Content API.
+ * This file is part of the Superdesk Web Publisher Bridge Bundle.
  *
- * Copyright 2015 Sourcefabric z.u. and contributors.
+ * Copyright 2016 Sourcefabric z.ú. and contributors.
  *
  * For the full copyright and license information, please see the
  * AUTHORS and LICENSE files distributed with this source code.
  *
- * @copyright 2015 Sourcefabric z.ú.
+ * @copyright 2016 Sourcefabric z.ú.
  * @license http://www.superdesk.org/license
  */
 namespace SWP\Bundle\BridgeBundle;
 
-use SWP\Bundle\BridgeBundle\DependencyInjection\Compiler\RegisterPipelineValidatorsCompilerPass;
+use SWP\Bundle\BridgeBundle\DependencyInjection\Compiler\TransformersCompilerPass;
+use SWP\Bundle\BridgeBundle\DependencyInjection\Compiler\ValidatorsCompilerPass;
+use SWP\Component\Storage\Bundle\Bundle;
+use SWP\Component\Storage\Drivers;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\HttpKernel\Bundle\Bundle;
 
 class SWPBridgeBundle extends Bundle
 {
+    /**
+     * {@inheritdoc}
+     */
     public function build(ContainerBuilder $container)
     {
         parent::build($container);
-        $container->addCompilerPass(new RegisterPipelineValidatorsCompilerPass());
+        $container->addCompilerPass(new ValidatorsCompilerPass());
+        $container->addCompilerPass(new TransformersCompilerPass());
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getSupportedDrivers()
+    {
+        return [
+            Drivers::DRIVER_DOCTRINE_ORM,
+        ];
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getNamespaces()
+    {
+        return [
+            $this->getConfigFilesPath(Drivers::DRIVER_DOCTRINE_ORM) => 'SWP\Component\Bridge\Model',
+        ];
     }
 }

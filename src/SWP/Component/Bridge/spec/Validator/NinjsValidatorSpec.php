@@ -18,6 +18,7 @@ use PhpSpec\ObjectBehavior;
 use SWP\Component\Bridge\Validator\JsonValidator;
 use SWP\Component\Bridge\Validator\NinjsValidator;
 use SWP\Component\Bridge\Validator\ValidatorInterface;
+use SWP\Component\Bridge\Validator\ValidatorOptionsInterface;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -31,9 +32,10 @@ class NinjsValidatorSpec extends ObjectBehavior
         $this->shouldHaveType(JsonValidator::class);
     }
 
-    function it_implements_theme_factory_interface()
+    function it_implements_validator_interfaces()
     {
         $this->shouldImplement(ValidatorInterface::class);
+        $this->shouldImplement(ValidatorOptionsInterface::class);
     }
 
     function its_isValid_method_should_return_false()

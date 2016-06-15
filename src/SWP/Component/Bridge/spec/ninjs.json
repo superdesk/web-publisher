@@ -1,20 +1,28 @@
 {
-    "uri" : "http://ninjs.example.com/newsitems/20130709med123",
     "type" : "text",
     "profile" : "text-only",
     "versioncreated" : "2013-07-09T10:37:00Z",
     "copyrightnotice" : "Copyright 2013 The News Agency, www.tna.org - all rights reserved.",
     "language" : "en",
+    "guid" : "guid",
+    "slugline" : "slugline",
     "person" : [{
         "name" : "Francesco Schettino",
         "rel" : "about",
         "scheme" : "http://www.freebase.com/m/",
         "code" : "0hzcydt"
     }],
-    "place" : [{
-        "name" : "Grossetto",
-        "rel" : "mentions"
-    },
+    "subject": [
+        {
+            "name": "archaeology",
+            "code": "01001000"
+        }
+    ],
+    "place" : [
+        {
+            "name" : "Grossetto",
+            "rel" : "mentions"
+        },
         {
             "name" : "Tuscany",
             "rel" : "mentions"
@@ -23,7 +31,7 @@
             "name" : "Italy",
             "rel" : "mentions",
             "scheme" : "http://cvx.iptc.org/iso3166-1a2/",
-            "code" : "it"
+            "qcode" : "it"
         }
     ],
     "organisation" : [{

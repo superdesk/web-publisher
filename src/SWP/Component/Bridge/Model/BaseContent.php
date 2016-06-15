@@ -23,6 +23,11 @@ class BaseContent implements ContentInterface
     /**
      * @var string
      */
+    protected $guid;
+
+    /**
+     * @var string
+     */
     protected $headline;
 
     /**
@@ -34,11 +39,6 @@ class BaseContent implements ContentInterface
      * @var string
      */
     protected $slugline;
-
-    /**
-     * @var \DateTime
-     */
-    protected $createdAt;
 
     /**
      * @var string
@@ -54,11 +54,6 @@ class BaseContent implements ContentInterface
      * @var string
      */
     protected $type;
-
-    /**
-     * @var string
-     */
-    protected $body;
 
     /**
      * @var array
@@ -141,22 +136,6 @@ class BaseContent implements ContentInterface
     /**
      * {@inheritdoc}
      */
-    public function getCreatedAt()
-    {
-        return $this->createdAt;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function setCreatedAt($createdAt)
-    {
-        $this->createdAt = $createdAt;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function getLanguage()
     {
         return $this->language;
@@ -181,7 +160,7 @@ class BaseContent implements ContentInterface
     /**
      * {@inheritdoc}
      */
-    public function setSubjects($subjects)
+    public function setSubjects(array $subjects = [])
     {
         $this->subjects = $subjects;
     }
@@ -200,22 +179,6 @@ class BaseContent implements ContentInterface
     public function setType($type)
     {
         $this->type = $type;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getBody()
-    {
-        return $this->body;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function setBody($body)
-    {
-        $this->body = $body;
     }
 
     /**
@@ -312,5 +275,21 @@ class BaseContent implements ContentInterface
     public function setHeadline($headline)
     {
         $this->headline = $headline;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getGuid()
+    {
+        return $this->guid;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setGuid($guid)
+    {
+        $this->guid = $guid;
     }
 }
