@@ -42,7 +42,7 @@ class SimpleContainerTest extends \PHPUnit_Framework_TestCase
         $this->container = new SimpleContainer($containerEntity, $this->getRenderer());
     }
 
-    public function testcheckingVisibility()
+    public function testCheckingVisibility()
     {
         $this->assertTrue($this->container->isVisible());
     }

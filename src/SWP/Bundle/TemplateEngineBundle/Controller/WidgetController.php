@@ -60,8 +60,8 @@ class WidgetController extends FOSRestController
      *     description="Get single widget",
      *     statusCodes={
      *         200="Returned on success.",
-     *         404="WidgetModel not found",
-     *         422="WidgetModel id is not number"
+     *         404="Widget not found",
+     *         422="Widget id is not number"
      *     }
      * )
      * @Route("/api/{version}/templates/widgets/{id}", requirements={"id"="\d+"}, options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_templates_get_widget")
@@ -128,8 +128,8 @@ class WidgetController extends FOSRestController
      *     description="Delete single widget",
      *     statusCodes={
      *         204="Returned on success.",
-     *         404="WidgetModel not found",
-     *         422="WidgetModel id is not number"
+     *         404="Widget not found",
+     *         422="Widget id is not number"
      *     }
      * )
      * @Route("/api/{version}/templates/widgets/{id}", requirements={"id"="\d+"}, options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_templates_delete_widget")
@@ -145,7 +145,7 @@ class WidgetController extends FOSRestController
         $widget = $entityManager->getRepository('SWP\Bundle\TemplateEngineBundle\Model\WidgetModel')->getById($id)->getOneOrNullResult();
 
         if (!$widget) {
-            throw new NotFoundHttpException('WidgetModel with this id was not found.');
+            throw new NotFoundHttpException('Widget with this id was not found.');
         }
 
         foreach ($widget->getContainers() as $containerWidget) {
