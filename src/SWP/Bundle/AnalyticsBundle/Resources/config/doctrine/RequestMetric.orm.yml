@@ -1,0 +1,24 @@
+SWP\Bundle\AnalyticsBundle\Model\RequestMetric:
+    type: entity
+    table: request_metrics
+    repositoryClass: SWP\Bundle\AnalyticsBundle\Repository\RequestMetricRepository
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        uri:
+            type: string
+            length: 255
+        route:
+            type: string
+            length: 255
+        duration:
+            type: integer
+        created:
+            type: datetime
+            gedmo:
+              timestampable:
+                on: create

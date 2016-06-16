@@ -1,0 +1,14 @@
+services:
+    swp.analytics.requestmetric_repository:
+        class: SWP\Bundle\AnalyticsBundle\Repository
+        factory: ["@doctrine.orm.entity_manager", getRepository]
+        arguments:
+            - SWP\Bundle\AnalyticsBundle\Model\RequestMetric
+
+    swp.analytics.metrics_listener:
+        class:  SWP\Bundle\AnalyticsBundle\EventListener\MetricsListener
+        calls:
+            - [setRequestMetricRepository, ['@swp.analytics.requestmetric_repository']]
+        tags:
+            - { name: kernel.event_listener, event: kernel.request, method: onKernelRequest }
+            - { name: kernel.event_listener, event: kernel.response, method: onKernelResponse }

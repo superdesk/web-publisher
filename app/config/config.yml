@@ -69,6 +69,10 @@ doctrine:
                     type: service
                     id: doctrine_cache.providers.main_cache
                 mappings:
+                    SWPAnalyticsBundle:
+                        type: yml
+                        prefix: SWP\Bundle\AnalyticsBundle\Model
+                        dir: Resources/config/doctrine
                     SWPTemplateEngineBundle:
                         type: yml
                         prefix: SWP\Bundle\TemplateEngineBundle\Model
@@ -97,7 +101,7 @@ doctrine:
 doctrine_cache:
     providers:
         main_cache:
-            type: %doctrine_cache_driver%
+            type: "%doctrine_cache_driver%"
 
 # Swiftmailer Configuration
 swiftmailer:
@@ -113,7 +117,7 @@ fos_http_cache:
         generate_url_type: 0
     proxy_client:
         symfony:
-            servers: %cache_servers%
+            servers: "%cache_servers%"
     invalidation:
         enabled: true
 
@@ -191,7 +195,7 @@ swp_updater:
         base_uri: "http://updates.sourcefabric.org"
 
 stof_doctrine_extensions:
-    default_locale: %locale%
+    default_locale: "%locale%"
     orm:
         default:
             timestampable: true

@@ -10,8 +10,8 @@ The Components are a set of decoupled PHP libraries, which are the foundation of
 The goal of these components is to solve the problems related mainly to content publishing, content rendering.
 
 .. toctree::
-   :hidden:
 
+   using_components
    MultiTenancy/index
 
 .. include:: /components/map.rst.inc

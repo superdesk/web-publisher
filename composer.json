@@ -97,6 +97,7 @@
         "swp/common": "self.version",
         "swp/multi-tenancy": "self.version",
         "swp/multi-tenancy-bundle": "self.version",
+        "swp/analytics-bundle": "self.version",
         "swp/bridge-bundle": "self.version",
         "swp/bridge": "self.version",
         "swp/storage-bundle": "self.version",

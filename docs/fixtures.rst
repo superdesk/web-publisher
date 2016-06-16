@@ -1,34 +1,38 @@
 Fixtures Bundle
-================
+===============
 
 Overview
 --------
 
-Fixtures Bundle helps developers to create fixtures/fake data that can be
-used for the development or/and testing purposes.
+The Fixtures Bundle helps developers to create fixtures or fake data 
+that can be used for development and/or testing purposes.
 
-It relies on the following 3rd party libraries: -
+It relies on the following 3rd party libraries:
+
 `DoctrineFixturesBundle`_ (gives possibility to load data fixtures
-programmatically into the Doctrine ORM or ODM) - `fzaninotto/Faker`_
-(generates fake data for you) - `nelmio/alice`_ (It gives you a few
-essential tools to make it very easy to generate complex data with
-constraints in a readable and easy to edit way)
+programmatically into the Doctrine ORM or ODM)
 
-It also gives the possibility to setup, ready to use demo theme, needed
-for the development.
+`fzaninotto/Faker`_ (generates fake data for you)
 
-How to use it
-==============
+`nelmio/alice`_ (gives you a few essential tools to make it very easy to 
+generate complex data with constraints in a readable and easy to edit way)
 
-The following chapter describes how to make use of the Fixtures Bundle features.
+It also provides the possibility to set up a ready-to-use demo theme, for 
+development.
+
+How to use fixtures
+===================
+
+The following chapter describes how to make use of the Fixtures Bundle 
+features.
 
 Creating a simple PHP fixture class
 -----------------------------------
 
 Fixtures should be created inside
-``SWP\FixturesBundle\DataFixtures\<db_driver>`` directory and for the
-convention, should be called like: ``LoadPagesData``,
-``LoadArticlesData``, ``LoadUsersData`` etc.
+``SWP\FixturesBundle\DataFixtures\<db_driver>`` directory and by convention, 
+should be called like: ``LoadPagesData``, ``LoadArticlesData``, 
+``LoadUsersData`` etc.
 
 Replace ``db_driver`` either with ``ORM`` for the Doctrine ORM or
 ``PHPCR`` for the Doctrine PHPCR ODM.
@@ -60,7 +64,7 @@ Example Fixture class:
     }
 
 Each fixture class extends AbstractFixture class and implements
-FixtureInterface, this way we can use ``load`` method, inside which we
+FixtureInterface. This way we can use the ``load`` method, inside which we
 can create some objects using PHP and/or make use of `nelmio/alice`_ and
 `fzaninotto/Faker`_ by loading fixtures in YAML format, as shown in the
 example above.
@@ -68,8 +72,8 @@ example above.
 Creating a simple Alice fixture (YAML format)
 ---------------------------------------------
 
-For more details on how to create Alice fixtures, please see
-`documentation`_ as a reference.
+For more details on how to create Alice fixtures, please see the
+`Alice documentation`_ as a reference.
 
 Example Alice fixture:
 
@@ -95,30 +99,30 @@ Example Alice fixture:
             templateName: "involved.html.twig"
             contentPath: "/swp/content/get-involved"
 
-The above configuration states that we want to persist into database,
-three objects of type ``SWP\WebRendererBundle\Entity\Page``. We can use faker `formatters`_
-where, for example, ``<paragraph(20)>`` is one of the
-`fzaninotto/Faker`_ formatter, which tells Alice to generate 20
+The above configuration states that we want to persist into the database three 
+objects of type ``SWP\WebRendererBundle\Entity\Page``. We can use the faker 
+`formatters`_ where, for example, ``<paragraph(20)>`` is one of the
+`fzaninotto/Faker`_ formatters, which tells Alice to generate 20
 paragraphs filled with fake data.
 
-For the convention, Alice YAML files should be placed inside
-``Resources/fixtures/<db_driver>/<environment>``, where is current
-environment name (dev, test).
+By convention, Alice YAML files should be placed inside 
+``Resources/fixtures/<db_driver>/<environment>``, where <environment> is the 
+current environment name (dev, test).
 
-For instance, having ``Resources/fixtures/ORM/test/page.yml`` Alice
-fixture, we will be able to persist fake data defined in YAML file into
-the databse (using Doctrine ORM driver), only when ``test`` environment
+For instance, having the ``Resources/fixtures/ORM/test/page.yml`` Alice
+fixture, we will be able to persist fake data defined in the YAML file into
+the database (using Doctrine ORM driver), only when the ``test`` environment
 is set or defined differently in
 ``SWP\FixturesBundle\DataFixtures\ORM\LoadPagesData.php``.
 
-There is a lot of flexibility on how to define fixtures, so it’s up to
+There is a lot of flexibility on how to define fixtures, so it’s up to the
 developer how to create them.
 
 Loading all fixtures
 ---------------------------------------------
 
 **Note:** Remember to update your database schema before loading
-fixtures! To do it, run in terminal:
+fixtures! To do this, run in a terminal:
 
 .. code-block:: bash
 
@@ -142,15 +146,15 @@ To load Doctrine PHCR fixtures:
     $ php app/console doctrine:phpcr:fixtures:load
     # see php app/console doctrine:phpcr:fixtures:load --help for more details
 
-After executing above commands, your database will be filled with the
+After executing the commands above, your database will be filled with the
 fake data, which can be used by themes.
 
-Setting up demo theme
----------------------------------------------
+Setting up a demo theme
+-----------------------
 
 To make it easier to start with the Web Publisher, we created a simple
 demo theme. To set this theme as an active one, you need to execute the
-following console command in terminal:
+following command in a terminal:
 
 .. code-block:: bash
 
@@ -161,4 +165,4 @@ following console command in terminal:
 .. _DoctrineFixturesBundle: https://github.com/doctrine/DoctrineFixturesBundle
 .. _fzaninotto/Faker: https://github.com/fzaninotto/Faker
 .. _nelmio/alice: https://github.com/nelmio/alice
-.. _documentation: https://github.com/nelmio/alice/blob/master/doc/complete-reference.md#complete-reference
+.. _Alice documentation: https://github.com/nelmio/alice/blob/master/doc/complete-reference.md#complete-reference
