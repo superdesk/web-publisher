@@ -1,7 +1,7 @@
 <?php
 
 /**
- * This file is part of the Superdesk Web Publisher Bridge Component.
+ * This file is part of the Superdesk Web Publisher Content Bundle.
  *
  * Copyright 2016 Sourcefabric z.ú. and contributors.
  *
@@ -11,13 +11,12 @@
  * @copyright 2016 Sourcefabric z.ú.
  * @license http://www.superdesk.org/license
  */
-namespace spec\SWP\Component\Bridge\Transformer;
+namespace spec\SWP\Bundle\ContentBundle\Transformer;
 
 use PhpSpec\ObjectBehavior;
-use Prophecy\Argument;
 use SWP\Bundle\ContentBundle\Model\ArticleManagerInterface;
+use SWP\Bundle\ContentBundle\Transformer\PackageToArticleTransformer;
 use SWP\Component\Bridge\Transformer\DataTransformerInterface;
-use SWP\Component\Bridge\Transformer\PackageToArticleTransformer;
 use SWP\Component\Storage\Repository\RepositoryInterface;
 
 /**
