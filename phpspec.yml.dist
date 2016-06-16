@@ -37,6 +37,11 @@ suites:
         psr4_prefix: SWP\Bundle\BridgeBundle
         spec_path: src/SWP/Bundle/BridgeBundle
         src_path: src/SWP/Bundle/BridgeBundle
+    StorageBundle_suite:
+        namespace: SWP\Bundle\StorageBundle
+        psr4_prefix: SWP\Bundle\StorageBundle
+        spec_path: src/SWP/Bundle/StorageBundle
+        src_path: src/SWP/Bundle/StorageBundle
 
 #extensions:
 #    - PhpSpec\Extension\CodeCoverageExtension

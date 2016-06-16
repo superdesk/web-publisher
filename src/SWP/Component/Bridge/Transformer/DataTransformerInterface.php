@@ -21,7 +21,7 @@ interface DataTransformerInterface
      * Transforms value.
      *
      * @param mixed $value
-     
+     *
      * @return mixed
      *
      * @throws TransformationFailedException
@@ -32,7 +32,7 @@ interface DataTransformerInterface
      * Transforms value in reverse mode.
      *
      * @param mixed $value
-     
+     *
      * @return mixed
      *
      * @throws TransformationFailedException

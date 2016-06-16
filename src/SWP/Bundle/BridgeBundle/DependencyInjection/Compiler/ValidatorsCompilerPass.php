@@ -19,6 +19,9 @@ use Symfony\Component\DependencyInjection\Reference;
 
 class ValidatorsCompilerPass implements CompilerPassInterface
 {
+    /**
+     * {@inheritdoc}
+     */
     public function process(ContainerBuilder $container)
     {
         if (!$container->hasDefinition('swp_bridge.http_push.validator_chain')) {

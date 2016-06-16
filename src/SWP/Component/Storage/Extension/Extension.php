@@ -19,6 +19,13 @@ use Symfony\Component\DependencyInjection\Extension\Extension as BaseExtension;
 
 abstract class Extension extends BaseExtension
 {
+    /**
+     * Registers the storage resources (repositories etc.).
+     *
+     * @param $type
+     * @param array            $config
+     * @param ContainerBuilder $container
+     */
     public function registerStorage($type, array $config, ContainerBuilder $container)
     {
         $driver = DriverFactory::createDriver($type);

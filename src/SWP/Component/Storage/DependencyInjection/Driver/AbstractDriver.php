@@ -55,17 +55,6 @@ abstract class AbstractDriver implements PersistenceDriverInterface
     /**
      * {@inheritdoc}
      */
-    protected function createFactoryDefinition(ContainerBuilder $container, $config)
-    {
-        $definition = new Definition($config['class']);
-        $definition->setArguments([$config['model']]);
-
-        $container->setDefinition('swp.factory.'.$config['name'], $definition);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     protected function createObjectManagerAlias(ContainerBuilder $container, $config)
     {
         $container->setAlias(
