@@ -1,7 +1,6 @@
 parameters:
     swp_bridge.http_push.transformer_chain.class: SWP\Component\Bridge\Transformer\DataTransformerChain
     swp_bridge.transformer.json_to_package.class: SWP\Component\Bridge\Transformer\JsonToPackageTransformer
-    swp_bridge.transformer.package_to_article.class: SWP\Component\Bridge\Transformer\PackageToArticleTransformer
 
 services:
     swp_bridge.http_push.transformer_chain:
@@ -16,11 +15,3 @@ services:
             - '@swp_bridge.http_push.validator_chain'
         tags:
             - { name: transformer.http_push_transformer, alias: transformer.json_to_package }
-
-    swp_bridge.transformer.package_to_article:
-        class: '%swp_bridge.transformer.package_to_article.class%'
-        arguments:
-            - '@swp.repository.route'
-            - '@swp.manager.article'
-        tags:
-            - { name: transformer.http_push_transformer, alias: transformer.package_to_article, priority: -1 }

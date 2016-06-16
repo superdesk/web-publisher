@@ -45,7 +45,8 @@ class ContentPushController extends FOSRestController
 
                 return $package;
             })
-            ->pipe([$this->get('swp_bridge.transformer.package_to_article'), 'transform'])
+            // TODO replace with DataTransformerChain to not make a dependency on ContentBundle
+            ->pipe([$this->get('swp_content.transformer.package_to_article'), 'transform'])
             ->pipe([$this->get('swp.repository.article'), 'add']);
 
         $pipeline->process($request->getContent());

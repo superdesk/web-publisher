@@ -1,7 +1,7 @@
 <?php
 
 /**
- * This file is part of the Superdesk Web Publisher Bridge Component.
+ * This file is part of the Superdesk Web Publisher Content Bundle.
  *
  * Copyright 2016 Sourcefabric z.ú. and contributors.
  *
@@ -11,13 +11,14 @@
  * @copyright 2016 Sourcefabric z.ú.
  * @license http://www.superdesk.org/license
  */
-namespace SWP\Component\Bridge\Transformer;
+namespace SWP\Bundle\ContentBundle\Transformer;
 
 use SWP\Bundle\ContentBundle\Model\ArticleManagerInterface;
 use SWP\Component\Bridge\Exception\MethodNotSupportedException;
 use SWP\Component\Bridge\Exception\TransformationFailedException;
 use SWP\Component\Bridge\Model\ItemInterface;
 use SWP\Component\Bridge\Model\PackageInterface;
+use SWP\Component\Bridge\Transformer\DataTransformerInterface;
 use SWP\Component\Storage\Repository\RepositoryInterface;
 
 final class PackageToArticleTransformer implements DataTransformerInterface

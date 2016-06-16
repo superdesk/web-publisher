@@ -16,6 +16,7 @@ return array(
     new Symfony\Bundle\FrameworkBundle\FrameworkBundle(),
     new Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle(),
     new Doctrine\Bundle\DoctrineBundle\DoctrineBundle(),
+    new Doctrine\Bundle\PHPCRBundle\DoctrinePHPCRBundle(),
     new JMS\SerializerBundle\JMSSerializerBundle(),
     new SWP\Bundle\StorageBundle\SWPStorageBundle(),
 

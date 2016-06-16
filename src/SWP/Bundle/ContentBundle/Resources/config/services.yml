@@ -1,3 +1,6 @@
+parameters:
+    swp_content.transformer.package_to_article.class: SWP\Bundle\ContentBundle\Transformer\PackageToArticleTransformer
+
 services:
     swp_template_engine.loader.article:
         class: SWP\Bundle\ContentBundle\Loader\ArticleLoader
@@ -23,3 +26,11 @@ services:
 
     swp_pagination_rep:
         alias: swp_content_bundle.factory.knp_paginator_representation
+
+    swp_content.transformer.package_to_article:
+        class: '%swp_content.transformer.package_to_article.class%'
+        arguments:
+            - '@swp.repository.route'
+            - '@swp.manager.article'
+        tags:
+            - { name: transformer.http_push_transformer, alias: transformer.package_to_article, priority: -1 }
