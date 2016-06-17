@@ -10,9 +10,8 @@ services:
     swp_template_engine_container:
         class: SWP\Bundle\TemplateEngineBundle\Service\ContainerService
         arguments:
-            - "@doctrine"
+            - "@service_container"
             - "%kernel.cache_dir%"
-            - "@event_dispatcher"
             - "%kernel.debug%"
 
     swp_template_engine_twig_extension.gimme:

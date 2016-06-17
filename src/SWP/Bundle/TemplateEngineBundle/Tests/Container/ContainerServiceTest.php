@@ -28,32 +28,17 @@ class ContainerServiceTest extends WebTestCase
 
     public function testDebugConstruct()
     {
-        new ContainerService(
-            $this->getContainer()->get('doctrine'),
-            $this->getContainer()->getParameter('kernel.cache_dir'),
-            $this->getContainer()->get('event_dispatcher'),
-            true
-        );
+        $this->createContainerService();
     }
 
     public function testProductionConstruct()
     {
-        new ContainerService(
-            $this->getContainer()->get('doctrine'),
-            $this->getContainer()->getParameter('kernel.cache_dir'),
-            $this->getContainer()->get('event_dispatcher'),
-            false
-        );
+        $this->createContainerService(false);
     }
 
     public function testGetRenderer()
     {
-        $containerService = new ContainerService(
-            $this->getContainer()->get('doctrine'),
-            $this->getContainer()->getParameter('kernel.cache_dir'),
-            $this->getContainer()->get('event_dispatcher')
-        );
-
+        $containerService = $this->createContainerService();
         $this->assertInstanceOf('\Twig_Environment', $containerService->getRenderer());
     }
 
@@ -61,13 +46,7 @@ class ContainerServiceTest extends WebTestCase
     {
         $this->createAndPopulateDatabase();
         $tenantContext = $this->getContainer()->get('swp_multi_tenancy.tenant_context');
-
-        $containerService = new ContainerService(
-            $this->getContainer()->get('doctrine'),
-            $this->getContainer()->getParameter('kernel.cache_dir'),
-            $this->getContainer()->get('event_dispatcher'),
-            true
-        );
+        $containerService = $this->createContainerService();
 
         $containerParameters = [
             'height' => '400',
@@ -94,14 +73,7 @@ class ContainerServiceTest extends WebTestCase
     public function testGetContainerException()
     {
         $this->createAndPopulateDatabase();
-
-        $containerService = new ContainerService(
-            $this->getContainer()->get('doctrine'),
-            $this->getContainer()->getParameter('kernel.cache_dir'),
-            $this->getContainer()->get('event_dispatcher'),
-            true
-        );
-
+        $containerService = $this->createContainerService();
         $this->setExpectedException('\Exception');
         $containerService->getContainer('test container', [], false);
     }
@@ -109,14 +81,7 @@ class ContainerServiceTest extends WebTestCase
     public function testGetContainer()
     {
         $this->createAndPopulateDatabase();
-
-        $containerService = new ContainerService(
-            $this->getContainer()->get('doctrine'),
-            $this->getContainer()->getParameter('kernel.cache_dir'),
-            $this->getContainer()->get('event_dispatcher'),
-            true
-        );
-
+        $containerService = $this->createContainerService();
         $containerEntity = $containerService->getContainer('test container', ['data' => ['key' => 'value']]);
         $this->assertInstanceOf('\SWP\Bundle\TemplateEngineBundle\Container\SimpleContainer', $containerEntity);
     }
@@ -129,5 +94,14 @@ class ContainerServiceTest extends WebTestCase
         $this->loadFixtureFiles([
             '@SWPFixturesBundle/Resources/fixtures/ORM/test/tenant.yml',
         ]);
+    }
+
+    private function createContainerService($debug = true)
+    {
+        return new ContainerService(
+            $this->getContainer(),
+            $this->getContainer()->getParameter('kernel.cache_dir'),
+            $debug
+        );
     }
 }
