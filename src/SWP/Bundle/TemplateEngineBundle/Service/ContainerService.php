@@ -32,6 +32,12 @@ class ContainerService
     protected $renderer = false;
     protected $eventDispatcher;
 
+    /**
+     * ContainerService constructor.
+     * @param ContainerInterface $serviceContainer
+     * @param $cacheDir
+     * @param bool $debug
+     */
     public function __construct(ContainerInterface $serviceContainer, $cacheDir, $debug = false)
     {
         $this->serviceContainer = $serviceContainer;
@@ -62,11 +68,7 @@ class ContainerService
             $widgetModel = $containerWidget->getWidget();
             $widgetClass = $widgetModel->getType();
             $widgetHandler = new $widgetClass($widgetModel);
-            if ($widgetHandler instanceof ContainerAwareInterface) {
-                $widgetHandler->setContainer($this->serviceContainer);
-            } else {
-                throw new \Exception("Widget handler class should implement ContainerAwareInterface");
-            }
+            $widgetHandler->setContainer($this->serviceContainer);
             $widgets[] = $widgetHandler;
         }
 
