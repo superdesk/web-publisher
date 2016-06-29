@@ -128,6 +128,10 @@ class RoutesController extends FOSRestController
      * Creates routes for current tenant.
      *
      * Parameter `type` cane have one of two values: `content` or `collection`.
+     * 
+     * Content path should be provided without tenenat information:
+     *
+     * Instead full content path like:  ```/swp/default/content/test-content-article``` provide path like this: ```/test-content-article```
      *
      * @ApiDoc(
      *     resource=true,
@@ -169,6 +173,9 @@ class RoutesController extends FOSRestController
      * Updates routes for current tenant.
      *
      * Parameter `type` cane have one of two values: `content` or `collection`.
+     * Content path should be provided without tenenat information:
+     *
+     * Instead full content path like:  ```/swp/default/content/test-content-article``` provide path like this: ```/test-content-article```
      *
      * @ApiDoc(
      *     resource=true,
