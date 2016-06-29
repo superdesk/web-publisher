@@ -59,11 +59,11 @@ class RoutesController extends FOSRestController
     }
 
     /**
-     * Show single tenenat route.
+     * Show single tenant route.
      *
      * @ApiDoc(
      *     resource=true,
-     *     description="Show single tenenat route",
+     *     description="Show single tenant route",
      *     statusCodes={
      *         200="Returned on success."
      *     }
@@ -88,11 +88,11 @@ class RoutesController extends FOSRestController
     }
 
     /**
-     * Delete single tenenat route.
+     * Delete single tenant route.
      *
      * @ApiDoc(
      *     resource=true,
-     *     description="Delete single tenenat route",
+     *     description="Delete single tenant route",
      *     statusCodes={
      *         204="Returned on success."
      *     }
@@ -128,8 +128,8 @@ class RoutesController extends FOSRestController
      * Creates routes for current tenant.
      *
      * Parameter `type` cane have one of two values: `content` or `collection`.
-     * 
-     * Content path should be provided without tenenat information:
+     *
+     * Content path should be provided without tenant information:
      *
      * Instead full content path like:  ```/swp/default/content/test-content-article``` provide path like this: ```/test-content-article```
      *
@@ -173,7 +173,8 @@ class RoutesController extends FOSRestController
      * Updates routes for current tenant.
      *
      * Parameter `type` cane have one of two values: `content` or `collection`.
-     * Content path should be provided without tenenat information:
+     *
+     * Content path should be provided without tenant information:
      *
      * Instead full content path like:  ```/swp/default/content/test-content-article``` provide path like this: ```/test-content-article```
      *
