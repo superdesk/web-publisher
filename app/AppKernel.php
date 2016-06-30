@@ -28,6 +28,7 @@ class AppKernel extends Kernel
             new Stof\DoctrineExtensionsBundle\StofDoctrineExtensionsBundle(),
             new Symfony\Cmf\Bundle\RoutingBundle\CmfRoutingBundle(),
             new Doctrine\Bundle\DoctrineCacheBundle\DoctrineCacheBundle(),
+            new JMS\TranslationBundle\JMSTranslationBundle(),
 
             new SWP\Bundle\MultiTenancyBundle\SWPMultiTenancyBundle(),
             new SWP\Bundle\TemplateEngineBundle\SWPTemplateEngineBundle(),
@@ -35,7 +36,7 @@ class AppKernel extends Kernel
             new SWP\UpdaterBundle\SWPUpdaterBundle(),
             new SWP\Bundle\BridgeBundle\SWPBridgeBundle(),
             new SWP\Bundle\ContentBundle\SWPContentBundle(),
-            new SWP\Bundle\AnalyticsBundle\SWPAnalyticsBundle(),
+            new SWP\Bundle\AnalyticsBundle\SWPAnalyticsBundle()
         );
 
         if (in_array($this->getEnvironment(), ['dev', 'test'])) {

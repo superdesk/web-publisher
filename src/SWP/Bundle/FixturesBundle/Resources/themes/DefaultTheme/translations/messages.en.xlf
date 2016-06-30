@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:jms="urn:jms:translation" version="1.2">
+  <file date="2016-06-30T11:24:11Z" source-language="en" target-language="en" datatype="plaintext" original="not.available">
+    <header>
+      <tool tool-id="JMSTranslationBundle" tool-name="JMSTranslationBundle" tool-version="1.1.0-DEV"/>
+      <note>The source node in most cases contains the sample message as written by the developer. If it looks like a dot-delimitted string such as "form.label.firstname", then the developer has not provided a default message.</note>
+    </header>
+    <body>
+      <trans-unit id="ade47103d2dfbcf01c2b917ece9443dee3e0734f" resname="index.assigned.homepage">
+        <source>Assigned homepage</source>
+        <target state="new">Assigned homepage</target>
+        <jms:reference-file line="19">./src/SWP/Bundle/FixturesBundle/Resources/themes/DefaultTheme/views/index.html.twig</jms:reference-file>
+      </trans-unit>
+      <trans-unit id="903ec3ebd479b97505fcfda1c727d306234c0e9c" resname="index.authors">
+        <source>Authors</source>
+        <target state="new">Authors</target>
+        <jms:reference-file line="25">./src/SWP/Bundle/FixturesBundle/Resources/themes/DefaultTheme/views/index.html.twig</jms:reference-file>
+      </trans-unit>
+      <trans-unit id="f8f928eeea8d47a2fc8e5fd1bbc5d3b41f65c9c9" resname="index.current.details">
+        <source>Current theme details</source>
+        <target state="new">Current theme details</target>
+        <jms:reference-file line="20">./src/SWP/Bundle/FixturesBundle/Resources/themes/DefaultTheme/views/index.html.twig</jms:reference-file>
+      </trans-unit>
+      <trans-unit id="7bcf1aecf056a7ee44beb34e9738a5edd9273750" resname="index.default_container.header">
+        <source>Default container header</source>
+        <target state="new">Default container header</target>
+        <jms:reference-file line="15">./src/SWP/Bundle/FixturesBundle/Resources/themes/DefaultTheme/views/index.html.twig</jms:reference-file>
+      </trans-unit>
+      <trans-unit id="0ce598c70ceb80e6096040bab4dddb648d6fe82c" resname="index.default_container.text">
+        <source>Minions ipso voluptate nisi reprehenderit occaecat. Enim hahaha bappleees cillum bappleees. Elit officia daa ullamco. Ullamco bappleees reprehenderit aliqua veniam bananaaaa. Minim sed aaaaaah laboris veniam. Pepete aliqua veniam sit amet quis butt tatata bala tu jiji quis minim.</source>
+        <target state="new">Minions ipso voluptate nisi reprehenderit occaecat. Enim hahaha bappleees cillum bappleees. Elit officia daa ullamco. Ullamco bappleees reprehenderit aliqua veniam bananaaaa. Minim sed aaaaaah laboris veniam. Pepete aliqua veniam sit amet quis butt tatata bala tu jiji quis minim.</target>
+        <jms:reference-file line="16">./src/SWP/Bundle/FixturesBundle/Resources/themes/DefaultTheme/views/index.html.twig</jms:reference-file>
+      </trans-unit>
+      <trans-unit id="163a30f36f43f69affb78a0df8f4e4f69a9bdbc7" resname="index.description">
+        <source>Description</source>
+        <target state="new">Description</target>
+        <jms:reference-file line="23">./src/SWP/Bundle/FixturesBundle/Resources/themes/DefaultTheme/views/index.html.twig</jms:reference-file>
+      </trans-unit>
+      <trans-unit id="ababef7656922fada438ff1e116a4e594be383b4" resname="index.name">
+        <source>Name</source>
+        <target state="new">Name</target>
+        <jms:reference-file line="22">./src/SWP/Bundle/FixturesBundle/Resources/themes/DefaultTheme/views/index.html.twig</jms:reference-file>
+      </trans-unit>
+      <trans-unit id="1f78d19b660baaedadb64042aa0d235e1905a2a5" resname="index.news.header">
+        <source>News</source>
+        <target state="new">News</target>
+        <jms:reference-file line="33">./src/SWP/Bundle/FixturesBundle/Resources/themes/DefaultTheme/views/index.html.twig</jms:reference-file>
+      </trans-unit>
+      <trans-unit id="fc72a5408a4f4b16ad27cd779673358f4e42b0b7" resname="index.path">
+        <source>Path</source>
+        <target state="new">Path</target>
+        <jms:reference-file line="21">./src/SWP/Bundle/FixturesBundle/Resources/themes/DefaultTheme/views/index.html.twig</jms:reference-file>
+      </trans-unit>
+      <trans-unit id="5a0bfae81e70d813b57d3620e2cc15eaed7abf81" resname="index.title">
+        <source>Title</source>
+        <target state="new">Title</target>
+        <jms:reference-file line="24">./src/SWP/Bundle/FixturesBundle/Resources/themes/DefaultTheme/views/index.html.twig</jms:reference-file>
+      </trans-unit>
+      <trans-unit id="88fc798bfeb477159a82a6ffea4d0ef80544858b" resname="index.welcome.text">
+        <source>This is a Demo Theme. Check in action all awesome features provided by Superdesk Web Publisher.</source>
+        <target state="new">This is a Demo Theme. Check in action all awesome features provided by Superdesk Web Publisher.</target>
+        <jms:reference-file line="7">./src/SWP/Bundle/FixturesBundle/Resources/themes/DefaultTheme/views/index.html.twig</jms:reference-file>
+      </trans-unit>
+      <trans-unit id="657f2c5c77d948f83125462bc890f420c50eee6c" resname="index.welcome.title">
+        <source>Welcome to Default Theme!</source>
+        <target state="new">Welcome to Default Theme!</target>
+        <jms:reference-file line="6">./src/SWP/Bundle/FixturesBundle/Resources/themes/DefaultTheme/views/index.html.twig</jms:reference-file>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>
