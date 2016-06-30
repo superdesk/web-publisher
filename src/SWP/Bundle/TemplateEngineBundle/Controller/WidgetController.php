@@ -166,8 +166,8 @@ class WidgetController extends FOSRestController
      *     description="Update single widget",
      *     statusCodes={
      *         201="Returned on success.",
-     *         404="WidgetModel not found",
-     *         422="WidgetModel id is not number",
+     *         404="Widget not found",
+     *         422="Widget id is not number",
      *         405="Method Not Allowed"
      *     },
      *     input="SWP\Bundle\TemplateEngineBundle\Form\Type\WidgetType"
@@ -185,7 +185,7 @@ class WidgetController extends FOSRestController
         $widget = $entityManager->getRepository('SWP\Bundle\TemplateEngineBundle\Model\WidgetModel')->getById($id)->getOneOrNullResult();
 
         if (!$widget) {
-            throw new NotFoundHttpException('WidgetModel with this id was not found.');
+            throw new NotFoundHttpException('Widget with this id was not found.');
         }
 
         $form = $this->createForm(new WidgetType(), $widget, array(
