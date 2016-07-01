@@ -25,10 +25,29 @@ abstract class AbstractDriver implements PersistenceDriverInterface
      */
     public function load(ContainerBuilder $container, array $config)
     {
-        foreach ($config['repositories'] as $key => $repositoryConfig) {
-            $repositoryConfig['name'] = $key;
-            $this->createObjectManagerAlias($container, $repositoryConfig);
-            $this->createRepositoryDefinition($container, $repositoryConfig);
+        foreach ($config['classes'] as $key => $classConfig) {
+            $classConfig['name'] = $key;
+            $this->setParameters($container, $classConfig);
+            $this->createObjectManagerAlias($container, $classConfig);
+            $this->createRepositoryDefinition($container, $classConfig);
+            if (isset($classConfig['factory'])) {
+                $this->createFactoryDefinition($container, $classConfig);
+            }
+        }
+    }
+
+    private function setParameters(ContainerBuilder $container, array $config)
+    {
+        if (isset($config['model'])) {
+            $container->setParameter(sprintf('%s.model.%s.class', 'swp',$config['name']), $config['model']);
+        }
+
+        if (isset($config['repository'])) {
+            $container->setParameter(sprintf('%s.repository.%s.class', 'swp',$config['name']), $config['repository']);
+        }
+
+        if (isset($config['factory'])) {
+            $container->setParameter(sprintf('%s.factory.%s.class', 'swp',$config['name']), $config['factory']);
         }
     }
 
@@ -39,8 +58,8 @@ abstract class AbstractDriver implements PersistenceDriverInterface
     {
         $repositoryClass = $this->getDriverRepositoryParameter();
 
-        if (isset($config['class'])) {
-            $repositoryClass = $config['class'];
+        if (isset($config['repository'])) {
+            $repositoryClass = $config['repository'];
         }
 
         $definition = new Definition($repositoryClass);
@@ -50,6 +69,25 @@ abstract class AbstractDriver implements PersistenceDriverInterface
         ]);
 
         $container->setDefinition('swp.repository.'.$config['name'], $definition);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function createFactoryDefinition(ContainerBuilder $container, $config)
+    {
+        $factoryClass = $config['factory'];
+        $definition = new Definition($factoryClass);
+        $definition->setArguments([
+            new Reference($this->getObjectManagerId()),
+            $this->getClassMetadataDefinition($config),
+        ]);
+
+        $factoryClass = $config['factory'];
+        $modelClass = $config['model'];
+        $definition = new Definition($factoryClass);
+        $definition->setArguments([$modelClass]);
+        $container->setDefinition('swp.factory.'.$config['name'], $definition);
     }
 
     /**

@@ -41,10 +41,8 @@ class ArticlesController extends FOSRestController
      */
     public function listAction(Request $request)
     {
-        $manager = $this->get('swp.manager.article');
-        $articles = $manager->getChildrenBy($this->getParameter('swp_multi_tenancy.persistence.phpcr.base_paths')[1]);
         $articles = $this->get('knp_paginator')->paginate(
-            $articles,
+            $this->get('swp.provider.article')->getAllArticles(),
             $request->get('page', 1),
             $request->get('limit', 10)
         );
@@ -71,9 +69,7 @@ class ArticlesController extends FOSRestController
      */
     public function getAction($id)
     {
-        $article = $this->get('swp.manager.article')
-            ->findOneBy($this->getParameter('swp_multi_tenancy.persistence.phpcr.base_paths')[1].$id)
-        ;
+        $article = $this->get('swp.provider.article')->findOneById($id);
 
         if (!$article) {
             throw new NotFoundHttpException('Article was not found.');

@@ -14,19 +14,18 @@
 namespace spec\SWP\Bundle\ContentBundle\Transformer;
 
 use PhpSpec\ObjectBehavior;
-use SWP\Bundle\ContentBundle\Model\ArticleManagerInterface;
+use SWP\Bundle\ContentBundle\Factory\ArticleFactoryInterface;
 use SWP\Bundle\ContentBundle\Transformer\PackageToArticleTransformer;
 use SWP\Component\Bridge\Transformer\DataTransformerInterface;
-use SWP\Component\Storage\Repository\RepositoryInterface;
 
 /**
  * @mixin PackageToArticleTransformer
  */
 class PackageToArticleTransformerSpec extends ObjectBehavior
 {
-    function let(RepositoryInterface $routeRepository, ArticleManagerInterface $manager)
+    function let(ArticleFactoryInterface $factory)
     {
-        $this->beConstructedWith($routeRepository, $manager);
+        $this->beConstructedWith($factory);
     }
 
     function it_is_initializable()

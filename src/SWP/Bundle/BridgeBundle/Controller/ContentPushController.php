@@ -24,7 +24,7 @@ use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 class ContentPushController extends FOSRestController
 {
     /**
-     * Recieves HTTP Push Request's payload which is then processed by the pipeline.
+     * Receives HTTP Push Request's payload which is then processed by the pipeline.
      *
      * @ApiDoc(
      *     resource=true,
@@ -45,7 +45,7 @@ class ContentPushController extends FOSRestController
 
                 return $package;
             })
-            // TODO replace with DataTransformerChain to not make a dependency on ContentBundle
+            // TODO create content component and include it into bridge bundle
             ->pipe([$this->get('swp_content.transformer.package_to_article'), 'transform'])
             ->pipe([$this->get('swp.repository.article'), 'add']);
 

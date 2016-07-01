@@ -13,36 +13,27 @@
  */
 namespace SWP\Bundle\ContentBundle\Transformer;
 
-use SWP\Bundle\ContentBundle\Model\ArticleManagerInterface;
+use SWP\Bundle\ContentBundle\Factory\ArticleFactoryInterface;
 use SWP\Component\Bridge\Exception\MethodNotSupportedException;
 use SWP\Component\Bridge\Exception\TransformationFailedException;
-use SWP\Component\Bridge\Model\ItemInterface;
 use SWP\Component\Bridge\Model\PackageInterface;
 use SWP\Component\Bridge\Transformer\DataTransformerInterface;
-use SWP\Component\Storage\Repository\RepositoryInterface;
 
 final class PackageToArticleTransformer implements DataTransformerInterface
 {
     /**
-     * @var RepositoryInterface
+     * @var ArticleFactoryInterface
      */
-    private $routeRepository;
-
-    /**
-     * @var ArticleManagerInterface
-     */
-    private $articleManager;
+    private $articleFactory;
 
     /**
      * PackageToArticleTransformer constructor.
      *
-     * @param RepositoryInterface     $routeRepository
-     * @param ArticleManagerInterface $articleManager
+     * @param ArticleFactoryInterface $articleFactory
      */
-    public function __construct(RepositoryInterface $routeRepository, ArticleManagerInterface $articleManager)
+    public function __construct(ArticleFactoryInterface $articleFactory)
     {
-        $this->routeRepository = $routeRepository;
-        $this->articleManager = $articleManager;
+        $this->articleFactory = $articleFactory;
     }
 
     /**
@@ -54,20 +45,7 @@ final class PackageToArticleTransformer implements DataTransformerInterface
             throw new TransformationFailedException(sprintf('Expected a %s!', PackageInterface::class));
         }
 
-        // TODO replace it with article factory
-        $article = new \SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\Article();
-        $article->setParent($this->articleManager->findOneBy('content'));
-        $article->setTitle($package->getHeadline());
-
-        $article->setBody(implode('', array_map(function (ItemInterface $item) {
-            return $item->getBody();
-        }, $package->getItems()->toArray())));
-
-        $article->setLocale($package->getLanguage());
-        // TODO replace the hardcoded route here
-        $article->setRoute($this->routeRepository->find('/swp/default/routes/news'));
-
-        return $article;
+        return $this->articleFactory->createFromPackage($package);
     }
 
     /**

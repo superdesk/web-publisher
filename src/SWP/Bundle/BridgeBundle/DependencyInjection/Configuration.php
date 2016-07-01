@@ -11,6 +11,7 @@
  * @copyright 2016 Sourcefabric z.ú.
  * @license http://www.superdesk.org/license
  */
+
 namespace SWP\Bundle\BridgeBundle\DependencyInjection;
 
 use SWP\Component\Bridge\Model\Package;
@@ -44,14 +45,14 @@ class Configuration implements ConfigurationInterface
                                 ->scalarNode('object_manager_name')
                                     ->defaultValue('default')
                                 ->end()
-                                ->arrayNode('repositories')
+                                ->arrayNode('classes')
                                     ->addDefaultsIfNotSet()
                                     ->children()
                                         ->arrayNode('package')
                                             ->addDefaultsIfNotSet()
                                             ->children()
                                                 ->scalarNode('model')->cannotBeEmpty()->defaultValue(Package::class)->end()
-                                                ->scalarNode('class')->defaultValue(null)->end()
+                                                ->scalarNode('repository')->defaultValue(null)->end()
                                             ->end()
                                         ->end()
                                     ->end()

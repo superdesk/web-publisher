@@ -37,7 +37,11 @@ class SWPContentExtension extends Extension
 
         if ($config['persistence']['phpcr']['enabled']) {
             $this->loadPhpcrProvider($config['persistence']['phpcr'], $container);
-            $loader->load('phpcr.yml');
+            $container->setParameter(
+                sprintf('%s.persistence.phpcr.default_content_path', $this->getAlias()),
+                $config['persistence']['phpcr']['default_content_path']
+            );
+            $loader->load('providers.yml');
         }
     }
 
@@ -50,6 +54,5 @@ class SWPContentExtension extends Extension
 
         $container->setParameter('swp_content.backend_type_phpcr', true);
         $this->registerStorage(Drivers::DRIVER_DOCTRINE_PHPCR_ODM, $config, $container);
-        $container->setAlias('swp.manager.article', $config['article_manager_name']);
     }
 }

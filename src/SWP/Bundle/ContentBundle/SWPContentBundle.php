@@ -13,8 +13,10 @@
  */
 namespace SWP\Bundle\ContentBundle;
 
+use SWP\Bundle\ContentBundle\DependencyInjection\Compiler\RegisterArticleFactoryPass;
 use SWP\Component\Storage\Bundle\Bundle;
 use SWP\Component\Storage\Drivers;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 class SWPContentBundle extends Bundle
 {
@@ -36,5 +38,11 @@ class SWPContentBundle extends Bundle
         return [
             $this->getConfigFilesPath(Drivers::DRIVER_DOCTRINE_PHPCR_ODM) => 'SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR',
         ];
+    }
+
+    public function build(ContainerBuilder $container)
+    {
+        parent::build($container);
+        $container->addCompilerPass(new RegisterArticleFactoryPass());
     }
 }

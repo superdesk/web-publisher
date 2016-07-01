@@ -11,12 +11,14 @@
  * @copyright 2016 Sourcefabric z.ú.
  * @license http://www.superdesk.org/license
  */
+
 namespace SWP\Bundle\ContentBundle\DependencyInjection;
 
 use SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\Article;
 use SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\ArticleRepository;
 use SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\Route;
 use SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\Site;
+use SWP\Bundle\ContentBundle\Factory\ArticleFactory;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
 
@@ -45,31 +47,32 @@ class Configuration implements ConfigurationInterface
                                 ->scalarNode('object_manager_name')
                                     ->defaultValue('default')
                                 ->end()
-                                    ->scalarNode('article_manager_name')
-                                    ->defaultValue('swp.manager.article.phpcr')
+                                    ->scalarNode('default_content_path')
+                                    ->defaultValue('articles')
                                 ->end()
-                                ->arrayNode('repositories')
+                                ->arrayNode('classes')
                                     ->addDefaultsIfNotSet()
                                     ->children()
                                         ->arrayNode('article')
                                             ->addDefaultsIfNotSet()
                                             ->children()
                                                 ->scalarNode('model')->cannotBeEmpty()->defaultValue(Article::class)->end()
-                                                ->scalarNode('class')->defaultValue(ArticleRepository::class)->end()
+                                                ->scalarNode('repository')->defaultValue(ArticleRepository::class)->end()
+                                                ->scalarNode('factory')->defaultValue(ArticleFactory::class)->end()
                                             ->end()
                                         ->end()
                                         ->arrayNode('site')
                                             ->addDefaultsIfNotSet()
                                             ->children()
                                                 ->scalarNode('model')->cannotBeEmpty()->defaultValue(Site::class)->end()
-                                                ->scalarNode('class')->defaultValue(null)->end()
+                                                ->scalarNode('repository')->defaultValue(null)->end()
                                             ->end()
                                         ->end()
                                         ->arrayNode('route')
                                             ->addDefaultsIfNotSet()
                                             ->children()
                                                 ->scalarNode('model')->cannotBeEmpty()->defaultValue(Route::class)->end()
-                                                ->scalarNode('class')->defaultValue(null)->end()
+                                                ->scalarNode('repository')->defaultValue(null)->end()
                                             ->end()
                                         ->end()
                                     ->end()

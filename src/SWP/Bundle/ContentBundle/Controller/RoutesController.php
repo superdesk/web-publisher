@@ -45,10 +45,7 @@ class RoutesController extends FOSRestController
      */
     public function listAction(Request $request)
     {
-        $repository = $this->get('swp.repository.route');
-        $basepath = $this->get('swp_multi_tenancy.path_builder')
-            ->build($this->getParameter('swp_multi_tenancy.persistence.phpcr.route_basepaths')[0]);
-        $baseroute = $repository->find($basepath);
+        $baseroute = $this->get('swp.provider.route')->getBaseRoute();
         $routes = [];
 
         if ($baseroute) {
@@ -75,9 +72,7 @@ class RoutesController extends FOSRestController
      */
     public function getAction($id)
     {
-        $routeBasepath = $this->get('swp_multi_tenancy.path_builder')
-            ->build($this->getParameter('swp_multi_tenancy.persistence.phpcr.base_paths')[0]);
-        $route = $this->get('swp.repository.route')->find($routeBasepath.$id);
+        $route = $this->get('swp.provider.route')->getOneById($id);
 
         if (!$route) {
             throw new NotFoundHttpException('Route was not found.');
@@ -102,9 +97,7 @@ class RoutesController extends FOSRestController
     public function deleteAction($id)
     {
         $repository = $this->get('swp.repository.route');
-        $routeBasepath = $this->get('swp_multi_tenancy.path_builder')
-            ->build($this->getParameter('swp_multi_tenancy.persistence.phpcr.base_paths')[0]);
-        $route = $repository->find($routeBasepath.$id);
+        $route = $this->get('swp.provider.route')->getOneById($id);
 
         if (!$route) {
             throw new NotFoundHttpException('Route was not found.');
