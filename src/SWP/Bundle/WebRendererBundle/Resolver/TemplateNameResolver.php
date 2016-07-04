@@ -20,6 +20,8 @@ use SWP\Bundle\ContentBundle\Model\Article;
 
 class TemplateNameResolver implements TemplateNameResolverInterface
 {
+    protected $defaultTemplateName;
+    
     public function __construct()
     {
 

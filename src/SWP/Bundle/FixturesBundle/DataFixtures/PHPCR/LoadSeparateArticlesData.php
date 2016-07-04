@@ -57,11 +57,13 @@ class LoadSeparateArticlesData extends AbstractFixture implements FixtureInterfa
                     'title' => 'Test news article',
                     'content' => 'Test news article content',
                     'parent' => '/swp/default/content',
+                    'locale' => 'en',
                 ],
                 [
                     'title' => 'Test content article',
                     'content' => 'Test article content',
                     'parent' => '/swp/default/content',
+                    'locale' => 'en',
                 ],
             ],
         ];
@@ -72,6 +74,8 @@ class LoadSeparateArticlesData extends AbstractFixture implements FixtureInterfa
                 $article->setParent($manager->find(null, $articleData['parent']));
                 $article->setTitle($articleData['title']);
                 $article->setBody($articleData['content']);
+                $article->setLocale($articleData['locale']);
+                $article->setCreatedAt(new \DateTime('2016-07-04T16:38:20+0000'));
                 if (isset($articleData['route'])) {
                     $article->setRoute($manager->find(null, $articleData['route']));
                 }

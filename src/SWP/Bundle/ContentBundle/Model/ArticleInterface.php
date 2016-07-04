@@ -13,13 +13,19 @@
  */
 namespace SWP\Bundle\ContentBundle\Model;
 
+use SWP\Component\Common\Model\SoftDeletableInterface;
 use SWP\Component\Common\Model\TimestampableInterface;
 use SWP\Component\Common\Model\TranslatableInterface;
 use SWP\Component\Storage\Model\PersistableInterface;
 use SWP\Bundle\ContentBundle\Model\RouteInterface;
 
-interface ArticleInterface extends TimestampableInterface, TranslatableInterface, PersistableInterface
+interface ArticleInterface extends TimestampableInterface, TranslatableInterface, PersistableInterface, SoftDeletableInterface
 {
+    const STATUS_NEW = 'new';
+    const STATUS_SUBMITTED = 'submitted';
+    const STATUS_PUBLISHED = 'published';
+    const STATUS_UNPUBLISHED = 'unpublished';
+
     /**
      * @return mixed
      */
@@ -61,7 +67,14 @@ interface ArticleInterface extends TimestampableInterface, TranslatableInterface
     public function getPublishedAt();
 
     /**
-     * @return mixed
+     * @param string $status
+     *
+     * @return string
+     */
+    public function setStatus($status);
+
+    /**
+     * @return string
      */
     public function getStatus();
 
