@@ -31,4 +31,18 @@ interface SiteDocumentInterface
      * @param string $id The site identifier
      */
     public function setId($id);
+
+    /**
+     * Gets the homepage.
+     *
+     * @return RouteInterface
+     */
+    public function getHomepage();
+
+    /**
+     * Sets the homepage.
+     * 
+     * @param RouteInterface $homepage
+     */
+    public function setHomepage(RouteInterface $homepage);
 }

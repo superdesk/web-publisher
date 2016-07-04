@@ -54,14 +54,6 @@ class ArticleProvider implements ArticleProviderInterface
             return $this->articleRepository->findOneBySlug($id);
         }
 
-        return $this->articleRepository->findOneById($id);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getAllArticles()
-    {
-        return $this->articleRepository->createQueryBuilder('o')->getQuery();
+        return $this->articleRepository->findOneBy(['id' => $id]);
     }
 }

@@ -25,7 +25,7 @@ use Symfony\Component\HttpFoundation\Request;
 use SWP\Bundle\ContentBundle\Form\Type\RouteType;
 use SWP\Component\Common\Event\HttpCacheEvent;
 
-class RoutesController extends FOSRestController
+class RouteController extends FOSRestController
 {
     /**
      * Lists current tenant routes.

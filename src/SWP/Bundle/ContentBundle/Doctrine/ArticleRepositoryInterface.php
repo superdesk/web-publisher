@@ -14,8 +14,9 @@
 namespace SWP\Bundle\ContentBundle\Doctrine;
 
 use SWP\Bundle\ContentBundle\Model\ArticleInterface;
+use SWP\Component\Storage\Repository\RepositoryInterface;
 
-interface ArticleRepositoryInterface
+interface ArticleRepositoryInterface extends RepositoryInterface
 {
     /**
      * Finds one article by slug.
@@ -25,4 +26,11 @@ interface ArticleRepositoryInterface
      * @return ArticleInterface
      */
     public function findOneBySlug($slug);
+
+    /**
+     * Finds all articles.
+     *
+     * @return mixed
+     */
+    public function findAllArticles();
 }

@@ -18,26 +18,6 @@ use SWP\Component\Storage\Model\PersistableInterface;
 
 class Site extends BaseSite implements PersistableInterface
 {
-    /**
-     * Gets the value of homepage.
-     *
-     * @return mixed
-     */
-    public function getHomepage()
-    {
-        return $this->homepage;
-    }
-
-    /**
-     * Sets the value of homepage.
-     *
-     * @param Route $homepage the homepage
-     */
-    public function setHomepage(Route $homepage)
-    {
-        $this->homepage = $homepage;
-    }
-
     public function __toString()
     {
         return $this->id;

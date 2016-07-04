@@ -13,6 +13,7 @@
  */
 namespace SWP\Component\Bridge\Model;
 
+use Doctrine\Common\Collections\Collection;
 use SWP\Component\Common\Model\EnableableInterface;
 use SWP\Component\Common\Model\SoftDeletableInterface;
 use SWP\Component\Common\Model\TimestampableInterface;
@@ -20,7 +21,7 @@ use SWP\Component\Common\Model\TimestampableInterface;
 interface PackageInterface extends ContentInterface, TimestampableInterface, EnableableInterface, SoftDeletableInterface
 {
     /**
-     * @return array
+     * @return Collection
      */
     public function getItems();
 }

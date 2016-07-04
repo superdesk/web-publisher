@@ -13,8 +13,9 @@
  */
 namespace SWP\Bundle\MultiTenancyBundle\Document;
 
+use SWP\Component\MultiTenancy\Model\RouteInterface;
 use Symfony\Cmf\Bundle\RoutingBundle\Doctrine\Phpcr\Route;
 
-class Page extends Route
+class Page extends Route implements RouteInterface
 {
 }

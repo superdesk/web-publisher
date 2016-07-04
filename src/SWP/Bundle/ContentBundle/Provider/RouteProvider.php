@@ -72,7 +72,7 @@ class RouteProvider implements RouteProviderInterface
      */
     public function getOneById($id)
     {
-        return $this->routeRepository->find($this->pathBuilder->build($this->basePaths[0].'/'.rtrim(ltrim($id))));
+        return $this->routeRepository->find($this->pathBuilder->build($this->basePaths[0].'/'.$id));
     }
 
     /**
@@ -81,7 +81,7 @@ class RouteProvider implements RouteProviderInterface
     public function getRouteForArticle(ArticleInterface $article)
     {
         return $this->routeRepository->find(
-            $this->pathBuilder->build($this->basePaths[0].'/'.rtrim(ltrim($this->defaultPath)))
+            $this->pathBuilder->build($this->basePaths[0].'/'.$this->defaultPath)
         );
     }
 }

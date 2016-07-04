@@ -42,7 +42,7 @@ class ArticleController extends FOSRestController
     public function listAction(Request $request)
     {
         $articles = $this->get('knp_paginator')->paginate(
-            $this->get('swp.provider.article')->getAllArticles(),
+            $this->get('swp.repository.article')->findAllArticles(),
             $request->get('page', 1),
             $request->get('limit', 10)
         );
@@ -71,7 +71,7 @@ class ArticleController extends FOSRestController
     {
         $article = $this->get('swp.provider.article')->findOneById($id);
 
-        if (!$article) {
+        if (null === $article) {
             throw new NotFoundHttpException('Article was not found.');
         }
 

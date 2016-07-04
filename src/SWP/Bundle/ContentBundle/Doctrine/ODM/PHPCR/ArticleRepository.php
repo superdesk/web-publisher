@@ -25,4 +25,12 @@ class ArticleRepository extends DocumentRepository implements ArticleRepositoryI
     {
         return $this->findOneBy(['slug' => $slug]);
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function findAllArticles()
+    {
+        return $this->createQueryBuilder('o')->getQuery();
+    }
 }

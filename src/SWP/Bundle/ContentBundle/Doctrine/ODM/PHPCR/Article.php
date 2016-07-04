@@ -22,7 +22,7 @@ use SWP\Bundle\ContentBundle\Model\RouteInterface;
 class Article extends BaseArticle implements HierarchyInterface
 {
     /**
-     * @var Route
+     * @var RouteInterface
      */
     protected $route;
 
