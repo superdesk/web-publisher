@@ -11,7 +11,6 @@
  * @copyright 2016 Sourcefabric z.ú.
  * @license http://www.superdesk.org/license
  */
-
 namespace SWP\Bundle\WebRendererBundle\Exception;
 
 class NoThemeException extends \Exception
