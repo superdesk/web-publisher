@@ -16,7 +16,7 @@ namespace SWP\Bundle\TemplateEngineBundle\Tests\Controller;
 use Liip\FunctionalTestBundle\Test\WebTestCase;
 use SWP\Component\MultiTenancy\Model\Tenant;
 
-class RoutesControllerTest extends WebTestCase
+class RouteControllerTest extends WebTestCase
 {
     protected $router;
 

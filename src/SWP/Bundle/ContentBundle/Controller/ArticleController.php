@@ -22,7 +22,7 @@ use FOS\RestBundle\View\View;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
-class ArticlesController extends FOSRestController
+class ArticleController extends FOSRestController
 {
     /**
      * List all articles for current tenant.
