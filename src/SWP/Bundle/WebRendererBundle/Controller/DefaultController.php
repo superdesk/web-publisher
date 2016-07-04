@@ -15,6 +15,7 @@ namespace SWP\Bundle\WebRendererBundle\Controller;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use SWP\Bundle\WebRendererBundle\Exception\NoThemeException;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 class DefaultController extends Controller
@@ -34,9 +35,13 @@ class DefaultController extends Controller
             throw $this->createNotFoundException('No homepage configured!');
         }
 
-        $response = $this->render('index.html.twig', [
-            'page' => $homepage,
-        ]);
+        try {
+            $response = $this->render('index.html.twig', [
+                'page' => $homepage,
+            ]);
+        } catch (\InvalidArgumentException $e) {
+            throw new NoThemeException($e->getMessage(), $e->getCode(), $e);
+        }
 
         return $response;
     }

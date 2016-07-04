@@ -36,3 +36,8 @@ services:
             - '@swp_webrenderer.theme.context.tenant_aware'
         tags:
             - { name: twig.extension }
+
+    swp_webrenderer.exception_listener:
+        class: SWP\Bundle\WebRendererBundle\EventListener\ExceptionListener
+        tags:
+            - { name: kernel.event_listener, event: kernel.exception }
