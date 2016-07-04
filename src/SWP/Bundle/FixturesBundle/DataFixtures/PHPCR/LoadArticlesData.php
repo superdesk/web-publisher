@@ -16,6 +16,7 @@ namespace SWP\Bundle\FixturesBundle\DataFixtures\PHPCR;
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\Article;
+use SWP\Bundle\ContentBundle\Model\ArticleInterface;
 use SWP\Bundle\FixturesBundle\AbstractFixture;
 use SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\Route;
 
@@ -226,24 +227,28 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface
                     'content' => 'Test news article content',
                     'route' => '/swp/default/routes/news',
                     'parent' => '/swp/default/content',
+                    'locale' => 'en',
                 ],
                 [
                     'title' => 'Test article',
                     'content' => 'Test article content',
                     'route' => '/swp/default/routes/news',
                     'parent' => '/swp/default/content',
+                    'locale' => 'en',
                 ],
                 [
                     'title' => 'Features',
                     'content' => 'Features content',
                     'route' => '/swp/default/routes/news',
                     'parent' => '/swp/default/content',
+                    'locale' => 'en',
                 ],
                 [
                     'title' => 'Features client1',
                     'content' => 'Features client1 content',
                     'route' => '/swp/client1/routes/news',
                     'parent' => '/swp/client1/content',
+                    'locale' => 'en',
                 ],
             ],
         ];
@@ -255,6 +260,7 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface
                 $article->setTitle($articleData['title']);
                 $article->setBody($articleData['content']);
                 $article->setRoute($manager->find(null, $articleData['route']));
+                $article->setLocale($articleData['locale']);
 
                 $manager->persist($article);
             }

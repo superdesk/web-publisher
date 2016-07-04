@@ -4,13 +4,16 @@ SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\Article:
         body: "<paragraph(20)>"
         parent: <find(null, '/swp/default/content')>
         route: "/swp/default/routes/news"
+        locale: "en"
     article_features:
         title: "Features"
         body: "<paragraph(20)>"
         parent: <find(null, '/swp/default/content')>
         route: "/swp/default/routes/articles/features"
+        locale: "en"
     article_get_invlolved:
         title: "Get Involved"
         body: "<paragraph(20)>"
         parent: <find(null, '/swp/default/content')>
         route: "/swp/default/routes/articles"
+        locale: "en"

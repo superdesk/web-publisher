@@ -14,12 +14,13 @@
 namespace SWP\Bundle\ContentBundle\Model;
 
 use Behat\Transliterator\Transliterator;
+use SWP\Component\Common\Model\SoftDeletableTrait;
 use SWP\Component\Common\Model\TimestampableTrait;
 use SWP\Component\Common\Model\TranslatableTrait;
 
 class Article implements ArticleInterface
 {
-    use TimestampableTrait, TranslatableTrait;
+    use TimestampableTrait, TranslatableTrait, SoftDeletableTrait;
 
     /**
      * @var mixed
@@ -47,9 +48,17 @@ class Article implements ArticleInterface
     protected $publishedAt;
 
     /**
-     * @var ['y'|'n'|'s']
+     * @var string
      */
-    protected $status;
+    protected $status = ArticleInterface::STATUS_NEW;
+
+    /**
+     * Article constructor.
+     */
+    public function __construct()
+    {
+        $this->createdAt = new \DateTime();
+    }
 
     /**
      * {@inheritdoc}
@@ -123,5 +132,13 @@ class Article implements ArticleInterface
     public function getStatus()
     {
         return $this->status;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setStatus($status)
+    {
+        $this->status = $status;
     }
 }
