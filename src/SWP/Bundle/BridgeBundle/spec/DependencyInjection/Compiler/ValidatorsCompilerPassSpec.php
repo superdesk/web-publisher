@@ -51,5 +51,4 @@ class ValidatorsCompilerPassSpec extends ObjectBehavior
 
         $this->process($container);
     }
-
 }

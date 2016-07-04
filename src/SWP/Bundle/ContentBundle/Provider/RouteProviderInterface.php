@@ -34,7 +34,7 @@ interface RouteProviderInterface
 
     /**
      * Gets the route for article. Indicates route the article should have.
-     * 
+     *
      * @param ArticleInterface $article
      *
      * @return RouteInterface|null

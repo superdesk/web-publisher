@@ -14,7 +14,6 @@
 namespace spec\SWP\Component\Bridge\Transformer;
 
 use PhpSpec\ObjectBehavior;
-use Prophecy\Argument;
 use SWP\Component\Bridge\Transformer\DataTransformerInterface;
 use SWP\Component\Bridge\Transformer\JsonToPackageTransformer;
 use SWP\Component\Bridge\Validator\ValidatorInterface;

@@ -28,7 +28,7 @@ interface RouteServiceInterface
 
     /**
      * Updates existing route.
-     * 
+     *
      * @param RouteInterface $route
      * @param array          $routeData
      *

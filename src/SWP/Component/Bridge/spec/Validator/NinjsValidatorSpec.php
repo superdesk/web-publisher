@@ -13,13 +13,11 @@
  */
 namespace spec\SWP\Component\Bridge\Validator;
 
-use JsonSchema\Validator;
 use PhpSpec\ObjectBehavior;
 use SWP\Component\Bridge\Validator\JsonValidator;
 use SWP\Component\Bridge\Validator\NinjsValidator;
 use SWP\Component\Bridge\Validator\ValidatorInterface;
 use SWP\Component\Bridge\Validator\ValidatorOptionsInterface;
-use Symfony\Component\HttpFoundation\Request;
 
 /**
  * @mixin NinjsValidator
