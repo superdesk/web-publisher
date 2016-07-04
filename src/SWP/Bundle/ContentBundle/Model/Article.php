@@ -16,6 +16,7 @@ namespace SWP\Bundle\ContentBundle\Model;
 use Behat\Transliterator\Transliterator;
 use SWP\Component\Common\Model\TimestampableTrait;
 use SWP\Component\Common\Model\TranslatableTrait;
+use SWP\Bundle\ContentBundle\Model\RouteInterface;
 
 class Article implements ArticleInterface
 {
@@ -55,6 +56,23 @@ class Article implements ArticleInterface
      * @var string
      */
     protected $templateName;
+
+    /**
+     * @var RouteInterface
+     */
+    protected $route;
+
+    public function setRoute(RouteInterface $route)
+    {
+        $this->route = $route;
+
+        return $this;
+    }
+
+    public function getRoute()
+    {
+        return $this->route;
+    }
 
     /**
      * {@inheritdoc}

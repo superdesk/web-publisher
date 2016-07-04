@@ -17,15 +17,9 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ODM\PHPCR\Exception\InvalidArgumentException;
 use Doctrine\ODM\PHPCR\HierarchyInterface;
 use SWP\Bundle\ContentBundle\Model\Article as BaseArticle;
-use SWP\Bundle\ContentBundle\Model\RouteInterface;
 
 class Article extends BaseArticle implements HierarchyInterface
 {
-    /**
-     * @var RouteInterface
-     */
-    protected $route;
-
     /**
      * PHPCR parent document.
      *
@@ -39,18 +33,6 @@ class Article extends BaseArticle implements HierarchyInterface
      * @var Collection
      */
     protected $children;
-
-    public function setRoute(RouteInterface $route)
-    {
-        $this->route = $route;
-
-        return $this;
-    }
-
-    public function getRoute()
-    {
-        return $this->route;
-    }
 
     /**
      * {@inheritdoc}

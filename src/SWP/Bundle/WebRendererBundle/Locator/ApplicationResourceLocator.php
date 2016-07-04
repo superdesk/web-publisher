@@ -56,11 +56,6 @@ class ApplicationResourceLocator implements ResourceLocatorInterface
         throw new ResourceNotFoundException($resourceName, $theme);
     }
 
-    public function determineResourceName(ArticleInterface $article)
-    {
-
-    }
-
     /**
      * @param string $resourceName
      * @param ThemeInterface $theme

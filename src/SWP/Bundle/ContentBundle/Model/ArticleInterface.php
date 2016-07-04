@@ -16,6 +16,7 @@ namespace SWP\Bundle\ContentBundle\Model;
 use SWP\Component\Common\Model\TimestampableInterface;
 use SWP\Component\Common\Model\TranslatableInterface;
 use SWP\Component\Storage\Model\PersistableInterface;
+use SWP\Bundle\ContentBundle\Model\RouteInterface;
 
 interface ArticleInterface extends TimestampableInterface, TranslatableInterface, PersistableInterface
 {
@@ -73,4 +74,24 @@ interface ArticleInterface extends TimestampableInterface, TranslatableInterface
      * @param string $templateName
      */
     public function setTemplateName($templateName);
+
+    /**
+     * @return string
+     */
+    public function getTemplateName();
+
+    /**
+     * @param string $templateName
+     */
+    public function setTemplateName($templateName);
+
+    /**
+     * @param RouteInterface $route
+     */
+    public function setRoute(RouteInterface $route);
+
+    /**
+     * @return RouteInterface
+     */
+    public function getRoute();
 }

@@ -9,6 +9,8 @@ SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\Article:
             type: string
         title:
             type: string
+        templateName:
+            type: string
     referenceOne:
         route:
             targetDocument: "\\SWP\\Bundle\\ContentBundle\\Doctrine\\ODM\\PHPCR\\Route"
