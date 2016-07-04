@@ -39,15 +39,15 @@ abstract class AbstractDriver implements PersistenceDriverInterface
     private function setParameters(ContainerBuilder $container, array $config)
     {
         if (isset($config['model'])) {
-            $container->setParameter(sprintf('%s.model.%s.class', 'swp',$config['name']), $config['model']);
+            $container->setParameter(sprintf('%s.model.%s.class', 'swp', $config['name']), $config['model']);
         }
 
         if (isset($config['repository'])) {
-            $container->setParameter(sprintf('%s.repository.%s.class', 'swp',$config['name']), $config['repository']);
+            $container->setParameter(sprintf('%s.repository.%s.class', 'swp', $config['name']), $config['repository']);
         }
 
         if (isset($config['factory'])) {
-            $container->setParameter(sprintf('%s.factory.%s.class', 'swp',$config['name']), $config['factory']);
+            $container->setParameter(sprintf('%s.factory.%s.class', 'swp', $config['name']), $config['factory']);
         }
     }
 

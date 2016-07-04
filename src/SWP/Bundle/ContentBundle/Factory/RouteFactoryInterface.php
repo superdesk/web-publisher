@@ -11,12 +11,10 @@
  * @copyright 2016 Sourcefabric z.ú.
  * @license http://www.superdesk.org/license
  */
-namespace SWP\Bundle\ContentBundle\Model;
+namespace SWP\Bundle\ContentBundle\Factory;
 
-use SWP\Component\Storage\Model\PersistableInterface;
+use SWP\Component\Storage\Factory\FactoryInterface;
 
-interface RouteInterface extends PersistableInterface
+interface RouteFactoryInterface extends FactoryInterface
 {
-    const TYPE_CONTENT = 'content';
-    const TYPE_COLLECTION = 'collection';
 }

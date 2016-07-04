@@ -50,7 +50,7 @@ class RouteType extends AbstractType
                 'constraints' => [
                    new Length(['min' => 1]),
                 ],
-                'description' => 'Relative content path. e.g.: /test-content-article',
+                'description' => 'Content path name e.g.: test-content-article',
             ]);
     }
 

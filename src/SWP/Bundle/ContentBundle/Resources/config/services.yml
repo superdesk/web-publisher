@@ -1,5 +1,7 @@
 parameters:
     swp_content.transformer.package_to_article.class: SWP\Bundle\ContentBundle\Transformer\PackageToArticleTransformer
+    swp.service.route.class: SWP\Bundle\ContentBundle\Service\RouteService
+    swp.event_subscriber.class: SWP\Bundle\ContentBundle\EventListener\RouteSubscriber
 
 services:
     swp_template_engine.loader.article:
@@ -33,3 +35,11 @@ services:
             - '@swp.factory.article'
         tags:
             - { name: transformer.http_push_transformer, alias: transformer.package_to_article, priority: -1 }
+
+    swp.service.route:
+        class: '%swp.service.route.class%'
+        arguments:
+            - '@swp.factory.route'
+            - '@swp.provider.route'
+            - '@swp.provider.article'
+            - '@event_dispatcher'

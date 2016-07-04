@@ -23,7 +23,6 @@ use Symfony\Component\HttpKernel\Exception\ConflictHttpException;
 use FOS\RestBundle\View\View;
 use Symfony\Component\HttpFoundation\Request;
 use SWP\Bundle\ContentBundle\Form\Type\RouteType;
-use SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR;
 use SWP\Component\Common\Event\HttpCacheEvent;
 
 class RoutesController extends FOSRestController
@@ -72,13 +71,7 @@ class RoutesController extends FOSRestController
      */
     public function getAction($id)
     {
-        $route = $this->get('swp.provider.route')->getOneById($id);
-
-        if (!$route) {
-            throw new NotFoundHttpException('Route was not found.');
-        }
-
-        return $this->handleView(View::create($route, 200));
+        return $this->handleView(View::create($this->findOr404($id), 200));
     }
 
     /**
@@ -97,12 +90,7 @@ class RoutesController extends FOSRestController
     public function deleteAction($id)
     {
         $repository = $this->get('swp.repository.route');
-        $route = $this->get('swp.provider.route')->getOneById($id);
-
-        if (!$route) {
-            throw new NotFoundHttpException('Route was not found.');
-        }
-
+        $route = $this->findOr404($id);
         $this->get('event_dispatcher')
             ->dispatch(HttpCacheEvent::EVENT_NAME, new HttpCacheEvent($route));
 
@@ -122,7 +110,7 @@ class RoutesController extends FOSRestController
      *
      * Content path should be provided without tenant information:
      *
-     * Instead full content path like:  ```/swp/default/content/test-content-article``` provide path like this: ```/test-content-article```
+     * Instead full content path like:  ```/swp/default/content/test-content-article``` provide path like this: ```test-content-article```
      *
      * @ApiDoc(
      *     resource=true,
@@ -145,8 +133,7 @@ class RoutesController extends FOSRestController
                 $formData['parent'] = '/';
             }
 
-            // todo replace with factory
-            $route = $this->handleRouteUpdate(new PHPCR\Route(), $formData);
+            $route = $this->get('swp.service.route')->createRoute($formData);
             $this->get('swp.repository.route')->add($route);
 
             $this->get('event_dispatcher')
@@ -165,7 +152,7 @@ class RoutesController extends FOSRestController
      *
      * Content path should be provided without tenant information:
      *
-     * Instead full content path like:  ```/swp/default/content/test-content-article``` provide path like this: ```/test-content-article```
+     * Instead full content path like:  ```/swp/default/content/test-content-article``` provide path like this: ```test-content-article```
      *
      * @ApiDoc(
      *     resource=true,
@@ -180,70 +167,30 @@ class RoutesController extends FOSRestController
      */
     public function updateAction(Request $request, $id)
     {
-        $repository = $this->get('swp.repository.route');
-        $manager = $this->get('swp.object_manager.route');
-        $routeBasepath = $this->get('swp_multi_tenancy.path_builder')
-            ->build($this->getParameter('swp_multi_tenancy.persistence.phpcr.base_paths')[0]);
-        $route = $repository->find($routeBasepath.$id);
-        if (!$route) {
-            throw new NotFoundHttpException('Route was not found.');
-        }
+        $objectManager = $this->get('swp.object_manager.route');
+        $route = $this->findOr404($id);
 
-        $form = $this->createForm(new RouteType(), [], ['method' => $request->getMethod()]);
+        $form = $this->createForm(new RouteType(), [$route], ['method' => $request->getMethod()]);
         $form->handleRequest($request);
+
         if ($form->isValid()) {
             $this->get('event_dispatcher')
                 ->dispatch(HttpCacheEvent::EVENT_NAME, new HttpCacheEvent($route));
 
-            $route = $this->handleRouteUpdate($route, $form->getData());
-            $manager->flush();
+            $this->get('swp.service.route')->updateRoute($route, $form->getData());
+
+            $objectManager->flush();
 
             return $this->handleView(View::create($route, 200));
         }
 
-        return $this->handleView(View::create($form, 200));
+        return $this->handleView(View::create($form, 500));
     }
 
-    private function handleRouteUpdate($route, $routeData)
+    private function findOr404($id)
     {
-        $repository = $this->get('swp.repository.route');
-        $basepaths = $this->getParameter('swp_multi_tenancy.persistence.phpcr.base_paths');
-
-        if (isset($routeData['parent'])) {
-            $routeBasepath = $this->get('swp_multi_tenancy.path_builder')->build($basepaths[0]);
-            if (!is_null($routeData['parent']) && $routeData['parent'] !== '/') {
-                $parentRoute = $repository->find($routeBasepath.$routeData['parent']);
-
-                if ($parentRoute) {
-                    $route->setParentDocument($parentRoute);
-                }
-            } else {
-                $route->setParentDocument($repository->find($routeBasepath));
-            }
-        }
-
-        if (isset($routeData['content']) && !is_null($routeData['content'])) {
-            $contentBasepath = $this->get('swp_multi_tenancy.path_builder')->build($basepaths[1]);
-            $routeContent = $this->get('swp.repository.article')->find($contentBasepath.$routeData['content']);
-
-            if ($routeContent) {
-                $route->setContent($routeContent);
-            }
-        }
-
-        if (isset($routeData['name'])) {
-            $route->setName($routeData['name']);
-        }
-
-        // TODO replace with factory
-        if (isset($routeData['type']) && $routeData['type'] == PHPCR\Route::TYPE_CONTENT) {
-            $route->setDefault('_controller', '\SWP\Bundle\WebRendererBundle\Controller\ContentController::renderContentPageAction');
-            $route->setVariablePattern(null);
-            $route->setRequirements([]);
-        } elseif (isset($routeData['type'])) {
-            $route->setDefault('_controller', '\SWP\Bundle\WebRendererBundle\Controller\ContentController::renderContainerPageAction');
-            $route->setVariablePattern('/{slug}');
-            $route->setRequirement('slug', '[a-zA-Z1-9\-_\/]+');
+        if (null === $route = $this->get('swp.provider.route')->getOneById($id)) {
+            throw new NotFoundHttpException('Route was not found.');
         }
 
         return $route;
