@@ -1,5 +1,16 @@
 <?php
 
+/**
+ * This file is part of the Superdesk Web Publisher Content Bundle.
+ *
+ * Copyright 2016 Sourcefabric z.ú. and contributors.
+ *
+ * For the full copyright and license information, please see the
+ * AUTHORS and LICENSE files distributed with this source code.
+ *
+ * @copyright 2016 Sourcefabric z.ú.
+ * @license http://www.superdesk.org/license
+ */
 namespace SWP\Bundle\ContentBundle\Provider;
 
 use SWP\Bundle\ContentBundle\Model\ArticleInterface;
@@ -61,7 +72,7 @@ class RouteProvider implements RouteProviderInterface
      */
     public function getOneById($id)
     {
-        return $this->routeRepository->find($this->pathBuilder->build($this->basePaths[0].'/'.rtrim(ltrim($id))));
+        return $this->routeRepository->find($this->pathBuilder->build($this->basePaths[0].'/'.$id));
     }
 
     /**
@@ -70,7 +81,7 @@ class RouteProvider implements RouteProviderInterface
     public function getRouteForArticle(ArticleInterface $article)
     {
         return $this->routeRepository->find(
-            $this->pathBuilder->build($this->basePaths[0].'/'.rtrim(ltrim($this->defaultPath)))
+            $this->pathBuilder->build($this->basePaths[0].'/'.$this->defaultPath)
         );
     }
 }

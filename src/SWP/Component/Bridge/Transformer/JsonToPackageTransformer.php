@@ -13,7 +13,6 @@
  */
 namespace SWP\Component\Bridge\Transformer;
 
-use SWP\Component\Bridge\ChainValidatorInterface;
 use SWP\Component\Bridge\Exception\MethodNotSupportedException;
 use SWP\Component\Bridge\Exception\TransformationFailedException;
 use SWP\Component\Bridge\Model\Package;
@@ -28,7 +27,7 @@ final class JsonToPackageTransformer implements DataTransformerInterface
     private $serializer;
 
     /**
-     * @var ChainValidatorInterface
+     * @var ValidatorInterface
      */
     private $validatorChain;
 

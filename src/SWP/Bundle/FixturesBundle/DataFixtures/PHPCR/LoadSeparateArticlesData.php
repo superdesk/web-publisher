@@ -15,9 +15,8 @@ namespace SWP\Bundle\FixturesBundle\DataFixtures\PHPCR;
 
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
-use SWP\Bundle\ContentBundle\Document\Article;
+use SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\Article;
 use SWP\Bundle\FixturesBundle\AbstractFixture;
-use SWP\Bundle\ContentBundle\Document\Route;
 
 class LoadSeparateArticlesData extends AbstractFixture implements FixtureInterface
 {
@@ -72,7 +71,7 @@ class LoadSeparateArticlesData extends AbstractFixture implements FixtureInterfa
                 $article = new Article();
                 $article->setParent($manager->find(null, $articleData['parent']));
                 $article->setTitle($articleData['title']);
-                $article->setContent($articleData['content']);
+                $article->setBody($articleData['content']);
                 if (isset($articleData['route'])) {
                     $article->setRoute($manager->find(null, $articleData['route']));
                 }

@@ -13,10 +13,10 @@
  */
 namespace SWP\Bundle\TemplateEngineBundle\EventSubscriber;
 
+use SWP\Bundle\ContentBundle\Model\RouteInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use SWP\Component\Common\Event\HttpCacheEvent;
 use SWP\Bundle\TemplateEngineBundle\Model\Container;
-use SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\Route;
 use FOS\HttpCache\Exception\ExceptionCollection;
 
 class HttpCacheSubscriber implements EventSubscriberInterface
@@ -49,7 +49,7 @@ class HttpCacheSubscriber implements EventSubscriberInterface
             ]);
         }
 
-        if ($event->getSubject() instanceof Route) {
+        if ($event->getSubject() instanceof RouteInterface) {
             $this->cacheManager->invalidateRoute('swp_api_content_list_routes');
             $this->cacheManager->invalidateRoute('swp_api_content_show_routes', [
                 'id' => $event->getSubject()->getPath(),

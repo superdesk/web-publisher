@@ -1,7 +1,7 @@
 <?php
 
 /**
- * This file is part of the Superdesk Web Publisher Content Bundle.
+ * This file is part of the Superdesk Web Publisher MultiTenancy Component.
  *
  * Copyright 2016 Sourcefabric z.ú. and contributors.
  *
@@ -11,12 +11,8 @@
  * @copyright 2016 Sourcefabric z.ú.
  * @license http://www.superdesk.org/license
  */
-namespace SWP\Bundle\ContentBundle\Model;
+namespace SWP\Component\MultiTenancy\Model;
 
-use SWP\Component\Storage\Model\PersistableInterface;
-
-interface RouteInterface extends PersistableInterface
+interface RouteInterface
 {
-    const TYPE_CONTENT = 'content';
-    const TYPE_COLLECTION = 'collection';
 }

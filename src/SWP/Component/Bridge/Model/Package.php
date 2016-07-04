@@ -14,6 +14,7 @@
 namespace SWP\Component\Bridge\Model;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use SWP\Component\Common\Model\EnableableTrait;
 use SWP\Component\Common\Model\SoftDeletableTrait;
 use SWP\Component\Common\Model\TimestampableTrait;
@@ -24,7 +25,7 @@ class Package extends BaseContent implements PackageInterface, PersistableInterf
     use TimestampableTrait, SoftDeletableTrait, EnableableTrait;
 
     /**
-     * @var ItemInterface[]
+     * @var Collection
      */
     protected $items;
 

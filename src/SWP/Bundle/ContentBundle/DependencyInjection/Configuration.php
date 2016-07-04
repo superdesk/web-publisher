@@ -11,7 +11,6 @@
  * @copyright 2016 Sourcefabric z.ú.
  * @license http://www.superdesk.org/license
  */
-
 namespace SWP\Bundle\ContentBundle\DependencyInjection;
 
 use SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\Article;
@@ -19,6 +18,7 @@ use SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\ArticleRepository;
 use SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\Route;
 use SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\Site;
 use SWP\Bundle\ContentBundle\Factory\ArticleFactory;
+use SWP\Bundle\ContentBundle\Factory\RouteFactory;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
 
@@ -73,6 +73,7 @@ class Configuration implements ConfigurationInterface
                                             ->children()
                                                 ->scalarNode('model')->cannotBeEmpty()->defaultValue(Route::class)->end()
                                                 ->scalarNode('repository')->defaultValue(null)->end()
+                                                ->scalarNode('factory')->defaultValue(RouteFactory::class)->end()
                                             ->end()
                                         ->end()
                                     ->end()
