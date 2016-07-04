@@ -63,4 +63,14 @@ interface ArticleInterface extends TimestampableInterface, TranslatableInterface
      * @return mixed
      */
     public function getStatus();
+
+    /**
+     * @return string
+     */
+    public function getTemplateName();
+
+    /**
+     * @param string $templateName
+     */
+    public function setTemplateName($templateName);
 }

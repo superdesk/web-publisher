@@ -71,6 +71,8 @@ class ContentController extends Controller
             $context->registerMeta('article', $article);
         }
 
+        
+
         return $this->render('article.html.twig');
     }
 }

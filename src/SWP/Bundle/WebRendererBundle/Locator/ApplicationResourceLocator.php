@@ -18,6 +18,7 @@ use Symfony\Component\Filesystem\Filesystem;
 use Sylius\Bundle\ThemeBundle\Locator\ResourceLocatorInterface;
 use Sylius\Bundle\ThemeBundle\Locator\ResourceNotFoundException;
 use SWP\Bundle\WebRendererBundle\Detection\DeviceDetectionInterface;
+use SWP\Bundle\ContentBundle\Model\ArticleInterface;
 
 class ApplicationResourceLocator implements ResourceLocatorInterface
 {
@@ -55,8 +56,13 @@ class ApplicationResourceLocator implements ResourceLocatorInterface
         throw new ResourceNotFoundException($resourceName, $theme);
     }
 
+    public function determineResourceName(ArticleInterface $article)
+    {
+
+    }
+
     /**
-     * @param string         $resourceName
+     * @param string $resourceName
      * @param ThemeInterface $theme
      *
      * @return array

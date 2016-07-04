@@ -52,6 +52,11 @@ class Article implements ArticleInterface
     protected $status;
 
     /**
+     * @var string
+     */
+    protected $templateName;
+
+    /**
      * {@inheritdoc}
      */
     public function getId()
@@ -123,5 +128,21 @@ class Article implements ArticleInterface
     public function getStatus()
     {
         return $this->status;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getTemplateName()
+    {
+        return $this->templateName;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setTemplateName($templateName)
+    {
+        $this->templateName = $templateName;
     }
 }
