@@ -20,7 +20,7 @@ interface ArticleRepositoryInterface extends RepositoryInterface
 {
     /**
      * Finds one article by slug.
-     * 
+     *
      * @param string $slug
      *
      * @return ArticleInterface

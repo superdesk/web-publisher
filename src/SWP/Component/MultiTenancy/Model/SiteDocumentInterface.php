@@ -41,7 +41,7 @@ interface SiteDocumentInterface
 
     /**
      * Sets the homepage.
-     * 
+     *
      * @param RouteInterface $homepage
      */
     public function setHomepage(RouteInterface $homepage);

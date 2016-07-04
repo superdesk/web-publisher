@@ -11,7 +11,6 @@
  * @copyright 2016 Sourcefabric z.ú.
  * @license http://www.superdesk.org/license
  */
-
 namespace SWP\Bundle\BridgeBundle\DependencyInjection;
 
 use SWP\Component\Bridge\Model\Package;

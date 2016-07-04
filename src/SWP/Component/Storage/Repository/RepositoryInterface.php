@@ -27,7 +27,7 @@ interface RepositoryInterface extends ObjectRepository
 
     /**
      * Removes an object from the repository.
-     * 
+     *
      * @param PersistableInterface $object
      */
     public function remove(PersistableInterface $object);
