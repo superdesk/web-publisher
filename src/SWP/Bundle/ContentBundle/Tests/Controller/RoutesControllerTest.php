@@ -47,7 +47,7 @@ class RoutesControllerTest extends WebTestCase
         $this->assertEquals($client->getResponse()->getContent(), '{"page":1,"limit":10,"pages":1,"total":1,"_links":{"self":{"href":"\/api\/v1\/content\/routes\/?page=1&limit=10"},"first":{"href":"\/api\/v1\/content\/routes\/?page=1&limit=10"},"last":{"href":"\/api\/v1\/content\/routes\/?page=1&limit=10"}},"_embedded":{"_items":[{"id":"\/swp\/default\/routes\/homepage","content":null,"static_prefix":null,"variable_pattern":null,"name":"homepage","children":[],"id_prefix":"\/swp\/default\/routes","_links":{"self":{"href":"\/api\/v1\/content\/routes\/\/homepage"}}}]}}');
     }
 
-    public function testCreateContentRoutesApi()
+    public function testCreateEmptyContentRoutesApi()
     {
         $client = static::createClient();
         $client->request('POST', $this->router->generate('swp_api_content_create_routes'), [
@@ -61,6 +61,26 @@ class RoutesControllerTest extends WebTestCase
 
         $this->assertEquals(201, $client->getResponse()->getStatusCode());
         $this->assertEquals('{"id":"\/swp\/default\/routes\/simple-test-route","content":null,"static_prefix":null,"variable_pattern":null,"name":"simple-test-route","children":[],"id_prefix":"\/swp\/default\/routes","_links":{"self":{"href":"\/api\/v1\/content\/routes\/\/simple-test-route"}}}', $client->getResponse()->getContent());
+    }
+
+    public function testCreateContentRoutesApi()
+    {
+        $this->loadFixtures([
+            'SWP\Bundle\FixturesBundle\DataFixtures\PHPCR\LoadSeparateArticlesData',
+        ], null, 'doctrine_phpcr');
+
+        $client = static::createClient();
+        $client->request('POST', $this->router->generate('swp_api_content_create_routes'), [
+            'route' => [
+                'name' => 'simple-test-route',
+                'type' => 'content',
+                'parent' => '/',
+                'content' => '/test-content-article',
+            ],
+        ]);
+
+        $this->assertEquals(201, $client->getResponse()->getStatusCode());
+        $this->assertEquals('{"id":"\/swp\/default\/routes\/simple-test-route","content":{"id":"\/swp\/default\/content\/test-content-article","title":"Test content article","content":"Test article content","slug":"test-content-article","route":null},"static_prefix":null,"variable_pattern":null,"name":"simple-test-route","children":[],"id_prefix":"\/swp\/default\/routes","_links":{"self":{"href":"\/api\/v1\/content\/routes\/\/simple-test-route"}}}', $client->getResponse()->getContent());
     }
 
     public function testCreateAndUpdateRoutesApi()

@@ -36,7 +36,7 @@ class WidgetController extends FOSRestController
      *         200="Returned on success."
      *     }
      * )
-     * @Route("/api/{version}/templates/widgtes/", options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_templates_list_widgets")
+     * @Route("/api/{version}/templates/widgets/", options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_templates_list_widgets")
      * @Method("GET")
      */
     public function listAction(Request $request)
