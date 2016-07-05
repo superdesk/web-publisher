@@ -14,9 +14,18 @@
 namespace SWP\Bundle\WebRendererBundle\Resolver;
 
 use SWP\Bundle\ContentBundle\Model\ArticleInterface;
+use SWP\Bundle\ContentBundle\Model\RouteInterface;
 
 interface TemplateNameResolverInterface
 {
+    /**
+     * @param object $object
+     * @param string  $default
+     *
+     * @return string
+     */
+    public function resolve($object, $default = 'article.html.twig');
+
     /**
      * @param ArticleInterface $article
      * @param string $default

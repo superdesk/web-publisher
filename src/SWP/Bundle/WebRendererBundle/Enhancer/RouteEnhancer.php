@@ -65,13 +65,13 @@ class RouteEnhancer implements RouteEnhancerInterface
     /**
      * Get article based on available parameters, set route type
      *
-     * @param mixed  $content
+     * @param mixed   $content
      * @param Request $request
      * @param array   $defaults
      *
      * @return array
      */
-    protected function setArticleMeta($content, Request $request, array $defaults)
+    public function setArticleMeta($content, Request $request, array $defaults)
     {
         $articleMeta = null;
         if (isset($defaults['slug'])) {
@@ -97,17 +97,18 @@ class RouteEnhancer implements RouteEnhancerInterface
 
     /**
      * Resolve template name based on available data
-     * @param mixed $content
+     * @param mixed  $content
      * @param array  $defaults
      *
      * @return array
      */
-    protected function setTemplateName($content, array $defaults)
+    public function setTemplateName($content, array $defaults)
     {
         if ($content) {
-            $defaults[RouteObjectInterface::TEMPLATE_NAME] = $this->templateNameResolver->resolveFromArticle($content);
+            $defaults[RouteObjectInterface::TEMPLATE_NAME] = $this->templateNameResolver->resolve($content);
         } else {
-            $defaults[RouteObjectInterface::TEMPLATE_NAME] = $this->templateNameResolver->resolveFromRoute($defaults[RouteObjectInterface::ROUTE_OBJECT]);
+            $route = isset($defaults[RouteObjectInterface::ROUTE_OBJECT])? $defaults[RouteObjectInterface::ROUTE_OBJECT] : null;
+            $defaults[RouteObjectInterface::TEMPLATE_NAME] = $this->templateNameResolver->resolve($route);
         }
 
         return $defaults;
