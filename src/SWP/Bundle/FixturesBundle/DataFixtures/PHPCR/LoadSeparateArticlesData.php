@@ -55,14 +55,14 @@ class LoadSeparateArticlesData extends AbstractFixture implements FixtureInterfa
         $articles = [
             'test' => [
                 [
-                    'title'   => 'Test news article',
+                    'title' => 'Test news article',
                     'content' => 'Test news article content',
-                    'parent'  => '/swp/default/content',
+                    'parent' => '/swp/default/content',
                 ],
                 [
-                    'title'   => 'Test content article',
+                    'title' => 'Test content article',
                     'content' => 'Test article content',
-                    'parent'  => '/swp/default/content',
+                    'parent' => '/swp/default/content',
                 ],
             ],
         ];

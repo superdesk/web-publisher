@@ -17,7 +17,7 @@ class GoogleAdSenseWidgetHandler extends AbstractWidgetHandler
 {
     protected static $expectedParameters = [
         'ad_unit_type' => [
-            'type'    => 'string',
+            'type' => 'string',
             'default' => 'Ad unit',
         ],
         'ad_slot' => [

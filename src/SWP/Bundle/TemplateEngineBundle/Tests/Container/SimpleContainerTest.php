@@ -28,7 +28,7 @@ class SimpleContainerTest extends \PHPUnit_Framework_TestCase
     {
         return new \Twig_Environment(
             new \Twig_Loader_Array([
-                'open_tag'  => self::OPEN_TAG_TEMPLATE,
+                'open_tag' => self::OPEN_TAG_TEMPLATE,
                 'close_tag' => self::CLOSE_TAG_TEMPLATE,
             ])
         );

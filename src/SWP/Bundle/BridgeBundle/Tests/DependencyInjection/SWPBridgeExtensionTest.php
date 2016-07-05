@@ -27,13 +27,13 @@ class SWPBridgeExtensionTest extends \PHPUnit_Framework_TestCase
     public function testLoad()
     {
         $data = [
-            'swp_bridge.api.host'       => 'example.com',
-            'swp_bridge.api.port'       => 8000,
-            'swp_bridge.api.protocol'   => 'http',
+            'swp_bridge.api.host' => 'example.com',
+            'swp_bridge.api.port' => 8000,
+            'swp_bridge.api.protocol' => 'http',
             'swp_bridge.auth.client_id' => 'my_client_id',
-            'swp_bridge.auth.username'  => 'my_username',
-            'swp_bridge.auth.password'  => 'my_password',
-            'swp_bridge.options'        => ['curl' => 'dummy'],
+            'swp_bridge.auth.username' => 'my_username',
+            'swp_bridge.auth.password' => 'my_password',
+            'swp_bridge.options' => ['curl' => 'dummy'],
         ];
 
         $container = $this->createContainer($data);
@@ -116,14 +116,14 @@ class SWPBridgeExtensionTest extends \PHPUnit_Framework_TestCase
     {
         return [
             'api' => [
-                'host'     => 'example.com',
-                'port'     => 8000,
+                'host' => 'example.com',
+                'port' => 8000,
                 'protocol' => 'http',
             ],
             'auth' => [
                 'client_id' => 'my_client_id',
-                'username'  => 'my_username',
-                'password'  => 'my_password',
+                'username' => 'my_username',
+                'password' => 'my_password',
             ],
             'options' => [
                 'curl' => 'dummy',

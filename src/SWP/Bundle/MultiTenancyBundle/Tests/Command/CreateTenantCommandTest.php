@@ -60,7 +60,7 @@ class CreateTenantCommandTest extends \PHPUnit_Framework_TestCase
         $this->commandTester = new CommandTester($this->command);
 
         $this->commandTester->execute([
-            'command'   => $this->command->getName(),
+            'command' => $this->command->getName(),
             '--default' => true,
         ]);
 
@@ -83,7 +83,7 @@ class CreateTenantCommandTest extends \PHPUnit_Framework_TestCase
         $this->commandTester = new CommandTester($this->command);
 
         $this->commandTester->execute([
-            'command'   => $this->command->getName(),
+            'command' => $this->command->getName(),
             '--default' => true,
         ]);
     }
@@ -97,7 +97,7 @@ class CreateTenantCommandTest extends \PHPUnit_Framework_TestCase
         $this->command->setContainer($this->getMockContainer(null, 'example'));
         $this->commandTester = new CommandTester($this->command);
         $this->commandTester->execute([
-            'command'    => $this->command->getName(),
+            'command' => $this->command->getName(),
             '--disabled' => true,
         ]);
 

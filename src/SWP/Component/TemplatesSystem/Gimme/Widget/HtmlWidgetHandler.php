@@ -22,7 +22,7 @@ class HtmlWidgetHandler extends AbstractWidgetHandler
 {
     protected static $expectedParameters = [
         'html_body' => [
-            'type'    => 'string',
+            'type' => 'string',
             'default' => '',
         ],
     ];

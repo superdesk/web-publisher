@@ -62,13 +62,13 @@ class SimpleContainer
     public function renderOpenTag()
     {
         return $this->renderer->render('open_tag', [
-            'id'      => $this->containerEntity->getId(),
-            'class'   => $this->containerEntity->getCssClass(),
-            'height'  => $this->containerEntity->getHeight(),
-            'width'   => $this->containerEntity->getWidth(),
-            'styles'  => $this->containerEntity->getStyles(),
+            'id' => $this->containerEntity->getId(),
+            'class' => $this->containerEntity->getCssClass(),
+            'height' => $this->containerEntity->getHeight(),
+            'width' => $this->containerEntity->getWidth(),
+            'styles' => $this->containerEntity->getStyles(),
             'visible' => $this->containerEntity->getVisible(),
-            'data'    => $this->containerEntity->getData(),
+            'data' => $this->containerEntity->getData(),
         ]);
     }
 

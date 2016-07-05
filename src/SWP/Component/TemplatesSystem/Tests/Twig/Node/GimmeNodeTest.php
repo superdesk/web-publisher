@@ -85,7 +85,7 @@ EOF
     public function testTemplateString()
     {
         $loader = new \Twig_Loader_Array([
-            'clear_gimme'           => '{% gimme article %}{{ article.title }}{% endgimme %}',
+            'clear_gimme' => '{% gimme article %}{{ article.title }}{% endgimme %}',
             'gimme_with_parameters' => '{% gimme article with {id: 1} %}{{ article.title }}{% endgimme %}',
         ]);
         $metaLoader = new ChainLoader();

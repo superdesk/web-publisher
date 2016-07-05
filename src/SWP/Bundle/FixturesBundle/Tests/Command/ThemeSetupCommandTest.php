@@ -51,8 +51,8 @@ class ThemeSetupCommandTest extends KernelTestCase
     {
         self::createCommandTester()->execute(
             [
-                'name'     => 'theme_command_test',
-                '--force'  => true,
+                'name' => 'theme_command_test',
+                '--force' => true,
                 '--delete' => true,
             ]
         );
@@ -66,7 +66,7 @@ class ThemeSetupCommandTest extends KernelTestCase
     {
         $this->commandTester->execute(
             [
-                'name'    => 'theme_command_test',
+                'name' => 'theme_command_test',
                 '--force' => true,
             ]
         );
@@ -89,7 +89,7 @@ class ThemeSetupCommandTest extends KernelTestCase
     {
         $this->commandTester->execute(
             [
-                'name'    => 'theme_command_test',
+                'name' => 'theme_command_test',
                 '--force' => true,
             ]
         );
@@ -132,7 +132,7 @@ class ThemeSetupCommandTest extends KernelTestCase
         $this->commandTester = new CommandTester($this->command);
         $this->commandTester->execute(
             [
-                'name'     => 'theme_command_test',
+                'name' => 'theme_command_test',
                 '--delete' => true,
             ]
         );
@@ -147,16 +147,16 @@ class ThemeSetupCommandTest extends KernelTestCase
     {
         $this->commandTester->execute(
             [
-                'name'    => 'theme_command_test',
+                'name' => 'theme_command_test',
                 '--force' => true,
             ]
         );
 
         $this->commandTester->execute(
             [
-                'name'     => 'theme_command_test',
+                'name' => 'theme_command_test',
                 '--delete' => true,
-                '--force'  => true,
+                '--force' => true,
             ]
         );
 
@@ -177,7 +177,7 @@ class ThemeSetupCommandTest extends KernelTestCase
         $this->commandTester = new CommandTester($this->command);
         $this->commandTester->execute(
             [
-                'name'     => 'theme_command_test',
+                'name' => 'theme_command_test',
                 '--delete' => true,
             ]
         );

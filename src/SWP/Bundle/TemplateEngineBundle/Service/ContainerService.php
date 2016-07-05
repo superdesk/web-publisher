@@ -92,7 +92,7 @@ class ContainerService
 
         $this->renderer = new \Twig_Environment(
             new \Twig_Loader_Array([
-                'open_tag'  => self::OPEN_TAG_TEMPLATE,
+                'open_tag' => self::OPEN_TAG_TEMPLATE,
                 'close_tag' => self::CLOSE_TAG_TEMPLATE,
             ]), $options
         );

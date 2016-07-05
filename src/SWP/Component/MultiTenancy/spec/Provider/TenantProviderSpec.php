@@ -37,13 +37,13 @@ class TenantProviderSpec extends ObjectBehavior
     {
         $tenants = [
             0 => [
-                'id'        => 1,
-                'name'      => 'test name',
+                'id' => 1,
+                'name' => 'test name',
                 'subdomain' => 'example1',
             ],
             1 => [
-                'id'        => 2,
-                'name'      => 'test name 2',
+                'id' => 2,
+                'name' => 'test name 2',
                 'subdomain' => 'example2',
             ],
         ];

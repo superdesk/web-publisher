@@ -95,9 +95,9 @@ class SWPMultiTenancyExtensionTest extends \PHPUnit_Framework_TestCase
         return [
             'persistence' => [
                 'phpcr' => [
-                    'enabled'          => true,
+                    'enabled' => true,
                     'content_basepath' => 'content',
-                    'route_basepaths'  => ['routes1', 'routes2'],
+                    'route_basepaths' => ['routes1', 'routes2'],
                 ],
             ],
         ];

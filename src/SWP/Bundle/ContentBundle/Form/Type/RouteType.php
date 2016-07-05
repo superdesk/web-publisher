@@ -26,27 +26,27 @@ class RouteType extends AbstractType
     {
         $builder
             ->add('name', TextType::class, [
-                'required'    => true,
+                'required' => true,
                 'constraints' => [
                    new NotBlank(),
                    new Length(['min' => 1]),
                 ],
             ])
             ->add('type', TextType::class, [
-                'required'    => true,
+                'required' => true,
                 'constraints' => [
                    new NotBlank(),
                    new Length(['min' => 1]),
                 ],
             ])
             ->add('parent', TextType::class, [
-                'required'    => false,
+                'required' => false,
                 'constraints' => [
                    new Length(['min' => 1]),
                 ],
             ])
             ->add('content', TextType::class, [
-                'required'    => false,
+                'required' => false,
                 'constraints' => [
                    new Length(['min' => 1]),
                 ],
