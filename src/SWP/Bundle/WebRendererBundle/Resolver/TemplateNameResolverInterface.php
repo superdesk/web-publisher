@@ -11,14 +11,14 @@
  * @copyright 2016 Sourcefabric z.ú.
  * @license http://www.superdesk.org/license
  */
-namespace SWP\Bundle\WebRendererBundle\Detection;
+namespace SWP\Bundle\WebRendererBundle\Resolver;
 
-use SWP\Bundle\ContentBundle\Model\Article;
+use SWP\Bundle\ContentBundle\Model\ArticleInterface;
 
 interface TemplateNameResolverInterface
 {
     /**
      * @return string
      */
-    public function resolve(Article $article);
+    public function resolveFromArticle(ArticleInterface $article);
 }

@@ -33,6 +33,17 @@ services:
         class: '%swp_webrenderer.twig_extension.class%'
         public: false
         arguments:
-            - '@swp_webrenderer.theme.context.tenant_aware'
+            - "@swp_webrenderer.theme.context.tenant_aware"
         tags:
             - { name: twig.extension }
+
+    swp_webrenderer.theme.resolver.template_name:
+        class: SWP\Bundle\WebRendererBundle\Resolver\TemplateNameResolver
+
+    swp_webrenderer.routing.route_enhancer:
+        class: SWP\Bundle\WebRendererBundle\Enhancer\RouteEnhancer
+        arguments:
+            - "@swp_webrenderer.theme.resolver.template_name"
+            - "@swp_template_engine_loader_chain"
+        tags:
+            -  { name: dynamic_router_route_enhancer, priority: 10 }

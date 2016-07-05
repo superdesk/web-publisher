@@ -14,21 +14,35 @@
  * @copyright 2016 Sourcefabric z.ú.
  * @license http://www.superdesk.org/license
  */
-namespace SWP\Bundle\WebRendererBundle\Detection;
+namespace SWP\Bundle\WebRendererBundle\Resolver;
 
-use SWP\Bundle\ContentBundle\Model\Article;
+use SWP\Bundle\ContentBundle\Model\RouteInterface;
+use SWP\Bundle\ContentBundle\Model\ArticleInterface;
 
 class TemplateNameResolver implements TemplateNameResolverInterface
 {
-    protected $defaultTemplateName;
-    
-    public function __construct()
+    public function resolveFromArticle(ArticleInterface $article, $default = 'article.html.twig')
     {
+        $templateName = $default;
+        if (null !== ($route = $article->getRoute())) {
+            $routeTemplateName = $this->resolveFromRoute($route, false);
+            if ($routeTemplateName) {
+                $templateName = $routeTemplateName;
+            }
+        }
 
+        if (null !== ($articleTemplateName = $article->getTemplateName())) {
+            return $articleTemplateName;
+        }
+
+        return $templateName;
     }
 
-    public function resolve(Article $article)
-    {
-        return 'article.tpl'
+    public function resolveFromRoute(RouteInterface $route, $default = 'article.html.twig') {
+        if (null !== ($templateName = $route->getTemplateName())) {
+            return $templateName;
+        }
+
+        return $templateName;
     }
 }
