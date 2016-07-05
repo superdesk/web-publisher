@@ -37,6 +37,7 @@ class DefaultController extends Controller
         $response = $this->render('index.html.twig', [
             'page' => $homepage,
         ]);
+
         return $response;
     }
 }
