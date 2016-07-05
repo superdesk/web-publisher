@@ -49,9 +49,14 @@ class JsonToPackageTransformerSpec extends ObjectBehavior
         SerializerInterface $serializer,
         ValidatorInterface $validator
     ) {
-        $json = '{valid json}';
+        $json = '{
+            "language": "en",
+            "slugline": "slugline",
+            "headline": "headline"
+        }';
+
         $package->getHeadline()->willReturn('headline');
-        $package->getSlugline()->willReturn('slug');
+        $package->getSlugline()->willReturn('slugline');
         $package->getLanguage()->willReturn('en');
 
         $validator->isValid($json)->willReturn(true);
