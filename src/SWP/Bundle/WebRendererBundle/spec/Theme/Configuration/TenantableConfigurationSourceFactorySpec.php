@@ -22,17 +22,17 @@ use Sylius\Bundle\ThemeBundle\Configuration\ConfigurationSourceFactoryInterface;
  */
 class TenantableConfigurationSourceFactorySpec extends ObjectBehavior
 {
-    function it_is_initializable()
+    public function it_is_initializable()
     {
         $this->shouldHaveType(TenantableConfigurationSourceFactory::class);
     }
 
-    function it_should_implement_interface()
+    public function it_should_implement_interface()
     {
         $this->shouldImplement(ConfigurationSourceFactoryInterface::class);
     }
 
-    function it_should_return_name()
+    public function it_should_return_name()
     {
         $this->getName()->shouldReturn('tenantable');
     }

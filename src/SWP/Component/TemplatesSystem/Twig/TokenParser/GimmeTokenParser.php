@@ -1,7 +1,7 @@
 <?php
 
 /**
- * This file is part of the Superdesk Web Publisher Templates System
+ * This file is part of the Superdesk Web Publisher Templates System.
  *
  * Copyright 2015 Sourcefabric z.ú. and contributors.
  *
@@ -11,7 +11,6 @@
  * @copyright 2015 Sourcefabric z.ú.
  * @license http://www.superdesk.org/license
  */
-
 namespace SWP\Component\TemplatesSystem\Twig\TokenParser;
 
 use SWP\Component\TemplatesSystem\Twig\Node\GimmeNode;
@@ -24,7 +23,7 @@ class GimmeTokenParser extends \Twig_TokenParser
     /**
      * @param \Twig_Token $token
      *
-     * @return boolean
+     * @return bool
      */
     public function decideCacheEnd(\Twig_Token $token)
     {
@@ -32,7 +31,7 @@ class GimmeTokenParser extends \Twig_TokenParser
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getTag()
     {
@@ -40,7 +39,7 @@ class GimmeTokenParser extends \Twig_TokenParser
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function parse(\Twig_Token $token)
     {
@@ -54,7 +53,7 @@ class GimmeTokenParser extends \Twig_TokenParser
         }
 
         $stream->expect(\Twig_Token::BLOCK_END_TYPE);
-        $body = $this->parser->subparse(array($this, 'decideCacheEnd'), true);
+        $body = $this->parser->subparse([$this, 'decideCacheEnd'], true);
         $stream->expect(\Twig_Token::BLOCK_END_TYPE);
 
         return new GimmeNode($annotation, $parameters, $body, $lineno, $this->getTag());

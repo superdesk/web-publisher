@@ -1,7 +1,7 @@
 <?php
 
 /**
- * This file is part of the Superdesk Web Publisher Templates System
+ * This file is part of the Superdesk Web Publisher Templates System.
  *
  * Copyright 2015 Sourcefabric z.ú. and contributors.
  *
@@ -11,11 +11,9 @@
  * @copyright 2015 Sourcefabric z.ú.
  * @license http://www.superdesk.org/license
  */
-
 namespace SWP\Component\TemplatesSystem\Tests\Gimme\Model;
 
 use SWP\Component\TemplatesSystem\Gimme\Model\WidgetModelInterface;
-use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * WidgetModel.
@@ -25,11 +23,11 @@ class WidgetModel implements WidgetModelInterface
     const TYPE_HTML = 1;
 
     protected $types = [
-        self::TYPE_HTML => "\\SWP\\Component\\TemplatesSystem\\Gimme\\WidgetModel\\HtmlWidgetHandler"
+        self::TYPE_HTML => '\\SWP\\Component\\TemplatesSystem\\Gimme\\WidgetModel\\HtmlWidgetHandler',
     ];
 
     /**
-     * @var integer
+     * @var int
      */
     protected $id;
 
@@ -44,7 +42,7 @@ class WidgetModel implements WidgetModelInterface
     protected $name;
 
     /**
-     * @var boolean
+     * @var bool
      */
     protected $visible;
 
@@ -62,7 +60,7 @@ class WidgetModel implements WidgetModelInterface
     /**
      * Get id.
      *
-     * @return integer
+     * @return int
      */
     public function getId()
     {
@@ -72,7 +70,7 @@ class WidgetModel implements WidgetModelInterface
     /**
      * Set id.
      *
-     * @param integer $id
+     * @param int $id
      *
      * @return WidgetModel
      */
@@ -110,7 +108,7 @@ class WidgetModel implements WidgetModelInterface
     /**
      * Gets the value of visible.
      *
-     * @return boolean
+     * @return bool
      */
     public function getVisible()
     {
@@ -120,7 +118,7 @@ class WidgetModel implements WidgetModelInterface
     /**
      * Sets the value of visible.
      *
-     * @param boolean $visible the visible
+     * @param bool $visible the visible
      *
      * @return WidgetModel
      */
@@ -134,7 +132,7 @@ class WidgetModel implements WidgetModelInterface
     /**
      * Gets the value of type.
      *
-     * @return integer
+     * @return int
      */
     public function getType()
     {
@@ -144,7 +142,7 @@ class WidgetModel implements WidgetModelInterface
     /**
      * Sets the value of type.
      *
-     * @param integer $type the type
+     * @param int $type the type
      *
      * @return WidgetModel
      */

@@ -3,7 +3,6 @@
 namespace spec\SWP\Component\TemplatesSystem\Gimme\Widget;
 
 use PhpSpec\ObjectBehavior;
-use Prophecy\Argument;
 use SWP\Component\TemplatesSystem\Gimme\Model\WidgetModelInterface;
 
 class HtmlWidgetSpec extends ObjectBehavior

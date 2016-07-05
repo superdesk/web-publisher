@@ -13,11 +13,11 @@
  */
 namespace SWP\Bundle\TemplateEngineBundle\Model;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use SWP\Component\Common\Model\TimestampableInterface;
 use SWP\Component\MultiTenancy\Model\TenantAwareInterface;
 use SWP\Component\MultiTenancy\Model\TenantInterface;
 use SWP\Component\TemplatesSystem\Gimme\Model\WidgetModelInterface;
-use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * WidgetModel.
@@ -184,7 +184,7 @@ class WidgetModel implements WidgetModelInterface, TenantAwareInterface, Timesta
      *
      * @return WidgetModel
      */
-    public function setParameters($parameters = array())
+    public function setParameters($parameters = [])
     {
         $this->parameters = $parameters;
 

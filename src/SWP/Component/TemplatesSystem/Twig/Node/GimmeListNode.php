@@ -1,7 +1,7 @@
 <?php
 
 /**
- * This file is part of the Superdesk Web Publisher Templates System
+ * This file is part of the Superdesk Web Publisher Templates System.
  *
  * Copyright 2015 Sourcefabric z.ú. and contributors.
  *
@@ -11,7 +11,6 @@
  * @copyright 2015 Sourcefabric z.ú.
  * @license http://www.superdesk.org/license
  */
-
 namespace SWP\Component\TemplatesSystem\Twig\Node;
 
 /**
@@ -24,30 +23,30 @@ class GimmeListNode extends \Twig_Node
     protected $loop;
 
     /**
-     * @param integer $lineno
+     * @param int    $lineno
      * @param string $tag
      */
     public function __construct(\Twig_Node $variable, \Twig_Node $collectionType, \Twig_Node_Expression_Filter $collectionFilters = null, \Twig_Node_Expression $parameters = null, \Twig_Node_Expression $ifExpression = null, \Twig_NodeInterface $else = null, \Twig_NodeInterface $body, $lineno, $tag = null)
     {
-        $body = new \Twig_Node(array($body, $this->loop = new \Twig_Node_ForLoop($lineno, $tag)));
+        $body = new \Twig_Node([$body, $this->loop = new \Twig_Node_ForLoop($lineno, $tag)]);
 
         if (null !== $ifExpression) {
-            $body = new \Twig_Node_If(new \Twig_Node(array($ifExpression, $body)), null, $lineno, $tag);
+            $body = new \Twig_Node_If(new \Twig_Node([$ifExpression, $body]), null, $lineno, $tag);
         }
 
-        parent::__construct(array(
-            'variable' => $variable,
-            'collectionType' => $collectionType,
+        parent::__construct([
+            'variable'          => $variable,
+            'collectionType'    => $collectionType,
             'collectionFilters' => $collectionFilters,
-            'parameters' => $parameters,
-            'ifExpression' => $ifExpression,
-            'else' => $else,
-            'body' => $body
-        ), array('with_loop' => true, 'ifexpr' => null !== $ifExpression), $lineno, $tag);
+            'parameters'        => $parameters,
+            'ifExpression'      => $ifExpression,
+            'else'              => $else,
+            'body'              => $body,
+        ], ['with_loop' => true, 'ifexpr' => null !== $ifExpression], $lineno, $tag);
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function compile(\Twig_Compiler $compiler)
     {
@@ -64,22 +63,22 @@ class GimmeListNode extends \Twig_Node
             $compiler->write("\$context['_collection_type_filters'] = ")->subcompile($this->getNode('collectionFilters'))->raw("['_collection_type_filters']; unset(\$context['".$collectionTypeName."']['_collection_type_filters']);\n");
 
             if (!is_null($this->getNode('parameters'))) {
-                $compiler->write("\$parameters = array_merge(")->subcompile($this->getNode('parameters'))->raw(", \$context['_collection_type_filters']);\n");
+                $compiler->write('$parameters = array_merge(')->subcompile($this->getNode('parameters'))->raw(", \$context['_collection_type_filters']);\n");
             } else {
                 $compiler->write("\$parameters = \$context['_collection_type_filters'];\n");
             }
         } else {
             if (!is_null($this->getNode('parameters'))) {
-                $compiler->raw("\$parameters = ")->subcompile($this->getNode('parameters'))->raw(";\n");
+                $compiler->raw('$parameters = ')->subcompile($this->getNode('parameters'))->raw(";\n");
             } else {
                 $compiler->raw("\$parameters = null;\n");
             }
         }
 
-        $compiler->write("\$swpCollectionMetaLoader".$i." = \$this->env->getExtension('swp_gimme')->getLoader();\n")
-            ->write("")->subcompile($this->getNode('collectionType'))->raw(" = twig_ensure_traversable(\$swpCollectionMetaLoader".$i."->load(\"")->raw($collectionTypeName)->raw("\", ");
-                $compiler->raw("\$parameters");
-                $compiler->raw(", \SWP\Component\TemplatesSystem\Gimme\Loader\LoaderInterface::COLLECTION));\n");
+        $compiler->write('$swpCollectionMetaLoader'.$i." = \$this->env->getExtension('swp_gimme')->getLoader();\n")
+            ->write('')->subcompile($this->getNode('collectionType'))->raw(' = twig_ensure_traversable($swpCollectionMetaLoader'.$i.'->load("')->raw($collectionTypeName)->raw('", ');
+        $compiler->raw('$parameters');
+        $compiler->raw(", \SWP\Component\TemplatesSystem\Gimme\Loader\LoaderInterface::COLLECTION));\n");
 
         // the (array) cast bypasses a PHP 5.2.6 bug
         $compiler->write("\$context['_parent'] = (array) \$context;\n");
@@ -95,21 +94,19 @@ class GimmeListNode extends \Twig_Node
                 ->write("  'index0' => 0,\n")
                 ->write("  'index'  => 1,\n")
                 ->write("  'first'  => true,\n")
-                ->write(");\n")
-            ;
+                ->write(");\n");
 
             if (!$this->getAttribute('ifexpr') && $this->getNode('collectionType')) {
                 $compiler
-                    ->write("if (is_array(")->subcompile($this->getNode('collectionType'))->raw(") || (is_object(")->subcompile($this->getNode('collectionType'))->raw(") && ")->subcompile($this->getNode('collectionType'))->raw(" instanceof Countable)) {\n")
+                    ->write('if (is_array(')->subcompile($this->getNode('collectionType'))->raw(') || (is_object(')->subcompile($this->getNode('collectionType'))->raw(') && ')->subcompile($this->getNode('collectionType'))->raw(" instanceof Countable)) {\n")
                     ->indent()
-                    ->write("\$length = count(")->subcompile($this->getNode('collectionType'))->raw(");\n")
+                    ->write('$length = count(')->subcompile($this->getNode('collectionType'))->raw(");\n")
                     ->write("\$context['loop']['revindex0'] = \$length - 1;\n")
                     ->write("\$context['loop']['revindex'] = \$length;\n")
                     ->write("\$context['loop']['length'] = \$length;\n")
                     ->write("\$context['loop']['last'] = 1 === \$length;\n")
                     ->outdent()
-                    ->write("}\n")
-                ;
+                    ->write("}\n");
             }
         }
 
@@ -119,17 +116,16 @@ class GimmeListNode extends \Twig_Node
 
         if (null !== $this->getNode('collectionType')) {
             $compiler
-                ->write("foreach (")
+                ->write('foreach (')
                 ->subcompile($this->getNode('collectionType'))
                 ->raw(' as $_key')
-                ->raw(" => ")
+                ->raw(' => ')
                 ->subcompile($this->getNode('variable'))
                 ->raw(") {\n")
                 ->indent()
                 ->subcompile($this->getNode('body'))
                 ->outdent()
-                ->write("}\n")
-            ;
+                ->write("}\n");
         }
 
         if (null !== $this->getNode('else')) {
@@ -138,8 +134,7 @@ class GimmeListNode extends \Twig_Node
                 ->indent()
                 ->subcompile($this->getNode('else'))
                 ->outdent()
-                ->write("}\n")
-            ;
+                ->write("}\n");
         }
 
         $compiler->write("\$_parent = \$context['_parent'];\n");

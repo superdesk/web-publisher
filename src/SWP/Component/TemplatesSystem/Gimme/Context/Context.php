@@ -11,7 +11,6 @@
  * @copyright 2015 Sourcefabric z.ú.
  * @license http://www.superdesk.org/license
  */
-
 namespace SWP\Component\TemplatesSystem\Gimme\Context;
 
 use SWP\Component\TemplatesSystem\Gimme\Meta\Meta;
@@ -20,6 +19,7 @@ class Context implements \ArrayAccess
 {
     /**
      * Array with current page informations.
+     *
      * @var string[]
      */
     protected $currentPage;
@@ -61,9 +61,9 @@ class Context implements \ArrayAccess
      * @param string                                   $name Name of meta
      * @param SWP\TemplatesSystem\Gimme\Meta\Meta|null $meta Meta object
      *
-     * @return bool  if registered successfully
-     *
      * @throws \Exception if already registered
+     *
+     * @return bool if registered successfully
      */
     public function registerMeta($name, Meta $meta = null)
     {

@@ -13,16 +13,16 @@
  */
 namespace SWP\Bundle\WebRendererBundle\Routing;
 
-use Symfony\Cmf\Bundle\RoutingBundle\Routing\DynamicRouter;
-use SWP\Component\TemplatesSystem\Gimme\Meta\Meta;
 use SWP\Bundle\ContentBundle\Document\Article;
+use SWP\Component\TemplatesSystem\Gimme\Meta\Meta;
+use Symfony\Cmf\Bundle\RoutingBundle\Routing\DynamicRouter;
 
 class MetaRouter extends DynamicRouter
 {
     /**
      * {@inheritdoc}
      */
-    public function generate($name, $parameters = array(), $referenceType = false)
+    public function generate($name, $parameters = [], $referenceType = false)
     {
         $route = $name;
         if ($name instanceof Meta && $name->getValues() instanceof Article) {

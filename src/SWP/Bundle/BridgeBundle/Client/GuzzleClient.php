@@ -31,14 +31,14 @@ class GuzzleClient extends BaseClient implements ClientInterface
      */
     public function makeCall(
         $url,
-        array $headers = array(),
-        array $options = array(),
+        array $headers = [],
+        array $options = [],
         $method = 'GET',
         $content = null
     ) {
         $options['headers'] = $headers;
 
-        if (in_array($method, array('POST'))) {
+        if (in_array($method, ['POST'])) {
             $options['body'] = $content;
         }
 
@@ -55,11 +55,11 @@ class GuzzleClient extends BaseClient implements ClientInterface
             throw new ClientException($e->getMessage(), $e->getCode(), $e);
         }
 
-        $responseArray = array(
+        $responseArray = [
             'headers' => $response->getHeaders(),
-            'status' => $response->getStatusCode(),
-            'body' => (string) $response->getBody(),
-        );
+            'status'  => $response->getStatusCode(),
+            'body'    => (string) $response->getBody(),
+        ];
 
         return $responseArray;
     }

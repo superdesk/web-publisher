@@ -13,13 +13,13 @@
  */
 namespace SWP\Bundle\MultiTenancyBundle\Initializer;
 
-use PHPCR\Util\NodeHelper;
 use Doctrine\Bundle\PHPCRBundle\Initializer\InitializerInterface;
 use Doctrine\Bundle\PHPCRBundle\ManagerRegistry;
 use PHPCR\SessionInterface;
-use SWP\Component\MultiTenancy\Provider\TenantProviderInterface;
-use SWP\Component\MultiTenancy\PathBuilder\TenantAwarePathBuilderInterface;
+use PHPCR\Util\NodeHelper;
 use SWP\Component\MultiTenancy\Model\SiteDocumentInterface;
+use SWP\Component\MultiTenancy\PathBuilder\TenantAwarePathBuilderInterface;
+use SWP\Component\MultiTenancy\Provider\TenantProviderInterface;
 use Symfony\Component\HttpFoundation\File\Exception\UnexpectedTypeException;
 
 /**

@@ -14,19 +14,19 @@
 namespace SWP\Bundle\TemplateEngineBundle\Controller;
 
 use FOS\RestBundle\Controller\FOSRestController;
+use FOS\RestBundle\View\View;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
-use FOS\RestBundle\View\View;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpKernel\Exception\UnprocessableEntityHttpException;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use SWP\Bundle\TemplateEngineBundle\Form\Type\ContainerType;
-use SWP\Bundle\TemplateEngineBundle\Model\WidgetModel;
-use SWP\Bundle\TemplateEngineBundle\Model\ContainerWidget;
 use SWP\Bundle\TemplateEngineBundle\Model\ContainerData;
+use SWP\Bundle\TemplateEngineBundle\Model\ContainerWidget;
+use SWP\Bundle\TemplateEngineBundle\Model\WidgetModel;
 use SWP\Component\Common\Event\HttpCacheEvent;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\HttpKernel\Exception\UnprocessableEntityHttpException;
 
 class ContainerController extends FOSRestController
 {
@@ -114,9 +114,9 @@ class ContainerController extends FOSRestController
             throw new NotFoundHttpException('Container with this id was not found.');
         }
 
-        $form = $this->createForm(new ContainerType(), $container, array(
+        $form = $this->createForm(new ContainerType(), $container, [
             'method' => $request->getMethod(),
-        ));
+        ]);
 
         $form->handleRequest($request);
         if ($form->isValid()) {
@@ -192,7 +192,7 @@ class ContainerController extends FOSRestController
         }
 
         $matched = false;
-        foreach ($request->attributes->get('links', array()) as $key => $objectArray) {
+        foreach ($request->attributes->get('links', []) as $key => $objectArray) {
             if (!is_array($objectArray)) {
                 continue;
             }
@@ -207,7 +207,7 @@ class ContainerController extends FOSRestController
             if ($object instanceof WidgetModel) {
                 $containerWidget = $entityManager->getRepository('SWP\Bundle\TemplateEngineBundle\Model\ContainerWidget')
                     ->findOneBy([
-                        'widget' => $object,
+                        'widget'    => $object,
                         'container' => $container,
                     ]);
                 if ($request->getMethod() === 'LINK') {
@@ -260,7 +260,7 @@ class ContainerController extends FOSRestController
      */
     private function getNotConvertedLinks($request)
     {
-        $links = array();
+        $links = [];
         foreach ($request->attributes->get('links') as $idx => $link) {
             if (is_string($link)) {
                 $linkParams = explode(';', trim($link));
@@ -272,10 +272,10 @@ class ContainerController extends FOSRestController
                 $resource = array_shift($linkParams);
                 $resource = preg_replace('/<|>/', '', $resource);
 
-                $links[] = array(
-                    'resource' => $resource,
+                $links[] = [
+                    'resource'     => $resource,
                     'resourceType' => $resourceType,
-                );
+                ];
             }
         }
 

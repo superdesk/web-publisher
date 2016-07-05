@@ -46,9 +46,9 @@ class TenantAwareRouterCompilerPassTest extends \PHPUnit_Framework_TestCase
         $this->container->expects($this->once())
             ->method('getParameter')
             ->with('kernel.bundles')
-            ->will($this->returnValue(array(
+            ->will($this->returnValue([
                 'CmfRoutingBundle' => true,
-            )));
+            ]));
 
         $definition2 = clone $this->definition;
 
@@ -122,7 +122,7 @@ class TenantAwareRouterCompilerPassTest extends \PHPUnit_Framework_TestCase
         $this->container->expects($this->once())
             ->method('getParameter')
             ->with('kernel.bundles')
-            ->will($this->returnValue(array()));
+            ->will($this->returnValue([]));
 
         $this->pass->process($this->container);
     }

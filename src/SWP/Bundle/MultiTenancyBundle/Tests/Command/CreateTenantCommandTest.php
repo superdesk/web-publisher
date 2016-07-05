@@ -43,7 +43,7 @@ class CreateTenantCommandTest extends \PHPUnit_Framework_TestCase
         $this->dialog->setInputStream($this->getInputStream("subdomain\nTest\n"));
         $this->command->setContainer($this->getMockContainer(null, 'subdomain'));
         $this->commandTester = new CommandTester($this->command);
-        $this->commandTester->execute(array('command' => $this->command->getName()));
+        $this->commandTester->execute(['command' => $this->command->getName()]);
 
         $this->assertRegExp(
             '/Please enter subdomain:Please enter name:Tenant Test has been created and enabled!/',
@@ -59,10 +59,10 @@ class CreateTenantCommandTest extends \PHPUnit_Framework_TestCase
         $this->command->setContainer($this->getMockContainer());
         $this->commandTester = new CommandTester($this->command);
 
-        $this->commandTester->execute(array(
-            'command' => $this->command->getName(),
+        $this->commandTester->execute([
+            'command'   => $this->command->getName(),
             '--default' => true,
-        ));
+        ]);
 
         $this->assertRegExp(
             '/Tenant Default tenant has been created and enabled!/',
@@ -82,10 +82,10 @@ class CreateTenantCommandTest extends \PHPUnit_Framework_TestCase
         $this->command->setContainer($this->getMockContainer($mockTenant));
         $this->commandTester = new CommandTester($this->command);
 
-        $this->commandTester->execute(array(
-            'command' => $this->command->getName(),
+        $this->commandTester->execute([
+            'command'   => $this->command->getName(),
             '--default' => true,
-        ));
+        ]);
     }
 
     /**
@@ -96,10 +96,10 @@ class CreateTenantCommandTest extends \PHPUnit_Framework_TestCase
         $this->dialog->setInputStream($this->getInputStream("example\nExample\n"));
         $this->command->setContainer($this->getMockContainer(null, 'example'));
         $this->commandTester = new CommandTester($this->command);
-        $this->commandTester->execute(array(
-            'command' => $this->command->getName(),
+        $this->commandTester->execute([
+            'command'    => $this->command->getName(),
             '--disabled' => true,
-        ));
+        ]);
 
         $this->assertRegExp(
             '/Please enter subdomain:Please enter name:Tenant Example has been created and disabled!/',
@@ -121,8 +121,7 @@ class CreateTenantCommandTest extends \PHPUnit_Framework_TestCase
         $mockRepo->expects($this->any())
             ->method('findBySubdomain')
             ->with($subdomain)
-            ->willReturn($mockTenant)
-        ;
+            ->willReturn($mockTenant);
 
         $mockDoctrine = $this
             ->getMockBuilder('Doctrine\ORM\EntityManager')

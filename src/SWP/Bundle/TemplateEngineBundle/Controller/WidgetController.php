@@ -14,15 +14,15 @@
 namespace SWP\Bundle\TemplateEngineBundle\Controller;
 
 use FOS\RestBundle\Controller\FOSRestController;
+use FOS\RestBundle\View\View;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use FOS\RestBundle\View\View;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpKernel\Exception\UnprocessableEntityHttpException;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use SWP\Bundle\TemplateEngineBundle\Model\WidgetModel;
 use SWP\Bundle\TemplateEngineBundle\Form\Type\WidgetType;
+use SWP\Bundle\TemplateEngineBundle\Model\WidgetModel;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\HttpKernel\Exception\UnprocessableEntityHttpException;
 
 class WidgetController extends FOSRestController
 {
@@ -188,9 +188,9 @@ class WidgetController extends FOSRestController
             throw new NotFoundHttpException('Widget with this id was not found.');
         }
 
-        $form = $this->createForm(new WidgetType(), $widget, array(
+        $form = $this->createForm(new WidgetType(), $widget, [
             'method' => $request->getMethod(),
-        ));
+        ]);
 
         $form->handleRequest($request);
         if ($form->isValid()) {

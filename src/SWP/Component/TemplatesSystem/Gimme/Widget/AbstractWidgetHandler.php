@@ -1,7 +1,7 @@
 <?php
 
 /**
- * This file is part of the Superdesk Web Publisher Templates System
+ * This file is part of the Superdesk Web Publisher Templates System.
  *
  * Copyright 2015 Sourcefabric z.ú. and contributors.
  *
@@ -11,16 +11,15 @@
  * @copyright 2015 Sourcefabric z.ú.
  * @license http://www.superdesk.org/license
  */
-
 namespace SWP\Component\TemplatesSystem\Gimme\Widget;
 
+use SWP\Component\TemplatesSystem\Gimme\Model\WidgetModelInterface;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use SWP\Component\TemplatesSystem\Gimme\Model\WidgetModelInterface;
 
 abstract class AbstractWidgetHandler implements WidgetHandlerInterface, ContainerAwareInterface
 {
-    protected static $expectedParameters = array();
+    protected static $expectedParameters = [];
 
     protected $container;
 
@@ -36,6 +35,7 @@ abstract class AbstractWidgetHandler implements WidgetHandlerInterface, Containe
 
     /**
      * AbstractWidgetHandler constructor.
+     *
      * @param WidgetModelInterface $widgetModel
      */
     public function __construct(WidgetModelInterface $widgetModel)
@@ -53,6 +53,7 @@ abstract class AbstractWidgetHandler implements WidgetHandlerInterface, Containe
 
     /**
      * @param $name
+     *
      * @return string
      */
     protected function getModelParameter($name)
@@ -70,13 +71,12 @@ abstract class AbstractWidgetHandler implements WidgetHandlerInterface, Containe
         }
 
         // TODO - what if there is no parameter, and default value for that parameter?
-        return null;
     }
 
     /**
-     * Check if widget should be rendered
+     * Check if widget should be rendered.
      *
-     * @return boolean
+     * @return bool
      */
     public function isVisible()
     {

@@ -32,8 +32,7 @@ class TenantRepository extends EntityRepository implements TenantRepositoryInter
             ->andWhere('t.enabled = true')
             ->setParameter('subdomain', $subdomain)
             ->getQuery()
-            ->getOneOrNullResult()
-        ;
+            ->getOneOrNullResult();
     }
 
     /**
@@ -45,7 +44,6 @@ class TenantRepository extends EntityRepository implements TenantRepositoryInter
             ->createQueryBuilder('t')
             ->where('t.enabled = true')
             ->getQuery()
-            ->getArrayResult()
-        ;
+            ->getArrayResult();
     }
 }

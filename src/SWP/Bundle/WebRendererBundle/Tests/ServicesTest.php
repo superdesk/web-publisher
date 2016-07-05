@@ -13,8 +13,8 @@
  */
 namespace SWP\Bundle\WebRendererBundle\Tests;
 
-use Symfony\Component\DependencyInjection\Exception\InactiveScopeException;
 use Liip\FunctionalTestBundle\Test\WebTestCase;
+use Symfony\Component\DependencyInjection\Exception\InactiveScopeException;
 
 class ServicesTest extends WebTestCase
 {

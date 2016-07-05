@@ -27,7 +27,7 @@ class ContainerType extends AbstractType
             ->add('width', null)
             ->add('styles', null)
             ->add('visible', 'choice', [
-                'choices' => [true => 1, false => 0],
+                'choices'           => [true => 1, false => 0],
                 'choices_as_values' => true,
             ])
             ->add('cssClass', null)

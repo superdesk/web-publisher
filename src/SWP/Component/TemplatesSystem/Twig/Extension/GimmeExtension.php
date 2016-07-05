@@ -1,7 +1,7 @@
 <?php
 
 /**
- * This file is part of the Superdesk Web Publisher Templates System
+ * This file is part of the Superdesk Web Publisher Templates System.
  *
  * Copyright 2015 Sourcefabric z.ú. and contributors.
  *
@@ -11,11 +11,10 @@
  * @copyright 2015 Sourcefabric z.ú.
  * @license http://www.superdesk.org/license
  */
-
 namespace SWP\Component\TemplatesSystem\Twig\Extension;
 
-use SWP\Component\TemplatesSystem\Twig\TokenParser\GimmeTokenParser;
 use SWP\Component\TemplatesSystem\Twig\TokenParser\GimmeListTokenParser;
+use SWP\Component\TemplatesSystem\Twig\TokenParser\GimmeTokenParser;
 
 class GimmeExtension extends \Twig_Extension implements \Twig_Extension_GlobalsInterface
 {
@@ -50,21 +49,21 @@ class GimmeExtension extends \Twig_Extension implements \Twig_Extension_GlobalsI
     public function getFilters()
     {
         return [
-            new \Twig_SimpleFilter('start', function($context, $node, $value) {
+            new \Twig_SimpleFilter('start', function ($context, $node, $value) {
                 $node['_collection_type_filters']['start'] = $value;
 
                 return $node;
-            }, array('needs_context' => true)),
-            new \Twig_SimpleFilter('limit', function($context, $node, $value) {
+            }, ['needs_context' => true]),
+            new \Twig_SimpleFilter('limit', function ($context, $node, $value) {
                 $node['_collection_type_filters']['limit'] = $value;
 
                 return $node;
-            }, array('needs_context' => true)),
-            new \Twig_SimpleFilter('order', function($context, $node, $value1, $value2) {
+            }, ['needs_context' => true]),
+            new \Twig_SimpleFilter('order', function ($context, $node, $value1, $value2) {
                 $node['_collection_type_filters']['order'] = [$value1, $value2];
 
                 return $node;
-            }, array('needs_context' => true)),
+            }, ['needs_context' => true]),
         ];
     }
 
