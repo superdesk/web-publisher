@@ -35,14 +35,9 @@ class DefaultController extends Controller
             throw $this->createNotFoundException('No homepage configured!');
         }
 
-        try {
-            $response = $this->render('index.html.twig', [
-                'page' => $homepage,
-            ]);
-        } catch (\InvalidArgumentException $e) {
-            throw new NoThemeException($e->getMessage(), $e->getCode(), $e);
-        }
-
+        $response = $this->render('index.html.twig', [
+            'page' => $homepage,
+        ]);
         return $response;
     }
 }
