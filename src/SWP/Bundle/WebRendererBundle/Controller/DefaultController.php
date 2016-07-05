@@ -29,8 +29,6 @@ class DefaultController extends Controller
         $site = $this->get('swp.repository.site')->find($pathBuilder->build('/'));
         $homepage = $site->getHomepage();
 
-        dump($this->container->get('request'));
-
         if (null === $homepage) {
             throw $this->createNotFoundException('No homepage configured!');
         }

@@ -21,6 +21,9 @@ use SWP\Bundle\ContentBundle\Model\ArticleInterface;
 
 class TemplateNameResolver implements TemplateNameResolverInterface
 {
+    /**
+     * {@inheritdoc}
+     */
     public function resolveFromArticle(ArticleInterface $article, $default = 'article.html.twig')
     {
         $templateName = $default;
@@ -38,7 +41,11 @@ class TemplateNameResolver implements TemplateNameResolverInterface
         return $templateName;
     }
 
-    public function resolveFromRoute(RouteInterface $route, $default = 'article.html.twig') {
+    /**
+     * {@inheritdoc}
+     */
+    public function resolveFromRoute(RouteInterface $route, $default = 'article.html.twig')
+    {
         if (null !== ($templateName = $route->getTemplateName())) {
             return $templateName;
         }

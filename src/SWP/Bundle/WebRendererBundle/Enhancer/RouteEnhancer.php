@@ -24,15 +24,34 @@ use SWP\Bundle\WebRendererBundle\Controller\ContentController;
 
 class RouteEnhancer implements RouteEnhancerInterface
 {
+    /**
+     * @var TemplateNameResolverInterface
+     */
     protected $templateNameResolver;
+
+    /**
+     * @var LoaderInterface
+     */
     protected $metaLoader;
 
+    /**
+     * @param TemplateNameResolverInterface $templateNameResolver
+     * @param LoaderInterface               $metaLoader
+     */
     public function __construct(TemplateNameResolverInterface $templateNameResolver, LoaderInterface $metaLoader)
     {
         $this->templateNameResolver = $templateNameResolver;
         $this->metaLoader = $metaLoader;
     }
 
+    /**
+     * Adjust route defaults and request attributes to our needs
+     *
+     * @param array   $defaults
+     * @param Request $request
+     *
+     * @return array
+     */
     public function enhance(array $defaults, Request $request)
     {
         $content = $defaults[RouteObjectInterface::CONTENT_OBJECT];
@@ -43,13 +62,22 @@ class RouteEnhancer implements RouteEnhancerInterface
         return $defaults;
     }
 
-    protected function setArticleMeta($content, $request, $defaults)
+    /**
+     * Get article based on available parameters, set route type
+     *
+     * @param mixed  $content
+     * @param Request $request
+     * @param array   $defaults
+     *
+     * @return array
+     */
+    protected function setArticleMeta($content, Request $request, array $defaults)
     {
         $articleMeta = null;
         if (isset($defaults['slug'])) {
             $articleMeta = $this->metaLoader->load('article', ['slug' => $defaults['slug']]);
             $defaults['type'] = RouteInterface::TYPE_COLLECTION;
-            if (!$articleMeta) {
+            if (null === $articleMeta) {
                 $defaults[RouteObjectInterface::CONTENT_OBJECT] = null;
             }
         } else if ($content instanceof ArticleInterface) {
@@ -67,7 +95,14 @@ class RouteEnhancer implements RouteEnhancerInterface
         return $defaults;
     }
 
-    protected function setTemplateName($content, $defaults)
+    /**
+     * Resolve template name based on available data
+     * @param mixed $content
+     * @param array  $defaults
+     *
+     * @return array
+     */
+    protected function setTemplateName($content, array $defaults)
     {
         if ($content) {
             $defaults[RouteObjectInterface::TEMPLATE_NAME] = $this->templateNameResolver->resolveFromArticle($content);

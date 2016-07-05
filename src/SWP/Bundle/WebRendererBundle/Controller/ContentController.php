@@ -24,13 +24,12 @@ class ContentController extends Controller
 {
     public function renderPageAction(Request $request, $contentTemplate, $contentDocument = null, $articleMeta = null)
     {
-        if (!$contentDocument && ($request->attributes->get('type') == RouteInterface::TYPE_COLLECTION)) {
-            throw new NotFoundHttpException('Requested page was not found');
+        if (null === $contentDocument && ($request->attributes->get('type') == RouteInterface::TYPE_COLLECTION)) {
+            throw $this->createNotFoundException('Requested page was not found');
         }
 
-        if ($articleMeta) {
-            $context = $this->container->get('context');
-            $context->registerMeta('article', $articleMeta);
+        if (null !== $articleMeta) {
+            $this->container->get('context')->registerMeta('article', $articleMeta);
         }
 
         return $this->render($contentTemplate);
