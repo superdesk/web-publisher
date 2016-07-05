@@ -61,6 +61,7 @@ final class TenantAwareThemeContext implements ThemeContextInterface
         if (null === $theme) {
             throw new NoThemeException();
         }
+
         return $theme;
     }
 
@@ -70,6 +71,7 @@ final class TenantAwareThemeContext implements ThemeContextInterface
         if (null !== $themeName) {
             return $tenant->getThemeName().ThemeHelper::SUFFIX_SEPARATOR.$tenant->getSubdomain();
         }
+
         return $themeName;
     }
 }
