@@ -16,8 +16,8 @@ namespace SWP\Bundle\FixturesBundle\DataFixtures\PHPCR;
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use SWP\Bundle\ContentBundle\Document\Article;
-use SWP\Bundle\FixturesBundle\AbstractFixture;
 use SWP\Bundle\ContentBundle\Document\Route;
+use SWP\Bundle\FixturesBundle\AbstractFixture;
 
 class LoadSeparateArticlesData extends AbstractFixture implements FixtureInterface
 {
@@ -55,14 +55,14 @@ class LoadSeparateArticlesData extends AbstractFixture implements FixtureInterfa
         $articles = [
             'test' => [
                 [
-                    'title' => 'Test news article',
+                    'title'   => 'Test news article',
                     'content' => 'Test news article content',
-                    'parent' => '/swp/default/content',
+                    'parent'  => '/swp/default/content',
                 ],
                 [
-                    'title' => 'Test content article',
+                    'title'   => 'Test content article',
                     'content' => 'Test article content',
-                    'parent' => '/swp/default/content',
+                    'parent'  => '/swp/default/content',
                 ],
             ],
         ];

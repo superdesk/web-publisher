@@ -72,9 +72,9 @@ class RoutesControllerTest extends WebTestCase
         $client = static::createClient();
         $client->request('POST', $this->router->generate('swp_api_content_create_routes'), [
             'route' => [
-                'name' => 'simple-test-route',
-                'type' => 'content',
-                'parent' => '/',
+                'name'    => 'simple-test-route',
+                'type'    => 'content',
+                'parent'  => '/',
                 'content' => '/test-content-article',
             ],
         ]);

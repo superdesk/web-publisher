@@ -45,7 +45,7 @@ class WidgetControllerTest extends WebTestCase
 
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
         $this->assertEquals($client->getResponse()->getContent(), '{"page":1,"limit":10,"pages":1,"total":2,"_links":{"self":{"href":"\/api\/v1\/templates\/widgets\/?page=1&limit=10"},"first":{"href":"\/api\/v1\/templates\/widgets\/?page=1&limit=10"},"last":{"href":"\/api\/v1\/templates\/widgets\/?page=1&limit=10"}},"_embedded":{"_items":[{"id":1,"type":"\\\\SWP\\\\Component\\\\TemplatesSystem\\\\Gimme\\\\WidgetModel\\\\HtmlWidgetHandler","name":"HtmlWidgetHandler number 1","visible":true,"parameters":{"html_body":"sample widget with <span style=\'color:red\'>html<\/span>"},"_links":{"self":{"href":"\/api\/v1\/templates\/widgets\/1"}}},{"id":2,"type":"\\\\SWP\\\\Component\\\\TemplatesSystem\\\\Gimme\\\\WidgetModel\\\\HtmlWidgetHandler","name":"HtmlWidgetHandler number 2","visible":true,"parameters":{"html_body":"sample widget with html 2"},"_links":{"self":{"href":"\/api\/v1\/templates\/widgets\/2"}}}]}}');
- }
+    }
 
     public function testGetWidgetApi()
     {
