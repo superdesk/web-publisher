@@ -19,7 +19,7 @@ use SWP\Bundle\ContentBundle\Model\RouteInterface;
 use Symfony\Component\EventDispatcher\Event;
 
 /**
- * @mixin ArticleEvent
+ * @mixin RouteEvent
  */
 class RouteEventSpec extends ObjectBehavior
 {
