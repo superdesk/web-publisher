@@ -14,6 +14,11 @@
 namespace spec\SWP\Component\Bridge\Transformer;
 
 use PhpSpec\ObjectBehavior;
+use Prophecy\Argument;
+use SWP\Component\Bridge\Exception\MethodNotSupportedException;
+use SWP\Component\Bridge\Exception\TransformationFailedException;
+use SWP\Component\Bridge\Model\Package;
+use SWP\Component\Bridge\Model\PackageInterface;
 use SWP\Component\Bridge\Transformer\DataTransformerInterface;
 use SWP\Component\Bridge\Transformer\JsonToPackageTransformer;
 use SWP\Component\Bridge\Validator\ValidatorInterface;
@@ -37,5 +42,37 @@ class JsonToPackageTransformerSpec extends ObjectBehavior
     function it_implements_transformer_interface()
     {
         $this->shouldImplement(DataTransformerInterface::class);
+    }
+
+    function it_should_transform_json_to_package(
+        PackageInterface $package,
+        SerializerInterface $serializer,
+        ValidatorInterface $validator
+    ) {
+        $json = '{valid json}';
+        $package->getHeadline()->willReturn('headline');
+        $package->getSlugline()->willReturn('slug');
+        $package->getLanguage()->willReturn('en');
+
+        $validator->isValid($json)->willReturn(true);
+        $serializer->deserialize($json, Argument::exact(Package::class), Argument::exact('json'))->willReturn($package);
+
+        $this->transform($json)->shouldReturn($package);
+    }
+
+    function it_should_throw_exception(ValidatorInterface $validator)
+    {
+        $validator->isValid('{invalid json}')->willReturn(false);
+
+        $this
+            ->shouldThrow(TransformationFailedException::class)
+            ->during('transform', ['{invalid json}']);
+    }
+
+    function it_should_not_support_reverse_transform()
+    {
+        $this
+            ->shouldThrow(MethodNotSupportedException::class)
+            ->during('reverseTransform', [new \stdClass()]);
     }
 }
