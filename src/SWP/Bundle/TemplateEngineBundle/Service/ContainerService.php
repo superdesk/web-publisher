@@ -17,7 +17,6 @@ use SWP\Bundle\TemplateEngineBundle\Container\SimpleContainer;
 use SWP\Bundle\TemplateEngineBundle\Model\Container;
 use SWP\Bundle\TemplateEngineBundle\Model\ContainerData;
 use SWP\Component\Common\Event\HttpCacheEvent;
-use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class ContainerService
@@ -34,6 +33,7 @@ class ContainerService
 
     /**
      * ContainerService constructor.
+     *
      * @param ContainerInterface $serviceContainer
      * @param $cacheDir
      * @param bool $debug
@@ -92,7 +92,7 @@ class ContainerService
 
         $this->renderer = new \Twig_Environment(
             new \Twig_Loader_Array([
-                'open_tag' => self::OPEN_TAG_TEMPLATE,
+                'open_tag'  => self::OPEN_TAG_TEMPLATE,
                 'close_tag' => self::CLOSE_TAG_TEMPLATE,
             ]), $options
         );
@@ -100,7 +100,7 @@ class ContainerService
         return $this->renderer;
     }
 
-    public function createNewContainer($name, array $parameters = array())
+    public function createNewContainer($name, array $parameters = [])
     {
         $containerEntity = new Container();
         $containerEntity->setName($name);

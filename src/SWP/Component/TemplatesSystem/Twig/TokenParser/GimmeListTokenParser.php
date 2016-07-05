@@ -1,7 +1,7 @@
 <?php
 
 /**
- * This file is part of the Superdesk Web Publisher Templates System
+ * This file is part of the Superdesk Web Publisher Templates System.
  *
  * Copyright 2015 Sourcefabric z.ú. and contributors.
  *
@@ -11,7 +11,6 @@
  * @copyright 2015 Sourcefabric z.ú.
  * @license http://www.superdesk.org/license
  */
-
 namespace SWP\Component\TemplatesSystem\Twig\TokenParser;
 
 use SWP\Component\TemplatesSystem\Twig\Node\GimmeListNode;
@@ -24,7 +23,7 @@ class GimmeListTokenParser extends \Twig_TokenParser
     /**
      * @param \Twig_Token $token
      *
-     * @return boolean
+     * @return bool
      */
     public function decideGimmeListEnd(\Twig_Token $token)
     {
@@ -33,11 +32,11 @@ class GimmeListTokenParser extends \Twig_TokenParser
 
     public function decideGimmeListFork(\Twig_Token $token)
     {
-        return $token->test(array('else', 'endgimmelist'));
+        return $token->test(['else', 'endgimmelist']);
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getTag()
     {
@@ -45,7 +44,7 @@ class GimmeListTokenParser extends \Twig_TokenParser
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function parse(\Twig_Token $token)
     {
@@ -60,7 +59,7 @@ class GimmeListTokenParser extends \Twig_TokenParser
         if ($stream->test(\Twig_Token::PUNCTUATION_TYPE, '|')) {
             $collectionFilters = $this->parser->getExpressionParser()->parsePostfixExpression($collectionType);
         }
-        
+
         $parameters = null;
         if ($stream->nextIf(\Twig_Token::NAME_TYPE, 'with')) {
             $parameters = $this->parser->getExpressionParser()->parseExpression();
@@ -72,10 +71,10 @@ class GimmeListTokenParser extends \Twig_TokenParser
         }
 
         $stream->expect(\Twig_Token::BLOCK_END_TYPE);
-        $body = $this->parser->subparse(array($this, 'decideGimmeListFork'));
+        $body = $this->parser->subparse([$this, 'decideGimmeListFork']);
         if ($stream->next()->getValue() == 'else') {
             $stream->expect(\Twig_Token::BLOCK_END_TYPE);
-            $else = $this->parser->subparse(array($this, 'decideGimmeListEnd'), true);
+            $else = $this->parser->subparse([$this, 'decideGimmeListEnd'], true);
         } else {
             $else = null;
         }

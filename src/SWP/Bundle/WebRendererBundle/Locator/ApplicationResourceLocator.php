@@ -13,11 +13,11 @@
  */
 namespace SWP\Bundle\WebRendererBundle\Locator;
 
-use Sylius\Bundle\ThemeBundle\Model\ThemeInterface;
-use Symfony\Component\Filesystem\Filesystem;
+use SWP\Bundle\WebRendererBundle\Detection\DeviceDetectionInterface;
 use Sylius\Bundle\ThemeBundle\Locator\ResourceLocatorInterface;
 use Sylius\Bundle\ThemeBundle\Locator\ResourceNotFoundException;
-use SWP\Bundle\WebRendererBundle\Detection\DeviceDetectionInterface;
+use Sylius\Bundle\ThemeBundle\Model\ThemeInterface;
+use Symfony\Component\Filesystem\Filesystem;
 
 class ApplicationResourceLocator implements ResourceLocatorInterface
 {
@@ -63,7 +63,7 @@ class ApplicationResourceLocator implements ResourceLocatorInterface
      */
     protected function getApplicationPaths($resourceName, ThemeInterface $theme)
     {
-        $paths = array(sprintf('%s/%s', $theme->getPath(), $resourceName));
+        $paths = [sprintf('%s/%s', $theme->getPath(), $resourceName)];
         if ($this->deviceDetection->getType() !== null) {
             $paths[] = sprintf('%s/%s/%s', $theme->getPath(), $this->deviceDetection->getType(), $resourceName);
             krsort($paths);

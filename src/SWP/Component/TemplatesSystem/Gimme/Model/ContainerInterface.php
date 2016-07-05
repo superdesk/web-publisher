@@ -1,7 +1,7 @@
 <?php
 
 /**
- * This file is part of the Superdesk Web Publisher Templates System
+ * This file is part of the Superdesk Web Publisher Templates System.
  *
  * Copyright 2015 Sourcefabric z.ú. and contributors.
  *
@@ -11,7 +11,6 @@
  * @copyright 2015 Sourcefabric z.ú.
  * @license http://www.superdesk.org/license
  */
-
 namespace SWP\Component\TemplatesSystem\Gimme\Model;
 
 /**
@@ -20,49 +19,49 @@ namespace SWP\Component\TemplatesSystem\Gimme\Model;
 interface ContainerInterface
 {
     /**
-     * Get container Id
+     * Get container Id.
      *
-     * @return integer
+     * @return int
      */
     public function getId();
 
     /**
-     * Getcontainer css classes
+     * Getcontainer css classes.
      *
      * @return string
      */
     public function getCssClass();
 
     /**
-     * Get container height
+     * Get container height.
      *
-     * @return integer
+     * @return int
      */
     public function getHeight();
 
     /**
-     * Get container width
+     * Get container width.
      *
-     * @return integer
+     * @return int
      */
     public function getWidth();
 
     /**
-     * Get container styles
+     * Get container styles.
      *
      * @return string
      */
     public function getStyles();
 
     /**
-     * Get container visibility
+     * Get container visibility.
      *
-     * @return boolean
+     * @return bool
      */
     public function getVisible();
 
     /**
-     * Get container data
+     * Get container data.
      *
      * @return array
      */

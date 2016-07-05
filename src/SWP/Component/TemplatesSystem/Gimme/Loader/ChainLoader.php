@@ -1,7 +1,7 @@
 <?php
 
 /**
- * This file is part of the Superdesk Web Publisher Templates System
+ * This file is part of the Superdesk Web Publisher Templates System.
  *
  * Copyright 2015 Sourcefabric z.ú. and contributors.
  *
@@ -11,15 +11,14 @@
  * @copyright 2015 Sourcefabric z.ú.
  * @license http://www.superdesk.org/license
  */
-
 namespace SWP\Component\TemplatesSystem\Gimme\Loader;
 
 /**
- * ChainLoader is a loader that calls other loaders to load Meta objects
+ * ChainLoader is a loader that calls other loaders to load Meta objects.
  */
 class ChainLoader implements LoaderInterface
 {
-    protected $loaders = array();
+    protected $loaders = [];
 
     /**
      * Adds a loader instance.
@@ -34,8 +33,8 @@ class ChainLoader implements LoaderInterface
     /**
      * Loads a Meta class from given datasource.
      *
-     * @param string $type       object type
-     * @param array  $parameters parameters needed to load required object type
+     * @param string $type         object type
+     * @param array  $parameters   parameters needed to load required object type
      * @param int    $responseType response type: single meta (LoaderInterface::SINGLE) or collection of metas (LoaderInterface::COLLECTION)
      *
      * @return Meta|bool false if meta cannot be loaded, a Meta instance otherwise
@@ -54,17 +53,17 @@ class ChainLoader implements LoaderInterface
     }
 
     /**
-     * Checks if Loader supports provided type
+     * Checks if Loader supports provided type.
      *
      * @param string $type
      *
-     * @return boolean
+     * @return bool
      */
     public function isSupported($type)
     {
         foreach ($this->loaders as $loader) {
             if ($loader->isSupported($type)) {
-                    return true;
+                return true;
             }
         }
 

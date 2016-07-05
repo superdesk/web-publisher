@@ -51,8 +51,7 @@ class CreateTenantCommand extends ContainerAwareCommand
                 <<<'EOT'
                 The <info>%command.name%</info> command creates a new tenant.
 EOT
-            )
-        ;
+            );
     }
 
     /**

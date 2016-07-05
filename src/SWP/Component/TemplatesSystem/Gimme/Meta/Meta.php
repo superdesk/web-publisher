@@ -1,7 +1,7 @@
 <?php
 
 /**
- * This file is part of the Superdesk Web Publisher Templates System
+ * This file is part of the Superdesk Web Publisher Templates System.
  *
  * Copyright 2015 Sourcefabric z.ú. and contributors.
  *
@@ -11,30 +11,29 @@
  * @copyright 2015 Sourcefabric z.ú.
  * @license http://www.superdesk.org/license
  */
-
 namespace SWP\Component\TemplatesSystem\Gimme\Meta;
 
 class Meta
 {
     /**
-     * Configuration definition for current Meta
+     * Configuration definition for current Meta.
      *
      * @var array
      */
     protected $configuration;
 
     /**
-     * Original Meta values (json|array)
+     * Original Meta values (json|array).
      *
      * @var string|array
      */
     protected $values;
 
     /**
-     * Create Meta class from provided configuration and values
+     * Create Meta class from provided configuration and values.
      *
-     * @param array                $configuration
-     * @param string|array|object   $values
+     * @param array               $configuration
+     * @param string|array|object $values
      */
     public function __construct(array $configuration, $values)
     {
@@ -46,7 +45,7 @@ class Meta
     }
 
     /**
-     * Fill Meta from diffirent kind of data types
+     * Fill Meta from diffirent kind of data types.
      *
      * @param mixed $values
      *
@@ -56,9 +55,9 @@ class Meta
     {
         if (is_array($values)) {
             return $this->fillFromArray($values);
-        } else if (is_string($values) && $this->isJson($values)) {
+        } elseif (is_string($values) && $this->isJson($values)) {
             return $this->fillFromJson($values);
-        } else if (is_object($values)) {
+        } elseif (is_object($values)) {
             return $this->fillFromObject($values);
         }
 
@@ -82,7 +81,7 @@ class Meta
     }
 
     /**
-     * Fill Meta class from json values
+     * Fill Meta class from json values.
      *
      * @param string $values
      *
@@ -113,7 +112,7 @@ class Meta
     }
 
     /**
-     * Check if string is JSON
+     * Check if string is JSON.
      *
      * @param  string
      *
@@ -123,15 +122,15 @@ class Meta
     {
         json_decode($string);
 
-        return (json_last_error() == JSON_ERROR_NONE);
+        return json_last_error() == JSON_ERROR_NONE;
     }
 
     /**
-     * Get exposed properties (acording to configuration) from provided values
+     * Get exposed properties (acording to configuration) from provided values.
      *
      * @return array
      */
-    private function getExposedProperties(array $values = array())
+    private function getExposedProperties(array $values = [])
     {
         if (count($values) === 0 && is_array($this->values)) {
             $values = $this->values;
@@ -150,7 +149,7 @@ class Meta
     }
 
     /**
-     * Use to_string property from configuration if provided, json with exposed properties otherwise
+     * Use to_string property from configuration if provided, json with exposed properties otherwise.
      *
      * @return string
      */

@@ -61,7 +61,7 @@ class WidgetControllerTest extends WebTestCase
         $client = static::createClient();
         $client->request('POST', $this->router->generate('swp_api_templates_create_widget'), [
             'widget' => [
-                'name' => 'Simple html widget',
+                'name'    => 'Simple html widget',
                 'visible' => 0,
             ],
         ]);
@@ -75,10 +75,10 @@ class WidgetControllerTest extends WebTestCase
         $client = static::createClient();
         $client->request('PATCH', $this->router->generate('swp_api_templates_update_widget', ['id' => 1]), [
             'widget' => [
-                'name' => 'Simple Updated html widget',
-                'visible' => 0,
+                'name'       => 'Simple Updated html widget',
+                'visible'    => 0,
                 'parameters' => [
-                    'html_body' => 'sample widget with <span style=\'color:red\'>html</span>',
+                    'html_body'   => 'sample widget with <span style=\'color:red\'>html</span>',
                     'extra_param' => 'extra value',
                 ],
             ],

@@ -1,7 +1,7 @@
 <?php
 
 /**
- * This file is part of the Superdesk Web Publisher Templates System
+ * This file is part of the Superdesk Web Publisher Templates System.
  *
  * Copyright 2015 Sourcefabric z.ú. and contributors.
  *
@@ -11,23 +11,22 @@
  * @copyright 2015 Sourcefabric z.ú.
  * @license http://www.superdesk.org/license
  */
-
 namespace SWP\Component\TemplatesSystem\Gimme\Widget;
 
 class GoogleAdSenseWidgetHandler extends AbstractWidgetHandler
 {
-    protected static $expectedParameters = array(
+    protected static $expectedParameters = [
         'ad_unit_type' => [
-            'type' => 'string',
-            'default' => 'Ad unit'
+            'type'    => 'string',
+            'default' => 'Ad unit',
         ],
         'ad_slot' => [
-            'type' => 'int'
-        ]
-    );
+            'type' => 'int',
+        ],
+    ];
 
     /**
-     * Render widget content
+     * Render widget content.
      *
      * @return string
      */

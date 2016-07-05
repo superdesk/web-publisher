@@ -13,8 +13,8 @@
  */
 namespace SWP\Bundle\BridgeBundle\Tests\DependencyInjection;
 
-use Symfony\Component\DependencyInjection\ContainerBuilder;
 use SWP\Bundle\BridgeBundle\DependencyInjection\SWPBridgeExtension;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBag;
 
 class SWPBridgeExtensionTest extends \PHPUnit_Framework_TestCase
@@ -26,21 +26,21 @@ class SWPBridgeExtensionTest extends \PHPUnit_Framework_TestCase
      */
     public function testLoad()
     {
-        $data = array(
-            'swp_bridge.api.host' => 'example.com',
-            'swp_bridge.api.port' => 8000,
-            'swp_bridge.api.protocol' => 'http',
+        $data = [
+            'swp_bridge.api.host'       => 'example.com',
+            'swp_bridge.api.port'       => 8000,
+            'swp_bridge.api.protocol'   => 'http',
             'swp_bridge.auth.client_id' => 'my_client_id',
-            'swp_bridge.auth.username' => 'my_username',
-            'swp_bridge.auth.password' => 'my_password',
-            'swp_bridge.options' => array('curl' => 'dummy'),
-        );
+            'swp_bridge.auth.username'  => 'my_username',
+            'swp_bridge.auth.password'  => 'my_password',
+            'swp_bridge.options'        => ['curl' => 'dummy'],
+        ];
 
         $container = $this->createContainer($data);
         $loader = $this->createLoader();
         $config = $this->getConfig();
 
-        $loader->load(array($config), $container);
+        $loader->load([$config], $container);
 
         foreach ($data as $key => $value) {
             $this->assertEquals($value, $container->getParameter($key));
@@ -55,11 +55,11 @@ class SWPBridgeExtensionTest extends \PHPUnit_Framework_TestCase
         $container = $this->createContainer();
         $loader = $this->createLoader();
 
-        $config = array(
+        $config = [
             'swp_bridge.api.host' => '',
-        );
+        ];
 
-        $loader->load(array($config), $container);
+        $loader->load([$config], $container);
     }
 
     /**
@@ -70,11 +70,11 @@ class SWPBridgeExtensionTest extends \PHPUnit_Framework_TestCase
         $container = $this->createContainer();
         $loader = $this->createLoader();
 
-        $config = array(
+        $config = [
             'swp_bridge.auth.client_id' => '',
-        );
+        ];
 
-        $loader->load(array($config), $container);
+        $loader->load([$config], $container);
     }
 
     /**
@@ -85,11 +85,11 @@ class SWPBridgeExtensionTest extends \PHPUnit_Framework_TestCase
         $container = $this->createContainer();
         $loader = $this->createLoader();
 
-        $config = array(
+        $config = [
             'swp_bridge.auth.username' => '',
-        );
+        ];
 
-        $loader->load(array($config), $container);
+        $loader->load([$config], $container);
     }
 
     /**
@@ -100,11 +100,11 @@ class SWPBridgeExtensionTest extends \PHPUnit_Framework_TestCase
         $container = $this->createContainer();
         $loader = $this->createLoader();
 
-        $config = array(
+        $config = [
             'swp_bridge.auth.password' => '',
-        );
+        ];
 
-        $loader->load(array($config), $container);
+        $loader->load([$config], $container);
     }
 
     protected function createLoader()
@@ -114,24 +114,24 @@ class SWPBridgeExtensionTest extends \PHPUnit_Framework_TestCase
 
     protected function getConfig()
     {
-        return array(
-            'api' => array(
-                'host' => 'example.com',
-                'port' => 8000,
+        return [
+            'api' => [
+                'host'     => 'example.com',
+                'port'     => 8000,
                 'protocol' => 'http',
-            ),
-            'auth' => array(
+            ],
+            'auth' => [
                 'client_id' => 'my_client_id',
-                'username' => 'my_username',
-                'password' => 'my_password',
-            ),
-            'options' => array(
+                'username'  => 'my_username',
+                'password'  => 'my_password',
+            ],
+            'options' => [
                 'curl' => 'dummy',
-            ),
-        );
+            ],
+        ];
     }
 
-    protected function createContainer(array $data = array())
+    protected function createContainer(array $data = [])
     {
         return new ContainerBuilder(new ParameterBag($data));
     }

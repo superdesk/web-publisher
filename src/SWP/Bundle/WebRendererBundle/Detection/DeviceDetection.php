@@ -26,32 +26,32 @@ class DeviceDetection implements DeviceDetectionInterface
     /**
      * @var array
      */
-    protected $devices = array(
-        'tablet' => array(
-            'androidtablet' => 'android(?!.*(?:mobile|opera mobi|opera mini))',
+    protected $devices = [
+        'tablet' => [
+            'androidtablet'    => 'android(?!.*(?:mobile|opera mobi|opera mini))',
             'blackberrytablet' => 'rim tablet os',
-            'ipad' => '(ipad)',
-        ),
-        'plain' => array(
+            'ipad'             => '(ipad)',
+        ],
+        'plain' => [
             'kindle' => '(kindle)',
-            'IE6' => 'MSIE 6.0',
-        ),
-        'phone' => array(
-            'android' => 'android.*mobile|android.*opera mobi|android.*opera mini',
-            'blackberry' => 'blackberry',
-            'iphone' => '(iphone|ipod)',
-            'palm' => '(avantgo|blazer|elaine|hiptop|palm|plucker|xiino|webOS)',
-            'windows' => 'windows ce; (iemobile|ppc|smartphone)',
+            'IE6'    => 'MSIE 6.0',
+        ],
+        'phone' => [
+            'android'      => 'android.*mobile|android.*opera mobi|android.*opera mini',
+            'blackberry'   => 'blackberry',
+            'iphone'       => '(iphone|ipod)',
+            'palm'         => '(avantgo|blazer|elaine|hiptop|palm|plucker|xiino|webOS)',
+            'windows'      => 'windows ce; (iemobile|ppc|smartphone)',
             'windowsphone' => 'windows phone',
-            'generic' => '(mobile|mmp|midp|o2|pda|pocket|psp|symbian|smartphone|treo|up.browser|up.link|vodafone|wap|opera mini|opera mobi|opera mini)',
-        ),
-        'desktop' => array(
-            'osx' => 'Mac OS X',
-            'linux' => 'Linux',
+            'generic'      => '(mobile|mmp|midp|o2|pda|pocket|psp|symbian|smartphone|treo|up.browser|up.link|vodafone|wap|opera mini|opera mobi|opera mini)',
+        ],
+        'desktop' => [
+            'osx'     => 'Mac OS X',
+            'linux'   => 'Linux',
             'windows' => 'Windows',
             'generic' => '',
-        ),
-    );
+        ],
+    ];
 
     /**
      * @var string
@@ -115,12 +115,12 @@ class DeviceDetection implements DeviceDetectionInterface
         foreach ($this->devices as $type => $devices) {
             foreach ($devices as $device => $regexp) {
                 if ((bool) preg_match('/'.$regexp.'/i', $userAgent)) {
-                    return array($device, $type);
+                    return [$device, $type];
                 }
             }
         }
 
-        return array(null, null);
+        return [null, null];
     }
 
     /**

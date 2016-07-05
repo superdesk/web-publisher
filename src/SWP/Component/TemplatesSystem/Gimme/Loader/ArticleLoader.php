@@ -1,7 +1,7 @@
 <?php
 
 /**
- * This file is part of the Superdesk Web Publisher Templates System
+ * This file is part of the Superdesk Web Publisher Templates System.
  *
  * Copyright 2015 Sourcefabric z.ú. and contributors.
  *
@@ -11,7 +11,6 @@
  * @copyright 2015 Sourcefabric z.ú.
  * @license http://www.superdesk.org/license
  */
-
 namespace SWP\Component\TemplatesSystem\Gimme\Loader;
 
 use SWP\Component\TemplatesSystem\Gimme\Meta\Meta;
@@ -33,7 +32,7 @@ class ArticleLoader implements LoaderInterface
     }
 
     /**
-     * Load meta object by provided type and parameters
+     * Load meta object by provided type and parameters.
      *
      * @MetaLoaderDoc(
      *     description="Article Meta Loader provide simple way to test Loader, it will be removed when real loaders will be merged.",
@@ -49,42 +48,42 @@ class ArticleLoader implements LoaderInterface
     public function load($type, $parameters, $responseType)
     {
         if (!is_readable($this->rootDir.'/Resources/meta/article.yml')) {
-            throw new \InvalidArgumentException("Configuration file is not readable for parser");
+            throw new \InvalidArgumentException('Configuration file is not readable for parser');
         }
         $yaml = new Parser();
         $configuration = (array) $yaml->parse(file_get_contents($this->rootDir.'/Resources/meta/article.yml'));
 
         if ($responseType === LoaderInterface::SINGLE) {
-            return new Meta($configuration, array(
-                'title' => 'New article',
-                'keywords' => 'lorem, ipsum, dolor, sit, amet',
+            return new Meta($configuration, [
+                'title'            => 'New article',
+                'keywords'         => 'lorem, ipsum, dolor, sit, amet',
                 'don\'t expose it' => 'this should be not exposed',
-            ));
-        } else if ($responseType === LoaderInterface::COLLECTION) {
-            return array(
-                new Meta($configuration, array(
-                    'title' => 'New article 1',
-                    'keywords' => 'lorem, ipsum, dolor, sit, amet',
+            ]);
+        } elseif ($responseType === LoaderInterface::COLLECTION) {
+            return [
+                new Meta($configuration, [
+                    'title'            => 'New article 1',
+                    'keywords'         => 'lorem, ipsum, dolor, sit, amet',
                     'don\'t expose it' => 'this should be not exposed',
-                )),
-                new Meta($configuration, array(
-                    'title' => 'New article 2',
-                    'keywords' => 'lorem, ipsum, dolor, sit, amet',
+                ]),
+                new Meta($configuration, [
+                    'title'            => 'New article 2',
+                    'keywords'         => 'lorem, ipsum, dolor, sit, amet',
                     'don\'t expose it' => 'this should be not exposed',
-                ))
-            );
+                ]),
+            ];
         }
     }
 
     /**
-     * Checks if Loader supports provided type
+     * Checks if Loader supports provided type.
      *
      * @param string $type
      *
-     * @return boolean
+     * @return bool
      */
     public function isSupported($type)
     {
-        return in_array($type, array('articles', 'article'));
+        return in_array($type, ['articles', 'article']);
     }
 }

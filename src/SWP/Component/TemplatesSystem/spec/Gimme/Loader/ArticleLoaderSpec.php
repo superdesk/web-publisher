@@ -1,7 +1,7 @@
 <?php
 
 /**
- * This file is part of the Superdesk Web Publisher Templates System
+ * This file is part of the Superdesk Web Publisher Templates System.
  *
  * Copyright 2015 Sourcefabric z.ú. and contributors.
  *
@@ -11,30 +11,28 @@
  * @copyright 2015 Sourcefabric z.ú.
  * @license http://www.superdesk.org/license
  */
-
 namespace spec\SWP\Component\TemplatesSystem\Gimme\Loader;
 
 use PhpSpec\ObjectBehavior;
-use Prophecy\Argument;
 
 class ArticleLoaderSpec extends ObjectBehavior
 {
-    function let()
+    public function let()
     {
-        $this->beConstructedWith(__DIR__ . '/../Meta');
+        $this->beConstructedWith(__DIR__.'/../Meta');
     }
 
-    function it_is_initializable()
+    public function it_is_initializable()
     {
         $this->shouldHaveType('SWP\Component\TemplatesSystem\Gimme\Loader\ArticleLoader');
     }
 
-    function it_should_load_meta()
+    public function it_should_load_meta()
     {
-        $this->load('article', array(), \SWP\Component\TemplatesSystem\Gimme\Loader\LoaderInterface::SINGLE)->shouldBeAnInstanceOf('SWP\Component\TemplatesSystem\Gimme\Meta\Meta');
+        $this->load('article', [], \SWP\Component\TemplatesSystem\Gimme\Loader\LoaderInterface::SINGLE)->shouldBeAnInstanceOf('SWP\Component\TemplatesSystem\Gimme\Meta\Meta');
     }
 
-    function it_should_check_if_type_is_supported()
+    public function it_should_check_if_type_is_supported()
     {
         $this->isSupported('article')->shouldReturn(true);
         $this->isSupported('article2')->shouldReturn(false);

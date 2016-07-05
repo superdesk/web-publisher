@@ -1,7 +1,7 @@
 <?php
 
 /**
- * This file is part of the Superdesk Web Publisher Templates System
+ * This file is part of the Superdesk Web Publisher Templates System.
  *
  * Copyright 2015 Sourcefabric z.ú. and contributors.
  *
@@ -11,22 +11,20 @@
  * @copyright 2015 Sourcefabric z.ú.
  * @license http://www.superdesk.org/license
  */
-
 namespace spec\SWP\Component\TemplatesSystem\Gimme\Meta;
 
 use PhpSpec\ObjectBehavior;
-use Prophecy\Argument;
 use Symfony\Component\Yaml\Parser;
 
 class MetaSpec extends ObjectBehavior
 {
-    function let()
+    public function let()
     {
-        if (!is_readable(__DIR__ . '/Resources/meta/article.yml')) {
-            throw new \InvalidArgumentException("Configuration file is not readable for parser");
+        if (!is_readable(__DIR__.'/Resources/meta/article.yml')) {
+            throw new \InvalidArgumentException('Configuration file is not readable for parser');
         }
         $yaml = new Parser();
-        $configuration = $yaml->parse(file_get_contents(__DIR__ . '/Resources/meta/article.yml'));
+        $configuration = $yaml->parse(file_get_contents(__DIR__.'/Resources/meta/article.yml'));
 
         $this->beConstructedWith($configuration, '{
             "title": "New article",
@@ -35,12 +33,12 @@ class MetaSpec extends ObjectBehavior
         }');
     }
 
-    function it_is_initializable()
+    public function it_is_initializable()
     {
         $this->shouldHaveType('SWP\TemplatesSystem\Gimme\Meta\Meta');
     }
 
-    function it_should_show_title_when_printed()
+    public function it_should_show_title_when_printed()
     {
         $this->__toString()->shouldReturn('New article');
     }

@@ -75,7 +75,7 @@ class ArticleLoader implements LoaderInterface
                 $article = $parameters['article'];
             } elseif (array_key_exists('slug', $parameters)) {
                 $article = $dm->getRepository('SWP\Bundle\ContentBundle\Document\Article')
-                    ->findOneBy(array('slug' => $parameters['slug']));
+                    ->findOneBy(['slug' => $parameters['slug']]);
             }
 
             if (!is_null($article)) {
@@ -119,6 +119,6 @@ class ArticleLoader implements LoaderInterface
      */
     public function isSupported($type)
     {
-        return in_array($type, array('articles', 'article'));
+        return in_array($type, ['articles', 'article']);
     }
 }

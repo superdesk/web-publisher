@@ -63,11 +63,11 @@ class ContainerControllerTest extends WebTestCase
         $client = static::createClient();
         $client->request('PATCH', $this->router->generate('swp_api_templates_update_container', ['id' => 1]), [
             'container' => [
-                'name' => 'Simple Container 1',
-                'height' => '301',
-                'width' => '401',
-                'styles' => 'color: #00001',
-                'visible' => 0,
+                'name'     => 'Simple Container 1',
+                'height'   => '301',
+                'width'    => '401',
+                'styles'   => 'color: #00001',
+                'visible'  => 0,
                 'cssClass' => 'col-md-11',
             ],
         ]);

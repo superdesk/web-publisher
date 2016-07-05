@@ -13,10 +13,10 @@
  */
 namespace SWP\Bundle\MultiTenancyBundle\DependencyInjection;
 
-use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Config\FileLocator;
-use Symfony\Component\HttpKernel\DependencyInjection\Extension;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
+use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 
 /**
  * This is the class that loads and manages your bundle configuration.
@@ -54,14 +54,14 @@ class SWPMultiTenancyExtension extends Extension
 
     public function loadPhpcr($config, YamlFileLoader $loader, ContainerBuilder $container)
     {
-        $keys = array(
-            'basepath' => 'basepath',
-            'route_basepaths' => 'route_basepaths',
-            'content_basepath' => 'content_basepath',
-            'site_document_class' => 'site_document.class',
+        $keys = [
+            'basepath'                  => 'basepath',
+            'route_basepaths'           => 'route_basepaths',
+            'content_basepath'          => 'content_basepath',
+            'site_document_class'       => 'site_document.class',
             'tenant_aware_router_class' => 'router.class',
-            'document_class' => 'document.class',
-        );
+            'document_class'            => 'document.class',
+        ];
 
         foreach ($keys as $sourceKey => $targetKey) {
             $container->setParameter(

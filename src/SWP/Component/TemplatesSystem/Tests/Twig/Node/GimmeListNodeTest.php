@@ -1,7 +1,7 @@
 <?php
 
 /**
- * This file is part of the Superdesk Web Publisher Templates System
+ * This file is part of the Superdesk Web Publisher Templates System.
  *
  * Copyright 2015 Sourcefabric z.ú. and contributors.
  *
@@ -11,14 +11,13 @@
  * @copyright 2015 Sourcefabric z.ú.
  * @license http://www.superdesk.org/license
  */
-
 namespace SWP\Component\TemplatesSystem\Tests\Twig\Node;
 
-use SWP\Component\TemplatesSystem\Twig\Node\GimmeListNode;
-use SWP\Component\TemplatesSystem\Twig\Extension\GimmeExtension;
-use SWP\Component\TemplatesSystem\Gimme\Loader\ChainLoader;
-use SWP\Component\TemplatesSystem\Gimme\Loader\ArticleLoader;
 use SWP\Component\TemplatesSystem\Gimme\Context\Context;
+use SWP\Component\TemplatesSystem\Gimme\Loader\ArticleLoader;
+use SWP\Component\TemplatesSystem\Gimme\Loader\ChainLoader;
+use SWP\Component\TemplatesSystem\Twig\Extension\GimmeExtension;
+use SWP\Component\TemplatesSystem\Twig\Node\GimmeListNode;
 
 class GimmeListNodeTest extends \Twig_Test_NodeTestCase
 {
@@ -37,12 +36,12 @@ class GimmeListNodeTest extends \Twig_Test_NodeTestCase
 
     public function testConstructor()
     {
-        $variable = new \Twig_Node(array(new \Twig_Node_Expression_AssignName('article', 1)));
-        $collectionType = new \Twig_Node(array(new \Twig_Node_Expression_AssignName('articles', 1)));
+        $variable = new \Twig_Node([new \Twig_Node_Expression_AssignName('article', 1)]);
+        $collectionType = new \Twig_Node([new \Twig_Node_Expression_AssignName('articles', 1)]);
         $collectionFilters = new \Twig_Node_Expression_Filter(
-            new \Twig_Node(array($collectionType), array(), 0),
+            new \Twig_Node([$collectionType], [], 0),
             new \Twig_Node_Expression_Constant('start', 0),
-            new \Twig_Node(array(new \Twig_Node_Expression_Constant(0, 0))),
+            new \Twig_Node([new \Twig_Node_Expression_Constant(0, 0)]),
             0
         );
         $ifExpression = new \Twig_Node_Expression_Binary_Equal(new \Twig_Node_Expression_GetAttr(new \Twig_Node_Expression_Name('article', 0), new \Twig_Node_Expression_Constant('title', 0), null, null, 0),
@@ -58,39 +57,39 @@ class GimmeListNodeTest extends \Twig_Test_NodeTestCase
         $this->assertEquals($variable, $node->getNode('variable'));
         $this->assertEquals($parameters, $node->getNode('parameters'));
 
-        $body = new \Twig_Node(array($body, new \Twig_Node_ForLoop(0, 'gimmelist')));
-        $body = new \Twig_Node_If(new \Twig_Node(array($ifExpression, $body)), null, 0, 'gimmelist');
+        $body = new \Twig_Node([$body, new \Twig_Node_ForLoop(0, 'gimmelist')]);
+        $body = new \Twig_Node_If(new \Twig_Node([$ifExpression, $body]), null, 0, 'gimmelist');
         $this->assertEquals($body, $node->getNode('body'));
     }
 
     public function getTests()
     {
-        $variable = new \Twig_Node(array(new \Twig_Node_Expression_AssignName('article', 1)));
-        $collectionType = new \Twig_Node(array(new \Twig_Node_Expression_AssignName('articles', 1)));
+        $variable = new \Twig_Node([new \Twig_Node_Expression_AssignName('article', 1)]);
+        $collectionType = new \Twig_Node([new \Twig_Node_Expression_AssignName('articles', 1)]);
         $collectionFilters = new \Twig_Node_Expression_Filter(
-            new \Twig_Node(array($collectionType), array(), 0),
+            new \Twig_Node([$collectionType], [], 0),
             new \Twig_Node_Expression_Constant('start', 0),
-            new \Twig_Node(array(new \Twig_Node_Expression_Constant(0, 0))),
+            new \Twig_Node([new \Twig_Node_Expression_Constant(0, 0)]),
             0
         );
         $collectionFiltersFull = new \Twig_Node_Expression_Filter(
-                new \Twig_Node(array(new \Twig_Node_Expression_Filter(
-                    new \Twig_Node(array(
-                        new \Twig_Node(array(new \Twig_Node_Expression_Filter(
-                            new \Twig_Node(array($collectionType), array(), 0),
+                new \Twig_Node([new \Twig_Node_Expression_Filter(
+                    new \Twig_Node([
+                        new \Twig_Node([new \Twig_Node_Expression_Filter(
+                            new \Twig_Node([$collectionType], [], 0),
                             new \Twig_Node_Expression_Constant('order', 0),
-                            new \Twig_Node(array(new \Twig_Node_Expression_Array(array(new \Twig_Node_Expression_Constant('id', 0), new \Twig_Node_Expression_Constant('desc', 0)), 0))),
+                            new \Twig_Node([new \Twig_Node_Expression_Array([new \Twig_Node_Expression_Constant('id', 0), new \Twig_Node_Expression_Constant('desc', 0)], 0)]),
                             0
-                        )
-                        ), array(), 0)
-                    ), array(), 0),
+                        ),
+                        ], [], 0),
+                    ], [], 0),
                     new \Twig_Node_Expression_Constant('limit', 0),
-                    new \Twig_Node(array(new \Twig_Node_Expression_Constant(10, 0))),
+                    new \Twig_Node([new \Twig_Node_Expression_Constant(10, 0)]),
                     0
-                )
-                ), array(), 0),
+                ),
+                ], [], 0),
             new \Twig_Node_Expression_Constant('start', 0),
-            new \Twig_Node(array(new \Twig_Node_Expression_Constant(0, 0))),
+            new \Twig_Node([new \Twig_Node_Expression_Constant(0, 0)]),
             0
         );
         $parameters = new \Twig_Node_Expression_Array([], 1);
@@ -107,8 +106,8 @@ class GimmeListNodeTest extends \Twig_Test_NodeTestCase
         $node4 = new GimmeListNode($variable, $collectionType, $collectionFiltersFull, $parameters, null, null, $body, 0, 'gimmelist');
         $node5 = new GimmeListNode($variable, $collectionType, $collectionFiltersFull, $parameters, $ifExpression, null, $body, 0, 'gimmelist');
 
-        return array(
-            array($node1, <<<EOF
+        return [
+            [$node1, <<<EOF
 \$parameters = null;
 \$swpCollectionMetaLoader1 = \$this->env->getExtension('swp_gimme')->getLoader();
 \$context["articles"] = twig_ensure_traversable(\$swpCollectionMetaLoader1->load("articles", \$parameters, \SWP\Component\TemplatesSystem\Gimme\Loader\LoaderInterface::COLLECTION));
@@ -142,8 +141,8 @@ foreach (\$context["articles"] as \$_key => \$context["article"]) {
 unset(\$context['article'], \$context['_iterated'], \$context['articles'], \$context['_parent'], \$context['loop']);
 \$context = array_intersect_key(\$context, \$_parent) + \$_parent;
 EOF
-            ),
-            array($node2, <<<EOF
+            ],
+            [$node2, <<<EOF
 \$context['_collection_type_filters'] = [];
 \$context['articles'] = null;
 \$context['_collection_type_filters'] = call_user_func_array(\$this->env->getFilter('start')->getCallable(), array(\$context, \$context["articles"], 0))['_collection_type_filters']; unset(\$context['articles']['_collection_type_filters']);
@@ -176,8 +175,8 @@ unset(\$context['article'], \$context['_iterated'], \$context['articles'], \$con
 unset(\$context['_collection_type_filters']);
 \$context = array_intersect_key(\$context, \$_parent) + \$_parent;
 EOF
-            ),
-            array($node3, <<<EOF
+            ],
+            [$node3, <<<EOF
 \$context['_collection_type_filters'] = [];
 \$context['articles'] = null;
 \$context['_collection_type_filters'] = call_user_func_array(\$this->env->getFilter('start')->getCallable(), array(\$context, call_user_func_array(\$this->env->getFilter('limit')->getCallable(), array(\$context, call_user_func_array(\$this->env->getFilter('order')->getCallable(), array(\$context, \$context["articles"], array("id" => "desc"))), 10)), 0))['_collection_type_filters']; unset(\$context['articles']['_collection_type_filters']);
@@ -215,8 +214,8 @@ unset(\$context['article'], \$context['_iterated'], \$context['articles'], \$con
 unset(\$context['_collection_type_filters']);
 \$context = array_intersect_key(\$context, \$_parent) + \$_parent;
 EOF
-            ),
-            array($node4, <<<EOF
+            ],
+            [$node4, <<<EOF
 \$context['_collection_type_filters'] = [];
 \$context['articles'] = null;
 \$context['_collection_type_filters'] = call_user_func_array(\$this->env->getFilter('start')->getCallable(), array(\$context, call_user_func_array(\$this->env->getFilter('limit')->getCallable(), array(\$context, call_user_func_array(\$this->env->getFilter('order')->getCallable(), array(\$context, \$context["articles"], array("id" => "desc"))), 10)), 0))['_collection_type_filters']; unset(\$context['articles']['_collection_type_filters']);
@@ -254,8 +253,8 @@ unset(\$context['article'], \$context['_iterated'], \$context['articles'], \$con
 unset(\$context['_collection_type_filters']);
 \$context = array_intersect_key(\$context, \$_parent) + \$_parent;
 EOF
-            ),
-            array($node5, <<<EOF
+            ],
+            [$node5, <<<EOF
 \$context['_collection_type_filters'] = [];
 \$context['articles'] = null;
 \$context['_collection_type_filters'] = call_user_func_array(\$this->env->getFilter('start')->getCallable(), array(\$context, call_user_func_array(\$this->env->getFilter('limit')->getCallable(), array(\$context, call_user_func_array(\$this->env->getFilter('order')->getCallable(), array(\$context, \$context["articles"], array("id" => "desc"))), 10)), 0))['_collection_type_filters']; unset(\$context['articles']['_collection_type_filters']);
@@ -283,6 +282,6 @@ unset(\$context['article'], \$context['_iterated'], \$context['articles'], \$con
 unset(\$context['_collection_type_filters']);
 \$context = array_intersect_key(\$context, \$_parent) + \$_parent;
 EOF
-            )        );
+            ], ];
     }
 }

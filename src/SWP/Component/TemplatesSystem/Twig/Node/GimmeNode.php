@@ -1,7 +1,7 @@
 <?php
 
 /**
- * This file is part of the Superdesk Web Publisher Templates System
+ * This file is part of the Superdesk Web Publisher Templates System.
  *
  * Copyright 2015 Sourcefabric z.ú. and contributors.
  *
@@ -11,7 +11,6 @@
  * @copyright 2015 Sourcefabric z.ú.
  * @license http://www.superdesk.org/license
  */
-
 namespace SWP\Component\TemplatesSystem\Twig\Node;
 
 /**
@@ -25,16 +24,16 @@ class GimmeNode extends \Twig_Node
      * @param \Twig_Node_Expression $annotation
      * @param \Twig_Node_Expression $parameters
      * @param \Twig_NodeInterface   $body
-     * @param integer               $lineno
+     * @param int                   $lineno
      * @param string                $tag
      */
     public function __construct(\Twig_Node $annotation, \Twig_Node_Expression $parameters = null, \Twig_NodeInterface $body, $lineno, $tag = null)
     {
-        parent::__construct(array('parameters' => $parameters, 'body' => $body, 'annotation' => $annotation), array(), $lineno, $tag);
+        parent::__construct(['parameters' => $parameters, 'body' => $body, 'annotation' => $annotation], [], $lineno, $tag);
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function compile(\Twig_Compiler $compiler)
     {
@@ -42,20 +41,19 @@ class GimmeNode extends \Twig_Node
 
         $compiler
             ->addDebugInfo($this)
-            ->write("\$swpMetaLoader".$i." = \$this->env->getExtension('swp_gimme')->getLoader();\n")
-            ->write("")->subcompile($this->getNode('annotation'))->raw(" = \$swpMetaLoader".$i."->load(\"")->raw($this->getNode('annotation')->getNode(0)->getAttribute('name'))->raw("\", ");
-                if (!is_null($this->getNode('parameters'))) {
-                    $compiler->subcompile($this->getNode('parameters'));
-                } else {
-                    $compiler->raw("null");
-                }
-                $compiler->raw(");\n")
-            ->write("if (")->subcompile($this->getNode('annotation'))->raw(" !== false) {\n")
+            ->write('$swpMetaLoader'.$i." = \$this->env->getExtension('swp_gimme')->getLoader();\n")
+            ->write('')->subcompile($this->getNode('annotation'))->raw(' = $swpMetaLoader'.$i.'->load("')->raw($this->getNode('annotation')->getNode(0)->getAttribute('name'))->raw('", ');
+        if (!is_null($this->getNode('parameters'))) {
+            $compiler->subcompile($this->getNode('parameters'));
+        } else {
+            $compiler->raw('null');
+        }
+        $compiler->raw(");\n")
+            ->write('if (')->subcompile($this->getNode('annotation'))->raw(" !== false) {\n")
             ->indent()
                 ->subcompile($this->getNode('body'))
             ->outdent()
             ->write("}\n")
-            ->write("unset(")->subcompile($this->getNode('annotation'))->raw(');')
-        ;
+            ->write('unset(')->subcompile($this->getNode('annotation'))->raw(');');
     }
 }

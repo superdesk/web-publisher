@@ -13,8 +13,8 @@
  */
 namespace SWP\Bundle\MultiTenancyBundle\Tests\DependencyInjection;
 
-use Symfony\Component\DependencyInjection\ContainerBuilder;
 use SWP\Bundle\MultiTenancyBundle\DependencyInjection\SWPMultiTenancyExtension;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBag;
 
 class SWPMultiTenancyExtensionTest extends \PHPUnit_Framework_TestCase
@@ -31,7 +31,7 @@ class SWPMultiTenancyExtensionTest extends \PHPUnit_Framework_TestCase
         $loader = $this->createLoader();
         $config = $this->getConfig();
 
-        $loader->load(array($config), $container);
+        $loader->load([$config], $container);
 
         $this->assertTrue($container->getParameter('swp_multi_tenancy.backend_type_phpcr'));
         $this->assertEquals('/swp', $container->getParameter('swp_multi_tenancy.persistence.phpcr.basepath'));
@@ -52,12 +52,12 @@ class SWPMultiTenancyExtensionTest extends \PHPUnit_Framework_TestCase
         );
 
         $this->assertEquals(
-           array('routes1', 'routes2'),
+           ['routes1', 'routes2'],
            $container->getParameter('swp_multi_tenancy.persistence.phpcr.route_basepaths')
        );
 
         $this->assertEquals(
-            array('routes1', 'routes2', 'content'),
+            ['routes1', 'routes2', 'content'],
             $container->getParameter('swp_multi_tenancy.persistence.phpcr.base_paths')
         );
 
@@ -80,7 +80,7 @@ class SWPMultiTenancyExtensionTest extends \PHPUnit_Framework_TestCase
         $loader = $this->createLoader();
         $config = $this->getConfig();
         $config['persistence']['phpcr']['enabled'] = false;
-        $loader->load(array($config), $container);
+        $loader->load([$config], $container);
 
         $this->assertFalse($container->hasParameter('swp_multi_tenancy.backend_type_phpcr'));
     }
@@ -92,18 +92,18 @@ class SWPMultiTenancyExtensionTest extends \PHPUnit_Framework_TestCase
 
     protected function getConfig()
     {
-        return array(
-            'persistence' => array(
-                'phpcr' => array(
-                    'enabled' => true,
+        return [
+            'persistence' => [
+                'phpcr' => [
+                    'enabled'          => true,
                     'content_basepath' => 'content',
-                    'route_basepaths' => array('routes1', 'routes2'),
-                ),
-            ),
-        );
+                    'route_basepaths'  => ['routes1', 'routes2'],
+                ],
+            ],
+        ];
     }
 
-    protected function createContainer(array $data = array())
+    protected function createContainer(array $data = [])
     {
         return new ContainerBuilder(new ParameterBag($data));
     }

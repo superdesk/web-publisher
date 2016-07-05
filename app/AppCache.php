@@ -1,9 +1,9 @@
 <?php
 
-use FOS\HttpCacheBundle\SymfonyCache\EventDispatchingHttpCache;
-use Symfony\Component\HttpKernel\HttpKernelInterface;
 use FOS\HttpCache\SymfonyCache\PurgeSubscriber;
 use FOS\HttpCache\SymfonyCache\RefreshSubscriber;
+use FOS\HttpCacheBundle\SymfonyCache\EventDispatchingHttpCache;
+use Symfony\Component\HttpKernel\HttpKernelInterface;
 
 class AppCache extends EventDispatchingHttpCache
 {

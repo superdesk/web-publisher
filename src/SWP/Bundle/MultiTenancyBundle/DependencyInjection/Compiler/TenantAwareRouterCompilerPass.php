@@ -13,8 +13,8 @@
  */
 namespace SWP\Bundle\MultiTenancyBundle\DependencyInjection\Compiler;
 
-use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Exception\RuntimeException;
 use Symfony\Component\DependencyInjection\Reference;
 
@@ -44,7 +44,6 @@ class TenantAwareRouterCompilerPass implements CompilerPassInterface
         $container->getDefinition('swp_multi_tenancy.tenant_aware_router')
             ->setArguments($container->getDefinition('cmf_routing.dynamic_router')->getArguments())
             ->setMethodCalls($container->getDefinition('cmf_routing.dynamic_router')->getMethodCalls())
-            ->addMethodCall('setPathBuilder', [new Reference('swp_multi_tenancy.path_builder')])
-        ;
+            ->addMethodCall('setPathBuilder', [new Reference('swp_multi_tenancy.path_builder')]);
     }
 }

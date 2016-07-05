@@ -1,7 +1,7 @@
 <?php
 
 /**
- * This file is part of the Superdesk Web Publisher Templates System
+ * This file is part of the Superdesk Web Publisher Templates System.
  *
  * Copyright 2015 Sourcefabric z.ú. and contributors.
  *
@@ -11,7 +11,6 @@
  * @copyright 2015 Sourcefabric z.ú.
  * @license http://www.superdesk.org/license
  */
-
 namespace SWP\Component\TemplatesSystem\Gimme\Model;
 
 /**
@@ -20,35 +19,35 @@ namespace SWP\Component\TemplatesSystem\Gimme\Model;
 interface WidgetModelInterface
 {
     /**
-     * Get widget Id
+     * Get widget Id.
      *
-     * @return integer
+     * @return int
      */
     public function getId();
 
     /**
-     * Get widget name
+     * Get widget name.
      *
-     * @return integer
+     * @return int
      */
     public function getName();
 
     /**
-     * Get widget type
+     * Get widget type.
      *
-     * @return integer
+     * @return int
      */
     public function getType();
 
     /**
-     * Get widget visibility
+     * Get widget visibility.
      *
-     * @return boolean
+     * @return bool
      */
     public function getVisible();
 
     /**
-     * Get widget data
+     * Get widget data.
      *
      * @return array
      */
