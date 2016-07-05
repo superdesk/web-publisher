@@ -40,7 +40,6 @@ class ContentControllerTest extends WebTestCase
         ], null, 'doctrine_phpcr');
 
         $client = static::createClient();
-        $client->enableProfiler();
         $crawler = $client->request('GET', '/articles/features');
 
         $this->assertEquals(200, $client->getResponse()->getStatusCode());

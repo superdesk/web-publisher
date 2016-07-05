@@ -41,16 +41,6 @@ class LoadSeparateArticlesData extends AbstractFixture implements FixtureInterfa
      */
     public function loadArticles($env, $manager)
     {
-        if ($env !== 'test') {
-            $this->loadFixtures(
-                '@SWPFixturesBundle/Resources/fixtures/PHPCR/'.$env.'/article.yml',
-                $manager,
-                [
-                    'providers' => [$this],
-                ]
-            );
-        }
-
         $articles = [
             'test' => [
                 [
