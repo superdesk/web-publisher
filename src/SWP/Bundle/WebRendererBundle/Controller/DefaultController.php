@@ -15,7 +15,6 @@ namespace SWP\Bundle\WebRendererBundle\Controller;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use SWP\Bundle\WebRendererBundle\Exception\NoThemeException;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 class DefaultController extends Controller
