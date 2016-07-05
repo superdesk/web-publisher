@@ -13,11 +13,14 @@
  */
 namespace SWP\Bundle\ContentBundle\Transformer;
 
+use SWP\Bundle\ContentBundle\ArticleEvents;
+use SWP\Bundle\ContentBundle\Event\ArticleEvent;
 use SWP\Bundle\ContentBundle\Factory\ArticleFactoryInterface;
 use SWP\Component\Bridge\Exception\MethodNotSupportedException;
 use SWP\Component\Bridge\Exception\TransformationFailedException;
 use SWP\Component\Bridge\Model\PackageInterface;
 use SWP\Component\Bridge\Transformer\DataTransformerInterface;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 final class PackageToArticleTransformer implements DataTransformerInterface
 {
@@ -27,13 +30,20 @@ final class PackageToArticleTransformer implements DataTransformerInterface
     private $articleFactory;
 
     /**
+     * @var EventDispatcherInterface
+     */
+    private $dispatcher;
+
+    /**
      * PackageToArticleTransformer constructor.
      *
-     * @param ArticleFactoryInterface $articleFactory
+     * @param ArticleFactoryInterface  $articleFactory
+     * @param EventDispatcherInterface $dispatcher
      */
-    public function __construct(ArticleFactoryInterface $articleFactory)
+    public function __construct(ArticleFactoryInterface $articleFactory, EventDispatcherInterface $dispatcher)
     {
         $this->articleFactory = $articleFactory;
+        $this->dispatcher = $dispatcher;
     }
 
     /**
@@ -45,7 +55,10 @@ final class PackageToArticleTransformer implements DataTransformerInterface
             throw new TransformationFailedException(sprintf('Expected a %s!', PackageInterface::class));
         }
 
-        return $this->articleFactory->createFromPackage($package);
+        $article = $this->articleFactory->createFromPackage($package);
+        $this->dispatcher->dispatch(ArticleEvents::PRE_CREATE, new ArticleEvent($article));
+
+        return $article;
     }
 
     /**

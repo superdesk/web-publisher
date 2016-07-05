@@ -17,6 +17,8 @@ use League\Pipeline\Pipeline;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use FOS\RestBundle\Controller\FOSRestController;
+use SWP\Bundle\ContentBundle\ArticleEvents;
+use SWP\Bundle\ContentBundle\Event\ArticleEvent;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
@@ -47,7 +49,12 @@ class ContentPushController extends FOSRestController
             })
             // TODO create content component and include it into bridge bundle
             ->pipe([$this->get('swp_content.transformer.package_to_article'), 'transform'])
-            ->pipe([$this->get('swp.repository.article'), 'add']);
+            ->pipe(function ($article) {
+                $this->get('swp.repository.article')->add($article);
+                $this->get('event_dispatcher')->dispatch(ArticleEvents::POST_CREATE, new ArticleEvent($article));
+
+                return $article;
+            });
 
         $pipeline->process($request->getContent());
 
