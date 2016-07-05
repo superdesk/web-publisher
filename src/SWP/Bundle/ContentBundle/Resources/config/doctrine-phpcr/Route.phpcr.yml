@@ -1,5 +1,9 @@
 SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\Route:
     referenceable: true
-fields:
-    templateName:
-        type: string
+    fields:
+        templateName:
+            type: string
+            nullable: true
+        type:
+            property: route_type
+            type: string

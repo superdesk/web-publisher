@@ -24,6 +24,11 @@ class Route extends Page implements RouteInterface
     protected $templateName;
 
     /**
+     * @var string
+     */
+    protected $type;
+
+    /**
      * {@inheritdoc}
      */
     public function getTemplateName()
@@ -37,5 +42,21 @@ class Route extends Page implements RouteInterface
     public function setTemplateName($templateName)
     {
         $this->templateName = $templateName;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getType()
+    {
+        return $this->type;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setType($type)
+    {
+        $this->type = $type;
     }
 }

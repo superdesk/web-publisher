@@ -66,9 +66,6 @@ class LoadSeparateArticlesData extends AbstractFixture implements FixtureInterfa
                 $article->setBody($articleData['content']);
                 $article->setLocale($articleData['locale']);
                 $article->setCreatedAt(new \DateTime('2016-07-04T16:38:20+0000'));
-                if (isset($articleData['route'])) {
-                    $article->setRoute($manager->find(null, $articleData['route']));
-                }
 
                 $manager->persist($article);
             }
