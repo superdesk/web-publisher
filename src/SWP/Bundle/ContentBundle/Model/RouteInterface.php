@@ -29,4 +29,14 @@ interface RouteInterface extends PersistableInterface
      * @param string $templateName
      */
     public function setTemplateName($templateName);
+
+    /**
+     * @return string
+     */
+    public function getType();
+
+    /**
+     * @param string $type
+     */
+    public function setType($type);
 }

@@ -4,6 +4,8 @@ parameters:
     # override Sylius default ThemeFactory
     sylius.factory.theme.class: SWP\Bundle\WebRendererBundle\Theme\Factory\ThemeFactory
     swp_webrenderer.twig_extension.class: SWP\Bundle\WebRendererBundle\Twig\WebRendererExtension
+    swp_webrenderer.routing.route_enhancer.class: SWP\Bundle\WebRendererBundle\Enhancer\RouteEnhancer
+    swp_webrenderer.theme.resolver.template_name.class: SWP\Bundle\WebRendererBundle\Resolver\TemplateNameResolver
 
 services:
     swp_webrenderer.detection.device_detection:
@@ -38,10 +40,10 @@ services:
             - { name: twig.extension }
 
     swp_webrenderer.theme.resolver.template_name:
-        class: SWP\Bundle\WebRendererBundle\Resolver\TemplateNameResolver
+        class: '%swp_webrenderer.theme.resolver.template_name.class%'
 
     swp_webrenderer.routing.route_enhancer:
-        class: SWP\Bundle\WebRendererBundle\Enhancer\RouteEnhancer
+        class: '%swp_webrenderer.routing.route_enhancer.class%'
         arguments:
             - "@swp_webrenderer.theme.resolver.template_name"
             - "@swp_template_engine_loader_chain"
