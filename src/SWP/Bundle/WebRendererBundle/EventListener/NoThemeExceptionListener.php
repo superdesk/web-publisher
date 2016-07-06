@@ -16,7 +16,7 @@ use SWP\Bundle\WebRendererBundle\Exception\NoThemeException;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent;
 
-class ExceptionListener
+class NoThemeExceptionListener
 {
     public function onKernelException(GetResponseForExceptionEvent $event)
     {
