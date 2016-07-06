@@ -104,6 +104,7 @@ class RouteControllerTest extends WebTestCase
     public function testCreateAndUpdateAndDeleteRoutesApi()
     {
         $client = static::createClient();
+        $client->enableProfiler();
         $client->request('POST', $this->router->generate('swp_api_content_create_routes'), [
             'route' => [
                 'name' => 'simple-test-route',
@@ -134,5 +135,20 @@ class RouteControllerTest extends WebTestCase
 
         $client->request('DELETE', $this->router->generate('swp_api_content_delete_routes', ['id' => 'simple-test-route']));
         $this->assertEquals(204, $client->getResponse()->getStatusCode());
+    }
+
+    public function testWithCustomTemplatesRoutesApi()
+    {
+        $client = static::createClient();
+        $client->request('POST', $this->router->generate('swp_api_content_create_routes'), [
+            'route' => [
+                'name' => 'simple-test-route',
+                'type' => 'content',
+                'parent' => '/',
+                'template_name' => 'test.html.twig',
+            ],
+        ]);
+        $this->assertEquals(201, $client->getResponse()->getStatusCode());
+        $this->assertEquals('{"id":"\/swp\/default\/routes\/simple-test-route","content":null,"static_prefix":null,"variable_pattern":null,"name":"simple-test-route","children":[],"id_prefix":"\/swp\/default\/routes","template_name":"test.html.twig","type":"content","_links":{"self":{"href":"\/api\/v1\/content\/routes\/\/simple-test-route"}}}', $client->getResponse()->getContent());
     }
 }

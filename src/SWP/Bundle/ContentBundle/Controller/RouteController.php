@@ -178,6 +178,7 @@ class RouteController extends FOSRestController
             'type' => $route->getType(),
             'parent' => $route->getParent(),
             'content' => $route->getContent(),
+            'template_name' => $route->getTemplateName(),
         ], ['method' => $request->getMethod()]);
         $form->handleRequest($request);
 

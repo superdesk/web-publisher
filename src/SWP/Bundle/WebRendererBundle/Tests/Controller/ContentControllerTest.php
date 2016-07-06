@@ -60,4 +60,27 @@ class ContentControllerTest extends WebTestCase
 
         $this->assertEquals(404, $client->getResponse()->getStatusCode());
     }
+
+
+    public function testTestLoadingRouteWithCustomTemplate()
+    {
+        $router = $this->getContainer()->get('router');
+        $client = static::createClient();
+        $client->enableProfiler();
+        $client->request('POST', $router->generate('swp_api_content_create_routes'), [
+            'route' => [
+                'name' => 'simple-test-route',
+                'type' => 'content',
+                'parent' => '/',
+                'template_name' => 'test.html.twig',
+            ],
+        ]);
+        $this->assertEquals(201, $client->getResponse()->getStatusCode());
+        $this->assertEquals('{"id":"\/swp\/default\/routes\/simple-test-route","content":null,"static_prefix":null,"variable_pattern":null,"name":"simple-test-route","children":[],"id_prefix":"\/swp\/default\/routes","template_name":"test.html.twig","type":"content","_links":{"self":{"href":"\/api\/v1\/content\/routes\/\/simple-test-route"}}}', $client->getResponse()->getContent());
+
+        $client->enableProfiler();
+        $crawler = $client->request('GET', '/simple-test-route');
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+        $this->assertTrue($crawler->filter('html:contains("theme_test/test.html.twig")')->count() === 1);
+    }
 }

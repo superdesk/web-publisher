@@ -54,7 +54,7 @@ class RouteEnhancer implements RouteEnhancerInterface
      */
     public function enhance(array $defaults, Request $request)
     {
-        $content = $defaults[RouteObjectInterface::CONTENT_OBJECT];
+        $content = isset($defaults[RouteObjectInterface::CONTENT_OBJECT]) ? $defaults[RouteObjectInterface::CONTENT_OBJECT] : null;
         $defaults['_controller'] = ContentController::class . '::renderPageAction';
         $defaults = $this->setArticleMeta($content, $request, $defaults);
         $defaults = $this->setTemplateName($content, $defaults);
