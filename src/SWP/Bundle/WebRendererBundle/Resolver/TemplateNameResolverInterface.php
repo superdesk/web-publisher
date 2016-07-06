@@ -19,7 +19,7 @@ use SWP\Bundle\ContentBundle\Model\RouteInterface;
 interface TemplateNameResolverInterface
 {
     /**
-     * @param object $object
+     * @param object  $object
      * @param string  $default
      *
      * @return string
@@ -28,7 +28,7 @@ interface TemplateNameResolverInterface
 
     /**
      * @param ArticleInterface $article
-     * @param string $default
+     * @param string           $default
      *
      * @return string
      */
@@ -36,7 +36,7 @@ interface TemplateNameResolverInterface
 
     /**
      * @param RouteInterface $route
-     * @param string $default
+     * @param string         $default
      *
      * @return string
      */

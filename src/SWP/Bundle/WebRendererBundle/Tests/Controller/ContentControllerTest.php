@@ -61,7 +61,6 @@ class ContentControllerTest extends WebTestCase
         $this->assertEquals(404, $client->getResponse()->getStatusCode());
     }
 
-
     public function testTestLoadingRouteWithCustomTemplate()
     {
         $router = $this->getContainer()->get('router');

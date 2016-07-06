@@ -45,7 +45,7 @@ class RouteEnhancer implements RouteEnhancerInterface
     }
 
     /**
-     * Adjust route defaults and request attributes to our needs
+     * Adjust route defaults and request attributes to our needs.
      *
      * @param array   $defaults
      * @param Request $request
@@ -63,7 +63,7 @@ class RouteEnhancer implements RouteEnhancerInterface
     }
 
     /**
-     * Get article based on available parameters, set route type
+     * Get article based on available parameters, set route type.
      *
      * @param mixed   $content
      * @param Request $request
@@ -80,7 +80,7 @@ class RouteEnhancer implements RouteEnhancerInterface
             if (null == $articleMeta) {
                 $defaults[RouteObjectInterface::CONTENT_OBJECT] = null;
             }
-        } else if ($content instanceof ArticleInterface) {
+        } elseif ($content instanceof ArticleInterface) {
             $articleMeta = $this->metaLoader->load('article', ['article' => $content]);
             $defaults['type'] = RouteInterface::TYPE_CONTENT;
         }
@@ -96,7 +96,8 @@ class RouteEnhancer implements RouteEnhancerInterface
     }
 
     /**
-     * Resolve template name based on available data
+     * Resolve template name based on available data.
+     *
      * @param mixed  $content
      * @param array  $defaults
      *

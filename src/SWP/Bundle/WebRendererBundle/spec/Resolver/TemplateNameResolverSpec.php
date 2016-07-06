@@ -3,7 +3,6 @@
 namespace spec\SWP\Bundle\WebRendererBundle\Resolver;
 
 use PhpSpec\ObjectBehavior;
-use Prophecy\Argument;
 use SWP\Bundle\WebRendererBundle\Resolver\TemplateNameResolverInterface;
 use SWP\Bundle\ContentBundle\Model\RouteInterface;
 use SWP\Bundle\ContentBundle\Model\ArticleInterface;

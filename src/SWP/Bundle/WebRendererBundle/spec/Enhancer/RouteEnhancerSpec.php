@@ -3,7 +3,6 @@
 namespace spec\SWP\Bundle\WebRendererBundle\Enhancer;
 
 use PhpSpec\ObjectBehavior;
-use Prophecy\Argument;
 use Symfony\Cmf\Component\Routing\Enhancer\RouteEnhancerInterface;
 use Symfony\Cmf\Component\Routing\RouteObjectInterface;
 use SWP\Bundle\WebRendererBundle\Resolver\TemplateNameResolver;
@@ -30,18 +29,18 @@ class RouteEnhancerSpec extends ObjectBehavior
     function it_should_set_template_name(RouteInterface $route, Article $article)
     {
         $this->setTemplateName(null, [])->shouldReturn([
-            RouteObjectInterface::TEMPLATE_NAME => 'article.html.twig'
+            RouteObjectInterface::TEMPLATE_NAME => 'article.html.twig',
         ]);
 
         $this->setTemplateName(null, [RouteObjectInterface::ROUTE_OBJECT => $route])->shouldReturn([
             RouteObjectInterface::ROUTE_OBJECT => $route,
-            RouteObjectInterface::TEMPLATE_NAME => 'article.html.twig'
+            RouteObjectInterface::TEMPLATE_NAME => 'article.html.twig',
         ]);
 
         $route->getTemplateName()->willReturn('test.html.twig');
         $this->setTemplateName(null, [RouteObjectInterface::ROUTE_OBJECT => $route])->shouldReturn([
             RouteObjectInterface::ROUTE_OBJECT => $route,
-            RouteObjectInterface::TEMPLATE_NAME => 'test.html.twig'
+            RouteObjectInterface::TEMPLATE_NAME => 'test.html.twig',
         ]);
 
 
@@ -50,14 +49,14 @@ class RouteEnhancerSpec extends ObjectBehavior
         $article->getTemplateName()->willReturn(null);
         $this->setTemplateName($article, [RouteObjectInterface::ROUTE_OBJECT => $route])->shouldReturn([
             RouteObjectInterface::ROUTE_OBJECT => $route,
-            RouteObjectInterface::TEMPLATE_NAME => 'test.html.twig'
+            RouteObjectInterface::TEMPLATE_NAME => 'test.html.twig',
         ]);
 
         $route->getTemplateName()->willReturn('test.html.twig');
         $article->getRoute()->willReturn($route);
         $article->getTemplateName()->willReturn('article2.html.twig');
         $this->setTemplateName($article, [])->shouldReturn([
-            RouteObjectInterface::TEMPLATE_NAME => 'article2.html.twig'
+            RouteObjectInterface::TEMPLATE_NAME => 'article2.html.twig',
         ]);
     }
 }

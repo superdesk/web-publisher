@@ -17,7 +17,6 @@ use SWP\Component\Common\Model\SoftDeletableInterface;
 use SWP\Component\Common\Model\TimestampableInterface;
 use SWP\Component\Common\Model\TranslatableInterface;
 use SWP\Component\Storage\Model\PersistableInterface;
-use SWP\Bundle\ContentBundle\Model\RouteInterface;
 
 interface ArticleInterface extends TimestampableInterface, TranslatableInterface, PersistableInterface, SoftDeletableInterface
 {

@@ -28,7 +28,7 @@ class TemplateNameResolver implements TemplateNameResolverInterface
     {
         if ($object instanceof ArticleInterface) {
             return $this->resolveFromArticle($object, $defaultFileName);
-        } else if ($object instanceof RouteInterface) {
+        } elseif ($object instanceof RouteInterface) {
             return $this->resolveFromRoute($object, $defaultFileName);
         }
 
