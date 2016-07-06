@@ -53,6 +53,11 @@ class Article implements ArticleInterface
     protected $status = ArticleInterface::STATUS_NEW;
 
     /**
+     * @var RouteInterface
+     */
+    protected $route;
+
+    /**
      * Article constructor.
      */
     public function __construct()
@@ -140,5 +145,21 @@ class Article implements ArticleInterface
     public function setStatus($status)
     {
         $this->status = $status;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setRoute(RouteInterface $route)
+    {
+        $this->route = $route;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getRoute()
+    {
+        return $this->route;
     }
 }

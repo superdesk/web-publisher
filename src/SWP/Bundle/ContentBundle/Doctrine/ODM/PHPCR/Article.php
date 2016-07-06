@@ -22,11 +22,6 @@ use SWP\Bundle\ContentBundle\Model\RouteInterface;
 class Article extends BaseArticle implements HierarchyInterface
 {
     /**
-     * @var RouteInterface
-     */
-    protected $route;
-
-    /**
      * PHPCR parent document.
      *
      * @var object
@@ -39,18 +34,6 @@ class Article extends BaseArticle implements HierarchyInterface
      * @var Collection
      */
     protected $children;
-
-    public function setRoute(RouteInterface $route)
-    {
-        $this->route = $route;
-
-        return $this;
-    }
-
-    public function getRoute()
-    {
-        return $this->route;
-    }
 
     /**
      * {@inheritdoc}
