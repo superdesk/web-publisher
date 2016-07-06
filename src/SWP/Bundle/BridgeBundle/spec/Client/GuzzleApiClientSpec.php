@@ -21,7 +21,7 @@ use Superdesk\ContentApiSdk\Client\ClientInterface;
 
 class GuzzleApiClientSpec extends ObjectBehavior
 {
-    function let(
+    public function let(
         ClientInterface $client,
         OAuthPasswordAuthentication $authentication,
         Request $request
@@ -40,19 +40,19 @@ class GuzzleApiClientSpec extends ObjectBehavior
         $authentication->getAccessToken()->willReturn('some_access_token');
     }
 
-    function it_is_initializable()
+    public function it_is_initializable()
     {
         $this->shouldHaveType('\SWP\Bundle\BridgeBundle\Client\GuzzleApiClient');
         $this->shouldImplement('\Superdesk\ContentApiSdk\Client\ApiClientInterface');
     }
 
-    function it_should_get_and_set_default_options()
+    public function it_should_get_and_set_default_options()
     {
         $defaultOptions = array('some_option_key' => 'some_option_value');
         $this->setOptions($defaultOptions)->getOptions()->shouldReturn($defaultOptions);
     }
 
-    function it_should_add_default_options()
+    public function it_should_add_default_options()
     {
         $defaultOptions = array('headers' => array('User-Agent' => 'guzzle_api_spec_test'));
         $fakeRequestOptions = array('some_options' => 'some_value');
@@ -60,7 +60,7 @@ class GuzzleApiClientSpec extends ObjectBehavior
         $this->addDefaultOptions($fakeRequestOptions)->shouldReturn(array_merge($fakeRequestOptions, $defaultOptions));
     }
 
-    function it_should_add_default_options_when_making_a_call($client, $request)
+    public function it_should_add_default_options_when_making_a_call($client, $request)
     {
         $options = array('headers' => array('User-Agent' => 'guzzle_api_spec_test'));
         $request->getOptions()->shouldBeCalled()->willReturn(array());
