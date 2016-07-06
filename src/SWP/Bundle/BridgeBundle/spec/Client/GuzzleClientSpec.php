@@ -17,13 +17,13 @@ use PhpSpec\ObjectBehavior;
 
 class GuzzleClientSpec extends ObjectBehavior
 {
-    function it_is_initializable()
+    public function it_is_initializable()
     {
         $this->shouldHaveType('\SWP\Bundle\BridgeBundle\Client\GuzzleClient');
         $this->shouldImplement('\Superdesk\ContentApiSdk\Client\ClientInterface');
     }
 
-    function its_method_make_call_should_make_a_generic_http_request()
+    public function its_method_make_call_should_make_a_generic_http_request()
     {
         $response = $this->makeCall('http://httpbin.org/status/200', array());
         $response->shouldHaveKey('headers');
@@ -31,13 +31,13 @@ class GuzzleClientSpec extends ObjectBehavior
         $response->shouldHaveKeyWithValue('body', '');
     }
 
-    function its_method_make_call_should_set_correct_status_codes()
+    public function its_method_make_call_should_set_correct_status_codes()
     {
         $this->makeCall('http://httpbin.org/status/404')->shouldHaveKeyWithValue('status', 404);
         $this->makeCall('http://httpbin.org/status/500')->shouldHaveKeyWithValue('status', 500);
     }
 
-    function its_method_make_call_should_send_headers()
+    public function its_method_make_call_should_send_headers()
     {
         $headers = array(
             'Authorization: some authorization token',
@@ -53,7 +53,7 @@ class GuzzleClientSpec extends ObjectBehavior
         }
     }
 
-    function its_method_make_call_should_support_post_requests()
+    public function its_method_make_call_should_support_post_requests()
     {
         $postData = 'some random post data';
         $response = $this->makeCall(
@@ -67,7 +67,7 @@ class GuzzleClientSpec extends ObjectBehavior
         $response['body']->shouldMatch(sprintf('/%s/i', $postData));
     }
 
-    function it_should_throw_an_exception_when_an_error_occurs()
+    public function it_should_throw_an_exception_when_an_error_occurs()
     {
         $this->shouldThrow('\Superdesk\ContentApiSdk\Exception\ClientException')->duringMakeCall('some random url that is invalid');
     }
