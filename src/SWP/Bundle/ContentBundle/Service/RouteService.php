@@ -124,14 +124,18 @@ class RouteService implements RouteServiceInterface
             $route->setName($routeData['name']);
         }
 
+        if (isset($routeData['template_name'])) {
+            $route->setTemplateName($routeData['template_name']);
+        }
+
         if (isset($routeData['type']) && $routeData['type'] == RouteInterface::TYPE_CONTENT) {
-            $route->setDefault('_controller', '\SWP\Bundle\WebRendererBundle\Controller\ContentController::renderContentPageAction');
             $route->setVariablePattern(null);
             $route->setRequirements([]);
+            $route->setType(RouteInterface::TYPE_CONTENT);
         } elseif (isset($routeData['type'])) {
-            $route->setDefault('_controller', '\SWP\Bundle\WebRendererBundle\Controller\ContentController::renderContainerPageAction');
             $route->setVariablePattern('/{slug}');
             $route->setRequirement('slug', '[a-zA-Z1-9\-_\/]+');
+            $route->setType(RouteInterface::TYPE_COLLECTION);
         }
 
         return $route;

@@ -48,10 +48,10 @@ class ThemeHelperSpec extends ObjectBehavior
 
         $this->process([
             'path' => '/path/to/theme/default',
-            'name' => 'swp/theme-name'
+            'name' => 'swp/theme-name',
         ])->shouldReturn([
             'path' => '/path/to/theme/default',
-            'name' => 'swp/theme-name@default'
+            'name' => 'swp/theme-name@default',
         ]);
     }
 }

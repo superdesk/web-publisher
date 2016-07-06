@@ -13,64 +13,22 @@
  */
 namespace SWP\Bundle\WebRendererBundle\Controller;
 
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use SWP\Bundle\ContentBundle\Model\RouteInterface;
 
 class ContentController extends Controller
 {
-    /**
-     * Render content Page.
-     *
-     * @param object|null $contentDocument
-     *
-     * @return Response
-     */
-    public function renderContentPageAction($contentDocument = null)
+    public function renderPageAction(Request $request, $contentTemplate, $contentDocument = null, $articleMeta = null)
     {
-        return $this->renderPage('content', ['article' => $contentDocument]);
-    }
-
-    /**
-     * Render container Page.
-     *
-     * @param string $slug
-     *
-     * @return Response
-     */
-    public function renderContainerPageAction($slug)
-    {
-        return $this->renderPage('container', ['slug' => $slug]);
-    }
-
-    /**
-     * Render Page.
-     *
-     * @param string $type
-     * @param array  $parameters
-     *
-     * @return Response
-     */
-    private function renderPage($type, $parameters = [])
-    {
-        $metaLoader = $this->container->get('swp_template_engine_loader_chain');
-        $article = null;
-
-        if ($type == 'content' && !is_null($parameters['article'])) {
-            $article = $metaLoader->load('article', ['article' => $parameters['article']]);
-        } elseif ($type == 'container') {
-            $article = $metaLoader->load('article', $parameters);
-
-            if (!$article) {
-                throw new NotFoundHttpException('Requested page was not found');
-            }
+        if (null == $contentDocument && ($request->attributes->get('type') == RouteInterface::TYPE_COLLECTION)) {
+            throw $this->createNotFoundException('Requested page was not found');
         }
 
-        if ($article) {
-            $context = $this->container->get('context');
-            $context->registerMeta('article', $article);
+        if (null != $articleMeta) {
+            $this->container->get('context')->registerMeta('article', $articleMeta);
         }
 
-        return $this->render('article.html.twig');
+        return $this->render($contentTemplate);
     }
 }

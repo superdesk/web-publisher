@@ -17,7 +17,6 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ODM\PHPCR\Exception\InvalidArgumentException;
 use Doctrine\ODM\PHPCR\HierarchyInterface;
 use SWP\Bundle\ContentBundle\Model\Article as BaseArticle;
-use SWP\Bundle\ContentBundle\Model\RouteInterface;
 
 class Article extends BaseArticle implements HierarchyInterface
 {

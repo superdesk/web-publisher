@@ -14,6 +14,9 @@ SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\Article:
             type: string
         title:
             type: string
+        templateName:
+            type: string
+            nullable: true
         locale:
             type: string
         status:

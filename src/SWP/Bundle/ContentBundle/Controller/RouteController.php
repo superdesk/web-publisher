@@ -169,17 +169,21 @@ class RouteController extends FOSRestController
     {
         $objectManager = $this->get('swp.object_manager.route');
         $route = $this->findOr404($id);
+        $form = $this->createForm(new RouteType(), [
+            'name' => $route->getName(),
+            'type' => $route->getType(),
+            'parent' => $route->getParent(),
+            'content' => $route->getContent(),
+            'template_name' => $route->getTemplateName(),
+        ], ['method' => $request->getMethod()]);
 
-        $form = $this->createForm(new RouteType(), [$route], ['method' => $request->getMethod()]);
         $form->handleRequest($request);
-
         if ($form->isValid()) {
+            $this->get('swp.service.route')->updateRoute($route, $form->getData());
+            $objectManager->flush();
+
             $this->get('event_dispatcher')
                 ->dispatch(HttpCacheEvent::EVENT_NAME, new HttpCacheEvent($route));
-
-            $this->get('swp.service.route')->updateRoute($route, $form->getData());
-
-            $objectManager->flush();
 
             return $this->handleView(View::create($route, 200));
         }

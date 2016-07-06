@@ -49,30 +49,22 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface
                     'requirements' => [
                         'slug' => '[a-zA-Z1-9\-_\/]+',
                     ],
-                    'defaults' => [
-                        '_controller' => '\SWP\Bundle\WebRendererBundle\Controller\ContentController::renderContainerPageAction',
-                    ],
+                    'type' => 'collection',
                 ],
                 [
                     'parent' => '/swp/default/routes',
                     'name' => 'articles',
-                    'defaults' => [
-                        '_controller' => '\SWP\Bundle\WebRendererBundle\Controller\ContentController::renderContentPageAction',
-                    ],
+                    'type' => 'content',
                 ],
                 [
                     'parent' => '/swp/default/routes/articles',
                     'name' => 'get-involved',
-                    'defaults' => [
-                        '_controller' => '\SWP\Bundle\WebRendererBundle\Controller\ContentController::renderContentPageAction',
-                    ],
+                    'type' => 'content',
                 ],
                 [
                     'parent' => '/swp/default/routes/articles',
                     'name' => 'features',
-                    'defaults' => [
-                        '_controller' => '\SWP\Bundle\WebRendererBundle\Controller\ContentController::renderContentPageAction',
-                    ],
+                    'type' => 'content',
                 ],
             ],
             'test' => [
@@ -83,9 +75,7 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface
                     'requirements' => [
                         'slug' => '[a-zA-Z1-9\-_\/]+',
                     ],
-                    'defaults' => [
-                        '_controller' => '\SWP\Bundle\WebRendererBundle\Controller\ContentController::renderContainerPageAction',
-                    ],
+                    'type' => 'collection',
                 ],
                 [
                     'parent' => '/swp/client1/routes',
@@ -94,44 +84,32 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface
                     'requirements' => [
                         'slug' => '[a-zA-Z1-9\-_\/]+',
                     ],
-                    'defaults' => [
-                        '_controller' => '\SWP\Bundle\WebRendererBundle\Controller\ContentController::renderContainerPageAction',
-                    ],
+                    'type' => 'collection',
                 ],
                 [
                     'parent' => '/swp/default/routes',
                     'name' => 'articles',
-                    'defaults' => [
-                        '_controller' => '\SWP\Bundle\WebRendererBundle\Controller\ContentController::renderContentPageAction',
-                    ],
+                    'type' => 'content',
                 ],
                 [
                     'parent' => '/swp/default/routes/articles',
                     'name' => 'features',
-                    'defaults' => [
-                        '_controller' => '\SWP\Bundle\WebRendererBundle\Controller\ContentController::renderContentPageAction',
-                    ],
+                    'type' => 'content',
                 ],
                 [
                     'parent' => '/swp/client1/routes',
                     'name' => 'features',
-                    'defaults' => [
-                        '_controller' => '\SWP\Bundle\WebRendererBundle\Controller\ContentController::renderContentPageAction',
-                    ],
+                    'type' => 'content',
                 ],
                 [
                     'parent' => '/swp/default/routes',
                     'name' => 'homepage',
-                    'defaults' => [
-                        '_controller' => '\SWP\Bundle\WebRendererBundle\Controller\ContentController::renderContainerPageAction',
-                    ],
+                    'type' => 'content',
                 ],
                 [
                     'parent' => '/swp/client1/routes',
                     'name' => 'homepage',
-                    'defaults' => [
-                        '_controller' => '\SWP\Bundle\WebRendererBundle\Controller\ContentController::renderContainerPageAction',
-                    ],
+                    'type' => 'content',
                 ],
             ],
         ];
@@ -140,6 +118,7 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface
             $route = new Route();
             $route->setParentDocument($manager->find(null, $routeData['parent']));
             $route->setName($routeData['name']);
+            $route->setType($routeData['type']);
 
             if (isset($routeData['variablePattern'])) {
                 $route->setVariablePattern($routeData['variablePattern']);

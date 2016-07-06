@@ -58,6 +58,11 @@ class Article implements ArticleInterface
     protected $route;
 
     /**
+     * @var string
+     */
+    protected $templateName;
+
+    /**
      * Article constructor.
      */
     public function __construct()
@@ -161,5 +166,21 @@ class Article implements ArticleInterface
     public function getRoute()
     {
         return $this->route;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getTemplateName()
+    {
+        return $this->templateName;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setTemplateName($templateName)
+    {
+        $this->templateName = $templateName;
     }
 }
