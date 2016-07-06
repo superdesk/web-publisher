@@ -19,8 +19,8 @@ use SWP\Bundle\ContentBundle\Model\RouteInterface;
 interface TemplateNameResolverInterface
 {
     /**
-     * @param object  $object
-     * @param string  $default
+     * @param object $object
+     * @param string $default
      *
      * @return string
      */

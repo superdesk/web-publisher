@@ -12,7 +12,8 @@ use SWP\TemplatesSystem\Gimme\Loader\LoaderInterface;
 
 class RouteEnhancerSpec extends ObjectBehavior
 {
-    function let(LoaderInterface $metaLoader) {
+    function let(LoaderInterface $metaLoader)
+    {
         $this->beConstructedWith(new TemplateNameResolver(), $metaLoader);
     }
 

@@ -55,7 +55,7 @@ class RouteEnhancer implements RouteEnhancerInterface
     public function enhance(array $defaults, Request $request)
     {
         $content = isset($defaults[RouteObjectInterface::CONTENT_OBJECT]) ? $defaults[RouteObjectInterface::CONTENT_OBJECT] : null;
-        $defaults['_controller'] = ContentController::class . '::renderPageAction';
+        $defaults['_controller'] = ContentController::class.'::renderPageAction';
         $defaults = $this->setArticleMeta($content, $request, $defaults);
         $defaults = $this->setTemplateName($content, $defaults);
 
@@ -98,8 +98,8 @@ class RouteEnhancer implements RouteEnhancerInterface
     /**
      * Resolve template name based on available data.
      *
-     * @param mixed  $content
-     * @param array  $defaults
+     * @param mixed $content
+     * @param array $defaults
      *
      * @return array
      */
@@ -108,7 +108,7 @@ class RouteEnhancer implements RouteEnhancerInterface
         if ($content) {
             $defaults[RouteObjectInterface::TEMPLATE_NAME] = $this->templateNameResolver->resolve($content);
         } else {
-            $route = isset($defaults[RouteObjectInterface::ROUTE_OBJECT])? $defaults[RouteObjectInterface::ROUTE_OBJECT] : null;
+            $route = isset($defaults[RouteObjectInterface::ROUTE_OBJECT]) ? $defaults[RouteObjectInterface::ROUTE_OBJECT] : null;
             $defaults[RouteObjectInterface::TEMPLATE_NAME] = $this->templateNameResolver->resolve($route);
         }
 
