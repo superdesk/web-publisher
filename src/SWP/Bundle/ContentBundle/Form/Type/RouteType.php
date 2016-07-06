@@ -39,6 +39,12 @@ class RouteType extends AbstractType
                    new Length(['min' => 1]),
                 ],
             ])
+            ->add('template_name', TextType::class, [
+                'required' => false,
+                'constraints' => [
+                   new Length(['min' => 1]),
+                ],
+            ])
             ->add('parent', TextType::class, [
                 'required' => false,
                 'constraints' => [

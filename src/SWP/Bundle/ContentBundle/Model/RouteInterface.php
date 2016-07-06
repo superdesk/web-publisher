@@ -19,4 +19,24 @@ interface RouteInterface extends PersistableInterface
 {
     const TYPE_CONTENT = 'content';
     const TYPE_COLLECTION = 'collection';
+
+    /**
+     * @return string
+     */
+    public function getTemplateName();
+
+    /**
+     * @param string $templateName
+     */
+    public function setTemplateName($templateName);
+
+    /**
+     * @return string
+     */
+    public function getType();
+
+    /**
+     * @param string $type
+     */
+    public function setType($type);
 }

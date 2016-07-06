@@ -18,4 +18,45 @@ use SWP\Bundle\MultiTenancyBundle\Document\Page;
 
 class Route extends Page implements RouteInterface
 {
+    /**
+     * @var string
+     */
+    protected $templateName;
+
+    /**
+     * @var string
+     */
+    protected $type;
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getTemplateName()
+    {
+        return $this->templateName;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setTemplateName($templateName)
+    {
+        $this->templateName = $templateName;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getType()
+    {
+        return $this->type;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setType($type)
+    {
+        $this->type = $type;
+    }
 }

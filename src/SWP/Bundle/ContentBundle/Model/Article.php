@@ -61,6 +61,28 @@ class Article implements ArticleInterface
     }
 
     /**
+     * @var string
+     */
+    protected $templateName;
+
+    /**
+     * @var RouteInterface
+     */
+    protected $route;
+
+    public function setRoute(RouteInterface $route)
+    {
+        $this->route = $route;
+
+        return $this;
+    }
+
+    public function getRoute()
+    {
+        return $this->route;
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function getId()
@@ -140,5 +162,21 @@ class Article implements ArticleInterface
     public function setStatus($status)
     {
         $this->status = $status;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getTemplateName()
+    {
+        return $this->templateName;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setTemplateName($templateName)
+    {
+        $this->templateName = $templateName;
     }
 }
