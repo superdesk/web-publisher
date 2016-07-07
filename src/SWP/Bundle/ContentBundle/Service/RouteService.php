@@ -113,7 +113,7 @@ class RouteService implements RouteServiceInterface
             }
         }
 
-        if (isset($routeData['content']) && !is_null($routeData['content'])) {;
+        if (isset($routeData['content']) && !is_null($routeData['content'])) {
             $article = $this->articleProvider->getOneById($routeData['content']);
 
             if (null !== $article) {

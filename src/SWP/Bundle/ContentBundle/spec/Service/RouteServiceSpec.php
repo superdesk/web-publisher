@@ -56,7 +56,6 @@ class RouteServiceSpec extends ObjectBehavior
         RouteObjectInterface $parentRoute,
         EventDispatcherInterface $eventDispatcher
     ) {
-
         $routeFactory->create()->willReturn($route);
 
         $eventDispatcher->dispatch(
@@ -80,7 +79,7 @@ class RouteServiceSpec extends ObjectBehavior
             'name' => 'test-name',
             'template' => 'article.html.twig',
             'type' => RouteObjectInterface::TYPE_CONTENT,
-            'template_name' => 'index.html.twig'
+            'template_name' => 'index.html.twig',
         ])->shouldReturn($route);
     }
 
@@ -89,7 +88,6 @@ class RouteServiceSpec extends ObjectBehavior
         RouteObjectInterface $route,
         EventDispatcherInterface $eventDispatcher
     ) {
-
         $routeFactory->create()->willReturn($route);
 
         $eventDispatcher->dispatch(
@@ -123,7 +121,6 @@ class RouteServiceSpec extends ObjectBehavior
         RouteProviderInterface $routeProvider,
         ArticleProviderInterface $articleProvider
     ) {
-
         $routeFactory->create()->willReturn($route);
 
         $eventDispatcher->dispatch(
@@ -151,7 +148,7 @@ class RouteServiceSpec extends ObjectBehavior
             'name' => 'test-name',
             'type' => RouteObjectInterface::TYPE_COLLECTION,
             'content' => 'content-object',
-            'parent' => 'parent-route'
+            'parent' => 'parent-route',
         ])->shouldReturn($route);
     }
 
@@ -164,7 +161,6 @@ class RouteServiceSpec extends ObjectBehavior
         RouteProviderInterface $routeProvider,
         ArticleProviderInterface $articleProvider
     ) {
-
         $routeFactory->create()->willReturn($route);
 
         $eventDispatcher->dispatch(
@@ -192,7 +188,7 @@ class RouteServiceSpec extends ObjectBehavior
             'name' => 'test-name',
             'type' => RouteObjectInterface::TYPE_COLLECTION,
             'content' => 'content-object',
-            'parent' => 'parent-route'
+            'parent' => 'parent-route',
         ])->shouldReturn($route);
     }
 
@@ -205,7 +201,6 @@ class RouteServiceSpec extends ObjectBehavior
         RouteProviderInterface $routeProvider,
         ArticleProviderInterface $articleProvider
     ) {
-
         $routeFactory->create()->willReturn($route);
 
         $eventDispatcher->dispatch(
@@ -234,7 +229,7 @@ class RouteServiceSpec extends ObjectBehavior
             'name' => 'test-name',
             'type' => RouteObjectInterface::TYPE_COLLECTION,
             'content' => 'content-object',
-            'parent' => '/'
+            'parent' => '/',
         ])->shouldReturn($route);
     }
 
@@ -247,7 +242,6 @@ class RouteServiceSpec extends ObjectBehavior
         RouteProviderInterface $routeProvider,
         ArticleProviderInterface $articleProvider
     ) {
-
         $routeFactory->create()->willReturn($route);
 
         $eventDispatcher->dispatch(
@@ -275,7 +269,7 @@ class RouteServiceSpec extends ObjectBehavior
             'name' => 'test-name',
             'type' => RouteObjectInterface::TYPE_COLLECTION,
             'content' => 'content-object',
-            'parent' => 'parent-route'
+            'parent' => 'parent-route',
         ])->shouldReturn($route);
     }
 

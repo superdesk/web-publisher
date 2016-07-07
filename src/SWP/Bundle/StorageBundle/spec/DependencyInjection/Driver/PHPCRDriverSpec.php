@@ -14,7 +14,6 @@
 namespace spec\SWP\Bundle\StorageBundle\DependencyInjection\Driver;
 
 use PhpSpec\ObjectBehavior;
-use Prophecy\Argument;
 use SWP\Bundle\StorageBundle\DependencyInjection\Driver\PHPCRDriver;
 use SWP\Component\Storage\DependencyInjection\Driver\PersistenceDriverInterface;
 use Symfony\Component\DependencyInjection\Parameter;
@@ -62,9 +61,9 @@ class PHPCRDriverSpec extends ObjectBehavior
     public function getMatchers()
     {
         return [
-            'haveParameterName' => function(Parameter $parameter, $expectedName) {
+            'haveParameterName' => function (Parameter $parameter, $expectedName) {
                 return (string) $parameter === $expectedName;
-            }
+            },
         ];
     }
 }

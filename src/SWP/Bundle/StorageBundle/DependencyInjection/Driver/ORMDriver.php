@@ -13,7 +13,6 @@
  */
 namespace SWP\Bundle\StorageBundle\DependencyInjection\Driver;
 
-use SWP\Bundle\StorageBundle\DependencyInjection\Driver\AbstractDriver;
 use Symfony\Component\DependencyInjection\Parameter;
 
 class ORMDriver extends AbstractDriver

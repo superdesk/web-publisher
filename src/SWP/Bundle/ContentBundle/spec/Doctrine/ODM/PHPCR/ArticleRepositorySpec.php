@@ -16,7 +16,6 @@ namespace spec\SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR;
 use Doctrine\ODM\PHPCR\DocumentManagerInterface;
 use Doctrine\ODM\PHPCR\Mapping\ClassMetadata;
 use PhpSpec\ObjectBehavior;
-use Prophecy\Argument;
 use SWP\Bundle\ContentBundle\Doctrine\ArticleRepositoryInterface;
 use SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\ArticleRepository;
 use SWP\Bundle\StorageBundle\Doctrine\ODM\PHPCR\DocumentRepository;

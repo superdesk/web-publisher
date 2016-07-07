@@ -62,7 +62,7 @@ class RegisterArticleFactoryPassSpec extends ObjectBehavior
                 $baseDefinition,
                 $routeProviderDefinition,
                 $articleProviderDefinition,
-                'content'
+                'content',
             ]
         );
 

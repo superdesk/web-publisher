@@ -14,12 +14,10 @@
 namespace spec\SWP\Bundle\StorageBundle\DependencyInjection\Factory;
 
 use PhpSpec\ObjectBehavior;
-use Prophecy\Argument;
 use SWP\Bundle\StorageBundle\DependencyInjection\Driver\ORMDriver;
 use SWP\Bundle\StorageBundle\DependencyInjection\Driver\PHPCRDriver;
 use SWP\Bundle\StorageBundle\DependencyInjection\Factory\DriverFactory;
 use SWP\Bundle\StorageBundle\Drivers;
-use SWP\Component\Storage\DependencyInjection\Driver\PersistenceDriverInterface;
 use SWP\Component\Storage\DependencyInjection\Factory\DriverFactoryInterface;
 use SWP\Component\Storage\Exception\InvalidDriverException;
 

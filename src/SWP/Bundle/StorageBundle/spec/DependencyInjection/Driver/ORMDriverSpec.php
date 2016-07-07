@@ -61,9 +61,9 @@ class ORMDriverSpec extends ObjectBehavior
     public function getMatchers()
     {
         return [
-            'haveParameterName' => function(Parameter $parameter, $expectedName) {
+            'haveParameterName' => function (Parameter $parameter, $expectedName) {
                 return (string) $parameter === $expectedName;
-            }
+            },
         ];
     }
 }
