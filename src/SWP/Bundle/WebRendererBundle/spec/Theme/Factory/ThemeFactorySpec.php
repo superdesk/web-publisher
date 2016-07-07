@@ -9,23 +9,23 @@ use Sylius\Bundle\ThemeBundle\Model\ThemeInterface;
 
 class ThemeFactorySpec extends ObjectBehavior
 {
-    public function it_is_initializable()
+    function it_is_initializable()
     {
         $this->shouldHaveType(ThemeFactory::class);
     }
 
-    public function it_implements_theme_factory_interface()
+    function it_implements_theme_factory_interface()
     {
         $this->shouldImplement(ThemeFactoryInterface::class);
     }
 
-    public function it_creates_a_theme()
+    function it_creates_a_theme()
     {
         $this->create('example/theme@subdomain', '/theme/path')->shouldHaveNameAndPath('example/theme', '/theme/path');
         $this->create('example/theme', '/theme/path')->shouldHaveNameAndPath('example/theme', '/theme/path');
     }
 
-    public function it_cant_create_a_theme()
+    function it_cant_create_a_theme()
     {
         $this
             ->shouldThrow(\InvalidArgumentException::class)
