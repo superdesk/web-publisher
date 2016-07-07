@@ -23,22 +23,22 @@ use SWP\Component\MultiTenancy\Model\TenantInterface;
  */
 class MultiTenancyExtensionSpec extends ObjectBehavior
 {
-    public function let(TenantContextInterface $tenantContext)
+    function let(TenantContextInterface $tenantContext)
     {
         $this->beConstructedWith($tenantContext);
     }
 
-    public function it_is_initializable()
+    function it_is_initializable()
     {
         $this->shouldHaveType('SWP\Bundle\MultiTenancyBundle\Twig\MultiTenancyExtension');
     }
 
-    public function it_is_a_twig_extension()
+    function it_is_a_twig_extension()
     {
         $this->shouldHaveType('Twig_Extension');
     }
 
-    public function it_should_return_global_variables(TenantInterface $tenant, TenantContextInterface $tenantContext)
+    function it_should_return_global_variables(TenantInterface $tenant, TenantContextInterface $tenantContext)
     {
         $tenant->getSubdomain()->willReturn('example');
         $tenant->getName()->willReturn('example tenant');
@@ -51,7 +51,7 @@ class MultiTenancyExtensionSpec extends ObjectBehavior
         $this->getGlobals()->shouldReturn($globals);
     }
 
-    public function it_should_have_a_name()
+    function it_should_have_a_name()
     {
         $this->getName()->shouldReturn('swp_multi_tenancy');
     }

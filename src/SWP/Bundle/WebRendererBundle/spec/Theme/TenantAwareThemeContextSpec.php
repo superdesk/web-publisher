@@ -25,17 +25,17 @@ use Sylius\Bundle\ThemeBundle\Repository\ThemeRepositoryInterface;
  */
 class TenantAwareThemeContextSpec extends ObjectBehavior
 {
-    public function let(TenantContextInterface $tenantContext, ThemeRepositoryInterface $themeRepository)
+    function let(TenantContextInterface $tenantContext, ThemeRepositoryInterface $themeRepository)
     {
         $this->beConstructedWith($tenantContext, $themeRepository);
     }
 
-    public function it_is_initializable()
+    function it_is_initializable()
     {
         $this->shouldHaveType(TenantAwareThemeContext::class);
     }
 
-    public function it_returns_a_theme(
+    function it_returns_a_theme(
         TenantContextInterface $tenantContext,
         TenantInterface $tenant,
         ThemeInterface $theme,
@@ -49,7 +49,7 @@ class TenantAwareThemeContextSpec extends ObjectBehavior
         $this->getTheme()->shouldReturn($theme);
     }
 
-    public function it_throws_no_theme_exception_if_tenant_has_no_theme(
+    function it_throws_no_theme_exception_if_tenant_has_no_theme(
         TenantContextInterface $tenantContext,
         TenantInterface $tenant,
         $themeRepository

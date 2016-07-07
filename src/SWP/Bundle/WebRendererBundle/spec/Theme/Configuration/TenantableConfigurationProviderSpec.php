@@ -25,7 +25,7 @@ use Sylius\Bundle\ThemeBundle\Locator\FileLocatorInterface;
  */
 class TenantableConfigurationProviderSpec extends ObjectBehavior
 {
-    public function let(
+    function let(
         FileLocatorInterface $fileLocator,
         ConfigurationLoaderInterface $loader,
         ThemeHelperInterface $themeHelper
@@ -33,17 +33,17 @@ class TenantableConfigurationProviderSpec extends ObjectBehavior
         $this->beConstructedWith($fileLocator, $loader, 'testconfig.json', $themeHelper);
     }
 
-    public function it_is_initializable()
+    function it_is_initializable()
     {
         $this->shouldHaveType(TenantableConfigurationProvider::class);
     }
 
-    public function it_implements_configuration_provider_interface()
+    function it_implements_configuration_provider_interface()
     {
         $this->shouldImplement(ConfigurationProviderInterface::class);
     }
 
-    public function it_provides_loaded_configuration_files(
+    function it_provides_loaded_configuration_files(
         FileLocatorInterface $fileLocator,
         ConfigurationLoaderInterface $loader,
         ThemeHelperInterface $themeHelper
@@ -65,7 +65,7 @@ class TenantableConfigurationProviderSpec extends ObjectBehavior
         ]);
     }
 
-    public function it_provides_an_empty_array_if_there_were_no_themes_found(FileLocatorInterface $fileLocator)
+    function it_provides_an_empty_array_if_there_were_no_themes_found(FileLocatorInterface $fileLocator)
     {
         $fileLocator->locateFilesNamed('testconfig.json')
             ->willThrow(\InvalidArgumentException::class);
