@@ -1,7 +1,7 @@
 <?php
 
 /**
- * This file is part of the Superdesk Web Publisher Storage Component.
+ * This file is part of the Superdesk Web Publisher Storage Bundle.
  *
  * Copyright 2016 Sourcefabric z.ú. and contributors.
  *
@@ -11,8 +11,9 @@
  * @copyright 2016 Sourcefabric z.ú.
  * @license http://www.superdesk.org/license
  */
-namespace SWP\Component\Storage\DependencyInjection\Driver;
+namespace SWP\Bundle\StorageBundle\DependencyInjection\Driver;
 
+use SWP\Bundle\StorageBundle\DependencyInjection\Driver\AbstractDriver;
 use Symfony\Component\DependencyInjection\Parameter;
 
 class PHPCRDriver extends AbstractDriver

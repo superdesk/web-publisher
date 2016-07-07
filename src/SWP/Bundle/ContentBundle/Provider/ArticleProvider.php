@@ -48,7 +48,7 @@ class ArticleProvider implements ArticleProviderInterface
     /**
      * {@inheritdoc}
      */
-    public function findOneById($id)
+    public function getOneById($id)
     {
         if (!filter_var($id, FILTER_VALIDATE_INT)) {
             return $this->articleRepository->findOneBySlug($id);

@@ -13,8 +13,8 @@
  */
 namespace SWP\Bundle\BridgeBundle\DependencyInjection;
 
-use SWP\Component\Storage\Drivers;
-use SWP\Component\Storage\Extension\Extension;
+use SWP\Bundle\StorageBundle\Drivers;
+use SWP\Bundle\StorageBundle\DependencyInjection\Extension\Extension;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader;

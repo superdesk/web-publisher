@@ -1,7 +1,7 @@
 <?php
 
 /**
- * This file is part of the Superdesk Web Publisher Storage Component.
+ * This file is part of the Superdesk Web Publisher Storage Bundle.
  *
  * Copyright 2016 Sourcefabric z.ú. and contributors.
  *
@@ -11,10 +11,11 @@
  * @copyright 2016 Sourcefabric z.ú.
  * @license http://www.superdesk.org/license
  */
-namespace SWP\Component\Storage\DependencyInjection\Factory;
+namespace SWP\Bundle\StorageBundle\DependencyInjection\Factory;
 
-use SWP\Component\Storage\DependencyInjection\Driver\ORMDriver;
-use SWP\Component\Storage\DependencyInjection\Driver\PHPCRDriver;
+use SWP\Bundle\StorageBundle\DependencyInjection\Driver\ORMDriver;
+use SWP\Bundle\StorageBundle\DependencyInjection\Driver\PHPCRDriver;
+use SWP\Component\Storage\DependencyInjection\Factory\DriverFactoryInterface;
 use SWP\Component\Storage\Exception\InvalidDriverException;
 
 class DriverFactory implements DriverFactoryInterface

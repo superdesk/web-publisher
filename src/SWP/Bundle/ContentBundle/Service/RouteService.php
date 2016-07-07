@@ -13,6 +13,7 @@
  */
 namespace SWP\Bundle\ContentBundle\Service;
 
+use SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\RouteObjectInterface;
 use SWP\Bundle\ContentBundle\Event\RouteEvent;
 use SWP\Bundle\ContentBundle\Factory\RouteFactoryInterface;
 use SWP\Bundle\ContentBundle\Model\RouteInterface;
@@ -82,7 +83,7 @@ class RouteService implements RouteServiceInterface
     /**
      * {@inheritdoc}
      */
-    public function updateRoute(RouteInterface $route, array $routeData)
+    public function updateRoute(RouteObjectInterface $route, array $routeData)
     {
         $this->dispatchRouteEvent(RouteEvents::PRE_UPDATE, $route);
 
@@ -98,7 +99,7 @@ class RouteService implements RouteServiceInterface
         $this->eventDispatcher->dispatch($eventName, new RouteEvent($route));
     }
 
-    private function fillRoute(RouteInterface $route, array $routeData)
+    private function fillRoute(RouteObjectInterface $route, array $routeData)
     {
         if (isset($routeData['parent'])) {
             if (!is_null($routeData['parent']) && $routeData['parent'] !== '/') {
@@ -112,8 +113,8 @@ class RouteService implements RouteServiceInterface
             }
         }
 
-        if (isset($routeData['content']) && !is_null($routeData['content'])) {
-            $article = $this->articleProvider->findOneById($routeData['content']);
+        if (isset($routeData['content']) && !is_null($routeData['content'])) {;
+            $article = $this->articleProvider->getOneById($routeData['content']);
 
             if (null !== $article) {
                 $route->setContent($article);

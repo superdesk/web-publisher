@@ -24,5 +24,5 @@ interface ArticleProviderInterface
      *
      * @return ArticleInterface
      */
-    public function findOneById($id);
+    public function getOneById($id);
 }

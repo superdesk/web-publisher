@@ -15,8 +15,8 @@ namespace SWP\Bundle\ContentBundle;
 
 use SWP\Bundle\ContentBundle\DependencyInjection\Compiler\RegisterArticleFactoryPass;
 use SWP\Bundle\ContentBundle\DependencyInjection\Compiler\RegisterRouteFactoryPass;
-use SWP\Component\Storage\Bundle\Bundle;
-use SWP\Component\Storage\Drivers;
+use SWP\Bundle\StorageBundle\DependencyInjection\Bundle\Bundle;
+use SWP\Bundle\StorageBundle\Drivers;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 class SWPContentBundle extends Bundle

@@ -1,7 +1,7 @@
 <?php
 
 /**
- * This file is part of the Superdesk Web Publisher Storage Component.
+ * This file is part of the Superdesk Web Publisher Storage Bundle.
  *
  * Copyright 2016 Sourcefabric z.ú. and contributors.
  *
@@ -11,9 +11,10 @@
  * @copyright 2016 Sourcefabric z.ú.
  * @license http://www.superdesk.org/license
  */
-namespace SWP\Component\Storage\Bundle;
+namespace SWP\Bundle\StorageBundle\DependencyInjection\Bundle;
 
-use SWP\Component\Storage\Drivers;
+use SWP\Component\Storage\Bundle\BundleInterface;
+use SWP\Bundle\StorageBundle\Drivers;
 use SWP\Component\Storage\Exception\InvalidDriverException;
 use Symfony\Component\Config\Definition\Exception\InvalidConfigurationException;
 use Symfony\Component\DependencyInjection\Container;
