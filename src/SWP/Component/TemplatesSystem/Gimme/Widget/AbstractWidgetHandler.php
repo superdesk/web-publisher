@@ -14,11 +14,14 @@
 namespace SWP\Component\TemplatesSystem\Gimme\Widget;
 
 use SWP\Component\TemplatesSystem\Gimme\Model\WidgetModelInterface;
+use Symfony\Bundle\TwigBundle\TwigEngine;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 abstract class AbstractWidgetHandler implements WidgetHandlerInterface, ContainerAwareInterface
 {
+    const WIDGET_TEMPLATE_PATH = 'widgets';
+
     protected static $expectedParameters = [];
 
     protected $container;
@@ -70,7 +73,7 @@ abstract class AbstractWidgetHandler implements WidgetHandlerInterface, Containe
             }
         }
 
-        // TODO - what if there is no parameter, and default value for that parameter?
+        // TODO - what if there is no parameter, and no default value for that parameter?
     }
 
     /**
@@ -81,5 +84,28 @@ abstract class AbstractWidgetHandler implements WidgetHandlerInterface, Containe
     public function isVisible()
     {
         return $this->widgetModel->getVisible();
+    }
+
+    /**
+     * Render given template with given parameters
+     */
+    protected function renderTemplate($templateName, $parameters = array())
+    {
+        $this->container->get('templating')->render(self::WIDGET_TEMPLATE_PATH.'/'.$templateName, $parameters);
+    }
+
+    /**
+     * Returns associative array with all expected parameters and their values
+     *
+     * @return array
+     */
+    protected function getAllParametersWithValue()
+    {
+        $all = array();
+        foreach (self::getExpectedParameters() as $key) {
+            $all[$key] = $this->getModelParameter($key);
+        }
+
+        return $all;
     }
 }

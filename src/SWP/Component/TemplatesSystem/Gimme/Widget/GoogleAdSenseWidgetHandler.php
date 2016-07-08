@@ -16,13 +16,25 @@ namespace SWP\Component\TemplatesSystem\Gimme\Widget;
 class GoogleAdSenseWidgetHandler extends AbstractWidgetHandler
 {
     protected static $expectedParameters = [
-        'ad_unit_type' => [
+        'style' => [
             'type'    => 'string',
-            'default' => 'Ad unit',
+            'default' => 'display:block',
+        ],
+        // TODO: add to client settings as two widgets on the same page probably have to have the same id
+        'ad_client' => [
+            'type'  => 'string'
+        ],
+        'ad_test'   => [
+            'type' => 'string',
+            'default' => 'off'
         ],
         'ad_slot' => [
             'type' => 'int',
         ],
+        'ad_format' => [
+            'type'  => 'string',
+            'default' => 'auto'
+        ]
     ];
 
     /**
@@ -32,7 +44,7 @@ class GoogleAdSenseWidgetHandler extends AbstractWidgetHandler
      */
     public function render()
     {
-        // Render a template
-        return '';
+        $all = $this->getAllParametersWithValue();
+        $this->renderTemplate('adsense.html.twig', $all);
     }
 }
