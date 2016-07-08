@@ -8,12 +8,18 @@
         {
             "name": "Mischa Gorinskat",
             "email": "mischa.gorinskat@sourcefabric.org"
+        },
+        {
+            "name": "Rafał Muszyński",
+            "email": "rafal.muszynski@sourcefabric.org"
         }
     ],
     "require": {
         "php": ">=5.5",
         "guzzlehttp/guzzle": "^6.0",
-        "superdesk/contentapi-sdk-php": "dev-master"
+        "superdesk/contentapi-sdk-php": "dev-master",
+        "swp/storage-bundle": "~0.1.0",
+        "swp/bridge": "~0.1.0"
     },
     "require-dev": {
         "phpunit/phpunit": "~4.5@stable",

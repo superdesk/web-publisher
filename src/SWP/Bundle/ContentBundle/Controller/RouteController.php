@@ -47,7 +47,7 @@ class RouteController extends FOSRestController
         $baseroute = $this->get('swp.provider.route')->getBaseRoute();
         $routes = [];
 
-        if ($baseroute) {
+        if (null !== $baseroute) {
             $routes = $this->get('knp_paginator')->paginate($baseroute->getRouteChildren());
         }
 
