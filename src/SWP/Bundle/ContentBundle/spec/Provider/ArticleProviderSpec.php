@@ -73,4 +73,16 @@ class ArticleProviderSpec extends ObjectBehavior
 
         $this->getOneById('111')->shouldBeNull();
     }
+
+
+    function it_gets_parent(
+        TenantAwarePathBuilderInterface $pathBuilder,
+        ArticleInterface $article,
+        ArticleRepositoryInterface $articleRepository
+    ) {
+        $pathBuilder->build('content')->willReturn('/full/path/to/document');
+        $articleRepository->find('/full/path/to/document')->willReturn($article);
+
+        $this->getParent('content')->shouldReturn($article);
+    }
 }

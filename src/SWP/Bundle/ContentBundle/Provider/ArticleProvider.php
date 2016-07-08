@@ -56,4 +56,12 @@ class ArticleProvider implements ArticleProviderInterface
 
         return $this->articleRepository->findOneBy(['id' => $id]);
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getParent($id)
+    {
+        return $this->articleRepository->find($this->pathBuilder->build($id));
+    }
 }

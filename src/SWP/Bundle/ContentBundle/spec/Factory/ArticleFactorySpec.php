@@ -77,7 +77,7 @@ class ArticleFactorySpec extends ObjectBehavior
         $article->setLocale('en')->shouldBeCalled();
         $article->setRoute($route)->shouldBeCalled();
 
-        $articleProvider->getOneById('test')->willReturn($parent);
+        $articleProvider->getParent('test')->willReturn($parent);
         $routeProvider->getRouteForArticle($article)->willReturn($route);
 
         $this->createFromPackage($package)->shouldReturn($article);
