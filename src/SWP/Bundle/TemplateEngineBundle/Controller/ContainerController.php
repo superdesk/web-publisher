@@ -207,7 +207,7 @@ class ContainerController extends FOSRestController
             if ($object instanceof WidgetModel) {
                 $containerWidget = $entityManager->getRepository('SWP\Bundle\TemplateEngineBundle\Model\ContainerWidget')
                     ->findOneBy([
-                        'widget'    => $object,
+                        'widget' => $object,
                         'container' => $container,
                     ]);
                 if ($request->getMethod() === 'LINK') {
@@ -273,7 +273,7 @@ class ContainerController extends FOSRestController
                 $resource = preg_replace('/<|>/', '', $resource);
 
                 $links[] = [
-                    'resource'     => $resource,
+                    'resource' => $resource,
                     'resourceType' => $resourceType,
                 ];
             }

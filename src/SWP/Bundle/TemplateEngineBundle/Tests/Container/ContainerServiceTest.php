@@ -49,12 +49,12 @@ class ContainerServiceTest extends WebTestCase
         $containerService = $this->createContainerService();
 
         $containerParameters = [
-            'height'   => '400',
-            'width'    => '300',
+            'height' => '400',
+            'width' => '300',
             'cssClass' => 'col-md-12',
-            'styles'   => 'border: 1px solid red;',
-            'visible'  => true,
-            'data'     => [
+            'styles' => 'border: 1px solid red;',
+            'visible' => true,
+            'data' => [
                 'key' => 'value',
             ],
         ];

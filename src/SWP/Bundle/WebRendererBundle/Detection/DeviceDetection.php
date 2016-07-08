@@ -28,26 +28,26 @@ class DeviceDetection implements DeviceDetectionInterface
      */
     protected $devices = [
         'tablet' => [
-            'androidtablet'    => 'android(?!.*(?:mobile|opera mobi|opera mini))',
+            'androidtablet' => 'android(?!.*(?:mobile|opera mobi|opera mini))',
             'blackberrytablet' => 'rim tablet os',
-            'ipad'             => '(ipad)',
+            'ipad' => '(ipad)',
         ],
         'plain' => [
             'kindle' => '(kindle)',
-            'IE6'    => 'MSIE 6.0',
+            'IE6' => 'MSIE 6.0',
         ],
         'phone' => [
-            'android'      => 'android.*mobile|android.*opera mobi|android.*opera mini',
-            'blackberry'   => 'blackberry',
-            'iphone'       => '(iphone|ipod)',
-            'palm'         => '(avantgo|blazer|elaine|hiptop|palm|plucker|xiino|webOS)',
-            'windows'      => 'windows ce; (iemobile|ppc|smartphone)',
+            'android' => 'android.*mobile|android.*opera mobi|android.*opera mini',
+            'blackberry' => 'blackberry',
+            'iphone' => '(iphone|ipod)',
+            'palm' => '(avantgo|blazer|elaine|hiptop|palm|plucker|xiino|webOS)',
+            'windows' => 'windows ce; (iemobile|ppc|smartphone)',
             'windowsphone' => 'windows phone',
-            'generic'      => '(mobile|mmp|midp|o2|pda|pocket|psp|symbian|smartphone|treo|up.browser|up.link|vodafone|wap|opera mini|opera mobi|opera mini)',
+            'generic' => '(mobile|mmp|midp|o2|pda|pocket|psp|symbian|smartphone|treo|up.browser|up.link|vodafone|wap|opera mini|opera mobi|opera mini)',
         ],
         'desktop' => [
-            'osx'     => 'Mac OS X',
-            'linux'   => 'Linux',
+            'osx' => 'Mac OS X',
+            'linux' => 'Linux',
             'windows' => 'Windows',
             'generic' => '',
         ],

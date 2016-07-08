@@ -35,13 +35,13 @@ class GimmeListNode extends \Twig_Node
         }
 
         parent::__construct([
-            'variable'          => $variable,
-            'collectionType'    => $collectionType,
+            'variable' => $variable,
+            'collectionType' => $collectionType,
             'collectionFilters' => $collectionFilters,
-            'parameters'        => $parameters,
-            'ifExpression'      => $ifExpression,
-            'else'              => $else,
-            'body'              => $body,
+            'parameters' => $parameters,
+            'ifExpression' => $ifExpression,
+            'else' => $else,
+            'body' => $body,
         ], ['with_loop' => true, 'ifexpr' => null !== $ifExpression], $lineno, $tag);
     }
 

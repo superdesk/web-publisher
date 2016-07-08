@@ -55,12 +55,12 @@ class SWPMultiTenancyExtension extends Extension
     public function loadPhpcr($config, YamlFileLoader $loader, ContainerBuilder $container)
     {
         $keys = [
-            'basepath'                  => 'basepath',
-            'route_basepaths'           => 'route_basepaths',
-            'content_basepath'          => 'content_basepath',
-            'site_document_class'       => 'site_document.class',
+            'basepath' => 'basepath',
+            'route_basepaths' => 'route_basepaths',
+            'content_basepath' => 'content_basepath',
+            'site_document_class' => 'site_document.class',
             'tenant_aware_router_class' => 'router.class',
-            'document_class'            => 'document.class',
+            'document_class' => 'document.class',
         ];
 
         foreach ($keys as $sourceKey => $targetKey) {

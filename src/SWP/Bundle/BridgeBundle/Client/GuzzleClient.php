@@ -57,8 +57,8 @@ class GuzzleClient extends BaseClient implements ClientInterface
 
         $responseArray = [
             'headers' => $response->getHeaders(),
-            'status'  => $response->getStatusCode(),
-            'body'    => (string) $response->getBody(),
+            'status' => $response->getStatusCode(),
+            'body' => (string) $response->getBody(),
         ];
 
         return $responseArray;

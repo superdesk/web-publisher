@@ -55,20 +55,20 @@ class ArticleLoader implements LoaderInterface
 
         if ($responseType === LoaderInterface::SINGLE) {
             return new Meta($configuration, [
-                'title'            => 'New article',
-                'keywords'         => 'lorem, ipsum, dolor, sit, amet',
+                'title' => 'New article',
+                'keywords' => 'lorem, ipsum, dolor, sit, amet',
                 'don\'t expose it' => 'this should be not exposed',
             ]);
         } elseif ($responseType === LoaderInterface::COLLECTION) {
             return [
                 new Meta($configuration, [
-                    'title'            => 'New article 1',
-                    'keywords'         => 'lorem, ipsum, dolor, sit, amet',
+                    'title' => 'New article 1',
+                    'keywords' => 'lorem, ipsum, dolor, sit, amet',
                     'don\'t expose it' => 'this should be not exposed',
                 ]),
                 new Meta($configuration, [
-                    'title'            => 'New article 2',
-                    'keywords'         => 'lorem, ipsum, dolor, sit, amet',
+                    'title' => 'New article 2',
+                    'keywords' => 'lorem, ipsum, dolor, sit, amet',
                     'don\'t expose it' => 'this should be not exposed',
                 ]),
             ];
