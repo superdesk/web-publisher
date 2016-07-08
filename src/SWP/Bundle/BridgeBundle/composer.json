@@ -2,7 +2,7 @@
     "name": "swp/bridge-bundle",
     "type": "symfony-bundle",
     "description": "Bundle which acts as a bridge between the Superdesk Web publisher and the Superdesk Content API.",
-    "license": "GPL-3.0",
+    "license": "AGPL-3.0",
     "minimum-stability": "dev",
     "authors": [
         {

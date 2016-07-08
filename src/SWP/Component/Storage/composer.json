@@ -1,7 +1,7 @@
 {
     "name": "swp/storage",
     "type": "library",
-    "description": "Build persistence agnostic storage layer.",
+    "description": "Build persistence-agnostic storage layer.",
     "keywords": ["driver", "agnostic", "storage", "superdesk", "publisher", "library", "doctrine"],
     "authors": [
         {
@@ -19,7 +19,7 @@
         "doctrine/common": "^2.6"
     },
     "suggest": {
-        "symfony/dependency-injection": "To make use of abstract Bundle class.",
+        "symfony/dependency-injection": "To make use of dependency injection classes.",
         "doctrine/common": "To make use of Repository interface"
     },
     "config": {
