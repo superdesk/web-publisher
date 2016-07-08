@@ -14,7 +14,6 @@
 namespace spec\SWP\Component\Bridge\Model;
 
 use PhpSpec\ObjectBehavior;
-use Prophecy\Argument;
 use SWP\Component\Bridge\Model\BaseContent;
 use SWP\Component\Bridge\Model\Item;
 use SWP\Component\Bridge\Model\ItemInterface;

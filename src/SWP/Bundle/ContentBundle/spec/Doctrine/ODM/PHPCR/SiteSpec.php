@@ -14,7 +14,6 @@
 namespace spec\SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR;
 
 use PhpSpec\ObjectBehavior;
-use Prophecy\Argument;
 use SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\Site;
 use SWP\Component\Storage\Model\PersistableInterface;
 

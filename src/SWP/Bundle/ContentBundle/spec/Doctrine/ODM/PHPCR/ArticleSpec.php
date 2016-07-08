@@ -15,7 +15,6 @@ namespace spec\SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR;
 
 use Doctrine\ODM\PHPCR\HierarchyInterface;
 use PhpSpec\ObjectBehavior;
-use Prophecy\Argument;
 use SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\Article;
 use SWP\Bundle\ContentBundle\Model\ArticleInterface;
 
