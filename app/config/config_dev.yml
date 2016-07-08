@@ -20,6 +20,10 @@ services:
         class: Twig_Extension_Debug
         tags:
                 - { name: 'twig.extension' }
+    data_collector.translation:
+        class: "%data_collector.config.class%"
+        tags:
+           - {name: 'data_collector', priority: '0'}
 
 monolog:
     handlers:
