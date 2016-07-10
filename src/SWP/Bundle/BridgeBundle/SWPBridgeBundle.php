@@ -44,10 +44,8 @@ class SWPBridgeBundle extends Bundle
     /**
      * {@inheritdoc}
      */
-    public function getNamespaces()
+    public function getModelClassNamespace()
     {
-        return [
-            $this->getConfigFilesPath(Drivers::DRIVER_DOCTRINE_ORM) => 'SWP\Component\Bridge\Model',
-        ];
+        return 'SWP\Component\Bridge\Model';
     }
 }

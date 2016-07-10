@@ -39,7 +39,7 @@ abstract class Bundle extends BaseBundle implements BundleInterface
      */
     public function build(ContainerBuilder $container)
     {
-        if (null !== empty($this->getModelClassNamespace())) {
+        if (null !== $this->getModelClassNamespace()) {
             foreach ($this->getSupportedDrivers() as $driver) {
                 list($compilerPassClassName, $compilerPassMethod) = $this->getMappingCompilerPassInfo($driver);
                 if (class_exists($compilerPassClassName)) {
