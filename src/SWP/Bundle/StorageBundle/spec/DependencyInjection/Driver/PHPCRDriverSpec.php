@@ -33,9 +33,16 @@ class PHPCRDriverSpec extends ObjectBehavior
         $this->shouldImplement(PersistenceDriverInterface::class);
     }
 
-    function it_returns_object_manager_service_name()
+    function it_returns_default_object_manager_service_name()
     {
-        $this->getObjectManagerId()->shouldReturn('doctrine_phpcr.odm.document_manager');
+        $this->getObjectManagerId([])->shouldReturn('doctrine_phpcr.odm.document_manager');
+    }
+
+    function it_returns_custom_object_manager_service_name()
+    {
+        $this->getObjectManagerId([
+            'object_manager_name' => 'custom'
+        ])->shouldReturn('doctrine_phpcr.odm.custom_document_manager');
     }
 
     function it_returns_class_metadata_name()

@@ -29,6 +29,16 @@ abstract class Extension extends BaseExtension
     public function registerStorage($type, array $config, ContainerBuilder $container)
     {
         $driver = DriverFactory::createDriver($type);
-        $driver->load($container, $config);
+
+        foreach ($config as $key => $classConfig) {
+            $container->setParameter(sprintf('%s.backend_type_%s', $this->getAlias(), $type), true);
+            $container->setParameter(
+                sprintf('%s.persistence.phpcr.manager_name', $this->getAlias()),
+                $classConfig['object_manager_name']
+            );
+
+            $classConfig['name'] = $key;
+            $driver->load($container, $classConfig);
+        }
     }
 }

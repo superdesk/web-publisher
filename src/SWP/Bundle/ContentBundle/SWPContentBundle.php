@@ -34,13 +34,14 @@ class SWPContentBundle extends Bundle
     /**
      * {@inheritdoc}
      */
-    public function getNamespaces()
+    public function getModelClassNamespace()
     {
-        return [
-            $this->getConfigFilesPath(Drivers::DRIVER_DOCTRINE_PHPCR_ODM) => 'SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR',
-        ];
+        return 'SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR';
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function build(ContainerBuilder $container)
     {
         parent::build($container);

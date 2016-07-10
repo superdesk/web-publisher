@@ -15,7 +15,7 @@ namespace SWP\Component\Bridge\Validator;
 
 use JsonSchema\Validator;
 
-class JsonValidator implements ValidatorInterface, ValidatorOptionsInterface
+abstract class JsonValidator implements ValidatorInterface, ValidatorOptionsInterface
 {
     /**
      * @var string
@@ -30,11 +30,7 @@ class JsonValidator implements ValidatorInterface, ValidatorOptionsInterface
         $validator = new Validator();
         $validator->check(json_decode($data), json_decode($this->getSchema()));
 
-        if ($validator->isValid()) {
-            return true;
-        }
-
-        return false;
+        return $validator->isValid();
     }
 
     /**
@@ -43,13 +39,5 @@ class JsonValidator implements ValidatorInterface, ValidatorOptionsInterface
     public function getSchema()
     {
         return $this->schema;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getFormat()
-    {
-        return 'json';
     }
 }

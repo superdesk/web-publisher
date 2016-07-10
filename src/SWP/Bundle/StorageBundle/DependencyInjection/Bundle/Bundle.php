@@ -39,7 +39,7 @@ abstract class Bundle extends BaseBundle implements BundleInterface
      */
     public function build(ContainerBuilder $container)
     {
-        if (!empty($this->getNamespaces())) {
+        if (null !== empty($this->getModelClassNamespace())) {
             foreach ($this->getSupportedDrivers() as $driver) {
                 list($compilerPassClassName, $compilerPassMethod) = $this->getMappingCompilerPassInfo($driver);
                 if (class_exists($compilerPassClassName)) {
@@ -53,14 +53,14 @@ abstract class Bundle extends BaseBundle implements BundleInterface
                         case BundleInterface::MAPPING_XML:
                         case BundleInterface::MAPPING_YAML:
                             $container->addCompilerPass($compilerPassClassName::$compilerPassMethod(
-                                $this->getNamespaces(),
+                                [$this->getConfigFilesPath($driver) => $this->getModelClassNamespace()],
                                 [sprintf('%s.persistence.manager_name', $this->getBundlePrefix())],
                                 sprintf('%s.backend_type_%s', $this->getBundlePrefix(), $driver)
                             ));
                             break;
                         case BundleInterface::MAPPING_ANNOTATION:
                             $container->addCompilerPass($compilerPassClassName::$compilerPassMethod(
-                                $this->getNamespaces(),
+                                [$this->getModelClassNamespace()],
                                 [$this->getConfigFilesPath($driver)],
                                 [sprintf('%s.persistence.manager_name', $this->getBundlePrefix())],
                                 sprintf('%s.backend_type_%s', $this->getBundlePrefix(), $driver)
@@ -83,13 +83,13 @@ abstract class Bundle extends BaseBundle implements BundleInterface
     }
 
     /**
-     * Return the model namespaces.
+     * Return the model namespace.
      *
-     * @return array
+     * @return string|null
      */
-    protected function getNamespaces()
+    protected function getModelClassNamespace()
     {
-        return [];
+        return;
     }
 
     /**

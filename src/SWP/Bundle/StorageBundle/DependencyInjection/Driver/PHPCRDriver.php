@@ -22,8 +22,12 @@ class PHPCRDriver extends AbstractDriver
     /**
      * {@inheritdoc}
      */
-    public function getObjectManagerId()
+    public function getObjectManagerId(array $config)
     {
+        if (null !== $name = $this->getObjectManagerName($config)) {
+            return sprintf('doctrine_phpcr.odm.%s_document_manager', $name);
+        }
+
         return 'doctrine_phpcr.odm.document_manager';
     }
 

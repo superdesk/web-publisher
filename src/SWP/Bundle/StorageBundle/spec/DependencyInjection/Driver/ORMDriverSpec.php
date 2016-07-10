@@ -33,9 +33,16 @@ class ORMDriverSpec extends ObjectBehavior
         $this->shouldImplement(PersistenceDriverInterface::class);
     }
 
-    function it_returns_object_manager_service_name()
+    function it_returns_default_object_manager_service_name()
     {
-        $this->getObjectManagerId()->shouldReturn('doctrine.orm.default_entity_manager');
+        $this->getObjectManagerId([])->shouldReturn('doctrine.orm.default_entity_manager');
+    }
+
+    function it_returns_custom_object_manager_service_name()
+    {
+        $this->getObjectManagerId([
+            'object_manager_name' => 'custom'
+        ])->shouldReturn('doctrine.orm.custom_entity_manager');
     }
 
     function it_returns_class_metadata_name()
