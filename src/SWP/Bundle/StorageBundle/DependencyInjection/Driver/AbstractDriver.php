@@ -26,12 +26,12 @@ abstract class AbstractDriver implements PersistenceDriverInterface
      */
     public function load(ContainerBuilder $container, array $config)
     {
-            $this->setParameters($container, $config);
-            $this->createObjectManagerAlias($container, $config);
-            $this->createRepositoryDefinition($container, $config);
-            if (isset($config['factory'])) {
-                $this->createFactoryDefinition($container, $config);
-            }
+        $this->setParameters($container, $config);
+        $this->createObjectManagerAlias($container, $config);
+        $this->createRepositoryDefinition($container, $config);
+        if (isset($config['factory'])) {
+            $this->createFactoryDefinition($container, $config);
+        }
     }
 
     private function setParameters(ContainerBuilder $container, array $config)
@@ -105,7 +105,7 @@ abstract class AbstractDriver implements PersistenceDriverInterface
     protected function getObjectManagerName($config)
     {
         $objectManagerName = null;
-        
+
         if (isset($config['object_manager_name'])) {
             $objectManagerName = $config['object_manager_name'];
         }

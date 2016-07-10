@@ -41,7 +41,7 @@ class ORMDriverSpec extends ObjectBehavior
     function it_returns_custom_object_manager_service_name()
     {
         $this->getObjectManagerId([
-            'object_manager_name' => 'custom'
+            'object_manager_name' => 'custom',
         ])->shouldReturn('doctrine.orm.custom_entity_manager');
     }
 

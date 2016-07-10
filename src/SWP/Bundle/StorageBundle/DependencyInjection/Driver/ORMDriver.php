@@ -27,7 +27,7 @@ class ORMDriver extends AbstractDriver
         if (null !== $name = $this->getObjectManagerName($config)) {
             return sprintf('doctrine.orm.%s_entity_manager', $name);
         }
-        
+
         return 'doctrine.orm.default_entity_manager';
     }
 

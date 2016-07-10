@@ -41,7 +41,7 @@ class PHPCRDriverSpec extends ObjectBehavior
     function it_returns_custom_object_manager_service_name()
     {
         $this->getObjectManagerId([
-            'object_manager_name' => 'custom'
+            'object_manager_name' => 'custom',
         ])->shouldReturn('doctrine_phpcr.odm.custom_document_manager');
     }
 

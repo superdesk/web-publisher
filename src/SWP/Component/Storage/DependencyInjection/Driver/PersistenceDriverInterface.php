@@ -30,7 +30,7 @@ interface PersistenceDriverInterface
      * Gets Object Manager service identifier.
      *
      * @param array $config
-     * 
+     *
      * @return string
      */
     public function getObjectManagerId(array $config);
