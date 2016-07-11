@@ -1953,11 +1953,7 @@
             "dist": {
                 "type": "zip",
                 "url": "https://api.github.com/repos/jackalope/jackalope-doctrine-dbal/zipball/2116bbe24e72a9c4cd22eeb6d7e857ce62de094a",
-<<<<<<< HEAD
                 "reference": "2116bbe24e72a9c4cd22eeb6d7e857ce62de094a",
-=======
-                "reference": "121c087f4ebda828be178dc3cc92fab2e9ffaab6",
->>>>>>> master
                 "shasum": ""
             },
             "require": {
