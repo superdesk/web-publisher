@@ -13,8 +13,8 @@
  */
 namespace SWP\Bundle\ContentBundle\Loader;
 
-use SWP\TemplatesSystem\Gimme\Loader\LoaderInterface;
-use SWP\TemplatesSystem\Gimme\Meta\Meta;
+use SWP\Component\TemplatesSystem\Gimme\Loader\LoaderInterface;
+use SWP\Component\TemplatesSystem\Gimme\Meta\Meta;
 use Symfony\Component\Yaml\Parser;
 
 class ArticleLoader implements LoaderInterface
@@ -75,7 +75,7 @@ class ArticleLoader implements LoaderInterface
                 $article = $parameters['article'];
             } elseif (array_key_exists('slug', $parameters)) {
                 $article = $dm->getRepository('SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\Article')
-                    ->findOneBy(array('slug' => $parameters['slug']));
+                    ->findOneBy(['slug' => $parameters['slug']]);
             }
 
             if (!is_null($article)) {
@@ -119,6 +119,6 @@ class ArticleLoader implements LoaderInterface
      */
     public function isSupported($type)
     {
-        return in_array($type, array('articles', 'article'));
+        return in_array($type, ['articles', 'article']);
     }
 }

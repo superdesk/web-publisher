@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "7f3873d9dcd3d3d1a615cb613b5179b7",
-    "content-hash": "e136f4b8ed7e4b91ca9c9b2335f8b68e",
+    "hash": "0fde54b6a206534d580c71b21b926093",
+    "content-hash": "1a35042db2b9929202ed6d0dc8c2cd17",
     "packages": [
         {
             "name": "ahilles107/updater",
@@ -1369,12 +1369,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/FriendsOfSymfony/FOSRestBundle.git",
-                "reference": "c1b87d933dfc9b59fc603f8e44f8064e4530a2b1"
+                "reference": "e34a26ce039ad0938bc5469347a01d74a48d3c19"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSRestBundle/zipball/c1b87d933dfc9b59fc603f8e44f8064e4530a2b1",
-                "reference": "c1b87d933dfc9b59fc603f8e44f8064e4530a2b1",
+                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSRestBundle/zipball/e34a26ce039ad0938bc5469347a01d74a48d3c19",
+                "reference": "e34a26ce039ad0938bc5469347a01d74a48d3c19",
                 "shasum": ""
             },
             "require": {
@@ -1452,20 +1452,20 @@
                 "source": "https://github.com/FriendsOfSymfony/FOSRestBundle/tree/master",
                 "issues": "https://github.com/FriendsOfSymfony/FOSRestBundle/issues"
             },
-            "time": "2016-06-19 14:22:34"
+            "time": "2016-07-06 16:23:57"
         },
         {
             "name": "gedmo/doctrine-extensions",
-            "version": "v2.4.13",
+            "version": "v2.4.15",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Atlantic18/DoctrineExtensions.git",
-                "reference": "5f4b6c848f0d6834a434a62a09a0935d147082e1"
+                "reference": "8f172af78138ee3ea12e87be431dec3da0c2f4a9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Atlantic18/DoctrineExtensions/zipball/5f4b6c848f0d6834a434a62a09a0935d147082e1",
-                "reference": "5f4b6c848f0d6834a434a62a09a0935d147082e1",
+                "url": "https://api.github.com/repos/Atlantic18/DoctrineExtensions/zipball/8f172af78138ee3ea12e87be431dec3da0c2f4a9",
+                "reference": "8f172af78138ee3ea12e87be431dec3da0c2f4a9",
                 "shasum": ""
             },
             "require": {
@@ -1531,7 +1531,7 @@
                 "tree",
                 "uploadable"
             ],
-            "time": "2016-02-18 15:33:43"
+            "time": "2016-07-08 05:48:13"
         },
         {
             "name": "guzzle/guzzle",
@@ -2291,6 +2291,74 @@
             "time": "2015-11-10 12:26:42"
         },
         {
+            "name": "jms/translation-bundle",
+            "version": "1.2.3",
+            "target-dir": "JMS/TranslationBundle",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/schmittjoh/JMSTranslationBundle.git",
+                "reference": "d0d6c7f002e4210217b5f7271a438309d305540a"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/schmittjoh/JMSTranslationBundle/zipball/d0d6c7f002e4210217b5f7271a438309d305540a",
+                "reference": "d0d6c7f002e4210217b5f7271a438309d305540a",
+                "shasum": ""
+            },
+            "require": {
+                "nikic/php-parser": "^1.4|^2.0",
+                "php": "^5.3.3|^7.0",
+                "symfony/console": "^2.3|^3.0",
+                "symfony/framework-bundle": "^2.3|^3.0"
+            },
+            "conflict": {
+                "twig/twig": "<1.12"
+            },
+            "require-dev": {
+                "jms/di-extra-bundle": "^1.1",
+                "matthiasnoback/symfony-dependency-injection-test": "^0.7.6",
+                "psr/log": "^1.0",
+                "sensio/framework-extra-bundle": "^2.3|^3.0",
+                "symfony/expression-language": "~2.6|~3.0",
+                "symfony/symfony": "^2.3|^3.0",
+                "twig/twig": "^1.12"
+            },
+            "type": "symfony-bundle",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.3-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "JMS\\TranslationBundle": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache2"
+            ],
+            "authors": [
+                {
+                    "name": "Johannes M. Schmitt",
+                    "email": "schmittjoh@gmail.com"
+                }
+            ],
+            "description": "Puts the Symfony Translation Component on steroids",
+            "homepage": "http://jmsyst.com/bundles/JMSTranslationBundle",
+            "keywords": [
+                "extract",
+                "extraction",
+                "i18n",
+                "interface",
+                "multilanguage",
+                "translation",
+                "ui",
+                "webinterface"
+            ],
+            "time": "2016-05-08 03:48:49"
+        },
+        {
             "name": "justinrainbow/json-schema",
             "version": "1.4.4",
             "source": {
@@ -2831,6 +2899,57 @@
                 "rest"
             ],
             "time": "2016-06-13 09:12:09"
+        },
+        {
+            "name": "nikic/php-parser",
+            "version": "v2.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/nikic/PHP-Parser.git",
+                "reference": "47b254ea51f1d6d5dc04b9b299e88346bf2369e3"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/nikic/PHP-Parser/zipball/47b254ea51f1d6d5dc04b9b299e88346bf2369e3",
+                "reference": "47b254ea51f1d6d5dc04b9b299e88346bf2369e3",
+                "shasum": ""
+            },
+            "require": {
+                "ext-tokenizer": "*",
+                "php": ">=5.4"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~4.0"
+            },
+            "bin": [
+                "bin/php-parse"
+            ],
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.1-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "PhpParser\\": "lib/PhpParser"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Nikita Popov"
+                }
+            ],
+            "description": "A PHP parser written in PHP",
+            "keywords": [
+                "parser",
+                "php"
+            ],
+            "time": "2016-04-19 13:41:41"
         },
         {
             "name": "oneup/flysystem-bundle",
@@ -3664,23 +3783,23 @@
         },
         {
             "name": "swiftmailer/swiftmailer",
-            "version": "v5.4.2",
+            "version": "v5.4.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/swiftmailer/swiftmailer.git",
-                "reference": "d8db871a54619458a805229a057ea2af33c753e8"
+                "reference": "4cc92842069c2bbc1f28daaaf1d2576ec4dfe153"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/swiftmailer/swiftmailer/zipball/d8db871a54619458a805229a057ea2af33c753e8",
-                "reference": "d8db871a54619458a805229a057ea2af33c753e8",
+                "url": "https://api.github.com/repos/swiftmailer/swiftmailer/zipball/4cc92842069c2bbc1f28daaaf1d2576ec4dfe153",
+                "reference": "4cc92842069c2bbc1f28daaaf1d2576ec4dfe153",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.3.3"
             },
             "require-dev": {
-                "mockery/mockery": "~0.9.1,<0.9.4"
+                "mockery/mockery": "~0.9.1"
             },
             "type": "library",
             "extra": {
@@ -3713,62 +3832,7 @@
                 "mail",
                 "mailer"
             ],
-            "time": "2016-05-01 08:45:47"
-        },
-        {
-            "name": "swp/templates-system",
-            "version": "v1.0.2",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/SuperdeskWebPublisher/templates-system.git",
-                "reference": "adcbce2fca9f7fbc087813b54934caa6a0fe46e4"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/SuperdeskWebPublisher/templates-system/zipball/adcbce2fca9f7fbc087813b54934caa6a0fe46e4",
-                "reference": "adcbce2fca9f7fbc087813b54934caa6a0fe46e4",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.5"
-            },
-            "require-dev": {
-                "phpspec/phpspec": "~2.0",
-                "phpspec/prophecy": "1.5.x-dev",
-                "phpunit/phpunit": "4.6.*",
-                "twig/twig": "~1.0"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "1.1.x-dev"
-                }
-            },
-            "autoload": {
-                "psr-0": {
-                    "SWP\\TemplatesSystem": ""
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "GPL-3.0"
-            ],
-            "authors": [
-                {
-                    "name": "Paweł Mikołajczuk",
-                    "email": "mikolajczuk.private@gmail.com",
-                    "homepage": "https://github.com/ahilles107"
-                }
-            ],
-            "description": "Build fully functional templates system easy to use for your templators!",
-            "homepage": "https://github.com/SuperdeskWebPublisher/templates-system",
-            "keywords": [
-                "cms",
-                "gimme",
-                "templates",
-                "twig"
-            ],
-            "time": "2016-01-06 08:47:53"
+            "time": "2016-07-08 11:51:25"
         },
         {
             "name": "swp/updater-bundle",
@@ -3836,7 +3900,7 @@
         },
         {
             "name": "sylius/theme-bundle",
-            "version": "dev-master",
+            "version": "v0.18.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Sylius/SyliusThemeBundle.git",
@@ -3849,8 +3913,8 @@
                 "shasum": ""
             },
             "require": {
-                "php": "^5.6|^7.0",
-                "symfony/symfony": "^2.8",
+                "php": "^5.5.9|^7.0",
+                "symfony/symfony": "^2.7.7",
                 "zendframework/zend-hydrator": "^1.0|^2.0"
             },
             "require-dev": {
@@ -3948,7 +4012,7 @@
             ],
             "authors": [
                 {
-                    "name": "Symfony CMF Community",
+                    "name": "Symfony CMF community",
                     "homepage": "https://github.com/symfony-cmf/Routing/contributors"
                 }
             ],
@@ -4663,12 +4727,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/symfony.git",
-                "reference": "5053ae21409c5924243f90821da3677c4658ce99"
+                "reference": "1f2d6fb590e5453e527b994a20e3e012c202643f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/symfony/zipball/5053ae21409c5924243f90821da3677c4658ce99",
-                "reference": "5053ae21409c5924243f90821da3677c4658ce99",
+                "url": "https://api.github.com/repos/symfony/symfony/zipball/1f2d6fb590e5453e527b994a20e3e012c202643f",
+                "reference": "1f2d6fb590e5453e527b994a20e3e012c202643f",
                 "shasum": ""
             },
             "require": {
@@ -4789,7 +4853,7 @@
             "keywords": [
                 "framework"
             ],
-            "time": "2016-07-05 11:05:26"
+            "time": "2016-07-10 08:00:51"
         },
         {
             "name": "twig/extensions",
@@ -5022,23 +5086,24 @@
         },
         {
             "name": "willdurand/hateoas-bundle",
-            "version": "1.1.1",
+            "version": "1.2.0",
             "target-dir": "Bazinga/Bundle/HateoasBundle",
             "source": {
                 "type": "git",
                 "url": "https://github.com/willdurand/BazingaHateoasBundle.git",
-                "reference": "a53f6f1d3d8cda3fa8cdd90773cb48e9647a08c5"
+                "reference": "7c73a949c72dc6bc7363f76c11e70e655b19d94b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/willdurand/BazingaHateoasBundle/zipball/a53f6f1d3d8cda3fa8cdd90773cb48e9647a08c5",
-                "reference": "a53f6f1d3d8cda3fa8cdd90773cb48e9647a08c5",
+                "url": "https://api.github.com/repos/willdurand/BazingaHateoasBundle/zipball/7c73a949c72dc6bc7363f76c11e70e655b19d94b",
+                "reference": "7c73a949c72dc6bc7363f76c11e70e655b19d94b",
                 "shasum": ""
             },
             "require": {
                 "jms/serializer-bundle": "~1.0",
+                "php": ">5.4",
                 "symfony/framework-bundle": "~2.2 || ~3.0",
-                "willdurand/hateoas": "~2.9"
+                "willdurand/hateoas": "^2.10.0"
             },
             "require-dev": {
                 "phpunit/phpunit": "~4.5",
@@ -5071,7 +5136,7 @@
                 "HATEOAS",
                 "rest"
             ],
-            "time": "2016-02-22 13:12:41"
+            "time": "2016-05-31 13:55:14"
         },
         {
             "name": "willdurand/jsonp-callback-validator",
@@ -6827,15 +6892,12 @@
         "symfony/symfony": 20,
         "friendsofsymfony/http-cache-bundle": 20,
         "friendsofsymfony/rest-bundle": 20,
-        "swp/templates-system": 20,
         "swp/updater-bundle": 20,
         "behat/transliterator": 20,
         "knplabs/knp-paginator-bundle": 20,
-        "sylius/theme-bundle": 20,
         "superdesk/contentapi-sdk-php": 20,
         "liip/functional-test-bundle": 20,
         "doctrine/doctrine-fixtures-bundle": 20,
-        "nelmio/alice": 20,
         "henrikbjorn/phpspec-code-coverage": 20
     },
     "prefer-stable": true,

@@ -13,17 +13,17 @@
  */
 namespace SWP\Bundle\BridgeBundle\Controller;
 
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\HttpFoundation\Request;
-use SWP\Bundle\BridgeBundle\Client\GuzzleClient;
-use SWP\Bundle\BridgeBundle\Client\GuzzleApiClient;
-use Superdesk\ContentApiSdk\ContentApiSdk;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Superdesk\ContentApiSdk\Api\Authentication\OAuthPasswordAuthentication;
 use Superdesk\ContentApiSdk\Api\Request\RequestParameters;
 use Superdesk\ContentApiSdk\Client\ApiClientInterface;
+use Superdesk\ContentApiSdk\ContentApiSdk;
 use Superdesk\ContentApiSdk\Exception\ContentApiException;
+use SWP\Bundle\BridgeBundle\Client\GuzzleApiClient;
+use SWP\Bundle\BridgeBundle\Client\GuzzleClient;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * @Route("/bridge")
@@ -41,13 +41,13 @@ class BridgeController extends Controller
      * @param string      $endpoint Endpoint of the api
      * @param string|null $objectId Identifier of object to retrieve
      *
-     * @return \Symfony\Component\HttpFoundation\Response
-     *
      * @throws ContentApiException
+     *
+     * @return \Symfony\Component\HttpFoundation\Response
      */
     public function indexAction(Request $request, $endpoint, $objectId = null)
     {
-        $data = array();
+        $data = [];
         $apiClient = $this->getClient();
         $sdk = $this->getSDK($apiClient);
 
@@ -83,7 +83,7 @@ class BridgeController extends Controller
                 break;
         }
 
-        return $this->render('SWPBridgeBundle:Default:data_dump.html.twig', array('data' => $data));
+        return $this->render('SWPBridgeBundle:Default:data_dump.html.twig', ['data' => $data]);
     }
 
     /**

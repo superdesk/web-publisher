@@ -14,9 +14,9 @@
 namespace SWP\Bundle\MultiTenancyBundle\EventListener;
 
 use Doctrine\ORM\EntityManagerInterface;
+use SWP\Component\MultiTenancy\Context\TenantContextInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\KernelEvents;
-use SWP\Component\MultiTenancy\Context\TenantContextInterface;
 
 /**
  * TenantableListener class.

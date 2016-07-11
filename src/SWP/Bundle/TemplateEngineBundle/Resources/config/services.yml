@@ -1,22 +1,21 @@
 services:
     swp_template_engine_loader_chain:
-        class: SWP\TemplatesSystem\Gimme\Loader\ChainLoader
+        class: SWP\Component\TemplatesSystem\Gimme\Loader\ChainLoader
 
     swp_template_engine_context:
-        class: SWP\TemplatesSystem\Gimme\Context\Context
+        class: SWP\Component\TemplatesSystem\Gimme\Context\Context
     context:
         alias: swp_template_engine_context
 
     swp_template_engine_container:
         class: SWP\Bundle\TemplateEngineBundle\Service\ContainerService
         arguments:
-            - "@doctrine"
+            - "@service_container"
             - "%kernel.cache_dir%"
-            - "@event_dispatcher"
             - "%kernel.debug%"
 
     swp_template_engine_twig_extension.gimme:
-        class: SWP\TemplatesSystem\Twig\Extension\GimmeExtension
+        class: SWP\Component\TemplatesSystem\Twig\Extension\GimmeExtension
         public: false
         arguments:
             - "@swp_template_engine_context"
@@ -25,7 +24,7 @@ services:
             - { name: twig.extension }
 
     swp_template_engine_twig_extension.container:
-        class: SWP\TemplatesSystem\Twig\Extension\ContainerExtension
+        class: SWP\Component\TemplatesSystem\Twig\Extension\ContainerExtension
         public: false
         arguments:
             - "@swp_template_engine_container"

@@ -15,7 +15,7 @@ namespace SWP\Bundle\WebRendererBundle\Enhancer;
 
 use Symfony\Cmf\Component\Routing\Enhancer\RouteEnhancerInterface;
 use Symfony\Component\HttpFoundation\Request;
-use SWP\TemplatesSystem\Gimme\Loader\LoaderInterface;
+use SWP\Component\TemplatesSystem\Gimme\Loader\LoaderInterface;
 use SWP\Bundle\WebRendererBundle\Resolver\TemplateNameResolverInterface;
 use SWP\Bundle\ContentBundle\Model\ArticleInterface;
 use Symfony\Cmf\Component\Routing\RouteObjectInterface;

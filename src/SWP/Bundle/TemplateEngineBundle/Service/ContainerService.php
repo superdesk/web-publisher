@@ -17,24 +17,34 @@ use SWP\Bundle\TemplateEngineBundle\Container\SimpleContainer;
 use SWP\Bundle\TemplateEngineBundle\Model\Container;
 use SWP\Bundle\TemplateEngineBundle\Model\ContainerData;
 use SWP\Component\Common\Event\HttpCacheEvent;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class ContainerService
 {
     const OPEN_TAG_TEMPLATE = '<div id="swp_container_{{ id }}" class="swp_container {{ class }}" style="{% if height %}height: {{ height }}px;{% endif %}{% if width %}width: {{width}}px;{% endif %}{{styles}}"{% for value in data %} data-{{value.getKey()}}="{{value.getValue()}}"{% endfor %} >';
     const CLOSE_TAG_TEMPLATE = '</div>';
 
+    protected $serviceContainer;
     protected $objectManager;
     protected $cacheDir;
     protected $debug;
     protected $renderer = false;
     protected $eventDispatcher;
 
-    public function __construct($doctrine, $cacheDir, $eventDispatcher, $debug = false)
+    /**
+     * ContainerService constructor.
+     *
+     * @param ContainerInterface $serviceContainer
+     * @param $cacheDir
+     * @param bool $debug
+     */
+    public function __construct(ContainerInterface $serviceContainer, $cacheDir, $debug = false)
     {
-        $this->objectManager = $doctrine->getManager();
+        $this->serviceContainer = $serviceContainer;
+        $this->objectManager = $this->serviceContainer->get('doctrine.orm.entity_manager');
         $this->cacheDir = $cacheDir.'/twig';
         $this->debug = $debug;
-        $this->eventDispatcher = $eventDispatcher;
+        $this->eventDispatcher = $this->serviceContainer->get('event_dispatcher');
     }
 
     public function getContainer($name, array $parameters = [], $createIfNotExists = true)
@@ -57,7 +67,9 @@ class ContainerService
         foreach ($containerWidgets as $containerWidget) {
             $widgetModel = $containerWidget->getWidget();
             $widgetClass = $widgetModel->getType();
-            $widgets[] = new $widgetClass($widgetModel);
+            $widgetHandler = new $widgetClass($widgetModel);
+            $widgetHandler->setContainer($this->serviceContainer);
+            $widgets[] = $widgetHandler;
         }
 
         $container = new SimpleContainer($containerEntity, $this->getRenderer());
@@ -88,7 +100,7 @@ class ContainerService
         return $this->renderer;
     }
 
-    public function createNewContainer($name, array $parameters = array())
+    public function createNewContainer($name, array $parameters = [])
     {
         $containerEntity = new Container();
         $containerEntity->setName($name);

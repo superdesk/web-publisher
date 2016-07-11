@@ -13,9 +13,9 @@
  */
 namespace SWP\Bundle\TemplateEngineBundle;
 
-use Symfony\Component\HttpKernel\Bundle\Bundle;
-use Symfony\Component\DependencyInjection\ContainerBuilder;
 use SWP\Bundle\TemplateEngineBundle\DependencyInjection\ContainerBuilder\MetaLoaderCompilerPass;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\HttpKernel\Bundle\Bundle;
 
 class SWPTemplateEngineBundle extends Bundle
 {

@@ -13,8 +13,8 @@
  */
 namespace SWP\Bundle\MultiTenancyBundle\Routing;
 
-use Symfony\Cmf\Bundle\RoutingBundle\Routing\DynamicRouter;
 use SWP\Component\MultiTenancy\PathBuilder\TenantAwarePathBuilderInterface;
+use Symfony\Cmf\Bundle\RoutingBundle\Routing\DynamicRouter;
 
 class TenantAwareRouter extends DynamicRouter
 {
@@ -26,7 +26,7 @@ class TenantAwareRouter extends DynamicRouter
     /**
      * {@inheritdoc}
      */
-    public function generate($name, $parameters = array(), $referenceType = false)
+    public function generate($name, $parameters = [], $referenceType = false)
     {
         if (null === $name && isset($parameters['content_id'])) {
             $contentId = $this->checkAndRemoveFirstSlash($parameters['content_id']);

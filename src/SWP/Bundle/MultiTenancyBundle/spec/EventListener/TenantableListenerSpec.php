@@ -13,13 +13,13 @@
  */
 namespace spec\SWP\Bundle\MultiTenancyBundle\EventListener;
 
+use Doctrine\ORM\EntityManagerInterface;
 use PhpSpec\ObjectBehavior;
+use SWP\Component\MultiTenancy\Context\TenantContextInterface;
 use SWP\Component\MultiTenancy\Model\Tenant;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpKernel\KernelEvents;
-use Doctrine\ORM\EntityManagerInterface;
-use SWP\Component\MultiTenancy\Context\TenantContextInterface;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
+use Symfony\Component\HttpKernel\KernelEvents;
 
 class TenantableListenerSpec extends ObjectBehavior
 {

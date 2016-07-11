@@ -23,16 +23,16 @@ class BridgeTest extends WebTestCase
      */
     public function testIndexForCallToInvalidEndpoints($config)
     {
-        $client = $this->createClient(array('test_case' => self::TEST_CASE_NAME, 'root_config' => $config));
+        $client = $this->createClient(['test_case' => self::TEST_CASE_NAME, 'root_config' => $config]);
 
         $client->request('GET', '/bridge/invalid_endpoint/');
     }
 
     public function getConfigs()
     {
-        return array(
-            array('config.yml'),
-        );
+        return [
+            ['config.yml'],
+        ];
     }
 
     public static function setUpBeforeClass()

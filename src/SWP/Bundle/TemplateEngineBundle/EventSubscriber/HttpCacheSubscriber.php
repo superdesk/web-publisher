@@ -13,12 +13,12 @@
  */
 namespace SWP\Bundle\TemplateEngineBundle\EventSubscriber;
 
-use SWP\Bundle\ContentBundle\Model\RouteInterface;
-use SWP\Bundle\ContentBundle\Model\ArticleInterface;
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use SWP\Component\Common\Event\HttpCacheEvent;
-use SWP\Bundle\TemplateEngineBundle\Model\Container;
 use FOS\HttpCache\Exception\ExceptionCollection;
+use SWP\Bundle\ContentBundle\Document\Route;
+use SWP\Bundle\ContentBundle\Model\ArticleInterface;
+use SWP\Bundle\TemplateEngineBundle\Model\Container;
+use SWP\Component\Common\Event\HttpCacheEvent;
+use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 class HttpCacheSubscriber implements EventSubscriberInterface
 {

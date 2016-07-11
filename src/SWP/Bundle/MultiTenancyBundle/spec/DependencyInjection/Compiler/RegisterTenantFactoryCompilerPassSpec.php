@@ -24,17 +24,17 @@ use Symfony\Component\DependencyInjection\Parameter;
  */
 class RegisterTenantFactoryCompilerPassSpec extends ObjectBehavior
 {
-    function it_is_initializable()
+    public function it_is_initializable()
     {
         $this->shouldHaveType('SWP\Bundle\MultiTenancyBundle\DependencyInjection\Compiler\RegisterTenantFactoryCompilerPass');
     }
 
-    function it_implements_compiler_pass_interface()
+    public function it_implements_compiler_pass_interface()
     {
         $this->shouldImplement('Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface');
     }
 
-    function it_creates_default_definition_of_tenant_factory(
+    public function it_creates_default_definition_of_tenant_factory(
         ContainerBuilder $container
     ) {
         $container->hasParameter('swp_multi_tenancy.factory.tenant.class')->willReturn(true);
@@ -51,7 +51,7 @@ class RegisterTenantFactoryCompilerPassSpec extends ObjectBehavior
         $this->process($container);
     }
 
-    function it_should_not_set_tenant_factory_if_class_is_not_set(
+    public function it_should_not_set_tenant_factory_if_class_is_not_set(
         ContainerBuilder $container
     ) {
         $container->hasParameter('swp_multi_tenancy.factory.tenant.class')->willReturn(false);

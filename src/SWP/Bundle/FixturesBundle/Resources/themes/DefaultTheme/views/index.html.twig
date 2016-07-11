@@ -3,8 +3,8 @@
 {% block body %}
     <div class="row">
         <div class="jumbotron" style="margin-top:20px;">
-            <h1 class="display-3">Welcome to Default Theme!</h1>
-            <p class="lead">This is a Demo Theme. Check in action all awesome features provided by Superdesk Web Publisher.</p>
+            <h1 class="display-3">{{ 'index.welcome.title'|trans|desc('Welcome to Default Theme!') }}</h1>
+            <p class="lead">{{ 'index.welcome.text'|trans|desc('This is a Demo Theme. Check in action all awesome features provided by Superdesk Web Publisher.') }}</p>
         </div>
 
         {% container 'container_name' with {
@@ -12,17 +12,17 @@
             'class': 'col-md-8',
             'data': {'custom-key': 'value'}
         }%}
-        <h2>Default container header</h2>
-        <p>Minions ipsum voluptate nisi reprehenderit occaecat. Enim hahaha bappleees cillum bappleees. Elit officia daa ullamco. Ullamco bappleees reprehenderit aliqua veniam bananaaaa. Minim sed aaaaaah laboris veniam. Pepete aliqua veniam sit amet quis butt tatata bala tu jiji quis minim.</p>
+        <h2>{{ 'index.default_container.header'|trans|desc('Default container header') }}</h2>
+        <p>{{ 'index.default_container.text'|trans|desc('Minions ipso voluptate nisi reprehenderit occaecat. Enim hahaha bappleees cillum bappleees. Elit officia daa ullamco. Ullamco bappleees reprehenderit aliqua veniam bananaaaa. Minim sed aaaaaah laboris veniam. Pepete aliqua veniam sit amet quis butt tatata bala tu jiji quis minim.') }}</p>
         {% endcontainer %}
 
-        <p><strong>Assigned homepage:</strong> {{ page.name }} (id: {{ page.id }})</p>
-        <h4><strong>Current theme details:</strong></h4>
-        <p><strong>Path:</strong> {{ theme.path }}</p>
-        <p><strong>Name:</strong> {{ theme.name }}</p>
-        <p><strong>Description:</strong> {{ theme.description }}</p>
-        <p><strong>Title:</strong> {{ theme.title }}</p>
-        <p><strong>Authors:</strong></p>
+        <p><strong>{{ 'index.assigned.homepage'|trans|desc('Assigned homepage') }}:</strong> {{ page.name }} (id: {{ page.id }})</p>
+        <h4><strong>{{ 'index.current.details'|trans|desc('Current theme details') }}:</strong></h4>
+        <p><strong>{{ 'index.path'|trans|desc('Path') }}:</strong> {{ theme.path }}</p>
+        <p><strong>{{ 'index.name'|trans|desc('Name') }}:</strong> {{ theme.name }}</p>
+        <p><strong>{{ 'index.description'|trans|desc('Description') }}:</strong> {{ theme.description }}</p>
+        <p><strong>{{ 'index.title'|trans|desc('Title') }}:</strong> {{ theme.title }}</p>
+        <p><strong>{{ 'index.authors'|trans|desc('Authors') }}:</strong></p>
         <ul>
             {% for author in theme.authors %}
                 <li>{{ author.name }} ({{ author.email }}), {{ author.homepage }}, {{ author.role }}</li>
@@ -30,7 +30,7 @@
         </ul>
 
         <div class="col-md-4">
-        <h2>News</h2>
+        <h2>{{ 'index.news.header'|trans|desc('News') }}</h2>
         <ul>
             {% gimmelist article from articles with {'route': '/news'} %}
             <li><a href="{{ url(article) }}">{{ article.title }} </a></li>
@@ -44,3 +44,4 @@
 <h3>Template code used to render that page <small><a href="#" class="js-toggle-code">show/hide</a></small></h3>
 <pre class="js-template-code" style="display:none;">{{ source(_self.getTemplateName())|escape('html') }}</pre>
 {% endblock %}
+

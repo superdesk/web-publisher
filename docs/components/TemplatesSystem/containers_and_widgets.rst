@@ -24,6 +24,22 @@ Widgets can be attached to a container in any order. Many types of widget can re
  * Simple HTML widget with your own custom HTML rendered by widget
  * Airtime player widget
 
+How to create a new type of widget?
+```````````````````````````````
+
+To create a new type of widget, you create a new class in ``/src/SWP/Component/TemplatesSystem/Gimme/Widget which extends``
+the AbstractWidgetHandler.php in that same folder.
+As well as having to implement the render function, you can define what parameters you're expecting in the widget model
+by adding a static variable to your class called ``$expectedParameters``. For example:
+
+.. code-block:: php
+     protected static $expectedParameters = array(
+        'parameter_name' => [
+            'type' => 'string',               // or bool, int, float
+            'default' => 'default_value'      // if no default is provided, the parameter must be set
+        ]
+    );
+
 Do widgets and containers work with caches?
 ```````````````````````````````````````````
 
