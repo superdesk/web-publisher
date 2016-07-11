@@ -1,10 +1,5 @@
 SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\Article:
     repositoryClass: SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\ArticleRepository
-    gedmo:
-        soft_deleteable:
-            field_name: deletedAt
-            time_aware: false
-        loggable: true
     referenceable: true
     parentdocument: parent
     nodename: slug
@@ -23,15 +18,9 @@ SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\Article:
             type: string
         createdAt:
             type: date
-            gedmo:
-                timestampable:
-                    on: create
         updatedAt:
             type: date
             nullable: true
-            gedmo:
-                timestampable:
-                    on: update
         deletedAt:
             type: date
             nullable: true

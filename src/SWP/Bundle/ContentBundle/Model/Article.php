@@ -17,10 +17,11 @@ use Behat\Transliterator\Transliterator;
 use SWP\Component\Common\Model\SoftDeletableTrait;
 use SWP\Component\Common\Model\TimestampableTrait;
 use SWP\Component\Common\Model\TranslatableTrait;
+use SWP\Bundle\ContentBundle\Model\RouteInterface;
 
 class Article implements ArticleInterface
 {
-    use TimestampableTrait, TranslatableTrait, SoftDeletableTrait;
+    use TranslatableTrait, SoftDeletableTrait;
 
     /**
      * @var mixed
@@ -53,14 +54,6 @@ class Article implements ArticleInterface
     protected $status = ArticleInterface::STATUS_NEW;
 
     /**
-     * Article constructor.
-     */
-    public function __construct()
-    {
-        $this->createdAt = new \DateTime();
-    }
-
-    /**
      * @var string
      */
     protected $templateName;
@@ -69,6 +62,53 @@ class Article implements ArticleInterface
      * @var RouteInterface
      */
     protected $route;
+
+    /**
+     * @var \DateTime
+     */
+    protected $createdAt;
+
+    /**
+     * @var \DateTime
+     */
+    protected $updatedAt;
+
+    public function __construct()
+    {
+        $this->setCreatedAt(new \DateTime());
+    }
+
+    /**
+     * @return \DateTime
+     */
+    public function getCreatedAt()
+    {
+        return $this->createdAt;
+    }
+
+    /**
+     * @return \DateTime
+     */
+    public function getUpdatedAt()
+    {
+        return $this->updatedAt;
+    }
+
+    /**
+     * @param \DateTime $createdAt
+     */
+    public function setCreatedAt(\DateTime $createdAt)
+    {
+        $this->createdAt = $createdAt;
+    }
+
+    /**
+     * @param \DateTime $updatedAt
+     */
+    public function setUpdatedAt(\DateTime $updatedAt)
+    {
+        $this->updatedAt = $updatedAt;
+    }
 
     public function setRoute(RouteInterface $route)
     {

@@ -14,6 +14,7 @@
 namespace SWP\Bundle\TemplateEngineBundle\EventSubscriber;
 
 use SWP\Bundle\ContentBundle\Model\RouteInterface;
+use SWP\Bundle\ContentBundle\Model\ArticleInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use SWP\Component\Common\Event\HttpCacheEvent;
 use SWP\Bundle\TemplateEngineBundle\Model\Container;
@@ -42,18 +43,25 @@ class HttpCacheSubscriber implements EventSubscriberInterface
 
     public function clearCache(HttpCacheEvent $event)
     {
-        if ($event->getSubject() instanceof Container) {
-            $this->cacheManager->invalidateRoute('swp_api_templates_list_containers');
-            $this->cacheManager->invalidateRoute('swp_api_templates_get_container', [
-                'id' => $event->getSubject()->getId(),
-            ]);
-        }
-
-        if ($event->getSubject() instanceof RouteInterface) {
-            $this->cacheManager->invalidateRoute('swp_api_content_list_routes');
-            $this->cacheManager->invalidateRoute('swp_api_content_show_routes', [
-                'id' => $event->getSubject()->getPath(),
-            ]);
+        switch(true) {
+            case $event->getSubject() instanceof Container:
+                $this->cacheManager->invalidateRoute('swp_api_templates_list_containers');
+                $this->cacheManager->invalidateRoute('swp_api_templates_get_container', [
+                    'id' => $event->getSubject()->getId(),
+                ]);
+                break;
+            case $event->getSubject() instanceof RouteInterface:
+                $this->cacheManager->invalidateRoute('swp_api_content_list_routes');
+                $this->cacheManager->invalidateRoute('swp_api_content_show_routes', [
+                    'id' => $event->getSubject()->getPath(),
+                ]);
+                break;
+            case $event->getSubject() instanceof ArticleInterface:
+                $this->cacheManager->invalidateRoute('swp_api_content_list_articles');
+                $this->cacheManager->invalidateRoute('swp_api_content_show_articles', [
+                    'id' => $event->getSubject()->getId(),
+                ]);
+                break;
         }
 
         try {
