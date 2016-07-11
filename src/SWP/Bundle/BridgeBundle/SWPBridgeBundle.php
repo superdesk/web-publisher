@@ -15,8 +15,8 @@ namespace SWP\Bundle\BridgeBundle;
 
 use SWP\Bundle\BridgeBundle\DependencyInjection\Compiler\TransformersCompilerPass;
 use SWP\Bundle\BridgeBundle\DependencyInjection\Compiler\ValidatorsCompilerPass;
-use SWP\Component\Storage\Bundle\Bundle;
-use SWP\Component\Storage\Drivers;
+use SWP\Bundle\StorageBundle\DependencyInjection\Bundle\Bundle;
+use SWP\Bundle\StorageBundle\Drivers;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 class SWPBridgeBundle extends Bundle
@@ -44,10 +44,8 @@ class SWPBridgeBundle extends Bundle
     /**
      * {@inheritdoc}
      */
-    public function getNamespaces()
+    public function getModelClassNamespace()
     {
-        return [
-            $this->getConfigFilesPath(Drivers::DRIVER_DOCTRINE_ORM) => 'SWP\Component\Bridge\Model',
-        ];
+        return 'SWP\Component\Bridge\Model';
     }
 }

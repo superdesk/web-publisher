@@ -71,7 +71,7 @@ class ArticleController extends FOSRestController
      */
     public function getAction($id)
     {
-        $article = $this->get('swp.provider.article')->findOneById($id);
+        $article = $this->get('swp.provider.article')->getOneById($id);
 
         if (null === $article) {
             throw new NotFoundHttpException('Article was not found.');
@@ -117,7 +117,7 @@ class ArticleController extends FOSRestController
 
     private function findOr404($id)
     {
-        if (null === $article = $this->get('swp.provider.article')->findOneById($id)) {
+        if (null === $article = $this->get('swp.provider.article')->getOneById($id)) {
             throw new NotFoundHttpException('Article was not found.');
         }
 

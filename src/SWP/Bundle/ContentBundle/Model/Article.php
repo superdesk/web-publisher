@@ -54,14 +54,15 @@ class Article implements ArticleInterface
     protected $status = ArticleInterface::STATUS_NEW;
 
     /**
+     * @var RouteInterface
+     */
+    protected $route;
+
+    /**
      * @var string
      */
     protected $templateName;
 
-    /**
-     * @var RouteInterface
-     */
-    protected $route;
 
     /**
      * @var \DateTime
@@ -207,6 +208,7 @@ class Article implements ArticleInterface
     /**
      * {@inheritdoc}
      */
+
     public function getTemplateName()
     {
         return $this->templateName;

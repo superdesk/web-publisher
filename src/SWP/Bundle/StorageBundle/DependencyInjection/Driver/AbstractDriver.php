@@ -1,7 +1,7 @@
 <?php
 
 /**
- * This file is part of the Superdesk Web Publisher Storage Component.
+ * This file is part of the Superdesk Web Publisher Storage Bundle.
  *
  * Copyright 2016 Sourcefabric z.ú. and contributors.
  *
@@ -11,8 +11,9 @@
  * @copyright 2016 Sourcefabric z.ú.
  * @license http://www.superdesk.org/license
  */
-namespace SWP\Component\Storage\DependencyInjection\Driver;
+namespace SWP\Bundle\StorageBundle\DependencyInjection\Driver;
 
+use SWP\Component\Storage\DependencyInjection\Driver\PersistenceDriverInterface;
 use Symfony\Component\DependencyInjection\Alias;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
@@ -25,14 +26,11 @@ abstract class AbstractDriver implements PersistenceDriverInterface
      */
     public function load(ContainerBuilder $container, array $config)
     {
-        foreach ($config['classes'] as $key => $classConfig) {
-            $classConfig['name'] = $key;
-            $this->setParameters($container, $classConfig);
-            $this->createObjectManagerAlias($container, $classConfig);
-            $this->createRepositoryDefinition($container, $classConfig);
-            if (isset($classConfig['factory'])) {
-                $this->createFactoryDefinition($container, $classConfig);
-            }
+        $this->setParameters($container, $config);
+        $this->createObjectManagerAlias($container, $config);
+        $this->createRepositoryDefinition($container, $config);
+        if (isset($config['factory'])) {
+            $this->createFactoryDefinition($container, $config);
         }
     }
 
@@ -64,7 +62,7 @@ abstract class AbstractDriver implements PersistenceDriverInterface
 
         $definition = new Definition($repositoryClass);
         $definition->setArguments([
-            new Reference($this->getObjectManagerId()),
+            new Reference($this->getObjectManagerId($config)),
             $this->getClassMetadataDefinition($config),
         ]);
 
@@ -79,7 +77,7 @@ abstract class AbstractDriver implements PersistenceDriverInterface
         $factoryClass = $config['factory'];
         $definition = new Definition($factoryClass);
         $definition->setArguments([
-            new Reference($this->getObjectManagerId()),
+            new Reference($this->getObjectManagerId($config)),
             $this->getClassMetadataDefinition($config),
         ]);
 
@@ -97,8 +95,22 @@ abstract class AbstractDriver implements PersistenceDriverInterface
     {
         $container->setAlias(
             'swp.object_manager.'.$config['name'],
-            new Alias($this->getObjectManagerId())
+            new Alias($this->getObjectManagerId($config))
         );
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function getObjectManagerName($config)
+    {
+        $objectManagerName = null;
+
+        if (isset($config['object_manager_name'])) {
+            $objectManagerName = $config['object_manager_name'];
+        }
+
+        return $objectManagerName;
     }
 
     /**
@@ -108,7 +120,7 @@ abstract class AbstractDriver implements PersistenceDriverInterface
     {
         $definition = new Definition($this->getClassMetadataClassName());
         $definition
-            ->setFactory([new Reference($this->getObjectManagerId()), 'getClassMetadata'])
+            ->setFactory([new Reference($this->getObjectManagerId($config)), 'getClassMetadata'])
             ->setArguments([$config['model']])
             ->setPublic(false)
         ;

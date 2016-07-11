@@ -13,10 +13,9 @@
  */
 namespace SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR;
 
-use SWP\Bundle\ContentBundle\Model\RouteInterface;
 use SWP\Bundle\MultiTenancyBundle\Document\Page;
 
-class Route extends Page implements RouteInterface
+class Route extends Page implements RouteObjectInterface
 {
     /**
      * @var string

@@ -75,7 +75,7 @@ class ArticleFactory implements ArticleFactoryInterface
     public function createFromPackage(PackageInterface $package)
     {
         $article = $this->create();
-        $article->setParent($this->articleProvider->findOneById($this->contentRelativePath));
+        $article->setParentDocument($this->articleProvider->getParent($this->contentRelativePath));
         $article->setTitle($package->getHeadline());
         $article->setBody(implode('', array_map(function (ItemInterface $item) {
             return $item->getBody();

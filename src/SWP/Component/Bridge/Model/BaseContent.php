@@ -48,7 +48,7 @@ class BaseContent implements ContentInterface
     /**
      * @var array
      */
-    protected $subjects;
+    protected $subjects = [];
 
     /**
      * @var string
@@ -58,7 +58,7 @@ class BaseContent implements ContentInterface
     /**
      * @var array
      */
-    protected $places;
+    protected $places = [];
 
     /**
      * @var string
@@ -79,11 +79,6 @@ class BaseContent implements ContentInterface
      * @var int
      */
     protected $version;
-
-    public function __construct()
-    {
-        $this->places = [];
-    }
 
     /**
      * @return mixed

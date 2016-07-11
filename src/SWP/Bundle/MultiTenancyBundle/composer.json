@@ -3,7 +3,7 @@
     "type": "symfony-bundle",
     "description": "This bundle provides tools to build multi-tenant architecture for PHP applications.",
     "keywords": ["multi-tenancy", "tenant", "superdesk", "webpublisher", "saas"],
-    "license":"GPL-3.0",
+    "license":"AGPL-3.0",
     "minimum-stability": "dev",
     "authors": [
         {

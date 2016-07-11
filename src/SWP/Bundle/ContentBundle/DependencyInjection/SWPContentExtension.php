@@ -13,8 +13,8 @@
  */
 namespace SWP\Bundle\ContentBundle\DependencyInjection;
 
-use SWP\Component\Storage\Drivers;
-use SWP\Component\Storage\Extension\Extension;
+use SWP\Bundle\StorageBundle\Drivers;
+use SWP\Bundle\StorageBundle\DependencyInjection\Extension\Extension;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\Loader;
@@ -36,23 +36,12 @@ class SWPContentExtension extends Extension
         $loader->load('services.yml');
 
         if ($config['persistence']['phpcr']['enabled']) {
-            $this->loadPhpcrProvider($config['persistence']['phpcr'], $container);
+            $this->registerStorage(Drivers::DRIVER_DOCTRINE_PHPCR_ODM, $config['persistence']['phpcr']['classes'], $container);
             $container->setParameter(
                 sprintf('%s.persistence.phpcr.default_content_path', $this->getAlias()),
                 $config['persistence']['phpcr']['default_content_path']
             );
             $loader->load('providers.yml');
         }
-    }
-
-    private function loadPhpcrProvider($config, ContainerBuilder $container)
-    {
-        $container->setParameter(
-            sprintf('%s.persistence.phpcr.manager_name', $this->getAlias()),
-            $config['object_manager_name']
-        );
-
-        $container->setParameter('swp_content.backend_type_phpcr', true);
-        $this->registerStorage(Drivers::DRIVER_DOCTRINE_PHPCR_ODM, $config, $container);
     }
 }

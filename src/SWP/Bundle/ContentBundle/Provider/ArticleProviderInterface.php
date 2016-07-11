@@ -24,5 +24,14 @@ interface ArticleProviderInterface
      *
      * @return ArticleInterface
      */
-    public function findOneById($id);
+    public function getOneById($id);
+
+    /**
+     * Gets parent article.
+     *
+     * @param $id
+     *
+     * @return ArticleInterface
+     */
+    public function getParent($id);
 }

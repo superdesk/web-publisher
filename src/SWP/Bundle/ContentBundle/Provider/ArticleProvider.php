@@ -48,12 +48,20 @@ class ArticleProvider implements ArticleProviderInterface
     /**
      * {@inheritdoc}
      */
-    public function findOneById($id)
+    public function getOneById($id)
     {
         if (!filter_var($id, FILTER_VALIDATE_INT)) {
             return $this->articleRepository->findOneBySlug($id);
         }
 
         return $this->articleRepository->findOneBy(['id' => $id]);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getParent($id)
+    {
+        return $this->articleRepository->find($this->pathBuilder->build($id));
     }
 }

@@ -13,8 +13,8 @@
  */
 namespace SWP\Bundle\BridgeBundle\DependencyInjection;
 
-use SWP\Component\Storage\Drivers;
-use SWP\Component\Storage\Extension\Extension;
+use SWP\Bundle\StorageBundle\Drivers;
+use SWP\Bundle\StorageBundle\DependencyInjection\Extension\Extension;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader;
@@ -55,13 +55,7 @@ class SWPBridgeExtension extends Extension
         }
         $container->setParameter($this->getAlias().'.options', $defaultOptions);
         if ($config['persistence']['orm']['enabled']) {
-            $this->registerStorage(Drivers::DRIVER_DOCTRINE_ORM, $config['persistence']['orm'], $container);
-            $container->setParameter(
-                sprintf('%s.persistence.orm.manager_name', $this->getAlias()),
-                $config['persistence']['orm']['object_manager_name']
-            );
-
-            $container->setParameter($this->getAlias().'.backend_type_orm', true);
+            $this->registerStorage(Drivers::DRIVER_DOCTRINE_ORM, $config['persistence']['orm']['classes'], $container);
         }
     }
 }
