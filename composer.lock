@@ -4680,13 +4680,8 @@
             },
             "dist": {
                 "type": "zip",
-<<<<<<< HEAD
                 "url": "https://api.github.com/repos/symfony/symfony/zipball/b3dbc5678c6f14f99d0d74cceb7e9e4e938aa9cd",
                 "reference": "b3dbc5678c6f14f99d0d74cceb7e9e4e938aa9cd",
-=======
-                "url": "https://api.github.com/repos/symfony/symfony/zipball/27f1cfc9afa3b24e481004c08ecefbc47c8103b8",
-                "reference": "5a560f1d12a7ccf55f078542657cd3251f9d0913",
->>>>>>> master
                 "shasum": ""
             },
             "require": {
