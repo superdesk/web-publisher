@@ -16,7 +16,7 @@ By default, themes are located under the :code:`app/themes` directory. A basic t
         views/                  <=== Views directory
             home.html.twig
         translations/           <=== Translations directory
-            messages.en.yml
+            messages.en.xlf
         public/                 <=== Assets directory
             css/
             js/
@@ -53,7 +53,7 @@ A theme with device-specific templates could be structured like this:
         views/                      <=== Default templates directory
             home.html.twig
         translations/               <=== Translations directory
-            messages.en.yml
+            messages.en.xlf
         public/                     <=== Assets directory
             css/
             js/
@@ -68,3 +68,20 @@ A theme with device-specific templates could be structured like this:
      More details about theme structure and configuration can be found in the `Sylius Theme Bundle documentation`_.
 
 .. _Sylius Theme Bundle documentation: http://docs.sylius.org/en/latest/bundles/SyliusThemeBundle/your_first_theme.html
+
+Translations
+-------------------------
+
+The Symfony Translation component supports a variety of file formats for translation files, but in accordance with `best practices suggested in the Symfony documentation <https://symfony.com/doc/current/best_practices/i18n.html>`_, the XLIFF file format is preferred. `JMSTranslationBundle <http://jmsyst.com/bundles/JMSTranslationBundle>`_ has been added to the project to facilitate the creation and updating of such files. Translation labels added to Twig and php files can be extracted and added to XLIFF files using a `console command <http://jmsyst.com/bundles/JMSTranslationBundle/master/usage>`_. The use of labels is preferred, with an accompanying description in English to inform a translator what needs to be translated. This description could simply be the English text which is to be displayed, but additional information about context could be provided to help a translator who may just be working with the XLIFF file.
+Here is an example of the preferred syntax in twig files:
+
+.. code-block:: twig
+	{{ 'index.welcome.title'|trans|desc('Welcome to Default Theme!') }}
+
+Here is the console command which can then be used to create or update a XLIFF file:
+
+.. code-block:: bash
+	app/console translation:extract *locale* --dir=./src/SWP/Bundle/FixturesBundle/Resources/themes/DefaultTheme/ --output-dir=./src/SWP/Bundle/FixturesBundle/Resources/themes/DefaultTheme/translations
+
+This will create or update a XLIFF file called messages.*locale*.xlf
+
