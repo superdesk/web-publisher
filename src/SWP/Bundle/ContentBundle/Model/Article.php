@@ -114,8 +114,6 @@ class Article implements ArticleInterface
     public function setRoute(RouteInterface $route)
     {
         $this->route = $route;
-
-        return $this;
     }
 
     public function getRoute()

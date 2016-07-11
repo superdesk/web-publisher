@@ -8,7 +8,7 @@ use Symfony\Cmf\Component\Routing\RouteObjectInterface;
 use SWP\Bundle\WebRendererBundle\Resolver\TemplateNameResolver;
 use SWP\Bundle\ContentBundle\Model\RouteInterface;
 use SWP\Bundle\ContentBundle\Model\Article;
-use SWP\TemplatesSystem\Gimme\Loader\LoaderInterface;
+use SWP\Component\TemplatesSystem\Gimme\Loader\LoaderInterface;
 
 class RouteEnhancerSpec extends ObjectBehavior
 {
