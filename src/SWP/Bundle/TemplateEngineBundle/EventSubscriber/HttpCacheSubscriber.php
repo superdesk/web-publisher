@@ -14,7 +14,6 @@
 namespace SWP\Bundle\TemplateEngineBundle\EventSubscriber;
 
 use FOS\HttpCache\Exception\ExceptionCollection;
-use SWP\Bundle\ContentBundle\Document\Route;
 use SWP\Bundle\ContentBundle\Model\ArticleInterface;
 use SWP\Bundle\TemplateEngineBundle\Model\Container;
 use SWP\Component\Common\Event\HttpCacheEvent;
@@ -43,7 +42,7 @@ class HttpCacheSubscriber implements EventSubscriberInterface
 
     public function clearCache(HttpCacheEvent $event)
     {
-        switch(true) {
+        switch (true) {
             case $event->getSubject() instanceof Container:
                 $this->cacheManager->invalidateRoute('swp_api_templates_list_containers');
                 $this->cacheManager->invalidateRoute('swp_api_templates_get_container', [
