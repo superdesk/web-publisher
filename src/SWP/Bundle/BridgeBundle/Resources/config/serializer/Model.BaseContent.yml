@@ -1,0 +1,48 @@
+SWP\Component\Bridge\Model\BaseContent:
+    exclusion_policy: ALL
+    properties:
+        id:
+            expose: true
+            type: integer
+        guid:
+            expose: true
+            type: string
+        headline:
+            expose: true
+            type: string
+        byline:
+            expose: true
+            type: string
+        slugline:
+            expose: true
+            type: string
+        createdAt:
+            expose: true
+            serialized_name: versioncreated
+            type: DateTime<'Y-m-d\TH:i:sO'>
+        language:
+            expose: true
+            type: string
+        subjects:
+            expose: true
+            serialized_name: subject
+            type: array
+        type:
+            expose: true
+            type: string
+        places:
+            expose: true
+            serialized_name: place
+            type: array
+        located:
+            expose: true
+            type: string
+        urgency:
+            expose: true
+            type: integer
+        priority:
+            expose: true
+            type: integer
+        version:
+            expose: true
+            type: integer

@@ -14,7 +14,7 @@
 namespace SWP\Bundle\TemplateEngineBundle\EventSubscriber;
 
 use FOS\HttpCache\Exception\ExceptionCollection;
-use SWP\Bundle\ContentBundle\Document\Route;
+use SWP\Bundle\ContentBundle\Model\ArticleInterface;
 use SWP\Bundle\TemplateEngineBundle\Model\Container;
 use SWP\Component\Common\Event\HttpCacheEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -42,18 +42,25 @@ class HttpCacheSubscriber implements EventSubscriberInterface
 
     public function clearCache(HttpCacheEvent $event)
     {
-        if ($event->getSubject() instanceof Container) {
-            $this->cacheManager->invalidateRoute('swp_api_templates_list_containers');
-            $this->cacheManager->invalidateRoute('swp_api_templates_get_container', [
-                'id' => $event->getSubject()->getId(),
-            ]);
-        }
-
-        if ($event->getSubject() instanceof Route) {
-            $this->cacheManager->invalidateRoute('swp_api_content_list_routes');
-            $this->cacheManager->invalidateRoute('swp_api_content_show_routes', [
-                'id' => $event->getSubject()->getPath(),
-            ]);
+        switch (true) {
+            case $event->getSubject() instanceof Container:
+                $this->cacheManager->invalidateRoute('swp_api_templates_list_containers');
+                $this->cacheManager->invalidateRoute('swp_api_templates_get_container', [
+                    'id' => $event->getSubject()->getId(),
+                ]);
+                break;
+            case $event->getSubject() instanceof RouteInterface:
+                $this->cacheManager->invalidateRoute('swp_api_content_list_routes');
+                $this->cacheManager->invalidateRoute('swp_api_content_show_routes', [
+                    'id' => $event->getSubject()->getPath(),
+                ]);
+                break;
+            case $event->getSubject() instanceof ArticleInterface:
+                $this->cacheManager->invalidateRoute('swp_api_content_list_articles');
+                $this->cacheManager->invalidateRoute('swp_api_content_show_articles', [
+                    'id' => $event->getSubject()->getId(),
+                ]);
+                break;
         }
 
         try {

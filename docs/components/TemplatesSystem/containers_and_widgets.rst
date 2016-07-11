@@ -10,7 +10,7 @@ A template file can optionally have one or more containers, `block` elements tha
 For example, article sidebar content, footer, or front page content blocks.
 This same container can be placed in many different templates, or even many times in the same template.
 
-Every container can have default parameters and content, and can be hidden when not needed. 
+Every container can have default parameters and content, and can be hidden when not needed.
 The container twig tag keeps HTML syntax always up to date with JavaScript live management expectations.
 Container default values can be overridden by widgets.
 

@@ -13,5 +13,7 @@ The goal of these components is to solve the problems related mainly to content 
 
    using_components
    MultiTenancy/index
+   Storage/index
+   Bridge/index
 
 .. include:: /components/map.rst.inc

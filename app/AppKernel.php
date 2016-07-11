@@ -30,6 +30,7 @@ class AppKernel extends Kernel
             new Doctrine\Bundle\DoctrineCacheBundle\DoctrineCacheBundle(),
             new JMS\TranslationBundle\JMSTranslationBundle(),
 
+            new SWP\Bundle\StorageBundle\SWPStorageBundle(),
             new SWP\Bundle\MultiTenancyBundle\SWPMultiTenancyBundle(),
             new SWP\Bundle\TemplateEngineBundle\SWPTemplateEngineBundle(),
             new SWP\Bundle\WebRendererBundle\SWPWebRendererBundle(),

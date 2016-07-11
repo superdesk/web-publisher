@@ -1,0 +1,5 @@
+suites:
+    main:
+        namespace: SWP\Bundle\StorageBundle
+        psr4_prefix: SWP\Bundle\StorageBundle
+        src_path: .

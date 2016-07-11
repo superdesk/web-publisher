@@ -5,6 +5,16 @@ suites:
         psr4_prefix: SWP\Component\MultiTenancy
         spec_path: src/SWP/Component/MultiTenancy
         src_path: src/SWP/Component/MultiTenancy
+    Bridge_suite:
+        namespace: SWP\Component\Bridge
+        psr4_prefix: SWP\Component\Bridge
+        spec_path: src/SWP/Component/Bridge
+        src_path: src/SWP/Component/Bridge
+    Storage_suite:
+        namespace: SWP\Component\Storage
+        psr4_prefix: SWP\Component\Storage
+        spec_path: src/SWP/Component/Storage
+        src_path: src/SWP/Component/Storage
 
     # bundles
     MultiTenancyBundle_suite:
@@ -27,6 +37,11 @@ suites:
         psr4_prefix: SWP\Bundle\BridgeBundle
         spec_path: src/SWP/Bundle/BridgeBundle
         src_path: src/SWP/Bundle/BridgeBundle
+    StorageBundle_suite:
+        namespace: SWP\Bundle\StorageBundle
+        psr4_prefix: SWP\Bundle\StorageBundle
+        spec_path: src/SWP/Bundle/StorageBundle
+        src_path: src/SWP/Bundle/StorageBundle
 
 #extensions:
 #    - PhpSpec\Extension\CodeCoverageExtension

@@ -17,6 +17,7 @@ use Doctrine\Bundle\PHPCRBundle\Initializer\InitializerInterface;
 use Doctrine\Bundle\PHPCRBundle\ManagerRegistry;
 use PHPCR\SessionInterface;
 use PHPCR\Util\NodeHelper;
+use SWP\Bundle\ContentBundle\Model\RouteInterface;
 use SWP\Component\MultiTenancy\Model\SiteDocumentInterface;
 use SWP\Component\MultiTenancy\PathBuilder\TenantAwarePathBuilderInterface;
 use SWP\Component\MultiTenancy\Provider\TenantProviderInterface;
@@ -131,6 +132,7 @@ class PHPCRBasePathsInitializer implements InitializerInterface
                 $route = new $this->documentClass();
                 $route->setParentDocument($this->dm->find(null, $path));
                 $route->setName($home);
+                $route->setType(RouteInterface::TYPE_CONTENT);
                 $this->dm->persist($route);
             }
         }

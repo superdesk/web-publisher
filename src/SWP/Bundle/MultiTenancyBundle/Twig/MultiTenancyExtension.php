@@ -15,7 +15,7 @@ namespace SWP\Bundle\MultiTenancyBundle\Twig;
 
 use SWP\Component\MultiTenancy\Context\TenantContextInterface;
 
-class MultiTenancyExtension extends \Twig_Extension
+class MultiTenancyExtension extends \Twig_Extension implements \Twig_Extension_GlobalsInterface
 {
     /**
      * @var TenantContextInterface

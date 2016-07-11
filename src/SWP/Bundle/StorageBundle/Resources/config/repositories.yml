@@ -1,0 +1,4 @@
+parameters:
+    # default repositories classes for each driver
+    swp.phpcr_odm.repository.class: SWP\Bundle\StorageBundle\Doctrine\ODM\PHPCR\DocumentRepository
+    swp.orm.repository.class: SWP\Bundle\StorageBundle\Doctrine\ORM\EntityRepository

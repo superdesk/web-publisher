@@ -12,6 +12,7 @@
  */
 namespace SWP\Bundle\MultiTenancyBundle\Document;
 
+use SWP\Component\MultiTenancy\Model\RouteInterface;
 use SWP\Component\MultiTenancy\Model\SiteDocumentInterface;
 
 class Site implements SiteDocumentInterface
@@ -22,7 +23,7 @@ class Site implements SiteDocumentInterface
     protected $id;
 
     /**
-     * @var Route
+     * @var RouteInterface
      */
     protected $homepage;
 
@@ -44,5 +45,21 @@ class Site implements SiteDocumentInterface
     public function getChildren()
     {
         return $this->children;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getHomepage()
+    {
+        return $this->homepage;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setHomepage(RouteInterface $homepage)
+    {
+        $this->homepage = $homepage;
     }
 }
