@@ -45,6 +45,6 @@ class GoogleAdSenseWidgetHandler extends AbstractWidgetHandler
     public function render()
     {
         $all = $this->getAllParametersWithValue();
-        $this->renderTemplate('adsense.html.twig', $all);
+        return $this->renderTemplate('adsense.html.twig', $all);
     }
 }
