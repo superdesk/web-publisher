@@ -11,7 +11,6 @@
  * @copyright 2015 Sourcefabric z.ú.
  * @license http://www.superdesk.org/license
  */
-
 namespace SWP\Component\TemplatesSystem\Tests\Gimme\Widget;
 
 use SWP\Component\TemplatesSystem\Gimme\Widget\GoogleAdSenseWidgetHandler;

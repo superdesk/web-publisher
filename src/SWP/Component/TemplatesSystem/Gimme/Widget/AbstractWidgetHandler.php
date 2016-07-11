@@ -14,7 +14,6 @@
 namespace SWP\Component\TemplatesSystem\Gimme\Widget;
 
 use SWP\Component\TemplatesSystem\Gimme\Model\WidgetModelInterface;
-use Symfony\Bundle\TwigBundle\TwigEngine;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -87,7 +86,7 @@ abstract class AbstractWidgetHandler implements WidgetHandlerInterface, Containe
     }
 
     /**
-     * Render given template with given parameters
+     * Render given template with given parameters.
      */
     protected function renderTemplate($templateName, $parameters = array())
     {
@@ -95,7 +94,7 @@ abstract class AbstractWidgetHandler implements WidgetHandlerInterface, Containe
     }
 
     /**
-     * Returns associative array with all expected parameters and their values
+     * Returns associative array with all expected parameters and their values.
      *
      * @return array
      */
