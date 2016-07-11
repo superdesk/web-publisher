@@ -15,9 +15,7 @@ namespace SWP\Bundle\ContentBundle\Model;
 
 use Behat\Transliterator\Transliterator;
 use SWP\Component\Common\Model\SoftDeletableTrait;
-use SWP\Component\Common\Model\TimestampableTrait;
 use SWP\Component\Common\Model\TranslatableTrait;
-use SWP\Bundle\ContentBundle\Model\RouteInterface;
 
 class Article implements ArticleInterface
 {
@@ -208,7 +206,6 @@ class Article implements ArticleInterface
     /**
      * {@inheritdoc}
      */
-
     public function getTemplateName()
     {
         return $this->templateName;
