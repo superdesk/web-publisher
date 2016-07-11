@@ -14,17 +14,17 @@
 namespace SWP\Bundle\ContentBundle\Controller;
 
 use FOS\RestBundle\Controller\FOSRestController;
+use FOS\RestBundle\View\View;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use Symfony\Component\HttpKernel\Exception\ConflictHttpException;
-use FOS\RestBundle\View\View;
-use Symfony\Component\HttpFoundation\Request;
-use SWP\Bundle\ContentBundle\Form\Type\RouteType;
 use SWP\Bundle\ContentBundle\Document;
+use SWP\Bundle\ContentBundle\Form\Type\RouteType;
 use SWP\Component\Common\Event\HttpCacheEvent;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\Exception\ConflictHttpException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class RoutesController extends FOSRestController
 {

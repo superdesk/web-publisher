@@ -21,22 +21,22 @@ use Twig_Extension;
 
 class WebRendererExtensionSpec extends ObjectBehavior
 {
-    function let(ThemeContextInterface $themeContext)
+    public function let(ThemeContextInterface $themeContext)
     {
         $this->beConstructedWith($themeContext);
     }
 
-    function it_is_initializable()
+    public function it_is_initializable()
     {
         $this->shouldHaveType(WebRendererExtension::class);
     }
 
-    function it_is_a_twig_extension()
+    public function it_is_a_twig_extension()
     {
         $this->shouldHaveType(Twig_Extension::class);
     }
 
-    function it_should_return_global_variables(ThemeInterface $theme, ThemeContextInterface $themeContext)
+    public function it_should_return_global_variables(ThemeInterface $theme, ThemeContextInterface $themeContext)
     {
         $theme->getName()->willReturn('swp/theme-one');
         $theme->getPath()->willReturn('/path/to/theme/');
@@ -50,7 +50,7 @@ class WebRendererExtensionSpec extends ObjectBehavior
         $this->getGlobals()->shouldReturn($globals);
     }
 
-    function it_should_have_a_name()
+    public function it_should_have_a_name()
     {
         $this->getName()->shouldReturn('swp_webrenderer');
     }

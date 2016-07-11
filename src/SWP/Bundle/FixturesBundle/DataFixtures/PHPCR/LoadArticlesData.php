@@ -16,8 +16,8 @@ namespace SWP\Bundle\FixturesBundle\DataFixtures\PHPCR;
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use SWP\Bundle\ContentBundle\Document\Article;
-use SWP\Bundle\FixturesBundle\AbstractFixture;
 use SWP\Bundle\ContentBundle\Document\Route;
+use SWP\Bundle\FixturesBundle\AbstractFixture;
 
 class LoadArticlesData extends AbstractFixture implements FixtureInterface
 {

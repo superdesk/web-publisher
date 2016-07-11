@@ -13,12 +13,12 @@
  */
 namespace SWP\Bundle\WebRendererBundle\Locator;
 
+use SWP\Bundle\WebRendererBundle\Detection\DeviceDetectionInterface;
+use Sylius\Bundle\ThemeBundle\Locator\ResourceLocatorInterface;
+use Sylius\Bundle\ThemeBundle\Locator\ResourceNotFoundException;
 use Sylius\Bundle\ThemeBundle\Model\ThemeInterface;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpKernel\KernelInterface;
-use Sylius\Bundle\ThemeBundle\Locator\ResourceLocatorInterface;
-use Sylius\Bundle\ThemeBundle\Locator\ResourceNotFoundException;
-use SWP\Bundle\WebRendererBundle\Detection\DeviceDetectionInterface;
 
 class BundleResourceLocator implements ResourceLocatorInterface
 {
@@ -75,7 +75,7 @@ class BundleResourceLocator implements ResourceLocatorInterface
         $bundleName = $this->getBundleNameFromResourcePath($resourcePath);
         $resourceName = $this->getResourceNameFromResourcePath($resourcePath);
         $bundles = $this->kernel->getBundle($bundleName, false);
-        $paths = array();
+        $paths = [];
         if (is_array($bundles)) {
             foreach ($bundles as $bundle) {
                 if ($this->deviceDetection->getType() !== null) {

@@ -13,21 +13,21 @@
  */
 namespace SWP\Bundle\TemplateEngineBundle\Model;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use SWP\Component\Common\Model\TimestampableInterface;
 use SWP\Component\MultiTenancy\Model\TenantAwareInterface;
 use SWP\Component\MultiTenancy\Model\TenantInterface;
-use SWP\TemplatesSystem\Gimme\Model\WidgetInterface;
-use Doctrine\Common\Collections\ArrayCollection;
+use SWP\Component\TemplatesSystem\Gimme\Model\WidgetModelInterface;
 
 /**
- * Widget.
+ * WidgetModel.
  */
-class Widget implements WidgetInterface, TenantAwareInterface, TimestampableInterface
+class WidgetModel implements WidgetModelInterface, TenantAwareInterface, TimestampableInterface
 {
     const TYPE_HTML = 1;
 
     protected $types = [
-        self::TYPE_HTML => '\\SWP\\TemplatesSystem\\Gimme\\Widget\\HtmlWidget',
+        self::TYPE_HTML => '\\SWP\\Component\\TemplatesSystem\\Gimme\\WidgetModel\\HtmlWidgetHandler',
     ];
 
     /**
@@ -98,7 +98,7 @@ class Widget implements WidgetInterface, TenantAwareInterface, TimestampableInte
      *
      * @param string $name
      *
-     * @return Widget
+     * @return WidgetModel
      */
     public function setName($name)
     {
@@ -132,7 +132,7 @@ class Widget implements WidgetInterface, TenantAwareInterface, TimestampableInte
      *
      * @param bool $visible the visible
      *
-     * @return self
+     * @return WidgetModel
      */
     public function setVisible($visible = true)
     {
@@ -156,7 +156,7 @@ class Widget implements WidgetInterface, TenantAwareInterface, TimestampableInte
      *
      * @param int $type the type
      *
-     * @return self
+     * @return WidgetModel
      */
     public function setType($type = self::TYPE_HTML)
     {
@@ -182,9 +182,9 @@ class Widget implements WidgetInterface, TenantAwareInterface, TimestampableInte
      *
      * @param [] $parameters the parameters
      *
-     * @return self
+     * @return WidgetModel
      */
-    public function setParameters($parameters = array())
+    public function setParameters($parameters = [])
     {
         $this->parameters = $parameters;
 
@@ -206,7 +206,7 @@ class Widget implements WidgetInterface, TenantAwareInterface, TimestampableInte
      *
      * @param ArrayCollection $containers the containers
      *
-     * @return self
+     * @return WidgetModel
      */
     protected function setContainers(ArrayCollection $containers)
     {

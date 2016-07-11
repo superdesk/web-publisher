@@ -71,7 +71,6 @@
         "friendsofsymfony/rest-bundle": "2.1.x-dev as 1.5",
         "jackalope/jackalope-doctrine-dbal": "1.3.*",
         "oneup/flysystem-bundle": "^1.1",
-        "swp/templates-system": "^1.0@dev",
         "swp/updater-bundle": "^1.0@dev",
         "behat/transliterator": "^1.1@dev",
         "willdurand/hateoas-bundle": "^1.1",
@@ -97,7 +96,8 @@
         "swp/multi-tenancy": "self.version",
         "swp/multi-tenancy-bundle": "self.version",
         "swp/analytics-bundle": "self.version",
-        "swp/bridge-bundle": "self.version"
+        "swp/bridge-bundle": "self.version",
+        "swp/templates-system": "self.version"
     },
     "scripts": {
         "post-install-cmd": [

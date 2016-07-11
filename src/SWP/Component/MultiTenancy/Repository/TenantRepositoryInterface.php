@@ -25,9 +25,9 @@ interface TenantRepositoryInterface
      *
      * @param string $subdomain The subdomain
      *
-     * @return TenantInterface|null The instance of TenantInterface or null
-     *
      * @throws \Doctrine\ORM\NonUniqueResultException
+     *
+     * @return TenantInterface|null The instance of TenantInterface or null
      */
     public function findBySubdomain($subdomain);
 

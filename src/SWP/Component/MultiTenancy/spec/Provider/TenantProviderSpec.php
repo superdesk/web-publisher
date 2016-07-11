@@ -35,18 +35,18 @@ class TenantProviderSpec extends ObjectBehavior
 
     public function it_provides_an_array_of_all_available_tenants($tenantRepository)
     {
-        $tenants = array(
-            0 => array(
+        $tenants = [
+            0 => [
                 'id' => 1,
                 'name' => 'test name',
                 'subdomain' => 'example1',
-            ),
-            1 => array(
+            ],
+            1 => [
                 'id' => 2,
                 'name' => 'test name 2',
                 'subdomain' => 'example2',
-            ),
-        );
+            ],
+        ];
 
         $tenantRepository->findAvailableTenants()
             ->shouldBeCalled()

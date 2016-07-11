@@ -13,10 +13,10 @@
  */
 namespace SWP\Bundle\MultiTenancyBundle\DependencyInjection\Compiler;
 
-use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
-use Symfony\Component\DependencyInjection\Reference;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Exception\RuntimeException;
+use Symfony\Component\DependencyInjection\Reference;
 
 /**
  * Configures Symfony CMF PrefixCandidates to make the prefixes tenant aware.
@@ -47,7 +47,6 @@ class ConfigurePrefixCandidatesCompilerPass implements CompilerPassInterface
             ])
             ->addMethodCall('setRoutePathsNames', [
                 $container->getParameter('swp_multi_tenancy.persistence.phpcr.route_basepaths'),
-            ])
-        ;
+            ]);
     }
 }

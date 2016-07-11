@@ -27,7 +27,7 @@ class GuzzleApiClient extends DefaultApiClient
      *
      * @var array
      */
-    protected $options = array();
+    protected $options = [];
 
     /**
      * {@inheritdoc}

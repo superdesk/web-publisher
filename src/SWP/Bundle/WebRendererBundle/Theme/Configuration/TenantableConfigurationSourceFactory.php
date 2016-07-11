@@ -39,8 +39,7 @@ final class TenantableConfigurationSourceFactory implements ConfigurationSourceF
                         ->requiresAtLeastOneElement()
                         ->performNoDeepMerging()
                         ->prototype('scalar')
-                    ->end()
-        ;
+                    ->end();
     }
 
     /**

@@ -24,7 +24,7 @@ class ContainerWidget
     protected $id;
 
     /**
-     * @var Widget
+     * @var WidgetModel
      */
     protected $widget;
 
@@ -38,7 +38,7 @@ class ContainerWidget
      */
     protected $position;
 
-    public function __construct(Container $container, Widget $widget)
+    public function __construct(Container $container, WidgetModel $widget)
     {
         $this->container = $container;
         $this->widget = $widget;
@@ -60,9 +60,9 @@ class ContainerWidget
     }
 
     /**
-     * Get Widget.
+     * Get WidgetModel.
      *
-     * @return Widget
+     * @return WidgetModel
      */
     public function getWidget()
     {

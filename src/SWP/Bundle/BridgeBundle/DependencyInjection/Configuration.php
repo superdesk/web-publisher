@@ -46,7 +46,7 @@ class Configuration implements ConfigurationInterface
                         ->end()
                         ->enumNode('protocol')
                             ->info('Protocol which will be used for connection to the Content Api.')
-                            ->values(array('http', 'https'))
+                            ->values(['http', 'https'])
                             ->defaultValue('https')
                         ->end()
                     ->end()
@@ -71,8 +71,7 @@ class Configuration implements ConfigurationInterface
                     ->end()
                 ->end()
                 ->variableNode('options')->end()
-            ->end()
-        ;
+            ->end();
 
         return $treeBuilder;
     }

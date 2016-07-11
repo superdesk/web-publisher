@@ -18,7 +18,7 @@ SWP\Bundle\TemplateEngineBundle\Model\ContainerWidget:
                 - sortablePosition
     manyToOne:
         widget:
-            targetEntity: SWP\Bundle\TemplateEngineBundle\Model\Widget
+            targetEntity: SWP\Bundle\TemplateEngineBundle\Model\WidgetModel
             inversedBy: containers
             joinColumn:
                 name: widget_id

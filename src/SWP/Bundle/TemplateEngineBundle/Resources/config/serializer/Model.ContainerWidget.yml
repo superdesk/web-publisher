@@ -6,7 +6,7 @@ SWP\Bundle\TemplateEngineBundle\Model\ContainerWidget:
             type: integer
         widget:
             expose: true
-            type: SWP\Bundle\TemplateEngineBundle\Model\Widget
+            type: SWP\Bundle\TemplateEngineBundle\Model\WidgetModel
         position:
             expose: true
             type: string

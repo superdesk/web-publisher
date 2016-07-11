@@ -13,11 +13,11 @@
  */
 namespace SWP\Bundle\MultiTenancyBundle\EventListener;
 
-use Doctrine\ORM\Events;
-use Doctrine\ORM\Event\LifecycleEventArgs;
 use Doctrine\Common\EventSubscriber;
-use SWP\Component\MultiTenancy\Model\TenantAwareInterface;
+use Doctrine\ORM\Event\LifecycleEventArgs;
+use Doctrine\ORM\Events;
 use SWP\Component\MultiTenancy\Context\TenantContextInterface;
+use SWP\Component\MultiTenancy\Model\TenantAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -50,9 +50,9 @@ class TenantSubscriber implements EventSubscriber
      */
     public function getSubscribedEvents()
     {
-        return array(
+        return [
             Events::prePersist,
-        );
+        ];
     }
 
     /**
