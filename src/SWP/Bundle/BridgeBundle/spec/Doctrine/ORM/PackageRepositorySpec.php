@@ -24,17 +24,17 @@ use SWP\Component\Storage\Repository\RepositoryInterface;
  */
 class PackageRepositorySpec extends ObjectBehavior
 {
-    function let(EntityManagerInterface $entityManager, ClassMetadata $classMetadata)
+    public function let(EntityManagerInterface $entityManager, ClassMetadata $classMetadata)
     {
         $this->beConstructedWith($entityManager, $classMetadata);
     }
 
-    function it_is_initializable()
+    public function it_is_initializable()
     {
         $this->shouldHaveType(PackageRepository::class);
     }
 
-    function it_is_repository()
+    public function it_is_repository()
     {
         $this->shouldImplement(RepositoryInterface::class);
     }

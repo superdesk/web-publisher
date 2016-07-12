@@ -23,38 +23,38 @@ use SWP\Bundle\ContentBundle\Model\RouteInterface;
  */
 class ArticleSpec extends ObjectBehavior
 {
-    function it_is_initializable()
+    public function it_is_initializable()
     {
         $this->shouldHaveType(Article::class);
     }
 
-    function it_should_implement_article_interface()
+    public function it_should_implement_article_interface()
     {
         $this->shouldImplement(ArticleInterface::class);
     }
 
-    function it_has_no_id_by_default()
+    public function it_has_no_id_by_default()
     {
         $this->getId()->shouldReturn(null);
     }
 
-    function it_has_no_body_by_default()
+    public function it_has_no_body_by_default()
     {
         $this->getBody()->shouldReturn(null);
     }
 
-    function its_body_is_mutable()
+    public function its_body_is_mutable()
     {
         $this->setBody('article body');
         $this->getBody()->shouldReturn('article body');
     }
 
-    function it_has_no_slug_by_default()
+    public function it_has_no_slug_by_default()
     {
         $this->getSlug()->shouldReturn(null);
     }
 
-    function its_slug_is_mutable()
+    public function its_slug_is_mutable()
     {
         $this->setSlug('slug');
         $this->getSlug()->shouldReturn('slug');
@@ -65,45 +65,45 @@ class ArticleSpec extends ObjectBehavior
         $this->getPublishedAt()->shouldReturn(null);
     }
 
-    function it_has_status_by_default()
+    public function it_has_status_by_default()
     {
         $this->getStatus()->shouldReturn(ArticleInterface::STATUS_NEW);
     }
 
-    function its_status_is_mutable()
+    public function its_status_is_mutable()
     {
         $this->setStatus(ArticleInterface::STATUS_SUBMITTED);
         $this->getStatus()->shouldReturn(ArticleInterface::STATUS_SUBMITTED);
     }
 
-    function it_has_no_route_by_default()
+    public function it_has_no_route_by_default()
     {
         $this->getRoute()->shouldReturn(null);
     }
 
-    function its_route_is_mutable(RouteInterface $route)
+    public function its_route_is_mutable(RouteInterface $route)
     {
         $this->setRoute($route);
         $this->getRoute()->shouldReturn($route);
     }
 
-    function it_has_no_template_by_default()
+    public function it_has_no_template_by_default()
     {
         $this->getTemplateName()->shouldReturn(null);
     }
 
-    function its_template_name_is_mutable()
+    public function its_template_name_is_mutable()
     {
         $this->setTemplateName('index.html.twig');
         $this->getTemplateName()->shouldReturn('index.html.twig');
     }
 
-    function it_has_no_locale_by_default()
+    public function it_has_no_locale_by_default()
     {
         $this->getLocale()->shouldReturn(null);
     }
 
-    function its_locale_is_mutable()
+    public function its_locale_is_mutable()
     {
         $this->setLocale('en');
         $this->getLocale()->shouldReturn('en');

@@ -25,17 +25,17 @@ use SWP\Bundle\StorageBundle\Doctrine\ODM\PHPCR\DocumentRepository;
  */
 class ArticleRepositorySpec extends ObjectBehavior
 {
-    function let(DocumentManagerInterface $entityManager, ClassMetadata $classMetadata)
+    public function let(DocumentManagerInterface $entityManager, ClassMetadata $classMetadata)
     {
         $this->beConstructedWith($entityManager, $classMetadata);
     }
 
-    function it_is_initializable()
+    public function it_is_initializable()
     {
         $this->shouldHaveType(ArticleRepository::class);
     }
 
-    function it_is_repository()
+    public function it_is_repository()
     {
         $this->shouldHaveType(DocumentRepository::class);
         $this->shouldImplement(ArticleRepositoryInterface::class);

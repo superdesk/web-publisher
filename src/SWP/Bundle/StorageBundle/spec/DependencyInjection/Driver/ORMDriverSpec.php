@@ -23,44 +23,44 @@ use Symfony\Component\DependencyInjection\Parameter;
  */
 class ORMDriverSpec extends ObjectBehavior
 {
-    function it_is_initializable()
+    public function it_is_initializable()
     {
         $this->shouldHaveType(ORMDriver::class);
     }
 
-    function it_implements_driver_interface()
+    public function it_implements_driver_interface()
     {
         $this->shouldImplement(PersistenceDriverInterface::class);
     }
 
-    function it_returns_default_object_manager_service_name()
+    public function it_returns_default_object_manager_service_name()
     {
         $this->getObjectManagerId([])->shouldReturn('doctrine.orm.default_entity_manager');
     }
 
-    function it_returns_custom_object_manager_service_name()
+    public function it_returns_custom_object_manager_service_name()
     {
         $this->getObjectManagerId([
             'object_manager_name' => 'custom',
         ])->shouldReturn('doctrine.orm.custom_entity_manager');
     }
 
-    function it_returns_class_metadata_name()
+    public function it_returns_class_metadata_name()
     {
         $this->getClassMetadataClassName()->shouldReturn('\\Doctrine\\ORM\\Mapping\\ClassMetadata');
     }
 
-    function it_returns_repository_class_parameter()
+    public function it_returns_repository_class_parameter()
     {
         $this->getDriverRepositoryParameter()->shouldHaveParameterName('swp.orm.repository.class');
     }
 
-    function it_is_supported()
+    public function it_is_supported()
     {
         $this->isSupported(ORMDriver::$type)->shouldReturn(true);
     }
 
-    function it_is_not_supported()
+    public function it_is_not_supported()
     {
         $this->isSupported('fake')->shouldReturn(false);
     }

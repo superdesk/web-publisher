@@ -24,22 +24,22 @@ use SWP\Component\Storage\Factory\FactoryInterface;
  */
 class RouteFactorySpec extends ObjectBehavior
 {
-    function let(FactoryInterface $factory)
+    public function let(FactoryInterface $factory)
     {
         $this->beConstructedWith($factory);
     }
 
-    function it_is_initializable()
+    public function it_is_initializable()
     {
         $this->shouldHaveType(RouteFactory::class);
     }
 
-    function it_has_route_factory_interface()
+    public function it_has_route_factory_interface()
     {
         $this->shouldImplement(RouteFactoryInterface::class);
     }
 
-    function it_creates_new_route_object(FactoryInterface $factory, RouteInterface $route)
+    public function it_creates_new_route_object(FactoryInterface $factory, RouteInterface $route)
     {
         $factory->create()->willReturn($route);
 

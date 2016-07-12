@@ -22,13 +22,13 @@ use SWP\Component\Storage\Model\PersistableInterface;
  */
 class SiteSpec extends ObjectBehavior
 {
-    function it_is_initializable()
+    public function it_is_initializable()
     {
         $this->shouldHaveType(Site::class);
         $this->shouldHaveType(\SWP\Bundle\MultiTenancyBundle\Document\Site::class);
     }
 
-    function it_should_implement_interfaces()
+    public function it_should_implement_interfaces()
     {
         $this->shouldImplement(PersistableInterface::class);
     }

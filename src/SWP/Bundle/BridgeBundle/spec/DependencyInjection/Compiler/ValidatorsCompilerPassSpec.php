@@ -25,17 +25,17 @@ use Symfony\Component\DependencyInjection\Definition;
  */
 class ValidatorsCompilerPassSpec extends ObjectBehavior
 {
-    function it_is_initializable()
+    public function it_is_initializable()
     {
         $this->shouldHaveType(ValidatorsCompilerPass::class);
     }
 
-    function it_is_compiler_pass()
+    public function it_is_compiler_pass()
     {
         $this->shouldImplement(CompilerPassInterface::class);
     }
 
-    function it_processes(ContainerBuilder $container, Definition $definition)
+    public function it_processes(ContainerBuilder $container, Definition $definition)
     {
         $container->hasDefinition('swp_bridge.http_push.validator_chain')->willreturn(true);
         $container->getDefinition('swp_bridge.http_push.validator_chain')->willreturn($definition);

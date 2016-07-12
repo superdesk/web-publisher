@@ -29,22 +29,22 @@ use SWP\Component\Common\Serializer\SerializerInterface;
  */
 class JsonToPackageTransformerSpec extends ObjectBehavior
 {
-    function let(SerializerInterface $serializer, ValidatorInterface $validator)
+    public function let(SerializerInterface $serializer, ValidatorInterface $validator)
     {
         $this->beConstructedWith($serializer, $validator);
     }
 
-    function it_is_initializable()
+    public function it_is_initializable()
     {
         $this->shouldHaveType(JsonToPackageTransformer::class);
     }
 
-    function it_implements_transformer_interface()
+    public function it_implements_transformer_interface()
     {
         $this->shouldImplement(DataTransformerInterface::class);
     }
 
-    function it_should_transform_json_to_package(
+    public function it_should_transform_json_to_package(
         PackageInterface $package,
         SerializerInterface $serializer,
         ValidatorInterface $validator
@@ -65,7 +65,7 @@ class JsonToPackageTransformerSpec extends ObjectBehavior
         $this->transform($json)->shouldReturn($package);
     }
 
-    function it_should_throw_exception(ValidatorInterface $validator)
+    public function it_should_throw_exception(ValidatorInterface $validator)
     {
         $validator->isValid('{invalid json}')->willReturn(false);
 
@@ -74,7 +74,7 @@ class JsonToPackageTransformerSpec extends ObjectBehavior
             ->during('transform', ['{invalid json}']);
     }
 
-    function it_should_not_support_reverse_transform()
+    public function it_should_not_support_reverse_transform()
     {
         $this
             ->shouldThrow(MethodNotSupportedException::class)

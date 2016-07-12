@@ -26,27 +26,27 @@ use SWP\Component\Storage\Exception\InvalidDriverException;
  */
 class DriverFactorySpec extends ObjectBehavior
 {
-    function it_is_initializable()
+    public function it_is_initializable()
     {
         $this->shouldHaveType(DriverFactory::class);
     }
 
-    function it_implements_driver_factory_interface()
+    public function it_implements_driver_factory_interface()
     {
         $this->shouldImplement(DriverFactoryInterface::class);
     }
 
-    function it_should_create_orm_driver()
+    public function it_should_create_orm_driver()
     {
         $this->createDriver(Drivers::DRIVER_DOCTRINE_ORM)->shouldHaveType(ORMDriver::class);
     }
 
-    function it_should_create_phpcr_driver()
+    public function it_should_create_phpcr_driver()
     {
         $this->createDriver(Drivers::DRIVER_DOCTRINE_PHPCR_ODM)->shouldHaveType(PHPCRDriver::class);
     }
 
-    function it_should_throw_an_exception_when_invalid_driver()
+    public function it_should_throw_an_exception_when_invalid_driver()
     {
         $this
             ->shouldThrow(InvalidDriverException::class)
