@@ -88,8 +88,11 @@ abstract class AbstractWidgetHandler implements WidgetHandlerInterface, Containe
     /**
      * Render given template with given parameters.
      */
-    protected function renderTemplate($templateName, $parameters = array())
+    protected function renderTemplate($templateName, $parameters = null)
     {
+        if (null === $parameters) {
+            $parameters = $this->getAllParametersWithValue();
+        }
         $this->container->get('templating')->render(self::WIDGET_TEMPLATE_PATH.'/'.$templateName, $parameters);
     }
 
