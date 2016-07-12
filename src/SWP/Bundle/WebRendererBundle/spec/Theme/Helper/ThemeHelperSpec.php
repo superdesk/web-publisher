@@ -22,27 +22,27 @@ use SWP\Bundle\WebRendererBundle\Theme\Helper\ThemeHelperInterface;
  */
 class ThemeHelperSpec extends ObjectBehavior
 {
-    function let()
+    public function let()
     {
         $this->beConstructedWith([]);
     }
 
-    function it_is_initializable()
+    public function it_is_initializable()
     {
         $this->shouldHaveType(ThemeHelper::class);
     }
 
-    function it_implements_theme_helper_interface()
+    public function it_implements_theme_helper_interface()
     {
         $this->shouldImplement(ThemeHelperInterface::class);
     }
 
-    function it_returns_empty_array()
+    public function it_returns_empty_array()
     {
         $this->process()->shouldReturn([]);
     }
 
-    function it_processes_theme_config()
+    public function it_processes_theme_config()
     {
         $this->beConstructedWith(['/path/to/theme/']);
 

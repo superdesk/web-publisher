@@ -31,29 +31,29 @@ use SWP\Component\Storage\Factory\FactoryInterface;
  */
 class ArticleFactorySpec extends ObjectBehavior
 {
-    function let(FactoryInterface $factory, RouteProviderInterface $routeProvider, ArticleProviderInterface $articleProvider)
+    public function let(FactoryInterface $factory, RouteProviderInterface $routeProvider, ArticleProviderInterface $articleProvider)
     {
         $this->beConstructedWith($factory, $routeProvider, $articleProvider, 'test');
     }
 
-    function it_is_initializable()
+    public function it_is_initializable()
     {
         $this->shouldHaveType(ArticleFactory::class);
     }
 
-    function it_has_an_interface()
+    public function it_has_an_interface()
     {
         $this->shouldImplement(ArticleFactoryInterface::class);
     }
 
-    function it_creates_new_article_object(FactoryInterface $factory, ArticleInterface $article)
+    public function it_creates_new_article_object(FactoryInterface $factory, ArticleInterface $article)
     {
         $factory->create()->willReturn($article);
 
         $this->create()->shouldReturn($article);
     }
 
-    function it_creates_article_from_package(
+    public function it_creates_article_from_package(
         FactoryInterface $factory,
         PackageInterface $package,
         Article $article,

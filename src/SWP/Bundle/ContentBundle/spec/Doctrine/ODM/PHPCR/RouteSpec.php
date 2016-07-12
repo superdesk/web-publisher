@@ -24,35 +24,35 @@ use SWP\Bundle\MultiTenancyBundle\Document\Page;
  */
 class RouteSpec extends ObjectBehavior
 {
-    function it_is_initializable()
+    public function it_is_initializable()
     {
         $this->shouldHaveType(Route::class);
         $this->shouldHaveType(Page::class);
     }
 
-    function it_should_implement_interfaces()
+    public function it_should_implement_interfaces()
     {
         $this->shouldImplement(RouteObjectInterface::class);
         $this->shouldImplement(HierarchyInterface::class);
     }
 
-    function it_has_no_template_by_default()
+    public function it_has_no_template_by_default()
     {
         $this->getTemplateName()->shouldReturn(null);
     }
 
-    function its_template_is_mutable()
+    public function its_template_is_mutable()
     {
         $this->setTemplateName('index.html.twig');
         $this->getTemplateName()->shouldReturn('index.html.twig');
     }
 
-    function it_has_no_type_by_default()
+    public function it_has_no_type_by_default()
     {
         $this->getType()->shouldReturn(null);
     }
 
-    function its_type_is_mutable()
+    public function its_type_is_mutable()
     {
         $this->setType('type');
         $this->getType()->shouldReturn('type');

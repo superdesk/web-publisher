@@ -24,22 +24,22 @@ use SWP\Component\Bridge\ValidatorChain;
  */
 class ValidatorChainSpec extends ObjectBehavior
 {
-    function it_is_initializable()
+    public function it_is_initializable()
     {
         $this->shouldHaveType(ValidatorChain::class);
     }
 
-    function it_implements_chain_validator_interface()
+    public function it_implements_chain_validator_interface()
     {
         $this->shouldImplement(ChainValidatorInterface::class);
     }
 
-    function it_should_return_empty_array_of_validators()
+    public function it_should_return_empty_array_of_validators()
     {
         $this->getValidators()->shouldReturn([]);
     }
 
-    function it_should_return_list_of_validators(ValidatorInterface $validator)
+    public function it_should_return_list_of_validators(ValidatorInterface $validator)
     {
         $this->addValidator($validator, 'alias');
 
@@ -48,20 +48,20 @@ class ValidatorChainSpec extends ObjectBehavior
         $this->getValidators()->shouldReturn($validators);
     }
 
-    function it_should_add_a_new_validator(ValidatorInterface $validator)
+    public function it_should_add_a_new_validator(ValidatorInterface $validator)
     {
         $this->addValidator($validator, 'alias');
         $this->getValidator('alias')->shouldReturn($validator);
     }
 
-    function it_should_throw_an_exception_when_adding_existing_validator(ValidatorInterface $validator)
+    public function it_should_throw_an_exception_when_adding_existing_validator(ValidatorInterface $validator)
     {
         $this->addValidator($validator, 'alias');
 
         $this->shouldThrow(RuntimeException::class)->duringAddValidator($validator, 'alias');
     }
 
-    function it_should_throw_an_exception_when_validator_doesnt_exist(ValidatorInterface $validator)
+    public function it_should_throw_an_exception_when_validator_doesnt_exist(ValidatorInterface $validator)
     {
         $this->addValidator($validator, 'alias');
 

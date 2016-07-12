@@ -22,148 +22,148 @@ use SWP\Component\Bridge\Model\ContentInterface;
  */
 class BaseContentSpec extends ObjectBehavior
 {
-    function it_is_initializable()
+    public function it_is_initializable()
     {
         $this->shouldHaveType(BaseContent::class);
     }
 
-    function it_should_implement_interfaces()
+    public function it_should_implement_interfaces()
     {
         $this->shouldImplement(ContentInterface::class);
     }
 
-    function it_has_no_id_by_default()
+    public function it_has_no_id_by_default()
     {
         $this->getId()->shouldReturn(null);
     }
 
-    function it_has_no_guid_by_default()
+    public function it_has_no_guid_by_default()
     {
         $this->getGuid()->shouldReturn(null);
     }
 
-    function its_guid__is_mutable()
+    public function its_guid__is_mutable()
     {
         $this->setGuid('21EC2020-3AEA-4069-A2DD-08002B30309D');
         $this->getGuid()->shouldReturn('21EC2020-3AEA-4069-A2DD-08002B30309D');
     }
 
-    function it_has_no_headline_by_default()
+    public function it_has_no_headline_by_default()
     {
         $this->getHeadline()->shouldReturn(null);
     }
 
-    function its_headline_is_mutable()
+    public function its_headline_is_mutable()
     {
         $this->setHeadline('headline');
         $this->getHeadline()->shouldReturn('headline');
     }
 
-    function it_has_no_byline_by_default()
+    public function it_has_no_byline_by_default()
     {
         $this->getByline()->shouldReturn(null);
     }
 
-    function its_byline_is_mutable()
+    public function its_byline_is_mutable()
     {
         $this->setByline('byline');
         $this->getByline()->shouldReturn('byline');
     }
 
-    function it_has_no_slugline_by_default()
+    public function it_has_no_slugline_by_default()
     {
         $this->getSlugline()->shouldReturn(null);
     }
 
-    function its_slugline_is_mutable()
+    public function its_slugline_is_mutable()
     {
         $this->setSlugline('slugline');
         $this->getSlugline()->shouldReturn('slugline');
     }
 
-    function it_has_no_language_by_default()
+    public function it_has_no_language_by_default()
     {
         $this->getLanguage()->shouldReturn(null);
     }
 
-    function its_language_is_mutable()
+    public function its_language_is_mutable()
     {
         $this->setLanguage('en');
         $this->getLanguage()->shouldReturn('en');
     }
 
-    function it_has_no_subjects_by_default()
+    public function it_has_no_subjects_by_default()
     {
         $this->getSubjects()->shouldReturn([]);
     }
 
-    function its_subjects_is_mutable()
+    public function its_subjects_is_mutable()
     {
         $this->setSubjects(['sub1', 'sub2']);
         $this->getSubjects()->shouldReturn(['sub1', 'sub2']);
     }
 
-    function it_has_no_type_by_default()
+    public function it_has_no_type_by_default()
     {
         $this->getType()->shouldReturn(null);
     }
 
-    function its_type_is_mutable()
+    public function its_type_is_mutable()
     {
         $this->setType('type');
         $this->getType()->shouldReturn('type');
     }
 
-    function it_has_no_places_by_default()
+    public function it_has_no_places_by_default()
     {
         $this->getPlaces()->shouldReturn([]);
     }
 
-    function its_places_is_mutable()
+    public function its_places_is_mutable()
     {
         $this->setPlaces(['Italy', 'Poland']);
         $this->getPlaces()->shouldReturn(['Italy', 'Poland']);
     }
 
-    function it_has_no_located_by_default()
+    public function it_has_no_located_by_default()
     {
         $this->getLocated()->shouldReturn(null);
     }
 
-    function its_located_is_mutable()
+    public function its_located_is_mutable()
     {
         $this->setLocated('Paris');
         $this->getLocated()->shouldReturn('Paris');
     }
 
-    function it_has_no_urgency_by_default()
+    public function it_has_no_urgency_by_default()
     {
         $this->getUrgency()->shouldReturn(null);
     }
 
-    function its_urgency_is_mutable()
+    public function its_urgency_is_mutable()
     {
         $this->setUrgency(1);
         $this->getUrgency()->shouldReturn(1);
     }
 
-    function it_has_no_priority_by_default()
+    public function it_has_no_priority_by_default()
     {
         $this->getPriority()->shouldReturn(null);
     }
 
-    function its_priority_is_mutable()
+    public function its_priority_is_mutable()
     {
         $this->setPriority(1);
         $this->getPriority()->shouldReturn(1);
     }
 
-    function it_has_no_version_by_default()
+    public function it_has_no_version_by_default()
     {
         $this->getVersion()->shouldReturn(null);
     }
 
-    function its_version_is_mutable()
+    public function its_version_is_mutable()
     {
         $this->setVersion(1);
         $this->getVersion()->shouldReturn(1);

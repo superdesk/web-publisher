@@ -27,17 +27,17 @@ class FactorySpec extends ObjectBehavior
         $this->beConstructedWith(\stdClass::class);
     }
 
-    function it_is_initializable()
+    public function it_is_initializable()
     {
         $this->shouldHaveType(Factory::class);
     }
 
-    function it_implements_factory_interface()
+    public function it_implements_factory_interface()
     {
         $this->shouldImplement(FactoryInterface::class);
     }
 
-    function it_creates_an_instance_of_new_object()
+    public function it_creates_an_instance_of_new_object()
     {
         $this->create()->shouldBeAnInstanceOf(\stdClass::class);
     }

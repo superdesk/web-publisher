@@ -24,24 +24,24 @@ use SWP\Component\Common\Model\TimestampableInterface;
  */
 class ItemSpec extends ObjectBehavior
 {
-    function it_is_initializable()
+    public function it_is_initializable()
     {
         $this->shouldHaveType(Item::class);
         $this->shouldHaveType(BaseContent::class);
     }
 
-    function it_should_implement_interfaces()
+    public function it_should_implement_interfaces()
     {
         $this->shouldImplement(ItemInterface::class);
         $this->shouldImplement(TimestampableInterface::class);
     }
 
-    function it_has_no_body_by_default()
+    public function it_has_no_body_by_default()
     {
         $this->getBody()->shouldReturn(null);
     }
 
-    function its_slug_is_mutable()
+    public function its_slug_is_mutable()
     {
         $this->setBody('body');
         $this->getBody()->shouldReturn('body');

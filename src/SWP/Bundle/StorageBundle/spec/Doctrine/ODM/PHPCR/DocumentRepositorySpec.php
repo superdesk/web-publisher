@@ -24,17 +24,17 @@ use SWP\Component\Storage\Repository\RepositoryInterface;
  */
 class DocumentRepositorySpec extends ObjectBehavior
 {
-    function let(DocumentManagerInterface $manager, ClassMetadata $classMetadata)
+    public function let(DocumentManagerInterface $manager, ClassMetadata $classMetadata)
     {
         $this->beConstructedWith($manager, $classMetadata);
     }
 
-    function it_is_initializable()
+    public function it_is_initializable()
     {
         $this->shouldHaveType(DocumentRepository::class);
     }
 
-    function it_is_repository()
+    public function it_is_repository()
     {
         $this->shouldHaveType(DocumentRepository::class);
         $this->shouldImplement(RepositoryInterface::class);

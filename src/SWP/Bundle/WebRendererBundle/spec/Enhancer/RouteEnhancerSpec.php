@@ -12,22 +12,22 @@ use SWP\Component\TemplatesSystem\Gimme\Loader\LoaderInterface;
 
 class RouteEnhancerSpec extends ObjectBehavior
 {
-    function let(LoaderInterface $metaLoader)
+    public function let(LoaderInterface $metaLoader)
     {
         $this->beConstructedWith(new TemplateNameResolver(), $metaLoader);
     }
 
-    function it_is_initializable()
+    public function it_is_initializable()
     {
         $this->shouldHaveType('SWP\Bundle\WebRendererBundle\Enhancer\RouteEnhancer');
     }
 
-    function it_should_implement_interface()
+    public function it_should_implement_interface()
     {
         $this->shouldImplement(RouteEnhancerInterface::class);
     }
 
-    function it_should_set_template_name(RouteInterface $route, Article $article)
+    public function it_should_set_template_name(RouteInterface $route, Article $article)
     {
         $this->setTemplateName(null, [])->shouldReturn([
             RouteObjectInterface::TEMPLATE_NAME => 'article.html.twig',

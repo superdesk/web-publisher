@@ -25,23 +25,23 @@ use SWP\Component\Storage\Repository\RepositoryInterface;
  */
 class EntityRepositorySpec extends ObjectBehavior
 {
-    function let(EntityManagerInterface $entityManager, ClassMetadata $classMetadata)
+    public function let(EntityManagerInterface $entityManager, ClassMetadata $classMetadata)
     {
         $this->beConstructedWith($entityManager, $classMetadata);
     }
 
-    function it_is_initializable()
+    public function it_is_initializable()
     {
         $this->shouldHaveType(EntityRepository::class);
     }
 
-    function it_is_repository()
+    public function it_is_repository()
     {
         $this->shouldHaveType(\Doctrine\ORM\EntityRepository::class);
         $this->shouldImplement(RepositoryInterface::class);
     }
 
-    function it_should_add_object_to_repository(EntityManagerInterface $entityManager, PersistableInterface $object)
+    public function it_should_add_object_to_repository(EntityManagerInterface $entityManager, PersistableInterface $object)
     {
         $entityManager->persist($object)->shouldBeCalled();
         $entityManager->flush()->shouldBeCalled();

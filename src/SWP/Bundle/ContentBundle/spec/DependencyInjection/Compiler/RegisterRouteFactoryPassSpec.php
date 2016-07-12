@@ -27,17 +27,17 @@ use Symfony\Component\DependencyInjection\Parameter;
  */
 class RegisterRouteFactoryPassSpec extends ObjectBehavior
 {
-    function it_is_initializable()
+    public function it_is_initializable()
     {
         $this->shouldHaveType(RegisterRouteFactoryPass::class);
     }
 
-    function it_implements_compiler_pass_interface()
+    public function it_implements_compiler_pass_interface()
     {
         $this->shouldImplement(CompilerPassInterface::class);
     }
 
-    function it_creates_a_default_definition_of_route_factory(ContainerBuilder $container)
+    public function it_creates_a_default_definition_of_route_factory(ContainerBuilder $container)
     {
         $container->hasDefinition('swp.factory.route')->willReturn(true);
         $baseDefinition = new Definition(
@@ -60,7 +60,7 @@ class RegisterRouteFactoryPassSpec extends ObjectBehavior
         $this->process($container);
     }
 
-    function it_does_not_create_default_definition_of_route_factory_if_route_factory_is_not_set(
+    public function it_does_not_create_default_definition_of_route_factory_if_route_factory_is_not_set(
         ContainerBuilder $container
     ) {
         $container->hasDefinition('swp.factory.route')->willReturn(false);

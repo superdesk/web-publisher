@@ -23,31 +23,31 @@ use SWP\Bundle\ContentBundle\Model\ArticleInterface;
  */
 class ArticleSpec extends ObjectBehavior
 {
-    function it_is_initializable()
+    public function it_is_initializable()
     {
         $this->shouldHaveType(Article::class);
         $this->shouldHaveType(\SWP\Bundle\ContentBundle\Model\Article::class);
     }
 
-    function it_should_implement_interfaces()
+    public function it_should_implement_interfaces()
     {
         $this->shouldImplement(ArticleInterface::class);
         $this->shouldImplement(HierarchyInterface::class);
     }
 
-    function it_has_no_parent_by_default()
+    public function it_has_no_parent_by_default()
     {
         $this->getParent()->shouldReturn(null);
     }
 
-    function its_parent_is_mutable()
+    public function its_parent_is_mutable()
     {
         $object = new \stdClass();
         $this->setParentDocument($object);
         $this->getParentDocument()->shouldReturn($object);
     }
 
-    function it_has_no_children_by_default()
+    public function it_has_no_children_by_default()
     {
         $this->getChildren()->shouldReturn(null);
     }

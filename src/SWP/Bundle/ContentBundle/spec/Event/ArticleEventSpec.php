@@ -23,18 +23,18 @@ use Symfony\Component\EventDispatcher\Event;
  */
 class ArticleEventSpec extends ObjectBehavior
 {
-    function let(ArticleInterface $article)
+    public function let(ArticleInterface $article)
     {
         $this->beConstructedWith($article);
     }
 
-    function it_is_initializable()
+    public function it_is_initializable()
     {
         $this->shouldHaveType(ArticleEvent::class);
         $this->shouldHaveType(Event::class);
     }
 
-    function it_has_an_article(ArticleInterface $article)
+    public function it_has_an_article(ArticleInterface $article)
     {
         $this->getArticle()->shouldReturn($article);
     }

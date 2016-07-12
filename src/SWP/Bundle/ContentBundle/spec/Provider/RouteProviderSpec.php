@@ -27,24 +27,24 @@ use SWP\Component\Storage\Repository\RepositoryInterface;
  */
 class RouteProviderSpec extends ObjectBehavior
 {
-    function let(
+    public function let(
         RepositoryInterface $routeRepository,
         TenantAwarePathBuilderInterface $pathBuilder
     ) {
         $this->beConstructedWith($routeRepository, $pathBuilder, ['basepath1', 'basepath2'], 'defaultpath');
     }
 
-    function it_is_initializable()
+    public function it_is_initializable()
     {
         $this->shouldHaveType(RouteProvider::class);
     }
 
-    function it_implements_route_provider_interface()
+    public function it_implements_route_provider_interface()
     {
         $this->shouldImplement(RouteProviderInterface::class);
     }
 
-    function it_gets_base_route(
+    public function it_gets_base_route(
         RouteObjectInterface $route,
         TenantAwarePathBuilderInterface $pathBuilder,
         RepositoryInterface $routeRepository
@@ -55,7 +55,7 @@ class RouteProviderSpec extends ObjectBehavior
         $this->getBaseRoute()->shouldReturn($route);
     }
 
-    function it_should_not_get_base_route(
+    public function it_should_not_get_base_route(
         TenantAwarePathBuilderInterface $pathBuilder,
         RepositoryInterface $routeRepository
     ) {
@@ -65,7 +65,7 @@ class RouteProviderSpec extends ObjectBehavior
         $this->getBaseRoute()->shouldBeNull();
     }
 
-    function it_gets_one_route_by_id(
+    public function it_gets_one_route_by_id(
         RouteObjectInterface $route,
         TenantAwarePathBuilderInterface $pathBuilder,
         RepositoryInterface $routeRepository
@@ -76,7 +76,7 @@ class RouteProviderSpec extends ObjectBehavior
         $this->getOneById('id')->shouldReturn($route);
     }
 
-    function it_should_return_null_when_getting_route_by_id(
+    public function it_should_return_null_when_getting_route_by_id(
         TenantAwarePathBuilderInterface $pathBuilder,
         RepositoryInterface $routeRepository
     ) {
@@ -86,7 +86,7 @@ class RouteProviderSpec extends ObjectBehavior
         $this->getOneById('id')->shouldBeNull();
     }
 
-    function it_should_get_route_for_article(
+    public function it_should_get_route_for_article(
         ArticleInterface $article,
         RouteObjectInterface $route,
         TenantAwarePathBuilderInterface $pathBuilder,
@@ -98,7 +98,7 @@ class RouteProviderSpec extends ObjectBehavior
         $this->getRouteForArticle($article)->shouldReturn($route);
     }
 
-    function it_should_not_get_route_for_article(
+    public function it_should_not_get_route_for_article(
         ArticleInterface $article,
         TenantAwarePathBuilderInterface $pathBuilder,
         RepositoryInterface $routeRepository

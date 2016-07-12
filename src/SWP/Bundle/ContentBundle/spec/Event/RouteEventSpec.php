@@ -23,18 +23,18 @@ use Symfony\Component\EventDispatcher\Event;
  */
 class RouteEventSpec extends ObjectBehavior
 {
-    function let(RouteInterface $route)
+    public function let(RouteInterface $route)
     {
         $this->beConstructedWith($route);
     }
 
-    function it_is_initializable()
+    public function it_is_initializable()
     {
         $this->shouldHaveType(RouteEvent::class);
         $this->shouldHaveType(Event::class);
     }
 
-    function it_has_a_route(RouteInterface $route)
+    public function it_has_a_route(RouteInterface $route)
     {
         $this->getRoute()->shouldReturn($route);
     }
