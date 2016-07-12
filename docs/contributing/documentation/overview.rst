@@ -236,14 +236,14 @@ You guessed right: after all this hard work, it's **time to celebrate again!**
 Review your changes
 -------------------
 
-Every GitHub Pull Request when merged, is automatically deployed to http://superdesk-web-publisher.readthedocs.org/en/latest/
+Every GitHub Pull Request when merged, is automatically deployed to http://superdesk-web-publisher.readthedocs.io/en/latest/
 
 Minor Changes (e.g. Typos)
 --------------------------
 
 You may find just a typo and want to fix it. Due to GitHub's functional
 frontend, it is quite simple to create Pull Requests right in your
-browser while reading the docs on http://superdesk-web-publisher.readthedocs.org/en/latest/. To do this, just click
+browser while reading the docs on http://superdesk-web-publisher.readthedocs.io/en/latest/. To do this, just click
 the **edit this page** button on the upper right corner. Beforehand,
 please switch to the right branch as mentioned before. Now you are able
 to edit the content and describe your changes within the GitHub
@@ -261,7 +261,7 @@ Why Do my Changes Take so Long to Be Reviewed and/or Merged?
 
 Please be patient. It can take up to several days before your pull request can
 be fully reviewed. After merging the changes, it could take again several hours
-before your changes appear on the http://superdesk-web-publisher.readthedocs.org/en/latest/ website.
+before your changes appear on the http://superdesk-web-publisher.readthedocs.io/en/latest/ website.
 
 
 What If I Want to Submit my Work without Fully Finishing It?

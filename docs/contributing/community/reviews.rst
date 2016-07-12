@@ -1,7 +1,7 @@
 Community Reviews
 =================
 
-Superdesk Web Publisher is an open-source project driven by a large community. If you don't feel
+Superdesk Web Publisher is an open-source project driven by its community. If you don't feel
 ready to contribute code or patches, reviewing issues and pull requests (PRs)
 can be a great start to get involved and give back. In fact, people who "triage"
 issues are the backbone to Superdesk Web Publisher's success!
@@ -10,8 +10,7 @@ Why Reviewing Is Important
 --------------------------
 
 Community reviews are essential for the development of the Superdesk Web Publisher project.
-On the `Superdesk Web Publisher`_, you can find many items in a `needs review`_
-label:
+On the Superdesk Web Publisher JIRA_ bug tracker and GitHub_, you can find many items to work on:
 
 * **Bug Reports**: Bug reports need to be checked for completeness.
   Is any important information missing? Can the bug be *easily* reproduced?
@@ -58,25 +57,21 @@ you got and leave the PR in "needs review" state.
 Pick a pull request from the `PRs in need of review`_ and follow these steps:
 
 #. **Is the PR Complete**?
-
    Every pull request must contain a header that gives some basic information
    about the PR. You can find the template for that header in the
    :ref:`Contribution Guidelines <contributing-code-pull-request>`.
 
 #. **Is the Base Branch Correct?**
-
    GitHub displays the branch that a PR is based on below the title of the
    pull request. Is that branch correct?
 
 #. **Reproduce the Problem**
-
    Read the issue that the pull request is supposed to fix. Reproduce the
-   problem on a clean `Superdesk Web Publisher`_ project and try to understand
+   problem on a clean Superdesk Web Publisher project and try to understand
    why it exists. If the linked issue already contains such a project, install
    it and run it on your system.
 
 #. **Review the Code**
-
    Read the code of the pull request and check it against some common criteria:
 
    * Does the code address the issue the PR is intended to fix/implement?
@@ -114,11 +109,9 @@ Pick a pull request from the `PRs in need of review`_ and follow these steps:
         cases don't cover the cases when the counter is zero or smaller.
         Could you please add some tests for that?
 
-.. _GitHub: https://github.com
-.. _Superdesk Web Publisher: https://github.com/superdesk/web-publisher
+.. _GitHub: https://github.com/superdesk/web-publisher
 .. _JIRA: https://dev.sourcefabric.org/projects/SWP/issues
 .. _create a JIRA account: https://login.sourcefabric.org/register
 .. _create a GitHub account: https://help.github.com/articles/signing-up-for-a-new-github-account/
 .. _forking: https://help.github.com/articles/fork-a-repo/
 .. _PRs in need of review: https://github.com/superdesk/web-publisher/pulls?utf8=%E2%9C%93&q=is%3Apr+is%3Aopen+label%3A%22needs+review%22+
-.. _`needs review`: https://github.com/superdesk/web-publisher/labels/needs%20review

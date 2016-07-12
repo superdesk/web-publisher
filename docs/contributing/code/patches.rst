@@ -36,7 +36,7 @@ Set up your user information with your real name and a working email address:
 .. tip::
 
     If your IDE creates configuration files inside the project's directory,
-    you can use global ``.gitignore`` file (for all projects) or
+    you can use a global ``.gitignore`` file (for all projects) or a
     ``.git/info/exclude`` file (per project) to ignore them. See
     `GitHub's documentation`_.
 
@@ -99,14 +99,13 @@ The License
 ~~~~~~~~~~~
 
 Before you start, you must know that all the patches you are going to submit
-must be released under the GPLv3 license, unless explicitly specified in your
+must be released under the GNU AGPLv3 license, unless explicitly specified in your
 commits.
-
 
 Create a Topic Branch
 ~~~~~~~~~~~~~~~~~~~~~
 
-Each time you want to work on a patch for a bug or on an enhancement, create a
+Each time you want to work on a patch for a bug or an enhancement, create a
 topic branch:
 
 .. code-block:: bash
@@ -115,8 +114,7 @@ topic branch:
 
 .. tip::
 
-    Use a descriptive name for your branch (``ticket_XXX`` where ``XXX`` is the
-    ticket number is a good convention for bug fixes).
+    Use a descriptive name for your branch, containing the ticket number from the bug tracker.
 
 The above checkout commands automatically switch the code to the newly created
 branch (check the branch you are working on with ``git branch``).
@@ -220,7 +218,6 @@ Make a Pull Request
 
 You can now make a pull request on the ``superdesk/web-publisher`` GitHub repository.
 
-
 To ease the core team work, always include the modified components in your
 pull request message, like in:
 
@@ -244,7 +241,7 @@ possible:
     | Deprecations? | [yes|no]
     | Tests pass?   | [yes|no]
     | Fixed tickets | [comma separated list of tickets fixed by the PR]
-    | License       | GPLv3
+    | License       | AGPLv3
 
 An example submission could now look as follows:
 
@@ -258,7 +255,7 @@ An example submission could now look as follows:
     | Deprecations? | no
     | Tests pass?   | yes
     | Fixed tickets | #12, #43
-    | License       | GPLv3
+    | License       | AGPLv3
 
 The whole table must be included (do **not** remove lines that you think are
 not relevant). For simple typos, minor changes in the PHPDocs, or changes in
@@ -288,7 +285,7 @@ Some answers to the questions trigger some more requirements:
 * If you answer no to "Tests pass", you must add an item to a todo-list with
   the actions that must be done to fix the tests;
 
-* If the "license" is not as GPLv3 here, just don't submit the pull request as it won't
+* If the "license" is not as AGPLv3 here, please don't submit the pull request as it won't
   be accepted anyway.
 
 If some of the previous requirements are not met, create a todo-list and add
@@ -302,11 +299,11 @@ relevant items:
 
 .. caution::
 
-    When submitting pull requests which requires some documentation changes, please
-    also update the documentation when appropriate as it is kept in the same repository (`documentation dir`_)
+    When submitting pull requests which require some documentation changes, please
+    also update the documentation where appropriate, as it is kept in the same repository (`documentation dir`_)
 
 If the code is not finished yet because you don't have time to finish it or
-because you want early feedback on your work, add an item to todo-list:
+because you want early feedback on your work, add an item to the todo-list:
 
 .. code-block:: text
 
@@ -316,7 +313,7 @@ because you want early feedback on your work, add an item to todo-list:
 As long as you have items in the todo-list, please prefix the pull request
 title with "[WIP]".
 
-In the pull request description, give as much details as possible about your
+In the pull request description, give as much detail as possible about your
 changes (don't hesitate to give code examples to illustrate your points). If
 your pull request is about adding a new feature or modifying an existing one,
 explain the rationale for the changes. The pull request description helps the
@@ -324,12 +321,11 @@ code review and it serves as a reference when the code is merged (the pull
 request description and all its associated comments are part of the merge
 commit message).
 
-
 Rework your Patch
 ~~~~~~~~~~~~~~~~~
 
 Based on the feedback on the pull request, you might need to rework your
-patch. Before re-submitting the patch, rebase with ``upstream/master``, don't merge; and force the push to the origin:
+patch. Before re-submitting the patch, rebase with ``upstream/master``, don't merge; and force push to the origin:
 
 .. code-block:: bash
 
@@ -339,11 +335,10 @@ patch. Before re-submitting the patch, rebase with ``upstream/master``, don't me
 .. note::
 
     When doing a ``push --force``, always specify the branch name explicitly
-    to avoid messing other branches in the repo (``--force`` tells Git that
-    you really want to mess with things so do it carefully).
+    to avoid messing with other branches in the repo (``--force`` tells Git that
+    you really want to mess with things, so do it carefully).
 
-Moderators earlier asked you to "squash" your commits. This means you will
-convert many commits to one commit.
+If moderators asked you to "squash" your commits, this means you will need to convert many commits to one commit.
 
 .. _ProGit: http://git-scm.com/book
 .. _GitHub: https://github.com/join

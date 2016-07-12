@@ -1,13 +1,13 @@
 Usage
 =====
 
-Creating storage agnostic objects
+Creating storage-agnostic objects
 ---------------------------------
 
 The **Factory** allows you to create objects. Let's say you need to instantiate a new **Article** object,
-which next you would want to persist into the persistence storage.
+which you would want to persist in the persistence storage.
 
-You would use the following code to do that:
+You could use the following code to do that:
 
 .. code-block:: php
 
@@ -23,19 +23,18 @@ You would use the following code to do that:
    var_dump($article); // dumps Article object
 
 By passing the fully qualified class name in Factory's construct we allow for a flexible way to create
-storage agnostic objects. For example, depending on the persistence backend: PHPCR, MongoDB etc.
+storage-agnostic objects. For example, depending on the persistence backend, such as PHPCR or MongoDB,
 you can instantiate new objects very easily using the same factory class.
 
-
-Creating storage agnostic repositories
+Creating storage-agnostic repositories
 --------------------------------------
 
 In some cases you would need to implement different repositories for your persistence backend.
 Let's say you are using Doctrine PHPCR and you want to have a generic way of adding and removing
-objects from the storage even if you decide to change Doctrine PHPCR to Doctrine MongoDB or other.
+objects from the storage, even if you decide to change Doctrine PHPCR to Doctrine MongoDB or something else.
 By implementing **RepositoryInterface** in your new repository, you will be able to achive that.
 
-The example PHPCR repository implementation:
+Here's the example PHPCR repository implementation:
 
 .. code-block:: php
 
@@ -70,6 +69,6 @@ The example PHPCR repository implementation:
         }
     }
 
-In this case all objects that need to be persisted should implement **PersistableInterface**
-which extends default ``Doctrine\Common\Persistence\ObjectRepository`` Doctrine's interface.
-This component gives you simple interfaces to create storage agnostic repositories.
+In this case, all objects that need to be persisted should implement **PersistableInterface**
+which extends Doctrine's default ``Doctrine\Common\Persistence\ObjectRepository`` interface.
+This component gives you simple interfaces to create storage-agnostic repositories.

@@ -6,4 +6,4 @@ Interfaces
 SiteDocumentInterface
 ~~~~~~~~~~~~~~~~~~~~~
 
-This interface should be implemented by the classes representing current ``Site/Tenant`` in PHPCR tree.
+This interface should be implemented by the classes representing the current ``Site/Tenant`` in the PHPCR tree.

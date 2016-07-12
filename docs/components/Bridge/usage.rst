@@ -8,13 +8,13 @@ This component provides one type of validator by default:
 
 - `ninjs`_ validator
 
-The first one is a simple implementation of JSON format validation against concrete schema. The second one is a
-custom implementation of ninjs validator which validates given value by Superdesk ninjs schema.
+This is a simple implementation of JSON format validation against a concrete schema. There is also a
+custom implementation of the ninjs validator which validates the specific Superdesk ninjs schema.
 
 Superdesk Ninjs Validator
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
-This validator validates value against specific Superdesk ninjs format schema.
+This validator validates against specific Superdesk ninjs schema.
 
 Usage:
 
@@ -417,7 +417,7 @@ The Superdesk ninjs schema:
 Validator Chain
 ~~~~~~~~~~~~~~~
 
-You could also use Validator Chain to validate the json value by many validators at once:
+You could also use Validator Chain to validate the json value with many validators at once:
 
 .. code-block:: php
 
@@ -441,7 +441,7 @@ You could also use Validator Chain to validate the json value by many validators
 Data Transformers
 -----------------
 
-Transformers are meant to transform incoming value to object representation.
+Transformers are meant to transform an incoming value to an object representation.
 
 This component supports one transformer by default:
 
@@ -450,11 +450,10 @@ This component supports one transformer by default:
 JSON to Package Data Transformer
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-This data transformer transforms JSON string to ``Package`` object. The input value is first validated by the Validator Chain
-and if the validation is success it serializes JSON value to ``Package`` object.
+This transforms a JSON string which is first validated by the Validator Chain.
+If the validation is a success, it serializes the JSON value to a ``Package`` object.
 
 The ``Package`` object is a one-to-one representation of Superdesk Package.
-
 
 Usage:
 
@@ -471,9 +470,9 @@ Usage:
 
    var_dump($package);die; // will dump an instance of ``SWP\Component\Bridge\Model\Package`` object.
 
-This transformer can support reverse transform but it is not supported at the moment.
+This transformer could support reverse transform, but it is not supported at the moment.
 
-The below example will throw  ``SWP\Component\Bridge\Exception\MethodNotSupportedException`` exception:
+The example below will throw an ``SWP\Component\Bridge\Exception\MethodNotSupportedException`` exception:
 
 .. code-block:: php
 
@@ -491,7 +490,7 @@ The below example will throw  ``SWP\Component\Bridge\Exception\MethodNotSupporte
 
 .. note::
 
-    If the transformation will fail for some reason an exception ``SWP\Component\Bridge\Exception\TransformationFailedException`` will be thrown.
+    If the transformation fails for some reason, an exception ``SWP\Component\Bridge\Exception\TransformationFailedException`` will be thrown.
 
 Data Transformer Chain
 ~~~~~~~~~~~~~~~~~~~~~~
@@ -514,9 +513,9 @@ You can use Transformer Chain to transform any value by many transformers at onc
 
 .. note::
 
-    If the transformation will fail for some reason an exception ``SWP\Component\Bridge\Exception\TransformationFailedException`` will be thrown.
+    If the transformation fails for some reason an exception ``SWP\Component\Bridge\Exception\TransformationFailedException`` will be thrown.
 
-To reverse transform use ``reverseTransform`` method:
+To reverse transform, use the ``reverseTransform`` method:
 
 .. code-block:: php
 

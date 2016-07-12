@@ -26,7 +26,7 @@ tests, such as Doctrine, Twig and Monolog. To do so,
 
 .. _running:
 
-.. _note:
+.. note::
 
     For unit tests we use PHPSpec, for functional tests PHPUnit and Behat for integration.
 
@@ -56,7 +56,7 @@ what's going on and if the tests are broken because of the new code.
 .. tip::
 
     On Windows, install the `ConEmu`_, `ANSICON`_ or `Mintty`_ free applications
-    to see colored test results.
+    to see coloured test results.
 
 Running the PHPSpec specs
 -------------------------
@@ -65,11 +65,10 @@ Running the PHPSpec specs
 
     This section is based on `Sylius documentation <http://docs.sylius.org>`_.
 
-
 PHPSpec is a PHP toolset to drive emergent design by specification.
 It is not really a testing tool, but a design instrument, which helps structuring the objects and how they work together.
 
-Superdesk Web Publisher approach is to always describe the behavior of the next object you are about to implement.
+The Superdesk Web Publisher approach is to always describe the behaviour of the next object you are about to implement.
 
 As an example, we'll write a service, which sets the current tenant in the context.
 To initialize a new spec, use the ``desc`` command.
@@ -102,14 +101,14 @@ navigate to the spec folder and see the spec there:
         }
     }
 
-The object behavior is made of examples. Examples are encased in public methods,
+The object behaviour is made of examples. Examples are encased in public methods,
 started with ``it_`` or ``its_``.
 
 **PHPSpec** searches for such methods in your specification to run.
 Why underscores for example names? ``just_because_its_much_easier_to_read``
 than ``someLongCamelCasingLikeThat``.
 
-Now, let's write first example which will set the current tenant:
+Now, let's write the first example, which will set the current tenant:
 
 .. code-block:: php
 
@@ -153,7 +152,7 @@ Try running the example by using the following command:
              Do you want me to create it for you? [Y/n]
 
 Once the class is created and you run the command again, PHPSpec will ask if it should create the method as well.
-Start implementing the very initial version of the TenantContext.
+Start implementing the initial version of the TenantContext.
 
 .. code-block:: php
 
@@ -196,22 +195,22 @@ Done! If you run PHPSpec again, you should see the following output:
     123ms
 
 This example is greatly simplified, in order to illustrate how we work.
-There should be few more examples, which cover errors, API exceptions and other edge-cases.
+More examples might cover errors, API exceptions and other edge-cases.
 
-Few tips & rules to follow when working with PHPSpec & Superdesk Web Publisher:
+A few tips & rules to follow when working with PHPSpec & Superdesk Web Publisher:
 
 * RED is good, add or fix the code to make it green;
 * RED-GREEN-REFACTOR is our rule;
 * All specs must pass;
-* When writing examples, **describe** the behavior of the object in present tense;
+* When writing examples, **describe** the behaviour of the object in the present tense;
 * Omit the ``public`` keyword;
 * Use underscores (``_``) in the examples;
 * Use type hinting to mock and stub classes;
-* If your specification is getting too complex, the design is wrong, try decoupling a bit more;
+* If your specification is getting too complex, the design is wrong. Try decoupling a bit more;
 * If you cannot describe something easily, probably you should not be doing it that way;
 * shouldBeCalled or willReturn, never together, except for builders;
 * Use constants in assumptions but strings in expected results;
 
-.. _ConEmu: https://code.google.com/p/conemu-maximus5/
+.. _ConEmu: https://conemu.github.io/
 .. _ANSICON: https://github.com/adoxa/ansicon/releases
 .. _Mintty: https://mintty.github.io/

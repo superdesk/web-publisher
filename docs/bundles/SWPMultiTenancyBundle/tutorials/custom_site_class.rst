@@ -3,13 +3,13 @@ Creating a custom Site document
 
 .. note::
 
-  This bundle requires to have CMF RoutingBundle, DoctrinePHPCRBundle installed,
+  This bundle requires CMF RoutingBundle and DoctrinePHPCRBundle to be installed,
   see :doc:`/bundles/SWPMultiTenancyBundle/tutorials/routing_integration`.
 
 
-If needed, you can provide your own Site document class to represents the tenant in PHPCR tree.
-This new class must implement :ref:`bundle_tenant_site_interface`
-which is provided by this bundle or you can extend the default :ref:`bundle_tenant_model_site` class.
+If needed, you can provide your own Site document class to represent the tenant in the PHPCR tree.
+This new class must implement :ref:`bundle_tenant_site_interface` which is provided by this bundle,
+or you can extend the default :ref:`bundle_tenant_model_site` class.
 
 .. code-block:: php
 
@@ -47,4 +47,4 @@ Once your class is created, you can now put its FQCN into the bundle configurati
 
     See :doc:`/bundles/SWPMultiTenancyBundle/configuration` for more configuration details.
 
-That's it, you can now refer to ``Acme\AppBundle\Document\Site`` to manage tenants in PHPCR tree.
+That's it, you can now refer to ``Acme\AppBundle\Document\Site`` to manage tenants in the PHPCR tree.

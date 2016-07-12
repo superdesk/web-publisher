@@ -103,7 +103,7 @@ PHPCR can be enabled by multiple ways such as:
 
 **type**: ``array`` **default**: ``['routes']``
 
-A set of paths where routes should located in the PHPCR tree.
+A set of paths where routes should be located in the PHPCR tree.
 
 ``content_basepath``
 ********************
@@ -118,18 +118,18 @@ to offer the correct subtree to select content documents.
 
 **type**: ``string`` **default**: ``SWP\MultiTenancyBundle\Document\Site``
 
-Site document fully qualified class name to use. This document represents current site/tenant in PHPCR tree.
+Site document fully qualified class name to use. This document represents the current site/tenant in the PHPCR tree.
 
 ``tenant_aware_router_class``
 *****************************
 
 **type**: ``string`` **default**: ``SWP\MultiTenancyBundle\Routing\TenantAwareRouter``
 
-TenantAwareRouter service's fully qualified class name to use.
+The TenantAwareRouter service's fully qualified class name to use.
 
 ``document_class``
 ******************
 
 **type**: ``string`` **default**: ``SWP\MultiTenancyBundle\Document\Page``
 
-The class for the pages used by ``PHPCRBasePathsInitializer``. You can provide your own class if using custom class.
+The class for the pages used by ``PHPCRBasePathsInitializer``. You can provide your own class if using a custom class.
