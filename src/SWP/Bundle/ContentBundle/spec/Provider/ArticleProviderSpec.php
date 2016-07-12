@@ -25,45 +25,45 @@ use SWP\Component\MultiTenancy\PathBuilder\TenantAwarePathBuilderInterface;
  */
 class ArticleProviderSpec extends ObjectBehavior
 {
-    function let(
+    public function let(
         ArticleRepositoryInterface $articleRepository,
         TenantAwarePathBuilderInterface $pathBuilder
     ) {
         $this->beConstructedWith($articleRepository, $pathBuilder);
     }
 
-    function it_is_initializable()
+    public function it_is_initializable()
     {
         $this->shouldHaveType(ArticleProvider::class);
     }
 
-    function it_implements_article_provider_interface()
+    public function it_implements_article_provider_interface()
     {
         $this->shouldImplement(ArticleProviderInterface::class);
     }
 
-    function it_gets_one_article_by_id(ArticleInterface $article, ArticleRepositoryInterface $articleRepository)
+    public function it_gets_one_article_by_id(ArticleInterface $article, ArticleRepositoryInterface $articleRepository)
     {
         $articleRepository->findOneBy(['id' => 111])->willReturn($article);
 
         $this->getOneById(111)->shouldReturn($article);
     }
 
-    function it_gets_one_article_by_string_id(ArticleInterface $article, ArticleRepositoryInterface $articleRepository)
+    public function it_gets_one_article_by_string_id(ArticleInterface $article, ArticleRepositoryInterface $articleRepository)
     {
         $articleRepository->findOneBy(['id' => '111'])->willReturn($article);
 
         $this->getOneById('111')->shouldReturn($article);
     }
 
-    function it_gets_one_article_by_slug(ArticleInterface $article, ArticleRepositoryInterface $articleRepository)
+    public function it_gets_one_article_by_slug(ArticleInterface $article, ArticleRepositoryInterface $articleRepository)
     {
         $articleRepository->findOneBySlug('slug')->willReturn($article);
 
         $this->getOneById('slug')->shouldReturn($article);
     }
 
-    function it_should_return_nothing(ArticleRepositoryInterface $articleRepository)
+    public function it_should_return_nothing(ArticleRepositoryInterface $articleRepository)
     {
         $articleRepository->findOneBySlug('slug')->willReturn(null);
 
@@ -74,7 +74,7 @@ class ArticleProviderSpec extends ObjectBehavior
         $this->getOneById('111')->shouldBeNull();
     }
 
-    function it_gets_parent(
+    public function it_gets_parent(
         TenantAwarePathBuilderInterface $pathBuilder,
         ArticleInterface $article,
         ArticleRepositoryInterface $articleRepository

@@ -24,29 +24,29 @@ use SWP\Component\Bridge\Validator\ValidatorOptionsInterface;
  */
 class NinjsValidatorSpec extends ObjectBehavior
 {
-    function it_is_initializable()
+    public function it_is_initializable()
     {
         $this->shouldHaveType(NinjsValidator::class);
         $this->shouldHaveType(JsonValidator::class);
     }
 
-    function it_implements_validator_interfaces()
+    public function it_implements_validator_interfaces()
     {
         $this->shouldImplement(ValidatorInterface::class);
         $this->shouldImplement(ValidatorOptionsInterface::class);
     }
 
-    function its_isValid_method_should_return_false()
+    public function its_isValid_method_should_return_false()
     {
         $this->isValid('fake example content')->shouldReturn(false);
     }
 
-    function its_isValid_method_should_return_true()
+    public function its_isValid_method_should_return_true()
     {
         $this->isValid(file_get_contents(__DIR__.'/../ninjs.json'))->shouldReturn(true);
     }
 
-    function it_has_a_format()
+    public function it_has_a_format()
     {
         $this->getFormat()->shouldReturn('ninjs');
     }

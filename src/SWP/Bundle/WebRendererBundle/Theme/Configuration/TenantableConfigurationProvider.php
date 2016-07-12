@@ -63,14 +63,19 @@ class TenantableConfigurationProvider implements ConfigurationProviderInterface
      */
     public function getConfigurations()
     {
-        $configs = array_map(
-            [$this->loader, 'load'],
-            $this->fileLocator->locateFilesNamed($this->configurationFilename)
-        );
+        // Handle there being no theme.json file
+        try {
+            $configs = array_map(
+                [$this->loader, 'load'],
+                $this->fileLocator->locateFilesNamed($this->configurationFilename)
+            );
 
-        return array_map(
-            [$this->themeHelper, 'process'],
-            $configs
-        );
+            return array_map(
+                [$this->themeHelper, 'process'],
+                $configs
+            );
+        } catch (\InvalidArgumentException $e) {
+            return [];
+        }
     }
 }

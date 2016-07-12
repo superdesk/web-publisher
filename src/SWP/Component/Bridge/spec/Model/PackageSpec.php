@@ -25,19 +25,19 @@ use SWP\Component\Storage\Model\PersistableInterface;
  */
 class PackageSpec extends ObjectBehavior
 {
-    function it_is_initializable()
+    public function it_is_initializable()
     {
         $this->shouldHaveType(Package::class);
         $this->shouldHaveType(BaseContent::class);
     }
 
-    function it_should_implement_interfaces()
+    public function it_should_implement_interfaces()
     {
         $this->shouldImplement(PackageInterface::class);
         $this->shouldImplement(PersistableInterface::class);
     }
 
-    function it_has_no_items_by_default()
+    public function it_has_no_items_by_default()
     {
         $this->getItems()->shouldHaveType(Collection::class);
     }

@@ -39,6 +39,11 @@ services:
         tags:
             - { name: twig.extension }
 
+    swp_webrenderer.no_theme_exception_listener:
+        class: SWP\Bundle\WebRendererBundle\EventListener\NoThemeExceptionListener
+        tags:
+            - { name: kernel.event_listener, event: kernel.exception }
+
     swp_webrenderer.theme.resolver.template_name:
         class: '%swp_webrenderer.theme.resolver.template_name.class%'
 

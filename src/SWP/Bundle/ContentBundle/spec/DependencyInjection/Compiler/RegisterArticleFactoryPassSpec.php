@@ -28,17 +28,17 @@ use Symfony\Component\DependencyInjection\Parameter;
  */
 class RegisterArticleFactoryPassSpec extends ObjectBehavior
 {
-    function it_is_initializable()
+    public function it_is_initializable()
     {
         $this->shouldHaveType(RegisterArticleFactoryPass::class);
     }
 
-    function it_implements_compiler_pass_interface()
+    public function it_implements_compiler_pass_interface()
     {
         $this->shouldImplement(CompilerPassInterface::class);
     }
 
-    function it_creates_a_default_definition_of_article_factory(
+    public function it_creates_a_default_definition_of_article_factory(
         ContainerBuilder $container,
         Definition $routeProviderDefinition,
         Definition $articleProviderDefinition

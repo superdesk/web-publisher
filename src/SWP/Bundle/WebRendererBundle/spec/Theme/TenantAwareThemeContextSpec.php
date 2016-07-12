@@ -49,7 +49,7 @@ class TenantAwareThemeContextSpec extends ObjectBehavior
         $this->getTheme()->shouldReturn($theme);
     }
 
-    public function it_returns_null_if_tenant_has_no_theme(
+    public function it_throws_no_theme_exception_if_tenant_has_no_theme(
         TenantContextInterface $tenantContext,
         TenantInterface $tenant,
         $themeRepository
@@ -58,6 +58,6 @@ class TenantAwareThemeContextSpec extends ObjectBehavior
         $tenant->getThemeName()->willReturn(null);
         $tenantContext->getTenant()->willReturn($tenant);
         $themeRepository->findOneByName(null)->shouldBeCalled()->willReturn(null);
-        $this->getTheme()->shouldReturn(null);
+        $this->shouldThrow('SWP\Bundle\WebRendererBundle\Exception\NoThemeException')->during('getTheme');
     }
 }

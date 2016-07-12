@@ -31,7 +31,7 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
  */
 class RouteServiceSpec extends ObjectBehavior
 {
-    function let(
+    public function let(
         RouteFactoryInterface $routeFactory,
         RouteProviderInterface $routeProvider,
         ArticleProviderInterface $articleProvider,
@@ -40,17 +40,17 @@ class RouteServiceSpec extends ObjectBehavior
         $this->beConstructedWith($routeFactory, $routeProvider, $articleProvider, $eventDispatcher);
     }
 
-    function it_is_initializable()
+    public function it_is_initializable()
     {
         $this->shouldHaveType(RouteService::class);
     }
 
-    function it_implements_route_service_interface()
+    public function it_implements_route_service_interface()
     {
         $this->shouldImplement(RouteServiceInterface::class);
     }
 
-    function it_creates_a_new_content_route(
+    public function it_creates_a_new_content_route(
         RouteFactoryInterface $routeFactory,
         RouteObjectInterface $route,
         RouteObjectInterface $parentRoute,
@@ -83,7 +83,7 @@ class RouteServiceSpec extends ObjectBehavior
         ])->shouldReturn($route);
     }
 
-    function it_creates_a_new_collection_route(
+    public function it_creates_a_new_collection_route(
         RouteFactoryInterface $routeFactory,
         RouteObjectInterface $route,
         EventDispatcherInterface $eventDispatcher
@@ -112,7 +112,7 @@ class RouteServiceSpec extends ObjectBehavior
         ])->shouldReturn($route);
     }
 
-    function it_creates_a_new_collection_route_with_parent_and_content(
+    public function it_creates_a_new_collection_route_with_parent_and_content(
         RouteFactoryInterface $routeFactory,
         RouteObjectInterface $route,
         RouteObjectInterface $parentRoute,
@@ -152,7 +152,7 @@ class RouteServiceSpec extends ObjectBehavior
         ])->shouldReturn($route);
     }
 
-    function it_creates_a_new_collection_route_when_content_not_found(
+    public function it_creates_a_new_collection_route_when_content_not_found(
         RouteFactoryInterface $routeFactory,
         RouteObjectInterface $route,
         RouteObjectInterface $parentRoute,
@@ -192,7 +192,7 @@ class RouteServiceSpec extends ObjectBehavior
         ])->shouldReturn($route);
     }
 
-    function it_creates_a_new_collection_route_when_root_parent_set(
+    public function it_creates_a_new_collection_route_when_root_parent_set(
         RouteFactoryInterface $routeFactory,
         RouteObjectInterface $route,
         RouteObjectInterface $parentRoute,
@@ -233,7 +233,7 @@ class RouteServiceSpec extends ObjectBehavior
         ])->shouldReturn($route);
     }
 
-    function it_creates_a_new_collection_route_when_parent_not_found(
+    public function it_creates_a_new_collection_route_when_parent_not_found(
         RouteFactoryInterface $routeFactory,
         RouteObjectInterface $route,
         RouteObjectInterface $parentRoute,
@@ -273,7 +273,7 @@ class RouteServiceSpec extends ObjectBehavior
         ])->shouldReturn($route);
     }
 
-    function it_should_update_existing_route_name(RouteObjectInterface $route, EventDispatcherInterface $eventDispatcher)
+    public function it_should_update_existing_route_name(RouteObjectInterface $route, EventDispatcherInterface $eventDispatcher)
     {
         $route->getName()->willReturn('name');
 

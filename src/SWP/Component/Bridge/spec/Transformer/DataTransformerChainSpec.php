@@ -22,34 +22,34 @@ use SWP\Component\Bridge\Transformer\DataTransformerInterface;
  */
 class DataTransformerChainSpec extends ObjectBehavior
 {
-    function let()
+    public function let()
     {
         $this->beConstructedWith([]);
     }
 
-    function it_is_initializable()
+    public function it_is_initializable()
     {
         $this->shouldHaveType(DataTransformerChain::class);
     }
 
-    function it_implements_data_transformer_interface()
+    public function it_implements_data_transformer_interface()
     {
         $this->shouldImplement(DataTransformerInterface::class);
     }
 
-    function it_should_return_empty_array_of_validators()
+    public function it_should_return_empty_array_of_validators()
     {
         $this->getTransformers()->shouldReturn([]);
     }
 
-    function it_should_return_an_array_of_transformers(DataTransformerInterface $transformer)
+    public function it_should_return_an_array_of_transformers(DataTransformerInterface $transformer)
     {
         $this->beConstructedWith([$transformer]);
 
         $this->getTransformers()->shouldReturn([$transformer]);
     }
 
-    function it_should_transform_value_by_many_transformers(
+    public function it_should_transform_value_by_many_transformers(
         DataTransformerInterface $firstTransformer,
         DataTransformerInterface $secondTransformer
     ) {
@@ -62,7 +62,7 @@ class DataTransformerChainSpec extends ObjectBehavior
         $this->transform($value)->shouldReturn('baz');
     }
 
-    function it_should_reverse_transform_value(
+    public function it_should_reverse_transform_value(
         DataTransformerInterface $firstTransformer,
         DataTransformerInterface $secondTransformer
     ) {

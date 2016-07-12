@@ -9,17 +9,17 @@ use SWP\Bundle\ContentBundle\Model\ArticleInterface;
 
 class TemplateNameResolverSpec extends ObjectBehavior
 {
-    function it_is_initializable()
+    public function it_is_initializable()
     {
         $this->shouldHaveType('SWP\Bundle\WebRendererBundle\Resolver\TemplateNameResolver');
     }
 
-    function it_should_implement_interface()
+    public function it_should_implement_interface()
     {
         $this->shouldImplement(TemplateNameResolverInterface::class);
     }
 
-    function it_should_resolve_template_name_from_article(ArticleInterface $article, RouteInterface $route)
+    public function it_should_resolve_template_name_from_article(ArticleInterface $article, RouteInterface $route)
     {
         $this->resolveFromArticle($article)->shouldReturn('article.html.twig');
 
@@ -33,7 +33,7 @@ class TemplateNameResolverSpec extends ObjectBehavior
         $this->resolveFromArticle($article)->shouldReturn('test2.html.twig');
     }
 
-    function it_should_resolve_template_name_from_route(RouteInterface $route)
+    public function it_should_resolve_template_name_from_route(RouteInterface $route)
     {
         $route->getTemplateName()->willReturn('test2.html.twig');
         $this->resolveFromRoute($route)->shouldReturn('test2.html.twig');
@@ -42,7 +42,7 @@ class TemplateNameResolverSpec extends ObjectBehavior
         $this->resolveFromRoute($route)->shouldReturn('article.html.twig');
     }
 
-    function it_should_resolve(RouteInterface $route, ArticleInterface $article)
+    public function it_should_resolve(RouteInterface $route, ArticleInterface $article)
     {
         $route->getTemplateName()->willReturn('test2.html.twig');
         $this->resolve($route)->shouldReturn('test2.html.twig');

@@ -31,22 +31,22 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
  */
 class PackageToArticleTransformerSpec extends ObjectBehavior
 {
-    function let(ArticleFactoryInterface $articleFactory, EventDispatcherInterface $dispatcher)
+    public function let(ArticleFactoryInterface $articleFactory, EventDispatcherInterface $dispatcher)
     {
         $this->beConstructedWith($articleFactory, $dispatcher);
     }
 
-    function it_is_initializable()
+    public function it_is_initializable()
     {
         $this->shouldHaveType(PackageToArticleTransformer::class);
     }
 
-    function it_implements_transformer_interface()
+    public function it_implements_transformer_interface()
     {
         $this->shouldImplement(DataTransformerInterface::class);
     }
 
-    function it_should_transform_package_to_article(
+    public function it_should_transform_package_to_article(
         PackageInterface $package,
         EventDispatcherInterface $dispatcher,
         ArticleFactoryInterface $articleFactory,
@@ -70,14 +70,14 @@ class PackageToArticleTransformerSpec extends ObjectBehavior
         $this->transform($package)->shouldReturn($article);
     }
 
-    function it_should_throw_exception()
+    public function it_should_throw_exception()
     {
         $this
             ->shouldThrow(TransformationFailedException::class)
             ->during('transform', [new \stdClass()]);
     }
 
-    function it_should_not_support_reverse_transform()
+    public function it_should_not_support_reverse_transform()
     {
         $this
             ->shouldThrow(MethodNotSupportedException::class)
