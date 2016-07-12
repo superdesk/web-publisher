@@ -1,0 +1,7 @@
+SWP\Component\Bridge\Model\Package:
+    exclusion_policy: ALL
+    properties:
+        items:
+            expose: true
+            serialized_name: associations
+            type: ArrayCollection<SWP\Component\Bridge\Model\Item>

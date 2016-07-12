@@ -13,8 +13,8 @@
  */
 namespace SWP\Bundle\ContentBundle\Loader;
 
-use SWP\TemplatesSystem\Gimme\Loader\LoaderInterface;
-use SWP\TemplatesSystem\Gimme\Meta\Meta;
+use SWP\Component\TemplatesSystem\Gimme\Loader\LoaderInterface;
+use SWP\Component\TemplatesSystem\Gimme\Meta\Meta;
 use Symfony\Component\Yaml\Parser;
 
 class ArticleLoader implements LoaderInterface
@@ -70,12 +70,12 @@ class ArticleLoader implements LoaderInterface
 
         if ($responseType === LoaderInterface::SINGLE) {
             if (array_key_exists('contentPath', $parameters)) {
-                $article = $dm->find('SWP\Bundle\ContentBundle\Document\Article', $parameters['contentPath']);
+                $article = $dm->find('SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\Article', $parameters['contentPath']);
             } elseif (array_key_exists('article', $parameters)) {
                 $article = $parameters['article'];
             } elseif (array_key_exists('slug', $parameters)) {
-                $article = $dm->getRepository('SWP\Bundle\ContentBundle\Document\Article')
-                    ->findOneBy(array('slug' => $parameters['slug']));
+                $article = $dm->getRepository('SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\Article')
+                    ->findOneBy(['slug' => $parameters['slug']]);
             }
 
             if (!is_null($article)) {
@@ -91,7 +91,7 @@ class ArticleLoader implements LoaderInterface
                 ));
 
                 if ($route) {
-                    $articles = $dm->getReferrers($route, null, null, null, 'SWP\Bundle\ContentBundle\Document\Article');
+                    $articles = $dm->getReferrers($route, null, null, null, 'SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\Article');
                     $metas = [];
                     foreach ($articles as $article) {
                         if (!is_null($article)) {
@@ -119,6 +119,6 @@ class ArticleLoader implements LoaderInterface
      */
     public function isSupported($type)
     {
-        return in_array($type, array('articles', 'article'));
+        return in_array($type, ['articles', 'article']);
     }
 }

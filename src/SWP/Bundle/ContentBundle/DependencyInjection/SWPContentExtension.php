@@ -13,9 +13,10 @@
  */
 namespace SWP\Bundle\ContentBundle\DependencyInjection;
 
+use SWP\Bundle\StorageBundle\Drivers;
+use SWP\Bundle\StorageBundle\DependencyInjection\Extension\Extension;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Config\FileLocator;
-use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 use Symfony\Component\DependencyInjection\Loader;
 
 /**
@@ -30,7 +31,17 @@ class SWPContentExtension extends Extension
      */
     public function load(array $configs, ContainerBuilder $container)
     {
+        $config = $this->processConfiguration(new Configuration(), $configs);
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.yml');
+
+        if ($config['persistence']['phpcr']['enabled']) {
+            $this->registerStorage(Drivers::DRIVER_DOCTRINE_PHPCR_ODM, $config['persistence']['phpcr']['classes'], $container);
+            $container->setParameter(
+                sprintf('%s.persistence.phpcr.default_content_path', $this->getAlias()),
+                $config['persistence']['phpcr']['default_content_path']
+            );
+            $loader->load('providers.yml');
+        }
     }
 }

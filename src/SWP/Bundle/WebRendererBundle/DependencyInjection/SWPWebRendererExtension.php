@@ -13,10 +13,10 @@
  */
 namespace SWP\Bundle\WebRendererBundle\DependencyInjection;
 
-use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Config\FileLocator;
-use Symfony\Component\HttpKernel\DependencyInjection\Extension;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader;
+use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 
 /**
  * This is the class that loads and manages your bundle configuration.
@@ -33,10 +33,10 @@ class SWPWebRendererExtension extends Extension
         $config = $this->processConfiguration(new Configuration(), $configs);
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.yml');
-        $this->loadBodyListener($config, $loader);
+        $this->loadDeviceListener($config, $loader);
     }
 
-    private function loadBodyListener(array $config, Loader\YamlFileLoader $loader)
+    private function loadDeviceListener(array $config, Loader\YamlFileLoader $loader)
     {
         if ($config['device_listener']['enabled']) {
             $loader->load('device_listener.yml');

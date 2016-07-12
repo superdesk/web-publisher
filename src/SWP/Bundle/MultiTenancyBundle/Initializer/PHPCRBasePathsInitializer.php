@@ -13,13 +13,14 @@
  */
 namespace SWP\Bundle\MultiTenancyBundle\Initializer;
 
-use PHPCR\Util\NodeHelper;
 use Doctrine\Bundle\PHPCRBundle\Initializer\InitializerInterface;
 use Doctrine\Bundle\PHPCRBundle\ManagerRegistry;
 use PHPCR\SessionInterface;
-use SWP\Component\MultiTenancy\Provider\TenantProviderInterface;
-use SWP\Component\MultiTenancy\PathBuilder\TenantAwarePathBuilderInterface;
+use PHPCR\Util\NodeHelper;
+use SWP\Bundle\ContentBundle\Model\RouteInterface;
 use SWP\Component\MultiTenancy\Model\SiteDocumentInterface;
+use SWP\Component\MultiTenancy\PathBuilder\TenantAwarePathBuilderInterface;
+use SWP\Component\MultiTenancy\Provider\TenantProviderInterface;
 use Symfony\Component\HttpFoundation\File\Exception\UnexpectedTypeException;
 
 /**
@@ -131,6 +132,7 @@ class PHPCRBasePathsInitializer implements InitializerInterface
                 $route = new $this->documentClass();
                 $route->setParentDocument($this->dm->find(null, $path));
                 $route->setName($home);
+                $route->setType(RouteInterface::TYPE_CONTENT);
                 $this->dm->persist($route);
             }
         }

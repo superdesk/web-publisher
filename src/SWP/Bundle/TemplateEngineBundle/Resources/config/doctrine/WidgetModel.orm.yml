@@ -1,0 +1,41 @@
+SWP\Bundle\TemplateEngineBundle\Model\WidgetModel:
+    type: entity
+    table: swp_widget
+    repositoryClass: SWP\Bundle\TemplateEngineBundle\Repository\ContainerRepository
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: IDENTITY
+    fields:
+        name:
+            type: string
+            length: 255
+            unique: true
+        type:
+            type: string
+        visible:
+            type: boolean
+        parameters:
+            type: json_array
+        createdAt:
+            type: datetime
+            options:
+                default: "now"
+            gedmo:
+                timestampable:
+                    on: create
+        updatedAt:
+            type: datetime
+            nullable: true
+            gedmo:
+                timestampable:
+                    on: update
+    manyToOne:
+        tenant:
+            targetEntity: SWP\Bundle\WebRendererBundle\Model\Tenant
+    oneToMany:
+        containers:
+            targetEntity: SWP\Bundle\TemplateEngineBundle\Model\ContainerWidget
+            mappedBy: widget

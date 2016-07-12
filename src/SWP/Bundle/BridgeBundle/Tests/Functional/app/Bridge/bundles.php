@@ -12,10 +12,13 @@
  * @license http://www.superdesk.org/license
  */
 
-return array(
+return [
     new Symfony\Bundle\FrameworkBundle\FrameworkBundle(),
     new Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle(),
     new Doctrine\Bundle\DoctrineBundle\DoctrineBundle(),
+    new Doctrine\Bundle\PHPCRBundle\DoctrinePHPCRBundle(),
+    new JMS\SerializerBundle\JMSSerializerBundle(),
+    new SWP\Bundle\StorageBundle\SWPStorageBundle(),
 
     new SWP\Bundle\BridgeBundle\SWPBridgeBundle(),
-);
+];

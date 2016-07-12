@@ -13,7 +13,7 @@
  */
 namespace SWP\Bundle\TemplateEngineBundle\Container;
 
-use SWP\TemplatesSystem\Gimme\Model\ContainerInterface;
+use SWP\Component\TemplatesSystem\Gimme\Model\ContainerInterface;
 
 class SimpleContainer
 {
@@ -61,7 +61,7 @@ class SimpleContainer
      */
     public function renderOpenTag()
     {
-        return $this->renderer->render('open_tag', array(
+        return $this->renderer->render('open_tag', [
             'id' => $this->containerEntity->getId(),
             'class' => $this->containerEntity->getCssClass(),
             'height' => $this->containerEntity->getHeight(),
@@ -69,7 +69,7 @@ class SimpleContainer
             'styles' => $this->containerEntity->getStyles(),
             'visible' => $this->containerEntity->getVisible(),
             'data' => $this->containerEntity->getData(),
-        ));
+        ]);
     }
 
     /**

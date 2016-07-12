@@ -1,0 +1,17 @@
+parameters:
+    swp_bridge.http_push.transformer_chain.class: SWP\Component\Bridge\Transformer\DataTransformerChain
+    swp_bridge.transformer.json_to_package.class: SWP\Component\Bridge\Transformer\JsonToPackageTransformer
+
+services:
+    swp_bridge.http_push.transformer_chain:
+        class: '%swp_bridge.http_push.transformer_chain.class%'
+        arguments:
+            - {} # an array
+
+    swp_bridge.transformer.json_to_package:
+        class: '%swp_bridge.transformer.json_to_package.class%'
+        arguments:
+            - '@swp.serializer'
+            - '@swp_bridge.http_push.validator_chain'
+        tags:
+            - { name: transformer.http_push_transformer, alias: transformer.json_to_package }

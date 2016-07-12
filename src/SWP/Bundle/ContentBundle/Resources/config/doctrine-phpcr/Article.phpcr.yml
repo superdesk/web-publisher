@@ -1,0 +1,30 @@
+SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\Article:
+    repositoryClass: SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\ArticleRepository
+    referenceable: true
+    parentdocument: parent
+    nodename: slug
+    id: id
+    fields:
+        body:
+            type: string
+        title:
+            type: string
+        templateName:
+            type: string
+            nullable: true
+        locale:
+            type: string
+        status:
+            type: string
+        createdAt:
+            type: date
+        updatedAt:
+            type: date
+            nullable: true
+        deletedAt:
+            type: date
+            nullable: true
+    referenceOne:
+        route:
+            targetDocument: "\\SWP\\Bundle\\ContentBundle\\Doctrine\\ODM\\PHPCR\\Route"
+            strategy: hard

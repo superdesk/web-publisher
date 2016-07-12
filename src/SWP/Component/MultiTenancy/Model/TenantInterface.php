@@ -13,9 +13,9 @@
  */
 namespace SWP\Component\MultiTenancy\Model;
 
-use SWP\Component\Common\Model\TimestampableInterface;
 use SWP\Component\Common\Model\EnableableInterface;
 use SWP\Component\Common\Model\SoftDeletableInterface;
+use SWP\Component\Common\Model\TimestampableInterface;
 
 /**
  * Defines the interface of tenants.

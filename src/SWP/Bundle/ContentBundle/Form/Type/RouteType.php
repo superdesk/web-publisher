@@ -14,9 +14,9 @@
 namespace SWP\Bundle\ContentBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
 
@@ -39,6 +39,12 @@ class RouteType extends AbstractType
                    new Length(['min' => 1]),
                 ],
             ])
+            ->add('template_name', TextType::class, [
+                'required' => false,
+                'constraints' => [
+                   new Length(['min' => 1]),
+                ],
+            ])
             ->add('parent', TextType::class, [
                 'required' => false,
                 'constraints' => [
@@ -50,7 +56,7 @@ class RouteType extends AbstractType
                 'constraints' => [
                    new Length(['min' => 1]),
                 ],
-                'description' => 'Relative content path. e.g.: /test-content-article',
+                'description' => 'Content path name e.g.: test-content-article',
             ]);
     }
 

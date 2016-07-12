@@ -14,8 +14,8 @@
 namespace SWP\Bundle\TemplateEngineBundle\Tests\Container;
 
 use SWP\Bundle\TemplateEngineBundle\Container\SimpleContainer;
-use SWP\Bundle\TemplateEngineBundle\Model\Widget;
-use SWP\TemplatesSystem\Gimme\Widget\HtmlWidget;
+use SWP\Bundle\TemplateEngineBundle\Model\WidgetModel;
+use SWP\Component\TemplatesSystem\Gimme\Widget\HtmlWidgetHandler;
 
 class SimpleContainerTest extends \PHPUnit_Framework_TestCase
 {
@@ -42,7 +42,7 @@ class SimpleContainerTest extends \PHPUnit_Framework_TestCase
         $this->container = new SimpleContainer($containerEntity, $this->getRenderer());
     }
 
-    public function testcheckingVisibility()
+    public function testCheckingVisibility()
     {
         $this->assertTrue($this->container->isVisible());
     }
@@ -73,9 +73,9 @@ class SimpleContainerTest extends \PHPUnit_Framework_TestCase
 
     public function testWidgets()
     {
-        $widgetEntity = new Widget();
+        $widgetEntity = new WidgetModel();
         $widgetEntity->setParameters(['html_body' => 'simple html body']);
-        $widget = new HtmlWidget($widgetEntity);
+        $widget = new HtmlWidgetHandler($widgetEntity);
 
         $this->assertEquals($this->container->setWidgets([$widget, $widget]), $this->container);
         $this->assertEquals($this->container->hasWidgets(), true);

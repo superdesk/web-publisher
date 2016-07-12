@@ -1,0 +1,58 @@
+SWP\Component\Bridge\Model\Package:
+    type: entity
+    table: swp_package
+    repositoryClass: SWP\Bundle\BridgeBundle\Doctrine\ORM\PakcageRepository
+    gedmo:
+        soft_deleteable:
+            field_name: deletedAt
+            time_aware: false
+        loggable: true
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        headline:
+            type: string
+        slugline:
+            type: string
+        guid:
+            type: string
+        byline:
+            type: string
+        language:
+            type: string
+        subjects:
+            type: array
+        places:
+            type: array
+        type:
+            type: string
+        located:
+            type: string
+        urgency:
+            type: integer
+        priority:
+            type: integer
+        version:
+            type: integer
+        items:
+            type: array
+        enabled:
+            type: boolean
+        createdAt:
+            type: datetime
+            gedmo:
+                timestampable:
+                    on: create
+        updatedAt:
+            type: datetime
+            nullable: true
+            gedmo:
+                timestampable:
+                    on: update
+        deletedAt:
+            type: datetime
+            nullable: true

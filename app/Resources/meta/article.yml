@@ -4,7 +4,7 @@ Article:
         title:
             description: "Article title"
             type: text
-        content:
+        body:
             description: "Article content"
             type: text
         id:
