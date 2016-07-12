@@ -76,12 +76,13 @@ The Symfony Translation component supports a variety of file formats for transla
 Here is an example of the preferred syntax in twig files:
 
 .. code-block:: twig
+
 	{{ 'index.welcome.title'|trans|desc('Welcome to Default Theme!') }}
 
 Here is the console command which can then be used to create or update a XLIFF file:
 
 .. code-block:: bash
+
 	app/console translation:extract *locale* --dir=./src/SWP/Bundle/FixturesBundle/Resources/themes/DefaultTheme/ --output-dir=./src/SWP/Bundle/FixturesBundle/Resources/themes/DefaultTheme/translations
 
 This will create or update a XLIFF file called messages.*locale*.xlf
-

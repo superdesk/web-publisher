@@ -1,7 +1,7 @@
 Render custom templates
 =======================
 
-Routes and articles have option to change template name used for output rendering. Default template name is ```article.html.twig```.
+Routes and articles have option to change template name used for output rendering. Default template name is ``article.html.twig``.
 
 How to change Route/Article template name?
 ------------------------------------------

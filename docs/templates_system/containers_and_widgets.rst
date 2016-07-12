@@ -25,7 +25,7 @@ Widgets can be attached to a container in any order. Many types of widget can re
  * Airtime player widget
 
 How to create a new type of widget?
-```````````````````````````````
+```````````````````````````````````
 
 To create a new type of widget, you create a new class in ``/src/SWP/Component/TemplatesSystem/Gimme/Widget which extends``
 the AbstractWidgetHandler.php in that same folder.
@@ -33,6 +33,7 @@ As well as having to implement the render function, you can define what paramete
 by adding a static variable to your class called ``$expectedParameters``. For example:
 
 .. code-block:: php
+
      protected static $expectedParameters = array(
         'parameter_name' => [
             'type' => 'string',               // or bool, int, float
