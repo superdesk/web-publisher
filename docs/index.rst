@@ -24,7 +24,6 @@ Pull requests to `improve the documentation <http://superdesk-web-publisher.read
    :maxdepth: 2
 
    cookbook/composer
-   fixtures
    bundles/index
    components/index
    template_developers/index

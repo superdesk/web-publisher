@@ -28,7 +28,7 @@ with a specific tenant.
 Service Interfaces
 ------------------
 
-.. _component_tenant_context-tenant-interface:
+.. _component_tenant_context_tenant-context-interface:
 
 TenantContextInterface
 ~~~~~~~~~~~~~~~~~~~~~~

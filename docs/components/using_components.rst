@@ -19,11 +19,11 @@ Using the MultiTenancy Component
 
 **1.** If you're creating a new project, create a new empty directory for it.
 
-**2.** Open a terminal and use Composer to grab the library.
+**2.** Open a console and use Composer to grab the library.
 
 .. code-block:: bash
 
-    $ composer require swp/multi-tenancy
+    composer require swp/multi-tenancy
 
 The name ``swp/multi-tenancy`` is written at the top of the documentation for
 whatever component you want.

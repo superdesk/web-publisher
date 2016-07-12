@@ -9,12 +9,12 @@ Its ``getTenant`` method gets current tenant by resolving its subdomain from the
 
 For example, if the host name is: ``subdomain.example.com`` the TenantContext will first
 resolve the subdomain from the host matching agains provided in parameters file domain,
-and then it will try to find the object of instance :ref:`component_tenant_context-tenant-interface` in the storage.
+and then it will try to find the object of instance :ref:`component_tenant_context_tenant-context-interface` in the storage.
 When found, it will return tenant object.
 
 You can also set current tenant in the context, so whenever you request to get current tenant from the context
 it will return you the object you set. ``setTenant`` method is used to set the tenant. It accepts as a first parameter
-object of type :ref:`component_tenant_context-tenant-interface`.
+object of type :ref:`component_tenant_context_tenant-context-interface`.
 
 .. _bundle_tenant_router_tenant-router:
 
@@ -62,7 +62,7 @@ it will generate the same route: ``/articles/features`` as in the example above.
     We do not recommend to hardcode the route name in the template because if the route will be removed,
     the page will break.
 
-See :ref:`bundle_tenant_router-integration` on how to enable and make use of this router.
+See :ref:`bundle_tenant_routing-integration` on how to enable and make use of this router.
 
 .. _bundle_tenant_prefix_tenant-prefix:
 
@@ -79,7 +79,7 @@ which by default is ``/swp`` and from ``route_basepaths`` which you can configur
 
 See the :ref:`reference-configuration-tenant-configuration` reference for more details.
 
-PHPCR-ODM Repository Initializer
+PHPCR ODM Repository Initializer
 ================================
 
 .. _bundle_tenant_initializer_tenant-initializer:
@@ -99,13 +99,13 @@ You can execute this initializer, together with the generic one, by running the 
 
 .. code-block:: bash
 
-  $ php app/console doctrine:phpcr:repository:init
+  php app/console doctrine:phpcr:repository:init
 
 Running the above command will trigger the generic initializer which is provided by the DoctrinePHPCRBundle.
 The generic initializer will be fired before this one, and will create the root base path in the content
 repository.
 
-See :ref:`bundle_tenant_router-integration` on how to enable this initializer.
+See :ref:`bundle_tenant_routing-integration` on how to enable this initializer.
 
 
 Repositories

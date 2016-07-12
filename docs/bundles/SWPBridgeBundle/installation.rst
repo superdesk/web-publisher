@@ -9,7 +9,7 @@ following command to download the latest stable version:
 
 .. code-block:: bash
 
-    $ composer require swp/bridge-bundle
+    composer require swp/bridge-bundle
 
 This command requires you to have Composer installed globally. If it's not installed `globally`_,
 download the ``.phar`` file `locally`_ as explained in Composer documentation.

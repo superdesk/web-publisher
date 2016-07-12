@@ -21,7 +21,7 @@ It also provides the possibility to set up a ready-to-use demo theme, for
 development.
 
 How to use fixtures
-===================
+-------------------
 
 The following chapter describes how to make use of the Fixtures Bundle 
 features.
@@ -122,29 +122,31 @@ Loading all fixtures
 ---------------------------------------------
 
 **Note:** Remember to update your database schema before loading
-fixtures! To do this, run in a terminal:
+fixtures! To do this, run in a console:
 
 .. code-block:: bash
 
-    $ php app/console doctrine:schema:update --force
-    $ php app/console doctrine:phpcr:repository:init
+    php app/console doctrine:schema:update --force
+    php app/console doctrine:phpcr:repository:init
 
 Once you have your fixtures defined, we can simply load them. To do that
-you must execute console commands in terminal:
+you must execute console commands.
 
 To load Doctrine ORM fixtures:
 
 .. code-block:: bash
 
-    $ php app/console doctrine:fixtures:load --append
-    # see php app/console doctrine:fixtures:load --help for more details
+    php app/console doctrine:fixtures:load --append
+
+See ``php app/console doctrine:fixtures:load --help`` for more details.
 
 To load Doctrine PHCR fixtures:
 
 .. code-block:: bash
 
-    $ php app/console doctrine:phpcr:fixtures:load
-    # see php app/console doctrine:phpcr:fixtures:load --help for more details
+    php app/console doctrine:phpcr:fixtures:load
+
+See ``php app/console doctrine:phpcr:fixtures:load --help`` for more details.
 
 After executing the commands above, your database will be filled with the
 fake data, which can be used by themes.
@@ -154,12 +156,13 @@ Setting up a demo theme
 
 To make it easier to start with the Web Publisher, we created a simple
 demo theme. To set this theme as an active one, you need to execute the
-following command in a terminal:
+following command in a console:
 
 .. code-block:: bash
 
-    $ php app/console theme:setup
-    # see php app/console theme:setup --help for more details
+    php app/console theme:setup
+
+See ``php app/console theme:setup --help`` for more details
 
 .. _formatters: https://github.com/fzaninotto/Faker#formatters
 .. _DoctrineFixturesBundle: https://github.com/doctrine/DoctrineFixturesBundle

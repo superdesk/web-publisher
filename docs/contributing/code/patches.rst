@@ -25,8 +25,8 @@ Set up your user information with your real name and a working email address:
 
 .. code-block:: bash
 
-    $ git config --global user.name "Your Name"
-    $ git config --global user.email you@example.com
+    git config --global user.name "Your Name"
+    git config --global user.email you@example.com
 
 .. tip::
 
@@ -51,14 +51,14 @@ Set up your user information with your real name and a working email address:
 
     .. code-block:: bash
 
-        $ git config core.autocrlf
+        git config core.autocrlf
 
     This will return either "false", "input" or "true"; "true" and "false" being
     the wrong values. Change it to "input" by typing:
 
     .. code-block:: bash
 
-        $ git config --global core.autocrlf input
+        git config --global core.autocrlf input
 
     Replace --global by --local if you want to set it only for the active
     repository
@@ -77,14 +77,14 @@ Get the Superdesk Web Publisher source code:
 
 .. code-block:: bash
 
-      $ git clone git@github.com:USERNAME/web-publisher.git
+      git clone git@github.com:USERNAME/web-publisher.git
 
 * Add the upstream repository as a remote:
 
 .. code-block:: bash
 
-      $ cd web-publisher
-      $ git remote add upstream git://github.com/superdesk/web-publisher.git
+      cd web-publisher
+      git remote add upstream git://github.com/superdesk/web-publisher.git
 
 Check that the current Tests Pass
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -111,7 +111,7 @@ topic branch:
 
 .. code-block:: bash
 
-    $ git checkout -b BRANCH_NAME master
+    git checkout -b BRANCH_NAME master
 
 .. tip::
 
@@ -191,11 +191,11 @@ while to finish your changes):
 
 .. code-block:: bash
 
-    $ git checkout master
-    $ git fetch upstream
-    $ git merge upstream/master
-    $ git checkout BRANCH_NAME
-    $ git rebase master
+    git checkout master
+    git fetch upstream
+    git merge upstream/master
+    git checkout BRANCH_NAME
+    git rebase master
 
 
 When doing the ``rebase`` command, you might have to fix merge conflicts.
@@ -204,14 +204,14 @@ then continue the rebase:
 
 .. code-block:: bash
 
-    $ git add ... # add resolved files
-    $ git rebase --continue
+    git add ... # add resolved files
+    git rebase --continue
 
 Check that all tests still pass and push your branch remotely:
 
 .. code-block:: bash
 
-    $ git push --force origin BRANCH_NAME
+    git push --force origin BRANCH_NAME
 
 .. _contributing-code-pull-request:
 
@@ -333,8 +333,8 @@ patch. Before re-submitting the patch, rebase with ``upstream/master``, don't me
 
 .. code-block:: bash
 
-    $ git rebase -f upstream/master
-    $ git push --force origin BRANCH_NAME
+    git rebase -f upstream/master
+    git push --force origin BRANCH_NAME
 
 .. note::
 

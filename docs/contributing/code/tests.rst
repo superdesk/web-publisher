@@ -22,7 +22,7 @@ tests, such as Doctrine, Twig and Monolog. To do so,
 
 .. code-block:: bash
 
-    $ composer install
+    composer install
 
 .. _running:
 
@@ -38,7 +38,7 @@ command:
 
 .. code-block:: bash
 
-    $ bin/phpunit -c app/
+    bin/phpunit -c app/
 
 The output should display ``OK``. If not, read the reported errors to figure out
 what's going on and if the tests are broken because of the new code.
@@ -51,7 +51,7 @@ what's going on and if the tests are broken because of the new code.
 
     .. code-block:: bash
 
-        $ bin/phpunit src/SWP/Bundle/MultiTenancyBundle/
+        bin/phpunit src/SWP/Bundle/MultiTenancyBundle/
 
 .. tip::
 
@@ -79,7 +79,7 @@ the `TenantContext` class.
 
 .. code-block:: bash
 
-    $ bin/phpspec desc "SWP\Component\MultiTenancy\Context\TenantContext"
+    bin/phpspec desc "SWP\Component\MultiTenancy\Context\TenantContext"
     Specification for TenantContext created in spec.
 
 What have we just done? **PHPSpec** has created the spec for us. You can
@@ -143,7 +143,7 @@ Try running the example by using the following command:
 
 .. code-block:: bash
 
-    $ bin/phpspec run
+    bin/phpspec run
 
     > spec\SWP\Component\MultiTenancy\Context\TenantContext
 
@@ -186,7 +186,7 @@ Done! If you run PHPSpec again, you should see the following output:
 
 .. code-block:: bash
 
-    $ bin/phpspec run
+    bin/phpspec run
 
     > spec\SWP\Component\MultiTenancy\Context\TenantContext
 

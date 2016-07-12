@@ -1,22 +1,22 @@
+.. _bundle_tenant_routing-integration:
+
 CMF RoutingBundle Integration
 =============================
 
-.. _bundle_tenant_router-integration:
-
 SWPMultiTenancyBundle can be integrated with the `CMF RoutingBundle`_.
-This section describes how to integrate CMF Routing Bundle
-when using PHPCR-ODM or ORM as a persitence backends.
+This section describes how to integrate the CMF Routing Bundle
+when using PHPCR ODM or ORM as persistence backends.
 
 .. note::
 
-  If you don't have CMF RoutingBundle installed, (`see the documentation`_)
+  If you don't have CMF RoutingBundle installed, `see the documentation`_
   on how to install and configure it.
 
-Doctrine PHPCR-ODM integration
+Doctrine PHPCR ODM integration
 ------------------------------
 
-Enable PHPCR persitence backend
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Enable PHPCR persistence backend
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Make sure PHPCR persistence backend is enabled in CMF RoutingBundle.
 

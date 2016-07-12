@@ -39,8 +39,8 @@ change this value accordingly):
 
 .. code-block:: bash
 
-    $ cd projects/
-    $ git clone git://github.com/<YOUR GITHUB USERNAME>/web-publisher.git
+    cd projects/
+    git clone git://github.com/<YOUR GITHUB USERNAME>/web-publisher.git
 
 **Step 3.** Create a dedicated **new branch** for your changes. This greatly
 simplifies the work of reviewing and merging your changes. Use a short and
@@ -48,7 +48,7 @@ memorable name for the new branch:
 
 .. code-block:: bash
 
-    $ git checkout -b improve_install_chapter
+    git checkout -b improve_install_chapter
 
 **Step 4.** Now make your changes in the documentation. Add, tweak, reword and
 even remove any content, but make sure that you comply with the
@@ -62,8 +62,8 @@ even remove any content, but make sure that you comply with the
 
 .. code-block:: bash
 
-    $ git commit book/installation.rst
-    $ git push origin improve_install_chapter
+    git commit book/installation.rst
+    git push origin improve_install_chapter
 
 **Step 6.** Everything is now ready to initiate a **pull request**. Go to your
 forked repository at ``https//github.com/<YOUR GITHUB USERNAME>/web-publisher``
@@ -116,12 +116,12 @@ changes and push them:
 
 .. code-block:: bash
 
-    $ cd projects/web-publisher/
-    $ git checkout improve_install_chapter
+    cd projects/web-publisher/
+    git checkout improve_install_chapter
 
     # ... do your changes
 
-    $ git push
+    git push
 
 **Step 9.** After your pull request is eventually accepted and merged in the Superdesk Web Publisher, 
 you will be included in the `Superdesk Web Publisher Contributors`_
@@ -141,17 +141,17 @@ To do this, execute this command first to tell git about the original repository
 
 .. code-block:: bash
 
-    $ cd projects/web-publisher/
-    $ git remote add upstream https://github.com/superdesk/web-publisher.git
+    cd projects/web-publisher/
+    git remote add upstream https://github.com/superdesk/web-publisher.git
 
 Now you can **sync your fork** by executing the following command:
 
 .. code-block:: bash
 
-    $ cd projects/web-publisher/
-    $ git fetch upstream
-    $ git checkout master
-    $ git merge upstream/master
+    cd projects/web-publisher/
+    git fetch upstream
+    git checkout master
+    git merge upstream/master
 
 This command will update the ``master`` branch, which is the one you used to
 create the new branch for your changes. If you have used another base branch,
@@ -163,16 +163,16 @@ section:
 .. code-block:: bash
 
     # create a new branch to store your changes based on the master branch
-    $ cd projects/web-publisher/
-    $ git checkout master
-    $ git checkout -b my_changes
+    cd projects/web-publisher/
+    git checkout master
+    git checkout -b my_changes
 
     # ... do your changes
 
     # submit the changes to your forked repository
-    $ git add xxx.rst     # (optional) only if this is a new content
-    $ git commit xxx.rst
-    $ git push origin my_changes
+    git add xxx.rst     # (optional) only if this is a new content
+    git commit xxx.rst
+    git push origin my_changes
 
     # go to GitHub and create the Pull Request
     #
@@ -200,21 +200,21 @@ steps to contribute to the Superdesk Web Publisher documentation, which you can 
 .. code-block:: bash
 
     # sync your fork with the official Superdesk Web Publisher repository
-    $ cd projects/web-publisher/
-    $ git fetch upstream
-    $ git checkout master
-    $ git merge upstream/master
+    cd projects/web-publisher/
+    git fetch upstream
+    git checkout master
+    git merge upstream/master
 
     # create a new branch from the maintained version
-    $ git checkout master
-    $ git checkout -b my_changes
+    git checkout master
+    git checkout -b my_changes
 
     # ... do your changes
 
     # add and commit your changes
-    $ git add xxx.rst     # (optional) only if this is a new content
-    $ git commit xxx.rst
-    $ git push origin my_changes
+    git add xxx.rst     # (optional) only if this is a new content
+    git commit xxx.rst
+    git push origin my_changes
 
     # go to GitHub and create the Pull Request
     #
@@ -227,8 +227,8 @@ steps to contribute to the Superdesk Web Publisher documentation, which you can 
     # | Fixed tickets | [comma separated list of tickets fixed by the PR]
 
     # (optional) make the changes requested by reviewers and commit them
-    $ git commit xxx.rst
-    $ git push
+    git commit xxx.rst
+    git push
 
 You guessed right: after all this hard work, it's **time to celebrate again!**
 
