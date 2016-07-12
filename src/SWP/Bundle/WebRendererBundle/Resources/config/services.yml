@@ -54,4 +54,3 @@ services:
             - "@swp_template_engine_loader_chain"
         tags:
             -  { name: dynamic_router_route_enhancer, priority: 10 }
-
