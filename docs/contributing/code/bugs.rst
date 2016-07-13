@@ -1,7 +1,7 @@
 Reporting a Bug
 ===============
 
-Whenever you find a bug in Superdesk Web Publisher, we kindly ask you to report it. It helps
+Whenever you find a bug, we kindly ask you to report it. It helps
 us make a better Superdesk Web Publisher.
 
 .. caution::

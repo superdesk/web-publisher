@@ -43,8 +43,8 @@ The **TenantProvider** allows you to get all available tenants.
 
    var_dump($tenantProvider->getAvailableTenants());
 
-The ``getAvailableTenants`` method retrieves all tenants which ``enabled``
-property is set to true and have been inserted in the given repository.
+The ``getAvailableTenants`` method retrieves all tenants which have the ``enabled``
+property set to true and have been inserted in the given repository.
 
 .. note::
 
@@ -53,7 +53,7 @@ property is set to true and have been inserted in the given repository.
 TenantResolver
 --------------
 
-The **TenantResolver** allows you to resolve current tenant from the request.
+The **TenantResolver** allows you to resolve the current tenant from the request.
 
 .. code-block:: php
 
@@ -66,7 +66,7 @@ The **TenantResolver** allows you to resolve current tenant from the request.
 
    var_dump($tenantResolver->resolve('tenant.example.com')); // will return an instance of TenantInterface.
 
-The ``resolve`` method resolves the tenant based on current sudomain name. For example when the host is ``tenant.example.com``,
+The ``resolve`` method resolves the tenant based on the current subdomain name. For example, when the host is ``tenant.example.com``,
 it will resolve the subdomain (``tenant``) and then it will search for the tenant in the given repository, by the resolved subdomain name. If the subdomain ``tenant`` is not found, it always returns the default tenant.
 
 .. note::
@@ -77,8 +77,8 @@ it will resolve the subdomain (``tenant``) and then it will search for the tenan
 TenantAwarePathBuilder
 ----------------------
 
-The **TenantAwarePathBuilder** responsibility is to build PHPCR base paths which are tenant aware. This can build
-whatever path is needed by the provided paths' names and given context.
+The **TenantAwarePathBuilder** responsibility is to build PHPCR base paths which are tenant-aware. This can build
+whatever path is needed by the provided paths' names and the given context.
 
 .. code-block:: php
 
@@ -101,7 +101,9 @@ whatever path is needed by the provided paths' names and given context.
    var_dump($pathBuilder->build(['routes', 'content'])); // will return an array: ['/swp/example/routes', '/swp/example/routes']
    var_dump($pathBuilder->build('/')); // will return: /swp/default
 
-The ``build`` method method builds the PHPCR path. It accepts as a first argument, string or an array of routes' names. The second argument is the context for the given path(s) name(s). In order to build the base paths, the TenantAwarePathBuilder's construct requires an object of type :ref:`component_tenant_resolver_tenant-resolver-interface` needs to be provided as a first argument, the object of type :ref:`component_tenant_context_tenant-context-interface` as a second argument and the root base path as a third argument.
+The ``build`` method method builds the PHPCR path. It accepts as a first argument, a string or an array of routes' names. The second argument is the context for the given path(s) name(s).
+
+In order to build the base paths, the TenantAwarePathBuilder's construct requires an object of type :ref:`component_tenant_resolver_tenant-resolver-interface` to be provided as a first argument, the object of type :ref:`component_tenant_context_tenant-context-interface` as a second argument, and the root base path as a third argument.
 
 .. note::
 

@@ -1,27 +1,27 @@
+.. _bundle_tenant_routing-integration:
+
 CMF RoutingBundle Integration
 =============================
 
-.. _bundle_tenant_router-integration:
-
-SWPMultiTenancyBundle can be integrated with the `CMF RoutingBundle`_.
-This section describes how to integrate CMF Routing Bundle
-when using PHPCR-ODM or ORM as a persitence backends.
+The SWPMultiTenancyBundle can be integrated with the `CMF RoutingBundle`_.
+This section describes how to integrate the CMF Routing Bundle
+when using PHPCR ODM or ORM as persistence backends.
 
 .. note::
 
-  If you don't have CMF RoutingBundle installed, (`see the documentation`_)
+  If you don't have CMF RoutingBundle installed, `see the documentation`_
   on how to install and configure it.
 
-Doctrine PHPCR-ODM integration
+Doctrine PHPCR ODM integration
 ------------------------------
 
-Enable PHPCR persitence backend
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Enable PHPCR persistence backend
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Make sure PHPCR persistence backend is enabled in CMF RoutingBundle.
+Make sure the PHPCR persistence backend is enabled in CMF RoutingBundle.
 
-You need to enable the PHPCR as a persistence backend for SWPMultiTenancyBundle as well to fully integrate this bundle
-with the CMF RoutingBundle. Add the following lines to the config file:
+You need to enable the PHPCR as a persistence backend for the SWPMultiTenancyBundle and fully integrate this bundle
+with the CMF RoutingBundle. Add the following lines to the configuration file:
 
 .. code-block:: yaml
 
@@ -36,7 +36,7 @@ with the CMF RoutingBundle. Add the following lines to the config file:
                     # PHPCR content base path under which content will be stored
                     content_basepath: "content"
 
-Once the ``enabled`` property is set to true :ref:`bundle_tenant_initializer_tenant-initializer`,
+Once the ``enabled`` property is set to true, :ref:`bundle_tenant_initializer_tenant-initializer`,
 :ref:`bundle_tenant_router_tenant-router` and :ref:`bundle_tenant_prefix_tenant-prefix`
 will be available in the application.
 
@@ -44,7 +44,7 @@ will be available in the application.
 Enable TenantAwareRouter
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
-Register TenantAwareRouter service in CMF RoutingBundle, add the following lines to your config file:
+To register the TenantAwareRouter service in the CMF RoutingBundle, add the following lines to your configuration file:
 
 .. code-block:: yaml
 
@@ -54,7 +54,6 @@ Register TenantAwareRouter service in CMF RoutingBundle, add the following lines
                 # other routers
                 # TenantAwareRouter with the priority of 150
                 swp_multi_tenancy.tenant_aware_router: 150
-
 
 The RoutingBundle example configuration can be found here:
 
@@ -77,7 +76,7 @@ The RoutingBundle example configuration can be found here:
 
 .. note::
 
-  Please, `see the documentation`_ of the CMF RoutingBundle for more details.
+  Please `see the documentation`_ of the CMF RoutingBundle for more details.
 
 
 Doctrine ORM integration

@@ -88,7 +88,9 @@ because of backward compatibility issues, but we still want to propose a
 **deprecated**.
 
 A feature is marked as deprecated by adding a ``@deprecated`` phpdoc to
-relevant classes, methods, properties, ...::
+relevant classes, methods, properties, and so on:
+
+.. code::
 
     /**
      * @deprecated Deprecated since version 1.0, to be removed in 2.0. Use XXX instead.
@@ -105,7 +107,7 @@ feature will be removed (depending on the criticality of the removal)::
     @trigger_error('XXX() is deprecated since version 1.0 and will be removed in 2.0. Use XXX instead.', E_USER_DEPRECATED);
 
 Without the `@-silencing operator`_, users would need to opt-out from deprecation
-notices. Silencing swaps this behavior and allows users to opt-in when they are
+notices. Silencing swaps this behaviour and allows users to opt-in when they are
 ready to cope with them (by adding a custom error handler like the one used by
 the Web Debug Toolbar or by the PHPUnit bridge).
 

@@ -3,7 +3,7 @@ Template Caching
 
 For now we support just template block caching with the :code:`cache` block.
 
-:code:`Cache` block is simple, and accepts only two parameters: cache key and strategy object (with strategy key and value).
+The :code:`Cache` block is simple, and accepts only two parameters: cache key and strategy object (with strategy key and value).
 
 .. note::
 

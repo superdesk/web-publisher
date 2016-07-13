@@ -168,8 +168,8 @@ of the linked resource (``namespace``, ``class`` or ``method``):
 
     :phpfunction:`iterator_to_array`
 
-New Features or Behavior Changes
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+New Features or Behaviour Changes
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 If you're documenting a brand new feature or a change that's been made in
 Superdesk Web Publisher, you should precede your description of the change with a
@@ -182,8 +182,8 @@ Superdesk Web Publisher, you should precede your description of the change with 
 
     You can also ask a question and hide the response. This is particularly [...]
 
-If you're documenting a behavior change, it may be helpful to *briefly* describe
-how the behavior has changed:
+If you're documenting a behaviour change, it may be helpful to *briefly* describe
+how the behaviour has changed:
 
 .. code-block:: rst
 
@@ -199,7 +199,7 @@ tags would be removed from the new ``2.5`` branch.
 Testing Documentation
 ~~~~~~~~~~~~~~~~~~~~~
 
-When submitting a new content to the documentation repository or when changing
+When submitting new content to the documentation repository or when changing
 any existing resource, an automatic process will check if your documentation is
 free of syntax errors and is ready to be reviewed.
 
@@ -207,7 +207,7 @@ Nevertheless, if you prefer to do this check locally on your own machine before
 submitting your documentation, follow these steps:
 
 * Install Sphinx_;
-* Install the Sphinx extensions using git submodules: ``$ git submodule update --init``;
+* Install the Sphinx extensions using git submodules: ``git submodule update --init``;
 * Run ``make html`` and view the generated HTML in the ``_build/html`` directory.
 
 .. _reStructuredText: http://docutils.sourceforge.net/rst.html

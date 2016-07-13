@@ -13,7 +13,7 @@ container
 
 The :code:`container` tag has one required parameter and one optional parameter:
 
- * (required) container unique name ex.: *frontpage_sidebar*
+ * (required) container unique name, for example: *frontpage_sidebar*
  * (optional) keyword :code:`with` and default parameters for containers (used to create the container on theme installation).
 
 Here is an example of a container tag:
@@ -58,7 +58,7 @@ The tag :code:`gimme` has one required parameter and one optional parameter:
         {{ article.title }}
     {% endgimme %}
 
-Meta Loaders sometimes requires special parameters - like the article number, language of the article, user id, etc..
+Meta Loaders sometimes require special parameters - like the article number, language of the article, user id, etc..
 
 .. code-block:: twig
 
@@ -70,11 +70,11 @@ Meta Loaders sometimes requires special parameters - like the article number, la
 gimmelist
 `````````
 
-Tag :code:`gimmelist` have two required parameters and two optional parameters:
+The :code:`gimmelist` tag has two required parameters and two optional parameters:
 
  * (required) Name of variable available inside block: :code:`article`
  * (required) Keyword :code:`from` and type of requested Metas in collection: :code:`from articles` with filters passed to Meta Loader as extra parameters (:code:`start`, :code:`limit`, :code:`order`)
- * (optional) Keyword :code:`with` and parameters for Meta Loader ex.: :code:`with {foo: 'bar', param1: 'value1'}`
+ * (optional) Keyword :code:`with` and parameters for Meta Loader, for example: :code:`with {foo: 'bar', param1: 'value1'}`
  * (optional) Keyword :code:`if` and expression used for results filtering
 
 Here is an example of the required parameters:
@@ -113,7 +113,9 @@ On the template level, every variable in Context and fetched by :code:`gimme` an
 
 .. code-block:: twig
 
-    {{ article }} - if the meta configuration has the to_string property then the value of this property will be printed, otherwise it will be represented as JSON.
+    {{ article }}
+
+If the meta configuration has the :code:`to_string` property then the value of this property will be printed, otherwise it will be represented as JSON.
 
 **access property**
 
@@ -126,8 +128,8 @@ On the template level, every variable in Context and fetched by :code:`gimme` an
 
 .. code-block:: twig
 
-    {{ url(article) }} // absolute url
-    {{ path(article) }} // relative path
+    {{ url(article) }}    // absolute url
+    {{ path(article) }}   // relative path
 
 Here's an example using gimmelist:
 

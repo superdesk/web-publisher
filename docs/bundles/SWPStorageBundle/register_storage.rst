@@ -1,7 +1,7 @@
 How to automatically register Services required by the configured Storage Driver
 --------------------------------------------------------------------------------
 
-This bundle allows to register required services on the basis of the configured storage driver to standardize the definitions of registered services.
+This bundle enables you to register required services on the basis of the configured storage driver, to standardize the definitions of registered services.
 
 By default, this bundle registers:
 
@@ -10,18 +10,18 @@ By default, this bundle registers:
 - object manager services
 - parameters
 
-Based on the provided model class it will register default factory and repository,
-where you will be able to create new object based on provided model class name, adding, removing objects from the repository.
+Based on the provided model class it will register the default factory and repository,
+where you will be able to create a new object based on the provided model class name, adding or removing objects from the repository.
 
 
 Set Configuration for your Bundle
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Let's first start from your bundle configuration where you will need to specify default configuration.
+Let's start from your bundle configuration, where you will need to specify the default configuration.
 In this example let's assume you already have a bundle called ``ContentBundle`` and you want to have working
 services to manage your resources.
 
-The default ``Configuration`` class would look something like that:
+The default ``Configuration`` class would look something like this:
 
 .. code-block:: php
 
@@ -47,7 +47,7 @@ The default ``Configuration`` class would look something like that:
     }
 
 
-Now, let's add the needed configuration where you would configure ``Acme\ContentBundle\ODM\PHPCR\Article`` model class for PHPCR driver:
+Now, let's add the configuration for the ``Acme\ContentBundle\ODM\PHPCR\Article`` model class, for the PHPCR driver:
 
 .. code-block:: php
 
@@ -101,16 +101,19 @@ Now, let's add the needed configuration where you would configure ``Acme\Content
 
 .. note::
 
-    The ``repository``,  ``factory`` and ``object_manager_name`` nodes are configured to use ``null`` as default value. It means that the default factory, repository and object manager services will be registered in the container.
+    The ``repository``,  ``factory`` and ``object_manager_name`` nodes are configured to use ``null`` as the default value. It means that the default factory, repository and object manager services will be registered in the container.
 
 Register configured classes in your Extension class
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Now, that you have the configuration defined, it is time to register those classes using ``Extension`` class in your bundle. By default such class is generated inside the ``DependencyInjection`` folder in every Symfony Bundle.
-In this ``ContentBundle`` example it will be located under the ``Acme\ContentBundle\DependencyInjection`` namespace.
+Now that you have the configuration defined, it is time to register those classes using the ``Extension`` class in your bundle.
+By default, this class is generated inside the ``DependencyInjection`` folder in every Symfony Bundle.
+
+In this ``ContentBundle`` example it will be located under the namespace ``Acme\ContentBundle\DependencyInjection``.
 The fully qualified class name will be ``Acme\ContentBundle\DependencyInjection\AcmeContentExtension``.
-You need to extend this class by ``SWP\Bundle\StorageBundle\DependencyInjection\Extension\Extension`` class which
-will give you an access to register configured classes needed by the storage. ``registerStorage`` method
+
+You need to extend this class by the ``SWP\Bundle\StorageBundle\DependencyInjection\Extension\Extension`` class, which
+will give you access to register configured classes needed by the storage. The ``registerStorage`` method
 will do the whole magic for you. See the code below:
 
 .. code-block:: php
@@ -143,7 +146,7 @@ will do the whole magic for you. See the code below:
         }
     }
 
-If the PHPCR persistence backend is enabled it will register the following services in the container:
+If the PHPCR persistence backend is enabled, it will register the following services in the container:
 
 +-----------------------------+----------------------------------------------------------------------+
 | Service ID                  | Class name                                                           |
@@ -167,7 +170,7 @@ together with all parameters:
 | swp.repository.article.class| SWP\\Bundle\\StorageBundle\\Doctrine\\ODM\\PHPCR\\DocumentRepository |
 +-----------------------------+----------------------------------------------------------------------+
 
-If your configuration would support Doctrine ORM instead of PHPCR, the default services definitions would be:
+If your configuration supports Doctrine ORM instead of PHPCR, the default service definitions would be:
 
 +-----------------------------+----------------------------------------------------------------------+
 | Service ID                  | Class name                                                           |
@@ -191,7 +194,7 @@ And all parameters in the container would look like:
 | swp.repository.article.class| SWP\\Bundle\\StorageBundle\\Doctrine\\ORM\\EntityRepository          |
 +-----------------------------+----------------------------------------------------------------------+
 
-You could then access parameters from the container as visible below:
+You could then access parameters from the container, as visible below:
 
 .. code-block:: php
 
@@ -200,7 +203,7 @@ You could then access parameters from the container as visible below:
     $className = $container->getParameter('swp.model.article.class');
     var_dump($className); // will return Acme\ContentBundle\PHPCR\Article
 
-All what you would need to do now is to enable the configuration in your config file to register all classes:
+Now, register all classes in the configuration file:
 
 .. code-block:: yaml
 
@@ -231,13 +234,13 @@ How to create and use custom factory service for your model
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 For some use cases you would need to implement your own methods in the repository, like ``findOneBySlug()`` or
-``findAllArticles()``.
+``findAllArticles()``. It's very easy!
 
-It's very easy.
-You need to create your custom implementation fo the repository. In this example you will create custom repository
-for ``Article`` model class and Doctrine PHPCR persistence backend.
-Firstly, you need to create your custom repository interface, let's name it ``ArticleRepositoryInterface`` and extend it
-by ``SWP\Component\Storage\Repository\RepositoryInterface`` interface:
+You need to create your custom implementation for the repository. In this example you will create a custom repository
+for the ``Article`` model class and Doctrine PHPCR persistence backend.
+
+Firstly, you need to create your custom repository interface. Let's name it ``ArticleRepositoryInterface`` and extend it
+by the ``SWP\Component\Storage\Repository\RepositoryInterface`` interface:
 
 .. code-block:: php
 
@@ -268,8 +271,8 @@ by ``SWP\Component\Storage\Repository\RepositoryInterface`` interface:
     }
 
 
-Secondly, you need to create your custom repository class, let's name it ``ArticleRepository`` and implement
-``ArticleRepositoryInterface`` interface:
+Secondly, you need to create your custom repository class. Let's name it ``ArticleRepository`` and implement
+the ``ArticleRepositoryInterface`` interface:
 
 .. code-block:: php
 
@@ -301,10 +304,10 @@ Secondly, you need to create your custom repository class, let's name it ``Artic
 
 .. note::
 
-    If you want to create custom repository for Doctrine ORM persistence backend, you need to extend your custom
-    repository class by ``SWP\Bundle\StorageBundle\Doctrine\ORM\EntityRepository`` class.
+    If you want to create a custom repository for the Doctrine ORM persistence backend, you need to extend your custom
+    repository class by the ``SWP\Bundle\StorageBundle\Doctrine\ORM\EntityRepository`` class.
 
-The last step is to add your custom repository to the configuration in config file:
+The last step is to add your custom repository to the configuration file:
 
 .. code-block:: yaml
 
@@ -326,19 +329,19 @@ The last step is to add your custom repository to the configuration in config fi
 
 .. note::
 
-    You can change repository class by simply changing your bundle configuration, without a need to change the code.
+    You can change repository class by simply changing your bundle configuration, without needing to change the code.
 
 How to create and use custom repository service for your model
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 You may need to have a different way of creating objects than the default way of doing it.
-Imagine you need to create ``Article`` object with the route assigned by default.
+Imagine you need to create an ``Article`` object with the route assigned by default.
 
 .. note::
 
-    In this example you will create custom factory for your ``Article`` object and Doctrine PHPCR persistence backend.
+    In this example you will create a custom factory for your ``Article`` object and Doctrine PHPCR persistence backend.
 
-Let's create custom interface for your factory. Extend your custom class by ``SWP\Component\Storage\Factory\FactoryInterface`` class:
+Let's create a custom interface for your factory. Extend your custom class by the ``SWP\Component\Storage\Factory\FactoryInterface`` class:
 
 .. code-block:: php
 
@@ -363,7 +366,7 @@ Let's create custom interface for your factory. Extend your custom class by ``SW
     }
 
 
-Create custom Article factory class:
+Create the custom Article factory class:
 
 .. code-block:: php
 
@@ -411,7 +414,7 @@ Create custom Article factory class:
         }
     }
 
-Create compiler pass to override default Article factory class with your custom factory on container compilation:
+Create a compiler pass to override the default Article factory class with your custom factory on container compilation:
 
 .. code-block:: php
 
@@ -474,8 +477,7 @@ Don't forget to register your new compiler pass in your Bundle class (``AcmeCont
     }
 
 
-The last thing which is required to make use of your new factory service is to add it to the configuration
-in your config file under the ``factory`` node:
+The last thing required to make use of your new factory service is to add it to the configuration file, under the ``factory`` node:
 
 .. code-block:: yaml
 
@@ -495,8 +497,7 @@ in your config file under the ``factory`` node:
 
     Alternatively, you could add it directly in your ``Configuration`` class.
 
-
-You would be able to use the factory like:
+You would then be able to use the factory like so:
 
 .. code-block:: php
 
@@ -504,27 +505,26 @@ You would be able to use the factory like:
     // or create flat object
     $article = $this->get('swp.factory.article')->create();
 
-
 .. note::
 
-    You can change factory class by simply changing your bundle configuration, without a need to change the code.
+    You can change factory class by simply changing your bundle configuration, without needing to change the code.
 
 
 Configuring object manager for your model
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-As you can see there is ``object_manager_name`` option in ``Configuration`` class, which is the default Object Manager (Contract for a Doctrine persistence layer) name.
+As you can see, there is the ``object_manager_name`` option in the ``Configuration`` class, which is the default Object Manager (Contract for a Doctrine persistence layer) name.
 
-In case of Doctrine ORM it's ``doctrine.orm.default_entity_manager``, in PHPCR it's ``doctrine_phpcr.odm.default_document_manager``. If you set this option to be, for example, ``test`` the ``doctrine.orm.test_entity_manager`` object manager service's id will be used. Of course this new ``test`` document in case of PHPCR should be first configured in Doctrine PHPCR Bundle as described in the `bundle documentation`_ and for Doctrine ORM it should be
-configured in Doctrine ORM Bundle config as described `here`_.
+In the case of Doctrine ORM it's ``doctrine.orm.default_entity_manager``, in PHPCR it's ``doctrine_phpcr.odm.default_document_manager``.
 
-To have the possibility of defining default Object Manager for a Doctrine persistence layer and make use of it
-in the registered repositories and factories in your Bundle, is very useful in case you are using different databases or even different
-sets of entities.
+If you set this option to be, for example, ``test`` the ``doctrine.orm.test_entity_manager`` object manager service's id will be used. Of course this new ``test`` document, in the case of PHPCR, should be first configured in the Doctrine PHPCR Bundle as described in the `bundle documentation`_ on multiple document managers.
+For Doctrine ORM it should be configured as shown in the Doctrine ORM Bundle documentation on `multiple entity managers`_.
+
+The possibility of defining a default Object Manager for a Doctrine persistence layer, and making use of it in the registered repositories and factories in your Bundle, is very useful in case you are using different databases or even different sets of entities.
 
 .. note::
 
-    Factories and repositories are defined as a services in Symfony container to have better flexibility of using it.
+    Factories and repositories are defined as a services in Symfony container to have better flexibility of use.
 
-.. _bundle documentation: http://symfony.com/doc/current/cmf/bundles/phpcr_odm/multiple_sessions.html#multiple-document-managers
-.. _here: http://symfony.com/doc/current/cookbook/doctrine/multiple_entity_managers.html
+.. _bundle documentation: http://symfony.com/doc/master/cmf/bundles/phpcr_odm/multiple_sessions.html#multiple-document-managers
+.. _multiple entity managers: http://symfony.com/doc/current/cookbook/doctrine/multiple_entity_managers.html

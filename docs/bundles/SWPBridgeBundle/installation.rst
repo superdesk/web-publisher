@@ -4,12 +4,11 @@ Installation
 Install the Bundle with Composer
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Open a command console and in your project directory execute the
-following command to download the latest stable version:
+In your project directory execute the following command to download the latest stable version:
 
 .. code-block:: bash
 
-    $ composer require swp/bridge-bundle
+    composer require swp/bridge-bundle
 
 This command requires you to have Composer installed globally. If it's not installed `globally`_,
 download the ``.phar`` file `locally`_ as explained in Composer documentation.
@@ -18,7 +17,7 @@ Enable the bundle and its dependencies
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Enable the bundle
-by adding the following lines in the ``app/AppKernel.php``:
+by adding the following lines in the ``app/AppKernel.php`` file:
 
 .. code-block:: php
 

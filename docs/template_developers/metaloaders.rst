@@ -1,9 +1,9 @@
 Meta Loaders
 ============
 
-Meta Loaders are services injected into :code:`SWP\TemplateEngineBundle\Gimme\Loader\ChainLoader` class and used for loading specific types of Meta objects. 
+Meta Loaders are services injected into the :code:`SWP\TemplateEngineBundle\Gimme\Loader\ChainLoader` class and are used for loading specific types of Meta objects.
 
-Every Meta Loader must implement :code:`SWP\TemplateEngineBundle\Gimme\Loader\LoaderInterface` interface.
+Every Meta Loader must implement the :code:`SWP\TemplateEngineBundle\Gimme\Loader\LoaderInterface` interface.
 
 Required methods: 
 

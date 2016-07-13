@@ -1,9 +1,8 @@
 Security Issues
 ===============
 
-This document explains how Superdesk Web Publisher security issues are handled by the Superdesk Web Publisher
-core team (Superdesk Web Publisher being the code hosted on the main ``superdesk/web-publisher`` `Git
-repository`_).
+This document explains how security issues affecting code in the main ``superdesk/web-publisher`` `Git
+repository`_ are handled by the Superdesk Web Publisher core team.
 
 Reporting a Security Issue
 --------------------------
@@ -11,13 +10,13 @@ Reporting a Security Issue
 If you think that you have found a security issue in Superdesk Web Publisher, don't use the
 bug tracker and don't publish it publicly. Instead, all security issues must
 be sent to **security [at] superdesk.org**. Emails sent to this address are
-forwarded to the Superdesk Web Publisher core-team private mailing-list.
+forwarded to the Superdesk Web Publisher core-team private mailing list.
 
 Resolving Process
 -----------------
 
 For each report, we first try to confirm the vulnerability. When it is
-confirmed, the core-team works on a solution following these steps:
+confirmed, the core team works on a solution following these steps:
 
 #. Send an acknowledgement to the reporter;
 #. Work on a patch;
@@ -32,12 +31,12 @@ confirmed, the core-team works on a solution following these steps:
    * credits.
 #. Send the patch and the announcement to the reporter for review;
 #. Apply the patch to all maintained versions of Superdesk Web Publisher;
-#. Package new versions for all affected versions;
+#. Package new releases for all affected versions;
 #. Publish the post on the official Superdesk Web Publisher `blog`_
 
 .. note::
 
-    Releases that include security issues should not be done on Saturday or
+    Releases that include security issues should not be made on a Saturday or
     Sunday, except if the vulnerability has been publicly posted.
 
 .. note::

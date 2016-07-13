@@ -4,7 +4,7 @@ Usage
 Using Validator Chain Service
 -----------------------------
 
-Validator Chain service is used to register all validators with a tag ``validator.http_push_validator``.
+The Validator Chain service is used to register all validators with a tag ``validator.http_push_validator``.
 
 Usage:
 
@@ -25,12 +25,12 @@ How to Create and Register Custom Validators
 --------------------------------------------
 
 Validators are used to process incoming request content and validate it against the specific schema.
-Read more about it in Bridge component (in :doc:`/components/Bridge/usage` section).
+Read more about it in the Bridge component documentation (in the :doc:`/components/Bridge/usage` section).
 
 Creating the Validator Class
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-To create a new Validator it has to implement ``SWP\Component\Bridge\Validator\ValidatorInterface`` and
+A new Validator has to implement the ``SWP\Component\Bridge\Validator\ValidatorInterface`` and
 ``SWP\Component\Bridge\Validator\ValidatorOptionsInterface`` interfaces.
 
 ``CustomValidator`` class example:
@@ -80,7 +80,7 @@ To create a new Validator it has to implement ``SWP\Component\Bridge\Validator\V
 Configuring the Validator
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
-To register your new validator, simply add a definition to your services file and tag it with a special tag name: ``validator.http_push_validator``:
+To register your new validator, simply add a definition to your services file and tag it with a special name: ``validator.http_push_validator``:
 
 .. code-block:: yaml
 
@@ -92,7 +92,7 @@ To register your new validator, simply add a definition to your services file an
 
 .. note::
 
-    You can use ``SWP\Component\Bridge\Validator\JsonValidator`` abstract class if you wish to create custom JSON validator.
+    You can use the ``SWP\Component\Bridge\Validator\JsonValidator`` abstract class if you wish to create custom JSON validator.
 
 Using Transformer Chain Service
 -------------------------------
@@ -116,12 +116,12 @@ How to Create and Register Custom Data Transformers
 ---------------------------------------------------
 
 Data transformers are used to transform one value/object into another.
-Read more about it in Bridge component (in :doc:`/components/Bridge/usage` section).
+Read more about it in the Bridge component documentation (in the :doc:`/components/Bridge/usage` section).
 
 Creating the Data Transformer Class
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-To create a new Data Transformer, your new class should implement ``SWP\Component\Bridge\Transformer\DataTransformerInterface`` interface.
+To create a new Data Transformer, your new class should implement the ``SWP\Component\Bridge\Transformer\DataTransformerInterface`` interface.
 
 ``CustomValidator`` class example:
 
@@ -185,7 +185,7 @@ To create a new Data Transformer, your new class should implement ``SWP\Componen
 Configuring the Data Transformer
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-To register your new Data Transformer, simply add service definition to your services file and tag it with a special tag name: ``transformer.http_push_transformer``:
+To register your new Data Transformer, simply add a definition to your services file and tag it with a special name: ``transformer.http_push_transformer``:
 
 .. code-block:: yaml
 
