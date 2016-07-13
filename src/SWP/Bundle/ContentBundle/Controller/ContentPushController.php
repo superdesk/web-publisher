@@ -17,6 +17,7 @@ use League\Pipeline\Pipeline;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use FOS\RestBundle\Controller\FOSRestController;
+use FOS\RestBundle\View\View;
 use SWP\Bundle\ContentBundle\ArticleEvents;
 use SWP\Bundle\ContentBundle\Event\ArticleEvent;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -58,6 +59,6 @@ class ContentPushController extends FOSRestController
 
         $pipeline->process($request->getContent());
 
-        return new JsonResponse(['status' => 'OK'], 201);
+        return $this->handleView(View::create(['status' => 'OK'], 201));
     }
 }

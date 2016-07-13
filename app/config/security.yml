@@ -9,8 +9,10 @@ security:
 
     # http://symfony.com/doc/current/book/security.html#hierarchical-roles
     role_hierarchy:
-        ROLE_ADMIN:       [ROLE_USER, ROLE_EDITOR, ROLE_JOURNALIST]
-        ROLE_SUPER_ADMIN: [ROLE_USER, ROLE_EDITOR, ROLE_JOURNALIST, ROLE_ADMIN, ROLE_ALLOWED_TO_SWITCH]
+        ROLE_JOURNALIST:  [ROLE_USER]
+        ROLE_EDITOR:      [ROLE_JOURNALIST, ROLE_CAN_VIEW_NON_PUBLISHED]
+        ROLE_ADMIN:       [ROLE_EDITOR]
+        ROLE_SUPER_ADMIN: [ROLE_ADMIN, ROLE_ALLOWED_TO_SWITCH]
 
     # http://symfony.com/doc/current/book/security.html#where-do-users-come-from-user-providers
     providers:

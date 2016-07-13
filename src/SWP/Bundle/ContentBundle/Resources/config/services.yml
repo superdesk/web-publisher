@@ -1,6 +1,7 @@
 parameters:
     swp_content.transformer.package_to_article.class: SWP\Bundle\ContentBundle\Transformer\PackageToArticleTransformer
     swp.service.route.class: SWP\Bundle\ContentBundle\Service\RouteService
+    swp.service.article.class: SWP\Bundle\ContentBundle\Service\ArticleService
 
 services:
     swp_template_engine.loader.article:
@@ -43,3 +44,6 @@ services:
             - '@swp.provider.route'
             - '@swp.provider.article'
             - '@event_dispatcher'
+
+    swp.service.article:
+        class: '%swp.service.article.class%'

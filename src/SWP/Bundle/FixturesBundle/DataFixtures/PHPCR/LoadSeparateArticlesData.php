@@ -16,6 +16,7 @@ namespace SWP\Bundle\FixturesBundle\DataFixtures\PHPCR;
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\Article;
+use SWP\Bundle\ContentBundle\Model\ArticleInterface;
 use SWP\Bundle\FixturesBundle\AbstractFixture;
 
 class LoadSeparateArticlesData extends AbstractFixture implements FixtureInterface
@@ -65,7 +66,9 @@ class LoadSeparateArticlesData extends AbstractFixture implements FixtureInterfa
                 $article->setTitle($articleData['title']);
                 $article->setBody($articleData['content']);
                 $article->setLocale($articleData['locale']);
-                $article->setCreatedAt(new \DateTime('2016-07-04T16:38:20+0000'));
+                $article->setPublishedAt(new \DateTime());
+                $article->setPublishable(true);
+                $article->setStatus(ArticleInterface::STATUS_PUBLISHED);
 
                 $manager->persist($article);
             }

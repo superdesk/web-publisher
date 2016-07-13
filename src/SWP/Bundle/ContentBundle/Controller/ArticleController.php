@@ -22,6 +22,7 @@ use FOS\RestBundle\View\View;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use SWP\Bundle\ContentBundle\Form\Type\ArticleType;
+use SWP\Bundle\ContentBundle\Model\ArticleInterface;
 use SWP\Component\Common\Event\HttpCacheEvent;
 
 class ArticleController extends FOSRestController
@@ -98,10 +99,13 @@ class ArticleController extends FOSRestController
     {
         $objectManager = $this->get('swp.object_manager.article');
         $article = $this->findOr404($id);
+        $originalArticleStatus = $article->getStatus();
         $form = $this->createForm(new ArticleType(), $article, ['method' => $request->getMethod()]);
 
         $form->handleRequest($request);
         if ($form->isValid()) {
+            $newArticleStatus = $article->getStatus();
+            $this->reactOnStatusChange($originalArticleStatus, $article);
             $article->setUpdatedAt(new \DateTime());
             $objectManager->flush();
             $objectManager->refresh($article);
@@ -113,6 +117,24 @@ class ArticleController extends FOSRestController
         }
 
         return $this->handleView(View::create($form, 500));
+    }
+
+    private function reactOnStatusChange($originalArticleStatus, $article)
+    {
+        $newArticleStatus = $article->getStatus();
+        if ($originalArticleStatus === $newArticleStatus) {
+            return;
+        }
+
+        $articleService = $this->get('swp.service.article');
+        switch ($newArticleStatus) {
+            case ArticleInterface::STATUS_PUBLISHED:
+                $articleService->publish($article);
+                break;
+            default:
+                $articleService->unpublish($article, $newArticleStatus);
+                break;
+        }
     }
 
     private function findOr404($id)

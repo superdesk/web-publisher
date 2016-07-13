@@ -16,6 +16,7 @@ namespace SWP\Bundle\ContentBundle\Loader;
 use SWP\Component\TemplatesSystem\Gimme\Loader\LoaderInterface;
 use SWP\Component\TemplatesSystem\Gimme\Meta\Meta;
 use Symfony\Component\Yaml\Parser;
+use Symfony\Cmf\Bundle\CoreBundle\PublishWorkflow\PublishWorkflowChecker;
 
 class ArticleLoader implements LoaderInterface
 {
@@ -49,6 +50,7 @@ class ArticleLoader implements LoaderInterface
         $dm = $this->serviceContainer->get('doctrine_phpcr.odm.document_manager');
         $configurationPath = $this->serviceContainer->getParameter('kernel.root_dir').'/Resources/meta/article.yml';
         $metadataCache = $this->serviceContainer->get('doctrine_cache.providers.main_cache');
+        $publishWorkflowChecker = $this->serviceContainer->get('cmf_core.publish_workflow.checker');
 
         $article = null;
         if (empty($parameters)) {
@@ -78,7 +80,7 @@ class ArticleLoader implements LoaderInterface
                     ->findOneBy(['slug' => $parameters['slug']]);
             }
 
-            if (!is_null($article)) {
+            if (!is_null($article) && $publishWorkflowChecker->isGranted(PublishWorkflowChecker::VIEW_ATTRIBUTE, $article)) {
                 return new Meta($configuration, $article);
             }
         } elseif ($responseType === LoaderInterface::COLLECTION) {
@@ -94,11 +96,8 @@ class ArticleLoader implements LoaderInterface
                     $articles = $dm->getReferrers($route, null, null, null, 'SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\Article');
                     $metas = [];
                     foreach ($articles as $article) {
-                        if (!is_null($article)) {
-                            $metas[] = new Meta(
-                                $configuration,
-                                $article
-                            );
+                        if (!is_null($article) && $publishWorkflowChecker->isGranted(PublishWorkflowChecker::VIEW_ATTRIBUTE, $article)) {
+                            $metas[] = new Meta($configuration, $article);
                         }
                     }
 

@@ -66,8 +66,13 @@ class ContentPushControllerTest extends WebTestCase
                 'content' => 'ads-fsadf-sdaf-sadf-sadf',
             ],
         ]);
-
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
+
+        $client->request('PATCH', $this->router->generate('swp_api_content_update_articles', ['id' => 'ads-fsadf-sdaf-sadf-sadf']), [
+            'article' => [
+                'status' => 'published',
+            ],
+        ]);
 
         $client->request('GET', '/articles/ads-fsadf-sdaf-sadf-sadf');
 

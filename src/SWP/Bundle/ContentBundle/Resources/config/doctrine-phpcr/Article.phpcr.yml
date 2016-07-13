@@ -24,6 +24,17 @@ SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\Article:
         deletedAt:
             type: date
             nullable: true
+        publishStartDate:
+            type: date
+            nullable: true
+        publishEndDate:
+            type: date
+            nullable: true
+        publishedAt:
+            type: date
+            nullable: true
+        isPublishable:
+            type: boolean
     referenceOne:
         route:
             targetDocument: "\\SWP\\Bundle\\ContentBundle\\Doctrine\\ODM\\PHPCR\\Route"
