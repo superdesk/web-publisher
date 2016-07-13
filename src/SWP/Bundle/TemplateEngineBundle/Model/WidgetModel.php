@@ -31,6 +31,7 @@ class WidgetModel implements WidgetModelInterface, TenantAwareInterface, Timesta
     protected $types = [
         self::TYPE_HTML => '\\SWP\\Component\\TemplatesSystem\\Gimme\\WidgetModel\\HtmlWidgetHandler',
         self::TYPE_ADSENSE => '\\SWP\\Component\\TemplatesSystem\\Gimme\\WidgetModel\\HtmlWidgetHandler',
+        self::TYPE_MENU => '\\SWP\\Component\\TemplatesSystem\\Gimme\\WidgetModel\\MenuWidgetHandler',
     ];
 
     /**
