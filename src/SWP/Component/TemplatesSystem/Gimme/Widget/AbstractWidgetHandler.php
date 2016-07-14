@@ -104,7 +104,7 @@ abstract class AbstractWidgetHandler implements WidgetHandlerInterface, Containe
     protected function getAllParametersWithValue()
     {
         $all = array();
-        foreach (self::getExpectedParameters() as $key) {
+        foreach (self::getExpectedParameters() as $key => $value) {
             $all[$key] = $this->getModelParameter($key);
         }
 
