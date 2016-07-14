@@ -10,7 +10,6 @@
  * @copyright 2015 Sourcefabric z.ú.
  * @license http://www.superdesk.org/license
  */
-
 namespace SWP\Bundle\TemplateEngineBundle\Tests\Controller;
 
 use Liip\FunctionalTestBundle\Test\WebTestCase;
@@ -27,14 +26,14 @@ class MenuNodeControllerTest extends WebTestCase
         $this->runCommand('doctrine:doctrine:schema:update', ['--force' => true, '--env' => 'test'], true);
 
         $this->loadFixtureFiles([
-            '@SWPFixturesBundle/Resources/fixtures/ORM/test/tenant.yml'
+            '@SWPFixturesBundle/Resources/fixtures/ORM/test/tenant.yml',
         ]);
 
         $this->runCommand('doctrine:phpcr:repository:init', ['--env' => 'test'], true);
 
         $this->loadFixtures([
             'SWP\Bundle\FixturesBundle\DataFixtures\PHPCR\LoadMenusData',
-            'SWP\Bundle\FixturesBundle\DataFixtures\PHPCR\LoadMenuNodesData'
+            'SWP\Bundle\FixturesBundle\DataFixtures\PHPCR\LoadMenuNodesData',
         ], null, 'doctrine_phpcr');
 
         $this->router = $this->getContainer()->get('router');
@@ -48,7 +47,7 @@ class MenuNodeControllerTest extends WebTestCase
                 'name' => 'blue',
                 'label' => 'Blue',
                 'locale' => 'en',
-                'uri' => 'http://example.com/blue'
+                'uri' => 'http://example.com/blue',
             ],
         ]);
 
@@ -65,7 +64,7 @@ class MenuNodeControllerTest extends WebTestCase
                 'name' => 'subSubContact',
                 'label' => 'Sub Sub Contact',
                 'locale' => 'en',
-                'uri' => 'http://example.com/contact/sub/sub'
+                'uri' => 'http://example.com/contact/sub/sub',
             ],
         ]);
 
@@ -100,7 +99,7 @@ class MenuNodeControllerTest extends WebTestCase
         $client = static::createClient();
         $client->request('PATCH', $this->router->generate('swp_api_templates_update_menu_node', ['menuId' => 'test', 'nodeId' => 'contact/sub']), [
             'menuNode' => [
-                'uri' => 'http://example.com/contact/hub'
+                'uri' => 'http://example.com/contact/hub',
             ],
         ]);
 

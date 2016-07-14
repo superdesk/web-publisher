@@ -10,7 +10,6 @@
  * @copyright 2015 Sourcefabric z.ú.
  * @license http://www.superdesk.org/license
  */
-
 namespace SWP\Bundle\TemplateEngineBundle\Tests\Controller;
 
 use Liip\FunctionalTestBundle\Test\WebTestCase;
@@ -27,7 +26,7 @@ class MenuControllerTest extends WebTestCase
         $this->runCommand('doctrine:doctrine:schema:update', ['--force' => true, '--env' => 'test'], true);
 
         $this->loadFixtureFiles([
-            '@SWPFixturesBundle/Resources/fixtures/ORM/test/tenant.yml'
+            '@SWPFixturesBundle/Resources/fixtures/ORM/test/tenant.yml',
         ]);
 
         $this->runCommand('doctrine:phpcr:repository:init', ['--env' => 'test'], true);

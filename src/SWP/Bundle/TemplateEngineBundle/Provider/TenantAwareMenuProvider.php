@@ -13,7 +13,6 @@
  */
 namespace SWP\Bundle\TemplateEngineBundle\Provider;
 
-use SWP\Bundle\MultiTenancyBundle\Context\TenantContext;
 use SWP\Component\MultiTenancy\PathBuilder\TenantAwarePathBuilderInterface;
 use Symfony\Cmf\Bundle\MenuBundle\Provider\PhpcrMenuProvider;
 use Doctrine\Common\Persistence\ManagerRegistry;

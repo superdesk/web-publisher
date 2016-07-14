@@ -19,7 +19,6 @@ use FOS\RestBundle\View\View;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use SWP\Bundle\TemplateEngineBundle\Provider\TenantAwareMenuProvider;
 use Symfony\Cmf\Bundle\MenuBundle\Doctrine\Phpcr\Menu;
 use Symfony\Component\HttpFoundation\Request;
 use SWP\Bundle\TemplateEngineBundle\Form\Type\MenuType;
@@ -203,7 +202,9 @@ class MenuController extends FOSRestController
 
     /**
      * @param $id
+     *
      * @return Menu
+     *
      * @throws UnprocessableEntityHttpException
      */
     private function getMenu($id)
@@ -221,7 +222,7 @@ class MenuController extends FOSRestController
     }
 
     /**
-     * Returns base document path of menus for this tenant
+     * Returns base document path of menus for this tenant.
      *
      * @return string
      */

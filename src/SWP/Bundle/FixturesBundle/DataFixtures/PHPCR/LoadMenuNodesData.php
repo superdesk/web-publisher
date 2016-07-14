@@ -3,9 +3,8 @@
  * Created by PhpStorm.
  * User: sourcefabric
  * Date: 14/07/16
- * Time: 13:45
+ * Time: 13:45.
  */
-
 namespace SWP\Bundle\FixturesBundle\DataFixtures\PHPCR;
 
 use Doctrine\Common\DataFixtures\FixtureInterface;
@@ -43,9 +42,9 @@ class LoadMenuNodesData extends AbstractFixture implements FixtureInterface
                     'label' => 'Sub Contact',
                     'locale' => 'en',
                     'uri' => 'http://example.com/contact/sub',
-                    'parent' => '/swp/default/menu/test/contact'
+                    'parent' => '/swp/default/menu/test/contact',
                 ],
-            ]
+            ],
         ];
 
         if (isset($menuNodes[$env])) {

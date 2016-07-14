@@ -10,7 +10,6 @@
  * @copyright 2015 Sourcefabric z.ú.
  * @license http://www.superdesk.org/license
  */
-
 namespace SWP\Bundle\FixturesBundle\DataFixtures\PHPCR;
 
 use Doctrine\Common\DataFixtures\FixtureInterface;
@@ -33,9 +32,9 @@ class LoadMenusData extends AbstractFixture implements FixtureInterface
             'test' => [
                 [
                     'name' => 'test',
-                    'label' => 'Test'
-                ]
-            ]
+                    'label' => 'Test',
+                ],
+            ],
         ];
 
         if (isset($menus[$env])) {

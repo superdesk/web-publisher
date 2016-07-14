@@ -13,7 +13,6 @@
  */
 namespace SWP\Component\TemplatesSystem\Gimme\Widget;
 
-
 class MenuWidgetHandler extends AbstractWidgetHandler
 {
     protected static $expectedParameters = [
