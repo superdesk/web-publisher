@@ -13,6 +13,7 @@
  */
 namespace SWP\Bundle\WebRendererBundle\Theme;
 
+use SWP\Bundle\WebRendererBundle\Exception\NoThemeException;
 use SWP\Bundle\WebRendererBundle\Theme\Helper\ThemeHelper;
 use SWP\Component\Common\Model\TenantInterface;
 use SWP\Component\MultiTenancy\Context\TenantContextInterface;
@@ -56,7 +57,12 @@ final class TenantAwareThemeContext implements ThemeContextInterface
         /* @var TenantInterface $tenant */
         $tenant = $this->tenantContext->getTenant();
 
-        return $this->themeRepository->findOneByName($this->resolveThemeName($tenant));
+        $theme = $this->themeRepository->findOneByName($this->resolveThemeName($tenant));
+        if (null === $theme) {
+            throw new NoThemeException();
+        }
+
+        return $theme;
     }
 
     private function resolveThemeName(TenantInterface $tenant)

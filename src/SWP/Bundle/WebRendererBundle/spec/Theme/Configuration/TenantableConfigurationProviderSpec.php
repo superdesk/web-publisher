@@ -71,7 +71,7 @@ class TenantableConfigurationProviderSpec extends ObjectBehavior
             ->willThrow(\InvalidArgumentException::class);
 
         $this
-            ->shouldThrow(\InvalidArgumentException::class)
-            ->during('getConfigurations');
+            ->getConfigurations()
+            ->shouldReturn([]);
     }
 }

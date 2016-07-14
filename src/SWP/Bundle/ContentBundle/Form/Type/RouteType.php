@@ -39,6 +39,12 @@ class RouteType extends AbstractType
                    new Length(['min' => 1]),
                 ],
             ])
+            ->add('template_name', TextType::class, [
+                'required' => false,
+                'constraints' => [
+                   new Length(['min' => 1]),
+                ],
+            ])
             ->add('parent', TextType::class, [
                 'required' => false,
                 'constraints' => [
@@ -50,7 +56,7 @@ class RouteType extends AbstractType
                 'constraints' => [
                    new Length(['min' => 1]),
                 ],
-                'description' => 'Relative content path. e.g.: /test-content-article',
+                'description' => 'Content path name e.g.: test-content-article',
             ]);
     }
 

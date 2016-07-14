@@ -28,7 +28,7 @@ with a specific tenant.
 Service Interfaces
 ------------------
 
-.. _component_tenant_context-tenant-interface:
+.. _component_tenant_context_tenant-context-interface:
 
 TenantContextInterface
 ~~~~~~~~~~~~~~~~~~~~~~
@@ -50,7 +50,7 @@ TenantResolverInterface
 ~~~~~~~~~~~~~~~~~~~~~~~
 
 This interface should be implemented by a service
-responsible for resolving current :ref:`component_tenant_model_tenant`.
+responsible for resolving the current :ref:`component_tenant_model_tenant`.
 
 
 Repository Interfaces
@@ -73,4 +73,4 @@ TenantFactoryInterface
 ~~~~~~~~~~~~~~~~~~~~~~
 
 This interface should be implemented by tenant factories which are
-responsible for creating an objects of type :ref:`component_tenant_model_tenant-interface`.
+responsible for creating objects of type :ref:`component_tenant_model_tenant-interface`.

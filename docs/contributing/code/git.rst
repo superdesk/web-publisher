@@ -15,10 +15,10 @@ this pattern:
 
 .. code-block:: text
 
-    merged branch USER_NAME/BRANCH_NAME (PR #1111)
+    merged branch USER_NAME/BRANCH_NAME (PR #11)
 
 The PR reference allows you to have a look at the original pull request on
-GitHub: https://github.com/superdesk/web-publisher/pull/1111. But all the information
+GitHub: https://github.com/superdesk/web-publisher/pull/11. But all the information
 you can get on GitHub is also available from the repository itself.
 
 The merge commit message contains the original message from the author of the

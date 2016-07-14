@@ -4,12 +4,11 @@ Installation
 Install the Bundle with Composer
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Open a command console and in your project directory execute the
-following command to download the latest stable version:
+In your project directory, execute the following command to download the latest stable version of the MultiTenancyBundle:
 
 .. code-block:: bash
 
-    $ composer require swp/multi-tenancy-bundle
+    composer require swp/multi-tenancy-bundle
 
 This command requires you to have Composer installed globally. If it's not installed `globally`_,
 download the ``.phar`` file `locally`_ as explained in Composer documentation.
@@ -18,7 +17,7 @@ Enable the bundle and its dependencies
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Enable the bundle and its dependencies (`StofDoctrineExtensionsBundle`_, `DoctrineBundle`_)
-by adding the following lines in the ``app/AppKernel.php``:
+by adding the following lines in the ``app/AppKernel.php`` file:
 
 .. code-block:: php
 
@@ -52,9 +51,9 @@ Configure the SWPMultiTenancyBundle (optional)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 This bundle by default works without any configuration.
-When using PHPCR-ODM, the configuration needs to be provided.
+When using PHPCR ODM, the configuration needs to be provided.
 
-Add the following configuration if you are using PHPCR ODM:
+Add one of the following configurations if you are using PHPCR ODM:
 
 .. configuration-block::
 
@@ -91,12 +90,12 @@ Add the following configuration if you are using PHPCR ODM:
 Configure the StofDoctrineExtensionsBundle
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Some more steps needs to be performed here in order to fully make use of the extensions.
+Some more steps need to be performed here in order to fully make use of the extensions.
 
-Enable Doctrine extension in your config file
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Enable Doctrine extensions in your config file
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Enable needed extensions by adding the configuration below to your config file.
+Enable needed extensions by adding the configuration below to your config file:
 
 .. code-block:: yaml
 
@@ -115,8 +114,8 @@ Enable needed extensions by adding the configuration below to your config file.
 Add the extensions to your mapping
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Loggable extension needs its default entity to be configured in order to work properly.
-Register its mapping in Doctrine by adding the following configuration to your config file.
+The Loggable extension needs its default entity to be configured in order to work properly.
+Register its mapping in Doctrine by adding the following configuration to your config file:
 
 .. code-block:: yaml
 
@@ -140,7 +139,7 @@ Register its mapping in Doctrine by adding the following configuration to your c
 Enable SoftDeleteableFilter
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-To make use of SoftDeleteable behavior, you need to enable the Doctrine ORM filter.
+To make use of SoftDeleteable behaviour, you need to enable the Doctrine ORM filter.
 
 .. code-block:: yaml
 
@@ -162,7 +161,7 @@ Add the domain parameter
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
 Add the following parameter to your parameters file, so the current tenant can be resolved and matched against
-configured domain.
+the configured domain.
 
 .. code-block:: yaml
 
@@ -175,9 +174,9 @@ Update your database schema
 
 .. note::
 
-  This step assumes you have already the database configured and created.
+  This step assumes you have already configured and created the database.
 
-Execute the following commands in terminal:
+Execute the following commands in the console:
 
 .. code-block:: bash
 

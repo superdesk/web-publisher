@@ -1,0 +1,6 @@
+jms_serializer:
+    metadata:
+        directories:
+            SWPBridge:
+                namespace_prefix: "SWP\\Component\\Bridge"
+                path: "@SWPBridgeBundle/Resources/config/serializer"

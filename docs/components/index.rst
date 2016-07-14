@@ -7,11 +7,11 @@ Components
 
 The Components are a set of decoupled PHP libraries, which are the foundation of the Superdesk Web Publisher project, but they can also be used in other PHP projects which don't rely on the Symfony framework itself.
 
-The goal of these components is to solve the problems related mainly to content publishing, content rendering.
+The goal of these components is to solve the problems related to content publishing and content rendering.
 
 .. toctree::
 
    using_components
    MultiTenancy/index
-
-.. include:: /components/map.rst.inc
+   Storage/index
+   Bridge/index

@@ -1,38 +1,28 @@
 Console Commands
 ----------------
 
-This section describes available in this bundle console commands.
+This section describes console commands available in this bundle.
 
 Create a new tenant
 ~~~~~~~~~~~~~~~~~~~
 
 To make use of this bundle, you need to first create the default tenant.
 You may also need to create some other, custom tenants.
-This command will do it for you! All you need to do is open the terminal
-and execute the following console command:
 
 .. note::
 
     This command by default uses Doctrine ORM to persist tenants into the database.
 
-Usage:
+To create the default tenant, execute the following console command:
 
 .. code-block:: bash
 
-    $ php app/console swp:tenant:create
+    php app/console swp:tenant:create --default
 
-
-To create the default tenant:
-
-.. code-block:: bash
-
-    $ php app/console swp:tenant:create --default
-
-
-To create custom tenant which will be disabled by default:
+To create a custom tenant which will be disabled by default, use the command:
 
 .. code-block:: bash
 
-    $ php app/console swp:tenant:create --disabled
+    php app/console swp:tenant:create --disabled
 
-Run ``php app/console swp:tenant:create --help`` to see more details on how to use this command.
+Run ``php app/console swp:tenant:create --help`` to see more details of how to use this command.

@@ -15,8 +15,7 @@ namespace SWP\Bundle\FixturesBundle\DataFixtures\PHPCR;
 
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
-use SWP\Bundle\ContentBundle\Document\Article;
-use SWP\Bundle\ContentBundle\Document\Route;
+use SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\Article;
 use SWP\Bundle\FixturesBundle\AbstractFixture;
 
 class LoadSeparateArticlesData extends AbstractFixture implements FixtureInterface
@@ -42,27 +41,19 @@ class LoadSeparateArticlesData extends AbstractFixture implements FixtureInterfa
      */
     public function loadArticles($env, $manager)
     {
-        if ($env !== 'test') {
-            $this->loadFixtures(
-                '@SWPFixturesBundle/Resources/fixtures/PHPCR/'.$env.'/article.yml',
-                $manager,
-                [
-                    'providers' => [$this],
-                ]
-            );
-        }
-
         $articles = [
             'test' => [
                 [
                     'title' => 'Test news article',
                     'content' => 'Test news article content',
                     'parent' => '/swp/default/content',
+                    'locale' => 'en',
                 ],
                 [
                     'title' => 'Test content article',
                     'content' => 'Test article content',
                     'parent' => '/swp/default/content',
+                    'locale' => 'en',
                 ],
             ],
         ];
@@ -72,10 +63,9 @@ class LoadSeparateArticlesData extends AbstractFixture implements FixtureInterfa
                 $article = new Article();
                 $article->setParent($manager->find(null, $articleData['parent']));
                 $article->setTitle($articleData['title']);
-                $article->setContent($articleData['content']);
-                if (isset($articleData['route'])) {
-                    $article->setRoute($manager->find(null, $articleData['route']));
-                }
+                $article->setBody($articleData['content']);
+                $article->setLocale($articleData['locale']);
+                $article->setCreatedAt(new \DateTime('2016-07-04T16:38:20+0000'));
 
                 $manager->persist($article);
             }

@@ -26,8 +26,7 @@ class DefaultController extends Controller
     public function indexAction()
     {
         $pathBuilder = $this->get('swp_multi_tenancy.path_builder');
-        $manager = $this->get('doctrine_phpcr')->getManager();
-        $site = $manager->find('SWP\Bundle\ContentBundle\Document\Site', $pathBuilder->build('/'));
+        $site = $this->get('swp.repository.site')->find($pathBuilder->build('/'));
         $homepage = $site->getHomepage();
 
         if (null === $homepage) {

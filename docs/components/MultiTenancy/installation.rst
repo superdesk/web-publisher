@@ -1,7 +1,7 @@
 Installation
 ============
 
-You can install the component in 2 different ways:
+You can install the component in two different ways:
 
 * :doc:`Install it via Composer </components/using_components>` (``swp/multi-tenancy`` on `Packagist`_);
 * Use the official Git repository (https://github.com/SuperdeskWebPublisher/multi-tenancy).

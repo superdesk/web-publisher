@@ -22,8 +22,8 @@ To install Composer on Linux or Mac OS X, execute the following two commands:
 
 .. code-block:: bash
 
-    $ curl -sS https://getcomposer.org/installer | php
-    $ sudo mv composer.phar /usr/local/bin/composer
+    curl -sS https://getcomposer.org/installer | php
+    sudo mv composer.phar /usr/local/bin/composer
 
 .. note::
 
@@ -33,8 +33,8 @@ To install Composer on Linux or Mac OS X, execute the following two commands:
 
     .. code-block:: bash
 
-        $ php installer
-        $ sudo mv composer.phar /usr/local/bin/composer
+        php installer
+        sudo mv composer.phar /usr/local/bin/composer
 
 Install Composer on Windows
 ---------------------------

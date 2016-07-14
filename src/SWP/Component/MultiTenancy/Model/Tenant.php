@@ -13,8 +13,14 @@
  */
 namespace SWP\Component\MultiTenancy\Model;
 
+use SWP\Component\Common\Model\EnableableTrait;
+use SWP\Component\Common\Model\SoftDeletableTrait;
+use SWP\Component\Common\Model\TimestampableTrait;
+
 class Tenant implements TenantInterface
 {
+    use SoftDeletableTrait, TimestampableTrait, EnableableTrait;
+
     /**
      * @var mixed
      */
@@ -29,26 +35,6 @@ class Tenant implements TenantInterface
      * @var string
      */
     protected $name;
-
-    /**
-     * @var bool
-     */
-    protected $enabled = true;
-
-    /**
-     * @var \DateTime
-     */
-    protected $createdAt;
-
-    /**
-     * @var \DateTime
-     */
-    protected $updatedAt = null;
-
-    /**
-     * @var \DateTime
-     */
-    protected $deletedAt = null;
 
     /**
      * Tenant constructor.
@@ -104,78 +90,6 @@ class Tenant implements TenantInterface
     public function setName($name)
     {
         $this->name = $name;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function isEnabled()
-    {
-        return $this->enabled;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function setEnabled($enabled)
-    {
-        $this->enabled = $enabled;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getCreatedAt()
-    {
-        return $this->createdAt;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function setCreatedAt(\DateTime $createdAt)
-    {
-        $this->createdAt = $createdAt;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getUpdatedAt()
-    {
-        return $this->updatedAt;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function setUpdatedAt(\DateTime $updatedAt)
-    {
-        $this->updatedAt = $updatedAt;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getDeletedAt()
-    {
-        return $this->deletedAt;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function setDeletedAt(\DateTime $deletedAt = null)
-    {
-        $this->deletedAt = $deletedAt;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function isDeleted()
-    {
-        return null !== $this->deletedAt;
     }
 
     /**

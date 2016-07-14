@@ -23,7 +23,7 @@ class MenuType extends AbstractType
     {
         $builder
             ->add('name', null)
-            ->label('name', null);
+            ->add('label', null);
     }
 
     public function configureOptions(OptionsResolver $resolver)
@@ -33,6 +33,6 @@ class MenuType extends AbstractType
 
     public function getName()
     {
-        return 'widget';
+        return 'menu';
     }
 }

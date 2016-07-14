@@ -44,7 +44,7 @@ Example
 
         echo 'You cannot use the :: shortcut here';
 
-    .. _`Superdesk Web Publisher Documentation`: http://superdesk-web-publisher.readthedocs.org/en/latest
+    .. _`Superdesk Web Publisher Documentation`: http://superdesk-web-publisher.readthedocs.io/en/latest
 
 Code Examples
 -------------
@@ -80,7 +80,7 @@ Code Examples
 * If useful, a ``codeblock`` should begin with a comment containing the filename
   of the file in the code block. Don't place a blank line after this comment,
   unless the next line is also a comment;
-* You should put a ``$`` in front of every bash line.
+* You should not put a ``$`` in front of every bash line, as it doesn't work when readers copy and paste into the console.
 
 Formats
 ~~~~~~~
@@ -150,8 +150,8 @@ Files and Directories
 English Language Standards
 --------------------------
 
-Superdesk Web Publisher documentation uses the United States English dialect, commonly called
-`American English`_. The `American English Oxford Dictionary`_ is used as the
+Superdesk Web Publisher documentation uses the English dialect, sometimes called
+`British English`_ by people who don't know any better. `Collins Dictionary`_ is used as the
 vocabulary reference.
 
 In addition, documentation follows these rules:
@@ -178,8 +178,8 @@ In addition, documentation follows these rules:
 .. _`the Sphinx documentation`: http://sphinx-doc.org/rest.html#source-code
 .. _`Twig Coding Standards`: http://twig.sensiolabs.org/doc/coding_standards.html
 .. _`reserved by the IANA`: http://tools.ietf.org/html/rfc2606#section-3
-.. _`American English`: https://en.wikipedia.org/wiki/American_English
-.. _`American English Oxford Dictionary`: http://www.oxforddictionaries.com/definition/american_english/
+.. _`British English`: https://en.wikipedia.org/wiki/British_English
+.. _`Collins Dictionary`: http://www.collinsdictionary.com/
 .. _`headings and titles`: https://en.wikipedia.org/wiki/Letter_case#Headings_and_publication_titles
 .. _`Serial (Oxford) Commas`: https://en.wikipedia.org/wiki/Serial_comma
 .. _`nosism`: https://en.wikipedia.org/wiki/Nosism

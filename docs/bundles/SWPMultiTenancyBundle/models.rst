@@ -6,7 +6,7 @@ Models
 Site
 ----
 
-Every tenant/site in PHPCR tree is represented by a **Site** document which by default has the following properties:
+Every tenant/site in the PHPCR tree is represented by a **Site** document which by default has the following properties:
 
 +--------------+-------------------------------------------+
 | Method       | Description                               |

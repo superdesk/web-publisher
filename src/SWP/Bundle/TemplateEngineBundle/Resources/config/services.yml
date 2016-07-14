@@ -58,3 +58,14 @@ services:
             - "@swp_template_engine_context"
         tags:
             - { name: data_collector, template: "SWPTemplateEngineBundle:Collector:contextCollector", id: "context_collector" }
+
+    swp_template_engine.menu_provider:
+        class: SWP\Bundle\TemplateEngineBundle\Provider\TenantAwareMenuProvider
+        arguments:
+            - "@cmf_menu.loader.node"
+            - "@doctrine_phpcr"
+            - "@swp_multi_tenancy.tenant_context"
+            - "%cmf_menu.persistence.phpcr.menu_basepath%"
+        tags:
+            - { name: knp_menu.provider }
+

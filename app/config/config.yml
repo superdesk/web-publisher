@@ -1,4 +1,5 @@
 imports:
+    - { resource: "@SWPBridgeBundle/Resources/config/app/config.yml" }
     - { resource: parameters.yml }
     - { resource: security.yml }
     - { resource: services.yml }
@@ -74,10 +75,6 @@ doctrine:
                         type: yml
                         prefix: SWP\Bundle\AnalyticsBundle\Model
                         dir: Resources/config/doctrine
-                    SWPContentBundle:
-                        type: yml
-                        prefix: SWP\Bundle\ContentBundle\Model
-                        dir: Resources/config/doctrine
                     SWPTemplateEngineBundle:
                         type: yml
                         prefix: SWP\Bundle\TemplateEngineBundle\Model
@@ -106,7 +103,7 @@ doctrine:
 doctrine_cache:
     providers:
         main_cache:
-            type: %doctrine_cache_driver%
+            type: "%doctrine_cache_driver%"
 
 # Swiftmailer Configuration
 swiftmailer:
@@ -122,7 +119,7 @@ fos_http_cache:
         generate_url_type: 0
     proxy_client:
         symfony:
-            servers: %cache_servers%
+            servers: "%cache_servers%"
     invalidation:
         enabled: true
 
@@ -133,6 +130,10 @@ doctrine_phpcr:
         metadata_cache_driver:
             type: service
             id: doctrine_cache.providers.main_cache
+        locales:
+            en:
+        locale_fallback: hardcoded
+        default_locale: "%locale%"
     session:
         backend:
             type: doctrinedbal
@@ -200,7 +201,7 @@ swp_updater:
         base_uri: "http://updates.sourcefabric.org"
 
 stof_doctrine_extensions:
-    default_locale: %locale%
+    default_locale: "%locale%"
     orm:
         default:
             timestampable: true
@@ -216,12 +217,20 @@ swp_multi_tenancy:
     persistence:
         phpcr:
             enabled: true
-            site_document_class: SWP\Bundle\ContentBundle\Document\Site
-            document_class: SWP\Bundle\ContentBundle\Document\Route
+            site_document_class: SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\Site
+            document_class: SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\Route
 
 swp_web_renderer:
     device_listener:
         enabled: true
+
+swp_content:
+    persistence:
+        phpcr: true
+
+swp_bridge:
+    persistence:
+        orm: true
 
 nelmio_api_doc:
     request_listener: false
@@ -235,3 +244,9 @@ jms_serializer:
             SymfonyRouting:
                 namespace_prefix: Symfony\Component\Routing
                 path: "@SWPContentBundle/Resources/config/serializer/SymfonyRouting"
+
+cmf_menu:
+    persistence:
+        phpcr:
+            enabled: true
+            menu_basepath: /swp/menu

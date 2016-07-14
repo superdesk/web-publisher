@@ -1,8 +1,9 @@
-Symfony Bundles
-===============
+Bundles
+=======
 
 .. toctree::
 
+   fixtures
    SWPMultiTenancyBundle/index
-
-.. include:: /bundles/map.rst.inc
+   SWPStorageBundle/index
+   SWPBridgeBundle/index

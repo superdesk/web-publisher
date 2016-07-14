@@ -32,6 +32,7 @@ class AppKernel extends Kernel
             new Knp\Bundle\MenuBundle\KnpMenuBundle(),
             new Symfony\Cmf\Bundle\MenuBundle\CmfMenuBundle(),
 
+            new SWP\Bundle\StorageBundle\SWPStorageBundle(),
             new SWP\Bundle\MultiTenancyBundle\SWPMultiTenancyBundle(),
             new SWP\Bundle\TemplateEngineBundle\SWPTemplateEngineBundle(),
             new SWP\Bundle\WebRendererBundle\SWPWebRendererBundle(),

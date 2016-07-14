@@ -15,7 +15,11 @@ namespace SWP\Bundle\TemplateEngineBundle\Controller;
 
 use Doctrine\ODM\PHPCR\DocumentManager;
 use FOS\RestBundle\Controller\FOSRestController;
-use SWP\Bundle\MultiTenancyBundle\Context\TenantContext;
+use FOS\RestBundle\View\View;
+use Nelmio\ApiDocBundle\Annotation\ApiDoc;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use SWP\Bundle\TemplateEngineBundle\Provider\TenantAwareMenuProvider;
 use Symfony\Cmf\Bundle\MenuBundle\Doctrine\Phpcr\Menu;
 
 class MenuController extends FOSRestController
@@ -35,16 +39,8 @@ class MenuController extends FOSRestController
      */
     public function listAction(Request $request)
     {
-        /** @var DocumentManager $dm */
-        $dm = $this->get('document_manager');
-        $menuParent = $dm->find(null, $this->getBaseDocumentPath());
+        $menuParent = $this->getMenuParent();
         $menus = $dm->getChildren($menuParent);
-
-//        /** @var QueryBuilder $qb */
-//        $qb = $dm->createQueryBuilder();
-//        $qb->from('Symfony\Cmf\Bundle\MenuBundle\Doctrine\Phpcr\Menu', 'm');
-//        $qb->where()->like()->field('');
-
         $paginator = $this->get('knp_paginator');
         $menus = $paginator->paginate($menus);
 
@@ -101,10 +97,11 @@ class MenuController extends FOSRestController
         $form = $this->createForm(new MenuType(), $menu);
         $form->handleRequest($request);
         if ($form->isValid()) {
+            $menuParent = $this->getMenuParent();
+            $menu->setParentDocument($menuParent);
+
             /** @var DocumentManager $dm */
             $dm = $this->get('document_manager');
-            $menuParent = $dm->find(null, $this->getBaseDocumentPath());
-            $menu->setParentDocument($menuParent);
             $dm->persist($menu);
             $dm->flush();
 
@@ -185,6 +182,17 @@ class MenuController extends FOSRestController
     }
 
     /**
+     * @return null|object
+     */
+    private function getMenuParent()
+    {
+        $dm = $this->get('document_manager');
+        $menuParent = $dm->find(null, $this->getBaseDocumentPath());
+
+        return $menuParent;
+    }
+
+    /**
      * @param $id
      * @return Menu
      * @throws UnprocessableEntityHttpException
@@ -210,9 +218,8 @@ class MenuController extends FOSRestController
      */
     private function getBaseDocumentPath()
     {
-        /** @var TenantContext $context */
-        $context = $this->get('swp_multi_tenancy.tenant_context');
-        $path = $this->get('menu_basepath').'/'.$context->getTenant()->getId();
+        $mp = $this->get('swp_template_engine.menu_provider');
+        $path = $mp->getMenuRoot();
 
         return $path;
     }
