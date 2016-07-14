@@ -40,6 +40,7 @@ class MenuController extends FOSRestController
     public function listAction(Request $request)
     {
         $menuParent = $this->getMenuParent();
+        $dm = $this->get('document_manager');
         $menus = $dm->getChildren($menuParent);
         $paginator = $this->get('knp_paginator');
         $menus = $paginator->paginate($menus);

@@ -42,7 +42,10 @@ class MenuControllerTest extends WebTestCase
     {
         /** @var DocumentManager $dm */
         $dm = $this->getContainer()->get('document_manager');
-        $menuParent = $dm->find(null, '/cms/menu');
+        $mp = $this->getContainer()->get('swp_template_engine.menu_provider');
+        $path = $mp->getMenuRoot();
+
+        $menuParent = $dm->find(null, $path);
 
         $menu = new Menu();
         $menu->setName('main-menu');

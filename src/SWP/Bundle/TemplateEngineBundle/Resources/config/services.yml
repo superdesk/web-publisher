@@ -64,7 +64,8 @@ services:
         arguments:
             - "@cmf_menu.loader.node"
             - "@doctrine_phpcr"
-            - "@swp_multi_tenancy.tenant_context"
+            - "@swp_multi_tenancy.path_builder"
+            - "%swp_multi_tenancy.persistence.phpcr.menu_basepath%"
             - "%cmf_menu.persistence.phpcr.menu_basepath%"
         tags:
             - { name: knp_menu.provider }

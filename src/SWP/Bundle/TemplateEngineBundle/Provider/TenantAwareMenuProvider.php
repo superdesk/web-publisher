@@ -14,6 +14,7 @@
 namespace SWP\Bundle\TemplateEngineBundle\Provider;
 
 use SWP\Bundle\MultiTenancyBundle\Context\TenantContext;
+use SWP\Component\MultiTenancy\PathBuilder\TenantAwarePathBuilderInterface;
 use Symfony\Cmf\Bundle\MenuBundle\Provider\PhpcrMenuProvider;
 use Doctrine\Common\Persistence\ManagerRegistry;
 use Knp\Menu\Loader\NodeLoader;
@@ -22,10 +23,11 @@ class TenantAwareMenuProvider extends PhpcrMenuProvider
 {
     public function __construct(NodeLoader $loader,
                                 ManagerRegistry $managerRegistry,
-                                TenantContext $tenantContext,
+                                TenantAwarePathBuilderInterface $pathBuilder,
+                                $basePath,
                                 $menuRoot)
     {
-        $tenantId = $tenantContext->getTenant()->getId();
-        parent::__construct($loader, $managerRegistry, $menuRoot.'/'.$tenantId);
+        $path = $pathBuilder->build($basePath);
+        parent::__construct($loader, $managerRegistry, $path);
     }
 }

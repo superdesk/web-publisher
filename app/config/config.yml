@@ -249,4 +249,4 @@ cmf_menu:
     persistence:
         phpcr:
             enabled: true
-            menu_basepath: /swp/menu
+            menu_basepath: ~
