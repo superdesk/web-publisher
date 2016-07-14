@@ -43,6 +43,23 @@ class MenuNodeControllerTest extends WebTestCase
     public function testCreateMenuNodeApi()
     {
         $client = static::createClient();
+        $client->request('POST', $this->router->generate('swp_api_templates_create_menu_node', ['menuId' => 'test']), [
+            'menuNode' => [
+                'name' => 'blue',
+                'label' => 'Blue',
+                'locale' => 'en',
+                'uri' => 'http://example.com/blue'
+            ],
+        ]);
+
+        $this->assertEquals(201, $client->getResponse()->getStatusCode());
+        $content = $client->getResponse()->getContent();
+        $this->assertContains('"id":"\/swp\/default\/menu\/test\/blue"', $content);
+    }
+
+    public function testCreateSubMenuNodeApi()
+    {
+        $client = static::createClient();
         $client->request('POST', $this->router->generate('swp_api_templates_create_menu_node', ['menuId' => 'test', 'nodeId' => 'contact/sub']), [
             'menuNode' => [
                 'name' => 'subSubContact',

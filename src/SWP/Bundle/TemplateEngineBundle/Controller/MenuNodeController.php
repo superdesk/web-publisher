@@ -112,7 +112,7 @@ class MenuNodeController extends FOSRestController
      *     },
      *     input="SWP\Bundle\TemplateEngineBundle\Form\Type\MenuNodeType"
      * )
-     * @Route("/api/{version}/templates/menunodes/{menuId}/{nodeId}", requirements={"nodeId"=".+"}, options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_templates_create_menu_node")
+     * @Route("/api/{version}/templates/menunodes/{menuId}/{nodeId}", requirements={"nodeId"=".+"}, options={"expose"=true}, defaults={"version"="v1", "nodeId"=null}, name="swp_api_templates_create_menu_node")
      * @Method("POST")
      */
     public function createAction(Request $request, $menuId, $nodeId)
