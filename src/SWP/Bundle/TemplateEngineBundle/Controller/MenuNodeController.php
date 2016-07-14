@@ -21,7 +21,11 @@ use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use SWP\Bundle\TemplateEngineBundle\Provider\TenantAwareMenuProvider;
-use Symfony\Cmf\Bundle\MenuBundle\Doctrine\Phpcr\Menu;
+use Symfony\Cmf\Bundle\MenuBundle\Doctrine\Phpcr\MenuNode;
+use Symfony\Component\HttpFoundation\Request;
+use SWP\Bundle\TemplateEngineBundle\Form\Type\MenuNodeType;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\HttpKernel\Exception\UnprocessableEntityHttpException;
 
 class MenuNodeController extends FOSRestController
 {
@@ -36,10 +40,10 @@ class MenuNodeController extends FOSRestController
      *         404="No menu nodes found."
      *     }
      * )
-     * @Route("/api/{version}/templates/menunodes/{menuId}/{nodeId}", requirements={"nodeId"=".+"}, options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_templates_list_menu_nodes")
+     * @Route("/api/{version}/templates/menunodes/{menuId}", options={"expose"=true}, defaults={"version"="v1","menuId"=null}, name="swp_api_templates_list_menu_nodes")
      * @Method("GET")
      */
-    public function listAction(Request $request, $menuId, $nodeId)
+    public function listAction(Request $request, $menuId)
     {
         if (!$menuId) {
             throw new UnprocessableEntityHttpException('You need to provide menu name (name).');
@@ -53,21 +57,20 @@ class MenuNodeController extends FOSRestController
         $qb->from()->document('Symfony\Cmf\Bundle\MenuBundle\Doctrine\Phpcr\MenuNode', 'm');
 
         $path = $this->getBaseDocumentPath().'/'.$menuId;
-        if ($nodeId) {
-            $path .= '/'.$nodeId;
-        }
-
         $qb->where()->descendant($path, 'm');
         $query = $qb->getQuery();
 
         $paginator = $this->get('knp_paginator');
-        $menuNodes = $paginator->paginate($query);
+        $nodes = $query->getResult();
+        $menuNodes = $paginator->paginate($nodes);
 
         if (count($menuNodes) == 0) {
             throw new NotFoundHttpException('Menu nodes were not found.');
         }
 
-        return $this->handleView(View::create($this->container->get('swp_pagination_rep')->createRepresentation($menuNodes, $request), 200));
+        $representation = $this->container->get('swp_pagination_rep')->createRepresentation($menuNodes, $request);
+        $view = View::create($representation, 200);
+        return $this->handleView($view);
     }
 
     /**
@@ -115,24 +118,25 @@ class MenuNodeController extends FOSRestController
     public function createAction(Request $request, $menuId, $nodeId)
     {
         $menuNode = new MenuNode();
-        $form = $this->createForm(new MenuType(), $menuNode);
+
+        /** @var DocumentManager $dm */
+        $dm = $this->get('document_manager');
+        if (!$menuId) {
+            throw new UnprocessableEntityHttpException('You need to provide menu Id (name).');
+        }
+        $path = $this->getBaseDocumentPath().'/'.$menuId;
+        if ($nodeId) {
+            $path .= '/'.$nodeId;
+        }
+        $menuParent = $dm->find(null, $path);
+        if (!$menuParent) {
+            throw new NotFoundHttpException('Menu with given id was not found.');
+        }
+        $menuNode->setParentDocument($menuParent);
+
+        $form = $this->createForm(new MenuNodeType(), $menuNode);
         $form->handleRequest($request);
         if ($form->isValid()) {
-            if (!$menuId) {
-                throw new UnprocessableEntityHttpException('You need to provide menu Id (name).');
-            }
-
-            /** @var DocumentManager $dm */
-            $dm = $this->get('document_manager');
-            $path = $this->getBaseDocumentPath().'/'.$menuId;
-            if ($nodeId) {
-                $path .= '/'.$nodeId;
-            }
-            $menuParent = $dm->find(null, $path);
-            if (!$menuParent) {
-                throw new NotFoundHttpException('Menu with given id was not found.');
-            }
-            $menuNode->setParentDocument($menuParent);
             $dm->persist($menuNode);
             $dm->flush();
 
