@@ -14,7 +14,6 @@
 namespace SWP\Bundle\ContentBundle\Service;
 
 use SWP\Bundle\ContentBundle\Model\ArticleInterface;
-use SWP\Bundle\ContentBundle\Service\ArticleServiceInterface;
 
 class ArticleService implements ArticleServiceInterface
 {
@@ -23,7 +22,7 @@ class ArticleService implements ArticleServiceInterface
      */
     public function publish(ArticleInterface $article)
     {
-        $this->checkIfCanBePublishedOrUnpublished($article, "Article cannot be published");
+        $this->checkIfCanBePublishedOrUnpublished($article, 'Article cannot be published');
 
         $article->setPublishable(true);
         $article->setStatus(ArticleInterface::STATUS_PUBLISHED);
@@ -37,7 +36,7 @@ class ArticleService implements ArticleServiceInterface
      */
     public function unpublish(ArticleInterface $article, $status)
     {
-        $this->checkIfCanBePublishedOrUnpublished($article, "Article cannot be unpublished");
+        $this->checkIfCanBePublishedOrUnpublished($article, 'Article cannot be unpublished');
 
         $article->setPublishable(false);
         $article->setStatus($status);

@@ -27,6 +27,7 @@ Pull requests to `improve the documentation <http://superdesk-web-publisher.read
    bundles/index
    components/index
    template_developers/index
+   content_publishing
 
 Contributing to Web Publisher
 -----------------------------

@@ -47,3 +47,6 @@ services:
 
     swp.service.article:
         class: '%swp.service.article.class%'
+
+    swp.publish_workflow.checker:
+        alias: cmf_core.publish_workflow.checker

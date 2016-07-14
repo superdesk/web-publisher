@@ -84,6 +84,17 @@ class ArticleController extends FOSRestController
     /**
      * Updates articles.
      *
+     * Possible article statuses are:
+     *
+     *  * new
+     *  * submitted
+     *  * published
+     *  * unpublished
+     *
+     * Changing status from any status to `published` will make article visible for every user.
+     *
+     * Changing status from `published` to any other will make article hidden for user who don't have rights to see unpublished articles.
+     *
      * @ApiDoc(
      *     resource=true,
      *     description="Updates articles",
@@ -126,7 +137,7 @@ class ArticleController extends FOSRestController
             return;
         }
 
-        $articleService = $this->get('swp.service.article');
+        $articleService = $this->container->get('swp.service.article');
         switch ($newArticleStatus) {
             case ArticleInterface::STATUS_PUBLISHED:
                 $articleService->publish($article);

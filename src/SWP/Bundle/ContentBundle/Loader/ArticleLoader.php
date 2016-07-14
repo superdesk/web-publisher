@@ -50,7 +50,7 @@ class ArticleLoader implements LoaderInterface
         $dm = $this->serviceContainer->get('doctrine_phpcr.odm.document_manager');
         $configurationPath = $this->serviceContainer->getParameter('kernel.root_dir').'/Resources/meta/article.yml';
         $metadataCache = $this->serviceContainer->get('doctrine_cache.providers.main_cache');
-        $publishWorkflowChecker = $this->serviceContainer->get('cmf_core.publish_workflow.checker');
+        $publishWorkflowChecker = $this->serviceContainer->get('swp.publish_workflow.checker');
 
         $article = null;
         if (empty($parameters)) {

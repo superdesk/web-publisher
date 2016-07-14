@@ -18,7 +18,7 @@ use SWP\Bundle\ContentBundle\Model\ArticleInterface;
 interface ArticleServiceInterface
 {
     /**
-     * Publish article
+     * Make article publishable.
      *
      * @param ArticleInterface $article
      *
@@ -27,7 +27,7 @@ interface ArticleServiceInterface
     public function publish(ArticleInterface $article);
 
     /**
-     * Unpublish article
+     * Make article unpublishable.
      *
      * @param ArticleInterface $article
      *

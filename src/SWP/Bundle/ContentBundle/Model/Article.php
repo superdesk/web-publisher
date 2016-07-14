@@ -82,7 +82,7 @@ class Article implements ArticleInterface
     protected $publishEndDate;
 
     /**
-     * @var boolean
+     * @var bool
      */
     protected $isPublishable;
 
