@@ -1,7 +1,0 @@
-Symfony\Cmf\Bundle\MenuBundle\Doctrine\Phpcr\Menu:
-    main_menu:
-        name: "main"
-        label: "main"
-        uri: "groove"
-        parent: <find(null, '/cms/menu')>
-
