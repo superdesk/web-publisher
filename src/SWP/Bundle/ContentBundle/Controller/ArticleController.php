@@ -115,7 +115,6 @@ class ArticleController extends FOSRestController
 
         $form->handleRequest($request);
         if ($form->isValid()) {
-            $newArticleStatus = $article->getStatus();
             $this->reactOnStatusChange($originalArticleStatus, $article);
             $article->setUpdatedAt(new \DateTime());
             $objectManager->flush();

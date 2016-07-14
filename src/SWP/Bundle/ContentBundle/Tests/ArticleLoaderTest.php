@@ -41,7 +41,12 @@ class ArticleLoaderTest extends WebTestCase
         ], null, 'doctrine_phpcr');
 
         $articleLoader = new ArticleLoader(
-            $this->getContainer()
+            $this->getContainer()->get('swp.publish_workflow.checker'),
+            $this->getContainer()->get('doctrine_phpcr.odm.document_manager'),
+            $this->getContainer()->getParameter('kernel.root_dir'),
+            $this->getContainer()->get('doctrine_cache.providers.main_cache'),
+            $this->getContainer()->get('swp_multi_tenancy.path_builder'),
+            $this->getContainer()->getParameter('swp_multi_tenancy.persistence.phpcr.route_basepaths')
         );
 
         $this->assertTrue($articleLoader->isSupported('article'));
