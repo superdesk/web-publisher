@@ -21,6 +21,10 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use SWP\Bundle\TemplateEngineBundle\Provider\TenantAwareMenuProvider;
 use Symfony\Cmf\Bundle\MenuBundle\Doctrine\Phpcr\Menu;
+use Symfony\Component\HttpFoundation\Request;
+use SWP\Bundle\TemplateEngineBundle\Form\Type\MenuType;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\HttpKernel\Exception\UnprocessableEntityHttpException;
 
 class MenuController extends FOSRestController
 {
@@ -95,12 +99,14 @@ class MenuController extends FOSRestController
     public function createAction(Request $request)
     {
         $menu = new Menu();
+
+        // Parent must be set before validation
+        $menuParent = $this->getMenuParent();
+        $menu->setParentDocument($menuParent);
+
         $form = $this->createForm(new MenuType(), $menu);
         $form->handleRequest($request);
         if ($form->isValid()) {
-            $menuParent = $this->getMenuParent();
-            $menu->setParentDocument($menuParent);
-
             /** @var DocumentManager $dm */
             $dm = $this->get('document_manager');
             $dm->persist($menu);
@@ -156,7 +162,7 @@ class MenuController extends FOSRestController
      *     },
      *     input="SWP\Bundle\TemplateEngineBundle\Form\Type\MenuType"
      * )
-     * @Route("/api/{version}/templates/menus/{id}", requirements={"id"="\d+"}, options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_templates_update_menu")
+     * @Route("/api/{version}/templates/menus/{id}", options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_templates_update_menu")
      * @Method("PATCH")
      */
     public function updateAction(Request $request, $id)
@@ -175,6 +181,8 @@ class MenuController extends FOSRestController
             /** @var DocumentManager $dm */
             $dm = $this->get('document_manager');
             $dm->flush();
+
+            $menu = $this->getMenu($id);
 
             return $this->handleView(View::create($menu, 201));
         }

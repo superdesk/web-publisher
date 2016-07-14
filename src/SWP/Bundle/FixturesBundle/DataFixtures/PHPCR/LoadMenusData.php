@@ -16,6 +16,7 @@ namespace SWP\Bundle\FixturesBundle\DataFixtures\PHPCR;
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use SWP\Bundle\FixturesBundle\AbstractFixture;
 use Doctrine\Common\Persistence\ObjectManager;
+use Symfony\Cmf\Bundle\MenuBundle\Doctrine\Phpcr\Menu;
 
 class LoadMenusData extends AbstractFixture implements FixtureInterface
 {
@@ -25,5 +26,29 @@ class LoadMenusData extends AbstractFixture implements FixtureInterface
     public function load(ObjectManager $manager)
     {
         $env = $this->getEnvironment();
+        $menus = [
+            'dev' => [
+
+            ],
+            'test' => [
+                [
+                    'name' => 'test',
+                    'label' => 'Test'
+                ]
+            ]
+        ];
+
+        if (isset($menus[$env])) {
+            $parent = $manager->find(null, 'swp/default/menu');
+            foreach ($menus[$env] as $menuData) {
+                $menu = new Menu();
+                $menu->setParentDocument($parent);
+                $menu->setName($menuData['name']);
+                $menu->setLabel($menuData['label']);
+                $manager->persist($menu);
+            }
+        }
+
+        $manager->flush();
     }
 }

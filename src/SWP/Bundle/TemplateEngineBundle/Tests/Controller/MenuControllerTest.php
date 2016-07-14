@@ -14,8 +14,6 @@
 namespace SWP\Bundle\TemplateEngineBundle\Tests\Controller;
 
 use Liip\FunctionalTestBundle\Test\WebTestCase;
-use Symfony\Cmf\Bundle\MenuBundle\Doctrine\Phpcr\Menu;
-use Symfony\Cmf\Bundle\MenuBundle\Doctrine\Phpcr\MenuNode;
 
 class MenuControllerTest extends WebTestCase
 {
@@ -34,71 +32,73 @@ class MenuControllerTest extends WebTestCase
 
         $this->runCommand('doctrine:phpcr:repository:init', ['--env' => 'test'], true);
 
+        $this->loadFixtures([
+            'SWP\Bundle\FixturesBundle\DataFixtures\PHPCR\LoadMenusData',
+        ], null, 'doctrine_phpcr');
+
         $this->router = $this->getContainer()->get('router');
     }
 
-
-    public function testFixture()
+    public function testCreateMenuApi()
     {
-        /** @var DocumentManager $dm */
-        $dm = $this->getContainer()->get('document_manager');
-        $mp = $this->getContainer()->get('swp_template_engine.menu_provider');
-        $path = $mp->getMenuRoot();
+        $client = static::createClient();
+        $client->request('POST', $this->router->generate('swp_api_templates_create_menu'), [
+            'menu' => [
+                'name' => 'main-menu',
+                'label' => 'Main menu',
+            ],
+        ]);
 
-        $menuParent = $dm->find(null, $path);
+        $this->assertEquals(201, $client->getResponse()->getStatusCode());
+        $content = $client->getResponse()->getContent();
+        $this->assertContains('"name":"main-menu"', $content);
+        $this->assertContains('"label":"Main menu"', $content);
+    }
 
-        $menu = new Menu();
-        $menu->setName('main-menu');
-        $menu->setLabel('Main menu');
-        $menu->setLocale('en');
-        $menu->setParentDocument($menuParent);
+    public function testGetMenuApi()
+    {
+        $client = static::createClient();
+        $client->request('GET', $this->router->generate('swp_api_templates_get_menu', ['id' => 'test']));
 
-        $dm->persist($menu);
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+        $content = $client->getResponse()->getContent();
+        $this->assertContains('"name":"test"', $content);
+    }
 
-        $home = new MenuNode();
-        $home->setName('home');
-        $home->setLabel('Home');
-        $home->setParentDocument($menu);
-        $home->setLocale('en');
-        $home->setUri('http://www.example.com/home');
+    public function testListMenuApi()
+    {
+        $client = static::createClient();
+        $client->request('GET', $this->router->generate('swp_api_templates_list_menus'));
 
-        $dm->persist($home);
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+        $content = $client->getResponse()->getContent();
+        $this->assertContains('"name":"test"', $content);
+    }
 
-        $contact = new MenuNode();
-        $contact->setName('contact');
-        $contact->setLabel('Contact');
-        $contact->setParentDocument($menu);
-        $contact->setLocale('en');
-        $contact->setUri('http://www.example.com/contact');
+    public function testUpdateMenuApi()
+    {
+        $client = static::createClient();
+        $client->request('PATCH', $this->router->generate('swp_api_templates_update_menu', ['id' => 'test']), [
+            'menu' => [
+                'label' => 'Tested',
+            ],
+        ]);
 
-        $dm->persist($contact);
+        $this->assertEquals(201, $client->getResponse()->getStatusCode());
+        $content = $client->getResponse()->getContent();
+        $this->assertContains('"name":"test"', $content);
+        $this->assertContains('"label":"Tested"', $content);
+    }
 
-        $subContact = new MenuNode();
-        $subContact->setName('sub-contact');
-        $subContact->setLabel('Subcontact');
-        $subContact->setParentDocument($contact);
-        $subContact->setLocale('en');
-        $subContact->setUri('http://www.example.com/sub/contact');
+    public function testDeleteMenuApi()
+    {
+        $client = static::createClient();
+        $client->request('DELETE', $this->router->generate('swp_api_templates_delete_menu', ['id' => 'test']));
 
-        $dm->persist($subContact);
-        $dm->flush();
+        $this->assertEquals(204, $client->getResponse()->getStatusCode());
+        $this->assertEquals($client->getResponse()->getContent(), '');
 
-        $menus = $dm->getChildren($menuParent);
-        $menus = $menus->toArray();
-
-        $menu = $dm->find('Symfony\Cmf\Bundle\MenuBundle\Doctrine\Phpcr\MenuNode', '/cms/menu/main-menu/contact');
-
-        /** @var QueryBuilder $qb */
-        $qb = $dm->createQueryBuilder();
-        $qb->from()->document('Symfony\Cmf\Bundle\MenuBundle\Doctrine\Phpcr\MenuNode', 'm');
-        $qb->where()->descendant('/cms/menu/main-menu', 'm');
-        //$qb->where()->eq()->field('m.label')->literal('Subcontact');
-        $query = $qb->getQuery();
-
-        $subs = $query->getResult();
-        $subs = $subs->toArray();
-
-        $hopeful = $dm->find(null, '/cms/menu/main-menu');
-        $hopeless = $dm->find(null, '/cms/menu/main-menu/contact');
+        $client->request('GET', $this->router->generate('swp_api_templates_get_menu', ['id' => 'test']));
+        $this->assertEquals(404, $client->getResponse()->getStatusCode());
     }
 }
