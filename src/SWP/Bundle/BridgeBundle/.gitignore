@@ -2,5 +2,5 @@ vendor/
 bin/
 composer.phar
 composer.lock
-/Tests/app/cache
-/Tests/app/logs
+/Tests/Functional/app/cache
+/Tests/Functional/app/logs

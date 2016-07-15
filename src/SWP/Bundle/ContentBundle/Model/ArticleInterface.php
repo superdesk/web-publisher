@@ -17,8 +17,10 @@ use SWP\Component\Common\Model\SoftDeletableInterface;
 use SWP\Component\Common\Model\TimestampableInterface;
 use SWP\Component\Common\Model\TranslatableInterface;
 use SWP\Component\Storage\Model\PersistableInterface;
+use Symfony\Cmf\Bundle\CoreBundle\PublishWorkflow\PublishableInterface;
+use Symfony\Cmf\Bundle\CoreBundle\PublishWorkflow\PublishTimePeriodInterface;
 
-interface ArticleInterface extends TimestampableInterface, TranslatableInterface, PersistableInterface, SoftDeletableInterface
+interface ArticleInterface extends TimestampableInterface, TranslatableInterface, PersistableInterface, SoftDeletableInterface, PublishableInterface, PublishTimePeriodInterface
 {
     const STATUS_NEW = 'new';
     const STATUS_SUBMITTED = 'submitted';
@@ -64,6 +66,13 @@ interface ArticleInterface extends TimestampableInterface, TranslatableInterface
      * @return \DateTime
      */
     public function getPublishedAt();
+
+    /**
+     * @param string $publishedAt
+     *
+     * @return \DateTime
+     */
+    public function setPublishedAt(\DateTime $publishedAt);
 
     /**
      * @param string $status

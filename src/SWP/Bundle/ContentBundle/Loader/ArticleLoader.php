@@ -16,14 +16,57 @@ namespace SWP\Bundle\ContentBundle\Loader;
 use SWP\Component\TemplatesSystem\Gimme\Loader\LoaderInterface;
 use SWP\Component\TemplatesSystem\Gimme\Meta\Meta;
 use Symfony\Component\Yaml\Parser;
+use Symfony\Cmf\Bundle\CoreBundle\PublishWorkflow\PublishWorkflowChecker;
+use Doctrine\ODM\PHPCR\DocumentManager;
+use Doctrine\Common\Cache\CacheProvider;
+use SWP\Component\MultiTenancy\PathBuilder\TenantAwarePathBuilderInterface;
 
 class ArticleLoader implements LoaderInterface
 {
-    protected $serviceContainer;
+    /**
+     * @var PublishWorkflowChecker
+     */
+    protected $publishWorkflowChecker;
 
-    public function __construct($serviceContainer)
-    {
-        $this->serviceContainer = $serviceContainer;
+    /**
+     * @var DocumentManager
+     */
+    protected $dm;
+
+    /**
+     * @var string
+     */
+    protected $configurationPath;
+
+    /**
+     * @var CacheProvider
+     */
+    protected $metadataCache;
+
+    /**
+     * @var TenantAwarePathBuilderInterface
+     */
+    protected $pathBuilder;
+
+    /**
+     * @var string
+     */
+    protected $routeBasepaths;
+
+    public function __construct(
+        PublishWorkflowChecker $publishWorkflowChecker,
+        DocumentManager $dm,
+        $configurationPath,
+        CacheProvider $metadataCache,
+        TenantAwarePathBuilderInterface $pathBuilder,
+        $routeBasepaths
+    ) {
+        $this->publishWorkflowChecker = $publishWorkflowChecker;
+        $this->dm = $dm;
+        $this->configurationPath = $configurationPath.'/Resources/meta/article.yml';
+        $this->metadataCache = $metadataCache;
+        $this->pathBuilder = $pathBuilder;
+        $this->routeBasepaths = $routeBasepaths;
     }
 
     /**
@@ -46,59 +89,48 @@ class ArticleLoader implements LoaderInterface
      */
     public function load($type, $parameters, $responseType = LoaderInterface::SINGLE)
     {
-        $dm = $this->serviceContainer->get('doctrine_phpcr.odm.document_manager');
-        $configurationPath = $this->serviceContainer->getParameter('kernel.root_dir').'/Resources/meta/article.yml';
-        $metadataCache = $this->serviceContainer->get('doctrine_cache.providers.main_cache');
-
         $article = null;
         if (empty($parameters)) {
             $parameters = [];
         }
 
         // Cache meta configuration
-        $cacheKey = md5($configurationPath);
-        if (!$metadataCache->contains($cacheKey)) {
-            if (!is_readable($configurationPath)) {
+        $cacheKey = md5($this->configurationPath);
+        if (!$this->metadataCache->contains($cacheKey)) {
+            if (!is_readable($this->configurationPath)) {
                 throw new \InvalidArgumentException('Configuration file is not readable for parser');
             }
             $yaml = new Parser();
-            $configuration = $yaml->parse(file_get_contents($configurationPath));
-            $metadataCache->save($cacheKey, $configuration);
+            $configuration = $yaml->parse(file_get_contents($this->configurationPath));
+            $this->metadataCache->save($cacheKey, $configuration);
         } else {
-            $configuration = $metadataCache->fetch($cacheKey);
+            $configuration = $this->metadataCache->fetch($cacheKey);
         }
 
         if ($responseType === LoaderInterface::SINGLE) {
             if (array_key_exists('contentPath', $parameters)) {
-                $article = $dm->find('SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\Article', $parameters['contentPath']);
+                $article = $this->dm->find('SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\Article', $parameters['contentPath']);
             } elseif (array_key_exists('article', $parameters)) {
                 $article = $parameters['article'];
             } elseif (array_key_exists('slug', $parameters)) {
-                $article = $dm->getRepository('SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\Article')
+                $article = $this->dm->getRepository('SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\Article')
                     ->findOneBy(['slug' => $parameters['slug']]);
             }
 
-            if (!is_null($article)) {
-                return new Meta($configuration, $article);
-            }
+            return $this->getArticleMeta($configuration, $article);
         } elseif ($responseType === LoaderInterface::COLLECTION) {
             if (array_key_exists('route', $parameters)) {
-                $pathBuilder = $this->serviceContainer->get('swp_multi_tenancy.path_builder');
-                $route = $dm->find(null, $pathBuilder->build(
-                    $this->serviceContainer->getParameter(
-                        'swp_multi_tenancy.persistence.phpcr.route_basepaths'
-                    )[0].$parameters['route']
+                $route = $this->dm->find(null, $this->pathBuilder->build(
+                    $this->routeBasepaths[0].$parameters['route']
                 ));
 
                 if ($route) {
-                    $articles = $dm->getReferrers($route, null, null, null, 'SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\Article');
+                    $articles = $this->dm->getReferrers($route, null, null, null, 'SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\Article');
                     $metas = [];
                     foreach ($articles as $article) {
-                        if (!is_null($article)) {
-                            $metas[] = new Meta(
-                                $configuration,
-                                $article
-                            );
+                        $articleMeta = $this->getArticleMeta($configuration, $article);
+                        if ($articleMeta) {
+                            $metas[] = $articleMeta;
                         }
                     }
 
@@ -120,5 +152,14 @@ class ArticleLoader implements LoaderInterface
     public function isSupported($type)
     {
         return in_array($type, ['articles', 'article']);
+    }
+
+    private function getArticleMeta($configuration, $article)
+    {
+        if (!is_null($article) && $this->publishWorkflowChecker->isGranted(PublishWorkflowChecker::VIEW_ATTRIBUTE, $article)) {
+            return new Meta($configuration, $article);
+        }
+
+        return false;
     }
 }

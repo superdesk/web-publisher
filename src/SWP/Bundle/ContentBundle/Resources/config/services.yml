@@ -1,12 +1,18 @@
 parameters:
     swp_content.transformer.package_to_article.class: SWP\Bundle\ContentBundle\Transformer\PackageToArticleTransformer
     swp.service.route.class: SWP\Bundle\ContentBundle\Service\RouteService
+    swp.service.article.class: SWP\Bundle\ContentBundle\Service\ArticleService
 
 services:
     swp_template_engine.loader.article:
         class: SWP\Bundle\ContentBundle\Loader\ArticleLoader
         arguments:
-            - "@service_container"
+            - "@swp.publish_workflow.checker"
+            - "@doctrine_phpcr.odm.document_manager"
+            - "%kernel.root_dir%"
+            - "@doctrine_cache.providers.main_cache"
+            - "@swp_multi_tenancy.path_builder"
+            - "%swp_multi_tenancy.persistence.phpcr.route_basepaths%"
         tags:
             - { name: swp.meta_loader }
 
@@ -43,3 +49,9 @@ services:
             - '@swp.provider.route'
             - '@swp.provider.article'
             - '@event_dispatcher'
+
+    swp.service.article:
+        class: '%swp.service.article.class%'
+
+    swp.publish_workflow.checker:
+        alias: cmf_core.publish_workflow.checker
