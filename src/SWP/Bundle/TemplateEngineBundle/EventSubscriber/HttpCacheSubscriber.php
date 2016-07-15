@@ -15,6 +15,7 @@ namespace SWP\Bundle\TemplateEngineBundle\EventSubscriber;
 
 use FOS\HttpCache\Exception\ExceptionCollection;
 use SWP\Bundle\ContentBundle\Model\ArticleInterface;
+use SWP\Bundle\ContentBundle\Model\RouteInterface;
 use SWP\Bundle\TemplateEngineBundle\Model\Container;
 use SWP\Component\Common\Event\HttpCacheEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
