@@ -52,8 +52,44 @@ class ArticleControllerTest extends WebTestCase
         ]);
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
         $responseArray = json_decode($client->getResponse()->getContent(), true);
-        $this->assertArraySubset(json_decode('{"id":"\/swp\/default\/content\/features","title":"Features","body":"Features content","slug":"features","published_at":null,"status":"new","template_name":"test.html.twig","locale":"en","deleted_at":null,"children":null}', true), $responseArray);
+        $this->assertArraySubset(['template_name' => 'test.html.twig'], $responseArray);
         $this->assertTrue(null != $responseArray['updated_at']);
-        $this->assertTrue($responseArray['updated_at'] >= $responseArray['created_at']);
+        $this->assertTrue(new \DateTime($responseArray['updated_at']) >= new \DateTime($responseArray['created_at']));
+    }
+
+    public function testPublishingArticle()
+    {
+        $this->loadFixtures([
+            'SWP\Bundle\FixturesBundle\DataFixtures\PHPCR\LoadArticlesData',
+        ], null, 'doctrine_phpcr');
+
+        $client = static::createClient();
+        // unpublish article from fixtures
+        $client->request('PATCH', $this->router->generate('swp_api_content_update_articles', ['id' => 'features']), [
+            'article' => [
+                'status' => 'new',
+            ],
+        ]);
+        $responseArray = json_decode($client->getResponse()->getContent(), true);
+        $this->assertArraySubset(json_decode('{"status":"new"}', true), $responseArray);
+        $crawler = $client->request('GET', '/articles/features');
+        $this->assertEquals(404, $client->getResponse()->getStatusCode());
+
+        //publish unpublished article
+        $client->request('PATCH', $this->router->generate('swp_api_content_update_articles', ['id' => 'features']), [
+            'article' => [
+                'status' => 'published',
+            ],
+        ]);
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+        $responseArray = json_decode($client->getResponse()->getContent(), true);
+        $this->assertArraySubset(['status' => 'published'], $responseArray);
+        $this->assertTrue(null != $responseArray['updated_at']);
+        $this->assertTrue(new \DateTime($responseArray['updated_at']) >= new \DateTime($responseArray['created_at']));
+        $this->assertTrue(new \DateTime($responseArray['published_at']) >= new \DateTime($responseArray['created_at']));
+
+        $crawler = $client->request('GET', '/articles/features');
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+        $this->assertTrue($crawler->filter('html:contains("Features")')->count() === 1);
     }
 }

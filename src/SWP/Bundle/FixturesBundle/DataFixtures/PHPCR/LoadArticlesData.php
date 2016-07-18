@@ -18,6 +18,7 @@ use Doctrine\Common\Persistence\ObjectManager;
 use SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\Article;
 use SWP\Bundle\FixturesBundle\AbstractFixture;
 use SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\Route;
+use SWP\Bundle\ContentBundle\Model\ArticleInterface;
 
 class LoadArticlesData extends AbstractFixture implements FixtureInterface
 {
@@ -239,6 +240,9 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface
                 $article->setBody($articleData['content']);
                 $article->setRoute($manager->find(null, $articleData['route']));
                 $article->setLocale($articleData['locale']);
+                $article->setPublishedAt(new \DateTime());
+                $article->setPublishable(true);
+                $article->setStatus(ArticleInterface::STATUS_PUBLISHED);
 
                 $manager->persist($article);
             }

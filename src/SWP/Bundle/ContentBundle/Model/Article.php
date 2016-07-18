@@ -61,7 +61,6 @@ class Article implements ArticleInterface
      */
     protected $templateName;
 
-
     /**
      * @var \DateTime
      */
@@ -72,9 +71,55 @@ class Article implements ArticleInterface
      */
     protected $updatedAt;
 
+    /**
+     * @var \DateTime
+     */
+    protected $publishStartDate;
+
+    /**
+     * @var \DateTime
+     */
+    protected $publishEndDate;
+
+    /**
+     * @var bool
+     */
+    protected $isPublishable;
+
     public function __construct()
     {
         $this->setCreatedAt(new \DateTime());
+        $this->setPublishable(false);
+    }
+
+    public function setPublishStartDate(\DateTime $startDate = null)
+    {
+        $this->publishStartDate = $startDate;
+    }
+
+    public function getPublishStartDate()
+    {
+        return $this->publishStartDate;
+    }
+
+    public function setPublishEndDate(\DateTime $endDate = null)
+    {
+        $this->publishEndDate = $endDate;
+    }
+
+    public function getPublishEndDate()
+    {
+        return $this->publishEndDate;
+    }
+
+    public function isPublishable()
+    {
+        return $this->isPublishable;
+    }
+
+    public function setPublishable($boolean)
+    {
+        $this->isPublishable = $boolean;
     }
 
     /**
@@ -183,6 +228,14 @@ class Article implements ArticleInterface
     public function getPublishedAt()
     {
         return $this->publishedAt;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setPublishedAt(\DateTime $publishedAt)
+    {
+        $this->publishedAt = $publishedAt;
     }
 
     /**

@@ -71,7 +71,7 @@ class RouteControllerTest extends WebTestCase
         ]);
 
         $this->assertEquals(201, $client->getResponse()->getStatusCode());
-        $this->assertArraySubset(json_decode('{"id":"\/swp\/default\/routes\/simple-test-route","content":{"id":"\/swp\/default\/content\/test-content-article","title":"Test content article","body":"Test article content","slug":"test-content-article","published_at":null,"status":"new","template_name":null,"route":null,"updated_at":null,"locale":"en","deleted_at":null,"children":null},"static_prefix":null,"variable_pattern":null,"name":"simple-test-route","children":[],"id_prefix":"\/swp\/default\/routes","template_name":null,"type":"content","_links":{"self":{"href":"\/api\/v1\/content\/routes\/\/simple-test-route"}}}', true), json_decode($client->getResponse()->getContent(), true));
+        $this->assertArraySubset(json_decode('{"id":"\/swp\/default\/routes\/simple-test-route","content":{"id":"\/swp\/default\/content\/test-content-article","title":"Test content article"},"static_prefix":null,"variable_pattern":null,"name":"simple-test-route","children":[],"id_prefix":"\/swp\/default\/routes","template_name":null,"type":"content","_links":{"self":{"href":"\/api\/v1\/content\/routes\/\/simple-test-route"}}}', true), json_decode($client->getResponse()->getContent(), true));
     }
 
     public function testCreateAndUpdateRoutesApi()
