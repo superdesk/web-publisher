@@ -93,7 +93,7 @@ abstract class AbstractWidgetHandler implements WidgetHandlerInterface, Containe
         if (null === $parameters) {
             $parameters = $this->getAllParametersWithValue();
         }
-        $this->container->get('templating')->render(self::WIDGET_TEMPLATE_PATH.'/'.$templateName, $parameters);
+        return $this->container->get('templating')->render(self::WIDGET_TEMPLATE_PATH.'/'.$templateName, $parameters);
     }
 
     /**
