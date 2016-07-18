@@ -46,7 +46,6 @@ class MenuNodeControllerTest extends WebTestCase
             'menuNode' => [
                 'name' => 'blue',
                 'label' => 'Blue',
-                'locale' => 'en',
                 'uri' => 'http://example.com/blue',
             ],
         ]);
@@ -63,7 +62,6 @@ class MenuNodeControllerTest extends WebTestCase
             'menuNode' => [
                 'name' => 'subSubContact',
                 'label' => 'Sub Sub Contact',
-                'locale' => 'en',
                 'uri' => 'http://example.com/contact/sub/sub',
             ],
         ]);

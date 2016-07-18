@@ -24,7 +24,6 @@ class MenuNodeType extends AbstractType
         $builder
             ->add('name')
             ->add('label')
-            ->add('locale')
             ->add('uri')
             ->add('route');
     }
