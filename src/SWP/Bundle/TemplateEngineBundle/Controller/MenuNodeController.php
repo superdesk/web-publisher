@@ -14,7 +14,6 @@
 namespace SWP\Bundle\TemplateEngineBundle\Controller;
 
 use Doctrine\ODM\PHPCR\DocumentManager;
-use Doctrine\ODM\PHPCR\Query\Builder\QueryBuilder;
 use FOS\RestBundle\Controller\FOSRestController;
 use FOS\RestBundle\View\View;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;

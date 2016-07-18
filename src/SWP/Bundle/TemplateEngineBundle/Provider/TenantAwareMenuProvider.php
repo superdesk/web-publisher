@@ -46,7 +46,7 @@ class TenantAwareMenuProvider extends PhpcrMenuProvider
         return $this->getObjectManager()->find('Symfony\Cmf\Bundle\MenuBundle\Doctrine\Phpcr\MenuNode', $id);
     }
 
-    public function getMenuNodeParent($menuId, $nodeId=null)
+    public function getMenuNodeParent($menuId, $nodeId = null)
     {
         if (null === $nodeId) {
             return $this->getMenu($menuId);
