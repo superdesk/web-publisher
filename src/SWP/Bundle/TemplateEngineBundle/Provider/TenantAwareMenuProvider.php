@@ -20,13 +20,31 @@ use Knp\Menu\Loader\NodeLoader;
 
 class TenantAwareMenuProvider extends PhpcrMenuProvider
 {
+    protected $basePath;
+
+    protected $pathBuilder;
+
     public function __construct(NodeLoader $loader,
                                 ManagerRegistry $managerRegistry,
                                 TenantAwarePathBuilderInterface $pathBuilder,
                                 $basePath)
     {
-        $path = $pathBuilder->build($basePath);
-        parent::__construct($loader, $managerRegistry, $path);
+        $this->pathBuilder = $pathBuilder;
+        $this->basePath = $basePath;
+        parent::__construct($loader, $managerRegistry, null);
+    }
+
+    /**
+     * @return string
+     *
+     * @inheritdoc
+     */
+    public function getMenuRoot()
+    {
+        if (null === $this->menuRoot) {
+            $this->menuRoot = $this->pathBuilder->build($this->basePath);
+        }
+        return parent::getMenuRoot();
     }
 
     public function getMenuParent()
