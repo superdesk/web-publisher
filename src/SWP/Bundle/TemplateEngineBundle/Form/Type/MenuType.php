@@ -22,8 +22,8 @@ class MenuType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('name', null)
-            ->add('label', null);
+            ->add('name')
+            ->add('label');
     }
 
     public function configureOptions(OptionsResolver $resolver)

@@ -66,7 +66,6 @@ services:
             - "@doctrine_phpcr"
             - "@swp_multi_tenancy.path_builder"
             - "%swp_multi_tenancy.persistence.phpcr.menu_basepath%"
-            - "%cmf_menu.persistence.phpcr.menu_basepath%"
         tags:
             - { name: knp_menu.provider }
 

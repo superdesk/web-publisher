@@ -71,8 +71,7 @@ class SWPMultiTenancyExtension extends Extension
             );
         }
 
-        array_push($config['route_basepaths'], $config['content_basepath']);
-        array_push($config['route_basepaths'], $config['menu_basepath']);
+        array_push($config['route_basepaths'], $config['content_basepath'], $config['menu_basepath']);
 
         $container->setParameter(
             $this->getAlias().'.persistence.phpcr.base_paths',

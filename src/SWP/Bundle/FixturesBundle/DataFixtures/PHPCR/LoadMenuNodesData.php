@@ -22,7 +22,18 @@ class LoadMenuNodesData extends AbstractFixture implements FixtureInterface
         $env = $this->getEnvironment();
         $menuNodes = [
             'dev' => [
-
+                [
+                    'name' => 'home',
+                    'label' => 'Home',
+                    'locale' => 'en',
+                    'uri' => 'homepage',
+                ],
+                [
+                    'name' => 'articles',
+                    'label' => 'Articles',
+                    'locale' => 'en',
+                    'uri' => 'articles',
+                ],
             ],
             'test' => [
                 [
@@ -48,7 +59,7 @@ class LoadMenuNodesData extends AbstractFixture implements FixtureInterface
         ];
 
         if (isset($menuNodes[$env])) {
-            $defaultParent = $manager->find(null, 'swp/default/menu/test');
+            $defaultParent = $env === 'test' ? $manager->find(null, 'swp/default/menu/test') : $manager->find(null, 'swp/default/menu');
             foreach ($menuNodes[$env] as $menuNodeData) {
                 $menuNode = new MenuNode();
                 $menuNode->setName($menuNodeData['name']);

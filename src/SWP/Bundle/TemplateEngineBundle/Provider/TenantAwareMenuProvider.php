@@ -23,10 +23,48 @@ class TenantAwareMenuProvider extends PhpcrMenuProvider
     public function __construct(NodeLoader $loader,
                                 ManagerRegistry $managerRegistry,
                                 TenantAwarePathBuilderInterface $pathBuilder,
-                                $basePath,
-                                $menuRoot)
+                                $basePath)
     {
         $path = $pathBuilder->build($basePath);
         parent::__construct($loader, $managerRegistry, $path);
+    }
+
+    public function getMenuParent()
+    {
+        return $this->getObjectManager()->find(null, $this->getMenuRoot());
+    }
+
+    public function getMenu($id)
+    {
+        $id = $this->getMenuRoot().'/'.$id;
+        return $this->getObjectManager()->find('Symfony\Cmf\Bundle\MenuBundle\Doctrine\Phpcr\Menu', $id);
+    }
+
+    public function getMenuNode($menuId, $nodeId)
+    {
+        $id = $this->getMenuRoot().'/'.$menuId.'/'.$nodeId;
+        return $this->getObjectManager()->find('Symfony\Cmf\Bundle\MenuBundle\Doctrine\Phpcr\MenuNode', $id);
+    }
+
+    public function getMenuNodeParent($menuId, $nodeId=null)
+    {
+        if (null === $nodeId) {
+            return $this->getMenu($menuId);
+        }
+        return $this->getMenuNode($menuId, $nodeId);
+    }
+
+    public function getAllSubMenus($menuId)
+    {
+        /** @var QueryBuilder $qb */
+        $qb = $this->getObjectManager()->createQueryBuilder();
+        $qb->from()->document('Symfony\Cmf\Bundle\MenuBundle\Doctrine\Phpcr\MenuNode', 'm');
+
+        $path = $this->getMenuRoot().'/'.$menuId;
+        $qb->where()->descendant($path, 'm');
+        $query = $qb->getQuery();
+        $nodes = $query->getResult();
+
+        return $nodes;
     }
 }

@@ -34,7 +34,8 @@ class MenuController extends FOSRestController
      *     resource=true,
      *     description="Lists all registered menus",
      *     statusCodes={
-     *         200="Returned on success."
+     *         200="Returned on success.",
+     *         404="No menus found."
      *     }
      * )
      * @Route("/api/{version}/templates/menus/", options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_templates_list_menus")
@@ -42,7 +43,10 @@ class MenuController extends FOSRestController
      */
     public function listAction(Request $request)
     {
-        $menuParent = $this->getMenuParent();
+        $menuParent = $this->getMenuRootNode();
+        if (!$menuParent) {
+            throw new NotFoundHttpException('Root menu node was not found.');
+        }
         $dm = $this->get('document_manager');
         $menus = $dm->getChildren($menuParent);
         $paginator = $this->get('knp_paginator');
@@ -70,7 +74,7 @@ class MenuController extends FOSRestController
      * @Route("/api/{version}/templates/menus/{id}", options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_templates_get_menu")
      * @Method("GET")
      */
-    public function getAction(Request $request, $id)
+    public function getAction($id)
     {
         $menu = $this->getMenu($id);
         if (!$menu) {
@@ -100,7 +104,10 @@ class MenuController extends FOSRestController
         $menu = new Menu();
 
         // Parent must be set before validation
-        $menuParent = $this->getMenuParent();
+        $menuParent = $this->getMenuRootNode();
+        if (!$menuParent) {
+            throw new NotFoundHttpException('Root menu node was not found.');
+        }
         $menu->setParentDocument($menuParent);
 
         $form = $this->createForm(new MenuType(), $menu);
@@ -132,7 +139,7 @@ class MenuController extends FOSRestController
      * @Route("/api/{version}/templates/menus/{id}", options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_templates_delete_menu")
      * @Method("DELETE")
      */
-    public function deleteAction(Request $request, $id)
+    public function deleteAction($id)
     {
         $menu = $this->getMenu($id);
         if (!$menu) {
@@ -192,10 +199,10 @@ class MenuController extends FOSRestController
     /**
      * @return null|object
      */
-    private function getMenuParent()
+    private function getMenuRootNode()
     {
-        $dm = $this->get('document_manager');
-        $menuParent = $dm->find(null, $this->getBaseDocumentPath());
+        $mp = $this->get('swp_template_engine.menu_provider');
+        $menuParent = $mp->getMenuParent();
 
         return $menuParent;
     }
@@ -213,24 +220,9 @@ class MenuController extends FOSRestController
             throw new UnprocessableEntityHttpException('You need to provide menu Id (name).');
         }
 
-        /** @var DocumentManager $dm */
-        $dm = $this->get('document_manager');
-        $id = $this->getBaseDocumentPath().'/'.$id;
-        $menu = $dm->find('Symfony\Cmf\Bundle\MenuBundle\Doctrine\Phpcr\Menu', $id);
+        $mp = $this->get('swp_template_engine.menu_provider');
+        $menu = $mp->getMenu($id);
 
         return $menu;
-    }
-
-    /**
-     * Returns base document path of menus for this tenant.
-     *
-     * @return string
-     */
-    private function getBaseDocumentPath()
-    {
-        $mp = $this->get('swp_template_engine.menu_provider');
-        $path = $mp->getMenuRoot();
-
-        return $path;
     }
 }

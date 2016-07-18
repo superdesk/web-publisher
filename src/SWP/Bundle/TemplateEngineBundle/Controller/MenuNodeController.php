@@ -48,19 +48,9 @@ class MenuNodeController extends FOSRestController
             throw new UnprocessableEntityHttpException('You need to provide menu name (name).');
         }
 
-        /** @var DocumentManager $dm */
-        $dm = $this->get('document_manager');
-
-        /** @var QueryBuilder $qb */
-        $qb = $dm->createQueryBuilder();
-        $qb->from()->document('Symfony\Cmf\Bundle\MenuBundle\Doctrine\Phpcr\MenuNode', 'm');
-
-        $path = $this->getBaseDocumentPath().'/'.$menuId;
-        $qb->where()->descendant($path, 'm');
-        $query = $qb->getQuery();
-
+        $mp = $this->get('swp_template_engine.menu_provider');
+        $nodes = $mp->getAllSubMenus($menuId);
         $paginator = $this->get('knp_paginator');
-        $nodes = $query->getResult();
         $menuNodes = $paginator->paginate($nodes);
 
         if (count($menuNodes) == 0) {
@@ -118,17 +108,8 @@ class MenuNodeController extends FOSRestController
     public function createAction(Request $request, $menuId, $nodeId)
     {
         $menuNode = new MenuNode();
-
-        /** @var DocumentManager $dm */
-        $dm = $this->get('document_manager');
-        if (!$menuId) {
-            throw new UnprocessableEntityHttpException('You need to provide menu Id (name).');
-        }
-        $path = $this->getBaseDocumentPath().'/'.$menuId;
-        if ($nodeId) {
-            $path .= '/'.$nodeId;
-        }
-        $menuParent = $dm->find(null, $path);
+        $mp = $this->get('swp_template_engine.menu_provider');
+        $menuParent = $mp->getMenuNodeParent($menuId, $nodeId);
         if (!$menuParent) {
             throw new NotFoundHttpException('Menu with given id was not found.');
         }
@@ -137,6 +118,7 @@ class MenuNodeController extends FOSRestController
         $form = $this->createForm(new MenuNodeType(), $menuNode);
         $form->handleRequest($request);
         if ($form->isValid()) {
+            $dm = $this->get('document_manager');
             $dm->persist($menuNode);
             $dm->flush();
 
@@ -234,24 +216,10 @@ class MenuNodeController extends FOSRestController
             throw new UnprocessableEntityHttpException('You need to provide menu node Id (name).');
         }
 
-        /** @var DocumentManager $dm */
-        $dm = $this->get('document_manager');
-        $id = $this->getBaseDocumentPath().'/'.$menuId.'/'.$nodeId;
-        $menuNode = $dm->find('Symfony\Cmf\Bundle\MenuBundle\Doctrine\Phpcr\MenuNode', $id);
+
+        $mp = $this->get('swp_template_engine.menu_provider');
+        $menuNode = $mp->getMenuNode($menuId, $nodeId);
 
         return $menuNode;
-    }
-
-    /**
-     * Returns base document path of menus for this tenant.
-     *
-     * @return string
-     */
-    private function getBaseDocumentPath()
-    {
-        $mp = $this->get('swp_template_engine.menu_provider');
-        $path = $mp->getMenuRoot();
-
-        return $path;
     }
 }

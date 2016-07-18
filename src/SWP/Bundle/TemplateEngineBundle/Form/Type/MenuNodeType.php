@@ -22,11 +22,11 @@ class MenuNodeType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('name', null)
-            ->add('label', null)
-            ->add('locale', null)
-            ->add('uri', null)
-            ->add('route', null);
+            ->add('name')
+            ->add('label')
+            ->add('locale')
+            ->add('uri')
+            ->add('route');
     }
 
     public function configureOptions(OptionsResolver $resolver)
