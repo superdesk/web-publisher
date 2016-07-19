@@ -51,6 +51,7 @@ class TenantAwareMenuProvider extends PhpcrMenuProvider
         if (null === $this->menuRoot) {
             $this->menuRoot = $this->pathBuilder->build($this->basePath);
         }
+
         return parent::getMenuRoot();
     }
 
@@ -62,12 +63,14 @@ class TenantAwareMenuProvider extends PhpcrMenuProvider
     public function getMenu($id)
     {
         $id = $this->getMenuRoot().'/'.$id;
+
         return $this->getObjectManager()->find('Symfony\Cmf\Bundle\MenuBundle\Doctrine\Phpcr\Menu', $id);
     }
 
     public function getMenuNode($menuId, $nodeId)
     {
         $id = $this->getMenuRoot().'/'.$menuId.'/'.$nodeId;
+
         return $this->getObjectManager()->find('Symfony\Cmf\Bundle\MenuBundle\Doctrine\Phpcr\MenuNode', $id);
     }
 
@@ -76,6 +79,7 @@ class TenantAwareMenuProvider extends PhpcrMenuProvider
         if (null === $nodeId) {
             return $this->getMenu($menuId);
         }
+
         return $this->getMenuNode($menuId, $nodeId);
     }
 
@@ -84,7 +88,6 @@ class TenantAwareMenuProvider extends PhpcrMenuProvider
         /** @var QueryBuilder $qb */
         $qb = $this->getObjectManager()->createQueryBuilder();
         $qb->from()->document('Symfony\Cmf\Bundle\MenuBundle\Doctrine\Phpcr\MenuNode', 'm');
-
         $path = $this->getMenuRoot().'/'.$menuId;
         $qb->where()->descendant($path, 'm');
         $query = $qb->getQuery();

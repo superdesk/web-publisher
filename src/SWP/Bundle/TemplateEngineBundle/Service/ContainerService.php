@@ -16,7 +16,11 @@ namespace SWP\Bundle\TemplateEngineBundle\Service;
 use SWP\Bundle\TemplateEngineBundle\Container\SimpleContainer;
 use SWP\Bundle\TemplateEngineBundle\Model\Container;
 use SWP\Bundle\TemplateEngineBundle\Model\ContainerData;
+use SWP\Bundle\TemplateEngineBundle\Model\ContainerWidget;
+use SWP\Bundle\TemplateEngineBundle\Model\WidgetModel;
 use SWP\Component\Common\Event\HttpCacheEvent;
+use Symfony\Cmf\Bundle\MenuBundle\Doctrine\Phpcr\Menu;
+use Symfony\Cmf\Bundle\MenuBundle\Doctrine\Phpcr\MenuNode;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class ContainerService
@@ -130,6 +134,13 @@ class ContainerService
                     }
             }
         }
+
+        $widget = $this->createNewMenuWidget();
+        $containerWidget = new ContainerWidget($containerEntity, $widget);
+        $containerEntity->addWidget($containerWidget);
+
+        $this->objectManager->persist($widget);
+        $this->objectManager->persist($containerWidget);
         $this->objectManager->persist($containerEntity);
         $this->objectManager->flush();
 
@@ -137,5 +148,37 @@ class ContainerService
             ->dispatch(HttpCacheEvent::EVENT_NAME, new HttpCacheEvent($containerEntity));
 
         return $containerEntity;
+    }
+
+    private function createNewMenuWidget()
+    {
+        // Add a menu widget
+        $widget = new WidgetModel();
+        $widget->setType(WidgetModel::TYPE_MENU);
+        $widget->setName('Default Menu');
+        $widget->setParameters(['menu_name' => 'default']);
+
+        // Create menu for this widget
+        $menu = new Menu();
+        $menu->setName('default');
+        $menu->setLabel('Default');
+
+        $menuProvider = $this->serviceContainer->get('swp_template_engine.menu_provider');
+        $menuParent = $menuProvider->getMenuParent();
+        $menu->setParentDocument($menuParent);
+
+        // Add nodes to menu
+        $menuNode = new MenuNode();
+        $menuNode->setName('home');
+        $menuNode->setLabel('Home');
+        $menuNode->setRoute('homepage');
+        $menuNode->setParentDocument($menu);
+
+        $dm = $this->serviceContainer->get('document_manager');
+        $dm->persist($menu);
+        $dm->persist($menuNode);
+        $dm->flush();
+
+        return $widget;
     }
 }
