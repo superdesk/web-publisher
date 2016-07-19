@@ -201,8 +201,8 @@ class MenuController extends FOSRestController
      */
     private function getMenuRootNode()
     {
-        $mp = $this->get('swp_template_engine.menu_provider');
-        $menuParent = $mp->getMenuParent();
+        $menuProvider = $this->get('swp_template_engine.menu_provider');
+        $menuParent = $menuProvider->getMenuParent();
 
         return $menuParent;
     }
@@ -220,8 +220,8 @@ class MenuController extends FOSRestController
             throw new UnprocessableEntityHttpException('You need to provide menu Id (name).');
         }
 
-        $mp = $this->get('swp_template_engine.menu_provider');
-        $menu = $mp->getMenu($id);
+        $menuProvider = $this->get('swp_template_engine.menu_provider');
+        $menu = $menuProvider->getMenu($id);
 
         return $menu;
     }

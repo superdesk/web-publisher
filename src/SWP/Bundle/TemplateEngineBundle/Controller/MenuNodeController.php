@@ -216,8 +216,8 @@ class MenuNodeController extends FOSRestController
         }
 
 
-        $mp = $this->get('swp_template_engine.menu_provider');
-        $menuNode = $mp->getMenuNode($menuId, $nodeId);
+        $menuProvider = $this->get('swp_template_engine.menu_provider');
+        $menuNode = $menuProvider->getMenuNode($menuId, $nodeId);
 
         return $menuNode;
     }

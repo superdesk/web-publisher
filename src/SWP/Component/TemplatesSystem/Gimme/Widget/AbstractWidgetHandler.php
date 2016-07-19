@@ -72,7 +72,7 @@ abstract class AbstractWidgetHandler implements WidgetHandlerInterface, Containe
             }
         }
 
-        // TODO - what if there is no parameter, and no default value for that parameter?
+        return null;
     }
 
     /**
