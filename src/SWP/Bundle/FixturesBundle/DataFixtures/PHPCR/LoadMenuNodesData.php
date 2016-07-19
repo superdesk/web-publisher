@@ -8,11 +8,12 @@
 namespace SWP\Bundle\FixturesBundle\DataFixtures\PHPCR;
 
 use Doctrine\Common\DataFixtures\FixtureInterface;
+use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use SWP\Bundle\FixturesBundle\AbstractFixture;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Cmf\Bundle\MenuBundle\Doctrine\Phpcr\MenuNode;
 
-class LoadMenuNodesData extends AbstractFixture implements FixtureInterface
+class LoadMenuNodesData extends AbstractFixture implements FixtureInterface, OrderedFixtureInterface
 {
     /**
      * {@inheritdoc}
@@ -26,14 +27,9 @@ class LoadMenuNodesData extends AbstractFixture implements FixtureInterface
                     'name' => 'home',
                     'label' => 'Home',
                     'locale' => 'en',
-                    'uri' => 'homepage',
-                ],
-                [
-                    'name' => 'articles',
-                    'label' => 'Articles',
-                    'locale' => 'en',
-                    'uri' => 'articles',
-                ],
+                    'route' => 'homepage',
+                    'parent' => 'swp/default/menu/default'
+                ]
             ],
             'test' => [
                 [
@@ -59,18 +55,28 @@ class LoadMenuNodesData extends AbstractFixture implements FixtureInterface
         ];
 
         if (isset($menuNodes[$env])) {
-            $defaultParent = $env === 'test' ? $manager->find(null, 'swp/default/menu/test') : $manager->find(null, 'swp/default/menu');
+            $defaultParent = $env === 'test' ? $manager->find(null, 'swp/default/menu/test') : $manager->find(null, 'swp/default/menu/default');
             foreach ($menuNodes[$env] as $menuNodeData) {
                 $menuNode = new MenuNode();
                 $menuNode->setName($menuNodeData['name']);
                 $menuNode->setLabel($menuNodeData['label']);
                 $menuNode->setLocale($menuNodeData['locale']);
-                $menuNode->setUri($menuNodeData['uri']);
+                if (isset($menuNodeData['uri'])) {
+                    $menuNode->setUri($menuNodeData['uri']);
+                }
+                if (isset($menuNodeData['route'])) {
+                    $menuNode->setRoute($menuNodeData['route']);
+                }
                 $parent = isset($menuNodeData['parent']) ? $manager->find(null, $menuNodeData['parent']) : $defaultParent;
                 $menuNode->setParentDocument($parent);
                 $manager->persist($menuNode);
                 $manager->flush();
             }
         }
+    }
+
+    public function getOrder()
+    {
+        return 2;
     }
 }

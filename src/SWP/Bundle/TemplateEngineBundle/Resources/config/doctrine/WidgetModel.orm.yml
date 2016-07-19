@@ -35,6 +35,9 @@ SWP\Bundle\TemplateEngineBundle\Model\WidgetModel:
     manyToOne:
         tenant:
             targetEntity: SWP\Bundle\WebRendererBundle\Model\Tenant
+            cascade: ["persist"]
+            joinColumn:
+              onDelete: CASCADE
     oneToMany:
         containers:
             targetEntity: SWP\Bundle\TemplateEngineBundle\Model\ContainerWidget

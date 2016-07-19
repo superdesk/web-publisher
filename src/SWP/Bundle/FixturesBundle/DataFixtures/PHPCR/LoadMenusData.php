@@ -13,11 +13,12 @@
 namespace SWP\Bundle\FixturesBundle\DataFixtures\PHPCR;
 
 use Doctrine\Common\DataFixtures\FixtureInterface;
+use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use SWP\Bundle\FixturesBundle\AbstractFixture;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Cmf\Bundle\MenuBundle\Doctrine\Phpcr\Menu;
 
-class LoadMenusData extends AbstractFixture implements FixtureInterface
+class LoadMenusData extends AbstractFixture implements FixtureInterface, OrderedFixtureInterface
 {
     /**
      * {@inheritdoc}
@@ -27,7 +28,10 @@ class LoadMenusData extends AbstractFixture implements FixtureInterface
         $env = $this->getEnvironment();
         $menus = [
             'dev' => [
-
+                [
+                    'name' => 'default',
+                    'label' => 'Default',
+                ],
             ],
             'test' => [
                 [
@@ -49,5 +53,10 @@ class LoadMenusData extends AbstractFixture implements FixtureInterface
         }
 
         $manager->flush();
+    }
+
+    public function getOrder()
+    {
+        return 1;
     }
 }
