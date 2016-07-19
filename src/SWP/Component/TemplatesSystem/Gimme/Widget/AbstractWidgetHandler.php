@@ -72,7 +72,7 @@ abstract class AbstractWidgetHandler implements WidgetHandlerInterface, Containe
             }
         }
 
-        return null;
+        return;
     }
 
     /**

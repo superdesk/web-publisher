@@ -44,7 +44,7 @@ class TenantAwareMenuProvider extends PhpcrMenuProvider
     /**
      * @return string
      *
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getMenuRoot()
     {
