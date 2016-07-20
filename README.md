@@ -71,12 +71,22 @@ docker-compose run --rm php php /var/www/webpublisher/app/console doctrine:phpcr
 `swp:tenant:create --default` console command, creates a new, default tenant which is
 needed to run the WebPublisher.
 
-You can also install our demo DefaultTheme - run following commands:
+Alternatively, in the development environment, to populate the database with test data (including a default tenant), you can create the database and load fixtures with the following sequence of commands
+
+```bash
+php app/console doctrine:schema:update --force
+php app/console doctrine:fixtures:load
+php app/console doctrine:phpcr:repository:init
+php app/console doctrine:phpcr:fixtures:load
+```
+
+You should also install a theme. To install our demo DefaultTheme - run following commands:
 
 ```bash
 php app/console theme:setup -f
 php app/console sylius:theme:assets:install
 ```
+
 
 [1]: http://superdesk-web-publisher.readthedocs.org/en/latest/
 
