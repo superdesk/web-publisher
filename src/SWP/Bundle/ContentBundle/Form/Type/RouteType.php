@@ -64,7 +64,7 @@ class RouteType extends AbstractType
                 'required' => false,
                 'constraints' => [
                     new GreaterThanOrEqual(0),
-                ]
+                ],
             ]);
     }
 

@@ -85,7 +85,7 @@ class RouteControllerTest extends WebTestCase
                 'type' => 'content',
                 'parent' => '/',
                 'content' => null,
-                'cacheTimeInSeconds' => 1
+                'cacheTimeInSeconds' => 1,
             ],
         ]);
         $this->assertEquals(201, $client->getResponse()->getStatusCode());
