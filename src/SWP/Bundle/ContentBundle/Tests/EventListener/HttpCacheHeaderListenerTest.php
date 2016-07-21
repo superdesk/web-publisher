@@ -62,6 +62,8 @@ class HttpCacheHeaderListenerTest extends WebTestCase
             'route' => $data,
         ]);
 
+        $this->assertEquals(201, $client->getResponse()->getStatusCode());
+
         $documentManager = $this->getContainer()->get('document_manager');
         $id = 'swp/default/routes'.$data['parent'].$data['name'];
         $route = $documentManager->find('SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\Route', $id);
