@@ -24,7 +24,7 @@ class DefaultController extends Controller
      * @Route("/", name="homepage")
      * @Method("GET")
      */
-    public function indexAction(Request $request)
+    public function indexAction()
     {
         $pathBuilder = $this->get('swp_multi_tenancy.path_builder');
         $site = $this->get('swp.repository.site')->find($pathBuilder->build('/'));
