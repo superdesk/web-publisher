@@ -20,6 +20,7 @@ use SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\Route;
 class HttpCacheHeaderListenerTest extends WebTestCase
 {
     protected $router;
+
     /**
      * {@inheritdoc}
      */

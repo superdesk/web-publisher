@@ -13,7 +13,6 @@
  */
 namespace SWP\Bundle\ContentBundle\EventListener;
 
-
 use SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\Route;
 use Symfony\Component\HttpKernel\Event\FilterResponseEvent;
 
