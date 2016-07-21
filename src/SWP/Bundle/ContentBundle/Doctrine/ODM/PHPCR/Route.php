@@ -28,6 +28,11 @@ class Route extends Page implements RouteObjectInterface
     protected $type;
 
     /**
+     * @var int
+     */
+    protected $cacheTimeInSeconds = 0;
+
+    /**
      * {@inheritdoc}
      */
     public function getTemplateName()
@@ -57,5 +62,21 @@ class Route extends Page implements RouteObjectInterface
     public function setType($type)
     {
         $this->type = $type;
+    }
+
+    /**
+     * @return int
+     */
+    public function getCacheTimeInSeconds()
+    {
+        return $this->cacheTimeInSeconds;
+    }
+
+    /**
+     * @param int $cacheTimeInSeconds
+     */
+    public function setCacheTimeInSeconds($cacheTimeInSeconds)
+    {
+        $this->cacheTimeInSeconds = $cacheTimeInSeconds;
     }
 }

@@ -16,6 +16,7 @@ namespace SWP\Bundle\WebRendererBundle\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Request;
 
 class DefaultController extends Controller
 {
@@ -23,7 +24,7 @@ class DefaultController extends Controller
      * @Route("/", name="homepage")
      * @Method("GET")
      */
-    public function indexAction()
+    public function indexAction(Request $request)
     {
         $pathBuilder = $this->get('swp_multi_tenancy.path_builder');
         $site = $this->get('swp.repository.site')->find($pathBuilder->build('/'));

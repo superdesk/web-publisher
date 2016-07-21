@@ -31,6 +31,11 @@ services:
         tags:
             - { name: kernel.event_listener, event: kernel.request, method: onKernelRequest }
 
+    swp_content_bundle.listener.http_cache_header:
+        class: SWP\Bundle\ContentBundle\EventListener\HttpCacheHeaderListener
+        tags:
+            - { name: kernel.event_listener, event: kernel.response, method: onKernelResponse }
+
     swp_pagination_rep:
         alias: swp_content_bundle.factory.knp_paginator_representation
 

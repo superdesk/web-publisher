@@ -139,6 +139,10 @@ class RouteService implements RouteServiceInterface
             $route->setType(RouteInterface::TYPE_COLLECTION);
         }
 
+        if (isset($routeData['cacheTimeInSeconds'])) {
+            $route->setCacheTimeInSeconds($routeData['cacheTimeInSeconds']);
+        }
+
         return $route;
     }
 }

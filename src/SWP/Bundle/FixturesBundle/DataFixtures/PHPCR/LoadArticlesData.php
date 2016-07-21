@@ -121,6 +121,10 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface
             $route->setName($routeData['name']);
             $route->setType($routeData['type']);
 
+            if (isset($routeData['cacheTimeInSeconds'])) {
+                $route->setCacheTimeInSeconds($routeData['cacheTimeInSeconds']);
+            }
+
             if (isset($routeData['variablePattern'])) {
                 $route->setVariablePattern($routeData['variablePattern']);
             }
