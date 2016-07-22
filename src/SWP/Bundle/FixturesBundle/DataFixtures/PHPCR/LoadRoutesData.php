@@ -24,7 +24,7 @@ class LoadRoutesData extends AbstractFixture implements FixtureInterface
     const TEST_CACHE_ROUTE_NAME = 'cache-route';
     const TEST_NO_CACHE_ROUTE_NAME = 'no-cache-route';
 
-    /** @var array  */
+    /** @var array */
     protected $commonData = ['type' => 'content', 'parent' => '/', 'content' => null];
 
     /**

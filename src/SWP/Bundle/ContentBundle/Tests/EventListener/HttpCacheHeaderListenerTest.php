@@ -15,7 +15,6 @@ namespace SWP\Bundle\ContentBundle\Tests\EventListener;
 
 use Liip\FunctionalTestBundle\Test\WebTestCase;
 use Nelmio\Alice\Fixtures;
-use SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\Route;
 use SWP\Bundle\FixturesBundle\DataFixtures\PHPCR\LoadRoutesData;
 use Symfony\Cmf\Component\Routing\ChainRouter;
 
