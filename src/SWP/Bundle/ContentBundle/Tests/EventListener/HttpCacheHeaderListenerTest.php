@@ -16,9 +16,14 @@ namespace SWP\Bundle\ContentBundle\Tests\EventListener;
 use Liip\FunctionalTestBundle\Test\WebTestCase;
 use Nelmio\Alice\Fixtures;
 use SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\Route;
+use SWP\Bundle\FixturesBundle\DataFixtures\PHPCR\LoadRoutesData;
+use Symfony\Cmf\Component\Routing\ChainRouter;
 
 class HttpCacheHeaderListenerTest extends WebTestCase
 {
+    /**
+     * @var ChainRouter
+     */
     protected $router;
 
     /**
@@ -35,42 +40,38 @@ class HttpCacheHeaderListenerTest extends WebTestCase
         ]);
 
         $this->runCommand('doctrine:phpcr:repository:init', ['--env' => 'test'], true);
+
+        $this->loadFixtures([
+            'SWP\Bundle\FixturesBundle\DataFixtures\PHPCR\LoadRoutesData',
+        ], null, 'doctrine_phpcr');
+
         $this->router = $this->getContainer()->get('router');
     }
 
     public function testNoCacheRoute()
     {
-        $headers = $this->getHeadersFromResponse(['name' => 'no-cache-route']);
+        $headers = $this->getHeadersFromResponse(LoadRoutesData::TEST_NO_CACHE_ROUTE_NAME);
         $this->assertFalse($headers->hasCacheControlDirective('max-age'));
     }
 
     public function testCacheRoute()
     {
-        $headers = $this->getHeadersFromResponse(['name' => 'cache-route', 'cacheTimeInSeconds' => 1]);
+        $headers = $this->getHeadersFromResponse(LoadRoutesData::TEST_CACHE_ROUTE_NAME);
         $this->assertTrue($headers->hasCacheControlDirective('public'));
-        $this->assertEquals($headers->getCacheControlDirective('max-age'), 1);
-        $this->assertEquals($headers->getCacheControlDirective('s-maxage'), 1);
+        $this->assertEquals($headers->getCacheControlDirective('max-age'), LoadRoutesData::TEST_CACHE_TIME);
+        $this->assertEquals($headers->getCacheControlDirective('s-maxage'), LoadRoutesData::TEST_CACHE_TIME);
     }
 
-    private function getHeadersFromResponse($data)
+    private function getHeadersFromResponse($name)
     {
-        $commonData = ['type' => 'content', 'parent' => '/', 'content' => null];
-        $data = array_merge($data, $commonData);
-
-        $client = static::createClient();
-        $client->request('POST', $this->router->generate('swp_api_content_create_routes'), [
-            'route' => $data,
-        ]);
-
-        $this->assertEquals(201, $client->getResponse()->getStatusCode());
-
         $documentManager = $this->getContainer()->get('document_manager');
-        $id = 'swp/default/routes'.$data['parent'].$data['name'];
+        $id = 'swp/default/routes/'.$name;
         $route = $documentManager->find('SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\Route', $id);
 
         $this->assertNotNull($route);
-        $this->assertEquals($route->getName(), $data['name']);
+        $this->assertEquals($route->getName(), $name);
 
+        $client = static::createClient();
         $client->request('GET', $this->router->generate($route));
         $response = $client->getResponse();
         $headers = $response->headers;
