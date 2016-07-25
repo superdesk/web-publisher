@@ -43,7 +43,7 @@ class MenuNodeController extends FOSRestController
      */
     public function listAction(Request $request, $menuId)
     {
-        if (!$menuId) {
+        if (null === $menuId) {
             throw new UnprocessableEntityHttpException('You need to provide menu name (name).');
         }
 
@@ -80,7 +80,7 @@ class MenuNodeController extends FOSRestController
     public function getAction(Request $request, $menuId, $nodeId)
     {
         $menuNode = $this->getMenuNode($menuId, $nodeId);
-        if (!$menuNode) {
+        if (null === $menuNode) {
             throw new NotFoundHttpException('Menu with this id was not found.');
         }
 
@@ -109,7 +109,7 @@ class MenuNodeController extends FOSRestController
         $menuNode = new MenuNode();
         $mp = $this->get('swp_template_engine.menu_provider');
         $menuParent = $mp->getMenuNodeParent($menuId, $nodeId);
-        if (!$menuParent) {
+        if (null === $menuParent) {
             throw new NotFoundHttpException('Menu with given id was not found.');
         }
         $menuNode->setParentDocument($menuParent);
@@ -145,7 +145,7 @@ class MenuNodeController extends FOSRestController
     public function deleteAction(Request $request, $menuId, $nodeId)
     {
         $menuNode = $this->getMenuNode($menuId, $nodeId);
-        if (!$menuNode) {
+        if (null === $menuNode) {
             throw new NotFoundHttpException('Menu node with this id was not found.');
         }
 
@@ -177,7 +177,7 @@ class MenuNodeController extends FOSRestController
     public function updateAction(Request $request, $menuId, $nodeId)
     {
         $menuNode = $this->getMenuNode($menuId, $nodeId);
-        if (!$menuNode) {
+        if (null === $menuNode) {
             throw new NotFoundHttpException('Menu node with given id was not found.');
         }
 
@@ -207,11 +207,11 @@ class MenuNodeController extends FOSRestController
      */
     private function getMenuNode($menuId, $nodeId)
     {
-        if (!$menuId) {
+        if (null === $menuId) {
             throw new UnprocessableEntityHttpException('You need to provide menu Id (name).');
         }
 
-        if (!$nodeId) {
+        if (null === $nodeId) {
             throw new UnprocessableEntityHttpException('You need to provide menu node Id (name).');
         }
 

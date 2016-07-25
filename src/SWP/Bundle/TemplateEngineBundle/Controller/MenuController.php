@@ -44,7 +44,7 @@ class MenuController extends FOSRestController
     public function listAction(Request $request)
     {
         $menuParent = $this->getMenuRootNode();
-        if (!$menuParent) {
+        if (null === $menuParent) {
             throw new NotFoundHttpException('Root menu node was not found.');
         }
         $dm = $this->get('document_manager');
@@ -77,7 +77,7 @@ class MenuController extends FOSRestController
     public function getAction($id)
     {
         $menu = $this->getMenu($id);
-        if (!$menu) {
+        if (null === $menu) {
             throw new NotFoundHttpException('Menu with this id was not found.');
         }
 
@@ -105,7 +105,7 @@ class MenuController extends FOSRestController
 
         // Parent must be set before validation
         $menuParent = $this->getMenuRootNode();
-        if (!$menuParent) {
+        if (null === $menuParent) {
             throw new NotFoundHttpException('Root menu node was not found.');
         }
         $menu->setParentDocument($menuParent);
@@ -142,7 +142,7 @@ class MenuController extends FOSRestController
     public function deleteAction($id)
     {
         $menu = $this->getMenu($id);
-        if (!$menu) {
+        if (null === $menu) {
             throw new NotFoundHttpException('Menu with this id was not found.');
         }
 
@@ -174,7 +174,7 @@ class MenuController extends FOSRestController
     public function updateAction(Request $request, $id)
     {
         $menu = $this->getMenu($id);
-        if (!$menu) {
+        if (null === $menu) {
             throw new NotFoundHttpException('Menu with this id was not found.');
         }
 
@@ -216,7 +216,7 @@ class MenuController extends FOSRestController
      */
     private function getMenu($id)
     {
-        if (!$id) {
+        if (null === $id) {
             throw new UnprocessableEntityHttpException('You need to provide menu Id (name).');
         }
 
