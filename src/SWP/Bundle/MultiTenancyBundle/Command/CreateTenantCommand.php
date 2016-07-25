@@ -14,6 +14,7 @@
 namespace SWP\Bundle\MultiTenancyBundle\Command;
 
 use Doctrine\ORM\EntityManagerInterface;
+use SWP\Bundle\MultiTenancyBundle\Repository\TenantRepository;
 use SWP\Component\MultiTenancy\Model\Tenant;
 use SWP\Component\MultiTenancy\Model\TenantInterface;
 use SWP\Component\MultiTenancy\Repository\TenantRepositoryInterface;
@@ -65,8 +66,8 @@ EOT
         $disabled = $input->getOption('disabled');
 
         if ($default) {
-            $subdomain = 'default';
-            $name = 'Default tenant';
+            $subdomain = TenantRepository::DEFAULT_TENANT_SUBDOMAIN;
+            $name = TenantRepository::DEFAULT_TENANT_NAME;
         }
 
         $tenant = $this->getTenantRepository()->findBySubdomain($subdomain);
