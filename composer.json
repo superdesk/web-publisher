@@ -81,7 +81,8 @@
         "superdesk/contentapi-sdk-php": "1.0.x-dev",
         "justinrainbow/json-schema": "1.4.4",
         "league/pipeline": "^0.2.2",
-        "jms/translation-bundle": "^1.2"
+        "jms/translation-bundle": "^1.2",
+        "symfony-cmf/menu-bundle": "2.0.*"
     },
     "require-dev": {
         "sensio/generator-bundle": "~3.0",

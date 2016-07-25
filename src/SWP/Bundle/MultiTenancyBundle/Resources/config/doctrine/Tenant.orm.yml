@@ -17,6 +17,7 @@ SWP\Component\MultiTenancy\Model\Tenant:
         name:
             type: string
             length: 255
+            unique: true
         subdomain:
             type: string
             length: 255

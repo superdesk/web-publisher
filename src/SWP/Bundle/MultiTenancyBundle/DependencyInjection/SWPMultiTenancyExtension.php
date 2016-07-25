@@ -58,6 +58,7 @@ class SWPMultiTenancyExtension extends Extension
             'basepath' => 'basepath',
             'route_basepaths' => 'route_basepaths',
             'content_basepath' => 'content_basepath',
+            'menu_basepath' => 'menu_basepath',
             'site_document_class' => 'site_document.class',
             'tenant_aware_router_class' => 'router.class',
             'document_class' => 'document.class',
@@ -70,7 +71,7 @@ class SWPMultiTenancyExtension extends Extension
             );
         }
 
-        array_push($config['route_basepaths'], $config['content_basepath']);
+        array_push($config['route_basepaths'], $config['content_basepath'], $config['menu_basepath']);
 
         $container->setParameter(
             $this->getAlias().'.persistence.phpcr.base_paths',

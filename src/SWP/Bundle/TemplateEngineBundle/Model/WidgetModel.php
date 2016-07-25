@@ -25,9 +25,13 @@ use SWP\Component\TemplatesSystem\Gimme\Model\WidgetModelInterface;
 class WidgetModel implements WidgetModelInterface, TenantAwareInterface, TimestampableInterface
 {
     const TYPE_HTML = 1;
+    const TYPE_ADSENSE = 2;
+    const TYPE_MENU = 3;
 
     protected $types = [
-        self::TYPE_HTML => '\\SWP\\Component\\TemplatesSystem\\Gimme\\WidgetModel\\HtmlWidgetHandler',
+        self::TYPE_HTML => '\\SWP\\Component\\TemplatesSystem\\Gimme\\Widget\\HtmlWidgetHandler',
+        self::TYPE_ADSENSE => '\\SWP\\Component\\TemplatesSystem\\Gimme\\Widget\\GoogleAdSenseWidgetHandler',
+        self::TYPE_MENU => '\\SWP\\Component\\TemplatesSystem\\Gimme\\Widget\\MenuWidgetHandler',
     ];
 
     /**

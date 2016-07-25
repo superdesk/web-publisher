@@ -57,7 +57,7 @@ class SWPMultiTenancyExtensionTest extends \PHPUnit_Framework_TestCase
        );
 
         $this->assertEquals(
-            ['routes1', 'routes2', 'content'],
+            ['routes1', 'routes2', 'content', 'menu'],
             $container->getParameter('swp_multi_tenancy.persistence.phpcr.base_paths')
         );
 
