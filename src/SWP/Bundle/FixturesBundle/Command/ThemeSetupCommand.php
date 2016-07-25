@@ -85,17 +85,6 @@ EOT
 
         if (null === $name) {
             $name = self::DEFAULT_THEME_TITLE;
-            $tenantRepository = $this->getContainer()->get('swp_multi_tenancy.tenant_repository');
-            $defaultTenant = $tenantRepository->findDefaultTenant();
-            if (null === $defaultTenant) {
-                throw new \Exception("No default tenant found, please first run php app/console swp:tenant:create --default");
-            }
-
-            if (null === $defaultTenant->getThemeName()) {
-                $defaultTenant->setThemeName(self::DEFAULT_THEME_NAME);
-                $em = $this->getContainer()->get('doctrine.orm.entity_manager');
-                $em->flush();
-            }
         }
 
         $tenantThemeDir = $kernel->getRootDir().self::THEMES_PATH;
@@ -137,17 +126,27 @@ EOT
                 }
             }
 
+            // Set theme_name for default tenant if the default theme is being set up, and the name is null
+            if (self::DEFAULT_THEME_TITLE === $name) {
+                $tenantRepository = $this->getContainer()->get('swp_multi_tenancy.tenant_repository');
+                $defaultTenant = $tenantRepository->findDefaultTenant();
+                if (null === $defaultTenant) {
+                    throw new \Exception("No default tenant found, please first run php app/console swp:tenant:create --default");
+                }
+
+                if (null === $defaultTenant->getThemeName()) {
+                    $defaultTenant->setThemeName(self::DEFAULT_THEME_NAME);
+                    $em = $this->getContainer()->get('doctrine.orm.entity_manager');
+                    $em->flush();
+                }
+            }
+
             $fileSystem->mirror(
                 $kernel->locateResource('@SWPFixturesBundle/Resources/themes/'.$name),
                 $themeDir,
                 null,
                 ['override' => true, 'delete' => true]
             );
-
-            // Set theme_name for default tenant if the default theme is being set up, and the name is null
-            if (self::DEFAULT_THEME_TITLE === $name) {
-
-            }
 
             $output->writeln('<info>Theme "'.$name.'" has been setup successfully!</info>');
         } catch (\Exception $e) {
