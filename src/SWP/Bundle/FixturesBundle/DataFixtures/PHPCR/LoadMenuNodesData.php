@@ -28,7 +28,7 @@ class LoadMenuNodesData extends AbstractFixture implements FixtureInterface, Ord
                     'label' => 'Home',
                     'locale' => 'en',
                     'route' => 'homepage',
-                    'parent' => 'swp/default/menu/default'
+                    'parent' => 'swp/default/menu/default',
                 ]
             ],
             'test' => [
