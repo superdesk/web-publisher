@@ -175,6 +175,7 @@ class RouteController extends FOSRestController
             'parent' => $route->getParent(),
             'content' => null !== $route->getContent() ? $route->getContent()->getId() : null,
             'template_name' => $route->getTemplateName(),
+            'cacheTimeInSeconds' => $route->getCacheTimeInSeconds(),
         ], ['method' => $request->getMethod()]);
 
         $form->handleRequest($request);
