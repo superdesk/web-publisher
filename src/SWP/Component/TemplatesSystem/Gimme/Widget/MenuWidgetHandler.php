@@ -13,27 +13,11 @@
  */
 namespace SWP\Component\TemplatesSystem\Gimme\Widget;
 
-class GoogleAdSenseWidgetHandler extends AbstractWidgetHandler
+class MenuWidgetHandler extends AbstractWidgetHandler
 {
     protected static $expectedParameters = [
-        'style' => [
+        'menu_name' => [
             'type' => 'string',
-            'default' => 'display:block',
-        ],
-        // TODO: add to client settings as two widgets on the same page probably have to have the same id
-        'ad_client' => [
-            'type' => 'string',
-        ],
-        'ad_test' => [
-            'type' => 'string',
-            'default' => 'off',
-        ],
-        'ad_slot' => [
-            'type' => 'int',
-        ],
-        'ad_format' => [
-            'type' => 'string',
-            'default' => 'auto',
         ],
     ];
 
@@ -44,6 +28,6 @@ class GoogleAdSenseWidgetHandler extends AbstractWidgetHandler
      */
     public function render()
     {
-        return $this->renderTemplate('adsense.html.twig');
+        return $this->renderTemplate('menu.html.twig');
     }
 }

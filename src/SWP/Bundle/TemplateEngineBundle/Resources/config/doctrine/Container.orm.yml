@@ -48,6 +48,8 @@ SWP\Bundle\TemplateEngineBundle\Model\Container:
     manyToOne:
         tenant:
             targetEntity: SWP\Bundle\WebRendererBundle\Model\Tenant
+            joinColumn:
+              onDelete: CASCADE
     oneToMany:
         data:
             targetEntity: SWP\Bundle\TemplateEngineBundle\Model\ContainerData

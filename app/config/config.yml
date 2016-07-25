@@ -130,6 +130,10 @@ doctrine_phpcr:
         metadata_cache_driver:
             type: service
             id: doctrine_cache.providers.main_cache
+        locales:
+            en:
+        locale_fallback: hardcoded
+        default_locale: "%locale%"
     session:
         backend:
             type: doctrinedbal
@@ -247,3 +251,9 @@ jms_serializer:
             SymfonyRouting:
                 namespace_prefix: Symfony\Component\Routing
                 path: "@SWPContentBundle/Resources/config/serializer/SymfonyRouting"
+
+cmf_menu:
+    persistence:
+        phpcr:
+            enabled: true
+            menu_basepath: ~

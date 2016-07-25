@@ -20,14 +20,17 @@ SWP\Bundle\TemplateEngineBundle\Model\ContainerWidget:
         widget:
             targetEntity: SWP\Bundle\TemplateEngineBundle\Model\WidgetModel
             inversedBy: containers
+            cascade: ["remove"]
             joinColumn:
                 name: widget_id
                 referencedColumnName: id
+                onDelete: CASCADE
         container:
             targetEntity: SWP\Bundle\TemplateEngineBundle\Model\Container
             inversedBy: widgets
             joinColumn:
                 name: container_id
                 referencedColumnName: id
+                onDelete: CASCADE
             gedmo:
                 - sortableGroup

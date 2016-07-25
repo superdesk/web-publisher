@@ -3,7 +3,7 @@
 /**
  * This file is part of the Superdesk Web Publisher Fixtures Bundle.
  *
- * Copyright 2015 Sourcefabric z.u. and contributors.
+ * Copyright 2015 Sourcefabric z.ú. and contributors.
  *
  * For the full copyright and license information, please see the
  * AUTHORS and LICENSE files distributed with this source code.
@@ -15,29 +15,29 @@ namespace SWP\Bundle\FixturesBundle\DataFixtures\ORM;
 
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
-use Doctrine\Common\Persistence\ObjectManager;
 use SWP\Bundle\FixturesBundle\AbstractFixture;
+use Doctrine\Common\Persistence\ObjectManager;
+use SWP\Bundle\TemplateEngineBundle\Model\Container;
 
-class LoadTenantsData extends AbstractFixture implements FixtureInterface, OrderedFixtureInterface
+class LoadContainersData extends AbstractFixture implements FixtureInterface, OrderedFixtureInterface
 {
     /**
      * {@inheritdoc}
      */
     public function load(ObjectManager $manager)
     {
-        $env = $this->getEnvironment();
-        $tenants = $this->loadFixtures(
-            '@SWPFixturesBundle/Resources/fixtures/ORM/'.$env.'/tenant.yml',
-            $manager
-        );
+        $containerEntity = new Container();
+        $containerEntity->setName('container_name');
+        $containerEntity->setStyles('border: solid 1px red');
+        $containerEntity->setCssClass('col-md-12');
+        $manager->persist($containerEntity);
+        $manager->flush();
 
-        foreach ($tenants as $tenant) {
-            $this->addReference($tenant->getName(), $tenant);
-        }
+        $this->addReference('container_name', $containerEntity);
     }
 
     public function getOrder()
     {
-        return 0;
+        return 1;
     }
 }

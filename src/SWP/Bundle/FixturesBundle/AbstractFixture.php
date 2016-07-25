@@ -56,7 +56,7 @@ abstract class AbstractFixture extends BaseFixture implements ContainerAwareInte
      */
     public function loadFixtures($paths, $manager, $parameters = [])
     {
-        Fixtures::load($this->locateResources($paths), $manager, $parameters);
+        return Fixtures::load($this->locateResources($paths), $manager, $parameters);
     }
 
     /**
