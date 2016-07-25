@@ -96,4 +96,14 @@ interface RouteInterface extends PersistableInterface
      * @return string
      */
     public function getName();
+
+    /**
+     * @return int
+     */
+    public function getCacheTimeInSeconds();
+
+    /**
+     * @param int $cacheTimeInSeconds
+     */
+    public function setCacheTimeInSeconds($cacheTimeInSeconds);
 }
