@@ -14,8 +14,6 @@
 namespace SWP\Bundle\MultiTenancyBundle\Command;
 
 use Doctrine\ORM\EntityManagerInterface;
-use SWP\Bundle\MultiTenancyBundle\Repository\TenantRepository;
-use SWP\Component\MultiTenancy\Model\Tenant;
 use SWP\Component\MultiTenancy\Model\TenantInterface;
 use SWP\Component\MultiTenancy\Repository\TenantRepositoryInterface;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
