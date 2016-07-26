@@ -21,9 +21,6 @@ use SWP\Component\MultiTenancy\Repository\TenantRepositoryInterface;
  */
 class TenantRepository extends EntityRepository implements TenantRepositoryInterface
 {
-    const DEFAULT_TENANT_NAME = 'Default tenant';
-    const DEFAULT_TENANT_SUBDOMAIN = 'default';
-
     /**
      * {@inheritdoc}
      */
@@ -48,10 +45,5 @@ class TenantRepository extends EntityRepository implements TenantRepositoryInter
             ->where('t.enabled = true')
             ->getQuery()
             ->getArrayResult();
-    }
-
-    public function findDefaultTenant()
-    {
-        return $this->findOneBy(['name' => self::DEFAULT_TENANT_NAME]);
     }
 }

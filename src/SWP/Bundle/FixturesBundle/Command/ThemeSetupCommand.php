@@ -126,19 +126,9 @@ EOT
                 }
             }
 
-            // Set theme_name for default tenant if the default theme is being set up, and the name is null
+            // Set theme_name for default tenant if the default theme is being set up
             if (self::DEFAULT_THEME_TITLE === $name) {
-                $tenantRepository = $this->getContainer()->get('swp_multi_tenancy.tenant_repository');
-                $defaultTenant = $tenantRepository->findDefaultTenant();
-                if (null === $defaultTenant) {
-                    throw new \Exception('No default tenant found, please first run php app/console swp:tenant:create --default');
-                }
-
-                if (null === $defaultTenant->getThemeName()) {
-                    $defaultTenant->setThemeName(self::DEFAULT_THEME_NAME);
-                    $em = $this->getContainer()->get('doctrine.orm.entity_manager');
-                    $em->flush();
-                }
+                $this->assignDefaultThemeDefaultTenant();
             }
 
             $fileSystem->mirror(
@@ -152,6 +142,25 @@ EOT
         } catch (\Exception $e) {
             $output->writeln('<error>Theme "'.$name.'" could not be setup!</error>');
             $output->writeln('<error>Stacktrace: '.$e->getMessage().'</error>');
+        }
+    }
+
+    /**
+     * @throws \Exception if there is no default tenant
+     */
+    private function assignDefaultThemeDefaultTenant()
+    {
+        $tenantRepository = $this->getContainer()->get('swp_multi_tenancy.tenant_repository');
+        $defaultTenant = $tenantRepository->findOneBy(['name' => TenantInterface::DEFAULT_TENANT_NAME]);
+        if (null === $defaultTenant) {
+            throw new \Exception('No default tenant found, please first run php app/console swp:tenant:create --default');
+        }
+
+        // Only assign default theme if no theme has yet been assigned to default tenant
+        if (null === $defaultTenant->getThemeName()) {
+            $defaultTenant->setThemeName(self::DEFAULT_THEME_NAME);
+            $em = $this->getContainer()->get('doctrine.orm.entity_manager');
+            $em->flush();
         }
     }
 }

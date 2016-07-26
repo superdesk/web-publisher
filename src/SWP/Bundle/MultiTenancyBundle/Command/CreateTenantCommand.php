@@ -66,8 +66,8 @@ EOT
         $disabled = $input->getOption('disabled');
 
         if ($default) {
-            $subdomain = TenantRepository::DEFAULT_TENANT_SUBDOMAIN;
-            $name = TenantRepository::DEFAULT_TENANT_NAME;
+            $subdomain = TenantInterface::DEFAULT_TENANT_SUBDOMAIN;
+            $name = TenantInterface::DEFAULT_TENANT_NAME;
         }
 
         $tenant = $this->getTenantRepository()->findBySubdomain($subdomain);
