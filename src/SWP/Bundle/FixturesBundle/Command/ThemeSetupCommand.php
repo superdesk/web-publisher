@@ -131,7 +131,7 @@ EOT
                 $tenantRepository = $this->getContainer()->get('swp_multi_tenancy.tenant_repository');
                 $defaultTenant = $tenantRepository->findDefaultTenant();
                 if (null === $defaultTenant) {
-                    throw new \Exception("No default tenant found, please first run php app/console swp:tenant:create --default");
+                    throw new \Exception('No default tenant found, please first run php app/console swp:tenant:create --default');
                 }
 
                 if (null === $defaultTenant->getThemeName()) {
