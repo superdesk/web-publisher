@@ -67,11 +67,13 @@ class RouteControllerTest extends WebTestCase
                 'type' => 'content',
                 'parent' => '/',
                 'content' => 'test-content-article',
+                'cacheTimeInSeconds' => 1,
             ],
         ]);
 
         $this->assertEquals(201, $client->getResponse()->getStatusCode());
-        $this->assertArraySubset(json_decode('{"id":"\/swp\/default\/routes\/simple-test-route","content":{"id":"\/swp\/default\/content\/test-content-article","title":"Test content article"},"static_prefix":null,"variable_pattern":null,"name":"simple-test-route","children":[],"id_prefix":"\/swp\/default\/routes","template_name":null,"type":"content","_links":{"self":{"href":"\/api\/v1\/content\/routes\/\/simple-test-route"}}}', true), json_decode($client->getResponse()->getContent(), true));
+        $content = json_decode($client->getResponse()->getContent(), true);
+        $this->assertArraySubset(json_decode('{"id":"\/swp\/default\/routes\/simple-test-route","content":{"id":"\/swp\/default\/content\/test-content-article","title":"Test content article"},"static_prefix":null,"variable_pattern":null,"name":"simple-test-route","children":[],"id_prefix":"\/swp\/default\/routes","template_name":null,"type":"content","_links":{"self":{"href":"\/api\/v1\/content\/routes\/\/simple-test-route"}}, "cache_time_in_seconds":1}', true), $content);
     }
 
     public function testCreateAndUpdateRoutesApi()
@@ -83,10 +85,11 @@ class RouteControllerTest extends WebTestCase
                 'type' => 'content',
                 'parent' => '/',
                 'content' => null,
+                'cacheTimeInSeconds' => 1,
             ],
         ]);
         $this->assertEquals(201, $client->getResponse()->getStatusCode());
-        $this->assertEquals('{"id":"\/swp\/default\/routes\/simple-test-route","content":null,"static_prefix":null,"variable_pattern":null,"name":"simple-test-route","children":[],"id_prefix":"\/swp\/default\/routes","template_name":null,"type":"content","_links":{"self":{"href":"\/api\/v1\/content\/routes\/\/simple-test-route"}}}', $client->getResponse()->getContent());
+        $this->assertEquals('{"id":"\/swp\/default\/routes\/simple-test-route","content":null,"static_prefix":null,"variable_pattern":null,"name":"simple-test-route","children":[],"id_prefix":"\/swp\/default\/routes","template_name":null,"type":"content","cache_time_in_seconds":1,"_links":{"self":{"href":"\/api\/v1\/content\/routes\/\/simple-test-route"}}}', $client->getResponse()->getContent());
 
         $client->request('PATCH', $this->router->generate('swp_api_content_update_routes', ['id' => 'simple-test-route']), [
             'route' => [
@@ -94,11 +97,11 @@ class RouteControllerTest extends WebTestCase
             ],
         ]);
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
-        $this->assertEquals('{"id":"\/swp\/default\/routes\/simple-test-route-new-name","content":null,"static_prefix":null,"variable_pattern":null,"name":"simple-test-route-new-name","children":[],"id_prefix":"\/swp\/default\/routes","template_name":null,"type":"content","_links":{"self":{"href":"\/api\/v1\/content\/routes\/\/simple-test-route-new-name"}}}', $client->getResponse()->getContent());
+        $this->assertEquals('{"id":"\/swp\/default\/routes\/simple-test-route-new-name","content":null,"static_prefix":null,"variable_pattern":null,"name":"simple-test-route-new-name","children":[],"id_prefix":"\/swp\/default\/routes","template_name":null,"type":"content","cache_time_in_seconds":1,"_links":{"self":{"href":"\/api\/v1\/content\/routes\/\/simple-test-route-new-name"}}}', $client->getResponse()->getContent());
 
         $client->request('GET', $this->router->generate('swp_api_content_list_routes'));
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
-        $this->assertEquals('{"page":1,"limit":10,"pages":1,"total":2,"_links":{"self":{"href":"\/api\/v1\/content\/routes\/?page=1&limit=10"},"first":{"href":"\/api\/v1\/content\/routes\/?page=1&limit=10"},"last":{"href":"\/api\/v1\/content\/routes\/?page=1&limit=10"}},"_embedded":{"_items":[{"id":"\/swp\/default\/routes\/homepage","content":null,"static_prefix":null,"variable_pattern":null,"name":"homepage","children":[],"id_prefix":"\/swp\/default\/routes","template_name":null,"type":"content","_links":{"self":{"href":"\/api\/v1\/content\/routes\/\/homepage"}}},{"id":"\/swp\/default\/routes\/simple-test-route-new-name","content":null,"static_prefix":null,"variable_pattern":null,"name":"simple-test-route-new-name","children":[],"id_prefix":"\/swp\/default\/routes","template_name":null,"type":"content","_links":{"self":{"href":"\/api\/v1\/content\/routes\/\/simple-test-route-new-name"}}}]}}', $client->getResponse()->getContent());
+        $this->assertEquals('{"page":1,"limit":10,"pages":1,"total":2,"_links":{"self":{"href":"\/api\/v1\/content\/routes\/?page=1&limit=10"},"first":{"href":"\/api\/v1\/content\/routes\/?page=1&limit=10"},"last":{"href":"\/api\/v1\/content\/routes\/?page=1&limit=10"}},"_embedded":{"_items":[{"id":"\/swp\/default\/routes\/homepage","content":null,"static_prefix":null,"variable_pattern":null,"name":"homepage","children":[],"id_prefix":"\/swp\/default\/routes","template_name":null,"type":"content","cache_time_in_seconds":0,"_links":{"self":{"href":"\/api\/v1\/content\/routes\/\/homepage"}}},{"id":"\/swp\/default\/routes\/simple-test-route-new-name","content":null,"static_prefix":null,"variable_pattern":null,"name":"simple-test-route-new-name","children":[],"id_prefix":"\/swp\/default\/routes","template_name":null,"type":"content","cache_time_in_seconds":1,"_links":{"self":{"href":"\/api\/v1\/content\/routes\/\/simple-test-route-new-name"}}}]}}', $client->getResponse()->getContent());
     }
 
     public function testCreateAndUpdateAndDeleteRoutesApi()
@@ -111,10 +114,11 @@ class RouteControllerTest extends WebTestCase
                 'type' => 'content',
                 'parent' => '/',
                 'content' => null,
+                'cacheTimeInSeconds' => 1,
             ],
         ]);
         $this->assertEquals(201, $client->getResponse()->getStatusCode());
-        $this->assertEquals('{"id":"\/swp\/default\/routes\/simple-test-route","content":null,"static_prefix":null,"variable_pattern":null,"name":"simple-test-route","children":[],"id_prefix":"\/swp\/default\/routes","template_name":null,"type":"content","_links":{"self":{"href":"\/api\/v1\/content\/routes\/\/simple-test-route"}}}', $client->getResponse()->getContent());
+        $this->assertEquals('{"id":"\/swp\/default\/routes\/simple-test-route","content":null,"static_prefix":null,"variable_pattern":null,"name":"simple-test-route","children":[],"id_prefix":"\/swp\/default\/routes","template_name":null,"type":"content","cache_time_in_seconds":1,"_links":{"self":{"href":"\/api\/v1\/content\/routes\/\/simple-test-route"}}}', $client->getResponse()->getContent());
 
         $client->request('POST', $this->router->generate('swp_api_content_create_routes'), [
             'route' => [
@@ -122,10 +126,11 @@ class RouteControllerTest extends WebTestCase
                 'type' => 'content',
                 'parent' => 'simple-test-route',
                 'content' => null,
+                'cacheTimeInSeconds' => 1,
             ],
         ]);
         $this->assertEquals(201, $client->getResponse()->getStatusCode());
-        $this->assertEquals('{"id":"\/swp\/default\/routes\/simple-test-route\/simple-child-test-route","content":null,"static_prefix":null,"variable_pattern":null,"name":"simple-child-test-route","children":[],"id_prefix":"\/swp\/default\/routes","template_name":null,"type":"content","_links":{"self":{"href":"\/api\/v1\/content\/routes\/\/simple-test-route\/simple-child-test-route"}}}', $client->getResponse()->getContent());
+        $this->assertEquals('{"id":"\/swp\/default\/routes\/simple-test-route\/simple-child-test-route","content":null,"static_prefix":null,"variable_pattern":null,"name":"simple-child-test-route","children":[],"id_prefix":"\/swp\/default\/routes","template_name":null,"type":"content","cache_time_in_seconds":1,"_links":{"self":{"href":"\/api\/v1\/content\/routes\/\/simple-test-route\/simple-child-test-route"}}}', $client->getResponse()->getContent());
 
         $client->request('DELETE', $this->router->generate('swp_api_content_delete_routes', ['id' => 'simple-test-route']));
         $this->assertEquals(409, $client->getResponse()->getStatusCode());
@@ -146,9 +151,10 @@ class RouteControllerTest extends WebTestCase
                 'type' => 'content',
                 'parent' => '/',
                 'template_name' => 'test.html.twig',
+                'cacheTimeInSeconds' => 1,
             ],
         ]);
         $this->assertEquals(201, $client->getResponse()->getStatusCode());
-        $this->assertEquals('{"id":"\/swp\/default\/routes\/simple-test-route","content":null,"static_prefix":null,"variable_pattern":null,"name":"simple-test-route","children":[],"id_prefix":"\/swp\/default\/routes","template_name":"test.html.twig","type":"content","_links":{"self":{"href":"\/api\/v1\/content\/routes\/\/simple-test-route"}}}', $client->getResponse()->getContent());
+        $this->assertEquals('{"id":"\/swp\/default\/routes\/simple-test-route","content":null,"static_prefix":null,"variable_pattern":null,"name":"simple-test-route","children":[],"id_prefix":"\/swp\/default\/routes","template_name":"test.html.twig","type":"content","cache_time_in_seconds":1,"_links":{"self":{"href":"\/api\/v1\/content\/routes\/\/simple-test-route"}}}', $client->getResponse()->getContent());
     }
 }

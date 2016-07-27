@@ -14,7 +14,6 @@
 namespace SWP\Bundle\MultiTenancyBundle\Command;
 
 use Doctrine\ORM\EntityManagerInterface;
-use SWP\Component\MultiTenancy\Model\Tenant;
 use SWP\Component\MultiTenancy\Model\TenantInterface;
 use SWP\Component\MultiTenancy\Repository\TenantRepositoryInterface;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
@@ -65,8 +64,8 @@ EOT
         $disabled = $input->getOption('disabled');
 
         if ($default) {
-            $subdomain = 'default';
-            $name = 'Default tenant';
+            $subdomain = TenantInterface::DEFAULT_TENANT_SUBDOMAIN;
+            $name = TenantInterface::DEFAULT_TENANT_NAME;
         }
 
         $tenant = $this->getTenantRepository()->findBySubdomain($subdomain);

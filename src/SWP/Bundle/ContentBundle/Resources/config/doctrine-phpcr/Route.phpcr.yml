@@ -7,3 +7,5 @@ SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\Route:
         type:
             property: route_type
             type: string
+        cacheTimeInSeconds:
+            type: int

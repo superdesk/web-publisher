@@ -2,6 +2,7 @@ parameters:
     swp_content.transformer.package_to_article.class: SWP\Bundle\ContentBundle\Transformer\PackageToArticleTransformer
     swp.service.route.class: SWP\Bundle\ContentBundle\Service\RouteService
     swp.service.article.class: SWP\Bundle\ContentBundle\Service\ArticleService
+    swp_content_bundle.listener.http_cache_header.class: SWP\Bundle\ContentBundle\EventListener\HttpCacheHeaderListener
 
 services:
     swp_template_engine.loader.article:
@@ -30,6 +31,11 @@ services:
         arguments:  ["@controller_resolver", "@router"]
         tags:
             - { name: kernel.event_listener, event: kernel.request, method: onKernelRequest }
+
+    swp_content_bundle.listener.http_cache_header:
+        class: '%swp_content_bundle.listener.http_cache_header.class%'
+        tags:
+            - { name: kernel.event_listener, event: kernel.response, method: onKernelResponse }
 
     swp_pagination_rep:
         alias: swp_content_bundle.factory.knp_paginator_representation

@@ -22,6 +22,9 @@ use SWP\Component\Common\Model\TimestampableInterface;
  */
 interface TenantInterface extends TimestampableInterface, EnableableInterface, SoftDeletableInterface
 {
+    const DEFAULT_TENANT_NAME = 'Default tenant';
+    const DEFAULT_TENANT_SUBDOMAIN = 'default';
+
     /**
      * Gets the tenant identifier.
      *

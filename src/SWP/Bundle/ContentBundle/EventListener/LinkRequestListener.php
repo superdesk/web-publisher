@@ -89,6 +89,11 @@ class LinkRequestListener
             }
             $resource = array_shift($linkParams);
             $resource = preg_replace('/<|>/', '', $resource);
+
+            // Assume that no resource is specified here if there is no path separator, because urlMatcher will return homepage
+            if (strpos($resource, '/') === false) {
+                continue;
+            }
             $tempRequest = Request::create($resource);
 
             try {
