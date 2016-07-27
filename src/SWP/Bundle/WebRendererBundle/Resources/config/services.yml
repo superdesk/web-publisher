@@ -3,6 +3,8 @@ parameters:
     cmf_routing.dynamic_router.class: SWP\Bundle\WebRendererBundle\Routing\MetaRouter
     # override Sylius default ThemeFactory
     sylius.factory.theme.class: SWP\Bundle\WebRendererBundle\Theme\Factory\ThemeFactory
+    # override Sylius default AssetsInstaller
+    sylius.theme.asset.assets_installer.class: SWP\Bundle\WebRendererBundle\Theme\Asset\AssetsInstaller
     swp_webrenderer.twig_extension.class: SWP\Bundle\WebRendererBundle\Twig\WebRendererExtension
     swp_webrenderer.routing.route_enhancer.class: SWP\Bundle\WebRendererBundle\Enhancer\RouteEnhancer
     swp_webrenderer.theme.resolver.template_name.class: SWP\Bundle\WebRendererBundle\Resolver\TemplateNameResolver
