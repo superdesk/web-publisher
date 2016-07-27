@@ -14,9 +14,9 @@
 namespace SWP\Bundle\WebRendererBundle\Theme\Asset;
 
 use Sylius\Bundle\ThemeBundle\Model\ThemeInterface;
-use Sylius\Bundle\ThemeBundle\Asset\Installer\AssetsInstaller as BaseAssetsInstaller;
+use Sylius\Bundle\ThemeBundle\Asset\Installer\OutputAwareAssetsInstaller;
 
-class AssetsInstaller extends BaseAssetsInstaller
+class AssetsInstaller extends OutputAwareAssetsInstaller
 {
     const ASSETS_DIRECTORY = '/public';
 
