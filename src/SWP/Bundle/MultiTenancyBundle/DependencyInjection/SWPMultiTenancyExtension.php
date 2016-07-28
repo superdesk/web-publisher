@@ -71,11 +71,16 @@ class SWPMultiTenancyExtension extends Extension
             );
         }
 
-        array_push($config['route_basepaths'], $config['content_basepath'], $config['menu_basepath']);
+        array_push($config['route_basepaths'], $config['content_basepath']);
 
         $container->setParameter(
-            $this->getAlias().'.persistence.phpcr.base_paths',
+            $this->getAlias().'.persistence.phpcr.homepage_base_paths',
             $config['route_basepaths']
+        );
+
+        $container->setParameter(
+            $this->getAlias().'.persistence.phpcr.other_base_paths',
+            [$config['menu_basepath']]
         );
 
         $loader->load('phpcr.yml');
