@@ -15,6 +15,8 @@ namespace SWP\Bundle\WebRendererBundle\Theme\Asset;
 
 use Sylius\Bundle\ThemeBundle\Model\ThemeInterface;
 use Sylius\Bundle\ThemeBundle\Asset\Installer\OutputAwareAssetsInstaller;
+use Symfony\Component\Finder\Finder;
+use Symfony\Component\Finder\SplFileInfo;
 
 class AssetsInstaller extends OutputAwareAssetsInstaller
 {
@@ -25,9 +27,14 @@ class AssetsInstaller extends OutputAwareAssetsInstaller
      */
     public function installAssets($targetDir, $symlinkMask)
     {
-        $effectiveSymlinkMask = parent::installAssets($targetDir, $symlinkMask);
+        $targetDir = rtrim($targetDir, '/').'/theme/';
 
         $this->installGlobalAssets($targetDir, $symlinkMask);
+
+        $effectiveSymlinkMask = $symlinkMask;
+        foreach ($this->kernel->getBundles() as $bundle) {
+            $effectiveSymlinkMask = min($effectiveSymlinkMask, $this->installBundleAssets($bundle, $targetDir, $symlinkMask));
+        }
 
         return $effectiveSymlinkMask;
     }
@@ -38,9 +45,8 @@ class AssetsInstaller extends OutputAwareAssetsInstaller
      *
      * @return mixed
      */
-    protected function installGlobalAssets($targetDir, $symlinkMask)
+    private function installGlobalAssets($targetDir, $symlinkMask)
     {
-        $targetDir = rtrim($targetDir, '/').'/bundles/';
         $effectiveSymlinkMask = $symlinkMask;
 
         foreach ($this->themeRepository->findAll() as $theme) {
@@ -55,16 +61,6 @@ class AssetsInstaller extends OutputAwareAssetsInstaller
         }
 
         return $effectiveSymlinkMask;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function installThemedBundleAssets(ThemeInterface $theme, $originDir, $targetDir, $symlinkMask)
-    {
-        $this->filesystem->remove($this->pathResolver->resolve($targetDir, $theme));
-
-        return parent::installThemedBundleAssets($theme, $originDir, $targetDir, $symlinkMask);
     }
 
     /**
@@ -84,5 +80,40 @@ class AssetsInstaller extends OutputAwareAssetsInstaller
         }
 
         return $sources;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function installThemedBundleAssets(ThemeInterface $theme, $originDir, $targetDir, $symlinkMask)
+    {
+        $effectiveSymlinkMask = $symlinkMask;
+        $finder = new Finder();
+        $finder->sortByName()->ignoreDotFiles(false)->in($originDir);
+
+        /** @var SplFileInfo[] $finder */
+        foreach ($finder as $originFile) {
+            $targetFile = $targetDir.'/'.$originFile->getRelativePathname();
+            $targetFile = $this->pathResolver->resolve($targetFile, $theme);
+
+            $this->filesystem->mkdir(dirname($targetFile));
+
+            $effectiveSymlinkMask = min(
+                $effectiveSymlinkMask,
+                $this->installAsset($originFile->getPathname(), $targetFile, $symlinkMask)
+            );
+        }
+
+        return $effectiveSymlinkMask;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function installVanillaBundleAssets($originDir, $targetDir, $symlinkMask)
+    {
+        $targetDir = str_replace('theme/', 'bundles/', $targetDir);
+
+        return parent::installVanillaBundleAssets($originDir, $targetDir, $symlinkMask);
     }
 }
