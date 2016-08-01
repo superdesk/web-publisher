@@ -38,6 +38,15 @@ class RandomStringGeneratorSpec extends ObjectBehavior
         $this->generate(4)->shouldHaveLength(4);
     }
 
+    function it_should_throw_exception_when_empty_length()
+    {
+        $this->shouldThrow(\InvalidArgumentException::class)
+            ->during('generate', [null]);
+
+        $this->shouldThrow(\InvalidArgumentException::class)
+            ->during('generate', ['']);
+    }
+
     public function getMatchers()
     {
         return [
