@@ -64,7 +64,7 @@ class HttpCacheHeaderListenerTest extends WebTestCase
     private function getHeadersFromResponse($name)
     {
         $documentManager = $this->getContainer()->get('document_manager');
-        $id = 'swp/default/routes/'.$name;
+        $id = 'swp/123abc/routes/'.$name;
         $route = $documentManager->find('SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\Route', $id);
 
         $this->assertNotNull($route);

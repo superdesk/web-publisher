@@ -22,6 +22,7 @@ use SWP\Bundle\FixturesBundle\AbstractFixture;
 class LoadSeparateArticlesData extends AbstractFixture implements FixtureInterface
 {
     private $manager;
+    private $defaultTenantPrefix;
 
     /**
      * {@inheritdoc}
@@ -30,6 +31,8 @@ class LoadSeparateArticlesData extends AbstractFixture implements FixtureInterfa
     {
         $this->manager = $manager;
         $env = $this->getEnvironment();
+        
+        $this->defaultTenantPrefix = $this->getTenantPrefix();
 
         $this->loadArticles($env, $manager);
 
@@ -47,13 +50,13 @@ class LoadSeparateArticlesData extends AbstractFixture implements FixtureInterfa
                 [
                     'title' => 'Test news article',
                     'content' => 'Test news article content',
-                    'parent' => '/swp/default/content',
+                    'parent' => $this->defaultTenantPrefix.'/content',
                     'locale' => 'en',
                 ],
                 [
                     'title' => 'Test content article',
                     'content' => 'Test article content',
-                    'parent' => '/swp/default/content',
+                    'parent' => $this->defaultTenantPrefix.'/content',
                     'locale' => 'en',
                 ],
             ],

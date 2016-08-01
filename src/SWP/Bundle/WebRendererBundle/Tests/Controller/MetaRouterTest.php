@@ -44,7 +44,7 @@ class MetaRouterTest extends WebTestCase
         $router = $this->getContainer()->get('cmf_routing.dynamic_router');
         $this->assertEquals(
             '/news/test-news-article',
-            $router->generate($metaLoader->load('article', ['contentPath' => '/swp/default/content/test-news-article']))
+            $router->generate($metaLoader->load('article', ['contentPath' => '/swp/123abc/content/test-news-article']))
         );
     }
 }

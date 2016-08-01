@@ -34,7 +34,7 @@ class LoadRoutesData extends AbstractFixture implements FixtureInterface
     {
         $env = $this->getEnvironment();
         if ('test' === $env) {
-            $parent = $manager->find(null, '/swp/default/routes');
+            $parent = $manager->find(null, $this->getTenantPrefix().'/routes');
             $this->loadRoute($manager, ['name' => self::TEST_NO_CACHE_ROUTE_NAME], $parent);
             $this->loadRoute($manager, ['name' => self::TEST_CACHE_ROUTE_NAME, 'cacheTimeInSeconds' => self::TEST_CACHE_TIME], $parent);
             $manager->flush();

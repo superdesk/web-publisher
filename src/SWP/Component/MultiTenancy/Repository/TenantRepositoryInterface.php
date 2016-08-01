@@ -32,6 +32,17 @@ interface TenantRepositoryInterface
     public function findBySubdomain($subdomain);
 
     /**
+     * Finds the tenant by code.
+     *
+     * @param string $code The code
+     *
+     * @throws \Doctrine\ORM\NonUniqueResultException
+     *
+     * @return TenantInterface|null The instance of TenantInterface or null
+     */
+    public function findByCode($code);
+
+    /**
      * Finds all available tenants.
      *
      * @return array An array of tenants

@@ -23,6 +23,8 @@ use SWP\Bundle\ContentBundle\Model\ArticleInterface;
 class LoadArticlesData extends AbstractFixture implements FixtureInterface
 {
     private $manager;
+    private $defaultTenantPrefix;
+    private $firstTenantPrefix;
 
     /**
      * {@inheritdoc}
@@ -31,6 +33,9 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface
     {
         $this->manager = $manager;
         $env = $this->getEnvironment();
+
+        $this->defaultTenantPrefix = $this->getTenantPrefix();
+        $this->firstTenantPrefix = $this->getTenantPrefix('client1');
 
         $this->loadRoutes($env, $manager);
         $this->loadArticles($env, $manager);
@@ -44,7 +49,7 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface
         $routes = [
             'dev' => [
                 [
-                    'parent' => '/swp/default/routes',
+                    'parent' => $this->defaultTenantPrefix.'/routes',
                     'name' => 'news',
                     'variablePattern' => '/{slug}',
                     'requirements' => [
@@ -53,24 +58,24 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface
                     'type' => 'collection',
                 ],
                 [
-                    'parent' => '/swp/default/routes',
+                    'parent' => $this->defaultTenantPrefix.'/routes',
                     'name' => 'articles',
                     'type' => 'content',
                 ],
                 [
-                    'parent' => '/swp/default/routes/articles',
+                    'parent' => $this->defaultTenantPrefix.'/routes/articles',
                     'name' => 'get-involved',
                     'type' => 'content',
                 ],
                 [
-                    'parent' => '/swp/default/routes/articles',
+                    'parent' => $this->defaultTenantPrefix.'/routes/articles',
                     'name' => 'features',
                     'type' => 'content',
                 ],
             ],
             'test' => [
                 [
-                    'parent' => '/swp/default/routes',
+                    'parent' => $this->defaultTenantPrefix.'/routes',
                     'name' => 'news',
                     'variablePattern' => '/{slug}',
                     'requirements' => [
@@ -79,7 +84,7 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface
                     'type' => 'collection',
                 ],
                 [
-                    'parent' => '/swp/client1/routes',
+                    'parent' => $this->firstTenantPrefix.'/routes',
                     'name' => 'news',
                     'variablePattern' => '/{slug}',
                     'requirements' => [
@@ -88,27 +93,27 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface
                     'type' => 'collection',
                 ],
                 [
-                    'parent' => '/swp/default/routes',
+                    'parent' => $this->defaultTenantPrefix.'/routes',
                     'name' => 'articles',
                     'type' => 'content',
                 ],
                 [
-                    'parent' => '/swp/default/routes/articles',
+                    'parent' => $this->defaultTenantPrefix.'/routes/articles',
                     'name' => 'features',
                     'type' => 'content',
                 ],
                 [
-                    'parent' => '/swp/client1/routes',
+                    'parent' => $this->firstTenantPrefix.'/routes',
                     'name' => 'features',
                     'type' => 'content',
                 ],
                 [
-                    'parent' => '/swp/default/routes',
+                    'parent' => $this->defaultTenantPrefix.'/routes',
                     'name' => 'homepage',
                     'type' => 'content',
                 ],
                 [
-                    'parent' => '/swp/client1/routes',
+                    'parent' => $this->firstTenantPrefix.'/routes',
                     'name' => 'homepage',
                     'type' => 'content',
                 ],
@@ -151,30 +156,30 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface
         $routes = [
             'dev' => [
                 [
-                    'path' => '/swp/default/routes/news',
-                    'content' => '/swp/default/content/features',
+                    'path' => $this->defaultTenantPrefix.'/routes/news',
+                    'content' => $this->defaultTenantPrefix.'/content/features',
                 ],
                 [
-                    'path' => '/swp/default/routes/articles/features',
-                    'content' => '/swp/default/content/features',
+                    'path' => $this->defaultTenantPrefix.'/routes/articles/features',
+                    'content' => $this->defaultTenantPrefix.'/content/features',
                 ],
                 [
-                    'path' => '/swp/default/routes/articles/get-involved',
-                    'content' => '/swp/default/content/get-involved',
+                    'path' => $this->defaultTenantPrefix.'/routes/articles/get-involved',
+                    'content' => $this->defaultTenantPrefix.'/content/get-involved',
                 ],
             ],
             'test' => [
                 [
-                    'path' => '/swp/default/routes/news',
-                    'content' => '/swp/default/content/test-news-article',
+                    'path' => $this->defaultTenantPrefix.'/routes/news',
+                    'content' => $this->defaultTenantPrefix.'/content/test-news-article',
                 ],
                 [
-                    'path' => '/swp/default/routes/articles/features',
-                    'content' => '/swp/default/content/features',
+                    'path' => $this->defaultTenantPrefix.'/routes/articles/features',
+                    'content' => $this->defaultTenantPrefix.'/content/features',
                 ],
                 [
-                    'path' => '/swp/client1/routes/features',
-                    'content' => '/swp/client1/content/features-client1',
+                    'path' => $this->firstTenantPrefix.'/routes/features',
+                    'content' => $this->firstTenantPrefix.'/content/features-client1',
                 ],
             ],
         ];
@@ -208,29 +213,29 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface
                 [
                     'title' => 'Test news article',
                     'content' => 'Test news article content',
-                    'route' => '/swp/default/routes/news',
-                    'parent' => '/swp/default/content',
+                    'route' => $this->defaultTenantPrefix.'/routes/news',
+                    'parent' => $this->defaultTenantPrefix.'/content',
                     'locale' => 'en',
                 ],
                 [
                     'title' => 'Test article',
                     'content' => 'Test article content',
-                    'route' => '/swp/default/routes/news',
-                    'parent' => '/swp/default/content',
+                    'route' => $this->defaultTenantPrefix.'/routes/news',
+                    'parent' => $this->defaultTenantPrefix.'/content',
                     'locale' => 'en',
                 ],
                 [
                     'title' => 'Features',
                     'content' => 'Features content',
-                    'route' => '/swp/default/routes/news',
-                    'parent' => '/swp/default/content',
+                    'route' => $this->defaultTenantPrefix.'/routes/news',
+                    'parent' => $this->defaultTenantPrefix.'/content',
                     'locale' => 'en',
                 ],
                 [
                     'title' => 'Features client1',
                     'content' => 'Features client1 content',
-                    'route' => '/swp/client1/routes/news',
-                    'parent' => '/swp/client1/content',
+                    'route' => $this->firstTenantPrefix.'/routes/news',
+                    'parent' => $this->firstTenantPrefix.'/content',
                     'locale' => 'en',
                 ],
             ],

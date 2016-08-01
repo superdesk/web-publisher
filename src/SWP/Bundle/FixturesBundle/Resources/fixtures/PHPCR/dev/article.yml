@@ -2,18 +2,18 @@ SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\Article:
     article{1..5}:
         title: "<catchPhrase()>"
         body: "<paragraph(20)>"
-        parent: <find(null, '/swp/default/content')>
-        route: "/swp/default/routes/news"
+        parent: <find(null, '/content')>
+        route: "<generatePath('/routes/news')>"
         locale: "en"
     article_features:
         title: "Features"
         body: "<paragraph(20)>"
-        parent: <find(null, '/swp/default/content')>
-        route: "/swp/default/routes/articles/features"
+        parent: <find(null, '/content')>
+        route: "<generatePath('/routes/articles/features')>"
         locale: "en"
     article_get_invlolved:
         title: "Get Involved"
         body: "<paragraph(20)>"
-        parent: <find(null, '/swp/default/content')>
-        route: "/swp/default/routes/articles"
+        parent: <find(null, '/content')>
+        route: "<generatePath('/routes/articles')>"
         locale: "en"

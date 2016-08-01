@@ -13,6 +13,9 @@
  */
 namespace SWP\Component\MultiTenancy\Factory;
 
+use SWP\Component\Common\Generator\GeneratorInterface;
+use SWP\Component\MultiTenancy\Model\TenantInterface;
+
 /**
  * Class TenantFactory.
  */
@@ -24,13 +27,20 @@ class TenantFactory implements TenantFactoryInterface
     protected $className;
 
     /**
+     * @var GeneratorInterface
+     */
+    protected $generator;
+
+    /**
      * TenantFactory constructor.
      *
-     * @param string $className
+     * @param string             $className
+     * @param GeneratorInterface $generator
      */
-    public function __construct($className)
+    public function __construct($className, GeneratorInterface $generator)
     {
         $this->className = $className;
+        $this->generator = $generator;
     }
 
     /**
@@ -38,6 +48,10 @@ class TenantFactory implements TenantFactoryInterface
      */
     public function create()
     {
-        return new $this->className();
+        /** @var TenantInterface $tenant */
+        $tenant = new $this->className();
+        $tenant->setCode($this->generator->generate(6));
+
+        return $tenant;
     }
 }

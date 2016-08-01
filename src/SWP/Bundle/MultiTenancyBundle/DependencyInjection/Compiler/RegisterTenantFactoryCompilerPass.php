@@ -17,6 +17,7 @@ use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Parameter;
+use Symfony\Component\DependencyInjection\Reference;
 
 /**
  * Class RegisterTenantFactoryCompilerPass.
@@ -36,6 +37,7 @@ class RegisterTenantFactoryCompilerPass implements CompilerPassInterface
             $container->getParameter('swp_multi_tenancy.factory.tenant.class'),
             [
                 new Parameter('swp_multi_tenancy.tenant.class'),
+                new Reference('swp_multi_tenancy.random_string_generator'),
             ]
         );
 

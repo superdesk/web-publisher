@@ -3,7 +3,9 @@ SWP\Bundle\WebRendererBundle\Model\Tenant:
         name: "Default tenant"
         subdomain: "default"
         themeName: "swp/test-theme"
+        code: "123abc"
     tenant2:
         name: "<company()>"
         subdomain: "client1"
         themeName: "swp/test-theme"
+        code: "456def"

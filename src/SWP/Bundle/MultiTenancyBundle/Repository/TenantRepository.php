@@ -38,6 +38,20 @@ class TenantRepository extends EntityRepository implements TenantRepositoryInter
     /**
      * {@inheritdoc}
      */
+    public function findByCode($code)
+    {
+        return $this
+            ->createQueryBuilder('t')
+            ->where('t.code = :code')
+            ->andWhere('t.enabled = true')
+            ->setParameter('code', $code)
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function findAvailableTenants()
     {
         return $this

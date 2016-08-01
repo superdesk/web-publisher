@@ -97,20 +97,20 @@ class PHPCRBasePathsInitializer implements InitializerInterface
     {
         $basePaths = [];
         foreach ($tenants as $tenant) {
-            $subdomain = $tenant['subdomain'];
-            $site = $this->dm->find($this->siteClass, $this->pathBuilder->build('/', $subdomain));
+            $code = $tenant['code'];
+            $site = $this->dm->find($this->siteClass, $this->pathBuilder->build('/', $code));
             if (!$site) {
                 $site = new $this->siteClass();
                 if (!$site instanceof SiteDocumentInterface) {
                     throw new UnexpectedTypeException($site, 'SWP\Component\MultiTenancy\Model\SiteDocumentInterface');
                 }
 
-                $site->setId((string) $this->pathBuilder->build('/', $subdomain));
+                $site->setId((string) $this->pathBuilder->build('/', $code));
                 $this->dm->persist($site);
             }
 
             foreach ($this->paths as $path) {
-                $basePaths[] = $this->pathBuilder->build($path, $subdomain);
+                $basePaths[] = $this->pathBuilder->build($path, $code);
             }
         }
 
@@ -139,7 +139,7 @@ class PHPCRBasePathsInitializer implements InitializerInterface
 
         $session->save();
         foreach ($tenants as $tenant) {
-            $site = $this->dm->find($this->siteClass, $this->pathBuilder->build('/', $tenant['subdomain']));
+            $site = $this->dm->find($this->siteClass, $this->pathBuilder->build('/', $tenant['code']));
             if (null !== $site && null === $site->getHomepage()) {
                 $site->setHomepage($route);
             }

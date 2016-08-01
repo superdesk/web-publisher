@@ -3,7 +3,7 @@ parameters:
     swp_multi_tenancy.tenant_resolver.class: SWP\Component\MultiTenancy\Resolver\TenantResolver
     swp_multi_tenancy.tenant_context.class: SWP\Bundle\MultiTenancyBundle\Context\TenantContext
     swp_multi_tenancy.tenant_provider.class: SWP\Component\MultiTenancy\Provider\TenantProvider
-
+    swp_multi_tenancy.random_string_generator.class: SWP\Component\Common\Generator\RandomStringGenerator
     # listeners
     swp_multi_tenancy.tenant_listener.class: SWP\Bundle\MultiTenancyBundle\EventListener\TenantableListener
     swp_multi_tenancy.tenant_subscriber.class: SWP\Bundle\MultiTenancyBundle\EventListener\TenantSubscriber
@@ -55,3 +55,7 @@ services:
             - '@service_container'
         tags:
             - { name: doctrine.event_subscriber }
+
+    swp_multi_tenancy.random_string_generator:
+        class: '%swp_multi_tenancy.random_string_generator.class%'
+

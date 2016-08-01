@@ -15,7 +15,7 @@ namespace SWP\Component\Common\Model;
 
 use SWP\Component\MultiTenancy\Model\TenantInterface as BaseTenantInterface;
 
-interface TenantInterface extends BaseTenantInterface
+interface ThemeAwareTenantInterface extends BaseTenantInterface
 {
     /**
      * @return string

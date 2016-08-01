@@ -24,22 +24,25 @@ class LoadSitesData extends AbstractFixture implements FixtureInterface
      */
     public function load(ObjectManager $manager)
     {
-        $site = $manager->find('SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\Site', '/swp/default');
+        $defaultTenantPrefix = $this->getTenantPrefix();
+        $firstTenantPrefix = $this->getTenantPrefix('client1');
+
+        $site = $manager->find('SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\Site', $defaultTenantPrefix);
 
         if (!$site) {
-            throw new \Exception('Could not find /swp/default document!');
+            throw new \Exception(sprintf('Could not find %s document!', $defaultTenantPrefix));
         }
 
-        $page = $manager->find('SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\Route', '/swp/default/routes/homepage');
+        $page = $manager->find('SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\Route', $defaultTenantPrefix.'/routes/homepage');
         $site->setHomepage($page);
 
-        $site = $manager->find('SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\Site', '/swp/client1');
+        $site = $manager->find('SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\Site', $firstTenantPrefix);
 
         if (!$site) {
-            throw new \Exception('Could not find /swp/client1 document!');
+            throw new \Exception(sprintf('Could not find %s document!', $firstTenantPrefix));
         }
 
-        $page2 = $manager->find('SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\Route', '/swp/client1/routes/homepage');
+        $page2 = $manager->find('SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\Route', $firstTenantPrefix.'/routes/homepage');
         $site->setHomepage($page2);
         $manager->flush();
     }

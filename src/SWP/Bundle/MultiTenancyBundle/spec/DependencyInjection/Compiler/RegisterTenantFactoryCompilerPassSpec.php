@@ -18,6 +18,7 @@ use SWP\Bundle\MultiTenancyBundle\DependencyInjection\Compiler\RegisterTenantFac
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Parameter;
+use Symfony\Component\DependencyInjection\Reference;
 
 /**
  * @mixin RegisterTenantFactoryCompilerPass
@@ -43,6 +44,7 @@ class RegisterTenantFactoryCompilerPassSpec extends ObjectBehavior
             'SWP\Component\MultiTenancy\Factory\TenantFactory',
             [
                 new Parameter('swp_multi_tenancy.tenant.class'),
+                new Reference('swp_multi_tenancy.random_string_generator'),
             ]
         );
 
@@ -60,6 +62,7 @@ class RegisterTenantFactoryCompilerPassSpec extends ObjectBehavior
             'SWP\Component\MultiTenancy\Factory\TenantFactory',
             [
                 new Parameter('swp_multi_tenancy.tenant.class'),
+                new Reference('swp_multi_tenancy.random_string_generator'),
             ]
         );
 

@@ -15,7 +15,7 @@ namespace SWP\Bundle\WebRendererBundle\Theme;
 
 use SWP\Bundle\WebRendererBundle\Exception\NoThemeException;
 use SWP\Bundle\WebRendererBundle\Theme\Helper\ThemeHelper;
-use SWP\Component\Common\Model\TenantInterface;
+use SWP\Component\Common\Model\ThemeAwareTenantInterface;
 use SWP\Component\MultiTenancy\Context\TenantContextInterface;
 use Sylius\Bundle\ThemeBundle\Context\ThemeContextInterface;
 use Sylius\Bundle\ThemeBundle\Repository\ThemeRepositoryInterface;
@@ -54,10 +54,10 @@ final class TenantAwareThemeContext implements ThemeContextInterface
      */
     public function getTheme()
     {
-        /* @var TenantInterface $tenant */
+        /* @var ThemeAwareTenantInterface $tenant */
         $tenant = $this->tenantContext->getTenant();
-
         $theme = $this->themeRepository->findOneByName($this->resolveThemeName($tenant));
+
         if (null === $theme) {
             throw new NoThemeException();
         }
@@ -65,11 +65,11 @@ final class TenantAwareThemeContext implements ThemeContextInterface
         return $theme;
     }
 
-    private function resolveThemeName(TenantInterface $tenant)
+    private function resolveThemeName(ThemeAwareTenantInterface $tenant)
     {
         $themeName = $tenant->getThemeName();
         if (null !== $themeName) {
-            return $tenant->getThemeName().ThemeHelper::SUFFIX_SEPARATOR.$tenant->getSubdomain();
+            return $tenant->getThemeName().ThemeHelper::SUFFIX_SEPARATOR.$tenant->getCode();
         }
 
         return $themeName;

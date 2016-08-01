@@ -13,6 +13,9 @@ SWP\Component\MultiTenancy\Model\Tenant:
             id: true
             generator:
                 strategy: AUTO
+    indexes:
+        search_idx:
+          columns: [ subdomain, code ]
     fields:
         name:
             type: string
@@ -21,6 +24,10 @@ SWP\Component\MultiTenancy\Model\Tenant:
         subdomain:
             type: string
             length: 255
+            unique: true
+        code:
+            type: string
+            unique: true
         enabled:
             type: boolean
         createdAt:

@@ -19,26 +19,30 @@ use Doctrine\ORM\Mapping\ClassMetadata;
 use Doctrine\ORM\QueryBuilder;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
+use SWP\Bundle\MultiTenancyBundle\Repository\TenantRepository;
 
+/**
+ * @mixin TenantRepository
+ */
 class TenantRepositorySpec extends ObjectBehavior
 {
-    public function let(EntityManager $entityManager, ClassMetadata $classMetadata)
+    function let(EntityManager $entityManager, ClassMetadata $classMetadata)
     {
         $this->beConstructedWith($entityManager, $classMetadata);
     }
 
-    public function it_is_initializable()
+    function it_is_initializable()
     {
         $this->shouldHaveType('SWP\Bundle\MultiTenancyBundle\Repository\TenantRepository');
     }
 
-    public function it_is_a_repository()
+    function it_is_a_repository()
     {
         $this->shouldHaveType('Doctrine\ORM\EntityRepository');
         $this->shouldImplement('SWP\Component\MultiTenancy\Repository\TenantRepositoryInterface');
     }
 
-    public function it_finds_by_subdomain($entityManager, QueryBuilder $builder, AbstractQuery $query)
+    function it_finds_by_subdomain($entityManager, QueryBuilder $builder, AbstractQuery $query)
     {
         $entityManager->createQueryBuilder()->shouldBeCalled()->willReturn($builder);
         $builder->select('t')->shouldBeCalled()->willReturn($builder);
@@ -52,7 +56,21 @@ class TenantRepositorySpec extends ObjectBehavior
         $this->findBySubdomain('example1');
     }
 
-    public function it_finds_available_tenants($entityManager, QueryBuilder $builder, AbstractQuery $query)
+    function it_finds_by_code($entityManager, QueryBuilder $builder, AbstractQuery $query)
+    {
+        $entityManager->createQueryBuilder()->shouldBeCalled()->willReturn($builder);
+        $builder->select('t')->shouldBeCalled()->willReturn($builder);
+        $builder->from(Argument::any(), 't', Argument::cetera())->shouldBeCalled()->willReturn($builder);
+        $builder->where('t.code = :code')->shouldBeCalled()->willReturn($builder);
+        $builder->andWhere('t.enabled = true')->shouldBeCalled()->willReturn($builder);
+        $builder->setParameter('code', '123abc')->shouldBeCalled()->willReturn($builder);
+        $builder->getQuery()->shouldBeCalled()->willReturn($query);
+        $query->getOneOrNullResult()->shouldBeCalled();
+
+        $this->findByCode('123abc');
+    }
+
+    function it_finds_available_tenants($entityManager, QueryBuilder $builder, AbstractQuery $query)
     {
         $entityManager->createQueryBuilder()->willReturn($builder);
         $builder->select('t')->willReturn($builder);

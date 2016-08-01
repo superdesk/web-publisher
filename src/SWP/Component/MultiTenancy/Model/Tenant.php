@@ -37,6 +37,11 @@ class Tenant implements TenantInterface
     protected $name;
 
     /**
+     * @var string
+     */
+    protected $code;
+
+    /**
      * Tenant constructor.
      */
     public function __construct()
@@ -90,6 +95,26 @@ class Tenant implements TenantInterface
     public function setName($name)
     {
         $this->name = $name;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getCode()
+    {
+        return $this->code;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setCode($code)
+    {
+        if (null !== $this->code) {
+            throw new \LogicException('Tenant\'s code is already set. Can not change it.');
+        }
+
+        $this->code = $code;
     }
 
     /**

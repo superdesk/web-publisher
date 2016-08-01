@@ -14,6 +14,7 @@
 namespace SWP\Bundle\MultiTenancyBundle\Tests\Command;
 
 use SWP\Bundle\MultiTenancyBundle\Command\CreateTenantCommand;
+use SWP\Component\Common\Generator\RandomStringGenerator;
 use SWP\Component\MultiTenancy\Factory\TenantFactory;
 use SWP\Component\MultiTenancy\Model\Tenant;
 use Symfony\Component\Console\Application;
@@ -32,7 +33,7 @@ class CreateTenantCommandTest extends \PHPUnit_Framework_TestCase
         $application->add(new CreateTenantCommand());
         $this->command = $application->get('swp:tenant:create');
         $this->dialog = $this->command->getHelper('dialog');
-        $this->factory = new TenantFactory('SWP\Component\MultiTenancy\Model\Tenant');
+        $this->factory = new TenantFactory('SWP\Component\MultiTenancy\Model\Tenant', new RandomStringGenerator());
     }
 
     /**

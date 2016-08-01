@@ -98,7 +98,7 @@ class TenantAwarePathBuilder implements TenantAwarePathBuilderInterface
         }
 
         $tenant = $this->tenantContext->getTenant();
-        $this->rootPath = $this->absolutizePath($tenant->getSubdomain());
+        $this->rootPath = $this->absolutizePath($tenant->getCode());
         $this->latestRootPath = $this->rootPath;
     }
 

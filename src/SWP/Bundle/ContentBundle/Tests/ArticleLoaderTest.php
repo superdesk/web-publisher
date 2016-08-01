@@ -53,11 +53,11 @@ class ArticleLoaderTest extends WebTestCase
         $this->assertTrue($articleLoader->isSupported('articles'));
         $this->assertFalse($articleLoader->isSupported('items'));
 
-        $article = $articleLoader->load('article', ['contentPath' => '/swp/default/content/test-article']);
+        $article = $articleLoader->load('article', ['contentPath' => '/swp/123abc/content/test-article']);
         $this->assertInstanceOf('SWP\Component\TemplatesSystem\Gimme\Meta\Meta', $article);
 
-        $this->assertFalse($articleLoader->load('article', ['contentPath' => '/swp/default/content/test-articles']));
-        $this->assertFalse($articleLoader->load('article', ['contentPath' => '/swp/default/content/test-article'], LoaderInterface::COLLECTION));
+        $this->assertFalse($articleLoader->load('article', ['contentPath' => '/swp/123abc/content/test-articles']));
+        $this->assertFalse($articleLoader->load('article', ['contentPath' => '/swp/123abc/content/test-article'], LoaderInterface::COLLECTION));
 
         $this->assertTrue(count($articleLoader->load('article', ['route' => '/news'], LoaderInterface::COLLECTION)) == 3);
         $this->assertFalse($articleLoader->load('article', ['route' => '/news1'], LoaderInterface::COLLECTION));

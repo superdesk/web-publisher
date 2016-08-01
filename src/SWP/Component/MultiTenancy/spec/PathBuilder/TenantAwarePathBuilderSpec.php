@@ -24,6 +24,7 @@ class TenantAwarePathBuilderSpec extends ObjectBehavior
         $currentTenant = new Tenant();
         $currentTenant->setName('Default');
         $currentTenant->setSubdomain('default');
+        $currentTenant->setCode('code');
         $tenantContext->getTenant()->willReturn($currentTenant);
 
         $this->beConstructedWith($tenantContext, '/swp');
@@ -41,10 +42,10 @@ class TenantAwarePathBuilderSpec extends ObjectBehavior
 
     public function it_should_build_tenant_aware_path()
     {
-        $this->build('routes/articles')->shouldReturn('/swp/default/routes/articles');
-        $this->build('/routes/articles')->shouldReturn('/swp/default');
-        $this->build('routes')->shouldReturn('/swp/default/routes');
-        $this->build('/')->shouldReturn('/swp/default');
+        $this->build('routes/articles')->shouldReturn('/swp/code/routes/articles');
+        $this->build('/routes/articles')->shouldReturn('/swp/code');
+        $this->build('routes')->shouldReturn('/swp/code/routes');
+        $this->build('/')->shouldReturn('/swp/code');
         $this->build('routes', 'context')->shouldReturn('/swp/context/routes');
     }
 
@@ -92,8 +93,8 @@ class TenantAwarePathBuilderSpec extends ObjectBehavior
 
     public function it_should_build_multiple_tenant_aware_paths()
     {
-        $this->build(['routes', 'routes1'])->shouldReturn(['/swp/default/routes', '/swp/default/routes1']);
-        $this->build(['routes'])->shouldReturn(['/swp/default/routes']);
+        $this->build(['routes', 'routes1'])->shouldReturn(['/swp/code/routes', '/swp/code/routes1']);
+        $this->build(['routes'])->shouldReturn(['/swp/code/routes']);
         $this->build(['routes', 'routes1'], 'context')
             ->shouldReturn(['/swp/context/routes', '/swp/context/routes1']);
 
@@ -113,7 +114,7 @@ class TenantAwarePathBuilderSpec extends ObjectBehavior
             ->duringBuild('articles', '');
 
         $this->build('articles', '@')->shouldReturn('/swp/@/articles');
-        $this->build('articles', null)->shouldReturn('/swp/default/articles');
-        $this->build('/articles', null)->shouldReturn('/swp/default');
+        $this->build('articles', null)->shouldReturn('/swp/code/articles');
+        $this->build('/articles', null)->shouldReturn('/swp/code');
     }
 }

@@ -14,6 +14,7 @@
 namespace spec\SWP\Component\MultiTenancy\Factory;
 
 use PhpSpec\ObjectBehavior;
+use SWP\Component\Common\Generator\GeneratorInterface;
 use SWP\Component\MultiTenancy\Factory\TenantFactory;
 use SWP\Component\MultiTenancy\Model\Tenant;
 
@@ -22,23 +23,25 @@ use SWP\Component\MultiTenancy\Model\Tenant;
  */
 class TenantFactorySpec extends ObjectBehavior
 {
-    public function let()
+    function let(GeneratorInterface $generator)
     {
-        $this->beConstructedWith('SWP\Component\MultiTenancy\Model\Tenant');
+        $this->beConstructedWith('SWP\Component\MultiTenancy\Model\Tenant', $generator);
     }
 
-    public function it_is_initializable()
+    function it_is_initializable()
     {
         $this->shouldHaveType('SWP\Component\MultiTenancy\Factory\TenantFactory');
     }
 
-    public function it_implements_tenant_factory_interface()
+    function it_implements_tenant_factory_interface()
     {
         $this->shouldImplement('SWP\Component\MultiTenancy\Factory\TenantFactoryInterface');
     }
 
-    public function it_creates_a_new_empty_tenant()
+    function it_creates_a_new_tenant_with_code(GeneratorInterface $generator)
     {
+        $generator->generate(6)->shouldBeCalled();
+
         $this->create()->shouldHaveType(new Tenant());
     }
 }

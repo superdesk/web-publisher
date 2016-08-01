@@ -66,4 +66,14 @@ interface TenantInterface extends TimestampableInterface, EnableableInterface, S
      * @param string $name The tenant name
      */
     public function setName($name);
+
+    /**
+     * @return string
+     */
+    public function getCode();
+
+    /**
+     * @param string $code
+     */
+    public function setCode($code);
 }

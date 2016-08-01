@@ -52,7 +52,7 @@ class MenuNodeControllerTest extends WebTestCase
 
         $this->assertEquals(201, $client->getResponse()->getStatusCode());
         $content = $client->getResponse()->getContent();
-        $this->assertContains('"id":"\/swp\/default\/menu\/test\/blue"', $content);
+        $this->assertContains('"id":"\/swp\/123abc\/menu\/test\/blue"', $content);
     }
 
     public function testCreateSubMenuNodeApi()
@@ -68,7 +68,7 @@ class MenuNodeControllerTest extends WebTestCase
 
         $this->assertEquals(201, $client->getResponse()->getStatusCode());
         $content = $client->getResponse()->getContent();
-        $this->assertContains('"id":"\/swp\/default\/menu\/test\/contact\/sub\/subSubContact"', $content);
+        $this->assertContains('"id":"\/swp\/123abc\/menu\/test\/contact\/sub\/subSubContact"', $content);
     }
 
     public function testGetMenuNodeApi()
@@ -78,7 +78,7 @@ class MenuNodeControllerTest extends WebTestCase
 
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
         $content = $client->getResponse()->getContent();
-        $this->assertContains('"id":"\/swp\/default\/menu\/test\/contact\/sub"', $content);
+        $this->assertContains('"id":"\/swp\/123abc\/menu\/test\/contact\/sub"', $content);
     }
 
     public function testListMenuNodesApi()
@@ -89,7 +89,7 @@ class MenuNodeControllerTest extends WebTestCase
 
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
         $content = $client->getResponse()->getContent();
-        $this->assertContains('"id":"\/swp\/default\/menu\/test\/contact\/sub"', $content);
+        $this->assertContains('"id":"\/swp\/123abc\/menu\/test\/contact\/sub"', $content);
     }
 
     public function testUpdateMenuNodeApi()

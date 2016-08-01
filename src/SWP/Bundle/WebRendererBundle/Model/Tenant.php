@@ -13,10 +13,10 @@
  */
 namespace SWP\Bundle\WebRendererBundle\Model;
 
-use SWP\Component\Common\Model\TenantInterface;
+use SWP\Component\Common\Model\ThemeAwareTenantInterface;
 use SWP\Component\MultiTenancy\Model\Tenant as BaseTenant;
 
-class Tenant extends BaseTenant implements TenantInterface
+class Tenant extends BaseTenant implements ThemeAwareTenantInterface
 {
     /**
      * @var string
