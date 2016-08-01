@@ -126,7 +126,7 @@
 	display: block;
 	width: 25px;
 	height: 25px;
-	background: url(http://swp-dev.ljuba.sourcefabric.net/bundles/DefaultTheme/assets/img/search_button.png);
+	background: url('../search_button.png');
 }
 
 
@@ -143,7 +143,7 @@
 	display: block;
 	width: 151px;
 	height: 90px;
-	background: url(http://swp-dev.ljuba.sourcefabric.net/bundles/DefaultTheme/assets/img/logo.png) no-repeat bottom;
+	background: url('../img/logo.png') no-repeat bottom;
 	float: left;
 }
 
@@ -352,7 +352,7 @@ margin-right: 0px;
 	position: absolute;
 	width: 16px;
 	height: 16px;
-	background: url(http://swp-dev.ljuba.sourcefabric.net/bundles/DefaultTheme/assets/img/cross.png);
+	background: url('../img/cross.png');
 	top: 20px;
 	right: 20px;
 }

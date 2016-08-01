@@ -2,37 +2,39 @@
 
 {% block body %}
 
+<div id="page" class="container">
+
  <!-- Content -->
  <section id="content">
 
    <div class="row article_content">
-    {% block body %}
+
    	<article class="news_item span8 ">
 			<div class="thumbnail content_text">
-       		<img src="img/images-cms-image-000000103X.jpg" alt="Boat in Copenhagen canals (photo: Source Fabric)">
+       		<img src="{{ asset('theme/assets/img/images-cms-image-000000103X.jpg') }}" alt="Boat in Copenhagen canals (photo: Source Fabric)">
        		<h6 class="caption ">Boat in Copenhagen canals</h6>
     	</div>
 
 	      <div class="content content_text">
-       		<h6 class="info">02.05.2013, 08:17</h6>
+       		<h6 class="info">{{ gimme.article.publishedAt }} //02.05.2013, 08:17//</h6>
         		<h2 class="title">{{ gimme.article.title }}</h2>
 				    {{ gimme.article.body|raw }}
 			</div>
 		</article>
-    {% endblock %}
+
 		
       <aside class="span4 news_item">
       	<div class="article_authors">
          	<h3>Written By:</h3>
             <div class="author_item row">
-            	<a href="/user/profile/ssarah" class="author_image span1"><img alt="ssarah" src="img/images-7a5a53fbf907cb078151a890a2ad20e9d4011bd0.jpg"></a>
+            	<a href="/user/profile/ssarah" class="author_image span1"><img alt="ssarah" src="{{ asset('theme/assets/img/images-7a5a53fbf907cb078151a890a2ad20e9d4011bd0.jpg') }}"></a>
                <div class="span3 author_info">
                	<a href="/user/profile/ssarah">Sarah Staffwriter</a>
                   <p>Vim tale evertitur no, ex vel laudem equidem. At per numquam euismod iracundia. Verear vivendo intellegam vel eu, ut nec delectus corrumpit, mei in mundi deleniti. Vix ut falli aliquam atomorum, ne mea perpetua patrioque.</p>
                </div>
             </div>
          </div>
-         <img style="margin: 20px auto 0 auto; display:block;" src="img/300x250.png" alt="Sourcefabric">    
+         <img style="margin: 20px auto 0 auto; display:block;" src="{{ asset('theme/assets/img/300x250.png') }}" alt="Sourcefabric">    
 			
 			<!--
 			<div class="related_articles margin_top_20">
@@ -64,7 +66,7 @@
     <div id="tab_latest_news" class="tabs_content row" style="display: block;">
       <div class="span3">
         <article class="news_item condensed">
-          <a href="article.html" class="thumbnail"><img src="img/images-cms-image-000000099(1).jpg" alt="Candidates (photo: Source Fabrić)"></a>
+          <a href="article.html" class="thumbnail"><img src="{{ asset('theme/assets/img/images-cms-image-000000099(1).jpg') }}" alt="Candidates (photo: Source Fabrić)"></a>
           <div class="content content_text content_text_contrast">
           	<h6 class="info">Frank N. Stein, Test Persona - 02.05.2013, 08:17</h6>
             <h3 class="title"><a href="article.html">European Council candidates set to be named </a></h3>
@@ -76,7 +78,7 @@
       <div class="span3">
         <article class="news_item condensed">
           
-          <a href="article.html" class="thumbnail"><img src="img/images-cms-image-000000114(1).jpg" alt="Arc of Konstantin (photo: Source F. Abricio)"></a>
+          <a href="article.html" class="thumbnail"><img src="{{ asset('theme/assets/img/images-cms-image-000000114(1).jpg') }}" alt="Arc of Konstantin (photo: Source F. Abricio)"></a>
           <div class="content content_text content_text_contrast">
             <h6 class="info">Admin Admin - 02.05.2013, 08:17</h6>
             <h3 class="title"><a href="article.html">New horizons for the browser </a></h3>
@@ -87,10 +89,10 @@
         
         <div class="span3">
         		<article class="news_item condensed">
-            	<a href="article.html" class="thumbnail"><img src="img/images-cms-image-000000103.jpg" alt="Boat in Copenhagen canals (photo: Source Fabric)"></a>
+            	<a href="article.html" class="thumbnail"><img src="{{ asset('theme/assets/img/images-cms-image-000000103.jpg') }}" alt="Boat in Copenhagen canals (photo: Source Fabric)"></a>
           		<div class="content content_text content_text_contrast">
             		<h6 class="info">Sarah Staffwriter - 02.05.2013, 08:17</h6>
-              		<h3 class="title"><a href="http://liquid-dev.lab.sourcefabric.org/en/may2013/tech/86/Online-security-risks-exposed.htm">Online security risks exposed </a></h3>
+              		<h3 class="title"><a href="article.htm">Online security risks exposed </a></h3>
               		<p>Has scaevola moderatius ei, cu vitae expetendis quaerendum vix. Eu ius dicat euismod, ea vix dicit audire epicurei.</p>
             </div>
           </article>
@@ -99,7 +101,7 @@
       <div class="span3">
         <article class="news_item condensed">
           
-          <a href="article.html" class="thumbnail"><img src="img/images-cms-image-000000112.jpg" alt="Golden fragments (photo: Source Fabrik)"></a>
+          <a href="article.html" class="thumbnail"><img src="{{ asset('theme/assets/img/images-cms-image-000000112.jpg') }}" alt="Golden fragments (photo: Source Fabrik)"></a>
           <div class="content content_text content_text_contrast">
           	<h6 class="info">Frank N. Stein - 02.05.2013, 08:17</h6>
               <h3 class="title"><a href="article.html">Tax and trade bureau considers alcohol labeling </a></h3>
@@ -116,5 +118,5 @@
     </section><!-- End Content -->
 
   </div>
-
+</div>
 {% endblock %}

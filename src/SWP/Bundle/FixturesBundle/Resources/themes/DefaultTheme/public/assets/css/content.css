@@ -9,22 +9,22 @@
 }
 
 .icon_link.icon_key {
-	background-image: url(http://swp-dev.ljuba.sourcefabric.net/bundles/DefaultTheme/assets/img/icons/key.png);
+	background-image: url('../img/icons/key.png');
 	padding-left: 23px;
 }
 
 .icon_link.icon_padlock {
-	background-image: url(http://swp-dev.ljuba.sourcefabric.net/bundles/DefaultTheme/assets/img/icons/padlock.png);
+	background-image: url('../img/icons/padlock.png');
 	padding-left: 18px;
 }
 
 .icon_link.icon_search {
-	background-image: url(http://swp-dev.ljuba.sourcefabric.net/bundles/DefaultTheme/assets/img/icons/search.png);
+	background-image: url('../img/icons/search.png');
 	padding-left: 26px;
 }
 
 .icon_link.icon_lang {
-	background-image: url(http://swp-dev.ljuba.sourcefabric.net/bundles/DefaultTheme/assets/img/icons/lang.png);
+	background-image: url('../img/icons/lang.png');
 	padding-left: 24px;
 	position:relative;
 }
@@ -410,7 +410,7 @@ h3.debate_headline{
 }
 
 .ratings_stars {
-	background: url('http://swp-dev.ljuba.sourcefabric.net/bundles/DefaultTheme/assets/img/star_empty.png') no-repeat;
+	background: url('../img/star_empty.png') no-repeat;
 	float: left;
 	height: 28px;
 	padding: 2px;
@@ -418,12 +418,12 @@ h3.debate_headline{
 }
 
 .ratings_vote {
-	background: url('http://swp-dev.ljuba.sourcefabric.net/bundles/DefaultTheme/assets/img/star_full.png') no-repeat;
+	background: url('../img/star_full.png') no-repeat;
 }
 
 
 .ratings_over {
-	background: url('http://swp-dev.ljuba.sourcefabric.net/bundles/DefaultTheme/assets/img/star_highlight.png') no-repeat;
+	background: url('../img/star_highlight.png') no-repeat;
 }
 
 p.total_votes{
@@ -480,7 +480,7 @@ p.rating_error{
 
 li.registered, li.commented {
 	padding-left: 25px;
-	background-image: url(http://swp-dev.ljuba.sourcefabric.net/bundles/DefaultTheme/assets//img/community_icons.png);
+	background-image: url('../img/community_icons.png');
 	background-repeat: no-repeat;
 }
 
@@ -521,7 +521,7 @@ li.registered {
 	width: 23px;
 	height: 10px;
 	content: " ";
-	background-image: url(http://swp-dev.ljuba.sourcefabric.net/bundles/DefaultTheme/assets//img/current_tab.png);
+	background-image: url('../img/current_tab.png');
 	margin: 0 auto;
 }
 
@@ -536,7 +536,7 @@ li.registered {
 	top: 0;
 	right: 0;
 	z-index: 2;
-	background-image: url(http://swp-dev.ljuba.sourcefabric.net/bundles/DefaultTheme/assets//img/open-slideshow.png);
+	background-image: url('../img/open-slideshow.png');
 	background-repeat: no-repeat;
 	background-position: 15px 15px;
 	cursor: pointer;
@@ -555,7 +555,7 @@ li.registered {
 	width: 27px;
 	height: 42px;
 	text-indent: 9999px;
-	background-image: url(http://swp-dev.ljuba.sourcefabric.net/bundles/DefaultTheme/assets//img/slide_prev.png);
+	background-image: url('../img/slide_prev.png');
 }
 
 .blueimp-gallery > .next {
@@ -567,5 +567,5 @@ li.registered {
 	width: 27px;
 	height: 42px;
 	text-indent: 9999px;
-	background-image: url(http://swp-dev.ljuba.sourcefabric.net/bundles/DefaultTheme/assets//img/slide_next.png);
+	background-image: url('../img/slide_next.png');
 }

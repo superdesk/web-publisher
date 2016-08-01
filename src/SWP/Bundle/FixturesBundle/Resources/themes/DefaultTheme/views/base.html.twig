@@ -13,7 +13,7 @@
   <meta name="keywords" content="Newscoop, Sourcefabric, enterprise content management, open source, media, journalism">
 
   <!-- RSS & Pingback -->
-  <link rel="alternate" type="application/rss+xml" title="RSS 2.0" href="http://liquid-dev.lab.sourcefabric.org/en/static/rss/">
+  <link rel="alternate" type="application/rss+xml" title="RSS 2.0" href="/en/static/rss/">
 
   <!-- Mobile viewport optimized: j.mp/bplateviewport -->
 
@@ -24,11 +24,10 @@
   
   {% block stylesheets %}
   <!-- CSS: implied media="all" -->
-  <link rel="stylesheet" href="http://swp-dev.ljuba.sourcefabric.net/bundles/DefaultTheme/assets/css/blueimp-gallery-indicator.css">
-  <link rel="stylesheet" href="http://swp-dev.ljuba.sourcefabric.net/bundles/DefaultTheme/assets/css/blueimp-gallery-video.css">
-  <link rel="stylesheet" href="http://swp-dev.ljuba.sourcefabric.net/bundles/DefaultTheme/assets/css/blueimp-gallery.css">
-  <!--link rel="{{ asset('assets/css/style.css') }}" /-->
-  <link rel="stylesheet" href="http://swp-dev.ljuba.sourcefabric.net/bundles/DefaultTheme/assets/css/style.css">
+  <link rel="stylesheet" href="{{ asset('theme/assets/css/blueimp-gallery-indicator.css') }}">
+  <link rel="stylesheet" href="{{ asset('theme/assets/css/blueimp-gallery-video.css') }}">
+  <link rel="stylesheet" href="{{ asset('theme/assets/css/blueimp-gallery.css') }}">
+  <link rel="stylesheet" href="{{ asset('theme/assets/css/style.css') }}" />
 
 <style type="text/css">
 .gm-style .gm-style-cc span,.gm-style .gm-style-cc a,.gm-style .gm-style-mtc div{font-size:10px}
@@ -61,8 +60,8 @@
             <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js" type="text/javascript"></script>
             <![endif]-->
             
-            <script src="http://swp-dev.ljuba.sourcefabric.net/bundles/DefaultTheme/assets/js/jquery.js" type="text/javascript"></script>
-            <script src="http://swp-dev.ljuba.sourcefabric.net/bundles/DefaultTheme/assets/js/helpers.js" type="text/javascript"></script>
+            <script src="{{ asset('theme/assets/js/jquery.js') }}" type="text/javascript"></script>
+            <script src="{{ asset('theme/assets/js/helpers.js') }}" type="text/javascript"></script>
 
 </head>
 
@@ -175,7 +174,7 @@
 <header id="top" class="padding_bottom_10">
   <div class="top_content">
     <a href="index.html" id="logo" title="Liquid Theme for Newscoop"></a>
-    <a target="_blank" href="https://www.sourcefabric.org/" class="add"><img src="http://swp-dev.ljuba.sourcefabric.net/bundles/DefaultTheme/assets/img/top.png" alt=""></a>
+    <a target="_blank" href="https://www.sourcefabric.org/" class="add"><img src="{{ asset('theme/assets/img/top.png') }}" alt=""></a>
   </div>
 
  </header>
@@ -235,11 +234,11 @@
 </footer>
 <!-- End Footer -->
 
- <script src="http://swp-dev.ljuba.sourcefabric.net/bundles/DefaultTheme/assets/js/jquery.scrollTo-min.js" type="text/javascript"></script>
- <script src="http://swp-dev.ljuba.sourcefabric.net/bundles/DefaultTheme/assets/js/jquery-scrolltofixed-min.js" type="text/javascript"></script>
- <script src="http://swp-dev.ljuba.sourcefabric.net/bundles/DefaultThemeassets/js/masonry.js" type="text/javascript"></script>
- <script src="http://swp-dev.ljuba.sourcefabric.net/bundles/DefaultThemeassets/js/blueimp-gallery.js"></script>
- <script src="http://swp-dev.ljuba.sourcefabric.net/bundles/DefaultTheme/assets/js/onload.js" type="text/javascript"></script>
+ <script src="{{ asset('theme/assets/js/jquery.scrollTo-min.js') }}" type="text/javascript"></script>
+ <script src="{{ asset('theme/assets/js/jquery-scrolltofixed-min.js') }}" type="text/javascript"></script>
+ <script src="{{ asset('theme/assets/js/masonry.js') }}" type="text/javascript"></script>
+ <script src="{{ asset('theme/assets/js/blueimp-gallery.js') }}"></script>
+ <script src="{{ asset('theme/assets/js/onload.js') }}" type="text/javascript"></script>
 
 </body>
 </html>

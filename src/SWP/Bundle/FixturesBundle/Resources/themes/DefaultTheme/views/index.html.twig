@@ -9,60 +9,62 @@
     <!-- Row (12) -->
     <div class="row">
 
+{% gimmelist article from articles with {'route': '/news'}  %}
+{% if loop.first %}
       <!-- Span (8) -->
       <div class="span8">
-        <!-- News item  -->
+
         <article class="news_item">
-            <a href="article.html" class="thumbnail"><img src="http://swp-dev.ljuba.sourcefabric.net/bundles/DefaultTheme/assets/img/images-cms-image-000000099.jpg" alt="Candidates (photo: Source Fabrić)"></a>
+            <a href="{{ url(article) }}" class="thumbnail"><img src="{{ asset('theme/assets/img/images-cms-image-000000099.jpg') }}" alt="Candidates (photo: Source Fabrić)"></a>
             <div class="content content_text">
                 <h6 class="info">Frank N. Stein, Test Persona - 02.05.2013, 08:17</h6>
-                <h3 class="title"><a href="article.html">European Council candidates set to be named</a></h3>
-                <p> BRUSSELS - Italian and Greek candidates nominated for President of the European Council&nbsp;in secret ballot. </p>
+                <h3 class="title"><a href="{{ url(article) }}">{{ article.title }}</a></h3>
+                <p>{{ article.body|truncate(200,true) }}</p>
             </div>
       </article>
-            <!-- End News item -->
 
-        <!-- News item  -->
-        <!-- End News item -->
+{% elseif (loop.index == 2) or (loop.index == 3) %}
 
+      {% if loop.index == 2 %}
         <!-- Row (8) -->
       <div class="row">
+
           <!-- Span (3) -->
           <div class="span3">
 
             <!-- News item -->
             <article class="news_item">
-            	<a href="article.html" class="thumbnail"><img src="http://swp-dev.ljuba.sourcefabric.net/bundles/DefaultTheme/assets/img/images-cms-image-000000102.jpg" alt="La Scala di Spagna (photo: Source Fabricio)"></a>
+            	<a href="{{ url(article) }}" class="thumbnail"><img src="{{ asset('theme/assets/img/images-cms-image-000000102.jpg') }}" alt="La Scala di Spagna (photo: Source Fabricio)"></a>
                <div class="content content_text">
                     <h6 class="info">Sarah Staffwriter, Frank N. Stein - 02.03.2013, 10:40</h6>
-                    <h3 class="title"><a href="article.html">Advertisers target online demographic</a></h3>
-                    <p> Putant conceptam id pri, at vis fuisset invidunt. Alia viderer te mel. An per sale malorum sadipscing, saepe graeco accusata in cum. </p>
+                    <h3 class="title"><a href="{{ url(article) }}">{{ article.title }}</a></h3>
+                    <p>{{ article.body|truncate(200,true) }}</p>
                </div>
-       </article>
-       <!-- End News item -->
-   </div>
-   <!--End Span (3) -->
+            </article><!-- End News item -->
+          </div><!--End Span (3) -->
+          {% endif %}
 
-        <!-- News item  -->
-        <!-- End News item -->
-      
-      <!-- Span (5) -->
-   <div class="span5">
+          {% if loop.index == 3 %}
 
-    <!-- News item -->
+          <!-- Span (5) -->
+          <div class="span5">
+
     <article class="news_item">
         
-        <a href="article.html" class="thumbnail"><img src="http://swp-dev.ljuba.sourcefabric.net/bundles/DefaultTheme/assets/img/images-cms-image-000000114.jpg" alt="Arc of Konstantin (photo: Source F. Abricio)"></a>
+        <a href="{{ url(article) }}" class="thumbnail"><img src="{{ asset('theme/assets/img/images-cms-image-000000114.jpg') }}" alt="Arc of Konstantin (photo: Source F. Abricio)"></a>
                <div class="content content_text">
                    <h6 class="info">Ivan Zvonimir Čičak - 02.05.2013, 08:17</h6>
-                   <h3 class="title"><a href="article.html">New horizons for the browser</a></h3>
-                    <p> Quo id offendit postulant, erat nonummy fastidii ea sea, has te adhuc ipsum. Ius diam rebum eirmod ea. Ne latine labores quo, est quas dissentiunt ex, ei sed legimus intellegat assueverit </p>
+                   <h3 class="title"><a href="{{ url(article) }}">{{ article.title }}</a></h3>
+                    <p>{{ article.body|truncate(200,true) }}</p>
                </div>
-   </article><!-- End News item -->
+    </article>
 
 </div><!-- End Span (5) -->
 </div><!-- End Row (8) -->
-</div><!-- End Span (4) -->
+</div><!-- End Span (8) -->
+{% endif %}
+{% endif %}
+{% endgimmelist %}
 
 <div class="span4 sidebar hidden-phone">
 
@@ -106,7 +108,7 @@ div#creditfooter {
 </style>
 <script src="http://feeds.feedburner.com/BbcNews-AlsoInTheNews?format=sigpro" type="text/javascript" ></script>
 
-<a target="_blank" href="http://www.sourcefabric.org/" class="hidden-phone"><span style="color: #ccc; font-variant: small-caps">sponsored</span><br /><img src="http://swp-dev.ljuba.sourcefabric.net/bundles/DefaultTheme/assets/img/300x400.jpg" alt="sponsored"></a>
+<a target="_blank" href="http://www.sourcefabric.org/" class="hidden-phone"><span style="color: #ccc; font-variant: small-caps">sponsored</span><br /><img src="{{ asset('theme/assets/img/300x400.jpg') }}" alt="sponsored"></a>
 
 
 </div>
@@ -129,7 +131,7 @@ div#creditfooter {
     <div id="tab_latest_news" class="tabs_content row" style="display: block;">
       <div class="span3">
         <article class="news_item condensed">
-          <a href="article.html" class="thumbnail"><img src="http://swp-dev.ljuba.sourcefabric.net/bundles/DefaultTheme/assets/img/images-cms-image-000000099(1).jpg" alt="Candidates (photo: Source Fabrić)"></a>
+          <a href="article.html" class="thumbnail"><img src="{{ asset('theme/assets/img/images-cms-image-000000099(1).jpg') }}" alt="Candidates (photo: Source Fabrić)"></a>
           <div class="content content_text content_text_contrast">
           	<h6 class="info">Frank N. Stein, Test Persona - 02.05.2013, 08:17</h6>
             <h3 class="title"><a href="article.html">European Council candidates set to be named </a></h3>
@@ -141,7 +143,7 @@ div#creditfooter {
       <div class="span3">
         <article class="news_item condensed">
           
-          <a href="article.html" class="thumbnail"><img src="http://swp-dev.ljuba.sourcefabric.net/bundles/DefaultTheme/assets/img/images-cms-image-000000114(1).jpg" alt="Arc of Konstantin (photo: Source F. Abricio)"></a>
+          <a href="article.html" class="thumbnail"><img src="{{ asset('theme/assets/img/images-cms-image-000000114(1).jpg') }}" alt="Arc of Konstantin (photo: Source F. Abricio)"></a>
           <div class="content content_text content_text_contrast">
             <h6 class="info">Admin Admin - 02.05.2013, 08:17</h6>
             <h3 class="title"><a href="article.html">New horizons for the browser </a></h3>
@@ -152,7 +154,7 @@ div#creditfooter {
         
         <div class="span3">
         		<article class="news_item condensed">
-            	<a href="article.html" class="thumbnail"><img src="http://swp-dev.ljuba.sourcefabric.net/bundles/DefaultTheme/assets/img/images-cms-image-000000103.jpg" alt="Boat in Copenhagen canals (photo: Source Fabric)"></a>
+            	<a href="article.html" class="thumbnail"><img src="{{ asset('theme/assets/img/images-cms-image-000000103.jpg') }}" alt="Boat in Copenhagen canals (photo: Source Fabric)"></a>
           		<div class="content content_text content_text_contrast">
             		<h6 class="info">Sarah Staffwriter - 02.05.2013, 08:17</h6>
               		<h3 class="title"><a href="http://liquid-dev.lab.sourcefabric.org/en/may2013/tech/86/Online-security-risks-exposed.htm">Online security risks exposed </a></h3>
@@ -164,7 +166,7 @@ div#creditfooter {
       <div class="span3">
         <article class="news_item condensed">
           
-          <a href="article.html" class="thumbnail"><img src="http://swp-dev.ljuba.sourcefabric.net/bundles/DefaultTheme/assets/img/images-cms-image-000000112.jpg" alt="Golden fragments (photo: Source Fabrik)"></a>
+          <a href="article.html" class="thumbnail"><img src="{{ asset('theme/assets/img/images-cms-image-000000112.jpg') }}" alt="Golden fragments (photo: Source Fabrik)"></a>
           <div class="content content_text content_text_contrast">
           	<h6 class="info">Frank N. Stein - 02.05.2013, 08:17</h6>
               <h3 class="title"><a href="article.html">Tax and trade bureau considers alcohol labeling </a></h3>
