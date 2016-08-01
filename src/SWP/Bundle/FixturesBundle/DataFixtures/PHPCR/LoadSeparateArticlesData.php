@@ -31,7 +31,7 @@ class LoadSeparateArticlesData extends AbstractFixture implements FixtureInterfa
     {
         $this->manager = $manager;
         $env = $this->getEnvironment();
-        
+
         $this->defaultTenantPrefix = $this->getTenantPrefix();
 
         $this->loadArticles($env, $manager);

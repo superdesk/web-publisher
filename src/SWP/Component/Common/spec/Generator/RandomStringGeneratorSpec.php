@@ -14,7 +14,6 @@
 namespace spec\SWP\Component\Common\Generator;
 
 use PhpSpec\ObjectBehavior;
-use Prophecy\Argument;
 use SWP\Component\Common\Generator\GeneratorInterface;
 use SWP\Component\Common\Generator\RandomStringGenerator;
 
