@@ -1,0 +1,138 @@
+            <div class="container">
+              <div id="login_popup" class="popup span6 offset3">
+                <a href="#" class="close"></a>
+                <div class="content content_text">
+                  
+                  <h3 class="popup_title bigger">Log in</h3>
+                  <div class="styled_form login_form">
+                    
+                    <ul class="logininfo" style="display:none">
+                      <li><a href="/dashboard">Dashboard</a></li>
+                      <li><a href="/auth/logout">Logout</a></li>
+                    </ul>
+
+                    <form name="login" action="/auth" method="post" id="loginform">
+
+                     <div class="field_row row">
+                       <label for="l_field_login" class="span2">E-mail</label>
+                       <div class="span3">
+                        <input type="email" name="email">
+                        <input type="hidden" name="ajax" value="1">
+                      </div>
+                    </div>
+
+                    <div class="field_row row">
+                     <label for="l_field_password" class="span2">Password</label>
+                     <div class="span3">
+                       <input type="password" name="password">
+                     </div>
+                   </div>
+
+                   <div class="field_row row">
+                     <div class="span3 offset2">
+                       <ul class="login_menu float_left">
+                         <li><a href="/auth/password-restore">Forgot your password?</a></li>
+                         <li><a href="/register">Register</a></li>
+                       </ul>
+                       <input type="submit" value="Login" class="float_right">
+                     </div>
+                   </div>
+                   
+                   </form>
+                                      
+                 </div>
+               </div>
+             </div>
+           </div>
+
+    <div class="header_wrap">
+  <div class="container">
+
+<!-- Titlebar -->
+<nav id="mobilemenu" class="visible-phone">
+  <ul class="menu" id="mobile_sections">
+    <li class="current"><a href="index.html">Home</a></li>
+    <li><a href="category.html" title="View all posts filed under Politics">Politics</a></li>
+    <li><a href="category.html" title="View all posts filed under Business">Business</a></li>
+    <li><a href="category.html" title="View all posts filed under Sci/Tech">Sci/Tech</a></li>
+    <li><a href="category.html" title="View all posts filed under Health">Health</a></li>
+    <li><a href="category.html" title="View all posts filed under Entertainment">Entertainment</a></li>
+    <li><a href="category.html" title="View all posts filed under Sports">Sports</a></li>
+    <li><a href="category.html" title="View all posts filed under Dialogue">Dialogue</a></li>
+
+    <li><a href="/user" title="Community index">Community</a></li>
+  </ul>
+
+  <ul class="menu" id="mobile_lang">
+      <li class="current"><a href="index.html">English</a></li>
+  </ul>
+  
+<div class="mobile-search">
+    <form name="search_articles" action="index.html" method="post">
+    	<input type="text" name="f_search_keywords" maxlength="255" size="10" value="" placeholder="Search">
+    	<input type="submit" name="f_search_articles" value="">
+	 </form>
+</div>
+
+  </nav>
+<header id="titlebar">
+
+  <div class="search_area hidden-phone">
+    <form name="search_articles" action="index.html" method="post">
+    	<input type="text" name="f_search_keywords" maxlength="255" size="10" value="" placeholder="Search">
+    	<input type="submit" name="f_search_articles" value="">
+	 </form>
+  </div>
+
+    <a href="/register" class="icon_link icon_padlock hidden-phone" id="registerButtonFront">Register</a>
+  	 <a href="#" class="icon_link icon_key open_login_popup hidden-phone">Login</a>
+
+<div class="logininfo" style="display:none">
+  <a href="/dashboard" class="icon_link hidden-phone">My Profile</a>
+  <a href="/auth/logout?t=1467888756" class="icon_link icon_key hidden-phone">Logout</a>
+</div>
+  
+  <button class="navbar-toggle visible-phone" type="button" id="mobilemenuopen">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+  </button>
+</header>
+<!-- End Titlebar -->
+
+<!-- Top -->
+<header id="top" class="padding_bottom_10">
+  <div class="top_content">
+    <a href="index.html" id="logo" title="Liquid Theme for Newscoop"></a>
+    <a target="_blank" href="https://www.sourcefabric.org/" class="add"><img src="http://swp-dev.ljuba.sourcefabric.net/bundles/DefaultTheme/assets/img/top.png" alt=""></a>
+  </div>
+
+ </header>
+ <!-- End Top -->
+   </div>
+ </div>
+
+<div class="wrap_menu_wrap hidden-phone">
+ <div class="menu_wrap">
+   <div class="container">
+ <!-- Top Menu -->
+ <nav id="top_menu" class="hidden-phone">
+  <ul class="menu">
+    <li class="current"><a href="index.html">Home</a></li>    
+    <li><a href="category.html" title="View all posts filed under Politics">Politics</a></li>
+    <li><a href="category.html" title="View all posts filed under Business">Business</a></li>
+    <li><a href="category.html" title="View all posts filed under Sci/Tech">Sci/Tech</a></li>
+    <li><a href="category.html" title="View all posts filed under Health">Health</a></li>
+    <li><a href="category.html" title="View all posts filed under Entertainment">Entertainment</a></li>
+    <li><a href="category.html" title="View all posts filed under Sports">Sports</a></li>
+    <li><a href="category.html" title="View all posts filed under Dialogue">Dialogue</a></li>
+    
+    <li><a href="/user" title="Community">Community</a></li>
+  </ul>
+</nav>
+<!-- End Top Menu -->
+
+  </div>
+</div>
+</div>

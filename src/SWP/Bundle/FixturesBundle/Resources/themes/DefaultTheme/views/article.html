@@ -1,6 +1,12 @@
-{% extends 'base.html.twig' %}
+<!DOCTYPE html>
+<html lang="en">
+{% include '_tpl/_html-head.html.twig' %}
+          
+<body>
 
-{% block body %}
+{% include '_tpl/header.html.twig' %}
+
+<div id="page" class="container">
 
  <!-- Content -->
  <section id="content">
@@ -117,4 +123,8 @@
 
   </div>
 
-{% endblock %}
+{% include '_tpl/footer.html.twig' %}
+
+{% include '_tpl/_html-foot.html.twig' %}
+</body>
+</html>

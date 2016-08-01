@@ -1,8 +1,13 @@
-{% extends 'base.html.twig' %}
+<!DOCTYPE html>
+<html lang="en">
+{% include '_tpl/_html-head.html.twig' %}
 
-{% block body %}
+<body> 
+
+{% include '_tpl/header.html.twig' %}
 
 <div id="page" class="container">
+
   <!-- Content -->
   <section id="content">
 
@@ -13,7 +18,7 @@
       <div class="span8">
         <!-- News item  -->
         <article class="news_item">
-            <a href="article.html" class="thumbnail"><img src="http://swp-dev.ljuba.sourcefabric.net/bundles/DefaultTheme/assets/img/images-cms-image-000000099.jpg" alt="Candidates (photo: Source Fabrić)"></a>
+            <a href="article.html" class="thumbnail"><img src="img/images-cms-image-000000099.jpg" alt="Candidates (photo: Source Fabrić)"></a>
             <div class="content content_text">
                 <h6 class="info">Frank N. Stein, Test Persona - 02.05.2013, 08:17</h6>
                 <h3 class="title"><a href="article.html">European Council candidates set to be named</a></h3>
@@ -32,7 +37,7 @@
 
             <!-- News item -->
             <article class="news_item">
-            	<a href="article.html" class="thumbnail"><img src="http://swp-dev.ljuba.sourcefabric.net/bundles/DefaultTheme/assets/img/images-cms-image-000000102.jpg" alt="La Scala di Spagna (photo: Source Fabricio)"></a>
+            	<a href="article.html" class="thumbnail"><img src="img/images-cms-image-000000102.jpg" alt="La Scala di Spagna (photo: Source Fabricio)"></a>
                <div class="content content_text">
                     <h6 class="info">Sarah Staffwriter, Frank N. Stein - 02.03.2013, 10:40</h6>
                     <h3 class="title"><a href="article.html">Advertisers target online demographic</a></h3>
@@ -52,7 +57,7 @@
     <!-- News item -->
     <article class="news_item">
         
-        <a href="article.html" class="thumbnail"><img src="http://swp-dev.ljuba.sourcefabric.net/bundles/DefaultTheme/assets/img/images-cms-image-000000114.jpg" alt="Arc of Konstantin (photo: Source F. Abricio)"></a>
+        <a href="article.html" class="thumbnail"><img src="img/images-cms-image-000000114.jpg" alt="Arc of Konstantin (photo: Source F. Abricio)"></a>
                <div class="content content_text">
                    <h6 class="info">Ivan Zvonimir Čičak - 02.05.2013, 08:17</h6>
                    <h3 class="title"><a href="article.html">New horizons for the browser</a></h3>
@@ -106,7 +111,7 @@ div#creditfooter {
 </style>
 <script src="http://feeds.feedburner.com/BbcNews-AlsoInTheNews?format=sigpro" type="text/javascript" ></script>
 
-<a target="_blank" href="http://www.sourcefabric.org/" class="hidden-phone"><span style="color: #ccc; font-variant: small-caps">sponsored</span><br /><img src="http://swp-dev.ljuba.sourcefabric.net/bundles/DefaultTheme/assets/img/300x400.jpg" alt="sponsored"></a>
+<a target="_blank" href="http://www.sourcefabric.org/" class="hidden-phone"><span style="color: #ccc; font-variant: small-caps">sponsored</span><br /><img src="img/300x400.jpg" alt="sponsored"></a>
 
 
 </div>
@@ -129,7 +134,7 @@ div#creditfooter {
     <div id="tab_latest_news" class="tabs_content row" style="display: block;">
       <div class="span3">
         <article class="news_item condensed">
-          <a href="article.html" class="thumbnail"><img src="http://swp-dev.ljuba.sourcefabric.net/bundles/DefaultTheme/assets/img/images-cms-image-000000099(1).jpg" alt="Candidates (photo: Source Fabrić)"></a>
+          <a href="article.html" class="thumbnail"><img src="img/images-cms-image-000000099(1).jpg" alt="Candidates (photo: Source Fabrić)"></a>
           <div class="content content_text content_text_contrast">
           	<h6 class="info">Frank N. Stein, Test Persona - 02.05.2013, 08:17</h6>
             <h3 class="title"><a href="article.html">European Council candidates set to be named </a></h3>
@@ -141,7 +146,7 @@ div#creditfooter {
       <div class="span3">
         <article class="news_item condensed">
           
-          <a href="article.html" class="thumbnail"><img src="http://swp-dev.ljuba.sourcefabric.net/bundles/DefaultTheme/assets/img/images-cms-image-000000114(1).jpg" alt="Arc of Konstantin (photo: Source F. Abricio)"></a>
+          <a href="article.html" class="thumbnail"><img src="img/images-cms-image-000000114(1).jpg" alt="Arc of Konstantin (photo: Source F. Abricio)"></a>
           <div class="content content_text content_text_contrast">
             <h6 class="info">Admin Admin - 02.05.2013, 08:17</h6>
             <h3 class="title"><a href="article.html">New horizons for the browser </a></h3>
@@ -152,7 +157,7 @@ div#creditfooter {
         
         <div class="span3">
         		<article class="news_item condensed">
-            	<a href="article.html" class="thumbnail"><img src="http://swp-dev.ljuba.sourcefabric.net/bundles/DefaultTheme/assets/img/images-cms-image-000000103.jpg" alt="Boat in Copenhagen canals (photo: Source Fabric)"></a>
+            	<a href="article.html" class="thumbnail"><img src="img/images-cms-image-000000103.jpg" alt="Boat in Copenhagen canals (photo: Source Fabric)"></a>
           		<div class="content content_text content_text_contrast">
             		<h6 class="info">Sarah Staffwriter - 02.05.2013, 08:17</h6>
               		<h3 class="title"><a href="http://liquid-dev.lab.sourcefabric.org/en/may2013/tech/86/Online-security-risks-exposed.htm">Online security risks exposed </a></h3>
@@ -164,7 +169,7 @@ div#creditfooter {
       <div class="span3">
         <article class="news_item condensed">
           
-          <a href="article.html" class="thumbnail"><img src="http://swp-dev.ljuba.sourcefabric.net/bundles/DefaultTheme/assets/img/images-cms-image-000000112.jpg" alt="Golden fragments (photo: Source Fabrik)"></a>
+          <a href="article.html" class="thumbnail"><img src="img/images-cms-image-000000112.jpg" alt="Golden fragments (photo: Source Fabrik)"></a>
           <div class="content content_text content_text_contrast">
           	<h6 class="info">Frank N. Stein - 02.05.2013, 08:17</h6>
               <h3 class="title"><a href="article.html">Tax and trade bureau considers alcohol labeling </a></h3>
@@ -181,6 +186,9 @@ div#creditfooter {
 </section><!-- End Content -->
 
 </div>
-{% endblock %}
 
+{% include '_tpl/footer.html.twig' %}
 
+{% include '_tpl/_html-foot.html.twig' %}
+</body>
+</html>
