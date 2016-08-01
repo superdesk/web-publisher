@@ -10,4 +10,7 @@ Article:
         id:
             description: "Article identifier"
             type: text
+        publishedAt:
+            description: "Article published date"
+            type: datetime
     to_string: title
