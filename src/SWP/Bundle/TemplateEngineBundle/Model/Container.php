@@ -100,6 +100,22 @@ class Container implements ContainerInterface, TenantAwareInterface, Timestampab
         $this->setVisible(true);
     }
 
+    public function __clone()
+    {
+        if ($this->getId()) {
+            $this->setId(null);
+
+            $clonedData = new ArrayCollection();
+            foreach ($this->data as $datum) {
+                $cloned = clone $datum;
+                $cloned->setContainer($this);
+                $clonedData->add($cloned);
+            }
+
+            $this->data = $clonedData;
+        }
+    }
+
     /**
      * Get id.
      *

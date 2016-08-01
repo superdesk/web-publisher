@@ -13,6 +13,7 @@
  */
 namespace SWP\Bundle\TemplateEngineBundle\Controller;
 
+use Faker\Provider\fa_IR\Text;
 use FOS\RestBundle\Controller\FOSRestController;
 use FOS\RestBundle\View\View;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
@@ -20,6 +21,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use SWP\Bundle\TemplateEngineBundle\Form\Type\ContainerType;
+use SWP\Bundle\TemplateEngineBundle\Model\Container;
 use SWP\Bundle\TemplateEngineBundle\Model\ContainerData;
 use SWP\Bundle\TemplateEngineBundle\Model\ContainerWidget;
 use SWP\Bundle\TemplateEngineBundle\Model\WidgetModel;
@@ -75,14 +77,7 @@ class ContainerController extends FOSRestController
      */
     public function getAction(Request $request, $id)
     {
-        $container = $this->get('doctrine')->getManager()
-            ->getRepository('SWP\Bundle\TemplateEngineBundle\Model\Container')
-            ->getById($id)
-            ->getOneOrNullResult();
-
-        if (!$container) {
-            throw new NotFoundHttpException('Container with this id was not found.');
-        }
+        $container = $this->getContainer($id);
 
         return $this->handleView(View::create($container, 200));
     }
@@ -105,14 +100,7 @@ class ContainerController extends FOSRestController
      */
     public function updateAction(Request $request, $id)
     {
-        $entityManager = $this->get('doctrine')->getManager();
-        $container = $entityManager->getRepository('SWP\Bundle\TemplateEngineBundle\Model\Container')
-            ->getById($id)
-            ->getOneOrNullResult();
-
-        if (!$container) {
-            throw new NotFoundHttpException('Container with this id was not found.');
-        }
+        $container = $this->getContainer($id);
 
         $form = $this->createForm(new ContainerType(), $container, [
             'method' => $request->getMethod(),
@@ -120,6 +108,7 @@ class ContainerController extends FOSRestController
 
         $form->handleRequest($request);
         if ($form->isValid()) {
+            $entityManager = $this->get('doctrine')->getManager();
             $extraData = $form->get('data')->getExtraData();
             if ($extraData && is_array($extraData)) {
                 // Remove old containerData's
@@ -182,14 +171,7 @@ class ContainerController extends FOSRestController
             throw new UnprocessableEntityHttpException('You need to provide container Id (integer).');
         }
 
-        $entityManager = $this->get('doctrine')->getManager();
-        $container = $entityManager->getRepository('SWP\Bundle\TemplateEngineBundle\Model\Container')
-            ->getById($id)
-            ->getOneOrNullResult();
-
-        if (!$container) {
-            throw new NotFoundHttpException('Container with this id was not found.');
-        }
+        $container = $this->getContainer($id);
 
         $matched = false;
         foreach ($request->attributes->get('links', []) as $key => $objectArray) {
@@ -205,6 +187,7 @@ class ContainerController extends FOSRestController
             }
 
             if ($object instanceof WidgetModel) {
+                $entityManager = $this->get('doctrine')->getManager();
                 $containerWidget = $entityManager->getRepository('SWP\Bundle\TemplateEngineBundle\Model\ContainerWidget')
                     ->findOneBy([
                         'widget' => $object,
@@ -280,5 +263,24 @@ class ContainerController extends FOSRestController
         }
 
         return $links;
+    }
+
+    /**
+     * @param $id
+     * @return Container
+     * @throws \Doctrine\ORM\NonUniqueResultException
+     */
+    private function getContainer($id)
+    {
+        $entityManager = $this->get('doctrine')->getManager();
+        $container = $entityManager->getRepository('SWP\Bundle\TemplateEngineBundle\Model\Container')
+            ->getById($id)
+            ->getOneOrNullResult();
+
+        if (!$container) {
+            throw new NotFoundHttpException('Container with this id was not found.');
+        }
+
+        return $container;
     }
 }

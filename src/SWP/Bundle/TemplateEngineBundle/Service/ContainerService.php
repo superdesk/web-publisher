@@ -138,4 +138,22 @@ class ContainerService
 
         return $containerEntity;
     }
+
+    public function cloneContainer($container, $targetName)
+    {
+        /** @var Container $target */
+        $target = clone $container;
+        if (null === $targetName) {
+            $targetName = $container->getName().'_'.uniqid();
+        }
+        $target->setName($targetName);
+        $this->objectManager->persist($target);
+        $this->objectManager->flush();
+
+        return $target;
+    }
+
+    public function syncContainer(Container $to, Container $from)
+    {
+    }
 }

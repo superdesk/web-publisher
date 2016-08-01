@@ -1,0 +1,29 @@
+SWP\Bundle\TemplateEngineBundle\Model\ContainerBranch:
+    type: entity
+    table: swp_container_branch
+    repositoryClass: SWP\Bundle\TemplateEngineBundle\Repository\ContainerBranchRepository
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: IDENTITY
+    fields:
+        createdAt:
+            type: datetime
+            options:
+                default: "now"
+            gedmo:
+                timestampable:
+                    on: create
+        updatedAt:
+            type: datetime
+            nullable: true
+            gedmo:
+                timestampable:
+                    on: update
+    oneToOne:
+        source:
+            targetEntity: Container
+        target:
+            targetEntity: Container
