@@ -1,6 +1,6 @@
-SWP\Bundle\TemplateEngineBundle\Model\ContainerBranch:
+SWP\Bundle\TemplateEngineBundle\Model\WidgetModelBranch:
     type: entity
-    table: swp_container_branch
+    table: swp_widgetmodel_branch
     id:
         id:
             type: integer
@@ -21,6 +21,6 @@ SWP\Bundle\TemplateEngineBundle\Model\ContainerBranch:
                     on: update
     oneToOne:
         source:
-            targetEntity: Container
+            targetEntity: WidgetModel
         target:
-            targetEntity: Container
+            targetEntity: WidgetModel

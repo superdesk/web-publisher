@@ -13,6 +13,7 @@
  */
 namespace SWP\Bundle\TemplateEngineBundle\Controller;
 
+use Doctrine\ORM\EntityNotFoundException;
 use Faker\Provider\fa_IR\Text;
 use FOS\RestBundle\Controller\FOSRestController;
 use FOS\RestBundle\View\View;
@@ -134,6 +135,86 @@ class ContainerController extends FOSRestController
         }
 
         return $this->handleView(View::create($form, 200));
+    }
+
+    /**
+     * Create branch of container.
+     *
+     * @ApiDoc(
+     *     resource=true,
+     *     description="Create branch of container",
+     *     statusCodes={
+     *         201="Returned on success.",
+     *         404="Container not found",
+     *         422="Container id is not number"
+     *     }
+     * )
+     * @Route("/api/{version}/templates/containers/branch/{id}", requirements={"id"="\d+"}, options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_templates_create_container_branch")
+     * @Method("POST")
+     */
+    public function createBranchAction($id)
+    {
+        $branchService = $this->get('swp_template_engine_branch');
+        $branched = $branchService->getBranchedContainer($id);
+        if (null === $branched) {
+            $container = $this->getContainer($id);
+            $branched = $branchService->createBranchedContainer($container);
+        }
+
+        return $this->handleView(View::create($branched, 201));
+    }
+
+    /**
+     * Get branch of container.
+     *
+     * @ApiDoc(
+     *     resource=true,
+     *     description="Get branch of container",
+     *     statusCodes={
+     *         200="Returned on success.",
+     *         404="Branch not found",
+     *         422="Container id is not number"
+     *     }
+     * )
+     * @Route("/api/{version}/templates/containers/branch/{id}", requirements={"id"="\d+"}, options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_templates_get_container_branch")
+     * @Method("GET")
+     */
+    public function getBranchAction($id)
+    {
+        $branchService = $this->get('swp_template_engine_branch');
+        $branched = $branchService->getBranchedContainer($id);
+        if (null === $branched) {
+            throw new NotFoundHttpException('No branch of container with this id was found.');
+        }
+
+        return $this->handleView(View::create($branched, 200));
+    }
+
+    /**
+     * Publish branch of container - id should be of branched container (as returned by swp_api_templates_get_container_branch with id of source)
+     *
+     * @ApiDoc(
+     *     resource=true,
+     *     description="Publish branch of container - returns published container",
+     *     statusCodes={
+     *         200="Returned on success.",
+     *         404="Container or branch not found"
+     *     }
+     * )
+     * @Route("/api/{version}/templates/containers/branch/{id}", requirements={"id"="\d+"}, options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_templates_publish_container_branch")
+     * @Method("PUT")
+     */
+    public function publishBranchAction($id)
+    {
+        $branchService = $this->get('swp_template_engine_branch');
+
+        try {
+            $published = $branchService->publishBranchedContainer($id);
+        } catch (EntityNotFoundException $e) {
+            throw new NotFoundHttpException('No branched container found with id.');
+        }
+
+        return $this->handleView(View::create($published, 201));
     }
 
     /**

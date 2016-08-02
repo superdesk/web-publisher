@@ -42,3 +42,6 @@ SWP\Bundle\TemplateEngineBundle\Model\WidgetModel:
         containers:
             targetEntity: SWP\Bundle\TemplateEngineBundle\Model\ContainerWidget
             mappedBy: widget
+            cascade: ["persist"]
+            joinColumn:
+              onDelete: CASCADE

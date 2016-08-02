@@ -112,7 +112,16 @@ class Container implements ContainerInterface, TenantAwareInterface, Timestampab
                 $clonedData->add($cloned);
             }
 
-            $this->data = $clonedData;
+            $this->setData($clonedData);
+
+            $clonedWidgets = new ArrayCollection();
+            foreach ($this->widgets as $widget) {
+                $cloned = clone $widget;
+                $cloned->setContainer($this);
+                $clonedWidgets->add($cloned);
+            }
+
+            $this->setWidgets($clonedWidgets);
         }
     }
 
@@ -303,7 +312,10 @@ class Container implements ContainerInterface, TenantAwareInterface, Timestampab
      */
     public function setData(ArrayCollection $data)
     {
-        $this->data = $data;
+        $this->data = new ArrayCollection();
+        foreach ($data as $datum) {
+            $this->addData($datum);
+        }
 
         return $this;
     }
@@ -315,7 +327,25 @@ class Container implements ContainerInterface, TenantAwareInterface, Timestampab
      */
     public function addData(ContainerData $containerData)
     {
-        $this->data->add($containerData);
+        if (!$this->data->contains($containerData)) {
+            $this->data->add($containerData);
+            $containerData->setContainer($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * Remove all container data
+     *
+     * @return self
+     */
+    public function clearData()
+    {
+        foreach ($this->data as $datum) {
+            $datum->setContainer(null);
+        }
+        $this->data = new ArrayCollection();
 
         return $this;
     }
@@ -363,7 +393,10 @@ class Container implements ContainerInterface, TenantAwareInterface, Timestampab
      */
     public function setWidgets(ArrayCollection $widgets)
     {
-        $this->widgets = $widgets;
+        $this->widgets = new ArrayCollection();
+        foreach ($widgets as $widget) {
+            $this->addWidget($widget);
+        }
 
         return $this;
     }
@@ -375,7 +408,10 @@ class Container implements ContainerInterface, TenantAwareInterface, Timestampab
      */
     public function addWidget($widget)
     {
-        $this->widgets->add($widget);
+        if (!$this->widgets->contains($widget)) {
+            $this->widgets->add($widget);
+            $widget->setContainer($this);
+        }
 
         return $this;
     }
@@ -387,7 +423,23 @@ class Container implements ContainerInterface, TenantAwareInterface, Timestampab
      */
     public function removeWidget($widget)
     {
-        $this->widgets->removeElement($widget);
+        if ($this->widgets->contains($widget)) {
+            $this->widgets->removeElement($widget);
+            $widget->setContainer(null);
+        }
+
+        return $this;
+    }
+
+    /**
+     * Remove all widgets from container
+     */
+    public function clearWidgets()
+    {
+        foreach ($this->widgets as $widget) {
+            $widget->setContainer(null);
+        }
+        $this->widgets = new ArrayCollection();
 
         return $this;
     }

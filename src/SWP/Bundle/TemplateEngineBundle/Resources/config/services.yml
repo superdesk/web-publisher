@@ -14,6 +14,11 @@ services:
             - "%kernel.cache_dir%"
             - "%kernel.debug%"
 
+    swp_template_engine_branch:
+        class: SWP\Bundle\TemplateEngineBundle\Service\BranchService
+        arguments:
+            - "@doctrine.orm.default_entity_manager"
+
     swp_template_engine_twig_extension.gimme:
         class: SWP\Component\TemplatesSystem\Twig\Extension\GimmeExtension
         public: false

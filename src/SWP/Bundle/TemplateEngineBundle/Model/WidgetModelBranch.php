@@ -11,15 +11,16 @@
  * @copyright 2016 Sourcefabric z.ú.
  * @license http://www.superdesk.org/license
  */
+
 namespace SWP\Bundle\TemplateEngineBundle\Model;
 
 use SWP\Component\Common\Model\TimestampableInterface;
-use SWP\Component\TemplatesSystem\Gimme\Model\ContainerInterface;
+use SWP\Component\TemplatesSystem\Gimme\Model\WidgetModelInterface;
 
 /**
- * Class ContainerBranch
+ * Class WidgetModelBranch
  */
-class ContainerBranch implements TimestampableInterface
+class WidgetModelBranch implements TimestampableInterface
 {
     /**
      * @var int
@@ -27,12 +28,12 @@ class ContainerBranch implements TimestampableInterface
     protected $id;
 
     /**
-     * @var ContainerInterface
+     * @var WidgetModelInterface
      */
     protected $source;
 
     /**
-     * @var ContainerInterface
+     * @var WidgetModelInterface
      */
     protected $target;
 
@@ -45,6 +46,11 @@ class ContainerBranch implements TimestampableInterface
      * @var \DateTime
      */
     private $updatedAt;
+
+    /**
+     * @var string
+     */
+    private $condition;
 
     public function __construct()
     {
@@ -110,64 +116,11 @@ class ContainerBranch implements TimestampableInterface
     }
 
     /**
-     * Set source
-     *
-     * @param \SWP\Bundle\TemplateEngineBundle\Model\Container $source
-     *
-     * @return ContainerBranch
-     */
-    public function setSource(\SWP\Bundle\TemplateEngineBundle\Model\Container $source = null)
-    {
-        $this->source = $source;
-
-        return $this;
-    }
-
-    /**
-     * Get source
-     *
-     * @return \SWP\Bundle\TemplateEngineBundle\Model\Container
-     */
-    public function getSource()
-    {
-        return $this->source;
-    }
-
-    /**
-     * Set target
-     *
-     * @param \SWP\Bundle\TemplateEngineBundle\Model\Container $target
-     *
-     * @return ContainerBranch
-     */
-    public function setTarget(\SWP\Bundle\TemplateEngineBundle\Model\Container $target = null)
-    {
-        $this->target = $target;
-
-        return $this;
-    }
-
-    /**
-     * Get target
-     *
-     * @return \SWP\Bundle\TemplateEngineBundle\Model\Container
-     */
-    public function getTarget()
-    {
-        return $this->target;
-    }
-    /**
-     * @var string
-     */
-    private $condition;
-
-
-    /**
      * Set condition
      *
      * @param string $condition
      *
-     * @return ContainerBranch
+     * @return WidgetModelBranch
      */
     public function setCondition($condition)
     {
@@ -184,5 +137,53 @@ class ContainerBranch implements TimestampableInterface
     public function getCondition()
     {
         return $this->condition;
+    }
+
+    /**
+     * Set source
+     *
+     * @param \SWP\Bundle\TemplateEngineBundle\Model\WidgetModel $source
+     *
+     * @return WidgetModelBranch
+     */
+    public function setSource(\SWP\Bundle\TemplateEngineBundle\Model\WidgetModel $source = null)
+    {
+        $this->source = $source;
+
+        return $this;
+    }
+
+    /**
+     * Get source
+     *
+     * @return \SWP\Bundle\TemplateEngineBundle\Model\WidgetModel
+     */
+    public function getSource()
+    {
+        return $this->source;
+    }
+
+    /**
+     * Set target
+     *
+     * @param \SWP\Bundle\TemplateEngineBundle\Model\WidgetModel $target
+     *
+     * @return WidgetModelBranch
+     */
+    public function setTarget(\SWP\Bundle\TemplateEngineBundle\Model\WidgetModel $target = null)
+    {
+        $this->target = $target;
+
+        return $this;
+    }
+
+    /**
+     * Get target
+     *
+     * @return \SWP\Bundle\TemplateEngineBundle\Model\WidgetModel
+     */
+    public function getTarget()
+    {
+        return $this->target;
     }
 }

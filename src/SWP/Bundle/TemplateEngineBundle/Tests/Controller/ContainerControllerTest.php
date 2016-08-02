@@ -27,7 +27,7 @@ class ContainerControllerTest extends WebTestCase
     {
         self::bootKernel();
         $this->runCommand('doctrine:schema:drop', ['--force' => true, '--env' => 'test'], true);
-        $this->runCommand('doctrine:doctrine:schema:update', ['--force' => true, '--env' => 'test'], true);
+        $this->runCommand('doctrine:schema:update', ['--force' => true, '--env' => 'test'], true);
 
         $this->loadFixtureFiles([
             '@SWPFixturesBundle/Resources/fixtures/ORM/test/tenant.yml',
@@ -102,7 +102,8 @@ class ContainerControllerTest extends WebTestCase
         ]);
 
         $this->assertEquals(201, $client->getResponse()->getStatusCode());
-        $this->assertEquals($client->getResponse()->getContent(), '{"id":1,"type":1,"name":"Simple Container 1","width":300,"height":400,"styles":"color: #00000","css_class":"col-md-12","visible":true,"data":[{"key":"key_1-test","value":"value_1-test"},{"key":"key_2-test","value":"value 2"}],"widgets":[],"_links":{"self":{"href":"\/api\/v1\/templates\/containers\/1"}}}');
+        $this->assertEquals('{"id":1,"type":1,"name":"Simple Container 1","width":300,"height":400,"styles":"color: #00000","css_class":"col-md-12","visible":true,"data":[{"key":"key_1-test","value":"value_1-test"},{"key":"key_2-test","value":"value 2"}],"widgets":[],"_links":{"self":{"href":"\/api\/v1\/templates\/containers\/1"}}}',
+            $client->getResponse()->getContent());
 
         $client->request('PATCH', $this->router->generate('swp_api_templates_update_container', ['id' => 1]), [
             'container' => [
@@ -113,7 +114,8 @@ class ContainerControllerTest extends WebTestCase
         ]);
 
         $this->assertEquals(201, $client->getResponse()->getStatusCode());
-        $this->assertEquals($client->getResponse()->getContent(), '{"id":1,"type":1,"name":"Simple Container 1","width":300,"height":400,"styles":"color: #00000","css_class":"col-md-12","visible":true,"data":[{"key":"test-key","value":"test-value"}],"widgets":[],"_links":{"self":{"href":"\/api\/v1\/templates\/containers\/1"}}}');
+        $this->assertEquals('{"id":1,"type":1,"name":"Simple Container 1","width":300,"height":400,"styles":"color: #00000","css_class":"col-md-12","visible":true,"data":[{"key":"test-key","value":"test-value"}],"widgets":[],"_links":{"self":{"href":"\/api\/v1\/templates\/containers\/1"}}}',
+            $client->getResponse()->getContent());
     }
 
     public function testLinkingWidgetToContainerApi()
@@ -181,5 +183,29 @@ class ContainerControllerTest extends WebTestCase
             '{"id":1,"type":1,"name":"Simple Container 1","width":300,"height":400,"styles":"color: #00000","css_class":"col-md-12","visible":true,"data":[],"widgets":[{"id":1,"widget":{"id":1,"type":"\\\\SWP\\\Component\\\\TemplatesSystem\\\Gimme\\\Widget\\\HtmlWidgetHandler","name":"HtmlWidgetHandler number 1","visible":true,"parameters":{"html_body":"sample widget with <span style=\'color:red\'>html<\/span>"},"_links":{"self":{"href":"\/api\/v1\/templates\/widgets\/1"}}},"position":"0"},{"id":2,"widget":{"id":2,"type":"\\\SWP\\\Component\\\\TemplatesSystem\\\Gimme\\\Widget\\\HtmlWidgetHandler","name":"HtmlWidgetHandler number 2","visible":true,"parameters":{"html_body":"sample widget with html 2"},"_links":{"self":{"href":"\/api\/v1\/templates\/widgets\/2"}}},"position":"1"}],"_links":{"self":{"href":"\/api\/v1\/templates\/containers\/1"}}}',
             $client->getResponse()->getContent()
         );
+    }
+
+    public function testContainerBranchApi()
+    {
+        $client = static::createClient();
+        $client->request('POST', $this->router->generate('swp_api_templates_create_container_branch', ['id' => 1]));
+
+        $this->assertEquals(201, $client->getResponse()->getStatusCode());
+
+        $client->request('GET', $this->router->generate('swp_api_templates_get_container_branch', ['id' => 1]));
+
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+        $content = $client->getResponse()->getContent();
+        $branched = $this->getContainer()->get('jms_serializer')->deserialize($content, 'SWP\Bundle\TemplateEngineBundle\Model\Container', 'json');
+
+        $client->request('PUT', $this->router->generate('swp_api_templates_publish_container_branch', ['id' => 1]));
+        $this->assertEquals(404, $client->getResponse()->getStatusCode());
+
+        $client->request('PUT', $this->router->generate('swp_api_templates_publish_container_branch', ['id' => $branched->getId()]));
+        $this->assertEquals(201, $client->getResponse()->getStatusCode());
+
+        $content = $client->getResponse()->getContent();
+        $published = $this->getContainer()->get('jms_serializer')->deserialize($content, 'SWP\Bundle\TemplateEngineBundle\Model\Container', 'json');
+        $this->assertEquals(1, $published->getId());
     }
 }

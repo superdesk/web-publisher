@@ -26,7 +26,7 @@ class WidgetControllerTest extends WebTestCase
     {
         self::bootKernel();
         $this->runCommand('doctrine:schema:drop', ['--force' => true, '--env' => 'test'], true);
-        $this->runCommand('doctrine:doctrine:schema:update', ['--force' => true, '--env' => 'test'], true);
+        $this->runCommand('doctrine:schema:update', ['--force' => true, '--env' => 'test'], true);
 
         $this->loadFixtureFiles([
             '@SWPFixturesBundle/Resources/fixtures/ORM/test/tenant.yml',
@@ -86,6 +86,29 @@ class WidgetControllerTest extends WebTestCase
 
         $this->assertEquals(201, $client->getResponse()->getStatusCode());
         $this->assertEquals($client->getResponse()->getContent(), '{"id":1,"type":"\\\\SWP\\\\Component\\\\TemplatesSystem\\\\Gimme\\\\Widget\\\\HtmlWidgetHandler","name":"Simple Updated html widget","visible":false,"parameters":{"html_body":"sample widget with <span style=\'color:red\'>html<\/span>","extra_param":"extra value"},"_links":{"self":{"href":"\/api\/v1\/templates\/widgets\/1"}}}');
+    }
+
+    public function testWidgetBranchApi()
+    {
+        $client = static::createClient();
+        $client->request('POST', $this->router->generate('swp_api_templates_create_widget_branch', ['id' => 1]));
+        $this->assertEquals(201, $client->getResponse()->getStatusCode());
+
+        $client->request('GET', $this->router->generate('swp_api_templates_get_widget_branch', ['id' => 1]));
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+
+        $content = $client->getResponse()->getContent();
+        $branched = $this->getContainer()->get('jms_serializer')->deserialize($content, 'SWP\Bundle\TemplateEngineBundle\Model\WidgetModel', 'json');
+
+        $client->request('PUT', $this->router->generate('swp_api_templates_publish_widget_branch', ['id' => 1]));
+        $this->assertEquals(404, $client->getResponse()->getStatusCode());
+
+        $client->request('PUT', $this->router->generate('swp_api_templates_publish_widget_branch', ['id' => $branched->getId()]));
+        $this->assertEquals(201, $client->getResponse()->getStatusCode());
+
+        $content = $client->getResponse()->getContent();
+        $published = $this->getContainer()->get('jms_serializer')->deserialize($content, 'SWP\Bundle\TemplateEngineBundle\Model\WidgetModel', 'json');
+        $this->assertEquals(1, $published->getId());
     }
 
     public function testDeleteWidgetApi()

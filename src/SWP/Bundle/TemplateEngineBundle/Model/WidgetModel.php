@@ -85,6 +85,16 @@ class WidgetModel implements WidgetModelInterface, TenantAwareInterface, Timesta
         $this->parameters = [];
         $this->setVisible();
         $this->setType();
+        $this->containers = new ArrayCollection();
+    }
+
+
+    public function __clone()
+    {
+        if ($this->getId()) {
+            $this->id = null;
+            $this->containers = new ArrayCollection();
+        }
     }
 
     /**
@@ -212,9 +222,27 @@ class WidgetModel implements WidgetModelInterface, TenantAwareInterface, Timesta
      *
      * @return WidgetModel
      */
-    protected function setContainers(ArrayCollection $containers)
+    public function setContainers(ArrayCollection $containers)
     {
-        $this->containers = $containers;
+        $this->containers = new ArrayCollection();
+        foreach ($containers as $container) {
+            $this->addContainer($container);
+        }
+
+        return $this;
+    }
+
+    /**
+     * Add container widget
+     *
+     * @param $container
+     */
+    public function addContainer(ContainerWidget $container)
+    {
+        if (!$this->containers->contains($container)) {
+            $this->containers->add($container);
+            $container->setWidget($this);
+        }
 
         return $this;
     }

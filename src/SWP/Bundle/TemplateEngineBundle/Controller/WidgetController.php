@@ -13,6 +13,7 @@
  */
 namespace SWP\Bundle\TemplateEngineBundle\Controller;
 
+use Doctrine\ORM\EntityNotFoundException;
 use FOS\RestBundle\Controller\FOSRestController;
 use FOS\RestBundle\View\View;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
@@ -69,16 +70,7 @@ class WidgetController extends FOSRestController
      */
     public function getAction(Request $request, $id)
     {
-        if (!$id) {
-            throw new UnprocessableEntityHttpException('You need to provide widget Id (integer).');
-        }
-
-        $entityManager = $this->get('doctrine')->getManager();
-        $widget = $entityManager->getRepository('SWP\Bundle\TemplateEngineBundle\Model\WidgetModel')->getById($id)->getOneOrNullResult();
-
-        if (!$widget) {
-            throw new NotFoundHttpException('WidgetModel with this id was not found.');
-        }
+        $widget = $this->getWidget($id);
 
         // return clean object for LINK requests
         if ($request->attributes->get('_link_request', false) === true) {
@@ -137,17 +129,9 @@ class WidgetController extends FOSRestController
      */
     public function deleteAction(Request $request, $id)
     {
-        if (!$id) {
-            throw new UnprocessableEntityHttpException('You need to provide widget Id (integer).');
-        }
+        $widget = $this->getWidget($id);
 
-        $entityManager = $this->get('doctrine')->getManager();
-        $widget = $entityManager->getRepository('SWP\Bundle\TemplateEngineBundle\Model\WidgetModel')->getById($id)->getOneOrNullResult();
-
-        if (!$widget) {
-            throw new NotFoundHttpException('Widget with this id was not found.');
-        }
-
+        $entityManager = $this->get('doctrine.orm.entity_manager');
         foreach ($widget->getContainers() as $containerWidget) {
             $entityManager->remove($containerWidget);
         }
@@ -177,6 +161,110 @@ class WidgetController extends FOSRestController
      */
     public function updateAction(Request $request, $id)
     {
+        $widget = $this->getWidget($id);
+        $form = $this->createForm(new WidgetType(), $widget, [
+            'method' => $request->getMethod(),
+        ]);
+
+        $form->handleRequest($request);
+        if ($form->isValid()) {
+            $entityManager = $this->get('doctrine.orm.entity_manager');
+            $entityManager->flush($widget);
+            $entityManager->refresh($widget);
+
+            return $this->handleView(View::create($widget, 201));
+        }
+
+        return $this->handleView(View::create($form, 200));
+    }
+
+    /**
+     * Create branch of widget.
+     *
+     * @ApiDoc(
+     *     resource=true,
+     *     description="Create branch of widget",
+     *     statusCodes={
+     *         201="Returned on success.",
+     *         404="Container not found",
+     *         422="widget id is not number"
+     *     }
+     * )
+     * @Route("/api/{version}/templates/widgets/branch/{id}", requirements={"id"="\d+"}, options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_templates_create_widget_branch")
+     * @Method("POST")
+     */
+    public function createBranchAction($id)
+    {
+        $branchService = $this->get('swp_template_engine_branch');
+        $branched = $branchService->getBranchedWidget($id);
+        if (null === $branched) {
+            $widget = $this->getWidget($id);
+            $branched = $branchService->createBranchedWidgetModel($widget);
+        }
+
+        return $this->handleView(View::create($branched, 201));
+    }
+
+    /**
+     * Get branch of widget.
+     *
+     * @ApiDoc(
+     *     resource=true,
+     *     description="Get branch of widget",
+     *     statusCodes={
+     *         200="Returned on success.",
+     *         404="Branch not found",
+     *         422="Widget id is not number"
+     *     }
+     * )
+     * @Route("/api/{version}/templates/widgets/branch/{id}", requirements={"id"="\d+"}, options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_templates_get_widget_branch")
+     * @Method("GET")
+     */
+    public function getBranchAction($id)
+    {
+        $branchService = $this->get('swp_template_engine_branch');
+        $branched = $branchService->getBranchedWidget($id);
+        if (null === $branched) {
+            throw new NotFoundHttpException('No branch of widget with this id was found.');
+        }
+
+        return $this->handleView(View::create($branched, 200));
+    }
+
+    /**
+     * Publish branch of widget.
+     *
+     * @ApiDoc(
+     *     resource=true,
+     *     description="Publish branch of widget - returns published widget",
+     *     statusCodes={
+     *         200="Returned on success.",
+     *         404="Widget or branch not found",
+     *         422="Widget id is not number"
+     *     }
+     * )
+     * @Route("/api/{version}/templates/widgets/branch/{id}", requirements={"id"="\d+"}, options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_templates_publish_widget_branch")
+     * @Method("PUT")
+     */
+    public function publishBranchAction($id)
+    {
+        $branchService = $this->get('swp_template_engine_branch');
+        try {
+            $published = $branchService->publishBranchedWidgetModel($id);
+        }  catch (EntityNotFoundException $e) {
+            throw new NotFoundHttpException('No branched model found with id.');
+        }
+
+        return $this->handleView(View::create($published, 201));
+    }
+
+    /**
+     * @param $id
+     * @return WidgetModel
+     * @throws \Doctrine\ORM\NonUniqueResultException
+     */
+    private function getWidget($id)
+    {
         if (!$id) {
             throw new UnprocessableEntityHttpException('You need to provide container Id (integer).');
         }
@@ -188,18 +276,6 @@ class WidgetController extends FOSRestController
             throw new NotFoundHttpException('Widget with this id was not found.');
         }
 
-        $form = $this->createForm(new WidgetType(), $widget, [
-            'method' => $request->getMethod(),
-        ]);
-
-        $form->handleRequest($request);
-        if ($form->isValid()) {
-            $entityManager->flush($widget);
-            $entityManager->refresh($widget);
-
-            return $this->handleView(View::create($widget, 201));
-        }
-
-        return $this->handleView(View::create($form, 200));
+        return $widget;
     }
 }

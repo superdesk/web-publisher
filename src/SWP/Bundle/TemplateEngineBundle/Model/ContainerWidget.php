@@ -45,6 +45,13 @@ class ContainerWidget
         $this->position = -1;
     }
 
+    public function __clone()
+    {
+        if ($this->getId()) {
+            $this->id = null;
+        }
+    }
+
     /**
      * Set widget position.
      *
@@ -67,5 +74,63 @@ class ContainerWidget
     public function getWidget()
     {
         return $this->widget;
+    }
+
+    /**
+     * Get id
+     *
+     * @return integer
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Get position
+     *
+     * @return integer
+     */
+    public function getPosition()
+    {
+        return $this->position;
+    }
+
+    /**
+     * Set widget
+     *
+     * @param \SWP\Bundle\TemplateEngineBundle\Model\WidgetModel $widget
+     *
+     * @return ContainerWidget
+     */
+    public function setWidget(\SWP\Bundle\TemplateEngineBundle\Model\WidgetModel $widget = null)
+    {
+        $this->widget = $widget;
+
+        return $this;
+    }
+
+    /**
+     * Set container
+     *
+     * @param \SWP\Bundle\TemplateEngineBundle\Model\Container $container
+     *
+     * @return ContainerWidget
+     */
+    public function setContainer(\SWP\Bundle\TemplateEngineBundle\Model\Container $container = null)
+    {
+        $this->container = $container;
+
+        return $this;
+    }
+
+    /**
+     * Get container
+     *
+     * @return \SWP\Bundle\TemplateEngineBundle\Model\Container
+     */
+    public function getContainer()
+    {
+        return $this->container;
     }
 }

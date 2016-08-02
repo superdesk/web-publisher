@@ -132,7 +132,7 @@ class ContainerData
      *
      * @return self
      */
-    public function setContainer(Container $container)
+    public function setContainer($container)
     {
         $this->container = $container;
 
