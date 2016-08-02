@@ -16,7 +16,7 @@
     	</div>
 
 	      <div class="content content_text">
-       		<h6 class="info">{{ gimme.article.publishedAt }} //02.05.2013, 08:17//</h6>
+       		<h6 class="info">{{ gimme.article.publishedAt|date("m.d.Y, H:i") }}</h6>
         		<h2 class="title">{{ gimme.article.title }}</h2>
 				    {{ gimme.article.body|raw }}
 			</div>
