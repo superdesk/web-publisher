@@ -11,6 +11,12 @@ Article:
             description: "Article identifier"
             type: text
         publishedAt:
-            description: "Article published date"
+            description: "Article published timestamp"
             type: datetime
+        createdAt:
+            description: "Article creation timestamp"
+            type: datetime     
+        updatedAt:
+            description: "Article update timestamp"
+            type: datetime              
     to_string: title
