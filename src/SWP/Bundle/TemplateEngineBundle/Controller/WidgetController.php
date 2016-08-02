@@ -251,7 +251,7 @@ class WidgetController extends FOSRestController
         $branchService = $this->get('swp_template_engine_branch');
         try {
             $published = $branchService->publishBranchedWidgetModel($id);
-        }  catch (EntityNotFoundException $e) {
+        } catch (EntityNotFoundException $e) {
             throw new NotFoundHttpException('No branched model found with id.');
         }
 
@@ -260,7 +260,9 @@ class WidgetController extends FOSRestController
 
     /**
      * @param $id
+     *
      * @return WidgetModel
+     *
      * @throws \Doctrine\ORM\NonUniqueResultException
      */
     private function getWidget($id)

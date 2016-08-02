@@ -14,7 +14,6 @@
 namespace SWP\Bundle\TemplateEngineBundle\Controller;
 
 use Doctrine\ORM\EntityNotFoundException;
-use Faker\Provider\fa_IR\Text;
 use FOS\RestBundle\Controller\FOSRestController;
 use FOS\RestBundle\View\View;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
@@ -187,7 +186,7 @@ class ContainerController extends FOSRestController
     }
 
     /**
-     * Publish branch of container - id should be of branched container (as returned by swp_api_templates_get_container_branch with id of source)
+     * Publish branch of container - id should be of branched container (as returned by swp_api_templates_get_container_branch with id of source).
      *
      * @ApiDoc(
      *     resource=true,
@@ -344,7 +343,9 @@ class ContainerController extends FOSRestController
 
     /**
      * @param $id
+     *
      * @return Container
+     *
      * @throws \Doctrine\ORM\NonUniqueResultException
      */
     private function getContainer($id)

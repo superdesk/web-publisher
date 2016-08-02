@@ -11,14 +11,13 @@
  * @copyright 2016 Sourcefabric z.ú.
  * @license http://www.superdesk.org/license
  */
-
 namespace SWP\Bundle\TemplateEngineBundle\Model;
 
 use SWP\Component\Common\Model\TimestampableInterface;
 use SWP\Component\TemplatesSystem\Gimme\Model\WidgetModelInterface;
 
 /**
- * Class WidgetModelBranch
+ * Class WidgetModelBranch.
  */
 class WidgetModelBranch implements TimestampableInterface
 {
@@ -58,9 +57,9 @@ class WidgetModelBranch implements TimestampableInterface
     }
 
     /**
-     * Get id
+     * Get id.
      *
-     * @return integer
+     * @return int
      */
     public function getId()
     {
@@ -68,7 +67,7 @@ class WidgetModelBranch implements TimestampableInterface
     }
 
     /**
-     * Set createdAt
+     * Set createdAt.
      *
      * @param \DateTime $createdAt
      *
@@ -82,7 +81,7 @@ class WidgetModelBranch implements TimestampableInterface
     }
 
     /**
-     * Get createdAt
+     * Get createdAt.
      *
      * @return \DateTime
      */
@@ -92,7 +91,7 @@ class WidgetModelBranch implements TimestampableInterface
     }
 
     /**
-     * Set updatedAt
+     * Set updatedAt.
      *
      * @param \DateTime $updatedAt
      *
@@ -106,7 +105,7 @@ class WidgetModelBranch implements TimestampableInterface
     }
 
     /**
-     * Get updatedAt
+     * Get updatedAt.
      *
      * @return \DateTime
      */
@@ -116,7 +115,7 @@ class WidgetModelBranch implements TimestampableInterface
     }
 
     /**
-     * Set condition
+     * Set condition.
      *
      * @param string $condition
      *
@@ -130,7 +129,7 @@ class WidgetModelBranch implements TimestampableInterface
     }
 
     /**
-     * Get condition
+     * Get condition.
      *
      * @return string
      */
@@ -140,7 +139,7 @@ class WidgetModelBranch implements TimestampableInterface
     }
 
     /**
-     * Set source
+     * Set source.
      *
      * @param \SWP\Bundle\TemplateEngineBundle\Model\WidgetModel $source
      *
@@ -154,7 +153,7 @@ class WidgetModelBranch implements TimestampableInterface
     }
 
     /**
-     * Get source
+     * Get source.
      *
      * @return \SWP\Bundle\TemplateEngineBundle\Model\WidgetModel
      */
@@ -164,7 +163,7 @@ class WidgetModelBranch implements TimestampableInterface
     }
 
     /**
-     * Set target
+     * Set target.
      *
      * @param \SWP\Bundle\TemplateEngineBundle\Model\WidgetModel $target
      *
@@ -178,7 +177,7 @@ class WidgetModelBranch implements TimestampableInterface
     }
 
     /**
-     * Get target
+     * Get target.
      *
      * @return \SWP\Bundle\TemplateEngineBundle\Model\WidgetModel
      */

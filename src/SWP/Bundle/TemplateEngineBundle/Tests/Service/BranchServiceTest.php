@@ -17,7 +17,6 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Persistence\ObjectManager;
 use Liip\FunctionalTestBundle\Test\WebTestCase;
 use SWP\Bundle\TemplateEngineBundle\Model\Container;
-use SWP\Bundle\TemplateEngineBundle\Model\ContainerBranch;
 use SWP\Bundle\TemplateEngineBundle\Model\ContainerData;
 use SWP\Bundle\TemplateEngineBundle\Model\ContainerWidget;
 use SWP\Bundle\TemplateEngineBundle\Model\WidgetModel;
@@ -158,6 +157,7 @@ class BranchServiceTest extends WebTestCase
     {
         $containerService = $this->getContainer()->get('swp_template_engine_container');
         $container = $containerService->createNewContainer($name, $data);
+
         return $container;
     }
 
@@ -170,6 +170,7 @@ class BranchServiceTest extends WebTestCase
         $widgetModel->setParameters(['gingan' => 'gooly']);
         $this->objectManager->persist($widgetModel);
         $this->objectManager->flush();
+
         return $widgetModel;
     }
 
@@ -180,6 +181,7 @@ class BranchServiceTest extends WebTestCase
         $widgetModel->addContainer($containerWidget);
         $this->objectManager->persist($containerWidget);
         $this->objectManager->flush();
+
         return $containerWidget;
     }
 }

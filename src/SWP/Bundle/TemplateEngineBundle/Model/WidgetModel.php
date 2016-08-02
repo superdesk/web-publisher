@@ -88,7 +88,6 @@ class WidgetModel implements WidgetModelInterface, TenantAwareInterface, Timesta
         $this->containers = new ArrayCollection();
     }
 
-
     public function __clone()
     {
         if ($this->getId()) {
@@ -233,7 +232,7 @@ class WidgetModel implements WidgetModelInterface, TenantAwareInterface, Timesta
     }
 
     /**
-     * Add container widget
+     * Add container widget.
      *
      * @param $container
      */

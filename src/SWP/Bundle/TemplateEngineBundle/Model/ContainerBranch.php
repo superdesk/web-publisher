@@ -17,7 +17,7 @@ use SWP\Component\Common\Model\TimestampableInterface;
 use SWP\Component\TemplatesSystem\Gimme\Model\ContainerInterface;
 
 /**
- * Class ContainerBranch
+ * Class ContainerBranch.
  */
 class ContainerBranch implements TimestampableInterface
 {
@@ -52,9 +52,9 @@ class ContainerBranch implements TimestampableInterface
     }
 
     /**
-     * Get id
+     * Get id.
      *
-     * @return integer
+     * @return int
      */
     public function getId()
     {
@@ -62,7 +62,7 @@ class ContainerBranch implements TimestampableInterface
     }
 
     /**
-     * Set createdAt
+     * Set createdAt.
      *
      * @param \DateTime $createdAt
      *
@@ -76,7 +76,7 @@ class ContainerBranch implements TimestampableInterface
     }
 
     /**
-     * Get createdAt
+     * Get createdAt.
      *
      * @return \DateTime
      */
@@ -86,7 +86,7 @@ class ContainerBranch implements TimestampableInterface
     }
 
     /**
-     * Set updatedAt
+     * Set updatedAt.
      *
      * @param \DateTime $updatedAt
      *
@@ -100,7 +100,7 @@ class ContainerBranch implements TimestampableInterface
     }
 
     /**
-     * Get updatedAt
+     * Get updatedAt.
      *
      * @return \DateTime
      */
@@ -110,7 +110,7 @@ class ContainerBranch implements TimestampableInterface
     }
 
     /**
-     * Set source
+     * Set source.
      *
      * @param \SWP\Bundle\TemplateEngineBundle\Model\Container $source
      *
@@ -124,7 +124,7 @@ class ContainerBranch implements TimestampableInterface
     }
 
     /**
-     * Get source
+     * Get source.
      *
      * @return \SWP\Bundle\TemplateEngineBundle\Model\Container
      */
@@ -134,7 +134,7 @@ class ContainerBranch implements TimestampableInterface
     }
 
     /**
-     * Set target
+     * Set target.
      *
      * @param \SWP\Bundle\TemplateEngineBundle\Model\Container $target
      *
@@ -148,7 +148,7 @@ class ContainerBranch implements TimestampableInterface
     }
 
     /**
-     * Get target
+     * Get target.
      *
      * @return \SWP\Bundle\TemplateEngineBundle\Model\Container
      */
@@ -156,14 +156,14 @@ class ContainerBranch implements TimestampableInterface
     {
         return $this->target;
     }
+
     /**
      * @var string
      */
     private $condition;
 
-
     /**
-     * Set condition
+     * Set condition.
      *
      * @param string $condition
      *
@@ -177,7 +177,7 @@ class ContainerBranch implements TimestampableInterface
     }
 
     /**
-     * Get condition
+     * Get condition.
      *
      * @return string
      */
