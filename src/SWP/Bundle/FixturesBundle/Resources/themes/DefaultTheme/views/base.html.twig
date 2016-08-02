@@ -9,8 +9,8 @@
   <title>{% block title %}Liquid Theme for Superdesk Web Publisher{% endblock %}</title>
   <meta name="author" content="Tomasz Rondio">
     
-  <meta name="description" content="Newscoop - The open content management system for professional journalists.">
-  <meta name="keywords" content="Newscoop, Sourcefabric, enterprise content management, open source, media, journalism">
+  <meta name="description" content="Superdesk Web Publisher is state of the art publishing system.">
+  <meta name="keywords" content="Superdesk, Sourcefabric, open source, media, journalism">
 
   <!-- RSS & Pingback -->
   <link rel="alternate" type="application/rss+xml" title="RSS 2.0" href="/en/static/rss/">
@@ -163,22 +163,29 @@
   
   <button class="navbar-toggle visible-phone" type="button" id="mobilemenuopen">
           <span class="sr-only">Toggle navigation</span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
   </button>
 </header>
 <!-- End Titlebar -->
 
+        {% container 'headerTop' with {
+            'styles': 'border: solid 1px red',
+            'class': 'someClass',
+            'data': {'custom-key': 'value'}
+        }%}
+
+
 <!-- Top -->
 <header id="top" class="padding_bottom_10">
   <div class="top_content">
-    <a href="index.html" id="logo" title="Liquid Theme for Newscoop"></a>
+    <a href="{{ url('homepage') }}" id="logo" title="Liquid Theme for Newscoop"></a>
     <a target="_blank" href="https://www.sourcefabric.org/" class="add"><img src="{{ asset('theme/assets/img/top.png') }}" alt=""></a>
   </div>
 
  </header>
  <!-- End Top -->
+
+      {% endcontainer %}
+
    </div>
  </div>
 
@@ -228,9 +235,34 @@
             <li><a href="page.html" title="Contact">Contact</a></li>
             <li><a href="page.html" title="About us">About us</a></li>
             <li><a href="#">Archives</a></li>
-            <li><p><small>Copyright 2013. All rights reserved. Powered by  <a target="_blank" href="http://newscoop.sourcefabric.org/">Newscoop</a>. Designed by  <a target="_blank" href="http://www.sourcefabric.org/">Sourcefabric</a></small></p></li>
+            <li><p><small>Copyright {{ 'now'|date('Y') }}. All rights reserved. Powered by  <a target="_blank" href="http://superdesk.org/">Superdesk</a>. Designed by  <a target="_blank" href="http://www.sourcefabric.org/">Sourcefabric</a></small></p></li>
         </ul>
     </div>
+
+<p style="text-align: center; color: #ccc; font-family: Sans-serif; font-size: 80%; margin-top: 15px; padding-top: 10px; border-top: 1px solid #ccc;"><span style="color: #fff">&#8505;</span> Theme info <a href="#" class="js-toggle-info" style="color: #fff">show / hide</a> | <span style="color: #fff">&#x2699;</span> Template code used to render this page : <a href="#" class="js-toggle-code" style="color: #fff">show / hide</a></p>
+
+    {% block theme_info %}
+    <div class="js-theme-info" style="margin: 20px 0; padding: 20px; background-color: #fff; color: #000; font-family: Sans-serif; display:none;">
+        <p>{{ 'index.assigned.homepage'|trans|desc('Assigned homepage') }}:</strong> {{ page.name }} (id: {{ page.id }})</p>
+        <p>{{ 'index.current.details'|trans|desc('Current theme details') }}:</p>
+        <p>{{ 'index.path'|trans|desc('Path') }}: {{ theme.path }}</p>
+        <p>{{ 'index.name'|trans|desc('Name') }}: {{ theme.name }}</p>
+        <p>{{ 'index.description'|trans|desc('Description') }}: {{ theme.description }}</p>
+        <p>{{ 'index.title'|trans|desc('Title') }}: {{ theme.title }}</p>
+        <p>{{ 'index.authors'|trans|desc('Authors') }}:
+        <ul>
+            {% for author in theme.authors %}
+                <li>{{ author.name }} ({{ author.email }}), {{ author.homepage }}, {{ author.role }}</li>
+            {% endfor %}
+        </ul>
+        </p>
+    </div>
+    {% endblock %}
+
+{% block template_code%}
+<pre class="js-template-code" style="display:none;">{{ source(_self.getTemplateName())|escape('html') }}</pre>
+{% endblock %}
+
 </footer>
 <!-- End Footer -->
 
@@ -240,5 +272,15 @@
  <script src="{{ asset('theme/assets/js/blueimp-gallery.js') }}"></script>
  <script src="{{ asset('theme/assets/js/onload.js') }}" type="text/javascript"></script>
 
+            <script>
+                $( ".js-toggle-code" ).click(function(e) {
+                  e.preventDefault();
+                  $(".js-template-code").toggle();
+                });
+                $( ".js-toggle-info" ).click(function(e) {
+                  e.preventDefault();
+                  $(".js-theme-info").toggle();
+                });                
+            </script>
 </body>
 </html>
