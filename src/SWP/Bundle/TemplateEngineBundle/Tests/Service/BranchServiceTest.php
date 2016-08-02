@@ -56,7 +56,7 @@ class BranchServiceTest extends WebTestCase
 
     public function testCreateAndPublishContainerBranch()
     {
-        $container = $this->createTestContainer();
+        $container = $this->createTestContainer('testicicle', ['data' => ['jiminy' => 'cricket']]);
         $target = $this->branchService->createBranchedContainer($container);
 
         /** @var ArrayCollection $data */
@@ -78,7 +78,7 @@ class BranchServiceTest extends WebTestCase
 
     public function testCreateAndPublishWidgetBranch()
     {
-        $widgetModel = $this->createTestWidget();
+        $widgetModel = $this->createTestWidget('Widget zero');
         $target = $this->branchService->createBranchedWidgetModel($widgetModel);
 
         $target->setParameters(['goolie' => 'goolie goolie']);

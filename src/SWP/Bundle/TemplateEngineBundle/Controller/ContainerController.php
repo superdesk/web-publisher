@@ -113,20 +113,16 @@ class ContainerController extends FOSRestController
             $extraData = $form->get('data')->getExtraData();
             if ($extraData && is_array($extraData)) {
                 // Remove old containerData's
-                foreach ($container->getData() as $containerData) {
-                    $entityManager->remove($containerData);
-                }
+                $container->clearData();
 
                 // Apply new containerData's
                 foreach ($extraData as $key => $value) {
                     $containerData = new ContainerData($key, $value);
-                    $containerData->setContainer($container);
-                    $entityManager->persist($containerData);
                     $container->addData($containerData);
                 }
             }
 
-            $entityManager->flush($container);
+            $entityManager->flush();
             $entityManager->refresh($container);
             $this->get('event_dispatcher')
                 ->dispatch(HttpCacheEvent::EVENT_NAME, new HttpCacheEvent($container));
