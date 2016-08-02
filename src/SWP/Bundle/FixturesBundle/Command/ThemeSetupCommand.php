@@ -20,7 +20,7 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
 use Symfony\Component\Filesystem\Filesystem;
-use SWP\Component\Common\Model\TenantInterface;
+use SWP\Component\MultiTenancy\Model\TenantInterface;
 
 class ThemeSetupCommand extends ContainerAwareCommand
 {
