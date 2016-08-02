@@ -32,6 +32,7 @@ SWP\Component\Bridge\Model\Package:
             type: string
         located:
             type: string
+            nullable: true
         urgency:
             type: integer
         priority:

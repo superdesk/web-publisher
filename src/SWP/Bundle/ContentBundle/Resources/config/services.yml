@@ -3,6 +3,7 @@ parameters:
     swp.service.route.class: SWP\Bundle\ContentBundle\Service\RouteService
     swp.service.article.class: SWP\Bundle\ContentBundle\Service\ArticleService
     swp_content_bundle.listener.http_cache_header.class: SWP\Bundle\ContentBundle\EventListener\HttpCacheHeaderListener
+    swp_content_bundle.manager.media.class: SWP\Bundle\ContentBundle\Manager\MediaManager
 
 services:
     swp_template_engine.loader.article:
@@ -61,3 +62,13 @@ services:
 
     swp.publish_workflow.checker:
         alias: cmf_core.publish_workflow.checker
+
+    swp_content_bundle.manager.media:
+        class: '%swp_content_bundle.manager.media.class%'
+        arguments:
+            - '@swp_multi_tenancy.path_builder'
+            - '@swp_filesystem'
+            - '@swp.object_manager.media'
+            - '@router'
+            - '@swp_multi_tenancy.tenant_context'
+            - '%swp_multi_tenancy.persistence.phpcr.media_basepath%'

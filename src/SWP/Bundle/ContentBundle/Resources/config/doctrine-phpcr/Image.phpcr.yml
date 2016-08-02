@@ -1,0 +1,13 @@
+SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\Image:
+    referenceable: true
+    parentdocument: parent
+    nodename: id
+    fields:
+        fileExtension:
+            type: string
+        width:
+            type: int
+            nullable: true
+        height:
+            type: int
+            nullable: true

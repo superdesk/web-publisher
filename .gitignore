@@ -17,6 +17,8 @@
 !/docker/pgsql/data/.gitkeep
 /vendor/
 /web/bundles/
+/web/uploads/*
+!/web/uploads/.gitkeep
 /web/config.php
 logs/
 build/
