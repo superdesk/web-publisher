@@ -9,7 +9,6 @@
 /app/themes/
 /bin/
 /docs/_build/
-/docs/_extensions/
 /composer.phar
 /docker/pgsql/config/*
 !/docker/pgsql/config/.gitkeep

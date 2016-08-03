@@ -64,7 +64,7 @@ class MediaManagerTest extends WebTestCase
         $mediaManager = $this->getContainer()->get('swp_content_bundle.manager.media');
 
         $media = $mediaManager->handleUploadedFile(
-            new UploadedFile(__DIR__.'/../Resources/test_file.png', 'test_file.png'),
+            new UploadedFile(__DIR__.'/../Resources/test_file.png', 'test_file.png', 'image/png'),
             'asdgsadfvasdf4w35qwetasftest'
         );
 
