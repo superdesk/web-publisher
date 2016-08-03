@@ -16,7 +16,6 @@ namespace spec\SWP\Bundle\ContentBundle\Manager;
 use Doctrine\ODM\PHPCR\DocumentManager;
 use PhpSpec\ObjectBehavior;
 use SWP\Bundle\ContentBundle\Manager\MediaManager;
-use SWP\Bundle\ContentBundle\Model\FileInterface;
 use SWP\Component\MultiTenancy\Context\TenantContextInterface;
 use SWP\Component\MultiTenancy\PathBuilder\TenantAwarePathBuilder;
 use League\Flysystem\Filesystem;

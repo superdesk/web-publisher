@@ -67,7 +67,7 @@ class RouteEnhancer implements RouteEnhancerInterface
             return $defaults[RouteObjectInterface::CONTENT_OBJECT];
         }
 
-        return null;
+        return;
     }
 
     /**

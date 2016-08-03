@@ -13,7 +13,6 @@
  */
 namespace SWP\Bundle\ContentBundle\Manager;
 
-use SWP\Bundle\ContentBundle\Manager\MediaManagerInterface;
 use SWP\Bundle\ContentBundle\Model\FileInterface;
 use SWP\Component\MultiTenancy\Context\TenantContextInterface;
 use SWP\Component\MultiTenancy\PathBuilder\TenantAwarePathBuilder;
@@ -78,7 +77,6 @@ class MediaManager implements MediaManagerInterface
      */
     public function handleUploadedFile(UploadedFile $uploadedFile, $mediaId)
     {
-
         $this->saveFile($uploadedFile, $mediaId);
 
         $media = $this->getProperObject($uploadedFile);
@@ -121,7 +119,7 @@ class MediaManager implements MediaManagerInterface
         $tenant = $this->tenantContext->getTenant();
 
         if ($subdomain = $tenant->getSubdomain()) {
-            /** @var RequestContext */
+            /* @var RequestContext */
             $context = $this->router->getContext();
             $context->setHost($subdomain.'.'.$context->getHost());
         }

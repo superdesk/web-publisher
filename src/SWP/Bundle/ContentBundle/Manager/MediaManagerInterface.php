@@ -20,7 +20,7 @@ use SWP\Bundle\ContentBundle\Model\File;
 interface MediaManagerInterface
 {
     /**
-     * Process UploadedFile and return his database representation
+     * Process UploadedFile and return his database representation.
      *
      * @param UploadedFile $uploadedFile
      * @param string       $mediaId
@@ -37,7 +37,7 @@ interface MediaManagerInterface
     public function getFile(FileInterface $media);
 
     /**
-     * Save file to files storage
+     * Save file to files storage.
      *
      * @param UploadedFile $uploadedFile
      * @param string       $fileName
@@ -47,7 +47,7 @@ interface MediaManagerInterface
     public function saveFile(UploadedFile $uploadedFile, $fileName);
 
     /**
-     * Get public url (tenant host + path to media) for media
+     * Get public url (tenant host + path to media) for media.
      *
      * @param FileInterface $media
      *
@@ -56,7 +56,7 @@ interface MediaManagerInterface
     public function getMediaPublicUrl(FileInterface $media);
 
     /**
-     * Get path to media
+     * Get path to media.
      *
      * @param FileInterface $media
      *
