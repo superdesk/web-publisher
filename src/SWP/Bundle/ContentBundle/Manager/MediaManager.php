@@ -80,7 +80,6 @@ class MediaManager implements MediaManagerInterface
     {
 
         $this->saveFile($uploadedFile, $mediaId);
-        dump($uploadedFile, $uploadedFile->getClientOriginalExtension(), $uploadedFile->guessClientExtension());
 
         $media = $this->getProperObject($uploadedFile);
         $media->setParentDocument($this->objectManager->find(null, $this->pathBuilder->build($this->mediaBasepath)));
