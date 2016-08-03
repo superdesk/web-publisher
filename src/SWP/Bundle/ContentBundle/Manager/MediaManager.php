@@ -47,6 +47,16 @@ class MediaManager implements MediaManagerInterface
      */
     protected $mediaBasepath;
 
+    /**
+     * MediaManager constructor.
+     *
+     * @param TenantAwarePathBuilder $pathBuilder
+     * @param Filesystem             $filesystem
+     * @param DocumentManager        $objectManager
+     * @param RouterInterface        $router
+     * @param TenantContextInterface $tenantContext
+     * @param string                 $mediaBasepath
+     */
     public function __construct(
         TenantAwarePathBuilder $pathBuilder,
         Filesystem $filesystem,
@@ -54,7 +64,7 @@ class MediaManager implements MediaManagerInterface
         RouterInterface $router,
         TenantContextInterface $tenantContext,
         $mediaBasepath
-    ){
+    ) {
         $this->pathBuilder = $pathBuilder;
         $this->filesystem = $filesystem;
         $this->objectManager = $objectManager;
@@ -64,17 +74,18 @@ class MediaManager implements MediaManagerInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function handleUploadedFile(UploadedFile $uploadedFile, $mediaId)
     {
 
         $this->saveFile($uploadedFile, $mediaId);
+        dump($uploadedFile, $uploadedFile->getClientOriginalExtension(), $uploadedFile->guessClientExtension());
 
         $media = $this->getProperObject($uploadedFile);
         $media->setParentDocument($this->objectManager->find(null, $this->pathBuilder->build($this->mediaBasepath)));
         $media->setId($mediaId);
-        $media->setFileExtension($uploadedFile->getClientOriginalExtension());
+        $media->setFileExtension($uploadedFile->guessClientExtension());
         $this->objectManager->persist($media);
         $this->objectManager->flush();
 
@@ -82,7 +93,7 @@ class MediaManager implements MediaManagerInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getFile(FileInterface $media)
     {
@@ -92,24 +103,19 @@ class MediaManager implements MediaManagerInterface
     }
 
     /**
-     * Save file to files storage
-     *
-     * @param UploadedFile $uploadedFile
-     * @param string       $fileName
-     *
-     * @return bool True on success, false on failure.
+     * {@inheritdoc}
      */
     public function saveFile(UploadedFile $uploadedFile, $fileName)
     {
         $stream = fopen($uploadedFile->getRealPath(), 'r+');
-        $result = $this->filesystem->writeStream($this->pathBuilder->build($this->mediaBasepath).'/'.$fileName.'.'.$uploadedFile->getClientOriginalExtension(), $stream);
+        $result = $this->filesystem->writeStream($this->pathBuilder->build($this->mediaBasepath).'/'.$fileName.'.'.$uploadedFile->guessClientExtension(), $stream);
         fclose($stream);
 
         return $result;
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getMediaPublicUrl(FileInterface $media)
     {
@@ -121,18 +127,18 @@ class MediaManager implements MediaManagerInterface
             $context->setHost($subdomain.'.'.$context->getHost());
         }
 
-        return $this->getMediaUri($media);
+        return $this->getMediaUri($media, RouterInterface::ABSOLUTE_URL);
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
-    public function getMediaUri(FileInterface $media)
+    public function getMediaUri(FileInterface $media, $type = RouterInterface::ABSOLUTE_PATH)
     {
         return $this->router->generate('swp_media_get', [
             'mediaId' => $media->getId(),
             'extension' => $media->getFileExtension(),
-        ], RouterInterface::ABSOLUTE_URL);
+        ], $type);
     }
 
     protected function getProperObject(UploadedFile $uploadedFile)

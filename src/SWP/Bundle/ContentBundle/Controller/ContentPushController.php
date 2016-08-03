@@ -13,6 +13,7 @@
  */
 namespace SWP\Bundle\ContentBundle\Controller;
 
+use Doctrine\ORM\EntityNotFoundException;
 use Hoa\Mime\Mime;
 use League\Pipeline\Pipeline;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -24,6 +25,7 @@ use SWP\Bundle\ContentBundle\Event\ArticleEvent;
 use SWP\Bundle\ContentBundle\Form\Type\MediaFileType;
 use Symfony\Component\HttpFoundation\Request;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
+use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 
 class ContentPushController extends FOSRestController
 {
@@ -70,16 +72,18 @@ class ContentPushController extends FOSRestController
      *     resource=true,
      *     description="Adds a new assets from HTTP Push",
      *     statusCodes={
-     *         201="Returned on successful post."
+     *         201="Returned on successful post.",
+     *         500="Returned on invalid file.",
+     *         200="Returned on form errors"
      *     },
      *     input="SWP\Bundle\ContentBundle\Form\Type\MediaFileType"
      * )
-     * @Route("/api/{version}/assets/push/", options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_assets_push")
+     * @Route("/api/{version}/assets/push", options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_assets_push")
      * @Method("POST")
      */
     public function pushAssetsAction(Request $request)
     {
-        $form = $this->createForm(new MediaFileType(), null, ['method' => $request->getMethod()]);
+        $form = $this->createForm(new MediaFileType());
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
@@ -92,17 +96,54 @@ class ContentPushController extends FOSRestController
                 return $this->handleView(View::create([
                     'media_id' => $mediaId,
                     'URL' => $mediaManager->getMediaPublicUrl($media),
-                    'media' => base64_encode($mediaManager->getFile($media)), //base64 string encoded media file; not returned by default
-                    'mime_type' =>  Mime::getMimeFromExtension($media->getFileExtension()), //the mime type of the media file
-                    'filemeta' => [], //the metadata of the media file (this field may be missing if the content API was unable to retrieve the metadata from the file)
+                    'media' => base64_encode($mediaManager->getFile($media)),
+                    'mime_type' =>  Mime::getMimeFromExtension($media->getFileExtension()),
+                    'filemeta' => [],
                 ], 201));
             }
 
-            return $this->handleView(View::create(['status' => 'Uploaded file is invalid'], 500));
+            throw new \Exception('Uploaded file is not valid:'. $uploadedFile->getError());
         }
 
         return $this->handleView(View::create($form, 200));
     }
 
+    /**
+     * Checks if media exists in storage.
+     *
+     * @ApiDoc(
+     *     resource=true,
+     *     description="Check if media exists in storage",
+     *     statusCodes={
+     *         404="Returned when file don't exist.",
+     *         200="Returned on form errors"
+     *     }
+     * )
+     * @Route("/api/{version}/assets/push/{mediaId}", options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_assets_get")
+     * @Route("/api/{version}/assets/get/{mediaId}", options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_assets_get_1")
+     * @Method("GET")
+     */
+    public function getAssetsAction(Request $request, $mediaId)
+    {
+        $objectManager = $this->container->get('swp.object_manager.media');
+        $pathBuilder = $this->container->get('swp_multi_tenancy.path_builder');
+        $mediaBasepath = $this->container->getParameter('swp_multi_tenancy.persistence.phpcr.media_basepath');
 
+        $media = $objectManager->find(null, $pathBuilder->build($mediaBasepath).'/'.$mediaId);
+
+        if (null === $media) {
+            throw new ResourceNotFoundException('Media don\'t exists in storage');
+        }
+
+        $mediaManager = $this->container->get('swp_content_bundle.manager.media');
+
+        return $this->handleView(View::create([
+            'media_id' => $mediaId,
+            'URL' => $mediaManager->getMediaPublicUrl($media),
+            'media' => base64_encode($mediaManager->getFile($media)),
+            'mime_type' =>  Mime::getMimeFromExtension($media->getFileExtension()),
+            'filemeta' => [],
+        ], 200));
+
+    }
 }

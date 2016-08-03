@@ -32,3 +32,14 @@ web_profiler:
 
 swiftmailer:
     disable_delivery: true
+
+swp_content:
+    persistence:
+        phpcr:
+            default_content_path: "articles"
+
+oneup_flysystem:
+    adapters:
+        filesystem_adapter:
+            local:
+                directory: "%kernel.cache_dir%/uploads/"

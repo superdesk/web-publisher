@@ -61,5 +61,4 @@ class Image extends BaseFile implements PersistableInterface, HierarchyInterface
 
         $this->parent = $parent;
     }
-
 }

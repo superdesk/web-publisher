@@ -37,6 +37,16 @@ interface MediaManagerInterface
     public function getFile(FileInterface $media);
 
     /**
+     * Save file to files storage
+     *
+     * @param UploadedFile $uploadedFile
+     * @param string       $fileName
+     *
+     * @return bool True on success, false on failure.
+     */
+    public function saveFile(UploadedFile $uploadedFile, $fileName);
+
+    /**
      * Get public url (tenant host + path to media) for media
      *
      * @param FileInterface $media
