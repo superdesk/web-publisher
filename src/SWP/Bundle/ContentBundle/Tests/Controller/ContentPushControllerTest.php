@@ -109,7 +109,7 @@ class ContentPushControllerTest extends WebTestCase
                 'media_id' => 'asdgsadfvasdf4w35qwetasftest',
                 'URL' => 'http://default.localhost/media/asdgsadfvasdf4w35qwetasftest.png',
                 'media' => base64_encode(file_get_contents(__DIR__.'/../Resources/test_file.png')),
-                'mime_type' =>  'image/png',
+                'mime_type' => 'image/png',
                 'filemeta' => [],
             ],
             json_decode($client->getResponse()->getContent(), true)

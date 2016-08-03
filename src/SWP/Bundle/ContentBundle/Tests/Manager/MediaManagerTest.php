@@ -38,7 +38,7 @@ class MediaManagerTest extends WebTestCase
     }
 
     /**
-     * Test file upload
+     * Test file upload.
      */
     public function testFileUpload()
     {
@@ -57,7 +57,7 @@ class MediaManagerTest extends WebTestCase
     }
 
     /**
-     * Test url generation functions
+     * Test url generation functions.
      */
     public function testUrlGeneration()
     {

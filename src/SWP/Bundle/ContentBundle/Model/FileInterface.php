@@ -23,7 +23,7 @@ interface FileInterface extends PersistableInterface
     public function getId();
 
     /**
-     * Get uploaded file extension
+     * Get uploaded file extension.
      *
      * @return string
      */

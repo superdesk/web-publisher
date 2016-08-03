@@ -21,7 +21,7 @@ class File implements FileInterface
     protected $id;
 
     /**
-     * Uploaded file extension
+     * Uploaded file extension.
      *
      * @var string
      */

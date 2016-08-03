@@ -13,7 +13,6 @@
  */
 namespace SWP\Bundle\ContentBundle\Controller;
 
-use Doctrine\ORM\EntityNotFoundException;
 use Hoa\Mime\Mime;
 use League\Pipeline\Pipeline;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -97,12 +96,12 @@ class ContentPushController extends FOSRestController
                     'media_id' => $mediaId,
                     'URL' => $mediaManager->getMediaPublicUrl($media),
                     'media' => base64_encode($mediaManager->getFile($media)),
-                    'mime_type' =>  Mime::getMimeFromExtension($media->getFileExtension()),
+                    'mime_type' => Mime::getMimeFromExtension($media->getFileExtension()),
                     'filemeta' => [],
                 ], 201));
             }
 
-            throw new \Exception('Uploaded file is not valid:'. $uploadedFile->getError());
+            throw new \Exception('Uploaded file is not valid:'.$uploadedFile->getError());
         }
 
         return $this->handleView(View::create($form, 200));
@@ -141,9 +140,8 @@ class ContentPushController extends FOSRestController
             'media_id' => $mediaId,
             'URL' => $mediaManager->getMediaPublicUrl($media),
             'media' => base64_encode($mediaManager->getFile($media)),
-            'mime_type' =>  Mime::getMimeFromExtension($media->getFileExtension()),
+            'mime_type' => Mime::getMimeFromExtension($media->getFileExtension()),
             'filemeta' => [],
         ], 200));
-
     }
 }
