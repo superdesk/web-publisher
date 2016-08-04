@@ -1,0 +1,27 @@
+SWP\Bundle\TemplateEngineBundle\Model\Revision:
+    type: entity
+    table: swp_revision
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: IDENTITY
+    fields:
+        originId:
+            type: integer
+        revisionId:
+            type: integer
+        className:
+            type: string
+            length: 255
+        published:
+            type: boolean
+        createdAt:
+            type: datetime
+            gedmo:
+                timestampable:
+                    on: create
+    uniqueConstraints:
+        revision_idx:
+          columns: [ originId, revisionId, className ]

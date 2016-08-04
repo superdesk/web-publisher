@@ -19,6 +19,11 @@ services:
         arguments:
             - "@doctrine.orm.default_entity_manager"
 
+    swp_template_engine_revision:
+        class: SWP\Bundle\TemplateEngineBundle\Service\RevisionService
+        arguments:
+            - "@doctrine.orm.default_entity_manager"
+
     swp_template_engine_twig_extension.gimme:
         class: SWP\Component\TemplatesSystem\Twig\Extension\GimmeExtension
         public: false
