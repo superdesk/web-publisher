@@ -26,7 +26,7 @@ use Hoa\Mime\Mime;
 class MediaController extends Controller
 {
     /**
-     * List all articles for current tenant.
+     * Send or render single media.
      *
      * @Route("/media/{mediaId}.{extension}", options={"expose"=true}, name="swp_media_get")
      * @Method("GET")

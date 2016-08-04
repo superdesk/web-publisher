@@ -38,10 +38,10 @@ class ContentPushController extends FOSRestController
      *         201="Returned on successful post."
      *     }
      * )
-     * @Route("/api/{version}/content/push/{mediaId}", options={"expose"=true}, defaults={"version"="v1"}, requirements={"mediaId"=".+"}, name="swp_api_content_push")
+     * @Route("/api/{version}/content/push", options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_content_push")
      * @Method("POST")
      */
-    public function pushContentAction(Request $request, $mediaId = null)
+    public function pushContentAction(Request $request)
     {
         $pipeline = (new Pipeline())
             ->pipe([$this->get('swp_bridge.transformer.json_to_package'), 'transform'])
@@ -69,7 +69,7 @@ class ContentPushController extends FOSRestController
      *
      * @ApiDoc(
      *     resource=true,
-     *     description="Adds a new assets from HTTP Push",
+     *     description="Adds new assets from HTTP Push",
      *     statusCodes={
      *         201="Returned on successful post.",
      *         500="Returned on invalid file.",
@@ -112,14 +112,14 @@ class ContentPushController extends FOSRestController
      *
      * @ApiDoc(
      *     resource=true,
-     *     description="Check if media exists in storage",
+     *     description="Gets a single media file",
      *     statusCodes={
-     *         404="Returned when file don't exist.",
+     *         404="Returned when file doesn't exist.",
      *         200="Returned on form errors"
      *     }
      * )
-     * @Route("/api/{version}/assets/push/{mediaId}", options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_assets_get")
-     * @Route("/api/{version}/assets/get/{mediaId}", options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_assets_get_1")
+     * @Route("/api/{version}/assets/push/{mediaId}", options={"expose"=true}, defaults={"version"="v1"}, requirements={"mediaId"=".+"}, name="swp_api_assets_get")
+     * @Route("/api/{version}/assets/get/{mediaId}", options={"expose"=true}, defaults={"version"="v1"}, requirements={"mediaId"=".+"}, name="swp_api_assets_get_1")
      * @Method("GET")
      */
     public function getAssetsAction(Request $request, $mediaId)

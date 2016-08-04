@@ -27,21 +27,33 @@ class File implements FileInterface
      */
     protected $fileExtension;
 
+    /**
+     * @param int $id
+     */
     public function setId($id)
     {
         $this->id = $id;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getId()
     {
         return $this->id;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function setFileExtension($extension)
     {
         $this->fileExtension = $extension;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getFileExtension()
     {
         return $this->fileExtension;

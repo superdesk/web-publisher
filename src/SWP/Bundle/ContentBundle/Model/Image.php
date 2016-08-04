@@ -13,7 +13,7 @@
  */
 namespace SWP\Bundle\ContentBundle\Model;
 
-class Image extends File
+class Image extends File implements ImageInterface
 {
     /**
      * @var int
@@ -26,9 +26,7 @@ class Image extends File
     protected $height;
 
     /**
-     * Get the value of Width.
-     *
-     * @return int
+     * {@inheritdoc}
      */
     public function getWidth()
     {
@@ -38,7 +36,7 @@ class Image extends File
     /**
      * Set the value of Width.
      *
-     * @param int width
+     * @param int $width
      *
      * @return self
      */
@@ -50,9 +48,7 @@ class Image extends File
     }
 
     /**
-     * Get the value of Height.
-     *
-     * @return int
+     * {@inheritdoc}
      */
     public function getHeight()
     {
@@ -62,7 +58,7 @@ class Image extends File
     /**
      * Set the value of Height.
      *
-     * @param int height
+     * @param int $height
      *
      * @return self
      */
