@@ -14,7 +14,6 @@
 namespace SWP\Bundle\MultiTenancyBundle\Context;
 
 use SWP\Component\MultiTenancy\Context\TenantContextInterface;
-use SWP\Component\MultiTenancy\Model\Tenant;
 use SWP\Component\MultiTenancy\Model\TenantInterface;
 use SWP\Component\MultiTenancy\Resolver\TenantResolverInterface;
 use Symfony\Component\HttpFoundation\RequestStack;

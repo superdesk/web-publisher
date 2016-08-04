@@ -98,6 +98,20 @@ class WidgetModel implements WidgetModelInterface, TenantAwareInterface, Timesta
     }
 
     /**
+     * Set id.
+     *
+     * @param string $id
+     *
+     * @return WidgetModel
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
+
+        return $this;
+    }
+
+    /**
      * Set name.
      *
      * @param string $name

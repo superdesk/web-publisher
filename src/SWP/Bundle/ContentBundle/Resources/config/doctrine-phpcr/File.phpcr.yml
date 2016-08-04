@@ -1,0 +1,7 @@
+SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\File:
+    referenceable: true
+    parentdocument: parent
+    nodename: id
+    fields:
+        fileExtension:
+            type: string
