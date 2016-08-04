@@ -44,6 +44,7 @@ class DefaultControllerTest extends WebTestCase
             'SWP\Bundle\FixturesBundle\DataFixtures\PHPCR\LoadArticlesData',
             'SWP\Bundle\FixturesBundle\DataFixtures\PHPCR\LoadSitesData',
         ], null, 'doctrine_phpcr');
+
         $client = static::createClient();
         foreach (self::$devices as $userAgent => $filter) {
             if (!in_array($userAgent, ['no_agent_0', 'no_agent_1'])) {

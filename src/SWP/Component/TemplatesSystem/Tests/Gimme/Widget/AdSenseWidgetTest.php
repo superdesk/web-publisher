@@ -13,19 +13,24 @@
  */
 namespace SWP\Component\TemplatesSystem\Tests\Gimme\Widget;
 
+use SWP\Bundle\TemplateEngineBundle\Model\WidgetModel;
 use SWP\Component\TemplatesSystem\Gimme\Widget\GoogleAdSenseWidgetHandler;
+use Liip\FunctionalTestBundle\Test\WebTestCase;
 
-class AdSenseWidgetTest extends \PHPUnit_Framework_TestCase
+class AdSenseWidgetTest extends WebTestCase
 {
     private $widget;
 
     public function setUp()
     {
+        self::bootKernel();
+
         $widgetEntity = new WidgetModel();
         $widgetEntity->setId(1);
         $widgetEntity->setParameters(['ad_client' => '1', 'ad_slot' => '1']);
 
         $this->widget = new GoogleAdSenseWidgetHandler($widgetEntity);
+        $this->widget->setContainer($this->getContainer());
     }
 
     public function testCheckingVisibility()
@@ -36,7 +41,7 @@ class AdSenseWidgetTest extends \PHPUnit_Framework_TestCase
     public function testRendering()
     {
         $rendered = $this->widget->render();
-        $this->assertContains($rendered, 'data-ad-client="1"');
-        $this->assertContains($rendered, 'data-ad-slot="1"');
+        $this->assertContains('data-ad-client="1"', $rendered);
+        $this->assertContains('data-ad-slot="1"', $rendered);
     }
 }

@@ -12,14 +12,9 @@
             <directory>../src/*/*Bundle/Tests</directory>
             <directory>../src/*/Bundle/*Bundle/Tests</directory>
             <directory>../src/*Bundle/Tests</directory>
+            <directory>../src/SWP/Component/*/Tests</directory>
         </testsuite>
     </testsuites>
-
-    <!--
-    <php>
-        <server name="KERNEL_DIR" value="/path/to/your/app/" />
-    </php>
-    -->
 
     <filter>
         <whitelist>
