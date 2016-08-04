@@ -35,7 +35,12 @@ class PHPCRBasePathsInitializer implements InitializerInterface
     /**
      * @var array
      */
-    private $paths;
+    private $homePagePaths;
+
+    /**
+     * @var array
+     */
+    private $otherPaths;
 
     /**
      * @var TenantProviderInterface
@@ -60,20 +65,23 @@ class PHPCRBasePathsInitializer implements InitializerInterface
     /**
      * Construct.
      *
-     * @param array                           $paths          Content paths
+     * @param array                           $homePagePaths  home page paths
+     * @param array                           $otherPaths     other paths
      * @param TenantProviderInterface         $tenantProvider Tenants provider
      * @param TenantAwarePathBuilderInterface $pathBuilder    Path builder
      * @param string                          $siteClass      Site document class
      * @param string                          $documentClass  Page document FQCN
      */
     public function __construct(
-        array $paths,
+        array $homePagePaths,
+        array $otherPaths,
         TenantProviderInterface $tenantProvider,
         TenantAwarePathBuilderInterface $pathBuilder,
         $siteClass,
         $documentClass
     ) {
-        $this->paths = $paths;
+        $this->homePagePaths = $homePagePaths;
+        $this->otherPaths = $otherPaths;
         $this->tenantProvider = $tenantProvider;
         $this->pathBuilder = $pathBuilder;
         $this->siteClass = $siteClass;
@@ -95,7 +103,8 @@ class PHPCRBasePathsInitializer implements InitializerInterface
 
     private function generateBasePaths(SessionInterface $session, array $tenants = [])
     {
-        $basePaths = [];
+        $homePagePaths = [];
+        $otherPaths = [];
         foreach ($tenants as $tenant) {
             $subdomain = $tenant['subdomain'];
             $site = $this->dm->find($this->siteClass, $this->pathBuilder->build('/', $subdomain));
@@ -107,21 +116,30 @@ class PHPCRBasePathsInitializer implements InitializerInterface
 
                 $site->setId((string) $this->pathBuilder->build('/', $subdomain));
                 $this->dm->persist($site);
+                $this->dm->flush();
             }
 
-            foreach ($this->paths as $path) {
-                $basePaths[] = $this->pathBuilder->build($path, $subdomain);
+            foreach ($this->homePagePaths as $path) {
+                $homePagePaths[] = $this->pathBuilder->build($path, $subdomain);
+            }
+
+            foreach ($this->otherPaths as $path) {
+                $otherPaths[] = $this->pathBuilder->build($path, $subdomain);
             }
         }
 
         $this->dm->flush();
 
-        if (count($basePaths) > 0) {
-            $this->createBasePaths($session, $basePaths, $tenants);
+        if (count($homePagePaths) > 0) {
+            $this->createHomePageBasePaths($session, $homePagePaths, $tenants);
+        }
+
+        if (count($otherPaths) > 0) {
+            $this->createOtherBasePaths($session, $otherPaths);
         }
     }
 
-    private function createBasePaths(SessionInterface $session, array $basePaths, array $tenants)
+    private function createHomePageBasePaths(SessionInterface $session, array $basePaths, array $tenants)
     {
         $route = null;
         $home = 'homepage';
@@ -130,10 +148,12 @@ class PHPCRBasePathsInitializer implements InitializerInterface
             $homepage = $this->dm->find(null, $path.'/'.$home);
             if (null === $homepage) {
                 $route = new $this->documentClass();
-                $route->setParentDocument($this->dm->find(null, $path));
+                $parent = $this->dm->find(null, $path);
+                $route->setParentDocument($parent);
                 $route->setName($home);
                 $route->setType(RouteInterface::TYPE_CONTENT);
                 $this->dm->persist($route);
+                $this->dm->flush();
             }
         }
 
@@ -144,6 +164,15 @@ class PHPCRBasePathsInitializer implements InitializerInterface
                 $site->setHomepage($route);
             }
         }
+    }
+
+    private function createOtherBasePaths(SessionInterface $session, array $basePaths)
+    {
+        foreach ($basePaths as $path) {
+            NodeHelper::createPath($session, $path);
+        }
+
+        $session->save();
     }
 
     /**
