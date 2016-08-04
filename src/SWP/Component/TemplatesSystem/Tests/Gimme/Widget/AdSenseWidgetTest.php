@@ -25,6 +25,11 @@ class AdSenseWidgetTest extends WebTestCase
     {
         self::bootKernel();
 
+        $this->runCommand('doctrine:doctrine:schema:update', ['--force' => true, '--env' => 'test'], true);
+        $this->loadFixtureFiles([
+            '@SWPFixturesBundle/Resources/fixtures/ORM/test/tenant.yml',
+        ]);
+
         $widgetEntity = new WidgetModel();
         $widgetEntity->setId(1);
         $widgetEntity->setParameters(['ad_client' => '1', 'ad_slot' => '1']);
