@@ -13,7 +13,6 @@
  */
 namespace SWP\Bundle\TemplateEngineBundle\Service;
 
-
 use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\ORM\EntityNotFoundException;
 use SWP\Bundle\TemplateEngineBundle\Model\ContainerBranch;
@@ -45,7 +44,7 @@ class BranchService
         return null === $branch ? null : $branch->getSource();
     }
 
-    public function createBranchedContainer($container, $targetName=null)
+    public function createBranchedContainer($container, $targetName = null)
     {
         /** @var Container $target */
         $target = clone $container;
@@ -104,7 +103,9 @@ class BranchService
         // More complicated because of sortable field in ContainerWidget - new widgets must be added in order of their position,
         // Reassigning instances of ContainerWidget from target to source oes not work, as SortableListener will use id's of the entities to set their position
         $widgets = $target->getWidgets()->toArray();
-        usort($widgets, function($a, $b) {return $a->getPosition() - $b->getPosition();});
+        usort($widgets, function ($a, $b) {
+            return $a->getPosition() - $b->getPosition();
+        });
         //$source->setWidgets(new ArrayCollection($widgets));
         foreach ($widgets as $widget) {
             $source->addWidget(new ContainerWidget($source, $widget->getWidget()));
@@ -119,9 +120,9 @@ class BranchService
         return $source;
     }
 
-    public function createBranchedWidgetModel($widgetModel, $targetName=null)
+    public function createBranchedWidgetModel($widgetModel, $targetName = null)
     {
-        /** @var WidgetModel $widgetModel */
+        /* @var WidgetModel $widgetModel */
         $target = clone $widgetModel;
         if (null === $targetName) {
             $targetName = $widgetModel->getName().'_'.uniqid();

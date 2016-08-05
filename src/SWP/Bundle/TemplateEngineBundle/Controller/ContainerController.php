@@ -14,7 +14,6 @@
 namespace SWP\Bundle\TemplateEngineBundle\Controller;
 
 use Doctrine\ORM\EntityNotFoundException;
-use Faker\Provider\fa_IR\Text;
 use FOS\RestBundle\Controller\FOSRestController;
 use FOS\RestBundle\View\View;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
@@ -303,7 +302,9 @@ class ContainerController extends FOSRestController
 
     /**
      * @param $id
+     *
      * @return Container
+     *
      * @throws \Doctrine\ORM\NonUniqueResultException
      */
     private function getContainer($id)

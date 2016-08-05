@@ -77,9 +77,9 @@ class ContainerWidget
     }
 
     /**
-     * Get id
+     * Get id.
      *
-     * @return integer
+     * @return int
      */
     public function getId()
     {
@@ -87,9 +87,9 @@ class ContainerWidget
     }
 
     /**
-     * Get position
+     * Get position.
      *
-     * @return integer
+     * @return int
      */
     public function getPosition()
     {
@@ -97,7 +97,7 @@ class ContainerWidget
     }
 
     /**
-     * Set widget
+     * Set widget.
      *
      * @param \SWP\Bundle\TemplateEngineBundle\Model\WidgetModel $widget
      *
@@ -111,7 +111,7 @@ class ContainerWidget
     }
 
     /**
-     * Set container
+     * Set container.
      *
      * @param \SWP\Bundle\TemplateEngineBundle\Model\Container $container
      *
@@ -125,7 +125,7 @@ class ContainerWidget
     }
 
     /**
-     * Get container
+     * Get container.
      *
      * @return \SWP\Bundle\TemplateEngineBundle\Model\Container
      */

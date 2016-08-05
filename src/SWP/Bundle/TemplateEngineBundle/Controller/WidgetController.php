@@ -218,7 +218,9 @@ class WidgetController extends FOSRestController
 
     /**
      * @param $id
+     *
      * @return WidgetModel
+     *
      * @throws \Doctrine\ORM\NonUniqueResultException
      */
     private function getWidget($id)

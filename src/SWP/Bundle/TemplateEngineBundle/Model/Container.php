@@ -338,7 +338,7 @@ class Container extends Revision implements ContainerInterface, TenantAwareInter
     }
 
     /**
-     * Remove all container data
+     * Remove all container data.
      *
      * @return self
      */
@@ -434,7 +434,7 @@ class Container extends Revision implements ContainerInterface, TenantAwareInter
     }
 
     /**
-     * Remove all widgets from container
+     * Remove all widgets from container.
      */
     public function clearWidgets()
     {
