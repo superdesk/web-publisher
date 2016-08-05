@@ -107,6 +107,7 @@ class RevisionService
         $unpublished->onPublished($published);
 
         $this->objectManager->flush();
+
         return $unpublished;
     }
 

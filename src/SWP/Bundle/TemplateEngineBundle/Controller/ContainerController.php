@@ -144,8 +144,7 @@ class ContainerController extends FOSRestController
 
         return $this->handleView(View::create($form, 200));
     }
-
-
+    
     /**
      * Publish changes to container.
      *
