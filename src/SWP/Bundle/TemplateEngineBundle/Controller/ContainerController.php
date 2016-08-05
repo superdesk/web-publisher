@@ -13,7 +13,6 @@
  */
 namespace SWP\Bundle\TemplateEngineBundle\Controller;
 
-use Doctrine\ORM\EntityNotFoundException;
 use FOS\RestBundle\Controller\FOSRestController;
 use FOS\RestBundle\View\View;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
@@ -24,7 +23,6 @@ use SWP\Bundle\TemplateEngineBundle\Form\Type\ContainerType;
 use SWP\Bundle\TemplateEngineBundle\Model\Container;
 use SWP\Bundle\TemplateEngineBundle\Model\ContainerData;
 use SWP\Bundle\TemplateEngineBundle\Model\ContainerWidget;
-use SWP\Bundle\TemplateEngineBundle\Model\Revision;
 use SWP\Bundle\TemplateEngineBundle\Model\WidgetModel;
 use SWP\Component\Common\Event\HttpCacheEvent;
 use Symfony\Component\HttpFoundation\Request;
@@ -149,7 +147,7 @@ class ContainerController extends FOSRestController
 
 
     /**
-     * Publish changes to container
+     * Publish changes to container.
      *
      * @ApiDoc(
      *     resource=true,

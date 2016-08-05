@@ -13,7 +13,6 @@
  */
 namespace SWP\Bundle\TemplateEngineBundle\Controller;
 
-use Doctrine\ORM\EntityNotFoundException;
 use FOS\RestBundle\Controller\FOSRestController;
 use FOS\RestBundle\View\View;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;

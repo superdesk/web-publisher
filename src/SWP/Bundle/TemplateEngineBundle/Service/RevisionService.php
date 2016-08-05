@@ -79,8 +79,10 @@ class RevisionService
     {
         $name = $published->getName();
         $unpublishedName = $unpublished->getName();
-        return (strpos($unpublishedName, $name) === 0
-            && strlen($unpublishedName) === strlen($name) + 13 + strlen(self::REVISION_NAME_SEPARATOR));
+
+        // Assume name is not change if has the same name as the published version, plus the separator and a uniqid
+        return strpos($unpublishedName, $name) === 0
+            && strlen($unpublishedName) === strlen($name) + strlen(self::REVISION_NAME_SEPARATOR) + 13;
     }
 
     public function publishUnpublishedRevision($published)

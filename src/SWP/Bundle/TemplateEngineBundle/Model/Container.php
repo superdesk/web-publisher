@@ -14,7 +14,6 @@
 namespace SWP\Bundle\TemplateEngineBundle\Model;
 
 use Doctrine\Common\Collections\ArrayCollection;
-use Gedmo\SoftDeleteable\Traits\SoftDeleteable;
 use SWP\Component\Common\Model\TimestampableInterface;
 use SWP\Component\MultiTenancy\Model\TenantAwareInterface;
 use SWP\Component\MultiTenancy\Model\TenantInterface;

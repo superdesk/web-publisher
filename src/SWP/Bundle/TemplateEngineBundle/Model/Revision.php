@@ -58,9 +58,9 @@ abstract class Revision
     abstract public function setName($name);
 
     /**
-     * Set originId
+     * Set originId.
      *
-     * @param integer $originId
+     * @param int $originId
      *
      * @return Revision
      */
@@ -72,9 +72,9 @@ abstract class Revision
     }
 
     /**
-     * Get originId
+     * Get originId.
      *
-     * @return integer
+     * @return int
      */
     public function getOriginId()
     {
@@ -90,9 +90,9 @@ abstract class Revision
     }
 
     /**
-     * Set state
+     * Set state.
      *
-     * @param integer $state
+     * @param int $state
      *
      * @return Revision
      */
@@ -100,8 +100,7 @@ abstract class Revision
     {
         if ($state !== self::STATE_ARCHIVED &&
             $state !== self::STATE_PUBLISHED &&
-            $state !== self::STATE_UNPUBLISHED)
-        {
+            $state !== self::STATE_UNPUBLISHED) {
             throw new \Exception('Invalid state '.$state);
         }
 
@@ -111,9 +110,9 @@ abstract class Revision
     }
 
     /**
-     * Get state
+     * Get state.
      *
-     * @return integer
+     * @return int
      */
     public function getState()
     {

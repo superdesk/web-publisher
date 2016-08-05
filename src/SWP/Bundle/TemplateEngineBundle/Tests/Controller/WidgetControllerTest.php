@@ -87,7 +87,6 @@ class WidgetControllerTest extends WebTestCase
         $this->assertEquals(201, $client->getResponse()->getStatusCode());
         $this->assertContains('"type":"\\\\SWP\\\\Component\\\\TemplatesSystem\\\\Gimme\\\\Widget\\\\HtmlWidgetHandler","name":"Simple Updated html widget","visible":false,"parameters":{"html_body":"sample widget with <span style=\'color:red\'>html<\/span>","extra_param":"extra value"},"_links":{"self":{"href":"\/api\/v1\/templates\/widgets',
             $client->getResponse()->getContent());
-
     }
 
     public function testPublishRevisionApi()
