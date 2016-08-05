@@ -26,15 +26,15 @@ class WidgetControllerTest extends WebTestCase
     {
         self::bootKernel();
         $this->runCommand('doctrine:schema:drop', ['--force' => true, '--env' => 'test'], true);
-        $this->runCommand('doctrine:doctrine:schema:update', ['--force' => true, '--env' => 'test'], true);
+        $this->runCommand('doctrine:schema:update', ['--force' => true, '--env' => 'test'], true);
 
         $this->loadFixtureFiles([
             '@SWPFixturesBundle/Resources/fixtures/ORM/test/tenant.yml',
+            '@SWPFixturesBundle/Resources/fixtures/ORM/test/Container.yml',
             '@SWPFixturesBundle/Resources/fixtures/ORM/test/WidgetModel.yml',
         ]);
 
         $this->runCommand('doctrine:phpcr:repository:init', ['--env' => 'test'], true);
-
         $this->router = $this->getContainer()->get('router');
     }
 
@@ -85,7 +85,39 @@ class WidgetControllerTest extends WebTestCase
         ]);
 
         $this->assertEquals(201, $client->getResponse()->getStatusCode());
-        $this->assertEquals($client->getResponse()->getContent(), '{"id":1,"type":"\\\\SWP\\\\Component\\\\TemplatesSystem\\\\Gimme\\\\Widget\\\\HtmlWidgetHandler","name":"Simple Updated html widget","visible":false,"parameters":{"html_body":"sample widget with <span style=\'color:red\'>html<\/span>","extra_param":"extra value"},"_links":{"self":{"href":"\/api\/v1\/templates\/widgets\/1"}}}');
+        $this->assertContains('"type":"\\\\SWP\\\\Component\\\\TemplatesSystem\\\\Gimme\\\\Widget\\\\HtmlWidgetHandler","name":"Simple Updated html widget","visible":false,"parameters":{"html_body":"sample widget with <span style=\'color:red\'>html<\/span>","extra_param":"extra value"},"_links":{"self":{"href":"\/api\/v1\/templates\/widgets',
+            $client->getResponse()->getContent());
+    }
+
+    public function testPublishRevisionApi()
+    {
+        $client = static::createClient();
+        $client->request('PATCH', $this->router->generate('swp_api_templates_update_widget', ['id' => 1]), [
+            'widget' => [
+                'name' => 'Simple Updated html widget',
+                'visible' => 0,
+                'parameters' => [
+                    'html_body' => 'sample widget with <span style=\'color:red\'>html</span>',
+                    'extra_param' => 'extra value',
+                ],
+            ],
+        ]);
+
+        $client->request('GET', $this->router->generate('swp_api_templates_get_widget', ['id' => 1]));
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+
+        $content = $client->getResponse()->getContent();
+        $original = $this->getContainer()->get('jms_serializer')->deserialize($content, 'SWP\Bundle\TemplateEngineBundle\Model\WidgetModel', 'json');
+        $this->assertNotEquals($original->getName(), 'Simple Updated html widget');
+
+        $client->request('PUT', $this->router->generate('swp_api_templates_publish_widget', ['id' => 1]));
+        $this->assertEquals(201, $client->getResponse()->getStatusCode());
+
+        $content = $client->getResponse()->getContent();
+        $published = $this->getContainer()->get('jms_serializer')->deserialize($content, 'SWP\Bundle\TemplateEngineBundle\Model\WidgetModel', 'json');
+        $this->assertEquals($published->getName(), 'Simple Updated html widget');
+
+        $this->getContainer()->get('doctrine.orm.entity_manager')->getRepository('SWP\Bundle\TemplateEngineBundle\Model\Container')->find(1);
     }
 
     public function testDeleteWidgetApi()

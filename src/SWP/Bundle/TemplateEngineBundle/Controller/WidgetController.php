@@ -41,9 +41,9 @@ class WidgetController extends FOSRestController
      */
     public function listAction(Request $request)
     {
-        $entityManager = $this->get('doctrine')->getManager();
         $paginator = $this->get('knp_paginator');
-        $widgets = $paginator->paginate($entityManager->getRepository('SWP\Bundle\TemplateEngineBundle\Model\WidgetModel')->getAll());
+        $all = $this->get('swp_template_engine_revision')->getCurrentRevisions('SWP\Bundle\TemplateEngineBundle\Model\WidgetModel');
+        $widgets = $paginator->paginate($all);
 
         if (count($widgets) == 0) {
             throw new NotFoundHttpException('Widgets were not found.');
@@ -69,16 +69,7 @@ class WidgetController extends FOSRestController
      */
     public function getAction(Request $request, $id)
     {
-        if (!$id) {
-            throw new UnprocessableEntityHttpException('You need to provide widget Id (integer).');
-        }
-
-        $entityManager = $this->get('doctrine')->getManager();
-        $widget = $entityManager->getRepository('SWP\Bundle\TemplateEngineBundle\Model\WidgetModel')->getById($id)->getOneOrNullResult();
-
-        if (!$widget) {
-            throw new NotFoundHttpException('WidgetModel with this id was not found.');
-        }
+        $widget = $this->getWidget($id);
 
         // return clean object for LINK requests
         if ($request->attributes->get('_link_request', false) === true) {
@@ -137,17 +128,9 @@ class WidgetController extends FOSRestController
      */
     public function deleteAction(Request $request, $id)
     {
-        if (!$id) {
-            throw new UnprocessableEntityHttpException('You need to provide widget Id (integer).');
-        }
+        $widget = $this->getWidget($id);
 
-        $entityManager = $this->get('doctrine')->getManager();
-        $widget = $entityManager->getRepository('SWP\Bundle\TemplateEngineBundle\Model\WidgetModel')->getById($id)->getOneOrNullResult();
-
-        if (!$widget) {
-            throw new NotFoundHttpException('Widget with this id was not found.');
-        }
-
+        $entityManager = $this->get('doctrine.orm.entity_manager');
         foreach ($widget->getContainers() as $containerWidget) {
             $entityManager->remove($containerWidget);
         }
@@ -177,6 +160,70 @@ class WidgetController extends FOSRestController
      */
     public function updateAction(Request $request, $id)
     {
+        $widget = $this->getWidget($id);
+
+        $revisionService = $this->get('swp_template_engine_revision');
+        $unpublished = $revisionService->getOrCreateUnpublishedRevision($widget);
+
+        // Set the name of unpublished version to be that of published version
+        $unpublishedName = $unpublished->getName();
+        $publishedName = $widget->getName();
+        if ($revisionService->isNameUnchanged($widget, $unpublished)) {
+            $unpublished->setName($publishedName);
+        }
+
+        $form = $this->createForm(new WidgetType(), $unpublished, [
+            'method' => $request->getMethod(),
+        ]);
+
+        $form->handleRequest($request);
+        if ($form->isValid()) {
+            if ($publishedName === $unpublished->getName()) {
+                $unpublished->setName($unpublishedName);
+            }
+            $entityManager = $this->get('doctrine.orm.entity_manager');
+            $entityManager->flush($unpublished);
+            $entityManager->refresh($unpublished);
+
+            return $this->handleView(View::create($unpublished, 201));
+        }
+
+        return $this->handleView(View::create($form, 200));
+    }
+
+    /**
+     * Publish changes to widget.
+     *
+     * @ApiDoc(
+     *     resource=true,
+     *     description="Publish changes to widget - returns published widget",
+     *     statusCodes={
+     *         200="Returned on success.",
+     *         404="Widget not found",
+     *         409="Widget is not published",
+     *         410="No unpublished version"
+     *     }
+     * )
+     * @Route("/api/{version}/templates/widgets/publish/{id}", requirements={"id"="\d+"}, options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_templates_publish_widget")
+     * @Method("PUT")
+     */
+    public function publishAction($id)
+    {
+        $widget = $this->getWidget($id);
+        $successor = $this->get('swp_template_engine_revision')->publishUnpublishedRevision($widget);
+
+        return $this->handleView(View::create($successor, 201));
+    }
+
+    /**
+     * @param $id
+     *
+     * @return WidgetModel
+     *
+     * @throws \Doctrine\ORM\NonUniqueResultException
+     */
+    private function getWidget($id)
+    {
         if (!$id) {
             throw new UnprocessableEntityHttpException('You need to provide container Id (integer).');
         }
@@ -188,18 +235,6 @@ class WidgetController extends FOSRestController
             throw new NotFoundHttpException('Widget with this id was not found.');
         }
 
-        $form = $this->createForm(new WidgetType(), $widget, [
-            'method' => $request->getMethod(),
-        ]);
-
-        $form->handleRequest($request);
-        if ($form->isValid()) {
-            $entityManager->flush($widget);
-            $entityManager->refresh($widget);
-
-            return $this->handleView(View::create($widget, 201));
-        }
-
-        return $this->handleView(View::create($form, 200));
+        return $widget;
     }
 }

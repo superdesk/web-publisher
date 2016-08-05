@@ -27,8 +27,10 @@ SWP\Bundle\TemplateEngineBundle\Model\Container:
             type: string
         data:
             expose: true
+            type: SWP\Bundle\TemplateEngineBundle\Model\ContainerData
         widgets:
             expose: true
+            type: SWP\Bundle\TemplateEngineBundle\Model\WidgetModel
     relations:
         -
             rel: self

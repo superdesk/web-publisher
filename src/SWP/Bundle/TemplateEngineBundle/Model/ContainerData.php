@@ -50,6 +50,13 @@ class ContainerData
         return $this;
     }
 
+    public function __clone()
+    {
+        if ($this->getId()) {
+            $this->id = null;
+        }
+    }
+
     /**
      * Gets the value of id.
      *
@@ -125,7 +132,7 @@ class ContainerData
      *
      * @return self
      */
-    public function setContainer(Container $container)
+    public function setContainer($container)
     {
         $this->container = $container;
 

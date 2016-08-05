@@ -20,6 +20,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use SWP\Bundle\TemplateEngineBundle\Form\Type\ContainerType;
+use SWP\Bundle\TemplateEngineBundle\Model\Container;
 use SWP\Bundle\TemplateEngineBundle\Model\ContainerData;
 use SWP\Bundle\TemplateEngineBundle\Model\ContainerWidget;
 use SWP\Bundle\TemplateEngineBundle\Model\WidgetModel;
@@ -46,9 +47,9 @@ class ContainerController extends FOSRestController
      */
     public function listAction(Request $request)
     {
-        $entityManager = $this->get('doctrine')->getManager();
         $paginator = $this->get('knp_paginator');
-        $containers = $paginator->paginate($entityManager->getRepository('SWP\Bundle\TemplateEngineBundle\Model\Container')->getAll());
+        $all = $this->get('swp_template_engine_revision')->getCurrentRevisions('SWP\Bundle\TemplateEngineBundle\Model\Container');
+        $containers = $paginator->paginate($all);
 
         if (count($containers) == 0) {
             throw new NotFoundHttpException('Containers were not found.');
@@ -75,14 +76,7 @@ class ContainerController extends FOSRestController
      */
     public function getAction(Request $request, $id)
     {
-        $container = $this->get('doctrine')->getManager()
-            ->getRepository('SWP\Bundle\TemplateEngineBundle\Model\Container')
-            ->getById($id)
-            ->getOneOrNullResult();
-
-        if (!$container) {
-            throw new NotFoundHttpException('Container with this id was not found.');
-        }
+        $container = $this->getContainer($id);
 
         return $this->handleView(View::create($container, 200));
     }
@@ -105,46 +99,74 @@ class ContainerController extends FOSRestController
      */
     public function updateAction(Request $request, $id)
     {
-        $entityManager = $this->get('doctrine')->getManager();
-        $container = $entityManager->getRepository('SWP\Bundle\TemplateEngineBundle\Model\Container')
-            ->getById($id)
-            ->getOneOrNullResult();
+        $container = $this->getContainer($id);
 
-        if (!$container) {
-            throw new NotFoundHttpException('Container with this id was not found.');
+        $revisionService = $this->get('swp_template_engine_revision');
+        $unpublished = $revisionService->getOrCreateUnpublishedRevision($container);
+
+        // Set the name of unpublished version to be that of published version
+        $unpublishedName = $unpublished->getName();
+        $publishedName = $container->getName();
+        if ($revisionService->isNameUnchanged($container, $unpublished)) {
+            $unpublished->setName($publishedName);
         }
 
-        $form = $this->createForm(new ContainerType(), $container, [
+        $form = $this->createForm(new ContainerType(), $unpublished, [
             'method' => $request->getMethod(),
         ]);
 
         $form->handleRequest($request);
         if ($form->isValid()) {
+            if ($publishedName === $unpublished->getName()) {
+                $unpublished->setName($unpublishedName);
+            }
+
+            $entityManager = $this->get('doctrine')->getManager();
             $extraData = $form->get('data')->getExtraData();
             if ($extraData && is_array($extraData)) {
                 // Remove old containerData's
-                foreach ($container->getData() as $containerData) {
-                    $entityManager->remove($containerData);
-                }
+                $unpublished->clearData();
 
                 // Apply new containerData's
                 foreach ($extraData as $key => $value) {
                     $containerData = new ContainerData($key, $value);
-                    $containerData->setContainer($container);
-                    $entityManager->persist($containerData);
-                    $container->addData($containerData);
+                    $unpublished->addData($containerData);
                 }
             }
 
-            $entityManager->flush($container);
-            $entityManager->refresh($container);
+            $entityManager->flush();
+            $entityManager->refresh($unpublished);
             $this->get('event_dispatcher')
-                ->dispatch(HttpCacheEvent::EVENT_NAME, new HttpCacheEvent($container));
+                ->dispatch(HttpCacheEvent::EVENT_NAME, new HttpCacheEvent($unpublished));
 
-            return $this->handleView(View::create($container, 201));
+            return $this->handleView(View::create($unpublished, 201));
         }
 
         return $this->handleView(View::create($form, 200));
+    }
+
+    /**
+     * Publish changes to container.
+     *
+     * @ApiDoc(
+     *     resource=true,
+     *     description="Publish branch of container - returns published container",
+     *     statusCodes={
+     *         200="Returned on success.",
+     *         404="Container not found",
+     *         409="Container is not published",
+     *         410="No unpublished version"
+     *     }
+     * )
+     * @Route("/api/{version}/templates/containers/publish/{id}", requirements={"id"="\d+"}, options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_templates_publish_container_branch")
+     * @Method("PUT")
+     */
+    public function publishAction($id)
+    {
+        $container = $this->getContainer($id);
+        $successor = $this->get('swp_template_engine_revision')->publishUnpublishedRevision($container);
+
+        return $this->handleView(View::create($successor, 201));
     }
 
     /**
@@ -178,18 +200,8 @@ class ContainerController extends FOSRestController
      */
     public function linkUnlinkToContainerAction(Request $request, $id)
     {
-        if (!$id) {
-            throw new UnprocessableEntityHttpException('You need to provide container Id (integer).');
-        }
-
-        $entityManager = $this->get('doctrine')->getManager();
-        $container = $entityManager->getRepository('SWP\Bundle\TemplateEngineBundle\Model\Container')
-            ->getById($id)
-            ->getOneOrNullResult();
-
-        if (!$container) {
-            throw new NotFoundHttpException('Container with this id was not found.');
-        }
+        $container = $this->getContainer($id);
+        $container = $this->get('swp_template_engine_revision')->getOrCreateUnpublishedRevision($container);
 
         $matched = false;
         foreach ($request->attributes->get('links', []) as $key => $objectArray) {
@@ -205,6 +217,7 @@ class ContainerController extends FOSRestController
             }
 
             if ($object instanceof WidgetModel) {
+                $entityManager = $this->get('doctrine')->getManager();
                 $containerWidget = $entityManager->getRepository('SWP\Bundle\TemplateEngineBundle\Model\ContainerWidget')
                     ->findOneBy([
                         'widget' => $object,
@@ -228,6 +241,8 @@ class ContainerController extends FOSRestController
                         $containerWidget = new ContainerWidget($container, $object);
                         $entityManager->persist($containerWidget);
                     }
+
+                    $container->addWidget($containerWidget);
 
                     if ($position !== false) {
                         $containerWidget->setPosition($position);
@@ -280,5 +295,30 @@ class ContainerController extends FOSRestController
         }
 
         return $links;
+    }
+
+    /**
+     * @param $id
+     *
+     * @return Container
+     *
+     * @throws \Doctrine\ORM\NonUniqueResultException
+     */
+    private function getContainer($id)
+    {
+        if (!$id) {
+            throw new UnprocessableEntityHttpException('You need to provide container Id (integer).');
+        }
+
+        $entityManager = $this->get('doctrine')->getManager();
+        $container = $entityManager->getRepository('SWP\Bundle\TemplateEngineBundle\Model\Container')
+            ->getById($id)
+            ->getOneOrNullResult();
+
+        if (!$container) {
+            throw new NotFoundHttpException('Container with this id was not found.');
+        }
+
+        return $container;
     }
 }

@@ -20,7 +20,6 @@ SWP\Bundle\TemplateEngineBundle\Model\ContainerWidget:
         widget:
             targetEntity: SWP\Bundle\TemplateEngineBundle\Model\WidgetModel
             inversedBy: containers
-            cascade: ["remove"]
             joinColumn:
                 name: widget_id
                 referencedColumnName: id

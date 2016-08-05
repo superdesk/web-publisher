@@ -1,0 +1,10 @@
+SWP\Bundle\TemplateEngineBundle\Model\Revision:
+    type: mappedSuperclass
+    fields:
+        originId:
+            type: integer
+            nullable: true
+        state:
+            type: smallint
+            options:
+                default: 0

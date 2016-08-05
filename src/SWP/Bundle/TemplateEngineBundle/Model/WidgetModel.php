@@ -22,7 +22,7 @@ use SWP\Component\TemplatesSystem\Gimme\Model\WidgetModelInterface;
 /**
  * WidgetModel.
  */
-class WidgetModel implements WidgetModelInterface, TenantAwareInterface, TimestampableInterface
+class WidgetModel extends Revision implements WidgetModelInterface, TenantAwareInterface, TimestampableInterface
 {
     const TYPE_HTML = 1;
     const TYPE_ADSENSE = 2;
@@ -81,10 +81,20 @@ class WidgetModel implements WidgetModelInterface, TenantAwareInterface, Timesta
 
     public function __construct()
     {
+        parent::__construct();
         $this->createdAt = new \DateTime();
         $this->parameters = [];
         $this->setVisible();
         $this->setType();
+        $this->containers = new ArrayCollection();
+    }
+
+    public function __clone()
+    {
+        if ($this->getId()) {
+            $this->id = null;
+            $this->containers = new ArrayCollection();
+        }
     }
 
     /**
@@ -226,9 +236,27 @@ class WidgetModel implements WidgetModelInterface, TenantAwareInterface, Timesta
      *
      * @return WidgetModel
      */
-    protected function setContainers(ArrayCollection $containers)
+    public function setContainers(ArrayCollection $containers)
     {
-        $this->containers = $containers;
+        $this->containers = new ArrayCollection();
+        foreach ($containers as $container) {
+            $this->addContainer($container);
+        }
+
+        return $this;
+    }
+
+    /**
+     * Add container widget.
+     *
+     * @param $container
+     */
+    public function addContainer(ContainerWidget $container)
+    {
+        if (!$this->containers->contains($container)) {
+            $this->containers->add($container);
+            $container->setWidget($this);
+        }
 
         return $this;
     }
@@ -283,5 +311,19 @@ class WidgetModel implements WidgetModelInterface, TenantAwareInterface, Timesta
     public function setUpdatedAt(\DateTime $updatedAt)
     {
         $this->updatedAt = $updatedAt;
+    }
+
+    /**
+     * @param Revision $predecessor
+     */
+    public function onPublished(Revision $predecessor)
+    {
+        /** @var ContainerWidget $containerWidget */
+        foreach ($predecessor->getContainers() as $containerWidget) {
+            $container = $containerWidget->getContainer();
+            if ($container->getState() !== Revision::STATE_ARCHIVED) {
+                $containerWidget->setWidget($this);
+            }
+        }
     }
 }
