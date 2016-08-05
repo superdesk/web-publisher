@@ -2,10 +2,6 @@ SWP\Bundle\TemplateEngineBundle\Model\Container:
     type: entity
     table: swp_container
     repositoryClass: SWP\Bundle\TemplateEngineBundle\Repository\ContainerRepository
-    gedmo:
-        soft_deleteable:
-            field_name: deletedAt
-            time_aware: false
     id:
         id:
             type: integer
@@ -13,9 +9,6 @@ SWP\Bundle\TemplateEngineBundle\Model\Container:
             generator:
                 strategy: IDENTITY
     fields:
-        deletedAt:
-              type: date
-              nullable: true
         name:
             type: string
             length: 255

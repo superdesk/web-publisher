@@ -13,13 +13,11 @@
  */
 namespace SWP\Bundle\TemplateEngineBundle\Model;
 
-
-class Revision
+abstract class Revision
 {
-    /**
-     * @var int
-     */
-    protected $id;
+    const STATE_PUBLISHED = 0;
+    const STATE_UNPUBLISHED = 1;
+    const STATE_ARCHIVED = 2;
 
     /**
      * @var int
@@ -29,41 +27,35 @@ class Revision
     /**
      * @var int
      */
-    protected $revisionId;
-
-    /**
-     * @var string
-     */
-    protected $className;
-
-    /**
-     * @var \DateTime
-     */
-    private $createdAt;
-    /**
-     * @var boolean
-     */
-    private $published;
-
-    /**
-     * @var string
-     */
-    private $condition;
+    private $state;
 
     public function __construct()
     {
-        $this->published = false;
+        $this->state = self::STATE_PUBLISHED;
     }
 
     /**
-     * Get id
+     * Get id.
      *
-     * @return integer
+     * @return int
      */
-    public function getId()
-    {
-        return $this->id;
-    }
+    abstract public function getId();
+
+    /**
+     * Get name.
+     *
+     * @return string
+     */
+    abstract public function getName();
+
+    /**
+     * Set name.
+     *
+     * @param string $name
+     *
+     * @return self
+     */
+    abstract public function setName($name);
 
     /**
      * Set originId
@@ -90,122 +82,48 @@ class Revision
     }
 
     /**
-     * Set revisionId
+     * @return Revision
+     */
+    public function createNextRevision()
+    {
+        return clone $this;
+    }
+
+    /**
+     * Set state
      *
-     * @param integer $revisionId
+     * @param integer $state
      *
      * @return Revision
      */
-    public function setRevisionId($revisionId)
+    public function setState($state)
     {
-        $this->revisionId = $revisionId;
+        if ($state !== self::STATE_ARCHIVED &&
+            $state !== self::STATE_PUBLISHED &&
+            $state !== self::STATE_UNPUBLISHED)
+        {
+            throw new \Exception('Invalid state '.$state);
+        }
+
+        $this->state = $state;
 
         return $this;
     }
 
     /**
-     * Get revisionId
+     * Get state
      *
      * @return integer
      */
-    public function getRevisionId()
+    public function getState()
     {
-        return $this->revisionId;
+        return $this->state;
     }
 
     /**
-     * Set className
-     *
-     * @param string $className
-     *
-     * @return Revision
+     * @param Revision $predecessor
      */
-    public function setClassName($className)
+    public function onPublished(Revision $predecessor)
     {
-        $this->className = $className;
-
-        return $this;
-    }
-
-    /**
-     * Get className
-     *
-     * @return string
-     */
-    public function getClassName()
-    {
-        return $this->className;
-    }
-
-    /**
-     * Set published
-     *
-     * @param boolean $published
-     *
-     * @return Revision
-     */
-    public function setPublished($published)
-    {
-        $this->published = $published;
-
-        return $this;
-    }
-
-    /**
-     * Get published
-     *
-     * @return boolean
-     */
-    public function getPublished()
-    {
-        return $this->published;
-    }
-
-    /**
-     * Set createdAt
-     *
-     * @param \DateTime $createdAt
-     *
-     * @return Revision
-     */
-    public function setCreatedAt($createdAt)
-    {
-        $this->createdAt = $createdAt;
-
-        return $this;
-    }
-
-    /**
-     * Get createdAt
-     *
-     * @return \DateTime
-     */
-    public function getCreatedAt()
-    {
-        return $this->createdAt;
-    }
-
-    /**
-     * Set condition
-     *
-     * @param string $condition
-     *
-     * @return Revision
-     */
-    public function setCondition($condition)
-    {
-        $this->condition = $condition;
-
-        return $this;
-    }
-
-    /**
-     * Get condition
-     *
-     * @return string
-     */
-    public function getCondition()
-    {
-        return $this->condition;
     }
 }

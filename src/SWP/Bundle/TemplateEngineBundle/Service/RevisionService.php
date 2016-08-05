@@ -13,11 +13,16 @@
  */
 namespace SWP\Bundle\TemplateEngineBundle\Service;
 
-
 use Doctrine\Common\Persistence\ObjectManager;
+use SWP\Bundle\TemplateEngineBundle\Model\Revision;
 
 class RevisionService
 {
+    const REVISION_NAME_SEPARATOR = '_';
+
+    /**
+     * @var ObjectManager
+     */
     protected $objectManager;
 
     public function __construct(ObjectManager $objectManager)
@@ -25,89 +30,100 @@ class RevisionService
         $this->objectManager = $objectManager;
     }
 
-    public function getUnpublishedRevision($parentId, $className)
+    public function getUnpublishedRevision($published)
     {
-        $repository = $this->objectManager->getRepository('SWP\Bundle\TemplateEngineBundle\Model\Revision');
-        $revision = $repository
-            ->findOneBy(['revisionId' => $parentId, 'className' => $className])
-            ->getOneOrNullResult();
+        $repository = $this->objectManager->getRepository(get_class($published));
+        $originId = $this->getOriginId($published);
+        $published = $repository
+            ->findOneBy(['originId' => $originId, 'state' => Revision::STATE_UNPUBLISHED]);
 
-        $originId = $parentId;
-        if ($revision) {
-            if (!$revision->getPublished()) {
-                return $revision;
-            }
-            else {
-                $originId = $revision->getOriginId();
-            }
-        }
-
-        $unpublishedRevision = $repository
-            ->findOneBy(['originId' => $originId, 'className' => $className, 'published' => false])
-            ->getOneOrNullResult();
-
-        return $unpublishedRevision;
+        return $published;
     }
 
-    public function getWorkingVersion($parentId, $className)
+    public function createUnpublishedRevision($published)
     {
-        $repository = $this->objectManager->getRepository($className);
-        $parent = $repository->find($parentId);
-
-        $unpublishedRevision = $this->getUnpublishedRevision($parentId, $className);
-
-        // Get existing working copy
-        if (null !== $unpublishedRevision) {
-            $revisionId = $unpublishedRevision->getRevisionId();
-            if ($revisionId === $parentId) {
-                return $parent;
-            }
-
-            $workingVersion = $repository
-                ->getById($unpublishedRevision->getRevisionId())
-                ->getOneOrNullResult();
-            return $workingVersion;
+        if (Revision::STATE_PUBLISHED !== $published->getState()) {
+            throw new \Exception('Cannot create unpublished version of version which is not published');
         }
 
         // Create working copy
-        $workingVersion = clone $parent;
-        $name = $parent->getName().'_'.uniqid();
-        $workingVersion->setName($name);
-        $em = $this->get('doctrine.orm.entity_manager');
-        $em->persist($workingVersion);
-        $em->flush();
+        $unpublished = $published->createNextRevision();
 
-        $nextRevision = new Revision();
-        $originId = null === $unpublishedRevision ? $parent->getId() : $unpublishedRevision->getOriginId();
-        $nextRevision->setOriginId($originId);
-        $nextRevision->setRevisionId($workingVersion->getId());
-        $nextRevision->setClassName($className);
-        $em->persist($nextRevision);
-        $em->flush();
-        return $workingVersion;
+        $name = $published->getName().self::REVISION_NAME_SEPARATOR.uniqid();
+        $unpublished->setName($name);
+        $originId = $this->getOriginId($published);
+        $unpublished->setOriginId($originId);
+        $unpublished->setState(Revision::STATE_UNPUBLISHED);
+
+        $this->objectManager->persist($unpublished);
+        $this->objectManager->flush();
+
+        return $unpublished;
     }
 
-    public function publishWorkingVersion($parentId, $className)
+    public function getOrCreateUnpublishedRevision($revision)
     {
-        $repository = $this->objectManager->getRepository($className);
-        $parent = $repository->find($parentId);
-        $revision = $this->getUnpublishedRevision($parentId);
-        if (null === $revision || $parentId === $revision->getRevisionId()) {
-            throw new \Exception("No unpublished revision found");
+        if (Revision::STATE_UNPUBLISHED === $revision->getState()) {
+            return $revision;
         }
 
-        $workingVersion = $repository->find($revision->getRevisionId());
+        $unpublished = $this->getUnpublishedRevision($revision);
+        if (null === $unpublished) {
+            $unpublished = $this->createUnpublishedRevision($revision);
+        }
 
-        $workingVersion->setName($parent->getName());
-        $parent->setName($parent->getName().'_'.uniqid());
-        $revision->setPublished(true);
-
-        $this->objectManager->flush();
-        return $workingVersion;
+        return $unpublished;
     }
 
-    public function getPublishedRevisions($className)
+    public function isNameUnchanged($published, $unpublished)
     {
+        $name = $published->getName();
+        $unpublishedName = $unpublished->getName();
+        return (strpos($unpublishedName, $name) === 0
+            && strlen($unpublishedName) === strlen($name) + 13 + strlen(self::REVISION_NAME_SEPARATOR));
+    }
 
+    public function publishUnpublishedRevision($published)
+    {
+        if (Revision::STATE_PUBLISHED !== $published->getState()) {
+            throw new \Exception('Published version should be in published state', 409);
+        }
+
+        $unpublished = $this->getUnpublishedRevision($published);
+        if (null === $unpublished) {
+            throw new \Exception('No unpublished version', 410);
+        }
+
+        $unpublished->setState(Revision::STATE_PUBLISHED);
+        if ($this->isNameUnchanged($published, $unpublished)) {
+            $unpublished->setName($published->getName());
+        }
+
+        $published->setState(Revision::STATE_ARCHIVED);
+        $published->setName($published->getName().self::REVISION_NAME_SEPARATOR.uniqid());
+
+        $unpublished->onPublished($published);
+
+        $this->objectManager->flush();
+        return $unpublished;
+    }
+
+    public function getCurrentRevisions($className)
+    {
+        $repository = $this->objectManager->getRepository($className);
+
+        return $repository->findBy(array('state' => Revision::STATE_PUBLISHED));
+    }
+
+    public function getAllRevisions($published)
+    {
+        $repository = $this->objectManager->getRepository(get_class($published));
+
+        return $repository->findBy(array('state' => array(Revision::STATE_ARCHIVED, Revision::STATE_PUBLISHED)), array('createdAt' => 'DESC'));
+    }
+
+    private function getOriginId($object)
+    {
+        return null === $object->getOriginId() ? $object->getId() : $object->getOriginId();
     }
 }

@@ -50,9 +50,9 @@ class ContainerController extends FOSRestController
      */
     public function listAction(Request $request)
     {
-        $entityManager = $this->get('doctrine')->getManager();
         $paginator = $this->get('knp_paginator');
-        $containers = $paginator->paginate($entityManager->getRepository('SWP\Bundle\TemplateEngineBundle\Model\Container')->getAll());
+        $all = $this->get('swp_template_engine_revision')->getCurrentRevisions('SWP\Bundle\TemplateEngineBundle\Model\Container');
+        $containers = $paginator->paginate($all);
 
         if (count($containers) == 0) {
             throw new NotFoundHttpException('Containers were not found.');
@@ -102,33 +102,47 @@ class ContainerController extends FOSRestController
      */
     public function updateAction(Request $request, $id)
     {
-        $container = $this->getWorkingContainer($id);
+        $container = $this->getContainer($id);
 
-        $form = $this->createForm(new ContainerType(), $container, [
+        $revisionService = $this->get('swp_template_engine_revision');
+        $unpublished = $revisionService->getOrCreateUnpublishedRevision($container);
+
+        // Set the name of unpublished version to be that of published version
+        $unpublishedName = $unpublished->getName();
+        $publishedName = $container->getName();
+        if ($revisionService->isNameUnchanged($container, $unpublished)) {
+            $unpublished->setName($publishedName);
+        }
+
+        $form = $this->createForm(new ContainerType(), $unpublished, [
             'method' => $request->getMethod(),
         ]);
 
         $form->handleRequest($request);
         if ($form->isValid()) {
+            if ($publishedName === $unpublished->getName()) {
+                $unpublished->setName($unpublishedName);
+            }
+
             $entityManager = $this->get('doctrine')->getManager();
             $extraData = $form->get('data')->getExtraData();
             if ($extraData && is_array($extraData)) {
                 // Remove old containerData's
-                $container->clearData();
+                $unpublished->clearData();
 
                 // Apply new containerData's
                 foreach ($extraData as $key => $value) {
                     $containerData = new ContainerData($key, $value);
-                    $container->addData($containerData);
+                    $unpublished->addData($containerData);
                 }
             }
 
             $entityManager->flush();
-            $entityManager->refresh($container);
+            $entityManager->refresh($unpublished);
             $this->get('event_dispatcher')
-                ->dispatch(HttpCacheEvent::EVENT_NAME, new HttpCacheEvent($container));
+                ->dispatch(HttpCacheEvent::EVENT_NAME, new HttpCacheEvent($unpublished));
 
-            return $this->handleView(View::create($container, 201));
+            return $this->handleView(View::create($unpublished, 201));
         }
 
         return $this->handleView(View::create($form, 200));
@@ -143,7 +157,9 @@ class ContainerController extends FOSRestController
      *     description="Publish branch of container - returns published container",
      *     statusCodes={
      *         200="Returned on success.",
-     *         404="Container or branch not found"
+     *         404="Container not found",
+     *         409="Container is not published",
+     *         410="No unpublished version"
      *     }
      * )
      * @Route("/api/{version}/templates/containers/publish/{id}", requirements={"id"="\d+"}, options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_templates_publish_container_branch")
@@ -151,7 +167,8 @@ class ContainerController extends FOSRestController
      */
     public function publishAction($id)
     {
-        $successor = $this->get('swp_template_engine_revision')->publishWorkingVersion($id, 'SWP\Bundle\TemplateEngineBundle\Model\Container');
+        $container = $this->getContainer($id);
+        $successor = $this->get('swp_template_engine_revision')->publishUnpublishedRevision($container);
 
         return $this->handleView(View::create($successor, 201));
     }
@@ -187,11 +204,8 @@ class ContainerController extends FOSRestController
      */
     public function linkUnlinkToContainerAction(Request $request, $id)
     {
-        if (!$id) {
-            throw new UnprocessableEntityHttpException('You need to provide container Id (integer).');
-        }
-
-        $container = $this->getWorkingContainer($id);
+        $container = $this->getContainer($id);
+        $container = $this->get('swp_template_engine_revision')->getOrCreateUnpublishedRevision($container);
 
         $matched = false;
         foreach ($request->attributes->get('links', []) as $key => $objectArray) {
@@ -231,6 +245,8 @@ class ContainerController extends FOSRestController
                         $containerWidget = new ContainerWidget($container, $object);
                         $entityManager->persist($containerWidget);
                     }
+
+                    $container->addWidget($containerWidget);
 
                     if ($position !== false) {
                         $containerWidget->setPosition($position);
@@ -292,6 +308,10 @@ class ContainerController extends FOSRestController
      */
     private function getContainer($id)
     {
+        if (!$id) {
+            throw new UnprocessableEntityHttpException('You need to provide container Id (integer).');
+        }
+
         $entityManager = $this->get('doctrine')->getManager();
         $container = $entityManager->getRepository('SWP\Bundle\TemplateEngineBundle\Model\Container')
             ->getById($id)
@@ -302,11 +322,5 @@ class ContainerController extends FOSRestController
         }
 
         return $container;
-    }
-
-
-    private function getWorkingContainer($id)
-    {
-        return $this->get('swp_template_engine_revision')->getWorkingVersion($id, 'SWP\Bundle\TemplateEngineBundle\Model\Container');
     }
 }

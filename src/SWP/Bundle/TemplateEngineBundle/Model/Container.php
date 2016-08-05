@@ -23,10 +23,8 @@ use SWP\Component\TemplatesSystem\Gimme\Model\ContainerInterface;
 /**
  * Container.
  */
-class Container implements ContainerInterface, TenantAwareInterface, TimestampableInterface
+class Container extends Revision implements ContainerInterface, TenantAwareInterface, TimestampableInterface
 {
-    use SoftDeleteable;
-
     const TYPE_SIMPLE = 1;
 
     /**
@@ -96,6 +94,7 @@ class Container implements ContainerInterface, TenantAwareInterface, Timestampab
 
     public function __construct()
     {
+        parent::__construct();
         $this->createdAt = new \DateTime();
         $this->data = new ArrayCollection();
         $this->widgets = new ArrayCollection();
