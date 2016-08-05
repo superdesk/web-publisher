@@ -9,7 +9,6 @@
 /app/themes/
 /bin/
 /docs/_build/
-/docs/_extensions/
 /composer.phar
 /docker/pgsql/config/*
 !/docker/pgsql/config/.gitkeep
@@ -17,6 +16,8 @@
 !/docker/pgsql/data/.gitkeep
 /vendor/
 /web/bundles/
+/web/uploads/*
+!/web/uploads/.gitkeep
 /web/config.php
 logs/
 build/

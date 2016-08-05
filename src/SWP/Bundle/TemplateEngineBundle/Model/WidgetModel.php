@@ -108,6 +108,20 @@ class WidgetModel extends Revision implements WidgetModelInterface, TenantAwareI
     }
 
     /**
+     * Set id.
+     *
+     * @param string $id
+     *
+     * @return WidgetModel
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
+
+        return $this;
+    }
+
+    /**
      * Set name.
      *
      * @param string $name
