@@ -13,9 +13,7 @@
  */
 namespace SWP\Bundle\ContentBundle\Loader;
 
-use Doctrine\Common\Collections\Criteria;
 use PHPCR\Query\QueryInterface;
-use PHPCR\Util\QOM\QueryBuilder;
 use SWP\Component\TemplatesSystem\Gimme\Loader\LoaderInterface;
 use SWP\Component\TemplatesSystem\Gimme\Meta\Meta;
 use Symfony\Component\Yaml\Parser;
