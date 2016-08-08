@@ -79,14 +79,6 @@ doctrine:
                         type: yml
                         prefix: SWP\Bundle\TemplateEngineBundle\Model
                         dir: Resources/config/doctrine
-                    SWPMultiTenancyBundle:
-                        type: yml
-                        prefix: SWP\Component\MultiTenancy\Model
-                        dir: Resources/config/doctrine
-                    SWPWebRendererBundle:
-                        type: yml
-                        prefix: SWP\Bundle\WebRendererBundle\Model
-                        dir: Resources/config/doctrine
                     gedmo_loggable:
                         type: annotation
                         prefix: Gedmo\Loggable\Entity
@@ -217,15 +209,15 @@ stof_doctrine_extensions:
             sortable: true
 
 swp_multi_tenancy:
-    resources:
-        tenant:
-            classes:
-                model: SWP\Bundle\WebRendererBundle\Model\Tenant
+    use_listeners: true
     persistence:
         phpcr:
             enabled: true
-            site_document_class: SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\Site
-            document_class: SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\Route
+            classes:
+                tenant:
+                    model: SWP\Bundle\WebRendererBundle\Doctrine\ODM\PHPCR\Tenant
+                organization:
+                    model: SWP\Bundle\WebRendererBundle\Doctrine\ODM\PHPCR\Organization
 
 swp_web_renderer:
     device_listener:

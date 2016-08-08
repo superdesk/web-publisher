@@ -32,12 +32,9 @@ SWP\Bundle\TemplateEngineBundle\Model\WidgetModel:
             gedmo:
                 timestampable:
                     on: update
-    manyToOne:
         tenant:
-            targetEntity: SWP\Bundle\WebRendererBundle\Model\Tenant
-            cascade: ["persist"]
-            joinColumn:
-              onDelete: CASCADE
+            type: string
+            unique: true
     oneToMany:
         containers:
             targetEntity: SWP\Bundle\TemplateEngineBundle\Model\ContainerWidget

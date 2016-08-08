@@ -11,9 +11,9 @@
  * @copyright 2015 Sourcefabric z.ú.
  * @license http://www.superdesk.org/license
  */
-namespace SWP\Bundle\MultiTenancyBundle\Repository;
+namespace SWP\Bundle\MultiTenancyBundle\Doctrine\ORM;
 
-use Doctrine\ORM\EntityRepository;
+use SWP\Bundle\StorageBundle\Doctrine\ORM\EntityRepository;
 use SWP\Component\MultiTenancy\Repository\TenantRepositoryInterface;
 
 /**
@@ -28,6 +28,8 @@ class TenantRepository extends EntityRepository implements TenantRepositoryInter
     {
         return $this
             ->createQueryBuilder('t')
+            ->select('t', 'o')
+            ->leftJoin('t.organization', 'o')
             ->where('t.subdomain = :subdomain')
             ->andWhere('t.enabled = true')
             ->setParameter('subdomain', $subdomain)
@@ -42,6 +44,8 @@ class TenantRepository extends EntityRepository implements TenantRepositoryInter
     {
         return $this
             ->createQueryBuilder('t')
+            ->select('t', 'o')
+            ->leftJoin('t.organization', 'o')
             ->where('t.code = :code')
             ->andWhere('t.enabled = true')
             ->setParameter('code', $code)
@@ -56,6 +60,8 @@ class TenantRepository extends EntityRepository implements TenantRepositoryInter
     {
         return $this
             ->createQueryBuilder('t')
+            ->select('t', 'o')
+            ->leftJoin('t.organization', 'o')
             ->where('t.enabled = true')
             ->getQuery()
             ->getArrayResult();

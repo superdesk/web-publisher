@@ -76,4 +76,14 @@ interface TenantInterface extends TimestampableInterface, EnableableInterface, S
      * @param string $code
      */
     public function setCode($code);
+
+    /**
+     * @return OrganizationInterface
+     */
+    public function getOrganization();
+
+    /**
+     * @param OrganizationInterface $organization
+     */
+    public function setOrganization(OrganizationInterface $organization);
 }

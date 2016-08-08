@@ -14,11 +14,12 @@
 namespace SWP\Component\MultiTenancy\Repository;
 
 use SWP\Component\MultiTenancy\Model\TenantInterface;
+use SWP\Component\Storage\Repository\RepositoryInterface;
 
 /**
  * Repository interface for tenants.
  */
-interface TenantRepositoryInterface
+interface TenantRepositoryInterface extends RepositoryInterface
 {
     /**
      * Finds the tenant by subdomain.

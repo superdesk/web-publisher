@@ -15,7 +15,13 @@ namespace SWP\Bundle\FixturesBundle\DataFixtures\PHPCR;
 
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
+use SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\Route;
+use SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\Site;
+use SWP\Bundle\ContentBundle\Model\RouteInterface;
 use SWP\Bundle\FixturesBundle\AbstractFixture;
+use SWP\Bundle\WebRendererBundle\Doctrine\ODM\PHPCR\Tenant;
+use SWP\Component\MultiTenancy\Model\SiteDocumentInterface;
+use SWP\Component\MultiTenancy\Model\TenantInterface;
 
 class LoadSitesData extends AbstractFixture implements FixtureInterface
 {
@@ -24,26 +30,44 @@ class LoadSitesData extends AbstractFixture implements FixtureInterface
      */
     public function load(ObjectManager $manager)
     {
-        $defaultTenantPrefix = $this->getTenantPrefix();
-        $firstTenantPrefix = $this->getTenantPrefix('client1');
+        $tenants = [
+            $manager->find(Tenant::class, '/swp/123456/123abc'),
+            $manager->find(Tenant::class, '/swp/654321/456def'),
+        ];
 
-        $site = $manager->find('SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\Site', $defaultTenantPrefix);
+        $this->createHomepages($manager, $tenants);
 
-        if (!$site) {
-            throw new \Exception(sprintf('Could not find %s document!', $defaultTenantPrefix));
+        foreach ($tenants as $site) {
+            if ($site instanceof TenantInterface) {
+                $page = $manager->find(
+                    'SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\Route',
+                    $site->getId().'/routes/homepage'
+                );
+
+                $site->setHomepage($page);
+            } else {
+                throw new \RuntimeException(
+                    sprintf('Unexpected child %s, %s expected.', get_class($site), TenantInterface::class)
+                );
+            }
         }
 
-        $page = $manager->find('SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\Route', $defaultTenantPrefix.'/routes/homepage');
-        $site->setHomepage($page);
+        $manager->flush();
+    }
 
-        $site = $manager->find('SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\Site', $firstTenantPrefix);
+    private function createHomepages(ObjectManager $manager, array $tenants)
+    {
+        foreach ($tenants as $site) {
+            if ($site instanceof TenantInterface) {
+                $route = new Route();
+                $route->setParentDocument($manager->find(null, $site->getId().'/routes'));
+                $route->setName('homepage');
+                $route->setType(RouteInterface::TYPE_CONTENT);
 
-        if (!$site) {
-            throw new \Exception(sprintf('Could not find %s document!', $firstTenantPrefix));
+                $manager->persist($route);
+            }
         }
 
-        $page2 = $manager->find('SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\Route', $firstTenantPrefix.'/routes/homepage');
-        $site->setHomepage($page2);
         $manager->flush();
     }
 }

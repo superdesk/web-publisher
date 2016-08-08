@@ -93,12 +93,13 @@ class TenantAwarePathBuilder implements TenantAwarePathBuilderInterface
      */
     protected function makePathTenantAware()
     {
+
         if ($this->latestRootPath === $this->rootPath) {
             return;
         }
 
         $tenant = $this->tenantContext->getTenant();
-        $this->rootPath = $this->absolutizePath($tenant->getCode());
+        $this->rootPath = $this->absolutizePath($tenant->getOrganization()->getCode().'/'.$tenant->getCode());
         $this->latestRootPath = $this->rootPath;
     }
 

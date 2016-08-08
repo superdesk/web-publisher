@@ -42,6 +42,11 @@ class Tenant implements TenantInterface
     protected $code;
 
     /**
+     * @var OrganizationInterface
+     */
+    protected $organization;
+
+    /**
      * Tenant constructor.
      */
     public function __construct()
@@ -115,6 +120,22 @@ class Tenant implements TenantInterface
         }
 
         $this->code = $code;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setOrganization(OrganizationInterface $organization)
+    {
+        $this->organization = $organization;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getOrganization()
+    {
+        return $this->organization;
     }
 
     /**

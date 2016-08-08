@@ -36,13 +36,20 @@ class TenantSubscriber implements EventSubscriber
     protected $tenantContext;
 
     /**
+     * @var bool
+     */
+    protected $phpcrEnabled;
+
+    /**
      * Constructor.
      *
-     * @param ContainerInterface $container
+     * @param TenantContextInterface $tenantContext
+     * @param bool                   $phpcrEnabled
      */
-    public function __construct(ContainerInterface $container)
+    public function __construct(TenantContextInterface $tenantContext, $phpcrEnabled)
     {
-        $this->container = $container;
+        $this->tenantContext = $tenantContext;
+        $this->phpcrEnabled = $phpcrEnabled;
     }
 
     /**
@@ -75,8 +82,10 @@ class TenantSubscriber implements EventSubscriber
                 return;
             }
 
-            if (null === $this->tenantContext) {
-                $this->tenantContext = $this->container->get('swp_multi_tenancy.tenant_context');
+            if ($this->phpcrEnabled) {
+                $entity->setTenant($this->tenantContext->getTenant()->getCode());
+
+                return;
             }
 
             $entity->setTenant($this->tenantContext->getTenant());

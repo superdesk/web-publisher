@@ -1,7 +1,0 @@
-SWP\Bundle\WebRendererBundle\Model\Tenant:
-    type: entity
-    table: swp_tenant
-    fields:
-        themeName:
-            type: string
-            nullable: true

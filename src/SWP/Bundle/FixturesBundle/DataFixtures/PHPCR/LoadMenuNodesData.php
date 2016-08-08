@@ -79,6 +79,6 @@ class LoadMenuNodesData extends AbstractFixture implements FixtureInterface, Ord
 
     public function getOrder()
     {
-        return 2;
+        return 5;
     }
 }

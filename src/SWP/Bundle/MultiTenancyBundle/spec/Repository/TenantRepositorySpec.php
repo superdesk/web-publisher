@@ -19,7 +19,7 @@ use Doctrine\ORM\Mapping\ClassMetadata;
 use Doctrine\ORM\QueryBuilder;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
-use SWP\Bundle\MultiTenancyBundle\Repository\TenantRepository;
+use SWP\Bundle\MultiTenancyBundle\Doctrine\ORM\TenantRepository;
 
 /**
  * @mixin TenantRepository
@@ -33,7 +33,7 @@ class TenantRepositorySpec extends ObjectBehavior
 
     function it_is_initializable()
     {
-        $this->shouldHaveType('SWP\Bundle\MultiTenancyBundle\Repository\TenantRepository');
+        $this->shouldHaveType('SWP\Bundle\MultiTenancyBundle\Doctrine\ORM\TenantRepository');
     }
 
     function it_is_a_repository()

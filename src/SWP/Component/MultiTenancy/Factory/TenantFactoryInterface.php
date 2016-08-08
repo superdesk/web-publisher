@@ -3,7 +3,7 @@
 /**
  * This file is part of the Superdesk Web Publisher MultiTenancy Component.
  *
- * Copyright 2016 Sourcefabric z.u. and contributors.
+ * Copyright 2016 Sourcefabric z.ú. and contributors.
  *
  * For the full copyright and license information, please see the
  * AUTHORS and LICENSE files distributed with this source code.
@@ -13,15 +13,20 @@
  */
 namespace SWP\Component\MultiTenancy\Factory;
 
+use SWP\Component\MultiTenancy\Model\TenantInterface;
+use SWP\Component\Storage\Factory\FactoryInterface;
+
 /**
  * Interface TenantFactoryInterface.
  */
-interface TenantFactoryInterface
+interface TenantFactoryInterface extends FactoryInterface
 {
     /**
-     * Creates a new object instance.
+     * Creates a new tenant for given organization code.
+     * 
+     * @param string $code
      *
-     * @return object
+     * @return TenantInterface
      */
-    public function create();
+    public function createForOrganization($code);
 }

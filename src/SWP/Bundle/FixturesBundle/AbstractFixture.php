@@ -71,7 +71,20 @@ abstract class AbstractFixture extends BaseFixture implements ContainerAwareInte
      */
     public function find($className, $id)
     {
-        return $this->container->get('document_manager')->find($className, $this->generatePath($id));
+        return $this->container->get('document_manager')->find($className, $id);
+    }
+
+    /**
+     * Finds the PHPCR node by given id/path.
+     *
+     * @param string|null $className Document class name
+     * @param string      $id        PHPCR path
+     *
+     * @return string|null
+     */
+    public function findByTenant($className, $id)
+    {
+        return $this->find($className, $this->generatePath($id));
     }
 
     /**
@@ -95,16 +108,14 @@ abstract class AbstractFixture extends BaseFixture implements ContainerAwareInte
      */
     public function getTenantPrefix($subdomain = TenantInterface::DEFAULT_TENANT_SUBDOMAIN)
     {
-        $tenant = $this->container->get('swp_multi_tenancy.tenant_repository')
-            ->findOneBy([
-                'subdomain' => $subdomain,
-            ]);
+
+        $tenant = $this->container->get('swp.repository.tenant')->findBySubdomain($subdomain);
 
         if (null === $tenant) {
-            throw new TenantNotFoundException(sprintf('Tenant "%s" not found.', $subdomain));
+            throw new TenantNotFoundException($subdomain);
         }
 
-        return sprintf('%s/%s', 'swp', $tenant->getCode());
+        return $tenant->getId();
     }
 
     /**

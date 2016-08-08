@@ -1,4 +1,4 @@
-SWP\Bundle\WebRendererBundle\Model\Tenant:
+SWP\Bundle\WebRendererBundle\Doctrine\ODM\PHPCR\Tenant:
     tenant1:
         name: "Default tenant"
         subdomain: "default"

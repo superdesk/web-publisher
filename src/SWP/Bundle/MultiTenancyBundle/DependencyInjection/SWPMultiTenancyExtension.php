@@ -13,10 +13,11 @@
  */
 namespace SWP\Bundle\MultiTenancyBundle\DependencyInjection;
 
+use SWP\Bundle\StorageBundle\DependencyInjection\Extension\Extension;
+use SWP\Bundle\StorageBundle\Drivers;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
-use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 
 /**
  * This is the class that loads and manages your bundle configuration.
@@ -38,18 +39,22 @@ class SWPMultiTenancyExtension extends Extension
 
         if ($config['persistence']['phpcr']['enabled']) {
             $this->loadPhpcr($config['persistence']['phpcr'], $loader, $container);
-            $container->setParameter($this->getAlias().'.backend_type_phpcr', true);
+            $this->registerStorage(
+                Drivers::DRIVER_DOCTRINE_PHPCR_ODM,
+                $config['persistence']['phpcr']['classes'],
+                $container
+            );
+        } else {
+            $this->registerStorage(
+                Drivers::DRIVER_DOCTRINE_ORM,
+                $config['persistence']['orm']['classes'],
+                $container
+            );
         }
 
-        $container->setParameter(
-            $this->getAlias().'.tenant.class',
-            $config['resources']['tenant']['classes']['model']
-        );
-
-        $container->setParameter(
-            $this->getAlias().'.factory.tenant.class',
-            $config['resources']['tenant']['classes']['factory']
-        );
+        if ($config['use_listeners']) {
+            $loader->load('listeners.yml');
+        }
     }
 
     public function loadPhpcr($config, YamlFileLoader $loader, ContainerBuilder $container)
@@ -59,9 +64,7 @@ class SWPMultiTenancyExtension extends Extension
             'route_basepaths' => 'route_basepaths',
             'content_basepath' => 'content_basepath',
             'menu_basepath' => 'menu_basepath',
-            'site_document_class' => 'site_document.class',
             'tenant_aware_router_class' => 'router.class',
-            'document_class' => 'document.class',
         ];
 
         foreach ($keys as $sourceKey => $targetKey) {
