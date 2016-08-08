@@ -131,7 +131,7 @@ class ArticleLoader implements LoaderInterface
                     $node = $this->dm->getNodeForDocument($route);
                     $identifier = $node->getIdentifier();
 
-                    $queryStr = "SELECT * FROM [nt:unstructured] as S ";
+                    $queryStr = 'SELECT * FROM [nt:unstructured] as S ';
                     $queryStr .= "WHERE S.phpcr:class='SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\Article' ";
                     $queryStr .= "AND S.route=$identifier";
 
