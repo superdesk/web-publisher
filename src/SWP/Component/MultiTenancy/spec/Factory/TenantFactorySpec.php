@@ -18,7 +18,6 @@ use SWP\Component\Common\Generator\GeneratorInterface;
 use SWP\Component\MultiTenancy\Factory\TenantFactory;
 use SWP\Component\MultiTenancy\Factory\TenantFactoryInterface;
 use SWP\Component\MultiTenancy\Model\OrganizationInterface;
-use SWP\Component\MultiTenancy\Model\Tenant;
 use SWP\Component\MultiTenancy\Model\TenantInterface;
 use SWP\Component\MultiTenancy\Repository\OrganizationRepositoryInterface;
 use SWP\Component\Storage\Factory\FactoryInterface;
@@ -52,8 +51,8 @@ class TenantFactorySpec extends ObjectBehavior
         TenantInterface $tenant
     ) {
         $factory->create()->willReturn($tenant);
-        $generator->generate(6)->willReturn(123456);
-        $tenant->setCode(123456)->shouldBeCalled();
+        $generator->generate(6)->willReturn('123456');
+        $tenant->setCode('123456')->shouldBeCalled();
 
         $this->create()->shouldReturn($tenant);
     }
@@ -65,13 +64,13 @@ class TenantFactorySpec extends ObjectBehavior
         OrganizationInterface $organization,
         OrganizationRepositoryInterface $organizationRepository
     ) {
-        $organizationRepository->findByCode(123456)->willReturn($organization);
+        $organizationRepository->findByCode('123456')->willReturn($organization);
         $factory->create()->willReturn($tenant);
-        $generator->generate(6)->willReturn(123456);
-        $tenant->setCode(123456)->shouldBeCalled();
+        $generator->generate(6)->willReturn('123456');
+        $tenant->setCode('123456')->shouldBeCalled();
         $tenant->setOrganization($organization)->shouldBeCalled();
 
-        $this->createForOrganization(123456)->shouldReturn($tenant);
+        $this->createForOrganization('123456')->shouldReturn($tenant);
     }
 
     function it_throws_an_exception(
@@ -81,14 +80,14 @@ class TenantFactorySpec extends ObjectBehavior
         OrganizationInterface $organization,
         OrganizationRepositoryInterface $organizationRepository
     ) {
-        $organizationRepository->findByCode(123456)->willReturn(null);
+        $organizationRepository->findByCode('123456')->willReturn(null);
         $factory->create()->shouldNotBeCalled();
 
         $generator->generate(6)->shouldNotBeCalled();
-        $tenant->setCode(123456)->shouldNotBeCalled();
+        $tenant->setCode('123456')->shouldNotBeCalled();
         $tenant->setOrganization($organization)->shouldNotBeCalled();
 
         $this->shouldThrow(\InvalidArgumentException::class)
-            ->during('createForOrganization', [123456]);
+            ->during('createForOrganization', ['123456']);
     }
 }

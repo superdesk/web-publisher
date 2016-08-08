@@ -13,9 +13,10 @@
  */
 namespace SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR;
 
+use Doctrine\ODM\PHPCR\HierarchyInterface;
 use SWP\Bundle\ContentBundle\Model\RouteInterface;
 
-interface RouteObjectInterface extends RouteInterface
+interface RouteObjectInterface extends RouteInterface, HierarchyInterface
 {
     /**
      * Set the object this url points to.

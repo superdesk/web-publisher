@@ -18,18 +18,12 @@ use Doctrine\ORM\Event\LifecycleEventArgs;
 use Doctrine\ORM\Events;
 use SWP\Component\MultiTenancy\Context\TenantContextInterface;
 use SWP\Component\MultiTenancy\Model\TenantAwareInterface;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Doctrine listener used to set tenant before the persist.
  */
 class TenantSubscriber implements EventSubscriber
 {
-    /**
-     * @var ContainerInterface
-     */
-    protected $container;
-
     /**
      * @var TenantContextInterface
      */

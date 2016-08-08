@@ -17,7 +17,6 @@ use Doctrine\ODM\PHPCR\HierarchyInterface;
 use PhpSpec\ObjectBehavior;
 use SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\Route;
 use SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\RouteObjectInterface;
-use SWP\Bundle\MultiTenancyBundle\Document\Page;
 
 /**
  * @mixin Route
@@ -27,7 +26,6 @@ class RouteSpec extends ObjectBehavior
     public function it_is_initializable()
     {
         $this->shouldHaveType(Route::class);
-        $this->shouldHaveType(Page::class);
     }
 
     public function it_should_implement_interfaces()

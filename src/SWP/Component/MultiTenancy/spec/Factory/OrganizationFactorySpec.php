@@ -43,7 +43,7 @@ class OrganizationFactorySpec extends ObjectBehavior
         $this->shouldImplement(OrganizationFactoryInterface::class);
     }
 
-    function it_creates_empty_organizationl(FactoryInterface $factory, OrganizationInterface $organization)
+    function it_creates_empty_organization(FactoryInterface $factory, OrganizationInterface $organization)
     {
         $factory->create()->willReturn($organization);
         $this->create()->shouldReturn($organization);
@@ -56,8 +56,8 @@ class OrganizationFactorySpec extends ObjectBehavior
         OrganizationInterface $organization
     ) {
         $factory->create()->willReturn($organization);
-        $generator->generate(6)->willReturn(123456);
-        $organization->setCode(123456)->shouldBeCalled();
+        $generator->generate(6)->willReturn('123456');
+        $organization->setCode('123456')->shouldBeCalled();
 
         $this->createWithCode()->shouldReturn($organization);
     }

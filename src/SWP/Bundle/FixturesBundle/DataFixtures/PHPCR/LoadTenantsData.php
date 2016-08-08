@@ -48,11 +48,6 @@ class LoadTenantsData extends AbstractFixture implements FixtureInterface, Order
         );
 
         $this->initBasePaths();
-
-        /** @var TenantInterface $tenant */
-        foreach ($tenants as $tenant) {
-            $this->addReference($tenant->getSubdomain(), $tenant);
-        }
     }
 
     private function initBasePaths()

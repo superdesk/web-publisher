@@ -56,6 +56,8 @@ Then execute the following commands in terminal:
 
 ```bash
 php app/console doctrine:schema:update --force
+php app/console doctrine:phpcr:repository:init
+php app/console swp:organization:create --default
 php app/console swp:tenant:create --default
 php app/console doctrine:phpcr:repository:init
 ```
@@ -64,6 +66,8 @@ Commands when using docker:
 
 ```bash
 docker-compose run --rm php php /var/www/webpublisher/app/console doctrine:schema:update --force
+docker-compose run --rm php php /var/www/webpublisher/app/console doctrine:phpcr:repository:init
+docker-compose run --rm php php /var/www/webpublisher/app/console swp:organization:create --default
 docker-compose run --rm php php /var/www/webpublisher/app/console swp:tenant:create --default
 docker-compose run --rm php php /var/www/webpublisher/app/console doctrine:phpcr:repository:init
 ```
@@ -75,9 +79,9 @@ Alternatively, in the development environment, to populate the database with tes
 
 ```bash
 php app/console doctrine:schema:update --force
-php app/console doctrine:fixtures:load
 php app/console doctrine:phpcr:repository:init
 php app/console doctrine:phpcr:fixtures:load
+php app/console doctrine:fixtures:load
 ```
 
 You should also install a theme. To install our demo DefaultTheme - run following commands:

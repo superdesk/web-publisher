@@ -93,7 +93,6 @@ class TenantAwarePathBuilder implements TenantAwarePathBuilderInterface
      */
     protected function makePathTenantAware()
     {
-
         if ($this->latestRootPath === $this->rootPath) {
             return;
         }
