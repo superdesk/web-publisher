@@ -13,6 +13,9 @@
  */
 namespace SWP\Bundle\ContentBundle\Loader;
 
+use Doctrine\Common\Collections\Criteria;
+use PHPCR\Query\QueryInterface;
+use PHPCR\Util\QOM\QueryBuilder;
 use SWP\Component\TemplatesSystem\Gimme\Loader\LoaderInterface;
 use SWP\Component\TemplatesSystem\Gimme\Meta\Meta;
 use Symfony\Component\Yaml\Parser;
@@ -125,7 +128,34 @@ class ArticleLoader implements LoaderInterface
                 ));
 
                 if ($route) {
-                    $articles = $this->dm->getReferrers($route, null, null, null, 'SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\Article');
+                    $node = $this->dm->getNodeForDocument($route);
+                    $identifier = $node->getIdentifier();
+
+                    $queryStr = "SELECT * FROM [nt:unstructured] as S ";
+                    $queryStr .= "WHERE S.phpcr:class='SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\Article' ";
+                    $queryStr .= "AND S.route=$identifier";
+
+                    if (isset($parameters['order'])) {
+                        $order = $parameters['order'];
+                        if (!is_array($order) || count($order) !== 2 || (strtoupper($order[1]) != 'ASC' && strtoupper($order[1]) != 'DESC')) {
+                            throw new \Exception('Order filter must have two parameters with second once asc or desc');
+                        }
+                        if ($order[0] === 'id') {
+                            $order[0] = 'uuid';
+                        }
+                        $queryStr .= ' ORDER BY S.'.$order[0].' '.$order[1];
+                    }
+
+                    $query = $this->dm->createPhpcrQuery($queryStr, QueryInterface::JCR_SQL2);
+
+                    if (isset($parameters['limit'])) {
+                        $query->setLimit($parameters['limit']);
+                    }
+                    if (isset($parameters['start'])) {
+                        $query->setOffset($parameters['start']);
+                    }
+                    $articles = $this->dm->getDocumentsByPhpcrQuery($query);
+
                     $metas = [];
                     foreach ($articles as $article) {
                         $articleMeta = $this->getArticleMeta($configuration, $article);
