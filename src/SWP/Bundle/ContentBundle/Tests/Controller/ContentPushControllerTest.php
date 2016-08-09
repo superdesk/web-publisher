@@ -26,13 +26,12 @@ class ContentPushControllerTest extends WebTestCase
     {
         self::bootKernel();
         $this->runCommand('doctrine:schema:drop', ['--force' => true, '--env' => 'test'], true);
-        $this->runCommand('doctrine:doctrine:schema:update', ['--force' => true, '--env' => 'test'], true);
-
-        $this->loadFixtureFiles([
-            '@SWPFixturesBundle/Resources/fixtures/ORM/test/tenant.yml',
-        ]);
-
+        $this->runCommand('doctrine:schema:update', ['--force' => true, '--env' => 'test'], true);
         $this->runCommand('doctrine:phpcr:repository:init', ['--env' => 'test'], true);
+
+        $this->loadFixtures([
+            'SWP\Bundle\FixturesBundle\DataFixtures\PHPCR\LoadTenantsData'
+        ], null, 'doctrine_phpcr');
 
         $this->router = $this->getContainer()->get('router');
     }

@@ -44,7 +44,6 @@ SWP\Bundle\TemplateEngineBundle\Model\Container:
                     on: update
         tenant:
             type: string
-            unique: true
     uniqueConstraints:
         name_idx:
           columns: [ name, tenant ]

@@ -29,20 +29,16 @@ class DefaultControllerTest extends WebTestCase
         self::bootKernel();
 
         $this->runCommand('doctrine:schema:drop', ['--force' => true, '--env' => 'test'], true);
-        $this->runCommand('doctrine:doctrine:schema:update', ['--force' => true, '--env' => 'test'], true);
-
-        $this->loadFixtureFiles([
-            '@SWPFixturesBundle/Resources/fixtures/ORM/test/tenant.yml',
-        ]);
-
+        $this->runCommand('doctrine:schema:update', ['--force' => true, '--env' => 'test'], true);
         $this->runCommand('doctrine:phpcr:repository:init', ['--env' => 'test'], true);
     }
 
     public function testIndexOnDevices()
     {
         $this->loadFixtures([
+            'SWP\Bundle\FixturesBundle\DataFixtures\PHPCR\LoadTenantsData',
             'SWP\Bundle\FixturesBundle\DataFixtures\PHPCR\LoadArticlesData',
-            'SWP\Bundle\FixturesBundle\DataFixtures\PHPCR\LoadSitesData',
+            'SWP\Bundle\FixturesBundle\DataFixtures\PHPCR\LoadHomepagesData',
         ], null, 'doctrine_phpcr');
         $client = static::createClient();
         foreach (self::$devices as $userAgent => $filter) {
@@ -57,24 +53,12 @@ class DefaultControllerTest extends WebTestCase
         }
     }
 
-    public function testHomepageNotConfigured()
-    {
-        $this->loadFixtures([
-            'SWP\Bundle\FixturesBundle\DataFixtures\PHPCR\LoadArticlesData',
-        ], null, 'doctrine_phpcr');
-
-        $client = static::createClient();
-        $crawler = $client->request('GET', '/');
-
-        $this->assertEquals(404, $client->getResponse()->getStatusCode());
-        $this->assertEquals(1, $crawler->filter('html:contains("No homepage configured")')->count());
-    }
-
     public function testHomepage()
     {
         $this->loadFixtures([
+            'SWP\Bundle\FixturesBundle\DataFixtures\PHPCR\LoadTenantsData',
             'SWP\Bundle\FixturesBundle\DataFixtures\PHPCR\LoadArticlesData',
-            'SWP\Bundle\FixturesBundle\DataFixtures\PHPCR\LoadSitesData',
+            'SWP\Bundle\FixturesBundle\DataFixtures\PHPCR\LoadHomepagesData',
         ], null, 'doctrine_phpcr');
 
         $client = static::createClient();
@@ -83,6 +67,6 @@ class DefaultControllerTest extends WebTestCase
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
         $this->assertEquals(1, $crawler->filter('html:contains("Homepage")')->count());
         $this->assertEquals(1, $crawler->filter('html:contains("Current tenant: default")')->count());
-        $this->assertEquals(1, $crawler->filter('html:contains("id: /swp/123abc/routes/homepage")')->count());
+        $this->assertEquals(1, $crawler->filter('html:contains("id: /swp/123456/123abc/routes/homepage")')->count());
     }
 }

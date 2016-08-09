@@ -34,7 +34,6 @@ SWP\Bundle\TemplateEngineBundle\Model\WidgetModel:
                     on: update
         tenant:
             type: string
-            unique: true
     oneToMany:
         containers:
             targetEntity: SWP\Bundle\TemplateEngineBundle\Model\ContainerWidget

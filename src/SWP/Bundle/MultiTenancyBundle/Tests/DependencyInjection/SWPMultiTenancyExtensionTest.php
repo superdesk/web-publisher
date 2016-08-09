@@ -13,11 +13,14 @@
  */
 namespace SWP\Bundle\MultiTenancyBundle\Tests\DependencyInjection;
 
+use Matthias\SymfonyDependencyInjectionTest\PhpUnit\AbstractExtensionTestCase;
 use SWP\Bundle\MultiTenancyBundle\DependencyInjection\SWPMultiTenancyExtension;
+use SWP\Bundle\MultiTenancyBundle\Doctrine\ORM\TenantRepository;
+use SWP\Component\MultiTenancy\Factory\TenantFactory;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBag;
 
-class SWPMultiTenancyExtensionTest extends \PHPUnit_Framework_TestCase
+class SWPMultiTenancyExtensionTest extends AbstractExtensionTestCase
 {
     /**
      * @covers SWP\Bundle\MultiTenancyBundle\SWPMultiTenancyBundle
@@ -35,15 +38,6 @@ class SWPMultiTenancyExtensionTest extends \PHPUnit_Framework_TestCase
 
         $this->assertTrue($container->getParameter('swp_multi_tenancy.backend_type_phpcr'));
         $this->assertEquals('/swp', $container->getParameter('swp_multi_tenancy.persistence.phpcr.basepath'));
-        $this->assertEquals(
-            'SWP\Bundle\MultiTenancyBundle\Document\Site',
-            $container->getParameter('swp_multi_tenancy.persistence.phpcr.site_document.class')
-        );
-
-        $this->assertEquals(
-            'SWP\Bundle\MultiTenancyBundle\Document\Page',
-            $container->getParameter('swp_multi_tenancy.persistence.phpcr.document.class')
-        );
 
         $this->assertEquals('content', $container->getParameter('swp_multi_tenancy.persistence.phpcr.content_basepath'));
         $this->assertEquals(
@@ -63,12 +57,12 @@ class SWPMultiTenancyExtensionTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals(
             'SWP\Component\MultiTenancy\Model\Tenant',
-            $container->getParameter('swp_multi_tenancy.tenant.class')
+            $container->getParameter('swp.model.tenant.class')
         );
 
         $this->assertEquals(
             'SWP\Component\MultiTenancy\Factory\TenantFactory',
-            $container->getParameter('swp_multi_tenancy.factory.tenant.class')
+            $container->getParameter('swp.factory.tenant.class')
         );
 
         $this->assertTrue($container->hasParameter('swp_multi_tenancy.backend_type_phpcr'));
@@ -106,5 +100,75 @@ class SWPMultiTenancyExtensionTest extends \PHPUnit_Framework_TestCase
     protected function createContainer(array $data = [])
     {
         return new ContainerBuilder(new ParameterBag($data));
+    }
+
+    /**
+     * @test
+     */
+    public function after_loading_the_correct_parameters_have_been_set()
+    {
+        $this->load();
+
+        $this->assertContainerBuilderHasParameter('swp_multi_tenancy.backend_type_orm', true);
+    }
+
+    /**
+     * @test
+     */
+    public function the_orm_listeners_are_disabled_by_default()
+    {
+        $this->load();
+
+        $this->assertContainerBuilderNotHasService('swp_multi_tenancy.tenant_listener');
+        $this->assertContainerBuilderNotHasService('swp_multi_tenancy.tenant_subscriber');
+    }
+
+    /**
+     * @test
+     */
+    public function the_orm_listeners_are_enabled()
+    {
+        $this->load(['use_listeners' => true]);
+
+        $this->assertContainerBuilderHasService('swp_multi_tenancy.tenant_listener');
+        $this->assertContainerBuilderHasService('swp_multi_tenancy.tenant_subscriber');
+    }
+
+    /**
+     * @test
+     */
+    public function if_loads_all_needed_services_by_default()
+    {
+        $this->load();
+
+        $this->assertContainerBuilderHasService('swp.repository.tenant', TenantRepository::class);
+        $this->assertContainerBuilderHasService('swp.factory.tenant', TenantFactory::class);
+        $this->assertContainerBuilderHasService('swp.object_manager.tenant');
+    }
+
+    /**
+     * @test
+     */
+    public function when_phpcr_backend_enabeled()
+    {
+        $this->load(['persistence' => ['phpcr' => ['enabled' => true]]]);
+
+        $this->assertContainerBuilderHasService('swp.repository.tenant', \SWP\Bundle\MultiTenancyBundle\Doctrine\PHPCR\TenantRepository::class);
+        $this->assertContainerBuilderHasService('swp.factory.tenant', TenantFactory::class);
+        $this->assertContainerBuilderHasService('swp.object_manager.tenant');
+        $this->assertContainerBuilderHasService('swp_multi_tenancy.phpcr.generic_initializer');
+        $this->assertContainerBuilderHasService('swp_multi_tenancy.phpcr.initializer');
+        $this->assertContainerBuilderHasService('swp_multi_tenancy.path_builder');
+        $this->assertContainerBuilderHasService('swp_multi_tenancy.tenant_aware_router');
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function getContainerExtensions()
+    {
+        return [
+            new SWPMultiTenancyExtension(),
+        ];
     }
 }

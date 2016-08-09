@@ -17,7 +17,8 @@ use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use SWP\Bundle\FixturesBundle\AbstractFixture;
-use SWP\Component\MultiTenancy\Model\TenantInterface;
+use SWP\Bundle\WebRendererBundle\Doctrine\ODM\PHPCR\Organization;
+use SWP\Bundle\WebRendererBundle\Doctrine\ODM\PHPCR\Tenant;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Output\NullOutput;
@@ -31,26 +32,40 @@ class LoadTenantsData extends AbstractFixture implements FixtureInterface, Order
     {
         $env = $this->getEnvironment();
 
-        $this->loadFixtures(
-            '@SWPFixturesBundle/Resources/fixtures/PHPCR/'.$env.'/organization.yml',
-            $manager,
-            [
-                'providers' => [$this],
-            ]
-        );
+        $organization1 = new Organization();
+        $organization1->setName('Organization1');
+        $organization1->setCode('123456');
+        $organization1->setParentDocument($manager->find(null, '/swp'));
+        $manager->persist($organization1);
 
-        $tenants = $this->loadFixtures(
-            '@SWPFixturesBundle/Resources/fixtures/PHPCR/'.$env.'/tenant.yml',
-            $manager,
-            [
-                'providers' => [$this],
-            ]
-        );
+        $organization2 = new Organization();
+        $organization2->setName('Organization2');
+        $organization2->setCode('654321');
+        $organization2->setParentDocument($manager->find(null, '/swp'));
+        $manager->persist($organization2);
+        $manager->flush();
 
-        $this->initBasePaths();
+        $tenant1 = new Tenant();
+        $tenant1->setName('Default tenant');
+        $tenant1->setSubdomain('default');
+        $tenant1->setThemeName('swp/test-theme');
+        $tenant1->setCode('123abc');
+        $tenant1->setOrganization($organization1);
+        $manager->persist($tenant1);
+
+        $tenant2 = new Tenant();
+        $tenant2->setName('Client1 tenant');
+        $tenant2->setSubdomain('client1');
+        $tenant2->setThemeName('swp/test-theme');
+        $tenant2->setCode('456def');
+        $tenant2->setOrganization($organization2);
+        $manager->persist($tenant2);
+        $manager->flush();
+
+        $this->initBasePaths($env);
     }
 
-    private function initBasePaths()
+    private function initBasePaths($env)
     {
         $kernel = $this->container->get('kernel');
         $application = new Application($kernel);
@@ -58,6 +73,7 @@ class LoadTenantsData extends AbstractFixture implements FixtureInterface, Order
 
         $input = new ArrayInput(array(
             'command' => 'doctrine:phpcr:repository:init',
+            '--env' => $env,
         ));
 
         $application->run($input, new NullOutput());

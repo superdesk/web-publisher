@@ -14,16 +14,15 @@
 namespace SWP\Bundle\FixturesBundle\DataFixtures\PHPCR;
 
 use Doctrine\Common\DataFixtures\FixtureInterface;
+use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\Route;
-use SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\Site;
 use SWP\Bundle\ContentBundle\Model\RouteInterface;
 use SWP\Bundle\FixturesBundle\AbstractFixture;
 use SWP\Bundle\WebRendererBundle\Doctrine\ODM\PHPCR\Tenant;
-use SWP\Component\MultiTenancy\Model\SiteDocumentInterface;
 use SWP\Component\MultiTenancy\Model\TenantInterface;
 
-class LoadSitesData extends AbstractFixture implements FixtureInterface
+class LoadHomepagesData extends AbstractFixture implements FixtureInterface, OrderedFixtureInterface
 {
     /**
      * {@inheritdoc}
@@ -69,5 +68,13 @@ class LoadSitesData extends AbstractFixture implements FixtureInterface
         }
 
         $manager->flush();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getOrder()
+    {
+        return 6;
     }
 }

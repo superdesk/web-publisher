@@ -32,16 +32,12 @@ class HttpCacheHeaderListenerTest extends WebTestCase
     {
         self::bootKernel();
         $this->runCommand('doctrine:schema:drop', ['--force' => true, '--env' => 'test'], true);
-        $this->runCommand('doctrine:doctrine:schema:update', ['--force' => true, '--env' => 'test'], true);
-
-        $this->loadFixtureFiles([
-            '@SWPFixturesBundle/Resources/fixtures/ORM/test/tenant.yml',
-        ]);
-
+        $this->runCommand('doctrine:schema:update', ['--force' => true, '--env' => 'test'], true);
         $this->runCommand('doctrine:phpcr:repository:init', ['--env' => 'test'], true);
 
         $this->loadFixtures([
-            'SWP\Bundle\FixturesBundle\DataFixtures\PHPCR\LoadRoutesData',
+            'SWP\Bundle\FixturesBundle\DataFixtures\PHPCR\LoadTenantsData',
+            'SWP\Bundle\FixturesBundle\DataFixtures\PHPCR\LoadRoutesData'
         ], null, 'doctrine_phpcr');
 
         $this->router = $this->getContainer()->get('router');
@@ -64,7 +60,7 @@ class HttpCacheHeaderListenerTest extends WebTestCase
     private function getHeadersFromResponse($name)
     {
         $documentManager = $this->getContainer()->get('document_manager');
-        $id = 'swp/123abc/routes/'.$name;
+        $id = 'swp/123456/123abc/routes/'.$name;
         $route = $documentManager->find('SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\Route', $id);
 
         $this->assertNotNull($route);

@@ -37,6 +37,7 @@ class MetaRouterTest extends WebTestCase
         $this->runCommand('doctrine:phpcr:init:dbal', ['--force' => true, '--env' => 'test'], true);
         $this->runCommand('doctrine:phpcr:repository:init', ['--env' => 'test'], true);
         $this->loadFixtures([
+            'SWP\Bundle\FixturesBundle\DataFixtures\PHPCR\LoadTenantsData',
             'SWP\Bundle\FixturesBundle\DataFixtures\PHPCR\LoadArticlesData',
         ], null, 'doctrine_phpcr');
 
@@ -44,7 +45,7 @@ class MetaRouterTest extends WebTestCase
         $router = $this->getContainer()->get('cmf_routing.dynamic_router');
         $this->assertEquals(
             '/news/test-news-article',
-            $router->generate($metaLoader->load('article', ['contentPath' => '/swp/123abc/content/test-news-article']))
+            $router->generate($metaLoader->load('article', ['contentPath' => '/swp/123456/123abc/content/test-news-article']))
         );
     }
 }

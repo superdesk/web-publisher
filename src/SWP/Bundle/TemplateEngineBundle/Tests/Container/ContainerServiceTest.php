@@ -67,7 +67,7 @@ class ContainerServiceTest extends WebTestCase
         $this->assertEquals('border: 1px solid red;', $containerEntity->getStyles());
         $this->assertEquals(true, $containerEntity->getVisible());
         $this->assertEquals(1, count($containerEntity->getData()));
-        $this->assertEquals($tenantContext->getTenant(), $containerEntity->getTenant());
+        $this->assertEquals($tenantContext->getTenant()->getCode(), $containerEntity->getTenant());
     }
 
     public function testGetContainerException()
@@ -89,11 +89,12 @@ class ContainerServiceTest extends WebTestCase
     private function createAndPopulateDatabase()
     {
         $this->runCommand('doctrine:schema:drop', ['--force' => true, '--env' => 'test'], true);
-        $this->runCommand('doctrine:doctrine:schema:update', ['--force' => true, '--env' => 'test'], true);
+        $this->runCommand('doctrine:schema:update', ['--force' => true, '--env' => 'test'], true);
+        $this->runCommand('doctrine:phpcr:repository:init', ['--env' => 'test'], true);
 
-        $this->loadFixtureFiles([
-            '@SWPFixturesBundle/Resources/fixtures/ORM/test/tenant.yml',
-        ]);
+        $this->loadFixtures([
+            'SWP\Bundle\FixturesBundle\DataFixtures\PHPCR\LoadTenantsData',
+        ], null, 'doctrine_phpcr');
     }
 
     private function createContainerService($debug = true)

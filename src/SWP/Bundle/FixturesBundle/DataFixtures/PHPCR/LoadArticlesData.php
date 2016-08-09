@@ -235,7 +235,7 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface, Orde
         if (isset($articles[$env])) {
             foreach ($articles[$env] as $articleData) {
                 $article = new Article();
-                $article->setParent($manager->find(null, $articleData['parent']));
+                $article->setParentDocument($manager->find(null, $articleData['parent']));
                 $article->setTitle($articleData['title']);
                 $article->setBody($articleData['content']);
                 $article->setRoute($manager->find(null, $articleData['route']));

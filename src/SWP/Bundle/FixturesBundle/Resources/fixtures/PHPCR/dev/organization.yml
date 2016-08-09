@@ -1,9 +1,0 @@
-SWP\Bundle\WebRendererBundle\Doctrine\ODM\PHPCR\Organization:
-    organization1:
-        name: "<company()>"
-        code: "123456"
-        parent: <find(null, '/swp')>
-    organization2:
-        name: "<company()>"
-        code: "654321"
-        parent: <find(null, '/swp')>

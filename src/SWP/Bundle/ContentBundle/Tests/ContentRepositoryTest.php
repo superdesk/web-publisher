@@ -24,28 +24,23 @@ class ContentRepositoryTest extends WebTestCase
     {
         self::bootKernel();
 
-        $this->runCommand('doctrine:schema:drop', ['--force' => true, '--env' => 'test'], true);
-        $this->runCommand('doctrine:doctrine:schema:update', ['--force' => true, '--env' => 'test'], true);
-        $this->loadFixtureFiles([
-            '@SWPFixturesBundle/Resources/fixtures/ORM/test/tenant.yml',
-        ]);
-
+        $this->runCommand('doctrine:phpcr:init:dbal', ['--force' => true, '--env' => 'test'], true);
         $this->runCommand('doctrine:phpcr:repository:init', ['--env' => 'test'], true);
+        $this->loadFixtures([
+            'SWP\Bundle\FixturesBundle\DataFixtures\PHPCR\LoadTenantsData',
+            'SWP\Bundle\FixturesBundle\DataFixtures\PHPCR\LoadArticlesData',
+        ], null, 'doctrine_phpcr');
     }
 
     public function testFindNewArticle()
     {
-        $this->loadFixtures([
-            'SWP\Bundle\FixturesBundle\DataFixtures\PHPCR\LoadArticlesData',
-        ], null, 'doctrine_phpcr');
-
         $dm = $this->getContainer()->get('doctrine_phpcr.odm.document_manager');
         $articles = $dm->getRepository('SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\Article')->findAll();
         $this->assertTrue(count($articles) === 4);
-        $article = $dm->find('SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\Article', '/swp/123abc/content/test-article');
+        $article = $dm->find('SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\Article', '/swp/123456/123abc/content/test-article');
         $this->assertInstanceOf('SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\Article', $article);
 
-        $article = $dm->find('SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\Article', '/swp/456def/content/features-client1');
+        $article = $dm->find('SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\Article', '/swp/654321/456def/content/features-client1');
         $this->assertInstanceOf('SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\Article', $article);
     }
 }

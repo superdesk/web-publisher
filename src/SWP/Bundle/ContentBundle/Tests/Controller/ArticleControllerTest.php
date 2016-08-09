@@ -26,25 +26,25 @@ class ArticleControllerTest extends WebTestCase
     {
         self::bootKernel();
         $this->runCommand('doctrine:schema:drop', ['--force' => true, '--env' => 'test'], true);
-        $this->runCommand('doctrine:doctrine:schema:update', ['--force' => true, '--env' => 'test'], true);
-        $this->loadFixtureFiles([
-            '@SWPFixturesBundle/Resources/fixtures/ORM/test/tenant.yml',
-        ]);
+        $this->runCommand('doctrine:schema:update', ['--force' => true, '--env' => 'test'], true);
         $this->runCommand('doctrine:phpcr:repository:init', ['--env' => 'test'], true);
+
+        $this->loadFixtures([
+            'SWP\Bundle\FixturesBundle\DataFixtures\PHPCR\LoadTenantsData',
+            'SWP\Bundle\FixturesBundle\DataFixtures\PHPCR\LoadArticlesData',
+        ], null, 'doctrine_phpcr');
+
         $this->runCommand('theme:setup', ['--env' => 'test'], true);
         $this->router = $this->getContainer()->get('router');
     }
 
     public function testLoadingArticleCustomTemplate()
     {
-        $this->loadFixtures([
-            'SWP\Bundle\FixturesBundle\DataFixtures\PHPCR\LoadArticlesData',
-        ], null, 'doctrine_phpcr');
-
         $client = static::createClient();
         $crawler = $client->request('GET', '/articles/features');
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
         $this->assertTrue($crawler->filter('html:contains("Features")')->count() === 1);
+        $this->assertTrue($crawler->filter('html:contains("/swp/123456/123abc/content/features")')->count() === 1);
 
         $client->request('PATCH', $this->router->generate('swp_api_content_update_articles', ['id' => 'features']), [
             'article' => [
@@ -60,10 +60,6 @@ class ArticleControllerTest extends WebTestCase
 
     public function testPublishingArticle()
     {
-        $this->loadFixtures([
-            'SWP\Bundle\FixturesBundle\DataFixtures\PHPCR\LoadArticlesData',
-        ], null, 'doctrine_phpcr');
-
         $client = static::createClient();
         // unpublish article from fixtures
         $client->request('PATCH', $this->router->generate('swp_api_content_update_articles', ['id' => 'features']), [
@@ -73,7 +69,7 @@ class ArticleControllerTest extends WebTestCase
         ]);
         $responseArray = json_decode($client->getResponse()->getContent(), true);
         $this->assertArraySubset(json_decode('{"status":"new"}', true), $responseArray);
-        $crawler = $client->request('GET', '/articles/features');
+        $client->request('GET', '/articles/features');
         $this->assertEquals(404, $client->getResponse()->getStatusCode());
 
         //publish unpublished article
