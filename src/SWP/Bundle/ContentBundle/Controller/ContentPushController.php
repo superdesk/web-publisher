@@ -19,9 +19,11 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use FOS\RestBundle\Controller\FOSRestController;
 use FOS\RestBundle\View\View;
+use SWP\Bundle\BridgeBundle\Doctrine\ORM\PackageRepository;
 use SWP\Bundle\ContentBundle\ArticleEvents;
 use SWP\Bundle\ContentBundle\Event\ArticleEvent;
 use SWP\Bundle\ContentBundle\Form\Type\MediaFileType;
+use SWP\Component\Bridge\Model\Package;
 use Symfony\Component\HttpFoundation\Request;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Symfony\Component\Routing\Exception\ResourceNotFoundException;
@@ -43,23 +45,28 @@ class ContentPushController extends FOSRestController
      */
     public function pushContentAction(Request $request)
     {
-        $pipeline = (new Pipeline())
-            ->pipe([$this->get('swp_bridge.transformer.json_to_package'), 'transform'])
-            ->pipe(function ($package) {
-                $this->get('swp.repository.package')->add($package);
+        $content = $request->getContent();
+        $package = $this->get('swp_bridge.transformer.json_to_package')->transform($content);
 
-                return $package;
-            })
-            // TODO create content component and include it into bridge bundle
-            ->pipe([$this->get('swp_content.transformer.package_to_article'), 'transform'])
-            ->pipe(function ($article) {
-                $this->get('swp.repository.article')->add($article);
-                $this->get('event_dispatcher')->dispatch(ArticleEvents::POST_CREATE, new ArticleEvent($article));
+        $packageRepository = $this->get('swp.repository.package');
+        $existingPackage = $packageRepository->findOneBy(['guid' => $package->getGuid()]);
 
-                return $article;
-            });
+        // Delete existing package if there is one - soft delete so this recoverable
+        if (null !== $existingPackage) {
+            $packageRepository->remove($existingPackage);
+        }
 
-        $pipeline->process($request->getContent());
+        $packageRepository->add($package);
+
+        $article = $this->get('swp_content.transformer.package_to_article')->transform($package);
+
+        $articleRepository = $this->get('swp.repository.article');
+        $existingArticle = $articleRepository->findOneBy(['slug' => $article->getSlug()]);
+        if (null !== $existingArticle) {
+            $articleRepository->remove($existingArticle);
+        }
+        $articleRepository->add($article);
+        $this->get('event_dispatcher')->dispatch(ArticleEvents::POST_CREATE, new ArticleEvent($article));
 
         return $this->handleView(View::create(['status' => 'OK'], 201));
     }
