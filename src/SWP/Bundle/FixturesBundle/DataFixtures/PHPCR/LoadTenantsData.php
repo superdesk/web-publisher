@@ -48,7 +48,7 @@ class LoadTenantsData extends AbstractFixture implements FixtureInterface, Order
         $tenant1 = new Tenant();
         $tenant1->setName('Default tenant');
         $tenant1->setSubdomain('default');
-        $tenant1->setThemeName('swp/test-theme');
+        $tenant1->setThemeName($env === 'test' ? 'swp/test-theme' : 'swp/default-theme');
         $tenant1->setCode('123abc');
         $tenant1->setOrganization($organization1);
         $manager->persist($tenant1);
@@ -56,7 +56,7 @@ class LoadTenantsData extends AbstractFixture implements FixtureInterface, Order
         $tenant2 = new Tenant();
         $tenant2->setName('Client1 tenant');
         $tenant2->setSubdomain('client1');
-        $tenant2->setThemeName('swp/test-theme');
+        $tenant2->setThemeName($env === 'test' ? 'swp/test-theme' : 'swp/default-theme');
         $tenant2->setCode('456def');
         $tenant2->setOrganization($organization2);
         $manager->persist($tenant2);
