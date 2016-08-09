@@ -13,7 +13,7 @@
  */
 namespace SWP\Bundle\ContentBundle\Tests;
 
-use Liip\FunctionalTestBundle\Test\WebTestCase;
+use SWP\Bundle\FixturesBundle\WebTestCase;
 
 class ContentRepositoryTest extends WebTestCase
 {

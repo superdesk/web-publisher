@@ -83,8 +83,8 @@
         "league/pipeline": "^0.2.2",
         "jms/translation-bundle": "^1.2",
         "symfony-cmf/menu-bundle": "2.0.*",
-        "ocramius/proxy-manager": "^2.0",
-        "hoa/mime": "3.16.01.15"
+        "hoa/mime": "3.16.01.15",
+        "ocramius/proxy-manager": "^1.0|^2.0"
     },
     "require-dev": {
         "sensio/generator-bundle": "~3.0",

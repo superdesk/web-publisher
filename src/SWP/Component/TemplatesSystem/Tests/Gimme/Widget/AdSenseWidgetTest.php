@@ -13,9 +13,9 @@
  */
 namespace SWP\Component\TemplatesSystem\Tests\Gimme\Widget;
 
+use SWP\Bundle\FixturesBundle\WebTestCase;
 use SWP\Bundle\TemplateEngineBundle\Model\WidgetModel;
 use SWP\Component\TemplatesSystem\Gimme\Widget\GoogleAdSenseWidgetHandler;
-use Liip\FunctionalTestBundle\Test\WebTestCase;
 
 class AdSenseWidgetTest extends WebTestCase
 {
@@ -25,9 +25,7 @@ class AdSenseWidgetTest extends WebTestCase
     {
         self::bootKernel();
 
-        $this->runCommand('doctrine:schema:drop', ['--force' => true, '--env' => 'test'], true);
-        $this->runCommand('doctrine:schema:update', ['--force' => true, '--env' => 'test'], true);
-        $this->runCommand('doctrine:phpcr:repository:init', ['--env' => 'test'], true);
+        $this->initDatabase();
 
         $this->loadFixtures([
             'SWP\Bundle\FixturesBundle\DataFixtures\PHPCR\LoadTenantsData',

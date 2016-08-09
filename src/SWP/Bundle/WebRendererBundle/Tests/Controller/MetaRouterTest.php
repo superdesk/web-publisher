@@ -13,7 +13,7 @@
  */
 namespace SWP\Bundle\WebRendererBundle\Tests\Controller;
 
-use Liip\FunctionalTestBundle\Test\WebTestCase;
+use SWP\Bundle\FixturesBundle\WebTestCase;
 use SWP\Component\TemplatesSystem\Gimme\Meta\Meta;
 
 class MetaRouterTest extends WebTestCase

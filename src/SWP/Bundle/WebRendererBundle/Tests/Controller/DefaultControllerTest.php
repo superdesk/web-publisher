@@ -13,7 +13,7 @@
  */
 namespace SWP\Bundle\WebRendererBundle\Tests\Controller;
 
-use Liip\FunctionalTestBundle\Test\WebTestCase;
+use SWP\Bundle\FixturesBundle\WebTestCase;
 
 class DefaultControllerTest extends WebTestCase
 {
@@ -27,10 +27,7 @@ class DefaultControllerTest extends WebTestCase
     public function setUp()
     {
         self::bootKernel();
-
-        $this->runCommand('doctrine:schema:drop', ['--force' => true, '--env' => 'test'], true);
-        $this->runCommand('doctrine:schema:update', ['--force' => true, '--env' => 'test'], true);
-        $this->runCommand('doctrine:phpcr:repository:init', ['--env' => 'test'], true);
+        $this->initDatabase();
     }
 
     public function testIndexOnDevices()

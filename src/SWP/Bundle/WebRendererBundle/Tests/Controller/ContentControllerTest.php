@@ -13,7 +13,7 @@
  */
 namespace SWP\Bundle\WebRendererBundle\Tests\Controller;
 
-use Liip\FunctionalTestBundle\Test\WebTestCase;
+use SWP\Bundle\FixturesBundle\WebTestCase;
 
 class ContentControllerTest extends WebTestCase
 {
@@ -24,9 +24,7 @@ class ContentControllerTest extends WebTestCase
     {
         self::bootKernel();
 
-        $this->runCommand('doctrine:schema:drop', ['--force' => true, '--env' => 'test'], true);
-        $this->runCommand('doctrine:schema:update', ['--force' => true, '--env' => 'test'], true);
-        $this->runCommand('doctrine:phpcr:repository:init', ['--env' => 'test'], true);
+        $this->initDatabase();
     }
 
     public function testLoadingContainerPageArticle()

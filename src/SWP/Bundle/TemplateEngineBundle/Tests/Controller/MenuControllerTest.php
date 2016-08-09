@@ -12,7 +12,7 @@
  */
 namespace SWP\Bundle\TemplateEngineBundle\Tests\Controller;
 
-use Liip\FunctionalTestBundle\Test\WebTestCase;
+use SWP\Bundle\FixturesBundle\WebTestCase;
 
 class MenuControllerTest extends WebTestCase
 {
@@ -24,9 +24,7 @@ class MenuControllerTest extends WebTestCase
     public function setUp()
     {
         self::bootKernel();
-        $this->runCommand('doctrine:schema:drop', ['--force' => true, '--env' => 'test'], true);
-        $this->runCommand('doctrine:schema:update', ['--force' => true, '--env' => 'test'], true);
-        $this->runCommand('doctrine:phpcr:repository:init', ['--env' => 'test'], true);
+        $this->initDatabase();
 
         $this->loadFixtures([
             'SWP\Bundle\FixturesBundle\DataFixtures\PHPCR\LoadTenantsData',

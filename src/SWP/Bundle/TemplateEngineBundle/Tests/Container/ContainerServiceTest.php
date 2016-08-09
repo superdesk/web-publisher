@@ -13,7 +13,7 @@
  */
 namespace SWP\Bundle\TemplateEngineBundle\Tests\Container;
 
-use Liip\FunctionalTestBundle\Test\WebTestCase;
+use SWP\Bundle\FixturesBundle\WebTestCase;
 use SWP\Bundle\TemplateEngineBundle\Service\ContainerService;
 
 class ContainerServiceTest extends WebTestCase
@@ -88,9 +88,7 @@ class ContainerServiceTest extends WebTestCase
 
     private function createAndPopulateDatabase()
     {
-        $this->runCommand('doctrine:schema:drop', ['--force' => true, '--env' => 'test'], true);
-        $this->runCommand('doctrine:schema:update', ['--force' => true, '--env' => 'test'], true);
-        $this->runCommand('doctrine:phpcr:repository:init', ['--env' => 'test'], true);
+        $this->initDatabase();
 
         $this->loadFixtures([
             'SWP\Bundle\FixturesBundle\DataFixtures\PHPCR\LoadTenantsData',
