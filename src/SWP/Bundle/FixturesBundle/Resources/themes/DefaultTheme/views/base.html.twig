@@ -238,7 +238,9 @@
         </ul>
     </div>
 
-<p style="text-align: center; color: #ccc; font-family: Sans-serif; font-size: 80%; margin-top: 15px; padding-top: 10px; border-top: 1px solid #ccc;"><span style="color: #fff">&#8505;</span> {{ 'global.footer.themeInfo'|trans|desc('Theme info') }} <a href="#" class="js-toggle-info" style="color: #fff">show / hide</a> | <span style="color: #fff">&#x2699;</span> {{ 'global.footer.templateCode'|trans|desc('Template code used to render this page :') }} <a href="#" class="js-toggle-code" style="color: #fff">show / hide</a></p>
+{% cache 'footerInfoBar' { time:300 } %}
+<p style="text-align: center; color: #ccc; font-family: Sans-serif; font-size: 80%; margin-top: 15px; padding-top: 10px; border-top: 1px solid #ccc;"><span style="color: #fff">&#8505;</span> {{ 'global.footer.themeInfo'|trans|desc('Theme info') }} <a href="#" class="js-toggle-info" style="color: #fff">show / hide</a> | <span style="color: #fff">&#x2699;</span> {{ 'global.footer.templateCode'|trans|desc('Template code used to render this page :') }} <a href="#" class="js-toggle-code" style="color: #fff">show / hide</a> | <span style="color: #fff">&#8505;</span> {{ 'global.footer.cachedTime'|trans|desc('Last not cached generation time:') }} <span style="color: #fff">{{ 'now'|date('H:i:s') }}</span></p>
+{% endcache %}
 
     {% block theme_info %}
     <div class="js-theme-info" style="margin: 20px 0; padding: 20px; background-color: #fff; color: #000; font-family: Sans-serif; display:none;">

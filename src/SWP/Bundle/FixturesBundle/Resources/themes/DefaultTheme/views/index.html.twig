@@ -17,6 +17,8 @@
 </ul>
 ################}
 
+{% cache 'frontTop3' { time:600 } %}
+
 {% gimmelist article from articles with {'route': '/news'}  %}
 {% if loop.first %}
       <!-- Span (8) -->
@@ -73,6 +75,8 @@
 {% endif %}
 {% endif %}
 {% endgimmelist %}
+
+{% endcache %}
 
 {% include '_tpl/front-sidebar.html.twig' %}
 
