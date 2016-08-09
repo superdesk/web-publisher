@@ -43,7 +43,7 @@ class Package extends BaseContent implements PackageInterface, PersistableInterf
     }
 
     /**
-     * Add item
+     * Add item.
      *
      * @param \SWP\Component\Bridge\Model\Item $item
      *
@@ -60,7 +60,7 @@ class Package extends BaseContent implements PackageInterface, PersistableInterf
     }
 
     /**
-     * Remove item
+     * Remove item.
      *
      * @param \SWP\Component\Bridge\Model\Item $item
      */

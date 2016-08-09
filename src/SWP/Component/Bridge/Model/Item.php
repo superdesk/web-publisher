@@ -47,7 +47,7 @@ class Item extends BaseContent implements ItemInterface, TimestampableInterface
     }
 
     /**
-     * Set package
+     * Set package.
      *
      * @param \SWP\Component\Bridge\Model\Package $package
      *
@@ -61,7 +61,7 @@ class Item extends BaseContent implements ItemInterface, TimestampableInterface
     }
 
     /**
-     * Get package
+     * Get package.
      *
      * @return \SWP\Component\Bridge\Model\Package
      */
