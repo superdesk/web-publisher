@@ -23,7 +23,7 @@ interface TenantFactoryInterface extends FactoryInterface
 {
     /**
      * Creates a new tenant for given organization code.
-     * 
+     *
      * @param string $code
      *
      * @return TenantInterface

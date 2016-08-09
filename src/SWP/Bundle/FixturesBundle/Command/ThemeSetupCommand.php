@@ -139,7 +139,6 @@ EOT
 
             // Set theme_name for default tenant if the default theme is being set up
             if (self::DEFAULT_THEME_TITLE === $name) {
-
                 $this->assignDefaultTheme($defaultTenant);
             }
 

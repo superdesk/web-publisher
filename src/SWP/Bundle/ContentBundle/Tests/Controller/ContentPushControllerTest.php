@@ -32,7 +32,7 @@ class ContentPushControllerTest extends WebTestCase
         $this->runCommand('doctrine:phpcr:repository:init', ['--env' => 'test'], true);
 
         $this->loadFixtures([
-            'SWP\Bundle\FixturesBundle\DataFixtures\PHPCR\LoadTenantsData'
+            'SWP\Bundle\FixturesBundle\DataFixtures\PHPCR\LoadTenantsData',
         ], null, 'doctrine_phpcr');
 
         $this->router = $this->getContainer()->get('router');

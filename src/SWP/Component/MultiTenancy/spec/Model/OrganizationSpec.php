@@ -107,7 +107,7 @@ class OrganizationSpec extends ObjectBehavior
         $this->shouldNotBeDeleted();
     }
 
-   function it_has_no_deleted_at_date_by_default()
+    function it_has_no_deleted_at_date_by_default()
     {
         $this->getDeletedAt()->shouldReturn(null);
     }

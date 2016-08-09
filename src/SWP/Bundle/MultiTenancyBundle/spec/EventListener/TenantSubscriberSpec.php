@@ -85,7 +85,6 @@ class TenantSubscriberSpec extends ObjectBehavior
         LifecycleEventArgs $event,
         TenantAwareInterface $tenantAware
     ) {
-
         $this->beConstructedWith($tenantContext, true);
 
         $tenant = new Tenant();

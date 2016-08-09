@@ -56,7 +56,6 @@ class OrganizationFactorySpec extends ObjectBehavior
         OrganizationFactoryInterface $factory,
         OrganizationInterface $organization
     ) {
-
         $factory->createWithCode()->willReturn($organization);
 
         $this->createWithCode()->shouldReturn($organization);
@@ -66,7 +65,6 @@ class OrganizationFactorySpec extends ObjectBehavior
         OrganizationFactoryInterface $factory,
         ObjectManager $documentManager
     ) {
-
         $organization = new ParentTest();
 
         $factory->createWithCode()->willReturn($organization);

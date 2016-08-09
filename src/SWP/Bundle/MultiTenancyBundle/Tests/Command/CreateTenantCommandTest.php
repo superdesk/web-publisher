@@ -18,7 +18,6 @@ use SWP\Component\MultiTenancy\Factory\TenantFactoryInterface;
 use SWP\Component\MultiTenancy\Model\Organization;
 use SWP\Component\MultiTenancy\Model\OrganizationInterface;
 use SWP\Component\MultiTenancy\Model\Tenant;
-use SWP\Component\MultiTenancy\Model\TenantInterface;
 use SWP\Component\MultiTenancy\Repository\OrganizationRepositoryInterface;
 use SWP\Component\MultiTenancy\Repository\TenantRepositoryInterface;
 use Symfony\Component\Console\Application;

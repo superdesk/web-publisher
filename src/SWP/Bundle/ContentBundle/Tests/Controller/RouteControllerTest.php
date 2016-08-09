@@ -14,7 +14,6 @@
 namespace SWP\Bundle\TemplateEngineBundle\Tests\Controller;
 
 use Liip\FunctionalTestBundle\Test\WebTestCase;
-use SWP\Component\MultiTenancy\Model\Tenant;
 
 class RouteControllerTest extends WebTestCase
 {
@@ -31,7 +30,7 @@ class RouteControllerTest extends WebTestCase
         $this->runCommand('doctrine:phpcr:repository:init', ['--env' => 'test'], true);
 
         $this->loadFixtures([
-            'SWP\Bundle\FixturesBundle\DataFixtures\PHPCR\LoadTenantsData'
+            'SWP\Bundle\FixturesBundle\DataFixtures\PHPCR\LoadTenantsData',
         ], null, 'doctrine_phpcr');
 
         $this->router = $this->getContainer()->get('router');

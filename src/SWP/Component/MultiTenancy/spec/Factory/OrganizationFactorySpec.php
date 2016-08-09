@@ -14,7 +14,6 @@
 namespace spec\SWP\Component\MultiTenancy\Factory;
 
 use PhpSpec\ObjectBehavior;
-use Prophecy\Argument;
 use SWP\Component\Common\Generator\GeneratorInterface;
 use SWP\Component\MultiTenancy\Factory\OrganizationFactory;
 use SWP\Component\MultiTenancy\Factory\OrganizationFactoryInterface;
@@ -48,7 +47,6 @@ class OrganizationFactorySpec extends ObjectBehavior
         $factory->create()->willReturn($organization);
         $this->create()->shouldReturn($organization);
     }
-
 
     function it_creates_a_new_organization_with_code(
         FactoryInterface $factory,

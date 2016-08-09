@@ -14,7 +14,6 @@
 namespace SWP\Bundle\ContentBundle\Tests\EventListener;
 
 use Liip\FunctionalTestBundle\Test\WebTestCase;
-use Nelmio\Alice\Fixtures;
 use SWP\Bundle\FixturesBundle\DataFixtures\PHPCR\LoadRoutesData;
 use Symfony\Cmf\Component\Routing\ChainRouter;
 
@@ -37,7 +36,7 @@ class HttpCacheHeaderListenerTest extends WebTestCase
 
         $this->loadFixtures([
             'SWP\Bundle\FixturesBundle\DataFixtures\PHPCR\LoadTenantsData',
-            'SWP\Bundle\FixturesBundle\DataFixtures\PHPCR\LoadRoutesData'
+            'SWP\Bundle\FixturesBundle\DataFixtures\PHPCR\LoadRoutesData',
         ], null, 'doctrine_phpcr');
 
         $this->router = $this->getContainer()->get('router');
