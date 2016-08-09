@@ -14,6 +14,8 @@
 namespace SWP\Bundle\ContentBundle\Tests\Controller;
 
 use Liip\FunctionalTestBundle\Test\WebTestCase;
+use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class ContentPushControllerTest extends WebTestCase
 {
@@ -79,6 +81,37 @@ class ContentPushControllerTest extends WebTestCase
         $this->assertContains(
             'ads-fsadf-sdaf-sadf-sadf',
             $client->getResponse()->getContent()
+        );
+    }
+
+    /**
+     * @covers SWP\Bundle\ContentBundle\Controller\ContentPushController::pushAssetsAction
+     */
+    public function testAssetsPush()
+    {
+        $filesystem = new Filesystem();
+        $filesystem->remove($this->getContainer()->getParameter('kernel.cache_dir').'/uploads');
+
+        $client = static::createClient();
+        $client->request(
+            'POST',
+            $this->router->generate('swp_api_assets_push'),
+            [
+                'media_id' => 'asdgsadfvasdf4w35qwetasftest',
+                'media' => new UploadedFile(__DIR__.'/../Resources/test_file.png', 'test_file.png', 'image/png', 3992, null, true),
+            ]
+        );
+
+        $this->assertEquals(201, $client->getResponse()->getStatusCode());
+        $this->assertEquals(
+            [
+                'media_id' => 'asdgsadfvasdf4w35qwetasftest',
+                'URL' => 'http://default.localhost/media/asdgsadfvasdf4w35qwetasftest.png',
+                'media' => base64_encode(file_get_contents(__DIR__.'/../Resources/test_file.png')),
+                'mime_type' => 'image/png',
+                'filemeta' => [],
+            ],
+            json_decode($client->getResponse()->getContent(), true)
         );
     }
 }

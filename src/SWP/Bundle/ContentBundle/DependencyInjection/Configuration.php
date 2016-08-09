@@ -21,6 +21,7 @@ use SWP\Bundle\ContentBundle\Factory\ArticleFactory;
 use SWP\Bundle\ContentBundle\Factory\RouteFactory;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
+use SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\Media;
 
 /**
  * This is the class that validates and merges configuration from your app/config files.
@@ -45,7 +46,7 @@ class Configuration implements ConfigurationInterface
                             ->canBeEnabled()
                             ->children()
                                 ->scalarNode('default_content_path')
-                                    ->defaultValue('articles')
+                                    ->defaultValue('news')
                                 ->end()
                                 ->arrayNode('classes')
                                     ->addDefaultsIfNotSet()
@@ -77,8 +78,17 @@ class Configuration implements ConfigurationInterface
                                                 ->scalarNode('object_manager_name')->defaultValue(null)->end()
                                             ->end()
                                         ->end()
+                                        ->arrayNode('media')
+                                            ->addDefaultsIfNotSet()
+                                            ->children()
+                                                ->scalarNode('model')->cannotBeEmpty()->defaultValue(Media::class)->end()
+                                                ->scalarNode('repository')->defaultValue(null)->end()
+                                                ->scalarNode('factory')->defaultValue(null)->end()
+                                                ->scalarNode('object_manager_name')->defaultValue(null)->end()
+                                            ->end()
+                                        ->end()
                                     ->end()
-                                ->end()
+                                ->end() // classes
                             ->end()
                         ->end() // phpcr
                     ->end()

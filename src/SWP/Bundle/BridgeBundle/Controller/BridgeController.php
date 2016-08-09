@@ -62,7 +62,6 @@ class BridgeController extends Controller
 
         switch ($endpointPath) {
             case $sdk::SUPERDESK_ENDPOINT_ITEMS:
-
                 if (!is_null($objectId)) {
                     $data = $sdk->getItem($objectId);
                 } else {
@@ -71,7 +70,6 @@ class BridgeController extends Controller
                 break;
 
             case $sdk::SUPERDESK_ENDPOINT_PACKAGES:
-
                 // TODO: Change this in the future to match the superdesk public api parameter name
                 $resolve = (isset($parameters['resolveItems']) && $parameters['resolveItems']) ? true : false;
 

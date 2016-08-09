@@ -249,3 +249,14 @@ cmf_menu:
         phpcr:
             enabled: true
             menu_basepath: ~
+
+oneup_flysystem:
+    adapters:
+        filesystem_adapter:
+            local:
+                directory: %kernel.root_dir%/../web/uploads/
+
+    filesystems:
+        swp_filesystem:
+            adapter: filesystem_adapter
+            alias: swp_filesystem
