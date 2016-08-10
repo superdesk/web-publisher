@@ -27,7 +27,7 @@ class ArticleLoaderTest extends WebTestCase
         self::bootKernel();
 
         $this->runCommand('doctrine:schema:drop', ['--force' => true, '--env' => 'test'], true);
-        $this->runCommand('doctrine:doctrine:schema:update', ['--force' => true, '--env' => 'test'], true);
+        $this->runCommand('doctrine:schema:update', ['--force' => true, '--env' => 'test'], true);
         $this->loadFixtures([
             'SWP\Bundle\FixturesBundle\DataFixtures\ORM\LoadTenantsData',
         ]);

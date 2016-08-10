@@ -136,7 +136,7 @@ class ArticleLoader implements LoaderInterface
                     if (isset($parameters['order'])) {
                         $order = $parameters['order'];
                         if (!is_array($order) || count($order) !== 2 || (strtoupper($order[1]) != 'ASC' && strtoupper($order[1]) != 'DESC')) {
-                            throw new \Exception('Order filter must have two parameters with second once asc or desc');
+                            throw new \Exception('Order filter must have two parameters with second one asc or desc, e.g. order(id, desc)');
                         }
                         if ($order[0] === 'id') {
                             $order[0] = 'uuid';
@@ -149,9 +149,11 @@ class ArticleLoader implements LoaderInterface
                     if (isset($parameters['limit'])) {
                         $query->setLimit($parameters['limit']);
                     }
+
                     if (isset($parameters['start'])) {
                         $query->setOffset($parameters['start']);
                     }
+
                     $articles = $this->dm->getDocumentsByPhpcrQuery($query);
 
                     $metas = [];
