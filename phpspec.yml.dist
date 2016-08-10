@@ -32,11 +32,11 @@ suites:
         psr4_prefix: SWP\Bundle\ContentBundle
         spec_path: src/SWP/Bundle/ContentBundle
         src_path: src/SWP/Bundle/ContentBundle
-    WebRendererBundle_suite:
-        namespace: SWP\Bundle\WebRendererBundle
-        psr4_prefix: SWP\Bundle\WebRendererBundle
-        spec_path: src/SWP/Bundle/WebRendererBundle
-        src_path: src/SWP/Bundle/WebRendererBundle
+    CoreBundle_suite:
+        namespace: SWP\Bundle\CoreBundle
+        psr4_prefix: SWP\Bundle\CoreBundle
+        spec_path: src/SWP/Bundle/CoreBundle
+        src_path: src/SWP/Bundle/CoreBundle
     BridgeBundle_suite:
         namespace: SWP\Bundle\BridgeBundle
         psr4_prefix: SWP\Bundle\BridgeBundle

@@ -7,7 +7,7 @@ swp_content:
     type:     annotation
 
 swp_webrenderer:
-    resource: "@SWPWebRendererBundle/Controller/"
+    resource: "@SWPCoreBundle/Controller/"
     type:     annotation
 
 swp_updater:

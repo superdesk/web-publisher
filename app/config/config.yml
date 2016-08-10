@@ -215,11 +215,11 @@ swp_multi_tenancy:
             enabled: true
             classes:
                 tenant:
-                    model: SWP\Bundle\WebRendererBundle\Doctrine\ODM\PHPCR\Tenant
+                    model: SWP\Bundle\CoreBundle\Doctrine\ODM\PHPCR\Tenant
                 organization:
-                    model: SWP\Bundle\WebRendererBundle\Doctrine\ODM\PHPCR\Organization
+                    model: SWP\Bundle\CoreBundle\Doctrine\ODM\PHPCR\Organization
 
-swp_web_renderer:
+swp_core:
     device_listener:
         enabled: true
 

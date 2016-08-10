@@ -1,7 +1,0 @@
-services:
-    swp_webrenderer.listener.device:
-        class: SWP\Bundle\WebRendererBundle\EventListener\CurrentDeviceListener
-        arguments:
-            - "@swp_webrenderer.detection.device_detection"
-        tags:
-            - { name: kernel.event_listener, event: kernel.request, method: onKernelRequest }
