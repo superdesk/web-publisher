@@ -137,7 +137,7 @@ class ArticleLoader implements LoaderInterface
                             throw new \Exception('Order filter must have two parameters with second one asc or desc, e.g. order(id, desc)');
                         }
                         if ($order[0] === 'id') {
-                            $order[0] = 'uuid';
+                            $order[0] = 'jcr:uuid';
                         }
                         $queryStr .= ' ORDER BY S.'.$order[0].' '.$order[1];
                     }
