@@ -13,6 +13,7 @@
  */
 namespace spec\SWP\Component\Bridge\Model;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use PhpSpec\ObjectBehavior;
 use SWP\Component\Bridge\Model\BaseContent;
