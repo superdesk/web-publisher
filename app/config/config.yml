@@ -147,10 +147,11 @@ doctrine_phpcr:
 
 cmf_routing:
     chain:
+        replace_symfony_router: true
         routers_by_id:
-            router.default: 200
             swp_multi_tenancy.tenant_aware_router: 150
-            cmf_routing.dynamic_router: 100
+            cmf_routing.dynamic_router: 120
+            router.default: 100
     dynamic:
         route_collection_limit: 100
         persistence:
@@ -268,3 +269,8 @@ oneup_flysystem:
         swp_filesystem:
             adapter: filesystem_adapter
             alias: swp_filesystem
+
+sentry:
+    environment: "%kernel.environment%"
+    dsn: "https://31a02e680be4430eab4ad4485c9b996d:753d9f194e384f5fa8bb99c8274473a6@sentry.sourcefabric.org/16"
+    release: "dev-master"

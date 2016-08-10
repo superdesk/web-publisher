@@ -43,7 +43,7 @@ class ArticleLoader implements LoaderInterface
      * @param array  $parameters   parameters needed to load required object type
      * @param int    $responseType response type: single meta (LoaderInterface::SINGLE) or collection of metas (LoaderInterface::COLLECTION)
      *
-     * @return Meta|bool false if meta cannot be loaded, a Meta instance otherwise
+     * @return Meta|array false if meta cannot be loaded, a Meta instance otherwise
      */
     public function load($type, $parameters, $responseType)
     {

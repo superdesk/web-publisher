@@ -50,10 +50,13 @@ class ContentPushController extends FOSRestController
 
                 return $package;
             })
-            // TODO create content component and include it into bridge bundle
             ->pipe([$this->get('swp_content.transformer.package_to_article'), 'transform'])
             ->pipe(function ($article) {
                 $this->get('swp.repository.article')->add($article);
+
+                $articleService = $this->container->get('swp.service.article');
+                $articleService->publish($article);
+
                 $this->get('event_dispatcher')->dispatch(ArticleEvents::POST_CREATE, new ArticleEvent($article));
 
                 return $article;
@@ -101,7 +104,7 @@ class ContentPushController extends FOSRestController
                 ], 201));
             }
 
-            throw new \Exception('Uploaded file is not valid:'.$uploadedFile->getError());
+            throw new \Exception('Uploaded file is not valid:'.$uploadedFile->getErrorMessage());
         }
 
         return $this->handleView(View::create($form, 200));

@@ -13,26 +13,16 @@
  */
 namespace SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR;
 
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ODM\PHPCR\Exception\InvalidArgumentException;
 use Doctrine\ODM\PHPCR\HierarchyInterface;
-use SWP\Bundle\ContentBundle\Model\Article as BaseArticle;
+use SWP\Bundle\ContentBundle\Model\ImageRendition as BaseImageRendition;
 
-class Article extends BaseArticle implements HierarchyInterface
+/**
+ * Class ArticleMedia
+ */
+class ImageRendition extends BaseImageRendition implements HierarchyInterface
 {
-    /**
-     * PHPCR parent document.
-     *
-     * @var object
-     */
     protected $parent;
-
-    /**
-     * Child article documents.
-     *
-     * @var Collection
-     */
-    protected $children;
 
     /**
      * {@inheritdoc}
@@ -68,18 +58,5 @@ class Article extends BaseArticle implements HierarchyInterface
         }
 
         $this->parent = $parent;
-    }
-
-    /**
-     * @return Collection
-     */
-    public function getChildren()
-    {
-        return $this->children;
-    }
-
-    public function getPath()
-    {
-        return $this->parent->getId() .'/'.$this->getSlug();
     }
 }

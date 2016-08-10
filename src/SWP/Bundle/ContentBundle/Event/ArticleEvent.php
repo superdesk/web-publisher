@@ -14,6 +14,7 @@
 namespace SWP\Bundle\ContentBundle\Event;
 
 use SWP\Bundle\ContentBundle\Model\ArticleInterface;
+use SWP\Component\Bridge\Model\PackageInterface;
 use Symfony\Component\EventDispatcher\Event;
 
 class ArticleEvent extends Event
@@ -24,13 +25,20 @@ class ArticleEvent extends Event
     protected $article;
 
     /**
+     * @var PackageInterface
+     */
+    protected $package;
+
+    /**
      * ArticleEvent constructor.
      *
      * @param ArticleInterface $article
+     * @param PackageInterface $package
      */
-    public function __construct(ArticleInterface $article)
+    public function __construct(ArticleInterface $article, PackageInterface $package = null)
     {
         $this->article = $article;
+        $this->package = $package;
     }
 
     /**
@@ -39,5 +47,13 @@ class ArticleEvent extends Event
     public function getArticle()
     {
         return $this->article;
+    }
+
+    /**
+     * @return PackageInterface
+     */
+    public function getPackage()
+    {
+        return $this->package;
     }
 }

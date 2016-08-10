@@ -13,6 +13,7 @@
  */
 namespace SWP\Component\Bridge\Model;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use SWP\Component\Common\Model\TimestampableInterface;
 use SWP\Component\Common\Model\TimestampableTrait;
 
@@ -24,6 +25,31 @@ class Item extends BaseContent implements ItemInterface, TimestampableInterface
      * @var string
      */
     protected $body;
+
+    /**
+     * @var string
+     */
+    protected $bodyText;
+
+    /**
+     * @var string
+     */
+    protected $description;
+
+    /**
+     * Collection
+     */
+    protected $renditions;
+
+    /**
+     * @var string
+     */
+    protected $usageTerms;
+
+    /**
+     * @var ArrayCollection
+     */
+    public $items;
 
     /**
      * {@inheritdoc}
@@ -39,5 +65,85 @@ class Item extends BaseContent implements ItemInterface, TimestampableInterface
     public function setBody($body)
     {
         $this->body = $body;
+    }
+
+    /**
+     * @param ArrayCollection $renditions
+     */
+    public function setRenditions($renditions)
+    {
+        $this->renditions = $renditions;
+    }
+
+    /**
+     * @return ArrayCollection
+     */
+    public function getRenditions()
+    {
+        return $this->renditions;
+    }
+
+    /**
+     * @return ArrayCollection
+     */
+    public function getItems()
+    {
+        return $this->items;
+    }
+
+    /**
+     * @param ArrayCollection $items
+     */
+    public function setItems($items)
+    {
+        $this->items = $items;
+    }
+
+    /**
+     * @return string
+     */
+    public function getBodyText()
+    {
+        return $this->bodyText;
+    }
+
+    /**
+     * @param string $bodyText
+     */
+    public function setBodyText($bodyText)
+    {
+        $this->bodyText = $bodyText;
+    }
+
+    /**
+     * @return string
+     */
+    public function getDescription()
+    {
+        return $this->description;
+    }
+
+    /**
+     * @param string $description
+     */
+    public function setDescription($description)
+    {
+        $this->description = $description;
+    }
+
+    /**
+     * @return string
+     */
+    public function getUsageTerms()
+    {
+        return $this->usageTerms;
+    }
+
+    /**
+     * @param string $usageTerms
+     */
+    public function setUsageTerms($usageTerms)
+    {
+        $this->usageTerms = $usageTerms;
     }
 }

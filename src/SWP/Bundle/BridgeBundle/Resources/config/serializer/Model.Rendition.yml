@@ -1,0 +1,18 @@
+SWP\Component\Bridge\Model\Rendition:
+    exclusion_policy: ALL
+    properties:
+        href:
+            expose: true
+            type: string
+        width:
+            expose: true
+            type: integer
+        height:
+            expose: true
+            type: integer
+        mimetype:
+            expose: true
+            type: string
+        media:
+            expose: true
+            type: string

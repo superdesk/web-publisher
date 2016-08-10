@@ -24,4 +24,14 @@ interface ItemInterface extends ContentInterface
      * @param string $body
      */
     public function setBody($body);
+
+    /**
+     * @return string
+     */
+    public function getDescription();
+
+    /**
+     * @return string
+     */
+    public function getUsageTerms();
 }

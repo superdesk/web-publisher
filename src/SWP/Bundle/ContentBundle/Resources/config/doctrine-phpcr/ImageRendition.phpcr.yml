@@ -1,0 +1,9 @@
+SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\ImageRendition:
+    referenceable: true
+    parentdocument: parent
+    nodename: name
+    fields:
+        width:
+            type: int
+        height:
+            type: int

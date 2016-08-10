@@ -1,0 +1,27 @@
+SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\ArticleMedia:
+    referenceable: true
+    parentdocument: parent
+    nodename: id
+    fields:
+        body:
+            type: string
+        description:
+            type: string
+        located:
+            type: string
+        byLine:
+            type: string
+        mimetype:
+            type: string
+        usageTerms:
+            type: string
+    referenceOne:
+        image:
+            targetDocument: "\\SWP\\Bundle\\ContentBundle\\Doctrine\\ODM\\PHPCR\\Image"
+            strategy: hard
+        file:
+            targetDocument: "\\SWP\\Bundle\\ContentBundle\\Doctrine\\ODM\\PHPCR\\File"
+            strategy: hard
+        article:
+            targetDocument: "\\SWP\\Bundle\\ContentBundle\\Doctrine\\ODM\\PHPCR\\Article"
+            strategy: hard
