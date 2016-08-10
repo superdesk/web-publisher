@@ -129,9 +129,7 @@ class ArticleLoader implements LoaderInterface
                     $node = $this->dm->getNodeForDocument($route);
                     $identifier = $node->getIdentifier();
 
-                    $queryStr = 'SELECT * FROM [nt:unstructured] as S ';
-                    $queryStr .= "WHERE S.phpcr:class='SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\Article' ";
-                    $queryStr .= "AND S.route=$identifier";
+                    $queryStr = sprintf("SELECT * FROM [nt:unstructured] as S WHERE S.phpcr:class='SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\Article' AND S.route=%s", $identifier);
 
                     if (isset($parameters['order'])) {
                         $order = $parameters['order'];
