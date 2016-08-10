@@ -40,18 +40,18 @@ class Configuration implements ConfigurationInterface
         $treeBuilder = new TreeBuilder();
         $treeBuilder->root('swp_multi_tenancy')
             ->children()
-                ->booleanNode('use_listeners')
+                ->booleanNode('use_orm_listeners')
                     ->defaultFalse()
                     ->info('Listeners which make sure that each entity is tenant aware.')
                 ->end()
                 ->arrayNode('persistence')
-                    ->beforeNormalization()
+                    ->validate()
                     ->ifTrue(function ($v) {
-                        if (isset($v['phpcr']) && $v['phpcr']['enabled'] && isset($v['orm']) && $v['orm']['enabled']) {
-                            return true;
-                        }
+                        return count(array_filter($v, function ($persistence) {
+                            return $persistence['enabled'];
+                        })) > 1;
                     })
-                    ->thenInvalid('Only one persistence driver can be enabled at the same time (phpcr or orm).')
+                    ->thenInvalid('Only one persistence layer can be enabled at the same time.')
                     ->end()
                     ->addDefaultsIfNotSet()
                     ->children()
@@ -80,12 +80,6 @@ class Configuration implements ConfigurationInterface
                                 ->scalarNode('tenant_aware_router_class')
                                     ->defaultValue(TenantAwareRouter::class)
                                     ->info('Tenant aware router FQCN')
-                                ->end()
-                                ->scalarNode('default_content_path')
-                                    ->defaultValue('articles')
-                                ->end()
-                                ->booleanNode('use_tenant_orm_persistence')
-                                    ->defaultTrue()
                                 ->end()
                                 ->arrayNode('classes')
                                     ->addDefaultsIfNotSet()

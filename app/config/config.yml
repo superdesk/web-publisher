@@ -209,7 +209,7 @@ stof_doctrine_extensions:
             sortable: true
 
 swp_multi_tenancy:
-    use_listeners: true
+    use_orm_listeners: true
     persistence:
         phpcr:
             enabled: true

@@ -15,6 +15,7 @@ namespace SWP\Bundle\MultiTenancyBundle\DependencyInjection;
 
 use SWP\Bundle\StorageBundle\DependencyInjection\Extension\Extension;
 use SWP\Bundle\StorageBundle\Drivers;
+use Symfony\Component\Config\Definition\Exception\InvalidConfigurationException;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
@@ -37,6 +38,8 @@ class SWPMultiTenancyExtension extends Extension
         $loader = new YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.yml');
 
+        $backendEnabled = false;
+
         if ($config['persistence']['phpcr']['enabled']) {
             $this->loadPhpcr($config['persistence']['phpcr'], $loader, $container);
             $this->registerStorage(
@@ -44,15 +47,25 @@ class SWPMultiTenancyExtension extends Extension
                 $config['persistence']['phpcr']['classes'],
                 $container
             );
-        } else {
+
+            $backendEnabled = true;
+        }
+
+        if ($config['persistence']['orm']['enabled']) {
             $this->registerStorage(
                 Drivers::DRIVER_DOCTRINE_ORM,
                 $config['persistence']['orm']['classes'],
                 $container
             );
+
+            $backendEnabled = true;
         }
 
-        if ($config['use_listeners']) {
+        if (!$backendEnabled) {
+            throw new InvalidConfigurationException('You need to enable one of the peristence backends (phpcr or orm)');
+        }
+
+        if ($config['use_orm_listeners']) {
             $loader->load('listeners.yml');
         }
     }
