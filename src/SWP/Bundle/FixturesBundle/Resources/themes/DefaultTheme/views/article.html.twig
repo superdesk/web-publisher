@@ -9,6 +9,8 @@
 
    <div class="row article_content">
 
+{% cache 'article' {gen: article} %}
+
    	<article class="news_item span8 ">
 			<div class="thumbnail content_text">
        		<img src="{{ asset('theme/assets/img/images-cms-image-000000103X.jpg') }}" alt="Boat in Copenhagen canals (photo: Source Fabric)">
@@ -53,6 +55,9 @@
         #} 
 
        </aside>
+
+{% endcache %}
+
     </div>
 
 {% include '_tpl/latest-news.html.twig' %}
