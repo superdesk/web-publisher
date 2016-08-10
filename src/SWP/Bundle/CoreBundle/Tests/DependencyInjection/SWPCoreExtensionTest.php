@@ -13,17 +13,17 @@
  */
 namespace SWP\Bundle\CoreBundle\Tests\DependencyInjection;
 
-use SWP\Bundle\CoreBundle\DependencyInjection\SWPWebRendererExtension;
+use SWP\Bundle\CoreBundle\DependencyInjection\SWPCoreExtension;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 
-class SWPWebRendererExtensionTest extends \PHPUnit_Framework_TestCase
+class SWPCoreExtensionTest extends \PHPUnit_Framework_TestCase
 {
     private $extension;
     private $container;
 
     public function setUp()
     {
-        $this->extension = new SWPWebRendererExtension();
+        $this->extension = new SWPCoreExtension();
 
         $this->container = new ContainerBuilder();
         $this->container->registerExtension($this->extension);
