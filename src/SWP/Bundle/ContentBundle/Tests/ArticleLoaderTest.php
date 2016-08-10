@@ -82,7 +82,7 @@ class ArticleLoaderTest extends WebTestCase
         $this->assertTrue(count($articlesAsc) == count($articlesDesc));
 
         $count = count($articlesAsc);
-        $this->assertTrue($articlesAsc[0]->title === $articlesDesc[$count-1]->title);
-        $this->assertTrue($articlesAsc[$count-1]->title === $articlesDesc[0]->title);
+        $this->assertTrue($articlesAsc[0]->title === $articlesDesc[$count - 1]->title);
+        $this->assertTrue($articlesAsc[$count - 1]->title === $articlesDesc[0]->title);
     }
 }
