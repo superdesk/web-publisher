@@ -110,7 +110,7 @@ class CreateOrganizationCommandTest extends \PHPUnit_Framework_TestCase
             ->getMock();
 
         $mockRepo->expects($this->any())
-            ->method('findByName')
+            ->method('findOneByName')
             ->with($name)
             ->willReturn($mockOrganization);
 

@@ -66,7 +66,7 @@ class WidgetModel implements WidgetModelInterface, TenantAwareInterface, Timesta
     /**
      * @var string
      */
-    protected $tenant;
+    protected $tenantCode;
 
     /**
      * @var \DateTime
@@ -235,17 +235,17 @@ class WidgetModel implements WidgetModelInterface, TenantAwareInterface, Timesta
     /**
      * {@inheritdoc}
      */
-    public function getTenant()
+    public function getTenantCode()
     {
-        return $this->tenant;
+        return $this->tenantCode;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function setTenant($code)
+    public function setTenantCode($code)
     {
-        $this->tenant = $code;
+        $this->tenantCode = $code;
     }
 
     /**

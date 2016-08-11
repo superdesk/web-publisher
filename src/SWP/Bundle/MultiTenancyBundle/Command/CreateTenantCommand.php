@@ -70,19 +70,19 @@ EOT
         if ($default) {
             $subdomain = TenantInterface::DEFAULT_TENANT_SUBDOMAIN;
             $name = TenantInterface::DEFAULT_TENANT_NAME;
-            $organization = $this->getOrganizationRepository()->findByName(OrganizationInterface::DEFAULT_NAME);
+            $organization = $this->getOrganizationRepository()->findOneByName(OrganizationInterface::DEFAULT_NAME);
             if (null === $organization) {
                 throw new \InvalidArgumentException('Default organization doesn\'t exist!');
             }
         } else {
-            $organization = $this->getOrganizationRepository()->findByCode($organizationCode);
+            $organization = $this->getOrganizationRepository()->findOneByCode($organizationCode);
 
             if (null === $organization) {
                 throw new \InvalidArgumentException(sprintf('Organization with "%s" code doesn\'t exist!', $organizationCode));
             }
         }
 
-        $tenant = $this->getTenantRepository()->findBySubdomain($subdomain);
+        $tenant = $this->getTenantRepository()->findOneBySubdomain($subdomain);
         if (null !== $tenant) {
             throw new \InvalidArgumentException(sprintf('Tenant with subdomain "%s" already exists!', $subdomain));
         }

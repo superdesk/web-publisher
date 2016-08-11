@@ -31,8 +31,8 @@ class TenantableFilter extends SQLFilter
             return '';
         }
 
-        if ($this->hasParameter('tenantId')) {
-            return sprintf('%s.tenant = %s', $targetTableAlias, $this->getParameter('tenantId'));
+        if ($this->hasParameter('tenantCode')) {
+            return sprintf('%s.tenant_code = %s', $targetTableAlias, $this->getParameter('tenantCode'));
         }
 
         return '';

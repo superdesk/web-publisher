@@ -135,12 +135,12 @@ class CreateTenantCommandTest extends \PHPUnit_Framework_TestCase
             ->getMock();
 
         $mockRepoOrganization->expects($this->any())
-            ->method('findByCode')
+            ->method('findOneByCode')
             ->with(self::ORGANIZATION_CODE)
             ->willReturn($mockOrganization);
 
         $mockRepoOrganization->expects($this->any())
-            ->method('findByName')
+            ->method('findOneByName')
             ->with(OrganizationInterface::DEFAULT_NAME)
             ->willReturn($mockOrganization);
 
@@ -148,7 +148,7 @@ class CreateTenantCommandTest extends \PHPUnit_Framework_TestCase
             ->getMock();
 
         $mockRepo->expects($this->any())
-            ->method('findBySubdomain')
+            ->method('findOneBySubdomain')
             ->with($subdomain)
             ->willReturn($mockTenant);
 

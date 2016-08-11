@@ -21,22 +21,20 @@ class OrganizationRepository extends DocumentRepository implements OrganizationR
     /**
      * {@inheritdoc}
      */
-    public function findByName($name)
+    public function findOneByName($name)
     {
         return $this->findOneBy([
             'name' => $name,
-            'enabled' => true,
         ]);
     }
 
     /**
      * {@inheritdoc}
      */
-    public function findByCode($code)
+    public function findOneByCode($code)
     {
         return $this->findOneBy([
             'code' => $code,
-            'enabled' => true,
         ]);
     }
 

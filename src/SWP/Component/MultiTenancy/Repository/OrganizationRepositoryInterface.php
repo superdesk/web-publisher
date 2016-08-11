@@ -30,7 +30,7 @@ interface OrganizationRepositoryInterface extends RepositoryInterface
      *
      * @return OrganizationInterface|null The instance of OrganizationInterface or null
      */
-    public function findByName($name);
+    public function findOneByName($name);
 
     /**
      * Finds the organization by code.
@@ -41,7 +41,7 @@ interface OrganizationRepositoryInterface extends RepositoryInterface
      *
      * @return OrganizationInterface|null The instance of OrganizationInterface or null
      */
-    public function findByCode($code);
+    public function findOneByCode($code);
 
     /**
      * Finds all available organizations.

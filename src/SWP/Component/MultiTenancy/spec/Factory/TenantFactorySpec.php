@@ -64,7 +64,7 @@ class TenantFactorySpec extends ObjectBehavior
         OrganizationInterface $organization,
         OrganizationRepositoryInterface $organizationRepository
     ) {
-        $organizationRepository->findByCode('123456')->willReturn($organization);
+        $organizationRepository->findOneByCode('123456')->willReturn($organization);
         $factory->create()->willReturn($tenant);
         $generator->generate(6)->willReturn('123456');
         $tenant->setCode('123456')->shouldBeCalled();
@@ -80,7 +80,7 @@ class TenantFactorySpec extends ObjectBehavior
         OrganizationInterface $organization,
         OrganizationRepositoryInterface $organizationRepository
     ) {
-        $organizationRepository->findByCode('123456')->willReturn(null);
+        $organizationRepository->findOneByCode('123456')->willReturn(null);
         $factory->create()->shouldNotBeCalled();
 
         $generator->generate(6)->shouldNotBeCalled();

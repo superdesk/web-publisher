@@ -21,12 +21,11 @@ class OrganizationRepository extends EntityRepository implements OrganizationRep
     /**
      * {@inheritdoc}
      */
-    public function findByName($name)
+    public function findOneByName($name)
     {
         return $this
             ->createQueryBuilder('o')
             ->where('o.name = :name')
-            ->andWhere('o.enabled = true')
             ->setParameter('name', $name)
             ->getQuery()
             ->getOneOrNullResult();
@@ -35,12 +34,11 @@ class OrganizationRepository extends EntityRepository implements OrganizationRep
     /**
      * {@inheritdoc}
      */
-    public function findByCode($code)
+    public function findOneByCode($code)
     {
         return $this
             ->createQueryBuilder('o')
             ->where('o.code = :code')
-            ->andWhere('o.enabled = true')
             ->setParameter('code', $code)
             ->getQuery()
             ->getOneOrNullResult();
