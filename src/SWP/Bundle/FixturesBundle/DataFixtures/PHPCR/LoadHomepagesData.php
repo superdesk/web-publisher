@@ -20,7 +20,6 @@ use SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\Route;
 use SWP\Bundle\ContentBundle\Model\RouteInterface;
 use SWP\Bundle\FixturesBundle\AbstractFixture;
 use SWP\Bundle\CoreBundle\Doctrine\ODM\PHPCR\Tenant;
-use SWP\Component\MultiTenancy\Model\TenantInterface;
 
 class LoadHomepagesData extends AbstractFixture implements FixtureInterface, OrderedFixtureInterface
 {
@@ -37,18 +36,12 @@ class LoadHomepagesData extends AbstractFixture implements FixtureInterface, Ord
         $this->createHomepages($manager, $tenants);
 
         foreach ($tenants as $site) {
-            if ($site instanceof TenantInterface) {
-                $page = $manager->find(
-                    'SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\Route',
-                    $site->getId().'/routes/homepage'
-                );
+            $page = $manager->find(
+                Route::class,
+                $site->getId().'/routes/homepage'
+            );
 
-                $site->setHomepage($page);
-            } else {
-                throw new \RuntimeException(
-                    sprintf('Unexpected child %s, %s expected.', get_class($site), TenantInterface::class)
-                );
-            }
+            $site->setHomepage($page);
         }
 
         $manager->flush();
@@ -57,14 +50,12 @@ class LoadHomepagesData extends AbstractFixture implements FixtureInterface, Ord
     private function createHomepages(ObjectManager $manager, array $tenants)
     {
         foreach ($tenants as $site) {
-            if ($site instanceof TenantInterface) {
-                $route = new Route();
-                $route->setParentDocument($manager->find(null, $site->getId().'/routes'));
-                $route->setName('homepage');
-                $route->setType(RouteInterface::TYPE_CONTENT);
+            $route = new Route();
+            $route->setParentDocument($manager->find(null, $site->getId().'/routes'));
+            $route->setName('homepage');
+            $route->setType(RouteInterface::TYPE_CONTENT);
 
-                $manager->persist($route);
-            }
+            $manager->persist($route);
         }
 
         $manager->flush();

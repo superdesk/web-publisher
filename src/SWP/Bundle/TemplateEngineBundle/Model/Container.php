@@ -78,7 +78,7 @@ class Container implements ContainerInterface, TenantAwareInterface, Timestampab
     /**
      * @var string
      */
-    protected $tenant;
+    protected $tenantCode;
 
     /**
      * @var \DateTime
@@ -378,17 +378,17 @@ class Container implements ContainerInterface, TenantAwareInterface, Timestampab
     /**
      * {@inheritdoc}
      */
-    public function getTenant()
+    public function getTenantCode()
     {
-        return $this->tenant;
+        return $this->tenantCode;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function setTenant($code)
+    public function setTenantCode($code)
     {
-        $this->tenant = $code;
+        $this->tenantCode = $code;
     }
 
     /**

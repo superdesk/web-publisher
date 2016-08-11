@@ -67,7 +67,7 @@ class ContainerServiceTest extends WebTestCase
         $this->assertEquals('border: 1px solid red;', $containerEntity->getStyles());
         $this->assertEquals(true, $containerEntity->getVisible());
         $this->assertEquals(1, count($containerEntity->getData()));
-        $this->assertEquals($tenantContext->getTenant()->getCode(), $containerEntity->getTenant());
+        $this->assertEquals($tenantContext->getTenant()->getCode(), $containerEntity->getTenantCode());
     }
 
     public function testGetContainerException()

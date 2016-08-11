@@ -32,7 +32,7 @@ SWP\Bundle\TemplateEngineBundle\Model\WidgetModel:
             gedmo:
                 timestampable:
                     on: update
-        tenant:
+        tenantCode:
             type: string
     oneToMany:
         containers:

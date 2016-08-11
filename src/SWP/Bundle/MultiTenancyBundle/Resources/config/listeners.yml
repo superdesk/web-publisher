@@ -16,6 +16,5 @@ services:
         class: '%swp_multi_tenancy.tenant_subscriber.class%'
         arguments:
             - '@swp_multi_tenancy.tenant_context'
-            - "@=container.hasParameter('swp_multi_tenancy.backend_type_phpcr') ? parameter('swp_multi_tenancy.backend_type_phpcr') : false"
         tags:
             - { name: doctrine.event_subscriber }

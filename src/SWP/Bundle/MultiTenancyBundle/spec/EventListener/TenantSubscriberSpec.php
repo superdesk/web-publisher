@@ -48,55 +48,36 @@ class TenantSubscriberSpec extends ObjectBehavior
         $this->getSubscribedEvents()->shouldReturn([Events::prePersist]);
     }
 
-    function it_should_skip_when_tenant_is_set_on_tenant_aware_object(
+    function it_should_skip_when_tenant_code_is_already_set_on_tenant_aware_object(
         LifecycleEventArgs $event,
         TenantAwareInterface $tenantAware
     ) {
-        $tenant = new Tenant();
-        $tenant->setSubdomain('example.com');
-        $tenant->setName('Example');
-
-        $tenantAware->getTenant()->shouldBeCalled()->willReturn($tenant);
-        $event->getEntity()->willReturn($tenantAware);
-
-        $this->prePersist($event)->shouldReturn(null);
-    }
-
-    function it_sets_the_tenant_on_pre_persist_doctrine_event(
-        TenantContextInterface $tenantContext,
-        LifecycleEventArgs $event,
-        TenantAwareInterface $tenantAware
-    ) {
-        $tenant = new Tenant();
-        $tenant->setSubdomain('example.com');
-        $tenant->setName('Example');
-
-        $tenantAware->getTenant()->shouldBeCalled()->willReturn(null);
-        $event->getEntity()->willReturn($tenantAware);
-        $tenantContext->getTenant()->shouldBeCalled()->willReturn($tenant);
-
-        $tenantAware->setTenant($tenant)->shouldBeCalled();
-
-        $this->prePersist($event)->shouldBeNull();
-    }
-
-    function it_sets_tenant_code_on_pre_persist_doctrine_event_when_phpcr_enabled(
-        TenantContextInterface $tenantContext,
-        LifecycleEventArgs $event,
-        TenantAwareInterface $tenantAware
-    ) {
-        $this->beConstructedWith($tenantContext, true);
-
         $tenant = new Tenant();
         $tenant->setSubdomain('example.com');
         $tenant->setName('Example');
         $tenant->setCode('123456');
 
-        $tenantAware->getTenant()->shouldBeCalled()->willReturn(null);
+        $tenantAware->getTenantCode()->shouldBeCalled()->willReturn($tenant);
+        $event->getEntity()->willReturn($tenantAware);
+
+        $this->prePersist($event)->shouldReturn(null);
+    }
+
+    function it_sets_the_tenant_code_on_pre_persist_doctrine_event(
+        TenantContextInterface $tenantContext,
+        LifecycleEventArgs $event,
+        TenantAwareInterface $tenantAware
+    ) {
+        $tenant = new Tenant();
+        $tenant->setSubdomain('example.com');
+        $tenant->setName('Example');
+        $tenant->setCode('123456');
+
+        $tenantAware->getTenantCode()->shouldBeCalled()->willReturn(null);
         $event->getEntity()->willReturn($tenantAware);
         $tenantContext->getTenant()->shouldBeCalled()->willReturn($tenant);
 
-        $tenantAware->setTenant('123456')->shouldBeCalled();
+        $tenantAware->setTenantCode('123456')->shouldBeCalled();
 
         $this->prePersist($event)->shouldBeNull();
     }
@@ -107,8 +88,8 @@ class TenantSubscriberSpec extends ObjectBehavior
     ) {
         $item = new \stdClass();
         $event->getEntity()->willReturn($item);
-        $tenantAware->getTenant()->shouldNotBeCalled();
-        $tenantAware->setTenant(Argument::any())->shouldNotBeCalled();
+        $tenantAware->getTenantCode()->shouldNotBeCalled();
+        $tenantAware->setTenantCode(Argument::any())->shouldNotBeCalled();
 
         $this->prePersist($event)->shouldBeNull();
     }

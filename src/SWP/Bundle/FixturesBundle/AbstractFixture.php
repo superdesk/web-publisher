@@ -108,7 +108,8 @@ abstract class AbstractFixture extends BaseFixture implements ContainerAwareInte
      */
     public function getTenantPrefix($subdomain = TenantInterface::DEFAULT_TENANT_SUBDOMAIN)
     {
-        $tenant = $this->container->get('swp.repository.tenant')->findBySubdomain($subdomain);
+        /** @var TenantInterface $tenant */
+        $tenant = $this->container->get('swp.repository.tenant')->findOneBySubdomain($subdomain);
 
         if (null === $tenant) {
             throw new TenantNotFoundException($subdomain);
