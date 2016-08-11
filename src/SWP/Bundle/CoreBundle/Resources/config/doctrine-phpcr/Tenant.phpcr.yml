@@ -1,0 +1,11 @@
+SWP\Bundle\CoreBundle\Doctrine\ODM\PHPCR\Tenant:
+    referenceable: true
+    fields:
+        themeName:
+            type: string
+            length: 255
+            nullable: true
+    referenceOne:
+        homepage:
+            targetDocument: "\\SWP\\Bundle\\ContentBundle\\Doctrine\\ODM\\PHPCR\\Route"
+            strategy: hard

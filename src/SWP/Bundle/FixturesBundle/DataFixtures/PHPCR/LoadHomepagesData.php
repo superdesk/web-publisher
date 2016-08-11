@@ -19,7 +19,7 @@ use Doctrine\Common\Persistence\ObjectManager;
 use SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\Route;
 use SWP\Bundle\ContentBundle\Model\RouteInterface;
 use SWP\Bundle\FixturesBundle\AbstractFixture;
-use SWP\Bundle\WebRendererBundle\Doctrine\ODM\PHPCR\Tenant;
+use SWP\Bundle\CoreBundle\Doctrine\ODM\PHPCR\Tenant;
 
 class LoadHomepagesData extends AbstractFixture implements FixtureInterface, OrderedFixtureInterface
 {
