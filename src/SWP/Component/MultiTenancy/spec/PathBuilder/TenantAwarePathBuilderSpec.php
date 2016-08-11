@@ -56,12 +56,7 @@ class TenantAwarePathBuilderSpec extends ObjectBehavior
 
     public function it_should_throw_an_exception_when_no_tenant_and_empty_path($tenantContext)
     {
-        $currentTenant = new Tenant();
-        $organization = new Organization();
-        $organization->setCode(123456);
-        $currentTenant->setOrganization($organization);
-
-        $tenantContext->getTenant()->willReturn($currentTenant);
+        $tenantContext->getTenant()->willReturn($this->createTenantWithOrganization());
 
         $this->shouldThrow('PHPCR\RepositoryException')
                 ->duringBuild('', 'test');
@@ -75,12 +70,7 @@ class TenantAwarePathBuilderSpec extends ObjectBehavior
 
     public function it_should_throw_exception_when_tenant_present_and_empty_path($tenantContext)
     {
-        $currentTenant = new Tenant();
-        $organization = new Organization();
-        $organization->setCode(123456);
-        $currentTenant->setOrganization($organization);
-
-        $tenantContext->getTenant()->willReturn($currentTenant);
+        $tenantContext->getTenant()->willReturn($this->createTenantWithOrganization());
 
         $this->shouldThrow('PHPCR\RepositoryException')
             ->duringBuild('', 'test');
@@ -100,12 +90,7 @@ class TenantAwarePathBuilderSpec extends ObjectBehavior
 
     public function it_should_throw_an_exception_when_no_tenant_and_no_path_given($tenantContext)
     {
-        $currentTenant = new Tenant();
-        $organization = new Organization();
-        $organization->setCode(123456);
-        $currentTenant->setOrganization($organization);
-
-        $tenantContext->getTenant()->willReturn($currentTenant);
+        $tenantContext->getTenant()->willReturn($this->createTenantWithOrganization());
 
         $this->shouldThrow('PHPCR\RepositoryException')
             ->duringBuild([]);
@@ -136,5 +121,15 @@ class TenantAwarePathBuilderSpec extends ObjectBehavior
         $this->build('articles', '@')->shouldReturn('/swp/@/articles');
         $this->build('articles', null)->shouldReturn('/swp/123456/654321/articles');
         $this->build('/articles', null)->shouldReturn('/swp/123456/654321');
+    }
+
+    private function createTenantWithOrganization()
+    {
+        $currentTenant = new Tenant();
+        $organization = new Organization();
+        $organization->setCode(123456);
+        $currentTenant->setOrganization($organization);
+
+        return $currentTenant;
     }
 }

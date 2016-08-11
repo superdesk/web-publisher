@@ -23,12 +23,12 @@ interface TenantAwareInterface
      *
      * @return string Tenant code
      */
-    public function getTenant();
+    public function getTenantCode();
 
     /**
      * Sets the tenant (code).
      *
      * @param string $code Tenant code
      */
-    public function setTenant($code);
+    public function setTenantCode($code);
 }

@@ -21,22 +21,20 @@ class TenantRepository extends DocumentRepository implements TenantRepositoryInt
     /**
      * {@inheritdoc}
      */
-    public function findBySubdomain($subdomain)
+    public function findOneBySubdomain($subdomain)
     {
         return $this->findOneBy([
             'subdomain' => $subdomain,
-            'enabled' => true,
         ]);
     }
 
     /**
      * {@inheritdoc}
      */
-    public function findByCode($code)
+    public function findOneByCode($code)
     {
         return $this->findOneBy([
             'code' => $code,
-            'enabled' => true,
         ]);
     }
 
@@ -47,9 +45,6 @@ class TenantRepository extends DocumentRepository implements TenantRepositoryInt
     {
         return $this
             ->createQueryBuilder('t')
-                ->where()
-                    ->eq()->field('t.enabled')->literal(true)->end()
-                ->end()
             ->getQuery()
             ->getResult();
     }

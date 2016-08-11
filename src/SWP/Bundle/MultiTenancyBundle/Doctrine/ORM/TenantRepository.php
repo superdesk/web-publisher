@@ -24,14 +24,13 @@ class TenantRepository extends EntityRepository implements TenantRepositoryInter
     /**
      * {@inheritdoc}
      */
-    public function findBySubdomain($subdomain)
+    public function findOneBySubdomain($subdomain)
     {
         return $this
             ->createQueryBuilder('t')
             ->select('t', 'o')
             ->leftJoin('t.organization', 'o')
             ->where('t.subdomain = :subdomain')
-            ->andWhere('t.enabled = true')
             ->setParameter('subdomain', $subdomain)
             ->getQuery()
             ->getOneOrNullResult();
@@ -40,14 +39,13 @@ class TenantRepository extends EntityRepository implements TenantRepositoryInter
     /**
      * {@inheritdoc}
      */
-    public function findByCode($code)
+    public function findOneByCode($code)
     {
         return $this
             ->createQueryBuilder('t')
             ->select('t', 'o')
             ->leftJoin('t.organization', 'o')
             ->where('t.code = :code')
-            ->andWhere('t.enabled = true')
             ->setParameter('code', $code)
             ->getQuery()
             ->getOneOrNullResult();
@@ -62,7 +60,6 @@ class TenantRepository extends EntityRepository implements TenantRepositoryInter
             ->createQueryBuilder('t')
             ->select('t', 'o')
             ->leftJoin('t.organization', 'o')
-            ->where('t.enabled = true')
             ->getQuery()
             ->getArrayResult();
     }

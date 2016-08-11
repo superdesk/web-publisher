@@ -72,7 +72,7 @@ class TenantFactory implements TenantFactoryInterface
      */
     public function createForOrganization($code)
     {
-        if (null === $organization = $this->organizationRepository->findByCode($code)) {
+        if (null === $organization = $this->organizationRepository->findOneByCode($code)) {
             throw new \InvalidArgumentException(sprintf('Organization does not exist with code "%s".', $code));
         }
 

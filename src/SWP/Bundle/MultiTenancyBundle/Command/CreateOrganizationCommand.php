@@ -60,7 +60,7 @@ EOT
             $name = OrganizationInterface::DEFAULT_NAME;
         }
 
-        $organization = $this->getOrganizationRepository()->findByName($name);
+        $organization = $this->getOrganizationRepository()->findOneByName($name);
 
         if (null !== $organization) {
             throw new \InvalidArgumentException(sprintf('"%s" organization already exists!', $name));
