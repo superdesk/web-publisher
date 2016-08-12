@@ -29,7 +29,6 @@ abstract class MetaLoader implements LoaderInterface
      */
     protected $metadataCache;
 
-
     public function __construct(
         $configurationPath,
         CacheProvider $metadataCache)

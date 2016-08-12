@@ -49,6 +49,7 @@ class RouteLoader extends MetaLoader
     public function load($type, $parameters, $responseType = LoaderInterface::SINGLE)
     {
         $route = isset($parameters['route_object']) ? $parameters['route_object'] : null;
+
         return $this->getRouteMeta($route);
     }
 
