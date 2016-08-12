@@ -37,7 +37,7 @@ twig:
     strict_variables: false
 
 sylius_theme:
-    context: "swp_webrenderer.theme.context.tenant_aware"
+    context: "swp_core.theme.context.tenant_aware"
     sources:
         tenantable: ~
 

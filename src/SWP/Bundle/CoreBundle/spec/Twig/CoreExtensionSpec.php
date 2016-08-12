@@ -14,12 +14,12 @@
 namespace spec\SWP\Bundle\CoreBundle\Twig;
 
 use PhpSpec\ObjectBehavior;
-use SWP\Bundle\CoreBundle\Twig\WebRendererExtension;
+use SWP\Bundle\CoreBundle\Twig\CoreExtension;
 use Sylius\Bundle\ThemeBundle\Context\ThemeContextInterface;
 use Sylius\Bundle\ThemeBundle\Model\ThemeInterface;
 use Twig_Extension;
 
-class WebRendererExtensionSpec extends ObjectBehavior
+class CoreExtensionSpec extends ObjectBehavior
 {
     public function let(ThemeContextInterface $themeContext)
     {
@@ -28,7 +28,7 @@ class WebRendererExtensionSpec extends ObjectBehavior
 
     public function it_is_initializable()
     {
-        $this->shouldHaveType(WebRendererExtension::class);
+        $this->shouldHaveType(CoreExtension::class);
     }
 
     public function it_is_a_twig_extension()
@@ -52,6 +52,6 @@ class WebRendererExtensionSpec extends ObjectBehavior
 
     public function it_should_have_a_name()
     {
-        $this->getName()->shouldReturn('swp_webrenderer');
+        $this->getName()->shouldReturn('swp_core');
     }
 }
