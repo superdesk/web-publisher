@@ -15,7 +15,7 @@ namespace SWP\Bundle\CoreBundle\Twig;
 
 use Sylius\Bundle\ThemeBundle\Context\ThemeContextInterface;
 
-class WebRendererExtension extends \Twig_Extension implements \Twig_Extension_GlobalsInterface
+class CoreExtension extends \Twig_Extension implements \Twig_Extension_GlobalsInterface
 {
     /**
      * @var ThemeContextInterface
@@ -45,6 +45,6 @@ class WebRendererExtension extends \Twig_Extension implements \Twig_Extension_Gl
      */
     public function getName()
     {
-        return 'swp_webrenderer';
+        return 'swp_core';
     }
 }
