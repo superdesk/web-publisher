@@ -13,6 +13,7 @@
  */
 namespace SWP\Bundle\ContentBundle\Loader;
 
+use PHPCR\Query\QueryInterface;
 use SWP\Component\TemplatesSystem\Gimme\Loader\LoaderInterface;
 use SWP\Component\TemplatesSystem\Gimme\Meta\Meta;
 use Symfony\Component\Yaml\Parser;
@@ -125,7 +126,34 @@ class ArticleLoader implements LoaderInterface
                 ));
 
                 if ($route) {
-                    $articles = $this->dm->getReferrers($route, null, null, null, 'SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\Article');
+                    $node = $this->dm->getNodeForDocument($route);
+                    $identifier = $node->getIdentifier();
+
+                    $queryStr = sprintf("SELECT * FROM [nt:unstructured] as S WHERE S.phpcr:class='SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\Article' AND S.route=%s", $identifier);
+
+                    if (isset($parameters['order'])) {
+                        $order = $parameters['order'];
+                        if (!is_array($order) || count($order) !== 2 || (strtoupper($order[1]) != 'ASC' && strtoupper($order[1]) != 'DESC')) {
+                            throw new \Exception('Order filter must have two parameters with second one asc or desc, e.g. order(id, desc)');
+                        }
+                        if ($order[0] === 'id') {
+                            $order[0] = 'jcr:uuid';
+                        }
+                        $queryStr .= ' ORDER BY S.'.$order[0].' '.$order[1];
+                    }
+
+                    $query = $this->dm->createPhpcrQuery($queryStr, QueryInterface::JCR_SQL2);
+
+                    if (isset($parameters['limit'])) {
+                        $query->setLimit($parameters['limit']);
+                    }
+
+                    if (isset($parameters['start'])) {
+                        $query->setOffset($parameters['start']);
+                    }
+
+                    $articles = $this->dm->getDocumentsByPhpcrQuery($query);
+
                     $metas = [];
                     foreach ($articles as $article) {
                         $articleMeta = $this->getArticleMeta($configuration, $article);
