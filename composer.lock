@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "72ef9b1234869e69b0ab8b3cfce7914f",
-    "content-hash": "83e3b372efdd8530fac4820731603665",
+    "hash": "dc66367e7e80d81dc40aa44d21379db6",
+    "content-hash": "59576ab1c3901975d8d22479a8de019d",
     "packages": [
         {
             "name": "ahilles107/updater",
@@ -168,6 +168,62 @@
                 "transliterator"
             ],
             "time": "2015-09-28 16:26:35"
+        },
+        {
+            "name": "danielstjules/stringy",
+            "version": "2.3.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/danielstjules/Stringy.git",
+                "reference": "4e214a5195fae3fb558e81b1c6010678f7600643"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/danielstjules/Stringy/zipball/4e214a5195fae3fb558e81b1c6010678f7600643",
+                "reference": "4e214a5195fae3fb558e81b1c6010678f7600643",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0",
+                "symfony/polyfill-mbstring": "~1.1"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~4.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Stringy\\": "src/"
+                },
+                "files": [
+                    "src/Create.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Daniel St. Jules",
+                    "email": "danielst.jules@gmail.com",
+                    "homepage": "http://www.danielstjules.com"
+                }
+            ],
+            "description": "A string manipulation library with multibyte support",
+            "homepage": "https://github.com/danielstjules/Stringy",
+            "keywords": [
+                "UTF",
+                "helpers",
+                "manipulation",
+                "methods",
+                "multibyte",
+                "string",
+                "utf-8",
+                "utility",
+                "utils"
+            ],
+            "time": "2016-05-02 15:18:10"
         },
         {
             "name": "doctrine/annotations",
@@ -1296,7 +1352,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSHttpCacheBundle/zipball/1009876f6b2b319d3d7f7e0e7bc8375890bddd9c",
+                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSHttpCacheBundle/zipball/a798b287b8d06b49be5c4f05c3d3b6a200a8f0c3",
                 "reference": "1009876f6b2b319d3d7f7e0e7bc8375890bddd9c",
                 "shasum": ""
             },
@@ -1376,7 +1432,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSRestBundle/zipball/5bd68a76b2957eb009b1d7d95e9573b11e710d8b",
+                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSRestBundle/zipball/5d0f28334970d2601c16c82bd4c6183df2f639a6",
                 "reference": "5bd68a76b2957eb009b1d7d95e9573b11e710d8b",
                 "shasum": ""
             },
@@ -1629,7 +1685,6 @@
                 "rest",
                 "web service"
             ],
-            "abandoned": "guzzlehttp/guzzle",
             "time": "2015-03-18 18:23:50"
         },
         {
@@ -4375,7 +4430,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/SuperdeskWebPublisher/SWPUpdaterBundle/zipball/cd2c44a2b6a52240304eddc2f1bf0812cd255db4",
+                "url": "https://api.github.com/repos/SuperdeskWebPublisher/SWPUpdaterBundle/zipball/e1bb2169ca60d733ce5b0afcb684718cab47026a",
                 "reference": "cd2c44a2b6a52240304eddc2f1bf0812cd255db4",
                 "shasum": ""
             },
@@ -4675,7 +4730,7 @@
             ],
             "authors": [
                 {
-                    "name": "Symfony CMF community",
+                    "name": "Symfony CMF Community",
                     "homepage": "https://github.com/symfony-cmf/Routing/contributors"
                 }
             ],
@@ -5441,7 +5496,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/symfony/zipball/6404e8e033980ad4d522f71e0c3278d4e53d22b8",
+                "url": "https://api.github.com/repos/symfony/symfony/zipball/4009b5e54d3253e1461c9119f56f768e4f8528ab",
                 "reference": "6404e8e033980ad4d522f71e0c3278d4e53d22b8",
                 "shasum": ""
             },
