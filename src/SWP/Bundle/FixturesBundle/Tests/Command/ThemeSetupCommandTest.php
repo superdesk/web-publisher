@@ -15,7 +15,7 @@ namespace SWP\Bundle\FixturesBundleBundle\Tests\Command;
 
 use Doctrine\Common\Persistence\ObjectManager;
 use SWP\Bundle\FixturesBundle\Command\ThemeSetupCommand;
-use SWP\Bundle\CoreBundle\Doctrine\ODM\PHPCR\Tenant;
+use SWP\Bundle\CoreBundle\Document\Tenant;
 use SWP\Component\MultiTenancy\Model\TenantInterface;
 use SWP\Component\MultiTenancy\Repository\TenantRepositoryInterface;
 use Symfony\Bundle\FrameworkBundle\Console\Application;

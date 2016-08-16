@@ -45,7 +45,6 @@ class TenantRepository extends DocumentRepository implements TenantRepositoryInt
     {
         return $this
             ->createQueryBuilder('t')
-            ->getQuery()
-            ->getResult();
+            ->getQuery();
     }
 }

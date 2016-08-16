@@ -42,12 +42,4 @@ class SWPCoreBundle extends Bundle
             Drivers::DRIVER_DOCTRINE_PHPCR_ODM,
         ];
     }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getModelClassNamespace()
-    {
-        return 'SWP\Bundle\CoreBundle\Doctrine\ODM\PHPCR';
-    }
 }

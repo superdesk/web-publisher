@@ -1,5 +1,8 @@
 imports:
     - { resource: "@SWPBridgeBundle/Resources/config/app/config.yml" }
+    - { resource: "@SWPContentBundle/Resources/config/app/config.yml" }
+    - { resource: "@SWPMultiTenancyBundle/Resources/config/app/config.yml" }
+    - { resource: "@SWPCoreBundle/Resources/config/app/config.yml" }
     - { resource: parameters.yml }
     - { resource: security.yml }
     - { resource: services.yml }
@@ -63,7 +66,7 @@ doctrine:
         entity_managers:
             default:
                 naming_strategy: doctrine.orm.naming_strategy.underscore
-                auto_mapping: false
+                auto_mapping: true
                 metadata_cache_driver:
                     type: service
                     id: doctrine_cache.providers.main_cache
@@ -215,9 +218,9 @@ swp_multi_tenancy:
             enabled: true
             classes:
                 tenant:
-                    model: SWP\Bundle\CoreBundle\Doctrine\ODM\PHPCR\Tenant
+                    model: SWP\Bundle\CoreBundle\Document\Tenant
                 organization:
-                    model: SWP\Bundle\CoreBundle\Doctrine\ODM\PHPCR\Organization
+                    model: SWP\Bundle\CoreBundle\Document\Organization
 
 swp_core:
     device_listener:
@@ -234,16 +237,6 @@ swp_bridge:
 nelmio_api_doc:
     request_listener: false
 
-jms_serializer:
-    metadata:
-        directories:
-            CmfRoutingBundle:
-                namespace_prefix: Symfony\Cmf\Bundle\RoutingBundle
-                path: "@SWPContentBundle/Resources/config/serializer/CmfRoutingBundle"
-            SymfonyRouting:
-                namespace_prefix: Symfony\Component\Routing
-                path: "@SWPContentBundle/Resources/config/serializer/SymfonyRouting"
-
 cmf_menu:
     persistence:
         phpcr:
@@ -254,7 +247,7 @@ oneup_flysystem:
     adapters:
         filesystem_adapter:
             local:
-                directory: %kernel.root_dir%/../web/uploads/
+                directory: '%kernel.root_dir%/../web/uploads/'
 
     filesystems:
         swp_filesystem:

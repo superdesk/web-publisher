@@ -1,0 +1,12 @@
+SWP\Component\MultiTenancy\Model\Organization:
+    exclusion_policy: ALL
+    properties:
+        id:
+            expose: true
+            type: string
+        name:
+            expose: true
+            type: string
+        code:
+            expose: true
+            type: string
