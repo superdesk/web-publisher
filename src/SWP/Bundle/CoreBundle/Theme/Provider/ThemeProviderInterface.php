@@ -19,7 +19,7 @@ interface ThemeProviderInterface
 {
     /**
      * Gets available themes for current tenant.
-     * 
+     *
      * @return ThemeInterface[]
      */
     public function getCurrentTenantAvailableThemes();

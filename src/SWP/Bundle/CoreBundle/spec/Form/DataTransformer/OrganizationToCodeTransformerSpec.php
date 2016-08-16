@@ -14,7 +14,6 @@
 namespace spec\SWP\Bundle\CoreBundle\Form\DataTransformer;
 
 use PhpSpec\ObjectBehavior;
-use Prophecy\Argument;
 use SWP\Bundle\CoreBundle\Form\DataTransformer\OrganizationToCodeTransformer;
 use SWP\Component\MultiTenancy\Model\OrganizationInterface;
 use SWP\Component\MultiTenancy\Repository\OrganizationRepositoryInterface;
@@ -63,8 +62,7 @@ class OrganizationToCodeTransformerSpec extends ObjectBehavior
 
     function it_should_throw_exception_if_organization_not_found_on_reverse_transform(
         OrganizationRepositoryInterface $organizationRepository
-    )
-    {
+    ) {
         $organizationRepository
             ->findOneByCode('123abc')
             ->shouldBeCalled()
@@ -80,8 +78,7 @@ class OrganizationToCodeTransformerSpec extends ObjectBehavior
     function it_should_reverse_transform(
         OrganizationRepositoryInterface $organizationRepository,
         OrganizationInterface $organization
-    )
-    {
+    ) {
         $organizationRepository
             ->findOneByCode('123abc')
             ->shouldBeCalled()

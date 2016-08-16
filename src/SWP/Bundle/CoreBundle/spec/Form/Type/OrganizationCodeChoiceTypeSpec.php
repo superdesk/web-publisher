@@ -53,7 +53,7 @@ class OrganizationCodeChoiceTypeSpec extends ObjectBehavior
 
         $resolver->setNormalizer('choices', Argument::type('callable'))->willReturn($resolver);
         $resolver->setDefaults([
-            'invalid_message' => 'The selected organization does not exist'
+            'invalid_message' => 'The selected organization does not exist',
         ])->shouldBeCalled();
 
         $this->configureOptions($resolver);

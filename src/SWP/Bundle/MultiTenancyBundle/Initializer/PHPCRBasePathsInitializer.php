@@ -15,7 +15,6 @@ namespace SWP\Bundle\MultiTenancyBundle\Initializer;
 
 use Doctrine\Bundle\PHPCRBundle\Initializer\InitializerInterface;
 use Doctrine\Bundle\PHPCRBundle\ManagerRegistry;
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ODM\PHPCR\Query\Query;
 use PHPCR\SessionInterface;
 use PHPCR\Util\NodeHelper;
