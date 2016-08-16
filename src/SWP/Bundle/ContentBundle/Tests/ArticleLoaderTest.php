@@ -19,6 +19,8 @@ use SWP\Component\TemplatesSystem\Gimme\Loader\LoaderInterface;
 
 class ArticleLoaderTest extends WebTestCase
 {
+    protected $articleLoader;
+
     /**
      * {@inheritdoc}
      */
@@ -27,20 +29,17 @@ class ArticleLoaderTest extends WebTestCase
         self::bootKernel();
 
         $this->runCommand('doctrine:schema:drop', ['--force' => true, '--env' => 'test'], true);
-        $this->runCommand('doctrine:doctrine:schema:update', ['--force' => true, '--env' => 'test'], true);
+        $this->runCommand('doctrine:schema:update', ['--force' => true, '--env' => 'test'], true);
         $this->loadFixtures([
             'SWP\Bundle\FixturesBundle\DataFixtures\ORM\LoadTenantsData',
         ]);
         $this->runCommand('doctrine:phpcr:repository:init', ['--env' => 'test'], true);
-    }
 
-    public function testFindNewArticle()
-    {
         $this->loadFixtures([
             'SWP\Bundle\FixturesBundle\DataFixtures\PHPCR\LoadArticlesData',
         ], null, 'doctrine_phpcr');
 
-        $articleLoader = new ArticleLoader(
+        $this->articleLoader = new ArticleLoader(
             $this->getContainer()->get('swp.publish_workflow.checker'),
             $this->getContainer()->get('doctrine_phpcr.odm.document_manager'),
             $this->getContainer()->getParameter('kernel.root_dir'),
@@ -48,20 +47,42 @@ class ArticleLoaderTest extends WebTestCase
             $this->getContainer()->get('swp_multi_tenancy.path_builder'),
             $this->getContainer()->getParameter('swp_multi_tenancy.persistence.phpcr.route_basepaths')
         );
+    }
 
-        $this->assertTrue($articleLoader->isSupported('article'));
-        $this->assertTrue($articleLoader->isSupported('articles'));
-        $this->assertFalse($articleLoader->isSupported('items'));
+    public function testFindNewArticle()
+    {
+        $this->assertTrue($this->articleLoader->isSupported('article'));
+        $this->assertTrue($this->articleLoader->isSupported('articles'));
+        $this->assertFalse($this->articleLoader->isSupported('items'));
 
-        $article = $articleLoader->load('article', ['contentPath' => '/swp/default/content/test-article']);
+        $article = $this->articleLoader->load('article', ['contentPath' => '/swp/default/content/test-article']);
         $this->assertInstanceOf('SWP\Component\TemplatesSystem\Gimme\Meta\Meta', $article);
 
-        $this->assertFalse($articleLoader->load('article', ['contentPath' => '/swp/default/content/test-articles']));
-        $this->assertFalse($articleLoader->load('article', ['contentPath' => '/swp/default/content/test-article'], LoaderInterface::COLLECTION));
+        $this->assertFalse($this->articleLoader->load('article', ['contentPath' => '/swp/default/content/test-articles']));
+        $this->assertFalse($this->articleLoader->load('article', ['contentPath' => '/swp/default/content/test-article'], LoaderInterface::COLLECTION));
 
-        $this->assertTrue(count($articleLoader->load('article', ['route' => '/news'], LoaderInterface::COLLECTION)) == 3);
-        $this->assertFalse($articleLoader->load('article', ['route' => '/news1'], LoaderInterface::COLLECTION));
+        $this->assertTrue(count($this->articleLoader->load('article', ['route' => '/news'], LoaderInterface::COLLECTION)) == 3);
+        $this->assertFalse($this->articleLoader->load('article', ['route' => '/news1'], LoaderInterface::COLLECTION));
 
-        $this->assertFalse($articleLoader->load('article', null, LoaderInterface::COLLECTION));
+        $this->assertFalse($this->articleLoader->load('article', null, LoaderInterface::COLLECTION));
+    }
+
+    public function testLoadWithParameters()
+    {
+        $this->assertTrue(count($this->articleLoader->load('article', ['route' => '/news', 'limit' => 2], LoaderInterface::COLLECTION)) == 2);
+
+        $articlesZero = $this->articleLoader->load('article', ['route' => '/news'], LoaderInterface::COLLECTION);
+        $articlesOne = $this->articleLoader->load('article', ['route' => '/news', 'start' => 1], LoaderInterface::COLLECTION);
+
+        $this->assertTrue($articlesZero[1]->title === $articlesOne[0]->title);
+
+        $articlesAsc = $this->articleLoader->load('article', ['route' => '/news', 'order' => ['id', 'asc']], LoaderInterface::COLLECTION);
+        $articlesDesc = $this->articleLoader->load('article', ['route' => '/news', 'order' => ['id', 'desc']], LoaderInterface::COLLECTION);
+
+        $this->assertTrue(count($articlesAsc) == count($articlesDesc));
+
+        $count = count($articlesAsc);
+        $this->assertTrue($articlesAsc[0]->title === $articlesDesc[$count - 1]->title);
+        $this->assertTrue($articlesAsc[$count - 1]->title === $articlesDesc[0]->title);
     }
 }
