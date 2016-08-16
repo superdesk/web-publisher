@@ -42,15 +42,15 @@ class StringyExtensionTest extends WebTestCase
 
     public function testCollapseWhiteSpace()
     {
-        $this->assertEquals($this->getRendered("{{ value|collapseWhitespace }}", ['value' => 'AR      OO     GA']), 'AR OO GA');
+        $this->assertEquals($this->getRendered('{{ value|collapseWhitespace }}', ['value' => 'AR      OO     GA']), 'AR OO GA');
     }
 
     public function testContains()
     {
-        $this->assertEquals($this->getRendered("{% if hasUpperCase(value) %}AROOGA{% endif %}", ['value' => 'AROOGA']), 'AROOGA');
+        $this->assertEquals($this->getRendered('{% if hasUpperCase(value) %}AROOGA{% endif %}', ['value' => 'AROOGA']), 'AROOGA');
     }
 
-    private function getRendered($template, $context=[])
+    private function getRendered($template, $context = [])
     {
         $template = $this->twig->createTemplate($template);
         $content = $template->render($context);
