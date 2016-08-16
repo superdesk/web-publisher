@@ -29,7 +29,7 @@ class StringyExtension extends \Twig_Extension
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getFilters()
     {
@@ -39,7 +39,7 @@ class StringyExtension extends \Twig_Extension
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getFunctions()
     {
@@ -49,13 +49,13 @@ class StringyExtension extends \Twig_Extension
     }
 
     /**
-     * Initializes arrays of filters and functions
+     * Initializes arrays of filters and functions.
      */
     private function lazyInit()
     {
         $stringyClass = new \ReflectionClass('Stringy\Stringy');
         $methods = $stringyClass->getMethods(\ReflectionMethod::IS_PUBLIC);
-        $names = array_map(function($value){
+        $names = array_map(function ($value) {
             return $value->getName();
         }, $methods);
 
@@ -72,16 +72,14 @@ class StringyExtension extends \Twig_Extension
             $doc = $method->getDocComment();
             if (strpos($doc, '@return bool')) {
                 $this->functions[$name] = new \Twig_SimpleFunction($name, array('Stringy\StaticStringy', $name));
-            }
-
-            else {
+            } else {
                 $this->filters[$name] = new \Twig_SimpleFilter($name, array('Stringy\StaticStringy', $name));
             }
         }
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getName()
     {
