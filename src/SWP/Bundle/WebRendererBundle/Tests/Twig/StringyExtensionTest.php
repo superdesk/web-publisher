@@ -13,7 +13,6 @@
  */
 namespace SWP\Bundle\WebRendererBundle\Tests\Twig;
 
-
 use Liip\FunctionalTestBundle\Test\WebTestCase;
 
 class StringyExtensionTest extends WebTestCase
