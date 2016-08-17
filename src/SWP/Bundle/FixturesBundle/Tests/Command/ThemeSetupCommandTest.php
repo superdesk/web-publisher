@@ -13,10 +13,17 @@
  */
 namespace SWP\Bundle\FixturesBundleBundle\Tests\Command;
 
+use Doctrine\Common\Persistence\ObjectManager;
 use SWP\Bundle\FixturesBundle\Command\ThemeSetupCommand;
+use SWP\Bundle\WebRendererBundle\Doctrine\ODM\PHPCR\Tenant;
+use SWP\Component\MultiTenancy\Model\TenantInterface;
+use SWP\Component\MultiTenancy\Repository\TenantRepositoryInterface;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Console\Tester\CommandTester;
+use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\HttpKernel\Kernel;
+use Symfony\Component\HttpKernel\KernelInterface;
 
 class ThemeSetupCommandTest extends KernelTestCase
 {
@@ -29,7 +36,7 @@ class ThemeSetupCommandTest extends KernelTestCase
     public function setUp()
     {
         $this->command = self::createCommand();
-        $this->commandTester = self::createCommandTester();
+        $this->commandTester = $this->createCommandTester();
     }
 
     protected static function createCommand()
@@ -42,20 +49,59 @@ class ThemeSetupCommandTest extends KernelTestCase
         return $application->find('theme:setup');
     }
 
-    protected static function createCommandTester()
+    protected function createCommandTester()
     {
-        return  new CommandTester(self::createCommand());
+        $command = self::createCommand();
+        $tenant = new Tenant();
+        $tenant->setCode('123456');
+        $command->setContainer($this->getMockContainer($tenant));
+
+        return  new CommandTester($command);
     }
 
-    public static function tearDownAfterClass()
+    private function getMockContainer($mockTenant = null)
     {
-        self::createCommandTester()->execute(
-            [
-                'name' => 'theme_command_test',
-                '--force' => true,
-                '--delete' => true,
-            ]
-        );
+        $mockRepo = $this->getMock(TenantRepositoryInterface::class);
+
+        $mockRepo->expects($this->once())
+            ->method('findOneBy')
+            ->with(['name' => TenantInterface::DEFAULT_TENANT_NAME])
+            ->will($this->returnValue($mockTenant));
+
+        $mockDoctrine = $this
+            ->getMockBuilder(ObjectManager::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $mockDoctrine->expects($this->any())
+            ->method('persist')
+            ->will($this->returnValue(null));
+        $mockDoctrine->expects($this->any())
+            ->method('flush')
+            ->will($this->returnValue(null));
+
+        $stubKernel = $this->getMock(KernelInterface::class);
+        $stubKernel->expects($this->at(0))
+            ->method('getRootDir')
+            ->will($this->returnValue(sys_get_temp_dir().'/'.Kernel::VERSION));
+
+        $stubKernel->expects($this->once())
+            ->method('locateResource')
+            ->with('@SWPFixturesBundle/Resources/themes/theme_command_test')
+            ->will($this->returnValue(__DIR__.'/../../Resources/themes/theme_command_test'));
+
+        $mockContainer = $this->getMockBuilder(ContainerInterface::class)
+            ->getMock();
+
+        $mockContainer->expects($this->any())
+            ->method('get')
+            ->will($this->returnValueMap([
+                ['doctrine_phpcr.odm.document_manager', 1, $mockDoctrine],
+                ['swp.repository.tenant', 1, $mockRepo],
+                ['kernel', 1, $stubKernel],
+            ]));
+
+        return $mockContainer;
     }
 
     /**
@@ -71,163 +117,9 @@ class ThemeSetupCommandTest extends KernelTestCase
             ]
         );
 
-        $stub = $this->getMock('Symfony\Component\Filesystem\Filesystem', ['mirror']);
-        $stub->expects($this->at(0))
-            ->method('mirror')
-            ->with('/some/source/dir', '/some/target/dir')
-            ->will($this->returnValue(null));
-
-        $this->assertNull($stub->mirror('/some/source/dir', '/some/target/dir'));
-
-        $this->assertRegExp(
-            '/Theme "theme_command_test" has been setup successfully!/',
-            $this->commandTester->getDisplay()
-        );
-    }
-
-    public function testExecuteWithThemeName()
-    {
-        $this->commandTester->execute(
-            [
-                'name' => 'theme_command_test',
-                '--force' => true,
-            ]
-        );
-
         $this->assertRegExp(
             self::SUCCESS_MSG_REGEXP,
             $this->commandTester->getDisplay()
         );
-    }
-
-    public function testExecuteWithAskConfirmation()
-    {
-        $dialog = $this->getMock('Symfony\Component\Console\Helper\QuestionHelper', ['ask']);
-        $dialog->expects($this->at(0))
-            ->method('ask')
-            ->will($this->returnValue(true)); //confirm yes
-
-        $this->command->getHelperSet()->set($dialog, 'question');
-        $this->commandTester = new CommandTester($this->command);
-        $this->commandTester->execute(
-            [
-                'name' => 'theme_command_test',
-            ]
-        );
-
-        $this->assertRegExp(
-            self::SUCCESS_MSG_REGEXP,
-            $this->commandTester->getDisplay()
-        );
-    }
-
-    public function testExecuteWithAskConfirmationOnDelete()
-    {
-        $dialog = $this->getMock('Symfony\Component\Console\Helper\QuestionHelper', ['ask']);
-        $dialog->expects($this->at(0))
-            ->method('ask')
-            ->will($this->returnValue(true)); //confirm yes
-
-        $this->command->getHelperSet()->set($dialog, 'question');
-        $this->commandTester = new CommandTester($this->command);
-        $this->commandTester->execute(
-            [
-                'name' => 'theme_command_test',
-                '--delete' => true,
-            ]
-        );
-
-        $this->assertRegExp(
-            self::DELETED_MSG_REGEXP,
-            $this->commandTester->getDisplay()
-        );
-    }
-
-    public function testExecuteWithOnDelete()
-    {
-        $this->commandTester->execute(
-            [
-                'name' => 'theme_command_test',
-                '--force' => true,
-            ]
-        );
-
-        $this->commandTester->execute(
-            [
-                'name' => 'theme_command_test',
-                '--delete' => true,
-                '--force' => true,
-            ]
-        );
-
-        $this->assertRegExp(
-            self::DELETED_MSG_REGEXP,
-            $this->commandTester->getDisplay()
-        );
-    }
-
-    public function testExecuteWithAskNoOnDelete()
-    {
-        $dialog = $this->getMock('Symfony\Component\Console\Helper\QuestionHelper', ['ask']);
-        $dialog->expects($this->at(0))
-            ->method('ask')
-            ->will($this->returnValue(false)); //confirm no
-
-        $this->command->getHelperSet()->set($dialog, 'question');
-        $this->commandTester = new CommandTester($this->command);
-        $this->commandTester->execute(
-            [
-                'name' => 'theme_command_test',
-                '--delete' => true,
-            ]
-        );
-
-        $this->assertSame('', $this->commandTester->getDisplay());
-    }
-
-    public function testExecuteWithAskNo()
-    {
-        $dialog = $this->getMock('Symfony\Component\Console\Helper\QuestionHelper', ['ask']);
-        $dialog->expects($this->at(0))
-            ->method('ask')
-            ->will($this->returnValue(false)); //confirm no
-
-        $this->command->getHelperSet()->set($dialog, 'question');
-        $this->commandTester = new CommandTester($this->command);
-        $this->commandTester->execute(
-            [
-                'name' => 'theme_command_test',
-            ]
-        );
-
-        $this->assertSame('', $this->commandTester->getDisplay());
-    }
-
-    /**
-     * @expectedException \Exception
-     */
-    public function testExecuteWhenException()
-    {
-        $dialog = $this->getMock('Symfony\Component\Console\Helper\QuestionHelper', ['ask']);
-        $dialog->expects($this->at(0))
-            ->method('ask')
-            ->will($this->returnValue(true)); //confirm yes
-
-        $this->command->getHelperSet()->set($dialog, 'question');
-        $this->commandTester = new CommandTester($this->command);
-
-        $stub = $this->getMock('Symfony\Component\Filesystem\Filesystem', ['mirror']);
-        $stub->expects($this->at(0))
-            ->method('mirror')
-            ->with('/some/fake/source/dir', '/some/target/dir')
-            ->will($this->throwException(new \Exception()));
-
-        $this->commandTester->execute(
-            [
-                'name' => 'theme_command_test',
-            ]
-        );
-
-        $this->assertNull($stub->mirror('/some/fake/source/dir', '/some/target/dir'));
     }
 }

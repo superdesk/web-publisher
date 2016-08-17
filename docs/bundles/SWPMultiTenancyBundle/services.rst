@@ -28,7 +28,7 @@ TenantAwareRouter
 The TenantAwareRouter generates tenant-aware routes. It extends `DynamicRouter`_ from the CMF Routing Bundle.
 
 In some cases you may need to generate a statically configured route.
-Let's say we have a path defined in PHPCR: ``/swp/default/routes/articles/features``.
+Let's say we have a path defined in PHPCR: ``/swp/<organization_code>/<tenant_code>/routes/articles/features``.
 If you want to generate a route for the current tenant in a Twig template, you could use the following code:
 
 .. code-block:: twig
@@ -36,8 +36,8 @@ If you want to generate a route for the current tenant in a Twig template, you c
     <a href="{{ path('/routes/articles/features') }}">Features</a>
 
 The TenantAwareRouter will resolve the current tenant from the host name and will internally create a route
-``/swp/default/routes/articles/features`` where ``swp`` is the root path defined in the bundle configuration,
-``default`` is the current tenant's subdomain, and ``routes`` is the configured ``route_basepaths``.
+``/swp/<organization_code>/<tenant_code>/routes/articles/features`` where ``swp`` is the root path defined in the bundle configuration,
+``<tenant_code>`` is the current tenant's unique code, and ``routes`` is the configured ``route_basepaths``.
 
 The result will be:
 
@@ -51,9 +51,9 @@ You can also generate the route by content path:
 
     <a href="{{ path(null, {'content_id': '/content/articles/features'}) }}">Features</a>
 
-If the content is stored under the path ``/swp/default/content/articles/features`` in the PHPCR tree, the router
+If the content is stored under the path ``/swp/<organization_code>/<tenant_code>/content/articles/features`` in the PHPCR tree, the router
 will search for the route for that content and will return the route associated with it. In this case,
-the associated route is ``/swp/default/routes/articles/features`` so it will generate the same route:
+the associated route is ``/swp/<organization_code>/<tenant_code>/routes/articles/features`` so it will generate the same route:
 ``/articles/features`` as in the example above.
 
 .. note::
@@ -91,7 +91,7 @@ PHPCRBasePathsInitializer
   This service requires DoctrinePHPCRBundle to be installed and configured.
 
 The Initializer is the PHPCR equivalent of the ORM schema tools.
-PHPCRBasePathsInitializer creates base paths in the content repository based on tenants, configures and registers PHPCR node types. It is disabled by default, but can be enabled in the configuration.
+PHPCRBasePathsInitializer creates base paths in the content repository based on tenants and organizations, configures and registers PHPCR node types. It is disabled by default, but can be enabled in the configuration when using PHPCR ODM persistence backend.
 
 You can execute this initializer, together with the generic one, by running the following command:
 
@@ -115,9 +115,10 @@ TenantRepository
 This repository allows you to fetch a single tenant by its subdomain name and all available
 tenants from the Doctrine ORM storage. It extends `EntityRepository`_ from Doctrine.
 
-This service implements :ref:`component_tenant_repository_tenant-repository-interface` and it has two methods:
+This service implements :ref:`component_tenant_repository_tenant-repository-interface` and it has three methods:
 
 - findBySubdomain($subdomain) - Finds the tenant by subdomain. ``$subdomain`` is the subdomain of string type.
+- findByCode($code) - Finds the tenant by code. ``$code`` is the unique code of string type.
 - findAvailableTenants() - Finds all available tenants. Returns an array of all tenants.
 
 
@@ -138,6 +139,10 @@ which indicates that it should be associated with the specific tenant.
 
 It extends ``Doctrine\ORM\Query\Filter\SQLFilter``.
 
+When PHPCR ODM persistence backend is enabled it will rely on tenant's unique code instead of the tenant id.
+In this case, if the tenant exists in the context and the tenant code is 123abc, it will add ``WHERE tenant_id = 123abc`` to every select query.
+
+.. _bundle_tenant_listeners_event-listeners:
 
 Event Listeners
 ===============
@@ -153,7 +158,7 @@ in the query).
 TenantSubscriber
 ----------------
 
-This subscribes to every Doctrine ORM ``prePersist`` event, when persisting the data.
+This subscriber subscribes to every Doctrine ORM ``prePersist`` event, when persisting the data.
 It makes sure that the persisted object (which needs to implement :ref:`component_tenant_model_tenant-aware-interface`)
 will be associated with the current tenant when saving the object.
 

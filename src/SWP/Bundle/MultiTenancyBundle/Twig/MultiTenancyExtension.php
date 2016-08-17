@@ -36,7 +36,7 @@ class MultiTenancyExtension extends \Twig_Extension implements \Twig_Extension_G
     public function getGlobals()
     {
         return [
-            'organization' => $this->tenantContext->getTenant(),
+            'tenant' => $this->tenantContext->getTenant(),
         ];
     }
 

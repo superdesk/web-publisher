@@ -13,7 +13,7 @@
  */
 namespace SWP\Bundle\WebRendererBundle\Tests\Controller;
 
-use Liip\FunctionalTestBundle\Test\WebTestCase;
+use SWP\Bundle\FixturesBundle\WebTestCase;
 
 class ContentControllerTest extends WebTestCase
 {
@@ -24,18 +24,13 @@ class ContentControllerTest extends WebTestCase
     {
         self::bootKernel();
 
-        $this->runCommand('doctrine:schema:drop', ['--force' => true, '--env' => 'test'], true);
-        $this->runCommand('doctrine:doctrine:schema:update', ['--force' => true, '--env' => 'test'], true);
-
-        $this->loadFixtureFiles([
-            '@SWPFixturesBundle/Resources/fixtures/ORM/test/tenant.yml',
-        ]);
-        $this->runCommand('doctrine:phpcr:repository:init', ['--env' => 'test'], true);
+        $this->initDatabase();
     }
 
     public function testLoadingContainerPageArticle()
     {
         $this->loadFixtures([
+            'SWP\Bundle\FixturesBundle\DataFixtures\PHPCR\LoadTenantsData',
             'SWP\Bundle\FixturesBundle\DataFixtures\PHPCR\LoadArticlesData',
         ], null, 'doctrine_phpcr');
 
@@ -45,13 +40,14 @@ class ContentControllerTest extends WebTestCase
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
         $this->assertTrue($crawler->filter('html:contains("Features")')->count() === 1);
         $this->assertTrue($crawler->filter('html:contains("Content:")')->count() === 1);
-        $this->assertTrue($crawler->filter('html:contains("Id: /swp/default/content/features")')->count() === 1);
+        $this->assertTrue($crawler->filter('html:contains("Id: /swp/123456/123abc/content/features")')->count() === 1);
         $this->assertTrue($crawler->filter('html:contains("Current tenant: default")')->count() === 1);
     }
 
     public function testLoadingNotExistingArticleUnderContainerPage()
     {
         $this->loadFixtures([
+            'SWP\Bundle\FixturesBundle\DataFixtures\PHPCR\LoadTenantsData',
             'SWP\Bundle\FixturesBundle\DataFixtures\PHPCR\LoadArticlesData',
         ], null, 'doctrine_phpcr');
 
@@ -63,6 +59,10 @@ class ContentControllerTest extends WebTestCase
 
     public function testTestLoadingRouteWithCustomTemplate()
     {
+        $this->loadFixtures([
+            'SWP\Bundle\FixturesBundle\DataFixtures\PHPCR\LoadTenantsData',
+        ], null, 'doctrine_phpcr');
+
         $router = $this->getContainer()->get('router');
         $client = static::createClient();
         $client->request('POST', $router->generate('swp_api_content_create_routes'), [
@@ -74,7 +74,7 @@ class ContentControllerTest extends WebTestCase
             ],
         ]);
         $this->assertEquals(201, $client->getResponse()->getStatusCode());
-        $this->assertEquals('{"id":"\/swp\/default\/routes\/simple-test-route","content":null,"static_prefix":null,"variable_pattern":null,"name":"simple-test-route","children":[],"id_prefix":"\/swp\/default\/routes","template_name":"test.html.twig","type":"content","cache_time_in_seconds":0,"_links":{"self":{"href":"\/api\/v1\/content\/routes\/\/simple-test-route"}}}', $client->getResponse()->getContent());
+        $this->assertEquals('{"id":"\/swp\/123456\/123abc\/routes\/simple-test-route","content":null,"static_prefix":null,"variable_pattern":null,"name":"simple-test-route","children":[],"id_prefix":"\/swp\/123456\/123abc\/routes","template_name":"test.html.twig","type":"content","cache_time_in_seconds":0,"_links":{"self":{"href":"\/api\/v1\/content\/routes\/\/simple-test-route"}}}', $client->getResponse()->getContent());
 
         $crawler = $client->request('GET', '/simple-test-route');
         $this->assertEquals(200, $client->getResponse()->getStatusCode());

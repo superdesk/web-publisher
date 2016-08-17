@@ -18,6 +18,8 @@ use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use SWP\Bundle\FixturesBundle\AbstractFixture;
 use Doctrine\Common\Persistence\ObjectManager;
 use SWP\Bundle\TemplateEngineBundle\Model\WidgetModel;
+use SWP\Bundle\WebRendererBundle\Doctrine\ODM\PHPCR\Tenant;
+use SWP\Component\MultiTenancy\Model\TenantInterface;
 
 class LoadWidgetsData extends AbstractFixture implements FixtureInterface, OrderedFixtureInterface
 {
@@ -26,11 +28,14 @@ class LoadWidgetsData extends AbstractFixture implements FixtureInterface, Order
      */
     public function load(ObjectManager $manager)
     {
+        /** @var TenantInterface $tenant */
+        $tenant = $this->container->get('swp.repository.tenant')->findOneBySubdomain('default');
+
         $widget = new WidgetModel();
         $widget->setType(WidgetModel::TYPE_MENU);
         $widget->setName('Default Menu');
         $widget->setParameters(['menu_name' => 'default']);
-        $widget->setTenant($this->getReference('Default tenant'));
+        $widget->setTenantCode($tenant->getCode());
         $manager->persist($widget);
         $manager->flush();
 

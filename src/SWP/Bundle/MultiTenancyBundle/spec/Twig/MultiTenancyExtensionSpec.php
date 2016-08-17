@@ -45,7 +45,7 @@ class MultiTenancyExtensionSpec extends ObjectBehavior
         $tenantContext->getTenant()->shouldBeCalled()->willReturn($tenant);
 
         $globals = [
-            'organization' => $tenant,
+            'tenant' => $tenant,
         ];
 
         $this->getGlobals()->shouldReturn($globals);

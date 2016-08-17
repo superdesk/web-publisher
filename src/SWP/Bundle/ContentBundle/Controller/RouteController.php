@@ -110,7 +110,7 @@ class RouteController extends FOSRestController
      *
      * Content path should be provided without tenant information:
      *
-     * Instead full content path like:  ```/swp/default/content/test-content-article``` provide path like this: ```test-content-article```
+     * Instead full content path like:  ```/swp/<tenant_code>/content/test-content-article``` provide path like this: ```test-content-article```
      *
      * @ApiDoc(
      *     resource=true,
@@ -152,7 +152,7 @@ class RouteController extends FOSRestController
      *
      * Content path should be provided without tenant information:
      *
-     * Instead full content path like:  ```/swp/default/content/test-content-article``` provide path like this: ```test-content-article```
+     * Instead full content path like:  ```/swp/<tenant_code>/content/test-content-article``` provide path like this: ```test-content-article```
      *
      * @ApiDoc(
      *     resource=true,

@@ -12,26 +12,22 @@
  */
 namespace SWP\Bundle\TemplateEngineBundle\Tests\Controller;
 
-use Liip\FunctionalTestBundle\Test\WebTestCase;
+use SWP\Bundle\FixturesBundle\WebTestCase;
 
 class MenuNodeControllerTest extends WebTestCase
 {
+    private $router;
+
     /**
      * {@inheritdoc}
      */
     public function setUp()
     {
         self::bootKernel();
-        $this->runCommand('doctrine:schema:drop', ['--force' => true, '--env' => 'test'], true);
-        $this->runCommand('doctrine:doctrine:schema:update', ['--force' => true, '--env' => 'test'], true);
-
-        $this->loadFixtureFiles([
-            '@SWPFixturesBundle/Resources/fixtures/ORM/test/tenant.yml',
-        ]);
-
-        $this->runCommand('doctrine:phpcr:repository:init', ['--env' => 'test'], true);
+        $this->initDatabase();
 
         $this->loadFixtures([
+            'SWP\Bundle\FixturesBundle\DataFixtures\PHPCR\LoadTenantsData',
             'SWP\Bundle\FixturesBundle\DataFixtures\PHPCR\LoadMenusData',
             'SWP\Bundle\FixturesBundle\DataFixtures\PHPCR\LoadMenuNodesData',
         ], null, 'doctrine_phpcr');
@@ -52,7 +48,7 @@ class MenuNodeControllerTest extends WebTestCase
 
         $this->assertEquals(201, $client->getResponse()->getStatusCode());
         $content = $client->getResponse()->getContent();
-        $this->assertContains('"id":"\/swp\/default\/menu\/test\/blue"', $content);
+        $this->assertContains('"id":"\/swp\/123456\/123abc\/menu\/test\/blue"', $content);
     }
 
     public function testCreateSubMenuNodeApi()
@@ -68,7 +64,7 @@ class MenuNodeControllerTest extends WebTestCase
 
         $this->assertEquals(201, $client->getResponse()->getStatusCode());
         $content = $client->getResponse()->getContent();
-        $this->assertContains('"id":"\/swp\/default\/menu\/test\/contact\/sub\/subSubContact"', $content);
+        $this->assertContains('"id":"\/swp\/123456\/123abc\/menu\/test\/contact\/sub\/subSubContact"', $content);
     }
 
     public function testGetMenuNodeApi()
@@ -78,7 +74,7 @@ class MenuNodeControllerTest extends WebTestCase
 
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
         $content = $client->getResponse()->getContent();
-        $this->assertContains('"id":"\/swp\/default\/menu\/test\/contact\/sub"', $content);
+        $this->assertContains('"id":"\/swp\/123456\/123abc\/menu\/test\/contact\/sub"', $content);
     }
 
     public function testListMenuNodesApi()
@@ -89,7 +85,7 @@ class MenuNodeControllerTest extends WebTestCase
 
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
         $content = $client->getResponse()->getContent();
-        $this->assertContains('"id":"\/swp\/default\/menu\/test\/contact\/sub"', $content);
+        $this->assertContains('"id":"\/swp\/123456\/123abc\/menu\/test\/contact\/sub"', $content);
     }
 
     public function testUpdateMenuNodeApi()

@@ -14,10 +14,12 @@
 namespace SWP\Bundle\MultiTenancyBundle;
 
 use SWP\Bundle\MultiTenancyBundle\DependencyInjection\Compiler\ConfigurePrefixCandidatesCompilerPass;
+use SWP\Bundle\MultiTenancyBundle\DependencyInjection\Compiler\RegisterOrganizationFactoryPass;
 use SWP\Bundle\MultiTenancyBundle\DependencyInjection\Compiler\RegisterTenantFactoryCompilerPass;
 use SWP\Bundle\MultiTenancyBundle\DependencyInjection\Compiler\TenantAwareRouterCompilerPass;
+use SWP\Bundle\StorageBundle\DependencyInjection\Bundle\Bundle;
+use SWP\Bundle\StorageBundle\Drivers;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\HttpKernel\Bundle\Bundle;
 
 class SWPMultiTenancyBundle extends Bundle
 {
@@ -27,5 +29,24 @@ class SWPMultiTenancyBundle extends Bundle
         $container->addCompilerPass(new ConfigurePrefixCandidatesCompilerPass());
         $container->addCompilerPass(new TenantAwareRouterCompilerPass());
         $container->addCompilerPass(new RegisterTenantFactoryCompilerPass());
+        $container->addCompilerPass(new RegisterOrganizationFactoryPass());
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getSupportedDrivers()
+    {
+        return [
+            Drivers::DRIVER_DOCTRINE_PHPCR_ODM,
+        ];
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getModelClassNamespace()
+    {
+        return 'SWP\Component\MultiTenancy\Model';
     }
 }

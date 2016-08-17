@@ -3,7 +3,7 @@
 /**
  * This file is part of the Superdesk Web Publisher MultiTenancy Component.
  *
- * Copyright 2016 Sourcefabric z.u. and contributors.
+ * Copyright 2016 Sourcefabric z.ú. and contributors.
  *
  * For the full copyright and license information, please see the
  * AUTHORS and LICENSE files distributed with this source code.
@@ -13,24 +13,46 @@
  */
 namespace SWP\Component\MultiTenancy\Factory;
 
+use SWP\Component\Common\Generator\GeneratorInterface;
+use SWP\Component\MultiTenancy\Model\TenantInterface;
+use SWP\Component\MultiTenancy\Repository\OrganizationRepositoryInterface;
+use SWP\Component\Storage\Factory\FactoryInterface;
+
 /**
  * Class TenantFactory.
  */
 class TenantFactory implements TenantFactoryInterface
 {
     /**
-     * @var string
+     * @var FactoryInterface
      */
-    protected $className;
+    protected $decoratedFactory;
+
+    /**
+     * @var GeneratorInterface
+     */
+    protected $generator;
+
+    /**
+     * @var OrganizationRepositoryInterface
+     */
+    protected $organizationRepository;
 
     /**
      * TenantFactory constructor.
      *
-     * @param string $className
+     * @param FactoryInterface                $decoratedFactory
+     * @param GeneratorInterface              $generator
+     * @param OrganizationRepositoryInterface $organizationRepository
      */
-    public function __construct($className)
-    {
-        $this->className = $className;
+    public function __construct(
+        FactoryInterface $decoratedFactory,
+        GeneratorInterface $generator,
+        OrganizationRepositoryInterface $organizationRepository
+    ) {
+        $this->decoratedFactory = $decoratedFactory;
+        $this->generator = $generator;
+        $this->organizationRepository = $organizationRepository;
     }
 
     /**
@@ -38,6 +60,26 @@ class TenantFactory implements TenantFactoryInterface
      */
     public function create()
     {
-        return new $this->className();
+        /** @var TenantInterface $tenant */
+        $tenant = $this->decoratedFactory->create();
+        $tenant->setCode($this->generator->generate(6));
+
+        return $tenant;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function createForOrganization($code)
+    {
+        if (null === $organization = $this->organizationRepository->findOneByCode($code)) {
+            throw new \InvalidArgumentException(sprintf('Organization does not exist with code "%s".', $code));
+        }
+
+        /** @var TenantInterface $tenant */
+        $tenant = $this->create();
+        $tenant->setOrganization($organization);
+
+        return $tenant;
     }
 }

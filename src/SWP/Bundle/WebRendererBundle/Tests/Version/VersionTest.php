@@ -13,7 +13,7 @@
  */
 namespace SWP\Bundle\WebRendererBundle\Tests\Version;
 
-use Liip\FunctionalTestBundle\Test\WebTestCase;
+use SWP\Bundle\FixturesBundle\WebTestCase;
 use SWP\Bundle\WebRendererBundle\Version\Version;
 
 class VersionTest extends WebTestCase

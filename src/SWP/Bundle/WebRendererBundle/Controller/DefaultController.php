@@ -15,6 +15,7 @@ namespace SWP\Bundle\WebRendererBundle\Controller;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use SWP\Bundle\WebRendererBundle\Model\HomepageBasedTenantInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 class DefaultController extends Controller
@@ -25,12 +26,12 @@ class DefaultController extends Controller
      */
     public function indexAction()
     {
-        $pathBuilder = $this->get('swp_multi_tenancy.path_builder');
-        $site = $this->get('swp.repository.site')->find($pathBuilder->build('/'));
-        $homepage = $site->getHomepage();
+        /** @var HomepageBasedTenantInterface $currentTenant */
+        $currentTenant = $this->get('swp_multi_tenancy.tenant_context')->getTenant();
+        $homepage = $currentTenant->getHomepage();
 
-        if (null === $homepage) {
-            throw $this->createNotFoundException('No homepage configured!');
+        if (null !== $homepage) {
+            // TODO handle homepage loading here
         }
 
         $response = $this->render('index.html.twig', [

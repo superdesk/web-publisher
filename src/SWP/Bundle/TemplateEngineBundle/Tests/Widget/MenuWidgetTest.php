@@ -12,7 +12,7 @@
  */
 namespace SWP\Bundle\TemplateEngineBundle\Tests\Widget;
 
-use Liip\FunctionalTestBundle\Test\WebTestCase;
+use SWP\Bundle\FixturesBundle\WebTestCase;
 use SWP\Component\TemplatesSystem\Gimme\Widget\MenuWidgetHandler;
 use SWP\Component\TemplatesSystem\Tests\Gimme\Model\WidgetModel;
 
@@ -24,16 +24,10 @@ class MenuWidgetTest extends WebTestCase
     public function setUp()
     {
         self::bootKernel();
-        $this->runCommand('doctrine:schema:drop', ['--force' => true, '--env' => 'test'], true);
-        $this->runCommand('doctrine:doctrine:schema:update', ['--force' => true, '--env' => 'test'], true);
-
-        $this->loadFixtureFiles([
-            '@SWPFixturesBundle/Resources/fixtures/ORM/test/tenant.yml',
-        ]);
-
-        $this->runCommand('doctrine:phpcr:repository:init', ['--env' => 'test'], true);
+        $this->initDatabase();
 
         $this->loadFixtures([
+            'SWP\Bundle\FixturesBundle\DataFixtures\PHPCR\LoadTenantsData',
             'SWP\Bundle\FixturesBundle\DataFixtures\PHPCR\LoadMenusData',
             'SWP\Bundle\FixturesBundle\DataFixtures\PHPCR\LoadMenuNodesData',
         ], null, 'doctrine_phpcr');

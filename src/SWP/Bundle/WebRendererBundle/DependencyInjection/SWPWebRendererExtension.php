@@ -13,10 +13,11 @@
  */
 namespace SWP\Bundle\WebRendererBundle\DependencyInjection;
 
+use SWP\Bundle\StorageBundle\DependencyInjection\Extension\Extension;
+use SWP\Bundle\StorageBundle\Drivers;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader;
-use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 
 /**
  * This is the class that loads and manages your bundle configuration.
@@ -34,6 +35,8 @@ class SWPWebRendererExtension extends Extension
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.yml');
         $this->loadDeviceListener($config, $loader);
+
+        $this->registerStorage(Drivers::DRIVER_DOCTRINE_PHPCR_ODM, [], $container);
     }
 
     private function loadDeviceListener(array $config, Loader\YamlFileLoader $loader)

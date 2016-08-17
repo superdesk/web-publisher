@@ -13,12 +13,15 @@
  */
 namespace SWP\Bundle\ContentBundle\Tests;
 
-use Liip\FunctionalTestBundle\Test\WebTestCase;
+use SWP\Bundle\FixturesBundle\WebTestCase;
 use SWP\Bundle\ContentBundle\Loader\ArticleLoader;
 use SWP\Component\TemplatesSystem\Gimme\Loader\LoaderInterface;
 
 class ArticleLoaderTest extends WebTestCase
 {
+    /**
+     * @var ArticleLoader
+     */
     protected $articleLoader;
 
     /**
@@ -28,14 +31,10 @@ class ArticleLoaderTest extends WebTestCase
     {
         self::bootKernel();
 
-        $this->runCommand('doctrine:schema:drop', ['--force' => true, '--env' => 'test'], true);
-        $this->runCommand('doctrine:schema:update', ['--force' => true, '--env' => 'test'], true);
-        $this->loadFixtures([
-            'SWP\Bundle\FixturesBundle\DataFixtures\ORM\LoadTenantsData',
-        ]);
-        $this->runCommand('doctrine:phpcr:repository:init', ['--env' => 'test'], true);
+        $this->initDatabase();
 
         $this->loadFixtures([
+            'SWP\Bundle\FixturesBundle\DataFixtures\PHPCR\LoadTenantsData',
             'SWP\Bundle\FixturesBundle\DataFixtures\PHPCR\LoadArticlesData',
         ], null, 'doctrine_phpcr');
 
@@ -55,11 +54,11 @@ class ArticleLoaderTest extends WebTestCase
         $this->assertTrue($this->articleLoader->isSupported('articles'));
         $this->assertFalse($this->articleLoader->isSupported('items'));
 
-        $article = $this->articleLoader->load('article', ['contentPath' => '/swp/default/content/test-article']);
+        $article = $this->articleLoader->load('article', ['contentPath' => '/swp/123456/123abc/content/test-article']);
         $this->assertInstanceOf('SWP\Component\TemplatesSystem\Gimme\Meta\Meta', $article);
 
-        $this->assertFalse($this->articleLoader->load('article', ['contentPath' => '/swp/default/content/test-articles']));
-        $this->assertFalse($this->articleLoader->load('article', ['contentPath' => '/swp/default/content/test-article'], LoaderInterface::COLLECTION));
+        $this->assertFalse($this->articleLoader->load('article', ['contentPath' => '/swp/123456/123abc/content/test-articles']));
+        $this->assertFalse($this->articleLoader->load('article', ['contentPath' => '/swp/123456/123abc/content/test-article'], LoaderInterface::COLLECTION));
 
         $this->assertTrue(count($this->articleLoader->load('article', ['route' => '/news'], LoaderInterface::COLLECTION)) == 3);
         $this->assertFalse($this->articleLoader->load('article', ['route' => '/news1'], LoaderInterface::COLLECTION));

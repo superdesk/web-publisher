@@ -13,8 +13,7 @@
  */
 namespace SWP\Bundle\TemplateEngineBundle\Tests\Controller;
 
-use Liip\FunctionalTestBundle\Test\WebTestCase;
-use SWP\Component\MultiTenancy\Model\Tenant;
+use SWP\Bundle\FixturesBundle\WebTestCase;
 
 class ContainerControllerTest extends WebTestCase
 {
@@ -26,16 +25,16 @@ class ContainerControllerTest extends WebTestCase
     public function setUp()
     {
         self::bootKernel();
-        $this->runCommand('doctrine:schema:drop', ['--force' => true, '--env' => 'test'], true);
-        $this->runCommand('doctrine:doctrine:schema:update', ['--force' => true, '--env' => 'test'], true);
+        $this->initDatabase();
+
+        $this->loadFixtures([
+            'SWP\Bundle\FixturesBundle\DataFixtures\PHPCR\LoadTenantsData',
+        ], null, 'doctrine_phpcr');
 
         $this->loadFixtureFiles([
-            '@SWPFixturesBundle/Resources/fixtures/ORM/test/tenant.yml',
             '@SWPFixturesBundle/Resources/fixtures/ORM/test/Container.yml',
             '@SWPFixturesBundle/Resources/fixtures/ORM/test/WidgetModel.yml',
-        ]);
-
-        $this->runCommand('doctrine:phpcr:repository:init', ['--env' => 'test'], true);
+        ], true);
 
         $this->router = $this->getContainer()->get('router');
     }
