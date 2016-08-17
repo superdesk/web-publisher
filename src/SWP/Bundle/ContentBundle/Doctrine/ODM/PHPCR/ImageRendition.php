@@ -15,6 +15,7 @@ namespace SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR;
 
 use Doctrine\ODM\PHPCR\Exception\InvalidArgumentException;
 use Doctrine\ODM\PHPCR\HierarchyInterface;
+use SWP\Bundle\ContentBundle\Model\ArticleMediaInterface;
 use SWP\Bundle\ContentBundle\Model\ImageRendition as BaseImageRendition;
 
 /**
@@ -23,6 +24,8 @@ use SWP\Bundle\ContentBundle\Model\ImageRendition as BaseImageRendition;
 class ImageRendition extends BaseImageRendition implements HierarchyInterface
 {
     protected $parent;
+
+    protected $media;
 
     /**
      * {@inheritdoc}
@@ -58,5 +61,21 @@ class ImageRendition extends BaseImageRendition implements HierarchyInterface
         }
 
         $this->parent = $parent;
+    }
+
+    /**
+     * @return ArticleMediaInterface
+     */
+    public function getMedia()
+    {
+        return $this->media;
+    }
+
+    /**
+     * @param ArticleMediaInterface $media
+     */
+    public function setMedia($media)
+    {
+        $this->media = $media;
     }
 }

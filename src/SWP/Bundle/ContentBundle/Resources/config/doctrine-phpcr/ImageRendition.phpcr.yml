@@ -7,3 +7,7 @@ SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\ImageRendition:
             type: int
         height:
             type: int
+    referenceOne:
+        media:
+            targetDocument: "\\SWP\\Bundle\\ContentBundle\\Doctrine\\ODM\\PHPCR\\ArticleMedia"
+            strategy: hard

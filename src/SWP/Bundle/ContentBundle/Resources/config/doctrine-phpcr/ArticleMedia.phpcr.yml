@@ -15,6 +15,10 @@ SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\ArticleMedia:
             type: string
         usageTerms:
             type: string
+    referrers:
+        renditions:
+            referringDocument: SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\ImageRendition
+            referencedBy: media
     referenceOne:
         image:
             targetDocument: "\\SWP\\Bundle\\ContentBundle\\Doctrine\\ODM\\PHPCR\\Image"

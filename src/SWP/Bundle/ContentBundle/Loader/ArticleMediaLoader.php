@@ -15,7 +15,6 @@ namespace SWP\Bundle\ContentBundle\Loader;
 
 use SWP\Component\TemplatesSystem\Gimme\Loader\LoaderInterface;
 use SWP\Component\TemplatesSystem\Gimme\Meta\Meta;
-use Symfony\Component\Yaml\Parser;
 use Symfony\Cmf\Bundle\CoreBundle\PublishWorkflow\PublishWorkflowChecker;
 use Doctrine\ODM\PHPCR\DocumentManager;
 use Doctrine\Common\Cache\CacheProvider;
@@ -59,7 +58,8 @@ class ArticleMediaLoader implements LoaderInterface
         $configurationPath,
         CacheProvider $metadataCache,
         TenantAwarePathBuilderInterface $pathBuilder,
-        $routeBasepaths
+        $routeBasepaths,
+        $metaFactory
     ) {
         $this->publishWorkflowChecker = $publishWorkflowChecker;
         $this->dm = $dm;
@@ -67,6 +67,7 @@ class ArticleMediaLoader implements LoaderInterface
         $this->metadataCache = $metadataCache;
         $this->pathBuilder = $pathBuilder;
         $this->routeBasepaths = $routeBasepaths;
+        $this->metaFactory = $metaFactory;
     }
 
     /**
@@ -87,26 +88,8 @@ class ArticleMediaLoader implements LoaderInterface
      *
      * @return Meta|Meta[]|bool false if meta cannot be loaded, a Meta instance otherwise
      */
-    public function load($type, $parameters, $responseType = LoaderInterface::SINGLE)
+    public function load($type, array $parameters = array(), $responseType = LoaderInterface::SINGLE)
     {
-        $article = null;
-        if (empty($parameters)) {
-            $parameters = [];
-        }
-
-        // Cache meta configuration
-        $cacheKey = md5($this->configurationPath);
-        if (!$this->metadataCache->contains($cacheKey)) {
-            if (!is_readable($this->configurationPath)) {
-                throw new \InvalidArgumentException('Configuration file is not readable for parser');
-            }
-            $yaml = new Parser();
-            $configuration = $yaml->parse(file_get_contents($this->configurationPath));
-            $this->metadataCache->save($cacheKey, $configuration);
-        } else {
-            $configuration = $this->metadataCache->fetch($cacheKey);
-        }
-
         if ($responseType === LoaderInterface::SINGLE) {
 //            if (array_key_exists('contentPath', $parameters)) {
 //                $article = $this->dm->find('SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\Article', $parameters['contentPath']);
@@ -125,7 +108,7 @@ class ArticleMediaLoader implements LoaderInterface
                 if ($media) {
                     $metas = [];
                     foreach ($media->getChildren() as $item) {
-                        $metas[] = new Meta($configuration, $item);
+                        $metas[] = $this->metaFactory->create($item);
                     }
 
                     return $metas;

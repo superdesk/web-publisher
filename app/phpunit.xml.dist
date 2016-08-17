@@ -28,6 +28,8 @@
                 <directory>../src/*/*Bundle/Tests</directory>
                 <directory>../src/*/Bundle/*Bundle/Resources</directory>
                 <directory>../src/*/Bundle/*Bundle/Tests</directory>
+                <directory>../src/*/Bundle/*Bundle/spec</directory>
+                <directory>../src/SWP/Component/*/spec</directory>
             </exclude>
         </whitelist>
     </filter>

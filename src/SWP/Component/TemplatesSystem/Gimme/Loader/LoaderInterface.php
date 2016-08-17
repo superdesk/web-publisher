@@ -30,7 +30,7 @@ interface LoaderInterface
      *
      * @return mixed false if meta cannot be loaded, a Meta instance otherwise
      */
-    public function load($metaType, $parameters, $responseType);
+    public function load($metaType, array $parameters = [], $responseType = self::SINGLE);
 
     /**
      * Check if loader support required type.

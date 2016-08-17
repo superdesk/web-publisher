@@ -34,6 +34,11 @@ class ArticleMedia extends BaseArticleMedia implements HierarchyInterface
     protected $id;
 
     /**
+     * @var Collection
+     */
+    protected $renditions;
+
+    /**
      * @param string $id
      */
     public function setId($id)
@@ -75,5 +80,13 @@ class ArticleMedia extends BaseArticleMedia implements HierarchyInterface
         }
 
         $this->parent = $parent;
+    }
+
+    /**
+     * @return Collection
+     */
+    public function getRenditions()
+    {
+        return $this->renditions;
     }
 }

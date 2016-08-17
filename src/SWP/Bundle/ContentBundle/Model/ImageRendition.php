@@ -22,11 +22,6 @@ class ImageRendition
     /**
      * @var string
      */
-    protected $id;
-
-    /**
-     * @var string
-     */
     protected $width;
 
     /**
@@ -38,26 +33,6 @@ class ImageRendition
      * @var string
      */
     protected $name;
-
-    /**
-     * @return string
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    /**
-     * @param string $id
-     *
-     * @return ImageRendition
-     */
-    public function setId($id)
-    {
-        $this->id = $id;
-
-        return $this;
-    }
 
     /**
      * @return ImageInterface

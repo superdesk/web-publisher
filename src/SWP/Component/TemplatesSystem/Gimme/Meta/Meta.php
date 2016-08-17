@@ -13,14 +13,10 @@
  */
 namespace SWP\Component\TemplatesSystem\Gimme\Meta;
 
+use SWP\Component\TemplatesSystem\Gimme\Context\Context;
+
 class Meta
 {
-    /**
-     * Configuration definition for current Meta.
-     *
-     * @var array
-     */
-    protected $configuration;
 
     /**
      * Original Meta values (json|array).
@@ -30,122 +26,21 @@ class Meta
     protected $values;
 
     /**
+     * @var Context
+     */
+    protected $context;
+
+    /**
      * Create Meta class from provided configuration and values.
      *
-     * @param array               $configuration
+     * @param Context             $context
      * @param string|array|object $values
+     * @param array               $configuration
      */
-    public function __construct(array $configuration, $values)
+    public function __construct(Context $context, $values)
     {
-        $this->configuration = array_slice($configuration, 0, 1);
-        $this->configuration = array_shift($this->configuration);
+        $this->context = $context;
         $this->values = $values;
-
-        $this->fillMeta($values);
-    }
-
-    /**
-     * Fill Meta from diffirent kind of data types.
-     *
-     * @param mixed $values
-     *
-     * @return bool
-     */
-    private function fillMeta($values)
-    {
-        if (is_array($values)) {
-            return $this->fillFromArray($values);
-        } elseif (is_string($values) && $this->isJson($values)) {
-            return $this->fillFromJson($values);
-        } elseif (is_object($values)) {
-            return $this->fillFromObject($values);
-        }
-
-        return false;
-    }
-
-    /**
-     * Fill Meta from array. Array must have property names and keys.
-     *
-     * @param array $values Array with propery names as keys
-     *
-     * @return bool
-     */
-    private function fillFromArray(array $values)
-    {
-        foreach ($this->getExposedProperties($values) as $key => $propertyValue) {
-            $this->$key = $propertyValue;
-        }
-
-        return true;
-    }
-
-    /**
-     * Fill Meta class from json values.
-     *
-     * @param string $values
-     *
-     * @return bool
-     */
-    private function fillFromJson($values)
-    {
-        $this->fillFromArray(json_decode($values, true));
-
-        return true;
-    }
-
-    /**
-     * Fill Meta from object. Object must have public getters for properties.
-     *
-     * @param object $values Object with public getters for properties
-     *
-     * @return bool
-     */
-    private function fillFromObject($values)
-    {
-        foreach ($this->configuration['properties'] as $key => $propertyValue) {
-            $getterName = 'get'.ucfirst($key);
-            $this->$key = $values->$getterName();
-        }
-
-        return true;
-    }
-
-    /**
-     * Check if string is JSON.
-     *
-     * @param  string
-     *
-     * @return bool
-     */
-    private function isJson($string)
-    {
-        json_decode($string);
-
-        return json_last_error() == JSON_ERROR_NONE;
-    }
-
-    /**
-     * Get exposed properties (acording to configuration) from provided values.
-     *
-     * @return array
-     */
-    private function getExposedProperties(array $values = [])
-    {
-        if (count($values) === 0 && is_array($this->values)) {
-            $values = $this->values;
-        }
-
-        $exposedProperties = [];
-        if (count($values) > 0) {
-            foreach ($values as $key => $propertyValue) {
-                if (array_key_exists($key, $this->configuration['properties'])) {
-                    $exposedProperties[$key] = $propertyValue;
-                }
-            }
-        }
-
-        return $exposedProperties;
     }
 
     /**
@@ -155,24 +50,49 @@ class Meta
      */
     public function __toString()
     {
-        if (array_key_exists('to_string', $this->configuration)) {
-            $toStringProperty = $this->configuration['to_string'];
+        $configuration = $this->context->getConfigurationForValue($this->values);
+        if (array_key_exists('to_string', $configuration)) {
+            $toStringProperty = $configuration['to_string'];
 
             if (isset($this->$toStringProperty)) {
                 return $this->$toStringProperty;
             }
         }
 
-        return json_encode($this->getExposedProperties());
+        return gettype($this->values);
     }
 
-    public function getConfiguration()
+    /**
+     * @param string $name
+     * @param mixed  $value
+     */
+    public function __set($name, $value)
     {
-        return $this->configuration;
+        if ($value instanceof \Traversable || is_array($value)) {
+            $newValue = [];
+            foreach ($value as $key => $item) {
+                $newValue[$key] = $this->context->getMetaForValue($item);
+            }
+            $this->$name = $newValue;
+
+            return;
+        }
+
+        if ($this->context->isSupported($value)) {
+            $this->$name = $this->context->getMetaForValue($value);
+
+            return;
+        }
+
+        $this->$name = $value;
     }
 
+    /**
+     * @return array|object|string
+     */
     public function getValues()
     {
         return $this->values;
     }
+
 }

@@ -91,6 +91,7 @@ class ProcessArticleMediaListener
                             $imageRendition = new ImageRendition();
                             $imageRendition->setParent($renditionsDocument);
                             $imageRendition->setImage($image);
+                            $imageRendition->setMedia($articleMedia);
                             $imageRendition->setHeight($rendition->getHeight());
                             $imageRendition->setWidth($rendition->getWidth());
                             $imageRendition->setName($key);
