@@ -13,8 +13,7 @@
  */
 namespace SWP\Bundle\ContentBundle\Tests\EventListener;
 
-use Liip\FunctionalTestBundle\Test\WebTestCase;
-use Nelmio\Alice\Fixtures;
+use SWP\Bundle\FixturesBundle\WebTestCase;
 use SWP\Bundle\FixturesBundle\DataFixtures\PHPCR\LoadRoutesData;
 use Symfony\Cmf\Component\Routing\ChainRouter;
 
@@ -31,16 +30,10 @@ class HttpCacheHeaderListenerTest extends WebTestCase
     public function setUp()
     {
         self::bootKernel();
-        $this->runCommand('doctrine:schema:drop', ['--force' => true, '--env' => 'test'], true);
-        $this->runCommand('doctrine:doctrine:schema:update', ['--force' => true, '--env' => 'test'], true);
-
-        $this->loadFixtureFiles([
-            '@SWPFixturesBundle/Resources/fixtures/ORM/test/tenant.yml',
-        ]);
-
-        $this->runCommand('doctrine:phpcr:repository:init', ['--env' => 'test'], true);
+        $this->initDatabase();
 
         $this->loadFixtures([
+            'SWP\Bundle\FixturesBundle\DataFixtures\PHPCR\LoadTenantsData',
             'SWP\Bundle\FixturesBundle\DataFixtures\PHPCR\LoadRoutesData',
         ], null, 'doctrine_phpcr');
 
@@ -64,7 +57,7 @@ class HttpCacheHeaderListenerTest extends WebTestCase
     private function getHeadersFromResponse($name)
     {
         $documentManager = $this->getContainer()->get('document_manager');
-        $id = 'swp/default/routes/'.$name;
+        $id = 'swp/123456/123abc/routes/'.$name;
         $route = $documentManager->find('SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\Route', $id);
 
         $this->assertNotNull($route);

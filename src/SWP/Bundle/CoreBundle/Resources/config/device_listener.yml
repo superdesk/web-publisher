@@ -1,0 +1,7 @@
+services:
+    swp_core.listener.device:
+        class: SWP\Bundle\CoreBundle\EventListener\CurrentDeviceListener
+        arguments:
+            - "@swp_core.detection.device_detection"
+        tags:
+            - { name: kernel.event_listener, event: kernel.request, method: onKernelRequest }

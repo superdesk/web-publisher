@@ -14,11 +14,12 @@
 namespace SWP\Component\MultiTenancy\Repository;
 
 use SWP\Component\MultiTenancy\Model\TenantInterface;
+use SWP\Component\Storage\Repository\RepositoryInterface;
 
 /**
  * Repository interface for tenants.
  */
-interface TenantRepositoryInterface
+interface TenantRepositoryInterface extends RepositoryInterface
 {
     /**
      * Finds the tenant by subdomain.
@@ -29,7 +30,18 @@ interface TenantRepositoryInterface
      *
      * @return TenantInterface|null The instance of TenantInterface or null
      */
-    public function findBySubdomain($subdomain);
+    public function findOneBySubdomain($subdomain);
+
+    /**
+     * Finds the tenant by code.
+     *
+     * @param string $code The code
+     *
+     * @throws \Doctrine\ORM\NonUniqueResultException
+     *
+     * @return TenantInterface|null The instance of TenantInterface or null
+     */
+    public function findOneByCode($code);
 
     /**
      * Finds all available tenants.

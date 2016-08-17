@@ -126,3 +126,23 @@ The **TenantFactory** allows you to create an objects of type :ref:`component_te
    $tenant = $tenantFactory->create();
 
    var_dump($tenant);
+
+OrganizationFactory
+-------------------
+
+The **OrganizationFactory** allows you to create objects of type :ref:`component_tenant_model_organization-interface`.
+
+.. code-block:: php
+
+   <?php
+
+    // ..
+   use SWP\Component\MultiTenancy\Model\Organization;
+   use SWP\Component\MultiTenancy\Factory\OrganizationFactory;
+   use SWP\Component\Common\Generator\RandomStringGenerator;
+
+   $organizationFactory = new OrganizationFactory(Organization::class, new RandomStringGenerator());
+   $organization = $organizationFactory->create();
+   $organizationWithCode = $organizationFactory->createWithCode();
+
+   var_dump($organization);

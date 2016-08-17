@@ -1,0 +1,42 @@
+SWP\Component\MultiTenancy\Model\Organization:
+    type: mappedSuperclass
+    table: swp_organization
+    repositoryClass: SWP\Bundle\MultiTenancyBundle\Doctrine\ORM\OrganizationRepository
+    gedmo:
+        soft_deleteable:
+            field_name: deletedAt
+            time_aware: false
+        loggable: true
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        name:
+            type: string
+            length: 255
+        code:
+            type: string
+            unique: true
+        enabled:
+            type: boolean
+        createdAt:
+            type: datetime
+            gedmo:
+                timestampable:
+                    on: create
+        updatedAt:
+            type: datetime
+            nullable: true
+            gedmo:
+                timestampable:
+                    on: update
+        deletedAt:
+            type: datetime
+            nullable: true
+    oneToMany:
+        tenants:
+            targetEntity: SWP\Component\MultiTenancy\Model\Tenant
+            mappedBy: organization

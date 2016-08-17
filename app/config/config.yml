@@ -1,5 +1,8 @@
 imports:
     - { resource: "@SWPBridgeBundle/Resources/config/app/config.yml" }
+    - { resource: "@SWPContentBundle/Resources/config/app/config.yml" }
+    - { resource: "@SWPMultiTenancyBundle/Resources/config/app/config.yml" }
+    - { resource: "@SWPCoreBundle/Resources/config/app/config.yml" }
     - { resource: parameters.yml }
     - { resource: security.yml }
     - { resource: services.yml }
@@ -37,7 +40,7 @@ twig:
     strict_variables: false
 
 sylius_theme:
-    context: "swp_webrenderer.theme.context.tenant_aware"
+    context: "swp_core.theme.context.tenant_aware"
     sources:
         tenantable: ~
 
@@ -63,7 +66,7 @@ doctrine:
         entity_managers:
             default:
                 naming_strategy: doctrine.orm.naming_strategy.underscore
-                auto_mapping: false
+                auto_mapping: true
                 metadata_cache_driver:
                     type: service
                     id: doctrine_cache.providers.main_cache
@@ -78,14 +81,6 @@ doctrine:
                     SWPTemplateEngineBundle:
                         type: yml
                         prefix: SWP\Bundle\TemplateEngineBundle\Model
-                        dir: Resources/config/doctrine
-                    SWPMultiTenancyBundle:
-                        type: yml
-                        prefix: SWP\Component\MultiTenancy\Model
-                        dir: Resources/config/doctrine
-                    SWPWebRendererBundle:
-                        type: yml
-                        prefix: SWP\Bundle\WebRendererBundle\Model
                         dir: Resources/config/doctrine
                     gedmo_loggable:
                         type: annotation
@@ -218,17 +213,17 @@ stof_doctrine_extensions:
             sortable: true
 
 swp_multi_tenancy:
-    resources:
-        tenant:
-            classes:
-                model: SWP\Bundle\WebRendererBundle\Model\Tenant
+    use_orm_listeners: true
     persistence:
         phpcr:
             enabled: true
-            site_document_class: SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\Site
-            document_class: SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\Route
+            classes:
+                tenant:
+                    model: SWP\Bundle\CoreBundle\Document\Tenant
+                organization:
+                    model: SWP\Bundle\CoreBundle\Document\Organization
 
-swp_web_renderer:
+swp_core:
     device_listener:
         enabled: true
 
@@ -243,16 +238,6 @@ swp_bridge:
 nelmio_api_doc:
     request_listener: false
 
-jms_serializer:
-    metadata:
-        directories:
-            CmfRoutingBundle:
-                namespace_prefix: Symfony\Cmf\Bundle\RoutingBundle
-                path: "@SWPContentBundle/Resources/config/serializer/CmfRoutingBundle"
-            SymfonyRouting:
-                namespace_prefix: Symfony\Component\Routing
-                path: "@SWPContentBundle/Resources/config/serializer/SymfonyRouting"
-
 cmf_menu:
     persistence:
         phpcr:
@@ -263,7 +248,7 @@ oneup_flysystem:
     adapters:
         filesystem_adapter:
             local:
-                directory: %kernel.root_dir%/../web/uploads/
+                directory: '%kernel.root_dir%/../web/uploads/'
 
     filesystems:
         swp_filesystem:

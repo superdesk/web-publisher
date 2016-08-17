@@ -53,9 +53,10 @@ class TenantResolver implements TenantResolverInterface
             $host = self::DEFAULT_TENANT;
         }
 
-        $tenant = $this->tenantRepository->findBySubdomain($this->extractSubdomain($host));
+        $subdomain = $this->extractSubdomain($host);
+        $tenant = $this->tenantRepository->findOneBySubdomain($subdomain);
 
-        $this->assertTenantIsFound($tenant);
+        $this->assertTenantIsFound($subdomain, $tenant);
 
         return $tenant;
     }
@@ -82,15 +83,10 @@ class TenantResolver implements TenantResolverInterface
         return $subdomain;
     }
 
-    /**
-     * @param TenantInterface|null $tenant
-     *
-     * @throws TenantNotFoundException
-     */
-    private function assertTenantIsFound(TenantInterface $tenant = null)
+    private function assertTenantIsFound($subdomain, TenantInterface $tenant = null)
     {
         if (null === $tenant) {
-            throw new TenantNotFoundException();
+            throw new TenantNotFoundException($subdomain);
         }
     }
 }

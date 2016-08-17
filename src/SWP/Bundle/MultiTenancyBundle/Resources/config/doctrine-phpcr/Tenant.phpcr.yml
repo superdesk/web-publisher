@@ -1,0 +1,23 @@
+SWP\Component\MultiTenancy\Model\Tenant:
+    repositoryClass: SWP\Bundle\MultiTenancyBundle\Doctrine\PHPCR\TenantRepository
+    referenceable: true
+    parentdocument: organization
+    nodename: code
+    id: id
+    fields:
+        name:
+            type: string
+            length: 255
+        subdomain:
+            type: string
+            length: 255
+        enabled:
+            type: boolean
+        createdAt:
+            type: date
+        updatedAt:
+            type: date
+            nullable: true
+        deletedAt:
+            type: date
+            nullable: true

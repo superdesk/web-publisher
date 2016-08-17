@@ -16,7 +16,6 @@ namespace SWP\Bundle\TemplateEngineBundle\Model;
 use Doctrine\Common\Collections\ArrayCollection;
 use SWP\Component\Common\Model\TimestampableInterface;
 use SWP\Component\MultiTenancy\Model\TenantAwareInterface;
-use SWP\Component\MultiTenancy\Model\TenantInterface;
 use SWP\Component\TemplatesSystem\Gimme\Model\ContainerInterface;
 
 /**
@@ -77,9 +76,9 @@ class Container implements ContainerInterface, TenantAwareInterface, Timestampab
     protected $widgets;
 
     /**
-     * @var TenantInterface
+     * @var string
      */
-    protected $tenant;
+    protected $tenantCode;
 
     /**
      * @var \DateTime
@@ -379,17 +378,17 @@ class Container implements ContainerInterface, TenantAwareInterface, Timestampab
     /**
      * {@inheritdoc}
      */
-    public function getTenant()
+    public function getTenantCode()
     {
-        return $this->tenant;
+        return $this->tenantCode;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function setTenant(TenantInterface $tenant)
+    public function setTenantCode($code)
     {
-        $this->tenant = $tenant;
+        $this->tenantCode = $code;
     }
 
     /**

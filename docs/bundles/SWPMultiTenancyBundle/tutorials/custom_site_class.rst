@@ -1,37 +1,88 @@
-Creating a custom Site document
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Creating a custom Tenant class
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+In this tutorial you will learn how to create custom Tenant class. For example, you want
+ to store info about tenant's theme name and you want to make use of it in your project.
 
 .. note::
 
-  This bundle requires CMF RoutingBundle and DoctrinePHPCRBundle to be installed,
-  see :doc:`/bundles/SWPMultiTenancyBundle/tutorials/routing_integration`.
+    This tutorial covers creating a custom Tenant class for PHPCR ODM.
 
+This new class must implement :ref:`component_tenant_model_tenant-interface` which is provided by :doc:`/components/MultiTenancy/index`,
+or you can extend the default :ref:`component_tenant_model_tenant` class, which is also part of the MultiTenancy Component.
 
-If needed, you can provide your own Site document class to represent the tenant in the PHPCR tree.
-This new class must implement :ref:`bundle_tenant_site_interface` which is provided by this bundle,
-or you can extend the default :ref:`bundle_tenant_model_site` class.
+Create an interface first which will require to implement theme name behaviour.
 
 .. code-block:: php
 
     <?php
 
-    use Acme\AppBundle\Document\Site as BaseSite;
+    namespasce Acme\AppBundle\Document;
 
-    class Site extends BaseSite
+    use SWP\Component\MultiTenancy\Model\TenantInterface as BaseTenantInterface;
+
+    interface ThemeAwareTenantInterface extends BaseTenantInterface
     {
-        // ..
-        public function getHomepage()
+        /**
+         * @return string
+         */
+        public function getThemeName();
+
+        /**
+         * @param string $themeName
+         */
+        public function setThemeName($themeName);
+    }
+
+Let's create a new Tenant class now:
+
+.. code-block:: php
+
+    <?php
+
+    namespasce Acme\AppBundle\Document;
+
+    use Acme\AppBundle\Document\ThemeAwareTenantInterface;
+    use SWP\Component\MultiTenancy\Model\Tenant as BaseTenant;
+
+    class Tenant extends BaseTenant implements ThemeAwareTenantInterface
+    {
+        /**
+         * @var string
+         */
+        protected $themeName;
+
+        /**
+         * {@inheritdoc}
+         */
+        public function getThemeName()
         {
-            return $this->homepage;
+            return $this->themeName;
         }
 
-        public function setHomepage(Route $homepage)
+        /**
+         * {@inheritdoc}
+         */
+        public function setThemeName($themeName)
         {
-            $this->homepage = $homepage;
+            $this->themeName = $themeName;
         }
     }
 
-Once your class is created, you can now put its FQCN into the bundle configuration:
+Create a mapping file for your newly created document:
+
+.. code-block:: yaml
+
+    # src/Acme/AppBundle/Resources/config/doctrine/Document.Tenant.phpcr.yml
+
+    Acme\AppBundle\Document\Tenant:
+    referenceable: true
+    fields:
+        themeName:
+            type: string
+            nullable: true
+
+Once your class is created, you can now put its FQCN into the MultiTenancy bundle's configuration:
 
 .. code-block:: yaml
 
@@ -41,10 +92,14 @@ Once your class is created, you can now put its FQCN into the bundle configurati
                 phpcr:
                     enabled: true
                     # ..
-                    site_document_class: Acme\AppBundle\Document\Site
+                    classes:
+                        tenant:
+                            model: Acme\AppBundle\Document\Tenant
+
+From now on your custom class will be used and you will be able to make use of the ``$themeName`` property in your app.
 
 .. tip::
 
     See :doc:`/bundles/SWPMultiTenancyBundle/configuration` for more configuration details.
 
-That's it, you can now refer to ``Acme\AppBundle\Document\Site`` to manage tenants in the PHPCR tree.
+That's it, you can now refer to ``Acme\AppBundle\Document\Tenant`` to manage tenants in the PHPCR tree.

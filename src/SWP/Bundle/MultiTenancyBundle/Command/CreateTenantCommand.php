@@ -13,8 +13,10 @@
  */
 namespace SWP\Bundle\MultiTenancyBundle\Command;
 
-use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\Common\Persistence\ObjectManager;
+use SWP\Component\MultiTenancy\Model\OrganizationInterface;
 use SWP\Component\MultiTenancy\Model\TenantInterface;
+use SWP\Component\MultiTenancy\Repository\OrganizationRepositoryInterface;
 use SWP\Component\MultiTenancy\Repository\TenantRepositoryInterface;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputArgument;
@@ -30,7 +32,7 @@ class CreateTenantCommand extends ContainerAwareCommand
     /**
      * @var array
      */
-    protected $arguments = ['subdomain', 'name'];
+    protected $arguments = ['subdomain', 'name', 'organization'];
 
     /**
      * {@inheritdoc}
@@ -41,6 +43,7 @@ class CreateTenantCommand extends ContainerAwareCommand
             ->setName('swp:tenant:create')
             ->setDescription('Creates a new tenant.')
             ->setDefinition([
+                new InputArgument($this->arguments[2], InputArgument::OPTIONAL, 'Organization code'),
                 new InputArgument($this->arguments[0], InputArgument::OPTIONAL, 'Subdomain name'),
                 new InputArgument($this->arguments[1], InputArgument::OPTIONAL, 'Tenant name'),
                 new InputOption('disabled', null, InputOption::VALUE_NONE, 'Set the tenant as a disabled'),
@@ -60,23 +63,34 @@ EOT
     {
         $subdomain = $input->getArgument($this->arguments[0]);
         $name = $input->getArgument($this->arguments[1]);
+        $organizationCode = $input->getArgument($this->arguments[2]);
         $default = $input->getOption('default');
         $disabled = $input->getOption('disabled');
 
         if ($default) {
             $subdomain = TenantInterface::DEFAULT_TENANT_SUBDOMAIN;
             $name = TenantInterface::DEFAULT_TENANT_NAME;
+            $organization = $this->getOrganizationRepository()->findOneByName(OrganizationInterface::DEFAULT_NAME);
+            if (null === $organization) {
+                throw new \InvalidArgumentException('Default organization doesn\'t exist!');
+            }
+        } else {
+            $organization = $this->getOrganizationRepository()->findOneByCode($organizationCode);
+
+            if (null === $organization) {
+                throw new \InvalidArgumentException(sprintf('Organization with "%s" code doesn\'t exist!', $organizationCode));
+            }
         }
 
-        $tenant = $this->getTenantRepository()->findBySubdomain($subdomain);
+        $tenant = $this->getTenantRepository()->findOneBySubdomain($subdomain);
         if (null !== $tenant) {
             throw new \InvalidArgumentException(sprintf('Tenant with subdomain "%s" already exists!', $subdomain));
         }
 
-        $tenant = $this->createTenant($subdomain, $name, $disabled);
+        $tenant = $this->createTenant($subdomain, $name, $disabled, $organization);
 
-        $this->getEntityManager()->persist($tenant);
-        $this->getEntityManager()->flush();
+        $this->getObjectManager()->persist($tenant);
+        $this->getObjectManager()->flush();
 
         $output->writeln(
             sprintf(
@@ -131,23 +145,25 @@ EOT
      *
      * @return TenantInterface
      */
-    protected function createTenant($subdomain, $name, $disabled)
+    protected function createTenant($subdomain, $name, $disabled, $organization)
     {
-        $tenantFactory = $this->getContainer()->get('swp_multi_tenancy.factory.tenant');
+        $tenantFactory = $this->getContainer()->get('swp.factory.tenant');
+        /** @var TenantInterface $tenant */
         $tenant = $tenantFactory->create();
         $tenant->setSubdomain($subdomain);
         $tenant->setName($name);
         $tenant->setEnabled(!$disabled);
+        $tenant->setOrganization($organization);
 
         return $tenant;
     }
 
     /**
-     * @return EntityManagerInterface
+     * @return ObjectManager
      */
-    protected function getEntityManager()
+    protected function getObjectManager()
     {
-        return $this->getContainer()->get('doctrine.orm.entity_manager');
+        return $this->getContainer()->get('swp.object_manager.tenant');
     }
 
     /**
@@ -155,6 +171,14 @@ EOT
      */
     protected function getTenantRepository()
     {
-        return $this->getContainer()->get('swp_multi_tenancy.tenant_repository');
+        return $this->getContainer()->get('swp.repository.tenant');
+    }
+
+    /**
+     * @return OrganizationRepositoryInterface
+     */
+    protected function getOrganizationRepository()
+    {
+        return $this->getContainer()->get('swp.repository.organization');
     }
 }

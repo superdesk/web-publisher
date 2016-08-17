@@ -3,7 +3,7 @@
 /**
  * This file is part of the Superdesk Web Publisher MultiTenancy Bundle.
  *
- * Copyright 2016 Sourcefabric z.u. and contributors.
+ * Copyright 2016 Sourcefabric z.ú. and contributors.
  *
  * For the full copyright and license information, please see the
  * AUTHORS and LICENSE files distributed with this source code.
@@ -14,17 +14,23 @@
 namespace SWP\Bundle\MultiTenancyBundle\Tests\Command;
 
 use SWP\Bundle\MultiTenancyBundle\Command\CreateTenantCommand;
-use SWP\Component\MultiTenancy\Factory\TenantFactory;
+use SWP\Component\MultiTenancy\Factory\TenantFactoryInterface;
+use SWP\Component\MultiTenancy\Model\Organization;
+use SWP\Component\MultiTenancy\Model\OrganizationInterface;
 use SWP\Component\MultiTenancy\Model\Tenant;
+use SWP\Component\MultiTenancy\Repository\OrganizationRepositoryInterface;
+use SWP\Component\MultiTenancy\Repository\TenantRepositoryInterface;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class CreateTenantCommandTest extends \PHPUnit_Framework_TestCase
 {
+    const ORGANIZATION_CODE = '123456';
+
     private $commandTester;
     private $command;
     private $dialog;
-    private $factory;
 
     public function setUp()
     {
@@ -32,7 +38,6 @@ class CreateTenantCommandTest extends \PHPUnit_Framework_TestCase
         $application->add(new CreateTenantCommand());
         $this->command = $application->get('swp:tenant:create');
         $this->dialog = $this->command->getHelper('dialog');
-        $this->factory = new TenantFactory('SWP\Component\MultiTenancy\Model\Tenant');
     }
 
     /**
@@ -40,13 +45,13 @@ class CreateTenantCommandTest extends \PHPUnit_Framework_TestCase
      */
     public function testExecuteWhenCreatingNewTenant()
     {
-        $this->dialog->setInputStream($this->getInputStream("subdomain\nTest\n"));
-        $this->command->setContainer($this->getMockContainer(null, 'subdomain'));
+        $this->dialog->setInputStream($this->getInputStream("subdomain\nTest\n123456\n"));
+        $this->command->setContainer($this->getMockContainer(null, new Organization(), new Tenant(), 'subdomain'));
         $this->commandTester = new CommandTester($this->command);
         $this->commandTester->execute(['command' => $this->command->getName()]);
 
         $this->assertRegExp(
-            '/Please enter subdomain:Please enter name:Tenant Test has been created and enabled!/',
+            '/Please enter subdomain:Please enter name:Please enter organization:Tenant Test has been created and enabled!/',
             $this->commandTester->getDisplay()
         );
     }
@@ -56,7 +61,7 @@ class CreateTenantCommandTest extends \PHPUnit_Framework_TestCase
      */
     public function testExecuteWhenCreatingDefaultTenant()
     {
-        $this->command->setContainer($this->getMockContainer());
+        $this->command->setContainer($this->getMockContainer(null, new Organization(), new Tenant()));
         $this->commandTester = new CommandTester($this->command);
 
         $this->commandTester->execute([
@@ -71,15 +76,32 @@ class CreateTenantCommandTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @covers SWP\Bundle\MultiTenancyBundle\Command\CreateTenantCommand
+     * @expectedException \InvalidArgumentException
+     */
+    public function testExecuteWhenCreatingDefaultTenantAndDefaultOrganizationDoesntExist()
+    {
+        $this->command->setContainer($this->getMockContainer());
+        $this->commandTester = new CommandTester($this->command);
+
+        $this->commandTester->execute([
+            'command' => $this->command->getName(),
+            '--default' => true,
+        ]);
+
+        $this->assertRegExp(
+            '/Default organization doesn\'t exist!/',
+            $this->commandTester->getDisplay()
+        );
+    }
+
+    /**
      * @expectedException \InvalidArgumentException
      * @covers SWP\Bundle\MultiTenancyBundle\Command\CreateTenantCommand
      */
     public function testExecuteWhenDefaultTenantExists()
     {
-        $mockTenant = $this->getMockBuilder('SWP\Component\MultiTenancy\Model\TenantInterface')
-            ->getMock();
-
-        $this->command->setContainer($this->getMockContainer($mockTenant));
+        $this->command->setContainer($this->getMockContainer(new Tenant()));
         $this->commandTester = new CommandTester($this->command);
 
         $this->commandTester->execute([
@@ -93,8 +115,8 @@ class CreateTenantCommandTest extends \PHPUnit_Framework_TestCase
      */
     public function testExecuteDisabledTenant()
     {
-        $this->dialog->setInputStream($this->getInputStream("example\nExample\n"));
-        $this->command->setContainer($this->getMockContainer(null, 'example'));
+        $this->dialog->setInputStream($this->getInputStream("example\nExample\n123456\n"));
+        $this->command->setContainer($this->getMockContainer(null, new Organization(), new Tenant(), 'example'));
         $this->commandTester = new CommandTester($this->command);
         $this->commandTester->execute([
             'command' => $this->command->getName(),
@@ -102,24 +124,31 @@ class CreateTenantCommandTest extends \PHPUnit_Framework_TestCase
         ]);
 
         $this->assertRegExp(
-            '/Please enter subdomain:Please enter name:Tenant Example has been created and disabled!/',
+            '/Please enter subdomain:Please enter name:Please enter organization:Tenant Example has been created and disabled!/',
             $this->commandTester->getDisplay()
         );
     }
 
-    /**
-     * @param null   $mockTenant
-     * @param string $subdomain
-     *
-     * @return \PHPUnit_Framework_MockObject_MockObject
-     */
-    private function getMockContainer($mockTenant = null, $subdomain = 'default')
+    private function getMockContainer($mockTenant = null, $mockOrganization = null, $mockedTenantInFactory = null, $subdomain = 'default')
     {
-        $mockRepo = $this->getMockBuilder('SWP\Component\MultiTenancy\Repository\TenantRepositoryInterface')
+        $mockRepoOrganization = $this->getMockBuilder(OrganizationRepositoryInterface::class)
+            ->getMock();
+
+        $mockRepoOrganization->expects($this->any())
+            ->method('findOneByCode')
+            ->with(self::ORGANIZATION_CODE)
+            ->willReturn($mockOrganization);
+
+        $mockRepoOrganization->expects($this->any())
+            ->method('findOneByName')
+            ->with(OrganizationInterface::DEFAULT_NAME)
+            ->willReturn($mockOrganization);
+
+        $mockRepo = $this->getMockBuilder(TenantRepositoryInterface::class)
             ->getMock();
 
         $mockRepo->expects($this->any())
-            ->method('findBySubdomain')
+            ->method('findOneBySubdomain')
             ->with($subdomain)
             ->willReturn($mockTenant);
 
@@ -135,15 +164,23 @@ class CreateTenantCommandTest extends \PHPUnit_Framework_TestCase
             ->method('flush')
             ->will($this->returnValue(null));
 
-        $mockContainer = $this->getMockBuilder('Symfony\Component\DependencyInjection\Container')
+        $mockContainer = $this->getMockBuilder(ContainerInterface::class)
             ->getMock();
+
+        $mockFactory = $this->getMockBuilder(TenantFactoryInterface::class)
+            ->getMock();
+
+        $mockFactory->expects($this->any())
+            ->method('create')
+            ->willReturn($mockedTenantInFactory);
 
         $mockContainer->expects($this->any())
             ->method('get')
             ->will($this->returnValueMap([
-                ['doctrine.orm.entity_manager', 1, $mockDoctrine],
-                ['swp_multi_tenancy.tenant_repository', 1, $mockRepo],
-                ['swp_multi_tenancy.factory.tenant', 1, $this->factory],
+                ['swp.object_manager.tenant', 1, $mockDoctrine],
+                ['swp.repository.tenant', 1, $mockRepo],
+                ['swp.repository.organization', 1, $mockRepoOrganization],
+                ['swp.factory.tenant', 1, $mockFactory],
             ]));
 
         return $mockContainer;

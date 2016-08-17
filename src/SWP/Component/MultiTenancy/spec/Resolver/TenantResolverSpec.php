@@ -40,7 +40,7 @@ class TenantResolverSpec extends ObjectBehavior
         $tenant->getSubdomain()->willReturn('example1');
         $tenant->getName()->willReturn('example1');
 
-        $tenantRepository->findBySubdomain('example1')
+        $tenantRepository->findOneBySubdomain('example1')
             ->shouldBeCalled()
             ->willReturn($tenant);
 
@@ -53,7 +53,7 @@ class TenantResolverSpec extends ObjectBehavior
         $tenant->getSubdomain()->willReturn('default');
         $tenant->getName()->willReturn('default');
 
-        $tenantRepository->findBySubdomain('default')
+        $tenantRepository->findOneBySubdomain('default')
             ->shouldBeCalled()
             ->willReturn($tenant);
 

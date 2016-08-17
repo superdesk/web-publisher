@@ -19,16 +19,16 @@ namespace SWP\Component\MultiTenancy\Model;
 interface TenantAwareInterface
 {
     /**
-     * Gets the current tenant.
+     * Gets the current tenant (code).
      *
-     * @return TenantInterface The instance of TenantInterface
+     * @return string Tenant code
      */
-    public function getTenant();
+    public function getTenantCode();
 
     /**
-     * Sets the tenant.
+     * Sets the tenant (code).
      *
-     * @param TenantInterface $tenant The instance of TenantInterface
+     * @param string $code Tenant code
      */
-    public function setTenant(TenantInterface $tenant);
+    public function setTenantCode($code);
 }

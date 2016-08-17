@@ -15,6 +15,12 @@ This interface should be implemented by every tenant.
 
     This interface extends TimestampableInterface, EnableableInterface and SoftDeleteableInterface.
 
+.. _component_tenant_model_organization-interface:
+
+OrganizationInterface
+~~~~~~~~~~~~~~~~~~~~~
+
+This interface should be implemented by every organization.
 
 .. _component_tenant_model_tenant-aware-interface:
 
@@ -64,6 +70,14 @@ TenantRepositoryInterface
 This interface should be implemented by repositories responsible
 for storing the :ref:`component_tenant_model_tenant` objects.
 
+.. _component_tenant_repository_organization-repository-interface:
+
+OrganizationRepositoryInterface
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+This interface should be implemented by repositories responsible
+for storing the :ref:`component_tenant_model_organization-interface` objects.
+
 Factory Interfaces
 ------------------
 
@@ -74,3 +88,9 @@ TenantFactoryInterface
 
 This interface should be implemented by tenant factories which are
 responsible for creating objects of type :ref:`component_tenant_model_tenant-interface`.
+
+OrganizationFactoryInterface
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+This interface should be implemented by organization factories which are
+responsible for creating objects of type :ref:`component_tenant_model_organization-interface`.

@@ -14,11 +14,12 @@
 namespace SWP\Bundle\FixturesBundle\DataFixtures\PHPCR;
 
 use Doctrine\Common\DataFixtures\FixtureInterface;
+use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use SWP\Bundle\FixturesBundle\AbstractFixture;
 use SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\Route;
 
-class LoadRoutesData extends AbstractFixture implements FixtureInterface
+class LoadRoutesData extends AbstractFixture implements FixtureInterface, OrderedFixtureInterface
 {
     const TEST_CACHE_TIME = 1;
     const TEST_CACHE_ROUTE_NAME = 'cache-route';
@@ -34,7 +35,7 @@ class LoadRoutesData extends AbstractFixture implements FixtureInterface
     {
         $env = $this->getEnvironment();
         if ('test' === $env) {
-            $parent = $manager->find(null, '/swp/default/routes');
+            $parent = $manager->find(null, $this->getTenantPrefix().'/routes');
             $this->loadRoute($manager, ['name' => self::TEST_NO_CACHE_ROUTE_NAME], $parent);
             $this->loadRoute($manager, ['name' => self::TEST_CACHE_ROUTE_NAME, 'cacheTimeInSeconds' => self::TEST_CACHE_TIME], $parent);
             $manager->flush();
@@ -54,5 +55,13 @@ class LoadRoutesData extends AbstractFixture implements FixtureInterface
         }
 
         $manager->persist($route);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getOrder()
+    {
+        return 3;
     }
 }
