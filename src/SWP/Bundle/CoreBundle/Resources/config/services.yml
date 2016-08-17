@@ -78,3 +78,11 @@ services:
             - '@swp.repository.organization'
         tags:
             - { name: form.type }
+
+    swp_core.twig_stringy_extension:
+        class: SWP\Bundle\CoreBundle\Twig\StringyExtension
+        public: false
+        arguments:
+            - "@twig"
+        tags:
+            - { name: twig.extension }

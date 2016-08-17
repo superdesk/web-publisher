@@ -14,7 +14,6 @@
 namespace spec\SWP\Bundle\CoreBundle\Form\Type;
 
 use PhpSpec\ObjectBehavior;
-use Prophecy\Argument;
 use SWP\Bundle\CoreBundle\Form\Type\OrganizationCodeChoiceType;
 use SWP\Bundle\CoreBundle\Form\Type\TenantType;
 use SWP\Bundle\CoreBundle\Form\Type\ThemeNameChoiceType;
@@ -45,6 +44,7 @@ class TenantTypeSpec extends ObjectBehavior
         $builder
             ->add('name', TextType::class, [
                 'required' => true,
+                'description' => 'Tenant name',
                 'constraints' => [
                     new NotBlank(),
                     new Length(['min' => 3]),
@@ -56,6 +56,7 @@ class TenantTypeSpec extends ObjectBehavior
         $builder
             ->add('subdomain', TextType::class, [
                 'required' => true,
+                'description' => 'Tenant subdomain',
                 'constraints' => [
                     new NotBlank(),
                     new Length(['min' => 3]),
@@ -65,12 +66,18 @@ class TenantTypeSpec extends ObjectBehavior
         ;
 
         $builder
-            ->add('themeName', ThemeNameChoiceType::class, Argument::any())
+            ->add('themeName', ThemeNameChoiceType::class, [
+                'required' => false,
+                'description' => 'Tenant theme name',
+            ])
             ->willReturn($builder)
         ;
 
         $builder
-            ->add('organization', OrganizationCodeChoiceType::class, Argument::any())
+            ->add('organization', OrganizationCodeChoiceType::class, [
+                'required' => false,
+                'description' => 'Tenant organization code',
+            ])
             ->willReturn($builder)
         ;
 

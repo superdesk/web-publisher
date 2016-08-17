@@ -54,7 +54,6 @@ class TenantResolver implements TenantResolverInterface
         }
 
         $subdomain = $this->extractSubdomain($host);
-
         $tenant = $this->tenantRepository->findOneBySubdomain($subdomain);
 
         $this->assertTenantIsFound($subdomain, $tenant);

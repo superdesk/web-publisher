@@ -15,6 +15,7 @@ namespace SWP\Bundle\MultiTenancyBundle\Initializer;
 
 use Doctrine\Bundle\PHPCRBundle\Initializer\InitializerInterface;
 use Doctrine\Bundle\PHPCRBundle\ManagerRegistry;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ODM\PHPCR\Query\Query;
 use PHPCR\SessionInterface;
 use PHPCR\Util\NodeHelper;
@@ -70,10 +71,12 @@ class PHPCRBasePathsInitializer implements InitializerInterface
         /** @var SessionInterface $session */
         $session = $registry->getConnection();
 
-        /** @var Query $tenants */
-        $tenants = $this->tenantProvider->getAvailableTenants();
+        /** @var Query $tenantsQuery */
+        $tenantsQuery = $this->tenantProvider->getAvailableTenants();
+        /** @var Collection $tenants */
+        $tenants = $tenantsQuery->getResult();
 
-        $this->generateBasePaths($session, $tenants->getResult()->toArray());
+        $this->generateBasePaths($session, $tenants->toArray());
     }
 
     private function generateBasePaths(SessionInterface $session, array $tenants = [])
