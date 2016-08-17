@@ -42,12 +42,12 @@ class GoogleAdSenseWidgetHandlerSpec extends ObjectBehavior
         Response $response
     ) {
         $container->get('templating')->willReturn($templating);
-        $templating->render("widgets/adsense.html.twig", [
-            "style" => "display:block",
-            "ad_client" => "client id",
-            "ad_test" => "off",
-            "ad_slot" => null,
-            "ad_format" => "auto"
+        $templating->render('widgets/adsense.html.twig', [
+            'style' => 'display:block',
+            'ad_client' => 'client id',
+            'ad_test' => 'off',
+            'ad_slot' => null,
+            'ad_format' => 'auto',
         ])->willReturn($response);
 
         $this->setContainer($container);
@@ -65,12 +65,12 @@ class GoogleAdSenseWidgetHandlerSpec extends ObjectBehavior
         $this->beConstructedWith($widgetModel);
 
         $container->get('templating')->willReturn($templating);
-        $templating->render("widgets/adsense.html.twig", [
-            "style" => "display:block",
-            "ad_client" => null,
-            "ad_test" => "off",
-            "ad_slot" => null,
-            "ad_format" => "auto"
+        $templating->render('widgets/adsense.html.twig', [
+            'style' => 'display:block',
+            'ad_client' => null,
+            'ad_test' => 'off',
+            'ad_slot' => null,
+            'ad_format' => 'auto',
         ])->willReturn($response);
 
         $this->setContainer($container);
