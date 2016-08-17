@@ -4,8 +4,12 @@ namespace spec\SWP\Component\TemplatesSystem\Gimme\Widget;
 
 use PhpSpec\ObjectBehavior;
 use SWP\Component\TemplatesSystem\Gimme\Model\WidgetModelInterface;
+use SWP\Component\TemplatesSystem\Gimme\Widget\HtmlWidgetHandler;
 
-class HtmlWidgetSpec extends ObjectBehavior
+/**
+ * @mixin HtmlWidgetHandler
+ */
+class HtmlWidgetHandlerSpec extends ObjectBehavior
 {
     public function let(WidgetModelInterface $widgetModel)
     {
@@ -15,7 +19,7 @@ class HtmlWidgetSpec extends ObjectBehavior
 
     public function it_is_initializable()
     {
-        $this->shouldHaveType('SWP\TemplatesSystem\Gimme\Widget\HtmlWidget');
+        $this->shouldHaveType(HtmlWidgetHandler::class);
     }
 
     public function it_should_render()
@@ -23,11 +27,11 @@ class HtmlWidgetSpec extends ObjectBehavior
         $this->render()->shouldReturn('sample html');
     }
 
-    public function it_should_renturn_null_when_no_parameter($widgetModel)
+    public function it_should_return_empty_string_when_no_parameter($widgetModel)
     {
         $widgetModel->getParameters()->willReturn([]);
 
-        $this->render()->shouldReturn(null);
+        $this->render()->shouldReturn('');
     }
 
     public function it_should_check_if_it_is_visible($widgetModel)

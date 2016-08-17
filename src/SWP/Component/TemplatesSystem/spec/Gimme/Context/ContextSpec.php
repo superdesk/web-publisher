@@ -14,7 +14,11 @@
 namespace spec\SWP\Component\TemplatesSystem\Gimme\Context;
 
 use PhpSpec\ObjectBehavior;
+use SWP\Component\TemplatesSystem\Gimme\Context\Context;
 
+/**
+ * @mixin Context
+ */
 class ContextSpec extends ObjectBehavior
 {
     /**
@@ -26,7 +30,7 @@ class ContextSpec extends ObjectBehavior
 
     public function it_is_initializable()
     {
-        $this->shouldHaveType('SWP\TemplatesSystem\Gimme\Context\Context');
+        $this->shouldHaveType(Context::class);
     }
 
     public function it_shuld_register_new_meta($meta)
