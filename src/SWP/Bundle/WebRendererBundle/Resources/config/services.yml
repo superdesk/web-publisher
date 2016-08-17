@@ -58,3 +58,11 @@ services:
             - "@swp_template_engine_loader_chain"
         tags:
             -  { name: dynamic_router_route_enhancer, priority: 10 }
+
+    swp_webrenderer.twig_stringy_extension:
+        class: SWP\Bundle\WebRendererBundle\Twig\StringyExtension
+        public: false
+        arguments:
+            - "@twig"
+        tags:
+            - {name: twig.extension}
