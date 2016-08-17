@@ -84,7 +84,8 @@
         "jms/translation-bundle": "^1.2",
         "symfony-cmf/menu-bundle": "2.0.*",
         "hoa/mime": "3.16.01.15",
-        "ocramius/proxy-manager": "^1.0"
+        "ocramius/proxy-manager": "^1.0",
+        "danielstjules/stringy": "~2.3"
     },
     "require-dev": {
         "sensio/generator-bundle": "~3.0",
