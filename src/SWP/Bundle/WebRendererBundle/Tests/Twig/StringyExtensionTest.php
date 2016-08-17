@@ -44,9 +44,14 @@ class StringyExtensionTest extends WebTestCase
         $this->assertEquals($this->getRendered('{{ value|collapseWhitespace }}', ['value' => 'AR      OO     GA']), 'AR OO GA');
     }
 
-    public function testContains()
+    public function testUpperCase()
     {
         $this->assertEquals($this->getRendered('{% if hasUpperCase(value) %}AROOGA{% endif %}', ['value' => 'AROOGA']), 'AROOGA');
+    }
+
+    public function testContains()
+    {
+        $this->assertEquals($this->getRendered("{% if contains(value, 'OOG') %}AROOGA{% endif %}", ['value' => 'AROOGA']), 'AROOGA');
     }
 
     private function getRendered($template, $context = [])

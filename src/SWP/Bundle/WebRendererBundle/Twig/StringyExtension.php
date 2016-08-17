@@ -17,10 +17,19 @@ class StringyExtension extends \Twig_Extension
 {
     const EXCLUDE_FUNCTIONS = ['__construct', '__toString', 'create'];
 
+    /**
+     * @var \Twig_Environment
+     */
     protected $environment;
 
+    /**
+     * @var array
+     */
     protected $functions = [];
 
+    /**
+     * @var array
+     */
     protected $filters = [];
 
     public function __construct(\Twig_Environment $environment)
@@ -64,16 +73,22 @@ class StringyExtension extends \Twig_Extension
                 continue;
             }
 
-            if ($this->environment->getFilter($name)) {
-                continue;
-            }
-
             $method = $stringyClass->getMethod($name);
+
+            // Get the return type from the doc comment
             $doc = $method->getDocComment();
             if (strpos($doc, '@return bool')) {
-                $this->functions[$name] = new \Twig_SimpleFunction($name, array('Stringy\StaticStringy', $name));
+                // Don't add functions which have the same name as any already in the environment
+                if ($this->environment->getFunction($name)) {
+                    continue;
+                }
+                $this->functions[$name] = new \Twig_SimpleFunction($name, ['Stringy\StaticStringy', $name]);
             } else {
-                $this->filters[$name] = new \Twig_SimpleFilter($name, array('Stringy\StaticStringy', $name));
+                // Don't add filters which have the same name as any already in the environment
+                if ($this->environment->getFilter($name)) {
+                    continue;
+                }
+                $this->filters[$name] = new \Twig_SimpleFilter($name, ['Stringy\StaticStringy', $name]);
             }
         }
     }
