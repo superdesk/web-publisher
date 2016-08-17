@@ -67,7 +67,7 @@ class RouteLoader extends MetaLoader
 
     private function getRouteMeta($route)
     {
-        if (!is_null($route)) {
+        if (null !== $route) {
             return new Meta($this->getConfiguration(), $route);
         }
 
