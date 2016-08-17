@@ -21,15 +21,15 @@ class ContentController extends Controller
 {
     public function renderPageAction(Request $request, $contentTemplate, $contentDocument = null, $articleMeta = null, $routeMeta = null)
     {
-        if (null == $contentDocument && ($request->attributes->get('type') == RouteInterface::TYPE_COLLECTION)) {
+        if (null === $contentDocument && ($request->attributes->get('type') == RouteInterface::TYPE_COLLECTION)) {
             throw $this->createNotFoundException('Requested page was not found');
         }
 
-        if (null != $articleMeta) {
+        if (null !== $articleMeta) {
             $this->container->get('context')->registerMeta('article', $articleMeta);
         }
 
-        if (null != $routeMeta) {
+        if (null !== $routeMeta) {
             $this->container->get('context')->registerMeta('route', $routeMeta);
         }
 
