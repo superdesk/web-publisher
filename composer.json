@@ -36,7 +36,9 @@
     "license":"GPL-3.0",
     "autoload": {
         "psr-4": {
-            "": "src/"
+            "SWP\\Bundle\\": "src/SWP/Bundle/",
+            "SWP\\Component\\": "src/SWP/Component/",
+            "SWP\\Bridge\\": "src/SWP/Bridge/"
         },
         "exclude-from-classmap": [
             "**/Tests/", "**/spec/"

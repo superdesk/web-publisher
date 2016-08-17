@@ -4,7 +4,7 @@
     "keywords": ["twig", "templates", "cms", "gimme"],
     "homepage": "https://github.com/SuperdeskWebPublisher/templates-system",
     "type": "library",
-    "license": "GPL-3.0",
+    "license": "AGPL-3.0",
     "authors": [
         {
             "name": "Paweł Mikołajczuk",
