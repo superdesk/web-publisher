@@ -11,7 +11,7 @@
  * @copyright 2016 Sourcefabric z.ú.
  * @license http://www.superdesk.org/license
  */
-namespace SWP\Bundle\CoreBundle\Doctrine\ODM\PHPCR;
+namespace SWP\Bundle\CoreBundle\Document;
 
 use Doctrine\ODM\PHPCR\HierarchyInterface;
 use SWP\Component\MultiTenancy\Model\Organization as BaseOrganization;

@@ -16,7 +16,7 @@ namespace SWP\Bundle\CoreBundle\Theme\Model;
 use SWP\Bundle\CoreBundle\Theme\Helper\ThemeHelper;
 use Sylius\Bundle\ThemeBundle\Model\Theme as BaseTheme;
 
-class Theme extends BaseTheme
+class Theme extends BaseTheme implements ThemeInterface
 {
     public function __construct($name, $path)
     {
@@ -25,5 +25,13 @@ class Theme extends BaseTheme
         }
 
         parent::__construct($name, $path);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
     }
 }

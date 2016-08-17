@@ -59,6 +59,26 @@ services:
         tags:
             -  { name: dynamic_router_route_enhancer, priority: 10 }
 
+    swp_core.provider.theme:
+        class: SWP\Bundle\CoreBundle\Theme\Provider\ThemeProvider
+        arguments:
+            - '@sylius.repository.theme'
+            - '@swp_multi_tenancy.tenant_context'
+
+    swp_core.form.type.theme_name_choice:
+        class: SWP\Bundle\CoreBundle\Form\Type\ThemeNameChoiceType
+        arguments:
+            - '@swp_core.provider.theme'
+        tags:
+            - { name: form.type }
+
+    swp_core.form.type.organization_code_choice:
+        class: SWP\Bundle\CoreBundle\Form\Type\OrganizationCodeChoiceType
+        arguments:
+            - '@swp.repository.organization'
+        tags:
+            - { name: form.type }
+
     swp_core.twig_stringy_extension:
         class: SWP\Bundle\CoreBundle\Twig\StringyExtension
         public: false

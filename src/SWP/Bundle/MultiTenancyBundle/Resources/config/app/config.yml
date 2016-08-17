@@ -1,0 +1,6 @@
+jms_serializer:
+    metadata:
+        directories:
+            SWPMultiTenancyBundle:
+                namespace_prefix: "SWP\\Component\\MultiTenancy"
+                path: "@SWPMultiTenancyBundle/Resources/config/serializer"

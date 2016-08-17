@@ -50,6 +50,7 @@ class OrganizationRepository extends DocumentRepository implements OrganizationR
                         ->field('t.enabled')->literal(true)
                     ->end()
                 ->end()
-            ->getQuery();
+            ->getQuery()
+            ->getResult();
     }
 }

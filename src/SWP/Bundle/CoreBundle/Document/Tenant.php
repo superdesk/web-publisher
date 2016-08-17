@@ -11,7 +11,7 @@
  * @copyright 2016 Sourcefabric z.ú.
  * @license http://www.superdesk.org/license
  */
-namespace SWP\Bundle\CoreBundle\Doctrine\ODM\PHPCR;
+namespace SWP\Bundle\CoreBundle\Document;
 
 use SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\RouteObjectInterface;
 use SWP\Bundle\CoreBundle\Model\HomepageBasedTenantInterface;

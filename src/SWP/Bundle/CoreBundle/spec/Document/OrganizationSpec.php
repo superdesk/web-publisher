@@ -11,10 +11,10 @@
  * @copyright 2016 Sourcefabric z.ú.
  * @license http://www.superdesk.org/license
  */
-namespace spec\SWP\Bundle\CoreBundle\Doctrine\ODM\PHPCR;
+namespace spec\SWP\Bundle\CoreBundle\Document;
 
 use PhpSpec\ObjectBehavior;
-use SWP\Bundle\CoreBundle\Doctrine\ODM\PHPCR\Organization;
+use SWP\Bundle\CoreBundle\Document\Organization;
 use SWP\Component\MultiTenancy\Model\Organization as BaseOranization;
 use SWP\Component\MultiTenancy\Model\OrganizationInterface;
 

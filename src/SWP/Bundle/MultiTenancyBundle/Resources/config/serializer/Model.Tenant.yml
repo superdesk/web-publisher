@@ -1,0 +1,27 @@
+SWP\Component\MultiTenancy\Model\Tenant:
+    exclusion_policy: ALL
+    properties:
+        id:
+            expose: true
+            type: string
+        name:
+            expose: true
+            type: string
+        enabled:
+            expose: true
+            type: boolean
+        subdomain:
+            expose: true
+            type: string
+        code:
+            expose: true
+            type: string
+        createdAt:
+            expose: true
+            type: DateTime
+        updatedAt:
+            expose: true
+            type: DateTime
+        organization:
+            expose: true
+            type: SWP\Component\MultiTenancy\Model\Organization

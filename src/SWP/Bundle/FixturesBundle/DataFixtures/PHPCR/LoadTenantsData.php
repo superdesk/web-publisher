@@ -17,8 +17,9 @@ use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use SWP\Bundle\FixturesBundle\AbstractFixture;
-use SWP\Bundle\CoreBundle\Doctrine\ODM\PHPCR\Organization;
-use SWP\Bundle\CoreBundle\Doctrine\ODM\PHPCR\Tenant;
+use SWP\Bundle\CoreBundle\Document\Organization;
+use SWP\Bundle\CoreBundle\Document\Tenant;
+use SWP\Component\MultiTenancy\Model\OrganizationInterface;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Output\NullOutput;
@@ -33,7 +34,7 @@ class LoadTenantsData extends AbstractFixture implements FixtureInterface, Order
         $env = $this->getEnvironment();
 
         $organization1 = new Organization();
-        $organization1->setName('Organization1');
+        $organization1->setName(OrganizationInterface::DEFAULT_NAME);
         $organization1->setCode('123456');
         $organization1->setParentDocument($manager->find(null, '/swp'));
         $manager->persist($organization1);

@@ -11,11 +11,11 @@
  * @copyright 2016 Sourcefabric z.ú.
  * @license http://www.superdesk.org/license
  */
-namespace spec\SWP\Bundle\CoreBundle\Doctrine\ODM\PHPCR;
+namespace spec\SWP\Bundle\CoreBundle\Document;
 
 use PhpSpec\ObjectBehavior;
 use SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\RouteObjectInterface;
-use SWP\Bundle\CoreBundle\Doctrine\ODM\PHPCR\Tenant;
+use SWP\Bundle\CoreBundle\Document\Tenant;
 use SWP\Bundle\CoreBundle\Model\HomepageBasedTenantInterface;
 use SWP\Component\Common\Model\ThemeAwareTenantInterface;
 use SWP\Component\MultiTenancy\Model\Tenant as BaseTenant;
