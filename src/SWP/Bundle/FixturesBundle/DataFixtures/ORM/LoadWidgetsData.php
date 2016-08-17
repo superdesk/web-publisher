@@ -18,7 +18,6 @@ use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use SWP\Bundle\FixturesBundle\AbstractFixture;
 use Doctrine\Common\Persistence\ObjectManager;
 use SWP\Bundle\TemplateEngineBundle\Model\WidgetModel;
-use SWP\Bundle\WebRendererBundle\Doctrine\ODM\PHPCR\Tenant;
 use SWP\Component\MultiTenancy\Model\TenantInterface;
 
 class LoadWidgetsData extends AbstractFixture implements FixtureInterface, OrderedFixtureInterface

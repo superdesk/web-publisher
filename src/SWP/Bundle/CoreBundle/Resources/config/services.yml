@@ -1,0 +1,68 @@
+parameters:
+    # override default cmf dynamic router with our implementation (with support for Meta classes)
+    cmf_routing.dynamic_router.class: SWP\Bundle\CoreBundle\Routing\MetaRouter
+    # override Sylius default ThemeFactory
+    sylius.factory.theme.class: SWP\Bundle\CoreBundle\Theme\Factory\ThemeFactory
+    # override Sylius default AssetsInstaller
+    sylius.theme.asset.assets_installer.class: SWP\Bundle\CoreBundle\Theme\Asset\AssetsInstaller
+    # override Sylius default PathResolver
+    sylius.theme.asset.path_resolver.class: SWP\Bundle\CoreBundle\Theme\Asset\PathResolver
+    swp_core.twig_extension.class: SWP\Bundle\CoreBundle\Twig\CoreExtension
+    swp_core.routing.route_enhancer.class: SWP\Bundle\CoreBundle\Enhancer\RouteEnhancer
+    swp_core.theme.resolver.template_name.class: SWP\Bundle\CoreBundle\Resolver\TemplateNameResolver
+
+services:
+    swp_core.detection.device_detection:
+        class: SWP\Bundle\CoreBundle\Detection\DeviceDetection
+
+    sylius.theme.locator.application_resource:
+        class: SWP\Bundle\CoreBundle\Locator\ApplicationResourceLocator
+        arguments:
+            - "@filesystem"
+            - "@swp_core.detection.device_detection"
+
+    sylius.theme.locator.bundle_resource:
+        class: SWP\Bundle\CoreBundle\Locator\BundleResourceLocator
+        arguments:
+            - "@filesystem"
+            - "@kernel"
+            - "@swp_core.detection.device_detection"
+
+    swp_core.theme.context.tenant_aware:
+        class: SWP\Bundle\CoreBundle\Theme\TenantAwareThemeContext
+        public: false
+        arguments:
+            - "@swp_multi_tenancy.tenant_context"
+            - "@sylius.repository.theme"
+
+    swp_core.twig_extension:
+        class: '%swp_core.twig_extension.class%'
+        public: false
+        arguments:
+            - "@swp_core.theme.context.tenant_aware"
+        tags:
+            - { name: twig.extension }
+
+    swp_core.no_theme_exception_listener:
+        class: SWP\Bundle\CoreBundle\EventListener\NoThemeExceptionListener
+        tags:
+            - { name: kernel.event_listener, event: kernel.exception }
+
+    swp_core.theme.resolver.template_name:
+        class: '%swp_core.theme.resolver.template_name.class%'
+
+    swp_core.routing.route_enhancer:
+        class: '%swp_core.routing.route_enhancer.class%'
+        arguments:
+            - "@swp_core.theme.resolver.template_name"
+            - "@swp_template_engine_loader_chain"
+        tags:
+            -  { name: dynamic_router_route_enhancer, priority: 10 }
+
+    swp_core.twig_stringy_extension:
+        class: SWP\Bundle\CoreBundle\Twig\StringyExtension
+        public: false
+        arguments:
+            - "@twig"
+        tags:
+            - { name: twig.extension }
