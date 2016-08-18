@@ -24,7 +24,7 @@ sylius_theme:
     sources:
         tenantable:
             directories:
-                - "%kernel.root_dir%/../src/SWP/Bundle/WebRendererBundle/Tests/Fixtures/themes"
+                - "%kernel.root_dir%/../src/SWP/Bundle/CoreBundle/Tests/Fixtures/themes"
 
 web_profiler:
     toolbar: false

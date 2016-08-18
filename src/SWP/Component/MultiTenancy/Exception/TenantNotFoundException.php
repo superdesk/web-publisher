@@ -18,8 +18,8 @@ class TenantNotFoundException extends \RuntimeException
     /**
      * {@inheritdoc}
      */
-    public function __construct(\Exception $previousException = null)
+    public function __construct($name, \Exception $previousException = null)
     {
-        parent::__construct('Tenant could not be found!', 0, $previousException);
+        parent::__construct(sprintf('Tenant "%s" could not be found!', $name), 0, $previousException);
     }
 }

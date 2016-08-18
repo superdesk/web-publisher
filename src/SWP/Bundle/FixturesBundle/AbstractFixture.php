@@ -16,6 +16,8 @@ namespace SWP\Bundle\FixturesBundle;
 use Doctrine\Common\DataFixtures\AbstractFixture as BaseFixture;
 use Doctrine\Common\Persistence\ObjectManager;
 use Nelmio\Alice\Fixtures;
+use SWP\Component\MultiTenancy\Exception\TenantNotFoundException;
+use SWP\Component\MultiTenancy\Model\TenantInterface;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -70,6 +72,50 @@ abstract class AbstractFixture extends BaseFixture implements ContainerAwareInte
     public function find($className, $id)
     {
         return $this->container->get('document_manager')->find($className, $id);
+    }
+
+    /**
+     * Finds the PHPCR node by given id/path.
+     *
+     * @param string|null $className Document class name
+     * @param string      $id        PHPCR path
+     *
+     * @return string|null
+     */
+    public function findByTenant($className, $id)
+    {
+        return $this->find($className, $this->generatePath($id));
+    }
+
+    /**
+     * Generates tenant aware path.
+     *
+     * @param string $id
+     *
+     * @return string
+     */
+    public function generatePath($id)
+    {
+        return $this->getTenantPrefix().'/'.ltrim($id, '/');
+    }
+
+    /**
+     * Gets current tenant's prefix.
+     *
+     * @param string $subdomain
+     *
+     * @return string
+     */
+    public function getTenantPrefix($subdomain = TenantInterface::DEFAULT_TENANT_SUBDOMAIN)
+    {
+        /** @var TenantInterface $tenant */
+        $tenant = $this->container->get('swp.repository.tenant')->findOneBySubdomain($subdomain);
+
+        if (null === $tenant) {
+            throw new TenantNotFoundException($subdomain);
+        }
+
+        return $tenant->getId();
     }
 
     /**

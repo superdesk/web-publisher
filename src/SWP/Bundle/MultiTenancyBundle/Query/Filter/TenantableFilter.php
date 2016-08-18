@@ -15,6 +15,7 @@ namespace SWP\Bundle\MultiTenancyBundle\Query\Filter;
 
 use Doctrine\ORM\Mapping\ClassMetadata;
 use Doctrine\ORM\Query\Filter\SQLFilter;
+use SWP\Component\MultiTenancy\Model\TenantAwareInterface;
 
 /**
  * Tenantable Filter class.
@@ -26,12 +27,12 @@ class TenantableFilter extends SQLFilter
      */
     public function addFilterConstraint(ClassMetadata $targetEntity, $targetTableAlias)
     {
-        if (!$targetEntity->reflClass->implementsInterface('SWP\Component\MultiTenancy\Model\TenantAwareInterface')) {
+        if (!$targetEntity->reflClass->implementsInterface(TenantAwareInterface::class)) {
             return '';
         }
 
-        if ($this->hasParameter('tenantId')) {
-            return $targetTableAlias.'.tenant_id = '.$this->getParameter('tenantId');
+        if ($this->hasParameter('tenantCode')) {
+            return sprintf('%s.tenant_code = %s', $targetTableAlias, $this->getParameter('tenantCode'));
         }
 
         return '';

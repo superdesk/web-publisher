@@ -68,4 +68,3 @@ services:
             - "%swp_multi_tenancy.persistence.phpcr.menu_basepath%"
         tags:
             - { name: knp_menu.provider }
-

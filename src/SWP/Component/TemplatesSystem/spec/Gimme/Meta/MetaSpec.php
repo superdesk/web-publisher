@@ -14,8 +14,12 @@
 namespace spec\SWP\Component\TemplatesSystem\Gimme\Meta;
 
 use PhpSpec\ObjectBehavior;
+use SWP\Component\TemplatesSystem\Gimme\Meta\Meta;
 use Symfony\Component\Yaml\Parser;
 
+/**
+ * @mixin Meta
+ */
 class MetaSpec extends ObjectBehavior
 {
     public function let()
@@ -35,7 +39,7 @@ class MetaSpec extends ObjectBehavior
 
     public function it_is_initializable()
     {
-        $this->shouldHaveType('SWP\TemplatesSystem\Gimme\Meta\Meta');
+        $this->shouldHaveType(Meta::class);
     }
 
     public function it_should_show_title_when_printed()

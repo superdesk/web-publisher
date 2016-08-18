@@ -14,14 +14,16 @@
 namespace SWP\Bundle\FixturesBundle\DataFixtures\PHPCR;
 
 use Doctrine\Common\DataFixtures\FixtureInterface;
+use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\Article;
 use SWP\Bundle\ContentBundle\Model\ArticleInterface;
 use SWP\Bundle\FixturesBundle\AbstractFixture;
 
-class LoadSeparateArticlesData extends AbstractFixture implements FixtureInterface
+class LoadSeparateArticlesData extends AbstractFixture implements FixtureInterface, OrderedFixtureInterface
 {
     private $manager;
+    private $defaultTenantPrefix;
 
     /**
      * {@inheritdoc}
@@ -30,6 +32,8 @@ class LoadSeparateArticlesData extends AbstractFixture implements FixtureInterfa
     {
         $this->manager = $manager;
         $env = $this->getEnvironment();
+
+        $this->defaultTenantPrefix = $this->getTenantPrefix();
 
         $this->loadArticles($env, $manager);
 
@@ -47,13 +51,13 @@ class LoadSeparateArticlesData extends AbstractFixture implements FixtureInterfa
                 [
                     'title' => 'Test news article',
                     'content' => 'Test news article content',
-                    'parent' => '/swp/default/content',
+                    'parent' => $this->defaultTenantPrefix.'/content',
                     'locale' => 'en',
                 ],
                 [
                     'title' => 'Test content article',
                     'content' => 'Test article content',
-                    'parent' => '/swp/default/content',
+                    'parent' => $this->defaultTenantPrefix.'/content',
                     'locale' => 'en',
                 ],
             ],
@@ -75,5 +79,13 @@ class LoadSeparateArticlesData extends AbstractFixture implements FixtureInterfa
 
             $manager->flush();
         }
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getOrder()
+    {
+        return 2;
     }
 }

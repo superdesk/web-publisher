@@ -16,7 +16,13 @@ download the ``.phar`` file `locally`_ as explained in Composer documentation.
 Enable the bundle and its dependencies
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Enable the bundle and its dependencies (`StofDoctrineExtensionsBundle`_, `DoctrineBundle`_)
+.. note::
+
+    By default Jackalope Doctrine DBAL is required for PHPCR ODM in this bundle.
+    See `Choosing a PHPCR Implementation for alternatives`_.
+
+
+Enable the bundle and its dependencies (`DoctrinePHPCRBundle`_, `DoctrineBundle`_)
 by adding the following lines in the ``app/AppKernel.php`` file:
 
 .. code-block:: php
@@ -31,8 +37,8 @@ by adding the following lines in the ``app/AppKernel.php`` file:
             $bundles = array(
                 // ...
 
+                new Doctrine\Bundle\PHPCRBundle\DoctrinePHPCRBundle(),
                 new Doctrine\Bundle\DoctrineBundle\DoctrineBundle(),
-                new Stof\DoctrineExtensionsBundle\StofDoctrineExtensionsBundle(),
                 new SWP\MultiTenancyBundle\SWPMultiTenancyBundle(),
             );
 
@@ -47,13 +53,10 @@ by adding the following lines in the ``app/AppKernel.php`` file:
     All dependencies will be installed automatically. You will just need to configure the respective bundles.
 
 
-Configure the SWPMultiTenancyBundle (optional)
+Configure the SWPMultiTenancyBundle
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-This bundle by default works without any configuration.
-When using PHPCR ODM, the configuration needs to be provided.
-
-Add one of the following configurations if you are using PHPCR ODM:
+Let's enable PHPCR persistence backend.
 
 .. configuration-block::
 
@@ -87,75 +90,11 @@ Add one of the following configurations if you are using PHPCR ODM:
 
     See :doc:`/bundles/SWPMultiTenancyBundle/configuration` for more details.
 
-Configure the StofDoctrineExtensionsBundle
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Some more steps need to be performed here in order to fully make use of the extensions.
+DoctrinePHPCRBundle Configuration
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Enable Doctrine extensions in your config file
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-Enable needed extensions by adding the configuration below to your config file:
-
-.. code-block:: yaml
-
-        # app/config/config.yml
-        stof_doctrine_extensions:
-            orm:
-                default:
-                    # updates date fields on create, update and even property change.
-                    timestampable: true
-                    # allows to implicitly remove records
-                    softdeleteable: true
-                    # helps tracking changes and history of objects, also supports version management
-                    loggable: true
-
-
-Add the extensions to your mapping
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-The Loggable extension needs its default entity to be configured in order to work properly.
-Register its mapping in Doctrine by adding the following configuration to your config file:
-
-.. code-block:: yaml
-
-        # app/config/config.yml
-        doctrine:
-            orm:
-                entity_managers:
-                    default:
-                        mappings:
-                            gedmo_loggable:
-                                type: annotation
-                                prefix: Gedmo\Loggable\Entity
-                                dir: "%kernel.root_dir%/../vendor/gedmo/doctrine-extensions/lib/Gedmo/Loggable/Entity"
-                                is_bundle: false
-
-.. note::
-
-  If you are using the short syntax for the ORM configuration, the mappings key is directly under ``orm:``
-
-
-Enable SoftDeleteableFilter
-~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-To make use of SoftDeleteable behaviour, you need to enable the Doctrine ORM filter.
-
-.. code-block:: yaml
-
-        # app/config/config.yml
-        doctrine:
-            orm:
-                entity_managers:
-                    default:
-                        filters:
-                            softdeleteable:
-                                class: Gedmo\SoftDeleteable\Filter\SoftDeleteableFilter
-                                enabled: true
-
-.. note::
-
-  If you are using the short syntax for the ORM configuration, the `filters` key is directly under `orm:`
+`See how to set PHPCR Session Configuration`_.
 
 Add the domain parameter
 ~~~~~~~~~~~~~~~~~~~~~~~~
@@ -181,13 +120,16 @@ Execute the following commands in the console:
 .. code-block:: bash
 
     php app/console doctrine:schema:update --force
+    php app/console doctrine:phpcr:repository:init
+    php app/console swp:organization:create --default
     php app/console swp:tenant:create --default
     php app/console doctrine:phpcr:repository:init
-
 
 That's it, the bundle is configured properly now!
 
 .. _locally: https://getcomposer.org/doc/00-intro.md#locally
 .. _globally: https://getcomposer.org/doc/00-intro.md#globally
-.. _StofDoctrineExtensionsBundle: https://github.com/stof/StofDoctrineExtensionsBundle
 .. _DoctrineBundle: https://github.com/doctrine/DoctrineBundle
+.. _DoctrinePHPCRBundle: https://github.com/doctrine/DoctrinePHPCRBundle
+.. _Choosing a PHPCR Implementation for alternatives: http://symfony.com/doc/master/cmf/cookbook/database/choosing_phpcr_implementation.html
+.. _See how to set PHPCR Session Configuration: http://symfony.com/doc/master/cmf/bundles/phpcr_odm/introduction.html#phpcr-session-configuration

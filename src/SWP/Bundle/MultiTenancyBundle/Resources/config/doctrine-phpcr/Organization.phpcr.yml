@@ -1,0 +1,23 @@
+SWP\Component\MultiTenancy\Model\Organization:
+    repositoryClass: SWP\Bundle\MultiTenancyBundle\Doctrine\PHPCR\OrganizationRepository
+    referenceable: true
+    parentdocument: ~
+    nodename: code
+    id: id
+    children:
+        tenants:
+            fetchDepth: 1
+    fields:
+        name:
+            type: string
+            length: 255
+        enabled:
+            type: boolean
+        createdAt:
+            type: date
+        updatedAt:
+            type: date
+            nullable: true
+        deletedAt:
+            type: date
+            nullable: true
