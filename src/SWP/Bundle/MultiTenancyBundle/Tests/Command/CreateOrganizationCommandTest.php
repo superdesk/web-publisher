@@ -25,14 +25,14 @@ class CreateOrganizationCommandTest extends \PHPUnit_Framework_TestCase
 {
     private $commandTester;
     private $command;
-    private $dialog;
+    private $question;
 
     public function setUp()
     {
         $application = new Application();
         $application->add(new CreateOrganizationCommand());
         $this->command = $application->get('swp:organization:create');
-        $this->dialog = $this->command->getHelper('dialog');
+        $this->question = $this->command->getHelper('question');
     }
 
     /**
@@ -40,7 +40,7 @@ class CreateOrganizationCommandTest extends \PHPUnit_Framework_TestCase
      */
     public function testExecuteWhenCreatingNewOrganization()
     {
-        $this->dialog->setInputStream($this->getInputStream("Test\n"));
+        $this->question->setInputStream($this->getInputStream("Test\n"));
         $this->command->setContainer($this->getMockContainer(null, new Organization(), 'Test'));
         $this->commandTester = new CommandTester($this->command);
         $this->commandTester->execute(['command' => $this->command->getName()]);
@@ -90,7 +90,7 @@ class CreateOrganizationCommandTest extends \PHPUnit_Framework_TestCase
      */
     public function testExecuteDisabledOrganization()
     {
-        $this->dialog->setInputStream($this->getInputStream("Example\n"));
+        $this->question->setInputStream($this->getInputStream("Example\n"));
         $this->command->setContainer($this->getMockContainer(null, new Organization(), 'Example'));
         $this->commandTester = new CommandTester($this->command);
         $this->commandTester->execute([

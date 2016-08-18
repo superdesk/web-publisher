@@ -85,7 +85,7 @@ class RouteEnhancer implements RouteEnhancerInterface
         if (isset($defaults['slug'])) {
             $articleMeta = $this->metaLoader->load('article', ['slug' => $defaults['slug']], LoaderInterface::SINGLE);
             $defaults['type'] = RouteInterface::TYPE_COLLECTION;
-            if (null == $articleMeta) {
+            if (null === $articleMeta) {
                 $defaults[RouteObjectInterface::CONTENT_OBJECT] = null;
             }
         } elseif ($content instanceof ArticleInterface) {

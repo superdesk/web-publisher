@@ -13,7 +13,7 @@
  */
 namespace SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR;
 
-use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ODM\PHPCR\Exception\InvalidArgumentException;
 use Doctrine\ODM\PHPCR\HierarchyInterface;
 use SWP\Bundle\ContentBundle\Model\ArticleMedia as BaseArticleMedia;
@@ -34,9 +34,17 @@ class ArticleMedia extends BaseArticleMedia implements HierarchyInterface
     protected $id;
 
     /**
-     * @var Collection
+     * @var ArrayCollection
      */
     protected $renditions;
+
+    /**
+     * {@inheritdoc}
+     */
+    public function __construct()
+    {
+        $this->renditions = new ArrayCollection();
+    }
 
     /**
      * @param string $id
@@ -83,7 +91,15 @@ class ArticleMedia extends BaseArticleMedia implements HierarchyInterface
     }
 
     /**
-     * @return Collection
+     * {@inheritdoc}
+     */
+    public function addRendition($rendition)
+    {
+        $this->renditions->add($rendition);
+    }
+
+    /**
+     * {@inheritdoc}
      */
     public function getRenditions()
     {

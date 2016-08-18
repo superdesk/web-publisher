@@ -9,7 +9,7 @@
             "email": "rafal.muszynski@sourcefabric.org"
         }
     ],
-    "license":"GPL-3.0",
+    "license":"AGPL-3.0",
     "require": {
         "php": ">=5.4|^7.0"
     },

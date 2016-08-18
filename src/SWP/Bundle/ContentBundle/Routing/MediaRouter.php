@@ -16,6 +16,7 @@ namespace SWP\Bundle\ContentBundle\Routing;
 use SWP\Bundle\ContentBundle\Model\ArticleMedia;
 use SWP\Bundle\ContentBundle\Model\FileInterface;
 use SWP\Bundle\ContentBundle\Model\ImageInterface;
+use SWP\Bundle\ContentBundle\Model\ImageRendition;
 use SWP\Component\TemplatesSystem\Gimme\Meta\Meta;
 use Symfony\Bundle\FrameworkBundle\Routing\Router;
 use Symfony\Cmf\Component\Routing\VersatileGeneratorInterface;
@@ -28,14 +29,7 @@ class MediaRouter extends Router implements VersatileGeneratorInterface
      */
     public function generate($name, $parameters = [], $referenceType = UrlGeneratorInterface::ABSOLUTE_PATH)
     {
-        $item = null;
-        if ($name->getValues()->getImage() instanceof ImageInterface) {
-            $item = $name->getValues()->getImage();
-        } elseif ($name->getValues()->getFile() instanceof FileInterface) {
-            $item = $name->getValues()->getFile();
-        }
-
-        if (null === $item) {
+        if (null === $item = $this->getItem($name)) {
             return;
         }
 
@@ -50,7 +44,7 @@ class MediaRouter extends Router implements VersatileGeneratorInterface
      */
     public function supports($name)
     {
-        return $name instanceof Meta && $name->getValues() instanceof ArticleMedia;
+        return $name instanceof Meta && ($name->getValues() instanceof ArticleMedia || $name->getValues() instanceof ImageRendition);
     }
 
     /**
@@ -59,5 +53,21 @@ class MediaRouter extends Router implements VersatileGeneratorInterface
     public function getRouteDebugMessage($name, array $parameters = array())
     {
         return "Route for media ".$name->getValues()->getId()." not found";
+    }
+
+    private function getItem($name)
+    {
+        $values = $name->getValues();
+        if ($name->getValues() instanceof ImageRendition && $name->getValues()->getMedia() instanceof ArticleMedia) {
+            $values = $name->getValues()->getMedia();
+        }
+
+        if ($values->getImage() instanceof ImageInterface) {
+            return $values->getImage();
+        } elseif ($values->getFile() instanceof FileInterface) {
+            return $values->getFile();
+        }
+
+        return;
     }
 }

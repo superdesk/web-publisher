@@ -174,6 +174,12 @@ class ContainerController extends FOSRestController
      *
      * @Method("LINK|UNLINK")
      *
+     * @param Request $request
+     * @param string  $id
+     *
+     * @throws NotFoundHttpException
+     * @throws \Exception
+     *
      * @return \Symfony\Component\HttpFoundation\Response
      */
     public function linkUnlinkToContainerAction(Request $request, $id)
@@ -197,10 +203,10 @@ class ContainerController extends FOSRestController
                 continue;
             }
 
-            $resourceType = $objectArray['resourceType'];
             $object = $objectArray['object'];
 
             if ($object instanceof \Exception) {
+                /* @var \Exception */
                 throw $object;
             }
 
@@ -241,7 +247,6 @@ class ContainerController extends FOSRestController
                     $entityManager->remove($containerWidget);
                 }
 
-                $entityManager->flush();
                 $this->get('event_dispatcher')
                     ->dispatch(HttpCacheEvent::EVENT_NAME, new HttpCacheEvent($container));
                 $matched = true;
@@ -251,6 +256,8 @@ class ContainerController extends FOSRestController
         if ($matched === false) {
             throw new NotFoundHttpException('Any supported link object was not found');
         }
+
+        $entityManager->flush();
 
         return $this->handleView(View::create($container, 201));
     }

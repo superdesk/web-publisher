@@ -50,57 +50,24 @@ class ProcessArticleMediaListener
     {
         $package = $event->getPackage();
         $article = $event->getArticle();
-
         $this->objectManager->persist($article);
 
         if (0 === count($package->getItems())) {
             return;
         }
 
-        foreach ($package->getItems() as $packageItem) {
-            if (0 === count($packageItem->getItems())) {
-                continue;
-            }
-
+        foreach ($package->getItems() as $key => $packageItem) {
             // create document node for media
             $mediaDocument = $this->createGenericDocument('media', $article);
-            foreach ($packageItem->getItems() as $key => $item) {
-                if ($item->getType() === 'picture' || $item->getType() === 'file') {
-                    $articleMedia = new ArticleMedia();
-                    $articleMedia->setId($key);
-                    $articleMedia->setParent($mediaDocument);
-                    $articleMedia->setArticle($article);
-                    $articleMedia->setFromItem($item);
+            if ($packageItem->getType() === 'picture' || $packageItem->getType() === 'file') {
+                $this->handleMedia($article, $mediaDocument, $key, $packageItem);
+            }
 
-                    if ($item->getType() === 'picture') {
-                        /* @var $rendition Rendition */
-                        $originalRendition = $item->getRenditions()['original'];
-                        $articleMedia->setMimetype($originalRendition->getMimetype());
-                        $image = $this->objectManager->find(Image::class, $this->pathBuilder->build($this->mediaBasepath).'/'.$originalRendition->getMedia());
-                        $articleMedia->setImage($image);
-
-                        if (0 === count($item->getRenditions())) {
-                            continue;
-                        }
-
-                        // create document node for renditions
-                        $renditionsDocument = $this->createGenericDocument('renditions', $articleMedia);
-                        foreach ($item->getRenditions() as $key => $rendition) {
-                            /* @var $rendition Rendition */
-                            $image = $this->objectManager->find(Image::class, $this->pathBuilder->build($this->mediaBasepath).'/'.$rendition->getMedia());
-                            $imageRendition = new ImageRendition();
-                            $imageRendition->setParent($renditionsDocument);
-                            $imageRendition->setImage($image);
-                            $imageRendition->setMedia($articleMedia);
-                            $imageRendition->setHeight($rendition->getHeight());
-                            $imageRendition->setWidth($rendition->getWidth());
-                            $imageRendition->setName($key);
-                            $this->objectManager->persist($imageRendition);
-                        }
-                    } elseif ($item->getType() === 'file') {
-                        //TODO: handle files upload
+            if (0 !== count($packageItem->getItems())) {
+                foreach ($packageItem->getItems() as $key => $item) {
+                    if ($item->getType() === 'picture' || $item->getType() === 'file') {
+                        $this->handleMedia($article, $mediaDocument, $key, $item);
                     }
-                    $this->objectManager->persist($articleMedia);
                 }
             }
         }
@@ -115,5 +82,49 @@ class ProcessArticleMediaListener
         $this->objectManager->persist($document);
 
         return $document;
+    }
+
+    private function handleMedia($article, $mediaDocument, $key, $item)
+    {
+        $articleMedia = new ArticleMedia();
+        $articleMedia->setId($key);
+        $articleMedia->setParent($mediaDocument);
+        $articleMedia->setArticle($article);
+        $articleMedia->setFromItem($item);
+
+        if ($item->getType() === 'picture') {
+            if (0 === count($item->getRenditions())) {
+                return;
+            }
+
+            /* @var $rendition Rendition */
+            $originalRendition = $item->getRenditions()['original'];
+            $articleMedia->setMimetype($originalRendition->getMimetype());
+            $image = $this->objectManager->find(Image::class, $this->pathBuilder->build($this->mediaBasepath).'/'.$originalRendition->getMedia());
+            $articleMedia->setImage($image);
+
+            // create document node for renditions
+            $renditionsDocument = $this->createGenericDocument('renditions', $articleMedia);
+            foreach ($item->getRenditions() as $key => $rendition) {
+                /* @var $rendition Rendition */
+                $image = $this->objectManager->find(Image::class, $this->pathBuilder->build($this->mediaBasepath).'/'.$rendition->getMedia());
+                if (null === $image) {
+                    return;
+                }
+
+                $imageRendition = new ImageRendition();
+                $imageRendition->setParent($renditionsDocument);
+                $imageRendition->setImage($image);
+                $imageRendition->setMedia($articleMedia);
+                $imageRendition->setHeight($rendition->getHeight());
+                $imageRendition->setWidth($rendition->getWidth());
+                $imageRendition->setName($key);
+                $this->objectManager->persist($imageRendition);
+                $articleMedia->addRendition($imageRendition);
+            }
+        } elseif ($item->getType() === 'file') {
+            //TODO: handle files upload
+        }
+        $this->objectManager->persist($articleMedia);
     }
 }

@@ -15,6 +15,9 @@ namespace SWP\Component\TemplatesSystem\Gimme\Meta;
 
 use SWP\Component\TemplatesSystem\Gimme\Context\Context;
 
+/**
+ * Class Meta
+ */
 class Meta
 {
 
@@ -31,16 +34,30 @@ class Meta
     protected $context;
 
     /**
+     * @var array
+     */
+    protected $configuration;
+
+    /**
      * Create Meta class from provided configuration and values.
      *
      * @param Context             $context
      * @param string|array|object $values
-     * @param array               $configuration
      */
     public function __construct(Context $context, $values)
     {
         $this->context = $context;
         $this->values = $values;
+
+        $this->configuration = $this->context->getConfigurationForValue($this->values);
+
+        if (is_array($this->values)) {
+            $this->fillFromArray($this->values, $this->configuration);
+        } elseif (is_string($this->values) && $this->isJson($this->values)) {
+            $this->fillFromArray(json_decode($value, true), $this->configuration);
+        } elseif (is_object($this->values)) {
+            $this->fillFromObject($this->values, $this->configuration);
+        }
     }
 
     /**
@@ -50,9 +67,8 @@ class Meta
      */
     public function __toString()
     {
-        $configuration = $this->context->getConfigurationForValue($this->values);
-        if (array_key_exists('to_string', $configuration)) {
-            $toStringProperty = $configuration['to_string'];
+        if (array_key_exists('to_string', $this->configuration)) {
+            $toStringProperty = $this->configuration['to_string'];
 
             if (isset($this->$toStringProperty)) {
                 return $this->$toStringProperty;
@@ -95,4 +111,92 @@ class Meta
         return $this->values;
     }
 
+    /**
+     * @return array
+     */
+    public function getConfiguration()
+    {
+        return $this->configuration;
+    }
+
+    /**
+     * @param array $configuration
+     */
+    public function setConfiguration($configuration)
+    {
+        $this->configuration = $configuration;
+    }
+
+    /**
+     * Fill Meta from array. Array must have property names and keys.
+     *
+     * @param array $values        Array with properyy names as keys
+     * @param array $configuration
+     *
+     * @return bool
+     */
+    private function fillFromArray(array $values, $configuration)
+    {
+        foreach ($this->getExposedProperties($values, $configuration) as $key => $propertyValue) {
+            $this->$key = $propertyValue;
+        }
+
+        return true;
+    }
+
+    /**
+     * Fill Meta from object. Object must have public getters for properties.
+     *
+     * @param mixed $values        Object with public getters for properties
+     * @param       $configuration
+     *
+     * @return bool
+     */
+    private function fillFromObject($values, $configuration)
+    {
+        foreach ($configuration['properties'] as $key => $propertyValue) {
+            $getterName = 'get'.ucfirst($key);
+            if (method_exists($values, $getterName)) {
+                $this->$key = $values->$getterName();
+            }
+        }
+
+        return true;
+    }
+
+    /**
+     * Get exposed properties (according to configuration) from provided values.
+     *
+     * @param array $values
+     * @param       $configuration
+     *
+     * @return array
+     */
+    private function getExposedProperties(array $values = [], $configuration)
+    {
+        $exposedProperties = [];
+        if (count($values) > 0) {
+            foreach ($values as $key => $propertyValue) {
+                if (array_key_exists($key, $configuration['properties'])) {
+                    $exposedProperties[$key] = $propertyValue;
+                }
+            }
+        }
+
+        return $exposedProperties;
+    }
+
+    /**
+     * Check if string is JSON.
+     *
+     * @param  string
+     *
+     * @return bool
+     */
+    private function isJson($string)
+    {
+        json_decode($string);
+
+        return json_last_error() == JSON_ERROR_NONE;
+    }
 }

@@ -90,28 +90,17 @@ class ArticleMediaLoader implements LoaderInterface
      */
     public function load($type, array $parameters = array(), $responseType = LoaderInterface::SINGLE)
     {
-        if ($responseType === LoaderInterface::SINGLE) {
-//            if (array_key_exists('contentPath', $parameters)) {
-//                $article = $this->dm->find('SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\Article', $parameters['contentPath']);
-//            } elseif (array_key_exists('article', $parameters)) {
-//                $article = $parameters['article'];
-//            } elseif (array_key_exists('slug', $parameters)) {
-//                $article = $this->dm->getRepository('SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\Article')
-//                    ->findOneBy(['slug' => $parameters['slug']]);
-//            }
-//
-//            return $this->getArticleMeta($configuration, $article);
-        } elseif ($responseType === LoaderInterface::COLLECTION) {
+        if ($responseType === LoaderInterface::COLLECTION) {
             if (array_key_exists('article', $parameters)) {
                 $media = $this->dm->find(null, $parameters['article']->getValues()->getId().'/media');
 
                 if ($media) {
-                    $metas = [];
+                    $meta = [];
                     foreach ($media->getChildren() as $item) {
-                        $metas[] = $this->metaFactory->create($item);
+                        $meta[] = $this->metaFactory->create($item);
                     }
 
-                    return $metas;
+                    return $meta;
                 }
             }
         }

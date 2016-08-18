@@ -35,26 +35,6 @@ class ImageRendition
     protected $name;
 
     /**
-     * @return ImageInterface
-     */
-    public function getImage()
-    {
-        return $this->image;
-    }
-
-    /**
-     * @param ImageInterface $image
-     *
-     * @return ImageRendition
-     */
-    public function setImage(ImageInterface $image)
-    {
-        $this->image = $image;
-
-        return $this;
-    }
-
-    /**
      * @return string
      */
     public function getWidth()

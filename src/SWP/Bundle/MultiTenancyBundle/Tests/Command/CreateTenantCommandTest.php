@@ -30,14 +30,14 @@ class CreateTenantCommandTest extends \PHPUnit_Framework_TestCase
 
     private $commandTester;
     private $command;
-    private $dialog;
+    private $question;
 
     public function setUp()
     {
         $application = new Application();
         $application->add(new CreateTenantCommand());
         $this->command = $application->get('swp:tenant:create');
-        $this->dialog = $this->command->getHelper('dialog');
+        $this->question = $this->command->getHelper('question');
     }
 
     /**
@@ -45,7 +45,7 @@ class CreateTenantCommandTest extends \PHPUnit_Framework_TestCase
      */
     public function testExecuteWhenCreatingNewTenant()
     {
-        $this->dialog->setInputStream($this->getInputStream("subdomain\nTest\n123456\n"));
+        $this->question->setInputStream($this->getInputStream("subdomain\nTest\n123456\n"));
         $this->command->setContainer($this->getMockContainer(null, new Organization(), new Tenant(), 'subdomain'));
         $this->commandTester = new CommandTester($this->command);
         $this->commandTester->execute(['command' => $this->command->getName()]);
@@ -115,7 +115,7 @@ class CreateTenantCommandTest extends \PHPUnit_Framework_TestCase
      */
     public function testExecuteDisabledTenant()
     {
-        $this->dialog->setInputStream($this->getInputStream("example\nExample\n123456\n"));
+        $this->question->setInputStream($this->getInputStream("example\nExample\n123456\n"));
         $this->command->setContainer($this->getMockContainer(null, new Organization(), new Tenant(), 'example'));
         $this->commandTester = new CommandTester($this->command);
         $this->commandTester->execute([

@@ -38,7 +38,7 @@ class MediaController extends Controller
         $mediaBasePath = $this->container->getParameter('swp_multi_tenancy.persistence.phpcr.media_basepath');
 
         $media = $dm->find(null, $pathBuilder->build($mediaBasePath).'/'.$mediaId);
-        if (null == $media) {
+        if (null === $media) {
             throw new NotFoundHttpException('Media was not found.');
         }
 
