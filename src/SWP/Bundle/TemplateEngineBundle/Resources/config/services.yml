@@ -6,7 +6,7 @@ services:
         class: SWP\Component\TemplatesSystem\Gimme\Context\Context
         arguments:
             - "@doctrine_cache.providers.main_cache"
-            - "%kernel.root_dir%/resources/meta"
+            - "%kernel.root_dir%/Resources/meta"
     context:
         alias: swp_template_engine_context
 
