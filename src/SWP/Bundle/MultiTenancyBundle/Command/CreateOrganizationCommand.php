@@ -21,6 +21,7 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Question\Question;
 
 /**
  * Class CreateOrganizationCommand.
@@ -98,17 +99,18 @@ EOT
         $default = $input->getOption('default');
 
         if (!$input->getArgument($name) && !$default) {
-            $argument = $this->getHelper('dialog')->askAndValidate(
-                $output,
-                '<question>Please enter '.$name.':</question>',
-                function ($argument) use ($name) {
-                    if (empty($argument)) {
-                        throw new \RuntimeException('The '.$name.' can not be empty');
-                    }
-
-                    return $argument;
+            $question = new Question(sprintf('<question>Please enter %s:</question>', $name));
+            $question->setValidator(function ($argument) use ($name) {
+                if (empty($argument)) {
+                    throw new \RuntimeException(sprintf('The %s can not be empty', $name));
                 }
-            );
+
+                return $argument;
+            });
+
+            $question->setMaxAttempts(3);
+
+            $argument = $this->getHelper('question')->ask($input, $output, $question);
 
             $input->setArgument($name, $argument);
         }
