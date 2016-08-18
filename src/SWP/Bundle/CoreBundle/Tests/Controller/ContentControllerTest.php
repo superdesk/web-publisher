@@ -78,9 +78,8 @@ class ContentControllerTest extends WebTestCase
 
         $crawler = $client->request('GET', '/simple-test-route');
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
-        $this->assertTrue($crawler->filter('html:contains("swp/default/routes")')->count() === 1);
 
         // Check that route id is in the rendered html - accessed through {% gimme.route.id %}
-        $this->assertTrue($crawler->filter('html:contains("swp/default/routes/simple-test-route")')->count() === 1);
+        $this->assertTrue($crawler->filter('html:contains("/swp/123456/123abc/routes/simple-test-route")')->count() === 1);
     }
 }
