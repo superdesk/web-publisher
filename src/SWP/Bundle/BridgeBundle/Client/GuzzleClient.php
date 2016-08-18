@@ -50,7 +50,7 @@ class GuzzleClient extends BaseClient implements ClientInterface
         } catch (GuzzleServerException $e) {
             // This is for 500 errors
             $response = $e->getResponse();
-        } catch (GuzzleTransferException $e) {
+        } catch (\Exception $e) {
             // Any other errors should trigger an exception
             throw new ClientException($e->getMessage(), $e->getCode(), $e);
         }
