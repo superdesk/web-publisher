@@ -37,6 +37,11 @@ abstract class MetaLoader implements LoaderInterface
         $this->metadataCache = $metadataCache;
     }
 
+    /**
+     * Returns the configuration either from the cache or after populating the cache
+     *
+     * @return false|mixed
+     */
     protected function getConfiguration()
     {
         // Cache meta configuration
