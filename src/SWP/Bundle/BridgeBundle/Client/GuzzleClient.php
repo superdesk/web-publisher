@@ -16,7 +16,6 @@ namespace SWP\Bundle\BridgeBundle\Client;
 use GuzzleHttp\Client as BaseClient;
 use GuzzleHttp\Exception\ClientException as GuzzleClientException;
 use GuzzleHttp\Exception\ServerException as GuzzleServerException;
-use GuzzleHttp\Exception\TransferException as GuzzleTransferException;
 use Superdesk\ContentApiSdk\Client\ClientInterface;
 use Superdesk\ContentApiSdk\Exception\ClientException;
 
@@ -50,7 +49,7 @@ class GuzzleClient extends BaseClient implements ClientInterface
         } catch (GuzzleServerException $e) {
             // This is for 500 errors
             $response = $e->getResponse();
-        } catch (GuzzleTransferException $e) {
+        } catch (\Exception $e) {
             // Any other errors should trigger an exception
             throw new ClientException($e->getMessage(), $e->getCode(), $e);
         }

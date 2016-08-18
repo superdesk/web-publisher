@@ -3,10 +3,7 @@ parameters:
     swp_multi_tenancy.tenant_resolver.class: SWP\Component\MultiTenancy\Resolver\TenantResolver
     swp_multi_tenancy.tenant_context.class: SWP\Bundle\MultiTenancyBundle\Context\TenantContext
     swp_multi_tenancy.tenant_provider.class: SWP\Component\MultiTenancy\Provider\TenantProvider
-
-    # listeners
-    swp_multi_tenancy.tenant_listener.class: SWP\Bundle\MultiTenancyBundle\EventListener\TenantableListener
-    swp_multi_tenancy.tenant_subscriber.class: SWP\Bundle\MultiTenancyBundle\EventListener\TenantSubscriber
+    swp_multi_tenancy.random_string_generator.class: SWP\Component\Common\Generator\RandomStringGenerator
 
 services:
     swp_multi_tenancy.twig_extension:
@@ -17,41 +14,24 @@ services:
         tags:
             - { name: twig.extension }
 
-    swp_multi_tenancy.tenant_repository:
-        class: Doctrine\ORM\EntityRepository
-        factory: ['@doctrine.orm.entity_manager', getRepository]
-        arguments:
-            - '%swp_multi_tenancy.tenant.class%'
-
     swp_multi_tenancy.tenant_resolver:
         class: '%swp_multi_tenancy.tenant_resolver.class%'
         arguments:
             - '%domain%'
-            - '@swp_multi_tenancy.tenant_repository'
+            - '@swp.repository.tenant'
 
     swp_multi_tenancy.tenant_context:
         class: '%swp_multi_tenancy.tenant_context.class%'
+        lazy:  true
         arguments:
             - '@swp_multi_tenancy.tenant_resolver'
             - '@request_stack'
 
-    swp_multi_tenancy.tenant_listener:
-        class: '%swp_multi_tenancy.tenant_listener.class%'
-        arguments:
-            - '@doctrine.orm.entity_manager'
-            - '@swp_multi_tenancy.tenant_context'
-            - '@swp_multi_tenancy.tenant_resolver'
-        tags:
-            - { name: kernel.event_listener, event: kernel.request, priority: 31 }
-
     swp_multi_tenancy.tenant_provider:
        class: '%swp_multi_tenancy.tenant_provider.class%'
        arguments:
-            - '@swp_multi_tenancy.tenant_repository'
+            - '@swp.repository.tenant'
 
-    swp_multi_tenancy.tenant_subscriber:
-        class: '%swp_multi_tenancy.tenant_subscriber.class%'
-        arguments:
-            - '@service_container'
-        tags:
-            - { name: doctrine.event_subscriber }
+    swp_multi_tenancy.random_string_generator:
+        class: '%swp_multi_tenancy.random_string_generator.class%'
+

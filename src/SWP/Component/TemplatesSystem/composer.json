@@ -4,7 +4,7 @@
     "keywords": ["twig", "templates", "cms", "gimme"],
     "homepage": "https://github.com/SuperdeskWebPublisher/templates-system",
     "type": "library",
-    "license": "GPL-3.0",
+    "license": "AGPL-3.0",
     "authors": [
         {
             "name": "Paweł Mikołajczuk",
@@ -16,23 +16,30 @@
         "issues": "https://github.com/SuperdeskWebPublisher/templates-system/issues"
     },
     "require": {
-        "php": ">=5.5"
+        "php": ">=5.5",
+        "symfony/dependency-injection": "^2.8",
+        "symfony/templating": "^2.8"
     },
     "require-dev": {
         "phpunit/phpunit": "4.6.*",
-        "phpspec/phpspec": "~2.0",
-        "phpspec/prophecy": "1.5.x-dev",
-        "twig/twig": "~1.0"
+        "phpspec/phpspec": "^2.4",
+        "twig/twig": "~1.0",
+        "symfony/http-foundation": "^2.8"
     },
     "autoload": {
         "exclude-from-classmap": [
-            "spec/"
+            "spec/",
+            "Tests/"
         ],
         "psr-4": { "SWP\\Component\\TemplatesSystem\\": "" }
+    },
+    "config": {
+        "bin-dir": "bin"
     },
     "autoload-dev": {
         "psr-4": { "SWP\\Component\\TemplatesSystem\\spec\\": "spec/" }
     },
+    "minimum-stability": "dev",
     "extra": {
         "branch-alias": {
             "dev-master": "1.1.x-dev"

@@ -16,11 +16,12 @@ namespace SWP\Component\MultiTenancy\Model;
 use SWP\Component\Common\Model\EnableableInterface;
 use SWP\Component\Common\Model\SoftDeletableInterface;
 use SWP\Component\Common\Model\TimestampableInterface;
+use SWP\Component\Storage\Model\PersistableInterface;
 
 /**
  * Defines the interface of tenants.
  */
-interface TenantInterface extends TimestampableInterface, EnableableInterface, SoftDeletableInterface
+interface TenantInterface extends TimestampableInterface, EnableableInterface, SoftDeletableInterface, PersistableInterface
 {
     const DEFAULT_TENANT_NAME = 'Default tenant';
     const DEFAULT_TENANT_SUBDOMAIN = 'default';
@@ -66,4 +67,24 @@ interface TenantInterface extends TimestampableInterface, EnableableInterface, S
      * @param string $name The tenant name
      */
     public function setName($name);
+
+    /**
+     * @return string
+     */
+    public function getCode();
+
+    /**
+     * @param string $code
+     */
+    public function setCode($code);
+
+    /**
+     * @return OrganizationInterface
+     */
+    public function getOrganization();
+
+    /**
+     * @param OrganizationInterface $organization
+     */
+    public function setOrganization(OrganizationInterface $organization);
 }

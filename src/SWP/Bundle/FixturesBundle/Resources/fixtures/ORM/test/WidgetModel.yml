@@ -5,11 +5,11 @@ SWP\Bundle\TemplateEngineBundle\Model\WidgetModel:
         visible: true
         parameters:
             html_body: "sample widget with <span style='color:red'>html</span>"
-        tenant: "@tenant1"
+        tenantCode: "123abc"
     widget2:
         name: "HtmlWidgetHandler number 2"
         type: 1
         visible: true
         parameters:
             html_body: "sample widget with html 2"
-        tenant: "@tenant1"
+        tenantCode: "123abc"

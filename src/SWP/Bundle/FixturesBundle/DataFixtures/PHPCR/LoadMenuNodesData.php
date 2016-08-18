@@ -20,6 +20,8 @@ class LoadMenuNodesData extends AbstractFixture implements FixtureInterface, Ord
      */
     public function load(ObjectManager $manager)
     {
+        $defaultTenantPrefix = $this->getTenantPrefix();
+
         $env = $this->getEnvironment();
         $menuNodes = [
             'dev' => [
@@ -28,7 +30,7 @@ class LoadMenuNodesData extends AbstractFixture implements FixtureInterface, Ord
                     'label' => 'Home',
                     'locale' => 'en',
                     'route' => 'homepage',
-                    'parent' => 'swp/default/menu/default',
+                    'parent' => $defaultTenantPrefix.'/menu/default',
                 ],
             ],
             'test' => [
@@ -49,13 +51,13 @@ class LoadMenuNodesData extends AbstractFixture implements FixtureInterface, Ord
                     'label' => 'Sub Contact',
                     'locale' => 'en',
                     'uri' => 'http://example.com/contact/sub',
-                    'parent' => '/swp/default/menu/test/contact',
+                    'parent' => $defaultTenantPrefix.'/menu/test/contact',
                 ],
             ],
         ];
 
         if (isset($menuNodes[$env])) {
-            $defaultParent = $env === 'test' ? $manager->find(null, 'swp/default/menu/test') : $manager->find(null, 'swp/default/menu/default');
+            $defaultParent = $env === 'test' ? $manager->find(null, $defaultTenantPrefix.'/menu/test') : $manager->find(null, $defaultTenantPrefix.'/menu/default');
             foreach ($menuNodes[$env] as $menuNodeData) {
                 $menuNode = new MenuNode();
                 $menuNode->setName($menuNodeData['name']);
@@ -77,6 +79,6 @@ class LoadMenuNodesData extends AbstractFixture implements FixtureInterface, Ord
 
     public function getOrder()
     {
-        return 2;
+        return 5;
     }
 }

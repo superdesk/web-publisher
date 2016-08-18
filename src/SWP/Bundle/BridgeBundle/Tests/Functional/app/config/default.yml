@@ -26,16 +26,3 @@ doctrine:
         charset:  UTF8
     orm:
         auto_generate_proxy_classes: true
-
-
-doctrine_phpcr:
-    odm:
-        auto_mapping: true
-        auto_generate_proxy_classes: true
-    session:
-        backend:
-            type: doctrinedbal
-            logging: true
-            profiling: true
-            check_login_on_server: false
-        workspace: default

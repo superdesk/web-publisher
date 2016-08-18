@@ -1,5 +1,5 @@
-Common Component
-=================
+Common Component [![Build Status](https://travis-ci.org/SuperdeskWebPublisher/common.svg?branch=master)](https://travis-ci.org/SuperdeskWebPublisher/common) [![SensioLabsInsight](https://insight.sensiolabs.com/projects/c7b75f3c-7b51-4bfc-bc74-ae81ebf4fc44/mini.png)](https://insight.sensiolabs.com/projects/c7b75f3c-7b51-4bfc-bc74-ae81ebf4fc44)
+============================================================================================================================================================
 
 This component provides common models, interfaces, services.
 

@@ -47,7 +47,7 @@
             </nav>
             {% block body %}{% endblock %}
             <footer>
-                <p><strong>Current tenant:</strong> {{ organization.subdomain }} (name: {{ organization.name }})</p>
+                <p><strong>Current tenant:</strong> {{ tenant.subdomain }} (name: {{ tenant.name }})</p>
                 <hr />
                 {% block template_code %}{% endblock %}
             </footer>

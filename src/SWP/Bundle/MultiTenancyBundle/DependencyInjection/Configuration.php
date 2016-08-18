@@ -13,6 +13,15 @@
  */
 namespace SWP\Bundle\MultiTenancyBundle\DependencyInjection;
 
+use SWP\Bundle\MultiTenancyBundle\Doctrine\ORM\OrganizationRepository;
+use SWP\Bundle\MultiTenancyBundle\Doctrine\ORM\TenantRepository;
+use SWP\Bundle\MultiTenancyBundle\Doctrine\PHPCR\OrganizationRepository as PHPCROrganizationRepository;
+use SWP\Bundle\MultiTenancyBundle\Doctrine\PHPCR\TenantRepository as PHPCRTenantRepository;
+use SWP\Bundle\MultiTenancyBundle\Factory\OrganizationFactory;
+use SWP\Bundle\MultiTenancyBundle\Routing\TenantAwareRouter;
+use SWP\Component\MultiTenancy\Factory\TenantFactory;
+use SWP\Component\MultiTenancy\Model\Organization;
+use SWP\Component\MultiTenancy\Model\Tenant;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
 
@@ -31,31 +40,19 @@ class Configuration implements ConfigurationInterface
         $treeBuilder = new TreeBuilder();
         $treeBuilder->root('swp_multi_tenancy')
             ->children()
-                ->arrayNode('resources')
-                    ->addDefaultsIfNotSet()
-                    ->children()
-                        ->arrayNode('tenant')
-                            ->addDefaultsIfNotSet()
-                            ->children()
-                                ->arrayNode('classes')
-                                    ->addDefaultsIfNotSet()
-                                    ->children()
-                                        ->scalarNode('model')
-                                            ->defaultValue('SWP\Component\MultiTenancy\Model\Tenant')
-                                            ->cannotBeEmpty()
-                                            ->info('The FQCN of the Tenant model class.')
-                                        ->end()
-                                        ->scalarNode('factory')
-                                            ->defaultValue('SWP\Component\MultiTenancy\Factory\TenantFactory')
-                                            ->info('The FQCN of the Tenant Factory class.')
-                                        ->end()
-                                    ->end()
-                                ->end()
-                            ->end()
-                        ->end()
-                    ->end()
+                ->booleanNode('use_orm_listeners')
+                    ->defaultFalse()
+                    ->info('Listeners which make sure that each entity is tenant aware.')
                 ->end()
                 ->arrayNode('persistence')
+                    ->validate()
+                    ->ifTrue(function ($v) {
+                        return count(array_filter($v, function ($persistence) {
+                            return $persistence['enabled'];
+                        })) > 1;
+                    })
+                    ->thenInvalid('Only one persistence layer can be enabled at the same time.')
+                    ->end()
                     ->addDefaultsIfNotSet()
                     ->children()
                         ->arrayNode('phpcr')
@@ -80,20 +77,64 @@ class Configuration implements ConfigurationInterface
                                     ->defaultValue('media')
                                     ->info('Media base path name')
                                 ->end()
-                                ->scalarNode('site_document_class')
-                                    ->defaultValue('SWP\Bundle\MultiTenancyBundle\Document\Site')
-                                    ->info('Site document class, represents current site/tenant in PHPCR tree')
-                                ->end()
                                 ->scalarNode('tenant_aware_router_class')
-                                    ->defaultValue('SWP\Bundle\MultiTenancyBundle\Routing\TenantAwareRouter')
+                                    ->defaultValue(TenantAwareRouter::class)
                                     ->info('Tenant aware router FQCN')
                                 ->end()
-                                ->scalarNode('document_class')
-                                    ->defaultValue('SWP\Bundle\MultiTenancyBundle\Document\Page')
-                                    ->info('The class for the pages used by PHPCR initializer')
+                                ->arrayNode('classes')
+                                    ->addDefaultsIfNotSet()
+                                    ->children()
+                                        ->arrayNode('tenant')
+                                            ->addDefaultsIfNotSet()
+                                            ->children()
+                                                ->scalarNode('model')->cannotBeEmpty()->defaultValue(Tenant::class)->end()
+                                                ->scalarNode('repository')->defaultValue(PHPCRTenantRepository::class)->end()
+                                                ->scalarNode('factory')->defaultValue(TenantFactory::class)->end()
+                                                ->scalarNode('object_manager_name')->defaultValue(null)->end()
+                                            ->end()
+                                        ->end()
+                                        ->arrayNode('organization')
+                                            ->addDefaultsIfNotSet()
+                                            ->children()
+                                                ->scalarNode('model')->cannotBeEmpty()->defaultValue(Organization::class)->end()
+                                                ->scalarNode('repository')->defaultValue(PHPCROrganizationRepository::class)->end()
+                                                ->scalarNode('factory')->defaultValue(OrganizationFactory::class)->end()
+                                                ->scalarNode('object_manager_name')->defaultValue(null)->end()
+                                            ->end()
+                                        ->end()
+                                    ->end()
                                 ->end()
                             ->end()
-                        ->end()
+                        ->end() // phpcr
+                        ->arrayNode('orm')
+                            ->addDefaultsIfNotSet()
+                            ->canBeEnabled()
+                            ->children()
+                                ->arrayNode('classes')
+                                    ->addDefaultsIfNotSet()
+                                    ->children()
+                                        ->arrayNode('tenant')
+                                            ->addDefaultsIfNotSet()
+                                            ->children()
+                                                ->scalarNode('model')->cannotBeEmpty()->defaultValue(Tenant::class)->end()
+                                                ->scalarNode('repository')->defaultValue(TenantRepository::class)->end()
+                                                ->scalarNode('factory')->defaultValue(TenantFactory::class)->end()
+                                                ->scalarNode('object_manager_name')->defaultValue(null)->end()
+                                            ->end()
+                                        ->end()
+                                        ->arrayNode('organization')
+                                            ->addDefaultsIfNotSet()
+                                            ->children()
+                                                ->scalarNode('model')->cannotBeEmpty()->defaultValue(Organization::class)->end()
+                                                ->scalarNode('repository')->defaultValue(OrganizationRepository::class)->end()
+                                                ->scalarNode('factory')->defaultValue(OrganizationFactory::class)->end()
+                                                ->scalarNode('object_manager_name')->defaultValue(null)->end()
+                                            ->end()
+                                        ->end()
+                                    ->end()
+                                ->end()
+                            ->end()
+                        ->end() // orm
                     ->end()
                 ->end()
             ->end();

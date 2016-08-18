@@ -1,8 +1,0 @@
-SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\Site:
-    referenceable: true
-    id: id
-    children: ~
-    referenceOne:
-        homepage:
-            targetDocument: "\\SWP\\Bundle\\ContentBundle\\Doctrine\\ODM\\PHPCR\\Route"
-            strategy: hard

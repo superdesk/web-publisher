@@ -42,7 +42,7 @@ class GuzzleApiClientSpec extends ObjectBehavior
 
     public function it_is_initializable()
     {
-        $this->shouldHaveType('\SWP\Bundle\BridgeBundle\Client\GuzzleApiClient');
+        $this->shouldHaveType('SWP\Bundle\BridgeBundle\Client\GuzzleApiClient');
         $this->shouldImplement('\Superdesk\ContentApiSdk\Client\ApiClientInterface');
     }
 
@@ -62,7 +62,6 @@ class GuzzleApiClientSpec extends ObjectBehavior
 
     public function it_should_add_default_options_when_making_a_call($client, $request)
     {
-        $options = ['headers' => ['User-Agent' => 'guzzle_api_spec_test']];
         $request->getOptions()->shouldBeCalled()->willReturn([]);
         $request->setOptions(Argument::type('array'))->shouldBeCalled();
         $client->makeCall(

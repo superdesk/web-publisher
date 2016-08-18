@@ -7,7 +7,7 @@ SWP\Bundle\TemplateEngineBundle\Model\Container:
         styles: "color: #00000"
         cssClass: "col-md-12"
         visible: true
-        tenant: "@tenant1"
+        tenantCode: "123abc"
     container2:
         name: "Simple Container 2"
         type: 1
@@ -16,4 +16,4 @@ SWP\Bundle\TemplateEngineBundle\Model\Container:
         styles: "border: 1px solid red;"
         cssClass: "col-md-6"
         visible: true
-        tenant: "@tenant1"
+        tenantCode: "123abc"
