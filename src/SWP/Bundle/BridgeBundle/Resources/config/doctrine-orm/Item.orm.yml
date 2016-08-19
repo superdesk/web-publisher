@@ -1,12 +1,7 @@
-SWP\Component\Bridge\Model\Package:
+SWP\Component\Bridge\Model\Item:
     type: entity
-    table: swp_package
-    repositoryClass: SWP\Bundle\BridgeBundle\Doctrine\ORM\PackageRepository
-    gedmo:
-        soft_deleteable:
-            field_name: deletedAt
-            time_aware: false
-        loggable: true
+    table: swp_item
+    repositoryClass: SWP\Bundle\BridgeBundle\Doctrine\ORM\ItemRepository
     id:
         id:
             type: integer
@@ -39,8 +34,8 @@ SWP\Component\Bridge\Model\Package:
             type: integer
         version:
             type: integer
-        enabled:
-            type: boolean
+        body:
+            type: string
         createdAt:
             type: datetime
             gedmo:
@@ -52,11 +47,8 @@ SWP\Component\Bridge\Model\Package:
             gedmo:
                 timestampable:
                     on: update
-        deletedAt:
-            type: datetime
-            nullable: true
-    oneToMany:
-        items:
-            targetEntity: SWP\Component\Bridge\Model\Item
-            cascade: ["persist"]
-            mappedBy: package
+    manyToOne:
+        package:
+            targetEntity: SWP\Component\Bridge\Model\Package
+            joinColumn:
+              onDelete: CASCADE

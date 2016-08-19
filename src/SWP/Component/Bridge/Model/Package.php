@@ -41,4 +41,34 @@ class Package extends BaseContent implements PackageInterface, PersistableInterf
     {
         return $this->items;
     }
+
+    /**
+     * Add item.
+     *
+     * @param \SWP\Component\Bridge\Model\Item $item
+     *
+     * @return Package
+     */
+    public function addItem(\SWP\Component\Bridge\Model\Item $item)
+    {
+        if (!$this->items->contains($item)) {
+            $this->items->add($item);
+            $item->setPackage($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * Remove item.
+     *
+     * @param \SWP\Component\Bridge\Model\Item $item
+     */
+    public function removeItem(\SWP\Component\Bridge\Model\Item $item)
+    {
+        if ($this->items->contains($item)) {
+            $this->items->removeElement($item);
+            $item->setPackage(null);
+        }
+    }
 }

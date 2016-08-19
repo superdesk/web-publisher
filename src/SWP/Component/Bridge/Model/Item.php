@@ -26,6 +26,11 @@ class Item extends BaseContent implements ItemInterface, TimestampableInterface
     protected $body;
 
     /**
+     * @var Package
+     */
+    protected $package;
+
+    /**
      * {@inheritdoc}
      */
     public function getBody()
@@ -39,5 +44,29 @@ class Item extends BaseContent implements ItemInterface, TimestampableInterface
     public function setBody($body)
     {
         $this->body = $body;
+    }
+
+    /**
+     * Set package.
+     *
+     * @param \SWP\Component\Bridge\Model\Package $package
+     *
+     * @return Item
+     */
+    public function setPackage(\SWP\Component\Bridge\Model\Package $package = null)
+    {
+        $this->package = $package;
+
+        return $this;
+    }
+
+    /**
+     * Get package.
+     *
+     * @return \SWP\Component\Bridge\Model\Package
+     */
+    public function getPackage()
+    {
+        return $this->package;
     }
 }
