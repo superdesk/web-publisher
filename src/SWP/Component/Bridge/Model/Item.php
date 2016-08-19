@@ -52,6 +52,11 @@ class Item extends BaseContent implements ItemInterface, TimestampableInterface
     public $items;
 
     /**
+     * @var Package
+     */
+    protected $package;
+
+    /**
      * {@inheritdoc}
      */
     public function getBody()
@@ -145,5 +150,27 @@ class Item extends BaseContent implements ItemInterface, TimestampableInterface
     public function setUsageTerms($usageTerms)
     {
         $this->usageTerms = $usageTerms;
+    }
+
+    /**
+     * Set package.
+     *
+     * @param Package $package
+     *
+     * @return Item
+     */
+    public function setPackage(Package $package = null)
+    {
+        $this->package = $package;
+    }
+
+    /**
+     * Get package.
+     *
+     * @return Package
+     */
+    public function getPackage()
+    {
+        return $this->package;
     }
 }

@@ -82,7 +82,6 @@
         "sylius/theme-bundle": "v0.18.0",
         "superdesk/contentapi-sdk-php": "1.0.x-dev",
         "justinrainbow/json-schema": "1.4.4",
-        "league/pipeline": "^0.2.2",
         "jms/translation-bundle": "^1.2",
         "symfony-cmf/menu-bundle": "2.0.*",
         "hoa/mime": "3.16.01.15",

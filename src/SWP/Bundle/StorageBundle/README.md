@@ -1,5 +1,5 @@
-StorageBundle
-=============
+StorageBundle [![Build Status](https://travis-ci.org/SuperdeskWebPublisher/SWPStorageBundle.svg?branch=master)](https://travis-ci.org/SuperdeskWebPublisher/SWPStorageBundle) [![SensioLabsInsight](https://insight.sensiolabs.com/projects/345692fc-a31a-4f5b-bb9d-47b2cf68dc02/mini.png)](https://insight.sensiolabs.com/projects/345692fc-a31a-4f5b-bb9d-47b2cf68dc02)
+=============================================================================================================================================================================
 
 This bundle provides tools to build persistence-agnostic storage layer.
 
