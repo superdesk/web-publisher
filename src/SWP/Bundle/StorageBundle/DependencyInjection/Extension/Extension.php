@@ -30,8 +30,10 @@ abstract class Extension extends BaseExtension
     {
         $driver = DriverFactory::createDriver($type);
 
+        // enable current backend type for mapping files
+        $container->setParameter(sprintf('%s.backend_type_%s', $this->getAlias(), $type), true);
+
         foreach ($config as $key => $classConfig) {
-            $container->setParameter(sprintf('%s.backend_type_%s', $this->getAlias(), $type), true);
             $container->setParameter(
                 sprintf('%s.persistence.phpcr.manager_name', $this->getAlias()),
                 $classConfig['object_manager_name']

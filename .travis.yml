@@ -35,7 +35,7 @@ before_script:
   - composer install --no-interaction --prefer-source
 
 script:
-  - bin/phpspec run --format=pretty
+  - bin/phpspec run
   - phpunit -c app/
 
 cache:

@@ -1,5 +1,5 @@
-Storage Component
-=================
+Storage Component [![Build Status](https://travis-ci.org/SuperdeskWebPublisher/storage.svg?branch=master)](https://travis-ci.org/SuperdeskWebPublisher/storage) [![SensioLabsInsight](https://insight.sensiolabs.com/projects/c9fe670f-8332-4ffb-bb31-5a93d6831f52/mini.png)](https://insight.sensiolabs.com/projects/c9fe670f-8332-4ffb-bb31-5a93d6831f52)
+===============================================================================================================================================================
 
 This component provides basic models, interfaces to build persistence-agnostic storage.
 

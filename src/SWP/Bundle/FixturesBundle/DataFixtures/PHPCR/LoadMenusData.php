@@ -25,6 +25,8 @@ class LoadMenusData extends AbstractFixture implements FixtureInterface, Ordered
      */
     public function load(ObjectManager $manager)
     {
+        $tenantPrefix = $this->getTenantPrefix();
+
         $env = $this->getEnvironment();
         $menus = [
             'dev' => [
@@ -42,7 +44,7 @@ class LoadMenusData extends AbstractFixture implements FixtureInterface, Ordered
         ];
 
         if (isset($menus[$env])) {
-            $parent = $manager->find(null, 'swp/default/menu');
+            $parent = $manager->find(null, $tenantPrefix.'/menu');
             foreach ($menus[$env] as $menuData) {
                 $menu = new Menu();
                 $menu->setParentDocument($parent);
@@ -57,6 +59,6 @@ class LoadMenusData extends AbstractFixture implements FixtureInterface, Ordered
 
     public function getOrder()
     {
-        return 1;
+        return 4;
     }
 }

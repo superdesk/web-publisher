@@ -6,29 +6,29 @@ parameters:
 
 services:
     swp_multi_tenancy.phpcr.generic_initializer:
-        class: %swp_multi_tenancy.phpcr.generic_initializer.class%
+        class: '%swp_multi_tenancy.phpcr.generic_initializer.class%'
         arguments:
             - Default initializer
-            - [ "%swp_multi_tenancy.persistence.phpcr.basepath%" ]
+            - [ '%swp_multi_tenancy.persistence.phpcr.basepath%' ]
         tags:
             - { name: "doctrine_phpcr.initializer", priority: 100 }
 
     swp_multi_tenancy.phpcr.initializer:
-        class: %swp_multi_tenancy.phpcr.initializer.class%
+        class: '%swp_multi_tenancy.phpcr.initializer.class%'
         arguments:
-            - %swp_multi_tenancy.persistence.phpcr.base_paths%
-            - "@swp_multi_tenancy.tenant_provider"
-            - "@swp_multi_tenancy.path_builder"
-            - %swp_multi_tenancy.persistence.phpcr.site_document.class%
-            - %swp_multi_tenancy.persistence.phpcr.document.class%
+            - '%swp_multi_tenancy.persistence.phpcr.base_paths%'
+            - '@swp_multi_tenancy.tenant_provider'
+            - '@swp_multi_tenancy.path_builder'
         tags:
             - { name: "doctrine_phpcr.initializer", priority: 50 }
 
     swp_multi_tenancy.path_builder:
-        class: %swp_multi_tenancy.path_builder.class%
+        class: '%swp_multi_tenancy.path_builder.class%'
         arguments:
             - "@swp_multi_tenancy.tenant_context"
-            - %swp_multi_tenancy.persistence.phpcr.basepath%
+            - '%swp_multi_tenancy.persistence.phpcr.basepath%'
 
     swp_multi_tenancy.tenant_aware_router:
-        class: %swp_multi_tenancy.persistence.phpcr.router.class%
+        class: '%swp_multi_tenancy.persistence.phpcr.router.class%'
+        arguments: # arguments
+

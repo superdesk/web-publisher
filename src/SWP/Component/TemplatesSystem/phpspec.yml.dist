@@ -1,0 +1,5 @@
+suites:
+    main:
+        namespace: SWP\Component\TemplatesSystem
+        psr4_prefix: SWP\Component\TemplatesSystem
+        src_path: .

@@ -230,8 +230,8 @@ The above configuration is equivalent to:
 
 
 
-How to create and use custom factory service for your model
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+How to create and use custom repository service for your model
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 For some use cases you would need to implement your own methods in the repository, like ``findOneBySlug()`` or
 ``findAllArticles()``. It's very easy!
@@ -331,7 +331,7 @@ The last step is to add your custom repository to the configuration file:
 
     You can change repository class by simply changing your bundle configuration, without needing to change the code.
 
-How to create and use custom repository service for your model
+How to create and use custom factory service for your model
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 You may need to have a different way of creating objects than the default way of doing it.

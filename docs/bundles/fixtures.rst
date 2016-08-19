@@ -79,7 +79,7 @@ Example Alice fixture:
 
 .. code-block:: yaml
 
-    SWP\WebRendererBundle\Entity\Page:
+    SWP\CoreBundle\Entity\Page:
         page1:
             name: "About Us"
             type: 1
@@ -100,7 +100,7 @@ Example Alice fixture:
             contentPath: "/swp/content/get-involved"
 
 The above configuration states that we want to persist into the database three 
-objects of type ``SWP\WebRendererBundle\Entity\Page``. We can use the faker 
+objects of type ``SWP\CoreBundle\Entity\Page``. We can use the faker
 `formatters`_ where, for example, ``<paragraph(20)>`` is one of the
 `fzaninotto/Faker`_ formatters, which tells Alice to generate 20
 paragraphs filled with fake data.

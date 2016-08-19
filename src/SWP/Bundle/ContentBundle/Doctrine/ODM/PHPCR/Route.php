@@ -13,9 +13,9 @@
  */
 namespace SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR;
 
-use SWP\Bundle\MultiTenancyBundle\Document\Page;
+use Symfony\Cmf\Bundle\RoutingBundle\Doctrine\Phpcr\Route as BaseRoute;
 
-class Route extends Page implements RouteObjectInterface
+class Route extends BaseRoute implements RouteObjectInterface
 {
     /**
      * @var string
