@@ -11,3 +11,6 @@ SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\ImageRendition:
         media:
             targetDocument: "\\SWP\\Bundle\\ContentBundle\\Doctrine\\ODM\\PHPCR\\ArticleMedia"
             strategy: hard
+        image:
+            targetDocument: "\\SWP\\Bundle\\ContentBundle\\Doctrine\\ODM\\PHPCR\\Image"
+            strategy: hard

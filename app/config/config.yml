@@ -257,5 +257,5 @@ oneup_flysystem:
 
 sentry:
     environment: "%kernel.environment%"
-    dsn: "https://31a02e680be4430eab4ad4485c9b996d:753d9f194e384f5fa8bb99c8274473a6@sentry.sourcefabric.org/16"
+    dsn: "%sentry.dsn%"
     release: "dev-master"

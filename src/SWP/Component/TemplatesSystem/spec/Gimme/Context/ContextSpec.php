@@ -15,6 +15,7 @@ namespace spec\SWP\Component\TemplatesSystem\Gimme\Context;
 
 use PhpSpec\ObjectBehavior;
 use SWP\Component\TemplatesSystem\Gimme\Context\Context;
+use Doctrine\Common\Cache\Cache;
 
 /**
  * @mixin Context
@@ -24,8 +25,9 @@ class ContextSpec extends ObjectBehavior
     /**
      * @param \SWP\Component\TemplatesSystem\Gimme\Meta\Meta $meta
      */
-    public function let($meta)
+    public function let(Cache $cache)
     {
+        $this->beConstructedWith($cache, __DIR__.'/../Meta/Resources/meta');
     }
 
     public function it_is_initializable()

@@ -14,7 +14,6 @@
 namespace SWP\Bundle\ContentBundle\Controller;
 
 use Hoa\Mime\Mime;
-use League\Pipeline\Pipeline;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use FOS\RestBundle\Controller\FOSRestController;
@@ -48,8 +47,6 @@ class ContentPushController extends FOSRestController
 
         $packageRepository = $this->get('swp.repository.package');
         $existingPackage = $packageRepository->findOneBy(['guid' => $package->getGuid()]);
-
-        // Delete existing package if there is one - soft delete so this recoverable
         if (null !== $existingPackage) {
             $packageRepository->remove($existingPackage);
         }
@@ -57,12 +54,12 @@ class ContentPushController extends FOSRestController
         $packageRepository->add($package);
 
         $article = $this->get('swp_content.transformer.package_to_article')->transform($package);
-
         $articleRepository = $this->get('swp.repository.article');
         $existingArticle = $articleRepository->findOneBy(['slug' => $article->getSlug()]);
         if (null !== $existingArticle) {
             $articleRepository->remove($existingArticle);
         }
+
         $articleRepository->add($article);
         $this->get('event_dispatcher')->dispatch(ArticleEvents::POST_CREATE, new ArticleEvent($article));
 

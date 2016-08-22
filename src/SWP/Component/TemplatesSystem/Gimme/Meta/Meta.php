@@ -22,9 +22,9 @@ class Meta
 {
 
     /**
-     * Original Meta values (json|array).
+     * Original Meta values (json|array|object).
      *
-     * @var string|array
+     * @var mixed
      */
     protected $values;
 
@@ -43,18 +43,19 @@ class Meta
      *
      * @param Context             $context
      * @param string|array|object $values
+     * @param array               $configuration
      */
-    public function __construct(Context $context, $values)
+    public function __construct(Context $context, $values, $configuration)
     {
         $this->context = $context;
         $this->values = $values;
 
-        $this->configuration = $this->context->getConfigurationForValue($this->values);
+        $this->configuration = $configuration;
 
         if (is_array($this->values)) {
             $this->fillFromArray($this->values, $this->configuration);
         } elseif (is_string($this->values) && $this->isJson($this->values)) {
-            $this->fillFromArray(json_decode($value, true), $this->configuration);
+            $this->fillFromArray(json_decode($values, true), $this->configuration);
         } elseif (is_object($this->values)) {
             $this->fillFromObject($this->values, $this->configuration);
         }
@@ -172,10 +173,10 @@ class Meta
      *
      * @return array
      */
-    private function getExposedProperties(array $values = [], $configuration)
+    private function getExposedProperties(array $values = [], $configuration = [])
     {
         $exposedProperties = [];
-        if (count($values) > 0) {
+        if (count($values) > 0 && isset($configuration['properties'])) {
             foreach ($values as $key => $propertyValue) {
                 if (array_key_exists($key, $configuration['properties'])) {
                     $exposedProperties[$key] = $propertyValue;

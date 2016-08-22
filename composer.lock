@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "3a98ebeccd87d7db38b30064950ba465",
-    "content-hash": "2a5d41de47881aebe48b8965be633ba2",
+    "hash": "6d94d67f4ae398d19854e7767f266b3a",
+    "content-hash": "e5ae3bce9410ecb2036dc4eeac23bc19",
     "packages": [
         {
             "name": "ahilles107/updater",
@@ -1354,7 +1354,7 @@
             "dist": {
                 "type": "zip",
                 "url": "https://api.github.com/repos/FriendsOfSymfony/FOSHttpCacheBundle/zipball/a798b287b8d06b49be5c4f05c3d3b6a200a8f0c3",
-                "reference": "1009876f6b2b319d3d7f7e0e7bc8375890bddd9c",
+                "reference": "a798b287b8d06b49be5c4f05c3d3b6a200a8f0c3",
                 "shasum": ""
             },
             "require": {
@@ -1435,7 +1435,7 @@
             "dist": {
                 "type": "zip",
                 "url": "https://api.github.com/repos/FriendsOfSymfony/FOSRestBundle/zipball/5d0f28334970d2601c16c82bd4c6183df2f639a6",
-                "reference": "5bd68a76b2957eb009b1d7d95e9573b11e710d8b",
+                "reference": "5d0f28334970d2601c16c82bd4c6183df2f639a6",
                 "shasum": ""
             },
             "require": {
@@ -1516,16 +1516,16 @@
         },
         {
             "name": "gedmo/doctrine-extensions",
-            "version": "v2.4.20",
+            "version": "v2.4.21",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Atlantic18/DoctrineExtensions.git",
-                "reference": "24cd861d755282f4c9fb1c8f4634ffd6ca12182b"
+                "reference": "dcaab46a25e1baeb5142c3e25d5b6fd495ced504"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Atlantic18/DoctrineExtensions/zipball/24cd861d755282f4c9fb1c8f4634ffd6ca12182b",
-                "reference": "24cd861d755282f4c9fb1c8f4634ffd6ca12182b",
+                "url": "https://api.github.com/repos/Atlantic18/DoctrineExtensions/zipball/dcaab46a25e1baeb5142c3e25d5b6fd495ced504",
+                "reference": "dcaab46a25e1baeb5142c3e25d5b6fd495ced504",
                 "shasum": ""
             },
             "require": {
@@ -1591,7 +1591,7 @@
                 "tree",
                 "uploadable"
             ],
-            "time": "2016-07-30 15:51:52"
+            "time": "2016-08-17 16:52:00"
         },
         {
             "name": "guzzle/guzzle",
@@ -1686,6 +1686,7 @@
                 "rest",
                 "web service"
             ],
+            "abandoned": "guzzlehttp/guzzle",
             "time": "2015-03-18 18:23:50"
         },
         {
@@ -4562,7 +4563,7 @@
             "dist": {
                 "type": "zip",
                 "url": "https://api.github.com/repos/SuperdeskWebPublisher/SWPUpdaterBundle/zipball/e1bb2169ca60d733ce5b0afcb684718cab47026a",
-                "reference": "cd2c44a2b6a52240304eddc2f1bf0812cd255db4",
+                "reference": "e1bb2169ca60d733ce5b0afcb684718cab47026a",
                 "shasum": ""
             },
             "require": {
@@ -5619,16 +5620,16 @@
         },
         {
             "name": "symfony/symfony",
-            "version": "2.8.x-dev",
+            "version": "v2.8.9",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/symfony.git",
-                "reference": "609ee2df0a649158914bd3fd5dd8788b853b4311"
+                "reference": "df02dd5d3f7decb3a05c6d0f31054b4263625dcb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/symfony/zipball/609ee2df0a649158914bd3fd5dd8788b853b4311",
-                "reference": "6404e8e033980ad4d522f71e0c3278d4e53d22b8",
+                "url": "https://api.github.com/repos/symfony/symfony/zipball/df02dd5d3f7decb3a05c6d0f31054b4263625dcb",
+                "reference": "df02dd5d3f7decb3a05c6d0f31054b4263625dcb",
                 "shasum": ""
             },
             "require": {
@@ -5749,7 +5750,7 @@
             "keywords": [
                 "framework"
             ],
-            "time": "2016-08-16 14:56:08"
+            "time": "2016-07-30 08:48:52"
         },
         {
             "name": "twig/extensions",
@@ -7525,23 +7526,23 @@
         },
         {
             "name": "sebastian/environment",
-            "version": "1.3.7",
+            "version": "1.3.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/environment.git",
-                "reference": "4e8f0da10ac5802913afc151413bc8c53b6c2716"
+                "reference": "be2c607e43ce4c89ecd60e75c6a85c126e754aea"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/environment/zipball/4e8f0da10ac5802913afc151413bc8c53b6c2716",
-                "reference": "4e8f0da10ac5802913afc151413bc8c53b6c2716",
+                "url": "https://api.github.com/repos/sebastianbergmann/environment/zipball/be2c607e43ce4c89ecd60e75c6a85c126e754aea",
+                "reference": "be2c607e43ce4c89ecd60e75c6a85c126e754aea",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.3.3"
+                "php": "^5.3.3 || ^7.0"
             },
             "require-dev": {
-                "phpunit/phpunit": "~4.4"
+                "phpunit/phpunit": "^4.8 || ^5.0"
             },
             "type": "library",
             "extra": {
@@ -7571,7 +7572,7 @@
                 "environment",
                 "hhvm"
             ],
-            "time": "2016-05-17 03:18:57"
+            "time": "2016-08-18 05:49:44"
         },
         {
             "name": "sebastian/exporter",
@@ -7892,7 +7893,6 @@
     ],
     "minimum-stability": "dev",
     "stability-flags": {
-        "symfony/symfony": 20,
         "friendsofsymfony/http-cache-bundle": 20,
         "friendsofsymfony/rest-bundle": 20,
         "swp/updater-bundle": 20,

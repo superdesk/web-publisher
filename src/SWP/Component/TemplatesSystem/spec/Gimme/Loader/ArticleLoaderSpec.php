@@ -14,12 +14,16 @@
 namespace spec\SWP\Component\TemplatesSystem\Gimme\Loader;
 
 use PhpSpec\ObjectBehavior;
+use Prophecy\Argument;
+use SWP\Component\TemplatesSystem\Gimme\Factory\MetaFactory;
+use SWP\Component\TemplatesSystem\Gimme\Meta\Meta;
 
 class ArticleLoaderSpec extends ObjectBehavior
 {
-    public function let()
+    public function let(MetaFactory $metaFactory, Meta $meta)
     {
-        $this->beConstructedWith(__DIR__.'/../Meta');
+        $metaFactory->create(Argument::type('array'), Argument::type('array'))->willReturn($meta);
+        $this->beConstructedWith(__DIR__.'/../Meta', $metaFactory);
     }
 
     public function it_is_initializable()

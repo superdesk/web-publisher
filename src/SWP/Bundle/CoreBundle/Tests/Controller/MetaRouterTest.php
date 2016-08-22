@@ -13,7 +13,9 @@
  */
 namespace SWP\Bundle\CoreBundle\Tests\Controller;
 
+use Doctrine\Common\Cache\ArrayCache;
 use SWP\Bundle\FixturesBundle\WebTestCase;
+use SWP\Component\TemplatesSystem\Gimme\Context\Context;
 use SWP\Component\TemplatesSystem\Gimme\Meta\Meta;
 
 class MetaRouterTest extends WebTestCase
@@ -22,7 +24,7 @@ class MetaRouterTest extends WebTestCase
     {
         $article = $this->getMock('SWP\Bundle\ContentBundle\Model\ArticleInterface');
         $router = $this->getContainer()->get('cmf_routing.dynamic_router');
-        $this->assertTrue($router->supports(new Meta([['properties' => []]], $article)));
+        $this->assertTrue($router->supports(new Meta(new Context(new ArrayCache()), $article, ['properties' => []])));
     }
 
     public function testSupports()

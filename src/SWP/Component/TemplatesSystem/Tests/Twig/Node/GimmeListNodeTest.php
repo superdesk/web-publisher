@@ -13,7 +13,9 @@
  */
 namespace SWP\Component\TemplatesSystem\Tests\Twig\Node;
 
+use Doctrine\Common\Cache\ArrayCache;
 use SWP\Component\TemplatesSystem\Gimme\Context\Context;
+use SWP\Component\TemplatesSystem\Gimme\Factory\MetaFactory;
 use SWP\Component\TemplatesSystem\Gimme\Loader\ArticleLoader;
 use SWP\Component\TemplatesSystem\Gimme\Loader\ChainLoader;
 use SWP\Component\TemplatesSystem\Twig\Extension\GimmeExtension;
@@ -28,8 +30,9 @@ class GimmeListNodeTest extends \Twig_Test_NodeTestCase
     {
         $env = $this->getEnvironment();
         $metaLoader = new ChainLoader();
-        $metaLoader->addLoader(new ArticleLoader(__DIR__));
-        $env->addExtension(new GimmeExtension(new Context(), $metaLoader));
+        $context = new Context(new ArrayCache());
+        $metaLoader->addLoader(new ArticleLoader(__DIR__, new MetaFactory($context)));
+        $env->addExtension(new GimmeExtension($context, $metaLoader));
 
         $this->assertNodeCompilation($source, $node, $env);
     }

@@ -13,7 +13,9 @@
  */
 namespace SWP\Component\TemplatesSystem\Tests\Twig\Node;
 
+use Doctrine\Common\Cache\ArrayCache;
 use SWP\Component\TemplatesSystem\Gimme\Context\Context;
+use SWP\Component\TemplatesSystem\Gimme\Factory\MetaFactory;
 use SWP\Component\TemplatesSystem\Gimme\Loader\ArticleLoader;
 use SWP\Component\TemplatesSystem\Gimme\Loader\ChainLoader;
 use SWP\Component\TemplatesSystem\Twig\Extension\GimmeExtension;
@@ -89,9 +91,10 @@ EOF
             'gimme_with_parameters' => '{% gimme article with {id: 1} %}{{ article.title }}{% endgimme %}',
         ]);
         $metaLoader = new ChainLoader();
-        $metaLoader->addLoader(new ArticleLoader(__DIR__));
+        $context = new Context(new ArrayCache());
+        $metaLoader->addLoader(new ArticleLoader(__DIR__, new MetaFactory($context)));
         $twig = new \Twig_Environment($loader);
-        $twig->addExtension(new GimmeExtension(new Context(), $metaLoader));
+        $twig->addExtension(new GimmeExtension($context, $metaLoader));
 
         $this->assertEquals($twig->render('clear_gimme'), 'New article');
         $this->assertEquals($twig->render('gimme_with_parameters'), 'New article');
@@ -103,9 +106,10 @@ EOF
             'error_gimme' => '{% gimme article {id: 1} %}{{ article.title }}{% endgimme %}',
         ]);
         $metaLoader = new ChainLoader();
-        $metaLoader->addLoader(new ArticleLoader(__DIR__));
+        $context = new Context(new ArrayCache());
+        $metaLoader->addLoader(new ArticleLoader(__DIR__, new MetaFactory($context)));
         $twig = new \Twig_Environment($loader);
-        $twig->addExtension(new GimmeExtension(new Context(), $metaLoader));
+        $twig->addExtension(new GimmeExtension($context, $metaLoader));
 
         $this->setExpectedException('\Twig_Error_Syntax');
         $twig->render('error_gimme');

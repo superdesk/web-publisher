@@ -35,6 +35,11 @@ class Article extends BaseArticle implements HierarchyInterface
     protected $children;
 
     /**
+     * @var Collection
+     */
+    protected $media;
+
+    /**
      * {@inheritdoc}
      */
     public function setParent($parent)
@@ -78,8 +83,34 @@ class Article extends BaseArticle implements HierarchyInterface
         return $this->children;
     }
 
-    public function getPath()
+    /**
+     * @return Collection
+     */
+    public function getMedia()
     {
-        return $this->parent->getId() .'/'.$this->getSlug();
+        return $this->media;
+    }
+
+    /**
+     * @param Collection $media
+     */
+    public function setMedia($media)
+    {
+        $this->media = $media;
+    }
+
+    /**
+     * Remove media from serialization (as it have relation to Article and creates loop)
+     *
+     * @return array
+     */
+    public function __sleep()
+    {
+        $properties = array_keys(get_object_vars($this));
+        if (($key = array_search('media', $properties)) !== false) {
+            unset($properties[$key]);
+        }
+
+        return $properties;
     }
 }

@@ -30,7 +30,7 @@ class Context implements \ArrayAccess
     /**
      * Array will all registered meta types.
      *
-     * @var \SWP\TemplatesSystem\Gimme\Meta\Meta[]
+     * @var Meta[]
      */
     protected $registeredMeta = [];
 
@@ -54,18 +54,21 @@ class Context implements \ArrayAccess
     /**
      * Context constructor.
      *
-     * @param Cache $metadataCache
+     * @param Cache  $metadataCache
+     * @param string $configsPath
      */
-    public function __construct(Cache $metadataCache, $configsPath)
+    public function __construct(Cache $metadataCache, $configsPath = null)
     {
         $this->metadataCache = $metadataCache;
         $this->configsPath = $configsPath;
 
-        $finder = new Finder();
-        $finder->in($configsPath)->files()->name('*.yml');
+        if (null !== $configsPath) {
+            $finder = new Finder();
+            $finder->in($configsPath)->files()->name('*.yml');
 
-        foreach ($finder as $file) {
-            $this->addNewConfig($file->getRealPath());
+            foreach ($finder as $file) {
+                $this->addNewConfig($file->getRealPath());
+            }
         }
     }
 
@@ -89,6 +92,13 @@ class Context implements \ArrayAccess
         return $this;
     }
 
+    /**
+     * @param mixed $value
+     *
+     * @return array|void
+     *
+     * @throws \Exception
+     */
     public function getConfigurationForValue($value)
     {
         if (false === is_object($value)) {
@@ -104,11 +114,21 @@ class Context implements \ArrayAccess
         return;
     }
 
+    /**
+     * @param mixed $value
+     *
+     * @return Meta
+     */
     public function getMetaForValue($value)
     {
         return new Meta($this, $value, $this->getConfigurationForValue($value));
     }
 
+    /**
+     * @param mixed $value
+     *
+     * @return bool
+     */
     public function isSupported($value)
     {
         if (!is_object($value)) {
@@ -125,19 +145,18 @@ class Context implements \ArrayAccess
      */
     public function addNewConfig($filePath)
     {
-        // Cache meta configuration
         $cacheKey = md5($filePath);
         if (!$this->metadataCache->contains($cacheKey)) {
             if (!is_readable($filePath)) {
                 throw new \InvalidArgumentException('Configuration file is not readable for parser');
             }
-            $yaml = new Parser();
-            $configuration = $yaml->parse(file_get_contents($filePath));
+            $parser = new Parser();
+            $configuration = $parser->parse(file_get_contents($filePath));
             $this->metadataCache->save($cacheKey, $configuration);
         } else {
             $configuration = $this->metadataCache->fetch($cacheKey);
         }
-        if (true !== isset($this->availableConfigs[$configuration['class']])) {
+        if (isset($configuration['class']) && !isset($this->availableConfigs[$configuration['class']])) {
             $this->availableConfigs[$configuration['class']] = $configuration;
         }
 
@@ -145,7 +164,7 @@ class Context implements \ArrayAccess
     }
 
     /**
-     * Set current context page informations.
+     * Set current context page information's.
      *
      * @param string $currentPage
      *
@@ -159,7 +178,7 @@ class Context implements \ArrayAccess
     }
 
     /**
-     * Get current context page informations.
+     * Get current context page information's.
      *
      * @return string
      */
@@ -171,8 +190,8 @@ class Context implements \ArrayAccess
     /**
      * Register new meta type, registration is required before setting new value for meta.
      *
-     * @param string                                   $name Name of meta
-     * @param SWP\TemplatesSystem\Gimme\Meta\Meta|null $meta Meta object
+     * @param string    $name Name of meta
+     * @param Meta|null $meta Meta object
      *
      * @throws \Exception if already registered
      *
@@ -193,11 +212,17 @@ class Context implements \ArrayAccess
         throw new \Exception(sprintf('Meta with name %s is already registered', $name));
     }
 
+    /**
+     * @return Meta[]
+     */
     public function getRegisteredMeta()
     {
         return $this->registeredMeta;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function offsetSet($name, $meta)
     {
         if (in_array($name, $this->registeredMeta)) {
@@ -207,11 +232,17 @@ class Context implements \ArrayAccess
         return true;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function offsetExists($name)
     {
         return in_array($name, $this->registeredMeta);
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function offsetUnset($name)
     {
         unset($this->registeredMeta[$name]);
@@ -220,6 +251,9 @@ class Context implements \ArrayAccess
         return true;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function offsetGet($name)
     {
         if (in_array($name, $this->registeredMeta)) {
@@ -227,5 +261,21 @@ class Context implements \ArrayAccess
         }
 
         return false;
+    }
+
+
+    /**
+     * Keep dump (and serialized value) clean
+     *
+     * @return array
+     */
+    public function __sleep()
+    {
+        $properties = array_keys(get_object_vars($this));
+        if (($key = array_search('metadataCache', $properties)) !== false) {
+            unset($properties[$key]);
+        }
+
+        return $properties;
     }
 }

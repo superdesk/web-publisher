@@ -13,6 +13,7 @@
  */
 namespace SWP\Component\TemplatesSystem\Gimme\Loader;
 
+use SWP\Component\TemplatesSystem\Gimme\Factory\MetaFactory;
 use SWP\Component\TemplatesSystem\Gimme\Meta\Meta;
 use Symfony\Component\Yaml\Parser;
 
@@ -24,11 +25,17 @@ class ArticleLoader implements LoaderInterface
     protected $rootDir;
 
     /**
+     * @var MetaFactory
+     */
+    protected $metaFactory;
+
+    /**
      * @param string $rootDir path to application root directory
      */
-    public function __construct($rootDir)
+    public function __construct($rootDir, MetaFactory $metaFactory)
     {
         $this->rootDir = $rootDir;
+        $this->metaFactory = $metaFactory;
     }
 
     /**
@@ -45,7 +52,7 @@ class ArticleLoader implements LoaderInterface
      *
      * @return Meta|array false if meta cannot be loaded, a Meta instance otherwise
      */
-    public function load($type, array $parameters = [], $responseType = LoaderInterface::SINGLE)
+    public function load($type, array $parameters = null, $responseType = LoaderInterface::SINGLE)
     {
         if (!is_readable($this->rootDir.'/Resources/meta/article.yml')) {
             throw new \InvalidArgumentException('Configuration file is not readable for parser');
@@ -54,23 +61,23 @@ class ArticleLoader implements LoaderInterface
         $configuration = (array) $yaml->parse(file_get_contents($this->rootDir.'/Resources/meta/article.yml'));
 
         if ($responseType === LoaderInterface::SINGLE) {
-            return new Meta($configuration, [
+            return $this->metaFactory->create([
                 'title' => 'New article',
                 'keywords' => 'lorem, ipsum, dolor, sit, amet',
                 'don\'t expose it' => 'this should be not exposed',
-            ]);
+            ], $configuration);
         } elseif ($responseType === LoaderInterface::COLLECTION) {
             return [
-                new Meta($configuration, [
+                $this->metaFactory->create([
                     'title' => 'New article 1',
                     'keywords' => 'lorem, ipsum, dolor, sit, amet',
                     'don\'t expose it' => 'this should be not exposed',
-                ]),
-                new Meta($configuration, [
+                ], $configuration),
+                $this->metaFactory->create([
                     'title' => 'New article 2',
                     'keywords' => 'lorem, ipsum, dolor, sit, amet',
                     'don\'t expose it' => 'this should be not exposed',
-                ]),
+                ], $configuration),
             ];
         }
     }

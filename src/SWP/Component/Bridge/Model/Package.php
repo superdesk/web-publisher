@@ -29,6 +29,11 @@ class Package extends BaseContent implements PackageInterface, PersistableInterf
      */
     protected $items;
 
+    /**
+     * @var string
+     */
+    protected $body;
+
     public function __construct()
     {
         $this->items = new ArrayCollection();
@@ -70,5 +75,21 @@ class Package extends BaseContent implements PackageInterface, PersistableInterf
             $this->items->removeElement($item);
             $item->setPackage(null);
         }
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getBody()
+    {
+        return $this->body;
+    }
+
+    /**
+     * @param mixed $body
+     */
+    public function setBody($body)
+    {
+        $this->body = $body;
     }
 }

@@ -57,16 +57,12 @@ class ArticleLoader implements LoaderInterface
     public function __construct(
         PublishWorkflowChecker $publishWorkflowChecker,
         DocumentManager $dm,
-        $configurationPath,
-        CacheProvider $metadataCache,
         TenantAwarePathBuilderInterface $pathBuilder,
         $routeBasepaths,
         $metaFactory
     ) {
         $this->publishWorkflowChecker = $publishWorkflowChecker;
         $this->dm = $dm;
-        $this->configurationPath = $configurationPath.'/Resources/meta/article.yml';
-        $this->metadataCache = $metadataCache;
         $this->pathBuilder = $pathBuilder;
         $this->routeBasepaths = $routeBasepaths;
         $this->metaFactory = $metaFactory;
@@ -90,7 +86,7 @@ class ArticleLoader implements LoaderInterface
      *
      * @return Meta|Meta[]|bool false if meta cannot be loaded, a Meta instance otherwise
      */
-    public function load($type, array $parameters = [], $responseType = LoaderInterface::SINGLE)
+    public function load($type, array $parameters = null, $responseType = LoaderInterface::SINGLE)
     {
         $article = null;
         if (empty($parameters)) {
@@ -143,20 +139,20 @@ class ArticleLoader implements LoaderInterface
 
                     $articles = $this->dm->getDocumentsByPhpcrQuery($query);
 
-                    $metas = [];
+                    $meta = [];
                     foreach ($articles as $article) {
                         $articleMeta = $this->getArticleMeta($article);
                         if ($articleMeta) {
-                            $metas[] = $articleMeta;
+                            $meta[] = $articleMeta;
                         }
                     }
 
-                    return $metas;
+                    return $meta;
                 }
             }
         }
 
-        return false;
+        return;
     }
 
     /**
@@ -177,6 +173,6 @@ class ArticleLoader implements LoaderInterface
             return $this->metaFactory->create($article);
         }
 
-        return false;
+        return;
     }
 }

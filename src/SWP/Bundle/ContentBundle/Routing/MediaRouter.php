@@ -58,8 +58,8 @@ class MediaRouter extends Router implements VersatileGeneratorInterface
     private function getItem($name)
     {
         $values = $name->getValues();
-        if ($name->getValues() instanceof ImageRendition && $name->getValues()->getMedia() instanceof ArticleMedia) {
-            $values = $name->getValues()->getMedia();
+        if ($name->getValues() instanceof ImageRendition) {
+            return $name->getValues()->getImage();
         }
 
         if ($values->getImage() instanceof ImageInterface) {

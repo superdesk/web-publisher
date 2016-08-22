@@ -1,4 +1,3 @@
-
 class: "SWP\\Bundle\\ContentBundle\\Model\\ImageRendition"
 description: ImageRendition Meta is representation of image renditions
 properties:

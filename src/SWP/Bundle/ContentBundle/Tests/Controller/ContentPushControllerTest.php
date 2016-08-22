@@ -58,7 +58,8 @@ class ContentPushControllerTest extends WebTestCase
             [],
             [],
             ['CONTENT_TYPE' => 'application/json'],
-            self::TEST_CONTENT);
+            self::TEST_CONTENT
+        );
 
         $this->assertEquals(201, $client->getResponse()->getStatusCode());
 
@@ -95,24 +96,27 @@ class ContentPushControllerTest extends WebTestCase
                 'content' => null,
             ],
         ]);
-
+        $client->enableProfiler();
         $client->request(
             'POST',
             $this->router->generate('swp_api_content_push'),
             [],
             [],
             ['CONTENT_TYPE' => 'application/json'],
-            self::TEST_CONTENT);
+            self::TEST_CONTENT
+        );
 
         $this->assertEquals(201, $client->getResponse()->getStatusCode());
 
+        $client->enableProfiler();
         $client->request(
             'POST',
             $this->router->generate('swp_api_content_push'),
             [],
             [],
             ['CONTENT_TYPE' => 'application/json'],
-            self::TEST_CONTENT);
+            self::TEST_CONTENT
+        );
 
         $this->assertEquals(201, $client->getResponse()->getStatusCode());
     }
