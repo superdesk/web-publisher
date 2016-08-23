@@ -1,7 +1,7 @@
 <?php
 
 /**
- * This file is part of the Superdesk Web Publisher Fixtures Bundle.
+ * This file is part of the Superdesk Web Publisher Template Engine Bundle.
  *
  * Copyright 2016 Sourcefabric z.ú. and contributors.
  *
@@ -21,6 +21,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ChoiceQuestion;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
+use Symfony\Component\Console\Question\Question;
 use Symfony\Component\Filesystem\Filesystem;
 
 class ThemeGenerateCommand extends ContainerAwareCommand
@@ -76,7 +77,7 @@ class ThemeGenerateCommand extends ContainerAwareCommand
             }
 
             $themeDir = $this->createSkeleton(new Filesystem(), $tenant->getCode(), $themeName);
-            $this->writeConfigFile($themeDir, $themeName);
+            $this->writeConfigFile($input, $output, $themeDir, $themeName);
             $this->updateTenantReferenceToTheme($tenant, $themeName);
             $output->writeln('Theme '.$themeName.' has been generated successfully!');
         } catch (\Exception $e) {
@@ -88,14 +89,14 @@ class ThemeGenerateCommand extends ContainerAwareCommand
     /**
      * Gets the tenant based on the input - prompts a user to choose an existing tenant of the given organisation, or to create a new one.
      *
-     * @param $input
-     * @param $output
+     * @param InputInterface  $input  An InputInterface instance
+     * @param OutputInterface $output An OutputInterface instance
      *
      * @return mixed|null
      *
      * @throws \Exception
      */
-    protected function getTenant($input, $output)
+    protected function getTenant(InputInterface $input, OutputInterface $output)
     {
         $organizationRepository = $this->getContainer()->get('swp.repository.organization');
         $organizationName = $input->getArgument('organizationName');
@@ -153,7 +154,7 @@ class ThemeGenerateCommand extends ContainerAwareCommand
             'translations/messages.en.xlf',
             'translations/messages.de.xlf',
             'public/css',
-            'public/json',
+            'public/js',
             'public/images',
             self::THEME_CONFIG_JSON,
         ];
@@ -182,12 +183,17 @@ class ThemeGenerateCommand extends ContainerAwareCommand
     /**
      * Writes to the theme's config file.
      *
+     * @param InputInterface $input
+     * @param OutputInterface $output
      * @param $themeDir
+     *
      * @param $themeName
      */
-    protected function writeConfigFile($themeDir, $themeName)
+    protected function writeConfigFile(InputInterface $input, OutputInterface $output, $themeDir, $themeName)
     {
-        $configFileContents = $this->getConfigFileContents($themeName);
+        $output->writeln('To generate config file, please enter provide a few values.');
+
+        $configFileContents = $this->getConfigFileContents($input, $output, $themeName);
         file_put_contents($themeDir.\DIRECTORY_SEPARATOR.self::THEME_CONFIG_JSON, $configFileContents);
     }
 
@@ -196,27 +202,48 @@ class ThemeGenerateCommand extends ContainerAwareCommand
      *
      * @return string
      */
-    protected function getConfigFileContents($themeName)
+    protected function getConfigFileContents(InputInterface $input, OutputInterface $output, $themeName)
     {
+        $values = $this->getValuesFromUser($input, $output, ['title', 'description', 'author name', 'author email', 'author homepage', 'author role']);
+        array_unshift($values, sprintf('swp/%s', $themeName));
+
         $contents =
 <<<'EOT'
 {
-    "name": "swp/%s",
-    "title": "",
-    "description": "",
+    "name": "%s",
+    "title": "%s",
+    "description": "%s",
     "authors": [
         {
-            "name": "",
-            "email": "",
-            "homepage": "",
-            "role": ""
+            "name": "%s",
+            "email": "%s",
+            "homepage": "%s",
+            "role": "%s"
         }
     ]
 }
 EOT;
-        sprintf($contents, $themeName);
+        $contents = vsprintf($contents, $values);
 
         return $contents;
+    }
+
+    /**
+     * @param InputInterface  $input  An InputInterface instance
+     * @param OutputInterface $output An OutputInterface instance
+     *
+     * @param array $keys
+     */
+    protected function getValuesFromUser(InputInterface $input, OutputInterface $output, array $keys)
+    {
+        $results = [];
+        $helper = $this->getHelper('question');
+        foreach ($keys as $key) {
+            $question = new Question($key.': ', '');
+            $results[$key] = $helper->ask($input, $output, $question);
+        }
+
+        return $results;
     }
 
     /**

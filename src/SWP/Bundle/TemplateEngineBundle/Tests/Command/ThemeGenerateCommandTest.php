@@ -1,7 +1,7 @@
 <?php
 
 /**
- * This file is part of the Superdesk Web Publisher Fixtures Bundle.
+ * This file is part of the Superdesk Web Publisher Template Engine Bundle.
  *
  * Copyright 2016 Sourcefabric z.ú. and contributors.
  *
