@@ -52,7 +52,13 @@ final class JsonToPackageTransformer implements DataTransformerInterface
             throw new TransformationFailedException('None of the chained validators were able to validate the data!');
         }
 
-        return $this->serializer->deserialize($json, Package::class, 'json');
+        $package = $this->serializer->deserialize($json, Package::class, 'json');
+        // Set references
+        foreach ($package->getItems() as $item) {
+            $item->setPackage($package);
+        }
+
+        return $package;
     }
 
     /**
