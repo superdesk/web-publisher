@@ -18,5 +18,8 @@ Article:
             type: datetime     
         updatedAt:
             description: "Article update timestamp"
-            type: datetime              
+            type: datetime
+        metadata:
+            description: "Article metadata"
+            type: array
     to_string: title

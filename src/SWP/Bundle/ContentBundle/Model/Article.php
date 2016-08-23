@@ -86,6 +86,11 @@ class Article implements ArticleInterface
      */
     protected $isPublishable;
 
+    /**
+     * @var array
+     */
+    protected $metadata = [];
+
     public function __construct()
     {
         $this->setCreatedAt(new \DateTime());
@@ -268,5 +273,21 @@ class Article implements ArticleInterface
     public function setTemplateName($templateName)
     {
         $this->templateName = $templateName;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getMetadata()
+    {
+        return $this->metadata;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setMetadata(array $metadata)
+    {
+        $this->metadata = $metadata;
     }
 }

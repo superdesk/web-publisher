@@ -3,7 +3,19 @@
 {% block body %}
     <h2>{{gimme.article.title}}</h2>
     <p>Id: {{gimme.article.id}}</p>
-    <p>Content: {{gimme.article.body|raw}}</p>
+    <p>Content: {{ gimme.article.body|raw }}</p>
+    <h2>Article metadata:</h2>
+    <p>Located: {{ gimme.article.metadata.located }}</p>
+    {#
+        Dump all article metadata:
+        {{ dump(gimme.article.metadata) }}
+    #}
+    <p>Place: </p>
+    {% for place in gimme.article.metadata.place %}
+        - Code: {{ place.qcode }}<br>
+        - Region: {{ place.world_region }} <br>
+    {% endfor %}
+    <p>Not existing metadata field: {{ gimme.article.metadata.fake }} (will not break template)</p>
 {% endblock %}
 
 {% block template_code%}

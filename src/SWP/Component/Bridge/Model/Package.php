@@ -29,6 +29,11 @@ class Package extends BaseContent implements PackageInterface, PersistableInterf
      */
     protected $items;
 
+    /**
+     * @var array
+     */
+    protected $metadata;
+
     public function __construct()
     {
         $this->items = new ArrayCollection();

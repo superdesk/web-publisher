@@ -35,6 +35,9 @@ SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\Article:
             nullable: true
         isPublishable:
             type: boolean
+        metadata:
+            type: string
+            nullable: true
     referenceOne:
         route:
             targetDocument: "\\SWP\\Bundle\\ContentBundle\\Doctrine\\ODM\\PHPCR\\Route"

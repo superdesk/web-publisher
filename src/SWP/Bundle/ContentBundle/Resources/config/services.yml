@@ -72,3 +72,8 @@ services:
             - '@router'
             - '@swp_multi_tenancy.tenant_context'
             - '%swp_multi_tenancy.persistence.phpcr.media_basepath%'
+
+    swp_content.article_metadata_subscriber:
+        class: SWP\Bundle\ContentBundle\EventListener\ArticleMetadataSubscriber
+        tags:
+            - { name: kernel.event_subscriber }

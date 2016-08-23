@@ -105,4 +105,14 @@ interface ArticleInterface extends TimestampableInterface, TranslatableInterface
      * @return RouteInterface
      */
     public function getRoute();
+
+    /**
+     * @param array $metadata
+     */
+    public function setMetadata(array $metadata);
+
+    /**
+     * @return array
+     */
+    public function getMetadata();
 }

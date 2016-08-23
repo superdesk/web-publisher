@@ -13,6 +13,8 @@
  */
 namespace SWP\Bundle\ContentBundle\Factory;
 
+use Doctrine\ODM\PHPCR\HierarchyInterface;
+use SWP\Bundle\ContentBundle\Model\ArticleInterface;
 use SWP\Bundle\ContentBundle\Provider\ArticleProviderInterface;
 use SWP\Bundle\ContentBundle\Provider\RouteProviderInterface;
 use SWP\Component\Bridge\Model\ItemInterface;
@@ -74,8 +76,13 @@ class ArticleFactory implements ArticleFactoryInterface
      */
     public function createFromPackage(PackageInterface $package)
     {
+        /** @var ArticleInterface $article */
         $article = $this->create();
-        $article->setParentDocument($this->articleProvider->getParent($this->contentRelativePath));
+
+        if ($article instanceof HierarchyInterface) {
+            $article->setParentDocument($this->articleProvider->getParent($this->contentRelativePath));
+        }
+
         $article->setTitle($package->getHeadline());
         $article->setBody(implode('', array_map(function (ItemInterface $item) {
             return $item->getBody();

@@ -161,4 +161,15 @@ class ArticleSpec extends ObjectBehavior
     {
         $this->getDeletedAt()->shouldReturn(null);
     }
+
+    public function it_has_no_metadata_by_default()
+    {
+        $this->getMetadata()->shouldReturn([]);
+    }
+
+    public function its_metadata_is_mutable()
+    {
+        $this->setMetadata(['meta1' => 'value1']);
+        $this->getMetadata()->shouldReturn(['meta1' => 'value1']);
+    }
 }
