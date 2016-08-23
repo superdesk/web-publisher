@@ -191,7 +191,7 @@ class ThemeGenerateCommand extends ContainerAwareCommand
      */
     protected function writeConfigFile(InputInterface $input, OutputInterface $output, $themeDir, $themeName)
     {
-        $output->writeln('To generate config file, please enter provide a few values.');
+        $output->writeln('To generate config file, please provide a few values.');
 
         $configFileContents = $this->getConfigFileContents($input, $output, $themeName);
         file_put_contents($themeDir.\DIRECTORY_SEPARATOR.self::THEME_CONFIG_JSON, $configFileContents);
