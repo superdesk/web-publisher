@@ -181,7 +181,7 @@ class ThemeGenerateCommand extends ContainerAwareCommand
     /**
      * Writes to the theme's config file.
      *
-     * @param InputInterface $input
+     * @param InputInterface  $input
      * @param OutputInterface $output
      * @param $themeDir
      *
@@ -230,7 +230,7 @@ EOT;
      * @param InputInterface  $input  An InputInterface instance
      * @param OutputInterface $output An OutputInterface instance
      *
-     * @param array $keys
+     * @param array           $keys
      */
     protected function getValuesFromUser(InputInterface $input, OutputInterface $output, array $keys)
     {
