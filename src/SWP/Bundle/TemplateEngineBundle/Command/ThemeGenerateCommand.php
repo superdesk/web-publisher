@@ -67,14 +67,6 @@ class ThemeGenerateCommand extends ContainerAwareCommand
             }
 
             $themeName = $input->getArgument('themeName');
-            $themeDir = implode(\DIRECTORY_SEPARATOR, [$this->getContainer()->get('kernel')->getRootDir(), self::THEMES_DIR, $tenant->getCode(), $themeName]);
-
-            $fileSystem = new Filesystem();
-            if ($fileSystem->exists($themeDir)) {
-                $output->writeln('Theme '.$themeName.' already exists!');
-
-                return;
-            }
 
             $themeDir = $this->createSkeleton(new Filesystem(), $tenant->getCode(), $themeName);
             $this->writeConfigFile($input, $output, $themeDir, $themeName);
@@ -82,7 +74,7 @@ class ThemeGenerateCommand extends ContainerAwareCommand
             $output->writeln('Theme '.$themeName.' has been generated successfully!');
         } catch (\Exception $e) {
             $output->writeln('Theme '.$themeName.' could not be generated!');
-            $output->writeln('Stacktrace: '.$e->getMessage());
+            $output->writeln($e->getMessage());
         }
     }
 
@@ -147,6 +139,9 @@ class ThemeGenerateCommand extends ContainerAwareCommand
      */
     protected function createSkeleton(Filesystem $fileSystem, $tenantCode, $themeName)
     {
+        $configFilename = $this->getContainer()->getParameter('sylius.theme.configuration.filename');
+        $themesDir = $this->getContainer()->getParameter('sylius.theme.configuration.default_directory');
+
         $paths = [
             'phone/views/'.self::HOME_TWIG,
             'tablet/views/'.self::HOME_TWIG,
@@ -156,12 +151,15 @@ class ThemeGenerateCommand extends ContainerAwareCommand
             'public/css',
             'public/js',
             'public/images',
-            self::THEME_CONFIG_JSON,
+            $configFilename,
         ];
 
-        $themeDir = $this->makePath($fileSystem,
-            $this->getContainer()->get('kernel')->getRootDir(),
-            [self::THEMES_DIR, $tenantCode, $themeName]);
+        $themeDir = implode(\DIRECTORY_SEPARATOR, [$themesDir, $tenantCode, $themeName]);
+        if ($fileSystem->exists($themeDir)) {
+            throw new \Exception('Theme '.$themeName.' already exists!');
+        }
+
+        $this->makePath($fileSystem, $themesDir, [$tenantCode, $themeName]);
 
         foreach ($paths as $path) {
             $elements = explode(\DIRECTORY_SEPARATOR, $path);
