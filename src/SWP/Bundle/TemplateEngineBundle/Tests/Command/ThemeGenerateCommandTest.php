@@ -38,17 +38,28 @@ class ThemeGenerateCommandTest extends WebTestCase
     public function testCommand()
     {
         $fileSystem = new Filesystem();
-        $themeDir = implode(\DIRECTORY_SEPARATOR, [$this->getContainer()->get('kernel')->getRootDir(), ThemeGenerateCommand::THEMES_DIR, '123abc']);
-        $this->assertFalse($fileSystem->exists($themeDir), 'Theme already exists');
+        $tenantThemeDir = implode(\DIRECTORY_SEPARATOR, [$this->getContainer()->get('kernel')->getRootDir(), ThemeGenerateCommand::THEMES_DIR, '123abc']);
+        $tenantThemeDirExisted = $fileSystem->exists($tenantThemeDir);
 
-        $result = $this->runCommand('theme:generate', ['organizationName' => 'default', 'themeName' => 'booyaka'], true);
-        $this->assertContains('Theme booyaka has been generated successfully', $result);
+        try {
+            $themeName = 'booyaka';
+            $themeDir = $tenantThemeDir . \DIRECTORY_SEPARATOR . $themeName;
+            $this->assertFalse($fileSystem->exists($themeDir), 'Theme already exists');
 
-        $this->assertTrue($fileSystem->exists($themeDir), 'Theme not created');
+            $result = $this->runCommand('theme:generate', ['organizationName' => 'default', 'themeName' => 'booyaka'], true);
+            $this->assertContains('Theme booyaka has been generated successfully', $result);
 
-        $result = $this->runCommand('theme:generate', ['organizationName' => 'default', 'themeName' => 'booyaka'], true);
-        $this->assertContains('Theme booyaka already exists!', $result);
+            $this->assertTrue($fileSystem->exists($themeDir), 'Theme not created');
 
-        $fileSystem->remove($themeDir);
+            $result = $this->runCommand('theme:generate', ['organizationName' => 'default', 'themeName' => 'booyaka'], true);
+            $this->assertContains('Theme booyaka already exists!', $result);
+        } catch (\Exception $e) {
+        }
+
+        if ($tenantThemeDirExisted) {
+            $fileSystem->remove($themeDir);
+        } else {
+            $fileSystem->remove($tenantThemeDir);
+        }
     }
 }
