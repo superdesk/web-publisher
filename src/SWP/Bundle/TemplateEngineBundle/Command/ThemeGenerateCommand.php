@@ -50,7 +50,7 @@ class ThemeGenerateCommand extends ContainerAwareCommand
                 null
             )
             ->setHelp(
-                "The <info>%command.name%</info> command creates a skeleton theme in your application themes folder (app/themes)"
+                'The <info>%command.name%</info> command creates a skeleton theme in your application themes folder (app/themes)'
             );
     }
 
@@ -85,7 +85,7 @@ class ThemeGenerateCommand extends ContainerAwareCommand
     }
 
     /**
-     * Gets the tenant based on the input - prompts a user to choose an existing tenant of the given organisation, or to create a new one
+     * Gets the tenant based on the input - prompts a user to choose an existing tenant of the given organisation, or to create a new one.
      *
      * @param $input
      * @param $output
@@ -132,12 +132,12 @@ class ThemeGenerateCommand extends ContainerAwareCommand
             return $tenant;
         } else {
             $output->writeln('Creation of tenant here still to be implemented - you can create a tenant using the swp:tenant:create command');
-            return null;
+            return;
         }
     }
 
     /**
-     * Creates folders and empty files of theme
+     * Creates folders and empty files of theme.
      *
      * @param $tenantCode
      * @param $themeName
@@ -145,15 +145,15 @@ class ThemeGenerateCommand extends ContainerAwareCommand
     protected function createSkeleton(Filesystem $fileSystem, $tenantCode, $themeName)
     {
         $paths = [
-            'phone/views/' . self::HOME_TWIG,
-            'tablet/views/' . self::HOME_TWIG,
-            'views/' . self::HOME_TWIG,
+            'phone/views/'.self::HOME_TWIG,
+            'tablet/views/'.self::HOME_TWIG,
+            'views/'.self::HOME_TWIG,
             'translations/messages.en.xlf',
             'translations/messages.de.xlf',
             'public/css',
             'public/json',
             'public/images',
-            self::THEME_CONFIG_JSON
+            self::THEME_CONFIG_JSON,
         ];
 
         $themeDir = $this->makePath($fileSystem,
@@ -178,7 +178,7 @@ class ThemeGenerateCommand extends ContainerAwareCommand
     }
 
     /**
-     * Writes to the theme's config file
+     * Writes to the theme's config file.
      *
      * @param $themeDir
      * @param $themeName
@@ -191,6 +191,7 @@ class ThemeGenerateCommand extends ContainerAwareCommand
 
     /**
      * @param $themeName
+     *
      * @return string
      */
     protected function getConfigFileContents($themeName)
@@ -212,6 +213,7 @@ class ThemeGenerateCommand extends ContainerAwareCommand
 }
 EOT;
         sprintf($contents, $themeName);
+
         return $contents;
     }
 
@@ -230,6 +232,7 @@ EOT;
      * @param Filesystem $fileSystem
      * @param $baseDir
      * @param array $subDirs
+     *
      * @return string
      */
     protected function makePath(Filesystem $fileSystem, $baseDir, array $subDirs)
@@ -247,6 +250,7 @@ EOT;
      * @param Filesystem $filesystem
      * @param $baseDir
      * @param $fileName
+     *
      * @return string
      */
     protected function makeFile(FileSystem $filesystem, $baseDir, $fileName)

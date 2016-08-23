@@ -43,7 +43,7 @@ class ThemeGenerateCommandTest extends WebTestCase
 
         try {
             $themeName = 'booyaka';
-            $themeDir = $tenantThemeDir . \DIRECTORY_SEPARATOR . $themeName;
+            $themeDir = $tenantThemeDir.\DIRECTORY_SEPARATOR.$themeName;
             $this->assertFalse($fileSystem->exists($themeDir), 'Theme already exists');
 
             $result = $this->runCommand('theme:generate', ['organizationName' => 'default', 'themeName' => 'booyaka'], true);
