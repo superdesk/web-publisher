@@ -52,7 +52,7 @@ class ArticleLoader implements LoaderInterface
      *
      * @return Meta|array false if meta cannot be loaded, a Meta instance otherwise
      */
-    public function load($type, array $parameters = null, $responseType = LoaderInterface::SINGLE)
+    public function load($type, $parameters = null, $responseType = LoaderInterface::SINGLE)
     {
         if (!is_readable($this->rootDir.'/Resources/meta/article.yml')) {
             throw new \InvalidArgumentException('Configuration file is not readable for parser');

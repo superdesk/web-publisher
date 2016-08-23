@@ -4,7 +4,7 @@
     {# This toolbar item may appear along the top or bottom of the screen.#}
     {% set icon %}
     <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABoAAAAcCAQAAADVGmdYAAAAAmJLR0QA/4ePzL8AAAAJcEhZcwAACxMAAAsTAQCanBgAAAAHdElNRQffAxkBCDStonIVAAAAGXRFWHRDb21tZW50AENyZWF0ZWQgd2l0aCBHSU1QV4EOFwAAAHpJREFUOMtj3PWfgXRAuqZd/5nIsIdhVBPFmgqIjCuYOrJsYtz1fxuUOYER2TQID8afwIiQ8YIkI4TzCv5D2AgaWSuExJKMIDbA7EEVhQEWXJ6FKUY4D48m7HYU/EcWZ8JlE6qfMELPDcUJuEMPxvYazYTDWRMjOcUyAEswO+VjeQQaAAAAAElFTkSuQmCC" alt=""/>
-    <span class="sf-toolbar-status sf-toolbar-status-grey">{{ collector.context.registeredMeta|length }}</span>
+    <span class="sf-toolbar-status sf-toolbar-status-grey">{{ collector.data.registeredMeta|length }}</span>
     {% endset %}
 
     {# Set the "link" value to false if you do not have a big "panel"
@@ -38,10 +38,10 @@
             </tr>
         </thead>
         <tbody>
-            {% for key in collector.context.currentPage|keys|sort %}
+            {% for key in collector.currentPage|keys|sort %}
                 <tr>
                     <th>{{ key }}</th>
-                    <td>{{ profiler_dump(collector.context.currentPage[key]) }}</td>
+                    <td>{{ profiler_dump(collector.currentPage[key]) }}</td>
                 </tr>
             {% endfor %}
         </tbody>
@@ -55,10 +55,10 @@
             </tr>
         </thead>
         <tbody>
-            {% for key in collector.context.registeredMeta %}
+            {% for key, configuration in collector.data.registeredMeta %}
                 <tr>
-                    <th title="{{ collector.context[key].configuration['description'] }}">{{ key }}</th>
-                    <td>{{ dump(collector.context[key]) }}</td>
+                    <th title="{{ collector.data.registeredMeta[key].configuration['description'] }}">{{ key }}</th>
+                    <td>{{ dump(configuration) }}</td>
                 </tr>
             {% endfor %}
         </tbody>

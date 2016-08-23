@@ -59,6 +59,8 @@ class Meta
         } elseif (is_object($this->values)) {
             $this->fillFromObject($this->values, $this->configuration);
         }
+
+        $this->context->registerMeta($this);
     }
 
     /**

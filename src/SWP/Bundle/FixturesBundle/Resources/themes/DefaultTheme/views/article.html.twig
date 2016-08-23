@@ -3,7 +3,7 @@
 {% block body %}
     <h2>{{gimme.article.title}}</h2>
     <p>Id: {{gimme.article.id}}</p>
-    <p>Content: {{gimme.article.body}}</p>
+    <p>Content: {{gimme.article.body|raw}}</p>
 {% endblock %}
 
 {% block template_code%}

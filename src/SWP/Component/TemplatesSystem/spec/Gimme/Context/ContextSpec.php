@@ -37,18 +37,17 @@ class ContextSpec extends ObjectBehavior
 
     public function it_shuld_register_new_meta($meta)
     {
-        $this->registerMeta('item', $meta)->shouldReturn(true);
+        $this->registerMeta($meta)->shouldReturn(true);
     }
 
     public function it_should_set_new_meta($meta)
     {
-        $this->registerMeta('item', $meta)->shouldReturn(true);
-        $this->item = $meta;
+        $this->registerMeta($meta)->shouldReturn(true);
     }
 
     public function it_should_read_meata($meta)
     {
-        $this->registerMeta('item', $meta)->shouldReturn(true);
+        $this->registerMeta($meta)->shouldReturn(true);
         $this->item = $meta;
         $this->item->shouldReturn($meta);
     }

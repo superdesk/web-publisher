@@ -13,6 +13,7 @@
  */
 namespace SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ODM\PHPCR\Exception\InvalidArgumentException;
 use Doctrine\ODM\PHPCR\HierarchyInterface;
@@ -38,6 +39,16 @@ class Article extends BaseArticle implements HierarchyInterface
      * @var Collection
      */
     protected $media;
+
+    /**
+     * Article constructor.
+     */
+    public function __construct()
+    {
+        parent::__construct();
+
+        $this->media = new ArrayCollection();
+    }
 
     /**
      * {@inheritdoc}
@@ -97,20 +108,5 @@ class Article extends BaseArticle implements HierarchyInterface
     public function setMedia($media)
     {
         $this->media = $media;
-    }
-
-    /**
-     * Remove media from serialization (as it have relation to Article and creates loop)
-     *
-     * @return array
-     */
-    public function __sleep()
-    {
-        $properties = array_keys(get_object_vars($this));
-        if (($key = array_search('media', $properties)) !== false) {
-            unset($properties[$key]);
-        }
-
-        return $properties;
     }
 }

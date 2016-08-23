@@ -39,7 +39,7 @@ class ChainLoader implements LoaderInterface
      *
      * @return Meta|bool false if meta cannot be loaded, a Meta instance otherwise
      */
-    public function load($type, array $parameters = null, $responseType = LoaderInterface::SINGLE)
+    public function load($type, $parameters = null, $responseType = LoaderInterface::SINGLE)
     {
         foreach ($this->loaders as $loader) {
             if ($loader->isSupported($type)) {

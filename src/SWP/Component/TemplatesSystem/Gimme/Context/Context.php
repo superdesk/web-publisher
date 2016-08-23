@@ -190,17 +190,18 @@ class Context implements \ArrayAccess
     /**
      * Register new meta type, registration is required before setting new value for meta.
      *
-     * @param string    $name Name of meta
      * @param Meta|null $meta Meta object
      *
      * @throws \Exception if already registered
      *
      * @return bool if registered successfully
      */
-    public function registerMeta($name, Meta $meta = null)
+    public function registerMeta(Meta $meta = null)
     {
-        if (!in_array($name, $this->registeredMeta)) {
-            $this->registeredMeta[] = $name;
+        $configuration = $meta->getConfiguration();
+        $name = $configuration['name'];
+        if (!array_key_exists($name, $this->registeredMeta)) {
+            $this->registeredMeta[$name] = $configuration;
 
             if (!is_null($meta)) {
                 $this->$name = $meta;
@@ -209,7 +210,7 @@ class Context implements \ArrayAccess
             return true;
         }
 
-        throw new \Exception(sprintf('Meta with name %s is already registered', $name));
+        return false;
     }
 
     /**
@@ -261,21 +262,5 @@ class Context implements \ArrayAccess
         }
 
         return false;
-    }
-
-
-    /**
-     * Keep dump (and serialized value) clean
-     *
-     * @return array
-     */
-    public function __sleep()
-    {
-        $properties = array_keys(get_object_vars($this));
-        if (($key = array_search('metadataCache', $properties)) !== false) {
-            unset($properties[$key]);
-        }
-
-        return $properties;
     }
 }

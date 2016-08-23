@@ -13,6 +13,8 @@
  */
 namespace SWP\Bundle\ContentBundle\Loader;
 
+use SWP\Component\TemplatesSystem\Gimme\Context\Context;
+use SWP\Component\TemplatesSystem\Gimme\Factory\MetaFactory;
 use SWP\Component\TemplatesSystem\Gimme\Loader\LoaderInterface;
 use SWP\Component\TemplatesSystem\Gimme\Meta\Meta;
 use Symfony\Cmf\Bundle\CoreBundle\PublishWorkflow\PublishWorkflowChecker;
@@ -47,27 +49,44 @@ class ArticleMediaLoader implements LoaderInterface
      */
     protected $pathBuilder;
 
-    /**
-     * @var string
-     */
-    protected $routeBasepaths;
 
+    /**
+     * @var MetaFactory
+     */
+    protected $metaFactory;
+
+    /**
+     * @var Context
+     */
+    protected $context;
+
+    /**
+     * ArticleMediaLoader constructor.
+     *
+     * @param PublishWorkflowChecker          $publishWorkflowChecker
+     * @param DocumentManager                 $dm
+     * @param                                 $configurationPath
+     * @param CacheProvider                   $metadataCache
+     * @param TenantAwarePathBuilderInterface $pathBuilder
+     * @param MetaFactory                     $metaFactory
+     * @param Context                         $context
+     */
     public function __construct(
         PublishWorkflowChecker $publishWorkflowChecker,
         DocumentManager $dm,
         $configurationPath,
         CacheProvider $metadataCache,
         TenantAwarePathBuilderInterface $pathBuilder,
-        $routeBasepaths,
-        $metaFactory
+        MetaFactory $metaFactory,
+        Context $context
     ) {
         $this->publishWorkflowChecker = $publishWorkflowChecker;
         $this->dm = $dm;
         $this->configurationPath = $configurationPath.'/Resources/meta/media.yml';
         $this->metadataCache = $metadataCache;
         $this->pathBuilder = $pathBuilder;
-        $this->routeBasepaths = $routeBasepaths;
         $this->metaFactory = $metaFactory;
+        $this->context = $context;
     }
 
     /**
@@ -88,20 +107,23 @@ class ArticleMediaLoader implements LoaderInterface
      *
      * @return Meta|Meta[]|bool false if meta cannot be loaded, a Meta instance otherwise
      */
-    public function load($type, array $parameters = array(), $responseType = LoaderInterface::SINGLE)
+    public function load($type, $parameters = array(), $responseType = LoaderInterface::SINGLE)
     {
         if ($responseType === LoaderInterface::COLLECTION) {
-            if (array_key_exists('article', $parameters)) {
+            $media = false;
+            if (is_array($parameters) && array_key_exists('article', $parameters)) {
                 $media = $this->dm->find(null, $parameters['article']->getValues()->getId().'/media');
+            } elseif (null !== $this->context->article) {
+                $media = $this->dm->find(null, $this->context->article->getValues()->getId().'/media');
+            }
 
-                if ($media) {
-                    $meta = [];
-                    foreach ($media->getChildren() as $item) {
-                        $meta[] = $this->metaFactory->create($item);
-                    }
-
-                    return $meta;
+            if ($media) {
+                $meta = [];
+                foreach ($media->getChildren() as $item) {
+                    $meta[] = $this->metaFactory->create($item);
                 }
+
+                return $meta;
             }
         }
 

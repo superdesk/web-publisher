@@ -11,7 +11,7 @@
  * @copyright 2015 Sourcefabric z.ú.
  * @license http://www.superdesk.org/license
  */
-namespace SWP\Bundle\ContentBundle\Tests;
+namespace SWP\Bundle\ContentBundle\Tests\Loader;
 
 use SWP\Bundle\FixturesBundle\WebTestCase;
 use SWP\Bundle\ContentBundle\Loader\ArticleLoader;

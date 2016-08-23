@@ -1,3 +1,4 @@
+name: articleMedia
 class: "SWP\\Bundle\\ContentBundle\\Model\\ArticleMediaInterface"
 description: Media Meta is representation of article files and images
 properties:

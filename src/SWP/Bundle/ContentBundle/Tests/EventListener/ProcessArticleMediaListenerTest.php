@@ -52,7 +52,7 @@ class ProcessArticleMediaListenerTest extends WebTestCase
     /**
      * Test handling items under article
      */
-    public function testOnArticleCreate()
+    public function testHandleMedia()
     {
         $article = $observer = $this->getMockBuilder(ArticleInterface::class)->getMock();
         $article->expects($this->any())->method('getSlug')->willReturn('test-article');

@@ -1,0 +1,5 @@
+SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\Article:
+    exclusion_policy: ALL
+    properties:
+        media:
+            expose: true

@@ -105,4 +105,5 @@ class ArticleMedia extends BaseArticleMedia implements HierarchyInterface
     {
         return $this->renditions;
     }
+
 }

@@ -26,8 +26,8 @@ services:
             - "%kernel.root_dir%"
             - "@doctrine_cache.providers.main_cache"
             - "@swp_multi_tenancy.path_builder"
-            - "%swp_multi_tenancy.persistence.phpcr.route_basepaths%"
             - "@swp_template_engine_context.factory.meta_factory"
+            - "@swp_template_engine_context"
         tags:
             - { name: swp.meta_loader }
 

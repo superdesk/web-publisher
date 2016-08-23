@@ -86,44 +86,65 @@ class Article implements ArticleInterface
      */
     protected $isPublishable;
 
+    /**
+     * Article constructor.
+     */
     public function __construct()
     {
         $this->setCreatedAt(new \DateTime());
         $this->setPublishable(false);
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function setPublishStartDate(\DateTime $startDate = null)
     {
         $this->publishStartDate = $startDate;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getPublishStartDate()
     {
         return $this->publishStartDate;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function setPublishEndDate(\DateTime $endDate = null)
     {
         $this->publishEndDate = $endDate;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getPublishEndDate()
     {
         return $this->publishEndDate;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function isPublishable()
     {
         return $this->isPublishable;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function setPublishable($boolean)
     {
         $this->isPublishable = $boolean;
     }
 
     /**
-     * @return \DateTime
+     * {@inheritdoc}
      */
     public function getCreatedAt()
     {
@@ -131,7 +152,7 @@ class Article implements ArticleInterface
     }
 
     /**
-     * @return \DateTime
+     * {@inheritdoc}
      */
     public function getUpdatedAt()
     {
@@ -139,7 +160,7 @@ class Article implements ArticleInterface
     }
 
     /**
-     * @param \DateTime $createdAt
+     * {@inheritdoc}
      */
     public function setCreatedAt(\DateTime $createdAt)
     {
@@ -147,18 +168,24 @@ class Article implements ArticleInterface
     }
 
     /**
-     * @param \DateTime $updatedAt
+     * {@inheritdoc}
      */
     public function setUpdatedAt(\DateTime $updatedAt)
     {
         $this->updatedAt = $updatedAt;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function setRoute(RouteInterface $route)
     {
         $this->route = $route;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getRoute()
     {
         return $this->route;

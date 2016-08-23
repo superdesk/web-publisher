@@ -1,0 +1,48 @@
+SWP\Bundle\ContentBundle\Model\Article:
+    exclusion_policy: ALL
+    properties:
+        id:
+            expose: true
+            type: string
+        title:
+            expose: true
+            type: string
+        body:
+            expose: true
+            type: string
+        slug:
+            expose: true
+            type: string
+        route:
+            expose: true
+        publishedAt:
+            expose: true
+            type: DateTime
+        status:
+            expose: true
+            type: string
+        templateName:
+            expose: true
+            type: string
+        createdAt:
+            expose: true
+            type: DateTime
+        updatedAt:
+            expose: true
+            type: DateTime
+        publishStartDate:
+            expose: true
+            type: DateTime
+        publishEndDate:
+            expose: true
+            type: DateTime
+        isPublishable:
+            expose: true
+            type: boolean
+    relations:
+        -
+            rel: self
+            href:
+                route: swp_api_content_show_articles
+                parameters:
+                    id: expr(object.getSlug())

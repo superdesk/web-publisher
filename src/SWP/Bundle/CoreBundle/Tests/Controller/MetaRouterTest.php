@@ -24,7 +24,7 @@ class MetaRouterTest extends WebTestCase
     {
         $article = $this->getMock('SWP\Bundle\ContentBundle\Model\ArticleInterface');
         $router = $this->getContainer()->get('cmf_routing.dynamic_router');
-        $this->assertTrue($router->supports(new Meta(new Context(new ArrayCache()), $article, ['properties' => []])));
+        $this->assertTrue($router->supports(new Meta(new Context(new ArrayCache()), $article, ['name' => 'article', 'properties' => []])));
     }
 
     public function testSupports()
