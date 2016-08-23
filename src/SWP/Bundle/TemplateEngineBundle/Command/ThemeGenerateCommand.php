@@ -89,7 +89,9 @@ class ThemeGenerateCommand extends ContainerAwareCommand
      *
      * @param $input
      * @param $output
+     *
      * @return mixed|null
+     *
      * @throws \Exception
      */
     protected function getTenant($input, $output)
