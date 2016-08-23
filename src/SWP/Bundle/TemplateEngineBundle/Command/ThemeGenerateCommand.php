@@ -71,6 +71,7 @@ class ThemeGenerateCommand extends ContainerAwareCommand
             $fileSystem = new Filesystem();
             if ($fileSystem->exists($themeDir)) {
                 $output->writeln('Theme '.$themeName.' already exists!');
+
                 return;
             }
 
@@ -134,7 +135,6 @@ class ThemeGenerateCommand extends ContainerAwareCommand
             return $tenant;
         } else {
             $output->writeln('Creation of tenant here still to be implemented - you can create a tenant using the swp:tenant:create command');
-            return;
         }
     }
 
@@ -259,6 +259,7 @@ EOT;
     {
         $fileName = $baseDir.\DIRECTORY_SEPARATOR.$fileName;
         $filesystem->touch($fileName);
+
         return $fileName;
     }
 }
