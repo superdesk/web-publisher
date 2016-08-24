@@ -181,7 +181,7 @@ class ThemeGenerateCommand extends ContainerAwareCommand
      *
      * @param InputInterface  $input
      * @param OutputInterface $output
-     * @param Tenant $tenant
+     * @param Tenant          $tenant
      * @param $themeDir
      * @param $themeName
      */
@@ -197,7 +197,7 @@ class ThemeGenerateCommand extends ContainerAwareCommand
                 'author name' => 'anon',
                 'author email' => 'anon',
                 'author homepage' => 'homepage',
-                'author role' => 'anon'
+                'author role' => 'anon',
             ]
         );
         array_unshift($values, sprintf('swp/%s', $themeName));

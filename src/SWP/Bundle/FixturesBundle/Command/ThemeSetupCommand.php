@@ -164,8 +164,7 @@ EOT
     private function assignDefaultTheme(ThemeAwareTenantInterface $defaultTenant)
     {
         // Only assign default theme if no theme has yet been assigned to default tenant
-        if (null === $defaultTenant->getThemeName())
-        {
+        if (null === $defaultTenant->getThemeName()) {
             $defaultTenant->setThemeName(self::DEFAULT_THEME_NAME);
             $documentManager = $this->getContainer()->get('doctrine_phpcr.odm.document_manager');
             $documentManager->flush();
