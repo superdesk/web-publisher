@@ -68,6 +68,9 @@ final class TenantableConfigurationSourceFactory implements ConfigurationSourceF
             ]),
         ]);
 
+        $container->setParameter('swp.theme.configuration.filename', $config['filename']);
+        $container->setParameter('swp.theme.configuration.default_directory', $config['directories'][0]);
+
         return $configurationProvider;
     }
 
