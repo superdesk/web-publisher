@@ -9,8 +9,8 @@ SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\ImageRendition:
             type: int
     referenceOne:
         media:
-            targetDocument: "\\SWP\\Bundle\\ContentBundle\\Doctrine\\ODM\\PHPCR\\ArticleMedia"
+            targetDocument: SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\ArticleMedia
             strategy: hard
         image:
-            targetDocument: "\\SWP\\Bundle\\ContentBundle\\Doctrine\\ODM\\PHPCR\\Image"
+            targetDocument: SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\Image
             strategy: hard

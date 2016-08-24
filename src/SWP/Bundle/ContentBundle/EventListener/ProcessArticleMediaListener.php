@@ -21,6 +21,7 @@ use SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\ImageRendition;
 use SWP\Bundle\ContentBundle\Event\ArticleEvent;
 use SWP\Bundle\ContentBundle\Manager\MediaManagerInterface;
 use SWP\Bundle\ContentBundle\Model\ArticleInterface;
+use SWP\Component\Bridge\Model\Item;
 use SWP\Component\Bridge\Model\ItemInterface;
 use SWP\Component\Bridge\Model\Rendition;
 use SWP\Component\MultiTenancy\PathBuilder\TenantAwarePathBuilderInterface;
@@ -68,7 +69,7 @@ class ProcessArticleMediaListener
                 $this->objectManager->persist($articleMedia);
             }
 
-            if (0 !== count($packageItem->getItems())) {
+            if (null !== $packageItem->getItems() && 0 !== $packageItem->getItems()->count()) {
                 foreach ($packageItem->getItems() as $key => $item) {
                     if ($item->getType() === 'picture' || $item->getType() === 'file') {
                         $articleMedia = $this->handleMedia($article, $mediaDocument, $key, $item);
@@ -95,9 +96,9 @@ class ProcessArticleMediaListener
         $articleMedia->setArticle($article);
         $articleMedia->setFromItem($item);
 
-        if ($item->getType() === 'picture') {
+        if (ItemInterface::TYPE_PICTURE  === $item->getType()) {
             $this->createImageMedia($articleMedia, $item);
-        } elseif ($item->getType() === 'file') {
+        } elseif (ItemInterface::TYPE_FILE === $item->getType()) {
             //TODO: handle files upload
         }
 
@@ -112,7 +113,7 @@ class ProcessArticleMediaListener
      */
     public function createImageMedia($articleMedia, $item)
     {
-        if (0 === count($item->getRenditions())) {
+        if (0 === $item->getRenditions()->count()) {
             return;
         }
 

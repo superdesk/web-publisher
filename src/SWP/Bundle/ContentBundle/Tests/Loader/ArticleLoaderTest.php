@@ -62,7 +62,7 @@ class ArticleLoaderTest extends WebTestCase
         $this->assertTrue(count($this->articleLoader->load('article', ['route' => '/news'], LoaderInterface::COLLECTION)) == 3);
         $this->assertNull($this->articleLoader->load('article', ['route' => '/news1'], LoaderInterface::COLLECTION));
 
-        $this->assertNull($this->articleLoader->load('article', null, LoaderInterface::COLLECTION));
+        $this->assertNull($this->articleLoader->load('article', [], LoaderInterface::COLLECTION));
     }
 
     public function testLoadWithParameters()

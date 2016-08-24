@@ -21,11 +21,7 @@ services:
     swp_template_engine.loader.media:
         class: SWP\Bundle\ContentBundle\Loader\ArticleMediaLoader
         arguments:
-            - "@swp.publish_workflow.checker"
             - "@doctrine_phpcr.odm.document_manager"
-            - "%kernel.root_dir%"
-            - "@doctrine_cache.providers.main_cache"
-            - "@swp_multi_tenancy.path_builder"
             - "@swp_template_engine_context.factory.meta_factory"
             - "@swp_template_engine_context"
         tags:

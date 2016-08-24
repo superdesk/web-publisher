@@ -20,6 +20,9 @@ use SWP\Component\Storage\Model\PersistableInterface;
  */
 interface ArticleMediaInterface extends PersistableInterface
 {
+    const PATH_MEDIA = 'media';
+    const PATH_RENDITIONS = 'renditions';
+
     /**
      * @return FileInterface
      */

@@ -84,13 +84,12 @@ class ArticleLoader implements LoaderInterface
      * @param int    $responseType response type: single meta (LoaderInterface::SINGLE) or collection of metas (LoaderInterface::COLLECTION)
      *
      * @return Meta|Meta[]|bool false if meta cannot be loaded, a Meta instance otherwise
+     *
+     * @throws \Exception
      */
-    public function load($type, $parameters = null, $responseType = LoaderInterface::SINGLE)
+    public function load($type, $parameters = [], $responseType = LoaderInterface::SINGLE)
     {
         $article = null;
-        if (empty($parameters)) {
-            $parameters = [];
-        }
 
         if ($responseType === LoaderInterface::SINGLE) {
             if (array_key_exists('contentPath', $parameters)) {

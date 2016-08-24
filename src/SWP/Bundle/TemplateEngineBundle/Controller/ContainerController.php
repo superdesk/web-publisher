@@ -204,9 +204,7 @@ class ContainerController extends FOSRestController
             }
 
             $object = $objectArray['object'];
-
             if ($object instanceof \Exception) {
-                /* @var \Exception */
                 throw $object;
             }
 

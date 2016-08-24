@@ -30,7 +30,8 @@ class ArticleLoader implements LoaderInterface
     protected $metaFactory;
 
     /**
-     * @param string $rootDir path to application root directory
+     * @param string      $rootDir     path to application root directory
+     * @param MetaFactory $metaFactory
      */
     public function __construct($rootDir, MetaFactory $metaFactory)
     {
@@ -52,13 +53,13 @@ class ArticleLoader implements LoaderInterface
      *
      * @return Meta|array false if meta cannot be loaded, a Meta instance otherwise
      */
-    public function load($type, $parameters = null, $responseType = LoaderInterface::SINGLE)
+    public function load($type, $parameters = [], $responseType = LoaderInterface::SINGLE)
     {
         if (!is_readable($this->rootDir.'/Resources/meta/article.yml')) {
             throw new \InvalidArgumentException('Configuration file is not readable for parser');
         }
-        $yaml = new Parser();
-        $configuration = (array) $yaml->parse(file_get_contents($this->rootDir.'/Resources/meta/article.yml'));
+        $parser = new Parser();
+        $configuration = (array) $parser->parse(file_get_contents($this->rootDir.'/Resources/meta/article.yml'));
 
         if ($responseType === LoaderInterface::SINGLE) {
             return $this->metaFactory->create([

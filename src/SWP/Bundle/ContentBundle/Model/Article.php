@@ -14,10 +14,15 @@
 namespace SWP\Bundle\ContentBundle\Model;
 
 use Behat\Transliterator\Transliterator;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use SWP\Component\Common\Model\SoftDeletableTrait;
 use SWP\Component\Common\Model\TranslatableTrait;
 
-class Article implements ArticleInterface
+/**
+ * Class Article
+ */
+class Article implements ArticleInterface, MediaAwareArticleInterface
 {
     use TranslatableTrait, SoftDeletableTrait;
 
@@ -87,12 +92,18 @@ class Article implements ArticleInterface
     protected $isPublishable;
 
     /**
+     * @var Collection
+     */
+    protected $media;
+
+    /**
      * Article constructor.
      */
     public function __construct()
     {
         $this->setCreatedAt(new \DateTime());
         $this->setPublishable(false);
+        $this->setMedia(new ArrayCollection());
     }
 
     /**
@@ -213,6 +224,22 @@ class Article implements ArticleInterface
     public function setBody($body)
     {
         $this->body = $body;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getMedia()
+    {
+        return $this->media;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setMedia(Collection $media)
+    {
+        $this->media = $media;
     }
 
     /**

@@ -16,7 +16,7 @@ namespace SWP\Bundle\ContentBundle\Model;
 /**
  * ImageRendition represents media which belongs to Article.
  */
-class ImageRendition
+class ImageRendition implements ImageRenditionInterface
 {
     /**
      * @var string
@@ -34,7 +34,7 @@ class ImageRendition
     protected $name;
 
     /**
-     * @return string
+     * {@inheritdoc}
      */
     public function getWidth()
     {
@@ -54,7 +54,7 @@ class ImageRendition
     }
 
     /**
-     * @return string
+     * {@inheritdoc}
      */
     public function getHeight()
     {
@@ -74,7 +74,7 @@ class ImageRendition
     }
 
     /**
-     * @return string
+     * {@inheritdoc}
      */
     public function getName()
     {

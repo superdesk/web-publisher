@@ -61,15 +61,6 @@ class RouteEnhancer implements RouteEnhancerInterface
         return $defaults;
     }
 
-    private function getContentFromDefaults($defaults)
-    {
-        if (isset($defaults[RouteObjectInterface::CONTENT_OBJECT])) {
-            return $defaults[RouteObjectInterface::CONTENT_OBJECT];
-        }
-
-        return;
-    }
-
     /**
      * Get article based on available parameters, set route type.
      *
@@ -121,5 +112,14 @@ class RouteEnhancer implements RouteEnhancerInterface
         }
 
         return $defaults;
+    }
+
+    private function getContentFromDefaults($defaults)
+    {
+        if (isset($defaults[RouteObjectInterface::CONTENT_OBJECT])) {
+            return $defaults[RouteObjectInterface::CONTENT_OBJECT];
+        }
+
+        return;
     }
 }

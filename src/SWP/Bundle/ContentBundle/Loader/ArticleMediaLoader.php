@@ -13,42 +13,23 @@
  */
 namespace SWP\Bundle\ContentBundle\Loader;
 
+use SWP\Bundle\ContentBundle\Model\ArticleMediaInterface;
 use SWP\Component\TemplatesSystem\Gimme\Context\Context;
 use SWP\Component\TemplatesSystem\Gimme\Factory\MetaFactory;
 use SWP\Component\TemplatesSystem\Gimme\Loader\LoaderInterface;
 use SWP\Component\TemplatesSystem\Gimme\Meta\Meta;
-use Symfony\Cmf\Bundle\CoreBundle\PublishWorkflow\PublishWorkflowChecker;
 use Doctrine\ODM\PHPCR\DocumentManager;
-use Doctrine\Common\Cache\CacheProvider;
-use SWP\Component\MultiTenancy\PathBuilder\TenantAwarePathBuilderInterface;
 
+/**
+ * Class ArticleMediaLoader
+ */
 class ArticleMediaLoader implements LoaderInterface
 {
-    /**
-     * @var PublishWorkflowChecker
-     */
-    protected $publishWorkflowChecker;
 
     /**
      * @var DocumentManager
      */
     protected $dm;
-
-    /**
-     * @var string
-     */
-    protected $configurationPath;
-
-    /**
-     * @var CacheProvider
-     */
-    protected $metadataCache;
-
-    /**
-     * @var TenantAwarePathBuilderInterface
-     */
-    protected $pathBuilder;
-
 
     /**
      * @var MetaFactory
@@ -63,28 +44,16 @@ class ArticleMediaLoader implements LoaderInterface
     /**
      * ArticleMediaLoader constructor.
      *
-     * @param PublishWorkflowChecker          $publishWorkflowChecker
-     * @param DocumentManager                 $dm
-     * @param                                 $configurationPath
-     * @param CacheProvider                   $metadataCache
-     * @param TenantAwarePathBuilderInterface $pathBuilder
-     * @param MetaFactory                     $metaFactory
-     * @param Context                         $context
+     * @param DocumentManager $dm
+     * @param MetaFactory     $metaFactory
+     * @param Context         $context
      */
     public function __construct(
-        PublishWorkflowChecker $publishWorkflowChecker,
         DocumentManager $dm,
-        $configurationPath,
-        CacheProvider $metadataCache,
-        TenantAwarePathBuilderInterface $pathBuilder,
         MetaFactory $metaFactory,
         Context $context
     ) {
-        $this->publishWorkflowChecker = $publishWorkflowChecker;
         $this->dm = $dm;
-        $this->configurationPath = $configurationPath.'/Resources/meta/media.yml';
-        $this->metadataCache = $metadataCache;
-        $this->pathBuilder = $pathBuilder;
         $this->metaFactory = $metaFactory;
         $this->context = $context;
     }
@@ -93,28 +62,26 @@ class ArticleMediaLoader implements LoaderInterface
      * Load meta object by provided type and parameters.
      *
      * @MetaLoaderDoc(
-     *     description="Article Loader loads articles from Content Repository",
+     *     description="Article Media Loader loads article media from Content Repository",
      *     parameters={
-     *         contentPath="SINGLE|required content path",
-     *         slug="SINGLE|required content slug",
-     *         pageName="COLLECTION|name of Page for required articles"
+     *         article="COLLECTION| article Meta object"
      *     }
      * )
      *
      * @param string $type         object type
      * @param array  $parameters   parameters needed to load required object type
-     * @param int    $responseType response type: single meta (LoaderInterface::SINGLE) or collection of metas (LoaderInterface::COLLECTION)
+     * @param int    $responseType response type: collection of meta (LoaderInterface::COLLECTION)
      *
-     * @return Meta|Meta[]|bool false if meta cannot be loaded, a Meta instance otherwise
+     * @return Meta[]|bool false if meta cannot be loaded, an array with Meta instances otherwise
      */
-    public function load($type, $parameters = array(), $responseType = LoaderInterface::SINGLE)
+    public function load($type, $parameters = [], $responseType = LoaderInterface::COLLECTION)
     {
         if ($responseType === LoaderInterface::COLLECTION) {
             $media = false;
-            if (is_array($parameters) && array_key_exists('article', $parameters)) {
-                $media = $this->dm->find(null, $parameters['article']->getValues()->getId().'/media');
+            if (array_key_exists('article', $parameters)) {
+                $media = $this->dm->find(null, $parameters['article']->getValues()->getId().'/'.ArticleMediaInterface::PATH_MEDIA);
             } elseif (null !== $this->context->article) {
-                $media = $this->dm->find(null, $this->context->article->getValues()->getId().'/media');
+                $media = $this->dm->find(null, $this->context->article->getValues()->getId().'/'.ArticleMediaInterface::PATH_MEDIA);
             }
 
             if ($media) {

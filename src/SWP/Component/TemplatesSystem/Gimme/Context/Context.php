@@ -61,15 +61,6 @@ class Context implements \ArrayAccess
     {
         $this->metadataCache = $metadataCache;
         $this->configsPath = $configsPath;
-
-        if (null !== $configsPath) {
-            $finder = new Finder();
-            $finder->in($configsPath)->files()->name('*.yml');
-
-            foreach ($finder as $file) {
-                $this->addNewConfig($file->getRealPath());
-            }
-        }
     }
 
     /**
@@ -77,7 +68,27 @@ class Context implements \ArrayAccess
      */
     public function getAvailableConfigs()
     {
+        if (0 === count($this->availableConfigs)) {
+            $this->loadConfigsFromPath($this->configsPath);
+        }
+
         return $this->availableConfigs;
+    }
+
+    /**
+     * @param array $configuration
+     *
+     * @return bool
+     */
+    public function addAvailableConfig(array $configuration)
+    {
+        if (isset($configuration['class']) && !isset($this->availableConfigs[$configuration['class']])) {
+            $this->availableConfigs[$configuration['class']] = $configuration;
+
+            return true;
+        }
+
+        return;
     }
 
     /**
@@ -85,11 +96,26 @@ class Context implements \ArrayAccess
      *
      * @return Context
      */
-    public function setAvailableConfigs($availableConfigs)
+    public function setAvailableConfigs(array $availableConfigs)
     {
         $this->availableConfigs = $availableConfigs;
 
         return $this;
+    }
+
+    /**
+     * @param string $configsPath
+     */
+    public function loadConfigsFromPath($configsPath)
+    {
+        if (file_exists($configsPath)) {
+            $finder = new Finder();
+            $finder->in($configsPath)->files()->name('*.yml');
+
+            foreach ($finder as $file) {
+                $this->addNewConfig($file->getRealPath());
+            }
+        }
     }
 
     /**
@@ -105,7 +131,7 @@ class Context implements \ArrayAccess
             throw new \Exception('Context supports configuration loading only for objects');
         }
 
-        foreach ($this->availableConfigs as $class => $configuration) {
+        foreach ($this->getAvailableConfigs() as $class => $configuration) {
             if ($value instanceof $class) {
                 return $configuration;
             }
@@ -156,11 +182,10 @@ class Context implements \ArrayAccess
         } else {
             $configuration = $this->metadataCache->fetch($cacheKey);
         }
-        if (isset($configuration['class']) && !isset($this->availableConfigs[$configuration['class']])) {
-            $this->availableConfigs[$configuration['class']] = $configuration;
-        }
 
-        return $this;
+        $this->addAvailableConfig($configuration);
+
+        return $configuration;
     }
 
     /**

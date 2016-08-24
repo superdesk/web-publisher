@@ -16,7 +16,10 @@ namespace SWP\Component\TemplatesSystem\Gimme\Factory;
 use SWP\Component\TemplatesSystem\Gimme\Context\Context;
 use SWP\Component\TemplatesSystem\Gimme\Meta\Meta;
 
-class MetaFactory
+/**
+ * Class MetaFactory
+ */
+class MetaFactory implements MetaFactoryInterface
 {
     /**
      * @var Context
@@ -34,10 +37,7 @@ class MetaFactory
     }
 
     /**
-     * @param mixed      $value
-     * @param array|null $configuration
-     *
-     * @return Meta
+     * {@inheritdoc}
      */
     public function create($value, array $configuration = null)
     {

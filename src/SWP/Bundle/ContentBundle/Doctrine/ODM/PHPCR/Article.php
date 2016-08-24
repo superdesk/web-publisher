@@ -36,21 +36,6 @@ class Article extends BaseArticle implements HierarchyInterface
     protected $children;
 
     /**
-     * @var Collection
-     */
-    protected $media;
-
-    /**
-     * Article constructor.
-     */
-    public function __construct()
-    {
-        parent::__construct();
-
-        $this->media = new ArrayCollection();
-    }
-
-    /**
      * {@inheritdoc}
      */
     public function setParent($parent)
@@ -92,21 +77,5 @@ class Article extends BaseArticle implements HierarchyInterface
     public function getChildren()
     {
         return $this->children;
-    }
-
-    /**
-     * @return Collection
-     */
-    public function getMedia()
-    {
-        return $this->media;
-    }
-
-    /**
-     * @param Collection $media
-     */
-    public function setMedia($media)
-    {
-        $this->media = $media;
     }
 }

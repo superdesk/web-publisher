@@ -79,7 +79,7 @@ class ArticleMedia implements ArticleMediaInterface
     }
 
     /**
-     * @return FileInterface
+     * {@inheritdoc}
      */
     public function getFile()
     {
@@ -99,7 +99,7 @@ class ArticleMedia implements ArticleMediaInterface
     }
 
     /**
-     * @return ImageInterface
+     * {@inheritdoc}
      */
     public function getImage()
     {
