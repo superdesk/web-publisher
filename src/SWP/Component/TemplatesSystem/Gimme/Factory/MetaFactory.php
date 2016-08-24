@@ -17,7 +17,7 @@ use SWP\Component\TemplatesSystem\Gimme\Context\Context;
 use SWP\Component\TemplatesSystem\Gimme\Meta\Meta;
 
 /**
- * Class MetaFactory
+ * Class MetaFactory.
  */
 class MetaFactory implements MetaFactoryInterface
 {

@@ -10,9 +10,7 @@
  * @copyright 2015 Sourcefabric z.ú.
  * @license http://www.superdesk.org/license
  */
-
 namespace SWP\Component\TemplatesSystem\Tests\Context;
-
 
 use Doctrine\Common\Cache\ArrayCache;
 use SWP\Bundle\ContentBundle\Model\Article;

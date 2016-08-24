@@ -13,19 +13,18 @@
  */
 namespace SWP\Bundle\ContentBundle\Model;
 
-
 /**
- * Interface ImageRenditionInterface
+ * Interface ImageRenditionInterface.
  */
 interface ImageRenditionInterface
 {
     /**
-     * @return integer
+     * @return int
      */
     public function getWidth();
 
     /**
-     * @return integer
+     * @return int
      */
     public function getHeight();
 

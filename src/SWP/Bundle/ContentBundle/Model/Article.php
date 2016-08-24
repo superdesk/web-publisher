@@ -20,7 +20,7 @@ use SWP\Component\Common\Model\SoftDeletableTrait;
 use SWP\Component\Common\Model\TranslatableTrait;
 
 /**
- * Class Article
+ * Class Article.
  */
 class Article implements ArticleInterface, MediaAwareArticleInterface
 {
