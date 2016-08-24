@@ -37,7 +37,7 @@ class Item extends BaseContent implements ItemInterface, TimestampableInterface
     protected $description;
 
     /**
-     * Collection
+     * Collection.
      */
     protected $renditions;
 

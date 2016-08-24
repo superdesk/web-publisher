@@ -13,11 +13,10 @@
  */
 namespace SWP\Bundle\ContentBundle\Model;
 
-use Doctrine\Common\Collections\Collection;
 use SWP\Component\Storage\Model\PersistableInterface;
 
 /**
- * Interface ArticleMediaInterface
+ * Interface ArticleMediaInterface.
  */
 interface ArticleMediaInterface extends PersistableInterface
 {

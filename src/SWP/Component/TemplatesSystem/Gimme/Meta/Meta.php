@@ -16,11 +16,10 @@ namespace SWP\Component\TemplatesSystem\Gimme\Meta;
 use SWP\Component\TemplatesSystem\Gimme\Context\Context;
 
 /**
- * Class Meta
+ * Class Meta.
  */
 class Meta
 {
-
     /**
      * Original Meta values (json|array|object).
      *

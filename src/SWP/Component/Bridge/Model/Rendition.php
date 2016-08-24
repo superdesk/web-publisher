@@ -15,7 +15,6 @@ namespace SWP\Component\Bridge\Model;
 
 class Rendition
 {
-
     /**
      * @var string
      */

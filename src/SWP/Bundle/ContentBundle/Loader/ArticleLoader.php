@@ -16,7 +16,6 @@ namespace SWP\Bundle\ContentBundle\Loader;
 use PHPCR\Query\QueryInterface;
 use SWP\Component\TemplatesSystem\Gimme\Loader\LoaderInterface;
 use SWP\Component\TemplatesSystem\Gimme\Meta\Meta;
-use Symfony\Component\Yaml\Parser;
 use Symfony\Cmf\Bundle\CoreBundle\PublishWorkflow\PublishWorkflowChecker;
 use Doctrine\ODM\PHPCR\DocumentManager;
 use Doctrine\Common\Cache\CacheProvider;

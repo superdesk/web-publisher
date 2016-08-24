@@ -21,7 +21,7 @@ use SWP\Bundle\ContentBundle\Model\ImageInterface;
 use SWP\Bundle\ContentBundle\Model\ImageRendition as BaseImageRendition;
 
 /**
- * Class ImageRendition
+ * Class ImageRendition.
  */
 class ImageRendition extends BaseImageRendition implements HierarchyInterface
 {

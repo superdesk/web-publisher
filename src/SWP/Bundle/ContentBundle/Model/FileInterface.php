@@ -16,7 +16,7 @@ namespace SWP\Bundle\ContentBundle\Model;
 use SWP\Component\Storage\Model\PersistableInterface;
 
 /**
- * Interface FileInterface
+ * Interface FileInterface.
  */
 interface FileInterface extends PersistableInterface
 {
