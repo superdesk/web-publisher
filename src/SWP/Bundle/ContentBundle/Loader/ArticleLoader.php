@@ -122,8 +122,10 @@ class ArticleLoader implements LoaderInterface
                         }
                         if ($order[0] === 'id') {
                             $order[0] = 'jcr:uuid';
+                        } else {
+                            $order[0] = mysqli_real_escape_string($order[0]);
                         }
-                        $queryStr .= ' ORDER BY S.'.$order[0].' '.$order[1];
+                        $queryStr .= sprintf(' ORDER BY S.%s %s', $order[0], $order[1]);
                     }
 
                     $query = $this->dm->createPhpcrQuery($queryStr, QueryInterface::JCR_SQL2);
