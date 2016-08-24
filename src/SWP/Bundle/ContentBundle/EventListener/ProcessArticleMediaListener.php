@@ -21,7 +21,6 @@ use SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\ImageRendition;
 use SWP\Bundle\ContentBundle\Event\ArticleEvent;
 use SWP\Bundle\ContentBundle\Manager\MediaManagerInterface;
 use SWP\Bundle\ContentBundle\Model\ArticleInterface;
-use SWP\Component\Bridge\Model\Item;
 use SWP\Component\Bridge\Model\ItemInterface;
 use SWP\Component\Bridge\Model\Rendition;
 use SWP\Component\MultiTenancy\PathBuilder\TenantAwarePathBuilderInterface;

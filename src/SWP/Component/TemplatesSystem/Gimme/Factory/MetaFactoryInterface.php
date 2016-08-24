@@ -22,5 +22,4 @@ interface MetaFactoryInterface
      * @return Meta
      */
     public function create($value, array $configuration = null);
-
 }

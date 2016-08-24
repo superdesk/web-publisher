@@ -21,11 +21,10 @@ use SWP\Component\TemplatesSystem\Gimme\Meta\Meta;
 use Doctrine\ODM\PHPCR\DocumentManager;
 
 /**
- * Class ArticleMediaLoader
+ * Class ArticleMediaLoader.
  */
 class ArticleMediaLoader implements LoaderInterface
 {
-
     /**
      * @var DocumentManager
      */

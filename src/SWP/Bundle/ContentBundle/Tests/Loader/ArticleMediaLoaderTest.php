@@ -48,7 +48,7 @@ class ArticleMediaLoaderTest extends WebTestCase
     }
 
     /**
-     * Check if Loader support correct types
+     * Check if Loader support correct types.
      */
     public function testIfIsSupported()
     {
@@ -57,7 +57,7 @@ class ArticleMediaLoaderTest extends WebTestCase
     }
 
     /**
-     * Load article and it's media by tested article media loader
+     * Load article and it's media by tested article media loader.
      */
     public function testArticleMediaLoading()
     {

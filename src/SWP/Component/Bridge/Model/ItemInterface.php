@@ -14,7 +14,7 @@
 namespace SWP\Component\Bridge\Model;
 
 /**
- * Interface ItemInterface
+ * Interface ItemInterface.
  */
 interface ItemInterface extends ContentInterface
 {
