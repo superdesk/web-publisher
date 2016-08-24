@@ -71,7 +71,7 @@ class ProcessArticleMediaListener
 
             if (null !== $packageItem->getItems() && 0 !== $packageItem->getItems()->count()) {
                 foreach ($packageItem->getItems() as $key => $item) {
-                    if ($item->getType() === 'picture' || $item->getType() === 'file') {
+                    if (ItemInterface::TYPE_PICTURE === $item->getType() || ItemInterface::TYPE_TEXT === $item->getType()) {
                         $articleMedia = $this->handleMedia($article, $mediaDocument, $key, $item);
                         $this->objectManager->persist($articleMedia);
                     }
