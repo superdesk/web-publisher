@@ -11,7 +11,7 @@
  * @copyright 2016 Sourcefabric z.ú.
  * @license http://www.superdesk.org/license
  */
-namespace SWP\Bundle\TemplateEngineBundle\Command;
+namespace SWP\Bundle\CoreBundle\Command;
 
 use SWP\Bundle\CoreBundle\Document\Tenant;
 use SWP\Component\MultiTenancy\Exception\OrganizationNotFoundException;
@@ -26,9 +26,7 @@ use Symfony\Component\Filesystem\Filesystem;
 
 class ThemeGenerateCommand extends ContainerAwareCommand
 {
-    const THEMES_DIR = 'themes';
     const HOME_TWIG = 'home.html.twig';
-    const THEME_CONFIG_JSON = 'theme.json';
 
     /**
      * {@inheritdoc}
@@ -139,8 +137,8 @@ class ThemeGenerateCommand extends ContainerAwareCommand
      */
     protected function createSkeleton(Filesystem $fileSystem, $tenantCode, $themeName)
     {
-        $configFilename = $this->getContainer()->getParameter('sylius.theme.configuration.filename');
-        $themesDir = $this->getContainer()->getParameter('sylius.theme.configuration.default_directory');
+        $configFilename = $this->getContainer()->getParameter('swp.theme.configuration.filename');
+        $themesDir = $this->getContainer()->getParameter('swp.theme.configuration.default_directory');
 
         $paths = [
             'phone/views/'.self::HOME_TWIG,
@@ -191,17 +189,6 @@ class ThemeGenerateCommand extends ContainerAwareCommand
     {
         $output->writeln('To generate config file, please provide a few values.');
 
-        $configFileContents = $this->getConfigFileContents($input, $output, $tenant, $themeName);
-        file_put_contents($themeDir.\DIRECTORY_SEPARATOR.self::THEME_CONFIG_JSON, $configFileContents);
-    }
-
-    /**
-     * @param $themeName
-     *
-     * @return string
-     */
-    protected function getConfigFileContents(InputInterface $input, OutputInterface $output, Tenant $tenant, $themeName)
-    {
         $values = $this->getValuesFromUser($input,
             $output,
             [
@@ -232,8 +219,9 @@ class ThemeGenerateCommand extends ContainerAwareCommand
 }
 EOT;
         $contents = vsprintf($contents, $values);
+        $configFilename = $this->getContainer()->getParameter('swp.theme.configuration.filename');
 
-        return $contents;
+        file_put_contents($themeDir.\DIRECTORY_SEPARATOR.$configFilename, $contents);
     }
 
     /**

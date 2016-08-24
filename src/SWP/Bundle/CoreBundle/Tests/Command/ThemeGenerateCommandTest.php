@@ -11,10 +11,10 @@
  * @copyright 2016 Sourcefabric z.ú.
  * @license http://www.superdesk.org/license
  */
-namespace SWP\Bundle\TemplateEngineBundle\Tests\Command;
+namespace SWP\Bundle\CoreBundle\Tests\Command;
 
+use SWP\Bundle\CoreBundle\Command\ThemeGenerateCommand;
 use SWP\Bundle\FixturesBundle\WebTestCase;
-use SWP\Bundle\TemplateEngineBundle\Command\ThemeGenerateCommand;
 use Symfony\Component\Filesystem\Filesystem;
 
 class ThemeGenerateCommandTest extends WebTestCase
@@ -38,7 +38,8 @@ class ThemeGenerateCommandTest extends WebTestCase
     public function testCommand()
     {
         $fileSystem = new Filesystem();
-        $tenantThemeDir = implode(\DIRECTORY_SEPARATOR, [$this->getContainer()->get('kernel')->getRootDir(), ThemeGenerateCommand::THEMES_DIR, '123abc']);
+        $themesDir = $this->getContainer()->getParameter('swp.theme.configuration.default_directory');
+        $tenantThemeDir = implode(\DIRECTORY_SEPARATOR, [$themesDir, '123abc']);
         $tenantThemeDirExisted = $fileSystem->exists($tenantThemeDir);
 
         try {
