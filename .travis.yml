@@ -36,7 +36,7 @@ before_script:
 
 script:
   - bin/phpspec run
-  - phpunit -c app/
+  - bin/phpunit -c app/
 
 cache:
   directories:
