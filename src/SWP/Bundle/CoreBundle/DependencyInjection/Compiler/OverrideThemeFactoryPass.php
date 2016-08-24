@@ -16,7 +16,7 @@ namespace SWP\Bundle\CoreBundle\DependencyInjection\Compiler;
 use SWP\Bundle\CoreBundle\Theme\Factory\ThemeFactory;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 
-class OverrideThemeFactoryPass extends AbstractOverridePass
+final class OverrideThemeFactoryPass extends AbstractOverridePass
 {
     /**
      * {@inheritdoc}

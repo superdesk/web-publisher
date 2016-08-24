@@ -16,7 +16,7 @@ namespace SWP\Bundle\CoreBundle\DependencyInjection\Compiler;
 use SWP\Bundle\CoreBundle\Theme\Asset\AssetsInstaller;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 
-class OverrideThemeAssetsInstallerPass extends AbstractOverridePass
+final class OverrideThemeAssetsInstallerPass extends AbstractOverridePass
 {
     /**
      * {@inheritdoc}

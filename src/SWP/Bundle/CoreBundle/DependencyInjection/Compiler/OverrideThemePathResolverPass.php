@@ -16,7 +16,7 @@ namespace SWP\Bundle\CoreBundle\DependencyInjection\Compiler;
 use SWP\Bundle\CoreBundle\Theme\Asset\PathResolver;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 
-class OverrideThemePathResolverPass extends AbstractOverridePass
+final class OverrideThemePathResolverPass extends AbstractOverridePass
 {
     /**
      * {@inheritdoc}
