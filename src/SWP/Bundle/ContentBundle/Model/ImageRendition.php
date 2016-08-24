@@ -13,9 +13,8 @@
  */
 namespace SWP\Bundle\ContentBundle\Model;
 
-
 /**
- * ImageRendition represents media which belongs to Article
+ * ImageRendition represents media which belongs to Article.
  */
 class ImageRendition
 {

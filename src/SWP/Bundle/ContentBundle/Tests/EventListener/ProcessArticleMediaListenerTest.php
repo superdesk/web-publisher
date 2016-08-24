@@ -13,7 +13,6 @@
  */
 namespace SWP\Bundle\ContentBundle\Tests\EventListener;
 
-
 use Doctrine\ODM\PHPCR\Document\Generic;
 use SWP\Bundle\ContentBundle\EventListener\ProcessArticleMediaListener;
 use SWP\Bundle\ContentBundle\Model\ArticleInterface;
@@ -50,7 +49,7 @@ class ProcessArticleMediaListenerTest extends WebTestCase
     }
 
     /**
-     * Test handling items under article
+     * Test handling items under article.
      */
     public function testHandleMedia()
     {

@@ -35,7 +35,7 @@ class Context implements \ArrayAccess
     protected $registeredMeta = [];
 
     /**
-     * Array with available meta configs
+     * Array with available meta configs.
      *
      * @var array
      */

@@ -13,12 +13,10 @@
  */
 namespace SWP\Bundle\ContentBundle\Model;
 
-
-use Doctrine\Common\Collections\Collection;
 use SWP\Component\Bridge\Model\ItemInterface;
 
 /**
- * ArticleMedia represents media which belongs to Article
+ * ArticleMedia represents media which belongs to Article.
  */
 class ArticleMedia implements ArticleMediaInterface
 {
@@ -265,7 +263,7 @@ class ArticleMedia implements ArticleMediaInterface
      */
     public function setFromItem(ItemInterface $item)
     {
-        $this->setBody($item->getBody() ? : $item->getBodyText());
+        $this->setBody($item->getBody() ?: $item->getBodyText());
         $this->setByLine($item->getByLine());
         $this->setLocated($item->getLocated());
         $this->setDescription($item->getDescription());

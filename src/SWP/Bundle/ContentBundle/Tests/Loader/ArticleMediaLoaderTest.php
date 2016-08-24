@@ -15,7 +15,6 @@ namespace SWP\Bundle\ContentBundle\Tests\Loader;
 
 use SWP\Bundle\ContentBundle\Loader\ArticleMediaLoader;
 use SWP\Bundle\FixturesBundle\WebTestCase;
-use SWP\Component\TemplatesSystem\Gimme\Loader\LoaderInterface;
 
 class ArticleMediaLoaderTest extends WebTestCase
 {

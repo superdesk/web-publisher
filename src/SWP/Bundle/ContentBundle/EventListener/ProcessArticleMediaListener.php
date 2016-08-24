@@ -82,14 +82,13 @@ class ProcessArticleMediaListener
     /**
      * @param ArticleInterface $article
      * @param Generic          $mediaDocument
-     * @param String           $key
+     * @param string           $key
      * @param ItemInterface    $item
      *
      * @return ArticleMedia
      */
     public function handleMedia(ArticleInterface $article, Generic $mediaDocument, $key, ItemInterface $item)
     {
-
         $articleMedia = new ArticleMedia();
         $articleMedia->setId($key);
         $articleMedia->setParent($mediaDocument);

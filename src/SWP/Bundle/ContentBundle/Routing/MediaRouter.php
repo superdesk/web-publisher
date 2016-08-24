@@ -52,7 +52,7 @@ class MediaRouter extends Router implements VersatileGeneratorInterface
      */
     public function getRouteDebugMessage($name, array $parameters = array())
     {
-        return "Route for media ".$name->getValues()->getId()." not found";
+        return 'Route for media '.$name->getValues()->getId().' not found';
     }
 
     private function getItem($name)

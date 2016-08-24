@@ -13,7 +13,6 @@
  */
 namespace SWP\Component\TemplatesSystem\Gimme\Factory;
 
-use SWP\Bundle\ContentBundle\Model\ImageRendition;
 use SWP\Component\TemplatesSystem\Gimme\Context\Context;
 use SWP\Component\TemplatesSystem\Gimme\Meta\Meta;
 

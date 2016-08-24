@@ -19,7 +19,7 @@ use Doctrine\ODM\PHPCR\HierarchyInterface;
 use SWP\Bundle\ContentBundle\Model\ArticleMedia as BaseArticleMedia;
 
 /**
- * Class ArticleMedia
+ * Class ArticleMedia.
  */
 class ArticleMedia extends BaseArticleMedia implements HierarchyInterface
 {
@@ -105,5 +105,4 @@ class ArticleMedia extends BaseArticleMedia implements HierarchyInterface
     {
         return $this->renditions;
     }
-
 }
