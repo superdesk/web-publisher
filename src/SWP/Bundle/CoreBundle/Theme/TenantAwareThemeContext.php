@@ -57,7 +57,8 @@ final class TenantAwareThemeContext implements ThemeContextInterface
         /* @var ThemeAwareTenantInterface $tenant */
         $tenant = $this->tenantContext->getTenant();
 
-        $theme = $this->themeRepository->findOneByName($this->resolveThemeName($tenant));
+        $themeName = $this->resolveThemeName($tenant);
+        $theme = $this->themeRepository->findOneByName($themeName);
 
         if (null === $theme) {
             throw new NoThemeException();

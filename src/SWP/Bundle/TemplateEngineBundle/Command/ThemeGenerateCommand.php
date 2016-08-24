@@ -69,7 +69,7 @@ class ThemeGenerateCommand extends ContainerAwareCommand
             $themeName = $input->getArgument('themeName');
 
             $themeDir = $this->createSkeleton(new Filesystem(), $tenant->getCode(), $themeName);
-            $this->writeConfigFile($input, $output, $themeDir, $themeName);
+            $this->writeConfigFile($input, $output, $tenant, $themeDir, $themeName);
             $this->updateTenantReferenceToTheme($tenant, $themeName);
             $output->writeln('Theme '.$themeName.' has been generated successfully!');
         } catch (\Exception $e) {
@@ -145,7 +145,7 @@ class ThemeGenerateCommand extends ContainerAwareCommand
         $paths = [
             'phone/views/'.self::HOME_TWIG,
             'tablet/views/'.self::HOME_TWIG,
-            'views/'.self::HOME_TWIG,
+            'views/index.html.twig',
             'translations/messages.en.xlf',
             'translations/messages.de.xlf',
             'public/css',
@@ -183,14 +183,15 @@ class ThemeGenerateCommand extends ContainerAwareCommand
      *
      * @param InputInterface  $input
      * @param OutputInterface $output
+     * @param Tenant $tenant
      * @param $themeDir
      * @param $themeName
      */
-    protected function writeConfigFile(InputInterface $input, OutputInterface $output, $themeDir, $themeName)
+    protected function writeConfigFile(InputInterface $input, OutputInterface $output, Tenant $tenant, $themeDir, $themeName)
     {
         $output->writeln('To generate config file, please provide a few values.');
 
-        $configFileContents = $this->getConfigFileContents($input, $output, $themeName);
+        $configFileContents = $this->getConfigFileContents($input, $output, $tenant, $themeName);
         file_put_contents($themeDir.\DIRECTORY_SEPARATOR.self::THEME_CONFIG_JSON, $configFileContents);
     }
 
@@ -199,9 +200,19 @@ class ThemeGenerateCommand extends ContainerAwareCommand
      *
      * @return string
      */
-    protected function getConfigFileContents(InputInterface $input, OutputInterface $output, $themeName)
+    protected function getConfigFileContents(InputInterface $input, OutputInterface $output, Tenant $tenant, $themeName)
     {
-        $values = $this->getValuesFromUser($input, $output, ['title', 'description', 'author name', 'author email', 'author homepage', 'author role']);
+        $values = $this->getValuesFromUser($input,
+            $output,
+            [
+                'title' => $themeName,
+                'description' => $tenant->getOrganization()->getName().' '.$themeName.' theme',
+                'author name' => 'anon',
+                'author email' => 'anon',
+                'author homepage' => 'homepage',
+                'author role' => 'anon'
+            ]
+        );
         array_unshift($values, sprintf('swp/%s', $themeName));
 
         $contents =
@@ -230,12 +241,12 @@ EOT;
      * @param OutputInterface $output An OutputInterface instance
      * @param array           $keys
      */
-    protected function getValuesFromUser(InputInterface $input, OutputInterface $output, array $keys)
+    protected function getValuesFromUser(InputInterface $input, OutputInterface $output, array $keysAndDefaults)
     {
         $results = [];
         $helper = $this->getHelper('question');
-        foreach ($keys as $key) {
-            $question = new Question($key.': ', '');
+        foreach ($keysAndDefaults as $key => $default) {
+            $question = new Question($key.': ', $default);
             $results[$key] = $helper->ask($input, $output, $question);
         }
 
@@ -248,7 +259,7 @@ EOT;
      */
     protected function updateTenantReferenceToTheme(Tenant $tenant, $themeName)
     {
-        $tenant->setThemeName($themeName);
+        $tenant->setThemeName(sprintf('swp/%s', $themeName));
         $documentManager = $this->getContainer()->get('doctrine_phpcr.odm.document_manager');
         $documentManager->flush();
     }
