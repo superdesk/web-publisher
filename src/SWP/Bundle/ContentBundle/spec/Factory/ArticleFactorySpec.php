@@ -68,6 +68,7 @@ class ArticleFactorySpec extends ObjectBehavior
         $item->setBody('some body');
 
         $package->getHeadline()->shouldBeCalled()->willReturn('item headline');
+        $package->getBody()->shouldBeCalled()->willReturn('some body');
         $package->getItems()->shouldBeCalled()->willReturn(new ArrayCollection([$item]));
         $package->getLanguage()->shouldBeCalled()->willReturn('en');
 
