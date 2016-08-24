@@ -64,14 +64,14 @@ class ProcessArticleMediaListener
         foreach ($package->getItems() as $key => $packageItem) {
             // create document node for media
             $mediaDocument = $this->createGenericDocument('media', $article);
-            if ($packageItem->getType() === 'picture' || $packageItem->getType() === 'file') {
+            if (ItemInterface::TYPE_PICTURE === $item->getType() || ItemInterface::TYPE_FILE === $item->getType()) {
                 $articleMedia = $this->handleMedia($article, $mediaDocument, $key, $packageItem);
                 $this->objectManager->persist($articleMedia);
             }
 
             if (null !== $packageItem->getItems() && 0 !== $packageItem->getItems()->count()) {
                 foreach ($packageItem->getItems() as $key => $item) {
-                    if (ItemInterface::TYPE_PICTURE === $item->getType() || ItemInterface::TYPE_TEXT === $item->getType()) {
+                    if (ItemInterface::TYPE_PICTURE === $item->getType() || ItemInterface::TYPE_FILE === $item->getType()) {
                         $articleMedia = $this->handleMedia($article, $mediaDocument, $key, $item);
                         $this->objectManager->persist($articleMedia);
                     }
