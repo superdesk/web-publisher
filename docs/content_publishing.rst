@@ -8,7 +8,7 @@ Deciding if content is visible for user in Web Publisher is done dynamically - b
     By default all users can see only published content, but if user have role :code:`ROLE_CAN_VIEW_NON_PUBLISHED` then also not published content will be fetched and rendered.
 
 How published content is marked in database?
-------------------------------------
+--------------------------------------------
 
 Published content need to match those criteria:
 

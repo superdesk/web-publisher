@@ -15,17 +15,19 @@ namespace spec\SWP\Component\TemplatesSystem\Gimme\Context;
 
 use PhpSpec\ObjectBehavior;
 use SWP\Component\TemplatesSystem\Gimme\Context\Context;
+use Doctrine\Common\Cache\Cache;
+use SWP\Component\TemplatesSystem\Gimme\Meta\Meta;
 
 /**
  * @mixin Context
  */
 class ContextSpec extends ObjectBehavior
 {
-    /**
-     * @param \SWP\Component\TemplatesSystem\Gimme\Meta\Meta $meta
-     */
-    public function let($meta)
+    public function let(Cache $cache, Meta $meta)
     {
+        $meta->getConfiguration()->willReturn(['name' => 'article']);
+
+        $this->beConstructedWith($cache, __DIR__.'/../Meta/Resources/meta');
     }
 
     public function it_is_initializable()
@@ -33,22 +35,24 @@ class ContextSpec extends ObjectBehavior
         $this->shouldHaveType(Context::class);
     }
 
+    /**
+     * @param \SWP\Component\TemplatesSystem\Gimme\Meta\Meta $meta
+     */
     public function it_shuld_register_new_meta($meta)
     {
-        $this->registerMeta('item', $meta)->shouldReturn(true);
+        $this->registerMeta($meta)->shouldReturn(true);
     }
 
     public function it_should_set_new_meta($meta)
     {
-        $this->registerMeta('item', $meta)->shouldReturn(true);
-        $this->item = $meta;
+        $this->registerMeta($meta)->shouldReturn(true);
     }
 
     public function it_should_read_meata($meta)
     {
-        $this->registerMeta('item', $meta)->shouldReturn(true);
-        $this->item = $meta;
-        $this->item->shouldReturn($meta);
+        $this->registerMeta($meta)->shouldReturn(true);
+        $this->article = $meta;
+        $this->article->shouldReturn($meta);
     }
 
     public function it_should_save_and_read_current_page_info()

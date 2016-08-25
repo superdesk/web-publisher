@@ -13,8 +13,15 @@
  */
 namespace SWP\Component\Bridge\Model;
 
+/**
+ * Interface ItemInterface.
+ */
 interface ItemInterface extends ContentInterface
 {
+    const TYPE_TEXT = 'text';
+    const TYPE_FILE = 'file';
+    const TYPE_PICTURE = 'picture';
+
     /**
      * @return string
      */
@@ -24,4 +31,14 @@ interface ItemInterface extends ContentInterface
      * @param string $body
      */
     public function setBody($body);
+
+    /**
+     * @return string
+     */
+    public function getDescription();
+
+    /**
+     * @return string
+     */
+    public function getUsageTerms();
 }

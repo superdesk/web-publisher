@@ -15,13 +15,11 @@ namespace SWP\Bundle\ContentBundle\Model;
 
 use SWP\Component\Storage\Model\PersistableInterface;
 
+/**
+ * Interface FileInterface.
+ */
 interface FileInterface extends PersistableInterface
 {
-    /**
-     * @return string
-     */
-    public function getId();
-
     /**
      * Get uploaded file extension.
      *

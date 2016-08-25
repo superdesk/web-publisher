@@ -11,7 +11,7 @@
  * @copyright 2015 Sourcefabric z.ú.
  * @license http://www.superdesk.org/license
  */
-namespace SWP\Bundle\ContentBundle\Tests;
+namespace SWP\Bundle\ContentBundle\Tests\Loader;
 
 use SWP\Bundle\FixturesBundle\WebTestCase;
 use SWP\Bundle\ContentBundle\Loader\ArticleLoader;
@@ -41,10 +41,9 @@ class ArticleLoaderTest extends WebTestCase
         $this->articleLoader = new ArticleLoader(
             $this->getContainer()->get('swp.publish_workflow.checker'),
             $this->getContainer()->get('doctrine_phpcr.odm.document_manager'),
-            $this->getContainer()->getParameter('kernel.root_dir'),
-            $this->getContainer()->get('doctrine_cache.providers.main_cache'),
             $this->getContainer()->get('swp_multi_tenancy.path_builder'),
-            $this->getContainer()->getParameter('swp_multi_tenancy.persistence.phpcr.route_basepaths')
+            $this->getContainer()->getParameter('swp_multi_tenancy.persistence.phpcr.route_basepaths'),
+            $this->getContainer()->get('swp_template_engine_context.factory.meta_factory')
         );
     }
 
@@ -57,13 +56,13 @@ class ArticleLoaderTest extends WebTestCase
         $article = $this->articleLoader->load('article', ['contentPath' => '/swp/123456/123abc/content/test-article']);
         $this->assertInstanceOf('SWP\Component\TemplatesSystem\Gimme\Meta\Meta', $article);
 
-        $this->assertFalse($this->articleLoader->load('article', ['contentPath' => '/swp/123456/123abc/content/test-articles']));
-        $this->assertFalse($this->articleLoader->load('article', ['contentPath' => '/swp/123456/123abc/content/test-article'], LoaderInterface::COLLECTION));
+        $this->assertNull($this->articleLoader->load('article', ['contentPath' => '/swp/123456/123abc/content/test-articles']));
+        $this->assertNull($this->articleLoader->load('article', ['contentPath' => '/swp/123456/123abc/content/test-article'], LoaderInterface::COLLECTION));
 
         $this->assertTrue(count($this->articleLoader->load('article', ['route' => '/news'], LoaderInterface::COLLECTION)) == 3);
-        $this->assertFalse($this->articleLoader->load('article', ['route' => '/news1'], LoaderInterface::COLLECTION));
+        $this->assertNull($this->articleLoader->load('article', ['route' => '/news1'], LoaderInterface::COLLECTION));
 
-        $this->assertFalse($this->articleLoader->load('article', null, LoaderInterface::COLLECTION));
+        $this->assertNull($this->articleLoader->load('article', [], LoaderInterface::COLLECTION));
     }
 
     public function testLoadWithParameters()

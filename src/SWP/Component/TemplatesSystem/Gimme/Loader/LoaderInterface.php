@@ -24,13 +24,13 @@ interface LoaderInterface
     /**
      * Loads a Meta class from given datasource.
      *
-     * @param string $metaType     object type
-     * @param array  $parameters   parameters needed to load required object type
-     * @param int    $responseType response type: single meta (LoaderInterface::SINGLE) or collection of metas (LoaderInterface::COLLECTION)
+     * @param string     $metaType     object type
+     * @param array|null $parameters   parameters needed to load required object type
+     * @param int        $responseType response type: single meta (LoaderInterface::SINGLE) or collection of metas (LoaderInterface::COLLECTION)
      *
      * @return mixed false if meta cannot be loaded, a Meta instance otherwise
      */
-    public function load($metaType, $parameters, $responseType);
+    public function load($metaType, $parameters = [], $responseType = self::SINGLE);
 
     /**
      * Check if loader support required type.

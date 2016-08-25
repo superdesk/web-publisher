@@ -6,7 +6,7 @@ parameters:
 
 services:
     swp_multi_tenancy.phpcr.generic_initializer:
-        class: '%swp_multi_tenancy.phpcr.generic_initializer.class%'
+        class: "%swp_multi_tenancy.phpcr.generic_initializer.class%"
         arguments:
             - Default initializer
             - [ '%swp_multi_tenancy.persistence.phpcr.basepath%' ]
@@ -31,4 +31,3 @@ services:
     swp_multi_tenancy.tenant_aware_router:
         class: '%swp_multi_tenancy.persistence.phpcr.router.class%'
         arguments: # arguments
-

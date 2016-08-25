@@ -1,0 +1,14 @@
+name: imageRendition
+class: "SWP\\Bundle\\ContentBundle\\Model\\ImageRendition"
+description: ImageRendition Meta is representation of image renditions
+properties:
+    name:
+        descritpion: "Rendition name"
+        type: text
+    width:
+        description: "Rendition width"
+        type: int
+    height:
+        description: "Rendition height"
+        type: int
+to_string: body

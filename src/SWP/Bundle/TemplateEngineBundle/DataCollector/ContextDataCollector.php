@@ -13,12 +13,16 @@
  */
 namespace SWP\Bundle\TemplateEngineBundle\DataCollector;
 
+use SWP\Component\TemplatesSystem\Gimme\Context\Context;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\DataCollector\DataCollector;
 
 class ContextDataCollector extends DataCollector
 {
+    /**
+     * @var Context
+     */
     protected $context;
 
     public function __construct($context)
@@ -29,13 +33,14 @@ class ContextDataCollector extends DataCollector
     public function collect(Request $request, Response $response, \Exception $exception = null)
     {
         $this->data = [
-            'context' => $this->context,
+            'currentPage' => $this->context->getCurrentPage(),
+            'registeredMeta' => $this->context->getRegisteredMeta(),
         ];
     }
 
-    public function getContext()
+    public function getData()
     {
-        return $this->data['context'];
+        return $this->data;
     }
 
     public function getName()

@@ -1,0 +1,16 @@
+SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\ImageRendition:
+    referenceable: true
+    parentdocument: parent
+    nodename: name
+    fields:
+        width:
+            type: int
+        height:
+            type: int
+    referenceOne:
+        media:
+            targetDocument: SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\ArticleMedia
+            strategy: hard
+        image:
+            targetDocument: SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\Image
+            strategy: hard

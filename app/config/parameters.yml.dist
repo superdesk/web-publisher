@@ -24,3 +24,5 @@ parameters:
     # Comma separated list of caching servers
     cache_servers: wps.dev
     doctrine_cache_driver: "array"
+
+    sentry.dsn: false

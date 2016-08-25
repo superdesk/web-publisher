@@ -85,7 +85,7 @@ class ContainerService
         }
 
         $options = [];
-        if ($this->debug == false) {
+        if ($this->debug === false) {
             // not debug turn set cache dir
             $options['cache'] = $this->cacheDir;
         }

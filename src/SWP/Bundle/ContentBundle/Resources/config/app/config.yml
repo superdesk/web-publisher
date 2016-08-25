@@ -7,3 +7,6 @@ jms_serializer:
             SymfonyRouting:
                 namespace_prefix: Symfony\Component\Routing
                 path: "@SWPContentBundle/Resources/config/serializer/SymfonyRouting"
+            ContentBundle:
+                namespace_prefix: SWP\Bundle\ContentBundle
+                path: "@SWPContentBundle/Resources/config/serializer"

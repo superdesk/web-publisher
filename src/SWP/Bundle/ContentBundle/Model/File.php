@@ -28,7 +28,7 @@ class File implements FileInterface
     protected $fileExtension;
 
     /**
-     * @param int $id
+     * @param string $id
      */
     public function setId($id)
     {

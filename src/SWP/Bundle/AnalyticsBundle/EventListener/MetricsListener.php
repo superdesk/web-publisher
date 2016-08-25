@@ -50,7 +50,6 @@ class MetricsListener
 
         $route = $event->getRequest()->get('_route');
 
-        // Todo: check for configured routes
         // Ignore web debug toolbar
         if (null !== $route && '_wdt' !== $route) {
             $this->stopwatch = new Stopwatch();

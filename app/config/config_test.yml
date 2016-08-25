@@ -43,3 +43,7 @@ oneup_flysystem:
         filesystem_adapter:
             local:
                 directory: "%kernel.cache_dir%/uploads/"
+
+sentry:
+    environment: "test"
+    dsn: false

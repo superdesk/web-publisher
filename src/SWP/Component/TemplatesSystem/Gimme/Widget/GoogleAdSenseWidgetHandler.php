@@ -20,7 +20,6 @@ class GoogleAdSenseWidgetHandler extends AbstractWidgetHandler
             'type' => 'string',
             'default' => 'display:block',
         ],
-        // TODO: add to client settings as two widgets on the same page probably have to have the same id
         'ad_client' => [
             'type' => 'string',
         ],
