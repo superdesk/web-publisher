@@ -15,8 +15,6 @@ namespace SWP\Bundle\CoreBundle\Theme\Asset;
 
 use Sylius\Bundle\ThemeBundle\Model\ThemeInterface;
 use Sylius\Bundle\ThemeBundle\Asset\Installer\OutputAwareAssetsInstaller;
-use Symfony\Component\Finder\Finder;
-use Symfony\Component\Finder\SplFileInfo;
 
 class AssetsInstaller extends OutputAwareAssetsInstaller
 {
@@ -80,31 +78,6 @@ class AssetsInstaller extends OutputAwareAssetsInstaller
         }
 
         return $sources;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function installThemedBundleAssets(ThemeInterface $theme, $originDir, $targetDir, $symlinkMask)
-    {
-        $effectiveSymlinkMask = $symlinkMask;
-        $finder = new Finder();
-        $finder->sortByName()->ignoreDotFiles(false)->in($originDir);
-
-        /** @var SplFileInfo[] $finder */
-        foreach ($finder as $originFile) {
-            $targetFile = $targetDir.'/'.$originFile->getRelativePathname();
-            $targetFile = $this->pathResolver->resolve($targetFile, $theme);
-
-            $this->filesystem->mkdir(dirname($targetFile));
-
-            $effectiveSymlinkMask = min(
-                $effectiveSymlinkMask,
-                $this->installAsset($originFile->getPathname(), $targetFile, $symlinkMask)
-            );
-        }
-
-        return $effectiveSymlinkMask;
     }
 
     /**

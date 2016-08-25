@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "d5f802ddb3dfe995402875a46cfe7637",
-    "content-hash": "c786100abf75156e0032541333719b09",
+    "hash": "16629a942c8ad5c60a07b2b0e2724576",
+    "content-hash": "af6e77402fbf113c17abcd9a03ba5a5c",
     "packages": [
         {
             "name": "ahilles107/updater",
@@ -1349,18 +1349,18 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/FriendsOfSymfony/FOSHttpCacheBundle.git",
-                "reference": "a798b287b8d06b49be5c4f05c3d3b6a200a8f0c3"
+                "reference": "6bb44957ab28c2a99cdb26f9026a4c05f6d03dda"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSHttpCacheBundle/zipball/a798b287b8d06b49be5c4f05c3d3b6a200a8f0c3",
-                "reference": "a798b287b8d06b49be5c4f05c3d3b6a200a8f0c3",
+                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSHttpCacheBundle/zipball/6bb44957ab28c2a99cdb26f9026a4c05f6d03dda",
+                "reference": "6bb44957ab28c2a99cdb26f9026a4c05f6d03dda",
                 "shasum": ""
             },
             "require": {
                 "friendsofsymfony/http-cache": "~1.4",
-                "php": ">=5.4.0",
-                "symfony/framework-bundle": "^2.3||^3.0"
+                "php": "^5.5.0 || ^7.0.0",
+                "symfony/framework-bundle": "^2.8||^3.0"
             },
             "conflict": {
                 "twig/twig": "<1.12.0"
@@ -1371,7 +1371,7 @@
                 "monolog/monolog": "*",
                 "phpunit/phpunit": "^4.5.0 || ^5.0.0",
                 "polishsymfonycommunity/symfony-mocker-container": "^1.0",
-                "sensio/framework-extra-bundle": "^2.3||^3.0",
+                "sensio/framework-extra-bundle": "^3.0",
                 "symfony/expression-language": "^2.4||^3.0",
                 "symfony/monolog-bundle": "^2.3||^3.0",
                 "symfony/phpunit-bridge": "^2.7||^3.0",
@@ -1422,7 +1422,7 @@
                 "purge",
                 "varnish"
             ],
-            "time": "2016-08-04 20:49:02"
+            "time": "2016-08-25 06:31:31"
         },
         {
             "name": "friendsofsymfony/rest-bundle",
@@ -4618,30 +4618,30 @@
         },
         {
             "name": "sylius/theme-bundle",
-            "version": "v0.18.0",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Sylius/SyliusThemeBundle.git",
-                "reference": "481f98ec113b799503e1047d475b74b30bec4ef6"
+                "reference": "7923a487ca71145809b1edcc002d5b4a2f70f2a4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Sylius/SyliusThemeBundle/zipball/481f98ec113b799503e1047d475b74b30bec4ef6",
-                "reference": "481f98ec113b799503e1047d475b74b30bec4ef6",
+                "url": "https://api.github.com/repos/Sylius/SyliusThemeBundle/zipball/7923a487ca71145809b1edcc002d5b4a2f70f2a4",
+                "reference": "7923a487ca71145809b1edcc002d5b4a2f70f2a4",
                 "shasum": ""
             },
             "require": {
-                "php": "^5.5.9|^7.0",
-                "symfony/symfony": "^2.7.7",
+                "php": "^5.6|^7.0",
+                "symfony/symfony": "^2.8",
                 "zendframework/zend-hydrator": "^1.0|^2.0"
             },
             "require-dev": {
-                "matthiasnoback/symfony-config-test": "^1.4.0",
-                "matthiasnoback/symfony-dependency-injection-test": "^0.7.6",
+                "matthiasnoback/symfony-config-test": "^2.0",
+                "matthiasnoback/symfony-dependency-injection-test": "^1.0",
                 "mikey179/vfsstream": "^1.6",
-                "phpspec/phpspec": "^2.4",
+                "phpspec/phpspec": "^3.0",
                 "phpunit/phpunit": "^4.1",
-                "sylius/settings-bundle": "^0.18"
+                "sylius/settings-bundle": "^1.0"
             },
             "suggest": {
                 "sylius/settings-bundle": "Support for theme settings"
@@ -4649,7 +4649,7 @@
             "type": "symfony-bundle",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "0.18-dev"
+                    "dev-master": "1.0-dev"
                 }
             },
             "autoload": {
@@ -4681,7 +4681,7 @@
                 "themes",
                 "theming"
             ],
-            "time": "2016-05-18 09:48:54"
+            "time": "2016-08-04 10:06:38"
         },
         {
             "name": "symfony-cmf/core-bundle",
@@ -8085,6 +8085,7 @@
         "swp/updater-bundle": 20,
         "behat/transliterator": 20,
         "knplabs/knp-paginator-bundle": 20,
+        "sylius/theme-bundle": 20,
         "superdesk/contentapi-sdk-php": 20,
         "liip/functional-test-bundle": 20,
         "doctrine/doctrine-fixtures-bundle": 20,
