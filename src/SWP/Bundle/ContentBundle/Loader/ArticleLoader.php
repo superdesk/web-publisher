@@ -14,11 +14,11 @@
 namespace SWP\Bundle\ContentBundle\Loader;
 
 use PHPCR\Query\QueryInterface;
+use SWP\Component\TemplatesSystem\Gimme\Factory\MetaFactoryInterface;
 use SWP\Component\TemplatesSystem\Gimme\Loader\LoaderInterface;
 use SWP\Component\TemplatesSystem\Gimme\Meta\Meta;
 use Symfony\Cmf\Bundle\CoreBundle\PublishWorkflow\PublishWorkflowChecker;
 use Doctrine\ODM\PHPCR\DocumentManager;
-use Doctrine\Common\Cache\CacheProvider;
 use SWP\Component\MultiTenancy\PathBuilder\TenantAwarePathBuilderInterface;
 
 class ArticleLoader implements LoaderInterface
@@ -34,16 +34,6 @@ class ArticleLoader implements LoaderInterface
     protected $dm;
 
     /**
-     * @var string
-     */
-    protected $configurationPath;
-
-    /**
-     * @var CacheProvider
-     */
-    protected $metadataCache;
-
-    /**
      * @var TenantAwarePathBuilderInterface
      */
     protected $pathBuilder;
@@ -53,12 +43,26 @@ class ArticleLoader implements LoaderInterface
      */
     protected $routeBasepaths;
 
+    /**
+     * @var MetaFactoryInterface
+     */
+    protected $metaFactory;
+
+    /**
+     * ArticleLoader constructor.
+     *
+     * @param PublishWorkflowChecker          $publishWorkflowChecker
+     * @param DocumentManager                 $dm
+     * @param TenantAwarePathBuilderInterface $pathBuilder
+     * @param string                          $routeBasepaths
+     * @param MetaFactoryInterface            $metaFactory
+     */
     public function __construct(
         PublishWorkflowChecker $publishWorkflowChecker,
         DocumentManager $dm,
         TenantAwarePathBuilderInterface $pathBuilder,
         $routeBasepaths,
-        $metaFactory
+        MetaFactoryInterface $metaFactory
     ) {
         $this->publishWorkflowChecker = $publishWorkflowChecker;
         $this->dm = $dm;

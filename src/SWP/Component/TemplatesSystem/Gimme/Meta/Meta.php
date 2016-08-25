@@ -48,7 +48,6 @@ class Meta
     {
         $this->context = $context;
         $this->values = $values;
-
         $this->configuration = $configuration;
 
         if (is_array($this->values)) {

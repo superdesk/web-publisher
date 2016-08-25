@@ -28,6 +28,26 @@ use SWP\Component\MultiTenancy\PathBuilder\TenantAwarePathBuilderInterface;
 class ProcessArticleMediaListener
 {
     /**
+     * @var ObjectManager
+     */
+    protected $objectManager;
+
+    /**
+     * @var TenantAwarePathBuilderInterface
+     */
+    protected $pathBuilder;
+
+    /**
+     * @var string
+     */
+    protected $mediaBasepath;
+
+    /**
+     * @var MediaManagerInterface
+     */
+    protected $mediaManager;
+
+    /**
      * ProcessArticleMediaListener constructor.
      *
      * @param ObjectManager                   $objectManager
