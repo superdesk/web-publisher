@@ -17,9 +17,11 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use SWP\Bundle\ContentBundle\Model\RouteInterface;
 use Symfony\Component\HttpFoundation\Request;
 
+/**
+ * Class ContentController.
+ */
 class ContentController extends Controller
 {
-
     /**
      * @param Request $request
      * @param string  $contentTemplate

@@ -13,9 +13,9 @@
  */
 namespace SWP\Bundle\ContentBundle\Tests;
 
-use Liip\FunctionalTestBundle\Test\WebTestCase;
 use SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\Route;
 use SWP\Bundle\ContentBundle\Loader\RouteLoader;
+use SWP\Bundle\FixturesBundle\WebTestCase;
 
 class RouteLoaderTest extends WebTestCase
 {
@@ -30,8 +30,7 @@ class RouteLoaderTest extends WebTestCase
     public function testFindRoute()
     {
         $routeLoader = new RouteLoader(
-            $this->getContainer()->getParameter('kernel.root_dir'),
-            $this->getContainer()->get('doctrine_cache.providers.main_cache')
+            $this->getContainer()->get('swp_template_engine_context.factory.meta_factory')
         );
 
         $meta = $routeLoader->load('route', ['route_object' => new Route()]);

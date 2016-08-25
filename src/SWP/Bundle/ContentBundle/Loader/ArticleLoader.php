@@ -13,7 +13,6 @@
  */
 namespace SWP\Bundle\ContentBundle\Loader;
 
-use Doctrine\Common\Cache\CacheProvider;
 use PHPCR\Query\QueryInterface;
 use SWP\Component\TemplatesSystem\Gimme\Factory\MetaFactoryInterface;
 use SWP\Component\TemplatesSystem\Gimme\Loader\LoaderInterface;
@@ -22,7 +21,10 @@ use Symfony\Cmf\Bundle\CoreBundle\PublishWorkflow\PublishWorkflowChecker;
 use Doctrine\ODM\PHPCR\DocumentManager;
 use SWP\Component\MultiTenancy\PathBuilder\TenantAwarePathBuilderInterface;
 
-class ArticleLoader extends MetaLoader
+/**
+ * Class ArticleLoader.
+ */
+class ArticleLoader implements LoaderInterface
 {
     /**
      * @var PublishWorkflowChecker
@@ -65,7 +67,6 @@ class ArticleLoader extends MetaLoader
         $routeBasepaths,
         MetaFactoryInterface $metaFactory
     ) {
-        parent::__construct($configurationPath.'/Resources/meta/article.yml', $metadataCache);
         $this->publishWorkflowChecker = $publishWorkflowChecker;
         $this->dm = $dm;
         $this->pathBuilder = $pathBuilder;

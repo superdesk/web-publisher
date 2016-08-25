@@ -33,7 +33,7 @@ class ContextDataCollector extends DataCollector
     public function collect(Request $request, Response $response, \Exception $exception = null)
     {
         $this->data = [
-            'currentPage' => $this->context->getCurrentPage(),
+            'currentPage' => null !== $this->context->getCurrentPage() ? get_object_vars($this->context->getCurrentPage()) : [],
             'registeredMeta' => $this->context->getRegisteredMeta(),
         ];
     }

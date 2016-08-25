@@ -13,6 +13,7 @@
  */
 namespace SWP\Bundle\CoreBundle\Enhancer;
 
+use SWP\Component\TemplatesSystem\Gimme\Context\Context;
 use Symfony\Cmf\Component\Routing\Enhancer\RouteEnhancerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use SWP\Component\TemplatesSystem\Gimme\Loader\LoaderInterface;
@@ -35,13 +36,23 @@ class RouteEnhancer implements RouteEnhancerInterface
     protected $metaLoader;
 
     /**
+     * @var Context
+     */
+    protected $context;
+
+    /**
      * @param TemplateNameResolverInterface $templateNameResolver
      * @param LoaderInterface               $metaLoader
+     * @param Context                       $context
      */
-    public function __construct(TemplateNameResolverInterface $templateNameResolver, LoaderInterface $metaLoader)
-    {
+    public function __construct(
+        TemplateNameResolverInterface $templateNameResolver,
+        LoaderInterface $metaLoader,
+        Context $context
+    ) {
         $this->templateNameResolver = $templateNameResolver;
         $this->metaLoader = $metaLoader;
+        $this->context = $context;
     }
 
     /**
@@ -127,6 +138,7 @@ class RouteEnhancer implements RouteEnhancerInterface
 
         $request->attributes->set('routeMeta', $routeMeta);
         $defaults['_route_meta'] = $routeMeta;
+        $this->context->setCurrentPage($routeMeta);
 
         return $defaults;
     }
@@ -134,7 +146,7 @@ class RouteEnhancer implements RouteEnhancerInterface
     /**
      * @param array $defaults
      *
-     * @return ArticleInterface|boolean
+     * @return ArticleInterface|bool
      */
     private function getContentFromDefaults($defaults)
     {

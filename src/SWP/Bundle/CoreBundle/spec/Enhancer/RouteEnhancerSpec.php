@@ -3,6 +3,7 @@
 namespace spec\SWP\Bundle\CoreBundle\Enhancer;
 
 use PhpSpec\ObjectBehavior;
+use SWP\Component\TemplatesSystem\Gimme\Context\Context;
 use Symfony\Cmf\Component\Routing\Enhancer\RouteEnhancerInterface;
 use Symfony\Cmf\Component\Routing\RouteObjectInterface;
 use SWP\Bundle\CoreBundle\Resolver\TemplateNameResolver;
@@ -12,9 +13,9 @@ use SWP\Component\TemplatesSystem\Gimme\Loader\LoaderInterface;
 
 class RouteEnhancerSpec extends ObjectBehavior
 {
-    public function let(LoaderInterface $metaLoader)
+    public function let(LoaderInterface $metaLoader, Context $context)
     {
-        $this->beConstructedWith(new TemplateNameResolver(), $metaLoader);
+        $this->beConstructedWith(new TemplateNameResolver(), $metaLoader, $context);
     }
 
     public function it_is_initializable()

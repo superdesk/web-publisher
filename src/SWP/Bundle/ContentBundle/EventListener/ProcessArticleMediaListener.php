@@ -165,6 +165,12 @@ class ProcessArticleMediaListener
         return $articleMedia;
     }
 
+    /**
+     * @param string $nodeName
+     * @param mixed  $parent
+     *
+     * @return Generic
+     */
     private function createGenericDocument($nodeName, $parent)
     {
         $document = new Generic();

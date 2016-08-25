@@ -30,8 +30,7 @@ services:
     swp_template_engine.loader.route:
         class: SWP\Bundle\ContentBundle\Loader\RouteLoader
         arguments:
-            - "%kernel.root_dir%"
-            - "@doctrine_cache.providers.main_cache"
+             - "@swp_template_engine_context.factory.meta_factory"
         tags:
             - { name: swp.meta_loader }
 

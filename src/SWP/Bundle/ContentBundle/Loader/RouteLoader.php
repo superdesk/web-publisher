@@ -13,19 +13,30 @@
  */
 namespace SWP\Bundle\ContentBundle\Loader;
 
-use Doctrine\Common\Cache\CacheProvider;
+use SWP\Component\TemplatesSystem\Gimme\Factory\MetaFactoryInterface;
 use SWP\Component\TemplatesSystem\Gimme\Loader\LoaderInterface;
 use SWP\Component\TemplatesSystem\Gimme\Meta\Meta;
 
-class RouteLoader extends MetaLoader
+/**
+ * Class RouteLoader.
+ */
+class RouteLoader implements LoaderInterface
 {
     const SUPPORTED_TYPE = 'route';
 
-    public function __construct(
-        $configurationPath,
-        CacheProvider $metadataCache)
+    /**
+     * @var MetaFactoryInterface
+     */
+    protected $metaFactory;
+
+    /**
+     * RouteLoader constructor.
+     *
+     * @param MetaFactoryInterface $metaFactory
+     */
+    public function __construct(MetaFactoryInterface $metaFactory)
     {
-        parent::__construct($configurationPath.'/Resources/meta/route.yml', $metadataCache);
+        $this->metaFactory = $metaFactory;
     }
 
     /**
@@ -34,23 +45,25 @@ class RouteLoader extends MetaLoader
      * @MetaLoaderDoc(
      *     description="Article Loader loads articles from Content Repository",
      *     parameters={
-     *         contentPath="SINGLE|required content path",
-     *         slug="SINGLE|required content slug",
-     *         pageName="COLLECTiON|name of Page for required articles"
+     *         route_object="SINGLE|required route object"
      *     }
      * )
      *
      * @param string $type         object type
      * @param array  $parameters   parameters needed to load required object type
-     * @param int    $responseType response type: single meta (LoaderInterface::SINGLE) or collection of metas (LoaderInterface::COLLECTION)
+     * @param int    $responseType response type: single meta (LoaderInterface::SINGLE)
      *
-     * @return Meta|Meta[]|bool false if meta cannot be loaded, a Meta instance otherwise
+     * @return Meta|bool false if meta cannot be loaded, a Meta instance otherwise
      */
-    public function load($type, $parameters, $responseType = LoaderInterface::SINGLE)
+    public function load($type, $parameters = [], $responseType = LoaderInterface::SINGLE)
     {
         $route = isset($parameters['route_object']) ? $parameters['route_object'] : null;
 
-        return $this->getRouteMeta($route);
+        if (null !== $route) {
+            return $this->metaFactory->create($route);
+        }
+
+        return false;
     }
 
     /**
@@ -63,14 +76,5 @@ class RouteLoader extends MetaLoader
     public function isSupported($type)
     {
         return self::SUPPORTED_TYPE === $type;
-    }
-
-    private function getRouteMeta($route)
-    {
-        if (null !== $route) {
-            return new Meta($this->getConfiguration(), $route);
-        }
-
-        return false;
     }
 }

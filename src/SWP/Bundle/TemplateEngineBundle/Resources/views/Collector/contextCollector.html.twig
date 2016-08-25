@@ -38,10 +38,10 @@
             </tr>
         </thead>
         <tbody>
-            {% for key in collector.currentPage|keys|sort %}
+            {% for key, value in collector.data.currentPage %}
                 <tr>
                     <th>{{ key }}</th>
-                    <td>{{ profiler_dump(collector.currentPage[key]) }}</td>
+                    <td>{{ profiler_dump(value) }}</td>
                 </tr>
             {% endfor %}
         </tbody>
