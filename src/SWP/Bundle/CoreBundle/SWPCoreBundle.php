@@ -13,6 +13,9 @@
  */
 namespace SWP\Bundle\CoreBundle;
 
+use SWP\Bundle\CoreBundle\DependencyInjection\Compiler\OverrideThemeAssetsInstallerPass;
+use SWP\Bundle\CoreBundle\DependencyInjection\Compiler\OverrideThemeFactoryPass;
+use SWP\Bundle\CoreBundle\DependencyInjection\Compiler\OverrideThemePathResolverPass;
 use SWP\Bundle\StorageBundle\DependencyInjection\Bundle\Bundle;
 use SWP\Bundle\StorageBundle\Drivers;
 use SWP\Bundle\CoreBundle\Theme\Configuration\TenantableConfigurationSourceFactory;
@@ -31,6 +34,9 @@ class SWPCoreBundle extends Bundle
         /** @var SyliusThemeExtension $themeExtension */
         $themeExtension = $container->getExtension('sylius_theme');
         $themeExtension->addConfigurationSourceFactory(new TenantableConfigurationSourceFactory());
+        $container->addCompilerPass(new OverrideThemeFactoryPass());
+        $container->addCompilerPass(new OverrideThemePathResolverPass());
+        $container->addCompilerPass(new OverrideThemeAssetsInstallerPass());
     }
 
     /**

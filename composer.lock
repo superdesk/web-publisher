@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "3a98ebeccd87d7db38b30064950ba465",
-    "content-hash": "2a5d41de47881aebe48b8965be633ba2",
+    "hash": "e72bb60d71c7ace2ad15f6fac08e8b88",
+    "content-hash": "fc08dbf1a3313e9ce88879cc80d84335",
     "packages": [
         {
             "name": "ahilles107/updater",
@@ -1354,7 +1354,7 @@
             "dist": {
                 "type": "zip",
                 "url": "https://api.github.com/repos/FriendsOfSymfony/FOSHttpCacheBundle/zipball/a798b287b8d06b49be5c4f05c3d3b6a200a8f0c3",
-                "reference": "1009876f6b2b319d3d7f7e0e7bc8375890bddd9c",
+                "reference": "a798b287b8d06b49be5c4f05c3d3b6a200a8f0c3",
                 "shasum": ""
             },
             "require": {
@@ -1435,7 +1435,7 @@
             "dist": {
                 "type": "zip",
                 "url": "https://api.github.com/repos/FriendsOfSymfony/FOSRestBundle/zipball/5d0f28334970d2601c16c82bd4c6183df2f639a6",
-                "reference": "5bd68a76b2957eb009b1d7d95e9573b11e710d8b",
+                "reference": "5d0f28334970d2601c16c82bd4c6183df2f639a6",
                 "shasum": ""
             },
             "require": {
@@ -1686,6 +1686,7 @@
                 "rest",
                 "web service"
             ],
+            "abandoned": "guzzlehttp/guzzle",
             "time": "2015-03-18 18:23:50"
         },
         {
@@ -4450,7 +4451,7 @@
             "dist": {
                 "type": "zip",
                 "url": "https://api.github.com/repos/SuperdeskWebPublisher/SWPUpdaterBundle/zipball/e1bb2169ca60d733ce5b0afcb684718cab47026a",
-                "reference": "cd2c44a2b6a52240304eddc2f1bf0812cd255db4",
+                "reference": "e1bb2169ca60d733ce5b0afcb684718cab47026a",
                 "shasum": ""
             },
             "require": {
@@ -4505,30 +4506,30 @@
         },
         {
             "name": "sylius/theme-bundle",
-            "version": "v0.18.0",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Sylius/SyliusThemeBundle.git",
-                "reference": "481f98ec113b799503e1047d475b74b30bec4ef6"
+                "reference": "7923a487ca71145809b1edcc002d5b4a2f70f2a4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Sylius/SyliusThemeBundle/zipball/481f98ec113b799503e1047d475b74b30bec4ef6",
-                "reference": "481f98ec113b799503e1047d475b74b30bec4ef6",
+                "url": "https://api.github.com/repos/Sylius/SyliusThemeBundle/zipball/7923a487ca71145809b1edcc002d5b4a2f70f2a4",
+                "reference": "7923a487ca71145809b1edcc002d5b4a2f70f2a4",
                 "shasum": ""
             },
             "require": {
-                "php": "^5.5.9|^7.0",
-                "symfony/symfony": "^2.7.7",
+                "php": "^5.6|^7.0",
+                "symfony/symfony": "^2.8",
                 "zendframework/zend-hydrator": "^1.0|^2.0"
             },
             "require-dev": {
-                "matthiasnoback/symfony-config-test": "^1.4.0",
-                "matthiasnoback/symfony-dependency-injection-test": "^0.7.6",
+                "matthiasnoback/symfony-config-test": "^2.0",
+                "matthiasnoback/symfony-dependency-injection-test": "^1.0",
                 "mikey179/vfsstream": "^1.6",
-                "phpspec/phpspec": "^2.4",
+                "phpspec/phpspec": "^3.0",
                 "phpunit/phpunit": "^4.1",
-                "sylius/settings-bundle": "^0.18"
+                "sylius/settings-bundle": "^1.0"
             },
             "suggest": {
                 "sylius/settings-bundle": "Support for theme settings"
@@ -4536,7 +4537,7 @@
             "type": "symfony-bundle",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "0.18-dev"
+                    "dev-master": "1.0-dev"
                 }
             },
             "autoload": {
@@ -4568,7 +4569,7 @@
                 "themes",
                 "theming"
             ],
-            "time": "2016-05-18 09:48:54"
+            "time": "2016-08-04 10:06:38"
         },
         {
             "name": "symfony-cmf/core-bundle",
@@ -5516,7 +5517,7 @@
             "dist": {
                 "type": "zip",
                 "url": "https://api.github.com/repos/symfony/symfony/zipball/609ee2df0a649158914bd3fd5dd8788b853b4311",
-                "reference": "6404e8e033980ad4d522f71e0c3278d4e53d22b8",
+                "reference": "609ee2df0a649158914bd3fd5dd8788b853b4311",
                 "shasum": ""
             },
             "require": {
@@ -7786,6 +7787,7 @@
         "swp/updater-bundle": 20,
         "behat/transliterator": 20,
         "knplabs/knp-paginator-bundle": 20,
+        "sylius/theme-bundle": 20,
         "superdesk/contentapi-sdk-php": 20,
         "liip/functional-test-bundle": 20,
         "doctrine/doctrine-fixtures-bundle": 20,
