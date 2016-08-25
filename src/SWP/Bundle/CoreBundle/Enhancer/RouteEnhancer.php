@@ -57,6 +57,7 @@ class RouteEnhancer implements RouteEnhancerInterface
         $defaults['_controller'] = ContentController::class.'::renderPageAction';
         $defaults = $this->setArticleMeta($this->getContentFromDefaults($defaults), $request, $defaults);
         $defaults = $this->setTemplateName($this->getContentFromDefaults($defaults), $defaults);
+        $defaults = $this->setRouteMeta($request, $defaults);
 
         return $defaults;
     }
@@ -114,6 +115,27 @@ class RouteEnhancer implements RouteEnhancerInterface
         return $defaults;
     }
 
+    /**
+     * @param Request $request
+     * @param array   $defaults
+     *
+     * @return array
+     */
+    public function setRouteMeta(Request $request, array $defaults)
+    {
+        $routeMeta = $this->metaLoader->load('route', ['route_object' => $defaults['_route_object']]);
+
+        $request->attributes->set('routeMeta', $routeMeta);
+        $defaults['_route_meta'] = $routeMeta;
+
+        return $defaults;
+    }
+
+    /**
+     * @param array $defaults
+     *
+     * @return ArticleInterface|boolean
+     */
     private function getContentFromDefaults($defaults)
     {
         if (isset($defaults[RouteObjectInterface::CONTENT_OBJECT])) {
