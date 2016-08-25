@@ -97,7 +97,8 @@
         "doctrine/doctrine-fixtures-bundle": "^2.2@dev",
         "nelmio/alice": "2.1.x",
         "henrikbjorn/phpspec-code-coverage" : "2.*@dev",
-        "matthiasnoback/symfony-dependency-injection-test": "^v0.7"
+        "matthiasnoback/symfony-dependency-injection-test": "^v0.7",
+        "symfony/phpunit-bridge": "^3.1"
     },
     "replace": {
         "swp/common": "self.version",
