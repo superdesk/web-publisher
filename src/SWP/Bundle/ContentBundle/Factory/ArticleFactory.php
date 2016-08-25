@@ -79,7 +79,7 @@ class ArticleFactory implements ArticleFactoryInterface
         $article->setTitle($package->getHeadline());
         // Get package body and it's items body (if they are type text)
         $article->setBody($package->getBody().implode('', array_map(function (ItemInterface $item) {
-            if (ItemInterface::TYPE_TEXT  === $item->getType()) {
+            if (ItemInterface::TYPE_TEXT === $item->getType()) {
                 return $item->getBody();
             }
         }, $package->getItems()->toArray())));

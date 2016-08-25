@@ -21,9 +21,9 @@ use Symfony\Component\Yaml\Parser;
 class Context implements \ArrayAccess
 {
     /**
-     * Array with current page informations.
+     * Array with current page information's.
      *
-     * @var string[]
+     * @var string
      */
     protected $currentPage;
 
@@ -121,7 +121,7 @@ class Context implements \ArrayAccess
     /**
      * @param mixed $value
      *
-     * @return array|void
+     * @return array
      *
      * @throws \Exception
      */
@@ -137,7 +137,7 @@ class Context implements \ArrayAccess
             }
         }
 
-        return;
+        return [];
     }
 
     /**
@@ -161,7 +161,7 @@ class Context implements \ArrayAccess
             return false;
         }
 
-        return null !== $this->getConfigurationForValue($value);
+        return count($this->getConfigurationForValue($value)) > 0 ? true : false;
     }
 
     /**

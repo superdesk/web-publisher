@@ -9,5 +9,6 @@ To get the diff for a specific change, go to https://github.com/superdesk/web-pu
 
 * 0.1.0-5 
 
+ * fix [#108] Set current route to context {{ gimme.route }} (djbrd-sourcefabric, ahilles107)
  * feature [#105] Make Meta context aware - every property inside Meta class will be converted to Meta if config for it will be registered (ahilles107)
  * feature [#105] Implement Article Media handling - handle images coming with packages and items  (ahilles107)

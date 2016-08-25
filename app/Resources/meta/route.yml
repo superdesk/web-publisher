@@ -1,0 +1,14 @@
+name: route
+class: "SWP\\Bundle\\ContentBundle\\Model\\RouteInterface"
+description: Route Meta is representation of Route in Superdesk Web Publisher.
+properties:
+    templateName:
+        description: "Route template name"
+        type: text
+    id:
+        description: "Route identifier"
+        type: text
+    type:
+        description: "Route type"
+        type: text
+to_string: path

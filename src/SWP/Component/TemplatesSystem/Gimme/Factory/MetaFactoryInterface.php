@@ -13,6 +13,8 @@
  */
 namespace SWP\Component\TemplatesSystem\Gimme\Factory;
 
+use SWP\Component\TemplatesSystem\Gimme\Meta\Meta;
+
 interface MetaFactoryInterface
 {
     /**

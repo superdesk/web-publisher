@@ -13,6 +13,7 @@
  */
 namespace SWP\Bundle\CoreBundle\Enhancer;
 
+use SWP\Component\TemplatesSystem\Gimme\Context\Context;
 use Symfony\Cmf\Component\Routing\Enhancer\RouteEnhancerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use SWP\Component\TemplatesSystem\Gimme\Loader\LoaderInterface;
@@ -35,13 +36,23 @@ class RouteEnhancer implements RouteEnhancerInterface
     protected $metaLoader;
 
     /**
+     * @var Context
+     */
+    protected $context;
+
+    /**
      * @param TemplateNameResolverInterface $templateNameResolver
      * @param LoaderInterface               $metaLoader
+     * @param Context                       $context
      */
-    public function __construct(TemplateNameResolverInterface $templateNameResolver, LoaderInterface $metaLoader)
-    {
+    public function __construct(
+        TemplateNameResolverInterface $templateNameResolver,
+        LoaderInterface $metaLoader,
+        Context $context
+    ) {
         $this->templateNameResolver = $templateNameResolver;
         $this->metaLoader = $metaLoader;
+        $this->context = $context;
     }
 
     /**
@@ -57,6 +68,7 @@ class RouteEnhancer implements RouteEnhancerInterface
         $defaults['_controller'] = ContentController::class.'::renderPageAction';
         $defaults = $this->setArticleMeta($this->getContentFromDefaults($defaults), $request, $defaults);
         $defaults = $this->setTemplateName($this->getContentFromDefaults($defaults), $defaults);
+        $defaults = $this->setRouteMeta($request, $defaults);
 
         return $defaults;
     }
@@ -114,6 +126,28 @@ class RouteEnhancer implements RouteEnhancerInterface
         return $defaults;
     }
 
+    /**
+     * @param Request $request
+     * @param array   $defaults
+     *
+     * @return array
+     */
+    public function setRouteMeta(Request $request, array $defaults)
+    {
+        $routeMeta = $this->metaLoader->load('route', ['route_object' => $defaults['_route_object']]);
+
+        $request->attributes->set('routeMeta', $routeMeta);
+        $defaults['_route_meta'] = $routeMeta;
+        $this->context->setCurrentPage($routeMeta);
+
+        return $defaults;
+    }
+
+    /**
+     * @param array $defaults
+     *
+     * @return ArticleInterface|bool
+     */
     private function getContentFromDefaults($defaults)
     {
         if (isset($defaults[RouteObjectInterface::CONTENT_OBJECT])) {

@@ -172,7 +172,6 @@ class ContentPushControllerTest extends WebTestCase
         );
         $this->assertEquals(201, $client->getResponse()->getStatusCode());
 
-        $client->enableProfiler();
         $client->request(
             'GET',
             $this->router->generate('swp_api_content_show_articles', ['id' => 'text-item-with-image'])

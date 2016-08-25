@@ -64,4 +64,15 @@ class ContextTest extends \PHPUnit_Framework_TestCase
         $this->context->addNewConfig(__DIR__.'/../../spec/Gimme/Meta/Resources/meta/article.yml');
         self::assertTrue($this->context->isSupported(new Article()));
     }
+
+    protected function tearDown()
+    {
+        $reflection = new \ReflectionObject($this);
+        foreach ($reflection->getProperties() as $prop) {
+            if (!$prop->isStatic() && 0 !== strpos($prop->getDeclaringClass()->getName(), 'PHPUnit_')) {
+                $prop->setAccessible(true);
+                $prop->setValue($this, null);
+            }
+        }
+    }
 }

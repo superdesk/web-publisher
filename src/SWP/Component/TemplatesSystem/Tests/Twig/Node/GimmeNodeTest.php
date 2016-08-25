@@ -111,7 +111,7 @@ EOF
         $twig = new \Twig_Environment($loader);
         $twig->addExtension(new GimmeExtension($context, $metaLoader));
 
-        $this->setExpectedException('\Twig_Error_Syntax');
+        $this->expectException(\Twig_Error_Syntax::class);
         $twig->render('error_gimme');
     }
 }

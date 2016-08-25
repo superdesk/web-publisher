@@ -17,8 +17,18 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use SWP\Bundle\ContentBundle\Model\RouteInterface;
 use Symfony\Component\HttpFoundation\Request;
 
+/**
+ * Class ContentController.
+ */
 class ContentController extends Controller
 {
+    /**
+     * @param Request $request
+     * @param string  $contentTemplate
+     * @param null    $contentDocument
+     *
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
     public function renderPageAction(Request $request, $contentTemplate, $contentDocument = null)
     {
         if (null === $contentDocument && ($request->attributes->get('type') === RouteInterface::TYPE_COLLECTION)) {
