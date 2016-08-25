@@ -18,6 +18,14 @@ services:
         tags:
             - { name: swp.meta_loader }
 
+    swp_template_engine.loader.route:
+        class: SWP\Bundle\ContentBundle\Loader\RouteLoader
+        arguments:
+            - "%kernel.root_dir%"
+            - "@doctrine_cache.providers.main_cache"
+        tags:
+            - { name: swp.meta_loader }
+
     document_manager:
         alias: doctrine_phpcr.odm.document_manager
 

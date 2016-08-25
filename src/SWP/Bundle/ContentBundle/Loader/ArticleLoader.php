@@ -13,16 +13,15 @@
  */
 namespace SWP\Bundle\ContentBundle\Loader;
 
+use Doctrine\Common\Cache\CacheProvider;
 use PHPCR\Query\QueryInterface;
 use SWP\Component\TemplatesSystem\Gimme\Loader\LoaderInterface;
 use SWP\Component\TemplatesSystem\Gimme\Meta\Meta;
-use Symfony\Component\Yaml\Parser;
 use Symfony\Cmf\Bundle\CoreBundle\PublishWorkflow\PublishWorkflowChecker;
 use Doctrine\ODM\PHPCR\DocumentManager;
-use Doctrine\Common\Cache\CacheProvider;
 use SWP\Component\MultiTenancy\PathBuilder\TenantAwarePathBuilderInterface;
 
-class ArticleLoader implements LoaderInterface
+class ArticleLoader extends MetaLoader
 {
     /**
      * @var PublishWorkflowChecker
@@ -33,16 +32,6 @@ class ArticleLoader implements LoaderInterface
      * @var DocumentManager
      */
     protected $dm;
-
-    /**
-     * @var string
-     */
-    protected $configurationPath;
-
-    /**
-     * @var CacheProvider
-     */
-    protected $metadataCache;
 
     /**
      * @var TenantAwarePathBuilderInterface
@@ -62,10 +51,9 @@ class ArticleLoader implements LoaderInterface
         TenantAwarePathBuilderInterface $pathBuilder,
         $routeBasepaths
     ) {
+        parent::__construct($configurationPath.'/Resources/meta/article.yml', $metadataCache);
         $this->publishWorkflowChecker = $publishWorkflowChecker;
         $this->dm = $dm;
-        $this->configurationPath = $configurationPath.'/Resources/meta/article.yml';
-        $this->metadataCache = $metadataCache;
         $this->pathBuilder = $pathBuilder;
         $this->routeBasepaths = $routeBasepaths;
     }
@@ -95,19 +83,6 @@ class ArticleLoader implements LoaderInterface
             $parameters = [];
         }
 
-        // Cache meta configuration
-        $cacheKey = md5($this->configurationPath);
-        if (!$this->metadataCache->contains($cacheKey)) {
-            if (!is_readable($this->configurationPath)) {
-                throw new \InvalidArgumentException('Configuration file is not readable for parser');
-            }
-            $yaml = new Parser();
-            $configuration = $yaml->parse(file_get_contents($this->configurationPath));
-            $this->metadataCache->save($cacheKey, $configuration);
-        } else {
-            $configuration = $this->metadataCache->fetch($cacheKey);
-        }
-
         if ($responseType === LoaderInterface::SINGLE) {
             if (array_key_exists('contentPath', $parameters)) {
                 $article = $this->dm->find('SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\Article', $parameters['contentPath']);
@@ -118,7 +93,7 @@ class ArticleLoader implements LoaderInterface
                     ->findOneBy(['slug' => $parameters['slug']]);
             }
 
-            return $this->getArticleMeta($configuration, $article);
+            return $this->getArticleMeta($article);
         } elseif ($responseType === LoaderInterface::COLLECTION) {
             if (array_key_exists('route', $parameters)) {
                 $route = $this->dm->find(null, $this->pathBuilder->build(
@@ -158,7 +133,7 @@ class ArticleLoader implements LoaderInterface
 
                     $metas = [];
                     foreach ($articles as $article) {
-                        $articleMeta = $this->getArticleMeta($configuration, $article);
+                        $articleMeta = $this->getArticleMeta($article);
                         if ($articleMeta) {
                             $metas[] = $articleMeta;
                         }
@@ -184,10 +159,10 @@ class ArticleLoader implements LoaderInterface
         return in_array($type, ['articles', 'article']);
     }
 
-    private function getArticleMeta($configuration, $article)
+    private function getArticleMeta($article)
     {
         if (!is_null($article) && $this->publishWorkflowChecker->isGranted(PublishWorkflowChecker::VIEW_ATTRIBUTE, $article)) {
-            return new Meta($configuration, $article);
+            return new Meta($this->getConfiguration(), $article);
         }
 
         return false;
