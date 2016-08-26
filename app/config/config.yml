@@ -78,6 +78,10 @@ doctrine:
                         type: yml
                         prefix: SWP\Bundle\AnalyticsBundle\Model
                         dir: Resources/config/doctrine
+                    SWPContentBundle:
+                        type: yml
+                        prefix: SWP\Bundle\ContentBundle\Model
+                        dir: Resources/config/doctrine
                     SWPTemplateEngineBundle:
                         type: yml
                         prefix: SWP\Bundle\TemplateEngineBundle\Model

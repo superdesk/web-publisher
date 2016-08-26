@@ -107,3 +107,11 @@ services:
         parent: "router.symfony"
         tags:
             - { name: router, priority: 300 }
+
+    swp_content_bundle.valid_route_id:
+        class: SWP\Bundle\ContentBundle\Validator\Constraints\RouteIdValidator
+        arguments:
+            - '@swp.provider.route'
+        tags:
+            - { name: validator.constraint_validator, alias: route_in_database }
+
