@@ -34,6 +34,16 @@ interface RouteToArticleInterface extends PersistableInterface
     public function getRule();
 
     /**
+     * @param $priority
+     */
+    public function setPriority($priority);
+
+    /**
+     * @return int
+     */
+    public function getPriority();
+
+    /**
      * Set routeId.
      *
      * @param string $routeId

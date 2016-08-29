@@ -121,7 +121,7 @@ services:
         arguments:
             - SWP\Bundle\ContentBundle\Model\RouteToArticle
 
-    swp_content_bundle.routetoarticle.mapper:
+    swp_content_bundle.route_to_article.mapper:
         class: SWP\Bundle\ContentBundle\Service\RouteToArticleMapper
         arguments:
             - "@swp_content_bundle.routetoarticle.repository"

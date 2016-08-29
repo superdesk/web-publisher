@@ -18,7 +18,7 @@ use SWP\Component\MultiTenancy\Model\TenantAwareInterface;
 /**
  * RouteToArticle.
  */
-class RouteToArticle implements TenantAwareInterface
+class RouteToArticle implements TenantAwareInterface, RouteToArticleInterface
 {
     /**
      * @var int

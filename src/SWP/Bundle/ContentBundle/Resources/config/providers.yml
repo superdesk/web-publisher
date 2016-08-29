@@ -17,4 +17,4 @@ services:
             - '@swp.repository.article'
             - '@swp_multi_tenancy.path_builder'
             - '@swp.object_manager.article'
-            - '@swp_content_bundle.routetoarticle.mapper'
+            - '@swp_content_bundle.route_to_article.mapper'

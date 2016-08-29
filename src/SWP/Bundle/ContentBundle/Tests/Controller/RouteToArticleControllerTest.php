@@ -56,7 +56,7 @@ class RouteToArticleControllerTest extends WebTestCase
     public function testListRouteToArticleApi()
     {
         $client = static::createClient();
-        $client->request('GET', $this->router->generate('swp_api_content_list_routetoarticle'));
+        $client->request('GET', $this->router->generate('swp_api_mapping_list_route_to_article'));
 
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
         $data = json_decode($client->getResponse()->getContent(), true);
@@ -69,7 +69,7 @@ class RouteToArticleControllerTest extends WebTestCase
     public function testGetRouteToArticleApi()
     {
         $client = static::createClient();
-        $client->request('GET', $this->router->generate('swp_api_content_get_routetoarticle', ['id' => 1]));
+        $client->request('GET', $this->router->generate('swp_api_mapping_get_route_to_article', ['id' => 1]));
 
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
         $this->checkResponsePayload($client, $this->defaultData);
@@ -85,7 +85,7 @@ class RouteToArticleControllerTest extends WebTestCase
         ];
 
         $client = static::createClient();
-        $client->request('POST', $this->router->generate('swp_api_content_create_routetoarticle'), [
+        $client->request('POST', $this->router->generate('swp_api_mapping_create_route_to_article'), [
             'routetoarticle' => $sent,
         ]);
 
@@ -103,7 +103,7 @@ class RouteToArticleControllerTest extends WebTestCase
         ];
 
         $client = static::createClient();
-        $client->request('PATCH', $this->router->generate('swp_api_content_update_routetoarticle', ['id' => 1]), [
+        $client->request('PATCH', $this->router->generate('swp_api_mapping_update_route_to_article', ['id' => 1]), [
             'routetoarticle' => $sent,
         ]);
 
@@ -118,7 +118,7 @@ class RouteToArticleControllerTest extends WebTestCase
         ];
 
         $client = static::createClient();
-        $client->request('PATCH', $this->router->generate('swp_api_content_update_routetoarticle', ['id' => 1]), [
+        $client->request('PATCH', $this->router->generate('swp_api_mapping_update_route_to_article', ['id' => 1]), [
             'routetoarticle' => $sent,
         ]);
         $this->assertEquals(400, $client->getResponse()->getStatusCode());
@@ -134,7 +134,7 @@ class RouteToArticleControllerTest extends WebTestCase
         ];
 
         $client = static::createClient();
-        $client->request('PATCH', $this->router->generate('swp_api_content_update_routetoarticle', ['id' => 1]), [
+        $client->request('PATCH', $this->router->generate('swp_api_mapping_update_route_to_article', ['id' => 1]), [
             'routetoarticle' => $sent,
         ]);
         $this->assertEquals(400, $client->getResponse()->getStatusCode());
@@ -143,7 +143,7 @@ class RouteToArticleControllerTest extends WebTestCase
     public function testDeleteRouteToArticleApi()
     {
         $client = static::createClient();
-        $client->request('DELETE', $this->router->generate('swp_api_content_delete_routetoarticle', ['id' => 1]));
+        $client->request('DELETE', $this->router->generate('swp_api_mapping_delete_route_to_article', ['id' => 1]));
 
         $this->assertEquals(204, $client->getResponse()->getStatusCode());
         $this->assertEquals($client->getResponse()->getContent(), '');

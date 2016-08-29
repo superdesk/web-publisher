@@ -35,7 +35,7 @@ class RouteToArticleController extends FOSRestController
      *         200="Returned on success.",
      *     }
      * )
-     * @Route("/api/{version}/content/routetoarticle/", options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_content_list_routetoarticle")
+     * @Route("/api/{version}/mapping/routes/", options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_mapping_list_route_to_article")
      * @Method("GET")
      */
     public function listAction(Request $request)
@@ -62,7 +62,7 @@ class RouteToArticleController extends FOSRestController
      *         404="Entity not found",
      *     }
      * )
-     * @Route("/api/{version}/content/routetoarticle/{id}", requirements={"id"="\d+"}, options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_content_get_routetoarticle")
+     * @Route("/api/{version}/mapping/routes/{id}", requirements={"id"="\d+"}, options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_mapping_get_route_to_article")
      * @Method("GET")
      * @ParamConverter("routeToArticle", class="SWPContentBundle:RouteToArticle")
      */
@@ -83,7 +83,7 @@ class RouteToArticleController extends FOSRestController
      *     },
      *     input="SWP\Bundle\ContentBundle\Form\RouteToArticleType"
      * )
-     * @Route("/api/{version}/content/routetoarticle", options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_content_create_routetoarticle")
+     * @Route("/api/{version}/mapping/routes", options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_mapping_create_route_to_article")
      * @Method("POST")
      */
     public function createAction(Request $request)
@@ -114,7 +114,7 @@ class RouteToArticleController extends FOSRestController
      *         404="Entity not found",
      *     }
      * )
-     * @Route("/api/{version}/content/routetoarticle/{id}", requirements={"id"="\d+"}, options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_content_delete_routetoarticle")
+     * @Route("/api/{version}/mapping/routes/{id}", requirements={"id"="\d+"}, options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_mapping_delete_route_to_article")
      * @Method("DELETE")
      * @ParamConverter("routeToArticle", class="SWPContentBundle:RouteToArticle")
      */
@@ -141,7 +141,7 @@ class RouteToArticleController extends FOSRestController
      *     },
      *     input="SWP\Bundle\ContentBundle\Form\RouteToArticleType"
      * )
-     * @Route("/api/{version}/content/routetoarticle/{id}", requirements={"id"="\d+"}, options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_content_update_routetoarticle")
+     * @Route("/api/{version}/mapping/routes/{id}", requirements={"id"="\d+"}, options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_mapping_update_route_to_article")
      * @Method("PATCH")
      * @ParamConverter("routeToArticle", class="SWPContentBundle:RouteToArticle")
      */
