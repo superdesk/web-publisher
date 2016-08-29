@@ -65,6 +65,7 @@ class TemplateNameResolverSpec extends ObjectBehavior
     public function it_should_resolve_template_name_from_route(RouteInterface $route)
     {
         $route->getTemplateName()->willReturn('test2.html.twig');
+        $route->getType()->willReturn(RouteInterface::TYPE_CONTENT);
         $this->resolveFromRoute($route)->shouldReturn('test2.html.twig');
 
         $route->getTemplateName()->willReturn(null);
