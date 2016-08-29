@@ -35,9 +35,9 @@ class RouteToArticleMapperTest extends WebTestCase
             'SWP\Bundle\FixturesBundle\DataFixtures\PHPCR\LoadArticlesData',
         ], null, 'doctrine_phpcr');
 
-        $this->loadFixtures([
-            'SWP\Bundle\FixturesBundle\DataFixtures\ORM\LoadRouteToArticlesData',
-        ]);
+        $this->loadFixtureFiles([
+            '@SWPFixturesBundle/Resources/fixtures/ORM/test/RouteToArticle.yml',
+        ], true);
     }
 
     public function testAssignRoutetoArticle()

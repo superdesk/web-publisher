@@ -1,0 +1,6 @@
+SWP\Bundle\ContentBundle\Model\RouteToArticle:
+    defaultRouteToArticle:
+        tenantCode: '123abc'
+        priority: 1
+        routeId: ''
+        rule: 'article.getLocale() matches "/en/"'

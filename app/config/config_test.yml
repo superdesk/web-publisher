@@ -10,13 +10,13 @@ framework:
         enabled: true
         collect: false
 
-#doctrine:
-#    dbal:
-#        default_connection: default
-#        connections:
-#            default:
-#                driver:   pdo_sqlite
-#                path:     "%kernel.cache_dir%/test.db3"
+doctrine:
+    dbal:
+        default_connection: default
+        connections:
+            default:
+                driver:   pdo_sqlite
+                path:     "%kernel.cache_dir%/test.db3"
 
 liip_functional_test: ~
 

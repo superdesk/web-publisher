@@ -15,7 +15,6 @@ namespace SWP\Bundle\ContentBundle\Tests\Controller;
 
 use JMS\Serializer\Metadata\PropertyMetadata;
 use JMS\Serializer\Naming\CamelCaseNamingStrategy;
-use SWP\Bundle\FixturesBundle\DataFixtures\ORM\LoadRouteToArticlesData;
 use SWP\Bundle\FixturesBundle\DataFixtures\PHPCR\LoadRoutesData;
 use SWP\Bundle\FixturesBundle\WebTestCase;
 use SWP\Bundle\ContentBundle\Validator\Constraints\RouteId;
@@ -40,17 +39,17 @@ class RouteToArticleControllerTest extends WebTestCase
             'SWP\Bundle\FixturesBundle\DataFixtures\PHPCR\LoadRoutesData',
         ], null, 'doctrine_phpcr');
 
-        $this->loadFixtures([
-            'SWP\Bundle\FixturesBundle\DataFixtures\ORM\LoadRouteToArticlesData',
-        ]);
+        $this->loadFixtureFiles([
+            '@SWPFixturesBundle/Resources/fixtures/ORM/test/RouteToArticle.yml',
+        ], true);
 
         $this->router = $this->getContainer()->get('router');
 
         $this->defaultData = [
             'id' => 1,
-            'rule' => LoadRouteToArticlesData::TEST_RULE,
-            'priority' => LoadRouteToArticlesData::TEST_PRIORITY,
-            'routeId' => LoadRouteToArticlesData::TEST_ROUTE_ID,
+            'rule' => 'article.getLocale() matches "/en/"',
+            'priority' => 1,
+            'routeId' => '',
         ];
     }
 
