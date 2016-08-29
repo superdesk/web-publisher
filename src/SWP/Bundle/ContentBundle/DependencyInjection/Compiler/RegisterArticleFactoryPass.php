@@ -43,6 +43,7 @@ class RegisterArticleFactoryPass implements CompilerPassInterface
                 $baseDefinition,
                 $container->findDefinition('swp.provider.route'),
                 $container->findDefinition('swp.provider.article'),
+                $container->findDefinition('swp_content_bundle.routetoarticle.mapper'),
                 $container->getParameter('swp_multi_tenancy.persistence.phpcr.content_basepath'),
             ]
         );
