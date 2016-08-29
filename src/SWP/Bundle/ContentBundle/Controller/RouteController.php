@@ -134,6 +134,7 @@ class RouteController extends FOSRestController
             }
 
             $route = $this->get('swp.service.route')->createRoute($formData);
+
             $this->get('swp.repository.route')->add($route);
 
             $this->get('event_dispatcher')
@@ -169,27 +170,31 @@ class RouteController extends FOSRestController
     {
         $objectManager = $this->get('swp.object_manager.route');
         $route = $this->findOr404($id);
-        $form = $this->createForm(new RouteType(), [
+        $form = $this->createForm(RouteType::class, [
             'name' => $route->getName(),
             'type' => $route->getType(),
-            'parent' => $route->getParent(),
+            'parent' => null!== $route->getParent() ? $route->getParent()->getId() : null,
             'content' => null !== $route->getContent() ? $route->getContent()->getId() : null,
             'template_name' => $route->getTemplateName(),
             'cacheTimeInSeconds' => $route->getCacheTimeInSeconds(),
         ], ['method' => $request->getMethod()]);
+        try {
+            $form->handleRequest($request);
+            if ($form->isValid()) {
+                $this->get('swp.service.route')->updateRoute($route, $form->getData());
+                $objectManager->flush();
 
-        $form->handleRequest($request);
-        if ($form->isValid()) {
-            $this->get('swp.service.route')->updateRoute($route, $form->getData());
-            $objectManager->flush();
+                $this->get('event_dispatcher')
+            ->dispatch(HttpCacheEvent::EVENT_NAME, new HttpCacheEvent($route));
 
-            $this->get('event_dispatcher')
-                ->dispatch(HttpCacheEvent::EVENT_NAME, new HttpCacheEvent($route));
+                return $this->handleView(View::create($route, 200));
+            }
 
-            return $this->handleView(View::create($route, 200));
+            return $this->handleView(View::create($form, 500));
+        } catch (\Exception $e) {
+            dump($e->getMessage());
+            die;
         }
-
-        return $this->handleView(View::create($form, 500));
     }
 
     private function findOr404($id)
