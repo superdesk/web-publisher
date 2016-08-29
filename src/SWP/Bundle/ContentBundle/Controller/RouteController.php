@@ -173,28 +173,24 @@ class RouteController extends FOSRestController
         $form = $this->createForm(RouteType::class, [
             'name' => $route->getName(),
             'type' => $route->getType(),
-            'parent' => null!== $route->getParent() ? $route->getParent()->getId() : null,
+            'parent' => null !== $route->getParent() ? $route->getParent()->getId() : null,
             'content' => null !== $route->getContent() ? $route->getContent()->getId() : null,
             'template_name' => $route->getTemplateName(),
             'cacheTimeInSeconds' => $route->getCacheTimeInSeconds(),
         ], ['method' => $request->getMethod()]);
-        try {
-            $form->handleRequest($request);
-            if ($form->isValid()) {
-                $this->get('swp.service.route')->updateRoute($route, $form->getData());
-                $objectManager->flush();
 
-                $this->get('event_dispatcher')
+        $form->handleRequest($request);
+        if ($form->isValid()) {
+            $this->get('swp.service.route')->updateRoute($route, $form->getData());
+            $objectManager->flush();
+
+            $this->get('event_dispatcher')
             ->dispatch(HttpCacheEvent::EVENT_NAME, new HttpCacheEvent($route));
 
-                return $this->handleView(View::create($route, 200));
-            }
-
-            return $this->handleView(View::create($form, 500));
-        } catch (\Exception $e) {
-            dump($e->getMessage());
-            die;
+            return $this->handleView(View::create($route, 200));
         }
+
+        return $this->handleView(View::create($form, 500));
     }
 
     private function findOr404($id)
