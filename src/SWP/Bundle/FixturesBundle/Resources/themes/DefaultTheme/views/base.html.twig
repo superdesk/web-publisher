@@ -8,7 +8,7 @@
 
   <title>{% block title %}Liquid Theme for Superdesk Web Publisher{% endblock %}</title>
   <meta name="author" content="Tomasz Rondio">
-    
+
   <meta name="description" content="Superdesk Web Publisher is state of the art publishing system.">
   <meta name="keywords" content="Superdesk, Sourcefabric, open source, media, journalism">
 
@@ -21,7 +21,7 @@
 
   <!-- Place favicon.ico & apple-touch-icon.png in the root of your domain and delete these references -->
   <link rel="shortcut icon" href="{{ asset('theme/assets/img/favicon.ico') }}">
-  
+
   {% block stylesheets %}
   <!-- CSS: implied media="all" -->
   <link rel="stylesheet" href="{{ asset('theme/assets/css/blueimp-gallery-indicator.css') }}">
@@ -33,12 +33,12 @@
 .gm-style .gm-style-cc span,.gm-style .gm-style-cc a,.gm-style .gm-style-mtc div{font-size:10px}
 </style>
 <style type="text/css">
-@media print {  
-  .gm-style .gmnoprint, .gmnoprint {    
+@media print {
+  .gm-style .gmnoprint, .gmnoprint {
     display:none  }
   }
-@media screen {  
-  .gm-style .gmnoscreen, .gmnoscreen {    
+@media screen {
+  .gm-style .gmnoscreen, .gmnoscreen {
     display:none  }
   }
 </style>
@@ -56,25 +56,24 @@
   {% endblock %}
 
         <!--[if lt IE 9]>
-            <script src="http://swp-dev.ljuba.sourcefabric.net/bundles/DefaultTheme/assets/js/html5.js" type="text/javascript"></script>
             <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js" type="text/javascript"></script>
             <![endif]-->
-            
+
             <script src="{{ asset('theme/assets/js/jquery.js') }}" type="text/javascript"></script>
             <script src="{{ asset('theme/assets/js/helpers.js') }}" type="text/javascript"></script>
 
 </head>
 
-<body> 
+<body>
 
             <div class="container">
-              <div id="login_popup" class="popup span6 offset3">
+             {#  <div id="login_popup" class="popup span6 offset3">
                 <a href="#" class="close"></a>
                 <div class="content content_text">
-                  
+
                   <h3 class="popup_title bigger">{{ 'global.header.login'|trans|desc('Log in') }}</h3>
                   <div class="styled_form login_form">
-                    
+
                     <ul class="logininfo" style="display:none">
                       <li><a href="/dashboard">{{ 'global.header.dashboard'|trans|desc('Dashboard') }}</a></li>
                       <li><a href="/auth/logout">{{ 'global.header.logout'|trans|desc('Logout') }}</a></li>
@@ -106,12 +105,12 @@
                        <input type="submit" value="Login" class="float_right">
                      </div>
                    </div>
-                   
+
                    </form>
-                                      
+
                  </div>
                </div>
-             </div>
+             </div> #}
            </div>
 
     <div class="header_wrap">
@@ -135,18 +134,18 @@
   <ul class="menu" id="mobile_lang">
       <li class="current"><a href="index.html">English</a></li>
   </ul>
-  
-<div class="mobile-search">
+
+{# <div class="mobile-search">
     <form name="search_articles" action="index.html" method="post">
     	<input type="text" name="f_search_keywords" maxlength="255" size="10" value="" placeholder="{{ 'global.header.search'|trans|desc('Search') }}">
     	<input type="submit" name="f_search_articles" value="">
 	 </form>
 </div>
-
+ #}
   </nav>
 <header id="titlebar">
 
-  <div class="search_area hidden-phone">
+{#   <div class="search_area hidden-phone">
     <form name="search_articles" action="index.html" method="post">
     	<input type="text" name="f_search_keywords" maxlength="255" size="10" value="" placeholder="{{ 'global.header.search'|trans|desc('Search') }}">
     	<input type="submit" name="f_search_articles" value="">
@@ -159,8 +158,8 @@
 <div class="logininfo" style="display:none">
   <a href="/dashboard" class="icon_link hidden-phone">{{ 'global.header.myProfile'|trans|desc('My Profile') }}</a>
   <a href="/auth/logout?t=1467888756" class="icon_link icon_key hidden-phone">{{ 'global.header.logout'|trans|desc('Logout') }}</a>
-</div>
-  
+</div> #}
+
   <button class="navbar-toggle visible-phone" type="button" id="mobilemenuopen">
           <span class="sr-only">{{ 'global.header.toggleNav'|trans|desc('Toggle navigation') }}</span>
   </button>
@@ -203,7 +202,7 @@
     <li><a href="{# url('/routes/categories/entertainment') #}" title="View all posts filed under Entertainment">Entertainment</a></li>
     <li><a href="{# url('/routes/categories/sports') #}" title="View all posts filed under Sports">Sports</a></li>
     <li><a href="{# url('/routes/categories/dialogue') #}" title="View all posts filed under Dialogue">Dialogue</a></li>
-    
+
     <li><a href="/user" title="Community">Community</a></li>
   </ul>
 </nav>
@@ -218,7 +217,7 @@
 <!-- Footer -->
 <footer id="footer">
   <div class="container">
-      <ul id="footer_menu_first" class="menu hidden-phone">      
+      <ul id="footer_menu_first" class="menu hidden-phone">
             <li><a href="{# url('/routes/categories/politics') #}" title="View all posts filed under Politics">Politics</a></li>
     		<li><a href="{# url('/routes/categories/business') #}" title="View all posts filed under Business">Business</a></li>
     		<li><a href="{# url('/routes/categories/scitech') #}" title="View all posts filed under Sci/Tech">Sci/Tech</a></li>
@@ -227,9 +226,9 @@
     		<li><a href="{# url('/routes/categories/sports') #}" title="View all posts filed under Sports">Sports</a></li>
     		<li><a href="{# url('/routes/categories/dialogue') #}" title="View all posts filed under Dialogue">Dialogue</a></li>
         </ul>
-        
+
         <ul id="footer_menu_second" class="menu">
-            <li><a href="page.html" title="Credits">Credits</a></li>            
+            <li><a href="page.html" title="Credits">Credits</a></li>
             <li><a href="page.html" title="Marketing">Marketing</a></li>
             <li><a href="page.html" title="Contact">Contact</a></li>
             <li><a href="page.html" title="About us">About us</a></li>
@@ -279,7 +278,7 @@
                 $( ".js-toggle-info" ).click(function(e) {
                   e.preventDefault();
                   $(".js-theme-info").toggle();
-                });                
+                });
             </script>
 </body>
 </html>
