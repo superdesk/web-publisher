@@ -41,7 +41,6 @@ class RouteToArticleMapper
      */
     private $logger;
 
-
     /**
      * RouteToArticleMapper constructor.
      *

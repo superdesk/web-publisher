@@ -15,5 +15,5 @@ namespace SWP\Bundle\ContentBundle\Service;
 
 interface RuleEvaluatorInterface
 {
-    public function evaluate($rule, array $params=[]);
+    public function evaluate($rule, array $params = []);
 }

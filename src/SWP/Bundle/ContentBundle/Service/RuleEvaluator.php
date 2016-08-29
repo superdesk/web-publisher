@@ -30,9 +30,10 @@ class RuleEvaluator implements RuleEvaluatorInterface
     /**
      * @param $rule
      * @param array $params
+     *
      * @return string
      */
-    public function evaluate($rule, array $params=[])
+    public function evaluate($rule, array $params = [])
     {
         return $this->language->evaluate($rule, $params);
     }
