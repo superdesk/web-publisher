@@ -16,7 +16,7 @@ namespace SWP\Bundle\ContentBundle\Model;
 use SWP\Component\MultiTenancy\Model\TenantAwareInterface;
 
 /**
- * RouteToArticle
+ * RouteToArticle.
  */
 class RouteToArticle implements TenantAwareInterface
 {

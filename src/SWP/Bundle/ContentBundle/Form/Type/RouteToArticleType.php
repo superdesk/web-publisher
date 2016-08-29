@@ -23,7 +23,7 @@ class RouteToArticleType extends AbstractType
 {
     /**
      * @param FormBuilderInterface $builder
-     * @param array $options
+     * @param array                $options
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -39,7 +39,7 @@ class RouteToArticleType extends AbstractType
             ->add('templateName')
         ;
     }
-    
+
     /**
      * @param OptionsResolver $resolver
      */
@@ -47,7 +47,7 @@ class RouteToArticleType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => 'SWP\Bundle\ContentBundle\Model\RouteToArticle',
-            'csrf_protection' => false
+            'csrf_protection' => false,
         ]);
     }
 

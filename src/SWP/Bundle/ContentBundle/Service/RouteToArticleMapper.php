@@ -50,7 +50,6 @@ class RouteToArticleMapper
         $this->language = new ExpressionLanguage();
     }
 
-
     public function assignRouteToArticle(ArticleInterface $article)
     {
         $routeToArticles = $this->routeToArticleRepository->findBy([], ['priority' => 'DESC']);
@@ -66,6 +65,7 @@ class RouteToArticleMapper
                     if (null !== $templateName) {
                         $article->setTemplateName($templateName);
                     }
+
                     return true;
                 } else {
                     $this->logger('No route found with id '.$routeId.' referenced in routeToArticle with id '.$routeToArticle->getId());

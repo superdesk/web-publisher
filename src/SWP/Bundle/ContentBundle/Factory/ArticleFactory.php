@@ -61,8 +61,7 @@ class ArticleFactory implements ArticleFactoryInterface
         ArticleProviderInterface $articleProvider,
         RouteToArticleMapper $routeToArticleMapper,
         $contentRelativePath
-    )
-    {
+    ) {
         $this->baseFactory = $baseFactory;
         $this->routeProvider = $routeProvider;
         $this->articleProvider = $articleProvider;

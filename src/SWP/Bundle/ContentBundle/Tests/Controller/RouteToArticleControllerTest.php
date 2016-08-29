@@ -82,7 +82,7 @@ class RouteToArticleControllerTest extends WebTestCase
             'rule' => 'article.locale matches "/test/"',
             'priority' => 0,
             'routeId' => LoadRoutesData::TEST_CACHE_ROUTE_NAME,
-            'templateName' => 'blumenkohl'
+            'templateName' => 'blumenkohl',
         ];
 
         $client = static::createClient();
@@ -100,7 +100,7 @@ class RouteToArticleControllerTest extends WebTestCase
             'rule' => 'article.locale matches "/jest/"',
             'priority' => 1,
             'routeId' => LoadRoutesData::TEST_NO_CACHE_ROUTE_NAME,
-            'templateName' => 'iridify'
+            'templateName' => 'iridify',
         ];
 
         $client = static::createClient();
@@ -127,7 +127,6 @@ class RouteToArticleControllerTest extends WebTestCase
         $this->assertContains($constraint->message, $client->getResponse()->getContent());
     }
 
-
     public function testDeleteRouteToArticleApi()
     {
         $client = static::createClient();
@@ -137,7 +136,7 @@ class RouteToArticleControllerTest extends WebTestCase
         $this->assertEquals($client->getResponse()->getContent(), '');
     }
 
-    private function checkResponsePayload($client, $sent, $data=null)
+    private function checkResponsePayload($client, $sent, $data = null)
     {
         $naming = new CamelCaseNamingStrategy();
         if (null === $data) {
@@ -151,5 +150,3 @@ class RouteToArticleControllerTest extends WebTestCase
         }
     }
 }
-
-

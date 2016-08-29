@@ -18,7 +18,7 @@ use SWP\Component\Storage\Model\PersistableInterface;
 interface RouteToArticleInterface extends PersistableInterface
 {
     /**
-     * Set rule
+     * Set rule.
      *
      * @param string $rule
      *
@@ -27,14 +27,14 @@ interface RouteToArticleInterface extends PersistableInterface
     public function setRule($rule);
 
     /**
-     * Get rule
+     * Get rule.
      *
      * @return string
      */
     public function getRule();
 
     /**
-     * Set routeId
+     * Set routeId.
      *
      * @param string $routeId
      *
@@ -43,14 +43,14 @@ interface RouteToArticleInterface extends PersistableInterface
     public function setRouteId($routeId);
 
     /**
-     * Get routeId
+     * Get routeId.
      *
      * @return string
      */
     public function getRouteId();
 
     /**
-     * Set templateName
+     * Set templateName.
      *
      * @param string $templateName
      *
@@ -59,7 +59,7 @@ interface RouteToArticleInterface extends PersistableInterface
     public function setTemplateName($templateName);
 
     /**
-     * Get templateName
+     * Get templateName.
      *
      * @return string
      */
