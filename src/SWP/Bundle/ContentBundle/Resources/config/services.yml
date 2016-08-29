@@ -5,6 +5,7 @@ parameters:
     swp_content_bundle.listener.http_cache_header.class: SWP\Bundle\ContentBundle\EventListener\HttpCacheHeaderListener
     swp_content_bundle.manager.media.class: SWP\Bundle\ContentBundle\Manager\MediaManager
     swp_content_bundle.router.media.class: SWP\Bundle\ContentBundle\Routing\MediaRouter
+    swp_content_bundle.rule_evaluator.class: SWP\Bundle\ContentBundle\Service\RuleEvaluator
 
 services:
     swp_template_engine.loader.article:
@@ -121,9 +122,13 @@ services:
         arguments:
             - SWP\Bundle\ContentBundle\Model\RouteToArticle
 
+    swp_content_bundle.rule_evaluator:
+        class: "%swp_content_bundle.rule_evaluator.class%"
+
     swp_content_bundle.route_to_article.mapper:
         class: SWP\Bundle\ContentBundle\Service\RouteToArticleMapper
         arguments:
             - "@swp_content_bundle.routetoarticle.repository"
             - "@swp.repository.route"
+            - "@swp_content_bundle.rule_evaluator"
             - "@logger"

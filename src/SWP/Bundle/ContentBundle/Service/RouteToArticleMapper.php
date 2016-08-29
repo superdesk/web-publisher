@@ -18,7 +18,6 @@ use Doctrine\ORM\EntityRepository;
 use Psr\Log\LoggerInterface;
 use SWP\Bundle\ContentBundle\Model\ArticleInterface;
 use SWP\Bundle\ContentBundle\Model\RouteToArticle;
-use Symfony\Component\ExpressionLanguage\ExpressionLanguage;
 
 class RouteToArticleMapper
 {
@@ -33,14 +32,15 @@ class RouteToArticleMapper
     private $routeRepository;
 
     /**
+     * @var RuleEvaluator
+     */
+    private $ruleEvaluator;
+
+    /**
      * @var LoggerInterface
      */
     private $logger;
 
-    /**
-     * @var ExpressionLanguage
-     */
-    private $language;
 
     /**
      * RouteToArticleMapper constructor.
@@ -49,12 +49,16 @@ class RouteToArticleMapper
      * @param DocumentRepository $routeRepository
      * @param LoggerInterface    $logger
      */
-    public function __construct(EntityRepository $routeToArticleRepository, DocumentRepository $routeRepository, LoggerInterface $logger)
+    public function __construct(
+        EntityRepository $routeToArticleRepository,
+        DocumentRepository $routeRepository,
+        RuleEvaluator $ruleEvaluator,
+        LoggerInterface $logger)
     {
         $this->routeToArticleRepository = $routeToArticleRepository;
         $this->routeRepository = $routeRepository;
+        $this->ruleEvaluator = $ruleEvaluator;
         $this->logger = $logger;
-        $this->language = new ExpressionLanguage();
     }
 
     /**
@@ -98,7 +102,7 @@ class RouteToArticleMapper
     {
         $result = false;
         try {
-            $result = $this->language->evaluate($rule, ['article' => $article]);
+            $result = $this->ruleEvaluator->evaluate($rule, ['article' => $article]);
         } catch (\Exception $e) {
             $this->logger->info($e->getMessage());
         }
