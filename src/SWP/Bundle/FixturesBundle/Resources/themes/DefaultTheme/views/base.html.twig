@@ -24,9 +24,9 @@
 
   {% block stylesheets %}
   <!-- CSS: implied media="all" -->
-  <link rel="stylesheet" href="{{ asset('theme/assets/css/blueimp-gallery-indicator.css') }}">
-  <link rel="stylesheet" href="{{ asset('theme/assets/css/blueimp-gallery-video.css') }}">
-  <link rel="stylesheet" href="{{ asset('theme/assets/css/blueimp-gallery.css') }}">
+  <link rel="stylesheet" href="{{ asset('theme/assets/css/blueimp-gallery-indicator.min.css') }}">
+  <link rel="stylesheet" href="{{ asset('theme/assets/css/blueimp-gallery-video.min.css') }}">
+  <link rel="stylesheet" href="{{ asset('theme/assets/css/blueimp-gallery.min.css') }}">
   <link rel="stylesheet" href="{{ asset('theme/assets/css/style.css') }}" />
 
 <style type="text/css">
@@ -66,53 +66,6 @@
 
 <body>
 
-            <div class="container">
-             {#  <div id="login_popup" class="popup span6 offset3">
-                <a href="#" class="close"></a>
-                <div class="content content_text">
-
-                  <h3 class="popup_title bigger">{{ 'global.header.login'|trans|desc('Log in') }}</h3>
-                  <div class="styled_form login_form">
-
-                    <ul class="logininfo" style="display:none">
-                      <li><a href="/dashboard">{{ 'global.header.dashboard'|trans|desc('Dashboard') }}</a></li>
-                      <li><a href="/auth/logout">{{ 'global.header.logout'|trans|desc('Logout') }}</a></li>
-                    </ul>
-
-                    <form name="login" action="/auth" method="post" id="loginform">
-
-                     <div class="field_row row">
-                       <label for="l_field_login" class="span2">{{ 'global.header.email'|trans|desc('E-mail') }}</label>
-                       <div class="span3">
-                        <input type="email" name="email">
-                        <input type="hidden" name="ajax" value="1">
-                      </div>
-                    </div>
-
-                    <div class="field_row row">
-                     <label for="l_field_password" class="span2">{{ 'global.header.password'|trans|desc('Password') }}</label>
-                     <div class="span3">
-                       <input type="password" name="password">
-                     </div>
-                   </div>
-
-                   <div class="field_row row">
-                     <div class="span3 offset2">
-                       <ul class="login_menu float_left">
-                         <li><a href="/auth/password-restore">{{ 'global.header.forgotPass'|trans|desc('Forgot your password?') }}</a></li>
-                         <li><a href="/register">{{ 'global.header.register'|trans|desc('Register') }}</a></li>
-                       </ul>
-                       <input type="submit" value="Login" class="float_right">
-                     </div>
-                   </div>
-
-                   </form>
-
-                 </div>
-               </div>
-             </div> #}
-           </div>
-
     <div class="header_wrap">
   <div class="container">
 
@@ -134,32 +87,9 @@
   <ul class="menu" id="mobile_lang">
       <li class="current"><a href="index.html">English</a></li>
   </ul>
-
-{# <div class="mobile-search">
-    <form name="search_articles" action="index.html" method="post">
-    	<input type="text" name="f_search_keywords" maxlength="255" size="10" value="" placeholder="{{ 'global.header.search'|trans|desc('Search') }}">
-    	<input type="submit" name="f_search_articles" value="">
-	 </form>
-</div>
- #}
   </nav>
+
 <header id="titlebar">
-
-{#   <div class="search_area hidden-phone">
-    <form name="search_articles" action="index.html" method="post">
-    	<input type="text" name="f_search_keywords" maxlength="255" size="10" value="" placeholder="{{ 'global.header.search'|trans|desc('Search') }}">
-    	<input type="submit" name="f_search_articles" value="">
-	 </form>
-  </div>
-
-    <a href="/register" class="icon_link icon_padlock hidden-phone" id="registerButtonFront">{{ 'global.header.register'|trans|desc('Register') }}</a>
-  	 <a href="#" class="icon_link icon_key open_login_popup hidden-phone">{{ 'global.header.login'|trans|desc('Login') }}</a>
-
-<div class="logininfo" style="display:none">
-  <a href="/dashboard" class="icon_link hidden-phone">{{ 'global.header.myProfile'|trans|desc('My Profile') }}</a>
-  <a href="/auth/logout?t=1467888756" class="icon_link icon_key hidden-phone">{{ 'global.header.logout'|trans|desc('Logout') }}</a>
-</div> #}
-
   <button class="navbar-toggle visible-phone" type="button" id="mobilemenuopen">
           <span class="sr-only">{{ 'global.header.toggleNav'|trans|desc('Toggle navigation') }}</span>
   </button>
@@ -267,7 +197,7 @@
  <script src="{{ asset('theme/assets/js/jquery.scrollTo-min.js') }}" type="text/javascript"></script>
  <script src="{{ asset('theme/assets/js/jquery-scrolltofixed-min.js') }}" type="text/javascript"></script>
  <script src="{{ asset('theme/assets/js/masonry.min.js') }}" type="text/javascript"></script>
- <script src="{{ asset('theme/assets/js/blueimp-gallery.js') }}"></script>
+ <script src="{{ asset('theme/assets/js/blueimp-gallery.min.js') }}"></script>
  <script src="{{ asset('theme/assets/js/onload.js') }}" type="text/javascript"></script>
 
             <script>

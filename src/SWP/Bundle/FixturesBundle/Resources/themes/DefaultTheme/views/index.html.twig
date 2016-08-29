@@ -9,14 +9,6 @@
     <!-- Row (12) -->
     <div class="row">
 
-{# ######## Test for gimmelist properties ########
-<ul>
-{% gimmelist article from articles|start(1)|limit(2)|order('desc', 'id') with {'route': '/news'} %}
-  <li>{{ loop.index }}. - {{ article.title }}</li>
-{% endgimmelist %}
-</ul>
-################}
-
 {% cache 'frontTop3' { time:600 } %}
 
 {% gimmelist article from articles with {'route': '/news'}  %}
