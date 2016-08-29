@@ -74,7 +74,6 @@ class RouteProvider implements RouteProviderInterface
     public function getOneById($id)
     {
         $basePath = $this->pathBuilder->build($this->basePaths[0]);
-
         $id = ltrim(str_replace($basePath, '', $id), '/');
 
         if ('' === $id) {

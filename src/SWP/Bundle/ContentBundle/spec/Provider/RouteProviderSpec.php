@@ -21,6 +21,7 @@ use SWP\Bundle\ContentBundle\Provider\RouteProvider;
 use SWP\Bundle\ContentBundle\Provider\RouteProviderInterface;
 use SWP\Component\MultiTenancy\PathBuilder\TenantAwarePathBuilderInterface;
 use SWP\Component\Storage\Repository\RepositoryInterface;
+use Symfony\Component\Routing\Exception\RouteNotFoundException;
 
 /**
  * @mixin RouteProvider
@@ -70,16 +71,30 @@ class RouteProviderSpec extends ObjectBehavior
         TenantAwarePathBuilderInterface $pathBuilder,
         RepositoryInterface $routeRepository
     ) {
+        $pathBuilder->build(Argument::exact('basepath1'))->willReturn('/route/path/basepath1');
         $pathBuilder->build(Argument::exact('basepath1/id'))->willReturn('/route/path/basepath1/id');
         $routeRepository->find('/route/path/basepath1/id')->willReturn($route);
 
         $this->getOneById('id')->shouldReturn($route);
     }
 
+    public function it_gets_one_route_by_id_when_its_base_path(
+        RouteObjectInterface $route,
+        TenantAwarePathBuilderInterface $pathBuilder,
+        RepositoryInterface $routeRepository
+    ) {
+        $pathBuilder->build(Argument::exact('basepath1'))->willReturn('/some/basepath1');
+        $pathBuilder->build(Argument::exact('basepath1'))->willReturn('/some/basepath1');
+        $routeRepository->find('/some/basepath1')->willReturn($route);
+
+        $this->getOneById('/some/basepath1')->shouldReturn($route);
+    }
+
     public function it_should_return_null_when_getting_route_by_id(
         TenantAwarePathBuilderInterface $pathBuilder,
         RepositoryInterface $routeRepository
     ) {
+        $pathBuilder->build(Argument::exact('basepath1'))->willReturn('/route/path/basepath1');
         $pathBuilder->build(Argument::exact('basepath1/id'))->willReturn('/route/path/basepath1/id');
         $routeRepository->find('/route/path/basepath1/id')->willReturn(null);
 
@@ -106,6 +121,7 @@ class RouteProviderSpec extends ObjectBehavior
         $pathBuilder->build(Argument::exact('basepath1/defaultpath'))->willReturn('/route/path/basepath1/defaultpath');
         $routeRepository->find('/route/path/basepath1/defaultpath')->willReturn(null);
 
-        $this->getRouteForArticle($article)->shouldBe(null);
+        $this->shouldThrow(RouteNotFoundException::class)
+            ->duringGetRouteForArticle($article);
     }
 }

@@ -58,9 +58,9 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface, Orde
                     ],
                     'type' => 'collection',
                     'defaults' => [
-                        'slug' => null
+                        'slug' => null,
                     ],
-                    'templateName' => 'news.html.twig'
+                    'templateName' => 'news.html.twig',
                 ],
                 [
                     'parent' => $this->defaultTenantPrefix.'/routes',
@@ -87,6 +87,9 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface, Orde
                         'slug' => '[a-zA-Z1-9\-_\/]+',
                     ],
                     'type' => 'collection',
+                    'defaults' => [
+                        'slug' => null,
+                    ],
                 ],
                 [
                     'parent' => $this->firstTenantPrefix.'/routes',
@@ -96,6 +99,9 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface, Orde
                         'slug' => '[a-zA-Z1-9\-_\/]+',
                     ],
                     'type' => 'collection',
+                    'defaults' => [
+                        'slug' => null,
+                    ],
                 ],
                 [
                     'parent' => $this->defaultTenantPrefix.'/routes',

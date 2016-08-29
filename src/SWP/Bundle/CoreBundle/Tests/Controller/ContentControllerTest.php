@@ -57,6 +57,92 @@ class ContentControllerTest extends WebTestCase
         $this->assertEquals(404, $client->getResponse()->getStatusCode());
     }
 
+    public function testLoadingWhenCollectionRouteHasNoTemplate()
+    {
+        $this->loadFixtures([
+            'SWP\Bundle\FixturesBundle\DataFixtures\PHPCR\LoadTenantsData',
+            'SWP\Bundle\FixturesBundle\DataFixtures\PHPCR\LoadCollectionRouteArticles',
+        ], null, 'doctrine_phpcr');
+
+        $client = static::createClient();
+        $client->request('GET', '/collection-no-template');
+
+        $this->assertEquals(404, $client->getResponse()->getStatusCode());
+    }
+
+    public function testLoadingCollectionRouteWithArticles()
+    {
+        $this->loadFixtures([
+            'SWP\Bundle\FixturesBundle\DataFixtures\PHPCR\LoadTenantsData',
+            'SWP\Bundle\FixturesBundle\DataFixtures\PHPCR\LoadCollectionRouteArticles',
+        ], null, 'doctrine_phpcr');
+
+        $client = static::createClient();
+        $crawler = $client->request('GET', '/collection-test');
+
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+        $this->assertEquals(1, $crawler->filter('html:contains("collection.html.twig")')->count());
+        $this->assertEquals(1, $crawler->filter('html:contains("Test art1")')->count());
+        $this->assertEquals(1, $crawler->filter('html:contains("Test art2")')->count());
+        $this->assertEquals(1, $crawler->filter('html:contains("Test art3")')->count());
+    }
+
+    public function testLoadingFakeArticleOnCollectionRoute()
+    {
+        $this->loadFixtures([
+            'SWP\Bundle\FixturesBundle\DataFixtures\PHPCR\LoadTenantsData',
+            'SWP\Bundle\FixturesBundle\DataFixtures\PHPCR\LoadCollectionRouteArticles',
+        ], null, 'doctrine_phpcr');
+
+        $client = static::createClient();
+        $crawler = $client->request('GET', '/collection-test/fake-article');
+
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+        $this->assertEquals(1, $crawler->filter('html:contains("collection.html.twig")')->count());
+        $this->assertEquals(1, $crawler->filter('html:contains("Test art1")')->count());
+        $this->assertEquals(1, $crawler->filter('html:contains("Test art2")')->count());
+        $this->assertEquals(1, $crawler->filter('html:contains("Test art3")')->count());
+    }
+
+    public function testLoadingArticlesOnCollectionRoute()
+    {
+        $this->loadFixtures([
+            'SWP\Bundle\FixturesBundle\DataFixtures\PHPCR\LoadTenantsData',
+            'SWP\Bundle\FixturesBundle\DataFixtures\PHPCR\LoadCollectionRouteArticles',
+        ], null, 'doctrine_phpcr');
+
+        $client = static::createClient();
+        $crawler = $client->request('GET', '/collection-test/test-art1');
+
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+        $this->assertEquals(1, $crawler->filter('html:contains("Test art1")')->count());
+
+        $crawler = $client->request('GET', '/collection-test/test-art2');
+
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+        $this->assertEquals(1, $crawler->filter('html:contains("Test art2")')->count());
+
+        $crawler = $client->request('GET', '/collection-test/test-art3');
+
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+        $this->assertEquals(1, $crawler->filter('html:contains("Test art3")')->count());
+    }
+
+    public function testLoadingCollectionRouteWithContentAssignedAndNoTemplate()
+    {
+        $this->loadFixtures([
+            'SWP\Bundle\FixturesBundle\DataFixtures\PHPCR\LoadTenantsData',
+            'SWP\Bundle\FixturesBundle\DataFixtures\PHPCR\LoadCollectionRouteArticles',
+        ], null, 'doctrine_phpcr');
+
+        $client = static::createClient();
+        $crawler = $client->request('GET', '/collection-content');
+
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+        $this->assertEquals(1, $crawler->filter('html:contains("Id: /swp/123456/123abc/content/some-content")')->count());
+        $this->assertEquals(1, $crawler->filter('html:contains("Some content")')->count());
+    }
+
     public function testTestLoadingRouteWithCustomTemplate()
     {
         $this->loadFixtures([
