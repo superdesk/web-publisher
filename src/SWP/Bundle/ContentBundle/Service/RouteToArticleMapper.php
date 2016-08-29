@@ -44,9 +44,10 @@ class RouteToArticleMapper
 
     /**
      * RouteToArticleMapper constructor.
-     * @param EntityRepository $routeToArticleRepository
+     *
+     * @param EntityRepository   $routeToArticleRepository
      * @param DocumentRepository $routeRepository
-     * @param LoggerInterface $logger
+     * @param LoggerInterface    $logger
      */
     public function __construct(EntityRepository $routeToArticleRepository, DocumentRepository $routeRepository, LoggerInterface $logger)
     {
@@ -58,6 +59,7 @@ class RouteToArticleMapper
 
     /**
      * @param ArticleInterface $article
+     *
      * @return bool
      */
     public function assignRouteToArticle(ArticleInterface $article)
@@ -89,6 +91,7 @@ class RouteToArticleMapper
     /**
      * @param ArticleInterface $article
      * @param $rule
+     *
      * @return bool
      */
     private function routeMatchesRule(ArticleInterface $article, $rule)
