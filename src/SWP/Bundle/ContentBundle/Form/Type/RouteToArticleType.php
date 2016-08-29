@@ -13,6 +13,7 @@
  */
 namespace SWP\Bundle\ContentBundle\Form\Type;
 
+use SWP\Bundle\ContentBundle\Validator\Constraints\ArticleRule;
 use SWP\Bundle\ContentBundle\Validator\Constraints\RouteId;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -28,7 +29,12 @@ class RouteToArticleType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('rule')
+            ->add('rule', TextType::class, [
+                'required' => false,
+                'constraints' => [
+                    new ArticleRule(),
+                ],
+            ])
             ->add('priority')
             ->add('routeId', TextType::class, [
                 'required' => false,

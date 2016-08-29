@@ -79,7 +79,7 @@ class RouteToArticleControllerTest extends WebTestCase
     public function testCreateRouteToArticleApi()
     {
         $sent = [
-            'rule' => 'article.locale matches "/test/"',
+            'rule' => 'article.getLocale() matches "/test/"',
             'priority' => 0,
             'routeId' => LoadRoutesData::TEST_CACHE_ROUTE_NAME,
             'templateName' => 'blumenkohl',
@@ -97,7 +97,7 @@ class RouteToArticleControllerTest extends WebTestCase
     public function testUpdateRouteToArticleApi()
     {
         $sent = [
-            'rule' => 'article.locale matches "/jest/"',
+            'rule' => 'article.getLocale() matches "/jest/"',
             'priority' => 1,
             'routeId' => LoadRoutesData::TEST_NO_CACHE_ROUTE_NAME,
             'templateName' => 'iridify',
@@ -112,7 +112,7 @@ class RouteToArticleControllerTest extends WebTestCase
         $this->checkResponsePayload($client, $sent);
     }
 
-    public function testInvalidRouteToArticleApi()
+    public function testInvalidRouteToArticleRouteIdApi()
     {
         $sent = [
             'routeId' => 'invalid route',
@@ -124,7 +124,21 @@ class RouteToArticleControllerTest extends WebTestCase
         ]);
         $this->assertEquals(400, $client->getResponse()->getStatusCode());
         $constraint = new RouteId();
-        $this->assertContains($constraint->message, $client->getResponse()->getContent());
+        $message = str_replace('%string%', $sent['routeId'], $constraint->message);
+        $this->assertContains($message, $client->getResponse()->getContent());
+    }
+
+    public function testInvalidRouteToArticleRuleApi()
+    {
+        $sent = [
+            'rule' => 'lkjfalj',
+        ];
+
+        $client = static::createClient();
+        $client->request('PATCH', $this->router->generate('swp_api_content_update_routetoarticle', ['id' => 1]), [
+            'routetoarticle' => $sent,
+        ]);
+        $this->assertEquals(400, $client->getResponse()->getStatusCode());
     }
 
     public function testDeleteRouteToArticleApi()

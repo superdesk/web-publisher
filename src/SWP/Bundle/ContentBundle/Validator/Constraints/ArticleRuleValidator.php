@@ -13,30 +13,22 @@
  */
 namespace SWP\Bundle\ContentBundle\Validator\Constraints;
 
-use SWP\Bundle\ContentBundle\Provider\RouteProviderInterface;
+use SWP\Bundle\ContentBundle\Model\Article;
+use Symfony\Component\ExpressionLanguage\ExpressionLanguage;
 use Symfony\Component\Validator\ConstraintValidator;
 use Symfony\Component\Validator\Constraint;
 
-class RouteIdValidator extends ConstraintValidator
+class ArticleRuleValidator extends ConstraintValidator
 {
-    private $provider;
-
-    public function __construct(RouteProviderInterface $provider)
-    {
-        $this->provider = $provider;
-    }
-
     public function validate($value, Constraint $constraint)
     {
-        $path = null;
-        try {
-            $path = $this->provider->getOneById($value);
-        } catch (\Exception $e) {
-        }
+        $article = new Article();
+        $language = new ExpressionLanguage();
 
-        if (null == $path) {
+        try {
+            $language->evaluate($value, ['article' => $article]);
+        } catch (\Exception $e) {
             $this->context->buildViolation($constraint->message)
-                ->setParameter('%string%', $value)
                 ->addViolation();
         }
     }

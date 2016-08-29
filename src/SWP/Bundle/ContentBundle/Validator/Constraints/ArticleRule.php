@@ -15,12 +15,7 @@ namespace SWP\Bundle\ContentBundle\Validator\Constraints;
 
 use Symfony\Component\Validator\Constraint;
 
-class RouteId extends Constraint
+class ArticleRule extends Constraint
 {
-    public $message = 'There is no route with the given id %string%';
-
-    public function validatedBy()
-    {
-        return 'route_in_database';
-    }
+    public $message = 'The given rule cannot be parsed and applied to article';
 }
