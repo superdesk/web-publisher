@@ -14,7 +14,6 @@
 namespace SWP\Bundle\CoreBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Class ContentController.
@@ -22,12 +21,11 @@ use Symfony\Component\HttpFoundation\Request;
 class ContentController extends Controller
 {
     /**
-     * @param Request $request
-     * @param string  $contentTemplate
+     * @param string $contentTemplate
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function renderPageAction(Request $request, $contentTemplate)
+    public function renderPageAction($contentTemplate)
     {
         return $this->render($contentTemplate);
     }

@@ -16,6 +16,7 @@
  */
 namespace SWP\Bundle\CoreBundle\Resolver;
 
+use SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\RouteObjectInterface;
 use SWP\Bundle\ContentBundle\Model\RouteInterface;
 use SWP\Bundle\ContentBundle\Model\ArticleInterface;
 
@@ -42,7 +43,12 @@ class TemplateNameResolver implements TemplateNameResolverInterface
     {
         $templateName = $default;
         if (null !== ($route = $article->getRoute())) {
+            if (RouteObjectInterface::TYPE_COLLECTION === $route->getType()) {
+                return $templateName;
+            }
+
             $routeTemplateName = $this->resolveFromRoute($route, false);
+
             if (false !== $routeTemplateName) {
                 $templateName = $routeTemplateName;
             }
