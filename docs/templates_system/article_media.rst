@@ -45,7 +45,7 @@ Usage:
     {% gimmelist media from articleMedia with {'article': gimme.article} %}
         {% if media.renditions is iterable %}
             {% for rendition in media.renditions %}
-                <img src="{{ url(rendition) }}" style="width: {{ rendition.width }}px; height: {{ rendition.width }}px;" />
+                <img src="{{ url(rendition) }}" style="width: {{ rendition.width }}px; height: {{ rendition.height }}px;" />
             {% endfor %}
         {% endif %}
     {% endgimmelist %}
