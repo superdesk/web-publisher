@@ -351,6 +351,9 @@ class BaseContent implements ContentInterface
         $this->genre = $genre;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getMetadata()
     {
         return [

@@ -92,7 +92,7 @@ class Article implements ArticleInterface, MediaAwareArticleInterface
     protected $isPublishable;
 
     /**
-     * @var array|string
+     * @var string
      */
     protected $metadata;
 

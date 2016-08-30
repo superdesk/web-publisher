@@ -13,7 +13,6 @@
  */
 namespace SWP\Component\TemplatesSystem\Gimme\Meta;
 
-use SWP\Bundle\ContentBundle\Model\MetadataAwareInterface;
 use SWP\Component\TemplatesSystem\Gimme\Context\Context;
 
 /**
@@ -51,13 +50,6 @@ class Meta
         $this->values = $values;
         $this->configuration = $configuration;
 
-        if ($values instanceof MetadataAwareInterface) {
-            $this->fillFromObject($this->values, $this->configuration);
-            $this->context->registerMeta($this);
-
-            return;
-        }
-
         if (is_array($this->values)) {
             $this->fillFromArray($this->values, $this->configuration);
         } elseif (is_string($this->values) && $this->isJson($this->values)) {
@@ -87,6 +79,10 @@ class Meta
         return gettype($this->values);
     }
 
+    /**
+     * @param string $name
+     * @param mixed  $value
+     */
     public function __set($name, $value)
     {
         if ($value instanceof \Traversable || is_array($value)) {
