@@ -14,8 +14,6 @@
 namespace SWP\Bundle\CoreBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use SWP\Bundle\ContentBundle\Model\RouteInterface;
-use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Class ContentController.
@@ -23,18 +21,12 @@ use Symfony\Component\HttpFoundation\Request;
 class ContentController extends Controller
 {
     /**
-     * @param Request $request
-     * @param string  $contentTemplate
-     * @param null    $contentDocument
+     * @param string $contentTemplate
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function renderPageAction(Request $request, $contentTemplate, $contentDocument = null)
+    public function renderPageAction($contentTemplate)
     {
-        if (null === $contentDocument && ($request->attributes->get('type') === RouteInterface::TYPE_COLLECTION)) {
-            throw $this->createNotFoundException('Requested page was not found');
-        }
-
         return $this->render($contentTemplate);
     }
 }

@@ -16,6 +16,7 @@ namespace SWP\Bundle\ContentBundle\Provider;
 use SWP\Bundle\ContentBundle\Model\ArticleInterface;
 use SWP\Component\MultiTenancy\PathBuilder\TenantAwarePathBuilderInterface;
 use SWP\Component\Storage\Repository\RepositoryInterface;
+use Symfony\Component\Routing\Exception\RouteNotFoundException;
 
 class RouteProvider implements RouteProviderInterface
 {
@@ -72,6 +73,13 @@ class RouteProvider implements RouteProviderInterface
      */
     public function getOneById($id)
     {
+        $basePath = $this->pathBuilder->build($this->basePaths[0]);
+        $id = ltrim(str_replace($basePath, '', $id), '/');
+
+        if ('' === $id) {
+            return $this->getBaseRoute();
+        }
+
         return $this->routeRepository->find($this->pathBuilder->build($this->basePaths[0].'/'.$id));
     }
 
@@ -80,8 +88,13 @@ class RouteProvider implements RouteProviderInterface
      */
     public function getRouteForArticle(ArticleInterface $article)
     {
-        return $this->routeRepository->find(
-            $this->pathBuilder->build($this->basePaths[0].'/'.$this->defaultPath)
-        );
+        $routeId = $this->pathBuilder->build($this->basePaths[0].'/'.$this->defaultPath);
+        $route = $this->routeRepository->find($routeId);
+
+        if (null === $route) {
+            throw new RouteNotFoundException(sprintf('No route found: %s', $routeId));
+        }
+
+        return $route;
     }
 }

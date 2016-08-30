@@ -137,6 +137,7 @@ class RouteService implements RouteServiceInterface
             $route->setVariablePattern('/{slug}');
             $route->setRequirement('slug', '[a-zA-Z1-9\-_\/]+');
             $route->setType(RouteInterface::TYPE_COLLECTION);
+            $route->setDefault('slug', null);
         }
 
         if (isset($routeData['cacheTimeInSeconds'])) {
