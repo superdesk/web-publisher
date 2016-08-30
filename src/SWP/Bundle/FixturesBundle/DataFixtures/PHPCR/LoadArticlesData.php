@@ -270,6 +270,7 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface, Orde
     {
         return [
             'located' => 'Sydney',
+            'byline' => 'Jhon Doe',
             'place' => [
                 [
                     'qcode' => 'AUS',
