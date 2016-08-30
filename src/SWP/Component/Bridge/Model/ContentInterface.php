@@ -169,4 +169,9 @@ interface ContentInterface
      * @param string $genre
      */
     public function setGenre($genre);
+
+    /**
+     * @return array
+     */
+    public function getMetadata();
 }

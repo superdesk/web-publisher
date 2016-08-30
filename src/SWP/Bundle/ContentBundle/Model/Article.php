@@ -92,9 +92,9 @@ class Article implements ArticleInterface, MediaAwareArticleInterface
     protected $isPublishable;
 
     /**
-     * @var array
+     * @var array|string
      */
-    protected $metadata = [];
+    protected $metadata;
 
     /**
      * @var Collection
@@ -334,7 +334,7 @@ class Article implements ArticleInterface, MediaAwareArticleInterface
      */
     public function getMetadata()
     {
-        return $this->metadata;
+        return json_decode($this->metadata, true);
     }
 
     /**
@@ -342,6 +342,6 @@ class Article implements ArticleInterface, MediaAwareArticleInterface
      */
     public function setMetadata(array $metadata)
     {
-        $this->metadata = $metadata;
+        $this->metadata = json_encode($metadata, true);
     }
 }

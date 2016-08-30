@@ -13,6 +13,7 @@
  */
 namespace SWP\Component\TemplatesSystem\Gimme\Meta;
 
+use SWP\Bundle\ContentBundle\Model\MetadataAwareInterface;
 use SWP\Component\TemplatesSystem\Gimme\Context\Context;
 
 /**
@@ -50,10 +51,17 @@ class Meta
         $this->values = $values;
         $this->configuration = $configuration;
 
+        if ($values instanceof MetadataAwareInterface) {
+            $this->fillFromObject($this->values, $this->configuration);
+            $this->context->registerMeta($this);
+
+            return;
+        }
+
         if (is_array($this->values)) {
             $this->fillFromArray($this->values, $this->configuration);
         } elseif (is_string($this->values) && $this->isJson($this->values)) {
-            $this->fillFromArray(json_decode($values, true), $this->configuration);
+            $this->fillFromArray(json_decode($this->values, true), $this->configuration);
         } elseif (is_object($this->values)) {
             $this->fillFromObject($this->values, $this->configuration);
         }
@@ -79,29 +87,30 @@ class Meta
         return gettype($this->values);
     }
 
-    /**
-     * @param string $name
-     * @param mixed  $value
-     */
     public function __set($name, $value)
     {
         if ($value instanceof \Traversable || is_array($value)) {
             $newValue = [];
+
             foreach ($value as $key => $item) {
-                $newValue[$key] = $this->context->getMetaForValue($item);
+                $newValue[$key] = $this->getValueOrMeta($item);
             }
+
             $this->$name = $newValue;
 
             return;
         }
 
-        if ($this->context->isSupported($value)) {
-            $this->$name = $this->context->getMetaForValue($value);
+        $this->$name = $this->getValueOrMeta($value);
+    }
 
-            return;
+    private function getValueOrMeta($value)
+    {
+        if ($this->context->isSupported($value)) {
+            return $this->context->getMetaForValue($value);
         }
 
-        $this->$name = $value;
+        return $value;
     }
 
     /**

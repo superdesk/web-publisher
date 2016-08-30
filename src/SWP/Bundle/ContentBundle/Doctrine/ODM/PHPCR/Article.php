@@ -35,11 +35,6 @@ class Article extends BaseArticle implements HierarchyInterface
     protected $children;
 
     /**
-     * @var string
-     */
-    protected $metadata;
-
-    /**
      * {@inheritdoc}
      */
     public function setParent($parent)
@@ -81,21 +76,5 @@ class Article extends BaseArticle implements HierarchyInterface
     public function getChildren()
     {
         return $this->children;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getMetadata()
-    {
-        return json_decode($this->metadata, true);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function setMetadata(array $metadata)
-    {
-        $this->metadata = json_encode($metadata, true);
     }
 }

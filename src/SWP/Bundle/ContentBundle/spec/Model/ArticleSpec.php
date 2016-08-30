@@ -16,6 +16,7 @@ namespace spec\SWP\Bundle\ContentBundle\Model;
 use PhpSpec\ObjectBehavior;
 use SWP\Bundle\ContentBundle\Model\Article;
 use SWP\Bundle\ContentBundle\Model\ArticleInterface;
+use SWP\Bundle\ContentBundle\Model\MetadataAwareInterface;
 use SWP\Bundle\ContentBundle\Model\RouteInterface;
 
 /**
@@ -31,6 +32,7 @@ class ArticleSpec extends ObjectBehavior
     public function it_should_implement_article_interface()
     {
         $this->shouldImplement(ArticleInterface::class);
+        $this->shouldImplement(MetadataAwareInterface::class);
     }
 
     public function it_has_no_id_by_default()
@@ -164,7 +166,7 @@ class ArticleSpec extends ObjectBehavior
 
     public function it_has_no_metadata_by_default()
     {
-        $this->getMetadata()->shouldReturn([]);
+        $this->getMetadata()->shouldReturn(null);
     }
 
     public function its_metadata_is_mutable()

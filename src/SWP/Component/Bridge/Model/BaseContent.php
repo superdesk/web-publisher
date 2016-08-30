@@ -350,4 +350,22 @@ class BaseContent implements ContentInterface
     {
         $this->genre = $genre;
     }
+
+    public function getMetadata()
+    {
+        return [
+            'subject' => $this->getSubjects(),
+            'urgency' => $this->getUrgency(),
+            'priority' => $this->getPriority(),
+            'located' => $this->getLocated(),
+            'place' => $this->getPlaces(),
+            'service' => $this->getServices(),
+            'type' => $this->getType(),
+            'byline' => $this->getByline(),
+            'guid' => $this->getGuid(),
+            'edNote' => $this->getEdNote(),
+            'genre' => $this->getGenre(),
+            'language' => $this->getLanguage(),
+        ];
+    }
 }
