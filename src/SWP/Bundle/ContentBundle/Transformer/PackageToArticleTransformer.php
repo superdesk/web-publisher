@@ -56,6 +56,7 @@ final class PackageToArticleTransformer implements DataTransformerInterface
         }
 
         $article = $this->articleFactory->createFromPackage($package);
+
         $this->dispatcher->dispatch(ArticleEvents::PRE_CREATE, new ArticleEvent($article, $package));
 
         return $article;

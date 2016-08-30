@@ -116,8 +116,6 @@ if [[ "$INTERACTIVE" = true ]]; then
 fi
 if [[ "$DEPENDENCIES" = true ]]; then
 
-    # TODO: check for apache2?
-
     which -s brew
     if [[ $? != 0 ]] ; then
         echo "Installing brew";
@@ -160,7 +158,6 @@ if [[ "$INTERACTIVE" = true ]]; then
     fi
 fi
 if [[ "$HOSTSCONFIG" = true ]]; then
-    # TODO: add webrenderer.dev to /etc/hosts
     cat /etc/hosts | grep "127.0.0.1 webrenderer.dev"
     if [[ $? != 0 ]] ; then
         sudo sh -c "echo '127.0.0.1 webrenderer.dev' >> /etc/hosts"

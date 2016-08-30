@@ -40,5 +40,10 @@ SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\Article:
             nullable: true
     referenceOne:
         route:
-            targetDocument: "\\SWP\\Bundle\\ContentBundle\\Doctrine\\ODM\\PHPCR\\Route"
+            targetDocument: \SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\Route
             strategy: hard
+    referrers:
+        media:
+            referringDocument: SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\ArticleMedia
+            referencedBy: article
+            cascade: [remove]

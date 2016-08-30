@@ -46,7 +46,7 @@ class Configuration implements ConfigurationInterface
                             ->canBeEnabled()
                             ->children()
                                 ->scalarNode('default_content_path')
-                                    ->defaultValue('news')
+                                    ->defaultValue('articles')
                                 ->end()
                                 ->arrayNode('classes')
                                     ->addDefaultsIfNotSet()

@@ -4,8 +4,16 @@ services:
 
     swp_template_engine_context:
         class: SWP\Component\TemplatesSystem\Gimme\Context\Context
+        arguments:
+            - "@doctrine_cache.providers.main_cache"
+            - "%kernel.root_dir%/Resources/meta"
     context:
         alias: swp_template_engine_context
+
+    swp_template_engine_context.factory.meta_factory:
+        class: SWP\Component\TemplatesSystem\Gimme\Factory\MetaFactory
+        arguments:
+            - '@swp_template_engine_context'
 
     swp_template_engine_container:
         class: SWP\Bundle\TemplateEngineBundle\Service\ContainerService

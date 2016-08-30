@@ -13,6 +13,7 @@ SWP\Component\Bridge\Model\Item:
             type: string
         slugline:
             type: string
+            nullable: true
         guid:
             type: string
         byline:
@@ -35,7 +36,8 @@ SWP\Component\Bridge\Model\Item:
         version:
             type: integer
         body:
-            type: string
+            type: text
+            nullable: true
         createdAt:
             type: datetime
             gedmo:

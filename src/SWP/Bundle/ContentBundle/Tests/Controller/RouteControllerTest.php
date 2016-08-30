@@ -105,7 +105,6 @@ class RouteControllerTest extends WebTestCase
     public function testCreateAndUpdateAndDeleteRoutesApi()
     {
         $client = static::createClient();
-        $client->enableProfiler();
         $client->request('POST', $this->router->generate('swp_api_content_create_routes'), [
             'route' => [
                 'name' => 'simple-test-route',

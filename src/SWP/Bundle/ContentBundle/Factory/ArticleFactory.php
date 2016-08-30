@@ -84,8 +84,11 @@ class ArticleFactory implements ArticleFactoryInterface
         }
 
         $article->setTitle($package->getHeadline());
-        $article->setBody(implode('', array_map(function (ItemInterface $item) {
-            return $item->getBody();
+        // Get package body and it's items body (if they are type text)
+        $article->setBody($package->getBody().implode('', array_map(function (ItemInterface $item) {
+            if (ItemInterface::TYPE_TEXT === $item->getType()) {
+                return $item->getBody();
+            }
         }, $package->getItems()->toArray())));
         $article->setLocale($package->getLanguage());
         $article->setRoute($this->routeProvider->getRouteForArticle($article));

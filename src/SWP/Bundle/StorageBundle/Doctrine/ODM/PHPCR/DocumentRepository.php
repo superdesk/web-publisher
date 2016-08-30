@@ -35,7 +35,7 @@ class DocumentRepository extends BaseDocumentRepository implements RepositoryInt
     {
         if (null !== $this->find($object->getId())) {
             $this->dm->remove($object);
-            $this->dm->flush();
+            $this->dm->flush($object);
         }
     }
 }

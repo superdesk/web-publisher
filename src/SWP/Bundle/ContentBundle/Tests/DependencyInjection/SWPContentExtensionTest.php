@@ -36,4 +36,15 @@ class SWPContentExtensionTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($this->container->has('swp_content_bundle.listener.link_request'));
         $this->assertTrue($this->container->has('swp_template_engine.loader.article'));
     }
+
+    protected function tearDown()
+    {
+        $reflection = new \ReflectionObject($this);
+        foreach ($reflection->getProperties() as $prop) {
+            if (!$prop->isStatic() && 0 !== strpos($prop->getDeclaringClass()->getName(), 'PHPUnit_')) {
+                $prop->setAccessible(true);
+                $prop->setValue($this, null);
+            }
+        }
+    }
 }

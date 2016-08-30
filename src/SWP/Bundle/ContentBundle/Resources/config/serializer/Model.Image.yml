@@ -1,0 +1,7 @@
+SWP\Bundle\ContentBundle\Model\Image:
+    exclusion_policy: ALL
+    properties:
+        width:
+            expose: true
+        height:
+            expose: true

@@ -44,4 +44,15 @@ class WebTestCase extends BaseWebTestCase
             $cacheDriver->deleteAll();
         }
     }
+
+    protected function tearDown()
+    {
+        $reflection = new \ReflectionObject($this);
+        foreach ($reflection->getProperties() as $prop) {
+            if (!$prop->isStatic() && 0 !== strpos($prop->getDeclaringClass()->getName(), 'PHPUnit_')) {
+                $prop->setAccessible(true);
+                $prop->setValue($this, null);
+            }
+        }
+    }
 }

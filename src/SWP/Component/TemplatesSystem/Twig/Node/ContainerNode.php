@@ -18,8 +18,6 @@ namespace SWP\Component\TemplatesSystem\Twig\Node;
  */
 class ContainerNode extends \Twig_Node
 {
-    private static $count = 1;
-
     /**
      * @param \Twig_Node_Expression $name
      * @param \Twig_Node_Expression $parameters

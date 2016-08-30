@@ -14,6 +14,7 @@
 namespace SWP\Bundle\ContentBundle\EventListener;
 
 use SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\Route;
+use Symfony\Cmf\Bundle\RoutingBundle\Routing\DynamicRouter;
 use Symfony\Component\HttpKernel\Event\FilterResponseEvent;
 
 class HttpCacheHeaderListener
@@ -25,7 +26,7 @@ class HttpCacheHeaderListener
         }
 
         /** @var Route $routeObject */
-        $routeObject = $event->getRequest()->get('routeDocument');
+        $routeObject = $event->getRequest()->get(DynamicRouter::ROUTE_KEY);
 
         if (null !== $routeObject) {
             // Get expiry time

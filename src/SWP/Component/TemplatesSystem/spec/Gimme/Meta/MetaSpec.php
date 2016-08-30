@@ -14,6 +14,7 @@
 namespace spec\SWP\Component\TemplatesSystem\Gimme\Meta;
 
 use PhpSpec\ObjectBehavior;
+use SWP\Component\TemplatesSystem\Gimme\Context\Context;
 use SWP\Component\TemplatesSystem\Gimme\Meta\Meta;
 use Symfony\Component\Yaml\Parser;
 
@@ -22,7 +23,7 @@ use Symfony\Component\Yaml\Parser;
  */
 class MetaSpec extends ObjectBehavior
 {
-    public function let()
+    public function let(Context $context)
     {
         if (!is_readable(__DIR__.'/Resources/meta/article.yml')) {
             throw new \InvalidArgumentException('Configuration file is not readable for parser');
@@ -30,11 +31,11 @@ class MetaSpec extends ObjectBehavior
         $yaml = new Parser();
         $configuration = $yaml->parse(file_get_contents(__DIR__.'/Resources/meta/article.yml'));
 
-        $this->beConstructedWith($configuration, '{
+        $this->beConstructedWith($context, '{
             "title": "New article",
             "keywords": "lorem, ipsum, dolor, sit, ame",
             "dont_expose_it": "this should be not exposed"
-        }');
+        }', $configuration);
     }
 
     public function it_is_initializable()

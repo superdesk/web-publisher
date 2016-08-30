@@ -1,19 +1,18 @@
-SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\Article:
+SWP\Component\Bridge\Model\Rendition:
     exclusion_policy: ALL
     properties:
-        id:
+        href:
             expose: true
             type: string
-        title:
+        width:
+            expose: true
+            type: integer
+        height:
+            expose: true
+            type: integer
+        mimetype:
             expose: true
             type: string
-        content:
+        media:
             expose: true
             type: string
-        slug:
-            expose: true
-            type: string
-        route:
-            expose: true
-        parent:
-            expose: true

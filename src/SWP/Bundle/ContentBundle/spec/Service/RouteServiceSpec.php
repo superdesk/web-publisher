@@ -99,6 +99,7 @@ class RouteServiceSpec extends ObjectBehavior
         $route->setRequirement(Argument::exact('slug'), Argument::exact('[a-zA-Z1-9\-_\/]+'))->shouldBeCalled();
         $route->setName('test-name')->shouldBeCalled();
         $route->setType(RouteObjectInterface::TYPE_COLLECTION)->shouldBeCalled();
+        $route->setDefault('slug', null)->shouldBeCalled();
         $route->setTemplateName('index.html.twig')->shouldNotBeCalled();
 
         $eventDispatcher->dispatch(
@@ -132,6 +133,7 @@ class RouteServiceSpec extends ObjectBehavior
         $route->setRequirement(Argument::exact('slug'), Argument::exact('[a-zA-Z1-9\-_\/]+'))->shouldBeCalled();
         $route->setName('test-name')->shouldBeCalled();
         $route->setType(RouteObjectInterface::TYPE_COLLECTION)->shouldBeCalled();
+        $route->setDefault('slug', null)->shouldBeCalled();
         $route->setTemplateName('index.html.twig')->shouldNotBeCalled();
         $route->setContent($article)->shouldBeCalled();
         $route->setParentDocument($parentRoute)->shouldBeCalled();
@@ -172,6 +174,7 @@ class RouteServiceSpec extends ObjectBehavior
         $route->setRequirement(Argument::exact('slug'), Argument::exact('[a-zA-Z1-9\-_\/]+'))->shouldBeCalled();
         $route->setName('test-name')->shouldBeCalled();
         $route->setType(RouteObjectInterface::TYPE_COLLECTION)->shouldBeCalled();
+        $route->setDefault('slug', null)->shouldBeCalled();
         $route->setTemplateName('index.html.twig')->shouldNotBeCalled();
         $route->setContent($article)->shouldNotBeCalled();
         $route->setParentDocument($parentRoute)->shouldBeCalled();
@@ -213,6 +216,7 @@ class RouteServiceSpec extends ObjectBehavior
         $route->setName('test-name')->shouldBeCalled();
         $route->setType(RouteObjectInterface::TYPE_COLLECTION)->shouldBeCalled();
         $route->setTemplateName('index.html.twig')->shouldNotBeCalled();
+        $route->setDefault('slug', null)->shouldBeCalled();
         $route->setContent($article)->shouldBeCalled();
         $route->setParentDocument($parentRoute)->shouldBeCalled();
 
@@ -253,6 +257,7 @@ class RouteServiceSpec extends ObjectBehavior
         $route->setRequirement(Argument::exact('slug'), Argument::exact('[a-zA-Z1-9\-_\/]+'))->shouldBeCalled();
         $route->setName('test-name')->shouldBeCalled();
         $route->setType(RouteObjectInterface::TYPE_COLLECTION)->shouldBeCalled();
+        $route->setDefault('slug', null)->shouldBeCalled();
         $route->setTemplateName('index.html.twig')->shouldNotBeCalled();
         $route->setContent($article)->shouldBeCalled();
         $route->setParentDocument($parentRoute)->shouldNotBeCalled();

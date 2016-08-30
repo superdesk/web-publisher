@@ -38,6 +38,6 @@ class MetaRouter extends DynamicRouter
      */
     public function supports($name)
     {
-        return $name instanceof Meta;
+        return $name instanceof Meta && $name->getValues() instanceof ArticleInterface;
     }
 }

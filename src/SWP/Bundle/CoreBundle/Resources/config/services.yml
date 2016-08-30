@@ -50,6 +50,7 @@ services:
         arguments:
             - "@swp_core.theme.resolver.template_name"
             - "@swp_template_engine_loader_chain"
+            - "@swp_template_engine_context"
         tags:
             -  { name: dynamic_router_route_enhancer, priority: 10 }
 

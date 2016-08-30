@@ -57,6 +57,10 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface, Orde
                         'slug' => '[a-zA-Z1-9\-_\/]+',
                     ],
                     'type' => 'collection',
+                    'defaults' => [
+                        'slug' => null,
+                    ],
+                    'templateName' => 'news.html.twig',
                 ],
                 [
                     'parent' => $this->defaultTenantPrefix.'/routes',
@@ -83,6 +87,9 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface, Orde
                         'slug' => '[a-zA-Z1-9\-_\/]+',
                     ],
                     'type' => 'collection',
+                    'defaults' => [
+                        'slug' => null,
+                    ],
                 ],
                 [
                     'parent' => $this->firstTenantPrefix.'/routes',
@@ -92,6 +99,9 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface, Orde
                         'slug' => '[a-zA-Z1-9\-_\/]+',
                     ],
                     'type' => 'collection',
+                    'defaults' => [
+                        'slug' => null,
+                    ],
                 ],
                 [
                     'parent' => $this->defaultTenantPrefix.'/routes',
@@ -131,6 +141,10 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface, Orde
                 }
             }
 
+            if (isset($routeData['templateName'])) {
+                $route->setTemplateName($routeData['templateName']);
+            }
+
             if (isset($routeData['defaults'])) {
                 foreach ($routeData['defaults'] as $key => $value) {
                     $route->setDefault($key, $value);
@@ -146,10 +160,6 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface, Orde
     {
         $routes = [
             'dev' => [
-                [
-                    'path' => $this->defaultTenantPrefix.'/routes/news',
-                    'content' => $this->defaultTenantPrefix.'/content/features',
-                ],
                 [
                     'path' => $this->defaultTenantPrefix.'/routes/articles/features',
                     'content' => $this->defaultTenantPrefix.'/content/features',
