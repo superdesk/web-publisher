@@ -35,8 +35,8 @@ class LinkRequestListener
     protected $urlMatcher;
 
     /**
-     * @param ControllerResolverInterface $controllerResolver The 'controller_resolver' service
-     * @param UrlMatcherInterface         $urlMatcher         The 'router' service
+     * @param ControllerResolverInterface $controllerResolver
+     * @param UrlMatcherInterface         $urlMatcher
      */
     public function __construct(ControllerResolverInterface $controllerResolver, UrlMatcherInterface $urlMatcher)
     {
@@ -46,6 +46,8 @@ class LinkRequestListener
 
     /**
      * @param GetResponseEvent $event
+     *
+     * @return array
      */
     public function onKernelRequest(GetResponseEvent $event, $eventName, EventDispatcherInterface $dispatcher)
     {
@@ -89,6 +91,11 @@ class LinkRequestListener
             }
             $resource = array_shift($linkParams);
             $resource = preg_replace('/<|>/', '', $resource);
+
+            // Assume that no resource is specified here if there is no path separator, because urlMatcher will return homepage
+            if (strpos($resource, '/') === false) {
+                continue;
+            }
             $tempRequest = Request::create($resource);
 
             try {

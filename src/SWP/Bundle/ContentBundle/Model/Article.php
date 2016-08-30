@@ -14,10 +14,15 @@
 namespace SWP\Bundle\ContentBundle\Model;
 
 use Behat\Transliterator\Transliterator;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use SWP\Component\Common\Model\SoftDeletableTrait;
 use SWP\Component\Common\Model\TranslatableTrait;
 
-class Article implements ArticleInterface
+/**
+ * Class Article.
+ */
+class Article implements ArticleInterface, MediaAwareArticleInterface
 {
     use TranslatableTrait, SoftDeletableTrait;
 
@@ -86,44 +91,71 @@ class Article implements ArticleInterface
      */
     protected $isPublishable;
 
+    /**
+     * @var Collection
+     */
+    protected $media;
+
+    /**
+     * Article constructor.
+     */
     public function __construct()
     {
         $this->setCreatedAt(new \DateTime());
         $this->setPublishable(false);
+        $this->setMedia(new ArrayCollection());
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function setPublishStartDate(\DateTime $startDate = null)
     {
         $this->publishStartDate = $startDate;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getPublishStartDate()
     {
         return $this->publishStartDate;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function setPublishEndDate(\DateTime $endDate = null)
     {
         $this->publishEndDate = $endDate;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getPublishEndDate()
     {
         return $this->publishEndDate;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function isPublishable()
     {
         return $this->isPublishable;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function setPublishable($boolean)
     {
         $this->isPublishable = $boolean;
     }
 
     /**
-     * @return \DateTime
+     * {@inheritdoc}
      */
     public function getCreatedAt()
     {
@@ -131,7 +163,7 @@ class Article implements ArticleInterface
     }
 
     /**
-     * @return \DateTime
+     * {@inheritdoc}
      */
     public function getUpdatedAt()
     {
@@ -139,7 +171,7 @@ class Article implements ArticleInterface
     }
 
     /**
-     * @param \DateTime $createdAt
+     * {@inheritdoc}
      */
     public function setCreatedAt(\DateTime $createdAt)
     {
@@ -147,18 +179,24 @@ class Article implements ArticleInterface
     }
 
     /**
-     * @param \DateTime $updatedAt
+     * {@inheritdoc}
      */
     public function setUpdatedAt(\DateTime $updatedAt)
     {
         $this->updatedAt = $updatedAt;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function setRoute(RouteInterface $route)
     {
         $this->route = $route;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getRoute()
     {
         return $this->route;
@@ -186,6 +224,22 @@ class Article implements ArticleInterface
     public function setBody($body)
     {
         $this->body = $body;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getMedia()
+    {
+        return $this->media;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setMedia(Collection $media)
+    {
+        $this->media = $media;
     }
 
     /**

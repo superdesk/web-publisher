@@ -3,7 +3,7 @@
 /**
  * This file is part of the Superdesk Web Publisher Fixtures Bundle.
  *
- * Copyright 2015 Sourcefabric z.u. and contributors.
+ * Copyright 2015 Sourcefabric z.ú. and contributors.
  *
  * For the full copyright and license information, please see the
  * AUTHORS and LICENSE files distributed with this source code.
@@ -14,15 +14,18 @@
 namespace SWP\Bundle\FixturesBundle\DataFixtures\PHPCR;
 
 use Doctrine\Common\DataFixtures\FixtureInterface;
+use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\Article;
 use SWP\Bundle\FixturesBundle\AbstractFixture;
 use SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\Route;
 use SWP\Bundle\ContentBundle\Model\ArticleInterface;
 
-class LoadArticlesData extends AbstractFixture implements FixtureInterface
+class LoadArticlesData extends AbstractFixture implements FixtureInterface, OrderedFixtureInterface
 {
     private $manager;
+    private $defaultTenantPrefix;
+    private $firstTenantPrefix;
 
     /**
      * {@inheritdoc}
@@ -31,6 +34,9 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface
     {
         $this->manager = $manager;
         $env = $this->getEnvironment();
+
+        $this->defaultTenantPrefix = $this->getTenantPrefix();
+        $this->firstTenantPrefix = $this->getTenantPrefix('client1');
 
         $this->loadRoutes($env, $manager);
         $this->loadArticles($env, $manager);
@@ -44,72 +50,72 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface
         $routes = [
             'dev' => [
                 [
-                    'parent' => '/swp/default/routes',
+                    'parent' => $this->defaultTenantPrefix.'/routes',
                     'name' => 'news',
                     'variablePattern' => '/{slug}',
                     'requirements' => [
                         'slug' => '[a-zA-Z1-9\-_\/]+',
                     ],
                     'type' => 'collection',
+                    'defaults' => [
+                        'slug' => null,
+                    ],
+                    'templateName' => 'news.html.twig',
                 ],
                 [
-                    'parent' => '/swp/default/routes',
+                    'parent' => $this->defaultTenantPrefix.'/routes',
                     'name' => 'articles',
                     'type' => 'content',
                 ],
                 [
-                    'parent' => '/swp/default/routes/articles',
+                    'parent' => $this->defaultTenantPrefix.'/routes/articles',
                     'name' => 'get-involved',
                     'type' => 'content',
                 ],
                 [
-                    'parent' => '/swp/default/routes/articles',
+                    'parent' => $this->defaultTenantPrefix.'/routes/articles',
                     'name' => 'features',
                     'type' => 'content',
                 ],
             ],
             'test' => [
                 [
-                    'parent' => '/swp/default/routes',
+                    'parent' => $this->defaultTenantPrefix.'/routes',
                     'name' => 'news',
                     'variablePattern' => '/{slug}',
                     'requirements' => [
                         'slug' => '[a-zA-Z1-9\-_\/]+',
                     ],
                     'type' => 'collection',
+                    'defaults' => [
+                        'slug' => null,
+                    ],
                 ],
                 [
-                    'parent' => '/swp/client1/routes',
+                    'parent' => $this->firstTenantPrefix.'/routes',
                     'name' => 'news',
                     'variablePattern' => '/{slug}',
                     'requirements' => [
                         'slug' => '[a-zA-Z1-9\-_\/]+',
                     ],
                     'type' => 'collection',
+                    'defaults' => [
+                        'slug' => null,
+                    ],
                 ],
                 [
-                    'parent' => '/swp/default/routes',
+                    'parent' => $this->defaultTenantPrefix.'/routes',
                     'name' => 'articles',
                     'type' => 'content',
                 ],
                 [
-                    'parent' => '/swp/default/routes/articles',
+                    'parent' => $this->defaultTenantPrefix.'/routes/articles',
                     'name' => 'features',
                     'type' => 'content',
                 ],
                 [
-                    'parent' => '/swp/client1/routes',
+                    'parent' => $this->firstTenantPrefix.'/routes',
                     'name' => 'features',
-                    'type' => 'content',
-                ],
-                [
-                    'parent' => '/swp/default/routes',
-                    'name' => 'homepage',
-                    'type' => 'content',
-                ],
-                [
-                    'parent' => '/swp/client1/routes',
-                    'name' => 'homepage',
                     'type' => 'content',
                 ],
             ],
@@ -121,6 +127,10 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface
             $route->setName($routeData['name']);
             $route->setType($routeData['type']);
 
+            if (isset($routeData['cacheTimeInSeconds'])) {
+                $route->setCacheTimeInSeconds($routeData['cacheTimeInSeconds']);
+            }
+
             if (isset($routeData['variablePattern'])) {
                 $route->setVariablePattern($routeData['variablePattern']);
             }
@@ -129,6 +139,10 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface
                 foreach ($routeData['requirements'] as $key => $value) {
                     $route->setRequirement($key, $value);
                 }
+            }
+
+            if (isset($routeData['templateName'])) {
+                $route->setTemplateName($routeData['templateName']);
             }
 
             if (isset($routeData['defaults'])) {
@@ -147,30 +161,26 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface
         $routes = [
             'dev' => [
                 [
-                    'path' => '/swp/default/routes/news',
-                    'content' => '/swp/default/content/features',
+                    'path' => $this->defaultTenantPrefix.'/routes/articles/features',
+                    'content' => $this->defaultTenantPrefix.'/content/features',
                 ],
                 [
-                    'path' => '/swp/default/routes/articles/features',
-                    'content' => '/swp/default/content/features',
-                ],
-                [
-                    'path' => '/swp/default/routes/articles/get-involved',
-                    'content' => '/swp/default/content/get-involved',
+                    'path' => $this->defaultTenantPrefix.'/routes/articles/get-involved',
+                    'content' => $this->defaultTenantPrefix.'/content/get-involved',
                 ],
             ],
             'test' => [
                 [
-                    'path' => '/swp/default/routes/news',
-                    'content' => '/swp/default/content/test-news-article',
+                    'path' => $this->defaultTenantPrefix.'/routes/news',
+                    'content' => $this->defaultTenantPrefix.'/content/test-news-article',
                 ],
                 [
-                    'path' => '/swp/default/routes/articles/features',
-                    'content' => '/swp/default/content/features',
+                    'path' => $this->defaultTenantPrefix.'/routes/articles/features',
+                    'content' => $this->defaultTenantPrefix.'/content/features',
                 ],
                 [
-                    'path' => '/swp/client1/routes/features',
-                    'content' => '/swp/client1/content/features-client1',
+                    'path' => $this->firstTenantPrefix.'/routes/features',
+                    'content' => $this->firstTenantPrefix.'/content/features-client1',
                 ],
             ],
         ];
@@ -204,29 +214,29 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface
                 [
                     'title' => 'Test news article',
                     'content' => 'Test news article content',
-                    'route' => '/swp/default/routes/news',
-                    'parent' => '/swp/default/content',
+                    'route' => $this->defaultTenantPrefix.'/routes/news',
+                    'parent' => $this->defaultTenantPrefix.'/content',
                     'locale' => 'en',
                 ],
                 [
                     'title' => 'Test article',
                     'content' => 'Test article content',
-                    'route' => '/swp/default/routes/news',
-                    'parent' => '/swp/default/content',
+                    'route' => $this->defaultTenantPrefix.'/routes/news',
+                    'parent' => $this->defaultTenantPrefix.'/content',
                     'locale' => 'en',
                 ],
                 [
                     'title' => 'Features',
                     'content' => 'Features content',
-                    'route' => '/swp/default/routes/news',
-                    'parent' => '/swp/default/content',
+                    'route' => $this->defaultTenantPrefix.'/routes/news',
+                    'parent' => $this->defaultTenantPrefix.'/content',
                     'locale' => 'en',
                 ],
                 [
                     'title' => 'Features client1',
                     'content' => 'Features client1 content',
-                    'route' => '/swp/client1/routes/news',
-                    'parent' => '/swp/client1/content',
+                    'route' => $this->firstTenantPrefix.'/routes/news',
+                    'parent' => $this->firstTenantPrefix.'/content',
                     'locale' => 'en',
                 ],
             ],
@@ -235,7 +245,7 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface
         if (isset($articles[$env])) {
             foreach ($articles[$env] as $articleData) {
                 $article = new Article();
-                $article->setParent($manager->find(null, $articleData['parent']));
+                $article->setParentDocument($manager->find(null, $articleData['parent']));
                 $article->setTitle($articleData['title']);
                 $article->setBody($articleData['content']);
                 $article->setRoute($manager->find(null, $articleData['route']));
@@ -249,5 +259,13 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface
 
             $manager->flush();
         }
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getOrder()
+    {
+        return 1;
     }
 }

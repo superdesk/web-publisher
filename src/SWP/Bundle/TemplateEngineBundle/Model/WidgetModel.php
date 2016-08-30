@@ -16,7 +16,6 @@ namespace SWP\Bundle\TemplateEngineBundle\Model;
 use Doctrine\Common\Collections\ArrayCollection;
 use SWP\Component\Common\Model\TimestampableInterface;
 use SWP\Component\MultiTenancy\Model\TenantAwareInterface;
-use SWP\Component\MultiTenancy\Model\TenantInterface;
 use SWP\Component\TemplatesSystem\Gimme\Model\WidgetModelInterface;
 
 /**
@@ -25,9 +24,13 @@ use SWP\Component\TemplatesSystem\Gimme\Model\WidgetModelInterface;
 class WidgetModel implements WidgetModelInterface, TenantAwareInterface, TimestampableInterface
 {
     const TYPE_HTML = 1;
+    const TYPE_ADSENSE = 2;
+    const TYPE_MENU = 3;
 
     protected $types = [
-        self::TYPE_HTML => '\\SWP\\Component\\TemplatesSystem\\Gimme\\WidgetModel\\HtmlWidgetHandler',
+        self::TYPE_HTML => '\\SWP\\Component\\TemplatesSystem\\Gimme\\Widget\\HtmlWidgetHandler',
+        self::TYPE_ADSENSE => '\\SWP\\Component\\TemplatesSystem\\Gimme\\Widget\\GoogleAdSenseWidgetHandler',
+        self::TYPE_MENU => '\\SWP\\Component\\TemplatesSystem\\Gimme\\Widget\\MenuWidgetHandler',
     ];
 
     /**
@@ -61,9 +64,9 @@ class WidgetModel implements WidgetModelInterface, TenantAwareInterface, Timesta
     protected $containers;
 
     /**
-     * @var TenantInterface
+     * @var string
      */
-    protected $tenant;
+    protected $tenantCode;
 
     /**
      * @var \DateTime
@@ -91,6 +94,20 @@ class WidgetModel implements WidgetModelInterface, TenantAwareInterface, Timesta
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * Set id.
+     *
+     * @param string $id
+     *
+     * @return WidgetModel
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
+
+        return $this;
     }
 
     /**
@@ -218,17 +235,17 @@ class WidgetModel implements WidgetModelInterface, TenantAwareInterface, Timesta
     /**
      * {@inheritdoc}
      */
-    public function getTenant()
+    public function getTenantCode()
     {
-        return $this->tenant;
+        return $this->tenantCode;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function setTenant(TenantInterface $tenant)
+    public function setTenantCode($code)
     {
-        $this->tenant = $tenant;
+        $this->tenantCode = $code;
     }
 
     /**

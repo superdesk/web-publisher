@@ -42,12 +42,11 @@ SWP\Bundle\TemplateEngineBundle\Model\Container:
             gedmo:
                 timestampable:
                     on: update
+        tenantCode:
+            type: string
     uniqueConstraints:
         name_idx:
-          columns: [ name, tenant_id ]
-    manyToOne:
-        tenant:
-            targetEntity: SWP\Bundle\WebRendererBundle\Model\Tenant
+          columns: [ name, tenant_code ]
     oneToMany:
         data:
             targetEntity: SWP\Bundle\TemplateEngineBundle\Model\ContainerData

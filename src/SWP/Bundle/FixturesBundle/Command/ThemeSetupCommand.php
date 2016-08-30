@@ -13,6 +13,9 @@
  */
 namespace SWP\Bundle\FixturesBundle\Command;
 
+use SWP\Component\Common\Model\ThemeAwareTenantInterface;
+use SWP\Component\MultiTenancy\Exception\TenantNotFoundException;
+use SWP\Component\MultiTenancy\Model\TenantInterface;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -23,8 +26,9 @@ use Symfony\Component\Filesystem\Filesystem;
 
 class ThemeSetupCommand extends ContainerAwareCommand
 {
-    const DEFAULT_THEME_NAME = 'DefaultTheme';
-    const THEMES_PATH = '/themes/default';
+    const DEFAULT_THEME_TITLE = 'DefaultTheme';
+    const DEFAULT_THEME_NAME = 'swp/default-theme';
+    const THEMES_PATH = '/themes/';
 
     /**
      * {@inheritdoc}
@@ -83,10 +87,18 @@ EOT
         $force = true === $input->getOption('force');
 
         if (null === $name) {
-            $name = self::DEFAULT_THEME_NAME;
+            $name = self::DEFAULT_THEME_TITLE;
         }
 
-        $tenantThemeDir = $kernel->getRootDir().self::THEMES_PATH;
+        // find default tenant and get its code, use it as a themes path
+        $tenantRepository = $this->getContainer()->get('swp.repository.tenant');
+
+        /** @var ThemeAwareTenantInterface $defaultTenant */
+        $defaultTenant = $tenantRepository->findOneBy(['name' => TenantInterface::DEFAULT_TENANT_NAME]);
+
+        $this->assertTenantIsFound($defaultTenant);
+
+        $tenantThemeDir = $kernel->getRootDir().self::THEMES_PATH.$defaultTenant->getCode();
         $themeDir = $tenantThemeDir.\DIRECTORY_SEPARATOR.$name;
 
         try {
@@ -125,6 +137,11 @@ EOT
                 }
             }
 
+            // Set theme_name for default tenant if the default theme is being set up
+            if (self::DEFAULT_THEME_TITLE === $name) {
+                $this->assignDefaultTheme($defaultTenant);
+            }
+
             $fileSystem->mirror(
                 $kernel->locateResource('@SWPFixturesBundle/Resources/themes/'.$name),
                 $themeDir,
@@ -136,6 +153,28 @@ EOT
         } catch (\Exception $e) {
             $output->writeln('<error>Theme "'.$name.'" could not be setup!</error>');
             $output->writeln('<error>Stacktrace: '.$e->getMessage().'</error>');
+        }
+    }
+
+    /**
+     * @param ThemeAwareTenantInterface $defaultTenant
+     *
+     * @throws \Exception if there is no default tenant
+     */
+    private function assignDefaultTheme(ThemeAwareTenantInterface $defaultTenant)
+    {
+        // Only assign default theme if no theme has yet been assigned to default tenant
+        if (null === $defaultTenant->getThemeName()) {
+            $defaultTenant->setThemeName(self::DEFAULT_THEME_NAME);
+            $documentManager = $this->getContainer()->get('doctrine_phpcr.odm.document_manager');
+            $documentManager->flush();
+        }
+    }
+
+    private function assertTenantIsFound(ThemeAwareTenantInterface $defaultTenant)
+    {
+        if (null === $defaultTenant) {
+            throw new TenantNotFoundException('No default tenant found, please first run php app/console swp:tenant:create --default');
         }
     }
 }

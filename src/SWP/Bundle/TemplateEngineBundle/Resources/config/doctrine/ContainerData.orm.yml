@@ -22,3 +22,4 @@ SWP\Bundle\TemplateEngineBundle\Model\ContainerData:
             joinColumn:
                 name: container_id
                 referencedColumnName: id
+                onDelete: CASCADE

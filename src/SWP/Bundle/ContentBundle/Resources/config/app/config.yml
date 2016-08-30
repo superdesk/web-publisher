@@ -1,0 +1,12 @@
+jms_serializer:
+    metadata:
+        directories:
+            CmfRoutingBundle:
+                namespace_prefix: Symfony\Cmf\Bundle\RoutingBundle
+                path: "@SWPContentBundle/Resources/config/serializer/CmfRoutingBundle"
+            SymfonyRouting:
+                namespace_prefix: Symfony\Component\Routing
+                path: "@SWPContentBundle/Resources/config/serializer/SymfonyRouting"
+            ContentBundle:
+                namespace_prefix: SWP\Bundle\ContentBundle
+                path: "@SWPContentBundle/Resources/config/serializer"

@@ -110,7 +110,7 @@ class RouteController extends FOSRestController
      *
      * Content path should be provided without tenant information:
      *
-     * Instead full content path like:  ```/swp/default/content/test-content-article``` provide path like this: ```test-content-article```
+     * Instead full content path like:  ```/swp/<tenant_code>/content/test-content-article``` provide path like this: ```test-content-article```
      *
      * @ApiDoc(
      *     resource=true,
@@ -134,6 +134,7 @@ class RouteController extends FOSRestController
             }
 
             $route = $this->get('swp.service.route')->createRoute($formData);
+
             $this->get('swp.repository.route')->add($route);
 
             $this->get('event_dispatcher')
@@ -152,7 +153,7 @@ class RouteController extends FOSRestController
      *
      * Content path should be provided without tenant information:
      *
-     * Instead full content path like:  ```/swp/default/content/test-content-article``` provide path like this: ```test-content-article```
+     * Instead full content path like:  ```/swp/<tenant_code>/content/test-content-article``` provide path like this: ```test-content-article```
      *
      * @ApiDoc(
      *     resource=true,
@@ -169,12 +170,13 @@ class RouteController extends FOSRestController
     {
         $objectManager = $this->get('swp.object_manager.route');
         $route = $this->findOr404($id);
-        $form = $this->createForm(new RouteType(), [
+        $form = $this->createForm(RouteType::class, [
             'name' => $route->getName(),
             'type' => $route->getType(),
-            'parent' => $route->getParent(),
+            'parent' => null !== $route->getParent() ? $route->getParent()->getId() : null,
             'content' => null !== $route->getContent() ? $route->getContent()->getId() : null,
             'template_name' => $route->getTemplateName(),
+            'cacheTimeInSeconds' => $route->getCacheTimeInSeconds(),
         ], ['method' => $request->getMethod()]);
 
         $form->handleRequest($request);
@@ -183,7 +185,7 @@ class RouteController extends FOSRestController
             $objectManager->flush();
 
             $this->get('event_dispatcher')
-                ->dispatch(HttpCacheEvent::EVENT_NAME, new HttpCacheEvent($route));
+            ->dispatch(HttpCacheEvent::EVENT_NAME, new HttpCacheEvent($route));
 
             return $this->handleView(View::create($route, 200));
         }

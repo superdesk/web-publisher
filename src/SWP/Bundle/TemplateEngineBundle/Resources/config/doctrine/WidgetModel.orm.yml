@@ -32,9 +32,8 @@ SWP\Bundle\TemplateEngineBundle\Model\WidgetModel:
             gedmo:
                 timestampable:
                     on: update
-    manyToOne:
-        tenant:
-            targetEntity: SWP\Bundle\WebRendererBundle\Model\Tenant
+        tenantCode:
+            type: string
     oneToMany:
         containers:
             targetEntity: SWP\Bundle\TemplateEngineBundle\Model\ContainerWidget

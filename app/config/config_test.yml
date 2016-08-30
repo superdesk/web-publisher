@@ -24,7 +24,7 @@ sylius_theme:
     sources:
         tenantable:
             directories:
-                - "%kernel.root_dir%/../src/SWP/Bundle/WebRendererBundle/Tests/Fixtures/themes"
+                - "%kernel.root_dir%/../src/SWP/Bundle/CoreBundle/Tests/Fixtures/themes"
 
 web_profiler:
     toolbar: false
@@ -32,3 +32,18 @@ web_profiler:
 
 swiftmailer:
     disable_delivery: true
+
+swp_content:
+    persistence:
+        phpcr:
+            default_content_path: "articles"
+
+oneup_flysystem:
+    adapters:
+        filesystem_adapter:
+            local:
+                directory: "%kernel.cache_dir%/uploads/"
+
+sentry:
+    environment: "test"
+    dsn: false

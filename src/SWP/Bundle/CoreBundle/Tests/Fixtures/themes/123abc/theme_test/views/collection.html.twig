@@ -1,0 +1,5 @@
+collection.html.twig:
+
+{% gimmelist article from articles with {'route': '/collection-test'} %}
+<li><a href="{{ url(article) }}">{{ article.title }} </a></li>
+{% endgimmelist %}

@@ -1,0 +1,6 @@
+jms_serializer:
+    metadata:
+        directories:
+            SWPCoreBundle:
+                namespace_prefix: "SWP\\Bundle\\CoreBundle"
+                path: "@SWPCoreBundle/Resources/config/serializer"

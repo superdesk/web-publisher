@@ -13,8 +13,7 @@
  */
 namespace SWP\Bundle\TemplateEngineBundle\Tests\Controller;
 
-use Liip\FunctionalTestBundle\Test\WebTestCase;
-use SWP\Component\MultiTenancy\Model\Tenant;
+use SWP\Bundle\FixturesBundle\WebTestCase;
 
 class ContainerControllerTest extends WebTestCase
 {
@@ -26,16 +25,16 @@ class ContainerControllerTest extends WebTestCase
     public function setUp()
     {
         self::bootKernel();
-        $this->runCommand('doctrine:schema:drop', ['--force' => true, '--env' => 'test'], true);
-        $this->runCommand('doctrine:doctrine:schema:update', ['--force' => true, '--env' => 'test'], true);
+        $this->initDatabase();
+
+        $this->loadFixtures([
+            'SWP\Bundle\FixturesBundle\DataFixtures\PHPCR\LoadTenantsData',
+        ], null, 'doctrine_phpcr');
 
         $this->loadFixtureFiles([
-            '@SWPFixturesBundle/Resources/fixtures/ORM/test/tenant.yml',
             '@SWPFixturesBundle/Resources/fixtures/ORM/test/Container.yml',
             '@SWPFixturesBundle/Resources/fixtures/ORM/test/WidgetModel.yml',
-        ]);
-
-        $this->runCommand('doctrine:phpcr:repository:init', ['--env' => 'test'], true);
+        ], true);
 
         $this->router = $this->getContainer()->get('router');
     }
@@ -124,7 +123,7 @@ class ContainerControllerTest extends WebTestCase
         ]);
         $this->assertEquals(201, $client->getResponse()->getStatusCode());
         $this->assertEquals(
-            '{"id":1,"type":1,"name":"Simple Container 1","width":300,"height":400,"styles":"color: #00000","css_class":"col-md-12","visible":true,"data":[],"widgets":[{"id":1,"widget":{"id":1,"type":"\\\\SWP\\\\Component\\\\TemplatesSystem\\\\Gimme\\\\WidgetModel\\\\HtmlWidgetHandler","name":"HtmlWidgetHandler number 1","visible":true,"parameters":{"html_body":"sample widget with <span style=\'color:red\'>html<\/span>"},"_links":{"self":{"href":"\/api\/v1\/templates\/widgets\/1"}}},"position":"0"}],"_links":{"self":{"href":"\/api\/v1\/templates\/containers\/1"}}}',
+            '{"id":1,"type":1,"name":"Simple Container 1","width":300,"height":400,"styles":"color: #00000","css_class":"col-md-12","visible":true,"data":[],"widgets":[{"id":1,"widget":{"id":1,"type":"\\\\SWP\\\\Component\\\\TemplatesSystem\\\\Gimme\\\\Widget\\\\HtmlWidgetHandler","name":"HtmlWidgetHandler number 1","visible":true,"parameters":{"html_body":"sample widget with <span style=\'color:red\'>html<\/span>"},"_links":{"self":{"href":"\/api\/v1\/templates\/widgets\/1"}}},"position":"0"}],"_links":{"self":{"href":"\/api\/v1\/templates\/containers\/1"}}}',
             $client->getResponse()->getContent()
         );
     }
@@ -151,7 +150,7 @@ class ContainerControllerTest extends WebTestCase
         ]);
         $this->assertEquals(201, $client->getResponse()->getStatusCode());
         $this->assertEquals(
-            '{"id":1,"type":1,"name":"Simple Container 1","width":300,"height":400,"styles":"color: #00000","css_class":"col-md-12","visible":true,"data":[],"widgets":[{"id":1,"widget":{"id":1,"type":"\\\\SWP\\\\Component\\\\TemplatesSystem\\\\Gimme\\\\WidgetModel\\\\HtmlWidgetHandler","name":"HtmlWidgetHandler number 1","visible":true,"parameters":{"html_body":"sample widget with <span style=\'color:red\'>html<\/span>"},"_links":{"self":{"href":"\/api\/v1\/templates\/widgets\/1"}}},"position":"0"}],"_links":{"self":{"href":"\/api\/v1\/templates\/containers\/1"}}}',
+            '{"id":1,"type":1,"name":"Simple Container 1","width":300,"height":400,"styles":"color: #00000","css_class":"col-md-12","visible":true,"data":[],"widgets":[{"id":1,"widget":{"id":1,"type":"\\\\SWP\\\\Component\\\\TemplatesSystem\\\\Gimme\\\\Widget\\\\HtmlWidgetHandler","name":"HtmlWidgetHandler number 1","visible":true,"parameters":{"html_body":"sample widget with <span style=\'color:red\'>html<\/span>"},"_links":{"self":{"href":"\/api\/v1\/templates\/widgets\/1"}}},"position":"0"}],"_links":{"self":{"href":"\/api\/v1\/templates\/containers\/1"}}}',
             $client->getResponse()->getContent()
         );
 
@@ -160,7 +159,7 @@ class ContainerControllerTest extends WebTestCase
             'HTTP_LINK' => '</api/v1/templates/widgets/2; rel="widget">,<1; rel="widget-position">',
         ]);
         $this->assertEquals(
-            '{"id":1,"type":1,"name":"Simple Container 1","width":300,"height":400,"styles":"color: #00000","css_class":"col-md-12","visible":true,"data":[],"widgets":[{"id":1,"widget":{"id":1,"type":"\\\\SWP\\\Component\\\\TemplatesSystem\\\Gimme\\\WidgetModel\\\HtmlWidgetHandler","name":"HtmlWidgetHandler number 1","visible":true,"parameters":{"html_body":"sample widget with <span style=\'color:red\'>html<\/span>"},"_links":{"self":{"href":"\/api\/v1\/templates\/widgets\/1"}}},"position":"0"},{"id":2,"widget":{"id":2,"type":"\\\SWP\\\Component\\\\TemplatesSystem\\\Gimme\\\WidgetModel\\\HtmlWidgetHandler","name":"HtmlWidgetHandler number 2","visible":true,"parameters":{"html_body":"sample widget with html 2"},"_links":{"self":{"href":"\/api\/v1\/templates\/widgets\/2"}}},"position":"1"}],"_links":{"self":{"href":"\/api\/v1\/templates\/containers\/1"}}}',
+            '{"id":1,"type":1,"name":"Simple Container 1","width":300,"height":400,"styles":"color: #00000","css_class":"col-md-12","visible":true,"data":[],"widgets":[{"id":1,"widget":{"id":1,"type":"\\\\SWP\\\Component\\\\TemplatesSystem\\\Gimme\\\Widget\\\HtmlWidgetHandler","name":"HtmlWidgetHandler number 1","visible":true,"parameters":{"html_body":"sample widget with <span style=\'color:red\'>html<\/span>"},"_links":{"self":{"href":"\/api\/v1\/templates\/widgets\/1"}}},"position":"0"},{"id":2,"widget":{"id":2,"type":"\\\SWP\\\Component\\\\TemplatesSystem\\\Gimme\\\Widget\\\HtmlWidgetHandler","name":"HtmlWidgetHandler number 2","visible":true,"parameters":{"html_body":"sample widget with html 2"},"_links":{"self":{"href":"\/api\/v1\/templates\/widgets\/2"}}},"position":"1"}],"_links":{"self":{"href":"\/api\/v1\/templates\/containers\/1"}}}',
             $client->getResponse()->getContent()
         );
 
@@ -169,7 +168,7 @@ class ContainerControllerTest extends WebTestCase
             'HTTP_LINK' => '</api/v1/templates/widgets/2; rel="widget">,<0; rel="widget-position">',
         ]);
         $this->assertEquals(
-            '{"id":1,"type":1,"name":"Simple Container 1","width":300,"height":400,"styles":"color: #00000","css_class":"col-md-12","visible":true,"data":[],"widgets":[{"id":1,"widget":{"id":1,"type":"\\\\SWP\\\Component\\\\TemplatesSystem\\\Gimme\\\WidgetModel\\\HtmlWidgetHandler","name":"HtmlWidgetHandler number 1","visible":true,"parameters":{"html_body":"sample widget with <span style=\'color:red\'>html<\/span>"},"_links":{"self":{"href":"\/api\/v1\/templates\/widgets\/1"}}},"position":"1"},{"id":2,"widget":{"id":2,"type":"\\\SWP\\\Component\\\\TemplatesSystem\\\Gimme\\\WidgetModel\\\HtmlWidgetHandler","name":"HtmlWidgetHandler number 2","visible":true,"parameters":{"html_body":"sample widget with html 2"},"_links":{"self":{"href":"\/api\/v1\/templates\/widgets\/2"}}},"position":"0"}],"_links":{"self":{"href":"\/api\/v1\/templates\/containers\/1"}}}',
+            '{"id":1,"type":1,"name":"Simple Container 1","width":300,"height":400,"styles":"color: #00000","css_class":"col-md-12","visible":true,"data":[],"widgets":[{"id":1,"widget":{"id":1,"type":"\\\\SWP\\\Component\\\\TemplatesSystem\\\Gimme\\\Widget\\\HtmlWidgetHandler","name":"HtmlWidgetHandler number 1","visible":true,"parameters":{"html_body":"sample widget with <span style=\'color:red\'>html<\/span>"},"_links":{"self":{"href":"\/api\/v1\/templates\/widgets\/1"}}},"position":"1"},{"id":2,"widget":{"id":2,"type":"\\\SWP\\\Component\\\\TemplatesSystem\\\Gimme\\\Widget\\\HtmlWidgetHandler","name":"HtmlWidgetHandler number 2","visible":true,"parameters":{"html_body":"sample widget with html 2"},"_links":{"self":{"href":"\/api\/v1\/templates\/widgets\/2"}}},"position":"0"}],"_links":{"self":{"href":"\/api\/v1\/templates\/containers\/1"}}}',
             $client->getResponse()->getContent()
         );
 
@@ -178,7 +177,7 @@ class ContainerControllerTest extends WebTestCase
             'HTTP_LINK' => '</api/v1/templates/widgets/2; rel="widget">,<-1; rel="widget-position">',
         ]);
         $this->assertEquals(
-            '{"id":1,"type":1,"name":"Simple Container 1","width":300,"height":400,"styles":"color: #00000","css_class":"col-md-12","visible":true,"data":[],"widgets":[{"id":1,"widget":{"id":1,"type":"\\\\SWP\\\Component\\\\TemplatesSystem\\\Gimme\\\WidgetModel\\\HtmlWidgetHandler","name":"HtmlWidgetHandler number 1","visible":true,"parameters":{"html_body":"sample widget with <span style=\'color:red\'>html<\/span>"},"_links":{"self":{"href":"\/api\/v1\/templates\/widgets\/1"}}},"position":"0"},{"id":2,"widget":{"id":2,"type":"\\\SWP\\\Component\\\\TemplatesSystem\\\Gimme\\\WidgetModel\\\HtmlWidgetHandler","name":"HtmlWidgetHandler number 2","visible":true,"parameters":{"html_body":"sample widget with html 2"},"_links":{"self":{"href":"\/api\/v1\/templates\/widgets\/2"}}},"position":"1"}],"_links":{"self":{"href":"\/api\/v1\/templates\/containers\/1"}}}',
+            '{"id":1,"type":1,"name":"Simple Container 1","width":300,"height":400,"styles":"color: #00000","css_class":"col-md-12","visible":true,"data":[],"widgets":[{"id":1,"widget":{"id":1,"type":"\\\\SWP\\\Component\\\\TemplatesSystem\\\Gimme\\\Widget\\\HtmlWidgetHandler","name":"HtmlWidgetHandler number 1","visible":true,"parameters":{"html_body":"sample widget with <span style=\'color:red\'>html<\/span>"},"_links":{"self":{"href":"\/api\/v1\/templates\/widgets\/1"}}},"position":"0"},{"id":2,"widget":{"id":2,"type":"\\\SWP\\\Component\\\\TemplatesSystem\\\Gimme\\\Widget\\\HtmlWidgetHandler","name":"HtmlWidgetHandler number 2","visible":true,"parameters":{"html_body":"sample widget with html 2"},"_links":{"self":{"href":"\/api\/v1\/templates\/widgets\/2"}}},"position":"1"}],"_links":{"self":{"href":"\/api\/v1\/templates\/containers\/1"}}}',
             $client->getResponse()->getContent()
         );
     }

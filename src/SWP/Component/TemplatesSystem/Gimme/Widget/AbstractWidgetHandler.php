@@ -72,7 +72,7 @@ abstract class AbstractWidgetHandler implements WidgetHandlerInterface, Containe
             }
         }
 
-        // TODO - what if there is no parameter, and no default value for that parameter?
+        return;
     }
 
     /**
@@ -88,9 +88,13 @@ abstract class AbstractWidgetHandler implements WidgetHandlerInterface, Containe
     /**
      * Render given template with given parameters.
      */
-    protected function renderTemplate($templateName, $parameters = array())
+    protected function renderTemplate($templateName, $parameters = null)
     {
-        $this->container->get('templating')->render(self::WIDGET_TEMPLATE_PATH.'/'.$templateName, $parameters);
+        if (null === $parameters) {
+            $parameters = $this->getAllParametersWithValue();
+        }
+
+        return $this->container->get('templating')->render(self::WIDGET_TEMPLATE_PATH.'/'.$templateName, $parameters);
     }
 
     /**
@@ -101,7 +105,7 @@ abstract class AbstractWidgetHandler implements WidgetHandlerInterface, Containe
     protected function getAllParametersWithValue()
     {
         $all = array();
-        foreach (self::getExpectedParameters() as $key) {
+        foreach (self::getExpectedParameters() as $key => $value) {
             $all[$key] = $this->getModelParameter($key);
         }
 

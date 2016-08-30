@@ -17,9 +17,11 @@ Required methods:
 
     <?php
 
-    namespace SWP\TemplateEngineBundle\Gimme\Loader;
+    namespace SWP\Component\TemplatesSystem\Gimme\Loader;
 
-    use SWP\TemplateEngineBundle\Gimme\Meta\Meta;
+    use SWP\Component\TemplatesSystem\Gimme\Factory\MetaFactory;
+    use SWP\Component\TemplatesSystem\Gimme\Meta\Meta;
+    use Symfony\Component\Yaml\Parser;
 
     class ArticleLoader implements LoaderInterface
     {
@@ -29,15 +31,21 @@ Required methods:
         protected $rootDir;
 
         /**
+         * @var MetaFactory
+         */
+        protected $metaFactory;
+
+        /**
          * @param string $rootDir path to application root directory
          */
-        public function __construct($rootDir)
+        public function __construct($rootDir, MetaFactory $metaFactory)
         {
             $this->rootDir = $rootDir;
+            $this->metaFactory = $metaFactory;
         }
 
         /**
-         * Load meta object by provided type and parameters
+         * Load meta object by provided type and parameters.
          *
          * @MetaLoaderDoc(
          *     description="Article Meta Loader provide simple way to test Loader, it will be removed when real loaders will be merged.",
@@ -48,41 +56,48 @@ Required methods:
          * @param array  $parameters   parameters needed to load required object type
          * @param int    $responseType response type: single meta (LoaderInterface::SINGLE) or collection of metas (LoaderInterface::COLLECTION)
          *
-         * @return Meta|bool false if meta cannot be loaded, a Meta instance otherwise
+         * @return Meta|array false if meta cannot be loaded, a Meta instance otherwise
          */
-        public function load($type, $parameters, $responseType)
+        public function load($type, array $parameters = null, $responseType = LoaderInterface::SINGLE)
         {
+            if (!is_readable($this->rootDir.'/Resources/meta/article.yml')) {
+                throw new \InvalidArgumentException('Configuration file is not readable for parser');
+            }
+            $yaml = new Parser();
+            $configuration = (array) $yaml->parse(file_get_contents($this->rootDir.'/Resources/meta/article.yml'));
+
             if ($responseType === LoaderInterface::SINGLE) {
-                return new Meta($this->rootDir.'/Resources/meta/article.yml', array(
+                return $this->metaFactory->create([
                     'title' => 'New article',
                     'keywords' => 'lorem, ipsum, dolor, sit, amet',
                     'don\'t expose it' => 'this should be not exposed',
-                ));
-            } else if ($responseType === LoaderInterface::COLLECTION) {
-                return array(
-                    new Meta($this->rootDir.'/Resources/meta/article.yml', array(
+                ], $configuration);
+            } elseif ($responseType === LoaderInterface::COLLECTION) {
+                return [
+                    $this->metaFactory->create([
                         'title' => 'New article 1',
                         'keywords' => 'lorem, ipsum, dolor, sit, amet',
                         'don\'t expose it' => 'this should be not exposed',
-                    )),
-                    new Meta($this->rootDir.'/Resources/meta/article.yml', array(
+                    ], $configuration),
+                    $this->metaFactory->create([
                         'title' => 'New article 2',
                         'keywords' => 'lorem, ipsum, dolor, sit, amet',
                         'don\'t expose it' => 'this should be not exposed',
-                    ))
-                );
+                    ], $configuration),
+                ];
             }
         }
 
         /**
-         * Checks if Loader supports provided type
+         * Checks if Loader supports provided type.
          *
          * @param string $type
          *
-         * @return boolean
+         * @return bool
          */
         public function isSupported($type)
         {
-            return in_array($type, array('articles', 'article'));
+            return in_array($type, ['articles', 'article']);
         }
     }
+

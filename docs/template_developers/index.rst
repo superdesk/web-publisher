@@ -6,3 +6,5 @@ Template tips for developers
    :glob:
 
    metaloaders
+   widgets
+   menus

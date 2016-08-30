@@ -13,9 +13,9 @@
  */
 namespace SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR;
 
-use SWP\Bundle\MultiTenancyBundle\Document\Page;
+use Symfony\Cmf\Bundle\RoutingBundle\Doctrine\Phpcr\Route as BaseRoute;
 
-class Route extends Page implements RouteObjectInterface
+class Route extends BaseRoute implements RouteObjectInterface
 {
     /**
      * @var string
@@ -26,6 +26,11 @@ class Route extends Page implements RouteObjectInterface
      * @var string
      */
     protected $type;
+
+    /**
+     * @var int
+     */
+    protected $cacheTimeInSeconds = 0;
 
     /**
      * {@inheritdoc}
@@ -57,5 +62,21 @@ class Route extends Page implements RouteObjectInterface
     public function setType($type)
     {
         $this->type = $type;
+    }
+
+    /**
+     * @return int
+     */
+    public function getCacheTimeInSeconds()
+    {
+        return $this->cacheTimeInSeconds;
+    }
+
+    /**
+     * @param int $cacheTimeInSeconds
+     */
+    public function setCacheTimeInSeconds($cacheTimeInSeconds)
+    {
+        $this->cacheTimeInSeconds = $cacheTimeInSeconds;
     }
 }

@@ -13,14 +13,17 @@
  */
 namespace SWP\Bundle\ContentBundle\Loader;
 
+use PHPCR\Query\QueryInterface;
+use SWP\Component\TemplatesSystem\Gimme\Factory\MetaFactoryInterface;
 use SWP\Component\TemplatesSystem\Gimme\Loader\LoaderInterface;
 use SWP\Component\TemplatesSystem\Gimme\Meta\Meta;
-use Symfony\Component\Yaml\Parser;
 use Symfony\Cmf\Bundle\CoreBundle\PublishWorkflow\PublishWorkflowChecker;
 use Doctrine\ODM\PHPCR\DocumentManager;
-use Doctrine\Common\Cache\CacheProvider;
 use SWP\Component\MultiTenancy\PathBuilder\TenantAwarePathBuilderInterface;
 
+/**
+ * Class ArticleLoader.
+ */
 class ArticleLoader implements LoaderInterface
 {
     /**
@@ -34,16 +37,6 @@ class ArticleLoader implements LoaderInterface
     protected $dm;
 
     /**
-     * @var string
-     */
-    protected $configurationPath;
-
-    /**
-     * @var CacheProvider
-     */
-    protected $metadataCache;
-
-    /**
      * @var TenantAwarePathBuilderInterface
      */
     protected $pathBuilder;
@@ -53,20 +46,32 @@ class ArticleLoader implements LoaderInterface
      */
     protected $routeBasepaths;
 
+    /**
+     * @var MetaFactoryInterface
+     */
+    protected $metaFactory;
+
+    /**
+     * ArticleLoader constructor.
+     *
+     * @param PublishWorkflowChecker          $publishWorkflowChecker
+     * @param DocumentManager                 $dm
+     * @param TenantAwarePathBuilderInterface $pathBuilder
+     * @param string                          $routeBasepaths
+     * @param MetaFactoryInterface            $metaFactory
+     */
     public function __construct(
         PublishWorkflowChecker $publishWorkflowChecker,
         DocumentManager $dm,
-        $configurationPath,
-        CacheProvider $metadataCache,
         TenantAwarePathBuilderInterface $pathBuilder,
-        $routeBasepaths
+        $routeBasepaths,
+        MetaFactoryInterface $metaFactory
     ) {
         $this->publishWorkflowChecker = $publishWorkflowChecker;
         $this->dm = $dm;
-        $this->configurationPath = $configurationPath.'/Resources/meta/article.yml';
-        $this->metadataCache = $metadataCache;
         $this->pathBuilder = $pathBuilder;
         $this->routeBasepaths = $routeBasepaths;
+        $this->metaFactory = $metaFactory;
     }
 
     /**
@@ -86,26 +91,12 @@ class ArticleLoader implements LoaderInterface
      * @param int    $responseType response type: single meta (LoaderInterface::SINGLE) or collection of metas (LoaderInterface::COLLECTION)
      *
      * @return Meta|Meta[]|bool false if meta cannot be loaded, a Meta instance otherwise
+     *
+     * @throws \Exception
      */
-    public function load($type, $parameters, $responseType = LoaderInterface::SINGLE)
+    public function load($type, $parameters = [], $responseType = LoaderInterface::SINGLE)
     {
         $article = null;
-        if (empty($parameters)) {
-            $parameters = [];
-        }
-
-        // Cache meta configuration
-        $cacheKey = md5($this->configurationPath);
-        if (!$this->metadataCache->contains($cacheKey)) {
-            if (!is_readable($this->configurationPath)) {
-                throw new \InvalidArgumentException('Configuration file is not readable for parser');
-            }
-            $yaml = new Parser();
-            $configuration = $yaml->parse(file_get_contents($this->configurationPath));
-            $this->metadataCache->save($cacheKey, $configuration);
-        } else {
-            $configuration = $this->metadataCache->fetch($cacheKey);
-        }
 
         if ($responseType === LoaderInterface::SINGLE) {
             if (array_key_exists('contentPath', $parameters)) {
@@ -117,7 +108,7 @@ class ArticleLoader implements LoaderInterface
                     ->findOneBy(['slug' => $parameters['slug']]);
             }
 
-            return $this->getArticleMeta($configuration, $article);
+            return $this->getArticleMeta($article);
         } elseif ($responseType === LoaderInterface::COLLECTION) {
             if (array_key_exists('route', $parameters)) {
                 $route = $this->dm->find(null, $this->pathBuilder->build(
@@ -125,21 +116,50 @@ class ArticleLoader implements LoaderInterface
                 ));
 
                 if ($route) {
-                    $articles = $this->dm->getReferrers($route, null, null, null, 'SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\Article');
-                    $metas = [];
+                    $node = $this->dm->getNodeForDocument($route);
+                    $identifier = $node->getIdentifier();
+
+                    $queryStr = sprintf("SELECT * FROM [nt:unstructured] as S WHERE S.phpcr:class='SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\Article' AND S.route=%s", $identifier);
+
+                    if (isset($parameters['order'])) {
+                        $order = $parameters['order'];
+                        if (!is_array($order) || count($order) !== 2 || (strtoupper($order[1]) != 'ASC' && strtoupper($order[1]) != 'DESC')) {
+                            throw new \Exception('Order filter must have two parameters with second one asc or desc, e.g. order(id, desc)');
+                        }
+                        if ($order[0] === 'id') {
+                            $order[0] = 'jcr:uuid';
+                        } else {
+                            $order[0] = mysqli_real_escape_string($order[0]);
+                        }
+                        $queryStr .= sprintf(' ORDER BY S.%s %s', $order[0], $order[1]);
+                    }
+
+                    $query = $this->dm->createPhpcrQuery($queryStr, QueryInterface::JCR_SQL2);
+
+                    if (isset($parameters['limit'])) {
+                        $query->setLimit($parameters['limit']);
+                    }
+
+                    if (isset($parameters['start'])) {
+                        $query->setOffset($parameters['start']);
+                    }
+
+                    $articles = $this->dm->getDocumentsByPhpcrQuery($query);
+
+                    $meta = [];
                     foreach ($articles as $article) {
-                        $articleMeta = $this->getArticleMeta($configuration, $article);
+                        $articleMeta = $this->getArticleMeta($article);
                         if ($articleMeta) {
-                            $metas[] = $articleMeta;
+                            $meta[] = $articleMeta;
                         }
                     }
 
-                    return $metas;
+                    return $meta;
                 }
             }
         }
 
-        return false;
+        return;
     }
 
     /**
@@ -154,12 +174,12 @@ class ArticleLoader implements LoaderInterface
         return in_array($type, ['articles', 'article']);
     }
 
-    private function getArticleMeta($configuration, $article)
+    private function getArticleMeta($article)
     {
         if (!is_null($article) && $this->publishWorkflowChecker->isGranted(PublishWorkflowChecker::VIEW_ATTRIBUTE, $article)) {
-            return new Meta($configuration, $article);
+            return $this->metaFactory->create($article);
         }
 
-        return false;
+        return;
     }
 }

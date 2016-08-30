@@ -1,3 +1,5 @@
-vendor/*
+vendor/
+bin/
+composer.phar
 composer.lock
-/docs/_build/
+

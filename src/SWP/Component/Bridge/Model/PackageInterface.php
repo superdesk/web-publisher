@@ -24,4 +24,9 @@ interface PackageInterface extends ContentInterface, TimestampableInterface, Ena
      * @return Collection
      */
     public function getItems();
+
+    /**
+     * @return string
+     */
+    public function getBody();
 }

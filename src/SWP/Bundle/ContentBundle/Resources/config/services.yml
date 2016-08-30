@@ -2,6 +2,9 @@ parameters:
     swp_content.transformer.package_to_article.class: SWP\Bundle\ContentBundle\Transformer\PackageToArticleTransformer
     swp.service.route.class: SWP\Bundle\ContentBundle\Service\RouteService
     swp.service.article.class: SWP\Bundle\ContentBundle\Service\ArticleService
+    swp_content_bundle.listener.http_cache_header.class: SWP\Bundle\ContentBundle\EventListener\HttpCacheHeaderListener
+    swp_content_bundle.manager.media.class: SWP\Bundle\ContentBundle\Manager\MediaManager
+    swp_content_bundle.router.media.class: SWP\Bundle\ContentBundle\Routing\MediaRouter
 
 services:
     swp_template_engine.loader.article:
@@ -9,10 +12,25 @@ services:
         arguments:
             - "@swp.publish_workflow.checker"
             - "@doctrine_phpcr.odm.document_manager"
-            - "%kernel.root_dir%"
-            - "@doctrine_cache.providers.main_cache"
             - "@swp_multi_tenancy.path_builder"
             - "%swp_multi_tenancy.persistence.phpcr.route_basepaths%"
+            - "@swp_template_engine_context.factory.meta_factory"
+        tags:
+            - { name: swp.meta_loader }
+
+    swp_template_engine.loader.media:
+        class: SWP\Bundle\ContentBundle\Loader\ArticleMediaLoader
+        arguments:
+            - "@doctrine_phpcr.odm.document_manager"
+            - "@swp_template_engine_context.factory.meta_factory"
+            - "@swp_template_engine_context"
+        tags:
+            - { name: swp.meta_loader }
+
+    swp_template_engine.loader.route:
+        class: SWP\Bundle\ContentBundle\Loader\RouteLoader
+        arguments:
+             - "@swp_template_engine_context.factory.meta_factory"
         tags:
             - { name: swp.meta_loader }
 
@@ -30,6 +48,21 @@ services:
         arguments:  ["@controller_resolver", "@router"]
         tags:
             - { name: kernel.event_listener, event: kernel.request, method: onKernelRequest }
+
+    swp_content_bundle.listener.http_cache_header:
+        class: '%swp_content_bundle.listener.http_cache_header.class%'
+        tags:
+            - { name: kernel.event_listener, event: kernel.response, method: onKernelResponse }
+
+    swp_content_bundle.listener.article_media:
+        class: SWP\Bundle\ContentBundle\EventListener\ProcessArticleMediaListener
+        arguments:
+            - '@swp.object_manager.media'
+            - '@swp_multi_tenancy.path_builder'
+            - '%swp_multi_tenancy.persistence.phpcr.media_basepath%'
+            - '@swp_content_bundle.manager.media'
+        tags:
+            - { name: kernel.event_listener, event: swp.article.pre_create, method: onArticleCreate }
 
     swp_pagination_rep:
         alias: swp_content_bundle.factory.knp_paginator_representation
@@ -55,3 +88,22 @@ services:
 
     swp.publish_workflow.checker:
         alias: cmf_core.publish_workflow.checker
+
+    swp_content_bundle.manager.media:
+        class: '%swp_content_bundle.manager.media.class%'
+        arguments:
+            - '@swp_multi_tenancy.path_builder'
+            - '@swp_filesystem'
+            - '@swp.object_manager.media'
+            - '@router'
+            - '@swp_multi_tenancy.tenant_context'
+            - '%swp_multi_tenancy.persistence.phpcr.media_basepath%'
+
+    router.symfony:
+        parent: "router.default"
+
+    swp_content_bundle.router.media:
+        class: "%swp_content_bundle.router.media.class%"
+        parent: "router.symfony"
+        tags:
+            - { name: router, priority: 300 }

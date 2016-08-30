@@ -1,7 +1,7 @@
 <?php
 
 /**
- * This file is part of the Superdesk Web Publisher Template Engine Bundle.
+ * This file is part of the Superdesk Web Publisher Analytics Bundle.
  *
  * Copyright 2015 Sourcefabric z.ú. and contributors.
  *
@@ -50,7 +50,6 @@ class MetricsListener
 
         $route = $event->getRequest()->get('_route');
 
-        // Todo: check for configured routes
         // Ignore web debug toolbar
         if (null !== $route && '_wdt' !== $route) {
             $this->stopwatch = new Stopwatch();

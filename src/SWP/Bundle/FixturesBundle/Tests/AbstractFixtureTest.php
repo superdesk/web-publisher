@@ -35,14 +35,14 @@ class AbstractFixtureTest extends KernelTestCase
     {
         $path = '@SWPFixturesBundle/Tests/Fixtures/test.yml';
         $stub = $this->createStub();
-        $this->assertNull($stub->loadFixtures($path, $this->manager));
+        $this->assertNotNull($stub->loadFixtures($path, $this->manager));
     }
 
     public function testLoadFixturesMethodArray()
     {
         $paths = ['@SWPFixturesBundle/Tests/Fixtures/test.yml'];
         $stub = $this->createStub();
-        $this->assertNull($stub->loadFixtures($paths, $this->manager));
+        $this->assertNotNull($stub->loadFixtures($paths, $this->manager));
     }
 
     /**

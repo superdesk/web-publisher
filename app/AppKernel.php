@@ -30,11 +30,14 @@ class AppKernel extends Kernel
             new Symfony\Cmf\Bundle\RoutingBundle\CmfRoutingBundle(),
             new Doctrine\Bundle\DoctrineCacheBundle\DoctrineCacheBundle(),
             new JMS\TranslationBundle\JMSTranslationBundle(),
+            new Knp\Bundle\MenuBundle\KnpMenuBundle(),
+            new Symfony\Cmf\Bundle\MenuBundle\CmfMenuBundle(),
+            new Oneup\FlysystemBundle\OneupFlysystemBundle(),
 
             new SWP\Bundle\StorageBundle\SWPStorageBundle(),
             new SWP\Bundle\MultiTenancyBundle\SWPMultiTenancyBundle(),
             new SWP\Bundle\TemplateEngineBundle\SWPTemplateEngineBundle(),
-            new SWP\Bundle\WebRendererBundle\SWPWebRendererBundle(),
+            new SWP\Bundle\CoreBundle\SWPCoreBundle(),
             new SWP\UpdaterBundle\SWPUpdaterBundle(),
             new SWP\Bundle\BridgeBundle\SWPBridgeBundle(),
             new SWP\Bundle\ContentBundle\SWPContentBundle(),
@@ -48,6 +51,7 @@ class AppKernel extends Kernel
             $bundles[] = new Sensio\Bundle\GeneratorBundle\SensioGeneratorBundle();
             $bundles[] = new Doctrine\Bundle\FixturesBundle\DoctrineFixturesBundle();
             $bundles[] = new SWP\Bundle\FixturesBundle\SWPFixturesBundle();
+            $bundles[] = new Sentry\SentryBundle\SentryBundle();
         }
 
         if (in_array($this->getEnvironment(), ['test'])) {
@@ -57,6 +61,9 @@ class AppKernel extends Kernel
         return $bundles;
     }
 
+    /**
+     * @param LoaderInterface $loader
+     */
     public function registerContainerConfiguration(LoaderInterface $loader)
     {
         $loader->load($this->getRootDir().'/config/config_'.$this->getEnvironment().'.yml');

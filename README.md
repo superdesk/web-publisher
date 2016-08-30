@@ -1,5 +1,5 @@
 Superdesk Web Publisher
-======================
+=======================
 
 [![Build Status](https://travis-ci.org/superdesk/web-publisher.svg?branch=master)](https://travis-ci.org/superdesk/web-publisher)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/superdesk/web-publisher/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/superdesk/web-publisher/?branch=master)
@@ -56,6 +56,8 @@ Then execute the following commands in terminal:
 
 ```bash
 php app/console doctrine:schema:update --force
+php app/console doctrine:phpcr:repository:init
+php app/console swp:organization:create --default
 php app/console swp:tenant:create --default
 php app/console doctrine:phpcr:repository:init
 ```
@@ -64,6 +66,8 @@ Commands when using docker:
 
 ```bash
 docker-compose run --rm php php /var/www/webpublisher/app/console doctrine:schema:update --force
+docker-compose run --rm php php /var/www/webpublisher/app/console doctrine:phpcr:repository:init
+docker-compose run --rm php php /var/www/webpublisher/app/console swp:organization:create --default
 docker-compose run --rm php php /var/www/webpublisher/app/console swp:tenant:create --default
 docker-compose run --rm php php /var/www/webpublisher/app/console doctrine:phpcr:repository:init
 ```
@@ -75,9 +79,9 @@ Alternatively, in the development environment, to populate the database with tes
 
 ```bash
 php app/console doctrine:schema:update --force
-php app/console doctrine:fixtures:load
 php app/console doctrine:phpcr:repository:init
 php app/console doctrine:phpcr:fixtures:load
+php app/console doctrine:fixtures:load
 ```
 
 You should also install a theme. To install our demo DefaultTheme - run following commands:
@@ -120,6 +124,12 @@ For PHPUnit:
 
 ```
 php bin/phpunit -c app/ --coverage-text
+```
+
+Send code coverage raport to [codecov.io](https://codecov.io/github/superdesk/web-publisher) with:
+
+```
+bash <(curl -s https://codecov.io/bash) -t 9774e0ee-fd3e-43d3-8ba6-a25e4ef57fe5
 ```
 
 **Note:** remember to enable `Xdebug` to generate the coverage.

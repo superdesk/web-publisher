@@ -7,19 +7,19 @@
          colors="true"
          bootstrap="bootstrap.php.cache"
 >
+    <php>
+        <ini name="zend.enable_gc" value="0"/>
+    </php>
     <testsuites>
-        <testsuite name="Project Test Suite">
+        <testsuite name="Components">
+            <directory>../src/SWP/Component/*/Tests</directory>
+        </testsuite>
+        <testsuite name="Bundles">
             <directory>../src/*/*Bundle/Tests</directory>
             <directory>../src/*/Bundle/*Bundle/Tests</directory>
             <directory>../src/*Bundle/Tests</directory>
         </testsuite>
     </testsuites>
-
-    <!--
-    <php>
-        <server name="KERNEL_DIR" value="/path/to/your/app/" />
-    </php>
-    -->
 
     <filter>
         <whitelist>
@@ -31,6 +31,8 @@
                 <directory>../src/*/*Bundle/Tests</directory>
                 <directory>../src/*/Bundle/*Bundle/Resources</directory>
                 <directory>../src/*/Bundle/*Bundle/Tests</directory>
+                <directory>../src/*/Bundle/*Bundle/spec</directory>
+                <directory>../src/SWP/Component/*/spec</directory>
             </exclude>
         </whitelist>
     </filter>

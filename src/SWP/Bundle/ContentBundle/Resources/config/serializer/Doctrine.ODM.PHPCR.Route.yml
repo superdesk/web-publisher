@@ -1,0 +1,10 @@
+SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\Route:
+    exclusion_policy:
+    properties:
+        templateName:
+            exposed: true
+        type:
+            exposed: true
+        cacheTimeInSeconds:
+            exposed: true
+            type: integer

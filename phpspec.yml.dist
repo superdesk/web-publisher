@@ -15,6 +15,16 @@ suites:
         psr4_prefix: SWP\Component\Storage
         spec_path: src/SWP/Component/Storage
         src_path: src/SWP/Component/Storage
+    Common_suite:
+        namespace: SWP\Component\Common
+        psr4_prefix: SWP\Component\Common
+        spec_path: src/SWP/Component/Common
+        src_path: src/SWP/Component/Common
+    TemplatesSystem_suite:
+        namespace: SWP\Component\TemplatesSystem
+        psr4_prefix: SWP\Component\TemplatesSystem
+        spec_path: src/SWP/Component/TemplatesSystem
+        src_path: src/SWP/Component/TemplatesSystem
 
     # bundles
     MultiTenancyBundle_suite:
@@ -27,11 +37,11 @@ suites:
         psr4_prefix: SWP\Bundle\ContentBundle
         spec_path: src/SWP/Bundle/ContentBundle
         src_path: src/SWP/Bundle/ContentBundle
-    WebRendererBundle_suite:
-        namespace: SWP\Bundle\WebRendererBundle
-        psr4_prefix: SWP\Bundle\WebRendererBundle
-        spec_path: src/SWP/Bundle/WebRendererBundle
-        src_path: src/SWP/Bundle/WebRendererBundle
+    CoreBundle_suite:
+        namespace: SWP\Bundle\CoreBundle
+        psr4_prefix: SWP\Bundle\CoreBundle
+        spec_path: src/SWP/Bundle/CoreBundle
+        src_path: src/SWP/Bundle/CoreBundle
     BridgeBundle_suite:
         namespace: SWP\Bundle\BridgeBundle
         psr4_prefix: SWP\Bundle\BridgeBundle

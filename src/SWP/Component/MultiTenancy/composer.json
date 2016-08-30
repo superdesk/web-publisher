@@ -9,10 +9,12 @@
             "email": "rafal.muszynski@sourcefabric.org"
         }
     ],
-    "license":"GPL-3.0",
+    "license":"AGPL-3.0",
     "require": {
-        "php": ">=5.4|^7.0",
-        "swp/common": "~0.1.0"
+        "php": ">=5.6|^7.0",
+        "swp/common": "~0.1.0",
+        "swp/storage": "~0.1.0",
+        "doctrine/common": "^2.6"
     },
     "require-dev": {
         "phpspec/phpspec": "^2.4",

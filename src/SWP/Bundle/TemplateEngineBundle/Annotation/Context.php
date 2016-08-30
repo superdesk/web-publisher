@@ -13,10 +13,8 @@
  */
 namespace SWP\Bundle\TemplateEngineBundle\Annotation;
 
-use Doctrine\Common\Annotations\Annotation;
-
 /**
- * @Annotation
+ * @\Doctrine\Common\Annotations\Annotation
  * @Target("METHOD")
  */
 class Context

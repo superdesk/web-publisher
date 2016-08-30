@@ -14,7 +14,7 @@ Features
 Documentation
 -------------
 
-Documentation is available here: [http://web-renderer.readthedocs.org/en/latest/templates_system.html](http://web-renderer.readthedocs.org/en/latest/templates_system.html)
+Documentation is available here: [http://web-renderer.readthedocs.org/en/latest/templates_system.html](http://superdesk-web-publisher.readthedocs.io/en/latest/templates_system/index.html)
 
 How to Contribute
 -------------
