@@ -66,34 +66,34 @@
 
 <body>
 
-    <div class="header_wrap">
-  <div class="container">
+  <div class="header_wrap">
+    <div class="container">
 
 <!-- Titlebar -->
-<nav id="mobilemenu" class="visible-phone">
-  <ul class="menu" id="mobile_sections">
-    <li class="current"><a href="{{ url('homepage') }}">Home</a></li>
-    <li><a href="{# url('/routes/categories/politics') #}" title="View all posts filed under Politics">Politics</a></li>
-    <li><a href="{# url('/routes/categories/business') #}" title="View all posts filed under Business">Business</a></li>
-    <li><a href="{# url('/routes/categories/scitech') #}" title="View all posts filed under Sci/Tech">Sci/Tech</a></li>
-    <li><a href="{# url('/routes/categories/health') #}" title="View all posts filed under Health">Health</a></li>
-    <li><a href="{# url('/routes/categories/entertainment') #}" title="View all posts filed under Entertainment">Entertainment</a></li>
-    <li><a href="{# url('/routes/categories/sports') #}" title="View all posts filed under Sports">Sports</a></li>
-    <li><a href="{# url('/routes/categories/dialogue') #}" title="View all posts filed under Dialogue">Dialogue</a></li>
+      <nav id="mobilemenu" class="visible-phone">
+        <ul class="menu" id="mobile_sections">
+          <li class="current"><a href="{{ url('homepage') }}">Home</a></li>
+          <li><a href="" title="View all posts filed under Politics">Politics</a></li>
+          <li><a href="" title="View all posts filed under Business">Business</a></li>
+          <li><a href="" title="View all posts filed under Sci/Tech">Sci/Tech</a></li>
+          <li><a href="" title="View all posts filed under Health">Health</a></li>
+          <li><a href="" title="View all posts filed under Entertainment">Entertainment</a></li>
+          <li><a href="" title="View all posts filed under Sports">Sports</a></li>
+          <li><a href="" title="View all posts filed under Dialogue">Dialogue</a></li>
 
-    <li><a href="{# url('/routes/user') #}" title="Community index">Community</a></li>
-  </ul>
+          <li><a href="" title="Community index">Community</a></li>
+        </ul>
 
-  <ul class="menu" id="mobile_lang">
-      <li class="current"><a href="index.html">English</a></li>
-  </ul>
-  </nav>
+        <ul class="menu" id="mobile_lang">
+          <li class="current"><a href="{{ url('homepage') }}">English</a></li>
+        </ul>
+      </nav>
 
-<header id="titlebar">
-  <button class="navbar-toggle visible-phone" type="button" id="mobilemenuopen">
+      <header id="titlebar">
+        <button class="navbar-toggle visible-phone" type="button" id="mobilemenuopen">
           <span class="sr-only">{{ 'global.header.toggleNav'|trans|desc('Toggle navigation') }}</span>
-  </button>
-</header>
+        </button>
+      </header>
 <!-- End Titlebar -->
 
         {% container 'headerTop' with {
@@ -103,112 +103,111 @@
         }%}
 
 <!-- Top -->
-<header id="top" class="padding_bottom_10">
-  <div class="top_content">
-    <a href="{{ url('homepage') }}" id="logo" title="{{ 'global.header.logoTitleAttr'|trans|desc('Liquid Theme for SWP') }}"></a>
-    <a target="_blank" href="https://www.sourcefabric.org/" class="add"><img src="{{ asset('theme/assets/img/top.png') }}" alt=""></a>
-  </div>
-
- </header>
+      <header id="top" class="padding_bottom_10">
+        <div class="top_content">
+          <a href="{{ url('homepage') }}" id="logo" title="{{ 'global.header.logoTitleAttr'|trans|desc('Liquid Theme for SWP') }}"></a>
+          <a target="_blank" href="https://www.sourcefabric.org/" class="add"><img src="{{ asset('theme/assets/img/top.png') }}" alt=""></a>
+        </div>
+      </header>
  <!-- End Top -->
 
       {% endcontainer %}
 
-   </div>
- </div>
+    </div>
+  </div>
 
-<div class="wrap_menu_wrap hidden-phone">
- <div class="menu_wrap">
-   <div class="container">
+  <div class="wrap_menu_wrap hidden-phone">
+    <div class="menu_wrap">
+      <div class="container">
+
  <!-- Top Menu -->
- <nav id="top_menu" class="hidden-phone">
-  <ul class="menu">
+        <nav id="top_menu" class="hidden-phone">
+          <ul class="menu">
+	          <li class="current"><a href="{{ url('homepage') }}">{{ 'global.header.home'|trans|desc('Home') }}</a></li>
+            <li><a href="" title="View all posts filed under Politics">Politics</a></li>
+            <li><a href="" title="View all posts filed under Business">Business</a></li>
+            <li><a href="" title="View all posts filed under Sci/Tech">Sci/Tech</a></li>
+            <li><a href="" title="View all posts filed under Health">Health</a></li>
+            <li><a href="" title="View all posts filed under Entertainment">Entertainment</a></li>
+            <li><a href="" title="View all posts filed under Sports">Sports</a></li>
+            <li><a href="" title="View all posts filed under Dialogue">Dialogue</a></li>
 
-	<li class="current"><a href="{{ url('homepage') }}">{{ 'global.header.home'|trans|desc('Home') }}</a></li>
-    <li><a href="{# url('/routes/categories/politics') #}" title="View all posts filed under Politics">Politics</a></li>
-    <li><a href="{# url('/routes/categories/business') #}" title="View all posts filed under Business">Business</a></li>
-    <li><a href="{# url('/routes/categories/scitech') #}" title="View all posts filed under Sci/Tech">Sci/Tech</a></li>
-    <li><a href="{# url('/routes/categories/health') #}" title="View all posts filed under Health">Health</a></li>
-    <li><a href="{# url('/routes/categories/entertainment') #}" title="View all posts filed under Entertainment">Entertainment</a></li>
-    <li><a href="{# url('/routes/categories/sports') #}" title="View all posts filed under Sports">Sports</a></li>
-    <li><a href="{# url('/routes/categories/dialogue') #}" title="View all posts filed under Dialogue">Dialogue</a></li>
-
-    <li><a href="/user" title="Community">Community</a></li>
-  </ul>
-</nav>
+            <li><a href="" title="Community">Community</a></li>
+          </ul>
+        </nav>
 <!-- End Top Menu -->
 
+      </div>
+    </div>
   </div>
-</div>
-</div>
 
 {% block body %}{% endblock %}
 
 <!-- Footer -->
 <footer id="footer">
   <div class="container">
-      <ul id="footer_menu_first" class="menu hidden-phone">
-            <li><a href="{# url('/routes/categories/politics') #}" title="View all posts filed under Politics">Politics</a></li>
-    		<li><a href="{# url('/routes/categories/business') #}" title="View all posts filed under Business">Business</a></li>
-    		<li><a href="{# url('/routes/categories/scitech') #}" title="View all posts filed under Sci/Tech">Sci/Tech</a></li>
-    		<li><a href="{# url('/routes/categories/health') #}" title="View all posts filed under Health">Health</a></li>
-    		<li><a href="{# url('/routes/categories/entertainment') #}" title="View all posts filed under Entertainment">Entertainment</a></li>
-    		<li><a href="{# url('/routes/categories/sports') #}" title="View all posts filed under Sports">Sports</a></li>
-    		<li><a href="{# url('/routes/categories/dialogue') #}" title="View all posts filed under Dialogue">Dialogue</a></li>
-        </ul>
+    <ul id="footer_menu_first" class="menu hidden-phone">
+      <li><a href="" title="View all posts filed under Politics">Politics</a></li>
+    	<li><a href="" title="View all posts filed under Business">Business</a></li>
+    	<li><a href="" title="View all posts filed under Sci/Tech">Sci/Tech</a></li>
+    	<li><a href="" title="View all posts filed under Health">Health</a></li>
+    	<li><a href="" title="View all posts filed under Entertainment">Entertainment</a></li>
+    	<li><a href="" title="View all posts filed under Sports">Sports</a></li>
+    	<li><a href="" title="View all posts filed under Dialogue">Dialogue</a></li>
+    </ul>
 
-        <ul id="footer_menu_second" class="menu">
-            <li><a href="page.html" title="Credits">Credits</a></li>
-            <li><a href="page.html" title="Marketing">Marketing</a></li>
-            <li><a href="page.html" title="Contact">Contact</a></li>
-            <li><a href="page.html" title="About us">About us</a></li>
-            <li><a href="#">{{ 'global.footer.archives'|trans|desc('Archives') }}</a></li>
-            <li><p><small>{{ 'global.footer.copyright'|trans|desc('Copyright') }} {{ 'now'|date('Y') }}. {{ 'global.footer.allRightsReserved'|trans|desc('All rights reserved. Powered by') }} <a target="_blank" href="http://superdesk.org/">Superdesk</a>. {{ 'global.footer.designBy'|trans|desc('Designed by') }}  <a target="_blank" href="http://www.sourcefabric.org/">Sourcefabric</a></small></p></li>
-        </ul>
-    </div>
+    <ul id="footer_menu_second" class="menu">
+      <li><a href="" title="Credits">Credits</a></li>
+      <li><a href="" title="Marketing">Marketing</a></li>
+      <li><a href="" title="Contact">Contact</a></li>
+      <li><a href="" title="About us">About us</a></li>
+      <li><a href="#">{{ 'global.footer.archives'|trans|desc('Archives') }}</a></li>
+      <li><p><small>{{ 'global.footer.copyright'|trans|desc('Copyright') }} {{ 'now'|date('Y') }}. {{ 'global.footer.allRightsReserved'|trans|desc('All rights reserved. Powered by') }} <a target="_blank" href="http://superdesk.org/">Superdesk</a>. {{ 'global.footer.designBy'|trans|desc('Designed by') }}  <a target="_blank" href="http://www.sourcefabric.org/">Sourcefabric</a></small></p></li>
+    </ul>
+  </div>
 
-{% cache 'footerInfoBar' { time:300 } %}
-<p style="text-align: center; color: #ccc; font-family: Sans-serif; font-size: 80%; margin-top: 15px; padding-top: 10px; border-top: 1px solid #ccc;"><span style="color: #fff">&#8505;</span> {{ 'global.footer.themeInfo'|trans|desc('Theme info') }} <a href="#" class="js-toggle-info" style="color: #fff">show / hide</a> | <span style="color: #fff">&#x2699;</span> {{ 'global.footer.templateCode'|trans|desc('Template code used to render this page :') }} <a href="#" class="js-toggle-code" style="color: #fff">show / hide</a> | <span style="color: #fff">&#8505;</span> {{ 'global.footer.cachedTime'|trans|desc('Last not cached generation time:') }} <span style="color: #fff">{{ 'now'|date('H:i:s') }}</span></p>
-{% endcache %}
+  {% cache 'footerInfoBar' { time:300 } %}
+  <p style="text-align: center; color: #ccc; font-family: Sans-serif; font-size: 80%; margin-top: 15px; padding-top: 10px; border-top: 1px solid #ccc;"><span style="color: #fff">&#8505;</span> {{ 'global.footer.themeInfo'|trans|desc('Theme info') }} <a href="#" class="js-toggle-info" style="color: #fff">show / hide</a> | <span style="color: #fff">&#x2699;</span> {{ 'global.footer.templateCode'|trans|desc('Template code used to render this page :') }} <a href="#" class="js-toggle-code" style="color: #fff">show / hide</a> | <span style="color: #fff">&#8505;</span> {{ 'global.footer.cachedTime'|trans|desc('Last not cached generation time:') }} <span style="color: #fff">{{ 'now'|date('H:i:s') }}</span></p>
+  {% endcache %}
 
-    {% block theme_info %}
-    <div class="js-theme-info" style="margin: 20px 0; padding: 20px; background-color: #fff; color: #000; font-family: Sans-serif; display:none;">
-        <p>{{ 'index.assigned.homepage'|trans|desc('Assigned homepage') }}:</strong> {{ page.name }} (id: {{ page.id }})</p>
-        <p>{{ 'index.current.details'|trans|desc('Current theme details') }}:</p>
-        <p>{{ 'index.path'|trans|desc('Path') }}: {{ theme.path }}</p>
-        <p>{{ 'index.name'|trans|desc('Name') }}: {{ theme.name }}</p>
-        <p>{{ 'index.description'|trans|desc('Description') }}: {{ theme.description }}</p>
-        <p>{{ 'index.title'|trans|desc('Title') }}: {{ theme.title }}</p>
-        <p>{{ 'index.authors'|trans|desc('Authors') }}:
-        <ul>
-            {% for author in theme.authors %}
-                <li>{{ author.name }} ({{ author.email }}), {{ author.homepage }}, {{ author.role }}</li>
-            {% endfor %}
-        </ul>
-        </p>
-    </div>
-    {% endblock %}
+  {% block theme_info %}
+  <div class="js-theme-info" style="margin: 20px 0; padding: 20px; background-color: #fff; color: #000; font-family: Sans-serif; display:none;">
+    <p>{{ 'index.assigned.homepage'|trans|desc('Assigned homepage') }}:</strong> {{ page.name }} (id: {{ page.id }})</p>
+    <p>{{ 'index.current.details'|trans|desc('Current theme details') }}:</p>
+    <p>{{ 'index.path'|trans|desc('Path') }}: {{ theme.path }}</p>
+    <p>{{ 'index.name'|trans|desc('Name') }}: {{ theme.name }}</p>
+    <p>{{ 'index.description'|trans|desc('Description') }}: {{ theme.description }}</p>
+    <p>{{ 'index.title'|trans|desc('Title') }}: {{ theme.title }}</p>
+    <p>{{ 'index.authors'|trans|desc('Authors') }}:
+      <ul>
+      {% for author in theme.authors %}
+        <li>{{ author.name }} ({{ author.email }}), {{ author.homepage }}, {{ author.role }}</li>
+      {% endfor %}
+      </ul>
+    </p>
+  </div>
+  {% endblock %}
 
-{% block template_code %}{% endblock %}
+  {% block template_code %}{% endblock %}
 
 </footer>
 <!-- End Footer -->
 
- <script src="{{ asset('theme/assets/js/jquery.scrollTo-min.js') }}" type="text/javascript"></script>
- <script src="{{ asset('theme/assets/js/jquery-scrolltofixed-min.js') }}" type="text/javascript"></script>
- <script src="{{ asset('theme/assets/js/masonry.min.js') }}" type="text/javascript"></script>
- <script src="{{ asset('theme/assets/js/blueimp-gallery.min.js') }}"></script>
- <script src="{{ asset('theme/assets/js/onload.js') }}" type="text/javascript"></script>
+  <script src="{{ asset('theme/assets/js/jquery.scrollTo-min.js') }}" type="text/javascript"></script>
+  <script src="{{ asset('theme/assets/js/jquery-scrolltofixed-min.js') }}" type="text/javascript"></script>
+  <script src="{{ asset('theme/assets/js/masonry.min.js') }}" type="text/javascript"></script>
+  <script src="{{ asset('theme/assets/js/blueimp-gallery.min.js') }}"></script>
+  <script src="{{ asset('theme/assets/js/onload.js') }}" type="text/javascript"></script>
 
-            <script>
-                $( ".js-toggle-code" ).click(function(e) {
-                  e.preventDefault();
-                  $(".js-template-code").toggle();
-                });
-                $( ".js-toggle-info" ).click(function(e) {
-                  e.preventDefault();
-                  $(".js-theme-info").toggle();
-                });
-            </script>
+  <script>
+    $( ".js-toggle-code" ).click(function(e) {
+      e.preventDefault();
+      $(".js-template-code").toggle();
+    });
+    $( ".js-toggle-info" ).click(function(e) {
+      e.preventDefault();
+      $(".js-theme-info").toggle();
+    });
+  </script>
 </body>
 </html>
