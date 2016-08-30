@@ -6,6 +6,7 @@ SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\Article:
         route: "<generatePath('/routes/news')>"
         locale: "en"
         publishable: true
+        metadata: "<articleMetadata()>"
     article_features:
         title: "Features"
         body: "<paragraph(20)>"
@@ -13,6 +14,7 @@ SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\Article:
         route: "<generatePath('/routes/articles/features')>"
         locale: "en"
         publishable: true
+        metadata: "<articleMetadata()>"
     article_get_invlolved:
         title: "Get Involved"
         body: "<paragraph(20)>"
@@ -20,3 +22,4 @@ SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\Article:
         route: "<generatePath('/routes/articles')>"
         locale: "en"
         publishable: true
+        metadata: "<articleMetadata()>"

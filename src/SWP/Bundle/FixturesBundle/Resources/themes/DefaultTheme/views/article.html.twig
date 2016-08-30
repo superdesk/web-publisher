@@ -11,21 +11,33 @@
 
     {% cache 'article' {gen: article} %}
 
-   	  <article class="news_item span8 ">
-			  <div class="thumbnail content_text">
-       		<img src="{{ asset('theme/assets/img/images-cms-image-000000103X.jpg') }}" alt="Boat in Copenhagen canals (photo: Source Fabric)">
-       		<h6 class="caption ">Boat in Copenhagen canals</h6>
-    	  </div>
+      <article class="news_item span8 ">
+              <div class="thumbnail content_text">
+            <img src="{{ asset('theme/assets/img/images-cms-image-000000103X.jpg') }}" alt="Boat in Copenhagen canals (photo: Source Fabric)">
+            <h6 class="caption ">Boat in Copenhagen canals</h6>
+          </div>
 
-	      <div class="content content_text">
-       		<h6 class="info">Publish date: {{ gimme.article.publishedAt|date("d.m.Y, H:i") }} | Creation date: {{ gimme.article.createdAt|date("d.m.Y, H:i") }} | Update date: {{ gimme.article.updatedAt|date("d.m.Y, H:i") }}</h6>
-        	<h2 class="title">{{ gimme.article.title }}</h2>
-				  {{ gimme.article.body|raw }}
-			  </div>
-		  </article>
+          <div class="content content_text">
+            <h6 class="info">Publish date: {{ gimme.article.publishedAt|date("d.m.Y, H:i") }} | Creation date: {{ gimme.article.createdAt|date("d.m.Y, H:i") }} | Update date: {{ gimme.article.updatedAt|date("d.m.Y, H:i") }}</h6>
+            <h2 class="title">{{ gimme.article.title }}</h2>
+                  {{ gimme.article.body|raw }}
+              </div>
+          </article>
 
       <aside class="span4 news_item">
          <img style="margin: 20px auto 0 auto; display:block;" src="{{ asset('theme/assets/img/300x250.png') }}" alt="Sourcefabric">
+          <h2>Article metadata:</h2>
+          <p>Author: {{ gimme.article.metadata.byline }}</p>
+          <p>Located: {{ gimme.article.metadata.located }}</p>
+          {#
+              Dump all article metadata:
+              {{ dump(gimme.article.metadata) }}
+          #}
+          <p>Place: </p>
+          {% for place in gimme.article.metadata.place %}
+              - Code: {{ place.qcode }}<br>
+              - Region: {{ place.world_region }} <br>
+          {% endfor %}
       </aside>
 
     {% endcache %}
@@ -36,7 +48,6 @@
 
   </section><!-- End Content -->
 
-</div>
 </div>
 {% endblock %}
 

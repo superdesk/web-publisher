@@ -20,4 +20,7 @@ properties:
     updatedAt:
         description: "Article update timestamp"
         type: datetime
+    metadata:
+        description: "Article metadata"
+        type: array
 to_string: title

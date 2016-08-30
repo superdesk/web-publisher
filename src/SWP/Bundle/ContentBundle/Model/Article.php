@@ -92,6 +92,11 @@ class Article implements ArticleInterface, MediaAwareArticleInterface
     protected $isPublishable;
 
     /**
+     * @var string
+     */
+    protected $metadata;
+
+    /**
      * @var Collection
      */
     protected $media;
@@ -325,13 +330,29 @@ class Article implements ArticleInterface, MediaAwareArticleInterface
     }
 
     /**
+     * {@inheritdoc}
+     */
+    public function getMetadata()
+    {
+        return json_decode($this->metadata, true);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setMetadata(array $metadata)
+    {
+        $this->metadata = json_encode($metadata, true);
+    }
+
+    /**
      * Don't serialize values.
      *
      * @return array
      */
     public function __sleep()
     {
-        $this->media = "Cannot be serializable";
+        $this->media = 'Cannot be serializable';
 
         return array_keys(get_object_vars($this));
     }

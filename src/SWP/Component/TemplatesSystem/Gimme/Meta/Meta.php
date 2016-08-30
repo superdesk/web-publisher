@@ -53,7 +53,7 @@ class Meta
         if (is_array($this->values)) {
             $this->fillFromArray($this->values, $this->configuration);
         } elseif (is_string($this->values) && $this->isJson($this->values)) {
-            $this->fillFromArray(json_decode($values, true), $this->configuration);
+            $this->fillFromArray(json_decode($this->values, true), $this->configuration);
         } elseif (is_object($this->values)) {
             $this->fillFromObject($this->values, $this->configuration);
         }
@@ -87,21 +87,26 @@ class Meta
     {
         if ($value instanceof \Traversable || is_array($value)) {
             $newValue = [];
+
             foreach ($value as $key => $item) {
-                $newValue[$key] = $this->context->getMetaForValue($item);
+                $newValue[$key] = $this->getValueOrMeta($item);
             }
+
             $this->$name = $newValue;
 
             return;
         }
 
-        if ($this->context->isSupported($value)) {
-            $this->$name = $this->context->getMetaForValue($value);
+        $this->$name = $this->getValueOrMeta($value);
+    }
 
-            return;
+    private function getValueOrMeta($value)
+    {
+        if ($this->context->isSupported($value)) {
+            return $this->context->getMetaForValue($value);
         }
 
-        $this->$name = $value;
+        return $value;
     }
 
     /**

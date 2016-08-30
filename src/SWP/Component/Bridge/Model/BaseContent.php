@@ -61,6 +61,11 @@ class BaseContent implements ContentInterface
     protected $places = [];
 
     /**
+     * @var array
+     */
+    protected $services = [];
+
+    /**
      * @var string
      */
     protected $located;
@@ -79,6 +84,16 @@ class BaseContent implements ContentInterface
      * @var int
      */
     protected $version;
+
+    /**
+     * @var string
+     */
+    protected $genre;
+
+    /**
+     * @var string
+     */
+    protected $edNote;
 
     /**
      * @return mixed
@@ -286,5 +301,74 @@ class BaseContent implements ContentInterface
     public function setGuid($guid)
     {
         $this->guid = $guid;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getServices()
+    {
+        return $this->services;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setServices(array $services)
+    {
+        $this->services = $services;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getEdNote()
+    {
+        return $this->edNote;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setEdNote($edNote)
+    {
+        $this->edNote = $edNote;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getGenre()
+    {
+        return $this->genre;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setGenre($genre)
+    {
+        $this->genre = $genre;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getMetadata()
+    {
+        return [
+            'subject' => $this->getSubjects(),
+            'urgency' => $this->getUrgency(),
+            'priority' => $this->getPriority(),
+            'located' => $this->getLocated(),
+            'place' => $this->getPlaces(),
+            'service' => $this->getServices(),
+            'type' => $this->getType(),
+            'byline' => $this->getByline(),
+            'guid' => $this->getGuid(),
+            'edNote' => $this->getEdNote(),
+            'genre' => $this->getGenre(),
+            'language' => $this->getLanguage(),
+        ];
     }
 }

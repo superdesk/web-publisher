@@ -139,4 +139,39 @@ interface ContentInterface
      * @param int $priority
      */
     public function setPriority($priority);
+
+    /**
+     * @return array
+     */
+    public function getServices();
+
+    /**
+     * @param array $services
+     */
+    public function setServices(array $services);
+
+    /**
+     * @return string
+     */
+    public function getEdNote();
+
+    /**
+     * @param string $edNote
+     */
+    public function setEdNote($edNote);
+
+    /**
+     * @return string
+     */
+    public function getGenre();
+
+    /**
+     * @param string $genre
+     */
+    public function setGenre($genre);
+
+    /**
+     * @return array
+     */
+    public function getMetadata();
 }
