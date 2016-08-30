@@ -1,12 +1,45 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <h2>{{gimme.article.title}}</h2>
-    <p>Id: {{gimme.article.id}}</p>
-    <p>Content: {{gimme.article.body|raw}}</p>
+
+<div id="page" class="container">
+
+  <!-- Content -->
+  <section id="content">
+
+    <div class="row article_content">
+
+    {% cache 'article' {gen: article} %}
+
+   	  <article class="news_item span8 ">
+			  <div class="thumbnail content_text">
+       		<img src="{{ asset('theme/assets/img/images-cms-image-000000103X.jpg') }}" alt="Boat in Copenhagen canals (photo: Source Fabric)">
+       		<h6 class="caption ">Boat in Copenhagen canals</h6>
+    	  </div>
+
+	      <div class="content content_text">
+       		<h6 class="info">Publish date: {{ gimme.article.publishedAt|date("d.m.Y, H:i") }} | Creation date: {{ gimme.article.createdAt|date("d.m.Y, H:i") }} | Update date: {{ gimme.article.updatedAt|date("d.m.Y, H:i") }}</h6>
+        	<h2 class="title">{{ gimme.article.title }}</h2>
+				  {{ gimme.article.body|raw }}
+			  </div>
+		  </article>
+
+      <aside class="span4 news_item">
+         <img style="margin: 20px auto 0 auto; display:block;" src="{{ asset('theme/assets/img/300x250.png') }}" alt="Sourcefabric">
+      </aside>
+
+    {% endcache %}
+
+    </div>
+
+    {% include '_tpl/latest-news.html.twig' %}
+
+  </section><!-- End Content -->
+
+</div>
+</div>
 {% endblock %}
 
-{% block template_code%}
-    <h3>Template code used to render that page <small><a href="#" class="js-toggle-code">show/hide</a></small></h3>
-    <pre class="js-template-code" style="display:none;">{{ source(_self.getTemplateName())|escape('html') }}</pre>
+{% block template_code %}
+<pre class="js-template-code" style="display:none;">{{ source(_self.getTemplateName())|escape('html') }}</pre>
 {% endblock %}
