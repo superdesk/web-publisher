@@ -14,8 +14,6 @@ coding_style:
             around_operators:
                 concatenation: false
 
-
-
 build:
     environment:
         php:
