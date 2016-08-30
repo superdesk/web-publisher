@@ -14,13 +14,14 @@
 namespace SWP\Bundle\FixturesBundle\DataFixtures\PHPCR;
 
 use Doctrine\Common\DataFixtures\FixtureInterface;
+use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\Article;
 use SWP\Bundle\FixturesBundle\AbstractFixture;
 use SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\Route;
 use SWP\Bundle\ContentBundle\Model\ArticleInterface;
 
-class LoadCollectionRouteArticles extends AbstractFixture implements FixtureInterface
+class LoadCollectionRouteArticles extends AbstractFixture implements FixtureInterface, OrderedFixtureInterface
 {
     private $manager;
     private $defaultTenantPrefix;
@@ -155,5 +156,13 @@ class LoadCollectionRouteArticles extends AbstractFixture implements FixtureInte
 
             $manager->flush();
         }
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getOrder()
+    {
+        return 20;
     }
 }
