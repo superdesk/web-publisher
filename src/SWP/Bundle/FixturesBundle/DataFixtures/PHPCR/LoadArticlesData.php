@@ -262,6 +262,28 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface, Orde
     }
 
     /**
+     * Article example metadata.
+     *
+     * @return array
+     */
+    public function articleMetadata()
+    {
+        return [
+            'located' => 'Sydney',
+            'byline' => 'Jhon Doe',
+            'place' => [
+                [
+                    'qcode' => 'AUS',
+                    'world_region' => 'Rest Of World',
+                ], [
+                    'qcode' => 'EUR',
+                    'world_region' => 'Europe',
+                ],
+            ],
+        ];
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function getOrder()

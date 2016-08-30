@@ -13,6 +13,7 @@
  */
 namespace SWP\Bundle\ContentBundle\Factory;
 
+use SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\ArticleInterface;
 use SWP\Bundle\ContentBundle\Provider\ArticleProviderInterface;
 use SWP\Bundle\ContentBundle\Provider\RouteProviderInterface;
 use SWP\Component\Bridge\Model\ItemInterface;
@@ -74,7 +75,9 @@ class ArticleFactory implements ArticleFactoryInterface
      */
     public function createFromPackage(PackageInterface $package)
     {
+        /** @var ArticleInterface $article */
         $article = $this->create();
+
         $article->setParentDocument($this->articleProvider->getParent($this->contentRelativePath));
         $article->setTitle($package->getHeadline());
         // Get package body and it's items body (if they are type text)
@@ -85,6 +88,7 @@ class ArticleFactory implements ArticleFactoryInterface
         }, $package->getItems()->toArray())));
         $article->setLocale($package->getLanguage());
         $article->setRoute($this->routeProvider->getRouteForArticle($article));
+        $article->setMetadata($package->getMetadata());
 
         return $article;
     }
