@@ -9,6 +9,7 @@ To get the diff for a specific change, go to https://github.com/superdesk/web-pu
 
 * 0.1.0-5 
 
+ * fix [#122] [Templates System] add custom cache key generator for meta objects
  * feature [#120] Make routes of "collection" type accessible (takeit)
  * bug [#120] Can't assign content to route of type "collection" (takeit)
  * fix [#108] Set current route to context {{ gimme.route }} (djbrd-sourcefabric, ahilles107)

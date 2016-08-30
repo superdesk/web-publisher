@@ -64,6 +64,9 @@ services:
         tags:
             - { name: kernel.event_listener, event: swp.article.pre_create, method: onArticleCreate }
 
+    swp_content_bundle.key_generator.meta_key_generator:
+        class: SWP\Bundle\ContentBundle\KeyGenerator\MetaKeyGenerator
+
     swp_pagination_rep:
         alias: swp_content_bundle.factory.knp_paginator_representation
 

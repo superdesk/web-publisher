@@ -42,6 +42,8 @@ class AppKernel extends Kernel
             new SWP\Bundle\BridgeBundle\SWPBridgeBundle(),
             new SWP\Bundle\ContentBundle\SWPContentBundle(),
             new SWP\Bundle\AnalyticsBundle\SWPAnalyticsBundle(),
+
+            new Sentry\SentryBundle\SentryBundle(),
         ];
 
         if (in_array($this->getEnvironment(), ['dev', 'test'])) {
@@ -51,7 +53,6 @@ class AppKernel extends Kernel
             $bundles[] = new Sensio\Bundle\GeneratorBundle\SensioGeneratorBundle();
             $bundles[] = new Doctrine\Bundle\FixturesBundle\DoctrineFixturesBundle();
             $bundles[] = new SWP\Bundle\FixturesBundle\SWPFixturesBundle();
-            $bundles[] = new Sentry\SentryBundle\SentryBundle();
         }
 
         if (in_array($this->getEnvironment(), ['test'])) {
