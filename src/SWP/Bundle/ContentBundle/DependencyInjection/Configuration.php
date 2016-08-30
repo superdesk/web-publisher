@@ -17,6 +17,8 @@ use SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\Article;
 use SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\ArticleRepository;
 use SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\Route;
 use SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\Site;
+use SWP\Bundle\ContentBundle\Doctrine\ORM\RouteToArticle;
+use SWP\Bundle\ContentBundle\Doctrine\ORM\RouteToArticleRepository;
 use SWP\Bundle\ContentBundle\Factory\ArticleFactory;
 use SWP\Bundle\ContentBundle\Factory\RouteFactory;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
@@ -90,10 +92,31 @@ class Configuration implements ConfigurationInterface
                                     ->end()
                                 ->end() // classes
                             ->end()
-                        ->end() // phpcr
+                        ->end()// phpcr
+                        ->arrayNode('orm')
+                            ->addDefaultsIfNotSet()
+                            ->canBeEnabled()
+                            ->children()
+                                ->arrayNode('classes')
+                                    ->addDefaultsIfNotSet()
+                                    ->children()
+                                        ->arrayNode('routetoarticle')
+                                            ->addDefaultsIfNotSet()
+                                            ->children()
+                                                ->scalarNode('model')->cannotBeEmpty()->defaultValue(RouteToArticle::class)->end()
+                                                ->scalarNode('repository')->defaultValue(RouteToArticleRepository::class)->end()
+                                                ->scalarNode('factory')->defaultValue(null)->end()
+                                                ->scalarNode('object_manager_name')->defaultValue(null)->end()
+                                            ->end()
+                                        ->end()
+                                    ->end()
+                                ->end()
+                            ->end()
+                        ->end()
                     ->end()
                 ->end()
             ->end();
+
 
         return $treeBuilder;
     }

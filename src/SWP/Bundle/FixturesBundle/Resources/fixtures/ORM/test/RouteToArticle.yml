@@ -1,6 +1,6 @@
-SWP\Bundle\ContentBundle\Model\RouteToArticle:
+SWP\Bundle\ContentBundle\Doctrine\ORM\RouteToArticle:
     defaultRouteToArticle:
         tenantCode: '123abc'
         priority: 1
-        routeId: ''
+        routeId: 'articles/features'
         rule: 'article.getLocale() matches "/en/"'

@@ -15,8 +15,8 @@ namespace SWP\Bundle\ContentBundle\Controller;
 
 use FOS\RestBundle\Controller\FOSRestController;
 use FOS\RestBundle\View\View;
+use SWP\Bundle\ContentBundle\Doctrine\ORM\RouteToArticle;
 use SWP\Bundle\ContentBundle\Form\Type\RouteToArticleType;
-use SWP\Bundle\ContentBundle\Model\RouteToArticle;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;

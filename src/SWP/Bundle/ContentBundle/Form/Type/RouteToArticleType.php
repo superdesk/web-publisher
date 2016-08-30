@@ -52,7 +52,7 @@ class RouteToArticleType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => 'SWP\Bundle\ContentBundle\Model\RouteToArticle',
+            'data_class' => 'SWP\Bundle\ContentBundle\Doctrine\ORM\RouteToArticle',
             'csrf_protection' => false,
         ]);
     }

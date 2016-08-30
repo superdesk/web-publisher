@@ -23,27 +23,27 @@ class RouteToArticle implements TenantAwareInterface, RouteToArticleInterface
     /**
      * @var int
      */
-    private $id;
+    protected $id;
 
     /**
      * @var string
      */
-    private $rule;
+    protected $rule;
 
     /**
      * @var int
      */
-    private $priority;
+    protected $priority;
 
     /**
      * @var string
      */
-    private $routeId;
+    protected $routeId;
 
     /**
      * @var string
      */
-    private $templateName;
+    protected $templateName;
 
     /**
      * @var string
@@ -61,11 +61,7 @@ class RouteToArticle implements TenantAwareInterface, RouteToArticleInterface
     }
 
     /**
-     * Set rule.
-     *
-     * @param string $rule
-     *
-     * @return RouteToArticle
+     * {@inheritdoc}
      */
     public function setRule($rule)
     {
@@ -75,9 +71,7 @@ class RouteToArticle implements TenantAwareInterface, RouteToArticleInterface
     }
 
     /**
-     * Get rule.
-     *
-     * @return string
+     * {@inheritdoc}
      */
     public function getRule()
     {
@@ -85,7 +79,7 @@ class RouteToArticle implements TenantAwareInterface, RouteToArticleInterface
     }
 
     /**
-     * @param $priority
+     * {@inheritdoc}
      */
     public function setPriority($priority)
     {
@@ -93,7 +87,7 @@ class RouteToArticle implements TenantAwareInterface, RouteToArticleInterface
     }
 
     /**
-     * @return int
+     * {@inheritdoc}
      */
     public function getPriority()
     {
@@ -101,11 +95,7 @@ class RouteToArticle implements TenantAwareInterface, RouteToArticleInterface
     }
 
     /**
-     * Set routeId.
-     *
-     * @param string $routeId
-     *
-     * @return RouteToArticle
+     * {@inheritdoc}
      */
     public function setRouteId($routeId)
     {
@@ -115,9 +105,7 @@ class RouteToArticle implements TenantAwareInterface, RouteToArticleInterface
     }
 
     /**
-     * Get routeId.
-     *
-     * @return string
+     * {@inheritdoc}
      */
     public function getRouteId()
     {
@@ -125,11 +113,7 @@ class RouteToArticle implements TenantAwareInterface, RouteToArticleInterface
     }
 
     /**
-     * Set templateName.
-     *
-     * @param string $templateName
-     *
-     * @return RouteToArticle
+     * {@inheritdoc}
      */
     public function setTemplateName($templateName)
     {
@@ -139,9 +123,7 @@ class RouteToArticle implements TenantAwareInterface, RouteToArticleInterface
     }
 
     /**
-     * Get templateName.
-     *
-     * @return string
+     * {@inheritdoc}
      */
     public function getTemplateName()
     {

@@ -1,4 +1,4 @@
-SWP\Bundle\ContentBundle\Model\RouteToArticle:
+SWP\Bundle\ContentBundle\Doctrine\ORM\RouteToArticle:
     type: entity
     table: swp_route_to_article
     id:

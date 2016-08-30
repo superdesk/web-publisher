@@ -15,7 +15,7 @@ namespace SWP\Bundle\ContentBundle\Factory;
 
 use SWP\Bundle\ContentBundle\Provider\ArticleProviderInterface;
 use SWP\Bundle\ContentBundle\Provider\RouteProviderInterface;
-use SWP\Bundle\ContentBundle\Service\RouteToArticleMapper;
+use SWP\Bundle\ContentBundle\Service\RouteToArticleMapperInterface;
 use SWP\Component\Bridge\Model\ItemInterface;
 use SWP\Component\Bridge\Model\PackageInterface;
 use SWP\Component\Storage\Factory\FactoryInterface;
@@ -38,7 +38,7 @@ class ArticleFactory implements ArticleFactoryInterface
     private $articleProvider;
 
     /**
-     * @var RouteToArticleMapper
+     * @var RouteToArticleMapperInterface
      */
     private $routeToArticleMapper;
 
@@ -59,7 +59,7 @@ class ArticleFactory implements ArticleFactoryInterface
         FactoryInterface $baseFactory,
         RouteProviderInterface $routeProvider,
         ArticleProviderInterface $articleProvider,
-        RouteToArticleMapper $routeToArticleMapper,
+        RouteToArticleMapperInterface $routeToArticleMapper,
         $contentRelativePath
     ) {
         $this->baseFactory = $baseFactory;

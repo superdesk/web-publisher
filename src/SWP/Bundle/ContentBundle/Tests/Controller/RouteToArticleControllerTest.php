@@ -37,6 +37,7 @@ class RouteToArticleControllerTest extends WebTestCase
         $this->loadFixtures([
             'SWP\Bundle\FixturesBundle\DataFixtures\PHPCR\LoadTenantsData',
             'SWP\Bundle\FixturesBundle\DataFixtures\PHPCR\LoadRoutesData',
+            'SWP\Bundle\FixturesBundle\DataFixtures\PHPCR\LoadArticlesData',
         ], null, 'doctrine_phpcr');
 
         $this->loadFixtureFiles([
@@ -49,7 +50,7 @@ class RouteToArticleControllerTest extends WebTestCase
             'id' => 1,
             'rule' => 'article.getLocale() matches "/en/"',
             'priority' => 1,
-            'routeId' => '',
+            'routeId' => 'articles/features',
         ];
     }
 
@@ -80,7 +81,7 @@ class RouteToArticleControllerTest extends WebTestCase
         $sent = [
             'rule' => 'article.getLocale() matches "/test/"',
             'priority' => 0,
-            'routeId' => LoadRoutesData::TEST_CACHE_ROUTE_NAME,
+            'routeId' => 'articles/features',
             'templateName' => 'blumenkohl',
         ];
 

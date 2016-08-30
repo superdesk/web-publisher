@@ -116,19 +116,13 @@ services:
         tags:
             - { name: validator.constraint_validator, alias: route_in_database }
 
-    swp_content_bundle.routetoarticle.repository:
-        class: Doctrine\ORM\EntityRepository
-        factory: ["@doctrine.orm.entity_manager", getRepository]
-        arguments:
-            - SWP\Bundle\ContentBundle\Model\RouteToArticle
-
     swp_content_bundle.rule_evaluator:
         class: "%swp_content_bundle.rule_evaluator.class%"
 
     swp_content_bundle.route_to_article.mapper:
         class: SWP\Bundle\ContentBundle\Service\RouteToArticleMapper
         arguments:
-            - "@swp_content_bundle.routetoarticle.repository"
-            - "@swp.repository.route"
+            - "@swp.repository.routetoarticle"
+            - "@swp.provider.route"
             - "@swp_content_bundle.rule_evaluator"
             - "@logger"

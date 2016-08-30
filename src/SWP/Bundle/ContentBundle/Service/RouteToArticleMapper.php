@@ -18,8 +18,9 @@ use Doctrine\ORM\EntityRepository;
 use Psr\Log\LoggerInterface;
 use SWP\Bundle\ContentBundle\Model\ArticleInterface;
 use SWP\Bundle\ContentBundle\Model\RouteToArticle;
+use SWP\Bundle\ContentBundle\Provider\RouteProvider;
 
-class RouteToArticleMapper
+class RouteToArticleMapper implements RouteToArticleMapperInterface
 {
     /**
      * @var EntityRepository
@@ -27,9 +28,9 @@ class RouteToArticleMapper
     private $routeToArticleRepository;
 
     /**
-     * @var DocumentRepository
+     * @var RouteProvider
      */
-    private $routeRepository;
+    private $routeProvider;
 
     /**
      * @var RuleEvaluator
@@ -50,20 +51,18 @@ class RouteToArticleMapper
      */
     public function __construct(
         EntityRepository $routeToArticleRepository,
-        DocumentRepository $routeRepository,
+        RouteProvider $routeProvider,
         RuleEvaluator $ruleEvaluator,
         LoggerInterface $logger)
     {
         $this->routeToArticleRepository = $routeToArticleRepository;
-        $this->routeRepository = $routeRepository;
+        $this->routeProvider = $routeProvider;
         $this->ruleEvaluator = $ruleEvaluator;
         $this->logger = $logger;
     }
 
     /**
-     * @param ArticleInterface $article
-     *
-     * @return bool
+     * {@inheritdoc}
      */
     public function assignRouteToArticle(ArticleInterface $article)
     {
@@ -73,7 +72,7 @@ class RouteToArticleMapper
         foreach ($routeToArticles as $routeToArticle) {
             if ($this->routeMatchesRule($article, $routeToArticle->getRule())) {
                 $routeId = $routeToArticle->getRouteId();
-                $route = $this->routeRepository->find($routeId);
+                $route = $this->routeProvider->getOneById($routeId);
                 if (null !== $route) {
                     $article->setRoute($route);
                     $templateName = $routeToArticle->getTemplateName();
@@ -83,7 +82,7 @@ class RouteToArticleMapper
 
                     return true;
                 } else {
-                    $this->logger('No route found with id '.$routeId.' referenced in routeToArticle with id '.$routeToArticle->getId());
+                    $this->logger->info('No route found with id '.$routeId.' referenced in routeToArticle with id '.$routeToArticle->getId());
                 }
             }
         }

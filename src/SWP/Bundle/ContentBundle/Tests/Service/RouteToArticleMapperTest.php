@@ -47,6 +47,6 @@ class RouteToArticleMapperTest extends WebTestCase
         $article = new Article();
         $article->setLocale('en');
 
-        $routeToArticleMapper->assignRouteToArticle($article);
+        $this->assertTrue($routeToArticleMapper->assignRouteToArticle($article));
     }
 }
