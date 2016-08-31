@@ -9,6 +9,7 @@ To get the diff for a specific change, go to https://github.com/superdesk/web-pu
 
 * 0.1.0-5 
 
+ * bug [#123] [ContentBundle][Bridge] Article's body is not pre-filled (takeit)
  * feature [#120] Make routes of "collection" type accessible (takeit)
  * bug [#120] Can't assign content to route of type "collection" (takeit)
  * feature [#115] Allow to read/write article metadata based on provided package (takeit)
