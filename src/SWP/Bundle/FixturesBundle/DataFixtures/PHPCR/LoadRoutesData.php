@@ -39,6 +39,14 @@ class LoadRoutesData extends AbstractFixture implements FixtureInterface, Ordere
             $this->loadRoute($manager, ['name' => self::TEST_NO_CACHE_ROUTE_NAME], $parent);
             $this->loadRoute($manager, ['name' => self::TEST_CACHE_ROUTE_NAME, 'cacheTimeInSeconds' => self::TEST_CACHE_TIME], $parent);
             $manager->flush();
+        } else {
+            $this->loadFixtures(
+                '@SWPFixturesBundle/Resources/fixtures/PHPCR/'.$env.'/route.yml',
+                $manager,
+                [
+                    'providers' => [$this],
+                ]
+            );
         }
     }
 

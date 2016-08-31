@@ -1,0 +1,5 @@
+SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\Route:
+    route{politics, busines, scitech, health, entertainment, sports, dialogue}:
+        parent: <findByTenant(null, '/routes')>
+        name: '<current()>'
+        type: 'content'
