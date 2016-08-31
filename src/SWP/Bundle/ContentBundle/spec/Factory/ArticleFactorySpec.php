@@ -65,17 +65,18 @@ class ArticleFactorySpec extends ObjectBehavior
         $factory->create()->willReturn($article);
 
         $item = new Item();
-        $item->setBody('some body');
+        $item->setBody('some item body');
+        $item->setType('text');
 
         $package->getHeadline()->shouldBeCalled()->willReturn('item headline');
-        $package->getBody()->shouldBeCalled()->willReturn('some body');
+        $package->getBody()->shouldBeCalled()->willReturn('some package body');
         $package->getItems()->shouldBeCalled()->willReturn(new ArrayCollection([$item]));
         $package->getLanguage()->shouldBeCalled()->willReturn('en');
         $package->getMetadata()->shouldBeCalled()->willReturn(['some' => 'meta']);
 
         $article->setParentDocument($parent)->shouldBeCalled();
         $article->setTitle('item headline')->shouldBeCalled();
-        $article->setBody('some body')->shouldBeCalled();
+        $article->setBody('some package body some item body')->shouldBeCalled();
         $article->setLocale('en')->shouldBeCalled();
         $article->setRoute($route)->shouldBeCalled();
         $article->setMetadata(['some' => 'meta'])->shouldBeCalled();
@@ -84,5 +85,35 @@ class ArticleFactorySpec extends ObjectBehavior
         $routeProvider->getRouteForArticle($article)->willReturn($route);
 
         $this->createFromPackage($package)->shouldReturn($article);
+    }
+
+    public function it_throw_an_exception_when_item_type_not_allowed(
+        FactoryInterface $factory,
+        PackageInterface $package,
+        Article $article,
+        ArticleInterface $parent,
+        RouteInterface $route
+    ) {
+        $factory->create()->willReturn($article);
+
+        $item = new Item();
+        $item->setBody('some item body');
+        $item->setType('fake');
+
+        $package->getHeadline()->shouldNotBeCalled();
+        $package->getBody()->shouldBeCalled()->willReturn('some package body');
+        $package->getItems()->shouldBeCalled()->willReturn(new ArrayCollection([$item]));
+        $package->getLanguage()->shouldNotBeCalled();
+        $package->getMetadata()->shouldNotBeCalled();
+
+        $article->setParentDocument($parent)->shouldNotBeCalled();
+        $article->setTitle('item headline')->shouldNotBeCalled();
+        $article->setBody('some package body some item body')->shouldNotBeCalled();
+        $article->setLocale('en')->shouldNotBeCalled();
+        $article->setRoute($route)->shouldNotBeCalled();
+        $article->setMetadata(['some' => 'meta'])->shouldNotBeCalled();
+
+        $this->shouldThrow(\InvalidArgumentException::class)
+            ->duringCreateFromPackage($package);
     }
 }
