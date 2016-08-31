@@ -106,4 +106,25 @@ interface RouteInterface extends PersistableInterface
      * @param int $cacheTimeInSeconds
      */
     public function setCacheTimeInSeconds($cacheTimeInSeconds);
+
+    /**
+     * @return array
+     */
+    public function getDefaults();
+
+    /**
+     * @param array $defaults
+     */
+    public function setDefaults(array $defaults);
+
+    /**
+     * @param array $defaults
+     */
+    public function addDefaults(array $defaults);
+
+    /**
+     * @param string $name
+     * @param string $value
+     */
+    public function setDefault($name, $value);
 }

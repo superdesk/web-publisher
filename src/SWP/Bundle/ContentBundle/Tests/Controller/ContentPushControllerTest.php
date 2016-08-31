@@ -116,6 +116,7 @@ class ContentPushControllerTest extends WebTestCase
             ['CONTENT_TYPE' => 'application/json'],
             self::TEST_CONTENT
         );
+
         $this->assertEquals(201, $client->getResponse()->getStatusCode());
     }
 
@@ -187,7 +188,85 @@ class ContentPushControllerTest extends WebTestCase
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
     }
 
-    /**
+    public function testAssigningContentToCollectionRouteWithParentRoute()
+    {
+        $client = static::createClient();
+        $client->request('POST', $this->router->generate('swp_api_content_create_routes'), [
+            'route' => [
+                'name' => 'en',
+                'type' => 'content',
+                'parent' => '/',
+            ],
+        ]);
+
+        $this->assertEquals(201, $client->getResponse()->getStatusCode());
+
+        $client->request('POST', $this->router->generate('swp_api_content_create_routes'), [
+            'route' => [
+                'name' => 'site',
+                'type' => 'collection',
+                'parent' => 'en',
+            ],
+        ]);
+
+        $this->assertEquals(201, $client->getResponse()->getStatusCode());
+
+        $client->request('POST', $this->router->generate('swp_api_content_create_routes'), [
+            'route' => [
+                'name' => 'news',
+                'type' => 'collection',
+                'parent' => 'en/site',
+            ],
+        ]);
+
+        $this->assertEquals(201, $client->getResponse()->getStatusCode());
+
+        $client = static::createClient();
+        $client->request('POST', $this->router->generate('swp_api_content_create_routes'), [
+            'route' => [
+                'name' => 'articles',
+                'type' => 'collection',
+                'parent' => '/',
+                'content' => null,
+            ],
+        ]);
+
+        $this->assertEquals(201, $client->getResponse()->getStatusCode());
+
+        $client->request(
+            'POST',
+            $this->router->generate('swp_api_content_push'),
+            [],
+            [],
+            ['CONTENT_TYPE' => 'application/json'],
+            self::TEST_CONTENT);
+
+        $this->assertEquals(201, $client->getResponse()->getStatusCode());
+
+        $client->request('PATCH', $this->router->generate('swp_api_content_update_routes', ['id' => 'en/site/news']), [
+            'route' => [
+                'content' => 'ads-fsadf-sdaf-sadf-sadf',
+            ],
+        ]);
+
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+
+        $client->request('PATCH', $this->router->generate('swp_api_content_update_articles', ['id' => 'ads-fsadf-sdaf-sadf-sadf']), [
+            'article' => [
+                'status' => 'published',
+            ],
+        ]);
+
+        $client->request('GET', '/en/site/news/ads-fsadf-sdaf-sadf-sadf');
+
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+        $this->assertContains(
+            'ads-fsadf-sdaf-sadf-sadf',
+            $client->getResponse()->getContent()
+        );
+    }
+
+    /*
      * @covers SWP\Bundle\ContentBundle\Controller\ContentPushController::pushAssetsAction
      */
     public function testAssetsPush()

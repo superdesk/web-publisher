@@ -72,12 +72,14 @@ class ArticleFactorySpec extends ObjectBehavior
         $package->getBody()->shouldBeCalled()->willReturn('some body');
         $package->getItems()->shouldBeCalled()->willReturn(new ArrayCollection([$item]));
         $package->getLanguage()->shouldBeCalled()->willReturn('en');
+        $package->getMetadata()->shouldBeCalled()->willReturn(['some' => 'meta']);
 
         $article->setParentDocument($parent)->shouldBeCalled();
         $article->setTitle('item headline')->shouldBeCalled();
         $article->setBody('some body')->shouldBeCalled();
         $article->setLocale('en')->shouldBeCalled();
         $article->setRoute($route)->shouldBeCalled();
+        $article->setMetadata(['some' => 'meta'])->shouldBeCalled();
 
         $articleProvider->getParent('test')->willReturn($parent);
         $routeProvider->getRouteForArticle($article)->willReturn($route);

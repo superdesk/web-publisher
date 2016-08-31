@@ -1,49 +1,89 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
+
+<div id="page" class="container">
+  <!-- Content -->
+  <section id="content">
+
+    <!-- Row (12) -->
     <div class="row">
-        <div class="jumbotron" style="margin-top:20px;">
-            <h1 class="display-3">{{ 'index.welcome.title'|trans|desc('Welcome to Default Theme!') }}</h1>
-            <p class="lead">{{ 'index.welcome.text'|trans|desc('This is a Demo Theme. Check in action all awesome features provided by Superdesk Web Publisher.') }}</p>
-        </div>
 
-        <h4 class="color-class">This is example string to test css asset.</h4>
+{% cache 'frontTop3' { time:600 } %}
 
-        {% container 'container_name' with {
-            'styles': 'border: solid 1px red',
-            'class': 'col-md-8',
-            'data': {'custom-key': 'value'}
-        }%}
-        <h2>{{ 'index.default_container.header'|trans|desc('Default container header') }}</h2>
-        <p>{{ 'index.default_container.text'|trans|desc('Minions ipso voluptate nisi reprehenderit occaecat. Enim hahaha bappleees cillum bappleees. Elit officia daa ullamco. Ullamco bappleees reprehenderit aliqua veniam bananaaaa. Minim sed aaaaaah laboris veniam. Pepete aliqua veniam sit amet quis butt tatata bala tu jiji quis minim.') }}</p>
-        {% endcontainer %}
+{% gimmelist article from articles with {'route': '/news'}  %}
+{% if loop.first %}
+      <!-- Span (8) -->
+      <div class="span8">
 
-        <p><strong>{{ 'index.assigned.homepage'|trans|desc('Assigned homepage') }}:</strong> {{ page.name }} (id: {{ page.id }})</p>
-        <h4><strong>{{ 'index.current.details'|trans|desc('Current theme details') }}:</strong></h4>
-        <p><strong>{{ 'index.path'|trans|desc('Path') }}:</strong> {{ theme.path }}</p>
-        <p><strong>{{ 'index.name'|trans|desc('Name') }}:</strong> {{ theme.name }}</p>
-        <p><strong>{{ 'index.description'|trans|desc('Description') }}:</strong> {{ theme.description }}</p>
-        <p><strong>{{ 'index.title'|trans|desc('Title') }}:</strong> {{ theme.title }}</p>
-        <p><strong>{{ 'index.authors'|trans|desc('Authors') }}:</strong></p>
-        <ul>
-            {% for author in theme.authors %}
-                <li>{{ author.name }} ({{ author.email }}), {{ author.homepage }}, {{ author.role }}</li>
-            {% endfor %}
-        </ul>
+        <article class="news_item">
+            <a href="{{ url(article) }}" class="thumbnail"><img src="{{ asset('theme/assets/img/images-cms-image-000000099.jpg') }}" alt="Candidates (photo: Source Fabrić)"></a>
+            <div class="content content_text">
+                <h6 class="info">Frank N. Stein, Test Persona - {{ article.publishedAt|date("d.m.Y, H:i") }}</h6>
+                <h3 class="title"><a href="{{ url(article) }}">{{ article.title }}</a></h3>
+                <p>{{ article.body|truncate(200,true) }}</p>
+            </div>
+      </article>
 
-        <div class="col-md-4">
-        <h2>{{ 'index.news.header'|trans|desc('News') }}</h2>
-        <ul>
-            {% gimmelist article from articles with {'route': '/news'} %}
-            <li><a href="{{ url(article) }}">{{ article.title }} </a></li>
-            {% endgimmelist %}
-        </ul>
-        </div>
-    </div>
+{% elseif (loop.index == 2) or (loop.index == 3) %}
+
+      {% if loop.index == 2 %}
+        <!-- Row (8) -->
+      <div class="row">
+
+          <!-- Span (3) -->
+          <div class="span3">
+
+            <!-- News item -->
+            <article class="news_item">
+            	<a href="{{ url(article) }}" class="thumbnail"><img src="{{ asset('theme/assets/img/images-cms-image-000000102.jpg') }}" alt="La Scala di Spagna (photo: Source Fabricio)"></a>
+               <div class="content content_text">
+                    <h6 class="info">Sarah Staffwriter, Frank N. Stein - {{ article.publishedAt|date("d.m.Y, H:i") }}</h6>
+                    <h3 class="title"><a href="{{ url(article) }}">{{ article.title }}</a></h3>
+                    <p>{{ article.body|truncate(200,true) }}</p>
+               </div>
+            </article><!-- End News item -->
+          </div><!--End Span (3) -->
+          {% endif %}
+
+          {% if loop.index == 3 %}
+
+          <!-- Span (5) -->
+          <div class="span5">
+
+    <article class="news_item">
+        
+        <a href="{{ url(article) }}" class="thumbnail"><img src="{{ asset('theme/assets/img/images-cms-image-000000114.jpg') }}" alt="Arc of Konstantin (photo: Source F. Abricio)"></a>
+               <div class="content content_text">
+                   <h6 class="info">Ivan Zvonimir Čičak - {{ article.publishedAt|date("d.m.Y, H:i") }}</h6>
+                   <h3 class="title"><a href="{{ url(article) }}">{{ article.title }}</a></h3>
+                    <p>{{ article.body|truncate(200,true) }}</p>
+               </div>
+    </article>
+
+</div><!-- End Span (5) -->
+</div><!-- End Row (8) -->
+</div><!-- End Span (8) -->
+{% endif %}
+{% endif %}
+{% endgimmelist %}
+
+{% endcache %}
+
+{% include '_tpl/front-sidebar.html.twig' %}
+
+</div>
+<!-- End Row (12) -->
+
+{% include '_tpl/latest-news.html.twig' %}
+
+</section><!-- End Content -->
+
+</div>
+
 {% endblock %}
 
-{% block template_code%}
-<h3>Template code used to render that page <small><a href="#" class="js-toggle-code">show/hide</a></small></h3>
+{% block template_code %}
 <pre class="js-template-code" style="display:none;">{{ source(_self.getTemplateName())|escape('html') }}</pre>
 {% endblock %}
 
