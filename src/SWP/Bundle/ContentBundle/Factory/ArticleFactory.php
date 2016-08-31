@@ -87,7 +87,7 @@ class ArticleFactory implements ArticleFactoryInterface
     {
         /** @var ArticleInterface $article */
         $article = $this->create();
-        
+
         $article->setBody($this->populateBody($package));
         $article->setParentDocument($this->articleProvider->getParent($this->contentRelativePath));
         $article->setTitle($package->getHeadline());

@@ -87,7 +87,7 @@ class ArticleFactorySpec extends ObjectBehavior
         $this->createFromPackage($package)->shouldReturn($article);
     }
 
-    public function it_throw_an_exception_when_item_type_not_allowed(
+    public function it_throws_an_exception_when_item_type_not_allowed(
         FactoryInterface $factory,
         PackageInterface $package,
         Article $article,
