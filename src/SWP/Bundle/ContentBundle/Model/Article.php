@@ -92,6 +92,11 @@ class Article implements ArticleInterface, MediaAwareArticleInterface
     protected $isPublishable;
 
     /**
+     * @var string
+     */
+    protected $metadata;
+
+    /**
      * @var Collection
      */
     protected $media;
@@ -322,5 +327,21 @@ class Article implements ArticleInterface, MediaAwareArticleInterface
     public function setTemplateName($templateName)
     {
         $this->templateName = $templateName;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getMetadata()
+    {
+        return json_decode($this->metadata, true);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setMetadata(array $metadata)
+    {
+        $this->metadata = json_encode($metadata, true);
     }
 }

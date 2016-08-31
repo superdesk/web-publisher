@@ -168,4 +168,24 @@ class BaseContentSpec extends ObjectBehavior
         $this->setVersion(1);
         $this->getVersion()->shouldReturn(1);
     }
+
+    public function its_gets_all_metadata()
+    {
+        $metadata = [
+            'subject' => $this->getSubjects(),
+            'urgency' => $this->getUrgency(),
+            'priority' => $this->getPriority(),
+            'located' => $this->getLocated(),
+            'place' => $this->getPlaces(),
+            'service' => $this->getServices(),
+            'type' => $this->getType(),
+            'byline' => $this->getByline(),
+            'guid' => $this->getGuid(),
+            'edNote' => $this->getEdNote(),
+            'genre' => $this->getGenre(),
+            'language' => $this->getLanguage(),
+        ];
+
+        $this->getMetadata()->shouldReturn($metadata);
+    }
 }
