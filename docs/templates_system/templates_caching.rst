@@ -11,9 +11,9 @@ The :code:`Cache` block is simple, and accepts only two parameters: cache key an
 
     .. code-block:: twig
 
-        {% cache 'v1' 900 %}
+        {% cache 'v1' {time: 900} %}
             {% for item in items %}
-                {% cache 'v1' item %}
+                {% cache 'v1' {gen: item} %}
                     {# ... #}
                 {% endcache %}
             {% endfor %}
@@ -24,7 +24,7 @@ The :code:`Cache` block is simple, and accepts only two parameters: cache key an
     .. code-block:: twig
 
         {% set version = 42 %}
-        {% cache 'hello_v' ~ version 900 %}
+        {% cache 'hello_v' ~ version {time: 300} %}
             Hello {{ name }}!
         {% endcache %}
 
@@ -49,6 +49,12 @@ With :code:`generational` as a strategy key you need to provide :code:`gen` with
 .. code-block:: twig
 
     {# delegate to generational strategy #}
-    {% cache 'v1/summary' {gen: item} %}
+    {% cache 'v1/summary' {gen: gimme.article} %}
         {# heavy lifting template stuff here, include/render other partials etc #}
     {% endcache %}
+
+.. note::
+
+    You can pass Meta object to :code:`generational` strategy and it will be used for key generation.
+    If Meta value have :code:`created_at` or :code:`updated_at` then those properties will be used, otherwise key will be generated only from object :code:`id`.
+

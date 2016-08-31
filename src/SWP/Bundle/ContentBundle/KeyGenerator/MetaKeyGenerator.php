@@ -3,7 +3,7 @@
 /**
  * This file is part of the Superdesk Web Publisher Content Bundle.
  *
- * Copyright 2015 Sourcefabric z.u. and contributors.
+ * Copyright 2016 Sourcefabric z.u. and contributors.
  *
  * For the full copyright and license information, please see the
  * AUTHORS and LICENSE files distributed with this source code.
@@ -24,11 +24,7 @@ use SWP\Component\TemplatesSystem\Gimme\Meta\Meta;
 class MetaKeyGenerator implements KeyGeneratorInterface
 {
     /**
-     * Generate a cache key for a given value.
-     *
-     * @param mixed $meta Cached value.
-     *
-     * @return string
+     * {@inheritdoc}
      */
     public function generateKey($meta)
     {
