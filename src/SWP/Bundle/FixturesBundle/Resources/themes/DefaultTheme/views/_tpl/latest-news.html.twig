@@ -13,6 +13,8 @@
     <!-- Tabs Content -->
     <div id="tab_latest_news" class="tabs_content row" style="display: block;">
 
+{% cache 'latestNews' { time:120 } %}
+
 {% gimmelist article from articles with {'route': '/news'}  %}
 {% if loop.index < 5 %}
       <div class="span3">
@@ -27,6 +29,8 @@
    </div>
 {% endif %}
 {% endgimmelist %}
+
+{% endcache %}
 
       </div>
       <!-- End Tabs Content -->

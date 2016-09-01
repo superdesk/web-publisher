@@ -138,7 +138,14 @@
 
   <div class="wrap_menu_wrap hidden-phone">
     <div class="menu_wrap">
-      <div class="container">
+
+        {% container 'mainNavigation' with {
+            'styles': 'border: dotted 1px #ccc',
+            'class': 'container',
+            'data': {'custom-key': 'value'}
+        }%}
+
+      <!--div class="container"-->
 
  <!-- Top Menu -->
         <nav id="top_menu" class="hidden-phone">
@@ -157,7 +164,8 @@
         </nav>
 <!-- End Top Menu -->
 
-      </div>
+      <!--/div-->
+      {% endcontainer %}
     </div>
   </div>
 
