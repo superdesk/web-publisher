@@ -32,6 +32,7 @@ class ArticleType extends AbstractType
                    new Length(['min' => 1]),
                 ],
             ])
+            ->add('route', RouteSelectorType::class)
             ->add('template_name', TextType::class, [
                 'required' => true,
                 'constraints' => [

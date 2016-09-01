@@ -99,7 +99,9 @@ class ArticleController extends FOSRestController
      *     resource=true,
      *     description="Updates articles",
      *     statusCodes={
-     *         200="Returned on success."
+     *         200="Returned on success.",
+     *         400="Returned when validation failed.",
+     *         500="Returned when unexpected error."
      *     },
      *     input="SWP\Bundle\ContentBundle\Form\Type\ArticleType"
      * )
@@ -111,7 +113,8 @@ class ArticleController extends FOSRestController
         $objectManager = $this->get('swp.object_manager.article');
         $article = $this->findOr404($id);
         $originalArticleStatus = $article->getStatus();
-        $form = $this->createForm(new ArticleType(), $article, ['method' => $request->getMethod()]);
+
+        $form = $this->createForm(ArticleType::class, $article, ['method' => $request->getMethod()]);
 
         $form->handleRequest($request);
         if ($form->isValid()) {
@@ -121,7 +124,7 @@ class ArticleController extends FOSRestController
             $objectManager->refresh($article);
 
             $this->get('event_dispatcher')
-                ->dispatch(HttpCacheEvent::EVENT_NAME, new HttpCacheEvent($article));
+            ->dispatch(HttpCacheEvent::EVENT_NAME, new HttpCacheEvent($article));
 
             return $this->handleView(View::create($article, 200));
         }
@@ -129,7 +132,7 @@ class ArticleController extends FOSRestController
         return $this->handleView(View::create($form, 500));
     }
 
-    private function reactOnStatusChange($originalArticleStatus, $article)
+    private function reactOnStatusChange($originalArticleStatus, ArticleInterface $article)
     {
         $newArticleStatus = $article->getStatus();
         if ($originalArticleStatus === $newArticleStatus) {

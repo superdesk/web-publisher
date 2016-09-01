@@ -110,3 +110,10 @@ services:
         parent: "router.symfony"
         tags:
             - { name: router, priority: 300 }
+
+    swp_content_bundle.form.type.route_selector:
+        class: SWP\Bundle\ContentBundle\Form\Type\RouteSelectorType
+        arguments:
+            - '@swp.provider.route'
+        tags:
+            - { name: form.type }
