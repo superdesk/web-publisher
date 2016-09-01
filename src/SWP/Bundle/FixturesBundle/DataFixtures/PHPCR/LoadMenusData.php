@@ -16,6 +16,7 @@ use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use SWP\Bundle\FixturesBundle\AbstractFixture;
 use Doctrine\Common\Persistence\ObjectManager;
+use SWP\Bundle\FixturesBundle\DataFixtures\ORM\LoadWidgetsData;
 use Symfony\Cmf\Bundle\MenuBundle\Doctrine\Phpcr\Menu;
 
 class LoadMenusData extends AbstractFixture implements FixtureInterface, OrderedFixtureInterface
@@ -31,8 +32,8 @@ class LoadMenusData extends AbstractFixture implements FixtureInterface, Ordered
         $menus = [
             'dev' => [
                 [
-                    'name' => 'default',
-                    'label' => 'Default',
+                    'name' => LoadWidgetsData::MAIN_NAV_MENU_NAME,
+                    'label' => LoadWidgetsData::MAIN_NAV_MENU_NAME,
                 ],
             ],
             'test' => [

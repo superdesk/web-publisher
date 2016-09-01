@@ -105,7 +105,8 @@ class MediaManager implements MediaManagerInterface
     public function saveFile(UploadedFile $uploadedFile, $fileName)
     {
         $stream = fopen($uploadedFile->getRealPath(), 'r+');
-        $result = $this->filesystem->writeStream($this->pathBuilder->build($this->mediaBasepath).'/'.$fileName.'.'.$uploadedFile->guessClientExtension(), $stream);
+        $dest = $this->pathBuilder->build($this->mediaBasepath).'/'.$fileName.'.'.$uploadedFile->guessClientExtension();
+        $result = $this->filesystem->writeStream($dest, $stream);
         fclose($stream);
 
         return $result;

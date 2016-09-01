@@ -21,19 +21,23 @@ use SWP\Bundle\TemplateEngineBundle\Model\Container;
 
 class LoadContainersData extends AbstractFixture implements FixtureInterface, OrderedFixtureInterface
 {
+    const MAIN_CONTAINER_NAME = 'mainNavigation';
+
     /**
      * {@inheritdoc}
      */
     public function load(ObjectManager $manager)
     {
-        $containerEntity = new Container();
-        $containerEntity->setName('container_name');
-        $containerEntity->setStyles('border: solid 1px red');
-        $containerEntity->setCssClass('col-md-12');
-        $manager->persist($containerEntity);
-        $manager->flush();
+        if ('test' !== $this->getEnvironment()) {
+            $containerEntity = new Container();
+            $containerEntity->setName(self::MAIN_CONTAINER_NAME);
+            $containerEntity->setStyles('border: dotted 1px #ccc');
+            $containerEntity->setCssClass('swp_container');
+            $manager->persist($containerEntity);
+            $manager->flush();
 
-        $this->addReference('container_name', $containerEntity);
+            $this->addReference(self::MAIN_CONTAINER_NAME, $containerEntity);
+        }
     }
 
     public function getOrder()

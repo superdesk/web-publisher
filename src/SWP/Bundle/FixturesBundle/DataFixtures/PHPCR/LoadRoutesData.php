@@ -25,34 +25,38 @@ class LoadRoutesData extends AbstractFixture implements FixtureInterface, Ordere
     const TEST_CACHE_ROUTE_NAME = 'cache-route';
     const TEST_NO_CACHE_ROUTE_NAME = 'no-cache-route';
 
+    const DEV_ROUTES = ['politics', 'business', 'scitech', 'health', 'entertainment', 'sports', 'dialogue'];
+
     /** @var array */
-    protected $commonData = ['type' => 'content', 'parent' => '/', 'content' => null];
+    protected $commonTestData = ['type' => 'collection', 'parent' => '/', 'content' => null];
+
+    /** @var array */
+    protected $commonDevData = ['type' => 'collection', 'content' => null];
+
 
     /**
      * {@inheritdoc}
      */
     public function load(ObjectManager $manager)
     {
+        $parent = $manager->find(null, $this->getTenantPrefix().'/routes');
+
         $env = $this->getEnvironment();
         if ('test' === $env) {
-            $parent = $manager->find(null, $this->getTenantPrefix().'/routes');
-            $this->loadRoute($manager, ['name' => self::TEST_NO_CACHE_ROUTE_NAME], $parent);
-            $this->loadRoute($manager, ['name' => self::TEST_CACHE_ROUTE_NAME, 'cacheTimeInSeconds' => self::TEST_CACHE_TIME], $parent);
+            $this->loadRoute($manager, ['name' => self::TEST_NO_CACHE_ROUTE_NAME], $this->commonTestData, $parent);
+            $this->loadRoute($manager, ['name' => self::TEST_CACHE_ROUTE_NAME, 'cacheTimeInSeconds' => self::TEST_CACHE_TIME], $this->commonTestData, $parent);
             $manager->flush();
         } else {
-            $this->loadFixtures(
-                '@SWPFixturesBundle/Resources/fixtures/PHPCR/'.$env.'/route.yml',
-                $manager,
-                [
-                    'providers' => [$this],
-                ]
-            );
+            foreach (self::DEV_ROUTES as $devRoute) {
+                $this->loadRoute($manager, ['name' => $devRoute], $this->commonDevData, $parent);
+            }
+            $manager->flush();
         }
     }
 
-    private function loadRoute($manager, $data, $parent)
+    private function loadRoute($manager, $data, $commonData, $parent)
     {
-        $data = array_merge($data, $this->commonData);
+        $data = array_merge($data, $commonData);
         $route = new Route();
         $route->setParentDocument($parent);
         $route->setName($data['name']);

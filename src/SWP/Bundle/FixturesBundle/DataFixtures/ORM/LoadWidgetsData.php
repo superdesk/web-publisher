@@ -22,23 +22,27 @@ use SWP\Component\MultiTenancy\Model\TenantInterface;
 
 class LoadWidgetsData extends AbstractFixture implements FixtureInterface, OrderedFixtureInterface
 {
+    const MAIN_NAV_MENU_NAME = 'mainNav';
+
     /**
      * {@inheritdoc}
      */
     public function load(ObjectManager $manager)
     {
-        /** @var TenantInterface $tenant */
-        $tenant = $this->container->get('swp.repository.tenant')->findOneBySubdomain('default');
+        if ('test' !== $this->getEnvironment()) {
+            /** @var TenantInterface $tenant */
+            $tenant = $this->container->get('swp.repository.tenant')->findOneBySubdomain('default');
 
-        $widget = new WidgetModel();
-        $widget->setType(WidgetModel::TYPE_MENU);
-        $widget->setName('Default Menu');
-        $widget->setParameters(['menu_name' => 'default']);
-        $widget->setTenantCode($tenant->getCode());
-        $manager->persist($widget);
-        $manager->flush();
+            $widget = new WidgetModel();
+            $widget->setType(WidgetModel::TYPE_MENU);
+            $widget->setName(self::MAIN_NAV_MENU_NAME);
+            $widget->setParameters(['menu_name' => self::MAIN_NAV_MENU_NAME]);
+            $widget->setTenantCode($tenant->getCode());
+            $manager->persist($widget);
+            $manager->flush();
 
-        $this->addReference('container_name_menu_widget', $widget);
+            $this->addReference(self::MAIN_NAV_MENU_NAME, $widget);
+        }
     }
 
     public function getOrder()
