@@ -129,7 +129,11 @@ class ArticleLoader implements LoaderInterface
                         if ($order[0] === 'id') {
                             $order[0] = 'jcr:uuid';
                         } else {
-                            $order[0] = mysqli_real_escape_string($order[0]);
+                            // Check that the given parameter is actually a field name of a route
+                            $metaData = $this->dm->getClassMetadata('SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\Article');
+                            if (!in_array($order[0], $metaData->getFieldNames())) {
+                                throw new \Exception('Order parameter must be id or the name of one of the fields in the route class');
+                            }
                         }
                         $queryStr .= sprintf(' ORDER BY S.%s %s', $order[0], $order[1]);
                     }

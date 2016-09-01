@@ -74,13 +74,25 @@ class ArticleLoaderTest extends WebTestCase
 
         $this->assertTrue($articlesZero[1]->title === $articlesOne[0]->title);
 
-        $articlesAsc = $this->articleLoader->load('article', ['route' => '/news', 'order' => ['id', 'asc']], LoaderInterface::COLLECTION);
-        $articlesDesc = $this->articleLoader->load('article', ['route' => '/news', 'order' => ['id', 'desc']], LoaderInterface::COLLECTION);
+        $articlesAsc = $this->articleLoader->load('article', ['route' => '/news', 'order' => ['title', 'asc']], LoaderInterface::COLLECTION);
+        $articlesDesc = $this->articleLoader->load('article', ['route' => '/news', 'order' => ['title', 'desc']], LoaderInterface::COLLECTION);
 
         $this->assertTrue(count($articlesAsc) == count($articlesDesc));
 
         $count = count($articlesAsc);
         $this->assertTrue($articlesAsc[0]->title === $articlesDesc[$count - 1]->title);
         $this->assertTrue($articlesAsc[$count - 1]->title === $articlesDesc[0]->title);
+    }
+
+    public function testLoadWithOrderByIdParameter()
+    {
+        $this->assertEquals(3, count($this->articleLoader->load('article', ['route' => '/news', 'order' => ['id', 'asc']], LoaderInterface::COLLECTION)));
+    }
+
+    public function testLoadWithInvalidOrderByParameter()
+    {
+        $this->expectException(\Exception::class);
+
+        $this->articleLoader->load('article', ['route' => '/news', 'order' => ['truncate Table', 'asc']], LoaderInterface::COLLECTION);
     }
 }
