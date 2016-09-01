@@ -43,6 +43,16 @@ class ArticleFactory implements ArticleFactoryInterface
     private $contentRelativePath;
 
     /**
+     * @var array
+     */
+    private $allowedTypes = [
+        ItemInterface::TYPE_PICTURE,
+        ItemInterface::TYPE_FILE,
+        ItemInterface::TYPE_TEXT,
+        ItemInterface::TYPE_COMPOSITE,
+    ];
+
+    /**
      * ArticleFactory constructor.
      *
      * @param FactoryInterface         $baseFactory
@@ -78,18 +88,33 @@ class ArticleFactory implements ArticleFactoryInterface
         /** @var ArticleInterface $article */
         $article = $this->create();
 
+        $article->setBody($this->populateBody($package));
         $article->setParentDocument($this->articleProvider->getParent($this->contentRelativePath));
         $article->setTitle($package->getHeadline());
-        // Get package body and it's items body (if they are type text)
-        $article->setBody($package->getBody().implode('', array_map(function (ItemInterface $item) {
-            if (ItemInterface::TYPE_TEXT === $item->getType()) {
-                return $item->getBody();
-            }
-        }, $package->getItems()->toArray())));
         $article->setLocale($package->getLanguage());
         $article->setRoute($this->routeProvider->getRouteForArticle($article));
         $article->setMetadata($package->getMetadata());
 
         return $article;
+    }
+
+    private function populateBody(PackageInterface $package)
+    {
+        return $package->getBody().' '.implode('', array_map(function (ItemInterface $item) {
+            $this->ensureTypeIsAllowed($item->getType());
+
+            return $item->getBody();
+        }, $package->getItems()->toArray()));
+    }
+
+    private function ensureTypeIsAllowed($type)
+    {
+        if (!in_array($type, $this->allowedTypes)) {
+            throw new \InvalidArgumentException(sprintf(
+                'Item type "%s" is not supported. Supported types are: %s',
+                $type,
+                implode(', ', $this->allowedTypes))
+            );
+        }
     }
 }

@@ -13,3 +13,15 @@ coding_style:
         spaces:
             around_operators:
                 concatenation: false
+
+build:
+    environment:
+        php:
+            version: 7.0.8
+    tests:
+        override:
+            -
+                command: 'bin/phpunit -c app/ --coverage-clover=coverage'
+                coverage:
+                    file: 'coverage'
+                    format: 'clover'

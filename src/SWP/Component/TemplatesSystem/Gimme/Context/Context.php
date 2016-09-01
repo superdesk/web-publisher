@@ -88,7 +88,7 @@ class Context implements \ArrayAccess
             return true;
         }
 
-        return;
+        return false;
     }
 
     /**
