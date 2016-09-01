@@ -88,11 +88,14 @@ class ContentPushController extends FOSRestController
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
+            $mediaManager = $this->container->get('swp_content_bundle.manager.media');
             $uploadedFile = $form->getData()['media'];
             $mediaId = $request->request->get('media_id');
             if ($uploadedFile->isValid()) {
-                $mediaManager = $this->container->get('swp_content_bundle.manager.media');
-                $media = $mediaManager->handleUploadedFile($uploadedFile, $mediaId);
+                $media = $mediaManager->handleUploadedFile(
+                    $uploadedFile,
+                    $mediaManager->handleMediaId($mediaId)
+                );
 
                 return $this->handleView(View::create([
                     'media_id' => $mediaId,
@@ -124,14 +127,14 @@ class ContentPushController extends FOSRestController
      * @Route("/api/{version}/assets/get/{mediaId}", options={"expose"=true}, defaults={"version"="v1"}, requirements={"mediaId"=".+"}, name="swp_api_assets_get_1")
      * @Method("GET")
      */
-    public function getAssetsAction(Request $request, $mediaId)
+    public function getAssetsAction($mediaId)
     {
         $objectManager = $this->container->get('swp.object_manager.media');
         $pathBuilder = $this->container->get('swp_multi_tenancy.path_builder');
         $mediaBasepath = $this->container->getParameter('swp_multi_tenancy.persistence.phpcr.media_basepath');
+        $mediaManager = $this->container->get('swp_content_bundle.manager.media');
 
-        $media = $objectManager->find(null, $pathBuilder->build($mediaBasepath).'/'.$mediaId);
-
+        $media = $objectManager->find(null, $pathBuilder->build($mediaBasepath).'/'.$mediaManager->handleMediaId($mediaId));
         if (null === $media) {
             throw new ResourceNotFoundException('Media don\'t exists in storage');
         }
