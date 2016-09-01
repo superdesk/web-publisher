@@ -16,6 +16,7 @@ namespace SWP\Bundle\FixturesBundle\DataFixtures\PHPCR;
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
+use Faker\Factory;
 use SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\Article;
 use SWP\Bundle\FixturesBundle\AbstractFixture;
 use SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\Route;
@@ -48,36 +49,6 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface, Orde
     public function loadRoutes($env, $manager)
     {
         $routes = [
-            'dev' => [
-                [
-                    'parent' => $this->defaultTenantPrefix.'/routes',
-                    'name' => 'news',
-                    'variablePattern' => '/{slug}',
-                    'requirements' => [
-                        'slug' => '[a-zA-Z1-9\-_\/]+',
-                    ],
-                    'type' => 'collection',
-                    'defaults' => [
-                        'slug' => null,
-                    ],
-                    'templateName' => 'news.html.twig',
-                ],
-                [
-                    'parent' => $this->defaultTenantPrefix.'/routes',
-                    'name' => 'articles',
-                    'type' => 'content',
-                ],
-                [
-                    'parent' => $this->defaultTenantPrefix.'/routes/articles',
-                    'name' => 'get-involved',
-                    'type' => 'content',
-                ],
-                [
-                    'parent' => $this->defaultTenantPrefix.'/routes/articles',
-                    'name' => 'features',
-                    'type' => 'content',
-                ],
-            ],
             'test' => [
                 [
                     'parent' => $this->defaultTenantPrefix.'/routes',
@@ -121,54 +92,45 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface, Orde
             ],
         ];
 
-        foreach ($routes[$env] as $routeData) {
-            $route = new Route();
-            $route->setParentDocument($manager->find(null, $routeData['parent']));
-            $route->setName($routeData['name']);
-            $route->setType($routeData['type']);
+        if (isset($routes[$env])) {
+            foreach ($routes[$env] as $routeData) {
+                $route = new Route();
+                $route->setParentDocument($manager->find(null, $routeData['parent']));
+                $route->setName($routeData['name']);
+                $route->setType($routeData['type']);
 
-            if (isset($routeData['cacheTimeInSeconds'])) {
-                $route->setCacheTimeInSeconds($routeData['cacheTimeInSeconds']);
-            }
-
-            if (isset($routeData['variablePattern'])) {
-                $route->setVariablePattern($routeData['variablePattern']);
-            }
-
-            if (isset($routeData['requirements'])) {
-                foreach ($routeData['requirements'] as $key => $value) {
-                    $route->setRequirement($key, $value);
+                if (isset($routeData['cacheTimeInSeconds'])) {
+                    $route->setCacheTimeInSeconds($routeData['cacheTimeInSeconds']);
                 }
-            }
 
-            if (isset($routeData['templateName'])) {
-                $route->setTemplateName($routeData['templateName']);
-            }
-
-            if (isset($routeData['defaults'])) {
-                foreach ($routeData['defaults'] as $key => $value) {
-                    $route->setDefault($key, $value);
+                if (isset($routeData['variablePattern'])) {
+                    $route->setVariablePattern($routeData['variablePattern']);
                 }
+
+                if (isset($routeData['requirements'])) {
+                    foreach ($routeData['requirements'] as $key => $value) {
+                        $route->setRequirement($key, $value);
+                    }
+                }
+
+                if (isset($routeData['templateName'])) {
+                    $route->setTemplateName($routeData['templateName']);
+                }
+
+                if (isset($routeData['defaults'])) {
+                    foreach ($routeData['defaults'] as $key => $value) {
+                        $route->setDefault($key, $value);
+                    }
+                }
+                $manager->persist($route);
             }
-            $manager->persist($route);
+            $manager->flush();
         }
-
-        $manager->flush();
     }
 
     public function setRoutesContent($env, $manager)
     {
         $routes = [
-            'dev' => [
-                [
-                    'path' => $this->defaultTenantPrefix.'/routes/articles/features',
-                    'content' => $this->defaultTenantPrefix.'/content/features',
-                ],
-                [
-                    'path' => $this->defaultTenantPrefix.'/routes/articles/get-involved',
-                    'content' => $this->defaultTenantPrefix.'/content/get-involved',
-                ],
-            ],
             'test' => [
                 [
                     'path' => $this->defaultTenantPrefix.'/routes/news',
@@ -185,10 +147,12 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface, Orde
             ],
         ];
 
-        foreach ($routes[$env] as $routeData) {
-            if (array_key_exists('content', $routeData)) {
-                $route = $manager->find(null, $routeData['path']);
-                $route->setContent($manager->find(null, $routeData['content']));
+        if (isset($routes[$env])) {
+            foreach ($routes[$env] as $routeData) {
+                if (array_key_exists('content', $routeData)) {
+                    $route = $manager->find(null, $routeData['path']);
+                    $route->setContent($manager->find(null, $routeData['content']));
+                }
             }
         }
     }
@@ -199,48 +163,55 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface, Orde
      */
     public function loadArticles($env, $manager)
     {
-        if ($env !== 'test') {
-            $this->loadFixtures(
-                '@SWPFixturesBundle/Resources/fixtures/PHPCR/'.$env.'/article.yml',
-                $manager,
-                [
-                    'providers' => [$this],
-                ]
-            );
+        $faker = Factory::create();
+        if ('dev' === $env) {
+            foreach (LoadRoutesData::DEV_ROUTES as $devRouteName) {
+                for ($i = 0; $i < 3; ++$i) {
+                    $articles['dev'][] =
+                        [
+                            'title' => $faker->text(20),
+                            'content' => $faker->paragraph(20),
+                            'route' => $this->defaultTenantPrefix.'/routes/'.$devRouteName,
+                            'parent' => $this->defaultTenantPrefix.'/content',
+                            'locale' => 'en',
+                        ];
+                }
+            }
         }
-
-        $articles = [
-            'test' => [
-                [
-                    'title' => 'Test news article',
-                    'content' => 'Test news article content',
-                    'route' => $this->defaultTenantPrefix.'/routes/news',
-                    'parent' => $this->defaultTenantPrefix.'/content',
-                    'locale' => 'en',
+        else {
+            $articles = [
+                'test' => [
+                    [
+                        'title' => 'Test news article',
+                        'content' => 'Test news article content',
+                        'route' => $this->defaultTenantPrefix . '/routes/news',
+                        'parent' => $this->defaultTenantPrefix . '/content',
+                        'locale' => 'en',
+                    ],
+                    [
+                        'title' => 'Test article',
+                        'content' => 'Test article content',
+                        'route' => $this->defaultTenantPrefix . '/routes/news',
+                        'parent' => $this->defaultTenantPrefix . '/content',
+                        'locale' => 'en',
+                    ],
+                    [
+                        'title' => 'Features',
+                        'content' => 'Features content',
+                        'route' => $this->defaultTenantPrefix . '/routes/news',
+                        'parent' => $this->defaultTenantPrefix . '/content',
+                        'locale' => 'en',
+                    ],
+                    [
+                        'title' => 'Features client1',
+                        'content' => 'Features client1 content',
+                        'route' => $this->firstTenantPrefix . '/routes/news',
+                        'parent' => $this->firstTenantPrefix . '/content',
+                        'locale' => 'en',
+                    ],
                 ],
-                [
-                    'title' => 'Test article',
-                    'content' => 'Test article content',
-                    'route' => $this->defaultTenantPrefix.'/routes/news',
-                    'parent' => $this->defaultTenantPrefix.'/content',
-                    'locale' => 'en',
-                ],
-                [
-                    'title' => 'Features',
-                    'content' => 'Features content',
-                    'route' => $this->defaultTenantPrefix.'/routes/news',
-                    'parent' => $this->defaultTenantPrefix.'/content',
-                    'locale' => 'en',
-                ],
-                [
-                    'title' => 'Features client1',
-                    'content' => 'Features client1 content',
-                    'route' => $this->firstTenantPrefix.'/routes/news',
-                    'parent' => $this->firstTenantPrefix.'/content',
-                    'locale' => 'en',
-                ],
-            ],
-        ];
+            ];
+        }
 
         if (isset($articles[$env])) {
             foreach ($articles[$env] as $articleData) {
@@ -248,7 +219,8 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface, Orde
                 $article->setParentDocument($manager->find(null, $articleData['parent']));
                 $article->setTitle($articleData['title']);
                 $article->setBody($articleData['content']);
-                $article->setRoute($manager->find(null, $articleData['route']));
+                $route = $manager->find(null, $articleData['route']);
+                $article->setRoute($route);
                 $article->setLocale($articleData['locale']);
                 $article->setPublishedAt(new \DateTime());
                 $article->setPublishable(true);
@@ -288,6 +260,6 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface, Orde
      */
     public function getOrder()
     {
-        return 1;
+        return 6;
     }
 }

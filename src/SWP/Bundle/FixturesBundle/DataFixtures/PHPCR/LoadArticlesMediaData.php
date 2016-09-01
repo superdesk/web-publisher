@@ -59,6 +59,14 @@ class LoadArticlesMediaData extends AbstractFixture implements FixtureInterface,
                     'locale' => 'en',
                 ],
             ],
+            'dev' => [
+                [
+                    'title' => 'Test news article',
+                    'content' => 'Test news article content',
+                    'parent' => $this->defaultTenantPrefix.'/content',
+                    'locale' => 'en',
+                ],
+            ],
         ];
 
         $renditions = [

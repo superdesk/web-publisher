@@ -11,6 +11,7 @@ use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use SWP\Bundle\FixturesBundle\AbstractFixture;
 use Doctrine\Common\Persistence\ObjectManager;
+use SWP\Bundle\FixturesBundle\DataFixtures\ORM\LoadWidgetsData;
 use Symfony\Cmf\Bundle\MenuBundle\Doctrine\Phpcr\MenuNode;
 
 class LoadMenuNodesData extends AbstractFixture implements FixtureInterface, OrderedFixtureInterface
@@ -23,17 +24,8 @@ class LoadMenuNodesData extends AbstractFixture implements FixtureInterface, Ord
         $defaultTenantPrefix = $this->getTenantPrefix();
 
         $env = $this->getEnvironment();
-        $menuNodes = [
-            'dev' => [
-                [
-                    'name' => 'home',
-                    'label' => 'Home',
-                    'locale' => 'en',
-                    'route' => 'homepage',
-                    'parent' => $defaultTenantPrefix.'/menu/default',
-                ],
-            ],
-            'test' => [
+        if ('test' === $env) {
+            $menuNodes = [
                 [
                     'name' => 'home',
                     'label' => 'Home',
@@ -51,14 +43,12 @@ class LoadMenuNodesData extends AbstractFixture implements FixtureInterface, Ord
                     'label' => 'Sub Contact',
                     'locale' => 'en',
                     'uri' => 'http://example.com/contact/sub',
-                    'parent' => $defaultTenantPrefix.'/menu/test/contact',
+                    'parent' => $defaultTenantPrefix . '/menu/test/contact',
                 ],
-            ],
-        ];
+            ];
 
-        if (isset($menuNodes[$env])) {
-            $defaultParent = $env === 'test' ? $manager->find(null, $defaultTenantPrefix.'/menu/test') : $manager->find(null, $defaultTenantPrefix.'/menu/default');
-            foreach ($menuNodes[$env] as $menuNodeData) {
+            $defaultParent = $manager->find(null, $defaultTenantPrefix . '/menu/test');
+            foreach ($menuNodes as $menuNodeData) {
                 $menuNode = new MenuNode();
                 $menuNode->setName($menuNodeData['name']);
                 $menuNode->setLabel($menuNodeData['label']);
@@ -73,6 +63,16 @@ class LoadMenuNodesData extends AbstractFixture implements FixtureInterface, Ord
                 $menuNode->setParentDocument($parent);
                 $manager->persist($menuNode);
                 $manager->flush();
+            }
+        } else {
+            $parent =  $manager->find(null, $defaultTenantPrefix.'/menu/'.LoadWidgetsData::MAIN_NAV_MENU_NAME);
+            foreach (LoadRoutesData::DEV_ROUTES as $routeName) {
+                $menuNode = new MenuNode();
+                $menuNode->setName($routeName);
+                $menuNode->setLabel($routeName);
+                $menuNode->setRoute($routeName);
+                $menuNode->setLocale('en');
+                $menuNode->setParentDocument($parent);
             }
         }
     }

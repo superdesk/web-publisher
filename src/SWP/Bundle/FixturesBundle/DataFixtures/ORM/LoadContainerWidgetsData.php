@@ -26,14 +26,16 @@ class LoadContainerWidgetsData extends AbstractFixture implements FixtureInterfa
      */
     public function load(ObjectManager $manager)
     {
-        $containerEntity = $this->getReference('container_name');
-        $containerMenuWidget = $this->getReference('container_name_menu_widget');
-        $containerWidget = new ContainerWidget($containerEntity, $containerMenuWidget);
-        $containerEntity->addWidget($containerWidget);
+        if ('test' !== $this->getEnvironment()) {
+            $containerEntity = $this->getReference(LoadContainersData::MAIN_CONTAINER_NAME);
+            $containerMenuWidget = $this->getReference(LoadWidgetsData::MAIN_NAV_MENU_NAME);
+            $containerWidget = new ContainerWidget($containerEntity, $containerMenuWidget);
+            $containerEntity->addWidget($containerWidget);
 
-        $manager->persist($containerEntity);
-        $manager->persist($containerWidget);
-        $manager->flush();
+            $manager->persist($containerEntity);
+            $manager->persist($containerWidget);
+            $manager->flush();
+        }
     }
 
     public function getOrder()
