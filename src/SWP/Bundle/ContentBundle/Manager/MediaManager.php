@@ -77,6 +77,7 @@ class MediaManager implements MediaManagerInterface
      */
     public function handleUploadedFile(UploadedFile $uploadedFile, $mediaId)
     {
+        $mediaId = $this->handleMediaId($mediaId);
         $this->saveFile($uploadedFile, $mediaId);
 
         $media = $this->getProperObject($uploadedFile);
@@ -136,6 +137,20 @@ class MediaManager implements MediaManagerInterface
             'mediaId' => $media->getId(),
             'extension' => $media->getFileExtension(),
         ], $type);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function handleMediaId($mediaId)
+    {
+        $mediaId = preg_replace('/\\.[^.\\s]{3,4}$/', '', $mediaId);
+        $mediaIdElements = explode('/', $mediaId);
+        if (count($mediaIdElements) == 2) {
+            return $mediaIdElements[1];
+        }
+
+        return $mediaId;
     }
 
     protected function getProperObject(UploadedFile $uploadedFile)
