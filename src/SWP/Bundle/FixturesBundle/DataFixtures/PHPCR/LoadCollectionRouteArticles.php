@@ -66,6 +66,7 @@ class LoadCollectionRouteArticles extends AbstractFixture implements FixtureInte
                     'parent' => $this->defaultTenantPrefix.'/routes',
                     'name' => 'collection-content',
                     'type' => 'collection',
+                    'articles_template_name' => 'test.html.twig',
                 ],
             ],
         ];
@@ -132,6 +133,13 @@ class LoadCollectionRouteArticles extends AbstractFixture implements FixtureInte
                     'parent' => $this->defaultTenantPrefix.'/content',
                     'locale' => 'en',
                     'templateName' => 'some_content.html.twig',
+                ],
+                [
+                    'title' => 'Some other content',
+                    'content' => 'some other content',
+                    'route' => $this->defaultTenantPrefix.'/routes/collection-content',
+                    'parent' => $this->defaultTenantPrefix.'/content',
+                    'locale' => 'en',
                 ],
             ],
         ];

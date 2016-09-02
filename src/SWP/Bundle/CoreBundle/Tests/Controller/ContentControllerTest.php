@@ -137,10 +137,8 @@ class ContentControllerTest extends WebTestCase
 
         $client = static::createClient();
         $crawler = $client->request('GET', '/collection-content');
-
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
-        $this->assertEquals(1, $crawler->filter('html:contains("Id: /swp/123456/123abc/content/some-content")')->count());
-        $this->assertEquals(1, $crawler->filter('html:contains("Some content")')->count());
+        $this->assertEquals(1, $crawler->filter('html:contains("Some content template")')->count());
     }
 
     public function testTestLoadingRouteWithCustomTemplate()
@@ -160,12 +158,25 @@ class ContentControllerTest extends WebTestCase
             ],
         ]);
         $this->assertEquals(201, $client->getResponse()->getStatusCode());
-        $this->assertEquals('{"id":"\/swp\/123456\/123abc\/routes\/simple-test-route","content":null,"static_prefix":null,"variable_pattern":null,"name":"simple-test-route","children":[],"id_prefix":"\/swp\/123456\/123abc\/routes","template_name":"test.html.twig","type":"content","cache_time_in_seconds":0,"_links":{"self":{"href":"\/api\/v1\/content\/routes\/\/simple-test-route"}}}', $client->getResponse()->getContent());
+        $this->assertEquals('{"id":"\/swp\/123456\/123abc\/routes\/simple-test-route","content":null,"static_prefix":null,"variable_pattern":null,"name":"simple-test-route","children":[],"id_prefix":"\/swp\/123456\/123abc\/routes","template_name":"test.html.twig","articles_template_name":null,"type":"content","cache_time_in_seconds":0,"_links":{"self":{"href":"\/api\/v1\/content\/routes\/\/simple-test-route"}}}', $client->getResponse()->getContent());
 
         $crawler = $client->request('GET', '/simple-test-route');
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
 
         // Check that route id is in the rendered html - accessed through {% gimme.route.id %}
         $this->assertTrue($crawler->filter('html:contains("/swp/123456/123abc/routes/simple-test-route")')->count() === 1);
+    }
+
+    public function testTestLoadingRouteWithCustomArticlesTemplate()
+    {
+        $this->loadFixtures([
+            'SWP\Bundle\FixturesBundle\DataFixtures\PHPCR\LoadTenantsData',
+            'SWP\Bundle\FixturesBundle\DataFixtures\PHPCR\LoadCollectionRouteArticles',
+        ], null, 'doctrine_phpcr');
+
+        $client = static::createClient();
+        $crawler = $client->request('GET', '/collection-content/some-other-content');
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+        $this->assertEquals(1, $crawler->filter('html:contains("theme_test/test.html.twig")')->count());
     }
 }

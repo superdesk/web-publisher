@@ -129,6 +129,10 @@ class RouteService implements RouteServiceInterface
             $route->setTemplateName($routeData['template_name']);
         }
 
+        if (isset($routeData['articles_template_name'])) {
+            $route->setArticlesTemplateName($routeData['articles_template_name']);
+        }
+
         if (isset($routeData['type']) && $routeData['type'] == RouteInterface::TYPE_CONTENT) {
             $route->setVariablePattern(null);
             $route->setRequirements([]);

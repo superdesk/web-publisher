@@ -17,7 +17,7 @@ use PhpSpec\ObjectBehavior;
 use SWP\Bundle\CoreBundle\Enhancer\RouteEnhancer;
 use SWP\Component\TemplatesSystem\Gimme\Context\Context;
 use Symfony\Cmf\Component\Routing\Enhancer\RouteEnhancerInterface;
-use Symfony\Cmf\Component\Routing\RouteObjectInterface;
+use SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\RouteObjectInterface;
 use SWP\Bundle\CoreBundle\Resolver\TemplateNameResolver;
 use SWP\Bundle\ContentBundle\Model\RouteInterface;
 use SWP\Bundle\ContentBundle\Model\Article;
@@ -43,7 +43,7 @@ class RouteEnhancerSpec extends ObjectBehavior
         $this->shouldImplement(RouteEnhancerInterface::class);
     }
 
-    public function it_should_set_template_name(RouteInterface $route, Article $article)
+    public function it_should_set_template_name(RouteObjectInterface $route, Article $article)
     {
         $this->setTemplateName(null, [])->shouldReturn([
             RouteObjectInterface::TEMPLATE_NAME => 'article.html.twig',
@@ -55,6 +55,8 @@ class RouteEnhancerSpec extends ObjectBehavior
         ]);
 
         $route->getTemplateName()->willReturn('test.html.twig');
+        $route->getContent()->willReturn(null);
+        $route->getType()->willReturn(RouteInterface::TYPE_CONTENT);
         $this->setTemplateName(null, [RouteObjectInterface::ROUTE_OBJECT => $route])->shouldReturn([
             RouteObjectInterface::ROUTE_OBJECT => $route,
             RouteObjectInterface::TEMPLATE_NAME => 'test.html.twig',
