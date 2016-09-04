@@ -341,6 +341,10 @@ class NinjsValidator extends JsonValidator
             "description" : "The name of the location from which the content originates.",
             "type" : "string"
         },
+        "keywords": {
+			"description" : "Content keywords",
+			"type" : "array"
+		},
         "renditions" : {
             "description" : "Wrapper for different renditions of non-textual content of the news object",
             "type" : "object",

@@ -25,6 +25,11 @@ class Route extends BaseRoute implements RouteObjectInterface
     /**
      * @var string
      */
+    protected $articlesTemplateName;
+
+    /**
+     * @var string
+     */
     protected $type;
 
     /**
@@ -46,6 +51,22 @@ class Route extends BaseRoute implements RouteObjectInterface
     public function setTemplateName($templateName)
     {
         $this->templateName = $templateName;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getArticlesTemplateName()
+    {
+        return $this->articlesTemplateName;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setArticlesTemplateName($articlesTemplateName)
+    {
+        $this->articlesTemplateName = $articlesTemplateName;
     }
 
     /**

@@ -4,6 +4,9 @@ SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\Route:
         templateName:
             type: string
             nullable: true
+        articlesTemplateName:
+            type: string
+            nullable: true
         type:
             property: route_type
             type: string

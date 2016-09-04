@@ -15,8 +15,12 @@ namespace SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR;
 
 use Doctrine\ODM\PHPCR\HierarchyInterface;
 use SWP\Bundle\ContentBundle\Model\RouteInterface;
+use Symfony\Cmf\Component\Routing\RouteObjectInterface as BaseRouteObjectInterface;
 
-interface RouteObjectInterface extends RouteInterface, HierarchyInterface
+/**
+ * Interface RouteObjectInterface.
+ */
+interface RouteObjectInterface extends RouteInterface, HierarchyInterface, BaseRouteObjectInterface
 {
     /**
      * Set the object this url points to.
@@ -25,11 +29,4 @@ interface RouteObjectInterface extends RouteInterface, HierarchyInterface
      *                      storage layer.
      */
     public function setContent($object);
-
-    /**
-     * Get the object this url points to.
-     *
-     * @return string
-     */
-    public function getContent();
 }

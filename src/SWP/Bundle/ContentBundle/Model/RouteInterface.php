@@ -33,6 +33,16 @@ interface RouteInterface extends PersistableInterface
     /**
      * @return string
      */
+    public function getArticlesTemplateName();
+
+    /**
+     * @param string $articlesTemplateName
+     */
+    public function setArticlesTemplateName($articlesTemplateName);
+
+    /**
+     * @return string
+     */
     public function getType();
 
     /**

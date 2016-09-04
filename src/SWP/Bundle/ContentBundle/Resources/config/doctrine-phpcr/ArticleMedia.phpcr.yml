@@ -5,16 +5,21 @@ SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\ArticleMedia:
     fields:
         body:
             type: string
+            nullable: true
         description:
             type: string
+            nullable: true
         located:
             type: string
+            nullable: true
         byLine:
             type: string
+            nullable: true
         mimetype:
             type: string
         usageTerms:
             type: string
+            nullable: true
     referrers:
         renditions:
             referringDocument: SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\ImageRendition
