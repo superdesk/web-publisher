@@ -52,11 +52,14 @@ final class TenantableConfigurationSourceFactory implements ConfigurationSourceF
             $config['directories'],
         ]);
 
+        $themeConfigurationProcessor = $container->getDefinition('sylius.theme.configuration.processor');
+        $themeConfigurationProcessor->replaceArgument(0, new Definition(ThemeConfiguration::class));
+
         $configurationLoader = new Definition(ProcessingConfigurationLoader::class, [
             new Definition(JsonFileConfigurationLoader::class, [
                 new Reference('sylius.theme.filesystem'),
             ]),
-            new Reference('sylius.theme.configuration.processor'),
+            $themeConfigurationProcessor,
         ]);
 
         $configurationProvider = new Definition(TenantableConfigurationProvider::class, [

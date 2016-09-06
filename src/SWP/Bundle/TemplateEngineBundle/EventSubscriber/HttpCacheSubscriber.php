@@ -35,9 +35,9 @@ class HttpCacheSubscriber implements EventSubscriberInterface
     public static function getSubscribedEvents()
     {
         return [
-           HttpCacheEvent::EVENT_NAME => [
-               ['clearCache', 0],
-           ],
+            HttpCacheEvent::EVENT_NAME => [
+                ['clearCache', 0],
+            ],
        ];
     }
 

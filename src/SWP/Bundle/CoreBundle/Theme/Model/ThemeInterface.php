@@ -15,10 +15,16 @@ namespace SWP\Bundle\CoreBundle\Theme\Model;
 
 use Sylius\Bundle\ThemeBundle\Model\ThemeInterface as BaseThemeInterface;
 
+
 interface ThemeInterface extends BaseThemeInterface
 {
     /**
      * @param string $name
      */
     public function setName($name);
+
+    /**
+     * @return $array
+     */
+    public function getDefaultTemplates();
 }

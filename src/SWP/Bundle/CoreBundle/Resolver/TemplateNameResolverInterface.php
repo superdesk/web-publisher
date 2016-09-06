@@ -18,6 +18,8 @@ use SWP\Bundle\ContentBundle\Model\ArticleInterface;
 
 interface TemplateNameResolverInterface
 {
+    const TEMPLATE_NAME = 'article.html.twig';
+
     /**
      * @param object $object
      * @param string $default
@@ -32,13 +34,13 @@ interface TemplateNameResolverInterface
      *
      * @return string
      */
-    public function resolveFromArticle(ArticleInterface $article, $templateName = 'article.html.twig');
+    public function resolveFromArticle(ArticleInterface $article, $templateName = self::TEMPLATE_NAME);
 
     /**
      * @param RouteObjectInterface $route
-     * @param string               $default
+     * @param string               $templateName
      *
      * @return string
      */
-    public function resolveFromRoute(RouteObjectInterface $route, $templateName = 'article.html.twig');
+    public function resolveFromRoute(RouteObjectInterface $route, $templateName = self::TEMPLATE_NAME);
 }

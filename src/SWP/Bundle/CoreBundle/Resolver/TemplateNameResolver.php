@@ -28,7 +28,7 @@ class TemplateNameResolver implements TemplateNameResolverInterface
     /**
      * {@inheritdoc}
      */
-    public function resolve($object, $defaultFileName = 'article.html.twig')
+    public function resolve($object, $defaultFileName = TemplateNameResolverInterface::TEMPLATE_NAME)
     {
         if ($object instanceof ArticleInterface) {
             return $this->resolveFromArticle($object);
@@ -42,7 +42,7 @@ class TemplateNameResolver implements TemplateNameResolverInterface
     /**
      * {@inheritdoc}
      */
-    public function resolveFromArticle(ArticleInterface $article, $templateName = 'article.html.twig')
+    public function resolveFromArticle(ArticleInterface $article, $templateName = TemplateNameResolverInterface::TEMPLATE_NAME)
     {
         /** @param $route RouteObjectInterface */
         if (null !== ($route = $article->getRoute())) {
@@ -65,7 +65,7 @@ class TemplateNameResolver implements TemplateNameResolverInterface
     /**
      * {@inheritdoc}
      */
-    public function resolveFromRoute(RouteObjectInterface $route, $templateName = 'article.html.twig')
+    public function resolveFromRoute(RouteObjectInterface $route, $templateName = TemplateNameResolverInterface::TEMPLATE_NAME)
     {
         if (null !== $route->getTemplateName()) {
             $templateName = $route->getTemplateName();

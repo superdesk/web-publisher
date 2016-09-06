@@ -14,6 +14,7 @@
 namespace SWP\Bundle\CoreBundle\Routing;
 
 use SWP\Bundle\ContentBundle\Model\ArticleInterface;
+use SWP\Bundle\ContentBundle\Model\RouteInterface;
 use Symfony\Cmf\Bundle\RoutingBundle\Routing\DynamicRouter;
 use SWP\Component\TemplatesSystem\Gimme\Meta\Meta;
 
@@ -25,9 +26,11 @@ class MetaRouter extends DynamicRouter
     public function generate($name, $parameters = [], $referenceType = false)
     {
         $route = $name;
-        if ($name instanceof Meta && $name->getValues() instanceof ArticleInterface) {
+        if ($name->getValues() instanceof ArticleInterface) {
             $parameters['slug'] = $name->getValues()->getSlug();
             $route = $name->getValues()->getRoute();
+        } elseif ($name->getValues() instanceof RouteInterface) {
+            $route = $name->getValues();
         }
 
         return parent::generate($route, $parameters, $referenceType);
@@ -38,6 +41,9 @@ class MetaRouter extends DynamicRouter
      */
     public function supports($name)
     {
-        return $name instanceof Meta && $name->getValues() instanceof ArticleInterface;
+        return $name instanceof Meta && (
+            $name->getValues() instanceof ArticleInterface ||
+            $name->getValues() instanceof RouteInterface
+        );
     }
 }

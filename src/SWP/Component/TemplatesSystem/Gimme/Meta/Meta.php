@@ -205,4 +205,18 @@ class Meta
 
         return json_last_error() == JSON_ERROR_NONE;
     }
+
+    /**
+     * Don't serialize values.
+     *
+     * @return array
+     */
+    public function __sleep()
+    {
+        unset($this->values);
+        unset($this->context);
+        unset($this->configuration);
+
+        return array_keys(get_object_vars($this));
+    }
 }
