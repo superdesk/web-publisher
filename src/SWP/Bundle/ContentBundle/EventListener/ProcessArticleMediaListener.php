@@ -8,9 +8,10 @@
  * For the full copyright and license information, please see the
  * AUTHORS and LICENSE files distributed with this source code.
  *
- * @copyright 2015 Sourcefabric z.ú.
+ * @copyright 2015 Sourcefabric z.ú
  * @license http://www.superdesk.org/license
  */
+
 namespace SWP\Bundle\ContentBundle\EventListener;
 
 use Doctrine\Common\Persistence\ObjectManager;
@@ -115,7 +116,7 @@ class ProcessArticleMediaListener
         $articleMedia->setArticle($article);
         $articleMedia->setFromItem($item);
 
-        if (ItemInterface::TYPE_PICTURE  === $item->getType()) {
+        if (ItemInterface::TYPE_PICTURE === $item->getType()) {
             $this->createImageMedia($articleMedia, $item);
         } elseif (ItemInterface::TYPE_FILE === $item->getType()) {
             //TODO: handle files upload

@@ -8,12 +8,12 @@ use SWP\Bundle\ContentBundle\Model\ArticleInterface;
 
 class ArticleServiceSpec extends ObjectBehavior
 {
-    function it_is_initializable()
+    public function it_is_initializable()
     {
         $this->shouldHaveType('SWP\Bundle\ContentBundle\Service\ArticleService');
     }
 
-    function it_should_publish_new_article(ArticleInterface $article)
+    public function it_should_publish_new_article(ArticleInterface $article)
     {
         $article->setStatus(ArticleInterface::STATUS_PUBLISHED)->shouldBeCalled();
         $article->setPublishedAt(Argument::type('\DateTime'))->shouldBeCalled();
@@ -24,7 +24,7 @@ class ArticleServiceSpec extends ObjectBehavior
         $this->publish($article)->shouldReturn($article);
     }
 
-    function it_should_throw_exception_on_unpublishable_article(ArticleInterface $article)
+    public function it_should_throw_exception_on_unpublishable_article(ArticleInterface $article)
     {
         $date = new \DateTime();
         $date->modify('-10 years');
@@ -40,7 +40,7 @@ class ArticleServiceSpec extends ObjectBehavior
             ->during('publish', [$article]);
     }
 
-    function it_should_unpublish_published_article(ArticleInterface $article)
+    public function it_should_unpublish_published_article(ArticleInterface $article)
     {
         $article->setStatus(ArticleInterface::STATUS_UNPUBLISHED)->shouldBeCalled();
         $article->setPublishedAt(Argument::type('\DateTime'))->shouldNotBeCalled();

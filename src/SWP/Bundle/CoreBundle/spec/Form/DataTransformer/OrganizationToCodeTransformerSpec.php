@@ -8,9 +8,10 @@
  * For the full copyright and license information, please see the
  * AUTHORS and LICENSE files distributed with this source code.
  *
- * @copyright 2016 Sourcefabric z.ú.
+ * @copyright 2016 Sourcefabric z.ú
  * @license http://www.superdesk.org/license
  */
+
 namespace spec\SWP\Bundle\CoreBundle\Form\DataTransformer;
 
 use PhpSpec\ObjectBehavior;
@@ -25,22 +26,22 @@ use Symfony\Component\Form\Exception\UnexpectedTypeException;
  */
 class OrganizationToCodeTransformerSpec extends ObjectBehavior
 {
-    function let(OrganizationRepositoryInterface $organizationRepository)
+    public function let(OrganizationRepositoryInterface $organizationRepository)
     {
         $this->beConstructedWith($organizationRepository);
     }
 
-    function it_is_initializable()
+    public function it_is_initializable()
     {
         $this->shouldHaveType(OrganizationToCodeTransformer::class);
     }
 
-    function it_should_return_empty_string_if_null_transformed()
+    public function it_should_return_empty_string_if_null_transformed()
     {
         $this->transform(null)->shouldReturn('');
     }
 
-    function it_should_throw_an_excpetion_when_wrong_object_is_given()
+    public function it_should_throw_an_excpetion_when_wrong_object_is_given()
     {
         $this
             ->shouldThrow(UnexpectedTypeException::class)
@@ -48,19 +49,19 @@ class OrganizationToCodeTransformerSpec extends ObjectBehavior
         ;
     }
 
-    function it_should_transform_organization_into_its_code(OrganizationInterface $organization)
+    public function it_should_transform_organization_into_its_code(OrganizationInterface $organization)
     {
         $organization->getCode()->willReturn('123abc');
 
         $this->transform($organization)->shouldReturn('123abc');
     }
 
-    function it_should_return_null_if_empty_string_is_reverse_transformed()
+    public function it_should_return_null_if_empty_string_is_reverse_transformed()
     {
         $this->reverseTransform('')->shouldReturn(null);
     }
 
-    function it_should_throw_exception_if_organization_not_found_on_reverse_transform(
+    public function it_should_throw_exception_if_organization_not_found_on_reverse_transform(
         OrganizationRepositoryInterface $organizationRepository
     ) {
         $organizationRepository
@@ -75,7 +76,7 @@ class OrganizationToCodeTransformerSpec extends ObjectBehavior
         ;
     }
 
-    function it_should_reverse_transform(
+    public function it_should_reverse_transform(
         OrganizationRepositoryInterface $organizationRepository,
         OrganizationInterface $organization
     ) {

@@ -8,9 +8,10 @@
  * For the full copyright and license information, please see the
  * AUTHORS and LICENSE files distributed with this source code.
  *
- * @copyright 2016 Sourcefabric z.ú.
+ * @copyright 2016 Sourcefabric z.ú
  * @license http://www.superdesk.org/license
  */
+
 namespace SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR;
 
 use Doctrine\ODM\PHPCR\HierarchyInterface;
@@ -26,7 +27,7 @@ interface RouteObjectInterface extends RouteInterface, HierarchyInterface, BaseR
      * Set the object this url points to.
      *
      * @param mixed $object A content object that can be persisted by the
-     *                      storage layer.
+     *                      storage layer
      */
     public function setContent($object);
 }

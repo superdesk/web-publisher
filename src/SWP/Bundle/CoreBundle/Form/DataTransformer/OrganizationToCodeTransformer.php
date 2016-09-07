@@ -8,9 +8,10 @@
  * For the full copyright and license information, please see the
  * AUTHORS and LICENSE files distributed with this source code.
  *
- * @copyright 2016 Sourcefabric z.ú.
+ * @copyright 2016 Sourcefabric z.ú
  * @license http://www.superdesk.org/license
  */
+
 namespace SWP\Bundle\CoreBundle\Form\DataTransformer;
 
 use SWP\Component\MultiTenancy\Model\OrganizationInterface;
@@ -63,7 +64,7 @@ final class OrganizationToCodeTransformer implements DataTransformerInterface
      *
      * @return OrganizationInterface|null
      *
-     * @throws TransformationFailedException if object (organization) is not found.
+     * @throws TransformationFailedException if object (organization) is not found
      */
     public function reverseTransform($organizationCode)
     {
