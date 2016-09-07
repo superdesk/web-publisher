@@ -8,9 +8,10 @@
  * For the full copyright and license information, please see the
  * AUTHORS and LICENSE files distributed with this source code.
  *
- * @copyright 2016 Sourcefabric z.ú.
+ * @copyright 2016 Sourcefabric z.ú
  * @license http://www.superdesk.org/license
  */
+
 namespace SWP\Bundle\ContentBundle\Form\Type;
 
 use SWP\Bundle\ContentBundle\Form\DataTransformer\RouteToIdTransformer;
@@ -20,7 +21,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-final class RouteSelectorType extends AbstractType
+class RouteSelectorType extends AbstractType
 {
     /**
      * @var RouteProviderInterface
@@ -52,9 +53,9 @@ final class RouteSelectorType extends AbstractType
      */
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
             'invalid_message' => 'The selected route does not exist!',
-        ));
+        ]);
     }
 
     /**

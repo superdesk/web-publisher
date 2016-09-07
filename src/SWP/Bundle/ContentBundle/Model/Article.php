@@ -194,7 +194,7 @@ class Article implements ArticleInterface, MediaAwareArticleInterface
     /**
      * {@inheritdoc}
      */
-    public function setRoute(RouteInterface $route)
+    public function setRoute(RouteInterface $route = null)
     {
         $this->route = $route;
     }
