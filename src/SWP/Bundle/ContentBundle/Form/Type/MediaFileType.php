@@ -30,8 +30,8 @@ class MediaFileType extends AbstractType
             ->add('media_id', TextType::class, [
                 'required' => true,
                 'constraints' => [
-                   new NotBlank(),
-                   new Length(['min' => 1]),
+                    new NotBlank(),
+                    new Length(['min' => 1]),
                 ],
             ])
             ->add('media', FileType::class, [

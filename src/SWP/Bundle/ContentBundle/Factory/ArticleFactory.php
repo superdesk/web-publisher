@@ -114,8 +114,8 @@ class ArticleFactory implements ArticleFactoryInterface
             throw new \InvalidArgumentException(sprintf(
                 'Item type "%s" is not supported. Supported types are: %s',
                 $type,
-                implode(', ', $this->allowedTypes))
-            );
+                implode(', ', $this->allowedTypes)
+            ));
         }
     }
 }

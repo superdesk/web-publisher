@@ -103,7 +103,8 @@ class ArticleLoader implements LoaderInterface
             if (array_key_exists('contentPath', $parameters)) {
                 $article = $this->dm->find('SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\Article', $parameters['contentPath']);
             } elseif (array_key_exists('article', $parameters)) {
-                $article = $parameters['article'];
+                $this->dm->detach($parameters['article']);
+                $article = $this->dm->find('SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\Article', $parameters['article']->getId());
             } elseif (array_key_exists('slug', $parameters)) {
                 $article = $this->dm->getRepository('SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\Article')
                     ->findOneBy(['slug' => $parameters['slug']]);

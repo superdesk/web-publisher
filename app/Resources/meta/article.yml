@@ -23,4 +23,7 @@ properties:
     metadata:
         description: "Article metadata"
         type: array
+    route:
+        description: "Article route"
+        type: meta
 to_string: title

@@ -19,6 +19,11 @@ use Sylius\Bundle\ThemeBundle\Model\Theme as BaseTheme;
 
 class Theme extends BaseTheme implements ThemeInterface
 {
+    /**
+     * @var array
+     */
+    protected $config;
+
     public function __construct($name, $path)
     {
         if ($tempName = strstr($name, ThemeHelper::SUFFIX_SEPARATOR, true)) {
@@ -34,5 +39,13 @@ class Theme extends BaseTheme implements ThemeInterface
     public function setName($name)
     {
         $this->name = $name;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getDefaultTemplates()
+    {
+        return $this->config['defaultTemplates'];
     }
 }
