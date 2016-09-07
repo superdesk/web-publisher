@@ -8,9 +8,10 @@
  * For the full copyright and license information, please see the
  * AUTHORS and LICENSE files distributed with this source code.
  *
- * @copyright 2015 Sourcefabric z.ú.
+ * @copyright 2015 Sourcefabric z.ú
  * @license http://www.superdesk.org/license
  */
+
 namespace spec\SWP\Bundle\MultiTenancyBundle\EventListener;
 
 use Doctrine\Common\EventSubscriber;
@@ -28,27 +29,27 @@ use SWP\Component\MultiTenancy\Model\TenantAwareInterface;
  */
 class TenantSubscriberSpec extends ObjectBehavior
 {
-    function let(TenantContextInterface $tenantContext)
+    public function let(TenantContextInterface $tenantContext)
     {
         $this->beConstructedWith($tenantContext, false);
     }
 
-    function it_is_initializable()
+    public function it_is_initializable()
     {
         $this->shouldHaveType(TenantSubscriber::class);
     }
 
-    function it_implements_event_subscriber_interface()
+    public function it_implements_event_subscriber_interface()
     {
         $this->shouldImplement(EventSubscriber::class);
     }
 
-    function it_subscribes_to_an_event()
+    public function it_subscribes_to_an_event()
     {
         $this->getSubscribedEvents()->shouldReturn([Events::prePersist]);
     }
 
-    function it_should_skip_when_tenant_code_is_already_set_on_tenant_aware_object(
+    public function it_should_skip_when_tenant_code_is_already_set_on_tenant_aware_object(
         LifecycleEventArgs $event,
         TenantAwareInterface $tenantAware
     ) {
@@ -63,7 +64,7 @@ class TenantSubscriberSpec extends ObjectBehavior
         $this->prePersist($event)->shouldReturn(null);
     }
 
-    function it_sets_the_tenant_code_on_pre_persist_doctrine_event(
+    public function it_sets_the_tenant_code_on_pre_persist_doctrine_event(
         TenantContextInterface $tenantContext,
         LifecycleEventArgs $event,
         TenantAwareInterface $tenantAware
@@ -82,7 +83,7 @@ class TenantSubscriberSpec extends ObjectBehavior
         $this->prePersist($event)->shouldBeNull();
     }
 
-    function it_sets_only_tenant_aware_interface_implementation_on_pre_presist(
+    public function it_sets_only_tenant_aware_interface_implementation_on_pre_presist(
         TenantAwareInterface $tenantAware,
         LifecycleEventArgs $event
     ) {

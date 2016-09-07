@@ -8,9 +8,10 @@
  * For the full copyright and license information, please see the
  * AUTHORS and LICENSE files distributed with this source code.
  *
- * @copyright 2016 Sourcefabric z.ú.
+ * @copyright 2016 Sourcefabric z.ú
  * @license http://www.superdesk.org/license
  */
+
 namespace spec\SWP\Bundle\MultiTenancyBundle\Doctrine\ORM;
 
 use Doctrine\ODM\PHPCR\DocumentManagerInterface;
@@ -25,17 +26,17 @@ use SWP\Component\MultiTenancy\Repository\OrganizationRepositoryInterface;
  */
 class OrganizationRepositorySpec extends ObjectBehavior
 {
-    function let(DocumentManagerInterface $documentManager, ClassMetadata $classMetadata)
+    public function let(DocumentManagerInterface $documentManager, ClassMetadata $classMetadata)
     {
         $this->beConstructedWith($documentManager, $classMetadata);
     }
 
-    function it_is_initializable()
+    public function it_is_initializable()
     {
         $this->shouldHaveType(OrganizationRepository::class);
     }
 
-    function it_is_a_repository()
+    public function it_is_a_repository()
     {
         $this->shouldHaveType(DocumentRepository::class);
         $this->shouldImplement(OrganizationRepositoryInterface::class);

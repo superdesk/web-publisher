@@ -8,9 +8,10 @@
  * For the full copyright and license information, please see the
  * AUTHORS and LICENSE files distributed with this source code.
  *
- * @copyright 2016 Sourcefabric z.ú.
+ * @copyright 2016 Sourcefabric z.ú
  * @license http://www.superdesk.org/license
  */
+
 namespace spec\SWP\Bundle\CoreBundle\DependencyInjection\Compiler;
 
 use PhpSpec\ObjectBehavior;
@@ -25,17 +26,17 @@ use Symfony\Component\DependencyInjection\Definition;
  */
 class OverrideThemeAssetsInstallerPassSpec extends ObjectBehavior
 {
-    function it_is_initializable()
+    public function it_is_initializable()
     {
         $this->shouldHaveType(OverrideThemeAssetsInstallerPass::class);
     }
 
-    function it_implements_compiler_pass_interface()
+    public function it_implements_compiler_pass_interface()
     {
         $this->shouldImplement(CompilerPassInterface::class);
     }
 
-    function it_overrides_default_theme_assets_installer(
+    public function it_overrides_default_theme_assets_installer(
         ContainerBuilder $container,
         Definition $definition
     ) {
@@ -47,7 +48,7 @@ class OverrideThemeAssetsInstallerPassSpec extends ObjectBehavior
         $this->process($container);
     }
 
-    function it_should_not_override_default_theme_assets_installer(
+    public function it_should_not_override_default_theme_assets_installer(
         ContainerBuilder $container,
         Definition $definition
     ) {

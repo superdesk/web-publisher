@@ -11,9 +11,10 @@
  * Some parts of that file were taken from the Liip/ThemeBundle
  * (c) Liip AG
  *
- * @copyright 2016 Sourcefabric z.ú.
+ * @copyright 2016 Sourcefabric z.ú
  * @license http://www.superdesk.org/license
  */
+
 namespace spec\SWP\Bundle\CoreBundle\Resolver;
 
 use PhpSpec\ObjectBehavior;
