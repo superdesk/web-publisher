@@ -8,13 +8,14 @@
  * For the full copyright and license information, please see the
  * AUTHORS and LICENSE files distributed with this source code.
  *
- * @copyright 2016 Sourcefabric z.ú.
+ * @copyright 2016 Sourcefabric z.ú
  * @license http://www.superdesk.org/license
  */
+
 namespace SWP\Bundle\CoreBundle\Resolver;
 
+use SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\RouteObjectInterface;
 use SWP\Bundle\ContentBundle\Model\ArticleInterface;
-use SWP\Bundle\ContentBundle\Model\RouteInterface;
 
 interface TemplateNameResolverInterface
 {
@@ -28,17 +29,17 @@ interface TemplateNameResolverInterface
 
     /**
      * @param ArticleInterface $article
-     * @param string           $default
+     * @param string           $templateName
      *
      * @return string
      */
-    public function resolveFromArticle(ArticleInterface $article, $default = 'article.html.twig');
+    public function resolveFromArticle(ArticleInterface $article, $templateName = 'article.html.twig');
 
     /**
-     * @param RouteInterface $route
-     * @param string         $default
+     * @param RouteObjectInterface $route
+     * @param string               $default
      *
      * @return string
      */
-    public function resolveFromRoute(RouteInterface $route, $default = 'article.html.twig');
+    public function resolveFromRoute(RouteObjectInterface $route, $templateName = 'article.html.twig');
 }

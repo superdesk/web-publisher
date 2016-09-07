@@ -8,9 +8,10 @@
  * For the full copyright and license information, please see the
  * AUTHORS and LICENSE files distributed with this source code.
  *
- * @copyright 2016 Sourcefabric z.ú.
+ * @copyright 2016 Sourcefabric z.ú
  * @license http://www.superdesk.org/license
  */
+
 namespace SWP\Bundle\ContentBundle\Service;
 
 use SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\RouteObjectInterface;
@@ -127,6 +128,10 @@ class RouteService implements RouteServiceInterface
 
         if (isset($routeData['template_name'])) {
             $route->setTemplateName($routeData['template_name']);
+        }
+
+        if (isset($routeData['articles_template_name'])) {
+            $route->setArticlesTemplateName($routeData['articles_template_name']);
         }
 
         if (isset($routeData['type']) && $routeData['type'] == RouteInterface::TYPE_CONTENT) {

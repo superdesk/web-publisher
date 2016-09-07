@@ -8,9 +8,10 @@
  * For the full copyright and license information, please see the
  * AUTHORS and LICENSE files distributed with this source code.
  *
- * @copyright 2016 Sourcefabric z.ú.
+ * @copyright 2016 Sourcefabric z.ú
  * @license http://www.superdesk.org/license
  */
+
 namespace SWP\Bundle\ContentBundle\Model;
 
 use SWP\Component\Storage\Model\PersistableInterface;
@@ -29,6 +30,16 @@ interface RouteInterface extends PersistableInterface
      * @param string $templateName
      */
     public function setTemplateName($templateName);
+
+    /**
+     * @return string
+     */
+    public function getArticlesTemplateName();
+
+    /**
+     * @param string $articlesTemplateName
+     */
+    public function setArticlesTemplateName($articlesTemplateName);
 
     /**
      * @return string

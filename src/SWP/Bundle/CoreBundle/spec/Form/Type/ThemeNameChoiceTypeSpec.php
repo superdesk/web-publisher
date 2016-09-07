@@ -8,9 +8,10 @@
  * For the full copyright and license information, please see the
  * AUTHORS and LICENSE files distributed with this source code.
  *
- * @copyright 2016 Sourcefabric z.ú.
+ * @copyright 2016 Sourcefabric z.ú
  * @license http://www.superdesk.org/license
  */
+
 namespace spec\SWP\Bundle\CoreBundle\Form\Type;
 
 use PhpSpec\ObjectBehavior;
@@ -27,22 +28,22 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
  */
 class ThemeNameChoiceTypeSpec extends ObjectBehavior
 {
-    function let(ThemeProviderInterface $themeProvider)
+    public function let(ThemeProviderInterface $themeProvider)
     {
         $this->beConstructedWith($themeProvider);
     }
 
-    function it_is_initializable()
+    public function it_is_initializable()
     {
         $this->shouldHaveType(ThemeNameChoiceType::class);
     }
 
-    function it_is_a_form_type()
+    public function it_is_a_form_type()
     {
         $this->shouldImplement(FormTypeInterface::class);
     }
 
-    function it_defines_themes_names_choices(
+    public function it_defines_themes_names_choices(
         OptionsResolver $resolver,
         ThemeProviderInterface $themeProvider,
         ThemeInterface $theme
@@ -55,7 +56,7 @@ class ThemeNameChoiceTypeSpec extends ObjectBehavior
         $this->configureOptions($resolver);
     }
 
-    function it_should_have_parent()
+    public function it_should_have_parent()
     {
         $this->getParent()->shouldReturn(ChoiceType::class);
     }

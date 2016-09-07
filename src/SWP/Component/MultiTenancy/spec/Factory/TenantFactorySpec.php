@@ -8,9 +8,10 @@
  * For the full copyright and license information, please see the
  * AUTHORS and LICENSE files distributed with this source code.
  *
- * @copyright 2016 Sourcefabric z.ú.
+ * @copyright 2016 Sourcefabric z.ú
  * @license http://www.superdesk.org/license
  */
+
 namespace spec\SWP\Component\MultiTenancy\Factory;
 
 use PhpSpec\ObjectBehavior;
@@ -27,7 +28,7 @@ use SWP\Component\Storage\Factory\FactoryInterface;
  */
 class TenantFactorySpec extends ObjectBehavior
 {
-    function let(
+    public function let(
         FactoryInterface $factory,
         GeneratorInterface $generator,
         OrganizationRepositoryInterface $organizationRepository
@@ -35,17 +36,17 @@ class TenantFactorySpec extends ObjectBehavior
         $this->beConstructedWith($factory, $generator, $organizationRepository);
     }
 
-    function it_is_initializable()
+    public function it_is_initializable()
     {
         $this->shouldHaveType(TenantFactory::class);
     }
 
-    function it_implements_tenant_factory_interface()
+    public function it_implements_tenant_factory_interface()
     {
         $this->shouldImplement(TenantFactoryInterface::class);
     }
 
-    function it_creates_a_new_tenant_with_code(
+    public function it_creates_a_new_tenant_with_code(
         FactoryInterface $factory,
         GeneratorInterface $generator,
         TenantInterface $tenant
@@ -57,7 +58,7 @@ class TenantFactorySpec extends ObjectBehavior
         $this->create()->shouldReturn($tenant);
     }
 
-    function it_creates_a_new_tenant_for_organization(
+    public function it_creates_a_new_tenant_for_organization(
         FactoryInterface $factory,
         GeneratorInterface $generator,
         TenantInterface $tenant,
@@ -73,7 +74,7 @@ class TenantFactorySpec extends ObjectBehavior
         $this->createForOrganization('123456')->shouldReturn($tenant);
     }
 
-    function it_throws_an_exception(
+    public function it_throws_an_exception(
         FactoryInterface $factory,
         GeneratorInterface $generator,
         TenantInterface $tenant,

@@ -8,9 +8,10 @@
  * For the full copyright and license information, please see the
  * AUTHORS and LICENSE files distributed with this source code.
  *
- * @copyright 2016 Sourcefabric z.ú.
+ * @copyright 2016 Sourcefabric z.ú
  * @license http://www.superdesk.org/license
  */
+
 namespace spec\SWP\Bundle\CoreBundle\Form\Type;
 
 use PhpSpec\ObjectBehavior;
@@ -29,22 +30,22 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
  */
 class OrganizationCodeChoiceTypeSpec extends ObjectBehavior
 {
-    function let(OrganizationRepositoryInterface $organizationRepository)
+    public function let(OrganizationRepositoryInterface $organizationRepository)
     {
         $this->beConstructedWith($organizationRepository);
     }
 
-    function it_is_initializable()
+    public function it_is_initializable()
     {
         $this->shouldHaveType(OrganizationCodeChoiceType::class);
     }
 
-    function it_is_a_form_type()
+    public function it_is_a_form_type()
     {
         $this->shouldImplement(FormTypeInterface::class);
     }
 
-    function it_defines_organization_choices(
+    public function it_defines_organization_choices(
         OptionsResolver $resolver,
         OrganizationRepositoryInterface $organizationRepository,
         OrganizationInterface $organization
@@ -59,12 +60,12 @@ class OrganizationCodeChoiceTypeSpec extends ObjectBehavior
         $this->configureOptions($resolver);
     }
 
-    function it_should_have_parent()
+    public function it_should_have_parent()
     {
         $this->getParent()->shouldReturn(ChoiceType::class);
     }
 
-    function it_should_add_model_transformer(FormBuilderInterface $builder)
+    public function it_should_add_model_transformer(FormBuilderInterface $builder)
     {
         $builder->addModelTransformer(Argument::type(OrganizationToCodeTransformer::class))->shouldBeCalled();
 

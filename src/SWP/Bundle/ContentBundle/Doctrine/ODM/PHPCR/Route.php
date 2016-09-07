@@ -8,9 +8,10 @@
  * For the full copyright and license information, please see the
  * AUTHORS and LICENSE files distributed with this source code.
  *
- * @copyright 2016 Sourcefabric z.ú.
+ * @copyright 2016 Sourcefabric z.ú
  * @license http://www.superdesk.org/license
  */
+
 namespace SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR;
 
 use Symfony\Cmf\Bundle\RoutingBundle\Doctrine\Phpcr\Route as BaseRoute;
@@ -21,6 +22,11 @@ class Route extends BaseRoute implements RouteObjectInterface
      * @var string
      */
     protected $templateName;
+
+    /**
+     * @var string
+     */
+    protected $articlesTemplateName;
 
     /**
      * @var string
@@ -46,6 +52,22 @@ class Route extends BaseRoute implements RouteObjectInterface
     public function setTemplateName($templateName)
     {
         $this->templateName = $templateName;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getArticlesTemplateName()
+    {
+        return $this->articlesTemplateName;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setArticlesTemplateName($articlesTemplateName)
+    {
+        $this->articlesTemplateName = $articlesTemplateName;
     }
 
     /**

@@ -5,6 +5,7 @@
  * Date: 14/07/16
  * Time: 13:45.
  */
+
 namespace SWP\Bundle\FixturesBundle\DataFixtures\PHPCR;
 
 use Doctrine\Common\DataFixtures\FixtureInterface;

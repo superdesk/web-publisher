@@ -8,9 +8,10 @@
  * For the full copyright and license information, please see the
  * AUTHORS and LICENSE files distributed with this source code.
  *
- * @copyright 2016 Sourcefabric z.ú.
+ * @copyright 2016 Sourcefabric z.ú
  * @license http://www.superdesk.org/license
  */
+
 namespace spec\SWP\Component\TemplatesSystem\Gimme\Widget;
 
 use PhpSpec\ObjectBehavior;
@@ -25,18 +26,18 @@ use Symfony\Component\Templating\EngineInterface;
  */
 class GoogleAdSenseWidgetHandlerSpec extends ObjectBehavior
 {
-    function it_is_initializable()
+    public function it_is_initializable()
     {
         $this->shouldHaveType(GoogleAdSenseWidgetHandler::class);
     }
 
-    function let(WidgetModelInterface $widgetModel)
+    public function let(WidgetModelInterface $widgetModel)
     {
         $widgetModel->getParameters()->willReturn(['ad_client' => 'client id']);
         $this->beConstructedWith($widgetModel);
     }
 
-    function it_should_render(
+    public function it_should_render(
         ContainerInterface $container,
         EngineInterface $templating,
         Response $response
@@ -55,7 +56,7 @@ class GoogleAdSenseWidgetHandlerSpec extends ObjectBehavior
         $this->render()->shouldReturn($response);
     }
 
-    function it_should_render_defaults_when_no_params_provided(
+    public function it_should_render_defaults_when_no_params_provided(
         ContainerInterface $container,
         EngineInterface $templating,
         Response $response,
@@ -78,7 +79,7 @@ class GoogleAdSenseWidgetHandlerSpec extends ObjectBehavior
         $this->render()->shouldReturn($response);
     }
 
-    function it_should_check_if_it_is_visible(WidgetModelInterface $widgetModel)
+    public function it_should_check_if_it_is_visible(WidgetModelInterface $widgetModel)
     {
         $widgetModel->getVisible()->willReturn(true);
         $this->isVisible()->shouldReturn(true);

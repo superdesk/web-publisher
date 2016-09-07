@@ -1,167 +1,47 @@
-.. _templates:
-
 Templates
 =========
 
-Gimme and SWP custom Twig tags
-------------------------------
+Templates inheritance
+---------------------
 
-Gimme allows you to fetch the Meta object you need in any place of your template. It supports single Meta objects (with :code:`gimme` ) and collections of Meta objects (with :code:`gimmelist`).
+Default template name for route and articles in Web Publisher is :code:`article.html.twig`.
 
-container
-`````````
+**Inheritance overview:**
 
-The :code:`container` tag has one required parameter and one optional parameter:
+.. code-block:: bash
 
- * (required) container unique name, for example: *frontpage_sidebar*
- * (optional) keyword :code:`with` and default parameters for containers (used to create the container on theme installation).
+    > article.html.twig
+        > Route custom template
+            > Article custom template
 
-Here is an example of a container tag:
+If :code:`route` is collection type then it can have declared two default templates:
 
-.. code-block:: twig
+ * :code:`default_template` used for rendering Route content (eg. /sport).
+ * :code:`default_articles_template` used for rendering content attached to this route (eg. /sport/usain-bolt-fastest-man-in-theo-world).
 
-     {% container 'frontpage_sidebar' with {
-         'width': 400,
-         'height': 500,
-         'styles': 'border: solid 1px red',
-         'class': 'css_class_name',
-         'data': {'custom-key': value}
-     }%}
-     {% endcontainer %}
+.. note::
 
-This container tag will render the HTML code:
+    When route :code:`default_template` property is set but not :code:`default_articles_template`, then Web Publisher will load all articles attached to this route with template chosen in :code:`default_template` (not with :code:`article.html.twig`).
 
-.. code-block:: html
+If :code:`content` have assigned custom template then it will always override other already set templates.
 
-    <div id="frontpage_sidebar" class="swp_container css_class_name" style="width: 400px; height: 500px; border: solid 1px red;" data-custom-key="value"></div>
+How to change the Route/Article template name?
+----------------------------------------------
 
-The available container parameters are:
+You can change default template name values for article and route with API calls (providing it on resource create or resource update calls).
 
- * [integer] width - container width
- * [integer] height - container height
- * [string] styles - container inline styles
- * [string] class - container class string
- * [string] data - JSON object string with html-data properties (keys and values)
+Example resource update calls:
 
-gimme
-`````
+article:
+````````
 
-The tag :code:`gimme` has one required parameter and one optional parameter:
+.. code-block:: bash
 
- * (required) Meta object type (and name of variable available inside block), for example: *article*
- * (optional) Keword :code:`with` and parameters for Meta Loader, for example: :code:`{ param: "value" }`
+    curl -X "PATCH" -d "article[template_name]=new_template_name.html.twig" -H "Content-type:\ application/x-www-form-urlencoded" /api/v1/content/articles/features
 
-.. code-block:: twig
+route:
+``````
 
-    {% gimme article %}
-        {# article Meta will be available under "article" variable inside block #}
-        {{ article.title }}
-    {% endgimme %}
+.. code-block:: bash
 
-Meta Loaders sometimes require special parameters - like the article number, language of the article, user id, etc..
-
-.. code-block:: twig
-
-    {% gimme article with { articleNumber: 1 } %}
-        {# Meta Loader will use provided parameters to load article Meta #}
-        {{ article.title }}
-    {% endgimme %}
-
-gimmelist
-`````````
-
-The :code:`gimmelist` tag has two required parameters and two optional parameters:
-
- * (required) Name of variable available inside block: :code:`article`
- * (required) Keyword :code:`from` and type of requested Metas in collection: :code:`from articles` with filters passed to Meta Loader as extra parameters (:code:`start`, :code:`limit`, :code:`order`)
- * (optional) Keyword :code:`with` and parameters for Meta Loader, for example: :code:`with {foo: 'bar', param1: 'value1'}`
- * (optional) Keyword :code:`if` and expression used for results filtering
-
-Here is an example of the required parameters:
-
-.. code-block:: twig
-
-    {% gimmelist article from articles %}
-        {{ article.title }}
-    {% endgimmelist %}
-
-An here's an example using all parameters:
-
-.. code-block:: twig
-
-    {% gimmelist article from articles|start(0)|limit(10)|order('id', 'desc')
-        with {foo: 'bar', param1: 'value1'}
-        if article.title == "New Article 1"
-    %}
-        {{ article.title }}
-    {% endgimmelist %}
-
-
-How to work with Meta objects
------------------------------
-
-On the template level, every variable in Context and fetched by :code:`gimme` and :code:`gimmelist` is a representation of Meta objects.
-
-
-**dump**
-
-.. code-block:: twig
-
-    {{ dump(article) }}
-
-**print**
-
-.. code-block:: twig
-
-    {{ article }}
-
-If the meta configuration has the :code:`to_string` property then the value of this property will be printed, otherwise it will be represented as JSON.
-
-**access property**
-
-.. code-block:: twig
-
-    {{ article.title }}
-    {{ article['title']}}
-
-**generate url**
-
-.. code-block:: twig
-
-    {{ url(article) }}    // absolute url
-    {{ path(article) }}   // relative path
-
-Here's an example using gimmelist:
-
-.. code-block:: twig
-
-    {% gimmelist article from articles %}
-        <li><a href="{{ url(article) }}">{{ article.title }} </a></li>
-    {% endgimmelist %}
-
-
-Stringy twig extensions
------------------------
-
-We have extended the twig syntax, adding a number of functions for working with strings from a php library. A list of the functions together with a description of each, and of how they are to be invoked in PHP can be found here: https://github.com/danielstjules/Stringy#instance-methods
-
-To call one of these functions in twig, if it returns a boolean, it is available as a twig function. So, for example, the function contains() can be called like this in twig:
-
-.. code-block:: twig
-
-    {% set string_var = 'contains' %}
-    {% if contains(string_var, 'tain') %}string_var{% endif %} // will render contains
-
-Any php function which returns a string is available in twig as a filter. So, for example, the function between() can be called like this in twig:
-
-.. code-block:: twig
-
-    {% set string_var = 'Beginning' %}
-    {{ string_var|between('Be', 'ning') }} // will render gin
-
-And the function camelize(), which doesn't require any parameters, can simply be called like this:
-
-.. code-block:: twig
-
-    {% set string_var = 'Beginning' %}
-    {{ string_var|camelize }} // will render bEGINNING
+    curl -X "PATCH" -d "route[template_name]=custom_route_template.html.twig" -H "Content-type:\ application/x-www-form-urlencoded" /api/v1/content/routes/news

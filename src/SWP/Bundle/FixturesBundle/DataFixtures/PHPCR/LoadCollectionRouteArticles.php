@@ -8,9 +8,10 @@
  * For the full copyright and license information, please see the
  * AUTHORS and LICENSE files distributed with this source code.
  *
- * @copyright 2015 Sourcefabric z.ú.
+ * @copyright 2015 Sourcefabric z.ú
  * @license http://www.superdesk.org/license
  */
+
 namespace SWP\Bundle\FixturesBundle\DataFixtures\PHPCR;
 
 use Doctrine\Common\DataFixtures\FixtureInterface;
@@ -66,6 +67,7 @@ class LoadCollectionRouteArticles extends AbstractFixture implements FixtureInte
                     'parent' => $this->defaultTenantPrefix.'/routes',
                     'name' => 'collection-content',
                     'type' => 'collection',
+                    'articles_template_name' => 'test.html.twig',
                 ],
             ],
         ];
@@ -132,6 +134,13 @@ class LoadCollectionRouteArticles extends AbstractFixture implements FixtureInte
                     'parent' => $this->defaultTenantPrefix.'/content',
                     'locale' => 'en',
                     'templateName' => 'some_content.html.twig',
+                ],
+                [
+                    'title' => 'Some other content',
+                    'content' => 'some other content',
+                    'route' => $this->defaultTenantPrefix.'/routes/collection-content',
+                    'parent' => $this->defaultTenantPrefix.'/content',
+                    'locale' => 'en',
                 ],
             ],
         ];

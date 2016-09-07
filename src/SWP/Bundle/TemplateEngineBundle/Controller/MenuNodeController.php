@@ -8,9 +8,10 @@
  * For the full copyright and license information, please see the
  * AUTHORS and LICENSE files distributed with this source code.
  *
- * @copyright 2015 Sourcefabric z.ú.
+ * @copyright 2015 Sourcefabric z.ú
  * @license http://www.superdesk.org/license
  */
+
 namespace SWP\Bundle\TemplateEngineBundle\Controller;
 
 use Doctrine\ODM\PHPCR\DocumentManager;
@@ -214,7 +215,6 @@ class MenuNodeController extends FOSRestController
         if (null === $nodeId) {
             throw new UnprocessableEntityHttpException('You need to provide menu node Id (name).');
         }
-
 
         $menuProvider = $this->get('swp_template_engine.menu_provider');
         $menuNode = $menuProvider->getMenuNode($menuId, $nodeId);

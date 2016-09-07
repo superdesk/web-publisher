@@ -8,9 +8,10 @@
  * For the full copyright and license information, please see the
  * AUTHORS and LICENSE files distributed with this source code.
  *
- * @copyright 2016 Sourcefabric z.ú.
+ * @copyright 2016 Sourcefabric z.ú
  * @license http://www.superdesk.org/license
  */
+
 namespace SWP\Component\Bridge\Validator;
 
 class NinjsValidator extends JsonValidator
@@ -341,6 +342,10 @@ class NinjsValidator extends JsonValidator
             "description" : "The name of the location from which the content originates.",
             "type" : "string"
         },
+        "keywords": {
+			"description" : "Content keywords",
+			"type" : "array"
+		},
         "renditions" : {
             "description" : "Wrapper for different renditions of non-textual content of the news object",
             "type" : "object",
