@@ -8,9 +8,10 @@
  * For the full copyright and license information, please see the
  * AUTHORS and LICENSE files distributed with this source code.
  *
- * @copyright 2016 Sourcefabric z.ú.
+ * @copyright 2016 Sourcefabric z.ú
  * @license http://www.superdesk.org/license
  */
+
 namespace SWP\Component\MultiTenancy\PathBuilder;
 
 /**
@@ -26,10 +27,10 @@ interface TenantAwarePathBuilderInterface
      *
      * Usage: $pathBuilder->build($data);
      *
-     * @param string|array $data    An array of base paths.
-     * @param string       $context The absolute path context to make path absolute if needed.
+     * @param string|array $data    An array of base paths
+     * @param string       $context The absolute path context to make path absolute if needed
      *
-     * @return string|array The normalized tenant aware path or false.
+     * @return string|array The normalized tenant aware path or false
      */
     public function build($data, $context = null);
 }

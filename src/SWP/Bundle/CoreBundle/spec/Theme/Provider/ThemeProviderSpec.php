@@ -8,9 +8,10 @@
  * For the full copyright and license information, please see the
  * AUTHORS and LICENSE files distributed with this source code.
  *
- * @copyright 2016 Sourcefabric z.ú.
+ * @copyright 2016 Sourcefabric z.ú
  * @license http://www.superdesk.org/license
  */
+
 namespace spec\SWP\Bundle\CoreBundle\Theme\Provider;
 
 use PhpSpec\ObjectBehavior;
@@ -26,22 +27,22 @@ use Sylius\Bundle\ThemeBundle\Repository\ThemeRepositoryInterface;
  */
 class ThemeProviderSpec extends ObjectBehavior
 {
-    function let(ThemeRepositoryInterface $themeRepository, TenantContextInterface $tenantContext)
+    public function let(ThemeRepositoryInterface $themeRepository, TenantContextInterface $tenantContext)
     {
         $this->beConstructedWith($themeRepository, $tenantContext);
     }
 
-    function it_is_initializable()
+    public function it_is_initializable()
     {
         $this->shouldHaveType(ThemeProvider::class);
     }
 
-    function it_has_an_interface()
+    public function it_has_an_interface()
     {
         $this->shouldImplement(ThemeProviderInterface::class);
     }
 
-    function it_gets_all_available_themes_for_current_tenant(
+    public function it_gets_all_available_themes_for_current_tenant(
         ThemeInterface $theme1,
         ThemeInterface $theme2,
         TenantContextInterface $tenantContext,

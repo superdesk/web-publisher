@@ -71,13 +71,13 @@ class ProcessArticleMediaListenerTest extends WebTestCase
         $package = $this->getContainer()->get('swp_bridge.transformer.json_to_package')->transform(self::TEST_PACKAGE);
         $article = $this->getContainer()->get('swp_content.transformer.package_to_article')->transform($package);
 
-        $espected = $text = <<<'EOT'
+        $expected = $text = <<<'EOT'
  <p>here goes the picture</p><p><br></p>
 <!-- EMBED START Image {id: "embedded6358005131"} -->
 <figure><img src="/media/123456789876543210c.jpeg" data-media-id="embedded6358005131" data-image-id="123456789876543210c"><figcaption>man and tractor</figcaption></figure>
 <!-- EMBED END Image {id: "embedded6358005131"} -->
 EOT;
 
-        self::assertEquals($espected, $article->getBody());
+        self::assertEquals($expected, $article->getBody());
     }
 }
