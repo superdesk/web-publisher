@@ -29,15 +29,15 @@ class ArticleType extends AbstractType
             ->add('status', TextType::class, [
                 'required' => true,
                 'constraints' => [
-                   new NotBlank(),
-                   new Length(['min' => 1]),
+                    new NotBlank(),
+                    new Length(['min' => 1]),
                 ],
             ])
             ->add('route', RouteSelectorType::class)
             ->add('template_name', TextType::class, [
                 'required' => true,
                 'constraints' => [
-                   new Length(['min' => 1]),
+                    new Length(['min' => 1]),
                 ],
             ]);
     }

@@ -145,6 +145,7 @@ EOT
      * @param $subdomain
      * @param $name
      * @param $disabled
+     * @param $organization
      *
      * @return TenantInterface
      */

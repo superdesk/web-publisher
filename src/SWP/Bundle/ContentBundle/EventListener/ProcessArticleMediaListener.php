@@ -25,6 +25,7 @@ use SWP\Bundle\ContentBundle\Model\ArticleInterface;
 use SWP\Component\Bridge\Model\ItemInterface;
 use SWP\Component\Bridge\Model\Rendition;
 use SWP\Component\MultiTenancy\PathBuilder\TenantAwarePathBuilderInterface;
+use Symfony\Component\DomCrawler\Crawler;
 
 class ProcessArticleMediaListener
 {
@@ -118,6 +119,7 @@ class ProcessArticleMediaListener
 
         if (ItemInterface::TYPE_PICTURE === $item->getType()) {
             $this->createImageMedia($articleMedia, $item);
+            $this->replaceBodyImagesWithMedia($article, $articleMedia);
         } elseif (ItemInterface::TYPE_FILE === $item->getType()) {
             //TODO: handle files upload
         }
@@ -140,16 +142,22 @@ class ProcessArticleMediaListener
         /* @var $originalRendition Rendition */
         $originalRendition = $item->getRenditions()['original'];
         $articleMedia->setMimetype($originalRendition->getMimetype());
-        $image = $this->objectManager->find(Image::class, $this->pathBuilder->build($this->mediaBasepath).'/'.$originalRendition->getMedia());
+        $image = $this->objectManager->find(
+            Image::class,
+            $this->pathBuilder->build($this->mediaBasepath).'/'.$this->mediaManager->handleMediaId($originalRendition->getMedia())
+        );
         $articleMedia->setImage($image);
 
         // create document node for renditions
         $renditionsDocument = $this->createGenericDocument('renditions', $articleMedia);
         /* @var $rendition Rendition */
         foreach ($item->getRenditions() as $key => $rendition) {
-            $image = $this->objectManager->find(Image::class, $this->pathBuilder->build($this->mediaBasepath).'/'.$rendition->getMedia());
+            $image = $this->objectManager->find(
+                Image::class,
+                $this->pathBuilder->build($this->mediaBasepath).'/'.$this->mediaManager->handleMediaId($rendition->getMedia())
+            );
             if (null === $image) {
-                return;
+                continue;
             }
 
             $imageRendition = new ImageRendition();
@@ -164,6 +172,42 @@ class ProcessArticleMediaListener
         }
 
         return $articleMedia;
+    }
+
+    /**
+     * @param ArticleInterface $article
+     * @param ArticleMedia     $articleMedia
+     */
+    private function replaceBodyImagesWithMedia($article, $articleMedia)
+    {
+        $body = $article->getBody();
+        $mediaId = $articleMedia->getId();
+
+        preg_match(
+            "/(<!-- EMBED START Image {id: \"$mediaId\"} -->)(.+?)(<!-- EMBED END Image {id: \"$mediaId\"} -->)/im",
+            str_replace(PHP_EOL, '', $body),
+            $embeds
+        );
+        $figureString = $embeds[2];
+
+        $crawler = new Crawler($figureString);
+        $images = $crawler->filter('figure img');
+        /** @var \DOMElement $imageElement */
+        foreach ($images as $imageElement) {
+            foreach ($articleMedia->getRenditions() as $rendition) {
+                if (strpos($imageElement->getAttribute('src'), $rendition->getImage()->getId()) !== false) {
+                    $attributes = $imageElement->attributes;
+                    while ($attributes->length) {
+                        $imageElement->removeAttribute($attributes->item(0)->name);
+                    }
+                    $imageElement->setAttribute('src', $this->mediaManager->getMediaUri($rendition->getImage()));
+                    $imageElement->setAttribute('data-media-id', $mediaId);
+                    $imageElement->setAttribute('data-image-id', $rendition->getImage()->getId());
+                }
+            }
+        }
+
+        $article->setBody(str_replace($figureString, $crawler->filter('body')->html(), $body));
     }
 
     /**

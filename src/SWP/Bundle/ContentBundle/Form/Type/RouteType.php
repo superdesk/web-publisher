@@ -23,29 +23,35 @@ use Symfony\Component\Validator\Constraints\GreaterThanOrEqual;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
 
+/**
+ * Form Type for Routes.
+ */
 class RouteType extends AbstractType
 {
+    /**
+     * {@inheritdoc}
+     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
             ->add('name', TextType::class, [
                 'required' => true,
                 'constraints' => [
-                   new NotBlank(),
-                   new Length(['min' => 1]),
+                    new NotBlank(),
+                    new Length(['min' => 1]),
                 ],
             ])
             ->add('type', TextType::class, [
                 'required' => true,
                 'constraints' => [
-                   new NotBlank(),
-                   new Length(['min' => 1]),
+                    new NotBlank(),
+                    new Length(['min' => 1]),
                 ],
             ])
             ->add('template_name', TextType::class, [
                 'required' => false,
                 'constraints' => [
-                   new Length(['min' => 1]),
+                    new Length(['min' => 1]),
                 ],
             ])
             ->add('articles_template_name', TextType::class, [
@@ -57,13 +63,13 @@ class RouteType extends AbstractType
             ->add('parent', TextType::class, [
                 'required' => false,
                 'constraints' => [
-                   new Length(['min' => 1]),
+                    new Length(['min' => 1]),
                 ],
             ])
             ->add('content', TextType::class, [
                 'required' => false,
                 'constraints' => [
-                   new Length(['min' => 1]),
+                    new Length(['min' => 1]),
                 ],
                 'description' => 'Content path name e.g.: test-content-article',
             ])
@@ -75,11 +81,17 @@ class RouteType extends AbstractType
             ]);
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(['csrf_protection' => false]);
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getName()
     {
         return 'route';

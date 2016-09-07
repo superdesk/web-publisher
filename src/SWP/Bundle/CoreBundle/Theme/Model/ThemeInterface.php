@@ -22,4 +22,9 @@ interface ThemeInterface extends BaseThemeInterface
      * @param string $name
      */
     public function setName($name);
+
+    /**
+     * @return $array
+     */
+    public function getDefaultTemplates();
 }
