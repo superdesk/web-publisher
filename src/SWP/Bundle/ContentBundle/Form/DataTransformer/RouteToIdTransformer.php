@@ -8,9 +8,10 @@
  * For the full copyright and license information, please see the
  * AUTHORS and LICENSE files distributed with this source code.
  *
- * @copyright 2016 Sourcefabric z.ú.
+ * @copyright 2016 Sourcefabric z.ú
  * @license http://www.superdesk.org/license
  */
+
 namespace SWP\Bundle\ContentBundle\Form\DataTransformer;
 
 use SWP\Bundle\ContentBundle\Model\RouteInterface;
@@ -46,7 +47,7 @@ final class RouteToIdTransformer implements DataTransformerInterface
     public function transform($route)
     {
         if (null === $route) {
-            return '';
+            return;
         }
 
         if (!$route instanceof RouteInterface) {
@@ -63,7 +64,7 @@ final class RouteToIdTransformer implements DataTransformerInterface
      *
      * @return RouteInterface|void
      *
-     * @throws TransformationFailedException if object (route) is not found.
+     * @throws TransformationFailedException if object (route) is not found
      */
     public function reverseTransform($routeId)
     {

@@ -11,12 +11,16 @@
  * @copyright 2016 Sourcefabric z.ú.
  * @license http://www.superdesk.org/license
  */
+
 namespace spec\SWP\Bundle\ContentBundle\Form\DataTransformer;
 
 use SWP\Bundle\ContentBundle\Form\DataTransformer\RouteToIdTransformer;
 use PhpSpec\ObjectBehavior;
+use SWP\Bundle\ContentBundle\Model\RouteInterface;
 use SWP\Bundle\ContentBundle\Provider\RouteProviderInterface;
 use Symfony\Component\Form\DataTransformerInterface;
+use Symfony\Component\Form\Exception\TransformationFailedException;
+use Symfony\Component\Form\Exception\UnexpectedTypeException;
 
 /**
  * @mixin RouteToIdTransformer
@@ -38,8 +42,45 @@ final class RouteToIdTransformerSpec extends ObjectBehavior
         $this->shouldImplement(DataTransformerInterface::class);
     }
 
-    function it_should_return_empty_string_if_null_transformed()
+    function it_should_return_null_if_null_transformed()
     {
-        $this->transform(null)->shouldReturn('');
+        $this->transform(null)->shouldReturn(null);
+    }
+
+    function it_should_throw_an_exception_when_not_route()
+    {
+        $this
+            ->shouldThrow(UnexpectedTypeException::class)
+            ->duringTransform(new \stdClass())
+        ;
+    }
+
+    function it_should_transform_route_to_id(RouteInterface $route)
+    {
+        $route->getId()->willReturn('/some/path/id');
+
+        $this->transform($route)->shouldReturn('/some/path/id');
+    }
+
+    function it_should_return_null_if_null_reverse_transformed()
+    {
+        $this->reverseTransform(null)->shouldReturn(null);
+    }
+
+    function it_should_throw_an_exception_during_reverse_transform()
+    {
+        $this
+            ->shouldThrow(TransformationFailedException::class)
+            ->duringReverseTransform('')
+        ;
+    }
+
+    function it_should_reverse_transform_id_to_route(
+        RouteProviderInterface $routeProvider,
+        RouteInterface $route
+    ) {
+        $routeProvider->getOneById('some-id')->willReturn($route);
+
+        $this->reverseTransform('some-id')->shouldReturn($route);
     }
 }

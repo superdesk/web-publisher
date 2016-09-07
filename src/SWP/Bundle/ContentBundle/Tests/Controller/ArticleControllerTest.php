@@ -15,9 +15,13 @@
 namespace SWP\Bundle\TemplateEngineBundle\Tests\Controller;
 
 use SWP\Bundle\FixturesBundle\WebTestCase;
+use Symfony\Component\Routing\RouterInterface;
 
 class ArticleControllerTest extends WebTestCase
 {
+    /**
+     * @var RouterInterface
+     */
     protected $router;
 
     /**
@@ -88,5 +92,77 @@ class ArticleControllerTest extends WebTestCase
         $crawler = $client->request('GET', '/articles/features');
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
         $this->assertTrue($crawler->filter('html:contains("Features")')->count() === 1);
+    }
+
+    public function testAssigningRouteToArticleWhenArticleHasNoRoute()
+    {
+        $client = static::createClient();
+        $client->request('PATCH', $this->router->generate('swp_api_content_update_articles', ['id' => 'features']), [
+            'article' => [
+                'route' => null,
+            ],
+        ]);
+
+        self::assertEquals(200, $client->getResponse()->getStatusCode());
+    }
+
+    public function testUnassigningRouteFromArticle()
+    {
+        $client = static::createClient();
+        $client->request('PATCH', $this->router->generate('swp_api_content_update_articles', ['id' => 'features']), [
+            'article' => [
+                'route' => null,
+            ],
+        ]);
+
+        self::assertEquals(200, $client->getResponse()->getStatusCode());
+        self::assertArraySubset(['route' => null], json_decode($client->getResponse()->getContent(), true));
+
+        $client->request('PATCH', $this->router->generate('swp_api_content_update_articles', ['id' => 'features']), [
+            'article' => [
+                'route' => 'articles/features',
+            ],
+        ]);
+
+        self::assertEquals(200, $client->getResponse()->getStatusCode());
+        self::assertArraySubset(
+            ['route' => ['id' => '/swp/123456/123abc/routes/articles/features']],
+            json_decode($client->getResponse()->getContent(), true)
+        );
+    }
+
+    public function testSwitchingRouteForArticle()
+    {
+        $client = static::createClient();
+
+        $client->request('GET', $this->router->generate('swp_api_content_update_articles', ['id' => 'test-news-article']));
+
+        self::assertEquals(200, $client->getResponse()->getStatusCode());
+        self::assertArraySubset(['route' => ['id' => '/swp/123456/123abc/routes/news']], json_decode($client->getResponse()->getContent(), true));
+
+        $client->request('PATCH', $this->router->generate('swp_api_content_update_articles', ['id' => 'test-news-article']), [
+            'article' => [
+                'route' => 'articles/features',
+            ],
+        ]);
+
+        self::assertEquals(200, $client->getResponse()->getStatusCode());
+        self::assertArraySubset(
+            ['route' => ['id' => '/swp/123456/123abc/routes/articles/features']],
+            json_decode($client->getResponse()->getContent(), true)
+        );
+    }
+
+    public function testAssigningNotExistingRouteForArticle()
+    {
+        $client = static::createClient();
+
+        $client->request('PATCH', $this->router->generate('swp_api_content_update_articles', ['id' => 'features']), [
+            'article' => [
+                'route' => 'fake-route-name',
+            ],
+        ]);
+
+        self::assertEquals(400, $client->getResponse()->getStatusCode());
     }
 }
