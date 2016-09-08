@@ -56,7 +56,7 @@ final class RouteSelectorTypeSpec extends ObjectBehavior
     function it_should_set_defaults(OptionsResolver $resolver)
     {
         $resolver
-            ->setDefaults(['invalid_message' => 'The selected route does not exist!',])
+            ->setDefaults(['invalid_message' => 'The selected route does not exist!'])
             ->shouldBeCalled()
         ;
 

@@ -55,7 +55,7 @@ final class ArticleSelectorTypeSpec extends ObjectBehavior
     function it_should_set_defaults(OptionsResolver $resolver)
     {
         $resolver
-            ->setDefaults(['invalid_message' => 'The selected article does not exist!',])
+            ->setDefaults(['invalid_message' => 'The selected article does not exist!'])
             ->shouldBeCalled()
         ;
 
