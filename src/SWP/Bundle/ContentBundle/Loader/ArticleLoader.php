@@ -18,6 +18,7 @@ use PHPCR\Query\QueryInterface;
 use SWP\Component\TemplatesSystem\Gimme\Factory\MetaFactoryInterface;
 use SWP\Component\TemplatesSystem\Gimme\Loader\LoaderInterface;
 use SWP\Component\TemplatesSystem\Gimme\Meta\Meta;
+use SWP\Component\TemplatesSystem\Gimme\Meta\MetaCollection;
 use Symfony\Cmf\Bundle\CoreBundle\PublishWorkflow\PublishWorkflowChecker;
 use Doctrine\ODM\PHPCR\DocumentManager;
 use SWP\Component\MultiTenancy\PathBuilder\TenantAwarePathBuilderInterface;
@@ -141,6 +142,7 @@ class ArticleLoader implements LoaderInterface
                     }
 
                     $query = $this->dm->createPhpcrQuery($queryStr, QueryInterface::JCR_SQL2);
+                    $countQuery = clone $query;
 
                     if (isset($parameters['limit'])) {
                         $query->setLimit($parameters['limit']);
@@ -152,15 +154,16 @@ class ArticleLoader implements LoaderInterface
 
                     $articles = $this->dm->getDocumentsByPhpcrQuery($query);
 
-                    $meta = [];
+                    $metaCollection = new MetaCollection();
+                    $metaCollection->setTotalItemsCount($countQuery->execute()->getRows()->count());
                     foreach ($articles as $article) {
                         $articleMeta = $this->getArticleMeta($article);
                         if ($articleMeta) {
-                            $meta[] = $articleMeta;
+                            $metaCollection->add($articleMeta);
                         }
                     }
 
-                    return $meta;
+                    return $metaCollection;
                 }
             }
         }

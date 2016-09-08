@@ -189,6 +189,78 @@ class ContentPushControllerTest extends WebTestCase
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
     }
 
+    public function testRenderingContentWithMedia()
+    {
+        $filesystem = new Filesystem();
+        $filesystem->remove($this->getContainer()->getParameter('kernel.cache_dir').'/uploads');
+
+        $client = static::createClient();
+        $client->request(
+            'POST',
+            $this->router->generate('swp_api_assets_push'),
+            [
+                'media_id' => '1234567890987654321a',
+                'media' => new UploadedFile(__DIR__.'/../Resources/test_file.png', 'test_file.png', 'image/png', 3992, null, true),
+            ]
+        );
+        $client = static::createClient();
+        $client->request(
+            'POST',
+            $this->router->generate('swp_api_assets_push'),
+            [
+                'media_id' => '1234567890987654321b',
+                'media' => new UploadedFile(__DIR__.'/../Resources/test_file.png', 'test_file.png', 'image/png', 3992, null, true),
+            ]
+        );
+        $client = static::createClient();
+        $client->request(
+            'POST',
+            $this->router->generate('swp_api_assets_push'),
+            [
+                'media_id' => '1234567890987654321c',
+                'media' => new UploadedFile(__DIR__.'/../Resources/test_file.png', 'test_file.png', 'image/png', 3992, null, true),
+            ]
+        );
+
+        $client = static::createClient();
+        $client->request('POST', $this->router->generate('swp_api_content_create_routes'), [
+            'route' => [
+                'name' => 'articles',
+                'type' => 'collection',
+                'parent' => '/',
+                'content' => null,
+            ],
+        ]);
+
+        $client->request(
+            'POST',
+            $this->router->generate('swp_api_content_push'),
+            [],
+            [],
+            ['CONTENT_TYPE' => 'application/json'],
+            self::TEST_CONTENT_WITH_MEDIA
+        );
+        $this->assertEquals(201, $client->getResponse()->getStatusCode());
+
+        $client->request('PATCH', $this->router->generate('swp_api_content_update_articles', ['id' => 'text-item-with-image']), [
+            'article' => [
+                'status' => 'published',
+            ],
+        ]);
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+        $content = json_decode($client->getResponse()->getContent(), true);
+
+        $client->request(
+            'GET',
+            $this->router->generate($content['route']['id'], ['slug' => 'text-item-with-image'])
+        );
+
+        $content = $client->getResponse()->getContent();
+        self::assertContains('<img alt="Article loaded from context" src="http://localhost/media/1234567890987654321c.png" />', $content);
+        self::assertContains('<img alt="Article defined in parameters" src="http://localhost/media/1234567890987654321c.png" />', $content);
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+    }
+
     public function testAssigningContentToCollectionRouteWithParentRoute()
     {
         $client = static::createClient();

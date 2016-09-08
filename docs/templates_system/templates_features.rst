@@ -97,6 +97,54 @@ An here's an example using all parameters:
     {% endgimmelist %}
 
 
+How to work with :code:`gimmelist` pagination?
+----------------------------------------------
+
+:code:`gimmelist` is based on Twig :code:`for` tag, like in Twig there is `loop <http://twig.sensiolabs.org/doc/tags/for.html#the-loop-variable>`_ variable available.
+In addition to default loop properties there is also :code:`totalLength`. It's filled by loader with number of total elements in storage which are matching criteria. Thanks to this addition we can build real pagination.
+
+:code:`TemplateEngine` Bundle provides simple default pagination template file: :code:`pagination.html.twig`.
+
+.. note::
+
+    You can override that template with :code:`SWPTemplateEngineBundle/views/pagination.html.twig` file in Your theme. Or You can use own file used for pagination rendering.
+
+Here is commented example of pagination:
+
+.. code-block:: twig
+
+    {# Setup list and pagination parameters #}
+    {% set itemsPerPage, currentPage = 1, app.request.get('page', 1) %}
+    {% set start = (currentPage / itemsPerPage) - 1 %}
+
+    {# List all articles from route '/news' and limit them to `itemsPerPage` value starting from `start` value #}
+    {% gimmelist article from articles|start(start)|limit(itemsPerPage) with {'route': '/news'} %}
+        <li><a href="{{ url(article) }}">{{ article.title }} </a></li>
+
+        {# Render pagination only at end of list #}
+        {% if loop.last  %}
+            {#
+                Use provided by default pagination template
+
+                Parameters:
+                * currentFilters (array) : associative array that contains the current route-arguments
+                * currentPage (int) : the current page you are in
+                * paginationPath (Meta|string) : the route name (or supported by router Meta object) to use for links
+                * lastPage (int) : represents the total number of existing pages
+                * showAlwaysFirstAndLast (bool) : Always show first and last link (just disabled)
+            #}
+            {% include '@SWPTemplateEngine/pagination.html.twig' with {
+                currentFilters: {}|merge(app.request.query.all()),
+                currentPage: currentPage,
+                paginationPath: gimme.route,
+                lastPage: (loop.totalLength/itemsPerPage)|round(1, 'ceil'),
+                showAlwaysFirstAndLast: true
+            } only %}
+        {% endif %}
+    {% endgimmelist %}
+
+
+
 How to work with Meta objects
 -----------------------------
 

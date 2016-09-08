@@ -56,21 +56,9 @@ class ContextSpec extends ObjectBehavior
         $this->article->shouldReturn($meta);
     }
 
-    public function it_should_save_and_read_current_page_info()
+    public function it_should_save_and_read_current_page_info(Meta $meta)
     {
-        $currentPage = [
-            'id' => 1,
-            'name' => 'About',
-            'type' => 1,
-            'slug' => 'about-us',
-            'templateName' => 'static.html.twig',
-            'externalUrl' => null,
-            'contentPath' => '/content/about-us',
-            'articles' => null,
-            'route_name' => 'swp_page_about',
-        ];
-
-        $this->setCurrentPage($currentPage)->shouldReturn($this);
-        $this->getCurrentPage()->shouldReturn($currentPage);
+        $this->setCurrentPage($meta)->shouldReturn($this);
+        $this->getCurrentPage()->shouldReturn($meta);
     }
 }

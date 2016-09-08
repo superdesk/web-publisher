@@ -31,7 +31,7 @@ class MetaRouterTest extends WebTestCase
     public function testSupports()
     {
         $router = $this->getContainer()->get('cmf_routing.dynamic_router');
-        $this->assertFalse($router->supports('some_string'));
+        $this->assertTrue($router->supports('some_string'));
     }
 
     public function testGenerate()

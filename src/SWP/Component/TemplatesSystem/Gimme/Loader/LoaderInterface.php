@@ -14,6 +14,9 @@
 
 namespace SWP\Component\TemplatesSystem\Gimme\Loader;
 
+use SWP\Component\TemplatesSystem\Gimme\Meta\MetaCollection;
+use SWP\Component\TemplatesSystem\Gimme\Meta\Meta;
+
 /**
  * LoaderInterface is the interface all loaders must implement.
  */
@@ -29,7 +32,7 @@ interface LoaderInterface
      * @param array|null $parameters   parameters needed to load required object type
      * @param int        $responseType response type: single meta (LoaderInterface::SINGLE) or collection of metas (LoaderInterface::COLLECTION)
      *
-     * @return mixed false if meta cannot be loaded, a Meta instance otherwise
+     * @return bool|Meta|MetaCollection false if meta cannot be loaded, a Meta instance otherwise or MetaCollection instance (in case of LoaderInterface::COLLECTION response type)
      */
     public function load($metaType, $parameters = [], $responseType = self::SINGLE);
 

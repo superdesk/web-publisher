@@ -20,6 +20,7 @@ use SWP\Component\TemplatesSystem\Gimme\Factory\MetaFactory;
 use SWP\Component\TemplatesSystem\Gimme\Loader\LoaderInterface;
 use SWP\Component\TemplatesSystem\Gimme\Meta\Meta;
 use Doctrine\ODM\PHPCR\DocumentManager;
+use SWP\Component\TemplatesSystem\Gimme\Meta\MetaCollection;
 
 /**
  * Class ArticleMediaLoader.
@@ -85,12 +86,25 @@ class ArticleMediaLoader implements LoaderInterface
             }
 
             if ($media) {
-                $meta = [];
-                foreach ($media->getChildren() as $item) {
-                    $meta[] = $this->metaFactory->create($item);
+                $items = $media->getChildren();
+                $metaCollection = new MetaCollection();
+                $metaCollection->setTotalItemsCount($items->count());
+
+                if (isset($parameters['limit'])) {
+                    if (isset($parameters['start'])) {
+                        $start = $parameters['start'];
+                    } else {
+                        $start = 0;
+                    }
+
+                    $items = $items->slice($start, $parameters['limit']);
                 }
 
-                return $meta;
+                foreach ($items as $item) {
+                    $metaCollection->add($this->metaFactory->create($item));
+                }
+
+                return $metaCollection;
             }
         }
 
