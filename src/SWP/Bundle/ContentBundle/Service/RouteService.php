@@ -80,7 +80,7 @@ class RouteService implements RouteServiceInterface
         $this->eventDispatcher->dispatch($eventName, new RouteEvent($route));
     }
 
-    public function fillRoute(RouteObjectInterface $route)
+    private function fillRoute(RouteObjectInterface $route)
     {
         switch ($route->getType()) {
             case RouteInterface::TYPE_CONTENT:

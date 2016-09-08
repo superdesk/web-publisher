@@ -88,7 +88,7 @@ class LoadCollectionRouteArticles extends AbstractFixture implements FixtureInte
                 $route->setArticlesTemplateName($routeData['articles_template_name']);
             }
 
-            $routeService->fillRoute($route);
+            $routeService->createRoute($route);
 
             $manager->persist($route);
         }
