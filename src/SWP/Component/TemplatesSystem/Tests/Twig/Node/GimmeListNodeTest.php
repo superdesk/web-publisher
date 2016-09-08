@@ -112,7 +112,7 @@ class GimmeListNodeTest extends \Twig_Test_NodeTestCase
 
         return [
             [$node1, <<<EOF
-\$parameters = null;
+\$parameters = [];
 \$swpCollectionMetaLoader1 = \$this->env->getExtension('swp_gimme')->getLoader();
 \$context["articles"] = twig_ensure_traversable(\$swpCollectionMetaLoader1->load("articles", \$parameters, \SWP\Component\TemplatesSystem\Gimme\Loader\LoaderInterface::COLLECTION));
 \$context['_parent'] = (array) \$context;
@@ -127,7 +127,11 @@ if (is_array(\$context["articles"]) || (is_object(\$context["articles"]) && \$co
     \$context['loop']['revindex0'] = \$length - 1;
     \$context['loop']['revindex'] = \$length;
     \$context['loop']['length'] = \$length;
+    \$context['loop']['totalLength'] = \$length;
     \$context['loop']['last'] = 1 === \$length;
+}
+if(is_object(\$context["articles"]) && \$context["articles"] instanceof \SWP\Component\TemplatesSystem\Gimme\Meta\MetaCollection) {
+    \$context['loop']['totalLength'] = \$context["articles"]->getTotalItemCount();
 }
 foreach (\$context["articles"] as \$_key => \$context["article"]) {
     // line 1
@@ -199,7 +203,11 @@ if (is_array(\$context["articles"]) || (is_object(\$context["articles"]) && \$co
     \$context['loop']['revindex0'] = \$length - 1;
     \$context['loop']['revindex'] = \$length;
     \$context['loop']['length'] = \$length;
+    \$context['loop']['totalLength'] = \$length;
     \$context['loop']['last'] = 1 === \$length;
+}
+if(is_object(\$context["articles"]) && \$context["articles"] instanceof \SWP\Component\TemplatesSystem\Gimme\Meta\MetaCollection) {
+    \$context['loop']['totalLength'] = \$context["articles"]->getTotalItemCount();
 }
 foreach (\$context["articles"] as \$_key => \$context["article"]) {
     // line 1
@@ -238,7 +246,11 @@ if (is_array(\$context["articles"]) || (is_object(\$context["articles"]) && \$co
     \$context['loop']['revindex0'] = \$length - 1;
     \$context['loop']['revindex'] = \$length;
     \$context['loop']['length'] = \$length;
+    \$context['loop']['totalLength'] = \$length;
     \$context['loop']['last'] = 1 === \$length;
+}
+if(is_object(\$context["articles"]) && \$context["articles"] instanceof \SWP\Component\TemplatesSystem\Gimme\Meta\MetaCollection) {
+    \$context['loop']['totalLength'] = \$context["articles"]->getTotalItemCount();
 }
 foreach (\$context["articles"] as \$_key => \$context["article"]) {
     // line 1

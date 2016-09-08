@@ -27,10 +27,10 @@ class MetaRouter extends DynamicRouter
     public function generate($name, $parameters = [], $referenceType = false)
     {
         $route = $name;
-        if ($name->getValues() instanceof ArticleInterface) {
+        if (is_object($name) && $name->getValues() instanceof ArticleInterface) {
             $parameters['slug'] = $name->getValues()->getSlug();
             $route = $name->getValues()->getRoute();
-        } elseif ($name->getValues() instanceof RouteInterface) {
+        } elseif (is_object($name) && $name->getValues() instanceof RouteInterface) {
             $route = $name->getValues();
         }
 
@@ -45,6 +45,6 @@ class MetaRouter extends DynamicRouter
         return $name instanceof Meta && (
             $name->getValues() instanceof ArticleInterface ||
             $name->getValues() instanceof RouteInterface
-        );
+        ) || is_string($name);
     }
 }

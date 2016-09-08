@@ -57,7 +57,7 @@ class File extends BaseFile implements PersistableInterface, HierarchyInterface
     public function setParentDocument($parent)
     {
         if (!is_object($parent)) {
-            throw new InvalidArgumentException('Parent must be an object '.gettype($parent).' given.');
+            throw new \InvalidArgumentException('Parent must be an object '.gettype($parent).' given.');
         }
 
         $this->parent = $parent;

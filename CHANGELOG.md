@@ -7,6 +7,10 @@ in 0.1 minor versions.
 
 To get the diff for a specific change, go to https://github.com/superdesk/web-publisher/commit/XXX where XXX is the change hash
 
+* 0.1.0-6
+
+ * feature [#132] [Template System][TemplateEngine Bundle] implement pagination in gimmelist
+
 * 0.1.0-5 
 
  * bug [#129] [CoreBundle][ContentBundle] Change template name discovery, add articles_template_name to route (see updated documentation)

@@ -19,7 +19,7 @@ use SWP\Component\TemplatesSystem\Gimme\Context\Context;
 /**
  * Class Meta.
  */
-class Meta
+class Meta implements MetaInterface
 {
     /**
      * Original Meta values (json|array|object).
@@ -208,7 +208,7 @@ class Meta
     }
 
     /**
-     * Don't serialize values.
+     * Don't serialize values, context and configuration.
      *
      * @return array
      */
