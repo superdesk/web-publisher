@@ -14,7 +14,6 @@
 
 namespace SWP\Bundle\ContentBundle\Form\DataTransformer;
 
-use Doctrine\ODM\PHPCR\Document\Generic;
 use SWP\Bundle\ContentBundle\Model\RouteInterface;
 use SWP\Bundle\ContentBundle\Provider\RouteProviderInterface;
 use Symfony\Component\Form\DataTransformerInterface;
