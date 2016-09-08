@@ -1,0 +1,4 @@
+SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\Route:
+    properties:
+        type:
+            - SWP\Bundle\ContentBundle\Validator\Constraints\RouteType: ~
