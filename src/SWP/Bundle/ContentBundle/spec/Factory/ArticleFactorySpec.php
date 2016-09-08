@@ -23,6 +23,7 @@ use SWP\Bundle\ContentBundle\Model\ArticleInterface;
 use SWP\Bundle\ContentBundle\Model\RouteInterface;
 use SWP\Bundle\ContentBundle\Provider\ArticleProviderInterface;
 use SWP\Bundle\ContentBundle\Provider\RouteProviderInterface;
+use SWP\Bundle\ContentBundle\Service\RouteToArticleMapper;
 use SWP\Component\Bridge\Model\Item;
 use SWP\Component\Bridge\Model\PackageInterface;
 use SWP\Component\Storage\Factory\FactoryInterface;
@@ -32,9 +33,9 @@ use SWP\Component\Storage\Factory\FactoryInterface;
  */
 class ArticleFactorySpec extends ObjectBehavior
 {
-    public function let(FactoryInterface $factory, RouteProviderInterface $routeProvider, ArticleProviderInterface $articleProvider)
+    public function let(FactoryInterface $factory, RouteProviderInterface $routeProvider, ArticleProviderInterface $articleProvider, RouteToArticleMapper $routeToArticleMapper)
     {
-        $this->beConstructedWith($factory, $routeProvider, $articleProvider, 'test');
+        $this->beConstructedWith($factory, $routeProvider, $articleProvider, $routeToArticleMapper, 'test');
     }
 
     public function it_is_initializable()

@@ -44,5 +44,8 @@ class SWPContentExtension extends Extension
             );
             $loader->load('providers.yml');
         }
+        if ($config['persistence']['phpcr']['enabled']) {
+            $this->registerStorage(Drivers::DRIVER_DOCTRINE_ORM, $config['persistence']['orm']['classes'], $container);
+        }
     }
 }

@@ -79,6 +79,10 @@ doctrine:
                         type: yml
                         prefix: SWP\Bundle\AnalyticsBundle\Model
                         dir: Resources/config/doctrine
+                    SWPContentBundle:
+                        type: yml
+                        prefix: SWP\Bundle\ContentBundle\Doctrine\ORM
+                        dir: Resources/config/doctrine-orm
                     SWPTemplateEngineBundle:
                         type: yml
                         prefix: SWP\Bundle\TemplateEngineBundle\Model
@@ -231,6 +235,7 @@ swp_core:
 swp_content:
     persistence:
         phpcr: true
+        orm: true
 
 swp_bridge:
     persistence:

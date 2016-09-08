@@ -1,0 +1,21 @@
+SWP\Bundle\ContentBundle\Doctrine\ORM\RouteToArticle:
+    type: entity
+    table: swp_route_to_article
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        rule:
+            type: string
+        priority:
+            type: integer
+        routeId:
+            type: string
+        templateName:
+            type: string
+            nullable: true
+        tenantCode:
+            type: string

@@ -1,0 +1,18 @@
+SWP\Bundle\ContentBundle\Model\RouteToArticle:
+    exclusion_policy: ALL
+    properties:
+        id:
+            expose: true
+            type: string
+        rule:
+            expose: true
+            type: string
+        priority:
+            expose: true
+            type: integer
+        routeId:
+            expose: true
+            type: string
+        templateName:
+            expose: true
+            type: string

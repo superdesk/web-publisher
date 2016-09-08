@@ -17,6 +17,7 @@ namespace SWP\Bundle\ContentBundle\Factory;
 use SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\ArticleInterface;
 use SWP\Bundle\ContentBundle\Provider\ArticleProviderInterface;
 use SWP\Bundle\ContentBundle\Provider\RouteProviderInterface;
+use SWP\Bundle\ContentBundle\Service\RouteToArticleMapperInterface;
 use SWP\Component\Bridge\Model\ItemInterface;
 use SWP\Component\Bridge\Model\PackageInterface;
 use SWP\Component\Storage\Factory\FactoryInterface;
@@ -37,6 +38,11 @@ class ArticleFactory implements ArticleFactoryInterface
      * @var ArticleProviderInterface
      */
     private $articleProvider;
+
+    /**
+     * @var RouteToArticleMapperInterface
+     */
+    private $routeToArticleMapper;
 
     /**
      * @var string
@@ -65,11 +71,13 @@ class ArticleFactory implements ArticleFactoryInterface
         FactoryInterface $baseFactory,
         RouteProviderInterface $routeProvider,
         ArticleProviderInterface $articleProvider,
+        RouteToArticleMapperInterface $routeToArticleMapper,
         $contentRelativePath
     ) {
         $this->baseFactory = $baseFactory;
         $this->routeProvider = $routeProvider;
         $this->articleProvider = $articleProvider;
+        $this->routeToArticleMapper = $routeToArticleMapper;
         $this->contentRelativePath = $contentRelativePath;
     }
 
@@ -93,7 +101,9 @@ class ArticleFactory implements ArticleFactoryInterface
         $article->setParentDocument($this->articleProvider->getParent($this->contentRelativePath));
         $article->setTitle($package->getHeadline());
         $article->setLocale($package->getLanguage());
-        $article->setRoute($this->routeProvider->getRouteForArticle($article));
+        if (!$this->routeToArticleMapper->assignRouteToArticle($article)) {
+            $article->setRoute($this->routeProvider->getRouteForArticle($article));
+        }
         $article->setMetadata($package->getMetadata());
 
         return $article;

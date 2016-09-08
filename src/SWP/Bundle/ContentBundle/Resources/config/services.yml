@@ -5,6 +5,7 @@ parameters:
     swp_content_bundle.listener.http_cache_header.class: SWP\Bundle\ContentBundle\EventListener\HttpCacheHeaderListener
     swp_content_bundle.manager.media.class: SWP\Bundle\ContentBundle\Manager\MediaManager
     swp_content_bundle.router.media.class: SWP\Bundle\ContentBundle\Routing\MediaRouter
+    swp_content_bundle.rule_evaluator.class: SWP\Bundle\ContentBundle\Service\RuleEvaluator
 
 services:
     swp_template_engine.loader.article:
@@ -110,3 +111,21 @@ services:
         parent: "router.symfony"
         tags:
             - { name: router, priority: 300 }
+
+    swp_content_bundle.valid_route_id:
+        class: SWP\Bundle\ContentBundle\Validator\Constraints\RouteIdValidator
+        arguments:
+            - '@swp.provider.route'
+        tags:
+            - { name: validator.constraint_validator, alias: route_in_database }
+
+    swp_content_bundle.rule_evaluator:
+        class: "%swp_content_bundle.rule_evaluator.class%"
+
+    swp_content_bundle.route_to_article.mapper:
+        class: SWP\Bundle\ContentBundle\Service\RouteToArticleMapper
+        arguments:
+            - "@swp.repository.routetoarticle"
+            - "@swp.provider.route"
+            - "@swp_content_bundle.rule_evaluator"
+            - "@logger"

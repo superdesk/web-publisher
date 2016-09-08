@@ -7,3 +7,4 @@ Bundles
    SWPMultiTenancyBundle/index
    SWPStorageBundle/index
    SWPBridgeBundle/index
+   SWPContentBundle/index

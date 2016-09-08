@@ -42,7 +42,8 @@ class RegisterArticleFactoryPassSpec extends ObjectBehavior
     public function it_creates_a_default_definition_of_article_factory(
         ContainerBuilder $container,
         Definition $routeProviderDefinition,
-        Definition $articleProviderDefinition
+        Definition $articleProviderDefinition,
+        Definition $articleToRouteMapperDefinition
     ) {
         $container->hasDefinition('swp.factory.article')->willReturn(true);
         $baseDefinition = new Definition(
@@ -56,6 +57,7 @@ class RegisterArticleFactoryPassSpec extends ObjectBehavior
         $container->getParameter('swp_multi_tenancy.persistence.phpcr.content_basepath')->willReturn('content');
         $container->findDefinition('swp.provider.route')->willReturn($routeProviderDefinition);
         $container->findDefinition('swp.provider.article')->willReturn($articleProviderDefinition);
+        $container->findDefinition('swp_content_bundle.route_to_article.mapper')->willReturn($articleToRouteMapperDefinition);
 
         $articleFactoryDefinition = new Definition(
             ArticleFactory::class,
