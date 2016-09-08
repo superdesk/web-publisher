@@ -9,6 +9,9 @@ To get the diff for a specific change, go to https://github.com/superdesk/web-pu
 
 * 0.1.0-5 
 
+ * bug [#128] [ContentBundle] Un-assigning content from route doesn't work (takeit)
+ * bug [#128] [ContentBundle] Improve possibility to un-assign/assign parent routes (takeit)
+ * feature [#128] [ContentBundle] Allow to assign/un-assign route to article (takeit)
  * bug [#129] [CoreBundle][ContentBundle] Change template name discovery, add articles_template_name to route (see updated documentation)
  * bug [#123] [ContentBundle][Bridge] Article's body is not pre-filled (takeit)
  * bug [#122] [Templates System] add custom cache key generator for meta objects
