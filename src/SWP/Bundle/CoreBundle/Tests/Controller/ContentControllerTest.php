@@ -154,10 +154,11 @@ class ContentControllerTest extends WebTestCase
             'route' => [
                 'name' => 'simple-test-route',
                 'type' => 'content',
-                'parent' => '/',
+                'parent' => '',
                 'template_name' => 'test.html.twig',
             ],
         ]);
+
         $this->assertEquals(201, $client->getResponse()->getStatusCode());
         $this->assertEquals('{"id":"\/swp\/123456\/123abc\/routes\/simple-test-route","content":null,"static_prefix":null,"variable_pattern":null,"name":"simple-test-route","children":[],"id_prefix":"\/swp\/123456\/123abc\/routes","template_name":"test.html.twig","articles_template_name":null,"type":"content","cache_time_in_seconds":0,"_links":{"self":{"href":"\/api\/v1\/content\/routes\/\/simple-test-route"}}}', $client->getResponse()->getContent());
 

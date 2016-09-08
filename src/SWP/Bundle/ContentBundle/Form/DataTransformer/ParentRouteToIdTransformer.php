@@ -19,9 +19,8 @@ use SWP\Bundle\ContentBundle\Model\RouteInterface;
 use SWP\Bundle\ContentBundle\Provider\RouteProviderInterface;
 use Symfony\Component\Form\DataTransformerInterface;
 use Symfony\Component\Form\Exception\TransformationFailedException;
-use Symfony\Component\Form\Exception\UnexpectedTypeException;
 
-final class RouteToIdTransformer implements DataTransformerInterface
+final class ParentRouteToIdTransformer implements DataTransformerInterface
 {
     /**
      * @var RouteProviderInterface
@@ -53,11 +52,16 @@ final class RouteToIdTransformer implements DataTransformerInterface
             return;
         }
 
-        if (!$route instanceof RouteInterface) {
-            throw new UnexpectedTypeException($route, RouteInterface::class);
+        if ($route instanceof RouteInterface || $route instanceof Generic) {
+            return $route->getId();
         }
 
-        return $route->getId();
+        throw new TransformationFailedException(sprintf(
+            '"%s" should be of type %s or %s!',
+            get_class($route),
+            RouteInterface::class,
+            Generic::class
+        ));
     }
 
     /**
@@ -71,10 +75,6 @@ final class RouteToIdTransformer implements DataTransformerInterface
      */
     public function reverseTransform($routeId)
     {
-        if (null === $routeId) {
-            return;
-        }
-
         $route = $this->routeProvider->getOneById($routeId);
 
         if (null === $route) {

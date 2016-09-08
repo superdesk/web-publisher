@@ -14,6 +14,7 @@
 
 namespace SWP\Bundle\ContentBundle\Provider;
 
+use SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\Route;
 use SWP\Bundle\ContentBundle\Model\ArticleInterface;
 use SWP\Component\MultiTenancy\PathBuilder\TenantAwarePathBuilderInterface;
 use SWP\Component\Storage\Repository\RepositoryInterface;

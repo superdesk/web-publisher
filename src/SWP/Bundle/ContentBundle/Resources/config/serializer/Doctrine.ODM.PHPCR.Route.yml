@@ -2,9 +2,9 @@ SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\Route:
     exclusion_policy:
     properties:
         templateName:
-            exposed: true
+            expose: true
         type:
-            exposed: true
+            expose: true
         cacheTimeInSeconds:
-            exposed: true
+            expose: true
             type: integer
