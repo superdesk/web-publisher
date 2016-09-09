@@ -1,10 +1,10 @@
 filter:
     excluded_paths:
         - 'spec/*'
-        - 'src/SWP/Bundle/*Bundle/Tests/'
+        - 'src/SWP/Bundle/*Bundle/Tests/*'
         - 'Tests/*'
-        - 'src/SWP/Bundle/*Bundle/spec/'
-        - 'src/SWP/Component/*/spec/'
+        - 'src/SWP/Bundle/*Bundle/spec/*'
+        - 'src/SWP/Component/*/spec/*'
     paths:
         - 'src/*'
 checks:

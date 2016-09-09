@@ -7,10 +7,11 @@ in 0.1 minor versions.
 
 To get the diff for a specific change, go to https://github.com/superdesk/web-publisher/commit/XXX where XXX is the change hash
 
-* 0.1.0-6 
+* 0.1.0-6
 
  * feature [#128] [ContentBundle] Add route type constraint validator (takeit)
  * bug [#128] [ContentBundle] Improve possibility to un-assign/assign parent routes (takeit)
+ * feature [#132] [Template System][TemplateEngine Bundle] implement pagination in gimmelist
 
 * 0.1.0-5 
 

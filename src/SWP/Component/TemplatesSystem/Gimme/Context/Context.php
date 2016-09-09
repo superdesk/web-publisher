@@ -24,7 +24,7 @@ class Context implements \ArrayAccess
     /**
      * Array with current page information's.
      *
-     * @var string
+     * @var Meta
      */
     protected $currentPage;
 
@@ -192,11 +192,11 @@ class Context implements \ArrayAccess
     /**
      * Set current context page information's.
      *
-     * @param string $currentPage
+     * @param Meta $currentPage
      *
      * @return self
      */
-    public function setCurrentPage($currentPage)
+    public function setCurrentPage(Meta $currentPage)
     {
         $this->currentPage = $currentPage;
 
@@ -206,7 +206,7 @@ class Context implements \ArrayAccess
     /**
      * Get current context page information's.
      *
-     * @return string
+     * @return Meta
      */
     public function getCurrentPage()
     {

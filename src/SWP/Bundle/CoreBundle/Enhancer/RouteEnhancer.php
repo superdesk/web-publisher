@@ -15,6 +15,7 @@
 namespace SWP\Bundle\CoreBundle\Enhancer;
 
 use SWP\Component\TemplatesSystem\Gimme\Context\Context;
+use SWP\Component\TemplatesSystem\Gimme\Meta\Meta;
 use Symfony\Cmf\Component\Routing\Enhancer\RouteEnhancerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use SWP\Component\TemplatesSystem\Gimme\Loader\LoaderInterface;
@@ -136,10 +137,12 @@ class RouteEnhancer implements RouteEnhancerInterface
     public function setRouteMeta(Request $request, array $defaults)
     {
         $routeMeta = $this->metaLoader->load('route', ['route_object' => $defaults['_route_object']]);
-
         $request->attributes->set('routeMeta', $routeMeta);
         $defaults['_route_meta'] = $routeMeta;
-        $this->context->setCurrentPage($routeMeta);
+
+        if ($routeMeta instanceof Meta) {
+            $this->context->setCurrentPage($routeMeta);
+        }
 
         return $defaults;
     }

@@ -72,7 +72,7 @@ class GimmeListNode extends \Twig_Node
             if (!is_null($this->getNode('parameters'))) {
                 $compiler->raw('$parameters = ')->subcompile($this->getNode('parameters'))->raw(";\n");
             } else {
-                $compiler->raw("\$parameters = null;\n");
+                $compiler->raw("\$parameters = [];\n");
             }
         }
 
@@ -105,7 +105,15 @@ class GimmeListNode extends \Twig_Node
                     ->write("\$context['loop']['revindex0'] = \$length - 1;\n")
                     ->write("\$context['loop']['revindex'] = \$length;\n")
                     ->write("\$context['loop']['length'] = \$length;\n")
+                    ->write("\$context['loop']['totalLength'] = \$length;\n")
                     ->write("\$context['loop']['last'] = 1 === \$length;\n")
+                    ->outdent()
+                    ->write("}\n");
+
+                $compiler
+                    ->write('if(is_object(')->subcompile($this->getNode('collectionType'))->raw(') && ')->subcompile($this->getNode('collectionType'))->raw(" instanceof \SWP\Component\TemplatesSystem\Gimme\Meta\MetaCollection) {\n")
+                    ->indent()
+                    ->write('$context[\'loop\'][\'totalLength\'] = ')->subcompile($this->getNode('collectionType'))->raw("->getTotalItemCount();\n")
                     ->outdent()
                     ->write("}\n");
             }
