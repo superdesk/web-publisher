@@ -155,4 +155,20 @@ class RouteControllerTest extends WebTestCase
         $this->assertEquals(201, $client->getResponse()->getStatusCode());
         $this->assertEquals('{"id":"\/swp\/123456\/123abc\/routes\/simple-test-route","content":null,"static_prefix":null,"variable_pattern":null,"name":"simple-test-route","children":[],"id_prefix":"\/swp\/123456\/123abc\/routes","template_name":"test.html.twig","articles_template_name":null,"type":"content","cache_time_in_seconds":1,"_links":{"self":{"href":"\/api\/v1\/content\/routes\/\/simple-test-route"}}}', $client->getResponse()->getContent());
     }
+
+    public function testSettingNotSupportedRouteType()
+    {
+        $client = static::createClient();
+        $client->request('POST', $this->router->generate('swp_api_content_create_routes'), [
+            'route' => [
+                'name' => 'testing-route-type',
+                'type' => 'fake-type',
+                'template_name' => 'test.html.twig',
+                'cacheTimeInSeconds' => 1,
+            ],
+        ]);
+
+        self::assertEquals(400, $client->getResponse()->getStatusCode());
+        self::assertEquals($client->getResponse()->getContent(), '{"code":400,"message":"Validation Failed","errors":{"children":{"name":{},"type":{"errors":["The type \"fake-type\" is not allowed. Supported types are: \"collection, content\"."]},"template_name":{},"articles_template_name":{},"parent":{},"content":{},"cacheTimeInSeconds":{}}}}');
+    }
 }

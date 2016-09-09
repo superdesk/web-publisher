@@ -81,8 +81,6 @@ services:
     swp.service.route:
         class: '%swp.service.route.class%'
         arguments:
-            - '@swp.factory.route'
-            - '@swp.provider.route'
             - '@swp.provider.article'
             - '@event_dispatcher'
 
@@ -110,3 +108,24 @@ services:
         parent: "router.symfony"
         tags:
             - { name: router, priority: 300 }
+
+    swp_content_bundle.form.type.route_selector:
+        class: SWP\Bundle\ContentBundle\Form\Type\RouteSelectorType
+        arguments:
+            - '@swp.provider.route'
+        tags:
+            - { name: form.type }
+
+    swp_content_bundle.form.type.article_selector:
+        class: SWP\Bundle\ContentBundle\Form\Type\ArticleSelectorType
+        arguments:
+            - '@swp.provider.article'
+        tags:
+            - { name: form.type }
+
+    swp_content_bundle.form.type.route:
+        class: SWP\Bundle\ContentBundle\Form\Type\RouteType
+        arguments:
+            - '@swp.provider.route'
+        tags:
+            - { name: form.type }

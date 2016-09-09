@@ -126,18 +126,15 @@ class RouteController extends FOSRestController
      */
     public function createAction(Request $request)
     {
-        $form = $this->createForm(new RouteType(), [], ['method' => $request->getMethod()]);
-        $form->handleRequest($request);
-        if ($form->isValid()) {
-            $formData = $form->getData();
-            if (!isset($formData['parent']) || is_null($formData['parent'])) {
-                $formData['parent'] = '/';
-            }
+        $route = $this->get('swp.factory.route')->create();
 
-            $route = $this->get('swp.service.route')->createRoute($formData);
+        $form = $this->createForm(RouteType::class, $route, ['method' => $request->getMethod()]);
+        $form->handleRequest($request);
+
+        if ($form->isValid()) {
+            $route = $this->get('swp.service.route')->createRoute($form->getData());
 
             $this->get('swp.repository.route')->add($route);
-
             $this->get('event_dispatcher')
                 ->dispatch(HttpCacheEvent::EVENT_NAME, new HttpCacheEvent($route));
 
@@ -160,7 +157,8 @@ class RouteController extends FOSRestController
      *     resource=true,
      *     description="Updates routes for current tenant",
      *     statusCodes={
-     *         200="Returned on success."
+     *         200="Returned on success.",
+     *         404="Returned when route not found."
      *     },
      *     input="SWP\Bundle\ContentBundle\Form\Type\RouteType"
      * )
@@ -171,20 +169,13 @@ class RouteController extends FOSRestController
     {
         $objectManager = $this->get('swp.object_manager.route');
         $route = $this->findOr404($id);
-        $form = $this->createForm(RouteType::class, [
-            'name' => $route->getName(),
-            'type' => $route->getType(),
-            'parent' => null !== $route->getParent() ? $route->getParent()->getId() : null,
-            'content' => null !== $route->getContent() ? $route->getContent()->getId() : null,
-            'template_name' => $route->getTemplateName(),
-            'cacheTimeInSeconds' => $route->getCacheTimeInSeconds(),
-        ], ['method' => $request->getMethod()]);
-
+        $form = $this->createForm(RouteType::class, $route, ['method' => $request->getMethod()]);
         $form->handleRequest($request);
-        if ($form->isValid()) {
-            $this->get('swp.service.route')->updateRoute($route, $form->getData());
-            $objectManager->flush();
 
+        if ($form->isValid()) {
+            $route = $this->get('swp.service.route')->updateRoute($form->getData());
+
+            $objectManager->flush();
             $this->get('event_dispatcher')
             ->dispatch(HttpCacheEvent::EVENT_NAME, new HttpCacheEvent($route));
 

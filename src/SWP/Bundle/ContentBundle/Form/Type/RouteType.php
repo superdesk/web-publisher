@@ -14,7 +14,10 @@
 
 namespace SWP\Bundle\ContentBundle\Form\Type;
 
+use SWP\Bundle\ContentBundle\Form\DataTransformer\ParentRouteToIdTransformer;
+use SWP\Bundle\ContentBundle\Provider\RouteProviderInterface;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\CallbackTransformer;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -28,6 +31,21 @@ use Symfony\Component\Validator\Constraints\NotBlank;
  */
 class RouteType extends AbstractType
 {
+    /**
+     * @var RouteProviderInterface
+     */
+    private $routeProvider;
+
+    /**
+     * RouteSelectorType constructor.
+     *
+     * @param RouteProviderInterface $routeProvider
+     */
+    public function __construct(RouteProviderInterface $routeProvider)
+    {
+        $this->routeProvider = $routeProvider;
+    }
+
     /**
      * {@inheritdoc}
      */
@@ -60,17 +78,8 @@ class RouteType extends AbstractType
                     new Length(['min' => 1]),
                 ],
             ])
-            ->add('parent', TextType::class, [
-                'required' => false,
-                'constraints' => [
-                    new Length(['min' => 1]),
-                ],
-            ])
-            ->add('content', TextType::class, [
-                'required' => false,
-                'constraints' => [
-                    new Length(['min' => 1]),
-                ],
+            ->add('parent', TextType::class)
+            ->add('content', ArticleSelectorType::class, [
                 'description' => 'Content path name e.g.: test-content-article',
             ])
             ->add('cacheTimeInSeconds', IntegerType::class, [
@@ -79,6 +88,20 @@ class RouteType extends AbstractType
                     new GreaterThanOrEqual(0),
                 ],
             ]);
+
+        $builder->get('cacheTimeInSeconds')
+            ->addModelTransformer(new CallbackTransformer(
+                function ($value) {
+                    return $value;
+                },
+                function ($value) {
+                    return (int) $value;
+                }
+            ))
+        ;
+
+        $builder->get('parent')
+            ->addModelTransformer(new ParentRouteToIdTransformer($this->routeProvider));
     }
 
     /**

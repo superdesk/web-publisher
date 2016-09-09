@@ -29,7 +29,7 @@ interface RouteProviderInterface
     /**
      * Gets one route by id.
      *
-     * @return RouteObje|null
+     * @return RouteInterface|void
      */
     public function getOneById($id);
 

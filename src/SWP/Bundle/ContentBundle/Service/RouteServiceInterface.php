@@ -22,19 +22,18 @@ interface RouteServiceInterface
     /**
      * Creates a new route.
      *
-     * @param array $routeData
+     * @param RouteObjectInterface $route
      *
      * @return RouteInterface
      */
-    public function createRoute(array $routeData);
+    public function createRoute(RouteObjectInterface $route);
 
     /**
      * Updates existing route.
      *
      * @param RouteObjectInterface $route
-     * @param array                $routeData
      *
      * @return RouteInterface
      */
-    public function updateRoute(RouteObjectInterface $route, array $routeData);
+    public function updateRoute(RouteObjectInterface $route);
 }

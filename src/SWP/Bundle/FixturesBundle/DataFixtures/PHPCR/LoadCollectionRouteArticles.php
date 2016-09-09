@@ -18,6 +18,7 @@ use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\Article;
+use SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\Route;
 use SWP\Bundle\FixturesBundle\AbstractFixture;
 use SWP\Bundle\ContentBundle\Model\ArticleInterface;
 
@@ -74,7 +75,20 @@ class LoadCollectionRouteArticles extends AbstractFixture implements FixtureInte
         $routeService = $this->container->get('swp.service.route');
 
         foreach ($routes[$env] as $routeData) {
-            $route = $routeService->createRoute($routeData);
+            $route = new Route();
+            $route->setParentDocument($manager->find(null, $routeData['parent']));
+            $route->setName($routeData['name']);
+            $route->setType($routeData['type']);
+
+            if (isset($routeData['template_name'])) {
+                $route->setTemplateName($routeData['template_name']);
+            }
+
+            if (isset($routeData['articles_template_name'])) {
+                $route->setArticlesTemplateName($routeData['articles_template_name']);
+            }
+
+            $routeService->createRoute($route);
 
             $manager->persist($route);
         }

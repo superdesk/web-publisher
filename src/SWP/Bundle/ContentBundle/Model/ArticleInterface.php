@@ -98,9 +98,9 @@ interface ArticleInterface extends TimestampableInterface, TranslatableInterface
     public function setTemplateName($templateName);
 
     /**
-     * @param RouteInterface $route
+     * @param RouteInterface|void $route
      */
-    public function setRoute(RouteInterface $route);
+    public function setRoute(RouteInterface $route = null);
 
     /**
      * @return RouteInterface

@@ -84,6 +84,13 @@ class ArticleSpec extends ObjectBehavior
         $this->getRoute()->shouldReturn(null);
     }
 
+    public function it_should_unset_route(RouteInterface $route)
+    {
+        $this->setRoute($route);
+        $this->setRoute();
+        $this->getRoute()->shouldReturn(null);
+    }
+
     public function its_route_is_mutable(RouteInterface $route)
     {
         $this->setRoute($route);
