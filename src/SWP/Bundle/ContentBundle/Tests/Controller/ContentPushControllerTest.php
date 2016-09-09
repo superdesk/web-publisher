@@ -266,35 +266,22 @@ class ContentPushControllerTest extends WebTestCase
         $client = static::createClient();
         $client->request('POST', $this->router->generate('swp_api_content_create_routes'), [
             'route' => [
-                'name' => 'en',
-                'type' => 'content',
+                'name' => 'site',
+                'type' => 'collection',
                 'parent' => '/',
             ],
         ]);
-
-        $this->assertEquals(201, $client->getResponse()->getStatusCode());
-
-        $client->request('POST', $this->router->generate('swp_api_content_create_routes'), [
-            'route' => [
-                'name' => 'site',
-                'type' => 'collection',
-                'parent' => 'en',
-            ],
-        ]);
-
         $this->assertEquals(201, $client->getResponse()->getStatusCode());
 
         $client->request('POST', $this->router->generate('swp_api_content_create_routes'), [
             'route' => [
                 'name' => 'news',
                 'type' => 'collection',
-                'parent' => 'en/site',
+                'parent' => 'site',
             ],
         ]);
-
         $this->assertEquals(201, $client->getResponse()->getStatusCode());
 
-        $client = static::createClient();
         $client->request('POST', $this->router->generate('swp_api_content_create_routes'), [
             'route' => [
                 'name' => 'articles',
@@ -316,7 +303,7 @@ class ContentPushControllerTest extends WebTestCase
 
         $this->assertEquals(201, $client->getResponse()->getStatusCode());
 
-        $client->request('PATCH', $this->router->generate('swp_api_content_update_routes', ['id' => 'en/site/news']), [
+        $client->request('PATCH', $this->router->generate('swp_api_content_update_routes', ['id' => 'site/news']), [
             'route' => [
                 'content' => 'ads-fsadf-sdaf-sadf-sadf',
             ],
@@ -330,7 +317,7 @@ class ContentPushControllerTest extends WebTestCase
             ],
         ]);
 
-        $client->request('GET', '/en/site/news/ads-fsadf-sdaf-sadf-sadf');
+        $client->request('GET', '/site/news/ads-fsadf-sdaf-sadf-sadf');
 
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
         $this->assertContains(

@@ -32,4 +32,15 @@ class ArticleLoaderTest extends \PHPUnit_Framework_TestCase
         self::assertInstanceOf(MetaCollection::class, $result);
         self::assertCount(2, $result);
     }
+
+    protected function tearDown()
+    {
+        $reflection = new \ReflectionObject($this);
+        foreach ($reflection->getProperties() as $prop) {
+            if (!$prop->isStatic() && 0 !== strpos($prop->getDeclaringClass()->getName(), 'PHPUnit_')) {
+                $prop->setAccessible(true);
+                $prop->setValue($this, null);
+            }
+        }
+    }
 }
