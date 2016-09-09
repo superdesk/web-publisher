@@ -20,7 +20,6 @@ use Prophecy\Argument;
 use SWP\Bundle\BridgeBundle\Serializer\PackageSubscriber;
 use PhpSpec\ObjectBehavior;
 use SWP\Component\Bridge\Model\ItemInterface;
-use SWP\Component\Bridge\Model\Package;
 use SWP\Component\Bridge\Model\PackageInterface;
 
 /**
