@@ -44,15 +44,15 @@ class HttpCacheHeaderListenerTest extends WebTestCase
     public function testNoCacheRoute()
     {
         $headers = $this->getHeadersFromResponse(LoadRoutesData::TEST_NO_CACHE_ROUTE_NAME);
-        $this->assertFalse($headers->hasCacheControlDirective('max-age'));
+        self::assertFalse($headers->hasCacheControlDirective('max-age'));
     }
 
     public function testCacheRoute()
     {
         $headers = $this->getHeadersFromResponse(LoadRoutesData::TEST_CACHE_ROUTE_NAME);
-        $this->assertTrue($headers->hasCacheControlDirective('public'));
-        $this->assertEquals($headers->getCacheControlDirective('max-age'), LoadRoutesData::TEST_CACHE_TIME);
-        $this->assertEquals($headers->getCacheControlDirective('s-maxage'), LoadRoutesData::TEST_CACHE_TIME);
+        self::assertTrue($headers->hasCacheControlDirective('public'));
+        self::assertEquals($headers->getCacheControlDirective('max-age'), LoadRoutesData::TEST_CACHE_TIME);
+        self::assertEquals($headers->getCacheControlDirective('s-maxage'), LoadRoutesData::TEST_CACHE_TIME);
     }
 
     private function getHeadersFromResponse($name)
@@ -67,6 +67,7 @@ class HttpCacheHeaderListenerTest extends WebTestCase
         $client = static::createClient();
         $client->request('GET', $this->router->generate($route));
         $response = $client->getResponse();
+        self::assertEquals($response->getStatusCode(), 200);
         $headers = $response->headers;
 
         return $headers;
