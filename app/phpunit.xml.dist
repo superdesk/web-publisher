@@ -12,15 +12,16 @@
             <directory>../src/SWP/Component/*/Tests</directory>
         </testsuite>
         <testsuite name="Bundles">
-            <directory>../src/*/*Bundle/Tests</directory>
-            <directory>../src/*/Bundle/*Bundle/Tests</directory>
-            <directory>../src/*Bundle/Tests</directory>
+            <directory>../src/SWP/Bridge/*/Tests</directory>
+            <directory>../src/SWP/Bundle/*Bundle/Tests</directory>
         </testsuite>
     </testsuites>
 
     <filter>
         <whitelist>
-            <directory>../src</directory>
+            <directory suffix=".php">../src/SWP/Component/*/Tests</directory>
+            <directory suffix=".php">../src/SWP/Bundle/*Bundle/Tests</directory>
+            <directory suffix=".php">../src/SWP/Bridge/*/Tests</directory>
             <exclude>
                 <directory>../src/*Bundle/Resources</directory>
                 <directory>../src/*Bundle/Tests</directory>

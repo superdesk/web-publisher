@@ -15,11 +15,11 @@
 namespace SWP\Bundle\ContentBundle\Loader;
 
 use PHPCR\Query\QueryInterface;
+use SWP\Component\TemplatesSystem\Gimme\Context\Context;
 use SWP\Component\TemplatesSystem\Gimme\Factory\MetaFactoryInterface;
 use SWP\Component\TemplatesSystem\Gimme\Loader\LoaderInterface;
 use SWP\Component\TemplatesSystem\Gimme\Meta\Meta;
 use SWP\Component\TemplatesSystem\Gimme\Meta\MetaCollection;
-use Symfony\Cmf\Bundle\CoreBundle\PublishWorkflow\PublishWorkflowChecker;
 use Doctrine\ODM\PHPCR\DocumentManager;
 use SWP\Component\MultiTenancy\PathBuilder\TenantAwarePathBuilderInterface;
 
@@ -28,11 +28,6 @@ use SWP\Component\MultiTenancy\PathBuilder\TenantAwarePathBuilderInterface;
  */
 class ArticleLoader implements LoaderInterface
 {
-    /**
-     * @var PublishWorkflowChecker
-     */
-    protected $publishWorkflowChecker;
-
     /**
      * @var DocumentManager
      */
@@ -54,26 +49,31 @@ class ArticleLoader implements LoaderInterface
     protected $metaFactory;
 
     /**
+     * @var Context
+     */
+    protected $context;
+
+    /**
      * ArticleLoader constructor.
      *
-     * @param PublishWorkflowChecker          $publishWorkflowChecker
      * @param DocumentManager                 $dm
      * @param TenantAwarePathBuilderInterface $pathBuilder
      * @param string                          $routeBasepaths
      * @param MetaFactoryInterface            $metaFactory
+     * @param Context                         $context
      */
     public function __construct(
-        PublishWorkflowChecker $publishWorkflowChecker,
         DocumentManager $dm,
         TenantAwarePathBuilderInterface $pathBuilder,
         $routeBasepaths,
-        MetaFactoryInterface $metaFactory
+        MetaFactoryInterface $metaFactory,
+        Context $context
     ) {
-        $this->publishWorkflowChecker = $publishWorkflowChecker;
         $this->dm = $dm;
         $this->pathBuilder = $pathBuilder;
         $this->routeBasepaths = $routeBasepaths;
         $this->metaFactory = $metaFactory;
+        $this->context = $context;
     }
 
     /**
@@ -113,58 +113,37 @@ class ArticleLoader implements LoaderInterface
 
             return $this->getArticleMeta($article);
         } elseif ($responseType === LoaderInterface::COLLECTION) {
+            $route = null;
             if (array_key_exists('route', $parameters)) {
-                $route = $this->dm->find(null, $this->pathBuilder->build(
-                    $this->routeBasepaths[0].$parameters['route']
-                ));
+                $route = $this->dm->find(null, $this->pathBuilder->build($this->routeBasepaths[0].$parameters['route']));
+            } elseif (null !== ($currentPage = $this->context->getCurrentPage())) {
+                $route = $currentPage->getValues();
+            }
 
-                if ($route) {
-                    $node = $this->dm->getNodeForDocument($route);
-                    $identifier = $node->getIdentifier();
+            if (null !== $route && is_object($route)) {
+                $identifier = $this->dm->getNodeForDocument($route)->getIdentifier();
+                $query = $this->dm->createPhpcrQuery($this->getQueryString($identifier, $parameters), QueryInterface::JCR_SQL2);
+                $countQuery = clone $query;
 
-                    $queryStr = sprintf("SELECT * FROM [nt:unstructured] as S WHERE S.phpcr:class='SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\Article' AND S.route=%s", $identifier);
-
-                    if (isset($parameters['order'])) {
-                        $order = $parameters['order'];
-                        if (!is_array($order) || count($order) !== 2 || (strtoupper($order[1]) != 'ASC' && strtoupper($order[1]) != 'DESC')) {
-                            throw new \Exception('Order filter must have two parameters with second one asc or desc, e.g. order(id, desc)');
-                        }
-                        if ($order[0] === 'id') {
-                            $order[0] = 'jcr:uuid';
-                        } else {
-                            // Check that the given parameter is actually a field name of a route
-                            $metaData = $this->dm->getClassMetadata('SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\Article');
-                            if (!in_array($order[0], $metaData->getFieldNames())) {
-                                throw new \Exception('Order parameter must be id or the name of one of the fields in the route class');
-                            }
-                        }
-                        $queryStr .= sprintf(' ORDER BY S.%s %s', $order[0], $order[1]);
-                    }
-
-                    $query = $this->dm->createPhpcrQuery($queryStr, QueryInterface::JCR_SQL2);
-                    $countQuery = clone $query;
-
-                    if (isset($parameters['limit'])) {
-                        $query->setLimit($parameters['limit']);
-                    }
-
-                    if (isset($parameters['start'])) {
-                        $query->setOffset($parameters['start']);
-                    }
-
-                    $articles = $this->dm->getDocumentsByPhpcrQuery($query);
-
-                    $metaCollection = new MetaCollection();
-                    $metaCollection->setTotalItemsCount($countQuery->execute()->getRows()->count());
-                    foreach ($articles as $article) {
-                        $articleMeta = $this->getArticleMeta($article);
-                        if ($articleMeta) {
-                            $metaCollection->add($articleMeta);
-                        }
-                    }
-
-                    return $metaCollection;
+                if (isset($parameters['limit'])) {
+                    $query->setLimit($parameters['limit']);
                 }
+
+                if (isset($parameters['start'])) {
+                    $query->setOffset($parameters['start']);
+                }
+
+                $articles = $this->dm->getDocumentsByPhpcrQuery($query);
+                $metaCollection = new MetaCollection();
+                $metaCollection->setTotalItemsCount($countQuery->execute()->getRows()->count());
+                foreach ($articles as $article) {
+                    $articleMeta = $this->getArticleMeta($article);
+                    if ($articleMeta) {
+                        $metaCollection->add($articleMeta);
+                    }
+                }
+
+                return $metaCollection;
             }
         }
 
@@ -185,10 +164,33 @@ class ArticleLoader implements LoaderInterface
 
     private function getArticleMeta($article)
     {
-        if (!is_null($article) && $this->publishWorkflowChecker->isGranted(PublishWorkflowChecker::VIEW_ATTRIBUTE, $article)) {
+        if (!is_null($article)) {
             return $this->metaFactory->create($article);
         }
 
         return;
+    }
+
+    private function getQueryString($identifier, $parameters)
+    {
+        $queryStr = sprintf("SELECT * FROM [nt:unstructured] as S WHERE S.phpcr:class='SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\Article' AND S.route=%s AND S.status=published", $identifier);
+        if (isset($parameters['order'])) {
+            $order = $parameters['order'];
+            if (!is_array($order) || count($order) !== 2 || (strtoupper($order[1]) != 'ASC' && strtoupper($order[1]) != 'DESC')) {
+                throw new \Exception('Order filter must have two parameters with second one asc or desc, e.g. order(id, desc)');
+            }
+            if ($order[0] === 'id') {
+                $order[0] = 'jcr:uuid';
+            } else {
+                // Check that the given parameter is actually a field name of a route
+                $metaData = $this->dm->getClassMetadata('SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\Article');
+                if (!in_array($order[0], $metaData->getFieldNames())) {
+                    throw new \Exception('Order parameter must be id or the name of one of the fields in the route class');
+                }
+            }
+            $queryStr .= sprintf(' ORDER BY S.%s %s', $order[0], $order[1]);
+        }
+
+        return $queryStr;
     }
 }
