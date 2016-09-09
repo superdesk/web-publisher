@@ -16,7 +16,9 @@ namespace SWP\Component\Bridge\Transformer;
 
 use SWP\Component\Bridge\Exception\MethodNotSupportedException;
 use SWP\Component\Bridge\Exception\TransformationFailedException;
+use SWP\Component\Bridge\Model\ItemInterface;
 use SWP\Component\Bridge\Model\Package;
+use SWP\Component\Bridge\Model\PackageInterface;
 use SWP\Component\Bridge\Validator\ValidatorInterface;
 use SWP\Component\Common\Serializer\SerializerInterface;
 
@@ -53,9 +55,11 @@ final class JsonToPackageTransformer implements DataTransformerInterface
             throw new TransformationFailedException('None of the chained validators were able to validate the data!');
         }
 
+        /** @var PackageInterface $package */
         $package = $this->serializer->deserialize($json, Package::class, 'json');
-        // Set references
-        foreach ($package->getItems() as $item) {
+
+        /** @var ItemInterface $item */
+        foreach ($package->getItems()->toArray() as $item) {
             $item->setPackage($package);
         }
 

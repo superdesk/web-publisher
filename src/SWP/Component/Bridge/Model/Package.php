@@ -52,6 +52,14 @@ class Package extends BaseContent implements PackageInterface, PersistableInterf
     }
 
     /**
+     * {@inheritdoc}
+     */
+    public function setItems(Collection $items)
+    {
+        $this->items = $items;
+    }
+
+    /**
      * Add item.
      *
      * @param \SWP\Component\Bridge\Model\Item $item
