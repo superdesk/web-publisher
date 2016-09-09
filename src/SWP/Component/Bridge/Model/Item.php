@@ -156,11 +156,11 @@ class Item extends BaseContent implements ItemInterface, TimestampableInterface
     /**
      * Set package.
      *
-     * @param Package $package
+     * @param PackageInterface|void $package
      *
      * @return Item
      */
-    public function setPackage(Package $package = null)
+    public function setPackage(PackageInterface $package = null)
     {
         $this->package = $package;
     }

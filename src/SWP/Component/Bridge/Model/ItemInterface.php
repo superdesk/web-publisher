@@ -48,4 +48,9 @@ interface ItemInterface extends ContentInterface
      * @return string
      */
     public function getUsageTerms();
+
+    /**
+     * @param PackageInterface|void $package
+     */
+    public function setPackage(PackageInterface $package = null);
 }
