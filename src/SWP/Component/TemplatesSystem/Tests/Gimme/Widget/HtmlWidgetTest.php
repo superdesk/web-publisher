@@ -39,4 +39,15 @@ class HtmlWidgetTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertEquals($this->widget->render(), 'simple html body');
     }
+
+    protected function tearDown()
+    {
+        $reflection = new \ReflectionObject($this);
+        foreach ($reflection->getProperties() as $prop) {
+            if (!$prop->isStatic() && 0 !== strpos($prop->getDeclaringClass()->getName(), 'PHPUnit_')) {
+                $prop->setAccessible(true);
+                $prop->setValue($this, null);
+            }
+        }
+    }
 }

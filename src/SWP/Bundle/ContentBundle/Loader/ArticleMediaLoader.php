@@ -79,9 +79,9 @@ class ArticleMediaLoader implements LoaderInterface
     {
         if ($responseType === LoaderInterface::COLLECTION) {
             $media = false;
-            if (array_key_exists('article', $parameters)) {
+            if (array_key_exists('article', $parameters) && $parameters['article'] instanceof Meta) {
                 $media = $this->dm->find(null, $parameters['article']->getValues()->getId().'/'.ArticleMediaInterface::PATH_MEDIA);
-            } elseif (null !== $this->context->article) {
+            } elseif (isset($this->context->article) && null !== $this->context->article) {
                 $media = $this->dm->find(null, $this->context->article->getValues()->getId().'/'.ArticleMediaInterface::PATH_MEDIA);
             }
 
