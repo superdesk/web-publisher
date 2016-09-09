@@ -86,6 +86,8 @@ class ContentControllerTest extends WebTestCase
         $this->assertEquals(1, $crawler->filter('html:contains("Test art1")')->count());
         $this->assertEquals(1, $crawler->filter('html:contains("Test art2")')->count());
         $this->assertEquals(1, $crawler->filter('html:contains("Test art3")')->count());
+
+        $this->assertEquals(3, $crawler->filter('li.route-loaded-from-context')->count());
     }
 
     public function testLoadingFakeArticleOnCollectionRoute()
