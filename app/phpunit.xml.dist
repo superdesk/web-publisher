@@ -7,6 +7,14 @@
          colors="true"
          bootstrap="bootstrap.php.cache"
 >
+    <listeners>
+        <listener class="JohnKary\PHPUnit\Listener\SpeedTrapListener" />
+    </listeners>
+
+    <php>
+        <ini name="zend.enable_gc" value="0"/>
+    </php>
+
     <testsuites>
         <testsuite name="Components">
             <directory>../src/SWP/Component/*/Tests</directory>

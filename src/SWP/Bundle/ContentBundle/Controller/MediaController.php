@@ -17,7 +17,6 @@ namespace SWP\Bundle\ContentBundle\Controller;
 use SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\Image;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -32,7 +31,7 @@ class MediaController extends Controller
      * @Route("/media/{mediaId}.{extension}", options={"expose"=true}, name="swp_media_get")
      * @Method("GET")
      */
-    public function getAction(Request $request, $mediaId, $extension)
+    public function getAction($mediaId)
     {
         $dm = $this->container->get('swp.object_manager.media');
         $pathBuilder = $this->container->get('swp_multi_tenancy.path_builder');

@@ -14,6 +14,8 @@
 
 namespace SWP\Component\TemplatesSystem\Gimme\Model;
 
+use Doctrine\Common\Collections\ArrayCollection;
+
 /**
  * Container Interface.
  */
@@ -64,7 +66,7 @@ interface ContainerInterface
     /**
      * Get container data.
      *
-     * @return array
+     * @return ArrayCollection
      */
     public function getData();
 }

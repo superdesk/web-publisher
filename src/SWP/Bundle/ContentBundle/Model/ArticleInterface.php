@@ -76,6 +76,11 @@ interface ArticleInterface extends TimestampableInterface, TranslatableInterface
     public function setPublishedAt(\DateTime $publishedAt);
 
     /**
+     * @return bool
+     */
+    public function isPublished();
+
+    /**
      * @param string $status
      *
      * @return string

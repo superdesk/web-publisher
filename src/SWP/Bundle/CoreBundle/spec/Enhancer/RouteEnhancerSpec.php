@@ -79,4 +79,17 @@ class RouteEnhancerSpec extends ObjectBehavior
             RouteObjectInterface::TEMPLATE_NAME => 'article2.html.twig',
         ]);
     }
+
+    public function it_should_set_template_name_from_route_with_content(RouteObjectInterface $route, Article $article)
+    {
+        $route->getTemplateName()->willReturn('test.html.twig');
+        $route->getType()->shouldBeCalled();
+        $route->getContent()->willReturn($article);
+        $article->getRoute()->willReturn(null);
+        $article->getTemplateName()->willReturn(null);
+        $this->setTemplateName($article, [RouteObjectInterface::ROUTE_OBJECT => $route])->shouldReturn([
+            RouteObjectInterface::ROUTE_OBJECT => $route,
+            RouteObjectInterface::TEMPLATE_NAME => 'test.html.twig',
+        ]);
+    }
 }

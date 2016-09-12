@@ -136,7 +136,7 @@ class WidgetController extends FOSRestController
      * @Route("/api/{version}/templates/widgets/{id}", requirements={"id"="\d+"}, options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_templates_delete_widget")
      * @Method("DELETE")
      */
-    public function deleteAction(Request $request, $id)
+    public function deleteAction($id)
     {
         if (!$id) {
             throw new UnprocessableEntityHttpException('You need to provide widget Id (integer).');
