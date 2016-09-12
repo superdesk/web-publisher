@@ -347,6 +347,14 @@ class Article implements ArticleInterface, MediaAwareArticleInterface
     }
 
     /**
+     * {@inheritdoc}
+     */
+    public function getSubjectType()
+    {
+        return 'article';
+    }
+
+    /**
      * Don't serialize values.
      *
      * @return array

@@ -42,6 +42,7 @@ class AppKernel extends Kernel
             new SWP\Bundle\BridgeBundle\SWPBridgeBundle(),
             new SWP\Bundle\ContentBundle\SWPContentBundle(),
             new SWP\Bundle\AnalyticsBundle\SWPAnalyticsBundle(),
+            new SWP\Bundle\RuleBundle\SWPRuleBundle(),
 
             new Sentry\SentryBundle\SentryBundle(),
         ];

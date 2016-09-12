@@ -108,7 +108,9 @@
         "swp/bridge": "self.version",
         "swp/storage-bundle": "self.version",
         "swp/storage": "self.version",
-        "swp/templates-system": "self.version"
+        "swp/templates-system": "self.version",
+        "swp/rule-bundle": "self.version",
+        "swp/rule": "self.version"
     },
     "scripts": {
         "post-install-cmd": [

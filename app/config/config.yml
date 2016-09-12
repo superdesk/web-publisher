@@ -236,6 +236,14 @@ swp_bridge:
     persistence:
         orm: true
 
+swp_rule:
+    persistence:
+        orm:
+            enabled: true
+            classes:
+                rule:
+                    model: SWP\Bundle\CoreBundle\Entity\Rule
+
 nelmio_api_doc:
     request_listener: false
 

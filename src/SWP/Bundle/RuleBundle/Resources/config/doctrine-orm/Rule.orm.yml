@@ -1,0 +1,16 @@
+SWP\Component\Rule\Model\Rule:
+    type: mappedSuperclass
+    table: swp_rule
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        value:
+            type: string
+        priority:
+            type: integer
+        configuration:
+            type: array
