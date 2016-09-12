@@ -1,15 +1,13 @@
 <?php
-/**
- * @author Rafał Muszyński <rafal.muszynski@sourcefabric.org>
- * @copyright 2015 Sourcefabric z.ú
- * @license http://www.gnu.org/licenses/gpl-3.0.txt
- */
 
 namespace SWP\Bundle\CoreBundle\Entity;
 
+use Burgov\Bundle\KeyValueFormBundle\KeyValueContainer;
 use SWP\Component\MultiTenancy\Model\TenantAwareInterface;
+use SWP\Component\Storage\Model\PersistableInterface;
+use SWP\Component\Rule\Model\Rule as BaseRule;
 
-class Rule extends \SWP\Component\Rule\Model\Rule implements TenantAwareInterface
+class Rule extends BaseRule implements TenantAwareInterface, PersistableInterface
 {
     protected $tenantCode;
 
@@ -32,4 +30,28 @@ class Rule extends \SWP\Component\Rule\Model\Rule implements TenantAwareInterfac
     {
         $this->tenantCode = $code;
     }
+
+    /*public function setConfiguration($configuration)
+    {
+        $this->configuration = $this->convertToArray($configuration);
+    }
+
+    private function convertToArray($data)
+    {
+        if (is_array($data)) {
+            return $data;
+        }
+
+        if ($data instanceof KeyValueContainer) {
+            return $data->toArray();
+        }
+
+        if ($data instanceof \Traversable) {
+            return iterator_to_array($data);
+        }
+
+        throw new \InvalidArgumentException(
+            sprintf('Expected array, Traversable or KeyValueContainer, got "%s"',
+                is_object($data) ? get_class($data) : gettype($data)));
+    }*/
 }

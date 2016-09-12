@@ -1,8 +1,20 @@
 <?php
 
+/**
+ * This file is part of the Superdesk Web Publisher Rule Component.
+ *
+ * Copyright 2016 Sourcefabric z.ú. and contributors.
+ *
+ * For the full copyright and license information, please see the
+ * AUTHORS and LICENSE files distributed with this source code.
+ *
+ * @copyright 2016 Sourcefabric z.ú
+ * @license http://www.superdesk.org/license
+ */
+
 namespace SWP\Component\Rule\Processor;
 
-use SWP\Bundle\ContentBundle\Rule\Applicator\RuleApplicatorInterface;
+use SWP\Component\Rule\Applicator\RuleApplicatorInterface;
 use SWP\Component\Rule\Evaluator\RuleEvaluatorInterface;
 use SWP\Component\Rule\Model\RuleSubjectInterface;
 use SWP\Component\Rule\Repository\RuleRepositoryInterface;
@@ -12,17 +24,17 @@ final class RuleProcessor implements RuleProcessorInterface
     /**
      * @var RuleRepositoryInterface
      */
-    protected $ruleRepository;
+    private $ruleRepository;
 
     /**
      * @var RuleEvaluatorInterface
      */
-    protected $ruleEvaluator;
+    private $ruleEvaluator;
 
     /**
      * @var RuleApplicatorInterface
      */
-    protected $ruleApplicator;
+    private $ruleApplicator;
 
     /**
      * RuleProcessor constructor.
@@ -45,9 +57,11 @@ final class RuleProcessor implements RuleProcessorInterface
         $rules = $this->ruleRepository->findBy([], ['priority' => 'desc']);
 
         foreach ($rules as $rule) {
-            if ($this->ruleEvaluator->evaluate($rule, [$subject->getSubjectType() => $subject])) {
-                $this->ruleApplicator->apply($rule, $subject);
+            if (!$this->ruleEvaluator->evaluate($rule, $subject)) {
+                continue;
             }
+
+            $this->ruleApplicator->apply($rule, $subject);
         }
     }
 }

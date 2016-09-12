@@ -12,23 +12,29 @@
  * @license http://www.superdesk.org/license
  */
 
-namespace SWP\Component\Rule\Evaluator;
+namespace SWP\Component\Rule\Applicator;
 
-use SWP\Component\Rule\Model\RuleInterface;
 use SWP\Component\Rule\Model\RuleSubjectInterface;
+use SWP\Component\Rule\Model\RuleInterface;
 
 /**
- *  Rule evaluator evaluates rule on given object and makes sure it matches the criteria.
+ * Rule applicator is used to apply rule configuration if it matches.
+ * E.g. assign route to newly created articles.
  *
- * Interface RuleEvaluatorInterface.
+ * Interface RuleApplicatorInterface.
  */
-interface RuleEvaluatorInterface
+interface RuleApplicatorInterface
 {
     /**
      * @param RuleInterface        $rule
      * @param RuleSubjectInterface $subject
-     *
-     * @return mixed
      */
-    public function evaluate(RuleInterface $rule, RuleSubjectInterface $subject);
+    public function apply(RuleInterface $rule, RuleSubjectInterface $subject);
+
+    /**
+     * @param RuleSubjectInterface $subject
+     *
+     * @return bool
+     */
+    public function isSupported(RuleSubjectInterface $subject);
 }

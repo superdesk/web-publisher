@@ -14,7 +14,15 @@
 
 namespace SWP\Component\Rule\Model;
 
-interface RuleInterface
+use SWP\Component\Storage\Model\PersistableInterface;
+
+/**
+ * Interface RuleInterface.
+ */
+interface RuleInterface extends PersistableInterface
 {
+    /**
+     * @return mixed
+     */
     public function getValue();
 }

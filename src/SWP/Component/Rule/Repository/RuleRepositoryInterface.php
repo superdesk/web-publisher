@@ -16,6 +16,9 @@ namespace SWP\Component\Rule\Repository;
 
 use SWP\Component\Storage\Repository\RepositoryInterface;
 
+/**
+ * Interface RuleRepositoryInterface.
+ */
 interface RuleRepositoryInterface extends RepositoryInterface
 {
 }

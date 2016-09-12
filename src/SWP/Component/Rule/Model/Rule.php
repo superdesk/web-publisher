@@ -66,8 +66,13 @@ class Rule implements RuleInterface
         return $this->configuration;
     }
 
-    public function setConfiguration(array $configuration)
+    public function setConfiguration($configuration)
     {
         $this->configuration = $configuration;
+    }
+
+    public function addConfiguration($key, $value)
+    {
+        $this->configuration[$key] = $value;
     }
 }

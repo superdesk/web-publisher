@@ -15,6 +15,7 @@
 namespace SWP\Component\Rule\Evaluator;
 
 use SWP\Component\Rule\Model\RuleInterface;
+use SWP\Component\Rule\Model\RuleSubjectInterface;
 use Symfony\Component\ExpressionLanguage\ExpressionLanguage;
 
 class RuleEvaluator implements RuleEvaluatorInterface
@@ -35,8 +36,8 @@ class RuleEvaluator implements RuleEvaluatorInterface
     /**
      * {@inheritdoc}
      */
-    public function evaluate(RuleInterface $rule, array $params = [])
+    public function evaluate(RuleInterface $rule, RuleSubjectInterface $subject)
     {
-        return $this->expression->evaluate($rule->getValue(), $params);
+        return $this->expression->evaluate($rule->getValue(), [$subject->getSubjectType() => $subject]);
     }
 }
