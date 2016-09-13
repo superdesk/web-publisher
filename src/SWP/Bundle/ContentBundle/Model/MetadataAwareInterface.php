@@ -25,4 +25,11 @@ interface MetadataAwareInterface
      * @return array
      */
     public function getMetadata();
+
+    /**
+     * @param string $key
+     *
+     * @return mixed
+     */
+    public function getMetadataByKey($key);
 }
