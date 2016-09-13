@@ -163,9 +163,9 @@ class RuleController extends FOSRestController
             $objectManager->flush();
             $objectManager->refresh($rule);
 
-            return $this->handleView(View::create($rule, 201));
+            return $this->handleView(View::create($rule, 200));
         }
 
-        return $this->handleView(View::create($form, 200));
+        return $this->handleView(View::create($form, 400));
     }
 }

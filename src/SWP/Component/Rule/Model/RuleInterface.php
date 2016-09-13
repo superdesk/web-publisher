@@ -50,10 +50,4 @@ interface RuleInterface extends PersistableInterface
      * @param array $configuration
      */
     public function setConfiguration(array $configuration);
-
-    /**
-     * @param string $key
-     * @param string $value
-     */
-    public function addConfiguration($key, $value);
 }

@@ -3,7 +3,7 @@ SWP\Component\Rule\Model\Rule:
     properties:
         id:
             expose: true
-            type: string
+            type: integer
         value:
             expose: true
             type: string

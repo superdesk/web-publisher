@@ -19,7 +19,7 @@ use SWP\Component\Rule\Model\RuleInterface;
 use SWP\Component\Rule\Model\RuleSubjectInterface;
 use Symfony\Component\ExpressionLanguage\ExpressionLanguage;
 
-class RuleEvaluator implements RuleEvaluatorInterface
+final class RuleEvaluator implements RuleEvaluatorInterface
 {
     /**
      * @var LoggerInterface

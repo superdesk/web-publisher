@@ -88,12 +88,4 @@ class Rule implements RuleInterface
     {
         $this->configuration = $configuration;
     }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function addConfiguration($key, $value)
-    {
-        $this->configuration[$key] = $value;
-    }
 }
