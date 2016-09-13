@@ -135,6 +135,14 @@ class Meta implements MetaInterface
     }
 
     /**
+     * @return Context
+     */
+    public function getContext()
+    {
+        return $this->context;
+    }
+
+    /**
      * Fill Meta from array. Array must have property names and keys.
      *
      * @param array $values        Array with properyy names as keys

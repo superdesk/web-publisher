@@ -264,10 +264,9 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface, Orde
                 $article->setBody($articleData['content']);
                 $article->setRoute($manager->find(null, $articleData['route']));
                 $article->setLocale($articleData['locale']);
-                $article->setPublishedAt(new \DateTime());
                 $article->setPublishable(true);
+                $article->setPublishedAt(new \DateTime());
                 $article->setStatus(ArticleInterface::STATUS_PUBLISHED);
-
                 $manager->persist($article);
             }
 

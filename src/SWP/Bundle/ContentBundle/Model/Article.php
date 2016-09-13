@@ -163,6 +163,14 @@ class Article implements ArticleInterface, MediaAwareArticleInterface
     /**
      * {@inheritdoc}
      */
+    public function isPublished()
+    {
+        return $this->getStatus() === ArticleInterface::STATUS_PUBLISHED;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function getCreatedAt()
     {
         return $this->createdAt;

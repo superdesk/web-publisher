@@ -24,6 +24,7 @@ use SWP\Bundle\ContentBundle\Model\ArticleInterface;
 use SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\RouteObjectInterface;
 use SWP\Bundle\ContentBundle\Model\RouteInterface;
 use SWP\Bundle\CoreBundle\Controller\ContentController;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class RouteEnhancer implements RouteEnhancerInterface
 {
@@ -82,6 +83,8 @@ class RouteEnhancer implements RouteEnhancerInterface
      * @param Request $request
      * @param array   $defaults
      *
+     * @throws NotFoundHttpException
+     *
      * @return array
      */
     public function setArticleMeta($content, Request $request, array $defaults)
@@ -91,13 +94,15 @@ class RouteEnhancer implements RouteEnhancerInterface
             $articleMeta = $this->metaLoader->load('article', ['slug' => $defaults['slug']], LoaderInterface::SINGLE);
             $defaults['type'] = RouteInterface::TYPE_COLLECTION;
             if (null === $articleMeta) {
-                $defaults[RouteObjectInterface::CONTENT_OBJECT] = null;
+                throw new NotFoundHttpException('Article was not found.');
             }
         } elseif ($content instanceof ArticleInterface) {
             $articleMeta = $this->metaLoader->load('article', ['article' => $content], LoaderInterface::SINGLE);
             $defaults['type'] = RouteInterface::TYPE_CONTENT;
+            if (null === $articleMeta) {
+                throw new NotFoundHttpException('Page was not found.');
+            }
         }
-
         if ($articleMeta && $articleMeta->getValues() instanceof ArticleInterface) {
             $defaults[RouteObjectInterface::CONTENT_OBJECT] = $articleMeta->getValues();
         }
@@ -118,10 +123,12 @@ class RouteEnhancer implements RouteEnhancerInterface
      */
     public function setTemplateName($content, array $defaults)
     {
-        if ($content) {
+        $route = isset($defaults[RouteObjectInterface::ROUTE_OBJECT]) ? $defaults[RouteObjectInterface::ROUTE_OBJECT] : null;
+        if ($content && null === $content->getRoute() && $route) {
+            $defaults[RouteObjectInterface::TEMPLATE_NAME] = $this->templateNameResolver->resolve($route);
+        } elseif ($content) {
             $defaults[RouteObjectInterface::TEMPLATE_NAME] = $this->templateNameResolver->resolve($content);
         } else {
-            $route = isset($defaults[RouteObjectInterface::ROUTE_OBJECT]) ? $defaults[RouteObjectInterface::ROUTE_OBJECT] : null;
             $defaults[RouteObjectInterface::TEMPLATE_NAME] = $this->templateNameResolver->resolve($route);
         }
 

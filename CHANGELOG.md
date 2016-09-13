@@ -9,6 +9,7 @@ To get the diff for a specific change, go to https://github.com/superdesk/web-pu
 
 * 0.1.0-6
 
+ * feature [#139] Add default templates for error pages.
  * feature [#128] [ContentBundle] Add route type constraint validator (takeit)
  * bug [#128] [ContentBundle] Improve possibility to un-assign/assign parent routes (takeit)
  * feature [#132] [Template System][TemplateEngine Bundle] implement pagination in gimmelist

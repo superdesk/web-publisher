@@ -12,3 +12,4 @@ The Superdesk Web Publisher templates system has its own git repository, at: htt
    article_media
    containers_and_widgets
    templates_caching
+   error_pages

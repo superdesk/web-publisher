@@ -78,7 +78,7 @@ class MenuNodeController extends FOSRestController
      * @Route("/api/{version}/templates/menunodes/{menuId}/{nodeId}", requirements={"nodeId"=".+"}, options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_templates_get_menu_node")
      * @Method("GET")
      */
-    public function getAction(Request $request, $menuId, $nodeId)
+    public function getAction($menuId, $nodeId)
     {
         $menuNode = $this->getMenuNode($menuId, $nodeId);
         if (null === $menuNode) {
@@ -143,7 +143,7 @@ class MenuNodeController extends FOSRestController
      * @Route("/api/{version}/templates/menunodes/{menuId}/{nodeId}", requirements={"nodeId"=".+"}, options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_templates_delete_menu_node")
      * @Method("DELETE")
      */
-    public function deleteAction(Request $request, $menuId, $nodeId)
+    public function deleteAction($menuId, $nodeId)
     {
         $menuNode = $this->getMenuNode($menuId, $nodeId);
         if (null === $menuNode) {

@@ -122,7 +122,7 @@ class ContainerController extends FOSRestController
         $form->handleRequest($request);
         if ($form->isValid()) {
             $extraData = $form->get('data')->getExtraData();
-            if ($extraData && is_array($extraData)) {
+            if (!empty($extraData) && is_array($extraData)) {
                 // Remove old containerData's
                 foreach ($container->getData() as $containerData) {
                     $entityManager->remove($containerData);

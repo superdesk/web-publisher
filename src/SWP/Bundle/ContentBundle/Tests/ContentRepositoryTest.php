@@ -24,7 +24,6 @@ class ContentRepositoryTest extends WebTestCase
     public function setUp()
     {
         self::bootKernel();
-
         $this->runCommand('doctrine:phpcr:init:dbal', ['--force' => true, '--env' => 'test'], true);
         $this->runCommand('doctrine:phpcr:repository:init', ['--env' => 'test'], true);
         $this->loadFixtures([
