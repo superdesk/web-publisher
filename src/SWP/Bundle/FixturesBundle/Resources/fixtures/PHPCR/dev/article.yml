@@ -5,7 +5,9 @@ SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\Article:
         parent: <findByTenant(null, '/content')>
         route: "<generatePath('/routes/news')>"
         locale: "en"
+        status: "published"
         publishable: true
+        publishedAt: "<date()>"
         metadata: "<articleMetadata()>"
     article_features:
         title: "Features"
@@ -13,7 +15,9 @@ SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\Article:
         parent: <findByTenant(null, '/content')>
         route: "<generatePath('/routes/articles/features')>"
         locale: "en"
+        status: "published"
         publishable: true
+        publishedAt: "<date()>"
         metadata: "<articleMetadata()>"
     article_get_invlolved:
         title: "Get Involved"
@@ -21,5 +25,7 @@ SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\Article:
         parent: <findByTenant(null, '/content')>
         route: "<generatePath('/routes/articles')>"
         locale: "en"
+        status: "published"
+        publishedAt: "<date()>"
         publishable: true
         metadata: "<articleMetadata()>"

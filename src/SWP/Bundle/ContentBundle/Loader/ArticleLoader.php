@@ -15,6 +15,7 @@
 namespace SWP\Bundle\ContentBundle\Loader;
 
 use PHPCR\Query\QueryInterface;
+use SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\ArticleInterface;
 use SWP\Component\TemplatesSystem\Gimme\Context\Context;
 use SWP\Component\TemplatesSystem\Gimme\Factory\MetaFactoryInterface;
 use SWP\Component\TemplatesSystem\Gimme\Loader\LoaderInterface;
@@ -103,12 +104,20 @@ class ArticleLoader implements LoaderInterface
         if ($responseType === LoaderInterface::SINGLE) {
             if (array_key_exists('contentPath', $parameters)) {
                 $article = $this->dm->find('SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\Article', $parameters['contentPath']);
+                if (null !== $article && !$article->isPublished()) {
+                    $article = null;
+                }
             } elseif (array_key_exists('article', $parameters)) {
                 $this->dm->detach($parameters['article']);
                 $article = $this->dm->find('SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\Article', $parameters['article']->getId());
+                if (null !== $article && !$article->isPublished()) {
+                    $article = null;
+                }
             } elseif (array_key_exists('slug', $parameters)) {
-                $article = $this->dm->getRepository('SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\Article')
-                    ->findOneBy(['slug' => $parameters['slug']]);
+                $article = $this->dm->getRepository('SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\Article')->findOneBy([
+                    'slug' => $parameters['slug'],
+                    'status' => ArticleInterface::STATUS_PUBLISHED,
+                ]);
             }
 
             return $this->getArticleMeta($article);

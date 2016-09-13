@@ -36,7 +36,7 @@ class ContentControllerTest extends WebTestCase
         ], null, 'doctrine_phpcr');
 
         $client = static::createClient();
-        $crawler = $client->request('GET', '/articles/features');
+        $crawler = $client->request('GET', '/news/features');
 
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
         $this->assertTrue($crawler->filter('html:contains("Features")')->count() === 1);
@@ -100,11 +100,7 @@ class ContentControllerTest extends WebTestCase
         $client = static::createClient();
         $crawler = $client->request('GET', '/collection-test/fake-article');
 
-        $this->assertEquals(200, $client->getResponse()->getStatusCode());
-        $this->assertEquals(1, $crawler->filter('html:contains("collection.html.twig")')->count());
-        $this->assertEquals(1, $crawler->filter('html:contains("Test art1")')->count());
-        $this->assertEquals(1, $crawler->filter('html:contains("Test art2")')->count());
-        $this->assertEquals(1, $crawler->filter('html:contains("Test art3")')->count());
+        $this->assertEquals(404, $client->getResponse()->getStatusCode());
     }
 
     public function testLoadingArticlesOnCollectionRoute()
@@ -139,9 +135,9 @@ class ContentControllerTest extends WebTestCase
         ], null, 'doctrine_phpcr');
 
         $client = static::createClient();
+        $client->enableProfiler();
         $crawler = $client->request('GET', '/collection-content');
-        $this->assertEquals(200, $client->getResponse()->getStatusCode());
-        $this->assertEquals(1, $crawler->filter('html:contains("Some content template")')->count());
+        $this->assertEquals(404, $client->getResponse()->getStatusCode());
     }
 
     public function testTestLoadingRouteWithCustomTemplate()

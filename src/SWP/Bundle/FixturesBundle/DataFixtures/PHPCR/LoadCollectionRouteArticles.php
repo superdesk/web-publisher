@@ -69,6 +69,12 @@ class LoadCollectionRouteArticles extends AbstractFixture implements FixtureInte
                     'type' => 'collection',
                     'articles_template_name' => 'test.html.twig',
                 ],
+                [
+                    'parent' => $this->defaultTenantPrefix.'/routes',
+                    'name' => 'collection-with-content',
+                    'type' => 'collection',
+                    'articles_template_name' => 'test.html.twig',
+                ],
             ],
         ];
 
@@ -101,8 +107,8 @@ class LoadCollectionRouteArticles extends AbstractFixture implements FixtureInte
         $routes = [
             'test' => [
                 [
-                    'path' => $this->defaultTenantPrefix.'/routes/collection-content',
-                    'content' => $this->defaultTenantPrefix.'/content/some-content',
+                    'path' => $this->defaultTenantPrefix.'/routes/collection-with-content',
+                    'content' => $this->defaultTenantPrefix.'/content/content-assigned-as-route-content',
                 ],
             ],
         ];
@@ -155,6 +161,12 @@ class LoadCollectionRouteArticles extends AbstractFixture implements FixtureInte
                     'parent' => $this->defaultTenantPrefix.'/content',
                     'locale' => 'en',
                 ],
+                [
+                    'title' => 'Content assigned as route content',
+                    'content' => 'some other content assigned as route content',
+                    'parent' => $this->defaultTenantPrefix.'/content',
+                    'locale' => 'en',
+                ],
             ],
         ];
 
@@ -164,13 +176,15 @@ class LoadCollectionRouteArticles extends AbstractFixture implements FixtureInte
                 $article->setParentDocument($manager->find(null, $articleData['parent']));
                 $article->setTitle($articleData['title']);
                 $article->setBody($articleData['content']);
-                $article->setRoute($manager->find(null, $articleData['route']));
                 $article->setLocale($articleData['locale']);
                 $article->setPublishedAt(new \DateTime());
                 $article->setPublishable(true);
                 $article->setStatus(ArticleInterface::STATUS_PUBLISHED);
                 if (isset($articleData['templateName'])) {
                     $article->setTemplateName($articleData['templateName']);
+                }
+                if (isset($articleData['route'])) {
+                    $article->setRoute($manager->find(null, $articleData['route']));
                 }
 
                 $manager->persist($article);

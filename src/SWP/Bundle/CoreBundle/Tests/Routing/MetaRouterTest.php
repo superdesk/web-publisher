@@ -52,4 +52,27 @@ class MetaRouterTest extends WebTestCase
             $router->generate($metaLoader->load('article', ['contentPath' => '/swp/123456/123abc/content/test-news-article']))
         );
     }
+
+    public function testGenerateForRouteWithContentWithoutRouteAssigned()
+    {
+        self::bootKernel();
+
+        $this->runCommand('doctrine:phpcr:init:dbal', ['--force' => true, '--env' => 'test'], true);
+        $this->runCommand('doctrine:phpcr:repository:init', ['--env' => 'test'], true);
+        $this->loadFixtures([
+            'SWP\Bundle\FixturesBundle\DataFixtures\PHPCR\LoadTenantsData',
+            'SWP\Bundle\FixturesBundle\DataFixtures\PHPCR\LoadCollectionRouteArticles',
+        ], null, 'doctrine_phpcr');
+
+        $metaLoader = $this->getContainer()->get('swp_template_engine_loader_chain');
+        $router = $this->getContainer()->get('cmf_routing.dynamic_router');
+        $context = $this->getContainer()->get('swp_template_engine_context');
+        $routeMeta = $metaLoader->load('route', ['route_object' => $this->getContainer()->get('swp.provider.route')->getOneById('collection-with-content')]);
+        $context->setCurrentPage($routeMeta);
+
+        $this->assertEquals(
+            '/collection-with-content',
+            $router->generate($metaLoader->load('article', ['contentPath' => '/swp/123456/123abc/content/content-assigned-as-route-content']))
+        );
+    }
 }
