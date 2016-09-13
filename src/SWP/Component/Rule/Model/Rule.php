@@ -36,16 +36,25 @@ class Rule implements RuleInterface
      */
     protected $configuration = [];
 
+    /**
+     * {@inheritdoc}
+     */
     public function getId()
     {
         return $this->id;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getValue()
     {
         return $this->value;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function setValue($value)
     {
         $this->value = $value;
@@ -56,21 +65,33 @@ class Rule implements RuleInterface
         return $this->priority;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function setPriority($priority)
     {
         $this->priority = $priority;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getConfiguration()
     {
         return $this->configuration;
     }
 
-    public function setConfiguration($configuration)
+    /**
+     * {@inheritdoc}
+     */
+    public function setConfiguration(array $configuration)
     {
         $this->configuration = $configuration;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function addConfiguration($key, $value)
     {
         $this->configuration[$key] = $value;

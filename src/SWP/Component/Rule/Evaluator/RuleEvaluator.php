@@ -14,12 +14,18 @@
 
 namespace SWP\Component\Rule\Evaluator;
 
+use Psr\Log\LoggerInterface;
 use SWP\Component\Rule\Model\RuleInterface;
 use SWP\Component\Rule\Model\RuleSubjectInterface;
 use Symfony\Component\ExpressionLanguage\ExpressionLanguage;
 
 class RuleEvaluator implements RuleEvaluatorInterface
 {
+    /**
+     * @var LoggerInterface
+     */
+    private $logger;
+
     /**
      * @var ExpressionLanguage
      */
@@ -28,8 +34,9 @@ class RuleEvaluator implements RuleEvaluatorInterface
     /**
      * RuleEvaluator constructor.
      */
-    public function __construct()
+    public function __construct(LoggerInterface $logger)
     {
+        $this->logger = $logger;
         $this->expression = new ExpressionLanguage();
     }
 
@@ -38,6 +45,12 @@ class RuleEvaluator implements RuleEvaluatorInterface
      */
     public function evaluate(RuleInterface $rule, RuleSubjectInterface $subject)
     {
-        return $this->expression->evaluate($rule->getValue(), [$subject->getSubjectType() => $subject]);
+        try {
+            return $this->expression->evaluate($rule->getValue(), [$subject->getSubjectType() => $subject]);
+        } catch (\Exception $e) {
+            $this->logger->warning($e->getMessage());
+        }
+
+        return false;
     }
 }

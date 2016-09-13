@@ -24,11 +24,27 @@ final class RuleApplicatorChain implements RuleApplicatorInterface
      */
     private $ruleApplicators = [];
 
-    public function __construct(array $ruleApplicators)
+    /**
+     * RuleApplicatorChain constructor.
+     *
+     * @param array $ruleApplicators
+     */
+    public function __construct(array $ruleApplicators = [])
     {
         $this->ruleApplicators = $ruleApplicators;
     }
 
+    /**
+     * @param RuleApplicatorInterface $ruleApplicator
+     */
+    public function addApplicator(RuleApplicatorInterface $ruleApplicator)
+    {
+        $this->ruleApplicators[] = $ruleApplicator;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function apply(RuleInterface $rule, RuleSubjectInterface $subject)
     {
         foreach ($this->ruleApplicators as $ruleApplicator) {
@@ -38,6 +54,9 @@ final class RuleApplicatorChain implements RuleApplicatorInterface
         }
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function isSupported(RuleSubjectInterface $subject)
     {
         foreach ($this->ruleApplicators as $ruleApplicator) {

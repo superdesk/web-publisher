@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "386bd00adf36a97c269496b40a1843a1",
-    "content-hash": "a94e069b37bea937e3a5059b29a3d74a",
+    "hash": "c4a18a67801e83d5c3b4b6c59e730e7d",
+    "content-hash": "e674d711760f7041bfe0dbba1830ad24",
     "packages": [
         {
             "name": "ahilles107/updater",
@@ -168,6 +168,45 @@
                 "transliterator"
             ],
             "time": "2015-09-28 16:26:35"
+        },
+        {
+            "name": "burgov/key-value-form-bundle",
+            "version": "1.4.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Burgov/KeyValueFormBundle.git",
+                "reference": "c6ad5dc714ba4b69d62ece839b8e91f4a1192e22"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Burgov/KeyValueFormBundle/zipball/c6ad5dc714ba4b69d62ece839b8e91f4a1192e22",
+                "reference": "c6ad5dc714ba4b69d62ece839b8e91f4a1192e22",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.3",
+                "symfony/form": "~2.3|3.*"
+            },
+            "conflict": {
+                "symfony/form": "2.8.1"
+            },
+            "type": "bundle",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.1-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Burgov\\Bundle\\KeyValueFormBundle\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "A form type for managing key-value pairs",
+            "time": "2016-05-31 12:27:50"
         },
         {
             "name": "danielstjules/stringy",
@@ -3073,7 +3112,7 @@
                     "email": "stof@notk.org"
                 },
                 {
-                    "name": "KnpLabs",
+                    "name": "Knplabs",
                     "homepage": "http://knplabs.com"
                 },
                 {
@@ -4863,7 +4902,7 @@
             ],
             "authors": [
                 {
-                    "name": "Symfony CMF community",
+                    "name": "Symfony CMF Community",
                     "homepage": "https://github.com/symfony-cmf/Routing/contributors"
                 }
             ],
@@ -8091,6 +8130,7 @@
         "knplabs/knp-paginator-bundle": 20,
         "sylius/theme-bundle": 20,
         "superdesk/contentapi-sdk-php": 20,
+        "burgov/key-value-form-bundle": 0,
         "liip/functional-test-bundle": 20,
         "doctrine/doctrine-fixtures-bundle": 20,
         "henrikbjorn/phpspec-code-coverage": 20

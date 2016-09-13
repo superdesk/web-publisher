@@ -22,7 +22,38 @@ use SWP\Component\Storage\Model\PersistableInterface;
 interface RuleInterface extends PersistableInterface
 {
     /**
-     * @return mixed
+     * @param string $value
+     */
+    public function setValue($value);
+
+    /**
+     * @return string
      */
     public function getValue();
+
+    /**
+     * @return int
+     */
+    public function getPriority();
+
+    /**
+     * @param int $priority
+     */
+    public function setPriority($priority);
+
+    /**
+     * @return array
+     */
+    public function getConfiguration();
+
+    /**
+     * @param array $configuration
+     */
+    public function setConfiguration(array $configuration);
+
+    /**
+     * @param string $key
+     * @param string $value
+     */
+    public function addConfiguration($key, $value);
 }

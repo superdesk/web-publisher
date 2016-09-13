@@ -20,7 +20,6 @@ use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
-use SWP\Bundle\CoreBundle\Entity\Rule;
 use SWP\Bundle\RuleBundle\Form\Type\RuleType;
 use SWP\Component\Rule\Model\RuleInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -39,7 +38,7 @@ class RuleController extends FOSRestController
      *         405="Method Not Allowed."
      *     }
      * )
-     * @Route("/api/{version}/rules/", options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_rules_list_rule")
+     * @Route("/api/{version}/rules/", options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_core_list_rule")
      * @Method("GET")
      */
     public function listAction(Request $request)
@@ -67,7 +66,7 @@ class RuleController extends FOSRestController
      *         405="Method Not Allowed."
      *     }
      * )
-     * @Route("/api/{version}/rules/{id}", requirements={"id"="\d+"}, options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_rules_get_rule")
+     * @Route("/api/{version}/rules/{id}", requirements={"id"="\d+"}, options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_core_get_rule")
      * @Method("GET")
      * @ParamConverter("rule", class="SWPCoreBundle:Rule")
      */
@@ -89,14 +88,14 @@ class RuleController extends FOSRestController
      *     },
      *     input="SWP\Bundle\RuleBundle\Form\Type\RuleType"
      * )
-     * @Route("/api/{version}/rules/", options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_rules_create_rule")
+     * @Route("/api/{version}/rules/", options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_core_create_rule")
      * @Method("POST")
      */
     public function createAction(Request $request)
     {
         $ruleRepository = $this->get('swp.repository.rule');
 
-        $rule = new Rule();
+        $rule = $this->get('swp.factory.rule')->create();
         $form = $this->createForm(RuleType::class, $rule);
         $form->handleRequest($request);
 
@@ -109,19 +108,19 @@ class RuleController extends FOSRestController
         return $this->handleView(View::create($form, 400));
     }
 
-    /*
-     * Delete single Rule entity.
+    /**
+     * Delete single rule.
      *
      * @ApiDoc(
      *     resource=true,
      *     description="Delete single rule",
      *     statusCodes={
      *         204="Returned on success.",
-     *         404="Rule not found",
-     *         405="Method Not Allowed."
+     *         404="Returned when rule not found.",
+     *         405="Returned when method not allowed."
      *     }
      * )
-     * @Route("/api/{version}/rules/{id}", requirements={"id"="\d+"}, options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_rules_delete_rule")
+     * @Route("/api/{version}/rules/{id}", options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_core_delete_rule", requirements={"id"="\d+"})
      * @Method("DELETE")
      * @ParamConverter("rule", class="SWPCoreBundle:Rule")
      */
@@ -133,12 +132,12 @@ class RuleController extends FOSRestController
         return $this->handleView(View::create(null, 204));
     }
 
-    /*
-     * Update single Rule entity.
+    /**
+     * Updates single rule.
      *
      * @ApiDoc(
      *     resource=true,
-     *     description="Update single widget",
+     *     description="Update single rule",
      *     statusCodes={
      *         201="Returned on success.",
      *         400="Returned on validation error.",
@@ -147,7 +146,7 @@ class RuleController extends FOSRestController
      *     },
      *     input="SWP\Bundle\RuleBundle\Form\Type\RuleType"
      * )
-     * @Route("/api/{version}/rules/{id}", requirements={"id"="\d+"}, options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_rules_update_rule")
+     * @Route("/api/{version}/rules/{id}", options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_core_update_rule", requirements={"id"="\d+"})
      * @Method("PATCH")
      * @ParamConverter("rule", class="SWPCoreBundle:Rule")
      */

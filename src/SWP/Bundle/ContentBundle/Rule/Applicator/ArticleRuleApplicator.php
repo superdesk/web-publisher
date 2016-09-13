@@ -14,19 +14,25 @@
 
 namespace SWP\Bundle\ContentBundle\Rule\Applicator;
 
+use Psr\Log\LoggerInterface;
 use SWP\Bundle\ContentBundle\Model\ArticleInterface;
-use SWP\Bundle\ContentBundle\Model\RouteInterface;
 use SWP\Bundle\ContentBundle\Provider\RouteProviderInterface;
 use SWP\Component\Rule\Applicator\RuleApplicatorInterface;
 use SWP\Component\Rule\Model\RuleSubjectInterface;
 use SWP\Component\Rule\Model\RuleInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class ArticleRuleApplicator implements RuleApplicatorInterface
+final class ArticleRuleApplicator implements RuleApplicatorInterface
 {
     /**
      * @var RouteProviderInterface
      */
     private $routeProvider;
+
+    /**
+     * @var LoggerInterface
+     */
+    private $logger;
 
     /**
      * @var array
@@ -37,10 +43,12 @@ class ArticleRuleApplicator implements RuleApplicatorInterface
      * ArticleRuleApplicator constructor.
      *
      * @param RouteProviderInterface $routeProvider
+     * @param LoggerInterface        $logger
      */
-    public function __construct(RouteProviderInterface $routeProvider)
+    public function __construct(RouteProviderInterface $routeProvider, LoggerInterface $logger)
     {
         $this->routeProvider = $routeProvider;
+        $this->logger = $logger;
     }
 
     /**
@@ -48,54 +56,74 @@ class ArticleRuleApplicator implements RuleApplicatorInterface
      */
     public function apply(RuleInterface $rule, RuleSubjectInterface $subject)
     {
-        $configuration = $rule->getConfiguration();
+        $configuration = $this->validateRuleConfiguration($rule->getConfiguration());
 
-        $this->validateRuleConfiguration($configuration, $rule);
-
-        if (!$subject instanceof ArticleInterface) {
-            throw new \Exception('Unsupported type!');
+        if (!$this->isAllowedType($subject) || empty($configuration)) {
+            return;
         }
 
-        if (isset($configuration['route'])) {
-            $routeId = $configuration['route'];
-            $route = $this->routeProvider->getOneById($routeId);
+        /* @var ArticleInterface $subject */
+        if (isset($configuration[$this->supportedKeys[0]])) {
+            $route = $this->routeProvider->getOneById($configuration[$this->supportedKeys[0]]);
 
-            $this->ensureRouteExists($route);
+            if (null === $route) {
+                $this->logger->warning('Route not found! Make sure the rule defines an existing route!');
+
+                return;
+            }
 
             $subject->setRoute($route);
         }
 
-        if (isset($configuration['templateName'])) {
-            $subject->setTemplateName($configuration['templateName']);
-        }
-    }
+        $subject->setTemplateName($configuration[$this->supportedKeys[1]]);
 
-    public function isSupported(RuleSubjectInterface $subject)
-    {
-        return $subject instanceof ArticleInterface && 'article' === $subject->getSubjectType();
+        $this->logger->info(sprintf(
+            'Configuration: "%s" for "%s" rule has been applied!',
+            json_encode($configuration),
+            $rule->getValue()
+        ));
     }
 
     /**
      * {@inheritdoc}
      */
-    private function validateRuleConfiguration(array $configuration, RuleInterface $rule)
+    public function isSupported(RuleSubjectInterface $subject)
     {
-        foreach ($configuration as $key => $value) {
-            if (!in_array($key, $this->supportedKeys)) {
-                throw new \InvalidArgumentException(sprintf(
-                    'Configuration with key "%s" is not allowed by "%s" rule! Supported keys are: %s',
-                    $key,
-                    $rule->getValue(),
-                    implode(', ', $this->supportedKeys)
-                ));
-            }
-        }
+        return $subject instanceof ArticleInterface && 'article' === $subject->getSubjectType();
     }
 
-    private function ensureRouteExists(RouteInterface $route)
+    private function validateRuleConfiguration(array $configuration)
     {
-        if (null === $route) {
-            throw new \InvalidArgumentException('Route not found! Make sure the rule defines an existing route!');
+        $resolver = new OptionsResolver();
+        $this->configureOptions($resolver);
+
+        try {
+            return $resolver->resolve($configuration);
+        } catch (\Exception $e) {
+            $this->logger->warning($e->getMessage());
         }
+
+        return [];
+    }
+
+    private function configureOptions(OptionsResolver $resolver)
+    {
+        $resolver->setDefaults([$this->supportedKeys[1] => null]);
+        $resolver->setDefined($this->supportedKeys[0]);
+    }
+
+    private function isAllowedType(RuleSubjectInterface $subject)
+    {
+        if (!$subject instanceof ArticleInterface) {
+            $this->logger->warning(sprintf(
+                '"%s" is not supported by "%s" rule applicator!',
+                is_object($subject) ? get_class($subject) : gettype($subject),
+                get_class($this)
+            ));
+
+            return false;
+        }
+
+        return true;
     }
 }

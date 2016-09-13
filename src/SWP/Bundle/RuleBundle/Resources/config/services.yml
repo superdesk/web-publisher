@@ -1,16 +1,18 @@
 services:
     swp_rule.evaluator.rule:
         class: SWP\Component\Rule\Evaluator\RuleEvaluator
-
-    # replace with chain, and register this in contentBundle
-    swp_rule.applicator.rule.article:
-        class: SWP\Bundle\ContentBundle\Rule\Applicator\ArticleRuleApplicator
+        public: false
         arguments:
-            - '@swp.provider.route'
+            - '@logger'
+
+    swp_rule.applicator_chain:
+        class: SWP\Component\Rule\Applicator\RuleApplicatorChain
+        arguments:
+            - {} # rule applicators array
 
     swp_rule.processor.rule:
         class: SWP\Component\Rule\Processor\RuleProcessor
         arguments:
             - '@swp.repository.rule'
             - '@swp_rule.evaluator.rule'
-            - '@swp_rule.applicator.rule.article'
+            - '@swp_rule.applicator_chain'

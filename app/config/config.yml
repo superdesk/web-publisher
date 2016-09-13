@@ -2,6 +2,7 @@ imports:
     - { resource: "@SWPBridgeBundle/Resources/config/app/config.yml" }
     - { resource: "@SWPContentBundle/Resources/config/app/config.yml" }
     - { resource: "@SWPMultiTenancyBundle/Resources/config/app/config.yml" }
+    - { resource: "@SWPRuleBundle/Resources/config/app/config.yml" }
     - { resource: "@SWPCoreBundle/Resources/config/app/config.yml" }
     - { resource: parameters.yml }
     - { resource: security.yml }

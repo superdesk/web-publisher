@@ -14,8 +14,10 @@
 
 namespace SWP\Bundle\RuleBundle;
 
+use SWP\Bundle\RuleBundle\DependencyInjection\Compiler\RegisterRuleApplicatorsPass;
 use SWP\Bundle\StorageBundle\DependencyInjection\Bundle\Bundle;
 use SWP\Bundle\StorageBundle\Drivers;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 class SWPRuleBundle extends Bundle
 {
@@ -35,5 +37,11 @@ class SWPRuleBundle extends Bundle
     public function getModelClassNamespace()
     {
         return 'SWP\Component\Rule\Model';
+    }
+
+    public function build(ContainerBuilder $container)
+    {
+        parent::build($container);
+        $container->addCompilerPass(new RegisterRuleApplicatorsPass());
     }
 }
