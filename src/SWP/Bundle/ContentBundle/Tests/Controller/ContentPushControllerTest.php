@@ -378,4 +378,191 @@ class ContentPushControllerTest extends WebTestCase
             json_decode($client->getResponse()->getContent(), true)
         );
     }
+
+    public function testAssigningArticleRouteOnContentPushBasedOnRule()
+    {
+        $client = static::createClient();
+        $client->request('POST', $this->router->generate('swp_api_core_create_rule'), [
+            'rule' => [
+                'value' => 'article.getMetadataByKey("located") matches "/Porto/"',
+                'priority' => 1,
+                'configuration' => [
+                    [
+                        'key' => 'route',
+                        'value' => 'articles/assign-article-automatically-here',
+                    ],
+                ],
+            ],
+        ]);
+
+        self::assertEquals(201, $client->getResponse()->getStatusCode());
+
+        $client->request('POST', $this->router->generate('swp_api_content_create_routes'), [
+            'route' => [
+                'name' => 'articles',
+                'type' => 'collection',
+                'parent' => '/',
+                'content' => null,
+            ],
+        ]);
+
+        self::assertEquals(201, $client->getResponse()->getStatusCode());
+
+        $client->request('POST', $this->router->generate('swp_api_content_create_routes'), [
+            'route' => [
+                'name' => 'assign-article-automatically-here',
+                'type' => 'content',
+                'parent' => '/articles',
+                'content' => null,
+            ],
+        ]);
+
+        self::assertEquals(201, $client->getResponse()->getStatusCode());
+
+        $client->request(
+            'POST',
+            $this->router->generate('swp_api_content_push'),
+            [],
+            [],
+            ['CONTENT_TYPE' => 'application/json'],
+            self::TEST_CONTENT
+        );
+
+        self::assertEquals(201, $client->getResponse()->getStatusCode());
+
+        $client->request(
+            'GET',
+            $this->router->generate('swp_api_content_show_articles', ['id' => 'ads-fsadf-sdaf-sadf-sadf'])
+        );
+
+        self::assertEquals(200, $client->getResponse()->getStatusCode());
+        self::assertArraySubset(
+            ['route' => ['id' => '/swp/123456/123abc/routes/articles/assign-article-automatically-here']],
+            json_decode($client->getResponse()->getContent(), true)
+        );
+    }
+
+    public function testAssigningDefaultRouteIfRuleNotMatch()
+    {
+        $client = static::createClient();
+        $client->request('POST', $this->router->generate('swp_api_core_create_rule'), [
+            'rule' => [
+                'value' => 'article.getMetadataByKey("located") matches "/Fake/"',
+                'priority' => 1,
+                'configuration' => [
+                    [
+                        'key' => 'route',
+                        'value' => 'articles/assign-article-automatically-here',
+                    ],
+                ],
+            ],
+        ]);
+
+        self::assertEquals(201, $client->getResponse()->getStatusCode());
+
+        $client->request('POST', $this->router->generate('swp_api_content_create_routes'), [
+            'route' => [
+                'name' => 'articles',
+                'type' => 'collection',
+                'parent' => '/',
+                'content' => null,
+            ],
+        ]);
+
+        self::assertEquals(201, $client->getResponse()->getStatusCode());
+
+        $client->request(
+            'POST',
+            $this->router->generate('swp_api_content_push'),
+            [],
+            [],
+            ['CONTENT_TYPE' => 'application/json'],
+            self::TEST_CONTENT
+        );
+
+        self::assertEquals(201, $client->getResponse()->getStatusCode());
+
+        $client->request(
+            'GET',
+            $this->router->generate('swp_api_content_show_articles', ['id' => 'ads-fsadf-sdaf-sadf-sadf'])
+        );
+
+        self::assertEquals(200, $client->getResponse()->getStatusCode());
+        self::assertArraySubset(
+            ['route' => ['id' => '/swp/123456/123abc/routes/articles']],
+            json_decode($client->getResponse()->getContent(), true)
+        );
+    }
+
+    public function testAssigningRouteAndTemplateNameBasedOnRule()
+    {
+        $client = static::createClient();
+        $client->request('POST', $this->router->generate('swp_api_core_create_rule'), [
+            'rule' => [
+                'value' => 'article.getMetadataByKey("located") matches "/Porto/"',
+                'priority' => 1,
+                'configuration' => [
+                    [
+                        'key' => 'route',
+                        'value' => 'articles/assign-article-automatically-here',
+                    ],
+                    [
+                        'key' => 'templateName',
+                        'value' => 'test.html.twig',
+                    ],
+                ],
+            ],
+        ]);
+
+        self::assertEquals(201, $client->getResponse()->getStatusCode());
+
+        $client->request('POST', $this->router->generate('swp_api_content_create_routes'), [
+            'route' => [
+                'name' => 'articles',
+                'type' => 'collection',
+                'parent' => '/',
+                'content' => null,
+            ],
+        ]);
+
+        self::assertEquals(201, $client->getResponse()->getStatusCode());
+
+        $client->request('POST', $this->router->generate('swp_api_content_create_routes'), [
+            'route' => [
+                'name' => 'assign-article-automatically-here',
+                'type' => 'content',
+                'parent' => '/articles',
+                'content' => null,
+            ],
+        ]);
+
+        self::assertEquals(201, $client->getResponse()->getStatusCode());
+
+        $client->request(
+            'POST',
+            $this->router->generate('swp_api_content_push'),
+            [],
+            [],
+            ['CONTENT_TYPE' => 'application/json'],
+            self::TEST_CONTENT
+        );
+
+        self::assertEquals(201, $client->getResponse()->getStatusCode());
+
+        $client->request(
+            'GET',
+            $this->router->generate('swp_api_content_show_articles', ['id' => 'ads-fsadf-sdaf-sadf-sadf'])
+        );
+
+        self::assertEquals(200, $client->getResponse()->getStatusCode());
+        self::assertArraySubset(
+            ['route' => ['id' => '/swp/123456/123abc/routes/articles/assign-article-automatically-here']],
+            json_decode($client->getResponse()->getContent(), true)
+        );
+
+        self::assertArraySubset(
+            ['template_name' => 'test.html.twig'],
+            json_decode($client->getResponse()->getContent(), true)
+        );
+    }
 }

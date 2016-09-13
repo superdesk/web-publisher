@@ -87,7 +87,8 @@
         "hoa/mime": "3.16.01.15",
         "sentry/sentry-symfony": "^0.4.0",
         "ocramius/proxy-manager": "^1.0",
-        "danielstjules/stringy": "~2.3"
+        "danielstjules/stringy": "~2.3",
+        "burgov/key-value-form-bundle": "@stable"
     },
     "require-dev": {
         "sensio/generator-bundle": "~3.0",
@@ -109,7 +110,9 @@
         "swp/bridge": "self.version",
         "swp/storage-bundle": "self.version",
         "swp/storage": "self.version",
-        "swp/templates-system": "self.version"
+        "swp/templates-system": "self.version",
+        "swp/rule-bundle": "self.version",
+        "swp/rule": "self.version"
     },
     "scripts": {
         "post-install-cmd": [

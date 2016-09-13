@@ -1,0 +1,6 @@
+jms_serializer:
+    metadata:
+        directories:
+            SWPRuleBundle:
+                namespace_prefix: "SWP\\Component\\Rule"
+                path: "@SWPRuleBundle/Resources/config/serializer"

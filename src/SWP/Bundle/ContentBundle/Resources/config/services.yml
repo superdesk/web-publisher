@@ -129,3 +129,18 @@ services:
             - '@swp.provider.route'
         tags:
             - { name: form.type }
+
+    swp_content_bundle.article_rules_subscriber:
+        class: SWP\Bundle\ContentBundle\EventListener\ProcessArticleRulesSubscriber
+        arguments:
+            - '@swp_rule.processor.rule'
+        tags:
+            - { name: kernel.event_subscriber }
+
+    swp_content_bundle.applicator.rule.article:
+        class: SWP\Bundle\ContentBundle\Rule\Applicator\ArticleRuleApplicator
+        arguments:
+            - '@swp.provider.route'
+            - '@logger'
+        tags:
+            - { name: applicator.rule_applicator }
