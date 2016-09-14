@@ -41,6 +41,11 @@ SWP\Bundle\ContentBundle\Model\Article:
             type: boolean
         media:
             expose: true
+        metadata:
+            expose: true
+            type: array
+            accessor:
+                getter: getMetadata
     relations:
         -
             rel: self

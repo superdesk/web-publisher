@@ -315,7 +315,7 @@ class BaseContent implements ContentInterface
     /**
      * {@inheritdoc}
      */
-    public function setServices(array $services)
+    public function setServices(array $services = [])
     {
         $this->services = $services;
     }

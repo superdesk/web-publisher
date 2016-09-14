@@ -104,6 +104,17 @@ class BaseContentSpec extends ObjectBehavior
         $this->getSubjects()->shouldReturn(['sub1', 'sub2']);
     }
 
+    public function it_has_no_services_by_default()
+    {
+        $this->getServices()->shouldReturn([]);
+    }
+
+    public function its_services_is_mutable()
+    {
+        $this->setServices(['sub1', 'sub2']);
+        $this->getServices()->shouldReturn(['sub1', 'sub2']);
+    }
+
     public function it_has_no_type_by_default()
     {
         $this->getType()->shouldReturn(null);
