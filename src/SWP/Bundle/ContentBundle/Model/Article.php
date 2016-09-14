@@ -349,9 +349,29 @@ class Article implements ArticleInterface, MediaAwareArticleInterface
     /**
      * {@inheritdoc}
      */
+    public function getMetadataByKey($key)
+    {
+        $metadata = $this->getMetadata();
+
+        if (isset($metadata[$key])) {
+            return $metadata[$key];
+        }
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function setMetadata(array $metadata)
     {
         $this->metadata = json_encode($metadata, true);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getSubjectType()
+    {
+        return 'article';
     }
 
     /**
