@@ -3112,7 +3112,7 @@
                     "email": "stof@notk.org"
                 },
                 {
-                    "name": "Knplabs",
+                    "name": "KnpLabs",
                     "homepage": "http://knplabs.com"
                 },
                 {
@@ -4662,12 +4662,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Sylius/SyliusThemeBundle.git",
-                "reference": "f465f72e936af02c0d40471ccbc54d930210be83"
+                "reference": "f60a8bc874cce2374c83bc2a7b6fc45df9bc3db3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Sylius/SyliusThemeBundle/zipball/f465f72e936af02c0d40471ccbc54d930210be83",
-                "reference": "f465f72e936af02c0d40471ccbc54d930210be83",
+                "url": "https://api.github.com/repos/Sylius/SyliusThemeBundle/zipball/f60a8bc874cce2374c83bc2a7b6fc45df9bc3db3",
+                "reference": "f60a8bc874cce2374c83bc2a7b6fc45df9bc3db3",
                 "shasum": ""
             },
             "require": {
@@ -4721,7 +4721,7 @@
                 "themes",
                 "theming"
             ],
-            "time": "2016-09-02 11:58:49"
+            "time": "2016-09-13 10:22:57"
         },
         {
             "name": "symfony-cmf/core-bundle",
@@ -4902,7 +4902,7 @@
             ],
             "authors": [
                 {
-                    "name": "Symfony CMF Community",
+                    "name": "Symfony CMF community",
                     "homepage": "https://github.com/symfony-cmf/Routing/contributors"
                 }
             ],
