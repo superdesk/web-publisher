@@ -21,7 +21,8 @@ if (extension_loaded('xcache') && ini_get('xcache.enabled')) {
 
 $kernel = new AppKernel('prod', false);
 $kernel->loadClassCache();
-$kernel = new AppCache($kernel);
+// Disable AppCache until there will be good solution for https://github.com/FriendsOfSymfony/FOSHttpCacheBundle/issues/276
+//$kernel = new AppCache($kernel);
 
 Request::enableHttpMethodParameterOverride();
 $request = Request::createFromGlobals();
