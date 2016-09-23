@@ -26,6 +26,9 @@ SWP\Component\Bridge\Model\Package:
             type: string
         subjects:
             type: array
+        services:
+            type: array
+            nullable: true
         places:
             type: array
         type:

@@ -188,6 +188,11 @@ class ProcessArticleMediaListener
             str_replace(PHP_EOL, '', $body),
             $embeds
         );
+
+        if (empty($embeds)) {
+            return;
+        }
+
         $figureString = $embeds[2];
 
         $crawler = new Crawler($figureString);
@@ -218,6 +223,10 @@ class ProcessArticleMediaListener
      */
     private function createGenericDocument($nodeName, $parent)
     {
+        if (null !== $document = $this->objectManager->find(Generic::class, $parent->getId().'/'.$nodeName)) {
+            return $document;
+        }
+
         $document = new Generic();
         $document
             ->setParentDocument($parent)
