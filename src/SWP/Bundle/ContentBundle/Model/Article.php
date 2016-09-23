@@ -103,6 +103,11 @@ class Article implements ArticleInterface, MediaAwareArticleInterface
     protected $media;
 
     /**
+     * @var string
+     */
+    protected $lead;
+
+    /**
      * Article constructor.
      */
     public function __construct()
@@ -372,6 +377,22 @@ class Article implements ArticleInterface, MediaAwareArticleInterface
     public function getSubjectType()
     {
         return 'article';
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getLead()
+    {
+        return $this->lead;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setLead($lead)
+    {
+        $this->lead = $lead;
     }
 
     /**

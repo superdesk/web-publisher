@@ -175,4 +175,9 @@ interface ContentInterface
      * @return array
      */
     public function getMetadata();
+
+    /**
+     * @return string
+     */
+    public function getDescription();
 }

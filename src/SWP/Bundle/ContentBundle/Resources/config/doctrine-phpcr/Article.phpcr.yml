@@ -9,6 +9,8 @@ SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\Article:
             type: string
         title:
             type: string
+        lead:
+            type: string
         templateName:
             type: string
             nullable: true

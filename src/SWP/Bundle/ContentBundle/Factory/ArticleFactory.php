@@ -93,11 +93,21 @@ class ArticleFactory implements ArticleFactoryInterface
         $article->setParentDocument($this->articleProvider->getParent($this->contentRelativePath));
         $article->setTitle($package->getHeadline());
         $article->setLocale($package->getLanguage());
+        $article->setLead($this->populateLead($package));
         // assign default route
         $article->setRoute($this->routeProvider->getRouteForArticle($article));
         $article->setMetadata($package->getMetadata());
 
         return $article;
+    }
+
+    private function populateLead(PackageInterface $package)
+    {
+        return $package->getDescription().implode('', array_map(function (ItemInterface $item) {
+            $this->ensureTypeIsAllowed($item->getType());
+
+            return ' '.$item->getDescription();
+        }, $package->getItems()->toArray()));
     }
 
     private function populateBody(PackageInterface $package)

@@ -24,6 +24,8 @@ SWP\Component\Bridge\Model\Package:
             type: string
         language:
             type: string
+        description:
+            type: string
         subjects:
             type: array
         services:
