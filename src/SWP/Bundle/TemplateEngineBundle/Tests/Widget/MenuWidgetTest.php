@@ -14,7 +14,7 @@
 namespace SWP\Bundle\TemplateEngineBundle\Tests\Widget;
 
 use SWP\Bundle\FixturesBundle\WebTestCase;
-use SWP\Component\TemplatesSystem\Gimme\Widget\MenuWidgetHandler;
+use SWP\Bundle\TemplateEngineBundle\Widget\MenuWidgetHandler;
 use SWP\Component\TemplatesSystem\Tests\Gimme\Model\WidgetModel;
 
 class MenuWidgetTest extends WebTestCase
@@ -38,8 +38,7 @@ class MenuWidgetTest extends WebTestCase
     {
         $widgetModel = new WidgetModel();
         $widgetModel->setParameters(['menu_name' => 'test']);
-        $widgetHandler = new MenuWidgetHandler($widgetModel);
-        $widgetHandler->setContainer($this->getContainer());
+        $widgetHandler = new MenuWidgetHandler($widgetModel, $this->getContainer()->get('templating'));
 
         $content = $widgetHandler->render();
         $this->assertContains('<a href="http://example.com/home">Home</a>', $content);

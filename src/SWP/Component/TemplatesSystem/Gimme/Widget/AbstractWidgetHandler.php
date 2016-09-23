@@ -15,16 +15,10 @@
 namespace SWP\Component\TemplatesSystem\Gimme\Widget;
 
 use SWP\Component\TemplatesSystem\Gimme\Model\WidgetModelInterface;
-use Symfony\Component\DependencyInjection\ContainerAwareInterface;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 
-abstract class AbstractWidgetHandler implements WidgetHandlerInterface, ContainerAwareInterface
+abstract class AbstractWidgetHandler implements WidgetHandlerInterface
 {
-    const WIDGET_TEMPLATE_PATH = 'widgets';
-
     protected static $expectedParameters = [];
-
-    protected $container;
 
     protected $widgetModel;
 
@@ -44,14 +38,6 @@ abstract class AbstractWidgetHandler implements WidgetHandlerInterface, Containe
     public function __construct(WidgetModelInterface $widgetModel)
     {
         $this->widgetModel = $widgetModel;
-    }
-
-    /**
-     * @param ContainerInterface|null $container
-     */
-    public function setContainer(ContainerInterface $container = null)
-    {
-        $this->container = $container;
     }
 
     /**
@@ -84,18 +70,6 @@ abstract class AbstractWidgetHandler implements WidgetHandlerInterface, Containe
     public function isVisible()
     {
         return $this->widgetModel->getVisible();
-    }
-
-    /**
-     * Render given template with given parameters.
-     */
-    protected function renderTemplate($templateName, $parameters = null)
-    {
-        if (null === $parameters) {
-            $parameters = $this->getAllParametersWithValue();
-        }
-
-        return $this->container->get('templating')->render(self::WIDGET_TEMPLATE_PATH.'/'.$templateName, $parameters);
     }
 
     /**

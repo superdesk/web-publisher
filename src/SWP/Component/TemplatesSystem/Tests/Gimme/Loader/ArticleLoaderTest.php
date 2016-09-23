@@ -11,7 +11,7 @@
  * @license http://www.superdesk.org/license
  */
 
-namespace SWP\Component\TemplatesSystem\Tests\Context;
+namespace SWP\Component\TemplatesSystem\Tests\Gimme\Loader;
 
 use Doctrine\Common\Cache\ArrayCache;
 use SWP\Component\TemplatesSystem\Gimme\Context\Context;
@@ -26,7 +26,7 @@ class ArticleLoaderTest extends \PHPUnit_Framework_TestCase
     {
         $context = new Context(new ArrayCache());
         $metaFactory = new MetaFactory($context);
-        $articleLoader = new ArticleLoader(__DIR__.'/../../spec/Gimme/Meta', $metaFactory);
+        $articleLoader = new ArticleLoader(__DIR__.'/../../Twig/Node', $metaFactory);
 
         $result = $articleLoader->load('articles', [], LoaderInterface::COLLECTION);
         self::assertInstanceOf(MetaCollection::class, $result);

@@ -136,7 +136,7 @@ class ContentControllerTest extends WebTestCase
 
         $client = static::createClient();
         $client->enableProfiler();
-        $crawler = $client->request('GET', '/collection-content');
+        $client->request('GET', '/collection-content');
         $this->assertEquals(404, $client->getResponse()->getStatusCode());
     }
 
