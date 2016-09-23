@@ -1,9 +1,13 @@
 services:
+    swp_rule.expression_language:
+        class: Symfony\Component\ExpressionLanguage\ExpressionLanguage
+
     swp_rule.evaluator.rule:
         class: SWP\Component\Rule\Evaluator\RuleEvaluator
         public: false
         arguments:
             - '@logger'
+            - '@swp_rule.expression_language'
 
     swp_rule.applicator_chain:
         class: SWP\Component\Rule\Applicator\RuleApplicatorChain

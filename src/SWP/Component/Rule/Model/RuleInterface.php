@@ -22,14 +22,14 @@ use SWP\Component\Storage\Model\PersistableInterface;
 interface RuleInterface extends PersistableInterface
 {
     /**
-     * @param string $value
+     * @param string $expression
      */
-    public function setValue($value);
+    public function setExpression($expression);
 
     /**
      * @return string
      */
-    public function getValue();
+    public function getExpression();
 
     /**
      * @return int

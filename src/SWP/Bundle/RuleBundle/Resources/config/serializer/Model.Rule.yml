@@ -4,7 +4,7 @@ SWP\Component\Rule\Model\Rule:
         id:
             expose: true
             type: integer
-        value:
+        expression:
             expose: true
             type: string
         priority:
