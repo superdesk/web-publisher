@@ -101,6 +101,7 @@ doctrine_cache:
     providers:
         main_cache:
             type: "%doctrine_cache_driver%"
+            namespace: "%secret%"
 
 # Swiftmailer Configuration
 swiftmailer:
@@ -111,6 +112,8 @@ swiftmailer:
     spool:     { type: memory }
 
 fos_http_cache:
+    user_context:
+        enabled: false
     cache_manager:
         enabled: true
         generate_url_type: 0
