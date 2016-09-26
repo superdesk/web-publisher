@@ -1,7 +1,7 @@
 <?php
 
 /**
- * This file is part of the Superdesk Web Publisher Templates System.
+ * This file is part of the Superdesk Web Publisher Template Engine Bundle.
  *
  * Copyright 2015 Sourcefabric z.ú. and contributors.
  *
@@ -12,9 +12,9 @@
  * @license http://www.superdesk.org/license
  */
 
-namespace SWP\Component\TemplatesSystem\Gimme\Widget;
+namespace SWP\Bundle\TemplateEngineBundle\Widget;
 
-class GoogleAdSenseWidgetHandler extends AbstractWidgetHandler
+class GoogleAdSenseWidgetHandler extends TemplatingWidgetHandler
 {
     protected static $expectedParameters = [
         'style' => [

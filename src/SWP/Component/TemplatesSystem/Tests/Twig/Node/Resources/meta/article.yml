@@ -1,5 +1,5 @@
 name: article
-class: "SWP\\Bundle\\ContentBundle\\Model\\ArticleInterface"
+class: "SWP\\Component\\TemplatesSystem\\Tests\\Article"
 description: Article Meta is representation of Article in Superdesk Web Publisher.
 properties:
     title:

@@ -12,11 +12,11 @@
  * @license http://www.superdesk.org/license
  */
 
-namespace spec\SWP\Component\TemplatesSystem\Gimme\Widget;
+namespace spec\SWP\Bundle\TemplateEngineBundle\Widget;
 
 use PhpSpec\ObjectBehavior;
 use SWP\Component\TemplatesSystem\Gimme\Model\WidgetModelInterface;
-use SWP\Component\TemplatesSystem\Gimme\Widget\GoogleAdSenseWidgetHandler;
+use SWP\Bundle\TemplateEngineBundle\Widget\GoogleAdSenseWidgetHandler;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Templating\EngineInterface;
@@ -31,10 +31,10 @@ class GoogleAdSenseWidgetHandlerSpec extends ObjectBehavior
         $this->shouldHaveType(GoogleAdSenseWidgetHandler::class);
     }
 
-    public function let(WidgetModelInterface $widgetModel)
+    public function let(WidgetModelInterface $widgetModel, EngineInterface $templating)
     {
         $widgetModel->getParameters()->willReturn(['ad_client' => 'client id']);
-        $this->beConstructedWith($widgetModel);
+        $this->beConstructedWith($widgetModel, $templating);
     }
 
     public function it_should_render(
@@ -42,7 +42,6 @@ class GoogleAdSenseWidgetHandlerSpec extends ObjectBehavior
         EngineInterface $templating,
         Response $response
     ) {
-        $container->get('templating')->willReturn($templating);
         $templating->render('widgets/adsense.html.twig', [
             'style' => 'display:block',
             'ad_client' => 'client id',
@@ -50,8 +49,6 @@ class GoogleAdSenseWidgetHandlerSpec extends ObjectBehavior
             'ad_slot' => null,
             'ad_format' => 'auto',
         ])->willReturn($response);
-
-        $this->setContainer($container);
 
         $this->render()->shouldReturn($response);
     }
@@ -63,9 +60,8 @@ class GoogleAdSenseWidgetHandlerSpec extends ObjectBehavior
         WidgetModelInterface $widgetModel
     ) {
         $widgetModel->getParameters()->willReturn([]);
-        $this->beConstructedWith($widgetModel);
+        $this->beConstructedWith($widgetModel, $templating);
 
-        $container->get('templating')->willReturn($templating);
         $templating->render('widgets/adsense.html.twig', [
             'style' => 'display:block',
             'ad_client' => null,
@@ -73,8 +69,6 @@ class GoogleAdSenseWidgetHandlerSpec extends ObjectBehavior
             'ad_slot' => null,
             'ad_format' => 'auto',
         ])->willReturn($response);
-
-        $this->setContainer($container);
 
         $this->render()->shouldReturn($response);
     }

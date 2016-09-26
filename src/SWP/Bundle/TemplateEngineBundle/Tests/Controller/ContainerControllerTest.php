@@ -116,7 +116,7 @@ class ContainerControllerTest extends WebTestCase
         $this->assertEquals($client->getResponse()->getContent(), '{"id":1,"type":1,"name":"Simple Container 1","width":300,"height":400,"styles":"color: #00000","css_class":"col-md-12","visible":true,"data":[{"key":"test-key","value":"test-value"}],"widgets":[],"_links":{"self":{"href":"\/api\/v1\/templates\/containers\/1"}}}');
     }
 
-    public function testLinkingWidgetToContainerApi()
+    public function testLinkingAndUnlinkingWidgetToContainerApi()
     {
         $client = static::createClient();
         $client->request('LINK', $this->router->generate('swp_api_templates_link_container', ['id' => 1]), [], [], [
@@ -127,14 +127,7 @@ class ContainerControllerTest extends WebTestCase
             '{"id":1,"type":1,"name":"Simple Container 1","width":300,"height":400,"styles":"color: #00000","css_class":"col-md-12","visible":true,"data":[],"widgets":[{"id":1,"widget":{"id":1,"type":"\\\\SWP\\\\Component\\\\TemplatesSystem\\\\Gimme\\\\Widget\\\\HtmlWidgetHandler","name":"HtmlWidgetHandler number 1","visible":true,"parameters":{"html_body":"sample widget with <span style=\'color:red\'>html<\/span>"},"_links":{"self":{"href":"\/api\/v1\/templates\/widgets\/1"}}},"position":"0"}],"_links":{"self":{"href":"\/api\/v1\/templates\/containers\/1"}}}',
             $client->getResponse()->getContent()
         );
-    }
 
-    public function testUnlinkingWidgetToContainerApi()
-    {
-        $client = static::createClient();
-        $client->request('LINK', $this->router->generate('swp_api_templates_link_container', ['id' => 1]), [], [], [
-            'HTTP_LINK' => '</api/v1/templates/widgets/1; rel="widget">',
-        ]);
         $client->request('UNLINK', $this->router->generate('swp_api_templates_link_container', ['id' => 1]), [], [], [
             'HTTP_LINK' => '</api/v1/templates/widgets/1; rel="widget">',
         ]);
