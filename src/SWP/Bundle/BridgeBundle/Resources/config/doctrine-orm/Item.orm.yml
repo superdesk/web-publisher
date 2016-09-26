@@ -22,6 +22,7 @@ SWP\Component\Bridge\Model\Item:
             type: string
         description:
             type: string
+            nullable: true
         subjects:
             type: array
         services:

@@ -103,11 +103,11 @@ class ArticleFactory implements ArticleFactoryInterface
 
     private function populateLead(PackageInterface $package)
     {
-        return $package->getDescription().implode('', array_map(function (ItemInterface $item) {
+        return trim($package->getDescription().implode('', array_map(function (ItemInterface $item) {
             $this->ensureTypeIsAllowed($item->getType());
 
             return ' '.$item->getDescription();
-        }, $package->getItems()->toArray()));
+        }, $package->getItems()->toArray())));
     }
 
     private function populateBody(PackageInterface $package)

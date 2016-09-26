@@ -11,6 +11,7 @@ SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\Article:
             type: string
         lead:
             type: string
+            nullable: true
         templateName:
             type: string
             nullable: true
