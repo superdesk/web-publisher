@@ -2,3 +2,4 @@
 * :doc:`/bundles/SWPStorageBundle/index`
 * :doc:`/bundles/SWPBridgeBundle/index`
 * :doc:`/bundles/SWPContentBundle/index`
+* :doc:`/bundles/SWPRuleBundle/index`

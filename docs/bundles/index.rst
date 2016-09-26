@@ -8,3 +8,4 @@ Bundles
    SWPStorageBundle/index
    SWPBridgeBundle/index
    SWPContentBundle/index
+   SWPRuleBundle/index
