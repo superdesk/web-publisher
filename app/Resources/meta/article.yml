@@ -26,4 +26,7 @@ properties:
     route:
         description: "Article route"
         type: meta
+    lead:
+        description: "Article lead/abstract"
+        type: text
 to_string: title

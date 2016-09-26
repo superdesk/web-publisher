@@ -42,11 +42,6 @@ interface ItemInterface extends ContentInterface
     /**
      * @return string
      */
-    public function getDescription();
-
-    /**
-     * @return string
-     */
     public function getUsageTerms();
 
     /**

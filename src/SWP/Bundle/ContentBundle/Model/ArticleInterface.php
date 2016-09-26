@@ -112,4 +112,14 @@ interface ArticleInterface extends TimestampableInterface, TranslatableInterface
      * @return RouteInterface
      */
     public function getRoute();
+
+    /**
+     * @return string
+     */
+    public function getLead();
+
+    /**
+     * @param string $lead
+     */
+    public function setLead($lead);
 }
