@@ -52,6 +52,11 @@ suites:
         psr4_prefix: SWP\Bundle\StorageBundle
         spec_path: src/SWP/Bundle/StorageBundle
         src_path: src/SWP/Bundle/StorageBundle
+    TemplateEngineBundle_suite:
+        namespace: SWP\Bundle\TemplateEngineBundle
+        psr4_prefix: SWP\Bundle\TemplateEngineBundle
+        spec_path: src/SWP/Bundle/TemplateEngineBundle
+        src_path: src/SWP/Bundle/TemplateEngineBundle
 
 #extensions:
 #    - PhpSpec\Extension\CodeCoverageExtension

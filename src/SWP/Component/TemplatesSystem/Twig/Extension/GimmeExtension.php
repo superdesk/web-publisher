@@ -14,6 +14,8 @@
 
 namespace SWP\Component\TemplatesSystem\Twig\Extension;
 
+use SWP\Component\TemplatesSystem\Gimme\Context\Context;
+use SWP\Component\TemplatesSystem\Gimme\Loader\LoaderInterface;
 use SWP\Component\TemplatesSystem\Twig\TokenParser\GimmeListTokenParser;
 use SWP\Component\TemplatesSystem\Twig\TokenParser\GimmeTokenParser;
 
@@ -23,7 +25,13 @@ class GimmeExtension extends \Twig_Extension implements \Twig_Extension_GlobalsI
 
     protected $context;
 
-    public function __construct($context, $loader)
+    /**
+     * GimmeExtension constructor.
+     *
+     * @param Context         $context
+     * @param LoaderInterface $loader
+     */
+    public function __construct(Context $context, LoaderInterface $loader)
     {
         $this->context = $context;
         $this->loader = $loader;

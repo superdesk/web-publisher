@@ -81,7 +81,6 @@ services:
     swp.service.route:
         class: '%swp.service.route.class%'
         arguments:
-            - '@swp.provider.article'
             - '@event_dispatcher'
 
     swp.service.article:

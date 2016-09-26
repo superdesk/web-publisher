@@ -12,23 +12,33 @@
  * @license http://www.superdesk.org/license
  */
 
-namespace SWP\Component\TemplatesSystem\Gimme\Widget;
+namespace SWP\Component\TemplatesSystem\Tests;
 
-class MenuWidgetHandler extends AbstractWidgetHandler
+class Article
 {
-    protected static $expectedParameters = [
-        'menu_name' => [
-            'type' => 'string',
-        ],
-    ];
+    /**
+     * @var string
+     */
+    protected $title;
 
     /**
-     * Render widget content.
-     *
+     * @var keywords
+     */
+    protected $keywords;
+
+    /**
      * @return string
      */
-    public function render()
+    public function getTitle()
     {
-        return $this->renderTemplate('menu.html.twig');
+        return $this->title;
+    }
+
+    /**
+     * @return keywords
+     */
+    public function getKeywords()
+    {
+        return $this->keywords;
     }
 }
