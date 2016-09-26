@@ -17,17 +17,11 @@ namespace SWP\Bundle\ContentBundle\Service;
 use SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\RouteObjectInterface;
 use SWP\Bundle\ContentBundle\Event\RouteEvent;
 use SWP\Bundle\ContentBundle\Model\RouteInterface;
-use SWP\Bundle\ContentBundle\Provider\ArticleProviderInterface;
 use SWP\Bundle\ContentBundle\RouteEvents;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class RouteService implements RouteServiceInterface
 {
-    /**
-     * @var ArticleProviderInterface
-     */
-    private $articleProvider;
-
     /**
      * @var EventDispatcherInterface
      */
@@ -36,14 +30,10 @@ class RouteService implements RouteServiceInterface
     /**
      * RouteService constructor.
      *
-     * @param ArticleProviderInterface $articleProvider
      * @param EventDispatcherInterface $eventDispatcher
      */
-    public function __construct(
-        ArticleProviderInterface $articleProvider,
-        EventDispatcherInterface $eventDispatcher
-    ) {
-        $this->articleProvider = $articleProvider;
+    public function __construct(EventDispatcherInterface $eventDispatcher)
+    {
         $this->eventDispatcher = $eventDispatcher;
     }
 
