@@ -29,5 +29,5 @@ The route to be assigned is identified by its id, for example:
 
 If a template name parameter (`templateName`) is given with the rule, this template will be assigned to the article instead of the one in the route.
 
-Every rules is automatically processed when the content is pushed to ``api/v1/content/push`` API endpoint. The ``SWP\Bundle\ContentBundle\EventListener\ProcessArticleRulesSubscriber`` subscriber subscribes to
+Every rule is automatically processed when the content is pushed to ``api/v1/content/push`` API endpoint. The ``SWP\Bundle\ContentBundle\EventListener\ProcessArticleRulesSubscriber`` subscriber subscribes to
 ``SWP\Bundle\ContentBundle\ArticleEvents::PRE_CREATE`` event and runs the processing when needed.
