@@ -181,6 +181,17 @@ class BaseContentSpec extends ObjectBehavior
         $this->getVersion()->shouldReturn(1);
     }
 
+    public function it_has_no_description_by_default()
+    {
+        $this->getDescription()->shouldReturn(null);
+    }
+
+    public function its_description_is_mutable()
+    {
+        $this->setDescription(1);
+        $this->getDescription()->shouldReturn(1);
+    }
+
     public function its_gets_all_metadata()
     {
         $metadata = [

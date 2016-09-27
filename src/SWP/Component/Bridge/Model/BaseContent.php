@@ -97,6 +97,11 @@ class BaseContent implements ContentInterface
     protected $edNote;
 
     /**
+     * @var string
+     */
+    protected $description;
+
+    /**
      * @return mixed
      */
     public function getId()
@@ -350,6 +355,22 @@ class BaseContent implements ContentInterface
     public function setGenre($genre)
     {
         $this->genre = $genre;
+    }
+
+    /**
+     * @return string
+     */
+    public function getDescription()
+    {
+        return $this->description;
+    }
+
+    /**
+     * @param string $description
+     */
+    public function setDescription($description)
+    {
+        $this->description = $description;
     }
 
     /**

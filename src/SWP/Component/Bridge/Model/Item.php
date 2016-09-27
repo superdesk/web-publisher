@@ -33,11 +33,6 @@ class Item extends BaseContent implements ItemInterface, TimestampableInterface
     protected $bodyText;
 
     /**
-     * @var string
-     */
-    protected $description;
-
-    /**
      * Collection.
      */
     protected $renditions;
@@ -119,22 +114,6 @@ class Item extends BaseContent implements ItemInterface, TimestampableInterface
     public function setBodyText($bodyText)
     {
         $this->bodyText = $bodyText;
-    }
-
-    /**
-     * @return string
-     */
-    public function getDescription()
-    {
-        return $this->description;
-    }
-
-    /**
-     * @param string $description
-     */
-    public function setDescription($description)
-    {
-        $this->description = $description;
     }
 
     /**

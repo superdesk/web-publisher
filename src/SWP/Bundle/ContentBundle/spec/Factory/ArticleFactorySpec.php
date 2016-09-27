@@ -68,8 +68,10 @@ class ArticleFactorySpec extends ObjectBehavior
         $item = new Item();
         $item->setBody('some item body');
         $item->setType('text');
+        $item->setDescription('item lead');
 
         $package->getHeadline()->shouldBeCalled()->willReturn('item headline');
+        $package->getDescription()->shouldBeCalled()->willReturn('package lead');
         $package->getBody()->shouldBeCalled()->willReturn('some package body');
         $package->getItems()->shouldBeCalled()->willReturn(new ArrayCollection([$item]));
         $package->getLanguage()->shouldBeCalled()->willReturn('en');
@@ -78,6 +80,7 @@ class ArticleFactorySpec extends ObjectBehavior
         $article->setParentDocument($parent)->shouldBeCalled();
         $article->setTitle('item headline')->shouldBeCalled();
         $article->setBody('some package body some item body')->shouldBeCalled();
+        $article->setLead('package lead item lead')->shouldBeCalled();
         $article->setLocale('en')->shouldBeCalled();
         $article->setRoute($route)->shouldBeCalled();
         $article->setMetadata(['some' => 'meta'])->shouldBeCalled();
