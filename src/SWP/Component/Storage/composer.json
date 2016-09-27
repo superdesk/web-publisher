@@ -11,16 +11,15 @@
     ],
     "license":"AGPL-3.0",
     "require": {
-        "php": ">=5.4|^7.0"
+        "php": ">=5.4|^7.0",
+        "doctrine/common": "^2.6"
     },
     "require-dev": {
         "phpspec/phpspec": "^2.4",
-        "symfony/dependency-injection": "~2.8|~3.0",
-        "doctrine/common": "^2.6"
+        "symfony/dependency-injection": "~2.8|~3.0"
     },
     "suggest": {
-        "symfony/dependency-injection": "To make use of dependency injection classes.",
-        "doctrine/common": "To make use of Repository interface"
+        "symfony/dependency-injection": "To make use of dependency injection classes."
     },
     "config": {
         "bin-dir": "bin"
