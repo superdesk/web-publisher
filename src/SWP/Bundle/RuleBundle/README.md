@@ -1,4 +1,4 @@
-RuleBundle
+RuleBundle [![Build Status](https://travis-ci.org/SuperdeskWebPublisher/SWPRuleBundle.svg?branch=master)](https://travis-ci.org/SuperdeskWebPublisher/SWPRuleBundle)
 ==========
 
 A simple business rules engine for Symfony applications.
