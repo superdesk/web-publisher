@@ -148,6 +148,8 @@ List of all authors and contributors can be found [here](AUTHORS.md).
 
 ## Superdesk Web Publisher is possible thanks to other Sourcefabric initiatives:
 
+Symfony Bundles:
+
 * [swp/multi-tenancy-bundle](https://github.com/SuperdeskWebPublisher/SWPMultiTenancyBundle) [![Build Status](https://travis-ci.org/SuperdeskWebPublisher/SWPMultiTenancyBundle.svg?branch=master)](https://travis-ci.org/SuperdeskWebPublisher/SWPMultiTenancyBundle) [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/SuperdeskWebPublisher/SWPMultiTenancyBundle/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/SuperdeskWebPublisher/SWPMultiTenancyBundle/?branch=master) [![SensioLabsInsight](https://insight.sensiolabs.com/projects/0b3663df-5d53-4cfa-a925-5521e0ff7268/mini.png)](https://insight.sensiolabs.com/projects/0b3663df-5d53-4cfa-a925-5521e0ff7268)
 * [swp/rule-bundle](https://github.com/SuperdeskWebPublisher/SWPRuleBundle) [![Build Status](https://travis-ci.org/SuperdeskWebPublisher/SWPRuleBundle.svg?branch=master)](https://travis-ci.org/SuperdeskWebPublisher/SWPRuleBundle)
 * [swp/storage-bundle](https://github.com/SuperdeskWebPublisher/SWPStorageBundle) [![Build Status](https://travis-ci.org/SuperdeskWebPublisher/SWPStorageBundle.svg?branch=master)](https://travis-ci.org/SuperdeskWebPublisher/SWPStorageBundle) [![SensioLabsInsight](https://insight.sensiolabs.com/projects/345692fc-a31a-4f5b-bb9d-47b2cf68dc02/mini.png)](https://insight.sensiolabs.com/projects/345692fc-a31a-4f5b-bb9d-47b2cf68dc02)
