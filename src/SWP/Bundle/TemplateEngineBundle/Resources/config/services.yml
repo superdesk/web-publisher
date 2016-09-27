@@ -18,7 +18,9 @@ services:
     swp_template_engine_container:
         class: SWP\Bundle\TemplateEngineBundle\Service\ContainerService
         arguments:
-            - "@service_container"
+            - "@doctrine"
+            - "@event_dispatcher"
+            - "@templating"
             - "%kernel.cache_dir%"
             - "%kernel.debug%"
 

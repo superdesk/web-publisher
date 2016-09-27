@@ -22,7 +22,6 @@ use League\Flysystem\Filesystem;
 use Doctrine\ODM\PHPCR\DocumentManager;
 use SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\File;
 use SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\Image;
-use Symfony\Component\Routing\RequestContext;
 use Symfony\Component\Routing\RouterInterface;
 
 class MediaManager implements MediaManagerInterface
@@ -121,7 +120,6 @@ class MediaManager implements MediaManagerInterface
         $tenant = $this->tenantContext->getTenant();
 
         if ($subdomain = $tenant->getSubdomain()) {
-            /* @var RequestContext */
             $context = $this->router->getContext();
             $context->setHost($subdomain.'.'.$context->getHost());
         }
