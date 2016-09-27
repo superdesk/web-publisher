@@ -138,7 +138,7 @@ A new Rule Applicator has to implement the ``SWP\Component\Rule\Applicator\RuleA
 Configuring the Rule Applicator
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-To register your new rule applicator, simply add a definition to your services file and tag it with a special name: ``applicator.rule_applicator``:
+To register your new rule applicator, simply add a definition to your services file and tag it with a special name: ``applicator.rule_applicator``, it will be automatically added to the chain of rule applicators:
 
 .. code-block:: yaml
 
@@ -150,35 +150,6 @@ To register your new rule applicator, simply add a definition to your services f
             - '@logger'
         tags:
             - { name: applicator.rule_applicator }
-
-Using Rule Applicator Chain Service
------------------------------------
-
-The Rule Applicator Chain service is used to register all rule applicators with a tag ``applicator.rule_applicator``.
-
-Usage:
-
-.. code-block:: php
-
-   <?php
-    // example.php
-    // ..
-
-    use Acme\DemoBundle\Model\Subject;
-    use SWP\Component\Rule\Applicator\RuleApplicatorChain;
-    use SWP\Component\Rule\Model\Rule;
-    // ..
-
-    $applicatorChain = new RuleApplicatorChain();
-    $applicatorChain->addApplicator(/* instance of RuleApplicatorInterface */)
-
-    $subject = new Subject(); // an instance of RuleSubjectInterface
-    $applicatorChain->isSupported($subject); // return true or false
-
-    $rule = new Rule();
-    // ..
-
-    $applicatorChain->apply($rule, $subject);
 
 How to Create and Enable Custom Rule Entity
 -------------------------------------------

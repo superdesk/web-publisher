@@ -1,6 +1,35 @@
 Usage
 =====
 
+Using Rule Applicator Chain Service
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The Rule Applicator Chain service is used to execute all rule applicators added to the chain.
+
+Usage:
+
+.. code-block:: php
+
+   <?php
+    // example.php
+    // ..
+
+    use Acme\DemoBundle\Model\Subject;
+    use SWP\Component\Rule\Applicator\RuleApplicatorChain;
+    use SWP\Component\Rule\Model\Rule;
+    // ..
+
+    $applicatorChain = new RuleApplicatorChain();
+    $applicatorChain->addApplicator(/* instance of RuleApplicatorInterface */)
+
+    $subject = new Subject(); // an instance of RuleSubjectInterface
+    $applicatorChain->isSupported($subject); // return true or false
+
+    $rule = new Rule();
+    // ..
+
+    $applicatorChain->apply($rule, $subject);
+
 What is Rule Evaluator?
 ~~~~~~~~~~~~~~~~~~~~~~~
 
