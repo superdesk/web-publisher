@@ -33,11 +33,14 @@ final class RuleEvaluator implements RuleEvaluatorInterface
 
     /**
      * RuleEvaluator constructor.
+     *
+     * @param LoggerInterface    $logger
+     * @param ExpressionLanguage $expression
      */
-    public function __construct(LoggerInterface $logger)
+    public function __construct(LoggerInterface $logger, ExpressionLanguage $expression)
     {
         $this->logger = $logger;
-        $this->expression = new ExpressionLanguage();
+        $this->expression = $expression;
     }
 
     /**
@@ -46,7 +49,7 @@ final class RuleEvaluator implements RuleEvaluatorInterface
     public function evaluate(RuleInterface $rule, RuleSubjectInterface $subject)
     {
         try {
-            return $this->expression->evaluate($rule->getValue(), [$subject->getSubjectType() => $subject]);
+            return (bool) $this->expression->evaluate($rule->getExpression(), [$subject->getSubjectType() => $subject]);
         } catch (\Exception $e) {
             $this->logger->warning($e->getMessage());
         }

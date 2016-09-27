@@ -3112,7 +3112,7 @@
                     "email": "stof@notk.org"
                 },
                 {
-                    "name": "KnpLabs",
+                    "name": "Knplabs",
                     "homepage": "http://knplabs.com"
                 },
                 {
@@ -4902,7 +4902,7 @@
             ],
             "authors": [
                 {
-                    "name": "Symfony CMF community",
+                    "name": "Symfony CMF Community",
                     "homepage": "https://github.com/symfony-cmf/Routing/contributors"
                 }
             ],

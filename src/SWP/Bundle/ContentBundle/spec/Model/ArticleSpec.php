@@ -153,6 +153,7 @@ class ArticleSpec extends ObjectBehavior
         $this->setCreatedAt($date)->shouldNotReturn($this);
         $this->setDeletedAt($date)->shouldNotReturn($this);
         $this->setUpdatedAt($date)->shouldNotReturn($this);
+        $this->setLead('lead')->shouldNotReturn($this);
     }
 
     public function it_should_return_true_if_article_is_deleted()
@@ -181,5 +182,16 @@ class ArticleSpec extends ObjectBehavior
     {
         $this->setMetadata(['meta1' => 'value1']);
         $this->getMetadata()->shouldReturn(['meta1' => 'value1']);
+    }
+
+    public function it_has_no_lead_by_default()
+    {
+        $this->getLead()->shouldReturn(null);
+    }
+
+    public function its_lead_is_mutable()
+    {
+        $this->setLead('lead');
+        $this->getLead()->shouldReturn('lead');
     }
 }

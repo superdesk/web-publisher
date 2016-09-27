@@ -16,3 +16,4 @@ The goal of these components is to solve the problems related to content publish
    Storage/index
    Bridge/index
    TemplatesSystem/index
+   Rule/index

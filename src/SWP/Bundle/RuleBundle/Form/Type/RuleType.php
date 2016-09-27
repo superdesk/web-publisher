@@ -30,7 +30,7 @@ class RuleType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('value', TextType::class, [
+            ->add('expression', TextType::class, [
                 'constraints' => [
                     new NotBlank(),
                 ],

@@ -149,7 +149,7 @@ interface ContentInterface
     /**
      * @param array $services
      */
-    public function setServices(array $services =[]);
+    public function setServices(array $services = []);
 
     /**
      * @return string
@@ -175,4 +175,9 @@ interface ContentInterface
      * @return array
      */
     public function getMetadata();
+
+    /**
+     * @return string
+     */
+    public function getDescription();
 }

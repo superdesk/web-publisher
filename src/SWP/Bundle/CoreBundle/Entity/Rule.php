@@ -23,9 +23,7 @@ class Rule extends BaseRule implements TenantAwareInterface, PersistableInterfac
     protected $tenantCode;
 
     /**
-     * Gets the current tenant (code).
-     *
-     * @return string Tenant code
+     * {@inheritdoc}
      */
     public function getTenantCode()
     {
@@ -33,9 +31,7 @@ class Rule extends BaseRule implements TenantAwareInterface, PersistableInterfac
     }
 
     /**
-     * Sets the tenant (code).
-     *
-     * @param string $code Tenant code
+     * {@inheritdoc}
      */
     public function setTenantCode($code)
     {

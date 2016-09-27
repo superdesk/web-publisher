@@ -7,6 +7,9 @@ SWP\Bundle\ContentBundle\Model\Article:
         title:
             expose: true
             type: string
+        lead:
+            expose: true
+            type: string
         body:
             expose: true
             type: string

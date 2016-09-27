@@ -20,7 +20,7 @@ services:
         arguments:
             - "@doctrine"
             - "@event_dispatcher"
-            - "@templating"
+            - "@service_container"
             - "%kernel.cache_dir%"
             - "%kernel.debug%"
 

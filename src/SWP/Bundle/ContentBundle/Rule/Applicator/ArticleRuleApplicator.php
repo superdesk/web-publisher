@@ -80,7 +80,7 @@ final class ArticleRuleApplicator implements RuleApplicatorInterface
         $this->logger->info(sprintf(
             'Configuration: "%s" for "%s" rule has been applied!',
             json_encode($configuration),
-            $rule->getValue()
+            $rule->getExpression()
         ));
     }
 

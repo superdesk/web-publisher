@@ -8,7 +8,7 @@ SWP\Component\Rule\Model\Rule:
             generator:
                 strategy: AUTO
     fields:
-        value:
+        expression:
             type: string
         priority:
             type: integer

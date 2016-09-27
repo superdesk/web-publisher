@@ -19,7 +19,6 @@ use SWP\Bundle\TemplateEngineBundle\Model\Container;
 use SWP\Bundle\TemplateEngineBundle\Model\ContainerData;
 use SWP\Component\Common\Event\HttpCacheEvent;
 use Symfony\Bridge\Doctrine\RegistryInterface;
-use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
@@ -28,7 +27,7 @@ class ContainerService
     const OPEN_TAG_TEMPLATE = '<div id="swp_container_{{ id }}" class="swp_container {{ class }}" style="{% if height %}height: {{ height }}px;{% endif %}{% if width %}width: {{width}}px;{% endif %}{{styles}}"{% for value in data %} data-{{value.getKey()}}="{{value.getValue()}}"{% endfor %} >';
     const CLOSE_TAG_TEMPLATE = '</div>';
 
-    protected $templating;
+    protected $serviceContainer;
     protected $objectManager;
     protected $cacheDir;
     protected $debug;
@@ -38,17 +37,19 @@ class ContainerService
     /**
      * ContainerService constructor.
      *
-     * @param ContainerInterface $serviceContainer
-     * @param $cacheDir
-     * @param bool $debug
+     * @param RegistryInterface        $registry
+     * @param EventDispatcherInterface $eventDispatcher
+     * @param ContainerInterface       $serviceContainer
+     * @param string                   $cacheDir
+     * @param bool                     $debug
      */
-    public function __construct(RegistryInterface $registry, EventDispatcherInterface $eventDispatcher, EngineInterface $templating, $cacheDir, $debug = false)
+    public function __construct(RegistryInterface $registry, EventDispatcherInterface $eventDispatcher, ContainerInterface $serviceContainer, $cacheDir, $debug = false)
     {
         $this->objectManager = $registry->getEntityManager();
         $this->cacheDir = $cacheDir.'/twig';
         $this->debug = $debug;
         $this->eventDispatcher = $eventDispatcher;
-        $this->templating = $templating;
+        $this->serviceContainer = $serviceContainer;
     }
 
     public function getContainer($name, array $parameters = [], $createIfNotExists = true)
@@ -73,7 +74,7 @@ class ContainerService
             $widgetClass = $widgetModel->getType();
 
             if (is_a($widgetClass, '\SWP\Bundle\TemplateEngineBundle\Widget\TemplatingWidgetHandler', true)) {
-                $widgetHandler = new $widgetClass($widgetModel, $this->templating);
+                $widgetHandler = new $widgetClass($widgetModel, $this->serviceContainer->get('templating'));
             } else {
                 $widgetHandler = new $widgetClass($widgetModel);
             }
