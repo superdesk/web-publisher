@@ -6,7 +6,7 @@ This component provides basic business rules engine tools.
 Documentation
 -------------
 
-Documentation is available here: [http://superdesk-web-publisher.readthedocs.org](http://superdesk-web-publisher.readthedocs.org/en/latest/components/Storage/index.html)
+Documentation is available here: [http://superdesk-web-publisher.readthedocs.org](http://superdesk-web-publisher.readthedocs.org/en/latest/components/Rule/index.html)
 
 How to Contribute
 -------------
