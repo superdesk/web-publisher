@@ -18,6 +18,8 @@ services:
     swp_template_engine_container:
         class: SWP\Bundle\TemplateEngineBundle\Service\ContainerService
         arguments:
+            - "@doctrine"
+            - "@event_dispatcher"
             - "@service_container"
             - "%kernel.cache_dir%"
             - "%kernel.debug%"

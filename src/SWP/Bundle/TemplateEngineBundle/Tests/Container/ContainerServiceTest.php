@@ -99,6 +99,8 @@ class ContainerServiceTest extends WebTestCase
     private function createContainerService($debug = true)
     {
         return new ContainerService(
+            $this->getContainer()->get('doctrine'),
+            $this->getContainer()->get('event_dispatcher'),
             $this->getContainer(),
             $this->getContainer()->getParameter('kernel.cache_dir'),
             $debug
