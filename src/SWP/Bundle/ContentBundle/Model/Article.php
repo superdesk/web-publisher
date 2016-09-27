@@ -292,7 +292,7 @@ class Article implements ArticleInterface, MediaAwareArticleInterface
      */
     public function setSlug($slug)
     {
-        $this->slug = $slug;
+        $this->slug = Transliterator::urlize($slug);
     }
 
     /**
