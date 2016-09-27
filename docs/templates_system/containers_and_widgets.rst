@@ -1,4 +1,4 @@
-.. include:: /components/TemplatesSystem/Features/containers_and_widgets.rst
+.. include:: /components/TemplatesSystem/features/containers_and_widgets.rst
 
 Do widgets and containers work with caches?
 ```````````````````````````````````````````
