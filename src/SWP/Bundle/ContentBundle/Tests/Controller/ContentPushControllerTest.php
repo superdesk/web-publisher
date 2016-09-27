@@ -386,7 +386,7 @@ class ContentPushControllerTest extends WebTestCase
         $client = static::createClient();
         $client->request('POST', $this->router->generate('swp_api_core_create_rule'), [
             'rule' => [
-                'value' => 'article.getMetadataByKey("located") matches "/Porto/"',
+                'expression' => 'article.getMetadataByKey("located") matches "/Porto/"',
                 'priority' => 1,
                 'configuration' => [
                     [
@@ -449,7 +449,7 @@ class ContentPushControllerTest extends WebTestCase
         $client = static::createClient();
         $client->request('POST', $this->router->generate('swp_api_core_create_rule'), [
             'rule' => [
-                'value' => 'article.getMetadataByKey("located") matches "/Fake/"',
+                'expression' => 'article.getMetadataByKey("located") matches "/Fake/"',
                 'priority' => 1,
                 'configuration' => [
                     [
@@ -501,7 +501,7 @@ class ContentPushControllerTest extends WebTestCase
         $client = static::createClient();
         $client->request('POST', $this->router->generate('swp_api_core_create_rule'), [
             'rule' => [
-                'value' => 'article.getMetadataByKey("located") matches "/Porto/"',
+                'expression' => 'article.getMetadataByKey("located") matches "/Porto/"',
                 'priority' => 1,
                 'configuration' => [
                     [

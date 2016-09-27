@@ -1,0 +1,40 @@
+{
+    "name": "swp/rule",
+    "type": "library",
+    "description": "Business rules engine tools.",
+    "keywords": ["business", "rules", "rule", "superdesk", "publisher", "library", "expression"],
+    "authors": [
+        {
+            "name": "Rafał Muszyński",
+            "email": "rafal.muszynski@sourcefabric.org"
+        }
+    ],
+    "license":"AGPL-3.0",
+    "require": {
+        "php": ">=5.6|^7.0",
+        "symfony/expression-language": "^2.8|^3.0",
+        "psr/log": "^1.0",
+        "swp/storage": "~0.1.0"
+    },
+    "require-dev": {
+        "phpspec/phpspec": "^3.0"
+    },
+    "config": {
+        "bin-dir": "bin"
+    },
+    "autoload": {
+        "exclude-from-classmap": [
+            "spec/"
+        ],
+        "psr-4": { "SWP\\Component\\Rule\\": "" }
+    },
+    "autoload-dev": {
+        "psr-4": { "SWP\\Component\\Rule\\spec\\": "spec/" }
+    },
+    "minimum-stability": "dev",
+    "extra": {
+        "branch-alias": {
+            "dev-master": "0.1-dev"
+        }
+    }
+}

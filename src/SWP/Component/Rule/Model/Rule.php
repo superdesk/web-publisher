@@ -24,7 +24,7 @@ class Rule implements RuleInterface
     /**
      * @var string
      */
-    protected $value;
+    protected $expression;
 
     /**
      * @var int
@@ -47,17 +47,17 @@ class Rule implements RuleInterface
     /**
      * {@inheritdoc}
      */
-    public function getValue()
+    public function getExpression()
     {
-        return $this->value;
+        return $this->expression;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function setValue($value)
+    public function setExpression($expression)
     {
-        $this->value = $value;
+        $this->expression = $expression;
     }
 
     public function getPriority()
