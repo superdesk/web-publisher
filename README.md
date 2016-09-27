@@ -8,7 +8,7 @@ Superdesk Web Publisher
 
 Superdesk Web Publisher - the next generation publishing platform for journalists and newsrooms.
 
-The Superdesk Publisher is an API-centric delivery tool for all digital platforms. Written from scratch in 2016, it utilizes the knowledge gained from 17 years of delivering digital news at scale with [Newscoop][2]. The Publisher is designed to work with any editorial system. Naturally, it works the best with our in-house newsroom management system, [Superdesk][3]. Therefore, it allows independent maintenance, upgrade and change of the editorial back-end system.
+*The Superdesk Publisher is an API-centric delivery tool for all digital platforms. Written from scratch in 2016, it utilizes the knowledge gained from 17 years of delivering digital news at scale with [Newscoop][2]. The Publisher is designed to work with any editorial system. Naturally, it works the best with our in-house newsroom management system, [Superdesk][3]. Therefore, it allows independent maintenance, upgrade and change of the editorial back-end system.*
 
 ## Documentation
 
