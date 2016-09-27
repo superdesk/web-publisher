@@ -212,16 +212,10 @@ That's it, a newly created class will be used instead.
     You could also provide your own implementation for Rule Factory and Rule Repository.
     To find out more about it check :doc:`/bundles/SWPStorageBundle/register_storage`
 
-How to make my entity rule aware?
----------------------------------
+How rules are processed?
+------------------------
 
-To make use of the Rule bundle and allow to apply rule to an object, the entity must be "rule aware",
-it means that "subject" class needs to implement ``SWP\Component\Rule\Model\RuleSubjectInterface``.
-
-If you make your custom entity rule aware, the Rule Processor will automatically process all rules for object.
-
-You can create Event Subscriber which can listen on whatever event is defined. If the event is dispatched the subscriber
-should run Rule Processor which will process all rules.
+You can create Event Subscriber which can listen on whatever event is defined. If the event is dispatched, the subscriber should run Rule Processor which will process all rules.
 
 Example subscriber:
 

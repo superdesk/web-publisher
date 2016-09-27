@@ -63,6 +63,15 @@ Configure the bundle
 
     By default this bundle supports only Doctrine ORM as a persistence backend.
 
+Update Database Schema
+~~~~~~~~~~~~~~~~~~~~~~
+
+Run the following command:
+
+.. code-block:: bash
+
+    $ php app/console doctrine:schema:update --force
+
 That's it, the bundle is configured properly now!
 
 .. _locally: https://getcomposer.org/doc/00-intro.md#locally
