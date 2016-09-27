@@ -47,6 +47,8 @@ class SimpleContainer
      * Set Widgets.
      *
      * @param array $widgets
+     *
+     * @return self
      */
     public function setWidgets($widgets)
     {

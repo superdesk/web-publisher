@@ -18,7 +18,9 @@ use SWP\Bundle\TemplateEngineBundle\Container\SimpleContainer;
 use SWP\Bundle\TemplateEngineBundle\Model\Container;
 use SWP\Bundle\TemplateEngineBundle\Model\ContainerData;
 use SWP\Component\Common\Event\HttpCacheEvent;
+use Symfony\Bridge\Doctrine\RegistryInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class ContainerService
 {
@@ -35,17 +37,19 @@ class ContainerService
     /**
      * ContainerService constructor.
      *
-     * @param ContainerInterface $serviceContainer
-     * @param $cacheDir
-     * @param bool $debug
+     * @param RegistryInterface        $registry
+     * @param EventDispatcherInterface $eventDispatcher
+     * @param ContainerInterface       $serviceContainer
+     * @param string                   $cacheDir
+     * @param bool                     $debug
      */
-    public function __construct(ContainerInterface $serviceContainer, $cacheDir, $debug = false)
+    public function __construct(RegistryInterface $registry, EventDispatcherInterface $eventDispatcher, ContainerInterface $serviceContainer, $cacheDir, $debug = false)
     {
-        $this->serviceContainer = $serviceContainer;
-        $this->objectManager = $this->serviceContainer->get('doctrine.orm.entity_manager');
+        $this->objectManager = $registry->getEntityManager();
         $this->cacheDir = $cacheDir.'/twig';
         $this->debug = $debug;
-        $this->eventDispatcher = $this->serviceContainer->get('event_dispatcher');
+        $this->eventDispatcher = $eventDispatcher;
+        $this->serviceContainer = $serviceContainer;
     }
 
     public function getContainer($name, array $parameters = [], $createIfNotExists = true)
@@ -68,8 +72,13 @@ class ContainerService
         foreach ($containerWidgets as $containerWidget) {
             $widgetModel = $containerWidget->getWidget();
             $widgetClass = $widgetModel->getType();
-            $widgetHandler = new $widgetClass($widgetModel);
-            $widgetHandler->setContainer($this->serviceContainer);
+
+            if (is_a($widgetClass, '\SWP\Bundle\TemplateEngineBundle\Widget\TemplatingWidgetHandler', true)) {
+                $widgetHandler = new $widgetClass($widgetModel, $this->serviceContainer->get('templating'));
+            } else {
+                $widgetHandler = new $widgetClass($widgetModel);
+            }
+
             $widgets[] = $widgetHandler;
         }
 
@@ -86,8 +95,7 @@ class ContainerService
         }
 
         $options = [];
-        if ($this->debug === false) {
-            // not debug turn set cache dir
+        if (false === $this->debug) {
             $options['cache'] = $this->cacheDir;
         }
 
