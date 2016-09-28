@@ -37,7 +37,7 @@ final class ArticleRuleApplicator implements RuleApplicatorInterface
     /**
      * @var array
      */
-    private $supportedKeys = ['route', 'templateName'];
+    private $supportedKeys = ['route', 'templateName', 'published'];
 
     /**
      * ArticleRuleApplicator constructor.
@@ -76,6 +76,8 @@ final class ArticleRuleApplicator implements RuleApplicatorInterface
         }
 
         $subject->setTemplateName($configuration[$this->supportedKeys[1]]);
+        $subject->setPublishable((bool) $configuration[$this->supportedKeys[2]]);
+        $subject->setPublishedAt(new \DateTime());
 
         $this->logger->info(sprintf(
             'Configuration: "%s" for "%s" rule has been applied!',
@@ -108,7 +110,10 @@ final class ArticleRuleApplicator implements RuleApplicatorInterface
 
     private function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults([$this->supportedKeys[1] => null]);
+        $resolver->setDefaults([
+            $this->supportedKeys[1] => null,
+            $this->supportedKeys[2] => false
+        ]);
         $resolver->setDefined($this->supportedKeys[0]);
     }
 
