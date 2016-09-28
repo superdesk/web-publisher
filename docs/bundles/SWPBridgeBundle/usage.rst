@@ -94,6 +94,8 @@ To register your new validator, simply add a definition to your services file an
 
     You can use the ``SWP\Component\Bridge\Validator\JsonValidator`` abstract class if you wish to create custom JSON validator.
 
+.. _bridge_bundle_transformers:
+
 Using Transformer Chain Service
 -------------------------------
 
