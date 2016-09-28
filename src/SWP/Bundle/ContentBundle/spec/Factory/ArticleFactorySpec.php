@@ -54,7 +54,7 @@ class ArticleFactorySpec extends ObjectBehavior
         $this->create()->shouldReturn($article);
     }
 
-    public function it_creates_article_from_package(
+    public function it_creates_article_from_package_and_fallbacks_slug_to_package_headline(
         FactoryInterface $factory,
         PackageInterface $package,
         Article $article,
@@ -76,6 +76,7 @@ class ArticleFactorySpec extends ObjectBehavior
         $package->getItems()->shouldBeCalled()->willReturn(new ArrayCollection([$item]));
         $package->getLanguage()->shouldBeCalled()->willReturn('en');
         $package->getMetadata()->shouldBeCalled()->willReturn(['some' => 'meta']);
+        $package->getSlugline()->shouldBeCalled();
 
         $article->setParentDocument($parent)->shouldBeCalled();
         $article->setTitle('item headline')->shouldBeCalled();
@@ -84,6 +85,46 @@ class ArticleFactorySpec extends ObjectBehavior
         $article->setLocale('en')->shouldBeCalled();
         $article->setRoute($route)->shouldBeCalled();
         $article->setMetadata(['some' => 'meta'])->shouldBeCalled();
+        $article->setSlug('item headline')->shouldNotBeCalled();
+
+        $articleProvider->getParent('test')->willReturn($parent);
+        $routeProvider->getRouteForArticle($article)->willReturn($route);
+
+        $this->createFromPackage($package)->shouldReturn($article);
+    }
+
+    public function it_creates_article_from_package_and_sets_article_slug_from_package_slugline(
+        FactoryInterface $factory,
+        PackageInterface $package,
+        Article $article,
+        ArticleInterface $parent,
+        ArticleProviderInterface $articleProvider,
+        RouteInterface $route,
+        RouteProviderInterface $routeProvider
+    ) {
+        $factory->create()->willReturn($article);
+
+        $item = new Item();
+        $item->setBody('some item body');
+        $item->setType('text');
+        $item->setDescription('item lead');
+
+        $package->getHeadline()->shouldBeCalled()->willReturn('item headline');
+        $package->getDescription()->shouldBeCalled()->willReturn('package lead');
+        $package->getBody()->shouldBeCalled()->willReturn('some package body');
+        $package->getItems()->shouldBeCalled()->willReturn(new ArrayCollection([$item]));
+        $package->getLanguage()->shouldBeCalled()->willReturn('en');
+        $package->getMetadata()->shouldBeCalled()->willReturn(['some' => 'meta']);
+        $package->getSlugline()->shouldBeCalled()->willReturn('slugline');
+
+        $article->setParentDocument($parent)->shouldBeCalled();
+        $article->setTitle('item headline')->shouldBeCalled();
+        $article->setBody('some package body some item body')->shouldBeCalled();
+        $article->setLead('package lead item lead')->shouldBeCalled();
+        $article->setLocale('en')->shouldBeCalled();
+        $article->setRoute($route)->shouldBeCalled();
+        $article->setMetadata(['some' => 'meta'])->shouldBeCalled();
+        $article->setSlug('slugline')->shouldBeCalled();
 
         $articleProvider->getParent('test')->willReturn($parent);
         $routeProvider->getRouteForArticle($article)->willReturn($route);

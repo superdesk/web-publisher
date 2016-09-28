@@ -7,6 +7,10 @@ in 0.1 minor versions.
 
 To get the diff for a specific change, go to https://github.com/superdesk/web-publisher/commit/XXX where XXX is the change hash
 
+* 0.1.0-7
+
+ * bug [#152] [ContentBundle] If I correct a headline, it and its article are published in addition to the original (takeit)
+
 * 0.1.0-6
 
  * feature [#138] [RuleBundle][Rule][ContentBundle] Added content to route mapping with simple rules managed by API (takeit)

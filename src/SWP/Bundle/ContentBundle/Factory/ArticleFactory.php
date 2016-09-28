@@ -91,7 +91,12 @@ class ArticleFactory implements ArticleFactoryInterface
 
         $article->setBody($this->populateBody($package));
         $article->setParentDocument($this->articleProvider->getParent($this->contentRelativePath));
+
         $article->setTitle($package->getHeadline());
+        if (null !== $package->getSlugline()) {
+            $article->setSlug($package->getSlugline());
+        }
+
         $article->setLocale($package->getLanguage());
         $article->setLead($this->populateLead($package));
         // assign default route
