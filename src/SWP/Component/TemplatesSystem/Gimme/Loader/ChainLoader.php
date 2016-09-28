@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file is part of the Superdesk Web Publisher Templates System.
  *
@@ -60,7 +62,7 @@ class ChainLoader implements LoaderInterface
      *
      * @return bool
      */
-    public function isSupported($type)
+    public function isSupported(string $type) : bool
     {
         foreach ($this->loaders as $loader) {
             if ($loader->isSupported($type)) {

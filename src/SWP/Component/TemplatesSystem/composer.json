@@ -16,7 +16,7 @@
         "issues": "https://github.com/SuperdeskWebPublisher/templates-system/issues"
     },
     "require": {
-        "php": ">=5.5",
+        "php": "^7.0",
         "twig/twig": "^1.25",
         "doctrine/cache": "^1.6",
         "doctrine/collections": "^1.3"

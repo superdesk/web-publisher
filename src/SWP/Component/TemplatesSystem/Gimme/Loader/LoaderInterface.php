@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file is part of the Superdesk Web Publisher Templates System.
  *
@@ -43,5 +45,5 @@ interface LoaderInterface
      *
      * @return bool false if loader don't support this type, true otherwise
      */
-    public function isSupported($type);
+    public function isSupported(string $type) : bool;
 }

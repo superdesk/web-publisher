@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file is part of the Superdesk Web Publisher Content Bundle.
  *
@@ -74,7 +76,7 @@ class RouteLoader implements LoaderInterface
      *
      * @return bool
      */
-    public function isSupported($type)
+    public function isSupported(string $type) : bool
     {
         return self::SUPPORTED_TYPE === $type;
     }

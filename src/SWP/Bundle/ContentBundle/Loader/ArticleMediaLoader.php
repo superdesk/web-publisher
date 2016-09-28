@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file is part of the Superdesk Web Publisher Content Bundle.
  *
@@ -118,7 +120,7 @@ class ArticleMediaLoader implements LoaderInterface
      *
      * @return bool
      */
-    public function isSupported($type)
+    public function isSupported(string $type) : bool
     {
         return in_array($type, ['articleMedia']);
     }

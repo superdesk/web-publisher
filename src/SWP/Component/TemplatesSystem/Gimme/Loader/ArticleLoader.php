@@ -95,7 +95,7 @@ class ArticleLoader implements LoaderInterface
      *
      * @return bool
      */
-    public function isSupported($type)
+    public function isSupported(string $type) : bool
     {
         return in_array($type, ['articles', 'article']);
     }
