@@ -40,9 +40,9 @@ class ArticleLoaderTest extends WebTestCase
         ], null, 'doctrine_phpcr');
 
         $this->articleLoader = new ArticleLoader(
+            $this->getContainer()->get('swp.provider.article'),
+            $this->getContainer()->get('swp.provider.route'),
             $this->getContainer()->get('doctrine_phpcr.odm.document_manager'),
-            $this->getContainer()->get('swp_multi_tenancy.path_builder'),
-            $this->getContainer()->getParameter('swp_multi_tenancy.persistence.phpcr.route_basepaths'),
             $this->getContainer()->get('swp_template_engine_context.factory.meta_factory'),
             $this->getContainer()->get('swp_template_engine_context')
         );

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file is part of the Superdesk Web Publisher Content Bundle.
  *
@@ -14,6 +16,7 @@
 
 namespace SWP\Bundle\ContentBundle\Doctrine;
 
+use Jackalope\Query\SqlQuery;
 use SWP\Bundle\ContentBundle\Model\ArticleInterface;
 use SWP\Component\Storage\Repository\RepositoryInterface;
 
@@ -34,4 +37,12 @@ interface ArticleRepositoryInterface extends RepositoryInterface
      * @return mixed
      */
     public function findAllArticles();
+
+    /**
+     * @param string $identifier
+     * @param array  $order
+     *
+     * @return SqlQuery
+     */
+    public function getQueryForRouteArticles(string $identifier, array $order) : SqlQuery;
 }
