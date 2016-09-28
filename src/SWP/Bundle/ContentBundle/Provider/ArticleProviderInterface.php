@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file is part of the Superdesk Web Publisher Content Bundle.
  *
@@ -14,6 +16,7 @@
 
 namespace SWP\Bundle\ContentBundle\Provider;
 
+use Jackalope\Query\SqlQuery;
 use SWP\Bundle\ContentBundle\Model\ArticleInterface;
 
 interface ArticleProviderInterface
@@ -35,4 +38,12 @@ interface ArticleProviderInterface
      * @return ArticleInterface
      */
     public function getParent($id);
+
+    /**
+     * @param string $routeIdentifier
+     * @param array  $order
+     *
+     * @return SqlQuery
+     */
+    public function getRouteArticlesQuery(string $routeIdentifier, array $order) : SqlQuery;
 }

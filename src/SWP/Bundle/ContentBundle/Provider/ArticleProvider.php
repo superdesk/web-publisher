@@ -69,6 +69,9 @@ class ArticleProvider implements ArticleProviderInterface
         return $this->articleRepository->find($this->pathBuilder->build($id));
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getRouteArticlesQuery(string $routeIdentifier, array $order) : SqlQuery
     {
         return $this->articleRepository->getQueryForRouteArticles($routeIdentifier, $order);

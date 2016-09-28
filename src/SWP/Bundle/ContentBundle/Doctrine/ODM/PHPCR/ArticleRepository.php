@@ -39,6 +39,14 @@ class ArticleRepository extends DocumentRepository implements ArticleRepositoryI
         return $this->createQueryBuilder('o')->getQuery();
     }
 
+    /**
+     * @param string $identifier
+     * @param array  $order
+     *
+     * @return SqlQuery
+     *
+     * @throws \Exception
+     */
     public function getQueryForRouteArticles(string $identifier, array $order) : SqlQuery
     {
         $queryStr = sprintf("SELECT * FROM [nt:unstructured] as S WHERE S.phpcr:class='%s' AND S.route=%s AND S.status=published", Article::class, $identifier);
