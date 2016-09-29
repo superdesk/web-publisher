@@ -74,8 +74,8 @@ final class ArticleRuleApplicator implements RuleApplicatorInterface
         }
 
         /* @var ArticleInterface $subject */
-        if (isset($configuration[$this->supportedKeys[0]])) {
-            $route = $this->routeProvider->getOneById($configuration[$this->supportedKeys[0]]);
+        if (isset($configuration['route'])) {
+            $route = $this->routeProvider->getOneById($configuration['route']);
 
             if (null === $route) {
                 $this->logger->warning('Route not found! Make sure the rule defines an existing route!');
@@ -86,9 +86,9 @@ final class ArticleRuleApplicator implements RuleApplicatorInterface
             $subject->setRoute($route);
         }
 
-        $subject->setTemplateName($configuration[$this->supportedKeys[1]]);
+        $subject->setTemplateName($configuration['templateName']);
 
-        if ((bool) $configuration[$this->supportedKeys[2]]) {
+        if ((bool) $configuration['published']) {
             $this->articleService->publish($subject);
         }
 

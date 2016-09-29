@@ -1,8 +1,15 @@
 <?php
+
 /**
- * @author Rafał Muszyński <rafal.muszynski@sourcefabric.org>
- * @copyright 2015 Sourcefabric z.ú
- * @license http://www.gnu.org/licenses/gpl-3.0.txt
+ * This file is part of the Superdesk Web Publisher Core Bundle.
+ *
+ * Copyright 2016 Sourcefabric z.ú. and contributors.
+ *
+ * For the full copyright and license information, please see the
+ * AUTHORS and LICENSE files distributed with this source code.
+ *
+ * @copyright 2016 Sourcefabric z.ú
+ * @license http://www.superdesk.org/license
  */
 
 namespace SWP\Bundle\CoreBundle\Tests\Controller;

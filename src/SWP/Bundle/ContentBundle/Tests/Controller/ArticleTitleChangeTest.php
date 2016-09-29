@@ -43,7 +43,6 @@ class ArticleTitleChangeTest extends WebTestCase
         $this->initDatabase();
         $this->loadFixtures([
             'SWP\Bundle\FixturesBundle\DataFixtures\PHPCR\LoadTenantsData',
-            //'SWP\Bundle\FixturesBundle\DataFixtures\PHPCR\LoadArticlesData',
         ], null, 'doctrine_phpcr');
 
         $this->router = $this->getContainer()->get('router');
