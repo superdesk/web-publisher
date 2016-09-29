@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file is part of the Superdesk Web Publisher Content Bundle.
  *
@@ -14,15 +16,17 @@
 
 namespace SWP\Bundle\ContentBundle\Loader;
 
-use PHPCR\Query\QueryInterface;
+use Jackalope\Query\SqlQuery;
 use SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\ArticleInterface;
+use SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\Route;
+use SWP\Bundle\ContentBundle\Provider\ArticleProviderInterface;
+use SWP\Bundle\ContentBundle\Provider\RouteProviderInterface;
 use SWP\Component\TemplatesSystem\Gimme\Context\Context;
 use SWP\Component\TemplatesSystem\Gimme\Factory\MetaFactoryInterface;
 use SWP\Component\TemplatesSystem\Gimme\Loader\LoaderInterface;
 use SWP\Component\TemplatesSystem\Gimme\Meta\Meta;
 use SWP\Component\TemplatesSystem\Gimme\Meta\MetaCollection;
 use Doctrine\ODM\PHPCR\DocumentManager;
-use SWP\Component\MultiTenancy\PathBuilder\TenantAwarePathBuilderInterface;
 
 /**
  * Class ArticleLoader.
@@ -30,14 +34,19 @@ use SWP\Component\MultiTenancy\PathBuilder\TenantAwarePathBuilderInterface;
 class ArticleLoader implements LoaderInterface
 {
     /**
+     * @var ArticleProviderInterface
+     */
+    protected $articleProvider;
+
+    /**
+     * @var RouteProviderInterface
+     */
+    protected $routeProvider;
+
+    /**
      * @var DocumentManager
      */
     protected $dm;
-
-    /**
-     * @var TenantAwarePathBuilderInterface
-     */
-    protected $pathBuilder;
 
     /**
      * @var string
@@ -57,22 +66,22 @@ class ArticleLoader implements LoaderInterface
     /**
      * ArticleLoader constructor.
      *
-     * @param DocumentManager                 $dm
-     * @param TenantAwarePathBuilderInterface $pathBuilder
-     * @param string                          $routeBasepaths
-     * @param MetaFactoryInterface            $metaFactory
-     * @param Context                         $context
+     * @param ArticleProviderInterface $articleProvider
+     * @param RouteProviderInterface   $routeProvider
+     * @param DocumentManager          $dm
+     * @param MetaFactoryInterface     $metaFactory
+     * @param Context                  $context
      */
     public function __construct(
+        ArticleProviderInterface $articleProvider,
+        RouteProviderInterface $routeProvider,
         DocumentManager $dm,
-        TenantAwarePathBuilderInterface $pathBuilder,
-        $routeBasepaths,
         MetaFactoryInterface $metaFactory,
         Context $context
     ) {
+        $this->articleProvider = $articleProvider;
+        $this->routeProvider = $routeProvider;
         $this->dm = $dm;
-        $this->pathBuilder = $pathBuilder;
-        $this->routeBasepaths = $routeBasepaths;
         $this->metaFactory = $metaFactory;
         $this->context = $context;
     }
@@ -124,14 +133,13 @@ class ArticleLoader implements LoaderInterface
         } elseif ($responseType === LoaderInterface::COLLECTION) {
             $route = null;
             if (array_key_exists('route', $parameters)) {
-                $route = $this->dm->find(null, $this->pathBuilder->build($this->routeBasepaths[0].$parameters['route']));
+                $route = $this->routeProvider->getOneById($parameters['route']);
             } elseif (null !== ($currentPage = $this->context->getCurrentPage())) {
                 $route = $currentPage->getValues();
             }
 
             if (null !== $route && is_object($route)) {
-                $identifier = $this->dm->getNodeForDocument($route)->getIdentifier();
-                $query = $this->dm->createPhpcrQuery($this->getQueryString($identifier, $parameters), QueryInterface::JCR_SQL2);
+                $query = $this->getRouteArticlesQuery($route, $parameters);
                 $countQuery = clone $query;
 
                 if (isset($parameters['limit'])) {
@@ -166,7 +174,7 @@ class ArticleLoader implements LoaderInterface
      *
      * @return bool
      */
-    public function isSupported($type)
+    public function isSupported(string $type) : bool
     {
         return in_array($type, ['articles', 'article']);
     }
@@ -180,26 +188,20 @@ class ArticleLoader implements LoaderInterface
         return;
     }
 
-    private function getQueryString($identifier, $parameters)
+    /**
+     * @param Route $route
+     * @param array $parameters
+     *
+     * @return SqlQuery
+     */
+    private function getRouteArticlesQuery(Route $route, array $parameters) : SqlQuery
     {
-        $queryStr = sprintf("SELECT * FROM [nt:unstructured] as S WHERE S.phpcr:class='SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\Article' AND S.route=%s AND S.status=published", $identifier);
-        if (isset($parameters['order'])) {
-            $order = $parameters['order'];
-            if (!is_array($order) || count($order) !== 2 || (strtoupper($order[1]) != 'ASC' && strtoupper($order[1]) != 'DESC')) {
-                throw new \Exception('Order filter must have two parameters with second one asc or desc, e.g. order(id, desc)');
-            }
-            if ($order[0] === 'id') {
-                $order[0] = 'jcr:uuid';
-            } else {
-                // Check that the given parameter is actually a field name of a route
-                $metaData = $this->dm->getClassMetadata('SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\Article');
-                if (!in_array($order[0], $metaData->getFieldNames())) {
-                    throw new \Exception('Order parameter must be id or the name of one of the fields in the route class');
-                }
-            }
-            $queryStr .= sprintf(' ORDER BY S.%s %s', $order[0], $order[1]);
+        $routeIdentifier = $this->dm->getNodeForDocument($route)->getIdentifier();
+        $order = ['publishedAt', 'DESC'];
+        if (array_key_exists('order', $parameters) && is_array($parameters['order'])) {
+            $order = $parameters['order'] + $order;
         }
 
-        return $queryStr;
+        return $this->articleProvider->getRouteArticlesQuery($routeIdentifier, $order);
     }
 }

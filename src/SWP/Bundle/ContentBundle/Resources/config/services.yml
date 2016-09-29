@@ -10,9 +10,9 @@ services:
     swp_template_engine.loader.article:
         class: SWP\Bundle\ContentBundle\Loader\ArticleLoader
         arguments:
+            - "@swp.provider.article"
+            - "@swp.provider.route"
             - "@doctrine_phpcr.odm.document_manager"
-            - "@swp_multi_tenancy.path_builder"
-            - "%swp_multi_tenancy.persistence.phpcr.route_basepaths%"
             - "@swp_template_engine_context.factory.meta_factory"
             - "@swp_template_engine_context"
         tags:

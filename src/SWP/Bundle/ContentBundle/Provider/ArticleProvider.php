@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file is part of the Superdesk Web Publisher Content Bundle.
  *
@@ -14,6 +16,7 @@
 
 namespace SWP\Bundle\ContentBundle\Provider;
 
+use Jackalope\Query\SqlQuery;
 use SWP\Bundle\ContentBundle\Doctrine\ArticleRepositoryInterface;
 use SWP\Component\MultiTenancy\PathBuilder\TenantAwarePathBuilderInterface;
 
@@ -64,5 +67,13 @@ class ArticleProvider implements ArticleProviderInterface
     public function getParent($id)
     {
         return $this->articleRepository->find($this->pathBuilder->build($id));
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getRouteArticlesQuery(string $routeIdentifier, array $order) : SqlQuery
+    {
+        return $this->articleRepository->getQueryForRouteArticles($routeIdentifier, $order);
     }
 }
