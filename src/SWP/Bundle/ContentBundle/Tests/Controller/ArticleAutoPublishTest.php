@@ -101,4 +101,59 @@ class ArticleAutoPublishTest extends WebTestCase
         self::assertNotNull($content['published_at']);
         self::assertEquals($content['status'], 'published');
     }
+
+    public function testArticleShouldNotBeAutoPublishedBasedOnRule()
+    {
+        $client = static::createClient();
+        $client->request('POST', $this->router->generate('swp_api_core_create_rule'), [
+            'rule' => [
+                'expression' => 'article.getMetadataByKey("located") matches "/fake/"',
+                'priority' => 1,
+                'configuration' => [
+                    [
+                        'key' => 'published',
+                        'value' => true,
+                    ],
+                ],
+            ],
+        ]);
+
+        self::assertEquals(201, $client->getResponse()->getStatusCode());
+
+        $client->request('POST', $this->router->generate('swp_api_content_create_routes'), [
+            'route' => [
+                'name' => 'articles',
+                'type' => 'collection',
+                'parent' => '/',
+                'content' => null,
+            ],
+        ]);
+
+        self::assertEquals(201, $client->getResponse()->getStatusCode());
+
+        $client->request(
+            'POST',
+            $this->router->generate('swp_api_content_push'),
+            [],
+            [],
+            ['CONTENT_TYPE' => 'application/json'],
+            self::TEST_ITEM_CONTENT
+        );
+
+        self::assertEquals(201, $client->getResponse()->getStatusCode());
+
+        $client->request(
+            'GET',
+            $this->router->generate('swp_api_content_show_articles', ['id' => 'abstract-html-test'])
+        );
+
+        self::assertEquals(200, $client->getResponse()->getStatusCode());
+
+        $content = json_decode($client->getResponse()->getContent(), true);
+
+        self::assertArrayHasKey('is_publishable', $content);
+        self::assertEquals($content['is_publishable'], false);
+        self::assertNull($content['published_at']);
+        self::assertEquals($content['status'], 'new');
+    }
 }
