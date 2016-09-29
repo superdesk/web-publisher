@@ -20,6 +20,7 @@ use SWP\Bundle\ContentBundle\Model\RouteInterface;
 use SWP\Bundle\ContentBundle\Provider\RouteProviderInterface;
 use SWP\Bundle\ContentBundle\Rule\Applicator\ArticleRuleApplicator;
 use PhpSpec\ObjectBehavior;
+use SWP\Bundle\ContentBundle\Service\ArticleServiceInterface;
 use SWP\Component\Rule\Applicator\RuleApplicatorInterface;
 use SWP\Component\Rule\Model\RuleInterface;
 use SWP\Component\Rule\Model\RuleSubjectInterface;
@@ -29,9 +30,12 @@ use SWP\Component\Rule\Model\RuleSubjectInterface;
  */
 final class ArticleRuleApplicatorSpec extends ObjectBehavior
 {
-    function  let(RouteProviderInterface $routeProvider, LoggerInterface $logger)
-    {
-        $this->beConstructedWith($routeProvider, $logger);
+    function  let(
+        RouteProviderInterface $routeProvider,
+        LoggerInterface $logger,
+        ArticleServiceInterface $articleService
+    ) {
+        $this->beConstructedWith($routeProvider, $logger, $articleService);
     }
 
     function it_is_initializable()
@@ -100,17 +104,20 @@ final class ArticleRuleApplicatorSpec extends ObjectBehavior
         ArticleInterface $subject,
         RouteProviderInterface $routeProvider,
         RouteInterface $route,
-        LoggerInterface $logger
+        LoggerInterface $logger,
+        ArticleServiceInterface $articleService
     ) {
         $rule->getConfiguration()->willReturn([
             'route' => 'some/route',
             'templateName' => 'template.twig.html',
+            'published' => 'true'
         ]);
         $rule->getExpression()->willReturn('article.getSomething("something") matches /something/');
         $routeProvider->getOneById('some/route')->willReturn($route);
 
         $subject->setRoute($route)->shouldBeCalled();
         $subject->setTemplateName('template.twig.html')->shouldBeCalled();
+        $articleService->publish($subject)->shouldBeCalled();
         $logger->info(Argument::any('string'))->shouldBeCalled();
 
         $this->apply($rule, $subject)->shouldReturn(null);

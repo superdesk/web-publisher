@@ -17,6 +17,7 @@ namespace SWP\Bundle\ContentBundle\Rule\Applicator;
 use Psr\Log\LoggerInterface;
 use SWP\Bundle\ContentBundle\Model\ArticleInterface;
 use SWP\Bundle\ContentBundle\Provider\RouteProviderInterface;
+use SWP\Bundle\ContentBundle\Service\ArticleServiceInterface;
 use SWP\Component\Rule\Applicator\RuleApplicatorInterface;
 use SWP\Component\Rule\Model\RuleSubjectInterface;
 use SWP\Component\Rule\Model\RuleInterface;
@@ -35,6 +36,11 @@ final class ArticleRuleApplicator implements RuleApplicatorInterface
     private $logger;
 
     /**
+     * @var ArticleServiceInterface
+     */
+    private $articleService;
+
+    /**
      * @var array
      */
     private $supportedKeys = ['route', 'templateName', 'published'];
@@ -42,13 +48,18 @@ final class ArticleRuleApplicator implements RuleApplicatorInterface
     /**
      * ArticleRuleApplicator constructor.
      *
-     * @param RouteProviderInterface $routeProvider
-     * @param LoggerInterface        $logger
+     * @param RouteProviderInterface  $routeProvider
+     * @param LoggerInterface         $logger
+     * @param ArticleServiceInterface $articleService
      */
-    public function __construct(RouteProviderInterface $routeProvider, LoggerInterface $logger)
-    {
+    public function __construct(
+        RouteProviderInterface $routeProvider,
+        LoggerInterface $logger,
+        ArticleServiceInterface $articleService
+    ) {
         $this->routeProvider = $routeProvider;
         $this->logger = $logger;
+        $this->articleService = $articleService;
     }
 
     /**
@@ -76,8 +87,10 @@ final class ArticleRuleApplicator implements RuleApplicatorInterface
         }
 
         $subject->setTemplateName($configuration[$this->supportedKeys[1]]);
-        $subject->setPublishable((bool) $configuration[$this->supportedKeys[2]]);
-        $subject->setPublishedAt(new \DateTime());
+
+        if ((bool) $configuration[$this->supportedKeys[2]]) {
+            $this->articleService->publish($subject);
+        }
 
         $this->logger->info(sprintf(
             'Configuration: "%s" for "%s" rule has been applied!',
@@ -112,7 +125,7 @@ final class ArticleRuleApplicator implements RuleApplicatorInterface
     {
         $resolver->setDefaults([
             $this->supportedKeys[1] => null,
-            $this->supportedKeys[2] => false
+            $this->supportedKeys[2] => false,
         ]);
         $resolver->setDefined($this->supportedKeys[0]);
     }
