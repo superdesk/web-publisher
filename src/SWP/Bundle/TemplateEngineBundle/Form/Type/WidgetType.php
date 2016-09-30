@@ -16,6 +16,8 @@ namespace SWP\Bundle\TemplateEngineBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\CallbackTransformer;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -28,11 +30,11 @@ class WidgetType extends AbstractType
             ->add('type', null, [
                 'required' => false,
             ])
-            ->add('visible', 'choice', [
+            ->add('visible', ChoiceType::class, [
                 'choices' => [true => '1', false => '0'],
                 'choices_as_values' => true,
             ])
-            ->add('parameters', 'text', [
+            ->add('parameters', TextType::class, [
                 'required' => false,
             ])
             ->addModelTransformer(new CallbackTransformer(
@@ -60,7 +62,7 @@ class WidgetType extends AbstractType
         $resolver->setDefaults(['csrf_protection' => false]);
     }
 
-    public function getName()
+    public function getBlockPrefix()
     {
         return 'widget';
     }

@@ -8,7 +8,7 @@
  * For the full copyright and license information, please see the
  * AUTHORS and LICENSE files distributed with this source code.
  *
- * @copyright 2016 Sourcefabric z.ú.
+ * @copyright 2016 Sourcefabric z.ú
  * @license http://www.superdesk.org/license
  */
 
@@ -28,22 +28,22 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
  */
 final class RouteSelectorTypeSpec extends ObjectBehavior
 {
-    function let(RouteProviderInterface $routeProvider)
+    public function let(RouteProviderInterface $routeProvider)
     {
         $this->beConstructedWith($routeProvider);
     }
 
-    function it_is_initializable()
+    public function it_is_initializable()
     {
         $this->shouldHaveType(RouteSelectorType::class);
     }
 
-    function it_should_be_a_form_type()
+    public function it_should_be_a_form_type()
     {
         $this->shouldHaveType(FormTypeInterface::class);
     }
 
-    function it_should_build_form(FormBuilderInterface $builder, RouteProviderInterface $routeProvider)
+    public function it_should_build_form(FormBuilderInterface $builder, RouteProviderInterface $routeProvider)
     {
         $builder
             ->addModelTransformer(
@@ -53,7 +53,7 @@ final class RouteSelectorTypeSpec extends ObjectBehavior
         $this->buildForm($builder, []);
     }
 
-    function it_should_set_defaults(OptionsResolver $resolver)
+    public function it_should_set_defaults(OptionsResolver $resolver)
     {
         $resolver
             ->setDefaults(['invalid_message' => 'The selected route does not exist!'])
@@ -63,7 +63,7 @@ final class RouteSelectorTypeSpec extends ObjectBehavior
         $this->configureOptions($resolver);
     }
 
-    function it_should_have_a_parent()
+    public function it_should_have_a_parent()
     {
         $this->getParent()->shouldReturn(TextType::class);
     }

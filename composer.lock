@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "9c40cdf760ef2296cf60af60b8c3abdf",
-    "content-hash": "e30ff4ce444adb713e7b4c4ded72db24",
+    "hash": "423d1e3ff168d937ce8fb03d4f092afd",
+    "content-hash": "158e570f4615b4989b5c01b63c0ad98f",
     "packages": [
         {
             "name": "ahilles107/updater",
@@ -1388,12 +1388,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/FriendsOfSymfony/FOSHttpCacheBundle.git",
-                "reference": "020901eec98821d9c967e1bf24b6ec966135ae62"
+                "reference": "476023cc7616f6df8018a9dd0b5b1c76e0f21bc8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSHttpCacheBundle/zipball/020901eec98821d9c967e1bf24b6ec966135ae62",
-                "reference": "020901eec98821d9c967e1bf24b6ec966135ae62",
+                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSHttpCacheBundle/zipball/476023cc7616f6df8018a9dd0b5b1c76e0f21bc8",
+                "reference": "476023cc7616f6df8018a9dd0b5b1c76e0f21bc8",
                 "shasum": ""
             },
             "require": {
@@ -1461,7 +1461,7 @@
                 "purge",
                 "varnish"
             ],
-            "time": "2016-09-06 09:54:20"
+            "time": "2016-09-29 14:31:26"
         },
         {
             "name": "friendsofsymfony/rest-bundle",
@@ -3891,20 +3891,20 @@
         },
         {
             "name": "phpcr/phpcr-utils",
-            "version": "1.2.9",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpcr/phpcr-utils.git",
-                "reference": "9f51c3ebfcd1afd83d52f8735a4b14f8bee7e210"
+                "reference": "c2c1e4ab2c18eed0da761a3cd47da8a91f6c03a5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpcr/phpcr-utils/zipball/9f51c3ebfcd1afd83d52f8735a4b14f8bee7e210",
-                "reference": "9f51c3ebfcd1afd83d52f8735a4b14f8bee7e210",
+                "url": "https://api.github.com/repos/phpcr/phpcr-utils/zipball/c2c1e4ab2c18eed0da761a3cd47da8a91f6c03a5",
+                "reference": "c2c1e4ab2c18eed0da761a3cd47da8a91f6c03a5",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.3.3",
+                "php": "^5.3.3|7.0.x|7.1.x",
                 "phpcr/phpcr": "~2.1.0",
                 "symfony/console": "~2.3|~3.0"
             },
@@ -3958,7 +3958,7 @@
                 "contentrepository",
                 "phpcr"
             ],
-            "time": "2016-02-12 13:58:06"
+            "time": "2016-09-30 13:07:28"
         },
         {
             "name": "phpoption/phpoption",
@@ -4321,16 +4321,16 @@
         },
         {
             "name": "sentry/sentry",
-            "version": "1.4.1",
+            "version": "1.5.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/getsentry/sentry-php.git",
-                "reference": "fe51e53217f983ad58c5db27c7d78f9d8759b379"
+                "reference": "be326f6a8eacacd86598af2a82bd37e93d9126d2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/getsentry/sentry-php/zipball/fe51e53217f983ad58c5db27c7d78f9d8759b379",
-                "reference": "fe51e53217f983ad58c5db27c7d78f9d8759b379",
+                "url": "https://api.github.com/repos/getsentry/sentry-php/zipball/be326f6a8eacacd86598af2a82bd37e93d9126d2",
+                "reference": "be326f6a8eacacd86598af2a82bd37e93d9126d2",
                 "shasum": ""
             },
             "require": {
@@ -4351,7 +4351,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.4.x-dev"
+                    "dev-master": "1.5.x-dev"
                 }
             },
             "autoload": {
@@ -4375,7 +4375,7 @@
                 "log",
                 "logging"
             ],
-            "time": "2016-09-20 21:52:11"
+            "time": "2016-09-29 21:31:50"
         },
         {
             "name": "sentry/sentry-symfony",
@@ -5097,6 +5097,61 @@
                 "logging"
             ],
             "time": "2016-04-13 16:21:01"
+        },
+        {
+            "name": "symfony/phpunit-bridge",
+            "version": "v3.1.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/phpunit-bridge.git",
+                "reference": "1f4e2059cf4ecae1053b9c3027b3fc548fd077b9"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/phpunit-bridge/zipball/1f4e2059cf4ecae1053b9c3027b3fc548fd077b9",
+                "reference": "1f4e2059cf4ecae1053b9c3027b3fc548fd077b9",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.3"
+            },
+            "suggest": {
+                "symfony/debug": "For tracking deprecated interfaces usages at runtime with DebugClassLoader"
+            },
+            "type": "symfony-bridge",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "3.1-dev"
+                }
+            },
+            "autoload": {
+                "files": [
+                    "bootstrap.php"
+                ],
+                "psr-4": {
+                    "Symfony\\Bridge\\PhpUnit\\": ""
+                },
+                "exclude-from-classmap": [
+                    "/Tests/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Nicolas Grekas",
+                    "email": "p@tchwork.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
+                }
+            ],
+            "description": "Symfony PHPUnit Bridge",
+            "homepage": "https://symfony.com",
+            "time": "2016-08-19 06:48:39"
         },
         {
             "name": "symfony/polyfill-apcu",
@@ -6917,16 +6972,16 @@
         },
         {
             "name": "phpdocumentor/reflection-docblock",
-            "version": "3.1.0",
+            "version": "3.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpDocumentor/ReflectionDocBlock.git",
-                "reference": "9270140b940ff02e58ec577c237274e92cd40cdd"
+                "reference": "8331b5efe816ae05461b7ca1e721c01b46bafb3e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpDocumentor/ReflectionDocBlock/zipball/9270140b940ff02e58ec577c237274e92cd40cdd",
-                "reference": "9270140b940ff02e58ec577c237274e92cd40cdd",
+                "url": "https://api.github.com/repos/phpDocumentor/ReflectionDocBlock/zipball/8331b5efe816ae05461b7ca1e721c01b46bafb3e",
+                "reference": "8331b5efe816ae05461b7ca1e721c01b46bafb3e",
                 "shasum": ""
             },
             "require": {
@@ -6958,7 +7013,7 @@
                 }
             ],
             "description": "With this component, a library can provide support for annotations via DocBlocks or otherwise retrieve information that is embedded in a DocBlock.",
-            "time": "2016-06-10 09:48:41"
+            "time": "2016-09-30 07:12:33"
         },
         {
             "name": "phpdocumentor/type-resolver",
@@ -8182,6 +8237,7 @@
     ],
     "minimum-stability": "dev",
     "stability-flags": {
+        "phpcr/phpcr-utils": 20,
         "friendsofsymfony/http-cache-bundle": 20,
         "friendsofsymfony/rest-bundle": 20,
         "swp/updater-bundle": 20,
