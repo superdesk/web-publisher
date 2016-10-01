@@ -83,13 +83,17 @@ class StringyExtension extends \Twig_Extension
                 if ($this->environment->getFunction($name)) {
                     continue;
                 }
-                $this->functions[$name] = new \Twig_SimpleFunction($name, ['Stringy\StaticStringy', $name]);
+                $this->functions[$name] = new \Twig_SimpleFunction($name, function () use ($name) {
+                    return call_user_func_array(['Stringy\StaticStringy', $name], func_get_args());
+                });
             } else {
                 // Don't add filters which have the same name as any already in the environment
                 if ($this->environment->getFilter($name)) {
                     continue;
                 }
-                $this->filters[$name] = new \Twig_SimpleFilter($name, ['Stringy\StaticStringy', $name]);
+                $this->filters[$name] = new \Twig_SimpleFilter($name, function () use ($name) {
+                    return call_user_func_array(['Stringy\StaticStringy', $name], func_get_args());
+                });
             }
         }
     }

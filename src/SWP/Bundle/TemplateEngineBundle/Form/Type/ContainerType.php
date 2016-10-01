@@ -31,7 +31,6 @@ class ContainerType extends AbstractType
             ->add('styles')
             ->add('visible', ChoiceType::class, [
                 'choices' => [true => 1, false => 0],
-                'choices_as_values' => true,
             ])
             ->add('cssClass')
             ->add('data', CollectionType::class, [

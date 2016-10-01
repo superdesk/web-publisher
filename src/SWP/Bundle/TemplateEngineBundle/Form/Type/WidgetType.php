@@ -32,7 +32,6 @@ class WidgetType extends AbstractType
             ])
             ->add('visible', ChoiceType::class, [
                 'choices' => [true => '1', false => '0'],
-                'choices_as_values' => true,
             ])
             ->add('parameters', TextType::class, [
                 'required' => false,

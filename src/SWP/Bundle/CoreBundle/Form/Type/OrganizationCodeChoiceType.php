@@ -57,7 +57,7 @@ final class OrganizationCodeChoiceType extends AbstractType
                 $choices = [];
 
                 foreach ($organizations as $organization) {
-                    $choices[$organization->getCode()] = $organization->getName();
+                    $choices[$organization->getName()] = $organization->getCode();
                 }
 
                 return $choices;
