@@ -13,7 +13,7 @@
     ],
     "require": {
         "php": ">=5.5|^7.0",
-        "symfony/framework-bundle": "~2.4|~3.0",
+        "symfony/framework-bundle": "~2.8|~3.0",
         "swp/storage": "~0.1.0",
         "doctrine/doctrine-bundle": "^1.6",
         "doctrine/orm": "^2.5"
