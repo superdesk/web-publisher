@@ -537,8 +537,6 @@ Create a new rule:
 
 .. code-block:: bash
 
-    $ curl -i -X POST -H "Content-Type: application/json" -d '{"name": "Example", "description": "Lorem ipsum", "enabled": true}' http://localhost:8000/api/suppliers/
-
     $ curl 'http://localhost/api/v1/rules/' -H 'Content-Type: application/x-www-form-urlencoded' --data 'rule%5Bpriority%5D=1&rule%5Bexpression%5D=article.getMetadataByKey(%22located%22)+matches+%22%2FSydney%2F%22&rule%5Bconfiguration%5D%5B0%5D%5Bkey%5D=published&rule%5Bconfiguration%5D%5B0%5D%5Bvalue%5D=true' --compressed
 
 
@@ -557,4 +555,3 @@ Submitted rule's configuration:
 
 It means that if the above rule's expression matches to an article, it will apply the configuration to article.
 In this case it will publish article.
-git status
