@@ -1,6 +1,8 @@
 Usage
 =====
 
+.. _content_bundle_rules:
+
 Rules to assign routes and/or templates to articles
 ---------------------------------------------------
 
@@ -513,7 +515,7 @@ The article's slug is being generated from the ``slugline`` field, if it is not 
 What happens when I want to change article's title?
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-You can change existing article's title in the content that you are sending to Web Publisher. Let's say we have a simple ``text`` `item` or `package` in ninjs format, as it is defined according to :ref:`_content_bundle_allowed_types`.
+You can change existing article's title in the content that you are sending to Web Publisher. Let's say we have a simple ``text`` `item` or `package` in ninjs format, as it is defined according to :ref:`content_bundle_allowed_types`.
 
 Once the item/package ``headline`` is changed and the whole content is pushed to Web Publisher again, the article's title will be updated automatically.
 
@@ -522,3 +524,37 @@ What happens when I want to change article's slug?
 
 If an article already exists and you want to change the article's slug, the content which you used to create the article for the first time should be re-sent with modified ``slugline`` property.
 Once you change the ``slugline`` property's value and submit it again to Web Publisher, a new article will be created.
+
+How do I auto-publish an article?
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+In some cases, you will need to publish an article automatically, without additional action. In this bundle a special logic has been implemented which is responsible for the auto publishing articles, which is based on the rules. You can read more about rules in sections: :ref:`content_bundle_rules`, RuleBundle - :doc:`/bundles/SWPRuleBundle/usage` section.
+
+All you need to do in order to auto-publish your articles, you need to first add a rule. If the article
+will match the rule, it will be auto published.
+
+Create a new rule:
+
+.. code-block:: bash
+
+    $ curl -i -X POST -H "Content-Type: application/json" -d '{"name": "Example", "description": "Lorem ipsum", "enabled": true}' http://localhost:8000/api/suppliers/
+
+    $ curl 'http://localhost/api/v1/rules/' -H 'Content-Type: application/x-www-form-urlencoded' --data 'rule%5Bpriority%5D=1&rule%5Bexpression%5D=article.getMetadataByKey(%22located%22)+matches+%22%2FSydney%2F%22&rule%5Bconfiguration%5D%5B0%5D%5Bkey%5D=published&rule%5Bconfiguration%5D%5B0%5D%5Bvalue%5D=true' --compressed
+
+
+Submitted rule's expression:
+
+.. code-block:: text
+
+    article.getMetadataByKey("located") matches "/Sydney/"
+
+Submitted rule's configuration:
+
+.. code-block:: text
+
+    rule[configuration][0][key]: published
+    rule[configuration][0][value]: true
+
+It means that if the above rule's expression matches to an article, it will apply the configuration to article.
+In this case it will publish article.
+git status

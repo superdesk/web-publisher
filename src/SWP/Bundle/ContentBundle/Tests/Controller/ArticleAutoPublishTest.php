@@ -43,7 +43,6 @@ class ArticleAutoPublishTest extends WebTestCase
             'doctrine_phpcr'
         );
 
-        $this->runCommand('theme:setup', ['--env' => 'test'], true);
         $this->router = $this->getContainer()->get('router');
     }
 
