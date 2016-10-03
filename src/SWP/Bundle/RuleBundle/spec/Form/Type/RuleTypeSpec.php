@@ -8,9 +8,10 @@
  * For the full copyright and license information, please see the
  * AUTHORS and LICENSE files distributed with this source code.
  *
- * @copyright 2016 Sourcefabric z.ú.
+ * @copyright 2016 Sourcefabric z.ú
  * @license http://www.superdesk.org/license
  */
+
 namespace spec\SWP\Bundle\RuleBundle\Form\Type;
 
 use Burgov\Bundle\KeyValueFormBundle\Form\Type\KeyValueType;
@@ -28,17 +29,17 @@ use Symfony\Component\Validator\Constraints\NotBlank;
  */
 final class RuleTypeSpec extends ObjectBehavior
 {
-    function it_is_initializable()
+    public function it_is_initializable()
     {
         $this->shouldHaveType(RuleType::class);
     }
 
-    function it_should_be_a_form_type()
+    public function it_should_be_a_form_type()
     {
         $this->shouldHaveType(FormTypeInterface::class);
     }
 
-    function it_should_build_form(FormBuilderInterface $builder)
+    public function it_should_build_form(FormBuilderInterface $builder)
     {
         $builder
             ->add('expression', TextType::class, [
@@ -68,7 +69,7 @@ final class RuleTypeSpec extends ObjectBehavior
         $this->buildForm($builder, []);
     }
 
-    function it_should_set_defaults(OptionsResolver $resolver)
+    public function it_should_set_defaults(OptionsResolver $resolver)
     {
         $resolver
             ->setDefaults(['csrf_protection' => false])
@@ -78,8 +79,8 @@ final class RuleTypeSpec extends ObjectBehavior
         $this->configureOptions($resolver);
     }
 
-    function it_should_have_a_name()
+    public function it_should_have_a_name()
     {
-        $this->getName()->shouldReturn('rule');
+        $this->getBlockPrefix()->shouldReturn('rule');
     }
 }

@@ -1,6 +1,9 @@
 imports:
     - { resource: config.yml }
 
+parameters:
+    data_collector.config.class: "Symfony\\Component\\Translation\\DataCollector\\TranslationDataCollector"
+
 framework:
     router:
         resource: "%kernel.root_dir%/config/routing_dev.yml"
@@ -20,10 +23,13 @@ services:
         class: Twig_Extension_Debug
         tags:
                 - { name: 'twig.extension' }
+    #Disable translations collector
     data_collector.translation:
         class: "%data_collector.config.class%"
         tags:
            - {name: 'data_collector', priority: '0'}
+        arguments:
+        - "@translator.data_collector"
 
 monolog:
     handlers:

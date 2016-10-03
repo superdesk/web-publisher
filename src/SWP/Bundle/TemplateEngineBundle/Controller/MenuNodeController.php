@@ -115,7 +115,7 @@ class MenuNodeController extends FOSRestController
         }
         $menuNode->setParentDocument($menuParent);
 
-        $form = $this->createForm(new MenuNodeType(), $menuNode);
+        $form = $this->createForm(MenuNodeType::class, $menuNode);
         $form->handleRequest($request);
         if ($form->isValid()) {
             $dm = $this->get('document_manager');
@@ -182,7 +182,7 @@ class MenuNodeController extends FOSRestController
             throw new NotFoundHttpException('Menu node with given id was not found.');
         }
 
-        $form = $this->createForm(new MenuNodeType(), $menuNode, [
+        $form = $this->createForm(MenuNodeType::class, $menuNode, [
             'method' => $request->getMethod(),
         ]);
 

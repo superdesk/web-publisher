@@ -34,7 +34,7 @@ class MenuNodeType extends AbstractType
         $resolver->setDefaults(['csrf_protection' => false]);
     }
 
-    public function getName()
+    public function getBlockPrefix()
     {
         return 'menuNode';
     }

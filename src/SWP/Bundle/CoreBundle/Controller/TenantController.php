@@ -122,7 +122,7 @@ class TenantController extends FOSRestController
     public function createAction(Request $request)
     {
         $tenant = $this->get('swp.factory.tenant')->create();
-        $form = $this->createForm(new TenantType(), $tenant, ['method' => $request->getMethod()]);
+        $form = $this->createForm(TenantType::class, $tenant, ['method' => $request->getMethod()]);
 
         $form->handleRequest($request);
 
@@ -166,7 +166,7 @@ class TenantController extends FOSRestController
     {
         $tenant = $this->findOr404($code);
 
-        $form = $this->createForm(new TenantType(), $tenant, ['method' => $request->getMethod()]);
+        $form = $this->createForm(TenantType::class, $tenant, ['method' => $request->getMethod()]);
 
         $form->handleRequest($request);
 

@@ -32,7 +32,7 @@ class MenuType extends AbstractType
         $resolver->setDefaults(['csrf_protection' => false]);
     }
 
-    public function getName()
+    public function getBlockPrefix()
     {
         return 'menu';
     }

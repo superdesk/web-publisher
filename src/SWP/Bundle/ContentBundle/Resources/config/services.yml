@@ -141,5 +141,6 @@ services:
         arguments:
             - '@swp.provider.route'
             - '@logger'
+            - '@swp.service.article'
         tags:
             - { name: applicator.rule_applicator }
