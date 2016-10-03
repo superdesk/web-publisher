@@ -553,5 +553,4 @@ Submitted rule's configuration:
     rule[configuration][0][key]: published
     rule[configuration][0][value]: true
 
-It means that if the above rule's expression matches to an article, it will apply the configuration to article.
-In this case it will publish article.
+It means that if the above rule's expression matches any article, it will apply the configuration to it - in this case it will publish article.
