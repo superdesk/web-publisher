@@ -7,6 +7,7 @@ imports:
     - { resource: parameters.yml }
     - { resource: security.yml }
     - { resource: services.yml }
+    - { resource: session.yml }
 
 # Put parameters here that don't need to change on each machine where the app is deployed
 # http://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
@@ -30,11 +31,11 @@ framework:
     default_locale:  "%locale%"
     trusted_hosts:   ~
     trusted_proxies: ~
-    session:
-        handler_id:  ~
-        name: SUPERDESKWEBPUBLISHER
     fragments:       ~
     http_method_override: true
+    session:
+        storage_id: "swp_core.security.session.domain_dynamic_storage"
+        handler_id: "session.handler.memcached"
 
 # Twig Configuration
 twig:
