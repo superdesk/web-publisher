@@ -11,10 +11,9 @@
  * @copyright 2015 Sourcefabric z.ú
  * @license http://www.superdesk.org/license
  */
-
 namespace SWP\Bundle\CoreBundle\Tests;
 
-use Liip\FunctionalTestBundle\Test\WebTestCase;
+use SWP\Bundle\FixturesBundle\WebTestCase;
 use Symfony\Component\DependencyInjection\Exception\InactiveScopeException;
 
 class ServicesTest extends WebTestCase

@@ -14,6 +14,28 @@ Superdesk Web Publisher - the next generation publishing platform for journalist
 
 Full documentation can be found here: [http://superdesk-web-publisher.readthedocs.org][1]
 
+## Requirements
+
+ * PHP >= 7.0
+   * iconv needs to be enabled
+   * Intl needs to be installed with ICU 4+
+   * pdo needs to be enabled
+   * JSON needs to be enabled
+   * ctype needs to be enabled
+   * Your php.ini needs to have the date.timezone setting
+   * PHP tokenizer needs to be enabled
+   * mbstring functions need to be enabled
+   * POSIX needs to be enabled (only on *nix)
+   * CURL and php-curl need to be enabled
+   * php.ini recommended settings
+     * short_open_tag = Off
+     * magic_quotes_gpc = Off
+     * register_globals = Off
+     * session.auto_start = Off
+ * Postgresql >= 9.4
+   * pdo-pgsql
+ * Memcached
+   * php-memcached
 
 ## Installation
 
@@ -27,15 +49,13 @@ See [installation guide](install.md) for more details.
 
 See [detailed instructions](testing.md) for more details.
 
-License
------------
+## License
 
 See the complete license [here](LICENSE.md).
 
-Contributors
--------
+## Contributors
 
-This component is a Sourcefabric z.ú. and contributors initiative.
+This project is a Sourcefabric z.ú. and contributors initiative.
 
 List of all authors and contributors can be found [here](AUTHORS.md).
 
