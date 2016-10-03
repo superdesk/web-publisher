@@ -8,6 +8,7 @@ in 0.1 minor versions.
 To get the diff for a specific change, go to https://github.com/superdesk/web-publisher/commit/XXX where XXX is the change hash
 
 * 0.1.0-7
+ * feature [#155] Upgrade Symfony version to 3.1
  * feature [#153] Bump lowest PHP version to ^7.0
  * bug [#152] [ContentBundle] If I correct a headline, it and its article are published in addition to the original (takeit)
 

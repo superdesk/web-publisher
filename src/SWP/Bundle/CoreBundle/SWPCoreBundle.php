@@ -14,6 +14,7 @@
 
 namespace SWP\Bundle\CoreBundle;
 
+use SWP\Bundle\CoreBundle\DependencyInjection\Compiler\OverrideDynamicRouterPass;
 use SWP\Bundle\CoreBundle\DependencyInjection\Compiler\OverrideThemeAssetsInstallerPass;
 use SWP\Bundle\CoreBundle\DependencyInjection\Compiler\OverrideThemeFactoryPass;
 use SWP\Bundle\CoreBundle\DependencyInjection\Compiler\OverrideThemePathResolverPass;
@@ -38,6 +39,7 @@ class SWPCoreBundle extends Bundle
         $container->addCompilerPass(new OverrideThemeFactoryPass());
         $container->addCompilerPass(new OverrideThemePathResolverPass());
         $container->addCompilerPass(new OverrideThemeAssetsInstallerPass());
+        $container->addCompilerPass(new OverrideDynamicRouterPass());
     }
 
     /**

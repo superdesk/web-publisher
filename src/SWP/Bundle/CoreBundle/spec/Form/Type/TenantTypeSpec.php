@@ -97,6 +97,6 @@ class TenantTypeSpec extends ObjectBehavior
 
     public function it_should_have_a_name()
     {
-        $this->getName()->shouldReturn('tenant');
+        $this->getBlockPrefix()->shouldReturn('tenant');
     }
 }

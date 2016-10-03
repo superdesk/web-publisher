@@ -18,13 +18,14 @@ use SWP\Bundle\ContentBundle\Model\ArticleInterface;
 use SWP\Bundle\ContentBundle\Model\RouteInterface;
 use Symfony\Cmf\Bundle\RoutingBundle\Routing\DynamicRouter;
 use SWP\Component\TemplatesSystem\Gimme\Meta\Meta;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class MetaRouter extends DynamicRouter
 {
     /**
      * {@inheritdoc}
      */
-    public function generate($name, $parameters = [], $referenceType = false)
+    public function generate($name, $parameters = [], $referenceType = UrlGeneratorInterface::ABSOLUTE_PATH)
     {
         $route = $name;
         if (is_object($name) && $name->getValues() instanceof ArticleInterface) {

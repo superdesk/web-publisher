@@ -47,7 +47,7 @@ final class ThemeNameChoiceType extends AbstractType
                 $choices = [];
 
                 foreach ($themes as $theme) {
-                    $choices[$theme->getName()] = (string) $theme;
+                    $choices[(string) $theme] = $theme->getName();
                 }
 
                 return $choices;

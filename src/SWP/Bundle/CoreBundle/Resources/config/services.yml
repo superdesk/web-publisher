@@ -1,6 +1,5 @@
 parameters:
     # override default cmf dynamic router with our implementation (with support for Meta classes)
-    cmf_routing.dynamic_router.class: SWP\Bundle\CoreBundle\Routing\MetaRouter
     swp_core.twig_extension.class: SWP\Bundle\CoreBundle\Twig\CoreExtension
     swp_core.routing.route_enhancer.class: SWP\Bundle\CoreBundle\Enhancer\RouteEnhancer
     swp_core.theme.resolver.template_name.class: SWP\Bundle\CoreBundle\Resolver\TemplateNameResolver

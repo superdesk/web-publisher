@@ -12,6 +12,7 @@ imports:
 # http://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
     locale: en
+    templating.cache_warmer.template_paths.class: "Symfony\\Bundle\\FrameworkBundle\\CacheWarmer\\TemplatePathsCacheWarmer"
 framework:
     #esi:             ~
     translator:
@@ -202,11 +203,6 @@ knp_paginator:
         sort_field_name: sort
         sort_direction_name: direction
         distinct: true
-
-swp_updater:
-    version_class: "%swp_updater.version.class%"
-    client:
-        base_uri: "http://updates.sourcefabric.org"
 
 stof_doctrine_extensions:
     default_locale: "%locale%"

@@ -28,7 +28,16 @@ class ContainerNode extends \Twig_Node
      */
     public function __construct(\Twig_Node $name, \Twig_Node_Expression $parameters = null, \Twig_NodeInterface $body, $lineno, $tag = null)
     {
-        parent::__construct(['name' => $name, 'parameters' => $parameters, 'body' => $body], [], $lineno, $tag);
+        $nodes = [
+            'name' => $name,
+            'body' => $body,
+        ];
+
+        if (!is_null($parameters)) {
+            $nodes['parameters'] = $parameters;
+        }
+
+        parent::__construct($nodes, [], $lineno, $tag);
     }
 
     /**
@@ -40,7 +49,7 @@ class ContainerNode extends \Twig_Node
             ->addDebugInfo($this)
             ->write("\$containerService = \$this->env->getExtension('swp_container')->getContainerService();\n")
             ->write('$container = $containerService->getContainer(')->subcompile($this->getNode('name'))->raw(', ');
-        if (!is_null($this->getNode('parameters'))) {
+        if ($this->hasNode('parameters')) {
             $compiler->subcompile($this->getNode('parameters'));
         } else {
             $compiler->raw('array()');
