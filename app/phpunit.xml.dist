@@ -13,6 +13,7 @@
 
     <php>
         <ini name="zend.enable_gc" value="0"/>
+        <env name="SYMFONY_DEPRECATIONS_HELPER" value="300" />
     </php>
 
     <testsuites>

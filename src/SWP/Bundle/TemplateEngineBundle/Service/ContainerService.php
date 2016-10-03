@@ -45,7 +45,7 @@ class ContainerService
      */
     public function __construct(RegistryInterface $registry, EventDispatcherInterface $eventDispatcher, ContainerInterface $serviceContainer, $cacheDir, $debug = false)
     {
-        $this->objectManager = $registry->getEntityManager();
+        $this->objectManager = $registry->getManager();
         $this->cacheDir = $cacheDir.'/twig';
         $this->debug = $debug;
         $this->eventDispatcher = $eventDispatcher;

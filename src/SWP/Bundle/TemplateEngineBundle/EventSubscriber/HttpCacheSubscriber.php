@@ -19,6 +19,7 @@ use SWP\Bundle\ContentBundle\Model\ArticleInterface;
 use SWP\Bundle\ContentBundle\Model\RouteInterface;
 use SWP\Bundle\TemplateEngineBundle\Model\Container;
 use SWP\Component\Common\Event\HttpCacheEvent;
+use SWP\Component\TemplatesSystem\Gimme\Model\WidgetModelInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 class HttpCacheSubscriber implements EventSubscriberInterface
@@ -48,6 +49,12 @@ class HttpCacheSubscriber implements EventSubscriberInterface
             case $event->getSubject() instanceof Container:
                 $this->cacheManager->invalidateRoute('swp_api_templates_list_containers');
                 $this->cacheManager->invalidateRoute('swp_api_templates_get_container', [
+                    'id' => $event->getSubject()->getId(),
+                ]);
+                break;
+            case $event->getSubject() instanceof WidgetModelInterface:
+                $this->cacheManager->invalidateRoute('swp_api_templates_list_widgets');
+                $this->cacheManager->invalidateRoute('swp_api_templates_get_widget', [
                     'id' => $event->getSubject()->getId(),
                 ]);
                 break;

@@ -11,15 +11,12 @@
  * @copyright 2015 Sourcefabric z.ú
  * @license http://www.superdesk.org/license
  */
-
 namespace SWP\Bundle\CoreBundle\Version;
-
-use SWP\UpdaterBundle\Version\VersionInterface;
 
 /**
  * Application version class.
  */
-final class Version implements VersionInterface
+final class Version
 {
     /**
      * Version string.

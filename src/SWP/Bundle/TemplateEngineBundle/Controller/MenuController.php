@@ -111,7 +111,7 @@ class MenuController extends FOSRestController
         }
         $menu->setParentDocument($menuParent);
 
-        $form = $this->createForm(new MenuType(), $menu);
+        $form = $this->createForm(MenuType::class, $menu);
         $form->handleRequest($request);
         if ($form->isValid()) {
             /** @var DocumentManager $dm */
@@ -179,7 +179,7 @@ class MenuController extends FOSRestController
             throw new NotFoundHttpException('Menu with this id was not found.');
         }
 
-        $form = $this->createForm(new MenuType(), $menu, [
+        $form = $this->createForm(MenuType::class, $menu, [
             'method' => $request->getMethod(),
         ]);
 
