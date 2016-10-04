@@ -51,7 +51,7 @@ final class RuleEvaluator implements RuleEvaluatorInterface
         try {
             return (bool) $this->expression->evaluate($rule->getExpression(), [$subject->getSubjectType() => $subject]);
         } catch (\Exception $e) {
-            $this->logger->error(sprintf('%s File: %s', $e->getMessage(), $e->getTraceAsString()));
+            $this->logger->error(sprintf('%s Trace: %s', $e->getMessage(), $e->getTraceAsString()));
         }
 
         return false;
