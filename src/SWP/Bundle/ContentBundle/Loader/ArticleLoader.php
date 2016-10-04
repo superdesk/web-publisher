@@ -17,6 +17,7 @@ declare(strict_types=1);
 namespace SWP\Bundle\ContentBundle\Loader;
 
 use Jackalope\Query\SqlQuery;
+use SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\Article;
 use SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\ArticleInterface;
 use SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\Route;
 use SWP\Bundle\ContentBundle\Provider\ArticleProviderInterface;
@@ -132,15 +133,22 @@ class ArticleLoader implements LoaderInterface
             return $this->getArticleMeta($article);
         } elseif ($responseType === LoaderInterface::COLLECTION) {
             $route = null;
+            $currentPage = $this->context->getCurrentPage();
             if (array_key_exists('route', $parameters)) {
-                $route = $this->routeProvider->getOneById($parameters['route']);
-            } elseif (null !== ($currentPage = $this->context->getCurrentPage())) {
+                if (null !== $currentPage && $currentPage->getValues()->getId() === $parameters['route']) {
+                    $route = $currentPage->getValues();
+                } else {
+                    $route = $this->routeProvider->getOneById($parameters['route']);
+                }
+            } elseif (null !== $currentPage) {
                 $route = $currentPage->getValues();
             }
 
             if (null !== $route && is_object($route)) {
-                $query = $this->getRouteArticlesQuery($route, $parameters);
-                $countQuery = clone $query;
+                $metaCollection = new MetaCollection();
+                $routeIdentifier = $this->dm->getNodeForDocument($route)->getIdentifier();
+                $metaCollection->setTotalItemsCount($this->getRouteArticlesQuery($routeIdentifier, [])->execute()->getRows()->count());
+                $query = $this->getRouteArticlesQuery($routeIdentifier, $parameters);
 
                 if (isset($parameters['limit'])) {
                     $query->setLimit($parameters['limit']);
@@ -150,12 +158,10 @@ class ArticleLoader implements LoaderInterface
                     $query->setOffset($parameters['start']);
                 }
 
-                $articles = $this->dm->getDocumentsByPhpcrQuery($query);
-                $metaCollection = new MetaCollection();
-                $metaCollection->setTotalItemsCount($countQuery->execute()->getRows()->count());
+                $articles = $this->dm->getDocumentsByPhpcrQuery($query, Article::class);
                 foreach ($articles as $article) {
                     $articleMeta = $this->getArticleMeta($article);
-                    if ($articleMeta) {
+                    if (null !== $articleMeta) {
                         $metaCollection->add($articleMeta);
                     }
                 }
@@ -181,7 +187,7 @@ class ArticleLoader implements LoaderInterface
 
     private function getArticleMeta($article)
     {
-        if (!is_null($article)) {
+        if (null !== $article) {
             return $this->metaFactory->create($article);
         }
 
@@ -189,17 +195,16 @@ class ArticleLoader implements LoaderInterface
     }
 
     /**
-     * @param Route $route
-     * @param array $parameters
+     * @param string $routeIdentifier
+     * @param array  $parameters
      *
      * @return SqlQuery
      */
-    private function getRouteArticlesQuery(Route $route, array $parameters) : SqlQuery
+    private function getRouteArticlesQuery(string $routeIdentifier, array $parameters) : SqlQuery
     {
-        $routeIdentifier = $this->dm->getNodeForDocument($route)->getIdentifier();
-        $order = ['publishedAt', 'DESC'];
+        $order = [];
         if (array_key_exists('order', $parameters) && is_array($parameters['order'])) {
-            $order = $parameters['order'] + $order;
+            $order = $parameters['order'];
         }
 
         return $this->articleProvider->getRouteArticlesQuery($routeIdentifier, $order);

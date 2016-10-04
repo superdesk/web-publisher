@@ -11,7 +11,6 @@
  * @copyright 2015 Sourcefabric z.ú
  * @license http://www.superdesk.org/license
  */
-
 namespace SWP\Bundle\TemplateEngineBundle\Controller;
 
 use FOS\RestBundle\Controller\FOSRestController;
@@ -20,6 +19,7 @@ use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use SWP\Bundle\ContentBundle\Pagination\PaginationInterface;
 use SWP\Bundle\TemplateEngineBundle\Form\Type\ContainerType;
 use SWP\Bundle\TemplateEngineBundle\Model\ContainerData;
 use SWP\Bundle\TemplateEngineBundle\Model\ContainerWidget;
@@ -49,7 +49,11 @@ class ContainerController extends FOSRestController
     {
         $entityManager = $this->get('doctrine')->getManager();
         $paginator = $this->get('knp_paginator');
-        $containers = $paginator->paginate($entityManager->getRepository('SWP\Bundle\TemplateEngineBundle\Model\Container')->getAll());
+        $containers = $paginator->paginate(
+            $entityManager->getRepository('SWP\Bundle\TemplateEngineBundle\Model\Container')->getAll(),
+            $request->get(PaginationInterface::PAGE_PARAMETER_NAME, 1),
+            $request->get(PaginationInterface::LIMIT_PARAMETER_NAME, 10)
+        );
 
         if (count($containers) == 0) {
             throw new NotFoundHttpException('Containers were not found.');
