@@ -74,7 +74,6 @@ services:
         class: '%swp_content.transformer.package_to_article.class%'
         arguments:
             - '@swp.factory.article'
-            - '@event_dispatcher'
         tags:
             - { name: transformer.http_push_transformer, alias: transformer.package_to_article, priority: -1 }
 

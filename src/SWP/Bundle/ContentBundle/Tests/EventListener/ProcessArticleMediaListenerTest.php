@@ -11,10 +11,11 @@
  * @copyright 2015 Sourcefabric z.ú
  * @license http://www.superdesk.org/license
  */
-
 namespace SWP\Bundle\ContentBundle\Tests\EventListener;
 
 use Doctrine\ODM\PHPCR\Document\Generic;
+use SWP\Bundle\ContentBundle\ArticleEvents;
+use SWP\Bundle\ContentBundle\Event\ArticleEvent;
 use SWP\Bundle\ContentBundle\EventListener\ProcessArticleMediaListener;
 use SWP\Bundle\ContentBundle\Model\ArticleInterface;
 use SWP\Bundle\ContentBundle\Model\ArticleMediaInterface;
@@ -70,6 +71,7 @@ class ProcessArticleMediaListenerTest extends WebTestCase
     {
         $package = $this->getContainer()->get('swp_bridge.transformer.json_to_package')->transform(self::TEST_PACKAGE);
         $article = $this->getContainer()->get('swp_content.transformer.package_to_article')->transform($package);
+        $this->getContainer()->get('event_dispatcher')->dispatch(ArticleEvents::PRE_CREATE, new ArticleEvent($article, $package));
 
         $expected = $text = <<<'EOT'
  <p>here goes the picture</p><p><br></p>

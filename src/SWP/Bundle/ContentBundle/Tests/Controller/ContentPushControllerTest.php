@@ -11,7 +11,6 @@
  * @copyright 2016 Sourcefabric z.ú
  * @license http://www.superdesk.org/license
  */
-
 namespace SWP\Bundle\ContentBundle\Tests\Controller;
 
 use SWP\Bundle\FixturesBundle\WebTestCase;
@@ -189,6 +188,29 @@ class ContentPushControllerTest extends WebTestCase
         self::assertArraySubset(['id' => '1234567890987654321c', 'file_extension' => 'png'], $content['media'][0]['image']);
 
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
+
+        // test resending this same content with media
+        $client->request(
+            'POST',
+            $this->router->generate('swp_api_content_push'),
+            [],
+            [],
+            ['CONTENT_TYPE' => 'application/json'],
+            self::TEST_CONTENT_WITH_MEDIA
+        );
+        $this->assertEquals(201, $client->getResponse()->getStatusCode());
+
+        $client->request(
+            'GET',
+            $this->router->generate('swp_api_content_show_articles', ['id' => 'text-item-with-image'])
+        );
+
+        $content = json_decode($client->getResponse()->getContent(), true);
+        self::assertArrayHasKey('media', $content);
+        self::assertCount(1, $content['media']);
+        self::assertArrayHasKey('renditions', $content['media'][0]);
+        self::assertCount(3, $content['media'][0]['renditions']);
+        self::assertArraySubset(['id' => '1234567890987654321c', 'file_extension' => 'png'], $content['media'][0]['image']);
     }
 
     public function testRenderingContentWithMedia()
