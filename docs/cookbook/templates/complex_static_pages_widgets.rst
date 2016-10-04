@@ -31,3 +31,5 @@ Of course, parameters are not mandatory, so your container definition can be as 
 This will generate block-level element on web page (div) with special class - it is used in live editing to define dynamic canvas where editors can work with widgets.
 
 Containers can have none, one or more widgets - for example, think of frontpage sidebar; if it is defined as container in template, then editors can create several widgets in that container. From time to time they can turn on widget that highlights for example some recent interview; or can put some important announcement on top of the sidebar; etc - and all that without any changes in templates, only by playing wiith live editing mode.
+
+Default widget that we have in mind here is html widget; it's content is markup that can be prepared externally (even in some html editor), and then just pasted as widget content. so when editors need to change something inside the widget, they will actually apply change in html.
