@@ -46,7 +46,7 @@ final class RuleEvaluatorSpec extends ObjectBehavior
         RuleInterface $rule,
         RuleSubjectInterface $subject,
         ExpressionLanguage $expressionLanguage
-    )  {
+    ) {
         $rule->getExpression()->shouldBeCalled();
         $subject->getSubjectType()->shouldBeCalled();
 
@@ -62,7 +62,7 @@ final class RuleEvaluatorSpec extends ObjectBehavior
         RuleInterface $rule,
         RuleSubjectInterface $subject,
         ExpressionLanguage $expression
-    )  {
+    ) {
         $rule->getExpression()->shouldBeCalled()->willReturn('some_type.getSomething() == "something"');
         $subject->getSubjectType()->shouldBeCalled()->willReturn('some_type');
 
@@ -79,7 +79,7 @@ final class RuleEvaluatorSpec extends ObjectBehavior
         RuleSubjectInterface $subject,
         LoggerInterface $logger,
         ExpressionLanguage $expression
-    )  {
+    ) {
         $rule->getExpression()->shouldBeCalled();
         $subject->getSubjectType()->shouldBeCalled();
 
