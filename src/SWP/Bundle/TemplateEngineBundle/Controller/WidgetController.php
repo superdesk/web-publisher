@@ -17,10 +17,12 @@ namespace SWP\Bundle\TemplateEngineBundle\Controller;
 use FOS\RestBundle\Controller\FOSRestController;
 use FOS\RestBundle\View\View;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use SWP\Bundle\TemplateEngineBundle\Form\Type\WidgetType;
 use SWP\Bundle\TemplateEngineBundle\Model\WidgetModel;
+use SWP\Component\Common\Event\HttpCacheEvent;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpKernel\Exception\UnprocessableEntityHttpException;
@@ -39,6 +41,7 @@ class WidgetController extends FOSRestController
      * )
      * @Route("/api/{version}/templates/widgets/", options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_templates_list_widgets")
      * @Method("GET")
+     * @Cache(expires="10 minutes", public=true)
      */
     public function listAction(Request $request)
     {
@@ -109,11 +112,14 @@ class WidgetController extends FOSRestController
         $entityManager = $this->get('doctrine')->getManager();
 
         $widget = new WidgetModel();
-        $form = $this->createForm(new WidgetType(), $widget);
+        $form = $this->createForm(WidgetType::class, $widget);
         $form->handleRequest($request);
         if ($form->isValid()) {
             $entityManager->persist($widget);
             $entityManager->flush();
+
+            $this->get('event_dispatcher')
+                ->dispatch(HttpCacheEvent::EVENT_NAME, new HttpCacheEvent($widget));
 
             return $this->handleView(View::create($widget, 201));
         }
@@ -153,8 +159,12 @@ class WidgetController extends FOSRestController
             $entityManager->remove($containerWidget);
         }
 
+        $removedWidget = clone $widget;
         $entityManager->remove($widget);
         $entityManager->flush();
+
+        $this->get('event_dispatcher')
+            ->dispatch(HttpCacheEvent::EVENT_NAME, new HttpCacheEvent($removedWidget));
 
         return $this->handleView(View::create(null, 204));
     }
@@ -189,7 +199,7 @@ class WidgetController extends FOSRestController
             throw new NotFoundHttpException('Widget with this id was not found.');
         }
 
-        $form = $this->createForm(new WidgetType(), $widget, [
+        $form = $this->createForm(WidgetType::class, $widget, [
             'method' => $request->getMethod(),
         ]);
 
@@ -197,6 +207,9 @@ class WidgetController extends FOSRestController
         if ($form->isValid()) {
             $entityManager->flush($widget);
             $entityManager->refresh($widget);
+
+            $this->get('event_dispatcher')
+                ->dispatch(HttpCacheEvent::EVENT_NAME, new HttpCacheEvent($widget));
 
             return $this->handleView(View::create($widget, 201));
         }

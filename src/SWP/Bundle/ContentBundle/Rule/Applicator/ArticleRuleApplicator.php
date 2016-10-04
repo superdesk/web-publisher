@@ -17,6 +17,7 @@ namespace SWP\Bundle\ContentBundle\Rule\Applicator;
 use Psr\Log\LoggerInterface;
 use SWP\Bundle\ContentBundle\Model\ArticleInterface;
 use SWP\Bundle\ContentBundle\Provider\RouteProviderInterface;
+use SWP\Bundle\ContentBundle\Service\ArticleServiceInterface;
 use SWP\Component\Rule\Applicator\RuleApplicatorInterface;
 use SWP\Component\Rule\Model\RuleSubjectInterface;
 use SWP\Component\Rule\Model\RuleInterface;
@@ -35,20 +36,30 @@ final class ArticleRuleApplicator implements RuleApplicatorInterface
     private $logger;
 
     /**
+     * @var ArticleServiceInterface
+     */
+    private $articleService;
+
+    /**
      * @var array
      */
-    private $supportedKeys = ['route', 'templateName'];
+    private $supportedKeys = ['route', 'templateName', 'published'];
 
     /**
      * ArticleRuleApplicator constructor.
      *
-     * @param RouteProviderInterface $routeProvider
-     * @param LoggerInterface        $logger
+     * @param RouteProviderInterface  $routeProvider
+     * @param LoggerInterface         $logger
+     * @param ArticleServiceInterface $articleService
      */
-    public function __construct(RouteProviderInterface $routeProvider, LoggerInterface $logger)
-    {
+    public function __construct(
+        RouteProviderInterface $routeProvider,
+        LoggerInterface $logger,
+        ArticleServiceInterface $articleService
+    ) {
         $this->routeProvider = $routeProvider;
         $this->logger = $logger;
+        $this->articleService = $articleService;
     }
 
     /**
@@ -63,8 +74,8 @@ final class ArticleRuleApplicator implements RuleApplicatorInterface
         }
 
         /* @var ArticleInterface $subject */
-        if (isset($configuration[$this->supportedKeys[0]])) {
-            $route = $this->routeProvider->getOneById($configuration[$this->supportedKeys[0]]);
+        if (isset($configuration['route'])) {
+            $route = $this->routeProvider->getOneById($configuration['route']);
 
             if (null === $route) {
                 $this->logger->warning('Route not found! Make sure the rule defines an existing route!');
@@ -75,7 +86,11 @@ final class ArticleRuleApplicator implements RuleApplicatorInterface
             $subject->setRoute($route);
         }
 
-        $subject->setTemplateName($configuration[$this->supportedKeys[1]]);
+        $subject->setTemplateName($configuration['templateName']);
+
+        if ((bool) $configuration['published']) {
+            $this->articleService->publish($subject);
+        }
 
         $this->logger->info(sprintf(
             'Configuration: "%s" for "%s" rule has been applied!',
@@ -108,7 +123,10 @@ final class ArticleRuleApplicator implements RuleApplicatorInterface
 
     private function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults([$this->supportedKeys[1] => null]);
+        $resolver->setDefaults([
+            $this->supportedKeys[1] => null,
+            $this->supportedKeys[2] => false,
+        ]);
         $resolver->setDefined($this->supportedKeys[0]);
     }
 

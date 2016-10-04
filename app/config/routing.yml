@@ -10,8 +10,9 @@ swp_core:
     resource: "@SWPCoreBundle/Controller/"
     type:     annotation
 
-swp_updater:
-    resource: "@SWPUpdaterBundle/Resources/config/routing.yml"
-
 swp_bridge:
     resource: "@SWPBridgeBundle/Resources/config/routing.yml"
+
+NelmioApiDocBundle:
+    resource: "@NelmioApiDocBundle/Resources/config/routing.yml"
+    prefix:   /api/doc

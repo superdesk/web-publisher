@@ -59,7 +59,7 @@ class RuleType extends AbstractType
     /**
      * {@inheritdoc}
      */
-    public function getName()
+    public function getBlockPrefix()
     {
         return 'rule';
     }

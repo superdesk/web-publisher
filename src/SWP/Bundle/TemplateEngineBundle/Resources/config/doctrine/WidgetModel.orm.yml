@@ -1,7 +1,7 @@
 SWP\Bundle\TemplateEngineBundle\Model\WidgetModel:
     type: entity
     table: swp_widget
-    repositoryClass: SWP\Bundle\TemplateEngineBundle\Repository\ContainerRepository
+    repositoryClass: SWP\Bundle\TemplateEngineBundle\Repository\WidgetModelRepository
     id:
         id:
             type: integer

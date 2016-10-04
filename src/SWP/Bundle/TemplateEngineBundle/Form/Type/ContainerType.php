@@ -15,6 +15,8 @@
 namespace SWP\Bundle\TemplateEngineBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -23,16 +25,15 @@ class ContainerType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('name', null)
-            ->add('height', null)
-            ->add('width', null)
-            ->add('styles', null)
-            ->add('visible', 'choice', [
+            ->add('name')
+            ->add('height')
+            ->add('width')
+            ->add('styles')
+            ->add('visible', ChoiceType::class, [
                 'choices' => [true => 1, false => 0],
-                'choices_as_values' => true,
             ])
-            ->add('cssClass', null)
-            ->add('data', 'collection', [
+            ->add('cssClass')
+            ->add('data', CollectionType::class, [
                     'allow_extra_fields' => true,
                 ]
             );
@@ -43,7 +44,7 @@ class ContainerType extends AbstractType
         $resolver->setDefaults(['csrf_protection' => false]);
     }
 
-    public function getName()
+    public function getBlockPrefix()
     {
         return 'container';
     }

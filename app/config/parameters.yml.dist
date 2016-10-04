@@ -26,3 +26,8 @@ parameters:
     doctrine_cache_driver: "array"
 
     sentry.dsn: false
+
+    session_memcached_host:     localhost
+    session_memcached_port:     11211
+    session_memcached_prefix:   sess
+    session_memcached_expire:   3600

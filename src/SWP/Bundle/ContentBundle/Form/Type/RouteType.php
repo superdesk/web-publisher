@@ -78,7 +78,9 @@ class RouteType extends AbstractType
                     new Length(['min' => 1]),
                 ],
             ])
-            ->add('parent', TextType::class)
+            ->add('parent', TextType::class, [
+                'property_path' => 'parentDocument',
+            ])
             ->add('content', ArticleSelectorType::class, [
                 'description' => 'Content path name e.g.: test-content-article',
             ])
@@ -115,7 +117,7 @@ class RouteType extends AbstractType
     /**
      * {@inheritdoc}
      */
-    public function getName()
+    public function getBlockPrefix()
     {
         return 'route';
     }

@@ -85,7 +85,7 @@ class ContentPushController extends FOSRestController
      */
     public function pushAssetsAction(Request $request)
     {
-        $form = $this->createForm(new MediaFileType());
+        $form = $this->createForm(MediaFileType::class);
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
