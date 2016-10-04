@@ -11,7 +11,6 @@
  * @copyright 2015 Sourcefabric z.ú
  * @license http://www.superdesk.org/license
  */
-
 namespace SWP\Bundle\TemplateEngineBundle\Controller;
 
 use Doctrine\ODM\PHPCR\DocumentManager;
@@ -20,6 +19,7 @@ use FOS\RestBundle\View\View;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use SWP\Bundle\ContentBundle\Pagination\PaginationInterface;
 use Symfony\Cmf\Bundle\MenuBundle\Doctrine\Phpcr\Menu;
 use Symfony\Component\HttpFoundation\Request;
 use SWP\Bundle\TemplateEngineBundle\Form\Type\MenuType;
@@ -51,7 +51,11 @@ class MenuController extends FOSRestController
         $dm = $this->get('document_manager');
         $menus = $dm->getChildren($menuParent);
         $paginator = $this->get('knp_paginator');
-        $menus = $paginator->paginate($menus);
+        $menus = $paginator->paginate(
+            $menus,
+            $request->get(PaginationInterface::PAGE_PARAMETER_NAME, 1),
+            $request->get(PaginationInterface::LIMIT_PARAMETER_NAME, 10)
+        );
 
         if (count($menus) == 0) {
             throw new NotFoundHttpException('Menus were not found.');
