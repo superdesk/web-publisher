@@ -11,7 +11,6 @@
  * @copyright 2016 Sourcefabric z.ú
  * @license http://www.superdesk.org/license
  */
-
 namespace SWP\Bundle\CoreBundle\Controller;
 
 use FOS\RestBundle\Controller\FOSRestController;
@@ -20,6 +19,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
 use FOS\RestBundle\View\View;
+use SWP\Bundle\ContentBundle\Pagination\PaginationInterface;
 use SWP\Bundle\CoreBundle\Form\Type\TenantType;
 use SWP\Component\Common\Event\HttpCacheEvent;
 use SWP\Component\MultiTenancy\Model\OrganizationInterface;
@@ -48,8 +48,8 @@ class TenantController extends FOSRestController
     {
         $tenants = $this->get('knp_paginator')->paginate(
             $this->getTenantRepository()->findAvailableTenants(),
-            $request->get('page', 1),
-            $request->get('limit', 10)
+            $request->get(PaginationInterface::PAGE_PARAMETER_NAME, 1),
+            $request->get(PaginationInterface::LIMIT_PARAMETER_NAME, 10)
         );
 
         $view = View::create($this->get('swp_pagination_rep')->createRepresentation($tenants, $request), 200);

@@ -11,7 +11,6 @@
  * @copyright 2015 Sourcefabric z.ú
  * @license http://www.superdesk.org/license
  */
-
 namespace SWP\Bundle\TemplateEngineBundle\Controller;
 
 use Doctrine\ODM\PHPCR\DocumentManager;
@@ -20,6 +19,7 @@ use FOS\RestBundle\View\View;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use SWP\Bundle\ContentBundle\Pagination\PaginationInterface;
 use Symfony\Cmf\Bundle\MenuBundle\Doctrine\Phpcr\MenuNode;
 use Symfony\Component\HttpFoundation\Request;
 use SWP\Bundle\TemplateEngineBundle\Form\Type\MenuNodeType;
@@ -51,7 +51,11 @@ class MenuNodeController extends FOSRestController
         $mp = $this->get('swp_template_engine.menu_provider');
         $nodes = $mp->getAllSubMenus($menuId);
         $paginator = $this->get('knp_paginator');
-        $menuNodes = $paginator->paginate($nodes);
+        $menuNodes = $paginator->paginate(
+            $nodes,
+            $request->get(PaginationInterface::PAGE_PARAMETER_NAME, 1),
+            $request->get(PaginationInterface::LIMIT_PARAMETER_NAME, 10)
+        );
 
         if (count($menuNodes) == 0) {
             throw new NotFoundHttpException('Menu nodes were not found.');

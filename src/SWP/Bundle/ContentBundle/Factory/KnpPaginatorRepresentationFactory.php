@@ -11,13 +11,13 @@
  * @copyright 2015 Sourcefabric z.ú
  * @license http://www.superdesk.org/license
  */
-
 namespace SWP\Bundle\ContentBundle\Factory;
 
 use Hateoas\Configuration\Route;
 use Hateoas\Representation\CollectionRepresentation;
 use Hateoas\Representation\PaginatedRepresentation;
 use Knp\Component\Pager\Pagination\AbstractPagination;
+use SWP\Bundle\ContentBundle\Pagination\PaginationInterface;
 use Symfony\Component\HttpFoundation\Request;
 
 class KnpPaginatorRepresentationFactory
@@ -36,7 +36,7 @@ class KnpPaginatorRepresentationFactory
      * @param string $pageParameterName
      * @param string $limitParameterName
      */
-    public function __construct($pageParameterName = null, $limitParameterName = null)
+    public function __construct($pageParameterName = PaginationInterface::PAGE_PARAMETER_NAME, $limitParameterName = PaginationInterface::LIMIT_PARAMETER_NAME)
     {
         $this->pageParameterName = $pageParameterName;
         $this->limitParameterName = $limitParameterName;

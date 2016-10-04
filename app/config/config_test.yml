@@ -47,3 +47,9 @@ oneup_flysystem:
 sentry:
     environment: "test"
     dsn: false
+
+doctrine_cache:
+    providers:
+        main_cache:
+            type: "%doctrine_cache_driver%"
+            namespace: "test_%secret%"

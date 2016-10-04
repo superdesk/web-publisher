@@ -11,7 +11,6 @@
  * @copyright 2016 Sourcefabric z.ú
  * @license http://www.superdesk.org/license
  */
-
 namespace SWP\Bundle\CoreBundle\Controller;
 
 use FOS\RestBundle\Controller\FOSRestController;
@@ -20,6 +19,7 @@ use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use SWP\Bundle\ContentBundle\Pagination\PaginationInterface;
 use SWP\Bundle\RuleBundle\Form\Type\RuleType;
 use SWP\Component\Rule\Model\RuleInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -45,7 +45,11 @@ class RuleController extends FOSRestController
     {
         $rules = $this->get('swp.repository.rule')->findAll();
         $paginator = $this->get('knp_paginator');
-        $rules = $paginator->paginate($rules);
+        $rules = $paginator->paginate(
+            $rules,
+            $request->get(PaginationInterface::PAGE_PARAMETER_NAME, 1),
+            $request->get(PaginationInterface::LIMIT_PARAMETER_NAME, 10)
+        );
 
         if (0 === count($rules)) {
             throw new NotFoundHttpException('No rules were found.');
