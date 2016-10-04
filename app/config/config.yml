@@ -269,3 +269,12 @@ sentry:
     environment: "%kernel.environment%"
     dsn: "%sentry.dsn%"
     release: "dev-master"
+
+monolog:
+    handlers:
+        swp_rule:
+            level:    debug
+            type:     rotating_file
+            path:     '%kernel.logs_dir%/swp_rule_%kernel.environment%.log'
+            max_files: 7
+            channels: swp_rule

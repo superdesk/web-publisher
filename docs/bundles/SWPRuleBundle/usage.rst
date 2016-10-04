@@ -265,3 +265,23 @@ Example subscriber:
             $this->ruleProcessor->process($event->getArticle());
         }
     }
+
+Enabling separate Monolog channel
+---------------------------------
+
+It is possible to enable a separate Monolog channel to which all Rule Bundle related logs will be forwarded. An example log entry might be logged when the rule can not be evaluated properly etc. You could have then a separate log file for (which will log everything related to that bundle) which will be saved under the directory ``app/logs/`` in your application and will be named, for example: ``swp_rule_<env>.log``. By default, a separate channel is not enabled. You can enable it by adding an extra channel in your Monolog settings (in one of your configuration files):
+
+.. code-block:: yaml
+
+    # app/config/config.yml
+    monolog:
+        handlers:
+            swp_rule:
+                level:    debug
+                type:     stream
+                path:     '%kernel.logs_dir%/swp_rule_%kernel.environment%.log'
+                channels: swp_rule
+
+For more details see the `Monolog documentation`_.
+
+.. _Monolog documentation: http://symfony.com/doc/current/logging/channels_handlers.html

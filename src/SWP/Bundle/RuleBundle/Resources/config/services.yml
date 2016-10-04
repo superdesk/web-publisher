@@ -8,6 +8,8 @@ services:
         arguments:
             - '@logger'
             - '@swp_rule.expression_language'
+        tags:
+            - { name: monolog.logger, channel: swp_rule }
 
     swp_rule.applicator_chain:
         class: SWP\Component\Rule\Applicator\RuleApplicatorChain
