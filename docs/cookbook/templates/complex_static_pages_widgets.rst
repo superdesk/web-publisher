@@ -16,7 +16,7 @@ It is done in template, with command like this
     'styles': 'border: solid 1px red',
     'cssClass': 'css_class_name',
     'data': {'custom-key': value}
-    }%}
+    } %}
     ...
     {% endcontainer %}
 
