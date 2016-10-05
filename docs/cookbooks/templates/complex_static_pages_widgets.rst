@@ -1,3 +1,6 @@
+Complex static pages with Containers and Widgets
+================================================
+
 Web site almost always need a way to work with static pages (e.g. About us, Contact, Impressum). For simple 'static' pages such as these, it is usually enough to create page-like articles in CMS back-end - title and one big content field editable in html editor.
 
 But how to approach complex static pages that have several different elements such as boxes, info with fancy changable backgrounds, custom size graphic elements etc?

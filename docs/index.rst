@@ -23,11 +23,15 @@ Pull requests to `improve the documentation <http://superdesk-web-publisher.read
    :caption: Documentation for developers
    :maxdepth: 2
 
-   cookbook/composer
    bundles/index
    components/index
-   template_developers/index
    content_publishing
+
+.. toctree::
+   :caption: Cookbooks
+   :maxdepth: 2
+
+   cookbooks/index
 
 Contributing to Web Publisher
 -----------------------------
