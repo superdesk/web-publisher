@@ -15,6 +15,7 @@
 namespace SWP\Component\Bridge\Validator;
 
 use JsonSchema\Validator;
+use Psr\Log\LoggerInterface;
 
 abstract class JsonValidator implements ValidatorInterface, ValidatorOptionsInterface
 {
@@ -24,6 +25,21 @@ abstract class JsonValidator implements ValidatorInterface, ValidatorOptionsInte
     protected $schema = '';
 
     /**
+     * @var LoggerInterface
+     */
+    protected $logger;
+
+    /**
+     * JsonValidator constructor.
+     *
+     * @param LoggerInterface $logger
+     */
+    public function __construct(LoggerInterface $logger)
+    {
+        $this->logger = $logger;
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function isValid($data)
@@ -31,7 +47,15 @@ abstract class JsonValidator implements ValidatorInterface, ValidatorOptionsInte
         $validator = new Validator();
         $validator->check(json_decode($data), json_decode($this->getSchema()));
 
-        return $validator->isValid();
+        if ($validator->isValid()) {
+            return true;
+        }
+
+        $this->logger->error(implode(', ', array_map(function ($error) {
+            return sprintf('"%s" %s', $error['property'], $error['message']);
+        }, $validator->getErrors())));
+
+        return false;
     }
 
     /**
