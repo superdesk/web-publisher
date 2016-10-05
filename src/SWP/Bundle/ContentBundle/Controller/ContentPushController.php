@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file is part of the Superdesk Web Publisher Content Bundle.
  *
@@ -11,7 +13,6 @@
  * @copyright 2016 Sourcefabric z.ú
  * @license http://www.superdesk.org/license
  */
-
 namespace SWP\Bundle\ContentBundle\Controller;
 
 use Hoa\Mime\Mime;
@@ -22,6 +23,7 @@ use FOS\RestBundle\View\View;
 use SWP\Bundle\ContentBundle\ArticleEvents;
 use SWP\Bundle\ContentBundle\Event\ArticleEvent;
 use SWP\Bundle\ContentBundle\Form\Type\MediaFileType;
+use SWP\Component\Bridge\Model\PackageInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Symfony\Component\Routing\Exception\ResourceNotFoundException;
@@ -43,24 +45,18 @@ class ContentPushController extends FOSRestController
      */
     public function pushContentAction(Request $request)
     {
-        $content = $request->getContent();
-        $package = $this->get('swp_bridge.transformer.json_to_package')->transform($content);
-
-        $packageRepository = $this->get('swp.repository.package');
-        $existingPackage = $packageRepository->findOneBy(['guid' => $package->getGuid()]);
-        if (null !== $existingPackage) {
-            $packageRepository->remove($existingPackage);
-        }
-
-        $packageRepository->add($package);
+        $package = $this->handlePackage($request);
 
         $article = $this->get('swp_content.transformer.package_to_article')->transform($package);
         $articleRepository = $this->get('swp.repository.article');
+
+        // In case of resending article - remove previous one
         $existingArticle = $articleRepository->findOneBy(['slug' => $article->getSlug()]);
         if (null !== $existingArticle) {
             $articleRepository->remove($existingArticle);
         }
 
+        $this->get('event_dispatcher')->dispatch(ArticleEvents::PRE_CREATE, new ArticleEvent($article, $package));
         $articleRepository->add($article);
         $this->get('event_dispatcher')->dispatch(ArticleEvents::POST_CREATE, new ArticleEvent($article));
 
@@ -149,5 +145,25 @@ class ContentPushController extends FOSRestController
             'mime_type' => Mime::getMimeFromExtension($media->getFileExtension()),
             'filemeta' => [],
         ], 200));
+    }
+
+    /**
+     * @param Request $request
+     *
+     * @return PackageInterface
+     */
+    private function handlePackage(Request $request) : PackageInterface
+    {
+        $content = $request->getContent();
+        $package = $this->get('swp_bridge.transformer.json_to_package')->transform($content);
+
+        $packageRepository = $this->get('swp.repository.package');
+        $existingPackage = $packageRepository->findOneBy(['guid' => $package->getGuid()]);
+        if (null !== $existingPackage) {
+            $packageRepository->remove($existingPackage);
+        }
+        $packageRepository->add($package);
+
+        return $package;
     }
 }
