@@ -11,6 +11,7 @@
  * @copyright 2016 Sourcefabric z.ú
  * @license http://www.superdesk.org/license
  */
+
 namespace spec\SWP\Bundle\ContentBundle\Transformer;
 
 use PhpSpec\ObjectBehavior;

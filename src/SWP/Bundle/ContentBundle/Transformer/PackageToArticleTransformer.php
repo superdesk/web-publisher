@@ -11,6 +11,7 @@
  * @copyright 2016 Sourcefabric z.ú
  * @license http://www.superdesk.org/license
  */
+
 namespace SWP\Bundle\ContentBundle\Transformer;
 
 use SWP\Bundle\ContentBundle\Factory\ArticleFactoryInterface;

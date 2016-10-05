@@ -11,6 +11,7 @@
  * @copyright 2016 Sourcefabric z.ú.
  * @license http://www.superdesk.org/license
  */
+
 namespace spec\SWP\Bundle\ContentBundle\EventListener;
 
 use SWP\Bundle\ContentBundle\ArticleEvents;
@@ -26,29 +27,29 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
  */
 final class ProcessArticleRulesSubscriberSpec extends ObjectBehavior
 {
-    function let(RuleProcessorInterface $ruleProcessor)
+    public function let(RuleProcessorInterface $ruleProcessor)
     {
         $this->beConstructedWith($ruleProcessor);
     }
 
-    function it_is_initializable()
+    public function it_is_initializable()
     {
         $this->shouldHaveType(ProcessArticleRulesSubscriber::class);
     }
 
-    function it_implements_an_interface()
+    public function it_implements_an_interface()
     {
         $this->shouldImplement(EventSubscriberInterface::class);
     }
 
-    function it_subscribes_to_events()
+    public function it_subscribes_to_events()
     {
         $this->getSubscribedEvents()->shouldReturn([
             ArticleEvents::PRE_CREATE => 'processRules',
         ]);
     }
 
-    function it_processes_rules(
+    public function it_processes_rules(
         ArticleEvent $event,
         ArticleInterface $article,
         RuleProcessorInterface $ruleProcessor

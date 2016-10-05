@@ -13,6 +13,7 @@ declare(strict_types=1);
  * @copyright 2016 Sourcefabric z.ú
  * @license http://www.superdesk.org/license
  */
+
 namespace SWP\Bundle\ContentBundle\Controller;
 
 use Hoa\Mime\Mime;

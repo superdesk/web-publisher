@@ -11,6 +11,7 @@
  * @copyright 2016 Sourcefabric z.ú.
  * @license http://www.superdesk.org/license
  */
+
 namespace spec\SWP\Bundle\RuleBundle\Doctrine\ORM;
 
 use Doctrine\ORM\EntityManagerInterface;
@@ -25,17 +26,17 @@ use SWP\Component\Rule\Repository\RuleRepositoryInterface;
  */
 final class RuleRepositorySpec extends ObjectBehavior
 {
-    function let(EntityManagerInterface $entityManager, ClassMetadata $classMetadata)
+    public function let(EntityManagerInterface $entityManager, ClassMetadata $classMetadata)
     {
         $this->beConstructedWith($entityManager, $classMetadata);
     }
 
-    function it_is_initializable()
+    public function it_is_initializable()
     {
         $this->shouldHaveType(RuleRepository::class);
     }
 
-    function it_is_a_repository()
+    public function it_is_a_repository()
     {
         $this->shouldHaveType(EntityRepository::class);
         $this->shouldImplement(RuleRepositoryInterface::class);

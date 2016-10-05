@@ -27,27 +27,27 @@ use Symfony\Component\Form\Exception\UnexpectedTypeException;
  */
 final class RouteToIdTransformerSpec extends ObjectBehavior
 {
-    function let(RouteProviderInterface $routeProvider)
+    public function let(RouteProviderInterface $routeProvider)
     {
         $this->beConstructedWith($routeProvider);
     }
 
-    function it_is_initializable()
+    public function it_is_initializable()
     {
         $this->shouldHaveType(RouteToIdTransformer::class);
     }
 
-    function it_implements_an_interface()
+    public function it_implements_an_interface()
     {
         $this->shouldImplement(DataTransformerInterface::class);
     }
 
-    function it_should_return_null_if_null_transformed()
+    public function it_should_return_null_if_null_transformed()
     {
         $this->transform(null)->shouldReturn(null);
     }
 
-    function it_should_throw_an_exception_when_not_route()
+    public function it_should_throw_an_exception_when_not_route()
     {
         $this
             ->shouldThrow(UnexpectedTypeException::class)
@@ -55,19 +55,19 @@ final class RouteToIdTransformerSpec extends ObjectBehavior
         ;
     }
 
-    function it_should_transform_route_to_id(RouteInterface $route)
+    public function it_should_transform_route_to_id(RouteInterface $route)
     {
         $route->getId()->willReturn('/some/path/id');
 
         $this->transform($route)->shouldReturn('/some/path/id');
     }
 
-    function it_should_return_null_if_null_reverse_transformed()
+    public function it_should_return_null_if_null_reverse_transformed()
     {
         $this->reverseTransform(null)->shouldReturn(null);
     }
 
-    function it_should_throw_an_exception_during_reverse_transform()
+    public function it_should_throw_an_exception_during_reverse_transform()
     {
         $this
             ->shouldThrow(TransformationFailedException::class)
@@ -75,7 +75,7 @@ final class RouteToIdTransformerSpec extends ObjectBehavior
         ;
     }
 
-    function it_should_reverse_transform_id_to_route(
+    public function it_should_reverse_transform_id_to_route(
         RouteProviderInterface $routeProvider,
         RouteInterface $route
     ) {

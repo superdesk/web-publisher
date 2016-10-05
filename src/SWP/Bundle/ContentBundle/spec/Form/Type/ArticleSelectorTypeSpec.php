@@ -11,6 +11,7 @@
  * @copyright 2016 Sourcefabric z.ú.
  * @license http://www.superdesk.org/license
  */
+
 namespace spec\SWP\Bundle\ContentBundle\Form\Type;
 
 use SWP\Bundle\ContentBundle\Form\DataTransformer\ArticleToIdTransformer;
@@ -27,22 +28,22 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
  */
 final class ArticleSelectorTypeSpec extends ObjectBehavior
 {
-    function let(ArticleProviderInterface $articleProvider)
+    public function let(ArticleProviderInterface $articleProvider)
     {
         $this->beConstructedWith($articleProvider);
     }
 
-    function it_is_initializable()
+    public function it_is_initializable()
     {
         $this->shouldHaveType(ArticleSelectorType::class);
     }
 
-    function it_should_be_a_form_type()
+    public function it_should_be_a_form_type()
     {
         $this->shouldHaveType(FormTypeInterface::class);
     }
 
-    function it_should_build_form(FormBuilderInterface $builder, ArticleProviderInterface $articleProvider)
+    public function it_should_build_form(FormBuilderInterface $builder, ArticleProviderInterface $articleProvider)
     {
         $builder
             ->addModelTransformer(
@@ -52,7 +53,7 @@ final class ArticleSelectorTypeSpec extends ObjectBehavior
         $this->buildForm($builder, []);
     }
 
-    function it_should_set_defaults(OptionsResolver $resolver)
+    public function it_should_set_defaults(OptionsResolver $resolver)
     {
         $resolver
             ->setDefaults(['invalid_message' => 'The selected article does not exist!'])
@@ -62,7 +63,7 @@ final class ArticleSelectorTypeSpec extends ObjectBehavior
         $this->configureOptions($resolver);
     }
 
-    function it_should_have_a_parent()
+    public function it_should_have_a_parent()
     {
         $this->getParent()->shouldReturn(TextType::class);
     }

@@ -11,6 +11,7 @@
  * @copyright 2016 Sourcefabric z.ú.
  * @license http://www.superdesk.org/license
  */
+
 namespace spec\SWP\Component\Rule\Evaluator;
 
 use Prophecy\Argument;
@@ -27,22 +28,22 @@ use Symfony\Component\ExpressionLanguage\ExpressionLanguage;
  */
 final class RuleEvaluatorSpec extends ObjectBehavior
 {
-    function let(LoggerInterface $logger, ExpressionLanguage $expression)
+    public function let(LoggerInterface $logger, ExpressionLanguage $expression)
     {
         $this->beConstructedWith($logger, $expression);
     }
 
-    function it_is_initializable()
+    public function it_is_initializable()
     {
         $this->shouldHaveType(RuleEvaluator::class);
     }
 
-    function it_implements_an_interface()
+    public function it_implements_an_interface()
     {
         $this->shouldImplement(RuleEvaluatorInterface::class);
     }
 
-    function it_evaluates_the_rule_based_on_subject_to_false(
+    public function it_evaluates_the_rule_based_on_subject_to_false(
         RuleInterface $rule,
         RuleSubjectInterface $subject,
         ExpressionLanguage $expressionLanguage
@@ -58,7 +59,7 @@ final class RuleEvaluatorSpec extends ObjectBehavior
         $this->evaluate($rule, $subject)->shouldReturn(false);
     }
 
-    function it_evaluates_the_rule_based_on_subject_to_true(
+    public function it_evaluates_the_rule_based_on_subject_to_true(
         RuleInterface $rule,
         RuleSubjectInterface $subject,
         ExpressionLanguage $expression
@@ -74,7 +75,7 @@ final class RuleEvaluatorSpec extends ObjectBehavior
         $this->evaluate($rule, $subject)->shouldReturn(true);
     }
 
-    function it_evaluates_the_rule_based_on_subject_to_false_when_exception_is_thrown(
+    public function it_evaluates_the_rule_based_on_subject_to_false_when_exception_is_thrown(
         RuleInterface $rule,
         RuleSubjectInterface $subject,
         LoggerInterface $logger,

@@ -11,6 +11,7 @@
  * @copyright 2016 Sourcefabric z.ú.
  * @license http://www.superdesk.org/license
  */
+
 namespace spec\SWP\Component\Rule\Applicator;
 
 use SWP\Component\Rule\Applicator\RuleApplicatorChain;
@@ -23,27 +24,27 @@ use SWP\Component\Rule\Model\RuleSubjectInterface;
  */
 final class RuleApplicatorChainSpec extends ObjectBehavior
 {
-    function let()
+    public function let()
     {
         $this->beConstructedWith([]);
     }
 
-    function it_is_initializable()
+    public function it_is_initializable()
     {
         $this->shouldHaveType(RuleApplicatorChain::class);
     }
 
-    function it_implements_an_interface()
+    public function it_implements_an_interface()
     {
         $this->shouldImplement(RuleApplicatorInterface::class);
     }
 
-    function it_adds_a_new_applicator(RuleApplicatorInterface $applicator)
+    public function it_adds_a_new_applicator(RuleApplicatorInterface $applicator)
     {
         $this->addApplicator($applicator);
     }
 
-    function it_is_supportable(
+    public function it_is_supportable(
         RuleSubjectInterface $subject,
         RuleApplicatorInterface $applicator
     ) {
@@ -55,7 +56,7 @@ final class RuleApplicatorChainSpec extends ObjectBehavior
         $this->isSupported($subject)->shouldReturn(true);
     }
 
-    function it_is_not_supportable(
+    public function it_is_not_supportable(
         RuleSubjectInterface $subject,
         RuleApplicatorInterface $applicator
     ) {
