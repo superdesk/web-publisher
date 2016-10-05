@@ -1,5 +1,5 @@
 <?php
-/**
+/*
  * This file is part of the Superdesk Web Publisher MultiTenancy Bundle.
  *
  * Copyright 2016 Sourcefabric z.u. and contributors.
