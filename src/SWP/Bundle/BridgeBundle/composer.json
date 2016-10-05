@@ -19,8 +19,7 @@
         "guzzlehttp/guzzle": "^6.0",
         "superdesk/contentapi-sdk-php": "dev-master",
         "swp/storage-bundle": "~0.1.0",
-        "swp/bridge": "~0.1.0",
-        "symfony/monolog-bundle": "^2.11"
+        "swp/bridge": "~0.1.0"
     },
     "require-dev": {
         "phpunit/phpunit": "~4.5@stable",
