@@ -10,7 +10,7 @@ services:
         class: '%swp_bridge.http_push.validator.ninjs.class%'
         public: false
         arguments:
-            - '!@logger'
+            - '@logger'
         tags:
             - { name: validator.http_push_validator, alias: http_push.ninjs }
             - { name: monolog.logger, channel: swp_validators }
