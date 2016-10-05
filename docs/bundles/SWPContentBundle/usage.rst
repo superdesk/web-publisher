@@ -67,6 +67,7 @@ Content Push API Endpoint
 **Example Response**
 
 .. code-block:: json
+
     {
         "status": "OK"
     }
