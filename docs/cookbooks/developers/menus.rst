@@ -11,6 +11,7 @@ Then using the swp_api_templates_create_menu_node route, you create the nodes of
 
 So to create a menu called main, with a node called home, and sub node called kitchen, and a sub node of this sub node called table you would POST the required data to the following routes:
 ::
+
   /api/{version}/templates/menus
   /api/{version}/templates/menunodes/main/
   /api/{version}/templates/menunodes/main/home
