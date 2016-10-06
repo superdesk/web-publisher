@@ -11,7 +11,6 @@
  * @copyright 2015 Sourcefabric z.ú
  * @license http://www.superdesk.org/license
  */
-
 namespace SWP\Bundle\ContentBundle\Tests;
 
 use SWP\Bundle\FixturesBundle\WebTestCase;

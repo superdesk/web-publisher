@@ -18,4 +18,5 @@ Symfony\Cmf\Bundle\RoutingBundle\Model\Route:
             href:
                 route: swp_api_content_show_routes
                 parameters:
-                    id: expr(object.getPath())
+                    id: expr(object.getStaticPrefix())
+

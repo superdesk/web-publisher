@@ -23,6 +23,10 @@ use SWP\Bundle\StorageBundle\Doctrine\ODM\PHPCR\DocumentRepository;
 
 class ArticleRepository extends DocumentRepository implements ArticleRepositoryInterface
 {
+    public function findBaseNode($id)
+    {
+        return $this->dm->find(null, $id);
+    }
     /**
      * {@inheritdoc}
      */
@@ -49,7 +53,7 @@ class ArticleRepository extends DocumentRepository implements ArticleRepositoryI
      */
     public function getQueryForRouteArticles(string $identifier, array $order = []) : SqlQuery
     {
-        $queryStr = sprintf("SELECT S.route FROM nt:unstructured as S WHERE S.route=%s AND S.status=%s", $identifier, ArticleInterface::STATUS_PUBLISHED);
+        $queryStr = sprintf('SELECT S.route FROM [nt:unstructured] as S WHERE S.route="%s" AND S.status="%s"', $identifier, ArticleInterface::STATUS_PUBLISHED);
         if (count($order) === 2) {
             $allowedOrders = ['ASC', 'DESC'];
             if (!in_array(strtoupper($order[1]), $allowedOrders)) {

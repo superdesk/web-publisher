@@ -11,7 +11,6 @@
  * @copyright 2015 Sourcefabric z.ú
  * @license http://www.superdesk.org/license
  */
-
 namespace SWP\Bundle\TemplateEngineBundle\Tests\Controller;
 
 use SWP\Bundle\FixturesBundle\WebTestCase;
@@ -40,6 +39,17 @@ class ArticleControllerTest extends WebTestCase
 
         $this->runCommand('theme:setup', ['--env' => 'test'], true);
         $this->router = $this->getContainer()->get('router');
+    }
+
+    public function testLoadingArticlesCollection()
+    {
+        $client = static::createClient();
+        $client->enableProfiler();
+        $client->request('GET', $this->router->generate('swp_api_content_list_articles'));
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+        $responseArray = json_decode($client->getResponse()->getContent(), true);
+        self::assertArrayHasKey('self', $responseArray['_embedded']['_items'][0]['_links']);
+        self::assertArrayHasKey('online', $responseArray['_embedded']['_items'][0]['_links']);
     }
 
     public function testLoadingArticleCustomTemplate()

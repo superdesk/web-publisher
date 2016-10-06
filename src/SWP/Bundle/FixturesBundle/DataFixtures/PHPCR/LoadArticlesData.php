@@ -11,7 +11,6 @@
  * @copyright 2015 Sourcefabric z.ú
  * @license http://www.superdesk.org/license
  */
-
 namespace SWP\Bundle\FixturesBundle\DataFixtures\PHPCR;
 
 use Doctrine\Common\DataFixtures\FixtureInterface;
@@ -38,7 +37,6 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface, Orde
 
         $this->defaultTenantPrefix = $this->getTenantPrefix();
         $this->firstTenantPrefix = $this->getTenantPrefix('client1');
-
         $this->loadRoutes($env, $manager);
         $this->loadArticles($env, $manager);
         $this->setRoutesContent($env, $manager);
@@ -94,7 +92,7 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface, Orde
                     'name' => 'news',
                     'variablePattern' => '/{slug}',
                     'requirements' => [
-                        'slug' => '[a-zA-Z1-9\-_\/]+',
+                        'slug' => '[a-zA-Z0-9\-_\/]+',
                     ],
                     'type' => 'collection',
                     'defaults' => [
@@ -106,7 +104,7 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface, Orde
                     'name' => 'news',
                     'variablePattern' => '/{slug}',
                     'requirements' => [
-                        'slug' => '[a-zA-Z1-9\-_\/]+',
+                        'slug' => '[a-zA-Z0-9\-_\/]+',
                     ],
                     'type' => 'collection',
                     'defaults' => [
@@ -164,6 +162,7 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface, Orde
                     $route->setDefault($key, $value);
                 }
             }
+
             $manager->persist($route);
         }
 

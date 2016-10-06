@@ -80,7 +80,7 @@ class RouteService implements RouteServiceInterface
                 break;
             case RouteInterface::TYPE_COLLECTION:
                 $route->setVariablePattern('/{slug}');
-                $route->setRequirement('slug', '[a-zA-Z1-9\-_\/]+');
+                $route->setRequirement('slug', '[a-zA-Z0-9\-_\/]+');
                 $route->setDefault('slug', null);
 
                 break;
