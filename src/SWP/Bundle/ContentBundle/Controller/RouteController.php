@@ -21,6 +21,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use SWP\Bundle\ContentBundle\Form\Type\RouteType;
+use SWP\Bundle\ContentBundle\Pagination\PaginationInterface;
 use SWP\Component\Common\Event\HttpCacheEvent;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\ConflictHttpException;
@@ -49,7 +50,11 @@ class RouteController extends FOSRestController
         $routes = [];
 
         if (null !== $baseroute) {
-            $routes = $this->get('knp_paginator')->paginate($baseroute->getRouteChildren());
+            $routes = $this->get('knp_paginator')->paginate(
+                $baseroute->getRouteChildren(),
+                $request->get(PaginationInterface::PAGE_PARAMETER_NAME, 1),
+                $request->get(PaginationInterface::LIMIT_PARAMETER_NAME, 10)
+            );
         }
 
         return $this->handleView(View::create($this->get('swp_pagination_rep')->createRepresentation($routes, $request), 200));

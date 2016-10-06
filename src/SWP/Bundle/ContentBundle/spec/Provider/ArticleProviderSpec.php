@@ -30,7 +30,7 @@ class ArticleProviderSpec extends ObjectBehavior
         ArticleRepositoryInterface $articleRepository,
         TenantAwarePathBuilderInterface $pathBuilder
     ) {
-        $this->beConstructedWith($articleRepository, $pathBuilder);
+        $this->beConstructedWith($articleRepository, $pathBuilder, 'content');
     }
 
     public function it_is_initializable()

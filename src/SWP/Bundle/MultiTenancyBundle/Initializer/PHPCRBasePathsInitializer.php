@@ -76,14 +76,12 @@ class PHPCRBasePathsInitializer implements InitializerInterface
         $tenantsQuery = $this->tenantProvider->getAvailableTenants();
         /** @var Collection $tenants */
         $tenants = $tenantsQuery->getResult();
-
         $this->generateBasePaths($session, $tenants->toArray());
     }
 
     private function generateBasePaths(SessionInterface $session, array $tenants = [])
     {
         $basePaths = [];
-
         foreach ($tenants as $tenant) {
             foreach ($this->paths as $path) {
                 $basePaths[] = $this->pathBuilder->build(

@@ -33,7 +33,7 @@ if (extension_loaded('xcache') && ini_get('xcache.enabled')) {
 
 $kernel = new AppKernel('test', true);
 $kernel->loadClassCache();
-$kernel = new AppCache($kernel);
+//$kernel = new AppCache($kernel);
 
 Request::enableHttpMethodParameterOverride();
 $request = Request::createFromGlobals();

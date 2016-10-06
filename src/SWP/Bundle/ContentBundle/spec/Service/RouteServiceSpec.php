@@ -83,7 +83,7 @@ class RouteServiceSpec extends ObjectBehavior
         )->shouldBeCalled();
 
         $route->setVariablePattern(Argument::exact('/{slug}'))->shouldBeCalled();
-        $route->setRequirement(Argument::exact('slug'), Argument::exact('[a-zA-Z1-9\-_\/]+'))->shouldBeCalled();
+        $route->setRequirement(Argument::exact('slug'), Argument::exact('[a-zA-Z0-9\-_\/]+'))->shouldBeCalled();
         $route->setDefault('slug', null)->shouldBeCalled();
 
         $eventDispatcher->dispatch(
@@ -104,7 +104,7 @@ class RouteServiceSpec extends ObjectBehavior
         )->shouldBeCalled();
 
         $route->setVariablePattern(Argument::exact('/{slug}'))->shouldBeCalled();
-        $route->setRequirement(Argument::exact('slug'), Argument::exact('[a-zA-Z1-9\-_\/]+'))->shouldBeCalled();
+        $route->setRequirement(Argument::exact('slug'), Argument::exact('[a-zA-Z0-9\-_\/]+'))->shouldBeCalled();
         $route->setDefault('slug', null)->shouldBeCalled();
 
         $eventDispatcher->dispatch(

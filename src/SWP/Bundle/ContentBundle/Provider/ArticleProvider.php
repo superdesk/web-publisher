@@ -36,17 +36,33 @@ class ArticleProvider implements ArticleProviderInterface
     private $pathBuilder;
 
     /**
+     * @var string
+     */
+    private $basePath;
+
+    /**
      * ArticleProvider constructor.
      *
      * @param ArticleRepositoryInterface      $articleRepository
      * @param TenantAwarePathBuilderInterface $pathBuilder
+     * @param string                          $basePath
      */
     public function __construct(
         ArticleRepositoryInterface $articleRepository,
-        TenantAwarePathBuilderInterface $pathBuilder
+        TenantAwarePathBuilderInterface $pathBuilder,
+        string $basePath
     ) {
         $this->articleRepository = $articleRepository;
         $this->pathBuilder = $pathBuilder;
+        $this->basePath = $basePath;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getBaseNode()
+    {
+        return $this->articleRepository->findBaseNode($this->pathBuilder->build($this->basePath));
     }
 
     /**
@@ -67,6 +83,14 @@ class ArticleProvider implements ArticleProviderInterface
     public function getParent($id)
     {
         return $this->articleRepository->find($this->pathBuilder->build($id));
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getTenantArticlesQuery(string $tenantContentIdentifier, array $order) : SqlQuery
+    {
+        return $this->articleRepository->getQueryForTenantArticles($tenantContentIdentifier, $order);
     }
 
     /**

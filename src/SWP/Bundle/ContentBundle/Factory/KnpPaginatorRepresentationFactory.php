@@ -14,6 +14,7 @@
 
 namespace SWP\Bundle\ContentBundle\Factory;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Hateoas\Configuration\Route;
 use Hateoas\Representation\CollectionRepresentation;
 use Hateoas\Representation\PaginatedRepresentation;
@@ -52,15 +53,25 @@ class KnpPaginatorRepresentationFactory
      */
     public function createRepresentation(AbstractPagination $pagination, Request $request, $collectionName = '_items')
     {
-        $route = new Route($request->get('_route'), $request->query->all());
+        $route = new Route($request->get('_route', 'homepage'), $request->query->all());
         $routeParameters = is_array($route->getParameters()) ? $route->getParameters() : [];
         $numberOfPages = 1;
         if ($pagination->getTotalItemCount() > 0 && $pagination->getItemNumberPerPage() > 0) {
             $numberOfPages = intval(ceil($pagination->getTotalItemCount() / $pagination->getItemNumberPerPage()));
         }
 
+        $items = $pagination->getItems();
+        switch (true) {
+            case $items instanceof ArrayCollection:
+                $items = $items->toArray();
+                break;
+            case $items instanceof \ArrayObject:
+                $items = $items->getArrayCopy();
+                break;
+        }
+
         return new PaginatedRepresentation(
-            new CollectionRepresentation($pagination->getItems(), $collectionName),
+            new CollectionRepresentation(array_values($items), $collectionName),
             $route->getName(),
             $routeParameters,
             $pagination->getCurrentPageNumber(),

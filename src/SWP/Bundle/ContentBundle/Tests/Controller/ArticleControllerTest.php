@@ -42,6 +42,17 @@ class ArticleControllerTest extends WebTestCase
         $this->router = $this->getContainer()->get('router');
     }
 
+    public function testLoadingArticlesCollection()
+    {
+        $client = static::createClient();
+        $client->enableProfiler();
+        $client->request('GET', $this->router->generate('swp_api_content_list_articles'));
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+        $responseArray = json_decode($client->getResponse()->getContent(), true);
+        self::assertArrayHasKey('self', $responseArray['_embedded']['_items'][0]['_links']);
+        self::assertArrayHasKey('online', $responseArray['_embedded']['_items'][0]['_links']);
+    }
+
     public function testLoadingArticleCustomTemplate()
     {
         $client = static::createClient();
