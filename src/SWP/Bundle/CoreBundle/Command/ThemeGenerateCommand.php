@@ -182,7 +182,7 @@ class ThemeGenerateCommand extends ContainerAwareCommand
      *
      * @param InputInterface  $input
      * @param OutputInterface $output
-     * @param Tenant          $tenant
+     * @param \SWP\Bundle\CoreBundle\Document\Tenant          $tenant
      * @param $themeDir
      * @param $themeName
      */

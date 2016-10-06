@@ -36,7 +36,3 @@ SWP\Component\MultiTenancy\Model\Organization:
         deletedAt:
             type: datetime
             nullable: true
-    oneToMany:
-        tenants:
-            targetEntity: SWP\Component\MultiTenancy\Model\Tenant
-            mappedBy: organization

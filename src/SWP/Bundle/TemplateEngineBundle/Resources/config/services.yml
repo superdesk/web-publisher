@@ -69,12 +69,12 @@ services:
         tags:
             - { name: data_collector, template: "SWPTemplateEngineBundle:Collector:contextCollector", id: "context_collector" }
 
-    swp_template_engine.menu_provider:
-        class: SWP\Bundle\TemplateEngineBundle\Provider\TenantAwareMenuProvider
-        arguments:
-            - "@cmf_menu.loader.node"
-            - "@doctrine_phpcr"
-            - "@swp_multi_tenancy.path_builder"
-            - "%swp_multi_tenancy.persistence.phpcr.menu_basepath%"
-        tags:
-            - { name: knp_menu.provider }
+    #swp_template_engine.menu_provider:
+    #    class: SWP\Bundle\TemplateEngineBundle\Provider\TenantAwareMenuProvider
+    #    arguments:
+    #        - "@cmf_menu.loader.node"
+    #        - "@doctrine_phpcr"
+    #        - "@swp_multi_tenancy.path_builder"
+    #        - null
+    #    tags:
+    #        - { name: knp_menu.provider }

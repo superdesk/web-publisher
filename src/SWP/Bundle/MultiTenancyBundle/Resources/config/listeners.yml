@@ -15,6 +15,6 @@ services:
     swp_multi_tenancy.tenant_subscriber:
         class: '%swp_multi_tenancy.tenant_subscriber.class%'
         arguments:
-            - '@swp_multi_tenancy.tenant_context'
+            - '@service_container'
         tags:
             - { name: doctrine.event_subscriber }

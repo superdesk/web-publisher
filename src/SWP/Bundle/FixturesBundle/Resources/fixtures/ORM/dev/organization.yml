@@ -1,0 +1,7 @@
+SWP\Bundle\CoreBundle\Model\Organization:
+    org1:
+        name: "Organization1"
+        code: "123456"
+    org2:
+        name: "Organization2"
+        code: "654321"

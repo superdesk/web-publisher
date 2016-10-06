@@ -27,6 +27,7 @@ class RegisterArticleFactoryPass implements CompilerPassInterface
      */
     public function process(ContainerBuilder $container)
     {
+        return;
         if (!$container->hasDefinition('swp.factory.article')) {
             return;
         }

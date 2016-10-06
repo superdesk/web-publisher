@@ -40,6 +40,7 @@ class SWPMultiTenancyBundle extends Bundle
     {
         return [
             Drivers::DRIVER_DOCTRINE_PHPCR_ODM,
+            Drivers::DRIVER_DOCTRINE_ORM,
         ];
     }
 
