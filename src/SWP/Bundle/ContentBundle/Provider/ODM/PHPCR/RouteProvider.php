@@ -12,9 +12,10 @@
  * @license http://www.superdesk.org/license
  */
 
-namespace SWP\Bundle\ContentBundle\Provider;
+namespace SWP\Bundle\ContentBundle\Provider\ODM\PHPCR;
 
 use SWP\Bundle\ContentBundle\Model\ArticleInterface;
+use SWP\Bundle\ContentBundle\Provider\RouteProviderInterface;
 use SWP\Component\MultiTenancy\PathBuilder\TenantAwarePathBuilderInterface;
 use SWP\Component\Storage\Repository\RepositoryInterface;
 use Symfony\Component\Routing\Exception\RouteNotFoundException;

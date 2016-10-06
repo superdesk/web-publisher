@@ -19,8 +19,9 @@ use SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\ArticleRepository;
 use SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\Route;
 use SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\Site;
 use SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\Media;
-use SWP\Bundle\ContentBundle\Model\Article as ORMArticle;
+use SWP\Bundle\ContentBundle\Doctrine\ORM\Article as ORMArticle;
 use SWP\Bundle\ContentBundle\Doctrine\ORM\ArticleRepository as ORMArticleRepository;
+use SWP\Bundle\ContentBundle\Doctrine\ORM\Route as ORMRoute;
 use SWP\Bundle\ContentBundle\Factory\ArticleFactory;
 use SWP\Bundle\ContentBundle\Factory\RouteFactory;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
@@ -122,7 +123,7 @@ class Configuration implements ConfigurationInterface
                                         ->arrayNode('route')
                                             ->addDefaultsIfNotSet()
                                             ->children()
-                                                ->scalarNode('model')->cannotBeEmpty()->defaultValue(Route::class)->end()
+                                                ->scalarNode('model')->cannotBeEmpty()->defaultValue(ORMRoute::class)->end()
                                                 ->scalarNode('repository')->defaultValue(null)->end()
                                                 ->scalarNode('factory')->defaultValue(RouteFactory::class)->end()
                                                 ->scalarNode('object_manager_name')->defaultValue(null)->end()

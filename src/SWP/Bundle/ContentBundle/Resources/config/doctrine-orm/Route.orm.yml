@@ -1,0 +1,22 @@
+SWP\Bundle\ContentBundle\Doctrine\ORM\Route:
+    type: entity
+    table: swp_route
+    #repositoryClass: SWP\Bundle\ContentBundle\Doctrine\ORM\RouteRepository
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: IDENTITY
+    fields:
+        templateName:
+            type: string
+            nullable: true
+        articlesTemplateName:
+            type: string
+            nullable: true
+        type:
+            property: route_type
+            type: string
+        cacheTimeInSeconds:
+            type: integer

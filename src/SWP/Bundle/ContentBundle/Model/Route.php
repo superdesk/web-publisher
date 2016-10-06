@@ -12,12 +12,11 @@
  * @license http://www.superdesk.org/license
  */
 
-namespace SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR;
+namespace SWP\Bundle\ContentBundle\Model;
 
-use SWP\Component\Storage\Model\PersistableInterface;
-use Symfony\Cmf\Bundle\RoutingBundle\Doctrine\Phpcr\Route as BaseRoute;
+use Symfony\Component\Routing\Route as BaseRoute;
 
-class Route extends BaseRoute implements RouteObjectInterface, PersistableInterface
+class Route extends BaseRoute implements RouteInterface
 {
     /**
      * @var string
@@ -38,6 +37,54 @@ class Route extends BaseRoute implements RouteObjectInterface, PersistableInterf
      * @var int
      */
     protected $cacheTimeInSeconds = 0;
+
+    /**
+     * @var string
+     */
+    protected $name;
+
+    /**
+     * @var string
+     */
+    protected $variablePattern;
+
+    /**
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * Rename a route by setting its new name.
+     *
+     * @param string $name the new name
+     *
+     * @return self
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getVariablePattern()
+    {
+        return $this->variablePattern;
+    }
+
+    /**
+     * @param string $variablePattern
+     */
+    public function setVariablePattern($variablePattern)
+    {
+        $this->variablePattern = $variablePattern;
+    }
 
     /**
      * {@inheritdoc}

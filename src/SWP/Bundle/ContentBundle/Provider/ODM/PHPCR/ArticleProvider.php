@@ -14,10 +14,11 @@ declare(strict_types=1);
  * @license http://www.superdesk.org/license
  */
 
-namespace SWP\Bundle\ContentBundle\Provider;
+namespace SWP\Bundle\ContentBundle\Provider\ODM\PHPCR;
 
 use Jackalope\Query\SqlQuery;
 use SWP\Bundle\ContentBundle\Doctrine\ArticleRepositoryInterface;
+use SWP\Bundle\ContentBundle\Provider\ArticleProviderInterface;
 use SWP\Component\MultiTenancy\PathBuilder\TenantAwarePathBuilderInterface;
 
 /**

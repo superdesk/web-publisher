@@ -17,6 +17,7 @@ declare(strict_types=1);
 namespace SWP\Bundle\ContentBundle\Doctrine\ORM;
 
 use SWP\Bundle\ContentBundle\Doctrine\ArticleRepositoryInterface;
+use SWP\Bundle\StorageBundle\Doctrine\ORM\EntityRepository;
 
 class ArticleRepository extends EntityRepository implements ArticleRepositoryInterface
 {

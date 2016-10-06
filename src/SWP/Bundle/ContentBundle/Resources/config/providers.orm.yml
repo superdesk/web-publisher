@@ -1,0 +1,14 @@
+parameters:
+    swp.provider.route.class: SWP\Bundle\ContentBundle\Provider\ORM\RouteProvider
+    swp.provider.article.class: SWP\Bundle\ContentBundle\Provider\ORM\ArticleProvider
+
+services:
+    swp.provider.route:
+        class: '%swp.provider.route.class%'
+        arguments:
+            - '@swp.repository.route'
+
+    swp.provider.article:
+        class: '%swp.provider.article.class%'
+        arguments:
+            - '@swp.repository.article'

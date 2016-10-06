@@ -16,7 +16,6 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\ContentBundle\Provider;
 
-use Jackalope\Query\SqlQuery;
 use SWP\Bundle\ContentBundle\Model\ArticleInterface;
 
 interface ArticleProviderInterface
@@ -43,7 +42,7 @@ interface ArticleProviderInterface
      * @param string $routeIdentifier
      * @param array  $order
      *
-     * @return SqlQuery
+     * @return object
      */
-    public function getRouteArticlesQuery(string $routeIdentifier, array $order) : SqlQuery;
+    public function getRouteArticlesQuery(string $routeIdentifier, array $order);
 }

@@ -1,6 +1,6 @@
 parameters:
-    swp.provider.route.class: SWP\Bundle\ContentBundle\Provider\RouteProvider
-    swp.provider.article.class: SWP\Bundle\ContentBundle\Provider\ArticleProvider
+    swp.provider.route.class: SWP\Bundle\ContentBundle\Provider\ODM\PHPCR\RouteProvider
+    swp.provider.article.class: SWP\Bundle\ContentBundle\Provider\ODM\PHPCR\ArticleProvider
 
 services:
     swp.provider.route:

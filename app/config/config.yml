@@ -86,6 +86,10 @@ doctrine:
                         type: yml
                         prefix: SWP\Bundle\TemplateEngineBundle\Model
                         dir: Resources/config/doctrine
+                    SWPContentBundle:
+                        type: yml
+                        prefix: SWP\Bundle\ContentBundle\Doctrine\ORM
+                        dir: Resources/config/doctrine-orm
                     gedmo_loggable:
                         type: annotation
                         prefix: Gedmo\Loggable\Entity
@@ -231,7 +235,7 @@ swp_core:
 
 swp_content:
     persistence:
-        phpcr: true
+        orm: true
 
 swp_bridge:
     persistence:

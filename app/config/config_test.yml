@@ -35,8 +35,7 @@ swiftmailer:
 
 swp_content:
     persistence:
-        phpcr:
-            default_content_path: "articles"
+        orm: true
 
 oneup_flysystem:
     adapters:
