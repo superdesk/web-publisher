@@ -26,3 +26,8 @@ doctrine:
         charset:  UTF8
     orm:
         auto_generate_proxy_classes: true
+
+monolog:
+    handlers:
+        test:
+            type:  test
