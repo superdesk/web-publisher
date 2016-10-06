@@ -42,7 +42,10 @@ class SWPContentExtension extends Extension
                 sprintf('%s.persistence.phpcr.default_content_path', $this->getAlias()),
                 $config['persistence']['phpcr']['default_content_path']
             );
-            $loader->load('providers.yml');
+            $loader->load('providers.phpcr.yml');
+        } elseif ($config['persistence']['orm']['enabled']) {
+            $this->registerStorage(Drivers::DRIVER_DOCTRINE_ORM, $config['persistence']['orm']['classes'], $container);
+            $loader->load('providers.orm.yml');
         }
     }
 }

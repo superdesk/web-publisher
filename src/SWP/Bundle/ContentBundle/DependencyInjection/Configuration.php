@@ -18,11 +18,13 @@ use SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\Article;
 use SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\ArticleRepository;
 use SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\Route;
 use SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\Site;
+use SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\Media;
+use SWP\Bundle\ContentBundle\Model\Article as ORMArticle;
+use SWP\Bundle\ContentBundle\Doctrine\ORM\ArticleRepository as ORMArticleRepository;
 use SWP\Bundle\ContentBundle\Factory\ArticleFactory;
 use SWP\Bundle\ContentBundle\Factory\RouteFactory;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
-use SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\Media;
 
 /**
  * This is the class that validates and merges configuration from your app/config files.
@@ -92,6 +94,53 @@ class Configuration implements ConfigurationInterface
                                 ->end() // classes
                             ->end()
                         ->end() // phpcr
+                        ->arrayNode('orm')
+                            ->addDefaultsIfNotSet()
+                            ->canBeEnabled()
+                            ->children()
+                                ->arrayNode('classes')
+                                    ->addDefaultsIfNotSet()
+                                    ->children()
+                                        ->arrayNode('article')
+                                            ->addDefaultsIfNotSet()
+                                            ->children()
+                                                ->scalarNode('model')->cannotBeEmpty()->defaultValue(ORMArticle::class)->end()
+                                                ->scalarNode('repository')->defaultValue(ORMArticleRepository::class)->end()
+                                                ->scalarNode('factory')->defaultValue(ArticleFactory::class)->end()
+                                                ->scalarNode('object_manager_name')->defaultValue(null)->end()
+                                            ->end()
+                                        ->end()
+                                        ->arrayNode('site')
+                                            ->addDefaultsIfNotSet()
+                                            ->children()
+                                                ->scalarNode('model')->cannotBeEmpty()->defaultValue(Site::class)->end()
+                                                ->scalarNode('repository')->defaultValue(null)->end()
+                                                ->scalarNode('factory')->defaultValue(RouteFactory::class)->end()
+                                                ->scalarNode('object_manager_name')->defaultValue(null)->end()
+                                            ->end()
+                                        ->end()
+                                        ->arrayNode('route')
+                                            ->addDefaultsIfNotSet()
+                                            ->children()
+                                                ->scalarNode('model')->cannotBeEmpty()->defaultValue(Route::class)->end()
+                                                ->scalarNode('repository')->defaultValue(null)->end()
+                                                ->scalarNode('factory')->defaultValue(RouteFactory::class)->end()
+                                                ->scalarNode('object_manager_name')->defaultValue(null)->end()
+                                            ->end()
+                                        ->end()
+                                        ->arrayNode('media')
+                                            ->addDefaultsIfNotSet()
+                                            ->children()
+                                                ->scalarNode('model')->cannotBeEmpty()->defaultValue(Media::class)->end()
+                                                ->scalarNode('repository')->defaultValue(null)->end()
+                                                ->scalarNode('factory')->defaultValue(null)->end()
+                                                ->scalarNode('object_manager_name')->defaultValue(null)->end()
+                                            ->end()
+                                        ->end()
+                                    ->end()
+                                ->end() // classes
+                            ->end()
+                        ->end() // orm
                     ->end()
                 ->end()
             ->end();

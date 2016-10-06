@@ -49,7 +49,6 @@ class MenuController extends FOSRestController
         if (null === $menuParent) {
             throw new NotFoundHttpException('Root menu node was not found.');
         }
-        $dm = $this->get('document_manager');
         $paginator = $this->get('knp_paginator');
         $menus = $paginator->paginate(
             $menuParent->getChildren(),
