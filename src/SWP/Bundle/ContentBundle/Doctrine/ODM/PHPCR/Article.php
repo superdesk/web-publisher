@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  * This file is part of the Superdesk Web Publisher Content Bundle.
  *
  * Copyright 2016 Sourcefabric z.ú. and contributors.
@@ -11,6 +11,7 @@
  * @copyright 2016 Sourcefabric z.ú
  * @license http://www.superdesk.org/license
  */
+
 namespace SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR;
 
 use Doctrine\Common\Collections\Collection;
@@ -76,25 +77,5 @@ class Article extends BaseArticle implements HierarchyInterface
     public function getChildren()
     {
         return $this->children;
-    }
-
-    /**
-     * Get all article children of this node.
-     *
-     * Filters out children that do not implement the ArticleInterface.
-     *
-     * @return ArticleInterface[]
-     */
-    public function getArticleChildren()
-    {
-        $children = array();
-
-        foreach ($this->children as $child) {
-            if ($child instanceof ArticleInterface) {
-                $children[] = $child;
-            }
-        }
-
-        return $children;
     }
 }

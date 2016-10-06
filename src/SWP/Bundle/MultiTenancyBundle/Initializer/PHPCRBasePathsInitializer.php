@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  * This file is part of the Superdesk Web Publisher MultiTenancy Bundle.
  *
  * Copyright 2016 Sourcefabric z.ú. and contributors.
@@ -11,6 +11,7 @@
  * @copyright 2016 Sourcefabric z.ú
  * @license http://www.superdesk.org/license
  */
+
 namespace SWP\Bundle\MultiTenancyBundle\Initializer;
 
 use Doctrine\Bundle\PHPCRBundle\Initializer\InitializerInterface;

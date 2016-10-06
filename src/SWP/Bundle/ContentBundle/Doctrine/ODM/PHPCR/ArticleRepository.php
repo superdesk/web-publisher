@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-/**
+/*
  * This file is part of the Superdesk Web Publisher Content Bundle.
  *
  * Copyright 2016 Sourcefabric z.ú. and contributors.
@@ -23,10 +23,16 @@ use SWP\Bundle\StorageBundle\Doctrine\ODM\PHPCR\DocumentRepository;
 
 class ArticleRepository extends DocumentRepository implements ArticleRepositoryInterface
 {
+    /**
+     * @param string $id
+     *
+     * @return object
+     */
     public function findBaseNode($id)
     {
         return $this->dm->find(null, $id);
     }
+
     /**
      * {@inheritdoc}
      */

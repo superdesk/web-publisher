@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  * This file is part of the Superdesk Web Publisher Rule Bundle.
  *
  * Copyright 2016 Sourcefabric z.ú. and contributors.
@@ -11,6 +11,7 @@
  * @copyright 2016 Sourcefabric z.ú.
  * @license http://www.superdesk.org/license
  */
+
 namespace spec\SWP\Bundle\RuleBundle\DependencyInjection\Compiler;
 
 use Prophecy\Argument;
@@ -25,7 +26,7 @@ use Symfony\Component\DependencyInjection\Definition;
  */
 final class RegisterRuleApplicatorsPassSpec extends ObjectBehavior
 {
-    function it_is_initializable()
+    public function it_is_initializable()
     {
         $this->shouldHaveType(RegisterRuleApplicatorsPass::class);
     }

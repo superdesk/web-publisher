@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  * This file is part of the Superdesk Web Publisher Template Engine Bundle.
  *
  * Copyright 2015 Sourcefabric z.u. and contributors.
@@ -11,6 +11,7 @@
  * @copyright 2015 Sourcefabric z.ú
  * @license http://www.superdesk.org/license
  */
+
 namespace SWP\Bundle\TemplateEngineBundle\Controller;
 
 use FOS\RestBundle\Controller\FOSRestController;

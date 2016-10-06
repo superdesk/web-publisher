@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  * This file is part of the Superdesk Web Publisher Content Bundle.
  *
  * Copyright 2016 Sourcefabric z.ú. and contributors.
@@ -11,6 +11,7 @@
  * @copyright 2016 Sourcefabric z.ú.
  * @license http://www.superdesk.org/license
  */
+
 namespace spec\SWP\Bundle\ContentBundle\Rule\Applicator;
 
 use Prophecy\Argument;
@@ -30,7 +31,7 @@ use SWP\Component\Rule\Model\RuleSubjectInterface;
  */
 final class ArticleRuleApplicatorSpec extends ObjectBehavior
 {
-    function  let(
+    public function let(
         RouteProviderInterface $routeProvider,
         LoggerInterface $logger,
         ArticleServiceInterface $articleService
@@ -38,31 +39,31 @@ final class ArticleRuleApplicatorSpec extends ObjectBehavior
         $this->beConstructedWith($routeProvider, $logger, $articleService);
     }
 
-    function it_is_initializable()
+    public function it_is_initializable()
     {
         $this->shouldHaveType(ArticleRuleApplicator::class);
     }
 
-    function it_implements_an_interface()
+    public function it_implements_an_interface()
     {
         $this->shouldImplement(RuleApplicatorInterface::class);
     }
 
-    function it_supports_articles(ArticleInterface $subject)
+    public function it_supports_articles(ArticleInterface $subject)
     {
         $subject->getSubjectType()->willReturn('article');
 
         $this->isSupported($subject)->shouldReturn(true);
     }
 
-    function it_doesn_not_support_when_type_is_wrong(ArticleInterface $subject)
+    public function it_doesn_not_support_when_type_is_wrong(ArticleInterface $subject)
     {
         $subject->getSubjectType()->willReturn('fake');
 
         $this->isSupported($subject)->shouldReturn(false);
     }
 
-    function it_should_not_apply_rule_when_wrong_type(
+    public function it_should_not_apply_rule_when_wrong_type(
         RuleInterface $rule,
         RuleSubjectInterface $subject,
         LoggerInterface $logger
@@ -77,14 +78,14 @@ final class ArticleRuleApplicatorSpec extends ObjectBehavior
         $this->apply($rule, $subject)->shouldReturn(null);
     }
 
-    function it_should_return_when_no_configuration(RuleInterface $rule, RuleSubjectInterface $subject)
+    public function it_should_return_when_no_configuration(RuleInterface $rule, RuleSubjectInterface $subject)
     {
         $rule->getConfiguration()->willReturn([]);
 
         $this->apply($rule, $subject)->shouldReturn(null);
     }
 
-    function it_should_not_apply_rule_when_route_not_found(
+    public function it_should_not_apply_rule_when_route_not_found(
         RuleInterface $rule,
         ArticleInterface $subject,
         LoggerInterface $logger
@@ -99,7 +100,7 @@ final class ArticleRuleApplicatorSpec extends ObjectBehavior
         $this->apply($rule, $subject)->shouldReturn(null);
     }
 
-    function it_applies_rule(
+    public function it_applies_rule(
         RuleInterface $rule,
         ArticleInterface $subject,
         RouteProviderInterface $routeProvider,
@@ -110,7 +111,7 @@ final class ArticleRuleApplicatorSpec extends ObjectBehavior
         $rule->getConfiguration()->willReturn([
             'route' => 'some/route',
             'templateName' => 'template.twig.html',
-            'published' => 'true'
+            'published' => 'true',
         ]);
         $rule->getExpression()->willReturn('article.getSomething("something") matches /something/');
         $routeProvider->getOneById('some/route')->willReturn($route);

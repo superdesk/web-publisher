@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  * This file is part of the Superdesk Web Publisher Content Bundle.
  *
  * Copyright 2016 Sourcefabric z.ú. and contributors.
@@ -30,7 +30,7 @@ class ArticleProviderSpec extends ObjectBehavior
         ArticleRepositoryInterface $articleRepository,
         TenantAwarePathBuilderInterface $pathBuilder
     ) {
-        $this->beConstructedWith($articleRepository, $pathBuilder);
+        $this->beConstructedWith($articleRepository, $pathBuilder, 'content');
     }
 
     public function it_is_initializable()

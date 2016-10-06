@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  * This file is part of the Superdesk Web Publisher Content Bundle.
  *
  * Copyright 2015 Sourcefabric z.u. and contributors.
@@ -20,7 +20,6 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
 use FOS\RestBundle\View\View;
-use SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\Article;
 use SWP\Bundle\ContentBundle\Pagination\PaginationInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
