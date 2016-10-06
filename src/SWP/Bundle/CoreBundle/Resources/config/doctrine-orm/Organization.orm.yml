@@ -1,0 +1,7 @@
+SWP\Bundle\CoreBundle\Model\Organization:
+    type: entity
+    table: swp_organization
+    oneToMany:
+        tenants:
+            targetEntity: SWP\Bundle\CoreBundle\Model\Tenant
+            mappedBy: organization

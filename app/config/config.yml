@@ -155,7 +155,7 @@ cmf_routing:
     chain:
         replace_symfony_router: true
         routers_by_id:
-            swp_multi_tenancy.tenant_aware_router: 150
+            #swp_multi_tenancy.tenant_aware_router: 150
             cmf_routing.dynamic_router: 120
             router.default: 100
     dynamic:
@@ -221,13 +221,13 @@ stof_doctrine_extensions:
 swp_multi_tenancy:
     use_orm_listeners: true
     persistence:
-        phpcr:
+        orm:
             enabled: true
             classes:
                 tenant:
-                    model: SWP\Bundle\CoreBundle\Document\Tenant
+                    model: SWP\Bundle\CoreBundle\Model\Tenant
                 organization:
-                    model: SWP\Bundle\CoreBundle\Document\Organization
+                    model: SWP\Bundle\CoreBundle\Model\Organization
 
 swp_core:
     device_listener:
@@ -282,9 +282,3 @@ monolog:
             path:     '%kernel.logs_dir%/swp_rule_%kernel.environment%.log'
             max_files: 7
             channels: swp_rule
-        swp_validators:
-            level:    debug
-            type:     rotating_file
-            path:     '%kernel.logs_dir%/swp_validators_%kernel.environment%.log'
-            max_files: 7
-            channels: swp_validators

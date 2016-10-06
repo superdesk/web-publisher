@@ -48,8 +48,15 @@ class SWPCoreBundle extends Bundle
     public function getSupportedDrivers()
     {
         return [
-            Drivers::DRIVER_DOCTRINE_PHPCR_ODM,
             Drivers::DRIVER_DOCTRINE_ORM,
         ];
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getModelClassNamespace()
+    {
+        return 'SWP\Bundle\CoreBundle\Model';
     }
 }

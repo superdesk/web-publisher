@@ -7,25 +7,25 @@ parameters:
     swp_content_bundle.router.media.class: SWP\Bundle\ContentBundle\Routing\MediaRouter
 
 services:
-    swp_template_engine.loader.article:
-        class: SWP\Bundle\ContentBundle\Loader\ArticleLoader
-        arguments:
-            - "@swp.provider.article"
-            - "@swp.provider.route"
-            - "@doctrine_phpcr.odm.document_manager"
-            - "@swp_template_engine_context.factory.meta_factory"
-            - "@swp_template_engine_context"
-        tags:
-            - { name: swp.meta_loader }
+    #swp_template_engine.loader.article:
+    #    class: SWP\Bundle\ContentBundle\Loader\ArticleLoader
+    #    arguments:
+    #        - "@swp.provider.article"
+    #        - "@swp.provider.route"
+    #        - "@doctrine_phpcr.odm.document_manager"
+    #        - "@swp_template_engine_context.factory.meta_factory"
+    #        - "@swp_template_engine_context"
+    #    tags:
+    #        - { name: swp.meta_loader }
 
-    swp_template_engine.loader.media:
-        class: SWP\Bundle\ContentBundle\Loader\ArticleMediaLoader
-        arguments:
-            - "@doctrine_phpcr.odm.document_manager"
-            - "@swp_template_engine_context.factory.meta_factory"
-            - "@swp_template_engine_context"
-        tags:
-            - { name: swp.meta_loader }
+    #swp_template_engine.loader.media:
+    #    class: SWP\Bundle\ContentBundle\Loader\ArticleMediaLoader
+    #    arguments:
+    #        - "@doctrine_phpcr.odm.document_manager"
+    #        - "@swp_template_engine_context.factory.meta_factory"
+    #        - "@swp_template_engine_context"
+    #    tags:
+    #        - { name: swp.meta_loader }
 
     swp_template_engine.loader.route:
         class: SWP\Bundle\ContentBundle\Loader\RouteLoader
@@ -54,15 +54,15 @@ services:
         tags:
             - { name: kernel.event_listener, event: kernel.response, method: onKernelResponse }
 
-    swp_content_bundle.listener.article_media:
-        class: SWP\Bundle\ContentBundle\EventListener\ProcessArticleMediaListener
-        arguments:
-            - '@swp.object_manager.media'
-            - '@swp_multi_tenancy.path_builder'
-            - '%swp_multi_tenancy.persistence.phpcr.media_basepath%'
-            - '@swp_content_bundle.manager.media'
-        tags:
-            - { name: kernel.event_listener, event: swp.article.pre_create, method: onArticleCreate }
+    #swp_content_bundle.listener.article_media:
+    #    class: SWP\Bundle\ContentBundle\EventListener\ProcessArticleMediaListener
+    #    arguments:
+    #        - '@swp.object_manager.media'
+    #        - '@swp_multi_tenancy.path_builder'
+    #        - null
+    #        - '@swp_content_bundle.manager.media'
+    #    tags:
+    #        - { name: kernel.event_listener, event: swp.article.pre_create, method: onArticleCreate }
 
     swp_content_bundle.key_generator.meta_key_generator:
         class: SWP\Bundle\ContentBundle\KeyGenerator\MetaKeyGenerator
@@ -88,15 +88,15 @@ services:
     swp.publish_workflow.checker:
         alias: cmf_core.publish_workflow.checker
 
-    swp_content_bundle.manager.media:
-        class: '%swp_content_bundle.manager.media.class%'
-        arguments:
-            - '@swp_multi_tenancy.path_builder'
-            - '@swp_filesystem'
-            - '@swp.object_manager.media'
-            - '@router'
-            - '@swp_multi_tenancy.tenant_context'
-            - '%swp_multi_tenancy.persistence.phpcr.media_basepath%'
+    #swp_content_bundle.manager.media:
+    #    class: '%swp_content_bundle.manager.media.class%'
+    #    arguments:
+    #        - '@swp_multi_tenancy.path_builder'
+    #        - '@swp_filesystem'
+    #        - '@swp.object_manager.media'
+    #        - '@router'
+    #        - '@swp_multi_tenancy.tenant_context'
+    #        - null
 
     router.symfony:
         parent: "router.default"

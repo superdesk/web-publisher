@@ -1,0 +1,2 @@
+SWP\Bundle\CoreBundle\Model\Organization:
+    exclusion_policy: ALL

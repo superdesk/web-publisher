@@ -82,6 +82,6 @@ services:
             - { name: twig.extension }
 
     swp_core.security.session.domain_dynamic_storage:
-        class: "SWP\\Bundle\\CoreBundle\\Security\\Storage\\DynamicDomainSessionStorage"
+        class: SWP\Bundle\CoreBundle\Security\Storage\DynamicDomainSessionStorage
         arguments:
             - "%domain%"
