@@ -15,6 +15,8 @@
 namespace spec\SWP\Component\Bridge\Validator;
 
 use PhpSpec\ObjectBehavior;
+use Prophecy\Argument;
+use Psr\Log\LoggerInterface;
 use SWP\Component\Bridge\Validator\JsonValidator;
 use SWP\Component\Bridge\Validator\NinjsValidator;
 use SWP\Component\Bridge\Validator\ValidatorInterface;
@@ -25,6 +27,11 @@ use SWP\Component\Bridge\Validator\ValidatorOptionsInterface;
  */
 class NinjsValidatorSpec extends ObjectBehavior
 {
+    public function let(LoggerInterface $logger)
+    {
+        $this->beConstructedWith($logger);
+    }
+
     public function it_is_initializable()
     {
         $this->shouldHaveType(NinjsValidator::class);
@@ -37,8 +44,10 @@ class NinjsValidatorSpec extends ObjectBehavior
         $this->shouldImplement(ValidatorOptionsInterface::class);
     }
 
-    public function its_isValid_method_should_return_false()
+    public function its_isValid_method_should_return_false(LoggerInterface $logger)
     {
+        $logger->error(Argument::type('string'))->shouldBeCalled();
+
         $this->isValid('fake example content')->shouldReturn(false);
     }
 

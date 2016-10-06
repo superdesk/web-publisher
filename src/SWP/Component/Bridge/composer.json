@@ -15,7 +15,8 @@
         "justinrainbow/json-schema": "~2.0",
         "swp/common": "~0.1.0",
         "swp/storage": "~0.1.0",
-        "doctrine/common": "^2.6"
+        "doctrine/common": "^2.6",
+        "psr/log": "^1.0"
     },
     "require-dev": {
         "phpspec/phpspec": "^2.4"
