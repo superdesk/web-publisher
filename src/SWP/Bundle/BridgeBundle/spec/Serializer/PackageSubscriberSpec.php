@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  * This file is part of the Superdesk Web Publisher <change_me> Bundle.
  *
  * Copyright 2016 Sourcefabric z.ú. and contributors.
@@ -11,6 +11,7 @@
  * @copyright 2016 Sourcefabric z.ú.
  * @license http://www.superdesk.org/license
  */
+
 namespace spec\SWP\Bundle\BridgeBundle\Serializer;
 
 use Doctrine\Common\Collections\ArrayCollection;
@@ -27,17 +28,17 @@ use SWP\Component\Bridge\Model\PackageInterface;
  */
 final class PackageSubscriberSpec extends ObjectBehavior
 {
-    function it_is_initializable()
+    public function it_is_initializable()
     {
         $this->shouldHaveType(PackageSubscriber::class);
     }
 
-    function it_implements_an_interface()
+    public function it_implements_an_interface()
     {
         $this->shouldImplement(EventSubscriberInterface::class);
     }
 
-    function it_subscribes_to_event()
+    public function it_subscribes_to_event()
     {
         self::getSubscribedEvents()->shouldReturn([
             [
@@ -47,7 +48,7 @@ final class PackageSubscriberSpec extends ObjectBehavior
         ]);
     }
 
-    function it_set_empty_array_collection_on_post_deserialization_event(ObjectEvent $event, PackageInterface $package)
+    public function it_set_empty_array_collection_on_post_deserialization_event(ObjectEvent $event, PackageInterface $package)
     {
         $event->getObject()->willReturn($package);
         $package->getItems()->shouldBeCalled()->willReturn(null);
@@ -56,7 +57,7 @@ final class PackageSubscriberSpec extends ObjectBehavior
         $this->onPostDeserialize($event);
     }
 
-    function it_does_nothing_when_valid_instance_given(ObjectEvent $event, PackageInterface $package, ItemInterface $item)
+    public function it_does_nothing_when_valid_instance_given(ObjectEvent $event, PackageInterface $package, ItemInterface $item)
     {
         $event->getObject()->willReturn($package);
         $package->getItems()->shouldBeCalled()->willReturn(new ArrayCollection([$item]));
@@ -65,7 +66,7 @@ final class PackageSubscriberSpec extends ObjectBehavior
         $this->onPostDeserialize($event);
     }
 
-    function it_does_nothing_on_post_deserialize(ObjectEvent $event)
+    public function it_does_nothing_on_post_deserialize(ObjectEvent $event)
     {
         $event->getObject()->willReturn(new \stdClass());
 

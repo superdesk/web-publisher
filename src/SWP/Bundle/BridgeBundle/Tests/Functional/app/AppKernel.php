@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  * This file is part of the Superdesk Web Publisher Bridge for the Content API.
  *
  * Copyright 2016 Sourcefabric z.u. and contributors.

@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  * This file is part of the Superdesk Web Publisher Content Bundle.
  *
  * Copyright 2016 Sourcefabric z.ú. and contributors.
@@ -11,6 +11,7 @@
  * @copyright 2016 Sourcefabric z.ú.
  * @license http://www.superdesk.org/license
  */
+
 namespace spec\SWP\Bundle\ContentBundle\Validator\Constraints;
 
 use SWP\Bundle\ContentBundle\Validator\Constraints\RouteType;
@@ -23,22 +24,22 @@ use Symfony\Component\Validator\Constraint;
  */
 final class RouteTypeSpec extends ObjectBehavior
 {
-    function it_is_initializable()
+    public function it_is_initializable()
     {
         $this->shouldHaveType(RouteType::class);
     }
 
-    function it_extends_constraint_class()
+    public function it_extends_constraint_class()
     {
         $this->shouldHaveType(Constraint::class);
     }
 
-    function it_has_a_message()
+    public function it_has_a_message()
     {
         $this->message->shouldReturn('swp.route.type.route_type');
     }
 
-    function it_is_validated_by_route_type_validator()
+    public function it_is_validated_by_route_type_validator()
     {
         $this->validatedBy()->shouldReturn(RouteTypeValidator::class);
     }
