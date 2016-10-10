@@ -16,9 +16,11 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\ContentBundle\Loader;
 
-use Jackalope\Query\SqlQuery;
-use SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\Article;
-use SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\ArticleInterface;
+use Doctrine\ODM\PHPCR\DocumentManager;
+use SWP\Bundle\ContentBundle\Criteria\Criteria;
+use SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\Route;
+use SWP\Bundle\ContentBundle\Model\ArticleInterface;
+use SWP\Bundle\ContentBundle\Model\RouteInterface;
 use SWP\Bundle\ContentBundle\Provider\ArticleProviderInterface;
 use SWP\Bundle\ContentBundle\Provider\RouteProviderInterface;
 use SWP\Component\TemplatesSystem\Gimme\Context\Context;
@@ -26,7 +28,6 @@ use SWP\Component\TemplatesSystem\Gimme\Factory\MetaFactoryInterface;
 use SWP\Component\TemplatesSystem\Gimme\Loader\LoaderInterface;
 use SWP\Component\TemplatesSystem\Gimme\Meta\Meta;
 use SWP\Component\TemplatesSystem\Gimme\Meta\MetaCollection;
-use Doctrine\ODM\PHPCR\DocumentManager;
 
 /**
  * Class ArticleLoader.
@@ -108,66 +109,45 @@ class ArticleLoader implements LoaderInterface
      */
     public function load($type, $parameters = [], $responseType = LoaderInterface::SINGLE)
     {
-        $article = null;
-        $criteria = null;
-
+        $criteria = new Criteria();
         if ($responseType === LoaderInterface::SINGLE) {
-            //$expressionBuilder = new ExpressionBuilder();
             if (array_key_exists('contentPath', $parameters)) {
-                //$criteria->where($expressionBuilder->eq('id', $parameters['contentPath']));
-            } elseif (array_key_exists('article', $parameters)) {
+                $criteria->set('slug', $parameters['contentPath']);
+            } elseif (array_key_exists('article', $parameters) && $parameters['article'] instanceof ArticleInterface) {
                 $this->dm->detach($parameters['article']);
-                //$criteria->where($expressionBuilder->eq('id', $parameters['article']->getId()));
+                $criteria->set('id', $parameters['article']->getId());
             } elseif (array_key_exists('slug', $parameters)) {
-                //                $criteria->where($expressionBuilder->andX(
-//                    $expressionBuilder->eq('slug', $parameters['slug']),
-//                    $expressionBuilder->eq('status', ArticleInterface::STATUS_PUBLISHED)
-//                ));
+                $criteria->set('slug', $parameters['slug']);
             }
 
-            //$criteria = new Criteria($expressionBuilder);
-            //dump($criteria);
-            $article = $this->articleProvider->getOneByCriteria($criteria);
-
-            return $this->getArticleMeta($article);
+            return $this->getArticleMeta($this->articleProvider->getOneByCriteria($criteria));
         } elseif ($responseType === LoaderInterface::COLLECTION) {
-            $route = null;
             $currentPage = $this->context->getCurrentPage();
-            if (array_key_exists('route', $parameters)) {
-                if (null !== $currentPage && $currentPage->getValues()->getId() === $parameters['route']) {
-                    $route = $currentPage->getValues();
-                } else {
-                    $route = $this->routeProvider->getOneById($parameters['route']);
-                }
-            } elseif (null !== $currentPage) {
+            $route = null;
+
+            if (null !== $currentPage) {
                 $route = $currentPage->getValues();
             }
 
-            if (null !== $route && is_object($route)) {
+            if (array_key_exists('route', $parameters)) {
+                if (null === $route || ($route instanceof RouteInterface && $route->getId() !== $parameters['route'])) {
+                    $route = $this->routeProvider->getOneById($parameters['route']);
+                }
+            }
+
+            if ($route instanceof RouteInterface) {
+                $criteria->set('route', $route);
+            }
+
+            $articles = $this->articleProvider->getManyByCriteria($criteria);
+            if ($articles->count() > 0) {
                 $metaCollection = new MetaCollection();
-                //$expressionBuilder = new ExpressionBuilder();
-                //$criteria = new Criteria($expressionBuilder->eq('route', $route));
-                //dump($criteria->getWhereExpression());
-                //die;
-//                $routeIdentifier = $this->dm->getNodeForDocument($route)->getIdentifier();
-//                $metaCollection->setTotalItemsCount($this->getRouteArticlesQuery($routeIdentifier, [])->execute()->getRows()->count());
-//                $query = $this->getRouteArticlesQuery($routeIdentifier, $parameters);
-//                $articles = $this->dm->getDocumentsByPhpcrQuery($query, Article::class);
-
-//                if (isset($parameters['limit'])) {
-//                    $query->setLimit($parameters['limit']);
-//                }
-
-//                if (isset($parameters['start'])) {
-//                    $query->setOffset($parameters['start']);
-//                }
-
-//                foreach ($articles as $article) {
-//                    $articleMeta = $this->getArticleMeta($article);
-//                    if (null !== $articleMeta) {
-//                        $metaCollection->add($articleMeta);
-//                    }
-//                }
+                foreach ($articles as $article) {
+                    $articleMeta = $this->getArticleMeta($article);
+                    if (null !== $articleMeta) {
+                        $metaCollection->add($articleMeta);
+                    }
+                }
 
                 return $metaCollection;
             }
@@ -195,21 +175,5 @@ class ArticleLoader implements LoaderInterface
         }
 
         return;
-    }
-
-    /**
-     * @param string $routeIdentifier
-     * @param array  $parameters
-     *
-     * @return SqlQuery
-     */
-    private function getRouteArticlesQuery(string $routeIdentifier, array $parameters) : SqlQuery
-    {
-        $order = [];
-        if (array_key_exists('order', $parameters) && is_array($parameters['order'])) {
-            $order = $parameters['order'];
-        }
-
-        return $this->articleProvider->getRouteArticlesQuery($routeIdentifier, $order);
     }
 }

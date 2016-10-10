@@ -14,11 +14,13 @@
 
 namespace SWP\Bundle\ContentBundle\Doctrine\ORM;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use SWP\Bundle\ContentBundle\Model\RouteInterface;
 use SWP\Bundle\ContentBundle\Model\RouteTrait;
 use Symfony\Cmf\Bundle\RoutingBundle\Model\Route as BaseRoute;
 use SWP\Component\Storage\Model\PersistableInterface;
 
-class Route extends BaseRoute implements PersistableInterface
+class Route extends BaseRoute implements PersistableInterface, RouteInterface
 {
     use RouteTrait;
 
@@ -26,6 +28,31 @@ class Route extends BaseRoute implements PersistableInterface
      * @var int
      */
     protected $id;
+
+    protected $articles;
+
+    public function __construct()
+    {
+        $this->articles = new ArrayCollection();
+
+        parent::__construct();
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getArticles()
+    {
+        return $this->articles;
+    }
+
+    /**
+     * @param mixed $articles
+     */
+    public function setArticles($articles)
+    {
+        $this->articles = $articles;
+    }
 
     public function getId()
     {

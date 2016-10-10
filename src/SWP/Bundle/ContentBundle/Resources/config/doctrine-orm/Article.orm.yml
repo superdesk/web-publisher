@@ -47,6 +47,15 @@ SWP\Bundle\ContentBundle\Doctrine\ORM\Article:
         metadata:
             type: string
             nullable: true
+    manyToOne:
+        route:
+            targetEntity: SWP\Bundle\ContentBundle\Doctrine\ORM\Route
+            mappedBy: articles
+            cascade: ["remove"]
+            joinColumn:
+                name: route_id
+                referencedColumnName: id
+                onDelete: CASCADE
 #    referenceOne:
 #        route:
 #            targetDocument: \SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\Route

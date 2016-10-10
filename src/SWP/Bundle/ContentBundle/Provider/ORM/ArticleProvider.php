@@ -18,9 +18,8 @@ namespace SWP\Bundle\ContentBundle\Provider\ORM;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use Doctrine\Common\Collections\Criteria;
+use SWP\Bundle\ContentBundle\Criteria\Criteria;
 use SWP\Bundle\ContentBundle\Doctrine\ArticleRepositoryInterface;
-use SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\Article;
 use SWP\Bundle\ContentBundle\Model\ArticleInterface;
 use SWP\Bundle\ContentBundle\Provider\ArticleProviderInterface;
 
@@ -86,8 +85,8 @@ class ArticleProvider implements ArticleProviderInterface
      */
     public function getOneByCriteria(Criteria $criteria): ArticleInterface
     {
-        $criteria->setMaxResults(1);
-        $article = $this->articleRepository->getByCriteria($criteria);
+        $criteria->set('maxResults', 1);
+        $article = $this->articleRepository->getByCriteria($criteria)->getOneOrNullResult();
         if (null !== $article && !$article->isPublished()) {
             throw new \Exception('Article was not found', 404);
         }
@@ -97,6 +96,8 @@ class ArticleProvider implements ArticleProviderInterface
 
     public function getManyByCriteria(Criteria $criteria): Collection
     {
-        return new ArrayCollection();
+        $results = $this->articleRepository->getByCriteria($criteria)->getResult();
+
+        return new ArrayCollection($results);
     }
 }

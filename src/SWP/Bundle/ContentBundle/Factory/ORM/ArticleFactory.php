@@ -12,12 +12,12 @@ class ArticleFactory extends AbstractArticleFactory
     /**
      * @var FactoryInterface
      */
-    private $baseFactory;
+    protected $baseFactory;
 
     /**
      * @var RouteProviderInterface
      */
-    private $routeProvider;
+    protected $routeProvider;
 
     /**
      * ArticleFactory constructor.

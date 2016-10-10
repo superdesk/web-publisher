@@ -17,7 +17,7 @@ declare(strict_types=1);
 namespace SWP\Bundle\ContentBundle\Provider;
 
 use Doctrine\Common\Collections\Collection;
-use Doctrine\Common\Collections\Criteria;
+use SWP\Bundle\ContentBundle\Criteria\Criteria;
 use SWP\Bundle\ContentBundle\Model\ArticleInterface;
 
 interface ArticleProviderInterface

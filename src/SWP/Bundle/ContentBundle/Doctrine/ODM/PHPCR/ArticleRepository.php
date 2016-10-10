@@ -16,9 +16,9 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR;
 
-use Doctrine\Common\Collections\Criteria;
 use Jackalope\Query\SqlQuery;
 use PHPCR\Query\QueryInterface;
+use SWP\Bundle\ContentBundle\Criteria\Criteria;
 use SWP\Bundle\ContentBundle\Doctrine\ArticleRepositoryInterface;
 use SWP\Bundle\StorageBundle\Doctrine\ODM\PHPCR\DocumentRepository;
 
@@ -52,7 +52,21 @@ class ArticleRepository extends DocumentRepository implements ArticleRepositoryI
 
     public function getByCriteria(Criteria $criteria)
     {
+        $routeIdentifier = $this->dm->getNodeForDocument($route)->getIdentifier();
+        $query = $this->getRouteArticlesQuery($routeIdentifier, $parameters);
+        $articles = $this->dm->getDocumentsByPhpcrQuery($query, Article::class);
 
+        //$this->getRouteArticlesQuery($routeIdentifier, [])->execute()->getRows()->count()
+
+        if (isset($parameters['limit'])) {
+            $query->setLimit($parameters['limit']);
+        }
+
+        if (isset($parameters['start'])) {
+            $query->setOffset($parameters['start']);
+        }
+
+        return $articles;
     }
 
     /**

@@ -33,10 +33,6 @@ web_profiler:
 swiftmailer:
     disable_delivery: true
 
-swp_content:
-    persistence:
-        orm: true
-
 oneup_flysystem:
     adapters:
         filesystem_adapter:

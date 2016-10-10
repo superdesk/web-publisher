@@ -2,7 +2,7 @@ SWP\Bundle\ContentBundle\Doctrine\ORM\Article:
     article{1..5}:
         title: "<catchPhrase()>"
         body: "<paragraph(20)>"
-        #route: "<generatePath('/news')>"
+        route: "<getRoute('/news')>"
         locale: "en"
         status: "published"
         publishable: true
@@ -11,7 +11,7 @@ SWP\Bundle\ContentBundle\Doctrine\ORM\Article:
     article_features:
         title: "Features"
         body: "<paragraph(20)>"
-        #route: "<generatePath('/articles/features')>"
+        route: "<getRoute('/articles/features')>"
         locale: "en"
         status: "published"
         publishable: true
@@ -20,7 +20,7 @@ SWP\Bundle\ContentBundle\Doctrine\ORM\Article:
     article_get_invlolved:
         title: "Get Involved"
         body: "<paragraph(20)>"
-        #route: "<generatePath('/articles')>"
+        route: "<getRoute('/articles')>"
         locale: "en"
         status: "published"
         publishedAt: "<date()>"

@@ -16,6 +16,7 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\ContentBundle\Doctrine\ORM;
 
+use SWP\Bundle\ContentBundle\Criteria\Criteria;
 use SWP\Bundle\ContentBundle\Doctrine\ArticleRepositoryInterface;
 use SWP\Bundle\StorageBundle\Doctrine\ORM\EntityRepository;
 
@@ -35,6 +36,29 @@ class ArticleRepository extends EntityRepository implements ArticleRepositoryInt
     public function findAllArticles()
     {
         throw new \Exception('Not implemented');
+    }
+
+    public function getByCriteria(Criteria $criteria)
+    {
+        $qb = $this->createQueryBuilder('a');
+
+        if ($criteria->has('id')) {
+            $qb->andWhere('a.id = :id')
+                ->setParameter('id', $criteria->get('id'));
+        }
+
+        if ($criteria->has('slug')) {
+            $qb->andWhere('a.slug = :slug')
+                ->setParameter('slug', $criteria->get('slug'));
+        }
+
+        $query = $qb->getQuery();
+
+        if ($criteria->has('maxResults')) {
+            $query->setMaxResults($criteria->get('maxResults'));
+        }
+
+        return $query;
     }
 
     /**

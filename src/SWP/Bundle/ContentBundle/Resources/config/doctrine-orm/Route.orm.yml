@@ -25,7 +25,10 @@ SWP\Bundle\ContentBundle\Doctrine\ORM\Route:
         position:
             type: integer
             nullable: true
-
+    oneToMany:
+        articles:
+          targetEntity: "SWP\\Bundle\\ContentBundle\\Doctrine\\ORM\\Article"
+          mappedBy: route
     uniqueConstraints:
         swp_route_name_idx:
           columns: [ name ]
