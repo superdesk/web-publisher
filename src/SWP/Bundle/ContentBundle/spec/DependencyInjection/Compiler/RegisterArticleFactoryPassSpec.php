@@ -17,7 +17,7 @@ namespace spec\SWP\Bundle\ContentBundle\DependencyInjection\Compiler;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 use SWP\Bundle\ContentBundle\DependencyInjection\Compiler\RegisterArticleFactoryPass;
-use SWP\Bundle\ContentBundle\Factory\ArticleFactory;
+use SWP\Bundle\ContentBundle\Factory\PHPCR\ArticleFactory;
 use SWP\Component\Storage\Factory\Factory;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;

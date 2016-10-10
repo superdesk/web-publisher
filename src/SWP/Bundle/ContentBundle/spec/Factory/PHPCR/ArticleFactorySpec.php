@@ -12,12 +12,12 @@
  * @license http://www.superdesk.org/license
  */
 
-namespace spec\SWP\Bundle\ContentBundle\Factory;
+namespace spec\SWP\Bundle\ContentBundle\Factory\PHPCR;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use PhpSpec\ObjectBehavior;
 use SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\Article;
-use SWP\Bundle\ContentBundle\Factory\ArticleFactory;
+use SWP\Bundle\ContentBundle\Factory\PHPCR\ArticleFactory;
 use SWP\Bundle\ContentBundle\Factory\ArticleFactoryInterface;
 use SWP\Bundle\ContentBundle\Model\ArticleInterface;
 use SWP\Bundle\ContentBundle\Model\RouteInterface;

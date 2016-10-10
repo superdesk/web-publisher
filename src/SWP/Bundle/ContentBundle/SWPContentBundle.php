@@ -14,7 +14,7 @@
 
 namespace SWP\Bundle\ContentBundle;
 
-use SWP\Bundle\ContentBundle\DependencyInjection\Compiler\RegisterArticleFactoryPass;
+use SWP\Bundle\ContentBundle\DependencyInjection\Compiler\RegisterPHPCRArticleFactoryPass;
 use SWP\Bundle\ContentBundle\DependencyInjection\Compiler\RegisterORMArticleFactory;
 use SWP\Bundle\ContentBundle\DependencyInjection\Compiler\RegisterRouteFactoryPass;
 use SWP\Bundle\StorageBundle\DependencyInjection\Bundle\Bundle;
@@ -30,6 +30,7 @@ class SWPContentBundle extends Bundle
     {
         return [
             Drivers::DRIVER_DOCTRINE_PHPCR_ODM,
+            Drivers::DRIVER_DOCTRINE_ORM,
         ];
     }
 
@@ -38,7 +39,7 @@ class SWPContentBundle extends Bundle
      */
     public function getModelClassNamespace()
     {
-        return 'SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR';
+        return 'SWP\Bundle\ContentBundle\Doctrine\ORM';
     }
 
     /**
@@ -47,7 +48,7 @@ class SWPContentBundle extends Bundle
     public function build(ContainerBuilder $container)
     {
         parent::build($container);
-        $container->addCompilerPass(new RegisterArticleFactoryPass());
+        $container->addCompilerPass(new RegisterPHPCRArticleFactoryPass());
         $container->addCompilerPass(new RegisterRouteFactoryPass());
         $container->addCompilerPass(new RegisterORMArticleFactory());
     }

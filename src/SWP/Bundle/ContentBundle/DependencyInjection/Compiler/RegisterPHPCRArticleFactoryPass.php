@@ -20,7 +20,7 @@ use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Parameter;
 
-class RegisterArticleFactoryPass implements CompilerPassInterface
+class RegisterPHPCRArticleFactoryPass implements CompilerPassInterface
 {
     /**
      * {@inheritdoc}
