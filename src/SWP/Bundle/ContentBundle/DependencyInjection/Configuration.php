@@ -107,7 +107,7 @@ class Configuration implements ConfigurationInterface
                                             ->children()
                                                 ->scalarNode('model')->cannotBeEmpty()->defaultValue(ORMArticle::class)->end()
                                                 ->scalarNode('repository')->defaultValue(ORMArticleRepository::class)->end()
-                                                ->scalarNode('factory')->defaultValue(ArticleFactory::class)->end()
+                                                ->scalarNode('factory')->defaultValue(\SWP\Bundle\ContentBundle\Factory\ORM\ArticleFactory::class)->end()
                                                 ->scalarNode('object_manager_name')->defaultValue(null)->end()
                                             ->end()
                                         ->end()

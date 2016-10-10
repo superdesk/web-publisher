@@ -17,21 +17,15 @@ namespace SWP\Bundle\ContentBundle\Factory;
 use SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\ArticleInterface;
 use SWP\Bundle\ContentBundle\Provider\ArticleProviderInterface;
 use SWP\Bundle\ContentBundle\Provider\RouteProviderInterface;
-use SWP\Component\Bridge\Model\ItemInterface;
 use SWP\Component\Bridge\Model\PackageInterface;
 use SWP\Component\Storage\Factory\FactoryInterface;
 
-class ArticleFactory implements ArticleFactoryInterface
+class ArticleFactory extends AbstractArticleFactory
 {
     /**
      * @var FactoryInterface
      */
     private $baseFactory;
-
-    /**
-     * @var RouteProviderInterface
-     */
-    private $routeProvider;
 
     /**
      * @var ArticleProviderInterface
@@ -42,16 +36,6 @@ class ArticleFactory implements ArticleFactoryInterface
      * @var string
      */
     private $contentRelativePath;
-
-    /**
-     * @var array
-     */
-    private $allowedTypes = [
-        ItemInterface::TYPE_PICTURE,
-        ItemInterface::TYPE_FILE,
-        ItemInterface::TYPE_TEXT,
-        ItemInterface::TYPE_COMPOSITE,
-    ];
 
     /**
      * ArticleFactory constructor.
@@ -68,9 +52,10 @@ class ArticleFactory implements ArticleFactoryInterface
         $contentRelativePath
     ) {
         $this->baseFactory = $baseFactory;
-        $this->routeProvider = $routeProvider;
         $this->articleProvider = $articleProvider;
         $this->contentRelativePath = $contentRelativePath;
+
+        parent::__construct($routeProvider);
     }
 
     /**
@@ -87,51 +72,10 @@ class ArticleFactory implements ArticleFactoryInterface
     public function createFromPackage(PackageInterface $package)
     {
         /** @var ArticleInterface $article */
-        $article = $this->create();
+        $article = $this->hydrateArticle($package);
 
-        $article->setBody($this->populateBody($package));
         $article->setParentDocument($this->articleProvider->getParent($this->contentRelativePath));
 
-        $article->setTitle($package->getHeadline());
-        if (null !== $package->getSlugline()) {
-            $article->setSlug($package->getSlugline());
-        }
-
-        $article->setLocale($package->getLanguage());
-        $article->setLead($this->populateLead($package));
-        // assign default route
-        $article->setRoute($this->routeProvider->getRouteForArticle($article));
-        $article->setMetadata($package->getMetadata());
-
         return $article;
-    }
-
-    private function populateLead(PackageInterface $package)
-    {
-        return trim($package->getDescription().implode('', array_map(function (ItemInterface $item) {
-            $this->ensureTypeIsAllowed($item->getType());
-
-            return ' '.$item->getDescription();
-        }, $package->getItems()->toArray())));
-    }
-
-    private function populateBody(PackageInterface $package)
-    {
-        return $package->getBody().' '.implode('', array_map(function (ItemInterface $item) {
-            $this->ensureTypeIsAllowed($item->getType());
-
-            return $item->getBody();
-        }, $package->getItems()->toArray()));
-    }
-
-    private function ensureTypeIsAllowed($type)
-    {
-        if (!in_array($type, $this->allowedTypes)) {
-            throw new \InvalidArgumentException(sprintf(
-                'Item type "%s" is not supported. Supported types are: %s',
-                $type,
-                implode(', ', $this->allowedTypes)
-            ));
-        }
     }
 }

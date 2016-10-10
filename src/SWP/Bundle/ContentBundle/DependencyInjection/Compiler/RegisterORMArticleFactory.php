@@ -20,7 +20,7 @@ use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Parameter;
 
-class RegisterArticleFactoryPass implements CompilerPassInterface
+class RegisterORMArticleFactory implements CompilerPassInterface
 {
     /**
      * {@inheritdoc}
@@ -28,7 +28,7 @@ class RegisterArticleFactoryPass implements CompilerPassInterface
     public function process(ContainerBuilder $container)
     {
         if (!$container->hasDefinition('swp.factory.article') ||
-            !$container->hasParameter('swp_content.backend_type_phpcr')) {
+            !$container->hasParameter('swp_content.backend_type_orm')) {
             return;
         }
 
@@ -44,8 +44,6 @@ class RegisterArticleFactoryPass implements CompilerPassInterface
             [
                 $baseDefinition,
                 $container->findDefinition('swp.provider.route'),
-                $container->findDefinition('swp.provider.article'),
-                $container->getParameter('swp_multi_tenancy.persistence.phpcr.content_basepath'),
             ]
         );
 

@@ -248,7 +248,7 @@ swp_rule:
             enabled: true
             classes:
                 rule:
-                    model: SWP\Bundle\CoreBundle\Entity\Rule
+                    model: SWP\Bundle\CoreBundle\Model\Rule
 
 nelmio_api_doc:
     request_listener: false
