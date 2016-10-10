@@ -23,7 +23,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 /**
  * Doctrine listener used to set tenant before the persist.
  */
-class TenantSubscriber implements EventSubscriber
+final class TenantSubscriber implements EventSubscriber
 {
     /**
      * @var ContainerInterface
@@ -64,6 +64,7 @@ class TenantSubscriber implements EventSubscriber
     protected function addTenant(LifecycleEventArgs $args)
     {
         $entity = $args->getEntity();
+
         if ($entity instanceof TenantAwareInterface) {
             // skip when tenant is already set
             if (null !== $entity->getTenantCode()) {

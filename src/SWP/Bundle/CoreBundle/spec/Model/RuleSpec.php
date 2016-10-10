@@ -12,9 +12,9 @@
  * @license http://www.superdesk.org/license
  */
 
-namespace spec\SWP\Bundle\CoreBundle\Entity;
+namespace spec\SWP\Bundle\CoreBundle\Model;
 
-use SWP\Bundle\CoreBundle\Entity\Rule;
+use SWP\Bundle\CoreBundle\Model\Rule;
 use PhpSpec\ObjectBehavior;
 use SWP\Component\MultiTenancy\Model\TenantAwareInterface;
 use SWP\Component\Rule\Model\RuleInterface;

@@ -59,7 +59,7 @@ class TenantableListener implements EventSubscriberInterface
             $this->entityManager
                 ->getFilters()
                 ->enable('tenantable')
-                ->setParameter('tenantCode', $tenant->getCode());
+                ->setParameter('tenant', $tenant->getCode());
         }
     }
 

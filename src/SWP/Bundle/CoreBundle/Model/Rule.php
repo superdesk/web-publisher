@@ -12,29 +12,14 @@
  * @license http://www.superdesk.org/license
  */
 
-namespace SWP\Bundle\CoreBundle\Entity;
+namespace SWP\Bundle\CoreBundle\Model;
 
 use SWP\Component\MultiTenancy\Model\TenantAwareInterface;
+use SWP\Component\MultiTenancy\Model\TenantAwareTrait;
 use SWP\Component\Storage\Model\PersistableInterface;
 use SWP\Component\Rule\Model\Rule as BaseRule;
 
 class Rule extends BaseRule implements TenantAwareInterface, PersistableInterface
 {
-    protected $tenantCode;
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getTenantCode()
-    {
-        return $this->tenantCode;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function setTenantCode($code)
-    {
-        $this->tenantCode = $code;
-    }
+    use TenantAwareTrait;
 }

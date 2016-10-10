@@ -17,6 +17,7 @@ namespace SWP\Bundle\TemplateEngineBundle\Model;
 use Doctrine\Common\Collections\ArrayCollection;
 use SWP\Component\Common\Model\TimestampableInterface;
 use SWP\Component\MultiTenancy\Model\TenantAwareInterface;
+use SWP\Component\MultiTenancy\Model\TenantAwareTrait;
 use SWP\Component\TemplatesSystem\Gimme\Model\WidgetModelInterface;
 
 /**
@@ -24,6 +25,8 @@ use SWP\Component\TemplatesSystem\Gimme\Model\WidgetModelInterface;
  */
 class WidgetModel implements WidgetModelInterface, TenantAwareInterface, TimestampableInterface
 {
+    use TenantAwareTrait;
+
     const TYPE_HTML = 1;
     const TYPE_ADSENSE = 2;
     const TYPE_MENU = 3;
@@ -63,11 +66,6 @@ class WidgetModel implements WidgetModelInterface, TenantAwareInterface, Timesta
      * @var ArrayCollection
      */
     protected $containers;
-
-    /**
-     * @var string
-     */
-    protected $tenantCode;
 
     /**
      * @var \DateTime
@@ -231,22 +229,6 @@ class WidgetModel implements WidgetModelInterface, TenantAwareInterface, Timesta
         $this->containers = $containers;
 
         return $this;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getTenantCode()
-    {
-        return $this->tenantCode;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function setTenantCode($code)
-    {
-        $this->tenantCode = $code;
     }
 
     /**
