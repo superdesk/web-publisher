@@ -2,7 +2,6 @@
 
 namespace SWP\Bundle\ContentBundle\Factory\ORM;
 
-use SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\ArticleInterface;
 use SWP\Bundle\ContentBundle\Factory\AbstractArticleFactory;
 use SWP\Bundle\ContentBundle\Provider\RouteProviderInterface;
 use SWP\Component\Bridge\Model\PackageInterface;
@@ -49,9 +48,6 @@ class ArticleFactory extends AbstractArticleFactory
      */
     public function createFromPackage(PackageInterface $package)
     {
-        /** @var ArticleInterface $article */
-        $article = $this->hydrateArticle($package);
-
-        return $article;
+        return $this->hydrateArticle($package);
     }
 }
