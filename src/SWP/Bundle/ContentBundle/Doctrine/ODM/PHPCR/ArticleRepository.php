@@ -16,6 +16,7 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR;
 
+use Doctrine\Common\Collections\Criteria;
 use Jackalope\Query\SqlQuery;
 use PHPCR\Query\QueryInterface;
 use SWP\Bundle\ContentBundle\Doctrine\ArticleRepositoryInterface;
@@ -47,6 +48,11 @@ class ArticleRepository extends DocumentRepository implements ArticleRepositoryI
     public function findAllArticles()
     {
         return $this->createQueryBuilder('o')->getQuery();
+    }
+
+    public function getByCriteria(Criteria $criteria)
+    {
+
     }
 
     /**

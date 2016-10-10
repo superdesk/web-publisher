@@ -49,7 +49,7 @@ class RouteProvider implements RouteProviderInterface
      */
     public function getOneById($id)
     {
-        return $this->routeRepository->find($id);
+        return $this->routeRepository->findOneByStaticPrefix($id);
     }
 
     /**

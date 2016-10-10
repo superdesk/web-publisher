@@ -16,6 +16,8 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\ContentBundle\Provider;
 
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\Criteria;
 use SWP\Bundle\ContentBundle\Model\ArticleInterface;
 
 interface ArticleProviderInterface
@@ -45,4 +47,18 @@ interface ArticleProviderInterface
      * @return object
      */
     public function getRouteArticlesQuery(string $routeIdentifier, array $order);
+
+    /**
+     * @param $criteria
+     *
+     * @return ArticleInterface
+     */
+    public function getOneByCriteria(Criteria $criteria): ArticleInterface;
+
+    /**
+     * @param $criteria
+     *
+     * @return Collection
+     */
+    public function getManyByCriteria(Criteria $criteria): Collection;
 }

@@ -7,16 +7,16 @@ parameters:
     swp_content_bundle.router.media.class: SWP\Bundle\ContentBundle\Routing\MediaRouter
 
 services:
-    #swp_template_engine.loader.article:
-    #    class: SWP\Bundle\ContentBundle\Loader\ArticleLoader
-    #    arguments:
-    #        - "@swp.provider.article"
-    #        - "@swp.provider.route"
-    #        - "@doctrine_phpcr.odm.document_manager"
-    #        - "@swp_template_engine_context.factory.meta_factory"
-    #        - "@swp_template_engine_context"
-    #    tags:
-    #        - { name: swp.meta_loader }
+    swp_template_engine.loader.article:
+        class: SWP\Bundle\ContentBundle\Loader\ArticleLoader
+        arguments:
+            - "@swp.provider.article"
+            - "@swp.provider.route"
+            - "@doctrine_phpcr.odm.document_manager"
+            - "@swp_template_engine_context.factory.meta_factory"
+            - "@swp_template_engine_context"
+        tags:
+            - { name: swp.meta_loader }
 
     #swp_template_engine.loader.media:
     #    class: SWP\Bundle\ContentBundle\Loader\ArticleMediaLoader
