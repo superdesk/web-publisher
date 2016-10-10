@@ -15,7 +15,7 @@
 namespace SWP\Bundle\ContentBundle;
 
 use SWP\Bundle\ContentBundle\DependencyInjection\Compiler\RegisterPHPCRArticleFactoryPass;
-use SWP\Bundle\ContentBundle\DependencyInjection\Compiler\RegisterORMArticleFactory;
+use SWP\Bundle\ContentBundle\DependencyInjection\Compiler\RegisterORMArticleFactoryPass;
 use SWP\Bundle\ContentBundle\DependencyInjection\Compiler\RegisterRouteFactoryPass;
 use SWP\Bundle\StorageBundle\DependencyInjection\Bundle\Bundle;
 use SWP\Bundle\StorageBundle\Drivers;
@@ -50,6 +50,6 @@ class SWPContentBundle extends Bundle
         parent::build($container);
         $container->addCompilerPass(new RegisterPHPCRArticleFactoryPass());
         $container->addCompilerPass(new RegisterRouteFactoryPass());
-        $container->addCompilerPass(new RegisterORMArticleFactory());
+        $container->addCompilerPass(new RegisterORMArticleFactoryPass());
     }
 }

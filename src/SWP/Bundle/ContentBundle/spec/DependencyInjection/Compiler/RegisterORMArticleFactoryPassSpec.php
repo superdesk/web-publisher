@@ -16,7 +16,7 @@ namespace spec\SWP\Bundle\ContentBundle\DependencyInjection\Compiler;
 
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
-use SWP\Bundle\ContentBundle\DependencyInjection\Compiler\RegisterArticleFactoryPass;
+use SWP\Bundle\ContentBundle\DependencyInjection\Compiler\RegisterORMArticleFactoryPass;
 use SWP\Bundle\ContentBundle\Factory\PHPCR\ArticleFactory;
 use SWP\Component\Storage\Factory\Factory;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
@@ -25,13 +25,13 @@ use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Parameter;
 
 /**
- * @mixin RegisterArticleFactoryPass
+ * @mixin RegisterORMArticleFactoryPass
  */
-class RegisterArticleFactoryPassSpec extends ObjectBehavior
+class RegisterORMArticleFactoryPassSpec extends ObjectBehavior
 {
     public function it_is_initializable()
     {
-        $this->shouldHaveType(RegisterArticleFactoryPass::class);
+        $this->shouldHaveType(RegisterORMArticleFactoryPass::class);
     }
 
     public function it_implements_compiler_pass_interface()
@@ -41,8 +41,7 @@ class RegisterArticleFactoryPassSpec extends ObjectBehavior
 
     public function it_creates_a_default_definition_of_article_factory(
         ContainerBuilder $container,
-        Definition $routeProviderDefinition,
-        Definition $articleProviderDefinition
+        Definition $routeProviderDefinition
     ) {
         $container->hasDefinition('swp.factory.article')->willReturn(true);
         $baseDefinition = new Definition(
@@ -53,17 +52,15 @@ class RegisterArticleFactoryPassSpec extends ObjectBehavior
         );
 
         $container->getParameter('swp.factory.article.class')->willReturn(ArticleFactory::class);
+        $container->hasParameter('swp_content.backend_type_orm')->willReturn(true);
         $container->getParameter('swp_multi_tenancy.persistence.phpcr.content_basepath')->willReturn('content');
         $container->findDefinition('swp.provider.route')->willReturn($routeProviderDefinition);
-        $container->findDefinition('swp.provider.article')->willReturn($articleProviderDefinition);
 
         $articleFactoryDefinition = new Definition(
             ArticleFactory::class,
             [
                 $baseDefinition,
                 $routeProviderDefinition,
-                $articleProviderDefinition,
-                'content',
             ]
         );
 
