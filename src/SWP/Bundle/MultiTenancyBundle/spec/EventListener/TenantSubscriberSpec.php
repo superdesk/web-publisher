@@ -23,15 +23,16 @@ use SWP\Bundle\MultiTenancyBundle\EventListener\TenantSubscriber;
 use SWP\Component\MultiTenancy\Context\TenantContextInterface;
 use SWP\Component\MultiTenancy\Model\Tenant;
 use SWP\Component\MultiTenancy\Model\TenantAwareInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * @mixin TenantSubscriber
  */
 class TenantSubscriberSpec extends ObjectBehavior
 {
-    public function let(TenantContextInterface $tenantContext)
+    public function let(ContainerInterface $container)
     {
-        $this->beConstructedWith($tenantContext, false);
+        $this->beConstructedWith($container);
     }
 
     public function it_is_initializable()
@@ -67,7 +68,8 @@ class TenantSubscriberSpec extends ObjectBehavior
     public function it_sets_the_tenant_code_on_pre_persist_doctrine_event(
         TenantContextInterface $tenantContext,
         LifecycleEventArgs $event,
-        TenantAwareInterface $tenantAware
+        TenantAwareInterface $tenantAware,
+        ContainerInterface $container
     ) {
         $tenant = new Tenant();
         $tenant->setSubdomain('example.com');
@@ -79,6 +81,8 @@ class TenantSubscriberSpec extends ObjectBehavior
         $tenantContext->getTenant()->shouldBeCalled()->willReturn($tenant);
 
         $tenantAware->setTenantCode('123456')->shouldBeCalled();
+
+        $container->get('swp_multi_tenancy.tenant_context')->willReturn($tenantContext);
 
         $this->prePersist($event)->shouldBeNull();
     }

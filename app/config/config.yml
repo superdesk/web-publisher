@@ -248,7 +248,7 @@ swp_rule:
             enabled: true
             classes:
                 rule:
-                    model: SWP\Bundle\CoreBundle\Entity\Rule
+                    model: SWP\Bundle\CoreBundle\Model\Rule
 
 nelmio_api_doc:
     request_listener: false
@@ -283,3 +283,9 @@ monolog:
             path:     '%kernel.logs_dir%/swp_rule_%kernel.environment%.log'
             max_files: 7
             channels: swp_rule
+        swp_validators:
+            level:    debug
+            type:     rotating_file
+            path:     '%kernel.logs_dir%/swp_validators_%kernel.environment%.log'
+            max_files: 7
+            channels: swp_validators

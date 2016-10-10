@@ -43,7 +43,7 @@ class Configuration implements ConfigurationInterface
             ->children()
                 ->booleanNode('use_orm_listeners')
                     ->defaultFalse()
-                    ->info('Listeners which make sure that each entity is tenant aware.')
+                    ->info('Listeners which make sure that each entity is tenant aware (they append tenant code).')
                 ->end()
                 ->arrayNode('persistence')
                     ->validate()

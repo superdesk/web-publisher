@@ -1,6 +1,6 @@
-SWP\Bundle\CoreBundle\Entity\Rule:
+SWP\Bundle\CoreBundle\Model\Rule:
     rule1:
-        tenantCode: '123abc'
+        tenantCode: '@tenant1->getCode()'
         priority: 1
         configuration:
             route: 'articles/features'
