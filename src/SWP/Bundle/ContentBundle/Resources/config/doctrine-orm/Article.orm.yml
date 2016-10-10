@@ -12,11 +12,11 @@ SWP\Bundle\ContentBundle\Doctrine\ORM\Article:
         slug:
             type: string
         body:
-            type: string
+            type: text
         title:
             type: string
         lead:
-            type: string
+            type: text
             nullable: true
         templateName:
             type: string

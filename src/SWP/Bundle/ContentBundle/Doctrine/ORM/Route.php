@@ -14,11 +14,17 @@
 
 namespace SWP\Bundle\ContentBundle\Doctrine\ORM;
 
-use SWP\Bundle\ContentBundle\Model\Route as BaseRoute;
+use SWP\Bundle\ContentBundle\Model\RouteTrait;
+use Symfony\Cmf\Bundle\RoutingBundle\Model\Route as BaseRoute;
 use SWP\Component\Storage\Model\PersistableInterface;
 
 class Route extends BaseRoute implements PersistableInterface
 {
+    use RouteTrait;
+
+    /**
+     * @var int
+     */
     protected $id;
 
     public function getId()

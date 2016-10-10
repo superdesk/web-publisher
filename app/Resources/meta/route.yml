@@ -1,5 +1,5 @@
 name: route
-class: "SWP\\Bundle\\ContentBundle\\Model\\RouteInterface"
+class: "Symfony\\Cmf\\Component\\Routing\\RouteObjectInterface"
 description: Route Meta is representation of Route in Superdesk Web Publisher.
 properties:
     templateName:

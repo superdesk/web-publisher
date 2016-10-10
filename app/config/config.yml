@@ -161,8 +161,9 @@ cmf_routing:
     dynamic:
         route_collection_limit: 100
         persistence:
-            phpcr:
+            orm:
                 enabled: true
+                route_class: "SWP\\Bundle\\ContentBundle\\Doctrine\\ORM\\Route"
 
 cmf_core:
     publish_workflow:

@@ -19,7 +19,6 @@ namespace SWP\Bundle\ContentBundle\Loader;
 use Jackalope\Query\SqlQuery;
 use SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\Article;
 use SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\ArticleInterface;
-use SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\Route;
 use SWP\Bundle\ContentBundle\Provider\ArticleProviderInterface;
 use SWP\Bundle\ContentBundle\Provider\RouteProviderInterface;
 use SWP\Component\TemplatesSystem\Gimme\Context\Context;
@@ -110,25 +109,25 @@ class ArticleLoader implements LoaderInterface
     public function load($type, $parameters = [], $responseType = LoaderInterface::SINGLE)
     {
         $article = null;
+        $criteria = null;
 
         if ($responseType === LoaderInterface::SINGLE) {
+            //$expressionBuilder = new ExpressionBuilder();
             if (array_key_exists('contentPath', $parameters)) {
-                $article = $this->dm->find('SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\Article', $parameters['contentPath']);
-                if (null !== $article && !$article->isPublished()) {
-                    $article = null;
-                }
+                //$criteria->where($expressionBuilder->eq('id', $parameters['contentPath']));
             } elseif (array_key_exists('article', $parameters)) {
                 $this->dm->detach($parameters['article']);
-                $article = $this->dm->find('SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\Article', $parameters['article']->getId());
-                if (null !== $article && !$article->isPublished()) {
-                    $article = null;
-                }
+                //$criteria->where($expressionBuilder->eq('id', $parameters['article']->getId()));
             } elseif (array_key_exists('slug', $parameters)) {
-                $article = $this->dm->getRepository('SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\Article')->findOneBy([
-                    'slug' => $parameters['slug'],
-                    'status' => ArticleInterface::STATUS_PUBLISHED,
-                ]);
+                //                $criteria->where($expressionBuilder->andX(
+//                    $expressionBuilder->eq('slug', $parameters['slug']),
+//                    $expressionBuilder->eq('status', ArticleInterface::STATUS_PUBLISHED)
+//                ));
             }
+
+            //$criteria = new Criteria($expressionBuilder);
+            //dump($criteria);
+            $article = $this->articleProvider->getOneByCriteria($criteria);
 
             return $this->getArticleMeta($article);
         } elseif ($responseType === LoaderInterface::COLLECTION) {
@@ -146,25 +145,29 @@ class ArticleLoader implements LoaderInterface
 
             if (null !== $route && is_object($route)) {
                 $metaCollection = new MetaCollection();
-                $routeIdentifier = $this->dm->getNodeForDocument($route)->getIdentifier();
-                $metaCollection->setTotalItemsCount($this->getRouteArticlesQuery($routeIdentifier, [])->execute()->getRows()->count());
-                $query = $this->getRouteArticlesQuery($routeIdentifier, $parameters);
+                //$expressionBuilder = new ExpressionBuilder();
+                //$criteria = new Criteria($expressionBuilder->eq('route', $route));
+                //dump($criteria->getWhereExpression());
+                //die;
+//                $routeIdentifier = $this->dm->getNodeForDocument($route)->getIdentifier();
+//                $metaCollection->setTotalItemsCount($this->getRouteArticlesQuery($routeIdentifier, [])->execute()->getRows()->count());
+//                $query = $this->getRouteArticlesQuery($routeIdentifier, $parameters);
+//                $articles = $this->dm->getDocumentsByPhpcrQuery($query, Article::class);
 
-                if (isset($parameters['limit'])) {
-                    $query->setLimit($parameters['limit']);
-                }
+//                if (isset($parameters['limit'])) {
+//                    $query->setLimit($parameters['limit']);
+//                }
 
-                if (isset($parameters['start'])) {
-                    $query->setOffset($parameters['start']);
-                }
+//                if (isset($parameters['start'])) {
+//                    $query->setOffset($parameters['start']);
+//                }
 
-                $articles = $this->dm->getDocumentsByPhpcrQuery($query, Article::class);
-                foreach ($articles as $article) {
-                    $articleMeta = $this->getArticleMeta($article);
-                    if (null !== $articleMeta) {
-                        $metaCollection->add($articleMeta);
-                    }
-                }
+//                foreach ($articles as $article) {
+//                    $articleMeta = $this->getArticleMeta($article);
+//                    if (null !== $articleMeta) {
+//                        $metaCollection->add($articleMeta);
+//                    }
+//                }
 
                 return $metaCollection;
             }

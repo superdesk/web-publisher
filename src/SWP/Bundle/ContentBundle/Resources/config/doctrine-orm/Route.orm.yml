@@ -1,6 +1,6 @@
 SWP\Bundle\ContentBundle\Doctrine\ORM\Route:
     type: entity
-    table: swp_route
+    table: swp_routes
     #repositoryClass: SWP\Bundle\ContentBundle\Doctrine\ORM\RouteRepository
     id:
         id:
@@ -20,3 +20,12 @@ SWP\Bundle\ContentBundle\Doctrine\ORM\Route:
             type: string
         cacheTimeInSeconds:
             type: integer
+        name:
+            type: string
+        position:
+            type: integer
+            nullable: true
+
+    uniqueConstraints:
+        swp_route_name_idx:
+          columns: [ name ]
