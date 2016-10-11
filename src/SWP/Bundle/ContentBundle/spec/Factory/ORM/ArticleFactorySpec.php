@@ -12,16 +12,15 @@
  * @license http://www.superdesk.org/license
  */
 
-namespace spec\SWP\Bundle\ContentBundle\Factory;
+namespace spec\SWP\Bundle\ContentBundle\Factory\PHPCR;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use PhpSpec\ObjectBehavior;
 use SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\Article;
-use SWP\Bundle\ContentBundle\Factory\ArticleFactory;
+use SWP\Bundle\ContentBundle\Factory\ORM\ArticleFactory;
 use SWP\Bundle\ContentBundle\Factory\ArticleFactoryInterface;
 use SWP\Bundle\ContentBundle\Model\ArticleInterface;
 use SWP\Bundle\ContentBundle\Model\RouteInterface;
-use SWP\Bundle\ContentBundle\Provider\ArticleProviderInterface;
 use SWP\Bundle\ContentBundle\Provider\RouteProviderInterface;
 use SWP\Component\Bridge\Model\Item;
 use SWP\Component\Bridge\Model\PackageInterface;
@@ -32,9 +31,9 @@ use SWP\Component\Storage\Factory\FactoryInterface;
  */
 class ArticleFactorySpec extends ObjectBehavior
 {
-    public function let(FactoryInterface $factory, RouteProviderInterface $routeProvider, ArticleProviderInterface $articleProvider)
+    public function let(FactoryInterface $factory, RouteProviderInterface $routeProvider)
     {
-        $this->beConstructedWith($factory, $routeProvider, $articleProvider, 'test');
+        $this->beConstructedWith($factory, $routeProvider);
     }
 
     public function it_is_initializable()
@@ -58,8 +57,6 @@ class ArticleFactorySpec extends ObjectBehavior
         FactoryInterface $factory,
         PackageInterface $package,
         Article $article,
-        ArticleInterface $parent,
-        ArticleProviderInterface $articleProvider,
         RouteInterface $route,
         RouteProviderInterface $routeProvider
     ) {
@@ -78,7 +75,6 @@ class ArticleFactorySpec extends ObjectBehavior
         $package->getMetadata()->shouldBeCalled()->willReturn(['some' => 'meta']);
         $package->getSlugline()->shouldBeCalled();
 
-        $article->setParentDocument($parent)->shouldBeCalled();
         $article->setTitle('item headline')->shouldBeCalled();
         $article->setBody('some package body some item body')->shouldBeCalled();
         $article->setLead('package lead item lead')->shouldBeCalled();
@@ -87,7 +83,6 @@ class ArticleFactorySpec extends ObjectBehavior
         $article->setMetadata(['some' => 'meta'])->shouldBeCalled();
         $article->setSlug('item headline')->shouldNotBeCalled();
 
-        $articleProvider->getParent('test')->willReturn($parent);
         $routeProvider->getRouteForArticle($article)->willReturn($route);
 
         $this->createFromPackage($package)->shouldReturn($article);
@@ -97,8 +92,6 @@ class ArticleFactorySpec extends ObjectBehavior
         FactoryInterface $factory,
         PackageInterface $package,
         Article $article,
-        ArticleInterface $parent,
-        ArticleProviderInterface $articleProvider,
         RouteInterface $route,
         RouteProviderInterface $routeProvider
     ) {
@@ -117,7 +110,6 @@ class ArticleFactorySpec extends ObjectBehavior
         $package->getMetadata()->shouldBeCalled()->willReturn(['some' => 'meta']);
         $package->getSlugline()->shouldBeCalled()->willReturn('slugline');
 
-        $article->setParentDocument($parent)->shouldBeCalled();
         $article->setTitle('item headline')->shouldBeCalled();
         $article->setBody('some package body some item body')->shouldBeCalled();
         $article->setLead('package lead item lead')->shouldBeCalled();
@@ -126,7 +118,6 @@ class ArticleFactorySpec extends ObjectBehavior
         $article->setMetadata(['some' => 'meta'])->shouldBeCalled();
         $article->setSlug('slugline')->shouldBeCalled();
 
-        $articleProvider->getParent('test')->willReturn($parent);
         $routeProvider->getRouteForArticle($article)->willReturn($route);
 
         $this->createFromPackage($package)->shouldReturn($article);
@@ -136,7 +127,6 @@ class ArticleFactorySpec extends ObjectBehavior
         FactoryInterface $factory,
         PackageInterface $package,
         Article $article,
-        ArticleInterface $parent,
         RouteInterface $route
     ) {
         $factory->create()->willReturn($article);
@@ -151,7 +141,6 @@ class ArticleFactorySpec extends ObjectBehavior
         $package->getLanguage()->shouldNotBeCalled();
         $package->getMetadata()->shouldNotBeCalled();
 
-        $article->setParentDocument($parent)->shouldNotBeCalled();
         $article->setTitle('item headline')->shouldNotBeCalled();
         $article->setBody('some package body some item body')->shouldNotBeCalled();
         $article->setLocale('en')->shouldNotBeCalled();

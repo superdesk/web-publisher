@@ -53,7 +53,7 @@ SWP\Bundle\ContentBundle\Doctrine\ORM\Article:
     manyToOne:
         route:
             targetEntity: SWP\Bundle\ContentBundle\Doctrine\ORM\Route
-            mappedBy: articles
+            inversedBy: articles
             cascade: ["remove"]
             joinColumn:
                 name: route_id
