@@ -37,13 +37,13 @@ class LoadTenantsData extends AbstractFixture implements FixtureInterface, Order
         $organization1 = new Organization();
         $organization1->setName(OrganizationInterface::DEFAULT_NAME);
         $organization1->setCode('123456');
-        //$organization1->setParentDocument($manager->find(null, '/swp'));
+        $organization1->setParentDocument($manager->find(null, '/swp'));
         $manager->persist($organization1);
 
         $organization2 = new Organization();
         $organization2->setName('Organization2');
         $organization2->setCode('654321');
-        //$organization2->setParentDocument($manager->find(null, '/swp'));
+        $organization2->setParentDocument($manager->find(null, '/swp'));
         $manager->persist($organization2);
         $manager->flush();
 
@@ -64,7 +64,7 @@ class LoadTenantsData extends AbstractFixture implements FixtureInterface, Order
         $manager->persist($tenant2);
         $manager->flush();
 
-        //$this->initBasePaths($env);
+        $this->initBasePaths($env);
     }
 
     private function initBasePaths($env)

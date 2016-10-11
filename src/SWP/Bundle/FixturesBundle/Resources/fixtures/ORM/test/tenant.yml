@@ -1,0 +1,13 @@
+SWP\Bundle\CoreBundle\Model\Tenant:
+    tenant1:
+        name: "Default tenant"
+        subdomain: "default"
+        themeName: "swp/test-theme"
+        code: "123abc"
+        organization: "@org1"
+    tenant2:
+        name: "<company()>"
+        subdomain: "client1"
+        themeName: "swp/test-theme"
+        code: "456def"
+        organization: "@org2"

@@ -78,9 +78,9 @@ class RouteType extends AbstractType
                     new Length(['min' => 1]),
                 ],
             ])
-            ->add('parent', TextType::class, [
+            /*->add('parent', TextType::class, [
                 'property_path' => 'parentDocument',
-            ])
+            ])*/
             ->add('content', ArticleSelectorType::class, [
                 'description' => 'Content path name e.g.: test-content-article',
             ])
@@ -102,8 +102,8 @@ class RouteType extends AbstractType
             ))
         ;
 
-        $builder->get('parent')
-            ->addModelTransformer(new ParentRouteToIdTransformer($this->routeProvider));
+        //$builder->get('parent')
+        //    ->addModelTransformer(new ParentRouteToIdTransformer($this->routeProvider));
     }
 
     /**
