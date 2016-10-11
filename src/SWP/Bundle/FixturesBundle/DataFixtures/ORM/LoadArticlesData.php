@@ -50,7 +50,7 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface, Orde
                     'name' => 'news',
                     'variablePattern' => '/{slug}',
                     'requirements' => [
-                        'slug' => '[a-zA-Z1-9\-_\/]+',
+                        'slug' => '[a-zA-Z0-9\-_\/]+',
                     ],
                     'type' => 'collection',
                     'defaults' => [
@@ -92,22 +92,7 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface, Orde
                     ],
                 ],
                 [
-                    'name' => 'news',
-                    'variablePattern' => '/{slug}',
-                    'requirements' => [
-                        'slug' => '[a-zA-Z0-9\-_\/]+',
-                    ],
-                    'type' => 'collection',
-                    'defaults' => [
-                        'slug' => null,
-                    ],
-                ],
-                [
                     'name' => 'articles',
-                    'type' => 'content',
-                ],
-                [
-                    'name' => 'features',
                     'type' => 'content',
                 ],
                 [
@@ -157,48 +142,11 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface, Orde
         $manager->flush();
     }
 
-//    public function setRoutesContent($env, $manager)
-//    {
-//        $routes = [
-//            'dev' => [
-//                [
-//                    'path' => $this->defaultTenantPrefix.'/routes/articles/features',
-//                    'content' => $this->defaultTenantPrefix.'/content/features',
-//                ],
-//                [
-//                    'path' => $this->defaultTenantPrefix.'/routes/articles/get-involved',
-//                    'content' => $this->defaultTenantPrefix.'/content/get-involved',
-//                ],
-//            ],
-//            'test' => [
-//                [
-//                    'path' => $this->defaultTenantPrefix.'/routes/news',
-//                    'content' => $this->defaultTenantPrefix.'/content/test-news-article',
-//                ],
-//                [
-//                    'path' => $this->defaultTenantPrefix.'/routes/articles/features',
-//                    'content' => $this->defaultTenantPrefix.'/content/features',
-//                ],
-//                [
-//                    'path' => $this->firstTenantPrefix.'/routes/features',
-//                    'content' => $this->firstTenantPrefix.'/content/features-client1',
-//                ],
-//            ],
-//        ];
-
-//        foreach ($routes[$env] as $routeData) {
-//            if (array_key_exists('content', $routeData)) {
-//                $route = $manager->find(null, $routeData['path']);
-//                $route->setContent($manager->find(null, $routeData['content']));
-//            }
-//        }
-//    }
-
     /**
      * Sets articles manually (not via Alice) for test env due to fatal error:
      * Method PHPCRProxies\__CG__\Doctrine\ODM\PHPCR\Document\Generic::__toString() must not throw an exception.
      */
-    public function loadArticles($env, $manager)
+    public function loadArticles($env, ObjectManager $manager)
     {
         if ($env !== 'test') {
             $this->loadFixtures(
@@ -246,15 +194,16 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface, Orde
         if (isset($articles[$env])) {
             foreach ($articles[$env] as $articleData) {
                 $article = new Article();
-                $article->setParentDocument($manager->find(null, $articleData['parent']));
                 $article->setTitle($articleData['title']);
                 $article->setBody($articleData['content']);
-                $article->setRoute($manager->find(null, $articleData['route']));
+                $article->setRoute($manager->find(Route::class, $articleData['route']));
                 $article->setLocale($articleData['locale']);
                 $article->setPublishable(true);
                 $article->setPublishedAt(new \DateTime());
                 $article->setStatus(ArticleInterface::STATUS_PUBLISHED);
                 $manager->persist($article);
+
+                $this->addReference($article->getSlug(), $article);
             }
 
             $manager->flush();
