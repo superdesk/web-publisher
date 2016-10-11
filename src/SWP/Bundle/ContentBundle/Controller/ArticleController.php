@@ -20,8 +20,10 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
 use FOS\RestBundle\View\View;
-use SWP\Bundle\ContentBundle\Pagination\PaginationInterface;
+use SWP\Bundle\ContentBundle\Criteria\Criteria;
+use SWP\Bundle\ContentBundle\Pagination\PaginationData;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use SWP\Bundle\ContentBundle\Form\Type\ArticleType;
 use SWP\Bundle\ContentBundle\Model\ArticleInterface;
@@ -43,23 +45,24 @@ class ArticleController extends FOSRestController
      * @Method("GET")
      *
      * @Cache(expires="10 minutes", public=true)
+     *
+     * @param Request $request
+     *
+     * @return Response
      */
     public function listAction(Request $request)
     {
-        $basenode = $this->get('swp.provider.article')->getBaseNode();
-        $objectManager = $this->get('swp.object_manager.article');
-        $articles = [];
-        foreach ($objectManager->getChildren($basenode, null, 3) as $child) {
-            if ($child instanceof ArticleInterface) {
-                $articles[] = $child;
-            }
-        }
+        $articleProvider = $this->get('swp.provider.article');
+        $articles = $articleProvider->getPaginatedByCriteria(new Criteria(), new PaginationData($request));
 
-        $articles = $this->get('knp_paginator')->paginate(
-            $articles,
-            $request->get(PaginationInterface::PAGE_PARAMETER_NAME, 1),
-            $request->get(PaginationInterface::LIMIT_PARAMETER_NAME, 10)
-        );
+//        $basenode = $this->get('swp.provider.article')->getBaseNode();
+//        $objectManager = $this->get('swp.object_manager.article');
+//        $articles = [];
+//        foreach ($objectManager->getChildren($basenode, null, 3) as $child) {
+//            if ($child instanceof ArticleInterface) {
+//                $articles[] = $child;
+//            }
+//        }
 
         $view = View::create($this->get('swp_pagination_rep')->createRepresentation($articles, $request), 200);
 

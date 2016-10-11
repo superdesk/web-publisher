@@ -102,4 +102,9 @@ class Route extends BaseRoute implements RouteObjectInterface, PersistableInterf
     {
         $this->cacheTimeInSeconds = $cacheTimeInSeconds;
     }
+
+    public function getRouteName()
+    {
+        return $this->getId();
+    }
 }

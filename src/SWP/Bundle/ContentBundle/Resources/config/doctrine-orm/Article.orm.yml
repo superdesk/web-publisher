@@ -55,6 +55,7 @@ SWP\Bundle\ContentBundle\Doctrine\ORM\Article:
             targetEntity: SWP\Bundle\ContentBundle\Doctrine\ORM\Route
             inversedBy: articles
             cascade: ["remove"]
+            fetch: "EAGER"
             joinColumn:
                 name: route_id
                 referencedColumnName: id

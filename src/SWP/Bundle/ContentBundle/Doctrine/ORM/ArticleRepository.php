@@ -18,6 +18,7 @@ namespace SWP\Bundle\ContentBundle\Doctrine\ORM;
 
 use SWP\Bundle\ContentBundle\Criteria\Criteria;
 use SWP\Bundle\ContentBundle\Doctrine\ArticleRepositoryInterface;
+use SWP\Bundle\ContentBundle\Model\ArticleInterface;
 use SWP\Bundle\StorageBundle\Doctrine\ORM\EntityRepository;
 
 class ArticleRepository extends EntityRepository implements ArticleRepositoryInterface
@@ -52,8 +53,12 @@ class ArticleRepository extends EntityRepository implements ArticleRepositoryInt
                 ->setParameter('slug', $criteria->get('slug'));
         }
 
+        $qb->andWhere('a.status = :status')
+            ->setParameter('status', $criteria->get('status', ArticleInterface::STATUS_PUBLISHED));
+
         $query = $qb->getQuery();
 
+        $query->setFirstResult($criteria->get('firstResult', 0));
         if ($criteria->has('maxResults')) {
             if ($criteria->get('maxResults') === 0) {
                 $query->setMaxResults($criteria->get('maxResults'));

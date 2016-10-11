@@ -12,3 +12,4 @@ services:
         class: '%swp.provider.article.class%'
         arguments:
             - '@swp.repository.article'
+            - '@knp_paginator'

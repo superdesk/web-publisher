@@ -58,4 +58,9 @@ class Route extends BaseRoute implements PersistableInterface, RouteInterface
     {
         return parent::getId();
     }
+
+    public function getRouteName()
+    {
+        return $this->getName();
+    }
 }

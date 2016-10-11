@@ -56,17 +56,17 @@ SWP\Bundle\ContentBundle\Model\Article:
                 route: swp_api_content_show_articles
                 parameters:
                     id: "expr(object.getSlug())"
-        -
-            rel: online
-            href:
-                route: "expr(object.getRoute() ? object.getRoute().getId() : 'homepage')"
-                parameters:
-                    slug: "expr(object.getSlug())"
-            exclusion:
-                exclude_if: "expr(object.getRoute() ? object.getRoute().getType() !== 'collection')"
-        -
-            rel: online
-            href:
-                route: "expr(object.getRoute() ? object.getRoute().getId(): 'homepage')"
-            exclusion:
-                exclude_if: "expr(object.getRoute() ? object.getRoute().getType() !== 'content')"
+#        -
+#            rel: online
+#            href:
+#                route: "expr(object.getRoute() ? object.getRoute().getRouteName() : 'homepage')"
+#                parameters:
+#                    slug: "expr(object.getSlug())"
+#            exclusion:
+#                exclude_if: "expr(object.getRoute() ? object.getRoute().getType() !== 'collection')"
+#        -
+#            rel: online
+#            href:
+#                route: "expr(object.getRoute() ? object.getRoute().getRouteName(): 'homepage')"
+#            exclusion:
+#                exclude_if: "expr(object.getRoute() ? object.getRoute().getType() !== 'content')"
