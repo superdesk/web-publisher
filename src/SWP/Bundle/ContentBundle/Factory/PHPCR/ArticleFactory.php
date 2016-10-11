@@ -12,9 +12,10 @@
  * @license http://www.superdesk.org/license
  */
 
-namespace SWP\Bundle\ContentBundle\Factory;
+namespace SWP\Bundle\ContentBundle\Factory\PHPCR;
 
 use SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\ArticleInterface;
+use SWP\Bundle\ContentBundle\Factory\AbstractArticleFactory;
 use SWP\Bundle\ContentBundle\Provider\ArticleProviderInterface;
 use SWP\Bundle\ContentBundle\Provider\RouteProviderInterface;
 use SWP\Component\Bridge\Model\PackageInterface;
@@ -49,7 +50,7 @@ class ArticleFactory extends AbstractArticleFactory
         FactoryInterface $baseFactory,
         RouteProviderInterface $routeProvider,
         ArticleProviderInterface $articleProvider,
-        $contentRelativePath
+        string $contentRelativePath
     ) {
         $this->baseFactory = $baseFactory;
         $this->articleProvider = $articleProvider;

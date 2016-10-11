@@ -66,7 +66,6 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface, Orde
                     'requirements' => [
                         'slug' => '[a-zA-Z1-9\-_\/]+',
                     ],
-                    'type' => 'collection',
                     'defaults' => [
                         'slug' => null,
                     ],
