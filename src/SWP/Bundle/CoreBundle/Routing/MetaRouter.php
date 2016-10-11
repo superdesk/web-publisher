@@ -22,12 +22,19 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class MetaRouter extends DynamicRouter
 {
+    protected $internalRoutesCache = [];
+
     /**
      * {@inheritdoc}
      */
     public function generate($name, $parameters = [], $referenceType = UrlGeneratorInterface::ABSOLUTE_PATH)
     {
         $route = $name;
+        $cacheKey = $this->getCacheKey($route, $parameters, $referenceType);
+        if (array_key_exists($cacheKey, $this->internalRoutesCache)) {
+            return $this->internalRoutesCache[$cacheKey];
+        }
+
         if (is_object($name) && $name->getValues() instanceof ArticleInterface) {
             $parameters['slug'] = $name->getValues()->getSlug();
             $route = $name->getValues()->getRoute();
@@ -40,7 +47,24 @@ class MetaRouter extends DynamicRouter
             $route = $name->getValues();
         }
 
-        return parent::generate($route, $parameters, $referenceType);
+        $result = parent::generate($route, $parameters, $referenceType);
+        $this->internalRoutesCache[$cacheKey] = $result;
+        unset($route, $name, $parameters);
+
+        return $result;
+    }
+
+    private function getCacheKey($route, $parameters, $type)
+    {
+        if ($route instanceof Meta && $route->getValues() instanceof ArticleInterface) {
+            $name = $route->getValues()->getId();
+        } elseif ($route instanceof Meta && $route->getValues() instanceof RouteInterface) {
+            $name = $route->getValues()->getName();
+        } else {
+            $name = $route;
+        }
+
+        return md5($name.serialize($parameters).$type);
     }
 
     /**

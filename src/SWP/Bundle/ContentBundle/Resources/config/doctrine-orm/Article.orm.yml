@@ -59,10 +59,6 @@ SWP\Bundle\ContentBundle\Doctrine\ORM\Article:
                 name: route_id
                 referencedColumnName: id
                 onDelete: CASCADE
-#    referenceOne:
-#        route:
-#            targetDocument: \SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\Route
-#            strategy: hard
 #    referrers:
 #        media:
 #            referringDocument: SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\ArticleMedia
