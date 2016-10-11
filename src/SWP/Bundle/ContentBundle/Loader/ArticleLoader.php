@@ -148,6 +148,7 @@ class ArticleLoader implements LoaderInterface
                         $metaCollection->add($articleMeta);
                     }
                 }
+                unset($articles, $route, $criteria);
 
                 return $metaCollection;
             }

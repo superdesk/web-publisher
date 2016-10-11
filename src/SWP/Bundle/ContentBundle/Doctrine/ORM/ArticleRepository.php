@@ -55,7 +55,11 @@ class ArticleRepository extends EntityRepository implements ArticleRepositoryInt
         $query = $qb->getQuery();
 
         if ($criteria->has('maxResults')) {
-            $query->setMaxResults($criteria->get('maxResults'));
+            if ($criteria->get('maxResults') === 0) {
+                $query->setMaxResults($criteria->get('maxResults'));
+            }
+        } else {
+            $query->setMaxResults(10);
         }
 
         return $query;

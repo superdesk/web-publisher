@@ -22,6 +22,7 @@ use SWP\Bundle\ContentBundle\Criteria\Criteria;
 use SWP\Bundle\ContentBundle\Doctrine\ArticleRepositoryInterface;
 use SWP\Bundle\ContentBundle\Model\ArticleInterface;
 use SWP\Bundle\ContentBundle\Provider\ArticleProviderInterface;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
  * ArticleProvider to provide articles from ORM.
@@ -87,8 +88,8 @@ class ArticleProvider implements ArticleProviderInterface
     {
         $criteria->set('maxResults', 1);
         $article = $this->articleRepository->getByCriteria($criteria)->getOneOrNullResult();
-        if (null !== $article && !$article->isPublished()) {
-            throw new \Exception('Article was not found', 404);
+        if (null === $article || !$article->isPublished()) {
+            throw new NotFoundHttpException('Article was not found');
         }
 
         return $article;
