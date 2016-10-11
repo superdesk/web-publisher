@@ -27,7 +27,9 @@ class ArticleRepository extends EntityRepository implements ArticleRepositoryInt
      */
     public function findOneBySlug($slug)
     {
-        throw new \Exception('Not implemented');
+        return $this->findOneBy([
+            'slug' => $slug
+        ]);
     }
 
     /**
