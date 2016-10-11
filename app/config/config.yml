@@ -15,6 +15,10 @@ parameters:
     locale: en
     templating.cache_warmer.template_paths.class: "Symfony\\Bundle\\FrameworkBundle\\CacheWarmer\\TemplatePathsCacheWarmer"
 framework:
+    cache:
+        app: cache.adapter.doctrine
+        system: cache.adapter.doctrine
+        default_doctrine_provider: doctrine_cache.providers.main_cache
     #esi:             ~
     translator:
         fallbacks: ["%locale%"]

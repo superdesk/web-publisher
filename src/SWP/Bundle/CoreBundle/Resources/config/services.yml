@@ -27,6 +27,7 @@ services:
         arguments:
             - "@swp_multi_tenancy.tenant_context"
             - "@sylius.repository.theme"
+            - "@doctrine_cache.providers.main_cache"
 
     swp_core.twig_extension:
         class: '%swp_core.twig_extension.class%'
