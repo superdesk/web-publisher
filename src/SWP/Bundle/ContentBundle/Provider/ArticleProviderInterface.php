@@ -63,12 +63,4 @@ interface ArticleProviderInterface
      * @return Collection
      */
     public function getManyByCriteria(Criteria $criteria): Collection;
-
-    /**
-     * @param \SWP\Component\Common\Criteria\Criteria       $criteria
-     * @param \SWP\Component\Common\Pagination\PaginationData $paginationData
-     *
-     * @return PaginationInterface
-     */
-    public function getPaginatedByCriteria(Criteria $criteria, PaginationData $paginationData): PaginationInterface;
 }

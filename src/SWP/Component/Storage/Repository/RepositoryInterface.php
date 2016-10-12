@@ -42,5 +42,5 @@ interface RepositoryInterface extends ObjectRepository
      *
      * @return mixed
      */
-    public function getPaginatedByCriteria(Criteria $criteria, array $sorting = [], PaginationData $paginationData = null);
+    public function getPaginatedByCriteria(Criteria $criteria, array $sorting = [], PaginationData $paginationData = null)
 }

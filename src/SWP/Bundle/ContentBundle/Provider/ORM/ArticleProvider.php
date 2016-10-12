@@ -112,13 +112,4 @@ class ArticleProvider implements ArticleProviderInterface
 
         return new ArrayCollection($results);
     }
-
-    public function getPaginatedByCriteria(Criteria $criteria, PaginationData $paginationData): PaginationInterface
-    {
-        return $this->paginator->paginate(
-            $this->articleRepository->getByCriteria($criteria),
-            $paginationData->getPageNumber(),
-            $paginationData->getLimit()
-        );
-    }
 }
