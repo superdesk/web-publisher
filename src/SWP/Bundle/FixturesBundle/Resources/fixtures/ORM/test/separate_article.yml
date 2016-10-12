@@ -1,0 +1,23 @@
+SWP\Bundle\ContentBundle\Doctrine\ORM\Route:
+    route1:
+        name: "news"
+        variablePattern: "/{slug}"
+        type: "collection"
+
+SWP\Bundle\ContentBundle\Doctrine\ORM\Article:
+    article1:
+        title: "Test news article"
+        body: "Test news article content"
+        route: "@route1"
+        locale: "en"
+        status: "published"
+        publishable: true
+        publishedAt: "<date()>"
+    article2:
+        title: "Test content article"
+        body: "Test article content"
+        route: "@route1"
+        locale: "en"
+        status: "published"
+        publishable: true
+        publishedAt: "<date()>"

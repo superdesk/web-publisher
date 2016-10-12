@@ -20,6 +20,7 @@ use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use SWP\Bundle\ContentBundle\Model\RouteInterface;
 use SWP\Component\Common\Criteria\Criteria;
 use SWP\Bundle\ContentBundle\Form\Type\RouteType;
 use SWP\Component\Common\Pagination\PaginationData;
@@ -108,15 +109,12 @@ class RouteController extends FOSRestController
      *
      * Parameter `type` cane have one of two values: `content` or `collection`.
      *
-     * Content path should be provided without tenant information:
-     *
-     * Instead full content path like:  ```/swp/<tenant_code>/content/test-content-article``` provide path like this: ```test-content-article```
-     *
      * @ApiDoc(
      *     resource=true,
      *     description="Create new route",
      *     statusCodes={
-     *         201="Returned on success."
+     *         201="Returned on success.",
+     *         400="Returned when not valid data."
      *     },
      *     input="SWP\Bundle\ContentBundle\Form\Type\RouteType"
      * )
@@ -125,10 +123,12 @@ class RouteController extends FOSRestController
      */
     public function createAction(Request $request)
     {
+        /** @var RouteInterface $route */
         $route = $this->get('swp.factory.route')->create();
-
         $form = $this->createForm(RouteType::class, $route, ['method' => $request->getMethod()]);
+
         $form->handleRequest($request);
+        $this->ensureRouteExists($route->getName());
 
         if ($form->isValid()) {
             $route = $this->get('swp.service.route')->createRoute($form->getData());
@@ -140,17 +140,13 @@ class RouteController extends FOSRestController
             return $this->handleView(View::create($route, 201));
         }
 
-        return $this->handleView(View::create($form, 200));
+        return $this->handleView(View::create($form, 400));
     }
 
     /**
      * Updates routes for current tenant.
      *
      * Parameter `type` cane have one of two values: `content` or `collection`.
-     *
-     * Content path should be provided without tenant information:
-     *
-     * Instead full content path like:  ```/swp/<tenant_code>/content/test-content-article``` provide path like this: ```test-content-article```
      *
      * @ApiDoc(
      *     resource=true,
@@ -191,5 +187,12 @@ class RouteController extends FOSRestController
         }
 
         return $route;
+    }
+
+    private function ensureRouteExists($name)
+    {
+        if (null !== $this->get('swp.repository.route')->findOneByName($name)) {
+            throw new ConflictHttpException(sprintf('Route "%s" already exists!', $name));
+        }
     }
 }
