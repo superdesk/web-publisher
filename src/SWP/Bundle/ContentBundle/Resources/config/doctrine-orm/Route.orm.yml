@@ -1,7 +1,7 @@
 SWP\Bundle\ContentBundle\Doctrine\ORM\Route:
     type: entity
     table: swp_routes
-    #repositoryClass: SWP\Bundle\ContentBundle\Doctrine\ORM\RouteRepository
+    repositoryClass: SWP\Bundle\ContentBundle\Doctrine\ORM\RouteRepository
     id:
         id:
             type: integer

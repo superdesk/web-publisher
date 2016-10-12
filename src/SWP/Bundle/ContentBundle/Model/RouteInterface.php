@@ -14,7 +14,9 @@
 
 namespace SWP\Bundle\ContentBundle\Model;
 
-interface RouteInterface
+use SWP\Component\Storage\Model\PersistableInterface;
+
+interface RouteInterface extends PersistableInterface
 {
     const TYPE_CONTENT = 'content';
     const TYPE_COLLECTION = 'collection';
