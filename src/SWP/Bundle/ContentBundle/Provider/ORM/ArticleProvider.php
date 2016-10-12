@@ -18,12 +18,9 @@ namespace SWP\Bundle\ContentBundle\Provider\ORM;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use Knp\Component\Pager\Pagination\PaginationInterface;
-use Knp\Component\Pager\PaginatorInterface;
 use SWP\Component\Common\Criteria\Criteria;
 use SWP\Bundle\ContentBundle\Doctrine\ArticleRepositoryInterface;
 use SWP\Bundle\ContentBundle\Model\ArticleInterface;
-use SWP\Component\Common\Pagination\PaginationData;
 use SWP\Bundle\ContentBundle\Provider\ArticleProviderInterface;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
@@ -38,22 +35,14 @@ class ArticleProvider implements ArticleProviderInterface
     private $articleRepository;
 
     /**
-     * @var PaginatorInterface
-     */
-    private $paginator;
-
-    /**
      * ArticleProvider constructor.
      *
      * @param ArticleRepositoryInterface $articleRepository
-     * @param PaginatorInterface         $paginator
      */
     public function __construct(
-        ArticleRepositoryInterface $articleRepository,
-        PaginatorInterface $paginator
+        ArticleRepositoryInterface $articleRepository
     ) {
         $this->articleRepository = $articleRepository;
-        $this->paginator = $paginator;
     }
 
     /**
