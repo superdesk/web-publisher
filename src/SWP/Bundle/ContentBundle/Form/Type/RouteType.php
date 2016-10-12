@@ -14,8 +14,6 @@
 
 namespace SWP\Bundle\ContentBundle\Form\Type;
 
-use SWP\Bundle\ContentBundle\Form\DataTransformer\ParentRouteToIdTransformer;
-use SWP\Bundle\ContentBundle\Provider\RouteProviderInterface;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\CallbackTransformer;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
@@ -31,21 +29,6 @@ use Symfony\Component\Validator\Constraints\NotBlank;
  */
 class RouteType extends AbstractType
 {
-    /**
-     * @var RouteProviderInterface
-     */
-    private $routeProvider;
-
-    /**
-     * RouteSelectorType constructor.
-     *
-     * @param RouteProviderInterface $routeProvider
-     */
-    public function __construct(RouteProviderInterface $routeProvider)
-    {
-        $this->routeProvider = $routeProvider;
-    }
-
     /**
      * {@inheritdoc}
      */
@@ -78,9 +61,6 @@ class RouteType extends AbstractType
                     new Length(['min' => 1]),
                 ],
             ])
-            /*->add('parent', TextType::class, [
-                'property_path' => 'parentDocument',
-            ])*/
             ->add('content', ArticleSelectorType::class, [
                 'description' => 'Content path name e.g.: test-content-article',
             ])
@@ -101,9 +81,6 @@ class RouteType extends AbstractType
                 }
             ))
         ;
-
-        //$builder->get('parent')
-        //    ->addModelTransformer(new ParentRouteToIdTransformer($this->routeProvider));
     }
 
     /**

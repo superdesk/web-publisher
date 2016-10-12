@@ -15,6 +15,7 @@
 namespace SWP\Component\Storage\Repository;
 
 use Doctrine\Common\Persistence\ObjectRepository;
+use SWP\Component\Common\Pagination\PaginationData;
 use SWP\Component\Storage\Model\PersistableInterface;
 
 interface RepositoryInterface extends ObjectRepository
@@ -32,4 +33,13 @@ interface RepositoryInterface extends ObjectRepository
      * @param PersistableInterface $object
      */
     public function remove(PersistableInterface $object);
+
+    /**
+     * @param array               $criteria
+     * @param array               $sorting
+     * @param PaginationData|null $paginationData
+     *
+     * @return mixed
+     */
+    public function getPaginatedByCriteria(array $criteria = [], array $sorting = [], PaginationData $paginationData = null);
 }

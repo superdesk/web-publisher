@@ -17,8 +17,10 @@ declare(strict_types=1);
 namespace SWP\Bundle\ContentBundle\Provider;
 
 use Doctrine\Common\Collections\Collection;
-use SWP\Bundle\ContentBundle\Criteria\Criteria;
+use Knp\Component\Pager\Pagination\PaginationInterface;
+use SWP\Component\Common\Criteria\Criteria;
 use SWP\Bundle\ContentBundle\Model\ArticleInterface;
+use SWP\Component\Common\Pagination\PaginationData;
 
 interface ArticleProviderInterface
 {
@@ -61,4 +63,12 @@ interface ArticleProviderInterface
      * @return Collection
      */
     public function getManyByCriteria(Criteria $criteria): Collection;
+
+    /**
+     * @param \SWP\Component\Common\Criteria\Criteria       $criteria
+     * @param \SWP\Component\Common\Pagination\PaginationData $paginationData
+     *
+     * @return PaginationInterface
+     */
+    public function getPaginatedByCriteria(Criteria $criteria, PaginationData $paginationData): PaginationInterface;
 }

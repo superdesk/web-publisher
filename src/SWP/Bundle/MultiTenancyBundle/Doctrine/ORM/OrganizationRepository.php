@@ -54,6 +54,6 @@ class OrganizationRepository extends EntityRepository implements OrganizationRep
             ->createQueryBuilder('o')
             ->where('o.enabled = true')
             ->getQuery()
-            ->getArrayResult();
+            ->getResult();
     }
 }

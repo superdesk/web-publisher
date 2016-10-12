@@ -20,10 +20,10 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Knp\Component\Pager\Pagination\PaginationInterface;
 use Knp\Component\Pager\PaginatorInterface;
-use SWP\Bundle\ContentBundle\Criteria\Criteria;
+use SWP\Component\Common\Criteria\Criteria;
 use SWP\Bundle\ContentBundle\Doctrine\ArticleRepositoryInterface;
 use SWP\Bundle\ContentBundle\Model\ArticleInterface;
-use SWP\Bundle\ContentBundle\Pagination\PaginationData;
+use SWP\Component\Common\Pagination\PaginationData;
 use SWP\Bundle\ContentBundle\Provider\ArticleProviderInterface;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
