@@ -14,6 +14,7 @@
 
 namespace SWP\Bundle\ContentBundle\Tests\Controller;
 
+use Doctrine\Common\DataFixtures\ReferenceRepository;
 use SWP\Bundle\FixturesBundle\WebTestCase;
 use Symfony\Component\Routing\RouterInterface;
 
@@ -27,6 +28,11 @@ class ArticleAutoPublishTest extends WebTestCase
     protected $router;
 
     /**
+     * @var ReferenceRepository
+     */
+    private $fixtures;
+
+    /**
      * {@inheritdoc}
      */
     public function setUp()
@@ -34,15 +40,7 @@ class ArticleAutoPublishTest extends WebTestCase
         self::bootKernel();
 
         $this->initDatabase();
-
-        $this->loadFixtures(
-            [
-                'SWP\Bundle\FixturesBundle\DataFixtures\PHPCR\LoadTenantsData',
-            ],
-            null,
-            'doctrine_phpcr'
-        );
-
+        $this->fixtures = $this->loadCustomFixtures(['tenant']);
         $this->router = $this->getContainer()->get('router');
     }
 
@@ -132,7 +130,6 @@ class ArticleAutoPublishTest extends WebTestCase
             'route' => [
                 'name' => 'articles',
                 'type' => 'collection',
-                'parent' => '/',
                 'content' => null,
             ],
         ]);

@@ -19,6 +19,7 @@ class FixtureRegistry
                 'tenant' => 'SWP\Bundle\FixturesBundle\DataFixtures\ORM\LoadTenantsData',
                 'article' => 'SWP\Bundle\FixturesBundle\DataFixtures\ORM\LoadArticlesData',
                 'separate_article' => 'SWP\Bundle\FixturesBundle\DataFixtures\ORM\LoadSeparateArticlesData',
+                'rule' => 'SWP\Bundle\FixturesBundle\DataFixtures\ORM\LoadRulesData',
             ],
         ];
 

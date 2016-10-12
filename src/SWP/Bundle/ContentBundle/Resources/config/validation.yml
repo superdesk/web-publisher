@@ -1,4 +1,4 @@
-SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\Route:
+SWP\Bundle\ContentBundle\Doctrine\ORM\Route:
     properties:
         type:
             - SWP\Bundle\ContentBundle\Validator\Constraints\RouteType: ~
