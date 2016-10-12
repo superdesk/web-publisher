@@ -92,7 +92,7 @@ class ArticleProvider implements ArticleProviderInterface
     public function getOneByCriteria(Criteria $criteria): ArticleInterface
     {
         $criteria->set('maxResults', 1);
-        $article = $this->articleRepository->getByCriteria($criteria)->getOneOrNullResult();
+        $article = $this->articleRepository->getByCriteria($criteria, [])->getOneOrNullResult();
         if (null === $article) {
             throw new NotFoundHttpException('Article was not found');
         }
@@ -102,7 +102,10 @@ class ArticleProvider implements ArticleProviderInterface
 
     public function getManyByCriteria(Criteria $criteria): Collection
     {
-        $results = $this->articleRepository->getByCriteria($criteria)->getResult();
+        $results = $this->articleRepository->getByCriteria(
+            $criteria,
+            $criteria->get('order', [])
+        )->getResult();
 
         return new ArrayCollection($results);
     }

@@ -53,11 +53,18 @@ class EntityRepository extends BaseEntityRepository implements RepositoryInterfa
      */
     public function getPaginatedByCriteria(Criteria $criteria, array $sorting = [], PaginationData $paginationData = null)
     {
-        $queryBuilder = $this->createQueryBuilder('s');
-        $this->applyCriteria($queryBuilder, $criteria);
-        $this->applySorting($queryBuilder, $sorting);
+        $queryBuilder = $this->getQueryByCriteria($criteria, $sorting, 's');
 
         return $this->getPaginator($queryBuilder, $paginationData);
+    }
+
+    public function getQueryByCriteria(Criteria $criteria, array $sorting, string $alias): QueryBuilder
+    {
+        $queryBuilder = $this->createQueryBuilder($alias);
+        $this->applyCriteria($queryBuilder, $criteria, $alias);
+        $this->applySorting($queryBuilder, $sorting, $alias);
+
+        return $queryBuilder;
     }
 
     /**
@@ -76,11 +83,17 @@ class EntityRepository extends BaseEntityRepository implements RepositoryInterfa
     /**
      * @param QueryBuilder $queryBuilder
      * @param Criteria     $criteria
+     * @param string       $alias
      */
-    protected function applyCriteria(QueryBuilder $queryBuilder, Criteria $criteria)
+    protected function applyCriteria(QueryBuilder $queryBuilder, Criteria $criteria, string $alias)
     {
+        $properties = array_merge($this->getClassMetadata()->getColumnNames(), $this->getClassMetadata()->getAssociationNames());
         foreach ($criteria->all() as $property => $value) {
-            $name = $this->getPropertyName($property);
+            if (!in_array($property, $properties)) {
+                continue;
+            }
+
+            $name = $this->getPropertyName($property, $alias);
             if (null === $value) {
                 $queryBuilder->andWhere($queryBuilder->expr()->isNull($name));
             } elseif (is_array($value)) {
@@ -98,25 +111,27 @@ class EntityRepository extends BaseEntityRepository implements RepositoryInterfa
     /**
      * @param QueryBuilder $queryBuilder
      * @param array        $sorting
+     * @param string       $alias
      */
-    protected function applySorting(QueryBuilder $queryBuilder, array $sorting = [])
+    protected function applySorting(QueryBuilder $queryBuilder, array $sorting, string $alias)
     {
         foreach ($sorting as $property => $order) {
             if (!empty($order)) {
-                $queryBuilder->addOrderBy($this->getPropertyName($property), $order);
+                $queryBuilder->addOrderBy($this->getPropertyName($property, $alias), $order);
             }
         }
     }
 
     /**
      * @param string $name
+     * @param string $alias
      *
      * @return string
      */
-    protected function getPropertyName($name)
+    protected function getPropertyName(string $name, string $alias)
     {
         if (false === strpos($name, '.')) {
-            return 's'.'.'.$name;
+            return $alias.'.'.$name;
         }
 
         return $name;

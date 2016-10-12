@@ -64,12 +64,10 @@ class ArticleLoaderTest extends WebTestCase
 
     public function testLoadWithParameters()
     {
-        //$this->assertTrue(count($this->articleLoader->load('article', ['route' => 1, 'limit' => 2], LoaderInterface::COLLECTION)) == 2);
+        $this->assertTrue(count($this->articleLoader->load('article', ['route' => 1, 'limit' => 2], LoaderInterface::COLLECTION)) == 2);
 
         $articlesZero = $this->articleLoader->load('article', ['route' => 1], LoaderInterface::COLLECTION);
         $articlesOne = $this->articleLoader->load('article', ['route' => 1, 'start' => 1], LoaderInterface::COLLECTION);
-        dump($articlesZero[1]->title, $articlesOne[0]->title);
-        die;
         $this->assertTrue($articlesZero[1]->title === $articlesOne[0]->title);
 
         $articlesAsc = $this->articleLoader->load('article', ['route' => 1, 'order' => ['title', 'asc']], LoaderInterface::COLLECTION);

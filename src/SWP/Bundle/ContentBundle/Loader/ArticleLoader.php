@@ -20,7 +20,6 @@ use Doctrine\ODM\PHPCR\DocumentManager;
 use SWP\Component\Common\Criteria\Criteria;
 use SWP\Bundle\ContentBundle\Model\ArticleInterface;
 use SWP\Bundle\ContentBundle\Model\RouteInterface;
-use SWP\Component\Common\Pagination\PaginationData;
 use SWP\Bundle\ContentBundle\Provider\ArticleProviderInterface;
 use SWP\Bundle\ContentBundle\Provider\RouteProviderInterface;
 use SWP\Component\TemplatesSystem\Gimme\Context\Context;
@@ -134,10 +133,10 @@ class ArticleLoader implements LoaderInterface
 
             if (array_key_exists('route', $parameters)) {
                 if (null === $route || ($route instanceof RouteInterface && $route->getId() !== $parameters['route'])) {
-                    if (is_string($parameters['route'])) {
-                        $route = $this->routeProvider->getOneByStaticPrefix($parameters['route']);
-                    } else {
+                    if (is_int($parameters['route'])) {
                         $route = $this->routeProvider->getOneById($parameters['route']);
+                    } elseif (is_string($parameters['route'])) {
+                        $route = $this->routeProvider->getOneByStaticPrefix($parameters['route']);
                     }
                 }
             }
@@ -148,7 +147,8 @@ class ArticleLoader implements LoaderInterface
                 return;
             }
 
-            $articles = $this->articleProvider->getRepository()->getPaginatedByCriteria($criteria, [], $this->getPaginationData($parameters));
+            $articles = $this->articleProvider->getManyByCriteria($this->adjustCriteria($criteria, $parameters));
+
             if ($articles->count() > 0) {
                 $metaCollection = new MetaCollection();
                 foreach ($articles as $article) {
@@ -166,25 +166,23 @@ class ArticleLoader implements LoaderInterface
         return;
     }
 
-    public function getPaginationData(array $parameters): PaginationData
+    public function adjustCriteria(Criteria $criteria, array $parameters): Criteria
     {
-        $paginationData = new PaginationData();
-
         if (array_key_exists('limit', $parameters)) {
-            $paginationData->setLimit($parameters['limit']);
+            $criteria->set('maxResults', (int) $parameters['limit']);
         }
 
         if (array_key_exists('start', $parameters)) {
-            $paginationData->setFirstResult($parameters['start']);
+            $criteria->set('firstResult', (int) $parameters['start']);
         }
 
         if (array_key_exists('order', $parameters)) {
             if (count($parameters['order']) == 2) {
-                $paginationData->setOrder($parameters['order']);
+                $criteria->set('order', [$parameters['order'][0] => $parameters['order'][1]]);
             }
         }
 
-        return $paginationData;
+        return $criteria;
     }
 
     /**
