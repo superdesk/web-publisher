@@ -17,8 +17,10 @@ declare(strict_types=1);
 namespace SWP\Bundle\ContentBundle\Provider;
 
 use Doctrine\Common\Collections\Collection;
-use SWP\Bundle\ContentBundle\Criteria\Criteria;
+use Knp\Component\Pager\Pagination\PaginationInterface;
+use SWP\Component\Common\Criteria\Criteria;
 use SWP\Bundle\ContentBundle\Model\ArticleInterface;
+use SWP\Component\Common\Pagination\PaginationData;
 
 interface ArticleProviderInterface
 {

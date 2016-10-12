@@ -20,7 +20,7 @@ use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use SWP\Bundle\ContentBundle\Pagination\PaginationInterface;
+use SWP\Component\Common\Pagination\PaginationInterface;
 use SWP\Bundle\TemplateEngineBundle\Form\Type\WidgetType;
 use SWP\Bundle\TemplateEngineBundle\Model\WidgetModel;
 use SWP\Component\Common\Event\HttpCacheEvent;

@@ -20,7 +20,7 @@ use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
-use SWP\Bundle\ContentBundle\Pagination\PaginationInterface;
+use SWP\Component\Common\Pagination\PaginationInterface;
 use SWP\Bundle\RuleBundle\Form\Type\RuleType;
 use SWP\Component\Rule\Model\RuleInterface;
 use Symfony\Component\HttpFoundation\Request;

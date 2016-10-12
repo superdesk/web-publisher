@@ -16,9 +16,7 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\ContentBundle\Doctrine\ORM;
 
-use SWP\Bundle\ContentBundle\Criteria\Criteria;
 use SWP\Bundle\ContentBundle\Doctrine\ArticleRepositoryInterface;
-use SWP\Bundle\ContentBundle\Model\ArticleInterface;
 use SWP\Bundle\StorageBundle\Doctrine\ORM\EntityRepository;
 
 class ArticleRepository extends EntityRepository implements ArticleRepositoryInterface
@@ -29,7 +27,7 @@ class ArticleRepository extends EntityRepository implements ArticleRepositoryInt
     public function findOneBySlug($slug)
     {
         return $this->findOneBy([
-            'slug' => $slug
+            'slug' => $slug,
         ]);
     }
 
@@ -39,37 +37,6 @@ class ArticleRepository extends EntityRepository implements ArticleRepositoryInt
     public function findAllArticles()
     {
         throw new \Exception('Not implemented');
-    }
-
-    public function getByCriteria(Criteria $criteria)
-    {
-        $qb = $this->createQueryBuilder('a');
-
-        if ($criteria->has('id')) {
-            $qb->andWhere('a.id = :id')
-                ->setParameter('id', $criteria->get('id'));
-        }
-
-        if ($criteria->has('slug')) {
-            $qb->andWhere('a.slug = :slug')
-                ->setParameter('slug', $criteria->get('slug'));
-        }
-
-        $qb->andWhere('a.status = :status')
-            ->setParameter('status', $criteria->get('status', ArticleInterface::STATUS_PUBLISHED));
-
-        $query = $qb->getQuery();
-
-        $query->setFirstResult($criteria->get('firstResult', 0));
-        if ($criteria->has('maxResults')) {
-            if ($criteria->get('maxResults') === 0) {
-                $query->setMaxResults($criteria->get('maxResults'));
-            }
-        } else {
-            $query->setMaxResults(10);
-        }
-
-        return $query;
     }
 
     /**
