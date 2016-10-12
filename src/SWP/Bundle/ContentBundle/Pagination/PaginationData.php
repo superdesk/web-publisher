@@ -30,6 +30,26 @@ class PaginationData implements PaginationInterface
      */
     protected $limit = 10;
 
+    /**
+     * @var int
+     */
+    protected $firstResult = 0;
+
+    /**
+     * @var string
+     */
+    protected $orderDirection = 'asc';
+
+    /**
+     * @var array
+     */
+    protected $orderFields = [];
+
+    /**
+     * @var array
+     */
+    protected $orderAliases = [];
+
     public function __construct(Request $request = null)
     {
         if (null !== $request) {
@@ -69,15 +89,74 @@ class PaginationData implements PaginationInterface
         $this->limit = $limit;
     }
 
+    /**
+     * @return int
+     */
     public function getFirstResult(): int
     {
         if ($this->getPageNumber() > 1) {
             return $this->getPageNumber() * $this->getLimit();
         }
 
-        return 0;
+        return $this->firstResult;
     }
 
+    /**
+     * @param int $firstResult
+     */
+    public function setFirstResult(int $firstResult)
+    {
+        $this->firstResult = $firstResult;
+    }
+
+    /**
+     * @param array $order
+     */
+    public function setOrder(array $order)
+    {
+        if (count($order) == 2 && in_array(strtolower($order[1]), ['asc', 'desc'])) {
+            $this->orderDirection = $order[1];
+            $fields = array();
+            $aliases = array();
+            foreach (explode('+', $order[0]) as $sortFieldParameterName) {
+                $parts = explode('.', $sortFieldParameterName, 2);
+                // We have to prepend the field. Otherwise OrderByWalker will add
+                // the order-by items in the wrong order
+                array_unshift($fields, end($parts));
+                array_unshift($aliases, 2 <= count($parts) ? reset($parts) : false);
+            }
+            $this->orderFields = $fields;
+            $this->orderAliases = $aliases;
+        }
+    }
+
+    /**
+     * @return string
+     */
+    public function getOrderDirection(): string
+    {
+        return $this->orderDirection;
+    }
+
+    /**
+     * @return array
+     */
+    public function getOrderFields(): array
+    {
+        return $this->orderFields;
+    }
+
+    /**
+     * @return array
+     */
+    public function getOrderAliases(): array
+    {
+        return $this->orderAliases;
+    }
+
+    /**
+     * @param Request $request
+     */
     public function resolveFromRequest(Request $request)
     {
         $this->setPageNumber((int) $request->get(self::PAGE_PARAMETER_NAME, 1));

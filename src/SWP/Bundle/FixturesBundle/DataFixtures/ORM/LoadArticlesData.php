@@ -179,7 +179,7 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface, Orde
                 [
                     'title' => 'Features client1',
                     'content' => 'Features client1 content',
-                    'route' => 'news',
+                    'route' => 'articles/features',
                     'locale' => 'en',
                 ],
             ],

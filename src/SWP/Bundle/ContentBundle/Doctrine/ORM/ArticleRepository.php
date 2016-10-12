@@ -16,9 +16,13 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\ContentBundle\Doctrine\ORM;
 
+use Knp\Component\Pager\Paginator;
+use Knp\Component\Pager\Event\Subscriber\Sortable\Doctrine\ORM\Query\OrderByWalker;
+use Knp\Component\Pager\Pagination\PaginationInterface;
 use SWP\Bundle\ContentBundle\Criteria\Criteria;
 use SWP\Bundle\ContentBundle\Doctrine\ArticleRepositoryInterface;
 use SWP\Bundle\ContentBundle\Model\ArticleInterface;
+use SWP\Bundle\ContentBundle\Pagination\PaginationData;
 use SWP\Bundle\StorageBundle\Doctrine\ORM\EntityRepository;
 
 class ArticleRepository extends EntityRepository implements ArticleRepositoryInterface
@@ -29,7 +33,7 @@ class ArticleRepository extends EntityRepository implements ArticleRepositoryInt
     public function findOneBySlug($slug)
     {
         return $this->findOneBy([
-            'slug' => $slug
+            'slug' => $slug,
         ]);
     }
 
@@ -55,6 +59,11 @@ class ArticleRepository extends EntityRepository implements ArticleRepositoryInt
                 ->setParameter('slug', $criteria->get('slug'));
         }
 
+        if ($criteria->has('route')) {
+            $qb->andWhere('a.route = :route')
+                ->setParameter('route', $criteria->get('route'));
+        }
+
         $qb->andWhere('a.status = :status')
             ->setParameter('status', $criteria->get('status', ArticleInterface::STATUS_PUBLISHED));
 
@@ -70,6 +79,24 @@ class ArticleRepository extends EntityRepository implements ArticleRepositoryInt
         }
 
         return $query;
+    }
+
+    public function getPaginatedByCriteria(Criteria $criteria, PaginationData $paginationData): PaginationInterface
+    {
+        $criteria->set('firstResult', $paginationData->getFirstResult());
+        $query = $this->getByCriteria($criteria);
+        $query
+            ->setHint(OrderByWalker::HINT_PAGINATOR_SORT_DIRECTION, $paginationData->getOrderDirection())
+            ->setHint(OrderByWalker::HINT_PAGINATOR_SORT_FIELD, $paginationData->getOrderFields())
+            ->setHint(OrderByWalker::HINT_PAGINATOR_SORT_FIELD, $paginationData->getOrderAliases());
+
+        $paginator = new Paginator();
+
+        return $paginator->paginate(
+            $query,
+            $paginationData->getPageNumber(),
+            $paginationData->getLimit()
+        );
     }
 
     /**

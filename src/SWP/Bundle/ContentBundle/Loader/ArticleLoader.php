@@ -18,9 +18,9 @@ namespace SWP\Bundle\ContentBundle\Loader;
 
 use Doctrine\ODM\PHPCR\DocumentManager;
 use SWP\Bundle\ContentBundle\Criteria\Criteria;
-use SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\Route;
 use SWP\Bundle\ContentBundle\Model\ArticleInterface;
 use SWP\Bundle\ContentBundle\Model\RouteInterface;
+use SWP\Bundle\ContentBundle\Pagination\PaginationData;
 use SWP\Bundle\ContentBundle\Provider\ArticleProviderInterface;
 use SWP\Bundle\ContentBundle\Provider\RouteProviderInterface;
 use SWP\Component\TemplatesSystem\Gimme\Context\Context;
@@ -28,6 +28,7 @@ use SWP\Component\TemplatesSystem\Gimme\Factory\MetaFactoryInterface;
 use SWP\Component\TemplatesSystem\Gimme\Loader\LoaderInterface;
 use SWP\Component\TemplatesSystem\Gimme\Meta\Meta;
 use SWP\Component\TemplatesSystem\Gimme\Meta\MetaCollection;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
  * Class ArticleLoader.
@@ -111,16 +112,18 @@ class ArticleLoader implements LoaderInterface
     {
         $criteria = new Criteria();
         if ($responseType === LoaderInterface::SINGLE) {
-            if (array_key_exists('contentPath', $parameters)) {
-                $criteria->set('slug', $parameters['contentPath']);
-            } elseif (array_key_exists('article', $parameters) && $parameters['article'] instanceof ArticleInterface) {
+            if (array_key_exists('article', $parameters) && $parameters['article'] instanceof ArticleInterface) {
                 $this->dm->detach($parameters['article']);
                 $criteria->set('id', $parameters['article']->getId());
             } elseif (array_key_exists('slug', $parameters)) {
                 $criteria->set('slug', $parameters['slug']);
             }
 
-            return $this->getArticleMeta($this->articleProvider->getOneByCriteria($criteria));
+            try {
+                return $this->getArticleMeta($this->articleProvider->getOneByCriteria($criteria));
+            } catch (NotFoundHttpException $e) {
+                return;
+            }
         } elseif ($responseType === LoaderInterface::COLLECTION) {
             $currentPage = $this->context->getCurrentPage();
             $route = null;
@@ -137,9 +140,11 @@ class ArticleLoader implements LoaderInterface
 
             if ($route instanceof RouteInterface) {
                 $criteria->set('route', $route);
+            } else {
+                return;
             }
 
-            $articles = $this->articleProvider->getManyByCriteria($criteria);
+            $articles = $this->articleProvider->getRepository()->getPaginatedByCriteria($criteria, $this->getPaginationData($parameters));
             if ($articles->count() > 0) {
                 $metaCollection = new MetaCollection();
                 foreach ($articles as $article) {
@@ -155,6 +160,27 @@ class ArticleLoader implements LoaderInterface
         }
 
         return;
+    }
+
+    public function getPaginationData(array $parameters): PaginationData
+    {
+        $paginationData = new PaginationData();
+
+        if (array_key_exists('limit', $parameters)) {
+            $paginationData->setLimit($parameters['limit']);
+        }
+
+        if (array_key_exists('start', $parameters)) {
+            $paginationData->setFirstResult($parameters['start']);
+        }
+
+        if (array_key_exists('order', $parameters)) {
+            if (count($parameters['order']) == 2) {
+                $paginationData->setOrder($parameters['order']);
+            }
+        }
+
+        return $paginationData;
     }
 
     /**

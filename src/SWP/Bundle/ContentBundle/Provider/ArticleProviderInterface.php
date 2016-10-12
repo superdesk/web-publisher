@@ -18,10 +18,18 @@ namespace SWP\Bundle\ContentBundle\Provider;
 
 use Doctrine\Common\Collections\Collection;
 use SWP\Bundle\ContentBundle\Criteria\Criteria;
+use SWP\Bundle\ContentBundle\Doctrine\ArticleRepositoryInterface;
 use SWP\Bundle\ContentBundle\Model\ArticleInterface;
 
 interface ArticleProviderInterface
 {
+    /**
+     * Gets article repository.
+     *
+     * @return ArticleRepositoryInterface
+     */
+    public function getRepository(): ArticleRepositoryInterface;
+
     /**
      * Gets the article by id.
      *
