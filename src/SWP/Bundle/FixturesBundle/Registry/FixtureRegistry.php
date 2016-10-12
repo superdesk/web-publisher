@@ -13,10 +13,12 @@ class FixtureRegistry
             'doctrine_phpcr' => [
                 'tenant' => 'SWP\Bundle\FixturesBundle\DataFixtures\PHPCR\LoadTenantsData',
                 'article' => 'SWP\Bundle\FixturesBundle\DataFixtures\PHPCR\LoadArticlesData',
+                'separate_article' => 'SWP\Bundle\FixturesBundle\DataFixtures\PHPCR\LoadSeparateArticlesData',
             ],
             'doctrine' => [
                 'tenant' => 'SWP\Bundle\FixturesBundle\DataFixtures\ORM\LoadTenantsData',
                 'article' => 'SWP\Bundle\FixturesBundle\DataFixtures\ORM\LoadArticlesData',
+                'separate_article' => 'SWP\Bundle\FixturesBundle\DataFixtures\ORM\LoadSeparateArticlesData',
             ],
         ];
 

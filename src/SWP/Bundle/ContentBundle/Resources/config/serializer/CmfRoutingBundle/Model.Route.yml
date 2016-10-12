@@ -3,7 +3,7 @@ Symfony\Cmf\Bundle\RoutingBundle\Model\Route:
     properties:
         id:
             expose: true
-            type: string
+            type: integer
         content:
             expose: true
         staticPrefix:
@@ -18,5 +18,4 @@ Symfony\Cmf\Bundle\RoutingBundle\Model\Route:
             href:
                 route: swp_api_content_show_routes
                 parameters:
-                    id: expr(object.getStaticPrefix())
-
+                    id: expr(object.getId())
