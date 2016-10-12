@@ -16,7 +16,6 @@ namespace SWP\Bundle\ContentBundle\Controller;
 
 use FOS\RestBundle\Controller\FOSRestController;
 use FOS\RestBundle\View\View;
-use Knp\Component\Pager\PaginatorInterface;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -50,7 +49,7 @@ class RouteController extends FOSRestController
     {
         $routeRepository = $this->get('swp.repository.route');
 
-        $routes = $routeRepository->getPaginatedByCriteria([], [], new PaginationData($request));
+        $routes = $routeRepository->getPaginatedByCriteria(new Criteria(), [], new PaginationData($request));
 
         return $this->handleView(View::create($this->get('swp_pagination_rep')->createRepresentation($routes, $request), 200));
     }

@@ -17,6 +17,8 @@ namespace SWP\Bundle\StorageBundle\Doctrine\ORM;
 use Doctrine\ORM\EntityRepository as BaseEntityRepository;
 use Doctrine\ORM\QueryBuilder;
 use Knp\Component\Pager\Paginator;
+use Knp\Component\Pager\Pagination\PaginationInterface;
+use SWP\Component\Common\Criteria\Criteria;
 use SWP\Component\Common\Pagination\PaginationData;
 use SWP\Component\Storage\Model\PersistableInterface;
 use SWP\Component\Storage\Repository\RepositoryInterface;
@@ -49,7 +51,7 @@ class EntityRepository extends BaseEntityRepository implements RepositoryInterfa
     /**
      * {@inheritdoc}
      */
-    public function getPaginatedByCriteria(array $criteria = [], array $sorting = [], PaginationData $paginationData = null)
+    public function getPaginatedByCriteria(Criteria $criteria, array $sorting = [], PaginationData $paginationData = null)
     {
         $queryBuilder = $this->createQueryBuilder('s');
         $this->applyCriteria($queryBuilder, $criteria);
@@ -59,7 +61,10 @@ class EntityRepository extends BaseEntityRepository implements RepositoryInterfa
     }
 
     /**
-     * {@inheritdoc}
+     * @param $queryBuilder
+     * @param PaginationData $paginationData
+     *
+     * @return PaginationInterface
      */
     protected function getPaginator($queryBuilder, PaginationData $paginationData)
     {
@@ -70,11 +75,11 @@ class EntityRepository extends BaseEntityRepository implements RepositoryInterfa
 
     /**
      * @param QueryBuilder $queryBuilder
-     * @param array        $criteria
+     * @param Criteria     $criteria
      */
-    protected function applyCriteria(QueryBuilder $queryBuilder, array $criteria = [])
+    protected function applyCriteria(QueryBuilder $queryBuilder, Criteria $criteria)
     {
-        foreach ($criteria as $property => $value) {
+        foreach ($criteria->all() as $property => $value) {
             $name = $this->getPropertyName($property);
             if (null === $value) {
                 $queryBuilder->andWhere($queryBuilder->expr()->isNull($name));

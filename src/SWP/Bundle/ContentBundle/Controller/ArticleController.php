@@ -52,8 +52,8 @@ class ArticleController extends FOSRestController
      */
     public function listAction(Request $request)
     {
-        $articles = $this->get('swp.provider.article')
-            ->getPaginatedByCriteria(new Criteria(), new PaginationData($request));
+        $articles = $this->get('swp.repository.article')
+            ->getPaginatedByCriteria(new Criteria(), [], new PaginationData($request));
 
         $view = View::create($this->get('swp_pagination_rep')->createRepresentation($articles, $request), 200);
 
