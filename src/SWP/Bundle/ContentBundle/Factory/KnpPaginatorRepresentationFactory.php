@@ -19,7 +19,7 @@ use Hateoas\Configuration\Route;
 use Hateoas\Representation\CollectionRepresentation;
 use Hateoas\Representation\PaginatedRepresentation;
 use Knp\Component\Pager\Pagination\AbstractPagination;
-use SWP\Bundle\ContentBundle\Pagination\PaginationInterface;
+use SWP\Component\Common\Pagination\PaginationInterface;
 use Symfony\Component\HttpFoundation\Request;
 
 class KnpPaginatorRepresentationFactory

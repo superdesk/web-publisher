@@ -17,10 +17,10 @@ declare(strict_types=1);
 namespace SWP\Bundle\ContentBundle\Loader;
 
 use Doctrine\ODM\PHPCR\DocumentManager;
-use SWP\Bundle\ContentBundle\Criteria\Criteria;
+use SWP\Component\Common\Criteria\Criteria;
 use SWP\Bundle\ContentBundle\Model\ArticleInterface;
 use SWP\Bundle\ContentBundle\Model\RouteInterface;
-use SWP\Bundle\ContentBundle\Pagination\PaginationData;
+use SWP\Component\Common\Pagination\PaginationData;
 use SWP\Bundle\ContentBundle\Provider\ArticleProviderInterface;
 use SWP\Bundle\ContentBundle\Provider\RouteProviderInterface;
 use SWP\Component\TemplatesSystem\Gimme\Context\Context;
@@ -134,7 +134,11 @@ class ArticleLoader implements LoaderInterface
 
             if (array_key_exists('route', $parameters)) {
                 if (null === $route || ($route instanceof RouteInterface && $route->getId() !== $parameters['route'])) {
-                    $route = $this->routeProvider->getOneById($parameters['route']);
+                    if (is_string($parameters['route'])) {
+                        $route = $this->routeProvider->getOneByStaticPrefix($parameters['route']);
+                    } else {
+                        $route = $this->routeProvider->getOneById($parameters['route']);
+                    }
                 }
             }
 
@@ -144,7 +148,7 @@ class ArticleLoader implements LoaderInterface
                 return;
             }
 
-            $articles = $this->articleProvider->getRepository()->getPaginatedByCriteria($criteria, $this->getPaginationData($parameters));
+            $articles = $this->articleProvider->getRepository()->getPaginatedByCriteria($criteria, [], $this->getPaginationData($parameters));
             if ($articles->count() > 0) {
                 $metaCollection = new MetaCollection();
                 foreach ($articles as $article) {

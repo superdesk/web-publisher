@@ -14,7 +14,7 @@
 
 namespace SWP\Bundle\TemplateEngineBundle\Tests\Controller;
 
-use SWP\Bundle\ContentBundle\Pagination\PaginationInterface;
+use SWP\Component\Common\Pagination\PaginationInterface;
 use SWP\Bundle\FixturesBundle\WebTestCase;
 
 class WidgetControllerTest extends WebTestCase

@@ -15,8 +15,8 @@
 namespace SWP\Bundle\ContentBundle\Provider\ORM;
 
 use SWP\Bundle\ContentBundle\Model\ArticleInterface;
+use SWP\Bundle\ContentBundle\Model\RouteRepositoryInterface;
 use SWP\Bundle\ContentBundle\Provider\RouteProviderInterface;
-use SWP\Component\Storage\Repository\RepositoryInterface;
 use Symfony\Component\Routing\Exception\RouteNotFoundException;
 use Symfony\Cmf\Bundle\RoutingBundle\Doctrine\Orm\RouteProvider as BaseRouteProvider;
 use Doctrine\Common\Persistence\ManagerRegistry;
@@ -25,7 +25,7 @@ use Symfony\Cmf\Component\Routing\Candidates\CandidatesInterface;
 class RouteProvider extends BaseRouteProvider implements RouteProviderInterface
 {
     /**
-     * @var RepositoryInterface
+     * @var RouteRepositoryInterface
      */
     private $routeRepository;
 
@@ -34,10 +34,13 @@ class RouteProvider extends BaseRouteProvider implements RouteProviderInterface
      */
     private $internalRoutesCache;
 
-    protected $candidatesStrategy;
+    /**
+     * @var CandidatesInterface
+     */
+    private $candidatesStrategy;
 
     public function __construct(
-        RepositoryInterface $routeRepository,
+        RouteRepositoryInterface $routeRepository,
         ManagerRegistry $managerRegistry,
         CandidatesInterface $candidatesStrategy,
         $className
@@ -62,7 +65,15 @@ class RouteProvider extends BaseRouteProvider implements RouteProviderInterface
      */
     public function getOneById($id)
     {
-        return $this->routeRepository->findOneById($id);
+        return $this->routeRepository->findOneBy(['id' => $id]);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getOneByStaticPrefix($staticPrefix)
+    {
+        return $this->routeRepository->findOneBy(['staticPrefix' => $staticPrefix]);
     }
 
     /**

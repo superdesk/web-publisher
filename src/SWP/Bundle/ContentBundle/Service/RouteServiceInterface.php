@@ -14,7 +14,6 @@
 
 namespace SWP\Bundle\ContentBundle\Service;
 
-use SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\RouteObjectInterface;
 use SWP\Bundle\ContentBundle\Model\RouteInterface;
 
 interface RouteServiceInterface
@@ -22,18 +21,18 @@ interface RouteServiceInterface
     /**
      * Creates a new route.
      *
-     * @param RouteObjectInterface $route
+     * @param RouteInterface $route
      *
      * @return RouteInterface
      */
-    public function createRoute(RouteObjectInterface $route);
+    public function createRoute(RouteInterface $route);
 
     /**
      * Updates existing route.
      *
-     * @param RouteObjectInterface $route
+     * @param RouteInterface $route
      *
      * @return RouteInterface
      */
-    public function updateRoute(RouteObjectInterface $route);
+    public function updateRoute(RouteInterface $route);
 }

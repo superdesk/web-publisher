@@ -20,8 +20,8 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
 use FOS\RestBundle\View\View;
-use SWP\Bundle\ContentBundle\Criteria\Criteria;
-use SWP\Bundle\ContentBundle\Pagination\PaginationData;
+use SWP\Component\Common\Criteria\Criteria;
+use SWP\Component\Common\Pagination\PaginationData;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -52,8 +52,8 @@ class ArticleController extends FOSRestController
      */
     public function listAction(Request $request)
     {
-        $articles = $this->get('swp.provider.article')
-            ->getPaginatedByCriteria(new Criteria(), new PaginationData($request));
+        $articles = $this->get('swp.repository.article')
+            ->getPaginatedByCriteria(new Criteria(), [], new PaginationData($request));
 
         $view = View::create($this->get('swp_pagination_rep')->createRepresentation($articles, $request), 200);
 

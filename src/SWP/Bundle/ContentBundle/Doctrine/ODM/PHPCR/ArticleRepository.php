@@ -18,7 +18,7 @@ namespace SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR;
 
 use Jackalope\Query\SqlQuery;
 use PHPCR\Query\QueryInterface;
-use SWP\Bundle\ContentBundle\Criteria\Criteria;
+use SWP\Component\Common\Criteria\Criteria;
 use SWP\Bundle\ContentBundle\Doctrine\ArticleRepositoryInterface;
 use SWP\Bundle\StorageBundle\Doctrine\ODM\PHPCR\DocumentRepository;
 

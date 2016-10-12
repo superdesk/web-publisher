@@ -121,13 +121,6 @@ services:
         tags:
             - { name: form.type }
 
-    swp_content_bundle.form.type.route:
-        class: SWP\Bundle\ContentBundle\Form\Type\RouteType
-        arguments:
-            - '@swp.provider.route'
-        tags:
-            - { name: form.type }
-
     swp_content_bundle.article_rules_subscriber:
         class: SWP\Bundle\ContentBundle\EventListener\ProcessArticleRulesSubscriber
         arguments:

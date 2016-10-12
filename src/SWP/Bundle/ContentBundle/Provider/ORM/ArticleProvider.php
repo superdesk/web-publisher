@@ -18,7 +18,7 @@ namespace SWP\Bundle\ContentBundle\Provider\ORM;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use SWP\Bundle\ContentBundle\Criteria\Criteria;
+use SWP\Component\Common\Criteria\Criteria;
 use SWP\Bundle\ContentBundle\Doctrine\ArticleRepositoryInterface;
 use SWP\Bundle\ContentBundle\Model\ArticleInterface;
 use SWP\Bundle\ContentBundle\Provider\ArticleProviderInterface;

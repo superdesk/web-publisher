@@ -14,7 +14,7 @@
 use Doctrine\Common\Collections\ArrayCollection;
 use Knp\Component\Pager\Paginator;
 use SWP\Bundle\ContentBundle\Factory\KnpPaginatorRepresentationFactory;
-use SWP\Bundle\ContentBundle\Pagination\PaginationInterface;
+use SWP\Component\Common\Pagination\PaginationInterface;
 use Symfony\Component\HttpFoundation\Request;
 
 class KnpPaginatorRepresentationFactoryTest extends \PHPUnit_Framework_TestCase
