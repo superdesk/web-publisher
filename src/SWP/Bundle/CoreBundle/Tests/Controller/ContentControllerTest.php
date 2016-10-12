@@ -30,10 +30,7 @@ class ContentControllerTest extends WebTestCase
 
     public function testLoadingContainerPageArticle()
     {
-        $this->loadFixtures([
-            'SWP\Bundle\FixturesBundle\DataFixtures\PHPCR\LoadTenantsData',
-            'SWP\Bundle\FixturesBundle\DataFixtures\PHPCR\LoadArticlesData',
-        ], null, 'doctrine_phpcr');
+        $this->loadCustomFixtures(['tenant', 'article']);
 
         $client = static::createClient();
         $crawler = $client->request('GET', '/news/features');
@@ -41,16 +38,12 @@ class ContentControllerTest extends WebTestCase
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
         $this->assertTrue($crawler->filter('html:contains("Features")')->count() === 1);
         $this->assertTrue($crawler->filter('html:contains("Content:")')->count() === 1);
-        $this->assertTrue($crawler->filter('html:contains("Id: /swp/123456/123abc/content/features")')->count() === 1);
         $this->assertTrue($crawler->filter('html:contains("Current tenant: default")')->count() === 1);
     }
 
     public function testLoadingNotExistingArticleUnderContainerPage()
     {
-        $this->loadFixtures([
-            'SWP\Bundle\FixturesBundle\DataFixtures\PHPCR\LoadTenantsData',
-            'SWP\Bundle\FixturesBundle\DataFixtures\PHPCR\LoadArticlesData',
-        ], null, 'doctrine_phpcr');
+        $this->loadCustomFixtures(['tenant', 'article']);
 
         $client = static::createClient();
         $client->request('GET', '/news/featuress');

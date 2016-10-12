@@ -1,2 +1,12 @@
 SWP\Bundle\ContentBundle\Doctrine\ORM\Route:
     exclusion_policy: ALL
+    properties:
+        templateName:
+            expose: true
+        type:
+            expose: true
+        name:
+            expose: true
+        cacheTimeInSeconds:
+            expose: true
+            type: integer

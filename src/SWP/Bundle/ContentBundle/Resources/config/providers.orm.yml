@@ -7,6 +7,12 @@ services:
         class: '%swp.provider.route.class%'
         arguments:
             - '@swp.repository.route'
+            - '@doctrine'
+            - '@cmf_routing.orm_candidates'
+            - '%cmf_routing.dynamic.persistence.orm.route_class%'
+        calls:
+            - [setManagerName, ['%cmf_routing.dynamic.persistence.orm.manager_name%']]
+            - [setRouteCollectionLimit, ['%cmf_routing.route_collection_limit%']]
 
     swp.provider.article:
         class: '%swp.provider.article.class%'

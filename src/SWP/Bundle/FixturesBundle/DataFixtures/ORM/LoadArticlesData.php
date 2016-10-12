@@ -26,7 +26,6 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface, Orde
 {
     private $manager;
     private $defaultTenantPrefix;
-    private $firstTenantPrefix;
 
     /**
      * {@inheritdoc}
@@ -50,7 +49,7 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface, Orde
                     'name' => 'news',
                     'variablePattern' => '/{slug}',
                     'requirements' => [
-                        'slug' => '[a-zA-Z0-9\-_\/]+',
+                        'slug' => '[a-zA-Z0-9*\-_\/]+',
                     ],
                     'type' => 'collection',
                     'defaults' => [
@@ -64,7 +63,7 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface, Orde
                     'type' => 'collection',
                     'variablePattern' => '/{slug}',
                     'requirements' => [
-                        'slug' => '[a-zA-Z1-9\-_\/]+',
+                        'slug' => '[a-zA-Z1-9*\-_\/]+',
                     ],
                     'defaults' => [
                         'slug' => null,
@@ -84,7 +83,7 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface, Orde
                     'name' => 'news',
                     'variablePattern' => '/{slug}',
                     'requirements' => [
-                        'slug' => '[a-zA-Z0-9\-_\/]+',
+                        'slug' => '[a-zA-Z0-9*\-_\/]+',
                     ],
                     'type' => 'collection',
                     'defaults' => [
@@ -96,7 +95,7 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface, Orde
                     'type' => 'content',
                 ],
                 [
-                    'name' => 'features',
+                    'name' => 'articles/features',
                     'type' => 'content',
                 ],
             ],
@@ -104,7 +103,7 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface, Orde
 
         foreach ($routes[$env] as $routeData) {
             $route = new Route();
-            $route->setName('swp_'.$routeData['name']);
+            $route->setName($routeData['name']);
             $route->setStaticPrefix('/'.$routeData['name']);
             $route->setType($routeData['type']);
 
@@ -135,7 +134,6 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface, Orde
                     $route->setDefault($key, $value);
                 }
             }
-
             $manager->persist($route);
         }
 
@@ -163,29 +161,25 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface, Orde
                 [
                     'title' => 'Test news article',
                     'content' => 'Test news article content',
-                    'route' => $this->defaultTenantPrefix.'/routes/news',
-                    'parent' => $this->defaultTenantPrefix.'/content',
+                    'route' => 'news',
                     'locale' => 'en',
                 ],
                 [
                     'title' => 'Test article',
                     'content' => 'Test article content',
-                    'route' => $this->defaultTenantPrefix.'/routes/news',
-                    'parent' => $this->defaultTenantPrefix.'/content',
+                    'route' => 'news',
                     'locale' => 'en',
                 ],
                 [
                     'title' => 'Features',
                     'content' => 'Features content',
-                    'route' => $this->defaultTenantPrefix.'/routes/news',
-                    'parent' => $this->defaultTenantPrefix.'/content',
+                    'route' => 'news',
                     'locale' => 'en',
                 ],
                 [
                     'title' => 'Features client1',
                     'content' => 'Features client1 content',
-                    'route' => $this->firstTenantPrefix.'/routes/news',
-                    'parent' => $this->firstTenantPrefix.'/content',
+                    'route' => 'news',
                     'locale' => 'en',
                 ],
             ],
@@ -196,7 +190,7 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface, Orde
                 $article = new Article();
                 $article->setTitle($articleData['title']);
                 $article->setBody($articleData['content']);
-                $article->setRoute($manager->find(Route::class, $articleData['route']));
+                $article->setRoute($this->getRouteByName($articleData['route']));
                 $article->setLocale($articleData['locale']);
                 $article->setPublishable(true);
                 $article->setPublishedAt(new \DateTime());

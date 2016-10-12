@@ -17,8 +17,12 @@ namespace SWP\Bundle\ContentBundle\Provider\ORM;
 use SWP\Bundle\ContentBundle\Model\ArticleInterface;
 use SWP\Bundle\ContentBundle\Provider\RouteProviderInterface;
 use SWP\Component\Storage\Repository\RepositoryInterface;
+use Symfony\Component\Routing\Exception\RouteNotFoundException;
+use Symfony\Cmf\Bundle\RoutingBundle\Doctrine\Orm\RouteProvider as BaseRouteProvider;
+use Doctrine\Common\Persistence\ManagerRegistry;
+use Symfony\Cmf\Component\Routing\Candidates\CandidatesInterface;
 
-class RouteProvider implements RouteProviderInterface
+class RouteProvider extends BaseRouteProvider implements RouteProviderInterface
 {
     /**
      * @var RepositoryInterface
@@ -26,14 +30,23 @@ class RouteProvider implements RouteProviderInterface
     private $routeRepository;
 
     /**
-     * RouteProvider constructor.
-     *
-     * @param RepositoryInterface $routeRepository Route repository
+     * @var array
      */
+    private $internalRoutesCache;
+
+    protected $candidatesStrategy;
+
     public function __construct(
-        RepositoryInterface $routeRepository
+        RepositoryInterface $routeRepository,
+        ManagerRegistry $managerRegistry,
+        CandidatesInterface $candidatesStrategy,
+        $className
     ) {
         $this->routeRepository = $routeRepository;
+        $this->internalRoutesCache = [];
+        $this->candidatesStrategy = $candidatesStrategy;
+
+        parent::__construct($managerRegistry, $candidatesStrategy, $className);
     }
 
     /**
@@ -49,7 +62,7 @@ class RouteProvider implements RouteProviderInterface
      */
     public function getOneById($id)
     {
-        return $this->routeRepository->findOneByStaticPrefix($id);
+        return $this->routeRepository->findOneById($id);
     }
 
     /**
@@ -58,5 +71,27 @@ class RouteProvider implements RouteProviderInterface
     public function getRouteForArticle(ArticleInterface $article)
     {
         return $article->getRoute();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getRouteByName($name)
+    {
+        if (array_key_exists($name, $this->internalRoutesCache)) {
+            return $this->internalRoutesCache[$name];
+        }
+
+        if (!$this->candidatesStrategy->isCandidate($name)) {
+            throw new RouteNotFoundException(sprintf('Route "%s" is not handled by this route provider', $name));
+        }
+
+        $route = $this->getRouteRepository()->findOneBy(array('name' => $name));
+        $this->internalRoutesCache[$name] = $route;
+        if (!$route) {
+            throw new RouteNotFoundException("No route found for name '$name'");
+        }
+
+        return $route;
     }
 }

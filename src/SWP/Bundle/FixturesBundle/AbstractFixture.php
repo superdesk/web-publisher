@@ -100,9 +100,9 @@ abstract class AbstractFixture extends BaseFixture implements ContainerAwareInte
         return $this->getTenantPrefix().'/'.ltrim($id, '/');
     }
 
-    public function getRoute($id)
+    public function getRouteByName($id)
     {
-        return $this->container->get('swp.provider.route')->getOneById($id);
+        return $this->container->get('swp.provider.route')->getRouteByName($id);
     }
 
     /**

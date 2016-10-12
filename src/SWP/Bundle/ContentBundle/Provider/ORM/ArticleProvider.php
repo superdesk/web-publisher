@@ -117,7 +117,7 @@ class ArticleProvider implements ArticleProviderInterface
     {
         return $this->paginator->paginate(
             $this->articleRepository->getByCriteria($criteria),
-            $paginationData->getFirstResult(),
+            $paginationData->getPageNumber(),
             $paginationData->getLimit()
         );
     }

@@ -2,7 +2,7 @@ SWP\Bundle\ContentBundle\Doctrine\ORM\Article:
     article{1..5000}:
         title: "<catchPhrase()> <numberBetween(1, 200)>"
         body: "<paragraph(20)>"
-        route: "<getRoute('/news')>"
+        route: "<getRouteByName('news')>"
         locale: "en"
         status: "published"
         publishable: true
@@ -11,7 +11,7 @@ SWP\Bundle\ContentBundle\Doctrine\ORM\Article:
     article_features:
         title: "Features"
         body: "<paragraph(20)>"
-        route: "<getRoute('/articles/features')>"
+        route: "<getRouteByName('features')>"
         locale: "en"
         status: "published"
         publishable: true
@@ -20,7 +20,7 @@ SWP\Bundle\ContentBundle\Doctrine\ORM\Article:
     article_get_invlolved:
         title: "Get Involved"
         body: "<paragraph(20)>"
-        route: "<getRoute('/articles')>"
+        route: "<getRouteByName('articles')>"
         locale: "en"
         status: "published"
         publishedAt: "<date()>"

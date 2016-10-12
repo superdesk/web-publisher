@@ -164,6 +164,7 @@ cmf_routing:
             router.default: 100
     dynamic:
         route_collection_limit: 100
+        route_provider_service_id: swp.provider.route
         persistence:
             orm:
                 enabled: true

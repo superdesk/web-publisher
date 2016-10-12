@@ -52,17 +52,8 @@ class ArticleController extends FOSRestController
      */
     public function listAction(Request $request)
     {
-        $articleProvider = $this->get('swp.provider.article');
-        $articles = $articleProvider->getPaginatedByCriteria(new Criteria(), new PaginationData($request));
-
-//        $basenode = $this->get('swp.provider.article')->getBaseNode();
-//        $objectManager = $this->get('swp.object_manager.article');
-//        $articles = [];
-//        foreach ($objectManager->getChildren($basenode, null, 3) as $child) {
-//            if ($child instanceof ArticleInterface) {
-//                $articles[] = $child;
-//            }
-//        }
+        $articles = $this->get('swp.provider.article')
+            ->getPaginatedByCriteria(new Criteria(), new PaginationData($request));
 
         $view = View::create($this->get('swp_pagination_rep')->createRepresentation($articles, $request), 200);
 
