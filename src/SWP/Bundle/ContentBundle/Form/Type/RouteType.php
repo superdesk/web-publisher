@@ -23,6 +23,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\GreaterThanOrEqual;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Validator\Constraints\Type;
 
 /**
  * Form Type for Routes.
@@ -49,19 +50,20 @@ class RouteType extends AbstractType
                     new Length(['min' => 1]),
                 ],
             ])
-            ->add('template_name', TextType::class, [
+            ->add('templateName', TextType::class, [
                 'required' => false,
                 'constraints' => [
                     new Length(['min' => 1]),
                 ],
             ])
-            ->add('articles_template_name', TextType::class, [
+            ->add('articlesTemplateName', TextType::class, [
                 'required' => false,
                 'constraints' => [
                     new Length(['min' => 1]),
                 ],
             ])
             ->add('content', ArticleSelectorType::class, [
+                'required' => false,
                 'description' => 'Content identifier (e.g. article identifier)',
             ])
             ->add('cacheTimeInSeconds', IntegerType::class, [

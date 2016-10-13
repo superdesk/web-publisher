@@ -17,7 +17,7 @@ namespace SWP\Bundle\ContentBundle\Form\Type;
 use SWP\Bundle\ContentBundle\Form\DataTransformer\ArticleToIdTransformer;
 use SWP\Bundle\ContentBundle\Provider\ArticleProviderInterface;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -63,6 +63,6 @@ class ArticleSelectorType extends AbstractType
      */
     public function getParent()
     {
-        return TextType::class;
+        return IntegerType::class;
     }
 }

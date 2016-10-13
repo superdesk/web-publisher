@@ -54,14 +54,8 @@ SWP\Bundle\ContentBundle\Doctrine\ORM\Article:
         route:
             targetEntity: SWP\Bundle\ContentBundle\Doctrine\ORM\Route
             inversedBy: articles
-            cascade: ["remove"]
             fetch: "EAGER"
             joinColumn:
                 name: route_id
                 referencedColumnName: id
-                onDelete: CASCADE
-#    referrers:
-#        media:
-#            referringDocument: SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\ArticleMedia
-#            referencedBy: article
-#            cascade: [remove]
+                onDelete: "SET NULL"

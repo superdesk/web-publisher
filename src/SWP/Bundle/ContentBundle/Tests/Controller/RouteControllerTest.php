@@ -133,8 +133,15 @@ class RouteControllerTest extends WebTestCase
         $client->request('DELETE', $this->router->generate('swp_api_content_delete_routes', ['id' => 1]));
         self::assertEquals(409, $client->getResponse()->getStatusCode());
 
+        $client->request('PATCH', $this->router->generate('swp_api_content_update_routes', ['id' => 1]), [
+            'route' => [
+                'content' => null,
+            ],
+        ]);
+        self::assertEquals(200, $client->getResponse()->getStatusCode());
+
         $client->request('DELETE', $this->router->generate('swp_api_content_delete_routes', ['id' => 1]));
-        $this->assertEquals(204, $client->getResponse()->getStatusCode());
+        self::assertEquals(204, $client->getResponse()->getStatusCode());
     }
 
     public function testWithCustomTemplatesRoutesApi()
@@ -144,7 +151,7 @@ class RouteControllerTest extends WebTestCase
             'route' => [
                 'name' => 'simple-test-route',
                 'type' => 'content',
-                'template_name' => 'test.html.twig',
+                'templateName' => 'test.html.twig',
                 'cacheTimeInSeconds' => 1,
             ],
         ]);
@@ -165,6 +172,6 @@ class RouteControllerTest extends WebTestCase
         ]);
 
         self::assertEquals(400, $client->getResponse()->getStatusCode());
-        self::assertEquals($client->getResponse()->getContent(), '{"code":400,"message":"Validation Failed","errors":{"errors":["This form should not contain extra fields."],"children":{"name":{},"type":{},"template_name":{},"articles_template_name":{},"content":{},"cacheTimeInSeconds":{}}}}');
+        self::assertEquals($client->getResponse()->getContent(), '{"code":400,"message":"Validation Failed","errors":{"children":{"name":{},"type":{"errors":["The type \"fake-type\" is not allowed. Supported types are: \"collection, content\"."]},"templateName":{},"articlesTemplateName":{},"content":{},"cacheTimeInSeconds":{}}}}');
     }
 }
