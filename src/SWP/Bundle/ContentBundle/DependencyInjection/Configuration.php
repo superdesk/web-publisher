@@ -23,6 +23,11 @@ use SWP\Bundle\ContentBundle\Doctrine\ORM\Article as ORMArticle;
 use SWP\Bundle\ContentBundle\Doctrine\ORM\ArticleRepository as ORMArticleRepository;
 use SWP\Bundle\ContentBundle\Doctrine\ORM\Route as ORMRoute;
 use SWP\Bundle\ContentBundle\Doctrine\ORM\RouteRepository;
+use SWP\Bundle\ContentBundle\Doctrine\ORM\ArticleMedia as ORMArticleMedia;
+use SWP\Bundle\ContentBundle\Doctrine\ORM\ArticleMediaRepository as ORMArticleMediaRepository;
+use SWP\Bundle\ContentBundle\Doctrine\ORM\Image as ORMImage;
+use SWP\Bundle\ContentBundle\Doctrine\ORM\ImageRepository as ORMImageRepository;
+use SWP\Bundle\ContentBundle\Factory\ORM\MediaFactory;
 use SWP\Bundle\ContentBundle\Factory\PHPCR\ArticleFactory;
 use SWP\Bundle\ContentBundle\Factory\RouteFactory;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
@@ -133,8 +138,17 @@ class Configuration implements ConfigurationInterface
                                         ->arrayNode('media')
                                             ->addDefaultsIfNotSet()
                                             ->children()
-                                                ->scalarNode('model')->cannotBeEmpty()->defaultValue(Media::class)->end()
-                                                ->scalarNode('repository')->defaultValue(null)->end()
+                                                ->scalarNode('model')->cannotBeEmpty()->defaultValue(ORMArticleMedia::class)->end()
+                                                ->scalarNode('repository')->defaultValue(ORMArticleMediaRepository::class)->end()
+                                                ->scalarNode('factory')->defaultValue(MediaFactory::class)->end()
+                                                ->scalarNode('object_manager_name')->defaultValue(null)->end()
+                                            ->end()
+                                        ->end()
+                                        ->arrayNode('image')
+                                            ->addDefaultsIfNotSet()
+                                            ->children()
+                                                ->scalarNode('model')->cannotBeEmpty()->defaultValue(ORMImage::class)->end()
+                                                ->scalarNode('repository')->defaultValue(ORMImageRepository::class)->end()
                                                 ->scalarNode('factory')->defaultValue(null)->end()
                                                 ->scalarNode('object_manager_name')->defaultValue(null)->end()
                                             ->end()

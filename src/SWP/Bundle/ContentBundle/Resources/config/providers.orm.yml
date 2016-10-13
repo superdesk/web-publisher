@@ -1,6 +1,7 @@
 parameters:
     swp.provider.route.class: SWP\Bundle\ContentBundle\Provider\ORM\RouteProvider
     swp.provider.article.class: SWP\Bundle\ContentBundle\Provider\ORM\ArticleProvider
+    swp.provider.media.class: SWP\Bundle\ContentBundle\Provider\ORM\ArticleMediaProvider
 
 services:
     swp.provider.route:
@@ -13,6 +14,11 @@ services:
         calls:
             - [setManagerName, ['%cmf_routing.dynamic.persistence.orm.manager_name%']]
             - [setRouteCollectionLimit, ['%cmf_routing.route_collection_limit%']]
+
+    swp.provider.media:
+        class: '%swp.provider.media.class%'
+        arguments:
+            - '@swp.repository.media'
 
     swp.provider.article:
         class: '%swp.provider.article.class%'

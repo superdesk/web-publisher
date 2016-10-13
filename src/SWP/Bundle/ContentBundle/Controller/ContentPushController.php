@@ -83,7 +83,6 @@ class ContentPushController extends FOSRestController
     public function pushAssetsAction(Request $request)
     {
         $form = $this->createForm(MediaFileType::class);
-
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $mediaManager = $this->container->get('swp_content_bundle.manager.media');

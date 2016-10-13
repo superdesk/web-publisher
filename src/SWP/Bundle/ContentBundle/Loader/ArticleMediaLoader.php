@@ -82,29 +82,29 @@ class ArticleMediaLoader implements LoaderInterface
         if ($responseType === LoaderInterface::COLLECTION) {
             $media = false;
             if (array_key_exists('article', $parameters) && $parameters['article'] instanceof Meta) {
-                $media = $this->dm->find(null, $parameters['article']->getValues()->getId().'/'.ArticleMediaInterface::PATH_MEDIA);
+                //$media = $this->dm->find(null, $parameters['article']->getValues()->getId().'/'.ArticleMediaInterface::PATH_MEDIA);
             } elseif (isset($this->context->article) && null !== $this->context->article) {
-                $media = $this->dm->find(null, $this->context->article->getValues()->getId().'/'.ArticleMediaInterface::PATH_MEDIA);
+                //$media = $this->dm->find(null, $this->context->article->getValues()->getId().'/'.ArticleMediaInterface::PATH_MEDIA);
             }
 
             if ($media) {
-                $items = $media->getChildren();
+                //$items = $media->getChildren();
                 $metaCollection = new MetaCollection();
-                $metaCollection->setTotalItemsCount($items->count());
+//                $metaCollection->setTotalItemsCount($items->count());
 
-                if (isset($parameters['limit'])) {
-                    if (isset($parameters['start'])) {
-                        $start = $parameters['start'];
-                    } else {
-                        $start = 0;
-                    }
+//                if (isset($parameters['limit'])) {
+//                    if (isset($parameters['start'])) {
+//                        $start = $parameters['start'];
+//                    } else {
+//                        $start = 0;
+//                    }
 
-                    $items = $items->slice($start, $parameters['limit']);
-                }
+//                    $items = $items->slice($start, $parameters['limit']);
+//                }
 
-                foreach ($items as $item) {
-                    $metaCollection->add($this->metaFactory->create($item));
-                }
+//                foreach ($items as $item) {
+//                    $metaCollection->add($this->metaFactory->create($item));
+//                }
 
                 return $metaCollection;
             }

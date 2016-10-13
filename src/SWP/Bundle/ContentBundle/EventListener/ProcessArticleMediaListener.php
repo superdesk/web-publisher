@@ -15,15 +15,14 @@
 namespace SWP\Bundle\ContentBundle\EventListener;
 
 use Doctrine\Common\Persistence\ObjectManager;
-use Doctrine\ODM\PHPCR\Document\Generic;
-use SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\ArticleMedia;
-use SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\Image;
-use SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\ImageRendition;
+use SWP\Bundle\ContentBundle\Doctrine\ORM\ArticleMedia;
+use SWP\Bundle\ContentBundle\Doctrine\ORM\ImageRendition;
 use SWP\Bundle\ContentBundle\Event\ArticleEvent;
+use SWP\Bundle\ContentBundle\Factory\MediaFactoryInterface;
 use SWP\Bundle\ContentBundle\Manager\MediaManagerInterface;
+use SWP\Bundle\ContentBundle\Doctrine\ImageRepositoryInterface;
 use SWP\Bundle\ContentBundle\Model\ArticleInterface;
 use SWP\Component\Bridge\Model\ItemInterface;
-use SWP\Component\MultiTenancy\PathBuilder\TenantAwarePathBuilderInterface;
 use Symfony\Component\DomCrawler\Crawler;
 
 class ProcessArticleMediaListener
@@ -32,11 +31,6 @@ class ProcessArticleMediaListener
      * @var ObjectManager
      */
     protected $objectManager;
-
-    /**
-     * @var TenantAwarePathBuilderInterface
-     */
-    protected $pathBuilder;
 
     /**
      * @var string
@@ -49,23 +43,36 @@ class ProcessArticleMediaListener
     protected $mediaManager;
 
     /**
+     * @var MediaFactoryInterface
+     */
+    protected $mediaFactory;
+
+    /**
+     * @var ImageRepositoryInterface
+     */
+    protected $imageRepository;
+
+    /**
      * ProcessArticleMediaListener constructor.
      *
-     * @param ObjectManager                   $objectManager
-     * @param TenantAwarePathBuilderInterface $pathBuilder
-     * @param string                          $mediaBasepath
-     * @param MediaManagerInterface           $mediaManager
+     * @param ObjectManager            $objectManager
+     * @param                          $mediaBasepath
+     * @param MediaManagerInterface    $mediaManager
+     * @param MediaFactoryInterface    $mediaFactory
+     * @param ImageRepositoryInterface $imageRepository
      */
     public function __construct(
         ObjectManager $objectManager,
-        TenantAwarePathBuilderInterface $pathBuilder,
         $mediaBasepath,
-        MediaManagerInterface $mediaManager
+        MediaManagerInterface $mediaManager,
+        MediaFactoryInterface $mediaFactory,
+        ImageRepositoryInterface $imageRepository
     ) {
         $this->objectManager = $objectManager;
-        $this->pathBuilder = $pathBuilder;
         $this->mediaBasepath = $mediaBasepath;
         $this->mediaManager = $mediaManager;
+        $this->mediaFactory = $mediaFactory;
+        $this->imageRepository = $imageRepository;
     }
 
     /**
@@ -82,17 +89,15 @@ class ProcessArticleMediaListener
         }
 
         foreach ($package->getItems() as $key => $packageItem) {
-            // create document node for media
-            $mediaDocument = $this->createGenericDocument('media', $article);
             if (ItemInterface::TYPE_PICTURE === $packageItem->getType() || ItemInterface::TYPE_FILE === $packageItem->getType()) {
-                $articleMedia = $this->handleMedia($article, $mediaDocument, $key, $packageItem);
+                $articleMedia = $this->handleMedia($article, $key, $packageItem);
                 $this->objectManager->persist($articleMedia);
             }
 
             if (null !== $packageItem->getItems() && 0 !== $packageItem->getItems()->count()) {
                 foreach ($packageItem->getItems() as $key => $item) {
                     if (ItemInterface::TYPE_PICTURE === $item->getType() || ItemInterface::TYPE_FILE === $item->getType()) {
-                        $articleMedia = $this->handleMedia($article, $mediaDocument, $key, $item);
+                        $articleMedia = $this->handleMedia($article, $key, $item);
                         $this->objectManager->persist($articleMedia);
                     }
                 }
@@ -102,19 +107,14 @@ class ProcessArticleMediaListener
 
     /**
      * @param ArticleInterface $article
-     * @param Generic          $mediaDocument
      * @param string           $key
      * @param ItemInterface    $item
      *
      * @return ArticleMedia
      */
-    public function handleMedia(ArticleInterface $article, Generic $mediaDocument, $key, ItemInterface $item)
+    public function handleMedia(ArticleInterface $article, $key, ItemInterface $item)
     {
-        $articleMedia = new ArticleMedia();
-        $articleMedia->setId($key);
-        $articleMedia->setParent($mediaDocument);
-        $articleMedia->setArticle($article);
-        $articleMedia->setFromItem($item);
+        $articleMedia = $this->mediaFactory->create($article, $item);
 
         if (ItemInterface::TYPE_PICTURE === $item->getType()) {
             $this->createImageMedia($articleMedia, $item);
@@ -140,32 +140,21 @@ class ProcessArticleMediaListener
 
         $originalRendition = $item->getRenditions()['original'];
         $articleMedia->setMimetype($originalRendition->getMimetype());
-        $image = $this->objectManager->find(
-            Image::class,
-            $this->pathBuilder->build($this->mediaBasepath).'/'.$this->mediaManager->handleMediaId($originalRendition->getMedia())
-        );
+        $image = $this->imageRepository->findOneByAssetId($this->mediaManager->handleMediaId($originalRendition->getMedia()));
         $articleMedia->setImage($image);
 
-        // create document node for renditions
-        $renditionsDocument = $this->createGenericDocument('renditions', $articleMedia);
         foreach ($item->getRenditions() as $key => $rendition) {
-            $image = $this->objectManager->find(
-                Image::class,
-                $this->pathBuilder->build($this->mediaBasepath).'/'.$this->mediaManager->handleMediaId($rendition->getMedia())
-            );
-            if (null === $image) {
+            $image = $this->imageRepository->findOneByAssetId($this->mediaManager->handleMediaId($originalRendition->getMedia()));
+            if (null === $image || count($image->getRenditions()) > 0) {
                 continue;
             }
 
             $imageRendition = new ImageRendition();
-            $imageRendition->setParent($renditionsDocument);
             $imageRendition->setImage($image);
-            $imageRendition->setMedia($articleMedia);
             $imageRendition->setHeight($rendition->getHeight());
             $imageRendition->setWidth($rendition->getWidth());
             $imageRendition->setName($key);
             $this->objectManager->persist($imageRendition);
-            $articleMedia->addRendition($imageRendition);
         }
 
         return $articleMedia;
@@ -210,27 +199,5 @@ class ProcessArticleMediaListener
         }
 
         $article->setBody(str_replace($figureString, $crawler->filter('body')->html(), $body));
-    }
-
-    /**
-     * @param string $nodeName
-     * @param mixed  $parent
-     *
-     * @return Generic
-     */
-    private function createGenericDocument($nodeName, $parent)
-    {
-        if (null !== $document = $this->objectManager->find(Generic::class, $parent->getId().'/'.$nodeName)) {
-            return $document;
-        }
-
-        $document = new Generic();
-        $document
-            ->setParentDocument($parent)
-            ->setNodename($nodeName);
-
-        $this->objectManager->persist($document);
-
-        return $document;
     }
 }

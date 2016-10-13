@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Superdesk Web Publisher Content Bundle.
  *
@@ -14,9 +16,13 @@
 
 namespace SWP\Bundle\ContentBundle\Doctrine\ORM;
 
-use SWP\Bundle\ContentBundle\Model\Article as BaseArticle;
-use SWP\Component\Storage\Model\PersistableInterface;
+use SWP\Component\Common\Criteria\Criteria;
+use SWP\Bundle\StorageBundle\Doctrine\ORM\EntityRepository;
 
-class Article extends BaseArticle implements PersistableInterface
+class FileRepository extends EntityRepository
 {
+    public function getByCriteria(Criteria $criteria, array $sorting)
+    {
+        return $this->getQueryByCriteria($criteria, $sorting, 'f')->getQuery();
+    }
 }

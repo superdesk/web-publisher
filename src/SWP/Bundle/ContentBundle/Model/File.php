@@ -14,8 +14,12 @@
 
 namespace SWP\Bundle\ContentBundle\Model;
 
+use SWP\Component\Common\Model\TimestampableTrait;
+
 class File implements FileInterface
 {
+    use TimestampableTrait;
+
     /**
      * @var string
      */
@@ -27,6 +31,14 @@ class File implements FileInterface
      * @var string
      */
     protected $fileExtension;
+
+    /**
+     * File constructor.
+     */
+    public function __construct()
+    {
+        $this->setCreatedAt(new \DateTime());
+    }
 
     /**
      * @param string $id

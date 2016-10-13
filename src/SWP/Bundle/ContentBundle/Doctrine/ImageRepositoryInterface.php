@@ -1,7 +1,9 @@
 <?php
 
+declare(strict_types=1);
+
 /*
- * This file is part of the Superdesk Web Publisher Storage Component.
+ * This file is part of the Superdesk Web Publisher Content Bundle.
  *
  * Copyright 2016 Sourcefabric z.ú. and contributors.
  *
@@ -12,12 +14,10 @@
  * @license http://www.superdesk.org/license
  */
 
-namespace SWP\Component\Storage\Factory;
+namespace SWP\Bundle\ContentBundle\Doctrine;
 
-interface FactoryInterface
+use SWP\Component\Storage\Repository\RepositoryInterface;
+
+interface ImageRepositoryInterface extends RepositoryInterface
 {
-    /**
-     * Creates an instance of object.
-     */
-    public function create();
 }

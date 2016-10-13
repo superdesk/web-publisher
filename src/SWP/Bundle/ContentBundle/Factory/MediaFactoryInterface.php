@@ -12,11 +12,18 @@
  * @license http://www.superdesk.org/license
  */
 
-namespace SWP\Bundle\ContentBundle\Doctrine\ORM;
+namespace SWP\Bundle\ContentBundle\Factory;
 
-use SWP\Bundle\ContentBundle\Model\Article as BaseArticle;
-use SWP\Component\Storage\Model\PersistableInterface;
+use SWP\Bundle\ContentBundle\Model\ArticleMediaInterface;
 
-class Article extends BaseArticle implements PersistableInterface
+interface MediaFactoryInterface
 {
+    /**
+     * @param $id
+     * @param $article
+     * @param $item
+     *
+     * @return ArticleMediaInterface
+     */
+    public function create($article, $item);
 }

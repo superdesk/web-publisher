@@ -1,0 +1,24 @@
+SWP\Bundle\ContentBundle\Doctrine\ORM\ImageRendition:
+    type: entity
+    table: swp_image_rendition
+    #repositoryClass: SWP\Bundle\ContentBundle\Doctrine\ORM\ImageRepository
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: IDENTITY
+    fields:
+        width:
+            type: integer
+        height:
+            type: integer
+        name:
+            type: string
+    manyToOne:
+        image:
+            targetEntity: SWP\Bundle\ContentBundle\Doctrine\ORM\Image
+            inversedBy: image
+            joinColumn:
+                name: image_id
+                referencedColumnName: id

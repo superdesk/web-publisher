@@ -1,0 +1,37 @@
+SWP\Bundle\ContentBundle\Doctrine\ORM\Image:
+    type: entity
+    table: swp_image
+    repositoryClass: SWP\Bundle\ContentBundle\Doctrine\ORM\ImageRepository
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: IDENTITY
+    fields:
+        assetId:
+            type: string
+        fileExtension:
+            type: string
+        width:
+            type: integer
+            nullable: true
+        height:
+            type: integer
+            nullable: true
+        createdAt:
+            type: date
+        updatedAt:
+            type: date
+            nullable: true
+    oneToOne:
+        media:
+            targetEntity: SWP\Bundle\ContentBundle\Doctrine\ORM\ArticleMedia
+            inversedBy: image
+            joinColumn:
+                name: media_id
+                referencedColumnName: id
+    oneToMany:
+        renditions:
+            targetEntity: SWP\Bundle\ContentBundle\Doctrine\ORM\ImageRendition
+            mappedBy: image

@@ -47,15 +47,7 @@ class ArticleRepository extends EntityRepository implements ArticleRepositoryInt
         $qb->andWhere('a.status = :status')
             ->setParameter('status', $criteria->get('status', ArticleInterface::STATUS_PUBLISHED));
 
-        $query = $qb->getQuery();
-        $query->setFirstResult($criteria->get('firstResult', 0));
-        if ($criteria->has('maxResults')) {
-            $query->setMaxResults($criteria->get('maxResults'));
-        } else {
-            $query->setMaxResults(10);
-        }
-
-        return $query;
+        return $qb->getQuery();
     }
 
     /**

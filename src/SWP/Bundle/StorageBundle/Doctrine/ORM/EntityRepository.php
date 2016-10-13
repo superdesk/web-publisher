@@ -29,6 +29,11 @@ use SWP\Component\Storage\Repository\RepositoryInterface;
 class EntityRepository extends BaseEntityRepository implements RepositoryInterface
 {
     /**
+     * Default value for number of results.
+     */
+    const MAX_RESULTS = 10;
+
+    /**
      * {@inheritdoc}
      */
     public function add(PersistableInterface $object)
@@ -63,6 +68,7 @@ class EntityRepository extends BaseEntityRepository implements RepositoryInterfa
         $queryBuilder = $this->createQueryBuilder($alias);
         $this->applyCriteria($queryBuilder, $criteria, $alias);
         $this->applySorting($queryBuilder, $sorting, $alias);
+        $this->applyLimiting($queryBuilder, $criteria);
 
         return $queryBuilder;
     }
@@ -119,6 +125,20 @@ class EntityRepository extends BaseEntityRepository implements RepositoryInterfa
             if (!empty($order)) {
                 $queryBuilder->addOrderBy($this->getPropertyName($property, $alias), $order);
             }
+        }
+    }
+
+    /**
+     * @param QueryBuilder $queryBuilder
+     * @param Criteria     $criteria
+     */
+    public function applyLimiting(QueryBuilder $queryBuilder, Criteria $criteria)
+    {
+        $queryBuilder->setFirstResult($criteria->get('firstResult', 0));
+        if ($criteria->has('maxResults')) {
+            $queryBuilder->setMaxResults($criteria->get('maxResults'));
+        } else {
+            $queryBuilder->setMaxResults(self::MAX_RESULTS);
         }
     }
 
