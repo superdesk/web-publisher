@@ -14,10 +14,9 @@
 
 namespace SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR;
 
-use SWP\Component\Storage\Model\PersistableInterface;
 use Symfony\Cmf\Bundle\RoutingBundle\Doctrine\Phpcr\Route as BaseRoute;
 
-class Route extends BaseRoute implements RouteObjectInterface, PersistableInterface
+class Route extends BaseRoute implements RouteObjectInterface
 {
     /**
      * @var string

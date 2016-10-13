@@ -35,9 +35,7 @@ class ContentPushControllerTest extends WebTestCase
         self::bootKernel();
 
         $this->initDatabase();
-        $this->loadFixtures([
-            'SWP\Bundle\FixturesBundle\DataFixtures\PHPCR\LoadTenantsData',
-        ], null, 'doctrine_phpcr');
+        $this->loadCustomFixtures(['tenant']);
 
         $this->router = $this->getContainer()->get('router');
     }
