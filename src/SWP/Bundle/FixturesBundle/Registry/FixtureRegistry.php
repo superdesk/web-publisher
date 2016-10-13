@@ -15,6 +15,7 @@ class FixtureRegistry
                 'article' => 'SWP\Bundle\FixturesBundle\DataFixtures\PHPCR\LoadArticlesData',
                 'separate_article' => 'SWP\Bundle\FixturesBundle\DataFixtures\PHPCR\LoadSeparateArticlesData',
                 'route' => 'SWP\Bundle\FixturesBundle\DataFixtures\PHPCR\LoadRoutesData',
+                'homepage' => 'SWP\Bundle\FixturesBundle\DataFixtures\PHPCR\LoadHomepagesData',
             ],
             'doctrine' => [
                 'tenant' => 'SWP\Bundle\FixturesBundle\DataFixtures\ORM\LoadTenantsData',

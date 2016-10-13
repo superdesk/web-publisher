@@ -29,16 +29,11 @@ class DefaultControllerTest extends WebTestCase
     {
         self::bootKernel();
         $this->initDatabase();
+        $this->loadCustomFixtures(['tenant', 'article']);
     }
 
     public function testIndexOnDevices()
     {
-        $this->loadFixtures([
-            'SWP\Bundle\FixturesBundle\DataFixtures\PHPCR\LoadTenantsData',
-            'SWP\Bundle\FixturesBundle\DataFixtures\PHPCR\LoadArticlesData',
-            'SWP\Bundle\FixturesBundle\DataFixtures\PHPCR\LoadHomepagesData',
-        ], null, 'doctrine_phpcr');
-
         $client = static::createClient();
         foreach (self::$devices as $userAgent => $filter) {
             if (!in_array($userAgent, ['no_agent_0', 'no_agent_1'])) {
@@ -54,18 +49,12 @@ class DefaultControllerTest extends WebTestCase
 
     public function testHomepage()
     {
-        $this->loadFixtures([
-            'SWP\Bundle\FixturesBundle\DataFixtures\PHPCR\LoadTenantsData',
-            'SWP\Bundle\FixturesBundle\DataFixtures\PHPCR\LoadArticlesData',
-            'SWP\Bundle\FixturesBundle\DataFixtures\PHPCR\LoadHomepagesData',
-        ], null, 'doctrine_phpcr');
-
         $client = static::createClient();
         $crawler = $client->request('GET', '/');
 
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
         $this->assertEquals(1, $crawler->filter('html:contains("Homepage")')->count());
         $this->assertEquals(1, $crawler->filter('html:contains("Current tenant: default")')->count());
-        $this->assertEquals(1, $crawler->filter('html:contains("id: /swp/123456/123abc/routes/homepage")')->count());
+        $this->assertEquals(1, $crawler->filter('html:contains("id: 1")')->count());
     }
 }
