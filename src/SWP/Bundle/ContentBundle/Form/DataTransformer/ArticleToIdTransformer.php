@@ -74,7 +74,7 @@ final class ArticleToIdTransformer implements DataTransformerInterface
 
         $article = $this->articleProvider->getOneById($articleId);
 
-        if (null === $article) {
+        if (!$article instanceof ArticleInterface) {
             throw new TransformationFailedException(sprintf(
                 'Article with id "%s" does not exist!',
                 $article

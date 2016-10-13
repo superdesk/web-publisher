@@ -150,10 +150,12 @@ class RouteController extends FOSRestController
      *
      * @ApiDoc(
      *     resource=true,
-     *     description="Updates routes for current tenant",
+     *     description="Update single route",
      *     statusCodes={
      *         200="Returned on success.",
-     *         404="Returned when route not found."
+     *         400="Returned when not valid data.",
+     *         404="Returned when not found.",
+     *         409="Returned on conflict."
      *     },
      *     input="SWP\Bundle\ContentBundle\Form\Type\RouteType"
      * )
@@ -177,7 +179,7 @@ class RouteController extends FOSRestController
             return $this->handleView(View::create($route, 200));
         }
 
-        return $this->handleView(View::create($form, 500));
+        return $this->handleView(View::create($form, 400));
     }
 
     private function findOr404($id)

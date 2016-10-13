@@ -13,4 +13,10 @@ SWP\Bundle\CoreBundle\Model\Tenant:
             joinColumn:
                 name: organization_id
                 referencedColumnName: id
-                onDelete: CASCADE
+    oneToOne:
+        homepage:
+            targetEntity: SWP\Bundle\ContentBundle\Doctrine\ORM\Route
+            joinColumn:
+                name: tenant_route_id
+                referencedColumnName: id
+                nullable: true

@@ -14,21 +14,21 @@
 
 namespace SWP\Bundle\CoreBundle\Model;
 
-use SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\RouteObjectInterface;
+use SWP\Bundle\ContentBundle\Model\RouteInterface;
 
 interface HomepageBasedTenantInterface
 {
     /**
      * Gets the homepage.
      *
-     * @return RouteObjectInterface
+     * @return RouteInterface
      */
     public function getHomepage();
 
     /**
      * Sets the homepage.
      *
-     * @param RouteObjectInterface $homepage
+     * @param RouteInterface $homepage
      */
-    public function setHomepage(RouteObjectInterface $homepage);
+    public function setHomepage(RouteInterface $homepage);
 }

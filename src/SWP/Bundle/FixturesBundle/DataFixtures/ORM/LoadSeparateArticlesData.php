@@ -28,15 +28,17 @@ class LoadSeparateArticlesData extends AbstractFixture implements FixtureInterfa
     {
         $env = $this->getEnvironment();
 
-        $this->loadFixtures(
-            [
-                '@SWPFixturesBundle/Resources/fixtures/ORM/'.$env.'/separate_article.yml',
-            ],
-            $manager,
-            [
-                'providers' => [$this],
-            ]
-        );
+        if ('test' === $env) {
+            $this->loadFixtures(
+                [
+                    '@SWPFixturesBundle/Resources/fixtures/ORM/'.$env.'/separate_article.yml',
+                ],
+                $manager,
+                [
+                    'providers' => [$this],
+                ]
+            );
+        }
     }
 
     /**

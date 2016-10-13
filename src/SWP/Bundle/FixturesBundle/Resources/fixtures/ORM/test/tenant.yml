@@ -1,3 +1,11 @@
+SWP\Bundle\ContentBundle\Doctrine\ORM\Route:
+    route1:
+        name: "homepage1"
+        type: "content"
+    route2:
+        name: "homepage2"
+        type: "content"
+
 SWP\Bundle\CoreBundle\Model\Tenant:
     tenant1:
         name: "Default tenant"
@@ -5,9 +13,11 @@ SWP\Bundle\CoreBundle\Model\Tenant:
         themeName: "swp/test-theme"
         code: "123abc"
         organization: "@org1"
+        homepage: "@route1"
     tenant2:
         name: "<company()>"
         subdomain: "client1"
         themeName: "swp/test-theme"
         code: "456def"
         organization: "@org2"
+        homepage: "@route2"

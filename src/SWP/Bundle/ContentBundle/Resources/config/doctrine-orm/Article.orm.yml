@@ -58,7 +58,7 @@ SWP\Bundle\ContentBundle\Doctrine\ORM\Article:
             joinColumn:
                 name: route_id
                 referencedColumnName: id
-                onDelete: CASCADE
+                onDelete: "SET NULL"
     oneToMany:
         media:
             targetEntity: SWP\Bundle\ContentBundle\Doctrine\ORM\ArticleMedia
