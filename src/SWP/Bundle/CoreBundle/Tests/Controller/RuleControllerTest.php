@@ -31,13 +31,7 @@ class RuleControllerTest extends WebTestCase
     {
         self::bootKernel();
         $this->initDatabase();
-        $this->loadFixtures([
-            'SWP\Bundle\FixturesBundle\DataFixtures\PHPCR\LoadTenantsData',
-        ], null, 'doctrine_phpcr');
-
-        $this->loadFixtureFiles([
-            '@SWPFixturesBundle/Resources/fixtures/ORM/test/Rule.yml',
-        ], true);
+        $this->loadCustomFixtures(['tenant', 'rule']);
 
         $this->router = $this->getContainer()->get('router');
     }

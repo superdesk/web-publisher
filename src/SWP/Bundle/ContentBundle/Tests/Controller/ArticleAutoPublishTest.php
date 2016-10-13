@@ -35,7 +35,6 @@ class ArticleAutoPublishTest extends WebTestCase
 
         $this->initDatabase();
         $this->loadCustomFixtures(['tenant']);
-
         $this->router = $this->getContainer()->get('router');
     }
 
@@ -125,7 +124,6 @@ class ArticleAutoPublishTest extends WebTestCase
             'route' => [
                 'name' => 'articles',
                 'type' => 'collection',
-                'parent' => '/',
                 'content' => null,
             ],
         ]);

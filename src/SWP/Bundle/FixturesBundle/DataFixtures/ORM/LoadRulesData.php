@@ -15,11 +15,10 @@
 namespace SWP\Bundle\FixturesBundle\DataFixtures\ORM;
 
 use Doctrine\Common\DataFixtures\FixtureInterface;
-use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use SWP\Bundle\FixturesBundle\AbstractFixture;
 
-class LoadSeparateArticlesData extends AbstractFixture implements FixtureInterface, OrderedFixtureInterface
+class LoadRulesData extends AbstractFixture implements FixtureInterface
 {
     /**
      * {@inheritdoc}
@@ -30,20 +29,12 @@ class LoadSeparateArticlesData extends AbstractFixture implements FixtureInterfa
 
         $this->loadFixtures(
             [
-                '@SWPFixturesBundle/Resources/fixtures/ORM/'.$env.'/separate_article.yml',
+                '@SWPFixturesBundle/Resources/fixtures/ORM/'.$env.'/rule.yml',
             ],
             $manager,
             [
                 'providers' => [$this],
             ]
         );
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getOrder()
-    {
-        return 2;
     }
 }

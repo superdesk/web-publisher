@@ -10,3 +10,9 @@ SWP\Bundle\ContentBundle\Doctrine\ORM\Route:
         cacheTimeInSeconds:
             expose: true
             type: integer
+        articlesTemplateName:
+            expose: true
+            type: string
+        position:
+            expose: true
+            type: integer
