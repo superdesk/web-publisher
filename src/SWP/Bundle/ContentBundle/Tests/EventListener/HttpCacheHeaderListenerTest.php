@@ -32,11 +32,7 @@ class HttpCacheHeaderListenerTest extends WebTestCase
     {
         self::bootKernel();
         $this->initDatabase();
-
-        $this->loadFixtures([
-            'SWP\Bundle\FixturesBundle\DataFixtures\PHPCR\LoadTenantsData',
-            'SWP\Bundle\FixturesBundle\DataFixtures\PHPCR\LoadRoutesData',
-        ], null, 'doctrine_phpcr');
+        $this->loadCustomFixtures(['tenant', 'route']);
 
         $this->router = $this->getContainer()->get('router');
     }
@@ -57,10 +53,8 @@ class HttpCacheHeaderListenerTest extends WebTestCase
 
     private function getHeadersFromResponse($name)
     {
-        $documentManager = $this->getContainer()->get('document_manager');
-        $id = 'swp/123456/123abc/routes/'.$name;
-        $route = $documentManager->find('SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\Route', $id);
-
+        $routeProvider = $this->getContainer()->get('swp.provider.route');
+        $route = $routeProvider->getRouteByName($name);
         $this->assertNotNull($route);
         $this->assertEquals($route->getName(), $name);
 

@@ -14,12 +14,14 @@ class FixtureRegistry
                 'tenant' => 'SWP\Bundle\FixturesBundle\DataFixtures\PHPCR\LoadTenantsData',
                 'article' => 'SWP\Bundle\FixturesBundle\DataFixtures\PHPCR\LoadArticlesData',
                 'separate_article' => 'SWP\Bundle\FixturesBundle\DataFixtures\PHPCR\LoadSeparateArticlesData',
+                'route' => 'SWP\Bundle\FixturesBundle\DataFixtures\PHPCR\LoadRoutesData',
             ],
             'doctrine' => [
                 'tenant' => 'SWP\Bundle\FixturesBundle\DataFixtures\ORM\LoadTenantsData',
                 'article' => 'SWP\Bundle\FixturesBundle\DataFixtures\ORM\LoadArticlesData',
                 'separate_article' => 'SWP\Bundle\FixturesBundle\DataFixtures\ORM\LoadSeparateArticlesData',
                 'rule' => 'SWP\Bundle\FixturesBundle\DataFixtures\ORM\LoadRulesData',
+                'route' => 'SWP\Bundle\FixturesBundle\DataFixtures\ORM\LoadRoutesData',
             ],
         ];
 

@@ -35,7 +35,7 @@ class MetaRouter extends DynamicRouter
             return $this->internalRoutesCache[$cacheKey];
         }
 
-        if (is_object($name) && $name->getValues() instanceof ArticleInterface) {
+        if ($route instanceof Meta && $name->getValues() instanceof ArticleInterface) {
             $parameters['slug'] = $name->getValues()->getSlug();
             $route = $name->getValues()->getRoute();
 
@@ -43,8 +43,10 @@ class MetaRouter extends DynamicRouter
                 $parameters['slug'] = null;
                 $route = $name->getContext()->getCurrentPage()->getValues();
             }
-        } elseif (is_object($name) && $name->getValues() instanceof RouteInterface) {
+        } elseif ($route instanceof Meta && $name->getValues() instanceof RouteInterface) {
             $route = $name->getValues();
+        } elseif ($route instanceof RouteInterface) {
+            $route = $name;
         }
 
         $result = parent::generate($route, $parameters, $referenceType);
@@ -60,6 +62,8 @@ class MetaRouter extends DynamicRouter
             $name = $route->getValues()->getId();
         } elseif ($route instanceof Meta && $route->getValues() instanceof RouteInterface) {
             $name = $route->getValues()->getName();
+        } elseif ($route instanceof RouteInterface) {
+            $name = $route->getName();
         } else {
             $name = $route;
         }
@@ -72,9 +76,9 @@ class MetaRouter extends DynamicRouter
      */
     public function supports($name)
     {
-        return $name instanceof Meta && (
+        return ($name instanceof Meta && (
             $name->getValues() instanceof ArticleInterface ||
             $name->getValues() instanceof RouteInterface
-        ) || is_string($name);
+        )) || $name instanceof RouteInterface || is_string($name);
     }
 }
