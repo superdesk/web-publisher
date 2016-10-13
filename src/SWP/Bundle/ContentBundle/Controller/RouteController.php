@@ -95,8 +95,8 @@ class RouteController extends FOSRestController
         $this->get('event_dispatcher')
             ->dispatch(HttpCacheEvent::EVENT_NAME, new HttpCacheEvent($route));
 
-        if ($route->getChildren()->count() > 0) {
-            throw new ConflictHttpException('Route have children routes or content attached to it.');
+        if (null !== $route->getContent()) {
+            throw new ConflictHttpException('Route has content attached to it.');
         }
 
         $repository->remove($route);

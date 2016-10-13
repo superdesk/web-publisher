@@ -62,7 +62,7 @@ class RouteType extends AbstractType
                 ],
             ])
             ->add('content', ArticleSelectorType::class, [
-                'description' => 'Content path name e.g.: test-content-article',
+                'description' => 'Content identifier (e.g. article identifier)',
             ])
             ->add('cacheTimeInSeconds', IntegerType::class, [
                 'required' => false,

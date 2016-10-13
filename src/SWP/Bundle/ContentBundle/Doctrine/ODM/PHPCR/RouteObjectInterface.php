@@ -23,11 +23,4 @@ use Symfony\Cmf\Component\Routing\RouteObjectInterface as BaseRouteObjectInterfa
  */
 interface RouteObjectInterface extends RouteInterface, HierarchyInterface, BaseRouteObjectInterface
 {
-    /**
-     * Set the object this url points to.
-     *
-     * @param mixed $object A content object that can be persisted by the
-     *                      storage layer
-     */
-    public function setContent($object);
 }
