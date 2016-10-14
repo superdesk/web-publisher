@@ -27,7 +27,7 @@ class LoadRoutesData extends AbstractFixture implements FixtureInterface, Ordere
     const TEST_NO_CACHE_ROUTE_NAME = 'no-cache-route';
 
     /** @var array */
-    protected $commonData = ['type' => 'content', 'parent' => '/', 'content' => null];
+    protected $commonData = ['type' => 'content', 'content' => null];
 
     /**
      * {@inheritdoc}
@@ -47,12 +47,13 @@ class LoadRoutesData extends AbstractFixture implements FixtureInterface, Ordere
         $data = array_merge($data, $this->commonData);
         $route = new Route();
         $route->setName($data['name']);
-        $route->setStaticPrefix('/'.$data['name']);
         $route->setType($data['type']);
         $route->setContent($data['content']);
         if (isset($data['cacheTimeInSeconds'])) {
             $route->setCacheTimeInSeconds($data['cacheTimeInSeconds']);
         }
+
+        $route = $this->container->get('swp.service.route')->fillRoute($route);
 
         $manager->persist($route);
     }

@@ -101,24 +101,15 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface, Orde
             ],
         ];
 
+        $routeService  = $this->container->get('swp.service.route');
+
         foreach ($routes[$env] as $routeData) {
             $route = new Route();
             $route->setName($routeData['name']);
-            $route->setStaticPrefix('/'.$routeData['name']);
             $route->setType($routeData['type']);
 
             if (isset($routeData['cacheTimeInSeconds'])) {
                 $route->setCacheTimeInSeconds($routeData['cacheTimeInSeconds']);
-            }
-
-            if (isset($routeData['variablePattern'])) {
-                $route->setVariablePattern($routeData['variablePattern']);
-            }
-
-            if (isset($routeData['requirements'])) {
-                foreach ($routeData['requirements'] as $key => $value) {
-                    $route->setRequirement($key, $value);
-                }
             }
 
             if (isset($routeData['templateName'])) {
@@ -129,11 +120,8 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface, Orde
                 $route->setArticlesTemplateName($routeData['articlesTemplateName']);
             }
 
-            if (isset($routeData['defaults'])) {
-                foreach ($routeData['defaults'] as $key => $value) {
-                    $route->setDefault($key, $value);
-                }
-            }
+            $route = $routeService->fillRoute($route);
+
             $manager->persist($route);
         }
 
