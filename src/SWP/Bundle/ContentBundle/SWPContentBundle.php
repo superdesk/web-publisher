@@ -14,6 +14,7 @@
 
 namespace SWP\Bundle\ContentBundle;
 
+use SWP\Bundle\ContentBundle\DependencyInjection\Compiler\RegisterMediaFactoryPass;
 use SWP\Bundle\ContentBundle\DependencyInjection\Compiler\RegisterPHPCRArticleFactoryPass;
 use SWP\Bundle\ContentBundle\DependencyInjection\Compiler\RegisterORMArticleFactoryPass;
 use SWP\Bundle\ContentBundle\DependencyInjection\Compiler\RegisterRouteFactoryPass;
@@ -50,6 +51,7 @@ class SWPContentBundle extends Bundle
         parent::build($container);
         $container->addCompilerPass(new RegisterPHPCRArticleFactoryPass());
         $container->addCompilerPass(new RegisterRouteFactoryPass());
+        $container->addCompilerPass(new RegisterMediaFactoryPass());
         $container->addCompilerPass(new RegisterORMArticleFactoryPass());
     }
 }

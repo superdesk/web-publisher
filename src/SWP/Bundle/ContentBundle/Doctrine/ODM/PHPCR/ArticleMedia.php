@@ -30,11 +30,6 @@ class ArticleMedia extends BaseArticleMedia implements HierarchyInterface
     protected $parent;
 
     /**
-     * @var string
-     */
-    protected $id;
-
-    /**
      * @var ArrayCollection
      */
     protected $renditions;

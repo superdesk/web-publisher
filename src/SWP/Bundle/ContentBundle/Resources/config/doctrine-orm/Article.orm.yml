@@ -59,3 +59,8 @@ SWP\Bundle\ContentBundle\Doctrine\ORM\Article:
                 name: route_id
                 referencedColumnName: id
                 onDelete: "SET NULL"
+    oneToMany:
+        media:
+            targetEntity: SWP\Bundle\ContentBundle\Doctrine\ORM\ArticleMedia
+            mappedBy: article
+            cascade: ["remove"]

@@ -136,7 +136,7 @@ class GimmeListNode extends \Twig_Node
                 $compiler
                     ->write('if(is_object(')->subcompile($this->getNode('collectionType'))->raw(') && ')->subcompile($this->getNode('collectionType'))->raw(" instanceof \SWP\Component\TemplatesSystem\Gimme\Meta\MetaCollection) {\n")
                     ->indent()
-                    ->write('$context[\'loop\'][\'totalLength\'] = ')->subcompile($this->getNode('collectionType'))->raw("->getTotalItemCount();\n")
+                    ->write('$context[\'loop\'][\'totalLength\'] = ')->subcompile($this->getNode('collectionType'))->raw("->getTotalItemsCount();\n")
                     ->outdent()
                     ->write("}\n");
             }

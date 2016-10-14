@@ -56,7 +56,7 @@ class ArticleLoaderTest extends WebTestCase
 
         $this->assertNull($this->articleLoader->load('article', ['slug' => 'test-articles']));
         $this->assertNull($this->articleLoader->load('article', ['slug' => 'test-article'], LoaderInterface::COLLECTION));
-        $this->assertTrue(count($this->articleLoader->load('article', ['route' => 1], LoaderInterface::COLLECTION)) == 3);
+        $this->assertTrue(count($this->articleLoader->load('article', ['route' => '/news'], LoaderInterface::COLLECTION)) == 3);
         $this->assertNull($this->articleLoader->load('article', ['route' => 99], LoaderInterface::COLLECTION));
 
         $this->assertNull($this->articleLoader->load('article', [], LoaderInterface::COLLECTION));
@@ -64,14 +64,17 @@ class ArticleLoaderTest extends WebTestCase
 
     public function testLoadWithParameters()
     {
-        $this->assertTrue(count($this->articleLoader->load('article', ['route' => 1, 'limit' => 2], LoaderInterface::COLLECTION)) == 2);
+        $this->assertTrue(count($this->articleLoader->load('article', ['route' => '/news', 'limit' => 2], LoaderInterface::COLLECTION)) == 2);
 
-        $articlesZero = $this->articleLoader->load('article', ['route' => 1], LoaderInterface::COLLECTION);
-        $articlesOne = $this->articleLoader->load('article', ['route' => 1, 'start' => 1], LoaderInterface::COLLECTION);
+        $articlesCollection = $this->articleLoader->load('article', ['route' => '/news', 'limit' => 1], LoaderInterface::COLLECTION);
+        $this->assertTrue($articlesCollection->getTotalItemsCount() == 3);
+
+        $articlesZero = $this->articleLoader->load('article', ['route' => '/news'], LoaderInterface::COLLECTION);
+        $articlesOne = $this->articleLoader->load('article', ['route' => '/news', 'start' => 1], LoaderInterface::COLLECTION);
         $this->assertTrue($articlesZero[1]->title === $articlesOne[0]->title);
 
-        $articlesAsc = $this->articleLoader->load('article', ['route' => 1, 'order' => ['title', 'asc']], LoaderInterface::COLLECTION);
-        $articlesDesc = $this->articleLoader->load('article', ['route' => 1, 'order' => ['title', 'desc']], LoaderInterface::COLLECTION);
+        $articlesAsc = $this->articleLoader->load('article', ['route' => '/news', 'order' => ['title', 'asc']], LoaderInterface::COLLECTION);
+        $articlesDesc = $this->articleLoader->load('article', ['route' => '/news', 'order' => ['title', 'desc']], LoaderInterface::COLLECTION);
 
         $this->assertTrue(count($articlesAsc) == count($articlesDesc));
 

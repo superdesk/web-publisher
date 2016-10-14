@@ -14,9 +14,9 @@
 
 namespace SWP\Bundle\ContentBundle\Doctrine\ORM;
 
-use SWP\Bundle\ContentBundle\Model\Article as BaseArticle;
+use SWP\Bundle\ContentBundle\Model\ArticleMedia as BaseArticleMedia;
 use SWP\Component\Storage\Model\PersistableInterface;
 
-class Article extends BaseArticle implements PersistableInterface
+class ArticleMedia extends BaseArticleMedia implements PersistableInterface
 {
 }

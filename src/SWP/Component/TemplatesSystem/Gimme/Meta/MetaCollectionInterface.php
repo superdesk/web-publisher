@@ -23,5 +23,5 @@ interface MetaCollectionInterface extends Collection
      *
      * @var int
      */
-    public function getTotalItemCount();
+    public function getTotalItemsCount();
 }
