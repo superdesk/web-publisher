@@ -159,7 +159,7 @@ class ArticleControllerTest extends WebTestCase
         $client->enableProfiler();
         $client->request('PATCH', $this->router->generate('swp_api_content_update_articles', ['id' => 'features']), [
             'article' => [
-                'route' => 1,
+                'route' => 3,
             ],
         ]);
         self::assertEquals(200, $client->getResponse()->getStatusCode());
@@ -175,17 +175,17 @@ class ArticleControllerTest extends WebTestCase
 
         $client->request('GET', $this->router->generate('swp_api_content_show_articles', ['id' => 'test-news-article']));
         self::assertEquals(200, $client->getResponse()->getStatusCode());
-        self::assertArraySubset(['route' => ['id' => 1]], json_decode($client->getResponse()->getContent(), true));
+        self::assertArraySubset(['route' => ['id' => 3]], json_decode($client->getResponse()->getContent(), true));
 
         $client->request('PATCH', $this->router->generate('swp_api_content_update_articles', ['id' => 'test-news-article']), [
             'article' => [
-                'route' => 2,
+                'route' => 4,
             ],
         ]);
 
         self::assertEquals(200, $client->getResponse()->getStatusCode());
         self::assertArraySubset(
-            ['route' => ['id' => 2, 'name' => 'articles']],
+            ['route' => ['id' => 4, 'name' => 'articles']],
             json_decode($client->getResponse()->getContent(), true)
         );
     }
