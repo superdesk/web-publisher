@@ -66,6 +66,7 @@ class RouteType extends AbstractType
                 'required' => false,
                 'description' => 'Content identifier (e.g. article identifier)',
             ])
+            ->add('parent', RouteSelectorType::class)
             ->add('cacheTimeInSeconds', IntegerType::class, [
                 'required' => false,
                 'constraints' => [
