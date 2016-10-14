@@ -14,7 +14,7 @@
 
 namespace SWP\Bundle\CoreBundle\Tests\Twig;
 
-use Liip\FunctionalTestBundle\Test\WebTestCase;
+use SWP\Bundle\FixturesBundle\WebTestCase;
 
 class StringyExtensionTest extends WebTestCase
 {
