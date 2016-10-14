@@ -210,7 +210,9 @@ class ContentPushControllerTest extends WebTestCase
         self::assertArrayHasKey('media', $content);
         self::assertCount(1, $content['media']);
         self::assertArrayHasKey('renditions', $content['media'][0]['image']);
+        self::assertArrayHasKey('renditions', $content['media'][0]);
         self::assertCount(3, $content['media'][0]['image']['renditions']);
+        self::assertCount(3, $content['media'][0]['renditions']);
         self::assertArraySubset(['asset_id' => '1234567890987654321c', 'file_extension' => 'png'], $content['media'][0]['image']);
     }
 

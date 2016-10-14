@@ -151,10 +151,12 @@ class ProcessArticleMediaListener
 
             $imageRendition = new ImageRendition();
             $imageRendition->setImage($image);
+            $imageRendition->setMedia($articleMedia);
             $imageRendition->setHeight($rendition->getHeight());
             $imageRendition->setWidth($rendition->getWidth());
             $imageRendition->setName($key);
             $this->objectManager->persist($imageRendition);
+            $articleMedia->addRendition($imageRendition);
         }
 
         return $articleMedia;

@@ -18,7 +18,13 @@ SWP\Bundle\ContentBundle\Doctrine\ORM\ImageRendition:
     manyToOne:
         image:
             targetEntity: SWP\Bundle\ContentBundle\Doctrine\ORM\Image
-            inversedBy: image
+            inversedBy: renditions
             joinColumn:
                 name: image_id
+                referencedColumnName: id
+        media:
+            targetEntity: SWP\Bundle\ContentBundle\Doctrine\ORM\ArticleMedia
+            inversedBy: renditions
+            joinColumn:
+                name: media_id
                 referencedColumnName: id

@@ -26,6 +26,10 @@ SWP\Bundle\ContentBundle\Doctrine\ORM\ArticleMedia:
         usageTerms:
             type: string
             nullable: true
+    oneToMany:
+        renditions:
+            targetEntity: SWP\Bundle\ContentBundle\Doctrine\ORM\ImageRendition
+            mappedBy: media
     manyToOne:
         article:
             targetEntity: SWP\Bundle\ContentBundle\Doctrine\ORM\Article

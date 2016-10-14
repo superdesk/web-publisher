@@ -14,9 +14,46 @@
 
 namespace SWP\Bundle\ContentBundle\Doctrine\ORM;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use SWP\Bundle\ContentBundle\Model\ArticleMedia as BaseArticleMedia;
 use SWP\Component\Storage\Model\PersistableInterface;
 
 class ArticleMedia extends BaseArticleMedia implements PersistableInterface
 {
+    /**
+     * @var ArrayCollection
+     */
+    protected $renditions;
+
+    /**
+     * ArticleMedia constructor.
+     */
+    public function __construct()
+    {
+        $this->renditions = new ArrayCollection();
+    }
+
+    /**
+     * @return ArrayCollection
+     */
+    public function getRenditions()
+    {
+        return $this->renditions;
+    }
+
+    /**
+     * @param ImageRendition $rendition
+     */
+    public function addRendition(ImageRendition $rendition)
+    {
+        $this->renditions->add($rendition);
+    }
+
+    /**
+     * @param ArrayCollection $renditions
+     */
+    public function setRenditions(ArrayCollection $renditions)
+    {
+        $this->renditions = $renditions;
+    }
 }

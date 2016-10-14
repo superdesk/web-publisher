@@ -113,6 +113,8 @@ class LoadArticlesMediaData extends AbstractFixture implements FixtureInterface,
                     $imageRendition->setHeight($rendition['height']);
                     $imageRendition->setWidth($rendition['width']);
                     $imageRendition->setName($key);
+                    $imageRendition->setMedia($articleMedia);
+                    $articleMedia->addRendition($imageRendition);
                     $manager->persist($imageRendition);
                 }
             }

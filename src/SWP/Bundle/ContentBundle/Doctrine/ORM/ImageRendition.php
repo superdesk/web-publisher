@@ -34,6 +34,27 @@ class ImageRendition extends BaseImageRendition implements PersistableInterface
     protected $image;
 
     /**
+     * @var ArticleMediaInterface
+     */
+    protected $media;
+
+    /**
+     * @return ArticleMedia
+     */
+    public function getMedia(): ArticleMedia
+    {
+        return $this->media;
+    }
+
+    /**
+     * @param ArticleMedia $media
+     */
+    public function setMedia(ArticleMedia $media)
+    {
+        $this->media = $media;
+    }
+
+    /**
      * @return ImageInterface
      */
     public function getImage()
