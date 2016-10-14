@@ -74,11 +74,13 @@ class RouteService implements RouteServiceInterface
         switch ($route->getType()) {
             case RouteInterface::TYPE_CONTENT:
                 $route->setVariablePattern(null);
+                $route->setStaticPrefix('/'.$route->getName());
                 $route->setRequirements([]);
 
                 break;
             case RouteInterface::TYPE_COLLECTION:
                 $route->setVariablePattern('/{slug}');
+                $route->setStaticPrefix('/'.$route->getName());
                 $route->setRequirement('slug', '[a-zA-Z0-9\-_\/]+');
                 $route->setDefault('slug', null);
 

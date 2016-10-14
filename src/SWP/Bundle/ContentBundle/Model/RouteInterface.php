@@ -66,6 +66,16 @@ interface RouteInterface extends PersistableInterface
     public function getVariablePattern();
 
     /**
+     * @param $prefix string
+     */
+    public function setStaticPrefix($prefix);
+
+    /**
+     * @return string
+     */
+    public function getStaticPrefix();
+
+    /**
      * Sets requirements for route.
      *
      * @param array $requirements

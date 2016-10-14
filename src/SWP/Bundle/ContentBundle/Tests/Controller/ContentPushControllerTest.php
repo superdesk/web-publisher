@@ -17,6 +17,7 @@ namespace SWP\Bundle\ContentBundle\Tests\Controller;
 use SWP\Bundle\FixturesBundle\WebTestCase;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\Routing\RouterInterface;
 
 class ContentPushControllerTest extends WebTestCase
 {
@@ -37,6 +38,7 @@ class ContentPushControllerTest extends WebTestCase
         $this->initDatabase();
         $this->loadCustomFixtures(['tenant']);
 
+        /* @var RouterInterface router */
         $this->router = $this->getContainer()->get('router');
     }
 
@@ -50,7 +52,6 @@ class ContentPushControllerTest extends WebTestCase
                 'content' => null,
             ],
         ]);
-
         $this->assertEquals(201, $client->getResponse()->getStatusCode());
 
         $client->request(
@@ -61,12 +62,11 @@ class ContentPushControllerTest extends WebTestCase
             ['CONTENT_TYPE' => 'application/json'],
             self::TEST_CONTENT
         );
-
         $this->assertEquals(201, $client->getResponse()->getStatusCode());
 
-        $client->request('PATCH', $this->router->generate('swp_api_content_update_routes', ['id' => 'articles']), [
+        $client->request('PATCH', $this->router->generate('swp_api_content_update_routes', ['id' => 3]), [
             'route' => [
-                'content' => 'ads-fsadf-sdaf-sadf-sadf',
+                'content' => 1,
             ],
         ]);
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
@@ -74,8 +74,10 @@ class ContentPushControllerTest extends WebTestCase
         $client->request('PATCH', $this->router->generate('swp_api_content_update_articles', ['id' => 'ads-fsadf-sdaf-sadf-sadf']), [
             'article' => [
                 'status' => 'published',
+                'route' => 3,
             ],
         ]);
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
 
         $client->request('GET', '/articles/ads-fsadf-sdaf-sadf-sadf');
 
