@@ -17,18 +17,19 @@ declare(strict_types=1);
 namespace SWP\Bundle\ContentBundle\Provider;
 
 use Doctrine\Common\Collections\Collection;
-use SWP\Bundle\ContentBundle\Doctrine\ArticleRepositoryInterface;
+use SWP\Bundle\ContentBundle\Doctrine\ArticleMediaRepositoryInterface;
+use SWP\Bundle\ContentBundle\Model\ArticleMediaInterface;
 use SWP\Component\Common\Criteria\Criteria;
 use SWP\Bundle\ContentBundle\Model\ArticleInterface;
 
-interface ArticleProviderInterface
+interface ArticleMediaProviderInterface
 {
     /**
      * Gets article repository.
      *
-     * @return ArticleRepositoryInterface
+     * @return ArticleMediaRepositoryInterface
      */
-    public function getRepository(): ArticleRepositoryInterface;
+    public function getRepository(): ArticleMediaRepositoryInterface;
 
     /**
      * Gets the article by id.
@@ -40,31 +41,14 @@ interface ArticleProviderInterface
     public function getOneById($id);
 
     /**
-     * Gets parent article.
+     * @param $criteria
      *
-     * @param $id
-     *
-     * @return ArticleInterface
+     * @return ArticleMediaInterface
      */
-    public function getParent($id);
-
-    /**
-     * @param string $routeIdentifier
-     * @param array  $order
-     *
-     * @return object
-     */
-    public function getRouteArticlesQuery(string $routeIdentifier, array $order);
+    public function getOneByCriteria(Criteria $criteria): ArticleMediaInterface;
 
     /**
      * @param $criteria
-     *
-     * @return ArticleInterface
-     */
-    public function getOneByCriteria(Criteria $criteria): ArticleInterface;
-
-    /**
-     * @param Criteria $criteria
      *
      * @return Collection
      */

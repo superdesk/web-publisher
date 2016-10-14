@@ -13,6 +13,7 @@ class FixtureRegistry
             'doctrine_phpcr' => [
                 'tenant' => 'SWP\Bundle\FixturesBundle\DataFixtures\PHPCR\LoadTenantsData',
                 'article' => 'SWP\Bundle\FixturesBundle\DataFixtures\PHPCR\LoadArticlesData',
+                'article_media' => 'SWP\Bundle\FixturesBundle\DataFixtures\PHPCR\LoadArticlesMediaData',
                 'separate_article' => 'SWP\Bundle\FixturesBundle\DataFixtures\PHPCR\LoadSeparateArticlesData',
                 'route' => 'SWP\Bundle\FixturesBundle\DataFixtures\PHPCR\LoadRoutesData',
                 'homepage' => 'SWP\Bundle\FixturesBundle\DataFixtures\PHPCR\LoadHomepagesData',
@@ -20,6 +21,7 @@ class FixtureRegistry
             'doctrine' => [
                 'tenant' => 'SWP\Bundle\FixturesBundle\DataFixtures\ORM\LoadTenantsData',
                 'article' => 'SWP\Bundle\FixturesBundle\DataFixtures\ORM\LoadArticlesData',
+                'article_media' => 'SWP\Bundle\FixturesBundle\DataFixtures\ORM\LoadArticlesMediaData',
                 'separate_article' => 'SWP\Bundle\FixturesBundle\DataFixtures\ORM\LoadSeparateArticlesData',
                 'rule' => 'SWP\Bundle\FixturesBundle\DataFixtures\ORM\LoadRulesData',
                 'route' => 'SWP\Bundle\FixturesBundle\DataFixtures\ORM\LoadRoutesData',

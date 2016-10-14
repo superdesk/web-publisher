@@ -267,21 +267,23 @@ class ContentPushControllerTest extends WebTestCase
             ['CONTENT_TYPE' => 'application/json'],
             self::TEST_CONTENT_WITH_MEDIA
         );
-        $this->assertEquals(201, $client->getResponse()->getStatusCode());
 
-        $client->request('PATCH', $this->router->generate('swp_api_content_update_articles', ['id' => 'text-item-with-image']), [
+        $this->assertEquals(201, $client->getResponse()->getStatusCode());
+        $client->request('PATCH', $this->router->generate('swp_api_content_update_articles', ['id' => 1]), [
             'article' => [
                 'status' => 'published',
+                'route' => 3,
             ],
         ]);
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
 
         $content = json_decode($client->getResponse()->getContent(), true);
+
+        $client->enableProfiler();
         $client->request(
             'GET',
-            $this->router->generate($content['route']['id'], ['slug' => 'text-item-with-image'])
+            $this->router->generate($content['route']['name'], ['slug' => 'text-item-with-image'])
         );
-
         $content = $client->getResponse()->getContent();
         self::assertContains('<img alt="Article loaded from context" src="http://localhost/media/1234567890987654321c.png" />', $content);
         self::assertContains('<img alt="Article defined in parameters" src="http://localhost/media/1234567890987654321c.png" />', $content);
@@ -413,7 +415,7 @@ class ContentPushControllerTest extends WebTestCase
                 'configuration' => [
                     [
                         'key' => 'route',
-                        'value' => 'articles/assign-article-automatically-here',
+                        'value' => 4,
                     ],
                 ],
             ],
@@ -454,7 +456,7 @@ class ContentPushControllerTest extends WebTestCase
 
         $client->request(
             'GET',
-            $this->router->generate('swp_api_content_show_articles', ['id' => 'ads-fsadf-sdaf-sadf-sadf'])
+            $this->router->generate('swp_api_content_show_articles', ['id' => 1])
         );
 
         self::assertEquals(200, $client->getResponse()->getStatusCode());
@@ -474,7 +476,7 @@ class ContentPushControllerTest extends WebTestCase
                 'configuration' => [
                     [
                         'key' => 'route',
-                        'value' => 'articles/assign-article-automatically-here',
+                        'value' => 3,
                     ],
                 ],
             ],
@@ -505,7 +507,7 @@ class ContentPushControllerTest extends WebTestCase
 
         $client->request(
             'GET',
-            $this->router->generate('swp_api_content_show_articles', ['id' => 'ads-fsadf-sdaf-sadf-sadf'])
+            $this->router->generate('swp_api_content_show_articles', ['id' => 1])
         );
 
         self::assertEquals(200, $client->getResponse()->getStatusCode());
@@ -525,7 +527,7 @@ class ContentPushControllerTest extends WebTestCase
                 'configuration' => [
                     [
                         'key' => 'route',
-                        'value' => 'articles/assign-article-automatically-here',
+                        'value' => 4,
                     ],
                     [
                         'key' => 'templateName',
@@ -575,7 +577,7 @@ class ContentPushControllerTest extends WebTestCase
 
         self::assertEquals(200, $client->getResponse()->getStatusCode());
         self::assertArraySubset(
-            ['route' => ['id' => '/swp/123456/123abc/routes/articles/assign-article-automatically-here']],
+            ['route' => ['name' => 'articles/assign-article-automatically-here']],
             json_decode($client->getResponse()->getContent(), true)
         );
 

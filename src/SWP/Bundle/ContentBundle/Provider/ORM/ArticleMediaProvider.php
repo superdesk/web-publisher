@@ -18,7 +18,9 @@ namespace SWP\Bundle\ContentBundle\Provider\ORM;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use SWP\Bundle\ContentBundle\Doctrine\ArticleMediaRepositoryInterface;
 use SWP\Bundle\ContentBundle\Model\ArticleMediaInterface;
+use SWP\Bundle\ContentBundle\Provider\ArticleMediaProviderInterface;
 use SWP\Component\Common\Criteria\Criteria;
 use SWP\Component\Storage\Repository\RepositoryInterface;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -26,7 +28,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 /**
  * ArticleMediaProvider to provide media from ORM.
  */
-class ArticleMediaProvider
+class ArticleMediaProvider implements ArticleMediaProviderInterface
 {
     /**
      * @var RepositoryInterface
@@ -44,7 +46,10 @@ class ArticleMediaProvider
         $this->articleMediaRepository = $articleMediaRepository;
     }
 
-    public function getRepository(): RepositoryInterface
+    /**
+     * @return ArticleMediaRepositoryInterface
+     */
+    public function getRepository(): ArticleMediaRepositoryInterface
     {
         return $this->articleRepository;
     }
@@ -63,20 +68,33 @@ class ArticleMediaProvider
     public function getOneByCriteria(Criteria $criteria): ArticleMediaInterface
     {
         $criteria->set('maxResults', 1);
-        $media = $this->articleMediaRepository->getByCriteria($criteria, [])->getOneOrNullResult();
+        $media = $this->articleMediaRepository->getByCriteria($criteria, [])->getQuery()->getOneOrNullResult();
         if (null === $media) {
             throw new NotFoundHttpException('Article was not found');
         }
 
-        return $article;
+        return $media;
+    }
+
+    public function getCountByCriteria(Criteria $criteria) : int
+    {
+        return (int) $this->articleMediaRepository->getByCriteria(
+            $criteria,
+            $criteria->get('order', [])
+        )
+            ->select('COUNT(am.id)')
+            ->setFirstResult(null)
+            ->setMaxResults(null)
+            ->getQuery()
+            ->getSingleScalarResult();
     }
 
     public function getManyByCriteria(Criteria $criteria): Collection
     {
-        $results = $this->articleRepository->getByCriteria(
+        $results = $this->articleMediaRepository->getByCriteria(
             $criteria,
             $criteria->get('order', [])
-        )->getResult();
+        )->getQuery()->getResult();
 
         return new ArrayCollection($results);
     }

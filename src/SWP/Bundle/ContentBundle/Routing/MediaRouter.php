@@ -34,7 +34,7 @@ class MediaRouter extends Router implements VersatileGeneratorInterface
             return;
         }
 
-        $parameters['mediaId'] = $item->getId();
+        $parameters['mediaId'] = $item->getAssetId();
         $parameters['extension'] = $item->getFileExtension();
 
         return parent::generate('swp_media_get', $parameters, $referenceType);

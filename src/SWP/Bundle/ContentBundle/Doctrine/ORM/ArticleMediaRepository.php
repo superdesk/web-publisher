@@ -26,6 +26,6 @@ class ArticleMediaRepository extends EntityRepository implements ArticleMediaRep
     {
         $qb = $this->getQueryByCriteria($criteria, $sorting, 'am');
 
-        return $qb->getQuery();
+        return $qb;
     }
 }

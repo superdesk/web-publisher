@@ -32,7 +32,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 /**
  * Class ArticleLoader.
  */
-class ArticleLoader implements LoaderInterface
+class ArticleLoader extends PaginatedLoader implements LoaderInterface
 {
     /**
      * @var ArticleProviderInterface
@@ -147,10 +147,11 @@ class ArticleLoader implements LoaderInterface
                 return;
             }
 
-            $articles = $this->articleProvider->getManyByCriteria($this->adjustCriteria($criteria, $parameters));
-
+            $criteria = $this->applyPaginationToCriteria($criteria, $parameters);
+            $articles = $this->articleProvider->getManyByCriteria($criteria);
             if ($articles->count() > 0) {
                 $metaCollection = new MetaCollection();
+                $metaCollection->setTotalItemsCount($this->articleProvider->getCountByCriteria($criteria));
                 foreach ($articles as $article) {
                     $articleMeta = $this->getArticleMeta($article);
                     if (null !== $articleMeta) {
@@ -164,25 +165,6 @@ class ArticleLoader implements LoaderInterface
         }
 
         return;
-    }
-
-    public function adjustCriteria(Criteria $criteria, array $parameters): Criteria
-    {
-        if (array_key_exists('limit', $parameters)) {
-            $criteria->set('maxResults', (int) $parameters['limit']);
-        }
-
-        if (array_key_exists('start', $parameters)) {
-            $criteria->set('firstResult', (int) $parameters['start']);
-        }
-
-        if (array_key_exists('order', $parameters)) {
-            if (count($parameters['order']) == 2) {
-                $criteria->set('order', [$parameters['order'][0] => $parameters['order'][1]]);
-            }
-        }
-
-        return $criteria;
     }
 
     /**

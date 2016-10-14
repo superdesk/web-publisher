@@ -16,6 +16,7 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\ContentBundle\Doctrine\ORM;
 
+use Doctrine\ORM\QueryBuilder;
 use SWP\Component\Common\Criteria\Criteria;
 use SWP\Bundle\ContentBundle\Doctrine\ArticleRepositoryInterface;
 use SWP\Bundle\ContentBundle\Model\ArticleInterface;
@@ -41,13 +42,13 @@ class ArticleRepository extends EntityRepository implements ArticleRepositoryInt
         throw new \Exception('Not implemented');
     }
 
-    public function getByCriteria(Criteria $criteria, array $sorting)
+    public function getByCriteria(Criteria $criteria, array $sorting): QueryBuilder
     {
         $qb = $this->getQueryByCriteria($criteria, $sorting, 'a');
         $qb->andWhere('a.status = :status')
             ->setParameter('status', $criteria->get('status', ArticleInterface::STATUS_PUBLISHED));
 
-        return $qb->getQuery();
+        return $qb;
     }
 
     /**
