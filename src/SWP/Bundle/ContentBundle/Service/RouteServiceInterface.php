@@ -35,4 +35,11 @@ interface RouteServiceInterface
      * @return RouteInterface
      */
     public function updateRoute(RouteInterface $route);
+
+    /**
+     * @param RouteInterface $route
+     *
+     * @return RouteInterface
+     */
+    public function fillRoute(RouteInterface $route);
 }

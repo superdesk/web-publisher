@@ -69,18 +69,23 @@ class RouteService implements RouteServiceInterface
         $this->eventDispatcher->dispatch($eventName, new RouteEvent($route));
     }
 
-    private function fillRoute(RouteInterface $route)
+    /**
+     * @param RouteInterface $route
+     *
+     * @return RouteInterface
+     */
+    public function fillRoute(RouteInterface $route)
     {
         switch ($route->getType()) {
             case RouteInterface::TYPE_CONTENT:
                 $route->setVariablePattern(null);
-                $route->setStaticPrefix('/'.$route->getName());
+                $route->setStaticPrefix($this->generatePath($route));
                 $route->setRequirements([]);
 
                 break;
             case RouteInterface::TYPE_COLLECTION:
                 $route->setVariablePattern('/{slug}');
-                $route->setStaticPrefix('/'.$route->getName());
+                $route->setStaticPrefix($this->generatePath($route));
                 $route->setRequirement('slug', '[a-zA-Z0-9\-_\/]+');
                 $route->setDefault('slug', null);
 
@@ -90,5 +95,19 @@ class RouteService implements RouteServiceInterface
         }
 
         return $route;
+    }
+
+    /**
+     * @param RouteInterface $route
+     *
+     * @return string
+     */
+    protected function generatePath(RouteInterface $route)
+    {
+        if (null === $parent = $route->getParent()) {
+            return '/'.$route->getName();
+        }
+
+        return sprintf('%s/%s', $parent->getStaticPrefix(), $route->getName());
     }
 }
