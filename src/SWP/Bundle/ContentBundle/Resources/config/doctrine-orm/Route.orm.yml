@@ -2,6 +2,11 @@ SWP\Bundle\ContentBundle\Doctrine\ORM\Route:
     type: entity
     table: swp_route
     repositoryClass: SWP\Bundle\ContentBundle\Doctrine\ORM\RouteRepository
+    options:
+        orderBy: { 'lft': 'ASC' }
+    gedmo:
+        tree:
+            type: nested
     id:
         id:
             type: integer
@@ -25,10 +30,28 @@ SWP\Bundle\ContentBundle\Doctrine\ORM\Route:
         position:
             type: integer
             nullable: true
+        lft:
+            type: integer
+            gedmo:
+                - treeLeft
+        rgt:
+            type: integer
+            gedmo:
+                - treeRight
+        level:
+            type: integer
+            gedmo:
+                - treeLevel
     oneToMany:
         articles:
             targetEntity: SWP\Bundle\ContentBundle\Doctrine\ORM\Article
             mappedBy: route
+        children:
+            targetEntity: SWP\Bundle\ContentBundle\Doctrine\ORM\Route
+            mappedBy: parent
+            cascade: ["all"]
+            orderBy:
+                lft: ASC
     oneToOne:
         content:
             targetEntity: SWP\Bundle\ContentBundle\Doctrine\ORM\Article
@@ -36,6 +59,24 @@ SWP\Bundle\ContentBundle\Doctrine\ORM\Route:
                 name: route_content_id
                 referencedColumnName: id
                 nullable: true
+    manyToOne:
+        root:
+            targetEntity: SWP\Bundle\ContentBundle\Doctrine\ORM\Route
+            joinColumn:
+                referencedColumnName: id
+                onDelete: CASCADE
+                nullable: true
+            gedmo:
+                - treeRoot
+        parent:
+            targetEntity: SWP\Bundle\ContentBundle\Doctrine\ORM\Route
+            inversedBy: children
+            joinColumn:
+                referencedColumnName: id
+                onDelete: CASCADE
+                nullable: true
+            gedmo:
+                - treeParent
     uniqueConstraints:
         swp_route_name_idx:
             columns: [ name ]

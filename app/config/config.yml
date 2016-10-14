@@ -223,6 +223,7 @@ stof_doctrine_extensions:
             softdeleteable: true
             loggable: true
             sortable: true
+            tree: true
 
 swp_multi_tenancy:
     use_orm_listeners: true

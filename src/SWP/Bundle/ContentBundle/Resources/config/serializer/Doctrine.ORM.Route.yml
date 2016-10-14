@@ -16,3 +16,10 @@ SWP\Bundle\ContentBundle\Doctrine\ORM\Route:
         position:
             expose: true
             type: integer
+        level:
+            expose: true
+            type: integer
+        children:
+            expose: true
+        parent:
+            expose: true

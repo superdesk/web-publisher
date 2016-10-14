@@ -135,9 +135,7 @@ class ContentControllerTest extends WebTestCase
 
     public function testTestLoadingRouteWithCustomTemplate()
     {
-        $this->loadFixtures([
-            'SWP\Bundle\FixturesBundle\DataFixtures\PHPCR\LoadTenantsData',
-        ], null, 'doctrine_phpcr');
+        $this->loadCustomFixtures(['tenant']);
 
         $router = $this->getContainer()->get('router');
         $client = static::createClient();

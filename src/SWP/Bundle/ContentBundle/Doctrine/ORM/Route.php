@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Superdesk Web Publisher Content Bundle.
  *
@@ -15,6 +17,7 @@
 namespace SWP\Bundle\ContentBundle\Doctrine\ORM;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use SWP\Bundle\ContentBundle\Model\RouteInterface;
 use SWP\Bundle\ContentBundle\Model\RouteTrait;
 use Symfony\Cmf\Bundle\RoutingBundle\Model\Route as BaseRoute;
@@ -29,17 +32,51 @@ class Route extends BaseRoute implements PersistableInterface, RouteInterface
      */
     protected $id;
 
+    /**
+     * @var Collection
+     */
     protected $articles;
+
+    /**
+     * @var RouteInterface
+     */
+    protected $root;
+
+    /**
+     * @var RouteInterface
+     */
+    protected $parent;
+
+    /**
+     * @var Collection|RouteInterface[]
+     */
+    protected $children;
+
+    /**
+     * @var int
+     */
+    protected $lft;
+
+    /**
+     * @var int
+     */
+    protected $rgt;
+
+    /**
+     * @var int
+     */
+    protected $level;
 
     public function __construct()
     {
         $this->articles = new ArrayCollection();
+        $this->children = new ArrayCollection();
 
         parent::__construct();
     }
 
     /**
-     * @return mixed
+     * {@inheritdoc}
      */
     public function getArticles()
     {
@@ -47,20 +84,144 @@ class Route extends BaseRoute implements PersistableInterface, RouteInterface
     }
 
     /**
-     * @param mixed $articles
+     * {@inheritdoc}
      */
     public function setArticles($articles)
     {
         $this->articles = $articles;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getId()
     {
         return parent::getId();
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getRouteName()
     {
         return $this->getName();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function isRoot(): bool
+    {
+        return null === $this->parent;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getRoot(): RouteInterface
+    {
+        return $this->root;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getParent()
+    {
+        return $this->parent;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setParent(RouteInterface $parent = null)
+    {
+        $this->parent = $parent;
+    }
+
+    /**
+     * @return Collection|RouteInterface[]
+     */
+    public function getChildren()
+    {
+        return $this->children;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function hasChild(RouteInterface $route): bool
+    {
+        return $this->children->contains($route);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function addChild(RouteInterface $route)
+    {
+        if (!$this->hasChild($route)) {
+            $route->setParent($this);
+            $this->children->add($route);
+        }
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function removeChild(RouteInterface $route)
+    {
+        if ($this->hasChild($route)) {
+            $route->setParent(null);
+            $this->children->removeElement($route);
+        }
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getLeft(): int
+    {
+        return $this->lft;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setLeft(int $left)
+    {
+        $this->lft = $left;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getRight(): int
+    {
+        return $this->rgt;
+    }
+
+    /**
+     * @param int $right
+     */
+    public function setRight(int $right)
+    {
+        $this->rgt = $right;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getLevel(): int
+    {
+        return $this->level;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setLevel(int $level)
+    {
+        $this->level = $level;
     }
 }
