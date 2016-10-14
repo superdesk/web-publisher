@@ -27,9 +27,7 @@ class StringyExtensionTest extends WebTestCase
     {
         self::bootKernel();
 
-        $this->loadFixtures([
-            'SWP\Bundle\FixturesBundle\DataFixtures\PHPCR\LoadTenantsData',
-        ], null, 'doctrine_phpcr');
+        $this->loadCustomFixtures(['tenant']);
 
         $this->twig = $this->getContainer()->get('Twig');
     }

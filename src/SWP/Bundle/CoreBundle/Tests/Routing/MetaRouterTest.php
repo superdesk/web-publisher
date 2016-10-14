@@ -40,10 +40,7 @@ class MetaRouterTest extends WebTestCase
 
         $this->runCommand('doctrine:phpcr:init:dbal', ['--force' => true, '--env' => 'test'], true);
         $this->runCommand('doctrine:phpcr:repository:init', ['--env' => 'test'], true);
-        $this->loadFixtures([
-            'SWP\Bundle\FixturesBundle\DataFixtures\PHPCR\LoadTenantsData',
-            'SWP\Bundle\FixturesBundle\DataFixtures\PHPCR\LoadArticlesData',
-        ], null, 'doctrine_phpcr');
+        $this->loadCustomFixtures(['tenant', 'articles']);
 
         $metaLoader = $this->getContainer()->get('swp_template_engine_loader_chain');
         $router = $this->getContainer()->get('cmf_routing.dynamic_router');
