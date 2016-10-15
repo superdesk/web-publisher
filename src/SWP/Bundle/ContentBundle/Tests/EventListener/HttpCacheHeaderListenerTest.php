@@ -15,7 +15,7 @@
 namespace SWP\Bundle\ContentBundle\Tests\EventListener;
 
 use SWP\Bundle\FixturesBundle\WebTestCase;
-use SWP\Bundle\FixturesBundle\DataFixtures\PHPCR\LoadRoutesData;
+use SWP\Bundle\FixturesBundle\DataFixtures\ORM\LoadRoutesData;
 use Symfony\Cmf\Component\Routing\ChainRouter;
 
 class HttpCacheHeaderListenerTest extends WebTestCase

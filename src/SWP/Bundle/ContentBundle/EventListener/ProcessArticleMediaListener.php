@@ -33,11 +33,6 @@ class ProcessArticleMediaListener
     protected $objectManager;
 
     /**
-     * @var string
-     */
-    protected $mediaBasepath;
-
-    /**
      * @var MediaManagerInterface
      */
     protected $mediaManager;
@@ -56,20 +51,17 @@ class ProcessArticleMediaListener
      * ProcessArticleMediaListener constructor.
      *
      * @param ObjectManager            $objectManager
-     * @param                          $mediaBasepath
      * @param MediaManagerInterface    $mediaManager
      * @param MediaFactoryInterface    $mediaFactory
      * @param ImageRepositoryInterface $imageRepository
      */
     public function __construct(
         ObjectManager $objectManager,
-        $mediaBasepath,
         MediaManagerInterface $mediaManager,
         MediaFactoryInterface $mediaFactory,
         ImageRepositoryInterface $imageRepository
     ) {
         $this->objectManager = $objectManager;
-        $this->mediaBasepath = $mediaBasepath;
         $this->mediaManager = $mediaManager;
         $this->mediaFactory = $mediaFactory;
         $this->imageRepository = $imageRepository;
@@ -112,12 +104,12 @@ class ProcessArticleMediaListener
      *
      * @return ArticleMedia
      */
-    public function handleMedia(ArticleInterface $article, $key, ItemInterface $item)
+    public function handleMedia(ArticleInterface $article, string $key, ItemInterface $item)
     {
         $articleMedia = $this->mediaFactory->create($article, $item);
 
         if (ItemInterface::TYPE_PICTURE === $item->getType()) {
-            $this->createImageMedia($articleMedia, $item);
+            $articleMedia = $this->createImageMedia($articleMedia, $key, $item);
             $this->replaceBodyImagesWithMedia($article, $articleMedia);
         } elseif (ItemInterface::TYPE_FILE === $item->getType()) {
             //TODO: handle files upload
@@ -128,11 +120,12 @@ class ProcessArticleMediaListener
 
     /**
      * @param ArticleMedia  $articleMedia
+     * @param string        $key
      * @param ItemInterface $item
      *
      * @return ArticleMedia
      */
-    public function createImageMedia(ArticleMedia $articleMedia, ItemInterface $item)
+    public function createImageMedia(ArticleMedia $articleMedia, string $key, ItemInterface $item)
     {
         if (0 === $item->getRenditions()->count()) {
             return;
@@ -140,12 +133,21 @@ class ProcessArticleMediaListener
 
         $originalRendition = $item->getRenditions()['original'];
         $articleMedia->setMimetype($originalRendition->getMimetype());
+        $articleMedia->setKey($key);
         $image = $this->imageRepository->findOneByAssetId($this->mediaManager->handleMediaId($originalRendition->getMedia()));
         $articleMedia->setImage($image);
 
         foreach ($item->getRenditions() as $key => $rendition) {
-            $image = $this->imageRepository->findOneByAssetId($this->mediaManager->handleMediaId($originalRendition->getMedia()));
-            if (null === $image || count($image->getRenditions()) > 0) {
+            $image = $this->imageRepository->findOneByAssetId($this->mediaManager->handleMediaId($rendition->getMedia()));
+            if (null === $image) {
+                continue;
+            }
+
+            if (count($image->getRenditions()) > 0) {
+                foreach ($image->getRenditions() as $imageRendition) {
+                    $articleMedia->addRendition($imageRendition);
+                }
+
                 continue;
             }
 
@@ -169,33 +171,30 @@ class ProcessArticleMediaListener
     private function replaceBodyImagesWithMedia(ArticleInterface $article, ArticleMedia $articleMedia)
     {
         $body = $article->getBody();
-        $mediaId = $articleMedia->getId();
-
+        $mediaId = $articleMedia->getKey();
         preg_match(
             "/(<!-- EMBED START Image {id: \"$mediaId\"} -->)(.+?)(<!-- EMBED END Image {id: \"$mediaId\"} -->)/im",
             str_replace(PHP_EOL, '', $body),
             $embeds
         );
-
         if (empty($embeds)) {
             return;
         }
 
         $figureString = $embeds[2];
-
         $crawler = new Crawler($figureString);
         $images = $crawler->filter('figure img');
         /** @var \DOMElement $imageElement */
         foreach ($images as $imageElement) {
             foreach ($articleMedia->getRenditions() as $rendition) {
-                if (strpos($imageElement->getAttribute('src'), $rendition->getImage()->getId()) !== false) {
+                if (strpos($imageElement->getAttribute('src'), $rendition->getImage()->getAssetId()) !== false) {
                     $attributes = $imageElement->attributes;
                     while ($attributes->length) {
                         $imageElement->removeAttribute($attributes->item(0)->name);
                     }
                     $imageElement->setAttribute('src', $this->mediaManager->getMediaUri($rendition->getImage()));
                     $imageElement->setAttribute('data-media-id', $mediaId);
-                    $imageElement->setAttribute('data-image-id', $rendition->getImage()->getId());
+                    $imageElement->setAttribute('data-image-id', $rendition->getImage()->getAssetId());
                 }
             }
         }

@@ -35,7 +35,6 @@ class ArticleMediaLoaderTest extends WebTestCase
 
         $filesystem = new Filesystem();
         $filesystem->remove($this->getContainer()->getParameter('kernel.cache_dir').'/uploads');
-
         $this->loadCustomFixtures(['tenant', 'article_media']);
 
         $this->articleMediaLoader = new ArticleMediaLoader(

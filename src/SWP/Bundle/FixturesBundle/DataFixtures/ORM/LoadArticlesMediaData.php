@@ -91,6 +91,7 @@ class LoadArticlesMediaData extends AbstractFixture implements FixtureInterface,
                 // create Media
                 $articleMedia = new ArticleMedia();
                 $articleMedia->setArticle($article);
+                $articleMedia->setKey('embedded6358005131');
                 $articleMedia->setBody('article media body');
                 $articleMedia->setByLine('By Best Editor');
                 $articleMedia->setLocated('Porto');

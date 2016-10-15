@@ -9,6 +9,8 @@ SWP\Bundle\ContentBundle\Doctrine\ORM\ArticleMedia:
             generator:
                 strategy: IDENTITY
     fields:
+        key:
+            type: string
         body:
             type: string
             nullable: true

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Superdesk Web Publisher Content Bundle.
  *
@@ -22,9 +24,14 @@ use SWP\Component\Bridge\Model\ItemInterface;
 class ArticleMedia implements ArticleMediaInterface
 {
     /**
-     * @var string
+     * @var int
      */
     protected $id;
+
+    /**
+     * @var string
+     */
+    protected $key;
 
     /**
      * @var FileInterface
@@ -137,6 +144,17 @@ class ArticleMedia implements ArticleMediaInterface
         $this->article = $article;
 
         return $this;
+    }
+
+    public function getAssetId()
+    {
+        if ($this->getImage() instanceof Image) {
+            return $this->getImage()->getAssetId();
+        } elseif ($this->getFile() instanceof File) {
+            return $this->getFile()->getAssetId();
+        }
+
+        return;
     }
 
     /**
@@ -257,6 +275,22 @@ class ArticleMedia implements ArticleMediaInterface
         $this->usageTerms = $usageTerms;
 
         return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getKey(): string
+    {
+        return $this->key;
+    }
+
+    /**
+     * @param string $key
+     */
+    public function setKey(string $key)
+    {
+        $this->key = $key;
     }
 
     /**

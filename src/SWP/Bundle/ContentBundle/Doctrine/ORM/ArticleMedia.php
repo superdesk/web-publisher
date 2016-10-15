@@ -52,7 +52,7 @@ class ArticleMedia extends BaseArticleMedia implements PersistableInterface
     /**
      * @param ArrayCollection $renditions
      */
-    public function setRenditions(ArrayCollection $renditions)
+    public function setRenditions($renditions)
     {
         $this->renditions = $renditions;
     }
