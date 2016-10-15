@@ -28,7 +28,7 @@ class FixtureRegistry
                 'separate_article' => 'SWP\Bundle\FixturesBundle\DataFixtures\ORM\LoadSeparateArticlesData',
                 'rule' => 'SWP\Bundle\FixturesBundle\DataFixtures\ORM\LoadRulesData',
                 'route' => 'SWP\Bundle\FixturesBundle\DataFixtures\ORM\LoadRoutesData',
-                //'collection_route' => 'SWP\Bundle\FixturesBundle\DataFixtures\PHPCR\LoadCollectionRouteArticles',
+                'collection_route' => 'SWP\Bundle\FixturesBundle\DataFixtures\ORM\LoadCollectionRouteArticles',
                 'menu' => 'SWP\Bundle\FixturesBundle\DataFixtures\ORM\LoadMenusData',
                 'menu_node' => 'SWP\Bundle\FixturesBundle\DataFixtures\ORM\LoadMenuNodesData',
             ],

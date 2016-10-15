@@ -54,7 +54,6 @@ class ArticleTitleChangeTest extends WebTestCase
             'route' => [
                 'name' => 'articles',
                 'type' => 'collection',
-                'parent' => '/',
                 'content' => null,
             ],
         ]);
@@ -120,7 +119,6 @@ class ArticleTitleChangeTest extends WebTestCase
             'route' => [
                 'name' => 'articles',
                 'type' => 'collection',
-                'parent' => '/',
                 'content' => null,
             ],
         ]);
@@ -186,7 +184,6 @@ class ArticleTitleChangeTest extends WebTestCase
             'route' => [
                 'name' => 'articles',
                 'type' => 'collection',
-                'parent' => '/',
                 'content' => null,
             ],
         ]);

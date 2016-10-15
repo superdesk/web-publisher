@@ -86,7 +86,7 @@ class RouteService implements RouteServiceInterface
             case RouteInterface::TYPE_COLLECTION:
                 $route->setVariablePattern('/{slug}');
                 $route->setStaticPrefix($this->generatePath($route));
-                $route->setRequirement('slug', '[a-zA-Z0-9\-_\/]+');
+                $route->setRequirement('slug', '[a-zA-Z0-9*\-_\/]+');
                 $route->setDefault('slug', null);
 
                 break;
