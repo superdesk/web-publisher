@@ -1,0 +1,21 @@
+SWP\Bundle\MenuBundle\Model\MenuItem:
+    exclusion_policy: ALL
+    properties:
+        id:
+            expose: true
+            type: integer
+        parent:
+            expose: true
+        root:
+            expose: true
+        children:
+            expose: true
+        level:
+            expose: true
+            type: integer
+        lft:
+            expose: true
+            type: integer
+        rgt:
+            expose: true
+            type: integer

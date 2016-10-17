@@ -31,8 +31,8 @@ class AppKernel extends Kernel
             new Doctrine\Bundle\DoctrineCacheBundle\DoctrineCacheBundle(),
             new JMS\TranslationBundle\JMSTranslationBundle(),
             new Knp\Bundle\MenuBundle\KnpMenuBundle(),
-            new Symfony\Cmf\Bundle\MenuBundle\CmfMenuBundle(),
             new Oneup\FlysystemBundle\OneupFlysystemBundle(),
+            new Burgov\Bundle\KeyValueFormBundle\BurgovKeyValueFormBundle(),
 
             new SWP\Bundle\StorageBundle\SWPStorageBundle(),
             new SWP\Bundle\MultiTenancyBundle\SWPMultiTenancyBundle(),
@@ -42,7 +42,7 @@ class AppKernel extends Kernel
             new SWP\Bundle\ContentBundle\SWPContentBundle(),
             new SWP\Bundle\AnalyticsBundle\SWPAnalyticsBundle(),
             new SWP\Bundle\RuleBundle\SWPRuleBundle(),
-            new Burgov\Bundle\KeyValueFormBundle\BurgovKeyValueFormBundle(),
+            new SWP\Bundle\MenuBundle\SWPMenuBundle(),
 
             new Sentry\SentryBundle\SentryBundle(),
         ];

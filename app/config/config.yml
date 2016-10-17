@@ -3,6 +3,7 @@ imports:
     - { resource: "@SWPContentBundle/Resources/config/app/config.yml" }
     - { resource: "@SWPMultiTenancyBundle/Resources/config/app/config.yml" }
     - { resource: "@SWPRuleBundle/Resources/config/app/config.yml" }
+    - { resource: "@SWPMenuBundle/Resources/config/app/config.yml" }
     - { resource: "@SWPCoreBundle/Resources/config/app/config.yml" }
     - { resource: parameters.yml }
     - { resource: security.yml }
@@ -256,14 +257,16 @@ swp_rule:
                 rule:
                     model: SWP\Bundle\CoreBundle\Model\Rule
 
+swp_menu:
+    persistence:
+        orm:
+            enabled: true
+            classes:
+                menu:
+                    model: SWP\Bundle\CoreBundle\Model\MenuItem
+
 nelmio_api_doc:
     request_listener: false
-
-cmf_menu:
-    persistence:
-        phpcr:
-            enabled: true
-            menu_basepath: ~
 
 oneup_flysystem:
     adapters:

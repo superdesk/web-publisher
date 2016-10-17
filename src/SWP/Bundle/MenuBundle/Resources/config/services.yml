@@ -1,0 +1,15 @@
+services:
+    swp_menu.provider.orm_menu_provider:
+        class: SWP\Bundle\MenuBundle\Provider\OrmMenuProvider
+        public: false
+        arguments:
+            - '@swp.repository.menu'
+        tags:
+            - { name: knp_menu.provider }
+
+    swp_menu.form.type.menu_item_selector:
+        class: SWP\Bundle\MenuBundle\Form\Type\MenuItemSelectorType
+        arguments:
+            - '@swp.repository.menu'
+        tags:
+            - { name: form.type }
