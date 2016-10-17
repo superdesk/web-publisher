@@ -40,13 +40,13 @@ class MetaRouterTest extends WebTestCase
 
         $this->runCommand('doctrine:phpcr:init:dbal', ['--force' => true, '--env' => 'test'], true);
         $this->runCommand('doctrine:phpcr:repository:init', ['--env' => 'test'], true);
-        $this->loadCustomFixtures(['tenant', 'articles']);
+        $this->loadCustomFixtures(['tenant', 'article']);
 
         $metaLoader = $this->getContainer()->get('swp_template_engine_loader_chain');
         $router = $this->getContainer()->get('cmf_routing.dynamic_router');
         $this->assertEquals(
             '/news/test-news-article',
-            $router->generate($metaLoader->load('article', ['contentPath' => 'test-news-article']))
+            $router->generate($metaLoader->load('article', ['slug' => 'test-news-article']))
         );
     }
 
@@ -63,10 +63,9 @@ class MetaRouterTest extends WebTestCase
         $context = $this->getContainer()->get('swp_template_engine_context');
         $routeMeta = $metaLoader->load('route', ['route_object' => $this->getContainer()->get('swp.provider.route')->getRouteByName('collection-with-content')]);
         $context->setCurrentPage($routeMeta);
-
         $this->assertEquals(
             '/collection-with-content',
-            $router->generate($metaLoader->load('article', ['contentPath' => 'content-assigned-as-route-content']))
+            $router->generate($metaLoader->load('article', ['slug' => 'content-assigned-as-route-content']))
         );
     }
 }
