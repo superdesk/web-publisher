@@ -24,6 +24,7 @@ use FOS\RestBundle\View\View;
 use SWP\Bundle\ContentBundle\ArticleEvents;
 use SWP\Bundle\ContentBundle\Event\ArticleEvent;
 use SWP\Bundle\ContentBundle\Form\Type\MediaFileType;
+use SWP\Bundle\ContentBundle\Model\ArticleMedia;
 use SWP\Component\Bridge\Model\PackageInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
@@ -91,7 +92,7 @@ class ContentPushController extends FOSRestController
             if ($uploadedFile->isValid()) {
                 $media = $mediaManager->handleUploadedFile(
                     $uploadedFile,
-                    $mediaManager->handleMediaId($mediaId)
+                    ArticleMedia::handleMediaId($mediaId)
                 );
 
                 return $this->handleView(View::create([
@@ -129,9 +130,8 @@ class ContentPushController extends FOSRestController
         $objectManager = $this->container->get('swp.object_manager.media');
         $pathBuilder = $this->container->get('swp_multi_tenancy.path_builder');
         $mediaBasepath = $this->container->getParameter('swp_multi_tenancy.persistence.phpcr.media_basepath');
-        $mediaManager = $this->container->get('swp_content_bundle.manager.media');
 
-        $media = $objectManager->find(null, $pathBuilder->build($mediaBasepath).'/'.$mediaManager->handleMediaId($mediaId));
+        $media = $objectManager->find(null, $pathBuilder->build($mediaBasepath).'/'.ArticleMedia::handleMediaId($mediaId));
         if (null === $media) {
             throw new ResourceNotFoundException('Media don\'t exists in storage');
         }

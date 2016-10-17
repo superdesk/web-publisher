@@ -72,11 +72,15 @@ class TemplateNameResolver implements TemplateNameResolverInterface
             $templateName = $route->getTemplateName();
         }
 
-        if (null === $route->getTemplateName() || '' === $route->getTemplateName()) {
+        if (RouteInterface::TYPE_COLLECTION === $route->getType() && null === $route->getTemplateName()) {
             if ($contentTemplateName = $this->getTemplateNameFromRouteContent($route)) {
                 $templateName = $contentTemplateName;
             } else {
                 throw new NotFoundHttpException(sprintf('There is no template file defined for "%s" route!', $route->getName()));
+            }
+        } elseif (RouteInterface::TYPE_CONTENT === $route->getType()) {
+            if ($contentTemplateName = $this->getTemplateNameFromRouteContent($route)) {
+                $templateName = $contentTemplateName;
             }
         }
 

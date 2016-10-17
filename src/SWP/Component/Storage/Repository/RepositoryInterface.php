@@ -22,6 +22,15 @@ use SWP\Component\Storage\Model\PersistableInterface;
 interface RepositoryInterface extends ObjectRepository
 {
     /**
+     * Persists new object in manager.
+     *
+     * @param PersistableInterface $object
+     *
+     * @return mixed
+     */
+    public function persist(PersistableInterface $object);
+
+    /**
      * Adds new object into the repository.
      *
      * @param PersistableInterface $object

@@ -12,5 +12,5 @@ SWP\Bundle\ContentBundle\Model\File:
             href:
                 route: swp_media_get
                 parameters:
-                    mediaId: expr(object.getId())
+                    mediaId: expr(object.getAssetId())
                     extension: expr(object.getFileExtension())

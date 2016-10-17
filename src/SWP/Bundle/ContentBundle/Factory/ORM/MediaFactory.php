@@ -16,19 +16,47 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\ContentBundle\Factory\ORM;
 
+use SWP\Bundle\ContentBundle\Doctrine\ImageRepositoryInterface;
 use SWP\Bundle\ContentBundle\Doctrine\ORM\ArticleMedia;
 use SWP\Bundle\ContentBundle\Doctrine\ORM\File;
 use SWP\Bundle\ContentBundle\Doctrine\ORM\Image;
+use SWP\Bundle\ContentBundle\Doctrine\ORM\ImageRendition;
 use SWP\Bundle\ContentBundle\Factory\MediaFactoryInterface;
+use SWP\Bundle\ContentBundle\Model\ArticleInterface;
+use SWP\Bundle\ContentBundle\Model\ArticleMediaInterface;
+use SWP\Bundle\ContentBundle\Model\FileInterface;
+use SWP\Bundle\ContentBundle\Model\ImageInterface;
+use SWP\Bundle\ContentBundle\Model\ImageRenditionInterface;
+use SWP\Component\Bridge\Model\ItemInterface;
+use SWP\Component\Bridge\Model\Rendition;
+use SWP\Component\Common\Criteria\Criteria;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class MediaFactory implements MediaFactoryInterface
 {
-    public function create($article, $item)
+    /**
+     * @var ImageRepositoryInterface
+     */
+    protected $imageRepository;
+
+    /**
+     * MediaFactory constructor.
+     *
+     * @param ImageRepositoryInterface $imageRepository
+     */
+    public function __construct(
+        ImageRepositoryInterface $imageRepository
+    ) {
+        $this->imageRepository = $imageRepository;
+    }
+
+    public function create(ArticleInterface $article, string $key, ItemInterface $item): ArticleMediaInterface
     {
         $articleMedia = new ArticleMedia();
         $articleMedia->setArticle($article);
         $articleMedia->setFromItem($item);
+
+        $articleMedia = $this->createImageMedia($articleMedia, $key, $item);
 
         return $articleMedia;
     }
@@ -36,13 +64,72 @@ class MediaFactory implements MediaFactoryInterface
     /**
      * {@inheritdoc}
      */
-    public function createMediaAsset($uploadedFile, $assetId)
+    public function createMediaAsset(UploadedFile $uploadedFile, string $assetId): FileInterface
     {
         $asset = $this->getProperObject($uploadedFile);
         $asset->setAssetId($assetId);
         $asset->setFileExtension($uploadedFile->guessClientExtension());
 
         return $asset;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function createImageRendition(
+        ImageInterface $image,
+        ArticleMediaInterface $articleMedia,
+        string $key, Rendition $rendition
+    ): ImageRenditionInterface {
+        $imageRendition = new ImageRendition();
+        $imageRendition->setImage($image);
+        $imageRendition->setMedia($articleMedia);
+        $imageRendition->setHeight($rendition->getHeight());
+        $imageRendition->setWidth($rendition->getWidth());
+        $imageRendition->setName($key);
+
+        return $imageRendition;
+    }
+
+    /**
+     * Handle Article Media with Image (add renditions, set mimetype etc.).
+     *
+     * @param ArticleMedia  $articleMedia
+     * @param string        $key          unique key shared between media and image rendition
+     * @param ItemInterface $item
+     *
+     * @return ArticleMedia
+     */
+    protected function createImageMedia(ArticleMedia $articleMedia, string $key, ItemInterface $item)
+    {
+        if (0 === $item->getRenditions()->count()) {
+            return $articleMedia;
+        }
+
+        $originalRendition = $item->getRenditions()['original'];
+        $articleMedia->setMimetype($originalRendition->getMimetype());
+        $articleMedia->setKey($key);
+        $image = $this->imageRepository->findOneByAssetId(ArticleMedia::handleMediaId($originalRendition->getMedia()));
+        $articleMedia->setImage($image);
+
+        foreach ($item->getRenditions() as $key => $rendition) {
+            $criteria = new Criteria();
+            $criteria->set('assetId', ArticleMedia::handleMediaId($rendition->getMedia()));
+            $image = $this->imageRepository->getByCriteria($criteria, [])->getOneOrNullResult();
+            if (null === $image) {
+                continue;
+            }
+
+            $imageRendition = $image->getRendition();
+            if (null === $image->getRendition()) {
+                $imageRendition = $this->createImageRendition($image, $articleMedia, $key, $rendition);
+                $this->imageRepository->persist($imageRendition);
+            }
+
+            $articleMedia->addRendition($imageRendition);
+        }
+
+        return $articleMedia;
     }
 
     protected function getProperObject(UploadedFile $uploadedFile)

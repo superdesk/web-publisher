@@ -14,7 +14,6 @@
 
 namespace SWP\Bundle\ContentBundle\Doctrine\ORM;
 
-use Doctrine\Common\Collections\ArrayCollection;
 use SWP\Bundle\ContentBundle\Model\ArticleMediaInterface;
 use SWP\Bundle\ContentBundle\Model\Image as BaseImage;
 use SWP\Bundle\ContentBundle\Model\ImageRenditionInterface;
@@ -33,30 +32,24 @@ class Image extends BaseImage implements PersistableInterface
     protected $media;
 
     /**
-     * @var ArrayCollection
+     * @var interface ImageRenditionInterface
      */
-    protected $renditions;
-
-    public function __construct()
-    {
-        $this->renditions = new ArrayCollection();
-        parent::__construct();
-    }
+    protected $rendition;
 
     /**
-     * @return ArrayCollection
+     * @return ImageRenditionInterface
      */
-    public function getRenditions()
+    public function getRendition()
     {
-        return $this->renditions;
+        return $this->rendition;
     }
 
     /**
      * @param ImageRenditionInterface $rendition
      */
-    public function addRendition(ImageRenditionInterface $rendition)
+    public function setRendition(ImageRenditionInterface $rendition)
     {
-        $this->renditions->add($rendition);
+        $this->rendition = $rendition;
     }
 
     /**

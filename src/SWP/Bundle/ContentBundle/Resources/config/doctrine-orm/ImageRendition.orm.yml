@@ -1,7 +1,6 @@
 SWP\Bundle\ContentBundle\Doctrine\ORM\ImageRendition:
     type: entity
     table: swp_image_rendition
-    #repositoryClass: SWP\Bundle\ContentBundle\Doctrine\ORM\ImageRepository
     id:
         id:
             type: integer
@@ -15,13 +14,14 @@ SWP\Bundle\ContentBundle\Doctrine\ORM\ImageRendition:
             type: integer
         name:
             type: string
-    manyToOne:
+    oneToOne:
         image:
             targetEntity: SWP\Bundle\ContentBundle\Doctrine\ORM\Image
-            inversedBy: renditions
+            inversedBy: rendition
             joinColumn:
                 name: image_id
                 referencedColumnName: id
+    manyToOne:
         media:
             targetEntity: SWP\Bundle\ContentBundle\Doctrine\ORM\ArticleMedia
             inversedBy: renditions

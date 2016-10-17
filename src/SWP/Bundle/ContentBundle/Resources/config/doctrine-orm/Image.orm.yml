@@ -31,7 +31,6 @@ SWP\Bundle\ContentBundle\Doctrine\ORM\Image:
             joinColumn:
                 name: media_id
                 referencedColumnName: id
-    oneToMany:
-        renditions:
+        rendition:
             targetEntity: SWP\Bundle\ContentBundle\Doctrine\ORM\ImageRendition
             mappedBy: image

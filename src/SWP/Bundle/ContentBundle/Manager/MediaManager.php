@@ -16,6 +16,7 @@ namespace SWP\Bundle\ContentBundle\Manager;
 
 use SWP\Bundle\ContentBundle\Doctrine\ArticleMediaRepositoryInterface;
 use SWP\Bundle\ContentBundle\Factory\MediaFactoryInterface;
+use SWP\Bundle\ContentBundle\Model\ArticleMedia;
 use SWP\Bundle\ContentBundle\Model\FileInterface;
 use SWP\Component\MultiTenancy\Context\TenantContextInterface;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
@@ -77,7 +78,7 @@ class MediaManager implements MediaManagerInterface
      */
     public function handleUploadedFile(UploadedFile $uploadedFile, $mediaId)
     {
-        $mediaId = $this->handleMediaId($mediaId);
+        $mediaId = ArticleMedia::handleMediaId($mediaId);
         $this->saveFile($uploadedFile, $mediaId);
 
         $asset = $this->mediaFactory->createMediaAsset($uploadedFile, $mediaId);
@@ -130,20 +131,6 @@ class MediaManager implements MediaManagerInterface
             'mediaId' => $media->getAssetId(),
             'extension' => $media->getFileExtension(),
         ], $type);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function handleMediaId($mediaId)
-    {
-        $mediaId = preg_replace('/\\.[^.\\s]{3,4}$/', '', $mediaId);
-        $mediaIdElements = explode('/', $mediaId);
-        if (count($mediaIdElements) == 2) {
-            return $mediaIdElements[1];
-        }
-
-        return $mediaId;
     }
 
     protected function getMediaBasePath(): string

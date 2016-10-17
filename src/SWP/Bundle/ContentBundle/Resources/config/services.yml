@@ -60,7 +60,6 @@ services:
             - '@swp.object_manager.media'
             - '@swp_content_bundle.manager.media'
             - '@swp.factory.media'
-            - '@swp.repository.image'
         tags:
             - { name: kernel.event_listener, event: swp.article.pre_create, method: onArticleCreate }
 

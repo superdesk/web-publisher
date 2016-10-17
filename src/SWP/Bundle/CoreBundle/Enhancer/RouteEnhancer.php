@@ -124,11 +124,9 @@ class RouteEnhancer implements RouteEnhancerInterface
     public function setTemplateName($content, array $defaults)
     {
         $route = isset($defaults[RouteObjectInterface::ROUTE_OBJECT]) ? $defaults[RouteObjectInterface::ROUTE_OBJECT] : null;
-        if ($content && null === $content->getRoute() && $route) {
-            $defaults[RouteObjectInterface::TEMPLATE_NAME] = $this->templateNameResolver->resolve($route);
-        } elseif ($content) {
+        if ($content) {
             $defaults[RouteObjectInterface::TEMPLATE_NAME] = $this->templateNameResolver->resolve($content);
-        } else {
+        } elseif (null !== $route) {
             $defaults[RouteObjectInterface::TEMPLATE_NAME] = $this->templateNameResolver->resolve($route);
         }
 

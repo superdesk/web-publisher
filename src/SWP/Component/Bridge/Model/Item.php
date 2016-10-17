@@ -52,6 +52,11 @@ class Item extends BaseContent implements ItemInterface, TimestampableInterface
      */
     protected $package;
 
+    public function __construct()
+    {
+        $this->renditions = new ArrayCollection();
+    }
+
     /**
      * {@inheritdoc}
      */

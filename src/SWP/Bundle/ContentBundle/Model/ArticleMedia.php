@@ -304,4 +304,18 @@ class ArticleMedia implements ArticleMediaInterface
         $this->setDescription($item->getDescription());
         $this->setUsageTerms($item->getUsageTerms());
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public static function handleMediaId($mediaId)
+    {
+        $mediaId = preg_replace('/\\.[^.\\s]{3,4}$/', '', $mediaId);
+        $mediaIdElements = explode('/', $mediaId);
+        if (count($mediaIdElements) == 2) {
+            return $mediaIdElements[1];
+        }
+
+        return $mediaId;
+    }
 }

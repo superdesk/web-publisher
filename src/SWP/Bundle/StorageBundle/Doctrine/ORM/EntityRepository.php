@@ -36,6 +36,14 @@ class EntityRepository extends BaseEntityRepository implements RepositoryInterfa
     /**
      * {@inheritdoc}
      */
+    public function persist(PersistableInterface $object)
+    {
+        $this->_em->persist($object);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function add(PersistableInterface $object)
     {
         $this->_em->persist($object);
@@ -93,7 +101,7 @@ class EntityRepository extends BaseEntityRepository implements RepositoryInterfa
      */
     protected function applyCriteria(QueryBuilder $queryBuilder, Criteria $criteria, string $alias)
     {
-        $properties = array_merge($this->getClassMetadata()->getColumnNames(), $this->getClassMetadata()->getAssociationNames());
+        $properties = array_merge($this->getClassMetadata()->getFieldNames(), $this->getClassMetadata()->getAssociationNames());
         foreach ($criteria->all() as $property => $value) {
             if (!in_array($property, $properties)) {
                 continue;
