@@ -1,0 +1,19 @@
+SWP\Bundle\CoreBundle\Model\MenuItem:
+    type: entity
+    table: swp_menu
+    fields:
+        tenantCode:
+            type: string
+    manyToOne:
+        route:
+            targetEntity: SWP\Bundle\ContentBundle\Doctrine\ORM\Route
+            joinColumn:
+                name: route_id
+                referencedColumnName: id
+    oneToMany:
+        children:
+            targetEntity: SWP\Bundle\CoreBundle\Model\MenuItem
+            mappedBy: parent
+            cascade: ["all"]
+            orderBy:
+                lft: ASC
