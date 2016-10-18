@@ -42,6 +42,8 @@ SWP\Bundle\ContentBundle\Doctrine\ORM\Route:
             type: integer
             gedmo:
                 - treeLevel
+        tenantCode:
+            type: string
     oneToMany:
         articles:
             targetEntity: SWP\Bundle\ContentBundle\Doctrine\ORM\Article

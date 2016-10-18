@@ -15,8 +15,11 @@
 namespace SWP\Bundle\ContentBundle\Doctrine\ORM;
 
 use SWP\Bundle\ContentBundle\Model\Article as BaseArticle;
+use SWP\Component\MultiTenancy\Model\TenantAwareInterface;
+use SWP\Component\MultiTenancy\Model\TenantAwareTrait;
 use SWP\Component\Storage\Model\PersistableInterface;
 
-class Article extends BaseArticle implements PersistableInterface
+class Article extends BaseArticle implements PersistableInterface, TenantAwareInterface
 {
+    use TenantAwareTrait;
 }
