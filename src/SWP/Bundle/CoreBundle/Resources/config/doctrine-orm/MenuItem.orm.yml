@@ -12,7 +12,7 @@ SWP\Bundle\CoreBundle\Model\MenuItem:
                 referencedColumnName: id
     oneToMany:
         children:
-            targetEntity: SWP\Bundle\MenuBundle\Model\MenuItem
+            targetEntity: SWP\Bundle\CoreBundle\Model\MenuItem
             mappedBy: parent
             cascade: ["all"]
             orderBy:

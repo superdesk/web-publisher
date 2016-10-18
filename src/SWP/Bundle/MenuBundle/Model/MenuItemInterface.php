@@ -2,10 +2,9 @@
 
 namespace SWP\Bundle\MenuBundle\Model;
 
-use Knp\Menu\NodeInterface;
 use SWP\Component\Storage\Model\PersistableInterface;
 
-interface MenuItemInterface extends NodeInterface, PersistableInterface
+interface MenuItemInterface extends PersistableInterface
 {
     /**
      * @return MenuItemInterface|null

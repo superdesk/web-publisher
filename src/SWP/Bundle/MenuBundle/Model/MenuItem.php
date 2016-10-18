@@ -45,21 +45,17 @@ class MenuItem extends BaseMenuItem implements MenuItemInterface
      */
     protected $level;
 
+    /**
+     * MenuItem constructor.
+     *
+     * @param string           $name
+     * @param FactoryInterface $factory
+     */
     public function __construct($name, FactoryInterface $factory)
     {
         parent::__construct($name, $factory);
 
         $this->children = new ArrayCollection();
-    }
-
-    /**
-     * Get the options for the factory to create the item for this node.
-     *
-     * @return array
-     */
-    public function getOptions()
-    {
-        // TODO: Implement getOptions() method.
     }
 
     /**

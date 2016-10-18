@@ -36,6 +36,7 @@ class MenuWidgetTest extends WebTestCase
         $widgetHandler = new MenuWidgetHandler($widgetModel, $this->getContainer()->get('templating'));
 
         $content = $widgetHandler->render();
+
         $this->assertContains('<a href="http://example.com/home">Home</a>', $content);
         $this->assertContains('<a href="http://example.com/contact">Contact</a>', $content);
         $this->assertContains('<a href="http://example.com/contact/sub">Sub Contact</a>', $content);

@@ -187,6 +187,7 @@ class ContentPushControllerTest extends WebTestCase
         self::assertArrayHasKey('rendition', $content['media'][0]['image']);
         self::assertArrayHasKey('renditions', $content['media'][0]);
         self::assertCount(3, $content['media'][0]['renditions']);
+
         self::assertArraySubset(['id' => 3, 'asset_id' => '1234567890987654321c', 'file_extension' => 'png'], $content['media'][0]['image']);
 
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
@@ -469,7 +470,7 @@ class ContentPushControllerTest extends WebTestCase
         );
     }
 
-    public function testAssigningDefaultRouteIfRuleNotMatch()
+    public function testNotAssigningRouteIfRuleNotMatch()
     {
         $client = static::createClient();
         $client->request('POST', $this->router->generate('swp_api_core_create_rule'), [
@@ -515,7 +516,7 @@ class ContentPushControllerTest extends WebTestCase
 
         self::assertEquals(200, $client->getResponse()->getStatusCode());
         self::assertArraySubset(
-            ['route' => ['name' => 'articles']],
+            ['route' => null],
             json_decode($client->getResponse()->getContent(), true)
         );
     }
