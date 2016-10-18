@@ -16,7 +16,7 @@ namespace SWP\Bundle\ContentBundle\Model;
 
 use Symfony\Component\Routing\Route as BaseRoute;
 
-class Route extends BaseRoute implements RouteInterface
+abstract class Route extends BaseRoute implements RouteInterface
 {
     use RouteTrait;
 }

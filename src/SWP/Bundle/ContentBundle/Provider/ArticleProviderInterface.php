@@ -69,4 +69,11 @@ interface ArticleProviderInterface
      * @return Collection
      */
     public function getManyByCriteria(Criteria $criteria): Collection;
+
+    /**
+     * @param Criteria $criteria
+     *
+     * @return int
+     */
+    public function getCountByCriteria(Criteria $criteria) : int;
 }

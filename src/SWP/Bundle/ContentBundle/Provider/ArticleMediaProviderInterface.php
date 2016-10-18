@@ -25,7 +25,7 @@ use SWP\Bundle\ContentBundle\Model\ArticleInterface;
 interface ArticleMediaProviderInterface
 {
     /**
-     * Gets article repository.
+     * Gets article media repository.
      *
      * @return ArticleMediaRepositoryInterface
      */

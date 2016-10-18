@@ -16,9 +16,17 @@ namespace SWP\Bundle\ContentBundle\Provider;
 
 use SWP\Bundle\ContentBundle\Model\ArticleInterface;
 use SWP\Bundle\ContentBundle\Model\RouteInterface;
+use SWP\Bundle\ContentBundle\Model\RouteRepositoryInterface;
 
 interface RouteProviderInterface
 {
+    /**
+     * Gets routes repository.
+     *
+     * @return RouteRepositoryInterface
+     */
+    public function getRepository(): RouteRepositoryInterface;
+
     /**
      * Gets the base route.
      *
@@ -28,6 +36,8 @@ interface RouteProviderInterface
 
     /**
      * Gets one route by id.
+     *
+     * @param string $id
      *
      * @return RouteInterface|void
      */
@@ -41,4 +51,11 @@ interface RouteProviderInterface
      * @return RouteInterface|null
      */
     public function getRouteForArticle(ArticleInterface $article);
+
+    /**
+     * @param string $staticPrefix
+     *
+     * @return RouteInterface|null
+     */
+    public function getOneByStaticPrefix($staticPrefix);
 }

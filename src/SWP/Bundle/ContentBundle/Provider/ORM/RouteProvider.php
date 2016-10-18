@@ -52,6 +52,11 @@ class RouteProvider extends BaseRouteProvider implements RouteProviderInterface
         parent::__construct($managerRegistry, $candidatesStrategy, $className);
     }
 
+    public function getRepository(): RouteRepositoryInterface
+    {
+        return $this->routeRepository;
+    }
+
     /**
      * {@inheritdoc}
      */

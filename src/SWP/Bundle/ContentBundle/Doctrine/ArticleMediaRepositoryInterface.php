@@ -16,8 +16,17 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\ContentBundle\Doctrine;
 
+use Doctrine\ORM\QueryBuilder;
+use SWP\Component\Common\Criteria\Criteria;
 use SWP\Component\Storage\Repository\RepositoryInterface;
 
 interface ArticleMediaRepositoryInterface extends RepositoryInterface
 {
+    /**
+     * @param Criteria $criteria
+     * @param array    $sorting
+     *
+     * @return mixed
+     */
+    public function getByCriteria(Criteria $criteria, array $sorting): QueryBuilder;
 }

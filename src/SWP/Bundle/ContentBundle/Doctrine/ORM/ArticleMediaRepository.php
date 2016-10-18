@@ -16,13 +16,17 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\ContentBundle\Doctrine\ORM;
 
+use Doctrine\ORM\QueryBuilder;
 use SWP\Bundle\ContentBundle\Doctrine\ArticleMediaRepositoryInterface;
 use SWP\Component\Common\Criteria\Criteria;
 use SWP\Bundle\StorageBundle\Doctrine\ORM\EntityRepository;
 
 class ArticleMediaRepository extends EntityRepository implements ArticleMediaRepositoryInterface
 {
-    public function getByCriteria(Criteria $criteria, array $sorting)
+    /**
+     * {@inheritdoc}
+     */
+    public function getByCriteria(Criteria $criteria, array $sorting): QueryBuilder
     {
         $qb = $this->getQueryByCriteria($criteria, $sorting, 'am');
 

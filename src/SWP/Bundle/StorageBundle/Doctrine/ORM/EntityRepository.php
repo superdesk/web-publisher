@@ -68,6 +68,10 @@ class EntityRepository extends BaseEntityRepository implements RepositoryInterfa
     {
         $queryBuilder = $this->getQueryByCriteria($criteria, $sorting, 's');
 
+        if (null === $paginationData) {
+            $paginationData = new PaginationData();
+        }
+
         return $this->getPaginator($queryBuilder, $paginationData);
     }
 
