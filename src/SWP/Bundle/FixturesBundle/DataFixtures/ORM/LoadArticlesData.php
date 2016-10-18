@@ -25,7 +25,6 @@ use SWP\Bundle\ContentBundle\Model\ArticleInterface;
 class LoadArticlesData extends AbstractFixture implements FixtureInterface, OrderedFixtureInterface
 {
     private $manager;
-    private $defaultTenantPrefix;
 
     /**
      * {@inheritdoc}
@@ -101,7 +100,7 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface, Orde
             ],
         ];
 
-        $routeService  = $this->container->get('swp.service.route');
+        $routeService = $this->container->get('swp.service.route');
 
         foreach ($routes[$env] as $routeData) {
             $route = new Route();

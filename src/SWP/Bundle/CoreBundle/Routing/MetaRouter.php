@@ -25,7 +25,11 @@ class MetaRouter extends DynamicRouter
     protected $internalRoutesCache = [];
 
     /**
-     * {@inheritdoc}
+     * @param string|Meta     $name
+     * @param array           $parameters
+     * @param bool|int|string $referenceType
+     *
+     * @return mixed|string
      */
     public function generate($name, $parameters = [], $referenceType = UrlGeneratorInterface::ABSOLUTE_PATH)
     {

@@ -107,15 +107,17 @@ class MediaFactory implements MediaFactoryInterface
         }
 
         $originalRendition = $item->getRenditions()['original'];
+        $criteria = new Criteria();
+        $criteria->set('assetId', ArticleMedia::handleMediaId($originalRendition->getMedia()));
+
         $articleMedia->setMimetype($originalRendition->getMimetype());
         $articleMedia->setKey($key);
-        $image = $this->imageRepository->findOneByAssetId(ArticleMedia::handleMediaId($originalRendition->getMedia()));
+        $image = $this->imageRepository->getByCriteria($criteria, [])->getQuery()->getOneOrNullResult();
         $articleMedia->setImage($image);
 
         foreach ($item->getRenditions() as $key => $rendition) {
-            $criteria = new Criteria();
             $criteria->set('assetId', ArticleMedia::handleMediaId($rendition->getMedia()));
-            $image = $this->imageRepository->getByCriteria($criteria, [])->getOneOrNullResult();
+            $image = $this->imageRepository->getByCriteria($criteria, [])->getQuery()->getOneOrNullResult();
             if (null === $image) {
                 continue;
             }

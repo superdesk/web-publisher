@@ -22,11 +22,6 @@ use SWP\Component\Storage\Model\PersistableInterface;
 class Image extends BaseImage implements PersistableInterface
 {
     /**
-     * @var string
-     */
-    protected $assetId;
-
-    /**
      * @var ArticleMediaInterface
      */
     protected $media;
@@ -66,21 +61,5 @@ class Image extends BaseImage implements PersistableInterface
     public function setMedia(ArticleMediaInterface $media)
     {
         $this->media = $media;
-    }
-
-    /**
-     * @return string
-     */
-    public function getAssetId(): string
-    {
-        return $this->assetId;
-    }
-
-    /**
-     * @param string $assetId
-     */
-    public function setAssetId(string $assetId)
-    {
-        $this->assetId = $assetId;
     }
 }

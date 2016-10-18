@@ -16,17 +16,15 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\ContentBundle\Doctrine\ORM;
 
+use Doctrine\ORM\QueryBuilder;
 use SWP\Bundle\ContentBundle\Doctrine\ImageRepositoryInterface;
 use SWP\Component\Common\Criteria\Criteria;
 use SWP\Bundle\StorageBundle\Doctrine\ORM\EntityRepository;
 
 class ImageRepository extends EntityRepository implements ImageRepositoryInterface
 {
-    public function getByCriteria(Criteria $criteria, array $sorting)
+    public function getByCriteria(Criteria $criteria, array $sorting): QueryBuilder
     {
-        $qb = $this->getQueryByCriteria($criteria, $sorting, 'i');
-        $query = $qb->getQuery();
-
-        return $query;
+        return $this->getQueryByCriteria($criteria, $sorting, 'i');
     }
 }

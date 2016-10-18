@@ -42,6 +42,9 @@ class ArticleRepository extends EntityRepository implements ArticleRepositoryInt
         throw new \Exception('Not implemented');
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getByCriteria(Criteria $criteria, array $sorting): QueryBuilder
     {
         $qb = $this->getQueryByCriteria($criteria, $sorting, 'a');

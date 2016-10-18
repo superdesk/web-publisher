@@ -16,10 +16,9 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\ContentBundle\Provider\ORM;
 
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use SWP\Bundle\ContentBundle\Doctrine\ArticleMediaRepositoryInterface;
 use SWP\Bundle\ContentBundle\Model\ArticleMediaInterface;
+use SWP\Bundle\ContentBundle\Provider\AbstractProvider;
 use SWP\Bundle\ContentBundle\Provider\ArticleMediaProviderInterface;
 use SWP\Component\Common\Criteria\Criteria;
 use SWP\Component\Storage\Repository\RepositoryInterface;
@@ -28,7 +27,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 /**
  * ArticleMediaProvider to provide media from ORM.
  */
-class ArticleMediaProvider implements ArticleMediaProviderInterface
+class ArticleMediaProvider extends AbstractProvider implements ArticleMediaProviderInterface
 {
     /**
      * @var RepositoryInterface
@@ -51,7 +50,7 @@ class ArticleMediaProvider implements ArticleMediaProviderInterface
      */
     public function getRepository(): ArticleMediaRepositoryInterface
     {
-        return $this->articleRepository;
+        return $this->articleMediaRepository;
     }
 
     /**
@@ -59,7 +58,7 @@ class ArticleMediaProvider implements ArticleMediaProviderInterface
      */
     public function getOneById($id)
     {
-        return $this->articleRepository->findOneBy(['id' => $id]);
+        return $this->getRepository()->findOneBy(['id' => $id]);
     }
 
     /**
@@ -68,9 +67,9 @@ class ArticleMediaProvider implements ArticleMediaProviderInterface
     public function getOneByCriteria(Criteria $criteria): ArticleMediaInterface
     {
         $criteria->set('maxResults', 1);
-        $media = $this->articleMediaRepository->getByCriteria($criteria, [])->getQuery()->getOneOrNullResult();
+        $media = $this->getRepository()->getByCriteria($criteria, [])->getQuery()->getOneOrNullResult();
         if (null === $media) {
-            throw new NotFoundHttpException('Article was not found');
+            throw new NotFoundHttpException('Media was not found');
         }
 
         return $media;
@@ -78,7 +77,7 @@ class ArticleMediaProvider implements ArticleMediaProviderInterface
 
     public function getCountByCriteria(Criteria $criteria) : int
     {
-        return (int) $this->articleMediaRepository->getByCriteria(
+        return (int) $this->getRepository()->getByCriteria(
             $criteria,
             $criteria->get('order', [])
         )
@@ -87,15 +86,5 @@ class ArticleMediaProvider implements ArticleMediaProviderInterface
             ->setMaxResults(null)
             ->getQuery()
             ->getSingleScalarResult();
-    }
-
-    public function getManyByCriteria(Criteria $criteria): Collection
-    {
-        $results = $this->articleMediaRepository->getByCriteria(
-            $criteria,
-            $criteria->get('order', [])
-        )->getQuery()->getResult();
-
-        return new ArrayCollection($results);
     }
 }
