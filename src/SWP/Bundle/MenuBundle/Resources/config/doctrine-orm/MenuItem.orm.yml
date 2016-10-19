@@ -43,7 +43,7 @@ SWP\Bundle\MenuBundle\Model\MenuItem:
                 - treeLevel
     manyToOne:
         root:
-            targetEntity: SWP\Bundle\MenuBundle\Model\MenuItem
+            targetEntity: SWP\Bundle\MenuBundle\Model\MenuItemInterface
             joinColumn:
                 referencedColumnName: id
                 onDelete: CASCADE
@@ -51,7 +51,7 @@ SWP\Bundle\MenuBundle\Model\MenuItem:
             gedmo:
                 - treeRoot
         parent:
-            targetEntity: SWP\Bundle\MenuBundle\Model\MenuItem
+            targetEntity: SWP\Bundle\MenuBundle\Model\MenuItemInterface
             inversedBy: children
             joinColumn:
                 referencedColumnName: id

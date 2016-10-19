@@ -47,6 +47,8 @@ SWP\Bundle\ContentBundle\Doctrine\ORM\Article:
         metadata:
             type: string
             nullable: true
+        tenantCode:
+            type: string
     uniqueConstraints:
         swp_article_slug_idx:
           columns: [ slug ]

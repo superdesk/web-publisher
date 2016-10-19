@@ -37,6 +37,49 @@ class MenuWidgetTest extends WebTestCase
 
         $content = $widgetHandler->render();
 
+        $this->assertContains('Default menu template', $content);
+        $this->assertContainsRenderedWidget($content);
+    }
+
+    public function testMenuWidgetCustomTemplate()
+    {
+        $widgetModel = new WidgetModel();
+        $widgetModel->setParameters(['menu_name' => 'test', 'template_name' => 'custom_menu_template.html.twig']);
+        $widgetHandler = new MenuWidgetHandler($widgetModel, $this->getContainer()->get('templating'));
+
+        $content = $widgetHandler->render();
+
+        $this->assertContains('Custom menu template', $content);
+        $this->assertContainsRenderedWidget($content);
+    }
+
+    /**
+     * @expectedException \InvalidArgumentException
+     */
+    public function testMenuWidgetWhenCustomTemplateDoesNotExist()
+    {
+        $widgetModel = new WidgetModel();
+        $widgetModel->setParameters(['menu_name' => 'test', 'template_name' => 'test_menu.html.twig']);
+        $widgetHandler = new MenuWidgetHandler($widgetModel, $this->getContainer()->get('templating'));
+
+        $widgetHandler->render();
+    }
+
+    public function testMenuWidgetWhenCustomTemplateIsNotSet()
+    {
+        $widgetModel = new WidgetModel();
+        $widgetModel->setParameters(['menu_name' => 'test', 'template_name' => null]);
+
+        $widgetHandler = new MenuWidgetHandler($widgetModel, $this->getContainer()->get('templating'));
+
+        $content = $widgetHandler->render();
+
+        $this->assertContains('Default menu template', $content);
+        $this->assertContainsRenderedWidget($content);
+    }
+
+    private function assertContainsRenderedWidget($content)
+    {
         $this->assertContains('<a href="http://example.com/home">Home</a>', $content);
         $this->assertContains('<a href="http://example.com/contact">Contact</a>', $content);
         $this->assertContains('<a href="http://example.com/contact/sub">Sub Contact</a>', $content);

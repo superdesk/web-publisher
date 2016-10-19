@@ -20,6 +20,9 @@ class MenuWidgetHandler extends TemplatingWidgetHandler
         'menu_name' => [
             'type' => 'string',
         ],
+        'template_name' => [
+            'type' => 'string',
+        ],
     ];
 
     /**
@@ -29,6 +32,12 @@ class MenuWidgetHandler extends TemplatingWidgetHandler
      */
     public function render()
     {
-        return $this->renderTemplate('menu.html.twig');
+        $templateName = 'menu.html.twig';
+
+        if (null !== $this->getModelParameter('template_name')) {
+            $templateName = $this->getModelParameter('template_name');
+        }
+
+        return $this->renderTemplate($templateName);
     }
 }
