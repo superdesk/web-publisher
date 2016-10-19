@@ -134,27 +134,27 @@ fos_http_cache:
     invalidation:
         enabled: true
 
-doctrine_phpcr:
-    odm:
-        auto_mapping: true
-        auto_generate_proxy_classes: "%kernel.debug%"
-        metadata_cache_driver:
-            type: service
-            id: doctrine_cache.providers.main_cache
-        locales:
-            en:
-        locale_fallback: hardcoded
-        default_locale: "%locale%"
-    session:
-        backend:
-            type: doctrinedbal
-            logging: true
-            profiling: true
-            check_login_on_server: false
-            caches:
-                meta: doctrine_cache.providers.main_cache
-                nodes: doctrine_cache.providers.main_cache
-        workspace: default
+#doctrine_phpcr:
+#    odm:
+#        auto_mapping: true
+#        auto_generate_proxy_classes: "%kernel.debug%"
+#        metadata_cache_driver:
+#            type: service
+#            id: doctrine_cache.providers.main_cache
+#        locales:
+#            en:
+#        locale_fallback: hardcoded
+#        default_locale: "%locale%"
+#    session:
+#        backend:
+#            type: doctrinedbal
+#            logging: true
+#            profiling: true
+#            check_login_on_server: false
+#            caches:
+#                meta: doctrine_cache.providers.main_cache
+#                nodes: doctrine_cache.providers.main_cache
+#        workspace: default
 
 cmf_routing:
     chain:

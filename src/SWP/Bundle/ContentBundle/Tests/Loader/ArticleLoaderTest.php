@@ -39,7 +39,7 @@ class ArticleLoaderTest extends WebTestCase
         $this->articleLoader = new ArticleLoader(
             $this->getContainer()->get('swp.provider.article'),
             $this->getContainer()->get('swp.provider.route'),
-            $this->getContainer()->get('doctrine_phpcr.odm.document_manager'),
+            $this->getContainer()->get('swp.object_manager.article'),
             $this->getContainer()->get('swp_template_engine_context.factory.meta_factory'),
             $this->getContainer()->get('swp_template_engine_context')
         );

@@ -2,9 +2,11 @@ SWP\Bundle\ContentBundle\Doctrine\ORM\Route:
     route1:
         name: "homepage1"
         type: "content"
+        tenantCode: "123abc"
     route2:
         name: "homepage2"
         type: "content"
+        tenantCode: "456def"
 
 SWP\Bundle\CoreBundle\Model\Tenant:
     tenant1:

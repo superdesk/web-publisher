@@ -16,6 +16,7 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\ContentBundle\Loader;
 
+use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\ODM\PHPCR\DocumentManager;
 use SWP\Component\Common\Criteria\Criteria;
 use SWP\Bundle\ContentBundle\Model\ArticleInterface;
@@ -69,14 +70,14 @@ class ArticleLoader extends PaginatedLoader implements LoaderInterface
      *
      * @param ArticleProviderInterface $articleProvider
      * @param RouteProviderInterface   $routeProvider
-     * @param DocumentManager          $dm
+     * @param ObjectManager            $dm
      * @param MetaFactoryInterface     $metaFactory
      * @param Context                  $context
      */
     public function __construct(
         ArticleProviderInterface $articleProvider,
         RouteProviderInterface $routeProvider,
-        DocumentManager $dm,
+        ObjectManager $dm,
         MetaFactoryInterface $metaFactory,
         Context $context
     ) {
