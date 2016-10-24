@@ -17,12 +17,15 @@ declare(strict_types=1);
 namespace SWP\Bundle\ContentBundle\Model;
 
 use SWP\Component\Bridge\Model\ItemInterface;
+use SWP\Component\Common\Model\TimestampableTrait;
 
 /**
  * ArticleMedia represents media which belongs to Article.
  */
 class ArticleMedia implements ArticleMediaInterface
 {
+    use TimestampableTrait;
+
     /**
      * @var int
      */

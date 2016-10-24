@@ -4,8 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "9581efecf94dc780bd3b783ae5aa92e6",
-    "content-hash": "ee0bc6b36cde5b15407c7cb67c540560",
+    "content-hash": "71e17d4624910ddbd4104c4caa4842a4",
     "packages": [
         {
             "name": "asm89/twig-cache-extension",
@@ -1489,16 +1488,16 @@
         },
         {
             "name": "gedmo/doctrine-extensions",
-            "version": "v2.4.23",
+            "version": "v2.4.24",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Atlantic18/DoctrineExtensions.git",
-                "reference": "c2f308fab900090c6c0f5b6f72f34a37b4dd2d84"
+                "reference": "a7f7243a19f79a99ac83a3570444d8795f665eef"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Atlantic18/DoctrineExtensions/zipball/c2f308fab900090c6c0f5b6f72f34a37b4dd2d84",
-                "reference": "c2f308fab900090c6c0f5b6f72f34a37b4dd2d84",
+                "url": "https://api.github.com/repos/Atlantic18/DoctrineExtensions/zipball/a7f7243a19f79a99ac83a3570444d8795f665eef",
+                "reference": "a7f7243a19f79a99ac83a3570444d8795f665eef",
                 "shasum": ""
             },
             "require": {
@@ -1564,7 +1563,7 @@
                 "tree",
                 "uploadable"
             ],
-            "time": "2016-09-22 13:45:22"
+            "time": "2016-10-11 18:03:37"
         },
         {
             "name": "guzzle/guzzle",
@@ -3077,20 +3076,20 @@
         },
         {
             "name": "league/flysystem",
-            "version": "1.0.28",
+            "version": "1.0.32",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thephpleague/flysystem.git",
-                "reference": "a9663643ff2d16d7f66ed1e0d3212c5491bc9044"
+                "reference": "1b5c4a0031697f46e779a9d1b309c2e1b24daeab"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/flysystem/zipball/a9663643ff2d16d7f66ed1e0d3212c5491bc9044",
-                "reference": "a9663643ff2d16d7f66ed1e0d3212c5491bc9044",
+                "url": "https://api.github.com/repos/thephpleague/flysystem/zipball/1b5c4a0031697f46e779a9d1b309c2e1b24daeab",
+                "reference": "1b5c4a0031697f46e779a9d1b309c2e1b24daeab",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.4.0"
+                "php": ">=5.5.9"
             },
             "conflict": {
                 "league/flysystem-sftp": "<1.0.6"
@@ -3156,7 +3155,7 @@
                 "sftp",
                 "storage"
             ],
-            "time": "2016-10-07 12:20:37"
+            "time": "2016-10-19 20:38:46"
         },
         {
             "name": "michelf/php-markdown",
@@ -3565,16 +3564,16 @@
         },
         {
             "name": "paragonie/random_compat",
-            "version": "v2.0.2",
+            "version": "v2.0.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/paragonie/random_compat.git",
-                "reference": "088c04e2f261c33bed6ca5245491cfca69195ccf"
+                "reference": "c0125896dbb151380ab47e96c621741e79623beb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/paragonie/random_compat/zipball/088c04e2f261c33bed6ca5245491cfca69195ccf",
-                "reference": "088c04e2f261c33bed6ca5245491cfca69195ccf",
+                "url": "https://api.github.com/repos/paragonie/random_compat/zipball/c0125896dbb151380ab47e96c621741e79623beb",
+                "reference": "c0125896dbb151380ab47e96c621741e79623beb",
                 "shasum": ""
             },
             "require": {
@@ -3609,7 +3608,7 @@
                 "pseudorandom",
                 "random"
             ],
-            "time": "2016-04-03 06:00:07"
+            "time": "2016-10-17 15:23:22"
         },
         {
             "name": "phpcollection/phpcollection",
@@ -4493,6 +4492,72 @@
             "time": "2016-09-30 16:37:15"
         },
         {
+            "name": "symfony-cmf/core-bundle",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony-cmf/core-bundle.git",
+                "reference": "95190fda161b5dbff78da4cfbdf0dccbbf5eadd9"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony-cmf/core-bundle/zipball/95190fda161b5dbff78da4cfbdf0dccbbf5eadd9",
+                "reference": "95190fda161b5dbff78da4cfbdf0dccbbf5eadd9",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^5.5.9|^7.0",
+                "symfony-cmf/slugifier-api": "^1.0",
+                "symfony/framework-bundle": "^2.8|^3.0"
+            },
+            "require-dev": {
+                "doctrine/dbal": "2.5.*",
+                "doctrine/phpcr-odm": "^1.0|^2.0",
+                "mockery/mockery": "^0.9.4",
+                "sonata-project/doctrine-phpcr-admin-bundle": "^1.2.3|^2.0",
+                "symfony-cmf/routing-bundle": "^1.2|^2.0",
+                "symfony-cmf/testing": "^1.3|^2.0",
+                "symfony/security-bundle": "^2.8|^3.0"
+            },
+            "suggest": {
+                "doctrine/phpcr-bundle": "To be able to use the CMF twig extension (^1.0)",
+                "doctrine/phpcr-odm": "To be able to use the CMF twig extension (^1.0)",
+                "sonata-project/admin-bundle": "To be able to enable the publish_workflow_listener extension (^2.2)",
+                "sonata-project/translation-bundle": "To be able to edit translatable documents (^1.0)",
+                "symfony-cmf/routing": "To be able to use the CMF twig extension functions cmf_prev_linkable/cmf_next_linkable (^1.2)",
+                "symfony-cmf/routing-bundle": "To be able to enable the publish_workflow_listener (^1.2)",
+                "symfony/security-bundle": "To be able to use the publish workflow system (^2.1)",
+                "symfony/twig-bundle": "To get access to the CMF twig extension (^2.1)"
+            },
+            "type": "symfony-bundle",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.0-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Symfony\\Cmf\\Bundle\\CoreBundle\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Symfony CMF Community",
+                    "homepage": "https://github.com/symfony-cmf/CoreBundle/contributors"
+                }
+            ],
+            "description": "Symfony CMF Core Bundle",
+            "homepage": "http://cmf.symfony.com",
+            "keywords": [
+                "Symfony CMF"
+            ],
+            "time": "2016-08-03 11:55:07"
+        },
+        {
             "name": "symfony-cmf/routing",
             "version": "1.4.0",
             "source": {
@@ -4624,6 +4689,53 @@
                 "routing"
             ],
             "time": "2016-10-10 08:38:33"
+        },
+        {
+            "name": "symfony-cmf/slugifier-api",
+            "version": "1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony-cmf/slugifier-api.git",
+                "reference": "32537551dbb6ed831b7523d7e63367d3fcea1c37"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony-cmf/slugifier-api/zipball/32537551dbb6ed831b7523d7e63367d3fcea1c37",
+                "reference": "32537551dbb6ed831b7523d7e63367d3fcea1c37",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^5.3.9|^7.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Symfony\\Cmf\\Api\\Slugifier\\": "",
+                    "Symfony\\Cmf\\Bundle\\CoreBundle\\Slugifier\\": "CoreBundle"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Symfony CMF Community",
+                    "homepage": "https://github.com/symfony-cmf/slugifier-api/contributors"
+                }
+            ],
+            "description": "Provides a basic slugifier interface to transform text into strings suitable for URLs",
+            "homepage": "http://cmf.symfony.com",
+            "keywords": [
+                "slugify",
+                "urlize"
+            ],
+            "time": "2016-03-31 08:06:29"
         },
         {
             "name": "symfony/monolog-bundle",
@@ -5337,7 +5449,7 @@
                     "email": "adrien.brault@gmail.com"
                 },
                 {
-                    "name": "William Durand",
+                    "name": "William DURAND",
                     "email": "william.durand1@gmail.com"
                 }
             ],
@@ -5440,16 +5552,16 @@
         },
         {
             "name": "willdurand/negotiation",
-            "version": "v2.1.0",
+            "version": "v2.2.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/willdurand/Negotiation.git",
-                "reference": "bc814293b153f543c99c89d94c8cc07b3259eef9"
+                "reference": "1f210db45723b21edd69f39794662b8d64656b93"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/willdurand/Negotiation/zipball/bc814293b153f543c99c89d94c8cc07b3259eef9",
-                "reference": "bc814293b153f543c99c89d94c8cc07b3259eef9",
+                "url": "https://api.github.com/repos/willdurand/Negotiation/zipball/1f210db45723b21edd69f39794662b8d64656b93",
+                "reference": "1f210db45723b21edd69f39794662b8d64656b93",
                 "shasum": ""
             },
             "require": {
@@ -5461,7 +5573,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.1-dev"
+                    "dev-master": "2.2-dev"
                 }
             },
             "autoload": {
@@ -5488,7 +5600,7 @@
                 "header",
                 "negotiation"
             ],
-            "time": "2016-09-21 11:26:55"
+            "time": "2016-10-14 09:17:47"
         },
         {
             "name": "zendframework/zend-hydrator",
@@ -6126,69 +6238,6 @@
                 "test"
             ],
             "time": "2016-01-07 14:44:47"
-        },
-        {
-            "name": "ocramius/proxy-manager",
-            "version": "1.0.2",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/Ocramius/ProxyManager.git",
-                "reference": "57e9272ec0e8deccf09421596e0e2252df440e11"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/Ocramius/ProxyManager/zipball/57e9272ec0e8deccf09421596e0e2252df440e11",
-                "reference": "57e9272ec0e8deccf09421596e0e2252df440e11",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.3.3",
-                "zendframework/zend-code": ">2.2.5,<3.0"
-            },
-            "require-dev": {
-                "ext-phar": "*",
-                "phpunit/phpunit": "~4.0",
-                "squizlabs/php_codesniffer": "1.5.*"
-            },
-            "suggest": {
-                "ocramius/generated-hydrator": "To have very fast object to array to object conversion for ghost objects",
-                "zendframework/zend-json": "To have the JsonRpc adapter (Remote Object feature)",
-                "zendframework/zend-soap": "To have the Soap adapter (Remote Object feature)",
-                "zendframework/zend-stdlib": "To use the hydrator proxy",
-                "zendframework/zend-xmlrpc": "To have the XmlRpc adapter (Remote Object feature)"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "2.0.x-dev"
-                }
-            },
-            "autoload": {
-                "psr-0": {
-                    "ProxyManager\\": "src"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Marco Pivetta",
-                    "email": "ocramius@gmail.com",
-                    "homepage": "http://ocramius.github.com/"
-                }
-            ],
-            "description": "A library providing utilities to generate, instantiate and generally operate with Object Proxies",
-            "homepage": "https://github.com/Ocramius/ProxyManager",
-            "keywords": [
-                "aop",
-                "lazy loading",
-                "proxy",
-                "proxy pattern",
-                "service proxies"
-            ],
-            "time": "2015-08-09 04:28:19"
         },
         {
             "name": "phpdocumentor/reflection-common",
@@ -7400,16 +7449,16 @@
         },
         {
             "name": "sensio/generator-bundle",
-            "version": "v3.0.10",
+            "version": "v3.0.11",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sensiolabs/SensioGeneratorBundle.git",
-                "reference": "badc50258419227cd8f5ba123a8b16e96dce48b8"
+                "reference": "b9be7f1b3b2e8bcfc1debefc901b71da923a5e5c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sensiolabs/SensioGeneratorBundle/zipball/badc50258419227cd8f5ba123a8b16e96dce48b8",
-                "reference": "badc50258419227cd8f5ba123a8b16e96dce48b8",
+                "url": "https://api.github.com/repos/sensiolabs/SensioGeneratorBundle/zipball/b9be7f1b3b2e8bcfc1debefc901b71da923a5e5c",
+                "reference": "b9be7f1b3b2e8bcfc1debefc901b71da923a5e5c",
                 "shasum": ""
             },
             "require": {
@@ -7448,120 +7497,7 @@
                 }
             ],
             "description": "This bundle generates code for you",
-            "time": "2016-10-09 19:13:58"
-        },
-        {
-            "name": "symfony-cmf/core-bundle",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/symfony-cmf/core-bundle.git",
-                "reference": "95190fda161b5dbff78da4cfbdf0dccbbf5eadd9"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/symfony-cmf/core-bundle/zipball/95190fda161b5dbff78da4cfbdf0dccbbf5eadd9",
-                "reference": "95190fda161b5dbff78da4cfbdf0dccbbf5eadd9",
-                "shasum": ""
-            },
-            "require": {
-                "php": "^5.5.9|^7.0",
-                "symfony-cmf/slugifier-api": "^1.0",
-                "symfony/framework-bundle": "^2.8|^3.0"
-            },
-            "require-dev": {
-                "doctrine/dbal": "2.5.*",
-                "doctrine/phpcr-odm": "^1.0|^2.0",
-                "mockery/mockery": "^0.9.4",
-                "sonata-project/doctrine-phpcr-admin-bundle": "^1.2.3|^2.0",
-                "symfony-cmf/routing-bundle": "^1.2|^2.0",
-                "symfony-cmf/testing": "^1.3|^2.0",
-                "symfony/security-bundle": "^2.8|^3.0"
-            },
-            "suggest": {
-                "doctrine/phpcr-bundle": "To be able to use the CMF twig extension (^1.0)",
-                "doctrine/phpcr-odm": "To be able to use the CMF twig extension (^1.0)",
-                "sonata-project/admin-bundle": "To be able to enable the publish_workflow_listener extension (^2.2)",
-                "sonata-project/translation-bundle": "To be able to edit translatable documents (^1.0)",
-                "symfony-cmf/routing": "To be able to use the CMF twig extension functions cmf_prev_linkable/cmf_next_linkable (^1.2)",
-                "symfony-cmf/routing-bundle": "To be able to enable the publish_workflow_listener (^1.2)",
-                "symfony/security-bundle": "To be able to use the publish workflow system (^2.1)",
-                "symfony/twig-bundle": "To get access to the CMF twig extension (^2.1)"
-            },
-            "type": "symfony-bundle",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "2.0-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Symfony\\Cmf\\Bundle\\CoreBundle\\": ""
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Symfony CMF Community",
-                    "homepage": "https://github.com/symfony-cmf/CoreBundle/contributors"
-                }
-            ],
-            "description": "Symfony CMF Core Bundle",
-            "homepage": "http://cmf.symfony.com",
-            "keywords": [
-                "Symfony CMF"
-            ],
-            "time": "2016-08-03 11:55:07"
-        },
-        {
-            "name": "symfony-cmf/slugifier-api",
-            "version": "1.0.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/symfony-cmf/slugifier-api.git",
-                "reference": "32537551dbb6ed831b7523d7e63367d3fcea1c37"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/symfony-cmf/slugifier-api/zipball/32537551dbb6ed831b7523d7e63367d3fcea1c37",
-                "reference": "32537551dbb6ed831b7523d7e63367d3fcea1c37",
-                "shasum": ""
-            },
-            "require": {
-                "php": "^5.3.9|^7.0"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "1.0-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Symfony\\Cmf\\Api\\Slugifier\\": "",
-                    "Symfony\\Cmf\\Bundle\\CoreBundle\\Slugifier\\": "CoreBundle"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Symfony CMF Community",
-                    "homepage": "https://github.com/symfony-cmf/slugifier-api/contributors"
-                }
-            ],
-            "description": "Provides a basic slugifier interface to transform text into strings suitable for URLs",
-            "homepage": "http://cmf.symfony.com",
-            "keywords": [
-                "slugify",
-                "urlize"
-            ],
-            "time": "2016-03-31 08:06:29"
+            "time": "2016-10-10 14:17:42"
         },
         {
             "name": "symfony-cmf/testing",
@@ -7719,112 +7655,6 @@
                 "validate"
             ],
             "time": "2016-08-09 15:02:57"
-        },
-        {
-            "name": "zendframework/zend-code",
-            "version": "2.6.3",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/zendframework/zend-code.git",
-                "reference": "95033f061b083e16cdee60530ec260d7d628b887"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/zendframework/zend-code/zipball/95033f061b083e16cdee60530ec260d7d628b887",
-                "reference": "95033f061b083e16cdee60530ec260d7d628b887",
-                "shasum": ""
-            },
-            "require": {
-                "php": "^5.5 || 7.0.0 - 7.0.4 || ^7.0.6",
-                "zendframework/zend-eventmanager": "^2.6 || ^3.0"
-            },
-            "require-dev": {
-                "doctrine/annotations": "~1.0",
-                "fabpot/php-cs-fixer": "1.7.*",
-                "phpunit/phpunit": "^4.8.21",
-                "zendframework/zend-stdlib": "^2.7 || ^3.0"
-            },
-            "suggest": {
-                "doctrine/annotations": "Doctrine\\Common\\Annotations >=1.0 for annotation features",
-                "zendframework/zend-stdlib": "Zend\\Stdlib component"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "2.6-dev",
-                    "dev-develop": "2.7-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Zend\\Code\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "BSD-3-Clause"
-            ],
-            "description": "provides facilities to generate arbitrary code using an object oriented interface",
-            "homepage": "https://github.com/zendframework/zend-code",
-            "keywords": [
-                "code",
-                "zf2"
-            ],
-            "time": "2016-04-20 17:26:42"
-        },
-        {
-            "name": "zendframework/zend-eventmanager",
-            "version": "3.0.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/zendframework/zend-eventmanager.git",
-                "reference": "5c80bdee0e952be112dcec0968bad770082c3a6e"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/zendframework/zend-eventmanager/zipball/5c80bdee0e952be112dcec0968bad770082c3a6e",
-                "reference": "5c80bdee0e952be112dcec0968bad770082c3a6e",
-                "shasum": ""
-            },
-            "require": {
-                "php": "^5.5 || ^7.0"
-            },
-            "require-dev": {
-                "athletic/athletic": "^0.1",
-                "container-interop/container-interop": "^1.1.0",
-                "phpunit/phpunit": "~4.0",
-                "squizlabs/php_codesniffer": "^2.0",
-                "zendframework/zend-stdlib": "^2.7.3 || ^3.0"
-            },
-            "suggest": {
-                "container-interop/container-interop": "^1.1.0, to use the lazy listeners feature",
-                "zendframework/zend-stdlib": "^2.7.3 || ^3.0, to use the FilterChain feature"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "3.0-dev",
-                    "dev-develop": "3.1-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Zend\\EventManager\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "BSD-3-Clause"
-            ],
-            "description": "Trigger and listen to events within a PHP application",
-            "homepage": "https://github.com/zendframework/zend-eventmanager",
-            "keywords": [
-                "event",
-                "eventmanager",
-                "events",
-                "zf2"
-            ],
-            "time": "2016-02-18 20:53:00"
         }
     ],
     "aliases": [
@@ -7845,6 +7675,7 @@
         "sylius/theme-bundle": 20,
         "superdesk/contentapi-sdk-php": 20,
         "burgov/key-value-form-bundle": 0,
+        "symfony-cmf/core-bundle": 20,
         "liip/functional-test-bundle": 20,
         "doctrine/doctrine-fixtures-bundle": 20,
         "henrikbjorn/phpspec-code-coverage": 20

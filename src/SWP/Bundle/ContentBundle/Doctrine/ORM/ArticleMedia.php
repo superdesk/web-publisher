@@ -31,6 +31,7 @@ class ArticleMedia extends BaseArticleMedia implements PersistableInterface
     public function __construct()
     {
         $this->renditions = new ArrayCollection();
+        $this->setCreatedAt(new \DateTime());
     }
 
     /**

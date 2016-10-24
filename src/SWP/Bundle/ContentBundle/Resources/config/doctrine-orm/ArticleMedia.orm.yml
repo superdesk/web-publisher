@@ -28,6 +28,11 @@ SWP\Bundle\ContentBundle\Doctrine\ORM\ArticleMedia:
         usageTerms:
             type: string
             nullable: true
+        createdAt:
+            type: date
+        updatedAt:
+            type: date
+            nullable: true
     oneToMany:
         renditions:
             targetEntity: SWP\Bundle\ContentBundle\Doctrine\ORM\ImageRendition

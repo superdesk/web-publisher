@@ -113,7 +113,7 @@ class RouteControllerTest extends WebTestCase
             ],
         ]);
 
-        $content = json_decode($client->getResponse()->getContent(),true);
+        $content = json_decode($client->getResponse()->getContent(), true);
         self::assertEquals(201, $client->getResponse()->getStatusCode());
 
         $client->request('PATCH', $this->router->generate('swp_api_content_update_routes', ['id' => $content['id']]), [
@@ -190,7 +190,7 @@ class RouteControllerTest extends WebTestCase
             'route' => [
                 'name' => 'root-child1',
                 'type' => 'collection',
-                'parent' => $rootContent['id']
+                'parent' => $rootContent['id'],
             ],
         ]);
 
@@ -201,7 +201,7 @@ class RouteControllerTest extends WebTestCase
             'route' => [
                 'name' => 'child1-root-child1',
                 'type' => 'collection',
-                'parent' => $content['id']
+                'parent' => $content['id'],
             ],
         ]);
 
@@ -222,7 +222,7 @@ class RouteControllerTest extends WebTestCase
             'route' => [
                 'name' => 'root',
                 'type' => 'collection',
-                'parent' => 99999
+                'parent' => 99999,
             ],
         ]);
 

@@ -180,9 +180,9 @@ class ThemeGenerateCommand extends ContainerAwareCommand
     /**
      * Writes to the theme's config file.
      *
-     * @param InputInterface  $input
-     * @param OutputInterface $output
-     * @param \SWP\Bundle\CoreBundle\Document\Tenant          $tenant
+     * @param InputInterface                         $input
+     * @param OutputInterface                        $output
+     * @param \SWP\Bundle\CoreBundle\Document\Tenant $tenant
      * @param $themeDir
      * @param $themeName
      */

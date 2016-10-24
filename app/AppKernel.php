@@ -18,7 +18,7 @@ class AppKernel extends Kernel
             new JMS\SerializerBundle\JMSSerializerBundle(),
             new Sylius\Bundle\ThemeBundle\SyliusThemeBundle(),
             new Doctrine\Bundle\DoctrineBundle\DoctrineBundle(),
-            #new Doctrine\Bundle\PHPCRBundle\DoctrinePHPCRBundle(),
+            //new Doctrine\Bundle\PHPCRBundle\DoctrinePHPCRBundle(),
             new FOS\HttpCacheBundle\FOSHttpCacheBundle(),
             new Knp\Bundle\PaginatorBundle\KnpPaginatorBundle(),
             new EmanueleMinotto\TwigCacheBundle\TwigCacheBundle(),
