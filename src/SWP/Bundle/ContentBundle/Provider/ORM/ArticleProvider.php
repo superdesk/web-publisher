@@ -72,14 +72,6 @@ class ArticleProvider extends AbstractProvider implements ArticleProviderInterfa
     /**
      * {@inheritdoc}
      */
-    public function getTenantArticlesQuery(string $tenantContentIdentifier, array $order)
-    {
-        return $this->articleRepository->getQueryForTenantArticles($tenantContentIdentifier, $order);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function getRouteArticlesQuery(string $routeIdentifier, array $order)
     {
         return $this->articleRepository->getQueryForRouteArticles($routeIdentifier, $order);

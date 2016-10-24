@@ -17,7 +17,6 @@ declare(strict_types=1);
 namespace SWP\Bundle\ContentBundle\Loader;
 
 use Doctrine\Common\Persistence\ObjectManager;
-use Doctrine\ODM\PHPCR\DocumentManager;
 use SWP\Component\Common\Criteria\Criteria;
 use SWP\Bundle\ContentBundle\Model\ArticleInterface;
 use SWP\Bundle\ContentBundle\Model\RouteInterface;
@@ -46,7 +45,7 @@ class ArticleLoader extends PaginatedLoader implements LoaderInterface
     protected $routeProvider;
 
     /**
-     * @var DocumentManager
+     * @var ObjectManager
      */
     protected $dm;
 

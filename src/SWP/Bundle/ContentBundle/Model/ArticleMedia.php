@@ -22,7 +22,7 @@ use SWP\Component\Common\Model\TimestampableTrait;
 /**
  * ArticleMedia represents media which belongs to Article.
  */
-class ArticleMedia implements ArticleMediaInterface
+abstract class ArticleMedia implements ArticleMediaInterface
 {
     use TimestampableTrait;
 

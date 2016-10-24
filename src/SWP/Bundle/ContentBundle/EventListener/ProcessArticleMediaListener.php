@@ -15,11 +15,11 @@
 namespace SWP\Bundle\ContentBundle\EventListener;
 
 use Doctrine\Common\Persistence\ObjectManager;
-use SWP\Bundle\ContentBundle\Doctrine\ORM\ArticleMedia;
 use SWP\Bundle\ContentBundle\Event\ArticleEvent;
 use SWP\Bundle\ContentBundle\Factory\MediaFactoryInterface;
 use SWP\Bundle\ContentBundle\Manager\MediaManagerInterface;
 use SWP\Bundle\ContentBundle\Model\ArticleInterface;
+use SWP\Bundle\ContentBundle\Model\ArticleMediaInterface;
 use SWP\Component\Bridge\Model\ItemInterface;
 use Symfony\Component\DomCrawler\Crawler;
 
@@ -92,7 +92,7 @@ class ProcessArticleMediaListener
      * @param string           $key
      * @param ItemInterface    $item
      *
-     * @return ArticleMedia
+     * @return ArticleMediaInterface
      */
     public function handleMedia(ArticleInterface $article, string $key, ItemInterface $item)
     {
@@ -108,10 +108,10 @@ class ProcessArticleMediaListener
     }
 
     /**
-     * @param ArticleInterface $article
-     * @param ArticleMedia     $articleMedia
+     * @param ArticleInterface      $article
+     * @param ArticleMediaInterface $articleMedia
      */
-    private function replaceBodyImagesWithMedia(ArticleInterface $article, ArticleMedia $articleMedia)
+    private function replaceBodyImagesWithMedia(ArticleInterface $article, ArticleMediaInterface $articleMedia)
     {
         $body = $article->getBody();
         $mediaId = $articleMedia->getKey();

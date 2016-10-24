@@ -27,7 +27,7 @@ class Image extends BaseImage implements PersistableInterface
     protected $media;
 
     /**
-     * @var interface ImageRenditionInterface
+     * @var ImageRenditionInterface
      */
     protected $rendition;
 

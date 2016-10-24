@@ -14,6 +14,7 @@
 
 namespace SWP\Bundle\ContentBundle\Doctrine\ORM;
 
+use SWP\Bundle\ContentBundle\Model\ArticleMediaInterface;
 use SWP\Bundle\ContentBundle\Model\ImageInterface;
 use SWP\Bundle\ContentBundle\Model\ImageRendition as BaseImageRendition;
 use SWP\Component\Storage\Model\PersistableInterface;
@@ -34,22 +35,22 @@ class ImageRendition extends BaseImageRendition implements PersistableInterface
     protected $image;
 
     /**
-     * @var ArticleMediaInterface
+     * @var ArticleMedia
      */
     protected $media;
 
     /**
-     * @return ArticleMedia
+     * @return ArticleMediaInterface
      */
-    public function getMedia(): ArticleMedia
+    public function getMedia(): ArticleMediaInterface
     {
         return $this->media;
     }
 
     /**
-     * @param ArticleMedia $media
+     * @param ArticleMediaInterface $media
      */
-    public function setMedia(ArticleMedia $media)
+    public function setMedia(ArticleMediaInterface $media)
     {
         $this->media = $media;
     }
