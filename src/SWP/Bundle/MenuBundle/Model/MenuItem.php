@@ -143,7 +143,7 @@ class MenuItem implements MenuItemInterface
      */
     public function __construct()
     {
-        $this->children = new ArrayCollection();
+        $this->setChildren([]);
     }
 
     /**
@@ -415,7 +415,9 @@ class MenuItem implements MenuItemInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @param ItemInterface $menuItem
+     *
+     * @return bool
      */
     public function hasChild(ItemInterface $menuItem): bool
     {

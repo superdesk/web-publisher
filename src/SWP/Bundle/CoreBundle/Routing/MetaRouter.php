@@ -18,6 +18,7 @@ use SWP\Bundle\ContentBundle\Model\ArticleInterface;
 use SWP\Bundle\ContentBundle\Model\RouteInterface;
 use Symfony\Cmf\Bundle\RoutingBundle\Routing\DynamicRouter;
 use SWP\Component\TemplatesSystem\Gimme\Meta\Meta;
+use Symfony\Component\Routing\Exception\RouteNotFoundException;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class MetaRouter extends DynamicRouter
@@ -30,16 +31,17 @@ class MetaRouter extends DynamicRouter
      * @param bool|int|string $referenceType
      *
      * @return mixed|string
+     *
+     * @throws RouteNotFoundException
      */
     public function generate($name, $parameters = [], $referenceType = UrlGeneratorInterface::ABSOLUTE_PATH)
     {
-        $route = $name;
-        $cacheKey = $this->getCacheKey($route, $parameters, $referenceType);
+        $cacheKey = $this->getCacheKey($name, $parameters, $referenceType);
         if (array_key_exists($cacheKey, $this->internalRoutesCache)) {
             return $this->internalRoutesCache[$cacheKey];
         }
 
-        if ($route instanceof Meta && $name->getValues() instanceof ArticleInterface) {
+        if ($name instanceof Meta && $name->getValues() instanceof ArticleInterface) {
             $parameters['slug'] = $name->getValues()->getSlug();
             $route = $name->getValues()->getRoute();
 
@@ -47,10 +49,14 @@ class MetaRouter extends DynamicRouter
                 $parameters['slug'] = null;
                 $route = $name->getContext()->getCurrentPage()->getValues();
             }
-        } elseif ($route instanceof Meta && $name->getValues() instanceof RouteInterface) {
+        } elseif ($name instanceof Meta && $name->getValues() instanceof RouteInterface) {
             $route = $name->getValues();
-        } elseif ($route instanceof RouteInterface) {
+        } else {
             $route = $name;
+        }
+
+        if (null === $route) {
+            throw new RouteNotFoundException(sprintf('Unable to generate a URL for the named route "%s" as such route does not exist.', $name));
         }
 
         $result = parent::generate($route, $parameters, $referenceType);

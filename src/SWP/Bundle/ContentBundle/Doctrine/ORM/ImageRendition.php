@@ -35,7 +35,7 @@ class ImageRendition extends BaseImageRendition implements PersistableInterface
     protected $image;
 
     /**
-     * @var ArticleMedia
+     * @var ArticleMediaInterface
      */
     protected $media;
 

@@ -23,8 +23,13 @@ use SWP\Component\Common\Criteria\Criteria;
 /**
  * Class AbstractProvider.
  */
-class AbstractProvider
+abstract class AbstractProvider
 {
+    /**
+     * @param Criteria $criteria
+     *
+     * @return Collection
+     */
     public function getManyByCriteria(Criteria $criteria): Collection
     {
         $results = $this->getRepository()->getByCriteria(

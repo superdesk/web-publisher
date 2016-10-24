@@ -7,6 +7,9 @@ in 0.1 minor versions.
 
 To get the diff for a specific change, go to https://github.com/superdesk/web-publisher/commit/XXX where XXX is the change hash
 
+* 0.1.0-8
+ * bug/feature/maintenance [#165] Switch to ORM as main storage backend 
+
 * 0.1.0-7
 
  * maintenance [#156] added memcached to project requirements and configured it as default sessions handler
