@@ -14,24 +14,24 @@
 
 namespace spec\SWP\Bundle\ContentBundle\Manager;
 
-use Doctrine\ODM\PHPCR\DocumentManager;
 use PhpSpec\ObjectBehavior;
+use SWP\Bundle\ContentBundle\Doctrine\ArticleMediaRepositoryInterface;
+use SWP\Bundle\ContentBundle\Factory\MediaFactoryInterface;
 use SWP\Bundle\ContentBundle\Manager\MediaManager;
 use SWP\Component\MultiTenancy\Context\TenantContextInterface;
-use SWP\Component\MultiTenancy\PathBuilder\TenantAwarePathBuilder;
 use League\Flysystem\Filesystem;
-use Symfony\Component\Routing\Router;
+use Symfony\Component\Routing\RouterInterface;
 
 class MediaManagerSpec extends ObjectBehavior
 {
     public function let(
-        TenantAwarePathBuilder $pathBuilder,
+        ArticleMediaRepositoryInterface $mediaRepository,
+        MediaFactoryInterface $mediaFactory,
         Filesystem $filesystem,
-        DocumentManager $objectManager,
-        Router $router,
+        RouterInterface $router,
         TenantContextInterface $tenantContext
     ) {
-        $this->beConstructedWith($pathBuilder, $filesystem, $objectManager, $router, $tenantContext, 'media');
+        $this->beConstructedWith($mediaRepository, $mediaFactory, $filesystem, $router, $tenantContext);
     }
 
     public function it_is_initializable()

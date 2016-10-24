@@ -15,8 +15,9 @@
 namespace SWP\Bundle\CoreBundle\Model;
 
 use SWP\Bundle\ContentBundle\Model\RouteInterface;
+use SWP\Component\Common\Model\ThemeAwareTenantInterface;
 
-interface HomepageBasedTenantInterface
+interface TenantInterface extends ThemeAwareTenantInterface
 {
     /**
      * Gets the homepage.
@@ -31,4 +32,14 @@ interface HomepageBasedTenantInterface
      * @param RouteInterface $homepage
      */
     public function setHomepage(RouteInterface $homepage);
+
+    /**
+     * @param $domainName
+     */
+    public function setDomainName($domainName);
+
+    /**
+     * @return string
+     */
+    public function getDomainName();
 }

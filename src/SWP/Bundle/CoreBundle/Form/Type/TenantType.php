@@ -45,6 +45,13 @@ final class TenantType extends AbstractType
                     new Length(['min' => 3]),
                 ],
             ])
+            ->add('domainName', TextType::class, [
+                'required' => false,
+                'description' => 'Tenant domain name',
+                'constraints' => [
+                    new Length(['min' => 3]),
+                ],
+            ])
             ->add('themeName', ThemeNameChoiceType::class, [
                 'required' => false,
                 'description' => 'Tenant theme name',

@@ -20,7 +20,6 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use SWP\Bundle\ContentBundle\Model\RouteInterface;
 use SWP\Bundle\ContentBundle\Model\RouteTrait;
-use SWP\Bundle\ContentBundle\Model\TreeAwareRouteInterface;
 use SWP\Component\MultiTenancy\Model\TenantAwareInterface;
 use SWP\Component\MultiTenancy\Model\TenantAwareTrait;
 use Symfony\Cmf\Bundle\RoutingBundle\Model\Route as BaseRoute;
@@ -29,7 +28,6 @@ use SWP\Component\Storage\Model\PersistableInterface;
 class Route extends BaseRoute implements
     PersistableInterface,
     RouteInterface,
-    TreeAwareRouteInterface,
     TenantAwareInterface
 {
     use RouteTrait, TenantAwareTrait;

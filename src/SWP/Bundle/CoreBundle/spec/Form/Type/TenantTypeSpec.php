@@ -67,6 +67,16 @@ class TenantTypeSpec extends ObjectBehavior
         ;
 
         $builder
+            ->add('domainName', TextType::class, [
+                'required' => false,
+                'description' => 'Tenant domain name',
+                'constraints' => [
+                    new Length(['min' => 3]),
+                ],
+            ])->willReturn($builder)
+        ;
+
+        $builder
             ->add('themeName', ThemeNameChoiceType::class, [
                 'required' => false,
                 'description' => 'Tenant theme name',

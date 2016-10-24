@@ -76,13 +76,6 @@ abstract class AbstractDriver implements PersistenceDriverInterface
     protected function createFactoryDefinition(ContainerBuilder $container, $config)
     {
         $factoryClass = $config['factory'];
-        $definition = new Definition($factoryClass);
-        $definition->setArguments([
-            new Reference($this->getObjectManagerId($config)),
-            $this->getClassMetadataDefinition($config),
-        ]);
-
-        $factoryClass = $config['factory'];
         $modelClass = $config['model'];
         $definition = new Definition($factoryClass);
         $definition->setArguments([$modelClass]);

@@ -89,9 +89,13 @@ class MenuController extends FOSRestController
      */
     public function createAction(Request $request)
     {
-        /* @var MenuItemInterface $route */
-        $menu = $this->get('swp.factory.menu')->createItem('');
+        $route = null;
+        if (array_key_exists('route', $request->request->get('menu'))) {
+            $route = $this->get('swp.repository.route')->findOneBy(['id' => $request->request->get('menu')['route']]);
+        }
 
+        /* @var MenuItemInterface $route */
+        $menu = $this->get('swp.factory.menu')->createItem('', ['route' => $route ? $route->getName() : null]);
         $form = $this->createForm(MenuType::class, $menu, ['method' => $request->getMethod()]);
 
         $form->handleRequest($request);
@@ -150,6 +154,7 @@ class MenuController extends FOSRestController
     {
         $objectManager = $this->get('swp.object_manager.menu');
         $menu = $this->findOr404($id);
+
         $form = $this->createForm(MenuType::class, $menu, ['method' => $request->getMethod()]);
         $form->handleRequest($request);
 

@@ -46,12 +46,14 @@ class RouteServiceSpec extends ObjectBehavior
     }
 
     public function it_creates_a_new_content_route(
-        RouteObjectInterface $route,
-        EventDispatcherInterface $eventDispatcher
+        RouteInterface $route,
+        EventDispatcherInterface $eventDispatcher,
+        RouteInterface $parent
     ) {
         $route->getType()->willReturn(RouteInterface::TYPE_CONTENT);
         $route->getName()->willReturn('test-name');
         $route->getTemplateName()->willReturn('index.html.twig');
+        $route->getParent()->willReturn($parent);
 
         $eventDispatcher->dispatch(
             RouteEvents::PRE_CREATE,
@@ -60,6 +62,7 @@ class RouteServiceSpec extends ObjectBehavior
 
         $route->setVariablePattern(null)->shouldBeCalled();
         $route->setRequirements([])->shouldBeCalled();
+        $route->setStaticPrefix('/test-name')->shouldBeCalled();
 
         $eventDispatcher->dispatch(
             RouteEvents::POST_CREATE,
@@ -71,11 +74,13 @@ class RouteServiceSpec extends ObjectBehavior
 
     public function it_creates_a_new_collection_route(
         RouteObjectInterface $route,
-        EventDispatcherInterface $eventDispatcher
+        EventDispatcherInterface $eventDispatcher,
+        RouteInterface $parent
     ) {
         $route->getType()->willReturn(RouteInterface::TYPE_COLLECTION);
         $route->getName()->willReturn('test-name');
         $route->getTemplateName()->willReturn('index.html.twig');
+        $route->getParent()->willReturn($parent);
 
         $eventDispatcher->dispatch(
             RouteEvents::PRE_CREATE,
@@ -83,8 +88,9 @@ class RouteServiceSpec extends ObjectBehavior
         )->shouldBeCalled();
 
         $route->setVariablePattern(Argument::exact('/{slug}'))->shouldBeCalled();
-        $route->setRequirement(Argument::exact('slug'), Argument::exact('[a-zA-Z0-9\-_\/]+'))->shouldBeCalled();
+        $route->setRequirement(Argument::exact('slug'), Argument::exact('[a-zA-Z0-9*\-_\/]+'))->shouldBeCalled();
         $route->setDefault('slug', null)->shouldBeCalled();
+        $route->setStaticPrefix('/test-name')->shouldBeCalled();
 
         $eventDispatcher->dispatch(
             RouteEvents::POST_CREATE,
@@ -94,9 +100,14 @@ class RouteServiceSpec extends ObjectBehavior
         $this->createRoute($route)->shouldReturn($route);
     }
 
-    public function it_should_update_existing_route(RouteObjectInterface $route, EventDispatcherInterface $eventDispatcher)
-    {
+    public function it_should_update_existing_route(
+        RouteInterface $route,
+        EventDispatcherInterface $eventDispatcher,
+        RouteInterface $parent
+    ) {
         $route->getType()->willReturn(RouteInterface::TYPE_COLLECTION);
+        $route->getParent()->willReturn($parent);
+        $route->getName()->willReturn('test-name');
 
         $eventDispatcher->dispatch(
             RouteEvents::PRE_UPDATE,
@@ -104,8 +115,9 @@ class RouteServiceSpec extends ObjectBehavior
         )->shouldBeCalled();
 
         $route->setVariablePattern(Argument::exact('/{slug}'))->shouldBeCalled();
-        $route->setRequirement(Argument::exact('slug'), Argument::exact('[a-zA-Z0-9\-_\/]+'))->shouldBeCalled();
+        $route->setRequirement(Argument::exact('slug'), Argument::exact('[a-zA-Z0-9*\-_\/]+'))->shouldBeCalled();
         $route->setDefault('slug', null)->shouldBeCalled();
+        $route->setStaticPrefix('/test-name')->shouldBeCalled();
 
         $eventDispatcher->dispatch(
             RouteEvents::POST_UPDATE,

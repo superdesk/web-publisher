@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Superdesk Web Publisher Menu Bundle.
  *
@@ -14,6 +16,7 @@
 
 namespace SWP\Bundle\MenuBundle;
 
+use SWP\Bundle\MenuBundle\DependencyInjection\Compiler\AddExtensionsPass;
 use SWP\Bundle\MenuBundle\DependencyInjection\Compiler\RegisterMenuFactory;
 use SWP\Bundle\StorageBundle\DependencyInjection\Bundle\Bundle;
 use SWP\Bundle\StorageBundle\Drivers;
@@ -46,5 +49,6 @@ class SWPMenuBundle extends Bundle
     {
         parent::build($container);
         $container->addCompilerPass(new RegisterMenuFactory());
+        $container->addCompilerPass(new AddExtensionsPass());
     }
 }

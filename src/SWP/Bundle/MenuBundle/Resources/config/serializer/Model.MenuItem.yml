@@ -4,6 +4,15 @@ SWP\Bundle\MenuBundle\Model\MenuItem:
         id:
             expose: true
             type: integer
+        name:
+            expose: true
+            type: string
+        uri:
+            expose: true
+            type: string
+        label:
+            expose: true
+            type: string
         parent:
             expose: true
         root:

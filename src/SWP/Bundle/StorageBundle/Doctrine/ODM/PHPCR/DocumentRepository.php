@@ -15,6 +15,8 @@
 namespace SWP\Bundle\StorageBundle\Doctrine\ODM\PHPCR;
 
 use Doctrine\ODM\PHPCR\DocumentRepository as BaseDocumentRepository;
+use SWP\Component\Common\Criteria\Criteria;
+use SWP\Component\Common\Pagination\PaginationData;
 use SWP\Component\Storage\Model\PersistableInterface;
 use SWP\Component\Storage\Repository\RepositoryInterface;
 
@@ -38,5 +40,24 @@ class DocumentRepository extends BaseDocumentRepository implements RepositoryInt
             $this->dm->remove($object);
             $this->dm->flush($object);
         }
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function persist(PersistableInterface $object)
+    {
+        $this->dm->persist($object);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getPaginatedByCriteria(
+        Criteria $criteria,
+        array $sorting = [],
+        PaginationData $paginationData = null
+    ) {
+        throw new \Exception('Not implemented');
     }
 }

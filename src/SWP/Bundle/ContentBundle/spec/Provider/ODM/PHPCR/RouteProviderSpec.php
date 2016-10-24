@@ -18,7 +18,7 @@ use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 use SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\RouteObjectInterface;
 use SWP\Bundle\ContentBundle\Model\ArticleInterface;
-use SWP\Bundle\ContentBundle\Provider\RouteProvider;
+use SWP\Bundle\ContentBundle\Provider\ODM\PHPCR\RouteProvider;
 use SWP\Bundle\ContentBundle\Provider\RouteProviderInterface;
 use SWP\Component\MultiTenancy\PathBuilder\TenantAwarePathBuilderInterface;
 use SWP\Component\Storage\Repository\RepositoryInterface;

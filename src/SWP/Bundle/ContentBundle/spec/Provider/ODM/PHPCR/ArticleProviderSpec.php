@@ -17,7 +17,7 @@ namespace spec\SWP\Bundle\ContentBundle\Provider;
 use PhpSpec\ObjectBehavior;
 use SWP\Bundle\ContentBundle\Doctrine\ArticleRepositoryInterface;
 use SWP\Bundle\ContentBundle\Model\ArticleInterface;
-use SWP\Bundle\ContentBundle\Provider\ArticleProvider;
+use SWP\Bundle\ContentBundle\Provider\ODM\PHPCR\ArticleProvider;
 use SWP\Bundle\ContentBundle\Provider\ArticleProviderInterface;
 use SWP\Component\MultiTenancy\PathBuilder\TenantAwarePathBuilderInterface;
 

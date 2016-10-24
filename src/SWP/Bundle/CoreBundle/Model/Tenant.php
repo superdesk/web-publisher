@@ -15,10 +15,9 @@
 namespace SWP\Bundle\CoreBundle\Model;
 
 use SWP\Bundle\ContentBundle\Model\RouteInterface;
-use SWP\Component\Common\Model\ThemeAwareTenantInterface;
 use SWP\Component\MultiTenancy\Model\Tenant as BaseTenant;
 
-class Tenant extends BaseTenant implements ThemeAwareTenantInterface, HomepageBasedTenantInterface
+class Tenant extends BaseTenant implements TenantInterface
 {
     /**
      * @var string
@@ -29,6 +28,11 @@ class Tenant extends BaseTenant implements ThemeAwareTenantInterface, HomepageBa
      * @var RouteInterface
      */
     protected $homepage;
+
+    /**
+     * @var string
+     */
+    protected $domainName;
 
     /**
      * {@inheritdoc}
@@ -60,5 +64,21 @@ class Tenant extends BaseTenant implements ThemeAwareTenantInterface, HomepageBa
     public function setHomepage(RouteInterface $homepage)
     {
         $this->homepage = $homepage;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getDomainName()
+    {
+        return $this->domainName;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setDomainName($domainName)
+    {
+        $this->domainName = $domainName;
     }
 }

@@ -12,11 +12,11 @@
  * @license http://www.superdesk.org/license
  */
 
-namespace spec\SWP\Bundle\CoreBundle\Document;
+namespace spec\SWP\Bundle\CoreBundle\Model;
 
 use PhpSpec\ObjectBehavior;
-use SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\RouteObjectInterface;
-use SWP\Bundle\CoreBundle\Document\Tenant;
+use SWP\Bundle\ContentBundle\Model\RouteInterface;
+use SWP\Bundle\CoreBundle\Model\Tenant;
 use SWP\Bundle\CoreBundle\Model\TenantInterface;
 use SWP\Component\Common\Model\ThemeAwareTenantInterface;
 use SWP\Component\MultiTenancy\Model\Tenant as BaseTenant;
@@ -54,9 +54,20 @@ class TenantSpec extends ObjectBehavior
         $this->getHomepage()->shouldReturn(null);
     }
 
-    public function its_homepage_is_mutable(RouteObjectInterface $homepage)
+    public function its_homepage_is_mutable(RouteInterface $homepage)
     {
         $this->setHomepage($homepage);
         $this->getHomepage()->shouldReturn($homepage);
+    }
+
+    public function it_has_no_domain_name_by_default()
+    {
+        $this->getDomainName()->shouldReturn(null);
+    }
+
+    public function its_domain_name_is_mutable()
+    {
+        $this->setDomainName('domain');
+        $this->getDomainName()->shouldReturn('domain');
     }
 }

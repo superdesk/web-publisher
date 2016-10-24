@@ -50,7 +50,7 @@ class ArticleRepository extends DocumentRepository implements ArticleRepositoryI
         return $this->createQueryBuilder('o')->getQuery();
     }
 
-    public function getByCriteria(Criteria $criteria)
+    public function getByCriteria(Criteria $criteria, array $sorting)
     {
         $routeIdentifier = $this->dm->getNodeForDocument($route)->getIdentifier();
         $query = $this->getRouteArticlesQuery($routeIdentifier, $parameters);

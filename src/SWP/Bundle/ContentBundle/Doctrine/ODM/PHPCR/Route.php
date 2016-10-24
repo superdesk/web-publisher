@@ -14,6 +14,7 @@
 
 namespace SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR;
 
+use SWP\Bundle\ContentBundle\Model\RouteInterface;
 use Symfony\Cmf\Bundle\RoutingBundle\Doctrine\Phpcr\Route as BaseRoute;
 
 class Route extends BaseRoute implements RouteObjectInterface
@@ -105,5 +106,111 @@ class Route extends BaseRoute implements RouteObjectInterface
     public function getRouteName()
     {
         return $this->getId();
+    }
+
+    /**
+     * @return bool
+     */
+    public function isRoot(): bool
+    {
+        // TODO: Implement isRoot() method.
+    }
+
+    /**
+     * @return RouteInterface
+     */
+    public function getRoot(): RouteInterface
+    {
+        // TODO: Implement getRoot() method.
+    }
+
+    /**
+     * @return RouteInterface|null
+     */
+    public function getParent()
+    {
+        // TODO: Implement getParent() method.
+    }
+
+    /**
+     * @param RouteInterface|null $parent
+     */
+    public function setParent(RouteInterface $parent = null)
+    {
+        // TODO: Implement setParent() method.
+    }
+
+    /**
+     * @param RouteInterface $route
+     *
+     * @return bool
+     */
+    public function hasChild(RouteInterface $route): bool
+    {
+        // TODO: Implement hasChild() method.
+    }
+
+    /**
+     * @param RouteInterface $route
+     */
+    public function addChild(RouteInterface $route)
+    {
+        // TODO: Implement addChild() method.
+    }
+
+    /**
+     * @param RouteInterface $route
+     */
+    public function removeChild(RouteInterface $route)
+    {
+        // TODO: Implement removeChild() method.
+    }
+
+    /**
+     * @return int
+     */
+    public function getLeft(): int
+    {
+        // TODO: Implement getLeft() method.
+    }
+
+    /**
+     * @param int $left
+     */
+    public function setLeft(int $left)
+    {
+        // TODO: Implement setLeft() method.
+    }
+
+    /**
+     * @return int
+     */
+    public function getRight(): int
+    {
+        // TODO: Implement getRight() method.
+    }
+
+    /**
+     * @param int $right
+     */
+    public function setRight(int $right)
+    {
+        // TODO: Implement setRight() method.
+    }
+
+    /**
+     * @return int
+     */
+    public function getLevel(): int
+    {
+        // TODO: Implement getLevel() method.
+    }
+
+    /**
+     * @param int $level
+     */
+    public function setLevel(int $level)
+    {
+        // TODO: Implement setLevel() method.
     }
 }

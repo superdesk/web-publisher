@@ -45,7 +45,7 @@ SWP\Bundle\ContentBundle\Doctrine\ORM\Article:
         isPublishable:
             type: boolean
         metadata:
-            type: string
+            type: text
             nullable: true
         tenantCode:
             type: string

@@ -16,7 +16,7 @@ namespace SWP\Bundle\CoreBundle\Controller;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use SWP\Bundle\CoreBundle\Model\HomepageBasedTenantInterface;
+use SWP\Bundle\CoreBundle\Model\TenantInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 class DefaultController extends Controller
@@ -27,7 +27,7 @@ class DefaultController extends Controller
      */
     public function indexAction()
     {
-        /** @var HomepageBasedTenantInterface $currentTenant */
+        /** @var TenantInterface $currentTenant */
         $currentTenant = $this->get('swp_multi_tenancy.tenant_context')->getTenant();
         $homepage = $currentTenant->getHomepage();
 
