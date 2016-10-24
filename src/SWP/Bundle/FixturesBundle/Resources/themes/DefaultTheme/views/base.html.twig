@@ -85,7 +85,6 @@
 </head>
 
 <body>
-
   <div class="header_wrap">
     <div class="container">
 
@@ -117,9 +116,7 @@
 <!-- End Titlebar -->
 
         {% container 'headerTop' with {
-            'styles': 'border: dotted 1px #ccc',
-            'cssClass': 'someClass',
-            'data': {'custom-key': 'value'}
+            'styles': 'border: dotted 1px #ccc'
         }%}
 
 <!-- Top -->
@@ -138,14 +135,9 @@
 
   <div class="wrap_menu_wrap hidden-phone">
     <div class="menu_wrap">
-
-        {% container 'mainNavigation' with {
-            'styles': 'border: dotted 1px #ccc',
-            'cssClass': 'container',
-            'data': {'custom-key': 'value'}
-        }%}
-
-      <!--div class="container"-->
+        {% container 'mainNav' with {
+            'cssClass': 'container'
+        } %}    
 
  <!-- Top Menu -->
         <nav id="top_menu" class="hidden-phone">
@@ -164,8 +156,7 @@
         </nav>
 <!-- End Top Menu -->
 
-      <!--/div-->
-      {% endcontainer %}
+        {% endcontainer %}
     </div>
   </div>
 
@@ -174,13 +165,10 @@
 <!-- Footer -->
 <footer id="footer">
 
-        {% container 'footerNavigation' with {
-            'styles': 'border: dotted 1px #ccc',
-            'cssClass': 'container',
-            'data': {'custom-key': 'value'}
-        }%}
+ {% container 'footerNav' with {
+    'cssClass': 'container'
+  } %} 
 
-  <!-- div class="container" -->
     <ul id="footer_menu_first" class="menu hidden-phone">
       <li><a href="" title="View all posts filed under Politics">Politics</a></li>
     	<li><a href="" title="View all posts filed under Business">Business</a></li>
@@ -199,7 +187,6 @@
       <li><a href="#">{{ 'global.footer.archives'|trans|desc('Archives') }}</a></li>
       <li><p><small>{{ 'global.footer.copyright'|trans|desc('Copyright') }} {{ 'now'|date('Y') }}. {{ 'global.footer.allRightsReserved'|trans|desc('All rights reserved. Powered by') }} <a target="_blank" href="http://superdesk.org/">Superdesk</a>. {{ 'global.footer.designBy'|trans|desc('Designed by') }}  <a target="_blank" href="http://www.sourcefabric.org/">Sourcefabric</a></small></p></li>
     </ul>
-  <!-- /div -->
 
   {% endcontainer %}
 
