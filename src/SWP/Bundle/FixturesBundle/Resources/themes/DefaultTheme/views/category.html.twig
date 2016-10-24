@@ -5,7 +5,6 @@
 
   <!-- Content -->
   <section id="content">
-
     <div class="row masonry" id="masonry_container" style="position: relative; height: 1076px;">
 
     {% gimmelist article from articles with {'route': '/news'} %}
@@ -21,12 +20,10 @@
     		</article>
    	 </div>
 
-{% endgimmelist %}
+    {% endgimmelist %}
 
     </div>
-
     </section>
     <!-- End Content -->
   </div>
-  
 {% endblock %}

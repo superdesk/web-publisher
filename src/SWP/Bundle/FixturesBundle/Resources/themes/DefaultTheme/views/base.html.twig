@@ -71,9 +71,7 @@
 <!-- loads bundle asset file from theme's dir - useful to override bundles assets -->
 <link rel="stylesheet" href="{{ asset('theme/framework/css/body.css') }}" />
 #}
-
-
-  {% endblock %}
+{% endblock %}
 
   <!--[if lt IE 9]>
   <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js" type="text/javascript"></script>
@@ -81,7 +79,6 @@
 
   <script src="{{ asset('theme/assets/js/jquery.js') }}" type="text/javascript"></script>
   <script src="{{ asset('theme/assets/js/helpers.js') }}" type="text/javascript"></script>
-
 </head>
 
 <body>
@@ -99,7 +96,6 @@
           <li><a href="" title="View all posts filed under Entertainment">Entertainment</a></li>
           <li><a href="" title="View all posts filed under Sports">Sports</a></li>
           <li><a href="" title="View all posts filed under Dialogue">Dialogue</a></li>
-
           <li><a href="" title="Community index">Community</a></li>
         </ul>
 
@@ -139,7 +135,7 @@
             'cssClass': 'container'
         } %}    
 
- <!-- Top Menu -->
+        <!-- Top Menu -->
         <nav id="top_menu" class="hidden-phone">
           <ul class="menu">
 	          <li class="current"><a href="{{ url('homepage') }}">{{ 'global.header.home'|trans|desc('Home') }}</a></li>
@@ -150,12 +146,10 @@
             <li><a href="/news" title="View all posts filed under Entertainment">Entertainment</a></li>
             <li><a href="/news" title="View all posts filed under Sports">Sports</a></li>
             <li><a href="/news" title="View all posts filed under Dialogue">Dialogue</a></li>
-
             <li><a href="" title="Community">Community</a></li>
           </ul>
         </nav>
-<!-- End Top Menu -->
-
+        <!-- End Top Menu -->
         {% endcontainer %}
     </div>
   </div>
@@ -168,7 +162,6 @@
  {% container 'footerNav' with {
     'cssClass': 'container'
   } %} 
-
     <ul id="footer_menu_first" class="menu hidden-phone">
       <li><a href="" title="View all posts filed under Politics">Politics</a></li>
     	<li><a href="" title="View all posts filed under Business">Business</a></li>
@@ -187,7 +180,6 @@
       <li><a href="#">{{ 'global.footer.archives'|trans|desc('Archives') }}</a></li>
       <li><p><small>{{ 'global.footer.copyright'|trans|desc('Copyright') }} {{ 'now'|date('Y') }}. {{ 'global.footer.allRightsReserved'|trans|desc('All rights reserved. Powered by') }} <a target="_blank" href="http://superdesk.org/">Superdesk</a>. {{ 'global.footer.designBy'|trans|desc('Designed by') }}  <a target="_blank" href="http://www.sourcefabric.org/">Sourcefabric</a></small></p></li>
     </ul>
-
   {% endcontainer %}
 
   {% cache 'footerInfoBar' { time:300 } %}
