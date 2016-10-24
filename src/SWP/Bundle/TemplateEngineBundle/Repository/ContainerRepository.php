@@ -15,10 +15,12 @@
 
 namespace SWP\Bundle\TemplateEngineBundle\Repository;
 
+use Doctrine\ORM\EntityRepository;
+
 /**
  * Container Repository.
  */
-class ContainerRepository extends \Doctrine\ORM\EntityRepository
+class ContainerRepository extends EntityRepository
 {
     /**
      * Get Query for Container searched by name.

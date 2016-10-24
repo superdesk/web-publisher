@@ -45,7 +45,7 @@ SWP\Bundle\TemplateEngineBundle\Model\Container:
         tenantCode:
             type: string
     uniqueConstraints:
-        name_idx:
+        swp_name_idx:
           columns: [ name, tenant_code ]
     oneToMany:
         data:

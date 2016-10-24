@@ -20,7 +20,8 @@ use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
-use SWP\Bundle\ContentBundle\Pagination\PaginationInterface;
+use SWP\Component\Common\Criteria\Criteria;
+use SWP\Component\Common\Pagination\PaginationData;
 use SWP\Bundle\RuleBundle\Form\Type\RuleType;
 use SWP\Component\Rule\Model\RuleInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -44,15 +45,10 @@ class RuleController extends FOSRestController
      */
     public function listAction(Request $request)
     {
-        $rules = $this->get('swp.repository.rule')->findAll();
-        $paginator = $this->get('knp_paginator');
-        $rules = $paginator->paginate(
-            $rules,
-            $request->get(PaginationInterface::PAGE_PARAMETER_NAME, 1),
-            $request->get(PaginationInterface::LIMIT_PARAMETER_NAME, 10)
-        );
+        $rules = $this->get('swp.repository.rule')
+            ->getPaginatedByCriteria(new Criteria(), [], new PaginationData($request));
 
-        if (0 === count($rules)) {
+        if (0 === $rules->count()) {
             throw new NotFoundHttpException('No rules were found.');
         }
 
@@ -73,7 +69,7 @@ class RuleController extends FOSRestController
      * )
      * @Route("/api/{version}/rules/{id}", requirements={"id"="\d+"}, options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_core_get_rule")
      * @Method("GET")
-     * @ParamConverter("rule", class="SWPCoreBundle:Rule")
+     * @ParamConverter("rule", class="SWP\Bundle\CoreBundle\Model\Rule")
      */
     public function getAction(RuleInterface $rule)
     {
@@ -127,7 +123,7 @@ class RuleController extends FOSRestController
      * )
      * @Route("/api/{version}/rules/{id}", options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_core_delete_rule", requirements={"id"="\d+"})
      * @Method("DELETE")
-     * @ParamConverter("rule", class="SWPCoreBundle:Rule")
+     * @ParamConverter("rule", class="SWP\Bundle\CoreBundle\Model\Rule")
      */
     public function deleteAction(RuleInterface $rule)
     {
@@ -153,7 +149,7 @@ class RuleController extends FOSRestController
      * )
      * @Route("/api/{version}/rules/{id}", options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_core_update_rule", requirements={"id"="\d+"})
      * @Method("PATCH")
-     * @ParamConverter("rule", class="SWPCoreBundle:Rule")
+     * @ParamConverter("rule", class="SWP\Bundle\CoreBundle\Model\Rule")
      */
     public function updateAction(Request $request, RuleInterface $rule)
     {

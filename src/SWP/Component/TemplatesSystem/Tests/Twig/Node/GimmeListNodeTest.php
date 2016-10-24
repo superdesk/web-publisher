@@ -131,7 +131,7 @@ if (is_array(\$context["articles"]) || (is_object(\$context["articles"]) && \$co
     \$context['loop']['last'] = 1 === \$length;
 }
 if(is_object(\$context["articles"]) && \$context["articles"] instanceof \SWP\Component\TemplatesSystem\Gimme\Meta\MetaCollection) {
-    \$context['loop']['totalLength'] = \$context["articles"]->getTotalItemCount();
+    \$context['loop']['totalLength'] = \$context["articles"]->getTotalItemsCount();
 }
 foreach (\$context["articles"] as \$_key => \$context["article"]) {
     // line 1
@@ -207,7 +207,7 @@ if (is_array(\$context["articles"]) || (is_object(\$context["articles"]) && \$co
     \$context['loop']['last'] = 1 === \$length;
 }
 if(is_object(\$context["articles"]) && \$context["articles"] instanceof \SWP\Component\TemplatesSystem\Gimme\Meta\MetaCollection) {
-    \$context['loop']['totalLength'] = \$context["articles"]->getTotalItemCount();
+    \$context['loop']['totalLength'] = \$context["articles"]->getTotalItemsCount();
 }
 foreach (\$context["articles"] as \$_key => \$context["article"]) {
     // line 1
@@ -250,7 +250,7 @@ if (is_array(\$context["articles"]) || (is_object(\$context["articles"]) && \$co
     \$context['loop']['last'] = 1 === \$length;
 }
 if(is_object(\$context["articles"]) && \$context["articles"] instanceof \SWP\Component\TemplatesSystem\Gimme\Meta\MetaCollection) {
-    \$context['loop']['totalLength'] = \$context["articles"]->getTotalItemCount();
+    \$context['loop']['totalLength'] = \$context["articles"]->getTotalItemsCount();
 }
 foreach (\$context["articles"] as \$_key => \$context["article"]) {
     // line 1

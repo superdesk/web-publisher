@@ -59,13 +59,12 @@ class ThemeGenerateCommand extends ContainerAwareCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        $themeName = $input->getArgument('themeName');
         try {
             $tenant = $this->getTenant($input, $output);
             if (null === $tenant) {
                 return;
             }
-
-            $themeName = $input->getArgument('themeName');
 
             $themeDir = $this->createSkeleton(new Filesystem(), $tenant->getCode(), $themeName);
             $this->writeConfigFile($input, $output, $tenant, $themeDir, $themeName);
@@ -131,10 +130,13 @@ class ThemeGenerateCommand extends ContainerAwareCommand
     }
 
     /**
-     * Creates folders and empty files of theme.
+     * @param Filesystem $fileSystem
+     * @param            $tenantCode
+     * @param            $themeName
      *
-     * @param $tenantCode
-     * @param $themeName
+     * @return string
+     *
+     * @throws \Exception
      */
     protected function createSkeleton(Filesystem $fileSystem, $tenantCode, $themeName)
     {
@@ -178,13 +180,11 @@ class ThemeGenerateCommand extends ContainerAwareCommand
     }
 
     /**
-     * Writes to the theme's config file.
-     *
      * @param InputInterface  $input
      * @param OutputInterface $output
      * @param Tenant          $tenant
-     * @param $themeDir
-     * @param $themeName
+     * @param                 $themeDir
+     * @param                 $themeName
      */
     protected function writeConfigFile(InputInterface $input, OutputInterface $output, Tenant $tenant, $themeDir, $themeName)
     {
@@ -226,9 +226,11 @@ EOT;
     }
 
     /**
-     * @param InputInterface  $input  An InputInterface instance
-     * @param OutputInterface $output An OutputInterface instance
-     * @param array           $keys
+     * @param InputInterface  $input
+     * @param OutputInterface $output
+     * @param array           $keysAndDefaults
+     *
+     * @return array
      */
     protected function getValuesFromUser(InputInterface $input, OutputInterface $output, array $keysAndDefaults)
     {

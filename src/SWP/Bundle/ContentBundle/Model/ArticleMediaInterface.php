@@ -14,6 +14,7 @@
 
 namespace SWP\Bundle\ContentBundle\Model;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use SWP\Component\Storage\Model\PersistableInterface;
 
 /**
@@ -45,6 +46,11 @@ interface ArticleMediaInterface extends PersistableInterface
     public function getDescription();
 
     /**
+     * @return ArrayCollection
+     */
+    public function getRenditions();
+
+    /**
      * @return string
      */
     public function getLocated();
@@ -58,4 +64,11 @@ interface ArticleMediaInterface extends PersistableInterface
      * @return string
      */
     public function getBody();
+
+    /**
+     * @param string $mediaId
+     *
+     * @return string
+     */
+    public static function handleMediaId($mediaId);
 }

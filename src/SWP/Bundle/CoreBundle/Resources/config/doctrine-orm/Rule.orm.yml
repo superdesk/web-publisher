@@ -1,0 +1,6 @@
+SWP\Bundle\CoreBundle\Model\Rule:
+    type: entity
+    table: swp_rule
+    fields:
+        tenantCode:
+            type: string

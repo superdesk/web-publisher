@@ -64,11 +64,4 @@ interface MediaManagerInterface
      * @return string
      */
     public function getMediaUri(FileInterface $media);
-
-    /**
-     * @param string $mediaId
-     *
-     * @return string
-     */
-    public function handleMediaId($mediaId);
 }

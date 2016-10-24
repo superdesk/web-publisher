@@ -41,9 +41,7 @@ class ArticleTitleChangeTest extends WebTestCase
     {
         self::bootKernel();
         $this->initDatabase();
-        $this->loadFixtures([
-            'SWP\Bundle\FixturesBundle\DataFixtures\PHPCR\LoadTenantsData',
-        ], null, 'doctrine_phpcr');
+        $this->loadCustomFixtures(['tenant']);
 
         $this->router = $this->getContainer()->get('router');
     }
@@ -56,7 +54,6 @@ class ArticleTitleChangeTest extends WebTestCase
             'route' => [
                 'name' => 'articles',
                 'type' => 'collection',
-                'parent' => '/',
                 'content' => null,
             ],
         ]);
@@ -122,7 +119,6 @@ class ArticleTitleChangeTest extends WebTestCase
             'route' => [
                 'name' => 'articles',
                 'type' => 'collection',
-                'parent' => '/',
                 'content' => null,
             ],
         ]);
@@ -188,7 +184,6 @@ class ArticleTitleChangeTest extends WebTestCase
             'route' => [
                 'name' => 'articles',
                 'type' => 'collection',
-                'parent' => '/',
                 'content' => null,
             ],
         ]);

@@ -3,6 +3,7 @@ imports:
     - { resource: "@SWPContentBundle/Resources/config/app/config.yml" }
     - { resource: "@SWPMultiTenancyBundle/Resources/config/app/config.yml" }
     - { resource: "@SWPRuleBundle/Resources/config/app/config.yml" }
+    - { resource: "@SWPMenuBundle/Resources/config/app/config.yml" }
     - { resource: "@SWPCoreBundle/Resources/config/app/config.yml" }
     - { resource: parameters.yml }
     - { resource: security.yml }
@@ -15,6 +16,10 @@ parameters:
     locale: en
     templating.cache_warmer.template_paths.class: "Symfony\\Bundle\\FrameworkBundle\\CacheWarmer\\TemplatePathsCacheWarmer"
 framework:
+    cache:
+        app: cache.adapter.doctrine
+        system: cache.adapter.doctrine
+        default_doctrine_provider: doctrine_cache.providers.main_cache
     #esi:             ~
     translator:
         fallbacks: ["%locale%"]
@@ -67,6 +72,8 @@ doctrine:
 
     orm:
         auto_generate_proxy_classes: "%kernel.debug%"
+        resolve_target_entities:
+            SWP\Bundle\MenuBundle\Model\MenuItemInterface: SWP\Bundle\CoreBundle\Model\MenuItem
         entity_managers:
             default:
                 naming_strategy: doctrine.orm.naming_strategy.underscore
@@ -86,6 +93,10 @@ doctrine:
                         type: yml
                         prefix: SWP\Bundle\TemplateEngineBundle\Model
                         dir: Resources/config/doctrine
+                    SWPContentBundle:
+                        type: yml
+                        prefix: SWP\Bundle\ContentBundle\Doctrine\ORM
+                        dir: Resources/config/doctrine-orm
                     gedmo_loggable:
                         type: annotation
                         prefix: Gedmo\Loggable\Entity
@@ -125,40 +136,42 @@ fos_http_cache:
     invalidation:
         enabled: true
 
-doctrine_phpcr:
-    odm:
-        auto_mapping: true
-        auto_generate_proxy_classes: "%kernel.debug%"
-        metadata_cache_driver:
-            type: service
-            id: doctrine_cache.providers.main_cache
-        locales:
-            en:
-        locale_fallback: hardcoded
-        default_locale: "%locale%"
-    session:
-        backend:
-            type: doctrinedbal
-            logging: true
-            profiling: true
-            check_login_on_server: false
-            caches:
-                meta: doctrine_cache.providers.main_cache
-                nodes: doctrine_cache.providers.main_cache
-        workspace: default
+#doctrine_phpcr:
+#    odm:
+#        auto_mapping: true
+#        auto_generate_proxy_classes: "%kernel.debug%"
+#        metadata_cache_driver:
+#            type: service
+#            id: doctrine_cache.providers.main_cache
+#        locales:
+#            en:
+#        locale_fallback: hardcoded
+#        default_locale: "%locale%"
+#    session:
+#        backend:
+#            type: doctrinedbal
+#            logging: true
+#            profiling: true
+#            check_login_on_server: false
+#            caches:
+#                meta: doctrine_cache.providers.main_cache
+#                nodes: doctrine_cache.providers.main_cache
+#        workspace: default
 
 cmf_routing:
     chain:
         replace_symfony_router: true
         routers_by_id:
-            swp_multi_tenancy.tenant_aware_router: 150
+            #swp_multi_tenancy.tenant_aware_router: 150
             cmf_routing.dynamic_router: 120
             router.default: 100
     dynamic:
         route_collection_limit: 100
+        route_provider_service_id: swp.provider.route
         persistence:
-            phpcr:
+            orm:
                 enabled: true
+                route_class: "SWP\\Bundle\\ContentBundle\\Doctrine\\ORM\\Route"
 
 cmf_core:
     publish_workflow:
@@ -213,17 +226,18 @@ stof_doctrine_extensions:
             softdeleteable: true
             loggable: true
             sortable: true
+            tree: true
 
 swp_multi_tenancy:
     use_orm_listeners: true
     persistence:
-        phpcr:
+        orm:
             enabled: true
             classes:
                 tenant:
-                    model: SWP\Bundle\CoreBundle\Document\Tenant
+                    model: SWP\Bundle\CoreBundle\Model\Tenant
                 organization:
-                    model: SWP\Bundle\CoreBundle\Document\Organization
+                    model: SWP\Bundle\CoreBundle\Model\Organization
 
 swp_core:
     device_listener:
@@ -231,7 +245,7 @@ swp_core:
 
 swp_content:
     persistence:
-        phpcr: true
+        orm: true
 
 swp_bridge:
     persistence:
@@ -243,16 +257,18 @@ swp_rule:
             enabled: true
             classes:
                 rule:
-                    model: SWP\Bundle\CoreBundle\Entity\Rule
+                    model: SWP\Bundle\CoreBundle\Model\Rule
+
+swp_menu:
+    persistence:
+        orm:
+            enabled: true
+            classes:
+                menu:
+                    model: SWP\Bundle\CoreBundle\Model\MenuItem
 
 nelmio_api_doc:
     request_listener: false
-
-cmf_menu:
-    persistence:
-        phpcr:
-            enabled: true
-            menu_basepath: ~
 
 oneup_flysystem:
     adapters:

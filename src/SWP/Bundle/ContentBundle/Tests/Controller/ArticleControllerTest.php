@@ -33,10 +33,7 @@ class ArticleControllerTest extends WebTestCase
 
         $this->initDatabase();
 
-        $this->loadFixtures([
-            'SWP\Bundle\FixturesBundle\DataFixtures\PHPCR\LoadTenantsData',
-            'SWP\Bundle\FixturesBundle\DataFixtures\PHPCR\LoadArticlesData',
-        ], null, 'doctrine_phpcr');
+        $this->loadCustomFixtures(['tenant', 'article']);
 
         $this->runCommand('theme:setup', ['--env' => 'test'], true);
         $this->router = $this->getContainer()->get('router');
@@ -59,7 +56,6 @@ class ArticleControllerTest extends WebTestCase
         $crawler = $client->request('GET', '/news/features');
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
         $this->assertTrue($crawler->filter('html:contains("Features")')->count() === 1);
-        $this->assertTrue($crawler->filter('html:contains("/swp/123456/123abc/content/features")')->count() === 1);
 
         $client->request('PATCH', $this->router->generate('swp_api_content_update_articles', ['id' => 'features']), [
             'article' => [
@@ -118,25 +114,25 @@ class ArticleControllerTest extends WebTestCase
 
         $client->request('PATCH', $this->router->generate('swp_api_content_update_articles', ['id' => 'features']), [
             'article' => [
-                'route' => '/articles/features',
+                'route' => 3,
             ],
         ]);
 
         self::assertEquals(200, $client->getResponse()->getStatusCode());
         self::assertArraySubset(
-            ['route' => ['id' => '/swp/123456/123abc/routes/articles/features']],
+            ['route' => ['id' => 3]],
             json_decode($client->getResponse()->getContent(), true)
         );
 
-        $client->request('PATCH', $this->router->generate('swp_api_content_update_routes', ['id' => '/articles/features']), [
+        $client->request('PATCH', $this->router->generate('swp_api_content_update_routes', ['id' => 3]), [
             'route' => [
-                'parent' => null,
+                'name' => 'features',
             ],
         ]);
 
         self::assertEquals(200, $client->getResponse()->getStatusCode());
         self::assertArraySubset(
-            ['id' => '/swp/123456/123abc/routes/features'],
+            ['id' => 3, 'name' => 'features'],
             json_decode($client->getResponse()->getContent(), true)
         );
 
@@ -144,7 +140,7 @@ class ArticleControllerTest extends WebTestCase
 
         self::assertEquals(200, $client->getResponse()->getStatusCode());
         self::assertArraySubset(
-            ['route' => ['id' => '/swp/123456/123abc/routes/features']],
+            ['route' => ['id' => 3, 'name' => 'features']],
             json_decode($client->getResponse()->getContent(), true)
         );
     }
@@ -163,13 +159,12 @@ class ArticleControllerTest extends WebTestCase
         $client->enableProfiler();
         $client->request('PATCH', $this->router->generate('swp_api_content_update_articles', ['id' => 'features']), [
             'article' => [
-                'route' => '/news',
+                'route' => 3,
             ],
         ]);
-
         self::assertEquals(200, $client->getResponse()->getStatusCode());
         self::assertArraySubset(
-            ['route' => ['id' => '/swp/123456/123abc/routes/news']],
+            ['route' => ['name' => 'news']],
             json_decode($client->getResponse()->getContent(), true)
         );
     }
@@ -179,19 +174,18 @@ class ArticleControllerTest extends WebTestCase
         $client = static::createClient();
 
         $client->request('GET', $this->router->generate('swp_api_content_show_articles', ['id' => 'test-news-article']));
-
         self::assertEquals(200, $client->getResponse()->getStatusCode());
-        self::assertArraySubset(['route' => ['id' => '/swp/123456/123abc/routes/news']], json_decode($client->getResponse()->getContent(), true));
+        self::assertArraySubset(['route' => ['id' => 3]], json_decode($client->getResponse()->getContent(), true));
 
         $client->request('PATCH', $this->router->generate('swp_api_content_update_articles', ['id' => 'test-news-article']), [
             'article' => [
-                'route' => '/articles',
+                'route' => 4,
             ],
         ]);
 
         self::assertEquals(200, $client->getResponse()->getStatusCode());
         self::assertArraySubset(
-            ['route' => ['id' => '/swp/123456/123abc/routes/articles']],
+            ['route' => ['id' => 4, 'name' => 'articles']],
             json_decode($client->getResponse()->getContent(), true)
         );
     }
@@ -202,7 +196,7 @@ class ArticleControllerTest extends WebTestCase
 
         $client->request('PATCH', $this->router->generate('swp_api_content_update_articles', ['id' => 'features']), [
             'article' => [
-                'route' => '/fake-route-name',
+                'route' => 999,
             ],
         ]);
 

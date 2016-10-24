@@ -27,6 +27,7 @@ services:
         arguments:
             - "@swp_multi_tenancy.tenant_context"
             - "@sylius.repository.theme"
+            - "@doctrine_cache.providers.main_cache"
 
     swp_core.twig_extension:
         class: '%swp_core.twig_extension.class%'
@@ -82,6 +83,6 @@ services:
             - { name: twig.extension }
 
     swp_core.security.session.domain_dynamic_storage:
-        class: "SWP\\Bundle\\CoreBundle\\Security\\Storage\\DynamicDomainSessionStorage"
+        class: SWP\Bundle\CoreBundle\Security\Storage\DynamicDomainSessionStorage
         arguments:
             - "%domain%"

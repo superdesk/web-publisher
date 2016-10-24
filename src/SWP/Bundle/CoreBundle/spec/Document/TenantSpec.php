@@ -17,7 +17,7 @@ namespace spec\SWP\Bundle\CoreBundle\Document;
 use PhpSpec\ObjectBehavior;
 use SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\RouteObjectInterface;
 use SWP\Bundle\CoreBundle\Document\Tenant;
-use SWP\Bundle\CoreBundle\Model\HomepageBasedTenantInterface;
+use SWP\Bundle\CoreBundle\Model\TenantInterface;
 use SWP\Component\Common\Model\ThemeAwareTenantInterface;
 use SWP\Component\MultiTenancy\Model\Tenant as BaseTenant;
 
@@ -35,7 +35,7 @@ class TenantSpec extends ObjectBehavior
     public function it_implements_tenant_interface()
     {
         $this->shouldImplement(ThemeAwareTenantInterface::class);
-        $this->shouldImplement(HomepageBasedTenantInterface::class);
+        $this->shouldImplement(TenantInterface::class);
     }
 
     public function it_has_no_theme_by_default()

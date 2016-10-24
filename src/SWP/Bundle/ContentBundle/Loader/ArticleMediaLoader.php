@@ -16,24 +16,19 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\ContentBundle\Loader;
 
-use SWP\Bundle\ContentBundle\Model\ArticleMediaInterface;
+use SWP\Bundle\ContentBundle\Provider\ArticleMediaProviderInterface;
+use SWP\Component\Common\Criteria\Criteria;
 use SWP\Component\TemplatesSystem\Gimme\Context\Context;
 use SWP\Component\TemplatesSystem\Gimme\Factory\MetaFactory;
 use SWP\Component\TemplatesSystem\Gimme\Loader\LoaderInterface;
 use SWP\Component\TemplatesSystem\Gimme\Meta\Meta;
-use Doctrine\ODM\PHPCR\DocumentManager;
 use SWP\Component\TemplatesSystem\Gimme\Meta\MetaCollection;
 
 /**
  * Class ArticleMediaLoader.
  */
-class ArticleMediaLoader implements LoaderInterface
+class ArticleMediaLoader extends PaginatedLoader implements LoaderInterface
 {
-    /**
-     * @var DocumentManager
-     */
-    protected $dm;
-
     /**
      * @var MetaFactory
      */
@@ -45,18 +40,23 @@ class ArticleMediaLoader implements LoaderInterface
     protected $context;
 
     /**
+     * @var ArticleMediaProviderInterface
+     */
+    protected $articleMediaProvider;
+
+    /**
      * ArticleMediaLoader constructor.
      *
-     * @param DocumentManager $dm
-     * @param MetaFactory     $metaFactory
-     * @param Context         $context
+     * @param ArticleMediaProviderInterface $articleMediaProvider
+     * @param MetaFactory                   $metaFactory
+     * @param Context                       $context
      */
     public function __construct(
-        DocumentManager $dm,
+        ArticleMediaProviderInterface $articleMediaProvider,
         MetaFactory $metaFactory,
         Context $context
     ) {
-        $this->dm = $dm;
+        $this->articleMediaProvider = $articleMediaProvider;
         $this->metaFactory = $metaFactory;
         $this->context = $context;
     }
@@ -80,29 +80,22 @@ class ArticleMediaLoader implements LoaderInterface
     public function load($type, $parameters = [], $responseType = LoaderInterface::COLLECTION)
     {
         if ($responseType === LoaderInterface::COLLECTION) {
-            $media = false;
+            $criteria = new Criteria();
+
             if (array_key_exists('article', $parameters) && $parameters['article'] instanceof Meta) {
-                $media = $this->dm->find(null, $parameters['article']->getValues()->getId().'/'.ArticleMediaInterface::PATH_MEDIA);
+                $criteria->set('article', $parameters['article']->getValues());
             } elseif (isset($this->context->article) && null !== $this->context->article) {
-                $media = $this->dm->find(null, $this->context->article->getValues()->getId().'/'.ArticleMediaInterface::PATH_MEDIA);
+                $criteria->set('article', $this->context->article->getValues());
+            } else {
+                return false;
             }
 
-            if ($media) {
-                $items = $media->getChildren();
+            $criteria = $this->applyPaginationToCriteria($criteria, $parameters);
+            $media = $this->articleMediaProvider->getManyByCriteria($criteria);
+            if ($media->count() > 0) {
                 $metaCollection = new MetaCollection();
-                $metaCollection->setTotalItemsCount($items->count());
-
-                if (isset($parameters['limit'])) {
-                    if (isset($parameters['start'])) {
-                        $start = $parameters['start'];
-                    } else {
-                        $start = 0;
-                    }
-
-                    $items = $items->slice($start, $parameters['limit']);
-                }
-
-                foreach ($items as $item) {
+                $metaCollection->setTotalItemsCount($this->articleMediaProvider->getCountByCriteria($criteria));
+                foreach ($media as $item) {
                     $metaCollection->add($this->metaFactory->create($item));
                 }
 

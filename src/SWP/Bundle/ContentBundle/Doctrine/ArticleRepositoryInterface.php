@@ -16,8 +16,8 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\ContentBundle\Doctrine;
 
-use Jackalope\Query\SqlQuery;
 use SWP\Bundle\ContentBundle\Model\ArticleInterface;
+use SWP\Component\Common\Criteria\Criteria;
 use SWP\Component\Storage\Repository\RepositoryInterface;
 
 interface ArticleRepositoryInterface extends RepositoryInterface
@@ -42,7 +42,15 @@ interface ArticleRepositoryInterface extends RepositoryInterface
      * @param string $identifier
      * @param array  $order
      *
-     * @return SqlQuery
+     * @return object
      */
-    public function getQueryForRouteArticles(string $identifier, array $order) : SqlQuery;
+    public function getQueryForRouteArticles(string $identifier, array $order);
+
+    /**
+     * @param Criteria $criteria
+     * @param array    $sorting
+     *
+     * @return mixed
+     */
+    public function getByCriteria(Criteria $criteria, array $sorting);
 }

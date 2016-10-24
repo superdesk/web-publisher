@@ -1,0 +1,30 @@
+SWP\Bundle\ContentBundle\Doctrine\ORM\ImageRendition:
+    type: entity
+    table: swp_image_rendition
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: IDENTITY
+    fields:
+        width:
+            type: integer
+        height:
+            type: integer
+        name:
+            type: string
+    oneToOne:
+        image:
+            targetEntity: SWP\Bundle\ContentBundle\Doctrine\ORM\Image
+            inversedBy: rendition
+            joinColumn:
+                name: image_id
+                referencedColumnName: id
+    manyToOne:
+        media:
+            targetEntity: SWP\Bundle\ContentBundle\Doctrine\ORM\ArticleMedia
+            inversedBy: renditions
+            joinColumn:
+                name: media_id
+                referencedColumnName: id

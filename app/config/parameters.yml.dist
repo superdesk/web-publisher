@@ -31,3 +31,4 @@ parameters:
     session_memcached_port:     11211
     session_memcached_prefix:   sess
     session_memcached_expire:   3600
+    test_env: doctrine

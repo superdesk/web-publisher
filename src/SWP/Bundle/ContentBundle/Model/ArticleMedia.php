@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Superdesk Web Publisher Content Bundle.
  *
@@ -15,16 +17,24 @@
 namespace SWP\Bundle\ContentBundle\Model;
 
 use SWP\Component\Bridge\Model\ItemInterface;
+use SWP\Component\Common\Model\TimestampableTrait;
 
 /**
  * ArticleMedia represents media which belongs to Article.
  */
-class ArticleMedia implements ArticleMediaInterface
+abstract class ArticleMedia implements ArticleMediaInterface
 {
+    use TimestampableTrait;
+
+    /**
+     * @var int
+     */
+    protected $id;
+
     /**
      * @var string
      */
-    protected $id;
+    protected $key;
 
     /**
      * @var FileInterface
@@ -137,6 +147,17 @@ class ArticleMedia implements ArticleMediaInterface
         $this->article = $article;
 
         return $this;
+    }
+
+    public function getAssetId()
+    {
+        if ($this->getImage() instanceof Image) {
+            return $this->getImage()->getAssetId();
+        } elseif ($this->getFile() instanceof File) {
+            return $this->getFile()->getAssetId();
+        }
+
+        return;
     }
 
     /**
@@ -260,6 +281,22 @@ class ArticleMedia implements ArticleMediaInterface
     }
 
     /**
+     * @return string
+     */
+    public function getKey(): string
+    {
+        return $this->key;
+    }
+
+    /**
+     * @param string $key
+     */
+    public function setKey(string $key)
+    {
+        $this->key = $key;
+    }
+
+    /**
      * @param ItemInterface $item
      */
     public function setFromItem(ItemInterface $item)
@@ -269,5 +306,19 @@ class ArticleMedia implements ArticleMediaInterface
         $this->setLocated($item->getLocated());
         $this->setDescription($item->getDescription());
         $this->setUsageTerms($item->getUsageTerms());
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public static function handleMediaId($mediaId)
+    {
+        $mediaId = preg_replace('/\\.[^.\\s]{3,4}$/', '', $mediaId);
+        $mediaIdElements = explode('/', $mediaId);
+        if (count($mediaIdElements) == 2) {
+            return $mediaIdElements[1];
+        }
+
+        return $mediaId;
     }
 }

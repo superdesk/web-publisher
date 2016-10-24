@@ -27,4 +27,11 @@ interface FileInterface extends PersistableInterface
      * @return string
      */
     public function getFileExtension();
+
+    /**
+     * Get unique asset(file/image) id - usually external one.
+     *
+     * @return string
+     */
+    public function getAssetId();
 }

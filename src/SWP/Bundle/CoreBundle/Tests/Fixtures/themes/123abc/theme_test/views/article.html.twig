@@ -6,7 +6,8 @@
     <body>
         <h2>{{gimme.article.title}}</h2>
         <p>Id: {{gimme.article.id}}</p>
-        <p>Content: {{gimme.article.content}}</p>
+        <p>Slug: {{gimme.article.slug}}</p>
+        <p>Content: {{gimme.article.body|raw }}</p>
         <p><strong>Current tenant:</strong> {{ tenant.subdomain }} (name: {{ tenant.name }})</p>
 
         {% gimmelist media from articleMedia %} <!-- It will use article from context -->

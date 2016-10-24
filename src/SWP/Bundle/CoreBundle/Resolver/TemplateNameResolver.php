@@ -17,8 +17,8 @@
 
 namespace SWP\Bundle\CoreBundle\Resolver;
 
-use SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\RouteObjectInterface;
 use SWP\Bundle\ContentBundle\Model\ArticleInterface;
+use SWP\Bundle\ContentBundle\Model\RouteInterface;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
@@ -33,7 +33,7 @@ class TemplateNameResolver implements TemplateNameResolverInterface
     {
         if ($object instanceof ArticleInterface) {
             return $this->resolveFromArticle($object);
-        } elseif ($object instanceof RouteObjectInterface) {
+        } elseif ($object instanceof RouteInterface) {
             return $this->resolveFromRoute($object);
         }
 
@@ -45,13 +45,13 @@ class TemplateNameResolver implements TemplateNameResolverInterface
      */
     public function resolveFromArticle(ArticleInterface $article, $templateName = TemplateNameResolverInterface::TEMPLATE_NAME)
     {
-        /** @param $route RouteObjectInterface */
+        /** @param $route RouteInterface */
         if (null !== ($route = $article->getRoute())) {
             if (null !== $route->getTemplateName()) {
                 $templateName = $route->getTemplateName();
             }
 
-            if (RouteObjectInterface::TYPE_COLLECTION === $route->getType() && null !== $route->getArticlesTemplateName()) {
+            if (RouteInterface::TYPE_COLLECTION === $route->getType() && null !== $route->getArticlesTemplateName()) {
                 $templateName = $route->getArticlesTemplateName();
             }
         }
@@ -66,19 +66,19 @@ class TemplateNameResolver implements TemplateNameResolverInterface
     /**
      * {@inheritdoc}
      */
-    public function resolveFromRoute(RouteObjectInterface $route, $templateName = TemplateNameResolverInterface::TEMPLATE_NAME)
+    public function resolveFromRoute(RouteInterface $route, $templateName = TemplateNameResolverInterface::TEMPLATE_NAME)
     {
         if (null !== $route->getTemplateName()) {
             $templateName = $route->getTemplateName();
         }
 
-        if (RouteObjectInterface::TYPE_COLLECTION === $route->getType() && null === $route->getTemplateName()) {
+        if (RouteInterface::TYPE_COLLECTION === $route->getType() && null === $route->getTemplateName()) {
             if ($contentTemplateName = $this->getTemplateNameFromRouteContent($route)) {
                 $templateName = $contentTemplateName;
             } else {
-                throw new NotFoundHttpException(sprintf('There is no template file defined for "%s" route!', $route->getId()));
+                throw new NotFoundHttpException(sprintf('There is no template file defined for "%s" route!', $route->getName()));
             }
-        } elseif (RouteObjectInterface::TYPE_CONTENT === $route->getType()) {
+        } elseif (RouteInterface::TYPE_CONTENT === $route->getType()) {
             if ($contentTemplateName = $this->getTemplateNameFromRouteContent($route)) {
                 $templateName = $contentTemplateName;
             }
@@ -88,11 +88,11 @@ class TemplateNameResolver implements TemplateNameResolverInterface
     }
 
     /**
-     * @param RouteObjectInterface $route
+     * @param RouteInterface $route
      *
      * @return bool
      */
-    private function getTemplateNameFromRouteContent(RouteObjectInterface $route)
+    private function getTemplateNameFromRouteContent(RouteInterface $route)
     {
         if (null !== $route->getContent()) {
             if (null !== $templateName = $route->getContent()->getTemplateName()) {

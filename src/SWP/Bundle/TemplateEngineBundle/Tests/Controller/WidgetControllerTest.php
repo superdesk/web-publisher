@@ -14,7 +14,7 @@
 
 namespace SWP\Bundle\TemplateEngineBundle\Tests\Controller;
 
-use SWP\Bundle\ContentBundle\Pagination\PaginationInterface;
+use SWP\Component\Common\Pagination\PaginationInterface;
 use SWP\Bundle\FixturesBundle\WebTestCase;
 
 class WidgetControllerTest extends WebTestCase
@@ -29,9 +29,7 @@ class WidgetControllerTest extends WebTestCase
         self::bootKernel();
         $this->initDatabase();
 
-        $this->loadFixtures([
-            'SWP\Bundle\FixturesBundle\DataFixtures\PHPCR\LoadTenantsData',
-        ], null, 'doctrine_phpcr');
+        $this->loadCustomFixtures(['tenant']);
 
         $this->loadFixtureFiles([
             '@SWPFixturesBundle/Resources/fixtures/ORM/test/WidgetModel.yml',

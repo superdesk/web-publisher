@@ -18,7 +18,7 @@ class AppKernel extends Kernel
             new JMS\SerializerBundle\JMSSerializerBundle(),
             new Sylius\Bundle\ThemeBundle\SyliusThemeBundle(),
             new Doctrine\Bundle\DoctrineBundle\DoctrineBundle(),
-            new Doctrine\Bundle\PHPCRBundle\DoctrinePHPCRBundle(),
+            //new Doctrine\Bundle\PHPCRBundle\DoctrinePHPCRBundle(),
             new FOS\HttpCacheBundle\FOSHttpCacheBundle(),
             new Knp\Bundle\PaginatorBundle\KnpPaginatorBundle(),
             new EmanueleMinotto\TwigCacheBundle\TwigCacheBundle(),
@@ -31,8 +31,8 @@ class AppKernel extends Kernel
             new Doctrine\Bundle\DoctrineCacheBundle\DoctrineCacheBundle(),
             new JMS\TranslationBundle\JMSTranslationBundle(),
             new Knp\Bundle\MenuBundle\KnpMenuBundle(),
-            new Symfony\Cmf\Bundle\MenuBundle\CmfMenuBundle(),
             new Oneup\FlysystemBundle\OneupFlysystemBundle(),
+            new Burgov\Bundle\KeyValueFormBundle\BurgovKeyValueFormBundle(),
 
             new SWP\Bundle\StorageBundle\SWPStorageBundle(),
             new SWP\Bundle\MultiTenancyBundle\SWPMultiTenancyBundle(),
@@ -42,7 +42,7 @@ class AppKernel extends Kernel
             new SWP\Bundle\ContentBundle\SWPContentBundle(),
             new SWP\Bundle\AnalyticsBundle\SWPAnalyticsBundle(),
             new SWP\Bundle\RuleBundle\SWPRuleBundle(),
-            new Burgov\Bundle\KeyValueFormBundle\BurgovKeyValueFormBundle(),
+            new SWP\Bundle\MenuBundle\SWPMenuBundle(),
 
             new Sentry\SentryBundle\SentryBundle(),
         ];

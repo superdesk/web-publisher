@@ -35,14 +35,10 @@ class ArticleMediaLoaderTest extends WebTestCase
 
         $filesystem = new Filesystem();
         $filesystem->remove($this->getContainer()->getParameter('kernel.cache_dir').'/uploads');
-
-        $this->loadFixtures([
-            'SWP\Bundle\FixturesBundle\DataFixtures\PHPCR\LoadTenantsData',
-            'SWP\Bundle\FixturesBundle\DataFixtures\PHPCR\LoadArticlesMediaData',
-        ], null, 'doctrine_phpcr');
+        $this->loadCustomFixtures(['tenant', 'article_media']);
 
         $this->articleMediaLoader = new ArticleMediaLoader(
-            $this->getContainer()->get('doctrine_phpcr.odm.document_manager'),
+            $this->getContainer()->get('swp.provider.media'),
             $this->getContainer()->get('swp_template_engine_context.factory.meta_factory'),
             $this->getContainer()->get('swp_template_engine_context')
         );

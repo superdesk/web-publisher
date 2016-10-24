@@ -176,6 +176,8 @@ class Meta implements MetaInterface
             }
         }
 
+        unset($values, $configuration);
+
         return true;
     }
 

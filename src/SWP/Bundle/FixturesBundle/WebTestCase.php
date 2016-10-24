@@ -17,6 +17,7 @@ namespace SWP\Bundle\FixturesBundle;
 use Doctrine\Common\Cache\ArrayCache;
 use Doctrine\Common\Cache\ClearableCache;
 use Liip\FunctionalTestBundle\Test\WebTestCase as BaseWebTestCase;
+use SWP\Bundle\FixturesBundle\Registry\FixtureRegistry;
 
 class WebTestCase extends BaseWebTestCase
 {
@@ -29,7 +30,6 @@ class WebTestCase extends BaseWebTestCase
 
         $this->runCommand('doctrine:schema:drop', ['--force' => true, '--env' => 'test'], true);
         $this->runCommand('doctrine:schema:update', ['--force' => true, '--env' => 'test'], true);
-        $this->runCommand('doctrine:phpcr:repository:init', ['--env' => 'test'], true);
     }
 
     /**
@@ -55,5 +55,19 @@ class WebTestCase extends BaseWebTestCase
                 $prop->setValue($this, null);
             }
         }
+    }
+
+    protected function loadCustomFixtures(array $fixtures)
+    {
+        $env = $this->getContainer()->getParameter('test_env');
+
+        $registry = new FixtureRegistry();
+        $registry->setEnvironment($env);
+
+        return $this->loadFixtures(
+            $registry->getFixtures($fixtures),
+            null,
+            $env
+        )->getReferenceRepository();
     }
 }

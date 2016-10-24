@@ -14,52 +14,8 @@
 
 namespace SWP\Bundle\CoreBundle\Document;
 
-use SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\RouteObjectInterface;
-use SWP\Bundle\CoreBundle\Model\HomepageBasedTenantInterface;
-use SWP\Component\Common\Model\ThemeAwareTenantInterface;
-use SWP\Component\MultiTenancy\Model\Tenant as BaseTenant;
+use SWP\Bundle\CoreBundle\Model\Tenant as BaseTenant;
 
-class Tenant extends BaseTenant implements ThemeAwareTenantInterface, HomepageBasedTenantInterface
+class Tenant extends BaseTenant
 {
-    /**
-     * @var string
-     */
-    protected $themeName;
-
-    /**
-     * @var RouteObjectInterface
-     */
-    protected $homepage;
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getThemeName()
-    {
-        return $this->themeName;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function setThemeName($themeName)
-    {
-        $this->themeName = $themeName;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getHomepage()
-    {
-        return $this->homepage;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function setHomepage(RouteObjectInterface $homepage)
-    {
-        $this->homepage = $homepage;
-    }
 }

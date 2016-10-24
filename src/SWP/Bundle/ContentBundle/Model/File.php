@@ -14,8 +14,12 @@
 
 namespace SWP\Bundle\ContentBundle\Model;
 
-class File implements FileInterface
+use SWP\Component\Common\Model\TimestampableTrait;
+
+abstract class File implements FileInterface
 {
+    use TimestampableTrait;
+
     /**
      * @var string
      */
@@ -27,6 +31,19 @@ class File implements FileInterface
      * @var string
      */
     protected $fileExtension;
+
+    /**
+     * @var string
+     */
+    protected $assetId;
+
+    /**
+     * File constructor.
+     */
+    public function __construct()
+    {
+        $this->setCreatedAt(new \DateTime());
+    }
 
     /**
      * @param string $id
@@ -58,5 +75,21 @@ class File implements FileInterface
     public function getFileExtension()
     {
         return $this->fileExtension;
+    }
+
+    /**
+     * @return string
+     */
+    public function getAssetId(): string
+    {
+        return $this->assetId;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setAssetId(string $assetId)
+    {
+        $this->assetId = $assetId;
     }
 }

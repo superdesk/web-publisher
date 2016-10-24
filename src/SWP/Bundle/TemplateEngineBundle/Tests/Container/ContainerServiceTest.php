@@ -90,10 +90,7 @@ class ContainerServiceTest extends WebTestCase
     private function createAndPopulateDatabase()
     {
         $this->initDatabase();
-
-        $this->loadFixtures([
-            'SWP\Bundle\FixturesBundle\DataFixtures\PHPCR\LoadTenantsData',
-        ], null, 'doctrine_phpcr');
+        $this->loadCustomFixtures(['tenant']);
     }
 
     private function createContainerService($debug = true)

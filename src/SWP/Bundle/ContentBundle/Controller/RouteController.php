@@ -20,8 +20,10 @@ use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use SWP\Bundle\ContentBundle\Model\RouteInterface;
+use SWP\Component\Common\Criteria\Criteria;
 use SWP\Bundle\ContentBundle\Form\Type\RouteType;
-use SWP\Bundle\ContentBundle\Pagination\PaginationInterface;
+use SWP\Component\Common\Pagination\PaginationData;
 use SWP\Component\Common\Event\HttpCacheEvent;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\ConflictHttpException;
@@ -46,16 +48,9 @@ class RouteController extends FOSRestController
      */
     public function listAction(Request $request)
     {
-        $baseroute = $this->get('swp.provider.route')->getBaseRoute();
-        $routes = [];
+        $routeRepository = $this->get('swp.repository.route');
 
-        if (null !== $baseroute) {
-            $routes = $this->get('knp_paginator')->paginate(
-                $baseroute->getRouteChildren(),
-                $request->get(PaginationInterface::PAGE_PARAMETER_NAME, 1),
-                $request->get(PaginationInterface::LIMIT_PARAMETER_NAME, 10)
-            );
-        }
+        $routes = $routeRepository->getPaginatedByCriteria(new Criteria(), [], new PaginationData($request));
 
         return $this->handleView(View::create($this->get('swp_pagination_rep')->createRepresentation($routes, $request), 200));
     }
@@ -100,8 +95,8 @@ class RouteController extends FOSRestController
         $this->get('event_dispatcher')
             ->dispatch(HttpCacheEvent::EVENT_NAME, new HttpCacheEvent($route));
 
-        if ($route->getChildren()->count() > 0) {
-            throw new ConflictHttpException('Route have children routes or content attached to it.');
+        if (null !== $route->getContent()) {
+            throw new ConflictHttpException('Route has content attached to it.');
         }
 
         $repository->remove($route);
@@ -114,15 +109,12 @@ class RouteController extends FOSRestController
      *
      * Parameter `type` cane have one of two values: `content` or `collection`.
      *
-     * Content path should be provided without tenant information:
-     *
-     * Instead full content path like:  ```/swp/<tenant_code>/content/test-content-article``` provide path like this: ```test-content-article```
-     *
      * @ApiDoc(
      *     resource=true,
-     *     description="Creates routes for current tenant",
+     *     description="Create new route",
      *     statusCodes={
-     *         201="Returned on success."
+     *         201="Returned on success.",
+     *         400="Returned when not valid data."
      *     },
      *     input="SWP\Bundle\ContentBundle\Form\Type\RouteType"
      * )
@@ -131,10 +123,12 @@ class RouteController extends FOSRestController
      */
     public function createAction(Request $request)
     {
+        /** @var RouteInterface $route */
         $route = $this->get('swp.factory.route')->create();
-
         $form = $this->createForm(RouteType::class, $route, ['method' => $request->getMethod()]);
+
         $form->handleRequest($request);
+        $this->ensureRouteExists($route->getName());
 
         if ($form->isValid()) {
             $route = $this->get('swp.service.route')->createRoute($form->getData());
@@ -146,7 +140,7 @@ class RouteController extends FOSRestController
             return $this->handleView(View::create($route, 201));
         }
 
-        return $this->handleView(View::create($form, 200));
+        return $this->handleView(View::create($form, 400));
     }
 
     /**
@@ -154,16 +148,14 @@ class RouteController extends FOSRestController
      *
      * Parameter `type` cane have one of two values: `content` or `collection`.
      *
-     * Content path should be provided without tenant information:
-     *
-     * Instead full content path like:  ```/swp/<tenant_code>/content/test-content-article``` provide path like this: ```test-content-article```
-     *
      * @ApiDoc(
      *     resource=true,
-     *     description="Updates routes for current tenant",
+     *     description="Update single route",
      *     statusCodes={
      *         200="Returned on success.",
-     *         404="Returned when route not found."
+     *         400="Returned when not valid data.",
+     *         404="Returned when not found.",
+     *         409="Returned on conflict."
      *     },
      *     input="SWP\Bundle\ContentBundle\Form\Type\RouteType"
      * )
@@ -187,7 +179,7 @@ class RouteController extends FOSRestController
             return $this->handleView(View::create($route, 200));
         }
 
-        return $this->handleView(View::create($form, 500));
+        return $this->handleView(View::create($form, 400));
     }
 
     private function findOr404($id)
@@ -197,5 +189,12 @@ class RouteController extends FOSRestController
         }
 
         return $route;
+    }
+
+    private function ensureRouteExists($name)
+    {
+        if (null !== $this->get('swp.repository.route')->findOneByName($name)) {
+            throw new ConflictHttpException(sprintf('Route "%s" already exists!', $name));
+        }
     }
 }

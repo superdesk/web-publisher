@@ -37,7 +37,7 @@ class SWPCoreExtension extends Extension
         $loader->load('services.yml');
         $this->loadDeviceListener($config, $loader);
 
-        $this->registerStorage(Drivers::DRIVER_DOCTRINE_PHPCR_ODM, [], $container);
+        $this->registerStorage(Drivers::DRIVER_DOCTRINE_ORM, [], $container);
     }
 
     private function loadDeviceListener(array $config, Loader\YamlFileLoader $loader)

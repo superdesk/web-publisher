@@ -22,7 +22,6 @@ services:
 
     swp_multi_tenancy.tenant_context:
         class: '%swp_multi_tenancy.tenant_context.class%'
-        lazy:  true
         arguments:
             - '@swp_multi_tenancy.tenant_resolver'
             - '@request_stack'

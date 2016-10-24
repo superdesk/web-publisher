@@ -1,0 +1,54 @@
+SWP\Bundle\ContentBundle\Doctrine\ORM\ArticleMedia:
+    type: entity
+    table: swp_article_media
+    repositoryClass: SWP\Bundle\ContentBundle\Doctrine\ORM\ArticleMediaRepository
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: IDENTITY
+    fields:
+        key:
+            type: string
+        body:
+            type: string
+            nullable: true
+        description:
+            type: string
+            nullable: true
+        located:
+            type: string
+            nullable: true
+        byLine:
+            type: string
+            nullable: true
+        mimetype:
+            type: string
+        usageTerms:
+            type: string
+            nullable: true
+        createdAt:
+            type: date
+        updatedAt:
+            type: date
+            nullable: true
+    oneToMany:
+        renditions:
+            targetEntity: SWP\Bundle\ContentBundle\Doctrine\ORM\ImageRendition
+            mappedBy: media
+    manyToOne:
+        article:
+            targetEntity: SWP\Bundle\ContentBundle\Doctrine\ORM\Article
+            inversedBy: media
+            joinColumn:
+                name: article_id
+                referencedColumnName: id
+                onDelete: CASCADE
+    oneToOne:
+        file:
+            targetEntity: SWP\Bundle\ContentBundle\Doctrine\ORM\File
+            mapped: file
+        image:
+            targetEntity: SWP\Bundle\ContentBundle\Doctrine\ORM\Image
+            mapped: media

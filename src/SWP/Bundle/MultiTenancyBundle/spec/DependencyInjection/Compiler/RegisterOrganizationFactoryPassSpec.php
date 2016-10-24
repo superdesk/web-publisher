@@ -45,6 +45,7 @@ class RegisterOrganizationFactoryPassSpec extends ObjectBehavior
     ) {
         $container->hasDefinition('swp.factory.organization')->willReturn(true);
         $container->getParameter('swp.factory.organization.class')->willReturn(BundledFactory::class);
+        $container->hasParameter('swp_multi_tenancy.persistence.phpcr.basepath')->willReturn(true);
 
         $factoryDefinition = new Definition(
             Factory::class,
@@ -80,6 +81,7 @@ class RegisterOrganizationFactoryPassSpec extends ObjectBehavior
     ) {
         $container->hasDefinition('swp.factory.organization')->willReturn(false);
         $container->getParameter('swp.factory.organization.class')->shouldNotBeCalled();
+        $container->hasParameter('swp_multi_tenancy.persistence.phpcr.basepath')->shouldNotBeCalled();
 
         $factoryDefinition = new Definition(
             Factory::class,

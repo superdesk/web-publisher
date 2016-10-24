@@ -20,7 +20,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
 use FOS\RestBundle\View\View;
-use SWP\Bundle\ContentBundle\Pagination\PaginationInterface;
+use SWP\Component\Common\Pagination\PaginationInterface;
 use SWP\Bundle\CoreBundle\Form\Type\TenantType;
 use SWP\Component\Common\Event\HttpCacheEvent;
 use SWP\Component\MultiTenancy\Model\OrganizationInterface;

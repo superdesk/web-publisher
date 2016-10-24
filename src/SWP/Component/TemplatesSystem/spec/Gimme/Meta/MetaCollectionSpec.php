@@ -27,7 +27,7 @@ class MetaCollectionSpec extends ObjectBehavior
 
     public function it_should_return_total_items_count()
     {
-        $this->getTotalItemCount()->shouldReturn(0);
+        $this->getTotalItemsCount()->shouldReturn(0);
     }
 
     public function it_should_return_empty_array_when_no_items()
@@ -41,6 +41,6 @@ class MetaCollectionSpec extends ObjectBehavior
         $this->add('element2');
         $this->setTotalItemsCount(2);
         $this->getValues()->shouldReturn(['element1', 'element2']);
-        $this->getTotalItemCount()->shouldReturn(2);
+        $this->getTotalItemsCount()->shouldReturn(2);
     }
 }

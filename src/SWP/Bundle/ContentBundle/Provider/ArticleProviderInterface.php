@@ -16,11 +16,20 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\ContentBundle\Provider;
 
-use Jackalope\Query\SqlQuery;
+use Doctrine\Common\Collections\Collection;
+use SWP\Bundle\ContentBundle\Doctrine\ArticleRepositoryInterface;
+use SWP\Component\Common\Criteria\Criteria;
 use SWP\Bundle\ContentBundle\Model\ArticleInterface;
 
 interface ArticleProviderInterface
 {
+    /**
+     * Gets article repository.
+     *
+     * @return ArticleRepositoryInterface
+     */
+    public function getRepository(): ArticleRepositoryInterface;
+
     /**
      * Gets the article by id.
      *
@@ -43,7 +52,28 @@ interface ArticleProviderInterface
      * @param string $routeIdentifier
      * @param array  $order
      *
-     * @return SqlQuery
+     * @return object
      */
-    public function getRouteArticlesQuery(string $routeIdentifier, array $order) : SqlQuery;
+    public function getRouteArticlesQuery(string $routeIdentifier, array $order);
+
+    /**
+     * @param $criteria
+     *
+     * @return ArticleInterface
+     */
+    public function getOneByCriteria(Criteria $criteria): ArticleInterface;
+
+    /**
+     * @param Criteria $criteria
+     *
+     * @return Collection
+     */
+    public function getManyByCriteria(Criteria $criteria): Collection;
+
+    /**
+     * @param Criteria $criteria
+     *
+     * @return int
+     */
+    public function getCountByCriteria(Criteria $criteria) : int;
 }

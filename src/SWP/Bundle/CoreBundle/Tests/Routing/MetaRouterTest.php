@@ -40,16 +40,13 @@ class MetaRouterTest extends WebTestCase
 
         $this->runCommand('doctrine:phpcr:init:dbal', ['--force' => true, '--env' => 'test'], true);
         $this->runCommand('doctrine:phpcr:repository:init', ['--env' => 'test'], true);
-        $this->loadFixtures([
-            'SWP\Bundle\FixturesBundle\DataFixtures\PHPCR\LoadTenantsData',
-            'SWP\Bundle\FixturesBundle\DataFixtures\PHPCR\LoadArticlesData',
-        ], null, 'doctrine_phpcr');
+        $this->loadCustomFixtures(['tenant', 'article']);
 
         $metaLoader = $this->getContainer()->get('swp_template_engine_loader_chain');
         $router = $this->getContainer()->get('cmf_routing.dynamic_router');
         $this->assertEquals(
             '/news/test-news-article',
-            $router->generate($metaLoader->load('article', ['contentPath' => '/swp/123456/123abc/content/test-news-article']))
+            $router->generate($metaLoader->load('article', ['slug' => 'test-news-article']))
         );
     }
 
@@ -59,20 +56,16 @@ class MetaRouterTest extends WebTestCase
 
         $this->runCommand('doctrine:phpcr:init:dbal', ['--force' => true, '--env' => 'test'], true);
         $this->runCommand('doctrine:phpcr:repository:init', ['--env' => 'test'], true);
-        $this->loadFixtures([
-            'SWP\Bundle\FixturesBundle\DataFixtures\PHPCR\LoadTenantsData',
-            'SWP\Bundle\FixturesBundle\DataFixtures\PHPCR\LoadCollectionRouteArticles',
-        ], null, 'doctrine_phpcr');
+        $this->loadCustomFixtures(['tenant', 'collection_route']);
 
         $metaLoader = $this->getContainer()->get('swp_template_engine_loader_chain');
         $router = $this->getContainer()->get('cmf_routing.dynamic_router');
         $context = $this->getContainer()->get('swp_template_engine_context');
-        $routeMeta = $metaLoader->load('route', ['route_object' => $this->getContainer()->get('swp.provider.route')->getOneById('collection-with-content')]);
+        $routeMeta = $metaLoader->load('route', ['route_object' => $this->getContainer()->get('swp.provider.route')->getRouteByName('collection-with-content')]);
         $context->setCurrentPage($routeMeta);
-
         $this->assertEquals(
             '/collection-with-content',
-            $router->generate($metaLoader->load('article', ['contentPath' => '/swp/123456/123abc/content/content-assigned-as-route-content']))
+            $router->generate($metaLoader->load('article', ['slug' => 'content-assigned-as-route-content']))
         );
     }
 }

@@ -1,0 +1,61 @@
+SWP\Bundle\MenuBundle\Model\MenuItem:
+    type: mappedSuperclass
+    table: swp_menu
+    repositoryClass: SWP\Bundle\MenuBundle\Doctrine\ORM\MenuItemRepository
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: IDENTITY
+    gedmo:
+        tree:
+            type: nested
+    fields:
+        name:
+            type: string
+        label:
+            type: string
+        linkAttributes:
+            type: array
+        childrenAttributes:
+            type: array
+        labelAttributes:
+            type: array
+        uri:
+            type: string
+            nullable: true
+        attributes:
+            type: array
+        extras:
+            type: array
+        lft:
+            type: integer
+            gedmo:
+                - treeLeft
+        rgt:
+            type: integer
+            gedmo:
+                - treeRight
+        level:
+            type: integer
+            gedmo:
+                - treeLevel
+    manyToOne:
+        root:
+            targetEntity: SWP\Bundle\MenuBundle\Model\MenuItemInterface
+            joinColumn:
+                referencedColumnName: id
+                onDelete: CASCADE
+                nullable: true
+            gedmo:
+                - treeRoot
+        parent:
+            targetEntity: SWP\Bundle\MenuBundle\Model\MenuItemInterface
+            inversedBy: children
+            joinColumn:
+                referencedColumnName: id
+                onDelete: CASCADE
+                nullable: true
+            gedmo:
+                - treeParent

@@ -18,11 +18,20 @@ use SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\Article;
 use SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\ArticleRepository;
 use SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\Route;
 use SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\Site;
-use SWP\Bundle\ContentBundle\Factory\ArticleFactory;
+use SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\Media;
+use SWP\Bundle\ContentBundle\Doctrine\ORM\Article as ORMArticle;
+use SWP\Bundle\ContentBundle\Doctrine\ORM\ArticleRepository as ORMArticleRepository;
+use SWP\Bundle\ContentBundle\Doctrine\ORM\Route as ORMRoute;
+use SWP\Bundle\ContentBundle\Doctrine\ORM\RouteRepository;
+use SWP\Bundle\ContentBundle\Doctrine\ORM\ArticleMedia as ORMArticleMedia;
+use SWP\Bundle\ContentBundle\Doctrine\ORM\ArticleMediaRepository as ORMArticleMediaRepository;
+use SWP\Bundle\ContentBundle\Doctrine\ORM\Image as ORMImage;
+use SWP\Bundle\ContentBundle\Doctrine\ORM\ImageRepository as ORMImageRepository;
+use SWP\Bundle\ContentBundle\Factory\ORM\MediaFactory;
+use SWP\Bundle\ContentBundle\Factory\PHPCR\ArticleFactory;
 use SWP\Bundle\ContentBundle\Factory\RouteFactory;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
-use SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\Media;
 
 /**
  * This is the class that validates and merges configuration from your app/config files.
@@ -92,6 +101,62 @@ class Configuration implements ConfigurationInterface
                                 ->end() // classes
                             ->end()
                         ->end() // phpcr
+                        ->arrayNode('orm')
+                            ->addDefaultsIfNotSet()
+                            ->canBeEnabled()
+                            ->children()
+                                ->arrayNode('classes')
+                                    ->addDefaultsIfNotSet()
+                                    ->children()
+                                        ->arrayNode('article')
+                                            ->addDefaultsIfNotSet()
+                                            ->children()
+                                                ->scalarNode('model')->cannotBeEmpty()->defaultValue(ORMArticle::class)->end()
+                                                ->scalarNode('repository')->defaultValue(ORMArticleRepository::class)->end()
+                                                ->scalarNode('factory')->defaultValue(\SWP\Bundle\ContentBundle\Factory\ORM\ArticleFactory::class)->end()
+                                                ->scalarNode('object_manager_name')->defaultValue(null)->end()
+                                            ->end()
+                                        ->end()
+                                        ->arrayNode('site')
+                                            ->addDefaultsIfNotSet()
+                                            ->children()
+                                                ->scalarNode('model')->cannotBeEmpty()->defaultValue(Site::class)->end()
+                                                ->scalarNode('repository')->defaultValue(null)->end()
+                                                ->scalarNode('factory')->defaultValue(RouteFactory::class)->end()
+                                                ->scalarNode('object_manager_name')->defaultValue(null)->end()
+                                            ->end()
+                                        ->end()
+                                        ->arrayNode('route')
+                                            ->addDefaultsIfNotSet()
+                                            ->children()
+                                                ->scalarNode('model')->cannotBeEmpty()->defaultValue(ORMRoute::class)->end()
+                                                ->scalarNode('repository')->defaultValue(RouteRepository::class)->end()
+                                                ->scalarNode('factory')->defaultValue(RouteFactory::class)->end()
+                                                ->scalarNode('object_manager_name')->defaultValue(null)->end()
+                                            ->end()
+                                        ->end()
+                                        ->arrayNode('media')
+                                            ->addDefaultsIfNotSet()
+                                            ->children()
+                                                ->scalarNode('model')->cannotBeEmpty()->defaultValue(ORMArticleMedia::class)->end()
+                                                ->scalarNode('repository')->defaultValue(ORMArticleMediaRepository::class)->end()
+                                                ->scalarNode('factory')->defaultValue(MediaFactory::class)->end()
+                                                ->scalarNode('object_manager_name')->defaultValue(null)->end()
+                                            ->end()
+                                        ->end()
+                                        ->arrayNode('image')
+                                            ->addDefaultsIfNotSet()
+                                            ->children()
+                                                ->scalarNode('model')->cannotBeEmpty()->defaultValue(ORMImage::class)->end()
+                                                ->scalarNode('repository')->defaultValue(ORMImageRepository::class)->end()
+                                                ->scalarNode('factory')->defaultValue(null)->end()
+                                                ->scalarNode('object_manager_name')->defaultValue(null)->end()
+                                            ->end()
+                                        ->end()
+                                    ->end()
+                                ->end() // classes
+                            ->end()
+                        ->end() // orm
                     ->end()
                 ->end()
             ->end();

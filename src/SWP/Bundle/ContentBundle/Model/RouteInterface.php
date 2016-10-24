@@ -16,7 +16,7 @@ namespace SWP\Bundle\ContentBundle\Model;
 
 use SWP\Component\Storage\Model\PersistableInterface;
 
-interface RouteInterface extends PersistableInterface
+interface RouteInterface extends TreeAwareRouteInterface, PersistableInterface
 {
     const TYPE_CONTENT = 'content';
     const TYPE_COLLECTION = 'collection';
@@ -64,6 +64,16 @@ interface RouteInterface extends PersistableInterface
      * @return string
      */
     public function getVariablePattern();
+
+    /**
+     * @param $prefix string
+     */
+    public function setStaticPrefix($prefix);
+
+    /**
+     * @return string
+     */
+    public function getStaticPrefix();
 
     /**
      * Sets requirements for route.
@@ -138,4 +148,19 @@ interface RouteInterface extends PersistableInterface
      * @param string $value
      */
     public function setDefault($name, $value);
+
+    /**
+     * Set the object this url points to.
+     *
+     * @param mixed $object A content object that can be persisted by the
+     *                      storage layer
+     */
+    public function setContent($object);
+
+    /**
+     * Get the object this url points to.
+     *
+     * @return mixed
+     */
+    public function getContent();
 }

@@ -14,7 +14,6 @@
 
 namespace SWP\Bundle\ContentBundle\Service;
 
-use SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\RouteObjectInterface;
 use SWP\Bundle\ContentBundle\Event\RouteEvent;
 use SWP\Bundle\ContentBundle\Model\RouteInterface;
 use SWP\Bundle\ContentBundle\RouteEvents;
@@ -40,7 +39,7 @@ class RouteService implements RouteServiceInterface
     /**
      * {@inheritdoc}
      */
-    public function createRoute(RouteObjectInterface $route)
+    public function createRoute(RouteInterface $route)
     {
         $this->dispatchRouteEvent(RouteEvents::PRE_CREATE, $route);
 
@@ -54,7 +53,7 @@ class RouteService implements RouteServiceInterface
     /**
      * {@inheritdoc}
      */
-    public function updateRoute(RouteObjectInterface $route)
+    public function updateRoute(RouteInterface $route)
     {
         $this->dispatchRouteEvent(RouteEvents::PRE_UPDATE, $route);
 
@@ -70,17 +69,24 @@ class RouteService implements RouteServiceInterface
         $this->eventDispatcher->dispatch($eventName, new RouteEvent($route));
     }
 
-    private function fillRoute(RouteObjectInterface $route)
+    /**
+     * @param RouteInterface $route
+     *
+     * @return RouteInterface
+     */
+    public function fillRoute(RouteInterface $route)
     {
         switch ($route->getType()) {
             case RouteInterface::TYPE_CONTENT:
                 $route->setVariablePattern(null);
+                $route->setStaticPrefix($this->generatePath($route));
                 $route->setRequirements([]);
 
                 break;
             case RouteInterface::TYPE_COLLECTION:
                 $route->setVariablePattern('/{slug}');
-                $route->setRequirement('slug', '[a-zA-Z0-9\-_\/]+');
+                $route->setStaticPrefix($this->generatePath($route));
+                $route->setRequirement('slug', '[a-zA-Z0-9*\-_\/]+');
                 $route->setDefault('slug', null);
 
                 break;
@@ -89,5 +95,19 @@ class RouteService implements RouteServiceInterface
         }
 
         return $route;
+    }
+
+    /**
+     * @param RouteInterface $route
+     *
+     * @return string
+     */
+    protected function generatePath(RouteInterface $route)
+    {
+        if (null === $parent = $route->getParent()) {
+            return '/'.$route->getName();
+        }
+
+        return sprintf('%s/%s', $parent->getStaticPrefix(), $route->getName());
     }
 }

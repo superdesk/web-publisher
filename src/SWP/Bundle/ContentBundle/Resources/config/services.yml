@@ -12,7 +12,7 @@ services:
         arguments:
             - "@swp.provider.article"
             - "@swp.provider.route"
-            - "@doctrine_phpcr.odm.document_manager"
+            - "@swp.object_manager.article"
             - "@swp_template_engine_context.factory.meta_factory"
             - "@swp_template_engine_context"
         tags:
@@ -21,7 +21,7 @@ services:
     swp_template_engine.loader.media:
         class: SWP\Bundle\ContentBundle\Loader\ArticleMediaLoader
         arguments:
-            - "@doctrine_phpcr.odm.document_manager"
+            - "@swp.provider.media"
             - "@swp_template_engine_context.factory.meta_factory"
             - "@swp_template_engine_context"
         tags:
@@ -34,8 +34,8 @@ services:
         tags:
             - { name: swp.meta_loader }
 
-    document_manager:
-        alias: doctrine_phpcr.odm.document_manager
+    #document_manager:
+    #    alias: doctrine_phpcr.odm.document_manager
 
     swp_content_bundle.factory.knp_paginator_representation:
         class: SWP\Bundle\ContentBundle\Factory\KnpPaginatorRepresentationFactory
@@ -58,9 +58,8 @@ services:
         class: SWP\Bundle\ContentBundle\EventListener\ProcessArticleMediaListener
         arguments:
             - '@swp.object_manager.media'
-            - '@swp_multi_tenancy.path_builder'
-            - '%swp_multi_tenancy.persistence.phpcr.media_basepath%'
             - '@swp_content_bundle.manager.media'
+            - '@swp.factory.media'
         tags:
             - { name: kernel.event_listener, event: swp.article.pre_create, method: onArticleCreate }
 
@@ -91,12 +90,11 @@ services:
     swp_content_bundle.manager.media:
         class: '%swp_content_bundle.manager.media.class%'
         arguments:
-            - '@swp_multi_tenancy.path_builder'
+            - '@swp.repository.media'
+            - '@swp.factory.media'
             - '@swp_filesystem'
-            - '@swp.object_manager.media'
             - '@router'
             - '@swp_multi_tenancy.tenant_context'
-            - '%swp_multi_tenancy.persistence.phpcr.media_basepath%'
 
     router.symfony:
         parent: "router.default"
@@ -118,13 +116,6 @@ services:
         class: SWP\Bundle\ContentBundle\Form\Type\ArticleSelectorType
         arguments:
             - '@swp.provider.article'
-        tags:
-            - { name: form.type }
-
-    swp_content_bundle.form.type.route:
-        class: SWP\Bundle\ContentBundle\Form\Type\RouteType
-        arguments:
-            - '@swp.provider.route'
         tags:
             - { name: form.type }
 

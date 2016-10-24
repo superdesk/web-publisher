@@ -14,6 +14,7 @@
 
 namespace spec\SWP\Bundle\CoreBundle\Theme;
 
+use Doctrine\Common\Cache\CacheProvider;
 use PhpSpec\ObjectBehavior;
 use SWP\Bundle\CoreBundle\Theme\TenantAwareThemeContext;
 use SWP\Component\Common\Model\ThemeAwareTenantInterface;
@@ -26,9 +27,12 @@ use Sylius\Bundle\ThemeBundle\Repository\ThemeRepositoryInterface;
  */
 class TenantAwareThemeContextSpec extends ObjectBehavior
 {
-    public function let(TenantContextInterface $tenantContext, ThemeRepositoryInterface $themeRepository)
-    {
-        $this->beConstructedWith($tenantContext, $themeRepository);
+    public function let(
+        TenantContextInterface $tenantContext,
+        ThemeRepositoryInterface $themeRepository,
+        CacheProvider $cacheProvider
+    ) {
+        $this->beConstructedWith($tenantContext, $themeRepository, $cacheProvider);
     }
 
     public function it_is_initializable()

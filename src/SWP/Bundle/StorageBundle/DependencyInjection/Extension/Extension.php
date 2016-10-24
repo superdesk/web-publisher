@@ -36,7 +36,7 @@ abstract class Extension extends BaseExtension
 
         foreach ($config as $key => $classConfig) {
             $container->setParameter(
-                sprintf('%s.persistence.phpcr.manager_name', $this->getAlias()),
+                sprintf('%s.persistence.%s.manager_name', $this->getAlias(), $type),
                 $classConfig['object_manager_name']
             );
 

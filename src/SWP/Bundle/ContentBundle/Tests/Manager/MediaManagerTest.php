@@ -28,10 +28,7 @@ class MediaManagerTest extends WebTestCase
         self::bootKernel();
 
         $this->initDatabase();
-
-        $this->loadFixtures([
-            'SWP\Bundle\FixturesBundle\DataFixtures\PHPCR\LoadTenantsData',
-        ], null, 'doctrine_phpcr');
+        $this->loadCustomFixtures(['tenant']);
 
         $filesystem = new Filesystem();
         $filesystem->remove($this->getContainer()->getParameter('kernel.cache_dir').'/uploads');
@@ -49,7 +46,7 @@ class MediaManagerTest extends WebTestCase
             'asdgsadfvasdf4w35qwetasftest'
         );
 
-        $this->assertTrue($media->getId() === 'asdgsadfvasdf4w35qwetasftest');
+        $this->assertTrue($media->getAssetId() === 'asdgsadfvasdf4w35qwetasftest');
         $this->assertTrue($media->getFileExtension() === 'png');
 
         $file = $mediaManager->getFile($media);

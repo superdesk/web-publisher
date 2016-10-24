@@ -1,0 +1,19 @@
+parameters:
+    swp.provider.route.class: SWP\Bundle\ContentBundle\Provider\ODM\PHPCR\RouteProvider
+    swp.provider.article.class: SWP\Bundle\ContentBundle\Provider\ODM\PHPCR\ArticleProvider
+
+services:
+    swp.provider.route:
+        class: '%swp.provider.route.class%'
+        arguments:
+            - '@swp.repository.route'
+            - '@swp_multi_tenancy.path_builder'
+            - '%swp_multi_tenancy.persistence.phpcr.route_basepaths%'
+            - '%swp_content.persistence.phpcr.default_content_path%'
+
+    swp.provider.article:
+        class: '%swp.provider.article.class%'
+        arguments:
+            - '@swp.repository.article'
+            - '@swp_multi_tenancy.path_builder'
+            - '%swp_multi_tenancy.persistence.phpcr.content_basepath%'

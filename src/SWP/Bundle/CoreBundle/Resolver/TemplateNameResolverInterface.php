@@ -14,8 +14,8 @@
 
 namespace SWP\Bundle\CoreBundle\Resolver;
 
-use SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\RouteObjectInterface;
 use SWP\Bundle\ContentBundle\Model\ArticleInterface;
+use SWP\Bundle\ContentBundle\Model\RouteInterface;
 
 interface TemplateNameResolverInterface
 {
@@ -38,10 +38,10 @@ interface TemplateNameResolverInterface
     public function resolveFromArticle(ArticleInterface $article, $templateName = self::TEMPLATE_NAME);
 
     /**
-     * @param RouteObjectInterface $route
-     * @param string               $templateName
+     * @param RouteInterface $route
+     * @param string         $templateName
      *
      * @return string
      */
-    public function resolveFromRoute(RouteObjectInterface $route, $templateName = self::TEMPLATE_NAME);
+    public function resolveFromRoute(RouteInterface $route, $templateName = self::TEMPLATE_NAME);
 }
