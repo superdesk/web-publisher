@@ -52,20 +52,3 @@ monolog:
                 VERBOSITY_VERY_VERBOSE: NOTICE
                 VERBOSITY_DEBUG: DEBUG
             channels: ["doctrine"]
-        # uncomment to get logging in your browser
-        # you may have to allow bigger header sizes in your Web server configuration
-        #firephp:
-        #    type:   firephp
-        #    level:  info
-        #chromephp:
-        #    type:   chromephp
-        #    level:  info
-
-#swiftmailer:
-#    delivery_address: me@example.com
-
-swp_bridge:
-    options:
-        curl: # http://guzzle.readthedocs.org/en/latest/faq.html#how-can-i-add-custom-curl-options
-            10203: # integer value of CURLOPT_RESOLVE
-                 - "superdesk.dev:5050:localhost"  # This will resolve the host example.com to your localhost
