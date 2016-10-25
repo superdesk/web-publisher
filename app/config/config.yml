@@ -207,6 +207,11 @@ fos_rest:
         messages:
             "Symfony\\Component\\Routing\\Exception\\ResourceNotFoundException": true
 
+fos_user:
+    db_driver: orm
+    firewall_name: main
+    user_class: "SWP\\Bundle\\ContentBundle\\Doctrine\\ORM\\User"
+
 sensio_framework_extra:
     view:    { annotations: false }
 

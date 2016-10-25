@@ -1,10 +1,6 @@
 imports:
     - { resource: config.yml }
 
-#framework:
-#    validation:
-#        cache: apc
-
 monolog:
     handlers:
         main:

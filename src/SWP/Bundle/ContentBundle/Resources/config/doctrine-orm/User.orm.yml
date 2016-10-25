@@ -1,0 +1,8 @@
+SWP\Bundle\ContentBundle\Doctrine\ORM\User:
+    type:  entity
+    table: swp_user
+    id:
+        id:
+            type: integer
+            generator:
+                strategy: AUTO
