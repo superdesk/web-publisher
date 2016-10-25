@@ -92,7 +92,8 @@
         "burgov/key-value-form-bundle": "@stable",
         "nelmio/api-doc-bundle": "^2.13",
         "knplabs/knp-menu-bundle": "^2.1",
-        "symfony-cmf/core-bundle": "2.0.x-dev"
+        "symfony-cmf/core-bundle": "2.0.x-dev",
+        "nelmio/cors-bundle": "^1.4"
     },
     "require-dev": {
         "sensio/generator-bundle": "~3.0",

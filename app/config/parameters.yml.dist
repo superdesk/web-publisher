@@ -32,3 +32,4 @@ parameters:
     session_memcached_prefix:   sess
     session_memcached_expire:   3600
     test_env: doctrine
+    allow_origin_cors: "http://localhost"
