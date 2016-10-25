@@ -25,6 +25,7 @@ class AppKernel extends Kernel
             new FOS\RestBundle\FOSRestBundle(),
             new Bazinga\Bundle\HateoasBundle\BazingaHateoasBundle(),
             new Nelmio\ApiDocBundle\NelmioApiDocBundle(),
+            new Nelmio\CorsBundle\NelmioCorsBundle(),
             new Stof\DoctrineExtensionsBundle\StofDoctrineExtensionsBundle(),
             new Symfony\Cmf\Bundle\CoreBundle\CmfCoreBundle(),
             new Symfony\Cmf\Bundle\RoutingBundle\CmfRoutingBundle(),
