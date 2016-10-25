@@ -1,40 +1,26 @@
-# you can read more about security in the related section of the documentation
-# http://symfony.com/doc/current/book/security.html
 security:
-    # http://symfony.com/doc/current/book/security.html#encoding-the-user-s-password
     encoders:
-        Symfony\Component\Security\Core\User\User:
-            algorithm: bcrypt
-            cost: 12
+        FOS\UserBundle\Model\UserInterface: bcrypt
 
-    # http://symfony.com/doc/current/book/security.html#hierarchical-roles
     role_hierarchy:
         ROLE_JOURNALIST:  [ROLE_USER]
         ROLE_EDITOR:      [ROLE_JOURNALIST, ROLE_CAN_VIEW_NON_PUBLISHED]
         ROLE_ADMIN:       [ROLE_EDITOR]
         ROLE_SUPER_ADMIN: [ROLE_ADMIN, ROLE_ALLOWED_TO_SWITCH]
 
-    # http://symfony.com/doc/current/book/security.html#where-do-users-come-from-user-providers
     providers:
-        in_memory:
-            memory: ~
+        fos_userbundle:
+            id: fos_user.user_provider.username
 
-    # the main part of the security, where you can set up firewalls
-    # for specific sections of your app
     firewalls:
-        # disables authentication for assets and the profiler, adapt it according to your needs
         dev:
             pattern:  ^/(_(profiler|wdt)|css|images|js)/
             security: false
-        login:
-            security: false
+        main:
+            pattern: ^/
+            form_login:
+                provider: fos_userbundle
+                csrf_token_generator: security.csrf.token_manager
 
-        secured_area:
-            anonymous: ~
-
-
-    # with these settings you can restrict or allow access for different parts
-    # of your application based on roles, ip, host or methods
-    # http://symfony.com/doc/current/cookbook/security/access_control.html
-    access_control:
-        #- { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY, requires_channel: https }
+            logout:       true
+            anonymous:    true
