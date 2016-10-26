@@ -89,9 +89,9 @@ doctrine:
                         type: yml
                         prefix: SWP\Bundle\AnalyticsBundle\Model
                         dir: Resources/config/doctrine
-                    SWPTemplateEngineBundle:
+                    SWPTemplatesSystemBundle:
                         type: yml
-                        prefix: SWP\Bundle\TemplateEngineBundle\Model
+                        prefix: SWP\Bundle\TemplatesSystemBundle\Model
                         dir: Resources/config/doctrine
                     SWPContentBundle:
                         type: yml

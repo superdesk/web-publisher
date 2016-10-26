@@ -52,7 +52,7 @@ In addition to default loop properties there is also :code:`totalLength`. It's f
 
 .. note::
 
-    You can override that template with :code:`SWPTemplateEngineBundle/views/pagination.html.twig` file in Your theme. Or You can use own file used for pagination rendering.
+    You can override that template with :code:`SWPTemplatesSystemBundle/views/pagination.html.twig` file in Your theme. Or You can use own file used for pagination rendering.
 
 Here is commented example of pagination:
 

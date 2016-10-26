@@ -1,4 +1,4 @@
-SWP\Bundle\TemplateEngineBundle\Model\WidgetModel:
+SWP\Bundle\TemplatesSystemBundle\Model\WidgetModel:
     widget1:
         name: "HtmlWidgetHandler number 1"
         type: 1

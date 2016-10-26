@@ -1,0 +1,21 @@
+parameters:
+    domain: localhost
+
+framework:
+    secret: "Three can keep a secret, if two of them are dead."
+    router: { resource: "%kernel.root_dir%/%kernel.test_case%/routing.yml" }
+    test: ~
+
+# Doctrine Configuration
+doctrine:
+    dbal:
+        driver:   pdo_sqlite
+        memory:   true
+        charset:  UTF8
+    orm:
+        auto_generate_proxy_classes: true
+
+monolog:
+    handlers:
+        test:
+            type:  test

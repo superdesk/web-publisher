@@ -1,0 +1,54 @@
+{
+  "name": "swp/templates-system-bundle",
+  "type": "symfony-bundle",
+  "description": "This bundle provides templates system (based on TWIG templates engine) for PHP applications.",
+  "keywords": ["templates system", "superdesk", "gimme", "gimmelist", "webpublisher", "twig"],
+  "license":"AGPL-3.0",
+  "minimum-stability": "dev",
+  "authors": [
+    {
+      "name": "Paweł Mikołajczuk",
+      "email": "pawel.mikolajczuk@sourcefabric.org"
+    }
+  ],
+  "require": {
+    "php": "^7.0",
+    "swp/templates-system": "1.1.x-dev",
+    "twig/twig": "^1.26.0"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^4.6",
+    "phpspec/phpspec": "^3.0",
+    "doctrine/orm": "^2.5",
+    "liip/functional-test-bundle": "1.6.*",
+    "matthiasnoback/symfony-dependency-injection-test": "^1.0",
+    "symfony/framework-bundle": "2.8.x-dev",
+    "sensio/framework-extra-bundle": "~3.0,>=3.0.2",
+    "doctrine/doctrine-bundle": "~1.4",
+    "symfony/browser-kit": "2.8.x-dev",
+    "jms/serializer-bundle": "^1.1",
+    "symfony/monolog-bundle": "2.9.*",
+    "doctrine/doctrine-cache-bundle": "1.3.*"
+  },
+  "autoload": {
+    "exclude-from-classmap": [
+      "Tests/",
+      "spec/"
+    ],
+    "psr-4": { "SWP\\Bundle\\TemplatesSystemBundle\\": "" }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "SWP\\Bundle\\TemplatesSystemBundle\\Tests\\": "Tests/",
+      "SWP\\Bundle\\TemplatesSystemBundle\\spec\\": "spec/"
+    }
+  },
+  "config": {
+    "bin-dir": "bin"
+  },
+  "extra": {
+    "branch-alias": {
+      "dev-master": "0.1-dev"
+    }
+  }
+}

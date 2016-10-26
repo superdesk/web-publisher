@@ -1,0 +1,8 @@
+imports:
+    - { resource: ./../config/default.yml }
+
+doctrine_cache:
+    providers:
+        main_cache:
+            type: array
+            namespace: templates_engine

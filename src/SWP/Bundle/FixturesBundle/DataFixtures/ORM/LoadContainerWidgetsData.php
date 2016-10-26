@@ -18,7 +18,7 @@ use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use SWP\Bundle\FixturesBundle\AbstractFixture;
 use Doctrine\Common\Persistence\ObjectManager;
-use SWP\Bundle\TemplateEngineBundle\Model\ContainerWidget;
+use SWP\Bundle\TemplatesSystemBundle\Model\ContainerWidget;
 
 class LoadContainerWidgetsData extends AbstractFixture implements FixtureInterface, OrderedFixtureInterface
 {

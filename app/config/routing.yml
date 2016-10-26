@@ -1,5 +1,5 @@
 swp_templateengine:
-    resource: "@SWPTemplateEngineBundle/Controller/"
+    resource: "@SWPTemplatesSystemBundle/Controller/"
     type:     annotation
 
 swp_content:
