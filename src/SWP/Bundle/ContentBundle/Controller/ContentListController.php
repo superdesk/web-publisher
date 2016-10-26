@@ -113,7 +113,7 @@ class ContentListController extends FOSRestController
         return $list;
     }
 
-    private function ensureContentListExbinists($name)
+    private function ensureContentListExists($name)
     {
         if (null !== $this->get('swp.repository.content_list')->findOneByName($name)) {
             throw new ConflictHttpException(sprintf('Content list named "%s" already exists!', $name));
