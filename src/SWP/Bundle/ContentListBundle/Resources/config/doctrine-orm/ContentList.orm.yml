@@ -1,5 +1,5 @@
 SWP\Component\ContentList\Model\ContentList:
-    type: entity #mappedSuperclass
+    type: mappedSuperclass
     table: swp_content_list
     gedmo:
         soft_deleteable:
@@ -43,8 +43,3 @@ SWP\Component\ContentList\Model\ContentList:
         deletedAt:
             type: datetime
             nullable: true
-    oneToMany:
-        items:
-            targetEntity: SWP\Component\ContentList\Model\ContentListItem
-            mappedBy: contentList
-            cascade: ["all"]

@@ -86,7 +86,7 @@ class ContentListController extends FOSRestController
      */
     public function createAction(Request $request)
     {
-        /* @var ContentListInterface $route */
+        /* @var ContentListInterface $contentList */
         $contentList = $this->get('swp.factory.content_list')->create();
         $form = $this->createForm(ContentListType::class, $contentList, ['method' => $request->getMethod()]);
 

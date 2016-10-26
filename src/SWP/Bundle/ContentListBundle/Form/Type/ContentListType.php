@@ -43,7 +43,7 @@ class ContentListType extends AbstractType
                 ],
                 'description' => 'List type',
             ])
-            ->add('description', IntegerType::class, [
+            ->add('description', TextType::class, [
                 'required' => false,
                 'description' => 'List description',
             ])
