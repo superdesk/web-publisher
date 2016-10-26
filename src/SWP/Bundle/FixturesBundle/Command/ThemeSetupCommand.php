@@ -91,11 +91,9 @@ EOT
             $name = self::DEFAULT_THEME_TITLE;
         }
 
-        // find default tenant and get its code, use it as a themes path
-        $tenantRepository = $this->getContainer()->get('swp.repository.tenant');
-
         /** @var ThemeAwareTenantInterface $defaultTenant */
-        $defaultTenant = $tenantRepository->findOneBy(['name' => TenantInterface::DEFAULT_TENANT_NAME]);
+        $defaultTenant = $this->getContainer()->get('swp.repository.tenant')
+            ->findOneBy(['name' => TenantInterface::DEFAULT_TENANT_NAME]);
 
         $this->assertTenantIsFound($defaultTenant);
 
@@ -167,7 +165,7 @@ EOT
         // Only assign default theme if no theme has yet been assigned to default tenant
         if (null === $defaultTenant->getThemeName()) {
             $defaultTenant->setThemeName(self::DEFAULT_THEME_NAME);
-            $documentManager = $this->getContainer()->get('doctrine_phpcr.odm.document_manager');
+            $documentManager = $this->getContainer()->get('swp.object_manager.tenant');
             $documentManager->flush();
         }
     }
