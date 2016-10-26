@@ -15,12 +15,13 @@ imports:
 parameters:
     locale: en
     templating.cache_warmer.template_paths.class: "Symfony\\Bundle\\FrameworkBundle\\CacheWarmer\\TemplatePathsCacheWarmer"
+
 framework:
     cache:
         app: cache.adapter.doctrine
         system: cache.adapter.doctrine
         default_doctrine_provider: doctrine_cache.providers.main_cache
-    #esi:             ~
+    esi:             ~
     translator:
         fallbacks: ["%locale%"]
         logging: false
@@ -136,33 +137,10 @@ fos_http_cache:
     invalidation:
         enabled: true
 
-#doctrine_phpcr:
-#    odm:
-#        auto_mapping: true
-#        auto_generate_proxy_classes: "%kernel.debug%"
-#        metadata_cache_driver:
-#            type: service
-#            id: doctrine_cache.providers.main_cache
-#        locales:
-#            en:
-#        locale_fallback: hardcoded
-#        default_locale: "%locale%"
-#    session:
-#        backend:
-#            type: doctrinedbal
-#            logging: true
-#            profiling: true
-#            check_login_on_server: false
-#            caches:
-#                meta: doctrine_cache.providers.main_cache
-#                nodes: doctrine_cache.providers.main_cache
-#        workspace: default
-
 cmf_routing:
     chain:
         replace_symfony_router: true
         routers_by_id:
-            #swp_multi_tenancy.tenant_aware_router: 150
             cmf_routing.dynamic_router: 120
             router.default: 100
     dynamic:
@@ -210,7 +188,7 @@ fos_rest:
 fos_user:
     db_driver: orm
     firewall_name: main
-    user_class: "SWP\\Bundle\\ContentBundle\\Doctrine\\ORM\\User"
+    user_class: "SWP\\Bundle\\CoreBundle\\Model\\User"
 
 sensio_framework_extra:
     view:    { annotations: false }
