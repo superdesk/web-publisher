@@ -1,0 +1,45 @@
+SWP\Component\ContentList\Model\ContentListItem:
+    type: entity #mappedSuperclass
+    table: swp_content_list_item
+    gedmo:
+        soft_deleteable:
+            field_name: deletedAt
+            time_aware: false
+        loggable: true
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        position:
+            type: integer
+        enabled:
+            type: boolean
+        createdAt:
+            type: datetime
+            gedmo:
+                timestampable:
+                    on: create
+        updatedAt:
+            type: datetime
+            nullable: true
+            gedmo:
+                timestampable:
+                    on: update
+        deletedAt:
+            type: datetime
+            nullable: true
+    manyToOne:
+        content:
+            targetEntity: SWP\Component\ContentList\Model\ListContentInterface
+            joinColumn:
+                name: content_id
+                referencedColumnName: id
+        contentList:
+            targetEntity: SWP\Component\ContentList\Model\ContentList
+            inversedBy: items
+            joinColumn:
+                name: content_list_id
+                referencedColumnName: id

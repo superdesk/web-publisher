@@ -1,0 +1,5 @@
+suites:
+    main:
+        namespace: SWP\Bundle\ContentListBundle
+        psr4_prefix: SWP\Bundle\ContentListBundle
+        src_path: .

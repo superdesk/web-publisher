@@ -1,0 +1,5 @@
+suites:
+    main:
+        namespace: SWP\Component\ContentList
+        psr4_prefix: SWP\Component\ContentList
+        src_path: .

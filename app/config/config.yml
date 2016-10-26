@@ -4,6 +4,7 @@ imports:
     - { resource: "@SWPMultiTenancyBundle/Resources/config/app/config.yml" }
     - { resource: "@SWPRuleBundle/Resources/config/app/config.yml" }
     - { resource: "@SWPMenuBundle/Resources/config/app/config.yml" }
+    - { resource: "@SWPContentListBundle/Resources/config/app/config.yml" }
     - { resource: "@SWPCoreBundle/Resources/config/app/config.yml" }
     - { resource: parameters.yml }
     - { resource: security.yml }
@@ -74,6 +75,7 @@ doctrine:
         auto_generate_proxy_classes: "%kernel.debug%"
         resolve_target_entities:
             SWP\Bundle\MenuBundle\Model\MenuItemInterface: SWP\Bundle\CoreBundle\Model\MenuItem
+            SWP\Component\ContentList\Model\ListContentInterface: SWP\Bundle\ContentBundle\Doctrine\ORM\Article
         entity_managers:
             default:
                 naming_strategy: doctrine.orm.naming_strategy.underscore
@@ -244,6 +246,10 @@ swp_core:
         enabled: true
 
 swp_content:
+    persistence:
+        orm: true
+
+swp_content_list:
     persistence:
         orm: true
 
