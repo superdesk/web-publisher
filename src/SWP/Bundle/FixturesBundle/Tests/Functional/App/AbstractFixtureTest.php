@@ -12,8 +12,9 @@
  * @license http://www.superdesk.org/license
  */
 
-namespace SWP\Bundle\FixturesBundleBundle\Tests;
+namespace SWP\Bundle\FixturesBundleBundle\Functional\Tests;
 
+use Doctrine\ORM\Tools\SchemaTool;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 class AbstractFixtureTest extends KernelTestCase
@@ -23,10 +24,14 @@ class AbstractFixtureTest extends KernelTestCase
 
     public function setUp()
     {
-        $this->manager = $this->getMock('Doctrine\Common\Persistence\ObjectManager');
         $kernel = $this->createKernel();
         $kernel->boot();
         $this->container = $kernel->getContainer();
+        $this->manager = $kernel->getContainer()->get('doctrine.orm.entity_manager');
+        $schemaTool = new SchemaTool($this->manager);
+        $metadata = $this->manager->getMetadataFactory()->getAllMetadata();
+        $schemaTool->dropSchema($metadata);
+        $schemaTool->createSchema($metadata);
     }
 
     /**
