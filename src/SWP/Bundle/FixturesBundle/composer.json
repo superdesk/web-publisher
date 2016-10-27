@@ -1,0 +1,49 @@
+{
+  "name": "swp/fixtures-bundle",
+  "type": "symfony-bundle",
+  "description": "Provides useful features around Doctrine Fixtures for Web Publisher project.",
+  "keywords": ["fixtures", "superdesk", "webpublisher"],
+  "license":"AGPL-3.0",
+  "minimum-stability": "dev",
+  "authors": [
+    {
+      "name": "Rafał Muszyński",
+      "email": "rafal.muszynski@sourcefabric.org"
+    },
+    {
+      "name": "Paweł Mikołajczuk",
+      "email": "pawel.mikolajczuk@sourcefabric.org"
+    }
+  ],
+  "require": {
+    "php": "^7.0",
+    "symfony/dependency-injection": "~2.8|~3.0",
+    "doctrine/common": "2.6.*",
+    "doctrine/doctrine-bundle": "1.6.*",
+    "nelmio/alice": "2.2.*",
+    "swp/multi-tenancy-bundle": "~0.1.0",
+    "liip/functional-test-bundle": "1.6.*"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "5.*"
+  },
+  "autoload": {
+    "exclude-from-classmap": [
+      "spec/"
+    ],
+    "psr-4": { "SWP\\Bundle\\FixturesBundle\\": "" }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "SWP\\Bundle\\FixturesBundle\\Tests\\": "Tests/"
+    }
+  },
+  "config": {
+    "bin-dir": "bin"
+  },
+  "extra": {
+    "branch-alias": {
+      "dev-master": "0.1-dev"
+    }
+  }
+}
