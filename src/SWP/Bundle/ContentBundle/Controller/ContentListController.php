@@ -61,7 +61,7 @@ class ContentListController extends FOSRestController
      *         200="Returned on success."
      *     }
      * )
-     * @Route("/api/{version}/content/lists/{id}", options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_content_show_lists", requirements={"id"=".+"})
+     * @Route("/api/{version}/content/lists/{id}", options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_content_show_lists", requirements={"id"="\d+"})
      * @Method("GET")
      *
      * @Cache(expires="10 minutes", public=true)
@@ -102,6 +102,29 @@ class ContentListController extends FOSRestController
         }
 
         return $this->handleView(View::create($form, 400));
+    }
+
+    /**
+     * @ApiDoc(
+     *     resource=true,
+     *     description="Delete single content list",
+     *     statusCodes={
+     *         204="Returned on success."
+     *     }
+     * )
+     * @Route("/api/{version}/content/lists/{id}", options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_content_delete_lists", requirements={"id"="\d+"})
+     * @Method("DELETE")
+     */
+    public function deleteAction($id)
+    {
+        $repository = $this->get('swp.repository.content_list');
+        $contentList = $this->findOr404($id);
+        $this->get('event_dispatcher')
+            ->dispatch(HttpCacheEvent::EVENT_NAME, new HttpCacheEvent($contentList));
+
+        $repository->remove($contentList);
+
+        return $this->handleView(View::create(true, 204));
     }
 
     private function findOr404($id)

@@ -15,6 +15,7 @@
 namespace SWP\Bundle\ContentBundle\Tests\Controller;
 
 use SWP\Bundle\FixturesBundle\WebTestCase;
+use Symfony\Bundle\FrameworkBundle\Client;
 use Symfony\Component\Routing\RouterInterface;
 
 class ContentListControllerTest extends WebTestCase
@@ -23,6 +24,11 @@ class ContentListControllerTest extends WebTestCase
      * @var RouterInterface
      */
     protected $router;
+
+    /**
+     * @var Client
+     */
+    protected $client;
 
     /**
      * {@inheritdoc}
@@ -34,6 +40,7 @@ class ContentListControllerTest extends WebTestCase
         $this->initDatabase();
         $this->loadCustomFixtures(['tenant']);
         $this->router = $this->getContainer()->get('router');
+        $this->client = static::createClient();
     }
 
     public function testCreateNewContentListApi()
@@ -62,8 +69,7 @@ class ContentListControllerTest extends WebTestCase
         self::assertEquals(201, $response->getStatusCode());
         $content = json_decode($response->getContent(), true);
 
-        $client = static::createClient();
-        $client->request('GET', $this->router->generate('swp_api_content_show_lists', ['id' => $content['id']]));
+        $this->client->request('GET', $this->router->generate('swp_api_content_show_lists', ['id' => $content['id']]));
 
         self::assertArraySubset(json_decode('{"id":1,"name":"Example automatic list","description":null,"type":"automatic","cache_life_time":null,"limit":null,"enabled":true,"_links":{"self":{"href":"\/api\/v1\/content\/lists\/1"}}}', true), $content);
     }
@@ -97,23 +103,41 @@ class ContentListControllerTest extends WebTestCase
 
         self::assertEquals(201, $response->getStatusCode());
 
-        $client = static::createClient();
-        $client->request('GET', $this->router->generate('swp_api_content_list_lists'));
+        $this->client->request('GET', $this->router->generate('swp_api_content_list_lists'));
 
-        self::assertEquals(200, $client->getResponse()->getStatusCode());
+        self::assertEquals(200, $this->client->getResponse()->getStatusCode());
 
-        $content = json_decode($client->getResponse()->getContent(), true);
+        $content = json_decode($this->client->getResponse()->getContent(), true);
 
         self::assertArraySubset(json_decode('{"page":1,"limit":10,"pages":1,"total":2,"_links":{"self":{"href":"\/api\/v1\/content\/lists\/?page=1&limit=10"},"first":{"href":"\/api\/v1\/content\/lists\/?page=1&limit=10"},"last":{"href":"\/api\/v1\/content\/lists\/?page=1&limit=10"}},"_embedded":{"_items":[{"id":1,"name":"Example automatic list","description":null,"type":"automatic","cache_life_time":null,"limit":null,"enabled":true,"_links":{"self":{"href":"\/api\/v1\/content\/lists\/1"}}},{"id":2,"name":"Manual list","description":null,"type":"manual","cache_life_time":null,"limit":null,"enabled":true,"_links":{"self":{"href":"\/api\/v1\/content\/lists\/2"}}}]}}', true), $content);
     }
 
+    public function testDeleteContentList()
+    {
+        $response = $this->createNewContentList([
+            'name' => 'Example automatic list',
+            'type' => 'automatic',
+        ]);
+
+        self::assertEquals(201, $response->getStatusCode());
+        $content = json_decode($response->getContent(), true);
+
+        $this->client->request('DELETE', $this->router->generate('swp_api_content_delete_lists', ['id' => $content['id']]));
+        self::assertEquals(204, $this->client->getResponse()->getStatusCode());
+    }
+
+    public function testDeleteNotExistingContentList()
+    {
+        $this->client->request('DELETE', $this->router->generate('swp_api_content_delete_lists', ['id' => 99]));
+        self::assertEquals(404, $this->client->getResponse()->getStatusCode());
+    }
+
     private function createNewContentList(array $params)
     {
-        $client = static::createClient();
-        $client->request('POST', $this->router->generate('swp_api_content_create_lists'), [
+        $this->client->request('POST', $this->router->generate('swp_api_content_create_lists'), [
             'content_list' => $params,
         ]);
 
-        return $client->getResponse();
+        return $this->client->getResponse();
     }
 }
