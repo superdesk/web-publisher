@@ -26,6 +26,7 @@
             <directory>../src/SWP/Bridge/*/Tests/</directory>
             <directory>../src/SWP/Bundle/*/Tests/</directory>
             <exclude>../src/SWP/Bundle/FixturesBundle/Tests/*</exclude>
+            <exclude>../src/SWP/Bundle/BridgeBundle/Tests/*</exclude>
         </testsuite>
     </testsuites>
 
