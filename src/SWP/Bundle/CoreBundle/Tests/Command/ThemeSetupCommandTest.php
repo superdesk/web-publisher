@@ -1,21 +1,21 @@
 <?php
 
 /*
- * This file is part of the Superdesk Web Publisher Fixtures Bundle.
+ * This file is part of the Superdesk Web Publisher Template Engine Bundle.
  *
- * Copyright 2015 Sourcefabric z.u. and contributors.
+ * Copyright 2016 Sourcefabric z.ú. and contributors.
  *
  * For the full copyright and license information, please see the
  * AUTHORS and LICENSE files distributed with this source code.
  *
- * @copyright 2015 Sourcefabric z.ú
+ * @copyright 2016 Sourcefabric z.ú
  * @license http://www.superdesk.org/license
  */
 
-namespace SWP\Bundle\FixturesBundleBundle\Tests\Command;
+namespace SWP\Bundle\CoreBundle\Tests\Command;
 
 use Doctrine\Common\Persistence\ObjectManager;
-use SWP\Bundle\FixturesBundle\Command\ThemeSetupCommand;
+use SWP\Bundle\CoreBundle\Command\ThemeSetupCommand;
 use SWP\Bundle\CoreBundle\Document\Tenant;
 use SWP\Component\MultiTenancy\Model\TenantInterface;
 use SWP\Component\MultiTenancy\Repository\TenantRepositoryInterface;
@@ -89,7 +89,7 @@ class ThemeSetupCommandTest extends KernelTestCase
         $stubKernel->expects($this->once())
             ->method('locateResource')
             ->with('@SWPFixturesBundle/Resources/themes/theme_command_test')
-            ->will($this->returnValue(__DIR__.'/../../Resources/themes/theme_command_test'));
+            ->will($this->returnValue(__DIR__.'/theme_command_test'));
 
         $mockContainer = $this->getMockBuilder(ContainerInterface::class)
             ->getMock();

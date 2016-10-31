@@ -1,0 +1,11 @@
+SWP\Bundle\CoreBundle\Model\User:
+    type:  entity
+    table: swp_user
+    id:
+        id:
+            type: integer
+            generator:
+                strategy: AUTO
+    fields:
+        tenantCode:
+            type: string

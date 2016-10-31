@@ -1,0 +1,11 @@
+SWP\Bundle\FixturesBundle\Tests\Model\TestArticle:
+    type: entity
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: IDENTITY
+    fields:
+        title:
+            type: string

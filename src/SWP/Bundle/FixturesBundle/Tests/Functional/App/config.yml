@@ -1,0 +1,19 @@
+framework:
+    secret:          secret
+    test: ~
+
+doctrine:
+    dbal:
+        driver:   pdo_sqlite
+        memory:   true
+        charset:  UTF8
+    orm:
+        auto_generate_proxy_classes: true
+        entity_managers:
+            default:
+                auto_mapping: false
+                mappings:
+                    SWPFixturesBundle:
+                        type: yml
+                        prefix: SWP\Bundle\FixturesBundle\Tests\Model
+                        dir: Tests/Functional/App/doctrine
