@@ -1,0 +1,43 @@
+{
+  "name": "swp/core-bundle",
+  "type": "symfony-bundle",
+  "description": "Bundle used for integration with other Web Publisher bundles.",
+  "keywords": ["core", "superdesk", "webpublisher"],
+  "license":"AGPL-3.0",
+  "minimum-stability": "dev",
+  "authors": [
+    {
+      "name": "Rafał Muszyński",
+      "email": "rafal.muszynski@sourcefabric.org"
+    },
+    {
+      "name": "Paweł Mikołajczuk",
+      "email": "pawel.mikolajczuk@sourcefabric.org"
+    }
+  ],
+  "require": {
+    "php": "^7.0"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "5.*"
+  },
+  "autoload": {
+    "exclude-from-classmap": [
+      "spec/"
+    ],
+    "psr-4": { "SWP\\Bundle\\CoreBundle\\": "" }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "SWP\\Bundle\\CoreBundle\\Tests\\": "Tests/"
+    }
+  },
+  "config": {
+    "bin-dir": "bin"
+  },
+  "extra": {
+    "branch-alias": {
+      "dev-master": "0.1-dev"
+    }
+  }
+}
