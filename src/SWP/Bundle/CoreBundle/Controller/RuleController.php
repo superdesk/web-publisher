@@ -15,11 +15,13 @@
 namespace SWP\Bundle\CoreBundle\Controller;
 
 use FOS\RestBundle\Controller\FOSRestController;
-use FOS\RestBundle\View\View;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use SWP\Bundle\CoreBundle\Response\ResourcesListResponse;
+use SWP\Bundle\CoreBundle\Response\ResponseContext;
+use SWP\Bundle\CoreBundle\Response\SingleResourceResponse;
 use SWP\Component\Common\Criteria\Criteria;
 use SWP\Component\Common\Pagination\PaginationData;
 use SWP\Bundle\RuleBundle\Form\Type\RuleType;
@@ -52,7 +54,7 @@ class RuleController extends FOSRestController
             throw new NotFoundHttpException('No rules were found.');
         }
 
-        return $this->handleView(View::create($this->get('swp_pagination_rep')->createRepresentation($rules, $request), 200));
+        return new ResourcesListResponse($rules);
     }
 
     /**
@@ -73,7 +75,7 @@ class RuleController extends FOSRestController
      */
     public function getAction(RuleInterface $rule)
     {
-        return $this->handleView(View::create($rule, 200));
+        return new SingleResourceResponse($rule);
     }
 
     /**
@@ -103,10 +105,10 @@ class RuleController extends FOSRestController
         if ($form->isValid()) {
             $ruleRepository->add($rule);
 
-            return $this->handleView(View::create($rule, 201));
+            return new SingleResourceResponse($rule, new ResponseContext(201));
         }
 
-        return $this->handleView(View::create($form, 400));
+        return new SingleResourceResponse($form, new ResponseContext(400));
     }
 
     /**
@@ -130,7 +132,7 @@ class RuleController extends FOSRestController
         $ruleRepository = $this->get('swp.repository.rule');
         $ruleRepository->remove($rule);
 
-        return $this->handleView(View::create(null, 204));
+        return new SingleResourceResponse(null, new ResponseContext(204));
     }
 
     /**
@@ -164,9 +166,9 @@ class RuleController extends FOSRestController
             $objectManager->flush();
             $objectManager->refresh($rule);
 
-            return $this->handleView(View::create($rule, 200));
+            return new SingleResourceResponse($rule);
         }
 
-        return $this->handleView(View::create($form, 400));
+        return new SingleResourceResponse($form, new ResponseContext(400));
     }
 }

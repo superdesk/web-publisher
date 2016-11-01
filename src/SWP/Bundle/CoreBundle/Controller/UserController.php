@@ -19,8 +19,9 @@ use FOS\UserBundle\Model\UserInterface;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use FOS\RestBundle\View\View;
 use SWP\Bundle\CoreBundle\Form\Type\RegistrationFormType;
+use SWP\Bundle\CoreBundle\Response\ResponseContext;
+use SWP\Bundle\CoreBundle\Response\SingleResourceResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\ConflictHttpException;
 
@@ -64,9 +65,9 @@ class UserController extends FOSRestController
 
             $this->get('swp.repository.user')->add($formData);
 
-            return $this->handleView(View::create($formData, 201));
+            return new SingleResourceResponse($formData, new ResponseContext(201));
         }
 
-        return $this->handleView(View::create($form, 400));
+        return new SingleResourceResponse($form, new ResponseContext(400));
     }
 }

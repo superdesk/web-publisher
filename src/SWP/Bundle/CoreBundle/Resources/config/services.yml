@@ -42,6 +42,13 @@ services:
         tags:
             - { name: kernel.event_listener, event: kernel.exception }
 
+    swp_core.resources_list_response_listener:
+        class: SWP\Bundle\CoreBundle\EventListener\ResourceResponseListener
+        arguments:
+            - "@fos_rest.view_handler"
+        tags:
+            - { name: kernel.event_listener, event: kernel.view }
+
     swp_core.theme.resolver.template_name:
         class: '%swp_core.theme.resolver.template_name.class%'
 
