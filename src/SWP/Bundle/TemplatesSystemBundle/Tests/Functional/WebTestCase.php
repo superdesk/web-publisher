@@ -14,26 +14,19 @@
 
 namespace SWP\Bundle\TemplatesSystemBundle\Tests\Functional;
 
+use Doctrine\ORM\Tools\SchemaTool;
 use Liip\FunctionalTestBundle\Test\WebTestCase as BaseWebTestCase;
-use Symfony\Component\Filesystem\Filesystem;
-use Symfony\Component\HttpKernel\Kernel;
 
 class WebTestCase extends BaseWebTestCase
 {
+    protected $container;
+
+    protected $manager;
+
     public static function assertRedirect($response, $location)
     {
         self::assertTrue($response->isRedirect(), 'Response is not a redirect, got status code: '.$response->getStatusCode());
         self::assertEquals('http://localhost'.$location, $response->headers->get('Location'));
-    }
-
-    protected static function deleteTmpDir($testCase)
-    {
-        if (!file_exists($dir = sys_get_temp_dir().'/'.Kernel::VERSION.'/'.$testCase)) {
-            return;
-        }
-
-        $fs = new Filesystem();
-        $fs->remove($dir);
     }
 
     protected static function getKernelClass()
@@ -43,19 +36,15 @@ class WebTestCase extends BaseWebTestCase
         return 'SWP\Bundle\TemplatesSystem\Tests\Functional\app\AppKernel';
     }
 
-    protected static function createKernel(array $options = [])
+    protected function initDatabase()
     {
-        $class = self::getKernelClass();
-
-        if (!isset($options['test_case'])) {
-            throw new \InvalidArgumentException('The option "test_case" must be set.');
-        }
-
-        return new $class(
-            $options['test_case'],
-            isset($options['root_config']) ? $options['root_config'] : 'config.yml',
-            isset($options['environment']) ? $options['environment'] : 'templatessystembundletest'.strtolower($options['test_case']),
-            isset($options['debug']) ? $options['debug'] : true
-        );
+        $kernel = $this->createKernel();
+        $kernel->boot();
+        $this->container = $kernel->getContainer();
+        $this->manager = $kernel->getContainer()->get('doctrine.orm.entity_manager');
+        $schemaTool = new SchemaTool($this->manager);
+        $metadata = $this->manager->getMetadataFactory()->getAllMetadata();
+        $schemaTool->dropSchema($metadata);
+        $schemaTool->createSchema($metadata);
     }
 }

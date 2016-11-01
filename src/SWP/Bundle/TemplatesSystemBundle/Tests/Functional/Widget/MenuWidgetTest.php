@@ -13,7 +13,7 @@
 
 namespace SWP\Bundle\TemplatesSystemBundle\Tests\Functional\Widget;
 
-use SWP\Bundle\FixturesBundle\WebTestCase;
+use SWP\Bundle\TemplatesSystemBundle\Tests\Functional\WebTestCase;
 use SWP\Bundle\TemplatesSystemBundle\Widget\MenuWidgetHandler;
 use SWP\Component\TemplatesSystem\Tests\Gimme\Model\WidgetModel;
 

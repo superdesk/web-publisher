@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the Superdesk Web Publisher Content Bundle.
+ * This file is part of the Superdesk Web Publisher Common Component.
  *
  * Copyright 2015 Sourcefabric z.u. and contributors.
  *
@@ -12,7 +12,7 @@
  * @license http://www.superdesk.org/license
  */
 
-namespace SWP\Bundle\ContentBundle\Factory;
+namespace SWP\Component\Common\Factory;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Hateoas\Configuration\Route;

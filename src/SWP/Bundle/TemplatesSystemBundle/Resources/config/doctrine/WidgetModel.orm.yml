@@ -32,8 +32,8 @@ SWP\Bundle\TemplatesSystemBundle\Model\WidgetModel:
             gedmo:
                 timestampable:
                     on: update
-        tenantCode:
-            type: string
+#        tenantCode:
+#            type: string
     oneToMany:
         containers:
             targetEntity: SWP\Bundle\TemplatesSystemBundle\Model\ContainerWidget

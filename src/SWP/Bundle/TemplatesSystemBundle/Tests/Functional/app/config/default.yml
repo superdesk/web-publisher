@@ -1,10 +1,22 @@
 parameters:
     domain: localhost
+    test_env: doctrine
 
 framework:
     secret: "Three can keep a secret, if two of them are dead."
-    router: { resource: "%kernel.root_dir%/%kernel.test_case%/routing.yml" }
+    router:
+        resource: "%kernel.root_dir%/TemplatesSystem/routing.yml"
+        strict_requirements: ~
     test: ~
+    validation:      { enable_annotations: false }
+    templating:
+        engines: ['twig']
+    form: ~
+
+
+twig:
+    debug:            "%kernel.debug%"
+    strict_variables: false
 
 # Doctrine Configuration
 doctrine:
@@ -17,5 +29,7 @@ doctrine:
 
 monolog:
     handlers:
-        test:
-            type:  test
+        main:
+            type:   stream
+            path:   "%kernel.logs_dir%/%kernel.environment%.log"
+            level:  debug

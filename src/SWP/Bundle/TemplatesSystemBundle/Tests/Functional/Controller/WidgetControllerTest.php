@@ -15,7 +15,7 @@
 namespace SWP\Bundle\TemplatesSystemBundle\Tests\Functional\Controller;
 
 use SWP\Component\Common\Pagination\PaginationInterface;
-use SWP\Bundle\FixturesBundle\WebTestCase;
+use SWP\Bundle\TemplatesSystemBundle\Tests\Functional\WebTestCase;
 
 class WidgetControllerTest extends WebTestCase
 {

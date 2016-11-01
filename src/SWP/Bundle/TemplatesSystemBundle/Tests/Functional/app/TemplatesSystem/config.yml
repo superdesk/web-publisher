@@ -6,3 +6,41 @@ doctrine_cache:
         main_cache:
             type: array
             namespace: templates_engine
+
+liip_functional_test: ~
+
+nelmio_api_doc: ~
+
+sensio_framework_extra:
+    view:    { annotations: false }
+
+knp_paginator:
+    page_range: 10
+    default_options:
+        page_name: page
+        sort_field_name: sort
+        sort_direction_name: direction
+        distinct: true
+
+stof_doctrine_extensions:
+    orm:
+        default:
+            sortable: true
+
+doctrine:
+    dbal:
+        driver:   pdo_sqlite
+        memory:   true
+        charset:  UTF8
+        path:     "%kernel.cache_dir%/templates_system.db3"
+    orm:
+        auto_generate_proxy_classes: true
+        entity_managers:
+            default:
+                naming_strategy: doctrine.orm.naming_strategy.underscore
+                auto_mapping: false
+                mappings:
+                   SWPTemplatesSystemBundle:
+                        type: yml
+                        prefix: SWP\Bundle\TemplatesSystemBundle\Model
+                        dir: Resources/config/doctrine

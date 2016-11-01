@@ -60,6 +60,8 @@ class ContainerController extends FOSRestController
             throw new NotFoundHttpException('Containers were not found.');
         }
 
+        //return new ResourcesList($containers, new ResponseContext('api', 200));
+
         return $this->handleView(View::create($this->container->get('swp_pagination_rep')->createRepresentation($containers, $request), 200));
     }
 
@@ -89,6 +91,8 @@ class ContainerController extends FOSRestController
         if (!$container) {
             throw new NotFoundHttpException('Container with this id was not found.');
         }
+
+        //return new Resource($container, new ResponseContext('api', 200));
 
         return $this->handleView(View::create($container, 200));
     }

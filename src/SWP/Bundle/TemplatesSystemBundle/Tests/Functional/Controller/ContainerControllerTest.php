@@ -14,7 +14,7 @@
 
 namespace SWP\Bundle\TemplatesSystemBundle\Tests\Functional\Controller;
 
-use SWP\Bundle\FixturesBundle\WebTestCase;
+use SWP\Bundle\TemplatesSystemBundle\Tests\Functional\WebTestCase;
 
 class ContainerControllerTest extends WebTestCase
 {
@@ -25,13 +25,10 @@ class ContainerControllerTest extends WebTestCase
      */
     public function setUp()
     {
-        self::bootKernel();
         $this->initDatabase();
-        $this->loadCustomFixtures(['tenant']);
-
         $this->loadFixtureFiles([
-            '@SWPFixturesBundle/Resources/fixtures/ORM/test/Container.yml',
-            '@SWPFixturesBundle/Resources/fixtures/ORM/test/WidgetModel.yml',
+            '@SWPTemplatesSystemBundle/Tests/Fixtures/ORM/test/Container.yml',
+            '@SWPTemplatesSystemBundle/Tests/Fixtures/ORM/test/WidgetModel.yml',
         ], true);
 
         $this->router = $this->getContainer()->get('router');

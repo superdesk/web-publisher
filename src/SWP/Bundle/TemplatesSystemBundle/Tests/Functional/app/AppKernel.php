@@ -15,33 +15,15 @@
 namespace SWP\Bundle\TemplatesSystem\Tests\Functional\app;
 
 use Symfony\Component\Config\Loader\LoaderInterface;
-use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpKernel\Kernel;
 
 class AppKernel extends Kernel
 {
-    private $testCase;
     private $rootConfig;
-
-    public function __construct($testCase, $rootConfig, $environment, $debug)
-    {
-        if (!is_dir(__DIR__.'/'.$testCase)) {
-            throw new \InvalidArgumentException(sprintf('The test case "%s" does not exist.', $testCase));
-        }
-
-        $this->testCase = $testCase;
-        $fs = new Filesystem();
-        if (!$fs->isAbsolutePath($rootConfig) && !file_exists($rootConfig = __DIR__.'/'.$testCase.'/'.$rootConfig)) {
-            throw new \InvalidArgumentException(sprintf('The root config "%s" does not exist.', $rootConfig));
-        }
-
-        $this->rootConfig = $rootConfig;
-        parent::__construct($environment, $debug);
-    }
 
     public function registerBundles()
     {
-        if (!file_exists($filename = $this->getRootDir().'/'.$this->testCase.'/bundles.php')) {
+        if (!file_exists($filename = $this->getRootDir().'/TemplatesSystem/bundles.php')) {
             throw new \RuntimeException(sprintf('The bundles file "%s" does not exist.', $filename));
         }
 
@@ -50,13 +32,12 @@ class AppKernel extends Kernel
 
     public function registerContainerConfiguration(LoaderInterface $loader)
     {
-        $loader->load($this->rootConfig);
+        $loader->load(__DIR__.'/TemplatesSystem/config.yml');
     }
 
     protected function getKernelParameters()
     {
         $parameters = parent::getKernelParameters();
-        $parameters['kernel.test_case'] = $this->testCase;
 
         return $parameters;
     }

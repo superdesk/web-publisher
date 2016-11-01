@@ -24,7 +24,7 @@ class ContainerServiceTest extends WebTestCase
      */
     public function setUp()
     {
-        self::bootKernel(['test_case' => 'TemplatesSystem']);
+        $this->initDatabase();
     }
 
     public function testDebugConstruct()
@@ -45,8 +45,7 @@ class ContainerServiceTest extends WebTestCase
 
     public function testCreateNewContainer()
     {
-        $this->createAndPopulateDatabase();
-        $tenantContext = $this->getContainer()->get('swp_multi_tenancy.tenant_context');
+        $this->initDatabase();
         $containerService = $this->createContainerService();
 
         $containerParameters = [
@@ -68,12 +67,10 @@ class ContainerServiceTest extends WebTestCase
         $this->assertEquals('border: 1px solid red;', $containerEntity->getStyles());
         $this->assertEquals(true, $containerEntity->getVisible());
         $this->assertEquals(1, count($containerEntity->getData()));
-        $this->assertEquals($tenantContext->getTenant()->getCode(), $containerEntity->getTenantCode());
     }
 
     public function testGetContainerException()
     {
-        $this->createAndPopulateDatabase();
         $containerService = $this->createContainerService();
         $this->setExpectedException('\Exception');
         $containerService->getContainer('test container', [], false);
@@ -81,16 +78,9 @@ class ContainerServiceTest extends WebTestCase
 
     public function testGetContainer()
     {
-        $this->createAndPopulateDatabase();
         $containerService = $this->createContainerService();
         $containerEntity = $containerService->getContainer('test container', ['data' => ['key' => 'value']]);
         $this->assertInstanceOf('\SWP\Bundle\TemplatesSystemBundle\Container\SimpleContainer', $containerEntity);
-    }
-
-    private function createAndPopulateDatabase()
-    {
-        $this->initDatabase();
-        $this->loadCustomFixtures(['tenant']);
     }
 
     private function createContainerService($debug = true)
