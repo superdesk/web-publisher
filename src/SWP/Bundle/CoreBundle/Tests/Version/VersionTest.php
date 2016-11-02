@@ -14,10 +14,9 @@
 
 namespace SWP\Bundle\CoreBundle\Tests\Version;
 
-use SWP\Bundle\FixturesBundle\WebTestCase;
 use SWP\Bundle\CoreBundle\Version\Version;
 
-class VersionTest extends WebTestCase
+class VersionTest extends \PHPUnit_Framework_TestCase
 {
     public function testVersion()
     {
@@ -29,5 +28,7 @@ class VersionTest extends WebTestCase
         $this->assertEquals('0.0.0', $version->getVersion());
         $this->assertEquals('test', $version->getCodeName());
         $this->assertEquals('1970-01-01', $version->getReleaseDate());
+
+        unset($version);
     }
 }

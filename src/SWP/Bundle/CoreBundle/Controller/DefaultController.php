@@ -35,10 +35,8 @@ class DefaultController extends Controller
             // TODO handle homepage loading here
         }
 
-        $response = $this->render('index.html.twig', [
+        return $this->render('index.html.twig', [
             'page' => $homepage,
         ]);
-
-        return $response;
     }
 }
