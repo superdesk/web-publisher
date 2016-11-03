@@ -78,6 +78,7 @@ doctrine:
             SWP\Bundle\MenuBundle\Model\MenuItemInterface: SWP\Bundle\CoreBundle\Model\MenuItem
             SWP\Component\ContentList\Model\ListContentInterface: SWP\Bundle\ContentBundle\Doctrine\ORM\Article
             SWP\Component\ContentList\Model\ContentListItemInterface: SWP\Component\ContentList\Model\ContentListItem
+            SWP\Component\ContentList\Model\ContentListInterface: SWP\Bundle\ContentBundle\Doctrine\ORM\ContentList
         entity_managers:
             default:
                 naming_strategy: doctrine.orm.naming_strategy.underscore
@@ -232,14 +233,6 @@ swp_core:
 swp_content:
     persistence:
         orm: true
-
-swp_content_list:
-    persistence:
-        orm:
-            enabled: true
-            classes:
-                content_list:
-                    model: SWP\Bundle\ContentBundle\Doctrine\ORM\ContentList
 
 swp_bridge:
     persistence:

@@ -105,4 +105,34 @@ interface ContentListInterface extends
      * @param ContentListItemInterface $item
      */
     public function removeItem(ContentListItemInterface $item);
+
+    /**
+     * @return \DateTime
+     */
+    public function getPublishedAt();
+
+    /**
+     * @param \DateTime|null $publishedAt
+     */
+    public function setPublishedAt(\DateTime $publishedAt = null);
+
+    /**
+     * @return \DateTime
+     */
+    public function getPublishedBefore();
+
+    /**
+     * @param \DateTime|null $publishedBefore
+     */
+    public function setPublishedBefore(\DateTime $publishedBefore = null);
+
+    /**
+     * @return \DateTime
+     */
+    public function getPublishedAfter();
+
+    /**
+     * @param \DateTime|null $publishedAfter
+     */
+    public function setPublishedAfter(\DateTime $publishedAfter = null);
 }

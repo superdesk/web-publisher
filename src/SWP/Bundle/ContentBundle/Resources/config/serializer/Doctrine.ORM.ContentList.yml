@@ -1,5 +1,11 @@
 SWP\Bundle\ContentBundle\Doctrine\ORM\ContentList:
     exclusion_policy: ALL
+    properties:
+        author:
+            expose: true
+            type: string
+        route:
+            expose: true
     relations:
         - rel: self
           href:

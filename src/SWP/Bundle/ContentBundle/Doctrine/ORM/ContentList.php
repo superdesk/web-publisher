@@ -14,11 +14,34 @@
 
 namespace SWP\Bundle\ContentBundle\Doctrine\ORM;
 
+use SWP\Bundle\ContentBundle\Model\RouteAwareInterface;
+use SWP\Bundle\ContentBundle\Model\RouteAwareTrait;
 use SWP\Component\ContentList\Model\ContentList as BaseContentList;
 use SWP\Component\MultiTenancy\Model\TenantAwareInterface;
 use SWP\Component\MultiTenancy\Model\TenantAwareTrait;
 
-class ContentList extends BaseContentList implements TenantAwareInterface
+class ContentList extends BaseContentList implements TenantAwareInterface, RouteAwareInterface
 {
-    use TenantAwareTrait;
+    use TenantAwareTrait, RouteAwareTrait;
+
+    /**
+     * @var string
+     */
+    protected $author;
+
+    /**
+     * @return mixed
+     */
+    public function getAuthor()
+    {
+        return $this->author;
+    }
+
+    /**
+     * @param mixed $author
+     */
+    public function setAuthor($author)
+    {
+        $this->author = $author;
+    }
 }

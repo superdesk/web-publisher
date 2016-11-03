@@ -38,4 +38,16 @@ class ArticleEvents
      * @var string
      */
     const POST_CREATE = 'swp.article.post_create';
+
+    /**
+     * The POST_PUBLISH event occurs at the very ending of article
+     * publication.
+     *
+     * This event allows you to modify article after it will be published.
+     *
+     * @Event("SWP\Bundle\ContentBundle\Event\ArticleEvent")
+     *
+     * @var string
+     */
+    const POST_PUBLISH = 'swp.article.published';
 }

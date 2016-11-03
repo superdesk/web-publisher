@@ -19,6 +19,17 @@ SWP\Component\ContentList\Model\ContentList:
         description:
             expose: true
             type: string
+        items:
+            expose: true
+        publishedAt:
+            expose: true
+            type: DateTime
+        publishedBefore:
+            expose: true
+            type: DateTime
+        publishedAfter:
+            expose: true
+            type: DateTime
         enabled:
             expose: true
             type: boolean

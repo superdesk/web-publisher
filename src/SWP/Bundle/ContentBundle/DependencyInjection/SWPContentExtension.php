@@ -14,10 +14,12 @@
 
 namespace SWP\Bundle\ContentBundle\DependencyInjection;
 
+use SWP\Bundle\ContentBundle\Doctrine\ORM\ContentList;
 use SWP\Bundle\StorageBundle\Drivers;
 use SWP\Bundle\StorageBundle\DependencyInjection\Extension\Extension;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Config\FileLocator;
+use Symfony\Component\DependencyInjection\Extension\PrependExtensionInterface;
 use Symfony\Component\DependencyInjection\Loader;
 
 /**
@@ -25,7 +27,7 @@ use Symfony\Component\DependencyInjection\Loader;
  *
  * To learn more see {@link http://symfony.com/doc/current/cookbook/bundles/extension.html}
  */
-class SWPContentExtension extends Extension
+class SWPContentExtension extends Extension implements PrependExtensionInterface
 {
     /**
      * {@inheritdoc}
@@ -47,5 +49,30 @@ class SWPContentExtension extends Extension
             $this->registerStorage(Drivers::DRIVER_DOCTRINE_ORM, $config['persistence']['orm']['classes'], $container);
             $loader->load('providers.orm.yml');
         }
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function prepend(ContainerBuilder $container)
+    {
+        $config = $this->processConfiguration(new Configuration(), $container->getExtensionConfig($this->getAlias()));
+
+        if (!$container->hasExtension('swp_content_list')) {
+            return;
+        }
+
+        $container->prependExtensionConfig('swp_content_list', [
+            'persistence' => [
+                'orm' => [
+                    'enabled' => $config['persistence']['orm']['enabled'],
+                    'classes' => [
+                        'content_list' => [
+                            'model' => ContentList::class,
+                        ],
+                    ],
+                ],
+            ],
+        ]);
     }
 }

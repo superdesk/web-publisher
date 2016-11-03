@@ -14,10 +14,8 @@
 
 namespace SWP\Bundle\ContentListBundle;
 
-use SWP\Bundle\ContentListBundle\DependencyInjection\Compiler\RegisterContentListFactoryPass;
 use SWP\Bundle\StorageBundle\DependencyInjection\Bundle\Bundle;
 use SWP\Bundle\StorageBundle\Drivers;
-use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 class SWPContentListBundle extends Bundle
 {
@@ -37,11 +35,5 @@ class SWPContentListBundle extends Bundle
     public function getModelClassNamespace()
     {
         return 'SWP\Component\ContentList\Model';
-    }
-
-    public function build(ContainerBuilder $container)
-    {
-        parent::build($container);
-        $container->addCompilerPass(new RegisterContentListFactoryPass());
     }
 }

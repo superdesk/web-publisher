@@ -34,9 +34,6 @@ services:
         tags:
             - { name: swp.meta_loader }
 
-    #document_manager:
-    #    alias: doctrine_phpcr.odm.document_manager
-
     swp_content_bundle.factory.knp_paginator_representation:
         class: SWP\Bundle\ContentBundle\Factory\KnpPaginatorRepresentationFactory
         arguments:
@@ -83,6 +80,8 @@ services:
 
     swp.service.article:
         class: '%swp.service.article.class%'
+        arguments:
+            - '@event_dispatcher'
 
     swp.publish_workflow.checker:
         alias: cmf_core.publish_workflow.checker
@@ -134,3 +133,12 @@ services:
             - '@swp.service.article'
         tags:
             - { name: applicator.rule_applicator }
+
+    swp_content_bundle.listener.article_content_list:
+        class: SWP\Bundle\ContentBundle\EventListener\ContentListListener
+        arguments:
+            - '@swp.repository.content_list'
+            - '@swp.factory.content_list_item'
+            - '@swp.object_manager.content_list'
+        tags:
+            - { name: kernel.event_listener, event: swp.article.published, method: onArticlePublished }

@@ -14,10 +14,28 @@
 
 namespace SWP\Bundle\ContentBundle\Service;
 
+use SWP\Bundle\ContentBundle\ArticleEvents;
+use SWP\Bundle\ContentBundle\Event\ArticleEvent;
 use SWP\Bundle\ContentBundle\Model\ArticleInterface;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class ArticleService implements ArticleServiceInterface
 {
+    /**
+     * @var EventDispatcherInterface
+     */
+    private $eventDispatcher;
+
+    /**
+     * RouteService constructor.
+     *
+     * @param EventDispatcherInterface $eventDispatcher
+     */
+    public function __construct(EventDispatcherInterface $eventDispatcher)
+    {
+        $this->eventDispatcher = $eventDispatcher;
+    }
+
     /**
      * {@inheritdoc}
      */
@@ -28,6 +46,8 @@ class ArticleService implements ArticleServiceInterface
         $article->setPublishable(true);
         $article->setStatus(ArticleInterface::STATUS_PUBLISHED);
         $article->setPublishedAt(new \DateTime());
+
+        $this->dispatchArticleEvent(ArticleEvents::POST_PUBLISH, $article);
 
         return $article;
     }
@@ -53,5 +73,10 @@ class ArticleService implements ArticleServiceInterface
         ) {
             throw new \Exception($exceptionMessage);
         }
+    }
+
+    private function dispatchArticleEvent($eventName, ArticleInterface $article)
+    {
+        $this->eventDispatcher->dispatch($eventName, new ArticleEvent($article));
     }
 }

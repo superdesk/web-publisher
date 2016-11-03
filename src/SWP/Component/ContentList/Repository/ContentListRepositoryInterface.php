@@ -20,4 +20,10 @@ use SWP\Component\Storage\Repository\RepositoryInterface;
 
 interface ContentListRepositoryInterface extends RepositoryInterface
 {
+    /**
+     * @param array $criteria
+     *
+     * @return array
+     */
+    public function findManyByCriteria(array $criteria): array;
 }

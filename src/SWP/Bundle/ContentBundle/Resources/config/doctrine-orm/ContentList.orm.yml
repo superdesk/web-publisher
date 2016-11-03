@@ -4,8 +4,20 @@ SWP\Bundle\ContentBundle\Doctrine\ORM\ContentList:
     fields:
         tenantCode:
             type: string
+        author:
+            type: string
+            nullable: true
+    manyToOne:
+        route:
+            targetEntity: SWP\Bundle\ContentBundle\Doctrine\ORM\Route
+            joinColumn:
+                name: route_id
+                referencedColumnName: id
+                nullable: true
+                onDelete: "SET NULL"
     oneToMany:
         items:
             targetEntity: SWP\Component\ContentList\Model\ContentListItemInterface
             mappedBy: contentList
+            orphanRemoval: true
             cascade: ["all"]

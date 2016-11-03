@@ -62,6 +62,21 @@ class ContentList implements ContentListInterface
     protected $items;
 
     /**
+     * @var \DateTime
+     */
+    protected $publishedAt;
+
+    /**
+     * @var \DateTime
+     */
+    protected $publishedBefore;
+
+    /**
+     * @var \DateTime
+     */
+    protected $publishedAfter;
+
+    /**
      * ContentList constructor.
      */
     public function __construct()
@@ -180,6 +195,7 @@ class ContentList implements ContentListInterface
     public function addItem(ContentListItemInterface $item)
     {
         if (!$this->items->contains($item)) {
+            $item->setContentList($this);
             $this->items->add($item);
         }
     }
@@ -191,6 +207,55 @@ class ContentList implements ContentListInterface
     {
         if ($this->items->contains($item)) {
             $this->items->removeElement($item);
+            $item->setContentList(null);
         }
+    }
+
+    /**
+     * @return \DateTime
+     */
+    public function getPublishedAt()
+    {
+        return $this->publishedAt;
+    }
+
+    /**
+     * @param \DateTime $publishedAt
+     */
+    public function setPublishedAt(\DateTime $publishedAt = null)
+    {
+        $this->publishedAt = $publishedAt;
+    }
+
+    /**
+     * @return \DateTime
+     */
+    public function getPublishedBefore()
+    {
+        return $this->publishedBefore;
+    }
+
+    /**
+     * @param mixed $publishedBefore
+     */
+    public function setPublishedBefore(\DateTime $publishedBefore = null)
+    {
+        $this->publishedBefore = $publishedBefore;
+    }
+
+    /**
+     * @return \DateTime
+     */
+    public function getPublishedAfter()
+    {
+        return $this->publishedAfter;
+    }
+
+    /**
+     * @param \DateTime $publishedAfter
+     */
+    public function setPublishedAfter(\DateTime $publishedAfter = null)
+    {
+        $this->publishedAfter = $publishedAfter;
     }
 }

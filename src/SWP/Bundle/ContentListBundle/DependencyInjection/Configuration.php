@@ -18,7 +18,6 @@ namespace SWP\Bundle\ContentListBundle\DependencyInjection;
 
 use SWP\Bundle\ContentListBundle\Doctrine\ORM\ContentListRepository;
 use SWP\Bundle\StorageBundle\Doctrine\ORM\EntityRepository;
-use SWP\Component\ContentList\Factory\ContentListFactory;
 use SWP\Component\ContentList\Model\ContentList;
 use SWP\Component\ContentList\Model\ContentListItem;
 use SWP\Component\Storage\Factory\Factory;
@@ -50,7 +49,7 @@ class Configuration implements ConfigurationInterface
                                             ->children()
                                                 ->scalarNode('model')->cannotBeEmpty()->defaultValue(ContentList::class)->end()
                                                 ->scalarNode('repository')->defaultValue(ContentListRepository::class)->end()
-                                                ->scalarNode('factory')->defaultValue(ContentListFactory::class)->end()
+                                                ->scalarNode('factory')->defaultValue(Factory::class)->end()
                                                 ->scalarNode('object_manager_name')->defaultValue(null)->end()
                                             ->end()
                                         ->end()
