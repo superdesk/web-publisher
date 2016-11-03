@@ -29,16 +29,20 @@ class DefaultController extends Controller
     {
         /** @var TenantInterface $currentTenant */
         $currentTenant = $this->get('swp_multi_tenancy.tenant_context')->getTenant();
-        $homepage = $currentTenant->getHomepage();
+        $metaFactory = $this->get('swp_template_engine_context.factory.meta_factory');
+        $templateEngineContext = $this->get('swp_template_engine_context');
+        $route = $currentTenant->getHomepage();
 
-        if (null !== $homepage) {
-            // TODO handle homepage loading here
+        if (null === $route) {
+            $route = $this->get('swp.factory.route')->create();
+            $route->setStaticPrefix('/');
+            $route->setName('Homepage');
+            $route->setType('content');
+            $route->setTemplateName('index.html.twig');
         }
 
-        $response = $this->render('index.html.twig', [
-            'page' => $homepage,
-        ]);
+        $templateEngineContext->setCurrentPage($metaFactory->create($route));
 
-        return $response;
+        return $this->render('index.html.twig');
     }
 }
