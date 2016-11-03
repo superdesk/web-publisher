@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the Superdesk Web Publisher Template Engine Bundle.
+ * This file is part of the Superdesk Web Publisher Core Bundle.
  *
  * Copyright 2015 Sourcefabric z.u. and contributors.
  *
@@ -12,10 +12,10 @@
  * @license http://www.superdesk.org/license
  */
 
-namespace SWP\Bundle\TemplatesSystemBundle\Tests\Functional\Controller;
+namespace SWP\Bundle\CoreBundle\Tests\Controller;
 
 use SWP\Component\Common\Pagination\PaginationInterface;
-use SWP\Bundle\TemplatesSystemBundle\Tests\Functional\WebTestCase;
+use SWP\Bundle\FixturesBundle\WebTestCase;
 
 class WidgetControllerTest extends WebTestCase
 {

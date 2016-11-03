@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the Superdesk Web Publisher Template Engine Bundle.
+ * This file is part of the Superdesk Web Publisher Core Bundle.
  *
  * Copyright 2015 Sourcefabric z.u. and contributors.
  *
@@ -12,9 +12,9 @@
  * @license http://www.superdesk.org/license
  */
 
-namespace SWP\Bundle\TemplatesSystemBundle\Tests\Functional\Controller;
+namespace SWP\Bundle\CoreBundle\Tests\Controller;
 
-use SWP\Bundle\TemplatesSystemBundle\Tests\Functional\WebTestCase;
+use SWP\Bundle\FixturesBundle\WebTestCase;
 
 class ContainerControllerTest extends WebTestCase
 {
@@ -25,10 +25,13 @@ class ContainerControllerTest extends WebTestCase
      */
     public function setUp()
     {
+        self::bootKernel();
         $this->initDatabase();
+        $this->loadCustomFixtures(['tenant']);
+
         $this->loadFixtureFiles([
-            '@SWPTemplatesSystemBundle/Tests/Fixtures/ORM/test/Container.yml',
-            '@SWPTemplatesSystemBundle/Tests/Fixtures/ORM/test/WidgetModel.yml',
+            '@SWPFixturesBundle/Resources/fixtures/ORM/test/Container.yml',
+            '@SWPFixturesBundle/Resources/fixtures/ORM/test/WidgetModel.yml',
         ], true);
 
         $this->router = $this->getContainer()->get('router');

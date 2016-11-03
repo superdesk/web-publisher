@@ -1,5 +1,30 @@
-imports:
-    - { resource: ./../config/default.yml }
+parameters:
+    domain: localhost
+    test_env: doctrine
+    templating.cache_warmer.template_paths.class: "Symfony\\Bundle\\FrameworkBundle\\CacheWarmer\\TemplatePathsCacheWarmer"
+
+framework:
+    secret: "Three can keep a secret, if two of them are dead."
+    router:
+        resource: "%kernel.root_dir%/TemplatesSystem/routing.yml"
+        strict_requirements: ~
+    test: ~
+    validation:      { enable_annotations: false }
+    templating:
+        engines: ['twig']
+    form: ~
+
+
+twig:
+    debug:            "%kernel.debug%"
+    strict_variables: false
+
+monolog:
+    handlers:
+        main:
+            type:   stream
+            path:   "%kernel.logs_dir%/%kernel.environment%.log"
+            level:  debug
 
 doctrine_cache:
     providers:
@@ -9,23 +34,14 @@ doctrine_cache:
 
 liip_functional_test: ~
 
-nelmio_api_doc: ~
-
 sensio_framework_extra:
     view:    { annotations: false }
-
-knp_paginator:
-    page_range: 10
-    default_options:
-        page_name: page
-        sort_field_name: sort
-        sort_direction_name: direction
-        distinct: true
 
 stof_doctrine_extensions:
     orm:
         default:
             sortable: true
+            tree: true
 
 doctrine:
     dbal:
@@ -35,12 +51,26 @@ doctrine:
         path:     "%kernel.cache_dir%/templates_system.db3"
     orm:
         auto_generate_proxy_classes: true
+        resolve_target_entities:
+            SWP\Bundle\MenuBundle\Model\MenuItemInterface: SWP\Bundle\TemplatesSystemBundle\Tests\Functional\app\TemplatesSystem\Model\MenuItem
         entity_managers:
             default:
                 naming_strategy: doctrine.orm.naming_strategy.underscore
                 auto_mapping: false
                 mappings:
-                   SWPTemplatesSystemBundle:
+                    SWPTemplatesSystemBundle:
                         type: yml
                         prefix: SWP\Bundle\TemplatesSystemBundle\Model
                         dir: Resources/config/doctrine
+                    TestsSWPTemplatesSystemBundle:
+                        type: yml
+                        prefix: SWP\Bundle\TemplatesSystemBundle\Tests\Functional\app\TemplatesSystem\Model
+                        dir: Tests/Functional/app/TemplatesSystem/doctrine
+
+swp_menu:
+    persistence:
+        orm:
+            enabled: true
+            classes:
+                menu:
+                    model: SWP\Bundle\TemplatesSystemBundle\Tests\Functional\app\TemplatesSystem\Model\MenuItem

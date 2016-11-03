@@ -42,6 +42,13 @@ services:
         tags:
             - { name: kernel.event_listener, event: kernel.exception }
 
+    swp_core.resources_list_response_listener:
+        class: SWP\Bundle\CoreBundle\EventListener\ResourceResponseListener
+        arguments:
+            - "@fos_rest.view_handler"
+        tags:
+            - { name: kernel.event_listener, event: kernel.view }
+
     swp_core.theme.resolver.template_name:
         class: '%swp_core.theme.resolver.template_name.class%'
 
@@ -86,3 +93,11 @@ services:
         class: SWP\Bundle\CoreBundle\Security\Storage\DynamicDomainSessionStorage
         arguments:
             - "%domain%"
+
+    swp_core.subscriber.http_cache:
+        class: SWP\Bundle\CoreBundle\EventSubscriber\HttpCacheSubscriber
+        arguments:
+            - "@fos_http_cache.cache_manager"
+            - "@logger"
+        tags:
+            - { name: kernel.event_subscriber }

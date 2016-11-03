@@ -26,7 +26,17 @@ class MenuWidgetTest extends WebTestCase
     {
         self::bootKernel();
         $this->initDatabase();
-        $this->loadCustomFixtures(['tenant', 'menu', 'menu_node']);
+
+        $this->loadFixtureFiles([
+            '@SWPFixturesBundle/Resources/fixtures/ORM/test/organization.yml',
+            '@SWPTemplatesSystemBundle/Tests/Fixtures/ORM/test/tenant.yml',
+        ], true);
+        $this->loadFixtures(
+            [
+                'SWP\Bundle\FixturesBundle\DataFixtures\ORM\LoadMenusData',
+                'SWP\Bundle\FixturesBundle\DataFixtures\ORM\LoadMenuNodesData',
+            ], 'default'
+        );
     }
 
     public function testMenuWidget()

@@ -14,18 +14,17 @@
 
 return [
     new Symfony\Bundle\FrameworkBundle\FrameworkBundle(),
-    new Symfony\Bundle\DebugBundle\DebugBundle(),
     new Symfony\Bundle\TwigBundle\TwigBundle(),
     new Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle(),
     new Doctrine\Bundle\DoctrineBundle\DoctrineBundle(),
-    new Nelmio\ApiDocBundle\NelmioApiDocBundle(),
-    new JMS\SerializerBundle\JMSSerializerBundle(),
     new Doctrine\Bundle\DoctrineCacheBundle\DoctrineCacheBundle(),
     new Symfony\Bundle\MonologBundle\MonologBundle(),
     new Liip\FunctionalTestBundle\LiipFunctionalTestBundle(),
     new Stof\DoctrineExtensionsBundle\StofDoctrineExtensionsBundle(),
-    new FOS\RestBundle\FOSRestBundle(),
-    new Knp\Bundle\PaginatorBundle\KnpPaginatorBundle(),
+    new Knp\Bundle\MenuBundle\KnpMenuBundle(),
 
+    new SWP\Bundle\StorageBundle\SWPStorageBundle(),
+    new SWP\Bundle\MenuBundle\SWPMenuBundle(),
+    new SWP\Bundle\FixturesBundle\SWPFixturesBundle(),
     new SWP\Bundle\TemplatesSystemBundle\SWPTemplatesSystemBundle(),
 ];

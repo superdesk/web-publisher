@@ -11,30 +11,41 @@
       "email": "pawel.mikolajczuk@sourcefabric.org"
     }
   ],
+  "repositories": [
+    {
+      "type": "path",
+      "url": "../*"
+    }
+  ],
   "require": {
     "php": "^7.0",
     "swp/templates-system": "1.1.x-dev",
     "swp/multi-tenancy": "0.1.x-dev",
     "swp/core-bundle": "0.1.x-dev",
-    "twig/twig": "^1.26.0",
+    "swp/storage-bundle": "0.1.x-dev",
+    "swp/menu-bundle": "0.1.x-dev",
 
-    "stof/doctrine-extensions-bundle": "^1.2",
-    "friendsofsymfony/rest-bundle": "2.1.x-dev as 1.5",
-    "nelmio/api-doc-bundle": "^2.13",
-    "knplabs/knp-paginator-bundle": "^2.4@dev"
+    "twig/twig": "^1.26.0",
+    "stof/doctrine-extensions-bundle": "^1.2"
+  },
+  "suggest": {
+    "jms/serializer-bundle": "Useful if you want to serialize bundle models. Config for them already exists in bundle"
   },
   "require-dev": {
     "phpspec/phpspec": "^2.4",
     "phpunit/phpunit": "5.*",
-    "symfony/symfony": "3.1.x",
-    "symfony/monolog-bundle": "2.9.*",
+    "symfony/framework-bundle": "3.1.x",
+    "symfony/monolog-bundle": "~2.0",
+    "symfony/validator": "3.1.x",
+    "symfony/twig-bundle": "3.1.x",
+    "symfony/form": "3.1.x",
     "doctrine/orm": "^2.5",
     "liip/functional-test-bundle": "1.6.*",
     "nelmio/alice": "2.2.*",
-    "matthiasnoback/symfony-dependency-injection-test": "^v0.7",
     "sensio/framework-extra-bundle": "~3.0,>=3.0.2",
     "doctrine/doctrine-bundle": "~1.4",
-    "jms/serializer-bundle": "^1.1",
+    "doctrine/doctrine-fixtures-bundle": "^2.2@dev",
+    "swp/fixtures-bundle": "0.1.x-dev",
     "doctrine/doctrine-cache-bundle": "1.3.*"
   },
   "autoload": {

@@ -14,20 +14,22 @@
 
 namespace SWP\Bundle\CoreBundle\Controller;
 
-use FOS\RestBundle\Controller\FOSRestController;
-use FOS\RestBundle\View\View;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use SWP\Bundle\CoreBundle\Response\ResourcesListResponse;
+use SWP\Bundle\CoreBundle\Response\ResponseContext;
+use SWP\Bundle\CoreBundle\Response\SingleResourceResponse;
 use SWP\Bundle\MenuBundle\Form\Type\MenuType;
 use SWP\Bundle\MenuBundle\Model\MenuItemInterface;
 use SWP\Component\Common\Criteria\Criteria;
 use SWP\Component\Common\Pagination\PaginationData;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\ConflictHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
-class MenuController extends FOSRestController
+class MenuController extends Controller
 {
     /**
      * Lists all registered menus.
@@ -49,7 +51,7 @@ class MenuController extends FOSRestController
 
         $menus = $menuRepository->getPaginatedByCriteria(new Criteria(), [], new PaginationData($request));
 
-        return $this->handleView(View::create($this->get('swp_pagination_rep')->createRepresentation($menus, $request), 200));
+        return new ResourcesListResponse($menus);
     }
 
     /**
@@ -69,7 +71,7 @@ class MenuController extends FOSRestController
      */
     public function getAction($id)
     {
-        return $this->handleView(View::create($this->findOr404($id), 200));
+        return new SingleResourceResponse($this->findOr404($id));
     }
 
     /**
@@ -104,10 +106,10 @@ class MenuController extends FOSRestController
         if ($form->isValid()) {
             $this->get('swp.repository.menu')->add($menu);
 
-            return $this->handleView(View::create($menu, 201));
+            return new SingleResourceResponse($menu, new ResponseContext(201));
         }
 
-        return $this->handleView(View::create($form, 400));
+        return new SingleResourceResponse($form, new ResponseContext(400));
     }
 
     /**
@@ -130,7 +132,7 @@ class MenuController extends FOSRestController
         $repository = $this->get('swp.repository.menu');
         $repository->remove($this->findOr404($id));
 
-        return $this->handleView(View::create(true, 204));
+        return new SingleResourceResponse(null, new ResponseContext(204));
     }
 
     /**
@@ -161,10 +163,10 @@ class MenuController extends FOSRestController
         if ($form->isValid()) {
             $objectManager->flush();
 
-            return $this->handleView(View::create($menu, 200));
+            return new SingleResourceResponse($menu);
         }
 
-        return $this->handleView(View::create($form, 400));
+        return new SingleResourceResponse($form, new ResponseContext(400));
     }
 
     private function findOr404($id)

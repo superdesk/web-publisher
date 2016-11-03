@@ -12,11 +12,13 @@
  * @license http://www.superdesk.org/license
  */
 
-namespace SWP\Bundle\TemplatesSystemBundle\Tests\Functional\Container;
+namespace SWP\Bundle\TemplatesSystemBundle\Tests\Container;
 
 use SWP\Bundle\TemplatesSystemBundle\Container\SimpleContainer;
 use SWP\Bundle\TemplatesSystemBundle\Model\WidgetModel;
 use SWP\Component\TemplatesSystem\Gimme\Widget\HtmlWidgetHandler;
+use SWP\Bundle\TemplatesSystemBundle\Model\Container;
+use SWP\Bundle\TemplatesSystemBundle\Model\ContainerData;
 
 class SimpleContainerTest extends \PHPUnit_Framework_TestCase
 {
@@ -37,7 +39,7 @@ class SimpleContainerTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $containerEntity = new \SWP\Bundle\TemplatesSystemBundle\Model\Container();
+        $containerEntity = new Container();
         $containerEntity->setId(1);
 
         $this->container = new SimpleContainer($containerEntity, $this->getRenderer());
@@ -56,10 +58,10 @@ class SimpleContainerTest extends \PHPUnit_Framework_TestCase
 
     public function testAdvancedRendering()
     {
-        $containerEntity = new \SWP\Bundle\TemplatesSystemBundle\Model\Container();
+        $containerEntity = new Container();
         $containerEntity->setId(2);
         foreach (['key1' => true, 'key2' => 'false', 'key3' => false] as $key => $value) {
-            $containerData = new \SWP\Bundle\TemplatesSystemBundle\Model\ContainerData($key, $value);
+            $containerData = new ContainerData($key, $value);
             $containerEntity->addData($containerData);
         }
         $containerEntity->setWidth(400);
@@ -67,7 +69,7 @@ class SimpleContainerTest extends \PHPUnit_Framework_TestCase
         $containerEntity->setCssClass('simple-css-class');
         $containerEntity->setStyles('border: 1px solid red;');
         $containerEntity->setName('simple_container');
-        $container = new \SWP\Bundle\TemplatesSystemBundle\Container\SimpleContainer($containerEntity, $this->getRenderer());
+        $container = new SimpleContainer($containerEntity, $this->getRenderer());
 
         $this->assertEquals($container->renderOpenTag(), '<div id="swp_container_2" class="swp_container simple-css-class" style="height: 300px;width: 400px;border: 1px solid red;" data-key1="1" data-key2="false" data-key3="" >');
     }

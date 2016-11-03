@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the Superdesk Web Publisher Template Engine Bundle.
+ * This file is part of the Superdesk Web Publisher Core Bundle.
  *
  * Copyright 2015 Sourcefabric z.u. and contributors.
  *
@@ -12,14 +12,16 @@
  * @license http://www.superdesk.org/license
  */
 
-namespace SWP\Bundle\TemplatesSystemBundle\Controller;
+namespace SWP\Bundle\CoreBundle\Controller;
 
 use FOS\RestBundle\Controller\FOSRestController;
-use FOS\RestBundle\View\View;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use SWP\Bundle\CoreBundle\Response\ResourcesListResponse;
+use SWP\Bundle\CoreBundle\Response\ResponseContext;
+use SWP\Bundle\CoreBundle\Response\SingleResourceResponse;
 use SWP\Component\Common\Pagination\PaginationInterface;
 use SWP\Bundle\TemplatesSystemBundle\Form\Type\WidgetType;
 use SWP\Bundle\TemplatesSystemBundle\Model\WidgetModel;
@@ -58,7 +60,7 @@ class WidgetController extends FOSRestController
             throw new NotFoundHttpException('Widgets were not found.');
         }
 
-        return $this->handleView(View::create($this->container->get('swp_pagination_rep')->createRepresentation($widgets, $request), 200));
+        return new ResourcesListResponse($widgets);
     }
 
     /**
@@ -94,7 +96,7 @@ class WidgetController extends FOSRestController
             return $widget;
         }
 
-        return $this->handleView(View::create($widget, 200));
+        return new SingleResourceResponse($widget);
     }
 
     /**
@@ -106,8 +108,7 @@ class WidgetController extends FOSRestController
      *     statusCodes={
      *         201="Returned on success.",
      *         400="Returned when form have errors"
-     *     },
-     *     input="SWP\Bundle\TemplatesSystemBundle\Form\Type\WidgetType"
+     *     }
      * )
      * @Route("/api/{version}/templates/widgets", options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_templates_create_widget")
      * @Method("POST")
@@ -126,10 +127,10 @@ class WidgetController extends FOSRestController
             $this->get('event_dispatcher')
                 ->dispatch(HttpCacheEvent::EVENT_NAME, new HttpCacheEvent($widget));
 
-            return $this->handleView(View::create($widget, 201));
+            return new SingleResourceResponse($widget, new ResponseContext(201));
         }
 
-        return $this->handleView(View::create($form, 400));
+        return new SingleResourceResponse($form, new ResponseContext(400));
     }
 
     /**
@@ -171,7 +172,7 @@ class WidgetController extends FOSRestController
         $this->get('event_dispatcher')
             ->dispatch(HttpCacheEvent::EVENT_NAME, new HttpCacheEvent($removedWidget));
 
-        return $this->handleView(View::create(null, 204));
+        return new SingleResourceResponse(null, new ResponseContext(204));
     }
 
     /**
@@ -185,8 +186,7 @@ class WidgetController extends FOSRestController
      *         404="Widget not found",
      *         422="Widget id is not number",
      *         405="Method Not Allowed"
-     *     },
-     *     input="SWP\Bundle\TemplatesSystemBundle\Form\Type\WidgetType"
+     *     }
      * )
      * @Route("/api/{version}/templates/widgets/{id}", requirements={"id"="\d+"}, options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_templates_update_widget")
      * @Method("PATCH")
@@ -216,9 +216,9 @@ class WidgetController extends FOSRestController
             $this->get('event_dispatcher')
                 ->dispatch(HttpCacheEvent::EVENT_NAME, new HttpCacheEvent($widget));
 
-            return $this->handleView(View::create($widget, 201));
+            return new SingleResourceResponse($widget, new ResponseContext(201));
         }
 
-        return $this->handleView(View::create($form, 200));
+        return new SingleResourceResponse($form);
     }
 }

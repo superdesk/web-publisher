@@ -19,7 +19,9 @@ use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
-use FOS\RestBundle\View\View;
+use SWP\Bundle\CoreBundle\Response\ResourcesListResponse;
+use SWP\Bundle\CoreBundle\Response\ResponseContext;
+use SWP\Bundle\CoreBundle\Response\SingleResourceResponse;
 use SWP\Component\Common\Pagination\PaginationInterface;
 use SWP\Bundle\CoreBundle\Form\Type\TenantType;
 use SWP\Component\Common\Event\HttpCacheEvent;
@@ -53,9 +55,7 @@ class TenantController extends FOSRestController
             $request->get(PaginationInterface::LIMIT_PARAMETER_NAME, 10)
         );
 
-        $view = View::create($this->get('swp_pagination_rep')->createRepresentation($tenants, $request), 200);
-
-        return $this->handleView($view);
+        return new ResourcesListResponse($tenants);
     }
 
     /**
@@ -75,7 +75,7 @@ class TenantController extends FOSRestController
      */
     public function getAction($code)
     {
-        return $this->handleView(View::create($this->findOr404($code), 200));
+        return new SingleResourceResponse($this->findOr404($code));
     }
 
     /**
@@ -101,7 +101,7 @@ class TenantController extends FOSRestController
 
         $repository->remove($tenant);
 
-        return $this->handleView(View::create(true, 204));
+        return new SingleResourceResponse(null, new ResponseContext(204));
     }
 
     /**
@@ -140,10 +140,10 @@ class TenantController extends FOSRestController
             $this->get('event_dispatcher')
                 ->dispatch(HttpCacheEvent::EVENT_NAME, new HttpCacheEvent($formData));
 
-            return $this->handleView(View::create($formData, 201));
+            return new SingleResourceResponse($formData, new ResponseContext(201));
         }
 
-        return $this->handleView(View::create($form, 400));
+        return new SingleResourceResponse($form, new ResponseContext(400));
     }
 
     /**
@@ -181,10 +181,10 @@ class TenantController extends FOSRestController
             $this->get('event_dispatcher')
                 ->dispatch(HttpCacheEvent::EVENT_NAME, new HttpCacheEvent($formData));
 
-            return $this->handleView(View::create($formData, 200));
+            return new SingleResourceResponse($formData);
         }
 
-        return $this->handleView(View::create($form, 400));
+        return new SingleResourceResponse($form, new ResponseContext(400));
     }
 
     private function findOr404($code)

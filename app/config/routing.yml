@@ -1,10 +1,12 @@
-swp_templateengine:
-    resource: "@SWPTemplatesSystemBundle/Controller/"
-    type:     annotation
-
 swp_content:
     resource: "@SWPContentBundle/Controller/"
     type:     annotation
+
+security_login_check:
+   path: /security/login_check
+
+security_logout:
+   path: /security/logout
 
 swp_core:
     resource: "@SWPCoreBundle/Controller/"

@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the Superdesk Web Publisher Template Engine Bundle.
+ * This file is part of the Superdesk Web Publisher Core Bundle.
  *
  * Copyright 2015 Sourcefabric z.u. and contributors.
  *
@@ -12,14 +12,16 @@
  * @license http://www.superdesk.org/license
  */
 
-namespace SWP\Bundle\TemplatesSystemBundle\Controller;
+namespace SWP\Bundle\CoreBundle\Controller;
 
-use FOS\RestBundle\Controller\FOSRestController;
-use FOS\RestBundle\View\View;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use SWP\Bundle\CoreBundle\Response\ResourcesListResponse;
+use SWP\Bundle\CoreBundle\Response\ResponseContext;
+use SWP\Bundle\CoreBundle\Response\SingleResourceResponse;
 use SWP\Component\Common\Pagination\PaginationInterface;
 use SWP\Bundle\TemplatesSystemBundle\Form\Type\ContainerType;
 use SWP\Bundle\TemplatesSystemBundle\Model\ContainerData;
@@ -30,7 +32,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpKernel\Exception\UnprocessableEntityHttpException;
 
-class ContainerController extends FOSRestController
+class ContainerController extends Controller
 {
     /**
      * Lists all registered containers.
@@ -60,9 +62,7 @@ class ContainerController extends FOSRestController
             throw new NotFoundHttpException('Containers were not found.');
         }
 
-        //return new ResourcesList($containers, new ResponseContext('api', 200));
-
-        return $this->handleView(View::create($this->container->get('swp_pagination_rep')->createRepresentation($containers, $request), 200));
+        return new ResourcesListResponse($containers);
     }
 
     /**
@@ -92,9 +92,7 @@ class ContainerController extends FOSRestController
             throw new NotFoundHttpException('Container with this id was not found.');
         }
 
-        //return new Resource($container, new ResponseContext('api', 200));
-
-        return $this->handleView(View::create($container, 200));
+        return new SingleResourceResponse($container);
     }
 
     /**
@@ -151,10 +149,10 @@ class ContainerController extends FOSRestController
             $this->get('event_dispatcher')
                 ->dispatch(HttpCacheEvent::EVENT_NAME, new HttpCacheEvent($container));
 
-            return $this->handleView(View::create($container, 201));
+            return new SingleResourceResponse($container, new ResponseContext(201));
         }
 
-        return $this->handleView(View::create($form, 200));
+        return new SingleResourceResponse($form);
     }
 
     /**
@@ -267,11 +265,13 @@ class ContainerController extends FOSRestController
 
         $entityManager->flush();
 
-        return $this->handleView(View::create($container, 201));
+        return new SingleResourceResponse($container, new ResponseContext(201));
     }
 
     /**
      * @param Request $request
+     *
+     * @return array
      */
     private function getNotConvertedLinks($request)
     {

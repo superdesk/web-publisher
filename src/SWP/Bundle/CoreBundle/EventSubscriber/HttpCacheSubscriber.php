@@ -12,7 +12,7 @@
  * @license http://www.superdesk.org/license
  */
 
-namespace SWP\Bundle\TemplatesSystemBundle\EventSubscriber;
+namespace SWP\Bundle\CoreBundle\EventSubscriber;
 
 use FOS\HttpCache\Exception\ExceptionCollection;
 use SWP\Bundle\ContentBundle\Model\ArticleInterface;

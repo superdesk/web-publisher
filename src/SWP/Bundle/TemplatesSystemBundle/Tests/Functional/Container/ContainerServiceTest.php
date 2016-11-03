@@ -19,14 +19,6 @@ use SWP\Bundle\TemplatesSystemBundle\Service\ContainerService;
 
 class ContainerServiceTest extends WebTestCase
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function setUp()
-    {
-        $this->initDatabase();
-    }
-
     public function testDebugConstruct()
     {
         $this->createContainerService();
@@ -72,7 +64,7 @@ class ContainerServiceTest extends WebTestCase
     public function testGetContainerException()
     {
         $containerService = $this->createContainerService();
-        $this->setExpectedException('\Exception');
+        $this->expectException(\Exception::class);
         $containerService->getContainer('test container', [], false);
     }
 
