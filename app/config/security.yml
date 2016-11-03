@@ -19,8 +19,10 @@ security:
         main:
             pattern: ^/
             form_login:
+                check_path: security_login_check
                 provider: fos_userbundle
-                csrf_token_generator: security.csrf.token_manager
-
-            logout:       true
+                target_path_parameter: _login_success_path
+                failure_path_parameter: _login_failure_path
+            logout:
+                path: security_logout
             anonymous:    true

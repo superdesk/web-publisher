@@ -63,6 +63,7 @@ class UserController extends FOSRestController
                 throw new ConflictHttpException(sprintf('User with username "%s" already exists', $formData->getUsername()));
             }
 
+            $formData->setEnabled(true);
             $this->get('swp.repository.user')->add($formData);
 
             return new SingleResourceResponse($formData, new ResponseContext(201));
