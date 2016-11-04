@@ -38,6 +38,8 @@ SWP\Component\ContentList\Model\ContentListItem:
                 name: content_id
                 referencedColumnName: id
                 nullable: false
+                onDelete: CASCADE
+                orphanRemoval: true
         contentList:
             targetEntity: SWP\Component\ContentList\Model\ContentListInterface
             inversedBy: items

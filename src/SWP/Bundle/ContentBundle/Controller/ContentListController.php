@@ -107,6 +107,39 @@ class ContentListController extends FOSRestController
     /**
      * @ApiDoc(
      *     resource=true,
+     *     description="Update single content list",
+     *     statusCodes={
+     *         200="Returned on success.",
+     *         400="Returned when not valid data.",
+     *         404="Returned when not found.",
+     *         409="Returned on conflict."
+     *     },
+     *     input="SWP\Bundle\ContentListBundle\Form\Type\ContentListType"
+     * )
+     * @Route("/api/{version}/content/lists/{id}", options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_content_update_lists", requirements={"id"="\d+"})
+     * @Method("PATCH")
+     */
+    public function updateAction(Request $request, $id)
+    {
+        $objectManager = $this->get('swp.object_manager.content_list');
+        $contentList = $this->findOr404($id);
+        $form = $this->createForm(ContentListType::class, $contentList, ['method' => $request->getMethod()]);
+        $form->handleRequest($request);
+
+        if ($form->isValid()) {
+            $objectManager->flush();
+            $this->get('event_dispatcher')
+                ->dispatch(HttpCacheEvent::EVENT_NAME, new HttpCacheEvent($contentList));
+
+            return $this->handleView(View::create($contentList, 200));
+        }
+
+        return $this->handleView(View::create($form, 400));
+    }
+
+    /**
+     * @ApiDoc(
+     *     resource=true,
      *     description="Delete single content list",
      *     statusCodes={
      *         204="Returned on success."

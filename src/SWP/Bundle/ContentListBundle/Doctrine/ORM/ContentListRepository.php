@@ -26,9 +26,7 @@ class ContentListRepository extends EntityRepository implements ContentListRepos
      */
     public function findByType(string $type): array
     {
-        $queryBuilder = $this->createQueryBuilder('cl');
-
-        return $queryBuilder
+        return $this->createQueryBuilder('cl')
             ->where('cl.type = :type')
             ->setParameter('type', $type)
             ->getQuery()

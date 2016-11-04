@@ -70,11 +70,6 @@ class AutomaticListAddArticleListener
     public function addArticleToList(ArticleEvent $event)
     {
         $article = $event->getArticle();
-
-        if (!$article->isPublished()) {
-            return;
-        }
-
         /** @var ContentListInterface[] $contentLists */
         $contentLists = $this->listRepository->findByType(ContentListInterface::TYPE_AUTOMATIC);
         /** @var RuleInterface $rule */

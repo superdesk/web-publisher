@@ -44,16 +44,6 @@ final class AutomaticListAddArticleListenerSpec extends ObjectBehavior
         $this->shouldHaveType(AutomaticListAddArticleListener::class);
     }
 
-    public function it_should_do_nothing_when_article_not_published(
-        ArticleEvent $event,
-        ArticleInterface $article
-    ) {
-        $article->isPublished()->shouldBeCalled()->willReturn(false);
-        $event->getArticle()->willReturn($article);
-
-        $this->addArticleToList($event)->shouldReturn(null);
-    }
-
     public function it_adds_article_to_list(
         ArticleEvent $event,
         ArticleInterface $article,
@@ -65,7 +55,6 @@ final class AutomaticListAddArticleListenerSpec extends ObjectBehavior
         FactoryInterface $listItemFactory,
         ContentListItemInterface $listItem
     ) {
-        $article->isPublished()->shouldBeCalled()->willReturn(true);
         $event->getArticle()->willReturn($article);
 
         $list->getExpression()->willReturn('article.getLocale() == "en"');
@@ -96,7 +85,6 @@ final class AutomaticListAddArticleListenerSpec extends ObjectBehavior
         FactoryInterface $listItemFactory,
         ContentListItemInterface $listItem
     ) {
-        $article->isPublished()->shouldBeCalled()->willReturn(true);
         $event->getArticle()->willReturn($article);
 
         $list->getExpression()->willReturn('article.getLocale() == "en"');
