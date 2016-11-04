@@ -18,6 +18,9 @@ SWP\Component\ContentList\Model\ContentList:
         description:
             type: string
             nullable: true
+        expression:
+            type: string
+            nullable: true
         type:
             type: string
         cacheLifeTime:
@@ -27,15 +30,6 @@ SWP\Component\ContentList\Model\ContentList:
             type: integer
             nullable: true
             column: list_limit
-        publishedAt:
-            type: datetime
-            nullable: true
-        publishedBefore:
-            type: datetime
-            nullable: true
-        publishedAfter:
-            type: datetime
-            nullable: true
         enabled:
             type: boolean
         createdAt:

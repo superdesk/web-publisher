@@ -12,13 +12,11 @@
  * @license http://www.superdesk.org/license
  */
 
-namespace SWP\Bundle\ContentBundle\Doctrine\ORM;
+namespace SWP\Bundle\ContentBundle\Model;
 
-use SWP\Bundle\ContentBundle\Model\ContentListInterface;
-use SWP\Component\ContentList\Model\ContentList as BaseContentList;
-use SWP\Component\MultiTenancy\Model\TenantAwareTrait;
+use SWP\Component\MultiTenancy\Model\TenantAwareInterface;
+use SWP\Component\ContentList\Model\ContentListInterface as BaseContentListInterface;
 
-class ContentList extends BaseContentList implements ContentListInterface
+interface ContentListInterface extends BaseContentListInterface, TenantAwareInterface
 {
-    use TenantAwareTrait;
 }

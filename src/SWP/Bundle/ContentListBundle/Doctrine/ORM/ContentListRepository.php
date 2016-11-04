@@ -24,50 +24,13 @@ class ContentListRepository extends EntityRepository implements ContentListRepos
     /**
      * {@inheritdoc}
      */
-    public function findManyByCriteria(array $criteria): array
+    public function findByType(string $type): array
     {
         $queryBuilder = $this->createQueryBuilder('cl');
 
-        $queryBuilder
-            ->where(
-                $queryBuilder->expr()->orX(
-                    $queryBuilder->expr()->isNull($this->getPropertyName('publishedBefore', 'cl')),
-                    $queryBuilder->expr()->gt($this->getPropertyName('publishedBefore', 'cl'), ':publishedAt')
-                )
-            )
-            ->andWhere(
-                $queryBuilder->expr()->orX(
-                    $queryBuilder->expr()->isNull($this->getPropertyName('publishedAfter', 'cl')),
-                    $queryBuilder->expr()->lt($this->getPropertyName('publishedAfter', 'cl'), ':publishedAt')
-                )
-            )
-            ->orWhere(
-                $queryBuilder->expr()->orX(
-                    $queryBuilder->expr()->isNull($this->getPropertyName('publishedAt', 'cl')),
-                    $queryBuilder->expr()->eq($this->getPropertyName('publishedAt', 'cl'), ':publishedAt')
-                )
-            )
-            ->andWhere(
-                $queryBuilder->expr()->eq($this->getPropertyName('type', 'cl'), ':type')
-            )
-            ->setParameters([
-                'type' => $criteria['type'],
-                'publishedAt' => $criteria['publishedAt'],
-            ])
-        ;
-
-        unset($criteria['publishedAt'], $criteria['type']);
-
-        $orx = $queryBuilder->expr()->orX();
-
-        foreach ($criteria as $key => $value) {
-            if (isset($criteria[$key])) {
-                $orx->add($queryBuilder->expr()->eq('cl.'.$key, $queryBuilder->expr()->literal($value)));
-            }
-        }
-
         return $queryBuilder
-            ->orWhere($orx)
+            ->where('cl.type = :type')
+            ->setParameter('type', $type)
             ->getQuery()
             ->getResult()
         ;

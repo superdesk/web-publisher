@@ -21,9 +21,9 @@ use SWP\Component\Storage\Repository\RepositoryInterface;
 interface ContentListRepositoryInterface extends RepositoryInterface
 {
     /**
-     * @param array $criteria
+     * @param string $type
      *
      * @return array
      */
-    public function findManyByCriteria(array $criteria): array;
+    public function findByType(string $type): array;
 }

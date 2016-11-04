@@ -17,8 +17,6 @@ declare(strict_types=1);
 namespace SWP\Bundle\ContentListBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
-use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -49,6 +47,10 @@ class ContentListType extends AbstractType
                 'required' => false,
                 'description' => 'List description',
             ])
+            ->add('expression', TextType::class, [
+                'required' => false,
+                'description' => 'Rule expression (e.g. article.getPriority() > 3)',
+            ])
             ->add('limit', IntegerType::class, [
                 'required' => false,
                 'description' => 'List limit',
@@ -56,21 +58,6 @@ class ContentListType extends AbstractType
             ->add('cacheLifeTime', IntegerType::class, [
                 'required' => false,
                 'description' => 'List cache life time',
-            ])
-            ->add('publishedAt', DateType::class, [
-                'required' => false,
-                'description' => 'Published at date',
-                'widget' => 'single_text',
-            ])
-            ->add('publishedBefore', DateTimeType::class, [
-                'required' => false,
-                'description' => 'Published before date time',
-                'widget' => 'single_text',
-            ])
-            ->add('publishedAfter', DateTimeType::class, [
-                'required' => false,
-                'description' => 'Published after date time',
-                'widget' => 'single_text',
             ])
         ;
     }

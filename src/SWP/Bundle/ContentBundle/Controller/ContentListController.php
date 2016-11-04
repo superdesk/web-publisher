@@ -20,7 +20,7 @@ use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use SWP\Bundle\ContentBundle\Form\Type\ContentListType;
+use SWP\Bundle\ContentListBundle\Form\Type\ContentListType;
 use SWP\Component\Common\Criteria\Criteria;
 use SWP\Component\Common\Event\HttpCacheEvent;
 use SWP\Component\Common\Pagination\PaginationData;
@@ -42,6 +42,7 @@ class ContentListController extends FOSRestController
      * @Route("/api/{version}/content/lists/", options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_content_list_lists")
      * @Method("GET")
      *
+     * @Cache(expires="10 minutes", public=true)
      */
     public function listAction(Request $request)
     {
@@ -78,7 +79,7 @@ class ContentListController extends FOSRestController
      *         201="Returned on success.",
      *         400="Returned when not valid data."
      *     },
-     *     input="SWP\Bundle\ContentBundle\Form\Type\ContentListType"
+     *     input="SWP\Bundle\ContentListBundle\Form\Type\ContentListType"
      * )
      * @Route("/api/{version}/content/lists/", options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_content_create_lists")
      * @Method("POST")

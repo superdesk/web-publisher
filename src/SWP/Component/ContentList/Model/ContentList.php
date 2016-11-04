@@ -62,19 +62,9 @@ class ContentList implements ContentListInterface
     protected $items;
 
     /**
-     * @var \DateTime
+     * @var string|null
      */
-    protected $publishedAt;
-
-    /**
-     * @var \DateTime
-     */
-    protected $publishedBefore;
-
-    /**
-     * @var \DateTime
-     */
-    protected $publishedAfter;
+    protected $expression;
 
     /**
      * ContentList constructor.
@@ -212,50 +202,18 @@ class ContentList implements ContentListInterface
     }
 
     /**
-     * @return \DateTime
+     * {@inheritdoc}
      */
-    public function getPublishedAt()
+    public function getExpression()
     {
-        return $this->publishedAt;
+        return $this->expression;
     }
 
     /**
-     * @param \DateTime $publishedAt
+     * {@inheritdoc}
      */
-    public function setPublishedAt(\DateTime $publishedAt = null)
+    public function setExpression(string $expression)
     {
-        $this->publishedAt = $publishedAt;
-    }
-
-    /**
-     * @return \DateTime
-     */
-    public function getPublishedBefore()
-    {
-        return $this->publishedBefore;
-    }
-
-    /**
-     * @param mixed $publishedBefore
-     */
-    public function setPublishedBefore(\DateTime $publishedBefore = null)
-    {
-        $this->publishedBefore = $publishedBefore;
-    }
-
-    /**
-     * @return \DateTime
-     */
-    public function getPublishedAfter()
-    {
-        return $this->publishedAfter;
-    }
-
-    /**
-     * @param \DateTime $publishedAfter
-     */
-    public function setPublishedAfter(\DateTime $publishedAfter = null)
-    {
-        $this->publishedAfter = $publishedAfter;
+        $this->expression = $expression;
     }
 }

@@ -135,10 +135,11 @@ services:
             - { name: applicator.rule_applicator }
 
     swp_content_bundle.listener.article_content_list:
-        class: SWP\Bundle\ContentBundle\EventListener\ContentListListener
+        class: SWP\Bundle\ContentBundle\EventListener\AutomaticListAddArticleListener
         arguments:
             - '@swp.repository.content_list'
             - '@swp.factory.content_list_item'
-            - '@swp.object_manager.content_list'
+            - '@swp_rule.evaluator.rule'
+            - '@swp.factory.rule'
         tags:
-            - { name: kernel.event_listener, event: swp.article.published, method: onArticlePublished }
+            - { name: kernel.event_listener, event: swp.article.published, method: addArticleToList }

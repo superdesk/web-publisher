@@ -18,9 +18,11 @@ use SWP\Bundle\ContentBundle\Event\ArticleEvent;
 use SWP\Component\ContentList\Model\ContentListInterface;
 use SWP\Component\ContentList\Model\ContentListItemInterface;
 use SWP\Component\ContentList\Repository\ContentListRepositoryInterface;
+use SWP\Component\Rule\Evaluator\RuleEvaluatorInterface;
+use SWP\Component\Rule\Model\RuleInterface;
 use SWP\Component\Storage\Factory\FactoryInterface;
 
-class ContentListListener
+class AutomaticListAddArticleListener
 {
     /**
      * @var ContentListRepositoryInterface
@@ -33,41 +35,59 @@ class ContentListListener
     private $listItemFactory;
 
     /**
+     * @var RuleEvaluatorInterface
+     */
+    private $ruleEvaluator;
+
+    /**
+     * @var FactoryInterface
+     */
+    private $ruleFactory;
+
+    /**
      * ContentListListener constructor.
      *
      * @param ContentListRepositoryInterface $listRepository
      * @param FactoryInterface               $listItemFactory
+     * @param RuleEvaluatorInterface         $ruleEvaluator
+     * @param FactoryInterface               $ruleFactory
      */
     public function __construct(
         ContentListRepositoryInterface $listRepository,
-        FactoryInterface $listItemFactory
+        FactoryInterface $listItemFactory,
+        RuleEvaluatorInterface $ruleEvaluator,
+        FactoryInterface $ruleFactory
     ) {
         $this->listRepository = $listRepository;
         $this->listItemFactory = $listItemFactory;
+        $this->ruleEvaluator = $ruleEvaluator;
+        $this->ruleFactory = $ruleFactory;
     }
 
     /**
      * @param ArticleEvent $event
      */
-    public function onArticlePublished(ArticleEvent $event)
+    public function addArticleToList(ArticleEvent $event)
     {
         $article = $event->getArticle();
 
-        $criteria = [
-            'route' => $article->getRoute()->getId(),
-            'author' => $article->getMetadataByKey('byline'),
-            'type' => ContentListInterface::TYPE_AUTOMATIC,
-            'publishedAt' => $article->getPublishedAt(),
-        ];
+        if (!$article->isPublished()) {
+            return;
+        }
 
         /** @var ContentListInterface[] $contentLists */
-        $contentLists = $this->listRepository->findManyByCriteria($criteria);
+        $contentLists = $this->listRepository->findByType(ContentListInterface::TYPE_AUTOMATIC);
+        /** @var RuleInterface $rule */
+        $rule = $this->ruleFactory->create();
 
         foreach ($contentLists as $contentList) {
-            /** @var ContentListItemInterface $contentListItem */
-            $contentListItem = $this->listItemFactory->create();
-            $contentListItem->setContent($article);
-            $contentList->addItem($contentListItem);
+            $rule->setExpression($contentList->getExpression());
+            if ($this->ruleEvaluator->evaluate($rule, $article)) {
+                /** @var ContentListItemInterface $contentListItem */
+                $contentListItem = $this->listItemFactory->create();
+                $contentListItem->setContent($article);
+                $contentList->addItem($contentListItem);
+            }
         }
     }
 }
