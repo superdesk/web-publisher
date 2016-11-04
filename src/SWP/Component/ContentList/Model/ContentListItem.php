@@ -71,7 +71,7 @@ class ContentListItem implements ContentListItemInterface
     /**
      * {@inheritdoc}
      */
-    public function setContentList(ContentListInterface $contentList)
+    public function setContentList(ContentListInterface $contentList = null)
     {
         $this->contentList = $contentList;
     }

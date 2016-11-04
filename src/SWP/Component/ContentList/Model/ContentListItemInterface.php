@@ -43,9 +43,9 @@ interface ContentListItemInterface extends
     public function getContentList(): ContentListInterface;
 
     /**
-     * @param ContentListInterface $contentList
+     * @param null|ContentListInterface $contentList
      */
-    public function setContentList(ContentListInterface $contentList);
+    public function setContentList(ContentListInterface $contentList = null);
 
     /**
      * @return ListContentInterface

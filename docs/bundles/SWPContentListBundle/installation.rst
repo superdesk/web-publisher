@@ -8,7 +8,7 @@ In your project directory execute the following command to download the latest s
 
 .. code-block:: bash
 
-    composer require swp/rule-bundle
+    composer require swp/content-list-bundle
 
 This command requires you to have Composer installed globally. If it's not installed `globally`_,
 download the ``.phar`` file `locally`_ as explained in Composer documentation.
@@ -29,10 +29,10 @@ by adding the following lines in the ``app/AppKernel.php`` file:
         public function registerBundles()
         {
             $bundles = array(
-                new Burgov\Bundle\KeyValueFormBundle\BurgovKeyValueFormBundle(),
-                new SWP\Bundle\RuleBundle\SWPStorageBundle()
+                new SWP\Bundle\ContentListBundle\SWPStorageBundle(),
+                new Stof\DoctrineExtensionsBundle\StofDoctrineExtensionsBundle(),
                 // ...
-                new SWP\Bundle\RuleBundle\SWPRuleBundle()
+                new SWP\Bundle\ContentListBundle\SWPContentListBundle(),
             );
 
             // ...
@@ -53,7 +53,7 @@ Configure the bundle
     .. code-block:: yaml
 
         # app/config/config.yml
-        swp_rule:
+        swp_content_list:
             persistence:
                 orm:
                     # if true, ORM is enabled as a persistence backend
@@ -62,6 +62,25 @@ Configure the bundle
 .. note::
 
     By default this bundle supports only Doctrine ORM as a persistence backend.
+
+.. note::
+
+    If this bundle is used together with :doc:`/bundles/SWPContentBundle/index`, configuration will be automatically pre-pended and enabled, so
+    there is no need to configure it in your config file.
+
+Configure Doctrine extensions which are used by this bundle:
+
+.. code-block:: yaml
+
+        # app/config/config.yml
+        stof_doctrine_extensions:
+            orm:
+                default:
+                    timestampable: true
+                    softdeleteable: true
+                    loggable: true
+                    sortable: true
+
 
 Update Database Schema
 ~~~~~~~~~~~~~~~~~~~~~~
