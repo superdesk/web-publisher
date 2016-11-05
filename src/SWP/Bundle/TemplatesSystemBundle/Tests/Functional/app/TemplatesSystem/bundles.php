@@ -23,7 +23,6 @@ return [
     new Stof\DoctrineExtensionsBundle\StofDoctrineExtensionsBundle(),
     new Knp\Bundle\MenuBundle\KnpMenuBundle(),
 
-    new SWP\Bundle\StorageBundle\SWPStorageBundle(),
     new SWP\Bundle\MenuBundle\SWPMenuBundle(),
     new SWP\Bundle\FixturesBundle\SWPFixturesBundle(),
     new SWP\Bundle\TemplatesSystemBundle\SWPTemplatesSystemBundle(),

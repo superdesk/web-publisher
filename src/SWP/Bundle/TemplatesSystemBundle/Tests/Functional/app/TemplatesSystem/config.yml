@@ -53,6 +53,8 @@ doctrine:
         auto_generate_proxy_classes: true
         resolve_target_entities:
             SWP\Bundle\MenuBundle\Model\MenuItemInterface: SWP\Bundle\TemplatesSystemBundle\Tests\Functional\app\TemplatesSystem\Model\MenuItem
+            SWP\Component\TemplatesSystem\Gimme\Model\WidgetModelInterface: SWP\Bundle\TemplatesSystemBundle\Tests\Functional\app\TemplatesSystem\Model\WidgetModel
+            SWP\Component\TemplatesSystem\Gimme\Model\ContainerInterface: SWP\Bundle\TemplatesSystemBundle\Tests\Functional\app\TemplatesSystem\Model\Container
         entity_managers:
             default:
                 naming_strategy: doctrine.orm.naming_strategy.underscore
@@ -74,3 +76,13 @@ swp_menu:
             classes:
                 menu:
                     model: SWP\Bundle\TemplatesSystemBundle\Tests\Functional\app\TemplatesSystem\Model\MenuItem
+
+swp_templates_system:
+    persistence:
+        orm:
+            enabled: true
+            classes:
+                container:
+                    model: SWP\Bundle\TemplatesSystemBundle\Tests\Functional\app\TemplatesSystem\Model\Container
+                widget_model:
+                    model: SWP\Bundle\TemplatesSystemBundle\Tests\Functional\app\TemplatesSystem\Model\WidgetModel

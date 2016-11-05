@@ -14,6 +14,8 @@
 
 namespace SWP\Bundle\TemplatesSystemBundle;
 
+use SWP\Bundle\TemplatesSystemBundle\DependencyInjection\Compiler\RegisterContainerDataFactory;
+use SWP\Bundle\TemplatesSystemBundle\DependencyInjection\Compiler\RegisterContainerFactoryPass;
 use SWP\Bundle\TemplatesSystemBundle\DependencyInjection\ContainerBuilder\MetaLoaderCompilerPass;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
@@ -25,5 +27,7 @@ class SWPTemplatesSystemBundle extends Bundle
         parent::build($container);
 
         $container->addCompilerPass(new MetaLoaderCompilerPass());
+        $container->addCompilerPass(new RegisterContainerFactoryPass());
+        $container->addCompilerPass(new RegisterContainerDataFactory());
     }
 }

@@ -1,5 +1,5 @@
 SWP\Bundle\TemplatesSystemBundle\Model\Container:
-    type: entity
+    type: mappedSuperclass
     table: swp_container
     repositoryClass: SWP\Bundle\TemplatesSystemBundle\Repository\ContainerRepository
     id:
@@ -42,15 +42,3 @@ SWP\Bundle\TemplatesSystemBundle\Model\Container:
             gedmo:
                 timestampable:
                     on: update
-#        tenantCode:
-#            type: string
-#    uniqueConstraints:
-#        swp_name_idx:
-#          columns: [ name, tenant_code ]
-    oneToMany:
-        data:
-            targetEntity: SWP\Bundle\TemplatesSystemBundle\Model\ContainerData
-            mappedBy: container
-        widgets:
-            targetEntity: SWP\Bundle\TemplatesSystemBundle\Model\ContainerWidget
-            mappedBy: container

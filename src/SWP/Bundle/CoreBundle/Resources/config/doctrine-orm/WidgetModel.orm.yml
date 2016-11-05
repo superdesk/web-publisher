@@ -1,0 +1,10 @@
+SWP\Bundle\CoreBundle\Model\WidgetModel:
+    type: entity
+    table: swp_widget
+    fields:
+        tenantCode:
+            type: string
+    oneToMany:
+        containers:
+            targetEntity: SWP\Bundle\TemplatesSystemBundle\Model\ContainerWidget
+            mappedBy: widget

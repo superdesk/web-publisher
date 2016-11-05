@@ -14,6 +14,9 @@
 
 namespace SWP\Bundle\TemplatesSystemBundle\Model;
 
+use SWP\Component\TemplatesSystem\Gimme\Model\ContainerInterface;
+use SWP\Component\TemplatesSystem\Gimme\Model\WidgetModelInterface;
+
 /**
  * ContainerWidget.
  */
@@ -39,7 +42,13 @@ class ContainerWidget
      */
     protected $position;
 
-    public function __construct(Container $container, WidgetModel $widget)
+    /**
+     * ContainerWidget constructor.
+     *
+     * @param ContainerInterface   $container
+     * @param WidgetModelInterface $widget
+     */
+    public function __construct(ContainerInterface $container, WidgetModelInterface $widget)
     {
         $this->container = $container;
         $this->widget = $widget;

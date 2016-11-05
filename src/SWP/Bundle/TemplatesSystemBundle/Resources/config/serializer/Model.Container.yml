@@ -29,10 +29,3 @@ SWP\Bundle\TemplatesSystemBundle\Model\Container:
             expose: true
         widgets:
             expose: true
-    relations:
-        -
-            rel: self
-            href:
-                route: swp_api_templates_get_container
-                parameters:
-                    id: expr(object.getId())

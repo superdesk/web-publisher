@@ -1,4 +1,4 @@
-SWP\Bundle\TemplatesSystemBundle\Model\Container:
+SWP\Bundle\CoreBundle\Model\Container:
     container1:
         name: "Simple Container 1"
         type: 1

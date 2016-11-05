@@ -16,17 +16,13 @@ namespace SWP\Bundle\TemplatesSystemBundle\Model;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use SWP\Component\Common\Model\TimestampableInterface;
-use SWP\Component\MultiTenancy\Model\TenantAwareInterface;
-use SWP\Component\MultiTenancy\Model\TenantAwareTrait;
 use SWP\Component\TemplatesSystem\Gimme\Model\WidgetModelInterface;
 
 /**
  * WidgetModel.
  */
-class WidgetModel implements WidgetModelInterface, TenantAwareInterface, TimestampableInterface
+class WidgetModel implements WidgetModelInterface, TimestampableInterface
 {
-    use TenantAwareTrait;
-
     const TYPE_HTML = 1;
     const TYPE_ADSENSE = 2;
     const TYPE_MENU = 3;

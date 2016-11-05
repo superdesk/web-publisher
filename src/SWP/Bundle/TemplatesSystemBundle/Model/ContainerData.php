@@ -14,6 +14,8 @@
 
 namespace SWP\Bundle\TemplatesSystemBundle\Model;
 
+use SWP\Component\TemplatesSystem\Gimme\Model\ContainerInterface;
+
 /**
  * ContainerData.
  */
@@ -122,11 +124,11 @@ class ContainerData
     /**
      * Sets the value of container.
      *
-     * @param Container $container the container
+     * @param ContainerInterface $container the container
      *
      * @return self
      */
-    public function setContainer(Container $container)
+    public function setContainer(ContainerInterface $container)
     {
         $this->container = $container;
 

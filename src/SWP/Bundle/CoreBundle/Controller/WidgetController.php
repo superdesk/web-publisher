@@ -24,7 +24,7 @@ use SWP\Bundle\CoreBundle\Response\ResponseContext;
 use SWP\Bundle\CoreBundle\Response\SingleResourceResponse;
 use SWP\Component\Common\Pagination\PaginationInterface;
 use SWP\Bundle\TemplatesSystemBundle\Form\Type\WidgetType;
-use SWP\Bundle\TemplatesSystemBundle\Model\WidgetModel;
+use SWP\Bundle\CoreBundle\Model\WidgetModel;
 use SWP\Component\Common\Event\HttpCacheEvent;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -51,7 +51,7 @@ class WidgetController extends FOSRestController
         $entityManager = $this->get('doctrine')->getManager();
         $paginator = $this->get('knp_paginator');
         $widgets = $paginator->paginate(
-            $entityManager->getRepository('SWP\Bundle\TemplatesSystemBundle\Model\WidgetModel')->getAll(),
+            $entityManager->getRepository('SWP\Bundle\CoreBundle\Model\WidgetModel')->getAll(),
             $request->get(PaginationInterface::PAGE_PARAMETER_NAME, 1),
             $request->get(PaginationInterface::LIMIT_PARAMETER_NAME, 10)
         );
@@ -85,7 +85,7 @@ class WidgetController extends FOSRestController
         }
 
         $entityManager = $this->get('doctrine')->getManager();
-        $widget = $entityManager->getRepository('SWP\Bundle\TemplatesSystemBundle\Model\WidgetModel')->getById($id)->getOneOrNullResult();
+        $widget = $entityManager->getRepository('SWP\Bundle\CoreBundle\Model\WidgetModel')->getById($id)->getOneOrNullResult();
 
         if (!$widget) {
             throw new NotFoundHttpException('WidgetModel with this id was not found.');
@@ -155,7 +155,7 @@ class WidgetController extends FOSRestController
         }
 
         $entityManager = $this->get('doctrine')->getManager();
-        $widget = $entityManager->getRepository('SWP\Bundle\TemplatesSystemBundle\Model\WidgetModel')->getById($id)->getOneOrNullResult();
+        $widget = $entityManager->getRepository('SWP\Bundle\CoreBundle\Model\WidgetModel')->getById($id)->getOneOrNullResult();
 
         if (!$widget) {
             throw new NotFoundHttpException('Widget with this id was not found.');
@@ -198,7 +198,7 @@ class WidgetController extends FOSRestController
         }
 
         $entityManager = $this->get('doctrine')->getManager();
-        $widget = $entityManager->getRepository('SWP\Bundle\TemplatesSystemBundle\Model\WidgetModel')->getById($id)->getOneOrNullResult();
+        $widget = $entityManager->getRepository('SWP\Bundle\CoreBundle\Model\WidgetModel')->getById($id)->getOneOrNullResult();
 
         if (!$widget) {
             throw new NotFoundHttpException('Widget with this id was not found.');

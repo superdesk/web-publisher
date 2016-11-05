@@ -16,7 +16,6 @@ namespace SWP\Bundle\TemplatesSystemBundle\Service;
 
 use SWP\Bundle\TemplatesSystemBundle\Container\SimpleContainer;
 use SWP\Bundle\TemplatesSystemBundle\Model\Container;
-use SWP\Bundle\TemplatesSystemBundle\Model\ContainerData;
 use SWP\Component\Common\Event\HttpCacheEvent;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -111,7 +110,8 @@ class ContainerService
 
     public function createNewContainer($name, array $parameters = [])
     {
-        $containerEntity = new Container();
+        $containerEntity = $this->serviceContainer->get('swp.factory.container')->create();
+        $containerDataFactory = $this->serviceContainer->get('swp.factory.container_data');
         $containerEntity->setName($name);
         foreach ($parameters as $key => $value) {
             switch ($key) {
@@ -132,7 +132,7 @@ class ContainerService
                     break;
                 case 'data':
                     foreach ($value as $dataKey => $dataValue) {
-                        $containerData = new ContainerData($dataKey, $dataValue);
+                        $containerData = $containerDataFactory->create($dataKey, $dataValue);
                         $containerData->setContainer($containerEntity);
                         $this->objectManager->persist($containerData);
                         $containerEntity->addData($containerData);

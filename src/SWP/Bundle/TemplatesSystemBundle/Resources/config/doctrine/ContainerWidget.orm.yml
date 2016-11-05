@@ -18,7 +18,7 @@ SWP\Bundle\TemplatesSystemBundle\Model\ContainerWidget:
                 - sortablePosition
     manyToOne:
         widget:
-            targetEntity: SWP\Bundle\TemplatesSystemBundle\Model\WidgetModel
+            targetEntity: SWP\Component\TemplatesSystem\Gimme\Model\WidgetModelInterface
             inversedBy: containers
             cascade: ["remove"]
             joinColumn:
@@ -26,7 +26,7 @@ SWP\Bundle\TemplatesSystemBundle\Model\ContainerWidget:
                 referencedColumnName: id
                 onDelete: CASCADE
         container:
-            targetEntity: SWP\Bundle\TemplatesSystemBundle\Model\Container
+            targetEntity: SWP\Component\TemplatesSystem\Gimme\Model\ContainerInterface
             inversedBy: widgets
             joinColumn:
                 name: container_id

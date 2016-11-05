@@ -1,0 +1,10 @@
+SWP\Bundle\TemplatesSystemBundle\Tests\Functional\app\TemplatesSystem\Model\Container:
+    type: entity
+    table: swp_container
+    oneToMany:
+        data:
+            targetEntity: SWP\Bundle\TemplatesSystemBundle\Model\ContainerData
+            mappedBy: container
+        widgets:
+            targetEntity: SWP\Bundle\TemplatesSystemBundle\Model\ContainerWidget
+            mappedBy: container

@@ -16,10 +16,3 @@ SWP\Bundle\TemplatesSystemBundle\Model\WidgetModel:
         parameters:
             expose: true
             type: array
-    relations:
-        -
-            rel: self
-            href:
-                route: swp_api_templates_get_widget
-                parameters:
-                    id: expr(object.getId())

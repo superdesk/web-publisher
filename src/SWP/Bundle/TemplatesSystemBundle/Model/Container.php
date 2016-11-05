@@ -16,17 +16,13 @@ namespace SWP\Bundle\TemplatesSystemBundle\Model;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use SWP\Component\Common\Model\TimestampableInterface;
-use SWP\Component\MultiTenancy\Model\TenantAwareInterface;
-use SWP\Component\MultiTenancy\Model\TenantAwareTrait;
 use SWP\Component\TemplatesSystem\Gimme\Model\ContainerInterface;
 
 /**
  * Container.
  */
-class Container implements ContainerInterface, TenantAwareInterface, TimestampableInterface
+class Container implements ContainerInterface, TimestampableInterface
 {
-    use TenantAwareTrait;
-
     const TYPE_SIMPLE = 1;
 
     /**

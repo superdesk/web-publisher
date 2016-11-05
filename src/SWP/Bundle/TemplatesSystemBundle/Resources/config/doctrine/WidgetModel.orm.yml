@@ -1,5 +1,5 @@
 SWP\Bundle\TemplatesSystemBundle\Model\WidgetModel:
-    type: entity
+    type: mappedSuperclass
     table: swp_widget
     repositoryClass: SWP\Bundle\TemplatesSystemBundle\Repository\WidgetModelRepository
     id:
@@ -32,9 +32,3 @@ SWP\Bundle\TemplatesSystemBundle\Model\WidgetModel:
             gedmo:
                 timestampable:
                     on: update
-#        tenantCode:
-#            type: string
-    oneToMany:
-        containers:
-            targetEntity: SWP\Bundle\TemplatesSystemBundle\Model\ContainerWidget
-            mappedBy: widget
