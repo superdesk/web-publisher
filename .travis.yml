@@ -39,9 +39,9 @@ before_script:
 script:
   - bin/phpspec run
   - bin/phpunit -c app/
-  - cd src/SWP/Bundle/FixturesBundle && composer install --no-interaction --prefer-dist --dev --ignore-platform-reqs && bin/phpunit && cd ../../../../
-  - cd src/SWP/Bundle/BridgeBundle && composer install --no-interaction --prefer-dist --dev --ignore-platform-reqs && bin/phpunit && cd ../../../../
-  - cd src/SWP/Bundle/TemplatesSystemBundle && composer install --no-interaction --prefer-dist --dev --ignore-platform-reqs && bin/phpunit && cd ../../../../
+  - cd src/SWP/Bundle/FixturesBundle && composer install --no-interaction --prefer-dist --ignore-platform-reqs && bin/phpunit && cd ../../../../
+  - cd src/SWP/Bundle/BridgeBundle && composer install --no-interaction --prefer-dist --ignore-platform-reqs && bin/phpunit && cd ../../../../
+  - cd src/SWP/Bundle/TemplatesSystemBundle && composer install --no-interaction --prefer-dist --ignore-platform-reqs && bin/phpunit && cd ../../../../
 
 cache:
   directories:

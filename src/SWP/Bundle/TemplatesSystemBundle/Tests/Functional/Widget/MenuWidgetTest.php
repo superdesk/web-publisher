@@ -29,8 +29,8 @@ class MenuWidgetTest extends WebTestCase
 
         $this->loadFixtures(
             [
-                'SWP\Bundle\FixturesBundle\DataFixtures\ORM\LoadMenusData',
-                'SWP\Bundle\FixturesBundle\DataFixtures\ORM\LoadMenuNodesData',
+                'SWP\Bundle\TemplatesSystemBundle\Tests\Fixtures\ORM\LoadMenusData',
+                'SWP\Bundle\TemplatesSystemBundle\Tests\Fixtures\ORM\LoadMenuNodesData',
             ], 'default'
         );
     }

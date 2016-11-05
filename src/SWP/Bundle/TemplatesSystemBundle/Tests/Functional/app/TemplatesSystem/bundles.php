@@ -24,6 +24,5 @@ return [
     new Knp\Bundle\MenuBundle\KnpMenuBundle(),
 
     new SWP\Bundle\MenuBundle\SWPMenuBundle(),
-    new SWP\Bundle\FixturesBundle\SWPFixturesBundle(),
     new SWP\Bundle\TemplatesSystemBundle\SWPTemplatesSystemBundle(),
 ];
