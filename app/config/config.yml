@@ -4,6 +4,7 @@ imports:
     - { resource: "@SWPMultiTenancyBundle/Resources/config/app/config.yml" }
     - { resource: "@SWPRuleBundle/Resources/config/app/config.yml" }
     - { resource: "@SWPMenuBundle/Resources/config/app/config.yml" }
+    - { resource: "@SWPContentListBundle/Resources/config/app/config.yml" }
     - { resource: "@SWPCoreBundle/Resources/config/app/config.yml" }
     - { resource: parameters.yml }
     - { resource: security.yml }
@@ -75,6 +76,9 @@ doctrine:
         auto_generate_proxy_classes: "%kernel.debug%"
         resolve_target_entities:
             SWP\Bundle\MenuBundle\Model\MenuItemInterface: SWP\Bundle\CoreBundle\Model\MenuItem
+            SWP\Component\ContentList\Model\ListContentInterface: SWP\Bundle\ContentBundle\Doctrine\ORM\Article
+            SWP\Component\ContentList\Model\ContentListItemInterface: SWP\Component\ContentList\Model\ContentListItem
+            SWP\Component\ContentList\Model\ContentListInterface: SWP\Bundle\ContentBundle\Doctrine\ORM\ContentList
             SWP\Component\TemplatesSystem\Gimme\Model\WidgetModelInterface: SWP\Bundle\CoreBundle\Model\WidgetModel
             SWP\Component\TemplatesSystem\Gimme\Model\ContainerInterface: SWP\Bundle\CoreBundle\Model\Container
         entity_managers:
@@ -269,7 +273,7 @@ nelmio_cors:
     defaults:
         allow_credentials: false
         allow_origin: ["%allow_origin_cors%"]
-        allow_methods: ["POST", "LINK", "UNLINK", "GET", "DELETE", "OPTIONS"]
+        allow_methods: ["POST", "LINK", "UNLINK", "GET", "DELETE", "OPTIONS", "PATCH"]
         allow_headers: ["origin", "content-type", "accept", "authorization"]
         expose_headers: ["link"]
         max_age: 3600

@@ -1,0 +1,41 @@
+{
+    "name": "swp/content-list-bundle",
+    "type": "symfony-bundle",
+    "description": "Flexible object lists implementation for Symfony applications.",
+    "keywords": ["list", "automatic", "dynamic", "superdesk", "webpublisher", "content"],
+    "license":"AGPL-3.0",
+    "minimum-stability": "dev",
+    "authors": [
+        {
+            "name": "Rafał Muszyński",
+            "email": "rafal.muszynski@sourcefabric.org"
+        }
+    ],
+    "require": {
+        "php": "^7.0",
+        "symfony/dependency-injection": "~2.8|~3.0",
+        "swp/storage-bundle": "~0.1.0"
+    },
+    "require-dev": {
+        "phpspec/phpspec": "^3.0"
+    },
+    "autoload": {
+        "exclude-from-classmap": [
+            "spec/"
+        ],
+        "psr-4": { "SWP\\Bundle\\ContentListBundle\\": "" }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "SWP\\Bundle\\ContentListBundle\\spec\\": "spec/"
+        }
+    },
+    "config": {
+        "bin-dir": "bin"
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "0.1-dev"
+        }
+    }
+}

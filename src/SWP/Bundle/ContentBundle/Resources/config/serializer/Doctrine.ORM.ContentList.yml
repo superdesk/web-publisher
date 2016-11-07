@@ -1,0 +1,8 @@
+SWP\Bundle\ContentBundle\Doctrine\ORM\ContentList:
+    exclusion_policy: ALL
+    relations:
+        - rel: self
+          href:
+                route: swp_api_content_show_lists
+                parameters:
+                    id: expr(object.getId())

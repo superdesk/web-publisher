@@ -1,0 +1,20 @@
+SWP\Component\ContentList\Model\ContentListItem:
+    exclusion_policy: ALL
+    properties:
+        id:
+            expose: true
+            type: integer
+        position:
+            expose: true
+            type: string
+        content:
+            expose: true
+        enabled:
+            expose: true
+            type: boolean
+        createdAt:
+            expose: true
+            type: DateTime
+        updatedAt:
+            expose: true
+            type: DateTime
