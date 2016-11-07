@@ -1,0 +1,51 @@
+SWP\Bundle\ContentBundle\Model\Article:
+    type: mappedSuperclass
+    repositoryClass: SWP\Bundle\ContentBundle\Doctrine\ORM\ArticleRepository
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: IDENTITY
+    fields:
+        slug:
+            type: string
+        body:
+            type: text
+        title:
+            type: string
+        lead:
+            type: text
+            nullable: true
+        templateName:
+            type: string
+            nullable: true
+        locale:
+            type: string
+        status:
+            type: string
+        createdAt:
+            type: date
+        updatedAt:
+            type: date
+            nullable: true
+        deletedAt:
+            type: date
+            nullable: true
+        publishStartDate:
+            type: date
+            nullable: true
+        publishEndDate:
+            type: date
+            nullable: true
+        publishedAt:
+            type: date
+            nullable: true
+        isPublishable:
+            type: boolean
+        metadata:
+            type: text
+            nullable: true
+    uniqueConstraints:
+        swp_article_slug_idx:
+          columns: [ slug ]

@@ -30,6 +30,11 @@ suites:
         psr4_prefix: SWP\Component\Rule
         spec_path: src/SWP/Component/Rule
         src_path: src/SWP/Component/Rule
+    ContentList_suite:
+        namespace: SWP\Component\ContentList
+        psr4_prefix: SWP\Component\ContentList
+        spec_path: src/SWP/Component/ContentList
+        src_path: src/SWP/Component/ContentList
 
     # bundles
     MultiTenancyBundle_suite:
@@ -62,6 +67,11 @@ suites:
         psr4_prefix: SWP\Bundle\RuleBundle
         spec_path: src/SWP/Bundle/RuleBundle
         src_path: src/SWP/Bundle/RuleBundle
+    ContentListBundle_suite:
+        namespace: SWP\Bundle\ContentListBundle
+        psr4_prefix: SWP\Bundle\ContentListBundle
+        spec_path: src/SWP/Bundle/ContentListBundle
+        src_path: src/SWP/Bundle/ContentListBundle
     TemplatesSystemBundle_suite:
         namespace: SWP\Bundle\TemplatesSystemBundle
         psr4_prefix: SWP\Bundle\TemplatesSystemBundle

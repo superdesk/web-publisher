@@ -23,10 +23,14 @@ framework:
 doctrine:
     orm:
         resolve_target_entities:
+            SWP\Component\ContentList\Model\ListContentInterface: SWP\Bundle\CoreBundle\Model\Article
+            SWP\Component\ContentList\Model\ContentListItemInterface: SWP\Component\ContentList\Model\ContentListItem
+            SWP\Component\ContentList\Model\ContentListInterface: SWP\Bundle\ContentBundle\Doctrine\ORM\ContentList
             SWP\Bundle\MenuBundle\Model\MenuItemInterface: SWP\Bundle\CoreBundle\Model\MenuItem
             SWP\Component\TemplatesSystem\Gimme\Model\WidgetModelInterface: SWP\Bundle\CoreBundle\Model\WidgetModel
             SWP\Component\TemplatesSystem\Gimme\Model\ContainerInterface: SWP\Bundle\CoreBundle\Model\Container
             SWP\Bundle\ContentBundle\Model\ArticleInterface: SWP\Bundle\CoreBundle\Model\Article
+            SWP\Bundle\ContentBundle\Model\RouteInterface: SWP\Bundle\CoreBundle\Model\Route
         entity_managers:
             default:
                 mappings:

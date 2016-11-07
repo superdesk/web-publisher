@@ -34,9 +34,6 @@ services:
         tags:
             - { name: swp.meta_loader }
 
-    #document_manager:
-    #    alias: doctrine_phpcr.odm.document_manager
-
     swp_content_bundle.factory.knp_paginator_representation:
         class: SWP\Component\Common\Factory\KnpPaginatorRepresentationFactory
         arguments:
@@ -83,6 +80,8 @@ services:
 
     swp.service.article:
         class: '%swp.service.article.class%'
+        arguments:
+            - '@event_dispatcher'
 
     swp.publish_workflow.checker:
         alias: cmf_core.publish_workflow.checker

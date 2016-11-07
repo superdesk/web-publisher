@@ -14,7 +14,7 @@
 
 namespace SWP\Bundle\CoreBundle\Tests\Response;
 
-use SWP\Bundle\CoreBundle\Response\ResponseContext;
+use SWP\Component\Common\Response\ResponseContext;
 
 class ResponseContextTest extends \PHPUnit_Framework_TestCase
 {

@@ -1,0 +1,84 @@
+SWP\Bundle\CoreBundle\Model\Route:
+    type: entity
+    table: swp_route
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: IDENTITY
+    repositoryClass: SWP\Bundle\ContentBundle\Doctrine\ORM\RouteRepository
+    options:
+        orderBy: { 'lft': 'ASC' }
+    fields:
+        templateName:
+            type: string
+            nullable: true
+        articlesTemplateName:
+            type: string
+            nullable: true
+        type:
+            property: route_type
+            type: string
+        cacheTimeInSeconds:
+            type: integer
+        name:
+            type: string
+        position:
+            type: integer
+            nullable: true
+        tenantCode:
+            type: string
+        lft:
+            type: integer
+            gedmo:
+                - treeLeft
+        rgt:
+            type: integer
+            gedmo:
+                - treeRight
+        level:
+            type: integer
+            gedmo:
+                - treeLevel
+    uniqueConstraints:
+        swp_route_name_idx:
+            columns: [ name ]
+    gedmo:
+        tree:
+            type: nested
+    oneToMany:
+        articles:
+            targetEntity: SWP\Bundle\ContentBundle\Model\ArticleInterface
+            mappedBy: route
+        children:
+            targetEntity: SWP\Bundle\ContentBundle\Model\RouteInterface
+            mappedBy: parent
+            cascade: ["all"]
+            orderBy:
+                lft: ASC
+    oneToOne:
+        content:
+            targetEntity: SWP\Bundle\ContentBundle\Model\ArticleInterface
+            joinColumn:
+                name: route_content_id
+                referencedColumnName: id
+                nullable: true
+    manyToOne:
+        root:
+            targetEntity: SWP\Bundle\ContentBundle\Model\RouteInterface
+            joinColumn:
+                referencedColumnName: id
+                onDelete: CASCADE
+                nullable: true
+            gedmo:
+                - treeRoot
+        parent:
+            targetEntity: SWP\Bundle\ContentBundle\Model\RouteInterface
+            inversedBy: children
+            joinColumn:
+                referencedColumnName: id
+                onDelete: CASCADE
+                nullable: true
+            gedmo:
+                - treeParent

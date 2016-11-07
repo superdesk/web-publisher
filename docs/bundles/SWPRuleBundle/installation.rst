@@ -30,9 +30,9 @@ by adding the following lines in the ``app/AppKernel.php`` file:
         {
             $bundles = array(
                 new Burgov\Bundle\KeyValueFormBundle\BurgovKeyValueFormBundle(),
-                new SWP\Bundle\BridgeBundle\SWPStorageBundle()
+                new SWP\Bundle\RuleBundle\SWPStorageBundle()
                 // ...
-                new SWP\Bundle\BridgeBundle\SWPRuleBundle()
+                new SWP\Bundle\RuleBundle\SWPRuleBundle()
             );
 
             // ...

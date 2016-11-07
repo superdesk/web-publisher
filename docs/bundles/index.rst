@@ -9,3 +9,4 @@ Bundles
    SWPBridgeBundle/index
    SWPContentBundle/index
    SWPRuleBundle/index
+   SWPContentListBundle/index

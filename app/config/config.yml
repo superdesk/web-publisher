@@ -5,6 +5,7 @@ imports:
     - { resource: "@SWPMultiTenancyBundle/Resources/config/app/config.yml" }
     - { resource: "@SWPRuleBundle/Resources/config/app/config.yml" }
     - { resource: "@SWPMenuBundle/Resources/config/app/config.yml" }
+    - { resource: "@SWPContentListBundle/Resources/config/app/config.yml" }
     - { resource: "@SWPCoreBundle/Resources/config/app/config.yml" }
     - { resource: parameters.yml }
     - { resource: security.yml }
@@ -155,7 +156,7 @@ nelmio_cors:
     defaults:
         allow_credentials: false
         allow_origin: ["%allow_origin_cors%"]
-        allow_methods: ["POST", "LINK", "UNLINK", "GET", "DELETE", "OPTIONS"]
+        allow_methods: ["POST", "LINK", "UNLINK", "GET", "DELETE", "OPTIONS", "PATCH"]
         allow_headers: ["origin", "content-type", "accept", "authorization"]
         expose_headers: ["link"]
         max_age: 3600

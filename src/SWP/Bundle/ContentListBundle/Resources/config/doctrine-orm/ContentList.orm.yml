@@ -1,0 +1,48 @@
+SWP\Component\ContentList\Model\ContentList:
+    type: mappedSuperclass
+    table: swp_content_list
+    gedmo:
+        soft_deleteable:
+            field_name: deletedAt
+            time_aware: false
+        loggable: true
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        name:
+            type: string
+        description:
+            type: string
+            nullable: true
+        expression:
+            type: string
+            nullable: true
+        type:
+            type: string
+        cacheLifeTime:
+            type: integer
+            nullable: true
+        limit:
+            type: integer
+            nullable: true
+            column: list_limit
+        enabled:
+            type: boolean
+        createdAt:
+            type: datetime
+            gedmo:
+                timestampable:
+                    on: create
+        updatedAt:
+            type: datetime
+            nullable: true
+            gedmo:
+                timestampable:
+                    on: update
+        deletedAt:
+            type: datetime
+            nullable: true

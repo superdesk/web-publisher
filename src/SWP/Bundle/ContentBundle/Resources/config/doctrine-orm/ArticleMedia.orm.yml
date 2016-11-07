@@ -39,7 +39,7 @@ SWP\Bundle\ContentBundle\Doctrine\ORM\ArticleMedia:
             mappedBy: media
     manyToOne:
         article:
-            targetEntity: SWP\Bundle\ContentBundle\Doctrine\ORM\Article
+            targetEntity: SWP\Bundle\ContentBundle\Model\ArticleInterface
             inversedBy: media
             joinColumn:
                 name: article_id

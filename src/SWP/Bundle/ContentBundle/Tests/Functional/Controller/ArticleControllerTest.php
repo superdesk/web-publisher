@@ -33,7 +33,11 @@ class ArticleControllerTest extends WebTestCase
 
         $this->initDatabase();
 
-        $this->loadCustomFixtures(['tenant', 'article']);
+        $this->loadFixtures(
+            [
+                'SWP\Bundle\FixturesBundle\DataFixtures\ORM\LoadArticlesData',
+            ], 'default'
+        );
 
         $this->runCommand('theme:setup', ['--env' => 'test'], true);
         $this->router = $this->getContainer()->get('router');

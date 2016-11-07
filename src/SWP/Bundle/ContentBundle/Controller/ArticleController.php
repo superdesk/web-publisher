@@ -22,8 +22,9 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
 use FOS\RestBundle\View\View;
 use SWP\Component\Common\Criteria\Criteria;
 use SWP\Component\Common\Pagination\PaginationData;
+use SWP\Component\Common\Response\ResourcesListResponse;
+use SWP\Component\Common\Response\SingleResourceResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use SWP\Bundle\ContentBundle\Form\Type\ArticleType;
 use SWP\Bundle\ContentBundle\Model\ArticleInterface;
@@ -48,16 +49,14 @@ class ArticleController extends FOSRestController
      *
      * @param Request $request
      *
-     * @return Response
+     * @return ResourcesListResponse
      */
     public function listAction(Request $request)
     {
         $articles = $this->get('swp.repository.article')
             ->getPaginatedByCriteria(new Criteria(), [], new PaginationData($request));
 
-        $view = View::create($this->get('swp_pagination_rep')->createRepresentation($articles, $request), 200);
-
-        return $this->handleView($view);
+        return new ResourcesListResponse($articles);
     }
 
     /**
@@ -83,7 +82,7 @@ class ArticleController extends FOSRestController
             throw new NotFoundHttpException('Article was not found.');
         }
 
-        return $this->handleView(View::create($article, 200));
+        return new SingleResourceResponse($article);
     }
 
     /**

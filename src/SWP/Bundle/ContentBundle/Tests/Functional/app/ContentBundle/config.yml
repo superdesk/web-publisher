@@ -21,7 +21,7 @@ parameters:
 framework:
     secret: "Three can keep a secret, if two of them are dead."
     router:
-        resource: "%kernel.root_dir%/TemplatesSystem/routing.yml"
+        resource: "%kernel.root_dir%/ContentBundle/routing.yml"
         strict_requirements: ~
     test: ~
     validation:      { enable_annotations: false }
@@ -42,6 +42,33 @@ doctrine_cache:
             type: array
             namespace: templates_engine
 
+fos_rest:
+    zone:
+        - { path: ^/api/* }
+    versioning:
+        enabled: false
+    routing_loader:
+        default_format: json
+    view:
+        formats:
+            json: true
+        view_response_listener: false
+    serializer:
+        serialize_null: true
+    format_listener:
+        rules:
+            - { path: "^/api", priorities: ['json'], fallback_format: json, prefer_extension: true }
+            - { path: "^/", stop: true }
+    body_listener:
+        decoders:
+            json: fos_rest.decoder.jsontoform
+    disable_csrf_role: ROLE_API
+    exception:
+        codes:
+            "Symfony\\Component\\Routing\\Exception\\ResourceNotFoundException": 404
+        messages:
+            "Symfony\\Component\\Routing\\Exception\\ResourceNotFoundException": true
+
 liip_functional_test: ~
 
 sensio_framework_extra:
@@ -54,6 +81,26 @@ stof_doctrine_extensions:
             tree: true
 
 doctrine:
+    orm:
+        entity_managers:
+            default:
+                auto_mapping: false
+                mappings:
+                    SWPContentBundle:
+                        type: yml
+                        prefix: SWP\Bundle\ContentBundle\Doctrine\ORM
+                        dir: Resources/config/doctrine-orm
+                    SWPContentBundleModels:
+                        type: yml
+                        prefix: SWP\Bundle\ContentBundle\Model
+                        dir: Resources/config/doctrine
+                    SWPContentBundleTests:
+                        type: yml
+                        prefix: SWP\Bundle\ContentBundle\Tests\Functional\app\ContentBundle\Model
+                        dir: Tests/Functional/app/ContentBundle/doctrine
+        resolve_target_entities:
+            SWP\Bundle\ContentBundle\Model\ArticleInterface: SWP\Bundle\ContentBundle\Tests\Functional\app\ContentBundle\Model\Article
+            SWP\Bundle\ContentBundle\Model\RouteInterface: SWP\Bundle\ContentBundle\Tests\Functional\app\ContentBundle\Model\Route
     dbal:
         driver:   pdo_sqlite
         memory:   true
@@ -62,4 +109,18 @@ doctrine:
 
 swp_content:
     persistence:
-        orm: true
+        orm:
+            enabled: true
+            classes:
+                article:
+                    model: SWP\Bundle\ContentBundle\Tests\Functional\app\ContentBundle\Model\Article
+                route:
+                    model: SWP\Bundle\ContentBundle\Tests\Functional\app\ContentBundle\Model\Route
+
+services:
+    swp_content_bundle.resources_list_response_listener:
+        class: SWP\Component\Common\EventListener\ResourceResponseListener
+        arguments:
+            - "@fos_rest.view_handler"
+        tags:
+            - { name: kernel.event_listener, event: kernel.view }

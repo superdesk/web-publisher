@@ -43,7 +43,7 @@ services:
             - { name: kernel.event_listener, event: kernel.exception }
 
     swp_core.resources_list_response_listener:
-        class: SWP\Bundle\CoreBundle\EventListener\ResourceResponseListener
+        class: SWP\Component\Common\EventListener\ResourceResponseListener
         arguments:
             - "@fos_rest.view_handler"
         tags:
@@ -102,9 +102,19 @@ services:
         tags:
             - { name: kernel.event_subscriber }
 
-    swp_content_bundle.article_rules_subscriber:
-        class: SWP\Bundle\CoreBundle\EventListener\ProcessArticleRulesSubscriber
+    swp_core.listener.article_rules_subscriber:
+        class: SWP\Bundle\CoreBundle\EventSubscriber\ProcessArticleRulesSubscriber
         arguments:
             - '@swp_rule.processor.rule'
         tags:
             - { name: kernel.event_subscriber }
+
+    swp_core.listener.article_content_list:
+        class: SWP\Bundle\CoreBundle\EventListener\AutomaticListAddArticleListener
+        arguments:
+            - '@swp.repository.content_list'
+            - '@swp.factory.content_list_item'
+            - '@swp_rule.evaluator.rule'
+            - '@swp.factory.rule'
+        tags:
+            - { name: kernel.event_listener, event: swp.article.published, method: addArticleToList }

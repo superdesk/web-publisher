@@ -4,22 +4,31 @@ namespace spec\SWP\Bundle\ContentBundle\Service;
 
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
+use SWP\Bundle\ContentBundle\Event\ArticleEvent;
 use SWP\Bundle\ContentBundle\Model\ArticleInterface;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class ArticleServiceSpec extends ObjectBehavior
 {
+    function let(EventDispatcherInterface $dispatcher)
+    {
+        $this->beConstructedWith($dispatcher);
+    }
+
     public function it_is_initializable()
     {
         $this->shouldHaveType('SWP\Bundle\ContentBundle\Service\ArticleService');
     }
 
-    public function it_should_publish_new_article(ArticleInterface $article)
+    public function it_should_publish_new_article(ArticleInterface $article, EventDispatcherInterface $dispatcher)
     {
         $article->setStatus(ArticleInterface::STATUS_PUBLISHED)->shouldBeCalled();
         $article->setPublishedAt(Argument::type('\DateTime'))->shouldBeCalled();
         $article->setPublishable(true)->shouldBeCalled();
         $article->getPublishStartDate()->shouldBeCalled();
         $article->getPublishEndDate()->shouldBeCalled();
+
+        $dispatcher->dispatch('swp.article.published', Argument::type(ArticleEvent::class))->shouldBeCalled();
 
         $this->publish($article)->shouldReturn($article);
     }

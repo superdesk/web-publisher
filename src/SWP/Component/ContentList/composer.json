@@ -1,0 +1,38 @@
+{
+    "name": "swp/content-list",
+    "type": "library",
+    "description": "Component for handling lists of objects in PHP projects.",
+    "keywords": ["list", "dynamic", "automatic", "superdesk", "publisher", "library"],
+    "authors": [
+        {
+            "name": "Rafał Muszyński",
+            "email": "rafal.muszynski@sourcefabric.org"
+        }
+    ],
+    "license":"AGPL-3.0",
+    "require": {
+        "php": "^7.0",
+        "swp/storage": "~0.1.0"
+    },
+    "require-dev": {
+        "phpspec/phpspec": "^3.0"
+    },
+    "config": {
+        "bin-dir": "bin"
+    },
+    "autoload": {
+        "exclude-from-classmap": [
+            "spec/"
+        ],
+        "psr-4": { "SWP\\Component\\ContentList\\": "" }
+    },
+    "autoload-dev": {
+        "psr-4": { "SWP\\Component\\ContentList\\spec\\": "spec/" }
+    },
+    "minimum-stability": "dev",
+    "extra": {
+        "branch-alias": {
+            "dev-master": "0.1-dev"
+        }
+    }
+}

@@ -19,9 +19,7 @@ use SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\ArticleRepository;
 use SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\Route;
 use SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\Site;
 use SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\Media;
-use SWP\Bundle\ContentBundle\Doctrine\ORM\Article as ORMArticle;
 use SWP\Bundle\ContentBundle\Doctrine\ORM\ArticleRepository as ORMArticleRepository;
-use SWP\Bundle\ContentBundle\Doctrine\ORM\Route as ORMRoute;
 use SWP\Bundle\ContentBundle\Doctrine\ORM\RouteRepository;
 use SWP\Bundle\ContentBundle\Doctrine\ORM\ArticleMedia as ORMArticleMedia;
 use SWP\Bundle\ContentBundle\Doctrine\ORM\ArticleMediaRepository as ORMArticleMediaRepository;
@@ -111,7 +109,7 @@ class Configuration implements ConfigurationInterface
                                         ->arrayNode('article')
                                             ->addDefaultsIfNotSet()
                                             ->children()
-                                                ->scalarNode('model')->cannotBeEmpty()->defaultValue(ORMArticle::class)->end()
+                                                ->scalarNode('model')->cannotBeEmpty()->defaultValue(\SWP\Bundle\ContentBundle\Model\Article::class)->end()
                                                 ->scalarNode('repository')->defaultValue(ORMArticleRepository::class)->end()
                                                 ->scalarNode('factory')->defaultValue(\SWP\Bundle\ContentBundle\Factory\ORM\ArticleFactory::class)->end()
                                                 ->scalarNode('object_manager_name')->defaultValue(null)->end()
@@ -129,7 +127,7 @@ class Configuration implements ConfigurationInterface
                                         ->arrayNode('route')
                                             ->addDefaultsIfNotSet()
                                             ->children()
-                                                ->scalarNode('model')->cannotBeEmpty()->defaultValue(ORMRoute::class)->end()
+                                                ->scalarNode('model')->cannotBeEmpty()->defaultValue(\SWP\Bundle\ContentBundle\Model\Route::class)->end()
                                                 ->scalarNode('repository')->defaultValue(RouteRepository::class)->end()
                                                 ->scalarNode('factory')->defaultValue(RouteFactory::class)->end()
                                                 ->scalarNode('object_manager_name')->defaultValue(null)->end()
