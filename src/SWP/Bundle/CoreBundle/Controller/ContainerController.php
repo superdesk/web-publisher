@@ -14,6 +14,7 @@
 
 namespace SWP\Bundle\CoreBundle\Controller;
 
+use SWP\Component\TemplatesSystem\Gimme\Model\WidgetModelInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
@@ -23,10 +24,9 @@ use SWP\Bundle\CoreBundle\Response\ResourcesListResponse;
 use SWP\Bundle\CoreBundle\Response\ResponseContext;
 use SWP\Bundle\CoreBundle\Response\SingleResourceResponse;
 use SWP\Component\Common\Pagination\PaginationInterface;
-use SWP\Bundle\TemplateEngineBundle\Form\Type\ContainerType;
-use SWP\Bundle\TemplateEngineBundle\Model\ContainerData;
-use SWP\Bundle\TemplateEngineBundle\Model\ContainerWidget;
-use SWP\Bundle\TemplateEngineBundle\Model\WidgetModel;
+use SWP\Bundle\TemplatesSystemBundle\Form\Type\ContainerType;
+use SWP\Bundle\TemplatesSystemBundle\Model\ContainerData;
+use SWP\Bundle\TemplatesSystemBundle\Model\ContainerWidget;
 use SWP\Component\Common\Event\HttpCacheEvent;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -53,7 +53,7 @@ class ContainerController extends Controller
         $entityManager = $this->get('doctrine')->getManager();
         $paginator = $this->get('knp_paginator');
         $containers = $paginator->paginate(
-            $entityManager->getRepository('SWP\Bundle\TemplateEngineBundle\Model\Container')->getAll(),
+            $entityManager->getRepository('SWP\Bundle\CoreBundle\Model\Container')->getAll(),
             $request->get(PaginationInterface::PAGE_PARAMETER_NAME, 1),
             $request->get(PaginationInterface::LIMIT_PARAMETER_NAME, 10)
         );
@@ -84,7 +84,7 @@ class ContainerController extends Controller
     public function getAction(Request $request, $id)
     {
         $container = $this->get('doctrine')->getManager()
-            ->getRepository('SWP\Bundle\TemplateEngineBundle\Model\Container')
+            ->getRepository('SWP\Bundle\CoreBundle\Model\Container')
             ->getById($id)
             ->getOneOrNullResult();
 
@@ -106,7 +106,7 @@ class ContainerController extends Controller
      *         404="Container not found",
      *         422="Container id is not number"
      *     },
-     *     input="SWP\Bundle\TemplateEngineBundle\Form\Type\ContainerType"
+     *     input="SWP\Bundle\TemplatesSystemBundle\Form\Type\ContainerType"
      * )
      * @Route("/api/{version}/templates/containers/{id}", requirements={"id"="\d+"}, options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_templates_update_container")
      * @Method("PATCH")
@@ -114,7 +114,7 @@ class ContainerController extends Controller
     public function updateAction(Request $request, $id)
     {
         $entityManager = $this->get('doctrine')->getManager();
-        $container = $entityManager->getRepository('SWP\Bundle\TemplateEngineBundle\Model\Container')
+        $container = $entityManager->getRepository('SWP\Bundle\CoreBundle\Model\Container')
             ->getById($id)
             ->getOneOrNullResult();
 
@@ -197,7 +197,7 @@ class ContainerController extends Controller
         }
 
         $entityManager = $this->get('doctrine')->getManager();
-        $container = $entityManager->getRepository('SWP\Bundle\TemplateEngineBundle\Model\Container')
+        $container = $entityManager->getRepository('SWP\Bundle\CoreBundle\Model\Container')
             ->getById($id)
             ->getOneOrNullResult();
 
@@ -216,8 +216,8 @@ class ContainerController extends Controller
                 throw $object;
             }
 
-            if ($object instanceof WidgetModel) {
-                $containerWidget = $entityManager->getRepository('SWP\Bundle\TemplateEngineBundle\Model\ContainerWidget')
+            if ($object instanceof WidgetModelInterface) {
+                $containerWidget = $entityManager->getRepository('SWP\Bundle\TemplatesSystemBundle\Model\ContainerWidget')
                     ->findOneBy([
                         'widget' => $object,
                         'container' => $container,
@@ -244,7 +244,8 @@ class ContainerController extends Controller
                     if ($position !== false) {
                         $containerWidget->setPosition($position);
                         $entityManager->persist($containerWidget);
-                        $entityManager->flush($containerWidget);
+                        $container->addWidget($containerWidget);
+                        $entityManager->flush();
                     }
                 } elseif ($request->getMethod() === 'UNLINK') {
                     if (!$container->getWidgets()->contains($containerWidget)) {

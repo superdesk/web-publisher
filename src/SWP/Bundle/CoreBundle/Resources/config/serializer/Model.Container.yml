@@ -1,0 +1,9 @@
+SWP\Bundle\CoreBundle\Model\Container:
+    exclusion_policy: ALL
+    relations:
+        -
+            rel: self
+            href:
+                route: swp_api_templates_get_container
+                parameters:
+                    id: expr(object.getId())

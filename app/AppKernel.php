@@ -37,7 +37,7 @@ class AppKernel extends Kernel
 
             new SWP\Bundle\StorageBundle\SWPStorageBundle(),
             new SWP\Bundle\MultiTenancyBundle\SWPMultiTenancyBundle(),
-            new SWP\Bundle\TemplateEngineBundle\SWPTemplateEngineBundle(),
+            new SWP\Bundle\TemplatesSystemBundle\SWPTemplatesSystemBundle(),
             new SWP\Bundle\CoreBundle\SWPCoreBundle(),
             new SWP\Bundle\BridgeBundle\SWPBridgeBundle(),
             new SWP\Bundle\ContentBundle\SWPContentBundle(),

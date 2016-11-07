@@ -5,7 +5,7 @@ A container may have n widgets, each of which represents a fragment of the part 
 
 How to create a new type of widget?
 ```````````````````````````````````
-Add a new constant to the /src/SWP/Bundle/TemplateEngineBundle/Model/WidgetModel class, and a reference to a class which extends ``AbstractWidgetHandler.php`` in ``/src/SWP/Component/TemplatesSystem/Gimme/Widget``
+Add a new constant to the /src/SWP/Bundle/TemplatesSystemBundle/Model/WidgetModel class, and a reference to a class which extends ``AbstractWidgetHandler.php`` in ``/src/SWP/Component/TemplatesSystem/Gimme/Widget``
 
 For example:
 

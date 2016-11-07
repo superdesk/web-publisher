@@ -27,6 +27,7 @@
             <directory>../src/SWP/Bundle/*/Tests/</directory>
             <exclude>../src/SWP/Bundle/FixturesBundle/Tests/*</exclude>
             <exclude>../src/SWP/Bundle/BridgeBundle/Tests/*</exclude>
+            <exclude>../src/SWP/Bundle/TemplatesSystemBundle/Tests/*</exclude>
         </testsuite>
     </testsuites>
 

@@ -13,7 +13,7 @@
  */
 use Doctrine\Common\Collections\ArrayCollection;
 use Knp\Component\Pager\Paginator;
-use SWP\Bundle\ContentBundle\Factory\KnpPaginatorRepresentationFactory;
+use SWP\Component\Common\Factory\KnpPaginatorRepresentationFactory;
 use SWP\Component\Common\Pagination\PaginationInterface;
 use Symfony\Component\HttpFoundation\Request;
 
