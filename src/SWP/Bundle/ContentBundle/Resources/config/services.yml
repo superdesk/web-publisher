@@ -35,7 +35,7 @@ services:
             - { name: swp.meta_loader }
 
     swp_content_bundle.factory.knp_paginator_representation:
-        class: SWP\Bundle\ContentBundle\Factory\KnpPaginatorRepresentationFactory
+        class: SWP\Component\Common\Factory\KnpPaginatorRepresentationFactory
         arguments:
             - 'page'
             - 'limit'

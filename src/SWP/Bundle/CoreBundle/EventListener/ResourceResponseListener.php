@@ -16,7 +16,7 @@ namespace SWP\Bundle\CoreBundle\EventListener;
 
 use FOS\RestBundle\View\View;
 use FOS\RestBundle\View\ViewHandlerInterface;
-use SWP\Bundle\ContentBundle\Factory\KnpPaginatorRepresentationFactory;
+use SWP\Component\Common\Factory\KnpPaginatorRepresentationFactory;
 use SWP\Bundle\CoreBundle\Response\ResourcesListResponseInterface;
 use SWP\Bundle\CoreBundle\Response\ResponseContextInterface;
 use SWP\Bundle\CoreBundle\Response\SingleResourceResponseInterface;

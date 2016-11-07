@@ -18,7 +18,7 @@ So to create a menu called main, with a node called home, and sub node called ki
   /api/{version}/templates/menunodes/main/home/kitchen
 
 
-The data requirements are defined in the TemplateEngineBundle in Form/Type/MenuType.php and Form/Type/MenuNodeType.php
+The data requirements are defined in the TemplatesSystemBundle in Form/Type/MenuType.php and Form/Type/MenuNodeType.php
 The menus and their nodes can be managed using the part of the api defined in the same bundle, in Controller/MenuController.php and Controller/MenuNodeController.php
 
 .. _SymfonyCMFMenuBundle: https://github.com/symfony-cmf/menu-bundle

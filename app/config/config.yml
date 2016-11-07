@@ -79,6 +79,8 @@ doctrine:
             SWP\Component\ContentList\Model\ListContentInterface: SWP\Bundle\ContentBundle\Doctrine\ORM\Article
             SWP\Component\ContentList\Model\ContentListItemInterface: SWP\Component\ContentList\Model\ContentListItem
             SWP\Component\ContentList\Model\ContentListInterface: SWP\Bundle\ContentBundle\Doctrine\ORM\ContentList
+            SWP\Component\TemplatesSystem\Gimme\Model\WidgetModelInterface: SWP\Bundle\CoreBundle\Model\WidgetModel
+            SWP\Component\TemplatesSystem\Gimme\Model\ContainerInterface: SWP\Bundle\CoreBundle\Model\Container
         entity_managers:
             default:
                 naming_strategy: doctrine.orm.naming_strategy.underscore
@@ -94,9 +96,9 @@ doctrine:
                         type: yml
                         prefix: SWP\Bundle\AnalyticsBundle\Model
                         dir: Resources/config/doctrine
-                    SWPTemplateEngineBundle:
+                    SWPTemplatesSystemBundle:
                         type: yml
-                        prefix: SWP\Bundle\TemplateEngineBundle\Model
+                        prefix: SWP\Bundle\TemplatesSystemBundle\Model
                         dir: Resources/config/doctrine
                     SWPContentBundle:
                         type: yml
@@ -237,6 +239,16 @@ swp_content:
 swp_bridge:
     persistence:
         orm: true
+
+swp_templates_system:
+    persistence:
+        orm:
+            enabled: true
+            classes:
+                container:
+                    model: SWP\Bundle\CoreBundle\Model\Container
+                widget_model:
+                    model: SWP\Bundle\CoreBundle\Model\WidgetModel
 
 swp_rule:
     persistence:

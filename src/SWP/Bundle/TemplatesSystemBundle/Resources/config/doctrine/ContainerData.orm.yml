@@ -1,0 +1,25 @@
+SWP\Bundle\TemplatesSystemBundle\Model\ContainerData:
+    type: entity
+    table: swp_container_data
+    repositoryClass: SWP\Bundle\TemplatesSystemBundle\Repository\ContainerDataRepository
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: IDENTITY
+    fields:
+        key:
+            type: string
+            length: 255
+        value:
+            type: string
+            length: 255
+    manyToOne:
+        container:
+            targetEntity: SWP\Component\TemplatesSystem\Gimme\Model\ContainerInterface
+            inversedBy: data
+            joinColumn:
+                name: container_id
+                referencedColumnName: id
+                onDelete: CASCADE

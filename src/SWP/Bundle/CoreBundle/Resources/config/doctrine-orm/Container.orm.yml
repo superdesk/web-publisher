@@ -1,0 +1,16 @@
+SWP\Bundle\CoreBundle\Model\Container:
+    type: entity
+    table: swp_container
+    fields:
+        tenantCode:
+            type: string
+    uniqueConstraints:
+        swp_name_idx:
+          columns: [ name, tenant_code ]
+    oneToMany:
+        data:
+            targetEntity: SWP\Bundle\TemplatesSystemBundle\Model\ContainerData
+            mappedBy: container
+        widgets:
+            targetEntity: SWP\Bundle\TemplatesSystemBundle\Model\ContainerWidget
+            mappedBy: container

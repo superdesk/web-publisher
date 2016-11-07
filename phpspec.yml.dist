@@ -67,16 +67,16 @@ suites:
         psr4_prefix: SWP\Bundle\RuleBundle
         spec_path: src/SWP/Bundle/RuleBundle
         src_path: src/SWP/Bundle/RuleBundle
-    TemplateEngineBundle_suite:
-        namespace: SWP\Bundle\TemplateEngineBundle
-        psr4_prefix: SWP\Bundle\TemplateEngineBundle
-        spec_path: src/SWP/Bundle/TemplateEngineBundle
-        src_path: src/SWP/Bundle/TemplateEngineBundle
     ContentListBundle_suite:
         namespace: SWP\Bundle\ContentListBundle
         psr4_prefix: SWP\Bundle\ContentListBundle
         spec_path: src/SWP/Bundle/ContentListBundle
         src_path: src/SWP/Bundle/ContentListBundle
+    TemplatesSystemBundle_suite:
+        namespace: SWP\Bundle\TemplatesSystemBundle
+        psr4_prefix: SWP\Bundle\TemplatesSystemBundle
+        spec_path: src/SWP/Bundle/TemplatesSystemBundle
+        src_path: src/SWP/Bundle/TemplatesSystemBundle
 
 #extensions:
 #    - PhpSpec\Extension\CodeCoverageExtension

@@ -1,0 +1,88 @@
+parameters:
+    domain: localhost
+    test_env: doctrine
+    templating.cache_warmer.template_paths.class: "Symfony\\Bundle\\FrameworkBundle\\CacheWarmer\\TemplatePathsCacheWarmer"
+
+framework:
+    secret: "Three can keep a secret, if two of them are dead."
+    router:
+        resource: "%kernel.root_dir%/TemplatesSystem/routing.yml"
+        strict_requirements: ~
+    test: ~
+    validation:      { enable_annotations: false }
+    templating:
+        engines: ['twig']
+    form: ~
+
+
+twig:
+    debug:            "%kernel.debug%"
+    strict_variables: false
+
+monolog:
+    handlers:
+        main:
+            type:   stream
+            path:   "%kernel.logs_dir%/%kernel.environment%.log"
+            level:  debug
+
+doctrine_cache:
+    providers:
+        main_cache:
+            type: array
+            namespace: templates_engine
+
+liip_functional_test: ~
+
+sensio_framework_extra:
+    view:    { annotations: false }
+
+stof_doctrine_extensions:
+    orm:
+        default:
+            sortable: true
+            tree: true
+
+doctrine:
+    dbal:
+        driver:   pdo_sqlite
+        memory:   true
+        charset:  UTF8
+        path:     "%kernel.cache_dir%/templates_system.db3"
+    orm:
+        auto_generate_proxy_classes: true
+        resolve_target_entities:
+            SWP\Bundle\MenuBundle\Model\MenuItemInterface: SWP\Bundle\TemplatesSystemBundle\Tests\Functional\app\TemplatesSystem\Model\MenuItem
+            SWP\Component\TemplatesSystem\Gimme\Model\WidgetModelInterface: SWP\Bundle\TemplatesSystemBundle\Tests\Functional\app\TemplatesSystem\Model\WidgetModel
+            SWP\Component\TemplatesSystem\Gimme\Model\ContainerInterface: SWP\Bundle\TemplatesSystemBundle\Tests\Functional\app\TemplatesSystem\Model\Container
+        entity_managers:
+            default:
+                naming_strategy: doctrine.orm.naming_strategy.underscore
+                auto_mapping: false
+                mappings:
+                    SWPTemplatesSystemBundle:
+                        type: yml
+                        prefix: SWP\Bundle\TemplatesSystemBundle\Model
+                        dir: Resources/config/doctrine
+                    TestsSWPTemplatesSystemBundle:
+                        type: yml
+                        prefix: SWP\Bundle\TemplatesSystemBundle\Tests\Functional\app\TemplatesSystem\Model
+                        dir: Tests/Functional/app/TemplatesSystem/doctrine
+
+swp_menu:
+    persistence:
+        orm:
+            enabled: true
+            classes:
+                menu:
+                    model: SWP\Bundle\TemplatesSystemBundle\Tests\Functional\app\TemplatesSystem\Model\MenuItem
+
+swp_templates_system:
+    persistence:
+        orm:
+            enabled: true
+            classes:
+                container:
+                    model: SWP\Bundle\TemplatesSystemBundle\Tests\Functional\app\TemplatesSystem\Model\Container
+                widget_model:
+                    model: SWP\Bundle\TemplatesSystemBundle\Tests\Functional\app\TemplatesSystem\Model\WidgetModel

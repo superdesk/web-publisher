@@ -12,7 +12,7 @@
  * @license http://www.superdesk.org/license
  */
 
-namespace SWP\Bundle\TemplateEngineBundle\Tests\Controller;
+namespace SWP\Bundle\TemplatesSystemBundle\Tests\Controller;
 
 use SWP\Bundle\FixturesBundle\WebTestCase;
 use Symfony\Component\Routing\RouterInterface;
