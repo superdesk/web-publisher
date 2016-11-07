@@ -2,3 +2,4 @@
 * :doc:`/components/Storage/index`
 * :doc:`/components/Bridge/index`
 * :doc:`/components/Rule/index`
+* :doc:`/components/ContentList/index`

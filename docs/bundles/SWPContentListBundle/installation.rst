@@ -79,8 +79,6 @@ Configure Doctrine extensions which are used by this bundle:
                     timestampable: true
                     softdeleteable: true
                     loggable: true
-                    sortable: true
-
 
 Update Database Schema
 ~~~~~~~~~~~~~~~~~~~~~~

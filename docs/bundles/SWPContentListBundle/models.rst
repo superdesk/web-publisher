@@ -23,7 +23,14 @@ add, remove, drag and drop, sort items in this list manually by simply linking i
 ContentListItem
 ---------------
 
+ContentListItem model represents an item which can be placed inside content list.
+It has a reference to content list, position at which it should be placed inside the list and a content.
+Content can be of any type, but it should implement ``SWP\Component\ContentList\Model\ListContentInterface``.
 
+.. _bundle_content_list_list_content-interface:
 
 ListContentInterface
 --------------------
+
+This interface should be implemented by your class if you want objects of that type to be a content of the list.
+For example, if you have ``Article`` class in your project and you want to make objects of this type to be a content of list item, it needs to implement ``SWP\Component\ContentList\Model\ListContentInterface``.
