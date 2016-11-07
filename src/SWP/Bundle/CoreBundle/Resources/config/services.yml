@@ -101,3 +101,10 @@ services:
             - "@logger"
         tags:
             - { name: kernel.event_subscriber }
+
+    swp_content_bundle.article_rules_subscriber:
+        class: SWP\Bundle\CoreBundle\EventListener\ProcessArticleRulesSubscriber
+        arguments:
+            - '@swp_rule.processor.rule'
+        tags:
+            - { name: kernel.event_subscriber }

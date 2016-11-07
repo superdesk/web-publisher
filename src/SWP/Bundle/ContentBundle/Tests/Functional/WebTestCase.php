@@ -12,7 +12,7 @@
  * @license http://www.superdesk.org/license
  */
 
-namespace SWP\Bundle\TemplatesSystemBundle\Tests\Functional;
+namespace SWP\Bundle\ContentBundle\Tests\Functional;
 
 use Doctrine\ORM\Tools\SchemaTool;
 use Liip\FunctionalTestBundle\Test\WebTestCase as BaseWebTestCase;
@@ -23,17 +23,11 @@ class WebTestCase extends BaseWebTestCase
 
     protected $manager;
 
-    public static function assertRedirect($response, $location)
-    {
-        self::assertTrue($response->isRedirect(), 'Response is not a redirect, got status code: '.$response->getStatusCode());
-        self::assertEquals('http://localhost'.$location, $response->headers->get('Location'));
-    }
-
     protected static function getKernelClass()
     {
         require_once __DIR__.'/app/AppKernel.php';
 
-        return 'SWP\Bundle\TemplatesSystemBundle\Tests\Functional\app\AppKernel';
+        return 'SWP\Bundle\ContentBundle\Tests\Functional\app\AppKernel';
     }
 
     protected function initDatabase()

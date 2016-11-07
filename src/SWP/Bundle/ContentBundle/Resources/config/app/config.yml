@@ -10,3 +10,45 @@ jms_serializer:
             ContentBundle:
                 namespace_prefix: SWP\Bundle\ContentBundle
                 path: "@SWPContentBundle/Resources/config/serializer"
+
+doctrine:
+    orm:
+        entity_managers:
+            default:
+                mappings:
+                    SWPContentBundle:
+                        type: yml
+                        prefix: SWP\Bundle\ContentBundle\Doctrine\ORM
+                        dir: Resources/config/doctrine-orm
+
+cmf_routing:
+    chain:
+        replace_symfony_router: true
+        routers_by_id:
+            cmf_routing.dynamic_router: 120
+            router.default: 100
+    dynamic:
+        route_collection_limit: 100
+        route_provider_service_id: swp.provider.route
+        persistence:
+            orm:
+                enabled: true
+                route_class: "SWP\\Bundle\\ContentBundle\\Doctrine\\ORM\\Route"
+
+cmf_core:
+    publish_workflow:
+        enabled:                 true
+        checker_service:         cmf_core.publish_workflow.checker.default
+        view_non_published_role: ROLE_CAN_VIEW_NON_PUBLISHED
+        request_listener:        true
+
+oneup_flysystem:
+    adapters:
+        filesystem_adapter:
+            local:
+                directory: '%kernel.root_dir%/../web/uploads/'
+
+    filesystems:
+        swp_filesystem:
+            adapter: filesystem_adapter
+            alias: swp_filesystem

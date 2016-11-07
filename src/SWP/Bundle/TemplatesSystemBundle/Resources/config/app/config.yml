@@ -1,0 +1,9 @@
+doctrine:
+    orm:
+        entity_managers:
+            default:
+                mappings:
+                    SWPTemplatesSystemBundle:
+                        type: yml
+                        prefix: SWP\Bundle\TemplatesSystemBundle\Model
+                        dir: Resources/config/doctrine

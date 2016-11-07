@@ -38,12 +38,12 @@ class AppKernel extends Kernel
             new SWP\Bundle\StorageBundle\SWPStorageBundle(),
             new SWP\Bundle\MultiTenancyBundle\SWPMultiTenancyBundle(),
             new SWP\Bundle\TemplatesSystemBundle\SWPTemplatesSystemBundle(),
-            new SWP\Bundle\CoreBundle\SWPCoreBundle(),
             new SWP\Bundle\BridgeBundle\SWPBridgeBundle(),
             new SWP\Bundle\ContentBundle\SWPContentBundle(),
             new SWP\Bundle\AnalyticsBundle\SWPAnalyticsBundle(),
             new SWP\Bundle\RuleBundle\SWPRuleBundle(),
             new SWP\Bundle\MenuBundle\SWPMenuBundle(),
+            new SWP\Bundle\CoreBundle\SWPCoreBundle(),
 
             new Sentry\SentryBundle\SentryBundle(),
         ];

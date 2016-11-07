@@ -1,3 +1,0 @@
-swp_core:
-    resource: "@SWPCoreBundle/Controller/"
-    type:     annotation

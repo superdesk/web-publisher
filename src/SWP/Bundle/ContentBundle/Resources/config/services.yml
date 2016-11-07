@@ -94,7 +94,6 @@ services:
             - '@swp.factory.media'
             - '@swp_filesystem'
             - '@router'
-            - '@swp_multi_tenancy.tenant_context'
 
     router.symfony:
         parent: "router.default"
@@ -118,13 +117,6 @@ services:
             - '@swp.provider.article'
         tags:
             - { name: form.type }
-
-    swp_content_bundle.article_rules_subscriber:
-        class: SWP\Bundle\ContentBundle\EventListener\ProcessArticleRulesSubscriber
-        arguments:
-            - '@swp_rule.processor.rule'
-        tags:
-            - { name: kernel.event_subscriber }
 
     swp_content_bundle.applicator.rule.article:
         class: SWP\Bundle\ContentBundle\Rule\Applicator\ArticleRuleApplicator

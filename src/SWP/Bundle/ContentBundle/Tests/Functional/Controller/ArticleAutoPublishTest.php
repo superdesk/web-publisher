@@ -12,9 +12,9 @@
  * @license http://www.superdesk.org/license
  */
 
-namespace SWP\Bundle\ContentBundle\Tests\Controller;
+namespace SWP\Bundle\ContentBundle\Tests\Functional\Controller;
 
-use SWP\Bundle\FixturesBundle\WebTestCase;
+use SWP\Bundle\ContentBundle\Tests\Functional\WebTestCase;
 use Symfony\Component\Routing\RouterInterface;
 
 class ArticleAutoPublishTest extends WebTestCase

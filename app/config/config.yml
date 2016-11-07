@@ -1,14 +1,13 @@
 imports:
     - { resource: "@SWPBridgeBundle/Resources/config/app/config.yml" }
     - { resource: "@SWPContentBundle/Resources/config/app/config.yml" }
+    - { resource: "@SWPTemplatesSystemBundle/Resources/config/app/config.yml" }
     - { resource: "@SWPMultiTenancyBundle/Resources/config/app/config.yml" }
     - { resource: "@SWPRuleBundle/Resources/config/app/config.yml" }
     - { resource: "@SWPMenuBundle/Resources/config/app/config.yml" }
     - { resource: "@SWPCoreBundle/Resources/config/app/config.yml" }
     - { resource: parameters.yml }
     - { resource: security.yml }
-    - { resource: services.yml }
-    - { resource: session.yml }
 
 # Put parameters here that don't need to change on each machine where the app is deployed
 # http://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
@@ -39,19 +38,14 @@ framework:
     trusted_proxies: ~
     fragments:       ~
     http_method_override: true
-    session:
-        storage_id: "swp_core.security.session.domain_dynamic_storage"
-        handler_id: "session.handler.memcached"
+
+sensio_framework_extra:
+    view:    { annotations: false }
 
 # Twig Configuration
 twig:
     debug:            "%kernel.debug%"
     strict_variables: false
-
-sylius_theme:
-    context: "swp_core.theme.context.tenant_aware"
-    sources:
-        tenantable: ~
 
 twig_cache:
     service: "doctrine_cache.providers.main_cache"
@@ -73,10 +67,6 @@ doctrine:
 
     orm:
         auto_generate_proxy_classes: "%kernel.debug%"
-        resolve_target_entities:
-            SWP\Bundle\MenuBundle\Model\MenuItemInterface: SWP\Bundle\CoreBundle\Model\MenuItem
-            SWP\Component\TemplatesSystem\Gimme\Model\WidgetModelInterface: SWP\Bundle\CoreBundle\Model\WidgetModel
-            SWP\Component\TemplatesSystem\Gimme\Model\ContainerInterface: SWP\Bundle\CoreBundle\Model\Container
         entity_managers:
             default:
                 naming_strategy: doctrine.orm.naming_strategy.underscore
@@ -92,23 +82,7 @@ doctrine:
                         type: yml
                         prefix: SWP\Bundle\AnalyticsBundle\Model
                         dir: Resources/config/doctrine
-                    SWPTemplatesSystemBundle:
-                        type: yml
-                        prefix: SWP\Bundle\TemplatesSystemBundle\Model
-                        dir: Resources/config/doctrine
-                    SWPContentBundle:
-                        type: yml
-                        prefix: SWP\Bundle\ContentBundle\Doctrine\ORM
-                        dir: Resources/config/doctrine-orm
-                    gedmo_loggable:
-                        type: annotation
-                        prefix: Gedmo\Loggable\Entity
-                        dir: "%kernel.root_dir%/../vendor/gedmo/doctrine-extensions/lib/Gedmo/Loggable/Entity"
-                        is_bundle: false
                 filters:
-                    soft-deleteable:
-                        class: Gedmo\SoftDeleteable\Filter\SoftDeleteableFilter
-                        enabled: true
                     tenantable:
                         class: SWP\Bundle\MultiTenancyBundle\Query\Filter\TenantableFilter
                         enabled: true
@@ -139,27 +113,6 @@ fos_http_cache:
     invalidation:
         enabled: true
 
-cmf_routing:
-    chain:
-        replace_symfony_router: true
-        routers_by_id:
-            cmf_routing.dynamic_router: 120
-            router.default: 100
-    dynamic:
-        route_collection_limit: 100
-        route_provider_service_id: swp.provider.route
-        persistence:
-            orm:
-                enabled: true
-                route_class: "SWP\\Bundle\\ContentBundle\\Doctrine\\ORM\\Route"
-
-cmf_core:
-    publish_workflow:
-        enabled:                 true
-        checker_service:         cmf_core.publish_workflow.checker.default
-        view_non_published_role: ROLE_CAN_VIEW_NON_PUBLISHED
-        request_listener:        true
-
 fos_rest:
     zone:
         - { path: ^/api/* }
@@ -187,80 +140,13 @@ fos_rest:
         messages:
             "Symfony\\Component\\Routing\\Exception\\ResourceNotFoundException": true
 
-fos_user:
-    db_driver: orm
-    firewall_name: main
-    user_class: "SWP\\Bundle\\CoreBundle\\Model\\User"
-
-sensio_framework_extra:
-    view:    { annotations: false }
-
-knp_paginator:
-    page_range: 10
-    default_options:
-        page_name: page
-        sort_field_name: sort
-        sort_direction_name: direction
-        distinct: true
-
-stof_doctrine_extensions:
-    default_locale: "%locale%"
-    orm:
-        default:
-            timestampable: true
-            softdeleteable: true
-            loggable: true
-            sortable: true
-            tree: true
-
-swp_multi_tenancy:
-    use_orm_listeners: true
-    persistence:
-        orm:
-            enabled: true
-            classes:
-                tenant:
-                    model: SWP\Bundle\CoreBundle\Model\Tenant
-                organization:
-                    model: SWP\Bundle\CoreBundle\Model\Organization
-
 swp_core:
     device_listener:
         enabled: true
 
-swp_content:
-    persistence:
-        orm: true
-
 swp_bridge:
     persistence:
         orm: true
-
-swp_templates_system:
-    persistence:
-        orm:
-            enabled: true
-            classes:
-                container:
-                    model: SWP\Bundle\CoreBundle\Model\Container
-                widget_model:
-                    model: SWP\Bundle\CoreBundle\Model\WidgetModel
-
-swp_rule:
-    persistence:
-        orm:
-            enabled: true
-            classes:
-                rule:
-                    model: SWP\Bundle\CoreBundle\Model\Rule
-
-swp_menu:
-    persistence:
-        orm:
-            enabled: true
-            classes:
-                menu:
-                    model: SWP\Bundle\CoreBundle\Model\MenuItem
 
 nelmio_api_doc:
     request_listener: false
@@ -275,17 +161,6 @@ nelmio_cors:
         max_age: 3600
     paths:
         '^/api/': ~
-
-oneup_flysystem:
-    adapters:
-        filesystem_adapter:
-            local:
-                directory: '%kernel.root_dir%/../web/uploads/'
-
-    filesystems:
-        swp_filesystem:
-            adapter: filesystem_adapter
-            alias: swp_filesystem
 
 sentry:
     environment: "%kernel.environment%"

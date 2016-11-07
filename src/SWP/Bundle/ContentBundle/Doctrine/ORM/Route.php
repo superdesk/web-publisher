@@ -27,10 +27,10 @@ use SWP\Component\Storage\Model\PersistableInterface;
 
 class Route extends BaseRoute implements
     PersistableInterface,
-    RouteInterface,
-    TenantAwareInterface
+    RouteInterface//,
+ //TenantAwareInterface
 {
-    use RouteTrait, TenantAwareTrait;
+    use RouteTrait; //, TenantAwareTrait;
 
     /**
      * @var int

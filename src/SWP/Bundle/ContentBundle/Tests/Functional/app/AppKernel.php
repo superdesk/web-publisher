@@ -12,7 +12,7 @@
  * @license http://www.superdesk.org/license
  */
 
-namespace SWP\Bundle\TemplatesSystemBundle\Tests\Functional\app;
+namespace SWP\Bundle\ContentBundle\Tests\Functional\app;
 
 use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\HttpKernel\Kernel;
@@ -21,7 +21,7 @@ class AppKernel extends Kernel
 {
     public function registerBundles()
     {
-        if (!file_exists($filename = $this->getRootDir().'/TemplatesSystem/bundles.php')) {
+        if (!file_exists($filename = $this->getRootDir().'/ContentBundle/bundles.php')) {
             throw new \RuntimeException(sprintf('The bundles file "%s" does not exist.', $filename));
         }
 
@@ -30,7 +30,7 @@ class AppKernel extends Kernel
 
     public function registerContainerConfiguration(LoaderInterface $loader)
     {
-        $loader->load(__DIR__.'/TemplatesSystem/config.yml');
+        $loader->load(__DIR__.'/ContentBundle/config.yml');
     }
 
     protected function getKernelParameters()

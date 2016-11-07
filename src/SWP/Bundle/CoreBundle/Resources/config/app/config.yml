@@ -1,6 +1,122 @@
+services:
+    session.memcached:
+        class: "Memcached"
+        arguments:
+            persistent_id: "%session_memcached_prefix%"
+        calls:
+            - [ addServer, [ "%session_memcached_host%", "%session_memcached_port%" ]]
+
+    session.handler.memcached:
+        class:     "Symfony\\Component\\HttpFoundation\\Session\\Storage\\Handler\\MemcachedSessionHandler"
+        arguments: ["@session.memcached", { prefix: "%session_memcached_prefix%", expiretime: "%session_memcached_expire%" }]
+
+    twig.extension.text:
+        class: Twig_Extensions_Extension_Text
+        tags:
+            - { name: twig.extension }
+
+framework:
+    session:
+        storage_id: "swp_core.security.session.domain_dynamic_storage"
+        handler_id: "session.handler.memcached"
+
+doctrine:
+    orm:
+        resolve_target_entities:
+            SWP\Bundle\MenuBundle\Model\MenuItemInterface: SWP\Bundle\CoreBundle\Model\MenuItem
+            SWP\Component\TemplatesSystem\Gimme\Model\WidgetModelInterface: SWP\Bundle\CoreBundle\Model\WidgetModel
+            SWP\Component\TemplatesSystem\Gimme\Model\ContainerInterface: SWP\Bundle\CoreBundle\Model\Container
+            SWP\Bundle\ContentBundle\Model\ArticleInterface: SWP\Bundle\CoreBundle\Model\Article
+        entity_managers:
+            default:
+                mappings:
+                    gedmo_loggable:
+                        type: annotation
+                        prefix: Gedmo\Loggable\Entity
+                        dir: "%kernel.root_dir%/../vendor/gedmo/doctrine-extensions/lib/Gedmo/Loggable/Entity"
+                        is_bundle: false
+                filters:
+                    soft-deleteable:
+                        class: Gedmo\SoftDeleteable\Filter\SoftDeleteableFilter
+                        enabled: true
+
 jms_serializer:
     metadata:
         directories:
             SWPCoreBundle:
                 namespace_prefix: "SWP\\Bundle\\CoreBundle"
                 path: "@SWPCoreBundle/Resources/config/serializer"
+
+
+swp_templates_system:
+    persistence:
+        orm:
+            enabled: true
+            classes:
+                container:
+                    model: SWP\Bundle\CoreBundle\Model\Container
+                widget_model:
+                    model: SWP\Bundle\CoreBundle\Model\WidgetModel
+
+swp_rule:
+    persistence:
+        orm:
+            enabled: true
+            classes:
+                rule:
+                    model: SWP\Bundle\CoreBundle\Model\Rule
+
+swp_menu:
+    persistence:
+        orm:
+            enabled: true
+            classes:
+                menu:
+                    model: SWP\Bundle\CoreBundle\Model\MenuItem
+
+swp_content:
+    persistence:
+        orm:
+            enabled: true
+            classes:
+                article:
+                    model: SWP\Bundle\CoreBundle\Model\Article
+
+sylius_theme:
+    context: "swp_core.theme.context.tenant_aware"
+    sources:
+        tenantable: ~
+
+fos_user:
+    db_driver: orm
+    firewall_name: main
+    user_class: "SWP\\Bundle\\CoreBundle\\Model\\User"
+
+swp_multi_tenancy:
+    use_orm_listeners: true
+    persistence:
+        orm:
+            enabled: true
+            classes:
+                tenant:
+                    model: SWP\Bundle\CoreBundle\Model\Tenant
+                organization:
+                    model: SWP\Bundle\CoreBundle\Model\Organization
+
+knp_paginator:
+    page_range: 10
+    default_options:
+        page_name: page
+        sort_field_name: sort
+        sort_direction_name: direction
+        distinct: true
+
+stof_doctrine_extensions:
+    default_locale: "%locale%"
+    orm:
+        default:
+            timestampable: true
+            softdeleteable: true
+            loggable: true
+            sortable: true
+            tree: true
