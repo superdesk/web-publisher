@@ -24,7 +24,6 @@ use SWP\Bundle\ContentBundle\Model\RouteInterface;
 use SWP\Component\Common\Criteria\Criteria;
 use SWP\Bundle\ContentBundle\Form\Type\RouteType;
 use SWP\Component\Common\Pagination\PaginationData;
-use SWP\Component\Common\Event\HttpCacheEvent;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\ConflictHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -92,8 +91,6 @@ class RouteController extends FOSRestController
     {
         $repository = $this->get('swp.repository.route');
         $route = $this->findOr404($id);
-        $this->get('event_dispatcher')
-            ->dispatch(HttpCacheEvent::EVENT_NAME, new HttpCacheEvent($route));
 
         if (null !== $route->getContent()) {
             throw new ConflictHttpException('Route has content attached to it.');
@@ -134,8 +131,6 @@ class RouteController extends FOSRestController
             $route = $this->get('swp.service.route')->createRoute($form->getData());
 
             $this->get('swp.repository.route')->add($route);
-            $this->get('event_dispatcher')
-                ->dispatch(HttpCacheEvent::EVENT_NAME, new HttpCacheEvent($route));
 
             return $this->handleView(View::create($route, 201));
         }
@@ -173,8 +168,6 @@ class RouteController extends FOSRestController
             $route = $this->get('swp.service.route')->updateRoute($form->getData());
 
             $objectManager->flush();
-            $this->get('event_dispatcher')
-            ->dispatch(HttpCacheEvent::EVENT_NAME, new HttpCacheEvent($route));
 
             return $this->handleView(View::create($route, 200));
         }

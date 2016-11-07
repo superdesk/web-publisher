@@ -27,7 +27,6 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use SWP\Bundle\ContentBundle\Form\Type\ArticleType;
 use SWP\Bundle\ContentBundle\Model\ArticleInterface;
-use SWP\Component\Common\Event\HttpCacheEvent;
 
 class ArticleController extends FOSRestController
 {
@@ -127,9 +126,6 @@ class ArticleController extends FOSRestController
             $article->setUpdatedAt(new \DateTime());
             $objectManager->flush();
             $objectManager->refresh($article);
-
-            $this->get('event_dispatcher')
-            ->dispatch(HttpCacheEvent::EVENT_NAME, new HttpCacheEvent($article));
 
             return $this->handleView(View::create($article, 200));
         }
