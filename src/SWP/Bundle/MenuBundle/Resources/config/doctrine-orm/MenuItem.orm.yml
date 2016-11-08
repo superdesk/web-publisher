@@ -60,3 +60,10 @@ SWP\Bundle\MenuBundle\Model\MenuItem:
                 nullable: true
             gedmo:
                 - treeParent
+    oneToMany:
+        children:
+            targetEntity: SWP\Bundle\MenuBundle\Model\MenuItemInterface
+            mappedBy: parent
+            cascade: ["all"]
+            orderBy:
+                lft: ASC
