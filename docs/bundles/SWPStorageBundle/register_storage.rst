@@ -544,7 +544,7 @@ See example below:
 
     <?php
 
-    namespace Acme\CoreBundle\DependencyInjection;
+    namespace Acme\Bundle\CoreBundle\DependencyInjection;
     // ..
 
     use Acme\Component\MultiTenancy\Model\Tenant;
@@ -615,11 +615,11 @@ In this case you will be able to specify your interface for your model via confi
                 enabled: true
                 classes:
                     tenant:
-                        model: Acme\AppBundle\Model\Tenant # extends default Acme\Component\MultiTenancy\Model\Tenant class
+                        model: Acme\Bundle\CoreBundle\Model\Tenant # extends default Acme\Component\MultiTenancy\Model\Tenant class
                         interface: ~
                         # ..
                     organization:
-                        model: Acme\AppBundle\Model\Organization # extends default Acme\Component\MultiTenancy\Model\Organization class
+                        model: Acme\Bundle\CoreBundle\Model\Organization # extends default Acme\Component\MultiTenancy\Model\Organization class
                         interface: ~
                         # ..
 
