@@ -50,6 +50,22 @@ class MenuControllerTest extends WebTestCase
         self::assertContains('"label":"Main menu"', $content);
     }
 
+    public function testCreateMenuWithTheSameLabelAndNameApi()
+    {
+        $client = static::createClient();
+        $client->request('POST', $this->router->generate('swp_api_core_create_menu'), [
+            'menu' => [
+                'name' => 'main-menu',
+                'label' => 'main-menu',
+            ],
+        ]);
+
+        self::assertEquals(201, $client->getResponse()->getStatusCode());
+        $content = $client->getResponse()->getContent();
+        self::assertContains('"name":"main-menu"', $content);
+        self::assertContains('"label":"main-menu"', $content);
+    }
+
     public function testGetMenuApi()
     {
         $client = static::createClient();

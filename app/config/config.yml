@@ -75,7 +75,6 @@ doctrine:
     orm:
         auto_generate_proxy_classes: "%kernel.debug%"
         resolve_target_entities:
-            SWP\Bundle\MenuBundle\Model\MenuItemInterface: SWP\Bundle\CoreBundle\Model\MenuItem
             SWP\Component\ContentList\Model\ListContentInterface: SWP\Bundle\ContentBundle\Doctrine\ORM\Article
             SWP\Component\ContentList\Model\ContentListItemInterface: SWP\Component\ContentList\Model\ContentListItem
             SWP\Component\ContentList\Model\ContentListInterface: SWP\Bundle\ContentBundle\Doctrine\ORM\ContentList
