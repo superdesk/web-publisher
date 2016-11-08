@@ -147,7 +147,7 @@ class MenuController extends Controller
      *         422="Menu id is not number",
      *         405="Method Not Allowed"
      *     },
-     *     input="SWP\Bundle\TemplatesSystemBundle\Form\Type\MenuType"
+     *     input="SWP\Bundle\MenuBundle\Form\Type\MenuType"
      * )
      * @Route("/api/{version}/menus/{id}", options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_core_update_menu")
      * @Method("PATCH")

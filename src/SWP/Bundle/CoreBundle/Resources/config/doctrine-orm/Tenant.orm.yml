@@ -8,14 +8,6 @@ SWP\Bundle\CoreBundle\Model\Tenant:
         domainName:
             type: string
             nullable: true
-    manyToOne:
-        organization:
-            targetEntity: SWP\Bundle\CoreBundle\Model\Organization
-            inversedBy: tenants
-            cascade: ["remove"]
-            joinColumn:
-                name: organization_id
-                referencedColumnName: id
     oneToOne:
         homepage:
             targetEntity: SWP\Bundle\ContentBundle\Model\RouteInterface

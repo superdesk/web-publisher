@@ -10,10 +10,3 @@ SWP\Bundle\CoreBundle\Model\MenuItem:
             joinColumn:
                 name: route_id
                 referencedColumnName: id
-    oneToMany:
-        children:
-            targetEntity: SWP\Bundle\CoreBundle\Model\MenuItem
-            mappedBy: parent
-            cascade: ["all"]
-            orderBy:
-                lft: ASC

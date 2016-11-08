@@ -19,6 +19,7 @@ namespace SWP\Bundle\MenuBundle\DependencyInjection;
 use SWP\Bundle\MenuBundle\Doctrine\ORM\MenuItemRepository;
 use SWP\Bundle\MenuBundle\Factory\MenuFactory;
 use SWP\Bundle\MenuBundle\Model\MenuItem;
+use SWP\Bundle\MenuBundle\Model\MenuItemInterface;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
 
@@ -46,6 +47,7 @@ class Configuration implements ConfigurationInterface
                                             ->addDefaultsIfNotSet()
                                             ->children()
                                                 ->scalarNode('model')->cannotBeEmpty()->defaultValue(MenuItem::class)->end()
+                                                ->scalarNode('interface')->cannotBeEmpty()->defaultValue(MenuItemInterface::class)->end()
                                                 ->scalarNode('repository')->defaultValue(MenuItemRepository::class)->end()
                                                 ->scalarNode('factory')->defaultValue(MenuFactory::class)->end()
                                                 ->scalarNode('object_manager_name')->defaultValue(null)->end()

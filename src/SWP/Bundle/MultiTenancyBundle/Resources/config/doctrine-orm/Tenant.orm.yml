@@ -41,3 +41,11 @@ SWP\Component\MultiTenancy\Model\Tenant:
         deletedAt:
             type: datetime
             nullable: true
+    manyToOne:
+        organization:
+            targetEntity: SWP\Component\MultiTenancy\Model\OrganizationInterface
+            inversedBy: tenants
+            cascade: ["remove"]
+            joinColumn:
+                name: organization_id
+                referencedColumnName: id

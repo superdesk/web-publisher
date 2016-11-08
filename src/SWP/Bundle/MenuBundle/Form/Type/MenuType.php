@@ -23,17 +23,36 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\NotBlank;
 
 class MenuType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('name')
-            ->add('label')
-            ->add('uri')
-            ->add('parent', MenuItemSelectorType::class)
-            ->add('route', RouteSelectorType::class);
+            ->add('name', TextType::class, [
+                'constraints' => [
+                    new NotBlank(),
+                ],
+                'required' => true,
+                'description' => 'Menu item name',
+            ])
+            ->add('label', TextType::class, [
+                'required' => false,
+                'description' => 'Menu item label',
+            ])
+            ->add('uri', TextType::class, [
+                'required' => false,
+                'description' => 'Menu item URI',
+            ])
+            ->add('parent', MenuItemSelectorType::class, [
+                'required' => false,
+                'description' => 'Menu item identifier (e.g. 10)',
+            ])
+            ->add('route', RouteSelectorType::class, [
+                'required' => false,
+                'description' => 'Route identifier (e.g. 10)',
+            ]);
 
         $builder->addEventListener(FormEvents::POST_SET_DATA, function (FormEvent $event) {
             $menuItem = $event->getData();
