@@ -14,7 +14,7 @@
 
 namespace SWP\Bundle\ContentBundle\EventListener;
 
-use SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\Route;
+use SWP\Bundle\ContentBundle\Model\RouteInterface;
 use Symfony\Cmf\Bundle\RoutingBundle\Routing\DynamicRouter;
 use Symfony\Component\HttpKernel\Event\FilterResponseEvent;
 
@@ -26,7 +26,7 @@ class HttpCacheHeaderListener
             return;
         }
 
-        /** @var Route $routeObject */
+        /** @var RouteInterface $routeObject */
         $routeObject = $event->getRequest()->get(DynamicRouter::ROUTE_KEY);
 
         if (null !== $routeObject) {

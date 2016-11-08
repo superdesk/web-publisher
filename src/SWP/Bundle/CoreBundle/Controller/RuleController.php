@@ -16,6 +16,7 @@ namespace SWP\Bundle\CoreBundle\Controller;
 
 use FOS\RestBundle\Controller\FOSRestController;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
@@ -44,6 +45,8 @@ class RuleController extends FOSRestController
      * )
      * @Route("/api/{version}/rules/", options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_core_list_rule")
      * @Method("GET")
+     *
+     * @Cache(expires="10 minutes", public=true)
      */
     public function listAction(Request $request)
     {
@@ -72,6 +75,8 @@ class RuleController extends FOSRestController
      * @Route("/api/{version}/rules/{id}", requirements={"id"="\d+"}, options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_core_get_rule")
      * @Method("GET")
      * @ParamConverter("rule", class="SWP\Bundle\CoreBundle\Model\Rule")
+     *
+     * @Cache(expires="10 minutes", public=true)
      */
     public function getAction(RuleInterface $rule)
     {

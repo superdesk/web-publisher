@@ -22,7 +22,6 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use SWP\Bundle\ContentListBundle\Form\Type\ContentListType;
 use SWP\Component\Common\Criteria\Criteria;
-use SWP\Component\Common\Event\HttpCacheEvent;
 use SWP\Component\Common\Pagination\PaginationData;
 use SWP\Component\ContentList\Model\ContentListInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -95,8 +94,6 @@ class ContentListController extends FOSRestController
 
         if ($form->isValid()) {
             $this->get('swp.repository.content_list')->add($contentList);
-            $this->get('event_dispatcher')
-                ->dispatch(HttpCacheEvent::EVENT_NAME, new HttpCacheEvent($contentList));
 
             return $this->handleView(View::create($contentList, 201));
         }
@@ -128,8 +125,6 @@ class ContentListController extends FOSRestController
 
         if ($form->isValid()) {
             $objectManager->flush();
-            $this->get('event_dispatcher')
-                ->dispatch(HttpCacheEvent::EVENT_NAME, new HttpCacheEvent($contentList));
 
             return $this->handleView(View::create($contentList, 200));
         }
@@ -152,8 +147,6 @@ class ContentListController extends FOSRestController
     {
         $repository = $this->get('swp.repository.content_list');
         $contentList = $this->findOr404($id);
-        $this->get('event_dispatcher')
-            ->dispatch(HttpCacheEvent::EVENT_NAME, new HttpCacheEvent($contentList));
 
         $repository->remove($contentList);
 

@@ -25,7 +25,6 @@ use SWP\Bundle\CoreBundle\Response\SingleResourceResponse;
 use SWP\Component\Common\Pagination\PaginationInterface;
 use SWP\Bundle\TemplatesSystemBundle\Form\Type\WidgetType;
 use SWP\Bundle\CoreBundle\Model\WidgetModel;
-use SWP\Component\Common\Event\HttpCacheEvent;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpKernel\Exception\UnprocessableEntityHttpException;
@@ -124,9 +123,6 @@ class WidgetController extends FOSRestController
             $entityManager->persist($widget);
             $entityManager->flush();
 
-            $this->get('event_dispatcher')
-                ->dispatch(HttpCacheEvent::EVENT_NAME, new HttpCacheEvent($widget));
-
             return new SingleResourceResponse($widget, new ResponseContext(201));
         }
 
@@ -165,12 +161,8 @@ class WidgetController extends FOSRestController
             $entityManager->remove($containerWidget);
         }
 
-        $removedWidget = clone $widget;
         $entityManager->remove($widget);
         $entityManager->flush();
-
-        $this->get('event_dispatcher')
-            ->dispatch(HttpCacheEvent::EVENT_NAME, new HttpCacheEvent($removedWidget));
 
         return new SingleResourceResponse(null, new ResponseContext(204));
     }
@@ -212,9 +204,6 @@ class WidgetController extends FOSRestController
         if ($form->isValid()) {
             $entityManager->flush($widget);
             $entityManager->refresh($widget);
-
-            $this->get('event_dispatcher')
-                ->dispatch(HttpCacheEvent::EVENT_NAME, new HttpCacheEvent($widget));
 
             return new SingleResourceResponse($widget, new ResponseContext(201));
         }
