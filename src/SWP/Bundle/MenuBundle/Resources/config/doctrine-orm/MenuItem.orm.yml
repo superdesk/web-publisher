@@ -16,6 +16,7 @@ SWP\Bundle\MenuBundle\Model\MenuItem:
             type: string
         label:
             type: string
+            nullable: true
         linkAttributes:
             type: array
         childrenAttributes:

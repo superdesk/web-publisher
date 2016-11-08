@@ -56,7 +56,7 @@ class MenuItem implements MenuItemInterface
     protected $name = null;
 
     /**
-     * Label to output, name is used by default.
+     * Label to output.
      *
      * @var string
      */
@@ -259,7 +259,7 @@ class MenuItem implements MenuItemInterface
      */
     public function getLabel()
     {
-        return null !== $this->label ? $this->label : $this->name;
+        return $this->label;
     }
 
     /**
