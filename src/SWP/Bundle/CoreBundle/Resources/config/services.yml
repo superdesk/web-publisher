@@ -94,14 +94,6 @@ services:
         arguments:
             - "%domain%"
 
-    swp_core.subscriber.http_cache:
-        class: SWP\Bundle\CoreBundle\EventSubscriber\HttpCacheSubscriber
-        arguments:
-            - "@fos_http_cache.cache_manager"
-            - "@logger"
-        tags:
-            - { name: kernel.event_subscriber }
-
     swp_core.listener.article_rules_subscriber:
         class: SWP\Bundle\CoreBundle\EventSubscriber\ProcessArticleRulesSubscriber
         arguments:

@@ -27,7 +27,6 @@ use SWP\Component\Common\Pagination\PaginationInterface;
 use SWP\Bundle\TemplatesSystemBundle\Form\Type\ContainerType;
 use SWP\Bundle\TemplatesSystemBundle\Model\ContainerData;
 use SWP\Bundle\TemplatesSystemBundle\Model\ContainerWidget;
-use SWP\Component\Common\Event\HttpCacheEvent;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpKernel\Exception\UnprocessableEntityHttpException;
@@ -146,8 +145,6 @@ class ContainerController extends Controller
 
             $entityManager->flush($container);
             $entityManager->refresh($container);
-            $this->get('event_dispatcher')
-                ->dispatch(HttpCacheEvent::EVENT_NAME, new HttpCacheEvent($container));
 
             return new SingleResourceResponse($container, new ResponseContext(201));
         }
@@ -254,8 +251,6 @@ class ContainerController extends Controller
                     $entityManager->remove($containerWidget);
                 }
 
-                $this->get('event_dispatcher')
-                    ->dispatch(HttpCacheEvent::EVENT_NAME, new HttpCacheEvent($container));
                 $matched = true;
                 break;
             }

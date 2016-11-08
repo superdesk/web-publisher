@@ -22,9 +22,9 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
 use SWP\Component\Common\Response\ResourcesListResponse;
 use SWP\Component\Common\Response\ResponseContext;
 use SWP\Component\Common\Response\SingleResourceResponse;
-use SWP\Component\Common\Pagination\PaginationInterface;
+use SWP\Component\Common\Criteria\Criteria;
+use SWP\Component\Common\Pagination\PaginationData;
 use SWP\Bundle\CoreBundle\Form\Type\TenantType;
-use SWP\Component\Common\Event\HttpCacheEvent;
 use SWP\Component\MultiTenancy\Model\OrganizationInterface;
 use SWP\Component\MultiTenancy\Model\TenantInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -49,11 +49,8 @@ class TenantController extends FOSRestController
      */
     public function listAction(Request $request)
     {
-        $tenants = $this->get('knp_paginator')->paginate(
-            $this->getTenantRepository()->findAvailableTenants(),
-            $request->get(PaginationInterface::PAGE_PARAMETER_NAME, 1),
-            $request->get(PaginationInterface::LIMIT_PARAMETER_NAME, 10)
-        );
+        $tenants = $this->getTenantRepository()
+            ->getPaginatedByCriteria(new Criteria(), [], new PaginationData($request));
 
         return new ResourcesListResponse($tenants);
     }
@@ -96,9 +93,6 @@ class TenantController extends FOSRestController
         $repository = $this->getTenantRepository();
         $tenant = $this->findOr404($code);
 
-        $this->get('event_dispatcher')
-            ->dispatch(HttpCacheEvent::EVENT_NAME, new HttpCacheEvent($tenant));
-
         $repository->remove($tenant);
 
         return new SingleResourceResponse(null, new ResponseContext(204));
@@ -135,10 +129,7 @@ class TenantController extends FOSRestController
 
             $formData = $this->assignDefaultOrganization($formData);
 
-            $this->get('swp.repository.tenant')->add($formData);
-
-            $this->get('event_dispatcher')
-                ->dispatch(HttpCacheEvent::EVENT_NAME, new HttpCacheEvent($formData));
+            $this->getTenantRepository()->add($formData);
 
             return new SingleResourceResponse($formData, new ResponseContext(201));
         }
@@ -177,9 +168,6 @@ class TenantController extends FOSRestController
 
             $formData->setUpdatedAt(new \DateTime('now'));
             $this->get('swp.object_manager.tenant')->flush();
-
-            $this->get('event_dispatcher')
-                ->dispatch(HttpCacheEvent::EVENT_NAME, new HttpCacheEvent($formData));
 
             return new SingleResourceResponse($formData);
         }
