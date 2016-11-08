@@ -40,6 +40,11 @@ abstract class Extension extends BaseExtension
                 $classConfig['object_manager_name']
             );
 
+            $resources = $container->hasParameter('swp.resources')
+                ? $container->getParameter('swp.resources') : [];
+            $resources = array_merge($resources, ['swp.'.$key => $classConfig]);
+            $container->setParameter('swp.resources', $resources);
+
             $classConfig['name'] = $key;
             $driver->load($container, $classConfig);
         }

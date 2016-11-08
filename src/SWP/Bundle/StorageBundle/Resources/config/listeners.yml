@@ -1,0 +1,7 @@
+services:
+    swp.event_subscriber.orm_mapped_super_class:
+        class: SWP\Bundle\StorageBundle\EventListener\ORMMappedSuperclassSubscriber
+        arguments:
+            - '%swp.resources%'
+        tags:
+            - { name: doctrine.event_subscriber, priority: 9000 }

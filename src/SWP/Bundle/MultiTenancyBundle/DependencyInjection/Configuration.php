@@ -22,7 +22,9 @@ use SWP\Bundle\MultiTenancyBundle\Factory\OrganizationFactory;
 use SWP\Bundle\MultiTenancyBundle\Routing\TenantAwareRouter;
 use SWP\Component\MultiTenancy\Factory\TenantFactory;
 use SWP\Component\MultiTenancy\Model\Organization;
+use SWP\Component\MultiTenancy\Model\OrganizationInterface;
 use SWP\Component\MultiTenancy\Model\Tenant;
+use SWP\Component\MultiTenancy\Model\TenantInterface;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
 
@@ -89,6 +91,7 @@ class Configuration implements ConfigurationInterface
                                             ->addDefaultsIfNotSet()
                                             ->children()
                                                 ->scalarNode('model')->cannotBeEmpty()->defaultValue(Tenant::class)->end()
+                                                ->scalarNode('interface')->cannotBeEmpty()->defaultValue(TenantInterface::class)->end()
                                                 ->scalarNode('repository')->defaultValue(PHPCRTenantRepository::class)->end()
                                                 ->scalarNode('factory')->defaultValue(TenantFactory::class)->end()
                                                 ->scalarNode('object_manager_name')->defaultValue(null)->end()
@@ -98,6 +101,7 @@ class Configuration implements ConfigurationInterface
                                             ->addDefaultsIfNotSet()
                                             ->children()
                                                 ->scalarNode('model')->cannotBeEmpty()->defaultValue(Organization::class)->end()
+                                                ->scalarNode('interface')->cannotBeEmpty()->defaultValue(OrganizationInterface::class)->end()
                                                 ->scalarNode('repository')->defaultValue(PHPCROrganizationRepository::class)->end()
                                                 ->scalarNode('factory')->defaultValue(OrganizationFactory::class)->end()
                                                 ->scalarNode('object_manager_name')->defaultValue(null)->end()
@@ -118,6 +122,7 @@ class Configuration implements ConfigurationInterface
                                             ->addDefaultsIfNotSet()
                                             ->children()
                                                 ->scalarNode('model')->cannotBeEmpty()->defaultValue(Tenant::class)->end()
+                                                ->scalarNode('interface')->cannotBeEmpty()->defaultValue(TenantInterface::class)->end()
                                                 ->scalarNode('repository')->defaultValue(TenantRepository::class)->end()
                                                 ->scalarNode('factory')->defaultValue(TenantFactory::class)->end()
                                                 ->scalarNode('object_manager_name')->defaultValue(null)->end()
@@ -127,6 +132,7 @@ class Configuration implements ConfigurationInterface
                                             ->addDefaultsIfNotSet()
                                             ->children()
                                                 ->scalarNode('model')->cannotBeEmpty()->defaultValue(Organization::class)->end()
+                                                ->scalarNode('interface')->cannotBeEmpty()->defaultValue(OrganizationInterface::class)->end()
                                                 ->scalarNode('repository')->defaultValue(OrganizationRepository::class)->end()
                                                 ->scalarNode('factory')->defaultValue(OrganizationFactory::class)->end()
                                                 ->scalarNode('object_manager_name')->defaultValue(null)->end()
