@@ -623,7 +623,9 @@ In this case you will be able to specify your interface for your model via confi
                         interface: ~
                         # ..
 
-Now, no mather which model you will use in your bundle's configuration above, the interface will be automatically resolved to defined entity and will be used by your mapping file without a need to change any extra code or configuration setup.
+Now, no matter which model (implementing for example ``Acme\Component\MultiTenancy\Model\OrganizationInterface``)
+ you will use in your bundle's configuration above, the interface will be automatically resolved to defined entity
+ and will be used by your mapping file without a need to change any extra code or configuration setup.
 
 The above is equivalent to if the Tenant has a relation to Organization and vice versa.
 
