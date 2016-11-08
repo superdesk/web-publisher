@@ -1,4 +1,5 @@
 imports:
+    - { resource: "@SWPBridgeBundle/Resources/config/app/config.yml" }
     - { resource: "@SWPContentBundle/Resources/config/app/config.yml" }
 
 security:
@@ -28,6 +29,9 @@ framework:
     form: ~
     templating:
         engines: ['twig']
+    translator:
+        fallbacks: ["en"]
+        logging: false
 
 monolog:
     handlers:
@@ -79,6 +83,7 @@ stof_doctrine_extensions:
         default:
             sortable: true
             tree: true
+            timestampable: true
 
 doctrine:
     orm:
@@ -107,6 +112,13 @@ doctrine:
         charset:  UTF8
         path:     "%kernel.cache_dir%/content_bundle.db3"
 
+jms_serializer:
+    metadata:
+        directories:
+            TestsContentBundle:
+                namespace_prefix: SWP\Bundle\ContentBundle\Tests\Functional\app\ContentBundle
+                path: "%kernel.root_dir%/Resources/config/serializer"
+
 swp_content:
     persistence:
         orm:
@@ -116,6 +128,16 @@ swp_content:
                     model: SWP\Bundle\ContentBundle\Tests\Functional\app\ContentBundle\Model\Article
                 route:
                     model: SWP\Bundle\ContentBundle\Tests\Functional\app\ContentBundle\Model\Route
+
+swp_bridge:
+    persistence:
+        orm: true
+
+oneup_flysystem:
+    adapters:
+        filesystem_adapter:
+            local:
+                directory: "%kernel.cache_dir%/uploads/"
 
 services:
     swp_content_bundle.resources_list_response_listener:

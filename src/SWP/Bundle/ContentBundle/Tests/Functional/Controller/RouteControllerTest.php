@@ -32,7 +32,6 @@ class RouteControllerTest extends WebTestCase
         self::bootKernel();
 
         $this->initDatabase();
-        $this->loadCustomFixtures(['tenant']);
         $this->router = $this->getContainer()->get('router');
     }
 
@@ -48,12 +47,16 @@ class RouteControllerTest extends WebTestCase
         ]);
 
         self::assertEquals(201, $client->getResponse()->getStatusCode());
-        self::assertEquals(json_decode('{"id":3,"content":null,"static_prefix":"\/simple-test-route","variable_pattern":null,"parent":null,"children":[],"level":0,"template_name":null,"articles_template_name":null,"type":"content","cache_time_in_seconds":0,"name":"simple-test-route","position":null,"_links":{"self":{"href":"\/api\/v1\/content\/routes\/3"}}}', true), json_decode($client->getResponse()->getContent(), true));
+        self::assertEquals(json_decode('{"id":1,"content":null,"static_prefix":"\/simple-test-route","variable_pattern":null,"parent":null,"children":[],"level":0,"template_name":null,"articles_template_name":null,"type":"content","cache_time_in_seconds":0,"name":"simple-test-route","position":null,"_links":{"self":{"href":"\/api\/v1\/content\/routes\/1"}}}', true), json_decode($client->getResponse()->getContent(), true));
     }
 
     public function testCreateContentRoutesApi()
     {
-        $this->loadCustomFixtures(['tenant', 'separate_article']);
+        $this->loadFixtureFiles(
+            [
+                '@SWPContentBundle/Tests/Functional/app/Resources/fixtures/separate_article.yml',
+            ], 'default'
+        );
 
         $client = static::createClient();
         $client->request('POST', $this->router->generate('swp_api_content_create_routes'), [
@@ -85,7 +88,7 @@ class RouteControllerTest extends WebTestCase
         ]);
 
         self::assertEquals(201, $client->getResponse()->getStatusCode());
-        self::assertArraySubset(json_decode('{"id":3,"content":null,"static_prefix":"\/simple-test-route","variable_pattern":null,"parent":null,"children":[],"level":0,"template_name":null,"articles_template_name":null,"type":"content","cache_time_in_seconds":1,"name":"simple-test-route","position":null,"_links":{"self":{"href":"\/api\/v1\/content\/routes\/3"}}}', true), json_decode($client->getResponse()->getContent(), true));
+        self::assertArraySubset(json_decode('{"id":1,"content":null,"static_prefix":"\/simple-test-route","variable_pattern":null,"parent":null,"children":[],"level":0,"template_name":null,"articles_template_name":null,"type":"content","cache_time_in_seconds":1,"name":"simple-test-route","position":null,"_links":{"self":{"href":"\/api\/v1\/content\/routes\/1"}}}', true), json_decode($client->getResponse()->getContent(), true));
 
         $client->request('PATCH', $this->router->generate('swp_api_content_update_routes', ['id' => 1]), [
             'route' => [
@@ -102,7 +105,12 @@ class RouteControllerTest extends WebTestCase
 
     public function testCreateAndUpdateAndDeleteRoutesApi()
     {
-        $this->loadCustomFixtures(['tenant', 'separate_article']);
+        $this->loadFixtureFiles(
+            [
+                '@SWPContentBundle/Tests/Functional/app/Resources/fixtures/separate_article.yml',
+            ], 'default'
+        );
+
         $client = static::createClient();
         $client->request('POST', $this->router->generate('swp_api_content_create_routes'), [
             'route' => [
@@ -168,7 +176,6 @@ class RouteControllerTest extends WebTestCase
                 'cacheTimeInSeconds' => 1,
             ],
         ]);
-
         self::assertEquals(400, $client->getResponse()->getStatusCode());
         self::assertArraySubset(json_decode('{"code":400,"message":"Validation Failed","errors":{"children":{"name":{},"type":{"errors":["The type \"fake-type\" is not allowed. Supported types are: \"collection, content\"."]}}}}', true), json_decode($client->getResponse()->getContent(), true));
     }

@@ -1,4 +1,4 @@
-SWP\Bundle\ContentBundle\Doctrine\ORM\Route:
+SWP\Bundle\ContentBundle\Tests\Functional\app\ContentBundle\Model\Route:
     exclusion_policy: ALL
     properties:
         templateName:

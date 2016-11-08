@@ -24,6 +24,8 @@ use SWP\Bundle\ContentBundle\Model\RouteInterface;
 use SWP\Component\Common\Criteria\Criteria;
 use SWP\Bundle\ContentBundle\Form\Type\RouteType;
 use SWP\Component\Common\Pagination\PaginationData;
+use SWP\Component\Common\Response\ResponseContext;
+use SWP\Component\Common\Response\SingleResourceResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\ConflictHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -71,7 +73,7 @@ class RouteController extends FOSRestController
      */
     public function getAction($id)
     {
-        return $this->handleView(View::create($this->findOr404($id), 200));
+        return new SingleResourceResponse($this->findOr404($id));
     }
 
     /**
@@ -132,10 +134,10 @@ class RouteController extends FOSRestController
 
             $this->get('swp.repository.route')->add($route);
 
-            return $this->handleView(View::create($route, 201));
+            return new SingleResourceResponse($route, new ResponseContext(201));
         }
 
-        return $this->handleView(View::create($form, 400));
+        return new SingleResourceResponse($form, new ResponseContext(400));
     }
 
     /**

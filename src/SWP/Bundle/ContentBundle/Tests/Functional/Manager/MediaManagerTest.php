@@ -12,7 +12,7 @@
  * @license http://www.superdesk.org/license
  */
 
-namespace SWP\Bundle\ContentBundle\Tests;
+namespace SWP\Bundle\ContentBundle\Tests\Functional\Manager;
 
 use SWP\Bundle\FixturesBundle\WebTestCase;
 use Symfony\Component\Filesystem\Filesystem;
@@ -28,7 +28,6 @@ class MediaManagerTest extends WebTestCase
         self::bootKernel();
 
         $this->initDatabase();
-        $this->loadCustomFixtures(['tenant']);
 
         $filesystem = new Filesystem();
         $filesystem->remove($this->getContainer()->getParameter('kernel.cache_dir').'/uploads');

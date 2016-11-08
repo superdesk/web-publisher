@@ -58,7 +58,6 @@ final class ResourceResponseListener
             }
         } elseif ($controllerResult instanceof SingleResourceResponseInterface) {
             $responseContext = $controllerResult->getResponseContext();
-
             if ($responseContext->getIntention() === ResponseContextInterface::INTENTION_API) {
                 $event->setResponse($this->viewHandler->handle(
                     View::create($controllerResult->getResource(), $responseContext->getStatusCode())

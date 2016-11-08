@@ -14,22 +14,22 @@
 
 namespace SWP\Bundle\ContentBundle\Controller;
 
-use FOS\RestBundle\Controller\FOSRestController;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
-use FOS\RestBundle\View\View;
 use SWP\Component\Common\Criteria\Criteria;
 use SWP\Component\Common\Pagination\PaginationData;
 use SWP\Component\Common\Response\ResourcesListResponse;
+use SWP\Component\Common\Response\ResponseContext;
 use SWP\Component\Common\Response\SingleResourceResponse;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use SWP\Bundle\ContentBundle\Form\Type\ArticleType;
 use SWP\Bundle\ContentBundle\Model\ArticleInterface;
 
-class ArticleController extends FOSRestController
+class ArticleController extends Controller
 {
     /**
      * List all articles for current tenant.
@@ -126,10 +126,10 @@ class ArticleController extends FOSRestController
             $objectManager->flush();
             $objectManager->refresh($article);
 
-            return $this->handleView(View::create($article, 200));
+            return new SingleResourceResponse($article);
         }
 
-        return $this->handleView(View::create($form, 500));
+        return new SingleResourceResponse($form, new ResponseContext(500));
     }
 
     private function reactOnStatusChange($originalArticleStatus, ArticleInterface $article)

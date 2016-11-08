@@ -33,6 +33,7 @@ return [
     new Nelmio\ApiDocBundle\NelmioApiDocBundle(),
     new Bazinga\Bundle\HateoasBundle\BazingaHateoasBundle(),
 
+    new SWP\Bundle\BridgeBundle\SWPBridgeBundle(),
     new SWP\Bundle\ContentBundle\SWPContentBundle(),
     new SWP\Bundle\MenuBundle\SWPMenuBundle(),
     new SWP\Bundle\TemplatesSystemBundle\SWPTemplatesSystemBundle(),

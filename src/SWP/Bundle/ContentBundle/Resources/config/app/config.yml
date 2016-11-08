@@ -15,6 +15,7 @@ doctrine:
     orm:
         entity_managers:
             default:
+                auto_mapping: false
                 mappings:
                     SWPContentBundle:
                         type: yml
@@ -23,7 +24,8 @@ doctrine:
                     SWPContentBundleModels:
                         type: yml
                         prefix: SWP\Bundle\ContentBundle\Model
-                        dir: Resources/config/doctrine
+                        dir: "%kernel.root_dir%/../src/SWP/Bundle/ContentBundle/Resources/config/doctrine"
+                        is_bundle: false
 
 cmf_routing:
     chain:

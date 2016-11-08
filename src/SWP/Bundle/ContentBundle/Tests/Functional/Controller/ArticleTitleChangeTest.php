@@ -41,7 +41,6 @@ class ArticleTitleChangeTest extends WebTestCase
     {
         self::bootKernel();
         $this->initDatabase();
-        $this->loadCustomFixtures(['tenant']);
 
         $this->router = $this->getContainer()->get('router');
     }

@@ -23,6 +23,10 @@
     {
       "type": "path",
       "url": "../../Component/*"
+    },
+    {
+      "type": "path",
+      "url": "../../Bridge/*"
     }
   ],
   "require": {
@@ -38,10 +42,14 @@
     "oneup/flysystem-bundle": "^1.4",
     "symfony/validator": "3.1.x",
     "symfony/form": "3.1.x",
+    "symfony/css-selector": "3.1.x",
     "symfony/security-bundle": "3.1.x",
     "symfony-cmf/core-bundle": "2.0.x-dev",
     "nelmio/api-doc-bundle": "^2.13",
-    "willdurand/hateoas-bundle": "^1.1"
+    "willdurand/hateoas-bundle": "^1.1",
+    "swp/bridge-bundle": "1.0.x-dev",
+    "swp/jms-serializer-bridge": "0.1.x-dev",
+    "hoa/mime": "3.16.01.15"
   },
   "suggest": {
     "jms/serializer-bundle": "Useful if you want to serialize bundle models. Config for them already exists in bundle"
