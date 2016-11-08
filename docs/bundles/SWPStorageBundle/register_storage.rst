@@ -528,3 +528,130 @@ The possibility of defining a default Object Manager for a Doctrine persistence 
 
 .. _bundle documentation: http://symfony.com/doc/master/cmf/bundles/phpcr_odm/multiple_sessions.html#multiple-document-managers
 .. _multiple entity managers: http://symfony.com/doc/current/cookbook/doctrine/multiple_entity_managers.html
+
+Resolve target entities
+-----------------------
+
+This chapter is strictly related to `How to Define Relationships with Abstract Classes and Interfaces`_ so please read it first.
+
+.. _How to Define Relationships with Abstract Classes and Interfaces: http://symfony.com/doc/current/doctrine/resolve_target_entity.html
+
+This functionality allows you to define relationships between different entities without making them hard dependencies. All you need to do is to define ``interface`` node in your bundle's `Configuration` class.
+
+See example below:
+
+.. code-block:: php
+
+    <?php
+
+    namespace Acme\CoreBundle\DependencyInjection;
+    // ..
+
+    use Acme\Component\MultiTenancy\Model\Tenant;
+    use Acme\Component\MultiTenancy\Model\TenantInterface;
+    use Acme\Component\MultiTenancy\Model\Organization;
+    use Acme\Component\MultiTenancy\Model\OrganizationInterface;
+
+    class Configuration implements ConfigurationInterface
+    {
+        /**
+         * {@inheritdoc}
+         */
+        public function getConfigTreeBuilder()
+        {
+            $treeBuilder = new TreeBuilder();
+            $treeBuilder->root('acme_core')
+                ->children()
+                    ->arrayNode('persistence')
+                        ->addDefaultsIfNotSet()
+                        ->children()
+                            ->arrayNode('phpcr')
+                                ->addDefaultsIfNotSet()
+                                ->canBeEnabled()
+                                ->children()
+                                    ->arrayNode('classes')
+                                        ->addDefaultsIfNotSet()
+                                        ->children()
+                                            ->arrayNode('tenant')
+                                                ->addDefaultsIfNotSet()
+                                                ->children()
+                                                    ->scalarNode('model')->cannotBeEmpty()->defaultValue(Tenant::class)->end()
+                                                    ->scalarNode('interface')->cannotBeEmpty()->defaultValue(TenantInterface::class)->end()
+                                                    ->scalarNode('repository')->defaultValue(null)->end()
+                                                    ->scalarNode('factory')->defaultValue(null)->end()
+                                                    ->scalarNode('object_manager_name')->defaultValue(null)->end()
+                                                ->end()
+                                            ->end()
+                                            ->arrayNode('organization')
+                                                ->addDefaultsIfNotSet()
+                                                ->children()
+                                                    ->scalarNode('model')->cannotBeEmpty()->defaultValue(Organization::class)->end()
+                                                    ->scalarNode('interface')->cannotBeEmpty()->defaultValue(OrganizationInterface::class)->end()
+                                                    ->scalarNode('repository')->defaultValue(null)->end()
+                                                    ->scalarNode('factory')->defaultValue(null)->end()
+                                                    ->scalarNode('object_manager_name')->defaultValue(null)->end()
+                                                ->end()
+                                            ->end()
+                                        ->end()
+                                    ->end()
+                                ->end()
+                            ->end() // phpcr
+                        ->end()
+                    ->end()
+                ->end();
+
+            return $treeBuilder;
+        }
+    }
+
+In this case you will be able to specify your interface for your model via config file:
+
+.. code-block:: yaml
+
+    # app/config/config.yml
+    swp_content:
+        persistence:
+            phpcr:
+                enabled: true
+                classes:
+                    tenant:
+                        model: Acme\AppBundle\Model\Tenant # extends default Acme\Component\MultiTenancy\Model\Tenant class
+                        interface: ~
+                        # ..
+                    organization:
+                        model: Acme\AppBundle\Model\Organization # extends default Acme\Component\MultiTenancy\Model\Organization class
+                        interface: ~
+                        # ..
+
+Now, no mather which model you will use in your bundle's configuration above, the interface will be automatically resolved to defined entity and will be used by your mapping file without a need to change any extra code or configuration setup.
+
+The above is equivalent to if the Tenant has a relation to Organization and vice versa.
+
+.. code-block:: yaml
+
+    # app/config/config.yml
+    doctrine:
+        # ...
+        orm:
+            # ...
+            resolve_target_entities:
+                Acme\Component\MultiTenancy\Model\OrganizationInterface: Acme\Bundle\CoreBundle\Model\Organization
+                Acme\Component\MultiTenancy\Model\TenantInterface: Acme\Bundle\CoreBundle\Model\Tenant
+
+In this example above every time you will want to change your model inside your bundle's configuration you would also need to care about the Doctrine config as the specified entity will not change automatically to a new one which was defined in bundle's config.
+
+Inheritance Mapping
+-------------------
+
+By default every entity inside bundle should be mapped as `Mapped superclass`_. This bundle helps you manage and simplify inheritance mapping in case you want to use default mapping or extend it. In this case the following applies:
+
+- If you do not configure your custom class, the default mapped superclasses become entites.
+- Otherwise they become mapped superclasses and move the conflicting mappings (these which you cannot normally configure on mapped superclass) to your class mapping. For example, you do not need anymore to map Organization -> Tenants inside your custom class, it is copied transparently from the bundle.
+- It also works on all levels, so you can cleanly override the core bundle models! If you configure other class than core one, your entity will be used and the core model will remain mapped superclass.
+
+.. note::
+
+    This feature and its description has been ported from Sylius project. See `related issue`_.
+
+.. _Mapped superclass: http://docs.doctrine-project.org/projects/doctrine-orm/en/latest/reference/inheritance-mapping.html#mapped-superclasses
+.. _related issue: https://github.com/Sylius/Sylius/issues/221
