@@ -180,7 +180,7 @@ fos_http_cache:
             -
                 match:
                     attributes:
-                        _route: "swp_api_templates_update_container|swp_api_templates_delete_container"
+                        _route: "swp_api_templates_update_container|swp_api_templates_delete_container|swp_api_templates_link_container"
                 routes:
                     swp_api_templates_list_containers: ~
                     swp_api_templates_get_container: ~
