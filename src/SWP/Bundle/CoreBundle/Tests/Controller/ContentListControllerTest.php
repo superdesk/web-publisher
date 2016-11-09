@@ -56,7 +56,6 @@ class ContentListControllerTest extends WebTestCase
 
         self::assertEquals(201, $response->getStatusCode());
         $content = json_decode($response->getContent(), true);
-
         self::assertArraySubset(json_decode('{"id":1,"name":"Example automatic list","description":"New list","type":"automatic","cache_life_time":30,"limit":5,"items":[],"expression":"article.getLocale() == \"en\"","enabled":true,"_links":{"self":{"href":"\/api\/v1\/content\/lists\/1"}}}', true), $content);
     }
 

@@ -1,7 +1,24 @@
 SWP\Bundle\ContentBundle\Model\Image:
     exclusion_policy: ALL
     properties:
+        id:
+            expose: true
+            type: string
         width:
             expose: true
         height:
             expose: true
+        fileExtension:
+            expose: true
+        assetId:
+            expose: true
+        rendition:
+            expose: true
+    relations:
+        -
+            rel: download
+            href:
+                route: swp_media_get
+                parameters:
+                    mediaId: expr(object.getAssetId())
+                    extension: expr(object.getFileExtension())

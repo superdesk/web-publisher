@@ -14,7 +14,7 @@
 
 namespace SWP\Bundle\CoreBundle\Tests\Controller;
 
-use SWP\Bundle\ContentBundle\Tests\Functional\WebTestCase;
+use SWP\Bundle\FixturesBundle\WebTestCase;
 use Symfony\Component\Routing\RouterInterface;
 
 class ArticleAutoPublishTest extends WebTestCase

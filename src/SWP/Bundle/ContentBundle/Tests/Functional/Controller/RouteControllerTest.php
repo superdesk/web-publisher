@@ -67,7 +67,6 @@ class RouteControllerTest extends WebTestCase
                 'cacheTimeInSeconds' => 1,
             ],
         ]);
-
         $this->assertEquals(201, $client->getResponse()->getStatusCode());
 
         $content = json_decode($client->getResponse()->getContent(), true);

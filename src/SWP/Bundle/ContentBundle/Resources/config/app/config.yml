@@ -11,22 +11,6 @@ jms_serializer:
                 namespace_prefix: SWP\Bundle\ContentBundle
                 path: "@SWPContentBundle/Resources/config/serializer"
 
-doctrine:
-    orm:
-        entity_managers:
-            default:
-                auto_mapping: false
-                mappings:
-                    SWPContentBundle:
-                        type: yml
-                        prefix: SWP\Bundle\ContentBundle\Doctrine\ORM
-                        dir: Resources/config/doctrine-orm
-                    SWPContentBundleModels:
-                        type: yml
-                        prefix: SWP\Bundle\ContentBundle\Model
-                        dir: "%kernel.root_dir%/../src/SWP/Bundle/ContentBundle/Resources/config/doctrine"
-                        is_bundle: false
-
 cmf_routing:
     chain:
         replace_symfony_router: true
@@ -39,7 +23,7 @@ cmf_routing:
         persistence:
             orm:
                 enabled: true
-                route_class: SWP\Bundle\ContentBundle\Model\RouteInterface
+                route_class: SWP\Bundle\ContentBundle\Model\Route
 
 cmf_core:
     publish_workflow:

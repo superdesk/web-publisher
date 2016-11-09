@@ -29,12 +29,10 @@ class ArticleControllerTest extends WebTestCase
      */
     public function setUp()
     {
-        self::bootKernel();
-
         $this->initDatabase();
         $this->loadFixtures(
             [
-                'SWP\Bundle\FixturesBundle\DataFixtures\ORM\LoadArticlesData',
+                'SWP\Bundle\ContentBundle\Tests\Functional\app\Resources\fixtures\LoadArticlesData',
             ], 'default'
         );
 
@@ -56,10 +54,6 @@ class ArticleControllerTest extends WebTestCase
     public function testLoadingArticleCustomTemplate()
     {
         $client = static::createClient();
-//        $crawler = $client->request('GET', '/news/features');
-//        $this->assertEquals(200, $client->getResponse()->getStatusCode());
-//        $this->assertTrue($crawler->filter('html:contains("Features")')->count() === 1);
-
         $client->request('PATCH', $this->router->generate('swp_api_content_update_articles', ['id' => 'features']), [
             'article' => [
                 'template_name' => 'test.html.twig',
@@ -83,8 +77,6 @@ class ArticleControllerTest extends WebTestCase
         ]);
         $responseArray = json_decode($client->getResponse()->getContent(), true);
         $this->assertArraySubset(json_decode('{"status":"new"}', true), $responseArray);
-//        $client->request('GET', '/news/features');
-//        $this->assertEquals(404, $client->getResponse()->getStatusCode());
 
         //publish unpublished article
         $client->request('PATCH', $this->router->generate('swp_api_content_update_articles', ['id' => 'features']), [
@@ -98,10 +90,6 @@ class ArticleControllerTest extends WebTestCase
         $this->assertTrue(null != $responseArray['updated_at']);
         $this->assertTrue(new \DateTime($responseArray['updated_at']) >= new \DateTime($responseArray['created_at']));
         $this->assertTrue(new \DateTime($responseArray['published_at']) >= new \DateTime($responseArray['created_at']));
-
-//        $crawler = $client->request('GET', '/news/features');
-//        $this->assertEquals(200, $client->getResponse()->getStatusCode());
-//        $this->assertTrue($crawler->filter('html:contains("Features")')->count() === 1);
     }
 
     public function testIfRouteChangedWhenRouteParentWasSwitched()

@@ -37,5 +37,4 @@ return [
     new SWP\Bundle\ContentBundle\SWPContentBundle(),
     new SWP\Bundle\MenuBundle\SWPMenuBundle(),
     new SWP\Bundle\TemplatesSystemBundle\SWPTemplatesSystemBundle(),
-    new SWP\Bundle\FixturesBundle\SWPFixturesBundle(),
 ];

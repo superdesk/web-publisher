@@ -15,6 +15,7 @@
 namespace SWP\Bundle\CoreBundle\Manager;
 
 use SWP\Bundle\ContentBundle\Manager\MediaManager as BaseMediaMnager;
+use SWP\Bundle\ContentBundle\Model\FileInterface;
 use SWP\Component\MultiTenancy\Context\TenantContextInterface;
 
 class MediaManager extends BaseMediaMnager

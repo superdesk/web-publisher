@@ -4,17 +4,3 @@ SWP\Bundle\CoreBundle\Model\Article:
     fields:
         tenantCode:
             type: string
-    manyToOne:
-        route:
-            targetEntity: SWP\Bundle\ContentBundle\Model\RouteInterface
-            inversedBy: articles
-            fetch: "EAGER"
-            joinColumn:
-                name: route_id
-                referencedColumnName: id
-                onDelete: "SET NULL"
-    oneToMany:
-        media:
-            targetEntity: SWP\Bundle\ContentBundle\Doctrine\ORM\ArticleMedia
-            mappedBy: article
-            cascade: ["remove"]

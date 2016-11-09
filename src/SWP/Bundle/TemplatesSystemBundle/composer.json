@@ -15,6 +15,10 @@
     {
       "type": "path",
       "url": "../*"
+    },
+    {
+      "type": "path",
+      "url": "../../Component/*"
     }
   ],
   "require": {

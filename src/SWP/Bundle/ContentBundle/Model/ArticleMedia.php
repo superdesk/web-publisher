@@ -18,11 +18,12 @@ namespace SWP\Bundle\ContentBundle\Model;
 
 use SWP\Component\Bridge\Model\ItemInterface;
 use SWP\Component\Common\Model\TimestampableTrait;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * ArticleMedia represents media which belongs to Article.
  */
-abstract class ArticleMedia implements ArticleMediaInterface
+class ArticleMedia implements ArticleMediaInterface
 {
     use TimestampableTrait;
 
@@ -80,6 +81,44 @@ abstract class ArticleMedia implements ArticleMediaInterface
      * @var string
      */
     protected $usageTerms;
+
+    /**
+     * @var ArrayCollection
+     */
+    protected $renditions;
+
+    /**
+     * ArticleMedia constructor.
+     */
+    public function __construct()
+    {
+        $this->renditions = new ArrayCollection();
+        $this->setCreatedAt(new \DateTime());
+    }
+
+    /**
+     * @return ArrayCollection
+     */
+    public function getRenditions()
+    {
+        return $this->renditions;
+    }
+
+    /**
+     * @param ImageRendition $rendition
+     */
+    public function addRendition(ImageRendition $rendition)
+    {
+        $this->renditions->add($rendition);
+    }
+
+    /**
+     * @param ArrayCollection $renditions
+     */
+    public function setRenditions($renditions)
+    {
+        $this->renditions = $renditions;
+    }
 
     /**
      * {@inheritdoc}

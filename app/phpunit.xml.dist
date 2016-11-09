@@ -28,6 +28,7 @@
             <exclude>../src/SWP/Bundle/FixturesBundle/Tests/*</exclude>
             <exclude>../src/SWP/Bundle/BridgeBundle/Tests/*</exclude>
             <exclude>../src/SWP/Bundle/TemplatesSystemBundle/Tests/*</exclude>
+            <exclude>../src/SWP/Bundle/ContentBundle/Tests/*</exclude>
         </testsuite>
     </testsuites>
 

@@ -16,10 +16,10 @@ namespace spec\SWP\Bundle\ContentBundle\Rule\Applicator;
 
 use Prophecy\Argument;
 use Psr\Log\LoggerInterface;
-use SWP\Bundle\ContentBundle\Model\ArticleInterface;
 use SWP\Bundle\ContentBundle\Model\RouteInterface;
 use SWP\Bundle\ContentBundle\Provider\RouteProviderInterface;
 use SWP\Bundle\ContentBundle\Rule\Applicator\ArticleRuleApplicator;
+use SWP\Bundle\CoreBundle\Model\Article;
 use PhpSpec\ObjectBehavior;
 use SWP\Bundle\ContentBundle\Service\ArticleServiceInterface;
 use SWP\Component\Rule\Applicator\RuleApplicatorInterface;
@@ -49,14 +49,14 @@ final class ArticleRuleApplicatorSpec extends ObjectBehavior
         $this->shouldImplement(RuleApplicatorInterface::class);
     }
 
-    public function it_supports_articles(ArticleInterface $subject)
+    public function it_supports_articles(Article $subject)
     {
         $subject->getSubjectType()->willReturn('article');
 
         $this->isSupported($subject)->shouldReturn(true);
     }
 
-    public function it_doesn_not_support_when_type_is_wrong(ArticleInterface $subject)
+    public function it_doesn_not_support_when_type_is_wrong(Article $subject)
     {
         $subject->getSubjectType()->willReturn('fake');
 
@@ -87,7 +87,7 @@ final class ArticleRuleApplicatorSpec extends ObjectBehavior
 
     public function it_should_not_apply_rule_when_route_not_found(
         RuleInterface $rule,
-        ArticleInterface $subject,
+        Article $subject,
         LoggerInterface $logger
     ) {
         $rule->getConfiguration()->willReturn([
@@ -102,7 +102,7 @@ final class ArticleRuleApplicatorSpec extends ObjectBehavior
 
     public function it_applies_rule(
         RuleInterface $rule,
-        ArticleInterface $subject,
+        Article $subject,
         RouteProviderInterface $routeProvider,
         RouteInterface $route,
         LoggerInterface $logger,

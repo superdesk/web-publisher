@@ -14,7 +14,7 @@
 
 namespace SWP\Bundle\ContentBundle\Tests\Functional\Manager;
 
-use SWP\Bundle\FixturesBundle\WebTestCase;
+use SWP\Bundle\ContentBundle\Tests\Functional\WebTestCase;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
@@ -25,8 +25,6 @@ class MediaManagerTest extends WebTestCase
      */
     public function setUp()
     {
-        self::bootKernel();
-
         $this->initDatabase();
 
         $filesystem = new Filesystem();
@@ -41,7 +39,7 @@ class MediaManagerTest extends WebTestCase
         $mediaManager = $this->getContainer()->get('swp_content_bundle.manager.media');
 
         $media = $mediaManager->handleUploadedFile(
-            new UploadedFile(__DIR__.'/../Resources/test_file.png', 'test_file.png', 'image/png'),
+            new UploadedFile(__DIR__.'/../app/Resources/test_file.png', 'test_file.png', 'image/png'),
             'asdgsadfvasdf4w35qwetasftest'
         );
 
@@ -49,7 +47,7 @@ class MediaManagerTest extends WebTestCase
         $this->assertTrue($media->getFileExtension() === 'png');
 
         $file = $mediaManager->getFile($media);
-        $this->assertTrue($file === file_get_contents(__DIR__.'/../Resources/test_file.png'));
+        $this->assertTrue($file === file_get_contents(__DIR__.'/../app/Resources/test_file.png'));
     }
 
     /**
@@ -60,11 +58,11 @@ class MediaManagerTest extends WebTestCase
         $mediaManager = $this->getContainer()->get('swp_content_bundle.manager.media');
 
         $media = $mediaManager->handleUploadedFile(
-            new UploadedFile(__DIR__.'/../Resources/test_file.png', 'test_file.png', 'image/png'),
+            new UploadedFile(__DIR__.'/../app/Resources/test_file.png', 'test_file.png', 'image/png'),
             'asdgsadfvasdf4w35qwetasftest'
         );
 
         $this->assertEquals($mediaManager->getMediaUri($media), '/media/asdgsadfvasdf4w35qwetasftest.png');
-        $this->assertEquals($mediaManager->getMediaPublicUrl($media), 'http://default.localhost/media/asdgsadfvasdf4w35qwetasftest.png');
+        $this->assertEquals($mediaManager->getMediaPublicUrl($media), 'http://localhost/media/asdgsadfvasdf4w35qwetasftest.png');
     }
 }

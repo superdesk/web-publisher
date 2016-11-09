@@ -14,10 +14,12 @@
 
 namespace SWP\Bundle\ContentBundle\Model;
 
+use SWP\Component\Storage\Model\PersistableInterface;
+
 /**
  * ImageRendition represents media which belongs to Article.
  */
-class ImageRendition implements ImageRenditionInterface
+class ImageRendition implements ImageRenditionInterface, PersistableInterface
 {
     /**
      * @var string
@@ -33,6 +35,69 @@ class ImageRendition implements ImageRenditionInterface
      * @var string
      */
     protected $name;
+
+    /**
+     * @var int
+     */
+    protected $id;
+
+    /**
+     * @var ImageInterface
+     */
+    protected $image;
+
+    /**
+     * @var ArticleMediaInterface
+     */
+    protected $media;
+
+    /**
+     * @return ArticleMediaInterface
+     */
+    public function getMedia(): ArticleMediaInterface
+    {
+        return $this->media;
+    }
+
+    /**
+     * @param ArticleMediaInterface $media
+     */
+    public function setMedia(ArticleMediaInterface $media)
+    {
+        $this->media = $media;
+    }
+
+    /**
+     * @return ImageInterface
+     */
+    public function getImage()
+    {
+        return $this->image;
+    }
+
+    /**
+     * @param ImageInterface $image
+     */
+    public function setImage($image)
+    {
+        $this->image = $image;
+    }
+
+    /**
+     * @return int
+     */
+    public function getId(): int
+    {
+        return $this->id;
+    }
+
+    /**
+     * @param int $id
+     */
+    public function setId(int $id)
+    {
+        $this->id = $id;
+    }
 
     /**
      * {@inheritdoc}

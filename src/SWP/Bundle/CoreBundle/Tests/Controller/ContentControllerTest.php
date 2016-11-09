@@ -135,7 +135,7 @@ class ContentControllerTest extends WebTestCase
         ]);
 
         $this->assertEquals(201, $client->getResponse()->getStatusCode());
-        $this->assertEquals('{"id":3,"content":null,"static_prefix":"\/simple-test-route","variable_pattern":null,"parent":null,"children":[],"level":0,"template_name":"test.html.twig","articles_template_name":null,"type":"content","cache_time_in_seconds":0,"name":"simple-test-route","position":null,"_links":{"self":{"href":"\/api\/v1\/content\/routes\/3"}}}', $client->getResponse()->getContent());
+        $this->assertEquals('{"id":3,"content":null,"static_prefix":"\/simple-test-route","variable_pattern":null,"parent":null,"children":[],"level":0,"template_name":"test.html.twig","articles_template_name":null,"type":"content","cache_time_in_seconds":0,"name":"simple-test-route","position":null,"articles":[],"root":null,"lft":1,"rgt":2,"tenant_code":"123abc","_links":{"self":{"href":"\/api\/v1\/content\/routes\/3"}}}', $client->getResponse()->getContent());
 
         $crawler = $client->request('GET', '/simple-test-route');
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
@@ -152,5 +152,13 @@ class ContentControllerTest extends WebTestCase
         $crawler = $client->request('GET', '/collection-content/some-other-content');
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
         $this->assertEquals(1, $crawler->filter('html:contains("theme_test/test.html.twig")')->count());
+    }
+
+    public function testRenderingNotPublisherArticle()
+    {
+    }
+
+    public function testRenderingPublishedArticle()
+    {
     }
 }

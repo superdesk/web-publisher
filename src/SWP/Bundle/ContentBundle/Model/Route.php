@@ -18,7 +18,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Symfony\Cmf\Bundle\RoutingBundle\Model\Route as BaseRoute;
 
-abstract class Route extends BaseRoute implements RouteInterface
+class Route extends BaseRoute implements RouteInterface
 {
     use RouteTrait;
 

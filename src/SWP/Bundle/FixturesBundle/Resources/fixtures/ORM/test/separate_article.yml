@@ -1,10 +1,10 @@
-SWP\Bundle\ContentBundle\Model\RouteInterface:
+SWP\Bundle\ContentBundle\Model\Route:
     route1:
         name: "news"
         variablePattern: "/{slug}"
         type: "collection"
 
-SWP\Bundle\ContentBundle\Model\ArticleInterface:
+SWP\Bundle\ContentBundle\Model\Article:
     article1:
         title: "Test news article"
         body: "Test news article content"

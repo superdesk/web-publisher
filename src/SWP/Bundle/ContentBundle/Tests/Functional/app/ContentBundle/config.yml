@@ -88,24 +88,9 @@ stof_doctrine_extensions:
 doctrine:
     orm:
         entity_managers:
-            default:
-                auto_mapping: false
-                mappings:
-                    SWPContentBundle:
-                        type: yml
-                        prefix: SWP\Bundle\ContentBundle\Doctrine\ORM
-                        dir: Resources/config/doctrine-orm
-                    SWPContentBundleModels:
-                        type: yml
-                        prefix: SWP\Bundle\ContentBundle\Model
-                        dir: Resources/config/doctrine
-                    SWPContentBundleTests:
-                        type: yml
-                        prefix: SWP\Bundle\ContentBundle\Tests\Functional\app\ContentBundle\Model
-                        dir: Tests/Functional/app/ContentBundle/doctrine
+            default: ~
         resolve_target_entities:
-            SWP\Bundle\ContentBundle\Model\ArticleInterface: SWP\Bundle\ContentBundle\Tests\Functional\app\ContentBundle\Model\Article
-            SWP\Bundle\ContentBundle\Model\RouteInterface: SWP\Bundle\ContentBundle\Tests\Functional\app\ContentBundle\Model\Route
+            SWP\Bundle\ContentBundle\Model\RouteInterface: SWP\Bundle\ContentBundle\Model\Route
     dbal:
         driver:   pdo_sqlite
         memory:   true
@@ -121,13 +106,7 @@ jms_serializer:
 
 swp_content:
     persistence:
-        orm:
-            enabled: true
-            classes:
-                article:
-                    model: SWP\Bundle\ContentBundle\Tests\Functional\app\ContentBundle\Model\Article
-                route:
-                    model: SWP\Bundle\ContentBundle\Tests\Functional\app\ContentBundle\Model\Route
+        orm: true
 
 swp_bridge:
     persistence:

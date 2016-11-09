@@ -15,11 +15,13 @@
 namespace SWP\Bundle\CoreBundle\Model;
 
 use SWP\Bundle\ContentBundle\Model\Article as BaseArticle;
+use SWP\Component\ContentList\Model\ListContentInterface;
 use SWP\Component\MultiTenancy\Model\TenantAwareInterface;
 use SWP\Component\MultiTenancy\Model\TenantAwareTrait;
+use SWP\Component\Rule\Model\RuleSubjectInterface;
 use SWP\Component\Storage\Model\PersistableInterface;
 
-class Article extends BaseArticle implements PersistableInterface , TenantAwareInterface
+class Article extends BaseArticle implements PersistableInterface , TenantAwareInterface, RuleSubjectInterface, ListContentInterface
 {
     use TenantAwareTrait;
 }

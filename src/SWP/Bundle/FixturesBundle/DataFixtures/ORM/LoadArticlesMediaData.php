@@ -17,9 +17,7 @@ namespace SWP\Bundle\FixturesBundle\DataFixtures\ORM;
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
-use SWP\Bundle\ContentBundle\Doctrine\ORM\Article;
-use SWP\Bundle\ContentBundle\Doctrine\ORM\ArticleMedia;
-use SWP\Bundle\ContentBundle\Doctrine\ORM\ImageRendition;
+use SWP\Bundle\ContentBundle\Model\ImageRendition;
 use SWP\Bundle\ContentBundle\Model\ArticleInterface;
 use SWP\Bundle\FixturesBundle\AbstractFixture;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
@@ -79,7 +77,7 @@ class LoadArticlesMediaData extends AbstractFixture implements FixtureInterface,
 
         if (isset($articles[$env])) {
             foreach ($articles[$env] as $articleData) {
-                $article = new Article();
+                $article = $this->container->get('swp.factory.article')->create();
                 $article->setTitle($articleData['title']);
                 $article->setBody($articleData['content']);
                 $article->setLocale($articleData['locale']);
@@ -89,7 +87,8 @@ class LoadArticlesMediaData extends AbstractFixture implements FixtureInterface,
                 $manager->persist($article);
 
                 // create Media
-                $articleMedia = new ArticleMedia();
+                $articleMediaClass = $this->container->getParameter('swp.model.media.class');
+                $articleMedia = new $articleMediaClass();
                 $articleMedia->setArticle($article);
                 $articleMedia->setKey('embedded6358005131');
                 $articleMedia->setBody('article media body');

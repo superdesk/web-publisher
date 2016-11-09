@@ -6,5 +6,5 @@ SWP\Bundle\CoreBundle\Model\WidgetModel:
             type: string
     oneToMany:
         containers:
-            targetEntity: SWP\Bundle\TemplatesSystemBundle\Model\ContainerWidget
+            targetEntity: SWP\Component\TemplatesSystem\Gimme\Model\ContainerWidgetInterface
             mappedBy: widget

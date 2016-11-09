@@ -6,3 +6,4 @@ Tests/Functional/app/cache/*
 !Tests/Functional/app/cache
 Tests/Functional/app/logs/*
 !Tests/Functional/app/logs
+Tests/Functional/web

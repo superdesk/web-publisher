@@ -68,12 +68,6 @@ doctrine:
 
     orm:
         auto_generate_proxy_classes: "%kernel.debug%"
-        resolve_target_entities:
-            SWP\Component\ContentList\Model\ListContentInterface: SWP\Bundle\ContentBundle\Doctrine\ORM\Article
-            SWP\Component\ContentList\Model\ContentListItemInterface: SWP\Component\ContentList\Model\ContentListItem
-            SWP\Component\ContentList\Model\ContentListInterface: SWP\Bundle\ContentBundle\Doctrine\ORM\ContentList
-            SWP\Component\TemplatesSystem\Gimme\Model\WidgetModelInterface: SWP\Bundle\CoreBundle\Model\WidgetModel
-            SWP\Component\TemplatesSystem\Gimme\Model\ContainerInterface: SWP\Bundle\CoreBundle\Model\Container
         entity_managers:
             default:
                 naming_strategy: doctrine.orm.naming_strategy.underscore
@@ -206,10 +200,6 @@ fos_rest:
 swp_core:
     device_listener:
         enabled: true
-
-swp_bridge:
-    persistence:
-        orm: true
 
 nelmio_api_doc:
     request_listener: false

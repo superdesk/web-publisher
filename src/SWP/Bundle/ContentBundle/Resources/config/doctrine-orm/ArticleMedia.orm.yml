@@ -1,5 +1,5 @@
-SWP\Bundle\ContentBundle\Doctrine\ORM\ArticleMedia:
-    type: entity
+SWP\Bundle\ContentBundle\Model\ArticleMedia:
+    type: mappedSuperclass
     table: swp_article_media
     repositoryClass: SWP\Bundle\ContentBundle\Doctrine\ORM\ArticleMediaRepository
     id:
@@ -35,7 +35,7 @@ SWP\Bundle\ContentBundle\Doctrine\ORM\ArticleMedia:
             nullable: true
     oneToMany:
         renditions:
-            targetEntity: SWP\Bundle\ContentBundle\Doctrine\ORM\ImageRendition
+            targetEntity: SWP\Bundle\ContentBundle\Model\ImageRendition
             mappedBy: media
     manyToOne:
         article:
@@ -47,8 +47,8 @@ SWP\Bundle\ContentBundle\Doctrine\ORM\ArticleMedia:
                 onDelete: CASCADE
     oneToOne:
         file:
-            targetEntity: SWP\Bundle\ContentBundle\Doctrine\ORM\File
+            targetEntity: SWP\Bundle\ContentBundle\Model\File
             mapped: file
         image:
-            targetEntity: SWP\Bundle\ContentBundle\Doctrine\ORM\Image
+            targetEntity: SWP\Bundle\ContentBundle\Model\Image
             mapped: media

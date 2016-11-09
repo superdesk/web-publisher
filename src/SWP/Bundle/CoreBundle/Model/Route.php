@@ -17,10 +17,9 @@ namespace SWP\Bundle\CoreBundle\Model;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use SWP\Bundle\ContentBundle\Model\RouteInterface;
-use SWP\Bundle\ContentBundle\Model\RouteTrait;
 use SWP\Component\MultiTenancy\Model\TenantAwareInterface;
 use SWP\Component\MultiTenancy\Model\TenantAwareTrait;
-use Symfony\Cmf\Bundle\RoutingBundle\Model\Route as BaseRoute;
+use SWP\Bundle\ContentBundle\Model\Route as BaseRoute;
 use SWP\Component\Storage\Model\PersistableInterface;
 
 class Route extends BaseRoute implements
@@ -28,7 +27,7 @@ class Route extends BaseRoute implements
     RouteInterface,
     TenantAwareInterface
 {
-    use RouteTrait, TenantAwareTrait;
+    use TenantAwareTrait;
 
     /**
      * @var int
