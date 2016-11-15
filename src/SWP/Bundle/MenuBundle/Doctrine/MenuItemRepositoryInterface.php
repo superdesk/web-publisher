@@ -16,8 +16,8 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\MenuBundle\Doctrine;
 
+use Knp\Component\Pager\Pagination\PaginationInterface;
 use SWP\Bundle\MenuBundle\Model\MenuItemInterface;
-use SWP\Component\Common\Pagination\PaginationInterface;
 
 interface MenuItemRepositoryInterface
 {
@@ -58,4 +58,12 @@ interface MenuItemRepositoryInterface
      * @param MenuItemInterface $sibling
      */
     public function persistAsNextSiblingOf(MenuItemInterface $node, MenuItemInterface $sibling);
+
+    /**
+     * @param MenuItemInterface $parent
+     * @param int               $position
+     *
+     * @return mixed
+     */
+    public function findChildByParentAndPosition(MenuItemInterface $parent, int $position);
 }

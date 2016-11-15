@@ -20,7 +20,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use SWP\Bundle\CoreBundle\Response\ResourcesListResponse;
 use SWP\Bundle\CoreBundle\Response\ResponseContext;
 use SWP\Bundle\CoreBundle\Response\SingleResourceResponse;
-use SWP\Bundle\MenuBundle\Form\Type\MenuItemMoveNodeType;
+use SWP\Bundle\MenuBundle\Form\Type\MenuItemMoveType;
 use SWP\Bundle\MenuBundle\Form\Type\MenuType;
 use SWP\Bundle\MenuBundle\Model\MenuItemInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -78,15 +78,18 @@ class MenuController extends Controller
      *
      * @ApiDoc(
      *     resource=true,
-     *     description="Moves menu item to a specific position",
+     *     description="Moves menu item to a specific position in a tree",
      *     statusCodes={
      *         200="Returned on success.",
-     *         404="No menus found."
+     *         404="Menu item not found.",
+     *         400="Validation error.",
+     *         409="When Menu item is already placed at the same position.",
+     *         500="Unexpected error."
      *     },
      *     requirements={
      *         {"name"="id", "dataType"="integer", "requirement"="\d+", "description"="An identifier of Menu item which you want to move"}
      *     },
-     *     input="SWP\Bundle\MenuBundle\Form\Type\MenuType"
+     *     input="SWP\Bundle\MenuBundle\Form\Type\MenuItemMoveType"
      * )
      * @Route("/api/{version}/menus/{id}/move/", options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_core_move_menu", requirements={"id"="\d+"})
      * @Method("PATCH")
@@ -94,20 +97,14 @@ class MenuController extends Controller
     public function moveAction(Request $request, $id)
     {
         $menuItem = $this->findOr404($id);
-        $form = $this->createForm(MenuItemMoveNodeType::class, [], ['method' => $request->getMethod()]);
+        $form = $this->createForm(MenuItemMoveType::class, [], ['method' => $request->getMethod()]);
         $form->handleRequest($request);
 
         if ($form->isValid()) {
             $menuItemManager = $this->get('swp_menu.manager.menu_item');
             $formData = $form->getData();
 
-            if (isset($formData['parentId'])) {
-                $menuItemManager->moveToParent($menuItem, $formData['parentId']);
-            }
-
-            if (isset($formData['afterId'])) {
-                $menuItemManager->moveAfter($menuItem, $formData['afterId']);
-            }
+            $menuItemManager->move($menuItem, $formData['parent'], $formData['position']);
 
             return new SingleResourceResponse($menuItem);
         }
@@ -157,7 +154,7 @@ class MenuController extends Controller
             $route = $this->get('swp.repository.route')->findOneBy(['id' => $request->request->get('menu')['route']]);
         }
 
-        /* @var MenuItemInterface $route */
+        /* @var MenuItemInterface $menu */
         $menu = $this->get('swp.factory.menu')->createItem('', ['route' => $route ? $route->getName() : null]);
         $form = $this->createForm(MenuType::class, $menu, ['method' => $request->getMethod()]);
 
@@ -232,7 +229,7 @@ class MenuController extends Controller
     private function findOr404($id)
     {
         if (null === $menu = $this->get('swp.repository.menu')->findOneBy(['id' => $id])) {
-            throw new NotFoundHttpException('Menu was not found.');
+            throw new NotFoundHttpException('Menu item was not found.');
         }
 
         return $menu;

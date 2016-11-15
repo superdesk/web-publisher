@@ -18,3 +18,6 @@ SWP\Bundle\MenuBundle\Model\MenuItem:
         level:
             expose: true
             type: integer
+        position:
+            expose: true
+            type: integer

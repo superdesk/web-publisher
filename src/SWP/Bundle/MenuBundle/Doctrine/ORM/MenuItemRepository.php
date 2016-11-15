@@ -124,6 +124,22 @@ class MenuItemRepository extends EntityRepository implements MenuItemRepositoryI
     /**
      * {@inheritdoc}
      */
+    public function findChildByParentAndPosition(MenuItemInterface $parent, int $position)
+    {
+        return $this->createQueryBuilder('m')
+            ->where('m.parent = :id')
+            ->andWhere('m.position = :position')
+            ->setParameters([
+                'id' => $parent->getId(),
+                'position' => $position,
+            ])
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function persistAsFirstChildOf(MenuItemInterface $node, MenuItemInterface $parent)
     {
         $wrapped = new EntityWrapper($node, $this->_em);

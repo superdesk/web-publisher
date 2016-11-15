@@ -17,21 +17,31 @@ declare(strict_types=1);
 namespace SWP\Bundle\MenuBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\GreaterThanOrEqual;
+use Symfony\Component\Validator\Constraints\NotBlank;
 
-class MenuItemMoveNodeType extends AbstractType
+class MenuItemMoveType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('parentId', MenuItemSelectorType::class, [
-                'required' => false,
-                'description' => 'A parent menu item id to which the node is moved.',
+            ->add('parent', MenuItemSelectorType::class, [
+                'required' => true,
+                'constraints' => [
+                    new NotBlank(),
+                ],
+                'description' => 'A parent menu item id to which the node should be moved.',
             ])
-            ->add('afterId', MenuItemSelectorType::class, [
-                'required' => false,
-                'description' => 'Menu item id after which you want to place a node.',
+            ->add('position', IntegerType::class, [
+                'required' => true,
+                'constraints' => [
+                    new NotBlank(),
+                    new GreaterThanOrEqual(['value' => 0]),
+                ],
+                'description' => 'Position under parent subtree in which to place the menu item.',
             ]);
     }
 
@@ -39,7 +49,6 @@ class MenuItemMoveNodeType extends AbstractType
     {
         $resolver->setDefaults([
             'csrf_protection' => false,
-            'data_class' => null,
         ]);
     }
 

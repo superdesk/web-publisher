@@ -21,18 +21,9 @@ use SWP\Bundle\MenuBundle\Model\MenuItemInterface;
 interface MenuItemManagerInterface
 {
     /**
-     * Moves menu item as a first child of parent.
-     *
      * @param MenuItemInterface $sourceItem
      * @param MenuItemInterface $parent
+     * @param int               $position
      */
-    public function moveToParent(MenuItemInterface $sourceItem, MenuItemInterface $parent);
-
-    /**
-     * Moves menu item after specific menu item.
-     *
-     * @param MenuItemInterface $sourceItem
-     * @param MenuItemInterface $afterItem
-     */
-    public function moveAfter(MenuItemInterface $sourceItem, MenuItemInterface $afterItem);
+    public function move(MenuItemInterface $sourceItem, MenuItemInterface $parent, int $position = 0);
 }

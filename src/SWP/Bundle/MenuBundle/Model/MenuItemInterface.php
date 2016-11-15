@@ -40,4 +40,14 @@ interface MenuItemInterface extends ItemInterface, PersistableInterface
      * @param int $right
      */
     public function setRight(int $right);
+
+    /**
+     * @return int
+     */
+    public function getPosition(): int;
+
+    /**
+     * @param int $position
+     */
+    public function setPosition(int $position);
 }

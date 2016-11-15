@@ -15,21 +15,22 @@
 namespace spec\SWP\Bundle\MenuBundle\Form\Type;
 
 use Prophecy\Argument;
-use SWP\Bundle\MenuBundle\Form\Type\MenuItemMoveNodeType;
 use PhpSpec\ObjectBehavior;
+use SWP\Bundle\MenuBundle\Form\Type\MenuItemMoveType;
 use SWP\Bundle\MenuBundle\Form\Type\MenuItemSelectorType;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormTypeInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
- * @mixin MenuItemMoveNodeType
+ * @mixin MenuItemMoveType
  */
-final class MenuItemMoveNodeTypeSpec extends ObjectBehavior
+final class MenuItemMoveTypeSpec extends ObjectBehavior
 {
     public function it_is_initializable()
     {
-        $this->shouldHaveType(MenuItemMoveNodeType::class);
+        $this->shouldHaveType(MenuItemMoveType::class);
     }
 
     public function it_should_be_a_form_type()
@@ -40,12 +41,12 @@ final class MenuItemMoveNodeTypeSpec extends ObjectBehavior
     public function it_should_build_form(FormBuilderInterface $builder)
     {
         $builder
-            ->add('parentId', MenuItemSelectorType::class, Argument::type('array'))
+            ->add('parent', MenuItemSelectorType::class, Argument::type('array'))
             ->willReturn($builder)
         ;
 
         $builder
-            ->add('afterId', MenuItemSelectorType::class, Argument::type('array'))
+            ->add('position', IntegerType::class, Argument::type('array'))
             ->willReturn($builder)
         ;
 
@@ -55,10 +56,7 @@ final class MenuItemMoveNodeTypeSpec extends ObjectBehavior
     public function it_should_set_defaults(OptionsResolver $resolver)
     {
         $resolver
-            ->setDefaults([
-                'csrf_protection' => false,
-                'data_class' => null,
-            ])
+            ->setDefaults(['csrf_protection' => false])
             ->shouldBeCalled()
         ;
 

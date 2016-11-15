@@ -42,6 +42,10 @@ SWP\Bundle\MenuBundle\Model\MenuItem:
             type: integer
             gedmo:
                 - treeLevel
+        position:
+            type: integer
+            gedmo:
+                - sortablePosition
     manyToOne:
         root:
             targetEntity: SWP\Bundle\MenuBundle\Model\MenuItemInterface
@@ -60,6 +64,7 @@ SWP\Bundle\MenuBundle\Model\MenuItem:
                 nullable: true
             gedmo:
                 - treeParent
+                - sortableGroup
     oneToMany:
         children:
             targetEntity: SWP\Bundle\MenuBundle\Model\MenuItemInterface
