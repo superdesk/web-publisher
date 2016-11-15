@@ -13,19 +13,8 @@ SWP\Bundle\MenuBundle\Model\MenuItem:
         label:
             expose: true
             type: string
-        parent:
-            expose: true
-        root:
-            expose: true
         children:
             expose: true
-            type: ArrayCollection<SWP\Bundle\MenuBundle\Model\MenuItemInterface>
         level:
-            expose: true
-            type: integer
-        lft:
-            expose: true
-            type: integer
-        rgt:
             expose: true
             type: integer

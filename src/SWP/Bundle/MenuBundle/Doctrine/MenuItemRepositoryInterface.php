@@ -17,6 +17,7 @@ declare(strict_types=1);
 namespace SWP\Bundle\MenuBundle\Doctrine;
 
 use SWP\Bundle\MenuBundle\Model\MenuItemInterface;
+use SWP\Component\Common\Pagination\PaginationInterface;
 
 interface MenuItemRepositoryInterface
 {
@@ -33,4 +34,28 @@ interface MenuItemRepositoryInterface
      * @return MenuItemInterface|null
      */
     public function getOneMenuItemById(int $id);
+
+    /**
+     * @param MenuItemInterface $menuItem
+     *
+     * @return PaginationInterface
+     */
+    public function findChildrenAsTree(MenuItemInterface $menuItem);
+
+    /**
+     * @return PaginationInterface
+     */
+    public function findRootNodes();
+
+    /**
+     * @param MenuItemInterface $node
+     * @param MenuItemInterface $parent
+     */
+    public function persistAsFirstChildOf(MenuItemInterface $node, MenuItemInterface $parent);
+
+    /**
+     * @param MenuItemInterface $node
+     * @param MenuItemInterface $sibling
+     */
+    public function persistAsNextSiblingOf(MenuItemInterface $node, MenuItemInterface $sibling);
 }

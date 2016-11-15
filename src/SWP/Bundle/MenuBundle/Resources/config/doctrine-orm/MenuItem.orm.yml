@@ -7,7 +7,7 @@ SWP\Bundle\MenuBundle\Model\MenuItem:
             type: integer
             id: true
             generator:
-                strategy: IDENTITY
+                strategy: AUTO
     gedmo:
         tree:
             type: nested

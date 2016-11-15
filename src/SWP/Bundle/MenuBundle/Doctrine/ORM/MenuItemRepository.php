@@ -16,11 +16,54 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\MenuBundle\Doctrine\ORM;
 
+use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\Mapping\ClassMetadata;
+use Gedmo\Exception\UnexpectedValueException;
+use Gedmo\Tool\Wrapper\EntityWrapper;
+use Gedmo\Tree\TreeListener;
 use SWP\Bundle\MenuBundle\Doctrine\MenuItemRepositoryInterface;
+use SWP\Bundle\MenuBundle\Model\MenuItemInterface;
 use SWP\Bundle\StorageBundle\Doctrine\ORM\EntityRepository;
+use SWP\Component\Common\Pagination\PaginationData;
 
 class MenuItemRepository extends EntityRepository implements MenuItemRepositoryInterface
 {
+    /**
+     * Tree listener on event manager.
+     *
+     * @var TreeListener
+     */
+    protected $treeListener;
+
+    /**
+     * MenuItemRepository constructor.
+     *
+     * @param EntityManager $em
+     * @param ClassMetadata $class
+     */
+    public function __construct(EntityManager $em, ClassMetadata $class)
+    {
+        parent::__construct($em, $class);
+        $treeListener = null;
+        foreach ($em->getEventManager()->getListeners() as $listeners) {
+            foreach ($listeners as $listener) {
+                if ($listener instanceof TreeListener) {
+                    $treeListener = $listener;
+                    break;
+                }
+            }
+            if ($treeListener) {
+                break;
+            }
+        }
+
+        if (is_null($treeListener)) {
+            throw new \Gedmo\Exception\InvalidMappingException('Tree listener was not found on your entity manager, it must be hooked into the event manager');
+        }
+
+        $this->treeListener = $treeListener;
+    }
+
     /**
      * {@inheritdoc}
      */
@@ -43,5 +86,91 @@ class MenuItemRepository extends EntityRepository implements MenuItemRepositoryI
             ->setParameter('id', $id)
             ->getQuery()
             ->getOneOrNullResult();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function findChildrenAsTree(MenuItemInterface $menuItem)
+    {
+        $queryBuilder = $this->createQueryBuilder('m');
+        $queryBuilder
+            ->addSelect('children')
+            ->leftJoin('m.children', 'children')
+            ->where('m.parent = :parent')
+            ->addOrderBy('m.root')
+            ->setParameter('parent', $menuItem)
+            ->orderBy('m.lft', 'asc')
+        ;
+
+        return $this->getPaginator($queryBuilder, new PaginationData());
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function findRootNodes()
+    {
+        $queryBuilder = $this->createQueryBuilder('m');
+        $queryBuilder
+            ->addSelect('children')
+            ->leftJoin('m.children', 'children')
+            ->where($queryBuilder->expr()->isNull('m.parent'))
+            ->orderBy('m.id', 'asc');
+
+        return $this->getPaginator($queryBuilder, new PaginationData());
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function persistAsFirstChildOf(MenuItemInterface $node, MenuItemInterface $parent)
+    {
+        $wrapped = new EntityWrapper($node, $this->_em);
+        $meta = $this->getClassMetadata();
+        $config = $this->treeListener->getConfiguration($this->_em, $meta->name);
+
+        $wrapped->setPropertyValue($config['parent'], $parent);
+
+        $wrapped->setPropertyValue($config['left'], 0);
+        $oid = spl_object_hash($node);
+        $this->treeListener
+            ->getStrategy($this->_em, $meta->name)
+            ->setNodePosition($oid, 'FirstChild')
+        ;
+
+        $this->_em->persist($node);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function persistAsNextSiblingOf(MenuItemInterface $node, MenuItemInterface $sibling)
+    {
+        $wrapped = new EntityWrapper($node, $this->_em);
+        $meta = $this->getClassMetadata();
+        $config = $this->treeListener->getConfiguration($this->_em, $meta->name);
+
+        $wrappedSibling = new EntityWrapper($sibling, $this->_em);
+        $newParent = $wrappedSibling->getPropertyValue($config['parent']);
+        if (null === $newParent && isset($config['root'])) {
+            throw new UnexpectedValueException('Cannot persist sibling for a root node, tree operation is not possible');
+        }
+
+        $node->sibling = $sibling;
+        $sibling = $newParent;
+
+        $wrapped->setPropertyValue($config['parent'], $sibling);
+
+        $wrapped->setPropertyValue($config['left'], 0);
+        $oid = spl_object_hash($node);
+        $this->treeListener
+            ->getStrategy($this->_em, $meta->name)
+            ->setNodePosition($oid, 'NextSibling')
+        ;
+
+        $this->_em->persist($node);
+
+        return $this;
     }
 }

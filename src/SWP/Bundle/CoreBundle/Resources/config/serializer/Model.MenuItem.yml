@@ -9,3 +9,22 @@ SWP\Bundle\CoreBundle\Model\MenuItem:
                 route: swp_api_core_get_menu
                 parameters:
                     id: expr(object.getId())
+        - rel: children
+          href:
+                route: swp_api_core_list_children_menu
+                parameters:
+                    id: expr(object.getId())
+        - rel: parent
+          href:
+                route: swp_api_core_get_menu
+                parameters:
+                    id: expr(object.getParent().getId())
+          exclusion:
+                exclude_if: expr(null === object.getParent())
+        - rel: root
+          href:
+                route: swp_api_core_get_menu
+                parameters:
+                    id: expr(object.getRoot().getId())
+          exclusion:
+                exclude_if: expr(object.isRoot())

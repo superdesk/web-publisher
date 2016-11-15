@@ -20,10 +20,9 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use SWP\Bundle\CoreBundle\Response\ResourcesListResponse;
 use SWP\Bundle\CoreBundle\Response\ResponseContext;
 use SWP\Bundle\CoreBundle\Response\SingleResourceResponse;
+use SWP\Bundle\MenuBundle\Form\Type\MenuItemMoveNodeType;
 use SWP\Bundle\MenuBundle\Form\Type\MenuType;
 use SWP\Bundle\MenuBundle\Model\MenuItemInterface;
-use SWP\Component\Common\Criteria\Criteria;
-use SWP\Component\Common\Pagination\PaginationData;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\ConflictHttpException;
@@ -45,13 +44,76 @@ class MenuController extends Controller
      * @Route("/api/{version}/menus/", options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_core_list_menu")
      * @Method("GET")
      */
-    public function listAction(Request $request)
+    public function listAction()
     {
         $menuRepository = $this->get('swp.repository.menu');
 
-        $menus = $menuRepository->getPaginatedByCriteria(new Criteria(), [], new PaginationData($request));
+        return new ResourcesListResponse($menuRepository->findRootNodes());
+    }
+
+    /**
+     * Lists all children of menu item.
+     *
+     * @ApiDoc(
+     *     resource=true,
+     *     description="Lists all children of menu item",
+     *     statusCodes={
+     *         200="Returned on success.",
+     *         404="No menus found."
+     *     }
+     * )
+     * @Route("/api/{version}/menus/{id}/children/", options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_core_list_children_menu")
+     * @Method("GET")
+     */
+    public function listChildrenAction($id)
+    {
+        $menuRepository = $this->get('swp.repository.menu');
+
+        $menus = $menuRepository->findChildrenAsTree($this->findOr404($id));
 
         return new ResourcesListResponse($menus);
+    }
+
+    /**
+     * Moves menu item to a specific position.
+     *
+     * @ApiDoc(
+     *     resource=true,
+     *     description="Moves menu item to a specific position",
+     *     statusCodes={
+     *         200="Returned on success.",
+     *         404="No menus found."
+     *     },
+     *     requirements={
+     *         {"name"="id", "dataType"="integer", "requirement"="\d+", "description"="An identifier of Menu item which you want to move"}
+     *     },
+     *     input="SWP\Bundle\MenuBundle\Form\Type\MenuType"
+     * )
+     * @Route("/api/{version}/menus/{id}/move/", options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_core_move_menu", requirements={"id"="\d+"})
+     * @Method("PATCH")
+     */
+    public function moveAction(Request $request, $id)
+    {
+        $menuItem = $this->findOr404($id);
+        $form = $this->createForm(MenuItemMoveNodeType::class, [], ['method' => $request->getMethod()]);
+        $form->handleRequest($request);
+
+        if ($form->isValid()) {
+            $menuItemManager = $this->get('swp_menu.manager.menu_item');
+            $formData = $form->getData();
+
+            if (isset($formData['parentId'])) {
+                $menuItemManager->moveToParent($menuItem, $formData['parentId']);
+            }
+
+            if (isset($formData['afterId'])) {
+                $menuItemManager->moveAfter($menuItem, $formData['afterId']);
+            }
+
+            return new SingleResourceResponse($menuItem);
+        }
+
+        return new SingleResourceResponse($form, new ResponseContext(400));
     }
 
     /**

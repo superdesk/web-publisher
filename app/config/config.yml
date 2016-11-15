@@ -197,6 +197,14 @@ fos_http_cache:
                 routes:
                     swp_api_core_list_rule: ~
                     swp_api_core_get_rule: ~
+            -
+                match:
+                    attributes:
+                        _route: "swp_api_core_move_menu|swp_api_core_create_menu|swp_api_core_delete_menu"
+                routes:
+                    swp_api_core_list_menu: ~
+                    swp_api_core_list_children_menu: ~
+                    swp_api_core_get_menu: ~
 
 cmf_routing:
     chain:
