@@ -51,6 +51,36 @@ class MenuControllerTest extends WebTestCase
         self::assertContains('"label":"Main menu"', $content);
     }
 
+    public function testCreateMenuItemsWithTheSameNamesApi()
+    {
+        $client = static::createClient();
+        $client->request('POST', $this->router->generate('swp_api_core_create_menu'), [
+            'menu' => [
+                'name' => 'politics',
+                'label' => 'My first politics menu item',
+                'parent' => 1,
+            ],
+        ]);
+
+        self::assertEquals(201, $client->getResponse()->getStatusCode());
+        $content = $client->getResponse()->getContent();
+        self::assertContains('"name":"politics"', $content);
+        self::assertContains('"label":"My first politics menu item"', $content);
+
+        $client->request('POST', $this->router->generate('swp_api_core_create_menu'), [
+            'menu' => [
+                'name' => 'politics',
+                'label' => 'My second politics menu item',
+                'parent' => 1,
+            ],
+        ]);
+
+        self::assertEquals(201, $client->getResponse()->getStatusCode());
+        $content = $client->getResponse()->getContent();
+        self::assertContains('"name":"politics"', $content);
+        self::assertContains('"label":"My second politics menu item"', $content);
+    }
+
     public function testCreateMenuWithTheSameLabelAndNameApi()
     {
         $client = static::createClient();

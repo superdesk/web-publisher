@@ -25,7 +25,6 @@ use SWP\Bundle\MenuBundle\Form\Type\MenuType;
 use SWP\Bundle\MenuBundle\Model\MenuItemInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpKernel\Exception\ConflictHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class MenuController extends Controller
@@ -163,7 +162,6 @@ class MenuController extends Controller
         $form = $this->createForm(MenuType::class, $menu, ['method' => $request->getMethod()]);
 
         $form->handleRequest($request);
-        $this->ensureMenuItemExists($menu->getName());
 
         if ($form->isValid()) {
             $this->get('swp.repository.menu')->add($menu);
@@ -238,12 +236,5 @@ class MenuController extends Controller
         }
 
         return $menu;
-    }
-
-    private function ensureMenuItemExists($name)
-    {
-        if (null !== $this->get('swp.repository.menu')->findOneByName($name)) {
-            throw new ConflictHttpException(sprintf('Menu item "%s" already exists!', $name));
-        }
     }
 }
