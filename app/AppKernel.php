@@ -38,13 +38,13 @@ class AppKernel extends Kernel
             new SWP\Bundle\StorageBundle\SWPStorageBundle(),
             new SWP\Bundle\MultiTenancyBundle\SWPMultiTenancyBundle(),
             new SWP\Bundle\TemplatesSystemBundle\SWPTemplatesSystemBundle(),
-            new SWP\Bundle\CoreBundle\SWPCoreBundle(),
             new SWP\Bundle\BridgeBundle\SWPBridgeBundle(),
             new SWP\Bundle\ContentBundle\SWPContentBundle(),
             new SWP\Bundle\AnalyticsBundle\SWPAnalyticsBundle(),
             new SWP\Bundle\RuleBundle\SWPRuleBundle(),
             new SWP\Bundle\MenuBundle\SWPMenuBundle(),
             new SWP\Bundle\ContentListBundle\SWPContentListBundle(),
+            new SWP\Bundle\CoreBundle\SWPCoreBundle(),
 
             new Sentry\SentryBundle\SentryBundle(),
         ];
@@ -71,38 +71,5 @@ class AppKernel extends Kernel
     public function registerContainerConfiguration(LoaderInterface $loader)
     {
         $loader->load($this->getRootDir().'/config/config_'.$this->getEnvironment().'.yml');
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function initializeContainer()
-    {
-        static $first = true;
-
-        if ('test' !== $this->getEnvironment()) {
-            parent::initializeContainer();
-
-            return;
-        }
-
-        $debug = $this->debug;
-
-        if (!$first) {
-            // disable debug mode on all but the first initialization
-            $this->debug = false;
-        }
-
-        // will not work with --process-isolation
-        $first = false;
-
-        try {
-            parent::initializeContainer();
-        } catch (\Exception $e) {
-            $this->debug = $debug;
-            throw $e;
-        }
-
-        $this->debug = $debug;
     }
 }

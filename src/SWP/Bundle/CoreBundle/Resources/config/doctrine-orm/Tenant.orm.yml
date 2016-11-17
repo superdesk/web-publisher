@@ -10,7 +10,7 @@ SWP\Bundle\CoreBundle\Model\Tenant:
             nullable: true
     oneToOne:
         homepage:
-            targetEntity: SWP\Bundle\ContentBundle\Doctrine\ORM\Route
+            targetEntity: SWP\Bundle\ContentBundle\Model\RouteInterface
             joinColumn:
                 name: tenant_route_id
                 referencedColumnName: id

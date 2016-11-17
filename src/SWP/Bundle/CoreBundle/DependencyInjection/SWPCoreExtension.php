@@ -14,10 +14,12 @@
 
 namespace SWP\Bundle\CoreBundle\DependencyInjection;
 
+use SWP\Bundle\CoreBundle\Model\ContentList;
 use SWP\Bundle\StorageBundle\DependencyInjection\Extension\Extension;
 use SWP\Bundle\StorageBundle\Drivers;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\Extension\PrependExtensionInterface;
 use Symfony\Component\DependencyInjection\Loader;
 
 /**
@@ -25,7 +27,7 @@ use Symfony\Component\DependencyInjection\Loader;
  *
  * To learn more see {@link http://symfony.com/doc/current/cookbook/bundles/extension.html}
  */
-class SWPCoreExtension extends Extension
+class SWPCoreExtension extends Extension implements PrependExtensionInterface
 {
     /**
      * {@inheritdoc}
@@ -45,5 +47,30 @@ class SWPCoreExtension extends Extension
         if ($config['device_listener']['enabled']) {
             $loader->load('device_listener.yml');
         }
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function prepend(ContainerBuilder $container)
+    {
+        $config = $this->processConfiguration(new Configuration(), $container->getExtensionConfig($this->getAlias()));
+
+        if (!$container->hasExtension('swp_content_list')) {
+            return;
+        }
+
+        $container->prependExtensionConfig('swp_content_list', [
+            'persistence' => [
+                'orm' => [
+                    'enabled' => $config['persistence']['orm']['enabled'],
+                    'classes' => [
+                        'content_list' => [
+                            'model' => ContentList::class,
+                        ],
+                    ],
+                ],
+            ],
+        ]);
     }
 }

@@ -59,7 +59,7 @@ SWP\Bundle\ContentBundle\Model\Article:
         -
             rel: online
             href:
-                route: "expr(object.getRoute() ? object.getRoute().getRouteName() : 'homepage')"
+                route: "expr(object.getRoute() ? object.getRoute().getRouteName() : 'swp_api_content_list_articles')"
                 parameters:
                     slug: "expr(object.getSlug())"
             exclusion:
@@ -67,6 +67,6 @@ SWP\Bundle\ContentBundle\Model\Article:
         -
             rel: online
             href:
-                route: "expr(object.getRoute() ? object.getRoute().getRouteName(): 'homepage')"
+                route: "expr(object.getRoute() ? object.getRoute().getRouteName() : 'swp_api_content_list_articles' )"
             exclusion:
                 exclude_if: "expr(object.getRoute() ? object.getRoute().getType() !== 'content')"

@@ -9,8 +9,8 @@ SWP\Bundle\CoreBundle\Model\Container:
           columns: [ name, tenant_code ]
     oneToMany:
         data:
-            targetEntity: SWP\Bundle\TemplatesSystemBundle\Model\ContainerData
+            targetEntity: SWP\Component\TemplatesSystem\Gimme\Model\ContainerDataInterface
             mappedBy: container
         widgets:
-            targetEntity: SWP\Bundle\TemplatesSystemBundle\Model\ContainerWidget
+            targetEntity: SWP\Component\TemplatesSystem\Gimme\Model\ContainerWidgetInterface
             mappedBy: container

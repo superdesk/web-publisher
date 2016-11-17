@@ -8,3 +8,5 @@ SWP\Bundle\ContentBundle\Model\ArticleMedia:
             expose: true
         image:
             expose: true
+        renditions:
+            expose: true

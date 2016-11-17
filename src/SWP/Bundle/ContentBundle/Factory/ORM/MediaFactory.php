@@ -17,10 +17,10 @@ declare(strict_types=1);
 namespace SWP\Bundle\ContentBundle\Factory\ORM;
 
 use SWP\Bundle\ContentBundle\Doctrine\ImageRepositoryInterface;
-use SWP\Bundle\ContentBundle\Doctrine\ORM\ArticleMedia;
-use SWP\Bundle\ContentBundle\Doctrine\ORM\File;
-use SWP\Bundle\ContentBundle\Doctrine\ORM\Image;
-use SWP\Bundle\ContentBundle\Doctrine\ORM\ImageRendition;
+use SWP\Bundle\ContentBundle\Model\ArticleMedia;
+use SWP\Bundle\ContentBundle\Model\File;
+use SWP\Bundle\ContentBundle\Model\Image;
+use SWP\Bundle\ContentBundle\Model\ImageRendition;
 use SWP\Bundle\ContentBundle\Factory\MediaFactoryInterface;
 use SWP\Bundle\ContentBundle\Model\ArticleInterface;
 use SWP\Bundle\ContentBundle\Model\ArticleMediaInterface;
@@ -39,20 +39,24 @@ class MediaFactory implements MediaFactoryInterface
      */
     protected $imageRepository;
 
+    protected $mediaModelClass;
+
     /**
      * MediaFactory constructor.
      *
      * @param ImageRepositoryInterface $imageRepository
      */
     public function __construct(
-        ImageRepositoryInterface $imageRepository
+        ImageRepositoryInterface $imageRepository,
+        $mediaModelClass
     ) {
         $this->imageRepository = $imageRepository;
+        $this->mediaModelClass = $mediaModelClass;
     }
 
     public function create(ArticleInterface $article, string $key, ItemInterface $item): ArticleMediaInterface
     {
-        $articleMedia = new ArticleMedia();
+        $articleMedia = new $this->mediaModelClass();
         $articleMedia->setArticle($article);
         $articleMedia->setFromItem($item);
 

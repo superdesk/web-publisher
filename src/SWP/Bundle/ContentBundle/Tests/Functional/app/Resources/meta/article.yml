@@ -1,0 +1,35 @@
+name: article
+class: "SWP\\Bundle\\ContentBundle\\Model\\ArticleInterface"
+description: Article Meta is representation of Article in Superdesk Web Publisher.
+properties:
+    title:
+        description: "Article title"
+        type: text
+    slug:
+        description: "Article slug used for url"
+        type: text
+    body:
+        description: "Article content"
+        type: text
+    id:
+        description: "Article identifier"
+        type: text
+    publishedAt:
+        description: "Article published timestamp"
+        type: datetime
+    createdAt:
+        description: "Article creation timestamp"
+        type: datetime
+    updatedAt:
+        description: "Article update timestamp"
+        type: datetime
+    metadata:
+        description: "Article metadata"
+        type: array
+    route:
+        description: "Article route"
+        type: meta
+    lead:
+        description: "Article lead/abstract"
+        type: text
+to_string: title

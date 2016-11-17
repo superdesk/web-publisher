@@ -25,4 +25,5 @@ return [
 
     new SWP\Bundle\MenuBundle\SWPMenuBundle(),
     new SWP\Bundle\TemplatesSystemBundle\SWPTemplatesSystemBundle(),
+    new SWP\Bundle\StorageBundle\SWPStorageBundle(),
 ];

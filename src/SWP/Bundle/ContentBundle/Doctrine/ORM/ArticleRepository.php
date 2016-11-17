@@ -39,7 +39,7 @@ class ArticleRepository extends EntityRepository implements ArticleRepositoryInt
      */
     public function findAllArticles()
     {
-        throw new \Exception('Not implemented');
+        return $this->getQueryByCriteria(new Criteria(), [], 'a')->getQuery()->getResult();
     }
 
     /**

@@ -1,5 +1,5 @@
-SWP\Bundle\ContentBundle\Doctrine\ORM\Article:
-    article{1..5000}:
+SWP\Bundle\CoreBundle\Model\Article:
+    article{1..500}:
         title: "<catchPhrase()> <numberBetween(1, 200)>"
         body: "<paragraph(20)>"
         route: "<getRouteByName('news')>"

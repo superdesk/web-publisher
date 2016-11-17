@@ -1,3 +1,0 @@
-SWP\Bundle\CoreBundle\Document\Organization:
-    referenceable: true
-    parentdocument: parent
