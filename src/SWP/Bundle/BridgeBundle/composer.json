@@ -14,6 +14,12 @@
             "email": "rafal.muszynski@sourcefabric.org"
         }
     ],
+    "repositories": [
+        {
+            "type": "path",
+            "url": "../*"
+        }
+    ],
     "require": {
         "php": ">=5.6|^7.0",
         "guzzlehttp/guzzle": "^6.0",

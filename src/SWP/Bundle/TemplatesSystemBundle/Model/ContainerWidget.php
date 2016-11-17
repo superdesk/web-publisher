@@ -29,7 +29,7 @@ class ContainerWidget implements ContainerWidgetInterface
     protected $id;
 
     /**
-     * @var WidgetModel
+     * @var WidgetModelInterface
      */
     protected $widget;
 

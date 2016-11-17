@@ -25,7 +25,7 @@ use Symfony\Component\DependencyInjection\Loader;
  *
  * To learn more see {@link http://symfony.com/doc/current/cookbook/bundles/extension.html}
  */
-class SWPContentExtension extends Extension //implements PrependExtensionInterface
+class SWPContentExtension extends Extension
 {
     /**
      * {@inheritdoc}
@@ -41,29 +41,4 @@ class SWPContentExtension extends Extension //implements PrependExtensionInterfa
             $loader->load('providers.orm.yml');
         }
     }
-
-//    /**
-//     * {@inheritdoc}
-//     */
-//    public function prepend(ContainerBuilder $container)
-//    {
-//        $config = $this->processConfiguration(new Configuration(), $container->getExtensionConfig($this->getAlias()));
-
-//        if (!$container->hasExtension('swp_content_list')) {
-//            return;
-//        }
-
-//        $container->prependExtensionConfig('swp_content_list', [
-//            'persistence' => [
-//                'orm' => [
-//                    'enabled' => $config['persistence']['orm']['enabled'],
-//                    'classes' => [
-//                        'content_list' => [
-//                            'model' => ContentList::class,
-//                        ],
-//                    ],
-//                ],
-//            ],
-//        ]);
-//    }
 }

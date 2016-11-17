@@ -33,20 +33,18 @@ abstract class Extension extends BaseExtension
 
         // enable current backend type for mapping files
         $container->setParameter(sprintf('%s.backend_type_%s', $this->getAlias(), $type), true);
-
+        $resources = $container->hasParameter('swp.resources') ? $container->getParameter('swp.resources') : [];
         foreach ($config as $key => $classConfig) {
             $container->setParameter(
                 sprintf('%s.persistence.%s.manager_name', $this->getAlias(), $type),
                 $classConfig['object_manager_name']
             );
 
-            $resources = $container->hasParameter('swp.resources')
-                ? $container->getParameter('swp.resources') : [];
             $resources = array_merge($resources, ['swp.'.$key => $classConfig]);
-            $container->setParameter('swp.resources', $resources);
 
             $classConfig['name'] = $key;
             $driver->load($container, $classConfig);
         }
+        $container->setParameter('swp.resources', $resources);
     }
 }
