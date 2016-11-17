@@ -33,7 +33,7 @@ class WebTestCase extends BaseWebTestCase
     {
         require_once __DIR__.'/app/AppKernel.php';
 
-        return 'SWP\Bundle\TemplatesSystem\Tests\Functional\app\AppKernel';
+        return 'SWP\Bundle\TemplatesSystemBundle\Tests\Functional\app\AppKernel';
     }
 
     protected function initDatabase()

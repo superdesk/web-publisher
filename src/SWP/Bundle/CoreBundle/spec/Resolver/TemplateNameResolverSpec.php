@@ -18,9 +18,9 @@
 namespace spec\SWP\Bundle\CoreBundle\Resolver;
 
 use PhpSpec\ObjectBehavior;
+use SWP\Bundle\CoreBundle\Model\Route;
 use SWP\Bundle\CoreBundle\Resolver\TemplateNameResolver;
 use SWP\Bundle\CoreBundle\Resolver\TemplateNameResolverInterface;
-use SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\RouteObjectInterface;
 use SWP\Bundle\ContentBundle\Model\RouteInterface;
 use SWP\Bundle\ContentBundle\Model\ArticleInterface;
 
@@ -39,7 +39,7 @@ class TemplateNameResolverSpec extends ObjectBehavior
         $this->shouldImplement(TemplateNameResolverInterface::class);
     }
 
-    public function it_should_resolve_template_name_from_article(ArticleInterface $article, RouteObjectInterface $route)
+    public function it_should_resolve_template_name_from_article(ArticleInterface $article, Route $route)
     {
         $this->resolveFromArticle($article)->shouldReturn('article.html.twig');
 
@@ -54,7 +54,7 @@ class TemplateNameResolverSpec extends ObjectBehavior
         $this->resolveFromArticle($article)->shouldReturn('test2.html.twig');
     }
 
-    public function it_should_resolve_template_name_on_collection_routes(ArticleInterface $article, RouteObjectInterface $route)
+    public function it_should_resolve_template_name_on_collection_routes(ArticleInterface $article, Route $route)
     {
         $article->getTemplateName()->willReturn(null);
         $route->getTemplateName()->willReturn('test2.html.twig');
@@ -65,7 +65,7 @@ class TemplateNameResolverSpec extends ObjectBehavior
         $this->resolveFromArticle($article)->shouldReturn('test2.html.twig');
     }
 
-    public function it_should_resolve_template_name_from_content_type_route(RouteObjectInterface $route)
+    public function it_should_resolve_template_name_from_content_type_route(Route $route)
     {
         $route->getTemplateName()->willReturn('test2.html.twig');
         $route->getContent()->willReturn(null);
@@ -76,7 +76,7 @@ class TemplateNameResolverSpec extends ObjectBehavior
         $this->resolveFromRoute($route)->shouldReturn('article.html.twig');
     }
 
-    public function it_should_resolve(RouteObjectInterface $route, ArticleInterface $article)
+    public function it_should_resolve(Route $route, ArticleInterface $article)
     {
         $route->getTemplateName()->willReturn('test2.html.twig');
         $route->getType()->willReturn(RouteInterface::TYPE_CONTENT);
@@ -90,7 +90,7 @@ class TemplateNameResolverSpec extends ObjectBehavior
         $this->resolve(null)->shouldReturn('article.html.twig');
     }
 
-    public function it_should_resolve_template_name_from_content_type_route_and_content_with_custom_template(RouteObjectInterface $route, ArticleInterface $article)
+    public function it_should_resolve_template_name_from_content_type_route_and_content_with_custom_template(Route $route, ArticleInterface $article)
     {
         $route->getType()->willReturn(RouteInterface::TYPE_CONTENT);
         $route->getTemplateName()->willReturn('test2.html.twig');
@@ -100,7 +100,7 @@ class TemplateNameResolverSpec extends ObjectBehavior
         $this->resolve($route)->shouldReturn('article2.html.twig');
     }
 
-    public function it_should_resolve_template_name_from_collection_type_route_and_defaultArticlesTemplate_set(RouteObjectInterface $route, ArticleInterface $article)
+    public function it_should_resolve_template_name_from_collection_type_route_and_defaultArticlesTemplate_set(Route $route, ArticleInterface $article)
     {
         $route->getType()->willReturn(RouteInterface::TYPE_COLLECTION);
         $route->getTemplateName()->willReturn('test2.html.twig');
@@ -111,7 +111,7 @@ class TemplateNameResolverSpec extends ObjectBehavior
         $this->resolve($article)->shouldReturn('article_template.html.twig');
     }
 
-    public function it_should_resolve_template_name_from_collection_type_route_and_defaultArticlesTemplate_set_and_defaultTemplate_in_article_(RouteObjectInterface $route, ArticleInterface $article)
+    public function it_should_resolve_template_name_from_collection_type_route_and_defaultArticlesTemplate_set_and_defaultTemplate_in_article_(Route $route, ArticleInterface $article)
     {
         $route->getType()->willReturn(RouteInterface::TYPE_COLLECTION);
         $route->getTemplateName()->willReturn('test2.html.twig');

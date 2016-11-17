@@ -1,0 +1,25 @@
+SWP\Bundle\ContentBundle\Model\Route:
+    exclusion_policy: ALL
+    properties:
+        templateName:
+            expose: true
+        type:
+            expose: true
+        name:
+            expose: true
+        cacheTimeInSeconds:
+            expose: true
+            type: integer
+        articlesTemplateName:
+            expose: true
+            type: string
+        position:
+            expose: true
+            type: integer
+        level:
+            expose: true
+            type: integer
+        children:
+            expose: true
+        parent:
+            expose: true

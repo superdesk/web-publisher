@@ -1,4 +1,4 @@
-SWP\Bundle\ContentBundle\Doctrine\ORM\File:
+SWP\Bundle\ContentBundle\Model\File:
     type: entity
     table: swp_file
     repositoryClass: SWP\Bundle\ContentBundle\Doctrine\ORM\FileRepository
@@ -20,7 +20,7 @@ SWP\Bundle\ContentBundle\Doctrine\ORM\File:
             nullable: true
     oneToOne:
         media:
-            targetEntity: SWP\Bundle\ContentBundle\Doctrine\ORM\ArticleMedia
+            targetEntity: SWP\Bundle\ContentBundle\Model\ArticleMedia
             inversedBy: image
             joinColumn:
                 name: media_id

@@ -15,12 +15,13 @@
 namespace SWP\Bundle\TemplatesSystemBundle\Model;
 
 use SWP\Component\TemplatesSystem\Gimme\Model\ContainerInterface;
+use SWP\Component\TemplatesSystem\Gimme\Model\ContainerWidgetInterface;
 use SWP\Component\TemplatesSystem\Gimme\Model\WidgetModelInterface;
 
 /**
  * ContainerWidget.
  */
-class ContainerWidget
+class ContainerWidget implements ContainerWidgetInterface
 {
     /**
      * @var int
@@ -70,9 +71,7 @@ class ContainerWidget
     }
 
     /**
-     * Get WidgetModel.
-     *
-     * @return WidgetModel
+     * {@inheritdoc}
      */
     public function getWidget()
     {

@@ -1,0 +1,12 @@
+SWP\Bundle\CoreBundle\Model\ContentList:
+    type:  entity
+    table: swp_content_list
+    fields:
+        tenantCode:
+            type: string
+    oneToMany:
+        items:
+            targetEntity: SWP\Component\ContentList\Model\ContentListItemInterface
+            mappedBy: contentList
+            orphanRemoval: true
+            cascade: ["all"]

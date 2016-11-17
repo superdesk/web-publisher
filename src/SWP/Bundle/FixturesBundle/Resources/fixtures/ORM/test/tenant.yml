@@ -1,4 +1,4 @@
-SWP\Bundle\ContentBundle\Doctrine\ORM\Route:
+SWP\Bundle\CoreBundle\Model\Route:
     route1:
         name: "homepage1"
         type: "content"

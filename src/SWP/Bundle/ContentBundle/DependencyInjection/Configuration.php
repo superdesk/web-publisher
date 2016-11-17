@@ -14,22 +14,21 @@
 
 namespace SWP\Bundle\ContentBundle\DependencyInjection;
 
-use SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\Article;
-use SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\ArticleRepository;
-use SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\Route;
-use SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\Site;
-use SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\Media;
-use SWP\Bundle\ContentBundle\Doctrine\ORM\Article as ORMArticle;
-use SWP\Bundle\ContentBundle\Doctrine\ORM\ArticleRepository as ORMArticleRepository;
-use SWP\Bundle\ContentBundle\Doctrine\ORM\Route as ORMRoute;
+use SWP\Bundle\ContentBundle\Doctrine\ORM\ArticleRepository;
 use SWP\Bundle\ContentBundle\Doctrine\ORM\RouteRepository;
-use SWP\Bundle\ContentBundle\Doctrine\ORM\ArticleMedia as ORMArticleMedia;
-use SWP\Bundle\ContentBundle\Doctrine\ORM\ArticleMediaRepository as ORMArticleMediaRepository;
-use SWP\Bundle\ContentBundle\Doctrine\ORM\Image as ORMImage;
-use SWP\Bundle\ContentBundle\Doctrine\ORM\ImageRepository as ORMImageRepository;
+use SWP\Bundle\ContentBundle\Doctrine\ORM\ArticleMediaRepository;
+use SWP\Bundle\ContentBundle\Doctrine\ORM\ImageRepository;
+use SWP\Bundle\ContentBundle\Factory\ORM\ArticleFactory;
 use SWP\Bundle\ContentBundle\Factory\ORM\MediaFactory;
-use SWP\Bundle\ContentBundle\Factory\PHPCR\ArticleFactory;
 use SWP\Bundle\ContentBundle\Factory\RouteFactory;
+use SWP\Bundle\ContentBundle\Model\Article;
+use SWP\Bundle\ContentBundle\Model\ArticleInterface;
+use SWP\Bundle\ContentBundle\Model\ArticleMedia;
+use SWP\Bundle\ContentBundle\Model\ArticleMediaInterface;
+use SWP\Bundle\ContentBundle\Model\Image;
+use SWP\Bundle\ContentBundle\Model\ImageInterface;
+use SWP\Bundle\ContentBundle\Model\Route;
+use SWP\Bundle\ContentBundle\Model\RouteInterface;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
 
@@ -51,56 +50,6 @@ class Configuration implements ConfigurationInterface
                 ->arrayNode('persistence')
                     ->addDefaultsIfNotSet()
                     ->children()
-                        ->arrayNode('phpcr')
-                            ->addDefaultsIfNotSet()
-                            ->canBeEnabled()
-                            ->children()
-                                ->scalarNode('default_content_path')
-                                    ->defaultValue('articles')
-                                ->end()
-                                ->arrayNode('classes')
-                                    ->addDefaultsIfNotSet()
-                                    ->children()
-                                        ->arrayNode('article')
-                                            ->addDefaultsIfNotSet()
-                                            ->children()
-                                                ->scalarNode('model')->cannotBeEmpty()->defaultValue(Article::class)->end()
-                                                ->scalarNode('repository')->defaultValue(ArticleRepository::class)->end()
-                                                ->scalarNode('factory')->defaultValue(ArticleFactory::class)->end()
-                                                ->scalarNode('object_manager_name')->defaultValue(null)->end()
-                                            ->end()
-                                        ->end()
-                                        ->arrayNode('site')
-                                            ->addDefaultsIfNotSet()
-                                            ->children()
-                                                ->scalarNode('model')->cannotBeEmpty()->defaultValue(Site::class)->end()
-                                                ->scalarNode('repository')->defaultValue(null)->end()
-                                                ->scalarNode('factory')->defaultValue(RouteFactory::class)->end()
-                                                ->scalarNode('object_manager_name')->defaultValue(null)->end()
-                                            ->end()
-                                        ->end()
-                                        ->arrayNode('route')
-                                            ->addDefaultsIfNotSet()
-                                            ->children()
-                                                ->scalarNode('model')->cannotBeEmpty()->defaultValue(Route::class)->end()
-                                                ->scalarNode('repository')->defaultValue(null)->end()
-                                                ->scalarNode('factory')->defaultValue(RouteFactory::class)->end()
-                                                ->scalarNode('object_manager_name')->defaultValue(null)->end()
-                                            ->end()
-                                        ->end()
-                                        ->arrayNode('media')
-                                            ->addDefaultsIfNotSet()
-                                            ->children()
-                                                ->scalarNode('model')->cannotBeEmpty()->defaultValue(Media::class)->end()
-                                                ->scalarNode('repository')->defaultValue(null)->end()
-                                                ->scalarNode('factory')->defaultValue(null)->end()
-                                                ->scalarNode('object_manager_name')->defaultValue(null)->end()
-                                            ->end()
-                                        ->end()
-                                    ->end()
-                                ->end() // classes
-                            ->end()
-                        ->end() // phpcr
                         ->arrayNode('orm')
                             ->addDefaultsIfNotSet()
                             ->canBeEnabled()
@@ -111,25 +60,18 @@ class Configuration implements ConfigurationInterface
                                         ->arrayNode('article')
                                             ->addDefaultsIfNotSet()
                                             ->children()
-                                                ->scalarNode('model')->cannotBeEmpty()->defaultValue(ORMArticle::class)->end()
-                                                ->scalarNode('repository')->defaultValue(ORMArticleRepository::class)->end()
-                                                ->scalarNode('factory')->defaultValue(\SWP\Bundle\ContentBundle\Factory\ORM\ArticleFactory::class)->end()
-                                                ->scalarNode('object_manager_name')->defaultValue(null)->end()
-                                            ->end()
-                                        ->end()
-                                        ->arrayNode('site')
-                                            ->addDefaultsIfNotSet()
-                                            ->children()
-                                                ->scalarNode('model')->cannotBeEmpty()->defaultValue(Site::class)->end()
-                                                ->scalarNode('repository')->defaultValue(null)->end()
-                                                ->scalarNode('factory')->defaultValue(RouteFactory::class)->end()
+                                                ->scalarNode('model')->cannotBeEmpty()->defaultValue(Article::class)->end()
+                                                ->scalarNode('interface')->cannotBeEmpty()->defaultValue(ArticleInterface::class)->end()
+                                                ->scalarNode('repository')->defaultValue(ArticleRepository::class)->end()
+                                                ->scalarNode('factory')->defaultValue(ArticleFactory::class)->end()
                                                 ->scalarNode('object_manager_name')->defaultValue(null)->end()
                                             ->end()
                                         ->end()
                                         ->arrayNode('route')
                                             ->addDefaultsIfNotSet()
                                             ->children()
-                                                ->scalarNode('model')->cannotBeEmpty()->defaultValue(ORMRoute::class)->end()
+                                                ->scalarNode('model')->cannotBeEmpty()->defaultValue(Route::class)->end()
+                                                ->scalarNode('interface')->cannotBeEmpty()->defaultValue(RouteInterface::class)->end()
                                                 ->scalarNode('repository')->defaultValue(RouteRepository::class)->end()
                                                 ->scalarNode('factory')->defaultValue(RouteFactory::class)->end()
                                                 ->scalarNode('object_manager_name')->defaultValue(null)->end()
@@ -138,8 +80,9 @@ class Configuration implements ConfigurationInterface
                                         ->arrayNode('media')
                                             ->addDefaultsIfNotSet()
                                             ->children()
-                                                ->scalarNode('model')->cannotBeEmpty()->defaultValue(ORMArticleMedia::class)->end()
-                                                ->scalarNode('repository')->defaultValue(ORMArticleMediaRepository::class)->end()
+                                                ->scalarNode('model')->cannotBeEmpty()->defaultValue(ArticleMedia::class)->end()
+                                                ->scalarNode('interface')->cannotBeEmpty()->defaultValue(ArticleMediaInterface::class)->end()
+                                                ->scalarNode('repository')->defaultValue(ArticleMediaRepository::class)->end()
                                                 ->scalarNode('factory')->defaultValue(MediaFactory::class)->end()
                                                 ->scalarNode('object_manager_name')->defaultValue(null)->end()
                                             ->end()
@@ -147,8 +90,9 @@ class Configuration implements ConfigurationInterface
                                         ->arrayNode('image')
                                             ->addDefaultsIfNotSet()
                                             ->children()
-                                                ->scalarNode('model')->cannotBeEmpty()->defaultValue(ORMImage::class)->end()
-                                                ->scalarNode('repository')->defaultValue(ORMImageRepository::class)->end()
+                                                ->scalarNode('model')->cannotBeEmpty()->defaultValue(Image::class)->end()
+                                                ->scalarNode('interface')->cannotBeEmpty()->defaultValue(ImageInterface::class)->end()
+                                                ->scalarNode('repository')->defaultValue(ImageRepository::class)->end()
                                                 ->scalarNode('factory')->defaultValue(null)->end()
                                                 ->scalarNode('object_manager_name')->defaultValue(null)->end()
                                             ->end()

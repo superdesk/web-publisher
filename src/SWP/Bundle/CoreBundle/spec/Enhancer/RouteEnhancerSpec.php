@@ -17,9 +17,10 @@ namespace spec\SWP\Bundle\CoreBundle\Enhancer;
 use PhpSpec\ObjectBehavior;
 use SWP\Bundle\ContentBundle\Model\ArticleInterface;
 use SWP\Bundle\CoreBundle\Enhancer\RouteEnhancer;
+use SWP\Bundle\CoreBundle\Model\Route;
 use SWP\Component\TemplatesSystem\Gimme\Context\Context;
 use Symfony\Cmf\Component\Routing\Enhancer\RouteEnhancerInterface;
-use SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\RouteObjectInterface;
+use Symfony\Cmf\Component\Routing\RouteObjectInterface;
 use SWP\Bundle\CoreBundle\Resolver\TemplateNameResolver;
 use SWP\Bundle\ContentBundle\Model\RouteInterface;
 use SWP\Component\TemplatesSystem\Gimme\Loader\LoaderInterface;
@@ -44,7 +45,7 @@ class RouteEnhancerSpec extends ObjectBehavior
         $this->shouldImplement(RouteEnhancerInterface::class);
     }
 
-    public function it_should_set_template_name(RouteObjectInterface $route, ArticleInterface $article)
+    public function it_should_set_template_name(Route $route, ArticleInterface $article)
     {
         $this->setTemplateName(null, [])->shouldReturn([]);
 

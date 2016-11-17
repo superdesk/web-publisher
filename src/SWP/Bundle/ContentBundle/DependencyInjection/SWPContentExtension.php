@@ -14,12 +14,10 @@
 
 namespace SWP\Bundle\ContentBundle\DependencyInjection;
 
-use SWP\Bundle\ContentBundle\Doctrine\ORM\ContentList;
 use SWP\Bundle\StorageBundle\Drivers;
 use SWP\Bundle\StorageBundle\DependencyInjection\Extension\Extension;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Config\FileLocator;
-use Symfony\Component\DependencyInjection\Extension\PrependExtensionInterface;
 use Symfony\Component\DependencyInjection\Loader;
 
 /**
@@ -27,7 +25,7 @@ use Symfony\Component\DependencyInjection\Loader;
  *
  * To learn more see {@link http://symfony.com/doc/current/cookbook/bundles/extension.html}
  */
-class SWPContentExtension extends Extension implements PrependExtensionInterface
+class SWPContentExtension extends Extension //implements PrependExtensionInterface
 {
     /**
      * {@inheritdoc}
@@ -38,41 +36,34 @@ class SWPContentExtension extends Extension implements PrependExtensionInterface
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.yml');
 
-        if ($config['persistence']['phpcr']['enabled']) {
-            $this->registerStorage(Drivers::DRIVER_DOCTRINE_PHPCR_ODM, $config['persistence']['phpcr']['classes'], $container);
-            $container->setParameter(
-                sprintf('%s.persistence.phpcr.default_content_path', $this->getAlias()),
-                $config['persistence']['phpcr']['default_content_path']
-            );
-            $loader->load('providers.phpcr.yml');
-        } elseif ($config['persistence']['orm']['enabled']) {
+        if ($config['persistence']['orm']['enabled']) {
             $this->registerStorage(Drivers::DRIVER_DOCTRINE_ORM, $config['persistence']['orm']['classes'], $container);
             $loader->load('providers.orm.yml');
         }
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function prepend(ContainerBuilder $container)
-    {
-        $config = $this->processConfiguration(new Configuration(), $container->getExtensionConfig($this->getAlias()));
+//    /**
+//     * {@inheritdoc}
+//     */
+//    public function prepend(ContainerBuilder $container)
+//    {
+//        $config = $this->processConfiguration(new Configuration(), $container->getExtensionConfig($this->getAlias()));
 
-        if (!$container->hasExtension('swp_content_list')) {
-            return;
-        }
+//        if (!$container->hasExtension('swp_content_list')) {
+//            return;
+//        }
 
-        $container->prependExtensionConfig('swp_content_list', [
-            'persistence' => [
-                'orm' => [
-                    'enabled' => $config['persistence']['orm']['enabled'],
-                    'classes' => [
-                        'content_list' => [
-                            'model' => ContentList::class,
-                        ],
-                    ],
-                ],
-            ],
-        ]);
-    }
+//        $container->prependExtensionConfig('swp_content_list', [
+//            'persistence' => [
+//                'orm' => [
+//                    'enabled' => $config['persistence']['orm']['enabled'],
+//                    'classes' => [
+//                        'content_list' => [
+//                            'model' => ContentList::class,
+//                        ],
+//                    ],
+//                ],
+//            ],
+//        ]);
+//    }
 }

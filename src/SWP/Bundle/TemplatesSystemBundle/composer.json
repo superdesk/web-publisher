@@ -1,7 +1,7 @@
 {
   "name": "swp/templates-system-bundle",
   "type": "symfony-bundle",
-  "description": "This bundle provides templates system (based on TWIG templates engine) for PHP applications.",
+  "description": "This bundle provides templates system (based on TWIG templates engine) for Symfony applications.",
   "keywords": ["templates system", "superdesk", "gimme", "gimmelist", "webpublisher", "twig"],
   "license":"AGPL-3.0",
   "minimum-stability": "dev",
@@ -15,6 +15,10 @@
     {
       "type": "path",
       "url": "../*"
+    },
+    {
+      "type": "path",
+      "url": "../../Component/*"
     }
   ],
   "require": {
@@ -24,7 +28,9 @@
     "swp/menu-bundle": "0.1.x-dev",
     "swp/storage": "0.1.x-dev",
     "twig/twig": "^1.26.0",
-    "stof/doctrine-extensions-bundle": "^1.2"
+    "stof/doctrine-extensions-bundle": "^1.2",
+    "swp/storage-bundle": "0.1.x-dev",
+    "knplabs/knp-paginator-bundle": "^2.4@dev"
   },
   "suggest": {
     "jms/serializer-bundle": "Useful if you want to serialize bundle models. Config for them already exists in bundle"
@@ -43,8 +49,7 @@
     "sensio/framework-extra-bundle": "~3.0,>=3.0.2",
     "doctrine/doctrine-bundle": "~1.4",
     "doctrine/doctrine-fixtures-bundle": "^2.2@dev",
-    "doctrine/doctrine-cache-bundle": "1.3.*",
-    "swp/storage-bundle": "0.1.x-dev"
+    "doctrine/doctrine-cache-bundle": "1.3.*"
   },
   "autoload": {
     "exclude-from-classmap": [

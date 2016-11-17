@@ -16,7 +16,7 @@ namespace spec\SWP\Bundle\ContentBundle\Service;
 
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
-use SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\RouteObjectInterface;
+use SWP\Bundle\CoreBundle\Model\Route;
 use SWP\Bundle\ContentBundle\Event\RouteEvent;
 use SWP\Bundle\ContentBundle\Model\RouteInterface;
 use SWP\Bundle\ContentBundle\RouteEvents;
@@ -46,7 +46,7 @@ class RouteServiceSpec extends ObjectBehavior
     }
 
     public function it_creates_a_new_content_route(
-        RouteInterface $route,
+        Route $route,
         EventDispatcherInterface $eventDispatcher,
         RouteInterface $parent
     ) {
@@ -73,7 +73,7 @@ class RouteServiceSpec extends ObjectBehavior
     }
 
     public function it_creates_a_new_collection_route(
-        RouteObjectInterface $route,
+        Route $route,
         EventDispatcherInterface $eventDispatcher,
         RouteInterface $parent
     ) {

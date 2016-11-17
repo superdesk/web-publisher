@@ -18,7 +18,6 @@ use SWP\Bundle\ContentBundle\Doctrine\ArticleMediaRepositoryInterface;
 use SWP\Bundle\ContentBundle\Factory\MediaFactoryInterface;
 use SWP\Bundle\ContentBundle\Model\ArticleMedia;
 use SWP\Bundle\ContentBundle\Model\FileInterface;
-use SWP\Component\MultiTenancy\Context\TenantContextInterface;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use League\Flysystem\Filesystem;
 use Symfony\Component\Routing\RouterInterface;
@@ -41,11 +40,6 @@ class MediaManager implements MediaManagerInterface
     protected $router;
 
     /**
-     * @var TenantContextInterface
-     */
-    protected $tenantContext;
-
-    /**
      * @var ArticleMediaRepositoryInterface
      */
     protected $mediaRepository;
@@ -57,20 +51,17 @@ class MediaManager implements MediaManagerInterface
      * @param MediaFactoryInterface           $mediaFactory
      * @param Filesystem                      $filesystem
      * @param RouterInterface                 $router
-     * @param TenantContextInterface          $tenantContext
      */
     public function __construct(
         ArticleMediaRepositoryInterface $mediaRepository,
         MediaFactoryInterface $mediaFactory,
         Filesystem $filesystem,
-        RouterInterface $router,
-        TenantContextInterface $tenantContext
+        RouterInterface $router
     ) {
         $this->mediaRepository = $mediaRepository;
         $this->mediaFactory = $mediaFactory;
         $this->filesystem = $filesystem;
         $this->router = $router;
-        $this->tenantContext = $tenantContext;
     }
 
     /**
@@ -112,13 +103,6 @@ class MediaManager implements MediaManagerInterface
      */
     public function getMediaPublicUrl(FileInterface $media)
     {
-        $tenant = $this->tenantContext->getTenant();
-
-        if ($subdomain = $tenant->getSubdomain()) {
-            $context = $this->router->getContext();
-            $context->setHost($subdomain.'.'.$context->getHost());
-        }
-
         return $this->getMediaUri($media, RouterInterface::ABSOLUTE_URL);
     }
 
@@ -135,8 +119,7 @@ class MediaManager implements MediaManagerInterface
 
     protected function getMediaBasePath(): string
     {
-        $tenant = $this->tenantContext->getTenant();
-        $pathElements = ['swp', $tenant->getOrganization()->getCode(), $tenant->getCode(), 'media'];
+        $pathElements = ['swp', 'media'];
 
         return implode('/', $pathElements);
     }

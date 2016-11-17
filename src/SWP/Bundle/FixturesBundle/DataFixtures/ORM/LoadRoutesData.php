@@ -45,7 +45,7 @@ class LoadRoutesData extends AbstractFixture implements FixtureInterface, Ordere
     private function loadRoute($manager, $data)
     {
         $data = array_merge($data, $this->commonData);
-        $route = new Route();
+        $route = $this->container->get('swp.factory.route')->create();
         $route->setName($data['name']);
         $route->setType($data['type']);
         $route->setContent($data['content']);
@@ -54,6 +54,7 @@ class LoadRoutesData extends AbstractFixture implements FixtureInterface, Ordere
         }
 
         $route = $this->container->get('swp.service.route')->fillRoute($route);
+        $this->addReference('route_'.$data['name'], $route);
 
         $manager->persist($route);
     }

@@ -19,7 +19,10 @@ namespace SWP\Bundle\ContentListBundle\DependencyInjection;
 use SWP\Bundle\ContentListBundle\Doctrine\ORM\ContentListRepository;
 use SWP\Bundle\StorageBundle\Doctrine\ORM\EntityRepository;
 use SWP\Component\ContentList\Model\ContentList;
+use SWP\Component\ContentList\Model\ContentListInterface;
 use SWP\Component\ContentList\Model\ContentListItem;
+use SWP\Component\ContentList\Model\ContentListItemInterface;
+use SWP\Component\ContentList\Model\ListContentInterface;
 use SWP\Component\Storage\Factory\Factory;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
@@ -48,7 +51,18 @@ class Configuration implements ConfigurationInterface
                                             ->addDefaultsIfNotSet()
                                             ->children()
                                                 ->scalarNode('model')->cannotBeEmpty()->defaultValue(ContentList::class)->end()
+                                                ->scalarNode('interface')->cannotBeEmpty()->defaultValue(ContentListInterface::class)->end()
                                                 ->scalarNode('repository')->defaultValue(ContentListRepository::class)->end()
+                                                ->scalarNode('factory')->defaultValue(Factory::class)->end()
+                                                ->scalarNode('object_manager_name')->defaultValue(null)->end()
+                                            ->end()
+                                        ->end()
+                                        ->arrayNode('list_content')
+                                            ->addDefaultsIfNotSet()
+                                            ->children()
+                                                ->scalarNode('model')->cannotBeEmpty()->defaultValue(null)->end()
+                                                ->scalarNode('interface')->cannotBeEmpty()->defaultValue(ListContentInterface::class)->end()
+                                                ->scalarNode('repository')->defaultValue(EntityRepository::class)->end()
                                                 ->scalarNode('factory')->defaultValue(Factory::class)->end()
                                                 ->scalarNode('object_manager_name')->defaultValue(null)->end()
                                             ->end()
@@ -57,6 +71,7 @@ class Configuration implements ConfigurationInterface
                                             ->addDefaultsIfNotSet()
                                             ->children()
                                                 ->scalarNode('model')->cannotBeEmpty()->defaultValue(ContentListItem::class)->end()
+                                                ->scalarNode('interface')->cannotBeEmpty()->defaultValue(ContentListItemInterface::class)->end()
                                                 ->scalarNode('repository')->defaultValue(EntityRepository::class)->end()
                                                 ->scalarNode('factory')->defaultValue(Factory::class)->end()
                                                 ->scalarNode('object_manager_name')->defaultValue(null)->end()

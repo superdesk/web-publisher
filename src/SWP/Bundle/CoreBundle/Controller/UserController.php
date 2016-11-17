@@ -20,8 +20,8 @@ use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use SWP\Bundle\CoreBundle\Form\Type\RegistrationFormType;
-use SWP\Bundle\CoreBundle\Response\ResponseContext;
-use SWP\Bundle\CoreBundle\Response\SingleResourceResponse;
+use SWP\Component\Common\Response\ResponseContext;
+use SWP\Component\Common\Response\SingleResourceResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\ConflictHttpException;
 

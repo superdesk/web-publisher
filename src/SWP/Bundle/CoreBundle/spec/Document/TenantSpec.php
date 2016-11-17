@@ -15,7 +15,7 @@
 namespace spec\SWP\Bundle\CoreBundle\Document;
 
 use PhpSpec\ObjectBehavior;
-use SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\RouteObjectInterface;
+use SWP\Bundle\CoreBundle\Model\Route;
 use SWP\Bundle\CoreBundle\Document\Tenant;
 use SWP\Bundle\CoreBundle\Model\TenantInterface;
 use SWP\Component\Common\Model\ThemeAwareTenantInterface;
@@ -54,7 +54,7 @@ class TenantSpec extends ObjectBehavior
         $this->getHomepage()->shouldReturn(null);
     }
 
-    public function its_homepage_is_mutable(RouteObjectInterface $homepage)
+    public function its_homepage_is_mutable(Route $homepage)
     {
         $this->setHomepage($homepage);
         $this->getHomepage()->shouldReturn($homepage);

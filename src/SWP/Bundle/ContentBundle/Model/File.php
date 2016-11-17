@@ -16,7 +16,7 @@ namespace SWP\Bundle\ContentBundle\Model;
 
 use SWP\Component\Common\Model\TimestampableTrait;
 
-abstract class File implements FileInterface
+class File implements FileInterface
 {
     use TimestampableTrait;
 
@@ -38,11 +38,32 @@ abstract class File implements FileInterface
     protected $assetId;
 
     /**
+     * @var ArticleMediaInterface
+     */
+    protected $media;
+
+    /**
      * File constructor.
      */
     public function __construct()
     {
         $this->setCreatedAt(new \DateTime());
+    }
+
+    /**
+     * @return ArticleMediaInterface
+     */
+    public function getMedia(): ArticleMediaInterface
+    {
+        return $this->media;
+    }
+
+    /**
+     * @param ArticleMediaInterface $media
+     */
+    public function setMedia(ArticleMediaInterface $media)
+    {
+        $this->media = $media;
     }
 
     /**

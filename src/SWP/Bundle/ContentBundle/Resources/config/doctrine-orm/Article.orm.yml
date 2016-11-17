@@ -1,5 +1,5 @@
-SWP\Bundle\ContentBundle\Doctrine\ORM\Article:
-    type: entity
+SWP\Bundle\ContentBundle\Model\Article:
+    type: mappedSuperclass
     table: swp_article
     repositoryClass: SWP\Bundle\ContentBundle\Doctrine\ORM\ArticleRepository
     id:
@@ -47,14 +47,12 @@ SWP\Bundle\ContentBundle\Doctrine\ORM\Article:
         metadata:
             type: text
             nullable: true
-        tenantCode:
-            type: string
     uniqueConstraints:
         swp_article_slug_idx:
           columns: [ slug ]
     manyToOne:
         route:
-            targetEntity: SWP\Bundle\ContentBundle\Doctrine\ORM\Route
+            targetEntity: SWP\Bundle\ContentBundle\Model\RouteInterface
             inversedBy: articles
             fetch: "EAGER"
             joinColumn:
@@ -63,6 +61,6 @@ SWP\Bundle\ContentBundle\Doctrine\ORM\Article:
                 onDelete: "SET NULL"
     oneToMany:
         media:
-            targetEntity: SWP\Bundle\ContentBundle\Doctrine\ORM\ArticleMedia
+            targetEntity: SWP\Bundle\ContentBundle\Model\ArticleMedia
             mappedBy: article
             cascade: ["remove"]

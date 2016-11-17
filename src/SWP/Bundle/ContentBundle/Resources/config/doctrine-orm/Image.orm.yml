@@ -1,5 +1,5 @@
-SWP\Bundle\ContentBundle\Doctrine\ORM\Image:
-    type: entity
+SWP\Bundle\ContentBundle\Model\Image:
+    type: mappedSuperclass
     table: swp_image
     repositoryClass: SWP\Bundle\ContentBundle\Doctrine\ORM\ImageRepository
     id:
@@ -26,11 +26,11 @@ SWP\Bundle\ContentBundle\Doctrine\ORM\Image:
             nullable: true
     oneToOne:
         media:
-            targetEntity: SWP\Bundle\ContentBundle\Doctrine\ORM\ArticleMedia
+            targetEntity: SWP\Bundle\ContentBundle\Model\ArticleMedia
             inversedBy: image
             joinColumn:
                 name: media_id
                 referencedColumnName: id
         rendition:
-            targetEntity: SWP\Bundle\ContentBundle\Doctrine\ORM\ImageRendition
+            targetEntity: SWP\Bundle\ContentBundle\Model\ImageRendition
             mappedBy: image
