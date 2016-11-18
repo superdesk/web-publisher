@@ -14,7 +14,10 @@
 
 namespace SWP\Bundle\CoreBundle\DependencyInjection;
 
+use SWP\Bundle\CoreBundle\Model\ApiKey;
 use SWP\Bundle\CoreBundle\Model\User;
+use SWP\Bundle\StorageBundle\Doctrine\ORM\EntityRepository;
+use SWP\Component\Storage\Factory\Factory;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
 
@@ -51,8 +54,17 @@ class Configuration implements ConfigurationInterface
                                         ->addDefaultsIfNotSet()
                                         ->children()
                                             ->scalarNode('model')->cannotBeEmpty()->defaultValue(User::class)->end()
-                                            ->scalarNode('repository')->defaultValue(null)->end()
-                                            ->scalarNode('factory')->defaultValue(null)->end()
+                                            ->scalarNode('repository')->defaultValue(EntityRepository::class)->end()
+                                            ->scalarNode('factory')->defaultValue(Factory::class)->end()
+                                            ->scalarNode('object_manager_name')->defaultValue(null)->end()
+                                        ->end()
+                                    ->end()
+                                    ->arrayNode('api_key')
+                                        ->addDefaultsIfNotSet()
+                                        ->children()
+                                            ->scalarNode('model')->cannotBeEmpty()->defaultValue(ApiKey::class)->end()
+                                            ->scalarNode('repository')->defaultValue(EntityRepository::class)->end()
+                                            ->scalarNode('factory')->defaultValue(Factory::class)->end()
                                             ->scalarNode('object_manager_name')->defaultValue(null)->end()
                                         ->end()
                                     ->end()

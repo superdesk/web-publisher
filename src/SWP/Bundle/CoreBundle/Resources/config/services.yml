@@ -118,3 +118,13 @@ services:
             - "@logger"
         tags:
             - { name: kernel.event_subscriber }
+
+    swp.security.token_authenticator:
+        class: SWP\Bundle\CoreBundle\Security\Authenticator\TokenAuthenticator
+        arguments:
+            - "@swp.repository.api_key"
+
+    swp.security.user_provider:
+        class: SWP\Bundle\CoreBundle\Security\Provider\UserProvider
+        arguments:
+            - "@fos_user.user_manager"

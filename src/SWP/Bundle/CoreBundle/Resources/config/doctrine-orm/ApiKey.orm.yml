@@ -1,0 +1,26 @@
+SWP\Bundle\CoreBundle\Model\ApiKey:
+    type: entity
+    table: swp_api_key
+    id:
+        id:
+            type: integer
+            generator:
+                strategy: AUTO
+    fields:
+        apiKey:
+            type: string
+        validTo:
+            type: datetime
+        createdAt:
+            type: datetime
+        updatedAt:
+            type: datetime
+            nullable: true
+    manyToOne:
+        user:
+            targetEntity: SWP\Bundle\CoreBundle\Model\User
+            joinColumn:
+                name: user_id
+                referencedColumnName: id
+                nullable: true
+                onDelete: CASCADE

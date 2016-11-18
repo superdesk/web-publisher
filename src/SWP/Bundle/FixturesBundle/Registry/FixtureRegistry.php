@@ -10,17 +10,6 @@ class FixtureRegistry
     {
         // this array can be moved to config file
         $fixtures = [
-            'doctrine_phpcr' => [
-                'tenant' => 'SWP\Bundle\FixturesBundle\DataFixtures\PHPCR\LoadTenantsData',
-                'article' => 'SWP\Bundle\FixturesBundle\DataFixtures\PHPCR\LoadArticlesData',
-                'article_media' => 'SWP\Bundle\FixturesBundle\DataFixtures\PHPCR\LoadArticlesMediaData',
-                'separate_article' => 'SWP\Bundle\FixturesBundle\DataFixtures\PHPCR\LoadSeparateArticlesData',
-                'route' => 'SWP\Bundle\FixturesBundle\DataFixtures\PHPCR\LoadRoutesData',
-                'collection_route' => 'SWP\Bundle\FixturesBundle\DataFixtures\PHPCR\LoadCollectionRouteArticles',
-                'homepage' => 'SWP\Bundle\FixturesBundle\DataFixtures\PHPCR\LoadHomepagesData',
-                'menu' => 'SWP\Bundle\FixturesBundle\DataFixtures\PHPCR\LoadMenusData',
-                'menu_node' => 'SWP\Bundle\FixturesBundle\DataFixtures\PHPCR\LoadMenuNodesData',
-            ],
             'doctrine' => [
                 'tenant' => 'SWP\Bundle\FixturesBundle\DataFixtures\ORM\LoadTenantsData',
                 'article' => 'SWP\Bundle\FixturesBundle\DataFixtures\ORM\LoadArticlesData',
@@ -42,6 +31,7 @@ class FixtureRegistry
                 }
             }
         }
+        $result[] = 'SWP\Bundle\FixturesBundle\DataFixtures\ORM\LoadUsersData';
 
         return $result;
     }

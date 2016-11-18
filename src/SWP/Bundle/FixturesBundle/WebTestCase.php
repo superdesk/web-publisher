@@ -70,4 +70,11 @@ class WebTestCase extends BaseWebTestCase
             $env
         )->getReferenceRepository();
     }
+
+    public static function createClient(array $options = [], array $server = [])
+    {
+        $server['HTTP_Authorization'] = 'test_token';
+
+        return parent::createClient($options, $server);
+    }
 }
