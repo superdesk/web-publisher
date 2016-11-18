@@ -18,3 +18,7 @@ swp_bridge:
 NelmioApiDocBundle:
     resource: "@NelmioApiDocBundle/Resources/config/routing.yml"
     prefix:   /api/doc
+
+takeit_amphtml:
+    resource: .
+    type: amp
