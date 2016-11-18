@@ -15,9 +15,9 @@
 namespace spec\SWP\Bundle\ContentListBundle\Form\Type;
 
 use Prophecy\Argument;
+use SWP\Bundle\ContentListBundle\Form\Type\BooleanType;
 use SWP\Bundle\ContentListBundle\Form\Type\ContentListItemType;
 use PhpSpec\ObjectBehavior;
-use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormTypeInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -57,7 +57,7 @@ final class ContentListItemTypeSpec extends ObjectBehavior
     public function it_build_a_form(FormBuilderInterface $builder)
     {
         $builder
-            ->add('sticky', CheckboxType::class, Argument::any())
+            ->add('sticky', BooleanType::class, Argument::any())
             ->shouldBeCalled()
             ->willReturn($builder)
         ;
