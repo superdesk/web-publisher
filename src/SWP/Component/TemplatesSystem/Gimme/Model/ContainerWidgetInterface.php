@@ -22,7 +22,7 @@ interface ContainerWidgetInterface
     /**
      * Get WidgetModel.
      *
-     * @return WidgetModel
+     * @return WidgetModelInterface
      */
     public function getWidget();
 }

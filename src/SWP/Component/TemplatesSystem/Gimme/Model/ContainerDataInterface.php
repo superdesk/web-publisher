@@ -43,7 +43,7 @@ interface ContainerDataInterface
     /**
      * Gets the value of container.
      *
-     * @return Container
+     * @return ContainerInterface
      */
     public function getContainer();
 }
