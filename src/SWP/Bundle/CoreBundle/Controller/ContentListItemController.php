@@ -50,7 +50,7 @@ class ContentListItemController extends Controller
         $repository = $this->get('swp.repository.content_list_item');
 
         $items = $repository->getPaginatedByCriteria(
-            new Criteria(['contentList' => $id, 'sticky' => $request->query->get('sticky')]),
+            new Criteria(['contentList' => $id]),
             ['sticky' => 'desc'],
             new PaginationData($request)
         );
