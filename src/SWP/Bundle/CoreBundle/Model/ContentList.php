@@ -14,7 +14,6 @@
 
 namespace SWP\Bundle\CoreBundle\Model;
 
-use SWP\Bundle\ContentBundle\Model\ContentListInterface;
 use SWP\Component\ContentList\Model\ContentList as BaseContentList;
 use SWP\Component\MultiTenancy\Model\TenantAwareTrait;
 

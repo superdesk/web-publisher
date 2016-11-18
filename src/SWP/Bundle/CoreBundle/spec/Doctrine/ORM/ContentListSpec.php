@@ -16,7 +16,7 @@ namespace spec\SWP\Bundle\CoreBundle\Model;
 
 use SWP\Bundle\CoreBundle\Model\ContentList;
 use PhpSpec\ObjectBehavior;
-use SWP\Bundle\ContentBundle\Model\ContentListInterface;
+use SWP\Bundle\CoreBundle\Model\ContentListInterface;
 use SWP\Component\ContentList\Model\ContentListInterface as BaseContentListInterface;
 use SWP\Component\MultiTenancy\Model\TenantAwareInterface;
 

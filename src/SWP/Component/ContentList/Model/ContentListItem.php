@@ -42,7 +42,12 @@ class ContentListItem implements ContentListItemInterface
     /**
      * @var int
      */
-    protected $position = 0;
+    protected $position;
+
+    /**
+     * @var bool
+     */
+    protected $sticky = false;
 
     /**
      * ContentListItem constructor.
@@ -95,7 +100,7 @@ class ContentListItem implements ContentListItemInterface
     /**
      * {@inheritdoc}
      */
-    public function getPosition(): int
+    public function getPosition()
     {
         return $this->position;
     }
@@ -106,5 +111,21 @@ class ContentListItem implements ContentListItemInterface
     public function setPosition(int $position)
     {
         $this->position = $position;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function isSticky(): bool
+    {
+        return $this->sticky;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setSticky(bool $sticky)
+    {
+        $this->sticky = $sticky;
     }
 }

@@ -23,7 +23,7 @@ SWP\Component\ContentList\Model\ContentList:
             expose: true
             type: string
         items:
-            expose: true
+            expose: false
         enabled:
             expose: true
             type: boolean

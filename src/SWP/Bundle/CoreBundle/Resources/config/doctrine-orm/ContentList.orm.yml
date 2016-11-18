@@ -4,9 +4,3 @@ SWP\Bundle\CoreBundle\Model\ContentList:
     fields:
         tenantCode:
             type: string
-    oneToMany:
-        items:
-            targetEntity: SWP\Component\ContentList\Model\ContentListItemInterface
-            mappedBy: contentList
-            orphanRemoval: true
-            cascade: ["all"]

@@ -1,5 +1,5 @@
 SWP\Component\ContentList\Model\ContentListItem:
-    type: entity
+    type: mappedSuperclass
     table: swp_content_list_item
     gedmo:
         soft_deleteable:
@@ -16,6 +16,8 @@ SWP\Component\ContentList\Model\ContentListItem:
         position:
             type: integer
         enabled:
+            type: boolean
+        sticky:
             type: boolean
         createdAt:
             type: datetime

@@ -12,7 +12,7 @@
  * @license http://www.superdesk.org/license
  */
 
-namespace SWP\Bundle\ContentBundle\Model;
+namespace SWP\Bundle\CoreBundle\Model;
 
 use SWP\Component\MultiTenancy\Model\TenantAwareInterface;
 use SWP\Component\ContentList\Model\ContentListInterface as BaseContentListInterface;

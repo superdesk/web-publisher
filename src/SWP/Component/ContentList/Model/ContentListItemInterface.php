@@ -28,9 +28,9 @@ interface ContentListItemInterface extends
     EnableableInterface
 {
     /**
-     * @return int
+     * @return int|null
      */
-    public function getPosition(): int;
+    public function getPosition();
 
     /**
      * @param int $position
@@ -56,4 +56,14 @@ interface ContentListItemInterface extends
      * @param ListContentInterface $content
      */
     public function setContent(ListContentInterface $content);
+
+    /**
+     * @return bool
+     */
+    public function isSticky(): bool;
+
+    /**
+     * @param bool $sticky
+     */
+    public function setSticky(bool $sticky);
 }

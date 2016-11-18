@@ -15,6 +15,7 @@
 namespace SWP\Bundle\CoreBundle\DependencyInjection;
 
 use SWP\Bundle\CoreBundle\Model\ContentList;
+use SWP\Bundle\CoreBundle\Model\ContentListItem;
 use SWP\Bundle\StorageBundle\DependencyInjection\Extension\Extension;
 use SWP\Bundle\StorageBundle\Drivers;
 use Symfony\Component\Config\FileLocator;
@@ -67,6 +68,9 @@ class SWPCoreExtension extends Extension implements PrependExtensionInterface
                     'classes' => [
                         'content_list' => [
                             'model' => ContentList::class,
+                        ],
+                        'content_list_item' => [
+                            'model' => ContentListItem::class,
                         ],
                     ],
                 ],
