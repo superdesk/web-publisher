@@ -73,7 +73,7 @@ class WebTestCase extends BaseWebTestCase
 
     public static function createClient(array $options = [], array $server = [])
     {
-        $server['HTTP_Authorization'] = 'test_token';
+        $server['HTTP_Authorization'] = base64_encode('test_token:');
 
         return parent::createClient($options, $server);
     }

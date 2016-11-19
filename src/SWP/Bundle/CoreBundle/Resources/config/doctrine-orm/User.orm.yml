@@ -9,3 +9,8 @@ SWP\Bundle\CoreBundle\Model\User:
     fields:
         tenantCode:
             type: string
+        createdAt:
+            type: datetime
+        updatedAt:
+            type: datetime
+            nullable: true

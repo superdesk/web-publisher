@@ -113,7 +113,7 @@ class ContentControllerTest extends WebTestCase
         $this->loadCustomFixtures(['tenant', 'collection_route']);
 
         $client = static::createClient();
-        $client->enableProfiler();
+
         $client->request('GET', '/collection-content');
         $this->assertEquals(404, $client->getResponse()->getStatusCode());
     }
@@ -124,7 +124,7 @@ class ContentControllerTest extends WebTestCase
 
         $router = $this->getContainer()->get('router');
         $client = static::createClient();
-        $client->enableProfiler();
+
         $client->request('POST', $router->generate('swp_api_content_create_routes'), [
             'route' => [
                 'name' => 'simple-test-route',

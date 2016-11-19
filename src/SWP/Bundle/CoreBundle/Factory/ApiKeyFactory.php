@@ -44,7 +44,7 @@ class ApiKeyFactory
         $apiKey = new $this->className();
 
         if (null === $apiKeyValue) {
-            $apiKeyValue = random_bytes(36);
+            $apiKeyValue = base64_encode(random_bytes(36).':');
         }
 
         $apiKey->setApiKey($apiKeyValue);

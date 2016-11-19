@@ -14,8 +14,10 @@
 
 namespace SWP\Bundle\CoreBundle\Security\Authenticator;
 
+use SWP\Bundle\CoreBundle\Model\User;
 use SWP\Bundle\StorageBundle\Doctrine\ORM\EntityRepository;
-use SWP\Component\Common\Criteria\Criteria;
+use SWP\Component\MultiTenancy\Context\TenantContextInterface;
+use SWP\Component\MultiTenancy\Repository\TenantRepositoryInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -32,13 +34,30 @@ class TokenAuthenticator extends AbstractGuardAuthenticator
     protected $apiKeyRepository;
 
     /**
+     * @var TenantContextInterface
+     */
+    protected $tenantContext;
+
+    /**
+     * @var TenantRepositoryInterface
+     */
+    protected $tenantRepository;
+
+    /**
      * TokenAuthenticator constructor.
      *
-     * @param EntityRepository $apiKeyRepository
+     * @param EntityRepository          $apiKeyRepository
+     * @param TenantContextInterface    $tenantContext
+     * @param TenantRepositoryInterface $tenantRepository
      */
-    public function __construct(EntityRepository $apiKeyRepository)
-    {
+    public function __construct(
+        EntityRepository $apiKeyRepository,
+        TenantContextInterface $tenantContext,
+        TenantRepositoryInterface $tenantRepository
+    ) {
         $this->apiKeyRepository = $apiKeyRepository;
+        $this->tenantContext = $tenantContext;
+        $this->tenantRepository = $tenantRepository;
     }
 
     /**
@@ -60,12 +79,8 @@ class TokenAuthenticator extends AbstractGuardAuthenticator
 
     public function getUser($credentials, UserProviderInterface $userProvider)
     {
-        $apiKey = $credentials['token'];
-
         $apiKey = $this->apiKeyRepository
-            ->getQueryByCriteria(new Criteria(['apiKey' => $apiKey]), [], 'ak')
-            ->andWhere('ak.validTo >= :now')
-            ->setParameter('now', new \DateTime())
+            ->getValidToken($credentials['token'])
             ->getQuery()
             ->getOneOrNullResult();
 
@@ -73,14 +88,24 @@ class TokenAuthenticator extends AbstractGuardAuthenticator
             return;
         }
 
-        return $apiKey->getUser();
+        $user = $apiKey->getUser();
+        $user->addRole('ROLE_INTERNAL_API');
+
+        return $user;
     }
 
     public function checkCredentials($credentials, UserInterface $user)
     {
-        $user->addRole('ROLE_INTERNAL_API');
+        if ($user instanceof User) {
+            $currentTenantOrganization = $this->tenantContext->getTenant()->getOrganization();
+            $userTenantOrganization = $this->tenantRepository->findOneByCode($user->getTenantCode());
 
-        return true;
+            if ($currentTenantOrganization->getId() === $userTenantOrganization->getId()) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, $providerKey)

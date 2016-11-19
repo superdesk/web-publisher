@@ -74,7 +74,7 @@ class ApiKey implements TimestampableInterface, PersistableInterface
      */
     public function setApiKey(string $apiKey)
     {
-        $this->apiKey = base64_encode($apiKey.':');
+        $this->apiKey = $apiKey;
     }
 
     /**
@@ -107,5 +107,15 @@ class ApiKey implements TimestampableInterface, PersistableInterface
     public function setValidTo(\DateTime $validTo)
     {
         $this->validTo = $validTo;
+    }
+
+    public function extendValidTo()
+    {
+        $extendedDate = new \DateTime();
+        $extendedDate->modify('+24 hours');
+
+        if ($this->getValidTo() < $extendedDate) {
+            $this->setValidTo($extendedDate);
+        }
     }
 }

@@ -14,6 +14,7 @@
 
 namespace SWP\Bundle\CoreBundle\DependencyInjection;
 
+use SWP\Bundle\CoreBundle\Repository\ApiKeyRepository;
 use SWP\Bundle\CoreBundle\Factory\ApiKeyFactory;
 use SWP\Bundle\CoreBundle\Model\ApiKey;
 use SWP\Bundle\CoreBundle\Model\User;
@@ -64,7 +65,7 @@ class Configuration implements ConfigurationInterface
                                         ->addDefaultsIfNotSet()
                                         ->children()
                                             ->scalarNode('model')->cannotBeEmpty()->defaultValue(ApiKey::class)->end()
-                                            ->scalarNode('repository')->defaultValue(EntityRepository::class)->end()
+                                            ->scalarNode('repository')->defaultValue(ApiKeyRepository::class)->end()
                                             ->scalarNode('factory')->defaultValue(ApiKeyFactory::class)->end()
                                             ->scalarNode('object_manager_name')->defaultValue(null)->end()
                                         ->end()

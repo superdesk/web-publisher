@@ -18,8 +18,10 @@ use FOS\UserBundle\Security\UserProvider as FOSUserProvider;
 
 class UserProvider extends FOSUserProvider
 {
-    public function findOneByApiToken($token)
+    public function findOneByEmail($email)
     {
-        return $this->userManager->findUsers();
+        return $this->userManager->findUserBy([
+            'email' => $email,
+        ]);
     }
 }

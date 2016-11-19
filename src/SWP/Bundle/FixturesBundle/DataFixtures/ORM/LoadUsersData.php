@@ -32,16 +32,11 @@ class LoadUsersData extends AbstractFixture implements FixtureInterface
         $user->setEnabled(true);
         $user->setUsername('test.user');
         $user->setEmail('test.user@sourcefabric.org');
-        $user->setPassword('testPassword');
+        $user->setPlainPassword('testPassword');
 
         $userManager->updateUser($user);
 
-        $tokenValidDate = new \DateTime();
-        $tokenValidDate->modify('+48 hours');
-        $apiKey = $this->container->get('swp.factory.api_key')->create();
-        $apiKey->setApiKey('test_token');
-        $apiKey->setUser($user);
-        $apiKey->setValidTo($tokenValidDate);
+        $apiKey = $this->container->get('swp.factory.api_key')->create($user, base64_encode('test_token:'));
         $this->container->get('swp.repository.api_key')->add($apiKey);
     }
 }
