@@ -70,6 +70,7 @@ Symfony Bundles:
 | [swp/storage-bundle](https://github.com/SuperdeskWebPublisher/SWPStorageBundle) | [![Build Status](https://travis-ci.org/SuperdeskWebPublisher/SWPStorageBundle.svg?branch=master)](https://travis-ci.org/SuperdeskWebPublisher/SWPStorageBundle) |
 | [swp/bridge-bundle](https://github.com/SuperdeskWebPublisher/SWPBridgeBundle) | [![Build Status](https://travis-ci.org/SuperdeskWebPublisher/SWPBridgeBundle.svg?branch=master)](https://travis-ci.org/SuperdeskWebPublisher/SWPBridgeBundle) |
 | [swp/analytics-bundle](https://github.com/SuperdeskWebPublisher/SWPAnalyticsBundle) | - |
+| [swp/templates-system-bundle](https://github.com/SuperdeskWebPublisher/SWPTemplatesBundle) | [![Build Status](https://travis-ci.org/SuperdeskWebPublisher/SWPTemplatesBundle.svg?branch=master)](https://travis-ci.org/SuperdeskWebPublisher/SWPTemplatesBundle) |
 
 
 Components:
