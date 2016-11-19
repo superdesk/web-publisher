@@ -74,7 +74,7 @@ class ApiKey implements TimestampableInterface, PersistableInterface
      */
     public function setApiKey(string $apiKey)
     {
-        $this->apiKey = $apiKey;
+        $this->apiKey = base64_encode($apiKey.':');
     }
 
     /**

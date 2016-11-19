@@ -70,7 +70,7 @@ class TokenAuthenticator extends AbstractGuardAuthenticator
             ->getOneOrNullResult();
 
         if (null === $apiKey) {
-            return null;
+            return;
         }
 
         return $apiKey->getUser();
@@ -86,7 +86,7 @@ class TokenAuthenticator extends AbstractGuardAuthenticator
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, $providerKey)
     {
         // on success, let the request continue
-        return null;
+        return;
     }
 
     public function onAuthenticationFailure(Request $request, AuthenticationException $exception)

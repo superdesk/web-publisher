@@ -49,14 +49,8 @@ class AuthController extends Controller
             $user = $this->get('swp.security.user_provider')->loadUserByUsername($formData['username']);
             if (null !== $user) {
                 if ($this->get('security.password_encoder')->isPasswordValid($user, $formData['password'])) {
-                    $tokenValidDate = new \DateTime();
-                    $tokenValidDate->modify('+48 hours');
-
                     /* @var ApiKey $apiKey */
-                    $apiKey = $this->get('swp.factory.api_key')->create();
-                    $apiKey->setApiKey(hash('sha256', random_bytes(52)));
-                    $apiKey->setUser($user);
-                    $apiKey->setValidTo($tokenValidDate);
+                    $apiKey = $this->get('swp.factory.api_key')->create($user);
                     $this->get('swp.repository.api_key')->add($apiKey);
 
                     return new SingleResourceResponse([
