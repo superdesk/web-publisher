@@ -135,10 +135,13 @@ class AuthController extends Controller
 
     private function getApiToken($user, $token)
     {
-        $apiKey = $this->get('swp.repository.api_key')
-            ->getValidToken($token)
-            ->getQuery()
-            ->getOneOrNullResult();
+        $apiKey = null;
+        if (null !== $token) {
+            $apiKey = $this->get('swp.repository.api_key')
+                ->getValidToken($token)
+                ->getQuery()
+                ->getOneOrNullResult();
+        }
 
         if (null === $apiKey) {
             $apiKey = $this->get('swp.factory.api_key')->create($user, $token);

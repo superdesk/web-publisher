@@ -28,6 +28,12 @@ Pull requests to `improve the documentation <http://superdesk-web-publisher.read
    content_publishing
 
 .. toctree::
+   :caption: API documentation
+   :maxdepth: 2
+
+   internal_api/index
+
+.. toctree::
    :caption: Cookbooks
    :maxdepth: 2
 
