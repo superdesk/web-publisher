@@ -51,7 +51,7 @@ class ContentListItemController extends Controller
 
         $items = $repository->getPaginatedByCriteria(
             new Criteria(['contentList' => $id]),
-            ['sticky' => 'desc'],
+            ['sticky' => 'desc', 'createdAt' => 'desc'],
             new PaginationData($request)
         );
 
@@ -61,7 +61,7 @@ class ContentListItemController extends Controller
     /**
      * @ApiDoc(
      *     resource=true,
-     *     description="Show single content list item",
+     *     description="Get single content list item",
      *     statusCodes={
      *         200="Returned on success."
      *     }
