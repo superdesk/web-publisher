@@ -40,6 +40,9 @@ class ContentListItemController extends Controller
      *         200="Returned on success.",
      *         404="Content list item not found.",
      *         500="Unexpected error."
+     *     },
+     *     filters={
+     *         {"name"="sticky", "dataType"="boolean", "pattern"="true|false"}
      *     }
      * )
      * @Route("/api/{version}/content/lists/{id}/items/", options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_core_list_items", requirements={"id"="\d+"})
@@ -50,7 +53,10 @@ class ContentListItemController extends Controller
         $repository = $this->get('swp.repository.content_list_item');
 
         $items = $repository->getPaginatedByCriteria(
-            new Criteria(['contentList' => $id]),
+            new Criteria([
+                'contentList' => $id,
+                'sticky' => $request->query->get('sticky', '')
+            ]),
             ['sticky' => 'desc', 'createdAt' => 'desc'],
             new PaginationData($request)
         );
