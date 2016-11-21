@@ -18,7 +18,7 @@ use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use SWP\Bundle\ContentListBundle\Form\Type\ContentListItemType;
+use SWP\Bundle\CoreBundle\Form\Type\ContentListItemType;
 use SWP\Component\Common\Criteria\Criteria;
 use SWP\Component\Common\Pagination\PaginationData;
 use SWP\Component\Common\Response\ResourcesListResponse;
@@ -85,7 +85,7 @@ class ContentListItemController extends Controller
      *         400="Returned when not valid data.",
      *         404="Returned when not found."
      *     },
-     *     input="SWP\Bundle\ContentListBundle\Form\Type\ContentListItemType"
+     *     input="SWP\Bundle\CoreBundle\Form\Type\ContentListItemType"
      * )
      * @Route("/api/{version}/content/lists/{listId}/items/{id}", options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_core_update_lists_item", requirements={"id"="\d+", "listId"="\d+"})
      * @Method("PATCH")

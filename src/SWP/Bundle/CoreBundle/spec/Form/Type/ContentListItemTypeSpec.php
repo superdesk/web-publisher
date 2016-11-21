@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the Superdesk Web Publisher Content List Bundle.
+ * This file is part of the Superdesk Web Publisher Core Bundle.
  *
  * Copyright 2016 Sourcefabric z.ú. and contributors.
  *
@@ -12,11 +12,11 @@
  * @license http://www.superdesk.org/license
  */
 
-namespace spec\SWP\Bundle\ContentListBundle\Form\Type;
+namespace spec\SWP\Bundle\CoreBundle\Form\Type;
 
 use Prophecy\Argument;
-use SWP\Bundle\ContentListBundle\Form\Type\BooleanType;
-use SWP\Bundle\ContentListBundle\Form\Type\ContentListItemType;
+use SWP\Bundle\CoreBundle\Form\Type\BooleanType;
+use SWP\Bundle\CoreBundle\Form\Type\ContentListItemType;
 use PhpSpec\ObjectBehavior;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormTypeInterface;

@@ -56,6 +56,7 @@ Adding new items to content list
         $contentListItem = $this->get('swp.factory.content_list_item')->create();
         $contentListItem->setPosition(6);
         $contentListItem->setContent(new Article());
+        $contentListItem->setSticky(true);
         $contentList->addItem($contentListItem);
 
         $repository->add($contentList);

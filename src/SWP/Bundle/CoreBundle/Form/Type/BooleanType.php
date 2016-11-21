@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 /*
- * This file is part of the Superdesk Web Publisher Content List Bundle.
+ * This file is part of the Superdesk Web Publisher Core Bundle.
  *
  * Copyright 2016 Sourcefabric z.ú. and contributors.
  *
@@ -14,26 +14,21 @@ declare(strict_types=1);
  * @license http://www.superdesk.org/license
  */
 
-namespace SWP\Bundle\ContentListBundle\Form\Type;
+namespace SWP\Bundle\CoreBundle\Form\Type;
 
+use SWP\Bundle\CoreBundle\Form\DataTransformer\BooleanStringToBooleanTransformer;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Validator\Constraints\NotBlank;
 
-class ContentListItemType extends AbstractType
+class BooleanType extends AbstractType
 {
     /**
      * {@inheritdoc}
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder
-            ->add('sticky', BooleanType::class, [
-                'description' => 'Defines whether content is sticky or not.',
-                'required' => false,
-            ])
-        ;
+        $builder->addModelTransformer(new BooleanStringToBooleanTransformer());
     }
 
     /**
@@ -42,15 +37,15 @@ class ContentListItemType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'csrf_protection' => false,
+            'compound' => false,
         ]);
     }
 
     /**
      * {@inheritdoc}
      */
-    public function getBlockPrefix()
+    public function getName()
     {
-        return 'content_list_item';
+        return 'boolean';
     }
 }

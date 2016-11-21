@@ -1,7 +1,9 @@
 <?php
 
+declare(strict_types=1);
+
 /*
- * This file is part of the Superdesk Web Publisher Content List Bundle.
+ * This file is part of the Superdesk Web Publisher Core Bundle.
  *
  * Copyright 2016 Sourcefabric z.ú. and contributors.
  *
@@ -12,7 +14,7 @@
  * @license http://www.superdesk.org/license
  */
 
-namespace SWP\Bundle\ContentListBundle\Form\DataTransformer;
+namespace SWP\Bundle\CoreBundle\Form\DataTransformer;
 
 use Symfony\Component\Form\DataTransformerInterface;
 

@@ -46,11 +46,13 @@ Every content list item is represented by a **ContentListItem** model which by d
 +==============+===========================================+
 | id           | Unique identifier                         |
 +--------------+-------------------------------------------+
-| position     | List's position                           |
+| position     | List item position                        |
 +--------------+-------------------------------------------+
 | content      | Object of type ``ListContentInterface``   |
 +--------------+-------------------------------------------+
 | enabled      | Indicates whether the item is enabled     |
++--------------+-------------------------------------------+
+| sticky       | Defines whether content is sticky or not  |
 +--------------+-------------------------------------------+
 | createdAt    | Date of creation                          |
 +--------------+-------------------------------------------+
