@@ -55,7 +55,7 @@ class ContentListItemController extends Controller
         $items = $repository->getPaginatedByCriteria(
             new Criteria([
                 'contentList' => $id,
-                'sticky' => $request->query->get('sticky', '')
+                'sticky' => $request->query->get('sticky', ''),
             ]),
             ['sticky' => 'desc', 'createdAt' => 'desc'],
             new PaginationData($request)
