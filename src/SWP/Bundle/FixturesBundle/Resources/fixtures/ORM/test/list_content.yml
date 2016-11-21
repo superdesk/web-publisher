@@ -1,0 +1,8 @@
+SWP\Bundle\CoreBundle\Model\Article:
+    listContent{1..4}:
+        title: "article<current()>"
+        body: "art<current()>"
+        slug: "article-<current()>"
+        locale: "en"
+        status: "published"
+        publishable: true

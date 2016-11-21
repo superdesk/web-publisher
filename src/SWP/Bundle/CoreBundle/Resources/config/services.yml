@@ -81,6 +81,11 @@ services:
         tags:
             - { name: form.type }
 
+    swp_core.form.type.boolean:
+        class: SWP\Bundle\CoreBundle\Form\Type\BooleanType
+        tags:
+            - { name: form.type }
+
     swp_core.twig_stringy_extension:
         class: SWP\Bundle\CoreBundle\Twig\StringyExtension
         public: false
