@@ -55,7 +55,7 @@ class RouteController extends FOSRestController
         $routeRepository = $this->get('swp.repository.route');
 
         $routes = $routeRepository->getPaginatedByCriteria(new Criteria([
-            'type' => $request->query->get('type', '')
+            'type' => $request->query->get('type', ''),
         ]), [], new PaginationData($request));
 
         return $this->handleView(View::create($this->get('swp_pagination_rep')->createRepresentation($routes, $request), 200));
