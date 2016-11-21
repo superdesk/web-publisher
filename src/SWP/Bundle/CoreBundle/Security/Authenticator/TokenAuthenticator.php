@@ -15,7 +15,7 @@
 namespace SWP\Bundle\CoreBundle\Security\Authenticator;
 
 use SWP\Bundle\CoreBundle\Model\User;
-use SWP\Bundle\StorageBundle\Doctrine\ORM\EntityRepository;
+use SWP\Bundle\CoreBundle\Repository\ApiKeyRepository;
 use SWP\Component\MultiTenancy\Context\TenantContextInterface;
 use SWP\Component\MultiTenancy\Repository\TenantRepositoryInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -29,7 +29,7 @@ use Symfony\Component\Security\Core\User\UserProviderInterface;
 class TokenAuthenticator extends AbstractGuardAuthenticator
 {
     /**
-     * @var EntityRepository
+     * @var ApiKeyRepository
      */
     protected $apiKeyRepository;
 
@@ -46,12 +46,12 @@ class TokenAuthenticator extends AbstractGuardAuthenticator
     /**
      * TokenAuthenticator constructor.
      *
-     * @param EntityRepository          $apiKeyRepository
+     * @param ApiKeyRepository          $apiKeyRepository
      * @param TenantContextInterface    $tenantContext
      * @param TenantRepositoryInterface $tenantRepository
      */
     public function __construct(
-        EntityRepository $apiKeyRepository,
+        ApiKeyRepository $apiKeyRepository,
         TenantContextInterface $tenantContext,
         TenantRepositoryInterface $tenantRepository
     ) {
@@ -87,6 +87,10 @@ class TokenAuthenticator extends AbstractGuardAuthenticator
         if (null === $apiKey) {
             return;
         }
+
+        // extend valid time after login
+        $apiKey->extendValidTo();
+        $this->apiKeyRepository->flush();
 
         $user = $apiKey->getUser();
         $user->addRole('ROLE_INTERNAL_API');

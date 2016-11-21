@@ -38,6 +38,11 @@ interface RepositoryInterface extends ObjectRepository
     public function add(PersistableInterface $object);
 
     /**
+     * Flush persisted and managed objects.
+     */
+    public function flush();
+
+    /**
      * Removes an object from the repository.
      *
      * @param PersistableInterface $object

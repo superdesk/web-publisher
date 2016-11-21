@@ -51,7 +51,7 @@ class ApiKeyFactory
         $apiKey->setUser($user);
 
         $validDate = new \DateTime();
-        $validDate->modify('+48 hours');
+        $validDate->modify('+4 hours');
         $apiKey->setValidTo($validDate);
 
         return $apiKey;

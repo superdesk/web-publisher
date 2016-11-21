@@ -136,8 +136,9 @@ class AuthController extends Controller
     private function getApiToken($user, $token)
     {
         $apiKey = null;
+        $apiKeyRepository = $this->get('swp.repository.api_key');
         if (null !== $token) {
-            $apiKey = $this->get('swp.repository.api_key')
+            $apiKey = $apiKeyRepository
                 ->getValidToken($token)
                 ->getQuery()
                 ->getOneOrNullResult();
@@ -145,10 +146,7 @@ class AuthController extends Controller
 
         if (null === $apiKey) {
             $apiKey = $this->get('swp.factory.api_key')->create($user, $token);
-            $this->get('swp.repository.api_key')->add($apiKey);
-        } else {
-            $apiKey->extendValidTo();
-            $this->get('swp.object_manager.api_key')->flush();
+            $apiKeyRepository->add($apiKey);
         }
 
         return new SingleResourceResponse([

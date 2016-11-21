@@ -20,6 +20,9 @@ class FixtureRegistry
                 'collection_route' => 'SWP\Bundle\FixturesBundle\DataFixtures\ORM\LoadCollectionRouteArticles',
                 'menu' => 'SWP\Bundle\FixturesBundle\DataFixtures\ORM\LoadMenusData',
                 'menu_node' => 'SWP\Bundle\FixturesBundle\DataFixtures\ORM\LoadMenuNodesData',
+                'user' => 'SWP\Bundle\FixturesBundle\DataFixtures\ORM\LoadUsersData',
+                'container' => 'SWP\Bundle\FixturesBundle\DataFixtures\ORM\LoadContainersData',
+                'container_widget' => 'SWP\Bundle\FixturesBundle\DataFixtures\ORM\LoadContainerWidgetsData',
             ],
         ];
 

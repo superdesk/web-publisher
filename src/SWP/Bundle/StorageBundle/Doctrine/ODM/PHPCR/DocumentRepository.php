@@ -53,6 +53,14 @@ class DocumentRepository extends BaseDocumentRepository implements RepositoryInt
     /**
      * {@inheritdoc}
      */
+    public function flush()
+    {
+        $this->dm->flush();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function getPaginatedByCriteria(
         Criteria $criteria,
         array $sorting = [],

@@ -8,6 +8,7 @@ in 0.1 minor versions.
 To get the diff for a specific change, go to https://github.com/superdesk/web-publisher/commit/XXX where XXX is the change hash
 
 * 0.1.0-10
+ * feature [#182] [CoreBundle] Implement API token authentication
  * feature [#181] [MenuBundle] Implement possibility to move menu items
  * feature [#176] Added a new way to dynamically handle "resolve target entities"
  * feature [#176] Introduced better inheritance mapping

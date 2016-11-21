@@ -112,7 +112,7 @@ class ApiKey implements TimestampableInterface, PersistableInterface
     public function extendValidTo()
     {
         $extendedDate = new \DateTime();
-        $extendedDate->modify('+24 hours');
+        $extendedDate->modify('+30 minutes');
 
         if ($this->getValidTo() < $extendedDate) {
             $this->setValidTo($extendedDate);
