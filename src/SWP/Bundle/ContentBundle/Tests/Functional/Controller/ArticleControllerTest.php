@@ -43,7 +43,6 @@ class ArticleControllerTest extends WebTestCase
     public function testLoadingArticlesCollection()
     {
         $client = static::createClient();
-        $client->enableProfiler();
         $client->request('GET', $this->router->generate('swp_api_content_list_articles'));
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
         $responseArray = json_decode($client->getResponse()->getContent(), true);
@@ -147,7 +146,6 @@ class ArticleControllerTest extends WebTestCase
 
         self::assertEquals(200, $client->getResponse()->getStatusCode());
         self::assertArraySubset(['route' => null], json_decode($client->getResponse()->getContent(), true));
-        $client->enableProfiler();
         $client->request('PATCH', $this->router->generate('swp_api_content_update_articles', ['id' => 'features']), [
             'article' => [
                 'route' => 1,

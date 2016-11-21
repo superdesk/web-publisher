@@ -33,3 +33,7 @@ parameters:
     session_memcached_expire:   3600
     test_env: doctrine
     allow_origin_cors: "http://localhost"
+
+    # Array of of authorized superdesk servers
+    superdesk_servers:
+        - superdesk.dev

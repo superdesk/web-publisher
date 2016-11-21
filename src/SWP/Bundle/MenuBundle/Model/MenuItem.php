@@ -140,6 +140,11 @@ class MenuItem implements MenuItemInterface
     protected $isCurrent = null;
 
     /**
+     * @var int
+     */
+    protected $position;
+
+    /**
      * MenuItem constructor.
      */
     public function __construct()
@@ -827,5 +832,21 @@ class MenuItem implements MenuItemInterface
     public function offsetUnset($name)
     {
         $this->removeChild($name);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getPosition(): int
+    {
+        return $this->position;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setPosition(int $position)
+    {
+        $this->position = $position;
     }
 }

@@ -20,13 +20,11 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use SWP\Component\Common\Response\ResourcesListResponse;
 use SWP\Component\Common\Response\ResponseContext;
 use SWP\Component\Common\Response\SingleResourceResponse;
+use SWP\Bundle\MenuBundle\Form\Type\MenuItemMoveType;
 use SWP\Bundle\MenuBundle\Form\Type\MenuType;
 use SWP\Bundle\MenuBundle\Model\MenuItemInterface;
-use SWP\Component\Common\Criteria\Criteria;
-use SWP\Component\Common\Pagination\PaginationData;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpKernel\Exception\ConflictHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class MenuController extends Controller
@@ -45,13 +43,73 @@ class MenuController extends Controller
      * @Route("/api/{version}/menus/", options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_core_list_menu")
      * @Method("GET")
      */
-    public function listAction(Request $request)
+    public function listAction()
     {
         $menuRepository = $this->get('swp.repository.menu');
 
-        $menus = $menuRepository->getPaginatedByCriteria(new Criteria(), [], new PaginationData($request));
+        return new ResourcesListResponse($menuRepository->findRootNodes());
+    }
+
+    /**
+     * Lists all children of menu item.
+     *
+     * @ApiDoc(
+     *     resource=true,
+     *     description="Lists all children of menu item",
+     *     statusCodes={
+     *         200="Returned on success.",
+     *         404="No menus found."
+     *     }
+     * )
+     * @Route("/api/{version}/menus/{id}/children/", options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_core_list_children_menu")
+     * @Method("GET")
+     */
+    public function listChildrenAction($id)
+    {
+        $menuRepository = $this->get('swp.repository.menu');
+
+        $menus = $menuRepository->findChildrenAsTree($this->findOr404($id));
 
         return new ResourcesListResponse($menus);
+    }
+
+    /**
+     * Moves menu item to a specific position.
+     *
+     * @ApiDoc(
+     *     resource=true,
+     *     description="Moves menu item to a specific position in a tree",
+     *     statusCodes={
+     *         200="Returned on success.",
+     *         404="Menu item not found.",
+     *         400="Validation error.",
+     *         409="When Menu item is already placed at the same position.",
+     *         500="Unexpected error."
+     *     },
+     *     requirements={
+     *         {"name"="id", "dataType"="integer", "requirement"="\d+", "description"="An identifier of Menu item which you want to move"}
+     *     },
+     *     input="SWP\Bundle\MenuBundle\Form\Type\MenuItemMoveType"
+     * )
+     * @Route("/api/{version}/menus/{id}/move/", options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_core_move_menu", requirements={"id"="\d+"})
+     * @Method("PATCH")
+     */
+    public function moveAction(Request $request, $id)
+    {
+        $menuItem = $this->findOr404($id);
+        $form = $this->createForm(MenuItemMoveType::class, [], ['method' => $request->getMethod()]);
+        $form->handleRequest($request);
+
+        if ($form->isValid()) {
+            $menuItemManager = $this->get('swp_menu.manager.menu_item');
+            $formData = $form->getData();
+
+            $menuItemManager->move($menuItem, $formData['parent'], $formData['position']);
+
+            return new SingleResourceResponse($menuItem);
+        }
+
+        return new SingleResourceResponse($form, new ResponseContext(400));
     }
 
     /**
@@ -96,12 +154,11 @@ class MenuController extends Controller
             $route = $this->get('swp.repository.route')->findOneBy(['id' => $request->request->get('menu')['route']]);
         }
 
-        /* @var MenuItemInterface $route */
+        /* @var MenuItemInterface $menu */
         $menu = $this->get('swp.factory.menu')->createItem('', ['route' => $route ? $route->getName() : null]);
         $form = $this->createForm(MenuType::class, $menu, ['method' => $request->getMethod()]);
 
         $form->handleRequest($request);
-        $this->ensureMenuItemExists($menu->getName());
 
         if ($form->isValid()) {
             $this->get('swp.repository.menu')->add($menu);
@@ -172,16 +229,9 @@ class MenuController extends Controller
     private function findOr404($id)
     {
         if (null === $menu = $this->get('swp.repository.menu')->findOneBy(['id' => $id])) {
-            throw new NotFoundHttpException('Menu was not found.');
+            throw new NotFoundHttpException('Menu item was not found.');
         }
 
         return $menu;
-    }
-
-    private function ensureMenuItemExists($name)
-    {
-        if (null !== $this->get('swp.repository.menu')->findOneByName($name)) {
-            throw new ConflictHttpException(sprintf('Menu item "%s" already exists!', $name));
-        }
     }
 }

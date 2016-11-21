@@ -18,7 +18,6 @@ use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use SWP\Bundle\FixturesBundle\AbstractFixture;
 use Doctrine\Common\Persistence\ObjectManager;
-use SWP\Bundle\TemplatesSystemBundle\Model\ContainerWidget;
 
 class LoadContainerWidgetsData extends AbstractFixture implements FixtureInterface, OrderedFixtureInterface
 {
@@ -27,14 +26,17 @@ class LoadContainerWidgetsData extends AbstractFixture implements FixtureInterfa
      */
     public function load(ObjectManager $manager)
     {
-        $containerEntity = $this->getReference('container_name');
-        $containerMenuWidget = $this->getReference('container_name_menu_widget');
-        $containerWidget = new ContainerWidget($containerEntity, $containerMenuWidget);
-        $containerEntity->addWidget($containerWidget);
+        $env = $this->getEnvironment();
 
-        $manager->persist($containerEntity);
-        $manager->persist($containerWidget);
-        $manager->flush();
+        $this->loadFixtures(
+            [
+                '@SWPFixturesBundle/Resources/fixtures/ORM/'.$env.'/WidgetModel.yml',
+            ],
+            $manager,
+            [
+                'providers' => [$this],
+            ]
+        );
     }
 
     public function getOrder()

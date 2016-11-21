@@ -16,6 +16,7 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\MenuBundle\Doctrine;
 
+use Knp\Component\Pager\Pagination\PaginationInterface;
 use SWP\Bundle\MenuBundle\Model\MenuItemInterface;
 
 interface MenuItemRepositoryInterface
@@ -33,4 +34,36 @@ interface MenuItemRepositoryInterface
      * @return MenuItemInterface|null
      */
     public function getOneMenuItemById(int $id);
+
+    /**
+     * @param MenuItemInterface $menuItem
+     *
+     * @return PaginationInterface
+     */
+    public function findChildrenAsTree(MenuItemInterface $menuItem);
+
+    /**
+     * @return PaginationInterface
+     */
+    public function findRootNodes();
+
+    /**
+     * @param MenuItemInterface $node
+     * @param MenuItemInterface $parent
+     */
+    public function persistAsFirstChildOf(MenuItemInterface $node, MenuItemInterface $parent);
+
+    /**
+     * @param MenuItemInterface $node
+     * @param MenuItemInterface $sibling
+     */
+    public function persistAsNextSiblingOf(MenuItemInterface $node, MenuItemInterface $sibling);
+
+    /**
+     * @param MenuItemInterface $parent
+     * @param int               $position
+     *
+     * @return mixed
+     */
+    public function findChildByParentAndPosition(MenuItemInterface $parent, int $position);
 }
