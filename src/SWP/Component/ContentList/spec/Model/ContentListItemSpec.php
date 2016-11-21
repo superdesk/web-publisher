@@ -42,7 +42,7 @@ final class ContentListItemSpec extends ObjectBehavior
 
     public function it_has_position_by_default()
     {
-        $this->getPosition()->shouldReturn(0);
+        $this->getPosition()->shouldReturn(null);
     }
 
     public function its_position_is_mutable()
@@ -111,5 +111,16 @@ final class ContentListItemSpec extends ObjectBehavior
     public function it_has_no_deleted_at_date_by_default()
     {
         $this->getDeletedAt()->shouldReturn(null);
+    }
+
+    public function it_is_not_sticked_by_default()
+    {
+        $this->shouldNotBeSticky();
+    }
+
+    public function it_can_be_sticky()
+    {
+        $this->setSticky(true);
+        $this->shouldBeSticky();
     }
 }

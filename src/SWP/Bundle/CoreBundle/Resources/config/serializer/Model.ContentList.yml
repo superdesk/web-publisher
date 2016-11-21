@@ -1,9 +1,13 @@
 SWP\Bundle\CoreBundle\Model\ContentList:
     exclusion_policy: ALL
     relations:
-        -
-            rel: self
+        -   rel: self
             href:
                 route: swp_api_content_show_lists
                 parameters:
-                    id: "expr(object.getId())"
+                    id: expr(object.getId())
+        -   rel: items
+            href:
+                route: swp_api_core_list_items
+                parameters:
+                    id: expr(object.getId())
