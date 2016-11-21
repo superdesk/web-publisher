@@ -3,7 +3,7 @@ SWP\Bundle\ContentBundle\Model\Article:
     properties:
         id:
             expose: true
-            type: string
+            type: integer
         title:
             expose: true
             type: string
