@@ -14,12 +14,13 @@
 
 namespace SWP\Bundle\TemplatesSystemBundle\Model;
 
+use SWP\Component\TemplatesSystem\Gimme\Model\ContainerDataInterface;
 use SWP\Component\TemplatesSystem\Gimme\Model\ContainerInterface;
 
 /**
  * ContainerData.
  */
-class ContainerData
+class ContainerData implements ContainerDataInterface
 {
     /**
      * @var int
@@ -54,9 +55,7 @@ class ContainerData
     }
 
     /**
-     * Gets the value of id.
-     *
-     * @return int
+     * {@inheritdoc}
      */
     public function getId()
     {
@@ -64,9 +63,7 @@ class ContainerData
     }
 
     /**
-     * Gets the value of key.
-     *
-     * @return string
+     * {@inheritdoc}
      */
     public function getKey()
     {
@@ -88,9 +85,7 @@ class ContainerData
     }
 
     /**
-     * Gets the value of value.
-     *
-     * @return string
+     * {@inheritdoc}
      */
     public function getValue()
     {
@@ -112,9 +107,7 @@ class ContainerData
     }
 
     /**
-     * Gets the value of container.
-     *
-     * @return Container
+     * {@inheritdoc}
      */
     public function getContainer()
     {

@@ -6,7 +6,7 @@ SWP\Bundle\CoreBundle\Model\MenuItem:
             type: string
     manyToOne:
         route:
-            targetEntity: SWP\Bundle\ContentBundle\Doctrine\ORM\Route
+            targetEntity: SWP\Bundle\ContentBundle\Model\RouteInterface
             joinColumn:
                 name: route_id
                 referencedColumnName: id

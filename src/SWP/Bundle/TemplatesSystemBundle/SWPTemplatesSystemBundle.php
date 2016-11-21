@@ -14,11 +14,12 @@
 
 namespace SWP\Bundle\TemplatesSystemBundle;
 
+use SWP\Bundle\StorageBundle\Drivers;
 use SWP\Bundle\TemplatesSystemBundle\DependencyInjection\Compiler\RegisterContainerDataFactory;
 use SWP\Bundle\TemplatesSystemBundle\DependencyInjection\Compiler\RegisterContainerFactoryPass;
 use SWP\Bundle\TemplatesSystemBundle\DependencyInjection\ContainerBuilder\MetaLoaderCompilerPass;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\HttpKernel\Bundle\Bundle;
+use SWP\Bundle\StorageBundle\DependencyInjection\Bundle\Bundle;
 
 class SWPTemplatesSystemBundle extends Bundle
 {
@@ -29,5 +30,23 @@ class SWPTemplatesSystemBundle extends Bundle
         $container->addCompilerPass(new MetaLoaderCompilerPass());
         $container->addCompilerPass(new RegisterContainerFactoryPass());
         $container->addCompilerPass(new RegisterContainerDataFactory());
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getSupportedDrivers()
+    {
+        return [
+            Drivers::DRIVER_DOCTRINE_ORM,
+        ];
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getModelClassNamespace()
+    {
+        return 'SWP\Bundle\TemplatesSystemBundle\Model';
     }
 }

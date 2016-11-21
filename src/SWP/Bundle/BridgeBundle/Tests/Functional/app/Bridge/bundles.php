@@ -17,8 +17,8 @@ return [
     new Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle(),
     new Doctrine\Bundle\DoctrineBundle\DoctrineBundle(),
     new JMS\SerializerBundle\JMSSerializerBundle(),
-    new SWP\Bundle\StorageBundle\SWPStorageBundle(),
     new Symfony\Bundle\MonologBundle\MonologBundle(),
 
+    new SWP\Bundle\StorageBundle\SWPStorageBundle(),
     new SWP\Bundle\BridgeBundle\SWPBridgeBundle(),
 ];

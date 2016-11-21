@@ -25,4 +25,4 @@ security:
                 failure_path_parameter: _login_failure_path
             logout:
                 path: security_logout
-            anonymous:    true
+            anonymous: true

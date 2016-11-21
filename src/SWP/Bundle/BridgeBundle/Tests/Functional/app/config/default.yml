@@ -8,6 +8,9 @@ framework:
     test: ~
 
 swp_bridge:
+    persistence:
+        orm:
+            enabled: true
     api:
         host: 'example.com'
         port: 8000

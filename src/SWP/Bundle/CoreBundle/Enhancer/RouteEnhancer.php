@@ -21,7 +21,7 @@ use Symfony\Component\HttpFoundation\Request;
 use SWP\Component\TemplatesSystem\Gimme\Loader\LoaderInterface;
 use SWP\Bundle\CoreBundle\Resolver\TemplateNameResolverInterface;
 use SWP\Bundle\ContentBundle\Model\ArticleInterface;
-use SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\RouteObjectInterface;
+use Symfony\Cmf\Component\Routing\RouteObjectInterface;
 use SWP\Bundle\ContentBundle\Model\RouteInterface;
 use SWP\Bundle\CoreBundle\Controller\ContentController;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;

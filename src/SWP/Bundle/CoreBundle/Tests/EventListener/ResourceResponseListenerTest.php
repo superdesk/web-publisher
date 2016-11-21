@@ -16,9 +16,9 @@ namespace SWP\Bundle\CoreBundle\Tests\EventListener;
 
 use FOS\RestBundle\View\ViewHandler;
 use Knp\Bundle\PaginatorBundle\Pagination\SlidingPagination;
-use SWP\Bundle\CoreBundle\EventListener\ResourceResponseListener;
-use SWP\Bundle\CoreBundle\Response\ResourcesListResponse;
-use SWP\Bundle\CoreBundle\Response\SingleResourceResponse;
+use SWP\Component\Common\EventListener\ResourceResponseListener;
+use SWP\Component\Common\Response\ResourcesListResponse;
+use SWP\Component\Common\Response\SingleResourceResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\GetResponseForControllerResultEvent;

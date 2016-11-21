@@ -19,18 +19,19 @@ namespace SWP\Bundle\ContentBundle\Controller;
 use Hoa\Mime\Mime;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use FOS\RestBundle\Controller\FOSRestController;
-use FOS\RestBundle\View\View;
 use SWP\Bundle\ContentBundle\ArticleEvents;
 use SWP\Bundle\ContentBundle\Event\ArticleEvent;
 use SWP\Bundle\ContentBundle\Form\Type\MediaFileType;
 use SWP\Bundle\ContentBundle\Model\ArticleMedia;
 use SWP\Component\Bridge\Model\PackageInterface;
+use SWP\Component\Common\Response\ResponseContext;
+use SWP\Component\Common\Response\SingleResourceResponse;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 
-class ContentPushController extends FOSRestController
+class ContentPushController extends Controller
 {
     /**
      * Receives HTTP Push Request's payload which is then processed by the pipeline.
@@ -62,7 +63,7 @@ class ContentPushController extends FOSRestController
         $articleRepository->add($article);
         $this->get('event_dispatcher')->dispatch(ArticleEvents::POST_CREATE, new ArticleEvent($article));
 
-        return $this->handleView(View::create(['status' => 'OK'], 201));
+        return new SingleResourceResponse(['status' => 'OK'], new ResponseContext(201));
     }
 
     /**
@@ -95,19 +96,19 @@ class ContentPushController extends FOSRestController
                     ArticleMedia::handleMediaId($mediaId)
                 );
 
-                return $this->handleView(View::create([
+                return new SingleResourceResponse([
                     'media_id' => $mediaId,
                     'URL' => $mediaManager->getMediaPublicUrl($media),
                     'media' => base64_encode($mediaManager->getFile($media)),
                     'mime_type' => Mime::getMimeFromExtension($media->getFileExtension()),
                     'filemeta' => [],
-                ], 201));
+                ], new ResponseContext(201));
             }
 
             throw new \Exception('Uploaded file is not valid:'.$uploadedFile->getErrorMessage());
         }
 
-        return $this->handleView(View::create($form, 200));
+        return new SingleResourceResponse($form);
     }
 
     /**
@@ -138,13 +139,13 @@ class ContentPushController extends FOSRestController
 
         $mediaManager = $this->container->get('swp_content_bundle.manager.media');
 
-        return $this->handleView(View::create([
+        return new SingleResourceResponse([
             'media_id' => $mediaId,
             'URL' => $mediaManager->getMediaPublicUrl($media),
             'media' => base64_encode($mediaManager->getFile($media)),
             'mime_type' => Mime::getMimeFromExtension($media->getFileExtension()),
             'filemeta' => [],
-        ], 200));
+        ]);
     }
 
     /**

@@ -93,7 +93,6 @@ services:
             - '@swp.factory.media'
             - '@swp_filesystem'
             - '@router'
-            - '@swp_multi_tenancy.tenant_context'
 
     router.symfony:
         parent: "router.default"
@@ -118,13 +117,6 @@ services:
         tags:
             - { name: form.type }
 
-    swp_content_bundle.article_rules_subscriber:
-        class: SWP\Bundle\ContentBundle\EventListener\ProcessArticleRulesSubscriber
-        arguments:
-            - '@swp_rule.processor.rule'
-        tags:
-            - { name: kernel.event_subscriber }
-
     swp_content_bundle.applicator.rule.article:
         class: SWP\Bundle\ContentBundle\Rule\Applicator\ArticleRuleApplicator
         arguments:
@@ -133,13 +125,3 @@ services:
             - '@swp.service.article'
         tags:
             - { name: applicator.rule_applicator }
-
-    swp_content_bundle.listener.article_content_list:
-        class: SWP\Bundle\ContentBundle\EventListener\AutomaticListAddArticleListener
-        arguments:
-            - '@swp.repository.content_list'
-            - '@swp.factory.content_list_item'
-            - '@swp_rule.evaluator.rule'
-            - '@swp.factory.rule'
-        tags:
-            - { name: kernel.event_listener, event: swp.article.published, method: addArticleToList }

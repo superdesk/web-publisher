@@ -14,9 +14,9 @@
 
 namespace SWP\Bundle\CoreBundle\Tests\Response;
 
-use SWP\Bundle\CoreBundle\Response\ResponseContext;
-use SWP\Bundle\CoreBundle\Response\ResponseContextInterface;
-use SWP\Bundle\CoreBundle\Response\SingleResourceResponse;
+use SWP\Component\Common\Response\ResponseContext;
+use SWP\Component\Common\Response\ResponseContextInterface;
+use SWP\Component\Common\Response\SingleResourceResponse;
 
 class SingleResourceResponseTest extends \PHPUnit_Framework_TestCase
 {
