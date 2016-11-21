@@ -21,4 +21,33 @@ use SWP\Component\Storage\Model\PersistableInterface;
 
 interface MenuItemInterface extends ItemInterface, PersistableInterface
 {
+    /**
+     * @return int
+     */
+    public function getLeft(): int;
+
+    /**
+     * @param int $left
+     */
+    public function setLeft(int $left);
+
+    /**
+     * @return int
+     */
+    public function getRight(): int;
+
+    /**
+     * @param int $right
+     */
+    public function setRight(int $right);
+
+    /**
+     * @return int
+     */
+    public function getPosition(): int;
+
+    /**
+     * @param int $position
+     */
+    public function setPosition(int $position);
 }

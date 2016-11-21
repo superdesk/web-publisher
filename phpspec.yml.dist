@@ -77,6 +77,11 @@ suites:
         psr4_prefix: SWP\Bundle\TemplatesSystemBundle
         spec_path: src/SWP/Bundle/TemplatesSystemBundle
         src_path: src/SWP/Bundle/TemplatesSystemBundle
+    MenuBundle_suite:
+        namespace: SWP\Bundle\MenuBundle
+        psr4_prefix: SWP\Bundle\MenuBundle
+        spec_path: src/SWP/Bundle/MenuBundle
+        src_path: src/SWP/Bundle/MenuBundle
 
 #extensions:
 #    - PhpSpec\Extension\CodeCoverageExtension

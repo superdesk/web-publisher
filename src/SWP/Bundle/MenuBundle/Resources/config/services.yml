@@ -24,3 +24,9 @@ services:
             - '@router'
         tags:
             - { name: knp_menu.factory_extension, priority: -10 }
+
+    swp_menu.manager.menu_item:
+        class: SWP\Bundle\MenuBundle\Manager\MenuItemManager
+        arguments:
+            - "@swp.repository.menu"
+            - "@swp.object_manager.menu"

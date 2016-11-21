@@ -53,8 +53,10 @@ class KnpPaginatorRepresentationFactory
      */
     public function createRepresentation(AbstractPagination $pagination, Request $request, $collectionName = '_items')
     {
-        $route = new Route($request->get('_route', 'homepage'), $request->query->all());
+        $route = new Route($request->get('_route', 'homepage'), $request->get('_route_params', $request->query->all()));
+
         $routeParameters = is_array($route->getParameters()) ? $route->getParameters() : [];
+
         $numberOfPages = 1;
         if ($pagination->getTotalItemCount() > 0 && $pagination->getItemNumberPerPage() > 0) {
             $numberOfPages = intval(ceil($pagination->getTotalItemCount() / $pagination->getItemNumberPerPage()));
