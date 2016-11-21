@@ -15,7 +15,7 @@ You can pin as many articles as you want.
 
 Pinned article can be unpinned too. Once it's done, the unpinned article will be removed from the top of the list and will remain in the list on the corresponding position.
 
-By default, articles in Automatic Content List are ordered by "sticky" status (true or false)
+By default, articles in Automatic Content List are ordered by "sticky" flag (desc)
  and item creation date (desc).
 
 How articles are being added to Automatic Content Lists
