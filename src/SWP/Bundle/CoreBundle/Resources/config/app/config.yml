@@ -43,6 +43,9 @@ jms_serializer:
             SWPCoreBundle:
                 namespace_prefix: "SWP\\Bundle\\CoreBundle"
                 path: "@SWPCoreBundle/Resources/config/serializer"
+            FOSUserBundle:
+                namespace_prefix: "FOS\\UserBundle"
+                path: "@SWPCoreBundle/Resources/config/serializer/fos-user"
 
 
 swp_templates_system:

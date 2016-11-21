@@ -27,12 +27,7 @@ class ContainerControllerTest extends WebTestCase
     {
         self::bootKernel();
         $this->initDatabase();
-        $this->loadCustomFixtures(['tenant']);
-
-        $this->loadFixtureFiles([
-            '@SWPFixturesBundle/Resources/fixtures/ORM/test/Container.yml',
-            '@SWPFixturesBundle/Resources/fixtures/ORM/test/WidgetModel.yml',
-        ], true);
+        $this->loadCustomFixtures(['tenant', 'container', 'container_widget']);
 
         $this->router = $this->getContainer()->get('router');
     }
