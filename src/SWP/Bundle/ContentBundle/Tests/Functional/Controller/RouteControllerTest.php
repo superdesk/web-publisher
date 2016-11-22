@@ -285,5 +285,14 @@ class RouteControllerTest extends WebTestCase
         $content = json_decode($client->getResponse()->getContent(), true);
 
         self::assertEquals(json_decode('{"page":1,"limit":10,"pages":1,"total":1,"_links":{"self":{"href":"\/api\/v1\/content\/routes\/?page=1&limit=10"},"first":{"href":"\/api\/v1\/content\/routes\/?page=1&limit=10"},"last":{"href":"\/api\/v1\/content\/routes\/?page=1&limit=10"}},"_embedded":{"_items":[{"id":2,"content":null,"static_prefix":"\/route2","variable_pattern":"\/{slug}","parent":null,"children":[],"level":0,"template_name":null,"articles_template_name":null,"type":"collection","cache_time_in_seconds":2,"name":"route2","position":null,"_links":{"self":{"href":"\/api\/v1\/content\/routes\/2"}}}]}}', true), $content);
+
+        $client->request('GET', $this->router->generate('swp_api_content_create_routes', [
+            'type' => 'fake',
+        ]));
+
+        self::assertEquals(200, $client->getResponse()->getStatusCode());
+        $content = json_decode($client->getResponse()->getContent(), true);
+
+        self::assertEquals(json_decode('{"page":1,"limit":10,"pages":1,"total":0,"_links":{"self":{"href":"\/api\/v1\/content\/routes\/?page=1&limit=10"},"first":{"href":"\/api\/v1\/content\/routes\/?page=1&limit=10"},"last":{"href":"\/api\/v1\/content\/routes\/?page=1&limit=10"}},"_embedded":{"_items":[]}}', true), $content);
     }
 }
