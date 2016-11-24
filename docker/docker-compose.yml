@@ -1,0 +1,33 @@
+version: '2'
+
+services:
+    postgres:
+        image: postgres
+        volumes:
+            - ../:/app
+        ports:
+            - "5433:5432"
+    redis:
+        image: redis:alpine
+        ports:
+            - 6379:6379
+    php:
+        build: php7-fpm
+        ports:
+            - "9000:9000"
+        links:
+            - postgres
+            - redis
+        volumes:
+            - ../:/var/www/publisher
+            - ./logs/publisher:/var/www/publisher/app/logs
+    nginx:
+        build: nginx
+        ports:
+            - "8080:80"
+        links:
+            - php
+        volumes_from:
+            - php
+        volumes:
+            - ./logs/nginx/:/var/log/nginx
