@@ -1,0 +1,3 @@
+SWP\Bundle\CoreBundle\Model\ContentListItem:
+    type:  entity
+    table: swp_content_list_item

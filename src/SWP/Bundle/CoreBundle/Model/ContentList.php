@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Superdesk Web Publisher Core Bundle.
  *
@@ -14,7 +16,6 @@
 
 namespace SWP\Bundle\CoreBundle\Model;
 
-use SWP\Bundle\ContentBundle\Model\ContentListInterface;
 use SWP\Component\ContentList\Model\ContentList as BaseContentList;
 use SWP\Component\MultiTenancy\Model\TenantAwareTrait;
 

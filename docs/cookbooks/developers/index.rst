@@ -5,4 +5,4 @@ Technical Cookbooks
    composer
    metaloaders
    widgets
-   menus
+   content_lists

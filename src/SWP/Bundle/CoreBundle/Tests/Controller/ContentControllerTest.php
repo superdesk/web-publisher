@@ -113,7 +113,7 @@ class ContentControllerTest extends WebTestCase
         $this->loadCustomFixtures(['tenant', 'collection_route']);
 
         $client = static::createClient();
-        $client->enableProfiler();
+
         $client->request('GET', '/collection-content');
         $this->assertEquals(404, $client->getResponse()->getStatusCode());
     }
@@ -124,7 +124,7 @@ class ContentControllerTest extends WebTestCase
 
         $router = $this->getContainer()->get('router');
         $client = static::createClient();
-        $client->enableProfiler();
+
         $client->request('POST', $router->generate('swp_api_content_create_routes'), [
             'route' => [
                 'name' => 'simple-test-route',
@@ -135,7 +135,7 @@ class ContentControllerTest extends WebTestCase
         ]);
 
         $this->assertEquals(201, $client->getResponse()->getStatusCode());
-        $this->assertEquals('{"id":3,"content":null,"static_prefix":"\/simple-test-route","variable_pattern":null,"parent":null,"children":[],"level":0,"template_name":"test.html.twig","articles_template_name":null,"type":"content","cache_time_in_seconds":0,"name":"simple-test-route","position":null,"articles":[],"root":null,"lft":1,"rgt":2,"tenant_code":"123abc","_links":{"self":{"href":"\/api\/v1\/content\/routes\/3"}}}', $client->getResponse()->getContent());
+        $this->assertEquals('{"id":3,"content":null,"static_prefix":"\/simple-test-route","variable_pattern":null,"parent":null,"children":[],"level":0,"template_name":"test.html.twig","articles_template_name":null,"type":"content","cache_time_in_seconds":0,"name":"simple-test-route","position":null,"_links":{"self":{"href":"\/api\/v1\/content\/routes\/3"}}}', $client->getResponse()->getContent());
 
         $crawler = $client->request('GET', '/simple-test-route');
         $this->assertEquals(200, $client->getResponse()->getStatusCode());

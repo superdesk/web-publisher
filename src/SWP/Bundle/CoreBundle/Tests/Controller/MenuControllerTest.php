@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of the Superdesk Web Publisher Core Bundle.
  *
@@ -48,6 +49,36 @@ class MenuControllerTest extends WebTestCase
         $content = $client->getResponse()->getContent();
         self::assertContains('"name":"main-menu"', $content);
         self::assertContains('"label":"Main menu"', $content);
+    }
+
+    public function testCreateMenuItemsWithTheSameNamesApi()
+    {
+        $client = static::createClient();
+        $client->request('POST', $this->router->generate('swp_api_core_create_menu'), [
+            'menu' => [
+                'name' => 'politics',
+                'label' => 'My first politics menu item',
+                'parent' => 1,
+            ],
+        ]);
+
+        self::assertEquals(201, $client->getResponse()->getStatusCode());
+        $content = $client->getResponse()->getContent();
+        self::assertContains('"name":"politics"', $content);
+        self::assertContains('"label":"My first politics menu item"', $content);
+
+        $client->request('POST', $this->router->generate('swp_api_core_create_menu'), [
+            'menu' => [
+                'name' => 'politics',
+                'label' => 'My second politics menu item',
+                'parent' => 1,
+            ],
+        ]);
+
+        self::assertEquals(201, $client->getResponse()->getStatusCode());
+        $content = $client->getResponse()->getContent();
+        self::assertContains('"name":"politics"', $content);
+        self::assertContains('"label":"My second politics menu item"', $content);
     }
 
     public function testCreateMenuWithTheSameLabelAndNameApi()
@@ -150,7 +181,7 @@ class MenuControllerTest extends WebTestCase
 
         $content = json_decode($client->getResponse()->getContent(), true);
         self::assertEquals(200, $client->getResponse()->getStatusCode());
-        self::assertArraySubset(json_decode('{"page":1,"limit":10,"pages":1,"total":4,"_embedded":{"_items":[{"name":"test","label":"Test","uri":null,"id":1,"root":null,"parent":null,"children":[],"lft":1,"rgt":2,"level":0,"route":null,"_links":{"self":{"href":"\/api\/v1\/menus\/1"}}},{"name":"main-menu","label":"Main menu","uri":null,"id":2,"root":null,"parent":null,"children":[{"name":"main-menu-child1","label":"child1","uri":null,"id":3,"root":null,"parent":null,"children":[{"name":"main-menu-child1-child1","label":"child1","uri":null,"id":4,"root":null,"parent":null,"children":[],"lft":3,"rgt":4,"level":2,"route":null,"_links":{"self":{"href":"\/api\/v1\/menus\/4"}}}],"lft":2,"rgt":5,"level":1,"route":null,"_links":{"self":{"href":"\/api\/v1\/menus\/3"}}}],"lft":1,"rgt":6,"level":0,"route":null,"_links":{"self":{"href":"\/api\/v1\/menus\/2"}}},{"name":"main-menu-child1","label":"child1","uri":null,"id":3,"root":{"name":"main-menu","label":"Main menu","uri":null,"id":2,"root":null,"parent":null,"children":[],"lft":1,"rgt":6,"level":0,"route":null,"_links":{"self":{"href":"\/api\/v1\/menus\/2"}}},"parent":{"name":"main-menu","label":"Main menu","uri":null,"id":2,"root":null,"parent":null,"children":[],"lft":1,"rgt":6,"level":0,"route":null,"_links":{"self":{"href":"\/api\/v1\/menus\/2"}}},"children":[{"name":"main-menu-child1-child1","label":"child1","uri":null,"id":4,"root":{"name":"main-menu","label":"Main menu","uri":null,"id":2,"root":null,"parent":null,"children":[],"lft":1,"rgt":6,"level":0,"route":null,"_links":{"self":{"href":"\/api\/v1\/menus\/2"}}},"parent":null,"children":[],"lft":3,"rgt":4,"level":2,"route":null,"_links":{"self":{"href":"\/api\/v1\/menus\/4"}}}],"lft":2,"rgt":5,"level":1,"route":null,"_links":{"self":{"href":"\/api\/v1\/menus\/3"}}},{"name":"main-menu-child1-child1","label":"child1","uri":null,"id":4,"root":{"name":"main-menu","label":"Main menu","uri":null,"id":2,"root":null,"parent":null,"children":[{"name":"main-menu-child1","label":"child1","uri":null,"id":3,"root":null,"parent":null,"children":[],"lft":2,"rgt":5,"level":1,"route":null,"_links":{"self":{"href":"\/api\/v1\/menus\/3"}}}],"lft":1,"rgt":6,"level":0,"route":null,"_links":{"self":{"href":"\/api\/v1\/menus\/2"}}},"parent":{"name":"main-menu-child1","label":"child1","uri":null,"id":3,"root":{"name":"main-menu","label":"Main menu","uri":null,"id":2,"root":null,"parent":null,"children":[],"lft":1,"rgt":6,"level":0,"route":null,"_links":{"self":{"href":"\/api\/v1\/menus\/2"}}},"parent":{"name":"main-menu","label":"Main menu","uri":null,"id":2,"root":null,"parent":null,"children":[],"lft":1,"rgt":6,"level":0,"route":null,"_links":{"self":{"href":"\/api\/v1\/menus\/2"}}},"children":[],"lft":2,"rgt":5,"level":1,"route":null,"_links":{"self":{"href":"\/api\/v1\/menus\/3"}}},"children":[],"lft":3,"rgt":4,"level":2,"route":null,"_links":{"self":{"href":"\/api\/v1\/menus\/4"}}}]}}', true), $content);
+        self::assertArraySubset(json_decode('{"page":1,"limit":10,"pages":1,"total":2,"_links":{"self":{"href":"\/api\/v1\/menus\/?page=1&limit=10"},"first":{"href":"\/api\/v1\/menus\/?page=1&limit=10"},"last":{"href":"\/api\/v1\/menus\/?page=1&limit=10"}},"_embedded":{"_items":[{"id":1,"level":0,"name":"test","label":"Test","uri":null,"children":[],"route":null,"_links":{"self":{"href":"\/api\/v1\/menus\/1"},"children":{"href":"\/api\/v1\/menus\/1\/children\/"}}},{"id":2,"level":0,"name":"main-menu","label":"Main menu","uri":null,"children":[{"id":3,"level":1,"name":"main-menu-child1","label":"child1","uri":null,"children":[{"id":4,"level":2,"name":"main-menu-child1-child1","label":"child1","uri":null,"children":[],"route":null,"_links":{"self":{"href":"\/api\/v1\/menus\/4"},"children":{"href":"\/api\/v1\/menus\/4\/children\/"},"parent":{"href":"\/api\/v1\/menus\/3"},"root":{"href":"\/api\/v1\/menus\/2"}}}],"route":null,"_links":{"self":{"href":"\/api\/v1\/menus\/3"},"children":{"href":"\/api\/v1\/menus\/3\/children\/"},"parent":{"href":"\/api\/v1\/menus\/2"},"root":{"href":"\/api\/v1\/menus\/2"}}}],"route":null,"_links":{"self":{"href":"\/api\/v1\/menus\/2"},"children":{"href":"\/api\/v1\/menus\/2\/children\/"}}}]}}', true), $content);
     }
 
     public function testAssigningNotExistingMenuItem()
@@ -185,7 +216,7 @@ class MenuControllerTest extends WebTestCase
         $content = json_decode($client->getResponse()->getContent(), true);
 
         self::assertEquals(201, $client->getResponse()->getStatusCode());
-        self::assertArraySubset(json_decode('{"name":"main-menu","label":"child1","uri":null,"id":2,"root":{"name":"test","label":"Test","uri":null,"id":1,"root":null,"parent":null,"children":[],"lft":1,"rgt":4,"level":0,"route":null},"parent":{"name":"test","label":"Test","uri":null,"id":1,"root":null,"parent":null,"children":[],"lft":1,"rgt":4,"level":0,"route":null},"children":[],"lft":2,"rgt":3,"level":1,"route":null}', true), $content);
+        self::assertArraySubset(json_decode('{"id":2,"level":1,"name":"main-menu","label":"child1","uri":null,"children":[],"route":null,"_links":{"self":{"href":"\/api\/v1\/menus\/2"},"children":{"href":"\/api\/v1\/menus\/2\/children\/"},"parent":{"href":"\/api\/v1\/menus\/1"},"root":{"href":"\/api\/v1\/menus\/1"}}}', true), $content);
 
         $client->request('PATCH', $this->router->generate('swp_api_core_update_menu', ['id' => $content['id']]), [
             'menu' => [
@@ -195,6 +226,192 @@ class MenuControllerTest extends WebTestCase
 
         $content = json_decode($client->getResponse()->getContent(), true);
         self::assertEquals(200, $client->getResponse()->getStatusCode());
-        self::assertArraySubset(json_decode('{"name":"main-menu","label":"child1","uri":null,"root":null,"parent":null,"children":[],"level":0,"route":null}', true), $content);
+        self::assertArraySubset(json_decode('{"id":2,"level":0,"name":"main-menu","label":"child1","uri":null,"children":[],"route":null,"_links":{"self":{"href":"\/api\/v1\/menus\/2"},"children":{"href":"\/api\/v1\/menus\/2\/children\/"}}}', true), $content);
+    }
+
+    public function testMoveMenuItemToFirstPositionUnderParent()
+    {
+        $client = static::createClient();
+
+        $client->request('POST', $this->router->generate('swp_api_core_create_menu'), [
+            'menu' => [
+                'name' => 'child1',
+                'label' => 'child1',
+                'parent' => 1,
+            ],
+        ]);
+
+        self::assertEquals(201, $client->getResponse()->getStatusCode());
+
+        $client->request('POST', $this->router->generate('swp_api_core_create_menu'), [
+            'menu' => [
+                'name' => 'child2',
+                'label' => 'child2',
+                'parent' => 1,
+            ],
+        ]);
+
+        $content = json_decode($client->getResponse()->getContent(), true);
+
+        self::assertEquals(201, $client->getResponse()->getStatusCode());
+
+        $client->request('PATCH', $this->router->generate('swp_api_core_move_menu', ['id' => $content['id']]), [
+            'menu_move' => [
+                'parent' => 1,
+                'position' => 0,
+            ],
+        ]);
+
+        self::assertEquals(200, $client->getResponse()->getStatusCode());
+
+        $client->request('GET', $this->router->generate('swp_api_core_list_children_menu', ['id' => 1]));
+
+        $content = json_decode($client->getResponse()->getContent(), true);
+
+        self::assertEquals(200, $client->getResponse()->getStatusCode());
+        self::assertArraySubset(json_decode('{"page":1,"limit":10,"pages":1,"total":2,"_links":{"self":{"href":"\/api\/v1\/menus\/1\/children\/?page=1&limit=10"},"first":{"href":"\/api\/v1\/menus\/1\/children\/?page=1&limit=10"},"last":{"href":"\/api\/v1\/menus\/1\/children\/?page=1&limit=10"}},"_embedded":{"_items":[{"id":3,"level":1,"name":"child2","label":"child2","uri":null,"children":[],"route":null,"_links":{"self":{"href":"\/api\/v1\/menus\/3"},"children":{"href":"\/api\/v1\/menus\/3\/children\/"},"parent":{"href":"\/api\/v1\/menus\/1"},"root":{"href":"\/api\/v1\/menus\/1"}}},{"id":2,"level":1,"name":"child1","label":"child1","uri":null,"children":[],"route":null,"_links":{"self":{"href":"\/api\/v1\/menus\/2"},"children":{"href":"\/api\/v1\/menus\/2\/children\/"},"parent":{"href":"\/api\/v1\/menus\/1"},"root":{"href":"\/api\/v1\/menus\/1"}}}]}}', true), $content);
+    }
+
+    public function testMoveMenuItemFromFirstToSecondPositionInParentSubtree()
+    {
+        $client = static::createClient();
+        $firstChild = $this->assertCreatingChildren();
+
+        $client->request('PATCH', $this->router->generate('swp_api_core_move_menu', ['id' => $firstChild['id']]), [
+            'menu_move' => [
+                'parent' => 1,
+                'position' => 1,
+            ],
+        ]);
+
+        self::assertEquals(200, $client->getResponse()->getStatusCode());
+
+        $client->request('GET', $this->router->generate('swp_api_core_list_children_menu', ['id' => 1]));
+
+        $content = json_decode($client->getResponse()->getContent(), true);
+
+        self::assertEquals(200, $client->getResponse()->getStatusCode());
+        self::assertArraySubset(json_decode('{"page":1,"limit":10,"pages":1,"total":2,"_links":{"self":{"href":"\/api\/v1\/menus\/1\/children\/?page=1&limit=10"},"first":{"href":"\/api\/v1\/menus\/1\/children\/?page=1&limit=10"},"last":{"href":"\/api\/v1\/menus\/1\/children\/?page=1&limit=10"}},"_embedded":{"_items":[{"id":3,"level":1,"name":"child2","label":"child2","uri":null,"children":[],"route":null,"_links":{"self":{"href":"\/api\/v1\/menus\/3"},"children":{"href":"\/api\/v1\/menus\/3\/children\/"},"parent":{"href":"\/api\/v1\/menus\/1"},"root":{"href":"\/api\/v1\/menus\/1"}}},{"id":2,"level":1,"name":"child1","label":"child1","uri":null,"children":[],"route":null,"_links":{"self":{"href":"\/api\/v1\/menus\/2"},"children":{"href":"\/api\/v1\/menus\/2\/children\/"},"parent":{"href":"\/api\/v1\/menus\/1"},"root":{"href":"\/api\/v1\/menus\/1"}}}]}}', true), $content);
+    }
+
+    public function testMoveMenuItemFromLastToSecondPosition()
+    {
+        $client = static::createClient();
+        $this->assertCreatingChildren();
+
+        $client->request('POST', $this->router->generate('swp_api_core_create_menu'), [
+            'menu' => [
+                'name' => 'child3',
+                'label' => 'child3',
+                'parent' => 1,
+            ],
+        ]);
+
+        self::assertEquals(201, $client->getResponse()->getStatusCode());
+
+        $lastChild = json_decode($client->getResponse()->getContent(), true);
+
+        $client->request('PATCH', $this->router->generate('swp_api_core_move_menu', ['id' => $lastChild['id']]), [
+            'menu_move' => [
+                'parent' => 1,
+                'position' => 1,
+            ],
+        ]);
+
+        self::assertEquals(200, $client->getResponse()->getStatusCode());
+
+        $client->request('GET', $this->router->generate('swp_api_core_list_children_menu', ['id' => 1]));
+        $content = json_decode($client->getResponse()->getContent(), true);
+
+        self::assertEquals(200, $client->getResponse()->getStatusCode());
+        self::assertArraySubset(json_decode('{"page":1,"limit":10,"pages":1,"total":3,"_links":{"self":{"href":"\/api\/v1\/menus\/1\/children\/?page=1&limit=10"},"first":{"href":"\/api\/v1\/menus\/1\/children\/?page=1&limit=10"},"last":{"href":"\/api\/v1\/menus\/1\/children\/?page=1&limit=10"}},"_embedded":{"_items":[{"id":2,"level":1,"name":"child1","label":"child1","uri":null,"children":[],"position":0,"route":null,"_links":{"self":{"href":"\/api\/v1\/menus\/2"},"children":{"href":"\/api\/v1\/menus\/2\/children\/"},"parent":{"href":"\/api\/v1\/menus\/1"},"root":{"href":"\/api\/v1\/menus\/1"}}},{"id":4,"level":1,"name":"child3","label":"child3","uri":null,"children":[],"position":1,"route":null,"_links":{"self":{"href":"\/api\/v1\/menus\/4"},"children":{"href":"\/api\/v1\/menus\/4\/children\/"},"parent":{"href":"\/api\/v1\/menus\/1"},"root":{"href":"\/api\/v1\/menus\/1"}}},{"id":3,"level":1,"name":"child2","label":"child2","uri":null,"children":[],"position":2,"route":null,"_links":{"self":{"href":"\/api\/v1\/menus\/3"},"children":{"href":"\/api\/v1\/menus\/3\/children\/"},"parent":{"href":"\/api\/v1\/menus\/1"},"root":{"href":"\/api\/v1\/menus\/1"}}}]}}', true), $content);
+    }
+
+    public function testMoveMenuItemAtTheSamePositionAsItCurrentlyIs()
+    {
+        $client = static::createClient();
+        $firstChild = $this->assertCreatingChildren();
+
+        $client->request('PATCH', $this->router->generate('swp_api_core_move_menu', ['id' => $firstChild['id']]), [
+            'menu_move' => [
+                'parent' => 1,
+                'position' => 0,
+            ],
+        ]);
+
+        self::assertEquals(409, $client->getResponse()->getStatusCode());
+    }
+
+    public function testMoveMenuItemAtNotValidPosition()
+    {
+        $client = static::createClient();
+        $firstChild = $this->assertCreatingChildren();
+
+        $client->request('PATCH', $this->router->generate('swp_api_core_move_menu', ['id' => $firstChild['id']]), [
+            'menu_move' => [
+                'parent' => 1,
+                'position' => 99,
+            ],
+        ]);
+
+        self::assertEquals(400, $client->getResponse()->getStatusCode());
+    }
+
+    public function testMoveMenuItemIfParentDoesntExist()
+    {
+        $client = static::createClient();
+        $firstChild = $this->assertCreatingChildren();
+
+        $client->request('PATCH', $this->router->generate('swp_api_core_move_menu', ['id' => $firstChild['id']]), [
+            'menu_move' => [
+                'parent' => 9999,
+                'position' => 1,
+            ],
+        ]);
+
+        self::assertEquals(400, $client->getResponse()->getStatusCode());
+    }
+
+    public function testMoveMenuItemIfMovedItemDoesntExist()
+    {
+        $client = static::createClient();
+        $this->assertCreatingChildren();
+
+        $client->request('PATCH', $this->router->generate('swp_api_core_move_menu', ['id' => 9999]), [
+            'menu_move' => [
+                'parent' => 1,
+                'position' => 1,
+            ],
+        ]);
+
+        self::assertEquals(404, $client->getResponse()->getStatusCode());
+    }
+
+    private function assertCreatingChildren()
+    {
+        $client = static::createClient();
+
+        $client->request('POST', $this->router->generate('swp_api_core_create_menu'), [
+            'menu' => [
+                'name' => 'child1',
+                'label' => 'child1',
+                'parent' => 1,
+            ],
+        ]);
+
+        self::assertEquals(201, $client->getResponse()->getStatusCode());
+        $firstChild = json_decode($client->getResponse()->getContent(), true);
+
+        $client->request('POST', $this->router->generate('swp_api_core_create_menu'), [
+            'menu' => [
+                'name' => 'child2',
+                'label' => 'child2',
+                'parent' => 1,
+            ],
+        ]);
+
+        self::assertEquals(201, $client->getResponse()->getStatusCode());
+
+        return $firstChild;
     }
 }

@@ -166,7 +166,7 @@ EOF
   'first'  => true,
 );
 foreach (\$context["articles"] as \$_key => \$context["article"]) {
-    if ((\$this->getAttribute((isset(\$context["article"]) ? \$context["article"] : null), "title", array(), null) == "New article")) {
+    if ((\$this->getAttribute((\$context["article"] ?? null), "title", array(), null) == "New article")) {
         // line 1
         echo "";
         \$context['_iterated'] = true;
@@ -285,7 +285,7 @@ EOF
   'first'  => true,
 );
 foreach (\$context["articles"] as \$_key => \$context["article"]) {
-    if ((\$this->getAttribute((isset(\$context["article"]) ? \$context["article"] : null), "title", array(), null) == "New article")) {
+    if ((\$this->getAttribute((\$context["article"] ?? null), "title", array(), null) == "New article")) {
         // line 1
         echo "";
         ++\$context['loop']['index0'];

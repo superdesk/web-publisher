@@ -15,13 +15,22 @@
 namespace SWP\Bundle\CoreBundle\Model;
 
 use FOS\UserBundle\Model\User as BaseUser;
+use SWP\Component\Common\Model\TimestampableInterface;
+use SWP\Component\Common\Model\TimestampableTrait;
 use SWP\Component\MultiTenancy\Model\TenantAwareInterface;
 use SWP\Component\MultiTenancy\Model\TenantAwareTrait;
 use SWP\Component\Storage\Model\PersistableInterface;
 
-class User extends BaseUser implements PersistableInterface, TenantAwareInterface
+class User extends BaseUser implements PersistableInterface, TenantAwareInterface, TimestampableInterface
 {
-    use TenantAwareTrait;
+    use TenantAwareTrait, TimestampableTrait;
 
     protected $id;
+
+    public function __construct()
+    {
+        $this->setCreatedAt(new \DateTime());
+
+        parent::__construct();
+    }
 }

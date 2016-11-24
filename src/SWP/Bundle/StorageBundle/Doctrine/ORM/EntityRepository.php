@@ -53,6 +53,14 @@ class EntityRepository extends BaseEntityRepository implements RepositoryInterfa
     /**
      * {@inheritdoc}
      */
+    public function flush()
+    {
+        $this->_em->flush();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function remove(PersistableInterface $object)
     {
         if (null !== $this->find($object->getId())) {

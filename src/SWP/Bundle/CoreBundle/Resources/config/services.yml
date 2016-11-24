@@ -81,6 +81,11 @@ services:
         tags:
             - { name: form.type }
 
+    swp_core.form.type.boolean:
+        class: SWP\Bundle\CoreBundle\Form\Type\BooleanType
+        tags:
+            - { name: form.type }
+
     swp_core.twig_stringy_extension:
         class: SWP\Bundle\CoreBundle\Twig\StringyExtension
         public: false
@@ -118,3 +123,15 @@ services:
             - "@logger"
         tags:
             - { name: kernel.event_subscriber }
+
+    swp.security.token_authenticator:
+        class: SWP\Bundle\CoreBundle\Security\Authenticator\TokenAuthenticator
+        arguments:
+            - "@swp.repository.api_key"
+            - "@swp_multi_tenancy.tenant_context"
+            - "@swp.repository.tenant"
+
+    swp.security.user_provider:
+        class: SWP\Bundle\CoreBundle\Security\Provider\UserProvider
+        arguments:
+            - "@fos_user.user_manager"

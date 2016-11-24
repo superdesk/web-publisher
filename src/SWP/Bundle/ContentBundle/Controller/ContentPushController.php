@@ -24,6 +24,7 @@ use SWP\Bundle\ContentBundle\Event\ArticleEvent;
 use SWP\Bundle\ContentBundle\Form\Type\MediaFileType;
 use SWP\Bundle\ContentBundle\Model\ArticleMedia;
 use SWP\Component\Bridge\Model\PackageInterface;
+use SWP\Component\Common\Criteria\Criteria;
 use SWP\Component\Common\Response\ResponseContext;
 use SWP\Component\Common\Response\SingleResourceResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -128,11 +129,10 @@ class ContentPushController extends Controller
      */
     public function getAssetsAction($mediaId)
     {
-        $objectManager = $this->container->get('swp.object_manager.media');
-        $pathBuilder = $this->container->get('swp_multi_tenancy.path_builder');
-        $mediaBasepath = $this->container->getParameter('swp_multi_tenancy.persistence.phpcr.media_basepath');
+        $media = $this->get('swp.repository.media')->getByCriteria(new Criteria([
+            'assetId' => $mediaId,
+        ]), [], 'am')->getQuery()->getOneOrNullResult();
 
-        $media = $objectManager->find(null, $pathBuilder->build($mediaBasepath).'/'.ArticleMedia::handleMediaId($mediaId));
         if (null === $media) {
             throw new ResourceNotFoundException('Media don\'t exists in storage');
         }

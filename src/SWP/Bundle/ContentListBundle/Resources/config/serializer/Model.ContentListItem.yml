@@ -6,10 +6,13 @@ SWP\Component\ContentList\Model\ContentListItem:
             type: integer
         position:
             expose: true
-            type: string
+            type: integer
         content:
             expose: true
         enabled:
+            expose: true
+            type: boolean
+        sticky:
             expose: true
             type: boolean
         createdAt:

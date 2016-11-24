@@ -22,8 +22,6 @@ SWP\Component\ContentList\Model\ContentList:
         expression:
             expose: true
             type: string
-        items:
-            expose: true
         enabled:
             expose: true
             type: boolean
