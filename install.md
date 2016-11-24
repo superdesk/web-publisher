@@ -2,8 +2,6 @@
 
 #### Setup
 
-Add ```127.0.0.1 publisher.dev``` to ```/etc/hosts```.
-
 Execute below commands inside `docker` folder of that repository.
 
 #### Build
