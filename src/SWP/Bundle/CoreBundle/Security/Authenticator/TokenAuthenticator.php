@@ -80,7 +80,7 @@ class TokenAuthenticator extends AbstractGuardAuthenticator
     public function getUser($credentials, UserProviderInterface $userProvider)
     {
         $apiKey = $this->apiKeyRepository
-            ->getValidToken($credentials['token'])
+            ->getValidToken(str_replace('Basic ', '', $credentials['token']))
             ->getQuery()
             ->getOneOrNullResult();
 
