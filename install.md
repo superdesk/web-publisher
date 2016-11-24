@@ -58,8 +58,8 @@ $ docker-compose run php app/console doctrine:fixtures:load
 Install demo theme:
 
 ```bash
-$ php app/console theme:setup -f
-$ php app/console sylius:theme:assets:install
+$ docker-compose run php app/console theme:setup -f
+$ docker-compose run php app/console sylius:theme:assets:install
 ```
 
 #### Preview
