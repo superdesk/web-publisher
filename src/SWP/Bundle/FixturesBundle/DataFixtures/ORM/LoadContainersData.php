@@ -28,12 +28,14 @@ class LoadContainersData extends AbstractFixture implements FixtureInterface, Or
     {
         $env = $this->getEnvironment();
 
-        $this->loadFixtures(
-            [
-                '@SWPFixturesBundle/Resources/fixtures/ORM/'.$env.'/Container.yml',
-            ],
-            $manager
-        );
+        if ('test' === $env) {
+            $this->loadFixtures(
+                [
+                    '@SWPFixturesBundle/Resources/fixtures/ORM/'.$env.'/Container.yml',
+                ],
+                $manager
+            );
+        }
     }
 
     public function getOrder()
