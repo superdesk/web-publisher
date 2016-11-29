@@ -10,3 +10,4 @@ Bundles
    SWPContentBundle/index
    SWPRuleBundle/index
    SWPContentListBundle/index
+   SWPFacebookInstantArticlesBundle/index

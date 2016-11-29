@@ -103,6 +103,16 @@ swp_content_list:
                 list_content:
                     model: SWP\Bundle\CoreBundle\Model\Article
 
+swp_facebook_instant_articles:
+        persistence:
+            orm:
+                enabled: true
+                classes:
+                    application:
+                        model: SWP\Bundle\CoreBundle\Model\FacebookApplication
+                    page:
+                        model: SWP\Bundle\CoreBundle\Model\FacebookPage
+
 swp_bridge:
     persistence:
         orm: true

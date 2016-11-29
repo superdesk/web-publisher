@@ -1,0 +1,14 @@
+SWP\Bundle\FacebookInstantArticlesBundle\Model\Application:
+    type: mappedSuperclass
+    table: swp_fbia_application
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: IDENTITY
+    fields:
+        appId:
+            type: string
+        appSecret:
+            type: string
