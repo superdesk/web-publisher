@@ -246,12 +246,9 @@ monolog:
 takeit_amp_html:
     enabled: true
     theme:
-        current_theme: "amp-theme"
+        current_theme: 'amp-theme'
     model: SWP\Bundle\CoreBundle\Model\Article
+    checker: 'swp.checker.amp_support'
     routing:
-#        strategy:
-#            type: parameter
-#            parameter_name: amp
-#            type: route
-#            pattern: "{controller}"
-        pattern: "{controller}"
+        parameter_strategy:
+            enabled: true

@@ -8,6 +8,8 @@ SWP\Bundle\CoreBundle\Model\Tenant:
         domainName:
             type: string
             nullable: true
+        ampEnabled:
+            type: boolean
     oneToOne:
         homepage:
             targetEntity: SWP\Bundle\ContentBundle\Model\RouteInterface
