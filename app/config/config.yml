@@ -244,9 +244,9 @@ monolog:
             channels: swp_validators
 
 takeit_amp_html:
-    enabled: true
     theme:
-        current_theme: 'amp-theme'
+        loader: 'swp.loader.amp_theme'
+        theme_path: 'amp/amp-theme'
     model: SWP\Bundle\CoreBundle\Model\Article
     checker: 'swp.checker.amp_support'
     routing:

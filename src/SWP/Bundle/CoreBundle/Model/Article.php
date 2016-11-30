@@ -22,7 +22,12 @@ use SWP\Component\Rule\Model\RuleSubjectInterface;
 use SWP\Component\Storage\Model\PersistableInterface;
 use Takeit\Bundle\AmpHtmlBundle\Model\AmpInterface;
 
-class Article extends BaseArticle implements PersistableInterface , TenantAwareInterface, RuleSubjectInterface, ListContentInterface, AmpInterface
+class Article extends BaseArticle implements
+    PersistableInterface,
+    TenantAwareInterface,
+    RuleSubjectInterface,
+    ListContentInterface,
+    AmpInterface
 {
     use TenantAwareTrait;
 }

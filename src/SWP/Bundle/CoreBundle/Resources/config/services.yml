@@ -140,3 +140,11 @@ services:
         class: SWP\Bundle\CoreBundle\Checker\AmpSupportChecker
         arguments:
             - "@swp_multi_tenancy.tenant_context"
+
+    swp.loader.amp_theme:
+        class: SWP\Bundle\CoreBundle\Theme\AmpThemeLoader
+        public: false
+        arguments:
+            - "@twig.loader.filesystem"
+            - "@swp_core.theme.context.tenant_aware"
+            - "%takeit_amp_html.configuration.theme.theme_path%"
