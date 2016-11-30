@@ -8,6 +8,7 @@
 /app/phpunit.xml
 /app/themes/
 /bin/
+!/bin/UpdateApplicationVersion.php
 /docs/_build/
 /composer.phar
 /docker/pgsql/config/*
@@ -21,3 +22,4 @@
 /web/config.php
 logs/
 build/
+RMT

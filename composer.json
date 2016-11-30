@@ -88,7 +88,7 @@
         "burgov/key-value-form-bundle": "@stable",
         "nelmio/api-doc-bundle": "^2.13",
         "nelmio/cors-bundle": "^1.4",
-        "takeit/amp-html-bundle": "^0.1.0@dev"
+        "takeit/amp-html-bundle": "^0.2.0@dev"
     },
     "require-dev": {
         "sensio/generator-bundle": "~3.0",
@@ -101,7 +101,8 @@
         "matthiasnoback/symfony-dependency-injection-test": "^v0.7",
         "johnkary/phpunit-speedtrap": "^1.0",
         "symfony/phpunit-bridge": "^3.1",
-        "symfony-cmf/testing": "2.0.x"
+        "symfony-cmf/testing": "2.0.x",
+        "liip/rmt": "dev-master"
     },
     "replace": {
         "swp/common": "self.version",
