@@ -31,14 +31,14 @@ final class Version
      *
      * @var string
      */
-    protected $codeName = 'N/A';
+    protected $codeName = '';
 
     /**
      * Release date string.
      *
      * @var string
      */
-    protected $releaseDate = '2015-09-01';
+    protected $releaseDate = '2016-11-29';
 
     /**
      * {@inheritdoc}
