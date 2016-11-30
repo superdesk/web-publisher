@@ -16,8 +16,10 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\CoreBundle\Checker;
 
+use SWP\Bundle\CoreBundle\Enhancer\RouteEnhancer;
 use SWP\Bundle\CoreBundle\Model\TenantInterface;
 use SWP\Component\MultiTenancy\Context\TenantContextInterface;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Takeit\Bundle\AmpHtmlBundle\Checker\AmpSupportCheckerInterface;
 
 final class AmpSupportChecker implements AmpSupportCheckerInterface
@@ -28,11 +30,18 @@ final class AmpSupportChecker implements AmpSupportCheckerInterface
     private $tenantContext;
 
     /**
-     * @param TenantContextInterface $tenantContext
+     * @var RequestStack
      */
-    public function __construct(TenantContextInterface $tenantContext)
+    private $requestStack;
+
+    /**
+     * @param TenantContextInterface $tenantContext
+     * @param RequestStack           $requestStack
+     */
+    public function __construct(TenantContextInterface $tenantContext, RequestStack $requestStack)
     {
         $this->tenantContext = $tenantContext;
+        $this->requestStack = $requestStack;
     }
 
     /**
@@ -42,7 +51,10 @@ final class AmpSupportChecker implements AmpSupportCheckerInterface
     {
         /** @var TenantInterface $tenant */
         $tenant = $this->tenantContext->getTenant();
+        $request = $this->requestStack->getCurrentRequest();
 
-        return $tenant->isAmpEnabled();
+        return $request->attributes->has(RouteEnhancer::ARTICLE_META)
+            && null !== $request->attributes->get(RouteEnhancer::ARTICLE_META)
+            && $tenant->isAmpEnabled();
     }
 }

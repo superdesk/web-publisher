@@ -58,7 +58,7 @@ final class AmpThemeLoader implements ThemeLoaderInterface
     {
         $this->filesystem->addPath(
             sprintf('%s/%s', $this->themeContext->getTheme()->getPath(), trim($this->themePath, '/')),
-            ThemeLoaderInterface::NAMESPACE
+            ThemeLoaderInterface::THEME_NAMESPACE
         );
     }
 }

@@ -28,6 +28,8 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class RouteEnhancer implements RouteEnhancerInterface
 {
+    const ARTICLE_META = '_article_meta';
+
     /**
      * @var TemplateNameResolverInterface
      */
@@ -108,7 +110,7 @@ class RouteEnhancer implements RouteEnhancerInterface
         }
 
         $request->attributes->set('articleMeta', $articleMeta);
-        $defaults['_article_meta'] = $articleMeta;
+        $defaults[self::ARTICLE_META] = $articleMeta;
 
         return $defaults;
     }

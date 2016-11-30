@@ -20,13 +20,16 @@ use PhpSpec\ObjectBehavior;
 use SWP\Bundle\CoreBundle\Checker\AmpSupportChecker;
 use SWP\Bundle\CoreBundle\Model\TenantInterface;
 use SWP\Component\MultiTenancy\Context\TenantContextInterface;
+use Symfony\Component\HttpFoundation\ParameterBag;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Takeit\Bundle\AmpHtmlBundle\Checker\AmpSupportCheckerInterface;
 
 final class AmpSupportCheckerSpec extends ObjectBehavior
 {
-    public function let(TenantContextInterface $tenantContext)
+    public function let(TenantContextInterface $tenantContext, RequestStack $requestStack)
     {
-        $this->beConstructedWith($tenantContext);
+        $this->beConstructedWith($tenantContext, $requestStack);
     }
 
     public function it_is_initializable()
@@ -37,8 +40,15 @@ final class AmpSupportCheckerSpec extends ObjectBehavior
 
     public function it_checks_if_amp_html_support_is_enabled(
         TenantContextInterface $tenantContext,
-        TenantInterface $tenant
+        TenantInterface $tenant,
+        RequestStack $requestStack,
+        Request $request
     ) {
+        $parameterBag = new ParameterBag();
+        $parameterBag->set('_article_meta', new \stdClass());
+        $request->attributes = $parameterBag;
+
+        $requestStack->getCurrentRequest()->willReturn($request);
         $tenant->isAmpEnabled()->willReturn(true);
         $tenantContext->getTenant()->willReturn($tenant);
 
@@ -47,8 +57,14 @@ final class AmpSupportCheckerSpec extends ObjectBehavior
 
     public function it_checks_if_amp_html_support_is_disabled(
         TenantContextInterface $tenantContext,
-        TenantInterface $tenant
+        TenantInterface $tenant,
+        RequestStack $requestStack,
+        Request $request,
+        ParameterBag $parameterBag
     ) {
+        $request->attributes = $parameterBag;
+        $requestStack->getCurrentRequest()->willReturn($request);
+
         $tenant->isAmpEnabled()->willReturn(false);
         $tenantContext->getTenant()->willReturn($tenant);
 

@@ -140,6 +140,7 @@ services:
         class: SWP\Bundle\CoreBundle\Checker\AmpSupportChecker
         arguments:
             - "@swp_multi_tenancy.tenant_context"
+            - "@request_stack"
 
     swp.loader.amp_theme:
         class: SWP\Bundle\CoreBundle\Theme\AmpThemeLoader
