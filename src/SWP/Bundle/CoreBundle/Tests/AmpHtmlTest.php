@@ -80,4 +80,13 @@ final class AmpHtmlTest extends WebTestCase
         self::assertEquals(200, $client->getResponse()->getStatusCode());
         self::assertEquals(1, $crawler->filter('amp-facebook')->count());
     }
+
+    public function testAmpHtmlOnRouteWithoutArticle()
+    {
+        $client = static::createClient();
+        $crawler = $client->request('GET', '/some-content?amp');
+
+        self::assertEquals(200, $client->getResponse()->getStatusCode());
+        self::assertEquals(0, $crawler->filter('amp-facebook')->count());
+    }
 }

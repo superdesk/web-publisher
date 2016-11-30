@@ -34,6 +34,10 @@ class LoadAmpHtmlData extends AbstractFixture implements FixtureInterface
                     'templateName' => 'news.html.twig',
                     'articlesTemplateName' => 'article.html.twig',
                 ],
+                [
+                    'name' => 'some-content',
+                    'type' => 'content',
+                ],
             ];
 
             $routeService = $this->container->get('swp.service.route');
