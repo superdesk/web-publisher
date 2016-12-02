@@ -1,0 +1,28 @@
+SWP\Bundle\CoreBundle\Model\ContentList:
+    contentList1:
+        name: "List1"
+        description: "List1 description"
+        type: "automatic"
+        cacheLifeTime: 400
+        limit: 10
+        expression: ""
+        enabled: true
+        tenantCode: "123abc"
+    contentList2:
+        name: "List2"
+        description: "List2 description"
+        type: "automatic"
+        cacheLifeTime: 400
+        limit: 5
+        expression: ""
+        enabled: true
+        tenantCode: "123abc"
+    contentList3:
+        name: "List2"
+        description: "List3 description"
+        type: "automatic"
+        cacheLifeTime: 400
+        limit: 10
+        expression: ""
+        enabled: true
+        tenantCode: "456def"

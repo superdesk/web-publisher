@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  * This file is part of the Superdesk Web Publisher Content Bundle.
  *
  * Copyright 2015 Sourcefabric z.u. and contributors.
@@ -8,9 +8,10 @@
  * For the full copyright and license information, please see the
  * AUTHORS and LICENSE files distributed with this source code.
  *
- * @copyright 2015 Sourcefabric z.ú.
+ * @copyright 2015 Sourcefabric z.ú
  * @license http://www.superdesk.org/license
  */
+
 namespace SWP\Bundle\ContentBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
@@ -28,14 +29,15 @@ class ArticleType extends AbstractType
             ->add('status', TextType::class, [
                 'required' => true,
                 'constraints' => [
-                   new NotBlank(),
-                   new Length(['min' => 1]),
+                    new NotBlank(),
+                    new Length(['min' => 1]),
                 ],
             ])
+            ->add('route', RouteSelectorType::class)
             ->add('template_name', TextType::class, [
                 'required' => true,
                 'constraints' => [
-                   new Length(['min' => 1]),
+                    new Length(['min' => 1]),
                 ],
             ]);
     }
@@ -45,7 +47,7 @@ class ArticleType extends AbstractType
         $resolver->setDefaults(['csrf_protection' => false]);
     }
 
-    public function getName()
+    public function getBlockPrefix()
     {
         return 'article';
     }

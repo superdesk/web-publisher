@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  * This file is part of the Superdesk Web Publisher Core Bundle.
  *
  * Copyright 2016 Sourcefabric z.u. and contributors.
@@ -11,9 +11,10 @@
  * Some parts of that file were taken from the Liip/ThemeBundle
  * (c) Liip AG
  *
- * @copyright 2016 Sourcefabric z.ú.
+ * @copyright 2016 Sourcefabric z.ú
  * @license http://www.superdesk.org/license
  */
+
 namespace SWP\Bundle\CoreBundle\Detection;
 
 class DeviceDetection implements DeviceDetectionInterface

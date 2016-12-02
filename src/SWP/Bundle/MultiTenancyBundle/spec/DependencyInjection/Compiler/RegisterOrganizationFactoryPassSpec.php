@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  * This file is part of the Superdesk Web Publisher MultiTenancy Bundle.
  *
  * Copyright 2016 Sourcefabric z.ú. and contributors.
@@ -8,9 +8,10 @@
  * For the full copyright and license information, please see the
  * AUTHORS and LICENSE files distributed with this source code.
  *
- * @copyright 2016 Sourcefabric z.ú.
+ * @copyright 2016 Sourcefabric z.ú
  * @license http://www.superdesk.org/license
  */
+
 namespace spec\SWP\Bundle\MultiTenancyBundle\DependencyInjection\Compiler;
 
 use PhpSpec\ObjectBehavior;
@@ -29,21 +30,22 @@ use Symfony\Component\DependencyInjection\Reference;
  */
 class RegisterOrganizationFactoryPassSpec extends ObjectBehavior
 {
-    function it_is_initializable()
+    public function it_is_initializable()
     {
         $this->shouldHaveType(RegisterOrganizationFactoryPass::class);
     }
 
-    function it_implements_compiler_pass_interface()
+    public function it_implements_compiler_pass_interface()
     {
         $this->shouldImplement(CompilerPassInterface::class);
     }
 
-    function it_creates_default_definition_of_organization_factory(
+    public function it_creates_default_definition_of_organization_factory(
         ContainerBuilder $container
     ) {
         $container->hasDefinition('swp.factory.organization')->willReturn(true);
         $container->getParameter('swp.factory.organization.class')->willReturn(BundledFactory::class);
+        $container->hasParameter('swp_multi_tenancy.persistence.phpcr.basepath')->willReturn(true);
 
         $factoryDefinition = new Definition(
             Factory::class,
@@ -74,11 +76,12 @@ class RegisterOrganizationFactoryPassSpec extends ObjectBehavior
         $this->process($container);
     }
 
-    function it_should_not_set_organization_factory_if_class_is_not_set(
+    public function it_should_not_set_organization_factory_if_class_is_not_set(
         ContainerBuilder $container
     ) {
         $container->hasDefinition('swp.factory.organization')->willReturn(false);
         $container->getParameter('swp.factory.organization.class')->shouldNotBeCalled();
+        $container->hasParameter('swp_multi_tenancy.persistence.phpcr.basepath')->shouldNotBeCalled();
 
         $factoryDefinition = new Definition(
             Factory::class,

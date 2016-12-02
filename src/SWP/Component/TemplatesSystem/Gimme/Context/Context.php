@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  * This file is part of the Superdesk Web Publisher Templates System.
  *
  * Copyright 2015 Sourcefabric z.ú. and contributors.
@@ -8,9 +8,10 @@
  * For the full copyright and license information, please see the
  * AUTHORS and LICENSE files distributed with this source code.
  *
- * @copyright 2015 Sourcefabric z.ú.
+ * @copyright 2015 Sourcefabric z.ú
  * @license http://www.superdesk.org/license
  */
+
 namespace SWP\Component\TemplatesSystem\Gimme\Context;
 
 use Doctrine\Common\Cache\Cache;
@@ -23,7 +24,7 @@ class Context implements \ArrayAccess
     /**
      * Array with current page information's.
      *
-     * @var string
+     * @var Meta
      */
     protected $currentPage;
 
@@ -191,11 +192,11 @@ class Context implements \ArrayAccess
     /**
      * Set current context page information's.
      *
-     * @param string $currentPage
+     * @param Meta $currentPage
      *
      * @return self
      */
-    public function setCurrentPage($currentPage)
+    public function setCurrentPage(Meta $currentPage)
     {
         $this->currentPage = $currentPage;
 
@@ -205,7 +206,7 @@ class Context implements \ArrayAccess
     /**
      * Get current context page information's.
      *
-     * @return string
+     * @return Meta
      */
     public function getCurrentPage()
     {

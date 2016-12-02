@@ -1,10 +1,6 @@
-parameters:
-    swp_multi_tenancy.tenant_listener.class: SWP\Bundle\MultiTenancyBundle\EventListener\TenantableListener
-    swp_multi_tenancy.tenant_subscriber.class: SWP\Bundle\MultiTenancyBundle\EventListener\TenantSubscriber
-
 services:
     swp_multi_tenancy.tenant_listener:
-        class: '%swp_multi_tenancy.tenant_listener.class%'
+        class: SWP\Bundle\MultiTenancyBundle\EventListener\TenantableListener
         arguments:
             - '@doctrine.orm.entity_manager'
             - '@swp_multi_tenancy.tenant_context'
@@ -13,8 +9,8 @@ services:
             - { name: kernel.event_listener, event: kernel.request, priority: 31 }
 
     swp_multi_tenancy.tenant_subscriber:
-        class: '%swp_multi_tenancy.tenant_subscriber.class%'
+        class: SWP\Bundle\MultiTenancyBundle\EventListener\TenantSubscriber
         arguments:
-            - '@swp_multi_tenancy.tenant_context'
+            - '@service_container'
         tags:
             - { name: doctrine.event_subscriber }

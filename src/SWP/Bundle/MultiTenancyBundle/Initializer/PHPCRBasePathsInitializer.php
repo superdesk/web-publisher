@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  * This file is part of the Superdesk Web Publisher MultiTenancy Bundle.
  *
  * Copyright 2016 Sourcefabric z.ú. and contributors.
@@ -8,9 +8,10 @@
  * For the full copyright and license information, please see the
  * AUTHORS and LICENSE files distributed with this source code.
  *
- * @copyright 2016 Sourcefabric z.ú.
+ * @copyright 2016 Sourcefabric z.ú
  * @license http://www.superdesk.org/license
  */
+
 namespace SWP\Bundle\MultiTenancyBundle\Initializer;
 
 use Doctrine\Bundle\PHPCRBundle\Initializer\InitializerInterface;
@@ -75,14 +76,12 @@ class PHPCRBasePathsInitializer implements InitializerInterface
         $tenantsQuery = $this->tenantProvider->getAvailableTenants();
         /** @var Collection $tenants */
         $tenants = $tenantsQuery->getResult();
-
         $this->generateBasePaths($session, $tenants->toArray());
     }
 
     private function generateBasePaths(SessionInterface $session, array $tenants = [])
     {
         $basePaths = [];
-
         foreach ($tenants as $tenant) {
             foreach ($this->paths as $path) {
                 $basePaths[] = $this->pathBuilder->build(

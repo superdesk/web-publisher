@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  * This file is part of the Superdesk Web Publisher Templates System.
  *
  * Copyright 2015 Sourcefabric z.ú. and contributors.
@@ -8,9 +8,10 @@
  * For the full copyright and license information, please see the
  * AUTHORS and LICENSE files distributed with this source code.
  *
- * @copyright 2015 Sourcefabric z.ú.
+ * @copyright 2015 Sourcefabric z.ú
  * @license http://www.superdesk.org/license
  */
+
 namespace SWP\Component\TemplatesSystem\Gimme\Meta;
 
 use SWP\Component\TemplatesSystem\Gimme\Context\Context;
@@ -18,7 +19,7 @@ use SWP\Component\TemplatesSystem\Gimme\Context\Context;
 /**
  * Class Meta.
  */
-class Meta
+class Meta implements MetaInterface
 {
     /**
      * Original Meta values (json|array|object).
@@ -134,6 +135,14 @@ class Meta
     }
 
     /**
+     * @return Context
+     */
+    public function getContext()
+    {
+        return $this->context;
+    }
+
+    /**
      * Fill Meta from array. Array must have property names and keys.
      *
      * @param array $values        Array with properyy names as keys
@@ -166,6 +175,8 @@ class Meta
                 $this->$key = $values->$getterName();
             }
         }
+
+        unset($values, $configuration);
 
         return true;
     }
@@ -204,5 +215,19 @@ class Meta
         json_decode($string);
 
         return json_last_error() == JSON_ERROR_NONE;
+    }
+
+    /**
+     * Don't serialize values, context and configuration.
+     *
+     * @return array
+     */
+    public function __sleep()
+    {
+        unset($this->values);
+        unset($this->context);
+        unset($this->configuration);
+
+        return array_keys(get_object_vars($this));
     }
 }

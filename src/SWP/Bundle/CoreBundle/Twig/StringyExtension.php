@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  * This file is part of the Superdesk Web Publisher Core Bundle.
  *
  * Copyright 2016 Sourcefabric z.ú. and contributors.
@@ -8,9 +8,10 @@
  * For the full copyright and license information, please see the
  * AUTHORS and LICENSE files distributed with this source code.
  *
- * @copyright 2016 Sourcefabric z.ú.
+ * @copyright 2016 Sourcefabric z.ú
  * @license http://www.superdesk.org/license
  */
+
 namespace SWP\Bundle\CoreBundle\Twig;
 
 class StringyExtension extends \Twig_Extension
@@ -82,13 +83,17 @@ class StringyExtension extends \Twig_Extension
                 if ($this->environment->getFunction($name)) {
                     continue;
                 }
-                $this->functions[$name] = new \Twig_SimpleFunction($name, ['Stringy\StaticStringy', $name]);
+                $this->functions[$name] = new \Twig_SimpleFunction($name, function () use ($name) {
+                    return call_user_func_array(['Stringy\StaticStringy', $name], func_get_args());
+                });
             } else {
                 // Don't add filters which have the same name as any already in the environment
                 if ($this->environment->getFilter($name)) {
                     continue;
                 }
-                $this->filters[$name] = new \Twig_SimpleFilter($name, ['Stringy\StaticStringy', $name]);
+                $this->filters[$name] = new \Twig_SimpleFilter($name, function () use ($name) {
+                    return call_user_func_array(['Stringy\StaticStringy', $name], func_get_args());
+                });
             }
         }
     }

@@ -1,0 +1,34 @@
+SWP\Bundle\TemplatesSystemBundle\Model\WidgetModel:
+    type: mappedSuperclass
+    table: swp_widget
+    repositoryClass: SWP\Bundle\TemplatesSystemBundle\Repository\WidgetModelRepository
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: IDENTITY
+    fields:
+        name:
+            type: string
+            length: 255
+            unique: true
+        type:
+            type: string
+        visible:
+            type: boolean
+        parameters:
+            type: json_array
+        createdAt:
+            type: datetime
+            options:
+                default: "now"
+            gedmo:
+                timestampable:
+                    on: create
+        updatedAt:
+            type: datetime
+            nullable: true
+            gedmo:
+                timestampable:
+                    on: update

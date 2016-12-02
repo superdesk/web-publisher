@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  * This file is part of the Superdesk Web Publisher Core Bundle.
  *
  * Copyright 2016 Sourcefabric z.ú. and contributors.
@@ -8,12 +8,14 @@
  * For the full copyright and license information, please see the
  * AUTHORS and LICENSE files distributed with this source code.
  *
- * @copyright 2016 Sourcefabric z.ú.
+ * @copyright 2016 Sourcefabric z.ú
  * @license http://www.superdesk.org/license
  */
+
 namespace SWP\Bundle\CoreBundle\Enhancer;
 
 use SWP\Component\TemplatesSystem\Gimme\Context\Context;
+use SWP\Component\TemplatesSystem\Gimme\Meta\Meta;
 use Symfony\Cmf\Component\Routing\Enhancer\RouteEnhancerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use SWP\Component\TemplatesSystem\Gimme\Loader\LoaderInterface;
@@ -22,6 +24,7 @@ use SWP\Bundle\ContentBundle\Model\ArticleInterface;
 use Symfony\Cmf\Component\Routing\RouteObjectInterface;
 use SWP\Bundle\ContentBundle\Model\RouteInterface;
 use SWP\Bundle\CoreBundle\Controller\ContentController;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class RouteEnhancer implements RouteEnhancerInterface
 {
@@ -80,6 +83,8 @@ class RouteEnhancer implements RouteEnhancerInterface
      * @param Request $request
      * @param array   $defaults
      *
+     * @throws NotFoundHttpException
+     *
      * @return array
      */
     public function setArticleMeta($content, Request $request, array $defaults)
@@ -89,13 +94,15 @@ class RouteEnhancer implements RouteEnhancerInterface
             $articleMeta = $this->metaLoader->load('article', ['slug' => $defaults['slug']], LoaderInterface::SINGLE);
             $defaults['type'] = RouteInterface::TYPE_COLLECTION;
             if (null === $articleMeta) {
-                $defaults[RouteObjectInterface::CONTENT_OBJECT] = null;
+                throw new NotFoundHttpException('Article was not found.');
             }
         } elseif ($content instanceof ArticleInterface) {
             $articleMeta = $this->metaLoader->load('article', ['article' => $content], LoaderInterface::SINGLE);
             $defaults['type'] = RouteInterface::TYPE_CONTENT;
+            if (null === $articleMeta) {
+                throw new NotFoundHttpException('Page was not found.');
+            }
         }
-
         if ($articleMeta && $articleMeta->getValues() instanceof ArticleInterface) {
             $defaults[RouteObjectInterface::CONTENT_OBJECT] = $articleMeta->getValues();
         }
@@ -116,10 +123,10 @@ class RouteEnhancer implements RouteEnhancerInterface
      */
     public function setTemplateName($content, array $defaults)
     {
+        $route = isset($defaults[RouteObjectInterface::ROUTE_OBJECT]) ? $defaults[RouteObjectInterface::ROUTE_OBJECT] : null;
         if ($content) {
             $defaults[RouteObjectInterface::TEMPLATE_NAME] = $this->templateNameResolver->resolve($content);
-        } else {
-            $route = isset($defaults[RouteObjectInterface::ROUTE_OBJECT]) ? $defaults[RouteObjectInterface::ROUTE_OBJECT] : null;
+        } elseif (null !== $route) {
             $defaults[RouteObjectInterface::TEMPLATE_NAME] = $this->templateNameResolver->resolve($route);
         }
 
@@ -135,10 +142,12 @@ class RouteEnhancer implements RouteEnhancerInterface
     public function setRouteMeta(Request $request, array $defaults)
     {
         $routeMeta = $this->metaLoader->load('route', ['route_object' => $defaults['_route_object']]);
-
         $request->attributes->set('routeMeta', $routeMeta);
         $defaults['_route_meta'] = $routeMeta;
-        $this->context->setCurrentPage($routeMeta);
+
+        if ($routeMeta instanceof Meta) {
+            $this->context->setCurrentPage($routeMeta);
+        }
 
         return $defaults;
     }

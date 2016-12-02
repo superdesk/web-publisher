@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  * This file is part of the Superdesk Web Publisher Content Bundle.
  *
  * Copyright 2016 Sourcefabric z.ú. and contributors.
@@ -8,9 +8,10 @@
  * For the full copyright and license information, please see the
  * AUTHORS and LICENSE files distributed with this source code.
  *
- * @copyright 2016 Sourcefabric z.ú.
+ * @copyright 2016 Sourcefabric z.ú
  * @license http://www.superdesk.org/license
  */
+
 namespace SWP\Bundle\ContentBundle\Model;
 
 use Behat\Transliterator\Transliterator;
@@ -102,6 +103,11 @@ class Article implements ArticleInterface, MediaAwareArticleInterface
     protected $media;
 
     /**
+     * @var string
+     */
+    protected $lead;
+
+    /**
      * Article constructor.
      */
     public function __construct()
@@ -162,6 +168,14 @@ class Article implements ArticleInterface, MediaAwareArticleInterface
     /**
      * {@inheritdoc}
      */
+    public function isPublished()
+    {
+        return $this->getStatus() === ArticleInterface::STATUS_PUBLISHED;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function getCreatedAt()
     {
         return $this->createdAt;
@@ -194,7 +208,7 @@ class Article implements ArticleInterface, MediaAwareArticleInterface
     /**
      * {@inheritdoc}
      */
-    public function setRoute(RouteInterface $route)
+    public function setRoute(RouteInterface $route = null)
     {
         $this->route = $route;
     }
@@ -278,7 +292,7 @@ class Article implements ArticleInterface, MediaAwareArticleInterface
      */
     public function setSlug($slug)
     {
-        $this->slug = $slug;
+        $this->slug = Transliterator::urlize($slug);
     }
 
     /**
@@ -340,9 +354,45 @@ class Article implements ArticleInterface, MediaAwareArticleInterface
     /**
      * {@inheritdoc}
      */
+    public function getMetadataByKey($key)
+    {
+        $metadata = $this->getMetadata();
+
+        if (isset($metadata[$key])) {
+            return $metadata[$key];
+        }
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function setMetadata(array $metadata)
     {
         $this->metadata = json_encode($metadata, true);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getSubjectType()
+    {
+        return 'article';
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getLead()
+    {
+        return $this->lead;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setLead($lead)
+    {
+        $this->lead = $lead;
     }
 
     /**

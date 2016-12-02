@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  * This file is part of the Superdesk Web Publisher Core Bundle.
  *
  * Copyright 2016 Sourcefabric z.ú. and contributors.
@@ -11,12 +11,14 @@
  * Some parts of that file were taken from the Liip/ThemeBundle
  * (c) Liip AG
  *
- * @copyright 2016 Sourcefabric z.ú.
+ * @copyright 2016 Sourcefabric z.ú
  * @license http://www.superdesk.org/license
  */
+
 namespace spec\SWP\Bundle\CoreBundle\Resolver;
 
 use PhpSpec\ObjectBehavior;
+use SWP\Bundle\CoreBundle\Model\Route;
 use SWP\Bundle\CoreBundle\Resolver\TemplateNameResolver;
 use SWP\Bundle\CoreBundle\Resolver\TemplateNameResolverInterface;
 use SWP\Bundle\ContentBundle\Model\RouteInterface;
@@ -37,7 +39,7 @@ class TemplateNameResolverSpec extends ObjectBehavior
         $this->shouldImplement(TemplateNameResolverInterface::class);
     }
 
-    public function it_should_resolve_template_name_from_article(ArticleInterface $article, RouteInterface $route)
+    public function it_should_resolve_template_name_from_article(ArticleInterface $article, Route $route)
     {
         $this->resolveFromArticle($article)->shouldReturn('article.html.twig');
 
@@ -52,19 +54,21 @@ class TemplateNameResolverSpec extends ObjectBehavior
         $this->resolveFromArticle($article)->shouldReturn('test2.html.twig');
     }
 
-    public function it_should_resolve_template_name_on_collection_routes(ArticleInterface $article, RouteInterface $route)
+    public function it_should_resolve_template_name_on_collection_routes(ArticleInterface $article, Route $route)
     {
         $article->getTemplateName()->willReturn(null);
         $route->getTemplateName()->willReturn('test2.html.twig');
+        $route->getArticlesTemplateName()->willReturn(null);
         $route->getType()->willReturn(RouteInterface::TYPE_COLLECTION);
         $article->getRoute()->willReturn($route);
 
-        $this->resolveFromArticle($article)->shouldReturn('article.html.twig');
+        $this->resolveFromArticle($article)->shouldReturn('test2.html.twig');
     }
 
-    public function it_should_resolve_template_name_from_route(RouteInterface $route)
+    public function it_should_resolve_template_name_from_content_type_route(Route $route)
     {
         $route->getTemplateName()->willReturn('test2.html.twig');
+        $route->getContent()->willReturn(null);
         $route->getType()->willReturn(RouteInterface::TYPE_CONTENT);
         $this->resolveFromRoute($route)->shouldReturn('test2.html.twig');
 
@@ -72,9 +76,11 @@ class TemplateNameResolverSpec extends ObjectBehavior
         $this->resolveFromRoute($route)->shouldReturn('article.html.twig');
     }
 
-    public function it_should_resolve(RouteInterface $route, ArticleInterface $article)
+    public function it_should_resolve(Route $route, ArticleInterface $article)
     {
         $route->getTemplateName()->willReturn('test2.html.twig');
+        $route->getType()->willReturn(RouteInterface::TYPE_CONTENT);
+        $route->getContent()->willReturn(null);
         $this->resolve($route)->shouldReturn('test2.html.twig');
 
         $article->getTemplateName()->willReturn('article2.html.twig');
@@ -82,5 +88,37 @@ class TemplateNameResolverSpec extends ObjectBehavior
         $this->resolve($article)->shouldReturn('article2.html.twig');
 
         $this->resolve(null)->shouldReturn('article.html.twig');
+    }
+
+    public function it_should_resolve_template_name_from_content_type_route_and_content_with_custom_template(Route $route, ArticleInterface $article)
+    {
+        $route->getType()->willReturn(RouteInterface::TYPE_CONTENT);
+        $route->getTemplateName()->willReturn('test2.html.twig');
+        $article->getTemplateName()->willReturn('article2.html.twig');
+        $route->getContent()->willReturn($article);
+
+        $this->resolve($route)->shouldReturn('article2.html.twig');
+    }
+
+    public function it_should_resolve_template_name_from_collection_type_route_and_defaultArticlesTemplate_set(Route $route, ArticleInterface $article)
+    {
+        $route->getType()->willReturn(RouteInterface::TYPE_COLLECTION);
+        $route->getTemplateName()->willReturn('test2.html.twig');
+        $route->getArticlesTemplateName()->willReturn('article_template.html.twig');
+        $article->getRoute()->willReturn($route);
+        $article->getTemplateName()->willReturn(null);
+
+        $this->resolve($article)->shouldReturn('article_template.html.twig');
+    }
+
+    public function it_should_resolve_template_name_from_collection_type_route_and_defaultArticlesTemplate_set_and_defaultTemplate_in_article_(Route $route, ArticleInterface $article)
+    {
+        $route->getType()->willReturn(RouteInterface::TYPE_COLLECTION);
+        $route->getTemplateName()->willReturn('test2.html.twig');
+        $route->getArticlesTemplateName()->willReturn('article_template.html.twig');
+        $article->getRoute()->willReturn($route);
+        $article->getTemplateName()->willReturn('custom_article.html.twig');
+
+        $this->resolve($article)->shouldReturn('custom_article.html.twig');
     }
 }

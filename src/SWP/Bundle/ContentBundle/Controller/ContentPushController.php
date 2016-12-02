@@ -1,6 +1,8 @@
 <?php
 
-/**
+declare(strict_types=1);
+
+/*
  * This file is part of the Superdesk Web Publisher Content Bundle.
  *
  * Copyright 2016 Sourcefabric z.ú. and contributors.
@@ -8,24 +10,29 @@
  * For the full copyright and license information, please see the
  * AUTHORS and LICENSE files distributed with this source code.
  *
- * @copyright 2016 Sourcefabric z.ú.
+ * @copyright 2016 Sourcefabric z.ú
  * @license http://www.superdesk.org/license
  */
+
 namespace SWP\Bundle\ContentBundle\Controller;
 
 use Hoa\Mime\Mime;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use FOS\RestBundle\Controller\FOSRestController;
-use FOS\RestBundle\View\View;
 use SWP\Bundle\ContentBundle\ArticleEvents;
 use SWP\Bundle\ContentBundle\Event\ArticleEvent;
 use SWP\Bundle\ContentBundle\Form\Type\MediaFileType;
+use SWP\Bundle\ContentBundle\Model\ArticleMedia;
+use SWP\Component\Bridge\Model\PackageInterface;
+use SWP\Component\Common\Criteria\Criteria;
+use SWP\Component\Common\Response\ResponseContext;
+use SWP\Component\Common\Response\SingleResourceResponse;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 
-class ContentPushController extends FOSRestController
+class ContentPushController extends Controller
 {
     /**
      * Receives HTTP Push Request's payload which is then processed by the pipeline.
@@ -42,28 +49,22 @@ class ContentPushController extends FOSRestController
      */
     public function pushContentAction(Request $request)
     {
-        $content = $request->getContent();
-        $package = $this->get('swp_bridge.transformer.json_to_package')->transform($content);
-
-        $packageRepository = $this->get('swp.repository.package');
-        $existingPackage = $packageRepository->findOneBy(['guid' => $package->getGuid()]);
-        if (null !== $existingPackage) {
-            $packageRepository->remove($existingPackage);
-        }
-
-        $packageRepository->add($package);
+        $package = $this->handlePackage($request);
 
         $article = $this->get('swp_content.transformer.package_to_article')->transform($package);
         $articleRepository = $this->get('swp.repository.article');
+
+        // In case of resending article - remove previous one
         $existingArticle = $articleRepository->findOneBy(['slug' => $article->getSlug()]);
         if (null !== $existingArticle) {
             $articleRepository->remove($existingArticle);
         }
 
+        $this->get('event_dispatcher')->dispatch(ArticleEvents::PRE_CREATE, new ArticleEvent($article, $package));
         $articleRepository->add($article);
         $this->get('event_dispatcher')->dispatch(ArticleEvents::POST_CREATE, new ArticleEvent($article));
 
-        return $this->handleView(View::create(['status' => 'OK'], 201));
+        return new SingleResourceResponse(['status' => 'OK'], new ResponseContext(201));
     }
 
     /**
@@ -84,8 +85,7 @@ class ContentPushController extends FOSRestController
      */
     public function pushAssetsAction(Request $request)
     {
-        $form = $this->createForm(new MediaFileType());
-
+        $form = $this->createForm(MediaFileType::class);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $mediaManager = $this->container->get('swp_content_bundle.manager.media');
@@ -94,22 +94,22 @@ class ContentPushController extends FOSRestController
             if ($uploadedFile->isValid()) {
                 $media = $mediaManager->handleUploadedFile(
                     $uploadedFile,
-                    $mediaManager->handleMediaId($mediaId)
+                    ArticleMedia::handleMediaId($mediaId)
                 );
 
-                return $this->handleView(View::create([
+                return new SingleResourceResponse([
                     'media_id' => $mediaId,
                     'URL' => $mediaManager->getMediaPublicUrl($media),
                     'media' => base64_encode($mediaManager->getFile($media)),
                     'mime_type' => Mime::getMimeFromExtension($media->getFileExtension()),
                     'filemeta' => [],
-                ], 201));
+                ], new ResponseContext(201));
             }
 
             throw new \Exception('Uploaded file is not valid:'.$uploadedFile->getErrorMessage());
         }
 
-        return $this->handleView(View::create($form, 200));
+        return new SingleResourceResponse($form);
     }
 
     /**
@@ -129,24 +129,42 @@ class ContentPushController extends FOSRestController
      */
     public function getAssetsAction($mediaId)
     {
-        $objectManager = $this->container->get('swp.object_manager.media');
-        $pathBuilder = $this->container->get('swp_multi_tenancy.path_builder');
-        $mediaBasepath = $this->container->getParameter('swp_multi_tenancy.persistence.phpcr.media_basepath');
-        $mediaManager = $this->container->get('swp_content_bundle.manager.media');
+        $media = $this->get('swp.repository.media')->getByCriteria(new Criteria([
+            'assetId' => $mediaId,
+        ]), [], 'am')->getQuery()->getOneOrNullResult();
 
-        $media = $objectManager->find(null, $pathBuilder->build($mediaBasepath).'/'.$mediaManager->handleMediaId($mediaId));
         if (null === $media) {
             throw new ResourceNotFoundException('Media don\'t exists in storage');
         }
 
         $mediaManager = $this->container->get('swp_content_bundle.manager.media');
 
-        return $this->handleView(View::create([
+        return new SingleResourceResponse([
             'media_id' => $mediaId,
             'URL' => $mediaManager->getMediaPublicUrl($media),
             'media' => base64_encode($mediaManager->getFile($media)),
             'mime_type' => Mime::getMimeFromExtension($media->getFileExtension()),
             'filemeta' => [],
-        ], 200));
+        ]);
+    }
+
+    /**
+     * @param Request $request
+     *
+     * @return PackageInterface
+     */
+    private function handlePackage(Request $request) : PackageInterface
+    {
+        $content = $request->getContent();
+        $package = $this->get('swp_bridge.transformer.json_to_package')->transform($content);
+
+        $packageRepository = $this->get('swp.repository.package');
+        $existingPackage = $packageRepository->findOneBy(['guid' => $package->getGuid()]);
+        if (null !== $existingPackage) {
+            $packageRepository->remove($existingPackage);
+        }
+        $packageRepository->add($package);
+
+        return $package;
     }
 }

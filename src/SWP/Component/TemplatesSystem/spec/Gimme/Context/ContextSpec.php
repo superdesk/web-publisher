@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  * This file is part of the Superdesk Web Publisher Templates System.
  *
  * Copyright 2015 Sourcefabric z.ú. and contributors.
@@ -8,9 +8,10 @@
  * For the full copyright and license information, please see the
  * AUTHORS and LICENSE files distributed with this source code.
  *
- * @copyright 2015 Sourcefabric z.ú.
+ * @copyright 2015 Sourcefabric z.ú
  * @license http://www.superdesk.org/license
  */
+
 namespace spec\SWP\Component\TemplatesSystem\Gimme\Context;
 
 use PhpSpec\ObjectBehavior;
@@ -55,21 +56,9 @@ class ContextSpec extends ObjectBehavior
         $this->article->shouldReturn($meta);
     }
 
-    public function it_should_save_and_read_current_page_info()
+    public function it_should_save_and_read_current_page_info(Meta $meta)
     {
-        $currentPage = [
-            'id' => 1,
-            'name' => 'About',
-            'type' => 1,
-            'slug' => 'about-us',
-            'templateName' => 'static.html.twig',
-            'externalUrl' => null,
-            'contentPath' => '/content/about-us',
-            'articles' => null,
-            'route_name' => 'swp_page_about',
-        ];
-
-        $this->setCurrentPage($currentPage)->shouldReturn($this);
-        $this->getCurrentPage()->shouldReturn($currentPage);
+        $this->setCurrentPage($meta)->shouldReturn($this);
+        $this->getCurrentPage()->shouldReturn($meta);
     }
 }

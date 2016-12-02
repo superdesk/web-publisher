@@ -10,18 +10,18 @@ services:
     swp_template_engine.loader.article:
         class: SWP\Bundle\ContentBundle\Loader\ArticleLoader
         arguments:
-            - "@swp.publish_workflow.checker"
-            - "@doctrine_phpcr.odm.document_manager"
-            - "@swp_multi_tenancy.path_builder"
-            - "%swp_multi_tenancy.persistence.phpcr.route_basepaths%"
+            - "@swp.provider.article"
+            - "@swp.provider.route"
+            - "@swp.object_manager.article"
             - "@swp_template_engine_context.factory.meta_factory"
+            - "@swp_template_engine_context"
         tags:
             - { name: swp.meta_loader }
 
     swp_template_engine.loader.media:
         class: SWP\Bundle\ContentBundle\Loader\ArticleMediaLoader
         arguments:
-            - "@doctrine_phpcr.odm.document_manager"
+            - "@swp.provider.media"
             - "@swp_template_engine_context.factory.meta_factory"
             - "@swp_template_engine_context"
         tags:
@@ -34,11 +34,8 @@ services:
         tags:
             - { name: swp.meta_loader }
 
-    document_manager:
-        alias: doctrine_phpcr.odm.document_manager
-
     swp_content_bundle.factory.knp_paginator_representation:
-        class: SWP\Bundle\ContentBundle\Factory\KnpPaginatorRepresentationFactory
+        class: SWP\Component\Common\Factory\KnpPaginatorRepresentationFactory
         arguments:
             - 'page'
             - 'limit'
@@ -58,9 +55,8 @@ services:
         class: SWP\Bundle\ContentBundle\EventListener\ProcessArticleMediaListener
         arguments:
             - '@swp.object_manager.media'
-            - '@swp_multi_tenancy.path_builder'
-            - '%swp_multi_tenancy.persistence.phpcr.media_basepath%'
             - '@swp_content_bundle.manager.media'
+            - '@swp.factory.media'
         tags:
             - { name: kernel.event_listener, event: swp.article.pre_create, method: onArticleCreate }
 
@@ -74,20 +70,18 @@ services:
         class: '%swp_content.transformer.package_to_article.class%'
         arguments:
             - '@swp.factory.article'
-            - '@event_dispatcher'
         tags:
             - { name: transformer.http_push_transformer, alias: transformer.package_to_article, priority: -1 }
 
     swp.service.route:
         class: '%swp.service.route.class%'
         arguments:
-            - '@swp.factory.route'
-            - '@swp.provider.route'
-            - '@swp.provider.article'
             - '@event_dispatcher'
 
     swp.service.article:
         class: '%swp.service.article.class%'
+        arguments:
+            - '@event_dispatcher'
 
     swp.publish_workflow.checker:
         alias: cmf_core.publish_workflow.checker
@@ -95,12 +89,10 @@ services:
     swp_content_bundle.manager.media:
         class: '%swp_content_bundle.manager.media.class%'
         arguments:
-            - '@swp_multi_tenancy.path_builder'
+            - '@swp.repository.media'
+            - '@swp.factory.media'
             - '@swp_filesystem'
-            - '@swp.object_manager.media'
             - '@router'
-            - '@swp_multi_tenancy.tenant_context'
-            - '%swp_multi_tenancy.persistence.phpcr.media_basepath%'
 
     router.symfony:
         parent: "router.default"
@@ -110,3 +102,26 @@ services:
         parent: "router.symfony"
         tags:
             - { name: router, priority: 300 }
+
+    swp_content_bundle.form.type.route_selector:
+        class: SWP\Bundle\ContentBundle\Form\Type\RouteSelectorType
+        arguments:
+            - '@swp.provider.route'
+        tags:
+            - { name: form.type }
+
+    swp_content_bundle.form.type.article_selector:
+        class: SWP\Bundle\ContentBundle\Form\Type\ArticleSelectorType
+        arguments:
+            - '@swp.provider.article'
+        tags:
+            - { name: form.type }
+
+    swp_content_bundle.applicator.rule.article:
+        class: SWP\Bundle\ContentBundle\Rule\Applicator\ArticleRuleApplicator
+        arguments:
+            - '@swp.provider.route'
+            - '@logger'
+            - '@swp.service.article'
+        tags:
+            - { name: applicator.rule_applicator }

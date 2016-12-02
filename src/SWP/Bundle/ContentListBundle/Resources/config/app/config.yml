@@ -1,0 +1,6 @@
+jms_serializer:
+    metadata:
+        directories:
+            SWPContentListBundle:
+                namespace_prefix: "SWP\\Component\\ContentList"
+                path: "@SWPContentListBundle/Resources/config/serializer"

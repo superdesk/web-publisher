@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  * This file is part of the Superdesk Web Publisher Core Bundle.
  *
  * Copyright 2016 Sourcefabric z.u. and contributors.
@@ -8,9 +8,10 @@
  * For the full copyright and license information, please see the
  * AUTHORS and LICENSE files distributed with this source code.
  *
- * @copyright 2016 Sourcefabric z.ú.
+ * @copyright 2016 Sourcefabric z.ú
  * @license http://www.superdesk.org/license
  */
+
 namespace SWP\Bundle\CoreBundle\Theme\Configuration;
 
 use SWP\Bundle\CoreBundle\Theme\Helper\ThemeHelper;
@@ -52,11 +53,14 @@ final class TenantableConfigurationSourceFactory implements ConfigurationSourceF
             $config['directories'],
         ]);
 
+        $themeConfigurationProcessor = $container->getDefinition('sylius.theme.configuration.processor');
+        $themeConfigurationProcessor->replaceArgument(0, new Definition(ThemeConfiguration::class));
+
         $configurationLoader = new Definition(ProcessingConfigurationLoader::class, [
             new Definition(JsonFileConfigurationLoader::class, [
                 new Reference('sylius.theme.filesystem'),
             ]),
-            new Reference('sylius.theme.configuration.processor'),
+            $themeConfigurationProcessor,
         ]);
 
         $configurationProvider = new Definition(TenantableConfigurationProvider::class, [

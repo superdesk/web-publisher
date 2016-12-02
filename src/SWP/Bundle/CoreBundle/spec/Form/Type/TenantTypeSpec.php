@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  * This file is part of the Superdesk Web Publisher Core Bundle.
  *
  * Copyright 2016 Sourcefabric z.ú. and contributors.
@@ -8,9 +8,10 @@
  * For the full copyright and license information, please see the
  * AUTHORS and LICENSE files distributed with this source code.
  *
- * @copyright 2016 Sourcefabric z.ú.
+ * @copyright 2016 Sourcefabric z.ú
  * @license http://www.superdesk.org/license
  */
+
 namespace spec\SWP\Bundle\CoreBundle\Form\Type;
 
 use PhpSpec\ObjectBehavior;
@@ -29,17 +30,17 @@ use Symfony\Component\Validator\Constraints\NotBlank;
  */
 class TenantTypeSpec extends ObjectBehavior
 {
-    function it_is_initializable()
+    public function it_is_initializable()
     {
         $this->shouldHaveType(TenantType::class);
     }
 
-    function it_should_be_a_form_type()
+    public function it_should_be_a_form_type()
     {
         $this->shouldHaveType(FormTypeInterface::class);
     }
 
-    function it_should_build_form(FormBuilderInterface $builder)
+    public function it_should_build_form(FormBuilderInterface $builder)
     {
         $builder
             ->add('name', TextType::class, [
@@ -66,6 +67,16 @@ class TenantTypeSpec extends ObjectBehavior
         ;
 
         $builder
+            ->add('domainName', TextType::class, [
+                'required' => false,
+                'description' => 'Tenant domain name',
+                'constraints' => [
+                    new Length(['min' => 3]),
+                ],
+            ])->willReturn($builder)
+        ;
+
+        $builder
             ->add('themeName', ThemeNameChoiceType::class, [
                 'required' => false,
                 'description' => 'Tenant theme name',
@@ -84,7 +95,7 @@ class TenantTypeSpec extends ObjectBehavior
         $this->buildForm($builder, []);
     }
 
-    function it_should_set_defaults(OptionsResolver $resolver)
+    public function it_should_set_defaults(OptionsResolver $resolver)
     {
         $resolver
             ->setDefaults(['csrf_protection' => false])
@@ -94,8 +105,8 @@ class TenantTypeSpec extends ObjectBehavior
         $this->configureOptions($resolver);
     }
 
-    function it_should_have_a_name()
+    public function it_should_have_a_name()
     {
-        $this->getName()->shouldReturn('tenant');
+        $this->getBlockPrefix()->shouldReturn('tenant');
     }
 }

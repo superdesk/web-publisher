@@ -1,0 +1,5 @@
+suites:
+    main:
+        namespace: SWP\Bundle\RuleBundle
+        psr4_prefix: SWP\Bundle\RuleBundle
+        src_path: .

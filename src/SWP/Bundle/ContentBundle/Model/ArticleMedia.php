@@ -1,6 +1,8 @@
 <?php
 
-/**
+declare(strict_types=1);
+
+/*
  * This file is part of the Superdesk Web Publisher Content Bundle.
  *
  * Copyright 2016 Sourcefabric z.ú. and contributors.
@@ -8,22 +10,32 @@
  * For the full copyright and license information, please see the
  * AUTHORS and LICENSE files distributed with this source code.
  *
- * @copyright 2016 Sourcefabric z.ú.
+ * @copyright 2016 Sourcefabric z.ú
  * @license http://www.superdesk.org/license
  */
+
 namespace SWP\Bundle\ContentBundle\Model;
 
 use SWP\Component\Bridge\Model\ItemInterface;
+use SWP\Component\Common\Model\TimestampableTrait;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * ArticleMedia represents media which belongs to Article.
  */
 class ArticleMedia implements ArticleMediaInterface
 {
+    use TimestampableTrait;
+
+    /**
+     * @var int
+     */
+    protected $id;
+
     /**
      * @var string
      */
-    protected $id;
+    protected $key;
 
     /**
      * @var FileInterface
@@ -69,6 +81,44 @@ class ArticleMedia implements ArticleMediaInterface
      * @var string
      */
     protected $usageTerms;
+
+    /**
+     * @var ArrayCollection
+     */
+    protected $renditions;
+
+    /**
+     * ArticleMedia constructor.
+     */
+    public function __construct()
+    {
+        $this->renditions = new ArrayCollection();
+        $this->setCreatedAt(new \DateTime());
+    }
+
+    /**
+     * @return ArrayCollection
+     */
+    public function getRenditions()
+    {
+        return $this->renditions;
+    }
+
+    /**
+     * @param ImageRendition $rendition
+     */
+    public function addRendition(ImageRendition $rendition)
+    {
+        $this->renditions->add($rendition);
+    }
+
+    /**
+     * @param ArrayCollection $renditions
+     */
+    public function setRenditions($renditions)
+    {
+        $this->renditions = $renditions;
+    }
 
     /**
      * {@inheritdoc}
@@ -136,6 +186,17 @@ class ArticleMedia implements ArticleMediaInterface
         $this->article = $article;
 
         return $this;
+    }
+
+    public function getAssetId()
+    {
+        if ($this->getImage() instanceof Image) {
+            return $this->getImage()->getAssetId();
+        } elseif ($this->getFile() instanceof File) {
+            return $this->getFile()->getAssetId();
+        }
+
+        return;
     }
 
     /**
@@ -259,6 +320,22 @@ class ArticleMedia implements ArticleMediaInterface
     }
 
     /**
+     * @return string
+     */
+    public function getKey(): string
+    {
+        return $this->key;
+    }
+
+    /**
+     * @param string $key
+     */
+    public function setKey(string $key)
+    {
+        $this->key = $key;
+    }
+
+    /**
      * @param ItemInterface $item
      */
     public function setFromItem(ItemInterface $item)
@@ -268,5 +345,19 @@ class ArticleMedia implements ArticleMediaInterface
         $this->setLocated($item->getLocated());
         $this->setDescription($item->getDescription());
         $this->setUsageTerms($item->getUsageTerms());
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public static function handleMediaId($mediaId)
+    {
+        $mediaId = preg_replace('/\\.[^.\\s]{3,4}$/', '', $mediaId);
+        $mediaIdElements = explode('/', $mediaId);
+        if (count($mediaIdElements) == 2) {
+            return $mediaIdElements[1];
+        }
+
+        return $mediaId;
     }
 }

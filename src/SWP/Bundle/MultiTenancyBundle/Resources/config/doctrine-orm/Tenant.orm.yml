@@ -43,10 +43,9 @@ SWP\Component\MultiTenancy\Model\Tenant:
             nullable: true
     manyToOne:
         organization:
-            targetEntity: SWP\Component\MultiTenancy\Model\Organization
+            targetEntity: SWP\Component\MultiTenancy\Model\OrganizationInterface
             inversedBy: tenants
             cascade: ["remove"]
             joinColumn:
                 name: organization_id
                 referencedColumnName: id
-                onDelete: CASCADE

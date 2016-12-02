@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  * This file is part of the Superdesk Web Publisher Content Bundle.
  *
  * Copyright 2016 Sourcefabric z.ú. and contributors.
@@ -8,9 +8,10 @@
  * For the full copyright and license information, please see the
  * AUTHORS and LICENSE files distributed with this source code.
  *
- * @copyright 2016 Sourcefabric z.ú.
+ * @copyright 2016 Sourcefabric z.ú
  * @license http://www.superdesk.org/license
  */
+
 namespace spec\SWP\Bundle\ContentBundle\Model;
 
 use PhpSpec\ObjectBehavior;
@@ -83,6 +84,13 @@ class ArticleSpec extends ObjectBehavior
         $this->getRoute()->shouldReturn(null);
     }
 
+    public function it_should_unset_route(RouteInterface $route)
+    {
+        $this->setRoute($route);
+        $this->setRoute();
+        $this->getRoute()->shouldReturn(null);
+    }
+
     public function its_route_is_mutable(RouteInterface $route)
     {
         $this->setRoute($route);
@@ -145,6 +153,7 @@ class ArticleSpec extends ObjectBehavior
         $this->setCreatedAt($date)->shouldNotReturn($this);
         $this->setDeletedAt($date)->shouldNotReturn($this);
         $this->setUpdatedAt($date)->shouldNotReturn($this);
+        $this->setLead('lead')->shouldNotReturn($this);
     }
 
     public function it_should_return_true_if_article_is_deleted()
@@ -173,5 +182,16 @@ class ArticleSpec extends ObjectBehavior
     {
         $this->setMetadata(['meta1' => 'value1']);
         $this->getMetadata()->shouldReturn(['meta1' => 'value1']);
+    }
+
+    public function it_has_no_lead_by_default()
+    {
+        $this->getLead()->shouldReturn(null);
+    }
+
+    public function its_lead_is_mutable()
+    {
+        $this->setLead('lead');
+        $this->getLead()->shouldReturn('lead');
     }
 }

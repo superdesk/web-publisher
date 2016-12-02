@@ -1,3 +1,24 @@
 filter:
     excluded_paths:
-        - spec/*
+        - 'spec/*'
+        - 'Tests/*'
+checks:
+    php: true
+
+coding_style:
+    php:
+        spaces:
+            around_operators:
+                concatenation: false
+
+build:
+    environment:
+        php:
+            version: 7.0.8
+    tests:
+        override:
+            -
+                command: 'bin/phpunit --coverage-clover=coverage.xml && bash <(curl -s https://codecov.io/bash) -t c9484253-369a-4fb3-946b-ee1be3061237'
+                coverage:
+                    file: 'coverage.xml'
+                    format: 'clover'

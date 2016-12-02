@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  * This file is part of the Superdesk Web Publisher Content Bundle.
  *
  * Copyright 2016 Sourcefabric z.ú. and contributors.
@@ -8,15 +8,34 @@
  * For the full copyright and license information, please see the
  * AUTHORS and LICENSE files distributed with this source code.
  *
- * @copyright 2016 Sourcefabric z.ú.
+ * @copyright 2016 Sourcefabric z.ú
  * @license http://www.superdesk.org/license
  */
+
 namespace SWP\Bundle\ContentBundle\Service;
 
+use SWP\Bundle\ContentBundle\ArticleEvents;
+use SWP\Bundle\ContentBundle\Event\ArticleEvent;
 use SWP\Bundle\ContentBundle\Model\ArticleInterface;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class ArticleService implements ArticleServiceInterface
 {
+    /**
+     * @var EventDispatcherInterface
+     */
+    private $eventDispatcher;
+
+    /**
+     * RouteService constructor.
+     *
+     * @param EventDispatcherInterface $eventDispatcher
+     */
+    public function __construct(EventDispatcherInterface $eventDispatcher)
+    {
+        $this->eventDispatcher = $eventDispatcher;
+    }
+
     /**
      * {@inheritdoc}
      */
@@ -27,6 +46,8 @@ class ArticleService implements ArticleServiceInterface
         $article->setPublishable(true);
         $article->setStatus(ArticleInterface::STATUS_PUBLISHED);
         $article->setPublishedAt(new \DateTime());
+
+        $this->dispatchArticleEvent(ArticleEvents::POST_PUBLISH, $article);
 
         return $article;
     }
@@ -52,5 +73,10 @@ class ArticleService implements ArticleServiceInterface
         ) {
             throw new \Exception($exceptionMessage);
         }
+    }
+
+    private function dispatchArticleEvent($eventName, ArticleInterface $article)
+    {
+        $this->eventDispatcher->dispatch($eventName, new ArticleEvent($article));
     }
 }

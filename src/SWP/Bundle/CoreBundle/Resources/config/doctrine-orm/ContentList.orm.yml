@@ -1,0 +1,6 @@
+SWP\Bundle\CoreBundle\Model\ContentList:
+    type:  entity
+    table: swp_content_list
+    fields:
+        tenantCode:
+            type: string

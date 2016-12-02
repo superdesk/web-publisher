@@ -1,0 +1,49 @@
+services:
+    swp_template_engine_loader_chain:
+        class: SWP\Component\TemplatesSystem\Gimme\Loader\ChainLoader
+
+    swp_template_engine_context:
+        class: SWP\Component\TemplatesSystem\Gimme\Context\Context
+        arguments:
+            - "@doctrine_cache.providers.main_cache"
+            - "%kernel.root_dir%/Resources/meta"
+    context:
+        alias: swp_template_engine_context
+
+    swp_template_engine_context.factory.meta_factory:
+        class: SWP\Component\TemplatesSystem\Gimme\Factory\MetaFactory
+        arguments:
+            - '@swp_template_engine_context'
+
+    swp_template_engine_container:
+        class: SWP\Bundle\TemplatesSystemBundle\Service\ContainerService
+        arguments:
+            - "@doctrine"
+            - "@event_dispatcher"
+            - "@service_container"
+            - "%kernel.cache_dir%"
+            - "%kernel.debug%"
+
+    swp_template_engine_twig_extension.gimme:
+        class: SWP\Component\TemplatesSystem\Twig\Extension\GimmeExtension
+        public: false
+        arguments:
+            - "@swp_template_engine_context"
+            - "@swp_template_engine_loader_chain"
+        tags:
+            - { name: twig.extension }
+
+    swp_template_engine_twig_extension.container:
+        class: SWP\Component\TemplatesSystem\Twig\Extension\ContainerExtension
+        public: false
+        arguments:
+            - "@swp_template_engine_container"
+        tags:
+            - { name: twig.extension }
+
+    swp_template_engine.data_collector.context_collector:
+        class: SWP\Bundle\TemplatesSystemBundle\DataCollector\ContextDataCollector
+        arguments:
+            - "@swp_template_engine_context"
+        tags:
+            - { name: data_collector, template: "SWPTemplatesSystemBundle:Collector:contextCollector", id: "context_collector" }

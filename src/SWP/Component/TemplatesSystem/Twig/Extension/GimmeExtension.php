@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  * This file is part of the Superdesk Web Publisher Templates System.
  *
  * Copyright 2015 Sourcefabric z.ú. and contributors.
@@ -8,11 +8,14 @@
  * For the full copyright and license information, please see the
  * AUTHORS and LICENSE files distributed with this source code.
  *
- * @copyright 2015 Sourcefabric z.ú.
+ * @copyright 2015 Sourcefabric z.ú
  * @license http://www.superdesk.org/license
  */
+
 namespace SWP\Component\TemplatesSystem\Twig\Extension;
 
+use SWP\Component\TemplatesSystem\Gimme\Context\Context;
+use SWP\Component\TemplatesSystem\Gimme\Loader\LoaderInterface;
 use SWP\Component\TemplatesSystem\Twig\TokenParser\GimmeListTokenParser;
 use SWP\Component\TemplatesSystem\Twig\TokenParser\GimmeTokenParser;
 
@@ -22,7 +25,13 @@ class GimmeExtension extends \Twig_Extension implements \Twig_Extension_GlobalsI
 
     protected $context;
 
-    public function __construct($context, $loader)
+    /**
+     * GimmeExtension constructor.
+     *
+     * @param Context         $context
+     * @param LoaderInterface $loader
+     */
+    public function __construct(Context $context, LoaderInterface $loader)
     {
         $this->context = $context;
         $this->loader = $loader;

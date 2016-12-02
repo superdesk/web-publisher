@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  * This file is part of the Superdesk Web Publisher Content Bundle.
  *
  * Copyright 2015 Sourcefabric z.u. and contributors.
@@ -8,9 +8,10 @@
  * For the full copyright and license information, please see the
  * AUTHORS and LICENSE files distributed with this source code.
  *
- * @copyright 2015 Sourcefabric z.ú.
+ * @copyright 2015 Sourcefabric z.ú
  * @license http://www.superdesk.org/license
  */
+
 namespace SWP\Bundle\ContentBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
@@ -29,8 +30,8 @@ class MediaFileType extends AbstractType
             ->add('media_id', TextType::class, [
                 'required' => true,
                 'constraints' => [
-                   new NotBlank(),
-                   new Length(['min' => 1]),
+                    new NotBlank(),
+                    new Length(['min' => 1]),
                 ],
             ])
             ->add('media', FileType::class, [
@@ -43,7 +44,7 @@ class MediaFileType extends AbstractType
         $resolver->setDefaults(['csrf_protection' => false]);
     }
 
-    public function getName()
+    public function getBlockPrefix()
     {
         return '';
     }

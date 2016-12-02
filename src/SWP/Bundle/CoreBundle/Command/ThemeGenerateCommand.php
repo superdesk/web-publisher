@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  * This file is part of the Superdesk Web Publisher Template Engine Bundle.
  *
  * Copyright 2016 Sourcefabric z.ú. and contributors.
@@ -8,9 +8,10 @@
  * For the full copyright and license information, please see the
  * AUTHORS and LICENSE files distributed with this source code.
  *
- * @copyright 2016 Sourcefabric z.ú.
+ * @copyright 2016 Sourcefabric z.ú
  * @license http://www.superdesk.org/license
  */
+
 namespace SWP\Bundle\CoreBundle\Command;
 
 use SWP\Bundle\CoreBundle\Document\Tenant;
@@ -58,13 +59,12 @@ class ThemeGenerateCommand extends ContainerAwareCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        $themeName = $input->getArgument('themeName');
         try {
             $tenant = $this->getTenant($input, $output);
             if (null === $tenant) {
                 return;
             }
-
-            $themeName = $input->getArgument('themeName');
 
             $themeDir = $this->createSkeleton(new Filesystem(), $tenant->getCode(), $themeName);
             $this->writeConfigFile($input, $output, $tenant, $themeDir, $themeName);
@@ -130,10 +130,13 @@ class ThemeGenerateCommand extends ContainerAwareCommand
     }
 
     /**
-     * Creates folders and empty files of theme.
+     * @param Filesystem $fileSystem
+     * @param            $tenantCode
+     * @param            $themeName
      *
-     * @param $tenantCode
-     * @param $themeName
+     * @return string
+     *
+     * @throws \Exception
      */
     protected function createSkeleton(Filesystem $fileSystem, $tenantCode, $themeName)
     {
@@ -177,13 +180,11 @@ class ThemeGenerateCommand extends ContainerAwareCommand
     }
 
     /**
-     * Writes to the theme's config file.
-     *
      * @param InputInterface  $input
      * @param OutputInterface $output
      * @param Tenant          $tenant
-     * @param $themeDir
-     * @param $themeName
+     * @param                 $themeDir
+     * @param                 $themeName
      */
     protected function writeConfigFile(InputInterface $input, OutputInterface $output, Tenant $tenant, $themeDir, $themeName)
     {
@@ -225,9 +226,11 @@ EOT;
     }
 
     /**
-     * @param InputInterface  $input  An InputInterface instance
-     * @param OutputInterface $output An OutputInterface instance
-     * @param array           $keys
+     * @param InputInterface  $input
+     * @param OutputInterface $output
+     * @param array           $keysAndDefaults
+     *
+     * @return array
      */
     protected function getValuesFromUser(InputInterface $input, OutputInterface $output, array $keysAndDefaults)
     {

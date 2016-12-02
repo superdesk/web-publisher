@@ -4,9 +4,13 @@ parameters:
 framework:
     secret: "Three can keep a secret, if two of them are dead."
     router: { resource: "%kernel.root_dir%/%kernel.test_case%/routing.yml" }
+    translator: ~
     test: ~
 
 swp_bridge:
+    persistence:
+        orm:
+            enabled: true
     api:
         host: 'example.com'
         port: 8000
@@ -26,3 +30,8 @@ doctrine:
         charset:  UTF8
     orm:
         auto_generate_proxy_classes: true
+
+monolog:
+    handlers:
+        test:
+            type:  test

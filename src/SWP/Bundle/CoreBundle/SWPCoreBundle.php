@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  * This file is part of the Superdesk Web Publisher Core Bundle.
  *
  * Copyright 2015 Sourcefabric z.u. and contributors.
@@ -8,11 +8,14 @@
  * For the full copyright and license information, please see the
  * AUTHORS and LICENSE files distributed with this source code.
  *
- * @copyright 2015 Sourcefabric z.ú.
+ * @copyright 2015 Sourcefabric z.ú
  * @license http://www.superdesk.org/license
  */
+
 namespace SWP\Bundle\CoreBundle;
 
+use SWP\Bundle\CoreBundle\DependencyInjection\Compiler\OverrideDynamicRouterPass;
+use SWP\Bundle\CoreBundle\DependencyInjection\Compiler\OverrideMediaManagerPass;
 use SWP\Bundle\CoreBundle\DependencyInjection\Compiler\OverrideThemeAssetsInstallerPass;
 use SWP\Bundle\CoreBundle\DependencyInjection\Compiler\OverrideThemeFactoryPass;
 use SWP\Bundle\CoreBundle\DependencyInjection\Compiler\OverrideThemePathResolverPass;
@@ -37,6 +40,8 @@ class SWPCoreBundle extends Bundle
         $container->addCompilerPass(new OverrideThemeFactoryPass());
         $container->addCompilerPass(new OverrideThemePathResolverPass());
         $container->addCompilerPass(new OverrideThemeAssetsInstallerPass());
+        $container->addCompilerPass(new OverrideDynamicRouterPass());
+        $container->addCompilerPass(new OverrideMediaManagerPass());
     }
 
     /**
@@ -45,7 +50,15 @@ class SWPCoreBundle extends Bundle
     public function getSupportedDrivers()
     {
         return [
-            Drivers::DRIVER_DOCTRINE_PHPCR_ODM,
+            Drivers::DRIVER_DOCTRINE_ORM,
         ];
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getModelClassNamespace()
+    {
+        return 'SWP\Bundle\CoreBundle\Model';
     }
 }

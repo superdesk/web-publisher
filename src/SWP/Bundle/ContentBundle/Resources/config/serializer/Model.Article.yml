@@ -3,8 +3,11 @@ SWP\Bundle\ContentBundle\Model\Article:
     properties:
         id:
             expose: true
-            type: string
+            type: integer
         title:
+            expose: true
+            type: string
+        lead:
             expose: true
             type: string
         body:
@@ -41,10 +44,29 @@ SWP\Bundle\ContentBundle\Model\Article:
             type: boolean
         media:
             expose: true
+        metadata:
+            expose: true
+            type: array
+            accessor:
+                getter: getMetadata
     relations:
         -
             rel: self
             href:
                 route: swp_api_content_show_articles
                 parameters:
-                    id: expr(object.getSlug())
+                    id: "expr(object.getSlug())"
+        -
+            rel: online
+            href:
+                route: "expr(object.getRoute() ? object.getRoute().getRouteName() : 'swp_api_content_list_articles')"
+                parameters:
+                    slug: "expr(object.getSlug())"
+            exclusion:
+                exclude_if: "expr(object.getRoute() ? object.getRoute().getType() !== 'collection')"
+        -
+            rel: online
+            href:
+                route: "expr(object.getRoute() ? object.getRoute().getRouteName() : 'swp_api_content_list_articles' )"
+            exclusion:
+                exclude_if: "expr(object.getRoute() ? object.getRoute().getType() !== 'content')"

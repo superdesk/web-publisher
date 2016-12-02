@@ -1,0 +1,6 @@
+SWP\Bundle\CoreBundle\Model\Article:
+    type: entity
+    table: swp_article
+    fields:
+        tenantCode:
+            type: string

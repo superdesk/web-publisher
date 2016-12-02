@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  * This file is part of the Superdesk Web Publisher Templates System.
  *
  * Copyright 2015 Sourcefabric z.ú. and contributors.
@@ -8,9 +8,10 @@
  * For the full copyright and license information, please see the
  * AUTHORS and LICENSE files distributed with this source code.
  *
- * @copyright 2015 Sourcefabric z.ú.
+ * @copyright 2015 Sourcefabric z.ú
  * @license http://www.superdesk.org/license
  */
+
 namespace SWP\Component\TemplatesSystem\Twig\Node;
 
 /**
@@ -29,7 +30,16 @@ class GimmeNode extends \Twig_Node
      */
     public function __construct(\Twig_Node $annotation, \Twig_Node_Expression $parameters = null, \Twig_NodeInterface $body, $lineno, $tag = null)
     {
-        parent::__construct(['parameters' => $parameters, 'body' => $body, 'annotation' => $annotation], [], $lineno, $tag);
+        $nodes = [
+            'body' => $body,
+            'annotation' => $annotation,
+        ];
+
+        if (!is_null($parameters)) {
+            $nodes['parameters'] = $parameters;
+        }
+
+        parent::__construct($nodes, [], $lineno, $tag);
     }
 
     /**
@@ -43,7 +53,7 @@ class GimmeNode extends \Twig_Node
             ->addDebugInfo($this)
             ->write('$swpMetaLoader'.$i." = \$this->env->getExtension('swp_gimme')->getLoader();\n")
             ->write('')->subcompile($this->getNode('annotation'))->raw(' = $swpMetaLoader'.$i.'->load("')->raw($this->getNode('annotation')->getNode(0)->getAttribute('name'))->raw('", ');
-        if (!is_null($this->getNode('parameters'))) {
+        if ($this->hasNode('parameters')) {
             $compiler->subcompile($this->getNode('parameters'));
         } else {
             $compiler->raw('null');

@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  * This file is part of the Superdesk Web Publisher Core Bundle.
  *
  * Copyright 2015 Sourcefabric z.u. and contributors.
@@ -8,38 +8,37 @@
  * For the full copyright and license information, please see the
  * AUTHORS and LICENSE files distributed with this source code.
  *
- * @copyright 2015 Sourcefabric z.ú.
+ * @copyright 2015 Sourcefabric z.ú
  * @license http://www.superdesk.org/license
  */
-namespace SWP\Bundle\CoreBundle\Version;
 
-use SWP\UpdaterBundle\Version\VersionInterface;
+namespace SWP\Bundle\CoreBundle\Version;
 
 /**
  * Application version class.
  */
-final class Version implements VersionInterface
+final class Version
 {
     /**
      * Version string.
      *
      * @var string
      */
-    protected $version = '0.1.0';
+    protected $version = '0.0.1';
 
     /**
      * Code name string.
      *
      * @var string
      */
-    protected $codeName = 'N/A';
+    protected $codeName = '';
 
     /**
      * Release date string.
      *
      * @var string
      */
-    protected $releaseDate = '2015-09-01';
+    protected $releaseDate = '2016-11-30';
 
     /**
      * {@inheritdoc}

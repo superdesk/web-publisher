@@ -3,7 +3,7 @@ SWP\Component\MultiTenancy\Model\Tenant:
     properties:
         id:
             expose: true
-            type: string
+            type: integer
         name:
             expose: true
             type: string

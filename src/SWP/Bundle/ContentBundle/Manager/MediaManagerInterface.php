@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  * This file is part of the Superdesk Web Publisher Content Bundle.
  *
  * Copyright 2016 Sourcefabric z.ú. and contributors.
@@ -8,9 +8,10 @@
  * For the full copyright and license information, please see the
  * AUTHORS and LICENSE files distributed with this source code.
  *
- * @copyright 2016 Sourcefabric z.ú.
+ * @copyright 2016 Sourcefabric z.ú
  * @license http://www.superdesk.org/license
  */
+
 namespace SWP\Bundle\ContentBundle\Manager;
 
 use SWP\Bundle\ContentBundle\Model\FileInterface;
@@ -32,7 +33,7 @@ interface MediaManagerInterface
     /**
      * @param FileInterface $media
      *
-     * @return string|false The file contents or false on failure.
+     * @return string|false The file contents or false on failure
      */
     public function getFile(FileInterface $media);
 
@@ -42,7 +43,7 @@ interface MediaManagerInterface
      * @param UploadedFile $uploadedFile
      * @param string       $fileName
      *
-     * @return bool True on success, false on failure.
+     * @return bool True on success, false on failure
      */
     public function saveFile(UploadedFile $uploadedFile, $fileName);
 
@@ -63,11 +64,4 @@ interface MediaManagerInterface
      * @return string
      */
     public function getMediaUri(FileInterface $media);
-
-    /**
-     * @param string $mediaId
-     *
-     * @return string
-     */
-    public function handleMediaId($mediaId);
 }

@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  * This file is part of the Superdesk Web Publisher MultiTenancyBundle.
  *
  * Copyright 2016 Sourcefabric z.ú. and contributors.
@@ -8,9 +8,10 @@
  * For the full copyright and license information, please see the
  * AUTHORS and LICENSE files distributed with this source code.
  *
- * @copyright 2016 Sourcefabric z.ú.
+ * @copyright 2016 Sourcefabric z.ú
  * @license http://www.superdesk.org/license
  */
+
 namespace SWP\Bundle\MultiTenancyBundle\DependencyInjection\Compiler;
 
 use SWP\Component\MultiTenancy\Factory\OrganizationFactory;
@@ -52,7 +53,8 @@ class RegisterOrganizationFactoryPass implements CompilerPassInterface
             [
                 $organizationFactoryDefinition,
                 new Reference('swp.object_manager.organization'),
-                new Parameter('swp_multi_tenancy.persistence.phpcr.basepath'),
+                $container->hasParameter('swp_multi_tenancy.persistence.phpcr.basepath')
+                    ? new Parameter('swp_multi_tenancy.persistence.phpcr.basepath') : null,
             ]
         );
 

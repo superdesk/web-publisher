@@ -1,0 +1,4 @@
+SWP\Bundle\ContentBundle\Model\Route:
+    properties:
+        type:
+            - SWP\Bundle\ContentBundle\Validator\Constraints\RouteType: ~

@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  * This file is part of the Superdesk Web Publisher Core Bundle.
  *
  * Copyright 2016 Sourcefabric z.ú. and contributors.
@@ -8,9 +8,10 @@
  * For the full copyright and license information, please see the
  * AUTHORS and LICENSE files distributed with this source code.
  *
- * @copyright 2016 Sourcefabric z.ú.
+ * @copyright 2016 Sourcefabric z.ú
  * @license http://www.superdesk.org/license
  */
+
 namespace SWP\Bundle\CoreBundle\Tests\Controller;
 
 use SWP\Bundle\FixturesBundle\WebTestCase;
@@ -32,11 +33,9 @@ class TenantControllerTest extends WebTestCase
 
         $this->initDatabase();
 
+        $this->loadCustomFixtures(['tenant']);
         $this->runCommand('swp:organization:create', ['--env' => 'test', '--default' => true], true);
         $this->runCommand('swp:tenant:create', ['--env' => 'test', '--default' => true], true);
-        $this->loadFixtures([
-            'SWP\Bundle\FixturesBundle\DataFixtures\PHPCR\LoadTenantsData',
-        ], null, 'doctrine_phpcr');
 
         $this->router = $this->getContainer()->get('router');
     }
@@ -54,7 +53,7 @@ class TenantControllerTest extends WebTestCase
 
         $this->assertEquals(201, $client->getResponse()->getStatusCode());
         $this->assertArraySubset(json_decode(
-            '{"subdomain":"test","name":"Test Tenant","organization":{"id":"\/swp\/123456","name":"default","code":"123456"},"updated_at":null,"enabled":true,"theme_name":"swp\/test-theme"}', true
+            '{"id":3,"subdomain":"test","name":"Test Tenant","organization":{"id":3,"name":"default"},"enabled":true,"theme_name":"swp\/test-theme","domain_name":null}', true
         ), json_decode(
             $client->getResponse()->getContent(),
             true
@@ -75,7 +74,7 @@ class TenantControllerTest extends WebTestCase
 
         $this->assertEquals(201, $client->getResponse()->getStatusCode());
         $this->assertArraySubset(json_decode(
-            '{"subdomain":"test","name":"Test Tenant","organization":{"id":"\/swp\/123456","name":"default","code":"123456"},"updated_at":null,"enabled":true,"theme_name":"swp\/test-theme"}', true
+            '{"id":3,"subdomain":"test","name":"Test Tenant","organization":{"id":1,"name":"Organization1","code":"123456"},"enabled":true,"theme_name":"swp\/test-theme","domain_name":null}', true
         ), json_decode(
             $client->getResponse()->getContent(),
             true
@@ -164,13 +163,14 @@ class TenantControllerTest extends WebTestCase
                 'name' => 'Updated tenant name',
                 'subdomain' => 'updated test subdomain',
                 'themeName' => 'swp/test-theme',
+                'domainName' => 'test.com',
             ],
         ]);
 
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
 
         $this->assertArraySubset(json_decode(
-            '{"subdomain":"updated test subdomain","name":"Updated tenant name","organization":{"id":"\/swp\/123456","name":"default","code":"123456"},"enabled":true,"theme_name":"swp\/test-theme"}', true),
+            '{"subdomain":"updated test subdomain","name":"Updated tenant name","organization":{"id":3,"name":"default"},"enabled":true,"theme_name":"swp\/test-theme","domain_name":"test.com"}', true),
             json_decode($client->getResponse()->getContent(), true));
     }
 }

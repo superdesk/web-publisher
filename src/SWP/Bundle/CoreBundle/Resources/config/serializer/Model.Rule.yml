@@ -1,0 +1,8 @@
+SWP\Bundle\CoreBundle\Model\Rule:
+    exclusion_policy: ALL
+    relations:
+        - rel: self
+          href:
+                route: swp_api_core_get_rule
+                parameters:
+                    id: expr(object.getId())

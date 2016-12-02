@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  * This file is part of the Superdesk Web Publisher Core Bundle.
  *
  * Copyright 2015 Sourcefabric z.u. and contributors.
@@ -8,9 +8,10 @@
  * For the full copyright and license information, please see the
  * AUTHORS and LICENSE files distributed with this source code.
  *
- * @copyright 2015 Sourcefabric z.ú.
+ * @copyright 2015 Sourcefabric z.ú
  * @license http://www.superdesk.org/license
  */
+
 namespace SWP\Bundle\CoreBundle\DependencyInjection;
 
 use SWP\Bundle\StorageBundle\DependencyInjection\Extension\Extension;
@@ -36,7 +37,7 @@ class SWPCoreExtension extends Extension
         $loader->load('services.yml');
         $this->loadDeviceListener($config, $loader);
 
-        $this->registerStorage(Drivers::DRIVER_DOCTRINE_PHPCR_ODM, [], $container);
+        $this->registerStorage(Drivers::DRIVER_DOCTRINE_ORM, $config['persistence']['orm']['classes'], $container);
     }
 
     private function loadDeviceListener(array $config, Loader\YamlFileLoader $loader)

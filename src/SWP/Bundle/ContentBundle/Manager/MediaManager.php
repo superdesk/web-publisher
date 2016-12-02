@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  * This file is part of the Superdesk Web Publisher Content Bundle.
  *
  * Copyright 2016 Sourcefabric z.ú. and contributors.
@@ -8,28 +8,26 @@
  * For the full copyright and license information, please see the
  * AUTHORS and LICENSE files distributed with this source code.
  *
- * @copyright 2016 Sourcefabric z.ú.
+ * @copyright 2016 Sourcefabric z.ú
  * @license http://www.superdesk.org/license
  */
+
 namespace SWP\Bundle\ContentBundle\Manager;
 
+use SWP\Bundle\ContentBundle\Doctrine\ArticleMediaRepositoryInterface;
+use SWP\Bundle\ContentBundle\Factory\MediaFactoryInterface;
+use SWP\Bundle\ContentBundle\Model\ArticleMedia;
 use SWP\Bundle\ContentBundle\Model\FileInterface;
-use SWP\Component\MultiTenancy\Context\TenantContextInterface;
-use SWP\Component\MultiTenancy\PathBuilder\TenantAwarePathBuilder;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use League\Flysystem\Filesystem;
-use Doctrine\ODM\PHPCR\DocumentManager;
-use SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\File;
-use SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\Image;
-use Symfony\Component\Routing\RequestContext;
 use Symfony\Component\Routing\RouterInterface;
 
 class MediaManager implements MediaManagerInterface
 {
     /**
-     * @var TenantAwarePathBuilder
+     * @var MediaFactoryInterface
      */
-    protected $pathBuilder;
+    protected $mediaFactory;
 
     /**
      * @var Filesystem
@@ -37,39 +35,33 @@ class MediaManager implements MediaManagerInterface
     protected $filesystem;
 
     /**
-     * @var DocumentManager
+     * @var RouterInterface
      */
-    protected $objectManager;
+    protected $router;
 
     /**
-     * @var string
+     * @var ArticleMediaRepositoryInterface
      */
-    protected $mediaBasepath;
+    protected $mediaRepository;
 
     /**
      * MediaManager constructor.
      *
-     * @param TenantAwarePathBuilder $pathBuilder
-     * @param Filesystem             $filesystem
-     * @param DocumentManager        $objectManager
-     * @param RouterInterface        $router
-     * @param TenantContextInterface $tenantContext
-     * @param string                 $mediaBasepath
+     * @param ArticleMediaRepositoryInterface $mediaRepository
+     * @param MediaFactoryInterface           $mediaFactory
+     * @param Filesystem                      $filesystem
+     * @param RouterInterface                 $router
      */
     public function __construct(
-        TenantAwarePathBuilder $pathBuilder,
+        ArticleMediaRepositoryInterface $mediaRepository,
+        MediaFactoryInterface $mediaFactory,
         Filesystem $filesystem,
-        DocumentManager $objectManager,
-        RouterInterface $router,
-        TenantContextInterface $tenantContext,
-        $mediaBasepath
+        RouterInterface $router
     ) {
-        $this->pathBuilder = $pathBuilder;
+        $this->mediaRepository = $mediaRepository;
+        $this->mediaFactory = $mediaFactory;
         $this->filesystem = $filesystem;
-        $this->objectManager = $objectManager;
-        $this->mediaBasepath = $mediaBasepath;
         $this->router = $router;
-        $this->tenantContext = $tenantContext;
     }
 
     /**
@@ -77,17 +69,13 @@ class MediaManager implements MediaManagerInterface
      */
     public function handleUploadedFile(UploadedFile $uploadedFile, $mediaId)
     {
-        $mediaId = $this->handleMediaId($mediaId);
+        $mediaId = ArticleMedia::handleMediaId($mediaId);
         $this->saveFile($uploadedFile, $mediaId);
 
-        $media = $this->getProperObject($uploadedFile);
-        $media->setParentDocument($this->objectManager->find(null, $this->pathBuilder->build($this->mediaBasepath)));
-        $media->setId($mediaId);
-        $media->setFileExtension($uploadedFile->guessClientExtension());
-        $this->objectManager->persist($media);
-        $this->objectManager->flush();
+        $asset = $this->mediaFactory->createMediaAsset($uploadedFile, $mediaId);
+        $this->mediaRepository->add($asset);
 
-        return $media;
+        return $asset;
     }
 
     /**
@@ -95,9 +83,7 @@ class MediaManager implements MediaManagerInterface
      */
     public function getFile(FileInterface $media)
     {
-        $mediaBasePath = $this->pathBuilder->build($this->mediaBasepath);
-
-        return $this->filesystem->read($mediaBasePath.'/'.$media->getId().'.'.$media->getFileExtension());
+        return $this->filesystem->read($this->getMediaBasePath().'/'.$media->getAssetId().'.'.$media->getFileExtension());
     }
 
     /**
@@ -106,7 +92,7 @@ class MediaManager implements MediaManagerInterface
     public function saveFile(UploadedFile $uploadedFile, $fileName)
     {
         $stream = fopen($uploadedFile->getRealPath(), 'r+');
-        $result = $this->filesystem->writeStream($this->pathBuilder->build($this->mediaBasepath).'/'.$fileName.'.'.$uploadedFile->guessClientExtension(), $stream);
+        $result = $this->filesystem->writeStream($this->getMediaBasePath().'/'.$fileName.'.'.$uploadedFile->guessClientExtension(), $stream);
         fclose($stream);
 
         return $result;
@@ -117,14 +103,6 @@ class MediaManager implements MediaManagerInterface
      */
     public function getMediaPublicUrl(FileInterface $media)
     {
-        $tenant = $this->tenantContext->getTenant();
-
-        if ($subdomain = $tenant->getSubdomain()) {
-            /* @var RequestContext */
-            $context = $this->router->getContext();
-            $context->setHost($subdomain.'.'.$context->getHost());
-        }
-
         return $this->getMediaUri($media, RouterInterface::ABSOLUTE_URL);
     }
 
@@ -134,36 +112,15 @@ class MediaManager implements MediaManagerInterface
     public function getMediaUri(FileInterface $media, $type = RouterInterface::ABSOLUTE_PATH)
     {
         return $this->router->generate('swp_media_get', [
-            'mediaId' => $media->getId(),
+            'mediaId' => $media->getAssetId(),
             'extension' => $media->getFileExtension(),
         ], $type);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function handleMediaId($mediaId)
+    protected function getMediaBasePath(): string
     {
-        $mediaId = preg_replace('/\\.[^.\\s]{3,4}$/', '', $mediaId);
-        $mediaIdElements = explode('/', $mediaId);
-        if (count($mediaIdElements) == 2) {
-            return $mediaIdElements[1];
-        }
+        $pathElements = ['swp', 'media'];
 
-        return $mediaId;
-    }
-
-    protected function getProperObject(UploadedFile $uploadedFile)
-    {
-        if (in_array(exif_imagetype($uploadedFile->getRealPath()), [
-            IMAGETYPE_GIF,
-            IMAGETYPE_JPEG,
-            IMAGETYPE_PNG,
-            IMAGETYPE_BMP,
-        ])) {
-            return new Image();
-        }
-
-        return new File();
+        return implode('/', $pathElements);
     }
 }

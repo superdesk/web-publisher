@@ -1,0 +1,18 @@
+SWP\Bundle\CoreBundle\Model\Tenant:
+    exclusion_policy: ALL
+    properties:
+        themeName:
+            expose: true
+            type: string
+        domainName:
+            expose: true
+            type: string
+        organization:
+            expose: true
+            type: SWP\Bundle\CoreBundle\Model\Organization
+    relations:
+        - rel: self
+          href:
+                route: swp_api_core_get_tenant
+                parameters:
+                    code: expr(object.getCode())

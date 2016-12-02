@@ -1,0 +1,12 @@
+SWP\Bundle\CoreBundle\Model\MenuItem:
+    type: entity
+    table: swp_menu
+    fields:
+        tenantCode:
+            type: string
+    manyToOne:
+        route:
+            targetEntity: SWP\Bundle\ContentBundle\Model\RouteInterface
+            joinColumn:
+                name: route_id
+                referencedColumnName: id

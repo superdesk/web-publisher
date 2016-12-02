@@ -4,16 +4,23 @@ namespace spec\SWP\Bundle\ContentBundle\Service;
 
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
+use SWP\Bundle\ContentBundle\Event\ArticleEvent;
 use SWP\Bundle\ContentBundle\Model\ArticleInterface;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class ArticleServiceSpec extends ObjectBehavior
 {
-    function it_is_initializable()
+    function let(EventDispatcherInterface $dispatcher)
+    {
+        $this->beConstructedWith($dispatcher);
+    }
+
+    public function it_is_initializable()
     {
         $this->shouldHaveType('SWP\Bundle\ContentBundle\Service\ArticleService');
     }
 
-    function it_should_publish_new_article(ArticleInterface $article)
+    public function it_should_publish_new_article(ArticleInterface $article, EventDispatcherInterface $dispatcher)
     {
         $article->setStatus(ArticleInterface::STATUS_PUBLISHED)->shouldBeCalled();
         $article->setPublishedAt(Argument::type('\DateTime'))->shouldBeCalled();
@@ -21,10 +28,12 @@ class ArticleServiceSpec extends ObjectBehavior
         $article->getPublishStartDate()->shouldBeCalled();
         $article->getPublishEndDate()->shouldBeCalled();
 
+        $dispatcher->dispatch('swp.article.published', Argument::type(ArticleEvent::class))->shouldBeCalled();
+
         $this->publish($article)->shouldReturn($article);
     }
 
-    function it_should_throw_exception_on_unpublishable_article(ArticleInterface $article)
+    public function it_should_throw_exception_on_unpublishable_article(ArticleInterface $article)
     {
         $date = new \DateTime();
         $date->modify('-10 years');
@@ -40,7 +49,7 @@ class ArticleServiceSpec extends ObjectBehavior
             ->during('publish', [$article]);
     }
 
-    function it_should_unpublish_published_article(ArticleInterface $article)
+    public function it_should_unpublish_published_article(ArticleInterface $article)
     {
         $article->setStatus(ArticleInterface::STATUS_UNPUBLISHED)->shouldBeCalled();
         $article->setPublishedAt(Argument::type('\DateTime'))->shouldNotBeCalled();

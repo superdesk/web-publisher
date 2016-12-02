@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  * This file is part of the Superdesk Web Publisher Bridge Component.
  *
  * Copyright 2016 Sourcefabric z.ú. and contributors.
@@ -8,9 +8,10 @@
  * For the full copyright and license information, please see the
  * AUTHORS and LICENSE files distributed with this source code.
  *
- * @copyright 2016 Sourcefabric z.ú.
+ * @copyright 2016 Sourcefabric z.ú
  * @license http://www.superdesk.org/license
  */
+
 namespace SWP\Component\Bridge\Model;
 
 class BaseContent implements ContentInterface
@@ -94,6 +95,11 @@ class BaseContent implements ContentInterface
      * @var string
      */
     protected $edNote;
+
+    /**
+     * @var string
+     */
+    protected $description;
 
     /**
      * @return mixed
@@ -314,7 +320,7 @@ class BaseContent implements ContentInterface
     /**
      * {@inheritdoc}
      */
-    public function setServices(array $services)
+    public function setServices(array $services = [])
     {
         $this->services = $services;
     }
@@ -349,6 +355,22 @@ class BaseContent implements ContentInterface
     public function setGenre($genre)
     {
         $this->genre = $genre;
+    }
+
+    /**
+     * @return string
+     */
+    public function getDescription()
+    {
+        return $this->description;
+    }
+
+    /**
+     * @param string $description
+     */
+    public function setDescription($description)
+    {
+        $this->description = $description;
     }
 
     /**

@@ -1,0 +1,27 @@
+SWP\Bundle\ContentBundle\Model\File:
+    type: entity
+    table: swp_file
+    repositoryClass: SWP\Bundle\ContentBundle\Doctrine\ORM\FileRepository
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: IDENTITY
+    fields:
+        assetId:
+            type: string
+        fileExtension:
+            type: string
+        createdAt:
+            type: date
+        updatedAt:
+            type: date
+            nullable: true
+    oneToOne:
+        media:
+            targetEntity: SWP\Bundle\ContentBundle\Model\ArticleMedia
+            inversedBy: image
+            joinColumn:
+                name: media_id
+                referencedColumnName: id

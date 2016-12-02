@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  * This file is part of the Superdesk Web Publisher Bridge Component.
  *
  * Copyright 2016 Sourcefabric z.ú. and contributors.
@@ -8,9 +8,10 @@
  * For the full copyright and license information, please see the
  * AUTHORS and LICENSE files distributed with this source code.
  *
- * @copyright 2016 Sourcefabric z.ú.
+ * @copyright 2016 Sourcefabric z.ú
  * @license http://www.superdesk.org/license
  */
+
 namespace spec\SWP\Component\Bridge\Model;
 
 use PhpSpec\ObjectBehavior;
@@ -103,6 +104,17 @@ class BaseContentSpec extends ObjectBehavior
         $this->getSubjects()->shouldReturn(['sub1', 'sub2']);
     }
 
+    public function it_has_no_services_by_default()
+    {
+        $this->getServices()->shouldReturn([]);
+    }
+
+    public function its_services_is_mutable()
+    {
+        $this->setServices(['sub1', 'sub2']);
+        $this->getServices()->shouldReturn(['sub1', 'sub2']);
+    }
+
     public function it_has_no_type_by_default()
     {
         $this->getType()->shouldReturn(null);
@@ -167,6 +179,17 @@ class BaseContentSpec extends ObjectBehavior
     {
         $this->setVersion(1);
         $this->getVersion()->shouldReturn(1);
+    }
+
+    public function it_has_no_description_by_default()
+    {
+        $this->getDescription()->shouldReturn(null);
+    }
+
+    public function its_description_is_mutable()
+    {
+        $this->setDescription(1);
+        $this->getDescription()->shouldReturn(1);
     }
 
     public function its_gets_all_metadata()

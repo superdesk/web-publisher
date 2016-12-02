@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  * This file is part of the Superdesk Web Publisher Core Bundle.
  *
  * Copyright 2016 Sourcefabric z.ú. and contributors.
@@ -8,9 +8,10 @@
  * For the full copyright and license information, please see the
  * AUTHORS and LICENSE files distributed with this source code.
  *
- * @copyright 2016 Sourcefabric z.ú.
+ * @copyright 2016 Sourcefabric z.ú
  * @license http://www.superdesk.org/license
  */
+
 namespace SWP\Bundle\CoreBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
@@ -44,6 +45,13 @@ final class TenantType extends AbstractType
                     new Length(['min' => 3]),
                 ],
             ])
+            ->add('domainName', TextType::class, [
+                'required' => false,
+                'description' => 'Tenant domain name',
+                'constraints' => [
+                    new Length(['min' => 3]),
+                ],
+            ])
             ->add('themeName', ThemeNameChoiceType::class, [
                 'required' => false,
                 'description' => 'Tenant theme name',
@@ -65,7 +73,7 @@ final class TenantType extends AbstractType
     /**
      * {@inheritdoc}
      */
-    public function getName()
+    public function getBlockPrefix()
     {
         return 'tenant';
     }

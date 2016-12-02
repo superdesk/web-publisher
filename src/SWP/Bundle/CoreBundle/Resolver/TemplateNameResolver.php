@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  * This file is part of the Superdesk Web Publisher Core Bundle.
  *
  * Copyright 2016 Sourcefabric z.u. and contributors.
@@ -11,26 +11,30 @@
  * Some parts of that file were taken from the Liip/ThemeBundle
  * (c) Liip AG
  *
- * @copyright 2016 Sourcefabric z.ú.
+ * @copyright 2016 Sourcefabric z.ú
  * @license http://www.superdesk.org/license
  */
+
 namespace SWP\Bundle\CoreBundle\Resolver;
 
-use SWP\Bundle\ContentBundle\Model\RouteInterface;
 use SWP\Bundle\ContentBundle\Model\ArticleInterface;
+use SWP\Bundle\ContentBundle\Model\RouteInterface;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
+/**
+ * Class TemplateNameResolver.
+ */
 class TemplateNameResolver implements TemplateNameResolverInterface
 {
     /**
      * {@inheritdoc}
      */
-    public function resolve($object, $defaultFileName = 'article.html.twig')
+    public function resolve($object, $defaultFileName = TemplateNameResolverInterface::TEMPLATE_NAME)
     {
         if ($object instanceof ArticleInterface) {
-            return $this->resolveFromArticle($object, $defaultFileName);
+            return $this->resolveFromArticle($object);
         } elseif ($object instanceof RouteInterface) {
-            return $this->resolveFromRoute($object, $defaultFileName);
+            return $this->resolveFromRoute($object);
         }
 
         return $defaultFileName;
@@ -39,23 +43,21 @@ class TemplateNameResolver implements TemplateNameResolverInterface
     /**
      * {@inheritdoc}
      */
-    public function resolveFromArticle(ArticleInterface $article, $default = 'article.html.twig')
+    public function resolveFromArticle(ArticleInterface $article, $templateName = TemplateNameResolverInterface::TEMPLATE_NAME)
     {
-        $templateName = $default;
+        /** @param $route RouteInterface */
         if (null !== ($route = $article->getRoute())) {
-            if (RouteInterface::TYPE_COLLECTION === $route->getType()) {
-                return $templateName;
+            if (null !== $route->getTemplateName()) {
+                $templateName = $route->getTemplateName();
             }
 
-            $routeTemplateName = $this->resolveFromRoute($route, false);
-
-            if (false !== $routeTemplateName) {
-                $templateName = $routeTemplateName;
+            if (RouteInterface::TYPE_COLLECTION === $route->getType() && null !== $route->getArticlesTemplateName()) {
+                $templateName = $route->getArticlesTemplateName();
             }
         }
 
-        if (null !== ($articleTemplateName = $article->getTemplateName())) {
-            return $articleTemplateName;
+        if (null !== $article->getTemplateName()) {
+            $templateName = $article->getTemplateName();
         }
 
         return $templateName;
@@ -64,16 +66,40 @@ class TemplateNameResolver implements TemplateNameResolverInterface
     /**
      * {@inheritdoc}
      */
-    public function resolveFromRoute(RouteInterface $route, $default = 'article.html.twig')
+    public function resolveFromRoute(RouteInterface $route, $templateName = TemplateNameResolverInterface::TEMPLATE_NAME)
     {
-        if (null !== ($templateName = $route->getTemplateName())) {
-            return $templateName;
+        if (null !== $route->getTemplateName()) {
+            $templateName = $route->getTemplateName();
         }
 
-        if (RouteInterface::TYPE_COLLECTION === $route->getType()) {
-            throw new NotFoundHttpException(sprintf('There is no template file defined for "%s" route!', $route->getId()));
+        if (RouteInterface::TYPE_COLLECTION === $route->getType() && null === $route->getTemplateName()) {
+            if ($contentTemplateName = $this->getTemplateNameFromRouteContent($route)) {
+                $templateName = $contentTemplateName;
+            } else {
+                throw new NotFoundHttpException(sprintf('There is no template file defined for "%s" route!', $route->getName()));
+            }
+        } elseif (RouteInterface::TYPE_CONTENT === $route->getType()) {
+            if ($contentTemplateName = $this->getTemplateNameFromRouteContent($route)) {
+                $templateName = $contentTemplateName;
+            }
         }
 
-        return $default;
+        return $templateName;
+    }
+
+    /**
+     * @param RouteInterface $route
+     *
+     * @return bool
+     */
+    private function getTemplateNameFromRouteContent(RouteInterface $route)
+    {
+        if (null !== $route->getContent()) {
+            if (null !== $templateName = $route->getContent()->getTemplateName()) {
+                return $templateName;
+            }
+        }
+
+        return false;
     }
 }

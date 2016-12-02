@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  * This file is part of the Superdesk Web Publisher Templates System.
  *
  * Copyright 2015 Sourcefabric z.ú. and contributors.
@@ -8,9 +8,10 @@
  * For the full copyright and license information, please see the
  * AUTHORS and LICENSE files distributed with this source code.
  *
- * @copyright 2015 Sourcefabric z.ú.
+ * @copyright 2015 Sourcefabric z.ú
  * @license http://www.superdesk.org/license
  */
+
 namespace SWP\Component\TemplatesSystem\Tests\Twig\Node;
 
 use Doctrine\Common\Cache\ArrayCache;
@@ -111,7 +112,7 @@ class GimmeListNodeTest extends \Twig_Test_NodeTestCase
 
         return [
             [$node1, <<<EOF
-\$parameters = null;
+\$parameters = [];
 \$swpCollectionMetaLoader1 = \$this->env->getExtension('swp_gimme')->getLoader();
 \$context["articles"] = twig_ensure_traversable(\$swpCollectionMetaLoader1->load("articles", \$parameters, \SWP\Component\TemplatesSystem\Gimme\Loader\LoaderInterface::COLLECTION));
 \$context['_parent'] = (array) \$context;
@@ -126,7 +127,11 @@ if (is_array(\$context["articles"]) || (is_object(\$context["articles"]) && \$co
     \$context['loop']['revindex0'] = \$length - 1;
     \$context['loop']['revindex'] = \$length;
     \$context['loop']['length'] = \$length;
+    \$context['loop']['totalLength'] = \$length;
     \$context['loop']['last'] = 1 === \$length;
+}
+if(is_object(\$context["articles"]) && \$context["articles"] instanceof \SWP\Component\TemplatesSystem\Gimme\Meta\MetaCollection) {
+    \$context['loop']['totalLength'] = \$context["articles"]->getTotalItemsCount();
 }
 foreach (\$context["articles"] as \$_key => \$context["article"]) {
     // line 1
@@ -161,7 +166,7 @@ EOF
   'first'  => true,
 );
 foreach (\$context["articles"] as \$_key => \$context["article"]) {
-    if ((\$this->getAttribute((isset(\$context["article"]) ? \$context["article"] : null), "title", array(), null) == "New article")) {
+    if ((\$this->getAttribute((\$context["article"] ?? null), "title", array(), null) == "New article")) {
         // line 1
         echo "";
         \$context['_iterated'] = true;
@@ -198,7 +203,11 @@ if (is_array(\$context["articles"]) || (is_object(\$context["articles"]) && \$co
     \$context['loop']['revindex0'] = \$length - 1;
     \$context['loop']['revindex'] = \$length;
     \$context['loop']['length'] = \$length;
+    \$context['loop']['totalLength'] = \$length;
     \$context['loop']['last'] = 1 === \$length;
+}
+if(is_object(\$context["articles"]) && \$context["articles"] instanceof \SWP\Component\TemplatesSystem\Gimme\Meta\MetaCollection) {
+    \$context['loop']['totalLength'] = \$context["articles"]->getTotalItemsCount();
 }
 foreach (\$context["articles"] as \$_key => \$context["article"]) {
     // line 1
@@ -237,7 +246,11 @@ if (is_array(\$context["articles"]) || (is_object(\$context["articles"]) && \$co
     \$context['loop']['revindex0'] = \$length - 1;
     \$context['loop']['revindex'] = \$length;
     \$context['loop']['length'] = \$length;
+    \$context['loop']['totalLength'] = \$length;
     \$context['loop']['last'] = 1 === \$length;
+}
+if(is_object(\$context["articles"]) && \$context["articles"] instanceof \SWP\Component\TemplatesSystem\Gimme\Meta\MetaCollection) {
+    \$context['loop']['totalLength'] = \$context["articles"]->getTotalItemsCount();
 }
 foreach (\$context["articles"] as \$_key => \$context["article"]) {
     // line 1
@@ -272,7 +285,7 @@ EOF
   'first'  => true,
 );
 foreach (\$context["articles"] as \$_key => \$context["article"]) {
-    if ((\$this->getAttribute((isset(\$context["article"]) ? \$context["article"] : null), "title", array(), null) == "New article")) {
+    if ((\$this->getAttribute((\$context["article"] ?? null), "title", array(), null) == "New article")) {
         // line 1
         echo "";
         ++\$context['loop']['index0'];
@@ -286,5 +299,16 @@ unset(\$context['_collection_type_filters']);
 \$context = array_intersect_key(\$context, \$_parent) + \$_parent;
 EOF
             ], ];
+    }
+
+    protected function tearDown()
+    {
+        $reflection = new \ReflectionObject($this);
+        foreach ($reflection->getProperties() as $prop) {
+            if (!$prop->isStatic() && 0 !== strpos($prop->getDeclaringClass()->getName(), 'PHPUnit_')) {
+                $prop->setAccessible(true);
+                $prop->setValue($this, null);
+            }
+        }
     }
 }

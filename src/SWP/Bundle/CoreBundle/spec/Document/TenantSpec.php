@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  * This file is part of the Superdesk Web Publisher Core Bundle.
  *
  * Copyright 2016 Sourcefabric z.ú. and contributors.
@@ -8,15 +8,16 @@
  * For the full copyright and license information, please see the
  * AUTHORS and LICENSE files distributed with this source code.
  *
- * @copyright 2016 Sourcefabric z.ú.
+ * @copyright 2016 Sourcefabric z.ú
  * @license http://www.superdesk.org/license
  */
+
 namespace spec\SWP\Bundle\CoreBundle\Document;
 
 use PhpSpec\ObjectBehavior;
-use SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\RouteObjectInterface;
+use SWP\Bundle\CoreBundle\Model\Route;
 use SWP\Bundle\CoreBundle\Document\Tenant;
-use SWP\Bundle\CoreBundle\Model\HomepageBasedTenantInterface;
+use SWP\Bundle\CoreBundle\Model\TenantInterface;
 use SWP\Component\Common\Model\ThemeAwareTenantInterface;
 use SWP\Component\MultiTenancy\Model\Tenant as BaseTenant;
 
@@ -25,7 +26,7 @@ use SWP\Component\MultiTenancy\Model\Tenant as BaseTenant;
  */
 class TenantSpec extends ObjectBehavior
 {
-    function it_is_initializable()
+    public function it_is_initializable()
     {
         $this->shouldHaveType(Tenant::class);
         $this->shouldHaveType(BaseTenant::class);
@@ -34,7 +35,7 @@ class TenantSpec extends ObjectBehavior
     public function it_implements_tenant_interface()
     {
         $this->shouldImplement(ThemeAwareTenantInterface::class);
-        $this->shouldImplement(HomepageBasedTenantInterface::class);
+        $this->shouldImplement(TenantInterface::class);
     }
 
     public function it_has_no_theme_by_default()
@@ -53,7 +54,7 @@ class TenantSpec extends ObjectBehavior
         $this->getHomepage()->shouldReturn(null);
     }
 
-    public function its_homepage_is_mutable(RouteObjectInterface $homepage)
+    public function its_homepage_is_mutable(Route $homepage)
     {
         $this->setHomepage($homepage);
         $this->getHomepage()->shouldReturn($homepage);
