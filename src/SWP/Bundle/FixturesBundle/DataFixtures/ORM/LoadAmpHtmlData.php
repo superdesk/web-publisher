@@ -33,10 +33,26 @@ class LoadAmpHtmlData extends AbstractFixture implements FixtureInterface
                     ],
                     'templateName' => 'news.html.twig',
                     'articlesTemplateName' => 'article.html.twig',
+                    'tenant' => '123abc',
+                ],
+                [
+                    'name' => 'amp-articles-tenant-2',
+                    'variablePattern' => '/{slug}',
+                    'requirements' => [
+                        'slug' => '[a-zA-Z0-9*\-_\/]+',
+                    ],
+                    'type' => 'collection',
+                    'defaults' => [
+                        'slug' => null,
+                    ],
+                    'templateName' => 'news.html.twig',
+                    'articlesTemplateName' => 'article.html.twig',
+                    'tenant' => '456def',
                 ],
                 [
                     'name' => 'some-content',
                     'type' => 'content',
+                    'tenant' => '123abc',
                 ],
             ];
 
@@ -55,6 +71,10 @@ class LoadAmpHtmlData extends AbstractFixture implements FixtureInterface
                     $route->setArticlesTemplateName($routeData['articlesTemplateName']);
                 }
 
+                if (isset($routeData['tenant'])) {
+                    $route->setTenantCode($routeData['tenant']);
+                }
+
                 $route = $routeService->fillRoute($route);
 
                 $manager->persist($route);
@@ -68,6 +88,14 @@ class LoadAmpHtmlData extends AbstractFixture implements FixtureInterface
                     'content' => 'Nihil repellat vero omnis voluptates id amet et. Suscipit qui recusandae totam nulla quam ipsam. Cupiditate sed natus debitis voluptas aut. Sit repudiandae esse perspiciatis dignissimos error. Itaque quibusdam tempora velit porro ut velit soluta. Eligendi occaecati debitis et saepe. Sint dolorem delectus enim ipsum inventore sed libero. Velit qui suscipit a deserunt laudantium quibusdam enim. Soluta qui ipsam non ipsum. Reiciendis aperiam et fuga doloribus nisi. <iframe src="https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fniemanlab%2Fposts%2F10154594541763654&width=500" width="500" height="482" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowTransparency="true"></iframe>',
                     'route' => 'amp-articles',
                     'locale' => 'en',
+                    'tenant' => '123abc',
+                ],
+                [
+                    'title' => 'AMP Html Article Tenant 2',
+                    'content' => 'Nihil repellat vero omnis voluptates id amet et. Suscipit qui recusandae totam nulla quam ipsam. Cupiditate sed natus debitis voluptas aut. Sit repudiandae esse perspiciatis dignissimos error. Itaque quibusdam tempora velit porro ut velit soluta. Eligendi occaecati debitis et saepe. Sint dolorem delectus enim ipsum inventore sed libero. Velit qui suscipit a deserunt laudantium quibusdam enim. Soluta qui ipsam non ipsum. Reiciendis aperiam et fuga doloribus nisi. <iframe src="https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fniemanlab%2Fposts%2F10154594541763654&width=500" width="500" height="482" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowTransparency="true"></iframe>',
+                    'route' => 'amp-articles-tenant-2',
+                    'locale' => 'en',
+                    'tenant' => '456def',
                 ],
             ];
 
@@ -80,6 +108,7 @@ class LoadAmpHtmlData extends AbstractFixture implements FixtureInterface
                 $article->setPublishable(true);
                 $article->setPublishedAt(new \DateTime());
                 $article->setStatus(ArticleInterface::STATUS_PUBLISHED);
+                $article->setTenantCode($articleData['tenant']);
                 $manager->persist($article);
 
                 $this->addReference($article->getSlug(), $article);

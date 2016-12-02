@@ -40,10 +40,23 @@ final class AmpHtmlTest extends WebTestCase
     public function testLoadingAmpHtmlArticle()
     {
         $client = static::createClient();
+        // default tenant
         $crawler = $client->request('GET', '/amp-articles/amp-html-article?amp');
 
         self::assertEquals(200, $client->getResponse()->getStatusCode());
         self::assertEquals(1, $crawler->filter('amp-facebook')->count());
+        self::assertEquals(1, $crawler->filter('html:contains("AMP Demo Theme")')->count());
+
+        $client = static::createClient([], [
+            'HTTP_HOST' => 'client1.'.$client->getContainer()->getParameter('domain'),
+        ]);
+
+        // get amp page from another tenant
+        $crawler = $client->request('GET', '/amp-articles-tenant-2/amp-html-article-tenant-2?amp');
+
+        self::assertEquals(200, $client->getResponse()->getStatusCode());
+        self::assertEquals(1, $crawler->filter('amp-facebook')->count());
+        self::assertEquals(1, $crawler->filter('html:contains("AMP Client1 Demo Theme")')->count());
     }
 
     public function testDisableEnableAmpSupport()

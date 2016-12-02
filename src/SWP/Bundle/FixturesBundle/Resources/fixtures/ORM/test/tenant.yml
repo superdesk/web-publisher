@@ -24,3 +24,4 @@ SWP\Bundle\CoreBundle\Model\Tenant:
         code: "456def"
         organization: "@org2"
         homepage: "@route2"
+        ampEnabled: true
