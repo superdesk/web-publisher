@@ -7,13 +7,21 @@
   <section id="content">
     <div class="row masonry" id="masonry_container" style="position: relative; height: 1076px;">
 
-    {% gimmelist article from articles with {'route': '/news'} %}
+    {% gimmelist article from articles %}
 
 	    <div class="span3 masonry-brick" style="position: absolute; top: 0px; left: 0px;">
        	<article class="news_item">
-         	<a href="{{ url(article) }}" class="thumbnail"><img src="{% if loop.index == 1 %}{{ asset('theme/assets/img/images-cms-image-000000111.jpg') }}{% elseif loop.index == 2 %}{{ asset('theme/assets/img/images-cms-image-000000113.jpg') }}{% elseif loop.index == 3 %}{{ asset('theme/assets/img/images-cms-image-000000114.jpg') }}{% elseif loop.index == 4 %}{{ asset('theme/assets/img/images-cms-image-000000117.jpg') }}{% elseif loop.index == 5 %}{{ asset('theme/assets/img/images-cms-image-000000118.jpg') }}{% endif %}" alt="Image caption (photo: Photo Grapher)"></a>
+{% gimmelist media from articleMedia with {'article': article} %}
+  {% if media.renditions is iterable %}   
+    {% for rendition in media.renditions %} 
+      {% if rendition.name == '478x326' %} 
+            <a href="{{ url(article) }}" class="thumbnail"><img src="{{ url(rendition) }}" alt="{{ media.body }}"></a>
+      {% endif %}
+    {% endfor %}
+  {% endif %}
+{% endgimmelist %}
             <div class="content content_text">
-            	<h6 class="info">{{ gimme.article.metadata.byline }}- {{ article.publishedAt|date("d.m.Y, H:i") }}</h6>
+            	<h6 class="info">{% if article.metadata.byline %} {{ article.metadata.byline }} - {% endif %} {{ article.publishedAt|date("d.m.Y, H:i") }}</h6>
             	<h3 class="title"><a href="{{ url(article) }}">{{ article.title }}</a></h3>
             	<p>{{ article.body|truncate(200,true) }}</p>
         		</div>
