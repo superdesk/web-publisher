@@ -42,4 +42,14 @@ interface TenantInterface extends ThemeAwareTenantInterface
      * @return string
      */
     public function getDomainName();
+
+    /**
+     * @return bool
+     */
+    public function isAmpEnabled(): bool;
+
+    /**
+     * @param bool $ampEnabled
+     */
+    public function setAmpEnabled(bool $ampEnabled);
 }

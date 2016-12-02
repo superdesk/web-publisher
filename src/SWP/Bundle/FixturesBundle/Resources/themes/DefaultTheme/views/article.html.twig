@@ -1,5 +1,9 @@
 {% extends 'base.html.twig' %}
 
+{% block amphtml %}
+    <link rel="amphtml" href="{{ url(gimme.article)|amp }}">
+{% endblock %}
+
 {% block body %}
 
 <div id="page" class="container">

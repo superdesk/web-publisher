@@ -34,6 +34,7 @@ class AppKernel extends Kernel
             new Knp\Bundle\MenuBundle\KnpMenuBundle(),
             new Oneup\FlysystemBundle\OneupFlysystemBundle(),
             new Burgov\Bundle\KeyValueFormBundle\BurgovKeyValueFormBundle(),
+            new Takeit\Bundle\AmpHtmlBundle\TakeitAmpHtmlBundle(),
 
             new SWP\Bundle\StorageBundle\SWPStorageBundle(),
             new SWP\Bundle\MultiTenancyBundle\SWPMultiTenancyBundle(),

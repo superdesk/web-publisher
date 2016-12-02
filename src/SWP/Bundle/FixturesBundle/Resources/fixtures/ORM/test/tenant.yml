@@ -16,6 +16,7 @@ SWP\Bundle\CoreBundle\Model\Tenant:
         code: "123abc"
         organization: "@org1"
         homepage: "@route1"
+        ampEnabled: true
     tenant2:
         name: "<company()>"
         subdomain: "client1"
@@ -23,3 +24,4 @@ SWP\Bundle\CoreBundle\Model\Tenant:
         code: "456def"
         organization: "@org2"
         homepage: "@route2"
+        ampEnabled: true

@@ -135,3 +135,17 @@ services:
         class: SWP\Bundle\CoreBundle\Security\Provider\UserProvider
         arguments:
             - "@fos_user.user_manager"
+
+    swp.checker.amp_support:
+        class: SWP\Bundle\CoreBundle\Checker\AmpSupportChecker
+        arguments:
+            - "@swp_multi_tenancy.tenant_context"
+            - "@request_stack"
+
+    swp.loader.amp_theme:
+        class: SWP\Bundle\CoreBundle\Theme\AmpThemeLoader
+        public: false
+        arguments:
+            - "@twig.loader.filesystem"
+            - "@swp_core.theme.context.tenant_aware"
+            - "%takeit_amp_html.configuration.theme.theme_path%"
