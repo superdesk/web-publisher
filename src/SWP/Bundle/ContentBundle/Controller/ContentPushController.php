@@ -30,7 +30,7 @@ use SWP\Component\Common\Response\SingleResourceResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
-use Symfony\Component\Routing\Exception\ResourceNotFoundException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class ContentPushController extends Controller
 {
@@ -88,7 +88,7 @@ class ContentPushController extends Controller
         $form = $this->createForm(MediaFileType::class);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $mediaManager = $this->container->get('swp_content_bundle.manager.media');
+            $mediaManager = $this->get('swp_content_bundle.manager.media');
             $uploadedFile = $form->getData()['media'];
             $mediaId = $request->request->get('media_id');
             if ($uploadedFile->isValid()) {
@@ -129,15 +129,15 @@ class ContentPushController extends Controller
      */
     public function getAssetsAction($mediaId)
     {
-        $media = $this->get('swp.repository.media')->getByCriteria(new Criteria([
-            'assetId' => $mediaId,
+        $media = $this->get('swp.repository.image')->getByCriteria(new Criteria([
+            'assetId' => ArticleMedia::handleMediaId($mediaId),
         ]), [], 'am')->getQuery()->getOneOrNullResult();
 
         if (null === $media) {
-            throw new ResourceNotFoundException('Media don\'t exists in storage');
+            throw new NotFoundHttpException('Media don\'t exist in storage');
         }
 
-        $mediaManager = $this->container->get('swp_content_bundle.manager.media');
+        $mediaManager = $this->get('swp_content_bundle.manager.media');
 
         return new SingleResourceResponse([
             'media_id' => $mediaId,
