@@ -153,7 +153,7 @@ class ContentPushController extends Controller
      *
      * @return PackageInterface
      */
-    private function handlePackage(Request $request) : PackageInterface
+    private function handlePackage(Request $request): PackageInterface
     {
         $content = $request->getContent();
         $package = $this->get('swp_bridge.transformer.json_to_package')->transform($content);
