@@ -14,7 +14,9 @@
 
 namespace SWP\Bundle\ContentBundle\Controller;
 
-use SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\Image;
+use SWP\Bundle\ContentBundle\Model\ArticleMedia;
+use SWP\Bundle\ContentBundle\Model\Image;
+use SWP\Component\Common\Criteria\Criteria;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
@@ -33,11 +35,10 @@ class MediaController extends Controller
      */
     public function getAction($mediaId)
     {
-        $dm = $this->container->get('swp.object_manager.media');
-        $pathBuilder = $this->container->get('swp_multi_tenancy.path_builder');
-        $mediaBasePath = $this->container->getParameter('swp_multi_tenancy.persistence.phpcr.media_basepath');
+        $media = $this->get('swp.repository.image')->getByCriteria(new Criteria([
+            'assetId' => ArticleMedia::handleMediaId($mediaId),
+        ]), [], 'am')->getQuery()->getOneOrNullResult();
 
-        $media = $dm->find(null, $pathBuilder->build($mediaBasePath).'/'.$mediaId);
         if (null === $media) {
             throw new NotFoundHttpException('Media was not found.');
         }
@@ -56,7 +57,7 @@ class MediaController extends Controller
         $response->setMaxAge(63072000);
         $response->setSharedMaxAge(63072000);
 
-        $mediaManager = $this->container->get('swp_content_bundle.manager.media');
+        $mediaManager = $this->get('swp_content_bundle.manager.media');
         $response->setContent($mediaManager->getFile($media));
 
         return $response;
