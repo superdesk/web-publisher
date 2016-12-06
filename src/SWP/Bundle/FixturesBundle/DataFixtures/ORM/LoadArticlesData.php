@@ -196,9 +196,19 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface, Orde
      */
     public function articleMetadata()
     {
+        $authors = [
+            'Sarrah Staffwriter',
+            'John Smith',
+            'Test Persona',
+            'Jane Stockwriter',
+            'James Q. Reporter',
+            'Karen Ruhiger',
+            'George Langsamer',
+        ];
+
         return [
             'located' => 'Sydney',
-            'byline' => 'Jhon Doe',
+            'byline' => $authors[array_rand($authors)],
             'place' => [
                 [
                     'qcode' => 'AUS',
