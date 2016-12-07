@@ -17,8 +17,10 @@ namespace SWP\Bundle\FixturesBundle\DataFixtures\ORM;
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
+use SWP\Bundle\ContentBundle\Model\ImageRendition;
 use SWP\Bundle\FixturesBundle\AbstractFixture;
 use SWP\Bundle\ContentBundle\Model\ArticleInterface;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class LoadArticlesData extends AbstractFixture implements FixtureInterface, OrderedFixtureInterface
 {
@@ -195,13 +197,70 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface, Orde
     public function loadArticles($env, ObjectManager $manager)
     {
         if ($env !== 'test') {
-            $this->loadFixtures(
+            $articles = $this->loadFixtures(
                 '@SWPFixturesBundle/Resources/fixtures/ORM/'.$env.'/article.yml',
                 $manager,
                 [
                     'providers' => [$this],
                 ]
             );
+
+            $renditions = [
+                '770x515' => [
+                    'width' => '770',
+                    'height' => '515',
+                ],
+                '478x326' => [
+                    'width' => '478',
+                    'height' => '326',
+                ],
+            ];
+
+            $mediaManager = $this->container->get('swp_content_bundle.manager.media');
+
+            foreach ($articles as $article) {
+                // create Media
+                $articleMediaClass = $this->container->getParameter('swp.model.media.class');
+                $articleMedia = new $articleMediaClass();
+                $articleMedia->setArticle($article);
+                $articleMedia->setKey('embedded'.uniqid());
+                $articleMedia->setBody('This is very nice image caption...');
+                $articleMedia->setByLine('By Best Editor');
+                $articleMedia->setLocated('Porto');
+                $articleMedia->setDescription('Media description');
+                $articleMedia->setUsageTerms('Some super open terms');
+                $articleMedia->setMimetype('image/jpeg');
+                $manager->persist($articleMedia);
+
+                $fakeImage = __DIR__.'/../../Resources/assets/images-cms-image-'.rand(1, 11).'.jpg';
+
+                /* @var $rendition Rendition */
+                foreach ($renditions as $key => $rendition) {
+                    $mediaId = uniqid();
+                    $uploadedFile = new UploadedFile(
+                        $fakeImage,
+                        $mediaId,
+                        'image/jpeg',
+                        filesize($fakeImage),
+                        null,
+                        true
+                    );
+                    $image = $mediaManager->handleUploadedFile($uploadedFile, $mediaId);
+
+                    if ($key === 'original') {
+                        $articleMedia->setImage($image);
+                    }
+
+                    $imageRendition = new ImageRendition();
+                    $imageRendition->setImage($image);
+                    $imageRendition->setHeight($rendition['height']);
+                    $imageRendition->setWidth($rendition['width']);
+                    $imageRendition->setName($key);
+                    $imageRendition->setMedia($articleMedia);
+                    $articleMedia->addRendition($imageRendition);
+                    $manager->persist($imageRendition);
+                }
+            }
         }
 
         $articles = [

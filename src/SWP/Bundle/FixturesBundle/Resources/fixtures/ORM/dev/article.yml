@@ -5,6 +5,7 @@ SWP\Bundle\CoreBundle\Model\Article:
         route: "<getRouteByName('politics')>"
         locale: "en"
         status: "published"
+        lead: "<paragraph(3)>"
         publishable: true
         publishedAt: "<date()>"
         metadata: "<articleMetadata()>"
@@ -14,6 +15,7 @@ SWP\Bundle\CoreBundle\Model\Article:
         route: "<getRouteByName('business')>"
         locale: "en"
         status: "published"
+        lead: "<paragraph(3)>"
         publishable: true
         publishedAt: "<date()>"
         metadata: "<articleMetadata()>"
@@ -23,6 +25,7 @@ SWP\Bundle\CoreBundle\Model\Article:
         route: "<getRouteByName('scitech')>"
         locale: "en"
         status: "published"
+        lead: "<paragraph(3)>"
         publishable: true
         publishedAt: "<date()>"
         metadata: "<articleMetadata()>"
@@ -32,6 +35,7 @@ SWP\Bundle\CoreBundle\Model\Article:
         route: "<getRouteByName('health')>"
         locale: "en"
         status: "published"
+        lead: "<paragraph(3)>"
         publishable: true
         publishedAt: "<date()>"
         metadata: "<articleMetadata()>"
@@ -41,6 +45,7 @@ SWP\Bundle\CoreBundle\Model\Article:
         route: "<getRouteByName('entertainment')>"
         locale: "en"
         status: "published"
+        lead: "<paragraph(3)>"
         publishable: true
         publishedAt: "<date()>"
         metadata: "<articleMetadata()>"
@@ -50,6 +55,7 @@ SWP\Bundle\CoreBundle\Model\Article:
         route: "<getRouteByName('sports')>"
         locale: "en"
         status: "published"
+        lead: "<paragraph(3)>"
         publishable: true
         publishedAt: "<date()>"
         metadata: "<articleMetadata()>"
