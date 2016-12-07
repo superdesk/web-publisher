@@ -11,7 +11,7 @@
 
 {% cache 'frontTop3' { time:600 } %}
 
-{% gimmelist article from articles with {'route': 7}  %}
+{% gimmelist article from articles %}
 {% if loop.first %}
       <!-- Span (8) -->
       <div class="span8">

@@ -167,7 +167,7 @@
 
     <ul id="footer_menu_second" class="menu">
 {% cache 'footerSec' { time:3600 } %}
-{% gimmelist article from articles with {'route': 13}  %}
+{% gimmelist article from articles with {'route': '/about'}  %}
       <li><a href="{{ url(article) }}">{{ article.title|truncate(10,true) }}</a></li>
 {% endgimmelist %}
 {% endcache %}

@@ -13,7 +13,7 @@
     <div id="tab_latest_news" class="tabs_content row" style="display: block;">
 
 {% cache 'latestNews' { time:120 } %}
-{% gimmelist article from articles with {'route': 7}  %}
+{% gimmelist article from articles %}
 {% if loop.index < 5 %}
       <div class="span3">
         <article class="news_item condensed">
