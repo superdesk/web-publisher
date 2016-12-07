@@ -4,7 +4,6 @@
   <!-- Tabs Menu -->
   <ul class="tabs_menu">
     <li class="current"><a href="#tab_latest_news">{{ 'global.latestNews.title'|trans|desc('Latest news') }}</a></li>
-
   </ul>
   <!-- End Tabs Menu -->
 
@@ -13,13 +12,22 @@
     <!-- Tabs Content -->
     <div id="tab_latest_news" class="tabs_content row" style="display: block;">
 
-{% gimmelist article from articles with {'route': '/news'}  %}
+{% cache 'latestNews' { time:120 } %}
+{% gimmelist article from articles with {'route': 7}  %}
 {% if loop.index < 5 %}
       <div class="span3">
         <article class="news_item condensed">
-          <a href="{{ url(article) }}" class="thumbnail"><img src="{% if loop.index == 1 %}{{ asset('theme/assets/img/img-recent1.jpg') }}{% elseif loop.index == 2 %}{{ asset('theme/assets/img/img-recent2.jpg') }}{% elseif loop.index == 3 %}{{ asset('theme/assets/img/img-recent3.jpg') }}{% elseif loop.index == 4 %}{{ asset('theme/assets/img/img-recent4.jpg') }}{% endif %}" alt="Candidates (photo: Source Fabrić)"></a>
+{% gimmelist media from articleMedia with {'article': article} %}
+  {% if media.renditions is iterable %}   
+    {% for rendition in media.renditions %} 
+      {% if rendition.name == '478x326' %} 
+          <a href="{{ url(article) }}" class="thumbnail"><img src="{{ url(rendition) }}" alt="{{ media.body }}"></a>
+      {% endif %}
+    {% endfor %}
+  {% endif %}
+{% endgimmelist %}
           <div class="content content_text content_text_contrast">
-            <h6 class="info">{{ random(['Frank N. Stein', 'Lisa Staffwrighter', 'Desmond Tutu', 'Donald Duck', 'John Smith', 'Tasha Kan']) }} - {{ article.publishedAt|date("d.m.Y, H:i") }}</h6>
+            <h6 class="info">{% if article.metadata.byline %} {{ article.metadata.byline }} - {% endif %} {{ article.publishedAt|date("d.m.Y, H:i") }}</h6>
             <h3 class="title"><a href="{{ url(article) }}">{{ article.title }}</a></h3>
             <p>{{ article.body|truncate(50,true) }}</p>
          </div>
@@ -27,10 +35,8 @@
    </div>
 {% endif %}
 {% endgimmelist %}
+{% endcache %}
 
-      </div>
-      <!-- End Tabs Content -->
-
+      </div><!-- End Tabs Content -->
       </div><!-- End Tabs Contents -->
     </div><!-- End Blue Box / Row -->
-

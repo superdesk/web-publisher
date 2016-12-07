@@ -72,9 +72,7 @@
 <!-- loads bundle asset file from theme's dir - useful to override bundles assets -->
 <link rel="stylesheet" href="{{ asset('theme/framework/css/body.css') }}" />
 #}
-
-
-  {% endblock %}
+{% endblock %}
 
   <!--[if lt IE 9]>
   <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js" type="text/javascript"></script>
@@ -82,11 +80,9 @@
 
   <script src="{{ asset('theme/assets/js/jquery.js') }}" type="text/javascript"></script>
   <script src="{{ asset('theme/assets/js/helpers.js') }}" type="text/javascript"></script>
-
 </head>
 
 <body>
-
   <div class="header_wrap">
     <div class="container">
 
@@ -101,7 +97,6 @@
           <li><a href="" title="View all posts filed under Entertainment">Entertainment</a></li>
           <li><a href="" title="View all posts filed under Sports">Sports</a></li>
           <li><a href="" title="View all posts filed under Dialogue">Dialogue</a></li>
-
           <li><a href="" title="Community index">Community</a></li>
         </ul>
 
@@ -117,12 +112,6 @@
       </header>
 <!-- End Titlebar -->
 
-        {% container 'headerTop' with {
-            'styles': 'border: dotted 1px #ccc',
-            'class': 'someClass',
-            'data': {'custom-key': 'value'}
-        }%}
-
 <!-- Top -->
       <header id="top" class="padding_bottom_10">
         <div class="top_content">
@@ -132,33 +121,29 @@
       </header>
  <!-- End Top -->
 
-      {% endcontainer %}
-
     </div>
   </div>
 
   <div class="wrap_menu_wrap hidden-phone">
     <div class="menu_wrap">
-      <div class="container">
-
- <!-- Top Menu -->
+        {% container 'mainNav' with {
+            'cssClass': 'container'
+        } %}    
+        <!-- Top Menu -->
         <nav id="top_menu" class="hidden-phone">
           <ul class="menu">
 	          <li class="current"><a href="{{ url('homepage') }}">{{ 'global.header.home'|trans|desc('Home') }}</a></li>
-            <li><a href="" title="View all posts filed under Politics">Politics</a></li>
-            <li><a href="" title="View all posts filed under Business">Business</a></li>
-            <li><a href="" title="View all posts filed under Sci/Tech">Sci/Tech</a></li>
-            <li><a href="" title="View all posts filed under Health">Health</a></li>
-            <li><a href="" title="View all posts filed under Entertainment">Entertainment</a></li>
-            <li><a href="" title="View all posts filed under Sports">Sports</a></li>
-            <li><a href="" title="View all posts filed under Dialogue">Dialogue</a></li>
-
-            <li><a href="" title="Community">Community</a></li>
+            <li><a href="/news">Politics</a></li>
+            <li><a href="/news">Business</a></li>
+            <li><a href="/news">Sci/Tech</a></li>
+            <li><a href="/news">Health</a></li>
+            <li><a href="/news">Entertainment</a></li>
+            <li><a href="/news">Sports</a></li>
+            <li><a href="/news">Dialogue</a></li>
           </ul>
         </nav>
-<!-- End Top Menu -->
-
-      </div>
+        <!-- End Top Menu -->
+        {% endcontainer %}
     </div>
   </div>
 
@@ -166,26 +151,34 @@
 
 <!-- Footer -->
 <footer id="footer">
-  <div class="container">
+
+ {% container 'footerNav' with {
+    'cssClass': 'container'
+  } %} 
     <ul id="footer_menu_first" class="menu hidden-phone">
-      <li><a href="" title="View all posts filed under Politics">Politics</a></li>
-    	<li><a href="" title="View all posts filed under Business">Business</a></li>
-    	<li><a href="" title="View all posts filed under Sci/Tech">Sci/Tech</a></li>
-    	<li><a href="" title="View all posts filed under Health">Health</a></li>
-    	<li><a href="" title="View all posts filed under Entertainment">Entertainment</a></li>
-    	<li><a href="" title="View all posts filed under Sports">Sports</a></li>
-    	<li><a href="" title="View all posts filed under Dialogue">Dialogue</a></li>
+      <li><a href="">Politics</a></li>
+    	<li><a href="">Business</a></li>
+    	<li><a href="">Sci/Tech</a></li>
+    	<li><a href="">Health</a></li>
+    	<li><a href="">Entertainment</a></li>
+    	<li><a href="">Sports</a></li>
+    	<li><a href="">Dialogue</a></li>
     </ul>
 
     <ul id="footer_menu_second" class="menu">
-      <li><a href="" title="Credits">Credits</a></li>
-      <li><a href="" title="Marketing">Marketing</a></li>
-      <li><a href="" title="Contact">Contact</a></li>
-      <li><a href="" title="About us">About us</a></li>
+{% cache 'footerSec' { time:3600 } %}
+{% gimmelist article from articles with {'route': 13}  %}
+      <li><a href="{{ url(article) }}">{{ article.title|truncate(10,true) }}</a></li>
+{% endgimmelist %}
+{% endcache %}
+      <!--li><a href="">Credits</a></li>
+      <li><a href="">Marketing</a></li>
+      <li><a href="">Contact</a></li>
+      <li><a href="">About us</a></li-->
       <li><a href="#">{{ 'global.footer.archives'|trans|desc('Archives') }}</a></li>
       <li><p><small>{{ 'global.footer.copyright'|trans|desc('Copyright') }} {{ 'now'|date('Y') }}. {{ 'global.footer.allRightsReserved'|trans|desc('All rights reserved. Powered by') }} <a target="_blank" href="http://superdesk.org/">Superdesk</a>. {{ 'global.footer.designBy'|trans|desc('Designed by') }}  <a target="_blank" href="http://www.sourcefabric.org/">Sourcefabric</a></small></p></li>
     </ul>
-  </div>
+  {% endcontainer %}
 
   {% cache 'footerInfoBar' { time:300 } %}
   <p style="text-align: center; color: #ccc; font-family: Sans-serif; font-size: 80%; margin-top: 15px; padding-top: 10px; border-top: 1px solid #ccc;"><span style="color: #fff">&#8505;</span> {{ 'global.footer.themeInfo'|trans|desc('Theme info') }} <a href="#" class="js-toggle-info" style="color: #fff">show / hide</a> | <span style="color: #fff">&#x2699;</span> {{ 'global.footer.templateCode'|trans|desc('Template code used to render this page :') }} <a href="#" class="js-toggle-code" style="color: #fff">show / hide</a> | <span style="color: #fff">&#8505;</span> {{ 'global.footer.cachedTime'|trans|desc('Last not cached generation time:') }} <span style="color: #fff">{{ 'now'|date('H:i:s') }}</span></p>
@@ -206,7 +199,9 @@
       {% endfor %}
       </ul>
     </p>
+
     <p>{{ 'index.current.tenant'|trans|desc('Current tenant') }}:</strong> {{ tenant.subdomain }} (name: {{ tenant.name }})</p>
+
   </div>
   {% endblock %}
 
@@ -231,5 +226,6 @@
       $(".js-theme-info").toggle();
     });
   </script>
+  <script id="dsq-count-scr" src="//superdesk-publisher.disqus.com/count.js" async></script>
 </body>
 </html>

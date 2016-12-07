@@ -178,8 +178,7 @@
 }
 
 #top_menu .menu li:last-child {
-float: right;
-margin-right: 0px;
+	margin-right: 0px;
 }
 
 #top_menu .menu > li a {
