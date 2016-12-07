@@ -35,6 +35,11 @@ class Tenant extends BaseTenant implements TenantInterface
     protected $domainName;
 
     /**
+     * @var bool
+     */
+    protected $ampEnabled = false;
+
+    /**
      * {@inheritdoc}
      */
     public function getThemeName()
@@ -80,5 +85,21 @@ class Tenant extends BaseTenant implements TenantInterface
     public function setDomainName($domainName)
     {
         $this->domainName = $domainName;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function isAmpEnabled(): bool
+    {
+        return $this->ampEnabled;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setAmpEnabled(bool $ampEnabled)
+    {
+        $this->ampEnabled = $ampEnabled;
     }
 }

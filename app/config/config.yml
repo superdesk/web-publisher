@@ -110,7 +110,8 @@ fos_http_cache:
         generate_url_type: 0
     proxy_client:
         symfony:
-            servers: "%cache_servers%"
+            http:
+                servers: "%cache_servers%"
     invalidation:
         rules:
             -

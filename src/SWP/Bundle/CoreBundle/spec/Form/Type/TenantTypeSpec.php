@@ -15,6 +15,7 @@
 namespace spec\SWP\Bundle\CoreBundle\Form\Type;
 
 use PhpSpec\ObjectBehavior;
+use SWP\Bundle\CoreBundle\Form\Type\BooleanType;
 use SWP\Bundle\CoreBundle\Form\Type\OrganizationCodeChoiceType;
 use SWP\Bundle\CoreBundle\Form\Type\TenantType;
 use SWP\Bundle\CoreBundle\Form\Type\ThemeNameChoiceType;
@@ -88,6 +89,14 @@ class TenantTypeSpec extends ObjectBehavior
             ->add('organization', OrganizationCodeChoiceType::class, [
                 'required' => false,
                 'description' => 'Tenant organization code',
+            ])
+            ->willReturn($builder)
+        ;
+
+        $builder
+            ->add('ampEnabled', BooleanType::class, [
+                'required' => false,
+                'description' => 'Defines whether Google AMP HTML support is enabled or not (true or false).',
             ])
             ->willReturn($builder)
         ;

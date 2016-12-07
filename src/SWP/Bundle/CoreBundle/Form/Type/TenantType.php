@@ -59,6 +59,10 @@ final class TenantType extends AbstractType
             ->add('organization', OrganizationCodeChoiceType::class, [
                 'required' => false,
                 'description' => 'Tenant organization code',
+            ])
+            ->add('ampEnabled', BooleanType::class, [
+                'required' => false,
+                'description' => 'Defines whether Google AMP HTML support is enabled or not (true or false).',
             ]);
     }
 

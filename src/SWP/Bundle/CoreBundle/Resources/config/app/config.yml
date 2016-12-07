@@ -155,3 +155,13 @@ stof_doctrine_extensions:
             loggable: true
             sortable: true
             tree: true
+
+takeit_amp_html:
+    theme:
+        loader: 'swp.loader.amp_theme'
+        theme_path: 'amp/amp-theme'
+    model: SWP\Bundle\CoreBundle\Model\Article
+    checker: 'swp.checker.amp_support'
+    routing:
+        parameter_strategy:
+            enabled: true

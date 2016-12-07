@@ -73,7 +73,7 @@ class NinjsValidator extends JsonValidator
             "format" : "date-time"
         },
         "firstcreated" : {
-            "description" : "The date and time when first version of the news object was created",
+            "description" : "The date and time when the item was created",
             "type" : "string",
             "format" : "date-time"
         },

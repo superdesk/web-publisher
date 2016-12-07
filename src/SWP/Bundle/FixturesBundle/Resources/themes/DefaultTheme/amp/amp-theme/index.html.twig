@@ -1,0 +1,72 @@
+{#
+Available variables:
+- object - Object of an class instance which you provided in the bundle config. e.g. AppBundle\Entity\Post
+#}
+<!doctype html>
+<html amp lang="en">
+<head>
+  <meta charset="utf-8">
+  <script async src="https://cdn.ampproject.org/v0.js"></script>
+  <title>{{ object.title }}</title>
+  <link rel="canonical" href="{{ url(gimme.article) }}">
+  <meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1">
+  <script type="application/ld+json">
+      {
+        "@context": "http://schema.org",
+        "@type": "NewsArticle",
+        "mainEntityOfPage": "{{ url(gimme.article) }}",
+        "headline": "{{ object.title }}",
+        "datePublished": "{{ object.publishedAt|date('Y-m-d H:i:s') }}",
+        "dateModified": "{{ object.updatedAt|date('Y-m-d H:i:s') }}",
+        "description": "{{ object.lead }}",
+        "author": {
+          "@type": "Person",
+          "name": "{{ object.metadata.byline }}"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://assets-cdn.github.com/images/modules/logos_page/GitHub-Mark.png",
+            "width": 125,
+            "height": 60
+          },
+          "name": "{{ tenant.organization.name }}"
+        },
+        "image": {
+          "@type": "ImageObject",
+          "url": "http://cdn.ampproject.org/leader.jpg",
+          "height": 2000,
+          "width": 800
+        }
+      }
+    </script>
+  <style amp-boilerplate>
+    {% include '@amp_theme/css/amp-boilerplate.html.twig' %}
+  </style>
+    {% include '@amp_theme/css/amp-boilerplate-noscript.html.twig' %}
+  <style amp-custom>
+    {% include '@amp_theme/css/amp-custom.html.twig' %}
+  </style>
+</head>
+<body>
+<header role="banner">
+  <a href="#" class="header-link">
+    Demo AMP theme
+  </a>
+</header>
+
+<article role="article">
+  <h1>{{ object.title }}</h1>
+  <div class="article-content">
+      {{ object.body|raw }}
+  </div>
+</article>
+
+<footer>
+  <a href="#" class="header-link">
+    Footer
+  </a>
+</footer>
+</body>
+</html>
