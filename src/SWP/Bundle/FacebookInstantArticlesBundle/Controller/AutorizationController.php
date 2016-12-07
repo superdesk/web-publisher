@@ -27,6 +27,7 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 class AutorizationController extends Controller
 {
     const INSTANT_ARTICLES_SCOPES = ['pages_manage_instant_articles', 'pages_show_list'];
+
     /**
      * @Route("/facebook/instantarticles/authorize/{appId}/{pageId}", options={"expose"=true}, name="swp_fbia_authorize")
      * @Method("GET")

@@ -72,6 +72,11 @@ class NinjsValidator extends JsonValidator
             "type" : "string",
             "format" : "date-time"
         },
+        "firstcreated" : {
+            "description" : "The date and time when first version of the news object was created",
+            "type" : "string",
+            "format" : "date-time"
+        },
         "embargoed" : {
             "description" : "The date and time before which all versions of the news object are embargoed. If absent, this object is not embargoed.",
             "type" : "string",
@@ -232,10 +237,6 @@ class NinjsValidator extends JsonValidator
                     },
                     "group" : {
                         "description" : "The place group",
-                        "type" : "string"
-                    },
-                    "name" : {
-                        "description" : "The place name",
                         "type" : "string"
                     },
                     "country" : {

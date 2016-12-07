@@ -18,25 +18,20 @@ namespace SWP\Bundle\FacebookInstantArticlesBundle\Manager;
 
 use Facebook;
 
-class FacebookInstantArticlesManager
+class FacebookInstantArticlesManager implements FacebookInstantArticlesManagerInterface
 {
     /**
-     * @param Facebook/Facebook $facebook
-     * @param string            $pageId
-     *
-     * @return null|string
+     * {@inheritdoc}
      */
-    public function getPageAccessToken($facebook, $pageId)
+    public function getPageAccessToken(Facebook\Facebook $facebook, $pageId)
     {
         return $this->loopThroughPagesAndFindOneById($facebook, $this->getPagesAndTokens($facebook), $pageId);
     }
 
     /**
-     * @param Facebook/Facebook $facebook
-     *
-     * @return Facebook\GraphNodes\GraphEdge|null
+     * {@inheritdoc}
      */
-    public function getPagesAndTokens($facebook)
+    public function getPagesAndTokens(Facebook\Facebook $facebook)
     {
         $userAccessToken = $facebook->getRedirectLoginHelper()->getAccessToken();
         $helper = new Facebook\InstantArticles\Client\Helper($facebook);

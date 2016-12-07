@@ -101,7 +101,8 @@
         "matthiasnoback/symfony-dependency-injection-test": "^v0.7",
         "johnkary/phpunit-speedtrap": "^1.0",
         "symfony/phpunit-bridge": "^3.1",
-        "symfony-cmf/testing": "2.0.x"
+        "symfony-cmf/testing": "2.0.x",
+        "liip/rmt": "dev-master"
     },
     "replace": {
         "swp/common": "self.version",

@@ -24,21 +24,21 @@ final class Version
      *
      * @var string
      */
-    protected $version = '0.1.0';
+    protected $version = '0.0.1';
 
     /**
      * Code name string.
      *
      * @var string
      */
-    protected $codeName = 'N/A';
+    protected $codeName = '';
 
     /**
      * Release date string.
      *
      * @var string
      */
-    protected $releaseDate = '2015-09-01';
+    protected $releaseDate = '2016-11-30';
 
     /**
      * {@inheritdoc}

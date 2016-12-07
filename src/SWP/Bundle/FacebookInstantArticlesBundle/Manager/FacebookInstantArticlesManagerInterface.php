@@ -16,26 +16,22 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\FacebookInstantArticlesBundle\Manager;
 
-use SWP\Bundle\FacebookInstantArticlesBundle\Model\ApplicationInterface;
 use Facebook;
 
-class FacebookManager implements FacebookManagerInterface
+interface FacebookInstantArticlesManagerInterface
 {
     /**
-     * @var Facebook\Facebook
+     * @param Facebook\Facebook $facebook
+     * @param string            $pageId
+     *
+     * @return null|string
      */
-    protected $facebook;
+    public function getPageAccessToken(Facebook\Facebook $facebook, $pageId);
 
     /**
-     * {@inheritdoc}
+     * @param Facebook\Facebook $facebook
+     *
+     * @return Facebook\GraphNodes\GraphEdge|null
      */
-    public function createForApp(ApplicationInterface $application): Facebook\Facebook
-    {
-        $this->facebook = new Facebook\Facebook([
-            'app_id' => $application->getAppId(),
-            'app_secret' => $application->getAppSecret(),
-        ]);
-
-        return $this->facebook;
-    }
+    public function getPagesAndTokens(Facebook\Facebook $facebook);
 }
