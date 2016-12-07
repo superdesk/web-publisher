@@ -18,8 +18,12 @@ class LoadMenusData extends AbstractFixture implements FixtureInterface, Ordered
         $menus = [
             'dev' => [
                 [
-                    'name' => 'default',
-                    'label' => 'Default',
+                    'name' => 'mainNavigation',
+                    'label' => 'Main Navigation',
+                ],
+                [
+                    'name' => 'footerPrim',
+                    'label' => 'Primary Footer Navigation',
                 ],
             ],
             'test' => [

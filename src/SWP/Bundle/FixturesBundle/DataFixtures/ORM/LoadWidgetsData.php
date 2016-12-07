@@ -33,17 +33,33 @@ class LoadWidgetsData extends AbstractFixture implements FixtureInterface, Order
 
         $widget = new WidgetModel();
         $widget->setType(WidgetModel::TYPE_MENU);
-        $widget->setName('Default Menu');
-        $widget->setParameters(['menu_name' => 'default']);
+        $widget->setName('NavigationMain');
+        $widget->setParameters([
+            'menu_name' => 'mainNavigation',
+            'template_name' => 'menu1.html.twig',
+        ]);
         $widget->setTenantCode($tenant->getCode());
         $manager->persist($widget);
+
+        $this->addReference('menu_widget_main', $widget);
+
+        $widget = new WidgetModel();
+        $widget->setType(WidgetModel::TYPE_MENU);
+        $widget->setName('NavigationFooterPrim');
+        $widget->setParameters([
+            'menu_name' => 'footerPrim',
+            'template_name' => 'menu2.html.twig',
+        ]);
+        $widget->setTenantCode($tenant->getCode());
+        $manager->persist($widget);
+
         $manager->flush();
 
-        $this->addReference('container_name_menu_widget', $widget);
+        $this->addReference('menu_widget_footer', $widget);
     }
 
     public function getOrder()
     {
-        return 2;
+        return 1;
     }
 }

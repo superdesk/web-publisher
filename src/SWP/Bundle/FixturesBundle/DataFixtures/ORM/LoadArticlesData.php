@@ -43,7 +43,7 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface, Orde
         $routes = [
             'dev' => [
                 [
-                    'name' => 'news',
+                    'name' => 'politics',
                     'variablePattern' => '/{slug}',
                     'requirements' => [
                         'slug' => '[a-zA-Z0-9*\-_\/]+',
@@ -52,27 +52,90 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface, Orde
                     'defaults' => [
                         'slug' => null,
                     ],
-                    'templateName' => 'news.html.twig',
+                    'templateName' => 'category.html.twig',
                     'articlesTemplateName' => 'article.html.twig',
                 ],
                 [
-                    'name' => 'articles',
-                    'type' => 'collection',
+                    'name' => 'business',
                     'variablePattern' => '/{slug}',
                     'requirements' => [
-                        'slug' => '[a-zA-Z1-9*\-_\/]+',
+                        'slug' => '[a-zA-Z0-9*\-_\/]+',
                     ],
+                    'type' => 'collection',
                     'defaults' => [
                         'slug' => null,
                     ],
+                    'templateName' => 'category.html.twig',
+                    'articlesTemplateName' => 'article.html.twig',
                 ],
                 [
-                    'name' => 'get-involved',
-                    'type' => 'content',
+                    'name' => 'scitech',
+                    'variablePattern' => '/{slug}',
+                    'requirements' => [
+                        'slug' => '[a-zA-Z0-9*\-_\/]+',
+                    ],
+                    'type' => 'collection',
+                    'defaults' => [
+                        'slug' => null,
+                    ],
+                    'templateName' => 'category.html.twig',
+                    'articlesTemplateName' => 'article.html.twig',
                 ],
                 [
-                    'name' => 'features',
+                    'name' => 'health',
+                    'variablePattern' => '/{slug}',
+                    'requirements' => [
+                        'slug' => '[a-zA-Z0-9*\-_\/]+',
+                    ],
+                    'type' => 'collection',
+                    'defaults' => [
+                        'slug' => null,
+                    ],
+                    'templateName' => 'category.html.twig',
+                    'articlesTemplateName' => 'article.html.twig',
+                ],
+                [
+                    'name' => 'entertainment',
+                    'variablePattern' => '/{slug}',
+                    'requirements' => [
+                        'slug' => '[a-zA-Z0-9*\-_\/]+',
+                    ],
+                    'type' => 'collection',
+                    'defaults' => [
+                        'slug' => null,
+                    ],
+                    'templateName' => 'category.html.twig',
+                    'articlesTemplateName' => 'article.html.twig',
+                ],
+                [
+                    'name' => 'sports',
+                    'variablePattern' => '/{slug}',
+                    'requirements' => [
+                        'slug' => '[a-zA-Z0-9*\-_\/]+',
+                    ],
+                    'type' => 'collection',
+                    'defaults' => [
+                        'slug' => null,
+                    ],
+                    'templateName' => 'category.html.twig',
+                    'articlesTemplateName' => 'article.html.twig',
+                ],
+                [
+                    'name' => 'about',
+                    'variablePattern' => '/{slug}',
+                    'requirements' => [
+                        'slug' => '[a-zA-Z0-9*\-_\/]+',
+                    ],
+                    'type' => 'collection',
+                    'defaults' => [
+                        'slug' => null,
+                    ],
+                    'articlesTemplateName' => 'page.html.twig',
+                ],
+                [
+                    'name' => 'home',
                     'type' => 'content',
+                    'templateName' => 'index.html.twig',
                 ],
             ],
             'test' => [
