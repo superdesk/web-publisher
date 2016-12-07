@@ -176,7 +176,7 @@ class ArticleLoader extends PaginatedLoader implements LoaderInterface
      *
      * @return bool
      */
-    public function isSupported(string $type) : bool
+    public function isSupported(string $type): bool
     {
         return in_array($type, ['articles', 'article']);
     }
