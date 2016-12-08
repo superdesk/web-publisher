@@ -5,14 +5,15 @@
 
   <!-- Content -->
   <section id="content">
-    <div class="row masonry" id="masonry_container" style="position: relative; height: 1076px;">
-
+    
     {# Setup list and pagination parameters #}
-    {% set itemsPerPage, currentPage = 4, app.request.get('page', 1) %}
-    {% set start = (currentPage / itemsPerPage) -1 %}
+    {% set itemsPerPage, currentPage = 8, app.request.get('page', 1) %}
+    {% set start = ((currentPage - 1) * itemsPerPage) %}
 
     {% gimmelist article from articles|start(start)|limit(itemsPerPage) %}
-
+    {% if loop.first %}
+    <div class="row masonry" id="masonry_container" style="position: relative; height: 1076px;">
+    {% endif %}
 	    <div class="span3 masonry-brick" style="position: absolute; top: 0px; left: 0px;">
       {% cache 'newsArticle' {gen: article} %}
        	<article class="news_item">
@@ -36,7 +37,7 @@
 
         {# Render pagination only at end of list #}
         {% if loop.last  %}
-
+        </div>
             {#
                 Use provided by default pagination template
  
@@ -58,7 +59,6 @@
 
     {% endgimmelist %}
 
-    </div>
     </section>
     <!-- End Content -->
   </div>
