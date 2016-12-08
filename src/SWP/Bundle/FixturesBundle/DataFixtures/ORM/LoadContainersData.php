@@ -16,8 +16,10 @@ namespace SWP\Bundle\FixturesBundle\DataFixtures\ORM;
 
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
+use SWP\Bundle\CoreBundle\Model\Container;
 use SWP\Bundle\FixturesBundle\AbstractFixture;
 use Doctrine\Common\Persistence\ObjectManager;
+use SWP\Bundle\TemplatesSystemBundle\Model\ContainerWidget;
 
 class LoadContainersData extends AbstractFixture implements FixtureInterface, OrderedFixtureInterface
 {
@@ -27,8 +29,33 @@ class LoadContainersData extends AbstractFixture implements FixtureInterface, Or
     public function load(ObjectManager $manager)
     {
         $env = $this->getEnvironment();
+        if ('test' !== $env) {
+            $container1 = new Container();
+            $container1->setName('mainNav');
+            $container1->setType(1);
+            $container1->setCssClass('container');
+            $container1->setVisible(true);
+            $container1->setTenantCode('123abc');
 
-        if ('test' === $env) {
+            $containerWidget1 = new ContainerWidget($container1, $this->getReference('menu_widget_main'));
+            $manager->persist($containerWidget1);
+            $container1->addWidget($containerWidget1);
+            $manager->persist($container1);
+
+            $container2 = new Container();
+            $container2->setName('footerNav');
+            $container2->setType(1);
+            $container2->setCssClass('container');
+            $container2->setVisible(true);
+            $container2->setTenantCode('123abc');
+
+            $containerWidget2 = new ContainerWidget($container2, $this->getReference('menu_widget_footer'));
+            $manager->persist($containerWidget2);
+            $container2->addWidget($containerWidget2);
+            $manager->persist($container2);
+
+            $manager->flush();
+        } else {
             $this->loadFixtures(
                 [
                     '@SWPFixturesBundle/Resources/fixtures/ORM/'.$env.'/Container.yml',
@@ -40,6 +67,6 @@ class LoadContainersData extends AbstractFixture implements FixtureInterface, Or
 
     public function getOrder()
     {
-        return 1;
+        return 2;
     }
 }

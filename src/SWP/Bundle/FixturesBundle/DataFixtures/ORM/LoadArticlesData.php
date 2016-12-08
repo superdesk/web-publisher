@@ -17,8 +17,10 @@ namespace SWP\Bundle\FixturesBundle\DataFixtures\ORM;
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
+use SWP\Bundle\ContentBundle\Model\ImageRendition;
 use SWP\Bundle\FixturesBundle\AbstractFixture;
 use SWP\Bundle\ContentBundle\Model\ArticleInterface;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class LoadArticlesData extends AbstractFixture implements FixtureInterface, OrderedFixtureInterface
 {
@@ -43,7 +45,7 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface, Orde
         $routes = [
             'dev' => [
                 [
-                    'name' => 'news',
+                    'name' => 'politics',
                     'variablePattern' => '/{slug}',
                     'requirements' => [
                         'slug' => '[a-zA-Z0-9*\-_\/]+',
@@ -52,27 +54,90 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface, Orde
                     'defaults' => [
                         'slug' => null,
                     ],
-                    'templateName' => 'news.html.twig',
+                    'templateName' => 'category.html.twig',
                     'articlesTemplateName' => 'article.html.twig',
                 ],
                 [
-                    'name' => 'articles',
-                    'type' => 'collection',
+                    'name' => 'business',
                     'variablePattern' => '/{slug}',
                     'requirements' => [
-                        'slug' => '[a-zA-Z1-9*\-_\/]+',
+                        'slug' => '[a-zA-Z0-9*\-_\/]+',
                     ],
+                    'type' => 'collection',
                     'defaults' => [
                         'slug' => null,
                     ],
+                    'templateName' => 'category.html.twig',
+                    'articlesTemplateName' => 'article.html.twig',
                 ],
                 [
-                    'name' => 'get-involved',
-                    'type' => 'content',
+                    'name' => 'scitech',
+                    'variablePattern' => '/{slug}',
+                    'requirements' => [
+                        'slug' => '[a-zA-Z0-9*\-_\/]+',
+                    ],
+                    'type' => 'collection',
+                    'defaults' => [
+                        'slug' => null,
+                    ],
+                    'templateName' => 'category.html.twig',
+                    'articlesTemplateName' => 'article.html.twig',
                 ],
                 [
-                    'name' => 'features',
+                    'name' => 'health',
+                    'variablePattern' => '/{slug}',
+                    'requirements' => [
+                        'slug' => '[a-zA-Z0-9*\-_\/]+',
+                    ],
+                    'type' => 'collection',
+                    'defaults' => [
+                        'slug' => null,
+                    ],
+                    'templateName' => 'category.html.twig',
+                    'articlesTemplateName' => 'article.html.twig',
+                ],
+                [
+                    'name' => 'entertainment',
+                    'variablePattern' => '/{slug}',
+                    'requirements' => [
+                        'slug' => '[a-zA-Z0-9*\-_\/]+',
+                    ],
+                    'type' => 'collection',
+                    'defaults' => [
+                        'slug' => null,
+                    ],
+                    'templateName' => 'category.html.twig',
+                    'articlesTemplateName' => 'article.html.twig',
+                ],
+                [
+                    'name' => 'sports',
+                    'variablePattern' => '/{slug}',
+                    'requirements' => [
+                        'slug' => '[a-zA-Z0-9*\-_\/]+',
+                    ],
+                    'type' => 'collection',
+                    'defaults' => [
+                        'slug' => null,
+                    ],
+                    'templateName' => 'category.html.twig',
+                    'articlesTemplateName' => 'article.html.twig',
+                ],
+                [
+                    'name' => 'about',
+                    'variablePattern' => '/{slug}',
+                    'requirements' => [
+                        'slug' => '[a-zA-Z0-9*\-_\/]+',
+                    ],
+                    'type' => 'collection',
+                    'defaults' => [
+                        'slug' => null,
+                    ],
+                    'articlesTemplateName' => 'page.html.twig',
+                ],
+                [
+                    'name' => 'home',
                     'type' => 'content',
+                    'templateName' => 'index.html.twig',
                 ],
             ],
             'test' => [
@@ -132,13 +197,71 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface, Orde
     public function loadArticles($env, ObjectManager $manager)
     {
         if ($env !== 'test') {
-            $this->loadFixtures(
+            $articles = $this->loadFixtures(
                 '@SWPFixturesBundle/Resources/fixtures/ORM/'.$env.'/article.yml',
                 $manager,
                 [
                     'providers' => [$this],
                 ]
             );
+
+            $renditions = [
+                '770x515' => [
+                    'width' => '770',
+                    'height' => '515',
+                ],
+                '478x326' => [
+                    'width' => '478',
+                    'height' => '326',
+                ],
+            ];
+
+            $mediaManager = $this->container->get('swp_content_bundle.manager.media');
+
+            foreach ($articles as $article) {
+                $images = [
+                    __DIR__.'/../../Resources/assets/images-cms-image-'.rand(1, 11).'.jpg',
+                    __DIR__.'/../../Resources/assets/images-cms-image-'.rand(1, 11).'.jpg',
+                ];
+
+                foreach ($images as $fakeImage) {
+                    // create Media
+                    $articleMediaClass = $this->container->getParameter('swp.model.media.class');
+                    $articleMedia = new $articleMediaClass();
+                    $articleMedia->setArticle($article);
+                    $articleMedia->setKey('embedded'.uniqid());
+                    $articleMedia->setBody('This is very nice image caption...');
+                    $articleMedia->setByLine('By Best Editor');
+                    $articleMedia->setLocated('Porto');
+                    $articleMedia->setDescription('Media description');
+                    $articleMedia->setUsageTerms('Some super open terms');
+                    $articleMedia->setMimetype('image/jpeg');
+                    $manager->persist($articleMedia);
+
+                    /* @var $rendition Rendition */
+                    foreach ($renditions as $key => $rendition) {
+                        $mediaId = uniqid();
+                        $uploadedFile = new UploadedFile(
+                            $fakeImage,
+                            $mediaId,
+                            'image/jpeg',
+                            filesize($fakeImage),
+                            null,
+                            true
+                        );
+                        $image = $mediaManager->handleUploadedFile($uploadedFile, $mediaId);
+
+                        $imageRendition = new ImageRendition();
+                        $imageRendition->setImage($image);
+                        $imageRendition->setHeight($rendition['height']);
+                        $imageRendition->setWidth($rendition['width']);
+                        $imageRendition->setName($key);
+                        $imageRendition->setMedia($articleMedia);
+                        $articleMedia->addRendition($imageRendition);
+                        $manager->persist($imageRendition);
+                    }
+                }
+            }
         }
 
         $articles = [
@@ -196,9 +319,19 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface, Orde
      */
     public function articleMetadata()
     {
+        $authors = [
+            'Sarrah Staffwriter',
+            'John Smith',
+            'Test Persona',
+            'Jane Stockwriter',
+            'James Q. Reporter',
+            'Karen Ruhiger',
+            'George Langsamer',
+        ];
+
         return [
             'located' => 'Sydney',
-            'byline' => 'Jhon Doe',
+            'byline' => $authors[array_rand($authors)],
             'place' => [
                 [
                     'qcode' => 'AUS',

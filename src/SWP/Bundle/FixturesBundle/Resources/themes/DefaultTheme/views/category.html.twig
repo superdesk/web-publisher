@@ -1,60 +1,65 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-<div id="page" class="container">
+    <div id="page" class="container">
 
-  <!-- Content -->
-  <section id="content">
+        <!-- Content -->
+        <section id="content">
 
-    <div class="row masonry" id="masonry_container" style="position: relative; height: 1076px;">
-	    <div class="span3 masonry-brick" style="position: absolute; top: 0px; left: 0px;">
-       	<article class="news_item">
-         	<a href="article.html" class="thumbnail"><img src="img/images-cms-image-000000111.jpg" alt="View from Amager beach (photo: Source Fabric)"></a>
-            <div class="content content_text">
-            	<h6 class="info">James Q. Reporter, Sarah Staffwriter - 02.05.2013, 08:17</h6>
-            	<h3 class="title"><a href="article.html">Private aviation companies take flight</a></h3>
-            	<p>Id dicta harum nam, ne latine labitur eam, inani evertitur forensibus in eum. Cu quo augue consulatu argumentum. Est everti discere definiebas ne, vis in veri ullum. Fugit omnesque assueverit te has.</p>
-        		</div>
-    		</article>
-   	 </div>
+            {# Setup list and pagination parameters #}
+            {% set itemsPerPage, currentPage = 8, app.request.get('page', 1) %}
+            {% set start = ((currentPage - 1) * itemsPerPage) %}
 
-       <div class="span3 masonry-brick" style="position: absolute; top: 0px; left: 300px;">
-       	<article class="news_item">
-         	<a href="article.html" class="thumbnail"><img src="img/images-cms-image-000000112.jpg" alt="Golden fragments (photo: Source Fabrik)"></a>
-            <div class="content content_text">
-            	<h6 class="info">Frank N. Stein - 02.05.2013, 08:17</h6>
-            	<h3 class="title"><a href="article.html">Tax and trade bureau considers alcohol labeling</a></h3>
-               <p>Pri rebum labitur principes at, te nec agam discere ornatus. Nonummy convenire has eu.</p>
-        		</div>
-    		</article>
-    	</div>
+            {% gimmelist article from articles|start(start)|limit(itemsPerPage) %}
+            {% if loop.first %}
+            <div class="row masonry" id="masonry_container" style="position: relative; height: 1076px;">
+                {% endif %}
+                <div class="span3 masonry-brick" style="position: absolute; top: 0px; left: 0px;">
+                    {% cache 'newsArticle' {gen: article} %}
+                    <article class="news_item">
+                        {% gimmelist media from articleMedia|limit(1) with {'article': article, 'limit': 1} %}
+                        {% if media.renditions is iterable %}
+                            {% for rendition in media.renditions %}
+                                {% if rendition.name == '478x326' %}
+                                    <a href="{{ url(article) }}" class="thumbnail"><img src="{{ url(rendition) }}" alt="{{ media.body }}"></a>
+                                {% endif %}
+                            {% endfor %}
+                        {% endif %}
+                        {% endgimmelist %}
+                        <div class="content content_text">
+                            <h6 class="info">{% if article.metadata.byline %} {{ article.metadata.byline }} - {% endif %} {{ article.publishedAt|date("d.m.Y, H:i") }}</h6>
+                            <h3 class="title"><a href="{{ url(article) }}">{{ article.title }}</a></h3>
+                            <p>{{ article.body|truncate(200,true) }}</p>
+                        </div>
+                    </article>
+                    {% endcache %}
+                </div>
 
-      <div class="span3 masonry-brick" style="position: absolute; top: 0px; left: 600px;">
-      	<article class="news_item">
-         	<a href="article.html" class="thumbnail"><img src="img/images-cms-image-000000113.jpg" alt="Via Giulia (photo: Source F. Abric)"></a>
-        	<div class="content content_text">
-            <h6 class="info">James Q. Reporter, Amerigo Vespucci - 02.05.2013, 08:17</h6>
-            <h3 class="title"><a href="article.html">Where to locate your internet start-up</a></h3>
-            <p>Est dolor dissentias quaerendum ne, per bonorum accusata at. Et mea graeci rationibus, in qui scribentur adversarium efficiantur. Ea tantas decore evertitur mei.</p>
-        	</div>
-    	</article>
+                {# Render pagination only at end of list #}
+                {% if loop.last  %}
+            </div>
+            {#
+                Use provided by default pagination template
+
+                 Parameters:
+                 * currentFilters (array) : associative array that contains the current route-arguments
+                 * currentPage (int) : the current page you are in
+                 * paginationPath (Meta|string) : the route name (or supported by router Meta object) to use for links
+                 * lastPage (int) : represents the total number of existing pages
+                 * showAlwaysFirstAndLast (bool) : Always show first and last link (just disabled)
+             #}
+            {% include '_tpl/pagination.html.twig' with {
+            currentFilters: {}|merge(app.request.query.all()),
+            currentPage: currentPage,
+            paginationPath: gimme.route,
+            lastPage: (loop.totalLength/itemsPerPage)|round(0, 'ceil')
+            } only %}
+
+            {% endif %}
+
+            {% endgimmelist %}
+
+        </section>
+        <!-- End Content -->
     </div>
-
-    <div class="span3 masonry-brick" style="position: absolute; top: 497px; left: 300px;">
-        <article class="news_item">
-        	<a href="article.html" class="thumbnail"><img src="img/images-cms-image-000000107.jpg" alt="View from Campidoglio (photo: Source Fabricio)"></a>
-         <div class="content content_text">
-            <h6 class="info">Frank N. Stein - 02.03.2013, 17:38</h6>
-            <h3 class="title"><a href="http://liquid-dev.lab.sourcefabric.org/en/mar2013/business/69/Car-industry-resurgence-boosts-economy.htm">Car industry resurgence boosts economy</a></h3>
-            <p> An vel laoreet molestiae. Est nobis eripuit probatus an, te his illum dicant. Eu dicit verterem assueverit duo. Vix ei audire latine virtute, quod nonummy nam et, ad per graece vituperata. </p>
-        	</div>
-         </article>
-     </div>
-
-    </div>
-
-    </section>
-    <!-- End Content -->
-  </div>
-  
 {% endblock %}

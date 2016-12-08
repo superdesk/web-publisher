@@ -141,10 +141,12 @@ class ArticleLoader extends PaginatedLoader implements LoaderInterface
                 }
             }
 
-            if ($route instanceof RouteInterface) {
-                $criteria->set('route', $route);
-            } else {
+            if (null === $route) {
                 return;
+            }
+
+            if ($route instanceof RouteInterface && RouteInterface::TYPE_COLLECTION === $route->getType()) {
+                $criteria->set('route', $route);
             }
 
             $criteria = $this->applyPaginationToCriteria($criteria, $parameters);
@@ -174,7 +176,7 @@ class ArticleLoader extends PaginatedLoader implements LoaderInterface
      *
      * @return bool
      */
-    public function isSupported(string $type) : bool
+    public function isSupported(string $type): bool
     {
         return in_array($type, ['articles', 'article']);
     }
