@@ -107,7 +107,8 @@ class WidgetController extends FOSRestController
      *     statusCodes={
      *         201="Returned on success.",
      *         400="Returned when form have errors"
-     *     }
+     *     },
+     *     input="SWP\Bundle\TemplatesSystemBundle\Form\Type\WidgetType"
      * )
      * @Route("/api/{version}/templates/widgets", options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_templates_create_widget")
      * @Method("POST")
@@ -178,7 +179,8 @@ class WidgetController extends FOSRestController
      *         404="Widget not found",
      *         422="Widget id is not number",
      *         405="Method Not Allowed"
-     *     }
+     *     },
+     *     input="SWP\Bundle\TemplatesSystemBundle\Form\Type\WidgetType"
      * )
      * @Route("/api/{version}/templates/widgets/{id}", requirements={"id"="\d+"}, options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_templates_update_widget")
      * @Method("PATCH")

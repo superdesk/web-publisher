@@ -1,9 +1,0 @@
-{% extends 'base.html.twig' %}
-
-{% block body %}
-    Articles assigned to "news" route:
-
-    {% gimmelist article from articles with {'route': '/news'} %}
-    <li><a href="{{ url(article) }}">{{ article.title }} </a></li>
-    {% endgimmelist %}
-{% endblock %}

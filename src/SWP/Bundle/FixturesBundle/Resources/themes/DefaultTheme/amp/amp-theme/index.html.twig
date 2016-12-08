@@ -59,6 +59,16 @@ Available variables:
 <article role="article">
   <h1>{{ object.title }}</h1>
   <div class="article-content">
+      {% gimmelist media from articleMedia|limit(1) with {'article': gimme.article} %}
+      {% if media.renditions is iterable %}
+          {% for rendition in media.renditions %}
+              {% if rendition.name == '478x326' %}
+                <amp-img src="{{ url(rendition) }}" alt="{{ media.body }}"></amp-img>
+              {% endif %}
+          {% endfor %}
+      {% endif %}
+      {% endgimmelist %}
+      <br>
       {{ object.body|raw }}
   </div>
 </article>

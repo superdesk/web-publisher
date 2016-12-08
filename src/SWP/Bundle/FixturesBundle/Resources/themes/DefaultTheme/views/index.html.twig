@@ -11,15 +11,25 @@
 
 {% cache 'frontTop3' { time:600 } %}
 
-{% gimmelist article from articles with {'route': '/news'}  %}
+{% gimmelist article from articles %}
 {% if loop.first %}
       <!-- Span (8) -->
       <div class="span8">
 
         <article class="news_item">
-            <a href="{{ url(article) }}" class="thumbnail"><img src="{{ asset('theme/assets/img/images-cms-image-000000099.jpg') }}" alt="Candidates (photo: Source Fabrić)"></a>
+
+{% gimmelist media from articleMedia|limit(1) with {'article': article} %}
+  {% if media.renditions is iterable %}   
+    {% for rendition in media.renditions %} 
+      {% if rendition.name == '770x515' %} 
+            <a href="{{ url(article) }}" class="thumbnail"><img src="{{ url(rendition) }}" alt="{{ media.body }}"></a>
+      {% endif %}
+    {% endfor %}
+  {% endif %}
+{% endgimmelist %}            
+
             <div class="content content_text">
-                <h6 class="info">Frank N. Stein, Test Persona - {{ article.publishedAt|date("d.m.Y, H:i") }}</h6>
+                <h6 class="info">{% if article.metadata.byline %} {{ article.metadata.byline }} - {% endif %} {{ article.publishedAt|date("d.m.Y, H:i") }}</h6>
                 <h3 class="title"><a href="{{ url(article) }}">{{ article.title }}</a></h3>
                 <p>{{ article.body|truncate(200,true) }}</p>
             </div>
@@ -36,11 +46,21 @@
 
             <!-- News item -->
             <article class="news_item">
-            	<a href="{{ url(article) }}" class="thumbnail"><img src="{{ asset('theme/assets/img/images-cms-image-000000102.jpg') }}" alt="La Scala di Spagna (photo: Source Fabricio)"></a>
-               <div class="content content_text">
-                    <h6 class="info">Sarah Staffwriter, Frank N. Stein - {{ article.publishedAt|date("d.m.Y, H:i") }}</h6>
-                    <h3 class="title"><a href="{{ url(article) }}">{{ article.title }}</a></h3>
-                    <p>{{ article.body|truncate(200,true) }}</p>
+
+{% gimmelist media from articleMedia|limit(1) with {'article': article} %}
+  {% if media.renditions is iterable %}   
+    {% for rendition in media.renditions %} 
+      {% if rendition.name == '478x326' %} 
+              <a href="{{ url(article) }}" class="thumbnail"><img src="{{ url(rendition) }}" alt="{{ media.body }}"></a>
+      {% endif %}
+    {% endfor %}
+  {% endif %}
+{% endgimmelist %}
+
+              <div class="content content_text">
+                <h6 class="info">{% if article.metadata.byline %} {{ article.metadata.byline }} - {% endif %} {{ article.publishedAt|date("d.m.Y, H:i") }}</h6>
+                <h3 class="title"><a href="{{ url(article) }}">{{ article.title }}</a></h3>
+                <p>{{ article.body|truncate(200,true) }}</p>
                </div>
             </article><!-- End News item -->
           </div><!--End Span (3) -->
@@ -53,12 +73,21 @@
 
     <article class="news_item">
         
-        <a href="{{ url(article) }}" class="thumbnail"><img src="{{ asset('theme/assets/img/images-cms-image-000000114.jpg') }}" alt="Arc of Konstantin (photo: Source F. Abricio)"></a>
-               <div class="content content_text">
-                   <h6 class="info">Ivan Zvonimir Čičak - {{ article.publishedAt|date("d.m.Y, H:i") }}</h6>
-                   <h3 class="title"><a href="{{ url(article) }}">{{ article.title }}</a></h3>
-                    <p>{{ article.body|truncate(200,true) }}</p>
-               </div>
+{% gimmelist media from articleMedia|limit(1) with {'article': article} %}
+  {% if media.renditions is iterable %}   
+    {% for rendition in media.renditions %} 
+      {% if rendition.name == '478x326' %} 
+              <a href="{{ url(article) }}" class="thumbnail"><img src="{{ url(rendition) }}" alt="{{ media.body }}"></a>
+      {% endif %}
+    {% endfor %}
+  {% endif %}
+{% endgimmelist %}
+
+              <div class="content content_text">
+                <h6 class="info">{% if article.metadata.byline %} {{ article.metadata.byline }} - {% endif %} {{ article.publishedAt|date("d.m.Y, H:i") }}</h6>
+                <h3 class="title"><a href="{{ url(article) }}">{{ article.title }}</a></h3>
+                <p>{{ article.body|truncate(200,true) }}</p>
+              </div>
     </article>
 
 </div><!-- End Span (5) -->
