@@ -16,7 +16,7 @@
       <article class="news_item span8 ">
          <div class="thumbnail content_text">
 
-{% gimmelist media from articleMedia with {'article': article} %}
+{% gimmelist media from articleMedia|limit(1) with {'article': article} %}
   {% if media.renditions is iterable %}   
     {% for rendition in media.renditions %} 
       {% if rendition.name == '770x515' %} 

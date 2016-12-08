@@ -18,7 +18,7 @@
 
         <article class="news_item">
 
-{% gimmelist media from articleMedia with {'article': article} %}
+{% gimmelist media from articleMedia|limit(1) with {'article': article} %}
   {% if media.renditions is iterable %}   
     {% for rendition in media.renditions %} 
       {% if rendition.name == '770x515' %} 
@@ -47,7 +47,7 @@
             <!-- News item -->
             <article class="news_item">
 
-{% gimmelist media from articleMedia with {'article': article} %}
+{% gimmelist media from articleMedia|limit(1) with {'article': article} %}
   {% if media.renditions is iterable %}   
     {% for rendition in media.renditions %} 
       {% if rendition.name == '478x326' %} 
@@ -73,7 +73,7 @@
 
     <article class="news_item">
         
-{% gimmelist media from articleMedia with {'article': article} %}
+{% gimmelist media from articleMedia|limit(1) with {'article': article} %}
   {% if media.renditions is iterable %}   
     {% for rendition in media.renditions %} 
       {% if rendition.name == '478x326' %} 

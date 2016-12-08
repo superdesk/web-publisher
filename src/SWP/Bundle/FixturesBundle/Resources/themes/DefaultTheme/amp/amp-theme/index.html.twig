@@ -59,7 +59,7 @@ Available variables:
 <article role="article">
   <h1>{{ object.title }}</h1>
   <div class="article-content">
-      {% gimmelist media from articleMedia with {'article': gimme.article} %}
+      {% gimmelist media from articleMedia|limit(1) with {'article': gimme.article} %}
       {% if media.renditions is iterable %}
           {% for rendition in media.renditions %}
               {% if rendition.name == '478x326' %}

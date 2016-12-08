@@ -17,7 +17,7 @@
                 <div class="span3 masonry-brick" style="position: absolute; top: 0px; left: 0px;">
                     {% cache 'newsArticle' {gen: article} %}
                     <article class="news_item">
-                        {% gimmelist media from articleMedia with {'article': article, 'limit': 1} %}
+                        {% gimmelist media from articleMedia|limit(1) with {'article': article, 'limit': 1} %}
                         {% if media.renditions is iterable %}
                             {% for rendition in media.renditions %}
                                 {% if rendition.name == '478x326' %}

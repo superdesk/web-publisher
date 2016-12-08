@@ -219,42 +219,47 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface, Orde
             $mediaManager = $this->container->get('swp_content_bundle.manager.media');
 
             foreach ($articles as $article) {
-                // create Media
-                $articleMediaClass = $this->container->getParameter('swp.model.media.class');
-                $articleMedia = new $articleMediaClass();
-                $articleMedia->setArticle($article);
-                $articleMedia->setKey('embedded'.uniqid());
-                $articleMedia->setBody('This is very nice image caption...');
-                $articleMedia->setByLine('By Best Editor');
-                $articleMedia->setLocated('Porto');
-                $articleMedia->setDescription('Media description');
-                $articleMedia->setUsageTerms('Some super open terms');
-                $articleMedia->setMimetype('image/jpeg');
-                $manager->persist($articleMedia);
+                $images = [
+                    __DIR__.'/../../Resources/assets/images-cms-image-'.rand(1, 11).'.jpg',
+                    __DIR__.'/../../Resources/assets/images-cms-image-'.rand(1, 11).'.jpg',
+                ];
 
-                $fakeImage = __DIR__.'/../../Resources/assets/images-cms-image-'.rand(1, 11).'.jpg';
+                foreach ($images as $fakeImage) {
+                    // create Media
+                    $articleMediaClass = $this->container->getParameter('swp.model.media.class');
+                    $articleMedia = new $articleMediaClass();
+                    $articleMedia->setArticle($article);
+                    $articleMedia->setKey('embedded' . uniqid());
+                    $articleMedia->setBody('This is very nice image caption...');
+                    $articleMedia->setByLine('By Best Editor');
+                    $articleMedia->setLocated('Porto');
+                    $articleMedia->setDescription('Media description');
+                    $articleMedia->setUsageTerms('Some super open terms');
+                    $articleMedia->setMimetype('image/jpeg');
+                    $manager->persist($articleMedia);
 
-                /* @var $rendition Rendition */
-                foreach ($renditions as $key => $rendition) {
-                    $mediaId = uniqid();
-                    $uploadedFile = new UploadedFile(
-                        $fakeImage,
-                        $mediaId,
-                        'image/jpeg',
-                        filesize($fakeImage),
-                        null,
-                        true
-                    );
-                    $image = $mediaManager->handleUploadedFile($uploadedFile, $mediaId);
+                    /* @var $rendition Rendition */
+                    foreach ($renditions as $key => $rendition) {
+                        $mediaId = uniqid();
+                        $uploadedFile = new UploadedFile(
+                            $fakeImage,
+                            $mediaId,
+                            'image/jpeg',
+                            filesize($fakeImage),
+                            null,
+                            true
+                        );
+                        $image = $mediaManager->handleUploadedFile($uploadedFile, $mediaId);
 
-                    $imageRendition = new ImageRendition();
-                    $imageRendition->setImage($image);
-                    $imageRendition->setHeight($rendition['height']);
-                    $imageRendition->setWidth($rendition['width']);
-                    $imageRendition->setName($key);
-                    $imageRendition->setMedia($articleMedia);
-                    $articleMedia->addRendition($imageRendition);
-                    $manager->persist($imageRendition);
+                        $imageRendition = new ImageRendition();
+                        $imageRendition->setImage($image);
+                        $imageRendition->setHeight($rendition['height']);
+                        $imageRendition->setWidth($rendition['width']);
+                        $imageRendition->setName($key);
+                        $imageRendition->setMedia($articleMedia);
+                        $articleMedia->addRendition($imageRendition);
+                        $manager->persist($imageRendition);
+                    }
                 }
             }
         }
