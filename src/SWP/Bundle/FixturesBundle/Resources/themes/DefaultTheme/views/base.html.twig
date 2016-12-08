@@ -161,7 +161,7 @@
 
   {% block theme_info %}
   <div class="js-theme-info" style="margin: 20px 0; padding: 20px; background-color: #fff; color: #000; font-family: Sans-serif; display:none;">
-    <p>{{ 'index.assigned.homepage'|trans|desc('Assigned homepage') }}:</strong> {{ page.name }} (id: {{ page.id }})</p>
+    <p>{{ 'index.assigned.homepage'|trans|desc('Assigned homepage') }}:</strong> {{ gimme.route.name }}</p>
     <p>{{ 'index.current.details'|trans|desc('Current theme details') }}:</p>
     <p>{{ 'index.path'|trans|desc('Path') }}: {{ theme.path }}</p>
     <p>{{ 'index.name'|trans|desc('Name') }}: {{ theme.name }}</p>
