@@ -10,6 +10,8 @@ SWP\Bundle\CoreBundle\Model\Tenant:
         organization:
             expose: true
             type: SWP\Bundle\CoreBundle\Model\Organization
+        ampEnabled:
+          expose: true
     relations:
         - rel: self
           href:

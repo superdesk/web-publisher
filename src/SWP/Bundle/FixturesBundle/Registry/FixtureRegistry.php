@@ -23,6 +23,7 @@ class FixtureRegistry
                 'user' => 'SWP\Bundle\FixturesBundle\DataFixtures\ORM\LoadUsersData',
                 'container' => 'SWP\Bundle\FixturesBundle\DataFixtures\ORM\LoadContainersData',
                 'container_widget' => 'SWP\Bundle\FixturesBundle\DataFixtures\ORM\LoadContainerWidgetsData',
+                'amp_html' => 'SWP\Bundle\FixturesBundle\DataFixtures\ORM\LoadAmpHtmlData',
             ],
         ];
 

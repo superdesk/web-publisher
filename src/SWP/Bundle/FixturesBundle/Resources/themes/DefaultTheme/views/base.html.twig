@@ -23,6 +23,7 @@
   <!-- Place favicon.ico & apple-touch-icon.png in the root of your domain and delete these references -->
   <link rel="shortcut icon" href="{{ asset('theme/assets/img/favicon.ico') }}">
 
+  {% block amphtml %}{% endblock %}
   {% block stylesheets %}
   <!-- CSS: implied media="all" -->
   <link rel="stylesheet" href="{{ asset('theme/assets/css/blueimp-gallery-indicator.min.css') }}">
@@ -128,6 +129,7 @@
         {% container 'mainNav' with {
             'cssClass': 'container'
         } %}    
+<<<<<<< HEAD
         <!-- Top Menu -->
         <nav id="top_menu" class="hidden-phone">
           <ul class="menu">
@@ -142,6 +144,9 @@
           </ul>
         </nav>
         <!-- End Top Menu -->
+=======
+        <!-- nothing by default -->
+>>>>>>> 75f7166e52b5b163edfa5fc2b7bce5a05405a334
         {% endcontainer %}
     </div>
   </div>
@@ -150,6 +155,7 @@
 
 <!-- Footer -->
 <footer id="footer">
+<<<<<<< HEAD
 
  {% container 'footerNav' with {
     'cssClass': 'container'
@@ -163,8 +169,17 @@
     	<li><a href="">Sports</a></li>
     	<li><a href="">Dialogue</a></li>
     </ul>
+=======
+>>>>>>> 75f7166e52b5b163edfa5fc2b7bce5a05405a334
 
+ {% container 'footerNav' with {
+    'cssClass': 'container'
+  } %}
+  {% endcontainer %}
+
+  <div class="container">
     <ul id="footer_menu_second" class="menu">
+<<<<<<< HEAD
 {% cache 'footerSec' { time:3600 } %}
 {% gimmelist article from articles with {'route': '/about'}  %}
       <li><a href="{{ url(article) }}">{{ article.title|truncate(10,true) }}</a></li>
@@ -175,6 +190,13 @@
       <li><a href="">Contact</a></li>
       <li><a href="">About us</a></li-->
       <li><a href="#">{{ 'global.footer.archives'|trans|desc('Archives') }}</a></li>
+=======
+        {% cache 'footerSec' { time:3600 } %}
+        {% gimmelist article from articles with {'route': '/about'}  %}
+      <li><a href="{{ url(article) }}">{{ article.title }}</a></li>
+        {% endgimmelist %}
+        {% endcache %}
+>>>>>>> 75f7166e52b5b163edfa5fc2b7bce5a05405a334
       <li><p><small>{{ 'global.footer.copyright'|trans|desc('Copyright') }} {{ 'now'|date('Y') }}. {{ 'global.footer.allRightsReserved'|trans|desc('All rights reserved. Powered by') }} <a target="_blank" href="http://superdesk.org/">Superdesk</a>. {{ 'global.footer.designBy'|trans|desc('Designed by') }}  <a target="_blank" href="http://www.sourcefabric.org/">Sourcefabric</a></small></p></li>
     </ul>
   {% endcontainer %}
@@ -185,7 +207,7 @@
 
   {% block theme_info %}
   <div class="js-theme-info" style="margin: 20px 0; padding: 20px; background-color: #fff; color: #000; font-family: Sans-serif; display:none;">
-    <p>{{ 'index.assigned.homepage'|trans|desc('Assigned homepage') }}:</strong> {{ page.name }} (id: {{ page.id }})</p>
+    <p>{{ 'index.assigned.homepage'|trans|desc('Assigned homepage') }}:</strong> {{ gimme.route.name }}</p>
     <p>{{ 'index.current.details'|trans|desc('Current theme details') }}:</p>
     <p>{{ 'index.path'|trans|desc('Path') }}: {{ theme.path }}</p>
     <p>{{ 'index.name'|trans|desc('Name') }}: {{ theme.name }}</p>
