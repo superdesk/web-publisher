@@ -59,3 +59,43 @@ SWP\Bundle\CoreBundle\Model\Article:
         publishable: true
         publishedAt: "<date()>"
         metadata: "<articleMetadata()>"
+    credits:
+        title: "Credits"
+        body: '<paragraph(20)>'
+        route: "<getRouteByName('about')>"
+        locale: "en"
+        status: "published"
+        lead: "<paragraph(3)>"
+        publishable: true
+        publishedAt: "<date()>"
+        metadata: "<articleMetadata()>"
+    marketing:
+        title: "Marketing"
+        body: '<paragraph(20)>'
+        route: "<getRouteByName('about')>"
+        locale: "en"
+        status: "published"
+        lead: "<paragraph(3)>"
+        publishable: true
+        publishedAt: "<date()>"
+        metadata: "<articleMetadata()>"
+    aboutus:
+        title: "About Us"
+        body: '<paragraph(20)>'
+        route: "<getRouteByName('about')>"
+        locale: "en"
+        status: "published"
+        lead: "<paragraph(3)>"
+        publishable: true
+        publishedAt: "<date()>"
+        metadata: "<articleMetadata()>"
+    contact:
+        title: "Contact"
+        body: '<paragraph(20)>'
+        route: "<getRouteByName('about')>"
+        locale: "en"
+        status: "published"
+        lead: "<paragraph(3)>"
+        publishable: true
+        publishedAt: "<date()>"
+        metadata: "<articleMetadata()>"

@@ -79,6 +79,48 @@ class LoadMenuNodesData extends AbstractFixture implements FixtureInterface, Ord
                     'parent' => 'mainNavigation',
                     'route' => 'sports',
                 ],
+                [
+                    'name' => 'politics',
+                    'label' => 'Politics',
+                    'locale' => 'en',
+                    'parent' => 'footerPrim',
+                    'route' => 'politics',
+                ],
+                [
+                    'name' => 'business',
+                    'label' => 'Business',
+                    'locale' => 'en',
+                    'parent' => 'footerPrim',
+                    'route' => 'business',
+                ],
+                [
+                    'name' => 'scitech',
+                    'label' => 'Sci/Tech',
+                    'locale' => 'en',
+                    'parent' => 'footerPrim',
+                    'route' => 'scitech',
+                ],
+                [
+                    'name' => 'health',
+                    'label' => 'Health',
+                    'locale' => 'en',
+                    'parent' => 'footerPrim',
+                    'route' => 'health',
+                ],
+                [
+                    'name' => 'entertainment',
+                    'label' => 'Entertainment',
+                    'locale' => 'en',
+                    'parent' => 'footerPrim',
+                    'route' => 'entertainment',
+                ],
+                [
+                    'name' => 'sports',
+                    'label' => 'Sports',
+                    'locale' => 'en',
+                    'parent' => 'footerPrim',
+                    'route' => 'sports',
+                ],
             ],
             'test' => [
                 [
