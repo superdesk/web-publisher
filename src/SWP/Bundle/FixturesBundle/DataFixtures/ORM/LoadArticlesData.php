@@ -229,7 +229,7 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface, Orde
                     $articleMediaClass = $this->container->getParameter('swp.model.media.class');
                     $articleMedia = new $articleMediaClass();
                     $articleMedia->setArticle($article);
-                    $articleMedia->setKey('embedded' . uniqid());
+                    $articleMedia->setKey('embedded'.uniqid());
                     $articleMedia->setBody('This is very nice image caption...');
                     $articleMedia->setByLine('By Best Editor');
                     $articleMedia->setLocated('Porto');
