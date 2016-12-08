@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<div id="page" class="container">
+
+  <!-- Content -->
+  <section id="content">
+
+    <div class="row article_content">
+    {% cache 'article' {gen: gimme.article} %}
+
+      <article class="news_item span8 ">
+          <div class="content content_text">
+            <h6 class="info">PAGES</h6>
+            <h2 class="title">{{ gimme.article.title }}</h2>
+            {{ gimme.article.body|raw }}
+          </div>
+      </article>
+
+      <aside class="span4 news_item">
+         <img style="margin: 20px auto 0 auto; display:block;" src="{{ asset('theme/assets/img/300x250.png') }}" alt="Sourcefabric">
+      </aside>
+
+    {% endcache %}
+    </div>
+
+    {% include '_tpl/latest-news.html.twig' %}
+
+  </section><!-- End Content -->
+
+</div>
+{% endblock %}
+
+{% block template_code %}
+<pre class="js-template-code" style="display:none;">{{ source(_self.getTemplateName())|escape('html') }}</pre>
+{% endblock %}
