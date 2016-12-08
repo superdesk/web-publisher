@@ -5,14 +5,15 @@
 
         <!-- Content -->
         <section id="content">
+
+            {# Setup list and pagination parameters #}
+            {% set itemsPerPage, currentPage = 8, app.request.get('page', 1) %}
+            {% set start = ((currentPage - 1) * itemsPerPage) %}
+
+            {% gimmelist article from articles|start(start)|limit(itemsPerPage) %}
+            {% if loop.first %}
             <div class="row masonry" id="masonry_container" style="position: relative; height: 1076px;">
-
-                {# Setup list and pagination parameters #}
-                {% set itemsPerPage, currentPage = 4, app.request.get('page', 1) %}
-                {% set start = (currentPage / itemsPerPage) -1 %}
-
-                {% gimmelist article from articles|start(start)|limit(itemsPerPage) %}
-
+                {% endif %}
                 <div class="span3 masonry-brick" style="position: absolute; top: 0px; left: 0px;">
                     {% cache 'newsArticle' {gen: article} %}
                     <article class="news_item">
@@ -28,7 +29,7 @@
                         <div class="content content_text">
                             <h6 class="info">{% if article.metadata.byline %} {{ article.metadata.byline }} - {% endif %} {{ article.publishedAt|date("d.m.Y, H:i") }}</h6>
                             <h3 class="title"><a href="{{ url(article) }}">{{ article.title }}</a></h3>
-                            <p>{{ article.lead|truncate(200,true) }}</p>
+                            <p>{{ article.body|truncate(200,true) }}</p>
                         </div>
                     </article>
                     {% endcache %}
@@ -36,29 +37,28 @@
 
                 {# Render pagination only at end of list #}
                 {% if loop.last  %}
-
-                    {#
-                        Use provided by default pagination template
-
-                         Parameters:
-                         * currentFilters (array) : associative array that contains the current route-arguments
-                         * currentPage (int) : the current page you are in
-                         * paginationPath (Meta|string) : the route name (or supported by router Meta object) to use for links
-                         * lastPage (int) : represents the total number of existing pages
-                         * showAlwaysFirstAndLast (bool) : Always show first and last link (just disabled)
-                     #}
-                    {% include '_tpl/pagination.html.twig' with {
-                    currentFilters: {}|merge(app.request.query.all()),
-                    currentPage: currentPage,
-                    paginationPath: gimme.route,
-                    lastPage: (loop.totalLength/itemsPerPage)|round(0, 'ceil')
-                    } only %}
-
-                {% endif %}
-
-                {% endgimmelist %}
-
             </div>
+            {#
+                Use provided by default pagination template
+
+                 Parameters:
+                 * currentFilters (array) : associative array that contains the current route-arguments
+                 * currentPage (int) : the current page you are in
+                 * paginationPath (Meta|string) : the route name (or supported by router Meta object) to use for links
+                 * lastPage (int) : represents the total number of existing pages
+                 * showAlwaysFirstAndLast (bool) : Always show first and last link (just disabled)
+             #}
+            {% include '_tpl/pagination.html.twig' with {
+            currentFilters: {}|merge(app.request.query.all()),
+            currentPage: currentPage,
+            paginationPath: gimme.route,
+            lastPage: (loop.totalLength/itemsPerPage)|round(0, 'ceil')
+            } only %}
+
+            {% endif %}
+
+            {% endgimmelist %}
+
         </section>
         <!-- End Content -->
     </div>
