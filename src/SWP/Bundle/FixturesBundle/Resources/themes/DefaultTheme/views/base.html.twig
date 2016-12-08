@@ -129,24 +129,6 @@
         {% container 'mainNav' with {
             'cssClass': 'container'
         } %}    
-<<<<<<< HEAD
-        <!-- Top Menu -->
-        <nav id="top_menu" class="hidden-phone">
-          <ul class="menu">
-	          <li class="current"><a href="{{ url('homepage') }}">{{ 'global.header.home'|trans|desc('Home') }}</a></li>
-            <li><a href="/news">Politics</a></li>
-            <li><a href="/news">Business</a></li>
-            <li><a href="/news">Sci/Tech</a></li>
-            <li><a href="/news">Health</a></li>
-            <li><a href="/news">Entertainment</a></li>
-            <li><a href="/news">Sports</a></li>
-            <li><a href="/news">Dialogue</a></li>
-          </ul>
-        </nav>
-        <!-- End Top Menu -->
-=======
-        <!-- nothing by default -->
->>>>>>> 75f7166e52b5b163edfa5fc2b7bce5a05405a334
         {% endcontainer %}
     </div>
   </div>
@@ -155,22 +137,6 @@
 
 <!-- Footer -->
 <footer id="footer">
-<<<<<<< HEAD
-
- {% container 'footerNav' with {
-    'cssClass': 'container'
-  } %} 
-    <ul id="footer_menu_first" class="menu hidden-phone">
-      <li><a href="">Politics</a></li>
-    	<li><a href="">Business</a></li>
-    	<li><a href="">Sci/Tech</a></li>
-    	<li><a href="">Health</a></li>
-    	<li><a href="">Entertainment</a></li>
-    	<li><a href="">Sports</a></li>
-    	<li><a href="">Dialogue</a></li>
-    </ul>
-=======
->>>>>>> 75f7166e52b5b163edfa5fc2b7bce5a05405a334
 
  {% container 'footerNav' with {
     'cssClass': 'container'
@@ -179,27 +145,16 @@
 
   <div class="container">
     <ul id="footer_menu_second" class="menu">
-<<<<<<< HEAD
-{% cache 'footerSec' { time:3600 } %}
-{% gimmelist article from articles with {'route': '/about'}  %}
-      <li><a href="{{ url(article) }}">{{ article.title|truncate(10,true) }}</a></li>
-{% endgimmelist %}
-{% endcache %}
-      <!--li><a href="">Credits</a></li>
-      <li><a href="">Marketing</a></li>
-      <li><a href="">Contact</a></li>
-      <li><a href="">About us</a></li-->
-      <li><a href="#">{{ 'global.footer.archives'|trans|desc('Archives') }}</a></li>
-=======
+
         {% cache 'footerSec' { time:3600 } %}
         {% gimmelist article from articles with {'route': '/about'}  %}
       <li><a href="{{ url(article) }}">{{ article.title }}</a></li>
         {% endgimmelist %}
         {% endcache %}
->>>>>>> 75f7166e52b5b163edfa5fc2b7bce5a05405a334
+
       <li><p><small>{{ 'global.footer.copyright'|trans|desc('Copyright') }} {{ 'now'|date('Y') }}. {{ 'global.footer.allRightsReserved'|trans|desc('All rights reserved. Powered by') }} <a target="_blank" href="http://superdesk.org/">Superdesk</a>. {{ 'global.footer.designBy'|trans|desc('Designed by') }}  <a target="_blank" href="http://www.sourcefabric.org/">Sourcefabric</a></small></p></li>
     </ul>
-  {% endcontainer %}
+  </div>
 
   {% cache 'footerInfoBar' { time:300 } %}
   <p style="text-align: center; color: #ccc; font-family: Sans-serif; font-size: 80%; margin-top: 15px; padding-top: 10px; border-top: 1px solid #ccc;"><span style="color: #fff">&#8505;</span> {{ 'global.footer.themeInfo'|trans|desc('Theme info') }} <a href="#" class="js-toggle-info" style="color: #fff">show / hide</a> | <span style="color: #fff">&#x2699;</span> {{ 'global.footer.templateCode'|trans|desc('Template code used to render this page :') }} <a href="#" class="js-toggle-code" style="color: #fff">show / hide</a> | <span style="color: #fff">&#8505;</span> {{ 'global.footer.cachedTime'|trans|desc('Last not cached generation time:') }} <span style="color: #fff">{{ 'now'|date('H:i:s') }}</span></p>

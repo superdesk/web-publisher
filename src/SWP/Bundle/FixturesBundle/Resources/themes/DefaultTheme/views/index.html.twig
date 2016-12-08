@@ -18,11 +18,8 @@
 
         <article class="news_item">
 
-<<<<<<< HEAD
-{% gimmelist media from articleMedia with {'article': article} %}
-=======
+
 {% gimmelist media from articleMedia|limit(1) with {'article': article} %}
->>>>>>> 75f7166e52b5b163edfa5fc2b7bce5a05405a334
   {% if media.renditions is iterable %}   
     {% for rendition in media.renditions %} 
       {% if rendition.name == '770x515' %} 
@@ -51,11 +48,8 @@
             <!-- News item -->
             <article class="news_item">
 
-<<<<<<< HEAD
-{% gimmelist media from articleMedia with {'article': article} %}
-=======
+
 {% gimmelist media from articleMedia|limit(1) with {'article': article} %}
->>>>>>> 75f7166e52b5b163edfa5fc2b7bce5a05405a334
   {% if media.renditions is iterable %}   
     {% for rendition in media.renditions %} 
       {% if rendition.name == '478x326' %} 
@@ -81,11 +75,8 @@
 
     <article class="news_item">
         
-<<<<<<< HEAD
-{% gimmelist media from articleMedia with {'article': article} %}
-=======
+
 {% gimmelist media from articleMedia|limit(1) with {'article': article} %}
->>>>>>> 75f7166e52b5b163edfa5fc2b7bce5a05405a334
   {% if media.renditions is iterable %}   
     {% for rendition in media.renditions %} 
       {% if rendition.name == '478x326' %} 
