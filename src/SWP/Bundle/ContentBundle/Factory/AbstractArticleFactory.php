@@ -22,6 +22,9 @@ use SWP\Component\Bridge\Model\PackageInterface;
 
 abstract class AbstractArticleFactory implements ArticleFactoryInterface
 {
+    /**
+     * @var ArticleHydratorInterface
+     */
     protected $articleHydrator;
 
     /**
@@ -39,7 +42,7 @@ abstract class AbstractArticleFactory implements ArticleFactoryInterface
      *
      * @return ArticleInterface
      */
-    protected function hydrateArticle(PackageInterface $package)
+    protected function createHydrated(PackageInterface $package)
     {
         /** @var ArticleInterface $article */
         $article = $this->create();
