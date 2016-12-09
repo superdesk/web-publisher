@@ -125,3 +125,8 @@ services:
             - '@swp.service.article'
         tags:
             - { name: applicator.rule_applicator }
+
+    swp.hydrator.article:
+        class: SWP\Bundle\ContentBundle\Hydrator\ArticleHydrator
+        arguments:
+             - '@swp.provider.route'

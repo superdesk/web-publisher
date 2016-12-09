@@ -43,7 +43,7 @@ class RegisterORMArticleFactoryPass implements CompilerPassInterface
             $container->getParameter('swp.factory.article.class'),
             [
                 $baseDefinition,
-                $container->findDefinition('swp.provider.route'),
+                $container->findDefinition('swp.hydrator.article'),
             ]
         );
 

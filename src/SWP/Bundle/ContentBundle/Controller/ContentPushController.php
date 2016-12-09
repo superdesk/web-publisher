@@ -16,6 +16,7 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\ContentBundle\Controller;
 
+use Behat\Transliterator\Transliterator;
 use Hoa\Mime\Mime;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -50,16 +51,18 @@ class ContentPushController extends Controller
     public function pushContentAction(Request $request)
     {
         $package = $this->handlePackage($request);
-
-        $article = $this->get('swp_content.transformer.package_to_article')->transform($package);
         $articleRepository = $this->get('swp.repository.article');
 
-        // In case of resending article - remove previous one
-        $existingArticle = $articleRepository->findOneBy(['slug' => $article->getSlug()]);
+        $existingArticle = $articleRepository->findOneBy(['slug' => Transliterator::urlize($package->getSlugline())]);
+
         if (null !== $existingArticle) {
-            $articleRepository->remove($existingArticle);
+            $this->get('swp.hydrator.article')->hydrate($existingArticle, $package);
+            $this->get('swp.object_manager.article')->flush();
+
+            return new SingleResourceResponse(['status' => 'OK'], new ResponseContext(201));
         }
 
+        $article = $this->get('swp_content.transformer.package_to_article')->transform($package);
         $this->get('event_dispatcher')->dispatch(ArticleEvents::PRE_CREATE, new ArticleEvent($article, $package));
         $articleRepository->add($article);
         $this->get('event_dispatcher')->dispatch(ArticleEvents::POST_CREATE, new ArticleEvent($article));
