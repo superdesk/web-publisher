@@ -17,7 +17,7 @@ declare(strict_types=1);
 namespace SWP\Bundle\ContentBundle\Factory\ORM;
 
 use SWP\Bundle\ContentBundle\Factory\AbstractArticleFactory;
-use SWP\Bundle\ContentBundle\Provider\RouteProviderInterface;
+use SWP\Bundle\ContentBundle\Hydrator\ArticleHydratorInterface;
 use SWP\Component\Bridge\Model\PackageInterface;
 use SWP\Component\Storage\Factory\FactoryInterface;
 
@@ -29,24 +29,18 @@ class ArticleFactory extends AbstractArticleFactory
     protected $baseFactory;
 
     /**
-     * @var RouteProviderInterface
-     */
-    protected $routeProvider;
-
-    /**
      * ArticleFactory constructor.
      *
-     * @param FactoryInterface       $baseFactory
-     * @param RouteProviderInterface $routeProvider
+     * @param FactoryInterface         $baseFactory
+     * @param ArticleHydratorInterface $articleHydrator
      */
     public function __construct(
         FactoryInterface $baseFactory,
-        RouteProviderInterface $routeProvider
+        ArticleHydratorInterface $articleHydrator
     ) {
-        parent::__construct($routeProvider);
+        parent::__construct($articleHydrator);
 
         $this->baseFactory = $baseFactory;
-        $this->routeProvider = $routeProvider;
     }
 
     /**
@@ -62,6 +56,6 @@ class ArticleFactory extends AbstractArticleFactory
      */
     public function createFromPackage(PackageInterface $package)
     {
-        return $this->hydrateArticle($package);
+        return $this->createHydrated($package);
     }
 }

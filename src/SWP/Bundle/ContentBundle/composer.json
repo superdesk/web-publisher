@@ -58,6 +58,7 @@
     "phpspec/phpspec": "^2.4",
     "phpunit/phpunit": "5.*",
     "symfony/framework-bundle": "3.1.x",
+    "symfony/twig-bridge": "3.1.7",
     "symfony/monolog-bundle": "~2.0",
     "doctrine/orm": "^2.5",
     "liip/functional-test-bundle": "1.6.*",
