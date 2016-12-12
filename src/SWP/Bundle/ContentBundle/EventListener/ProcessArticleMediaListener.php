@@ -75,7 +75,7 @@ class ProcessArticleMediaListener
                 $this->removeArticleMediaIfNeeded($key, $article);
 
                 $articleMedia = $this->handleMedia($article, $key, $packageItem);
-                $this->articleMediaRepository->add($articleMedia);
+                $this->articleMediaRepository->persist($articleMedia);
             }
 
             if (null !== $packageItem->getItems() && 0 !== $packageItem->getItems()->count()) {
@@ -84,7 +84,7 @@ class ProcessArticleMediaListener
                         $this->removeArticleMediaIfNeeded($key, $article);
 
                         $articleMedia = $this->handleMedia($article, $key, $item);
-                        $this->articleMediaRepository->add($articleMedia);
+                        $this->articleMediaRepository->persist($articleMedia);
                     }
                 }
             }
