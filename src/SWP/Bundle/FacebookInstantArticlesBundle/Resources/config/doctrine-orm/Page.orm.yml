@@ -15,3 +15,10 @@ SWP\Bundle\FacebookInstantArticlesBundle\Model\Page:
         accessToken:
             type: string
             nullable: true
+    manyToOne:
+        application:
+            targetEntity: SWP\Bundle\FacebookInstantArticlesBundle\Model\ApplicationInterface
+            joinColumn:
+                name: application_id
+                referencedColumnName: id
+                nullable: true

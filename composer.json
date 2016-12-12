@@ -88,7 +88,7 @@
         "burgov/key-value-form-bundle": "@stable",
         "nelmio/api-doc-bundle": "^2.13",
         "nelmio/cors-bundle": "^1.4",
-        "facebook/facebook-instant-articles-sdk-php": "dev-master",
+        "facebook/facebook-instant-articles-sdk-php": "v1.5.*",
         "takeit/amp-html-bundle": "^0.2.0@dev"
     },
     "require-dev": {

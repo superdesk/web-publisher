@@ -1,0 +1,44 @@
+SWP\Bundle\CoreBundle\Model\FacebookInstantArticlesFeed:
+    type: entity
+    table: swp_fbia_feed
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        tenantCode:
+            type: string
+        mode:
+            type: integer
+            options:
+                default: 0
+        createdAt:
+            type: datetime
+            gedmo:
+                timestampable:
+                    on: create
+        updatedAt:
+            type: datetime
+            nullable: true
+            gedmo:
+                timestampable:
+    uniqueConstraints:
+        swp_fbia_feed_idx:
+            columns: [ content_list_id, facebook_page_id ]
+    manyToOne:
+        contentBucket:
+            targetEntity: SWP\Component\ContentList\Model\ContentListInterface
+            joinColumn:
+                name: content_list_id
+                referencedColumnName: id
+                onDelete: CASCADE
+                nullable: false
+        facebookPage:
+            targetEntity: SWP\Bundle\CoreBundle\Model\FacebookPage
+            joinColumn:
+                name: facebook_page_id
+                referencedColumnName: id
+                onDelete: CASCADE
+                nullable: false

@@ -17,15 +17,50 @@ declare(strict_types=1);
 namespace SWP\Bundle\FacebookInstantArticlesBundle\Manager;
 
 use Facebook;
+use SWP\Bundle\CoreBundle\Model\FacebookInstantArticlesFeedInterface;
+use Facebook\InstantArticles\Client\Client;
 
 class FacebookInstantArticlesManager implements FacebookInstantArticlesManagerInterface
 {
+    /**
+     * @var FacebookManagerInterface
+     */
+    protected $facebookManager;
+
+    /**
+     * FacebookInstantArticlesManager constructor.
+     *
+     * @param FacebookManagerInterface $facebookManager
+     */
+    public function __construct(FacebookManagerInterface $facebookManager)
+    {
+        $this->facebookManager = $facebookManager;
+    }
+
     /**
      * {@inheritdoc}
      */
     public function getPageAccessToken(Facebook\Facebook $facebook, $pageId)
     {
         return $this->loopThroughPagesAndFindOneById($facebook, $this->getPagesAndTokens($facebook), $pageId);
+    }
+
+    public function sendArticleToFacebook(FacebookInstantArticlesFeedInterface $feed, Facebook\InstantArticles\Elements\InstantArticleInterface $article)
+    {
+        $client = $this->getClient($feed);
+        $submissionId = $client->importArticle($article, true);
+
+        return $submissionId;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getSubmissionStatus(FacebookInstantArticlesFeedInterface $feed, string $submissionId): Facebook\InstantArticles\Client\InstantArticleStatus
+    {
+        $client = $this->getClient($feed);
+
+        return $client->getSubmissionStatus($submissionId);
     }
 
     /**
@@ -37,6 +72,14 @@ class FacebookInstantArticlesManager implements FacebookInstantArticlesManagerIn
         $helper = new Facebook\InstantArticles\Client\Helper($facebook);
 
         return $helper->getPagesAndTokens($userAccessToken);
+    }
+
+    private function getClient($feed)
+    {
+        $facebook = $this->facebookManager->createForApp($feed->getFacebookPage()->getApplication());
+        $facebook->setDefaultAccessToken($feed->getFacebookPage()->getAccessToken());
+
+        return new Client($facebook, $feed->getFacebookPage()->getPageId(), $feed->isDevelopment());
     }
 
     /**

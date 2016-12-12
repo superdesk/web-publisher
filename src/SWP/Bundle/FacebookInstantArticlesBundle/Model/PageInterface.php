@@ -26,6 +26,11 @@ interface PageInterface
     /**
      * @return string
      */
+    public function getPageId(): string;
+
+    /**
+     * @return string
+     */
     public function getName(): string;
 
     /**
@@ -37,4 +42,14 @@ interface PageInterface
      * @param string $accessToken
      */
     public function setAccessToken(string $accessToken);
+
+    /**
+     * @param ApplicationInterface $application
+     */
+    public function setApplication(ApplicationInterface $application);
+
+    /**
+     * @return ApplicationInterface
+     */
+    public function getApplication(): ApplicationInterface;
 }

@@ -3,6 +3,8 @@ services:
         class: SWP\Bundle\FacebookInstantArticlesBundle\Manager\FacebookManager
     swp_facebook.instant_articles_manager:
         class: SWP\Bundle\FacebookInstantArticlesBundle\Manager\FacebookInstantArticlesManager
+        arguments:
+            - "@swp_facebook.manager"
     swp_facebook.template_parser:
         class: SWP\Bundle\FacebookInstantArticlesBundle\Parser\TemplateParser
         arguments:

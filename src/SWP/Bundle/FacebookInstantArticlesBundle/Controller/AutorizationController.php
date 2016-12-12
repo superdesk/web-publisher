@@ -81,6 +81,7 @@ class AutorizationController extends Controller
         }
 
         $page->setAccessToken($pageToken);
+        $page->setApplication($facebookApplication);
         $this->container->get('swp.object_manager.page')->flush();
 
         return new JsonResponse([

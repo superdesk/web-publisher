@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "6f7f95fbdb3966a08e7f1ece49b7cc9a",
-    "content-hash": "86ba58426ae511794854d41b1bb5ab74",
+    "hash": "9fe3b7f0a345aaed82c9c9f42bd3e624",
+    "content-hash": "0bb30db35eed50ee1759d58df07e9a34",
     "packages": [
         {
             "name": "apache/log4php",
@@ -1105,7 +1105,7 @@
         },
         {
             "name": "facebook/facebook-instant-articles-sdk-php",
-            "version": "dev-master",
+            "version": "v1.5.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/facebook/facebook-instant-articles-sdk-php.git",
@@ -1214,16 +1214,16 @@
         },
         {
             "name": "friendsofsymfony/http-cache",
-            "version": "2.0.0-alpha1",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/FriendsOfSymfony/FOSHttpCache.git",
-                "reference": "9a4519ca202c324fcc3214d1cc1689397558898c"
+                "reference": "5f39c447f652c68e6a17c3ea62a69fa1538e8f8f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSHttpCache/zipball/9a4519ca202c324fcc3214d1cc1689397558898c",
-                "reference": "9a4519ca202c324fcc3214d1cc1689397558898c",
+                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSHttpCache/zipball/5f39c447f652c68e6a17c3ea62a69fa1538e8f8f",
+                "reference": "5f39c447f652c68e6a17c3ea62a69fa1538e8f8f",
                 "shasum": ""
             },
             "require": {
@@ -1288,7 +1288,7 @@
                 "purge",
                 "varnish"
             ],
-            "time": "2016-11-15 14:19:56"
+            "time": "2016-12-07 00:38:26"
         },
         {
             "name": "friendsofsymfony/http-cache-bundle",
@@ -1296,16 +1296,16 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/FriendsOfSymfony/FOSHttpCacheBundle.git",
-                "reference": "cf1b6696ec06889ec3504fb3a9e7af94dd68a0c3"
+                "reference": "f05c01a19ae0bb08151572df08ce7878add544c6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSHttpCacheBundle/zipball/cf1b6696ec06889ec3504fb3a9e7af94dd68a0c3",
-                "reference": "cf1b6696ec06889ec3504fb3a9e7af94dd68a0c3",
+                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSHttpCacheBundle/zipball/f05c01a19ae0bb08151572df08ce7878add544c6",
+                "reference": "f05c01a19ae0bb08151572df08ce7878add544c6",
                 "shasum": ""
             },
             "require": {
-                "friendsofsymfony/http-cache": "^2.0.0-alpha1",
+                "friendsofsymfony/http-cache": "2.0.x-dev",
                 "php": "^5.5.0 || ^7.0.0",
                 "symfony/framework-bundle": "^2.8||^3.0"
             },
@@ -1370,7 +1370,7 @@
                 "purge",
                 "varnish"
             ],
-            "time": "2016-12-06 10:42:19"
+            "time": "2016-12-07 18:44:08"
         },
         {
             "name": "friendsofsymfony/rest-bundle",
@@ -8762,7 +8762,6 @@
         "sylius/theme-bundle": 20,
         "superdesk/contentapi-sdk-php": 20,
         "burgov/key-value-form-bundle": 0,
-        "facebook/facebook-instant-articles-sdk-php": 20,
         "takeit/amp-html-bundle": 20,
         "liip/functional-test-bundle": 20,
         "doctrine/doctrine-fixtures-bundle": 20,

@@ -58,11 +58,9 @@ class ArticleRepository extends EntityRepository implements ArticleRepositoryInt
      * @param string $identifier
      * @param array  $order
      *
-     * @return SqlQuery
-     *
      * @throws \Exception
      */
-    public function getQueryForRouteArticles(string $identifier, array $order = []) : SqlQuery
+    public function getQueryForRouteArticles(string $identifier, array $order = [])
     {
         throw new \Exception('Not implemented');
     }

@@ -1,0 +1,46 @@
+SWP\Bundle\CoreBundle\Model\FacebookInstantArticlesArticle:
+    type: entity
+    table: swp_fbia_article
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        tenantCode:
+            type: string
+        submissionId:
+            type: string
+        status:
+            type: string
+        errors:
+            type: text
+            options:
+                default: '{}'
+        createdAt:
+            type: datetime
+            gedmo:
+                timestampable:
+                    on: create
+        updatedAt:
+            type: datetime
+            nullable: true
+            gedmo:
+                timestampable:
+    uniqueConstraints:
+        swp_fbia_article_idx:
+            columns: [ submission_id, feed_id ]
+    manyToOne:
+        article:
+            targetEntity: SWP\Bundle\ContentBundle\Model\ArticleInterface
+            joinColumn:
+                name: article_id
+                referencedColumnName: id
+                nullable: false
+        feed:
+            targetEntity: SWP\Bundle\CoreBundle\Model\FacebookInstantArticlesFeedInterface
+            joinColumn:
+                name: feed_id
+                referencedColumnName: id
+                nullable: false

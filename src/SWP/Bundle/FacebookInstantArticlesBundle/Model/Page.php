@@ -44,6 +44,11 @@ class Page implements TimestampableInterface, PageInterface
     protected $accessToken;
 
     /**
+     * @var ApplicationInterface
+     */
+    protected $application;
+
+    /**
      * {@inheritdoc}
      */
     public function getId(): int
@@ -52,7 +57,7 @@ class Page implements TimestampableInterface, PageInterface
     }
 
     /**
-     * @return string
+     * {@inheritdoc}
      */
     public function getPageId(): string
     {
@@ -97,5 +102,21 @@ class Page implements TimestampableInterface, PageInterface
     public function setAccessToken(string $accessToken)
     {
         $this->accessToken = $accessToken;
+    }
+
+    /**
+     * @return ApplicationInterface
+     */
+    public function getApplication(): ApplicationInterface
+    {
+        return $this->application;
+    }
+
+    /**
+     * @param ApplicationInterface $application
+     */
+    public function setApplication(ApplicationInterface $application)
+    {
+        $this->application = $application;
     }
 }

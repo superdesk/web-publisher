@@ -14,6 +14,10 @@
 
 namespace SWP\Bundle\CoreBundle\DependencyInjection;
 
+use SWP\Bundle\CoreBundle\Model\FacebookInstantArticlesArticle;
+use SWP\Bundle\CoreBundle\Model\FacebookInstantArticlesArticleInterface;
+use SWP\Bundle\CoreBundle\Model\FacebookInstantArticlesFeed;
+use SWP\Bundle\CoreBundle\Model\FacebookInstantArticlesFeedInterface;
 use SWP\Bundle\CoreBundle\Repository\ApiKeyRepository;
 use SWP\Bundle\CoreBundle\Factory\ApiKeyFactory;
 use SWP\Bundle\CoreBundle\Model\ApiKey;
@@ -67,6 +71,26 @@ class Configuration implements ConfigurationInterface
                                             ->scalarNode('model')->cannotBeEmpty()->defaultValue(ApiKey::class)->end()
                                             ->scalarNode('repository')->defaultValue(ApiKeyRepository::class)->end()
                                             ->scalarNode('factory')->defaultValue(ApiKeyFactory::class)->end()
+                                            ->scalarNode('object_manager_name')->defaultValue(null)->end()
+                                        ->end()
+                                    ->end()
+                                    ->arrayNode('facebook_instant_articles_feed')
+                                        ->addDefaultsIfNotSet()
+                                        ->children()
+                                            ->scalarNode('model')->cannotBeEmpty()->defaultValue(FacebookInstantArticlesFeed::class)->end()
+                                            ->scalarNode('interface')->defaultValue(FacebookInstantArticlesFeedInterface::class)->end()
+                                            ->scalarNode('repository')->defaultValue(EntityRepository::class)->end()
+                                            ->scalarNode('factory')->defaultValue(Factory::class)->end()
+                                            ->scalarNode('object_manager_name')->defaultValue(null)->end()
+                                        ->end()
+                                    ->end()
+                                    ->arrayNode('facebook_instant_articles_article')
+                                        ->addDefaultsIfNotSet()
+                                        ->children()
+                                            ->scalarNode('model')->cannotBeEmpty()->defaultValue(FacebookInstantArticlesArticle::class)->end()
+                                            ->scalarNode('interface')->defaultValue(FacebookInstantArticlesArticleInterface::class)->end()
+                                            ->scalarNode('repository')->defaultValue(EntityRepository::class)->end()
+                                            ->scalarNode('factory')->defaultValue(Factory::class)->end()
                                             ->scalarNode('object_manager_name')->defaultValue(null)->end()
                                         ->end()
                                     ->end()

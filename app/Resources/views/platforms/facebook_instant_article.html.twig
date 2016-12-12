@@ -1,11 +1,15 @@
-<html>
-    <head></head>
+<!doctype html>
+<html lang="en" prefix="op: http://media.facebook.com/op#">
+    <head>
+        <meta charset="utf-8">
+        <link rel="canonical" href="http://sdwp-dev.superdesk.org{{ path(gimme.article) }}">
+    </head>
     <body>
-        <div class="header">
-            <div class="title">
-                <h1>{{ gimme.article.title }}</h1>
-            </div>
-        </div>
+        <header>
+            <h1>{{ gimme.article.title }}</h1>
+            <time class="op-published" datetime="{{ gimme.article.publishedAt|date("Y-m-d\\Th:i:s\\Z", false) }}">{{ gimme.article.publishedAt|date("Y-m-d h:i ") }}</time>
+
+        </header>
         <p>{{ gimme.article.lead }}</p>
         <p>{{ gimme.article.body|raw }}</p>
     </body>

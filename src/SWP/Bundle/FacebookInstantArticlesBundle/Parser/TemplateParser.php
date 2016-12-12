@@ -17,8 +17,8 @@ declare(strict_types=1);
 namespace SWP\Bundle\FacebookInstantArticlesBundle\Parser;
 
 use Facebook\InstantArticles\Elements\InstantArticle;
-use Facebook\InstantArticles\Parser\Parser;
 use Symfony\Component\Templating\EngineInterface;
+use Facebook\InstantArticles\Transformer\Transformer;
 
 class TemplateParser
 {
@@ -30,6 +30,11 @@ class TemplateParser
     protected $templating;
 
     /**
+     * @var Transformer
+     */
+    protected $transformer;
+
+    /**
      * TemplateParser constructor.
      *
      * @param EngineInterface $templating
@@ -39,10 +44,13 @@ class TemplateParser
         $this->templating = $templating;
     }
 
+    /**
+     * @param string|null $html
+     *
+     * @return InstantArticle
+     */
     public function parse(string $html = null): InstantArticle
     {
-        $parser = new Parser();
-
         if (null === $html) {
             $html = $this->renderTemplate();
         }
@@ -50,12 +58,40 @@ class TemplateParser
         $logger = \Logger::getLogger('facebook-instantarticles-transformer');
         $logger->getParent()->removeAllAppenders();
 
-        return $parser->parse($html);
+        libxml_use_internal_errors(true);
+        $document = new \DOMDocument();
+        $document->loadHTML($html);
+        libxml_use_internal_errors(false);
+
+        $instantArticle = InstantArticle::create();
+        $transformer = $this->getTransformer();
+        $transformer->transform($instantArticle, $document);
+
+        return $instantArticle;
     }
 
+    /**
+     * @return string
+     */
     public function renderTemplate(): string
     {
         return $this->getTemplating()->render('platforms/'.self::FBIA_TEMPLATE_NAME);
+    }
+
+    /**
+     * @return Transformer
+     */
+    public function getTransformer(): Transformer
+    {
+        if (null !== $this->transformer) {
+            return $this->transformer;
+        }
+
+        $json_file = file_get_contents(__DIR__.'/../Resources/instant-articles-rules.json');
+        $this->transformer = new Transformer();
+        $this->transformer->loadRules($json_file);
+
+        return $this->transformer;
     }
 
     /**
