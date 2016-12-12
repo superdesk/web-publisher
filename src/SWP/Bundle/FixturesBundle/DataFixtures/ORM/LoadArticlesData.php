@@ -227,8 +227,8 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface, Orde
                     'height' => '240',
                 ],
                 '1000x1000' => [
-                    'width' => '960',
-                    'height' => '480',
+                    'width' => '1000',
+                    'height' => '1000',
                 ],
             ];
 

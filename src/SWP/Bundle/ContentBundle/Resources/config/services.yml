@@ -54,7 +54,7 @@ services:
     swp_content_bundle.listener.article_media:
         class: SWP\Bundle\ContentBundle\EventListener\ProcessArticleMediaListener
         arguments:
-            - '@swp.object_manager.media'
+            - '@swp.repository.media'
             - '@swp_content_bundle.manager.media'
             - '@swp.factory.media'
         tags:

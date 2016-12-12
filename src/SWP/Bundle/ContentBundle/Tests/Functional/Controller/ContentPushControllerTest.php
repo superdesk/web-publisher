@@ -112,6 +112,72 @@ class ContentPushControllerTest extends WebTestCase
         $this->assertEquals(201, $client->getResponse()->getStatusCode());
     }
 
+    public function testIfRouteAndPublishStatusIsNotChanged()
+    {
+        $client = static::createClient();
+        $client->request('POST', $this->router->generate('swp_api_content_create_routes'), [
+            'route' => [
+                'name' => 'articles',
+                'type' => 'collection',
+                'content' => null,
+            ],
+        ]);
+
+        $client->request(
+            'POST',
+            $this->router->generate('swp_api_content_push'),
+            [],
+            [],
+            ['CONTENT_TYPE' => 'application/json'],
+            self::TEST_CONTENT
+        );
+        $this->assertEquals(201, $client->getResponse()->getStatusCode());
+
+        $client->request('PATCH', $this->router->generate('swp_api_content_update_articles', ['id' => 'ads-fsadf-sdaf-sadf-sadf']), [
+            'article' => [
+                'status' => 'published',
+                'route' => 1,
+            ],
+        ]);
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+
+        $client->request(
+            'GET',
+            $this->router->generate('swp_api_content_show_articles', ['id' => 'ads-fsadf-sdaf-sadf-sadf'])
+        );
+
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+        $content1 = json_decode($client->getResponse()->getContent(), true);
+
+        self::assertArraySubset(['route' => ['id' => 1]], $content1);
+        self::assertEquals('published', $content1['status']);
+        self::assertTrue($content1['is_publishable']);
+
+        $client->request(
+            'POST',
+            $this->router->generate('swp_api_content_push'),
+            [],
+            [],
+            ['CONTENT_TYPE' => 'application/json'],
+            self::TEST_CONTENT
+        );
+
+        $this->assertEquals(201, $client->getResponse()->getStatusCode());
+
+        $client->request(
+            'GET',
+            $this->router->generate('swp_api_content_show_articles', ['id' => 'ads-fsadf-sdaf-sadf-sadf'])
+        );
+
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+        $content2 = json_decode($client->getResponse()->getContent(), true);
+
+        self::assertArraySubset(['route' => ['id' => 1]], $content2);
+        self::assertEquals('published', $content2['status']);
+        self::assertTrue($content2['is_publishable']);
+        self::assertEquals($content1['published_at'], $content2['published_at']);
+    }
+
     public function testContentPushWithMedia()
     {
         $filesystem = new Filesystem();
@@ -165,6 +231,7 @@ class ContentPushControllerTest extends WebTestCase
             ['CONTENT_TYPE' => 'application/json'],
             self::TEST_CONTENT_WITH_MEDIA
         );
+
         $this->assertEquals(201, $client->getResponse()->getStatusCode());
         $client->request(
             'GET',
@@ -190,6 +257,7 @@ class ContentPushControllerTest extends WebTestCase
             ['CONTENT_TYPE' => 'application/json'],
             self::TEST_CONTENT_WITH_MEDIA
         );
+
         $this->assertEquals(201, $client->getResponse()->getStatusCode());
 
         $client->request(
