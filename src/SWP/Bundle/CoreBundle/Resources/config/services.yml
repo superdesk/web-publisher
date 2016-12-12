@@ -150,13 +150,19 @@ services:
             - "@swp_core.theme.context.tenant_aware"
             - "%takeit_amp_html.configuration.theme.theme_path%"
 
+    swp.facebook.service.instant_articles:
+        class: SWP\Bundle\CoreBundle\Service\FacebookInstantArticlesService
+        arguments:
+            - "@swp_facebook.instant_articles_manager"
+            - "@swp.factory.facebook_instant_articles_article"
+            - "@swp.repository.facebook_instant_articles_article"
+
     swp.facebook.listener.instant_articles:
         class: SWP\Bundle\CoreBundle\EventListener\FacebookInstantArticlesListener
         arguments:
             - "@swp_facebook.template_parser"
             - "@swp_template_engine_context.factory.meta_factory"
-            - "@swp.factory.facebook_instant_articles_article"
             - "@swp.repository.facebook_instant_articles_feed"
-            - "@swp_facebook.instant_articles_manager"
+            - "@swp.facebook.service.instant_articles"
         tags:
             - { name: kernel.event_listener, event: swp.content_list.post_item_add, method: sendArticleToFacebook }

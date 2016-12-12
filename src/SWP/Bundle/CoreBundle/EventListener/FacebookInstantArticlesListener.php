@@ -14,30 +14,54 @@
 
 namespace SWP\Bundle\CoreBundle\EventListener;
 
-use Facebook\InstantArticles\Client\InstantArticleStatus;
+use SWP\Bundle\ContentBundle\Model\ArticleInterface;
 use SWP\Bundle\CoreBundle\Event\ContentListEvent;
-use SWP\Bundle\CoreBundle\Model\FacebookInstantArticlesArticle;
-use SWP\Bundle\FacebookInstantArticlesBundle\Manager\FacebookInstantArticlesManagerInterface;
+use SWP\Bundle\CoreBundle\Service\FacebookInstantArticlesService;
 use SWP\Bundle\FacebookInstantArticlesBundle\Parser\TemplateParser;
 use SWP\Bundle\StorageBundle\Doctrine\ORM\EntityRepository;
 use SWP\Component\Common\Criteria\Criteria;
-use SWP\Component\Storage\Factory\FactoryInterface;
 use SWP\Component\TemplatesSystem\Gimme\Factory\MetaFactory;
 
-class FacebookInstantArticlesListener
+final class FacebookInstantArticlesListener
 {
+    /**
+     * @var TemplateParser
+     */
+    protected $templateParser;
+
+    /**
+     * @var MetaFactory
+     */
+    protected $metaFactory;
+
+    /**
+     * @var EntityRepository
+     */
+    protected $feedRepository;
+
+    /**
+     * @var FacebookInstantArticlesService
+     */
+    protected $instantArticlesService;
+
+    /**
+     * FacebookInstantArticlesListener constructor.
+     *
+     * @param TemplateParser                 $templateParser
+     * @param MetaFactory                    $metaFactory
+     * @param EntityRepository               $feedRepository
+     * @param FacebookInstantArticlesService $instantArticlesService
+     */
     public function __construct(
         TemplateParser $templateParser,
         MetaFactory $metaFactory,
-        FactoryInterface $instantArticlesArticleFactory,
         EntityRepository $feedRepository,
-        FacebookInstantArticlesManagerInterface $facebookInstantArticlesManager
+        FacebookInstantArticlesService $instantArticlesService
     ) {
         $this->templateParser = $templateParser;
         $this->metaFactory = $metaFactory;
-        $this->instantArticlesArticleFactory = $instantArticlesArticleFactory;
         $this->feedRepository = $feedRepository;
-        $this->facebookInstantArticlesManager = $facebookInstantArticlesManager;
+        $this->instantArticlesService = $instantArticlesService;
     }
 
     /**
@@ -53,44 +77,13 @@ class FacebookInstantArticlesListener
             return;
         }
 
+        /** @var ArticleInterface $article */
         $article = $event->getItem()->getContent();
         $this->metaFactory->create($article);
         $instantArticle = $this->templateParser->parse();
 
         foreach ($feeds as $feed) {
-            $submissionId = $this->facebookInstantArticlesManager->sendArticleToFacebook($feed, $instantArticle);
-
-            /** @var FacebookInstantArticlesArticle $instantArticleEntity */
-            $instantArticleEntity = $this->instantArticlesArticleFactory->create();
-            $instantArticleEntity->setSubmissionId($submissionId);
-            $instantArticleEntity->setArticle($article);
-            $instantArticleEntity->setFeed($feed);
-            $instantArticleEntity->setStatus('new');
-            $this->feedRepository->add($instantArticleEntity);
-
-            // Wait for processing article by Facebook
-            sleep(5);
-
-            $submissionStatus = $this->facebookInstantArticlesManager->getSubmissionStatus($feed, $submissionId);
-            $instantArticleEntity->setStatus($submissionStatus->getStatus());
-            $instantArticleEntity->setErrors($this->getSubmissionErrors($submissionStatus));
-
-            dump($instantArticleEntity, $submissionStatus);
+            $this->instantArticlesService->pushInstantArticle($feed, $instantArticle, $article);
         }
-    }
-
-    /**
-     * @param InstantArticleStatus $submissionStatus
-     *
-     * @return array
-     */
-    private function getSubmissionErrors(InstantArticleStatus $submissionStatus): array
-    {
-        $errors = [];
-        foreach ($submissionStatus->getMessages() as $serverMessage) {
-            $errors[] = [$serverMessage->getLevel() => $serverMessage->getMessage()];
-        }
-
-        return $errors;
     }
 }

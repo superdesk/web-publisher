@@ -35,26 +35,4 @@ interface FacebookInstantArticlesManagerInterface
      * @return Facebook\GraphNodes\GraphEdge|null
      */
     public function getPagesAndTokens(Facebook\Facebook $facebook);
-
-    /**
-     * @param FacebookInstantArticlesFeedInterface                      $feed
-     * @param Facebook\InstantArticles\Elements\InstantArticleInterface $article
-     *
-     * @return mixed
-     */
-    public function sendArticleToFacebook(
-        FacebookInstantArticlesFeedInterface $feed,
-        Facebook\InstantArticles\Elements\InstantArticleInterface $article
-    );
-
-    /**
-     * @param FacebookInstantArticlesFeedInterface $feed
-     * @param string                               $submissionId
-     *
-     * @return Facebook\InstantArticles\Client\InstantArticleStatus
-     */
-    public function getSubmissionStatus(
-        FacebookInstantArticlesFeedInterface $feed,
-        string $submissionId
-    ): Facebook\InstantArticles\Client\InstantArticleStatus;
 }

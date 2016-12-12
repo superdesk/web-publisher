@@ -24,6 +24,7 @@ SWP\Bundle\CoreBundle\Model\FacebookInstantArticlesFeed:
             nullable: true
             gedmo:
                 timestampable:
+                    on: update
     uniqueConstraints:
         swp_fbia_feed_idx:
             columns: [ content_list_id, facebook_page_id ]

@@ -34,13 +34,10 @@ class ParsingPreviewController extends Controller
      */
     public function previewAction($articleId, $feedId = null)
     {
-        $metaFactory = $this->container->get('swp_template_engine_context.factory.meta_factory');
-        $articleProvider = $this->container->get('swp.provider.article');
         /** @var TemplateParser $templateParser */
-        $templateParser = $this->container->get('swp_facebook.template_parser');
-
-        $article = $articleProvider->getOneById($articleId);
-        $metaFactory->create($article);
+        $templateParser = $this->get('swp_facebook.template_parser');
+        $article = $this->get('swp.provider.article')->getOneById($articleId);
+        $this->get('swp_template_engine_context.factory.meta_factory')->create($article);
         $instantArticle = $templateParser->parse();
 
         $contentList = $this->get('swp.repository.content_list')->findOneById(1);

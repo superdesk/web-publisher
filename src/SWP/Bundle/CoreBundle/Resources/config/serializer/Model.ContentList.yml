@@ -1,5 +1,17 @@
 SWP\Bundle\CoreBundle\Model\ContentList:
     exclusion_policy: ALL
+    properties:
+        themeName:
+            expose: true
+            type: string
+        domainName:
+            expose: true
+            type: string
+        organization:
+            expose: true
+            type: SWP\Bundle\CoreBundle\Model\Organization
+        ampEnabled:
+          expose: true
     relations:
         -   rel: self
             href:
