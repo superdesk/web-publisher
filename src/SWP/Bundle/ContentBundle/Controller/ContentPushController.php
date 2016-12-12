@@ -57,6 +57,8 @@ class ContentPushController extends Controller
 
         if (null !== $existingArticle) {
             $this->get('swp.hydrator.article')->hydrate($existingArticle, $package);
+            $this->get('event_dispatcher')->dispatch(ArticleEvents::PRE_CREATE, new ArticleEvent($existingArticle, $package));
+
             $this->get('swp.object_manager.article')->flush();
 
             return new SingleResourceResponse(['status' => 'OK'], new ResponseContext(201));
