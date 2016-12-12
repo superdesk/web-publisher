@@ -26,12 +26,12 @@ SWP\Bundle\ContentBundle\Model\Article:
         status:
             type: string
         createdAt:
-            type: date
+            type: datetime
         updatedAt:
-            type: date
+            type: datetime
             nullable: true
         deletedAt:
-            type: date
+            type: datetime
             nullable: true
         publishStartDate:
             type: date
@@ -40,7 +40,7 @@ SWP\Bundle\ContentBundle\Model\Article:
             type: date
             nullable: true
         publishedAt:
-            type: date
+            type: datetime
             nullable: true
         isPublishable:
             type: boolean

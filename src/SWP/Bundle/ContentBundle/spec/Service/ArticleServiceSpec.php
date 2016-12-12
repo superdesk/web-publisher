@@ -23,7 +23,25 @@ class ArticleServiceSpec extends ObjectBehavior
     public function it_should_publish_new_article(ArticleInterface $article, EventDispatcherInterface $dispatcher)
     {
         $article->setStatus(ArticleInterface::STATUS_PUBLISHED)->shouldBeCalled();
+        $article->getPublishedAt()->willReturn(null);
         $article->setPublishedAt(Argument::type('\DateTime'))->shouldBeCalled();
+        $article->setPublishable(true)->shouldBeCalled();
+        $article->getPublishStartDate()->shouldBeCalled();
+        $article->getPublishEndDate()->shouldBeCalled();
+
+        $dispatcher->dispatch('swp.article.published', Argument::type(ArticleEvent::class))->shouldBeCalled();
+
+        $this->publish($article)->shouldReturn($article);
+    }
+
+    public function it_should_not_change_published_at_when_article_is_updated(
+        ArticleInterface $article,
+        EventDispatcherInterface $dispatcher
+    ) {
+        $article->setStatus(ArticleInterface::STATUS_PUBLISHED)->shouldBeCalled();
+        $datetime = new \DateTime();
+        $article->getPublishedAt()->willReturn($datetime);
+        $article->setPublishedAt($datetime)->shouldBeCalled();
         $article->setPublishable(true)->shouldBeCalled();
         $article->getPublishStartDate()->shouldBeCalled();
         $article->getPublishEndDate()->shouldBeCalled();

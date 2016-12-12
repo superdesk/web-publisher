@@ -37,10 +37,13 @@ SWP\Bundle\ContentBundle\Model\ArticleMedia:
         renditions:
             targetEntity: SWP\Bundle\ContentBundle\Model\ImageRendition
             mappedBy: media
+            orphanRemoval: true
+            cascade: ["all"]
     manyToOne:
         article:
             targetEntity: SWP\Bundle\ContentBundle\Model\ArticleInterface
             inversedBy: media
+            cascade: ["persist"]
             joinColumn:
                 name: article_id
                 referencedColumnName: id

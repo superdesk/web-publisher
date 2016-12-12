@@ -21,7 +21,7 @@ SWP\Component\Bridge\Model\Item:
         language:
             type: string
         description:
-            type: string
+            type: text
             nullable: true
         subjects:
             type: array

@@ -17,7 +17,7 @@ namespace spec\SWP\Bundle\ContentBundle\DependencyInjection\Compiler;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 use SWP\Bundle\ContentBundle\DependencyInjection\Compiler\RegisterORMArticleFactoryPass;
-use SWP\Bundle\ContentBundle\Factory\PHPCR\ArticleFactory;
+use SWP\Bundle\ContentBundle\Factory\ORM\ArticleFactory;
 use SWP\Component\Storage\Factory\Factory;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -41,7 +41,7 @@ class RegisterORMArticleFactoryPassSpec extends ObjectBehavior
 
     public function it_creates_a_default_definition_of_article_factory(
         ContainerBuilder $container,
-        Definition $routeProviderDefinition
+        Definition $articleHydrator
     ) {
         $container->hasDefinition('swp.factory.article')->willReturn(true);
         $baseDefinition = new Definition(
@@ -53,14 +53,13 @@ class RegisterORMArticleFactoryPassSpec extends ObjectBehavior
 
         $container->getParameter('swp.factory.article.class')->willReturn(ArticleFactory::class);
         $container->hasParameter('swp_content.backend_type_orm')->willReturn(true);
-        $container->getParameter('swp_multi_tenancy.persistence.phpcr.content_basepath')->willReturn('content');
-        $container->findDefinition('swp.provider.route')->willReturn($routeProviderDefinition);
+        $container->findDefinition('swp.hydrator.article')->willReturn($articleHydrator);
 
         $articleFactoryDefinition = new Definition(
             ArticleFactory::class,
             [
                 $baseDefinition,
-                $routeProviderDefinition,
+                $articleHydrator,
             ]
         );
 
