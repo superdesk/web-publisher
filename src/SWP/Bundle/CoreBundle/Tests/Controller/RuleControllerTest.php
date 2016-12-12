@@ -43,7 +43,6 @@ class RuleControllerTest extends WebTestCase
         $client->request('GET', $this->router->generate('swp_api_core_list_rule'));
         self::assertEquals(200, $client->getResponse()->getStatusCode());
 
-
         $data = $client->getResponse()->getContent();
         $expected = '{"page":1,"limit":10,"pages":1,"total":1,"_links":{"self":{"href":"\/api\/v1\/rules\/?page=1&limit=10"},"first":{"href":"\/api\/v1\/rules\/?page=1&limit=10"},"last":{"href":"\/api\/v1\/rules\/?page=1&limit=10"}},"_embedded":{"_items":[{"id":1,"expression":"article.getLocale() matches \"\/en\/\"","priority":1,"configuration":{"route":3},"_links":{"self":{"href":"\/api\/v1\/rules\/1"}}}]}}';
 
