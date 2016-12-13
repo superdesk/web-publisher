@@ -235,8 +235,25 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface, Orde
 
             $mediaManager = $this->container->get('swp_content_bundle.manager.media');
 
+            foreach ($renditions as $key => $rendition) {
+                if ('original' === $key) {
+                    continue;
+                }
+
+                for ($i = 1; $i <= 9; ++$i) {
+                    $filename = '/tmp/'.$i.'org'.$key.'.jpg';
+                    if (file_exists($filename)) {
+                        continue;
+                    }
+
+                    $fakeImage = __DIR__.'/../../Resources/assets/'.$i.'org.jpg';
+                    $this->cropAndResizeImage($fakeImage, $rendition, $filename);
+                }
+            }
+
             foreach ($articles as $article) {
-                for ($i = 0; $i <= 2; $i++) {
+                // randomly create two media (images) for each of the article
+                for ($i = 0; $i < 2; ++$i) {
                     // create Media
                     $articleMediaClass = $this->container->getParameter('swp.model.media.class');
                     $articleMedia = new $articleMediaClass();
@@ -259,7 +276,7 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface, Orde
                             $rendition['height'] = $height;
                             $rendition['width'] = $width;
                         } else {
-                            $fakeImage = __DIR__.'/../../Resources/assets/'.$key.'/'.$randNumber.'org'.$key.'.jpg';
+                            $fakeImage = '/tmp/'.$randNumber.'org'.$key.'.jpg';
                         }
 
                         $mediaId = uniqid();
@@ -282,8 +299,6 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface, Orde
                         $articleMedia->addRendition($imageRendition);
                         $manager->persist($imageRendition);
                     }
-
-                    $i++;
                 }
             }
         }
@@ -366,6 +381,43 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface, Orde
                 ],
             ],
         ];
+    }
+
+    private function cropAndResizeImage($fakeImage, array $rendition, $targetFile)
+    {
+        $image = imagecreatefromjpeg($fakeImage);
+        list($width, $height) = getimagesize($fakeImage);
+
+        $renditionWidth = (int) $rendition['width'];
+        $renditionHeight = (int) $rendition['height'];
+
+        $aspectRatio = $width / $height;
+        $newImageAspectRatio = $renditionWidth / $renditionHeight;
+
+        if ($aspectRatio >= $newImageAspectRatio) {
+            $newImageHeight = $renditionHeight;
+            $newImageWidth = $width / ($height / $renditionHeight);
+        } else {
+            $newImageWidth = $renditionWidth;
+            $newImageHeight = $height / ($width / $renditionWidth);
+        }
+
+        $newImage = imagecreatetruecolor($renditionWidth, $renditionHeight);
+
+        imagecopyresampled($newImage,
+            $image,
+            0 - ($newImageWidth - $renditionWidth) / 2,
+            0 - ($newImageHeight - $renditionHeight) / 2,
+            0,
+            0,
+            $newImageWidth,
+            $newImageHeight,
+            $width,
+            $height);
+        imagejpeg($newImage, $targetFile, 80);
+
+        imagedestroy($newImage);
+        unset($image);
     }
 
     /**
