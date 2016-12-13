@@ -329,3 +329,58 @@ input[type="radio"]{
 .progressjs-theme-blue .progressjs-percent {
     display: none;
 }
+
+/* Feed */
+
+.feedTitle {
+   font-size: 1.5em;
+   font-family: 'Oswald', Tahoma, Arial, sans-serif;
+   line-height: 1.3em;
+   padding-bottom: 20px;
+   text-transform: uppercase;
+}
+
+.feedTitle a {
+color: #475f77 ;
+}
+
+.headline a {
+   color: #d74b4b ;
+}
+
+.feedburnerFeedBlock {
+   color: #606060 ;
+}
+
+.feedburnerFeedBlock ul li {
+   margin-bottom: 20px;
+   padding-left: 50px;
+background: url(../img/icons/news_icon.png) no-repeat top left;
+}
+
+/* article content */
+.article_content iframe {
+   margin: 20px 0px !important;
+}
+
+/* gm */
+.gm-style .gm-style-cc span,.gm-style .gm-style-cc a,.gm-style .gm-style-mtc div{font-size:10px}
+
+@media print {
+  .gm-style .gmnoprint, .gmnoprint {
+    display:none  }
+  }
+@media screen {
+  .gm-style .gmnoscreen, .gmnoscreen {
+    display:none  }
+  }
+
+  .gm-style {
+    font-family:Roboto,Arial,sans-serif;
+    font-size:11px;
+    font-weight:400;
+    text-decoration:none
+  }
+  .gm-style img{
+    max-width:none
+  }
