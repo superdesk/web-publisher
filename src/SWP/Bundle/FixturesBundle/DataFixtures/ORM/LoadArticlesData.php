@@ -206,6 +206,7 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface, Orde
             );
 
             $renditions = [
+                'original' => [],
                 '770x515' => [
                     'width' => '770',
                     'height' => '515',
@@ -235,12 +236,7 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface, Orde
             $mediaManager = $this->container->get('swp_content_bundle.manager.media');
 
             foreach ($articles as $article) {
-                $images = [
-                    __DIR__.'/../../Resources/assets/images-cms-image-'.rand(1, 11).'.jpg',
-                    __DIR__.'/../../Resources/assets/images-cms-image-'.rand(1, 11).'.jpg',
-                ];
-
-                foreach ($images as $fakeImage) {
+                for ($i = 0; $i <= 2; $i++) {
                     // create Media
                     $articleMediaClass = $this->container->getParameter('swp.model.media.class');
                     $articleMedia = new $articleMediaClass();
@@ -254,8 +250,18 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface, Orde
                     $articleMedia->setMimetype('image/jpeg');
                     $manager->persist($articleMedia);
 
+                    $randNumber = rand(1, 9);
                     /* @var $rendition Rendition */
                     foreach ($renditions as $key => $rendition) {
+                        if ('original' === $key) {
+                            $fakeImage = __DIR__.'/../../Resources/assets/'.$randNumber.'org.jpg';
+                            list($width, $height) = getimagesize($fakeImage);
+                            $rendition['height'] = $height;
+                            $rendition['width'] = $width;
+                        } else {
+                            $fakeImage = __DIR__.'/../../Resources/assets/'.$key.'/'.$randNumber.'org'.$key.'.jpg';
+                        }
+
                         $mediaId = uniqid();
                         $uploadedFile = new UploadedFile(
                             $fakeImage,
@@ -276,6 +282,8 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface, Orde
                         $articleMedia->addRendition($imageRendition);
                         $manager->persist($imageRendition);
                     }
+
+                    $i++;
                 }
             }
         }
