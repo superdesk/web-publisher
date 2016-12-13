@@ -12,10 +12,10 @@ SWP\Bundle\ContentBundle\Model\ArticleMedia:
         key:
             type: string
         body:
-            type: string
+            type: text
             nullable: true
         description:
-            type: string
+            type: text
             nullable: true
         located:
             type: string

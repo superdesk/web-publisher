@@ -102,6 +102,8 @@ class ContentPushController extends Controller
                     ArticleMedia::handleMediaId($mediaId)
                 );
 
+                $this->get('swp.object_manager.media')->flush();
+
                 return new SingleResourceResponse([
                     'media_id' => $mediaId,
                     'URL' => $mediaManager->getMediaPublicUrl($media),
