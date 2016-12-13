@@ -44,7 +44,7 @@ class RuleControllerTest extends WebTestCase
         self::assertEquals(200, $client->getResponse()->getStatusCode());
 
         $data = $client->getResponse()->getContent();
-        $expected = '{"page":1,"limit":10,"pages":1,"total":1,"_links":{"self":{"href":"\/api\/v1\/rules\/?page=1&limit=10"},"first":{"href":"\/api\/v1\/rules\/?page=1&limit=10"},"last":{"href":"\/api\/v1\/rules\/?page=1&limit=10"}},"_embedded":{"_items":[{"id":1,"expression":"article.getLocale() matches \"\/en\/\"","priority":1,"configuration":{"route":"articles\/features"},"_links":{"self":{"href":"\/api\/v1\/rules\/1"}}}]}}';
+        $expected = '{"page":1,"limit":10,"pages":1,"total":1,"_links":{"self":{"href":"\/api\/v1\/rules\/?page=1&limit=10"},"first":{"href":"\/api\/v1\/rules\/?page=1&limit=10"},"last":{"href":"\/api\/v1\/rules\/?page=1&limit=10"}},"_embedded":{"_items":[{"id":1,"expression":"article.getLocale() matches \"\/en\/\"","priority":1,"configuration":{"route":3},"_links":{"self":{"href":"\/api\/v1\/rules\/1"}}}]}}';
 
         self::assertEquals($expected, $data);
     }
@@ -56,7 +56,7 @@ class RuleControllerTest extends WebTestCase
         self::assertEquals(200, $client->getResponse()->getStatusCode());
 
         $data = $client->getResponse()->getContent();
-        $expected = '{"id":1,"expression":"article.getLocale() matches \"\/en\/\"","priority":1,"configuration":{"route":"articles\/features"},"_links":{"self":{"href":"\/api\/v1\/rules\/1"}}}';
+        $expected = '{"id":1,"expression":"article.getLocale() matches \"\/en\/\"","priority":1,"configuration":{"route":3},"_links":{"self":{"href":"\/api\/v1\/rules\/1"}}}';
 
         self::assertEquals($expected, $data);
     }
@@ -101,7 +101,7 @@ class RuleControllerTest extends WebTestCase
                     ],
                     [
                         'key' => 'route',
-                        'value' => 'articles/features',
+                        'value' => 3,
                     ],
                 ],
             ],
@@ -110,7 +110,7 @@ class RuleControllerTest extends WebTestCase
         self::assertEquals(200, $client->getResponse()->getStatusCode());
 
         $data = $client->getResponse()->getContent();
-        $expected = '{"id":1,"expression":"article.getLocale() matches \"\/en\/\"","priority":22,"configuration":{"templateName":"test.html.twig","route":"articles\/features"},"_links":{"self":{"href":"\/api\/v1\/rules\/1"}}}';
+        $expected = '{"id":1,"expression":"article.getLocale() matches \"\/en\/\"","priority":22,"configuration":{"templateName":"test.html.twig","route":"3"},"_links":{"self":{"href":"\/api\/v1\/rules\/1"}}}';
 
         self::assertEquals($expected, $data);
     }
@@ -137,7 +137,7 @@ class RuleControllerTest extends WebTestCase
                     ],
                     [
                         'key' => 'route',
-                        'value' => 'articles/get-involved',
+                        'value' => 3,
                     ],
                 ],
             ],
@@ -146,7 +146,7 @@ class RuleControllerTest extends WebTestCase
         self::assertEquals(201, $client->getResponse()->getStatusCode());
 
         $data = $client->getResponse()->getContent();
-        $expected = '{"id":2,"expression":"article.getMetadataByKey(\"located\") matches \"\/Sydney\/\"","priority":2,"configuration":{"templateName":"sydney.html.twig","route":"articles\/get-involved"},"_links":{"self":{"href":"\/api\/v1\/rules\/2"}}}';
+        $expected = '{"id":2,"expression":"article.getMetadataByKey(\"located\") matches \"\/Sydney\/\"","priority":2,"configuration":{"templateName":"sydney.html.twig","route":"3"},"_links":{"self":{"href":"\/api\/v1\/rules\/2"}}}';
 
         self::assertEquals($expected, $data);
     }
@@ -214,6 +214,7 @@ class RuleControllerTest extends WebTestCase
 
     public function testNotAssigningRouteIfRuleNotMatch()
     {
+        $this->loadCustomFixtures(['tenant']);
         $client = static::createClient();
         $client->request('POST', $this->router->generate('swp_api_core_create_rule'), [
             'rule' => [

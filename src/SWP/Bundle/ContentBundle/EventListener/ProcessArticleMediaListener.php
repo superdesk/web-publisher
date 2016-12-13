@@ -14,7 +14,8 @@
 
 namespace SWP\Bundle\ContentBundle\EventListener;
 
-use Doctrine\Common\Persistence\ObjectManager;
+use SWP\Bundle\ContentBundle\Doctrine\ArticleMediaRepositoryInterface;
+use SWP\Bundle\ContentBundle\Doctrine\ORM\ArticleMediaRepository;
 use SWP\Bundle\ContentBundle\Event\ArticleEvent;
 use SWP\Bundle\ContentBundle\Factory\MediaFactoryInterface;
 use SWP\Bundle\ContentBundle\Manager\MediaManagerInterface;
@@ -26,9 +27,9 @@ use Symfony\Component\DomCrawler\Crawler;
 class ProcessArticleMediaListener
 {
     /**
-     * @var ObjectManager
+     * @var ArticleMediaRepository
      */
-    protected $objectManager;
+    protected $articleMediaRepository;
 
     /**
      * @var MediaManagerInterface
@@ -43,16 +44,16 @@ class ProcessArticleMediaListener
     /**
      * ProcessArticleMediaListener constructor.
      *
-     * @param ObjectManager         $objectManager
-     * @param MediaManagerInterface $mediaManager
-     * @param MediaFactoryInterface $mediaFactory
+     * @param ArticleMediaRepositoryInterface $articleMediaRepository
+     * @param MediaManagerInterface           $mediaManager
+     * @param MediaFactoryInterface           $mediaFactory
      */
     public function __construct(
-        ObjectManager $objectManager,
+        ArticleMediaRepositoryInterface $articleMediaRepository,
         MediaManagerInterface $mediaManager,
         MediaFactoryInterface $mediaFactory
     ) {
-        $this->objectManager = $objectManager;
+        $this->articleMediaRepository = $articleMediaRepository;
         $this->mediaManager = $mediaManager;
         $this->mediaFactory = $mediaFactory;
     }
@@ -64,7 +65,6 @@ class ProcessArticleMediaListener
     {
         $package = $event->getPackage();
         $article = $event->getArticle();
-        $this->objectManager->persist($article);
 
         if (null !== $package && 0 === count($package->getItems())) {
             return;
@@ -72,18 +72,34 @@ class ProcessArticleMediaListener
 
         foreach ($package->getItems() as $key => $packageItem) {
             if (ItemInterface::TYPE_PICTURE === $packageItem->getType() || ItemInterface::TYPE_FILE === $packageItem->getType()) {
+                $this->removeArticleMediaIfNeeded($key, $article);
+
                 $articleMedia = $this->handleMedia($article, $key, $packageItem);
-                $this->objectManager->persist($articleMedia);
+                $this->articleMediaRepository->persist($articleMedia);
             }
 
             if (null !== $packageItem->getItems() && 0 !== $packageItem->getItems()->count()) {
                 foreach ($packageItem->getItems() as $key => $item) {
                     if (ItemInterface::TYPE_PICTURE === $item->getType() || ItemInterface::TYPE_FILE === $item->getType()) {
+                        $this->removeArticleMediaIfNeeded($key, $article);
+
                         $articleMedia = $this->handleMedia($article, $key, $item);
-                        $this->objectManager->persist($articleMedia);
+                        $this->articleMediaRepository->persist($articleMedia);
                     }
                 }
             }
+        }
+    }
+
+    private function removeArticleMediaIfNeeded($key, ArticleInterface $article)
+    {
+        $existingArticleMedia = $this->articleMediaRepository->findOneBy([
+            'key' => $key,
+            'article' => $article->getId(),
+        ]);
+
+        if (null !== $existingArticleMedia) {
+            $this->articleMediaRepository->remove($existingArticleMedia);
         }
     }
 

@@ -87,6 +87,7 @@ stof_doctrine_extensions:
 
 doctrine:
     orm:
+        auto_generate_proxy_classes: true
         entity_managers:
             default: ~
         resolve_target_entities:

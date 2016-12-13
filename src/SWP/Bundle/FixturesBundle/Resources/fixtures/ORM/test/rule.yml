@@ -2,5 +2,5 @@ SWP\Bundle\CoreBundle\Model\Rule:
     rule1:
         priority: 1
         configuration:
-            route: 'articles/features'
+            route: 3
         expression: 'article.getLocale() matches "/en/"'

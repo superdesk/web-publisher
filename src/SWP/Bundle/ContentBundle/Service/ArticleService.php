@@ -45,7 +45,7 @@ class ArticleService implements ArticleServiceInterface
 
         $article->setPublishable(true);
         $article->setStatus(ArticleInterface::STATUS_PUBLISHED);
-        $article->setPublishedAt(new \DateTime());
+        $article->setPublishedAt($article->getPublishedAt() ?: new \DateTime());
 
         $this->dispatchArticleEvent(ArticleEvents::POST_PUBLISH, $article);
 
