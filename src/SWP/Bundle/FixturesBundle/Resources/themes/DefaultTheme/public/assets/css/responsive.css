@@ -282,3 +282,10 @@
 .mobile-search input[type='submit']{
 	display:none;
 }
+
+@media (max-width: 979px)  {
+#footer #footer_menu_second li:last-child {
+margin-top: 20px;
+   float: left;
+}
+}
