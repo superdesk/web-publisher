@@ -108,9 +108,9 @@ swp_facebook_instant_articles:
             orm:
                 enabled: true
                 classes:
-                    application:
+                    facebook_application:
                         model: SWP\Bundle\CoreBundle\Model\FacebookApplication
-                    page:
+                    facebook_page:
                         model: SWP\Bundle\CoreBundle\Model\FacebookPage
 
 swp_bridge:

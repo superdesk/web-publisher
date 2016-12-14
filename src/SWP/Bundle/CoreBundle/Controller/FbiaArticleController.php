@@ -24,7 +24,7 @@ use SWP\Component\Common\Response\SingleResourceResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 
-class FacebookIAArticleController extends Controller
+class FbiaArticleController extends Controller
 {
     /**
      * @ApiDoc(
@@ -38,7 +38,7 @@ class FacebookIAArticleController extends Controller
      * @Route("/api/{version}/facebook/instantarticles/articles/", options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_list_facebook_instant_articles_articles")
      * @Method("GET")
      */
-    public function listAction(Request $request, $id)
+    public function listAction(Request $request)
     {
         $repository = $this->get('swp.repository.facebook_instant_articles_article');
 
@@ -63,7 +63,7 @@ class FacebookIAArticleController extends Controller
      * @Route("/api/{version}/facebook/instantarticles/articles/{submissionId}", options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_facebook_instant_articles_articles_update")
      * @Method("GET|POST")
      */
-    public function updateSubmissionAction(Request $request, string $submissionId)
+    public function updateSubmissionAction(string $submissionId)
     {
         $instantArticlesService = $this->get('swp.facebook.service.instant_articles');
         $instantArticle = $instantArticlesService->updateSubmissionStatus($submissionId);

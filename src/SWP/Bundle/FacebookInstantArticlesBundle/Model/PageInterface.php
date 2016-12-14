@@ -21,22 +21,22 @@ interface PageInterface
     /**
      * @return int
      */
-    public function getId(): int;
+    public function getId();
 
     /**
      * @return string
      */
-    public function getPageId(): string;
+    public function getPageId();
 
     /**
      * @return string
      */
-    public function getName(): string;
+    public function getName();
 
     /**
      * @return string
      */
-    public function getAccessToken(): string;
+    public function getAccessToken();
 
     /**
      * @param string $accessToken
@@ -51,5 +51,5 @@ interface PageInterface
     /**
      * @return ApplicationInterface
      */
-    public function getApplication(): ApplicationInterface;
+    public function getApplication();
 }

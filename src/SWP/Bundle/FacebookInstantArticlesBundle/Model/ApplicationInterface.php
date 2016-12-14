@@ -21,15 +21,15 @@ interface ApplicationInterface
     /**
      * @return int
      */
-    public function getId(): int;
+    public function getId();
 
     /**
      * @return string
      */
-    public function getAppId(): string;
+    public function getAppId();
 
     /**
      * @return string
      */
-    public function getAppSecret(): string;
+    public function getAppSecret();
 }

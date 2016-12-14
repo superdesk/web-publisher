@@ -24,7 +24,6 @@ use SWP\Bundle\CoreBundle\Model\FacebookInstantArticlesArticle;
 use SWP\Bundle\CoreBundle\Model\FacebookInstantArticlesFeedInterface;
 use SWP\Bundle\FacebookInstantArticlesBundle\Manager\FacebookInstantArticlesManagerInterface;
 use SWP\Bundle\StorageBundle\Doctrine\ORM\EntityRepository;
-use SWP\Component\Common\Criteria\Criteria;
 use SWP\Component\Storage\Factory\FactoryInterface;
 
 class FacebookInstantArticlesService
@@ -74,10 +73,7 @@ class FacebookInstantArticlesService
         $submissionId = $this->getClient($feed)->importArticle($instantArticle, true);
 
         /** @var FacebookInstantArticlesArticle $instantArticleEntity */
-        $instantArticleEntity = $this->facebookInstantArticlesArticleRepository->getQueryByCriteria(new Criteria([
-            'article' => $article,
-            'feed' => $feed,
-        ]), [], 'fbia')->getQuery()->getOneOrNullResult();
+        $instantArticleEntity = $this->facebookInstantArticlesArticleRepository->findInFeed($feed, $article);
 
         if (null === $instantArticleEntity) {
             $instantArticleEntity = $this->instantArticlesArticleFactory->create();
@@ -100,9 +96,7 @@ class FacebookInstantArticlesService
     public function updateSubmissionStatus(string $submissionId)
     {
         /** @var FacebookInstantArticlesArticle $instantArticleEntity */
-        $instantArticle = $this->facebookInstantArticlesArticleRepository->getQueryByCriteria(new Criteria([
-            'submissionId' => $submissionId,
-        ]), [], 'fbia')->getQuery()->getOneOrNullResult();
+        $instantArticle = $this->facebookInstantArticlesArticleRepository->findSubmission($submissionId);
 
         if (null === $instantArticle) {
             throw new \Exception('Instant Article with provided submission ID does not exists.');
@@ -121,7 +115,7 @@ class FacebookInstantArticlesService
      *
      * @return Client
      */
-    private function getClient($feed)
+    protected function getClient($feed)
     {
         $facebookPage = $feed->getFacebookPage();
         $facebook = $this->facebookInstantArticlesManager->getFacebookManager()->createForApp($facebookPage->getApplication());

@@ -28,7 +28,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\ConflictHttpException;
 
-class FacebookInstantArticlesFeedController extends Controller
+class FbiaFeedController extends Controller
 {
     /**
      * @ApiDoc(
@@ -42,7 +42,7 @@ class FacebookInstantArticlesFeedController extends Controller
      * @Route("/api/{version}/facebook/instantarticles/feed/", options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_list_facebook_instant_articles_feed")
      * @Method("GET")
      */
-    public function listAction(Request $request, $id)
+    public function listAction(Request $request)
     {
         $repository = $this->get('swp.repository.facebook_instant_articles_feed');
 

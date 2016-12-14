@@ -6,7 +6,7 @@ SWP\Bundle\FacebookInstantArticlesBundle\Model\Page:
             type: integer
             id: true
             generator:
-                strategy: IDENTITY
+                strategy: AUTO
     fields:
         pageId:
             type: string
@@ -15,6 +15,17 @@ SWP\Bundle\FacebookInstantArticlesBundle\Model\Page:
         accessToken:
             type: string
             nullable: true
+        createdAt:
+            type: datetime
+            gedmo:
+                timestampable:
+                    on: create
+        updatedAt:
+            type: datetime
+            nullable: true
+            gedmo:
+                timestampable:
+                    on: update
     manyToOne:
         application:
             targetEntity: SWP\Bundle\FacebookInstantArticlesBundle\Model\ApplicationInterface

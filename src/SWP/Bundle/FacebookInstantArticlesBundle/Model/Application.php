@@ -41,7 +41,7 @@ class Application implements TimestampableInterface, ApplicationInterface
     /**
      * {@inheritdoc}
      */
-    public function getId(): int
+    public function getId()
     {
         return $this->id;
     }
@@ -49,7 +49,7 @@ class Application implements TimestampableInterface, ApplicationInterface
     /**
      * {@inheritdoc}
      */
-    public function getAppId(): string
+    public function getAppId()
     {
         return $this->appId;
     }
@@ -65,7 +65,7 @@ class Application implements TimestampableInterface, ApplicationInterface
     /**
      * {@inheritdoc}
      */
-    public function getAppSecret(): string
+    public function getAppSecret()
     {
         return $this->appSecret;
     }

@@ -6,9 +6,20 @@ SWP\Bundle\FacebookInstantArticlesBundle\Model\Application:
             type: integer
             id: true
             generator:
-                strategy: IDENTITY
+                strategy: AUTO
     fields:
         appId:
             type: string
         appSecret:
             type: string
+        createdAt:
+            type: datetime
+            gedmo:
+                timestampable:
+                    on: create
+        updatedAt:
+            type: datetime
+            nullable: true
+            gedmo:
+                timestampable:
+                    on: update

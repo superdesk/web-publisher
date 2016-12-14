@@ -17,7 +17,6 @@ declare(strict_types=1);
 namespace SWP\Bundle\FacebookInstantArticlesBundle\Manager;
 
 use Facebook;
-use SWP\Bundle\CoreBundle\Model\FacebookInstantArticlesFeedInterface;
 
 interface FacebookInstantArticlesManagerInterface
 {

@@ -89,7 +89,7 @@ class Configuration implements ConfigurationInterface
                                         ->children()
                                             ->scalarNode('model')->cannotBeEmpty()->defaultValue(FacebookInstantArticlesArticle::class)->end()
                                             ->scalarNode('interface')->defaultValue(FacebookInstantArticlesArticleInterface::class)->end()
-                                            ->scalarNode('repository')->defaultValue(EntityRepository::class)->end()
+                                            ->scalarNode('repository')->defaultValue(FacebookInstantArticlesArticleRepository::class)->end()
                                             ->scalarNode('factory')->defaultValue(Factory::class)->end()
                                             ->scalarNode('object_manager_name')->defaultValue(null)->end()
                                         ->end()

@@ -51,7 +51,7 @@ class Page implements TimestampableInterface, PageInterface
     /**
      * {@inheritdoc}
      */
-    public function getId(): int
+    public function getId()
     {
         return $this->id;
     }
@@ -59,7 +59,7 @@ class Page implements TimestampableInterface, PageInterface
     /**
      * {@inheritdoc}
      */
-    public function getPageId(): string
+    public function getPageId()
     {
         return $this->pageId;
     }
@@ -75,7 +75,7 @@ class Page implements TimestampableInterface, PageInterface
     /**
      * {@inheritdoc}
      */
-    public function getName(): string
+    public function getName()
     {
         return $this->name;
     }
@@ -91,7 +91,7 @@ class Page implements TimestampableInterface, PageInterface
     /**
      * {@inheritdoc}
      */
-    public function getAccessToken(): string
+    public function getAccessToken()
     {
         return $this->accessToken;
     }
@@ -107,7 +107,7 @@ class Page implements TimestampableInterface, PageInterface
     /**
      * @return ApplicationInterface
      */
-    public function getApplication(): ApplicationInterface
+    public function getApplication()
     {
         return $this->application;
     }

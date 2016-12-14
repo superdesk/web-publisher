@@ -112,6 +112,7 @@ fos_http_cache:
         symfony:
             http:
                 servers: "%cache_servers%"
+                base_url: "%domain%"
     invalidation:
         rules:
             -

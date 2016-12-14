@@ -34,7 +34,7 @@ class AutorizationController extends Controller
      */
     public function authorizeAction($appId, $pageId)
     {
-        $facebookApplication = $this->container->get('swp.repository.application')
+        $facebookApplication = $this->container->get('swp.repository.facebook_application')
             ->findOneBy(['appId' => $appId]);
 
         if (null === $facebookApplication) {
@@ -59,13 +59,13 @@ class AutorizationController extends Controller
      */
     public function authorizationCallbackAction($appId, $pageId)
     {
-        $facebookApplication = $this->get('swp.repository.application')->findOneBy(['appId' => $appId]);
+        $facebookApplication = $this->get('swp.repository.facebook_application')->findOneBy(['appId' => $appId]);
         if (null === $facebookApplication) {
             throw new \Exception('Application with provided id don\'t exists.');
         }
 
         /** @var PageInterface $page */
-        $page = $this->get('swp.repository.page')->findOneBy(['pageId' => $pageId]);
+        $page = $this->get('swp.repository.facebook_page')->findOneBy(['pageId' => $pageId]);
         if (null === $page) {
             throw new \Exception('Page with provided id don\'t exists.');
         }
@@ -82,7 +82,7 @@ class AutorizationController extends Controller
 
         $page->setAccessToken($pageToken);
         $page->setApplication($facebookApplication);
-        $this->container->get('swp.object_manager.page')->flush();
+        $this->container->get('swp.object_manager.facebook_page')->flush();
 
         return new JsonResponse([
             'pageId' => $pageId,

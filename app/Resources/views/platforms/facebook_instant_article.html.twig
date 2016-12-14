@@ -2,7 +2,7 @@
 <html lang="en" prefix="op: http://media.facebook.com/op#">
     <head>
         <meta charset="utf-8">
-        <link rel="canonical" href="http://sdwp-dev.superdesk.org{{ path(gimme.article) }}">
+        <link rel="canonical" href="{{ url(gimme.article) }}">
     </head>
     <body>
         <header>
@@ -11,6 +11,6 @@
 
         </header>
         <p>{{ gimme.article.lead }}</p>
-        <p>{{ gimme.article.body|raw }}</p>
+        {{ gimme.article.body|raw }}
     </body>
 </html>
