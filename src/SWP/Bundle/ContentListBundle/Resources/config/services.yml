@@ -1,0 +1,12 @@
+services:
+    swp.remover.content_list_items_remover:
+        class: SWP\Bundle\ContentListBundle\Remover\ContentListItemsRemover
+        arguments:
+            - '@swp.repository.content_list_item'
+
+    swp.listener.remove_items:
+        class: SWP\Bundle\ContentListBundle\EventListener\RemoveItemsListener
+        arguments:
+            - '@swp.remover.content_list_items_remover'
+        tags:
+            - { name: kernel.event_listener, event: swp.list_criteria_change, method: onListCriteriaChange }
