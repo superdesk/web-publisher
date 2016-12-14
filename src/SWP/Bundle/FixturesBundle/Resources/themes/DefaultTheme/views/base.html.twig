@@ -13,15 +13,23 @@
   <meta name="description" content="Superdesk Publisher is state of the art publishing system.">
   <meta name="keywords" content="Superdesk, Sourcefabric, open source, media, journalism">
 
+  {#
   <!-- RSS & Pingback -->
-  <link rel="alternate" type="application/rss+xml" title="RSS 2.0" href="/en/static/rss/">
-
+  <link rel="alternate" type="application/rss+xml" title="RSS 2.0" href="{{ url('rss') }}">
+  #}
+  
   <!-- Mobile viewport optimized: j.mp/bplateviewport -->
-
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   <!-- Place favicon.ico & apple-touch-icon.png in the root of your domain and delete these references -->
   <link rel="shortcut icon" href="{{ asset('theme/assets/img/favicon.ico') }}">
+  
+  <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('theme/assets/img/favicon/apple-touch-icon.png') }}">
+  <link rel="icon" type="image/png" href="{{ asset('theme/assets/img/favicon/favicon-32x32.png') }}" sizes="32x32">
+  <link rel="icon" type="image/png" href="{{ asset('theme/assets/img/favicon/favicon-16x16.png') }}" sizes="16x16">
+  <link rel="manifest" href="{{ asset('theme/assets/img/favicon/manifest.json') }}">
+  <link rel="mask-icon" href="{{ asset('theme/assets/img/favicon/safari-pinned-tab.svg') }}" color="#5bbad5">
+  <meta name="theme-color" content="#ffffff ">
 
   {% block amphtml %}{% endblock %}
   {% block stylesheets %}
