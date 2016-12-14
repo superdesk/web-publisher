@@ -34,9 +34,9 @@ class AutorizationControllerSpec extends ObjectBehavior
         $application->getAppId()->willReturn('123456789');
         $entityRepository->findOneBy(['appId' => '123456789'])->willReturn($application);
         $entityRepository->findOneBy(['pageId' => '987654321'])->willReturn($page);
-        $container->get('swp.repository.application')->willReturn($entityRepository);
-        $container->get('swp.repository.page')->willReturn($entityRepository);
-        $container->get('swp.object_manager.page')->willReturn($objectManager);
+        $container->get('swp.repository.facebook_application')->willReturn($entityRepository);
+        $container->get('swp.repository.facebook_page')->willReturn($entityRepository);
+        $container->get('swp.object_manager.facebook_page')->willReturn($objectManager);
         $container->get('swp_facebook.manager')->willReturn($facebookManager);
         $container->get('swp_facebook.instant_articles_manager')->willReturn($facebookInstantArticlesManager);
         $container->get('router')->willReturn($router);

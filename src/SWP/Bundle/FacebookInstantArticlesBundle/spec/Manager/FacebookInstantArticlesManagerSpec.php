@@ -12,6 +12,7 @@ use Facebook\GraphNodes\GraphNode;
 use Facebook\Helpers\FacebookRedirectLoginHelper;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
+use SWP\Bundle\FacebookInstantArticlesBundle\Manager\FacebookManager;
 
 class FacebookInstantArticlesManagerSpec extends ObjectBehavior
 {
@@ -28,6 +29,7 @@ class FacebookInstantArticlesManagerSpec extends ObjectBehavior
 
         $this->facebook->getOAuth2Client()->willReturn($OAuth2Client);
         $this->facebook->getRedirectLoginHelper()->willReturn($loginHelper);
+        $this->beConstructedWith(new FacebookManager());
     }
 
     public function it_is_initializable()

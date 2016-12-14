@@ -16,7 +16,7 @@ class FacebookManagerSpec extends ObjectBehavior
 
     public function it_should_create_facebook_instance(ApplicationInterface $application)
     {
-        $application->getAppId()->willReturn(Argument::type('string'));
+        $application->getAppId()->willReturn('3245324642364564262345');
         $application->getAppSecret()->willReturn(Argument::type('string'));
 
         $this->createForApp($application)->shouldReturnAnInstanceOf(Facebook::class);
