@@ -24,10 +24,10 @@ use Symfony\Component\DependencyInjection\ParameterBag\ParameterBag;
 class SWPMultiTenancyExtensionTest extends AbstractExtensionTestCase
 {
     /**
-     * @covers SWP\Bundle\MultiTenancyBundle\SWPMultiTenancyBundle
-     * @covers SWP\Bundle\MultiTenancyBundle\DependencyInjection\SWPMultiTenancyExtension::load
-     * @covers SWP\Bundle\MultiTenancyBundle\DependencyInjection\Configuration::getConfigTreeBuilder
-     * @covers SWP\Bundle\MultiTenancyBundle\DependencyInjection\SWPMultiTenancyExtension::loadPhpcr
+     * @covers \SWP\Bundle\MultiTenancyBundle\SWPMultiTenancyBundle
+     * @covers \SWP\Bundle\MultiTenancyBundle\DependencyInjection\SWPMultiTenancyExtension::load
+     * @covers \SWP\Bundle\MultiTenancyBundle\DependencyInjection\Configuration::getConfigTreeBuilder
+     * @covers \SWP\Bundle\MultiTenancyBundle\DependencyInjection\SWPMultiTenancyExtension::loadPhpcr
      */
     public function testLoad()
     {
@@ -114,7 +114,7 @@ class SWPMultiTenancyExtensionTest extends AbstractExtensionTestCase
 
     /**
      * @test
-     * @expectedException Symfony\Component\Config\Definition\Exception\InvalidConfigurationException
+     * @expectedException \Symfony\Component\Config\Definition\Exception\InvalidConfigurationException
      */
     public function if_persistence_backend_is_not_enabled()
     {

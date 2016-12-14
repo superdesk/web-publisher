@@ -106,8 +106,8 @@ class ThemeSetupCommandTest extends KernelTestCase
     }
 
     /**
-     * @covers SWP\Bundle\FixturesBundle\Command\ThemeSetupCommand
-     * @covers SWP\Bundle\FixturesBundle\Command\ThemeSetupCommand::execute
+     * @covers \SWP\Bundle\FixturesBundle\Command\ThemeSetupCommand
+     * @covers \SWP\Bundle\FixturesBundle\Command\ThemeSetupCommand::execute
      */
     public function testExecute()
     {

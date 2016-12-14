@@ -21,9 +21,9 @@ use Symfony\Component\DependencyInjection\ParameterBag\ParameterBag;
 class SWPBridgeExtensionTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @covers SWP\Bundle\BridgeBundle\SWPBridgeBundle
-     * @covers SWP\Bundle\BridgeBundle\DependencyInjection\SWPBridgeExtension::load
-     * @covers SWP\Bundle\BridgeBundle\DependencyInjection\Configuration::getConfigTreeBuilder
+     * @covers \SWP\Bundle\BridgeBundle\SWPBridgeBundle
+     * @covers \SWP\Bundle\BridgeBundle\DependencyInjection\SWPBridgeExtension::load
+     * @covers \SWP\Bundle\BridgeBundle\DependencyInjection\Configuration::getConfigTreeBuilder
      */
     public function testLoad()
     {
@@ -49,7 +49,7 @@ class SWPBridgeExtensionTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException Symfony\Component\Config\Definition\Exception\InvalidConfigurationException
+     * @expectedException \Symfony\Component\Config\Definition\Exception\InvalidConfigurationException
      */
     public function testLoadWhenHostIsRequiredAndCannotBeEmpty()
     {
@@ -64,7 +64,7 @@ class SWPBridgeExtensionTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException Symfony\Component\Config\Definition\Exception\InvalidConfigurationException
+     * @expectedException \Symfony\Component\Config\Definition\Exception\InvalidConfigurationException
      */
     public function testLoadWhenClientIdIsRequiredAndCannotBeEmpty()
     {
@@ -79,7 +79,7 @@ class SWPBridgeExtensionTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException Symfony\Component\Config\Definition\Exception\InvalidConfigurationException
+     * @expectedException \Symfony\Component\Config\Definition\Exception\InvalidConfigurationException
      */
     public function testLoadWhenUsernameIsRequiredAndCannotBeEmpty()
     {
@@ -94,7 +94,7 @@ class SWPBridgeExtensionTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException Symfony\Component\Config\Definition\Exception\InvalidConfigurationException
+     * @expectedException \Symfony\Component\Config\Definition\Exception\InvalidConfigurationException
      */
     public function testLoadWhenPasswordIsRequiredAndCannotBeEmpty()
     {

@@ -33,7 +33,7 @@ class TenantAwareRouterCompilerPassTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers SWP\Bundle\MultiTenancyBundle\DependencyInjection\Compiler\TenantAwareRouterCompilerPass::process
+     * @covers \SWP\Bundle\MultiTenancyBundle\DependencyInjection\Compiler\TenantAwareRouterCompilerPass::process
      */
     public function testProcess()
     {
@@ -79,7 +79,7 @@ class TenantAwareRouterCompilerPassTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers SWP\Bundle\MultiTenancyBundle\DependencyInjection\Compiler\TenantAwareRouterCompilerPass::process
+     * @covers \SWP\Bundle\MultiTenancyBundle\DependencyInjection\Compiler\TenantAwareRouterCompilerPass::process
      */
     public function testProcessCMFBackendDisabled()
     {
@@ -94,7 +94,7 @@ class TenantAwareRouterCompilerPassTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers SWP\Bundle\MultiTenancyBundle\DependencyInjection\Compiler\TenantAwareRouterCompilerPass::process
+     * @covers \SWP\Bundle\MultiTenancyBundle\DependencyInjection\Compiler\TenantAwareRouterCompilerPass::process
      */
     public function testProcessWithoutConfig()
     {
