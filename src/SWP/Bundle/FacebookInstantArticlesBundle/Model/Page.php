@@ -16,12 +16,14 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\FacebookInstantArticlesBundle\Model;
 
+use SWP\Component\Common\Model\EnableableInterface;
+use SWP\Component\Common\Model\EnableableTrait;
 use SWP\Component\Common\Model\TimestampableInterface;
 use SWP\Component\Common\Model\TimestampableTrait;
 
-class Page implements TimestampableInterface, PageInterface
+class Page implements TimestampableInterface, PageInterface, EnableableInterface
 {
-    use TimestampableTrait;
+    use TimestampableTrait, EnableableTrait;
 
     /**
      * @var int
@@ -47,6 +49,14 @@ class Page implements TimestampableInterface, PageInterface
      * @var ApplicationInterface
      */
     protected $application;
+
+    /**
+     * Page constructor.
+     */
+    public function __construct()
+    {
+        $this->setEnabled(true);
+    }
 
     /**
      * {@inheritdoc}

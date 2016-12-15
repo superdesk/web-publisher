@@ -16,8 +16,9 @@ namespace SWP\Bundle\CoreBundle\Model;
 
 use SWP\Bundle\FacebookInstantArticlesBundle\Model\PageInterface;
 use SWP\Component\Common\Model\TimestampableInterface;
+use SWP\Component\Storage\Model\PersistableInterface;
 
-interface FacebookInstantArticlesFeedInterface extends TimestampableInterface
+interface FacebookInstantArticlesFeedInterface extends TimestampableInterface, PersistableInterface
 {
     /**
      * Use Instant Articles production environment.
@@ -53,4 +54,14 @@ interface FacebookInstantArticlesFeedInterface extends TimestampableInterface
      * @param $mode
      */
     public function setMode($mode);
+
+    /**
+     * @param ContentListInterface $contentBucket
+     */
+    public function setContentBucket(ContentListInterface $contentBucket);
+
+    /**
+     * @param PageInterface $facebookPage
+     */
+    public function setFacebookPage(PageInterface $facebookPage);
 }

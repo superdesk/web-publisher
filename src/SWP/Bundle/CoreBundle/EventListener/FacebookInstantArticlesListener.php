@@ -18,9 +18,11 @@ use SWP\Bundle\ContentBundle\Model\ArticleInterface;
 use SWP\Bundle\CoreBundle\Event\ContentListEvent;
 use SWP\Bundle\CoreBundle\Service\FacebookInstantArticlesService;
 use SWP\Bundle\FacebookInstantArticlesBundle\Parser\TemplateParser;
+use SWP\Bundle\FacebookInstantArticlesBundle\Parser\TemplateParserInterface;
 use SWP\Bundle\StorageBundle\Doctrine\ORM\EntityRepository;
 use SWP\Component\Common\Criteria\Criteria;
 use SWP\Component\TemplatesSystem\Gimme\Factory\MetaFactory;
+use SWP\Component\TemplatesSystem\Gimme\Factory\MetaFactoryInterface;
 
 final class FacebookInstantArticlesListener
 {
@@ -47,14 +49,14 @@ final class FacebookInstantArticlesListener
     /**
      * FacebookInstantArticlesListener constructor.
      *
-     * @param TemplateParser                 $templateParser
-     * @param MetaFactory                    $metaFactory
+     * @param TemplateParserInterface        $templateParser
+     * @param MetaFactoryInterface           $metaFactory
      * @param EntityRepository               $feedRepository
      * @param FacebookInstantArticlesService $instantArticlesService
      */
     public function __construct(
-        TemplateParser $templateParser,
-        MetaFactory $metaFactory,
+        TemplateParserInterface $templateParser,
+        MetaFactoryInterface $metaFactory,
         EntityRepository $feedRepository,
         FacebookInstantArticlesService $instantArticlesService
     ) {

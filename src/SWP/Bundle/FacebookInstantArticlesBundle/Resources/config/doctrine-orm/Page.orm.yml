@@ -15,6 +15,8 @@ SWP\Bundle\FacebookInstantArticlesBundle\Model\Page:
         accessToken:
             type: string
             nullable: true
+        enabled:
+            type: boolean
         createdAt:
             type: datetime
             gedmo:

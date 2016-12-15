@@ -12,6 +12,8 @@ SWP\Bundle\FacebookInstantArticlesBundle\Model\Application:
             type: string
         appSecret:
             type: string
+        enabled:
+            type: boolean
         createdAt:
             type: datetime
             gedmo:

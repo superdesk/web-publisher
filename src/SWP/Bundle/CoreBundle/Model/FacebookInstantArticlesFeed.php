@@ -20,9 +20,8 @@ use SWP\Bundle\FacebookInstantArticlesBundle\Model\PageInterface;
 use SWP\Component\Common\Model\TimestampableTrait;
 use SWP\Component\MultiTenancy\Model\TenantAwareInterface;
 use SWP\Component\MultiTenancy\Model\TenantAwareTrait;
-use SWP\Component\Storage\Model\PersistableInterface;
 
-class FacebookInstantArticlesFeed implements TenantAwareInterface, PersistableInterface, FacebookInstantArticlesFeedInterface
+class FacebookInstantArticlesFeed implements TenantAwareInterface, FacebookInstantArticlesFeedInterface
 {
     use TenantAwareTrait, TimestampableTrait;
 
@@ -63,7 +62,7 @@ class FacebookInstantArticlesFeed implements TenantAwareInterface, PersistableIn
     }
 
     /**
-     * @param ContentListInterface $contentBucket
+     * {@inheritdoc}
      */
     public function setContentBucket(ContentListInterface $contentBucket)
     {
@@ -79,7 +78,7 @@ class FacebookInstantArticlesFeed implements TenantAwareInterface, PersistableIn
     }
 
     /**
-     * @param PageInterface $facebookPage
+     * {@inheritdoc}
      */
     public function setFacebookPage(PageInterface $facebookPage)
     {

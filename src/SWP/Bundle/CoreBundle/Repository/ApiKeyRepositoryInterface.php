@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Superdesk Web Publisher Core Bundle.
  *
@@ -12,13 +14,16 @@
  * @license http://www.superdesk.org/license
  */
 
-namespace SWP\Bundle\CoreBundle\Model;
+namespace SWP\Bundle\CoreBundle\Repository;
 
-use SWP\Bundle\FacebookInstantArticlesBundle\Model\Application;
-use SWP\Component\MultiTenancy\Model\TenantAwareInterface;
-use SWP\Component\MultiTenancy\Model\TenantAwareTrait;
+use Doctrine\ORM\QueryBuilder;
 
-class FacebookApplication extends Application implements TenantAwareInterface
+interface ApiKeyRepositoryInterface
 {
-    use TenantAwareTrait;
+    /**
+     * @param string $token
+     *
+     * @return QueryBuilder
+     */
+    public function getValidToken(string $token): QueryBuilder;
 }

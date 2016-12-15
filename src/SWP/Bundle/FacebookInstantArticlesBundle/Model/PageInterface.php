@@ -16,13 +16,10 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\FacebookInstantArticlesBundle\Model;
 
-interface PageInterface
-{
-    /**
-     * @return int
-     */
-    public function getId();
+use SWP\Component\Storage\Model\PersistableInterface;
 
+interface PageInterface extends PersistableInterface
+{
     /**
      * @return string
      */

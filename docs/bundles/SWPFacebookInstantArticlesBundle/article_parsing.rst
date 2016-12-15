@@ -1,7 +1,7 @@
 Article Parsing
 ---------------
 
-Instant Article look
+Instant Article view
 ````````````````````
 
 For Instant Article rendering this template file is used :code:`/platforms/facebook_instant_article.html.twig`.

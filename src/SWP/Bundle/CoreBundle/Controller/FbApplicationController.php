@@ -78,7 +78,7 @@ class FbApplicationController extends Controller
 
         $form->handleRequest($request);
         if ($form->isValid()) {
-            $this->checkIfThatApplicationAlreadyExists($application);
+            $this->checkIfApplicationExists($application);
             $this->get('swp.repository.facebook_application')->add($application);
 
             return new SingleResourceResponse($application, new ResponseContext(201));
@@ -103,7 +103,8 @@ class FbApplicationController extends Controller
      */
     public function deleteAction($id)
     {
-        if (null === $application = $this->get('swp.repository.facebook_application')->findOneBy(['id' => $id])) {
+        $repository = $this->get('swp.repository.facebook_application');
+        if (null === $application = $repository->findOneBy(['id' => $id])) {
             throw new NotFoundHttpException('There is no Application with provided id!');
         }
 
@@ -111,7 +112,7 @@ class FbApplicationController extends Controller
             throw new ConflictHttpException(sprintf('This Application is used by page with id: %s!', $page->getId()));
         }
 
-        $this->get('swp.repository.facebook_application')->remove($application);
+        $repository->remove($application);
 
         return new SingleResourceResponse(null, new ResponseContext(204));
     }
@@ -119,7 +120,7 @@ class FbApplicationController extends Controller
     /**
      * @param ApplicationInterface $application
      */
-    private function checkIfThatApplicationAlreadyExists(ApplicationInterface $application)
+    private function checkIfApplicationExists(ApplicationInterface $application)
     {
         if (null !== $this->get('swp.repository.facebook_application')->findOneBy([
                 'appId' => $application->getAppId(),

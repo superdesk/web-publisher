@@ -20,7 +20,7 @@ use Facebook\InstantArticles\Elements\InstantArticle;
 use Symfony\Component\Templating\EngineInterface;
 use Facebook\InstantArticles\Transformer\Transformer;
 
-class TemplateParser
+final class TemplateParser implements TemplateParserInterface
 {
     const FBIA_TEMPLATE_NAME = 'facebook_instant_article.html.twig';
 
@@ -45,9 +45,7 @@ class TemplateParser
     }
 
     /**
-     * @param string|null $html
-     *
-     * @return InstantArticle
+     * {@inheritdoc}
      */
     public function parse(string $html = null): InstantArticle
     {
@@ -71,7 +69,7 @@ class TemplateParser
     }
 
     /**
-     * @return string
+     * {@inheritdoc}
      */
     public function renderTemplate(): string
     {
@@ -79,7 +77,7 @@ class TemplateParser
     }
 
     /**
-     * @return Transformer
+     * {@inheritdoc}
      */
     public function getTransformer(): Transformer
     {
@@ -95,7 +93,7 @@ class TemplateParser
     }
 
     /**
-     * @return EngineInterface
+     * {@inheritdoc}
      */
     public function getTemplating()
     {

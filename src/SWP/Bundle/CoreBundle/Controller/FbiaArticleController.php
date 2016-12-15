@@ -54,14 +54,14 @@ class FbiaArticleController extends Controller
     /**
      * @ApiDoc(
      *     resource=true,
-     *     description="Lists Facebook Instant Articles submitted articles",
+     *     description="Updates status of submitted Instant Article",
      *     statusCodes={
      *         200="Returned on success.",
      *         500="Unexpected error."
      *     }
      * )
      * @Route("/api/{version}/facebook/instantarticles/articles/{submissionId}", options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_facebook_instant_articles_articles_update")
-     * @Method("GET|POST")
+     * @Method("POST")
      */
     public function updateSubmissionAction(string $submissionId)
     {

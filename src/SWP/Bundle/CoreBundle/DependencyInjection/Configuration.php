@@ -22,6 +22,7 @@ use SWP\Bundle\CoreBundle\Repository\ApiKeyRepository;
 use SWP\Bundle\CoreBundle\Factory\ApiKeyFactory;
 use SWP\Bundle\CoreBundle\Model\ApiKey;
 use SWP\Bundle\CoreBundle\Model\User;
+use SWP\Bundle\CoreBundle\Repository\FacebookInstantArticlesArticleRepository;
 use SWP\Bundle\StorageBundle\Doctrine\ORM\EntityRepository;
 use SWP\Component\Storage\Factory\Factory;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;

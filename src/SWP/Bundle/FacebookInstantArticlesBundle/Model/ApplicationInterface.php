@@ -16,13 +16,10 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\FacebookInstantArticlesBundle\Model;
 
-interface ApplicationInterface
-{
-    /**
-     * @return int
-     */
-    public function getId();
+use SWP\Component\Storage\Model\PersistableInterface;
 
+interface ApplicationInterface extends PersistableInterface
+{
     /**
      * @return string
      */
@@ -32,4 +29,14 @@ interface ApplicationInterface
      * @return string
      */
     public function getAppSecret();
+
+    /**
+     * @param string $appId
+     */
+    public function setAppId(string $appId);
+
+    /**
+     * @param string $appSecret
+     */
+    public function setAppSecret(string $appSecret);
 }

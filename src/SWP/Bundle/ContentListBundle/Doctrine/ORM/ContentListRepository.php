@@ -33,12 +33,4 @@ class ContentListRepository extends EntityRepository implements ContentListRepos
             ->getResult()
         ;
     }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function flush()
-    {
-        $this->_em->flush();
-    }
 }

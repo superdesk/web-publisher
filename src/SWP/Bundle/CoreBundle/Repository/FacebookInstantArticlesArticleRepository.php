@@ -21,28 +21,21 @@ use SWP\Bundle\CoreBundle\Model\FacebookInstantArticlesFeedInterface;
 use SWP\Component\Common\Criteria\Criteria;
 use SWP\Bundle\StorageBundle\Doctrine\ORM\EntityRepository;
 
-class FacebookInstantArticlesArticleRepository extends EntityRepository
+class FacebookInstantArticlesArticleRepository extends EntityRepository implements FacebookInstantArticlesArticleRepositoryInterface
 {
     /**
-     * @param FacebookInstantArticlesFeedInterface $feed
-     * @param ArticleInterface                     $article
-     *
-     * @return mixed
+     * {@inheritdoc}
      */
     public function findInFeed(FacebookInstantArticlesFeedInterface $feed, ArticleInterface $article)
     {
-        $result = $this->getQueryByCriteria->getQueryByCriteria(new Criteria([
+        return $this->getQueryByCriteria->getQueryByCriteria(new Criteria([
             'article' => $article,
             'feed' => $feed,
         ]), [], 'fbia')->getQuery()->getOneOrNullResult();
-
-        return $result;
     }
 
     /**
-     * @param string $submissionId
-     *
-     * @return mixed
+     * {@inheritdoc}
      */
     public function findSubmission(string $submissionId)
     {

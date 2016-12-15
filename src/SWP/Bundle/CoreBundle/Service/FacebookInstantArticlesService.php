@@ -26,7 +26,7 @@ use SWP\Bundle\FacebookInstantArticlesBundle\Manager\FacebookInstantArticlesMana
 use SWP\Bundle\StorageBundle\Doctrine\ORM\EntityRepository;
 use SWP\Component\Storage\Factory\FactoryInterface;
 
-class FacebookInstantArticlesService
+class FacebookInstantArticlesService implements FacebookInstantArticlesServiceInterface
 {
     /**
      * @var FacebookInstantArticlesManagerInterface
@@ -61,9 +61,7 @@ class FacebookInstantArticlesService
     }
 
     /**
-     * @param FacebookInstantArticlesFeedInterface $feed
-     * @param InstantArticle                       $instantArticle
-     * @param ArticleInterface                     $article
+     * {@inheritdoc}
      */
     public function pushInstantArticle(
         FacebookInstantArticlesFeedInterface $feed,
@@ -87,11 +85,7 @@ class FacebookInstantArticlesService
     }
 
     /**
-     * @param string $submissionId
-     *
-     * @return mixed
-     *
-     * @throws \Exception
+     * {@inheritdoc}
      */
     public function updateSubmissionStatus(string $submissionId)
     {

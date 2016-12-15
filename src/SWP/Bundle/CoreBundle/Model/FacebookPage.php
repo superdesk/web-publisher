@@ -17,9 +17,8 @@ namespace SWP\Bundle\CoreBundle\Model;
 use SWP\Bundle\FacebookInstantArticlesBundle\Model\Page;
 use SWP\Component\MultiTenancy\Model\TenantAwareInterface;
 use SWP\Component\MultiTenancy\Model\TenantAwareTrait;
-use SWP\Component\Storage\Model\PersistableInterface;
 
-class FacebookPage extends Page implements TenantAwareInterface, PersistableInterface
+class FacebookPage extends Page implements TenantAwareInterface
 {
     use TenantAwareTrait;
 }

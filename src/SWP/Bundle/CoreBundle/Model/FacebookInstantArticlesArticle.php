@@ -71,7 +71,7 @@ class FacebookInstantArticlesArticle implements FacebookInstantArticlesArticleIn
     }
 
     /**
-     * @param string $submissionId
+     * {@inheritdoc}
      */
     public function setSubmissionId(string $submissionId)
     {
@@ -87,7 +87,7 @@ class FacebookInstantArticlesArticle implements FacebookInstantArticlesArticleIn
     }
 
     /**
-     * @param ArticleInterface $article
+     * {@inheritdoc}
      */
     public function setArticle(ArticleInterface $article)
     {
@@ -103,7 +103,7 @@ class FacebookInstantArticlesArticle implements FacebookInstantArticlesArticleIn
     }
 
     /**
-     * @param string $status
+     * {@inheritdoc}
      */
     public function setStatus(string $status)
     {
@@ -119,7 +119,7 @@ class FacebookInstantArticlesArticle implements FacebookInstantArticlesArticleIn
     }
 
     /**
-     * @param array $errors
+     * {@inheritdoc}
      */
     public function setErrors(array $errors)
     {
@@ -135,7 +135,7 @@ class FacebookInstantArticlesArticle implements FacebookInstantArticlesArticleIn
     }
 
     /**
-     * @param FacebookInstantArticlesFeedInterface $feed
+     * {@inheritdoc}
      */
     public function setFeed(FacebookInstantArticlesFeedInterface $feed)
     {

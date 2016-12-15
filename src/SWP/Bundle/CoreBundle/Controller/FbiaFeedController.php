@@ -76,7 +76,7 @@ class FbiaFeedController extends Controller
 
         $form->handleRequest($request);
         if ($form->isValid()) {
-            $this->checkIfThatFeedAlreadyExists($feed->getContentBucket(), $feed->getFacebookPage());
+            $this->checkIfFeedExists($feed->getContentBucket(), $feed->getFacebookPage());
             $this->get('swp.repository.facebook_instant_articles_feed')->add($feed);
 
             return new SingleResourceResponse($feed, new ResponseContext(201));
@@ -85,7 +85,7 @@ class FbiaFeedController extends Controller
         return new SingleResourceResponse($form, new ResponseContext(400));
     }
 
-    private function checkIfThatFeedAlreadyExists($contentBucket, $facebookPage)
+    private function checkIfFeedExists($contentBucket, $facebookPage)
     {
         if (null !== $this->get('swp.repository.facebook_instant_articles_feed')->findOneBy([
                 'contentBucket' => $contentBucket,

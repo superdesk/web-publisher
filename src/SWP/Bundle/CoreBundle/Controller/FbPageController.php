@@ -78,7 +78,7 @@ class FbPageController extends Controller
 
         $form->handleRequest($request);
         if ($form->isValid()) {
-            $this->checkIfThatPageAlreadyExists($page);
+            $this->checkIfPageExists($page);
             $this->get('swp.repository.facebook_page')->add($page);
 
             return new SingleResourceResponse($page, new ResponseContext(201));
@@ -103,6 +103,7 @@ class FbPageController extends Controller
      */
     public function deleteAction($id)
     {
+        $repository = $this->get('swp.repository.facebook_page');
         if (null === $page = $this->get('swp.repository.facebook_page')->findOneBy(['id' => $id])) {
             throw new NotFoundHttpException('There is no Page with provided id!');
         }
@@ -111,7 +112,7 @@ class FbPageController extends Controller
             throw new ConflictHttpException(sprintf('This Page is used by Instant Articles Feed with id: %s!', $feed->getId()));
         }
 
-        $this->get('swp.repository.facebook_page')->remove($page);
+        $repository->remove($page);
 
         return new SingleResourceResponse(null, new ResponseContext(204));
     }
@@ -119,7 +120,7 @@ class FbPageController extends Controller
     /**
      * @param PageInterface $page
      */
-    private function checkIfThatPageAlreadyExists(PageInterface $page)
+    private function checkIfPageExists(PageInterface $page)
     {
         if (null !== $this->get('swp.repository.facebook_page')->findOneBy([
                 'pageId' => $page->getPageId(),

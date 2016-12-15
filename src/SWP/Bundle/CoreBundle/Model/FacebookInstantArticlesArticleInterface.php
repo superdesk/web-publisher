@@ -45,4 +45,29 @@ interface FacebookInstantArticlesArticleInterface extends TimestampableInterface
      * @return array
      */
     public function getErrors(): array;
+
+    /**
+     * @param string $submissionId
+     */
+    public function setSubmissionId(string $submissionId);
+
+    /**
+     * @param ArticleInterface $article
+     */
+    public function setArticle(ArticleInterface $article);
+
+    /**
+     * @param string $status
+     */
+    public function setStatus(string $status);
+
+    /**
+     * @param array $errors
+     */
+    public function setErrors(array $errors);
+
+    /**
+     * @param FacebookInstantArticlesFeedInterface $feed
+     */
+    public function setFeed(FacebookInstantArticlesFeedInterface $feed);
 }
