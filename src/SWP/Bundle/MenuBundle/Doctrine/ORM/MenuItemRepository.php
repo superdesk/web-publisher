@@ -70,6 +70,10 @@ class MenuItemRepository extends EntityRepository implements MenuItemRepositoryI
     public function getOneMenuItemByName(string $name)
     {
         return $this->createQueryBuilder('m')
+            ->addSelect('c')
+            ->leftJoin('m.children', 'c')
+            ->addSelect('ch')
+            ->leftJoin('c.children', 'ch')
             ->where('m.name = :name')
             ->setParameter('name', $name)
             ->getQuery()
@@ -82,6 +86,10 @@ class MenuItemRepository extends EntityRepository implements MenuItemRepositoryI
     public function getOneMenuItemById(int $id)
     {
         return $this->createQueryBuilder('m')
+            ->addSelect('c')
+            ->leftJoin('m.children', 'c')
+            ->addSelect('ch')
+            ->leftJoin('c.children', 'ch')
             ->where('m.id = :id')
             ->setParameter('id', $id)
             ->getQuery()
@@ -127,6 +135,8 @@ class MenuItemRepository extends EntityRepository implements MenuItemRepositoryI
     public function findChildByParentAndPosition(MenuItemInterface $parent, int $position)
     {
         return $this->createQueryBuilder('m')
+            ->addSelect('c')
+            ->leftJoin('m.children', 'c')
             ->where('m.parent = :id')
             ->andWhere('m.position = :position')
             ->setParameters([
