@@ -55,6 +55,21 @@ class ArticleRepository extends EntityRepository implements ArticleRepositoryInt
     }
 
     /**
+     * {@inheritdoc}
+     */
+    public function count(Criteria $criteria): int
+    {
+        $qb = $this->createQueryBuilder('a')
+            ->select('COUNT(a.id)')
+            ->where('a.status = :status')
+            ->setParameter('status', $criteria->get('status', ArticleInterface::STATUS_PUBLISHED));
+
+        $this->applyCriteria($qb, $criteria, 'a');
+
+        return (int) $qb->getQuery()->getSingleScalarResult();
+    }
+
+    /**
      * @param string $identifier
      * @param array  $order
      *

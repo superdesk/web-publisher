@@ -53,4 +53,11 @@ interface ArticleRepositoryInterface extends RepositoryInterface
      * @return mixed
      */
     public function getByCriteria(Criteria $criteria, array $sorting);
+
+    /**
+     * @param Criteria $criteria
+     *
+     * @return int
+     */
+    public function count(Criteria $criteria): int;
 }
