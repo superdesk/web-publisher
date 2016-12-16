@@ -28,10 +28,20 @@ class FacebookInstantArticlesArticleRepository extends EntityRepository implemen
      */
     public function findInFeed(FacebookInstantArticlesFeedInterface $feed, ArticleInterface $article)
     {
-        return $this->getQueryByCriteria->getQueryByCriteria(new Criteria([
+        return $this->getQueryByCriteria(new Criteria([
             'article' => $article,
             'feed' => $feed,
         ]), [], 'fbia')->getQuery()->getOneOrNullResult();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function findByArticle(ArticleInterface $article)
+    {
+        return $this->getQueryByCriteria(new Criteria([
+            'article' => $article,
+        ]), [], 'fbia')->getQuery()->getResult();
     }
 
     /**

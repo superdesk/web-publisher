@@ -22,6 +22,7 @@ use Facebook\InstantArticles\Elements\InstantArticle;
 use SWP\Bundle\ContentBundle\Model\ArticleInterface;
 use SWP\Bundle\CoreBundle\Model\FacebookInstantArticlesArticle;
 use SWP\Bundle\CoreBundle\Model\FacebookInstantArticlesFeedInterface;
+use SWP\Bundle\CoreBundle\Repository\FacebookInstantArticlesArticleRepositoryInterface;
 use SWP\Bundle\FacebookInstantArticlesBundle\Manager\FacebookInstantArticlesManagerInterface;
 use SWP\Bundle\StorageBundle\Doctrine\ORM\EntityRepository;
 use SWP\Component\Storage\Factory\FactoryInterface;
@@ -46,14 +47,14 @@ class FacebookInstantArticlesService implements FacebookInstantArticlesServiceIn
     /**
      * FacebookInstantArticlesService constructor.
      *
-     * @param FacebookInstantArticlesManagerInterface $facebookInstantArticlesManager
-     * @param FactoryInterface                        $instantArticlesArticleFactory
-     * @param EntityRepository                        $facebookInstantArticlesArticleRepository
+     * @param FacebookInstantArticlesManagerInterface           $facebookInstantArticlesManager
+     * @param FactoryInterface                                  $instantArticlesArticleFactory
+     * @param FacebookInstantArticlesArticleRepositoryInterface $facebookInstantArticlesArticleRepository
      */
     public function __construct(
         FacebookInstantArticlesManagerInterface $facebookInstantArticlesManager,
         FactoryInterface $instantArticlesArticleFactory,
-        EntityRepository $facebookInstantArticlesArticleRepository
+        FacebookInstantArticlesArticleRepositoryInterface $facebookInstantArticlesArticleRepository
     ) {
         $this->facebookInstantArticlesManager = $facebookInstantArticlesManager;
         $this->instantArticlesArticleFactory = $instantArticlesArticleFactory;
@@ -80,7 +81,7 @@ class FacebookInstantArticlesService implements FacebookInstantArticlesServiceIn
             $instantArticleEntity->setStatus('new');
         }
 
-        $instantArticleEntity->setSubmissionId($submissionId);
+        $instantArticleEntity->setSubmissionId((string) $submissionId);
         $this->facebookInstantArticlesArticleRepository->add($instantArticleEntity);
     }
 
@@ -108,10 +109,17 @@ class FacebookInstantArticlesService implements FacebookInstantArticlesServiceIn
      * @param $feed
      *
      * @return Client
+     *
+     * @throws \Exception
      */
     protected function getClient($feed)
     {
         $facebookPage = $feed->getFacebookPage();
+
+        if (null === $facebookPage->getApplication()) {
+            throw new \Exception('Page is not authorized to publish Instant Articles', 403);
+        }
+
         $facebook = $this->facebookInstantArticlesManager->getFacebookManager()->createForApp($facebookPage->getApplication());
         $facebook->setDefaultAccessToken($facebookPage->getAccessToken());
 

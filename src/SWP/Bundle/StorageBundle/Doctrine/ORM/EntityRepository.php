@@ -83,6 +83,9 @@ class EntityRepository extends BaseEntityRepository implements RepositoryInterfa
         return $this->getPaginator($queryBuilder, $paginationData);
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getQueryByCriteria(Criteria $criteria, array $sorting, string $alias): QueryBuilder
     {
         $queryBuilder = $this->createQueryBuilder($alias);

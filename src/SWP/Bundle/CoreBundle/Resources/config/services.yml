@@ -113,6 +113,7 @@ services:
             - '@swp.factory.content_list_item'
             - '@swp_rule.evaluator.rule'
             - '@swp.factory.rule'
+            - '@event_dispatcher'
         tags:
             - { name: kernel.event_listener, event: swp.article.published, method: addArticleToList }
 
@@ -164,5 +165,7 @@ services:
             - "@swp_template_engine_context.factory.meta_factory"
             - "@swp.repository.facebook_instant_articles_feed"
             - "@swp.facebook.service.instant_articles"
+            - "@swp.repository.facebook_instant_articles_article"
         tags:
             - { name: kernel.event_listener, event: swp.content_list.post_item_add, method: sendArticleToFacebook }
+            - { name: kernel.event_listener, event: swp.article.post_create, method: resendUpdatedArticleToFacebook }

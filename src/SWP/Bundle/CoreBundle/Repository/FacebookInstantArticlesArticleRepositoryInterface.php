@@ -18,8 +18,9 @@ namespace SWP\Bundle\CoreBundle\Repository;
 
 use SWP\Bundle\ContentBundle\Model\ArticleInterface;
 use SWP\Bundle\CoreBundle\Model\FacebookInstantArticlesFeedInterface;
+use SWP\Component\Storage\Repository\RepositoryInterface;
 
-interface FacebookInstantArticlesArticleRepositoryInterface
+interface FacebookInstantArticlesArticleRepositoryInterface extends RepositoryInterface
 {
     /**
      * @param FacebookInstantArticlesFeedInterface $feed
@@ -28,6 +29,13 @@ interface FacebookInstantArticlesArticleRepositoryInterface
      * @return mixed
      */
     public function findInFeed(FacebookInstantArticlesFeedInterface $feed, ArticleInterface $article);
+
+    /**
+     * @param ArticleInterface $article
+     *
+     * @return mixed
+     */
+    public function findByArticle(ArticleInterface $article);
 
     /**
      * @param string $submissionId
