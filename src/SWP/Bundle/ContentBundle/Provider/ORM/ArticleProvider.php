@@ -96,6 +96,6 @@ class ArticleProvider extends AbstractProvider implements ArticleProviderInterfa
      */
     public function getCountByCriteria(Criteria $criteria): int
     {
-        return $this->articleRepository->count($criteria);
+        return $this->articleRepository->countByCriteria($criteria);
     }
 }

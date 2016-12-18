@@ -59,5 +59,5 @@ interface ArticleRepositoryInterface extends RepositoryInterface
      *
      * @return int
      */
-    public function count(Criteria $criteria): int;
+    public function countByCriteria(Criteria $criteria): int;
 }
