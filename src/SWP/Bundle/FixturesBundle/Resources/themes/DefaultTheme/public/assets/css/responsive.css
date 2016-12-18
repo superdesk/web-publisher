@@ -32,10 +32,6 @@
 		margin-top: -20px;
 	}
 
-	.menu_wrap {
-		display: none;
-	}
-
 	.space_left_content {
 		padding-left: 0px;
 	}
@@ -285,4 +281,11 @@
 
 .mobile-search input[type='submit']{
 	display:none;
+}
+
+@media (max-width: 979px)  {
+#footer #footer_menu_second li:last-child {
+margin-top: 20px;
+   float: left;
+}
 }
