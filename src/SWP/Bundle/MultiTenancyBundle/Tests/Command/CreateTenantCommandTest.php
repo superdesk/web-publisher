@@ -42,7 +42,7 @@ class CreateTenantCommandTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers SWP\Bundle\MultiTenancyBundle\Command\CreateTenantCommand
+     * @covers \SWP\Bundle\MultiTenancyBundle\Command\CreateTenantCommand
      */
     public function testExecuteWhenCreatingNewTenant()
     {
@@ -60,7 +60,7 @@ class CreateTenantCommandTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers SWP\Bundle\MultiTenancyBundle\Command\CreateTenantCommand
+     * @covers \SWP\Bundle\MultiTenancyBundle\Command\CreateTenantCommand
      */
     public function testExecuteWhenCreatingDefaultTenant()
     {
@@ -81,7 +81,7 @@ class CreateTenantCommandTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers SWP\Bundle\MultiTenancyBundle\Command\CreateTenantCommand
+     * @covers \SWP\Bundle\MultiTenancyBundle\Command\CreateTenantCommand
      * @expectedException \InvalidArgumentException
      */
     public function testExecuteWhenCreatingDefaultTenantAndDefaultOrganizationDoesntExist()
@@ -102,7 +102,7 @@ class CreateTenantCommandTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @expectedException \InvalidArgumentException
-     * @covers SWP\Bundle\MultiTenancyBundle\Command\CreateTenantCommand
+     * @covers \SWP\Bundle\MultiTenancyBundle\Command\CreateTenantCommand
      */
     public function testExecuteWhenDefaultTenantExists()
     {
@@ -116,7 +116,7 @@ class CreateTenantCommandTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers SWP\Bundle\MultiTenancyBundle\Command\CreateTenantCommand
+     * @covers \SWP\Bundle\MultiTenancyBundle\Command\CreateTenantCommand
      */
     public function testExecuteDisabledTenant()
     {
