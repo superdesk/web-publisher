@@ -96,8 +96,9 @@ EOT
 
         $output->writeln(
             sprintf(
-                'Tenant <info>%s</info> has been created and <info>%s</info>!',
+                'Tenant <info>%s</info> (code: <info>%s</info>) has been created and <info>%s</info>!',
                 $name,
+                $tenant->getCode(),
                 $tenant->isEnabled() ? 'enabled' : 'disabled'
             )
         );
