@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of the Superdesk Web Publisher Core Bundle.
  *
@@ -24,7 +25,7 @@ class NoThemeExceptionListener
         $exception = $event->getException();
         if ($exception instanceof NoThemeException) {
             $response = new Response();
-            $response->setContent('Please install default theme:</br>php app/console theme:setup -f</br>php app/console sylius:theme:assets:install');
+            $response->setContent('Please install theme, see: php app/console swp:theme:install --help for more details.');
             $event->setResponse($response);
         }
     }

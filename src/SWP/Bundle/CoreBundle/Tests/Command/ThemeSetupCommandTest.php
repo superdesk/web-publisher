@@ -80,8 +80,8 @@ class ThemeSetupCommandTest extends KernelTestCase
     }
 
     /**
-     * @covers SWP\Bundle\CoreBundle\Command\ThemeSetupCommand
-     * @covers SWP\Bundle\CoreBundle\Command\ThemeSetupCommand::execute
+     * @covers \SWP\Bundle\CoreBundle\Command\ThemeSetupCommand
+     * @covers \SWP\Bundle\CoreBundle\Command\ThemeSetupCommand::execute
      */
     public function testExecute()
     {
