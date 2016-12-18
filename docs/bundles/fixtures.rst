@@ -119,7 +119,7 @@ There is a lot of flexibility on how to define fixtures, so it’s up to the
 developer how to create them.
 
 Loading all fixtures
----------------------------------------------
+--------------------
 
 **Note:** Remember to update your database schema before loading
 fixtures! To do this, run in a console:
@@ -127,7 +127,6 @@ fixtures! To do this, run in a console:
 .. code-block:: bash
 
     php app/console doctrine:schema:update --force
-    php app/console doctrine:phpcr:repository:init
 
 Once you have your fixtures defined, we can simply load them. To do that
 you must execute console commands.
@@ -140,16 +139,10 @@ To load Doctrine ORM fixtures:
 
 See ``php app/console doctrine:fixtures:load --help`` for more details.
 
-To load Doctrine PHCR fixtures:
-
-.. code-block:: bash
-
-    php app/console doctrine:phpcr:fixtures:load
-
-See ``php app/console doctrine:phpcr:fixtures:load --help`` for more details.
-
 After executing the commands above, your database will be filled with the
 fake data, which can be used by themes.
+
+.. _setting-up-demo-theme:
 
 Setting up a demo theme
 -----------------------
@@ -160,9 +153,11 @@ following command in a console:
 
 .. code-block:: bash
 
-    php app/console theme:setup
+    php app/console swp:theme:install 123abc src/SWP/Bundle/FixturesBundle/Resources/themes/DefaultTheme/ -f
 
-See ``php app/console theme:setup --help`` for more details
+This command will install default theme for the default tenant which was already created by loading fixtures (see above).
+
+See ``php app/console swp:theme:install --help`` for more details.
 
 .. _formatters: https://github.com/fzaninotto/Faker#formatters
 .. _DoctrineFixturesBundle: https://github.com/doctrine/DoctrineFixturesBundle
