@@ -15,7 +15,6 @@
 namespace spec\SWP\Bundle\ContentBundle\Provider\ORM;
 
 use PhpSpec\ObjectBehavior;
-use Prophecy\Argument;
 use SWP\Bundle\ContentBundle\Doctrine\ArticleRepositoryInterface;
 use SWP\Bundle\ContentBundle\Provider\ArticleProviderInterface;
 use SWP\Bundle\ContentBundle\Provider\ORM\ArticleProvider;
@@ -23,7 +22,8 @@ use SWP\Component\Common\Criteria\Criteria;
 
 final class ArticleProviderSpec extends ObjectBehavior
 {
-    function let(ArticleRepositoryInterface $articleRepository) {
+    function let(ArticleRepositoryInterface $articleRepository)
+    {
         $this->beConstructedWith($articleRepository);
     }
 
