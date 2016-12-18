@@ -16,7 +16,6 @@ namespace SWP\Bundle\CoreBundle\Command;
 
 use SWP\Component\Common\Model\ThemeAwareTenantInterface;
 use SWP\Component\MultiTenancy\Exception\TenantNotFoundException;
-use SWP\Component\MultiTenancy\Model\TenantInterface;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -27,29 +26,23 @@ use Symfony\Component\Filesystem\Filesystem;
 
 class ThemeSetupCommand extends ContainerAwareCommand
 {
-    const DEFAULT_THEME_TITLE = 'DefaultTheme';
-    const DEFAULT_THEME_NAME = 'swp/default-theme';
-    const THEMES_PATH = '/themes/';
-
     /**
      * {@inheritdoc}
      */
     protected function configure()
     {
         $this
-            ->setName('theme:setup')
-            ->setDescription('Sets (copies)/deletes theme(s) for development purposes.')
+            ->setName('swp:theme:install')
+            ->setDescription('Installs theme.')
             ->addArgument(
-                'name',
-                InputArgument::OPTIONAL,
-                'Theme name',
-                null
+                'tenant',
+                InputArgument::REQUIRED,
+                'Tenant code. For this tenant the theme will be installed.'
             )
-            ->addOption(
-                'delete',
-                null,
-                InputOption::VALUE_NONE,
-                'If set, theme will be removed from the application.'
+            ->addArgument(
+                'theme_dir',
+                InputArgument::REQUIRED,
+                'Path to theme you want to install.'
             )
             ->addOption(
                 'force',
@@ -58,20 +51,22 @@ class ThemeSetupCommand extends ContainerAwareCommand
                 'If set, forces to execute an action without confirmation.'
             )
             ->setHelp(
-<<<'EOT'
-The <info>%command.name%</info> command copies theme to your application themes folder (app/themes):
+                <<<'EOT'
+                The <info>%command.name%</info> command installs your custom theme for given tenant:
 
-  <info>%command.full_name%</info>
+  <info>%command.full_name% <tenant> <theme_dir></info>
 
-You can also optionally specify the delete (<info>--delete</info>) option to delete theme by name:
+You need specify the directory (<comment>theme_dir</comment>) argument to install 
+theme from any directory:
 
-  <info>%command.full_name% <name> --delete</info>
+  <info>%command.full_name% <tenant> /dir/to/theme
+  
+Once executed, it will create directory <comment>app/themes/<tenant></comment>
+where <comment><tenant></comment> is the tenant code you typed in the first argument.
 
 To force an action, you need to add an option: <info>--force</info>:
 
-  <info>%command.full_name% <name> --delete --force</info>
-
-Demo theme can be found in "SWPFixturesBundle/Resources/themes".
+  <info>%command.full_name% <tenant> <theme_dir> --force</info>
 EOT
             );
     }
@@ -82,50 +77,30 @@ EOT
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $fileSystem = new Filesystem();
-        $kernel = $this->getContainer()->get('kernel');
-        $name = $input->getArgument('name');
         $helper = $this->getHelper('question');
         $force = true === $input->getOption('force');
 
-        if (null === $name) {
-            $name = self::DEFAULT_THEME_TITLE;
+        /** @var ThemeAwareTenantInterface $tenant */
+        $tenant = $this->getContainer()->get('swp.repository.tenant')
+            ->findOneByCode($input->getArgument('tenant'));
+
+        $sourceDir = $input->getArgument('theme_dir');
+
+        $this->assertTenantIsFound($input->getArgument('tenant'), $tenant);
+
+        if (!$fileSystem->exists($sourceDir) || !is_dir($sourceDir)) {
+            $output->writeln(sprintf('<error>Directory "%s" does not exist or it is not a directory!</error>', $sourceDir));
+
+            return;
         }
 
-        /** @var ThemeAwareTenantInterface $defaultTenant */
-        $defaultTenant = $this->getContainer()->get('swp.repository.tenant')
-            ->findOneBy(['name' => TenantInterface::DEFAULT_TENANT_NAME]);
-
-        $this->assertTenantIsFound($defaultTenant);
-
-        $tenantThemeDir = $kernel->getRootDir().self::THEMES_PATH.$defaultTenant->getCode();
-        $themeDir = $tenantThemeDir.\DIRECTORY_SEPARATOR.$name;
+        $themesDir = $this->getContainer()->getParameter('swp.theme.configuration.default_directory');
+        $tenantThemeDir = $themesDir.\DIRECTORY_SEPARATOR.$tenant->getCode();
+        $themeDir = $tenantThemeDir.\DIRECTORY_SEPARATOR.basename($sourceDir);
 
         try {
-            if ($input->getOption('delete')) {
-                $question = new ConfirmationQuestion(
-                    '<question>This will delete your current theme: "'.$name.'", if exists. Continue with this action? (yes/no)<question> <comment>[yes]</comment> ',
-                    true,
-                    '/^(y|j)/i'
-                );
-
-                if (!$force) {
-                    if (!$helper->ask($input, $output, $question)) {
-                        return;
-                    }
-                }
-
-                $fileSystem->remove($themeDir);
-                if (!(new \FilesystemIterator($tenantThemeDir))->valid()) {
-                    $fileSystem->remove($tenantThemeDir);
-                }
-
-                $output->writeln('<info>Theme "'.$name.'" has been deleted successfully!</info>');
-
-                return true;
-            }
-
             $question = new ConfirmationQuestion(
-                '<question>This will override your current theme: "'.$name.'", if exists. Continue with this action? (yes/no)<question> <comment>[yes]</comment> ',
+                '<question>This will override your current theme. Continue with this action? (yes/no)<question> <comment>[yes]</comment> ',
                 true,
                 '/^(y|j)/i'
             );
@@ -136,44 +111,19 @@ EOT
                 }
             }
 
-            // Set theme_name for default tenant if the default theme is being set up
-            if (self::DEFAULT_THEME_TITLE === $name) {
-                $this->assignDefaultTheme($defaultTenant);
-            }
+            $fileSystem->mirror($sourceDir, $themeDir, null, ['override' => true, 'delete' => true]);
 
-            $fileSystem->mirror(
-                $kernel->locateResource('@SWPFixturesBundle/Resources/themes/'.$name),
-                $themeDir,
-                null,
-                ['override' => true, 'delete' => true]
-            );
-
-            $output->writeln('<info>Theme "'.$name.'" has been setup successfully!</info>');
+            $output->writeln('<info>Theme has been installed successfully!</info>');
         } catch (\Exception $e) {
-            $output->writeln('<error>Theme "'.$name.'" could not be setup!</error>');
+            $output->writeln('<error>Theme could not be installed!</error>');
             $output->writeln('<error>Stacktrace: '.$e->getMessage().'</error>');
         }
     }
 
-    /**
-     * @param ThemeAwareTenantInterface $defaultTenant
-     *
-     * @throws \Exception if there is no default tenant
-     */
-    private function assignDefaultTheme(ThemeAwareTenantInterface $defaultTenant)
+    private function assertTenantIsFound(string $tenantCode, ThemeAwareTenantInterface $tenant = null)
     {
-        // Only assign default theme if no theme has yet been assigned to default tenant
-        if (null === $defaultTenant->getThemeName()) {
-            $defaultTenant->setThemeName(self::DEFAULT_THEME_NAME);
-            $documentManager = $this->getContainer()->get('swp.object_manager.tenant');
-            $documentManager->flush();
-        }
-    }
-
-    private function assertTenantIsFound(ThemeAwareTenantInterface $defaultTenant)
-    {
-        if (null === $defaultTenant) {
-            throw new TenantNotFoundException('No default tenant found, please first run php app/console swp:tenant:create --default');
+        if (null === $tenant) {
+            throw new TenantNotFoundException($tenantCode);
         }
     }
 }
