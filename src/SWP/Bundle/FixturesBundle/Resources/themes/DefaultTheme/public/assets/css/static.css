@@ -4,9 +4,8 @@
 }
 
 .header_wrap {
-	background: #fff;
-
-
+   background: #fff;
+   padding-top: 30px;
 }
 
 .wrap_menu_wrap{
@@ -140,11 +139,11 @@
 }
 
 #top .top_content #logo {
-	display: block;
-	width: 151px;
-	height: 90px;
-	background: url('../img/logo.png') no-repeat bottom;
-	float: left;
+   display: block;
+   width: 293px;
+   height: 90px;
+   background: url(../img/logo.png) no-repeat center center;
+   float: left;
 }
 
 #top .top_content .add {
@@ -168,9 +167,9 @@
 }
 
 #top_menu .menu > li {
-	float: left;
-	padding-left: 11px;
-	font-size: 1.1em;
+   float: left;
+   padding-left: 20px;
+   font-size: 1.2em;
 }
 
 #top_menu .menu > li:first-child {
@@ -257,23 +256,23 @@
 
 
 #footer {
-	background: #4a4a4a;
-	padding-top: 20px;
-	font-family: 'Oswald', sans-serif;
-	color: #5e5d5a;
-	margin-top: 30px;
-	padding-bottom: 20px;
+   background: #333;
+   padding-top: 30px;
+   font-family: 'Oswald', sans-serif;
+   color: #5e5d5a ;
+   margin-top: 30px;
+   padding-bottom: 30px;
 }
-
-#footer a {
-	color: #5e5d5a;
+#footer #footer_menu_first li {
+   text-transform: uppercase;
+   margin-right: 10px;
+   padding-right: 10px;
 }
-
 #footer .menu li {
-	float: left;
-	margin-right: 6px;
-	padding-right: 6px;
-	line-height: 13px;
+   float: left;
+   margin-right: 8px;
+   padding-right: 8px;
+   line-height: 13px;
 }
 
 #footer .menu li:last-child {
@@ -295,8 +294,10 @@
 }
 
 #footer #footer_menu_first li {
-	border-right: 1px solid white;
-	text-transform: uppercase;
+   text-transform: uppercase;
+   margin-right: 10px;
+   padding-right: 10px;
+   border: none !important;
 }
 
 #footer #footer_menu_first li a {
@@ -317,10 +318,13 @@
 	font-family: Tahoma, Arial, sans-serif;
 	font-size: 0.9em;
 }
-#footer #footer_menu_second li:last-child{
-	float:right;
-	color: #fff;
-	font-family: Tahoma, Arial, sans-serif;
+#footer #footer_menu_second li:last-child {
+   float: right;
+   color: #fff;
+   font-family: Tahoma, Arial, sans-serif;
+   padding: 0px;
+   margin: 0px;
+   line-height: 18px;
 }
 
 
@@ -390,5 +394,198 @@
 	border-color:#333;
 }
 
+#nav-main ul {
+   font-family: 'Oswald', sans-serif;
+   text-transform: uppercase;
+   height: 44px;
+   line-height: 44px;
+   margin: 10px auto;
+}
+
+#nav-main ul li {
+   float: left;
+   padding-left: 20px;
+   font-size: 1.2em;
+}
+
+#nav-main ul li a {
+   color: #475f77 ;
+}
+
+#nav-main ul li.current a {
+  color: #d74b4b ;
+}
+
+#nav-main ul li.first {
+ padding-left: 0px;
+}
+
+/* OkayNav styles */
+
+.okayNav a:hover {
+  color: #546edb;
+}
+.okayNav__nav--visible a:hover {
+  color: #546edb;
+}
+.okayNav__menu-toggle span {
+  background: #2e2e33;
+}
+.okayNav__menu-toggle.icon--active span {
+  background: #00a9e1;
+}
+
+/*
+ * We are hiding the invisible nav outside the screen
+ * so we need to avoid the horizontal scroll
+ */
+body.okayNav-loaded {
+  overflow-x: hidden;
+}
+.okayNav-header {
+  position: relative;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  -webkit-align-items: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-flex-direction: row;
+  -ms-flex-direction: row;
+  -webkit-justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+}
+.okayNav:not(.loaded) {
+  visibility: hidden;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+}
+.okayNav ul {
+  /* We want two navigations - one hidden and one visible */
+  float: left;
+}
+.okayNav a {
+  position: relative;
+  z-index: 1;
+}
+.okayNav__nav--visible {
+  overflow: hidden;
+  white-space: nowrap;
+}
+.okayNav__nav--visible li {
+  display: inline-block;
+}
+.okayNav__nav--visible a {
+  /* Link styling for the visible part of the nav */
+  display: block;
+  transition: color 200ms cubic-bezier(0.55, 0, 0.1, 1);
+}
+.okayNav__nav--visible:empty ~ .okayNav__menu-toggle {
+  top: 0;
+}
+/* Link styling for the off-screen part of the nav */
+.okayNav__nav--invisible {
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+.okayNav__nav--invisible a {
+   display: block;
+   width: 240px;
+   padding: 0px;
+   background: #fff;
+}
+.okayNav__nav--invisible.nav-left {
+  left: 0;
+}
+.okayNav__nav--invisible.nav-right {
+  right: 0;
+}
+.okayNav__nav--invisible {
+  box-shadow: 1px 0px 4px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e6e6e6;
+  border-top: none;
+  z-index: 1;
+}
+.okayNav__nav--invisible li {
+  margin-right: 0px !important;
+}
+.okayNav__nav--invisible.transition-enabled {
+  transition: -webkit-transform 400ms cubic-bezier(0.55, 0, 0.1, 1);
+  transition: transform 400ms cubic-bezier(0.55, 0, 0.1, 1);
+  transition: transform 400ms cubic-bezier(0.55, 0, 0.1, 1), -webkit-transform 400ms cubic-bezier(0.55, 0, 0.1, 1);
+  position: absolute;
+  top: 54px;
+  right: 0px;
+  display: none;
+  z-index: 2;
+}
+.okayNav__nav--invisible.nav-open {
+   display: block;
+   margin: 0px;
+   height: auto !important;
+   padding: 10px 0px;
+   background: #fff;
+}
+
+.okayNav__nav--invisible.nav-open li {
+   display: block;
+   background: #fff;
+   float: none !important;
+}
+
+/* Kebab icon */
+.okayNav__menu-toggle {
+  position: absolute !important;
+  z-index: 1;
+  top: 50%;
+  right: 0px;
+  margin-top: -10px;
+  float: left;
+  width: 40px;
+  height: 20px;
+  cursor: pointer;
+  transition: -webkit-transform 400ms cubic-bezier(0.55, 0, 0.1, 1);
+  transition: transform 400ms cubic-bezier(0.55, 0, 0.1, 1);
+  transition: transform 400ms cubic-bezier(0.55, 0, 0.1, 1), -webkit-transform 400ms cubic-bezier(0.55, 0, 0.1, 1);
+}
+.okayNav__menu-toggle.okay-invisible {
+  position: absolute;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+  pointer-events: none;
+  opacity: 0;
+}
+.okayNav__menu-toggle span {
+  position: absolute;
+  right: 0;
+  left: 0;
+  display: block;
+  width: 4px;
+  height: 4px;
+  margin: auto;
+  pointer-events: none;
+  border-radius: 50%;
+}
+.okayNav__menu-toggle span:nth-child(1) {
+  top: 0;
+}
+.okayNav__menu-toggle span:nth-child(2) {
+  top: calc(50% - 2px);
+}
+.okayNav__menu-toggle span:nth-child(3) {
+  bottom: 0;
+}
+.okayNav__menu-toggle.icon--active {
+  /* Kebab icon when off-screen nav is open */
+  -webkit-transform: rotate(90deg);
+          transform: rotate(90deg);
+}
 
 
