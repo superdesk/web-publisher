@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<div id="page" class="container">
+
+  <!-- Content -->
+  <section id="content">
+  	<div class="row">
+  		<article class="news_item error_page">
+  			<div class="content content_text ">
+				<h2>Not Found</h2>
+				<p>Error 404 : Document or file requested by the client was not found.</p>
+			</div>
+		</article>
+	</div>
+  </section><!-- End Content -->
+
+</div>
+{% endblock %}
+
+{% block template_code %}
+<pre class="js-template-code" style="display:none;">{{ source(_self.getTemplateName())|escape('html') }}</pre>
+{% endblock %}

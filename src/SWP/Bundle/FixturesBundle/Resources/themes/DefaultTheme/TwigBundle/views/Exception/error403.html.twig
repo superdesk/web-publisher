@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<div id="page" class="container">
+
+  <!-- Content -->
+  <section id="content">
+  	<div class="row">
+  		<article class="news_item error_page">
+  			<div class="content content_text ">
+				<h2>Forbidden</h2>
+				<p>Error 403 : Server refuses to fulfill the request.</p>
+			</div>
+		</article>
+	</div>
+  </section><!-- End Content -->
+
+</div>
+{% endblock %}
+
+{% block template_code %}
+<pre class="js-template-code" style="display:none;">{{ source(_self.getTemplateName())|escape('html') }}</pre>
+{% endblock %}
