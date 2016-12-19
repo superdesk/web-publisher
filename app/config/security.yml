@@ -18,7 +18,10 @@ security:
             pattern:  ^/(_(profiler|wdt)|css|images|js|)/
             security: false
         public:
-            pattern: ^/api/(doc|[v0-9]{2}/(auth|content/push|assets))
+            pattern: ^/api/(doc|[v0-9]{2}/(content/push|assets))
+            security: false
+        authentication:
+            pattern: ^/api/[v0-9]{2}/(auth|auth/superdesk)
             security: false
         internal_api:
             pattern: ^/api

@@ -19,6 +19,7 @@ use SWP\Component\Common\Criteria\Criteria;
 use SWP\Component\Common\Pagination\PaginationData;
 use SWP\Component\Storage\Model\PersistableInterface;
 use SWP\Component\Storage\Repository\RepositoryInterface;
+use Doctrine\ORM\QueryBuilder;
 
 class DocumentRepository extends BaseDocumentRepository implements RepositoryInterface
 {
@@ -66,6 +67,14 @@ class DocumentRepository extends BaseDocumentRepository implements RepositoryInt
         array $sorting = [],
         PaginationData $paginationData = null
     ) {
+        throw new \Exception('Not implemented');
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getQueryByCriteria(Criteria $criteria, array $sorting, string $alias): QueryBuilder
+    {
         throw new \Exception('Not implemented');
     }
 }

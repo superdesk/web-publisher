@@ -1,0 +1,8 @@
+{{ instantArticle.render()|raw }}
+
+<h2>Warnings</h2>
+{% if warnings|length >0 %}
+    {{ dump(warnings) }}
+{% else %}
+    <p>No warnings</p>
+{% endif %}

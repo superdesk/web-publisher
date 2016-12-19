@@ -15,6 +15,9 @@ swp_core:
 swp_bridge:
     resource: "@SWPBridgeBundle/Resources/config/routing.yml"
 
+swp_facebook_instant_articles:
+    resource: "@SWPFacebookInstantArticlesBundle/Resources/config/routing.yml"
+
 NelmioApiDocBundle:
     resource: "@NelmioApiDocBundle/Resources/config/routing.yml"
     prefix:   /api/doc

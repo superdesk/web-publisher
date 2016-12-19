@@ -41,6 +41,7 @@ final class RuleProcessor implements RuleProcessorInterface
      *
      * @param RuleRepositoryInterface $ruleRepository
      * @param RuleEvaluatorInterface  $ruleEvaluator
+     * @param RuleApplicatorInterface $ruleApplicator
      */
     public function __construct(
         RuleRepositoryInterface $ruleRepository,

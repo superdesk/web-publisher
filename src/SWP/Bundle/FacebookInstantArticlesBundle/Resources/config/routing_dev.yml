@@ -1,0 +1,3 @@
+swp_facebook_instant_articles_parsing_preview:
+    resource: "@SWPFacebookInstantArticlesBundle/Controller/ParsingPreviewController.php"
+    type:     annotation

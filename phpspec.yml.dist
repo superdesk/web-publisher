@@ -82,6 +82,11 @@ suites:
         psr4_prefix: SWP\Bundle\MenuBundle
         spec_path: src/SWP/Bundle/MenuBundle
         src_path: src/SWP/Bundle/MenuBundle
+    FacebookInstantArticlesBundle_suite:
+        namespace: SWP\Bundle\FacebookInstantArticlesBundle
+        psr4_prefix: SWP\Bundle\FacebookInstantArticlesBundle
+        spec_path: src/SWP/Bundle/FacebookInstantArticlesBundle
+        src_path: src/SWP/Bundle/FacebookInstantArticlesBundle
 
 #extensions:
 #    - PhpSpec\Extension\CodeCoverageExtension

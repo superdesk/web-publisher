@@ -14,16 +14,19 @@
 
 namespace spec\SWP\Bundle\CoreBundle\EventListener;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Prophecy\Argument;
 use SWP\Bundle\ContentBundle\Event\ArticleEvent;
 use SWP\Bundle\CoreBundle\EventListener\AutomaticListAddArticleListener;
 use PhpSpec\ObjectBehavior;
 use SWP\Bundle\CoreBundle\Model\Article;
-use SWP\Component\ContentList\Model\ContentListInterface;
-use SWP\Component\ContentList\Model\ContentListItemInterface;
+use SWP\Bundle\CoreBundle\Model\ContentListInterface;
+use SWP\Bundle\CoreBundle\Model\ContentListItemInterface;
 use SWP\Component\ContentList\Repository\ContentListRepositoryInterface;
 use SWP\Component\Rule\Evaluator\RuleEvaluatorInterface;
 use SWP\Component\Rule\Model\RuleInterface;
 use SWP\Component\Storage\Factory\FactoryInterface;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 /**
  * @mixin AutomaticListAddArticleListener
@@ -34,9 +37,10 @@ final class AutomaticListAddArticleListenerSpec extends ObjectBehavior
         ContentListRepositoryInterface $listRepository,
         FactoryInterface $listItemFactory,
         RuleEvaluatorInterface $ruleEvaluator,
-        FactoryInterface $ruleFactory
+        FactoryInterface $ruleFactory,
+        EventDispatcherInterface $eventDispatcher
     ) {
-        $this->beConstructedWith($listRepository, $listItemFactory, $ruleEvaluator, $ruleFactory);
+        $this->beConstructedWith($listRepository, $listItemFactory, $ruleEvaluator, $ruleFactory, $eventDispatcher);
     }
 
     public function it_is_initializable()
@@ -58,6 +62,7 @@ final class AutomaticListAddArticleListenerSpec extends ObjectBehavior
         $event->getArticle()->willReturn($article);
 
         $list->getExpression()->willReturn('article.getLocale() == "en"');
+        $list->getItems()->willReturn(new ArrayCollection());
         $listRepository->findByType(ContentListInterface::TYPE_AUTOMATIC)->willReturn([$list]);
 
         $ruleFactory->create()->willReturn($rule);
@@ -68,6 +73,7 @@ final class AutomaticListAddArticleListenerSpec extends ObjectBehavior
         $listItemFactory->create()->willReturn($listItem);
 
         $listItem->setContent($article)->shouldBeCalled();
+        $listItem->setPosition(Argument::type('integer'))->shouldBeCalled();
 
         $list->addItem($listItem)->shouldBeCalled();
 

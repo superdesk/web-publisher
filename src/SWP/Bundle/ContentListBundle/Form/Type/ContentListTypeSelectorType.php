@@ -31,6 +31,7 @@ class ContentListTypeSelectorType extends AbstractType
     protected $choices = [
         'Automatic' => ContentListInterface::TYPE_AUTOMATIC,
         'Manual' => ContentListInterface::TYPE_MANUAL,
+        'Bucket' => ContentListInterface::TYPE_BUCKET,
     ];
 
     /**

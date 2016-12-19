@@ -10,8 +10,7 @@ SWP\Bundle\AnalyticsBundle\Model\RequestMetric:
                 strategy: AUTO
     fields:
         uri:
-            type: string
-            length: 255
+            type: text
         route:
             type: string
             length: 255

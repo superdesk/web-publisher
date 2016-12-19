@@ -53,6 +53,7 @@ final class ContentListTypeSelectorTypeSpec extends ObjectBehavior
                 'choices' => [
                     'Automatic' => ContentListInterface::TYPE_AUTOMATIC,
                     'Manual' => ContentListInterface::TYPE_MANUAL,
+                    'Bucket' => ContentListInterface::TYPE_BUCKET,
                 ],
             ])
             ->shouldBeCalled()
