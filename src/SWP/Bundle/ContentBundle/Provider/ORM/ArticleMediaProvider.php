@@ -75,7 +75,7 @@ class ArticleMediaProvider extends AbstractProvider implements ArticleMediaProvi
         return $media;
     }
 
-    public function getCountByCriteria(Criteria $criteria) : int
+    public function getCountByCriteria(Criteria $criteria): int
     {
         return (int) $this->getRepository()->getByCriteria(
             $criteria,

@@ -62,7 +62,7 @@ class ChainLoader implements LoaderInterface
      *
      * @return bool
      */
-    public function isSupported(string $type) : bool
+    public function isSupported(string $type): bool
     {
         foreach ($this->loaders as $loader) {
             if ($loader->isSupported($type)) {
