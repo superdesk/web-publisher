@@ -29,10 +29,10 @@
 
           </div>
 
-          <div class="content content_text padding_bottom_10>
+          <div class="content content_text padding_bottom_10">
             <h6 class="info">Publish date: {{ gimme.article.publishedAt|date("d.m.Y, H:i") }} | Creation date: {{ gimme.article.createdAt|date("d.m.Y, H:i") }} | Update date: {{ gimme.article.updatedAt|date("d.m.Y, H:i") }}</h6>
             <h2 class="title">{{ gimme.article.title }}</h2>
-            {{ gimme.article.body|raw }}
+            <p>{{ gimme.article.body|raw }}</p>
           </div>
 
 <div id="disqus_thread"></div>

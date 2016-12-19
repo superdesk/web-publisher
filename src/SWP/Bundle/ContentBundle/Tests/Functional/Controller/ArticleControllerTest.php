@@ -36,7 +36,6 @@ class ArticleControllerTest extends WebTestCase
             ], 'default'
         );
 
-        $this->runCommand('theme:setup', ['--env' => 'test'], true);
         $this->router = $this->getContainer()->get('router');
     }
 

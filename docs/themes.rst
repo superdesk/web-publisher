@@ -174,9 +174,13 @@ AMP HTML Integration
 `Google AMP HTML <https://www.ampproject.org/>`_ integration comes with Superdesk Publisher out of the box.
 This integration gives you a lot of features provided by Google. To name a few: fast loading time and accessibility via Google engines etc. There is no need to install any dependencies, all you need to do is to create AMP HTML compatible theme or use the `default one <https://github.com/superdesk/web-publisher/tree/master/src/SWP/Bundle/FixturesBundle/Resources/themes/DefaultTheme/amp/amp-theme>`_ provided by us.
 
-Default AMP HTML theme is bundled in our main Demo Theme and can be installed using ``php app/console theme:setup`` command.
+Default AMP HTML theme is bundled in our main Demo Theme and can be installed using ``php app/console swp:theme:install`` command.
 
 You could also copy it to your own main theme and adjust it in a way you wish.
+
+.. note::
+
+    See :ref:`setting-up-demo-theme` section for more details on how to install demo theme.
 
 How to create AMP HTML theme?
 `````````````````````````````
