@@ -15,13 +15,13 @@
 namespace SWP\Bundle\CoreBundle\EventListener;
 
 use SWP\Bundle\ContentBundle\Event\ArticleEvent;
-use SWP\Bundle\CoreBundle\ContentListEvents;
-use SWP\Bundle\CoreBundle\Event\ContentListEvent;
-use SWP\Bundle\CoreBundle\Model\ContentListInterface;
-use SWP\Bundle\CoreBundle\Model\ContentListItemInterface;
+use SWP\Bundle\ContentListBundle\Event\ContentListEvent;
+use SWP\Bundle\CoreBundle\Matcher\ArticleCriteriaMatcherInterface;
+use SWP\Component\Common\Criteria\Criteria;
+use SWP\Component\ContentList\ContentListEvents;
+use SWP\Component\ContentList\Model\ContentListInterface;
+use SWP\Component\ContentList\Model\ContentListItemInterface;
 use SWP\Component\ContentList\Repository\ContentListRepositoryInterface;
-use SWP\Component\Rule\Evaluator\RuleEvaluatorInterface;
-use SWP\Component\Rule\Model\RuleInterface;
 use SWP\Component\Storage\Factory\FactoryInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
@@ -37,41 +37,19 @@ class AutomaticListAddArticleListener
      */
     private $listItemFactory;
 
-    /**
-     * @var RuleEvaluatorInterface
-     */
-    private $ruleEvaluator;
+    private $articleCriteriaMatcher;
 
-    /**
-     * @var FactoryInterface
-     */
-    private $ruleFactory;
+    private $eventDispatcher;
 
-    /**
-     * @var EventDispatcherInterface
-     */
-    protected $eventDispatcher;
-
-    /**
-     * AutomaticListAddArticleListener constructor.
-     *
-     * @param ContentListRepositoryInterface $listRepository
-     * @param FactoryInterface               $listItemFactory
-     * @param RuleEvaluatorInterface         $ruleEvaluator
-     * @param FactoryInterface               $ruleFactory
-     * @param EventDispatcherInterface       $eventDispatcher
-     */
     public function __construct(
         ContentListRepositoryInterface $listRepository,
         FactoryInterface $listItemFactory,
-        RuleEvaluatorInterface $ruleEvaluator,
-        FactoryInterface $ruleFactory,
+        ArticleCriteriaMatcherInterface $articleCriteriaMatcher,
         EventDispatcherInterface $eventDispatcher
     ) {
         $this->listRepository = $listRepository;
         $this->listItemFactory = $listItemFactory;
-        $this->ruleEvaluator = $ruleEvaluator;
-        $this->ruleFactory = $ruleFactory;
+        $this->articleCriteriaMatcher = $articleCriteriaMatcher;
         $this->eventDispatcher = $eventDispatcher;
     }
 
@@ -83,13 +61,12 @@ class AutomaticListAddArticleListener
         $article = $event->getArticle();
         /** @var ContentListInterface[] $contentLists */
         $contentLists = $this->listRepository->findByType(ContentListInterface::TYPE_AUTOMATIC);
-        /** @var RuleInterface $rule */
-        $rule = $this->ruleFactory->create();
 
         foreach ($contentLists as $contentList) {
-            $rule->setExpression($contentList->getExpression());
-            if ($this->ruleEvaluator->evaluate($rule, $article)) {
-                /** @var ContentListItemInterface $contentListItem */
+            // check if article already exists in content list
+            $filters = json_decode($contentList->getFilters(), true);
+            if ($this->articleCriteriaMatcher->match($article, new Criteria($filters))) {
+                /* @var ContentListItemInterface $contentListItem */
                 $contentListItem = $this->listItemFactory->create();
                 $contentListItem->setContent($article);
                 $contentListItem->setPosition($contentList->getItems()->count());

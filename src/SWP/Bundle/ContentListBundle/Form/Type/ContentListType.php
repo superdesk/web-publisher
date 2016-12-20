@@ -16,6 +16,7 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\ContentListBundle\Form\Type;
 
+use SWP\Bundle\CoreBundle\Form\Type\ContentListCriteriaType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -58,6 +59,10 @@ class ContentListType extends AbstractType
             ->add('cacheLifeTime', IntegerType::class, [
                 'required' => false,
                 'description' => 'List cache life time',
+            ])
+            ->add('filters', TextType::class, [
+                'required' => false,
+                'description' => 'Content list filters in JSON format.',
             ])
         ;
     }

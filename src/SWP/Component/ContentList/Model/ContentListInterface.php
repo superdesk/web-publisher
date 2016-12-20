@@ -124,4 +124,21 @@ interface ContentListInterface extends TimestampableInterface, SoftDeletableInte
      * @param string $expression
      */
     public function setExpression(string $expression);
+
+    /**
+     * @return null|string
+     */
+    public function getFilters();
+
+    /**
+     * @param string $filters
+     */
+    public function setFilters(string $filters);
+
+    /**
+     * @param string $key
+     *
+     * @return mixed
+     */
+    public function getFilter(string $key);
 }

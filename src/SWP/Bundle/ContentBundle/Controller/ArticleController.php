@@ -53,7 +53,7 @@ class ArticleController extends Controller
     public function listAction(Request $request)
     {
         $articles = $this->get('swp.repository.article')
-            ->getPaginatedByCriteria(new Criteria(), [], new PaginationData($request));
+            ->findArticlesByCriteria(new Criteria($request->query->all()), [], new PaginationData($request));
 
         return new ResourcesListResponse($articles);
     }

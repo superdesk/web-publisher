@@ -16,7 +16,7 @@ namespace SWP\Bundle\CoreBundle\EventListener;
 
 use SWP\Bundle\ContentBundle\Event\ArticleEvent;
 use SWP\Bundle\ContentBundle\Model\ArticleInterface;
-use SWP\Bundle\CoreBundle\Event\ContentListEvent;
+use SWP\Bundle\ContentListBundle\Event\ContentListEvent;
 use SWP\Bundle\CoreBundle\Model\FacebookInstantArticlesArticleInterface;
 use SWP\Bundle\CoreBundle\Repository\FacebookInstantArticlesArticleRepositoryInterface;
 use SWP\Bundle\CoreBundle\Service\FacebookInstantArticlesService;

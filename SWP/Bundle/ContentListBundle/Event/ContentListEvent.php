@@ -1,7 +1,9 @@
 <?php
 
+declare(strict_types=1);
+
 /*
- * This file is part of the Superdesk Web Publisher Core Bundle.
+ * This file is part of the Superdesk Web Publisher Content List Bundle.
  *
  * Copyright 2015 Sourcefabric z.u. and contributors.
  *
@@ -12,10 +14,10 @@
  * @license http://www.superdesk.org/license
  */
 
-namespace SWP\Bundle\CoreBundle\Event;
+namespace SWP\Bundle\ContentListBundle\Event;
 
-use SWP\Bundle\CoreBundle\Model\ContentListInterface;
-use SWP\Bundle\CoreBundle\Model\ContentListItemInterface;
+use SWP\Component\ContentList\Model\ContentListInterface;
+use SWP\Component\ContentList\Model\ContentListItemInterface;
 use Symfony\Component\EventDispatcher\Event;
 
 class ContentListEvent extends Event

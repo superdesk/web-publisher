@@ -37,6 +37,12 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface, Orde
         $this->loadRoutes($env, $manager);
         $this->loadArticles($env, $manager);
 
+        $this->loadFixtures([
+            '@SWPFixturesBundle/Resources/fixtures/ORM/test/content_list.yml',
+            '@SWPFixturesBundle/Resources/fixtures/ORM/test/list_content.yml',
+            '@SWPFixturesBundle/Resources/fixtures/ORM/test/content_list_item.yml',
+        ], $manager);
+
         $manager->flush();
     }
 
@@ -214,6 +220,10 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface, Orde
                 '478x326' => [
                     'width' => '478',
                     'height' => '326',
+                ],
+                '480x480' => [
+                    'width' => '480',
+                    'height' => '480',
                 ],
                 '960x480' => [
                     'width' => '960',

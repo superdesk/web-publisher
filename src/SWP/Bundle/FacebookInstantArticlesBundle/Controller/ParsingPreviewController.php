@@ -19,20 +19,20 @@ namespace SWP\Bundle\FacebookInstantArticlesBundle\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use SWP\Bundle\CoreBundle\ContentListEvents;
-use SWP\Bundle\CoreBundle\Event\ContentListEvent;
+use SWP\Bundle\ContentListBundle\Event\ContentListEvent;
 use SWP\Bundle\CoreBundle\Model\ContentListItem;
 use SWP\Bundle\FacebookInstantArticlesBundle\Parser\TemplateParser;
+use SWP\Component\ContentList\ContentListEvents;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 class ParsingPreviewController extends Controller
 {
     /**
-     * @Route("/facebook/instantarticles/preview/{articleId}/{feedId}", options={"expose"=true}, name="swp_fbia_preview_parsing")
+     * @Route("/facebook/instantarticles/preview/{articleId}", options={"expose"=true}, name="swp_fbia_preview_parsing")
      * @Method("GET")
      * @Template()
      */
-    public function previewAction($articleId, $feedId = null)
+    public function previewAction($articleId)
     {
         /** @var TemplateParser $templateParser */
         $templateParser = $this->get('swp_facebook.template_parser');

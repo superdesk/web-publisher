@@ -125,14 +125,14 @@ class ContentListController extends Controller
         $objectManager = $this->get('swp.object_manager.content_list');
         /** @var ContentListInterface $contentList */
         $contentList = $this->findOr404($id);
-        $expression = $contentList->getExpression();
+        $filters = $contentList->getFilters();
 
         $form = $this->createForm(ContentListType::class, $contentList, ['method' => $request->getMethod()]);
         $form->handleRequest($request);
 
         $this->get('event_dispatcher')->dispatch(
             ContentListEvents::LIST_CRITERIA_CHANGE,
-            new GenericEvent($contentList, ['expression' => $expression])
+            new GenericEvent($contentList, ['filters' => $filters])
         );
 
         if ($form->isValid()) {

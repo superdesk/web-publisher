@@ -67,6 +67,11 @@ class ContentList implements ContentListInterface
     protected $expression;
 
     /**
+     * @var array
+     */
+    protected $filters;
+
+    /**
      * ContentList constructor.
      */
     public function __construct()
@@ -215,5 +220,36 @@ class ContentList implements ContentListInterface
     public function setExpression(string $expression)
     {
         $this->expression = $expression;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getFilters()
+    {
+        return $this->filters;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setFilters(string $filters)
+    {
+        $this->filters = $filters;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getFilter(string $key)
+    {
+        if (null === $this->filters) {
+            return;
+        }
+
+        $filters = json_decode($this->filters, true);
+        if (isset($filters[$key])) {
+            return $filters[$key];
+        }
     }
 }
