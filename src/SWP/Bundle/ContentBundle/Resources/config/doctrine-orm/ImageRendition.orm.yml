@@ -17,7 +17,7 @@ SWP\Bundle\ContentBundle\Model\ImageRendition:
     manyToOne:
         image:
             targetEntity: SWP\Bundle\ContentBundle\Model\Image
-            inversedBy: rendition
+            inversedBy: renditions
             joinColumn:
                 name: image_id
                 referencedColumnName: id

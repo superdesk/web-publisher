@@ -241,7 +241,7 @@ class ContentPushControllerTest extends WebTestCase
         $content = json_decode($client->getResponse()->getContent(), true);
         self::assertArrayHasKey('media', $content);
         self::assertCount(1, $content['media']);
-        self::assertArrayHasKey('rendition', $content['media'][0]['image']);
+        self::assertArrayHasKey('renditions', $content['media'][0]['image']);
         self::assertArrayHasKey('renditions', $content['media'][0]);
         self::assertCount(3, $content['media'][0]['renditions']);
 
@@ -269,7 +269,7 @@ class ContentPushControllerTest extends WebTestCase
         $content = json_decode($client->getResponse()->getContent(), true);
         self::assertArrayHasKey('media', $content);
         self::assertCount(1, $content['media']);
-        self::assertArrayHasKey('rendition', $content['media'][0]['image']);
+        self::assertArrayHasKey('renditions', $content['media'][0]['image']);
         self::assertArrayHasKey('renditions', $content['media'][0]);
         self::assertCount(3, $content['media'][0]['renditions']);
         self::assertArraySubset(['asset_id' => '1234567890987654321c', 'file_extension' => 'png'], $content['media'][0]['image']);
@@ -294,7 +294,7 @@ class ContentPushControllerTest extends WebTestCase
         $content = json_decode($client->getResponse()->getContent(), true);
         self::assertArrayHasKey('media', $content);
         self::assertCount(1, $content['media']);
-        self::assertArrayHasKey('rendition', $content['media'][0]['image']);
+        self::assertArrayHasKey('renditions', $content['media'][0]['image']);
         self::assertArrayHasKey('renditions', $content['media'][0]);
         self::assertCount(3, $content['media'][0]['renditions']);
         self::assertArraySubset(['asset_id' => '1234567890987654321c', 'file_extension' => 'png'], $content['media'][0]['image']);

@@ -130,11 +130,8 @@ class MediaFactory implements MediaFactoryInterface
                 continue;
             }
 
-            $imageRendition = $image->getRendition();
-            if (null === $imageRendition) {
-                $imageRendition = $this->createImageRendition($image, $articleMedia, $key, $rendition);
-                $this->imageRepository->persist($imageRendition);
-            }
+            $imageRendition = $this->createImageRendition($image, $articleMedia, $key, $rendition);
+            $this->imageRepository->persist($imageRendition);
 
             $articleMedia->addRendition($imageRendition);
         }
