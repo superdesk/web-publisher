@@ -14,14 +14,13 @@ SWP\Bundle\ContentBundle\Model\ImageRendition:
             type: integer
         name:
             type: string
-    oneToOne:
+    manyToOne:
         image:
             targetEntity: SWP\Bundle\ContentBundle\Model\Image
             inversedBy: rendition
             joinColumn:
                 name: image_id
                 referencedColumnName: id
-    manyToOne:
         media:
             targetEntity: SWP\Bundle\ContentBundle\Model\ArticleMedia
             inversedBy: renditions

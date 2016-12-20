@@ -48,7 +48,6 @@ SWP\Bundle\ContentBundle\Model\ArticleMedia:
                 name: article_id
                 referencedColumnName: id
                 onDelete: CASCADE
-    oneToOne:
         file:
             targetEntity: SWP\Bundle\ContentBundle\Model\File
             mapped: file

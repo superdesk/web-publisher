@@ -39,16 +39,20 @@ class MediaFactory implements MediaFactoryInterface
      */
     protected $imageRepository;
 
+    /**
+     * @var string
+     */
     protected $mediaModelClass;
 
     /**
      * MediaFactory constructor.
      *
      * @param ImageRepositoryInterface $imageRepository
+     * @param string                   $mediaModelClass
      */
     public function __construct(
         ImageRepositoryInterface $imageRepository,
-        $mediaModelClass
+        string $mediaModelClass
     ) {
         $this->imageRepository = $imageRepository;
         $this->mediaModelClass = $mediaModelClass;
@@ -127,7 +131,7 @@ class MediaFactory implements MediaFactoryInterface
             }
 
             $imageRendition = $image->getRendition();
-            if (null === $image->getRendition()) {
+            if (null === $imageRendition) {
                 $imageRendition = $this->createImageRendition($image, $articleMedia, $key, $rendition);
                 $this->imageRepository->persist($imageRendition);
             }
