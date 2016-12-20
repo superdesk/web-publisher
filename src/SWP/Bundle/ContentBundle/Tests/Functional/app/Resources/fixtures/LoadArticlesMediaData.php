@@ -72,6 +72,66 @@ class LoadArticlesMediaData extends AbstractFixture implements FixtureInterface,
                 'height' => '533',
                 'media' => '12345678987654321c',
             ],
+            'embedded5366428123-600x300' => [
+                'width' => '400',
+                'height' => '300',
+                'media' => '58512c10c3a5be49fad39a2d',
+            ],
+            'embedded5366428123-viewImage' => [
+                'width' => '640',
+                'height' => '480',
+                'media' => '58512be5c3a5be49fdca1172',
+            ],
+            'embedded5366428123-thumbnail' => [
+                'width' => '160',
+                'height' => '120',
+                'media' => '58512be5c3a5be49fdca116c',
+            ],
+            'embedded5366428123-item-original' => [
+                'width' => '1200',
+                'height' => '900',
+                'media' => '58512be4c3a5be49fdca1168',
+            ],
+            'embedded5366428123-baseImage' => [
+                'width' => '1400',
+                'height' => '1050',
+                'media' => '58512be5c3a5be49fdca1170',
+            ],
+            'embedded5366428123-777x600' => [
+                'width' => '777',
+                'height' => '582',
+                'media' => '58512c10c3a5be49fad39a29',
+            ],
+            'embedded11331114891-600x300' => [
+                'width' => '451',
+                'height' => '300',
+                'media' => '58512c44c3a5be49f3529d98',
+            ],
+            'embedded11331114891-viewImage' => [
+                'width' => '640',
+                'height' => '425',
+                'media' => '58512be7c3a5be49fdca1184',
+            ],
+            'embedded11331114891-thumbnail' => [
+                'width' => '180',
+                'height' => '120',
+                'media' => '58512be6c3a5be49fdca117e',
+            ],
+            'embedded11331114891-item-original' => [
+                'width' => '1200',
+                'height' => '797',
+                'media' => '58512be6c3a5be49fdca1178',
+            ],
+            'embedded11331114891-baseImage' => [
+                'width' => '1400',
+                'height' => '929',
+                'media' => '58512be7c3a5be49fdca1182',
+            ],
+            'embedded11331114891-777x600' => [
+                'width' => '777',
+                'height' => '516',
+                'media' => '58512c44c3a5be49f3529d95',
+            ],
         ];
 
         $mediaManager = $this->container->get('swp_content_bundle.manager.media');
