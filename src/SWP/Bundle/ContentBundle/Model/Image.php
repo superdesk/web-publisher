@@ -14,6 +14,7 @@
 
 namespace SWP\Bundle\ContentBundle\Model;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use SWP\Component\Common\Model\TimestampableTrait;
 
 class Image implements ImageInterface
@@ -53,9 +54,9 @@ class Image implements ImageInterface
     protected $height;
 
     /**
-     * @var ImageRenditionInterface
+     * @var ArrayCollection
      */
-    protected $rendition;
+    protected $renditions;
 
     /**
      * File constructor.
@@ -63,6 +64,7 @@ class Image implements ImageInterface
     public function __construct()
     {
         $this->setCreatedAt(new \DateTime());
+        $this->setRenditions(new ArrayCollection());
     }
 
     /**
@@ -130,19 +132,27 @@ class Image implements ImageInterface
     }
 
     /**
-     * @return ImageRenditionInterface
+     * @return ArrayCollection
      */
-    public function getRendition()
+    public function getRenditions()
     {
-        return $this->rendition;
+        return $this->renditions;
     }
 
     /**
-     * @param ImageRenditionInterface $rendition
+     * @param ImageRendition $rendition
      */
-    public function setRendition(ImageRenditionInterface $rendition)
+    public function addRendition(ImageRendition $rendition)
     {
-        $this->rendition = $rendition;
+        $this->renditions->add($rendition);
+    }
+
+    /**
+     * @param ArrayCollection $renditions
+     */
+    public function setRenditions($renditions)
+    {
+        $this->renditions = $renditions;
     }
 
     /**
