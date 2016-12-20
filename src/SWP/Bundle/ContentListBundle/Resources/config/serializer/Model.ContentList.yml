@@ -19,12 +19,9 @@ SWP\Component\ContentList\Model\ContentList:
         description:
             expose: true
             type: string
-        expression:
-            expose: true
-            type: string
         filters:
             expose: true
-            type: string
+            type: array
         enabled:
             expose: true
             type: boolean

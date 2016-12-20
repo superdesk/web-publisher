@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Superdesk Web Publisher Core Bundle.
  *
@@ -21,6 +23,7 @@ use SWP\Component\Common\Criteria\Criteria;
 use SWP\Component\ContentList\ContentListEvents;
 use SWP\Component\ContentList\Model\ContentListInterface;
 use SWP\Component\ContentList\Model\ContentListItemInterface;
+use SWP\Component\ContentList\Model\ListContentInterface;
 use SWP\Component\ContentList\Repository\ContentListRepositoryInterface;
 use SWP\Component\Storage\Factory\FactoryInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
@@ -37,8 +40,14 @@ class AutomaticListAddArticleListener
      */
     private $listItemFactory;
 
+    /**
+     * @var ArticleCriteriaMatcherInterface
+     */
     private $articleCriteriaMatcher;
 
+    /**
+     * @var EventDispatcherInterface
+     */
     private $eventDispatcher;
 
     public function __construct(
@@ -63,15 +72,18 @@ class AutomaticListAddArticleListener
         $contentLists = $this->listRepository->findByType(ContentListInterface::TYPE_AUTOMATIC);
 
         foreach ($contentLists as $contentList) {
-            // check if article already exists in content list
-            $filters = json_decode($contentList->getFilters(), true);
+            $filters = $contentList->getFilters();
             if ($this->articleCriteriaMatcher->match($article, new Criteria($filters))) {
                 /* @var ContentListItemInterface $contentListItem */
                 $contentListItem = $this->listItemFactory->create();
+                /* @var ListContentInterface $article */
                 $contentListItem->setContent($article);
                 $contentListItem->setPosition($contentList->getItems()->count());
                 $contentList->addItem($contentListItem);
-                $this->eventDispatcher->dispatch(ContentListEvents::POST_ITEM_ADD, new ContentListEvent($contentList, $contentListItem));
+                $this->eventDispatcher->dispatch(
+                    ContentListEvents::POST_ITEM_ADD,
+                    new ContentListEvent($contentList, $contentListItem)
+                );
             }
         }
     }

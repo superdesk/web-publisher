@@ -116,24 +116,14 @@ interface ContentListInterface extends TimestampableInterface, SoftDeletableInte
     public function removeItem(ContentListItemInterface $item);
 
     /**
-     * @return mixed
-     */
-    public function getExpression();
-
-    /**
-     * @param string $expression
-     */
-    public function setExpression(string $expression);
-
-    /**
-     * @return null|string
+     * @return array
      */
     public function getFilters();
 
     /**
-     * @param string $filters
+     * @param array $filters
      */
-    public function setFilters(string $filters);
+    public function setFilters(array $filters);
 
     /**
      * @param string $key

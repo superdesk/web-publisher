@@ -21,7 +21,6 @@ use SWP\Component\Common\Criteria\Criteria;
 use SWP\Bundle\ContentBundle\Doctrine\ArticleRepositoryInterface;
 use SWP\Bundle\ContentBundle\Model\ArticleInterface;
 use SWP\Bundle\StorageBundle\Doctrine\ORM\EntityRepository;
-use SWP\Component\Common\Pagination\PaginationData;
 
 class ArticleRepository extends EntityRepository implements ArticleRepositoryInterface
 {
@@ -70,7 +69,10 @@ class ArticleRepository extends EntityRepository implements ArticleRepositoryInt
         return (int) $qb->getQuery()->getSingleScalarResult();
     }
 
-    public function findArticlesByCriteria(Criteria $criteria, array $sorting = [], PaginationData $paginationData = null)
+    /**
+     * {@inheritdoc}
+     */
+    public function findArticlesByCriteria(Criteria $criteria, array $sorting = []): array
     {
         $queryBuilder = $this->createQueryBuilder('a')
             ->where('a.status = :status')
@@ -79,18 +81,31 @@ class ArticleRepository extends EntityRepository implements ArticleRepositoryInt
         if ($criteria->has('author')) {
             foreach ($criteria->get('author') as $author) {
                 $queryBuilder->andWhere($queryBuilder->expr()->like('a.metadata', ':metadata'))
-                    ->setParameter('metadata', '%"'.$author.'"%');
+                    ->setParameter('metadata', '%'.$author.'%');
             }
+
+            $criteria->remove('author');
         }
 
         if ($criteria->has('publishedBefore')) {
             $queryBuilder->andWhere('a.publishedAt < :before')
                 ->setParameter('before', $criteria->get('publishedBefore'));
+            $criteria->remove('publishedBefore');
         }
 
         if ($criteria->has('publishedAfter')) {
             $queryBuilder->andWhere('a.publishedAt > :after')
                 ->setParameter('after', $criteria->get('publishedAfter'));
+            $criteria->remove('publishedAfter');
+        }
+
+        if ($criteria->has('metadata')) {
+            foreach ($criteria->get('metadata') as $key => $value) {
+                $queryBuilder->andWhere($queryBuilder->expr()->like('a.metadata', ':'.$key))
+                    ->setParameter($key, '%'.$value.'%');
+            }
+
+            $criteria->remove('metadata');
         }
 
         $this->applyCriteria($queryBuilder, $criteria, 'a');
@@ -98,7 +113,6 @@ class ArticleRepository extends EntityRepository implements ArticleRepositoryInt
         $this->applyLimiting($queryBuilder, $criteria);
 
         return $queryBuilder->getQuery()->getResult();
-        //return $this->getPaginator($queryBuilder, $paginationData);
     }
 
     /**
