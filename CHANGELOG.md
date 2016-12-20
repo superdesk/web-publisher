@@ -7,6 +7,10 @@ in 0.1 minor versions.
 
 To get the diff for a specific change, go to https://github.com/superdesk/web-publisher/commit/XXX where XXX is the change hash
 
+
+* 0.2.0
+ * feature [#203] Added option to access theme assets with simple /public/{fileName} links
+
 * 0.1.0-11
  * feature [#184] Added Google AMP HTML integration
 
