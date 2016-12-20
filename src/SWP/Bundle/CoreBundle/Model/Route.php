@@ -22,10 +22,7 @@ use SWP\Component\MultiTenancy\Model\TenantAwareTrait;
 use SWP\Bundle\ContentBundle\Model\Route as BaseRoute;
 use SWP\Component\Storage\Model\PersistableInterface;
 
-class Route extends BaseRoute implements
-    PersistableInterface,
-    RouteInterface,
-    TenantAwareInterface
+class Route extends BaseRoute implements PersistableInterface, RouteInterface, TenantAwareInterface
 {
     use TenantAwareTrait;
 

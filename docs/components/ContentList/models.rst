@@ -73,4 +73,4 @@ Repository Interface
 ====================
 
 This component contains ``SWP\Component\ContentList\Repository\ContentListRepositoryInterface`` interface
-which can be used by your custom entity repository, in order to make it working with :doc:`/bundles/ContentListBundle/index`.
+which can be used by your custom entity repository, in order to make it working with :doc:`ContentListBundle </bundles/SWPContentListBundle/index>`.

@@ -103,6 +103,16 @@ swp_content_list:
                 list_content:
                     model: SWP\Bundle\CoreBundle\Model\Article
 
+swp_facebook_instant_articles:
+        persistence:
+            orm:
+                enabled: true
+                classes:
+                    facebook_application:
+                        model: SWP\Bundle\CoreBundle\Model\FacebookApplication
+                    facebook_page:
+                        model: SWP\Bundle\CoreBundle\Model\FacebookPage
+
 swp_bridge:
     persistence:
         orm: true
@@ -145,3 +155,13 @@ stof_doctrine_extensions:
             loggable: true
             sortable: true
             tree: true
+
+takeit_amp_html:
+    theme:
+        loader: 'swp.loader.amp_theme'
+        theme_path: 'amp/amp-theme'
+    model: SWP\Bundle\CoreBundle\Model\Article
+    checker: 'swp.checker.amp_support'
+    routing:
+        parameter_strategy:
+            enabled: true

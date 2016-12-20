@@ -110,7 +110,9 @@ fos_http_cache:
         generate_url_type: 0
     proxy_client:
         symfony:
-            servers: "%cache_servers%"
+            http:
+                servers: "%cache_servers%"
+                base_url: "%domain%"
     invalidation:
         rules:
             -
@@ -242,13 +244,3 @@ monolog:
             path:     '%kernel.logs_dir%/swp_validators_%kernel.environment%.log'
             max_files: 7
             channels: swp_validators
-
-takeit_amp_html:
-    theme:
-        loader: 'swp.loader.amp_theme'
-        theme_path: 'amp/amp-theme'
-    model: SWP\Bundle\CoreBundle\Model\Article
-    checker: 'swp.checker.amp_support'
-    routing:
-        parameter_strategy:
-            enabled: true

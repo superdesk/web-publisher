@@ -239,10 +239,6 @@ class NinjsValidator extends JsonValidator
                         "description" : "The place group",
                         "type" : "string"
                     },
-                    "name" : {
-                        "description" : "The place name",
-                        "type" : "string"
-                    },
                     "country" : {
                         "description" : "The country name",
                         "type" : "string"

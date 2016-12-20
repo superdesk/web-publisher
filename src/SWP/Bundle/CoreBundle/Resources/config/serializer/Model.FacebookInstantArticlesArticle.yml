@@ -1,0 +1,36 @@
+SWP\Bundle\CoreBundle\Model\FacebookInstantArticlesArticle:
+    exclusion_policy: ALL
+    properties:
+        id:
+            expose: true
+            type: string
+        submissionId:
+            expose: true
+            type: string
+        article:
+            expose: true
+            type: SWP\Bundle\CoreBundle\Model\Article
+        status:
+            expose: true
+            type: string
+        errors:
+            expose: true
+            type: string
+        feed:
+            expose: true
+            type: SWP\Bundle\CoreBundle\Model\FacebookInstantArticlesFeed
+        createdAt:
+            expose: true
+            type: DateTime
+        updatedAt:
+            expose: true
+            type: DateTime
+    relations:
+        -   rel: list
+            href:
+                route: swp_api_list_facebook_instant_articles_articles
+        -   rel: update_status
+            href:
+                route: swp_api_facebook_instant_articles_articles_update
+                parameters:
+                    submissionId: expr(object.getSubmissionId())

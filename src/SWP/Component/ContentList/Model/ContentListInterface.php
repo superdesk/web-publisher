@@ -22,14 +22,23 @@ use SWP\Component\Common\Model\SoftDeletableInterface;
 use SWP\Component\Common\Model\TimestampableInterface;
 use SWP\Component\Storage\Model\PersistableInterface;
 
-interface ContentListInterface extends
-    TimestampableInterface,
-    SoftDeletableInterface,
-    PersistableInterface,
-    EnableableInterface
+interface ContentListInterface extends TimestampableInterface, SoftDeletableInterface, PersistableInterface, EnableableInterface
 {
+    /**
+     * Items are added autmatically based on provided criteria.
+     * On criteria change items are also changed.
+     */
     const TYPE_AUTOMATIC = 'automatic';
+
+    /**
+     * Manually add (and reorder) items.
+     */
     const TYPE_MANUAL = 'manual';
+
+    /**
+     * Useful for collecting items. Items are added automatically.
+     */
+    const TYPE_BUCKET = 'bucket';
 
     /**
      * @return mixed

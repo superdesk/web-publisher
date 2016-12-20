@@ -15,12 +15,15 @@
 namespace SWP\Bundle\CoreBundle\EventListener;
 
 use SWP\Bundle\ContentBundle\Event\ArticleEvent;
-use SWP\Component\ContentList\Model\ContentListInterface;
-use SWP\Component\ContentList\Model\ContentListItemInterface;
+use SWP\Bundle\CoreBundle\ContentListEvents;
+use SWP\Bundle\CoreBundle\Event\ContentListEvent;
+use SWP\Bundle\CoreBundle\Model\ContentListInterface;
+use SWP\Bundle\CoreBundle\Model\ContentListItemInterface;
 use SWP\Component\ContentList\Repository\ContentListRepositoryInterface;
 use SWP\Component\Rule\Evaluator\RuleEvaluatorInterface;
 use SWP\Component\Rule\Model\RuleInterface;
 use SWP\Component\Storage\Factory\FactoryInterface;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class AutomaticListAddArticleListener
 {
@@ -45,23 +48,31 @@ class AutomaticListAddArticleListener
     private $ruleFactory;
 
     /**
-     * ContentListListener constructor.
+     * @var EventDispatcherInterface
+     */
+    protected $eventDispatcher;
+
+    /**
+     * AutomaticListAddArticleListener constructor.
      *
      * @param ContentListRepositoryInterface $listRepository
      * @param FactoryInterface               $listItemFactory
      * @param RuleEvaluatorInterface         $ruleEvaluator
      * @param FactoryInterface               $ruleFactory
+     * @param EventDispatcherInterface       $eventDispatcher
      */
     public function __construct(
         ContentListRepositoryInterface $listRepository,
         FactoryInterface $listItemFactory,
         RuleEvaluatorInterface $ruleEvaluator,
-        FactoryInterface $ruleFactory
+        FactoryInterface $ruleFactory,
+        EventDispatcherInterface $eventDispatcher
     ) {
         $this->listRepository = $listRepository;
         $this->listItemFactory = $listItemFactory;
         $this->ruleEvaluator = $ruleEvaluator;
         $this->ruleFactory = $ruleFactory;
+        $this->eventDispatcher = $eventDispatcher;
     }
 
     /**
@@ -81,7 +92,9 @@ class AutomaticListAddArticleListener
                 /** @var ContentListItemInterface $contentListItem */
                 $contentListItem = $this->listItemFactory->create();
                 $contentListItem->setContent($article);
+                $contentListItem->setPosition($contentList->getItems()->count());
                 $contentList->addItem($contentListItem);
+                $this->eventDispatcher->dispatch(ContentListEvents::POST_ITEM_ADD, new ContentListEvent($contentList, $contentListItem));
             }
         }
     }

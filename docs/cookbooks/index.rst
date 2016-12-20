@@ -1,5 +1,8 @@
+Cookbooks
+=========
+
 .. toctree::
-   :hidden:
 
    templates/index
    developers/index
+   editors/index

@@ -14,7 +14,7 @@
 
 namespace SWP\Bundle\CoreBundle\Tests\EventListener;
 
-use SWP\Bundle\ContentBundle\Tests\Functional\WebTestCase;
+use SWP\Bundle\FixturesBundle\WebTestCase;
 use SWP\Bundle\FixturesBundle\DataFixtures\ORM\LoadRoutesData;
 use Symfony\Cmf\Component\Routing\ChainRouter;
 

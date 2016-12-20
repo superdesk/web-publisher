@@ -108,6 +108,33 @@ Load assets from the public ``web`` directory
     <!-- loads asset file directly from `web` dir (`web/example.css`) -->
     <link rel="stylesheet" href="{{ asset('example.css') }}" />
 
+Generate simple links for current theme assets
+``````````````````````````````````````````````
+
+If You need to get link to asset from outside of twig template then you can use this url:
+
+.. code-block:: twig
+
+    /public/{filePath}
+
+    ex. <link rel="stylesheet" href="/public/css/example.css" />
+
+Where {filePath} is path for your file from public directory inside theme.
+
+Load Service Worker files (from domain root level)
+``````````````````````````````````````````````````
+
+If You want to use service worker or manifest file (it must be placed in root level) then you can use this url:
+
+.. code-block:: twig
+
+    /{fileName}.{fileExtension}
+
+    ex. <link rel="manifest" href="/manifest.json">
+
+Where {fileName} can be only :code:`sw` or :code:`manifest`.
+
+
 Load bundles' assets
 ````````````````````
 
