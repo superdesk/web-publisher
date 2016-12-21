@@ -14,6 +14,8 @@
 
 namespace SWP\Bundle\CoreBundle\Controller;
 
+use Hoa\File\Read;
+use Hoa\Mime\Mime;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -74,6 +76,9 @@ class StaticThemeAssetsController extends Controller
                 basename($filePath)
             );
             $response->headers->set('Content-Disposition', $disposition);
+            $type = new Mime(new Read($filePath));
+            $mime = str_replace('/x-', '/', Mime::getMimeFromExtension($type->getExtension()));
+            $response->headers->set('Content-Type', $mime);
             $response->setStatusCode(Response::HTTP_OK);
 
             return $response;

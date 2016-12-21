@@ -48,10 +48,17 @@ SWP\Bundle\ContentBundle\Model\ArticleMedia:
                 name: article_id
                 referencedColumnName: id
                 onDelete: CASCADE
-    oneToOne:
         file:
             targetEntity: SWP\Bundle\ContentBundle\Model\File
-            mapped: file
+            inversedBy: media
+            cascade: ["persist"]
+            joinColumn:
+                name: file_id
+                referencedColumnName: id
         image:
             targetEntity: SWP\Bundle\ContentBundle\Model\Image
-            mapped: media
+            inversedBy: media
+            cascade: ["persist"]
+            joinColumn:
+                name: image_id
+                referencedColumnName: id

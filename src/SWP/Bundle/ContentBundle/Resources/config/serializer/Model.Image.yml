@@ -12,7 +12,7 @@ SWP\Bundle\ContentBundle\Model\Image:
             expose: true
         assetId:
             expose: true
-        rendition:
+        renditions:
             expose: true
     relations:
         -

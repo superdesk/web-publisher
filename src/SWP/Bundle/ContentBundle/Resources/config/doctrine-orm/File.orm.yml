@@ -18,10 +18,7 @@ SWP\Bundle\ContentBundle\Model\File:
         updatedAt:
             type: date
             nullable: true
-    oneToOne:
+    oneToMany:
         media:
             targetEntity: SWP\Bundle\ContentBundle\Model\ArticleMedia
-            inversedBy: image
-            joinColumn:
-                name: media_id
-                referencedColumnName: id
+            mappedBy: file
