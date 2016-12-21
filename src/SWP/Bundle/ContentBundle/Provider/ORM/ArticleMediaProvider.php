@@ -23,6 +23,8 @@ use SWP\Bundle\ContentBundle\Provider\ArticleMediaProviderInterface;
 use SWP\Component\Common\Criteria\Criteria;
 use SWP\Component\Storage\Repository\RepositoryInterface;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 
 /**
  * ArticleMediaProvider to provide media from ORM.
@@ -73,6 +75,24 @@ class ArticleMediaProvider extends AbstractProvider implements ArticleMediaProvi
         }
 
         return $media;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getManyByCriteria(Criteria $criteria): Collection
+    {
+        $results = $this->getRepository()->getByCriteria(
+            $criteria,
+            $criteria->get('order', [])
+        )
+        ->addSelect('r')
+        ->leftJoin('am.renditions', 'r')
+        ->addSelect('i')
+        ->leftJoin('r.image', 'i')
+        ->getQuery()->getResult();
+
+        return new ArrayCollection($results);
     }
 
     public function getCountByCriteria(Criteria $criteria): int
