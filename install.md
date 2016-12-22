@@ -58,7 +58,7 @@ docker-compose run php app/console doctrine:fixtures:load
 Install demo theme:
 
 ```bash
-docker-compose run php app/console theme:setup -f
+docker-compose run php app/console swp:theme:install 123abc src/SWP/Bundle/FixturesBundle/Resources/themes/DefaultTheme/ -f
 docker-compose run php app/console sylius:theme:assets:install
 ```
 
@@ -99,7 +99,23 @@ php app/console doctrine:fixtures:load
 
 You should also install a theme. To install our demo DefaultTheme - run following commands:
 
+In case of loaded development data:
+
 ```bash
-php app/console theme:setup -f
+php app/console swp:theme:install 123abc src/SWP/Bundle/FixturesBundle/Resources/themes/DefaultTheme/ -f
+```
+
+else:
+
+```bash
+php app/console swp:theme:install <tenant> src/SWP/Bundle/FixturesBundle/Resources/themes/DefaultTheme/ -f
+```
+
+where `<tenant>` is tenant's code generated when a new tenant is created.
+
+The last step is to install assets:
+
+ 
+```bash
 php app/console sylius:theme:assets:install
 ```

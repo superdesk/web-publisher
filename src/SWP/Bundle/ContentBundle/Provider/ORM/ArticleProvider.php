@@ -94,16 +94,8 @@ class ArticleProvider extends AbstractProvider implements ArticleProviderInterfa
     /**
      * {@inheritdoc}
      */
-    public function getCountByCriteria(Criteria $criteria) : int
+    public function getCountByCriteria(Criteria $criteria): int
     {
-        return (int) $this->articleRepository->getByCriteria(
-                $criteria,
-                $criteria->get('order', [])
-            )
-            ->select('COUNT(a.id)')
-            ->setFirstResult(null)
-            ->setMaxResults(null)
-            ->getQuery()
-            ->getSingleScalarResult();
+        return $this->articleRepository->countByCriteria($criteria);
     }
 }

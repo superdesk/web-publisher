@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the Superdesk Web Publisher Template Engine Bundle.
+ * This file is part of the Superdesk Web Publisher Core Bundle.
  *
  * Copyright 2016 Sourcefabric z.ú. and contributors.
  *
@@ -14,23 +14,16 @@
 
 namespace SWP\Bundle\CoreBundle\Tests\Command;
 
-use Doctrine\Common\Persistence\ObjectManager;
 use SWP\Bundle\CoreBundle\Command\ThemeSetupCommand;
 use SWP\Bundle\CoreBundle\Document\Tenant;
-use SWP\Component\MultiTenancy\Model\TenantInterface;
 use SWP\Component\MultiTenancy\Repository\TenantRepositoryInterface;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Console\Tester\CommandTester;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use Symfony\Component\HttpKernel\Kernel;
-use Symfony\Component\HttpKernel\KernelInterface;
 
 class ThemeSetupCommandTest extends KernelTestCase
 {
-    const DELETED_MSG_REGEXP = '/Theme "theme_command_test" has been deleted successfully!/';
-    const SUCCESS_MSG_REGEXP = '/Theme "theme_command_test" has been setup successfully!/';
-
     private $commandTester;
     private $command;
 
@@ -47,7 +40,7 @@ class ThemeSetupCommandTest extends KernelTestCase
         $application = new Application($kernel);
         $application->add(new ThemeSetupCommand());
 
-        return $application->find('theme:setup');
+        return $application->find('swp:theme:install');
     }
 
     protected function createCommandTester()
@@ -57,70 +50,103 @@ class ThemeSetupCommandTest extends KernelTestCase
         $tenant->setCode('123456');
         $command->setContainer($this->getMockContainer($tenant));
 
-        return  new CommandTester($command);
+        return new CommandTester($command);
     }
 
-    private function getMockContainer($mockTenant = null)
+    private function getMockContainer($mockTenant = null, $tenantCode = '123456')
     {
         $mockRepo = $this->getMock(TenantRepositoryInterface::class);
 
-        $mockRepo->expects($this->once())
-            ->method('findOneBy')
-            ->with(['name' => TenantInterface::DEFAULT_TENANT_NAME])
+        $mockRepo->expects($this->any())
+            ->method('findOneByCode')
+            ->with($tenantCode)
             ->will($this->returnValue($mockTenant));
-
-        $mockDoctrine = $this
-            ->getMockBuilder(ObjectManager::class)
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        $mockDoctrine->expects($this->any())
-            ->method('persist')
-            ->will($this->returnValue(null));
-        $mockDoctrine->expects($this->any())
-            ->method('flush')
-            ->will($this->returnValue(null));
-
-        $stubKernel = $this->getMock(KernelInterface::class);
-        $stubKernel->expects($this->at(0))
-            ->method('getRootDir')
-            ->will($this->returnValue(sys_get_temp_dir().'/'.Kernel::VERSION));
-
-        $stubKernel->expects($this->once())
-            ->method('locateResource')
-            ->with('@SWPFixturesBundle/Resources/themes/theme_command_test')
-            ->will($this->returnValue(__DIR__.'/theme_command_test'));
 
         $mockContainer = $this->getMockBuilder(ContainerInterface::class)
             ->getMock();
 
         $mockContainer->expects($this->any())
+            ->method('getParameter')
+            ->with('swp.theme.configuration.default_directory')
+            ->will($this->returnValue('/tmp'));
+
+        $mockContainer->expects($this->any())
             ->method('get')
             ->will($this->returnValueMap([
-                ['doctrine_phpcr.odm.document_manager', 1, $mockDoctrine],
                 ['swp.repository.tenant', 1, $mockRepo],
-                ['kernel', 1, $stubKernel],
             ]));
 
         return $mockContainer;
     }
 
     /**
-     * @covers SWP\Bundle\FixturesBundle\Command\ThemeSetupCommand
-     * @covers SWP\Bundle\FixturesBundle\Command\ThemeSetupCommand::execute
+     * @covers \SWP\Bundle\CoreBundle\Command\ThemeSetupCommand
+     * @covers \SWP\Bundle\CoreBundle\Command\ThemeSetupCommand::execute
      */
     public function testExecute()
     {
         $this->commandTester->execute(
             [
-                'name' => 'theme_command_test',
+                'tenant' => '123456',
+                'theme_dir' => __DIR__.'/../Fixtures/themes/123abc/theme_test',
                 '--force' => true,
             ]
         );
 
-        $this->assertRegExp(
-            self::SUCCESS_MSG_REGEXP,
+        $this->assertContains(
+            'Theme has been installed successfully!',
             $this->commandTester->getDisplay()
+        );
+    }
+
+    public function testExecuteWhenDirectoryNotValid()
+    {
+        $this->commandTester->execute(
+            [
+                'tenant' => '123456',
+                'theme_dir' => 'fake/dir',
+                '--force' => true,
+            ]
+        );
+
+        $this->assertContains(
+            'Directory "fake/dir" does not exist or it is not a directory!',
+            $this->commandTester->getDisplay()
+        );
+    }
+
+    public function testExecuteWhenFailure()
+    {
+        $this->commandTester->execute(
+            [
+                'tenant' => '123456',
+                'theme_dir' => '/',
+                '--force' => true,
+            ]
+        );
+
+        $this->assertContains(
+            'Theme could not be installed!',
+            $this->commandTester->getDisplay()
+        );
+    }
+
+    /**
+     * @expectedException \SWP\Component\MultiTenancy\Exception\TenantNotFoundException
+     */
+    public function testExecuteWhenTenantNotFound()
+    {
+        $command = self::createCommand();
+        $command->setContainer($this->getMockContainer(null, '111'));
+
+        $commandTester = new CommandTester($command);
+
+        $commandTester->execute(
+            [
+                'tenant' => '111',
+                'theme_dir' => '/',
+                '--force' => true,
+            ]
         );
     }
 }
