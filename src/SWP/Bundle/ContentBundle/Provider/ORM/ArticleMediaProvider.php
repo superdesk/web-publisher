@@ -16,6 +16,7 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\ContentBundle\Provider\ORM;
 
+use Doctrine\ORM\Tools\Pagination\Paginator;
 use SWP\Bundle\ContentBundle\Doctrine\ArticleMediaRepositoryInterface;
 use SWP\Bundle\ContentBundle\Model\ArticleMediaInterface;
 use SWP\Bundle\ContentBundle\Provider\AbstractProvider;
@@ -82,7 +83,7 @@ class ArticleMediaProvider extends AbstractProvider implements ArticleMediaProvi
      */
     public function getManyByCriteria(Criteria $criteria): Collection
     {
-        $results = $this->getRepository()->getByCriteria(
+        $query = $this->getRepository()->getByCriteria(
             $criteria,
             $criteria->get('order', [])
         )
@@ -90,9 +91,11 @@ class ArticleMediaProvider extends AbstractProvider implements ArticleMediaProvi
         ->leftJoin('am.renditions', 'r')
         ->addSelect('i')
         ->leftJoin('r.image', 'i')
-        ->getQuery()->getResult();
+        ->getQuery();
 
-        return new ArrayCollection($results);
+        $paginator = new Paginator($query, $fetchJoinCollection = true);
+
+        return new ArrayCollection(iterator_to_array($paginator->getIterator()));
     }
 
     public function getCountByCriteria(Criteria $criteria): int

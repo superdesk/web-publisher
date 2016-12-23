@@ -40,7 +40,7 @@ docker-compose run php composer install
 Create database:
 
 ```bash
-docker-compose run php app/console doctrine:database:create --force
+docker-compose run php app/console doctrine:database:create
 ```
 
 Update database schema:
@@ -81,7 +81,7 @@ composer install
 Execute the following commands in terminal:
 
 ```bash
-php app/console doctrine:schema:create --force
+php app/console doctrine:schema:create
 php app/console doctrine:schema:update --force
 php app/console swp:organization:create --default
 php app/console swp:tenant:create --default
