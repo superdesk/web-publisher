@@ -10,60 +10,32 @@ Available variables:
   <title>{{ object.title }}</title>
   <link rel="canonical" href="{{ url(gimme.article) }}">
   <meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1">
-  <script type="application/ld+json">
-      {
-        "@context": "http://schema.org",
-        "@type": "NewsArticle",
-        "mainEntityOfPage": "{{ url(gimme.article) }}",
-        "headline": "{{ object.title }}",
-        "datePublished": "{{ object.publishedAt|date('Y-m-d H:i:s') }}",
-        "dateModified": "{{ object.updatedAt|date('Y-m-d H:i:s') }}",
-        "description": "{{ object.lead }}",
-        "author": {
-          "@type": "Person",
-          "name": "{{ object.metadata.byline }}"
-        },
-        "publisher": {
-          "@type": "Organization",
-          "logo": {
-            "@type": "ImageObject",
-            "url": "https://assets-cdn.github.com/images/modules/logos_page/GitHub-Mark.png",
-            "width": 125,
-            "height": 60
-          },
-          "name": "{{ tenant.organization.name }}"
-        },
-        "image": {
-          "@type": "ImageObject",
-          "url": "http://cdn.ampproject.org/leader.jpg",
-          "height": 2000,
-          "width": 800
-        }
-      }
-    </script>
-  <style amp-boilerplate>
-    {% include '@amp_theme/css/amp-boilerplate.html.twig' %}
-  </style>
-    {% include '@amp_theme/css/amp-boilerplate-noscript.html.twig' %}
-  <style amp-custom>
-    {% include '@amp_theme/css/amp-custom.html.twig' %}
-  </style>
+
+  {% include '@amp_theme/partials/head.html.twig' %}
+
 </head>
 <body>
-<header role="banner">
-  <a href="#" class="header-link">
-    Demo AMP theme
-  </a>
-</header>
+  <amp-install-serviceworker src="//{{ app.request.host }}/sw.js"
+       data-iframe-src="//{{ app.request.host }}/sw.html"
+       layout="nodisplay">
+   </amp-install-serviceworker>
+  {% include '@amp_theme/partials/menu.html.twig' %}
+  {% include '@amp_theme/partials/header.html.twig' %}
 
-<article role="article">
+<article role="article" class="main">
   <h1>{{ object.title }}</h1>
+  <div class="byline">
+    <time datetime="{{ object.publishedAt|date("c") }}" >{{ object.publishedAt|date("d F Y") }}</time>
+    {% if object.metadata.byline %}, by {{ object.metadata.byline }}{% endif %}
+  </div>
+
+
   <div class="article-content">
       {% gimmelist media from articleMedia|limit(1) with {'article': gimme.article} %}
       {% if media.renditions is iterable %}
           {% for rendition in media.renditions %}
               {% if rendition.name == '478x326' %}
-                <amp-img src="{{ url(rendition) }}" alt="{{ media.body }}"></amp-img>
+                <amp-img src="{{ path(rendition) }}" alt="{{ media.body }}" class="mainImg"></amp-img>
               {% endif %}
           {% endfor %}
       {% endif %}
@@ -71,12 +43,23 @@ Available variables:
       <br>
       {{ object.body|raw }}
   </div>
+
+  <div class="shareButtons">
+    <amp-social-share type="facebook"
+        data-param-app_id="254325784911610"></amp-social-share>
+     <amp-social-share type="twitter"></amp-social-share>
+     <amp-social-share type="email"></amp-social-share>
+   </div>
 </article>
 
-<footer>
-  <a href="#" class="header-link">
-    Footer
-  </a>
-</footer>
+<div class="readmore">
+  <b>Read More:</b>
+  {% gimmelist article from articles|start(0)|limit(5) %}
+    {% if article.slug != object.slug %}
+      <p><a href="{{ url(article) }}">{{ article.title }}</a></p>
+    {% endif %}
+  {% endgimmelist %}
+</div>
+
 </body>
 </html>
