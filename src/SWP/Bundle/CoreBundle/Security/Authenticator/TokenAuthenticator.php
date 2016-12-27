@@ -92,6 +92,7 @@ class TokenAuthenticator extends AbstractGuardAuthenticator
         $apiKey->extendValidTo();
         $this->apiKeyRepository->flush();
 
+        /** @var User $user */
         $user = $apiKey->getUser();
         $user->addRole('ROLE_INTERNAL_API');
 
@@ -101,10 +102,10 @@ class TokenAuthenticator extends AbstractGuardAuthenticator
     public function checkCredentials($credentials, UserInterface $user)
     {
         if ($user instanceof User) {
-            $currentTenantOrganization = $this->tenantContext->getTenant()->getOrganization();
-            $userTenantOrganization = $this->tenantRepository->findOneByCode($user->getTenantCode());
+            $currentOrganization = $this->tenantContext->getTenant()->getOrganization();
+            $userOrganization = $this->tenantRepository->findOneByCode($user->getTenantCode())->getOrganization();
 
-            if ($currentTenantOrganization->getId() === $userTenantOrganization->getId()) {
+            if ($currentOrganization->getId() === $userOrganization->getId()) {
                 return true;
             }
         }
