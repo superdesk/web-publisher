@@ -1,5 +1,5 @@
 
-CHANGELOG for version <= 0.1.x
+CHANGELOG for version <= 0.2.x
 ==============================
 
 This changelog references the relevant changes (bug and security fixes) done
@@ -10,6 +10,7 @@ To get the diff for a specific change, go to https://github.com/superdesk/web-pu
 
 * 0.2.0
  * feature [#203] Added option to access theme assets with simple /public/{fileName} links
+ * change [#207] Changed serialized properties naming strategy from underscore to camelCase
 
 * 0.1.0-11
  * feature [#184] Added Google AMP HTML integration

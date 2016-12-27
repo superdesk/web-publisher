@@ -1,3 +1,6 @@
+parameters:
+    jms_serializer.camel_case_naming_strategy.class: JMS\Serializer\Naming\IdenticalPropertyNamingStrategy
+
 services:
     session.memcached:
         class: "Memcached"
@@ -46,6 +49,7 @@ jms_serializer:
             FOSUserBundle:
                 namespace_prefix: "FOS\\UserBundle"
                 path: "@SWPCoreBundle/Resources/config/serializer/fos-user"
+
 
 
 swp_templates_system:
