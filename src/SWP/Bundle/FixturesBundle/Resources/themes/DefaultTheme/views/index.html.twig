@@ -13,7 +13,7 @@
       <div class="span8">
 {% cache 'frontTop3' { time:600 } %}
 
-{% gimmelist article from articles|limit(2) %}
+{% gimmelist article from articles|limit(3) %}
 {% if loop.first %}
         <article class="news_item">
 
