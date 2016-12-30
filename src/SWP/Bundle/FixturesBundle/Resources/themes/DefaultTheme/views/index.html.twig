@@ -91,7 +91,7 @@
 </div><!-- End Span (5) -->
 {% endif %}
 {% endif %}
-{% if loop.last %}</div><!-- End Row (8) -->{% endif %}
+{% if loop.last and loop.index > 1 %}</div><!-- End Row (8) -->{% endif %}
 {% endgimmelist %}
 
 {% endcache %}
