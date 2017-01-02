@@ -16,8 +16,11 @@ namespace SWP\Bundle\CoreBundle\Controller;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use SWP\Bundle\ContentBundle\Model\RouteInterface;
 use SWP\Bundle\CoreBundle\Model\TenantInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Cmf\Bundle\RoutingBundle\Routing\DynamicRouter;
+use Symfony\Component\HttpFoundation\Request;
 
 class DefaultController extends Controller
 {
@@ -25,7 +28,7 @@ class DefaultController extends Controller
      * @Route("/", name="homepage")
      * @Method("GET")
      */
-    public function indexAction()
+    public function indexAction(Request $request)
     {
         /** @var TenantInterface $currentTenant */
         $currentTenant = $this->get('swp_multi_tenancy.tenant_context')->getTenant();
@@ -34,11 +37,14 @@ class DefaultController extends Controller
         $route = $currentTenant->getHomepage();
 
         if (null === $route) {
+            /** @var RouteInterface $route */
             $route = $this->get('swp.factory.route')->create();
             $route->setStaticPrefix('/');
             $route->setName('Homepage');
             $route->setType('content');
             $route->setTemplateName('index.html.twig');
+            $route->setCacheTimeInSeconds(360);
+            $request->attributes->set(DynamicRouter::ROUTE_KEY, $route);
         }
 
         $templateEngineContext->setCurrentPage($metaFactory->create($route));

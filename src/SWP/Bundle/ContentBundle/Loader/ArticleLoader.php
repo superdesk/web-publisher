@@ -110,7 +110,7 @@ class ArticleLoader extends PaginatedLoader implements LoaderInterface
     public function load($type, $parameters = [], $responseType = LoaderInterface::SINGLE)
     {
         $criteria = new Criteria();
-        if ($responseType === LoaderInterface::SINGLE) {
+        if ($type === 'article' && $responseType === LoaderInterface::SINGLE) {
             if (array_key_exists('article', $parameters) && $parameters['article'] instanceof ArticleInterface) {
                 $this->dm->detach($parameters['article']);
                 $criteria->set('id', $parameters['article']->getId());
@@ -123,11 +123,11 @@ class ArticleLoader extends PaginatedLoader implements LoaderInterface
             } catch (NotFoundHttpException $e) {
                 return;
             }
-        } elseif ($responseType === LoaderInterface::COLLECTION) {
-            $currentPage = $this->context->getCurrentPage();
+        } elseif ($type === 'articles' && $responseType === LoaderInterface::COLLECTION) {
+            $currentPage = $this->context['route'];
             $route = null;
 
-            if (null !== $currentPage) {
+            if ($currentPage) {
                 $route = $currentPage->getValues();
             }
 
@@ -138,15 +138,18 @@ class ArticleLoader extends PaginatedLoader implements LoaderInterface
                     } elseif (is_string($parameters['route'])) {
                         $route = $this->routeProvider->getOneByStaticPrefix($parameters['route']);
                     }
+
+                    if (null === $route) {
+                        // if Route parameter was passed but it was not found - don't return articles not filtered by route
+                        return;
+                    }
                 }
             }
 
-            if (null === $route) {
-                return;
-            }
-
-            if ($route instanceof RouteInterface && RouteInterface::TYPE_COLLECTION === $route->getType()) {
-                $criteria->set('route', $route);
+            if (null !== $route) {
+                if ($route instanceof RouteInterface && RouteInterface::TYPE_COLLECTION === $route->getType()) {
+                    $criteria->set('route', $route);
+                }
             }
 
             $criteria = $this->applyPaginationToCriteria($criteria, $parameters);

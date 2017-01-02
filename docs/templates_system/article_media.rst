@@ -50,3 +50,17 @@ Usage:
         {% endif %}
     {% endgimmelist %}
 
+Get selected rendition only:
+
+
+.. code-block:: twig
+
+    {% gimmelist media from articleMedia with {'article': gimme.article} %}
+        {% gimme rendition with { 'name': '16-9', 'fallback': 'original' } %}
+            <img src="{{ url(gimme.rendition) }}" style="width: {{ gimme.rendition.width }}px; height: {{ gimme.rendition.height }}px;" />
+        {% endgimme %}
+    {% endgimmelist %}
+
+.. note::
+
+    'original' is default feedback value for single rendition loader.

@@ -29,7 +29,7 @@ class GimmeNodeTest extends \Twig_Test_NodeTestCase
         $annotation = new \Twig_Node([new \Twig_Node_Expression_AssignName('article', 1)]);
         $parameters = new \Twig_Node_Expression_Array([], 1);
         $body = new \Twig_Node_Text('', 1);
-        $node = new GimmeNode($annotation, $parameters, $body, 1, 'gimme');
+        $node = new GimmeNode($annotation, $parameters, null, $body, 1, 'gimme');
         $this->assertEquals($annotation, $node->getNode('annotation'));
         $this->assertEquals($parameters, $node->getNode('parameters'));
         $this->assertEquals($body, $node->getNode('body'));
@@ -40,16 +40,22 @@ class GimmeNodeTest extends \Twig_Test_NodeTestCase
         $annotation1 = new \Twig_Node([new \Twig_Node_Expression_AssignName('article', 1)]);
         $parameters1 = new \Twig_Node_Expression_Array([], 1);
         $body1 = new \Twig_Node_Text('Test body', 1);
-        $node1 = new GimmeNode($annotation1, $parameters1, $body1, 1, 'gimme');
+        $node1 = new GimmeNode($annotation1, $parameters1, null, $body1, 1, 'gimme');
 
         $annotation2 = new \Twig_Node([new \Twig_Node_Expression_AssignName('article', 2)]);
         $body2 = new \Twig_Node_Text('Test body', 2);
-        $node2 = new GimmeNode($annotation2, null, $body2, 2, 'gimme');
+        $node2 = new GimmeNode($annotation2, null, null, $body2, 2, 'gimme');
 
         $annotation3 = new \Twig_Node([new \Twig_Node_Expression_AssignName('article', 3)]);
         $parameters3 = new \Twig_Node_Expression_Array([new \Twig_Node_Expression_Constant('foo', 1), new \Twig_Node_Expression_Constant(true, 1)], 1);
         $body3 = new \Twig_Node_Text('Test body', 3);
-        $node3 = new GimmeNode($annotation3, $parameters3, $body3, 3, 'gimme');
+        $node3 = new GimmeNode($annotation3, $parameters3, null, $body3, 3, 'gimme');
+
+        $annotation4 = new \Twig_Node([new \Twig_Node_Expression_AssignName('article', 3)]);
+        $parameters4 = new \Twig_Node_Expression_Array([new \Twig_Node_Expression_Constant('foo', 1), new \Twig_Node_Expression_Constant(true, 1)], 1);
+        $ignoreContext4 = new \Twig_Node_Expression_Array([], 1);
+        $body4 = new \Twig_Node_Text('Test body', 4);
+        $node4 = new GimmeNode($annotation4, $parameters4, $ignoreContext4, $body4, 4, 'gimme');
 
         return [
             [$node1, <<<'EOF'
@@ -79,6 +85,19 @@ $context["article"] = $swpMetaLoader5->load("article", array("foo" => true));
 if ($context["article"] !== false) {
     echo "Test body";
 }
+unset($context["article"]);
+EOF
+            ],
+            [$node4, <<<'EOF'
+// line 4
+$swpMetaLoader6 = $this->env->getExtension('swp_gimme')->getLoader();
+$swpContext6Gimme = $this->env->getExtension('swp_gimme')->getContext();
+$swpIgnoreContext6Gimme = $swpContext6Gimme->temporaryUnset(array());
+$context["article"] = $swpMetaLoader6->load("article", array("foo" => true));
+if ($context["article"] !== false) {
+    echo "Test body";
+}
+$swpContext6Gimme->restoreTemporaryUnset($swpIgnoreContext6Gimme);
 unset($context["article"]);
 EOF
             ],
