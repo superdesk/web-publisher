@@ -17,6 +17,7 @@ parameters:
     templating.cache_warmer.template_paths.class: "Symfony\\Bundle\\FrameworkBundle\\CacheWarmer\\TemplatePathsCacheWarmer"
 
 framework:
+    ide: 'phpstorm://open?file=%%f&line=%%l'
     cache:
         app: cache.adapter.doctrine
         system: cache.adapter.doctrine

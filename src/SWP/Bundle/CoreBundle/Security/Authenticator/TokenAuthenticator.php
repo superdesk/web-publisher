@@ -92,7 +92,7 @@ class TokenAuthenticator extends AbstractGuardAuthenticator
         $apiKey->extendValidTo();
         $this->apiKeyRepository->flush();
 
-        /** @var User $user */
+        /** @var \FOS\UserBundle\Model\UserInterface $user */
         $user = $apiKey->getUser();
         $user->addRole('ROLE_INTERNAL_API');
 

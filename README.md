@@ -35,6 +35,7 @@ Full documentation can be found here: [http://superdesk-web-publisher.readthedoc
  * Postgresql >= 9.4
    * pdo-pgsql
  * Memcached
+   * memcached (running)
    * php-memcached
 
 ## Installation
