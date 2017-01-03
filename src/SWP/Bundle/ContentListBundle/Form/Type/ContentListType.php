@@ -68,7 +68,11 @@ class ContentListType extends AbstractType
                     return json_encode($value);
                 },
                 function ($value) {
-                    return json_decode($value, true);
+                    if (null !== $value && '' !== $value) {
+                        return json_decode($value, true);
+                    }
+
+                    return [];
                 }
             ));
     }

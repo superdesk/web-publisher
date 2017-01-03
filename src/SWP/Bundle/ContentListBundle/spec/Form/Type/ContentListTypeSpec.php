@@ -18,6 +18,7 @@ use Prophecy\Argument;
 use SWP\Bundle\ContentListBundle\Form\Type\ContentListType;
 use PhpSpec\ObjectBehavior;
 use SWP\Bundle\ContentListBundle\Form\Type\ContentListTypeSelectorType;
+use Symfony\Component\Form\CallbackTransformer;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -56,7 +57,7 @@ final class ContentListTypeSpec extends ObjectBehavior
         $this->configureOptions($resolver);
     }
 
-    public function it_build_a_form(FormBuilderInterface $builder)
+    public function it_build_a_form(FormBuilderInterface $builder, FormBuilderInterface $builderFilters)
     {
         $builder
             ->add('name', TextType::class, Argument::any())
@@ -77,7 +78,7 @@ final class ContentListTypeSpec extends ObjectBehavior
         ;
 
         $builder
-            ->add('expression', TextType::class, Argument::any())
+            ->add('filters', TextType::class, Argument::any())
             ->shouldBeCalled()
             ->willReturn($builder)
         ;
@@ -93,6 +94,15 @@ final class ContentListTypeSpec extends ObjectBehavior
             ->shouldBeCalled()
             ->willReturn($builder)
         ;
+
+        $builder
+            ->get('filters')
+            ->shouldBeCalled()
+            ->willReturn($builderFilters)
+        ;
+
+        $builderFilters->addModelTransformer(Argument::type(CallbackTransformer::class))
+            ->willReturn($builderFilters);
 
         $this->buildForm($builder, []);
     }
