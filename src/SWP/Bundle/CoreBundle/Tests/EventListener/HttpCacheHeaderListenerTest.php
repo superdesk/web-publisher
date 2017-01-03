@@ -52,7 +52,6 @@ class HttpCacheHeaderListenerTest extends WebTestCase
     {
         $headers = $this->getHeadersFromResponse(LoadRoutesData::TEST_CACHE_ROUTE_NAME);
         self::assertTrue($headers->hasCacheControlDirective('public'));
-        self::assertEquals($headers->getCacheControlDirective('max-age'), LoadRoutesData::TEST_CACHE_TIME);
         self::assertEquals($headers->getCacheControlDirective('s-maxage'), LoadRoutesData::TEST_CACHE_TIME);
     }
 

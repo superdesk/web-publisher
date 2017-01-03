@@ -53,6 +53,11 @@ class Context implements \ArrayAccess
     protected $configsPath;
 
     /**
+     * @var array
+     */
+    private $temporaryMeta = [];
+
+    /**
      * Context constructor.
      *
      * @param Cache  $metadataCache
@@ -228,10 +233,10 @@ class Context implements \ArrayAccess
         $name = $configuration['name'];
         if (!array_key_exists($name, $this->registeredMeta)) {
             $this->registeredMeta[$name] = $configuration;
+        }
 
-            if (!is_null($meta)) {
-                $this->$name = $meta;
-            }
+        if (array_key_exists($name, $this->registeredMeta) && !is_null($meta)) {
+            $this[$name] = $meta;
 
             return true;
         }
@@ -252,7 +257,7 @@ class Context implements \ArrayAccess
      */
     public function offsetSet($name, $meta)
     {
-        if (in_array($name, $this->registeredMeta)) {
+        if (array_key_exists($name, $this->registeredMeta)) {
             $this->$name = $meta;
         }
 
@@ -264,7 +269,7 @@ class Context implements \ArrayAccess
      */
     public function offsetExists($name)
     {
-        return in_array($name, $this->registeredMeta);
+        return isset($this->$name);
     }
 
     /**
@@ -272,8 +277,7 @@ class Context implements \ArrayAccess
      */
     public function offsetUnset($name)
     {
-        unset($this->registeredMeta[$name]);
-        usent($this->$name);
+        unset($this->$name);
 
         return true;
     }
@@ -283,10 +287,59 @@ class Context implements \ArrayAccess
      */
     public function offsetGet($name)
     {
-        if (in_array($name, $this->registeredMeta)) {
+        if (array_key_exists($name, $this->registeredMeta) && isset($this->$name)) {
             return $this->$name;
         }
 
         return false;
+    }
+
+    /**
+     * @param array $keys
+     *
+     * @return string
+     */
+    public function temporaryUnset(array $keys)
+    {
+        $metas = [];
+        $keysId = md5(serialize($keys));
+
+        if (count($keys) === 0) {
+            foreach ($this->registeredMeta as $key => $configuration) {
+                if (isset($this[$key])) {
+                    $metas[$key] = $this[$key];
+                    unset($this[$key]);
+                }
+            }
+        }
+
+        foreach ($keys as $key) {
+            if (array_key_exists($key, $this->registeredMeta)) {
+                $metas[$key] = $this[$key];
+                unset($this[$key]);
+            }
+        }
+        $this->temporaryMeta[$keysId] = $metas;
+
+        return $keysId;
+    }
+
+    /**
+     * @param $id
+     *
+     * @return null|true
+     */
+    public function restoreTemporaryUnset($id)
+    {
+        $metas = $this->temporaryMeta[$id];
+        if (!is_array($metas)) {
+            return;
+        }
+
+        foreach ($metas as $key => $value) {
+            $this[$key] = $value;
+        }
+
+        return true;
     }
 }

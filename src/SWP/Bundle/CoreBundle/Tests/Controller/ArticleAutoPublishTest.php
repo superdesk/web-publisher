@@ -58,9 +58,9 @@ class ArticleAutoPublishTest extends WebTestCase
 
         $content = $this->createRouteAndPushContent();
 
-        self::assertArrayHasKey('is_publishable', $content);
-        self::assertEquals($content['is_publishable'], true);
-        self::assertNotNull($content['published_at']);
+        self::assertArrayHasKey('isPublishable', $content);
+        self::assertEquals($content['isPublishable'], true);
+        self::assertNotNull($content['publishedAt']);
         self::assertEquals($content['status'], 'published');
     }
 
@@ -84,9 +84,9 @@ class ArticleAutoPublishTest extends WebTestCase
 
         $content = $this->createRouteAndPushContent();
 
-        self::assertArrayHasKey('is_publishable', $content);
-        self::assertEquals($content['is_publishable'], false);
-        self::assertNull($content['published_at']);
+        self::assertArrayHasKey('isPublishable', $content);
+        self::assertEquals($content['isPublishable'], false);
+        self::assertNull($content['publishedAt']);
         self::assertEquals($content['status'], 'new');
     }
 
@@ -110,9 +110,9 @@ class ArticleAutoPublishTest extends WebTestCase
 
         $content = $this->createRouteAndPushContent();
 
-        self::assertArrayHasKey('is_publishable', $content);
-        self::assertEquals($content['is_publishable'], false);
-        self::assertNull($content['published_at']);
+        self::assertArrayHasKey('isPublishable', $content);
+        self::assertEquals($content['isPublishable'], false);
+        self::assertNull($content['publishedAt']);
         self::assertEquals($content['status'], 'new');
     }
 

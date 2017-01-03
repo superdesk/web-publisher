@@ -22,7 +22,7 @@ framework:
         app: cache.adapter.doctrine
         system: cache.adapter.doctrine
         default_doctrine_provider: doctrine_cache.providers.main_cache
-    esi:             ~
+    esi: { enabled: true }
     translator:
         fallbacks: ["%locale%"]
         logging: false
@@ -38,7 +38,7 @@ framework:
     default_locale:  "%locale%"
     trusted_hosts:   ~
     trusted_proxies: ~
-    fragments:       ~
+    fragments: { path: /_fragment }
     http_method_override: true
 
 sensio_framework_extra:
@@ -110,7 +110,7 @@ fos_http_cache:
         enabled: true
         generate_url_type: 0
     proxy_client:
-        symfony:
+        varnish:
             http:
                 servers: "%cache_servers%"
                 base_url: "%domain%"
@@ -126,7 +126,7 @@ fos_http_cache:
             -
                 match:
                     attributes:
-                        _route: "swp_api_content_update_routes|swp_api_content_delete_routes"
+                        _route: "swp_api_content_update_routes|swp_api_content_delete_routes|swp_api_content_create_routes"
                 routes:
                     swp_api_content_list_routes: ~
                     swp_api_content_show_routes: ~
