@@ -329,7 +329,7 @@ class RuleControllerTest extends WebTestCase
         );
 
         self::assertArraySubset(
-            ['template_name' => 'test.html.twig'],
+            ['templateName' => 'test.html.twig'],
             json_decode($client->getResponse()->getContent(), true)
         );
     }

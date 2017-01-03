@@ -13,8 +13,8 @@ How published content is marked in database?
 Published content need to match those criteria:
 
  * :code:`status` property set to :code:`published`
- * :code:`published_at` property filled with date and time
- * :code:`is_publishable` property set to :code:`true`
+ * :code:`publishedAt` property filled with date and time
+ * :code:`isPublishable` property set to :code:`true`
 
 How to Publish content?
 -----------------------

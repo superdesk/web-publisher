@@ -152,7 +152,7 @@ class ContentPushControllerTest extends WebTestCase
 
         self::assertArraySubset(['route' => ['id' => 1]], $content1);
         self::assertEquals('published', $content1['status']);
-        self::assertTrue($content1['is_publishable']);
+        self::assertTrue($content1['isPublishable']);
 
         $client->request(
             'POST',
@@ -175,8 +175,8 @@ class ContentPushControllerTest extends WebTestCase
 
         self::assertArraySubset(['route' => ['id' => 1]], $content2);
         self::assertEquals('published', $content2['status']);
-        self::assertTrue($content2['is_publishable']);
-        self::assertEquals($content1['published_at'], $content2['published_at']);
+        self::assertTrue($content2['isPublishable']);
+        self::assertEquals($content1['publishedAt'], $content2['publishedAt']);
     }
 
     public function testContentPushWithMedia()
@@ -245,7 +245,7 @@ class ContentPushControllerTest extends WebTestCase
         self::assertArrayHasKey('renditions', $content['media'][0]);
         self::assertCount(3, $content['media'][0]['renditions']);
 
-        self::assertArraySubset(['id' => 3, 'asset_id' => '1234567890987654321c', 'file_extension' => 'png'], $content['media'][0]['image']);
+        self::assertArraySubset(['id' => 3, 'assetId' => '1234567890987654321c', 'fileExtension' => 'png'], $content['media'][0]['image']);
 
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
 
@@ -272,7 +272,7 @@ class ContentPushControllerTest extends WebTestCase
         self::assertArrayHasKey('renditions', $content['media'][0]['image']);
         self::assertArrayHasKey('renditions', $content['media'][0]);
         self::assertCount(3, $content['media'][0]['renditions']);
-        self::assertArraySubset(['asset_id' => '1234567890987654321c', 'file_extension' => 'png'], $content['media'][0]['image']);
+        self::assertArraySubset(['assetId' => '1234567890987654321c', 'fileExtension' => 'png'], $content['media'][0]['image']);
 
         // test resending modified content with media
         $client->request(
@@ -297,7 +297,7 @@ class ContentPushControllerTest extends WebTestCase
         self::assertArrayHasKey('renditions', $content['media'][0]['image']);
         self::assertArrayHasKey('renditions', $content['media'][0]);
         self::assertCount(3, $content['media'][0]['renditions']);
-        self::assertArraySubset(['asset_id' => '1234567890987654321c', 'file_extension' => 'png'], $content['media'][0]['image']);
+        self::assertArraySubset(['assetId' => '1234567890987654321c', 'fileExtension' => 'png'], $content['media'][0]['image']);
         self::assertArraySubset(['name' => '16-10'], $content['media'][0]['renditions'][0]);
     }
 
