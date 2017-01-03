@@ -30,14 +30,25 @@ class GimmeListNode extends \Twig_Node
      * @param \Twig_Node                        $collectionType
      * @param \Twig_Node_Expression_Filter|null $collectionFilters
      * @param \Twig_Node_Expression|null        $parameters
+     * @param \Twig_Node_Expression|null        $ignoreContext
      * @param \Twig_Node_Expression|null        $ifExpression
      * @param \Twig_NodeInterface|null          $else
      * @param \Twig_NodeInterface               $body
-     * @param                                   $lineno
-     * @param null                              $tag
+     * @param $lineno
+     * @param null $tag
      */
-    public function __construct(\Twig_Node $variable, \Twig_Node $collectionType, \Twig_Node_Expression_Filter $collectionFilters = null, \Twig_Node_Expression $parameters = null, \Twig_Node_Expression $ifExpression = null, \Twig_NodeInterface $else = null, \Twig_NodeInterface $body, $lineno, $tag = null)
-    {
+    public function __construct(
+        \Twig_Node $variable,
+        \Twig_Node $collectionType,
+        \Twig_Node_Expression_Filter $collectionFilters = null,
+        \Twig_Node_Expression $parameters = null,
+        \Twig_Node_Expression $ignoreContext = null,
+        \Twig_Node_Expression $ifExpression = null,
+        \Twig_NodeInterface $else = null,
+        \Twig_NodeInterface $body,
+        $lineno,
+        $tag = null
+    ) {
         $body = new \Twig_Node([$body, $this->loop = new \Twig_Node_ForLoop($lineno, $tag)]);
 
         if (null !== $ifExpression) {
@@ -52,6 +63,10 @@ class GimmeListNode extends \Twig_Node
 
         if (!is_null($parameters)) {
             $nodes['parameters'] = $parameters;
+        }
+
+        if (!is_null($ignoreContext)) {
+            $nodes['ignoreContext'] = $ignoreContext;
         }
 
         if (!is_null($collectionFilters)) {
@@ -99,8 +114,12 @@ class GimmeListNode extends \Twig_Node
             }
         }
 
-        $compiler->write('$swpCollectionMetaLoader'.$i." = \$this->env->getExtension('swp_gimme')->getLoader();\n")
-            ->write('')->subcompile($this->getNode('collectionType'))->raw(' = twig_ensure_traversable($swpCollectionMetaLoader'.$i.'->load("')->raw($collectionTypeName)->raw('", ');
+        $compiler->write('$swpCollectionMetaLoader'.$i." = \$this->env->getExtension('swp_gimme')->getLoader();\n");
+        if ($this->hasNode('ignoreContext')) {
+            $compiler->write('$swpContext'.$i."GimmeList = \$this->env->getExtension('swp_gimme')->getContext();\n");
+            $compiler->write('$swpIgnoreContext'.$i.'GimmeList = $swpContext'.$i.'GimmeList->temporaryUnset(')->subcompile($this->getNode('ignoreContext'))->raw(");\n");
+        }
+        $compiler->write('')->subcompile($this->getNode('collectionType'))->raw(' = twig_ensure_traversable($swpCollectionMetaLoader'.$i.'->load("')->raw($collectionTypeName)->raw('", ');
         $compiler->raw('$parameters');
         $compiler->raw(", \SWP\Component\TemplatesSystem\Gimme\Loader\LoaderInterface::COLLECTION));\n");
 
@@ -169,6 +188,9 @@ class GimmeListNode extends \Twig_Node
                 ->write("}\n");
         }
 
+        if ($this->hasNode('ignoreContext')) {
+            $compiler->write('$swpContext'.$i.'GimmeList->restoreTemporaryUnset($swpIgnoreContext'.$i."GimmeList);\n");
+        }
         $compiler->write("\$_parent = \$context['_parent'];\n");
 
         // remove some "private" loop variables (needed for nested loops)

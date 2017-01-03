@@ -29,6 +29,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 class RouteEnhancer implements RouteEnhancerInterface
 {
     const ARTICLE_META = '_article_meta';
+    const ROUTE_META = '_route_meta';
 
     /**
      * @var TemplateNameResolverInterface
@@ -143,9 +144,9 @@ class RouteEnhancer implements RouteEnhancerInterface
      */
     public function setRouteMeta(Request $request, array $defaults)
     {
-        $routeMeta = $this->metaLoader->load('route', ['route_object' => $defaults['_route_object']]);
+        $routeMeta = $this->metaLoader->load('route', ['route_object' => $defaults[RouteObjectInterface::ROUTE_OBJECT]]);
         $request->attributes->set('routeMeta', $routeMeta);
-        $defaults['_route_meta'] = $routeMeta;
+        $defaults[self::ROUTE_META] = $routeMeta;
 
         if ($routeMeta instanceof Meta) {
             $this->context->setCurrentPage($routeMeta);

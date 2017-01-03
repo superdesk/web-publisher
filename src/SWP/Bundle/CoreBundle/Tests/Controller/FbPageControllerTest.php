@@ -47,9 +47,9 @@ class FbPageControllerTest extends WebTestCase
 
         self::assertEquals(201, $client->getResponse()->getStatusCode());
         $content = $client->getResponse()->getContent();
-        self::assertContains('"page_id":"1234567890987654321"', $content);
+        self::assertContains('"pageId":"1234567890987654321"', $content);
         self::assertContains('"name":"Test Page"', $content);
-        self::assertContains('"access_token":null', $content);
+        self::assertContains('"accessToken":null', $content);
         self::assertContains('"application":null', $content);
     }
 
