@@ -331,10 +331,10 @@ You can handle requests by your self and add your own runtime caching strategy. 
 
     importScripts: ['/public/sw-contentCaching.js']
 
-You can communicate between service worker and website both ways (starter supports one way communication). It allows you to cache articles that are listed on homepage/section pages, cache pages when visited, add "save to offline" button etc. Sky is the limit.
+You can communicate between service worker and web page both ways (starter supports one way communication). It allows you to cache articles that are listed on homepage/section pages, cache pages when visited, add "save to offline" button etc. Sky is the limit.
 
 .. note::
 
     Be aware of what you are doing. In some cases it might be harmful and even break your page!
 
-Follow example code in */public/sw-contentCaching.js* (service worker part) and */public/js/contentCaching.js* (webiste part)
+Follow example code in */public/sw-contentCaching.js* (service worker part) and */public/js/contentCaching.js* (web page part)
