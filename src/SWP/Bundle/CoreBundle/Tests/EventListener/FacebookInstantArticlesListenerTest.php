@@ -68,12 +68,12 @@ class FacebookInstantArticlesListenerTest extends WebTestCase
 
         $client->request('POST', $this->router->generate('swp_api_content_create_lists'), [
             'content_list' => [
-                'name' => 'Example automatic list',
-                'type' => 'automatic',
+                'name' => 'Example bucket',
+                'type' => 'bucket',
                 'description' => 'New FBIA list',
                 'limit' => 0,
                 'cacheLifeTime' => 0,
-                'expression' => 'article.getLocale() == "en"',
+                'filters' => '{"metadata":{"locale":"en"}}',
             ],
         ]);
         self::assertEquals(201, $client->getResponse()->getStatusCode());
