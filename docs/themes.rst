@@ -240,3 +240,101 @@ And from AMP page:
 
     {# app/themes/<tenant_code>/<theme_name>/amp/amp-theme/index.html.twig #}
     <link rel="canonical" href="{{ url(gimme.article) }}"> {# https://example.com/news/my-articles #}
+
+
+
+Theme Development Workflow
+--------------------------
+
+Theme workflow is based on `Gulp <http://gulpjs.com/>`_ task automation tool.
+There are two main tasks you would use:
+
+- gulp watch
+- gulp build
+
+Watch task is used for development. Run this task when playing with theme css or js.
+Build task should be fired every time before you deploy changes. It minifies your assets and generates service worker.
+
+.. note::
+
+    Please use  `Publisher Theme Starter <https://github.com/tomaszrondio/gulp-service-worker-publisher-setup>`_
+
+Service Worker
+```````````````
+A service worker is a script that your browser runs in the background, separate from a web page, opening the door to features that don't need a web page or user interaction. We use service worker to precache static assets and create runtime cache for images, articles and sections (optional). Goal is to decrease loading time of your page as much as possible.
+
+To learn more about cache and service workers debugging please read:
+`Google: Progressive Web Apps <https://developers.google.com/web/tools/chrome-devtools/progressive-web-apps>`_ ,
+`Google: manage data <https://developers.google.com/web/tools/chrome-devtools/manage-data/local-storage>`_
+
+How to install
+```````````````
+
+If you go with Theme Starter all you have to do is run *gulp build* command. It will generate proper service worker for you.
+
+File structure:
+
+- /public/js/scripts/service-worker-registration.js - registers service worker in browser
+- /public/sw.html - service worker registration for `AMP <https://www.ampproject.org/>`_ pages
+- /public/sw.js - actual service worker file
+
+Precache
+```````````````````````````````
+Precaching static assets in browser will save server requests. We want to precache css, javascript as well as images and fonts.
+
+All you have to do is to put files in proper folders: */public/dist*,*/public/img* or */public/fonts*. Gulp will do the rest.
+
+If you want to configure it yourself, search gulpfile.js for
+
+.. code-block:: js
+
+    staticFileGlobs: ['public/dist/**/*.{js,html,css,png,jpg,gif,svg,eot,ttf,woff}','public/img/**/*.{js,html,css,png,jpg,gif,svg,eot,ttf,woff}', 'public/fonts/**/*.{svg,eot,ttf,woff}']
+
+Runtime Caching
+````````````````
+
+By default it is set up to cache fonts and scripts from googleapis as well as images and other media files from *domain.com/media/** url.
+
+That is the part of gulpfile that generates service worker code responsible for runtime caching:
+
+.. code-block:: js
+
+    runtimeCaching: [{
+        // matches googleapis cdn's. Fonts, jquery etc.
+        urlPattern: /(googleapis|gstatic)/,
+        handler: 'cacheFirst',
+        options: {
+          cache: {
+            maxEntries: 200,
+            name: 'googleapis-cache'
+          }
+        }
+      },
+      {
+        // matches media content from publisher. Images etc.
+        urlPattern: /(media)/,
+        handler: 'cacheFirst',
+        options: {
+          cache: {
+            maxEntries: 50,
+            name: 'media-cache'
+          }
+        }
+      }
+      ],
+
+Advanced Runtime Caching
+`````````````````````````
+You can handle requests by your self and add your own runtime caching strategy. To enable that uncomment following line in gulpfile:
+
+.. code-block:: js
+
+    importScripts: ['/public/sw-contentCaching.js']
+
+You can communicate between service worker and website both ways (starter supports one way communication). It allows you to cache articles that are listed on homepage/section pages, cache pages when visited, add "save to offline" button etc. Sky is the limit.
+
+.. note::
+
+    Be aware of what you are doing. In some cases it might be harmful and even break your page!
+
+Follow example code in */public/sw-contentCaching.js* (service worker part) and */public/js/contentCaching.js* (webiste part)
