@@ -37,12 +37,6 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface, Orde
         $this->loadRoutes($env, $manager);
         $this->loadArticles($env, $manager);
 
-        $this->loadFixtures([
-            '@SWPFixturesBundle/Resources/fixtures/ORM/test/content_list.yml',
-            '@SWPFixturesBundle/Resources/fixtures/ORM/test/list_content.yml',
-            '@SWPFixturesBundle/Resources/fixtures/ORM/test/content_list_item.yml',
-        ], $manager);
-
         $manager->flush();
     }
 
