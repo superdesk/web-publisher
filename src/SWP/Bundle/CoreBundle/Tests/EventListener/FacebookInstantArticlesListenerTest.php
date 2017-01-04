@@ -73,7 +73,7 @@ class FacebookInstantArticlesListenerTest extends WebTestCase
                 'description' => 'New FBIA list',
                 'limit' => 0,
                 'cacheLifeTime' => 0,
-                'filters' => '{"metadata":{"locale":"en"}}',
+                'filters' => '{"metadata":{"language":"en"}}',
             ],
         ]);
         self::assertEquals(201, $client->getResponse()->getStatusCode());
@@ -104,6 +104,7 @@ class FacebookInstantArticlesListenerTest extends WebTestCase
             ['CONTENT_TYPE' => 'application/json'],
             ContentPushControllerTest::TEST_CONTENT
         );
+
         $this->assertEquals(500, $client->getResponse()->getStatusCode());
         $response = json_decode($client->getResponse()->getContent(), true);
         $this->assertEquals('Page is not authorized to publish Instant Articles', $response['message']);

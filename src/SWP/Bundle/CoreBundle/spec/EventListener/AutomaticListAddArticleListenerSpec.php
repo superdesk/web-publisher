@@ -68,7 +68,7 @@ final class AutomaticListAddArticleListenerSpec extends ObjectBehavior
 
         $list->getFilters()->willReturn(['metadata' => ['locale' => 'en']]);
         $list->getItems()->willReturn(new ArrayCollection());
-        $listRepository->findByType(ContentListInterface::TYPE_AUTOMATIC)->willReturn([$list]);
+        $listRepository->findAll()->willReturn([$list]);
 
         $articleCriteriaMatcher->match($article, new Criteria(['metadata' => ['locale' => 'en']]))->willReturn(true);
 
@@ -101,7 +101,7 @@ final class AutomaticListAddArticleListenerSpec extends ObjectBehavior
 
         $list->getFilters()->willReturn(['metadata' => ['locale' => 'en']]);
         $list->getItems()->willReturn(new ArrayCollection());
-        $listRepository->findByType(ContentListInterface::TYPE_AUTOMATIC)->willReturn([$list]);
+        $listRepository->findAll()->willReturn([$list]);
 
         $articleCriteriaMatcher->match($article, new Criteria(['metadata' => ['locale' => 'en']]))->willReturn(false);
 

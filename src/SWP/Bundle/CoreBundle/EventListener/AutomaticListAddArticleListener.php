@@ -69,10 +69,11 @@ class AutomaticListAddArticleListener
     {
         $article = $event->getArticle();
         /** @var ContentListInterface[] $contentLists */
-        $contentLists = $this->listRepository->findByType(ContentListInterface::TYPE_AUTOMATIC);
+        $contentLists = $this->listRepository->findAll();
 
         foreach ($contentLists as $contentList) {
             $filters = $contentList->getFilters();
+
             if ($this->articleCriteriaMatcher->match($article, new Criteria($filters))) {
                 /* @var ContentListItemInterface $contentListItem */
                 $contentListItem = $this->listItemFactory->create();
