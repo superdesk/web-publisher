@@ -27,6 +27,14 @@ services:
         tags:
             - { name: swp.meta_loader }
 
+    swp_template_engine.loader.rendition:
+        class: SWP\Bundle\ContentBundle\Loader\RenditionLoader
+        arguments:
+            - "@swp_template_engine_context"
+            - "@swp_template_engine_context.factory.meta_factory"
+        tags:
+            - { name: swp.meta_loader }
+
     swp_template_engine.loader.route:
         class: SWP\Bundle\ContentBundle\Loader\RouteLoader
         arguments:

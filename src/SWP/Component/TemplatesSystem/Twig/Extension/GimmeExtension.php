@@ -21,8 +21,14 @@ use SWP\Component\TemplatesSystem\Twig\TokenParser\GimmeTokenParser;
 
 class GimmeExtension extends \Twig_Extension implements \Twig_Extension_GlobalsInterface
 {
+    /**
+     * @var LoaderInterface
+     */
     protected $loader;
 
+    /**
+     * @var Context
+     */
     protected $context;
 
     /**
@@ -37,16 +43,25 @@ class GimmeExtension extends \Twig_Extension implements \Twig_Extension_GlobalsI
         $this->loader = $loader;
     }
 
+    /**
+     * @return LoaderInterface
+     */
     public function getLoader()
     {
         return $this->loader;
     }
 
+    /**
+     * @return Context
+     */
     public function getContext()
     {
         return $this->context;
     }
 
+    /**
+     * @return array
+     */
     public function getTokenParsers()
     {
         return [
@@ -55,6 +70,9 @@ class GimmeExtension extends \Twig_Extension implements \Twig_Extension_GlobalsI
         ];
     }
 
+    /**
+     * @return array
+     */
     public function getFilters()
     {
         return [
@@ -76,11 +94,17 @@ class GimmeExtension extends \Twig_Extension implements \Twig_Extension_GlobalsI
         ];
     }
 
+    /**
+     * @return array
+     */
     public function getGlobals()
     {
         return ['gimme' => $this->context];
     }
 
+    /**
+     * @return string
+     */
     public function getName()
     {
         return 'swp_gimme';

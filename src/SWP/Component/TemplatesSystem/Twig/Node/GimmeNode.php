@@ -22,14 +22,23 @@ class GimmeNode extends \Twig_Node
     private static $count = 1;
 
     /**
-     * @param \Twig_Node_Expression $annotation
-     * @param \Twig_Node_Expression $parameters
-     * @param \Twig_NodeInterface   $body
-     * @param int                   $lineno
-     * @param string                $tag
+     * GimmeNode constructor.
+     *
+     * @param \Twig_Node                 $annotation
+     * @param \Twig_Node_Expression|null $parameters
+     * @param \Twig_Node_Expression|null $ignoreContext
+     * @param \Twig_NodeInterface        $body
+     * @param $lineno
+     * @param null $tag
      */
-    public function __construct(\Twig_Node $annotation, \Twig_Node_Expression $parameters = null, \Twig_NodeInterface $body, $lineno, $tag = null)
-    {
+    public function __construct(
+        \Twig_Node $annotation,
+        \Twig_Node_Expression $parameters = null,
+        \Twig_Node_Expression $ignoreContext = null,
+        \Twig_NodeInterface $body,
+        $lineno,
+        $tag = null
+    ) {
         $nodes = [
             'body' => $body,
             'annotation' => $annotation,
@@ -37,6 +46,10 @@ class GimmeNode extends \Twig_Node
 
         if (!is_null($parameters)) {
             $nodes['parameters'] = $parameters;
+        }
+
+        if (!is_null($ignoreContext)) {
+            $nodes['ignoreContext'] = $ignoreContext;
         }
 
         parent::__construct($nodes, [], $lineno, $tag);
@@ -51,7 +64,12 @@ class GimmeNode extends \Twig_Node
 
         $compiler
             ->addDebugInfo($this)
-            ->write('$swpMetaLoader'.$i." = \$this->env->getExtension('swp_gimme')->getLoader();\n")
+            ->write('$swpMetaLoader'.$i." = \$this->env->getExtension('swp_gimme')->getLoader();\n");
+        if ($this->hasNode('ignoreContext')) {
+            $compiler->write('$swpContext'.$i."Gimme = \$this->env->getExtension('swp_gimme')->getContext();\n");
+            $compiler->write('$swpIgnoreContext'.$i.'Gimme = $swpContext'.$i.'Gimme->temporaryUnset(')->subcompile($this->getNode('ignoreContext'))->raw(");\n");
+        }
+        $compiler
             ->write('')->subcompile($this->getNode('annotation'))->raw(' = $swpMetaLoader'.$i.'->load("')->raw($this->getNode('annotation')->getNode(0)->getAttribute('name'))->raw('", ');
         if ($this->hasNode('parameters')) {
             $compiler->subcompile($this->getNode('parameters'));
@@ -63,7 +81,11 @@ class GimmeNode extends \Twig_Node
             ->indent()
                 ->subcompile($this->getNode('body'))
             ->outdent()
-            ->write("}\n")
+            ->write("}\n");
+        if ($this->hasNode('ignoreContext')) {
+            $compiler->write('$swpContext'.$i.'Gimme->restoreTemporaryUnset($swpIgnoreContext'.$i."Gimme);\n");
+        }
+        $compiler
             ->write('unset(')->subcompile($this->getNode('annotation'))->raw(');');
     }
 }

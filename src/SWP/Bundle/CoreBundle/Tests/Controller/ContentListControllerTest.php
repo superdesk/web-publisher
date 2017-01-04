@@ -57,7 +57,7 @@ class ContentListControllerTest extends WebTestCase
         self::assertEquals(201, $response->getStatusCode());
         $content = json_decode($response->getContent(), true);
 
-        self::assertArraySubset(json_decode('{"id":1,"name":"Example automatic list","description":"New list","type":"automatic","cache_life_time":30,"limit":5,"expression":"article.getLocale() == \"en\"","enabled":true,"_links":{"self":{"href":"\/api\/v1\/content\/lists\/1"},"items":{"href":"\/api\/v1\/content\/lists\/1\/items\/"}}}', true), $content);
+        self::assertArraySubset(json_decode('{"id":1,"name":"Example automatic list","description":"New list","type":"automatic","cacheLifeTime":30,"limit":5,"expression":"article.getLocale() == \"en\"","enabled":true,"_links":{"self":{"href":"\/api\/v1\/content\/lists\/1"},"items":{"href":"\/api\/v1\/content\/lists\/1\/items\/"}}}', true), $content);
     }
 
     public function testCreateAndGetSingleContentListApi()
@@ -72,7 +72,7 @@ class ContentListControllerTest extends WebTestCase
 
         $this->client->request('GET', $this->router->generate('swp_api_content_show_lists', ['id' => $content['id']]));
 
-        self::assertArraySubset(json_decode('{"id":1,"name":"Example automatic list","description":null,"type":"automatic","cache_life_time":null,"limit":null,"expression":null,"enabled":true,"_links":{"self":{"href":"\/api\/v1\/content\/lists\/1"},"items":{"href":"\/api\/v1\/content\/lists\/1\/items\/"}}}', true), $content);
+        self::assertArraySubset(json_decode('{"id":1,"name":"Example automatic list","description":null,"type":"automatic","cacheLifeTime":null,"limit":null,"expression":null,"enabled":true,"_links":{"self":{"href":"\/api\/v1\/content\/lists\/1"},"items":{"href":"\/api\/v1\/content\/lists\/1\/items\/"}}}', true), $content);
     }
 
     public function testCreateSingleContentListApiWithWrongType()
@@ -110,7 +110,7 @@ class ContentListControllerTest extends WebTestCase
 
         $content = json_decode($this->client->getResponse()->getContent(), true);
 
-        self::assertArraySubset(json_decode('{"page":1,"limit":10,"pages":1,"total":2,"_links":{"self":{"href":"\/api\/v1\/content\/lists\/?page=1&limit=10"},"first":{"href":"\/api\/v1\/content\/lists\/?page=1&limit=10"},"last":{"href":"\/api\/v1\/content\/lists\/?page=1&limit=10"}},"_embedded":{"_items":[{"id":1,"name":"Example automatic list","description":null,"type":"automatic","cache_life_time":null,"limit":null,"expression":null,"enabled":true,"_links":{"self":{"href":"\/api\/v1\/content\/lists\/1"},"items":{"href":"\/api\/v1\/content\/lists\/1\/items\/"}}},{"id":2,"name":"Manual list","description":null,"type":"manual","cache_life_time":null,"limit":null,"expression":null,"enabled":true,"_links":{"self":{"href":"\/api\/v1\/content\/lists\/2"},"items":{"href":"\/api\/v1\/content\/lists\/2\/items\/"}}}]}}', true), $content);
+        self::assertArraySubset(json_decode('{"page":1,"limit":10,"pages":1,"total":2,"_links":{"self":{"href":"\/api\/v1\/content\/lists\/?page=1&limit=10"},"first":{"href":"\/api\/v1\/content\/lists\/?page=1&limit=10"},"last":{"href":"\/api\/v1\/content\/lists\/?page=1&limit=10"}},"_embedded":{"_items":[{"id":1,"name":"Example automatic list","description":null,"type":"automatic","cacheLifeTime":null,"limit":null,"expression":null,"enabled":true,"_links":{"self":{"href":"\/api\/v1\/content\/lists\/1"},"items":{"href":"\/api\/v1\/content\/lists\/1\/items\/"}}},{"id":2,"name":"Manual list","description":null,"type":"manual","cacheLifeTime":null,"limit":null,"expression":null,"enabled":true,"_links":{"self":{"href":"\/api\/v1\/content\/lists\/2"},"items":{"href":"\/api\/v1\/content\/lists\/2\/items\/"}}}]}}', true), $content);
     }
 
     public function testDeleteContentList()
@@ -162,7 +162,7 @@ class ContentListControllerTest extends WebTestCase
         self::assertEquals(200, $this->client->getResponse()->getStatusCode());
         $content = json_decode($this->client->getResponse()->getContent(), true);
 
-        self::assertArraySubset(json_decode('{"id":1,"name":"Example automatic list edited","description":"New list edited","type":"automatic","cache_life_time":60,"limit":2,"expression":"article.getPriority() > 4","enabled":true,"_links":{"self":{"href":"\/api\/v1\/content\/lists\/1"},"items":{"href":"\/api\/v1\/content\/lists\/1\/items\/"}}}', true), $content);
+        self::assertArraySubset(json_decode('{"id":1,"name":"Example automatic list edited","description":"New list edited","type":"automatic","cacheLifeTime":60,"limit":2,"expression":"article.getPriority() > 4","enabled":true,"_links":{"self":{"href":"\/api\/v1\/content\/lists\/1"},"items":{"href":"\/api\/v1\/content\/lists\/1\/items\/"}}}', true), $content);
     }
 
     private function createNewContentList(array $params)
