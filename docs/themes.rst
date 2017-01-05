@@ -274,9 +274,9 @@ If you go with Theme Starter all you have to do is run *gulp build* command. It 
 
 File structure:
 
-- /public/js/scripts/service-worker-registration.js - registers service worker in browser
-- /public/sw.html - service worker registration for `AMP <https://www.ampproject.org/>`_ pages
-- /public/sw.js - actual service worker file
+- public/js/scripts/service-worker-registration.js - registers service worker in browser
+- public/sw.html - service worker registration for `AMP <https://www.ampproject.org/>`_ pages
+- public/sw.js - actual service worker file
 
 Precache
 ```````````````````````````````
