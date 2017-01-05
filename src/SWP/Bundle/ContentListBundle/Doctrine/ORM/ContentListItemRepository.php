@@ -34,4 +34,20 @@ class ContentListItemRepository extends EntityRepository implements ContentListI
 
         $queryBuilder->getQuery()->execute();
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function findByListId(int $listId): array
+    {
+        return $this->createQueryBuilder('l')
+            ->leftJoin('l.content', 'c')
+            ->addSelect('c')
+            ->where('l.contentList = :listId')
+            ->setParameter('listId', $listId)
+            ->addOrderBy('l.sticky', 'desc')
+            ->addOrderBy('l.createdAt', 'desc')
+            ->getQuery()
+            ->getResult();
+    }
 }

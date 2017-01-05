@@ -16,28 +16,21 @@ namespace SWP\Bundle\TemplatesSystemBundle\Widget;
 
 use SWP\Component\TemplatesSystem\Gimme\Model\WidgetModelInterface;
 use SWP\Component\TemplatesSystem\Gimme\Widget\AbstractWidgetHandler;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Templating\EngineInterface;
 
 abstract class TemplatingWidgetHandler extends AbstractWidgetHandler
 {
     /**
-     * @var EngineInterface
+     * @var ContainerInterface
      */
-    protected $templating;
+    protected $container;
 
-    /**
-     * @return EngineInterface
-     */
-    public function getTemplating()
-    {
-        return $this->templating;
-    }
-
-    public function __construct(WidgetModelInterface $widgetModel, EngineInterface $templating)
+    public function __construct(WidgetModelInterface $widgetModel, ContainerInterface $container)
     {
         parent::__construct($widgetModel);
 
-        $this->templating = $templating;
+        $this->container = $container;
     }
 
     /**
@@ -55,5 +48,21 @@ abstract class TemplatingWidgetHandler extends AbstractWidgetHandler
         }
 
         return $this->getTemplating()->render("widgets/$templateName", $parameters);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getContainer()
+    {
+        return $this->container;
+    }
+
+    /**
+     * @return EngineInterface
+     */
+    public function getTemplating()
+    {
+        return $this->container->get('templating');
     }
 }

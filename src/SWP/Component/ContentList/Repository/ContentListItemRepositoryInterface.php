@@ -24,4 +24,11 @@ interface ContentListItemRepositoryInterface
      * @param ContentListInterface $contentList
      */
     public function removeItems(ContentListInterface $contentList);
+
+    /**
+     * @param int $listId
+     *
+     * @return array
+     */
+    public function findByListId(int $listId): array;
 }

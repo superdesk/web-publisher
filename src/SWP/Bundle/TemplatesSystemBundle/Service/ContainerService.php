@@ -73,7 +73,7 @@ class ContainerService
             $widgetClass = $widgetModel->getType();
 
             if (is_a($widgetClass, '\SWP\Bundle\TemplatesSystemBundle\Widget\TemplatingWidgetHandler', true)) {
-                $widgetHandler = new $widgetClass($widgetModel, $this->serviceContainer->get('templating'));
+                $widgetHandler = new $widgetClass($widgetModel, $this->serviceContainer);
             } else {
                 $widgetHandler = new $widgetClass($widgetModel);
             }
