@@ -17,6 +17,7 @@ declare(strict_types=1);
 namespace SWP\Bundle\ContentListBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\CallbackTransformer;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -47,10 +48,6 @@ class ContentListType extends AbstractType
                 'required' => false,
                 'description' => 'List description',
             ])
-            ->add('expression', TextType::class, [
-                'required' => false,
-                'description' => 'Rule expression (e.g. article.getPriority() > 3)',
-            ])
             ->add('limit', IntegerType::class, [
                 'required' => false,
                 'description' => 'List limit',
@@ -59,7 +56,25 @@ class ContentListType extends AbstractType
                 'required' => false,
                 'description' => 'List cache life time',
             ])
+            ->add('filters', TextType::class, [
+                'required' => false,
+                'description' => 'Content list filters in JSON format.',
+            ])
         ;
+
+        $builder->get('filters')
+            ->addModelTransformer(new CallbackTransformer(
+                function ($value) {
+                    return json_encode($value);
+                },
+                function ($value) {
+                    if (null !== $value && '' !== $value) {
+                        return json_decode($value, true);
+                    }
+
+                    return [];
+                }
+            ));
     }
 
     /**

@@ -62,9 +62,9 @@ class ContentList implements ContentListInterface
     protected $items;
 
     /**
-     * @var string|null
+     * @var array
      */
-    protected $expression;
+    protected $filters = [];
 
     /**
      * ContentList constructor.
@@ -204,16 +204,28 @@ class ContentList implements ContentListInterface
     /**
      * {@inheritdoc}
      */
-    public function getExpression()
+    public function getFilters()
     {
-        return $this->expression;
+        return $this->filters;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function setExpression(string $expression)
+    public function setFilters(array $filters)
     {
-        $this->expression = $expression;
+        $this->filters = $filters;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getFilter(string $key)
+    {
+        $filters = $this->getFilters();
+
+        if (isset($filters[$key])) {
+            return $filters[$key];
+        }
     }
 }

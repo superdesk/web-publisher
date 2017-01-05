@@ -80,6 +80,27 @@ Configure Doctrine extensions which are used by this bundle:
                     softdeleteable: true
                     loggable: true
 
+Using your custom list item content class:
+
+.. configuration-block::
+
+    .. code-block:: yaml
+
+        # app/config/config.yml
+        swp_content_list:
+            persistence:
+                orm:
+                    # if true, ORM is enabled as a persistence backend
+                    enabled: true
+                    classes:
+                        # ..
+                        list_content:
+                            model: Acme\MyBundle\Entity\Post
+
+.. note::
+    ``Acme\MyBundle\Entity\Post`` must implement ``SWP\Component\ContentList\Model\ListContentInterface`` interface.
+
+
 Update Database Schema
 ~~~~~~~~~~~~~~~~~~~~~~
 

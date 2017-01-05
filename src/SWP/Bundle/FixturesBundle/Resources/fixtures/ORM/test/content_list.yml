@@ -5,7 +5,6 @@ SWP\Bundle\CoreBundle\Model\ContentList:
         type: "automatic"
         cacheLifeTime: 400
         limit: 10
-        expression: ""
         enabled: true
         tenantCode: "123abc"
     contentList2:
@@ -14,7 +13,6 @@ SWP\Bundle\CoreBundle\Model\ContentList:
         type: "automatic"
         cacheLifeTime: 400
         limit: 5
-        expression: ""
         enabled: true
         tenantCode: "123abc"
     contentList3:
@@ -23,6 +21,5 @@ SWP\Bundle\CoreBundle\Model\ContentList:
         type: "automatic"
         cacheLifeTime: 400
         limit: 10
-        expression: ""
         enabled: true
         tenantCode: "456def"

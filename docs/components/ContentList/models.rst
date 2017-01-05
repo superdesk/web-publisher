@@ -54,6 +54,8 @@ Every content list item is represented by a **ContentListItem** model which by d
 +--------------+-------------------------------------------+
 | sticky       | Defines whether content is sticky or not  |
 +--------------+-------------------------------------------+
+| filters      | An array of list criteria/filters         |
++--------------+-------------------------------------------+
 | createdAt    | Date of creation                          |
 +--------------+-------------------------------------------+
 | updatedAt    | Date of last update                       |
