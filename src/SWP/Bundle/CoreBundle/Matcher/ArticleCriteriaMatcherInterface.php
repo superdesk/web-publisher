@@ -25,7 +25,7 @@ interface ArticleCriteriaMatcherInterface
      * @param ArticleInterface $article
      * @param Criteria         $criteria
      *
-     * @return ArticleInterface|null
+     * @return bool
      */
     public function match(ArticleInterface $article, Criteria $criteria);
 }

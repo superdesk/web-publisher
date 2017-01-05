@@ -77,8 +77,11 @@ class AutomaticListAddArticleListener
             if ($this->articleCriteriaMatcher->match($article, new Criteria($filters))) {
                 /* @var ContentListItemInterface $contentListItem */
                 $contentListItem = $this->listItemFactory->create();
-                /* @var ListContentInterface $article */
-                $contentListItem->setContent($article);
+
+                if ($article instanceof ListContentInterface) {
+                    $contentListItem->setContent($article);
+                }
+
                 $contentListItem->setPosition($contentList->getItems()->count());
                 $contentList->addItem($contentListItem);
                 $this->eventDispatcher->dispatch(
