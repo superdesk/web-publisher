@@ -39,7 +39,7 @@ class MenuWidgetTest extends WebTestCase
     {
         $widgetModel = new WidgetModel();
         $widgetModel->setParameters(['menu_name' => 'test']);
-        $widgetHandler = new MenuWidgetHandler($widgetModel, $this->getContainer()->get('templating'));
+        $widgetHandler = new MenuWidgetHandler($widgetModel, $this->getContainer());
 
         $content = $widgetHandler->render();
 
@@ -51,7 +51,7 @@ class MenuWidgetTest extends WebTestCase
     {
         $widgetModel = new WidgetModel();
         $widgetModel->setParameters(['menu_name' => 'test', 'template_name' => 'custom_menu_template.html.twig']);
-        $widgetHandler = new MenuWidgetHandler($widgetModel, $this->getContainer()->get('templating'));
+        $widgetHandler = new MenuWidgetHandler($widgetModel, $this->getContainer());
 
         $content = $widgetHandler->render();
 
@@ -66,7 +66,7 @@ class MenuWidgetTest extends WebTestCase
     {
         $widgetModel = new WidgetModel();
         $widgetModel->setParameters(['menu_name' => 'test', 'template_name' => 'test_menu.html.twig']);
-        $widgetHandler = new MenuWidgetHandler($widgetModel, $this->getContainer()->get('templating'));
+        $widgetHandler = new MenuWidgetHandler($widgetModel, $this->getContainer());
 
         $widgetHandler->render();
     }
@@ -76,7 +76,7 @@ class MenuWidgetTest extends WebTestCase
         $widgetModel = new WidgetModel();
         $widgetModel->setParameters(['menu_name' => 'test', 'template_name' => null]);
 
-        $widgetHandler = new MenuWidgetHandler($widgetModel, $this->getContainer()->get('templating'));
+        $widgetHandler = new MenuWidgetHandler($widgetModel, $this->getContainer());
 
         $content = $widgetHandler->render();
 
