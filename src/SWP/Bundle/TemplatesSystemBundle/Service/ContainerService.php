@@ -16,6 +16,7 @@ namespace SWP\Bundle\TemplatesSystemBundle\Service;
 
 use SWP\Bundle\TemplatesSystemBundle\Container\SimpleContainer;
 use SWP\Bundle\TemplatesSystemBundle\Model\Container;
+use SWP\Bundle\TemplatesSystemBundle\Widget\TemplatingWidgetHandler;
 use SWP\Component\Common\Event\HttpCacheEvent;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -72,7 +73,7 @@ class ContainerService
             $widgetModel = $containerWidget->getWidget();
             $widgetClass = $widgetModel->getType();
 
-            if (is_a($widgetClass, '\SWP\Bundle\TemplatesSystemBundle\Widget\TemplatingWidgetHandler', true)) {
+            if (is_a($widgetClass, TemplatingWidgetHandler::class, true)) {
                 $widgetHandler = new $widgetClass($widgetModel, $this->serviceContainer);
             } else {
                 $widgetHandler = new $widgetClass($widgetModel);
