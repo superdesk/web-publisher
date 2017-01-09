@@ -14,11 +14,9 @@
 
 namespace SWP\Component\TemplatesSystem\Gimme\Widget;
 
-use Symfony\Component\DependencyInjection\ContainerInterface;
-
 /**
  * Widgets idea
- * * Every widget have it's own clas with widget implementation
+ * * Every widget have it's own class with widget implementation
  * * Every widget have his own parameters.
  */
 
@@ -40,9 +38,4 @@ interface WidgetHandlerInterface
      * @return bool
      */
     public function isVisible();
-
-    /**
-     * @return ContainerInterface
-     */
-    public function getContainer();
 }

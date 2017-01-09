@@ -14,11 +14,11 @@ declare(strict_types=1);
  * @license http://www.superdesk.org/license
  */
 
-//namespace SWP\Bundle\CoreBundle\Widget;
+namespace SWP\Bundle\CoreBundle\Widget;
 
-namespace SWP\Bundle\TemplatesSystemBundle\Widget;
-
-use SWP\Component\ContentList\Repository\ContentListItemRepositoryInterface;
+use SWP\Bundle\TemplatesSystemBundle\Widget\TemplatingWidgetHandler;
+use SWP\Component\ContentList\Model\ContentListInterface;
+use SWP\Component\ContentList\Repository\ContentListRepositoryInterface;
 
 final class ContentListWidget extends TemplatingWidgetHandler
 {
@@ -38,11 +38,15 @@ final class ContentListWidget extends TemplatingWidgetHandler
     public function render()
     {
         $templateName = $this->getModelParameter('template_name');
+        $listId = (int) $this->getModelParameter('list_id');
 
-        /** @var ContentListItemRepositoryInterface $repository */
-        $repository = $this->getContainer()->get('swp.repository.content_list_item');
-        $items = $repository->findByListId((int) $this->getModelParameter('list_id'));
+        /** @var ContentListRepositoryInterface $contentListRepository */
+        $contentListRepository = $this->getContainer()->get('swp.repository.content_list');
+        /** @var ContentListInterface $contentList */
+        $contentList = $contentListRepository->findListById($listId);
 
-        return $this->renderTemplate($templateName, ['items' => $items]);
+        return $this->renderTemplate($templateName, [
+            'contentList' => $contentList,
+        ]);
     }
 }

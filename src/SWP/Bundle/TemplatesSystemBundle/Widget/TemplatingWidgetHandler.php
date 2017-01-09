@@ -47,7 +47,7 @@ abstract class TemplatingWidgetHandler extends AbstractWidgetHandler
             $parameters = $this->getAllParametersWithValue();
         }
 
-        return $this->getTemplating()->render("widgets/$templateName", $parameters);
+        return $this->getTemplating()->render(sprintf('widgets/%s', $templateName), $parameters);
     }
 
     /**

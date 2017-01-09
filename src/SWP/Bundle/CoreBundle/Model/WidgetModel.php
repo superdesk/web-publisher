@@ -16,8 +16,8 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\CoreBundle\Model;
 
+use SWP\Bundle\CoreBundle\Widget\ContentListWidget;
 use SWP\Bundle\TemplatesSystemBundle\Model\WidgetModel as BaseWidgetModel;
-use SWP\Bundle\TemplatesSystemBundle\Widget\ContentListWidget;
 use SWP\Component\MultiTenancy\Model\TenantAwareInterface;
 use SWP\Component\MultiTenancy\Model\TenantAwareTrait;
 
