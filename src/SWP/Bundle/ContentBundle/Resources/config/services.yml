@@ -73,6 +73,7 @@ services:
 
     swp_pagination_rep:
         alias: swp_content_bundle.factory.knp_paginator_representation
+        public: true
 
     swp_content.transformer.package_to_article:
         class: '%swp_content.transformer.package_to_article.class%'
