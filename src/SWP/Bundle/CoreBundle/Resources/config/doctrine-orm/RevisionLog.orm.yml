@@ -1,0 +1,5 @@
+SWP\Bundle\CoreBundle\Model\RevisionLog:
+    type: entity
+    fields:
+        tenantCode:
+            type: string

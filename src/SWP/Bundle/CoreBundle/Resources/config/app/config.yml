@@ -83,6 +83,14 @@ swp_content:
                 route:
                     model: SWP\Bundle\CoreBundle\Model\Route
 
+swp_revision:
+    persistence:
+        orm:
+            enabled: true
+            classes:
+                revision:
+                    model: SWP\Bundle\CoreBundle\Model\Revision
+
 cmf_routing:
     dynamic:
         persistence:

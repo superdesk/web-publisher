@@ -21,12 +21,15 @@ use Gedmo\Sortable\Entity\Repository\SortableRepository;
  */
 class ContainerWidgetRepository extends SortableRepository
 {
+    /**
+     * @param array $groupValues
+     *
+     * @return \Doctrine\ORM\QueryBuilder
+     */
     public function getSortedWidgets(array $groupValues = [])
     {
-        $qb = parent::getBySortableGroupsQueryBuilder($groupValues)
+        return parent::getBySortableGroupsQueryBuilder($groupValues)
             ->select('n', 'w')
             ->leftJoin('n.widget', 'w');
-
-        return $qb->getQuery();
     }
 }

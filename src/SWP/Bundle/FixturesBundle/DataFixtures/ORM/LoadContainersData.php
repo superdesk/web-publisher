@@ -30,7 +30,7 @@ class LoadContainersData extends AbstractFixture implements FixtureInterface, Or
     {
         $env = $this->getEnvironment();
         if ('test' !== $env) {
-            $container1 = new Container();
+            $container1 = $this->container->get('swp.factory.container')->create();
             $container1->setName('mainNav');
             $container1->setType(1);
             $container1->setCssClass('container');
@@ -42,7 +42,7 @@ class LoadContainersData extends AbstractFixture implements FixtureInterface, Or
             $container1->addWidget($containerWidget1);
             $manager->persist($container1);
 
-            $container2 = new Container();
+            $container2 = $this->container->get('swp.factory.container')->create();
             $container2->setName('footerNav');
             $container2->setType(1);
             $container2->setCssClass('container');

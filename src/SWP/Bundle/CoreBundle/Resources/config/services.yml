@@ -169,3 +169,11 @@ services:
         tags:
             - { name: kernel.event_listener, event: swp.content_list.post_item_add, method: sendArticleToFacebook }
             - { name: kernel.event_listener, event: swp.article.post_create, method: resendUpdatedArticleToFacebook }
+
+    swp_core.listener.tenant_revision:
+        class: SWP\Bundle\CoreBundle\EventListener\TenantRevisionListener
+        arguments:
+            - "@swp.repository.revision"
+            - "@swp_revision.context.revision"
+        tags:
+            - { name: kernel.event_listener, event: kernel.request, method: onKernelRequest }

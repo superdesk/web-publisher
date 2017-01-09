@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Superdesk Web Publisher Template Engine Bundle.
  *
@@ -14,7 +16,8 @@
 
 namespace SWP\Bundle\TemplatesSystemBundle\Repository;
 
-use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\QueryBuilder;
+use SWP\Bundle\StorageBundle\Doctrine\ORM\EntityRepository;
 
 /**
  * Container Repository.
@@ -26,9 +29,9 @@ class WidgetModelRepository extends EntityRepository
      *
      * @param string $id
      *
-     * @return \Doctrine\ORM\Query
+     * @return QueryBuilder
      */
-    public function getById($id)
+    public function getById($id): QueryBuilder
     {
         $qb = $this->createQueryBuilder('w')
             ->where('w.id = :id')
@@ -36,18 +39,18 @@ class WidgetModelRepository extends EntityRepository
                 'id' => $id,
             ]);
 
-        return $qb->getQuery();
+        return $qb;
     }
 
     /**
      * Get Query for all WidgetModels.
      *
-     * @return \Doctrine\ORM\Query
+     * @return QueryBuilder
      */
-    public function getAll()
+    public function getAll(): QueryBuilder
     {
         $qb = $this->createQueryBuilder('w');
 
-        return $qb->getQuery();
+        return $qb;
     }
 }

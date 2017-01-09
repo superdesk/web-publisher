@@ -15,9 +15,9 @@
 namespace SWP\Bundle\TemplatesSystemBundle\Tests\Functional\Container;
 
 use SWP\Bundle\TemplatesSystemBundle\Tests\Functional\WebTestCase;
-use SWP\Bundle\TemplatesSystemBundle\Service\ContainerService;
+use SWP\Bundle\TemplatesSystemBundle\Service\RendererService;
 
-class ContainerServiceTest extends WebTestCase
+class RendererServiceTest extends WebTestCase
 {
     public function testDebugConstruct()
     {
@@ -51,7 +51,7 @@ class ContainerServiceTest extends WebTestCase
             ],
         ];
 
-        $containerEntity = $containerService->createNewContainer('test Container', $containerParameters);
+        $containerEntity = $containerService->createContainer('test Container', $containerParameters);
 
         $this->assertEquals('400', $containerEntity->getHeight());
         $this->assertEquals('300', $containerEntity->getWidth());
@@ -61,23 +61,23 @@ class ContainerServiceTest extends WebTestCase
         $this->assertEquals(1, count($containerEntity->getData()));
     }
 
-    public function testGetContainerException()
+    public function testGetContainerRendererException()
     {
         $containerService = $this->createContainerService();
         $this->expectException(\Exception::class);
-        $containerService->getContainer('test container', [], false);
+        $containerService->getContainerRenderer('test container', [], false);
     }
 
-    public function testGetContainer()
+    public function testGetContainerRenderer()
     {
         $containerService = $this->createContainerService();
-        $containerEntity = $containerService->getContainer('test container', ['data' => ['key' => 'value']]);
-        $this->assertInstanceOf('\SWP\Bundle\TemplatesSystemBundle\Container\SimpleContainer', $containerEntity);
+        $containerRenderer = $containerService->getContainerRenderer('test container', ['data' => ['key' => 'value']]);
+        self::assertInstanceOf('\SWP\Bundle\TemplatesSystemBundle\Container\ContainerRenderer', $containerRenderer);
     }
 
     private function createContainerService($debug = true)
     {
-        return new ContainerService(
+        return new RendererService(
             $this->getContainer()->get('doctrine'),
             $this->getContainer()->get('event_dispatcher'),
             $this->getContainer(),

@@ -25,7 +25,6 @@ use SWP\Component\Common\Response\ResponseContext;
 use SWP\Component\Common\Response\SingleResourceResponse;
 use SWP\Component\Common\Pagination\PaginationInterface;
 use SWP\Bundle\TemplatesSystemBundle\Form\Type\ContainerType;
-use SWP\Bundle\TemplatesSystemBundle\Model\ContainerData;
 use SWP\Bundle\TemplatesSystemBundle\Model\ContainerWidget;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -49,10 +48,10 @@ class ContainerController extends Controller
      */
     public function listAction(Request $request)
     {
-        $entityManager = $this->get('doctrine')->getManager();
+        $containerProvider = $this->get('swp.provider.container');
         $paginator = $this->get('knp_paginator');
         $containers = $paginator->paginate(
-            $entityManager->getRepository('SWP\Bundle\CoreBundle\Model\Container')->getAll(),
+            $containerProvider->getQueryForAll(),
             $request->get(PaginationInterface::PAGE_PARAMETER_NAME, 1),
             $request->get(PaginationInterface::LIMIT_PARAMETER_NAME, 10)
         );
@@ -76,19 +75,19 @@ class ContainerController extends Controller
      *         422="Container id is not number"
      *     }
      * )
-     * @Route("/api/{version}/templates/containers/{id}", requirements={"id"="\d+"}, options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_templates_get_container")
+     * @Route("/api/{version}/templates/containers/{uuid}", requirements={"uuid"="\d+"}, options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_templates_get_container")
      * @Method("GET")
      * @Cache(expires="10 minutes", public=true)
      */
-    public function getAction(Request $request, $id)
+    public function getAction($uuid)
     {
-        $container = $this->get('doctrine')->getManager()
-            ->getRepository('SWP\Bundle\CoreBundle\Model\Container')
-            ->getById($id)
-            ->getOneOrNullResult();
+        if (!$uuid) {
+            throw new UnprocessableEntityHttpException('You need to provide container Uuid (string).');
+        }
 
+        $container = $this->get('swp.provider.container')->getOneById($uuid);
         if (!$container) {
-            throw new NotFoundHttpException('Container with this id was not found.');
+            throw new NotFoundHttpException('Container with this uuid was not found.');
         }
 
         return new SingleResourceResponse($container);
@@ -107,18 +106,26 @@ class ContainerController extends Controller
      *     },
      *     input="SWP\Bundle\TemplatesSystemBundle\Form\Type\ContainerType"
      * )
-     * @Route("/api/{version}/templates/containers/{id}", requirements={"id"="\d+"}, options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_templates_update_container")
+     * @Route("/api/{version}/templates/containers/{uuid}", requirements={"uuid"="\d+"}, options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_templates_update_container")
      * @Method("PATCH")
+     *
+     * @param Request $request
+     * @param string  $uuid
+     *
+     * @throws NotFoundHttpException
+     * @throws UnprocessableEntityHttpException
+     *
+     * @return SingleResourceResponse
      */
-    public function updateAction(Request $request, $id)
+    public function updateAction(Request $request, $uuid)
     {
-        $entityManager = $this->get('doctrine')->getManager();
-        $container = $entityManager->getRepository('SWP\Bundle\CoreBundle\Model\Container')
-            ->getById($id)
-            ->getOneOrNullResult();
+        if (!$uuid) {
+            throw new UnprocessableEntityHttpException('You need to provide container Uuid (string).');
+        }
 
+        $container = $this->get('swp.provider.container')->getOneById($uuid);
         if (!$container) {
-            throw new NotFoundHttpException('Container with this id was not found.');
+            throw new NotFoundHttpException('Container with this uuid was not found.');
         }
 
         $form = $this->createForm(ContainerType::class, $container, [
@@ -127,24 +134,8 @@ class ContainerController extends Controller
 
         $form->handleRequest($request);
         if ($form->isValid()) {
-            $extraData = $form->get('data')->getExtraData();
-            if (!empty($extraData) && is_array($extraData)) {
-                // Remove old containerData's
-                foreach ($container->getData() as $containerData) {
-                    $entityManager->remove($containerData);
-                }
-
-                // Apply new containerData's
-                foreach ($extraData as $key => $value) {
-                    $containerData = new ContainerData($key, $value);
-                    $containerData->setContainer($container);
-                    $entityManager->persist($containerData);
-                    $container->addData($containerData);
-                }
-            }
-
-            $entityManager->flush($container);
-            $entityManager->refresh($container);
+            $container = $this->get('swp_template_engine.container.service')
+                ->updateContainer($container, $form->get('data')->getExtraData());
 
             return new SingleResourceResponse($container, new ResponseContext(201));
         }
@@ -158,12 +149,12 @@ class ContainerController extends Controller
      * **link or unlink widget**:
      *
      *     header name: "link"
-     *     header value: "</api/{version}/templates/widgets/{id}; rel="widget">"
+     *     header value: "</api/{version}/templates/widgets/{uuid}; rel="widget">"
      *
      * or with specific position:
      *
      *     header name: "link"
-     *     header value: "</api/{version}/templates/widgets/{id}; rel="widget">,<1; rel="widget-position">"
+     *     header value: "</api/{version}/templates/widgets/{uuid}; rel="widget">,<1; rel="widget-position">"
      *
      * @ApiDoc(
      *     statusCodes={
@@ -175,29 +166,26 @@ class ContainerController extends Controller
      *     }
      * )
      *
-     * @Route("/api/{version}/templates/containers/{id}", requirements={"id"="\d+"}, defaults={"version"="v1"}, name="swp_api_templates_link_container")
+     * @Route("/api/{version}/templates/containers/{uuid}", requirements={"id"="\d+"}, defaults={"version"="v1"}, name="swp_api_templates_link_container")
      *
      * @Method("LINK|UNLINK")
      *
      * @param Request $request
-     * @param string  $id
+     * @param string  $uuid
      *
      * @throws NotFoundHttpException
      * @throws \Exception
      *
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @return SingleResourceResponse
      */
-    public function linkUnlinkToContainerAction(Request $request, $id)
+    public function linkUnlinkToContainerAction(Request $request, $uuid)
     {
-        if (!$id) {
-            throw new UnprocessableEntityHttpException('You need to provide container Id (integer).');
+        if (!$uuid) {
+            throw new UnprocessableEntityHttpException('You need to provide container Uuid (string).');
         }
 
         $entityManager = $this->get('doctrine')->getManager();
-        $container = $entityManager->getRepository('SWP\Bundle\CoreBundle\Model\Container')
-            ->getById($id)
-            ->getOneOrNullResult();
-
+        $container = $this->get('swp.provider.container')->getOneById($uuid);
         if (!$container) {
             throw new NotFoundHttpException('Container with this id was not found.');
         }

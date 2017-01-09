@@ -1,0 +1,22 @@
+services:
+    swp_revision.manager.revision:
+        class: SWP\Component\Revision\Manager\RevisionManager
+        arguments: ["@swp.factory.revision", "@swp_revision.context.revision"]
+
+    swp_revision.context.revision:
+        class: SWP\Bundle\RevisionBundle\RevisionContext
+
+    swp_revision.subscriber.revision:
+        class: SWP\Bundle\RevisionBundle\EventSubscriber\RevisionSubscriber
+        arguments:
+            - "@swp_revision.manager.revision"
+        tags:
+            - { name: doctrine.event_subscriber }
+
+    swp_revision.subscriber.revision_log:
+        class: SWP\Bundle\RevisionBundle\EventSubscriber\RevisionLogSubscriber
+        arguments:
+            - "@swp.factory.revision_log"
+            - "@swp_revision.context.revision"
+        tags:
+            - { name: doctrine.event_subscriber }

@@ -1,5 +1,6 @@
 <?php
 
+declare(strict_types=1);
 
 /*
  * This file is part of the Superdesk Web Publisher Template Engine Bundle.
@@ -15,7 +16,8 @@
 
 namespace SWP\Bundle\TemplatesSystemBundle\Repository;
 
-use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\QueryBuilder;
+use SWP\Bundle\StorageBundle\Doctrine\ORM\EntityRepository;
 
 /**
  * Container Repository.
@@ -23,13 +25,11 @@ use Doctrine\ORM\EntityRepository;
 class ContainerRepository extends EntityRepository
 {
     /**
-     * Get Query for Container searched by name.
-     *
      * @param string $name
      *
-     * @return \Doctrine\ORM\Query
+     * @return QueryBuilder
      */
-    public function getByName($name)
+    public function getByName(string $name): QueryBuilder
     {
         $qb = $this->createQueryBuilder('c')
             ->where('c.name = :name')
@@ -37,7 +37,7 @@ class ContainerRepository extends EntityRepository
                 'name' => $name,
             ]);
 
-        return $qb->getQuery();
+        return $qb;
     }
 
     /**
@@ -45,9 +45,9 @@ class ContainerRepository extends EntityRepository
      *
      * @param string $id
      *
-     * @return \Doctrine\ORM\Query
+     * @return QueryBuilder
      */
-    public function getById($id)
+    public function getById($id): QueryBuilder
     {
         $qb = $this->createQueryBuilder('c')
             ->where('c.id = :id')
@@ -55,7 +55,7 @@ class ContainerRepository extends EntityRepository
                 'id' => $id,
             ]);
 
-        return $qb->getQuery();
+        return $qb;
     }
 
     /**

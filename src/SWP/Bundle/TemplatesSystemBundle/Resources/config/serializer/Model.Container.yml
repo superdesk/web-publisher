@@ -13,12 +13,6 @@ SWP\Bundle\TemplatesSystemBundle\Model\Container:
         visible:
             expose: true
             type: boolean
-        width:
-            expose: true
-            type: integer
-        height:
-            expose: true
-            type: integer
         styles:
             expose: true
             type: string
