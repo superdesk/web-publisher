@@ -263,7 +263,6 @@ class RouteControllerTest extends WebTestCase
 
         $client->request('GET', $this->router->generate('swp_api_content_create_routes'));
 
-        var_dump($client->getResponse()->getContent());die;
         self::assertEquals(200, $client->getResponse()->getStatusCode());
         $content = json_decode($client->getResponse()->getContent(), true);
 
