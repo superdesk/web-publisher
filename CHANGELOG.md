@@ -7,6 +7,8 @@ in 0.1 minor versions.
 
 To get the diff for a specific change, go to https://github.com/superdesk/web-publisher/commit/XXX where XXX is the change hash
 
+* 0.2.1
+ * feature [#213] Implement and expose article's keywords
 
 * 0.2.0
  * feature [#209] Add option to ignore context meta in loaders 
