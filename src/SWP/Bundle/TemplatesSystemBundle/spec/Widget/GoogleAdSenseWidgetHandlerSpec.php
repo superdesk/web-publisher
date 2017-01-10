@@ -31,10 +31,10 @@ class GoogleAdSenseWidgetHandlerSpec extends ObjectBehavior
         $this->shouldHaveType(GoogleAdSenseWidgetHandler::class);
     }
 
-    public function let(WidgetModelInterface $widgetModel, EngineInterface $templating)
+    public function let(WidgetModelInterface $widgetModel, ContainerInterface $container)
     {
         $widgetModel->getParameters()->willReturn(['ad_client' => 'client id']);
-        $this->beConstructedWith($widgetModel, $templating);
+        $this->beConstructedWith($widgetModel, $container);
     }
 
     public function it_should_render(
@@ -42,6 +42,7 @@ class GoogleAdSenseWidgetHandlerSpec extends ObjectBehavior
         EngineInterface $templating,
         Response $response
     ) {
+        $container->get('templating')->willReturn($templating);
         $templating->render('widgets/adsense.html.twig', [
             'style' => 'display:block',
             'ad_client' => 'client id',
@@ -60,8 +61,9 @@ class GoogleAdSenseWidgetHandlerSpec extends ObjectBehavior
         WidgetModelInterface $widgetModel
     ) {
         $widgetModel->getParameters()->willReturn([]);
-        $this->beConstructedWith($widgetModel, $templating);
+        $this->beConstructedWith($widgetModel, $container);
 
+        $container->get('templating')->willReturn($templating);
         $templating->render('widgets/adsense.html.twig', [
             'style' => 'display:block',
             'ad_client' => null,
