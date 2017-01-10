@@ -356,6 +356,24 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface, Orde
     }
 
     /**
+     * @return array
+     */
+    public function articleKeywords()
+    {
+        $keywords = [
+            'city',
+            'traffic',
+            'car',
+            'news',
+            'building',
+        ];
+
+        shuffle($keywords);
+
+        return $keywords;
+    }
+
+    /**
      * Article example metadata.
      *
      * @return array

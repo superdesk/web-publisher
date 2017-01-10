@@ -34,7 +34,6 @@ SWP\Component\Bridge\Model\Package:
             nullable: true
         keywords:
             type: array
-            nullable: true
         places:
             type: array
         type:
