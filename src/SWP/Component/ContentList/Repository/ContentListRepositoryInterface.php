@@ -16,6 +16,7 @@ declare(strict_types=1);
 
 namespace SWP\Component\ContentList\Repository;
 
+use SWP\Component\ContentList\Model\ContentListInterface;
 use SWP\Component\Storage\Repository\RepositoryInterface;
 
 interface ContentListRepositoryInterface extends RepositoryInterface
@@ -26,4 +27,11 @@ interface ContentListRepositoryInterface extends RepositoryInterface
      * @return array
      */
     public function findByType(string $type): array;
+
+    /**
+     * @param int $listId
+     *
+     * @return null|ContentListInterface
+     */
+    public function findListById(int $listId);
 }

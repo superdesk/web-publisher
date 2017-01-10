@@ -9,6 +9,7 @@ To get the diff for a specific change, go to https://github.com/superdesk/web-pu
 
 * 0.2.0
  * feature [#213] Implement and expose article's keywords
+ * feature [#211] Create Automatic list widget
  * feature [#209] Add option to ignore context meta in loaders 
  * feature [#209] Add rendition loader (gimme rendition) from article media
  * feature [#203] Added option to access theme assets with simple /public/{fileName} links

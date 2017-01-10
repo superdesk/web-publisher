@@ -16,7 +16,7 @@ namespace SWP\Component\TemplatesSystem\Gimme\Widget;
 
 /**
  * Widgets idea
- * * Every widget have it's own clas with widget implementation
+ * * Every widget have it's own class with widget implementation
  * * Every widget have his own parameters.
  */
 
