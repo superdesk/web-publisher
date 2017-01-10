@@ -15,6 +15,9 @@ SWP\Bundle\ContentBundle\Model\Article:
             type: text
         title:
             type: string
+        keywords:
+            type: array
+            nullable: true
         lead:
             type: text
             nullable: true

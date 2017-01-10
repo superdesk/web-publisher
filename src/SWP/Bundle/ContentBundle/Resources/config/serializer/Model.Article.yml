@@ -49,6 +49,9 @@ SWP\Bundle\ContentBundle\Model\Article:
             type: array
             accessor:
                 getter: getMetadata
+        keywords:
+            expose: true
+            type: array
     relations:
         -
             rel: self
