@@ -60,3 +60,6 @@ SWP\Component\Bridge\Model\BaseContent:
             expose: true
             serialized_name: description_text
             type: string
+        keywords:
+            expose: true
+            type: array

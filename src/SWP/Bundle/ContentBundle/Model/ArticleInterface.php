@@ -121,4 +121,14 @@ interface ArticleInterface extends TimestampableInterface, TranslatableInterface
      * @param string $lead
      */
     public function setLead($lead);
+
+    /**
+     * @return array
+     */
+    public function getKeywords(): array;
+
+    /**
+     * @param array $keywords
+     */
+    public function setKeywords(array $keywords);
 }
