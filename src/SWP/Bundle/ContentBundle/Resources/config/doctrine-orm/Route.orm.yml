@@ -41,7 +41,7 @@ SWP\Bundle\ContentBundle\Model\Route:
                 - treeLevel
     uniqueConstraints:
         swp_route_name_idx:
-            columns: [ name ]
+            columns: [ name, tenantCode ]
     gedmo:
         tree:
             type: nested
