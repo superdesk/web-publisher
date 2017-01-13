@@ -6,4 +6,4 @@ SWP\Bundle\CoreBundle\Model\Route:
             type: string
     uniqueConstraints:
         swp_route_name_idx:
-            columns: [ name, tenantCode ]
+            columns: [ name, tenant_code ]
