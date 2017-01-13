@@ -44,7 +44,7 @@ interface ContainerProviderInterface
      *
      * @return null|ContainerInterface
      */
-    public function getOneById(int $id);
+    public function getOneById($id);
 
     /**
      * @param ContainerInterface $container

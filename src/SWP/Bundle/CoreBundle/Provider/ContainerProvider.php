@@ -56,7 +56,7 @@ class ContainerProvider extends BaseContentProvider
     /**
      * {@inheritdoc}
      */
-    public function getOneById(int $uuid)
+    public function getOneById($uuid)
     {
         $qb = $this->containerRepository->createQueryBuilder('c')
             ->andWhere('c.revision = :revision')

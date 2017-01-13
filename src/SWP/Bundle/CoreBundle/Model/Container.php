@@ -30,6 +30,7 @@ class Container extends BaseContainer implements TenantAwareInterface, RevisionA
     public function fork($object = null)
     {
         $container = clone $this;
+        $container->setId(null);
         $container->setCreatedAt(new \DateTime());
         $container->setUpdatedAt(new \DateTime());
 

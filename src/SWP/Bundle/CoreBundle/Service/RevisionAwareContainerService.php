@@ -17,12 +17,13 @@ declare(strict_types=1);
 namespace SWP\Bundle\CoreBundle\Service;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\ORM\EntityManagerInterface;
 use SWP\Bundle\TemplatesSystemBundle\Service\ContainerService;
 use SWP\Bundle\TemplatesSystemBundle\Service\ContainerServiceInterface;
 use SWP\Component\Revision\Model\RevisionInterface;
 use SWP\Component\Revision\RevisionAwareInterface;
 use SWP\Component\TemplatesSystem\Gimme\Model\ContainerInterface;
-use Symfony\Bridge\Doctrine\RegistryInterface;
+use SWP\Component\TemplatesSystem\Gimme\Model\ContainerWidgetInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface as ServiceContainerInterface;
 
@@ -34,16 +35,16 @@ class RevisionAwareContainerService extends ContainerService implements Containe
     /**
      * RevisionAwareContainerService constructor.
      *
-     * @param RegistryInterface         $registry
+     * @param EntityManagerInterface    $entityManager
      * @param EventDispatcherInterface  $eventDispatcher
      * @param ServiceContainerInterface $serviceContainer
      */
     public function __construct(
-        RegistryInterface $registry,
+        EntityManagerInterface $entityManager,
         EventDispatcherInterface $eventDispatcher,
         ServiceContainerInterface $serviceContainer
     ) {
-        parent::__construct($registry, $eventDispatcher, $serviceContainer);
+        parent::__construct($entityManager, $eventDispatcher, $serviceContainer);
     }
 
     /**
@@ -69,24 +70,35 @@ class RevisionAwareContainerService extends ContainerService implements Containe
         if ($container instanceof RevisionAwareInterface &&
             $container->getRevision()->getStatus() === RevisionInterface::STATE_PUBLISHED
         ) {
-            // TODO: check if there is no version of that container for working revision
-
-            $entityManager = $this->serviceContainer->get('doctrine')->getManager();
-            if ($entityManager->contains($container)) {
-                $entityManager->detach($container);
+            if ($this->entityManager->contains($container)) {
+                $this->entityManager->detach($container);
             }
 
             $workingContainer = $container->fork();
             $workingContainer->setWidgets(new ArrayCollection());
             $workingContainer->setData(new ArrayCollection());
-            /** @var RevisionAwareInterface $workingContainer */
+            /** @var RevisionAwareInterface | ContainerInterface $workingContainer */
             $revisionContext = $this->serviceContainer->get('swp_revision.context.revision');
             $workingContainer->setRevision($revisionContext->getWorkingRevision());
-            $entityManager->persist($workingContainer);
+            $this->entityManager->persist($workingContainer);
 
-            return parent::updateContainer($workingContainer, $extraData);
+            $workingContainer = parent::updateContainer($workingContainer, $extraData);
+            $this->forkContainerRelations($container, $workingContainer);
+
+            return $workingContainer;
         }
 
         return parent::updateContainer($container, $extraData);
+    }
+
+    private function forkContainerRelations(ContainerInterface $container, ContainerInterface $workingContainer)
+    {
+        $containerWidgetFactory = $this->serviceContainer->get('swp.factory.container_widget');
+        /** @var ContainerWidgetInterface $containerWidget */
+        foreach ($container->getWidgets() as $containerWidget) {
+            $containerWidget = $containerWidgetFactory->create($workingContainer, $containerWidget->getWidget());
+            $this->entityManager->persist($containerWidget);
+            $workingContainer->addWidget($containerWidget);
+        }
     }
 }

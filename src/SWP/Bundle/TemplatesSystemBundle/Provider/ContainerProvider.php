@@ -74,7 +74,7 @@ class ContainerProvider implements ContainerProviderInterface
     /**
      * {@inheritdoc}
      */
-    public function getOneById(int $id)
+    public function getOneById($id)
     {
         return $this->containerRepository->getById($id)->getQuery()->getOneOrNullResult();
     }

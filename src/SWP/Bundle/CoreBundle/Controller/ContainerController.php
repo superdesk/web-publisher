@@ -123,7 +123,8 @@ class ContainerController extends Controller
             throw new UnprocessableEntityHttpException('You need to provide container Uuid (string).');
         }
 
-        $container = $this->get('swp.provider.container')->getOneById($uuid);
+        $container = $this->getContainerForUpdate($uuid);
+
         if (!$container) {
             throw new NotFoundHttpException('Container with this uuid was not found.');
         }
@@ -279,5 +280,18 @@ class ContainerController extends Controller
         }
 
         return $links;
+    }
+
+    private function getContainerForUpdate($uuid)
+    {
+        $revisionContext = $this->get('swp_revision.context.revision');
+        $currentRenditionBackup = $revisionContext->getCurrentRevision();
+        $revisionContext->setCurrentRevision($revisionContext->getWorkingRevision());
+
+        $container = $this->get('swp.provider.container')->getOneById($uuid);
+
+        $revisionContext->setCurrentRevision($currentRenditionBackup);
+
+        return $container;
     }
 }

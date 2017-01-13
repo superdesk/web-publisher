@@ -16,32 +16,20 @@ namespace SWP\Bundle\TemplatesSystemBundle\Factory;
 
 use SWP\Component\TemplatesSystem\Gimme\Model\ContainerInterface;
 
-class ContainerRendererFactory implements ContainerRendererFactoryInterface
+interface ContainerRendererFactoryInterface
 {
     /**
-     * @var string
-     */
-    private $className;
-
-    /**
-     * Factory constructor.
+     * @param ContainerInterface     $containerEntity
+     * @param \Twig_Environment|null $renderer
+     * @param bool                   $debug
+     * @param null                   $cacheDir
      *
-     * @param string $className
-     */
-    public function __construct($className)
-    {
-        $this->className = $className;
-    }
-
-    /**
-     * {@inheritdoc}
+     * @return mixed
      */
     public function create(
         ContainerInterface $containerEntity,
         \Twig_Environment $renderer = null,
         $debug = false,
         $cacheDir = null
-    ) {
-        return new $this->className($containerEntity, $renderer, $debug, $cacheDir);
-    }
+    );
 }

@@ -15,8 +15,9 @@
 namespace SWP\Bundle\TemplatesSystemBundle\Factory;
 
 use SWP\Component\TemplatesSystem\Gimme\Model\ContainerInterface;
+use SWP\Component\TemplatesSystem\Gimme\Model\WidgetModelInterface;
 
-class ContainerRendererFactory implements ContainerRendererFactoryInterface
+class ContainerWidgetFactory
 {
     /**
      * @var string
@@ -36,12 +37,8 @@ class ContainerRendererFactory implements ContainerRendererFactoryInterface
     /**
      * {@inheritdoc}
      */
-    public function create(
-        ContainerInterface $containerEntity,
-        \Twig_Environment $renderer = null,
-        $debug = false,
-        $cacheDir = null
-    ) {
-        return new $this->className($containerEntity, $renderer, $debug, $cacheDir);
+    public function create(ContainerInterface $container, WidgetModelInterface $widget)
+    {
+        return new $this->className($container, $widget);
     }
 }

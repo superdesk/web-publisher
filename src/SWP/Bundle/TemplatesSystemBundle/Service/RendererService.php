@@ -119,7 +119,7 @@ class RendererService implements RendererServiceInterface
             $widgetClass = $widgetModel->getType();
 
             if (is_a($widgetClass, TemplatingWidgetHandler::class, true)) {
-                $widgetHandler = new $widgetClass($widgetModel, $this->serviceContainer->get('templating'));
+                $widgetHandler = new $widgetClass($widgetModel, $this->serviceContainer);
             } else {
                 $widgetHandler = new $widgetClass($widgetModel);
             }

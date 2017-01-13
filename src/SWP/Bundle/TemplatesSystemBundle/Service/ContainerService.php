@@ -14,14 +14,13 @@
 
 namespace SWP\Bundle\TemplatesSystemBundle\Service;
 
+use Doctrine\ORM\EntityManagerInterface;
 use SWP\Bundle\TemplatesSystemBundle\Factory\ContainerDataFactoryInterface;
 use SWP\Component\TemplatesSystem\Gimme\Model\ContainerDataInterface;
 use SWP\Component\TemplatesSystem\Gimme\Model\ContainerInterface;
 use SWP\Component\Common\Event\HttpCacheEvent;
-use Symfony\Bridge\Doctrine\RegistryInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface as ServiceContainerInterface;
-use Doctrine\Common\Persistence\ObjectManager;
 
 /**
  * Class RendererService.
@@ -34,9 +33,9 @@ class ContainerService implements ContainerServiceInterface
     protected $serviceContainer;
 
     /**
-     * @var ObjectManager
+     * @var EntityManagerInterface
      */
-    protected $objectManager;
+    protected $entityManager;
 
     /**
      * @var EventDispatcherInterface
@@ -44,18 +43,18 @@ class ContainerService implements ContainerServiceInterface
     protected $eventDispatcher;
 
     /**
-     * RendererService constructor.
+     * ContainerService constructor.
      *
-     * @param RegistryInterface         $registry
+     * @param EntityManagerInterface    $entityManager
      * @param EventDispatcherInterface  $eventDispatcher
      * @param ServiceContainerInterface $serviceContainer
      */
     public function __construct(
-        RegistryInterface $registry,
+        EntityManagerInterface $entityManager,
         EventDispatcherInterface $eventDispatcher,
         ServiceContainerInterface $serviceContainer
     ) {
-        $this->objectManager = $registry->getManager();
+        $this->entityManager = $entityManager;
         $this->eventDispatcher = $eventDispatcher;
         $this->serviceContainer = $serviceContainer;
     }
@@ -88,13 +87,13 @@ class ContainerService implements ContainerServiceInterface
                         /** @var ContainerDataInterface $containerData */
                         $containerData = $containerDataFactory->create($dataKey, $dataValue);
                         $containerData->setContainer($container);
-                        $this->objectManager->persist($containerData);
+                        $this->entityManager->persist($containerData);
                         $containerEntity->addData($containerData);
                     }
             }
         }
-        $this->objectManager->persist($container);
-        $this->objectManager->flush();
+        $this->entityManager->persist($container);
+        $this->entityManager->flush();
 
         $this->eventDispatcher
             ->dispatch(HttpCacheEvent::EVENT_NAME, new HttpCacheEvent($containerEntity));
@@ -112,7 +111,7 @@ class ContainerService implements ContainerServiceInterface
         if (!empty($extraData) && is_array($extraData)) {
             // Remove old containerData's
             foreach ($container->getData() as $containerData) {
-                $this->objectManager->remove($containerData);
+                $this->entityManager->remove($containerData);
             }
 
             // Apply new containerData's
@@ -120,13 +119,13 @@ class ContainerService implements ContainerServiceInterface
                 /** @var ContainerDataInterface $containerData */
                 $containerData = $containerDataFactory->create($key, $value);
                 $containerData->setContainer($container);
-                $this->objectManager->persist($containerData);
+                $this->entityManager->persist($containerData);
                 $container->addData($containerData);
             }
         }
 
-        $this->objectManager->flush();
-        $this->objectManager->refresh($container);
+        $this->entityManager->flush();
+        $this->entityManager->refresh($container);
 
         return $container;
     }

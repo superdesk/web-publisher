@@ -32,7 +32,7 @@ services:
     swp_template_engine.container.service:
         class: SWP\Bundle\TemplatesSystemBundle\Service\ContainerService
         arguments:
-            - "@doctrine"
+            - "@swp.object_manager.container"
             - "@event_dispatcher"
             - "@service_container"
 
