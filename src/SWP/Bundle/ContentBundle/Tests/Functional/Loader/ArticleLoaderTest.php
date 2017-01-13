@@ -77,6 +77,14 @@ class ArticleLoaderTest extends WebTestCase
         $articlesOne = $this->articleLoader->load('articles', ['route' => '/news', 'start' => 1], LoaderInterface::COLLECTION);
         $this->assertTrue($articlesZero[1]->title === $articlesOne[0]->title);
 
+        $articles = $this->articleLoader->load('articles', ['metadata' => ['located' => 'Sydney']], LoaderInterface::COLLECTION);
+
+        $this->assertCount(3, $articles);
+
+        $articles = $this->articleLoader->load('articles', ['metadata' => ['byline' => 'Jhon Doe']], LoaderInterface::COLLECTION);
+
+        $this->assertCount(3, $articles);
+
         $articlesAsc = $this->articleLoader->load('articles', ['route' => '/news', 'order' => ['title', 'asc']], LoaderInterface::COLLECTION);
         $articlesDesc = $this->articleLoader->load('articles', ['route' => '/news', 'order' => ['title', 'desc']], LoaderInterface::COLLECTION);
 

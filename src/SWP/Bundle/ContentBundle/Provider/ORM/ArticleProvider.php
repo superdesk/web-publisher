@@ -44,6 +44,9 @@ class ArticleProvider extends AbstractProvider implements ArticleProviderInterfa
         $this->articleRepository = $articleRepository;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getRepository(): ArticleRepositoryInterface
     {
         return $this->articleRepository;
