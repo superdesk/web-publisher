@@ -46,7 +46,7 @@ Example with filtering articles by metadata:
         {{ article.title }}
     {% endgimmelist %}
 
-The above example will list all articles by metadata which contain ``byline`` equals ``Karen Ruhiger`` **AND** ``located`` equals ``Sydney``.
+The above example will list all articles by metadata which contain ``byline`` equals to ``Karen Ruhiger`` **AND** ``located`` equals to ``Sydney``.
 
 To list articles by authors you can also do:
 
