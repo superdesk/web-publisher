@@ -1,0 +1,11 @@
+{
+  "name": "hsb2rgb",
+  "version": "1.0.2",
+  "repo": "jankuca/hsb2rgb",
+  "description": "HSV (HSB) to RGB color converter",
+  "main": "src/hsb2rgb.js",
+  "keywords": ["color", "conversion", "rgb", "hsv", "hsb"],
+  "scripts": ["src/hsb2rgb.js"],
+  "main": "src/hsb2rgb.js",
+  "license": "MIT"
+}
