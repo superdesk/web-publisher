@@ -17,14 +17,16 @@ namespace spec\SWP\Bundle\CoreBundle\EventListener;
 use Doctrine\Common\Collections\ArrayCollection;
 use Prophecy\Argument;
 use SWP\Bundle\ContentBundle\Event\ArticleEvent;
+use SWP\Bundle\ContentListBundle\Event\ContentListEvent;
 use SWP\Bundle\CoreBundle\EventListener\AutomaticListAddArticleListener;
 use PhpSpec\ObjectBehavior;
+use SWP\Bundle\CoreBundle\Matcher\ArticleCriteriaMatcherInterface;
 use SWP\Bundle\CoreBundle\Model\Article;
 use SWP\Bundle\CoreBundle\Model\ContentListInterface;
 use SWP\Bundle\CoreBundle\Model\ContentListItemInterface;
+use SWP\Component\Common\Criteria\Criteria;
+use SWP\Component\ContentList\ContentListEvents;
 use SWP\Component\ContentList\Repository\ContentListRepositoryInterface;
-use SWP\Component\Rule\Evaluator\RuleEvaluatorInterface;
-use SWP\Component\Rule\Model\RuleInterface;
 use SWP\Component\Storage\Factory\FactoryInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
@@ -36,11 +38,15 @@ final class AutomaticListAddArticleListenerSpec extends ObjectBehavior
     public function let(
         ContentListRepositoryInterface $listRepository,
         FactoryInterface $listItemFactory,
-        RuleEvaluatorInterface $ruleEvaluator,
-        FactoryInterface $ruleFactory,
+        ArticleCriteriaMatcherInterface $articleCriteriaMatcher,
         EventDispatcherInterface $eventDispatcher
     ) {
-        $this->beConstructedWith($listRepository, $listItemFactory, $ruleEvaluator, $ruleFactory, $eventDispatcher);
+        $this->beConstructedWith(
+            $listRepository,
+            $listItemFactory,
+            $articleCriteriaMatcher,
+            $eventDispatcher
+        );
     }
 
     public function it_is_initializable()
@@ -53,31 +59,32 @@ final class AutomaticListAddArticleListenerSpec extends ObjectBehavior
         Article $article,
         ContentListRepositoryInterface $listRepository,
         ContentListInterface $list,
-        FactoryInterface $ruleFactory,
-        RuleInterface $rule,
-        RuleEvaluatorInterface $ruleEvaluator,
+        ArticleCriteriaMatcherInterface $articleCriteriaMatcher,
         FactoryInterface $listItemFactory,
-        ContentListItemInterface $listItem
+        ContentListItemInterface $contentListItem,
+        EventDispatcherInterface $eventDispatcher
     ) {
         $event->getArticle()->willReturn($article);
 
-        $list->getExpression()->willReturn('article.getLocale() == "en"');
+        $list->getFilters()->willReturn(['metadata' => ['locale' => 'en']]);
         $list->getItems()->willReturn(new ArrayCollection());
-        $listRepository->findByType(ContentListInterface::TYPE_AUTOMATIC)->willReturn([$list]);
+        $listRepository->findAll()->willReturn([$list]);
 
-        $ruleFactory->create()->willReturn($rule);
+        $articleCriteriaMatcher->match($article, new Criteria(['metadata' => ['locale' => 'en']]))->willReturn(true);
 
-        $rule->setExpression('article.getLocale() == "en"')->shouldBeCalled();
+        $listItemFactory->create()->willReturn($contentListItem);
 
-        $ruleEvaluator->evaluate($rule, $article)->willReturn(true);
-        $listItemFactory->create()->willReturn($listItem);
+        $contentListItem->setContent($article)->shouldBeCalled();
+        $contentListItem->setPosition(0)->shouldBeCalled();
 
-        $listItem->setContent($article)->shouldBeCalled();
-        $listItem->setPosition(Argument::type('integer'))->shouldBeCalled();
-
-        $list->addItem($listItem)->shouldBeCalled();
+        $list->addItem($contentListItem)->shouldBeCalled();
 
         $this->addArticleToList($event);
+
+        $eventDispatcher->dispatch(
+            ContentListEvents::POST_ITEM_ADD,
+            Argument::type(ContentListEvent::class)
+        )->shouldHaveBeenCalled();
     }
 
     public function it_should_not_add_article_to_list(
@@ -85,28 +92,31 @@ final class AutomaticListAddArticleListenerSpec extends ObjectBehavior
         Article $article,
         ContentListRepositoryInterface $listRepository,
         ContentListInterface $list,
-        FactoryInterface $ruleFactory,
-        RuleInterface $rule,
-        RuleEvaluatorInterface $ruleEvaluator,
+        ArticleCriteriaMatcherInterface $articleCriteriaMatcher,
         FactoryInterface $listItemFactory,
-        ContentListItemInterface $listItem
+        ContentListItemInterface $contentListItem,
+        EventDispatcherInterface $eventDispatcher
     ) {
         $event->getArticle()->willReturn($article);
 
-        $list->getExpression()->willReturn('article.getLocale() == "en"');
-        $listRepository->findByType(ContentListInterface::TYPE_AUTOMATIC)->willReturn([$list]);
+        $list->getFilters()->willReturn(['metadata' => ['locale' => 'en']]);
+        $list->getItems()->willReturn(new ArrayCollection());
+        $listRepository->findAll()->willReturn([$list]);
 
-        $ruleFactory->create()->willReturn($rule);
+        $articleCriteriaMatcher->match($article, new Criteria(['metadata' => ['locale' => 'en']]))->willReturn(false);
 
-        $rule->setExpression('article.getLocale() == "en"')->shouldBeCalled();
+        $listItemFactory->create()->willReturn($contentListItem)->shouldNotBeCalled();
 
-        $ruleEvaluator->evaluate($rule, $article)->willReturn(false);
-        $listItemFactory->create()->shouldNotBeCalled();
+        $contentListItem->setContent($article)->shouldNotBeCalled();
+        $contentListItem->setPosition(0)->shouldNotBeCalled();
 
-        $listItem->setContent($article)->shouldNotBeCalled();
-
-        $list->addItem($listItem)->shouldNotBeCalled();
+        $list->addItem($contentListItem)->shouldNotBeCalled();
 
         $this->addArticleToList($event);
+
+        $eventDispatcher->dispatch(
+            ContentListEvents::POST_ITEM_ADD,
+            Argument::type(ContentListEvent::class)
+        )->shouldNotHaveBeenCalled();
     }
 }

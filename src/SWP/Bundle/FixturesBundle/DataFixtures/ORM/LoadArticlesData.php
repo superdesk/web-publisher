@@ -215,6 +215,10 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface, Orde
                     'width' => '478',
                     'height' => '326',
                 ],
+                '480x480' => [
+                    'width' => '480',
+                    'height' => '480',
+                ],
                 '960x480' => [
                     'width' => '960',
                     'height' => '480',
@@ -349,6 +353,24 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface, Orde
 
             $manager->flush();
         }
+    }
+
+    /**
+     * @return array
+     */
+    public function articleKeywords()
+    {
+        $keywords = [
+            'city',
+            'traffic',
+            'car',
+            'news',
+            'building',
+        ];
+
+        shuffle($keywords);
+
+        return $keywords;
     }
 
     /**

@@ -44,7 +44,7 @@ class WidgetControllerTest extends WebTestCase
         $client->request('GET', $this->router->generate('swp_api_templates_list_widgets'));
 
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
-        $this->assertEquals($client->getResponse()->getContent(), '{"page":1,"limit":10,"pages":1,"total":2,"_links":{"self":{"href":"\/api\/v1\/templates\/widgets\/?page=1&limit=10"},"first":{"href":"\/api\/v1\/templates\/widgets\/?page=1&limit=10"},"last":{"href":"\/api\/v1\/templates\/widgets\/?page=1&limit=10"}},"_embedded":{"_items":[{"id":1,"type":"\\\\SWP\\\\Component\\\\TemplatesSystem\\\\Gimme\\\\Widget\\\\HtmlWidgetHandler","name":"HtmlWidgetHandler number 1","visible":true,"parameters":{"html_body":"sample widget with <span style=\'color:red\'>html<\/span>"},"_links":{"self":{"href":"\/api\/v1\/templates\/widgets\/1"}}},{"id":2,"type":"\\\\SWP\\\\Component\\\\TemplatesSystem\\\\Gimme\\\\Widget\\\\HtmlWidgetHandler","name":"HtmlWidgetHandler number 2","visible":true,"parameters":{"html_body":"sample widget with html 2"},"_links":{"self":{"href":"\/api\/v1\/templates\/widgets\/2"}}}]}}');
+        $this->assertEquals($client->getResponse()->getContent(), '{"page":1,"limit":10,"pages":1,"total":2,"_links":{"self":{"href":"\/api\/v1\/templates\/widgets\/?page=1&limit=10"},"first":{"href":"\/api\/v1\/templates\/widgets\/?page=1&limit=10"},"last":{"href":"\/api\/v1\/templates\/widgets\/?page=1&limit=10"}},"_embedded":{"_items":[{"id":1,"type":"SWP\\\\Component\\\\TemplatesSystem\\\\Gimme\\\\Widget\\\\HtmlWidgetHandler","name":"HtmlWidgetHandler number 1","visible":true,"parameters":{"html_body":"sample widget with <span style=\'color:red\'>html<\/span>"},"_links":{"self":{"href":"\/api\/v1\/templates\/widgets\/1"}}},{"id":2,"type":"SWP\\\\Component\\\\TemplatesSystem\\\\Gimme\\\\Widget\\\\HtmlWidgetHandler","name":"HtmlWidgetHandler number 2","visible":true,"parameters":{"html_body":"sample widget with html 2"},"_links":{"self":{"href":"\/api\/v1\/templates\/widgets\/2"}}}]}}');
     }
 
     public function testListWidgetsApiPagination()
@@ -53,7 +53,7 @@ class WidgetControllerTest extends WebTestCase
         $client->request('GET', $this->router->generate('swp_api_templates_list_widgets', [PaginationInterface::LIMIT_PARAMETER_NAME => 1]));
 
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
-        $this->assertEquals('{"page":1,"limit":1,"pages":2,"total":2,"_links":{"self":{"href":"\/api\/v1\/templates\/widgets\/?page=1&limit=1"},"first":{"href":"\/api\/v1\/templates\/widgets\/?page=1&limit=1"},"last":{"href":"\/api\/v1\/templates\/widgets\/?page=2&limit=1"},"next":{"href":"\/api\/v1\/templates\/widgets\/?page=2&limit=1"}},"_embedded":{"_items":[{"id":1,"type":"\\\\SWP\\\\Component\\\\TemplatesSystem\\\\Gimme\\\\Widget\\\\HtmlWidgetHandler","name":"HtmlWidgetHandler number 1","visible":true,"parameters":{"html_body":"sample widget with <span style=\'color:red\'>html<\/span>"},"_links":{"self":{"href":"\/api\/v1\/templates\/widgets\/1"}}}]}}', $client->getResponse()->getContent());
+        $this->assertEquals('{"page":1,"limit":1,"pages":2,"total":2,"_links":{"self":{"href":"\/api\/v1\/templates\/widgets\/?page=1&limit=1"},"first":{"href":"\/api\/v1\/templates\/widgets\/?page=1&limit=1"},"last":{"href":"\/api\/v1\/templates\/widgets\/?page=2&limit=1"},"next":{"href":"\/api\/v1\/templates\/widgets\/?page=2&limit=1"}},"_embedded":{"_items":[{"id":1,"type":"SWP\\\\Component\\\\TemplatesSystem\\\\Gimme\\\\Widget\\\\HtmlWidgetHandler","name":"HtmlWidgetHandler number 1","visible":true,"parameters":{"html_body":"sample widget with <span style=\'color:red\'>html<\/span>"},"_links":{"self":{"href":"\/api\/v1\/templates\/widgets\/1"}}}]}}', $client->getResponse()->getContent());
     }
 
     public function testGetWidgetApi()
@@ -62,7 +62,7 @@ class WidgetControllerTest extends WebTestCase
         $client->request('GET', $this->router->generate('swp_api_templates_get_widget', ['id' => 1]));
 
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
-        $this->assertEquals($client->getResponse()->getContent(), '{"id":1,"type":"\\\\SWP\\\\Component\\\\TemplatesSystem\\\\Gimme\\\\Widget\\\\HtmlWidgetHandler","name":"HtmlWidgetHandler number 1","visible":true,"parameters":{"html_body":"sample widget with <span style=\'color:red\'>html<\/span>"},"_links":{"self":{"href":"\/api\/v1\/templates\/widgets\/1"}}}');
+        $this->assertEquals($client->getResponse()->getContent(), '{"id":1,"type":"SWP\\\\Component\\\\TemplatesSystem\\\\Gimme\\\\Widget\\\\HtmlWidgetHandler","name":"HtmlWidgetHandler number 1","visible":true,"parameters":{"html_body":"sample widget with <span style=\'color:red\'>html<\/span>"},"_links":{"self":{"href":"\/api\/v1\/templates\/widgets\/1"}}}');
     }
 
     public function testCreateWidgetApi()
@@ -76,7 +76,22 @@ class WidgetControllerTest extends WebTestCase
         ]);
 
         $this->assertEquals(201, $client->getResponse()->getStatusCode());
-        $this->assertEquals($client->getResponse()->getContent(), '{"id":3,"type":"\\\\SWP\\\\Component\\\\TemplatesSystem\\\\Gimme\\\\Widget\\\\HtmlWidgetHandler","name":"Simple html widget","visible":false,"parameters":[],"_links":{"self":{"href":"\/api\/v1\/templates\/widgets\/3"}}}');
+        $this->assertEquals($client->getResponse()->getContent(), '{"id":3,"type":"SWP\\\\Component\\\\TemplatesSystem\\\\Gimme\\\\Widget\\\\HtmlWidgetHandler","name":"Simple html widget","visible":false,"parameters":[],"_links":{"self":{"href":"\/api\/v1\/templates\/widgets\/3"}}}');
+    }
+
+    public function testCreateContentListWidgetApi()
+    {
+        $client = static::createClient();
+        $client->request('POST', $this->router->generate('swp_api_templates_create_widget'), [
+            'widget' => [
+                'name' => 'Simple list widget',
+                'visible' => 0,
+                'type' => 4,
+            ],
+        ]);
+
+        $this->assertEquals(201, $client->getResponse()->getStatusCode());
+        $this->assertEquals($client->getResponse()->getContent(), '{"id":3,"type":"SWP\\\\Bundle\\\\CoreBundle\\\\Widget\\\\ContentListWidget","name":"Simple list widget","visible":false,"parameters":[],"_links":{"self":{"href":"\/api\/v1\/templates\/widgets\/3"}}}');
     }
 
     public function testUpdateWidgetApi()
@@ -94,7 +109,7 @@ class WidgetControllerTest extends WebTestCase
         ]);
 
         $this->assertEquals(201, $client->getResponse()->getStatusCode());
-        $this->assertEquals($client->getResponse()->getContent(), '{"id":1,"type":"\\\\SWP\\\\Component\\\\TemplatesSystem\\\\Gimme\\\\Widget\\\\HtmlWidgetHandler","name":"Simple Updated html widget","visible":false,"parameters":{"html_body":"sample widget with <span style=\'color:red\'>html<\/span>","extra_param":"extra value"},"_links":{"self":{"href":"\/api\/v1\/templates\/widgets\/1"}}}');
+        $this->assertEquals($client->getResponse()->getContent(), '{"id":1,"type":"SWP\\\\Component\\\\TemplatesSystem\\\\Gimme\\\\Widget\\\\HtmlWidgetHandler","name":"Simple Updated html widget","visible":false,"parameters":{"html_body":"sample widget with <span style=\'color:red\'>html<\/span>","extra_param":"extra value"},"_links":{"self":{"href":"\/api\/v1\/templates\/widgets\/1"}}}');
     }
 
     public function testDeleteWidgetApi()

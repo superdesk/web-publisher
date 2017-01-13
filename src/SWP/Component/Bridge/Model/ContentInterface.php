@@ -180,4 +180,14 @@ interface ContentInterface
      * @return string
      */
     public function getDescription();
+
+    /**
+     * @return array
+     */
+    public function getKeywords(): array;
+
+    /**
+     * @param array $keywords
+     */
+    public function setKeywords(array $keywords);
 }

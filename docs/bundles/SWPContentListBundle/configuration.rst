@@ -17,11 +17,19 @@ Full Default Configuration
                     classes:
                         content_list:
                             model: SWP\Component\ContentList\Model\ContentList
+                            interface: SWP\Component\ContentList\Model\ContentListInterface
                             repository: SWP\Bundle\ContentListBundle\Doctrine\ORM\ContentListRepository
                             factory: SWP\Bundle\StorageBundle\Factory\Factory
                             object_manager_name: ~
                         content_list_item:
                             model: SWP\Component\ContentList\Model\ContentListItem
+                            interface: SWP\Component\ContentList\Model\ContentListItemInterface
+                            repository: SWP\Bundle\StorageBundle\Doctrine\ORM\EntityRepository
+                            factory: SWP\Bundle\StorageBundle\Factory\Factory
+                            object_manager_name: ~
+                        list_content:
+                            model: ~
+                            interface: SWP\Component\ContentList\Model\ListContentInterface
                             repository: SWP\Bundle\StorageBundle\Doctrine\ORM\EntityRepository
                             factory: SWP\Bundle\StorageBundle\Factory\Factory
                             object_manager_name: ~
@@ -76,11 +84,19 @@ ORM can be enabled by multiple ways such as:
                     classes:
                         content_list:
                             model: SWP\Component\ContentList\Model\ContentList
+                            interface: SWP\Component\ContentList\Model\ContentListInterface
                             repository: SWP\Bundle\ContentListBundle\Doctrine\ORM\ContentListRepository
                             factory: SWP\Bundle\StorageBundle\Factory\Factory
                             object_manager_name: ~
                         content_list_item:
                             model: SWP\Component\ContentList\Model\ContentListItem
+                            interface: SWP\Component\ContentList\Model\ContentListItemInterface
+                            repository: SWP\Bundle\StorageBundle\Doctrine\ORM\EntityRepository
+                            factory: SWP\Bundle\StorageBundle\Factory\Factory
+                            object_manager_name: ~
+                        list_content:
+                            model: ~
+                            interface: SWP\Component\ContentList\Model\ListContentInterface
                             repository: SWP\Bundle\StorageBundle\Doctrine\ORM\EntityRepository
                             factory: SWP\Bundle\StorageBundle\Factory\Factory
                             object_manager_name: ~
@@ -97,6 +113,13 @@ which is an alias for ``doctrine.orm.default_entity_manager``.
 **type**: ``string`` **default**: ``SWP\Component\ContentList\Model\ContentList``
 
 The FQCN of the ContentList model class which is of type ``SWP\Component\ContentList\Model\ContentListInterface``.
+
+``content_list.interface``
+**************************
+
+**type**: ``string`` **default**: ``SWP\Component\ContentList\Model\ContentListInterface``
+
+The FQCN of your custom interface which is used by your model class.
 
 ``content_list.factory``
 ************************
@@ -128,6 +151,13 @@ which is an alias for ``doctrine.orm.default_entity_manager``.
 
 The FQCN of the ContentListItem model class which is of type ``SWP\Component\ContentList\Model\ContentListItemInterface``.
 
+``content_list_item.interface``
+*******************************
+
+**type**: ``string`` **default**: ``SWP\Component\ContentList\Model\ContentListItemInterface``
+
+The FQCN of your custom interface which is used by your model class.
+
 ``content_list_item.factory``
 *****************************
 
@@ -149,4 +179,42 @@ The FQCN of the ContentListItem Repository class.
 
 The name of the object manager. If set to null it defaults to `default`.
 If Doctrine ORM persistence backend is enabled it will register ``swp.object_manager.content_list_item`` service
+which is an alias for ``doctrine.orm.default_entity_manager``.
+
+``list_content.model``
+**********************
+
+**type**: ``string`` **default**: ``null``
+
+The FQCN of the model class which must be of type ``SWP\Component\ContentList\Model\ContentListInterface``.
+This is the content of the list item. You can use your custom classes here so for example, ``ACME\DemoBundle\Entity\Post`` could be your content.
+
+``list_content.interface``
+**************************
+
+**type**: ``string`` **default**: ``SWP\Component\ContentList\Model\ListContentInterface``
+
+The FQCN of your custom interface which is used by your model class.
+
+``list_content.factory``
+************************
+
+**type**: ``string`` **default**: ``SWP\Bundle\StorageBundle\Factory\Factory``
+
+The FQCN of the List Item's content Factory class.
+
+``list_content.repository``
+***************************
+
+**type**: ``string`` **default**: ``SWP\Bundle\StorageBundle\Doctrine\ORM\EntityRepository``
+
+The FQCN of the List Item's content Repository class.
+
+``list_content.object_manager_name``
+************************************
+
+**type**: ``string`` **default**: ``null``
+
+The name of the object manager. If set to null it defaults to `default`.
+If Doctrine ORM persistence backend is enabled it will register ``swp.object_manager.content_list`` service
 which is an alias for ``doctrine.orm.default_entity_manager``.

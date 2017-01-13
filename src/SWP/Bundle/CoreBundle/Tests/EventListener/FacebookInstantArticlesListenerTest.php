@@ -68,12 +68,12 @@ class FacebookInstantArticlesListenerTest extends WebTestCase
 
         $client->request('POST', $this->router->generate('swp_api_content_create_lists'), [
             'content_list' => [
-                'name' => 'Example automatic list',
-                'type' => 'automatic',
+                'name' => 'Example bucket',
+                'type' => 'bucket',
                 'description' => 'New FBIA list',
                 'limit' => 0,
                 'cacheLifeTime' => 0,
-                'expression' => 'article.getLocale() == "en"',
+                'filters' => '{"metadata":{"language":"en"}}',
             ],
         ]);
         self::assertEquals(201, $client->getResponse()->getStatusCode());
@@ -104,6 +104,7 @@ class FacebookInstantArticlesListenerTest extends WebTestCase
             ['CONTENT_TYPE' => 'application/json'],
             ContentPushControllerTest::TEST_CONTENT
         );
+
         $this->assertEquals(500, $client->getResponse()->getStatusCode());
         $response = json_decode($client->getResponse()->getContent(), true);
         $this->assertEquals('Page is not authorized to publish Instant Articles', $response['message']);

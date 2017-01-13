@@ -15,8 +15,11 @@
 namespace SWP\Bundle\TemplatesSystemBundle\Model;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use SWP\Bundle\TemplatesSystemBundle\Widget\GoogleAdSenseWidgetHandler;
+use SWP\Bundle\TemplatesSystemBundle\Widget\MenuWidgetHandler;
 use SWP\Component\Common\Model\TimestampableInterface;
 use SWP\Component\TemplatesSystem\Gimme\Model\WidgetModelInterface;
+use SWP\Component\TemplatesSystem\Gimme\Widget\HtmlWidgetHandler;
 
 /**
  * WidgetModel.
@@ -28,9 +31,9 @@ class WidgetModel implements WidgetModelInterface, TimestampableInterface
     const TYPE_MENU = 3;
 
     protected $types = [
-        self::TYPE_HTML => '\\SWP\\Component\\TemplatesSystem\\Gimme\\Widget\\HtmlWidgetHandler',
-        self::TYPE_ADSENSE => '\\SWP\\Component\\TemplatesSystem\\Gimme\\Widget\\GoogleAdSenseWidgetHandler',
-        self::TYPE_MENU => '\\SWP\\Bundle\\TemplatesSystemBundle\\Widget\\MenuWidgetHandler',
+        self::TYPE_HTML => HtmlWidgetHandler::class,
+        self::TYPE_ADSENSE => GoogleAdSenseWidgetHandler::class,
+        self::TYPE_MENU => MenuWidgetHandler::class,
     ];
 
     /**

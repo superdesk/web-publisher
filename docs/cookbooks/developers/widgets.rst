@@ -69,3 +69,28 @@ For example:
 
 The referenced twig file should be located in the theme's views/widgets directory.
 The implementation of the renderTemplate method in the base class prepends 'widgets/' to the given string, and passes this argument, along with the expectedParameters and their values in an associative array, to the template engine's render method.
+
+Available widgets
+`````````````````
+
+By default there are three types of widgets bundled into the project:
+
+- ContentListWidget
+- HtmlWidget (default one)
+- GoogleAdsenseWidget
+- MenuWidget
+
+ContentListWidget
+-----------------
+
+This is the widget responsible for displaying Content Lists' items. For more details about Content Lists and Content List Items see :doc:`/cookbooks/developers/content_lists` and :doc:`/bundles/SWPContentListBundle/index` sections.
+
+**Default parameters:**
+
++--------------+---------------------------------+--------------+------------------+------------------+
+| Parameter    | Description                     | Required?    | Default value    |      Type        |
++==============+=================================+==============+==================+==================+
+| list_id      | List's id                       | yes          | N/A              |     int          |
++--------------+---------------------------------+--------------+------------------+------------------+
+| template_name| Template name to render         | yes          | list.html.twig   |     string       |
++--------------+---------------------------------+--------------+------------------+------------------+

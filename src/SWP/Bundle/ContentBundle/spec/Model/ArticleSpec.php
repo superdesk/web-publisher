@@ -194,4 +194,15 @@ class ArticleSpec extends ObjectBehavior
         $this->setLead('lead');
         $this->getLead()->shouldReturn('lead');
     }
+
+    public function it_has_no_keywords_by_default()
+    {
+        $this->getKeywords()->shouldReturn([]);
+    }
+
+    public function its_keywords_is_mutable()
+    {
+        $this->setKeywords(['keyword1', 'keyword2']);
+        $this->getKeywords()->shouldReturn(['keyword1', 'keyword2']);
+    }
 }

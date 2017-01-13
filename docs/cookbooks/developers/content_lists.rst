@@ -21,8 +21,25 @@ By default, articles in Automatic Content List are ordered by "sticky" flag (des
 How articles are being added to Automatic Content Lists
 -------------------------------------------------------
 
-Once the new automatic content list is created and list's criteria are set for that list,
-articles which are published and match content list's criteria will be added automatically
-to Content List.
+When a new list will be created and relevant criteria/filters will be set for that list,
+articles to be published will automatically be added to the list but only when they meet the list's criteria.
 
-If list's criteria are not defined, no articles will be added to the list.
+If the list's criteria are not defined, or if the articles do not match the list's criteria,
+articles will not be added to the list.
+
+Here is an example to demonstrate this:
+
+Given that your list's criteria/filters are set to match "Sports" route so when you publish an article which
+is assigned to "Sports" route, it will be automatically assigned to the list.
+
+Built in criteria:
+
+- ``route`` - an array of route ids, e.g. [1,5]
+- ``author`` - an array of authors, e.g. ["Test Persona","Doe"]
+- ``publishedBefore`` - date string, articles published before this date will be added to the list,
+e.g. dates: "2017-01-05" or "05-01-2017" etc. (date format doesn't matter)
+- ``publishedAfter`` - date string, articles published after that date will be added to the list, format is the same as in the ``publishedBefore`` case.
+- ``publishedAt`` - date string, when defined articles matching this publish dates will be added to the list when published, format is the same as in case of ``publishedBefore`` and ``publishedAfter``
+- ``metadata`` - metadata field is json string, e.g. ``{"metadata":{"language":"en"}}``. It matches article's metadata, and you can use all metadata fields that are defined for the article, i.e.: language, located etc.
+
+All criteria can be combined together which in the result it will add articles to the list (on publish) depending on your needs.
