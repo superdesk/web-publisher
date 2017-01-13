@@ -152,7 +152,7 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface, Orde
     public function articleMetadata()
     {
         return [
-            'located' => ['Sydney'],
+            'located' => 'Sydney',
             'byline' => 'Jhon Doe',
             'place' => [
                 [
