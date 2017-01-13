@@ -233,10 +233,10 @@ class Context implements \ArrayAccess
         $name = $configuration['name'];
         if (!array_key_exists($name, $this->registeredMeta)) {
             $this->registeredMeta[$name] = $configuration;
-        }
 
-        if (array_key_exists($name, $this->registeredMeta) && !is_null($meta)) {
-            $this[$name] = $meta;
+            if (!is_null($meta)) {
+                $this[$name] = $meta;
+            }
 
             return true;
         }
@@ -325,7 +325,7 @@ class Context implements \ArrayAccess
     }
 
     /**
-     * @param $id
+     * @param string $id
      *
      * @return null|true
      */
