@@ -25,7 +25,6 @@ use SWP\Component\Common\Response\ResponseContext;
 use SWP\Component\Common\Response\SingleResourceResponse;
 use SWP\Component\Common\Pagination\PaginationInterface;
 use SWP\Bundle\TemplatesSystemBundle\Form\Type\ContainerType;
-use SWP\Bundle\TemplatesSystemBundle\Model\ContainerWidget;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpKernel\Exception\UnprocessableEntityHttpException;
@@ -45,6 +44,10 @@ class ContainerController extends Controller
      * @Route("/api/{version}/templates/containers/", options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_templates_list_containers")
      * @Method("GET")
      * @Cache(expires="10 minutes", public=true)
+     *
+     * @param Request $request
+     *
+     * @return ResourcesListResponse
      */
     public function listAction(Request $request)
     {
@@ -78,6 +81,10 @@ class ContainerController extends Controller
      * @Route("/api/{version}/templates/containers/{uuid}", requirements={"uuid"="\d+"}, options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_templates_get_container")
      * @Method("GET")
      * @Cache(expires="10 minutes", public=true)
+     *
+     * @param string $uuid
+     *
+     * @return SingleResourceResponse
      */
     public function getAction($uuid)
     {
@@ -124,7 +131,6 @@ class ContainerController extends Controller
         }
 
         $container = $this->getContainerForUpdate($uuid);
-
         if (!$container) {
             throw new NotFoundHttpException('Container with this uuid was not found.');
         }
@@ -185,8 +191,8 @@ class ContainerController extends Controller
             throw new UnprocessableEntityHttpException('You need to provide container Uuid (string).');
         }
 
-        $entityManager = $this->get('doctrine')->getManager();
-        $container = $this->get('swp.provider.container')->getOneById($uuid);
+        $entityManager = $this->get('swp.object_manager.container');
+        $container = $this->getContainerForUpdate($uuid);
         if (!$container) {
             throw new NotFoundHttpException('Container with this id was not found.');
         }
@@ -203,7 +209,7 @@ class ContainerController extends Controller
             }
 
             if ($object instanceof WidgetModelInterface) {
-                $containerWidget = $entityManager->getRepository('SWP\Bundle\TemplatesSystemBundle\Model\ContainerWidget')
+                $containerWidget = $this->get('swp.repository.container_widget')
                     ->findOneBy([
                         'widget' => $object,
                         'container' => $container,
@@ -223,7 +229,7 @@ class ContainerController extends Controller
                     }
 
                     if (!$containerWidget) {
-                        $containerWidget = new ContainerWidget($container, $object);
+                        $containerWidget = $this->get('swp.factory.container_widget')->create($container, $object);
                         $entityManager->persist($containerWidget);
                     }
 

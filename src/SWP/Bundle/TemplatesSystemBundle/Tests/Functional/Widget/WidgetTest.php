@@ -61,7 +61,7 @@ class WidgetTest extends WebTestCase
 
         $repository = $this->getContainer()->get('swp.repository.container');
         /** @var ContainerInterface $containerFromDatabase */
-        $containerFromDatabase = $repository->getByName('test_container')->getSingleResult();
+        $containerFromDatabase = $repository->getByName('test_container')->getQuery()->getSingleResult();
         self::assertCount(1, $containerFromDatabase->getWidgets());
     }
 

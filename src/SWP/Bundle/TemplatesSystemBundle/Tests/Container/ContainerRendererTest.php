@@ -50,7 +50,7 @@ class ContainerRendererTest extends \PHPUnit_Framework_TestCase
 
     public function testSimpleRendering()
     {
-        $this->assertEquals($this->container->renderOpenTag(), '<div id="swp_container_1" class="swp_container " >');
+        $this->assertEquals($this->container->renderOpenTag(), '<div id="swp_container_1" class="swp_container ">');
         $this->assertEquals($this->container->renderCloseTag(), '</div>');
     }
 
@@ -67,7 +67,7 @@ class ContainerRendererTest extends \PHPUnit_Framework_TestCase
         $containerEntity->setName('simple_container');
         $container = new ContainerRenderer($containerEntity, $this->getRenderer(), true);
 
-        $this->assertEquals($container->renderOpenTag(), '<div id="swp_container_2" class="swp_container simple-css-class" style="border: 1px solid red;" data-key1="1" data-key2="false" data-key3="" >');
+        $this->assertEquals($container->renderOpenTag(), '<div id="swp_container_2" class="swp_container simple-css-class" style="border: 1px solid red;" data-key1="1" data-key2="false" data-key3="">');
     }
 
     public function testWidgets()

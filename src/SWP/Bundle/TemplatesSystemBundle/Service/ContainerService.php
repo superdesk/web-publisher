@@ -88,7 +88,7 @@ class ContainerService implements ContainerServiceInterface
                         $containerData = $containerDataFactory->create($dataKey, $dataValue);
                         $containerData->setContainer($container);
                         $this->entityManager->persist($containerData);
-                        $containerEntity->addData($containerData);
+                        $container->addData($containerData);
                     }
             }
         }
@@ -96,9 +96,9 @@ class ContainerService implements ContainerServiceInterface
         $this->entityManager->flush();
 
         $this->eventDispatcher
-            ->dispatch(HttpCacheEvent::EVENT_NAME, new HttpCacheEvent($containerEntity));
+            ->dispatch(HttpCacheEvent::EVENT_NAME, new HttpCacheEvent($container));
 
-        return $containerEntity;
+        return $container;
     }
 
     /**

@@ -57,7 +57,7 @@ Get selected rendition only:
 
     {% gimmelist media from articleMedia with {'article': gimme.article} %}
         {% gimme rendition with { 'name': '16-9', 'fallback': 'original' } %}
-            <img src="{{ url(gimme.rendition) }}" style="width: {{ gimme.rendition.width }}px; height: {{ gimme.rendition.height }}px;" />
+            <img src="{{ url(rendition) }}" style="width: {{ rendition.width }}px; height: {{ rendition.height }}px;" />
         {% endgimme %}
     {% endgimmelist %}
 

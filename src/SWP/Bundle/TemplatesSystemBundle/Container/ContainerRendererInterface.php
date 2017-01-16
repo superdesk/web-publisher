@@ -19,7 +19,7 @@ namespace SWP\Bundle\TemplatesSystemBundle\Container;
  */
 interface ContainerRendererInterface
 {
-    const OPEN_TAG_TEMPLATE = '<div id="swp_container_{{ id }}" class="swp_container {{ class }}" {% if styles %}style="{{styles}}"{% endif %}{% for value in data %} data-{{value.getKey()}}="{{value.getValue()}}"{% endfor %} >';
+    const OPEN_TAG_TEMPLATE = '<div id="swp_container_{{ id }}" class="swp_container {{ class }}"{% if styles %} style="{{styles}}"{% endif %}{% for value in data %} data-{{value.getKey()}}="{{value.getValue()}}"{% endfor %}>';
     const CLOSE_TAG_TEMPLATE = '</div>';
 
     /**
