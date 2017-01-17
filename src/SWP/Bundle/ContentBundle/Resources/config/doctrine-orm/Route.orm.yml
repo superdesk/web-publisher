@@ -39,9 +39,6 @@ SWP\Bundle\ContentBundle\Model\Route:
             type: integer
             gedmo:
                 - treeLevel
-    uniqueConstraints:
-        swp_route_name_idx:
-            columns: [ name ]
     gedmo:
         tree:
             type: nested

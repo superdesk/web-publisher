@@ -49,9 +49,6 @@ SWP\Bundle\ContentBundle\Model\Article:
         metadata:
             type: text
             nullable: true
-    uniqueConstraints:
-        swp_article_slug_idx:
-          columns: [ slug ]
     manyToOne:
         route:
             targetEntity: SWP\Bundle\ContentBundle\Model\RouteInterface
