@@ -123,4 +123,30 @@ final class ArticleRuleApplicatorSpec extends ObjectBehavior
 
         $this->apply($rule, $subject)->shouldReturn(null);
     }
+
+    public function it_applies_rule_and_assigns_content_to_route(
+        RuleInterface $rule,
+        Article $subject,
+        RouteProviderInterface $routeProvider,
+        RouteInterface $route,
+        LoggerInterface $logger,
+        ArticleServiceInterface $articleService
+    ) {
+        $rule->getConfiguration()->willReturn([
+            'route' => 'some/route',
+            'templateName' => 'template.twig.html',
+            'published' => 'true',
+        ]);
+        $rule->getExpression()->willReturn('article.getSomething("something") matches /something/');
+        $route->getType()->willReturn(RouteInterface::TYPE_CONTENT);
+        $routeProvider->getOneById('some/route')->willReturn($route);
+
+        $subject->setRoute($route)->shouldBeCalled();
+        $route->setContent($subject)->shouldBeCalled();
+        $subject->setTemplateName('template.twig.html')->shouldBeCalled();
+        $articleService->publish($subject)->shouldBeCalled();
+        $logger->info(Argument::any('string'))->shouldBeCalled();
+
+        $this->apply($rule, $subject)->shouldReturn(null);
+    }
 }
