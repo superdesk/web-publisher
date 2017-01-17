@@ -19,7 +19,7 @@ namespace SWP\Component\Revision\Repository;
 use Doctrine\ORM\QueryBuilder;
 use SWP\Component\Common\Criteria\Criteria;
 use SWP\Bundle\StorageBundle\Doctrine\ORM\EntityRepository;
-use SWP\Component\Revision\Model\Revision;
+use SWP\Component\Revision\Model\RevisionInterface;
 
 class RevisionRepository extends EntityRepository implements RevisionRepositoryInterface
 {
@@ -30,7 +30,7 @@ class RevisionRepository extends EntityRepository implements RevisionRepositoryI
     {
         $qb = $this->getQueryByCriteria(new Criteria(), [], 'r')
             ->where('r.status = :status')
-            ->setParameter('status', Revision::STATE_PUBLISHED)
+            ->setParameter('status', RevisionInterface::STATE_PUBLISHED)
             ->orderBy('r.publishedAt', 'desc');
 
         return $qb;
@@ -43,7 +43,7 @@ class RevisionRepository extends EntityRepository implements RevisionRepositoryI
     {
         $qb = $this->getQueryByCriteria(new Criteria(), [], 'r')
             ->where('r.status = :status')
-            ->setParameter('status', Revision::STATE_NEW);
+            ->setParameter('status', RevisionInterface::STATE_NEW);
 
         return $qb;
     }

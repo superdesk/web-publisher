@@ -17,6 +17,9 @@ use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use SWP\Bundle\FixturesBundle\AbstractFixture;
+use SWP\Component\MultiTenancy\Model\TenantAwareInterface;
+use SWP\Component\Revision\Manager\RevisionManagerInterface;
+use SWP\Component\Revision\Model\RevisionInterface;
 
 class LoadTenantsData extends AbstractFixture implements FixtureInterface, OrderedFixtureInterface
 {
@@ -34,6 +37,28 @@ class LoadTenantsData extends AbstractFixture implements FixtureInterface, Order
             ],
             $manager
         );
+
+        $this->loadRevisions();
+    }
+
+    private function loadRevisions()
+    {
+        /** @var RevisionManagerInterface $revisionManager */
+        $revisionManager = $this->container->get('swp_revision.manager.revision');
+        $revisionManager->setObjectManager($this->container->get('swp.object_manager.container'));
+
+        /** @var RevisionInterface|TenantAwareInterface $firstPublishedRevision */
+        $firstTenantPublishedRevision = $revisionManager->create();
+        $firstTenantPublishedRevision->setTenantCode('123abc');
+        $revisionManager->publish($firstTenantPublishedRevision);
+
+        /** @var RevisionInterface|TenantAwareInterface $firstPublishedRevision */
+        $secondTenantPublishedRevision = $revisionManager->create();
+        $secondTenantPublishedRevision->setTenantCode('456def');
+        $secondTenantWorkingRevision = $revisionManager->create();
+        $secondTenantWorkingRevision->setTenantCode('456def');
+        $secondTenantWorkingRevision->setPrevious($secondTenantPublishedRevision);
+        $revisionManager->publish($secondTenantPublishedRevision, $secondTenantWorkingRevision);
     }
 
     /**

@@ -27,7 +27,7 @@ class Container extends BaseContainer implements TenantAwareInterface, RevisionA
     /**
      * {@inheritdoc}
      */
-    public function fork($object = null)
+    public function fork()
     {
         $container = clone $this;
         $container->setId(null);

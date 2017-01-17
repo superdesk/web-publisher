@@ -35,7 +35,7 @@ interface RevisionAwareInterface
      *
      * @return mixed
      */
-    public function fork($object = null);
+    public function fork();
 
     /**
      * @return string

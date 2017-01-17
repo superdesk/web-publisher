@@ -47,11 +47,9 @@ trait RevisionAwareTrait
     }
 
     /**
-     * @param null $object
-     *
      * @return RevisionAwareTrait
      */
-    public function fork($object = null)
+    public function fork()
     {
         return clone $this;
     }

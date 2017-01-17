@@ -16,6 +16,7 @@ declare(strict_types=1);
 
 namespace SWP\Component\Revision\Manager;
 
+use Doctrine\ORM\EntityManagerInterface;
 use SWP\Component\Revision\RevisionContextInterface;
 use SWP\Component\Storage\Factory\FactoryInterface;
 use SWP\Component\Revision\Model\RevisionInterface;
@@ -32,14 +33,19 @@ class RevisionManager implements RevisionManagerInterface
      */
     protected $revisionContext;
 
+    /** @var EntityManagerInterface */
+    protected $objectManager;
+
     /**
      * RevisionManager constructor.
      *
      * @param FactoryInterface         $revisionFactory
      * @param RevisionContextInterface $revisionContext
      */
-    public function __construct(FactoryInterface $revisionFactory, RevisionContextInterface $revisionContext)
-    {
+    public function __construct(
+        FactoryInterface $revisionFactory,
+        RevisionContextInterface $revisionContext
+    ) {
         $this->revisionFactory = $revisionFactory;
         $this->revisionContext = $revisionContext;
     }
@@ -47,10 +53,12 @@ class RevisionManager implements RevisionManagerInterface
     /**
      * {@inheritdoc}
      */
-    public function publish(RevisionInterface $revision): RevisionInterface
+    public function publish(RevisionInterface $revision, RevisionInterface $workingRevision = null): RevisionInterface
     {
-        // TODO: Implement publish() method.
-        //
+        $revision->setStatus(RevisionInterface::STATE_PUBLISHED);
+        $revision->setPublishedAt(new \DateTime());
+        $this->persist($revision);
+
         // When new revision is published then all not modified containers/widgets need to be moved to new revision
         // All modified containers/widgets should be also moved to published revision
 
@@ -61,6 +69,20 @@ class RevisionManager implements RevisionManagerInterface
 //        $revisionLog->setObjectId($object->getId());
 //        $revisionLog->setSourceRevision();
 //        $revisionLog->setTargetRevision();
+
+        $this->revisionContext->setPublishedRevision($revision);
+        if (null === $workingRevision) {
+            $workingRevision = $this->create($revision);
+            $this->revisionContext->setWorkingRevision($workingRevision);
+
+            return $revision;
+        }
+
+        $this->revisionContext->setWorkingRevision($workingRevision);
+        $this->persist($workingRevision);
+        $this->flush();
+
+        return $revision;
     }
 
     /**
@@ -85,6 +107,9 @@ class RevisionManager implements RevisionManagerInterface
             $revision->setPrevious($previous);
         }
 
+        $this->persist($revision);
+        $this->flush();
+
         return $revision;
     }
 
@@ -94,5 +119,27 @@ class RevisionManager implements RevisionManagerInterface
     public function getRevisionContext(): RevisionContextInterface
     {
         return $this->revisionContext;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setObjectManager(EntityManagerInterface $objectManager)
+    {
+        $this->objectManager = $objectManager;
+    }
+
+    private function persist($object)
+    {
+        if (null !== $this->objectManager) {
+            $this->objectManager->persist($object);
+        }
+    }
+
+    private function flush()
+    {
+        if (null !== $this->objectManager) {
+            $this->objectManager->flush();
+        }
     }
 }

@@ -54,9 +54,9 @@ class RevisionLogSubscriber implements EventSubscriber
      */
     public function getSubscribedEvents()
     {
-        return array(
+        return [
             'postUpdate',
-        );
+        ];
     }
 
     /**

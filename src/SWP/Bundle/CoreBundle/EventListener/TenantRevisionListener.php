@@ -70,7 +70,7 @@ class TenantRevisionListener
             $this->revisionContext->setWorkingRevision($workingRevision);
         }
 
-        if ($revisionKey) {
+        if (null !== $revisionKey) {
             if (null !== $workingRevision && $workingRevision->getUniqueKey() === $revisionKey) {
                 $currentRevision = $workingRevision;
             } else {

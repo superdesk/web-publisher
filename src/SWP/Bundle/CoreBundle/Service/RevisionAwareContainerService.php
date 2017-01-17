@@ -26,6 +26,7 @@ use SWP\Component\TemplatesSystem\Gimme\Model\ContainerInterface;
 use SWP\Component\TemplatesSystem\Gimme\Model\ContainerWidgetInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface as ServiceContainerInterface;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Class RendererService.
@@ -67,6 +68,30 @@ class RevisionAwareContainerService extends ContainerService implements Containe
      */
     public function updateContainer(ContainerInterface $container, array $extraData): ContainerInterface
     {
+        return parent::updateContainer($this->handleForking($container), $extraData);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function linkUnlinkWidget($object, ContainerInterface $container, Request $request)
+    {
+        return parent::linkUnlinkWidget($object, $this->handleForking($container), $request);
+    }
+
+    private function forkContainerRelations(ContainerInterface $container, ContainerInterface $workingContainer)
+    {
+        $containerWidgetFactory = $this->serviceContainer->get('swp.factory.container_widget');
+        /** @var ContainerWidgetInterface $containerWidget */
+        foreach ($container->getWidgets() as $containerWidget) {
+            $containerWidget = $containerWidgetFactory->create($workingContainer, $containerWidget->getWidget());
+            $this->entityManager->persist($containerWidget);
+            $workingContainer->addWidget($containerWidget);
+        }
+    }
+
+    private function handleForking($container)
+    {
         if ($container instanceof RevisionAwareInterface &&
             $container->getRevision()->getStatus() === RevisionInterface::STATE_PUBLISHED
         ) {
@@ -81,24 +106,11 @@ class RevisionAwareContainerService extends ContainerService implements Containe
             $revisionContext = $this->serviceContainer->get('swp_revision.context.revision');
             $workingContainer->setRevision($revisionContext->getWorkingRevision());
             $this->entityManager->persist($workingContainer);
-
-            $workingContainer = parent::updateContainer($workingContainer, $extraData);
             $this->forkContainerRelations($container, $workingContainer);
 
             return $workingContainer;
         }
 
-        return parent::updateContainer($container, $extraData);
-    }
-
-    private function forkContainerRelations(ContainerInterface $container, ContainerInterface $workingContainer)
-    {
-        $containerWidgetFactory = $this->serviceContainer->get('swp.factory.container_widget');
-        /** @var ContainerWidgetInterface $containerWidget */
-        foreach ($container->getWidgets() as $containerWidget) {
-            $containerWidget = $containerWidgetFactory->create($workingContainer, $containerWidget->getWidget());
-            $this->entityManager->persist($containerWidget);
-            $workingContainer->addWidget($containerWidget);
-        }
+        return $container;
     }
 }

@@ -21,9 +21,10 @@ use SWP\Component\TemplatesSystem\Gimme\Model\ContainerInterface;
 use SWP\Component\Common\Event\HttpCacheEvent;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface as ServiceContainerInterface;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
- * Class RendererService.
+ * Class ContainerService.
  */
 class ContainerService implements ContainerServiceInterface
 {
@@ -128,5 +129,83 @@ class ContainerService implements ContainerServiceInterface
         $this->entityManager->refresh($container);
 
         return $container;
+    }
+
+    /**
+     * @param mixed              $object
+     * @param ContainerInterface $container
+     * @param Request            $request
+     *
+     * @throws \Exception
+     */
+    public function linkUnlinkWidget($object, ContainerInterface $container, Request $request)
+    {
+        $containerWidget = $this->serviceContainer->get('swp.repository.container_widget')
+            ->findOneBy([
+                'widget' => $object,
+                'container' => $container,
+            ]);
+
+        if ($request->getMethod() === 'LINK') {
+            $position = false;
+            if (count($notConvertedLinks = self::getNotConvertedLinks($request)) > 0) {
+                foreach ($notConvertedLinks as $link) {
+                    if (isset($link['resourceType']) && $link['resourceType'] == 'widget-position') {
+                        $position = $link['resource'];
+                    }
+                }
+            }
+
+            if ($position === false && $containerWidget) {
+                throw new \Exception('WidgetModel is already linked to container', 409);
+            }
+
+            if (!$containerWidget) {
+                $containerWidget = $this->serviceContainer->get('swp.factory.container_widget')->create($container, $object);
+                $this->entityManager->persist($containerWidget);
+            }
+
+            if ($position !== false) {
+                $containerWidget->setPosition($position);
+            }
+            $container->addWidget($containerWidget);
+            $this->entityManager->flush();
+        } elseif ($request->getMethod() === 'UNLINK') {
+            if (!$container->getWidgets()->contains($containerWidget)) {
+                throw new \Exception('WidgetModel is not linked to container', 409);
+            }
+            $this->entityManager->remove($containerWidget);
+        }
+
+        return $container;
+    }
+
+    /**
+     * @param Request $request
+     *
+     * @return array
+     */
+    public static function getNotConvertedLinks($request)
+    {
+        $links = [];
+        foreach ($request->attributes->get('links') as $idx => $link) {
+            if (is_string($link)) {
+                $linkParams = explode(';', trim($link));
+                $resourceType = null;
+                if (count($linkParams) > 1) {
+                    $resourceType = trim(preg_replace('/<|>/', '', $linkParams[1]));
+                    $resourceType = str_replace('"', '', str_replace('rel=', '', $resourceType));
+                }
+                $resource = array_shift($linkParams);
+                $resource = preg_replace('/<|>/', '', $resource);
+
+                $links[] = [
+                    'resource' => $resource,
+                    'resourceType' => $resourceType,
+                ];
+            }
+        }
+
+        return $links;
     }
 }

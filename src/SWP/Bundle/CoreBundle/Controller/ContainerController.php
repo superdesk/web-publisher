@@ -78,7 +78,7 @@ class ContainerController extends Controller
      *         422="Container id is not number"
      *     }
      * )
-     * @Route("/api/{version}/templates/containers/{uuid}", requirements={"uuid"="\d+"}, options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_templates_get_container")
+     * @Route("/api/{version}/templates/containers/{uuid}", requirements={"uuid"="\w+"}, options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_templates_get_container")
      * @Method("GET")
      * @Cache(expires="10 minutes", public=true)
      *
@@ -88,10 +88,6 @@ class ContainerController extends Controller
      */
     public function getAction($uuid)
     {
-        if (!$uuid) {
-            throw new UnprocessableEntityHttpException('You need to provide container Uuid (string).');
-        }
-
         $container = $this->get('swp.provider.container')->getOneById($uuid);
         if (!$container) {
             throw new NotFoundHttpException('Container with this uuid was not found.');
@@ -113,7 +109,7 @@ class ContainerController extends Controller
      *     },
      *     input="SWP\Bundle\TemplatesSystemBundle\Form\Type\ContainerType"
      * )
-     * @Route("/api/{version}/templates/containers/{uuid}", requirements={"uuid"="\d+"}, options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_templates_update_container")
+     * @Route("/api/{version}/templates/containers/{uuid}", requirements={"uuid"="\w+"}, options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_templates_update_container")
      * @Method("PATCH")
      *
      * @param Request $request
@@ -126,10 +122,6 @@ class ContainerController extends Controller
      */
     public function updateAction(Request $request, $uuid)
     {
-        if (!$uuid) {
-            throw new UnprocessableEntityHttpException('You need to provide container Uuid (string).');
-        }
-
         $container = $this->getContainerForUpdate($uuid);
         if (!$container) {
             throw new NotFoundHttpException('Container with this uuid was not found.');
@@ -156,12 +148,12 @@ class ContainerController extends Controller
      * **link or unlink widget**:
      *
      *     header name: "link"
-     *     header value: "</api/{version}/templates/widgets/{uuid}; rel="widget">"
+     *     header value: "</api/{version}/templates/widgets/{id}; rel="widget">"
      *
      * or with specific position:
      *
      *     header name: "link"
-     *     header value: "</api/{version}/templates/widgets/{uuid}; rel="widget">,<1; rel="widget-position">"
+     *     header value: "</api/{version}/templates/widgets/{id}; rel="widget">,<1; rel="widget-position">"
      *
      * @ApiDoc(
      *     statusCodes={
@@ -173,7 +165,7 @@ class ContainerController extends Controller
      *     }
      * )
      *
-     * @Route("/api/{version}/templates/containers/{uuid}", requirements={"id"="\d+"}, defaults={"version"="v1"}, name="swp_api_templates_link_container")
+     * @Route("/api/{version}/templates/containers/{uuid}", requirements={"uuid"="\w+"}, defaults={"version"="v1"}, name="swp_api_templates_link_container")
      *
      * @Method("LINK|UNLINK")
      *
@@ -187,14 +179,10 @@ class ContainerController extends Controller
      */
     public function linkUnlinkToContainerAction(Request $request, $uuid)
     {
-        if (!$uuid) {
-            throw new UnprocessableEntityHttpException('You need to provide container Uuid (string).');
-        }
-
         $entityManager = $this->get('swp.object_manager.container');
         $container = $this->getContainerForUpdate($uuid);
         if (!$container) {
-            throw new NotFoundHttpException('Container with this id was not found.');
+            throw new NotFoundHttpException('Container with this uuid was not found.');
         }
 
         $matched = false;
@@ -209,43 +197,8 @@ class ContainerController extends Controller
             }
 
             if ($object instanceof WidgetModelInterface) {
-                $containerWidget = $this->get('swp.repository.container_widget')
-                    ->findOneBy([
-                        'widget' => $object,
-                        'container' => $container,
-                    ]);
-                if ($request->getMethod() === 'LINK') {
-                    $position = false;
-                    if (count($notConvertedLinks = $this->getNotConvertedLinks($request)) > 0) {
-                        foreach ($notConvertedLinks as $link) {
-                            if (isset($link['resourceType']) && $link['resourceType'] == 'widget-position') {
-                                $position = $link['resource'];
-                            }
-                        }
-                    }
-
-                    if ($position === false && $containerWidget) {
-                        throw new \Exception('WidgetModel is already linked to container', 409);
-                    }
-
-                    if (!$containerWidget) {
-                        $containerWidget = $this->get('swp.factory.container_widget')->create($container, $object);
-                        $entityManager->persist($containerWidget);
-                    }
-
-                    if ($position !== false) {
-                        $containerWidget->setPosition($position);
-                        $entityManager->persist($containerWidget);
-                        $container->addWidget($containerWidget);
-                        $entityManager->flush();
-                    }
-                } elseif ($request->getMethod() === 'UNLINK') {
-                    if (!$container->getWidgets()->contains($containerWidget)) {
-                        throw new \Exception('WidgetModel is not linked to container', 409);
-                    }
-                    $entityManager->remove($containerWidget);
-                }
-
+                $container = $this->get('swp_template_engine.container.service')
+                    ->linkUnlinkWidget($object, $container, $request);
                 $matched = true;
                 break;
             }
@@ -259,35 +212,6 @@ class ContainerController extends Controller
         return new SingleResourceResponse($container, new ResponseContext(201));
     }
 
-    /**
-     * @param Request $request
-     *
-     * @return array
-     */
-    private function getNotConvertedLinks($request)
-    {
-        $links = [];
-        foreach ($request->attributes->get('links') as $idx => $link) {
-            if (is_string($link)) {
-                $linkParams = explode(';', trim($link));
-                $resourceType = null;
-                if (count($linkParams) > 1) {
-                    $resourceType = trim(preg_replace('/<|>/', '', $linkParams[1]));
-                    $resourceType = str_replace('"', '', str_replace('rel=', '', $resourceType));
-                }
-                $resource = array_shift($linkParams);
-                $resource = preg_replace('/<|>/', '', $resource);
-
-                $links[] = [
-                    'resource' => $resource,
-                    'resourceType' => $resourceType,
-                ];
-            }
-        }
-
-        return $links;
-    }
-
     private function getContainerForUpdate($uuid)
     {
         $revisionContext = $this->get('swp_revision.context.revision');
@@ -297,6 +221,13 @@ class ContainerController extends Controller
         $container = $this->get('swp.provider.container')->getOneById($uuid);
 
         $revisionContext->setCurrentRevision($currentRenditionBackup);
+        if (null === $container) {
+            if ($revisionContext->getCurrentRevision() !== $revisionContext->getPublishedRevision()) {
+                $revisionContext->setCurrentRevision($revisionContext->getPublishedRevision());
+            }
+            $container = $this->get('swp.provider.container')->getOneById($uuid);
+            $revisionContext->setCurrentRevision($currentRenditionBackup);
+        }
 
         return $container;
     }

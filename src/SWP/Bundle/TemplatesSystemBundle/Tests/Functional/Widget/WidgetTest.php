@@ -17,6 +17,7 @@ namespace SWP\Bundle\TemplatesSystemBundle\Tests\Functional\Container;
 use SWP\Bundle\TemplatesSystemBundle\Model\ContainerWidget;
 use SWP\Bundle\TemplatesSystemBundle\Model\WidgetModel;
 use SWP\Bundle\TemplatesSystemBundle\Tests\Functional\WebTestCase;
+use SWP\Component\TemplatesSystem\Gimme\Model\ContainerInterface;
 
 class WidgetTest extends WebTestCase
 {

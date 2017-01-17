@@ -29,14 +29,14 @@ final class OverrideTemplatesSystemPass extends AbstractOverridePass
     public function process(ContainerBuilder $container)
     {
         $containerProvider = $this->getDefinitionIfExists($container, 'swp.provider.widget');
-        if ($containerProvider) {
+        if (null !== $containerProvider) {
             $containerProvider
                 ->setClass(WidgetProvider::class)
                 ->addMethodCall('setRevisionContext', [new Reference('swp_revision.context.revision')]);
         }
 
         $containerRenderer = $this->getDefinitionIfExists($container, 'swp.factory.container_renderer');
-        if ($containerRenderer) {
+        if (null !== $containerRenderer) {
             $containerRenderer
                 ->setArguments([
                     RevisionAwareContainerRenderer::class,
@@ -44,7 +44,7 @@ final class OverrideTemplatesSystemPass extends AbstractOverridePass
         }
 
         $containerFactory = $this->getDefinitionIfExists($container, 'swp.factory.container');
-        if ($containerFactory) {
+        if (null !== $containerFactory) {
             $containerFactory
                 ->setClass(ContainerFactory::class)
                 ->setArguments([
@@ -54,7 +54,7 @@ final class OverrideTemplatesSystemPass extends AbstractOverridePass
         }
 
         $containerService = $this->getDefinitionIfExists($container, 'swp_template_engine.container.service');
-        if ($containerService) {
+        if (null !== $containerService) {
             $containerService
                 ->setClass(RevisionAwareContainerService::class);
         }
