@@ -80,6 +80,8 @@ swp_content:
             classes:
                 article:
                     model: SWP\Bundle\CoreBundle\Model\Article
+                media:
+                    model: SWP\Bundle\CoreBundle\Model\ArticleMedia
                 route:
                     model: SWP\Bundle\CoreBundle\Model\Route
 

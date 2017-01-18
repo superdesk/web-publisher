@@ -1,0 +1,6 @@
+SWP\Bundle\CoreBundle\Model\ArticleMedia:
+    type: mappedSuperclass
+    table: swp_article_media
+    fields:
+        tenantCode:
+            type: string
