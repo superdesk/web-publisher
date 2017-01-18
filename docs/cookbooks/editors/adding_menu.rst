@@ -3,7 +3,7 @@ Adding new menus
 
 Adding new menu and its items is very easy. Once the menu is created the menu widget will be automatically created so you can use it instantly without a need to create it manually.
 
-Newly created menu widget will be, by default, use ``menu.html.twig`` template and will point to the menu you created.
+Newly created menu widget will, by default, use ``menu.html.twig`` template and will point to the menu you created.
 
 Here is an example to demonstrate this:
 
