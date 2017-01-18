@@ -16,6 +16,7 @@ namespace SWP\Bundle\ContentBundle\Rule\Applicator;
 
 use Psr\Log\LoggerInterface;
 use SWP\Bundle\ContentBundle\Model\ArticleInterface;
+use SWP\Bundle\ContentBundle\Model\RouteInterface;
 use SWP\Bundle\ContentBundle\Provider\RouteProviderInterface;
 use SWP\Bundle\ContentBundle\Service\ArticleServiceInterface;
 use SWP\Component\Rule\Applicator\RuleApplicatorInterface;
@@ -84,6 +85,10 @@ final class ArticleRuleApplicator implements RuleApplicatorInterface
             }
 
             $subject->setRoute($route);
+
+            if (RouteInterface::TYPE_CONTENT === $route->getType()) {
+                $route->setContent($subject);
+            }
         }
 
         $subject->setTemplateName($configuration['templateName']);
