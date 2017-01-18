@@ -15,12 +15,11 @@
 namespace SWP\Bundle\TemplatesSystemBundle\Repository;
 
 use SWP\Bundle\StorageBundle\Doctrine\ORM\EntityRepository;
-use SWP\Component\Storage\Repository\RepositoryInterface;
 
 /**
  * Container Repository.
  */
-class WidgetModelRepository extends EntityRepository implements RepositoryInterface
+class WidgetModelRepository extends EntityRepository
 {
     /**
      * Get Query for WidgetModel searched by id.
