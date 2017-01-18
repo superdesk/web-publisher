@@ -12,10 +12,3 @@ Symfony\Cmf\Bundle\RoutingBundle\Model\Route:
         variablePattern:
             expose: true
             type: string
-    relations:
-        -
-            rel: self
-            href:
-                route: swp_api_content_show_routes
-                parameters:
-                    id: expr(object.getId())

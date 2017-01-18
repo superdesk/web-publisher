@@ -21,5 +21,3 @@ SWP\Bundle\ContentBundle\Model\Route:
             type: integer
         children:
             expose: true
-        parent:
-            expose: true
