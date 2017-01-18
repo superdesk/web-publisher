@@ -72,7 +72,7 @@ interface WidgetModelInterface extends PersistableInterface
      *
      * @return self
      */
-    public function setParameters($parameters = []);
+    public function setParameters(array $parameters = []);
 
     /**
      * @param string $name

@@ -191,11 +191,11 @@ class WidgetModel implements WidgetModelInterface, TimestampableInterface
     /**
      * Sets the value of parameters.
      *
-     * @param [] $parameters the parameters
+     * @param array $parameters the parameters
      *
      * @return WidgetModel
      */
-    public function setParameters($parameters = [])
+    public function setParameters(array $parameters = [])
     {
         $this->parameters = $parameters;
 

@@ -21,8 +21,6 @@ use SWP\Component\TemplatesSystem\Gimme\Model\WidgetModelInterface;
  */
 class WidgetModel implements WidgetModelInterface
 {
-    const TYPE_HTML = 1;
-
     protected $types = [
         self::TYPE_HTML => '\\SWP\\Component\\TemplatesSystem\\Gimme\\WidgetModel\\HtmlWidgetHandler',
     ];
@@ -175,7 +173,7 @@ class WidgetModel implements WidgetModelInterface
      *
      * @return WidgetModel
      */
-    public function setParameters($parameters)
+    public function setParameters(array $parameters = [])
     {
         $this->parameters = $parameters;
 
