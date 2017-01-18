@@ -14,12 +14,13 @@
 
 namespace SWP\Bundle\TemplatesSystemBundle\Repository;
 
-use Doctrine\ORM\EntityRepository;
+use SWP\Bundle\StorageBundle\Doctrine\ORM\EntityRepository;
+use SWP\Component\Storage\Repository\RepositoryInterface;
 
 /**
  * Container Repository.
  */
-class WidgetModelRepository extends EntityRepository
+class WidgetModelRepository extends EntityRepository implements RepositoryInterface
 {
     /**
      * Get Query for WidgetModel searched by id.

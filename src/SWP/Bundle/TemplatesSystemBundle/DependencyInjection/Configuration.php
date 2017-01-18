@@ -23,7 +23,9 @@ use SWP\Bundle\TemplatesSystemBundle\Model\ContainerData;
 use SWP\Bundle\TemplatesSystemBundle\Model\ContainerWidget;
 use SWP\Bundle\TemplatesSystemBundle\Model\WidgetModel;
 use SWP\Bundle\TemplatesSystemBundle\Repository\ContainerRepository;
+use SWP\Bundle\TemplatesSystemBundle\Repository\ContainerWidgetRepository;
 use SWP\Bundle\TemplatesSystemBundle\Repository\WidgetModelRepository;
+use SWP\Component\Storage\Factory\Factory;
 use SWP\Component\TemplatesSystem\Gimme\Model\ContainerDataInterface;
 use SWP\Component\TemplatesSystem\Gimme\Model\ContainerInterface;
 use SWP\Component\TemplatesSystem\Gimme\Model\ContainerWidgetInterface;
@@ -82,7 +84,7 @@ class Configuration implements ConfigurationInterface
                                                 ->scalarNode('model')->cannotBeEmpty()->defaultValue(WidgetModel::class)->end()
                                                 ->scalarNode('interface')->cannotBeEmpty()->defaultValue(WidgetModelInterface::class)->end()
                                                 ->scalarNode('repository')->defaultValue(WidgetModelRepository::class)->end()
-                                                ->scalarNode('factory')->defaultValue(null)->end()
+                                                ->scalarNode('factory')->defaultValue(Factory::class)->end()
                                                 ->scalarNode('object_manager_name')->defaultValue(null)->end()
                                             ->end()
                                         ->end()
@@ -91,7 +93,7 @@ class Configuration implements ConfigurationInterface
                                             ->children()
                                                 ->scalarNode('model')->cannotBeEmpty()->defaultValue(ContainerWidget::class)->end()
                                                 ->scalarNode('interface')->cannotBeEmpty()->defaultValue(ContainerWidgetInterface::class)->end()
-                                                ->scalarNode('repository')->defaultValue(null)->end()
+                                                ->scalarNode('repository')->defaultValue(ContainerWidgetRepository::class)->end()
                                                 ->scalarNode('factory')->defaultValue(null)->end()
                                                 ->scalarNode('object_manager_name')->defaultValue(null)->end()
                                             ->end()
