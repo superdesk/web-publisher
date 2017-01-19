@@ -1,22 +1,2 @@
 SWP\Bundle\CoreBundle\Model\Route:
     exclusion_policy: ALL
-    relations:
-        - rel: self
-          href:
-                route: swp_api_content_show_routes
-                parameters:
-                    id: expr(object.getId())
-        - rel: parent
-          href:
-                route: swp_api_content_show_routes
-                parameters:
-                    id: expr(object.getParent().getId())
-          exclusion:
-                exclude_if: expr(null === object.getParent())
-        - rel: root
-          href:
-                route: swp_api_content_show_routes
-                parameters:
-                    id: expr(object.getRoot().getId())
-          exclusion:
-                exclude_if: expr(object.isRoot())
