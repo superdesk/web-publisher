@@ -18,6 +18,8 @@ interface RevisionInterface
 {
     const STATE_PUBLISHED = 'published';
 
+    const STATE_REPLACED = 'replaced';
+
     const STATE_NEW = 'new';
 
     /**
@@ -66,9 +68,9 @@ interface RevisionInterface
     public function setPrevious(RevisionInterface $revision);
 
     /**
-     * @return RevisionInterface
+     * @return RevisionInterface|null
      */
-    public function getPrevious(): RevisionInterface;
+    public function getPrevious();
 
     /**
      * @return string

@@ -18,6 +18,8 @@ interface RevisionLogInterface
 {
     const EVENT_UPDATE = 'update';
 
+    const EVENT_PUBLISH = 'publish';
+
     /**
      * @return RevisionInterface
      */

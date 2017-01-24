@@ -31,6 +31,11 @@ trait RevisionAwareTrait
     protected $uuid;
 
     /**
+     * @var mixed
+     */
+    protected $successor;
+
+    /**
      * @param RevisionInterface $revision
      */
     public function setRevision(RevisionInterface $revision)
@@ -51,7 +56,9 @@ trait RevisionAwareTrait
      */
     public function fork()
     {
-        return clone $this;
+        $clone = clone $this;
+
+        return $clone;
     }
 
     /**

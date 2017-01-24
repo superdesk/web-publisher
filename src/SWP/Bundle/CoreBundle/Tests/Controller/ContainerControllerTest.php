@@ -55,7 +55,6 @@ class ContainerControllerTest extends WebTestCase
     public function testUpdateContainerApi()
     {
         $client = static::createClient();
-        $client->enableProfiler();
         $client->request('PATCH', $this->router->generate('swp_api_templates_update_container', ['uuid' => '5tfdv6resqg']), [
             'container' => [
                 'name' => 'Simple Container 1',
@@ -118,7 +117,6 @@ class ContainerControllerTest extends WebTestCase
         $this->assertEquals(201, $client->getResponse()->getStatusCode());
         self::assertArraySubset(json_decode('{"id":3,"type":1,"name":"Simple Container 1","styles":"color: #00000","cssClass":"col-md-12","visible":true,"data":[],"widgets":[{"id":1,"widget":{"id":1,"type":"SWP\\\\Component\\\\TemplatesSystem\\\\Gimme\\\\Widget\\\\HtmlWidgetHandler","name":"HtmlWidgetHandler number 1","visible":true,"parameters":{"html_body":"sample widget with <span style=\'color:red\'>html<\/span>"},"_links":{"self":{"href":"\/api\/v1\/templates\/widgets\/1"}}},"position":"0"}],"uuid": "5tfdv6resqg","_links":{"self":{"href":"\/api\/v1\/templates\/containers\/5tfdv6resqg"}}}', true), json_decode($client->getResponse()->getContent(), true));
 
-        $client->enableProfiler();
         $client->request('UNLINK', $this->router->generate('swp_api_templates_link_container', ['uuid' => '5tfdv6resqg']), [], [], [
             'HTTP_LINK' => '</api/v1/templates/widgets/1; rel="widget">',
         ]);

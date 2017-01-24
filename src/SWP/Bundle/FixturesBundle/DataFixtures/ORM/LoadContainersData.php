@@ -19,7 +19,6 @@ use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use SWP\Bundle\CoreBundle\Model\Container;
 use SWP\Bundle\FixturesBundle\AbstractFixture;
 use Doctrine\Common\Persistence\ObjectManager;
-use SWP\Bundle\TemplatesSystemBundle\Model\ContainerWidget;
 
 class LoadContainersData extends AbstractFixture implements FixtureInterface, OrderedFixtureInterface
 {
@@ -37,7 +36,8 @@ class LoadContainersData extends AbstractFixture implements FixtureInterface, Or
             $container1->setVisible(true);
             $container1->setTenantCode('123abc');
 
-            $containerWidget1 = new ContainerWidget($container1, $this->getReference('menu_widget_main'));
+            $containerWidget1 = $this->container->get('swp.factory.container_widget')
+                ->create($container1, $this->getReference('menu_widget_main'));
             $manager->persist($containerWidget1);
             $container1->addWidget($containerWidget1);
             $manager->persist($container1);
@@ -49,7 +49,8 @@ class LoadContainersData extends AbstractFixture implements FixtureInterface, Or
             $container2->setVisible(true);
             $container2->setTenantCode('123abc');
 
-            $containerWidget2 = new ContainerWidget($container2, $this->getReference('menu_widget_footer'));
+            $containerWidget2 = $this->container->get('swp.factory.container_widget')
+                ->create($container2, $this->getReference('menu_widget_footer'));
             $manager->persist($containerWidget2);
             $container2->addWidget($containerWidget2);
             $manager->persist($container2);

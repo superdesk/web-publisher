@@ -44,7 +44,7 @@ class LoadTenantsData extends AbstractFixture implements FixtureInterface, Order
     private function loadRevisions()
     {
         /** @var RevisionManagerInterface $revisionManager */
-        $revisionManager = $this->container->get('swp_revision.manager.revision');
+        $revisionManager = $this->container->get('swp.manager.revision');
         $revisionManager->setObjectManager($this->container->get('swp.object_manager.container'));
 
         /** @var RevisionInterface|TenantAwareInterface $firstPublishedRevision */

@@ -1,0 +1,9 @@
+jms_serializer:
+    metadata:
+        directories:
+            SWPRevisionBundle:
+                namespace_prefix: "SWP\\Bundle\\RevisionBundle"
+                path: "@SWPRevisionBundle/Resources/config/serializer"
+            SWPRevisionComponent:
+                namespace_prefix: "SWP\\Component\\Revision"
+                path: "@SWPRevisionBundle/Resources/config/serializer/component/"

@@ -1,25 +1,27 @@
 <?php
 
-declare(strict_types=1);
-
 /*
- * This file is part of the Superdesk Web Publisher Templates System.
+ * This file is part of the Superdesk Web Publisher Core Bundle.
  *
- * Copyright 2015 Sourcefabric z.ú. and contributors.
+ * Copyright 2016 Sourcefabric z.u. and contributors.
  *
  * For the full copyright and license information, please see the
  * AUTHORS and LICENSE files distributed with this source code.
  *
- * @copyright 2015 Sourcefabric z.ú
+ * @copyright 2016 Sourcefabric z.ú
  * @license http://www.superdesk.org/license
  */
 
-namespace SWP\Component\Revision\Manager;
+namespace SWP\Bundle\CoreBundle\Manager;
 
 use Doctrine\ORM\EntityManagerInterface;
+use SWP\Bundle\RevisionBundle\Event\RevisionPublishedEvent;
+use SWP\Bundle\RevisionBundle\Events;
+use SWP\Component\Revision\Manager\RevisionManagerInterface;
 use SWP\Component\Revision\RevisionContextInterface;
 use SWP\Component\Storage\Factory\FactoryInterface;
 use SWP\Component\Revision\Model\RevisionInterface;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class RevisionManager implements RevisionManagerInterface
 {
@@ -33,21 +35,31 @@ class RevisionManager implements RevisionManagerInterface
      */
     protected $revisionContext;
 
-    /** @var EntityManagerInterface */
+    /**
+     * @var EntityManagerInterface
+     */
     protected $objectManager;
+
+    /**
+     * @var EventDispatcherInterface
+     */
+    protected $eventDispatcher;
 
     /**
      * RevisionManager constructor.
      *
      * @param FactoryInterface         $revisionFactory
      * @param RevisionContextInterface $revisionContext
+     * @param EventDispatcherInterface $eventDispatcher
      */
     public function __construct(
         FactoryInterface $revisionFactory,
-        RevisionContextInterface $revisionContext
+        RevisionContextInterface $revisionContext,
+        EventDispatcherInterface $eventDispatcher
     ) {
         $this->revisionFactory = $revisionFactory;
         $this->revisionContext = $revisionContext;
+        $this->eventDispatcher = $eventDispatcher;
     }
 
     /**
@@ -55,32 +67,25 @@ class RevisionManager implements RevisionManagerInterface
      */
     public function publish(RevisionInterface $revision, RevisionInterface $workingRevision = null): RevisionInterface
     {
-        $revision->setStatus(RevisionInterface::STATE_PUBLISHED);
-        $revision->setPublishedAt(new \DateTime());
-        $this->persist($revision);
-
-        // When new revision is published then all not modified containers/widgets need to be moved to new revision
-        // All modified containers/widgets should be also moved to published revision
-
-//        /** @var RevisionLogInterface $revisionLog */
-//        $revisionLog = $this->revisionLogFactory->create();
-//        $revisionLog->setEvent(RevisionLogInterface::EVENT_UPDATE);
-//        $revisionLog->setObjectType($object::class);
-//        $revisionLog->setObjectId($object->getId());
-//        $revisionLog->setSourceRevision();
-//        $revisionLog->setTargetRevision();
-
-        $this->revisionContext->setPublishedRevision($revision);
-        if (null === $workingRevision) {
-            $workingRevision = $this->create($revision);
-            $this->revisionContext->setWorkingRevision($workingRevision);
-
+        if ($revision->getStatus() !== RevisionInterface::STATE_NEW) {
             return $revision;
         }
 
+        $revision->setStatus(RevisionInterface::STATE_PUBLISHED);
+        if (null !== $previousRevision = $revision->getPrevious()) {
+            $previousRevision->setStatus(RevisionInterface::STATE_REPLACED);
+        }
+        $revision->setPublishedAt(new \DateTime());
+
+        if (null === $workingRevision) {
+            $workingRevision = $this->create($revision);
+        }
+
         $this->revisionContext->setWorkingRevision($workingRevision);
-        $this->persist($workingRevision);
+        $this->revisionContext->setPublishedRevision($revision);
         $this->flush();
+
+        $this->eventDispatcher->dispatch(Events::REVISION_PUBLISH, new RevisionPublishedEvent($revision));
 
         return $revision;
     }
@@ -105,6 +110,8 @@ class RevisionManager implements RevisionManagerInterface
 
         if (null !== $previous) {
             $revision->setPrevious($previous);
+            $this->persist($previous);
+            $revision->setTenantCode($previous->getTenantCode());
         }
 
         $this->persist($revision);
@@ -127,6 +134,13 @@ class RevisionManager implements RevisionManagerInterface
     public function setObjectManager(EntityManagerInterface $objectManager)
     {
         $this->objectManager = $objectManager;
+    }
+
+    public function merge($object)
+    {
+        if (null !== $this->objectManager) {
+            $this->objectManager->merge($object);
+        }
     }
 
     private function persist($object)

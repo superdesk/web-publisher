@@ -19,8 +19,9 @@ use SWP\Component\MultiTenancy\Model\TenantAwareInterface;
 use SWP\Component\MultiTenancy\Model\TenantAwareTrait;
 use SWP\Component\Revision\RevisionAwareInterface;
 use SWP\Component\Revision\RevisionAwareTrait;
+use SWP\Component\Storage\Model\PersistableInterface;
 
-class Container extends BaseContainer implements TenantAwareInterface, RevisionAwareInterface
+class Container extends BaseContainer implements TenantAwareInterface, RevisionAwareInterface, PersistableInterface
 {
     use TenantAwareTrait, RevisionAwareTrait;
 

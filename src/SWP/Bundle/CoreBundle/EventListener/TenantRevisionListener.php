@@ -61,7 +61,8 @@ class TenantRevisionListener
                 $request->query->get(RevisionContext::REVISION_PARAMETER_NAME, false)
             )
         );
-        /** @var RevisionInterface $workingRevision */
+
+        /* @var RevisionInterface $workingRevision */
         $publishedRevision = $this->revisionRepository->getPublishedRevision()->getQuery()->getOneOrNullResult();
         $this->revisionContext->setPublishedRevision($publishedRevision);
         /** @var RevisionInterface $workingRevision */

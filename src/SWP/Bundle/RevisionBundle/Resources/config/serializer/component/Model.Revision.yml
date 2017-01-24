@@ -1,0 +1,27 @@
+SWP\Component\Revision\Model\Revision:
+    exclusion_policy: ALL
+    properties:
+        createdAt:
+            expose: true
+            type: DateTime
+        updatedAt:
+            expose: true
+            type: DateTime
+        isActive:
+            expose: true
+            type: boolean
+        status:
+            expose: true
+        uniqueKey:
+            expose: true
+    relations:
+        -   rel: current
+            href:
+                route: swp_api_templates_revision_current
+        -   rel: previous
+            href:
+                route: swp_api_templates_revision_single
+                parameters:
+                    id: "expr(object.getId())"
+            exclusion:
+                exclude_if: "expr(null == object.getPrevious())"

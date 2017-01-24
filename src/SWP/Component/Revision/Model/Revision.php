@@ -175,7 +175,7 @@ class Revision implements RevisionInterface
     /**
      * {@inheritdoc}
      */
-    public function getPrevious(): RevisionInterface
+    public function getPrevious()
     {
         return $this->previous;
     }

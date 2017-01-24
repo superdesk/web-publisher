@@ -108,6 +108,8 @@ class RevisionAwareContainerService extends ContainerService implements Containe
             $this->entityManager->persist($workingContainer);
             $this->forkContainerRelations($container, $workingContainer);
 
+            $this->entityManager->flush();
+
             return $workingContainer;
         }
 

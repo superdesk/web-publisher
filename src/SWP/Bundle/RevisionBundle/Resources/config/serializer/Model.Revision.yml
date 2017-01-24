@@ -1,0 +1,6 @@
+SWP\Bundle\RevisionBundle\Model\Revision:
+    exclusion_policy: ALL
+    properties:
+        id:
+            expose: true
+            type: integer
