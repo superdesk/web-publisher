@@ -16,16 +16,15 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\ContentBundle\Doctrine;
 
-use SWP\Component\Common\Criteria\Criteria;
+use SWP\Bundle\ContentBundle\Model\ImageInterface;
 use SWP\Component\Storage\Repository\RepositoryInterface;
 
 interface ImageRepositoryInterface extends RepositoryInterface
 {
     /**
-     * @param Criteria $criteria
-     * @param array    $sorting
+     * @param string $assetId
      *
-     * @return mixed
+     * @return null|ImageInterface
      */
-    public function getByCriteria(Criteria $criteria, array $sorting);
+    public function findImageByAssetId(string $assetId);
 }

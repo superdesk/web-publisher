@@ -1,5 +1,5 @@
 SWP\Bundle\ContentBundle\Model\File:
-    type: entity
+    type: mappedSuperclass
     table: swp_file
     repositoryClass: SWP\Bundle\ContentBundle\Doctrine\ORM\FileRepository
     id:
@@ -20,5 +20,5 @@ SWP\Bundle\ContentBundle\Model\File:
             nullable: true
     oneToMany:
         media:
-            targetEntity: SWP\Bundle\ContentBundle\Model\ArticleMedia
+            targetEntity: SWP\Bundle\ContentBundle\Model\ArticleMediaInterface
             mappedBy: file

@@ -16,7 +16,6 @@ namespace SWP\Bundle\ContentBundle\Controller;
 
 use SWP\Bundle\ContentBundle\Model\ArticleMedia;
 use SWP\Bundle\ContentBundle\Model\Image;
-use SWP\Component\Common\Criteria\Criteria;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
@@ -35,9 +34,8 @@ class MediaController extends Controller
      */
     public function getAction($mediaId)
     {
-        $media = $this->get('swp.repository.image')->getByCriteria(new Criteria([
-            'assetId' => ArticleMedia::handleMediaId($mediaId),
-        ]), [], 'am')->getQuery()->getOneOrNullResult();
+        $media = $this->get('swp.repository.image')
+            ->findImageByAssetId(ArticleMedia::handleMediaId($mediaId));
 
         if (null === $media) {
             throw new NotFoundHttpException('Media was not found.');
