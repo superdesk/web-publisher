@@ -17,6 +17,7 @@ namespace SWP\Bundle\CoreBundle\Controller;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use SWP\Bundle\MenuBundle\MenuEvents;
 use SWP\Component\Common\Response\ResourcesListResponse;
 use SWP\Component\Common\Response\ResponseContext;
 use SWP\Component\Common\Response\SingleResourceResponse;
@@ -24,6 +25,7 @@ use SWP\Bundle\MenuBundle\Form\Type\MenuItemMoveType;
 use SWP\Bundle\MenuBundle\Form\Type\MenuType;
 use SWP\Bundle\MenuBundle\Model\MenuItemInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\EventDispatcher\GenericEvent;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
@@ -163,6 +165,8 @@ class MenuController extends Controller
         if ($form->isValid()) {
             $this->get('swp.repository.menu')->add($menu);
 
+            $this->get('event_dispatcher')->dispatch(MenuEvents::MENU_CREATED, new GenericEvent($menu));
+
             return new SingleResourceResponse($menu, new ResponseContext(201));
         }
 
@@ -187,7 +191,10 @@ class MenuController extends Controller
     public function deleteAction($id)
     {
         $repository = $this->get('swp.repository.menu');
-        $repository->remove($this->findOr404($id));
+        $menu = $this->findOr404($id);
+
+        $repository->remove($menu);
+        $this->get('event_dispatcher')->dispatch(MenuEvents::MENU_DELETED, new GenericEvent($menu));
 
         return new SingleResourceResponse(null, new ResponseContext(204));
     }
