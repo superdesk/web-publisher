@@ -1,5 +1,5 @@
 SWP\Bundle\ContentBundle\Model\ImageRendition:
-    type: entity
+    type: mappedSuperclass
     table: swp_image_rendition
     id:
         id:
@@ -16,14 +16,14 @@ SWP\Bundle\ContentBundle\Model\ImageRendition:
             type: string
     manyToOne:
         image:
-            targetEntity: SWP\Bundle\ContentBundle\Model\Image
+            targetEntity: SWP\Bundle\ContentBundle\Model\ImageInterface
             inversedBy: renditions
             joinColumn:
                 name: image_id
                 referencedColumnName: id
                 onDelete: CASCADE
         media:
-            targetEntity: SWP\Bundle\ContentBundle\Model\ArticleMedia
+            targetEntity: SWP\Bundle\ContentBundle\Model\ArticleMediaInterface
             inversedBy: renditions
             joinColumn:
                 name: media_id

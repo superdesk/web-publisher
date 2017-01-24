@@ -35,9 +35,8 @@ class MediaController extends Controller
      */
     public function getAction($mediaId)
     {
-        $media = $this->get('swp.repository.image')->getByCriteria(new Criteria([
-            'assetId' => ArticleMedia::handleMediaId($mediaId),
-        ]), [], 'am')->getQuery()->getOneOrNullResult();
+        $media = $this->get('swp.repository.image')
+            ->findImageByAssetId(ArticleMedia::handleMediaId($mediaId));
 
         if (null === $media) {
             throw new NotFoundHttpException('Media was not found.');
