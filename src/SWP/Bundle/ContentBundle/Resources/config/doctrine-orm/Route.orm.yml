@@ -26,7 +26,8 @@ SWP\Bundle\ContentBundle\Model\Route:
             type: string
         position:
             type: integer
-            nullable: true
+            gedmo:
+                - sortablePosition
         lft:
             type: integer
             gedmo:
@@ -77,3 +78,4 @@ SWP\Bundle\ContentBundle\Model\Route:
                 nullable: true
             gedmo:
                 - treeParent
+                - sortableGroup
