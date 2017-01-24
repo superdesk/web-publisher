@@ -84,6 +84,8 @@ swp_content:
                     model: SWP\Bundle\CoreBundle\Model\ArticleMedia
                 route:
                     model: SWP\Bundle\CoreBundle\Model\Route
+                image:
+                    model: SWP\Bundle\CoreBundle\Model\Image
 
 cmf_routing:
     dynamic:

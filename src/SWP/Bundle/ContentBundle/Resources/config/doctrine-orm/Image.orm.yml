@@ -26,8 +26,8 @@ SWP\Bundle\ContentBundle\Model\Image:
             nullable: true
     oneToMany:
         media:
-            targetEntity: SWP\Bundle\ContentBundle\Model\ArticleMedia
+            targetEntity: SWP\Bundle\ContentBundle\Model\ArticleMediaInterface
             mappedBy: image
         renditions:
-            targetEntity: SWP\Bundle\ContentBundle\Model\ImageRendition
+            targetEntity: SWP\Bundle\ContentBundle\Model\ImageRenditionInterface
             mappedBy: image
