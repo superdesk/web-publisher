@@ -32,4 +32,19 @@ class ArticleMediaRepository extends EntityRepository implements ArticleMediaRep
 
         return $qb;
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function findMediaByAssetId(string $assetId)
+    {
+        return $this->createQueryBuilder('m')
+            ->leftJoin('m.image', 'i')
+            ->leftJoin('m.file', 'f')
+            ->where('i.assetId = :assetId')
+            ->orWhere('f.assetId = :assetId')
+            ->setParameter('assetId', $assetId)
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
 }

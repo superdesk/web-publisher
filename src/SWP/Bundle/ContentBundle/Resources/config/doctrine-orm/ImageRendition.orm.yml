@@ -21,9 +21,11 @@ SWP\Bundle\ContentBundle\Model\ImageRendition:
             joinColumn:
                 name: image_id
                 referencedColumnName: id
+                onDelete: CASCADE
         media:
             targetEntity: SWP\Bundle\ContentBundle\Model\ArticleMedia
             inversedBy: renditions
             joinColumn:
                 name: media_id
                 referencedColumnName: id
+                onDelete: CASCADE

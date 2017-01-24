@@ -23,8 +23,15 @@ use SWP\Bundle\StorageBundle\Doctrine\ORM\EntityRepository;
 
 class ImageRepository extends EntityRepository implements ImageRepositoryInterface
 {
-    public function getByCriteria(Criteria $criteria, array $sorting): QueryBuilder
+    /**
+     * {@inheritdoc}
+     */
+    public function findImageByAssetId(string $assetId)
     {
-        return $this->getQueryByCriteria($criteria, $sorting, 'i');
+        return $this->createQueryBuilder('i')
+            ->where('i.assetId = :assetId')
+            ->setParameter('assetId', $assetId)
+            ->getQuery()
+            ->getOneOrNullResult();
     }
 }
