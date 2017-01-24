@@ -26,10 +26,6 @@ use SWP\Component\TemplatesSystem\Gimme\Widget\HtmlWidgetHandler;
  */
 class WidgetModel implements WidgetModelInterface, TimestampableInterface
 {
-    const TYPE_HTML = 1;
-    const TYPE_ADSENSE = 2;
-    const TYPE_MENU = 3;
-
     protected $types = [
         self::TYPE_HTML => HtmlWidgetHandler::class,
         self::TYPE_ADSENSE => GoogleAdSenseWidgetHandler::class,
@@ -195,11 +191,11 @@ class WidgetModel implements WidgetModelInterface, TimestampableInterface
     /**
      * Sets the value of parameters.
      *
-     * @param [] $parameters the parameters
+     * @param array $parameters the parameters
      *
      * @return WidgetModel
      */
-    public function setParameters($parameters = [])
+    public function setParameters(array $parameters = [])
     {
         $this->parameters = $parameters;
 
