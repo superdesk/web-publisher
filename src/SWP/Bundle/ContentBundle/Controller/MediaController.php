@@ -16,7 +16,6 @@ namespace SWP\Bundle\ContentBundle\Controller;
 
 use SWP\Bundle\ContentBundle\Model\ArticleMedia;
 use SWP\Bundle\ContentBundle\Model\Image;
-use SWP\Component\Common\Criteria\Criteria;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
