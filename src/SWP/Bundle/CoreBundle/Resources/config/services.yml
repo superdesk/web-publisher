@@ -180,3 +180,18 @@ services:
             - '@swp.factory.content_list_item'
         tags:
             - { name: kernel.event_listener, event: swp.list_criteria_change, method: onListCriteriaChange }
+
+    swp.listener.menu.widget_create:
+        class: SWP\Bundle\CoreBundle\EventListener\MenuWidgetCreateListener
+        arguments:
+            - '@swp.factory.widget_model'
+            - '@swp.repository.widget_model'
+        tags:
+            - { name: kernel.event_listener, event: swp.menu.created, method: onMenuCreated }
+
+    swp.listener.menu.widget_delete:
+        class: SWP\Bundle\CoreBundle\EventListener\MenuWidgetDeleteListener
+        arguments:
+            - '@swp.repository.widget_model'
+        tags:
+            - { name: kernel.event_listener, event: swp.menu.deleted, method: onMenuDeleted }

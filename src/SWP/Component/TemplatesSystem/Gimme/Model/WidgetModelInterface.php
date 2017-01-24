@@ -14,11 +14,17 @@
 
 namespace SWP\Component\TemplatesSystem\Gimme\Model;
 
+use SWP\Component\Storage\Model\PersistableInterface;
+
 /**
  * Container Interface.
  */
-interface WidgetModelInterface
+interface WidgetModelInterface extends PersistableInterface
 {
+    const TYPE_HTML = 1;
+    const TYPE_ADSENSE = 2;
+    const TYPE_MENU = 3;
+
     /**
      * Get widget Id.
      *
@@ -53,4 +59,25 @@ interface WidgetModelInterface
      * @return array
      */
     public function getParameters();
+
+    /**
+     * @param int $type
+     *
+     * @return self
+     */
+    public function setType($type = self::TYPE_HTML);
+
+    /**
+     * @param array $parameters
+     *
+     * @return self
+     */
+    public function setParameters(array $parameters = []);
+
+    /**
+     * @param string $name
+     *
+     * @return self
+     */
+    public function setName($name);
 }
