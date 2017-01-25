@@ -39,7 +39,7 @@ Built in criteria:
 - ``author`` - an array of authors, e.g. ["Test Persona","Doe"]
 
 - ``publishedBefore`` - date string, articles published before this date will be added to the list,
-e.g. dates: "2017-01-05" or "05-01-2017" etc. (date format doesn't matter)
+e.g. date: "2017-01-20". (date format must be YYYY-MM-DD)
 
 - ``publishedAfter`` - date string, articles published after that date will be added to the list, format is the same as in the ``publishedBefore`` case.
 
