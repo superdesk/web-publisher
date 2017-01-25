@@ -21,9 +21,4 @@ use SWP\Component\MultiTenancy\Model\TenantAwareTrait;
 class Revision extends BaseRevision implements TenantAwareInterface
 {
     use TenantAwareTrait;
-
-    public function __toString()
-    {
-        return $this->getId().'_'.$this->getUniqueKey().'__'.json_encode($this->getPrevious());
-    }
 }

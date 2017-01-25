@@ -49,7 +49,6 @@ class RevisionManagerTest extends WebTestCase
     public function testModifyContainerAndPublishRevision()
     {
         $client = static::createClient();
-        $client->enableProfiler();
         $client->request('PATCH', $this->getContainer()->get('router')->generate(
             'swp_api_templates_update_container',
             ['uuid' => '5tfdv6resqg']
@@ -59,7 +58,7 @@ class RevisionManagerTest extends WebTestCase
             ],
         ]);
 
-        $this->assertEquals(201, $client->getResponse()->getStatusCode());
+        self::assertEquals(201, $client->getResponse()->getStatusCode());
         self::assertArraySubset(json_decode('{"id":3,"type":1,"name":"Simple Container 23","uuid": "5tfdv6resqg"}', true), json_decode($client->getResponse()->getContent(), true));
 
         $requestRevisionContext = $client->getContainer()->get('swp_revision.context.revision');

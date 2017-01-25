@@ -77,11 +77,7 @@ class Revision implements RevisionInterface
      */
     public function setStatus(string $status)
     {
-        if ($status === RevisionInterface::STATE_PUBLISHED) {
-            $this->status = $status;
-        } else {
-            $this->status = self::STATE_NEW;
-        }
+        $this->status = $status;
     }
 
     /**

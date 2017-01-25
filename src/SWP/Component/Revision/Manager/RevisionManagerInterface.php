@@ -59,4 +59,11 @@ interface RevisionManagerInterface
      * @return mixed
      */
     public function setObjectManager(EntityManagerInterface $objectManager);
+
+    /**
+     * @param mixed $object
+     *
+     * @return mixed
+     */
+    public function merge($object);
 }

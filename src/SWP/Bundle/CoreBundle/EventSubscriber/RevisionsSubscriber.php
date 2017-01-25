@@ -87,12 +87,12 @@ class RevisionsSubscriber implements EventSubscriberInterface
         // published revisions containers
         $criteria = new Criteria();
         $criteria->set('revision', $revision->getPrevious());
-        $containers = $this->containerRepository->getQueryByCriteria($criteria, [], 'c')
-            ->andWhere('c.uuid NOT IN (:ids)')
-            ->setParameter('ids', $ids)
-            ->getQuery()
-            ->getResult();
+        $queryBuilder = $this->containerRepository->getQueryByCriteria($criteria, [], 'c');
+        if (count($ids) > 0) {
+            $queryBuilder->andWhere('c.uuid NOT IN (:ids)')->setParameter('ids', $ids);
+        }
 
+        $containers = $queryBuilder->getQuery()->getResult();
         /** @var ContainerInterface|RevisionAwareInterface $container */
         foreach ($containers as $container) {
             $container->setRevision($revision);

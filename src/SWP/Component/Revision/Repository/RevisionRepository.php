@@ -31,7 +31,8 @@ class RevisionRepository extends EntityRepository implements RevisionRepositoryI
         $qb = $this->getQueryByCriteria(new Criteria(), [], 'r')
             ->where('r.status = :status')
             ->setParameter('status', RevisionInterface::STATE_PUBLISHED)
-            ->orderBy('r.publishedAt', 'desc');
+            ->orderBy('r.publishedAt', 'desc')
+            ->setMaxResults(1);
 
         return $qb;
     }
@@ -43,7 +44,8 @@ class RevisionRepository extends EntityRepository implements RevisionRepositoryI
     {
         $qb = $this->getQueryByCriteria(new Criteria(), [], 'r')
             ->where('r.status = :status')
-            ->setParameter('status', RevisionInterface::STATE_NEW);
+            ->setParameter('status', RevisionInterface::STATE_NEW)
+            ->setMaxResults(1);
 
         return $qb;
     }

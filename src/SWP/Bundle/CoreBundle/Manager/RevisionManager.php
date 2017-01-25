@@ -136,10 +136,13 @@ class RevisionManager implements RevisionManagerInterface
         $this->objectManager = $objectManager;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function merge($object)
     {
         if (null !== $this->objectManager) {
-            $this->objectManager->merge($object);
+            return $this->objectManager->merge($object);
         }
     }
 
