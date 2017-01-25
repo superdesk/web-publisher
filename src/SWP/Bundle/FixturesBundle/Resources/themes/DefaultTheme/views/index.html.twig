@@ -30,7 +30,7 @@
             <div class="content content_text">
                 <h6 class="info">{% if article.metadata.byline %} {{ article.metadata.byline }} - {% endif %} {{ article.publishedAt|date("d.m.Y, H:i") }}</h6>
                 <h3 class="title"><a href="{{ url(article) }}">{{ article.title }}</a></h3>
-                <p>{{ article.body|truncate(200,true) }}</p>
+                <p>{{ article.lead|striptags|truncate(200,true) }}</p>
             </div>
       </article>
 
@@ -58,7 +58,7 @@
               <div class="content content_text">
                 <h6 class="info">{% if article.metadata.byline %} {{ article.metadata.byline }} - {% endif %} {{ article.publishedAt|date("d.m.Y, H:i") }}</h6>
                 <h3 class="title"><a href="{{ url(article) }}">{{ article.title }}</a></h3>
-                <p>{{ article.body|truncate(200,true) }}</p>
+                <p>{{ article.lead|striptags|truncate(200,true) }}</p>
                </div>
             </article><!-- End News item -->
           </div><!--End Span (3) -->
@@ -84,7 +84,7 @@
               <div class="content content_text">
                 <h6 class="info">{% if article.metadata.byline %} {{ article.metadata.byline }} - {% endif %} {{ article.publishedAt|date("d.m.Y, H:i") }}</h6>
                 <h3 class="title"><a href="{{ url(article) }}">{{ article.title }}</a></h3>
-                <p>{{ article.body|truncate(200,true) }}</p>
+                <p>{{ article.lead|striptags|truncate(200,true) }}</p>
               </div>
     </article>
 
