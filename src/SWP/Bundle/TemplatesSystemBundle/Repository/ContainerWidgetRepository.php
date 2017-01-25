@@ -21,7 +21,7 @@ use Gedmo\Sortable\Entity\Repository\SortableRepository;
  */
 class ContainerWidgetRepository extends SortableRepository
 {
-    public function getSortedWidgets(array $groupValues = [])
+    public function findSortedWidgets(array $groupValues = [])
     {
         $qb = parent::getBySortableGroupsQueryBuilder($groupValues)
             ->select('n', 'w')

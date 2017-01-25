@@ -16,6 +16,7 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\TemplatesSystemBundle\DependencyInjection;
 
+use SWP\Bundle\StorageBundle\Doctrine\ORM\EntityRepository;
 use SWP\Bundle\TemplatesSystemBundle\Factory\ContainerDataFactory;
 use SWP\Bundle\TemplatesSystemBundle\Factory\ContainerFactory;
 use SWP\Bundle\TemplatesSystemBundle\Model\Container;
@@ -92,8 +93,8 @@ class Configuration implements ConfigurationInterface
                                             ->children()
                                                 ->scalarNode('model')->cannotBeEmpty()->defaultValue(ContainerWidget::class)->end()
                                                 ->scalarNode('interface')->cannotBeEmpty()->defaultValue(ContainerWidgetInterface::class)->end()
-                                                ->scalarNode('repository')->defaultValue(null)->end()
-                                                ->scalarNode('factory')->defaultValue(null)->end()
+                                                ->scalarNode('repository')->defaultValue(EntityRepository::class)->end()
+                                                ->scalarNode('factory')->defaultValue(Factory::class)->end()
                                                 ->scalarNode('object_manager_name')->defaultValue(null)->end()
                                             ->end()
                                         ->end()

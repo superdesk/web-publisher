@@ -54,7 +54,7 @@ class ContainerService
 
     public function getContainer($name, array $parameters = [], $createIfNotExists = true)
     {
-        $containerEntity = $this->objectManager->getRepository('SWP\Bundle\TemplatesSystemBundle\Model\Container')
+        $containerEntity = $this->serviceContainer->get('swp.repository.container')
             ->getByName($name)
             ->getOneOrNullResult();
 
@@ -65,9 +65,9 @@ class ContainerService
         }
 
         $widgets = [];
-        $containerWidgets = $this->objectManager->getRepository('SWP\Bundle\TemplatesSystemBundle\Model\ContainerWidget')
-            ->getSortedWidgets(['container' => $containerEntity])
-            ->getResult();
+        $containerWidgets = $this->serviceContainer->get('swp.repository.container')
+            ->getContainerWithSortedWidgets($containerEntity)
+            ->getWidgets();
 
         foreach ($containerWidgets as $containerWidget) {
             $widgetModel = $containerWidget->getWidget();
