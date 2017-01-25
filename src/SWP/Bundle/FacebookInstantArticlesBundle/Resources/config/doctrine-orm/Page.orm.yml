@@ -1,0 +1,37 @@
+SWP\Bundle\FacebookInstantArticlesBundle\Model\Page:
+    type: mappedSuperclass
+    table: swp_fbia_pages
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        pageId:
+            type: string
+        name:
+            type: string
+        accessToken:
+            type: string
+            nullable: true
+        enabled:
+            type: boolean
+        createdAt:
+            type: datetime
+            gedmo:
+                timestampable:
+                    on: create
+        updatedAt:
+            type: datetime
+            nullable: true
+            gedmo:
+                timestampable:
+                    on: update
+    manyToOne:
+        application:
+            targetEntity: SWP\Bundle\FacebookInstantArticlesBundle\Model\ApplicationInterface
+            joinColumn:
+                name: application_id
+                referencedColumnName: id
+                nullable: true

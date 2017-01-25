@@ -81,6 +81,7 @@ class ArticleMediaLoader extends PaginatedLoader implements LoaderInterface
     {
         if ($responseType === LoaderInterface::COLLECTION) {
             $criteria = new Criteria();
+            $criteria->set('maxResults', null);
 
             if (array_key_exists('article', $parameters) && $parameters['article'] instanceof Meta) {
                 $criteria->set('article', $parameters['article']->getValues());
@@ -113,7 +114,7 @@ class ArticleMediaLoader extends PaginatedLoader implements LoaderInterface
      *
      * @return bool
      */
-    public function isSupported(string $type) : bool
+    public function isSupported(string $type): bool
     {
         return in_array($type, ['articleMedia']);
     }

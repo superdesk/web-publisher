@@ -28,6 +28,8 @@ SWP\Component\Bridge\Model\Item:
         services:
             type: array
             nullable: true
+        keywords:
+            type: array
         places:
             type: array
         type:

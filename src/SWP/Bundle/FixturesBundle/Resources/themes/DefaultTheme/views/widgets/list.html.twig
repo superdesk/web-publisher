@@ -1,0 +1,7 @@
+{% cache 'contentlist' ~ contentList.id { time: contentList.cacheLifeTime ?: 0 } %}
+<ul>
+    {% for item in contentList.items %}
+            <li>{{ item.content.title }} - position: {{ item.position }} (sticky: {{ item.sticky ? 'yes' : 'no'}})</li>
+    {% endfor %}
+</ul>
+{% endcache %}

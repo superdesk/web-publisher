@@ -1,11 +1,22 @@
 
-CHANGELOG for 0.1.x
-===================
+CHANGELOG for version <= 0.2.x
+==============================
 
 This changelog references the relevant changes (bug and security fixes) done
 in 0.1 minor versions.
 
 To get the diff for a specific change, go to https://github.com/superdesk/web-publisher/commit/XXX where XXX is the change hash
+
+* 0.2.0
+ * feature [#219] Automatically create menu widget when root menu/navigation is created
+ * feature [#218] Assign article to route of type content automatically when article is published
+ * feature [#215] Filter articles by metadata in gimmelist
+ * feature [#213] Implement and expose article's keywords
+ * feature [#211] Create Automatic list widget
+ * feature [#209] Add option to ignore context meta in loaders 
+ * feature [#209] Add rendition loader (gimme rendition) from article media
+ * feature [#203] Added option to access theme assets with simple /public/{fileName} links
+ * change [#207] Changed serialized properties naming strategy from underscore to camelCase
 
 * 0.1.0-11
  * feature [#184] Added Google AMP HTML integration
@@ -24,7 +35,6 @@ To get the diff for a specific change, go to https://github.com/superdesk/web-pu
  * bug/feature/maintenance [#165] Switch to ORM as main storage backend 
 
 * 0.1.0-7
-
  * maintenance [#156] added memcached to project requirements and configured it as default sessions handler
  * maintenance [#156] Specified project requirements
  * feature [#155] Upgrade Symfony version to 3.1
@@ -32,7 +42,6 @@ To get the diff for a specific change, go to https://github.com/superdesk/web-pu
  * bug [#152] [ContentBundle] If I correct a headline, it and its article are published in addition to the original (takeit)
 
 * 0.1.0-6
-
  * feature [#138] [RuleBundle][Rule][ContentBundle] Added content to route mapping with simple rules managed by API (takeit)
  * feature [#139] Add default templates for error pages.
  * feature [#128] [ContentBundle] Add route type constraint validator (takeit)
@@ -40,7 +49,6 @@ To get the diff for a specific change, go to https://github.com/superdesk/web-pu
  * feature [#132] [Template System][TemplateEngine Bundle] implement pagination in gimmelist
 
 * 0.1.0-5 
-
  * bug [#128] [ContentBundle] Un-assigning content from route doesn't work (takeit)
  * feature [#128] [ContentBundle] Allow to assign/un-assign route to article (takeit)
  * bug [#129] [CoreBundle][ContentBundle] Change template name discovery, add articles_template_name to route (see updated documentation)

@@ -108,6 +108,11 @@ class Article implements ArticleInterface, MediaAwareArticleInterface
     protected $lead;
 
     /**
+     * @var array
+     */
+    protected $keywords = [];
+
+    /**
      * Article constructor.
      */
     public function __construct()
@@ -393,6 +398,22 @@ class Article implements ArticleInterface, MediaAwareArticleInterface
     public function setLead($lead)
     {
         $this->lead = $lead;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getKeywords(): array
+    {
+        return $this->keywords;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setKeywords(array $keywords)
+    {
+        $this->keywords = $keywords;
     }
 
     /**

@@ -37,7 +37,7 @@ class CreateOrganizationCommandTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers SWP\Bundle\MultiTenancyBundle\Command\CreateOrganizationCommand
+     * @covers \SWP\Bundle\MultiTenancyBundle\Command\CreateOrganizationCommand
      */
     public function testExecuteWhenCreatingNewOrganization()
     {
@@ -53,7 +53,7 @@ class CreateOrganizationCommandTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers SWP\Bundle\MultiTenancyBundle\Command\CreateOrganizationCommand
+     * @covers \SWP\Bundle\MultiTenancyBundle\Command\CreateOrganizationCommand
      */
     public function testExecuteWhenCreatingDefaultOrganization()
     {
@@ -73,7 +73,7 @@ class CreateOrganizationCommandTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @expectedException \InvalidArgumentException
-     * @covers SWP\Bundle\MultiTenancyBundle\Command\CreateOrganizationCommand
+     * @covers \SWP\Bundle\MultiTenancyBundle\Command\CreateOrganizationCommand
      */
     public function testExecuteWhenDefaultTenantExists()
     {
@@ -87,7 +87,7 @@ class CreateOrganizationCommandTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers SWP\Bundle\MultiTenancyBundle\Command\CreateOrganizationCommand
+     * @covers \SWP\Bundle\MultiTenancyBundle\Command\CreateOrganizationCommand
      */
     public function testExecuteDisabledOrganization()
     {

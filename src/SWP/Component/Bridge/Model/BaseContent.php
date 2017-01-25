@@ -102,6 +102,11 @@ class BaseContent implements ContentInterface
     protected $description;
 
     /**
+     * @var array
+     */
+    protected $keywords = [];
+
+    /**
      * @return mixed
      */
     public function getId()
@@ -392,5 +397,21 @@ class BaseContent implements ContentInterface
             'genre' => $this->getGenre(),
             'language' => $this->getLanguage(),
         ];
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getKeywords(): array
+    {
+        return $this->keywords;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setKeywords(array $keywords)
+    {
+        $this->keywords = $keywords;
     }
 }

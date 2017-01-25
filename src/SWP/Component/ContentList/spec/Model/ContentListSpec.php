@@ -107,6 +107,12 @@ final class ContentListSpec extends ObjectBehavior
         $this->getDescription()->shouldReturn('Lorem ipsum');
     }
 
+    public function its_filters_is_mutable()
+    {
+        $this->setFilters(['locale' => 'en']);
+        $this->getFilters()->shouldReturn(['locale' => 'en']);
+    }
+
     public function its_type_is_mutable()
     {
         $this->setType('auto');

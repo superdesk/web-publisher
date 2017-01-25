@@ -192,6 +192,17 @@ class BaseContentSpec extends ObjectBehavior
         $this->getDescription()->shouldReturn(1);
     }
 
+    public function it_has_no_keywords_by_default()
+    {
+        $this->getKeywords()->shouldReturn([]);
+    }
+
+    public function its_keywords_is_mutable()
+    {
+        $this->setKeywords(['keyword1', 'keyword2']);
+        $this->getKeywords()->shouldReturn(['keyword1', 'keyword2']);
+    }
+
     public function its_gets_all_metadata()
     {
         $metadata = [

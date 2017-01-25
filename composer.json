@@ -41,7 +41,7 @@
             "SWP\\Bridge\\": "src/SWP/Bridge/"
         },
         "exclude-from-classmap": [ "**/Tests/", "**/spec/" ],
-        "classmap": [ "app/AppKernel.php", "app/AppCache.php" ]
+        "classmap": [ "app/AppKernel.php" ]
     },
     "repositories": [
         {
@@ -56,14 +56,16 @@
         "symfony/monolog-bundle": "~2.4",
         "sensio/distribution-bundle": "v5.0.x",
         "sensio/framework-extra-bundle": "~3.0,>=3.0.2",
+        "sensio/generator-bundle": "~3.0",
         "doctrine/orm": "2.5.*",
         "doctrine/common": "2.6.*",
         "doctrine/dbal": "2.5.*",
         "doctrine/doctrine-bundle": "~1.6",
         "doctrine/inflector": "^1.0",
         "doctrine/doctrine-cache-bundle": "1.3.*",
-        "guzzlehttp/guzzle": "^6.0",
+        "guzzlehttp/guzzle": "^6.2",
         "twig/extensions": "~1.0",
+        "twig/twig": "1.27.0",
         "emanueleminotto/twig-cache-bundle": "~1.0",
         "incenteev/composer-parameter-handler": "~2.0",
         "friendsofsymfony/http-cache-bundle": "^2.0@dev",
@@ -83,15 +85,16 @@
         "justinrainbow/json-schema": "1.4.4",
         "jms/translation-bundle": "^1.2",
         "hoa/mime": "3.16.01.15",
+        "hoa/file": "1.16.01.15",
         "sentry/sentry-symfony": "^0.4.0",
         "danielstjules/stringy": "~2.3",
         "burgov/key-value-form-bundle": "@stable",
         "nelmio/api-doc-bundle": "^2.13",
         "nelmio/cors-bundle": "^1.4",
+        "facebook/facebook-instant-articles-sdk-php": "v1.5.*",
         "takeit/amp-html-bundle": "^0.2.0@dev"
     },
     "require-dev": {
-        "sensio/generator-bundle": "~3.0",
         "phpspec/phpspec": "^2.4",
         "phpunit/phpunit": "5.*",
         "liip/functional-test-bundle": "^1.3@dev",
@@ -115,7 +118,8 @@
         "swp/storage": "self.version",
         "swp/templates-system": "self.version",
         "swp/rule-bundle": "self.version",
-        "swp/rule": "self.version"
+        "swp/rule": "self.version",
+        "swp/facebook-instant-articles-bundle": "self.version"
     },
     "scripts": {
         "post-install-cmd": [

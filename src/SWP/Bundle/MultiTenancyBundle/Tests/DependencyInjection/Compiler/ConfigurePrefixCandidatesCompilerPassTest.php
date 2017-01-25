@@ -31,7 +31,7 @@ class ConfigurePrefixCandidatesCompilerPassTest extends AbstractCompilerPassTest
     }
 
     /**
-     * @covers SWP\Bundle\MultiTenancyBundle\DependencyInjection\Compiler\ConfigurePrefixCandidatesCompilerPass::process
+     * @covers \SWP\Bundle\MultiTenancyBundle\DependencyInjection\Compiler\ConfigurePrefixCandidatesCompilerPass::process
      */
     public function testProcessPHPCRBackendDisabled()
     {
@@ -43,7 +43,7 @@ class ConfigurePrefixCandidatesCompilerPassTest extends AbstractCompilerPassTest
     }
 
     /**
-     * @covers SWP\Bundle\MultiTenancyBundle\DependencyInjection\Compiler\ConfigurePrefixCandidatesCompilerPass::process
+     * @covers \SWP\Bundle\MultiTenancyBundle\DependencyInjection\Compiler\ConfigurePrefixCandidatesCompilerPass::process
      */
     public function testProcessCMFBackendDisabled()
     {
@@ -55,7 +55,7 @@ class ConfigurePrefixCandidatesCompilerPassTest extends AbstractCompilerPassTest
     }
 
     /**
-     * @covers SWP\Bundle\MultiTenancyBundle\DependencyInjection\Compiler\ConfigurePrefixCandidatesCompilerPass::process
+     * @covers \SWP\Bundle\MultiTenancyBundle\DependencyInjection\Compiler\ConfigurePrefixCandidatesCompilerPass::process
      */
     public function testProcess()
     {

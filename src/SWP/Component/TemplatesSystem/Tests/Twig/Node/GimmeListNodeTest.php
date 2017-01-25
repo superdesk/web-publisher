@@ -56,8 +56,9 @@ class GimmeListNodeTest extends \Twig_Test_NodeTestCase
         $parameters = new \Twig_Node_Expression_Array([], 1);
         $else = new \Twig_Node_Text('', 1);
         $body = new \Twig_Node_Text('', 1);
+        $ignoreContext = new \Twig_Node_Expression_Array([], 1);
 
-        $node = new GimmeListNode($variable, $collectionType, $collectionFilters, $parameters, $ifExpression, $else, $body, 0, 'gimmelist');
+        $node = new GimmeListNode($variable, $collectionType, $collectionFilters, $parameters, $ignoreContext, $ifExpression, $else, $body, 0, 'gimmelist');
         $this->assertEquals($variable, $node->getNode('variable'));
         $this->assertEquals($parameters, $node->getNode('parameters'));
 
@@ -97,6 +98,7 @@ class GimmeListNodeTest extends \Twig_Test_NodeTestCase
             0
         );
         $parameters = new \Twig_Node_Expression_Array([], 1);
+        $ignoreContext = new \Twig_Node_Expression_Array([], 1);
         $ifExpression = new \Twig_Node_Expression_Binary_Equal(new \Twig_Node_Expression_GetAttr(new \Twig_Node_Expression_Name('article', 0), new \Twig_Node_Expression_Constant('title', 0), null, null, 0),
             new \Twig_Node_Expression_Constant('New article', 0),
             0
@@ -104,11 +106,12 @@ class GimmeListNodeTest extends \Twig_Test_NodeTestCase
         $else = new \Twig_Node_Text('', 1);
         $body = new \Twig_Node_Text('', 1);
 
-        $node1 = new GimmeListNode($variable, $collectionType, null, null, null, null, $body, 0, 'gimmelist');
-        $node2 = new GimmeListNode($variable, $collectionType, $collectionFilters, $parameters, $ifExpression, $else, $body, 0, 'gimmelist');
-        $node3 = new GimmeListNode($variable, $collectionType, $collectionFiltersFull, null, null, null, $body, 0, 'gimmelist');
-        $node4 = new GimmeListNode($variable, $collectionType, $collectionFiltersFull, $parameters, null, null, $body, 0, 'gimmelist');
-        $node5 = new GimmeListNode($variable, $collectionType, $collectionFiltersFull, $parameters, $ifExpression, null, $body, 0, 'gimmelist');
+        $node1 = new GimmeListNode($variable, $collectionType, null, null, null, null, null, $body, 0, 'gimmelist');
+        $node2 = new GimmeListNode($variable, $collectionType, $collectionFilters, $parameters, null, $ifExpression, $else, $body, 0, 'gimmelist');
+        $node3 = new GimmeListNode($variable, $collectionType, $collectionFiltersFull, null, null, null, null, $body, 0, 'gimmelist');
+        $node4 = new GimmeListNode($variable, $collectionType, $collectionFiltersFull, $parameters, null, null, null, $body, 0, 'gimmelist');
+        $node5 = new GimmeListNode($variable, $collectionType, $collectionFiltersFull, $parameters, null, $ifExpression, null, $body, 0, 'gimmelist');
+        $node6 = new GimmeListNode($variable, $collectionType, $collectionFiltersFull, $parameters, $ignoreContext, $ifExpression, null, $body, 0, 'gimmelist');
 
         return [
             [$node1, <<<EOF
@@ -298,7 +301,40 @@ unset(\$context['article'], \$context['_iterated'], \$context['articles'], \$con
 unset(\$context['_collection_type_filters']);
 \$context = array_intersect_key(\$context, \$_parent) + \$_parent;
 EOF
-            ], ];
+            ],
+            [$node6, <<<EOF
+\$context['_collection_type_filters'] = [];
+\$context['articles'] = null;
+\$context['_collection_type_filters'] = call_user_func_array(\$this->env->getFilter('start')->getCallable(), array(\$context, call_user_func_array(\$this->env->getFilter('limit')->getCallable(), array(\$context, call_user_func_array(\$this->env->getFilter('order')->getCallable(), array(\$context, \$context["articles"], array("id" => "desc"))), 10)), 0))['_collection_type_filters']; unset(\$context['articles']['_collection_type_filters']);
+\$parameters = array_merge(array(), \$context['_collection_type_filters']);
+\$swpCollectionMetaLoader6 = \$this->env->getExtension('swp_gimme')->getLoader();
+\$swpContext6GimmeList = \$this->env->getExtension('swp_gimme')->getContext();
+\$swpIgnoreContext6GimmeList = \$swpContext6GimmeList->temporaryUnset(array());
+\$context["articles"] = twig_ensure_traversable(\$swpCollectionMetaLoader6->load("articles", \$parameters, \SWP\Component\TemplatesSystem\Gimme\Loader\LoaderInterface::COLLECTION));
+\$context['_parent'] = (array) \$context;
+\$context['loop'] = array(
+  'parent' => \$context['_parent'],
+  'index0' => 0,
+  'index'  => 1,
+  'first'  => true,
+);
+foreach (\$context["articles"] as \$_key => \$context["article"]) {
+    if ((\$this->getAttribute((\$context["article"] ?? null), "title", array(), null) == "New article")) {
+        // line 1
+        echo "";
+        ++\$context['loop']['index0'];
+        ++\$context['loop']['index'];
+        \$context['loop']['first'] = false;
+    }
+}
+\$swpContext6GimmeList->restoreTemporaryUnset(\$swpIgnoreContext6GimmeList);
+\$_parent = \$context['_parent'];
+unset(\$context['article'], \$context['_iterated'], \$context['articles'], \$context['_parent'], \$context['loop']);
+unset(\$context['_collection_type_filters']);
+\$context = array_intersect_key(\$context, \$_parent) + \$_parent;
+EOF
+            ],
+        ];
     }
 
     protected function tearDown()

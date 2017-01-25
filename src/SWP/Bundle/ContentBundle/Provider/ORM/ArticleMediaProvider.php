@@ -16,13 +16,15 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\ContentBundle\Provider\ORM;
 
+use Doctrine\ORM\Tools\Pagination\Paginator;
 use SWP\Bundle\ContentBundle\Doctrine\ArticleMediaRepositoryInterface;
 use SWP\Bundle\ContentBundle\Model\ArticleMediaInterface;
 use SWP\Bundle\ContentBundle\Provider\AbstractProvider;
 use SWP\Bundle\ContentBundle\Provider\ArticleMediaProviderInterface;
 use SWP\Component\Common\Criteria\Criteria;
-use SWP\Component\Storage\Repository\RepositoryInterface;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 
 /**
  * ArticleMediaProvider to provide media from ORM.
@@ -30,17 +32,17 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 class ArticleMediaProvider extends AbstractProvider implements ArticleMediaProviderInterface
 {
     /**
-     * @var RepositoryInterface
+     * @var ArticleMediaRepositoryInterface
      */
     private $articleMediaRepository;
 
     /**
-     * ArticleProvider constructor.
+     * ArticleMediaProvider constructor.
      *
-     * @param RepositoryInterface $articleMediaRepository
+     * @param ArticleMediaRepositoryInterface $articleMediaRepository
      */
     public function __construct(
-        RepositoryInterface $articleMediaRepository
+        ArticleMediaRepositoryInterface $articleMediaRepository
     ) {
         $this->articleMediaRepository = $articleMediaRepository;
     }
@@ -75,7 +77,27 @@ class ArticleMediaProvider extends AbstractProvider implements ArticleMediaProvi
         return $media;
     }
 
-    public function getCountByCriteria(Criteria $criteria) : int
+    /**
+     * {@inheritdoc}
+     */
+    public function getManyByCriteria(Criteria $criteria): Collection
+    {
+        $query = $this->getRepository()->getByCriteria(
+            $criteria,
+            $criteria->get('order', [])
+        )
+        ->addSelect('r')
+        ->leftJoin('am.renditions', 'r')
+        ->addSelect('i')
+        ->leftJoin('r.image', 'i')
+        ->getQuery();
+
+        $paginator = new Paginator($query, $fetchJoinCollection = true);
+
+        return new ArrayCollection(iterator_to_array($paginator->getIterator()));
+    }
+
+    public function getCountByCriteria(Criteria $criteria): int
     {
         return (int) $this->getRepository()->getByCriteria(
             $criteria,

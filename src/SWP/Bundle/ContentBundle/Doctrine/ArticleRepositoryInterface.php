@@ -60,4 +60,12 @@ interface ArticleRepositoryInterface extends RepositoryInterface
      * @return int
      */
     public function countByCriteria(Criteria $criteria): int;
+
+    /**
+     * @param Criteria $criteria
+     * @param array    $sorting
+     *
+     * @return array
+     */
+    public function findArticlesByCriteria(Criteria $criteria, array $sorting = []): array;
 }

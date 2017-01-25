@@ -1,0 +1,28 @@
+SWP\Bundle\CoreBundle\Model\FacebookPage:
+    exclusion_policy: ALL
+    properties:
+        id:
+            expose: true
+            type: integer
+        pageId:
+            expose: true
+            type: integer
+        name:
+            expose: true
+            type: string
+        accessToken:
+            expose: true
+            type: string
+        application:
+            expose: true
+            type: string
+        createdAt:
+            expose: true
+            type: DateTime
+        updatedAt:
+            expose: true
+            type: DateTime
+    relations:
+        -   rel: list
+            href:
+                route: swp_api_list_facebook_pages

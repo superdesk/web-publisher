@@ -18,6 +18,7 @@ use Doctrine\Common\Persistence\ObjectRepository;
 use SWP\Component\Common\Criteria\Criteria;
 use SWP\Component\Common\Pagination\PaginationData;
 use SWP\Component\Storage\Model\PersistableInterface;
+use Doctrine\ORM\QueryBuilder;
 
 interface RepositoryInterface extends ObjectRepository
 {
@@ -57,4 +58,13 @@ interface RepositoryInterface extends ObjectRepository
      * @return mixed
      */
     public function getPaginatedByCriteria(Criteria $criteria, array $sorting = [], PaginationData $paginationData = null);
+
+    /**
+     * @param Criteria $criteria
+     * @param array    $sorting
+     * @param string   $alias
+     *
+     * @return QueryBuilder
+     */
+    public function getQueryByCriteria(Criteria $criteria, array $sorting, string $alias): QueryBuilder;
 }

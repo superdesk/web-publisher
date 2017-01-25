@@ -21,8 +21,9 @@ parameters:
     secret: SuperSecretTokenPleaseChangeIt
     swp_updater.version.class: "SWP\\Bundle\\CoreBundle\\Version\\Version"
     domain: wps.dev
-    # Comma separated list of caching servers
-    cache_servers: wps.dev
+    # Array of caching servers
+    cache_servers:
+        - wps.dev
     doctrine_cache_driver: "array"
 
     sentry.dsn: false
@@ -34,6 +35,6 @@ parameters:
     test_env: doctrine
     allow_origin_cors: "http://localhost"
 
-    # Array of of authorized superdesk servers
+    # Array of authorized superdesk servers
     superdesk_servers:
         - superdesk.dev

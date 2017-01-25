@@ -126,6 +126,7 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface, Orde
 
         $routeProvider = $this->container->get('swp.provider.route');
         foreach ($articles as $articleData) {
+            /** @var ArticleInterface $article */
             $article = $this->container->get('swp.factory.article')->create();
             $article->setTitle($articleData['title']);
             $article->setBody($articleData['content']);
@@ -134,6 +135,7 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface, Orde
             $article->setPublishable(true);
             $article->setPublishedAt(new \DateTime());
             $article->setStatus(ArticleInterface::STATUS_PUBLISHED);
+            $article->setMetadata($this->articleMetadata());
             $manager->persist($article);
 
             $this->addReference($article->getSlug(), $article);

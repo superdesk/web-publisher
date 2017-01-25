@@ -34,7 +34,6 @@ class HttpCacheHeaderListener
             $cacheTimeInSeconds = $routeObject->getCacheTimeInSeconds();
             if (0 < $cacheTimeInSeconds) {
                 $response = $event->getResponse();
-                $response->setMaxAge($cacheTimeInSeconds);
                 $response->setSharedMaxAge($cacheTimeInSeconds);
                 $response->setPublic();
             }

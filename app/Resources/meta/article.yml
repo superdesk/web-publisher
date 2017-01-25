@@ -32,4 +32,7 @@ properties:
     lead:
         description: "Article lead/abstract"
         type: text
+    keywords:
+        description: "Article keywords"
+        type: array
 to_string: title

@@ -1,5 +1,5 @@
 SWP\Bundle\ContentBundle\Model\File:
-    type: entity
+    type: mappedSuperclass
     table: swp_file
     repositoryClass: SWP\Bundle\ContentBundle\Doctrine\ORM\FileRepository
     id:
@@ -18,10 +18,7 @@ SWP\Bundle\ContentBundle\Model\File:
         updatedAt:
             type: date
             nullable: true
-    oneToOne:
+    oneToMany:
         media:
-            targetEntity: SWP\Bundle\ContentBundle\Model\ArticleMedia
-            inversedBy: image
-            joinColumn:
-                name: media_id
-                referencedColumnName: id
+            targetEntity: SWP\Bundle\ContentBundle\Model\ArticleMediaInterface
+            mappedBy: file

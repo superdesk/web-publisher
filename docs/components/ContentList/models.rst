@@ -54,6 +54,8 @@ Every content list item is represented by a **ContentListItem** model which by d
 +--------------+-------------------------------------------+
 | sticky       | Defines whether content is sticky or not  |
 +--------------+-------------------------------------------+
+| filters      | An array of list criteria/filters         |
++--------------+-------------------------------------------+
 | createdAt    | Date of creation                          |
 +--------------+-------------------------------------------+
 | updatedAt    | Date of last update                       |
@@ -73,4 +75,4 @@ Repository Interface
 ====================
 
 This component contains ``SWP\Component\ContentList\Repository\ContentListRepositoryInterface`` interface
-which can be used by your custom entity repository, in order to make it working with :doc:`/bundles/ContentListBundle/index`.
+which can be used by your custom entity repository, in order to make it working with :doc:`ContentListBundle </bundles/SWPContentListBundle/index>`.

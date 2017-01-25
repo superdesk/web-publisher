@@ -45,5 +45,5 @@ interface LoaderInterface
      *
      * @return bool false if loader don't support this type, true otherwise
      */
-    public function isSupported(string $type) : bool;
+    public function isSupported(string $type): bool;
 }

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Superdesk Web Publisher Core Bundle.
  *
@@ -15,12 +17,16 @@
 namespace SWP\Bundle\CoreBundle\EventListener;
 
 use SWP\Bundle\ContentBundle\Event\ArticleEvent;
+use SWP\Bundle\ContentListBundle\Event\ContentListEvent;
+use SWP\Bundle\CoreBundle\Matcher\ArticleCriteriaMatcherInterface;
+use SWP\Component\Common\Criteria\Criteria;
+use SWP\Component\ContentList\ContentListEvents;
 use SWP\Component\ContentList\Model\ContentListInterface;
 use SWP\Component\ContentList\Model\ContentListItemInterface;
+use SWP\Component\ContentList\Model\ListContentInterface;
 use SWP\Component\ContentList\Repository\ContentListRepositoryInterface;
-use SWP\Component\Rule\Evaluator\RuleEvaluatorInterface;
-use SWP\Component\Rule\Model\RuleInterface;
 use SWP\Component\Storage\Factory\FactoryInterface;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class AutomaticListAddArticleListener
 {
@@ -35,33 +41,25 @@ class AutomaticListAddArticleListener
     private $listItemFactory;
 
     /**
-     * @var RuleEvaluatorInterface
+     * @var ArticleCriteriaMatcherInterface
      */
-    private $ruleEvaluator;
+    private $articleCriteriaMatcher;
 
     /**
-     * @var FactoryInterface
+     * @var EventDispatcherInterface
      */
-    private $ruleFactory;
+    private $eventDispatcher;
 
-    /**
-     * ContentListListener constructor.
-     *
-     * @param ContentListRepositoryInterface $listRepository
-     * @param FactoryInterface               $listItemFactory
-     * @param RuleEvaluatorInterface         $ruleEvaluator
-     * @param FactoryInterface               $ruleFactory
-     */
     public function __construct(
         ContentListRepositoryInterface $listRepository,
         FactoryInterface $listItemFactory,
-        RuleEvaluatorInterface $ruleEvaluator,
-        FactoryInterface $ruleFactory
+        ArticleCriteriaMatcherInterface $articleCriteriaMatcher,
+        EventDispatcherInterface $eventDispatcher
     ) {
         $this->listRepository = $listRepository;
         $this->listItemFactory = $listItemFactory;
-        $this->ruleEvaluator = $ruleEvaluator;
-        $this->ruleFactory = $ruleFactory;
+        $this->articleCriteriaMatcher = $articleCriteriaMatcher;
+        $this->eventDispatcher = $eventDispatcher;
     }
 
     /**
@@ -71,17 +69,25 @@ class AutomaticListAddArticleListener
     {
         $article = $event->getArticle();
         /** @var ContentListInterface[] $contentLists */
-        $contentLists = $this->listRepository->findByType(ContentListInterface::TYPE_AUTOMATIC);
-        /** @var RuleInterface $rule */
-        $rule = $this->ruleFactory->create();
+        $contentLists = $this->listRepository->findAll();
 
         foreach ($contentLists as $contentList) {
-            $rule->setExpression($contentList->getExpression());
-            if ($this->ruleEvaluator->evaluate($rule, $article)) {
-                /** @var ContentListItemInterface $contentListItem */
+            $filters = $contentList->getFilters();
+
+            if ($this->articleCriteriaMatcher->match($article, new Criteria($filters))) {
+                /* @var ContentListItemInterface $contentListItem */
                 $contentListItem = $this->listItemFactory->create();
-                $contentListItem->setContent($article);
+
+                if ($article instanceof ListContentInterface) {
+                    $contentListItem->setContent($article);
+                }
+
+                $contentListItem->setPosition($contentList->getItems()->count());
                 $contentList->addItem($contentListItem);
+                $this->eventDispatcher->dispatch(
+                    ContentListEvents::POST_ITEM_ADD,
+                    new ContentListEvent($contentList, $contentListItem)
+                );
             }
         }
     }

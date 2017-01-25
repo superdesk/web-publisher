@@ -75,5 +75,5 @@ interface ArticleProviderInterface
      *
      * @return int
      */
-    public function getCountByCriteria(Criteria $criteria) : int;
+    public function getCountByCriteria(Criteria $criteria): int;
 }

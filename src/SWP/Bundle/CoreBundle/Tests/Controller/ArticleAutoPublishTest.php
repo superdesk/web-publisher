@@ -14,6 +14,7 @@
 
 namespace SWP\Bundle\CoreBundle\Tests\Controller;
 
+use SWP\Bundle\ContentBundle\Model\RouteInterface;
 use SWP\Bundle\FixturesBundle\WebTestCase;
 use Symfony\Component\Routing\RouterInterface;
 
@@ -58,9 +59,9 @@ class ArticleAutoPublishTest extends WebTestCase
 
         $content = $this->createRouteAndPushContent();
 
-        self::assertArrayHasKey('is_publishable', $content);
-        self::assertEquals($content['is_publishable'], true);
-        self::assertNotNull($content['published_at']);
+        self::assertArrayHasKey('isPublishable', $content);
+        self::assertEquals($content['isPublishable'], true);
+        self::assertNotNull($content['publishedAt']);
         self::assertEquals($content['status'], 'published');
     }
 
@@ -84,9 +85,9 @@ class ArticleAutoPublishTest extends WebTestCase
 
         $content = $this->createRouteAndPushContent();
 
-        self::assertArrayHasKey('is_publishable', $content);
-        self::assertEquals($content['is_publishable'], false);
-        self::assertNull($content['published_at']);
+        self::assertArrayHasKey('isPublishable', $content);
+        self::assertEquals($content['isPublishable'], false);
+        self::assertNull($content['publishedAt']);
         self::assertEquals($content['status'], 'new');
     }
 
@@ -110,10 +111,76 @@ class ArticleAutoPublishTest extends WebTestCase
 
         $content = $this->createRouteAndPushContent();
 
-        self::assertArrayHasKey('is_publishable', $content);
-        self::assertEquals($content['is_publishable'], false);
-        self::assertNull($content['published_at']);
+        self::assertArrayHasKey('isPublishable', $content);
+        self::assertEquals($content['isPublishable'], false);
+        self::assertNull($content['publishedAt']);
         self::assertEquals($content['status'], 'new');
+    }
+
+    public function testAssignRouteContentWhenArticleIsPublished()
+    {
+        $client = static::createClient();
+
+        $client->request('POST', $this->router->generate('swp_api_content_create_routes'), [
+            'route' => [
+                'name' => 'article',
+                'type' => RouteInterface::TYPE_CONTENT,
+            ],
+        ]);
+
+        self::assertEquals(201, $client->getResponse()->getStatusCode());
+
+        $route = json_decode($client->getResponse()->getContent(), true);
+
+        $client->request('POST', $this->router->generate('swp_api_core_create_rule'), [
+            'rule' => [
+                'expression' => 'article.getMetadataByKey("located") matches "/Sydney/"',
+                'priority' => 1,
+                'configuration' => [
+                    [
+                        'key' => 'published',
+                        'value' => true,
+                    ],
+                    [
+                        'key' => 'route',
+                        'value' => $route['id'],
+                    ],
+                ],
+            ],
+        ]);
+
+        self::assertEquals(201, $client->getResponse()->getStatusCode());
+
+        $client->request(
+            'POST',
+            $this->router->generate('swp_api_content_push'),
+            [],
+            [],
+            ['CONTENT_TYPE' => 'application/json'],
+            self::TEST_ITEM_CONTENT
+        );
+
+        self::assertEquals(201, $client->getResponse()->getStatusCode());
+
+        $client->request('GET', $this->router->generate('swp_api_content_show_routes', [
+            'id' => $route['id'],
+        ]));
+
+        self::assertEquals(200, $client->getResponse()->getStatusCode());
+
+        $content = json_decode($client->getResponse()->getContent(), true);
+
+        $client->request(
+            'GET',
+            $this->router->generate('swp_api_content_show_articles', ['id' => 'abstract-html-test'])
+        );
+
+        self::assertEquals(200, $client->getResponse()->getStatusCode());
+
+        $article = json_decode($client->getResponse()->getContent(), true);
+
+        self::assertArrayHasKey('content', $content);
+        self::assertEquals($content['content']['id'], $article['id']);
     }
 
     private function createRouteAndPushContent()
@@ -123,7 +190,7 @@ class ArticleAutoPublishTest extends WebTestCase
         $client->request('POST', $this->router->generate('swp_api_content_create_routes'), [
             'route' => [
                 'name' => 'articles',
-                'type' => 'collection',
+                'type' => RouteInterface::TYPE_COLLECTION,
                 'content' => null,
             ],
         ]);

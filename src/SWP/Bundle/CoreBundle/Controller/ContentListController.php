@@ -24,8 +24,10 @@ use SWP\Component\Common\Pagination\PaginationData;
 use SWP\Component\Common\Response\ResourcesListResponse;
 use SWP\Component\Common\Response\ResponseContext;
 use SWP\Component\Common\Response\SingleResourceResponse;
+use SWP\Component\ContentList\ContentListEvents;
 use SWP\Component\ContentList\Model\ContentListInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\EventDispatcher\GenericEvent;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\ConflictHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -121,11 +123,19 @@ class ContentListController extends Controller
     public function updateAction(Request $request, $id)
     {
         $objectManager = $this->get('swp.object_manager.content_list');
+        /** @var ContentListInterface $contentList */
         $contentList = $this->findOr404($id);
+        $filters = $contentList->getFilters();
+
         $form = $this->createForm(ContentListType::class, $contentList, ['method' => $request->getMethod()]);
         $form->handleRequest($request);
 
         if ($form->isValid()) {
+            $this->get('event_dispatcher')->dispatch(
+                ContentListEvents::LIST_CRITERIA_CHANGE,
+                new GenericEvent($contentList, ['filters' => $filters])
+            );
+
             $objectManager->flush();
 
             return new SingleResourceResponse($contentList);

@@ -20,7 +20,7 @@ use Doctrine\ORM\QueryBuilder;
 use SWP\Component\Common\Criteria\Criteria;
 use SWP\Bundle\StorageBundle\Doctrine\ORM\EntityRepository;
 
-class ApiKeyRepository extends EntityRepository
+class ApiKeyRepository extends EntityRepository implements ApiKeyRepositoryInterface
 {
     /**
      * {@inheritdoc}

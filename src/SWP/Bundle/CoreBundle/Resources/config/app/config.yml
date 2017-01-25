@@ -47,7 +47,6 @@ jms_serializer:
                 namespace_prefix: "FOS\\UserBundle"
                 path: "@SWPCoreBundle/Resources/config/serializer/fos-user"
 
-
 swp_templates_system:
     persistence:
         orm:
@@ -81,8 +80,12 @@ swp_content:
             classes:
                 article:
                     model: SWP\Bundle\CoreBundle\Model\Article
+                media:
+                    model: SWP\Bundle\CoreBundle\Model\ArticleMedia
                 route:
                     model: SWP\Bundle\CoreBundle\Model\Route
+                image:
+                    model: SWP\Bundle\CoreBundle\Model\Image
 
 cmf_routing:
     dynamic:
@@ -102,6 +105,16 @@ swp_content_list:
                     model: SWP\Bundle\CoreBundle\Model\ContentListItem
                 list_content:
                     model: SWP\Bundle\CoreBundle\Model\Article
+
+swp_facebook_instant_articles:
+        persistence:
+            orm:
+                enabled: true
+                classes:
+                    facebook_application:
+                        model: SWP\Bundle\CoreBundle\Model\FacebookApplication
+                    facebook_page:
+                        model: SWP\Bundle\CoreBundle\Model\FacebookPage
 
 swp_bridge:
     persistence:
@@ -145,3 +158,13 @@ stof_doctrine_extensions:
             loggable: true
             sortable: true
             tree: true
+
+takeit_amp_html:
+    theme:
+        loader: 'swp.loader.amp_theme'
+        theme_path: 'amp/amp-theme'
+    model: SWP\Bundle\CoreBundle\Model\Article
+    checker: 'swp.checker.amp_support'
+    routing:
+        parameter_strategy:
+            enabled: true

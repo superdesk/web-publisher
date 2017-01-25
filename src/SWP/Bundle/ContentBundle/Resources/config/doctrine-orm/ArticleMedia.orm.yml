@@ -35,7 +35,7 @@ SWP\Bundle\ContentBundle\Model\ArticleMedia:
             nullable: true
     oneToMany:
         renditions:
-            targetEntity: SWP\Bundle\ContentBundle\Model\ImageRendition
+            targetEntity: SWP\Bundle\ContentBundle\Model\ImageRenditionInterface
             mappedBy: media
             orphanRemoval: true
             cascade: ["all"]
@@ -48,10 +48,17 @@ SWP\Bundle\ContentBundle\Model\ArticleMedia:
                 name: article_id
                 referencedColumnName: id
                 onDelete: CASCADE
-    oneToOne:
         file:
-            targetEntity: SWP\Bundle\ContentBundle\Model\File
-            mapped: file
+            targetEntity: SWP\Bundle\ContentBundle\Model\FileInterface
+            inversedBy: media
+            cascade: ["persist"]
+            joinColumn:
+                name: file_id
+                referencedColumnName: id
         image:
-            targetEntity: SWP\Bundle\ContentBundle\Model\Image
-            mapped: media
+            targetEntity: SWP\Bundle\ContentBundle\Model\ImageInterface
+            inversedBy: media
+            cascade: ["persist"]
+            joinColumn:
+                name: image_id
+                referencedColumnName: id

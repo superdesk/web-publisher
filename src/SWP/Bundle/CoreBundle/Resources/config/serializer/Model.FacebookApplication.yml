@@ -1,0 +1,22 @@
+SWP\Bundle\CoreBundle\Model\FacebookApplication:
+    exclusion_policy: ALL
+    properties:
+        id:
+            expose: true
+            type: integer
+        appId:
+            expose: true
+            type: integer
+        appSecret:
+            expose: true
+            type: string
+        createdAt:
+            expose: true
+            type: DateTime
+        updatedAt:
+            expose: true
+            type: DateTime
+    relations:
+        -   rel: list
+            href:
+                route: swp_api_list_facebook_applications
