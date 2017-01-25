@@ -16,25 +16,12 @@
 namespace SWP\Bundle\TemplatesSystemBundle\Repository;
 
 use SWP\Bundle\StorageBundle\Doctrine\ORM\EntityRepository;
-use SWP\Component\TemplatesSystem\Gimme\Model\ContainerInterface;
 
 /**
  * Container Repository.
  */
 class ContainerRepository extends EntityRepository
 {
-    public function getContainerWithSortedWidgets(ContainerInterface $container)
-    {
-        return $this->createQueryBuilder('c')
-            ->select('c', 'w')
-            ->leftJoin('c.widgets', 'w')
-            ->where('c.id = :container')
-            ->setParameter('container', $container)
-            ->orderBy('w.position', 'desc')
-            ->getQuery()
-            ->getOneOrNullResult();
-    }
-
     /**
      * Get Query for Container searched by name.
      *
