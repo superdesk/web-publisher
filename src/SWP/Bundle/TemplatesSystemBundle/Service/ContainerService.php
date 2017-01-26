@@ -18,6 +18,7 @@ use SWP\Bundle\TemplatesSystemBundle\Container\SimpleContainer;
 use SWP\Bundle\TemplatesSystemBundle\Model\Container;
 use SWP\Bundle\TemplatesSystemBundle\Widget\TemplatingWidgetHandler;
 use SWP\Component\Common\Event\HttpCacheEvent;
+use SWP\Component\TemplatesSystem\Gimme\Model\ContainerWidgetInterface;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
@@ -54,7 +55,7 @@ class ContainerService
 
     public function getContainer($name, array $parameters = [], $createIfNotExists = true)
     {
-        $containerEntity = $this->objectManager->getRepository('SWP\Bundle\TemplatesSystemBundle\Model\Container')
+        $containerEntity = $this->serviceContainer->get('swp.repository.container')
             ->getByName($name)
             ->getOneOrNullResult();
 
@@ -65,9 +66,9 @@ class ContainerService
         }
 
         $widgets = [];
-        $containerWidgets = $this->objectManager->getRepository('SWP\Bundle\TemplatesSystemBundle\Model\ContainerWidget')
-            ->getSortedWidgets(['container' => $containerEntity])
-            ->getResult();
+        /** @var ContainerWidgetInterface[] $containerWidgets */
+        $containerWidgets = $this->serviceContainer->get('swp.repository.container_widget')
+            ->findSortedWidgets($containerEntity);
 
         foreach ($containerWidgets as $containerWidget) {
             $widgetModel = $containerWidget->getWidget();

@@ -18,25 +18,25 @@ namespace spec\SWP\Bundle\CoreBundle\EventListener;
 
 use PhpSpec\ObjectBehavior;
 use SWP\Bundle\CoreBundle\EventListener\MenuWidgetDeleteListener;
+use SWP\Bundle\CoreBundle\Model\WidgetModelInterface;
 use SWP\Bundle\MenuBundle\Model\MenuItemInterface;
 use SWP\Component\Common\Exception\UnexpectedTypeException;
 use SWP\Component\Storage\Repository\RepositoryInterface;
-use SWP\Component\TemplatesSystem\Gimme\Model\WidgetModelInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
 
 final class MenuWidgetDeleteListenerSpec extends ObjectBehavior
 {
-    function let(RepositoryInterface $widgetRepository)
+    public function let(RepositoryInterface $widgetRepository)
     {
         $this->beConstructedWith($widgetRepository);
     }
 
-    function it_is_initializable()
+    public function it_is_initializable()
     {
         $this->shouldHaveType(MenuWidgetDeleteListener::class);
     }
 
-    function it_throws_exception(
+    public function it_throws_exception(
         GenericEvent $event,
         \stdClass $menuItem
     ) {
@@ -46,7 +46,7 @@ final class MenuWidgetDeleteListenerSpec extends ObjectBehavior
             ->duringOnMenuDeleted($event);
     }
 
-    function it_deletes_menu_widget_on_menu_deleted_event(
+    public function it_deletes_menu_widget_on_menu_deleted_event(
         GenericEvent $event,
         MenuItemInterface $menuItem,
         RepositoryInterface $widgetRepository,
@@ -62,7 +62,7 @@ final class MenuWidgetDeleteListenerSpec extends ObjectBehavior
         $this->onMenuDeleted($event);
     }
 
-    function it_deletes_menu_widget_only_for_root_menus(
+    public function it_deletes_menu_widget_only_for_root_menus(
         GenericEvent $event,
         MenuItemInterface $menuItem,
         RepositoryInterface $widgetRepository,
@@ -78,7 +78,7 @@ final class MenuWidgetDeleteListenerSpec extends ObjectBehavior
         $this->onMenuDeleted($event);
     }
 
-    function it_does_nothing_when_widget_does_not_exist(
+    public function it_does_nothing_when_widget_does_not_exist(
         GenericEvent $event,
         MenuItemInterface $menuItem,
         RepositoryInterface $widgetRepository,
