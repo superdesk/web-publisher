@@ -1,7 +1,9 @@
 <?php
 
+declare(strict_types=1);
+
 /*
- * This file is part of the Superdesk Web Publisher Template Engine Bundle.
+ * This file is part of the Superdesk Web Publisher Templates System Bundle.
  *
  * Copyright 2015 Sourcefabric z.u. and contributors.
  *
@@ -14,19 +16,28 @@
 
 namespace SWP\Bundle\TemplatesSystemBundle\Repository;
 
-use Gedmo\Sortable\Entity\Repository\SortableRepository;
+use SWP\Bundle\StorageBundle\Doctrine\ORM\EntityRepository;
+use SWP\Component\TemplatesSystem\Gimme\Model\ContainerInterface;
+use SWP\Component\TemplatesSystem\Repository\ContainerWidgetRepositoryInterface;
 
 /**
  * ContainerWidget Repository.
  */
-class ContainerWidgetRepository extends SortableRepository
+class ContainerWidgetRepository extends EntityRepository implements ContainerWidgetRepositoryInterface
 {
-    public function getSortedWidgets(array $groupValues = [])
+    /**
+     * {@inheritdoc}
+     */
+    public function findSortedWidgets(ContainerInterface $container): array
     {
-        $qb = parent::getBySortableGroupsQueryBuilder($groupValues)
+        return $this->createQueryBuilder('n')
             ->select('n', 'w')
-            ->leftJoin('n.widget', 'w');
-
-        return $qb->getQuery();
+            ->leftJoin('n.widget', 'w')
+            ->where('n.container = :container')
+            ->setParameter('container', $container)
+            ->addOrderBy('n.position')
+            ->getQuery()
+            ->getResult()
+        ;
     }
 }

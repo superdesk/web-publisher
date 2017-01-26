@@ -215,6 +215,11 @@ class MenuController extends Controller
      * )
      * @Route("/api/{version}/menus/{id}", options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_core_update_menu")
      * @Method("PATCH")
+     *
+     * @param Request $request
+     * @param int     $id
+     *
+     * @return SingleResourceResponse
      */
     public function updateAction(Request $request, $id)
     {
@@ -225,6 +230,7 @@ class MenuController extends Controller
         $form->handleRequest($request);
 
         if ($form->isValid()) {
+            $this->get('swp_menu.manager.menu_item')->update($menu);
             $objectManager->flush();
 
             return new SingleResourceResponse($menu);

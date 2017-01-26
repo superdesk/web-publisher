@@ -15,7 +15,7 @@
 
 namespace SWP\Bundle\TemplatesSystemBundle\Repository;
 
-use Doctrine\ORM\EntityRepository;
+use SWP\Bundle\StorageBundle\Doctrine\ORM\EntityRepository;
 
 /**
  * Container Repository.

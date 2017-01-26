@@ -26,11 +26,33 @@ abstract class TemplatingWidgetHandler extends AbstractWidgetHandler
      */
     protected $container;
 
+    /**
+     * TemplatingWidgetHandler constructor.
+     *
+     * @param WidgetModelInterface $widgetModel
+     * @param ContainerInterface   $container
+     */
     public function __construct(WidgetModelInterface $widgetModel, ContainerInterface $container)
     {
         parent::__construct($widgetModel);
 
         $this->container = $container;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getContainer()
+    {
+        return $this->container;
+    }
+
+    /**
+     * @return EngineInterface
+     */
+    public function getTemplating()
+    {
+        return $this->container->get('templating');
     }
 
     /**
@@ -48,21 +70,5 @@ abstract class TemplatingWidgetHandler extends AbstractWidgetHandler
         }
 
         return $this->getTemplating()->render(sprintf('widgets/%s', $templateName), $parameters);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getContainer()
-    {
-        return $this->container;
-    }
-
-    /**
-     * @return EngineInterface
-     */
-    public function getTemplating()
-    {
-        return $this->container->get('templating');
     }
 }

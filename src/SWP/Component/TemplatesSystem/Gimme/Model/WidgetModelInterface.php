@@ -14,12 +14,10 @@
 
 namespace SWP\Component\TemplatesSystem\Gimme\Model;
 
-use SWP\Component\Storage\Model\PersistableInterface;
-
 /**
  * Container Interface.
  */
-interface WidgetModelInterface extends PersistableInterface
+interface WidgetModelInterface
 {
     const TYPE_HTML = 1;
     const TYPE_ADSENSE = 2;
