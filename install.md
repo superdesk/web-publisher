@@ -43,10 +43,10 @@ Create database:
 docker-compose run php app/console doctrine:database:create
 ```
 
-Update database schema:
+Update database schema using Doctrine migrations:
 
 ```bash
-docker-compose run php app/console doctrine:schema:update --force
+docker-compose run php app/console doctrine:migrations:migrate
 ```
 
 Load fixtures:
@@ -82,7 +82,7 @@ Execute the following commands in terminal:
 
 ```bash
 php app/console doctrine:schema:create
-php app/console doctrine:schema:update --force
+php app/console doctrine:migrations:migrate
 php app/console swp:organization:create --default
 php app/console swp:tenant:create --default
 ```
@@ -93,7 +93,7 @@ needed to run the Publisher.
 Alternatively, in the development environment, to populate the database with test data (including a default tenant), you can create the database and load fixtures with the following sequence of commands
 
 ```bash
-php app/console doctrine:schema:update --force
+php app/console doctrine:migrations:migrate
 php app/console doctrine:fixtures:load
 ```
 

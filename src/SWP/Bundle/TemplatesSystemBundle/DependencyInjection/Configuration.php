@@ -84,7 +84,7 @@ class Configuration implements ConfigurationInterface
                                                 ->scalarNode('model')->cannotBeEmpty()->defaultValue(WidgetModel::class)->end()
                                                 ->scalarNode('interface')->cannotBeEmpty()->defaultValue(WidgetModelInterface::class)->end()
                                                 ->scalarNode('repository')->defaultValue(WidgetModelRepository::class)->end()
-                                                ->scalarNode('factory')->defaultValue(null)->end()
+                                                ->scalarNode('factory')->defaultValue(Factory::class)->end()
                                                 ->scalarNode('object_manager_name')->defaultValue(null)->end()
                                             ->end()
                                         ->end()

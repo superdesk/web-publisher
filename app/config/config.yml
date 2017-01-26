@@ -1,7 +1,6 @@
 imports:
     - { resource: "@SWPBridgeBundle/Resources/config/app/config.yml" }
     - { resource: "@SWPContentBundle/Resources/config/app/config.yml" }
-    - { resource: "@SWPTemplatesSystemBundle/Resources/config/app/config.yml" }
     - { resource: "@SWPMultiTenancyBundle/Resources/config/app/config.yml" }
     - { resource: "@SWPRuleBundle/Resources/config/app/config.yml" }
     - { resource: "@SWPMenuBundle/Resources/config/app/config.yml" }
@@ -16,6 +15,7 @@ imports:
 parameters:
     locale: en
     templating.cache_warmer.template_paths.class: "Symfony\\Bundle\\FrameworkBundle\\CacheWarmer\\TemplatePathsCacheWarmer"
+    twig_cache.extension.class: "SWP\\Bundle\\CoreBundle\\Twig\\TwigCacheProfilerExtension"
 
 framework:
     ide: 'phpstorm://open?file=%%f&line=%%l'
@@ -38,7 +38,7 @@ framework:
         engines: ['twig']
     default_locale:  "%locale%"
     trusted_hosts:   ~
-    trusted_proxies: ~
+    trusted_proxies: "%trusted_proxies%"
     fragments: { path: /_fragment }
     http_method_override: true
 
@@ -95,6 +95,12 @@ doctrine_cache:
         main_cache:
             type: "%doctrine_cache_driver%"
             namespace: "%secret%"
+
+doctrine_migrations:
+    dir_name: "%kernel.root_dir%/migrations"
+    namespace: SWP\Migrations
+    table_name: swp_migration
+    name: Publisher Migrations
 
 # Swiftmailer Configuration
 swiftmailer:

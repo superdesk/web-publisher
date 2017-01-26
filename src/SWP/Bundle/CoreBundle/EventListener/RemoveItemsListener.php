@@ -77,7 +77,6 @@ final class RemoveItemsListener
         if ($contentList->getFilters() !== $event->getArgument('filters')) {
             $this->contentListItemsRemover->removeContentListItems($contentList);
             $filters = $contentList->getFilters();
-            $filters = $this->convertDateFilters($filters);
             $filters = $this->determineLimit($contentList, $filters);
 
             $articles = $this->articleRepository->findArticlesByCriteria(
@@ -95,19 +94,6 @@ final class RemoveItemsListener
                 ++$position;
             }
         }
-    }
-
-    private function convertDateFilters(array $filters)
-    {
-        $dateFilters = ['publishedAt', 'publishedBefore', 'publishedAfter'];
-        foreach ($dateFilters as $filter) {
-            if (isset($filters[$filter])) {
-                $dateFilter = new \DateTime($filters[$filter]);
-                $filters[$filter] = $dateFilter->format('Y-m-d');
-            }
-        }
-
-        return $filters;
     }
 
     private function determineLimit(ContentListInterface $contentList, array $filters)

@@ -4,3 +4,6 @@ SWP\Bundle\CoreBundle\Model\Article:
     fields:
         tenantCode:
             type: string
+    uniqueConstraints:
+        swp_article_slug_idx:
+          columns: [ slug, tenant_code ]

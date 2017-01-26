@@ -1,7 +1,9 @@
 <?php
 
+declare(strict_types=1);
+
 /*
- * This file is part of the Superdesk Web Publisher Template Engine Bundle.
+ * This file is part of the Superdesk Web Publisher Templates System Bundle.
  *
  * Copyright 2015 Sourcefabric z.u. and contributors.
  *
@@ -14,17 +16,16 @@
 
 namespace SWP\Bundle\TemplatesSystemBundle\Repository;
 
-use Gedmo\Sortable\Entity\Repository\SortableRepository;
+use SWP\Bundle\StorageBundle\Doctrine\ORM\EntityRepository;
+use SWP\Component\TemplatesSystem\Repository\ContainerWidgetRepositoryInterface;
 
 /**
  * ContainerWidget Repository.
  */
-class ContainerWidgetRepository extends SortableRepository
+class ContainerWidgetRepository extends EntityRepository implements ContainerWidgetRepositoryInterface
 {
     /**
-     * @param array $groupValues
-     *
-     * @return \Doctrine\ORM\QueryBuilder
+     * {@inheritdoc}
      */
     public function getSortedWidgets(array $groupValues = [])
     {

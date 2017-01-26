@@ -4,3 +4,6 @@ SWP\Bundle\CoreBundle\Model\Route:
     fields:
         tenantCode:
             type: string
+    uniqueConstraints:
+        swp_route_name_idx:
+            columns: [ name, tenant_code ]

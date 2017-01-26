@@ -22,7 +22,6 @@ use SWP\Bundle\ContentBundle\Model\ArticleMediaInterface;
 use SWP\Bundle\ContentBundle\Provider\AbstractProvider;
 use SWP\Bundle\ContentBundle\Provider\ArticleMediaProviderInterface;
 use SWP\Component\Common\Criteria\Criteria;
-use SWP\Component\Storage\Repository\RepositoryInterface;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -33,17 +32,17 @@ use Doctrine\Common\Collections\Collection;
 class ArticleMediaProvider extends AbstractProvider implements ArticleMediaProviderInterface
 {
     /**
-     * @var RepositoryInterface
+     * @var ArticleMediaRepositoryInterface
      */
     private $articleMediaRepository;
 
     /**
-     * ArticleProvider constructor.
+     * ArticleMediaProvider constructor.
      *
-     * @param RepositoryInterface $articleMediaRepository
+     * @param ArticleMediaRepositoryInterface $articleMediaRepository
      */
     public function __construct(
-        RepositoryInterface $articleMediaRepository
+        ArticleMediaRepositoryInterface $articleMediaRepository
     ) {
         $this->articleMediaRepository = $articleMediaRepository;
     }

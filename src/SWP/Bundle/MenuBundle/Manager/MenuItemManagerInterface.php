@@ -26,4 +26,9 @@ interface MenuItemManagerInterface
      * @param int               $position
      */
     public function move(MenuItemInterface $sourceItem, MenuItemInterface $parent, int $position = 0);
+
+    /**
+     * @param MenuItemInterface $menu
+     */
+    public function update(MenuItemInterface $menu);
 }

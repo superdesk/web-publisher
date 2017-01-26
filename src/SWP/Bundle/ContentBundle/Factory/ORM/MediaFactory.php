@@ -29,7 +29,7 @@ use SWP\Bundle\ContentBundle\Model\ImageInterface;
 use SWP\Bundle\ContentBundle\Model\ImageRenditionInterface;
 use SWP\Component\Bridge\Model\ItemInterface;
 use SWP\Component\Bridge\Model\Rendition;
-use SWP\Component\Common\Criteria\Criteria;
+use SWP\Component\Storage\Factory\FactoryInterface;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class MediaFactory implements MediaFactoryInterface
@@ -40,30 +40,45 @@ class MediaFactory implements MediaFactoryInterface
     protected $imageRepository;
 
     /**
-     * @var string
+     * @var FactoryInterface
      */
-    protected $mediaModelClass;
+    protected $factory;
+
+    /**
+     * @var FactoryInterface
+     */
+    protected $imageFactory;
+
+    /**
+     * @var FactoryInterface
+     */
+    protected $fileFactory;
 
     /**
      * MediaFactory constructor.
      *
      * @param ImageRepositoryInterface $imageRepository
-     * @param string                   $mediaModelClass
+     * @param FactoryInterface         $factory
+     * @param FactoryInterface         $imageFactory
+     * @param FactoryInterface         $fileFactory
      */
     public function __construct(
         ImageRepositoryInterface $imageRepository,
-        string $mediaModelClass
+        FactoryInterface $factory,
+        FactoryInterface $imageFactory,
+        FactoryInterface $fileFactory
     ) {
         $this->imageRepository = $imageRepository;
-        $this->mediaModelClass = $mediaModelClass;
+        $this->factory = $factory;
+        $this->imageFactory = $imageFactory;
+        $this->fileFactory = $fileFactory;
     }
 
     public function create(ArticleInterface $article, string $key, ItemInterface $item): ArticleMediaInterface
     {
-        $articleMedia = new $this->mediaModelClass();
+        $articleMedia = $this->factory->create();
         $articleMedia->setArticle($article);
         $articleMedia->setFromItem($item);
-
         $articleMedia = $this->createImageMedia($articleMedia, $key, $item);
 
         return $articleMedia;
@@ -115,17 +130,13 @@ class MediaFactory implements MediaFactoryInterface
         }
 
         $originalRendition = $item->getRenditions()['original'];
-        $criteria = new Criteria();
-        $criteria->set('assetId', ArticleMedia::handleMediaId($originalRendition->getMedia()));
-
         $articleMedia->setMimetype($originalRendition->getMimetype());
         $articleMedia->setKey($key);
-        $image = $this->imageRepository->getByCriteria($criteria, [])->getQuery()->getOneOrNullResult();
+        $image = $this->findImage($originalRendition->getMedia());
         $articleMedia->setImage($image);
 
         foreach ($item->getRenditions() as $key => $rendition) {
-            $criteria->set('assetId', ArticleMedia::handleMediaId($rendition->getMedia()));
-            $image = $this->imageRepository->getByCriteria($criteria, [])->getQuery()->getOneOrNullResult();
+            $image = $this->findImage($rendition->getMedia());
             if (null === $image) {
                 continue;
             }
@@ -139,6 +150,12 @@ class MediaFactory implements MediaFactoryInterface
         return $articleMedia;
     }
 
+    private function findImage(string $mediaId)
+    {
+        return $this->imageRepository
+            ->findImageByAssetId(ArticleMedia::handleMediaId($mediaId));
+    }
+
     protected function getProperObject(UploadedFile $uploadedFile)
     {
         if (in_array(exif_imagetype($uploadedFile->getRealPath()), [
@@ -147,9 +164,9 @@ class MediaFactory implements MediaFactoryInterface
             IMAGETYPE_PNG,
             IMAGETYPE_BMP,
         ])) {
-            return new Image();
+            return $this->imageFactory->create();
         }
 
-        return new File();
+        return $this->fileFactory->create();
     }
 }

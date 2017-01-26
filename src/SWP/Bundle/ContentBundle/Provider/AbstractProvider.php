@@ -32,11 +32,9 @@ abstract class AbstractProvider
      */
     public function getManyByCriteria(Criteria $criteria): Collection
     {
-        $results = $this->getRepository()->getByCriteria(
-            $criteria,
-            $criteria->get('order', [])
-        )->getQuery()->getResult();
+        $result = $this->getRepository()
+            ->findArticlesByCriteria($criteria, $criteria->get('order', []));
 
-        return new ArrayCollection($results);
+        return new ArrayCollection($result);
     }
 }

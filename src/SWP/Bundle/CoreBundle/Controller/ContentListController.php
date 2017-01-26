@@ -130,12 +130,12 @@ class ContentListController extends Controller
         $form = $this->createForm(ContentListType::class, $contentList, ['method' => $request->getMethod()]);
         $form->handleRequest($request);
 
-        $this->get('event_dispatcher')->dispatch(
-            ContentListEvents::LIST_CRITERIA_CHANGE,
-            new GenericEvent($contentList, ['filters' => $filters])
-        );
-
         if ($form->isValid()) {
+            $this->get('event_dispatcher')->dispatch(
+                ContentListEvents::LIST_CRITERIA_CHANGE,
+                new GenericEvent($contentList, ['filters' => $filters])
+            );
+
             $objectManager->flush();
 
             return new SingleResourceResponse($contentList);

@@ -18,18 +18,15 @@ use Doctrine\Common\Collections\ArrayCollection;
 use SWP\Bundle\TemplatesSystemBundle\Widget\GoogleAdSenseWidgetHandler;
 use SWP\Bundle\TemplatesSystemBundle\Widget\MenuWidgetHandler;
 use SWP\Component\Common\Model\TimestampableInterface;
+use SWP\Component\Storage\Model\PersistableInterface;
 use SWP\Component\TemplatesSystem\Gimme\Model\WidgetModelInterface;
 use SWP\Component\TemplatesSystem\Gimme\Widget\HtmlWidgetHandler;
 
 /**
  * WidgetModel.
  */
-class WidgetModel implements WidgetModelInterface, TimestampableInterface
+class WidgetModel implements WidgetModelInterface, TimestampableInterface, PersistableInterface
 {
-    const TYPE_HTML = 1;
-    const TYPE_ADSENSE = 2;
-    const TYPE_MENU = 3;
-
     protected $types = [
         self::TYPE_HTML => HtmlWidgetHandler::class,
         self::TYPE_ADSENSE => GoogleAdSenseWidgetHandler::class,
@@ -76,6 +73,9 @@ class WidgetModel implements WidgetModelInterface, TimestampableInterface
      */
     protected $updatedAt = null;
 
+    /**
+     * WidgetModel constructor.
+     */
     public function __construct()
     {
         $this->createdAt = new \DateTime();
@@ -195,11 +195,11 @@ class WidgetModel implements WidgetModelInterface, TimestampableInterface
     /**
      * Sets the value of parameters.
      *
-     * @param [] $parameters the parameters
+     * @param array $parameters the parameters
      *
      * @return WidgetModel
      */
-    public function setParameters($parameters = [])
+    public function setParameters(array $parameters = [])
     {
         $this->parameters = $parameters;
 
@@ -214,20 +214,6 @@ class WidgetModel implements WidgetModelInterface, TimestampableInterface
     public function getContainers()
     {
         return $this->containers;
-    }
-
-    /**
-     * Sets the value of containers.
-     *
-     * @param ArrayCollection $containers the containers
-     *
-     * @return WidgetModel
-     */
-    protected function setContainers(ArrayCollection $containers)
-    {
-        $this->containers = $containers;
-
-        return $this;
     }
 
     /**
@@ -264,5 +250,19 @@ class WidgetModel implements WidgetModelInterface, TimestampableInterface
     public function setUpdatedAt(\DateTime $updatedAt)
     {
         $this->updatedAt = $updatedAt;
+    }
+
+    /**
+     * Sets the value of containers.
+     *
+     * @param ArrayCollection $containers the containers
+     *
+     * @return WidgetModel
+     */
+    protected function setContainers(ArrayCollection $containers)
+    {
+        $this->containers = $containers;
+
+        return $this;
     }
 }

@@ -23,7 +23,7 @@ use SWP\Component\MultiTenancy\Model\TenantAwareTrait;
 use SWP\Component\Revision\RevisionAwareInterface;
 use SWP\Component\Revision\RevisionAwareTrait;
 
-class WidgetModel extends BaseWidgetModel implements TenantAwareInterface, RevisionAwareInterface
+class WidgetModel extends BaseWidgetModel implements WidgetModelInterface, TenantAwareInterface, RevisionAwareInterface
 {
     const TYPE_LIST = 4;
 

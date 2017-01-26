@@ -50,9 +50,6 @@ SWP\Bundle\ContentBundle\Model\Article:
         metadata:
             type: text
             nullable: true
-    uniqueConstraints:
-        swp_article_slug_idx:
-          columns: [ slug ]
     manyToOne:
         route:
             targetEntity: SWP\Bundle\ContentBundle\Model\RouteInterface
@@ -64,6 +61,6 @@ SWP\Bundle\ContentBundle\Model\Article:
                 onDelete: "SET NULL"
     oneToMany:
         media:
-            targetEntity: SWP\Bundle\ContentBundle\Model\ArticleMedia
+            targetEntity: SWP\Bundle\ContentBundle\Model\ArticleMediaInterface
             mappedBy: article
             cascade: ["remove"]

@@ -152,6 +152,10 @@ class ArticleLoader extends PaginatedLoader implements LoaderInterface
                 }
             }
 
+            if (isset($parameters['metadata'])) {
+                $criteria->set('metadata', $parameters['metadata']);
+            }
+
             $criteria = $this->applyPaginationToCriteria($criteria, $parameters);
             $articles = $this->articleProvider->getManyByCriteria($criteria);
             if ($articles->count() > 0) {

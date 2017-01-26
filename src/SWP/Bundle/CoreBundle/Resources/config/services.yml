@@ -201,3 +201,18 @@ services:
         arguments: ["@swp.factory.revision", "@swp_revision.context.revision", "@event_dispatcher"]
         calls:
             - [setObjectManager, ['@swp.object_manager.revision']]
+
+    swp.listener.menu.widget_create:
+        class: SWP\Bundle\CoreBundle\EventListener\MenuWidgetCreateListener
+        arguments:
+            - '@swp.factory.widget_model'
+            - '@swp.repository.widget_model'
+        tags:
+            - { name: kernel.event_listener, event: swp.menu.created, method: onMenuCreated }
+
+    swp.listener.menu.widget_delete:
+        class: SWP\Bundle\CoreBundle\EventListener\MenuWidgetDeleteListener
+        arguments:
+            - '@swp.repository.widget_model'
+        tags:
+            - { name: kernel.event_listener, event: swp.menu.deleted, method: onMenuDeleted }

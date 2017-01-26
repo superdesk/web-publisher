@@ -8,6 +8,9 @@ in 0.1 minor versions.
 To get the diff for a specific change, go to https://github.com/superdesk/web-publisher/commit/XXX where XXX is the change hash
 
 * 0.2.0
+ * feature [#219] Automatically create menu widget when root menu/navigation is created
+ * feature [#218] Assign article to route of type content automatically when article is published
+ * feature [#215] Filter articles by metadata in gimmelist
  * feature [#213] Implement and expose article's keywords
  * feature [#211] Create Automatic list widget
  * feature [#209] Add option to ignore context meta in loaders 
