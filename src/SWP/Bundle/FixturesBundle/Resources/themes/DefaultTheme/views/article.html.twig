@@ -10,10 +10,6 @@
   <!-- Content -->
   <section id="content">
 
-{# gimmelist media from articleMedia|limit(1) with {'article': article} %}
-{{ dump(media) }}
-{% endgimmelist #}
-
     <div class="row article_content">
     {% cache 'article' {gen: gimme.article} %}
 

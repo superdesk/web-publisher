@@ -24,7 +24,6 @@ gulp.task('version', function () {
 });
 
 
-
 // service worker generator
 gulp.task('sw', function(callback) {
   var packageJson = require('./package.json');
