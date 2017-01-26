@@ -95,6 +95,12 @@ doctrine_cache:
             type: "%doctrine_cache_driver%"
             namespace: "%secret%"
 
+doctrine_migrations:
+    dir_name: "%kernel.root_dir%/migrations"
+    namespace: SWP\Migrations
+    table_name: swp_migration
+    name: Publisher Migrations
+
 # Swiftmailer Configuration
 swiftmailer:
     transport: "%mailer_transport%"
