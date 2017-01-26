@@ -18,13 +18,14 @@ use Doctrine\Common\Collections\ArrayCollection;
 use SWP\Bundle\TemplatesSystemBundle\Widget\GoogleAdSenseWidgetHandler;
 use SWP\Bundle\TemplatesSystemBundle\Widget\MenuWidgetHandler;
 use SWP\Component\Common\Model\TimestampableInterface;
+use SWP\Component\Storage\Model\PersistableInterface;
 use SWP\Component\TemplatesSystem\Gimme\Model\WidgetModelInterface;
 use SWP\Component\TemplatesSystem\Gimme\Widget\HtmlWidgetHandler;
 
 /**
  * WidgetModel.
  */
-class WidgetModel implements WidgetModelInterface, TimestampableInterface
+class WidgetModel implements WidgetModelInterface, TimestampableInterface, PersistableInterface
 {
     protected $types = [
         self::TYPE_HTML => HtmlWidgetHandler::class,
@@ -72,6 +73,9 @@ class WidgetModel implements WidgetModelInterface, TimestampableInterface
      */
     protected $updatedAt = null;
 
+    /**
+     * WidgetModel constructor.
+     */
     public function __construct()
     {
         $this->createdAt = new \DateTime();
@@ -213,20 +217,6 @@ class WidgetModel implements WidgetModelInterface, TimestampableInterface
     }
 
     /**
-     * Sets the value of containers.
-     *
-     * @param ArrayCollection $containers the containers
-     *
-     * @return WidgetModel
-     */
-    protected function setContainers(ArrayCollection $containers)
-    {
-        $this->containers = $containers;
-
-        return $this;
-    }
-
-    /**
      * {@inheritdoc}
      */
     public function getCreatedAt()
@@ -260,5 +250,19 @@ class WidgetModel implements WidgetModelInterface, TimestampableInterface
     public function setUpdatedAt(\DateTime $updatedAt)
     {
         $this->updatedAt = $updatedAt;
+    }
+
+    /**
+     * Sets the value of containers.
+     *
+     * @param ArrayCollection $containers the containers
+     *
+     * @return WidgetModel
+     */
+    protected function setContainers(ArrayCollection $containers)
+    {
+        $this->containers = $containers;
+
+        return $this;
     }
 }
