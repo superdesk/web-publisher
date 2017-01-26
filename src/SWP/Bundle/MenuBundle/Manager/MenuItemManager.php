@@ -17,6 +17,7 @@ declare(strict_types=1);
 namespace SWP\Bundle\MenuBundle\Manager;
 
 use Doctrine\Common\Persistence\ObjectManager;
+use Knp\Menu\Factory\ExtensionInterface;
 use SWP\Bundle\MenuBundle\Doctrine\MenuItemRepositoryInterface;
 use SWP\Bundle\MenuBundle\Model\MenuItemInterface;
 use Symfony\Component\HttpKernel\Exception\ConflictHttpException;
@@ -35,15 +36,24 @@ final class MenuItemManager implements MenuItemManagerInterface
     protected $objectManager;
 
     /**
+     * @var ExtensionInterface
+     */
+    protected $extensionsChain;
+
+    /**
      * MenuItemManager constructor.
      *
      * @param MenuItemRepositoryInterface $menuItemRepository
      * @param ObjectManager               $objectManager
      */
-    public function __construct(MenuItemRepositoryInterface $menuItemRepository, ObjectManager $objectManager)
-    {
+    public function __construct(
+        MenuItemRepositoryInterface $menuItemRepository,
+        ObjectManager $objectManager,
+        ExtensionInterface $extensionsChain
+    ) {
         $this->menuItemRepository = $menuItemRepository;
         $this->objectManager = $objectManager;
+        $this->extensionsChain = $extensionsChain;
     }
 
     /**
@@ -77,6 +87,20 @@ final class MenuItemManager implements MenuItemManagerInterface
 
         $sourceItem->setPosition($position);
         $this->objectManager->flush();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function update(MenuItemInterface $menu)
+    {
+        // Make copy of label as it's cleared by one of extensions
+        $label = $menu->getLabel();
+        $options = $this->extensionsChain->buildOptions([
+            'route' => $menu->getRoute() ? $menu->getRoute()->getName() : null,
+        ]);
+        $this->extensionsChain->buildItem($menu, $options);
+        $menu->setLabel($label);
     }
 
     private function ensurePositionIsValid(MenuItemInterface $menuItem, int $position)

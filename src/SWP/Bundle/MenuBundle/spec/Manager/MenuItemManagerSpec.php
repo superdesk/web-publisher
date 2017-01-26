@@ -15,6 +15,7 @@
 namespace spec\SWP\Bundle\MenuBundle\Manager;
 
 use Doctrine\Common\Persistence\ObjectManager;
+use Knp\Menu\Factory\ExtensionInterface;
 use SWP\Bundle\MenuBundle\Doctrine\MenuItemRepositoryInterface;
 use SWP\Bundle\MenuBundle\Manager\MenuItemManager;
 use PhpSpec\ObjectBehavior;
@@ -28,9 +29,9 @@ use Symfony\Component\HttpKernel\Exception\HttpException;
  */
 final class MenuItemManagerSpec extends ObjectBehavior
 {
-    public function let(MenuItemRepositoryInterface $menuItemRepository, ObjectManager $objectManager)
+    public function let(MenuItemRepositoryInterface $menuItemRepository, ObjectManager $objectManager, ExtensionInterface $extensionChain)
     {
-        $this->beConstructedWith($menuItemRepository, $objectManager);
+        $this->beConstructedWith($menuItemRepository, $objectManager, $extensionChain);
     }
 
     public function it_is_initializable()
