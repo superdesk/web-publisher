@@ -65,7 +65,7 @@
         "doctrine/doctrine-cache-bundle": "1.3.*",
         "guzzlehttp/guzzle": "^6.2",
         "twig/extensions": "~1.0",
-        "twig/twig": "1.27.0",
+        "twig/twig": "1.29.0",
         "emanueleminotto/twig-cache-bundle": "~1.0",
         "incenteev/composer-parameter-handler": "~2.0",
         "friendsofsymfony/http-cache-bundle": "^2.0@dev",
