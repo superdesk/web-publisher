@@ -25,7 +25,6 @@ use SWP\Bundle\ContentBundle\Event\ArticleEvent;
 use SWP\Bundle\ContentBundle\Form\Type\MediaFileType;
 use SWP\Bundle\ContentBundle\Model\ArticleMedia;
 use SWP\Component\Bridge\Model\PackageInterface;
-use SWP\Component\Common\Criteria\Criteria;
 use SWP\Component\Common\Response\ResponseContext;
 use SWP\Component\Common\Response\SingleResourceResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -92,6 +91,7 @@ class ContentPushController extends Controller
     {
         $form = $this->createForm(MediaFileType::class);
         $form->handleRequest($request);
+
         if ($form->isSubmitted() && $form->isValid()) {
             $mediaManager = $this->get('swp_content_bundle.manager.media');
             $uploadedFile = $form->getData()['media'];
@@ -136,9 +136,8 @@ class ContentPushController extends Controller
      */
     public function getAssetsAction($mediaId)
     {
-        $media = $this->get('swp.repository.image')->getByCriteria(new Criteria([
-            'assetId' => ArticleMedia::handleMediaId($mediaId),
-        ]), [], 'am')->getQuery()->getOneOrNullResult();
+        $media = $this->get('swp.repository.media')
+            ->findMediaByAssetId(ArticleMedia::handleMediaId($mediaId));
 
         if (null === $media) {
             throw new NotFoundHttpException('Media don\'t exist in storage');
@@ -148,9 +147,9 @@ class ContentPushController extends Controller
 
         return new SingleResourceResponse([
             'media_id' => $mediaId,
-            'URL' => $mediaManager->getMediaPublicUrl($media),
-            'media' => base64_encode($mediaManager->getFile($media)),
-            'mime_type' => Mime::getMimeFromExtension($media->getFileExtension()),
+            'URL' => $mediaManager->getMediaPublicUrl($media->getImage()),
+            'media' => base64_encode($mediaManager->getFile($media->getImage())),
+            'mime_type' => Mime::getMimeFromExtension($media->getImage()->getFileExtension()),
             'filemeta' => [],
         ]);
     }

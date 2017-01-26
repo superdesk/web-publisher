@@ -35,23 +35,27 @@ class WidgetType extends AbstractType
             ])
             ->add('parameters', TextType::class, [
                 'required' => false,
-            ])
+            ]);
+
+        $builder->get('parameters')
             ->addModelTransformer(new CallbackTransformer(
-                function ($originalDescription) {
-                    if ($originalDescription && is_array($originalDescription->getParameters())) {
-                        $originalDescription->setParameters(json_encode($originalDescription->getParameters()));
+                function ($value) {
+                    if (is_array($value) && !empty($value)) {
+                        return json_encode($value);
                     }
 
-                    return $originalDescription;
+                    return $value;
                 },
-                function ($submittedDescription) {
-                    if ($submittedDescription && is_string($submittedDescription->getParameters())) {
-                        $submittedDescription->setParameters(json_decode($submittedDescription->getParameters(), true));
-                    } elseif ($submittedDescription && !is_array($submittedDescription->getParameters())) {
-                        $submittedDescription->setParameters([]);
+                function ($value) {
+                    if (is_string($value)) {
+                        return json_decode($value, true);
                     }
 
-                    return $submittedDescription;
+                    if (null === $value) {
+                        return [];
+                    }
+
+                    return $value;
                 }
             ));
     }

@@ -18,6 +18,7 @@ use SWP\Component\Storage\Factory\Factory;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\Definition;
+use Symfony\Component\DependencyInjection\Parameter;
 
 class RegisterMediaFactoryPass implements CompilerPassInterface
 {
@@ -30,11 +31,20 @@ class RegisterMediaFactoryPass implements CompilerPassInterface
             return;
         }
 
+        $baseDefinition = new Definition(
+            Factory::class,
+            [
+                new Parameter('swp.model.media.class'),
+            ]
+        );
+
         $mediaFactoryDefinition = new Definition(
             $container->getParameter('swp.factory.media.class'),
             [
                 $container->getDefinition('swp.repository.image'),
-                $container->getParameter('swp.model.media.class'),
+                $baseDefinition,
+                $container->getDefinition('swp.factory.image'),
+                $container->getDefinition('swp.factory.file'),
             ]
         );
 

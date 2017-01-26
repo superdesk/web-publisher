@@ -293,6 +293,7 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface, Orde
                             true
                         );
                         $image = $mediaManager->handleUploadedFile($uploadedFile, $mediaId);
+                        $articleMedia->setImage($image);
 
                         $imageRendition = new ImageRendition();
                         $imageRendition->setImage($image);
