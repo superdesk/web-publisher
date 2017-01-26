@@ -22,22 +22,22 @@ use SWP\Bundle\MenuBundle\Model\MenuItemInterface;
 use SWP\Component\Common\Exception\UnexpectedTypeException;
 use SWP\Component\Storage\Factory\FactoryInterface;
 use SWP\Component\Storage\Repository\RepositoryInterface;
-use SWP\Component\TemplatesSystem\Gimme\Model\WidgetModelInterface;
+use SWP\Bundle\CoreBundle\Model\WidgetModelInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
 
 final class MenuWidgetCreateListenerSpec extends ObjectBehavior
 {
-    function let(FactoryInterface $widgetFactory, RepositoryInterface $widgetRepository)
+    public function let(FactoryInterface $widgetFactory, RepositoryInterface $widgetRepository)
     {
         $this->beConstructedWith($widgetFactory, $widgetRepository);
     }
 
-    function it_is_initializable()
+    public function it_is_initializable()
     {
         $this->shouldHaveType(MenuWidgetCreateListener::class);
     }
 
-    function it_throws_exception(
+    public function it_throws_exception(
         GenericEvent $event,
         \stdClass $menuItem
     ) {
@@ -47,7 +47,7 @@ final class MenuWidgetCreateListenerSpec extends ObjectBehavior
             ->duringOnMenuCreated($event);
     }
 
-    function it_creates_menu_widget_on_menu_created_event(
+    public function it_creates_menu_widget_on_menu_created_event(
         GenericEvent $event,
         MenuItemInterface $menuItem,
         FactoryInterface $widgetFactory,
@@ -68,7 +68,7 @@ final class MenuWidgetCreateListenerSpec extends ObjectBehavior
         $this->onMenuCreated($event);
     }
 
-    function it_creates_menu_widget_only_for_root_menus(
+    public function it_creates_menu_widget_only_for_root_menus(
         GenericEvent $event,
         MenuItemInterface $menuItem,
         FactoryInterface $widgetFactory,
