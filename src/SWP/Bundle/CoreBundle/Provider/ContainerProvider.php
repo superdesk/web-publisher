@@ -76,8 +76,6 @@ class ContainerProvider extends BaseContentProvider
     {
         return $this->containerWidgetRepository
             ->getSortedWidgets(['container' => $container])
-            ->andWhere('w.revision = :revision')
-            ->setParameter('revision', $this->revisionContext->getCurrentRevision())
             ->getQuery()
             ->getResult();
     }

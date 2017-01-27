@@ -51,6 +51,7 @@ class LoadTenantsData extends AbstractFixture implements FixtureInterface, Order
         $firstTenantPublishedRevision = $revisionManager->create();
         $firstTenantPublishedRevision->setTenantCode('123abc');
         $revisionManager->publish($firstTenantPublishedRevision);
+        $this->addReference('defult_tenant_revision', $firstTenantPublishedRevision);
 
         /** @var RevisionInterface|TenantAwareInterface $firstPublishedRevision */
         $secondTenantPublishedRevision = $revisionManager->create();

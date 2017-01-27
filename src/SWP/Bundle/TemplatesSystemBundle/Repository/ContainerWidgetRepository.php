@@ -16,14 +16,17 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\TemplatesSystemBundle\Repository;
 
-use SWP\Bundle\StorageBundle\Doctrine\ORM\EntityRepository;
+use Gedmo\Sortable\Entity\Repository\SortableRepository;
+use SWP\Bundle\StorageBundle\Doctrine\ORM\EntityRepositoryTrait;
 use SWP\Component\TemplatesSystem\Repository\ContainerWidgetRepositoryInterface;
 
 /**
  * ContainerWidget Repository.
  */
-class ContainerWidgetRepository extends EntityRepository implements ContainerWidgetRepositoryInterface
+class ContainerWidgetRepository extends SortableRepository implements ContainerWidgetRepositoryInterface
 {
+    use EntityRepositoryTrait;
+
     /**
      * {@inheritdoc}
      */

@@ -29,12 +29,15 @@ class LoadContainersData extends AbstractFixture implements FixtureInterface, Or
     {
         $env = $this->getEnvironment();
         if ('test' !== $env) {
+            $revision = $manager->merge($this->getReference('defult_tenant_revision'));
+
             $container1 = $this->container->get('swp.factory.container')->create();
             $container1->setName('mainNav');
             $container1->setType(1);
             $container1->setCssClass('container');
             $container1->setVisible(true);
             $container1->setTenantCode('123abc');
+            $container1->setRevision($revision);
 
             $containerWidget1 = $this->container->get('swp.factory.container_widget')
                 ->create($container1, $this->getReference('menu_widget_main'));
@@ -48,6 +51,7 @@ class LoadContainersData extends AbstractFixture implements FixtureInterface, Or
             $container2->setCssClass('container');
             $container2->setVisible(true);
             $container2->setTenantCode('123abc');
+            $container2->setRevision($revision);
 
             $containerWidget2 = $this->container->get('swp.factory.container_widget')
                 ->create($container2, $this->getReference('menu_widget_footer'));
