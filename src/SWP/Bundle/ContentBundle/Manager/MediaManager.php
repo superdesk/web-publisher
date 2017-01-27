@@ -71,7 +71,6 @@ class MediaManager implements MediaManagerInterface
     {
         $mediaId = ArticleMedia::handleMediaId($mediaId);
         $this->saveFile($uploadedFile, $mediaId);
-
         $asset = $this->mediaFactory->createMediaAsset($uploadedFile, $mediaId);
         $this->mediaRepository->persist($asset);
 
@@ -91,8 +90,13 @@ class MediaManager implements MediaManagerInterface
      */
     public function saveFile(UploadedFile $uploadedFile, $fileName)
     {
+        $filePath = $this->getMediaBasePath().'/'.$fileName.'.'.$uploadedFile->guessClientExtension();
+        if ($this->filesystem->has($filePath)) {
+            return true;
+        }
+
         $stream = fopen($uploadedFile->getRealPath(), 'r+');
-        $result = $this->filesystem->writeStream($this->getMediaBasePath().'/'.$fileName.'.'.$uploadedFile->guessClientExtension(), $stream);
+        $result = $this->filesystem->writeStream($filePath, $stream);
         fclose($stream);
 
         return $result;
