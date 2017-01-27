@@ -78,7 +78,7 @@ class ProcessArticleMediaListenerTest extends WebTestCase
         $expected = $text = <<<'EOT'
  <p>here goes the picture</p><p><br></p>
 <!-- EMBED START Image {id: "embedded6358005131"} -->
-<figure><img src="/media/12345678987654321c.jpeg" data-media-id="embedded6358005131" data-image-id="12345678987654321c"><figcaption>man and tractor</figcaption></figure>
+<figure><img src="/media/20160905140916_12345678987654321c.jpeg" data-media-id="embedded6358005131" data-image-id="20160905140916_12345678987654321c"><figcaption>man and tractor</figcaption></figure>
 <!-- EMBED END Image {id: "embedded6358005131"} -->
 EOT;
         self::assertEquals($expected, $article->getBody());

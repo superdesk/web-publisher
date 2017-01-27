@@ -462,7 +462,29 @@ class ContentPushControllerTest extends WebTestCase
         $this->assertEquals(
             [
                 'media_id' => '2016083108080/6c182d783f51c4654c5feb8491600917ec38dc8675d44b886d7e03a897d9bee7.jpg',
-                'URL' => 'http://localhost/media/6c182d783f51c4654c5feb8491600917ec38dc8675d44b886d7e03a897d9bee7.png',
+                'URL' => 'http://localhost/media/2016083108080_6c182d783f51c4654c5feb8491600917ec38dc8675d44b886d7e03a897d9bee7.png',
+                'media' => base64_encode(file_get_contents(__DIR__.'/../app/Resources/test_file.png')),
+                'mime_type' => 'image/png',
+                'filemeta' => [],
+            ],
+            json_decode($client->getResponse()->getContent(), true)
+        );
+
+        // Test amazon mediaId format
+        $client->request(
+            'POST',
+            $this->router->generate('swp_api_assets_push'),
+            [
+                'media_id' => 'testinstance/2016083108080/7c182d783f51c4654c5feb8491600917ec38dc8675d44b886d7e03a897d9bee7.jpg',
+                'media' => new UploadedFile(__DIR__.'/../app/Resources/test_file.png', 'test_file.png', 'image/png', 3992, null, true),
+            ]
+        );
+
+        $this->assertEquals(201, $client->getResponse()->getStatusCode());
+        $this->assertEquals(
+            [
+                'media_id' => 'testinstance/2016083108080/7c182d783f51c4654c5feb8491600917ec38dc8675d44b886d7e03a897d9bee7.jpg',
+                'URL' => 'http://localhost/media/testinstance_2016083108080_7c182d783f51c4654c5feb8491600917ec38dc8675d44b886d7e03a897d9bee7.png',
                 'media' => base64_encode(file_get_contents(__DIR__.'/../app/Resources/test_file.png')),
                 'mime_type' => 'image/png',
                 'filemeta' => [],

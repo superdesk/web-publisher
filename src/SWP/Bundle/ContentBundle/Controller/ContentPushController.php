@@ -97,9 +97,8 @@ class ContentPushController extends Controller
             $uploadedFile = $form->getData()['media'];
             $mediaId = $request->request->get('media_id');
             if ($uploadedFile->isValid()) {
-                $procesedMediaId = ArticleMedia::handleMediaId($mediaId);
-                $media = $this->get('swp.repository.image')->findImageByAssetId($procesedMediaId);
-                if (null !== $media) {
+                $media = $this->get('swp.repository.image')->findImageByAssetId(ArticleMedia::handleMediaId($mediaId));
+                if (null == $media) {
                     $media = $mediaManager->handleUploadedFile($uploadedFile, $mediaId);
 
                     $this->get('swp.object_manager.media')->flush();

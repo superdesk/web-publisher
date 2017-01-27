@@ -354,10 +354,18 @@ class ArticleMedia implements ArticleMediaInterface
     {
         $mediaId = preg_replace('/\\.[^.\\s]{3,4}$/', '', $mediaId);
         $mediaIdElements = explode('/', $mediaId);
-        if (count($mediaIdElements) == 2) {
-            return $mediaIdElements[1];
+        if (count($mediaIdElements) > 1) {
+            return implode('_', $mediaIdElements);
         }
 
         return $mediaId;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public static function getOriginalMediaId(string $mediaId)
+    {
+        return str_replace('_', '/', $mediaId);
     }
 }

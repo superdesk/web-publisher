@@ -56,7 +56,6 @@ class ArticleTitleChangeTest extends WebTestCase
                 'content' => null,
             ],
         ]);
-
         self::assertEquals(201, $client->getResponse()->getStatusCode());
 
         $client->request(

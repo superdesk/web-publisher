@@ -70,7 +70,7 @@ class LoadArticlesMediaData extends AbstractFixture implements FixtureInterface,
             '4-3' => [
                 'width' => '800',
                 'height' => '533',
-                'media' => '12345678987654321c',
+                'media' => '20160905140916/12345678987654321c',
             ],
             'embedded5366428123-600x300' => [
                 'width' => '400',

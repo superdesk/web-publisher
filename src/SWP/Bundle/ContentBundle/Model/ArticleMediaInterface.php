@@ -71,4 +71,11 @@ interface ArticleMediaInterface extends PersistableInterface
      * @return string
      */
     public static function handleMediaId($mediaId);
+
+    /**
+     * @param string $mediaId
+     *
+     * @return mixed
+     */
+    public static function getOriginalMediaId(string $mediaId);
 }
