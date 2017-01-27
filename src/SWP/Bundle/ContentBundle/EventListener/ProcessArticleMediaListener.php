@@ -20,6 +20,7 @@ use SWP\Bundle\ContentBundle\Event\ArticleEvent;
 use SWP\Bundle\ContentBundle\Factory\MediaFactoryInterface;
 use SWP\Bundle\ContentBundle\Manager\MediaManagerInterface;
 use SWP\Bundle\ContentBundle\Model\ArticleInterface;
+use SWP\Bundle\ContentBundle\Model\ArticleMedia;
 use SWP\Bundle\ContentBundle\Model\ArticleMediaInterface;
 use SWP\Component\Bridge\Model\ItemInterface;
 use Symfony\Component\DomCrawler\Crawler;
@@ -102,7 +103,6 @@ class ProcessArticleMediaListener
     public function handleMedia(ArticleInterface $article, string $key, ItemInterface $item)
     {
         $articleMedia = $this->mediaFactory->create($article, $key, $item);
-
         if (ItemInterface::TYPE_PICTURE === $item->getType()) {
             $this->replaceBodyImagesWithMedia($article, $articleMedia);
         } elseif (ItemInterface::TYPE_FILE === $item->getType()) {
@@ -156,6 +156,7 @@ class ProcessArticleMediaListener
             str_replace(PHP_EOL, '', $body),
             $embeds
         );
+
         if (empty($embeds)) {
             return;
         }
@@ -166,7 +167,7 @@ class ProcessArticleMediaListener
         /** @var \DOMElement $imageElement */
         foreach ($images as $imageElement) {
             foreach ($articleMedia->getRenditions() as $rendition) {
-                if (strpos($imageElement->getAttribute('src'), $rendition->getImage()->getAssetId()) !== false) {
+                if (strpos($imageElement->getAttribute('src'), ArticleMedia::getOriginalMediaId($rendition->getImage()->getAssetId())) !== false) {
                     $attributes = $imageElement->attributes;
                     while ($attributes->length) {
                         $imageElement->removeAttribute($attributes->item(0)->name);

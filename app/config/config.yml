@@ -14,6 +14,7 @@ imports:
 parameters:
     locale: en
     templating.cache_warmer.template_paths.class: "Symfony\\Bundle\\FrameworkBundle\\CacheWarmer\\TemplatePathsCacheWarmer"
+    twig_cache.extension.class: "SWP\\Bundle\\CoreBundle\\Twig\\TwigCacheProfilerExtension"
 
 framework:
     ide: 'phpstorm://open?file=%%f&line=%%l'

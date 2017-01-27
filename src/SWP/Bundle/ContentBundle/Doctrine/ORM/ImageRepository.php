@@ -26,10 +26,16 @@ class ImageRepository extends EntityRepository implements ImageRepositoryInterfa
      */
     public function findImageByAssetId(string $assetId)
     {
-        return $this->createQueryBuilder('i')
+        $images = $this->createQueryBuilder('i')
             ->where('i.assetId = :assetId')
             ->setParameter('assetId', $assetId)
             ->getQuery()
-            ->getOneOrNullResult();
+            ->getResult();
+
+        if (count($images) === 0) {
+            return;
+        }
+
+        return $images[0];
     }
 }

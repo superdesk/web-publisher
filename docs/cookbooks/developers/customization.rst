@@ -10,7 +10,7 @@ There are two ways to do it.
 
 .. code-block:: bash
 
-    $ php bin/console doctrine:schema:update --force
+    $ php app/console doctrine:schema:update --force
 
 * via migrations:
 
@@ -18,8 +18,8 @@ We recommend to update the schema using migrations so you can easily rollback an
 
 .. code-block:: bash
 
-    $ php bin/console doctrine:migrations:diff
-    $ php bin/console doctrine:migrations:migrate
+    $ php app/console doctrine:migrations:diff
+    $ php app/console doctrine:migrations:migrate
 
 .. tip::
 
