@@ -28,7 +28,7 @@
                         <div class="content content_text content_text_contrast">
                             <h6 class="info">{% if article.metadata.byline %} {{ article.metadata.byline }} - {% endif %} {{ article.publishedAt|date("d.m.Y, H:i") }}</h6>
                             <h3 class="title"><a href="{{ url(article) }}">{{ article.title }}</a></h3>
-                            <p>{{ article.lead|truncate(50,true) }}</p>
+                            <p>{{ article.lead|striptags|truncate(50,true) }}</p>
                         </div>
                     </article>
                 </div>

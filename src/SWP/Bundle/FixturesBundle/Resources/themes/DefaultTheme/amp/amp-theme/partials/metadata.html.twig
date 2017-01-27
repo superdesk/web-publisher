@@ -1,0 +1,31 @@
+<script type="application/ld+json">
+      {
+        "@context": "http://schema.org",
+        "@type": "NewsArticle",
+        "mainEntityOfPage": "{{ url(gimme.article) }}",
+        "headline": "{{ object.title }}",
+        "datePublished": "{{ object.publishedAt|date('Y-m-d H:i:s') }}",
+        "dateModified": "{{ object.updatedAt|date('Y-m-d H:i:s') }}",
+        "description": "{{ object.lead }}",
+        "author": {
+          "@type": "Person",
+          "name": "{{ object.metadata.byline }}"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "{{ asset('theme/assets/img/logo.png') }}",
+            "width": 125,
+            "height": 60
+          },
+          "name": "{{ tenant.organization.name }}"
+        },
+        "image": {
+          "@type": "ImageObject",
+          "url": "http://cdn.ampproject.org/leader.jpg",
+          "height": 2000,
+          "width": 800
+        }
+      }
+    </script>

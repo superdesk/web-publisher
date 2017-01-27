@@ -9,13 +9,12 @@
     <!-- Row (12) -->
     <div class="row">
 
-{% cache 'frontTop3' { time:600 } %}
-
-{% gimmelist article from articles %}
-{% if loop.first %}
       <!-- Span (8) -->
       <div class="span8">
+{% cache 'frontTop3' { time:600 } %}
 
+{% gimmelist article from articles|limit(3) %}
+{% if loop.first %}
         <article class="news_item">
 
 {% gimmelist media from articleMedia|limit(1) with {'article': article} %}
@@ -31,16 +30,15 @@
             <div class="content content_text">
                 <h6 class="info">{% if article.metadata.byline %} {{ article.metadata.byline }} - {% endif %} {{ article.publishedAt|date("d.m.Y, H:i") }}</h6>
                 <h3 class="title"><a href="{{ url(article) }}">{{ article.title }}</a></h3>
-                <p>{{ article.body|truncate(200,true) }}</p>
+                <p>{{ article.lead|striptags|truncate(200,true) }}</p>
             </div>
       </article>
 
 {% elseif (loop.index == 2) or (loop.index == 3) %}
 
       {% if loop.index == 2 %}
-        <!-- Row (8) -->
+      <!-- Row (8) -->
       <div class="row">
-
           <!-- Span (3) -->
           <div class="span3">
 
@@ -60,7 +58,7 @@
               <div class="content content_text">
                 <h6 class="info">{% if article.metadata.byline %} {{ article.metadata.byline }} - {% endif %} {{ article.publishedAt|date("d.m.Y, H:i") }}</h6>
                 <h3 class="title"><a href="{{ url(article) }}">{{ article.title }}</a></h3>
-                <p>{{ article.body|truncate(200,true) }}</p>
+                <p>{{ article.lead|striptags|truncate(200,true) }}</p>
                </div>
             </article><!-- End News item -->
           </div><!--End Span (3) -->
@@ -86,18 +84,18 @@
               <div class="content content_text">
                 <h6 class="info">{% if article.metadata.byline %} {{ article.metadata.byline }} - {% endif %} {{ article.publishedAt|date("d.m.Y, H:i") }}</h6>
                 <h3 class="title"><a href="{{ url(article) }}">{{ article.title }}</a></h3>
-                <p>{{ article.body|truncate(200,true) }}</p>
+                <p>{{ article.lead|striptags|truncate(200,true) }}</p>
               </div>
     </article>
 
 </div><!-- End Span (5) -->
-</div><!-- End Row (8) -->
-</div><!-- End Span (8) -->
 {% endif %}
 {% endif %}
+{% if loop.last and loop.index > 1 %}</div><!-- End Row (8) -->{% endif %}
 {% endgimmelist %}
 
 {% endcache %}
+</div><!-- End Span (8) -->
 
 {% include '_tpl/front-sidebar.html.twig' %}
 
@@ -115,4 +113,3 @@
 {% block template_code %}
 <pre class="js-template-code" style="display:none;">{{ source(_self.getTemplateName())|escape('html') }}</pre>
 {% endblock %}
-
