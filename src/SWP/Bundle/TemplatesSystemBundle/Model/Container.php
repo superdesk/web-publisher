@@ -119,11 +119,7 @@ class Container implements ContainerInterface, TimestampableInterface
     }
 
     /**
-     * Set name.
-     *
-     * @param string $name
-     *
-     * @return self
+     * {@inheritdoc}
      */
     public function setName($name)
     {
@@ -133,9 +129,7 @@ class Container implements ContainerInterface, TimestampableInterface
     }
 
     /**
-     * Get name.
-     *
-     * @return string
+     * {@inheritdoc}
      */
     public function getName()
     {
