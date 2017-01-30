@@ -53,6 +53,6 @@ final class MenuItemManager extends BaseMenuItemManager
             ];
         }
 
-        parent::updateOptions($menu, $options);
+        $this->updateOptions($menu, $options);
     }
 }
