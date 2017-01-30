@@ -94,13 +94,17 @@ final class MenuItemManager implements MenuItemManagerInterface
      */
     public function update(MenuItemInterface $menu)
     {
-        // Make copy of label as it's cleared by one of extensions
-        $label = $menu->getLabel();
-        $options = $this->extensionsChain->buildOptions([
-            'route' => $menu->getRoute() ? $menu->getRoute()->getName() : null,
-        ]);
-        $this->extensionsChain->buildItem($menu, $options);
-        $menu->setLabel($label);
+        if (null !== $menu->getRoute()) {
+            // Make copy of label as it's cleared by one of extensions
+            $label = $menu->getLabel();
+            $options = $this->extensionsChain->buildOptions(
+                [
+                    'route' => $menu->getRoute() ? $menu->getRoute()->getName() : null,
+                ]
+            );
+            $this->extensionsChain->buildItem($menu, $options);
+            $menu->setLabel($label);
+        }
     }
 
     private function ensurePositionIsValid(MenuItemInterface $menuItem, int $position)
