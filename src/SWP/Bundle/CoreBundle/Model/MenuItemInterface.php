@@ -17,8 +17,9 @@ declare(strict_types=1);
 namespace SWP\Bundle\CoreBundle\Model;
 
 use SWP\Bundle\ContentBundle\Model\RouteAwareInterface;
+use SWP\Bundle\MenuBundle\Model\MenuItemInterface as BaseMenuItemInterface;
 use SWP\Component\MultiTenancy\Model\TenantAwareInterface;
 
-interface MenuItemInterface extends TenantAwareInterface, RouteAwareInterface
+interface MenuItemInterface extends BaseMenuItemInterface, TenantAwareInterface, RouteAwareInterface
 {
 }
