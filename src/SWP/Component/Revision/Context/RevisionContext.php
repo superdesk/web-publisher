@@ -1,7 +1,9 @@
 <?php
 
+declare(strict_types=1);
+
 /*
- * This file is part of the Superdesk Publisher Revision Bundle.
+ * This file is part of the Superdesk Publisher Revision Component.
  *
  * Copyright 2017 Sourcefabric z.u. and contributors.
  *
@@ -12,10 +14,9 @@
  * @license http://www.superdesk.org/license
  */
 
-namespace SWP\Bundle\RevisionBundle;
+namespace SWP\Component\Revision\Context;
 
 use SWP\Component\Revision\Model\RevisionInterface;
-use SWP\Component\Revision\RevisionContextInterface;
 
 /**
  * Class RevisionContext.

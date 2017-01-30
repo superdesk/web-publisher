@@ -405,10 +405,6 @@ class Article implements ArticleInterface, MediaAwareArticleInterface
      */
     public function getKeywords(): array
     {
-        if (null === $this->keywords) {
-            return [];
-        }
-
         return $this->keywords;
     }
 

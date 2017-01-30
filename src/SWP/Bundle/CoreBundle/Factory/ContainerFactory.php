@@ -16,8 +16,9 @@ namespace SWP\Bundle\CoreBundle\Factory;
 
 use SWP\Component\Common\Generator\RandomStringGenerator;
 use SWP\Component\Revision\RevisionAwareInterface;
+use SWP\Component\Storage\Factory\FactoryInterface;
 
-class ContainerFactory
+class ContainerFactory implements FactoryInterface
 {
     /**
      * @var RandomStringGenerator

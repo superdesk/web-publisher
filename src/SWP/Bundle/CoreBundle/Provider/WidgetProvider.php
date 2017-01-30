@@ -15,7 +15,7 @@
 namespace SWP\Bundle\CoreBundle\Provider;
 
 use Doctrine\ORM\Query;
-use SWP\Bundle\RevisionBundle\RevisionContext;
+use SWP\Component\Revision\Context\RevisionContext;
 use SWP\Bundle\TemplatesSystemBundle\Provider\WidgetProvider as BaseWidgetProvider;
 use SWP\Component\Common\Criteria\Criteria;
 

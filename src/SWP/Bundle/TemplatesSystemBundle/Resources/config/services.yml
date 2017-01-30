@@ -1,7 +1,3 @@
-parameters:
-    swp.provider.container.class: SWP\Bundle\TemplatesSystemBundle\Provider\ContainerProvider
-    swp.provider.widget.class: SWP\Bundle\TemplatesSystemBundle\Provider\WidgetProvider
-
 services:
     swp_template_engine_loader_chain:
         class: SWP\Component\TemplatesSystem\Gimme\Loader\ChainLoader
@@ -61,13 +57,13 @@ services:
             - { name: data_collector, template: "SWPTemplatesSystemBundle:Collector:contextCollector", id: "context_collector" }
 
     swp.provider.container:
-        class: "%swp.provider.container.class%"
+        class: SWP\Bundle\TemplatesSystemBundle\Provider\ContainerProvider
         arguments:
             - "@swp.repository.container"
             - "@swp.repository.container_widget"
 
     swp.provider.widget:
-        class: "%swp.provider.widget.class%"
+        class: SWP\Bundle\TemplatesSystemBundle\Provider\WidgetProvider
         arguments:
             - "@swp.repository.widget_model"
 

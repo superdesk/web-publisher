@@ -14,10 +14,10 @@
 
 namespace SWP\Bundle\CoreBundle\EventSubscriber;
 
+use SWP\Bundle\CoreBundle\Repository\RevisionAwareContainerRepositoryInterface;
 use SWP\Bundle\RevisionBundle\Event\RevisionPublishedEvent;
 use SWP\Bundle\RevisionBundle\Events;
 use SWP\Bundle\TemplatesSystemBundle\Repository\ContainerRepository;
-use SWP\Component\Common\Criteria\Criteria;
 use SWP\Component\Revision\Model\RevisionInterface;
 use SWP\Component\Revision\Model\RevisionLogInterface;
 use SWP\Component\Revision\RevisionAwareInterface;
@@ -31,7 +31,7 @@ class RevisionsSubscriber implements EventSubscriberInterface
     /**
      * @var ContainerRepository
      */
-    protected $containerRepository;
+    protected $repository;
 
     /**
      * @var FactoryInterface
@@ -41,12 +41,14 @@ class RevisionsSubscriber implements EventSubscriberInterface
     /**
      * RevisionsSubscriber constructor.
      *
-     * @param ContainerRepository $containerRepository
-     * @param FactoryInterface    $revisionLogFactory
+     * @param RevisionAwareContainerRepositoryInterface $containerRepository
+     * @param FactoryInterface                          $revisionLogFactory
      */
-    public function __construct(ContainerRepository $containerRepository, FactoryInterface $revisionLogFactory)
-    {
-        $this->containerRepository = $containerRepository;
+    public function __construct(
+        RevisionAwareContainerRepositoryInterface $repository,
+        FactoryInterface $revisionLogFactory
+    ) {
+        $this->repository = $repository;
         $this->revisionLogFactory = $revisionLogFactory;
     }
 
@@ -72,34 +74,20 @@ class RevisionsSubscriber implements EventSubscriberInterface
         }
 
         // new revision containers id's
-        $queryBuilder = $this->containerRepository->createQueryBuilder('c');
-        $newRevisionContainers = $queryBuilder->select('c.uuid')
-            ->where('c.revision = :revision')
-            ->setParameter('revision', $revision)
-            ->getQuery()
-            ->getResult();
-
+        $newRevisionContainers = $this->repository->getIds($revision)->getQuery()->getResult();
         $ids = [];
         foreach ($newRevisionContainers as $container) {
             $ids[] = $container['uuid'];
         }
 
-        // published revisions containers
-        $criteria = new Criteria();
-        $criteria->set('revision', $revision->getPrevious());
-        $queryBuilder = $this->containerRepository->getQueryByCriteria($criteria, [], 'c');
-        if (count($ids) > 0) {
-            $queryBuilder->andWhere('c.uuid NOT IN (:ids)')->setParameter('ids', $ids);
-        }
-
-        $containers = $queryBuilder->getQuery()->getResult();
+        $containers = $this->repository->getContainerWithoutProvidedIds($ids, $revision)->getQuery()->getResult();
         /** @var ContainerInterface|RevisionAwareInterface $container */
         foreach ($containers as $container) {
             $container->setRevision($revision);
             $this->log($container, $revision);
         }
 
-        $this->containerRepository->flush();
+        $this->repository->flush();
     }
 
     /**
@@ -120,6 +108,6 @@ class RevisionsSubscriber implements EventSubscriberInterface
         $revisionLog->setSourceRevision($revision->getPrevious());
         $revisionLog->setTargetRevision($revision);
 
-        $this->containerRepository->persist($revisionLog);
+        $this->repository->persist($revisionLog);
     }
 }

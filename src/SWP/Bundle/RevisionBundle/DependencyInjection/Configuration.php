@@ -16,10 +16,10 @@ namespace SWP\Bundle\RevisionBundle\DependencyInjection;
 
 use SWP\Bundle\CoreBundle\Model\Revision;
 use SWP\Bundle\RevisionBundle\Model\RevisionLog;
+use SWP\Bundle\RevisionBundle\Repository\RevisionRepository;
+use SWP\Bundle\StorageBundle\Doctrine\ORM\EntityRepository;
 use SWP\Component\Revision\Model\RevisionInterface;
 use SWP\Component\Revision\Model\RevisionLogInterface;
-use SWP\Component\Revision\Repository\RevisionLogRepository;
-use SWP\Component\Revision\Repository\RevisionRepository;
 use SWP\Component\Storage\Factory\Factory;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
@@ -64,7 +64,7 @@ class Configuration implements ConfigurationInterface
                                         ->children()
                                             ->scalarNode('model')->cannotBeEmpty()->defaultValue(RevisionLog::class)->end()
                                             ->scalarNode('interface')->defaultValue(RevisionLogInterface::class)->end()
-                                            ->scalarNode('repository')->defaultValue(RevisionLogRepository::class)->end()
+                                            ->scalarNode('repository')->defaultValue(EntityRepository::class)->end()
                                             ->scalarNode('factory')->defaultValue(Factory::class)->end()
                                             ->scalarNode('object_manager_name')->defaultValue(null)->end()
                                         ->end()

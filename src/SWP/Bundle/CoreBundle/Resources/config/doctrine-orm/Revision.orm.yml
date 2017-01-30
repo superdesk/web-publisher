@@ -1,5 +1,5 @@
 SWP\Bundle\CoreBundle\Model\Revision:
-    type: entity
+    type: mappedSuperclass
     table: swp_revision
     fields:
         tenantCode:

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Superdesk Web Publisher Core Bundle.
  *
@@ -14,10 +16,11 @@
 
 namespace SWP\Bundle\CoreBundle\EventListener;
 
-use SWP\Bundle\RevisionBundle\RevisionContext;
+use SWP\Component\Revision\Context\RevisionContext;
 use SWP\Component\Revision\Model\RevisionInterface;
 use SWP\Component\Revision\Repository\RevisionRepositoryInterface;
 use SWP\Component\Storage\Repository\RepositoryInterface;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 
 /**
@@ -52,24 +55,37 @@ class TenantRevisionListener
      */
     public function onKernelRequest(GetResponseEvent $event)
     {
-        $request = $event->getRequest();
-        $currentRevision = null;
-        $revisionKey = $request->cookies->get(
+        $this->setRevisions($this->getRevisionKeyFromRequest($event->getRequest()));
+    }
+
+    /**
+     * @param Request $request
+     *
+     * @return mixed
+     */
+    public function getRevisionKeyFromRequest(Request $request)
+    {
+        return $request->cookies->get(
             RevisionContext::REVISION_PARAMETER_NAME,
             $request->request->get(
                 RevisionContext::REVISION_PARAMETER_NAME,
-                $request->query->get(RevisionContext::REVISION_PARAMETER_NAME, false)
+                $request->query->get(RevisionContext::REVISION_PARAMETER_NAME, null)
             )
         );
+    }
 
+    /**
+     * @param string|null $revisionKey
+     */
+    public function setRevisions(string $revisionKey = null)
+    {
+        $currentRevision = null;
         /* @var RevisionInterface $workingRevision */
         $publishedRevision = $this->revisionRepository->getPublishedRevision()->getQuery()->getOneOrNullResult();
         $this->revisionContext->setPublishedRevision($publishedRevision);
         /** @var RevisionInterface $workingRevision */
         $workingRevision = $this->revisionRepository->getWorkingRevision()->getQuery()->getOneOrNullResult();
-        if (null !== $workingRevision) {
-            $this->revisionContext->setWorkingRevision($workingRevision);
-        }
+        $this->revisionContext->setWorkingRevision($workingRevision);
 
         if (null !== $revisionKey) {
             if (null !== $workingRevision && $workingRevision->getUniqueKey() === $revisionKey) {

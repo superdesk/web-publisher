@@ -18,7 +18,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use SWP\Bundle\RevisionBundle\Event\RevisionPublishedEvent;
 use SWP\Bundle\RevisionBundle\Events;
 use SWP\Component\Revision\Manager\RevisionManagerInterface;
-use SWP\Component\Revision\RevisionContextInterface;
+use SWP\Component\Revision\Context\RevisionContextInterface;
 use SWP\Component\Storage\Factory\FactoryInterface;
 use SWP\Component\Revision\Model\RevisionInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
@@ -96,8 +96,6 @@ class RevisionManager implements RevisionManagerInterface
     public function rollback(RevisionInterface $revision): RevisionInterface
     {
         // TODO: Implement rollback() method.
-        //
-        // On rollback modified elements (containers/widgets) need to rejected and not modified moved to previous revision
     }
 
     /**
