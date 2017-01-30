@@ -195,3 +195,19 @@ services:
             - '@swp.repository.widget_model'
         tags:
             - { name: kernel.event_listener, event: swp.menu.deleted, method: onMenuDeleted }
+
+    swp_core.manager.menu_item:
+        class: SWP\Bundle\CoreBundle\Manager\MenuItemManager
+        arguments:
+            - "@swp.repository.menu"
+            - "@swp.object_manager.menu"
+            - "@swp_menu.extension_chain"
+
+    swp_core.decorating_manager.menu_item:
+        class: SWP\Bundle\CoreBundle\Manager\MenuItemManager
+        decorates: swp_menu.manager.menu_item
+        arguments:
+            - "@swp.repository.menu"
+            - "@swp.object_manager.menu"
+            - "@swp_menu.extension_chain"
+        public: false
