@@ -23,7 +23,7 @@ use SWP\Bundle\MenuBundle\Model\MenuItemInterface;
 use Symfony\Component\HttpKernel\Exception\ConflictHttpException;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
-final class MenuItemManager implements MenuItemManagerInterface
+class MenuItemManager implements MenuItemManagerInterface
 {
     /**
      * @var MenuItemRepositoryInterface
@@ -45,6 +45,7 @@ final class MenuItemManager implements MenuItemManagerInterface
      *
      * @param MenuItemRepositoryInterface $menuItemRepository
      * @param ObjectManager               $objectManager
+     * @param ExtensionInterface          $extensionsChain
      */
     public function __construct(
         MenuItemRepositoryInterface $menuItemRepository,
@@ -94,17 +95,22 @@ final class MenuItemManager implements MenuItemManagerInterface
      */
     public function update(MenuItemInterface $menu)
     {
-        if (null !== $menu->getRoute()) {
-            // Make copy of label as it's cleared by one of extensions
-            $label = $menu->getLabel();
-            $options = $this->extensionsChain->buildOptions(
-                [
-                    'route' => $menu->getRoute() ? $menu->getRoute()->getName() : null,
-                ]
-            );
-            $this->extensionsChain->buildItem($menu, $options);
-            $menu->setLabel($label);
-        }
+        $this->updateOptions($menu);
+    }
+
+    /**
+     * @param MenuItemInterface $menu
+     * @param array             $options
+     */
+    protected function updateOptions(MenuItemInterface $menu, array $options = [])
+    {
+        $options = array_merge($options, [
+            'uri' => $menu->getUri(),
+            'label' => $menu->getLabel(),
+        ]);
+
+        $options = $this->extensionsChain->buildOptions($options);
+        $this->extensionsChain->buildItem($menu, $options);
     }
 
     private function ensurePositionIsValid(MenuItemInterface $menuItem, int $position)
