@@ -14,6 +14,7 @@
 
 namespace SWP\Bundle\CoreBundle\Controller;
 
+use SWP\Component\TemplatesSystem\Gimme\Model\ContainerInterface;
 use SWP\Component\TemplatesSystem\Gimme\Model\WidgetModelInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
@@ -72,15 +73,14 @@ class ContainerController extends Controller
      *     description="Get single container",
      *     statusCodes={
      *         200="Returned on success.",
-     *         404="Container not found",
-     *         422="Container id is not number"
+     *         404="Container not found"
      *     }
      * )
      * @Route("/api/{version}/templates/containers/{id}", requirements={"id"="\d+"}, options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_templates_get_container")
      * @Method("GET")
      * @Cache(expires="10 minutes", public=true)
      */
-    public function getAction(Request $request, $id)
+    public function getAction($id)
     {
         $container = $this->get('doctrine')->getManager()
             ->getRepository('SWP\Bundle\CoreBundle\Model\Container')
@@ -92,6 +92,38 @@ class ContainerController extends Controller
         }
 
         return new SingleResourceResponse($container);
+    }
+
+    /**
+     * Render single container and it's widgets.
+     *
+     * @ApiDoc(
+     *     resource=true,
+     *     description="Render single container and it's widgets.",
+     *     statusCodes={
+     *         200="Returned on success.",
+     *         404="Container not found"
+     *     }
+     * )
+     * @Route("/api/{version}/templates/containers/{id}/render", requirements={"id"="\d+"}, options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_templates_render_container")
+     * @Method("GET")
+     * @Cache(expires="10 minutes", public=true)
+     */
+    public function renderAction($id)
+    {
+        /** @var ContainerInterface $container */
+        $container = $this->get('swp.repository.container')
+            ->getById($id)
+            ->getOneOrNullResult();
+
+        if (!$container) {
+            throw new NotFoundHttpException('Container with this id was not found.');
+        }
+
+        $content = $this->get('templating')
+            ->render('SWPCoreBundle:Container:render.html.twig', ['containerName' => $container->getName()]);
+
+        return new SingleResourceResponse(['content' => $content]);
     }
 
     /**

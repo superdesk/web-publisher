@@ -69,4 +69,20 @@ interface ContainerInterface
      * @return ArrayCollection
      */
     public function getData();
+
+    /**
+     * Set name.
+     *
+     * @param string $name
+     *
+     * @return self
+     */
+    public function setName($name);
+
+    /**
+     * Get name.
+     *
+     * @return string
+     */
+    public function getName();
 }
