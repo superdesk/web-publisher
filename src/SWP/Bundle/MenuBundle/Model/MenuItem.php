@@ -849,4 +849,24 @@ class MenuItem implements MenuItemInterface
     {
         $this->position = $position;
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getParentId()
+    {
+        if (null !== $this->parent) {
+            return (int) $this->getParent()->getId();
+        }
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getRootId()
+    {
+        if (null !== $this->root) {
+            return (int) $this->root->getId();
+        }
+    }
 }
