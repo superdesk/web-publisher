@@ -13,7 +13,7 @@
         <div id="tab_latest_news" class="tabs_content row" style="display: block;">
 
             {% cache 'latestNews' { time:120 } %}
-            {% gimmelist article from articles|limit(4) %}
+            {% gimmelist article from articles|limit(4)|order('publishedAt','desc') %}
                 <div class="span3">
                     <article class="news_item condensed">
                         {% gimmelist media from articleMedia|limit(1) with {'article': article} %}
