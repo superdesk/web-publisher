@@ -344,9 +344,13 @@ class NinjsValidator extends JsonValidator
             "type" : "string"
         },
         "keywords": {
-			"description" : "Content keywords",
-			"type" : "array"
-		},
+            "description" : "Content keywords",
+            "type" : "array"
+        },
+        "evolvedfrom": {
+            "description" : "The content of this item has evolved from related item with this guid.",
+            "type" : "string"
+        },
         "renditions" : {
             "description" : "Wrapper for different renditions of non-textual content of the news object",
             "type" : "object",

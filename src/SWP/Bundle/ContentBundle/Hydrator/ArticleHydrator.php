@@ -53,6 +53,10 @@ final class ArticleHydrator implements ArticleHydratorInterface
      */
     public function hydrate(ArticleInterface $article, PackageInterface $package): ArticleInterface
     {
+        if ($this->populateByline($package) !== $package->getByLine()) {
+            $package->setByLine($this->populateByline($package));
+        }
+
         $article->setBody($this->populateBody($package));
         $article->setTitle($package->getHeadline());
         if (null !== $package->getSlugline()) {
@@ -77,14 +81,48 @@ final class ArticleHydrator implements ArticleHydratorInterface
     protected function populateLead(PackageInterface $package)
     {
         if (null === $package->getDescription() || '' === $package->getDescription()) {
-            return trim($package->getDescription().implode('', array_map(function (ItemInterface $item) {
-                $this->ensureTypeIsAllowed($item->getType());
+            $items = $package->getItems()->filter(
+                function (ItemInterface $item) {
+                    $this->ensureTypeIsAllowed($item->getType());
+                    if (ItemInterface::TYPE_TEXT === $item->getType()) {
+                        return true;
+                    }
 
-                return ' '.$item->getDescription();
-            }, $package->getItems()->toArray())));
+                    return false;
+                }
+            );
+
+            $map = $items->map(
+                function (ItemInterface $item) {
+                    return ' '.$item->getDescription();
+                }
+            );
+
+            return trim($package->getDescription().implode('', $map->toArray()));
         }
 
         return $package->getDescription();
+    }
+
+    /**
+     * @param PackageInterface $package
+     *
+     * @return string
+     */
+    protected function populateByline(PackageInterface $package)
+    {
+        $authors = array_filter(array_values(array_map(function (ItemInterface $item) {
+            $this->ensureTypeIsAllowed($item->getType());
+            $metadata = $item->getMetadata();
+
+            return $metadata['byline'];
+        }, $package->getItems()->toArray())));
+
+        if (empty($authors)) {
+            return $package->getByLine();
+        }
+
+        return implode(', ', $authors);
     }
 
     /**
