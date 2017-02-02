@@ -14,7 +14,6 @@
 
 namespace SWP\Bundle\ContentBundle\Tests;
 
-use SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\Route;
 use SWP\Bundle\ContentBundle\Loader\RouteLoader;
 use SWP\Bundle\ContentBundle\Tests\Functional\WebTestCase;
 

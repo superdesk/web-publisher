@@ -16,7 +16,7 @@ namespace SWP\Bundle\StorageBundle\DependencyInjection\Extension;
 
 use SWP\Bundle\StorageBundle\DependencyInjection\Factory\DriverFactory;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\DependencyInjection\Extension\Extension as BaseExtension;
+use Symfony\Component\HttpKernel\DependencyInjection\Extension as BaseExtension;
 
 abstract class Extension extends BaseExtension
 {

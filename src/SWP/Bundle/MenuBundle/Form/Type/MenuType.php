@@ -20,8 +20,6 @@ use SWP\Bundle\ContentBundle\Form\Type\RouteSelectorType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\Form\FormEvent;
-use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\NotBlank;
 
@@ -53,19 +51,6 @@ class MenuType extends AbstractType
                 'required' => false,
                 'description' => 'Route identifier (e.g. 10)',
             ]);
-
-        $builder->addEventListener(FormEvents::POST_SET_DATA, function (FormEvent $event) {
-            $menuItem = $event->getData();
-            $form = $event->getForm();
-
-            if (null !== $form->get('route')->getData() && null !== $form->get('uri')->getData()) {
-                $form->add('uri', TextType::class, ['empty_data' => $menuItem->getUri()]);
-            }
-
-            if (null === $form->get('route')->getData() && null !== $form->get('uri')->getData()) {
-                $form->get('uri')->setData(null);
-            }
-        });
     }
 
     public function configureOptions(OptionsResolver $resolver)

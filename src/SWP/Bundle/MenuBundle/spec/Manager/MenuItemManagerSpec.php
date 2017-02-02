@@ -142,4 +142,19 @@ final class MenuItemManagerSpec extends ObjectBehavior
         $this->shouldThrow(HttpException::class)
             ->duringMove($sourceItem, $parentItem, 2);
     }
+
+    public function it_updates_menu_options(
+        MenuItemInterface $menu,
+        ExtensionInterface $extensionChain
+    ) {
+        $menu->getLabel()->willReturn('testlabel');
+        $menu->getUri()->willReturn('/test');
+        $options = [
+            'uri' => '/test',
+            'label' => 'testlabel',
+        ];
+        $extensionChain->buildOptions($options)->shouldBeCalled()->willReturn($options);
+        $extensionChain->buildItem($menu, $options)->shouldBeCalled();
+        $this->update($menu);
+    }
 }
