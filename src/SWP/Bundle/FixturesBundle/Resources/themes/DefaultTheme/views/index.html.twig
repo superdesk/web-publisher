@@ -10,10 +10,14 @@
     <div class="row">
 
       <!-- Span (8) -->
-      <div class="span8">
+
+      {% container 'frontArticles' with {
+        'cssClass': 'span8'
+      } %}
+
 {% cache 'frontTop3' { time:600 } %}
 
-{% gimmelist article from articles|limit(3) %}
+{% gimmelist article from articles|order('publishedAt','desc')|limit(3) %}
 {% if loop.first %}
         <article class="news_item">
 
@@ -95,7 +99,7 @@
 {% endgimmelist %}
 
 {% endcache %}
-</div><!-- End Span (8) -->
+{% endcontainer %}<!-- End Span (8) -->
 
 {% include '_tpl/front-sidebar.html.twig' %}
 
