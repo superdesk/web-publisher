@@ -58,6 +58,7 @@ final class ArticleHydratorSpec extends ObjectBehavior
         $package->getHeadline()->shouldBeCalled()->willReturn('item headline');
         $package->getDescription()->shouldBeCalled()->willReturn('package lead');
         $package->getBody()->shouldBeCalled()->willReturn('some package body');
+        $package->getByLine()->shouldBeCalled()->willReturn('Person');
         $package->getKeywords()->shouldBeCalled()->willReturn(['key1', 'key2']);
         $package->getItems()->shouldBeCalled()->willReturn(new ArrayCollection([$item]));
         $package->getLanguage()->shouldBeCalled()->willReturn('en');
@@ -92,6 +93,7 @@ final class ArticleHydratorSpec extends ObjectBehavior
         $package->getHeadline()->shouldBeCalled()->willReturn('item headline');
         $package->getDescription()->shouldBeCalled()->willReturn('package lead');
         $package->getBody()->shouldBeCalled()->willReturn('some package body');
+        $package->getByLine()->shouldBeCalled()->willReturn('Person');
         $package->getKeywords()->shouldBeCalled()->willReturn(['key1', 'key2']);
         $package->getItems()->shouldBeCalled()->willReturn(new ArrayCollection([$item]));
         $package->getLanguage()->shouldBeCalled()->willReturn('en');
@@ -122,7 +124,7 @@ final class ArticleHydratorSpec extends ObjectBehavior
         $item->setType('fake');
 
         $package->getHeadline()->shouldNotBeCalled();
-        $package->getBody()->shouldBeCalled()->willReturn('some package body');
+        $package->getBody()->shouldNotBeCalled();
         $package->getKeywords()->shouldNotBeCalled();
         $package->getItems()->shouldBeCalled()->willReturn(new ArrayCollection([$item]));
         $package->getLanguage()->shouldNotBeCalled();
