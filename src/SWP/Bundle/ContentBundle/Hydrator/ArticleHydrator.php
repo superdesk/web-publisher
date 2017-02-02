@@ -123,11 +123,8 @@ final class ArticleHydrator implements ArticleHydratorInterface
         return $items->filter(
             function (ItemInterface $item) {
                 $this->ensureTypeIsAllowed($item->getType());
-                if (ItemInterface::TYPE_TEXT === $item->getType()) {
-                    return true;
-                }
 
-                return false;
+                return ItemInterface::TYPE_TEXT === $item->getType();
             }
         );
     }
