@@ -16,6 +16,7 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\ContentBundle\Hydrator;
 
+use Doctrine\Common\Collections\Collection;
 use SWP\Bundle\ContentBundle\Model\ArticleInterface;
 use SWP\Bundle\ContentBundle\Provider\RouteProviderInterface;
 use SWP\Component\Bridge\Model\ItemInterface;
@@ -81,16 +82,7 @@ final class ArticleHydrator implements ArticleHydratorInterface
     protected function populateLead(PackageInterface $package)
     {
         if (null === $package->getDescription() || '' === $package->getDescription()) {
-            $items = $package->getItems()->filter(
-                function (ItemInterface $item) {
-                    $this->ensureTypeIsAllowed($item->getType());
-                    if (ItemInterface::TYPE_TEXT === $item->getType()) {
-                        return true;
-                    }
-
-                    return false;
-                }
-            );
+            $items = $this->filterTextItems($package->getItems());
 
             $map = $items->map(
                 function (ItemInterface $item) {
@@ -111,18 +103,33 @@ final class ArticleHydrator implements ArticleHydratorInterface
      */
     protected function populateByline(PackageInterface $package)
     {
+        $items = $this->filterTextItems($package->getItems());
+
         $authors = array_filter(array_values(array_map(function (ItemInterface $item) {
-            $this->ensureTypeIsAllowed($item->getType());
             $metadata = $item->getMetadata();
 
             return $metadata['byline'];
-        }, $package->getItems()->toArray())));
+        }, $items->toArray())));
 
         if (empty($authors)) {
             return $package->getByLine();
         }
 
         return implode(', ', $authors);
+    }
+
+    private function filterTextItems(Collection $items)
+    {
+        return $items->filter(
+            function (ItemInterface $item) {
+                $this->ensureTypeIsAllowed($item->getType());
+                if (ItemInterface::TYPE_TEXT === $item->getType()) {
+                    return true;
+                }
+
+                return false;
+            }
+        );
     }
 
     /**
