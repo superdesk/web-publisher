@@ -81,11 +81,18 @@ final class ArticleHydrator implements ArticleHydratorInterface
     protected function populateLead(PackageInterface $package)
     {
         if (null === $package->getDescription() || '' === $package->getDescription()) {
-            return trim($package->getDescription().implode('', array_map(function (ItemInterface $item) {
+            $items = array_filter($package->getItems()->toArray(), function (ItemInterface $item) {
                 $this->ensureTypeIsAllowed($item->getType());
+                if (ItemInterface::TYPE_TEXT === $item->getType()) {
+                    return true;
+                }
 
+                return false;
+            });
+
+            return trim($package->getDescription().implode('', array_map(function (ItemInterface $item) {
                 return ' '.$item->getDescription();
-            }, $package->getItems()->toArray())));
+            }, $items)));
         }
 
         return $package->getDescription();
