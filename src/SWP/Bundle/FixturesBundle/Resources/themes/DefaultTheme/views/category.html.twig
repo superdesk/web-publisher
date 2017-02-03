@@ -10,7 +10,7 @@
             {% set itemsPerPage, currentPage = 8, app.request.get('page', 1) %}
             {% set start = ((currentPage - 1) * itemsPerPage) %}
 
-            {% gimmelist article from articles|start(start)|limit(itemsPerPage) %}
+            {% gimmelist article from articles|order('publishedAt','desc')|start(start)|limit(itemsPerPage) %}
             {% if loop.first %}
             <div class="row masonry" id="masonry_container" style="position: relative; height: 1076px;">
                 {% endif %}

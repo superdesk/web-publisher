@@ -21,3 +21,13 @@ SWP\Bundle\MenuBundle\Model\MenuItem:
         position:
             expose: true
             type: integer
+        parent:
+            expose: true
+            type: integer
+            accessor:
+                getter: getParentId
+        root:
+            expose: true
+            type: integer
+            accessor:
+                getter: getRootId
