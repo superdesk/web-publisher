@@ -855,8 +855,9 @@ class MenuItem implements MenuItemInterface
      */
     public function getParentId()
     {
-        if (null !== $this->parent) {
-            return (int) $this->getParent()->getId();
+        /** @var MenuItemInterface $parent */
+        if (null !== $parent = $this->getParent()) {
+            return (int) $parent->getId();
         }
     }
 
