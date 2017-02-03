@@ -235,6 +235,14 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface, Orde
                     'width' => '1000',
                     'height' => '1000',
                 ],
+                '610x380' => [
+                    'width' => '610',
+                    'height' => '380',
+                ],
+                '1250x600' => [
+                    'width' => '1250',
+                    'height' => '600',
+                ],
             ];
 
             $mediaManager = $this->container->get('swp_content_bundle.manager.media');
