@@ -87,10 +87,3 @@ suites:
         psr4_prefix: SWP\Bundle\FacebookInstantArticlesBundle
         spec_path: src/SWP/Bundle/FacebookInstantArticlesBundle
         src_path: src/SWP/Bundle/FacebookInstantArticlesBundle
-
-#extensions:
-#    - PhpSpec\Extension\CodeCoverageExtension
-
-#code_coverage:
-#    output: build/coverage
-#    format: html
