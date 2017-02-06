@@ -31,6 +31,4 @@ final class ApiKeySpec extends ObjectBehavior
     {
         $this->shouldHaveType(ApiKeyInterface::class);
     }
-
-
 }
