@@ -1,5 +1,5 @@
 SWP\Bundle\CoreBundle\Model\User:
-    type:  entity
+    type:  mappedSuperclass
     table: swp_user
     id:
         id:

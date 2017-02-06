@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Superdesk Web Publisher Core Bundle.
  *
@@ -14,7 +16,8 @@
 
 namespace SWP\Bundle\CoreBundle\Security\Authenticator;
 
-use SWP\Bundle\CoreBundle\Model\User;
+use Doctrine\ORM\EntityManagerInterface;
+use SWP\Bundle\CoreBundle\Model\UserInterface as CoreUserInterface;
 use SWP\Bundle\CoreBundle\Repository\ApiKeyRepository;
 use SWP\Component\MultiTenancy\Context\TenantContextInterface;
 use SWP\Component\MultiTenancy\Repository\TenantRepositoryInterface;
@@ -44,20 +47,28 @@ class TokenAuthenticator extends AbstractGuardAuthenticator
     protected $tenantRepository;
 
     /**
+     * @var EntityManagerInterface
+     */
+    protected $entityManager;
+
+    /**
      * TokenAuthenticator constructor.
      *
      * @param ApiKeyRepository          $apiKeyRepository
      * @param TenantContextInterface    $tenantContext
      * @param TenantRepositoryInterface $tenantRepository
+     * @param EntityManagerInterface    $entityManager
      */
     public function __construct(
         ApiKeyRepository $apiKeyRepository,
         TenantContextInterface $tenantContext,
-        TenantRepositoryInterface $tenantRepository
+        TenantRepositoryInterface $tenantRepository,
+        EntityManagerInterface $entityManager
     ) {
         $this->apiKeyRepository = $apiKeyRepository;
         $this->tenantContext = $tenantContext;
         $this->tenantRepository = $tenantRepository;
+        $this->entityManager = $entityManager;
     }
 
     /**
@@ -79,10 +90,13 @@ class TokenAuthenticator extends AbstractGuardAuthenticator
 
     public function getUser($credentials, UserProviderInterface $userProvider)
     {
+        $this->entityManager->getFilters()->disable('tenantable');
         $apiKey = $this->apiKeyRepository
             ->getValidToken(str_replace('Basic ', '', $credentials['token']))
             ->getQuery()
             ->getOneOrNullResult();
+
+        $this->entityManager->getFilters()->enable('tenantable');
 
         if (null === $apiKey) {
             return;
@@ -92,7 +106,7 @@ class TokenAuthenticator extends AbstractGuardAuthenticator
         $apiKey->extendValidTo();
         $this->apiKeyRepository->flush();
 
-        /** @var \FOS\UserBundle\Model\UserInterface $user */
+        /** @var CoreUserInterface $user */
         $user = $apiKey->getUser();
         $user->addRole('ROLE_INTERNAL_API');
 
@@ -101,7 +115,7 @@ class TokenAuthenticator extends AbstractGuardAuthenticator
 
     public function checkCredentials($credentials, UserInterface $user)
     {
-        if ($user instanceof User) {
+        if ($user instanceof CoreUserInterface) {
             $currentOrganization = $this->tenantContext->getTenant()->getOrganization();
             $userOrganization = $this->tenantRepository->findOneByCode($user->getTenantCode())->getOrganization();
 
