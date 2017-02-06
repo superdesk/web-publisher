@@ -51,15 +51,18 @@ class RevisionManager implements RevisionManagerInterface
      * @param FactoryInterface         $revisionFactory
      * @param RevisionContextInterface $revisionContext
      * @param EventDispatcherInterface $eventDispatcher
+     * @param EntityManagerInterface   $objectManager
      */
     public function __construct(
         FactoryInterface $revisionFactory,
         RevisionContextInterface $revisionContext,
-        EventDispatcherInterface $eventDispatcher
+        EventDispatcherInterface $eventDispatcher,
+        EntityManagerInterface $objectManager
     ) {
         $this->revisionFactory = $revisionFactory;
         $this->revisionContext = $revisionContext;
         $this->eventDispatcher = $eventDispatcher;
+        $this->objectManager = $objectManager;
     }
 
     /**
@@ -83,7 +86,7 @@ class RevisionManager implements RevisionManagerInterface
 
         $this->revisionContext->setWorkingRevision($workingRevision);
         $this->revisionContext->setPublishedRevision($revision);
-        $this->flush();
+        $this->objectManager->flush();
 
         $this->eventDispatcher->dispatch(Events::REVISION_PUBLISH, new RevisionPublishedEvent($revision));
 
@@ -108,12 +111,12 @@ class RevisionManager implements RevisionManagerInterface
 
         if (null !== $previous) {
             $revision->setPrevious($previous);
-            $this->persist($previous);
+            $this->objectManager->persist($previous);
             $revision->setTenantCode($previous->getTenantCode());
         }
 
-        $this->persist($revision);
-        $this->flush();
+        $this->objectManager->persist($revision);
+        $this->objectManager->flush();
 
         return $revision;
     }
@@ -139,22 +142,6 @@ class RevisionManager implements RevisionManagerInterface
      */
     public function merge($object)
     {
-        if (null !== $this->objectManager) {
-            return $this->objectManager->merge($object);
-        }
-    }
-
-    private function persist($object)
-    {
-        if (null !== $this->objectManager) {
-            $this->objectManager->persist($object);
-        }
-    }
-
-    private function flush()
-    {
-        if (null !== $this->objectManager) {
-            $this->objectManager->flush();
-        }
+        return $this->objectManager->merge($object);
     }
 }

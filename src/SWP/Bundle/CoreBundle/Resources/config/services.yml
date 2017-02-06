@@ -198,9 +198,7 @@ services:
 
     swp.manager.revision:
         class: SWP\Bundle\CoreBundle\Manager\RevisionManager
-        arguments: ["@swp.factory.revision", "@swp_revision.context.revision", "@event_dispatcher"]
-        calls:
-            - [setObjectManager, ['@swp.object_manager.revision']]
+        arguments: ["@swp.factory.revision", "@swp_revision.context.revision", "@event_dispatcher", "@swp.object_manager.revision"]
 
     swp.listener.menu.widget_create:
         class: SWP\Bundle\CoreBundle\EventListener\MenuWidgetCreateListener
