@@ -1,0 +1,23 @@
+{
+  "name": "Boilerplate",
+  "version": "0.1.0",
+  "devDependencies": {
+    "gulp": "*",
+    "gulp-autoprefixer": "*",
+    "gulp-concat": "*",
+    "gulp-cssmin": "*",
+    "gulp-import-css": "*",
+    "gulp-inject": "*",
+    "gulp-replace": "*",
+    "gulp-sass": "*",
+    "gulp-sourcemaps": "*",
+    "gulp-uglify": "*",
+    "gulp-watch": "*",
+    "node-sass": "*",
+    "sw-precache": "*",
+    "sw-toolbox": "*"
+  },
+  "dependencies": {
+
+  }
+}

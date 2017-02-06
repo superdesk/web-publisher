@@ -40,7 +40,7 @@ class AuthController extends Controller
      *     },
      *     input="SWP\Bundle\CoreBundle\Form\Type\UserAuthenticationType"
      * )
-     * @Route("/api/{version}/auth", options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_auth")
+     * @Route("/api/{version}/auth/", options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_auth")
      * @Method("POST")
      */
     public function authenticateAction(Request $request)
@@ -69,18 +69,18 @@ class AuthController extends Controller
     }
 
     /**
-     * Ask Superdesk server for user with those credentails and try to authorize him.
+     * Ask Superdesk server for user with those credentials and tries to authorize.
      *
      * @ApiDoc(
      *     resource=true,
-     *     description="Ask Superdesk server for user with those credentails and try to authorize him",
+     *     description="Authorize using Superdesk credentials",
      *     statusCodes={
      *         200="Returned on success.",
      *         401="No user found or not authorized."
      *     },
      *     input="SWP\Bundle\CoreBundle\Form\Type\SuperdeskCredentialAuthenticationType"
      * )
-     * @Route("/api/{version}/auth/superdesk", options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_auth_superdesk")
+     * @Route("/api/{version}/auth/superdesk/", options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_auth_superdesk")
      * @Method("POST")
      */
     public function authenticateWithSuperdeskAction(Request $request)

@@ -57,8 +57,8 @@ class ContentPushController extends Controller
         if (null !== $existingArticle) {
             $this->get('swp.hydrator.article')->hydrate($existingArticle, $package);
             $this->get('event_dispatcher')->dispatch(ArticleEvents::PRE_CREATE, new ArticleEvent($existingArticle, $package));
-
             $this->get('swp.object_manager.article')->flush();
+            $this->get('event_dispatcher')->dispatch(ArticleEvents::POST_CREATE, new ArticleEvent($existingArticle));
 
             return new SingleResourceResponse(['status' => 'OK'], new ResponseContext(201));
         }
@@ -97,12 +97,12 @@ class ContentPushController extends Controller
             $uploadedFile = $form->getData()['media'];
             $mediaId = $request->request->get('media_id');
             if ($uploadedFile->isValid()) {
-                $media = $mediaManager->handleUploadedFile(
-                    $uploadedFile,
-                    ArticleMedia::handleMediaId($mediaId)
-                );
+                $media = $this->get('swp.repository.image')->findImageByAssetId(ArticleMedia::handleMediaId($mediaId));
+                if (null == $media) {
+                    $media = $mediaManager->handleUploadedFile($uploadedFile, $mediaId);
 
-                $this->get('swp.object_manager.media')->flush();
+                    $this->get('swp.object_manager.media')->flush();
+                }
 
                 return new SingleResourceResponse([
                     'media_id' => $mediaId,

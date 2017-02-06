@@ -19,7 +19,7 @@ namespace SWP\Bundle\MenuBundle\Form\Type;
 use SWP\Bundle\MenuBundle\Doctrine\MenuItemRepositoryInterface;
 use SWP\Bundle\MenuBundle\Form\DataTransformer\MenuItemToIdTransformer;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -65,6 +65,6 @@ class MenuItemSelectorType extends AbstractType
      */
     public function getParent()
     {
-        return TextType::class;
+        return IntegerType::class;
     }
 }

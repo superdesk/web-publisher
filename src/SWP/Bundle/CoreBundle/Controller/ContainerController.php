@@ -14,6 +14,9 @@
 
 namespace SWP\Bundle\CoreBundle\Controller;
 
+use SWP\Component\Common\Criteria\Criteria;
+use SWP\Component\Common\Pagination\PaginationData;
+use SWP\Component\TemplatesSystem\Gimme\Model\ContainerInterface;
 use SWP\Component\TemplatesSystem\Gimme\Model\WidgetModelInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
@@ -23,7 +26,6 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use SWP\Component\Common\Response\ResourcesListResponse;
 use SWP\Component\Common\Response\ResponseContext;
 use SWP\Component\Common\Response\SingleResourceResponse;
-use SWP\Component\Common\Pagination\PaginationInterface;
 use SWP\Bundle\TemplatesSystemBundle\Form\Type\ContainerType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -51,17 +53,8 @@ class ContainerController extends Controller
      */
     public function listAction(Request $request)
     {
-        $containerProvider = $this->get('swp.provider.container');
-        $paginator = $this->get('knp_paginator');
-        $containers = $paginator->paginate(
-            $containerProvider->getQueryForAll(),
-            $request->get(PaginationInterface::PAGE_PARAMETER_NAME, 1),
-            $request->get(PaginationInterface::LIMIT_PARAMETER_NAME, 10)
-        );
-
-        if (count($containers) == 0) {
-            throw new NotFoundHttpException('Containers were not found.');
-        }
+        $repository = $this->get('swp.repository.container');
+        $containers = $repository->getPaginatedByCriteria(new Criteria(), [], new PaginationData($request));
 
         return new ResourcesListResponse($containers);
     }
@@ -74,8 +67,7 @@ class ContainerController extends Controller
      *     description="Get single container",
      *     statusCodes={
      *         200="Returned on success.",
-     *         404="Container not found",
-     *         422="Container id is not number"
+     *         404="Container not found"
      *     }
      * )
      * @Route("/api/{version}/templates/containers/{uuid}", requirements={"uuid"="\w+"}, options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_templates_get_container")
@@ -94,6 +86,36 @@ class ContainerController extends Controller
         }
 
         return new SingleResourceResponse($container);
+    }
+
+    /**
+     * Render single container and it's widgets.
+     *
+     * @ApiDoc(
+     *     resource=true,
+     *     description="Render single container and it's widgets.",
+     *     statusCodes={
+     *         200="Returned on success.",
+     *         404="Container not found"
+     *     }
+     * )
+     * @Route("/api/{version}/templates/containers/{uuid}/render", requirements={"uuid"="\w+"}, options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_templates_render_container")
+     * @Method("GET")
+     * @Cache(expires="10 minutes", public=true)
+     */
+    public function renderAction($uuid)
+    {
+        /** @var ContainerInterface $container */
+        $container = $this->get('swp.provider.container')->getOneById($uuid);
+
+        if (!$container) {
+            throw new NotFoundHttpException('Container with this uuid was not found.');
+        }
+
+        $content = $this->get('templating')
+            ->render('SWPCoreBundle:Container:render.html.twig', ['containerName' => $container->getName()]);
+
+        return new SingleResourceResponse(['content' => $content]);
     }
 
     /**

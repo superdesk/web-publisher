@@ -1,13 +1,4 @@
-@import url('reset.css');
-
-@import url('bootstrap.min.css');
-
-@import url(http://fonts.googleapis.com/css?family=Oswald&subset=latin,latin-ext);
-
-@import url('content.css');
-@import url('static.css');
-@import url('elements.css');
-@import url('responsive.css');
+@import url(//fonts.googleapis.com/css?family=Oswald&subset=latin,latin-ext);
 
 /* ---------------- */
 /* General */

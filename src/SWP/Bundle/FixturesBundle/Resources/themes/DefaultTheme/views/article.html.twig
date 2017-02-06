@@ -35,6 +35,29 @@
             <p>{{ gimme.article.body|raw }}</p>
           </div>
 
+<div id="links">
+<h2>Article gallery</h2>
+{% gimmelist media from articleMedia with {'article': article} %}
+  {% if media.renditions is iterable %}   
+    {% for rendition in media.renditions %} 
+      {% if rendition.name == '1000x1000' %}
+    <a href="{{ url(rendition) }}" title="{{ media.body }}"></a>
+      {% endif %}
+    {% endfor %}
+  {% endif %}
+{% endgimmelist %}
+</div>
+
+<!-- The Gallery as inline carousel, can be positioned anywhere on the page -->
+<div id="blueimp-gallery-carousel" class="blueimp-gallery blueimp-gallery-carousel">
+    <div class="slides"></div>
+    <h3 class="title"></h3>
+    <a class="prev">‹</a>
+    <a class="next">›</a>
+    <a class="play-pause"></a>
+    <ol class="indicator"></ol>
+</div>
+
 <div id="disqus_thread"></div>
 <script>
 

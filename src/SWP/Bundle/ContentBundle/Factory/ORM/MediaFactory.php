@@ -134,7 +134,6 @@ class MediaFactory implements MediaFactoryInterface
         $articleMedia->setKey($key);
         $image = $this->findImage($originalRendition->getMedia());
         $articleMedia->setImage($image);
-
         foreach ($item->getRenditions() as $key => $rendition) {
             $image = $this->findImage($rendition->getMedia());
             if (null === $image) {

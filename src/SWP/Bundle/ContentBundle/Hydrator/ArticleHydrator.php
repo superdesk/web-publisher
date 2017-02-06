@@ -16,6 +16,7 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\ContentBundle\Hydrator;
 
+use Doctrine\Common\Collections\Collection;
 use SWP\Bundle\ContentBundle\Model\ArticleInterface;
 use SWP\Bundle\ContentBundle\Provider\RouteProviderInterface;
 use SWP\Component\Bridge\Model\ItemInterface;
@@ -53,6 +54,10 @@ final class ArticleHydrator implements ArticleHydratorInterface
      */
     public function hydrate(ArticleInterface $article, PackageInterface $package): ArticleInterface
     {
+        if ($this->populateByline($package) !== $package->getByLine()) {
+            $package->setByLine($this->populateByline($package));
+        }
+
         $article->setBody($this->populateBody($package));
         $article->setTitle($package->getHeadline());
         if (null !== $package->getSlugline()) {
@@ -77,14 +82,51 @@ final class ArticleHydrator implements ArticleHydratorInterface
     protected function populateLead(PackageInterface $package)
     {
         if (null === $package->getDescription() || '' === $package->getDescription()) {
-            return trim($package->getDescription().implode('', array_map(function (ItemInterface $item) {
-                $this->ensureTypeIsAllowed($item->getType());
+            $items = $this->filterTextItems($package->getItems());
 
-                return ' '.$item->getDescription();
-            }, $package->getItems()->toArray())));
+            $map = $items->map(
+                function (ItemInterface $item) {
+                    return ' '.$item->getDescription();
+                }
+            );
+
+            return trim($package->getDescription().implode('', $map->toArray()));
         }
 
         return $package->getDescription();
+    }
+
+    /**
+     * @param PackageInterface $package
+     *
+     * @return string
+     */
+    protected function populateByline(PackageInterface $package)
+    {
+        $items = $this->filterTextItems($package->getItems());
+
+        $authors = array_filter(array_values(array_map(function (ItemInterface $item) {
+            $metadata = $item->getMetadata();
+
+            return $metadata['byline'];
+        }, $items->toArray())));
+
+        if (empty($authors)) {
+            return $package->getByLine();
+        }
+
+        return implode(', ', $authors);
+    }
+
+    private function filterTextItems(Collection $items)
+    {
+        return $items->filter(
+            function (ItemInterface $item) {
+                $this->ensureTypeIsAllowed($item->getType());
+
+                return ItemInterface::TYPE_TEXT === $item->getType();
+            }
+        );
     }
 
     /**

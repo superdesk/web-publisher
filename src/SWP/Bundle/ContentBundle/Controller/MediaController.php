@@ -29,7 +29,7 @@ class MediaController extends Controller
     /**
      * Send or render single media.
      *
-     * @Route("/media/{mediaId}.{extension}", options={"expose"=true}, name="swp_media_get")
+     * @Route("/media/{mediaId}.{extension}", options={"expose"=true}, requirements={"mediaId"=".+"}, name="swp_media_get")
      * @Method("GET")
      */
     public function getAction($mediaId)
@@ -43,9 +43,9 @@ class MediaController extends Controller
 
         $response = new Response();
         if ($media instanceof Image) {
-            $disposition = $response->headers->makeDisposition(ResponseHeaderBag::DISPOSITION_INLINE, $mediaId.'.'.$media->getFileExtension());
+            $disposition = $response->headers->makeDisposition(ResponseHeaderBag::DISPOSITION_INLINE, str_replace('/', '_', $mediaId.'.'.$media->getFileExtension()));
         } else {
-            $disposition = $response->headers->makeDisposition(ResponseHeaderBag::DISPOSITION_ATTACHMENT, $mediaId.'.'.$media->getFileExtension());
+            $disposition = $response->headers->makeDisposition(ResponseHeaderBag::DISPOSITION_ATTACHMENT, str_replace('/', '_', $mediaId.'.'.$media->getFileExtension()));
         }
 
         $response->headers->set('Content-Disposition', $disposition);

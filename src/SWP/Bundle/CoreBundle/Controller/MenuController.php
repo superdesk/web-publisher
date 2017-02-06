@@ -151,20 +151,15 @@ class MenuController extends Controller
      */
     public function createAction(Request $request)
     {
-        $route = null;
-        if (array_key_exists('route', $request->request->get('menu'))) {
-            $route = $this->get('swp.repository.route')->findOneBy(['id' => $request->request->get('menu')['route']]);
-        }
-
         /* @var MenuItemInterface $menu */
-        $menu = $this->get('swp.factory.menu')->createItem('', ['route' => $route ? $route->getName() : null]);
+        $menu = $this->get('swp.factory.menu')->create();
         $form = $this->createForm(MenuType::class, $menu, ['method' => $request->getMethod()]);
 
         $form->handleRequest($request);
 
         if ($form->isValid()) {
+            $this->get('swp_menu.manager.menu_item')->update($menu);
             $this->get('swp.repository.menu')->add($menu);
-
             $this->get('event_dispatcher')->dispatch(MenuEvents::MENU_CREATED, new GenericEvent($menu));
 
             return new SingleResourceResponse($menu, new ResponseContext(201));
