@@ -14,10 +14,12 @@
 
 namespace SWP\Bundle\CoreBundle\DependencyInjection;
 
+use SWP\Bundle\CoreBundle\Model\ApiKeyInterface;
 use SWP\Bundle\CoreBundle\Model\FacebookInstantArticlesArticle;
 use SWP\Bundle\CoreBundle\Model\FacebookInstantArticlesArticleInterface;
 use SWP\Bundle\CoreBundle\Model\FacebookInstantArticlesFeed;
 use SWP\Bundle\CoreBundle\Model\FacebookInstantArticlesFeedInterface;
+use SWP\Bundle\CoreBundle\Model\UserInterface;
 use SWP\Bundle\CoreBundle\Repository\ApiKeyRepository;
 use SWP\Bundle\CoreBundle\Factory\ApiKeyFactory;
 use SWP\Bundle\CoreBundle\Model\ApiKey;
@@ -63,6 +65,7 @@ class Configuration implements ConfigurationInterface
                                             ->scalarNode('model')->cannotBeEmpty()->defaultValue(User::class)->end()
                                             ->scalarNode('repository')->defaultValue(EntityRepository::class)->end()
                                             ->scalarNode('factory')->defaultValue(Factory::class)->end()
+                                            ->scalarNode('interface')->defaultValue(UserInterface::class)->end()
                                             ->scalarNode('object_manager_name')->defaultValue(null)->end()
                                         ->end()
                                     ->end()
@@ -72,6 +75,7 @@ class Configuration implements ConfigurationInterface
                                             ->scalarNode('model')->cannotBeEmpty()->defaultValue(ApiKey::class)->end()
                                             ->scalarNode('repository')->defaultValue(ApiKeyRepository::class)->end()
                                             ->scalarNode('factory')->defaultValue(ApiKeyFactory::class)->end()
+                                            ->scalarNode('interface')->defaultValue(ApiKeyInterface::class)->end()
                                             ->scalarNode('object_manager_name')->defaultValue(null)->end()
                                         ->end()
                                     ->end()

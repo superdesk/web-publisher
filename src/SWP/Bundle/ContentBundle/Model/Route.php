@@ -219,4 +219,24 @@ class Route extends BaseRoute implements RouteInterface
     {
         $this->level = $level;
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getParentId()
+    {
+        if (null !== $this->parent) {
+            return (int) $this->parent->getId();
+        }
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getRootId()
+    {
+        if (null !== $this->root) {
+            return (int) $this->root->getId();
+        }
+    }
 }

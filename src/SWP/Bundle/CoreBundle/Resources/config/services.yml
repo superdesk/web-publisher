@@ -130,6 +130,7 @@ services:
             - "@swp.repository.api_key"
             - "@swp_multi_tenancy.tenant_context"
             - "@swp.repository.tenant"
+            - "@doctrine.orm.default_entity_manager"
 
     swp.security.user_provider:
         class: SWP\Bundle\CoreBundle\Security\Provider\UserProvider
@@ -195,3 +196,12 @@ services:
             - '@swp.repository.widget_model'
         tags:
             - { name: kernel.event_listener, event: swp.menu.deleted, method: onMenuDeleted }
+
+    swp_core.decorating_manager.menu_item:
+        class: SWP\Bundle\CoreBundle\Manager\MenuItemManager
+        decorates: swp_menu.manager.menu_item
+        arguments:
+            - "@swp.repository.menu"
+            - "@swp.object_manager.menu"
+            - "@swp_menu.extension_chain"
+        public: false

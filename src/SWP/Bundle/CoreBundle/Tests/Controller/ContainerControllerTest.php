@@ -41,6 +41,16 @@ class ContainerControllerTest extends WebTestCase
         $this->assertEquals('{"page":1,"limit":10,"pages":1,"total":2,"_links":{"self":{"href":"\/api\/v1\/templates\/containers\/?page=1&limit=10"},"first":{"href":"\/api\/v1\/templates\/containers\/?page=1&limit=10"},"last":{"href":"\/api\/v1\/templates\/containers\/?page=1&limit=10"}},"_embedded":{"_items":[{"id":1,"type":1,"name":"Simple Container 1","width":300,"height":400,"styles":"color: #00000","cssClass":"col-md-12","visible":true,"data":[],"widgets":[],"_links":{"self":{"href":"\/api\/v1\/templates\/containers\/1"}}},{"id":2,"type":1,"name":"Simple Container 2","width":400,"height":500,"styles":"border: 1px solid red;","cssClass":"col-md-6","visible":true,"data":[],"widgets":[],"_links":{"self":{"href":"\/api\/v1\/templates\/containers\/2"}}}]}}', $client->getResponse()->getContent());
     }
 
+    public function testListContainersApiWhenNoContainers()
+    {
+        $client = static::createClient();
+        $this->loadCustomFixtures(['tenant']);
+        $client->request('GET', $this->router->generate('swp_api_templates_list_containers'));
+
+        self::assertEquals(200, $client->getResponse()->getStatusCode());
+        self::assertEquals('{"page":1,"limit":10,"pages":1,"total":0,"_links":{"self":{"href":"\/api\/v1\/templates\/containers\/?page=1&limit=10"},"first":{"href":"\/api\/v1\/templates\/containers\/?page=1&limit=10"},"last":{"href":"\/api\/v1\/templates\/containers\/?page=1&limit=10"}},"_embedded":{"_items":[]}}', $client->getResponse()->getContent());
+    }
+
     public function testSingleContainerApi()
     {
         $client = static::createClient();
@@ -134,8 +144,8 @@ class ContainerControllerTest extends WebTestCase
         $client->request('LINK', $this->router->generate('swp_api_templates_link_container', ['id' => 1]), [], [], [
             'HTTP_LINK' => '</api/v1/templates/widgets/1; rel="widget">',
         ]);
-        $this->assertEquals(201, $client->getResponse()->getStatusCode());
-        $this->assertEquals(
+        self::assertEquals(201, $client->getResponse()->getStatusCode());
+        self::assertEquals(
             '{"id":1,"type":1,"name":"Simple Container 1","width":300,"height":400,"styles":"color: #00000","cssClass":"col-md-12","visible":true,"data":[],"widgets":[{"id":1,"widget":{"id":1,"type":"SWP\\\\Component\\\\TemplatesSystem\\\\Gimme\\\\Widget\\\\HtmlWidgetHandler","name":"HtmlWidgetHandler number 1","visible":true,"parameters":{"html_body":"sample widget with <span style=\'color:red\'>html<\/span>"},"_links":{"self":{"href":"\/api\/v1\/templates\/widgets\/1"}}},"position":"0"}],"_links":{"self":{"href":"\/api\/v1\/templates\/containers\/1"}}}',
             $client->getResponse()->getContent()
         );
@@ -144,7 +154,7 @@ class ContainerControllerTest extends WebTestCase
         $client->request('LINK', $this->router->generate('swp_api_templates_link_container', ['id' => 1]), [], [], [
             'HTTP_LINK' => '</api/v1/templates/widgets/2; rel="widget">,<1; rel="widget-position">',
         ]);
-        $this->assertEquals(
+        self::assertEquals(
             '{"id":1,"type":1,"name":"Simple Container 1","width":300,"height":400,"styles":"color: #00000","cssClass":"col-md-12","visible":true,"data":[],"widgets":[{"id":1,"widget":{"id":1,"type":"SWP\\\Component\\\\TemplatesSystem\\\Gimme\\\Widget\\\HtmlWidgetHandler","name":"HtmlWidgetHandler number 1","visible":true,"parameters":{"html_body":"sample widget with <span style=\'color:red\'>html<\/span>"},"_links":{"self":{"href":"\/api\/v1\/templates\/widgets\/1"}}},"position":"0"},{"id":2,"widget":{"id":2,"type":"SWP\\\Component\\\\TemplatesSystem\\\Gimme\\\Widget\\\HtmlWidgetHandler","name":"HtmlWidgetHandler number 2","visible":true,"parameters":{"html_body":"sample widget with html 2"},"_links":{"self":{"href":"\/api\/v1\/templates\/widgets\/2"}}},"position":"1"}],"_links":{"self":{"href":"\/api\/v1\/templates\/containers\/1"}}}',
             $client->getResponse()->getContent()
         );
@@ -153,7 +163,7 @@ class ContainerControllerTest extends WebTestCase
         $client->request('LINK', $this->router->generate('swp_api_templates_link_container', ['id' => 1]), [], [], [
             'HTTP_LINK' => '</api/v1/templates/widgets/2; rel="widget">,<0; rel="widget-position">',
         ]);
-        $this->assertEquals(
+        self::assertEquals(
             '{"id":1,"type":1,"name":"Simple Container 1","width":300,"height":400,"styles":"color: #00000","cssClass":"col-md-12","visible":true,"data":[],"widgets":[{"id":1,"widget":{"id":1,"type":"SWP\\\Component\\\\TemplatesSystem\\\Gimme\\\Widget\\\HtmlWidgetHandler","name":"HtmlWidgetHandler number 1","visible":true,"parameters":{"html_body":"sample widget with <span style=\'color:red\'>html<\/span>"},"_links":{"self":{"href":"\/api\/v1\/templates\/widgets\/1"}}},"position":"1"},{"id":2,"widget":{"id":2,"type":"SWP\\\Component\\\\TemplatesSystem\\\Gimme\\\Widget\\\HtmlWidgetHandler","name":"HtmlWidgetHandler number 2","visible":true,"parameters":{"html_body":"sample widget with html 2"},"_links":{"self":{"href":"\/api\/v1\/templates\/widgets\/2"}}},"position":"0"}],"_links":{"self":{"href":"\/api\/v1\/templates\/containers\/1"}}}',
             $client->getResponse()->getContent()
         );
@@ -162,9 +172,30 @@ class ContainerControllerTest extends WebTestCase
         $client->request('LINK', $this->router->generate('swp_api_templates_link_container', ['id' => 1]), [], [], [
             'HTTP_LINK' => '</api/v1/templates/widgets/2; rel="widget">,<-1; rel="widget-position">',
         ]);
-        $this->assertEquals(
+        self::assertEquals(
             '{"id":1,"type":1,"name":"Simple Container 1","width":300,"height":400,"styles":"color: #00000","cssClass":"col-md-12","visible":true,"data":[],"widgets":[{"id":1,"widget":{"id":1,"type":"SWP\\\Component\\\\TemplatesSystem\\\Gimme\\\Widget\\\HtmlWidgetHandler","name":"HtmlWidgetHandler number 1","visible":true,"parameters":{"html_body":"sample widget with <span style=\'color:red\'>html<\/span>"},"_links":{"self":{"href":"\/api\/v1\/templates\/widgets\/1"}}},"position":"0"},{"id":2,"widget":{"id":2,"type":"SWP\\\Component\\\\TemplatesSystem\\\Gimme\\\Widget\\\HtmlWidgetHandler","name":"HtmlWidgetHandler number 2","visible":true,"parameters":{"html_body":"sample widget with html 2"},"_links":{"self":{"href":"\/api\/v1\/templates\/widgets\/2"}}},"position":"1"}],"_links":{"self":{"href":"\/api\/v1\/templates\/containers\/1"}}}',
             $client->getResponse()->getContent()
         );
+    }
+
+    public function testRenderContainer()
+    {
+        $client = static::createClient();
+        $client->request('GET', $this->router->generate('swp_api_templates_render_container', ['id' => 1]));
+        self::assertEquals(200, $client->getResponse()->getStatusCode());
+        self::assertEquals('{"content":"<div id=\"swp_container_1\" class=\"swp_container col-md-12\" style=\"height: 400px;width: 300px;color: #00000\" > <\/div>"}', $client->getResponse()->getContent());
+
+        $client->request('LINK', $this->router->generate('swp_api_templates_link_container', ['id' => 1]), [], [], [
+            'HTTP_LINK' => '</api/v1/templates/widgets/1; rel="widget">',
+        ]);
+        self::assertEquals(201, $client->getResponse()->getStatusCode());
+        self::assertEquals(
+            '{"id":1,"type":1,"name":"Simple Container 1","width":300,"height":400,"styles":"color: #00000","cssClass":"col-md-12","visible":true,"data":[],"widgets":[{"id":1,"widget":{"id":1,"type":"SWP\\\\Component\\\\TemplatesSystem\\\\Gimme\\\\Widget\\\\HtmlWidgetHandler","name":"HtmlWidgetHandler number 1","visible":true,"parameters":{"html_body":"sample widget with <span style=\'color:red\'>html<\/span>"},"_links":{"self":{"href":"\/api\/v1\/templates\/widgets\/1"}}},"position":"0"}],"_links":{"self":{"href":"\/api\/v1\/templates\/containers\/1"}}}',
+            $client->getResponse()->getContent()
+        );
+
+        $client->request('GET', $this->router->generate('swp_api_templates_render_container', ['id' => 1]));
+        self::assertEquals(200, $client->getResponse()->getStatusCode());
+        self::assertEquals('{"content":"<div id=\"swp_container_1\" class=\"swp_container col-md-12\" style=\"height: 400px;width: 300px;color: #00000\" >sample widget with <span style=\'color:red\'>html<\/span><\/div>"}', $client->getResponse()->getContent());
     }
 }

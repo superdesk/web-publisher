@@ -1,5 +1,5 @@
 SWP\Bundle\CoreBundle\Model\ApiKey:
-    type: entity
+    type: mappedSuperclass
     table: swp_api_key
     id:
         id:
@@ -18,9 +18,8 @@ SWP\Bundle\CoreBundle\Model\ApiKey:
             nullable: true
     manyToOne:
         user:
-            targetEntity: SWP\Bundle\CoreBundle\Model\User
+            targetEntity: SWP\Bundle\CoreBundle\Model\UserInterface
             joinColumn:
                 name: user_id
                 referencedColumnName: id
-                nullable: true
                 onDelete: CASCADE
