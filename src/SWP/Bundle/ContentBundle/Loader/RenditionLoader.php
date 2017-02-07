@@ -58,11 +58,17 @@ class RenditionLoader implements LoaderInterface
             $renditionName = null;
             $fallbackRenditionName = self::FALLBACK_NAME;
             $fallbackRendition = null;
-            if (!$this->templateContext['articleMedia'] instanceof Meta) {
-                return false;
+
+            if (array_key_exists('media', $parameters) && $parameters['media'] instanceof Meta) {
+                $articleMedia = $parameters['media']->getValues();
+            } else {
+                if (!$this->templateContext['articleMedia'] instanceof Meta) {
+                    return false;
+                }
+
+                /** @var ArticleMediaInterface $articleMedia */
+                $articleMedia = $this->templateContext['articleMedia']->getValues();
             }
-            /** @var ArticleMediaInterface $articleMedia */
-            $articleMedia = $this->templateContext['articleMedia']->getValues();
 
             if (array_key_exists('fallback', $parameters) && is_string($parameters['fallback'])) {
                 $fallbackRenditionName = $parameters['fallback'];

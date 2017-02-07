@@ -28,6 +28,8 @@ interface ArticleInterface extends TimestampableInterface, TranslatableInterface
     const STATUS_PUBLISHED = 'published';
     const STATUS_UNPUBLISHED = 'unpublished';
 
+    const KEY_FEATURE_MEDIA = 'featuremedia';
+
     /**
      * @return mixed
      */
@@ -131,4 +133,14 @@ interface ArticleInterface extends TimestampableInterface, TranslatableInterface
      * @param array $keywords
      */
     public function setKeywords(array $keywords);
+
+    /**
+     * @return null|ArticleMediaInterface
+     */
+    public function getFeatureMedia();
+
+    /**
+     * @param ArticleMediaInterface $featureMedia
+     */
+    public function setFeatureMedia(ArticleMediaInterface $featureMedia);
 }
