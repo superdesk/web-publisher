@@ -75,8 +75,6 @@ class ContentPushController extends Controller
         $article = $this->get('swp_content.transformer.package_to_article')->transform($package);
         $this->get('event_dispatcher')->dispatch(ArticleEvents::PRE_CREATE, new ArticleEvent($article, $package));
         $articleRepository->add($article);
-
-        $this->createOrUpdate($article);
         $this->get('event_dispatcher')->dispatch(ArticleEvents::POST_CREATE, new ArticleEvent($article));
 
         return new SingleResourceResponse(['status' => 'OK'], new ResponseContext(201));
