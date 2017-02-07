@@ -7,6 +7,9 @@ in 0.1 minor versions.
 
 To get the diff for a specific change, go to https://github.com/superdesk/web-publisher/commit/XXX where XXX is the change hash
 
+* 0.5.0
+ * feature [#212] Implement revisions system for containers
+
 * 0.2.0
  * feature [#235] Add API endpoint for rendering single container (and its content)
  * feature [#219] Automatically create menu widget when root menu/navigation is created
