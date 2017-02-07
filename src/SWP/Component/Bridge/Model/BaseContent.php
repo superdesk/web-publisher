@@ -107,6 +107,11 @@ class BaseContent implements ContentInterface
     protected $keywords = [];
 
     /**
+     * @var string
+     */
+    protected $pubStatus = ContentInterface::STATUS_USABLE;
+
+    /**
      * @return mixed
      */
     public function getId()
@@ -413,5 +418,21 @@ class BaseContent implements ContentInterface
     public function setKeywords(array $keywords)
     {
         $this->keywords = $keywords;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getPubStatus(): string
+    {
+        return $this->pubStatus;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setPubStatus(string $pubStatus)
+    {
+        $this->pubStatus = $pubStatus;
     }
 }

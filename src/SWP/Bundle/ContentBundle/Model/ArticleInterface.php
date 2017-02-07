@@ -27,6 +27,7 @@ interface ArticleInterface extends TimestampableInterface, TranslatableInterface
     const STATUS_SUBMITTED = 'submitted';
     const STATUS_PUBLISHED = 'published';
     const STATUS_UNPUBLISHED = 'unpublished';
+    const STATUS_CANCELED = 'canceled';
 
     /**
      * @return mixed

@@ -222,4 +222,15 @@ class BaseContentSpec extends ObjectBehavior
 
         $this->getMetadata()->shouldReturn($metadata);
     }
+
+    public function it_has_status_by_default()
+    {
+        $this->getPubStatus()->shouldReturn('usable');
+    }
+
+    public function its_status_is_mutable()
+    {
+        $this->setPubStatus('withheld');
+        $this->getPubStatus()->shouldReturn('withheld');
+    }
 }
