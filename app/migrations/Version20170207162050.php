@@ -19,11 +19,7 @@ class Version20170207162050 extends AbstractMigration
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'postgresql', 'Migration can only be executed safely on \'postgresql\'.');
 
         $this->addSql('ALTER TABLE swp_item ADD pub_status VARCHAR(255) DEFAULT NULL');
-        $this->addSql('UPDATE swp_item SET pub_status = \'usable\'');
-        $this->addSql('ALTER TABLE swp_item ALTER COLUMN pub_status SET NOT NULL');
         $this->addSql('ALTER TABLE swp_package ADD pub_status VARCHAR(255) DEFAULT NULL');
-        $this->addSql('UPDATE swp_package SET pub_status = \'usable\'');
-        $this->addSql('ALTER TABLE swp_package ALTER COLUMN pub_status SET NOT NULL');
     }
 
     /**
