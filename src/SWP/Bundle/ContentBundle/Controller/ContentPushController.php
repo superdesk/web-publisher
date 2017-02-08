@@ -23,7 +23,9 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use SWP\Bundle\ContentBundle\ArticleEvents;
 use SWP\Bundle\ContentBundle\Event\ArticleEvent;
 use SWP\Bundle\ContentBundle\Form\Type\MediaFileType;
+use SWP\Bundle\ContentBundle\Model\ArticleInterface;
 use SWP\Bundle\ContentBundle\Model\ArticleMedia;
+use SWP\Component\Bridge\Model\ContentInterface;
 use SWP\Component\Bridge\Model\PackageInterface;
 use SWP\Component\Common\Response\ResponseContext;
 use SWP\Component\Common\Response\SingleResourceResponse;
@@ -55,6 +57,13 @@ class ContentPushController extends Controller
         $existingArticle = $articleRepository->findOneBy(['slug' => Transliterator::urlize($package->getSlugline())]);
 
         if (null !== $existingArticle) {
+            if (ContentInterface::STATUS_CANCELED === $package->getPubStatus()) {
+                $this->get('swp.service.article')->unpublish($existingArticle, ArticleInterface::STATUS_CANCELED);
+                $this->get('swp.object_manager.article')->flush();
+
+                return new SingleResourceResponse(['status' => 'OK'], new ResponseContext(201));
+            }
+
             $this->get('swp.hydrator.article')->hydrate($existingArticle, $package);
             $this->get('event_dispatcher')->dispatch(ArticleEvents::PRE_CREATE, new ArticleEvent($existingArticle, $package));
             $this->get('swp.object_manager.article')->flush();

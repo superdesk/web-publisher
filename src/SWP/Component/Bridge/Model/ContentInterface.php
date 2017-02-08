@@ -16,6 +16,9 @@ namespace SWP\Component\Bridge\Model;
 
 interface ContentInterface
 {
+    const STATUS_USABLE = 'usable';
+    const STATUS_CANCELED = 'canceled';
+
     /**
      * @return mixed
      */
@@ -190,4 +193,14 @@ interface ContentInterface
      * @param array $keywords
      */
     public function setKeywords(array $keywords);
+
+    /**
+     * @return string
+     */
+    public function getPubStatus(): string;
+
+    /**
+     * @param string $pubStatus
+     */
+    public function setPubStatus(string $pubStatus);
 }
