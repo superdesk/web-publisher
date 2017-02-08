@@ -677,6 +677,56 @@ class ContentPushControllerTest extends WebTestCase
         self::assertFalse($content['isPublishable']);
     }
 
+    public function testUnpublishedArticleUnpublishWhenItemKilled()
+    {
+        $client = static::createClient();
+        $client->request(
+            'POST',
+            $this->router->generate('swp_api_content_push'),
+            [],
+            [],
+            ['CONTENT_TYPE' => 'application/json'],
+            self::TEST_ITEM_CONTENT
+        );
+
+        self::assertEquals(201, $client->getResponse()->getStatusCode());
+
+        $client->request(
+            'GET',
+            $this->router->generate('swp_api_content_show_articles', ['id' => 'abstract-html-test'])
+        );
+
+        self::assertEquals(200, $client->getResponse()->getStatusCode());
+        $content = json_decode($client->getResponse()->getContent(), true);
+
+        self::assertEquals('new', $content['status']);
+        self::assertFalse($content['isPublishable']);
+
+        // kill article
+        $client->request(
+            'POST',
+            $this->router->generate('swp_api_content_push'),
+            [],
+            [],
+            ['CONTENT_TYPE' => 'application/json'],
+            self::TEST_KILLED_ITEM_CONTENT
+        );
+
+        self::assertEquals(201, $client->getResponse()->getStatusCode());
+
+        $client->request(
+            'GET',
+            $this->router->generate('swp_api_content_show_articles', ['id' => 'abstract-html-test'])
+        );
+
+        self::assertEquals(200, $client->getResponse()->getStatusCode());
+
+        $content = json_decode($client->getResponse()->getContent(), true);
+
+        self::assertEquals('canceled', $content['status']);
+        self::assertFalse($content['isPublishable']);
+    }
+
     public function testArticleUnpublishWhenPackageKilled()
     {
         $client = static::createClient();
@@ -708,6 +758,56 @@ class ContentPushControllerTest extends WebTestCase
 
         self::assertEquals('published', $content['status']);
         self::assertTrue($content['isPublishable']);
+
+        // kill article
+        $client->request(
+            'POST',
+            $this->router->generate('swp_api_content_push'),
+            [],
+            [],
+            ['CONTENT_TYPE' => 'application/json'],
+            self::TEST_KILLED_PACKAGE
+        );
+
+        self::assertEquals(201, $client->getResponse()->getStatusCode());
+
+        $client->request(
+            'GET',
+            $this->router->generate('swp_api_content_show_articles', ['id' => 'ads-fsadf-sdaf-sadf-sadf'])
+        );
+
+        self::assertEquals(200, $client->getResponse()->getStatusCode());
+
+        $content = json_decode($client->getResponse()->getContent(), true);
+
+        self::assertEquals('canceled', $content['status']);
+        self::assertFalse($content['isPublishable']);
+    }
+
+    public function testUnpublishedArticleUnpublishWhenPackageKilled()
+    {
+        $client = static::createClient();
+        $client->request(
+            'POST',
+            $this->router->generate('swp_api_content_push'),
+            [],
+            [],
+            ['CONTENT_TYPE' => 'application/json'],
+            self::TEST_CONTENT
+        );
+
+        self::assertEquals(201, $client->getResponse()->getStatusCode());
+
+        $client->request(
+            'GET',
+            $this->router->generate('swp_api_content_show_articles', ['id' => 'ads-fsadf-sdaf-sadf-sadf'])
+        );
+
+        self::assertEquals(200, $client->getResponse()->getStatusCode());
+        $content = json_decode($client->getResponse()->getContent(), true);
+
+        self::assertEquals('new', $content['status']);
+        self::assertFalse($content['isPublishable']);
 
         // kill article
         $client->request(
