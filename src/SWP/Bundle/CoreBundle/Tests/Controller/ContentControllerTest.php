@@ -153,12 +153,4 @@ class ContentControllerTest extends WebTestCase
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
         $this->assertEquals(1, $crawler->filter('html:contains("theme_test/test.html.twig")')->count());
     }
-
-    public function testRenderingNotPublisherArticle()
-    {
-    }
-
-    public function testRenderingPublishedArticle()
-    {
-    }
 }

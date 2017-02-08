@@ -109,6 +109,10 @@ class ProcessArticleMediaListener
             //TODO: handle files upload
         }
 
+        if ($key === ArticleInterface::KEY_FEATURE_MEDIA) {
+            $article->setFeatureMedia($articleMedia);
+        }
+
         return $articleMedia;
     }
 

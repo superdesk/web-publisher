@@ -35,4 +35,7 @@ properties:
     keywords:
         description: "Article keywords"
         type: array
+    featureMedia:
+        description: "Article feature media"
+        type: meta
 to_string: title
