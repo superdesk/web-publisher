@@ -103,6 +103,11 @@ class Article implements ArticleInterface, MediaAwareArticleInterface
     protected $media;
 
     /**
+     * @var ArticleMediaInterface
+     */
+    protected $featureMedia;
+
+    /**
      * @var string
      */
     protected $lead;
@@ -414,6 +419,22 @@ class Article implements ArticleInterface, MediaAwareArticleInterface
     public function setKeywords(array $keywords)
     {
         $this->keywords = $keywords;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getFeatureMedia()
+    {
+        return $this->featureMedia;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setFeatureMedia(ArticleMediaInterface $featureMedia)
+    {
+        $this->featureMedia = $featureMedia;
     }
 
     /**

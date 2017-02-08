@@ -16,6 +16,7 @@ namespace SWP\Bundle\ContentBundle\Tests\Loader;
 
 use SWP\Bundle\ContentBundle\Loader\RenditionLoader;
 use SWP\Bundle\ContentBundle\Tests\Functional\WebTestCase;
+use SWP\Component\TemplatesSystem\Gimme\Factory\MetaFactoryInterface;
 use Symfony\Component\Filesystem\Filesystem;
 
 class RenditionLoaderTest extends WebTestCase
@@ -56,10 +57,7 @@ class RenditionLoaderTest extends WebTestCase
         $this->assertFalse($this->renditionLoader->isSupported('articleMedia'));
     }
 
-    /*
-     * Load article and it's media by tested article media loader.
-     */
-    public function testArticleMediaLoading()
+    public function testRenditionLoadingFromContextArticleMedia()
     {
         $articleLoader = $this->getContainer()->get('swp_template_engine.loader.article');
         $articleMediaLoader = $this->getContainer()->get('swp_template_engine.loader.media');
@@ -77,5 +75,30 @@ class RenditionLoaderTest extends WebTestCase
         $rendition = $this->renditionLoader->load('rendition', ['name' => '160-90', 'fallback' => '4-3']);
         self::assertInstanceOf('SWP\Component\TemplatesSystem\Gimme\Meta\Meta', $rendition);
         self::assertEquals('4-3', $rendition->name);
+    }
+
+    public function testRenditionLoadingFromProvidedMeta()
+    {
+        $articleLoader = $this->getContainer()->get('swp_template_engine.loader.article');
+        /** @var MetaFactoryInterface $metaFactory */
+        $metaFactory = $this->getContainer()->get('swp_template_engine_context.factory.meta_factory');
+        $articleMeta = $articleLoader->load('article', ['slug' => 'test-news-article']);
+        $articleMedia = $metaFactory->create($articleMeta->getValues()->getMedia()[0]);
+
+        $removedId = $this->getContainer()->get('context')->temporaryUnset(['articleMedia']);
+
+        $rendition = $this->renditionLoader->load('rendition', ['name' => '16-9', 'media' => $articleMedia]);
+        self::assertInstanceOf('SWP\Component\TemplatesSystem\Gimme\Meta\Meta', $rendition);
+        self::assertEquals('16-9', $rendition->name);
+
+        $rendition = $this->renditionLoader->load('rendition', ['name' => '160-90', 'media' => $articleMedia, 'fallback' => '4-3']);
+        self::assertInstanceOf('SWP\Component\TemplatesSystem\Gimme\Meta\Meta', $rendition);
+        self::assertEquals('4-3', $rendition->name);
+
+        $this->getContainer()->get('context')->restoreTemporaryUnset($removedId);
+
+        $rendition = $this->renditionLoader->load('rendition', ['name' => '16-9', 'media' => null]);
+        self::assertInstanceOf('SWP\Component\TemplatesSystem\Gimme\Meta\Meta', $rendition);
+        self::assertEquals('16-9', $rendition->name);
     }
 }
