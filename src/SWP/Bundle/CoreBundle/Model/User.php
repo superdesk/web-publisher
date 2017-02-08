@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Superdesk Web Publisher Core Bundle.
  *
@@ -15,17 +17,12 @@
 namespace SWP\Bundle\CoreBundle\Model;
 
 use FOS\UserBundle\Model\User as BaseUser;
-use SWP\Component\Common\Model\TimestampableInterface;
 use SWP\Component\Common\Model\TimestampableTrait;
-use SWP\Component\MultiTenancy\Model\TenantAwareInterface;
 use SWP\Component\MultiTenancy\Model\TenantAwareTrait;
-use SWP\Component\Storage\Model\PersistableInterface;
 
-class User extends BaseUser implements PersistableInterface, TenantAwareInterface, TimestampableInterface
+class User extends BaseUser implements UserInterface
 {
     use TenantAwareTrait, TimestampableTrait;
-
-    protected $id;
 
     public function __construct()
     {

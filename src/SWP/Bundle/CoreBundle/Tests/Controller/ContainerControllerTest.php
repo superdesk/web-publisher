@@ -41,6 +41,16 @@ class ContainerControllerTest extends WebTestCase
         $this->assertEquals('{"page":1,"limit":10,"pages":1,"total":2,"_links":{"self":{"href":"\/api\/v1\/templates\/containers\/?page=1&limit=10"},"first":{"href":"\/api\/v1\/templates\/containers\/?page=1&limit=10"},"last":{"href":"\/api\/v1\/templates\/containers\/?page=1&limit=10"}},"_embedded":{"_items":[{"id":1,"type":1,"name":"Simple Container 1","width":300,"height":400,"styles":"color: #00000","cssClass":"col-md-12","visible":true,"data":[],"widgets":[],"_links":{"self":{"href":"\/api\/v1\/templates\/containers\/1"}}},{"id":2,"type":1,"name":"Simple Container 2","width":400,"height":500,"styles":"border: 1px solid red;","cssClass":"col-md-6","visible":true,"data":[],"widgets":[],"_links":{"self":{"href":"\/api\/v1\/templates\/containers\/2"}}}]}}', $client->getResponse()->getContent());
     }
 
+    public function testListContainersApiWhenNoContainers()
+    {
+        $client = static::createClient();
+        $this->loadCustomFixtures(['tenant']);
+        $client->request('GET', $this->router->generate('swp_api_templates_list_containers'));
+
+        self::assertEquals(200, $client->getResponse()->getStatusCode());
+        self::assertEquals('{"page":1,"limit":10,"pages":1,"total":0,"_links":{"self":{"href":"\/api\/v1\/templates\/containers\/?page=1&limit=10"},"first":{"href":"\/api\/v1\/templates\/containers\/?page=1&limit=10"},"last":{"href":"\/api\/v1\/templates\/containers\/?page=1&limit=10"}},"_embedded":{"_items":[]}}', $client->getResponse()->getContent());
+    }
+
     public function testSingleContainerApi()
     {
         $client = static::createClient();

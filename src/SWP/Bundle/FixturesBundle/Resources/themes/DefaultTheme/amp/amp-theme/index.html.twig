@@ -3,7 +3,7 @@ Available variables:
 - object - Object of an class instance which you provided in the bundle config. e.g. AppBundle\Entity\Post
 #}
 <!doctype html>
-<html amp lang="en">
+<html ⚡>
 <head>
   <meta charset="utf-8">
   <script async src="https://cdn.ampproject.org/v0.js"></script>
@@ -35,7 +35,7 @@ Available variables:
       {% if media.renditions is iterable %}
           {% for rendition in media.renditions %}
               {% if rendition.name == '478x326' %}
-                <amp-img src="{{ path(rendition) }}" alt="{{ media.body }}" class="mainImg"></amp-img>
+                <amp-img src="{{ path(rendition) }}" height="326" width="478"  layout="responsive" alt="{{ media.body }}" class="mainImg"></amp-img>
               {% endif %}
           {% endfor %}
       {% endif %}

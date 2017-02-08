@@ -17,7 +17,10 @@ RUN apt-get update -y
 # Install PHP 7 libraries
 RUN apt-get update && apt-get install -y \
     libpq-dev \
-    libzip-dev
+    libzip-dev \
+    zip \
+    unzip \
+    php7.0-zip
 
 # Install Composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer

@@ -14,6 +14,8 @@
 
 namespace SWP\Bundle\CoreBundle\Controller;
 
+use SWP\Component\Common\Criteria\Criteria;
+use SWP\Component\Common\Pagination\PaginationData;
 use SWP\Component\TemplatesSystem\Gimme\Model\ContainerInterface;
 use SWP\Component\TemplatesSystem\Gimme\Model\WidgetModelInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -24,7 +26,6 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use SWP\Component\Common\Response\ResourcesListResponse;
 use SWP\Component\Common\Response\ResponseContext;
 use SWP\Component\Common\Response\SingleResourceResponse;
-use SWP\Component\Common\Pagination\PaginationInterface;
 use SWP\Bundle\TemplatesSystemBundle\Form\Type\ContainerType;
 use SWP\Bundle\TemplatesSystemBundle\Model\ContainerData;
 use SWP\Bundle\TemplatesSystemBundle\Model\ContainerWidget;
@@ -50,17 +51,9 @@ class ContainerController extends Controller
      */
     public function listAction(Request $request)
     {
-        $entityManager = $this->get('doctrine')->getManager();
-        $paginator = $this->get('knp_paginator');
-        $containers = $paginator->paginate(
-            $entityManager->getRepository('SWP\Bundle\CoreBundle\Model\Container')->getAll(),
-            $request->get(PaginationInterface::PAGE_PARAMETER_NAME, 1),
-            $request->get(PaginationInterface::LIMIT_PARAMETER_NAME, 10)
-        );
+        $repository = $this->get('swp.repository.container');
 
-        if (count($containers) == 0) {
-            throw new NotFoundHttpException('Containers were not found.');
-        }
+        $containers = $repository->getPaginatedByCriteria(new Criteria(), [], new PaginationData($request));
 
         return new ResourcesListResponse($containers);
     }

@@ -28,6 +28,8 @@ class ApiKeyRepository extends EntityRepository implements ApiKeyRepositoryInter
     public function getValidToken(string $token): QueryBuilder
     {
         $qb = $this->getQueryByCriteria(new Criteria(['apiKey' => $token]), [], 'ak')
+            ->leftJoin('ak.user', 'u')
+            ->addSelect('u')
             ->andWhere('ak.validTo >= :now')
             ->setParameter('now', new \DateTime());
 
