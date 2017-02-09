@@ -25,15 +25,11 @@ class MenuExtension extends KnpMenuExtension
      */
     public function get($menu, array $path = array(), array $options = array())
     {
-        $result = '';
-
         try {
-            $result = parent::get($menu, $path, $options);
+            parent::get($menu, $path, $options);
         } catch (\InvalidArgumentException $e) {
-            // when menu not found
+            return '';
         }
-
-        return $result;
     }
 
     /**
