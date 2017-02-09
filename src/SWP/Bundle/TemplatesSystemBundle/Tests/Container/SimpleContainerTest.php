@@ -83,8 +83,8 @@ class SimpleContainerTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($this->container->setWidgets([$widget, $widget]), $this->container);
         $this->assertEquals($this->container->hasWidgets(), true);
         $this->assertEquals($this->container->renderWidgets(), <<<'EOF'
-simple html body
-simple html body
+<div class="swp_widget">simple html body</div>
+<div class="swp_widget">simple html body</div>
 EOF
         );
     }

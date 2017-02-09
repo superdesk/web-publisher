@@ -18,6 +18,8 @@ use SWP\Component\TemplatesSystem\Gimme\Model\ContainerInterface;
 
 class SimpleContainer
 {
+    const WIDGET_CLASS = 'swp_widget';
+
     /**
      * @var ContainerInterface
      */
@@ -98,7 +100,7 @@ class SimpleContainer
     {
         $widgetsOutput = [];
         foreach ($this->widgets as $widget) {
-            $widgetsOutput[] = $widget->render();
+            $widgetsOutput[] = '<div class="'.self::WIDGET_CLASS.'">'.$widget->render().'</div>';
         }
 
         return implode("\n", $widgetsOutput);
