@@ -1,0 +1,25 @@
+services:
+    swp_core.extension.routing:
+        class: SWP\Bundle\CoreBundle\Twig\RoutingExtension
+        decorates: twig.extension.routing
+        arguments:
+            - '@cmf_routing.generator'
+        public: false
+        tags:
+            - { name: twig.extension }
+
+    swp_core.twig_stringy_extension:
+        class: SWP\Bundle\CoreBundle\Twig\StringyExtension
+        public: false
+        arguments:
+            - "@twig"
+        tags:
+            - { name: twig.extension }
+
+    swp_core.twig_extension:
+        class: SWP\Bundle\CoreBundle\Twig\CoreExtension
+        public: false
+        arguments:
+            - "@swp_core.theme.context.tenant_aware"
+        tags:
+            - { name: twig.extension }

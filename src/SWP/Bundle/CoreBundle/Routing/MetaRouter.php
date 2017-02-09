@@ -59,12 +59,8 @@ class MetaRouter extends DynamicRouter
             throw new RouteNotFoundException(sprintf('Unable to generate a URL for the named route "%s" as such route does not exist.', $name));
         }
 
-        try {
-            $result = parent::generate($route, $parameters, $referenceType);
-            $this->internalRoutesCache[$cacheKey] = $result;
-        } catch (RouteNotFoundException $e) {
-            $result = '';
-        }
+        $result = parent::generate($route, $parameters, $referenceType);
+        $this->internalRoutesCache[$cacheKey] = $result;
 
         unset($route, $name, $parameters);
 
