@@ -1,6 +1,4 @@
 parameters:
-    # override default cmf dynamic router with our implementation (with support for Meta classes)
-    swp_core.twig_extension.class: SWP\Bundle\CoreBundle\Twig\CoreExtension
     swp_core.routing.route_enhancer.class: SWP\Bundle\CoreBundle\Enhancer\RouteEnhancer
     swp_core.theme.resolver.template_name.class: SWP\Bundle\CoreBundle\Resolver\TemplateNameResolver
 
@@ -28,14 +26,6 @@ services:
             - "@swp_multi_tenancy.tenant_context"
             - "@sylius.repository.theme"
             - "@doctrine_cache.providers.main_cache"
-
-    swp_core.twig_extension:
-        class: '%swp_core.twig_extension.class%'
-        public: false
-        arguments:
-            - "@swp_core.theme.context.tenant_aware"
-        tags:
-            - { name: twig.extension }
 
     swp_core.no_theme_exception_listener:
         class: SWP\Bundle\CoreBundle\EventListener\NoThemeExceptionListener
@@ -85,14 +75,6 @@ services:
         class: SWP\Bundle\CoreBundle\Form\Type\BooleanType
         tags:
             - { name: form.type }
-
-    swp_core.twig_stringy_extension:
-        class: SWP\Bundle\CoreBundle\Twig\StringyExtension
-        public: false
-        arguments:
-            - "@twig"
-        tags:
-            - { name: twig.extension }
 
     swp_core.security.session.domain_dynamic_storage:
         class: SWP\Bundle\CoreBundle\Security\Storage\DynamicDomainSessionStorage
