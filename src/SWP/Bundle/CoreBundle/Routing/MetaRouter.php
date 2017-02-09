@@ -61,7 +61,6 @@ class MetaRouter extends DynamicRouter
 
         $result = parent::generate($route, $parameters, $referenceType);
         $this->internalRoutesCache[$cacheKey] = $result;
-
         unset($route, $name, $parameters);
 
         return $result;
