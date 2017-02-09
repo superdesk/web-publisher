@@ -16,12 +16,17 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\CoreBundle\Twig;
 
+use Knp\Menu\ItemInterface;
 use Knp\Menu\Twig\MenuExtension as KnpMenuExtension;
 
 class MenuExtension extends KnpMenuExtension
 {
     /**
-     * {@inheritdoc}
+     * @param \Knp\Menu\ItemInterface|string $menu
+     * @param array                          $path
+     * @param array                          $options
+     *
+     * @return ItemInterface|string
      */
     public function get($menu, array $path = array(), array $options = array())
     {
