@@ -77,15 +77,16 @@ class SimpleContainerTest extends \PHPUnit_Framework_TestCase
     public function testWidgets()
     {
         $widgetEntity = new WidgetModel();
+        $widgetEntity->setId(1);
         $widgetEntity->setParameters(['html_body' => 'simple html body']);
         $widget = new HtmlWidgetHandler($widgetEntity);
 
         $this->assertEquals($this->container->setWidgets([$widget, $widget]), $this->container);
         $this->assertEquals($this->container->hasWidgets(), true);
-        $this->assertEquals($this->container->renderWidgets(), <<<'EOF'
-<div class="swp_widget">simple html body</div>
-<div class="swp_widget">simple html body</div>
+        $this->assertEquals(<<<'EOF'
+<div id="swp_widget_1" class="swp_widget">simple html body</div>
+<div id="swp_widget_1" class="swp_widget">simple html body</div>
 EOF
-        );
+        , $this->container->renderWidgets());
     }
 }
