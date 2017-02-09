@@ -84,6 +84,6 @@ Or get selected rendition:
 
 .. code-block:: twig
 
-    {% gimme rendition with { 'media': gimme.article.featureMedia 'name': '16-9', 'fallback': 'original' } %}
+    {% gimme rendition with { 'media': gimme.article.featureMedia, 'name': '16-9', 'fallback': 'original' } %}
         <img src="{{ url(gimme.rendition) }}" style="width: {{ gimme.rendition.width }}px; height: {{ gimme.rendition.height }}px;" />
     {% endgimme %}
