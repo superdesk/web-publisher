@@ -56,6 +56,10 @@ final class OrmMenuProvider implements MenuProviderInterface
      */
     public function has($name, array $options = [])
     {
+        if (null === $name) {
+            return false;
+        }
+
         $menuItem = $this->repository->getOneMenuItemByName($name);
 
         return $menuItem instanceof MenuItemInterface;
