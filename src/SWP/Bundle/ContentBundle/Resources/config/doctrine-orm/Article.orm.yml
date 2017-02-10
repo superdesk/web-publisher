@@ -8,6 +8,11 @@ SWP\Bundle\ContentBundle\Model\Article:
             id: true
             generator:
                 strategy: IDENTITY
+    gedmo:
+        soft_deleteable:
+            field_name: deletedAt
+            time_aware: false
+        loggable: true
     fields:
         slug:
             type: string
@@ -29,9 +34,15 @@ SWP\Bundle\ContentBundle\Model\Article:
             type: string
         createdAt:
             type: datetime
+            gedmo:
+                timestampable:
+                    on: create
         updatedAt:
             type: datetime
             nullable: true
+            gedmo:
+                timestampable:
+                    on: update
         deletedAt:
             type: datetime
             nullable: true
