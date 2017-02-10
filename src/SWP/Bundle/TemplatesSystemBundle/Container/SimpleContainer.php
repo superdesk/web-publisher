@@ -15,9 +15,12 @@
 namespace SWP\Bundle\TemplatesSystemBundle\Container;
 
 use SWP\Component\TemplatesSystem\Gimme\Model\ContainerInterface;
+use SWP\Component\TemplatesSystem\Gimme\Widget\WidgetHandlerInterface;
 
 class SimpleContainer
 {
+    const WIDGET_CLASS = 'swp_widget';
+
     /**
      * @var ContainerInterface
      */
@@ -97,8 +100,15 @@ class SimpleContainer
     public function renderWidgets()
     {
         $widgetsOutput = [];
+        /** @var WidgetHandlerInterface $widget */
         foreach ($this->widgets as $widget) {
-            $widgetsOutput[] = $widget->render();
+            $widgetsOutput[] = sprintf(
+                '<div id="%s_%s" class="%s">%s</div>',
+                self::WIDGET_CLASS,
+                $widget->getId(),
+                self::WIDGET_CLASS,
+                $widget->render()
+            );
         }
 
         return implode("\n", $widgetsOutput);
