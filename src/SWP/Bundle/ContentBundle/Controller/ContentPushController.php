@@ -106,18 +106,18 @@ class ContentPushController extends Controller
             $uploadedFile = $form->getData()['media'];
             $mediaId = $request->request->get('media_id');
             if ($uploadedFile->isValid()) {
-                $media = $this->get('swp.repository.image')->findImageByAssetId(ArticleMedia::handleMediaId($mediaId));
-                if (null == $media) {
-                    $media = $mediaManager->handleUploadedFile($uploadedFile, $mediaId);
+                $image = $this->get('swp.repository.image')->findImageByAssetId(ArticleMedia::handleMediaId($mediaId));
+                if (null == $image) {
+                    $image = $mediaManager->handleUploadedFile($uploadedFile, $mediaId);
 
                     $this->get('swp.object_manager.media')->flush();
                 }
 
                 return new SingleResourceResponse([
                     'media_id' => $mediaId,
-                    'URL' => $mediaManager->getMediaPublicUrl($media),
-                    'media' => base64_encode($mediaManager->getFile($media)),
-                    'mime_type' => Mime::getMimeFromExtension($media->getFileExtension()),
+                    'URL' => $mediaManager->getMediaPublicUrl($image),
+                    'media' => base64_encode($mediaManager->getFile($image)),
+                    'mime_type' => Mime::getMimeFromExtension($image->getFileExtension()),
                     'filemeta' => [],
                 ], new ResponseContext(201));
             }
@@ -145,10 +145,10 @@ class ContentPushController extends Controller
      */
     public function getAssetsAction($mediaId)
     {
-        $media = $this->get('swp.repository.media')
-            ->findMediaByAssetId(ArticleMedia::handleMediaId($mediaId));
+        $image = $this->get('swp.repository.image')
+            ->findImageByAssetId(ArticleMedia::handleMediaId($mediaId));
 
-        if (null === $media) {
+        if (null === $image) {
             throw new NotFoundHttpException('Media don\'t exist in storage');
         }
 
@@ -156,9 +156,9 @@ class ContentPushController extends Controller
 
         return new SingleResourceResponse([
             'media_id' => $mediaId,
-            'URL' => $mediaManager->getMediaPublicUrl($media->getImage()),
-            'media' => base64_encode($mediaManager->getFile($media->getImage())),
-            'mime_type' => Mime::getMimeFromExtension($media->getImage()->getFileExtension()),
+            'URL' => $mediaManager->getMediaPublicUrl($image),
+            'media' => base64_encode($mediaManager->getFile($image)),
+            'mime_type' => Mime::getMimeFromExtension($image->getFileExtension()),
             'filemeta' => [],
         ]);
     }
