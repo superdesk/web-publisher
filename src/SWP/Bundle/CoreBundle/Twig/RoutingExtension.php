@@ -29,6 +29,7 @@ class RoutingExtension extends SymfonyRoutingExtension
         try {
             return parent::getPath($name, $parameters, $relative);
         } catch (RouteNotFoundException $e) {
+            // allow empty path
         }
     }
 
@@ -40,6 +41,7 @@ class RoutingExtension extends SymfonyRoutingExtension
         try {
             return parent::getUrl($name, $parameters, $schemeRelative);
         } catch (RouteNotFoundException $e) {
+            // allow empty url
         }
     }
 }
