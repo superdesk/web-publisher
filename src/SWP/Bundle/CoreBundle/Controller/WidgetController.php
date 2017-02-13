@@ -19,10 +19,11 @@ use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use SWP\Component\Common\Criteria\Criteria;
+use SWP\Component\Common\Pagination\PaginationData;
 use SWP\Component\Common\Response\ResourcesListResponse;
 use SWP\Component\Common\Response\ResponseContext;
 use SWP\Component\Common\Response\SingleResourceResponse;
-use SWP\Component\Common\Pagination\PaginationInterface;
 use SWP\Bundle\TemplatesSystemBundle\Form\Type\WidgetType;
 use SWP\Bundle\CoreBundle\Model\WidgetModel;
 use Symfony\Component\HttpFoundation\Request;
@@ -47,17 +48,9 @@ class WidgetController extends FOSRestController
      */
     public function listAction(Request $request)
     {
-        $entityManager = $this->get('doctrine')->getManager();
-        $paginator = $this->get('knp_paginator');
-        $widgets = $paginator->paginate(
-            $entityManager->getRepository('SWP\Bundle\CoreBundle\Model\WidgetModel')->getAll(),
-            $request->get(PaginationInterface::PAGE_PARAMETER_NAME, 1),
-            $request->get(PaginationInterface::LIMIT_PARAMETER_NAME, 10)
-        );
+        $repository = $this->get('swp.repository.widget_model');
 
-        if (count($widgets) == 0) {
-            throw new NotFoundHttpException('Widgets were not found.');
-        }
+        $widgets = $repository->getPaginatedByCriteria(new Criteria(), [], new PaginationData($request));
 
         return new ResourcesListResponse($widgets);
     }

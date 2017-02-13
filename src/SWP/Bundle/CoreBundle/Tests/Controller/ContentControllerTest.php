@@ -135,7 +135,7 @@ class ContentControllerTest extends WebTestCase
         ]);
 
         $this->assertEquals(201, $client->getResponse()->getStatusCode());
-        $this->assertEquals('{"id":3,"content":null,"staticPrefix":"\/simple-test-route","variablePattern":null,"children":[],"level":0,"templateName":"test.html.twig","articlesTemplateName":null,"type":"content","cacheTimeInSeconds":0,"name":"simple-test-route","position":1,"_links":{"self":{"href":"\/api\/v1\/content\/routes\/3"}}}', $client->getResponse()->getContent());
+        $this->assertEquals('{"id":3,"content":null,"staticPrefix":"\/simple-test-route","variablePattern":null,"root":3,"parent":null,"children":[],"level":0,"templateName":"test.html.twig","articlesTemplateName":null,"type":"content","cacheTimeInSeconds":0,"name":"simple-test-route","position":2,"_links":{"self":{"href":"\/api\/v1\/content\/routes\/3"}}}', $client->getResponse()->getContent());
 
         $crawler = $client->request('GET', '/simple-test-route');
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
@@ -152,13 +152,5 @@ class ContentControllerTest extends WebTestCase
         $crawler = $client->request('GET', '/collection-content/some-other-content');
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
         $this->assertEquals(1, $crawler->filter('html:contains("theme_test/test.html.twig")')->count());
-    }
-
-    public function testRenderingNotPublisherArticle()
-    {
-    }
-
-    public function testRenderingPublishedArticle()
-    {
     }
 }

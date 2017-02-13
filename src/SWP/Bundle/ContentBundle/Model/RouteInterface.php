@@ -163,4 +163,14 @@ interface RouteInterface extends TreeAwareRouteInterface, PersistableInterface
      * @return mixed
      */
     public function getContent();
+
+    /**
+     * @return int|null
+     */
+    public function getParentId();
+
+    /**
+     * @return int|null
+     */
+    public function getRootId();
 }

@@ -44,6 +44,8 @@ SWP\Bundle\ContentBundle\Model\Article:
             type: boolean
         media:
             expose: true
+        featureMedia:
+            expose: true
         metadata:
             expose: true
             type: array
