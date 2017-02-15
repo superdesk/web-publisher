@@ -23,3 +23,6 @@ SWP\Bundle\CoreBundle\Model\ApiKey:
                 name: user_id
                 referencedColumnName: id
                 onDelete: CASCADE
+    uniqueConstraints:
+        search_idx:
+            columns: [ api_key ]
