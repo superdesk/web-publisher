@@ -107,7 +107,8 @@
         "johnkary/phpunit-speedtrap": "^1.0",
         "symfony/phpunit-bridge": "^3.1",
         "symfony-cmf/testing": "2.0.x",
-        "liip/rmt": "dev-master"
+        "liip/rmt": "dev-master",
+        "pixers/doctrine-profiler-bundle": "^1.0"
     },
     "replace": {
         "swp/common": "self.version",
