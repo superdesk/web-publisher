@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "b2d5f364bccf127ef62d82df0a3594c1",
+    "content-hash": "006252a29ca78909e5193d7e85df231b",
     "packages": [
         {
             "name": "apache/log4php",
@@ -8499,6 +8499,48 @@
                 "xunit"
             ],
             "time": "2016-04-20T14:39:26+00:00"
+        },
+        {
+            "name": "pixers/doctrine-profiler-bundle",
+            "version": "v1.0.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/pixers/PixersDoctrineProfilerBundle.git",
+                "reference": "313b16b4384651872d97ad4babdf73dfeec9e93c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/pixers/PixersDoctrineProfilerBundle/zipball/313b16b4384651872d97ad4babdf73dfeec9e93c",
+                "reference": "313b16b4384651872d97ad4babdf73dfeec9e93c",
+                "shasum": ""
+            },
+            "require": {
+                "doctrine/doctrine-bundle": "~1.2",
+                "doctrine/orm": "~2.4",
+                "php": ">=5.4",
+                "symfony/framework-bundle": "~2.6 || ~3.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~4.0"
+            },
+            "type": "symfony-bundle",
+            "autoload": {
+                "psr-4": {
+                    "Pixers\\DoctrineProfilerBundle\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Bartłomiej Ojrzeński",
+                    "email": "bartlomiej.ojrzenski@pixers.pl"
+                }
+            ],
+            "description": "PIXERS Doctrine profiler bundle",
+            "time": "2017-02-08T20:32:01+00:00"
         },
         {
             "name": "sebastian/code-unit-reverse-lookup",
