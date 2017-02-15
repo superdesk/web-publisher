@@ -33,6 +33,8 @@ class ContainerRepository extends EntityRepository
     {
         $qb = $this->createQueryBuilder('c')
             ->where('c.name = :name')
+            ->leftJoin('c.data', 'd')
+            ->select('c', 'd')
             ->setParameters([
                 'name' => $name,
             ]);
@@ -51,6 +53,8 @@ class ContainerRepository extends EntityRepository
     {
         $qb = $this->createQueryBuilder('c')
             ->where('c.id = :id')
+            ->leftJoin('c.data', 'd')
+            ->select('c', 'd')
             ->setParameters([
                 'id' => $id,
             ]);
