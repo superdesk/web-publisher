@@ -32,13 +32,9 @@
 <div id="links">
 <h2>Article gallery</h2>
 {% gimmelist media from articleMedia with {'article': article} %}
-  {% if media.renditions is iterable %}
-    {% for rendition in media.renditions %}
-      {% if rendition.name == '1000x1000' %}
+  {% gimme rendition with {'media': media, 'name': '770x515', 'fallback': 'original' } %}
     <a href="{{ url(rendition) }}" title="{{ media.body }}"></a>
-      {% endif %}
-    {% endfor %}
-  {% endif %}
+  {% endgimme %}
 {% endgimmelist %}
 </div>
 
