@@ -136,6 +136,10 @@ class ContainerControllerTest extends WebTestCase
 
         $this->assertEquals(201, $client->getResponse()->getStatusCode());
         $this->assertEquals($client->getResponse()->getContent(), '{"id":1,"type":1,"name":"Simple Container 1","width":300,"height":400,"styles":"color: #00000","cssClass":"col-md-12","visible":true,"data":[],"widgets":[],"_links":{"self":{"href":"\/api\/v1\/templates\/containers\/1"}}}');
+
+        $client->request('GET', $this->router->generate('swp_api_templates_list_widgets', ['id' => 1]));
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+
     }
 
     public function testLinkingOnExactPositionApi()
