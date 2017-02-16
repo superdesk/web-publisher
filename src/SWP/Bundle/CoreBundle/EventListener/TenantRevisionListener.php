@@ -17,6 +17,7 @@ declare(strict_types=1);
 namespace SWP\Bundle\CoreBundle\EventListener;
 
 use SWP\Component\Revision\Context\RevisionContext;
+use SWP\Component\Revision\Context\RevisionContextInterface;
 use SWP\Component\Revision\Model\RevisionInterface;
 use SWP\Component\Revision\Repository\RevisionRepositoryInterface;
 use SWP\Component\Storage\Repository\RepositoryInterface;
@@ -42,9 +43,9 @@ class TenantRevisionListener
      * TenantRevisionListener constructor.
      *
      * @param RevisionRepositoryInterface $revisionRepository
-     * @param RevisionContext             $revisionContext
+     * @param RevisionContextInterface    $revisionContext
      */
-    public function __construct(RevisionRepositoryInterface $revisionRepository, RevisionContext $revisionContext)
+    public function __construct(RevisionRepositoryInterface $revisionRepository, RevisionContextInterface $revisionContext)
     {
         $this->revisionRepository = $revisionRepository;
         $this->revisionContext = $revisionContext;
