@@ -63,3 +63,7 @@ SWP\Component\Bridge\Model\BaseContent:
         keywords:
             expose: true
             type: array
+        pubStatus:
+            expose: true
+            serialized_name: pubstatus
+            type: string

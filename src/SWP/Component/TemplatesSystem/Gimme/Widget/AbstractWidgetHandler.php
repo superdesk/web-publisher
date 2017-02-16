@@ -41,9 +41,25 @@ abstract class AbstractWidgetHandler implements WidgetHandlerInterface
     }
 
     /**
+     * {@inheritdoc}
+     */
+    public function isVisible()
+    {
+        return $this->widgetModel->getVisible();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getId()
+    {
+        return $this->widgetModel->getId();
+    }
+
+    /**
      * @param $name
      *
-     * @return string
+     * @return null|string
      */
     protected function getModelParameter($name)
     {
@@ -60,16 +76,6 @@ abstract class AbstractWidgetHandler implements WidgetHandlerInterface
         }
 
         return;
-    }
-
-    /**
-     * Check if widget should be rendered.
-     *
-     * @return bool
-     */
-    public function isVisible()
-    {
-        return $this->widgetModel->getVisible();
     }
 
     /**

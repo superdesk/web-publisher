@@ -15,18 +15,12 @@
 
       <article class="news_item span8 ">
          <div class="thumbnail content_text">
-
-{% gimmelist media from articleMedia|limit(1) with {'article': article} %}
-  {% if media.renditions is iterable %}   
-    {% for rendition in media.renditions %} 
-      {% if rendition.name == '770x515' %} 
-            <img src="{{ url(rendition) }}" alt="{{ media.body }}">
-            <h6 class="caption">{{ media.body }}</h6>
-      {% endif %}
-    {% endfor %}
-  {% endif %}
-{% endgimmelist %}
-
+          {% if gimme.article.featureMedia %}
+            {% gimme rendition with { 'media': gimme.article.featureMedia, 'name': '770x515' } %}
+              <img src="{{ url(rendition) }}" alt="{{ gimme.article.featureMedia.description }}">
+              <h6 class="caption">{{ gimme.article.featureMedia.description }}</h6>
+            {% endgimme %}
+          {% endif %}
           </div>
 
           <div class="content content_text padding_bottom_10">
@@ -38,13 +32,9 @@
 <div id="links">
 <h2>Article gallery</h2>
 {% gimmelist media from articleMedia with {'article': article} %}
-  {% if media.renditions is iterable %}   
-    {% for rendition in media.renditions %} 
-      {% if rendition.name == '1000x1000' %}
+  {% gimme rendition with {'media': media, 'name': '770x515', 'fallback': 'original' } %}
     <a href="{{ url(rendition) }}" title="{{ media.body }}"></a>
-      {% endif %}
-    {% endfor %}
-  {% endif %}
+  {% endgimme %}
 {% endgimmelist %}
 </div>
 
@@ -74,7 +64,7 @@ s.setAttribute('data-timestamp', +new Date());
 })();
 </script>
 <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-                                
+
 
       </article>
 

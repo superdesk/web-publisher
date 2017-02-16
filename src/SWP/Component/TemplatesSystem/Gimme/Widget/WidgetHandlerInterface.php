@@ -38,4 +38,9 @@ interface WidgetHandlerInterface
      * @return bool
      */
     public function isVisible();
+
+    /**
+     * @return int
+     */
+    public function getId();
 }

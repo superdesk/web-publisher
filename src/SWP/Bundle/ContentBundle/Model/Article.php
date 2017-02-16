@@ -18,6 +18,7 @@ use Behat\Transliterator\Transliterator;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use SWP\Component\Common\Model\SoftDeletableTrait;
+use SWP\Component\Common\Model\TimestampableTrait;
 use SWP\Component\Common\Model\TranslatableTrait;
 
 /**
@@ -25,7 +26,7 @@ use SWP\Component\Common\Model\TranslatableTrait;
  */
 class Article implements ArticleInterface, MediaAwareArticleInterface
 {
-    use TranslatableTrait, SoftDeletableTrait;
+    use TranslatableTrait, SoftDeletableTrait, TimestampableTrait;
 
     /**
      * @var mixed
@@ -70,16 +71,6 @@ class Article implements ArticleInterface, MediaAwareArticleInterface
     /**
      * @var \DateTime
      */
-    protected $createdAt;
-
-    /**
-     * @var \DateTime
-     */
-    protected $updatedAt;
-
-    /**
-     * @var \DateTime
-     */
     protected $publishStartDate;
 
     /**
@@ -101,6 +92,11 @@ class Article implements ArticleInterface, MediaAwareArticleInterface
      * @var Collection
      */
     protected $media;
+
+    /**
+     * @var ArticleMediaInterface
+     */
+    protected $featureMedia;
 
     /**
      * @var string
@@ -176,38 +172,6 @@ class Article implements ArticleInterface, MediaAwareArticleInterface
     public function isPublished()
     {
         return $this->getStatus() === ArticleInterface::STATUS_PUBLISHED;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getCreatedAt()
-    {
-        return $this->createdAt;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getUpdatedAt()
-    {
-        return $this->updatedAt;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function setCreatedAt(\DateTime $createdAt)
-    {
-        $this->createdAt = $createdAt;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function setUpdatedAt(\DateTime $updatedAt)
-    {
-        $this->updatedAt = $updatedAt;
     }
 
     /**
@@ -414,6 +378,22 @@ class Article implements ArticleInterface, MediaAwareArticleInterface
     public function setKeywords(array $keywords)
     {
         $this->keywords = $keywords;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getFeatureMedia()
+    {
+        return $this->featureMedia;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setFeatureMedia(ArticleMediaInterface $featureMedia)
+    {
+        $this->featureMedia = $featureMedia;
     }
 
     /**

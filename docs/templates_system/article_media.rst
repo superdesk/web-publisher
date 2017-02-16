@@ -64,3 +64,26 @@ Get selected rendition only:
 .. note::
 
     'original' is default feedback value for single rendition loader.
+
+Feature Media
+`````````````
+
+If Item comes with :code:`featuremedia` association then Article will have this media set as :code:`featureMedia`.
+
+Usage:
+
+.. code-block:: twig
+
+    {% if gimme.article.featureMedia.renditions is iterable %}
+        {% for rendition in gimme.article.featureMedia.renditions %}
+            <img src="{{ url(rendition) }}" style="width: {{ rendition.width }}px; height: {{ rendition.height }}px;" />
+        {% endfor %}
+    {% endif %}
+
+Or get selected rendition:
+
+.. code-block:: twig
+
+    {% gimme rendition with { 'media': gimme.article.featureMedia, 'name': '16-9', 'fallback': 'original' } %}
+        <img src="{{ url(rendition) }}" style="width: {{ rendition.width }}px; height: {{ rendition.height }}px;" />
+    {% endgimme %}
