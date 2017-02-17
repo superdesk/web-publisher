@@ -69,7 +69,7 @@ class RevisionsSubscriberTest extends WebTestCase
         $revisionContext->setPublishedRevision($requestRevisionContext->getPublishedRevision());
         $revisionContext->setWorkingRevision($requestRevisionContext->getWorkingRevision());
         $revisionContext->setCurrentRevision($requestRevisionContext->getCurrentRevision());
-        $revision = $this->manager->merge($revisionContext->getWorkingRevision());
+        $revision = $this->getContainer()->get('swp.object_manager.revision')->merge($revisionContext->getWorkingRevision());
         $this->subscriber->publish(new RevisionPublishedEvent($revision));
 
         $client->request('GET', $this->getContainer()->get('router')->generate(

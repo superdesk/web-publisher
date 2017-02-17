@@ -3985,16 +3985,16 @@
         },
         {
             "name": "oneup/flysystem-bundle",
-            "version": "1.10.0",
+            "version": "1.10.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/1up-lab/OneupFlysystemBundle.git",
-                "reference": "a8f5ce36b9624e1c8c7b8ccc89f10790e313c705"
+                "reference": "a931b4339d069c5d285226e4721635ccded3be6a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/1up-lab/OneupFlysystemBundle/zipball/a8f5ce36b9624e1c8c7b8ccc89f10790e313c705",
-                "reference": "a8f5ce36b9624e1c8c7b8ccc89f10790e313c705",
+                "url": "https://api.github.com/repos/1up-lab/OneupFlysystemBundle/zipball/a931b4339d069c5d285226e4721635ccded3be6a",
+                "reference": "a931b4339d069c5d285226e4721635ccded3be6a",
                 "shasum": ""
             },
             "require": {
@@ -4022,6 +4022,7 @@
             },
             "suggest": {
                 "ext-fileinfo": "Required for MimeType",
+                "ext-ftp": "Required for FTP and SFTP",
                 "jenko/flysystem-gaufrette": "Allows you to use gaufrette adapter",
                 "league/flysystem-aws-s3-v2": "Use S3 storage with AWS SDK v2",
                 "league/flysystem-aws-s3-v3": "Use S3 storage with AWS SDK v3",
@@ -4062,7 +4063,7 @@
                 "abstraction",
                 "filesystem"
             ],
-            "time": "2017-02-03T10:49:25+00:00"
+            "time": "2017-02-17T10:24:31+00:00"
         },
         {
             "name": "pagerfanta/pagerfanta",
@@ -9061,7 +9062,7 @@
         },
         {
             "name": "symfony/phpunit-bridge",
-            "version": "v3.2.3",
+            "version": "v3.2.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/phpunit-bridge.git",

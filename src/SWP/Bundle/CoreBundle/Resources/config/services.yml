@@ -180,7 +180,7 @@ services:
             - { name: kernel.event_listener, event: swp.list_criteria_change, method: onListCriteriaChange }
 
     swp.manager.revision:
-        class: SWP\Bundle\CoreBundle\Manager\RevisionManager
+        class: SWP\Bundle\RevisionBundle\Manager\RevisionManager
         arguments: ["@swp.factory.revision", "@swp_revision.context.revision", "@event_dispatcher", "@swp.object_manager.revision"]
 
     swp.listener.menu.widget_create:

@@ -1,18 +1,20 @@
 <?php
 
+declare(strict_types=1);
+
 /*
- * This file is part of the Superdesk Web Publisher Core Bundle.
+ * This file is part of the Superdesk Publisher Revision Bundle.
  *
- * Copyright 2016 Sourcefabric z.u. and contributors.
+ * Copyright 2017 Sourcefabric z.u. and contributors.
  *
  * For the full copyright and license information, please see the
  * AUTHORS and LICENSE files distributed with this source code.
  *
- * @copyright 2016 Sourcefabric z.ú
+ * @copyright 2015 Sourcefabric z.ú
  * @license http://www.superdesk.org/license
  */
 
-namespace SWP\Bundle\CoreBundle\Manager;
+namespace SWP\Bundle\RevisionBundle\Manager;
 
 use Doctrine\ORM\EntityManagerInterface;
 use SWP\Bundle\RevisionBundle\Event\RevisionPublishedEvent;
@@ -127,21 +129,5 @@ class RevisionManager implements RevisionManagerInterface
     public function getRevisionContext(): RevisionContextInterface
     {
         return $this->revisionContext;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function setObjectManager(EntityManagerInterface $objectManager)
-    {
-        $this->objectManager = $objectManager;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function merge($object)
-    {
-        return $this->objectManager->merge($object);
     }
 }

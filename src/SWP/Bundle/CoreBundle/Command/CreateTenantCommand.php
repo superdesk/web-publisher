@@ -31,7 +31,6 @@ class CreateTenantCommand extends BaseCreateTenantCommand
 
         /** @var RevisionManagerInterface $revisionManager */
         $revisionManager = $this->getContainer()->get('swp.manager.revision');
-        $revisionManager->setObjectManager($this->getContainer()->get('swp.object_manager.revision'));
 
         /** @var RevisionInterface $firstTenantPublishedRevision */
         $revision = $revisionManager->create();

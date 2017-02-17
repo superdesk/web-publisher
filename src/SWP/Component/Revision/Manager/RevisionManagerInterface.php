@@ -16,7 +16,6 @@ declare(strict_types=1);
 
 namespace SWP\Component\Revision\Manager;
 
-use Doctrine\ORM\EntityManagerInterface;
 use SWP\Component\Revision\Model\RevisionInterface;
 use SWP\Component\Revision\Context\RevisionContextInterface;
 
@@ -52,18 +51,4 @@ interface RevisionManagerInterface
      * @return RevisionContextInterface
      */
     public function getRevisionContext(): RevisionContextInterface;
-
-    /**
-     * @param EntityManagerInterface $objectManager
-     *
-     * @return mixed
-     */
-    public function setObjectManager(EntityManagerInterface $objectManager);
-
-    /**
-     * @param mixed $object
-     *
-     * @return mixed
-     */
-    public function merge($object);
 }

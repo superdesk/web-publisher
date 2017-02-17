@@ -67,7 +67,7 @@ class RevisionManagerTest extends WebTestCase
         $revisionContext->setWorkingRevision($requestRevisionContext->getWorkingRevision());
         $revisionContext->setCurrentRevision($requestRevisionContext->getCurrentRevision());
 
-        $revision = $this->manager->merge($revisionContext->getWorkingRevision());
+        $revision = $this->getContainer()->get('swp.object_manager.revision')->merge($revisionContext->getWorkingRevision());
         $this->manager->publish($revision);
     }
 }
