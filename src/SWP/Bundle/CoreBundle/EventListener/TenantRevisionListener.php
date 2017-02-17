@@ -20,7 +20,6 @@ use SWP\Component\Revision\Context\RevisionContext;
 use SWP\Component\Revision\Context\RevisionContextInterface;
 use SWP\Component\Revision\Model\RevisionInterface;
 use SWP\Component\Revision\Repository\RevisionRepositoryInterface;
-use SWP\Component\Storage\Repository\RepositoryInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 
@@ -30,12 +29,12 @@ use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 class TenantRevisionListener
 {
     /**
-     * @var RepositoryInterface
+     * @var RevisionRepositoryInterface
      */
     protected $revisionRepository;
 
     /**
-     * @var RevisionContext
+     * @var RevisionContextInterface
      */
     protected $revisionContext;
 

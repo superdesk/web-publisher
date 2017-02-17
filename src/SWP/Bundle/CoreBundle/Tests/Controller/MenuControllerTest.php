@@ -60,6 +60,49 @@ class MenuControllerTest extends WebTestCase
         self::assertEquals($client->getResponse()->getContent(), '{"id":1,"type":"SWP\\\\Bundle\\\\TemplatesSystemBundle\\\\Widget\\\\MenuWidgetHandler","name":"main-menu","visible":true,"parameters":{"menu_name":"main-menu"},"_links":{"self":{"href":"\/api\/v1\/templates\/widgets\/1"}}}');
     }
 
+    public function testCreateMenuAndModifyRoute()
+    {
+        $client = static::createClient();
+        $client->request('POST', $this->router->generate('swp_api_content_create_routes'), [
+            'route' => [
+                'name' => 'simple-test-route',
+                'type' => 'content',
+                'content' => null,
+                'templateName' => 'test.html.twig',
+            ],
+        ]);
+
+        self::assertEquals(201, $client->getResponse()->getStatusCode());
+
+        $client->request('POST', $this->router->generate('swp_api_core_create_menu'), [
+            'menu' => [
+                'name' => 'main-menu',
+                'label' => 'Main menu',
+                'route' => 3,
+            ],
+        ]);
+
+        self::assertEquals(201, $client->getResponse()->getStatusCode());
+        $content = $client->getResponse()->getContent();
+
+        $content = json_decode($content, true);
+        $client->request('GET', $content['uri']);
+        self::assertEquals(200, $client->getResponse()->getStatusCode());
+
+        $client->enableProfiler();
+        $client->request('PATCH', $this->router->generate('swp_api_content_update_routes', ['id' => 3]), [
+            'route' => [
+                'name' => 'simple-edited-test-route',
+            ],
+        ]);
+        self::assertEquals(200, $client->getResponse()->getStatusCode());
+
+        $client->request('GET', $this->router->generate('swp_api_core_get_menu', ['id' => 2]));
+        $content = json_decode($client->getResponse()->getContent(), true);
+        $client->request('GET', $content['uri']);
+        self::assertEquals(200, $client->getResponse()->getStatusCode());
+    }
+
     public function testCreateMenuItemsWithTheSameNamesApi()
     {
         $client = static::createClient();
