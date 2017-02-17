@@ -17,7 +17,6 @@ SWP\Bundle\TemplatesSystemBundle\Model\ContainerWidget:
         widget:
             targetEntity: SWP\Component\TemplatesSystem\Gimme\Model\WidgetModelInterface
             inversedBy: containers
-            cascade: ["remove"]
             joinColumn:
                 name: widget_id
                 referencedColumnName: id
