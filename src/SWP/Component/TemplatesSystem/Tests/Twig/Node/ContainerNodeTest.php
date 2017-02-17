@@ -48,8 +48,8 @@ class ContainerNodeTest extends \Twig_Test_NodeTestCase
         return [
             [$node1, <<<'EOF'
 // line 1
-$containerService = $this->env->getExtension('swp_container')->getContainerService();
-$container = $containerService->getContainer("container_name", array());
+$rendererService = $this->env->getExtension('swp_container')->getContainerService();
+$container = $rendererService->getContainerRenderer("container_name", array());
 if ($container->isVisible()) {
     echo $container->renderOpenTag();
     if ($container->hasWidgets()) {
@@ -59,13 +59,13 @@ if ($container->isVisible()) {
     }
     echo $container->renderCloseTag();
 }
-unset($container);unset($containerService);
+unset($container);unset($rendererService);
 EOF
             ],
             [$node2, <<<'EOF'
 // line 2
-$containerService = $this->env->getExtension('swp_container')->getContainerService();
-$container = $containerService->getContainer("container_name", array());
+$rendererService = $this->env->getExtension('swp_container')->getContainerService();
+$container = $rendererService->getContainerRenderer("container_name", array());
 if ($container->isVisible()) {
     echo $container->renderOpenTag();
     if ($container->hasWidgets()) {
@@ -75,13 +75,13 @@ if ($container->isVisible()) {
     }
     echo $container->renderCloseTag();
 }
-unset($container);unset($containerService);
+unset($container);unset($rendererService);
 EOF
             ],
             [$node3, <<<'EOF'
 // line 3
-$containerService = $this->env->getExtension('swp_container')->getContainerService();
-$container = $containerService->getContainer("container_name", array("foo" => true));
+$rendererService = $this->env->getExtension('swp_container')->getContainerService();
+$container = $rendererService->getContainerRenderer("container_name", array("foo" => true));
 if ($container->isVisible()) {
     echo $container->renderOpenTag();
     if ($container->hasWidgets()) {
@@ -91,7 +91,7 @@ if ($container->isVisible()) {
     }
     echo $container->renderCloseTag();
 }
-unset($container);unset($containerService);
+unset($container);unset($rendererService);
 EOF
             ],
         ];

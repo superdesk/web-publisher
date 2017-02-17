@@ -122,7 +122,9 @@
         "swp/templates-system": "self.version",
         "swp/rule-bundle": "self.version",
         "swp/rule": "self.version",
-        "swp/facebook-instant-articles-bundle": "self.version"
+        "swp/facebook-instant-articles-bundle": "self.version",
+        "swp/revision-bundle": "self.version",
+        "swp/revision": "self.version"
     },
     "scripts": {
         "post-install-cmd": [

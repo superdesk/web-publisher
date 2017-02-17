@@ -1,0 +1,40 @@
+{
+  "name": "swp/revision",
+  "description": "Add revisions to objects.",
+  "keywords": ["revision", "access control"],
+  "homepage": "https://github.com/SuperdeskWebPublisher/revision",
+  "type": "library",
+  "license": "AGPL-3.0",
+  "authors": [
+    {
+      "name": "Paweł Mikołajczuk",
+      "email": "mikolajczuk.private@gmail.com",
+      "homepage": "https://github.com/ahilles107"
+    }
+  ],
+  "require": {
+    "php": "^7.0",
+    "swp/common": "~0.1.0",
+    "swp/storage": "~0.1.0"
+  },
+  "require-dev": {
+    "phpspec/phpspec": "^2.4",
+    "phpunit/phpunit": "5.*"
+  },
+  "autoload": {
+    "exclude-from-classmap": [
+      "spec/",
+      "Tests/"
+    ],
+    "psr-4": { "SWP\\Component\\Revision\\": "" }
+  },
+  "config": {
+    "bin-dir": "bin"
+  },
+  "minimum-stability": "dev",
+  "extra": {
+    "branch-alias": {
+      "dev-master": "1.0.x-dev"
+    }
+  }
+}

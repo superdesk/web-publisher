@@ -23,6 +23,11 @@ use Doctrine\ORM\QueryBuilder;
 interface RepositoryInterface extends ObjectRepository
 {
     /**
+     * Default value for number of results.
+     */
+    const MAX_RESULTS = 10;
+
+    /**
      * Persists new object in manager.
      *
      * @param PersistableInterface $object

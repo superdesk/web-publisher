@@ -17,14 +17,13 @@ declare(strict_types=1);
 namespace SWP\Component\TemplatesSystem\Repository;
 
 use SWP\Component\Storage\Repository\RepositoryInterface;
-use SWP\Component\TemplatesSystem\Gimme\Model\ContainerInterface;
 
 interface ContainerWidgetRepositoryInterface extends RepositoryInterface
 {
     /**
-     * @param ContainerInterface $container
+     * @param array $groupValues
      *
-     * @return array
+     * @return \Doctrine\ORM\QueryBuilder
      */
-    public function findSortedWidgets(ContainerInterface $container): array;
+    public function getSortedWidgets(array $groupValues = []);
 }

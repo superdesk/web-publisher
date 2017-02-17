@@ -14,30 +14,31 @@
 
 namespace SWP\Bundle\TemplatesSystemBundle\Factory;
 
-use SWP\Component\Storage\Factory\FactoryInterface;
+use SWP\Component\TemplatesSystem\Gimme\Model\ContainerInterface;
+use SWP\Component\TemplatesSystem\Gimme\Model\WidgetModelInterface;
 
-class ContainerFactory
+class ContainerWidgetFactory
 {
     /**
-     * @var FactoryInterface
+     * @var string
      */
-    private $baseFactory;
+    private $className;
 
     /**
-     * RouteFactory constructor.
+     * Factory constructor.
      *
-     * @param FactoryInterface $baseFactory
+     * @param string $className
      */
-    public function __construct(FactoryInterface $baseFactory)
+    public function __construct($className)
     {
-        $this->baseFactory = $baseFactory;
+        $this->className = $className;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function create()
+    public function create(ContainerInterface $container, WidgetModelInterface $widget)
     {
-        return $this->baseFactory->create();
+        return new $this->className($container, $widget);
     }
 }

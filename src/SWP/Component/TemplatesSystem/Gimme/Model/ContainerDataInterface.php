@@ -46,4 +46,11 @@ interface ContainerDataInterface
      * @return ContainerInterface
      */
     public function getContainer();
+
+    /**
+     * Sets the value of container.
+     *
+     * @param ContainerInterface $container the container
+     */
+    public function setContainer(ContainerInterface $container);
 }

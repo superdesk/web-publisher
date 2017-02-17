@@ -41,6 +41,13 @@ final class RemoveItemsListener
      */
     private $contentListItemFactory;
 
+    /**
+     * RemoveItemsListener constructor.
+     *
+     * @param ContentListItemsRemoverInterface $contentListItemsRemover
+     * @param ArticleRepositoryInterface       $articleRepository
+     * @param FactoryInterface                 $contentListItemFactory
+     */
     public function __construct(
         ContentListItemsRemoverInterface $contentListItemsRemover,
         ArticleRepositoryInterface $articleRepository,
@@ -58,10 +65,12 @@ final class RemoveItemsListener
     {
         $contentList = $event->getSubject();
         if (!$contentList instanceof ContentListInterface) {
-            throw new \InvalidArgumentException(sprintf(
-                'Expected argument of type "%s", "%s" given.',
-                ContentListInterface::class,
-                is_object($contentList) ? get_class($contentList) : gettype($contentList))
+            throw new \InvalidArgumentException(
+                sprintf(
+                    'Expected argument of type "%s", "%s" given.',
+                    ContentListInterface::class,
+                    is_object($contentList) ? get_class($contentList) : gettype($contentList)
+                )
             );
         }
 
@@ -71,7 +80,8 @@ final class RemoveItemsListener
             $filters = $this->determineLimit($contentList, $filters);
 
             $articles = $this->articleRepository->findArticlesByCriteria(
-                new Criteria($filters), ['publishedAt' => 'desc']
+                new Criteria($filters),
+                ['publishedAt' => 'desc']
             );
 
             $position = 0;

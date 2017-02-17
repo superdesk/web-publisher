@@ -24,6 +24,6 @@ class RequestMetricRepository extends \Doctrine\ORM\EntityRepository
     public function persistAndFlush(RequestMetric $requestMetric)
     {
         $this->_em->persist($requestMetric);
-        $this->_em->flush();
+        $this->_em->flush($requestMetric);
     }
 }

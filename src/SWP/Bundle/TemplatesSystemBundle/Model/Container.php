@@ -16,6 +16,8 @@ namespace SWP\Bundle\TemplatesSystemBundle\Model;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use SWP\Component\Common\Model\TimestampableInterface;
+use SWP\Component\Common\Model\TimestampableTrait;
+use SWP\Component\TemplatesSystem\Gimme\Model\ContainerDataInterface;
 use SWP\Component\TemplatesSystem\Gimme\Model\ContainerInterface;
 
 /**
@@ -23,6 +25,8 @@ use SWP\Component\TemplatesSystem\Gimme\Model\ContainerInterface;
  */
 class Container implements ContainerInterface, TimestampableInterface
 {
+    use TimestampableTrait;
+
     const TYPE_SIMPLE = 1;
 
     /**
@@ -39,16 +43,6 @@ class Container implements ContainerInterface, TimestampableInterface
      * @var string
      */
     protected $name;
-
-    /**
-     * @var int
-     */
-    protected $width;
-
-    /**
-     * @var int
-     */
-    protected $height;
 
     /**
      * @var string
@@ -76,15 +70,8 @@ class Container implements ContainerInterface, TimestampableInterface
     protected $widgets;
 
     /**
-     * @var \DateTime
+     * Container constructor.
      */
-    protected $createdAt;
-
-    /**
-     * @var \DateTime
-     */
-    protected $updatedAt = null;
-
     public function __construct()
     {
         $this->createdAt = new \DateTime();
@@ -137,57 +124,7 @@ class Container implements ContainerInterface, TimestampableInterface
     }
 
     /**
-     * Gets the value of width.
-     *
-     * @return int
-     */
-    public function getWidth()
-    {
-        return $this->width;
-    }
-
-    /**
-     * Sets the value of width.
-     *
-     * @param int $width the width
-     *
-     * @return self
-     */
-    public function setWidth($width)
-    {
-        $this->width = $width;
-
-        return $this;
-    }
-
-    /**
-     * Gets the value of height.
-     *
-     * @return int
-     */
-    public function getHeight()
-    {
-        return $this->height;
-    }
-
-    /**
-     * Sets the value of height.
-     *
-     * @param int $height the height
-     *
-     * @return self
-     */
-    public function setHeight($height)
-    {
-        $this->height = $height;
-
-        return $this;
-    }
-
-    /**
-     * Gets the value of styles.
-     *
-     * @return string
+     * {@inheritdoc}
      */
     public function getStyles()
     {
@@ -195,13 +132,9 @@ class Container implements ContainerInterface, TimestampableInterface
     }
 
     /**
-     * Sets the value of styles.
-     *
-     * @param string $styles the styles
-     *
-     * @return self
+     * {@inheritdoc}
      */
-    public function setStyles($styles)
+    public function setStyles(string $styles)
     {
         $this->styles = $styles;
 
@@ -209,9 +142,7 @@ class Container implements ContainerInterface, TimestampableInterface
     }
 
     /**
-     * Gets the value of cssClass.
-     *
-     * @return string
+     * {@inheritdoc}
      */
     public function getCssClass()
     {
@@ -219,13 +150,9 @@ class Container implements ContainerInterface, TimestampableInterface
     }
 
     /**
-     * Sets the value of cssClass.
-     *
-     * @param string $cssClass the css class
-     *
-     * @return self
+     * {@inheritdoc}
      */
-    public function setCssClass($cssClass)
+    public function setCssClass(string $cssClass)
     {
         $this->cssClass = $cssClass;
 
@@ -233,9 +160,7 @@ class Container implements ContainerInterface, TimestampableInterface
     }
 
     /**
-     * Gets the value of visible.
-     *
-     * @return bool
+     * {@inheritdoc}
      */
     public function getVisible()
     {
@@ -243,13 +168,9 @@ class Container implements ContainerInterface, TimestampableInterface
     }
 
     /**
-     * Sets the value of visible.
-     *
-     * @param bool $visible the visible
-     *
-     * @return self
+     * {@inheritdoc}
      */
-    public function setVisible($visible)
+    public function setVisible(bool $visible)
     {
         $this->visible = $visible;
 
@@ -257,9 +178,7 @@ class Container implements ContainerInterface, TimestampableInterface
     }
 
     /**
-     * Gets the value of data.
-     *
-     * @return ArrayCollection
+     * {@inheritdoc}
      */
     public function getData()
     {
@@ -267,11 +186,7 @@ class Container implements ContainerInterface, TimestampableInterface
     }
 
     /**
-     * Sets the value of data.
-     *
-     * @param ArrayCollection $data the data
-     *
-     * @return self
+     * {@inheritdoc}
      */
     public function setData(ArrayCollection $data)
     {
@@ -281,13 +196,9 @@ class Container implements ContainerInterface, TimestampableInterface
     }
 
     /**
-     * Add ContainerData to container.
-     *
-     * @param ContainerData $containerData
-     *
-     * @return self
+     * {@inheritdoc}
      */
-    public function addData(ContainerData $containerData)
+    public function addData(ContainerDataInterface $containerData)
     {
         $this->data->add($containerData);
 
@@ -295,9 +206,7 @@ class Container implements ContainerInterface, TimestampableInterface
     }
 
     /**
-     * Gets the value of type.
-     *
-     * @return int
+     * {@inheritdoc}
      */
     public function getType()
     {
@@ -305,11 +214,7 @@ class Container implements ContainerInterface, TimestampableInterface
     }
 
     /**
-     * Sets the value of type.
-     *
-     * @param int $type the type
-     *
-     * @return self
+     * {@inheritdoc}
      */
     public function setType($type)
     {
@@ -319,9 +224,7 @@ class Container implements ContainerInterface, TimestampableInterface
     }
 
     /**
-     * Gets the value of widgets.
-     *
-     * @return ArrayCollection
+     * {@inheritdoc}
      */
     public function getWidgets()
     {
@@ -329,11 +232,7 @@ class Container implements ContainerInterface, TimestampableInterface
     }
 
     /**
-     * Sets the value of widgets.
-     *
-     * @param ArrayCollection $widgets the widgets
-     *
-     * @return self
+     * {@inheritdoc}
      */
     public function setWidgets(ArrayCollection $widgets)
     {
@@ -343,9 +242,7 @@ class Container implements ContainerInterface, TimestampableInterface
     }
 
     /**
-     * Add widget to container.
-     *
-     * @param $widget
+     * {@inheritdoc}
      */
     public function addWidget($widget)
     {
@@ -355,50 +252,12 @@ class Container implements ContainerInterface, TimestampableInterface
     }
 
     /**
-     * Remove widget to container.
-     *
-     * @param $widget
+     * {@inheritdoc}
      */
     public function removeWidget($widget)
     {
         $this->widgets->removeElement($widget);
 
         return $this;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getCreatedAt()
-    {
-        return $this->createdAt;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function setCreatedAt(\DateTime $createdAt)
-    {
-        $this->createdAt = $createdAt;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getUpdatedAt()
-    {
-        if (is_null($this->updatedAt)) {
-            return $this->createdAt;
-        }
-
-        return $this->updatedAt;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function setUpdatedAt(\DateTime $updatedAt)
-    {
-        $this->updatedAt = $updatedAt;
     }
 }

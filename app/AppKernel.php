@@ -47,6 +47,7 @@ class AppKernel extends Kernel
             new SWP\Bundle\MenuBundle\SWPMenuBundle(),
             new SWP\Bundle\ContentListBundle\SWPContentListBundle(),
             new SWP\Bundle\FacebookInstantArticlesBundle\SWPFacebookInstantArticlesBundle(),
+            new SWP\Bundle\RevisionBundle\SWPRevisionBundle(),
             new SWP\Bundle\CoreBundle\SWPCoreBundle(),
 
             new Sentry\SentryBundle\SentryBundle(),

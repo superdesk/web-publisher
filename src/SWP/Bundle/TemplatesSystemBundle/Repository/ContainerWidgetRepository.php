@@ -16,28 +16,24 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\TemplatesSystemBundle\Repository;
 
-use SWP\Bundle\StorageBundle\Doctrine\ORM\EntityRepository;
-use SWP\Component\TemplatesSystem\Gimme\Model\ContainerInterface;
+use Gedmo\Sortable\Entity\Repository\SortableRepository;
+use SWP\Bundle\StorageBundle\Doctrine\ORM\EntityRepositoryTrait;
 use SWP\Component\TemplatesSystem\Repository\ContainerWidgetRepositoryInterface;
 
 /**
  * ContainerWidget Repository.
  */
-class ContainerWidgetRepository extends EntityRepository implements ContainerWidgetRepositoryInterface
+class ContainerWidgetRepository extends SortableRepository implements ContainerWidgetRepositoryInterface
 {
+    use EntityRepositoryTrait;
+
     /**
      * {@inheritdoc}
      */
-    public function findSortedWidgets(ContainerInterface $container): array
+    public function getSortedWidgets(array $groupValues = [])
     {
-        return $this->createQueryBuilder('n')
+        return parent::getBySortableGroupsQueryBuilder($groupValues)
             ->select('n', 'w')
-            ->leftJoin('n.widget', 'w')
-            ->where('n.container = :container')
-            ->setParameter('container', $container)
-            ->addOrderBy('n.position')
-            ->getQuery()
-            ->getResult()
-        ;
+            ->leftJoin('n.widget', 'w');
     }
 }

@@ -115,11 +115,7 @@ class ContainerData implements ContainerDataInterface
     }
 
     /**
-     * Sets the value of container.
-     *
-     * @param ContainerInterface $container the container
-     *
-     * @return self
+     * {@inheritdoc}
      */
     public function setContainer(ContainerInterface $container)
     {
@@ -128,6 +124,9 @@ class ContainerData implements ContainerDataInterface
         return $this;
     }
 
+    /**
+     * @return string
+     */
     public function __toString()
     {
         return $this->getValue();

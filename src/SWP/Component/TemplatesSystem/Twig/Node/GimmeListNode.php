@@ -34,8 +34,8 @@ class GimmeListNode extends \Twig_Node
      * @param \Twig_Node_Expression|null        $ifExpression
      * @param \Twig_NodeInterface|null          $else
      * @param \Twig_NodeInterface               $body
-     * @param $lineno
-     * @param null $tag
+     * @param int                               $lineno
+     * @param null                              $tag
      */
     public function __construct(
         \Twig_Node $variable,

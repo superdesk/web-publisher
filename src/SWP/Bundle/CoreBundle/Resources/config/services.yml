@@ -98,6 +98,14 @@ services:
         tags:
             - { name: kernel.event_listener, event: swp.article.published, method: addArticleToList }
 
+    swp_core.listener.revision_subscriber:
+        class: SWP\Bundle\CoreBundle\EventSubscriber\RevisionsSubscriber
+        arguments:
+            - "@swp.repository.container"
+            - "@swp.factory.revision_log"
+        tags:
+            - { name: kernel.event_subscriber }
+
     swp_core.subscriber.http_cache:
         class: SWP\Bundle\CoreBundle\EventSubscriber\HttpCacheSubscriber
         arguments:
@@ -152,6 +160,13 @@ services:
             - { name: kernel.event_listener, event: swp.content_list.post_item_add, method: sendArticleToFacebook }
             - { name: kernel.event_listener, event: swp.article.post_create, method: resendUpdatedArticleToFacebook }
 
+    swp_core.listener.tenant_revision:
+        class: SWP\Bundle\CoreBundle\EventListener\TenantRevisionListener
+        arguments:
+            - "@swp.repository.revision"
+            - "@swp_revision.context.revision"
+        tags:
+            - { name: kernel.event_listener, event: kernel.request, method: onKernelRequest }
     swp.matcher.article_criteria:
         class: SWP\Bundle\CoreBundle\Matcher\ArticleCriteriaMatcher
 
@@ -163,6 +178,10 @@ services:
             - '@swp.factory.content_list_item'
         tags:
             - { name: kernel.event_listener, event: swp.list_criteria_change, method: onListCriteriaChange }
+
+    swp.manager.revision:
+        class: SWP\Bundle\RevisionBundle\Manager\RevisionManager
+        arguments: ["@swp.factory.revision", "@swp_revision.context.revision", "@event_dispatcher", "@swp.object_manager.revision"]
 
     swp.listener.menu.widget_create:
         class: SWP\Bundle\CoreBundle\EventListener\MenuWidgetCreateListener

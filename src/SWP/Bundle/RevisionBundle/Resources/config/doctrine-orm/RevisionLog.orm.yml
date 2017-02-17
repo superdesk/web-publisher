@@ -1,0 +1,33 @@
+SWP\Bundle\RevisionBundle\Model\RevisionLog:
+    type: mappedSuperclass
+    table: swp_revision_log
+    repositoryClass: SWP\Component\Revision\Repository\RevisionLogRepository
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        objectType:
+            type: string
+        objectId:
+            type: integer
+        createdAt:
+            type: datetime
+            gedmo:
+                timestampable:
+                    on: create
+        event:
+            type: string
+    manyToOne:
+        targetRevision:
+            targetEntity:  SWP\Component\Revision\Model\RevisionInterface
+            joinColumn:
+                name: target_revision_id
+                referencedColumnName: id
+        sourceRevision:
+            targetEntity:  SWP\Component\Revision\Model\RevisionInterface
+            joinColumn:
+                name: source_revision_id
+                referencedColumnName: id

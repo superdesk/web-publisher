@@ -17,7 +17,10 @@ namespace SWP\Bundle\TemplatesSystemBundle\Container;
 use SWP\Component\TemplatesSystem\Gimme\Model\ContainerInterface;
 use SWP\Component\TemplatesSystem\Gimme\Widget\WidgetHandlerInterface;
 
-class SimpleContainer
+/**
+ * Class ContainerRenderer.
+ */
+class ContainerRenderer implements ContainerRendererInterface
 {
     const WIDGET_CLASS = 'swp_widget';
 
@@ -37,13 +40,36 @@ class SimpleContainer
     protected $widgets = [];
 
     /**
-     * @param ContainerInterface $containerEntity
-     * @param \Twig_Environment  $renderer
+     * @var string
      */
-    public function __construct(ContainerInterface $containerEntity, \Twig_Environment $renderer)
-    {
+    protected $cacheDir;
+
+    /**
+     * @var bool
+     */
+    protected $debug;
+
+    /**
+     * ContainerRenderer constructor.
+     *
+     * @param ContainerInterface     $containerEntity
+     * @param \Twig_Environment|null $renderer
+     * @param bool                   $debug
+     * @param null                   $cacheDir
+     */
+    public function __construct(
+        ContainerInterface $containerEntity,
+        \Twig_Environment $renderer = null,
+        $debug = false,
+        $cacheDir = null
+    ) {
         $this->containerEntity = $containerEntity;
+        if (null === $renderer) {
+            $renderer = $this->getRenderer();
+        }
         $this->renderer = $renderer;
+        $this->debug = $debug;
+        $this->cacheDir = $cacheDir;
     }
 
     /**
@@ -70,8 +96,6 @@ class SimpleContainer
         return $this->renderer->render('open_tag', [
             'id' => $this->containerEntity->getId(),
             'class' => $this->containerEntity->getCssClass(),
-            'height' => $this->containerEntity->getHeight(),
-            'width' => $this->containerEntity->getWidth(),
             'styles' => $this->containerEntity->getStyles(),
             'visible' => $this->containerEntity->getVisible(),
             'data' => $this->containerEntity->getData(),
@@ -132,5 +156,26 @@ class SimpleContainer
     public function renderCloseTag()
     {
         return $this->renderer->render('close_tag');
+    }
+
+    /**
+     * @return \Twig_Environment
+     */
+    private function getRenderer()
+    {
+        $options = [];
+        if (false === $this->debug && null !== $this->cacheDir) {
+            $options['cache'] = $this->cacheDir.'/twig';
+        }
+
+        $this->renderer = new \Twig_Environment(
+            new \Twig_Loader_Array([
+                'open_tag' => ContainerRendererInterface::OPEN_TAG_TEMPLATE,
+                'close_tag' => ContainerRendererInterface::CLOSE_TAG_TEMPLATE,
+            ]),
+            $options
+        );
+
+        return $this->renderer;
     }
 }

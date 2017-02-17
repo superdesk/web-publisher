@@ -15,6 +15,7 @@
 namespace SWP\Bundle\CoreBundle\Factory;
 
 use FOS\UserBundle\Model\UserInterface;
+use SWP\Bundle\CoreBundle\Model\ApiKeyInterface;
 
 class ApiKeyFactory
 {
@@ -41,6 +42,7 @@ class ApiKeyFactory
      */
     public function create($user, $apiKeyValue = null)
     {
+        /** @var ApiKeyInterface $apiKey */
         $apiKey = new $this->className();
 
         if (null === $apiKeyValue) {
