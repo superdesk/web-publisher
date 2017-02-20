@@ -16,37 +16,29 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\TemplatesSystemBundle\DependencyInjection\Compiler;
 
-use SWP\Component\Storage\Factory\Factory;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Parameter;
 
-class RegisterContainerFactoryPass implements CompilerPassInterface
+class RegisterContainerWidgetFactory implements CompilerPassInterface
 {
     /**
      * {@inheritdoc}
      */
     public function process(ContainerBuilder $container)
     {
-        if (!$container->hasDefinition('swp.factory.container')) {
+        if (!$container->hasDefinition('swp.factory.container_widget')) {
             return;
         }
 
-        $baseDefinition = new Definition(
-            Factory::class,
+        $containerDataFactoryDefinition = new Definition(
+            $container->getParameter('swp.factory.container_widget.class'),
             [
-                new Parameter('swp.model.container.class'),
+                new Parameter('swp.model.container_widget.class'),
             ]
         );
 
-        $containerFactoryDefinition = new Definition(
-            $container->getParameter('swp.factory.container.class'),
-            [
-                $baseDefinition,
-            ]
-        );
-
-        $container->setDefinition('swp.factory.container', $containerFactoryDefinition);
+        $container->setDefinition('swp.factory.container_widget', $containerDataFactoryDefinition);
     }
 }

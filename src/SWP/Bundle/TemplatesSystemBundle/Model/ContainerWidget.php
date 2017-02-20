@@ -77,4 +77,12 @@ class ContainerWidget implements ContainerWidgetInterface
     {
         return $this->widget;
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setContainer(ContainerInterface $container)
+    {
+        $this->container = $container;
+    }
 }

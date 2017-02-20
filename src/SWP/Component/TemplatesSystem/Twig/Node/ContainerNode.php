@@ -20,11 +20,13 @@ namespace SWP\Component\TemplatesSystem\Twig\Node;
 class ContainerNode extends \Twig_Node
 {
     /**
-     * @param \Twig_Node_Expression $name
-     * @param \Twig_Node_Expression $parameters
-     * @param \Twig_NodeInterface   $body
-     * @param int                   $lineno
-     * @param string                $tag
+     * ContainerNode constructor.
+     *
+     * @param \Twig_Node                 $name
+     * @param \Twig_Node_Expression|null $parameters
+     * @param \Twig_NodeInterface        $body
+     * @param null|string                $lineno
+     * @param null                       $tag
      */
     public function __construct(\Twig_Node $name, \Twig_Node_Expression $parameters = null, \Twig_NodeInterface $body, $lineno, $tag = null)
     {
@@ -47,8 +49,8 @@ class ContainerNode extends \Twig_Node
     {
         $compiler
             ->addDebugInfo($this)
-            ->write("\$containerService = \$this->env->getExtension('swp_container')->getContainerService();\n")
-            ->write('$container = $containerService->getContainer(')->subcompile($this->getNode('name'))->raw(', ');
+            ->write("\$rendererService = \$this->env->getExtension('swp_container')->getContainerService();\n")
+            ->write('$container = $rendererService->getContainerRenderer(')->subcompile($this->getNode('name'))->raw(', ');
         if ($this->hasNode('parameters')) {
             $compiler->subcompile($this->getNode('parameters'));
         } else {
@@ -70,6 +72,6 @@ class ContainerNode extends \Twig_Node
                 ->write("echo \$container->renderCloseTag();\n")
             ->outdent()
             ->write("}\n")
-            ->write("unset(\$container);unset(\$containerService);\n");
+            ->write("unset(\$container);unset(\$rendererService);\n");
     }
 }

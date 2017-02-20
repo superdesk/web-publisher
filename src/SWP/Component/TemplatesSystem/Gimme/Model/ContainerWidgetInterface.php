@@ -25,4 +25,14 @@ interface ContainerWidgetInterface
      * @return WidgetModelInterface
      */
     public function getWidget();
+
+    /**
+     * @param ContainerInterface $container
+     */
+    public function setContainer(ContainerInterface $container);
+
+    /**
+     * @param int $position
+     */
+    public function setPosition($position);
 }

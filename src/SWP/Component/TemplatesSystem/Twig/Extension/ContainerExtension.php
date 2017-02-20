@@ -18,16 +18,16 @@ use SWP\Component\TemplatesSystem\Twig\TokenParser\ContainerTokenParser;
 
 class ContainerExtension extends \Twig_Extension
 {
-    protected $containerService;
+    protected $rendererService;
 
-    public function __construct($containerService)
+    public function __construct($rendererService)
     {
-        $this->containerService = $containerService;
+        $this->rendererService = $rendererService;
     }
 
     public function getContainerService()
     {
-        return $this->containerService;
+        return $this->rendererService;
     }
 
     public function getTokenParsers()

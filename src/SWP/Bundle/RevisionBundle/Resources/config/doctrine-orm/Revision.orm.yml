@@ -1,0 +1,35 @@
+SWP\Bundle\RevisionBundle\Model\Revision:
+    type: mappedSuperclass
+    table: swp_revision
+    repositoryClass: SWP\Component\Revision\Repository\RevisionRepository
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        createdAt:
+            type: datetime
+            gedmo:
+                timestampable:
+                    on: create
+        updatedAt:
+            type: datetime
+            nullable: true
+        publishedAt:
+            type: datetime
+            nullable: true
+        isActive:
+            type: boolean
+        uniqueKey:
+            type: string
+        status:
+            type: string
+    oneToOne:
+        previous:
+            targetEntity:  SWP\Component\Revision\Model\RevisionInterface
+            joinColumn:
+                name: previous_revision_id
+                referencedColumnName: id
+                nullable: true
