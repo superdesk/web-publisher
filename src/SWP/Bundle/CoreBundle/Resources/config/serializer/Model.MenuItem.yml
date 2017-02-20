@@ -3,6 +3,9 @@ SWP\Bundle\CoreBundle\Model\MenuItem:
     properties:
         route:
             expose: true
+            type: integer
+            accessor:
+                getter: getRouteId
     relations:
         - rel: self
           href:

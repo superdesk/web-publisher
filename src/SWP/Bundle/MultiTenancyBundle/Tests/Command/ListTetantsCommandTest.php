@@ -29,8 +29,6 @@ class ListTetantsCommandTest extends \PHPUnit_Framework_TestCase
 
     private $commandTester;
     private $command;
-    private $listWithOptionCommand;
-    private $question;
 
     public function setUp()
     {
@@ -44,7 +42,6 @@ class ListTetantsCommandTest extends \PHPUnit_Framework_TestCase
      */
     public function testExecuteWhenNoTenants()
     {
-        //$this->question->setInputStream($this->getInputStream("subdomain\nTest\n123456\n"));
         $tenant = new Tenant();
         $tenant->setCode('123abc');
         $this->command->setContainer($this->getMockContainer(new Organization()));
