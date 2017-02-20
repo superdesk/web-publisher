@@ -17,9 +17,8 @@ namespace SWP\Bundle\CoreBundle\EventSubscriber;
 use SWP\Bundle\CoreBundle\Repository\RevisionAwareContainerRepositoryInterface;
 use SWP\Bundle\RevisionBundle\Event\RevisionPublishedEvent;
 use SWP\Bundle\RevisionBundle\Events;
-use SWP\Bundle\TemplatesSystemBundle\Repository\ContainerRepository;
 use SWP\Component\Revision\Model\RevisionInterface;
-use SWP\Component\Revision\Model\RevisionLogInterface;
+use SWP\Bundle\RevisionBundle\Model\RevisionLogInterface;
 use SWP\Component\Revision\RevisionAwareInterface;
 use SWP\Component\Storage\Factory\FactoryInterface;
 use SWP\Component\Storage\Model\PersistableInterface;
@@ -29,7 +28,7 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 class RevisionsSubscriber implements EventSubscriberInterface
 {
     /**
-     * @var ContainerRepository
+     * @var RevisionAwareContainerRepositoryInterface
      */
     protected $repository;
 
@@ -41,7 +40,7 @@ class RevisionsSubscriber implements EventSubscriberInterface
     /**
      * RevisionsSubscriber constructor.
      *
-     * @param RevisionAwareContainerRepositoryInterface $containerRepository
+     * @param RevisionAwareContainerRepositoryInterface $repository
      * @param FactoryInterface                          $revisionLogFactory
      */
     public function __construct(
@@ -100,12 +99,14 @@ class RevisionsSubscriber implements EventSubscriberInterface
             return;
         }
 
-        /** @var RevisionLogInterface|PersistableInterface $revisionLog */
+        /** @var RevisionLogInterface $revisionLog */
         $revisionLog = $this->revisionLogFactory->create();
         $revisionLog->setEvent(RevisionLogInterface::EVENT_UPDATE);
         $revisionLog->setObjectType(get_class($object));
         $revisionLog->setObjectId($object->getId());
-        $revisionLog->setSourceRevision($revision->getPrevious());
+        if (null !== $previousRevision = $revision->getPrevious()) {
+            $revisionLog->setSourceRevision($previousRevision);
+        }
         $revisionLog->setTargetRevision($revision);
 
         $this->repository->persist($revisionLog);

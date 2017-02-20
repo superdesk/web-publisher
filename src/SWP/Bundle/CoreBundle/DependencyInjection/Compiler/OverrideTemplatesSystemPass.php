@@ -16,7 +16,6 @@ namespace SWP\Bundle\CoreBundle\DependencyInjection\Compiler;
 
 use SWP\Bundle\CoreBundle\Container\RevisionAwareContainerRenderer;
 use SWP\Bundle\CoreBundle\Factory\ContainerFactory;
-use SWP\Bundle\CoreBundle\Provider\WidgetProvider;
 use SWP\Bundle\CoreBundle\Service\RevisionAwareContainerService;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Reference;
@@ -28,13 +27,6 @@ final class OverrideTemplatesSystemPass extends AbstractOverridePass
      */
     public function process(ContainerBuilder $container)
     {
-        $containerProvider = $this->getDefinitionIfExists($container, 'swp.provider.widget');
-        if (null !== $containerProvider) {
-            $containerProvider
-                ->setClass(WidgetProvider::class)
-                ->addMethodCall('setRevisionContext', [new Reference('swp_revision.context.revision')]);
-        }
-
         $containerRenderer = $this->getDefinitionIfExists($container, 'swp.factory.container_renderer');
         if (null !== $containerRenderer) {
             $containerRenderer
