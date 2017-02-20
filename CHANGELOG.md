@@ -9,6 +9,7 @@ To get the diff for a specific change, go to https://github.com/superdesk/web-pu
 
 * 0.5.0
  * feature [#212] Implement revisions system for containers
+ * feature [#265] Add command to list tenants
 
 * 0.2.0
  * feature [#235] Add API endpoint for rendering single container (and its content)
