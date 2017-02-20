@@ -22,6 +22,7 @@ use SWP\Component\Common\Event\HttpCacheEvent;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface as ServiceContainerInterface;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\Exception\ConflictHttpException;
 
 /**
  * Class ContainerService.
@@ -157,7 +158,7 @@ class ContainerService implements ContainerServiceInterface
             }
 
             if ($position === false && $containerWidget) {
-                throw new \Exception('WidgetModel is already linked to container', 409);
+                throw new ConflictHttpException('WidgetModel is already linked to container');
             }
 
             if (!$containerWidget) {
@@ -172,7 +173,7 @@ class ContainerService implements ContainerServiceInterface
             $this->entityManager->flush();
         } elseif ($request->getMethod() === 'UNLINK') {
             if (!$container->getWidgets()->contains($containerWidget)) {
-                throw new \Exception('WidgetModel is not linked to container', 409);
+                throw new ConflictHttpException('WidgetModel is not linked to container');
             }
             $this->entityManager->remove($containerWidget);
         }

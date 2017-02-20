@@ -209,4 +209,36 @@ class ContainerControllerTest extends WebTestCase
 
         self::assertEquals('{"content":"<div id=\"swp_container_5tfdv6resqg\" class=\"swp_container col-md-12\" style=\"color: #00000\"><div id=\"swp_widget_1\" class=\"swp_widget\">sample widget with <span style=\'color:red\'>html<\/span><\/div><\/div>"}', $client->getResponse()->getContent());
     }
+
+    public function testLinkAlreadyLinkedWidgetApi()
+    {
+        $client = static::createClient();
+        $client->request('LINK', $this->router->generate('swp_api_templates_link_container', ['uuid' => '5tfdv6resqg']), [], [], [
+            'HTTP_LINK' => '</api/v1/templates/widgets/1; rel="widget">',
+        ]);
+        self::assertEquals(201, $client->getResponse()->getStatusCode());
+
+        $client->request('LINK', $this->router->generate('swp_api_templates_link_container', ['uuid' => '5tfdv6resqg']), [], [], [
+            'HTTP_LINK' => '</api/v1/templates/widgets/1; rel="widget">',
+        ]);
+        self::assertEquals(409, $client->getResponse()->getStatusCode());
+    }
+
+    public function testUnLinkUnlinkedWidgetApi()
+    {
+        $client = static::createClient();
+        $client->request('LINK', $this->router->generate('swp_api_templates_link_container', ['uuid' => '5tfdv6resqg']), [], [], [
+            'HTTP_LINK' => '</api/v1/templates/widgets/1; rel="widget">',
+        ]);
+        self::assertEquals(201, $client->getResponse()->getStatusCode());
+        $client->request('UNLINK', $this->router->generate('swp_api_templates_link_container', ['uuid' => '5tfdv6resqg']), [], [], [
+            'HTTP_LINK' => '</api/v1/templates/widgets/1; rel="widget">',
+        ]);
+        self::assertEquals(201, $client->getResponse()->getStatusCode());
+
+        $client->request('UNLINK', $this->router->generate('swp_api_templates_link_container', ['uuid' => '5tfdv6resqg']), [], [], [
+            'HTTP_LINK' => '</api/v1/templates/widgets/1; rel="widget">',
+        ]);
+        self::assertEquals(409, $client->getResponse()->getStatusCode());
+    }
 }

@@ -92,8 +92,8 @@ class AuthController extends Controller
             $authorizedSuperdeskHosts = $this->container->getParameter('superdesk_servers');
             $superdeskUser = null;
             $client = new GuzzleHttp\Client();
-            foreach ($authorizedSuperdeskHosts as $host) {
-                $apiRequest = new GuzzleHttp\Psr7\Request('GET', 'https://'.$host.'/api/sessions/'.$formData['session_id'], [
+            foreach ($authorizedSuperdeskHosts as $baseUrl) {
+                $apiRequest = new GuzzleHttp\Psr7\Request('GET', sprintf('%s/api/sessions/%s', $baseUrl, $formData['session_id']), [
                     'Authorization' => $formData['token'],
                 ]);
                 $apiResponse = $client->send($apiRequest);
