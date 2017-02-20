@@ -22,6 +22,7 @@ SWP\Component\Bridge\Model\Package:
             type: string
         byline:
             type: string
+            nullable: true
         language:
             type: string
         description:
