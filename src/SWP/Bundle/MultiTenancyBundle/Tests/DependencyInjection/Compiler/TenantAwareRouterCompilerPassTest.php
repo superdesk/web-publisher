@@ -24,7 +24,8 @@ class TenantAwareRouterCompilerPassTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->container = $this->createMock('Symfony\Component\DependencyInjection\ContainerBuilder');
+        $this->container = $this->getMockBuilder('Symfony\Component\DependencyInjection\ContainerBuilder')
+            ->getMock();
         $this->definition = $this->getMockBuilder('Symfony\Component\DependencyInjection\Definition')
             ->setMethods(['setArguments', 'addMethodCall', 'setMethodCalls'])
             ->getMock();
