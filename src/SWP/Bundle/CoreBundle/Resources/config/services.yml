@@ -191,6 +191,15 @@ services:
         tags:
             - { name: kernel.event_listener, event: swp.menu.created, method: onMenuCreated }
 
+    swp.listener.menu.menu_update:
+        class: SWP\Bundle\CoreBundle\EventListener\MenuUpdateListener
+        arguments:
+            - '@swp_menu.manager.menu_item'
+            - '@swp.repository.menu'
+        tags:
+            - { name: kernel.event_listener, event: swp.route.post_update, method: onRouteUpdate }
+
+
     swp.listener.menu.widget_delete:
         class: SWP\Bundle\CoreBundle\EventListener\MenuWidgetDeleteListener
         arguments:
