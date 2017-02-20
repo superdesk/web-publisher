@@ -18,6 +18,7 @@ SWP\Component\Bridge\Model\Item:
             type: string
         byline:
             type: string
+            nullable: true
         language:
             type: string
         description:

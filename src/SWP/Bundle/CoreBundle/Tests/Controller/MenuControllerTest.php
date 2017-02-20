@@ -496,4 +496,41 @@ class MenuControllerTest extends WebTestCase
 
         return $firstChild;
     }
+
+    public function testAssignRouteToMenuApi()
+    {
+        $client = static::createClient();
+        $client->request('POST', $this->router->generate('swp_api_core_create_menu'), [
+            'menu' => [
+                'name' => 'navigation',
+                'label' => 'Navigation',
+            ],
+        ]);
+
+        self::assertEquals(201, $client->getResponse()->getStatusCode());
+        $content = $client->getResponse()->getContent();
+
+        self::assertContains('"name":"navigation"', $content);
+        self::assertContains('"label":"Navigation"', $content);
+        self::assertContains('"route":null', $content);
+
+        $client->request('POST', $this->router->generate('swp_api_content_create_routes'), [
+            'route' => [
+                'name' => 'my-menu-route',
+                'type' => 'collection',
+            ],
+        ]);
+
+        self::assertEquals(201, $client->getResponse()->getStatusCode());
+        $content = json_decode($client->getResponse()->getContent(), true);
+
+        $client->request('PATCH', $this->router->generate('swp_api_core_update_menu', ['id' => 1]), [
+            'menu' => [
+                'route' => $content['id'],
+            ],
+        ]);
+
+        self::assertEquals(200, $client->getResponse()->getStatusCode());
+        self::assertContains('"route":3', $content);
+    }
 }

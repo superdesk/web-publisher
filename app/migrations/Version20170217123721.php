@@ -32,7 +32,7 @@ class Version20170217123721 extends AbstractMigration
         $this->addSql('ALTER TABLE swp_article ALTER keywords DROP NOT NULL');
         $this->addSql('DROP INDEX swp_name_idx');
         $this->addSql('ALTER TABLE swp_container ADD revision_id INT DEFAULT NULL');
-        $this->addSql('ALTER TABLE swp_container ADD uuid VARCHAR(255) NOT NULL');
+        $this->addSql('ALTER TABLE swp_container ADD uuid VARCHAR(255) NOT NULL DEFAULT substr(md5(random()::text), 0, 12);');
         $this->addSql('ALTER TABLE swp_container DROP width');
         $this->addSql('ALTER TABLE swp_container DROP height');
         $this->addSql('ALTER TABLE swp_container ALTER created_at SET DEFAULT \'now\'');
@@ -50,7 +50,6 @@ class Version20170217123721 extends AbstractMigration
         // this down() migration is auto-generated, please modify it to your needs
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'postgresql', 'Migration can only be executed safely on \'postgresql\'.');
 
-        $this->addSql('CREATE SCHEMA public');
         $this->addSql('ALTER TABLE swp_revision_log DROP CONSTRAINT FK_A1F96AFD9AC03385');
         $this->addSql('ALTER TABLE swp_revision_log DROP CONSTRAINT FK_A1F96AFD21852C2F');
         $this->addSql('ALTER TABLE swp_container DROP CONSTRAINT FK_CF0E49301DFA7C8F');
