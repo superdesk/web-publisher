@@ -79,11 +79,12 @@ class ArticleRepository extends EntityRepository implements ArticleRepositoryInt
             ->setParameter('status', $criteria->get('status', ArticleInterface::STATUS_PUBLISHED));
 
         if ($criteria->has('author')) {
+            $orX = $queryBuilder->expr()->orX();
             foreach ($criteria->get('author') as $author) {
-                $queryBuilder->andWhere($queryBuilder->expr()->like('a.metadata', ':metadata'))
-                    ->setParameter('metadata', '%'.$author.'%');
+                $orX->add($queryBuilder->expr()->like('a.metadata', $queryBuilder->expr()->literal('%'.$author.'%')));
             }
 
+            $queryBuilder->andWhere($orX);
             $criteria->remove('author');
         }
 
@@ -101,7 +102,7 @@ class ArticleRepository extends EntityRepository implements ArticleRepositoryInt
 
         if ($criteria->has('metadata')) {
             foreach ($criteria->get('metadata') as $key => $value) {
-                $queryBuilder->andWhere($queryBuilder->expr()->like('a.metadata', ':'.$key))
+                $queryBuilder->orWhere($queryBuilder->expr()->like('a.metadata', ':'.$key))
                     ->setParameter($key, '%'.$value.'%');
             }
 

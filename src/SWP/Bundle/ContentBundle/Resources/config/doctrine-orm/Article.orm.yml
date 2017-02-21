@@ -58,8 +58,10 @@ SWP\Bundle\ContentBundle\Model\Article:
         isPublishable:
             type: boolean
         metadata:
-            type: text
+            type: json_array
             nullable: true
+            options:
+                jsonb: true
     manyToOne:
         route:
             targetEntity: SWP\Bundle\ContentBundle\Model\RouteInterface
