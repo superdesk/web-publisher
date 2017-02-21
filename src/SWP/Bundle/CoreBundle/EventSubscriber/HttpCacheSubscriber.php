@@ -18,7 +18,7 @@ use FOS\HttpCache\Exception\ExceptionCollection;
 use FOS\HttpCacheBundle\CacheManager;
 use Psr\Log\LoggerInterface;
 use SWP\Component\Common\Event\HttpCacheEvent;
-use SWP\Component\TemplatesSystem\Gimme\Model\ContainerInterface;
+use SWP\Bundle\CoreBundle\Model\ContainerInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 class HttpCacheSubscriber implements EventSubscriberInterface
@@ -54,7 +54,7 @@ class HttpCacheSubscriber implements EventSubscriberInterface
             case $event->getSubject() instanceof ContainerInterface:
                 $this->cacheManager->invalidateRoute('swp_api_templates_list_containers');
                 $this->cacheManager->invalidateRoute('swp_api_templates_get_container', [
-                    'id' => $event->getSubject()->getId(),
+                    'uuid' => $event->getSubject()->getUuid(),
                 ]);
                 break;
         }
