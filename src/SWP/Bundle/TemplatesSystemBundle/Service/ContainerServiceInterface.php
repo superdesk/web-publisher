@@ -22,7 +22,7 @@ use SWP\Component\TemplatesSystem\Gimme\Model\ContainerInterface;
 interface ContainerServiceInterface
 {
     /**
-     * @param                         $name
+     * @param string                  $name
      * @param array                   $parameters
      * @param ContainerInterface|null $container
      *

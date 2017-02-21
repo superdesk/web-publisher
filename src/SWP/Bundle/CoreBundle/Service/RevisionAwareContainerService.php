@@ -57,7 +57,8 @@ class RevisionAwareContainerService extends ContainerService implements Containe
         $container = $this->serviceContainer->get('swp.factory.container')->create();
         if ($container instanceof RevisionAwareInterface) {
             $revisionContext = $this->serviceContainer->get('swp_revision.context.revision');
-            $container->setRevision($revisionContext->getWorkingRevision());
+            // Containers created from template definitions goes to published revision
+            $container->setRevision($revisionContext->getPublishedRevision());
         }
 
         return parent::createContainer($name, $parameters, $container);
