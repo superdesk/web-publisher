@@ -49,7 +49,9 @@ class ArticleRepository extends EntityRepository implements ArticleRepositoryInt
     {
         $qb = $this->getQueryByCriteria($criteria, $sorting, 'a');
         $qb->andWhere('a.status = :status')
-            ->setParameter('status', $criteria->get('status', ArticleInterface::STATUS_PUBLISHED));
+            ->setParameter('status', $criteria->get('status', ArticleInterface::STATUS_PUBLISHED))
+            ->leftJoin('a.media', 'm')
+            ->addSelect('m');
 
         return $qb;
     }
@@ -76,7 +78,9 @@ class ArticleRepository extends EntityRepository implements ArticleRepositoryInt
     {
         $queryBuilder = $this->createQueryBuilder('a')
             ->where('a.status = :status')
-            ->setParameter('status', $criteria->get('status', ArticleInterface::STATUS_PUBLISHED));
+            ->setParameter('status', $criteria->get('status', ArticleInterface::STATUS_PUBLISHED))
+            ->leftJoin('a.media', 'm')
+            ->addSelect('m');
 
         if ($criteria->has('author')) {
             foreach ($criteria->get('author') as $author) {

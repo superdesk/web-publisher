@@ -92,10 +92,23 @@ class ArticleMediaLoader extends PaginatedLoader implements LoaderInterface
             }
 
             $criteria = $this->applyPaginationToCriteria($criteria, $parameters);
-            $media = $this->articleMediaProvider->getManyByCriteria($criteria);
+            if ($criteria->get('article')->getMedia()->isInitialized()) {
+                $collectionCriteria = new \Doctrine\Common\Collections\Criteria(
+                    null,
+                    $criteria->get('order'),
+                    $criteria->get('firstResult'),
+                    $criteria->get('maxResults')
+                );
+                $mediaCount = $criteria->get('article')->getMedia()->count();
+                $media = $criteria->get('article')->getMedia()->matching($collectionCriteria);
+            } else {
+                $mediaCount = $this->articleMediaProvider->getCountByCriteria($criteria);
+                $media = $this->articleMediaProvider->getManyByCriteria($criteria);
+            }
+
             if ($media->count() > 0) {
                 $metaCollection = new MetaCollection();
-                $metaCollection->setTotalItemsCount($this->articleMediaProvider->getCountByCriteria($criteria));
+                $metaCollection->setTotalItemsCount($mediaCount);
                 foreach ($media as $item) {
                     $metaCollection->add($this->metaFactory->create($item));
                 }
