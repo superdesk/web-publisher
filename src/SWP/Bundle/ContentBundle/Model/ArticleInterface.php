@@ -144,4 +144,14 @@ interface ArticleInterface extends TimestampableInterface, TranslatableInterface
      * @param ArticleMediaInterface $featureMedia
      */
     public function setFeatureMedia(ArticleMediaInterface $featureMedia);
+
+    /**
+     * @return string
+     */
+    public function getCode(): string;
+
+    /**
+     * @param string $code
+     */
+    public function setCode(string $code);
 }

@@ -92,4 +92,15 @@ class PackageSpec extends ObjectBehavior
         $this->setEnabled(false);
         $this->shouldNotBeEnabled();
     }
+
+    public function it_has_no_evolvedfrom_by_default()
+    {
+        $this->getEvolvedFrom()->shouldReturn(null);
+    }
+
+    public function its_evolvedfrom_is_mutable()
+    {
+        $this->setEvolvedFrom('urn:235:sdkfsdfsdkgs');
+        $this->getEvolvedFrom()->shouldReturn('urn:235:sdkfsdfsdkgs');
+    }
 }

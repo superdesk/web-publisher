@@ -16,7 +16,6 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\ContentBundle\Controller;
 
-use Behat\Transliterator\Transliterator;
 use Hoa\Mime\Mime;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -53,8 +52,7 @@ class ContentPushController extends Controller
     {
         $package = $this->handlePackage($request);
         $articleRepository = $this->get('swp.repository.article');
-
-        $existingArticle = $articleRepository->findOneBy(['slug' => Transliterator::urlize($package->getSlugline())]);
+        $existingArticle = $articleRepository->findOneBy(['code' => $package->getEvolvedFrom() ?: $package->getGuid()]);
 
         if (null !== $existingArticle) {
             if (ContentInterface::STATUS_CANCELED === $package->getPubStatus()) {

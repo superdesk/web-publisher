@@ -20,12 +20,11 @@ class Version20170217123721 extends AbstractMigration
 
         $this->addSql('CREATE SEQUENCE swp_revision_log_id_seq INCREMENT BY 1 MINVALUE 1 START 1');
         $this->addSql('CREATE SEQUENCE swp_revision_id_seq INCREMENT BY 1 MINVALUE 1 START 1');
-        $this->addSql('CREATE TABLE swp_revision_log (id INT NOT NULL, target_revision_id INT DEFAULT NULL, source_revision_id INT DEFAULT NULL, object_type VARCHAR(255) NOT NULL, object_id INT NOT NULL, created_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, event VARCHAR(255) NOT NULL, PRIMARY KEY(id))');
+        $this->addSql('CREATE TABLE swp_revision_log (id INT NOT NULL, target_revision_id INT DEFAULT NULL, source_revision_id INT DEFAULT NULL, object_type VARCHAR(255) NOT NULL, object_id INT NOT NULL, created_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, event VARCHAR(255) NOT NULL, tenant_code VARCHAR(255) NOT NULL, PRIMARY KEY(id))');
         $this->addSql('CREATE INDEX IDX_A1F96AFD9AC03385 ON swp_revision_log (target_revision_id)');
         $this->addSql('CREATE INDEX IDX_A1F96AFD21852C2F ON swp_revision_log (source_revision_id)');
         $this->addSql('CREATE TABLE swp_revision (id INT NOT NULL, previous_revision_id INT DEFAULT NULL, created_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, updated_at TIMESTAMP(0) WITHOUT TIME ZONE DEFAULT NULL, published_at TIMESTAMP(0) WITHOUT TIME ZONE DEFAULT NULL, is_active BOOLEAN NOT NULL, unique_key VARCHAR(255) NOT NULL, status VARCHAR(255) NOT NULL, tenant_code VARCHAR(255) NOT NULL, PRIMARY KEY(id))');
         $this->addSql('CREATE UNIQUE INDEX UNIQ_ACFB1381AF3077E5 ON swp_revision (previous_revision_id)');
-        $this->addSql('CREATE TABLE revision_log (id INT NOT NULL, object_type VARCHAR(255) NOT NULL, object_id INT NOT NULL, created_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, event VARCHAR(255) NOT NULL, tenant_code VARCHAR(255) NOT NULL, PRIMARY KEY(id))');
         $this->addSql('ALTER TABLE swp_revision_log ADD CONSTRAINT FK_A1F96AFD9AC03385 FOREIGN KEY (target_revision_id) REFERENCES swp_revision (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('ALTER TABLE swp_revision_log ADD CONSTRAINT FK_A1F96AFD21852C2F FOREIGN KEY (source_revision_id) REFERENCES swp_revision (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('ALTER TABLE swp_revision ADD CONSTRAINT FK_ACFB1381AF3077E5 FOREIGN KEY (previous_revision_id) REFERENCES swp_revision (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
@@ -58,7 +57,6 @@ class Version20170217123721 extends AbstractMigration
         $this->addSql('DROP SEQUENCE swp_revision_id_seq CASCADE');
         $this->addSql('DROP TABLE swp_revision_log');
         $this->addSql('DROP TABLE swp_revision');
-        $this->addSql('DROP TABLE revision_log');
         $this->addSql('ALTER TABLE swp_widget ALTER created_at SET DEFAULT \'2017-01-26 14:48:07.617947\'');
         $this->addSql('DROP INDEX IDX_CF0E49301DFA7C8F');
         $this->addSql('DROP INDEX swp_name_idx');

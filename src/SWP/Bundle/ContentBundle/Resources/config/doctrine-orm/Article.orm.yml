@@ -60,6 +60,8 @@ SWP\Bundle\ContentBundle\Model\Article:
         metadata:
             type: text
             nullable: true
+        code:
+            type: string
     manyToOne:
         route:
             targetEntity: SWP\Bundle\ContentBundle\Model\RouteInterface

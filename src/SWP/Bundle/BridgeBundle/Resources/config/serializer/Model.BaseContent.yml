@@ -67,3 +67,7 @@ SWP\Component\Bridge\Model\BaseContent:
             expose: true
             serialized_name: pubstatus
             type: string
+        evolvedFrom:
+            expose: true
+            type: string
+            serialized_name: evolvedfrom

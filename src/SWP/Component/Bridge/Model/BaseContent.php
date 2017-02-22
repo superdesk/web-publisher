@@ -112,6 +112,11 @@ class BaseContent implements ContentInterface
     protected $pubStatus = ContentInterface::STATUS_USABLE;
 
     /**
+     * @var string|null
+     */
+    protected $evolvedFrom;
+
+    /**
      * @return mixed
      */
     public function getId()
@@ -434,5 +439,21 @@ class BaseContent implements ContentInterface
     public function setPubStatus(string $pubStatus)
     {
         $this->pubStatus = $pubStatus;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getEvolvedFrom()
+    {
+        return $this->evolvedFrom;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setEvolvedFrom(string $evolvedFrom)
+    {
+        $this->evolvedFrom = $evolvedFrom;
     }
 }

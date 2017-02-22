@@ -58,6 +58,7 @@ final class ArticleHydrator implements ArticleHydratorInterface
             $package->setByLine($this->populateByline($package));
         }
 
+        $article->setCode($package->getEvolvedFrom() ?: $package->getGuid());
         $article->setBody($this->populateBody($package));
         $article->setTitle($package->getHeadline());
         if (null !== $package->getSlugline()) {

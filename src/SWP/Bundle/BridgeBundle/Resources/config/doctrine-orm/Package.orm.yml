@@ -20,6 +20,9 @@ SWP\Component\Bridge\Model\Package:
             type: string
         guid:
             type: string
+        evolvedFrom:
+            type: string
+            nullable: true
         byline:
             type: string
             nullable: true
