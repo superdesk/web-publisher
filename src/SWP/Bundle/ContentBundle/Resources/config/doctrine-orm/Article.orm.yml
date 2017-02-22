@@ -60,8 +60,6 @@ SWP\Bundle\ContentBundle\Model\Article:
         metadata:
             type: json_array
             nullable: true
-            options:
-                jsonb: true
     manyToOne:
         route:
             targetEntity: SWP\Bundle\ContentBundle\Model\RouteInterface
