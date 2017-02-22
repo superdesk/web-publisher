@@ -116,10 +116,7 @@ class ArticleRepository extends EntityRepository implements ArticleRepositoryInt
     }
 
     /**
-     * @param string $identifier
-     * @param array  $order
-     *
-     * @throws \Exception
+     * {@inheritdoc}
      */
     public function getQueryForRouteArticles(string $identifier, array $order = [])
     {
