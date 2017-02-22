@@ -206,9 +206,9 @@ class ArticleSpec extends ObjectBehavior
         $this->getKeywords()->shouldReturn(['keyword1', 'keyword2']);
     }
 
-    public function it_has_no_code_by_default()
+    public function its_code_is_required()
     {
-        $this->getCode()->shouldReturn(null);
+        $this->shouldThrow('\TypeError')->during('getCode');
     }
 
     public function its_code_is_mutable()
