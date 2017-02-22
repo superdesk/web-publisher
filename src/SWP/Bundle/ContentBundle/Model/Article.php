@@ -395,16 +395,4 @@ class Article implements ArticleInterface, MediaAwareArticleInterface
     {
         $this->featureMedia = $featureMedia;
     }
-
-    /**
-     * Don't serialize values.
-     *
-     * @return array
-     */
-    public function __sleep()
-    {
-        $this->media = 'Cannot be serializable';
-
-        return array_keys(get_object_vars($this));
-    }
 }
