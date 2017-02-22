@@ -5,4 +5,5 @@ SWP\Bundle\CoreBundle\Model\Article:
         slug: "article-<current()>"
         locale: "en"
         status: "published"
+        code: "<uuid()>"
         publishable: true

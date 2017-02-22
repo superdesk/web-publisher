@@ -109,6 +109,7 @@ class LoadAmpHtmlData extends AbstractFixture implements FixtureInterface
                 $article->setPublishedAt(new \DateTime());
                 $article->setStatus(ArticleInterface::STATUS_PUBLISHED);
                 $article->setTenantCode($articleData['tenant']);
+                $article->setCode(md5($articleData['title']));
                 $manager->persist($article);
 
                 $this->addReference($article->getSlug(), $article);
