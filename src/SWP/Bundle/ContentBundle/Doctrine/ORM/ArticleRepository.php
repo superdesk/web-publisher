@@ -82,13 +82,18 @@ class ArticleRepository extends EntityRepository implements ArticleRepositoryInt
             ->leftJoin('a.media', 'm')
             ->addSelect('m');
 
-        if ($criteria->has('author')) {
-            foreach ($criteria->get('author') as $author) {
-                $queryBuilder->andWhere($queryBuilder->expr()->like('a.metadata', ':metadata'))
-                    ->setParameter('metadata', '%'.$author.'%');
+        foreach (['metadata', 'author'] as $name) {
+            if (!$criteria->has($name)) {
+                continue;
             }
 
-            $criteria->remove('author');
+            $orX = $queryBuilder->expr()->orX();
+            foreach ($criteria->get($name) as $value) {
+                $orX->add($queryBuilder->expr()->like('a.metadata', $queryBuilder->expr()->literal('%'.$value.'%')));
+            }
+
+            $queryBuilder->andWhere($orX);
+            $criteria->remove($name);
         }
 
         if ($criteria->has('publishedBefore')) {
@@ -103,15 +108,6 @@ class ArticleRepository extends EntityRepository implements ArticleRepositoryInt
             $criteria->remove('publishedAfter');
         }
 
-        if ($criteria->has('metadata')) {
-            foreach ($criteria->get('metadata') as $key => $value) {
-                $queryBuilder->andWhere($queryBuilder->expr()->like('a.metadata', ':'.$key))
-                    ->setParameter($key, '%'.$value.'%');
-            }
-
-            $criteria->remove('metadata');
-        }
-
         $this->applyCriteria($queryBuilder, $criteria, 'a');
         $this->applySorting($queryBuilder, $sorting, 'a');
         $this->applyLimiting($queryBuilder, $criteria);
@@ -120,10 +116,7 @@ class ArticleRepository extends EntityRepository implements ArticleRepositoryInt
     }
 
     /**
-     * @param string $identifier
-     * @param array  $order
-     *
-     * @throws \Exception
+     * {@inheritdoc}
      */
     public function getQueryForRouteArticles(string $identifier, array $order = [])
     {

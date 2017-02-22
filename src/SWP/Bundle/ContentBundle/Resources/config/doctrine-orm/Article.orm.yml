@@ -58,7 +58,7 @@ SWP\Bundle\ContentBundle\Model\Article:
         isPublishable:
             type: boolean
         metadata:
-            type: text
+            type: json_array
             nullable: true
         code:
             type: string
