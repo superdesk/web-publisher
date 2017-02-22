@@ -12,6 +12,7 @@ SWP\Bundle\ContentBundle\Model\Article:
         locale: "en"
         status: "published"
         publishable: true
+        code: "<uuid()"
         publishedAt: "<date()>"
     article2:
         title: "Test content article"
@@ -20,4 +21,5 @@ SWP\Bundle\ContentBundle\Model\Article:
         locale: "en"
         status: "published"
         publishable: true
+        code: "<uuid()"
         publishedAt: "<date()>"
