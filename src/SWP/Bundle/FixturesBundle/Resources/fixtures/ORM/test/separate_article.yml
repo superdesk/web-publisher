@@ -11,6 +11,7 @@ SWP\Bundle\ContentBundle\Model\Article:
         route: "@route1"
         locale: "en"
         status: "published"
+        code: "<uuid()>"
         publishable: true
         publishedAt: "<date()>"
     article2:
@@ -19,5 +20,6 @@ SWP\Bundle\ContentBundle\Model\Article:
         route: "@route1"
         locale: "en"
         status: "published"
+        code: "<uuid()>"
         publishable: true
         publishedAt: "<date()>"

@@ -205,4 +205,15 @@ class ArticleSpec extends ObjectBehavior
         $this->setKeywords(['keyword1', 'keyword2']);
         $this->getKeywords()->shouldReturn(['keyword1', 'keyword2']);
     }
+
+    public function its_code_is_required()
+    {
+        $this->shouldThrow('\TypeError')->during('getCode');
+    }
+
+    public function its_code_is_mutable()
+    {
+        $this->setCode('urn:235:sdkfsdfsdkgs');
+        $this->getCode()->shouldReturn('urn:235:sdkfsdfsdkgs');
+    }
 }

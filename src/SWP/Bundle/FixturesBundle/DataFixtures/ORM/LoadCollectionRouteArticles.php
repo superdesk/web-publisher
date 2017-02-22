@@ -168,6 +168,7 @@ class LoadCollectionRouteArticles extends AbstractFixture implements FixtureInte
                 $article->setLocale($articleData['locale']);
                 $article->setPublishedAt(new \DateTime());
                 $article->setPublishable(true);
+                $article->setCode(md5($articleData['title']));
                 $article->setStatus(ArticleInterface::STATUS_PUBLISHED);
                 if (isset($articleData['templateName'])) {
                     $article->setTemplateName($articleData['templateName']);

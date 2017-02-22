@@ -16,6 +16,9 @@ SWP\Component\Bridge\Model\Item:
             nullable: true
         guid:
             type: string
+        evolvedFrom:
+            type: string
+            nullable: true
         byline:
             type: string
             nullable: true

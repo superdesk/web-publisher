@@ -111,6 +111,11 @@ class Article implements ArticleInterface, MediaAwareArticleInterface
     protected $keywords = [];
 
     /**
+     * @var string
+     */
+    protected $code;
+
+    /**
      * Article constructor.
      */
     public function __construct()
@@ -396,5 +401,21 @@ class Article implements ArticleInterface, MediaAwareArticleInterface
     public function setFeatureMedia(ArticleMediaInterface $featureMedia)
     {
         $this->featureMedia = $featureMedia;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getCode(): string
+    {
+        return $this->code;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setCode(string $code)
+    {
+        $this->code = $code;
     }
 }

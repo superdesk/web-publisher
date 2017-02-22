@@ -355,6 +355,7 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface, Orde
                 $article->setPublishable(true);
                 $article->setPublishedAt(new \DateTime());
                 $article->setStatus(ArticleInterface::STATUS_PUBLISHED);
+                $article->setCode(md5($articleData['title']));
                 $manager->persist($article);
 
                 $this->addReference($article->getSlug(), $article);

@@ -19,6 +19,7 @@ SWP\Bundle\CoreBundle\Model\Article:
         slug: "article-<current()>"
         locale: "en"
         status: "published"
+        code: "<uuid()>"
         route: '@newsRoute'
         publishable: true
         metadata:
@@ -30,6 +31,7 @@ SWP\Bundle\CoreBundle\Model\Article:
         slug: "article-<current()>"
         locale: "en"
         status: "published"
+        code: "<uuid()>"
         route: '@sportRoute'
         publishable: true
         metadata:
@@ -41,6 +43,7 @@ SWP\Bundle\CoreBundle\Model\Article:
         slug: "article-<current()>"
         locale: "en"
         status: "published"
+        code: "<uuid()>"
         route: '@politicsRoute'
         publishable: true
         metadata:
