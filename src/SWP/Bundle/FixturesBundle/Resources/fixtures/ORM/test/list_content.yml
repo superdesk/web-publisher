@@ -23,6 +23,7 @@ SWP\Bundle\CoreBundle\Model\Article:
         publishable: true
         metadata:
             byline: "John Smith"
+            located: "Berlin"
     listContent{3..4}:
         title: "article<current()>"
         body: "art<current()>"
@@ -33,6 +34,7 @@ SWP\Bundle\CoreBundle\Model\Article:
         publishable: true
         metadata:
             byline: "Adam Hide"
+            located: "Sydney"
     listContent{5}:
         title: "article<current()>"
         body: "art<current()>"
@@ -43,3 +45,4 @@ SWP\Bundle\CoreBundle\Model\Article:
         publishable: true
         metadata:
             byline: "Fake Doe"
+            located: "Warsaw"

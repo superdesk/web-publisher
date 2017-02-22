@@ -82,14 +82,18 @@ class ArticleRepository extends EntityRepository implements ArticleRepositoryInt
             ->leftJoin('a.media', 'm')
             ->addSelect('m');
 
-        if ($criteria->has('author')) {
+        foreach (['metadata', 'author'] as $name) {
+            if (!$criteria->has($name)) {
+                continue;
+            }
+
             $orX = $queryBuilder->expr()->orX();
-            foreach ($criteria->get('author') as $author) {
-                $orX->add($queryBuilder->expr()->like('a.metadata', $queryBuilder->expr()->literal('%'.$author.'%')));
+            foreach ($criteria->get($name) as $value) {
+                $orX->add($queryBuilder->expr()->like('a.metadata', $queryBuilder->expr()->literal('%'.$value.'%')));
             }
 
             $queryBuilder->andWhere($orX);
-            $criteria->remove('author');
+            $criteria->remove($name);
         }
 
         if ($criteria->has('publishedBefore')) {
@@ -102,15 +106,6 @@ class ArticleRepository extends EntityRepository implements ArticleRepositoryInt
             $queryBuilder->andWhere('a.publishedAt > :after')
                 ->setParameter('after', $criteria->get('publishedAfter'));
             $criteria->remove('publishedAfter');
-        }
-
-        if ($criteria->has('metadata')) {
-            foreach ($criteria->get('metadata') as $key => $value) {
-                $queryBuilder->orWhere($queryBuilder->expr()->like('a.metadata', ':'.$key))
-                    ->setParameter($key, '%'.$value.'%');
-            }
-
-            $criteria->remove('metadata');
         }
 
         $this->applyCriteria($queryBuilder, $criteria, 'a');
