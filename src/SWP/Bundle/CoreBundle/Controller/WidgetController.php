@@ -98,7 +98,7 @@ class WidgetController extends FOSRestController
      *     },
      *     input="SWP\Bundle\TemplatesSystemBundle\Form\Type\WidgetType"
      * )
-     * @Route("/api/{version}/templates/widgets", options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_templates_create_widget")
+     * @Route("/api/{version}/templates/widgets/", options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_templates_create_widget")
      * @Method("POST")
      */
     public function createAction(Request $request)

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Superdesk Web Publisher Content Bundle.
  *
@@ -31,5 +33,5 @@ interface MetadataAwareInterface
      *
      * @return mixed
      */
-    public function getMetadataByKey($key);
+    public function getMetadataByKey(string $key);
 }

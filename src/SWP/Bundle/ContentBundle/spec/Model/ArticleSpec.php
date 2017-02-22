@@ -175,7 +175,7 @@ class ArticleSpec extends ObjectBehavior
 
     public function it_has_no_metadata_by_default()
     {
-        $this->getMetadata()->shouldReturn(null);
+        $this->getMetadata()->shouldReturn([]);
     }
 
     public function its_metadata_is_mutable()

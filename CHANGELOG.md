@@ -8,6 +8,7 @@ in 0.1 minor versions.
 To get the diff for a specific change, go to https://github.com/superdesk/web-publisher/commit/XXX where XXX is the change hash
 
 * 0.5.0
+ * bug [#268] Fixed filtering content lists items by criteria
  * feature [#212] Implement revisions system for containers
  * feature [#265] Add command to list tenants
 

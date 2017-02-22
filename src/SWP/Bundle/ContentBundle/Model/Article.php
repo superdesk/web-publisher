@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Superdesk Web Publisher Content Bundle.
  *
@@ -84,9 +86,9 @@ class Article implements ArticleInterface, MediaAwareArticleInterface
     protected $isPublishable;
 
     /**
-     * @var string
+     * @var array
      */
-    protected $metadata;
+    protected $metadata = [];
 
     /**
      * @var Collection
@@ -317,13 +319,13 @@ class Article implements ArticleInterface, MediaAwareArticleInterface
      */
     public function getMetadata()
     {
-        return json_decode($this->metadata, true);
+        return $this->metadata;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function getMetadataByKey($key)
+    public function getMetadataByKey(string $key)
     {
         $metadata = $this->getMetadata();
 
@@ -337,7 +339,7 @@ class Article implements ArticleInterface, MediaAwareArticleInterface
      */
     public function setMetadata(array $metadata)
     {
-        $this->metadata = json_encode($metadata, true);
+        $this->metadata = $metadata;
     }
 
     /**
