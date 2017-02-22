@@ -195,7 +195,8 @@ class ContentListControllerTest extends WebTestCase
                 'content_list' => [
                     'filters' => '{"route":[3]}',
                 ],
-            ]);
+            ]
+        );
 
         self::assertEquals(200, $this->client->getResponse()->getStatusCode());
         $content = $this->client->getResponse()->getContent();
@@ -212,7 +213,8 @@ class ContentListControllerTest extends WebTestCase
                 'content_list' => [
                     'filters' => '{"route":[4]}',
                 ],
-            ]);
+            ]
+        );
 
         self::assertEquals(200, $this->client->getResponse()->getStatusCode());
         $content = $this->client->getResponse()->getContent();
@@ -238,7 +240,8 @@ class ContentListControllerTest extends WebTestCase
                 'content_list' => [
                     'filters' => '{"author":["Test Persona"]}',
                 ],
-            ]);
+            ]
+        );
 
         self::assertEquals(200, $this->client->getResponse()->getStatusCode());
         $content = $this->client->getResponse()->getContent();
@@ -255,7 +258,8 @@ class ContentListControllerTest extends WebTestCase
                 'content_list' => [
                     'filters' => '{"author":["Adam Hide"]}',
                 ],
-            ]);
+            ]
+        );
 
         self::assertEquals(200, $this->client->getResponse()->getStatusCode());
         $content = $this->client->getResponse()->getContent();
@@ -272,7 +276,8 @@ class ContentListControllerTest extends WebTestCase
                 'content_list' => [
                     'filters' => '{"author":["Adam Hide","John Smith"]}',
                 ],
-            ]);
+            ]
+        );
 
         self::assertEquals(200, $this->client->getResponse()->getStatusCode());
         $content = $this->client->getResponse()->getContent();
@@ -289,7 +294,8 @@ class ContentListControllerTest extends WebTestCase
                 'content_list' => [
                     'filters' => '{"author":["Fake Doe","John Smith"]}',
                 ],
-            ]);
+            ]
+        );
 
         self::assertEquals(200, $this->client->getResponse()->getStatusCode());
         $content = $this->client->getResponse()->getContent();
@@ -315,7 +321,8 @@ class ContentListControllerTest extends WebTestCase
                 'content_list' => [
                     'filters' => '{"author":["Adam Hide"],"route":[5]}',
                 ],
-            ]);
+            ]
+        );
 
         self::assertEquals(200, $this->client->getResponse()->getStatusCode());
         $content = $this->client->getResponse()->getContent();
@@ -332,7 +339,8 @@ class ContentListControllerTest extends WebTestCase
                 'content_list' => [
                     'filters' => '{"author":["Adam Hide"],"route":[4]}',
                 ],
-            ]);
+            ]
+        );
 
         self::assertEquals(200, $this->client->getResponse()->getStatusCode());
         $content = $this->client->getResponse()->getContent();

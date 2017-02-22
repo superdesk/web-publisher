@@ -317,7 +317,7 @@ class Article implements ArticleInterface, MediaAwareArticleInterface
      */
     public function getMetadata()
     {
-        return json_decode($this->metadata, true);
+        return $this->metadata;
     }
 
     /**
@@ -337,7 +337,7 @@ class Article implements ArticleInterface, MediaAwareArticleInterface
      */
     public function setMetadata(array $metadata)
     {
-        $this->metadata = json_encode($metadata, true);
+        $this->metadata = $metadata;
     }
 
     /**
