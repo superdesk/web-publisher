@@ -89,7 +89,6 @@ class MenuControllerTest extends WebTestCase
         $client->request('GET', $content['uri']);
         self::assertEquals(200, $client->getResponse()->getStatusCode());
 
-        $client->enableProfiler();
         $client->request('PATCH', $this->router->generate('swp_api_content_update_routes', ['id' => 3]), [
             'route' => [
                 'name' => 'simple-edited-test-route',

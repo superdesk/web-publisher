@@ -398,7 +398,7 @@ class Article implements ArticleInterface, MediaAwareArticleInterface
     /**
      * {@inheritdoc}
      */
-    public function setFeatureMedia(ArticleMediaInterface $featureMedia)
+    public function setFeatureMedia(ArticleMediaInterface $featureMedia = null)
     {
         $this->featureMedia = $featureMedia;
     }
