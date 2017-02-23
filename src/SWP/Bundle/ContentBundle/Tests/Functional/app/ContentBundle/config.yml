@@ -24,6 +24,9 @@ framework:
     router:
         resource: "%kernel.root_dir%/ContentBundle/routing.yml"
         strict_requirements: ~
+    profiler:
+        enabled: true
+        collect: false
     test: ~
     validation:      { enable_annotations: false }
     form: ~
