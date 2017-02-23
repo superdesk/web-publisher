@@ -22,6 +22,7 @@ class Version20170222142920 extends AbstractMigration
         $this->addSql('ALTER TABLE swp_package ADD evolved_from VARCHAR(255) DEFAULT NULL');
         $this->addSql('ALTER TABLE swp_article ADD code VARCHAR(255) DEFAULT NULL');
         $this->addSql('UPDATE swp_article SET code = md5(random()::text)');
+        $this->addSql('UPDATE swp_article a SET code = p.guid FROM swp_package p WHERE a.slug = LOWER(replace(p.slugline, \' \', \'-\'))');
         $this->addSql('ALTER TABLE swp_article ALTER COLUMN code SET NOT NULL');
     }
 
