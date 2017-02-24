@@ -27,7 +27,7 @@ framework:
     translator:
         fallbacks: ["%locale%"]
         logging: false
-    secret:          "%secret%"
+    secret:          "%env(SYMFONY_SECRET)%"
     router:
         resource: "%kernel.root_dir%/config/routing.yml"
         strict_requirements: ~
@@ -94,7 +94,7 @@ doctrine_cache:
     providers:
         main_cache:
             type: "%doctrine_cache_driver%"
-            namespace: "%secret%"
+            namespace: "%env(SYMFONY_SECRET)%"
 
 doctrine_migrations:
     dir_name: "%kernel.root_dir%/migrations"
