@@ -58,11 +58,11 @@ twig_cache:
 doctrine:
     dbal:
         driver:   pdo_pgsql
-        host:     "%database_host%"
-        port:     "%database_port%"
-        dbname:   "%database_name%"
-        user:     "%database_user%"
-        password: "%database_password%"
+        host:     '%env(DATABASE_HOST)%'
+        port:     '%env(DATABASE_PORT)%'
+        dbname:   '%env(DATABASE_NAME)%'
+        user:     '%env(DATABASE_USER)%'
+        password: "%env(DATABASE_PASSWORD)%"
         charset:  UTF8
         server_version: "%server_version%"
         mapping_types:
