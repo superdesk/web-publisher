@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Superdesk Web Publisher Content Bundle.
  *
@@ -18,6 +20,7 @@ use Behat\Transliterator\Transliterator;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use SWP\Component\Common\Model\SoftDeletableTrait;
+use SWP\Component\Common\Model\TimestampableTrait;
 use SWP\Component\Common\Model\TranslatableTrait;
 
 /**
@@ -25,7 +28,7 @@ use SWP\Component\Common\Model\TranslatableTrait;
  */
 class Article implements ArticleInterface, MediaAwareArticleInterface
 {
-    use TranslatableTrait, SoftDeletableTrait;
+    use TranslatableTrait, SoftDeletableTrait, TimestampableTrait;
 
     /**
      * @var mixed
@@ -70,16 +73,6 @@ class Article implements ArticleInterface, MediaAwareArticleInterface
     /**
      * @var \DateTime
      */
-    protected $createdAt;
-
-    /**
-     * @var \DateTime
-     */
-    protected $updatedAt;
-
-    /**
-     * @var \DateTime
-     */
     protected $publishStartDate;
 
     /**
@@ -93,14 +86,19 @@ class Article implements ArticleInterface, MediaAwareArticleInterface
     protected $isPublishable;
 
     /**
-     * @var string
+     * @var array
      */
-    protected $metadata;
+    protected $metadata = [];
 
     /**
      * @var Collection
      */
     protected $media;
+
+    /**
+     * @var ArticleMediaInterface
+     */
+    protected $featureMedia;
 
     /**
      * @var string
@@ -111,6 +109,11 @@ class Article implements ArticleInterface, MediaAwareArticleInterface
      * @var array
      */
     protected $keywords = [];
+
+    /**
+     * @var string
+     */
+    protected $code;
 
     /**
      * Article constructor.
@@ -176,38 +179,6 @@ class Article implements ArticleInterface, MediaAwareArticleInterface
     public function isPublished()
     {
         return $this->getStatus() === ArticleInterface::STATUS_PUBLISHED;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getCreatedAt()
-    {
-        return $this->createdAt;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getUpdatedAt()
-    {
-        return $this->updatedAt;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function setCreatedAt(\DateTime $createdAt)
-    {
-        $this->createdAt = $createdAt;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function setUpdatedAt(\DateTime $updatedAt)
-    {
-        $this->updatedAt = $updatedAt;
     }
 
     /**
@@ -353,13 +324,13 @@ class Article implements ArticleInterface, MediaAwareArticleInterface
      */
     public function getMetadata()
     {
-        return json_decode($this->metadata, true);
+        return $this->metadata;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function getMetadataByKey($key)
+    public function getMetadataByKey(string $key)
     {
         $metadata = $this->getMetadata();
 
@@ -373,7 +344,7 @@ class Article implements ArticleInterface, MediaAwareArticleInterface
      */
     public function setMetadata(array $metadata)
     {
-        $this->metadata = json_encode($metadata, true);
+        $this->metadata = $metadata;
     }
 
     /**
@@ -417,14 +388,34 @@ class Article implements ArticleInterface, MediaAwareArticleInterface
     }
 
     /**
-     * Don't serialize values.
-     *
-     * @return array
+     * {@inheritdoc}
      */
-    public function __sleep()
+    public function getFeatureMedia()
     {
-        $this->media = 'Cannot be serializable';
+        return $this->featureMedia;
+    }
 
-        return array_keys(get_object_vars($this));
+    /**
+     * {@inheritdoc}
+     */
+    public function setFeatureMedia(ArticleMediaInterface $featureMedia = null)
+    {
+        $this->featureMedia = $featureMedia;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getCode(): string
+    {
+        return $this->code;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setCode(string $code)
+    {
+        $this->code = $code;
     }
 }

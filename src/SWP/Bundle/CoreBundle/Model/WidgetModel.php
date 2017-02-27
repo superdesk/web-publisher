@@ -21,7 +21,7 @@ use SWP\Bundle\TemplatesSystemBundle\Model\WidgetModel as BaseWidgetModel;
 use SWP\Component\MultiTenancy\Model\TenantAwareInterface;
 use SWP\Component\MultiTenancy\Model\TenantAwareTrait;
 
-class WidgetModel extends BaseWidgetModel implements TenantAwareInterface, WidgetModelInterface
+class WidgetModel extends BaseWidgetModel implements WidgetModelInterface, TenantAwareInterface
 {
     const TYPE_LIST = 4;
 

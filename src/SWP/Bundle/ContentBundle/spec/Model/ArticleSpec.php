@@ -175,7 +175,7 @@ class ArticleSpec extends ObjectBehavior
 
     public function it_has_no_metadata_by_default()
     {
-        $this->getMetadata()->shouldReturn(null);
+        $this->getMetadata()->shouldReturn([]);
     }
 
     public function its_metadata_is_mutable()
@@ -204,5 +204,16 @@ class ArticleSpec extends ObjectBehavior
     {
         $this->setKeywords(['keyword1', 'keyword2']);
         $this->getKeywords()->shouldReturn(['keyword1', 'keyword2']);
+    }
+
+    public function its_code_is_required()
+    {
+        $this->shouldThrow('\TypeError')->during('getCode');
+    }
+
+    public function its_code_is_mutable()
+    {
+        $this->setCode('urn:235:sdkfsdfsdkgs');
+        $this->getCode()->shouldReturn('urn:235:sdkfsdfsdkgs');
     }
 }

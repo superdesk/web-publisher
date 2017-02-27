@@ -28,7 +28,6 @@ use SWP\Bundle\TemplatesSystemBundle\Form\Type\WidgetType;
 use SWP\Bundle\CoreBundle\Model\WidgetModel;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use Symfony\Component\HttpKernel\Exception\UnprocessableEntityHttpException;
 
 class WidgetController extends FOSRestController
 {
@@ -72,12 +71,8 @@ class WidgetController extends FOSRestController
      */
     public function getAction(Request $request, $id)
     {
-        if (!$id) {
-            throw new UnprocessableEntityHttpException('You need to provide widget Id (integer).');
-        }
-
         $entityManager = $this->get('doctrine')->getManager();
-        $widget = $entityManager->getRepository('SWP\Bundle\CoreBundle\Model\WidgetModel')->getById($id)->getOneOrNullResult();
+        $widget = $entityManager->getRepository('SWP\Bundle\CoreBundle\Model\WidgetModel')->getById($id)->getQuery()->getOneOrNullResult();
 
         if (!$widget) {
             throw new NotFoundHttpException('WidgetModel with this id was not found.');
@@ -103,7 +98,7 @@ class WidgetController extends FOSRestController
      *     },
      *     input="SWP\Bundle\TemplatesSystemBundle\Form\Type\WidgetType"
      * )
-     * @Route("/api/{version}/templates/widgets", options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_templates_create_widget")
+     * @Route("/api/{version}/templates/widgets/", options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_templates_create_widget")
      * @Method("POST")
      */
     public function createAction(Request $request)
@@ -140,12 +135,8 @@ class WidgetController extends FOSRestController
      */
     public function deleteAction($id)
     {
-        if (!$id) {
-            throw new UnprocessableEntityHttpException('You need to provide widget Id (integer).');
-        }
-
         $entityManager = $this->get('doctrine')->getManager();
-        $widget = $entityManager->getRepository('SWP\Bundle\CoreBundle\Model\WidgetModel')->getById($id)->getOneOrNullResult();
+        $widget = $entityManager->getRepository('SWP\Bundle\CoreBundle\Model\WidgetModel')->getById($id)->getQuery()->getOneOrNullResult();
 
         if (!$widget) {
             throw new NotFoundHttpException('Widget with this id was not found.');
@@ -180,12 +171,8 @@ class WidgetController extends FOSRestController
      */
     public function updateAction(Request $request, $id)
     {
-        if (!$id) {
-            throw new UnprocessableEntityHttpException('You need to provide container Id (integer).');
-        }
-
         $entityManager = $this->get('doctrine')->getManager();
-        $widget = $entityManager->getRepository('SWP\Bundle\CoreBundle\Model\WidgetModel')->getById($id)->getOneOrNullResult();
+        $widget = $entityManager->getRepository('SWP\Bundle\CoreBundle\Model\WidgetModel')->getById($id)->getQuery()->getOneOrNullResult();
 
         if (!$widget) {
             throw new NotFoundHttpException('Widget with this id was not found.');

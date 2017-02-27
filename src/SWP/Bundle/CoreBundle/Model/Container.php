@@ -15,10 +15,23 @@
 namespace SWP\Bundle\CoreBundle\Model;
 
 use SWP\Bundle\TemplatesSystemBundle\Model\Container as BaseContainer;
-use SWP\Component\MultiTenancy\Model\TenantAwareInterface;
 use SWP\Component\MultiTenancy\Model\TenantAwareTrait;
+use SWP\Component\Revision\RevisionAwareTrait;
 
-class Container extends BaseContainer implements TenantAwareInterface
+class Container extends BaseContainer implements ContainerInterface
 {
-    use TenantAwareTrait;
+    use TenantAwareTrait, RevisionAwareTrait;
+
+    /**
+     * {@inheritdoc}
+     */
+    public function fork()
+    {
+        $container = clone $this;
+        $container->setId(null);
+        $container->setCreatedAt(new \DateTime());
+        $container->setUpdatedAt(new \DateTime());
+
+        return $container;
+    }
 }

@@ -18,8 +18,9 @@ namespace SWP\Bundle\MenuBundle\Doctrine;
 
 use Knp\Component\Pager\Pagination\PaginationInterface;
 use SWP\Bundle\MenuBundle\Model\MenuItemInterface;
+use SWP\Component\Storage\Repository\RepositoryInterface;
 
-interface MenuItemRepositoryInterface
+interface MenuItemRepositoryInterface extends RepositoryInterface
 {
     /**
      * @param string $name

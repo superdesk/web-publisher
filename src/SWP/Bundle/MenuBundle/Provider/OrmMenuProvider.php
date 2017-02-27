@@ -28,6 +28,11 @@ final class OrmMenuProvider implements MenuProviderInterface
     private $repository;
 
     /**
+     * @var array
+     */
+    private $internalCache = [];
+
+    /**
      * MenuProvider constructor.
      *
      * @param MenuItemRepositoryInterface $repository
@@ -42,6 +47,10 @@ final class OrmMenuProvider implements MenuProviderInterface
      */
     public function get($name, array $options = [])
     {
+        if (null !== $result = $this->getFromInternalCache($name)) {
+            return $result;
+        }
+
         $menuItem = $this->repository->getOneMenuItemByName($name);
 
         if (!$menuItem instanceof MenuItemInterface) {
@@ -56,8 +65,30 @@ final class OrmMenuProvider implements MenuProviderInterface
      */
     public function has($name, array $options = [])
     {
-        $menuItem = $this->repository->getOneMenuItemByName($name);
+        if (null === $name) {
+            return false;
+        }
 
-        return $menuItem instanceof MenuItemInterface;
+        $menuItem = $this->repository->getOneMenuItemByName($name);
+        $result = $menuItem instanceof MenuItemInterface;
+        if ($result) {
+            $this->addToInternalCache($name, $menuItem);
+        }
+
+        return $result;
+    }
+
+    private function getFromInternalCache($name)
+    {
+        if (array_key_exists($name, $this->internalCache)) {
+            return $this->internalCache[$name];
+        }
+
+        return;
+    }
+
+    private function addToInternalCache($name, $value)
+    {
+        $this->internalCache[$name] = $value;
     }
 }

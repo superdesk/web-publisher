@@ -16,8 +16,12 @@ SWP\Component\Bridge\Model\Item:
             nullable: true
         guid:
             type: string
+        evolvedFrom:
+            type: string
+            nullable: true
         byline:
             type: string
+            nullable: true
         language:
             type: string
         description:
@@ -37,6 +41,8 @@ SWP\Component\Bridge\Model\Item:
         located:
             type: string
             nullable: true
+        pubStatus:
+            type: string
         urgency:
             type: integer
         priority:

@@ -14,12 +14,6 @@ SWP\Bundle\TemplatesSystemBundle\Model\Container:
             length: 255
         type:
             type: integer
-        width:
-            type: integer
-            nullable: true
-        height:
-            type: integer
-            nullable: true
         styles:
             type: text
             nullable: true

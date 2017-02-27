@@ -21,6 +21,16 @@ SWP\Bundle\ContentBundle\Model\Route:
             type: integer
         children:
             expose: true
+        parent:
+            expose: true
+            type: integer
+            accessor:
+                getter: getParentId
+        root:
+            expose: true
+            type: integer
+            accessor:
+                getter: getRootId
     relations:
         - rel: self
           href:

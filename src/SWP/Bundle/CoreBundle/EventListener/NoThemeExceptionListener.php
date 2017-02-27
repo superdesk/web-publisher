@@ -20,6 +20,9 @@ use Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent;
 
 class NoThemeExceptionListener
 {
+    /**
+     * @param GetResponseForExceptionEvent $event
+     */
     public function onKernelException(GetResponseForExceptionEvent $event)
     {
         $exception = $event->getException();

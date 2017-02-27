@@ -1,6 +1,4 @@
 parameters:
-    # override default cmf dynamic router with our implementation (with support for Meta classes)
-    swp_core.twig_extension.class: SWP\Bundle\CoreBundle\Twig\CoreExtension
     swp_core.routing.route_enhancer.class: SWP\Bundle\CoreBundle\Enhancer\RouteEnhancer
     swp_core.theme.resolver.template_name.class: SWP\Bundle\CoreBundle\Resolver\TemplateNameResolver
 
@@ -28,14 +26,6 @@ services:
             - "@swp_multi_tenancy.tenant_context"
             - "@sylius.repository.theme"
             - "@doctrine_cache.providers.main_cache"
-
-    swp_core.twig_extension:
-        class: '%swp_core.twig_extension.class%'
-        public: false
-        arguments:
-            - "@swp_core.theme.context.tenant_aware"
-        tags:
-            - { name: twig.extension }
 
     swp_core.no_theme_exception_listener:
         class: SWP\Bundle\CoreBundle\EventListener\NoThemeExceptionListener
@@ -86,14 +76,6 @@ services:
         tags:
             - { name: form.type }
 
-    swp_core.twig_stringy_extension:
-        class: SWP\Bundle\CoreBundle\Twig\StringyExtension
-        public: false
-        arguments:
-            - "@twig"
-        tags:
-            - { name: twig.extension }
-
     swp_core.security.session.domain_dynamic_storage:
         class: SWP\Bundle\CoreBundle\Security\Storage\DynamicDomainSessionStorage
         arguments:
@@ -116,6 +98,14 @@ services:
         tags:
             - { name: kernel.event_listener, event: swp.article.published, method: addArticleToList }
 
+    swp_core.listener.revision_subscriber:
+        class: SWP\Bundle\CoreBundle\EventSubscriber\RevisionsSubscriber
+        arguments:
+            - "@swp.repository.container"
+            - "@swp.factory.revision_log"
+        tags:
+            - { name: kernel.event_subscriber }
+
     swp_core.subscriber.http_cache:
         class: SWP\Bundle\CoreBundle\EventSubscriber\HttpCacheSubscriber
         arguments:
@@ -130,6 +120,7 @@ services:
             - "@swp.repository.api_key"
             - "@swp_multi_tenancy.tenant_context"
             - "@swp.repository.tenant"
+            - "@doctrine.orm.default_entity_manager"
 
     swp.security.user_provider:
         class: SWP\Bundle\CoreBundle\Security\Provider\UserProvider
@@ -169,6 +160,13 @@ services:
             - { name: kernel.event_listener, event: swp.content_list.post_item_add, method: sendArticleToFacebook }
             - { name: kernel.event_listener, event: swp.article.post_create, method: resendUpdatedArticleToFacebook }
 
+    swp_core.listener.tenant_revision:
+        class: SWP\Bundle\CoreBundle\EventListener\TenantRevisionListener
+        arguments:
+            - "@swp.repository.revision"
+            - "@swp_revision.context.revision"
+        tags:
+            - { name: kernel.event_listener, event: kernel.request, method: onKernelRequest }
     swp.matcher.article_criteria:
         class: SWP\Bundle\CoreBundle\Matcher\ArticleCriteriaMatcher
 
@@ -181,6 +179,10 @@ services:
         tags:
             - { name: kernel.event_listener, event: swp.list_criteria_change, method: onListCriteriaChange }
 
+    swp.manager.revision:
+        class: SWP\Bundle\RevisionBundle\Manager\RevisionManager
+        arguments: ["@swp.factory.revision", "@swp_revision.context.revision", "@event_dispatcher", "@swp.object_manager.revision"]
+
     swp.listener.menu.widget_create:
         class: SWP\Bundle\CoreBundle\EventListener\MenuWidgetCreateListener
         arguments:
@@ -188,6 +190,15 @@ services:
             - '@swp.repository.widget_model'
         tags:
             - { name: kernel.event_listener, event: swp.menu.created, method: onMenuCreated }
+
+    swp.listener.menu.menu_update:
+        class: SWP\Bundle\CoreBundle\EventListener\MenuUpdateListener
+        arguments:
+            - '@swp_menu.manager.menu_item'
+            - '@swp.repository.menu'
+        tags:
+            - { name: kernel.event_listener, event: swp.route.post_update, method: onRouteUpdate }
+
 
     swp.listener.menu.widget_delete:
         class: SWP\Bundle\CoreBundle\EventListener\MenuWidgetDeleteListener

@@ -57,10 +57,33 @@ Get selected rendition only:
 
     {% gimmelist media from articleMedia with {'article': gimme.article} %}
         {% gimme rendition with { 'name': '16-9', 'fallback': 'original' } %}
-            <img src="{{ url(gimme.rendition) }}" style="width: {{ gimme.rendition.width }}px; height: {{ gimme.rendition.height }}px;" />
+            <img src="{{ url(rendition) }}" style="width: {{ rendition.width }}px; height: {{ rendition.height }}px;" />
         {% endgimme %}
     {% endgimmelist %}
 
 .. note::
 
     'original' is default feedback value for single rendition loader.
+
+Feature Media
+`````````````
+
+If Item comes with :code:`featuremedia` association then Article will have this media set as :code:`featureMedia`.
+
+Usage:
+
+.. code-block:: twig
+
+    {% if gimme.article.featureMedia.renditions is iterable %}
+        {% for rendition in gimme.article.featureMedia.renditions %}
+            <img src="{{ url(rendition) }}" style="width: {{ rendition.width }}px; height: {{ rendition.height }}px;" />
+        {% endfor %}
+    {% endif %}
+
+Or get selected rendition:
+
+.. code-block:: twig
+
+    {% gimme rendition with { 'media': gimme.article.featureMedia, 'name': '16-9', 'fallback': 'original' } %}
+        <img src="{{ url(rendition) }}" style="width: {{ rendition.width }}px; height: {{ rendition.height }}px;" />
+    {% endgimme %}

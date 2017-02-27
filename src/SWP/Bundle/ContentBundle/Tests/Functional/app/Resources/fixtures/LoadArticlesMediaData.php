@@ -144,6 +144,7 @@ class LoadArticlesMediaData extends AbstractFixture implements FixtureInterface,
             $article->setLocale($articleData['locale']);
             $article->setPublishedAt(new \DateTime());
             $article->setPublishable(true);
+            $article->setCode(md5($articleData['title']));
             $article->setStatus(ArticleInterface::STATUS_PUBLISHED);
             $manager->persist($article);
 

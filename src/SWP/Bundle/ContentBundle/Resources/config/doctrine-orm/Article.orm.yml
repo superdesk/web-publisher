@@ -8,6 +8,11 @@ SWP\Bundle\ContentBundle\Model\Article:
             id: true
             generator:
                 strategy: IDENTITY
+    gedmo:
+        soft_deleteable:
+            field_name: deletedAt
+            time_aware: false
+        loggable: true
     fields:
         slug:
             type: string
@@ -29,9 +34,15 @@ SWP\Bundle\ContentBundle\Model\Article:
             type: string
         createdAt:
             type: datetime
+            gedmo:
+                timestampable:
+                    on: create
         updatedAt:
             type: datetime
             nullable: true
+            gedmo:
+                timestampable:
+                    on: update
         deletedAt:
             type: datetime
             nullable: true
@@ -47,8 +58,10 @@ SWP\Bundle\ContentBundle\Model\Article:
         isPublishable:
             type: boolean
         metadata:
-            type: text
+            type: json_array
             nullable: true
+        code:
+            type: string
     manyToOne:
         route:
             targetEntity: SWP\Bundle\ContentBundle\Model\RouteInterface
@@ -56,6 +69,13 @@ SWP\Bundle\ContentBundle\Model\Article:
             fetch: "EAGER"
             joinColumn:
                 name: route_id
+                referencedColumnName: id
+                onDelete: "SET NULL"
+        featureMedia:
+            targetEntity: SWP\Bundle\ContentBundle\Model\ArticleMediaInterface
+            fetch: "EAGER"
+            joinColumn:
+                name: feature_media
                 referencedColumnName: id
                 onDelete: "SET NULL"
     oneToMany:

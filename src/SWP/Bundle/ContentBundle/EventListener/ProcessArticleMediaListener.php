@@ -109,6 +109,10 @@ class ProcessArticleMediaListener
             //TODO: handle files upload
         }
 
+        if ($key === ArticleInterface::KEY_FEATURE_MEDIA) {
+            $article->setFeatureMedia($articleMedia);
+        }
+
         return $articleMedia;
     }
 
@@ -123,6 +127,9 @@ class ProcessArticleMediaListener
 
         foreach ($existingArticleMedia as $articleMedia) {
             $this->articleMediaRepository->remove($articleMedia);
+            if ($articleMedia === $article->getFeatureMedia()) {
+                $article->setFeatureMedia(null);
+            }
         }
         $this->articleMediaRepository->flush();
     }

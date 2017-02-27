@@ -5,6 +5,7 @@ imports:
     - { resource: "@SWPRuleBundle/Resources/config/app/config.yml" }
     - { resource: "@SWPMenuBundle/Resources/config/app/config.yml" }
     - { resource: "@SWPContentListBundle/Resources/config/app/config.yml" }
+    - { resource: "@SWPRevisionBundle/Resources/config/app/config.yml" }
     - { resource: "@SWPCoreBundle/Resources/config/app/config.yml" }
     - { resource: parameters.yml }
     - { resource: security.yml }
@@ -132,10 +133,16 @@ fos_http_cache:
             -
                 match:
                     attributes:
-                        _route: "swp_api_content_update_routes|swp_api_content_delete_routes|swp_api_content_create_routes"
+                        _route: "swp_api_content_update_routes|swp_api_content_delete_routes"
                 routes:
                     swp_api_content_list_routes: ~
                     swp_api_content_show_routes: ~
+            -
+                match:
+                    attributes:
+                        _route: "swp_api_content_create_routes"
+                routes:
+                    swp_api_content_list_routes: ~
             -
                 match:
                     attributes:
@@ -181,11 +188,17 @@ fos_http_cache:
             -
                 match:
                     attributes:
-                        _route: "swp_api_core_move_menu|swp_api_core_create_menu|swp_api_core_delete_menu"
+                        _route: "swp_api_core_move_menu|swp_api_core_delete_menu"
                 routes:
                     swp_api_core_list_menu: ~
                     swp_api_core_list_children_menu: ~
                     swp_api_core_get_menu: ~
+            -
+                match:
+                    attributes:
+                        _route: "swp_api_core_create_menu"
+                routes:
+                    swp_api_core_list_menu: ~
 
 fos_rest:
     zone:

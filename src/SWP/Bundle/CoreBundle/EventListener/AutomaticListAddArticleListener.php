@@ -50,6 +50,14 @@ class AutomaticListAddArticleListener
      */
     private $eventDispatcher;
 
+    /**
+     * AutomaticListAddArticleListener constructor.
+     *
+     * @param ContentListRepositoryInterface  $listRepository
+     * @param FactoryInterface                $listItemFactory
+     * @param ArticleCriteriaMatcherInterface $articleCriteriaMatcher
+     * @param EventDispatcherInterface        $eventDispatcher
+     */
     public function __construct(
         ContentListRepositoryInterface $listRepository,
         FactoryInterface $listItemFactory,

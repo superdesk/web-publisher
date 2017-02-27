@@ -54,6 +54,7 @@ swp_templates_system:
             classes:
                 container:
                     model: SWP\Bundle\CoreBundle\Model\Container
+                    repository: SWP\Bundle\CoreBundle\Repository\RevisionAwareContainerRepository
                 widget_model:
                     model: SWP\Bundle\CoreBundle\Model\WidgetModel
 
@@ -86,6 +87,14 @@ swp_content:
                     model: SWP\Bundle\CoreBundle\Model\Route
                 image:
                     model: SWP\Bundle\CoreBundle\Model\Image
+
+swp_revision:
+    persistence:
+        orm:
+            enabled: true
+            classes:
+                revision:
+                    model: SWP\Bundle\CoreBundle\Model\Revision
 
 cmf_routing:
     dynamic:

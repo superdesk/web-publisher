@@ -16,14 +16,15 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\ContentBundle\Controller;
 
-use Behat\Transliterator\Transliterator;
 use Hoa\Mime\Mime;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use SWP\Bundle\ContentBundle\ArticleEvents;
 use SWP\Bundle\ContentBundle\Event\ArticleEvent;
 use SWP\Bundle\ContentBundle\Form\Type\MediaFileType;
+use SWP\Bundle\ContentBundle\Model\ArticleInterface;
 use SWP\Bundle\ContentBundle\Model\ArticleMedia;
+use SWP\Component\Bridge\Model\ContentInterface;
 use SWP\Component\Bridge\Model\PackageInterface;
 use SWP\Component\Common\Response\ResponseContext;
 use SWP\Component\Common\Response\SingleResourceResponse;
@@ -51,10 +52,16 @@ class ContentPushController extends Controller
     {
         $package = $this->handlePackage($request);
         $articleRepository = $this->get('swp.repository.article');
-
-        $existingArticle = $articleRepository->findOneBy(['slug' => Transliterator::urlize($package->getSlugline())]);
+        $existingArticle = $articleRepository->findOneBy(['code' => $package->getEvolvedFrom() ?: $package->getGuid()]);
 
         if (null !== $existingArticle) {
+            if (ContentInterface::STATUS_CANCELED === $package->getPubStatus()) {
+                $this->get('swp.service.article')->unpublish($existingArticle, ArticleInterface::STATUS_CANCELED);
+                $this->get('swp.object_manager.article')->flush();
+
+                return new SingleResourceResponse(['status' => 'OK'], new ResponseContext(201));
+            }
+
             $this->get('swp.hydrator.article')->hydrate($existingArticle, $package);
             $this->get('event_dispatcher')->dispatch(ArticleEvents::PRE_CREATE, new ArticleEvent($existingArticle, $package));
             $this->get('swp.object_manager.article')->flush();
@@ -97,18 +104,18 @@ class ContentPushController extends Controller
             $uploadedFile = $form->getData()['media'];
             $mediaId = $request->request->get('media_id');
             if ($uploadedFile->isValid()) {
-                $media = $this->get('swp.repository.image')->findImageByAssetId(ArticleMedia::handleMediaId($mediaId));
-                if (null == $media) {
-                    $media = $mediaManager->handleUploadedFile($uploadedFile, $mediaId);
+                $image = $this->get('swp.repository.image')->findImageByAssetId(ArticleMedia::handleMediaId($mediaId));
+                if (null == $image) {
+                    $image = $mediaManager->handleUploadedFile($uploadedFile, $mediaId);
 
                     $this->get('swp.object_manager.media')->flush();
                 }
 
                 return new SingleResourceResponse([
                     'media_id' => $mediaId,
-                    'URL' => $mediaManager->getMediaPublicUrl($media),
-                    'media' => base64_encode($mediaManager->getFile($media)),
-                    'mime_type' => Mime::getMimeFromExtension($media->getFileExtension()),
+                    'URL' => $mediaManager->getMediaPublicUrl($image),
+                    'media' => base64_encode($mediaManager->getFile($image)),
+                    'mime_type' => Mime::getMimeFromExtension($image->getFileExtension()),
                     'filemeta' => [],
                 ], new ResponseContext(201));
             }
@@ -136,10 +143,10 @@ class ContentPushController extends Controller
      */
     public function getAssetsAction($mediaId)
     {
-        $media = $this->get('swp.repository.media')
-            ->findMediaByAssetId(ArticleMedia::handleMediaId($mediaId));
+        $image = $this->get('swp.repository.image')
+            ->findImageByAssetId(ArticleMedia::handleMediaId($mediaId));
 
-        if (null === $media) {
+        if (null === $image) {
             throw new NotFoundHttpException('Media don\'t exist in storage');
         }
 
@@ -147,9 +154,9 @@ class ContentPushController extends Controller
 
         return new SingleResourceResponse([
             'media_id' => $mediaId,
-            'URL' => $mediaManager->getMediaPublicUrl($media->getImage()),
-            'media' => base64_encode($mediaManager->getFile($media->getImage())),
-            'mime_type' => Mime::getMimeFromExtension($media->getImage()->getFileExtension()),
+            'URL' => $mediaManager->getMediaPublicUrl($image),
+            'media' => base64_encode($mediaManager->getFile($image)),
+            'mime_type' => Mime::getMimeFromExtension($image->getFileExtension()),
             'filemeta' => [],
         ]);
     }

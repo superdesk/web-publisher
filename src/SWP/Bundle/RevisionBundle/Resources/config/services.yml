@@ -1,0 +1,3 @@
+services:
+    swp_revision.context.revision:
+        class: SWP\Component\Revision\Context\RevisionContext

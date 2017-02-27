@@ -14,25 +14,23 @@
 
 namespace SWP\Bundle\TemplatesSystemBundle\Tests\Container;
 
-use SWP\Bundle\TemplatesSystemBundle\Container\SimpleContainer;
+use SWP\Bundle\TemplatesSystemBundle\Container\ContainerRenderer;
+use SWP\Bundle\TemplatesSystemBundle\Container\ContainerRendererInterface;
 use SWP\Bundle\TemplatesSystemBundle\Model\WidgetModel;
 use SWP\Component\TemplatesSystem\Gimme\Widget\HtmlWidgetHandler;
 use SWP\Bundle\TemplatesSystemBundle\Model\Container;
 use SWP\Bundle\TemplatesSystemBundle\Model\ContainerData;
 
-class SimpleContainerTest extends \PHPUnit_Framework_TestCase
+class ContainerRendererTest extends \PHPUnit_Framework_TestCase
 {
     private $container;
-
-    const OPEN_TAG_TEMPLATE = '<div id="swp_container_{{ id }}" class="swp_container {{ class }}" style="{% if height %}height: {{ height }}px;{% endif %}{% if width %}width: {{width}}px;{% endif %}{{styles}}"{% for value in data %} data-{{value.getKey()}}="{{value.getValue()}}"{% endfor %} >';
-    const CLOSE_TAG_TEMPLATE = '</div>';
 
     private function getRenderer()
     {
         return new \Twig_Environment(
             new \Twig_Loader_Array([
-                'open_tag' => self::OPEN_TAG_TEMPLATE,
-                'close_tag' => self::CLOSE_TAG_TEMPLATE,
+                'open_tag' => ContainerRendererInterface::OPEN_TAG_TEMPLATE,
+                'close_tag' => ContainerRendererInterface::CLOSE_TAG_TEMPLATE,
             ])
         );
     }
@@ -42,7 +40,7 @@ class SimpleContainerTest extends \PHPUnit_Framework_TestCase
         $containerEntity = new Container();
         $containerEntity->setId(1);
 
-        $this->container = new SimpleContainer($containerEntity, $this->getRenderer());
+        $this->container = new ContainerRenderer($containerEntity, $this->getRenderer(), true);
     }
 
     public function testCheckingVisibility()
@@ -52,7 +50,7 @@ class SimpleContainerTest extends \PHPUnit_Framework_TestCase
 
     public function testSimpleRendering()
     {
-        $this->assertEquals($this->container->renderOpenTag(), '<div id="swp_container_1" class="swp_container " style="" >');
+        $this->assertEquals($this->container->renderOpenTag(), '<div id="swp_container_1" class="swp_container ">');
         $this->assertEquals($this->container->renderCloseTag(), '</div>');
     }
 
@@ -64,28 +62,27 @@ class SimpleContainerTest extends \PHPUnit_Framework_TestCase
             $containerData = new ContainerData($key, $value);
             $containerEntity->addData($containerData);
         }
-        $containerEntity->setWidth(400);
-        $containerEntity->setHeight(300);
         $containerEntity->setCssClass('simple-css-class');
         $containerEntity->setStyles('border: 1px solid red;');
         $containerEntity->setName('simple_container');
-        $container = new SimpleContainer($containerEntity, $this->getRenderer());
+        $container = new ContainerRenderer($containerEntity, $this->getRenderer(), true);
 
-        $this->assertEquals($container->renderOpenTag(), '<div id="swp_container_2" class="swp_container simple-css-class" style="height: 300px;width: 400px;border: 1px solid red;" data-key1="1" data-key2="false" data-key3="" >');
+        $this->assertEquals($container->renderOpenTag(), '<div id="swp_container_2" class="swp_container simple-css-class" style="border: 1px solid red;" data-key1="1" data-key2="false" data-key3="">');
     }
 
     public function testWidgets()
     {
         $widgetEntity = new WidgetModel();
+        $widgetEntity->setId(1);
         $widgetEntity->setParameters(['html_body' => 'simple html body']);
         $widget = new HtmlWidgetHandler($widgetEntity);
 
         $this->assertEquals($this->container->setWidgets([$widget, $widget]), $this->container);
         $this->assertEquals($this->container->hasWidgets(), true);
-        $this->assertEquals($this->container->renderWidgets(), <<<'EOF'
-simple html body
-simple html body
+        $this->assertEquals(<<<'EOF'
+<div id="swp_widget_1" class="swp_widget">simple html body</div>
+<div id="swp_widget_1" class="swp_widget">simple html body</div>
 EOF
-        );
+        , $this->container->renderWidgets());
     }
 }

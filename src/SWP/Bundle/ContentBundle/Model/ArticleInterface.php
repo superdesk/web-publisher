@@ -27,6 +27,9 @@ interface ArticleInterface extends TimestampableInterface, TranslatableInterface
     const STATUS_SUBMITTED = 'submitted';
     const STATUS_PUBLISHED = 'published';
     const STATUS_UNPUBLISHED = 'unpublished';
+    const STATUS_CANCELED = 'canceled';
+
+    const KEY_FEATURE_MEDIA = 'featuremedia';
 
     /**
      * @return mixed
@@ -131,4 +134,24 @@ interface ArticleInterface extends TimestampableInterface, TranslatableInterface
      * @param array $keywords
      */
     public function setKeywords(array $keywords);
+
+    /**
+     * @return null|ArticleMediaInterface
+     */
+    public function getFeatureMedia();
+
+    /**
+     * @param ArticleMediaInterface $featureMedia
+     */
+    public function setFeatureMedia(ArticleMediaInterface $featureMedia = null);
+
+    /**
+     * @return string
+     */
+    public function getCode(): string;
+
+    /**
+     * @param string $code
+     */
+    public function setCode(string $code);
 }

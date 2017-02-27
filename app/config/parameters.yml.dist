@@ -37,7 +37,7 @@ parameters:
 
     # Array of authorized superdesk servers
     superdesk_servers:
-        - superdesk.dev
+        - https://superdesk.dev
 
     # Array of trusted proxies
     trusted_proxies:

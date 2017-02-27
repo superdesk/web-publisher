@@ -50,4 +50,14 @@ interface MenuItemInterface extends ItemInterface, PersistableInterface
      * @param int $position
      */
     public function setPosition(int $position);
+
+    /**
+     * @return int|null
+     */
+    public function getParentId();
+
+    /**
+     * @return int|null
+     */
+    public function getRootId();
 }
