@@ -139,6 +139,7 @@ services:
         arguments:
             - "@twig.loader.filesystem"
             - "@swp_core.theme.context.tenant_aware"
+            - "@sylius.theme.hierarchy_provider"
             - "%takeit_amp_html.configuration.theme.theme_path%"
 
     swp.facebook.service.instant_articles:
