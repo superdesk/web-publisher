@@ -164,7 +164,8 @@
                 "env(DATABASE_HOST)": "DATABASE_HOST",
                 "env(DATABASE_PORT)": "DATABASE_PORT",
                 "env(DATABASE_NAME)": "DATABASE_NAME",
-                "env(SYMFONY_SECRET)": "SYMFONY_SECRET"
+                "env(SYMFONY_SECRET)": "SYMFONY_SECRET",
+                "env(SWP_DOMAIN)": "SWP_DOMAIN"
             }
         }
     }
