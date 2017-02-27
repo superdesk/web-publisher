@@ -20,7 +20,8 @@ parameters:
     # A secret key that's used to generate certain security-related tokens
     env(SYMFONY_SECRET): 'SuperSecretTokenPleaseChangeIt'
     swp_updater.version.class: "SWP\\Bundle\\CoreBundle\\Version\\Version"
-    domain: wps.dev
+    domain: "%env(SWP_DOMAIN)%"
+    env(SWP_DOMAIN): wps.dev
     # Array of caching servers
     cache_servers:
         - wps.dev
