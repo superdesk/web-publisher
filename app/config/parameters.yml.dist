@@ -18,6 +18,7 @@ parameters:
     mailer_password:   ~
 
     # A secret key that's used to generate certain security-related tokens
+    secret: "%env(SYMFONY_SECRET)%"
     env(SYMFONY_SECRET): 'SuperSecretTokenPleaseChangeIt'
     swp_updater.version.class: "SWP\\Bundle\\CoreBundle\\Version\\Version"
     domain: "%env(SWP_DOMAIN)%"
