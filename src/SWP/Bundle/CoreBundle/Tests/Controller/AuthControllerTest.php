@@ -65,4 +65,32 @@ class AuthControllerTest extends WebTestCase
         self::assertArrayHasKey('user', $content);
         self::assertEquals($content['user']['username'], 'test.user');
     }
+
+    public function testSuccessAuthenicationTwice()
+    {
+        $client = static::createClient();
+        $client->request('POST', $this->router->generate('swp_api_auth'), [
+            'auth' => [
+                'username' => 'test.user',
+                'password' => 'testPassword',
+            ],
+        ]);
+
+        self::assertEquals(200, $client->getResponse()->getStatusCode());
+        $content = json_decode($client->getResponse()->getContent(), true);
+        $token = $content['token'];
+        self::assertArrayHasKey('token', $content);
+
+        $client->request('POST', $this->router->generate('swp_api_auth'), [
+            'auth' => [
+                'username' => 'test.user',
+                'password' => 'testPassword',
+            ],
+        ]);
+
+        self::assertEquals(200, $client->getResponse()->getStatusCode());
+        $content = json_decode($client->getResponse()->getContent(), true);
+        self::assertEquals($token, $content['token']);
+        self::assertArrayHasKey('token', $content);
+    }
 }
