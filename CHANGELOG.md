@@ -1,5 +1,5 @@
 
-CHANGELOG for version <= 0.2.x
+CHANGELOG for version <= 0.5.x
 ==============================
 
 This changelog references the relevant changes (bug and security fixes) done

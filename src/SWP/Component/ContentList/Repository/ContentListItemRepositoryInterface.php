@@ -24,4 +24,11 @@ interface ContentListItemRepositoryInterface
      * @param ContentListInterface $contentList
      */
     public function removeItems(ContentListInterface $contentList);
+
+    /**
+     * @param array $groupValues
+     *
+     * @return \Doctrine\ORM\QueryBuilder
+     */
+    public function getSortedItems(array $groupValues = []);
 }

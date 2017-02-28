@@ -16,11 +16,11 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\ContentListBundle\Doctrine\ORM;
 
-use SWP\Bundle\StorageBundle\Doctrine\ORM\EntityRepository;
 use SWP\Component\ContentList\Model\ContentListInterface;
 use SWP\Component\ContentList\Repository\ContentListItemRepositoryInterface;
+use SWP\Bundle\StorageBundle\Doctrine\ORM\SortableEntityRepository;
 
-class ContentListItemRepository extends EntityRepository implements ContentListItemRepositoryInterface
+class ContentListItemRepository extends SortableEntityRepository implements ContentListItemRepositoryInterface
 {
     /**
      * {@inheritdoc}
@@ -33,5 +33,15 @@ class ContentListItemRepository extends EntityRepository implements ContentListI
             ->setParameter('contentList', $contentList);
 
         $queryBuilder->getQuery()->execute();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getSortedItems(array $groupValues = [])
+    {
+        return parent::getBySortableGroupsQueryBuilder($groupValues)
+            ->select('n', 'w')
+            ->leftJoin('n.widget', 'w');
     }
 }

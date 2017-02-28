@@ -75,8 +75,8 @@ class ArticleSpec extends ObjectBehavior
 
     public function its_status_is_mutable()
     {
-        $this->setStatus(ArticleInterface::STATUS_SUBMITTED);
-        $this->getStatus()->shouldReturn(ArticleInterface::STATUS_SUBMITTED);
+        $this->setStatus(ArticleInterface::STATUS_PUBLISHED);
+        $this->getStatus()->shouldReturn(ArticleInterface::STATUS_PUBLISHED);
     }
 
     public function it_has_no_route_by_default()
