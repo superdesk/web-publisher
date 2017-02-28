@@ -110,7 +110,11 @@ class AuthController extends Controller
                 }
             }
 
-            $publisherUser = $this->get('swp.security.user_provider')->findOneByEmail($superdeskUser['email']);
+            $userProvider = $this->get('swp.security.user_provider');
+            $publisherUser = $userProvider->findOneByEmail($superdeskUser['email']);
+            if (null === $publisherUser) {
+                $publisherUser = $userProvider->loadUserByUsername($superdeskUser['username']);
+            }
 
             if (null === $publisherUser) {
                 $userManager = $this->get('fos_user.user_manager');
@@ -143,6 +147,8 @@ class AuthController extends Controller
                 ->getValidToken($token)
                 ->getQuery()
                 ->getOneOrNullResult();
+        } else {
+            $apiKey = $apiKeyRepository->getValidTokenForUser($user)->getQuery()->getOneOrNullResult();
         }
 
         if (null === $apiKey) {

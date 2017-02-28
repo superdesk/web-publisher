@@ -34,7 +34,6 @@ class LoadContainersData extends AbstractFixture implements FixtureInterface, Or
             $container1 = $this->container->get('swp.factory.container')->create();
             $container1->setName('mainNav');
             $container1->setType(1);
-            $container1->setCssClass('container');
             $container1->setVisible(true);
             $container1->setTenantCode('123abc');
             $container1->setRevision($revision);
@@ -48,7 +47,6 @@ class LoadContainersData extends AbstractFixture implements FixtureInterface, Or
             $container2 = $this->container->get('swp.factory.container')->create();
             $container2->setName('footerNav');
             $container2->setType(1);
-            $container2->setCssClass('container');
             $container2->setVisible(true);
             $container2->setTenantCode('123abc');
             $container2->setRevision($revision);
