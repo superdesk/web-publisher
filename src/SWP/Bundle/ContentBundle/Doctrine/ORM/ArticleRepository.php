@@ -17,6 +17,7 @@ declare(strict_types=1);
 namespace SWP\Bundle\ContentBundle\Doctrine\ORM;
 
 use Doctrine\ORM\QueryBuilder;
+use Doctrine\ORM\Tools\Pagination\Paginator;
 use SWP\Component\Common\Criteria\Criteria;
 use SWP\Bundle\ContentBundle\Doctrine\ArticleRepositoryInterface;
 use SWP\Bundle\ContentBundle\Model\ArticleInterface;
@@ -112,7 +113,9 @@ class ArticleRepository extends EntityRepository implements ArticleRepositoryInt
         $this->applySorting($queryBuilder, $sorting, 'a');
         $this->applyLimiting($queryBuilder, $criteria);
 
-        return $queryBuilder->getQuery()->getResult();
+        $paginator = new Paginator($queryBuilder->getQuery(), true);
+
+        return $paginator->getIterator()->getArrayCopy();
     }
 
     /**
