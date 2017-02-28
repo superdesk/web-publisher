@@ -78,7 +78,7 @@ Here is commented example of pagination:
                 * lastPage (int) : represents the total number of existing pages
                 * showAlwaysFirstAndLast (bool) : Always show first and last link (just disabled)
             #}
-            {% include '@SWPTemplateEngine/pagination.html.twig' with {
+            {% include '@SWPTemplatesSystem/pagination.html.twig' with {
                 currentFilters: {}|merge(app.request.query.all()),
                 currentPage: currentPage,
                 paginationPath: gimme.route,
