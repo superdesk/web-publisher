@@ -22,11 +22,9 @@ It is done in template, with command like this
 .. code-block:: twig
 
     {% container 'frontpage_sidebar' with {
-    'width': 300,
-    'height': 600,
-    'styles': 'border: solid 1px red',
-    'cssClass': 'css_class_name',
-    'data': {'custom-key': value}
+        'styles': 'border: solid 1px red',
+        'cssClass': 'css_class_name',
+        'data': {'custom-key': value}
     } %}
     ...
     {% endcontainer %}
