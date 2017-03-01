@@ -190,4 +190,46 @@ class ArticleControllerTest extends WebTestCase
 
         self::assertEquals(400, $client->getResponse()->getStatusCode());
     }
+
+    public function testFilterArticlesByStatus()
+    {
+        $content = $this->getArticlesByStatus('new');
+
+        self::assertEquals('new', $content['_embedded']['_items'][0]['status']);
+        self::assertEquals(1, $content['total']);
+        self::assertFalse($content['_embedded']['_items'][0]['isPublishable']);
+        self::assertNull($content['_embedded']['_items'][0]['publishedAt']);
+        self::assertEquals('Article 1', $content['_embedded']['_items'][0]['title']);
+
+        $content = $this->getArticlesByStatus('unpublished');
+
+        self::assertEquals(1, $content['total']);
+        self::assertEquals('unpublished', $content['_embedded']['_items'][0]['status']);
+        self::assertFalse($content['_embedded']['_items'][0]['isPublishable']);
+        self::assertNull($content['_embedded']['_items'][0]['publishedAt']);
+        self::assertEquals('Article 2', $content['_embedded']['_items'][0]['title']);
+
+        $content = $this->getArticlesByStatus('canceled');
+
+        self::assertEquals(1, $content['total']);
+        self::assertEquals('canceled', $content['_embedded']['_items'][0]['status']);
+        self::assertFalse($content['_embedded']['_items'][0]['isPublishable']);
+        self::assertNull($content['_embedded']['_items'][0]['publishedAt']);
+        self::assertEquals('Article 3', $content['_embedded']['_items'][0]['title']);
+
+        $content = $this->getArticlesByStatus('published');
+        self::assertEquals(4, $content['total']);
+
+        $content = $this->getArticlesByStatus('fake');
+        self::assertEquals(0, $content['total']);
+    }
+
+    private function getArticlesByStatus($status)
+    {
+        $client = static::createClient();
+        $client->request('GET', $this->router->generate('swp_api_content_list_articles', ['status' => $status]));
+        self::assertEquals(200, $client->getResponse()->getStatusCode());
+
+        return json_decode($client->getResponse()->getContent(), true);
+    }
 }
