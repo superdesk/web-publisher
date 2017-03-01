@@ -263,6 +263,17 @@ class ArticleControllerTest extends WebTestCase
         self::assertEquals(1, $content['total']);
         self::assertEquals(2, $content['_embedded']['_items'][0]['route']['id']);
         self::assertEquals('Article 3', $content['_embedded']['_items'][0]['title']);
+        self::assertEquals('canceled', $content['_embedded']['_items'][0]['status']);
+
+        $client->request('GET', $this->router->generate('swp_api_content_list_articles', [
+            'route' => 2,
+            'status' => 'fake',
+        ]));
+        self::assertEquals(200, $client->getResponse()->getStatusCode());
+
+        $content = json_decode($client->getResponse()->getContent(), true);
+
+        self::assertEquals(0, $content['total']);
     }
 
     private function getArticlesByRouteId($routeId)
