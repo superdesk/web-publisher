@@ -127,21 +127,21 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface, Orde
                 'content' => 'article 1 content',
                 'route' => 'news',
                 'locale' => 'en',
-                'status' => ArticleInterface::STATUS_NEW
+                'status' => ArticleInterface::STATUS_NEW,
             ],
             [
                 'title' => 'Article 2',
                 'content' => 'article 2 content',
                 'route' => 'news',
                 'locale' => 'en',
-                'status' => ArticleInterface::STATUS_UNPUBLISHED
+                'status' => ArticleInterface::STATUS_UNPUBLISHED,
             ],
             [
                 'title' => 'Article 3',
                 'content' => 'article 3 content',
                 'route' => 'news',
                 'locale' => 'en',
-                'status' => ArticleInterface::STATUS_CANCELED
+                'status' => ArticleInterface::STATUS_CANCELED,
             ],
         ];
 
