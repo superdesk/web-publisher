@@ -41,7 +41,8 @@ class ArticleController extends Controller
      *         200="Returned on success.",
      *     },
      *     filters={
-     *         {"name"="status", "dataType"="string", "pattern"="new|published|unpublished|canceled"}
+     *         {"name"="status", "dataType"="string", "pattern"="new|published|unpublished|canceled"},
+     *         {"name"="route", "dataType"="integer"}
      *     }
      * )
      * @Route("/api/{version}/content/articles/", options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_content_list_articles")
@@ -58,6 +59,7 @@ class ArticleController extends Controller
         $articles = $this->get('swp.repository.article')
             ->getPaginatedByCriteria(new Criteria([
                 'status' => $request->query->get('status', ''),
+                'route' => $request->query->get('route', ''),
             ]), [], new PaginationData($request));
 
         return new ResourcesListResponse($articles);

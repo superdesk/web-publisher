@@ -232,4 +232,45 @@ class ArticleControllerTest extends WebTestCase
 
         return json_decode($client->getResponse()->getContent(), true);
     }
+
+    public function testFilterArticlesByRoute()
+    {
+        $content = $this->getArticlesByRouteId(1);
+        self::assertEquals(5, $content['total']);
+
+        $content = $this->getArticlesByRouteId(2);
+        self::assertEquals(1, $content['total']);
+        self::assertEquals(2, $content['_embedded']['_items'][0]['route']['id']);
+        self::assertEquals('Article 3', $content['_embedded']['_items'][0]['title']);
+
+        $content = $this->getArticlesByRouteId(3);
+        self::assertEquals(1, $content['total']);
+        self::assertEquals(3, $content['_embedded']['_items'][0]['route']['id']);
+        self::assertEquals('Features client1', $content['_embedded']['_items'][0]['title']);
+    }
+
+    public function testFilterArticlesByRouteAndStatus()
+    {
+        $client = static::createClient();
+        $client->request('GET', $this->router->generate('swp_api_content_list_articles', [
+            'route' => 2,
+            'status' => 'canceled',
+        ]));
+        self::assertEquals(200, $client->getResponse()->getStatusCode());
+
+        $content = json_decode($client->getResponse()->getContent(), true);
+
+        self::assertEquals(1, $content['total']);
+        self::assertEquals(2, $content['_embedded']['_items'][0]['route']['id']);
+        self::assertEquals('Article 3', $content['_embedded']['_items'][0]['title']);
+    }
+
+    private function getArticlesByRouteId($routeId)
+    {
+        $client = static::createClient();
+        $client->request('GET', $this->router->generate('swp_api_content_list_articles', ['route' => $routeId]));
+        self::assertEquals(200, $client->getResponse()->getStatusCode());
+
+        return json_decode($client->getResponse()->getContent(), true);
+    }
 }
