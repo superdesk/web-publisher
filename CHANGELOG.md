@@ -1,5 +1,5 @@
 
-CHANGELOG for version <= 0.2.x
+CHANGELOG for version <= 0.5.x
 ==============================
 
 This changelog references the relevant changes (bug and security fixes) done
@@ -8,6 +8,7 @@ in 0.1 minor versions.
 To get the diff for a specific change, go to https://github.com/superdesk/web-publisher/commit/XXX where XXX is the change hash
 
 * 0.5.0
+ * feature [#280] Add correct Content-Type header to routes with extensions
  * bug [#270] Rely on "evelovedfrom" property instead of a slug
  * bug [#268] Fixed filtering content lists items by criteria
  * feature [#212] Implement revisions system for containers
