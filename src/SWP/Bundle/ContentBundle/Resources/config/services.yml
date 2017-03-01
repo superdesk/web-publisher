@@ -59,6 +59,11 @@ services:
         tags:
             - { name: kernel.event_listener, event: kernel.response, method: onKernelResponse }
 
+    swp_content_bundle.listener.mime_type:
+        class: SWP\Bundle\ContentBundle\EventListener\MimeTypeListener
+        tags:
+            - { name: kernel.event_listener, event: kernel.response, method: onKernelResponse }
+
     swp_content_bundle.listener.article_media:
         class: SWP\Bundle\ContentBundle\EventListener\ProcessArticleMediaListener
         arguments:

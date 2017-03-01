@@ -1,5 +1,5 @@
 
-CHANGELOG for version <= 0.2.x
+CHANGELOG for version <= 0.5.x
 ==============================
 
 This changelog references the relevant changes (bug and security fixes) done
@@ -9,6 +9,7 @@ To get the diff for a specific change, go to https://github.com/superdesk/web-pu
 
 * 0.5.0
  * feature [#281] Allow to filter articles by route id in API
+ * feature [#280] Add correct Content-Type header to routes with extensions
  * feature [#279] Allow to filter articles by status in API
  * bug [#270] Rely on "evelovedfrom" property instead of a slug
  * bug [#268] Fixed filtering content lists items by criteria
