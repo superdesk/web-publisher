@@ -39,6 +39,9 @@ class ArticleController extends Controller
      *     description="List all articles for current tenant",
      *     statusCodes={
      *         200="Returned on success.",
+     *     },
+     *     filters={
+     *         {"name"="status", "dataType"="string", "pattern"="new|published|unpublished|canceled"}
      *     }
      * )
      * @Route("/api/{version}/content/articles/", options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_content_list_articles")
@@ -53,7 +56,9 @@ class ArticleController extends Controller
     public function listAction(Request $request)
     {
         $articles = $this->get('swp.repository.article')
-            ->getPaginatedByCriteria(new Criteria(), [], new PaginationData($request));
+            ->getPaginatedByCriteria(new Criteria([
+                'status' => $request->query->get('status', ''),
+            ]), [], new PaginationData($request));
 
         return new ResourcesListResponse($articles);
     }

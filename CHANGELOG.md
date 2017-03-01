@@ -9,6 +9,7 @@ To get the diff for a specific change, go to https://github.com/superdesk/web-pu
 
 * 0.5.0
  * feature [#280] Add correct Content-Type header to routes with extensions
+ * feature [#279] Allow to filter articles by status in API
  * bug [#270] Rely on "evelovedfrom" property instead of a slug
  * bug [#268] Fixed filtering content lists items by criteria
  * feature [#212] Implement revisions system for containers
