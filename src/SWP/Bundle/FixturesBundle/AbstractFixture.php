@@ -63,6 +63,16 @@ abstract class AbstractFixture extends BaseFixture implements ContainerAwareInte
     }
 
     /**
+     * @param string $name
+     *
+     * @return mixed
+     */
+    public function getParameter($name)
+    {
+        return $this->container->getParameter($name);
+    }
+
+    /**
      * Finds the PHPCR node by given id/path.
      *
      * @param string|null $className Document class name

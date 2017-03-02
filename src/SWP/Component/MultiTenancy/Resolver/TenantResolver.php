@@ -23,24 +23,17 @@ use SWP\Component\MultiTenancy\Repository\TenantRepositoryInterface;
 class TenantResolver implements TenantResolverInterface
 {
     /**
-     * @var string
-     */
-    private $domain;
-
-    /**
      * @var TenantRepositoryInterface
      */
     private $tenantRepository;
 
     /**
-     * Construct.
+     * TenantResolver constructor.
      *
-     * @param string                    $domain
      * @param TenantRepositoryInterface $tenantRepository
      */
-    public function __construct($domain, TenantRepositoryInterface $tenantRepository)
+    public function __construct(TenantRepositoryInterface $tenantRepository)
     {
-        $this->domain = $domain;
         $this->tenantRepository = $tenantRepository;
     }
 
@@ -49,18 +42,47 @@ class TenantResolver implements TenantResolverInterface
      */
     public function resolve($host = null)
     {
-        if (null === $host) {
-            $host = self::DEFAULT_TENANT;
+        $domain = $this->extractDomain($host);
+        $subdomain = $this->extractSubdomain($host);
+
+        if (null !== $subdomain) {
+            $tenant = $this->tenantRepository->findOneBySubdomainAndDomain($subdomain, $domain);
+        } else {
+            $tenant = $this->tenantRepository->findOneByDomain($domain);
         }
 
-        $subdomain = $this->extractSubdomain($host);
-        $tenant = $this->tenantRepository->findOneBySubdomain($subdomain);
-
         if (null === $tenant) {
-            throw new TenantNotFoundException($subdomain);
+            throw new TenantNotFoundException($host);
         }
 
         return $tenant;
+    }
+
+    /**
+     * @param $host
+     *
+     * @return string
+     */
+    protected function extractDomain($host)
+    {
+        if (null === $host || 'localhost' === $host) {
+            return 'localhost';
+        }
+
+        $extract = new \LayerShifter\TLDExtract\Extract();
+        $result = $extract->parse($host);
+
+        // handle case for ***.localhost
+        if ('localhost' == $result->getSuffix() && null !== $result->getHostname() && null === $result->getSubdomain()) {
+            return $result->getSuffix();
+        }
+
+        $domainString = $result->getHostname();
+        if (null !== $result->getSuffix()) {
+            $domainString = $domainString.'.'.$result->getSuffix();
+        }
+
+        return $domainString;
     }
 
     /**
@@ -72,16 +94,19 @@ class TenantResolver implements TenantResolverInterface
      */
     protected function extractSubdomain($host)
     {
-        if ($this->domain === $host) {
-            return self::DEFAULT_TENANT;
+        $extract = new \LayerShifter\TLDExtract\Extract();
+        $result = $extract->parse($host);
+
+        // handle case for ***.localhost
+        if ('localhost' == $result->getSuffix() && null !== $result->getHostname() && null === $result->getSubdomain()) {
+            return $result->getHostname();
         }
 
-        $parts = explode('.', str_replace('.'.$this->domain, '', $host));
-        $subdomain = self::DEFAULT_TENANT;
-        if (count($parts) === 1 && $parts[0] !== 'www') {
-            $subdomain = $parts[0];
+        $subdomain = $result->getSubdomain();
+        if (null !== $subdomain) {
+            return $subdomain;
         }
 
-        return $subdomain;
+        return;
     }
 }

@@ -5,9 +5,6 @@ SWP\Bundle\CoreBundle\Model\Tenant:
         themeName:
             type: string
             nullable: true
-        domainName:
-            type: string
-            nullable: true
         ampEnabled:
             type: boolean
     oneToOne:

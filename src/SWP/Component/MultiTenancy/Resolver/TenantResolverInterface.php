@@ -16,14 +16,12 @@ namespace SWP\Component\MultiTenancy\Resolver;
 
 interface TenantResolverInterface
 {
-    const DEFAULT_TENANT = 'default';
-
     /**
      * Resolves the tenant based on current host.
      *
-     * @param string|null $host The current hostname
+     * @param string $host The current hostname
      *
      * @return \SWP\Component\MultiTenancy\Model\TenantInterface
      */
-    public function resolve($host = null);
+    public function resolve($host);
 }

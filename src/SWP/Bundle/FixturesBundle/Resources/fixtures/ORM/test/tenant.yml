@@ -11,7 +11,7 @@ SWP\Bundle\CoreBundle\Model\Route:
 SWP\Bundle\CoreBundle\Model\Tenant:
     tenant1:
         name: "Default tenant"
-        subdomain: "default"
+        domainName: "<getParameter('domain')>"
         themeName: "swp/test-theme"
         code: "123abc"
         organization: "@org1"
@@ -20,6 +20,7 @@ SWP\Bundle\CoreBundle\Model\Tenant:
     tenant2:
         name: "<company()>"
         subdomain: "client1"
+        domainName: "<getParameter('domain')>"
         themeName: "swp/test-theme"
         code: "456def"
         organization: "@org2"

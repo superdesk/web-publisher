@@ -47,17 +47,17 @@ class TenantControllerTest extends WebTestCase
             'tenant' => [
                 'name' => 'Test Tenant',
                 'subdomain' => 'test',
+                'domainName' => 'localhost',
                 'themeName' => 'swp/test-theme',
             ],
         ]);
 
-        $this->assertEquals(201, $client->getResponse()->getStatusCode());
-        $this->assertArraySubset(json_decode(
-            '{"id":3,"subdomain":"test","name":"Test Tenant","organization":{"id":3,"name":"default"},"enabled":true,"themeName":"swp\/test-theme","domainName":null}', true
-        ), json_decode(
-            $client->getResponse()->getContent(),
-            true
-        ));
+        self::assertEquals(201, $client->getResponse()->getStatusCode());
+        self::assertArraySubset(json_decode(
+            '{"id":3,"subdomain":"test","name":"Test Tenant","organization":{"id":3,"name":"default"},"enabled":true,"themeName":"swp\/test-theme","domainName":"localhost"}', true
+        ),
+            json_decode($client->getResponse()->getContent(), true)
+        );
     }
 
     public function testCreateNewTenantWithCustomOrganization()

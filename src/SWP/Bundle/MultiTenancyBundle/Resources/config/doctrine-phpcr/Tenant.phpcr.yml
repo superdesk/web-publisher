@@ -11,6 +11,10 @@ SWP\Component\MultiTenancy\Model\Tenant:
         subdomain:
             type: string
             length: 255
+            nullable: true
+        domainName:
+            type: string
+            length: 255
         enabled:
             type: boolean
         createdAt:

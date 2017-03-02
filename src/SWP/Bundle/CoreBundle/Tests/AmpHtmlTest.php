@@ -77,7 +77,7 @@ final class AmpHtmlTest extends WebTestCase
         self::assertEquals(200, $client->getResponse()->getStatusCode());
         self::assertEquals(0, $crawler->filter('amp-facebook')->count());
         self::assertEquals(1, $crawler->filter('html:contains("Content:")')->count());
-        self::assertEquals(1, $crawler->filter('html:contains("Current tenant: default")')->count());
+        self::assertEquals(1, $crawler->filter('html:contains("Current tenant: Default tenant")')->count());
 
         $client->request('PATCH', $this->router->generate('swp_api_core_update_tenant', [
             'code' => '123abc',

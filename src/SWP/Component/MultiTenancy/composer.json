@@ -14,7 +14,8 @@
         "php": "^7.0",
         "swp/common": "~0.1.0",
         "swp/storage": "~0.1.0",
-        "doctrine/common": "^2.6"
+        "doctrine/common": "^2.6",
+        "layershifter/tld-extract": "^1.2"
     },
     "require-dev": {
         "phpspec/phpspec": "^2.4",

@@ -22,7 +22,7 @@ class TenantResolverSpec extends ObjectBehavior
 {
     public function let(TenantRepositoryInterface $tenantRepository)
     {
-        $this->beConstructedWith('domain.com', $tenantRepository);
+        $this->beConstructedWith($tenantRepository);
     }
 
     public function it_is_initializable()
@@ -41,7 +41,7 @@ class TenantResolverSpec extends ObjectBehavior
         $tenant->getSubdomain()->willReturn('example1');
         $tenant->getName()->willReturn('example1');
 
-        $tenantRepository->findOneBySubdomain('example1')
+        $tenantRepository->findOneBySubdomainAndDomain('example1', 'domain.com')
             ->shouldBeCalled()
             ->willReturn($tenant);
 
@@ -54,7 +54,7 @@ class TenantResolverSpec extends ObjectBehavior
         $tenant->getSubdomain()->willReturn('default');
         $tenant->getName()->willReturn('default');
 
-        $tenantRepository->findOneBySubdomain('default')
+        $tenantRepository->findOneByDomain('domain.com')
             ->shouldBeCalled()
             ->willReturn($tenant);
 

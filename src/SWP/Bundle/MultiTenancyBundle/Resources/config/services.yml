@@ -17,7 +17,6 @@ services:
     swp_multi_tenancy.tenant_resolver:
         class: '%swp_multi_tenancy.tenant_resolver.class%'
         arguments:
-            - '%domain%'
             - '@swp.repository.tenant'
 
     swp_multi_tenancy.tenant_context:
