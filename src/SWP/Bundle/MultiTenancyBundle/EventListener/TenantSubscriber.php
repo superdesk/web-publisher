@@ -17,7 +17,6 @@ namespace SWP\Bundle\MultiTenancyBundle\EventListener;
 use Doctrine\Common\EventSubscriber;
 use Doctrine\ORM\Event\LifecycleEventArgs;
 use Doctrine\ORM\Events;
-use SWP\Component\MultiTenancy\Model\OrganizationAwareInterface;
 use SWP\Component\MultiTenancy\Model\TenantAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
