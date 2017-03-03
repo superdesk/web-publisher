@@ -1,14 +1,16 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Superdesk Web Publisher MultiTenancy Bundle.
  *
- * Copyright 2015 Sourcefabric z.u. and contributors.
+ * Copyright 2017 Sourcefabric z.ú. and contributors.
  *
  * For the full copyright and license information, please see the
  * AUTHORS and LICENSE files distributed with this source code.
  *
- * @copyright 2015 Sourcefabric z.ú
+ * @copyright 2017 Sourcefabric z.ú
  * @license http://www.superdesk.org/license
  */
 
@@ -18,13 +20,9 @@ use Doctrine\Common\EventSubscriber;
 use Doctrine\ORM\Event\LifecycleEventArgs;
 use Doctrine\ORM\Events;
 use SWP\Component\MultiTenancy\Model\OrganizationAwareInterface;
-use SWP\Component\MultiTenancy\Model\TenantAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
-/**
- * Doctrine listener used to set tenant before the persist.
- */
-final class TenantSubscriber implements EventSubscriber
+final class OrganizationSubscriber implements EventSubscriber
 {
     /**
      * @var ContainerInterface
@@ -56,24 +54,24 @@ final class TenantSubscriber implements EventSubscriber
      */
     public function prePersist(LifecycleEventArgs $args)
     {
-        $this->addTenant($args);
+        $this->addOrganization($args);
     }
 
     /**
      * @param LifecycleEventArgs $args
      */
-    protected function addTenant(LifecycleEventArgs $args)
+    protected function addOrganization(LifecycleEventArgs $args)
     {
         $entity = $args->getEntity();
 
-        if ($entity instanceof TenantAwareInterface) {
-            // skip when tenant is already set
-            if (null !== $entity->getTenantCode()) {
+        if ($entity instanceof OrganizationAwareInterface) {
+            // skip when organization is already set
+            if (null !== $entity->getOrganization()) {
                 return;
             }
 
             $tenantContext = $this->container->get('swp_multi_tenancy.tenant_context');
-            $entity->setTenantCode($tenantContext->getTenant()->getCode());
+            $entity->setOrganization($tenantContext->getTenant()->getOrganization());
         }
     }
 }
