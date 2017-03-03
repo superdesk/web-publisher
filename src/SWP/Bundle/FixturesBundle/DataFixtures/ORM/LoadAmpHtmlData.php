@@ -106,10 +106,10 @@ class LoadAmpHtmlData extends AbstractFixture implements FixtureInterface
                 $article->setBody($articleData['content']);
                 $article->setRoute($this->getRouteByName($articleData['route']));
                 $article->setLocale($articleData['locale']);
-                $article->setTenantCode($articleData['tenant']);
                 $article->setCode(md5($articleData['title']));
                 $manager->persist($article);
                 $articleService->publish($article);
+                $article->setTenantCode($articleData['tenant']);
 
                 $this->addReference($article->getSlug(), $article);
             }
