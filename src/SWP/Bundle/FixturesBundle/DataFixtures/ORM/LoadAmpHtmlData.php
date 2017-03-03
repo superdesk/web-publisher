@@ -99,18 +99,17 @@ class LoadAmpHtmlData extends AbstractFixture implements FixtureInterface
                 ],
             ];
 
+            $articleService = $this->container->get('swp.service.article');
             foreach ($articles as $articleData) {
                 $article = $this->container->get('swp.factory.article')->create();
                 $article->setTitle($articleData['title']);
                 $article->setBody($articleData['content']);
                 $article->setRoute($this->getRouteByName($articleData['route']));
                 $article->setLocale($articleData['locale']);
-                $article->setPublishable(true);
-                $article->setPublishedAt(new \DateTime());
-                $article->setStatus(ArticleInterface::STATUS_PUBLISHED);
                 $article->setTenantCode($articleData['tenant']);
                 $article->setCode(md5($articleData['title']));
                 $manager->persist($article);
+                $articleService->publish($article);
 
                 $this->addReference($article->getSlug(), $article);
             }
