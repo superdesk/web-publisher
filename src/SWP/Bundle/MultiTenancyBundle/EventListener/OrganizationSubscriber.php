@@ -19,7 +19,9 @@ namespace SWP\Bundle\MultiTenancyBundle\EventListener;
 use Doctrine\Common\EventSubscriber;
 use Doctrine\ORM\Event\LifecycleEventArgs;
 use Doctrine\ORM\Events;
+use SWP\Component\Common\Exception\UnexpectedTypeException;
 use SWP\Component\MultiTenancy\Model\OrganizationAwareInterface;
+use SWP\Component\MultiTenancy\Model\OrganizationInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 final class OrganizationSubscriber implements EventSubscriber
@@ -60,7 +62,7 @@ final class OrganizationSubscriber implements EventSubscriber
     /**
      * @param LifecycleEventArgs $args
      */
-    protected function addOrganization(LifecycleEventArgs $args)
+    public function addOrganization(LifecycleEventArgs $args)
     {
         $entity = $args->getEntity();
 
@@ -71,7 +73,22 @@ final class OrganizationSubscriber implements EventSubscriber
             }
 
             $tenantContext = $this->container->get('swp_multi_tenancy.tenant_context');
-            $entity->setOrganization($tenantContext->getTenant()->getOrganization());
+            $organization = $tenantContext->getTenant()->getOrganization();
+            $this->ensureOrganizationExists($organization);
+
+            /** @var OrganizationInterface $organization */
+            $organization = $args->getObjectManager()->merge($organization);
+            $entity->setOrganization($organization);
+        }
+    }
+
+    private function ensureOrganizationExists(OrganizationInterface $organization = null)
+    {
+        if (!$organization instanceof OrganizationInterface) {
+            throw UnexpectedTypeException::unexpectedType(
+                is_object($organization) ? get_class($organization) : gettype($organization),
+                OrganizationInterface::class
+            );
         }
     }
 }

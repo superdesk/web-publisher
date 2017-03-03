@@ -17,10 +17,12 @@ declare(strict_types=1);
 namespace spec\SWP\Bundle\MultiTenancyBundle\EventListener;
 
 use Doctrine\Common\EventSubscriber;
+use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\ORM\Event\LifecycleEventArgs;
 use Doctrine\ORM\Events;
 use PhpSpec\ObjectBehavior;
 use SWP\Bundle\MultiTenancyBundle\EventListener\OrganizationSubscriber;
+use SWP\Component\Common\Exception\UnexpectedTypeException;
 use SWP\Component\MultiTenancy\Context\TenantContextInterface;
 use SWP\Component\MultiTenancy\Model\Organization;
 use SWP\Component\MultiTenancy\Model\OrganizationAwareInterface;
@@ -68,7 +70,8 @@ final class OrganizationSubscriberSpec extends ObjectBehavior
         TenantContextInterface $tenantContext,
         LifecycleEventArgs $event,
         OrganizationAwareInterface $organizationAware,
-        ContainerInterface $container
+        ContainerInterface $container,
+        ObjectManager $objectManager
     ) {
         $organization = new Organization();
         $organization->setName('org1');
@@ -83,6 +86,8 @@ final class OrganizationSubscriberSpec extends ObjectBehavior
 
         $organizationAware->getOrganization()->shouldBeCalled()->willReturn(null);
         $event->getEntity()->willReturn($organizationAware);
+        $objectManager->merge($organization)->willReturn($organization);
+        $event->getObjectManager()->willReturn($objectManager);
         $tenantContext->getTenant()->shouldBeCalled()->willReturn($tenant);
 
         $organizationAware->setOrganization($organization)->shouldBeCalled();
@@ -90,6 +95,26 @@ final class OrganizationSubscriberSpec extends ObjectBehavior
         $container->get('swp_multi_tenancy.tenant_context')->willReturn($tenantContext);
 
         $this->prePersist($event);
+    }
+
+    public function it_throws_exception_when_no_organization_on_pre_persist_doctrine_event(
+        TenantContextInterface $tenantContext,
+        LifecycleEventArgs $event,
+        OrganizationAwareInterface $organizationAware,
+        ContainerInterface $container
+    ) {
+        $tenant = new Tenant();
+        $tenant->setSubdomain('example.com');
+        $tenant->setName('Example');
+        $tenant->setCode('avc2334');
+
+        $organizationAware->getOrganization()->shouldBeCalled()->willReturn(null);
+        $event->getEntity()->willReturn($organizationAware);
+        $tenantContext->getTenant()->shouldBeCalled()->willReturn($tenant);
+        $container->get('swp_multi_tenancy.tenant_context')->willReturn($tenantContext);
+
+        $this->shouldThrow(UnexpectedTypeException::class)
+            ->duringAddOrganization($event);
     }
 
     public function it_sets_only_organization_aware_interface_implementation_on_pre_presist(

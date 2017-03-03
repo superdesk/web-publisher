@@ -17,8 +17,8 @@ namespace SWP\Bundle\FixturesBundle\DataFixtures\ORM;
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
+use SWP\Bundle\CoreBundle\Model\ArticleInterface;
 use SWP\Bundle\FixturesBundle\AbstractFixture;
-use SWP\Bundle\ContentBundle\Model\ArticleInterface;
 use SWP\Component\Common\Criteria\Criteria;
 
 class LoadCollectionRouteArticles extends AbstractFixture implements FixtureInterface, OrderedFixtureInterface
@@ -161,15 +161,14 @@ class LoadCollectionRouteArticles extends AbstractFixture implements FixtureInte
 
         if (isset($articles[$env])) {
             $routeProvider = $this->container->get('swp.provider.route');
+            $articleService = $this->container->get('swp.service.article');
             foreach ($articles[$env] as $articleData) {
+                /** @var ArticleInterface $article */
                 $article = $this->container->get('swp.factory.article')->create();
                 $article->setTitle($articleData['title']);
                 $article->setBody($articleData['content']);
                 $article->setLocale($articleData['locale']);
-                $article->setPublishedAt(new \DateTime());
-                $article->setPublishable(true);
                 $article->setCode(md5($articleData['title']));
-                $article->setStatus(ArticleInterface::STATUS_PUBLISHED);
                 if (isset($articleData['templateName'])) {
                     $article->setTemplateName($articleData['templateName']);
                 }
@@ -178,6 +177,7 @@ class LoadCollectionRouteArticles extends AbstractFixture implements FixtureInte
                 }
 
                 $manager->persist($article);
+                $articleService->publish($article);
             }
 
             $manager->flush();
