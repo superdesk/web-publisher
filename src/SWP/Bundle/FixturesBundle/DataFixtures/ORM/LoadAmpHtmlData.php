@@ -4,7 +4,6 @@ namespace SWP\Bundle\FixturesBundle\DataFixtures\ORM;
 
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
-use SWP\Bundle\ContentBundle\Model\ArticleInterface;
 use SWP\Bundle\FixturesBundle\AbstractFixture;
 
 class LoadAmpHtmlData extends AbstractFixture implements FixtureInterface
