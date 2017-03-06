@@ -4,12 +4,27 @@ namespace SWP\Migrations;
 
 use Doctrine\DBAL\Migrations\AbstractMigration;
 use Doctrine\DBAL\Schema\Schema;
+use Symfony\Component\DependencyInjection\ContainerAwareInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-class Version20170302121124 extends AbstractMigration
+class Version20170302121124 extends AbstractMigration implements ContainerAwareInterface
 {
+    /**
+     * @var ContainerInterface
+     */
+    private $container;
+
+    /**
+     * @param ContainerInterface|null $container
+     */
+    public function setContainer(ContainerInterface $container = null)
+    {
+        $this->container = $container;
+    }
+
     /**
      * @param Schema $schema
      */
@@ -24,6 +39,7 @@ class Version20170302121124 extends AbstractMigration
         $this->addSql('CREATE INDEX IDX_FB21E85832C8A3DE ON swp_article (organization_id)');
         $this->addSql('CREATE UNIQUE INDEX swp_article_slug_idx ON swp_article (slug, tenant_code, organization_id)');
         $this->addSql('ALTER TABLE swp_article ALTER tenant_code DROP NOT NULL');
+        $this->addSql('UPDATE swp_article SET organization_id = (SELECT t.organization_id FROM swp_tenant AS t WHERE tenant_code = t.code)');
     }
 
     /**
