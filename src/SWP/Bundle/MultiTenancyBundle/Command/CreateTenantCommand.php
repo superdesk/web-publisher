@@ -73,6 +73,7 @@ EOT
 
         if ($default) {
             $name = TenantInterface::DEFAULT_TENANT_NAME;
+            $domain = $this->getContainer()->getParameter('domain');
             $organization = $this->getOrganizationRepository()->findOneByName(OrganizationInterface::DEFAULT_NAME);
             if (null === $organization) {
                 throw new \InvalidArgumentException('Default organization doesn\'t exist!');

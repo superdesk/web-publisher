@@ -49,7 +49,7 @@ class CreateTenantCommandTest extends \PHPUnit_Framework_TestCase
         $this->question->setInputStream($this->getInputStream("domain.dev\nTest\n123456\n"));
         $tenant = new Tenant();
         $tenant->setCode('123abc');
-        $this->command->setContainer($this->getMockContainer(null, new Organization(), $tenant, 'subdomain'));
+        $this->command->setContainer($this->getMockContainer(null, new Organization(), $tenant, 'subdomain', 'domain.dev'));
         $this->commandTester = new CommandTester($this->command);
         $this->commandTester->execute(['command' => $this->command->getName()]);
 
@@ -123,7 +123,7 @@ class CreateTenantCommandTest extends \PHPUnit_Framework_TestCase
         $this->question->setInputStream($this->getInputStream("example.com\nExample\n123456\n"));
         $tenant = new Tenant();
         $tenant->setCode('123abc');
-        $this->command->setContainer($this->getMockContainer(null, new Organization(), $tenant, 'example'));
+        $this->command->setContainer($this->getMockContainer(null, new Organization(), $tenant, 'example', 'example.com'));
         $this->commandTester = new CommandTester($this->command);
         $this->commandTester->execute([
             'command' => $this->command->getName(),
@@ -159,6 +159,11 @@ class CreateTenantCommandTest extends \PHPUnit_Framework_TestCase
             ->with($subdomain, $domain)
             ->willReturn($mockTenant);
 
+        $mockRepo->expects($this->any())
+            ->method('findOneByDomain')
+            ->with($domain)
+            ->willReturn($mockTenant);
+
         $mockDoctrine = $this
             ->getMockBuilder('Doctrine\ORM\EntityManager')
             ->disableOriginalConstructor()
@@ -183,12 +188,16 @@ class CreateTenantCommandTest extends \PHPUnit_Framework_TestCase
 
         $mockContainer->expects($this->any())
             ->method('get')
-            ->will($this->returnValueMap([
+            ->will(self::returnValueMap([
                 ['swp.object_manager.tenant', 1, $mockDoctrine],
                 ['swp.repository.tenant', 1, $mockRepo],
                 ['swp.repository.organization', 1, $mockRepoOrganization],
                 ['swp.factory.tenant', 1, $mockFactory],
             ]));
+
+        $mockContainer->expects($this->any())
+            ->method('getParameter')
+            ->willReturn('localhost');
 
         return $mockContainer;
     }
