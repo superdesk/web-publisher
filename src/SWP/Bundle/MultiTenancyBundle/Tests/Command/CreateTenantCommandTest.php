@@ -46,7 +46,7 @@ class CreateTenantCommandTest extends \PHPUnit_Framework_TestCase
      */
     public function testExecuteWhenCreatingNewTenant()
     {
-        $this->question->setInputStream($this->getInputStream("subdomain\nTest\n123456\n"));
+        $this->question->setInputStream($this->getInputStream("domain.dev\nTest\n123456\n"));
         $tenant = new Tenant();
         $tenant->setCode('123abc');
         $this->command->setContainer($this->getMockContainer(null, new Organization(), $tenant, 'subdomain'));
@@ -54,7 +54,7 @@ class CreateTenantCommandTest extends \PHPUnit_Framework_TestCase
         $this->commandTester->execute(['command' => $this->command->getName()]);
 
         $this->assertContains(
-            'Please enter subdomain:Please enter name:Please enter organization:Tenant Test (code: 123abc) has been created and enabled!',
+            'Please enter domain:Please enter name:Please enter organization:Tenant Test (code: 123abc) has been created and enabled!',
             $this->commandTester->getDisplay()
         );
     }
@@ -120,7 +120,7 @@ class CreateTenantCommandTest extends \PHPUnit_Framework_TestCase
      */
     public function testExecuteDisabledTenant()
     {
-        $this->question->setInputStream($this->getInputStream("example\nExample\n123456\n"));
+        $this->question->setInputStream($this->getInputStream("example.com\nExample\n123456\n"));
         $tenant = new Tenant();
         $tenant->setCode('123abc');
         $this->command->setContainer($this->getMockContainer(null, new Organization(), $tenant, 'example'));
@@ -131,12 +131,12 @@ class CreateTenantCommandTest extends \PHPUnit_Framework_TestCase
         ]);
 
         $this->assertContains(
-            'Please enter subdomain:Please enter name:Please enter organization:Tenant Example (code: 123abc) has been created and disabled!',
+            'Please enter domain:Please enter name:Please enter organization:Tenant Example (code: 123abc) has been created and disabled!',
             $this->commandTester->getDisplay()
         );
     }
 
-    private function getMockContainer($mockTenant = null, $mockOrganization = null, $mockedTenantInFactory = null, $subdomain = 'default')
+    private function getMockContainer($mockTenant = null, $mockOrganization = null, $mockedTenantInFactory = null, $subdomain = 'default', $domain = 'localhost')
     {
         $mockRepoOrganization = $this->getMockBuilder(OrganizationRepositoryInterface::class)
             ->getMock();
@@ -155,8 +155,8 @@ class CreateTenantCommandTest extends \PHPUnit_Framework_TestCase
             ->getMock();
 
         $mockRepo->expects($this->any())
-            ->method('findOneBySubdomain')
-            ->with($subdomain)
+            ->method('findOneBySubdomainAndDomain')
+            ->with($subdomain, $domain)
             ->willReturn($mockTenant);
 
         $mockDoctrine = $this

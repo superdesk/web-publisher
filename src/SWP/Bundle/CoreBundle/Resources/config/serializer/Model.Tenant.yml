@@ -4,9 +4,6 @@ SWP\Bundle\CoreBundle\Model\Tenant:
         themeName:
             expose: true
             type: string
-        domainName:
-            expose: true
-            type: string
         organization:
             expose: true
             type: SWP\Bundle\CoreBundle\Model\Organization

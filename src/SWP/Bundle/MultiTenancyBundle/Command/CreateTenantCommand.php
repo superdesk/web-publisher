@@ -34,7 +34,7 @@ class CreateTenantCommand extends ContainerAwareCommand
     /**
      * @var array
      */
-    protected $arguments = ['subdomain', 'name', 'organization'];
+    protected $arguments = ['domain', 'subdomain', 'name', 'organization'];
 
     /**
      * {@inheritdoc}
@@ -45,9 +45,10 @@ class CreateTenantCommand extends ContainerAwareCommand
             ->setName('swp:tenant:create')
             ->setDescription('Creates a new tenant.')
             ->setDefinition([
-                new InputArgument($this->arguments[2], InputArgument::OPTIONAL, 'Organization code'),
-                new InputArgument($this->arguments[0], InputArgument::OPTIONAL, 'Subdomain name'),
-                new InputArgument($this->arguments[1], InputArgument::OPTIONAL, 'Tenant name'),
+                new InputArgument($this->arguments[3], InputArgument::OPTIONAL, 'Organization code'),
+                new InputArgument($this->arguments[0], InputArgument::OPTIONAL, 'Domain name'),
+                new InputArgument($this->arguments[2], InputArgument::OPTIONAL, 'Tenant name'),
+                new InputArgument($this->arguments[1], InputArgument::OPTIONAL, 'Subdomain name', null),
                 new InputOption('disabled', null, InputOption::VALUE_NONE, 'Set the tenant as a disabled'),
                 new InputOption('default', null, InputOption::VALUE_NONE, 'Creates the default tenant'),
             ])
@@ -63,14 +64,14 @@ EOT
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $subdomain = $input->getArgument($this->arguments[0]);
-        $name = $input->getArgument($this->arguments[1]);
-        $organizationCode = $input->getArgument($this->arguments[2]);
+        $domain = $input->getArgument($this->arguments[0]);
+        $subdomain = $input->getArgument($this->arguments[1]);
+        $name = $input->getArgument($this->arguments[2]);
+        $organizationCode = $input->getArgument($this->arguments[3]);
         $default = $input->getOption('default');
         $disabled = $input->getOption('disabled');
 
         if ($default) {
-            $subdomain = TenantInterface::DEFAULT_TENANT_SUBDOMAIN;
             $name = TenantInterface::DEFAULT_TENANT_NAME;
             $organization = $this->getOrganizationRepository()->findOneByName(OrganizationInterface::DEFAULT_NAME);
             if (null === $organization) {
@@ -84,12 +85,17 @@ EOT
             }
         }
 
-        $tenant = $this->getTenantRepository()->findOneBySubdomain($subdomain);
-        if (null !== $tenant) {
-            throw new \InvalidArgumentException(sprintf('Tenant with subdomain "%s" already exists!', $subdomain));
+        if (null !== $subdomain) {
+            $tenant = $this->getTenantRepository()->findOneBySubdomainAndDomain($subdomain, $domain);
+        } else {
+            $tenant = $this->getTenantRepository()->findOneByDomain($domain);
         }
 
-        $tenant = $this->createTenant($subdomain, $name, $disabled, $organization);
+        if (null !== $tenant) {
+            throw new \InvalidArgumentException(sprintf('Tenant with domain %s and subdomain "%s" already exists!', $domain, $subdomain));
+        }
+
+        $tenant = $this->createTenant($domain, $subdomain, $name, $disabled, $organization);
 
         $this->getObjectManager()->persist($tenant);
         $this->getObjectManager()->flush();
@@ -122,7 +128,7 @@ EOT
     protected function askAndValidateInteract(InputInterface $input, OutputInterface $output, $name)
     {
         $default = $input->getOption('default');
-        if (!$input->getArgument($name) && !$default) {
+        if (!$input->getArgument($name) && !$default && $name !== $this->arguments[1]) {
             $question = new Question(sprintf('<question>Please enter %s:</question>', $name));
             $question->setValidator(function ($argument) use ($name) {
                 if (empty($argument)) {
@@ -150,12 +156,13 @@ EOT
      *
      * @return TenantInterface
      */
-    protected function createTenant($subdomain, $name, $disabled, $organization)
+    protected function createTenant($domain, $subdomain, $name, $disabled, $organization)
     {
         $tenantFactory = $this->getContainer()->get('swp.factory.tenant');
         /** @var TenantInterface $tenant */
         $tenant = $tenantFactory->create();
         $tenant->setSubdomain($subdomain);
+        $tenant->setDomainName($domain);
         $tenant->setName($name);
         $tenant->setEnabled(!$disabled);
         $tenant->setOrganization($organization);

@@ -35,8 +35,13 @@ class LoadTenantsData extends AbstractFixture implements FixtureInterface, Order
                 '@SWPFixturesBundle/Resources/fixtures/ORM/'.$env.'/organization.yml',
                 '@SWPFixturesBundle/Resources/fixtures/ORM/'.$env.'/tenant.yml',
             ],
-            $manager
+            $manager,
+            [
+                'providers' => [$this],
+            ]
         );
+
+        $manager->flush();
 
         $this->loadRevisions();
     }
@@ -49,15 +54,14 @@ class LoadTenantsData extends AbstractFixture implements FixtureInterface, Order
         /** @var RevisionInterface|TenantAwareInterface $firstPublishedRevision */
         $firstTenantPublishedRevision = $revisionManager->create();
         $firstTenantPublishedRevision->setTenantCode('123abc');
-        $revisionManager->publish($firstTenantPublishedRevision);
+        $firstTenantWorkingRevision = $revisionManager->create($firstTenantPublishedRevision);
+        $revisionManager->publish($firstTenantPublishedRevision, $firstTenantWorkingRevision);
         $this->addReference('defult_tenant_revision', $firstTenantPublishedRevision);
 
         /** @var RevisionInterface|TenantAwareInterface $firstPublishedRevision */
         $secondTenantPublishedRevision = $revisionManager->create();
         $secondTenantPublishedRevision->setTenantCode('456def');
-        $secondTenantWorkingRevision = $revisionManager->create();
-        $secondTenantWorkingRevision->setTenantCode('456def');
-        $secondTenantWorkingRevision->setPrevious($secondTenantPublishedRevision);
+        $secondTenantWorkingRevision = $revisionManager->create($secondTenantPublishedRevision);
         $revisionManager->publish($secondTenantPublishedRevision, $secondTenantWorkingRevision);
     }
 

@@ -54,7 +54,7 @@ class DefaultControllerTest extends WebTestCase
 
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
         $this->assertEquals(1, $crawler->filter('html:contains("Homepage")')->count());
-        $this->assertEquals(1, $crawler->filter('html:contains("Current tenant: default")')->count());
+        $this->assertEquals(1, $crawler->filter('html:contains("Current tenant: Default tenant")')->count());
         $this->assertEquals(1, $crawler->filter('html:contains("id: 1")')->count());
     }
 }

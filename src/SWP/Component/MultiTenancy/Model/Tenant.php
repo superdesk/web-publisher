@@ -35,6 +35,11 @@ class Tenant implements TenantInterface
     /**
      * @var string
      */
+    protected $domainName;
+
+    /**
+     * @var string
+     */
     protected $name;
 
     /**
@@ -137,6 +142,22 @@ class Tenant implements TenantInterface
     public function getOrganization()
     {
         return $this->organization;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getDomainName()
+    {
+        return $this->domainName;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setDomainName($domainName)
+    {
+        $this->domainName = $domainName;
     }
 
     /**
