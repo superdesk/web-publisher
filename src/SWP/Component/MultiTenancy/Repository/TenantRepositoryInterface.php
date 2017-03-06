@@ -28,8 +28,6 @@ interface TenantRepositoryInterface extends RepositoryInterface
      * @param string $subdomain The subdomain
      * @param string $domain    The domain
      *
-     * @throws \Doctrine\ORM\NonUniqueResultException
-     *
      * @return TenantInterface|null The instance of TenantInterface or null
      */
     public function findOneBySubdomainAndDomain($subdomain, $domain);
@@ -39,8 +37,6 @@ interface TenantRepositoryInterface extends RepositoryInterface
      *
      * @param string $domain The domain
      *
-     * @throws \Doctrine\ORM\NonUniqueResultException
-     *
      * @return TenantInterface|null The instance of TenantInterface or null
      */
     public function findOneByDomain($domain);
@@ -49,8 +45,6 @@ interface TenantRepositoryInterface extends RepositoryInterface
      * Finds the tenant by code.
      *
      * @param string $code The code
-     *
-     * @throws \Doctrine\ORM\NonUniqueResultException
      *
      * @return TenantInterface|null The instance of TenantInterface or null
      */

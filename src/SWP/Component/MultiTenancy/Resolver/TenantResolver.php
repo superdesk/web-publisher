@@ -65,15 +65,17 @@ class TenantResolver implements TenantResolverInterface
      */
     protected function extractDomain($host)
     {
-        if (null === $host || 'localhost' === $host) {
-            return 'localhost';
+        if (null === $host || TenantResolverInterface::LOCALHOST === $host) {
+            return TenantResolverInterface::LOCALHOST;
         }
 
-        $extract = new \LayerShifter\TLDExtract\Extract();
-        $result = $extract->parse($host);
+        $result = $this->extractHost($host);
 
         // handle case for ***.localhost
-        if ('localhost' == $result->getSuffix() && null !== $result->getHostname() && null === $result->getSubdomain()) {
+        if (TenantResolverInterface::LOCALHOST === $result->getSuffix() &&
+            null !== $result->getHostname() &&
+            null === $result->getSubdomain()
+        ) {
             return $result->getSuffix();
         }
 
@@ -94,11 +96,13 @@ class TenantResolver implements TenantResolverInterface
      */
     protected function extractSubdomain($host)
     {
-        $extract = new \LayerShifter\TLDExtract\Extract();
-        $result = $extract->parse($host);
+        $result = $this->extractHost($host);
 
         // handle case for ***.localhost
-        if ('localhost' == $result->getSuffix() && null !== $result->getHostname() && null === $result->getSubdomain()) {
+        if (TenantResolverInterface::LOCALHOST === $result->getSuffix() &&
+            null !== $result->getHostname() &&
+            null === $result->getSubdomain()
+        ) {
             return $result->getHostname();
         }
 
@@ -108,5 +112,12 @@ class TenantResolver implements TenantResolverInterface
         }
 
         return;
+    }
+
+    private function extractHost($host)
+    {
+        $extract = new \LayerShifter\TLDExtract\Extract();
+
+        return $extract->parse($host);
     }
 }

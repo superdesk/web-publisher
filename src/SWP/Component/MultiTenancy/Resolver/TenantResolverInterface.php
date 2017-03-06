@@ -16,6 +16,8 @@ namespace SWP\Component\MultiTenancy\Resolver;
 
 interface TenantResolverInterface
 {
+    const LOCALHOST = 'localhost';
+
     /**
      * Resolves the tenant based on current host.
      *
