@@ -32,11 +32,11 @@
   "require": {
     "php": "^7.0",
     "swp/storage-bundle": "0.1.x-dev",
-    "swp/bridge": "0.1.x-dev",
-    "swp/common": "0.1.x-dev",
-    "swp/templates-system-bundle": "0.1.x-dev",
-    "swp/bridge-bundle": "1.0.x-dev",
-    "swp/jms-serializer-bridge": "0.1.x-dev",
+    "swp/bridge": "0.5.x-dev",
+    "swp/common": "0.5.x-dev",
+    "swp/templates-system-bundle": "0.5.x-dev",
+    "swp/bridge-bundle": "0.5.x-dev",
+    "swp/jms-serializer-bridge": "0.5.x-dev",
     "symfony/validator": "3.1.x",
     "symfony/form": "3.1.x",
     "symfony/css-selector": "3.1.x",
@@ -88,7 +88,7 @@
   },
   "extra": {
     "branch-alias": {
-      "dev-master": "0.1-dev"
+      "dev-master": "0.5-dev"
     }
   }
 }

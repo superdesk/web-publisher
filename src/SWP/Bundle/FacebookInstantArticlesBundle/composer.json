@@ -24,10 +24,10 @@
   "require": {
     "php": "^7.0",
     "facebook/facebook-instant-articles-sdk-php": "v1.5.x",
-    "swp/common": "0.1.x-dev",
+    "swp/common": "0.5.x-dev",
     "twig/twig": "^1.26.0",
     "stof/doctrine-extensions-bundle": "^1.2",
-    "swp/storage-bundle": "0.1.x-dev"
+    "swp/storage-bundle": "0.5.x-dev"
   },
   "require-dev": {
     "phpspec/phpspec": "^2.4",
@@ -60,7 +60,7 @@
   },
   "extra": {
     "branch-alias": {
-      "dev-master": "0.1-dev"
+      "dev-master": "0.5-dev"
     }
   }
 }

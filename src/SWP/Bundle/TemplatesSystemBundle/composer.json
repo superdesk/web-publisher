@@ -23,13 +23,13 @@
   ],
   "require": {
     "php": "^7.0",
-    "swp/templates-system": "1.1.x-dev",
-    "swp/common": "0.1.x-dev",
-    "swp/menu-bundle": "0.1.x-dev",
-    "swp/storage": "0.1.x-dev",
+    "swp/templates-system": "0.5.x-dev",
+    "swp/common": "0.5.x-dev",
+    "swp/menu-bundle": "0.5.x-dev",
+    "swp/storage": "0.5.x-dev",
     "twig/twig": "^1.26.0",
     "stof/doctrine-extensions-bundle": "^1.2",
-    "swp/storage-bundle": "0.1.x-dev",
+    "swp/storage-bundle": "0.5.x-dev",
     "knplabs/knp-paginator-bundle": "^2.4@dev"
   },
   "suggest": {

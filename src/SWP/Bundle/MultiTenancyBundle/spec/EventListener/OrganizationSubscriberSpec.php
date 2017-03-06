@@ -104,7 +104,7 @@ final class OrganizationSubscriberSpec extends ObjectBehavior
         ContainerInterface $container
     ) {
         $tenant = new Tenant();
-        $tenant->setSubdomain('example.com');
+        $tenant->setDomainName('example.com');
         $tenant->setName('Example');
         $tenant->setCode('avc2334');
 
