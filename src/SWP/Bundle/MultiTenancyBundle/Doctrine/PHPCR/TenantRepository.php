@@ -22,10 +22,23 @@ class TenantRepository extends DocumentRepository implements TenantRepositoryInt
     /**
      * {@inheritdoc}
      */
-    public function findOneBySubdomain($subdomain)
+    public function findOneBySubdomainAndDomain($subdomain, $domain)
     {
         $qb = $this->createQueryBuilder('t');
         $qb->where()->eq()->field('t.subdomain')->literal($subdomain);
+        $qb->andWhere()->eq()->field('t.domainName')->literal($domain);
+
+        return $qb->getQuery()->getOneOrNullResult();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function findOneByDomain($domain)
+    {
+        $qb = $this->createQueryBuilder('t');
+        $qb->where()->eq()->field('t.domainName')->literal($domain);
+        $qb->andWhere()->eq()->field('t.subdomain')->literal(null);
 
         return $qb->getQuery()->getOneOrNullResult();
     }

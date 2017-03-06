@@ -8,7 +8,7 @@
         <p>Id: {{gimme.article.id}}</p>
         <p>Slug: {{gimme.article.slug}}</p>
         <p>Content: {{gimme.article.body|raw }}</p>
-        <p><strong>Current tenant:</strong> {{ tenant.subdomain }} (name: {{ tenant.name }})</p>
+        <p><strong>Current tenant:</strong> {{ tenant.name }}</p>
 
         {% gimmelist media from articleMedia %} <!-- It will use article from context -->
             <img alt="Article loaded from context" src="{{ url(media) }}" />

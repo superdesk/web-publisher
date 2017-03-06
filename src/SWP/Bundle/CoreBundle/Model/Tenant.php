@@ -30,11 +30,6 @@ class Tenant extends BaseTenant implements TenantInterface
     protected $homepage;
 
     /**
-     * @var string
-     */
-    protected $domainName;
-
-    /**
      * @var bool
      */
     protected $ampEnabled = false;
@@ -69,22 +64,6 @@ class Tenant extends BaseTenant implements TenantInterface
     public function setHomepage(RouteInterface $homepage)
     {
         $this->homepage = $homepage;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getDomainName()
-    {
-        return $this->domainName;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function setDomainName($domainName)
-    {
-        $this->domainName = $domainName;
     }
 
     /**

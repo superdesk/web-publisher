@@ -21,7 +21,10 @@ SWP\Component\MultiTenancy\Model\Tenant:
         subdomain:
             type: string
             length: 255
-            unique: true
+            nullable: true
+        domainName:
+            type: string
+            nullable: true
         code:
             type: string
             unique: true
@@ -49,3 +52,6 @@ SWP\Component\MultiTenancy\Model\Tenant:
             joinColumn:
                 name: organization_id
                 referencedColumnName: id
+    uniqueConstraints:
+        host_idx:
+            columns: [ domain_name, subdomain ]
