@@ -1,0 +1,13 @@
+SWP\Bundle\CoreBundle\Model\Article:
+    article1:
+        title: "art1"
+        body: 'art1 body'
+        locale: "en"
+        lead: "art1 lead"
+        code: "12356yjgktowud"
+    article2:
+        title: "art2"
+        body: 'art2 body'
+        locale: "en"
+        lead: "art2 lead"
+        code: "87346yjgktowrt"
