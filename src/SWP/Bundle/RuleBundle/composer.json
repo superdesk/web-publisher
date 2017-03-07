@@ -17,8 +17,8 @@
         "symfony/config": "~2.8|~3.0",
         "symfony/validator": "~2.8|~3.0",
         "symfony/form": "~2.8|~3.0",
-        "swp/storage-bundle": "~0.5.0",
-        "swp/rule": "~0.5.0",
+        "swp/storage-bundle": "^0.5",
+        "swp/rule": "^0.5",
         "burgov/key-value-form-bundle": "@stable"
     },
     "require-dev": {
