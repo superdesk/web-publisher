@@ -70,7 +70,7 @@ final class TenantHandler implements SubscribingHandlerInterface
         $tenant = $this->tenantRepository->findOneByCode($tenantCode);
 
         if (null === $tenant) {
-            return null;
+            return;
         }
 
         return [
