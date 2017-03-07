@@ -66,7 +66,7 @@ class OrganizationController extends Controller
      *         {"name"="status", "dataType"="string", "pattern"="new|published|unpublished|canceled"}
      *     }
      * )
-     * @Route("/api/{version}/organizations/{id}/articles/", options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_core_list_organization_articles")
+     * @Route("/api/{version}/organizations/{id}/articles/", options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_core_list_organization_articles", requirements={"id"="\d+"})
      * @Method("GET")
      *
      * @Cache(expires="10 minutes", public=true)
