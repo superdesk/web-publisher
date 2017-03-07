@@ -58,4 +58,31 @@ class OrganizationControllerTest extends WebTestCase
         self::assertEquals(200, $client->getResponse()->getStatusCode());
         self::assertEquals('{"page":1,"limit":10,"pages":1,"total":2,"_links":{"self":{"href":"\/api\/v1\/organizations\/?page=1&limit=10"},"first":{"href":"\/api\/v1\/organizations\/?page=1&limit=10"},"last":{"href":"\/api\/v1\/organizations\/?page=1&limit=10"}},"_embedded":{"_items":[{"id":1,"name":"Organization1","code":"123456"},{"id":2,"name":"Organization2","code":"654321"}]}}', $client->getResponse()->getContent());
     }
+
+    public function testFilterArticlesByStatus()
+    {
+        $content = $this->getOrganizationArticlesByStatus('new');
+
+        self::assertEquals('new', $content['_embedded']['_items'][0]['status']);
+        self::assertEquals(2, $content['total']);
+        self::assertFalse($content['_embedded']['_items'][0]['isPublishable']);
+        self::assertNull($content['_embedded']['_items'][0]['publishedAt']);
+        self::assertEquals('art1', $content['_embedded']['_items'][0]['title']);
+        $content = $this->getOrganizationArticlesByStatus('unpublished');
+        self::assertEquals(0, $content['total']);
+        $content = $this->getOrganizationArticlesByStatus('fake');
+        self::assertEquals(0, $content['total']);
+    }
+
+    private function getOrganizationArticlesByStatus($status)
+    {
+        $client = static::createClient();
+        $client->request('GET', $this->router->generate('swp_api_core_list_organization_articles', [
+            'status' => $status,
+            'id' => 1,
+        ]));
+        self::assertEquals(200, $client->getResponse()->getStatusCode());
+
+        return json_decode($client->getResponse()->getContent(), true);
+    }
 }
