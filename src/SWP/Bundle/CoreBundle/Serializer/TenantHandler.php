@@ -69,10 +69,8 @@ final class TenantHandler implements SubscribingHandlerInterface
         /** @var TenantInterface $tenant */
         $tenant = $this->tenantRepository->findOneByCode($tenantCode);
 
-        $result = [];
-
         if (null === $tenant) {
-            return $result;
+            return null;
         }
 
         return [

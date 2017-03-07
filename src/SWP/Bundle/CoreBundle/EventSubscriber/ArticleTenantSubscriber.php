@@ -41,7 +41,7 @@ class ArticleTenantSubscriber implements EventSubscriber
         $entity = $args->getEntity();
 
         if ($entity instanceof ArticleInterface) {
-            if (null !== $entity->getTenantCode()) {
+            if (null !== $entity->getTenantCode() && !$entity->isPublishable()) {
                 $entity->setTenantCode(null);
             }
         }

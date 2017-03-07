@@ -61,6 +61,7 @@ final class ArticleTenantSubscriberSpec extends ObjectBehavior
         $article->getTitle()->willReturn('Hello World');
         $article->getSlug()->willReturn('hello-world');
         $article->getTenantCode()->willReturn('123456');
+        $article->isPublishable()->willReturn(false);
 
         $event->getEntity()->willReturn($article);
         $article->setTenantCode(null)->shouldBeCalled();
