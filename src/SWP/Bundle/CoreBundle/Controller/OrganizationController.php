@@ -29,6 +29,30 @@ use Symfony\Component\HttpFoundation\Request;
 class OrganizationController extends Controller
 {
     /**
+     * List all organizations.
+     *
+     * @ApiDoc(
+     *     resource=true,
+     *     description="List all organizations",
+     *     statusCodes={
+     *         200="Returned on success.",
+     *         500="Returned when unexpected error occurred."
+     *     }
+     * )
+     * @Route("/api/{version}/organizations/", options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_core_list_organizations")
+     * @Method("GET")
+     *
+     * @Cache(expires="10 minutes", public=true)
+     */
+    public function listAction(Request $request)
+    {
+        $organizations = $this->get('swp.repository.organization')
+            ->getPaginatedByCriteria(new Criteria(), [], new PaginationData($request));
+
+        return new ResourcesListResponse($organizations);
+    }
+
+    /**
      * List all organization's articles.
      *
      * @ApiDoc(
@@ -37,9 +61,12 @@ class OrganizationController extends Controller
      *     statusCodes={
      *         200="Returned on success.",
      *         500="Returned when unexpected error occurred."
+     *     },
+     *     filters={
+     *         {"name"="status", "dataType"="string", "pattern"="new|published|unpublished|canceled"}
      *     }
      * )
-     * @Route("/api/{version}/organizations/{id}/articles/", options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_core_list_organization_articles")
+     * @Route("/api/{version}/organizations/{id}/articles/", options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_core_list_organization_articles", requirements={"id"="\d+"})
      * @Method("GET")
      *
      * @Cache(expires="10 minutes", public=true)
@@ -54,6 +81,7 @@ class OrganizationController extends Controller
         $items = $repository->getPaginatedByCriteria(
             new Criteria([
                 'organization' => $id,
+                'status' => $request->query->get('status', ''),
             ]),
             [],
             new PaginationData($request)

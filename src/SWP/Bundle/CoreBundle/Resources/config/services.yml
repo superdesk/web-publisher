@@ -228,3 +228,11 @@ services:
         class: SWP\Bundle\CoreBundle\EventSubscriber\ArticleTenantSubscriber
         tags:
             - { name: doctrine.event_subscriber, priority: -5 }
+
+    swp_core.jms_tenant_handler:
+        class: SWP\Bundle\CoreBundle\Serializer\TenantHandler
+        arguments:
+          - '@swp.repository.tenant'
+          - '@router.default'
+        tags:
+            - { name: jms_serializer.subscribing_handler }
