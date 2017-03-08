@@ -35,6 +35,13 @@ class ContentPushControllerTest extends WebTestCase
 
     const TEST_ITEM_CONTENT_CORRECTED = '{"language": "en", "evolvedfrom": "urn:newsml:localhost:2016-09-23T13:56:39.404843:56465de4-0d5c-495a-8e36-3b396def3cf0", "slugline": "abstract-html-test-corrected", "body_html": "<p>some html body</p>", "versioncreated": "2017-02-23T13:57:28+0000", "firstcreated":"2017-05-25T10:23:15+0000", "description_text": "some abstract text", "place": [{"country": "Australia", "world_region": "Oceania", "state": "Australian Capital Territory", "qcode": "ACT", "name": "ACT", "group": "Australia"}], "version": "2", "byline": "ADmin", "keywords": ["keyword1","keyword2"], "guid": "urn:newsml:localhost:2017-02-02T11:26:59.404843:7u465de4-0d5c-495a-2u36-3b986def3k81", "priority": 6, "subject": [{"name": "lawyer", "code": "02002001"}], "urgency": 3, "type": "text", "headline": "Abstract html test corrected", "service": [{"name": "Australian General News", "code": "a"}], "description_html": "<p><b><u>some abstract text</u></b></p>", "located": "Warsaw", "pubstatus": "usable"}';
 
+    const TEST_ITEM_UPDATE_ORIGIN = '{"body_html": "<p>this is test body</p><p>footer text</p>", "profile": "57d91f4ec3a5bed769c59846", "versioncreated": "2017-03-08T11:23:34+0000", "description_text": "test abstract", "byline": "Test Persona", "place": [], "version": "2", "pubstatus": "usable", "guid": "urn:newsml:localhost:2017-03-08T12:18:57.190465:2ff36225-af01-4f39-9392-39e901838d99", "language": "en", "urgency": 3, "slugline": "test item update", "headline": "test headline", "service": [{"code": "news", "name": "News"}], "priority": 6, "firstcreated": "2017-03-08T11:18:57+0000", "located": "Berlin", "type": "text", "description_html": "<p>test abstract</p>"}';
+
+    const TEST_ITEM_UPDATE_UPDATE_1 = '{"body_html": "<p>this is test body&nbsp;updated</p><p>footer text &nbsp;updated</p>", "profile": "57d91f4ec3a5bed769c59846", "versioncreated": "2017-03-08T11:26:08+0000", "description_text": "test abstract\u00a0updated", "byline": "Test Persona", "place": [], "version": "3", "pubstatus": "usable", "guid": "urn:newsml:localhost:2017-03-08T12:25:35.466333:df630dd5-9f99-42be-8e01-645a338a9521", "language": "en", "urgency": 3, "slugline": "test item update", "type": "text", "headline": "test headline", "service": [{"code": "news", "name": "News"}], "priority": 6, "firstcreated": "2017-03-08T11:25:35+0000", "evolvedfrom": "urn:newsml:localhost:2017-03-08T12:18:57.190465:2ff36225-af01-4f39-9392-39e901838d99", "located": "Berlin", "description_html": "<p>test abstract&nbsp;updated</p>"}';
+
+    // update of TEST_ITEM_UPDATE_UPDATE_1
+    const TEST_ITEM_UPDATE_UPDATE_2 = '{"body_html": "<p>this is test body&nbsp;updated 2</p><p>footer text &nbsp;updated 2</p>", "profile": "57d91f4ec3a5bed769c59846", "versioncreated": "2017-03-08T11:29:51+0000", "description_text": "test abstract\u00a0updated 2", "byline": "Test Persona", "place": [], "version": "4", "pubstatus": "usable", "guid": "urn:newsml:localhost:2017-03-08T12:29:27.222376:5aef400e-ee5c-4110-b929-04bd26e4a757", "language": "en", "urgency": 3, "slugline": "test item update", "type": "text", "headline": "test headline updated 2", "service": [{"code": "news", "name": "News"}], "priority": 6, "firstcreated": "2017-03-08T11:29:27+0000", "evolvedfrom": "urn:newsml:localhost:2017-03-08T12:25:35.466333:df630dd5-9f99-42be-8e01-645a338a9521", "located": "Berlin", "description_html": "<p>test abstract&nbsp;updated 2</p>"}';
+
     private $router;
 
     /**
@@ -909,6 +916,84 @@ class ContentPushControllerTest extends WebTestCase
         self::assertEquals('Abstract html test corrected', $content['title']);
         self::assertEquals('abstract-html-test-corrected', $content['slug']);
         self::assertEquals(1, $content['id']);
-        self::assertEquals('urn:newsml:localhost:2016-09-23T13:56:39.404843:56465de4-0d5c-495a-8e36-3b396def3cf0', $content['code']);
+        self::assertEquals('urn:newsml:localhost:2017-02-02T11:26:59.404843:7u465de4-0d5c-495a-2u36-3b986def3k81', $content['code']);
+    }
+
+    public function testArticleUpdates()
+    {
+        // submit original item
+        $client = static::createClient();
+        $client->request(
+            'POST',
+            $this->router->generate('swp_api_content_push'),
+            [],
+            [],
+            ['CONTENT_TYPE' => 'application/json'],
+            self::TEST_ITEM_UPDATE_ORIGIN
+        );
+
+        self::assertEquals(201, $client->getResponse()->getStatusCode());
+
+        $client->request(
+            'GET',
+            $this->router->generate('swp_api_content_show_articles', ['id' => 'test-item-update'])
+        );
+
+        self::assertEquals(200, $client->getResponse()->getStatusCode());
+        $content = json_decode($client->getResponse()->getContent(), true);
+
+        self::assertEquals('new', $content['status']);
+        self::assertFalse($content['isPublishable']);
+        self::assertEquals('test headline', $content['title']);
+        self::assertEquals('urn:newsml:localhost:2017-03-08T12:18:57.190465:2ff36225-af01-4f39-9392-39e901838d99', $content['code']);
+
+        // update origin item
+        $client->request(
+            'POST',
+            $this->router->generate('swp_api_content_push'),
+            [],
+            [],
+            ['CONTENT_TYPE' => 'application/json'],
+            self::TEST_ITEM_UPDATE_UPDATE_1
+        );
+
+        self::assertEquals(201, $client->getResponse()->getStatusCode());
+
+        $client->request(
+            'GET',
+            $this->router->generate('swp_api_content_show_articles', ['id' => 'test-item-update'])
+        );
+
+        self::assertEquals(200, $client->getResponse()->getStatusCode());
+        $content = json_decode($client->getResponse()->getContent(), true);
+
+        self::assertEquals('new', $content['status']);
+        self::assertFalse($content['isPublishable']);
+        self::assertEquals('test headline', $content['title']);
+        self::assertEquals('urn:newsml:localhost:2017-03-08T12:25:35.466333:df630dd5-9f99-42be-8e01-645a338a9521', $content['code']);
+
+        // an update of the first update (i.e. second update of origin item)
+        $client->request(
+            'POST',
+            $this->router->generate('swp_api_content_push'),
+            [],
+            [],
+            ['CONTENT_TYPE' => 'application/json'],
+            self::TEST_ITEM_UPDATE_UPDATE_2
+        );
+
+        self::assertEquals(201, $client->getResponse()->getStatusCode());
+
+        $client->request(
+            'GET',
+            $this->router->generate('swp_api_content_show_articles', ['id' => 'test-item-update'])
+        );
+
+        self::assertEquals(200, $client->getResponse()->getStatusCode());
+        $content = json_decode($client->getResponse()->getContent(), true);
+        self::assertEquals('new', $content['status']);
+        self::assertFalse($content['isPublishable']);
+        self::assertEquals('test headline updated 2', $content['title']);
+        self::assertEquals('urn:newsml:localhost:2017-03-08T12:29:27.222376:5aef400e-ee5c-4110-b929-04bd26e4a757', $content['code']);
     }
 }
