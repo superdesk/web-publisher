@@ -11,14 +11,29 @@
             "email": "rafal.muszynski@sourcefabric.org"
         }
     ],
+    "repositories": [
+        {
+            "type": "path",
+            "url": "../*"
+        },
+        {
+            "type": "path",
+            "url": "../../Component/*"
+        }
+    ],
     "require": {
         "php": "^7.0",
-        "stof/doctrine-extensions-bundle": "^1.2",
-        "symfony/dependency-injection": "~2.8|~3.0",
-        "swp/storage-bundle": "^0.5"
+        "stof/doctrine-extensions-bundle": "1.2.x",
+        "gedmo/doctrine-extensions": ">=2.4.26 <3.0",
+        "symfony/dependency-injection": "3.1.*",
+        "symfony/form": "3.1.*",
+        "symfony/validator": "3.1.*",
+        "swp/storage-bundle": "^0.5",
+        "swp/content-list": "^0.5"
     },
     "require-dev": {
-        "phpspec/phpspec": "^3.0"
+        "phpspec/phpspec": ">=3.2.3 <4.0",
+        "phpspec/prophecy": "1.7.*"
     },
     "autoload": {
         "exclude-from-classmap": [

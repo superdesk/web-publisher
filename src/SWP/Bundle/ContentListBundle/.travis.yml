@@ -26,4 +26,3 @@ install: composer update $COMPOSER_FLAGS --prefer-dist --no-interaction
 
 script:
     - bin/phpspec run -fpretty --verbose
-    - bin/phpunit --coverage-text
