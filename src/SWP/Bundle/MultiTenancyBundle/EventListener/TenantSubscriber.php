@@ -72,7 +72,6 @@ final class TenantSubscriber implements EventSubscriber
             }
 
             $tenantContext = $this->container->get('swp_multi_tenancy.tenant_context');
-
             $entity->setTenantCode($tenantContext->getTenant()->getCode());
         }
     }

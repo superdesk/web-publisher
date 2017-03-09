@@ -13,4 +13,9 @@ interface RouteAwareInterface
      * @param RouteInterface|null $route
      */
     public function setRoute(RouteInterface $route = null);
+
+    /**
+     * @return int|null
+     */
+    public function getRouteId();
 }

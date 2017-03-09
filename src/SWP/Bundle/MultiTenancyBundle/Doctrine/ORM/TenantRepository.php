@@ -25,14 +25,34 @@ class TenantRepository extends EntityRepository implements TenantRepositoryInter
     /**
      * {@inheritdoc}
      */
-    public function findOneBySubdomain($subdomain)
+    public function findOneBySubdomainAndDomain($subdomain, $domain)
     {
         return $this
             ->createQueryBuilder('t')
             ->select('t', 'o')
             ->leftJoin('t.organization', 'o')
             ->where('t.subdomain = :subdomain')
-            ->setParameter('subdomain', $subdomain)
+            ->andWhere('t.domainName = :domainName')
+            ->setParameters([
+                'subdomain' => $subdomain,
+                'domainName' => $domain,
+            ])
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function findOneByDomain($domain)
+    {
+        return $this
+            ->createQueryBuilder('t')
+            ->select('t', 'o')
+            ->leftJoin('t.organization', 'o')
+            ->where('t.domainName = :domainName')
+            ->andWhere('t.subdomain IS NULL')
+            ->setParameter('domainName', $domain)
             ->getQuery()
             ->getOneOrNullResult();
     }

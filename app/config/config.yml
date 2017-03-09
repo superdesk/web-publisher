@@ -5,6 +5,7 @@ imports:
     - { resource: "@SWPRuleBundle/Resources/config/app/config.yml" }
     - { resource: "@SWPMenuBundle/Resources/config/app/config.yml" }
     - { resource: "@SWPContentListBundle/Resources/config/app/config.yml" }
+    - { resource: "@SWPRevisionBundle/Resources/config/app/config.yml" }
     - { resource: "@SWPCoreBundle/Resources/config/app/config.yml" }
     - { resource: parameters.yml }
     - { resource: security.yml }
@@ -26,7 +27,7 @@ framework:
     translator:
         fallbacks: ["%locale%"]
         logging: false
-    secret:          "%secret%"
+    secret: "%env(SYMFONY_SECRET)%"
     router:
         resource: "%kernel.root_dir%/config/routing.yml"
         strict_requirements: ~
@@ -57,11 +58,11 @@ twig_cache:
 doctrine:
     dbal:
         driver:   pdo_pgsql
-        host:     "%database_host%"
-        port:     "%database_port%"
-        dbname:   "%database_name%"
-        user:     "%database_user%"
-        password: "%database_password%"
+        host:     '%env(DATABASE_HOST)%'
+        port:     '%env(DATABASE_PORT)%'
+        dbname:   '%env(DATABASE_NAME)%'
+        user:     '%env(DATABASE_USER)%'
+        password: "%env(DATABASE_PASSWORD)%"
         charset:  UTF8
         server_version: "%server_version%"
         mapping_types:
@@ -93,7 +94,7 @@ doctrine_cache:
     providers:
         main_cache:
             type: "%doctrine_cache_driver%"
-            namespace: "%secret%"
+            namespace: "%env(SYMFONY_SECRET)%"
 
 doctrine_migrations:
     dir_name: "%kernel.root_dir%/migrations"
@@ -132,10 +133,16 @@ fos_http_cache:
             -
                 match:
                     attributes:
-                        _route: "swp_api_content_update_routes|swp_api_content_delete_routes|swp_api_content_create_routes"
+                        _route: "swp_api_content_update_routes|swp_api_content_delete_routes"
                 routes:
                     swp_api_content_list_routes: ~
                     swp_api_content_show_routes: ~
+            -
+                match:
+                    attributes:
+                        _route: "swp_api_content_create_routes"
+                routes:
+                    swp_api_content_list_routes: ~
             -
                 match:
                     attributes:
@@ -143,6 +150,7 @@ fos_http_cache:
                 routes:
                     swp_api_content_list_articles: ~
                     swp_api_content_show_articles: ~
+                    swp_api_core_list_organization_articles: ~
             -
                 match:
                     attributes:
@@ -181,11 +189,17 @@ fos_http_cache:
             -
                 match:
                     attributes:
-                        _route: "swp_api_core_move_menu|swp_api_core_create_menu|swp_api_core_delete_menu"
+                        _route: "swp_api_core_move_menu|swp_api_core_delete_menu"
                 routes:
                     swp_api_core_list_menu: ~
                     swp_api_core_list_children_menu: ~
                     swp_api_core_get_menu: ~
+            -
+                match:
+                    attributes:
+                        _route: "swp_api_core_create_menu"
+                routes:
+                    swp_api_core_list_menu: ~
 
 fos_rest:
     zone:

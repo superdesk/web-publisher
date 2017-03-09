@@ -203,4 +203,14 @@ interface ContentInterface
      * @param string $pubStatus
      */
     public function setPubStatus(string $pubStatus);
+
+    /**
+     * @return string|null
+     */
+    public function getEvolvedFrom();
+
+    /**
+     * @param string $evolvedFrom
+     */
+    public function setEvolvedFrom(string $evolvedFrom);
 }

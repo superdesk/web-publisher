@@ -12,13 +12,13 @@
         }
     ],
     "require": {
-        "php": ">=5.6|^7.0",
-        "symfony/dependency-injection": "~2.8|~3.0",
-        "symfony/config": "~2.8|~3.0",
-        "symfony/validator": "~2.8|~3.0",
-        "symfony/form": "~2.8|~3.0",
-        "swp/storage-bundle": "~0.1.0",
-        "swp/rule": "~0.1.0",
+        "php": "^7.0",
+        "symfony/dependency-injection": "3.1.*",
+        "symfony/config": "3.1.*",
+        "symfony/validator": "3.1.*",
+        "symfony/form": "3.1.*",
+        "swp/storage-bundle": "^0.5",
+        "swp/rule": "^0.5",
         "burgov/key-value-form-bundle": "@stable"
     },
     "require-dev": {
@@ -40,7 +40,7 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-master": "0.1-dev"
+            "dev-master": "0.5-dev"
         }
     }
 }

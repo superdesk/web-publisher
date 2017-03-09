@@ -1,0 +1,28 @@
+language: php
+
+php:
+  - 7.0
+  - nightly
+
+sudo: false
+
+cache:
+  directories:
+    - $HOME/.composer/cache/files
+
+env:
+  - COMPOSER_FLAGS='--prefer-lowest --prefer-stable'
+  - COMPOSER_FLAGS=''
+
+matrix:
+  allow_failures:
+    - php: nightly
+  fast_finish: true
+
+before_install:
+  - composer self-update
+
+install: composer update $COMPOSER_FLAGS --prefer-dist --no-interaction
+
+script:
+    - bin/phpspec run -fpretty --verbose

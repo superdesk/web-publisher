@@ -55,6 +55,8 @@ final class ArticleHydratorSpec extends ObjectBehavior
         $item->setType('text');
         $item->setDescription('item lead');
 
+        $package->getGuid()->shouldBeCalled()->willReturn('123guid223');
+        $package->getEvolvedFrom()->willReturn(null);
         $package->getHeadline()->shouldBeCalled()->willReturn('item headline');
         $package->getDescription()->shouldBeCalled()->willReturn('package lead');
         $package->getBody()->shouldBeCalled()->willReturn('some package body');
@@ -65,6 +67,7 @@ final class ArticleHydratorSpec extends ObjectBehavior
         $package->getMetadata()->shouldBeCalled()->willReturn(['some' => 'meta']);
         $package->getSlugline()->shouldBeCalled();
 
+        $article->setCode('123guid223')->shouldBeCalled();
         $article->setTitle('item headline')->shouldBeCalled();
         $article->setBody('some package body some item body')->shouldBeCalled();
         $article->setLead('package lead')->shouldBeCalled();
@@ -90,6 +93,7 @@ final class ArticleHydratorSpec extends ObjectBehavior
         $item->setType('text');
         $item->setDescription('item lead');
 
+        $package->getEvolvedFrom()->willReturn('123guid223');
         $package->getHeadline()->shouldBeCalled()->willReturn('item headline');
         $package->getDescription()->shouldBeCalled()->willReturn('package lead');
         $package->getBody()->shouldBeCalled()->willReturn('some package body');
@@ -100,6 +104,7 @@ final class ArticleHydratorSpec extends ObjectBehavior
         $package->getMetadata()->shouldBeCalled()->willReturn(['some' => 'meta']);
         $package->getSlugline()->shouldBeCalled()->willReturn('slugline');
 
+        $article->setCode('123guid223')->shouldBeCalled();
         $article->setTitle('item headline')->shouldBeCalled();
         $article->setBody('some package body some item body')->shouldBeCalled();
         $article->setLead('package lead')->shouldBeCalled();
@@ -123,6 +128,8 @@ final class ArticleHydratorSpec extends ObjectBehavior
         $item->setBody('some item body');
         $item->setType('fake');
 
+        $package->getGuid()->shouldNotBeCalled();
+        $package->getEvolvedFrom()->shouldNotBeCalled();
         $package->getHeadline()->shouldNotBeCalled();
         $package->getBody()->shouldNotBeCalled();
         $package->getKeywords()->shouldNotBeCalled();

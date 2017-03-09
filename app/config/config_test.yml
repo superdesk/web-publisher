@@ -48,3 +48,9 @@ doctrine_cache:
         main_cache:
             type: "%doctrine_cache_driver%"
             namespace: "test_%secret%"
+
+fos_http_cache:
+    proxy_client:
+        noop: ~
+    invalidation:
+        enabled: false

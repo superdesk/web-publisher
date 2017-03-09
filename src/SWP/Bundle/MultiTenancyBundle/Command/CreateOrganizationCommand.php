@@ -75,8 +75,9 @@ EOT
 
         $output->writeln(
             sprintf(
-                'Organization <info>%s</info> has been created and <info>%s</info>!',
+                'Organization <info>%s</info> (code: <info>%s</info>) has been created and <info>%s</info>!',
                 $name,
+                $organization->getCode(),
                 $organization->isEnabled() ? 'enabled' : 'disabled'
             )
         );

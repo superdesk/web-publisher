@@ -26,8 +26,6 @@ class ContainerType extends AbstractType
     {
         $builder
             ->add('name')
-            ->add('height')
-            ->add('width')
             ->add('styles')
             ->add('visible', ChoiceType::class, [
                 'choices' => [true => 1, false => 0],
@@ -35,8 +33,7 @@ class ContainerType extends AbstractType
             ->add('cssClass')
             ->add('data', CollectionType::class, [
                     'allow_extra_fields' => true,
-                ]
-            );
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver)

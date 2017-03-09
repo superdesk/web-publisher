@@ -127,6 +127,9 @@ class ProcessArticleMediaListener
 
         foreach ($existingArticleMedia as $articleMedia) {
             $this->articleMediaRepository->remove($articleMedia);
+            if ($articleMedia === $article->getFeatureMedia()) {
+                $article->setFeatureMedia(null);
+            }
         }
         $this->articleMediaRepository->flush();
     }

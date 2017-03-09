@@ -17,6 +17,7 @@ declare(strict_types=1);
 namespace SWP\Bundle\CoreBundle\Repository;
 
 use Doctrine\ORM\QueryBuilder;
+use SWP\Bundle\CoreBundle\Model\UserInterface;
 
 interface ApiKeyRepositoryInterface
 {
@@ -26,4 +27,11 @@ interface ApiKeyRepositoryInterface
      * @return QueryBuilder
      */
     public function getValidToken(string $token): QueryBuilder;
+
+    /**
+     * @param UserInterface $user
+     *
+     * @return mixed
+     */
+    public function getValidTokenForUser(UserInterface $user);
 }

@@ -47,6 +47,7 @@ class AppKernel extends Kernel
             new SWP\Bundle\MenuBundle\SWPMenuBundle(),
             new SWP\Bundle\ContentListBundle\SWPContentListBundle(),
             new SWP\Bundle\FacebookInstantArticlesBundle\SWPFacebookInstantArticlesBundle(),
+            new SWP\Bundle\RevisionBundle\SWPRevisionBundle(),
             new SWP\Bundle\CoreBundle\SWPCoreBundle(),
 
             new Sentry\SentryBundle\SentryBundle(),
@@ -59,6 +60,7 @@ class AppKernel extends Kernel
             $bundles[] = new Sensio\Bundle\GeneratorBundle\SensioGeneratorBundle();
             $bundles[] = new Doctrine\Bundle\FixturesBundle\DoctrineFixturesBundle();
             $bundles[] = new SWP\Bundle\FixturesBundle\SWPFixturesBundle();
+            $bundles[] = new Pixers\DoctrineProfilerBundle\PixersDoctrineProfilerBundle();
         }
 
         if (in_array($this->getEnvironment(), ['test'])) {

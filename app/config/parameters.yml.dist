@@ -2,11 +2,11 @@
 # Set parameters here that may be different on each deployment target of the app, e.g. development, staging, production.
 # http://symfony.com/doc/current/best_practices/configuration.html#infrastructure-related-configuration
 parameters:
-    database_host:     127.0.0.1
-    database_port:     ~
-    database_name:     symfony
-    database_user:     root
-    database_password: ~
+    env(DATABASE_HOST): 127.0.0.1
+    env(DATABASE_PORT): ~
+    env(DATABASE_NAME): publisher
+    env(DATABASE_USER): root
+    env(DATABASE_PASSWORD): ~
     # your postgres/mysql server version
     server_version:    9
     # You should uncomment this if you want use pdo_sqlite
@@ -18,9 +18,11 @@ parameters:
     mailer_password:   ~
 
     # A secret key that's used to generate certain security-related tokens
-    secret: SuperSecretTokenPleaseChangeIt
+    secret: "%env(SYMFONY_SECRET)%"
+    env(SYMFONY_SECRET): 'SuperSecretTokenPleaseChangeIt'
     swp_updater.version.class: "SWP\\Bundle\\CoreBundle\\Version\\Version"
-    domain: wps.dev
+    domain: "%env(SWP_DOMAIN)%"
+    env(SWP_DOMAIN): wps.dev
     # Array of caching servers
     cache_servers:
         - wps.dev
@@ -37,7 +39,7 @@ parameters:
 
     # Array of authorized superdesk servers
     superdesk_servers:
-        - superdesk.dev
+        - https://superdesk.dev
 
     # Array of trusted proxies
     trusted_proxies:

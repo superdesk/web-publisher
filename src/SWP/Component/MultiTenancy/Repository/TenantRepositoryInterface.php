@@ -26,19 +26,25 @@ interface TenantRepositoryInterface extends RepositoryInterface
      * Finds the tenant by subdomain.
      *
      * @param string $subdomain The subdomain
-     *
-     * @throws \Doctrine\ORM\NonUniqueResultException
+     * @param string $domain    The domain
      *
      * @return TenantInterface|null The instance of TenantInterface or null
      */
-    public function findOneBySubdomain($subdomain);
+    public function findOneBySubdomainAndDomain($subdomain, $domain);
+
+    /**
+     * Finds the tenant by domain.
+     *
+     * @param string $domain The domain
+     *
+     * @return TenantInterface|null The instance of TenantInterface or null
+     */
+    public function findOneByDomain($domain);
 
     /**
      * Finds the tenant by code.
      *
      * @param string $code The code
-     *
-     * @throws \Doctrine\ORM\NonUniqueResultException
      *
      * @return TenantInterface|null The instance of TenantInterface or null
      */

@@ -14,8 +14,8 @@
 
 namespace SWP\Bundle\TemplatesSystemBundle\Tests\Functional\Container;
 
-use SWP\Bundle\TemplatesSystemBundle\Tests\Functional\WebTestCase;
 use SWP\Bundle\TemplatesSystemBundle\Service\ContainerService;
+use SWP\Bundle\TemplatesSystemBundle\Tests\Functional\WebTestCase;
 
 class ContainerServiceTest extends WebTestCase
 {
@@ -24,25 +24,12 @@ class ContainerServiceTest extends WebTestCase
         $this->createContainerService();
     }
 
-    public function testProductionConstruct()
-    {
-        $this->createContainerService(false);
-    }
-
-    public function testGetRenderer()
-    {
-        $containerService = $this->createContainerService();
-        $this->assertInstanceOf('\Twig_Environment', $containerService->getRenderer());
-    }
-
     public function testCreateNewContainer()
     {
         $this->initDatabase();
         $containerService = $this->createContainerService();
 
         $containerParameters = [
-            'height' => '400',
-            'width' => '300',
             'cssClass' => 'col-md-12',
             'styles' => 'border: 1px solid red;',
             'visible' => true,
@@ -51,38 +38,42 @@ class ContainerServiceTest extends WebTestCase
             ],
         ];
 
-        $containerEntity = $containerService->createNewContainer('test Container', $containerParameters);
+        $containerEntity = $containerService->createContainer('test Container', $containerParameters);
 
-        $this->assertEquals('400', $containerEntity->getHeight());
-        $this->assertEquals('300', $containerEntity->getWidth());
         $this->assertEquals('col-md-12', $containerEntity->getCssClass());
         $this->assertEquals('border: 1px solid red;', $containerEntity->getStyles());
         $this->assertEquals(true, $containerEntity->getVisible());
         $this->assertEquals(1, count($containerEntity->getData()));
     }
 
-    public function testGetContainerException()
+    public function testUpdateContainer()
     {
+        $this->initDatabase();
         $containerService = $this->createContainerService();
-        $this->expectException(\Exception::class);
-        $containerService->getContainer('test container', [], false);
+
+        $containerParameters = [
+            'cssClass' => 'col-md-12',
+            'styles' => 'border: 1px solid red;',
+            'visible' => true,
+            'data' => [
+                'key' => 'value',
+            ],
+        ];
+        $containerEntity = $containerService->createContainer('test Container', $containerParameters);
+
+        $containerService->updateContainer($containerEntity, [
+            'key' => 'value',
+            'key2' => 'value2',
+        ]);
+        $this->assertEquals(2, count($containerEntity->getData()));
     }
 
-    public function testGetContainer()
-    {
-        $containerService = $this->createContainerService();
-        $containerEntity = $containerService->getContainer('test container', ['data' => ['key' => 'value']]);
-        $this->assertInstanceOf('\SWP\Bundle\TemplatesSystemBundle\Container\SimpleContainer', $containerEntity);
-    }
-
-    private function createContainerService($debug = true)
+    private function createContainerService()
     {
         return new ContainerService(
-            $this->getContainer()->get('doctrine'),
+            $this->getContainer()->get('swp.object_manager.container'),
             $this->getContainer()->get('event_dispatcher'),
-            $this->getContainer(),
-            $this->getContainer()->getParameter('kernel.cache_dir'),
-            $debug
+            $this->getContainer()->get('service_container')
         );
     }
 }

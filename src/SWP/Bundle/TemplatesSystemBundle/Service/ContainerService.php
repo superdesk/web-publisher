@@ -14,139 +14,199 @@
 
 namespace SWP\Bundle\TemplatesSystemBundle\Service;
 
-use SWP\Bundle\TemplatesSystemBundle\Container\SimpleContainer;
-use SWP\Bundle\TemplatesSystemBundle\Model\Container;
-use SWP\Bundle\TemplatesSystemBundle\Widget\TemplatingWidgetHandler;
+use Doctrine\ORM\EntityManagerInterface;
+use SWP\Bundle\TemplatesSystemBundle\Factory\ContainerDataFactoryInterface;
+use SWP\Component\TemplatesSystem\Gimme\Model\ContainerDataInterface;
+use SWP\Component\TemplatesSystem\Gimme\Model\ContainerInterface;
 use SWP\Component\Common\Event\HttpCacheEvent;
-use SWP\Component\TemplatesSystem\Gimme\Model\ContainerWidgetInterface;
-use Symfony\Bridge\Doctrine\RegistryInterface;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface as ServiceContainerInterface;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\Exception\ConflictHttpException;
 
-class ContainerService
+/**
+ * Class ContainerService.
+ */
+class ContainerService implements ContainerServiceInterface
 {
-    const OPEN_TAG_TEMPLATE = '<div id="swp_container_{{ id }}" class="swp_container {{ class }}" style="{% if height %}height: {{ height }}px;{% endif %}{% if width %}width: {{width}}px;{% endif %}{{styles}}"{% for value in data %} data-{{value.getKey()}}="{{value.getValue()}}"{% endfor %} >';
-    const CLOSE_TAG_TEMPLATE = '</div>';
-
+    /**
+     * @var ServiceContainerInterface
+     */
     protected $serviceContainer;
-    protected $objectManager;
-    protected $cacheDir;
-    protected $debug;
-    protected $renderer = false;
+
+    /**
+     * @var EntityManagerInterface
+     */
+    protected $entityManager;
+
+    /**
+     * @var EventDispatcherInterface
+     */
     protected $eventDispatcher;
 
     /**
      * ContainerService constructor.
      *
-     * @param RegistryInterface        $registry
-     * @param EventDispatcherInterface $eventDispatcher
-     * @param ContainerInterface       $serviceContainer
-     * @param string                   $cacheDir
-     * @param bool                     $debug
+     * @param EntityManagerInterface    $entityManager
+     * @param EventDispatcherInterface  $eventDispatcher
+     * @param ServiceContainerInterface $serviceContainer
      */
-    public function __construct(RegistryInterface $registry, EventDispatcherInterface $eventDispatcher, ContainerInterface $serviceContainer, $cacheDir, $debug = false)
-    {
-        $this->objectManager = $registry->getManager();
-        $this->cacheDir = $cacheDir.'/twig';
-        $this->debug = $debug;
+    public function __construct(
+        EntityManagerInterface $entityManager,
+        EventDispatcherInterface $eventDispatcher,
+        ServiceContainerInterface $serviceContainer
+    ) {
+        $this->entityManager = $entityManager;
         $this->eventDispatcher = $eventDispatcher;
         $this->serviceContainer = $serviceContainer;
     }
 
-    public function getContainer($name, array $parameters = [], $createIfNotExists = true)
+    /**
+     * {@inheritdoc}
+     */
+    public function createContainer($name, array $parameters = [], ContainerInterface $container = null): ContainerInterface
     {
-        $containerEntity = $this->serviceContainer->get('swp.repository.container')
-            ->getByName($name)
-            ->getOneOrNullResult();
-
-        if (!$containerEntity && $createIfNotExists) {
-            $containerEntity = $this->createNewContainer($name, $parameters);
-        } elseif (!$containerEntity) {
-            throw new \Exception('Container was not found');
+        if (null === $container) {
+            /** @var ContainerInterface $containerEntity */
+            $container = $this->serviceContainer->get('swp.factory.container')->create();
         }
 
-        $widgets = [];
-        /** @var ContainerWidgetInterface[] $containerWidgets */
-        $containerWidgets = $this->serviceContainer->get('swp.repository.container_widget')
-            ->findSortedWidgets($containerEntity);
-
-        foreach ($containerWidgets as $containerWidget) {
-            $widgetModel = $containerWidget->getWidget();
-            $widgetClass = $widgetModel->getType();
-
-            if (is_a($widgetClass, TemplatingWidgetHandler::class, true)) {
-                $widgetHandler = new $widgetClass($widgetModel, $this->serviceContainer);
-            } else {
-                $widgetHandler = new $widgetClass($widgetModel);
+        $containerDataFactory = $this->serviceContainer->get('swp.factory.container_data');
+        $container->setName($name);
+        foreach ($parameters as $key => $value) {
+            switch ($key) {
+                case 'cssClass':
+                    $container->setCssClass($value);
+                    break;
+                case 'styles':
+                    $container->setStyles($value);
+                    break;
+                case 'visible':
+                    $container->setVisible($value);
+                    break;
+                case 'data':
+                    foreach ($value as $dataKey => $dataValue) {
+                        /** @var ContainerDataInterface $containerData */
+                        $containerData = $containerDataFactory->create($dataKey, $dataValue);
+                        $containerData->setContainer($container);
+                        $this->entityManager->persist($containerData);
+                        $container->addData($containerData);
+                    }
             }
-
-            $widgets[] = $widgetHandler;
         }
+        $this->entityManager->persist($container);
+        $this->entityManager->flush();
 
-        $container = new SimpleContainer($containerEntity, $this->getRenderer());
-        $container->setWidgets($widgets);
+        $this->eventDispatcher
+            ->dispatch(HttpCacheEvent::EVENT_NAME, new HttpCacheEvent($container));
 
         return $container;
     }
 
-    public function getRenderer()
+    /**
+     * {@inheritdoc}
+     */
+    public function updateContainer(ContainerInterface $container, array $extraData): ContainerInterface
     {
-        if ($this->renderer !== false) {
-            return $this->renderer;
-        }
-
-        $options = [];
-        if (false === $this->debug) {
-            $options['cache'] = $this->cacheDir;
-        }
-
-        $this->renderer = new \Twig_Environment(
-            new \Twig_Loader_Array([
-                'open_tag' => self::OPEN_TAG_TEMPLATE,
-                'close_tag' => self::CLOSE_TAG_TEMPLATE,
-            ]), $options
-        );
-
-        return $this->renderer;
-    }
-
-    public function createNewContainer($name, array $parameters = [])
-    {
-        $containerEntity = $this->serviceContainer->get('swp.factory.container')->create();
+        /** @var ContainerDataFactoryInterface $containerDataFactory */
         $containerDataFactory = $this->serviceContainer->get('swp.factory.container_data');
-        $containerEntity->setName($name);
-        foreach ($parameters as $key => $value) {
-            switch ($key) {
-                case 'height':
-                    $containerEntity->setHeight($value);
-                    break;
-                case 'width':
-                    $containerEntity->setWidth($value);
-                    break;
-                case 'cssClass':
-                    $containerEntity->setCssClass($value);
-                    break;
-                case 'styles':
-                    $containerEntity->setStyles($value);
-                    break;
-                case 'visible':
-                    $containerEntity->setVisible($value);
-                    break;
-                case 'data':
-                    foreach ($value as $dataKey => $dataValue) {
-                        $containerData = $containerDataFactory->create($dataKey, $dataValue);
-                        $containerData->setContainer($containerEntity);
-                        $this->objectManager->persist($containerData);
-                        $containerEntity->addData($containerData);
-                    }
+        if (!empty($extraData) && is_array($extraData)) {
+            // Remove old containerData's
+            foreach ($container->getData() as $containerData) {
+                $this->entityManager->remove($containerData);
+            }
+
+            // Apply new containerData's
+            foreach ($extraData as $key => $value) {
+                /** @var ContainerDataInterface $containerData */
+                $containerData = $containerDataFactory->create($key, $value);
+                $containerData->setContainer($container);
+                $this->entityManager->persist($containerData);
+                $container->addData($containerData);
             }
         }
-        $this->objectManager->persist($containerEntity);
-        $this->objectManager->flush();
 
-        $this->eventDispatcher
-            ->dispatch(HttpCacheEvent::EVENT_NAME, new HttpCacheEvent($containerEntity));
+        $this->entityManager->flush();
+        $this->entityManager->refresh($container);
 
-        return $containerEntity;
+        return $container;
+    }
+
+    /**
+     * @param mixed              $object
+     * @param ContainerInterface $container
+     * @param Request            $request
+     *
+     * @throws \Exception
+     */
+    public function linkUnlinkWidget($object, ContainerInterface $container, Request $request)
+    {
+        $containerWidget = $this->serviceContainer->get('swp.repository.container_widget')
+            ->findOneBy([
+                'widget' => $object,
+                'container' => $container,
+            ]);
+
+        if ($request->getMethod() === 'LINK') {
+            $position = false;
+            if (count($notConvertedLinks = self::getNotConvertedLinks($request)) > 0) {
+                foreach ($notConvertedLinks as $link) {
+                    if (isset($link['resourceType']) && $link['resourceType'] == 'widget-position') {
+                        $position = $link['resource'];
+                    }
+                }
+            }
+
+            if ($position === false && $containerWidget) {
+                throw new ConflictHttpException('WidgetModel is already linked to container');
+            }
+
+            if (!$containerWidget) {
+                $containerWidget = $this->serviceContainer->get('swp.factory.container_widget')->create($container, $object);
+                $this->entityManager->persist($containerWidget);
+            }
+
+            if ($position !== false) {
+                $containerWidget->setPosition($position);
+            }
+            $container->addWidget($containerWidget);
+            $this->entityManager->flush();
+        } elseif ($request->getMethod() === 'UNLINK') {
+            if (!$container->getWidgets()->contains($containerWidget)) {
+                throw new ConflictHttpException('WidgetModel is not linked to container');
+            }
+            $this->entityManager->remove($containerWidget);
+        }
+
+        return $container;
+    }
+
+    /**
+     * @param Request $request
+     *
+     * @return array
+     */
+    public static function getNotConvertedLinks($request)
+    {
+        $links = [];
+        foreach ($request->attributes->get('links') as $idx => $link) {
+            if (is_string($link)) {
+                $linkParams = explode(';', trim($link));
+                $resourceType = null;
+                if (count($linkParams) > 1) {
+                    $resourceType = trim(preg_replace('/<|>/', '', $linkParams[1]));
+                    $resourceType = str_replace('"', '', str_replace('rel=', '', $resourceType));
+                }
+                $resource = array_shift($linkParams);
+                $resource = preg_replace('/<|>/', '', $resource);
+
+                $links[] = [
+                    'resource' => $resource,
+                    'resourceType' => $resourceType,
+                ];
+            }
+        }
+
+        return $links;
     }
 }

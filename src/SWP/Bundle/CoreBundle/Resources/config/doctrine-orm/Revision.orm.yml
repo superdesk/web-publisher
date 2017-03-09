@@ -1,0 +1,6 @@
+SWP\Bundle\CoreBundle\Model\Revision:
+    type: mappedSuperclass
+    table: swp_revision
+    fields:
+        tenantCode:
+            type: string

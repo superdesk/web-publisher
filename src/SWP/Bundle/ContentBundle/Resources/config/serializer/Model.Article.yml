@@ -54,6 +54,9 @@ SWP\Bundle\ContentBundle\Model\Article:
         keywords:
             expose: true
             type: array
+        code:
+            expose: true
+            type: string
     relations:
         -
             rel: self

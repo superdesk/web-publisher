@@ -38,7 +38,7 @@ class ContentControllerTest extends WebTestCase
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
         $this->assertTrue($crawler->filter('html:contains("Features")')->count() === 1);
         $this->assertTrue($crawler->filter('html:contains("Content:")')->count() === 1);
-        $this->assertTrue($crawler->filter('html:contains("Current tenant: default")')->count() === 1);
+        $this->assertTrue($crawler->filter('html:contains("Current tenant: Default tenant")')->count() === 1);
     }
 
     public function testLoadingNotExistingArticleUnderContainerPage()
@@ -152,5 +152,25 @@ class ContentControllerTest extends WebTestCase
         $crawler = $client->request('GET', '/collection-content/some-other-content');
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
         $this->assertEquals(1, $crawler->filter('html:contains("theme_test/test.html.twig")')->count());
+    }
+
+    public function testRouteWithExtension()
+    {
+        $this->loadCustomFixtures(['tenant']);
+        $client = static::createClient();
+        $router = $this->getContainer()->get('router');
+        $client->request('POST', $router->generate('swp_api_content_create_routes'), [
+            'route' => [
+                'name' => 'feed/sitemap.rss',
+                'type' => 'content',
+            ],
+        ]);
+
+        self::assertEquals(201, $client->getResponse()->getStatusCode());
+
+        $client->request('GET', '/feed/sitemap.rss');
+
+        self::assertEquals('application/rss+xml', $client->getResponse()->headers->get('Content-Type'));
+        self::assertEquals(200, $client->getResponse()->getStatusCode());
     }
 }

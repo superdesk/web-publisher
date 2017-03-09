@@ -37,7 +37,7 @@ class ContainerTest extends WebTestCase
         $this->getContainer()->get('swp.object_manager.container')->flush();
 
         $repository = $this->getContainer()->get('swp.repository.container');
-        $containerFromDatabase = $repository->getByName('test_container')->getSingleResult();
+        $containerFromDatabase = $repository->getByName('test_container')->getQuery()->getSingleResult();
 
         self::assertSame('test_container', $containerFromDatabase->getName());
     }
@@ -57,7 +57,7 @@ class ContainerTest extends WebTestCase
 
         $repository = $this->getContainer()->get('swp.repository.container');
         /** @var ContainerInterface $containerFromDatabase */
-        $containerFromDatabase = $repository->getByName('test_container')->getSingleResult();
+        $containerFromDatabase = $repository->getByName('test_container')->getQuery()->getSingleResult();
 
         self::assertCount(1, $containerFromDatabase->getData());
     }

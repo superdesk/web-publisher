@@ -14,7 +14,7 @@
 
 namespace SWP\Bundle\TemplatesSystemBundle\Factory;
 
-class ContainerDataFactory
+class ContainerDataFactory implements ContainerDataFactoryInterface
 {
     /**
      * @var string
@@ -34,7 +34,7 @@ class ContainerDataFactory
     /**
      * {@inheritdoc}
      */
-    public function create($key, $value)
+    public function create(string $key, string $value)
     {
         return new $this->className($key, $value);
     }

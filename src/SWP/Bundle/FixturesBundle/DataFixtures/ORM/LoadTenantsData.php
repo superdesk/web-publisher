@@ -17,6 +17,9 @@ use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use SWP\Bundle\FixturesBundle\AbstractFixture;
+use SWP\Component\MultiTenancy\Model\TenantAwareInterface;
+use SWP\Component\Revision\Manager\RevisionManagerInterface;
+use SWP\Component\Revision\Model\RevisionInterface;
 
 class LoadTenantsData extends AbstractFixture implements FixtureInterface, OrderedFixtureInterface
 {
@@ -32,8 +35,34 @@ class LoadTenantsData extends AbstractFixture implements FixtureInterface, Order
                 '@SWPFixturesBundle/Resources/fixtures/ORM/'.$env.'/organization.yml',
                 '@SWPFixturesBundle/Resources/fixtures/ORM/'.$env.'/tenant.yml',
             ],
-            $manager
+            $manager,
+            [
+                'providers' => [$this],
+            ]
         );
+
+        $manager->flush();
+
+        $this->loadRevisions();
+    }
+
+    private function loadRevisions()
+    {
+        /** @var RevisionManagerInterface $revisionManager */
+        $revisionManager = $this->container->get('swp.manager.revision');
+
+        /** @var RevisionInterface|TenantAwareInterface $firstPublishedRevision */
+        $firstTenantPublishedRevision = $revisionManager->create();
+        $firstTenantPublishedRevision->setTenantCode('123abc');
+        $firstTenantWorkingRevision = $revisionManager->create($firstTenantPublishedRevision);
+        $revisionManager->publish($firstTenantPublishedRevision, $firstTenantWorkingRevision);
+        $this->addReference('defult_tenant_revision', $firstTenantPublishedRevision);
+
+        /** @var RevisionInterface|TenantAwareInterface $firstPublishedRevision */
+        $secondTenantPublishedRevision = $revisionManager->create();
+        $secondTenantPublishedRevision->setTenantCode('456def');
+        $secondTenantWorkingRevision = $revisionManager->create($secondTenantPublishedRevision);
+        $revisionManager->publish($secondTenantPublishedRevision, $secondTenantWorkingRevision);
     }
 
     /**

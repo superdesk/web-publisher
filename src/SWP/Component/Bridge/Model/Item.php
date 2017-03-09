@@ -76,7 +76,7 @@ class Item extends BaseContent implements ItemInterface, TimestampableInterface
     /**
      * @param ArrayCollection $renditions
      */
-    public function setRenditions($renditions)
+    public function setRenditions(ArrayCollection $renditions)
     {
         $this->renditions = $renditions;
     }

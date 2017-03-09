@@ -92,8 +92,8 @@ class AuthController extends Controller
             $authorizedSuperdeskHosts = $this->container->getParameter('superdesk_servers');
             $superdeskUser = null;
             $client = new GuzzleHttp\Client();
-            foreach ($authorizedSuperdeskHosts as $host) {
-                $apiRequest = new GuzzleHttp\Psr7\Request('GET', 'https://'.$host.'/api/sessions/'.$formData['session_id'], [
+            foreach ($authorizedSuperdeskHosts as $baseUrl) {
+                $apiRequest = new GuzzleHttp\Psr7\Request('GET', sprintf('%s/api/sessions/%s', $baseUrl, $formData['session_id']), [
                     'Authorization' => $formData['token'],
                 ]);
                 $apiResponse = $client->send($apiRequest);
@@ -110,7 +110,11 @@ class AuthController extends Controller
                 }
             }
 
-            $publisherUser = $this->get('swp.security.user_provider')->findOneByEmail($superdeskUser['email']);
+            $userProvider = $this->get('swp.security.user_provider');
+            $publisherUser = $userProvider->findOneByEmail($superdeskUser['email']);
+            if (null === $publisherUser) {
+                $publisherUser = $userProvider->loadUserByUsername($superdeskUser['username']);
+            }
 
             if (null === $publisherUser) {
                 $userManager = $this->get('fos_user.user_manager');
@@ -143,6 +147,8 @@ class AuthController extends Controller
                 ->getValidToken($token)
                 ->getQuery()
                 ->getOneOrNullResult();
+        } else {
+            $apiKey = $apiKeyRepository->getValidTokenForUser($user)->getQuery()->getOneOrNullResult();
         }
 
         if (null === $apiKey) {

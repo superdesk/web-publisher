@@ -122,6 +122,27 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface, Orde
                 'route' => 'articles/features',
                 'locale' => 'en',
             ],
+            [
+                'title' => 'Article 1',
+                'content' => 'article 1 content',
+                'route' => 'news',
+                'locale' => 'en',
+                'status' => ArticleInterface::STATUS_NEW,
+            ],
+            [
+                'title' => 'Article 2',
+                'content' => 'article 2 content',
+                'route' => 'news',
+                'locale' => 'en',
+                'status' => ArticleInterface::STATUS_UNPUBLISHED,
+            ],
+            [
+                'title' => 'Article 3',
+                'content' => 'article 3 content',
+                'route' => 'articles',
+                'locale' => 'en',
+                'status' => ArticleInterface::STATUS_CANCELED,
+            ],
         ];
 
         $routeProvider = $this->container->get('swp.provider.route');
@@ -132,10 +153,16 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface, Orde
             $article->setBody($articleData['content']);
             $article->setRoute($routeProvider->getRouteByName($articleData['route']));
             $article->setLocale($articleData['locale']);
-            $article->setPublishable(true);
-            $article->setPublishedAt(new \DateTime());
-            $article->setStatus(ArticleInterface::STATUS_PUBLISHED);
+            if (!isset($articleData['status'])) {
+                $article->setPublishable(true);
+                $article->setPublishedAt(new \DateTime());
+                $article->setStatus(ArticleInterface::STATUS_PUBLISHED);
+            } else {
+                $article->setStatus($articleData['status']);
+            }
+
             $article->setMetadata($this->articleMetadata());
+            $article->setCode(md5($articleData['title']));
             $manager->persist($article);
 
             $this->addReference($article->getSlug(), $article);

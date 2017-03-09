@@ -42,13 +42,15 @@ class CreateOrganizationCommandTest extends \PHPUnit_Framework_TestCase
     public function testExecuteWhenCreatingNewOrganization()
     {
         $this->question->setInputStream($this->getInputStream("Test\n"));
-        $this->command->setContainer($this->getMockContainer(null, new Organization(), 'Test'));
+        $organization = new Organization();
+        $organization->setCode('123456');
+        $this->command->setContainer($this->getMockContainer(null, $organization, 'Test'));
         $this->commandTester = new CommandTester($this->command);
         $this->commandTester->execute(['command' => $this->command->getName()]);
 
-        $this->assertRegExp(
-            '/Please enter name:Organization Test has been created and enabled!/',
-            $this->commandTester->getDisplay()
+        $this->assertEquals(
+            'Please enter name:Organization Test (code: 123456) has been created and enabled!',
+            trim($this->commandTester->getDisplay())
         );
     }
 
@@ -57,7 +59,9 @@ class CreateOrganizationCommandTest extends \PHPUnit_Framework_TestCase
      */
     public function testExecuteWhenCreatingDefaultOrganization()
     {
-        $this->command->setContainer($this->getMockContainer(null, new Organization()));
+        $organization = new Organization();
+        $organization->setCode('123456');
+        $this->command->setContainer($this->getMockContainer(null, $organization));
         $this->commandTester = new CommandTester($this->command);
 
         $this->commandTester->execute([
@@ -65,9 +69,9 @@ class CreateOrganizationCommandTest extends \PHPUnit_Framework_TestCase
             '--default' => true,
         ]);
 
-        $this->assertRegExp(
-            '/Organization default has been created and enabled!/',
-            $this->commandTester->getDisplay()
+        $this->assertEquals(
+            'Organization default (code: 123456) has been created and enabled!',
+            trim($this->commandTester->getDisplay())
         );
     }
 
@@ -77,7 +81,9 @@ class CreateOrganizationCommandTest extends \PHPUnit_Framework_TestCase
      */
     public function testExecuteWhenDefaultTenantExists()
     {
-        $this->command->setContainer($this->getMockContainer(new Organization()));
+        $organization = new Organization();
+        $organization->setCode('123456');
+        $this->command->setContainer($this->getMockContainer($organization));
         $this->commandTester = new CommandTester($this->command);
 
         $this->commandTester->execute([
@@ -92,16 +98,18 @@ class CreateOrganizationCommandTest extends \PHPUnit_Framework_TestCase
     public function testExecuteDisabledOrganization()
     {
         $this->question->setInputStream($this->getInputStream("Example\n"));
-        $this->command->setContainer($this->getMockContainer(null, new Organization(), 'Example'));
+        $organization = new Organization();
+        $organization->setCode('123456');
+        $this->command->setContainer($this->getMockContainer(null, $organization, 'Example'));
         $this->commandTester = new CommandTester($this->command);
         $this->commandTester->execute([
             'command' => $this->command->getName(),
             '--disabled' => true,
         ]);
 
-        $this->assertRegExp(
-            '/Please enter name:Organization Example has been created and disabled!/',
-            $this->commandTester->getDisplay()
+        $this->assertEquals(
+            'Please enter name:Organization Example (code: 123456) has been created and disabled!',
+            trim($this->commandTester->getDisplay())
         );
     }
 

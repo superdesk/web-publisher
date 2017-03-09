@@ -1,5 +1,6 @@
 <?php
 
+declare(strict_types=1);
 
 /*
  * This file is part of the Superdesk Web Publisher Template Engine Bundle.
@@ -15,57 +16,51 @@
 
 namespace SWP\Bundle\TemplatesSystemBundle\Repository;
 
+use Doctrine\ORM\Query;
+use Doctrine\ORM\QueryBuilder;
 use SWP\Bundle\StorageBundle\Doctrine\ORM\EntityRepository;
 
 /**
  * Container Repository.
  */
-class ContainerRepository extends EntityRepository
+class ContainerRepository extends EntityRepository implements ContainerRepositoryInterface
 {
     /**
-     * Get Query for Container searched by name.
-     *
-     * @param string $name
-     *
-     * @return \Doctrine\ORM\Query
+     * {@inheritdoc}
      */
-    public function getByName($name)
+    public function getByName(string $name): QueryBuilder
     {
         $qb = $this->createQueryBuilder('c')
             ->where('c.name = :name')
+            ->leftJoin('c.data', 'd')
+            ->select('c', 'd')
             ->setParameters([
                 'name' => $name,
             ]);
 
-        return $qb->getQuery();
+        return $qb;
     }
 
     /**
-     * Get Query for Container searched by id.
-     *
-     * @param string $id
-     *
-     * @return \Doctrine\ORM\Query
+     * {@inheritdoc}
      */
-    public function getById($id)
+    public function getById($id): QueryBuilder
     {
         $qb = $this->createQueryBuilder('c')
             ->where('c.id = :id')
+            ->leftJoin('c.data', 'd')
+            ->select('c', 'd')
             ->setParameters([
                 'id' => $id,
             ]);
 
-        return $qb->getQuery();
+        return $qb;
     }
 
     /**
-     * Get Query for Container searched by id but only with id, createdAt and updatedAt fields.
-     *
-     * @param string $id
-     *
-     * @return \Doctrine\ORM\Query
+     * {@inheritdoc}
      */
-    public function getHttpCacheCheckQuery($id)
+    public function getHttpCacheCheckQuery($id): Query
     {
         $query = $this->getEntityManager()->createQuery("select partial c.{id,createdAt,updatedAt} from SWP\TemplatesSystemBundle\Model\Container c WHERE c.id = :id");
         $query->setParameters([
@@ -76,11 +71,9 @@ class ContainerRepository extends EntityRepository
     }
 
     /**
-     * Get Query for all Containers.
-     *
-     * @return \Doctrine\ORM\Query
+     * {@inheritdoc}
      */
-    public function getAll()
+    public function getAll(): Query
     {
         $qb = $this->createQueryBuilder('c');
 

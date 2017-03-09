@@ -1,8 +1,51 @@
+SWP\Bundle\CoreBundle\Model\Route:
+    newsRoute:
+        name: "news"
+        variablePattern: "/{slug}"
+        type: "collection"
+    sportRoute:
+        name: "sport"
+        variablePattern: "/{slug}"
+        type: "collection"
+    politicsRoute:
+        name: "politics"
+        variablePattern: "/{slug}"
+        type: "collection"
+
 SWP\Bundle\CoreBundle\Model\Article:
-    listContent{1..4}:
+    listContent{1..2}:
         title: "article<current()>"
         body: "art<current()>"
         slug: "article-<current()>"
         locale: "en"
         status: "published"
+        code: "<uuid()>"
+        route: '@newsRoute'
         publishable: true
+        metadata:
+            byline: "John Smith"
+            located: "Berlin"
+    listContent{3..4}:
+        title: "article<current()>"
+        body: "art<current()>"
+        slug: "article-<current()>"
+        locale: "en"
+        status: "published"
+        code: "<uuid()>"
+        route: '@sportRoute'
+        publishable: true
+        metadata:
+            byline: "Adam Hide"
+            located: "Sydney"
+    listContent{5}:
+        title: "article<current()>"
+        body: "art<current()>"
+        slug: "article-<current()>"
+        locale: "en"
+        status: "published"
+        code: "<uuid()>"
+        route: '@politicsRoute'
+        publishable: true
+        metadata:
+            byline: "Fake Doe"
+            located: "Warsaw"

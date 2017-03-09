@@ -17,6 +17,7 @@ declare(strict_types=1);
 namespace SWP\Bundle\ContentBundle\Doctrine\ORM;
 
 use Doctrine\ORM\QueryBuilder;
+use Doctrine\ORM\Tools\Pagination\Paginator;
 use SWP\Component\Common\Criteria\Criteria;
 use SWP\Bundle\ContentBundle\Doctrine\ArticleRepositoryInterface;
 use SWP\Bundle\ContentBundle\Model\ArticleInterface;
@@ -49,7 +50,9 @@ class ArticleRepository extends EntityRepository implements ArticleRepositoryInt
     {
         $qb = $this->getQueryByCriteria($criteria, $sorting, 'a');
         $qb->andWhere('a.status = :status')
-            ->setParameter('status', $criteria->get('status', ArticleInterface::STATUS_PUBLISHED));
+            ->setParameter('status', $criteria->get('status', ArticleInterface::STATUS_PUBLISHED))
+            ->leftJoin('a.media', 'm')
+            ->addSelect('m');
 
         return $qb;
     }
@@ -76,15 +79,22 @@ class ArticleRepository extends EntityRepository implements ArticleRepositoryInt
     {
         $queryBuilder = $this->createQueryBuilder('a')
             ->where('a.status = :status')
-            ->setParameter('status', $criteria->get('status', ArticleInterface::STATUS_PUBLISHED));
+            ->setParameter('status', $criteria->get('status', ArticleInterface::STATUS_PUBLISHED))
+            ->leftJoin('a.media', 'm')
+            ->addSelect('m');
 
-        if ($criteria->has('author')) {
-            foreach ($criteria->get('author') as $author) {
-                $queryBuilder->andWhere($queryBuilder->expr()->like('a.metadata', ':metadata'))
-                    ->setParameter('metadata', '%'.$author.'%');
+        foreach (['metadata', 'author'] as $name) {
+            if (!$criteria->has($name)) {
+                continue;
             }
 
-            $criteria->remove('author');
+            $orX = $queryBuilder->expr()->orX();
+            foreach ($criteria->get($name) as $value) {
+                $orX->add($queryBuilder->expr()->like('a.metadata', $queryBuilder->expr()->literal('%'.$value.'%')));
+            }
+
+            $queryBuilder->andWhere($orX);
+            $criteria->remove($name);
         }
 
         if ($criteria->has('publishedBefore')) {
@@ -99,27 +109,17 @@ class ArticleRepository extends EntityRepository implements ArticleRepositoryInt
             $criteria->remove('publishedAfter');
         }
 
-        if ($criteria->has('metadata')) {
-            foreach ($criteria->get('metadata') as $key => $value) {
-                $queryBuilder->andWhere($queryBuilder->expr()->like('a.metadata', ':'.$key))
-                    ->setParameter($key, '%'.$value.'%');
-            }
-
-            $criteria->remove('metadata');
-        }
-
         $this->applyCriteria($queryBuilder, $criteria, 'a');
         $this->applySorting($queryBuilder, $sorting, 'a');
         $this->applyLimiting($queryBuilder, $criteria);
 
-        return $queryBuilder->getQuery()->getResult();
+        $paginator = new Paginator($queryBuilder->getQuery(), true);
+
+        return $paginator->getIterator()->getArrayCopy();
     }
 
     /**
-     * @param string $identifier
-     * @param array  $order
-     *
-     * @throws \Exception
+     * {@inheritdoc}
      */
     public function getQueryForRouteArticles(string $identifier, array $order = [])
     {

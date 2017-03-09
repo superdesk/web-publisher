@@ -24,6 +24,9 @@ framework:
     router:
         resource: "%kernel.root_dir%/ContentBundle/routing.yml"
         strict_requirements: ~
+    profiler:
+        enabled: true
+        collect: false
     test: ~
     validation:      { enable_annotations: false }
     form: ~
@@ -110,6 +113,10 @@ swp_content:
         orm: true
 
 swp_bridge:
+    persistence:
+        orm: true
+
+swp_templates_system:
     persistence:
         orm: true
 

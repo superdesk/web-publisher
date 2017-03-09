@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Superdesk Web Publisher Content Bundle.
  *
@@ -84,9 +86,9 @@ class Article implements ArticleInterface, MediaAwareArticleInterface
     protected $isPublishable;
 
     /**
-     * @var string
+     * @var array
      */
-    protected $metadata;
+    protected $metadata = [];
 
     /**
      * @var Collection
@@ -107,6 +109,11 @@ class Article implements ArticleInterface, MediaAwareArticleInterface
      * @var array
      */
     protected $keywords = [];
+
+    /**
+     * @var string
+     */
+    protected $code;
 
     /**
      * Article constructor.
@@ -317,13 +324,13 @@ class Article implements ArticleInterface, MediaAwareArticleInterface
      */
     public function getMetadata()
     {
-        return json_decode($this->metadata, true);
+        return $this->metadata;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function getMetadataByKey($key)
+    public function getMetadataByKey(string $key)
     {
         $metadata = $this->getMetadata();
 
@@ -337,7 +344,7 @@ class Article implements ArticleInterface, MediaAwareArticleInterface
      */
     public function setMetadata(array $metadata)
     {
-        $this->metadata = json_encode($metadata, true);
+        $this->metadata = $metadata;
     }
 
     /**
@@ -391,20 +398,24 @@ class Article implements ArticleInterface, MediaAwareArticleInterface
     /**
      * {@inheritdoc}
      */
-    public function setFeatureMedia(ArticleMediaInterface $featureMedia)
+    public function setFeatureMedia(ArticleMediaInterface $featureMedia = null)
     {
         $this->featureMedia = $featureMedia;
     }
 
     /**
-     * Don't serialize values.
-     *
-     * @return array
+     * {@inheritdoc}
      */
-    public function __sleep()
+    public function getCode(): string
     {
-        $this->media = 'Cannot be serializable';
+        return $this->code;
+    }
 
-        return array_keys(get_object_vars($this));
+    /**
+     * {@inheritdoc}
+     */
+    public function setCode(string $code)
+    {
+        $this->code = $code;
     }
 }

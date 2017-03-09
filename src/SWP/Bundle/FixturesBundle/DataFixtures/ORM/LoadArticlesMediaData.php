@@ -84,6 +84,7 @@ class LoadArticlesMediaData extends AbstractFixture implements FixtureInterface,
                 $article->setPublishedAt(new \DateTime());
                 $article->setPublishable(true);
                 $article->setStatus(ArticleInterface::STATUS_PUBLISHED);
+                $article->setCode(md5($articleData['title']));
                 $manager->persist($article);
 
                 // create Media

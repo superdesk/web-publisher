@@ -14,3 +14,10 @@ services:
             - '@service_container'
         tags:
             - { name: doctrine.event_subscriber }
+
+    swp_multi_tenancy.organization_subscriber:
+        class: SWP\Bundle\MultiTenancyBundle\EventListener\OrganizationSubscriber
+        arguments:
+            - '@service_container'
+        tags:
+            - { name: doctrine.event_subscriber }

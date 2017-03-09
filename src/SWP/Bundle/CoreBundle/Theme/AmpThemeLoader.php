@@ -17,6 +17,7 @@ declare(strict_types=1);
 namespace SWP\Bundle\CoreBundle\Theme;
 
 use Sylius\Bundle\ThemeBundle\Context\ThemeContextInterface;
+use Sylius\Bundle\ThemeBundle\HierarchyProvider\ThemeHierarchyProviderInterface;
 use Takeit\Bundle\AmpHtmlBundle\Loader\ThemeLoaderInterface;
 
 final class AmpThemeLoader implements ThemeLoaderInterface
@@ -37,6 +38,11 @@ final class AmpThemeLoader implements ThemeLoaderInterface
     private $themePath;
 
     /**
+     * @var ThemeHierarchyProviderInterface
+     */
+    private $themeHierarchyProvider;
+
+    /**
      * @param \Twig_Loader_Filesystem $filesystem
      * @param ThemeContextInterface   $themeContext
      * @param string                  $themePath
@@ -44,11 +50,13 @@ final class AmpThemeLoader implements ThemeLoaderInterface
     public function __construct(
         \Twig_Loader_Filesystem $filesystem,
         ThemeContextInterface $themeContext,
+        ThemeHierarchyProviderInterface $themeHierarchyProvider,
         string $themePath
     ) {
         $this->filesystem = $filesystem;
         $this->themeContext = $themeContext;
         $this->themePath = $themePath;
+        $this->themeHierarchyProvider = $themeHierarchyProvider;
     }
 
     /**
@@ -56,9 +64,17 @@ final class AmpThemeLoader implements ThemeLoaderInterface
      */
     public function load()
     {
-        $this->filesystem->addPath(
-            sprintf('%s/%s', $this->themeContext->getTheme()->getPath(), trim($this->themePath, '/')),
-            ThemeLoaderInterface::THEME_NAMESPACE
+        $themes = $this->themeHierarchyProvider->getThemeHierarchy(
+            $this->themeContext->getTheme()
         );
+        foreach ($themes as $theme) {
+            $directoryPath = sprintf('%s/%s', $theme->getPath(), trim($this->themePath, '/'));
+            if (file_exists($directoryPath)) {
+                $this->filesystem->addPath(
+                    $directoryPath,
+                    ThemeLoaderInterface::THEME_NAMESPACE
+                );
+            }
+        }
     }
 }

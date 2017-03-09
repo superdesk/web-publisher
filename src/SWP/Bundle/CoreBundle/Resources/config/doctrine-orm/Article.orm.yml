@@ -1,9 +1,16 @@
 SWP\Bundle\CoreBundle\Model\Article:
-    type: entity
+    type: mappedSuperclass
     table: swp_article
     fields:
         tenantCode:
             type: string
+            nullable: true
+    manyToOne:
+        organization:
+            targetEntity: SWP\Component\MultiTenancy\Model\OrganizationInterface
+            joinColumn:
+                name: organization_id
+                referencedColumnName: id
     uniqueConstraints:
         swp_article_slug_idx:
-          columns: [ slug, tenant_code ]
+          columns: [ slug, tenant_code, organization_id ]
