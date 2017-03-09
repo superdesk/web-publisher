@@ -2,6 +2,7 @@ language: php
 
 php:
   - 7.0
+  - hhvm
   - nightly
 
 sudo: false
@@ -16,6 +17,7 @@ env:
 
 matrix:
   allow_failures:
+    - php: hhvm
     - php: nightly
   fast_finish: true
 
@@ -25,5 +27,4 @@ before_install:
 install: composer update $COMPOSER_FLAGS --prefer-dist --no-interaction
 
 script:
-    - bin/phpspec run -fpretty --verbose
-    - bin/phpunit --coverage-text
+  - bin/phpspec run -fpretty --verbose
