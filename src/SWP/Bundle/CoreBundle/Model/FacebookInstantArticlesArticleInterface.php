@@ -16,7 +16,6 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\CoreBundle\Model;
 
-use SWP\Bundle\ContentBundle\Model\ArticleInterface;
 use SWP\Component\Common\Model\TimestampableInterface;
 
 interface FacebookInstantArticlesArticleInterface extends TimestampableInterface

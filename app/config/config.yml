@@ -27,7 +27,7 @@ framework:
     translator:
         fallbacks: ["%locale%"]
         logging: false
-    secret:          "%env(SYMFONY_SECRET)%"
+    secret: "%env(SYMFONY_SECRET)%"
     router:
         resource: "%kernel.root_dir%/config/routing.yml"
         strict_requirements: ~
@@ -150,6 +150,7 @@ fos_http_cache:
                 routes:
                     swp_api_content_list_articles: ~
                     swp_api_content_show_articles: ~
+                    swp_api_core_list_organization_articles: ~
             -
                 match:
                     attributes:

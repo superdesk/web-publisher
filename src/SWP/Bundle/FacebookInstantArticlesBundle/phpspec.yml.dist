@@ -1,0 +1,5 @@
+suites:
+    main:
+        namespace: SWP\Bundle\FacebookInstantArticlesBundle
+        psr4_prefix: SWP\Bundle\FacebookInstantArticlesBundle
+        src_path: .
