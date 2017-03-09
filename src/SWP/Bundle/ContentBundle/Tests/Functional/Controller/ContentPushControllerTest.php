@@ -942,10 +942,13 @@ class ContentPushControllerTest extends WebTestCase
         self::assertEquals(200, $client->getResponse()->getStatusCode());
         $content = json_decode($client->getResponse()->getContent(), true);
 
+        self::assertEquals(1, $content['id']);
         self::assertEquals('new', $content['status']);
         self::assertFalse($content['isPublishable']);
         self::assertEquals('test headline', $content['title']);
         self::assertEquals('urn:newsml:localhost:2017-03-08T12:18:57.190465:2ff36225-af01-4f39-9392-39e901838d99', $content['code']);
+
+        $this->assetsThereIsOnlyOneArticle();
 
         // update origin item
         $client->request(
@@ -967,6 +970,7 @@ class ContentPushControllerTest extends WebTestCase
         self::assertEquals(200, $client->getResponse()->getStatusCode());
         $content = json_decode($client->getResponse()->getContent(), true);
 
+        self::assertEquals(1, $content['id']);
         self::assertEquals('new', $content['status']);
         self::assertFalse($content['isPublishable']);
         self::assertEquals('test headline', $content['title']);
@@ -991,9 +995,24 @@ class ContentPushControllerTest extends WebTestCase
 
         self::assertEquals(200, $client->getResponse()->getStatusCode());
         $content = json_decode($client->getResponse()->getContent(), true);
+        self::assertEquals(1, $content['id']);
         self::assertEquals('new', $content['status']);
         self::assertFalse($content['isPublishable']);
         self::assertEquals('test headline updated 2', $content['title']);
         self::assertEquals('urn:newsml:localhost:2017-03-08T12:29:27.222376:5aef400e-ee5c-4110-b929-04bd26e4a757', $content['code']);
+        $this->assetsThereIsOnlyOneArticle();
+    }
+
+    private function assetsThereIsOnlyOneArticle()
+    {
+        $client = static::createClient();
+        $client->request(
+            'GET',
+            $this->router->generate('swp_api_content_list_articles')
+        );
+
+        self::assertEquals(200, $client->getResponse()->getStatusCode());
+        $content = json_decode($client->getResponse()->getContent(), true);
+        self::assertEquals(1, $content['total']);
     }
 }

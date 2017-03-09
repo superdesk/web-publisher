@@ -51,8 +51,7 @@ class ContentPushController extends Controller
     public function pushContentAction(Request $request)
     {
         $package = $this->handlePackage($request);
-        $articleRepository = $this->get('swp.repository.article');
-        $existingArticle = $articleRepository->findOneBy(['code' => $package->getEvolvedFrom() ?: $package->getGuid()]);
+        $existingArticle = $this->getExistingArticleOrNull($package);
 
         if (null !== $existingArticle) {
             if (ContentInterface::STATUS_CANCELED === $package->getPubStatus()) {
@@ -72,7 +71,7 @@ class ContentPushController extends Controller
 
         $article = $this->get('swp_content.transformer.package_to_article')->transform($package);
         $this->get('event_dispatcher')->dispatch(ArticleEvents::PRE_CREATE, new ArticleEvent($article, $package));
-        $articleRepository->add($article);
+        $this->getArticleRepository()->add($article);
         $this->get('event_dispatcher')->dispatch(ArticleEvents::POST_CREATE, new ArticleEvent($article));
 
         return new SingleResourceResponse(['status' => 'OK'], new ResponseContext(201));
@@ -179,5 +178,21 @@ class ContentPushController extends Controller
         $packageRepository->add($package);
 
         return $package;
+    }
+
+    private function getExistingArticleOrNull(PackageInterface $package)
+    {
+        $existingArticle = $this->getArticleRepository()->findOneByCode($package->getGuid());
+
+        if (null === $existingArticle) {
+            $existingArticle = $this->getArticleRepository()->findOneByCode($package->getEvolvedFrom());
+        }
+
+        return $existingArticle;
+    }
+
+    private function getArticleRepository()
+    {
+        return $this->get('swp.repository.article');
     }
 }
