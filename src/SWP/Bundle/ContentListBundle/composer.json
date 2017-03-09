@@ -29,7 +29,8 @@
         "symfony/form": "3.1.*",
         "symfony/validator": "3.1.*",
         "swp/storage-bundle": "^0.5",
-        "swp/content-list": "^0.5"
+        "swp/content-list": "^0.5",
+        "swp/common": "^0.5"
     },
     "require-dev": {
         "phpspec/phpspec": ">=3.2.3 <4.0",

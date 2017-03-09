@@ -22,7 +22,7 @@
         }
     ],
     "require": {
-        "swp/multi-tenancy": "^0.5",
+        "swp/multi-tenancy": ">=0.5.1 ^0.5",
         "doctrine/doctrine-bundle": "~1.3",
         "twig/twig": "^1.24.0",
         "swp/storage-bundle": "^0.5",
