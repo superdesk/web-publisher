@@ -28,6 +28,8 @@ interface ArticleServiceInterface
     public function publish(ArticleInterface $article);
 
     /**
+     * Make article unpublishable.
+     *
      * @param ArticleInterface $article
      * @param string           $newArticleStatus
      */
