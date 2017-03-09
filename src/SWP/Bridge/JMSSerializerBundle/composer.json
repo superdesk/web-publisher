@@ -11,11 +11,12 @@
     ],
     "license":"AGPL-3.0",
     "require": {
-        "php": "^5.6|^7.0",
-        "jms/serializer-bundle": "1.2.*"
+        "php": "^7.0",
+        "jms/serializer-bundle": "1.2.*",
+        "swp/common": "^0.5"
     },
     "require-dev": {
-        "phpspec/phpspec": "^2.4"
+        "phpunit/phpunit": "^5.6"
     },
     "config": {
         "bin-dir": "bin"
@@ -26,13 +27,10 @@
         ],
         "psr-4": { "SWP\\Bridge\\JMSSerializerBundle\\": "" }
     },
-    "autoload-dev": {
-        "psr-4": { "SWP\\Bundle\\JMSSerializerBundle\\spec\\": "spec/" }
-    },
     "minimum-stability": "dev",
     "extra": {
         "branch-alias": {
-            "dev-master": "0.1-dev"
+            "dev-master": "0.5-dev"
         }
     }
 }
