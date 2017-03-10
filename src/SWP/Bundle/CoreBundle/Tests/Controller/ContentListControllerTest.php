@@ -407,6 +407,33 @@ class ContentListControllerTest extends WebTestCase
         self::assertEquals(1, $content['total']);
     }
 
+    public function testLinkingAndUnlinkingWidgetToContainerApi()
+    {
+        $this->loadFixtureFiles([
+            '@SWPFixturesBundle/Resources/fixtures/ORM/test/content_list.yml',
+            '@SWPFixturesBundle/Resources/fixtures/ORM/test/list_content.yml',
+        ], true);
+
+        $client = static::createClient();
+        $client->request('LINK', $this->router->generate('swp_api_content_link_unlink', ['id' => '1']), [], [], [
+            'HTTP_LINK' => '</api/v1/content/articles/1; rel="article">',
+        ]);
+        $this->assertEquals(201, $client->getResponse()->getStatusCode());
+        $client->request('GET', json_decode($client->getResponse()->getContent(), true)['_links']['items']['href']);
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+
+        self::assertCount(1, json_decode($client->getResponse()->getContent(), true)['_embedded']['_items']);
+
+        $client->request('UNLINK', $this->router->generate('swp_api_content_link_unlink', ['id' => '1']), [], [], [
+            'HTTP_LINK' => '</api/v1/content/articles/1; rel="article">',
+        ]);
+        $this->assertEquals(201, $client->getResponse()->getStatusCode());
+        $client->request('GET', json_decode($client->getResponse()->getContent(), true)['_links']['items']['href']);
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+
+        self::assertCount(0, json_decode($client->getResponse()->getContent(), true)['_embedded']['_items']);
+    }
+
     private function createNewContentList(array $params)
     {
         $this->client->request('POST', $this->router->generate('swp_api_content_create_lists'), [

@@ -16,6 +16,7 @@ namespace SWP\Bundle\ContentBundle\EventListener;
 
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\Controller\ArgumentResolver;
 use Symfony\Component\HttpKernel\Controller\ControllerResolverInterface;
 use Symfony\Component\HttpKernel\Event\FilterControllerEvent;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
@@ -118,11 +119,12 @@ class LinkRequestListener
             $dispatcher->dispatch(KernelEvents::CONTROLLER, $subEvent);
             $controller = $subEvent->getController();
 
-            $arguments = $this->resolver->getArguments($stubRequest, $controller);
-            if (!isset($arguments[0])) {
+            $argumentResolver = new ArgumentResolver();
+            $arguments = $argumentResolver->getArguments($stubRequest, $controller);
+
+            if (!isset($arguments[0]) || !is_object($arguments[0])) {
                 continue;
             }
-
             $arguments[0]->attributes->set('_link_request', true);
             try {
                 $result = call_user_func_array($controller, $arguments);

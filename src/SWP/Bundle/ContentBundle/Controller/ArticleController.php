@@ -80,12 +80,17 @@ class ArticleController extends Controller
      *
      * @Cache(expires="10 minutes", public=true)
      */
-    public function getAction($id)
+    public function getAction(Request $request, $id)
     {
         $article = $this->get('swp.provider.article')->getOneById($id);
 
         if (null === $article) {
             throw new NotFoundHttpException('Article was not found.');
+        }
+
+        // return clean object for LINK requests
+        if ($request->attributes->get('_link_request', false) === true) {
+            return $article;
         }
 
         return new SingleResourceResponse($article);
