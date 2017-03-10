@@ -2,25 +2,48 @@ parameters:
     swp_content.transformer.package_to_article.class: SWP\Bundle\ContentBundle\Transformer\PackageToArticleTransformer
     swp.service.route.class: SWP\Bundle\ContentBundle\Service\RouteService
     swp.service.article.class: SWP\Bundle\ContentBundle\Service\ArticleService
+    swp_content_bundle.listener.http_cache_header.class: SWP\Bundle\ContentBundle\EventListener\HttpCacheHeaderListener
+    swp_content_bundle.manager.media.class: SWP\Bundle\ContentBundle\Manager\MediaManager
+    swp_content_bundle.router.media.class: SWP\Bundle\ContentBundle\Routing\MediaRouter
 
 services:
     swp_template_engine.loader.article:
         class: SWP\Bundle\ContentBundle\Loader\ArticleLoader
         arguments:
-            - "@swp.publish_workflow.checker"
-            - "@doctrine_phpcr.odm.document_manager"
-            - "%kernel.root_dir%"
-            - "@doctrine_cache.providers.main_cache"
-            - "@swp_multi_tenancy.path_builder"
-            - "%swp_multi_tenancy.persistence.phpcr.route_basepaths%"
+            - "@swp.provider.article"
+            - "@swp.provider.route"
+            - "@swp.object_manager.article"
+            - "@swp_template_engine_context.factory.meta_factory"
+            - "@swp_template_engine_context"
         tags:
             - { name: swp.meta_loader }
 
-    document_manager:
-        alias: doctrine_phpcr.odm.document_manager
+    swp_template_engine.loader.media:
+        class: SWP\Bundle\ContentBundle\Loader\ArticleMediaLoader
+        arguments:
+            - "@swp.provider.media"
+            - "@swp_template_engine_context.factory.meta_factory"
+            - "@swp_template_engine_context"
+        tags:
+            - { name: swp.meta_loader }
+
+    swp_template_engine.loader.rendition:
+        class: SWP\Bundle\ContentBundle\Loader\RenditionLoader
+        arguments:
+            - "@swp_template_engine_context"
+            - "@swp_template_engine_context.factory.meta_factory"
+        tags:
+            - { name: swp.meta_loader }
+
+    swp_template_engine.loader.route:
+        class: SWP\Bundle\ContentBundle\Loader\RouteLoader
+        arguments:
+             - "@swp_template_engine_context.factory.meta_factory"
+        tags:
+            - { name: swp.meta_loader }
 
     swp_content_bundle.factory.knp_paginator_representation:
-        class: SWP\Bundle\ContentBundle\Factory\KnpPaginatorRepresentationFactory
+        class: SWP\Component\Common\Factory\KnpPaginatorRepresentationFactory
         arguments:
             - 'page'
             - 'limit'
@@ -31,6 +54,28 @@ services:
         tags:
             - { name: kernel.event_listener, event: kernel.request, method: onKernelRequest }
 
+    swp_content_bundle.listener.http_cache_header:
+        class: '%swp_content_bundle.listener.http_cache_header.class%'
+        tags:
+            - { name: kernel.event_listener, event: kernel.response, method: onKernelResponse }
+
+    swp_content_bundle.listener.mime_type:
+        class: SWP\Bundle\ContentBundle\EventListener\MimeTypeListener
+        tags:
+            - { name: kernel.event_listener, event: kernel.response, method: onKernelResponse }
+
+    swp_content_bundle.listener.article_media:
+        class: SWP\Bundle\ContentBundle\EventListener\ProcessArticleMediaListener
+        arguments:
+            - '@swp.repository.media'
+            - '@swp_content_bundle.manager.media'
+            - '@swp.factory.media'
+        tags:
+            - { name: kernel.event_listener, event: swp.article.pre_create, method: onArticleCreate }
+
+    swp_content_bundle.key_generator.meta_key_generator:
+        class: SWP\Bundle\ContentBundle\KeyGenerator\MetaKeyGenerator
+
     swp_pagination_rep:
         alias: swp_content_bundle.factory.knp_paginator_representation
 
@@ -38,20 +83,63 @@ services:
         class: '%swp_content.transformer.package_to_article.class%'
         arguments:
             - '@swp.factory.article'
-            - '@event_dispatcher'
         tags:
             - { name: transformer.http_push_transformer, alias: transformer.package_to_article, priority: -1 }
 
     swp.service.route:
         class: '%swp.service.route.class%'
         arguments:
-            - '@swp.factory.route'
-            - '@swp.provider.route'
-            - '@swp.provider.article'
             - '@event_dispatcher'
 
     swp.service.article:
         class: '%swp.service.article.class%'
+        arguments:
+            - '@event_dispatcher'
 
     swp.publish_workflow.checker:
         alias: cmf_core.publish_workflow.checker
+
+    swp_content_bundle.manager.media:
+        class: '%swp_content_bundle.manager.media.class%'
+        arguments:
+            - '@swp.repository.media'
+            - '@swp.factory.media'
+            - '@swp_filesystem'
+            - '@router'
+
+    router.symfony:
+        parent: "router.default"
+
+    swp_content_bundle.router.media:
+        class: "%swp_content_bundle.router.media.class%"
+        parent: "router.symfony"
+        tags:
+            - { name: router, priority: 300 }
+
+    swp_content_bundle.form.type.route_selector:
+        class: SWP\Bundle\ContentBundle\Form\Type\RouteSelectorType
+        arguments:
+            - '@swp.provider.route'
+        tags:
+            - { name: form.type }
+
+    swp_content_bundle.form.type.article_selector:
+        class: SWP\Bundle\ContentBundle\Form\Type\ArticleSelectorType
+        arguments:
+            - '@swp.provider.article'
+        tags:
+            - { name: form.type }
+
+    swp_content_bundle.applicator.rule.article:
+        class: SWP\Bundle\ContentBundle\Rule\Applicator\ArticleRuleApplicator
+        arguments:
+            - '@swp.provider.route'
+            - '@logger'
+            - '@swp.service.article'
+        tags:
+            - { name: applicator.rule_applicator }
+
+    swp.hydrator.article:
+        class: SWP\Bundle\ContentBundle\Hydrator\ArticleHydrator
+        arguments:
+             - '@swp.provider.route'

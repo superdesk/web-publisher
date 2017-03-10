@@ -1,0 +1,85 @@
+SWP\Bundle\ContentBundle\Model\Article:
+    type: mappedSuperclass
+    table: swp_article
+    repositoryClass: SWP\Bundle\ContentBundle\Doctrine\ORM\ArticleRepository
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: IDENTITY
+    gedmo:
+        soft_deleteable:
+            field_name: deletedAt
+            time_aware: false
+        loggable: true
+    fields:
+        slug:
+            type: string
+        body:
+            type: text
+        title:
+            type: string
+        keywords:
+            type: array
+        lead:
+            type: text
+            nullable: true
+        templateName:
+            type: string
+            nullable: true
+        locale:
+            type: string
+        status:
+            type: string
+        createdAt:
+            type: datetime
+            gedmo:
+                timestampable:
+                    on: create
+        updatedAt:
+            type: datetime
+            nullable: true
+            gedmo:
+                timestampable:
+                    on: update
+        deletedAt:
+            type: datetime
+            nullable: true
+        publishStartDate:
+            type: date
+            nullable: true
+        publishEndDate:
+            type: date
+            nullable: true
+        publishedAt:
+            type: datetime
+            nullable: true
+        isPublishable:
+            type: boolean
+        metadata:
+            type: json_array
+            nullable: true
+        code:
+            type: string
+    manyToOne:
+        route:
+            targetEntity: SWP\Bundle\ContentBundle\Model\RouteInterface
+            inversedBy: articles
+            fetch: "EAGER"
+            joinColumn:
+                name: route_id
+                referencedColumnName: id
+                onDelete: "SET NULL"
+        featureMedia:
+            targetEntity: SWP\Bundle\ContentBundle\Model\ArticleMediaInterface
+            fetch: "EAGER"
+            joinColumn:
+                name: feature_media
+                referencedColumnName: id
+                onDelete: "SET NULL"
+    oneToMany:
+        media:
+            targetEntity: SWP\Bundle\ContentBundle\Model\ArticleMediaInterface
+            mappedBy: article
+            cascade: ["remove"]

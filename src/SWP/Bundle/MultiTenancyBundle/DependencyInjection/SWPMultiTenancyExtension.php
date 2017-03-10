@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  * This file is part of the Superdesk Web Publisher MultiTenancy Bundle.
  *
  * Copyright 2015 Sourcefabric z.u. and contributors.
@@ -8,15 +8,18 @@
  * For the full copyright and license information, please see the
  * AUTHORS and LICENSE files distributed with this source code.
  *
- * @copyright 2015 Sourcefabric z.ú.
+ * @copyright 2015 Sourcefabric z.ú
  * @license http://www.superdesk.org/license
  */
+
 namespace SWP\Bundle\MultiTenancyBundle\DependencyInjection;
 
+use SWP\Bundle\StorageBundle\DependencyInjection\Extension\Extension;
+use SWP\Bundle\StorageBundle\Drivers;
+use Symfony\Component\Config\Definition\Exception\InvalidConfigurationException;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
-use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 
 /**
  * This is the class that loads and manages your bundle configuration.
@@ -36,20 +39,36 @@ class SWPMultiTenancyExtension extends Extension
         $loader = new YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.yml');
 
+        $backendEnabled = false;
+
         if ($config['persistence']['phpcr']['enabled']) {
             $this->loadPhpcr($config['persistence']['phpcr'], $loader, $container);
-            $container->setParameter($this->getAlias().'.backend_type_phpcr', true);
+            $this->registerStorage(
+                Drivers::DRIVER_DOCTRINE_PHPCR_ODM,
+                $config['persistence']['phpcr']['classes'],
+                $container
+            );
+
+            $backendEnabled = true;
         }
 
-        $container->setParameter(
-            $this->getAlias().'.tenant.class',
-            $config['resources']['tenant']['classes']['model']
-        );
+        if ($config['persistence']['orm']['enabled']) {
+            $this->registerStorage(
+                Drivers::DRIVER_DOCTRINE_ORM,
+                $config['persistence']['orm']['classes'],
+                $container
+            );
 
-        $container->setParameter(
-            $this->getAlias().'.factory.tenant.class',
-            $config['resources']['tenant']['classes']['factory']
-        );
+            $backendEnabled = true;
+        }
+
+        if (!$backendEnabled) {
+            throw new InvalidConfigurationException('You need to enable one of the peristence backends (phpcr or orm)');
+        }
+
+        if ($config['use_orm_listeners']) {
+            $loader->load('listeners.yml');
+        }
     }
 
     public function loadPhpcr($config, YamlFileLoader $loader, ContainerBuilder $container)
@@ -58,9 +77,9 @@ class SWPMultiTenancyExtension extends Extension
             'basepath' => 'basepath',
             'route_basepaths' => 'route_basepaths',
             'content_basepath' => 'content_basepath',
-            'site_document_class' => 'site_document.class',
+            'menu_basepath' => 'menu_basepath',
+            'media_basepath' => 'media_basepath',
             'tenant_aware_router_class' => 'router.class',
-            'document_class' => 'document.class',
         ];
 
         foreach ($keys as $sourceKey => $targetKey) {
@@ -70,7 +89,7 @@ class SWPMultiTenancyExtension extends Extension
             );
         }
 
-        array_push($config['route_basepaths'], $config['content_basepath']);
+        array_push($config['route_basepaths'], $config['content_basepath'], $config['menu_basepath'], $config['media_basepath']);
 
         $container->setParameter(
             $this->getAlias().'.persistence.phpcr.base_paths',

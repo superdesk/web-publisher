@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  * This file is part of the Superdesk Web Publisher Templates System.
  *
  * Copyright 2015 Sourcefabric z.ú. and contributors.
@@ -8,9 +8,10 @@
  * For the full copyright and license information, please see the
  * AUTHORS and LICENSE files distributed with this source code.
  *
- * @copyright 2015 Sourcefabric z.ú.
+ * @copyright 2015 Sourcefabric z.ú
  * @license http://www.superdesk.org/license
  */
+
 namespace SWP\Component\TemplatesSystem\Twig\Node;
 
 /**
@@ -18,18 +19,27 @@ namespace SWP\Component\TemplatesSystem\Twig\Node;
  */
 class ContainerNode extends \Twig_Node
 {
-    private static $count = 1;
-
     /**
-     * @param \Twig_Node_Expression $name
-     * @param \Twig_Node_Expression $parameters
-     * @param \Twig_NodeInterface   $body
-     * @param int                   $lineno
-     * @param string                $tag
+     * ContainerNode constructor.
+     *
+     * @param \Twig_Node                 $name
+     * @param \Twig_Node_Expression|null $parameters
+     * @param \Twig_NodeInterface        $body
+     * @param null|string                $lineno
+     * @param null                       $tag
      */
     public function __construct(\Twig_Node $name, \Twig_Node_Expression $parameters = null, \Twig_NodeInterface $body, $lineno, $tag = null)
     {
-        parent::__construct(['name' => $name, 'parameters' => $parameters, 'body' => $body], [], $lineno, $tag);
+        $nodes = [
+            'name' => $name,
+            'body' => $body,
+        ];
+
+        if (!is_null($parameters)) {
+            $nodes['parameters'] = $parameters;
+        }
+
+        parent::__construct($nodes, [], $lineno, $tag);
     }
 
     /**
@@ -39,9 +49,9 @@ class ContainerNode extends \Twig_Node
     {
         $compiler
             ->addDebugInfo($this)
-            ->write("\$containerService = \$this->env->getExtension('swp_container')->getContainerService();\n")
-            ->write('$container = $containerService->getContainer(')->subcompile($this->getNode('name'))->raw(', ');
-        if (!is_null($this->getNode('parameters'))) {
+            ->write("\$rendererService = \$this->env->getExtension('swp_container')->getContainerService();\n")
+            ->write('$container = $rendererService->getContainerRenderer(')->subcompile($this->getNode('name'))->raw(', ');
+        if ($this->hasNode('parameters')) {
             $compiler->subcompile($this->getNode('parameters'));
         } else {
             $compiler->raw('array()');
@@ -62,6 +72,6 @@ class ContainerNode extends \Twig_Node
                 ->write("echo \$container->renderCloseTag();\n")
             ->outdent()
             ->write("}\n")
-            ->write("unset(\$container);unset(\$containerService);\n");
+            ->write("unset(\$container);unset(\$rendererService);\n");
     }
 }

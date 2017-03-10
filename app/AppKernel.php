@@ -18,27 +18,39 @@ class AppKernel extends Kernel
             new JMS\SerializerBundle\JMSSerializerBundle(),
             new Sylius\Bundle\ThemeBundle\SyliusThemeBundle(),
             new Doctrine\Bundle\DoctrineBundle\DoctrineBundle(),
-            new Doctrine\Bundle\PHPCRBundle\DoctrinePHPCRBundle(),
             new FOS\HttpCacheBundle\FOSHttpCacheBundle(),
+            new FOS\RestBundle\FOSRestBundle(),
+            new FOS\UserBundle\FOSUserBundle(),
             new Knp\Bundle\PaginatorBundle\KnpPaginatorBundle(),
             new EmanueleMinotto\TwigCacheBundle\TwigCacheBundle(),
-            new FOS\RestBundle\FOSRestBundle(),
             new Bazinga\Bundle\HateoasBundle\BazingaHateoasBundle(),
             new Nelmio\ApiDocBundle\NelmioApiDocBundle(),
+            new Nelmio\CorsBundle\NelmioCorsBundle(),
             new Stof\DoctrineExtensionsBundle\StofDoctrineExtensionsBundle(),
             new Symfony\Cmf\Bundle\CoreBundle\CmfCoreBundle(),
             new Symfony\Cmf\Bundle\RoutingBundle\CmfRoutingBundle(),
             new Doctrine\Bundle\DoctrineCacheBundle\DoctrineCacheBundle(),
             new JMS\TranslationBundle\JMSTranslationBundle(),
+            new Knp\Bundle\MenuBundle\KnpMenuBundle(),
+            new Oneup\FlysystemBundle\OneupFlysystemBundle(),
+            new Burgov\Bundle\KeyValueFormBundle\BurgovKeyValueFormBundle(),
+            new Takeit\Bundle\AmpHtmlBundle\TakeitAmpHtmlBundle(),
+            new Doctrine\Bundle\MigrationsBundle\DoctrineMigrationsBundle(),
 
             new SWP\Bundle\StorageBundle\SWPStorageBundle(),
             new SWP\Bundle\MultiTenancyBundle\SWPMultiTenancyBundle(),
-            new SWP\Bundle\TemplateEngineBundle\SWPTemplateEngineBundle(),
-            new SWP\Bundle\WebRendererBundle\SWPWebRendererBundle(),
-            new SWP\UpdaterBundle\SWPUpdaterBundle(),
+            new SWP\Bundle\TemplatesSystemBundle\SWPTemplatesSystemBundle(),
             new SWP\Bundle\BridgeBundle\SWPBridgeBundle(),
             new SWP\Bundle\ContentBundle\SWPContentBundle(),
             new SWP\Bundle\AnalyticsBundle\SWPAnalyticsBundle(),
+            new SWP\Bundle\RuleBundle\SWPRuleBundle(),
+            new SWP\Bundle\MenuBundle\SWPMenuBundle(),
+            new SWP\Bundle\ContentListBundle\SWPContentListBundle(),
+            new SWP\Bundle\FacebookInstantArticlesBundle\SWPFacebookInstantArticlesBundle(),
+            new SWP\Bundle\RevisionBundle\SWPRevisionBundle(),
+            new SWP\Bundle\CoreBundle\SWPCoreBundle(),
+
+            new Sentry\SentryBundle\SentryBundle(),
         ];
 
         if (in_array($this->getEnvironment(), ['dev', 'test'])) {
@@ -48,6 +60,7 @@ class AppKernel extends Kernel
             $bundles[] = new Sensio\Bundle\GeneratorBundle\SensioGeneratorBundle();
             $bundles[] = new Doctrine\Bundle\FixturesBundle\DoctrineFixturesBundle();
             $bundles[] = new SWP\Bundle\FixturesBundle\SWPFixturesBundle();
+            $bundles[] = new Pixers\DoctrineProfilerBundle\PixersDoctrineProfilerBundle();
         }
 
         if (in_array($this->getEnvironment(), ['test'])) {
@@ -57,6 +70,9 @@ class AppKernel extends Kernel
         return $bundles;
     }
 
+    /**
+     * @param LoaderInterface $loader
+     */
     public function registerContainerConfiguration(LoaderInterface $loader)
     {
         $loader->load($this->getRootDir().'/config/config_'.$this->getEnvironment().'.yml');

@@ -1,0 +1,6 @@
+Publisher API
+=============
+
+.. toctree::
+
+    authentication

@@ -1,58 +1,68 @@
 imports:
     - { resource: "@SWPBridgeBundle/Resources/config/app/config.yml" }
+    - { resource: "@SWPContentBundle/Resources/config/app/config.yml" }
+    - { resource: "@SWPMultiTenancyBundle/Resources/config/app/config.yml" }
+    - { resource: "@SWPRuleBundle/Resources/config/app/config.yml" }
+    - { resource: "@SWPMenuBundle/Resources/config/app/config.yml" }
+    - { resource: "@SWPContentListBundle/Resources/config/app/config.yml" }
+    - { resource: "@SWPRevisionBundle/Resources/config/app/config.yml" }
+    - { resource: "@SWPCoreBundle/Resources/config/app/config.yml" }
     - { resource: parameters.yml }
     - { resource: security.yml }
-    - { resource: services.yml }
 
 # Put parameters here that don't need to change on each machine where the app is deployed
 # http://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
     locale: en
+    templating.cache_warmer.template_paths.class: "Symfony\\Bundle\\FrameworkBundle\\CacheWarmer\\TemplatePathsCacheWarmer"
+    twig_cache.extension.class: "SWP\\Bundle\\CoreBundle\\Twig\\TwigCacheProfilerExtension"
+
 framework:
-    #esi:             ~
+    ide: 'phpstorm://open?file=%%f&line=%%l'
+    cache:
+        app: cache.adapter.doctrine
+        system: cache.adapter.doctrine
+        default_doctrine_provider: doctrine_cache.providers.main_cache
+    esi: { enabled: true }
     translator:
         fallbacks: ["%locale%"]
         logging: false
-    secret:          "%secret%"
+    secret: "%env(SYMFONY_SECRET)%"
     router:
         resource: "%kernel.root_dir%/config/routing.yml"
         strict_requirements: ~
     form:            ~
     csrf_protection: ~
-    validation:      { enable_annotations: true }
+    validation:      { enable_annotations: false }
     templating:
         engines: ['twig']
     default_locale:  "%locale%"
     trusted_hosts:   ~
-    trusted_proxies: ~
-    session:
-        handler_id:  ~
-        name: SUPERDESKWEBPUBLISHER
-    fragments:       ~
+    trusted_proxies: "%trusted_proxies%"
+    fragments: { path: /_fragment }
     http_method_override: true
+
+sensio_framework_extra:
+    view:    { annotations: false }
 
 # Twig Configuration
 twig:
     debug:            "%kernel.debug%"
     strict_variables: false
 
-sylius_theme:
-    context: "swp_webrenderer.theme.context.tenant_aware"
-    sources:
-        tenantable: ~
-
 twig_cache:
     service: "doctrine_cache.providers.main_cache"
+    key_generator: "swp_content_bundle.key_generator.meta_key_generator"
 
 # Doctrine Configuration
 doctrine:
     dbal:
         driver:   pdo_pgsql
-        host:     "%database_host%"
-        port:     "%database_port%"
-        dbname:   "%database_name%"
-        user:     "%database_user%"
-        password: "%database_password%"
+        host:     '%env(DATABASE_HOST)%'
+        port:     '%env(DATABASE_PORT)%'
+        dbname:   '%env(DATABASE_NAME)%'
+        user:     '%env(DATABASE_USER)%'
+        password: "%env(DATABASE_PASSWORD)%"
         charset:  UTF8
         server_version: "%server_version%"
         mapping_types:
@@ -75,27 +85,7 @@ doctrine:
                         type: yml
                         prefix: SWP\Bundle\AnalyticsBundle\Model
                         dir: Resources/config/doctrine
-                    SWPTemplateEngineBundle:
-                        type: yml
-                        prefix: SWP\Bundle\TemplateEngineBundle\Model
-                        dir: Resources/config/doctrine
-                    SWPMultiTenancyBundle:
-                        type: yml
-                        prefix: SWP\Component\MultiTenancy\Model
-                        dir: Resources/config/doctrine
-                    SWPWebRendererBundle:
-                        type: yml
-                        prefix: SWP\Bundle\WebRendererBundle\Model
-                        dir: Resources/config/doctrine
-                    gedmo_loggable:
-                        type: annotation
-                        prefix: Gedmo\Loggable\Entity
-                        dir: "%kernel.root_dir%/../vendor/gedmo/doctrine-extensions/lib/Gedmo/Loggable/Entity"
-                        is_bundle: false
                 filters:
-                    soft-deleteable:
-                        class: Gedmo\SoftDeleteable\Filter\SoftDeleteableFilter
-                        enabled: true
                     tenantable:
                         class: SWP\Bundle\MultiTenancyBundle\Query\Filter\TenantableFilter
                         enabled: true
@@ -104,6 +94,13 @@ doctrine_cache:
     providers:
         main_cache:
             type: "%doctrine_cache_driver%"
+            namespace: "%env(SYMFONY_SECRET)%"
+
+doctrine_migrations:
+    dir_name: "%kernel.root_dir%/migrations"
+    namespace: SWP\Migrations
+    table_name: swp_migration
+    name: Publisher Migrations
 
 # Swiftmailer Configuration
 swiftmailer:
@@ -114,51 +111,95 @@ swiftmailer:
     spool:     { type: memory }
 
 fos_http_cache:
+    user_context:
+        enabled: false
     cache_manager:
         enabled: true
         generate_url_type: 0
     proxy_client:
-        symfony:
-            servers: "%cache_servers%"
+        varnish:
+            http:
+                servers: "%cache_servers%"
+                base_url: "%domain%"
     invalidation:
-        enabled: true
-
-doctrine_phpcr:
-    odm:
-        auto_mapping: true
-        auto_generate_proxy_classes: "%kernel.debug%"
-        metadata_cache_driver:
-            type: service
-            id: doctrine_cache.providers.main_cache
-    session:
-        backend:
-            type: doctrinedbal
-            logging: true
-            profiling: true
-            check_login_on_server: false
-            caches:
-                meta: doctrine_cache.providers.main_cache
-                nodes: doctrine_cache.providers.main_cache
-        workspace: default
-
-cmf_routing:
-    chain:
-        routers_by_id:
-            router.default: 200
-            swp_multi_tenancy.tenant_aware_router: 150
-            cmf_routing.dynamic_router: 100
-    dynamic:
-        route_collection_limit: 100
-        persistence:
-            phpcr:
-                enabled: true
-
-cmf_core:
-    publish_workflow:
-        enabled:                 true
-        checker_service:         cmf_core.publish_workflow.checker.default
-        view_non_published_role: ROLE_CAN_VIEW_NON_PUBLISHED
-        request_listener:        true
+        rules:
+            -
+                match:
+                    attributes:
+                        _route: "swp_api_content_update_lists|swp_api_content_delete_lists"
+                routes:
+                    swp_api_content_list_lists: ~
+                    swp_api_content_show_lists: ~
+            -
+                match:
+                    attributes:
+                        _route: "swp_api_content_update_routes|swp_api_content_delete_routes"
+                routes:
+                    swp_api_content_list_routes: ~
+                    swp_api_content_show_routes: ~
+            -
+                match:
+                    attributes:
+                        _route: "swp_api_content_create_routes"
+                routes:
+                    swp_api_content_list_routes: ~
+            -
+                match:
+                    attributes:
+                        _route: "swp_api_content_update_articles"
+                routes:
+                    swp_api_content_list_articles: ~
+                    swp_api_content_show_articles: ~
+                    swp_api_core_list_organization_articles: ~
+            -
+                match:
+                    attributes:
+                        _route: "swp_api_templates_update_widget|swp_api_templates_delete_widget"
+                routes:
+                    swp_api_templates_list_widgets: ~
+                    swp_api_templates_get_widget: ~
+            -
+                match:
+                    attributes:
+                        _route: "swp_api_templates_update_widget|swp_api_templates_delete_widget"
+                routes:
+                    swp_api_templates_list_widgets: ~
+                    swp_api_templates_get_widget: ~
+            -
+                match:
+                    attributes:
+                        _route: "swp_api_templates_update_container|swp_api_templates_delete_container|swp_api_templates_link_container"
+                routes:
+                    swp_api_templates_list_containers: ~
+                    swp_api_templates_get_container: ~
+            -
+                match:
+                    attributes:
+                        _route: "swp_api_core_update_tenant|swp_api_core_delete_tenant"
+                routes:
+                    swp_api_core_list_tenants: ~
+                    swp_api_core_get_tenant: ~
+            -
+                match:
+                    attributes:
+                        _route: "swp_api_core_update_rule|swp_api_core_delete_rule"
+                routes:
+                    swp_api_core_list_rule: ~
+                    swp_api_core_get_rule: ~
+            -
+                match:
+                    attributes:
+                        _route: "swp_api_core_move_menu|swp_api_core_delete_menu"
+                routes:
+                    swp_api_core_list_menu: ~
+                    swp_api_core_list_children_menu: ~
+                    swp_api_core_get_menu: ~
+            -
+                match:
+                    attributes:
+                        _route: "swp_api_core_create_menu"
+                routes:
+                    swp_api_core_list_menu: ~
 
 fos_rest:
     zone:
@@ -187,63 +228,40 @@ fos_rest:
         messages:
             "Symfony\\Component\\Routing\\Exception\\ResourceNotFoundException": true
 
-sensio_framework_extra:
-    view:    { annotations: false }
-
-knp_paginator:
-    page_range: 10
-    default_options:
-        page_name: page
-        sort_field_name: sort
-        sort_direction_name: direction
-        distinct: true
-
-swp_updater:
-    version_class: "%swp_updater.version.class%"
-    client:
-        base_uri: "http://updates.sourcefabric.org"
-
-stof_doctrine_extensions:
-    default_locale: "%locale%"
-    orm:
-        default:
-            timestampable: true
-            softdeleteable: true
-            loggable: true
-            sortable: true
-
-swp_multi_tenancy:
-    resources:
-        tenant:
-            classes:
-                model: SWP\Bundle\WebRendererBundle\Model\Tenant
-    persistence:
-        phpcr:
-            enabled: true
-            site_document_class: SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\Site
-            document_class: SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\Route
-
-swp_web_renderer:
+swp_core:
     device_listener:
         enabled: true
-
-swp_content:
-    persistence:
-        phpcr: true
-
-swp_bridge:
-    persistence:
-        orm: true
 
 nelmio_api_doc:
     request_listener: false
 
-jms_serializer:
-    metadata:
-        directories:
-            CmfRoutingBundle:
-                namespace_prefix: Symfony\Cmf\Bundle\RoutingBundle
-                path: "@SWPContentBundle/Resources/config/serializer/CmfRoutingBundle"
-            SymfonyRouting:
-                namespace_prefix: Symfony\Component\Routing
-                path: "@SWPContentBundle/Resources/config/serializer/SymfonyRouting"
+nelmio_cors:
+    defaults:
+        allow_credentials: false
+        allow_origin: ["%allow_origin_cors%"]
+        allow_methods: ["POST", "LINK", "UNLINK", "GET", "DELETE", "OPTIONS", "PATCH"]
+        allow_headers: ["origin", "content-type", "accept", "authorization"]
+        expose_headers: ["link"]
+        max_age: 3600
+    paths:
+        '^/api/': ~
+
+sentry:
+    environment: "%kernel.environment%"
+    dsn: "%sentry.dsn%"
+    release: "dev-master"
+
+monolog:
+    handlers:
+        swp_rule:
+            level:    debug
+            type:     rotating_file
+            path:     '%kernel.logs_dir%/swp_rule_%kernel.environment%.log'
+            max_files: 7
+            channels: swp_rule
+        swp_validators:
+            level:    debug
+            type:     rotating_file
+            path:     '%kernel.logs_dir%/swp_validators_%kernel.environment%.log'
+            max_files: 7
+            channels: swp_validators

@@ -1,0 +1,18 @@
+SWP\Bundle\TemplatesSystemBundle\Model\WidgetModel:
+    exclusion_policy: ALL
+    properties:
+        id:
+            expose: true
+            type: integer
+        name:
+            expose: true
+            type: string
+        type:
+            expose: true
+            type: string
+        visible:
+            expose: true
+            type: boolean
+        parameters:
+            expose: true
+            type: array

@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  * This file is part of the Superdesk Web Publisher Content Bundle.
  *
  * Copyright 2015 Sourcefabric z.u. and contributors.
@@ -8,9 +8,10 @@
  * For the full copyright and license information, please see the
  * AUTHORS and LICENSE files distributed with this source code.
  *
- * @copyright 2015 Sourcefabric z.ú.
+ * @copyright 2015 Sourcefabric z.ú
  * @license http://www.superdesk.org/license
  */
+
 namespace SWP\Bundle\ContentBundle\EventListener;
 
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
@@ -35,8 +36,8 @@ class LinkRequestListener
     protected $urlMatcher;
 
     /**
-     * @param ControllerResolverInterface $controllerResolver The 'controller_resolver' service
-     * @param UrlMatcherInterface         $urlMatcher         The 'router' service
+     * @param ControllerResolverInterface $controllerResolver
+     * @param UrlMatcherInterface         $urlMatcher
      */
     public function __construct(ControllerResolverInterface $controllerResolver, UrlMatcherInterface $urlMatcher)
     {
@@ -46,6 +47,8 @@ class LinkRequestListener
 
     /**
      * @param GetResponseEvent $event
+     *
+     * @return array
      */
     public function onKernelRequest(GetResponseEvent $event, $eventName, EventDispatcherInterface $dispatcher)
     {
@@ -89,6 +92,11 @@ class LinkRequestListener
             }
             $resource = array_shift($linkParams);
             $resource = preg_replace('/<|>/', '', $resource);
+
+            // Assume that no resource is specified here if there is no path separator, because urlMatcher will return homepage
+            if (strpos($resource, '/') === false) {
+                continue;
+            }
             $tempRequest = Request::create($resource);
 
             try {

@@ -1,3 +1,4 @@
 parameters:
     domain: localhost
-    cache_servers: localhost
+    cache_servers:
+        - localhost

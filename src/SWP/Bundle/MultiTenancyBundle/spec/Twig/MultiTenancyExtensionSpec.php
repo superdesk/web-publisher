@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  * This file is part of the Superdesk Web Publisher MultiTenancy Component.
  *
  * Copyright 2016 Sourcefabric z.u. and contributors.
@@ -8,9 +8,10 @@
  * For the full copyright and license information, please see the
  * AUTHORS and LICENSE files distributed with this source code.
  *
- * @copyright 2016 Sourcefabric z.ú.
+ * @copyright 2016 Sourcefabric z.ú
  * @license http://www.superdesk.org/license
  */
+
 namespace spec\SWP\Bundle\MultiTenancyBundle\Twig;
 
 use PhpSpec\ObjectBehavior;
@@ -45,7 +46,7 @@ class MultiTenancyExtensionSpec extends ObjectBehavior
         $tenantContext->getTenant()->shouldBeCalled()->willReturn($tenant);
 
         $globals = [
-            'organization' => $tenant,
+            'tenant' => $tenant,
         ];
 
         $this->getGlobals()->shouldReturn($globals);

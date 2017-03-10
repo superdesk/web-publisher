@@ -1,0 +1,25 @@
+SWP\Bundle\CoreBundle\Model\ContentListItem:
+    item1:
+        content: '@listContent1'
+        contentList: '@contentList1'
+        sticky: true
+        enabled: true
+        position: 0
+    item2:
+        content: '@listContent2'
+        contentList: '@contentList1'
+        sticky: false
+        enabled: true
+        position: 1
+    item3:
+        content: '@listContent3'
+        contentList: '@contentList1'
+        sticky: true
+        enabled: true
+        position: 2
+    item4:
+        content: '@listContent4'
+        contentList: '@contentList1'
+        sticky: false
+        enabled: true
+        position: 3

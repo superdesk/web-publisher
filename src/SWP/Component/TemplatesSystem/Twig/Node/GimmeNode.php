@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  * This file is part of the Superdesk Web Publisher Templates System.
  *
  * Copyright 2015 Sourcefabric z.ú. and contributors.
@@ -8,9 +8,10 @@
  * For the full copyright and license information, please see the
  * AUTHORS and LICENSE files distributed with this source code.
  *
- * @copyright 2015 Sourcefabric z.ú.
+ * @copyright 2015 Sourcefabric z.ú
  * @license http://www.superdesk.org/license
  */
+
 namespace SWP\Component\TemplatesSystem\Twig\Node;
 
 /**
@@ -21,15 +22,37 @@ class GimmeNode extends \Twig_Node
     private static $count = 1;
 
     /**
-     * @param \Twig_Node_Expression $annotation
-     * @param \Twig_Node_Expression $parameters
-     * @param \Twig_NodeInterface   $body
-     * @param int                   $lineno
-     * @param string                $tag
+     * GimmeNode constructor.
+     *
+     * @param \Twig_Node                 $annotation
+     * @param \Twig_Node_Expression|null $parameters
+     * @param \Twig_Node_Expression|null $ignoreContext
+     * @param \Twig_NodeInterface        $body
+     * @param $lineno
+     * @param null $tag
      */
-    public function __construct(\Twig_Node $annotation, \Twig_Node_Expression $parameters = null, \Twig_NodeInterface $body, $lineno, $tag = null)
-    {
-        parent::__construct(['parameters' => $parameters, 'body' => $body, 'annotation' => $annotation], [], $lineno, $tag);
+    public function __construct(
+        \Twig_Node $annotation,
+        \Twig_Node_Expression $parameters = null,
+        \Twig_Node_Expression $ignoreContext = null,
+        \Twig_NodeInterface $body,
+        $lineno,
+        $tag = null
+    ) {
+        $nodes = [
+            'body' => $body,
+            'annotation' => $annotation,
+        ];
+
+        if (!is_null($parameters)) {
+            $nodes['parameters'] = $parameters;
+        }
+
+        if (!is_null($ignoreContext)) {
+            $nodes['ignoreContext'] = $ignoreContext;
+        }
+
+        parent::__construct($nodes, [], $lineno, $tag);
     }
 
     /**
@@ -41,9 +64,14 @@ class GimmeNode extends \Twig_Node
 
         $compiler
             ->addDebugInfo($this)
-            ->write('$swpMetaLoader'.$i." = \$this->env->getExtension('swp_gimme')->getLoader();\n")
+            ->write('$swpMetaLoader'.$i." = \$this->env->getExtension('swp_gimme')->getLoader();\n");
+        if ($this->hasNode('ignoreContext')) {
+            $compiler->write('$swpContext'.$i."Gimme = \$this->env->getExtension('swp_gimme')->getContext();\n");
+            $compiler->write('$swpIgnoreContext'.$i.'Gimme = $swpContext'.$i.'Gimme->temporaryUnset(')->subcompile($this->getNode('ignoreContext'))->raw(");\n");
+        }
+        $compiler
             ->write('')->subcompile($this->getNode('annotation'))->raw(' = $swpMetaLoader'.$i.'->load("')->raw($this->getNode('annotation')->getNode(0)->getAttribute('name'))->raw('", ');
-        if (!is_null($this->getNode('parameters'))) {
+        if ($this->hasNode('parameters')) {
             $compiler->subcompile($this->getNode('parameters'));
         } else {
             $compiler->raw('null');
@@ -53,7 +81,11 @@ class GimmeNode extends \Twig_Node
             ->indent()
                 ->subcompile($this->getNode('body'))
             ->outdent()
-            ->write("}\n")
+            ->write("}\n");
+        if ($this->hasNode('ignoreContext')) {
+            $compiler->write('$swpContext'.$i.'Gimme->restoreTemporaryUnset($swpIgnoreContext'.$i."Gimme);\n");
+        }
+        $compiler
             ->write('unset(')->subcompile($this->getNode('annotation'))->raw(');');
     }
 }

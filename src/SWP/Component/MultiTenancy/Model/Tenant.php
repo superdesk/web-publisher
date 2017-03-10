@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  * This file is part of the Superdesk Web Publisher MultiTenancy Component.
  *
  * Copyright 2015 Sourcefabric z.u. and contributors.
@@ -8,9 +8,10 @@
  * For the full copyright and license information, please see the
  * AUTHORS and LICENSE files distributed with this source code.
  *
- * @copyright 2015 Sourcefabric z.ú.
+ * @copyright 2015 Sourcefabric z.ú
  * @license http://www.superdesk.org/license
  */
+
 namespace SWP\Component\MultiTenancy\Model;
 
 use SWP\Component\Common\Model\EnableableTrait;
@@ -34,7 +35,22 @@ class Tenant implements TenantInterface
     /**
      * @var string
      */
+    protected $domainName;
+
+    /**
+     * @var string
+     */
     protected $name;
+
+    /**
+     * @var string
+     */
+    protected $code;
+
+    /**
+     * @var OrganizationInterface
+     */
+    protected $organization;
 
     /**
      * Tenant constructor.
@@ -90,6 +106,58 @@ class Tenant implements TenantInterface
     public function setName($name)
     {
         $this->name = $name;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getCode()
+    {
+        return $this->code;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setCode($code)
+    {
+        if (null !== $this->code) {
+            throw new \LogicException('Tenant\'s code is already set. Can not change it.');
+        }
+
+        $this->code = $code;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setOrganization(OrganizationInterface $organization)
+    {
+        $this->organization = $organization;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getOrganization()
+    {
+        return $this->organization;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getDomainName()
+    {
+        return $this->domainName;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setDomainName($domainName)
+    {
+        $this->domainName = $domainName;
     }
 
     /**

@@ -1,0 +1,58 @@
+{
+    "name": "swp/content-list-bundle",
+    "type": "symfony-bundle",
+    "description": "Flexible object lists implementation for Symfony applications.",
+    "keywords": ["list", "automatic", "dynamic", "superdesk", "webpublisher", "content"],
+    "license":"AGPL-3.0",
+    "minimum-stability": "dev",
+    "authors": [
+        {
+            "name": "Rafał Muszyński",
+            "email": "rafal.muszynski@sourcefabric.org"
+        }
+    ],
+    "repositories": [
+        {
+            "type": "path",
+            "url": "../*"
+        },
+        {
+            "type": "path",
+            "url": "../../Component/*"
+        }
+    ],
+    "require": {
+        "php": "^7.0",
+        "stof/doctrine-extensions-bundle": "1.2.x",
+        "gedmo/doctrine-extensions": ">=2.4.26 <3.0",
+        "symfony/dependency-injection": "3.1.*",
+        "symfony/form": "3.1.*",
+        "symfony/validator": "3.1.*",
+        "swp/storage-bundle": "^0.5",
+        "swp/content-list": "^0.5",
+        "swp/common": "^0.5"
+    },
+    "require-dev": {
+        "phpspec/phpspec": ">=3.2.3 <4.0",
+        "phpspec/prophecy": "1.7.*"
+    },
+    "autoload": {
+        "exclude-from-classmap": [
+            "spec/"
+        ],
+        "psr-4": { "SWP\\Bundle\\ContentListBundle\\": "" }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "SWP\\Bundle\\ContentListBundle\\spec\\": "spec/"
+        }
+    },
+    "config": {
+        "bin-dir": "bin"
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "0.5-dev"
+        }
+    }
+}

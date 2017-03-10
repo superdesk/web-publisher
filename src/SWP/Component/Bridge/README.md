@@ -1,5 +1,5 @@
-Bridge Component
-=================
+Bridge Component [![Build Status](https://travis-ci.org/SuperdeskWebPublisher/bridge.svg?branch=master)](https://travis-ci.org/SuperdeskWebPublisher/bridge) [![SensioLabsInsight](https://insight.sensiolabs.com/projects/13d66e7a-e086-4cfb-90ce-b115f1f0e151/mini.png)](https://insight.sensiolabs.com/projects/13d66e7a-e086-4cfb-90ce-b115f1f0e151)
+============================================================================================================================================================
 
 Tools which help to make a connection between Superdesk and Superdesk Web Publisher.
 

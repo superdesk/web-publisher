@@ -1,0 +1,18 @@
+SWP\Bundle\ContentBundle\Model\File:
+    exclusion_policy: ALL
+    properties:
+        id:
+            expose: true
+            type: string
+        fileExtension:
+            expose: true
+        assetId:
+            expose: true
+    relations:
+        -
+            rel: download
+            href:
+                route: swp_media_get
+                parameters:
+                    mediaId: expr(object.getAssetId())
+                    extension: expr(object.getFileExtension())

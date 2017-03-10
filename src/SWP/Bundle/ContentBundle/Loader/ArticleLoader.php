@@ -1,6 +1,8 @@
 <?php
 
-/**
+declare(strict_types=1);
+
+/*
  * This file is part of the Superdesk Web Publisher Content Bundle.
  *
  * Copyright 2015 Sourcefabric z.u. and contributors.
@@ -8,65 +10,81 @@
  * For the full copyright and license information, please see the
  * AUTHORS and LICENSE files distributed with this source code.
  *
- * @copyright 2015 Sourcefabric z.ú.
+ * @copyright 2015 Sourcefabric z.ú
  * @license http://www.superdesk.org/license
  */
+
 namespace SWP\Bundle\ContentBundle\Loader;
 
+use Doctrine\Common\Persistence\ObjectManager;
+use SWP\Component\Common\Criteria\Criteria;
+use SWP\Bundle\ContentBundle\Model\ArticleInterface;
+use SWP\Bundle\ContentBundle\Model\RouteInterface;
+use SWP\Bundle\ContentBundle\Provider\ArticleProviderInterface;
+use SWP\Bundle\ContentBundle\Provider\RouteProviderInterface;
+use SWP\Component\TemplatesSystem\Gimme\Context\Context;
+use SWP\Component\TemplatesSystem\Gimme\Factory\MetaFactoryInterface;
 use SWP\Component\TemplatesSystem\Gimme\Loader\LoaderInterface;
 use SWP\Component\TemplatesSystem\Gimme\Meta\Meta;
-use Symfony\Component\Yaml\Parser;
-use Symfony\Cmf\Bundle\CoreBundle\PublishWorkflow\PublishWorkflowChecker;
-use Doctrine\ODM\PHPCR\DocumentManager;
-use Doctrine\Common\Cache\CacheProvider;
-use SWP\Component\MultiTenancy\PathBuilder\TenantAwarePathBuilderInterface;
+use SWP\Component\TemplatesSystem\Gimme\Meta\MetaCollection;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
-class ArticleLoader implements LoaderInterface
+/**
+ * Class ArticleLoader.
+ */
+class ArticleLoader extends PaginatedLoader implements LoaderInterface
 {
     /**
-     * @var PublishWorkflowChecker
+     * @var ArticleProviderInterface
      */
-    protected $publishWorkflowChecker;
+    protected $articleProvider;
 
     /**
-     * @var DocumentManager
+     * @var RouteProviderInterface
+     */
+    protected $routeProvider;
+
+    /**
+     * @var ObjectManager
      */
     protected $dm;
 
     /**
      * @var string
      */
-    protected $configurationPath;
-
-    /**
-     * @var CacheProvider
-     */
-    protected $metadataCache;
-
-    /**
-     * @var TenantAwarePathBuilderInterface
-     */
-    protected $pathBuilder;
-
-    /**
-     * @var string
-     */
     protected $routeBasepaths;
 
+    /**
+     * @var MetaFactoryInterface
+     */
+    protected $metaFactory;
+
+    /**
+     * @var Context
+     */
+    protected $context;
+
+    /**
+     * ArticleLoader constructor.
+     *
+     * @param ArticleProviderInterface $articleProvider
+     * @param RouteProviderInterface   $routeProvider
+     * @param ObjectManager            $dm
+     * @param MetaFactoryInterface     $metaFactory
+     * @param Context                  $context
+     */
     public function __construct(
-        PublishWorkflowChecker $publishWorkflowChecker,
-        DocumentManager $dm,
-        $configurationPath,
-        CacheProvider $metadataCache,
-        TenantAwarePathBuilderInterface $pathBuilder,
-        $routeBasepaths
+        ArticleProviderInterface $articleProvider,
+        RouteProviderInterface $routeProvider,
+        ObjectManager $dm,
+        MetaFactoryInterface $metaFactory,
+        Context $context
     ) {
-        $this->publishWorkflowChecker = $publishWorkflowChecker;
+        $this->articleProvider = $articleProvider;
+        $this->routeProvider = $routeProvider;
         $this->dm = $dm;
-        $this->configurationPath = $configurationPath.'/Resources/meta/article.yml';
-        $this->metadataCache = $metadataCache;
-        $this->pathBuilder = $pathBuilder;
-        $this->routeBasepaths = $routeBasepaths;
+        $this->metaFactory = $metaFactory;
+        $this->context = $context;
     }
 
     /**
@@ -86,60 +104,76 @@ class ArticleLoader implements LoaderInterface
      * @param int    $responseType response type: single meta (LoaderInterface::SINGLE) or collection of metas (LoaderInterface::COLLECTION)
      *
      * @return Meta|Meta[]|bool false if meta cannot be loaded, a Meta instance otherwise
+     *
+     * @throws \Exception
      */
-    public function load($type, $parameters, $responseType = LoaderInterface::SINGLE)
+    public function load($type, $parameters = [], $responseType = LoaderInterface::SINGLE)
     {
-        $article = null;
-        if (empty($parameters)) {
-            $parameters = [];
-        }
-
-        // Cache meta configuration
-        $cacheKey = md5($this->configurationPath);
-        if (!$this->metadataCache->contains($cacheKey)) {
-            if (!is_readable($this->configurationPath)) {
-                throw new \InvalidArgumentException('Configuration file is not readable for parser');
-            }
-            $yaml = new Parser();
-            $configuration = $yaml->parse(file_get_contents($this->configurationPath));
-            $this->metadataCache->save($cacheKey, $configuration);
-        } else {
-            $configuration = $this->metadataCache->fetch($cacheKey);
-        }
-
-        if ($responseType === LoaderInterface::SINGLE) {
-            if (array_key_exists('contentPath', $parameters)) {
-                $article = $this->dm->find('SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\Article', $parameters['contentPath']);
-            } elseif (array_key_exists('article', $parameters)) {
-                $article = $parameters['article'];
+        $criteria = new Criteria();
+        if ($type === 'article' && $responseType === LoaderInterface::SINGLE) {
+            if (array_key_exists('article', $parameters) && $parameters['article'] instanceof ArticleInterface) {
+                $this->dm->detach($parameters['article']);
+                $criteria->set('id', $parameters['article']->getId());
             } elseif (array_key_exists('slug', $parameters)) {
-                $article = $this->dm->getRepository('SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\Article')
-                    ->findOneBy(['slug' => $parameters['slug']]);
+                $criteria->set('slug', $parameters['slug']);
             }
 
-            return $this->getArticleMeta($configuration, $article);
-        } elseif ($responseType === LoaderInterface::COLLECTION) {
-            if (array_key_exists('route', $parameters)) {
-                $route = $this->dm->find(null, $this->pathBuilder->build(
-                    $this->routeBasepaths[0].$parameters['route']
-                ));
+            try {
+                return $this->getArticleMeta($this->articleProvider->getOneByCriteria($criteria));
+            } catch (NotFoundHttpException $e) {
+                return;
+            }
+        } elseif ($type === 'articles' && $responseType === LoaderInterface::COLLECTION) {
+            $currentPage = $this->context['route'];
+            $route = null;
 
-                if ($route) {
-                    $articles = $this->dm->getReferrers($route, null, null, null, 'SWP\Bundle\ContentBundle\Doctrine\ODM\PHPCR\Article');
-                    $metas = [];
-                    foreach ($articles as $article) {
-                        $articleMeta = $this->getArticleMeta($configuration, $article);
-                        if ($articleMeta) {
-                            $metas[] = $articleMeta;
-                        }
+            if ($currentPage) {
+                $route = $currentPage->getValues();
+            }
+
+            if (array_key_exists('route', $parameters)) {
+                if (null === $route || ($route instanceof RouteInterface && $route->getId() !== $parameters['route'])) {
+                    if (is_int($parameters['route'])) {
+                        $route = $this->routeProvider->getOneById($parameters['route']);
+                    } elseif (is_string($parameters['route'])) {
+                        $route = $this->routeProvider->getOneByStaticPrefix($parameters['route']);
                     }
 
-                    return $metas;
+                    if (null === $route) {
+                        // if Route parameter was passed but it was not found - don't return articles not filtered by route
+                        return;
+                    }
                 }
+            }
+
+            if (null !== $route) {
+                if ($route instanceof RouteInterface && RouteInterface::TYPE_COLLECTION === $route->getType()) {
+                    $criteria->set('route', $route);
+                }
+            }
+
+            if (isset($parameters['metadata'])) {
+                $criteria->set('metadata', $parameters['metadata']);
+            }
+
+            $criteria = $this->applyPaginationToCriteria($criteria, $parameters);
+            $articles = $this->articleProvider->getManyByCriteria($criteria);
+            if ($articles->count() > 0) {
+                $metaCollection = new MetaCollection();
+                $metaCollection->setTotalItemsCount($this->articleProvider->getCountByCriteria($criteria));
+                foreach ($articles as $article) {
+                    $articleMeta = $this->getArticleMeta($article);
+                    if (null !== $articleMeta) {
+                        $metaCollection->add($articleMeta);
+                    }
+                }
+                unset($articles, $route, $criteria);
+
+                return $metaCollection;
             }
         }
 
-        return false;
+        return;
     }
 
     /**
@@ -149,17 +183,17 @@ class ArticleLoader implements LoaderInterface
      *
      * @return bool
      */
-    public function isSupported($type)
+    public function isSupported(string $type): bool
     {
         return in_array($type, ['articles', 'article']);
     }
 
-    private function getArticleMeta($configuration, $article)
+    private function getArticleMeta($article)
     {
-        if (!is_null($article) && $this->publishWorkflowChecker->isGranted(PublishWorkflowChecker::VIEW_ATTRIBUTE, $article)) {
-            return new Meta($configuration, $article);
+        if (null !== $article) {
+            return $this->metaFactory->create($article);
         }
 
-        return false;
+        return;
     }
 }

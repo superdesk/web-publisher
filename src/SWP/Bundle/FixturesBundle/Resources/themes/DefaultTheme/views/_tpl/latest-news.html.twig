@@ -1,0 +1,42 @@
+<!-- Blue Box / Row -->
+<div class="blue_box blue_box_posts tabs_box">
+
+    <!-- Tabs Menu -->
+    <ul class="tabs_menu">
+        <li class="current"><a href="#tab_latest_news">{{ 'global.latestNews.title'|trans|desc('Latest news') }}</a></li>
+    </ul>
+    <!-- End Tabs Menu -->
+
+    <!-- Tabs Contents -->
+    <div class="tabs_contents">
+        <!-- Tabs Content -->
+        <div id="tab_latest_news" class="tabs_content row" style="display: block;">
+
+            {% cache 'latestNews' { time:120 } %}
+            {% gimmelist article from articles|limit(4)|order('publishedAt','desc') %}
+                <div class="span3">
+                    <article class="news_item condensed">
+                        {% if article.featureMedia %}
+                               {% gimme rendition with { 'media': article.featureMedia, 'name': '478x326' } %}
+                                 <a href="{{ url(article) }}" class="thumbnail"><img src="{{ url(rendition) }}" alt="{{ article.featureMedia.description }}"></a>
+                               {% endgimme %}
+                             {% else %}
+                               {% gimmelist media from articleMedia|limit(1) with {'article': article} %}
+                                 {% gimme rendition with {media: media, 'name': '478x326', 'fallback': 'original' } %}
+                                   <a href="{{ url(article) }}" class="thumbnail"><img src="{{ url(rendition) }}" alt="{{ media.body }}"></a>
+                                 {% endgimme %}
+                               {% endgimmelist %}
+                             {% endif %}
+                        <div class="content content_text content_text_contrast">
+                            <h6 class="info">{% if article.metadata.byline %} {{ article.metadata.byline }} - {% endif %} {{ article.publishedAt|date("d.m.Y, H:i") }}</h6>
+                            <h3 class="title"><a href="{{ url(article) }}">{{ article.title }}</a></h3>
+                            <p>{{ article.lead|striptags|truncate(50,true) }}</p>
+                        </div>
+                    </article>
+                </div>
+            {% endgimmelist %}
+            {% endcache %}
+
+        </div><!-- End Tabs Content -->
+    </div><!-- End Tabs Contents -->
+</div><!-- End Blue Box / Row -->

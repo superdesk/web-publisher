@@ -1,0 +1,6 @@
+SWP\Bundle\CoreBundle\Model\FacebookApplication:
+    type: entity
+    table: swp_fbia_application
+    fields:
+        tenantCode:
+            type: string

@@ -6,8 +6,8 @@ services:
   - redis-server
 
 php:
-  - 5.6
   - 7.0
+  - 7.1
   - hhvm
 
 env:
@@ -25,18 +25,25 @@ matrix:
       env: DOCTRINE_CACHE_DRIVER="array"
   allow_failures:
     - php: hhvm
+    - php: 7.1
   fast_finish: true
 
 before_script:
+  - if [[ $TRAVIS_PHP_VERSION != hhvm ]]; then echo "memory_limit=-1" >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini; fi;
   - if [[ $TRAVIS_PHP_VERSION != hhvm ]] ; then echo 'extension="redis.so"' >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini; fi;
   - if [[ $TRAVIS_PHP_VERSION != hhvm ]] ; then cat ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini|grep redis; fi;
+  - if [[ $TRAVIS_PHP_VERSION != hhvm ]]; then phpenv config-rm xdebug.ini || echo "xdebug not available"; fi;
   - phpenv rehash
-  - if [[ $TRAVIS_PHP_VERSION != hhvm ]]; then phpenv config-rm xdebug.ini; fi;
-  - composer install --no-interaction --prefer-source
+  - composer install --no-interaction --prefer-dist --dev --ignore-platform-reqs
 
 script:
-  - bin/phpspec run --format=pretty
-  - phpunit -c app/
+  - bin/phpspec run
+  - bin/phpunit -c app/
+  - cd src/SWP/Bundle/BridgeBundle && composer install --no-interaction --prefer-dist --ignore-platform-reqs && bin/phpunit
+  - cd ../../../../
+  - cd src/SWP/Bundle/TemplatesSystemBundle && composer install --no-interaction --prefer-dist --ignore-platform-reqs && bin/phpunit
+  - cd ../../../../
+  - cd src/SWP/Bundle/ContentBundle && composer install --no-interaction --prefer-dist --ignore-platform-reqs && bin/phpunit
 
 cache:
   directories:

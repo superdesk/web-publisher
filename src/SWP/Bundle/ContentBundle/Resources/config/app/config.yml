@@ -1,0 +1,47 @@
+parameters:
+    jms_serializer.camel_case_naming_strategy.class: JMS\Serializer\Naming\IdenticalPropertyNamingStrategy
+
+jms_serializer:
+    metadata:
+        directories:
+            CmfRoutingBundle:
+                namespace_prefix: Symfony\Cmf\Bundle\RoutingBundle
+                path: "@SWPContentBundle/Resources/config/serializer/CmfRoutingBundle"
+            SymfonyRouting:
+                namespace_prefix: Symfony\Component\Routing
+                path: "@SWPContentBundle/Resources/config/serializer/SymfonyRouting"
+            ContentBundle:
+                namespace_prefix: SWP\Bundle\ContentBundle
+                path: "@SWPContentBundle/Resources/config/serializer"
+
+cmf_routing:
+    chain:
+        replace_symfony_router: true
+        routers_by_id:
+            cmf_routing.dynamic_router: 120
+            router.default: 100
+    dynamic:
+        route_collection_limit: 100
+        route_provider_service_id: swp.provider.route
+        persistence:
+            orm:
+                enabled: true
+                route_class: SWP\Bundle\ContentBundle\Model\Route
+
+cmf_core:
+    publish_workflow:
+        enabled:                 true
+        checker_service:         cmf_core.publish_workflow.checker.default
+        view_non_published_role: ROLE_CAN_VIEW_NON_PUBLISHED
+        request_listener:        true
+
+oneup_flysystem:
+    adapters:
+        filesystem_adapter:
+            local:
+                directory: '%kernel.root_dir%/../web/uploads/'
+
+    filesystems:
+        swp_filesystem:
+            adapter: filesystem_adapter
+            alias: swp_filesystem

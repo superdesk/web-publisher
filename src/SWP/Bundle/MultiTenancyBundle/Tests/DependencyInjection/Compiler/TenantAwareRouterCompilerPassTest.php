@@ -1,5 +1,5 @@
 <?php
-/**
+/*
  * This file is part of the Superdesk Web Publisher MultiTenancy Bundle.
  *
  * Copyright 2016 Sourcefabric z.u. and contributors.
@@ -7,9 +7,10 @@
  * For the full copyright and license information, please see the
  * AUTHORS and LICENSE files distributed with this source code.
  *
- * @copyright 2016 Sourcefabric z.ú.
+ * @copyright 2016 Sourcefabric z.ú
  * @license http://www.superdesk.org/license
  */
+
 namespace SWP\Bundle\MultiTenancyBundle\Tests\DependencyInjection\Compiler;
 
 use SWP\Bundle\MultiTenancyBundle\DependencyInjection\Compiler\TenantAwareRouterCompilerPass;
@@ -23,7 +24,8 @@ class TenantAwareRouterCompilerPassTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->container = $this->getMock('Symfony\Component\DependencyInjection\ContainerBuilder');
+        $this->container = $this->getMockBuilder('Symfony\Component\DependencyInjection\ContainerBuilder')
+            ->getMock();
         $this->definition = $this->getMockBuilder('Symfony\Component\DependencyInjection\Definition')
             ->setMethods(['setArguments', 'addMethodCall', 'setMethodCalls'])
             ->getMock();
@@ -32,7 +34,7 @@ class TenantAwareRouterCompilerPassTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers SWP\Bundle\MultiTenancyBundle\DependencyInjection\Compiler\TenantAwareRouterCompilerPass::process
+     * @covers \SWP\Bundle\MultiTenancyBundle\DependencyInjection\Compiler\TenantAwareRouterCompilerPass::process
      */
     public function testProcess()
     {
@@ -78,7 +80,7 @@ class TenantAwareRouterCompilerPassTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers SWP\Bundle\MultiTenancyBundle\DependencyInjection\Compiler\TenantAwareRouterCompilerPass::process
+     * @covers \SWP\Bundle\MultiTenancyBundle\DependencyInjection\Compiler\TenantAwareRouterCompilerPass::process
      */
     public function testProcessCMFBackendDisabled()
     {
@@ -93,7 +95,7 @@ class TenantAwareRouterCompilerPassTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers SWP\Bundle\MultiTenancyBundle\DependencyInjection\Compiler\TenantAwareRouterCompilerPass::process
+     * @covers \SWP\Bundle\MultiTenancyBundle\DependencyInjection\Compiler\TenantAwareRouterCompilerPass::process
      */
     public function testProcessWithoutConfig()
     {

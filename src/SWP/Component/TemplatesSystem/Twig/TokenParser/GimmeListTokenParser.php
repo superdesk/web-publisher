@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  * This file is part of the Superdesk Web Publisher Templates System.
  *
  * Copyright 2015 Sourcefabric z.ú. and contributors.
@@ -8,9 +8,10 @@
  * For the full copyright and license information, please see the
  * AUTHORS and LICENSE files distributed with this source code.
  *
- * @copyright 2015 Sourcefabric z.ú.
+ * @copyright 2015 Sourcefabric z.ú
  * @license http://www.superdesk.org/license
  */
+
 namespace SWP\Component\TemplatesSystem\Twig\TokenParser;
 
 use SWP\Component\TemplatesSystem\Twig\Node\GimmeListNode;
@@ -65,6 +66,15 @@ class GimmeListTokenParser extends \Twig_TokenParser
             $parameters = $this->parser->getExpressionParser()->parseExpression();
         }
 
+        $ignoreContext = null;
+        if ($stream->nextIf(\Twig_Token::NAME_TYPE, 'ignoreContext')) {
+            if ($stream->test(\Twig_Token::PUNCTUATION_TYPE, '[')) {
+                $ignoreContext = $this->parser->getExpressionParser()->parseExpression();
+            } else {
+                $ignoreContext = new \Twig_Node_Expression_Array([], $token->getLine());
+            }
+        }
+
         $ifExpression = null;
         if ($stream->nextIf(\Twig_Token::NAME_TYPE, 'if')) {
             $ifExpression = $this->parser->getExpressionParser()->parseExpression();
@@ -81,6 +91,17 @@ class GimmeListTokenParser extends \Twig_TokenParser
 
         $stream->expect(\Twig_Token::BLOCK_END_TYPE);
 
-        return new GimmeListNode($variable, $collectionType, $collectionFilters, $parameters, $ifExpression, $else, $body, $lineno, $this->getTag());
+        return new GimmeListNode(
+            $variable,
+            $collectionType,
+            $collectionFilters,
+            $parameters,
+            $ignoreContext,
+            $ifExpression,
+            $else,
+            $body,
+            $lineno,
+            $this->getTag()
+        );
     }
 }

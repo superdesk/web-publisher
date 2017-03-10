@@ -8,6 +8,8 @@ The Superdesk Web Publisher templates system has its own git repository, at: htt
    :glob:
 
    templates
+   templates_features
+   article_media
    containers_and_widgets
-   rendering_custom_templates
    templates_caching
+   error_pages

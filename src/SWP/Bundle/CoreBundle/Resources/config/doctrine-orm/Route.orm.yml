@@ -1,0 +1,9 @@
+SWP\Bundle\CoreBundle\Model\Route:
+    type: entity
+    table: swp_route
+    fields:
+        tenantCode:
+            type: string
+    uniqueConstraints:
+        swp_route_name_idx:
+            columns: [ name, tenant_code ]

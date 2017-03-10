@@ -1,0 +1,80 @@
+SWP\Bundle\ContentBundle\Model\Article:
+    exclusion_policy: ALL
+    properties:
+        id:
+            expose: true
+            type: integer
+        title:
+            expose: true
+            type: string
+        lead:
+            expose: true
+            type: string
+        body:
+            expose: true
+            type: string
+        slug:
+            expose: true
+            type: string
+        route:
+            expose: true
+        publishedAt:
+            expose: true
+            type: DateTime
+        status:
+            expose: true
+            type: string
+        templateName:
+            expose: true
+            type: string
+        createdAt:
+            expose: true
+            type: DateTime
+        updatedAt:
+            expose: true
+            type: DateTime
+        publishStartDate:
+            expose: true
+            type: DateTime
+        publishEndDate:
+            expose: true
+            type: DateTime
+        isPublishable:
+            expose: true
+            type: boolean
+        media:
+            expose: true
+        featureMedia:
+            expose: true
+        metadata:
+            expose: true
+            type: array
+            accessor:
+                getter: getMetadata
+        keywords:
+            expose: true
+            type: array
+        code:
+            expose: true
+            type: string
+    relations:
+        -
+            rel: self
+            href:
+                route: swp_api_content_show_articles
+                parameters:
+                    id: "expr(object.getSlug())"
+        -
+            rel: online
+            href:
+                route: "expr(object.getRoute() ? object.getRoute().getRouteName() : 'swp_api_content_list_articles')"
+                parameters:
+                    slug: "expr(object.getSlug())"
+            exclusion:
+                exclude_if: "expr(object.getRoute() ? object.getRoute().getType() !== 'collection')"
+        -
+            rel: online
+            href:
+                route: "expr(object.getRoute() ? object.getRoute().getRouteName() : 'swp_api_content_list_articles' )"
+            exclusion:
+                exclude_if: "expr(object.getRoute() ? object.getRoute().getType() !== 'content')"

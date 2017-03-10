@@ -1,0 +1,64 @@
+SWP\Bundle\ContentBundle\Model\ArticleMedia:
+    type: mappedSuperclass
+    table: swp_article_media
+    repositoryClass: SWP\Bundle\ContentBundle\Doctrine\ORM\ArticleMediaRepository
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: IDENTITY
+    fields:
+        key:
+            type: string
+        body:
+            type: text
+            nullable: true
+        description:
+            type: text
+            nullable: true
+        located:
+            type: string
+            nullable: true
+        byLine:
+            type: string
+            nullable: true
+        mimetype:
+            type: string
+        usageTerms:
+            type: string
+            nullable: true
+        createdAt:
+            type: date
+        updatedAt:
+            type: date
+            nullable: true
+    oneToMany:
+        renditions:
+            targetEntity: SWP\Bundle\ContentBundle\Model\ImageRenditionInterface
+            mappedBy: media
+            orphanRemoval: true
+            cascade: ["all"]
+    manyToOne:
+        article:
+            targetEntity: SWP\Bundle\ContentBundle\Model\ArticleInterface
+            inversedBy: media
+            cascade: ["persist"]
+            joinColumn:
+                name: article_id
+                referencedColumnName: id
+                onDelete: CASCADE
+        file:
+            targetEntity: SWP\Bundle\ContentBundle\Model\FileInterface
+            inversedBy: media
+            cascade: ["persist"]
+            joinColumn:
+                name: file_id
+                referencedColumnName: id
+        image:
+            targetEntity: SWP\Bundle\ContentBundle\Model\ImageInterface
+            inversedBy: media
+            cascade: ["persist"]
+            joinColumn:
+                name: image_id
+                referencedColumnName: id

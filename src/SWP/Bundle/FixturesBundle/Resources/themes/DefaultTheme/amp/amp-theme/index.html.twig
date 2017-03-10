@@ -1,0 +1,61 @@
+{#
+Available variables:
+- object - Object of an class instance which you provided in the bundle config. e.g. AppBundle\Entity\Post
+#}
+<!doctype html>
+<html ⚡>
+<head>
+  <meta charset="utf-8">
+  <script async src="https://cdn.ampproject.org/v0.js"></script>
+  <title>{{ object.title }}</title>
+  <link rel="canonical" href="{{ url(gimme.article) }}">
+  <meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1">
+
+  {% include '@amp_theme/partials/head.html.twig' %}
+
+</head>
+<body>
+  <amp-install-serviceworker src="//{{ app.request.host }}/sw.js"
+       data-iframe-src="//{{ app.request.host }}/sw.html"
+       layout="nodisplay">
+   </amp-install-serviceworker>
+  {% include '@amp_theme/partials/menu.html.twig' %}
+  {% include '@amp_theme/partials/header.html.twig' %}
+
+<article role="article" class="main">
+  <h1>{{ object.title }}</h1>
+  <div class="byline">
+    <time datetime="{{ object.publishedAt|date("c") }}" >{{ object.publishedAt|date("d F Y") }}</time>
+    {% if object.metadata.byline %}, by {{ object.metadata.byline }}{% endif %}
+  </div>
+
+
+  <div class="article-content">
+      {% if gimme.article.featureMedia %}
+        {% gimme rendition with { 'media': gimme.article.featureMedia, 'name': '478x326'} %}
+          <amp-img src="{{ path(rendition) }}" height="326" width="478"  layout="responsive" alt="{{ media.body }}" class="mainImg"></amp-img>
+        {% endgimme %}
+      {% endif %}
+      <br>
+      {{ object.body|raw }}
+  </div>
+
+  <div class="shareButtons">
+    <amp-social-share type="facebook"
+        data-param-app_id="254325784911610"></amp-social-share>
+     <amp-social-share type="twitter"></amp-social-share>
+     <amp-social-share type="email"></amp-social-share>
+   </div>
+</article>
+
+<div class="readmore">
+  <b>Read More:</b>
+  {% gimmelist article from articles|start(0)|limit(5) %}
+    {% if article.slug != object.slug %}
+      <p><a href="{{ url(article) }}">{{ article.title }}</a></p>
+    {% endif %}
+  {% endgimmelist %}
+</div>
+
+</body>
+</html>

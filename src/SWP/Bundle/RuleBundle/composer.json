@@ -1,0 +1,46 @@
+{
+    "name": "swp/rule-bundle",
+    "type": "symfony-bundle",
+    "description": "A simple business rules engine for Symfony applications.",
+    "keywords": ["rules", "rule", "superdesk", "webpublisher", "business"],
+    "license":"AGPL-3.0",
+    "minimum-stability": "dev",
+    "authors": [
+        {
+            "name": "Rafał Muszyński",
+            "email": "rafal.muszynski@sourcefabric.org"
+        }
+    ],
+    "require": {
+        "php": "^7.0",
+        "symfony/dependency-injection": "3.1.*",
+        "symfony/config": "3.1.*",
+        "symfony/validator": "3.1.*",
+        "symfony/form": "3.1.*",
+        "swp/storage-bundle": "^0.5",
+        "swp/rule": "^0.5",
+        "burgov/key-value-form-bundle": "@stable"
+    },
+    "require-dev": {
+        "phpspec/phpspec": "^3.0"
+    },
+    "autoload": {
+        "exclude-from-classmap": [
+            "spec/"
+        ],
+        "psr-4": { "SWP\\Bundle\\RuleBundle\\": "" }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "SWP\\Bundle\\RuleBundle\\spec\\": "spec/"
+        }
+    },
+    "config": {
+        "bin-dir": "bin"
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "0.5-dev"
+        }
+    }
+}

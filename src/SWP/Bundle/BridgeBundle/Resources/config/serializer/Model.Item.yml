@@ -5,3 +5,19 @@ SWP\Component\Bridge\Model\Item:
             expose: true
             serialized_name: body_html
             type: string
+        bodyText:
+            expose: true
+            serialized_name: body_text
+            type: string
+        usageTerms:
+            expose: true
+            type: string
+            serialized_name: usageterms
+        items:
+            expose: true
+            serialized_name: associations
+            type: ArrayCollection<string,SWP\Component\Bridge\Model\Item>
+        renditions:
+            expose: true
+            serialized_name: renditions
+            type: ArrayCollection<string,SWP\Component\Bridge\Model\Rendition>

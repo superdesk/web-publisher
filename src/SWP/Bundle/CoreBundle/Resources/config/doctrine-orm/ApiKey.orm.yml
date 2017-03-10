@@ -1,0 +1,28 @@
+SWP\Bundle\CoreBundle\Model\ApiKey:
+    type: mappedSuperclass
+    table: swp_api_key
+    id:
+        id:
+            type: integer
+            generator:
+                strategy: AUTO
+    fields:
+        apiKey:
+            type: string
+        validTo:
+            type: datetime
+        createdAt:
+            type: datetime
+        updatedAt:
+            type: datetime
+            nullable: true
+    manyToOne:
+        user:
+            targetEntity: SWP\Bundle\CoreBundle\Model\UserInterface
+            joinColumn:
+                name: user_id
+                referencedColumnName: id
+                onDelete: CASCADE
+    uniqueConstraints:
+        search_idx:
+            columns: [ api_key ]

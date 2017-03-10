@@ -1,0 +1,10 @@
+{% extends 'knp_menu.html.twig' %}
+
+{% block list %}
+    {% if item.hasChildren and options.depth is not same as(0) and item.displayChildren %}
+        {% import _self as knp_menu %}
+        <ul id="footer_menu_first" class="menu hidden-phone">
+            {{ block('children') }}
+        </ul>
+    {% endif %}
+{% endblock %}

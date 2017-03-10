@@ -1,0 +1,33 @@
+SWP\Bundle\ContentBundle\Model\Image:
+    type: mappedSuperclass
+    table: swp_image
+    repositoryClass: SWP\Bundle\ContentBundle\Doctrine\ORM\ImageRepository
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: IDENTITY
+    fields:
+        assetId:
+            type: string
+        fileExtension:
+            type: string
+        width:
+            type: integer
+            nullable: true
+        height:
+            type: integer
+            nullable: true
+        createdAt:
+            type: date
+        updatedAt:
+            type: date
+            nullable: true
+    oneToMany:
+        media:
+            targetEntity: SWP\Bundle\ContentBundle\Model\ArticleMediaInterface
+            mappedBy: image
+        renditions:
+            targetEntity: SWP\Bundle\ContentBundle\Model\ImageRenditionInterface
+            mappedBy: image

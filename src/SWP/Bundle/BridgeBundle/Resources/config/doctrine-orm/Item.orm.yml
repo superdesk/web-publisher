@@ -1,0 +1,70 @@
+SWP\Component\Bridge\Model\Item:
+    type: entity
+    table: swp_item
+    repositoryClass: SWP\Bundle\BridgeBundle\Doctrine\ORM\ItemRepository
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        headline:
+            type: string
+        slugline:
+            type: string
+            nullable: true
+        guid:
+            type: string
+        evolvedFrom:
+            type: string
+            nullable: true
+        byline:
+            type: string
+            nullable: true
+        language:
+            type: string
+        description:
+            type: text
+            nullable: true
+        subjects:
+            type: array
+        services:
+            type: array
+            nullable: true
+        keywords:
+            type: array
+        places:
+            type: array
+        type:
+            type: string
+        located:
+            type: string
+            nullable: true
+        pubStatus:
+            type: string
+        urgency:
+            type: integer
+        priority:
+            type: integer
+        version:
+            type: integer
+        body:
+            type: text
+            nullable: true
+        createdAt:
+            type: datetime
+            gedmo:
+                timestampable:
+                    on: create
+        updatedAt:
+            type: datetime
+            nullable: true
+            gedmo:
+                timestampable:
+                    on: update
+    manyToOne:
+        package:
+            targetEntity: SWP\Component\Bridge\Model\Package
+            joinColumn:
+              onDelete: CASCADE

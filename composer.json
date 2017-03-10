@@ -15,7 +15,7 @@
         "news",
         "media"
     ],
-     "authors": [
+    "authors": [
         {
             "name": "Paweł Mikołajczuk",
             "email": "mikolajczuk.private@gmail.com"
@@ -36,62 +36,80 @@
     "license":"GPL-3.0",
     "autoload": {
         "psr-4": {
-            "": "src/"
+            "SWP\\Bundle\\": "src/SWP/Bundle/",
+            "SWP\\Component\\": "src/SWP/Component/",
+            "SWP\\Bridge\\": "src/SWP/Bridge/"
         },
-        "exclude-from-classmap": [
-            "**/Tests/", "**/spec/"
-        ]
+        "exclude-from-classmap": [ "**/Tests/", "**/spec/" ],
+        "classmap": [ "app/AppKernel.php" ]
     },
     "repositories": [
         {
             "type": "vcs",
-            "url": "https://github.com/FriendsOfSymfony/FOSRestBundle"
+            "url": "https://github.com/ahilles107/SyliusThemeBundle"
         }
     ],
     "require": {
-        "php": "^5.6|^7.0",
-        "symfony/symfony": "2.8.x-dev",
+        "php": "^7.0",
+        "symfony/symfony": "3.1.x",
         "symfony/swiftmailer-bundle": "~2.3",
         "symfony/monolog-bundle": "~2.4",
-        "sensio/distribution-bundle": "~3.0,>=3.0.12",
+        "sensio/distribution-bundle": "v5.0.x",
         "sensio/framework-extra-bundle": "~3.0,>=3.0.2",
+        "sensio/generator-bundle": "~3.0",
         "doctrine/orm": "2.5.*",
         "doctrine/common": "2.6.*",
         "doctrine/dbal": "2.5.*",
         "doctrine/doctrine-bundle": "~1.6",
-        "doctrine/phpcr-odm": "1.3.*",
-        "doctrine/phpcr-bundle": "1.3.*",
         "doctrine/inflector": "^1.0",
         "doctrine/doctrine-cache-bundle": "1.3.*",
-        "guzzlehttp/guzzle": "^6.0",
+        "guzzlehttp/guzzle": "^6.2",
         "twig/extensions": "~1.0",
+        "twig/twig": "1.29.0",
         "emanueleminotto/twig-cache-bundle": "~1.0",
         "incenteev/composer-parameter-handler": "~2.0",
         "friendsofsymfony/http-cache-bundle": "^2.0@dev",
         "friendsofsymfony/rest-bundle": "2.1.x-dev as 1.5",
+        "friendsofsymfony/user-bundle": "~2.0@dev",
         "jackalope/jackalope-doctrine-dbal": "1.3.*",
-        "oneup/flysystem-bundle": "^1.1",
-        "swp/updater-bundle": "^1.0@dev",
+        "oneup/flysystem-bundle": "^1.4",
         "behat/transliterator": "^1.1@dev",
         "willdurand/hateoas-bundle": "^1.1",
         "knplabs/knp-paginator-bundle": "^2.4@dev",
+        "knplabs/knp-menu-bundle": "^2.1",
         "stof/doctrine-extensions-bundle": "^1.2",
-        "symfony-cmf/routing-bundle": "^1.3",
-        "sylius/theme-bundle": "v0.18.0",
+        "symfony-cmf/routing-bundle": "^2.0",
+        "symfony-cmf/core-bundle": "2.0.x-dev",
+        "sylius/theme-bundle": "dev-master",
         "superdesk/contentapi-sdk-php": "1.0.x-dev",
         "justinrainbow/json-schema": "1.4.4",
-        "league/pipeline": "^0.2.2",
-        "jms/translation-bundle": "^1.2"
+        "jms/translation-bundle": "^1.2",
+        "hoa/mime": "3.16.01.15",
+        "hoa/file": "1.16.01.15",
+        "sentry/sentry-symfony": "^0.4.0",
+        "danielstjules/stringy": "~2.3",
+        "burgov/key-value-form-bundle": "@stable",
+        "nelmio/api-doc-bundle": "^2.13",
+        "nelmio/cors-bundle": "^1.4",
+        "facebook/facebook-instant-articles-sdk-php": "v1.5.*",
+        "takeit/amp-html-bundle": "^0.2.0@dev",
+        "asm89/twig-cache-extension": "^1.3",
+        "doctrine/doctrine-migrations-bundle": "^1.0",
+        "layershifter/tld-extract": "^1.2"
     },
     "require-dev": {
-        "sensio/generator-bundle": "~3.0",
         "phpspec/phpspec": "^2.4",
-        "phpunit/phpunit": "4.8.*",
+        "phpunit/phpunit": "5.*",
         "liip/functional-test-bundle": "^1.3@dev",
         "doctrine/doctrine-fixtures-bundle": "^2.2@dev",
         "nelmio/alice": "2.1.x",
         "henrikbjorn/phpspec-code-coverage" : "2.*@dev",
-        "matthiasnoback/symfony-dependency-injection-test": "^v0.7"
+        "matthiasnoback/symfony-dependency-injection-test": "^v0.7",
+        "johnkary/phpunit-speedtrap": "^1.0",
+        "symfony/phpunit-bridge": "^3.1",
+        "symfony-cmf/testing": "2.0.x",
+        "liip/rmt": "dev-master",
+        "pixers/doctrine-profiler-bundle": "^1.0"
     },
     "replace": {
         "swp/common": "self.version",
@@ -102,7 +120,12 @@
         "swp/bridge": "self.version",
         "swp/storage-bundle": "self.version",
         "swp/storage": "self.version",
-        "swp/templates-system": "self.version"
+        "swp/templates-system": "self.version",
+        "swp/rule-bundle": "self.version",
+        "swp/rule": "self.version",
+        "swp/facebook-instant-articles-bundle": "self.version",
+        "swp/revision-bundle": "self.version",
+        "swp/revision": "self.version"
     },
     "scripts": {
         "post-install-cmd": [
@@ -137,7 +160,14 @@
         "incenteev-parameters": {
             "file": "app/config/parameters.yml",
             "env-map": {
-                "doctrine_cache_driver": "DOCTRINE_CACHE_DRIVER"
+                "doctrine_cache_driver": "DOCTRINE_CACHE_DRIVER",
+                "env(DATABASE_USER)": "DATABASE_USER",
+                "env(DATABASE_HOST)": "DATABASE_HOST",
+                "env(DATABASE_PORT)": "DATABASE_PORT",
+                "env(DATABASE_NAME)": "DATABASE_NAME",
+                "env(SYMFONY_SECRET)": "SYMFONY_SECRET",
+                "env(SWP_DOMAIN)": "SWP_DOMAIN",
+                "domain": "SWP_DOMAIN"
             }
         }
     }

@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  * This file is part of the Superdesk Web Publisher Templates System.
  *
  * Copyright 2015 Sourcefabric z.ú. and contributors.
@@ -8,22 +8,17 @@
  * For the full copyright and license information, please see the
  * AUTHORS and LICENSE files distributed with this source code.
  *
- * @copyright 2015 Sourcefabric z.ú.
+ * @copyright 2015 Sourcefabric z.ú
  * @license http://www.superdesk.org/license
  */
+
 namespace SWP\Component\TemplatesSystem\Gimme\Widget;
 
 use SWP\Component\TemplatesSystem\Gimme\Model\WidgetModelInterface;
-use Symfony\Component\DependencyInjection\ContainerAwareInterface;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 
-abstract class AbstractWidgetHandler implements WidgetHandlerInterface, ContainerAwareInterface
+abstract class AbstractWidgetHandler implements WidgetHandlerInterface
 {
-    const WIDGET_TEMPLATE_PATH = 'widgets';
-
     protected static $expectedParameters = [];
-
-    protected $container;
 
     protected $widgetModel;
 
@@ -46,17 +41,25 @@ abstract class AbstractWidgetHandler implements WidgetHandlerInterface, Containe
     }
 
     /**
-     * @param ContainerInterface|null $container
+     * {@inheritdoc}
      */
-    public function setContainer(ContainerInterface $container = null)
+    public function isVisible()
     {
-        $this->container = $container;
+        return $this->widgetModel->getVisible();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getId()
+    {
+        return $this->widgetModel->getId();
     }
 
     /**
      * @param $name
      *
-     * @return string
+     * @return null|string
      */
     protected function getModelParameter($name)
     {
@@ -72,25 +75,7 @@ abstract class AbstractWidgetHandler implements WidgetHandlerInterface, Containe
             }
         }
 
-        // TODO - what if there is no parameter, and no default value for that parameter?
-    }
-
-    /**
-     * Check if widget should be rendered.
-     *
-     * @return bool
-     */
-    public function isVisible()
-    {
-        return $this->widgetModel->getVisible();
-    }
-
-    /**
-     * Render given template with given parameters.
-     */
-    protected function renderTemplate($templateName, $parameters = array())
-    {
-        $this->container->get('templating')->render(self::WIDGET_TEMPLATE_PATH.'/'.$templateName, $parameters);
+        return;
     }
 
     /**
@@ -101,7 +86,7 @@ abstract class AbstractWidgetHandler implements WidgetHandlerInterface, Containe
     protected function getAllParametersWithValue()
     {
         $all = array();
-        foreach (self::getExpectedParameters() as $key) {
+        foreach (self::getExpectedParameters() as $key => $value) {
             $all[$key] = $this->getModelParameter($key);
         }
 

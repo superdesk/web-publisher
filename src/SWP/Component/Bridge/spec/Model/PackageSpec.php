@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  * This file is part of the Superdesk Web Publisher Bridge Component.
  *
  * Copyright 2016 Sourcefabric z.ú. and contributors.
@@ -8,9 +8,10 @@
  * For the full copyright and license information, please see the
  * AUTHORS and LICENSE files distributed with this source code.
  *
- * @copyright 2016 Sourcefabric z.ú.
+ * @copyright 2016 Sourcefabric z.ú
  * @license http://www.superdesk.org/license
  */
+
 namespace spec\SWP\Component\Bridge\Model;
 
 use Doctrine\Common\Collections\Collection;
@@ -90,5 +91,16 @@ class PackageSpec extends ObjectBehavior
     {
         $this->setEnabled(false);
         $this->shouldNotBeEnabled();
+    }
+
+    public function it_has_no_evolvedfrom_by_default()
+    {
+        $this->getEvolvedFrom()->shouldReturn(null);
+    }
+
+    public function its_evolvedfrom_is_mutable()
+    {
+        $this->setEvolvedFrom('urn:235:sdkfsdfsdkgs');
+        $this->getEvolvedFrom()->shouldReturn('urn:235:sdkfsdfsdkgs');
     }
 }

@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  * This file is part of the Superdesk Web Publisher Content Bundle.
  *
  * Copyright 2016 Sourcefabric z.ú. and contributors.
@@ -8,14 +8,15 @@
  * For the full copyright and license information, please see the
  * AUTHORS and LICENSE files distributed with this source code.
  *
- * @copyright 2016 Sourcefabric z.ú.
+ * @copyright 2016 Sourcefabric z.ú
  * @license http://www.superdesk.org/license
  */
+
 namespace SWP\Bundle\ContentBundle\Model;
 
 use SWP\Component\Storage\Model\PersistableInterface;
 
-interface RouteInterface extends PersistableInterface
+interface RouteInterface extends TreeAwareRouteInterface, PersistableInterface
 {
     const TYPE_CONTENT = 'content';
     const TYPE_COLLECTION = 'collection';
@@ -29,6 +30,16 @@ interface RouteInterface extends PersistableInterface
      * @param string $templateName
      */
     public function setTemplateName($templateName);
+
+    /**
+     * @return string
+     */
+    public function getArticlesTemplateName();
+
+    /**
+     * @param string $articlesTemplateName
+     */
+    public function setArticlesTemplateName($articlesTemplateName);
 
     /**
      * @return string
@@ -53,6 +64,16 @@ interface RouteInterface extends PersistableInterface
      * @return string
      */
     public function getVariablePattern();
+
+    /**
+     * @param $prefix string
+     */
+    public function setStaticPrefix($prefix);
+
+    /**
+     * @return string
+     */
+    public function getStaticPrefix();
 
     /**
      * Sets requirements for route.
@@ -96,4 +117,60 @@ interface RouteInterface extends PersistableInterface
      * @return string
      */
     public function getName();
+
+    /**
+     * @return int
+     */
+    public function getCacheTimeInSeconds();
+
+    /**
+     * @param int $cacheTimeInSeconds
+     */
+    public function setCacheTimeInSeconds($cacheTimeInSeconds);
+
+    /**
+     * @return array
+     */
+    public function getDefaults();
+
+    /**
+     * @param array $defaults
+     */
+    public function setDefaults(array $defaults);
+
+    /**
+     * @param array $defaults
+     */
+    public function addDefaults(array $defaults);
+
+    /**
+     * @param string $name
+     * @param string $value
+     */
+    public function setDefault($name, $value);
+
+    /**
+     * Set the object this url points to.
+     *
+     * @param mixed $object A content object that can be persisted by the
+     *                      storage layer
+     */
+    public function setContent($object);
+
+    /**
+     * Get the object this url points to.
+     *
+     * @return mixed
+     */
+    public function getContent();
+
+    /**
+     * @return int|null
+     */
+    public function getParentId();
+
+    /**
+     * @return int|null
+     */
+    public function getRootId();
 }

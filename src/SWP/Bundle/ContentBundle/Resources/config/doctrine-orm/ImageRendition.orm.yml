@@ -1,0 +1,31 @@
+SWP\Bundle\ContentBundle\Model\ImageRendition:
+    type: mappedSuperclass
+    table: swp_image_rendition
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: IDENTITY
+    fields:
+        width:
+            type: integer
+        height:
+            type: integer
+        name:
+            type: string
+    manyToOne:
+        image:
+            targetEntity: SWP\Bundle\ContentBundle\Model\ImageInterface
+            inversedBy: renditions
+            joinColumn:
+                name: image_id
+                referencedColumnName: id
+                onDelete: CASCADE
+        media:
+            targetEntity: SWP\Bundle\ContentBundle\Model\ArticleMediaInterface
+            inversedBy: renditions
+            joinColumn:
+                name: media_id
+                referencedColumnName: id
+                onDelete: CASCADE

@@ -46,3 +46,28 @@ SWP\Component\Bridge\Model\BaseContent:
         version:
             expose: true
             type: integer
+        services:
+            expose: true
+            serialized_name: service
+            type: array
+        genre:
+            expose: true
+            type: string
+        edNote:
+            expose: true
+            type: string
+        description:
+            expose: true
+            serialized_name: description_text
+            type: string
+        keywords:
+            expose: true
+            type: array
+        pubStatus:
+            expose: true
+            serialized_name: pubstatus
+            type: string
+        evolvedFrom:
+            expose: true
+            type: string
+            serialized_name: evolvedfrom

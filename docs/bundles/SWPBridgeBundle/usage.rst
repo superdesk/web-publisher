@@ -94,6 +94,8 @@ To register your new validator, simply add a definition to your services file an
 
     You can use the ``SWP\Component\Bridge\Validator\JsonValidator`` abstract class if you wish to create custom JSON validator.
 
+.. _bridge_bundle_transformers:
+
 Using Transformer Chain Service
 -------------------------------
 
@@ -197,3 +199,24 @@ To register your new Data Transformer, simply add a definition to your services 
             - '@swp_bridge.http_push.validator_chain'
         tags:
             - { name: transformer.http_push_transformer, alias: transformer.json_to_object }
+
+
+Enabling a separate Monolog channel for Validators
+--------------------------------------------------
+
+It is possible to enable a separate Monolog channel to which all validators related logs will be forwarded. An example log entry might be logged when the incoming payload can not be validated properly.. You could have then a separate log file for which will be usually saved under the directory ``app/logs/`` in your application and will be named, for example: ``swp_validators_<env>.log``. By default, a separate channel is disabled. You can enable it by adding an extra channel in your Monolog settings (in one of your configuration files):
+
+.. code-block:: yaml
+
+    # app/config/config.yml
+    monolog:
+        handlers:
+            swp_validators:
+                level:    debug
+                type:     stream
+                path:     '%kernel.logs_dir%/swp_validators_%kernel.environment%.log'
+                channels: swp_validators
+
+For more details see the `Monolog documentation`_.
+
+.. _Monolog documentation: http://symfony.com/doc/current/logging/channels_handlers.html

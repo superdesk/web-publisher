@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  * This file is part of the Superdesk Web Publisher MultiTenancy Component.
  *
  * Copyright 2015 Sourcefabric z.u. and contributors.
@@ -8,9 +8,10 @@
  * For the full copyright and license information, please see the
  * AUTHORS and LICENSE files distributed with this source code.
  *
- * @copyright 2015 Sourcefabric z.ú.
+ * @copyright 2015 Sourcefabric z.ú
  * @license http://www.superdesk.org/license
  */
+
 namespace SWP\Component\MultiTenancy\Model;
 
 /**
@@ -19,16 +20,16 @@ namespace SWP\Component\MultiTenancy\Model;
 interface TenantAwareInterface
 {
     /**
-     * Gets the current tenant.
+     * Gets the current tenant (code).
      *
-     * @return TenantInterface The instance of TenantInterface
+     * @return string Tenant code
      */
-    public function getTenant();
+    public function getTenantCode();
 
     /**
-     * Sets the tenant.
+     * Sets the tenant (code).
      *
-     * @param TenantInterface $tenant The instance of TenantInterface
+     * @param string $code Tenant code
      */
-    public function setTenant(TenantInterface $tenant);
+    public function setTenantCode($code);
 }

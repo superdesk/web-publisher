@@ -1,0 +1,15 @@
+SWP\Component\Rule\Model\Rule:
+    exclusion_policy: ALL
+    properties:
+        id:
+            expose: true
+            type: integer
+        expression:
+            expose: true
+            type: string
+        priority:
+            expose: true
+            type: integer
+        configuration:
+            expose: true
+            type: array

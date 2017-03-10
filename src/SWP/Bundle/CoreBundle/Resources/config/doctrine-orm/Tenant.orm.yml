@@ -1,0 +1,16 @@
+SWP\Bundle\CoreBundle\Model\Tenant:
+    type: entity
+    table: swp_tenant
+    fields:
+        themeName:
+            type: string
+            nullable: true
+        ampEnabled:
+            type: boolean
+    oneToOne:
+        homepage:
+            targetEntity: SWP\Bundle\ContentBundle\Model\RouteInterface
+            joinColumn:
+                name: tenant_route_id
+                referencedColumnName: id
+                nullable: true

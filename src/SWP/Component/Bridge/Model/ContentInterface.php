@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  * This file is part of the Superdesk Web Publisher Bridge Component.
  *
  * Copyright 2016 Sourcefabric z.ú. and contributors.
@@ -8,13 +8,17 @@
  * For the full copyright and license information, please see the
  * AUTHORS and LICENSE files distributed with this source code.
  *
- * @copyright 2016 Sourcefabric z.ú.
+ * @copyright 2016 Sourcefabric z.ú
  * @license http://www.superdesk.org/license
  */
+
 namespace SWP\Component\Bridge\Model;
 
 interface ContentInterface
 {
+    const STATUS_USABLE = 'usable';
+    const STATUS_CANCELED = 'canceled';
+
     /**
      * @return mixed
      */
@@ -139,4 +143,74 @@ interface ContentInterface
      * @param int $priority
      */
     public function setPriority($priority);
+
+    /**
+     * @return array
+     */
+    public function getServices();
+
+    /**
+     * @param array $services
+     */
+    public function setServices(array $services = []);
+
+    /**
+     * @return string
+     */
+    public function getEdNote();
+
+    /**
+     * @param string $edNote
+     */
+    public function setEdNote($edNote);
+
+    /**
+     * @return string
+     */
+    public function getGenre();
+
+    /**
+     * @param string $genre
+     */
+    public function setGenre($genre);
+
+    /**
+     * @return array
+     */
+    public function getMetadata();
+
+    /**
+     * @return string
+     */
+    public function getDescription();
+
+    /**
+     * @return array
+     */
+    public function getKeywords(): array;
+
+    /**
+     * @param array $keywords
+     */
+    public function setKeywords(array $keywords);
+
+    /**
+     * @return string
+     */
+    public function getPubStatus(): string;
+
+    /**
+     * @param string $pubStatus
+     */
+    public function setPubStatus(string $pubStatus);
+
+    /**
+     * @return string|null
+     */
+    public function getEvolvedFrom();
+
+    /**
+     * @param string $evolvedFrom
+     */
+    public function setEvolvedFrom(string $evolvedFrom);
 }

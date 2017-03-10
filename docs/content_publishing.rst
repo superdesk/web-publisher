@@ -8,13 +8,13 @@ Deciding if content is visible for user in Web Publisher is done dynamically - b
     By default all users can see only published content, but if user have role :code:`ROLE_CAN_VIEW_NON_PUBLISHED` then also not published content will be fetched and rendered.
 
 How published content is marked in database?
-------------------------------------
+--------------------------------------------
 
 Published content need to match those criteria:
 
  * :code:`status` property set to :code:`published`
- * :code:`published_at` property filled with date and time
- * :code:`is_publishable` property set to :code:`true`
+ * :code:`publishedAt` property filled with date and time
+ * :code:`isPublishable` property set to :code:`true`
 
 How to Publish content?
 -----------------------
@@ -50,3 +50,9 @@ How to check (in code) if content is published?
 .. note::
 
     Content assigned to routes is automatically checked (if it's publishable for current user) by event listener.
+
+
+How to Un-publish Content?
+--------------------------
+
+If an article is published you can easily un-publish it via API as described above. Another way to un-publish already published article is by ``killing`` the article. It can be achieved by setting the value of ``pubStatus`` property to ``canceled`` in the JSON (Ninjs) content according to `IPTC standards <http://cv.iptc.org/newscodes/pubstatusg2/canceled>`_. Once that status will be set, and the content will be send to Publisher (/content/push API endpoint), article will be un-published immediately and its status will be set to ``canceled``.

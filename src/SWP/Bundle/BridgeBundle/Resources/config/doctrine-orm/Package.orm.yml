@@ -1,7 +1,7 @@
 SWP\Component\Bridge\Model\Package:
     type: entity
     table: swp_package
-    repositoryClass: SWP\Bundle\BridgeBundle\Doctrine\ORM\PakcageRepository
+    repositoryClass: SWP\Bundle\BridgeBundle\Doctrine\ORM\PackageRepository
     gedmo:
         soft_deleteable:
             field_name: deletedAt
@@ -20,11 +20,23 @@ SWP\Component\Bridge\Model\Package:
             type: string
         guid:
             type: string
+        evolvedFrom:
+            type: string
+            nullable: true
         byline:
             type: string
+            nullable: true
         language:
             type: string
+        description:
+            type: text
+            nullable: true
         subjects:
+            type: array
+        services:
+            type: array
+            nullable: true
+        keywords:
             type: array
         places:
             type: array
@@ -32,14 +44,15 @@ SWP\Component\Bridge\Model\Package:
             type: string
         located:
             type: string
+            nullable: true
+        pubStatus:
+            type: string
         urgency:
             type: integer
         priority:
             type: integer
         version:
             type: integer
-        items:
-            type: array
         enabled:
             type: boolean
         createdAt:
@@ -56,3 +69,8 @@ SWP\Component\Bridge\Model\Package:
         deletedAt:
             type: datetime
             nullable: true
+    oneToMany:
+        items:
+            targetEntity: SWP\Component\Bridge\Model\Item
+            cascade: ["persist"]
+            mappedBy: package

@@ -15,6 +15,26 @@ suites:
         psr4_prefix: SWP\Component\Storage
         spec_path: src/SWP/Component/Storage
         src_path: src/SWP/Component/Storage
+    Common_suite:
+        namespace: SWP\Component\Common
+        psr4_prefix: SWP\Component\Common
+        spec_path: src/SWP/Component/Common
+        src_path: src/SWP/Component/Common
+    TemplatesSystem_suite:
+        namespace: SWP\Component\TemplatesSystem
+        psr4_prefix: SWP\Component\TemplatesSystem
+        spec_path: src/SWP/Component/TemplatesSystem
+        src_path: src/SWP/Component/TemplatesSystem
+    Rule_suite:
+        namespace: SWP\Component\Rule
+        psr4_prefix: SWP\Component\Rule
+        spec_path: src/SWP/Component/Rule
+        src_path: src/SWP/Component/Rule
+    ContentList_suite:
+        namespace: SWP\Component\ContentList
+        psr4_prefix: SWP\Component\ContentList
+        spec_path: src/SWP/Component/ContentList
+        src_path: src/SWP/Component/ContentList
 
     # bundles
     MultiTenancyBundle_suite:
@@ -27,11 +47,11 @@ suites:
         psr4_prefix: SWP\Bundle\ContentBundle
         spec_path: src/SWP/Bundle/ContentBundle
         src_path: src/SWP/Bundle/ContentBundle
-    WebRendererBundle_suite:
-        namespace: SWP\Bundle\WebRendererBundle
-        psr4_prefix: SWP\Bundle\WebRendererBundle
-        spec_path: src/SWP/Bundle/WebRendererBundle
-        src_path: src/SWP/Bundle/WebRendererBundle
+    CoreBundle_suite:
+        namespace: SWP\Bundle\CoreBundle
+        psr4_prefix: SWP\Bundle\CoreBundle
+        spec_path: src/SWP/Bundle/CoreBundle
+        src_path: src/SWP/Bundle/CoreBundle
     BridgeBundle_suite:
         namespace: SWP\Bundle\BridgeBundle
         psr4_prefix: SWP\Bundle\BridgeBundle
@@ -42,6 +62,31 @@ suites:
         psr4_prefix: SWP\Bundle\StorageBundle
         spec_path: src/SWP/Bundle/StorageBundle
         src_path: src/SWP/Bundle/StorageBundle
+    RuleBundle_suite:
+        namespace: SWP\Bundle\RuleBundle
+        psr4_prefix: SWP\Bundle\RuleBundle
+        spec_path: src/SWP/Bundle/RuleBundle
+        src_path: src/SWP/Bundle/RuleBundle
+    ContentListBundle_suite:
+        namespace: SWP\Bundle\ContentListBundle
+        psr4_prefix: SWP\Bundle\ContentListBundle
+        spec_path: src/SWP/Bundle/ContentListBundle
+        src_path: src/SWP/Bundle/ContentListBundle
+    TemplatesSystemBundle_suite:
+        namespace: SWP\Bundle\TemplatesSystemBundle
+        psr4_prefix: SWP\Bundle\TemplatesSystemBundle
+        spec_path: src/SWP/Bundle/TemplatesSystemBundle
+        src_path: src/SWP/Bundle/TemplatesSystemBundle
+    MenuBundle_suite:
+        namespace: SWP\Bundle\MenuBundle
+        psr4_prefix: SWP\Bundle\MenuBundle
+        spec_path: src/SWP/Bundle/MenuBundle
+        src_path: src/SWP/Bundle/MenuBundle
+    FacebookInstantArticlesBundle_suite:
+        namespace: SWP\Bundle\FacebookInstantArticlesBundle
+        psr4_prefix: SWP\Bundle\FacebookInstantArticlesBundle
+        spec_path: src/SWP/Bundle/FacebookInstantArticlesBundle
+        src_path: src/SWP/Bundle/FacebookInstantArticlesBundle
 
 #extensions:
 #    - PhpSpec\Extension\CodeCoverageExtension

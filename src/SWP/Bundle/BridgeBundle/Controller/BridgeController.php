@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  * This file is part of the Superdesk Web Publisher Bridge for the Content API.
  *
  * Copyright 2015 Sourcefabric z.u. and contributors.
@@ -8,9 +8,10 @@
  * For the full copyright and license information, please see the
  * AUTHORS and LICENSE files distributed with this source code.
  *
- * @copyright 2015 Sourcefabric z.ú.
+ * @copyright 2015 Sourcefabric z.ú
  * @license http://www.superdesk.org/license
  */
+
 namespace SWP\Bundle\BridgeBundle\Controller;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -62,7 +63,6 @@ class BridgeController extends Controller
 
         switch ($endpointPath) {
             case $sdk::SUPERDESK_ENDPOINT_ITEMS:
-
                 if (!is_null($objectId)) {
                     $data = $sdk->getItem($objectId);
                 } else {
@@ -71,7 +71,6 @@ class BridgeController extends Controller
                 break;
 
             case $sdk::SUPERDESK_ENDPOINT_PACKAGES:
-
                 // TODO: Change this in the future to match the superdesk public api parameter name
                 $resolve = (isset($parameters['resolveItems']) && $parameters['resolveItems']) ? true : false;
 

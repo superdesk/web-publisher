@@ -1,0 +1,5 @@
+services:
+    swp.remover.content_list_items_remover:
+        class: SWP\Bundle\ContentListBundle\Remover\ContentListItemsRemover
+        arguments:
+            - '@swp.repository.content_list_item'

@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  * This file is part of the Superdesk Web Publisher Bridge for the Content API.
  *
  * Copyright 2015 Sourcefabric z.u. and contributors.
@@ -8,9 +8,10 @@
  * For the full copyright and license information, please see the
  * AUTHORS and LICENSE files distributed with this source code.
  *
- * @copyright 2015 Sourcefabric z.ú.
+ * @copyright 2015 Sourcefabric z.ú
  * @license http://www.superdesk.org/license
  */
+
 namespace spec\SWP\Bundle\BridgeBundle\Client;
 
 use PhpSpec\ObjectBehavior;
@@ -42,7 +43,7 @@ class GuzzleApiClientSpec extends ObjectBehavior
 
     public function it_is_initializable()
     {
-        $this->shouldHaveType('\SWP\Bundle\BridgeBundle\Client\GuzzleApiClient');
+        $this->shouldHaveType('SWP\Bundle\BridgeBundle\Client\GuzzleApiClient');
         $this->shouldImplement('\Superdesk\ContentApiSdk\Client\ApiClientInterface');
     }
 
@@ -62,7 +63,6 @@ class GuzzleApiClientSpec extends ObjectBehavior
 
     public function it_should_add_default_options_when_making_a_call($client, $request)
     {
-        $options = ['headers' => ['User-Agent' => 'guzzle_api_spec_test']];
         $request->getOptions()->shouldBeCalled()->willReturn([]);
         $request->setOptions(Argument::type('array'))->shouldBeCalled();
         $client->makeCall(

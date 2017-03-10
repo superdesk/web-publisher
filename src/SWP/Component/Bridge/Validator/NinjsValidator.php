@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  * This file is part of the Superdesk Web Publisher Bridge Component.
  *
  * Copyright 2016 Sourcefabric z.ú. and contributors.
@@ -8,9 +8,10 @@
  * For the full copyright and license information, please see the
  * AUTHORS and LICENSE files distributed with this source code.
  *
- * @copyright 2016 Sourcefabric z.ú.
+ * @copyright 2016 Sourcefabric z.ú
  * @license http://www.superdesk.org/license
  */
+
 namespace SWP\Component\Bridge\Validator;
 
 class NinjsValidator extends JsonValidator
@@ -68,6 +69,11 @@ class NinjsValidator extends JsonValidator
         },
         "versioncreated" : {
             "description" : "The date and time when this version of the news object was created",
+            "type" : "string",
+            "format" : "date-time"
+        },
+        "firstcreated" : {
+            "description" : "The date and time when the item was created",
             "type" : "string",
             "format" : "date-time"
         },
@@ -233,10 +239,6 @@ class NinjsValidator extends JsonValidator
                         "description" : "The place group",
                         "type" : "string"
                     },
-                    "name" : {
-                        "description" : "The place name",
-                        "type" : "string"
-                    },
                     "country" : {
                         "description" : "The country name",
                         "type" : "string"
@@ -339,6 +341,14 @@ class NinjsValidator extends JsonValidator
         },
         "located" : {
             "description" : "The name of the location from which the content originates.",
+            "type" : "string"
+        },
+        "keywords": {
+            "description" : "Content keywords",
+            "type" : "array"
+        },
+        "evolvedfrom": {
+            "description" : "The content of this item has evolved from related item with this guid.",
             "type" : "string"
         },
         "renditions" : {

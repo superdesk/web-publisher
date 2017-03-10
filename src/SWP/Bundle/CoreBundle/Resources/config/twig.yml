@@ -1,0 +1,28 @@
+services:
+    swp_core.decorating_routing.twig_extension:
+        class: SWP\Bundle\CoreBundle\Twig\RoutingExtension
+        decorates: twig.extension.routing
+        public: false
+        parent: twig.extension.routing
+
+    swp_core.decorating_menu.twig_extension:
+        class: SWP\Bundle\CoreBundle\Twig\MenuExtension
+        parent: knp_menu.twig.extension
+        public: false
+        decorates: knp_menu.twig.extension
+
+    swp_core.twig_stringy_extension:
+        class: SWP\Bundle\CoreBundle\Twig\StringyExtension
+        public: false
+        arguments:
+            - "@twig"
+        tags:
+            - { name: twig.extension }
+
+    swp_core.twig_extension:
+        class: SWP\Bundle\CoreBundle\Twig\CoreExtension
+        public: false
+        arguments:
+            - "@swp_core.theme.context.tenant_aware"
+        tags:
+            - { name: twig.extension }

@@ -1,0 +1,29 @@
+name: articleMedia
+class: "SWP\\Bundle\\ContentBundle\\Model\\ArticleMediaInterface"
+description: Media Meta is representation of article files and images
+properties:
+    id:
+        description: "Media Id"
+        type: text
+    description:
+        description: "Media description"
+        type: text
+    located:
+        description: "Information about mmedia location"
+        type: text
+    byLine:
+        description: "Media author signature"
+        type: text
+    body:
+        description: "Body content"
+        type: text
+    mimetype:
+        description: "Media Mime Type"
+        type: text
+    usageTerms:
+        description: "Usage terms category"
+        type: text
+    renditions:
+        description: "Array with renditions (if file is image)"
+        type: array
+to_string: body

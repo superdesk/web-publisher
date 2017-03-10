@@ -1,0 +1,135 @@
+imports:
+    - { resource: "@SWPBridgeBundle/Resources/config/app/config.yml" }
+    - { resource: "@SWPContentBundle/Resources/config/app/config.yml" }
+
+security:
+    providers:
+        in_memory:
+            memory: ~
+
+    firewalls:
+        dev:
+            pattern: ^/(_(profiler|wdt)|css|images|js)/
+            security: false
+        main:
+            anonymous: ~
+
+
+parameters:
+    domain: localhost
+    test_env: doctrine
+
+framework:
+    secret: "Three can keep a secret, if two of them are dead."
+    router:
+        resource: "%kernel.root_dir%/ContentBundle/routing.yml"
+        strict_requirements: ~
+    profiler:
+        enabled: true
+        collect: false
+    test: ~
+    validation:      { enable_annotations: false }
+    form: ~
+    templating:
+        engines: ['twig']
+    translator:
+        fallbacks: ["en"]
+        logging: false
+
+monolog:
+    handlers:
+        main:
+            type:   stream
+            path:   "%kernel.logs_dir%/%kernel.environment%.log"
+            level:  debug
+
+doctrine_cache:
+    providers:
+        main_cache:
+            type: array
+            namespace: templates_engine
+
+fos_rest:
+    zone:
+        - { path: ^/api/* }
+    versioning:
+        enabled: false
+    routing_loader:
+        default_format: json
+    view:
+        formats:
+            json: true
+        view_response_listener: false
+    serializer:
+        serialize_null: true
+    format_listener:
+        rules:
+            - { path: "^/api", priorities: ['json'], fallback_format: json, prefer_extension: true }
+            - { path: "^/", stop: true }
+    body_listener:
+        decoders:
+            json: fos_rest.decoder.jsontoform
+    disable_csrf_role: ROLE_API
+    exception:
+        codes:
+            "Symfony\\Component\\Routing\\Exception\\ResourceNotFoundException": 404
+        messages:
+            "Symfony\\Component\\Routing\\Exception\\ResourceNotFoundException": true
+
+liip_functional_test: ~
+
+sensio_framework_extra:
+    view:    { annotations: false }
+
+stof_doctrine_extensions:
+    orm:
+        default:
+            sortable: true
+            tree: true
+            timestampable: true
+
+doctrine:
+    orm:
+        auto_generate_proxy_classes: true
+        entity_managers:
+            default: ~
+        resolve_target_entities:
+            SWP\Bundle\ContentBundle\Model\RouteInterface: SWP\Bundle\ContentBundle\Model\Route
+    dbal:
+        driver:   pdo_sqlite
+        memory:   true
+        charset:  UTF8
+        path:     "%kernel.cache_dir%/content_bundle.db3"
+
+jms_serializer:
+    metadata:
+        directories:
+            TestsContentBundle:
+                namespace_prefix: SWP\Bundle\ContentBundle\Tests\Functional\app\ContentBundle
+                path: "%kernel.root_dir%/Resources/config/serializer"
+
+swp_content:
+    persistence:
+        orm: true
+
+swp_bridge:
+    persistence:
+        orm: true
+
+swp_templates_system:
+    persistence:
+        orm: true
+
+oneup_flysystem:
+    adapters:
+        filesystem_adapter:
+            local:
+                directory: "%kernel.cache_dir%/uploads/"
+
+services:
+    swp_content_bundle.resources_list_response_listener:
+        class: SWP\Component\Common\EventListener\ResourceResponseListener
+        arguments:
+            - "@fos_rest.view_handler"
+        tags:
+            - { name: kernel.event_listener, event: kernel.view }

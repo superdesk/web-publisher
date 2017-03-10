@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  * This file is part of the Superdesk Web Publisher Templates System.
  *
  * Copyright 2015 Sourcefabric z.ú. and contributors.
@@ -8,9 +8,10 @@
  * For the full copyright and license information, please see the
  * AUTHORS and LICENSE files distributed with this source code.
  *
- * @copyright 2015 Sourcefabric z.ú.
+ * @copyright 2015 Sourcefabric z.ú
  * @license http://www.superdesk.org/license
  */
+
 namespace SWP\Component\TemplatesSystem\Twig\TokenParser;
 
 use SWP\Component\TemplatesSystem\Twig\Node\GimmeNode;
@@ -52,10 +53,19 @@ class GimmeTokenParser extends \Twig_TokenParser
             $parameters = $this->parser->getExpressionParser()->parseExpression();
         }
 
+        $ignoreContext = null;
+        if ($stream->nextIf(\Twig_Token::NAME_TYPE, 'ignoreContext')) {
+            if ($stream->test(\Twig_Token::PUNCTUATION_TYPE, '[')) {
+                $ignoreContext = $this->parser->getExpressionParser()->parseExpression();
+            } else {
+                $ignoreContext = new \Twig_Node_Expression_Array([], $token->getLine());
+            }
+        }
+
         $stream->expect(\Twig_Token::BLOCK_END_TYPE);
         $body = $this->parser->subparse([$this, 'decideCacheEnd'], true);
         $stream->expect(\Twig_Token::BLOCK_END_TYPE);
 
-        return new GimmeNode($annotation, $parameters, $body, $lineno, $this->getTag());
+        return new GimmeNode($annotation, $parameters, $ignoreContext, $body, $lineno, $this->getTag());
     }
 }

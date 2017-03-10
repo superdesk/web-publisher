@@ -1,0 +1,591 @@
+#page {
+	position: relative;
+	margin-top: 40px;
+}
+
+.header_wrap {
+   background: #fff;
+   padding-top: 30px;
+}
+
+.wrap_menu_wrap{
+	height:65px;
+}
+
+.menu_wrap {
+	background: #fff;
+	width: 100%;
+	-webkit-box-shadow: 0 9px 9px 0px rgba(0, 0, 0, 0.06);
+	-moz-box-shadow: 0 9px 9px 0px rgba(0, 0, 0, 0.06);
+	box-shadow: 0 9px 9px 0px rgba(0, 0, 0, 0.06);
+	border-bottom: 1px solid #d6d6d6;
+	left: 0;
+	top: 153px;
+	z-index:1999;
+}
+
+.menu_fixed {
+	position:fixed;
+	top:0;
+}
+
+#titlebar {
+	height: 40px;
+	padding-top: 10px;
+
+}
+
+#titlebar_menu {
+	font-size: 0.875em;
+	font-family: 'Oswald', sans-serif;
+	float: left;
+	padding-top: 4px;
+}
+
+#titlebar_menu li {
+	float: left;
+	padding-left: 3px;
+	margin-left: 3px;
+	border-left: 1px solid #666666;
+	height: 12px;
+	line-height: 12px;
+}
+
+#titlebar_menu li:first-child {
+	padding: 0px;
+	margin: 0px;
+	border: 0px;
+}
+
+#titlebar_menu li a {
+	color: #666666;
+}
+
+#titlebar_menu li a:hover,
+#titlebar_menu li.current a
+{
+
+}
+
+#titlebar .icon_link {
+	float: right;
+	padding-right: 10px;
+}
+
+#titlebar .mobile-lang{
+	padding-right: 16px;
+	margin-top: 4px;
+	cursor:pointer;
+}
+
+.icon_padlock,
+.icon_key
+{
+	border-right: 1px solid #e8e8e8;
+	margin-right: 10px;
+}
+
+#titlebar .search_area {
+	float: right;
+	padding-left: 20px;
+	margin-left: 40px;
+}
+
+#titlebar .search_area .icon_link,
+.search_area .icon_link
+{
+	float: left;
+	padding-right: 10px;
+}
+
+#titlebar .search_area form {
+	float: right;
+}
+
+.search_area {
+	overflow: hidden;
+}
+
+.search_area form input[type="text"] {
+	background: #eeeeee;
+	border: 1px solid #d0d0d0;
+	float: left;
+	width: 120px;
+	height: 25px;
+	display: block;
+	font-size: 0.75em;
+	padding-left: 10px;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+}
+
+.search_area form input[type="submit"] {
+	float: left;
+	display: block;
+	width: 25px;
+	height: 25px;
+	background: url('../search_button.png');
+}
+
+
+
+#top {
+
+}
+
+#top .top_content {
+	overflow: hidden;
+}
+
+#top .top_content #logo {
+   display: block;
+   width: 293px;
+   height: 90px;
+   background: url(../img/logo.png) no-repeat center center;
+   float: left;
+}
+
+#top .top_content .add {
+	float: right;
+}
+
+#top_menu {
+	height: 44px;
+	line-height: 44px;
+	margin:10px auto;
+}
+
+#top_menu.open_submenu {
+	height: 60px;
+}
+
+#top_menu .menu {
+	font-family: 'Oswald', sans-serif;
+	position: relative;
+	text-transform: uppercase;
+}
+
+#top_menu .menu > li {
+   float: left;
+   padding-left: 20px;
+   font-size: 1.2em;
+}
+
+#top_menu .menu > li:first-child {
+	padding-left: 0px;
+}
+
+#top_menu .menu li:last-child {
+	margin-right: 0px;
+}
+
+#top_menu .menu > li a {
+	color: #475f77;
+}
+
+#top_menu .menu > li.current > a,
+#top_menu .menu ul > li.current > a
+{
+	color: #d74b4b;
+}
+
+#top_menu .menu > li > a:hover {
+	color: #475f77;
+}
+
+#top_menu .menu li > ul {
+	background: #f2be8f;
+	height: 22px;
+	line-height: 22px;
+	position: absolute;
+	top: 44px;
+	z-index: 100;
+	left: 0px;
+	font-size: 0.9em;
+	display: none;
+	width: 100%;
+}
+
+#top_menu .menu li.current > ul {
+	display: block;
+}
+
+#top_menu .menu li > ul > li {
+	float: left;
+	padding-left: 12px;
+}
+
+#top_menu .menu li > ul > li > a {
+
+}
+
+
+
+
+
+
+#outer_side_menu {
+	position: absolute;
+	width: 200px;
+	left: -210px;
+	text-align: right;
+	font-size: 1.125em;
+	font-family: 'Oswald', sans-serif;
+}
+
+#outer_side_menu .menu {
+
+}
+
+#outer_side_menu .menu li {
+
+}
+
+#outer_side_menu .menu li a {
+	color: #ababab;
+}
+
+#outer_side_menu .menu li a:hover,
+#outer_side_menu .menu li.current a
+{
+	color: #008584;
+	text-decoration: none;
+}
+
+
+
+#footer {
+   background: #333;
+   padding-top: 30px;
+   font-family: 'Oswald', sans-serif;
+   color: #5e5d5a ;
+   margin-top: 30px;
+   padding-bottom: 30px;
+}
+#footer #footer_menu_first li {
+   text-transform: uppercase;
+   margin-right: 10px;
+   padding-right: 10px;
+}
+#footer .menu li {
+   float: left;
+   margin-right: 8px;
+   padding-right: 8px;
+   line-height: 13px;
+}
+
+#footer .menu li:last-child {
+	border: 0px !important;
+}
+
+#footer .menu li a {
+
+}
+
+#footer .menu li a:hover,
+#footer .menu li.current a
+{
+	text-decoration: underline;
+}
+
+#footer #footer_menu_first {
+	padding-bottom: 15px;
+}
+
+#footer #footer_menu_first li {
+   text-transform: uppercase;
+   margin-right: 10px;
+   padding-right: 10px;
+   border: none !important;
+}
+
+#footer #footer_menu_first li a {
+	color: white;
+}
+
+#footer #footer_menu_second {
+	margin-top: 15px;
+	padding-bottom: 10px;
+}
+
+#footer #footer_menu_second li {
+	border-right: 1px solid #fff;
+}
+
+#footer #footer_menu_second li a {
+	color: #fff;
+	font-family: Tahoma, Arial, sans-serif;
+	font-size: 0.9em;
+}
+#footer #footer_menu_second li:last-child {
+   float: right;
+   color: #fff;
+   font-family: Tahoma, Arial, sans-serif;
+   padding: 0px;
+   margin: 0px;
+   line-height: 18px;
+}
+
+
+
+
+
+#cover {
+	position: fixed;
+	width: 100%;
+	height: 100%;
+	background: rgba(0, 0, 0, 0.4);
+	z-index: 1001;
+	display: none;
+}
+
+ .popup {
+	top: 20%;
+	position: absolute;
+	background: white;
+	font-size: 0.9em;
+	display: none;
+	z-index:1002;
+	border-top: 3px solid #d74b4b;
+}
+
+.popup .close {
+	display: block;
+	position: absolute;
+	width: 16px;
+	height: 16px;
+	background: url('../img/cross.png');
+	top: 20px;
+	right: 20px;
+}
+
+.popup .content {
+	padding: 20px;
+}
+
+.popup .content_text .popup_title {
+	color: #606060;
+	background:#fff;
+}
+
+
+
+#load_more{
+	display:none;
+	background:transparent;
+	border: 1px solid;
+	border-color:#d3d3d3;
+	font-family: 'Oswald', sans-serif;
+	text-transform: uppercase;
+	color: #d3d3d3;
+	padding:10px 40px;
+	margin:10px auto;
+	outline:none;
+	-webkit-transition: color 0.4s, border-color 0.4s;
+	-moz-transition: color 0.4s, border-color 0.4s ;
+	-o-transition: color 0.4s , border-color 0.4s;
+	transition: color 0.4s , border-color 0.4s;
+
+}
+
+#load_more:hover{
+	color:#333;
+	border-color:#333;
+}
+
+#nav-main ul {
+   font-family: 'Oswald', sans-serif;
+   text-transform: uppercase;
+   height: 44px;
+   line-height: 44px;
+   margin: 10px auto;
+}
+
+#nav-main ul li {
+   float: left;
+   padding-left: 20px;
+   font-size: 1.2em;
+}
+
+#nav-main ul li a {
+   color: #475f77 ;
+}
+
+#nav-main ul li.current a {
+  color: #d74b4b ;
+}
+
+#nav-main ul li.first {
+ padding-left: 0px;
+}
+
+/* OkayNav styles */
+
+.okayNav a:hover {
+  color: #546edb;
+}
+.okayNav__nav--visible a:hover {
+  color: #546edb;
+}
+.okayNav__menu-toggle span {
+  background: #2e2e33;
+}
+.okayNav__menu-toggle.icon--active span {
+  background: #00a9e1;
+}
+
+/*
+ * We are hiding the invisible nav outside the screen
+ * so we need to avoid the horizontal scroll
+ */
+body.okayNav-loaded {
+  overflow-x: hidden;
+}
+.okayNav-header {
+  position: relative;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  -webkit-align-items: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-flex-direction: row;
+  -ms-flex-direction: row;
+  -webkit-justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+}
+.okayNav:not(.loaded) {
+  visibility: hidden;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+}
+.okayNav ul {
+  /* We want two navigations - one hidden and one visible */
+  float: left;
+}
+.okayNav a {
+  position: relative;
+  z-index: 1;
+}
+.okayNav__nav--visible {
+  overflow: hidden;
+  white-space: nowrap;
+}
+.okayNav__nav--visible li {
+  display: inline-block;
+}
+.okayNav__nav--visible a {
+  /* Link styling for the visible part of the nav */
+  display: block;
+  transition: color 200ms cubic-bezier(0.55, 0, 0.1, 1);
+}
+.okayNav__nav--visible:empty ~ .okayNav__menu-toggle {
+  top: 0;
+}
+/* Link styling for the off-screen part of the nav */
+.okayNav__nav--invisible {
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+.okayNav__nav--invisible a {
+   display: block;
+   width: 240px;
+   padding: 0px;
+   background: #fff;
+}
+.okayNav__nav--invisible.nav-left {
+  left: 0;
+}
+.okayNav__nav--invisible.nav-right {
+  right: 0;
+}
+.okayNav__nav--invisible {
+  box-shadow: 1px 0px 4px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e6e6e6;
+  border-top: none;
+  z-index: 1;
+}
+.okayNav__nav--invisible li {
+  margin-right: 0px !important;
+}
+.okayNav__nav--invisible.transition-enabled {
+  transition: -webkit-transform 400ms cubic-bezier(0.55, 0, 0.1, 1);
+  transition: transform 400ms cubic-bezier(0.55, 0, 0.1, 1);
+  transition: transform 400ms cubic-bezier(0.55, 0, 0.1, 1), -webkit-transform 400ms cubic-bezier(0.55, 0, 0.1, 1);
+  position: absolute;
+  top: 54px;
+  right: 0px;
+  display: none;
+  z-index: 2;
+}
+.okayNav__nav--invisible.nav-open {
+   display: block;
+   margin: 0px;
+   height: auto !important;
+   padding: 10px 0px;
+   background: #fff;
+}
+
+.okayNav__nav--invisible.nav-open li {
+   display: block;
+   background: #fff;
+   float: none !important;
+}
+
+/* Kebab icon */
+.okayNav__menu-toggle {
+  position: absolute !important;
+  z-index: 1;
+  top: 50%;
+  right: 0px;
+  margin-top: -10px;
+  float: left;
+  width: 40px;
+  height: 20px;
+  cursor: pointer;
+  transition: -webkit-transform 400ms cubic-bezier(0.55, 0, 0.1, 1);
+  transition: transform 400ms cubic-bezier(0.55, 0, 0.1, 1);
+  transition: transform 400ms cubic-bezier(0.55, 0, 0.1, 1), -webkit-transform 400ms cubic-bezier(0.55, 0, 0.1, 1);
+}
+.okayNav__menu-toggle.okay-invisible {
+  position: absolute;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+  pointer-events: none;
+  opacity: 0;
+}
+.okayNav__menu-toggle span {
+  position: absolute;
+  right: 0;
+  left: 0;
+  display: block;
+  width: 4px;
+  height: 4px;
+  margin: auto;
+  pointer-events: none;
+  border-radius: 50%;
+}
+.okayNav__menu-toggle span:nth-child(1) {
+  top: 0;
+}
+.okayNav__menu-toggle span:nth-child(2) {
+  top: calc(50% - 2px);
+}
+.okayNav__menu-toggle span:nth-child(3) {
+  bottom: 0;
+}
+.okayNav__menu-toggle.icon--active {
+  /* Kebab icon when off-screen nav is open */
+  -webkit-transform: rotate(90deg);
+          transform: rotate(90deg);
+}
+
+

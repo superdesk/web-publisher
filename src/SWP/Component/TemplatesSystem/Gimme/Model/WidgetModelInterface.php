@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  * This file is part of the Superdesk Web Publisher Templates System.
  *
  * Copyright 2015 Sourcefabric z.ú. and contributors.
@@ -8,9 +8,10 @@
  * For the full copyright and license information, please see the
  * AUTHORS and LICENSE files distributed with this source code.
  *
- * @copyright 2015 Sourcefabric z.ú.
+ * @copyright 2015 Sourcefabric z.ú
  * @license http://www.superdesk.org/license
  */
+
 namespace SWP\Component\TemplatesSystem\Gimme\Model;
 
 /**
@@ -18,6 +19,10 @@ namespace SWP\Component\TemplatesSystem\Gimme\Model;
  */
 interface WidgetModelInterface
 {
+    const TYPE_HTML = 1;
+    const TYPE_ADSENSE = 2;
+    const TYPE_MENU = 3;
+
     /**
      * Get widget Id.
      *
@@ -52,4 +57,25 @@ interface WidgetModelInterface
      * @return array
      */
     public function getParameters();
+
+    /**
+     * @param int $type
+     *
+     * @return self
+     */
+    public function setType($type = self::TYPE_HTML);
+
+    /**
+     * @param array $parameters
+     *
+     * @return self
+     */
+    public function setParameters(array $parameters = []);
+
+    /**
+     * @param string $name
+     *
+     * @return self
+     */
+    public function setName($name);
 }
