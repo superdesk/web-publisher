@@ -1,2 +1,7 @@
 SWP\Bundle\CoreBundle\Model\Article:
     exclusion_policy: ALL
+    properties:
+        tenantCode:
+            serialized_name: tenant
+            expose: true
+            type: SWP\Bundle\CoreBundle\Model\TenantInterface

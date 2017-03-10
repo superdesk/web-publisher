@@ -12,7 +12,8 @@
     "license":"AGPL-3.0",
     "require": {
         "php": "^7.0",
-        "swp/storage": "~0.1.0"
+        "swp/storage": "^0.5",
+        "swp/common": "^0.5"
     },
     "require-dev": {
         "phpspec/phpspec": "^3.0"
@@ -32,7 +33,7 @@
     "minimum-stability": "dev",
     "extra": {
         "branch-alias": {
-            "dev-master": "0.1-dev"
+            "dev-master": "0.5-dev"
         }
     }
 }

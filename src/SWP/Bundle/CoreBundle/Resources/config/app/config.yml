@@ -95,6 +95,8 @@ swp_revision:
             classes:
                 revision:
                     model: SWP\Bundle\CoreBundle\Model\Revision
+                revision_log:
+                    model: SWP\Bundle\CoreBundle\Model\RevisionLog
 
 cmf_routing:
     dynamic:

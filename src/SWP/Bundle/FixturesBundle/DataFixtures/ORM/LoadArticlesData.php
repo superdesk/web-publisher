@@ -19,7 +19,6 @@ use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use SWP\Bundle\ContentBundle\Model\ImageRendition;
 use SWP\Bundle\FixturesBundle\AbstractFixture;
-use SWP\Bundle\ContentBundle\Model\ArticleInterface;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class LoadArticlesData extends AbstractFixture implements FixtureInterface, OrderedFixtureInterface
@@ -346,17 +345,16 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface, Orde
         ];
 
         if (isset($articles[$env])) {
+            $articleService = $this->container->get('swp.service.article');
             foreach ($articles[$env] as $articleData) {
                 $article = $this->container->get('swp.factory.article')->create();
                 $article->setTitle($articleData['title']);
                 $article->setBody($articleData['content']);
                 $article->setRoute($this->getRouteByName($articleData['route']));
                 $article->setLocale($articleData['locale']);
-                $article->setPublishable(true);
-                $article->setPublishedAt(new \DateTime());
-                $article->setStatus(ArticleInterface::STATUS_PUBLISHED);
                 $article->setCode(md5($articleData['title']));
                 $manager->persist($article);
+                $articleService->publish($article);
 
                 $this->addReference($article->getSlug(), $article);
             }

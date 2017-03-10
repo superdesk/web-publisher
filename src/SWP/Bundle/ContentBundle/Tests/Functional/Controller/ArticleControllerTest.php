@@ -217,6 +217,13 @@ class ArticleControllerTest extends WebTestCase
         self::assertNull($content['_embedded']['_items'][0]['publishedAt']);
         self::assertEquals('Article 3', $content['_embedded']['_items'][0]['title']);
 
+        $client = static::createClient();
+        $client->request('GET', $this->router->generate('swp_api_content_list_articles', ['status' => ['published', 'canceled']]));
+        self::assertEquals(200, $client->getResponse()->getStatusCode());
+
+        $content = json_decode($client->getResponse()->getContent(), true);
+        self::assertEquals(5, $content['total']);
+
         $content = $this->getArticlesByStatus('published');
         self::assertEquals(4, $content['total']);
 

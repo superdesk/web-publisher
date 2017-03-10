@@ -13,6 +13,9 @@ SWP\Component\MultiTenancy\Model\Tenant:
         subdomain:
             expose: true
             type: string
+        domainName:
+            expose: true
+            type: string
         code:
             expose: true
             type: string

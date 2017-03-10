@@ -2,7 +2,6 @@ language: php
 
 php:
   - 7.0
-  - hhvm
   - nightly
 
 sudo: false
@@ -17,7 +16,6 @@ env:
 
 matrix:
   allow_failures:
-    - php: hhvm
     - php: nightly
   fast_finish: true
 
