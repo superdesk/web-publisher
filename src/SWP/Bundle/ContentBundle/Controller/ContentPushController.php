@@ -180,7 +180,12 @@ class ContentPushController extends Controller
         return $package;
     }
 
-    private function getExistingArticleOrNull(PackageInterface $package)
+    /**
+     * @param PackageInterface $package
+     *
+     * @return ArticleInterface|null
+     */
+    protected function getExistingArticleOrNull(PackageInterface $package)
     {
         $existingArticle = $this->getArticleRepository()->findOneByCode($package->getGuid());
 
