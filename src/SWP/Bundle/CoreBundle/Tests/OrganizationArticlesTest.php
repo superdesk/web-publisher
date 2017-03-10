@@ -74,6 +74,7 @@ class OrganizationArticlesTest extends WebTestCase
             ['CONTENT_TYPE' => 'application/json'],
             self::CONTENT_ARTICLE_2
         );
+        self::assertEquals(201, $client->getResponse()->getStatusCode());
 
         $client->request('GET', $this->router->generate('swp_api_core_list_organization_articles'));
         self::assertEquals(200, $client->getResponse()->getStatusCode());

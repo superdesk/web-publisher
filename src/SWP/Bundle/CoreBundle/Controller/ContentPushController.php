@@ -35,9 +35,24 @@ class ContentPushController extends BaseContentPushController
     {
         $entityManager = $this->get('doctrine.orm.entity_manager');
         $entityManager->getFilters()->disable('tenantable');
-        $existingArticle = parent::getExistingArticleOrNull($package);
+        $existingArticle = $this->findArticleByCodeAndOrganization($package->getGuid());
+
+        if (null === $existingArticle) {
+            $existingArticle = $this->findArticleByCodeAndOrganization($package->getEvolvedFrom());
+        }
+
         $entityManager->getFilters()->enable('tenantable');
 
         return $existingArticle;
+    }
+
+    private function findArticleByCodeAndOrganization(string $code = null)
+    {
+        $tenantContext = $this->get('swp_multi_tenancy.tenant_context');
+
+        return $this->getArticleRepository()->findOneBy([
+            'code' => $code,
+            'organization' => $tenantContext->getTenant()->getOrganization(),
+        ]);
     }
 }

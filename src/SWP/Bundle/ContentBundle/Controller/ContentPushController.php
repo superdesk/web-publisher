@@ -196,7 +196,7 @@ class ContentPushController extends Controller
         return $existingArticle;
     }
 
-    private function getArticleRepository()
+    protected function getArticleRepository()
     {
         return $this->get('swp.repository.article');
     }
