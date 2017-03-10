@@ -115,10 +115,7 @@ class OrganizationController extends Controller
     public function updateArticleAction(Request $request, int $id)
     {
         $objectManager = $this->get('swp.object_manager.article');
-        $entityManager = $this->get('doctrine.orm.entity_manager');
-        $entityManager->getFilters()->disable('tenantable');
-        $article = $this->findOr404($id);
-        $entityManager->getFilters()->enable('tenantable');
+        $article = $this->getOrganizationArticle($id);
         $originalArticleStatus = $article->getStatus();
 
         $form = $this->createForm(ArticleType::class, $article, ['method' => $request->getMethod()]);
@@ -133,6 +130,36 @@ class OrganizationController extends Controller
         }
 
         return new SingleResourceResponse($form, new ResponseContext(500));
+    }
+
+    /**
+     * Show single tenant article.
+     *
+     * @ApiDoc(
+     *     resource=true,
+     *     description="Show single organization article",
+     *     statusCodes={
+     *         200="Returned on success."
+     *     }
+     * )
+     * @Route("/api/{version}/organization/articles/{id}", options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_core_show_organization_article", requirements={"id"="\d+"})
+     * @Method("GET")
+     *
+     * @Cache(expires="10 minutes", public=true)
+     */
+    public function getAction(int $id)
+    {
+        return new SingleResourceResponse($this->getOrganizationArticle($id));
+    }
+
+    private function getOrganizationArticle(int $id)
+    {
+        $entityManager = $this->get('doctrine.orm.entity_manager');
+        $entityManager->getFilters()->disable('tenantable');
+        $article = $this->findOr404($id);
+        $entityManager->getFilters()->enable('tenantable');
+
+        return $article;
     }
 
     private function findOr404(int $id)
