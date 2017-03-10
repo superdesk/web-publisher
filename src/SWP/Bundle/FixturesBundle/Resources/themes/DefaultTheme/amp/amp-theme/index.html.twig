@@ -31,15 +31,11 @@ Available variables:
 
 
   <div class="article-content">
-      {% gimmelist media from articleMedia|limit(1) with {'article': gimme.article} %}
-      {% if media.renditions is iterable %}
-          {% for rendition in media.renditions %}
-              {% if rendition.name == '478x326' %}
-                <amp-img src="{{ path(rendition) }}" height="326" width="478"  layout="responsive" alt="{{ media.body }}" class="mainImg"></amp-img>
-              {% endif %}
-          {% endfor %}
+      {% if gimme.article.featureMedia %}
+        {% gimme rendition with { 'media': gimme.article.featureMedia, 'name': '478x326'} %}
+          <amp-img src="{{ path(rendition) }}" height="326" width="478"  layout="responsive" alt="{{ media.body }}" class="mainImg"></amp-img>
+        {% endgimme %}
       {% endif %}
-      {% endgimmelist %}
       <br>
       {{ object.body|raw }}
   </div>
