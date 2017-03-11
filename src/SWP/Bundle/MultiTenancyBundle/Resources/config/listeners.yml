@@ -4,9 +4,8 @@ services:
         arguments:
             - '@doctrine.orm.entity_manager'
             - '@swp_multi_tenancy.tenant_context'
-            - '@swp_multi_tenancy.tenant_resolver'
         tags:
-            - { name: kernel.event_listener, event: kernel.request, priority: 38 }
+            - { name: kernel.event_listener, event: kernel.request, priority: 5 }
 
     swp_multi_tenancy.tenant_subscriber:
         class: SWP\Bundle\MultiTenancyBundle\EventListener\TenantSubscriber

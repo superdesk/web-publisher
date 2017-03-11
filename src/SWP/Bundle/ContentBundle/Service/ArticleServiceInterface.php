@@ -31,8 +31,13 @@ interface ArticleServiceInterface
      * Make article unpublishable.
      *
      * @param ArticleInterface $article
-     *
-     * @return ArticleInterface
+     * @param string           $newArticleStatus
      */
-    public function unpublish(ArticleInterface $article, $newArticleStatus);
+    public function unpublish(ArticleInterface $article, string $newArticleStatus);
+
+    /**
+     * @param string           $originalArticleStatus
+     * @param ArticleInterface $article
+     */
+    public function reactOnStatusChange(string $originalArticleStatus, ArticleInterface $article);
 }

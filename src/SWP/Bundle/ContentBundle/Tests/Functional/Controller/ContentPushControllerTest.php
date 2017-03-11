@@ -909,6 +909,6 @@ class ContentPushControllerTest extends WebTestCase
         self::assertEquals('Abstract html test corrected', $content['title']);
         self::assertEquals('abstract-html-test-corrected', $content['slug']);
         self::assertEquals(1, $content['id']);
-        self::assertEquals('urn:newsml:localhost:2016-09-23T13:56:39.404843:56465de4-0d5c-495a-8e36-3b396def3cf0', $content['code']);
+        self::assertEquals('urn:newsml:localhost:2017-02-02T11:26:59.404843:7u465de4-0d5c-495a-2u36-3b986def3k81', $content['code']);
     }
 }

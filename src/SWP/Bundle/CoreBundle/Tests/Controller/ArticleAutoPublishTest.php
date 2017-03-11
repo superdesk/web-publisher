@@ -57,7 +57,16 @@ class ArticleAutoPublishTest extends WebTestCase
 
         self::assertEquals(201, $client->getResponse()->getStatusCode());
 
-        $content = $this->createRouteAndPushContent();
+        $this->createRouteAndPushContent();
+
+        $client->request(
+            'GET',
+            $this->router->generate('swp_api_content_show_articles', ['id' => 1])
+        );
+
+        self::assertEquals(200, $client->getResponse()->getStatusCode());
+
+        $content = json_decode($client->getResponse()->getContent(), true);
 
         self::assertArrayHasKey('isPublishable', $content);
         self::assertEquals($content['isPublishable'], true);
@@ -83,7 +92,23 @@ class ArticleAutoPublishTest extends WebTestCase
 
         self::assertEquals(201, $client->getResponse()->getStatusCode());
 
-        $content = $this->createRouteAndPushContent();
+        $this->createRouteAndPushContent();
+
+        $client->request(
+            'GET',
+            $this->router->generate('swp_api_content_show_articles', ['id' => 1])
+        );
+
+        self::assertEquals(404, $client->getResponse()->getStatusCode());
+
+        $client->request(
+            'GET',
+            $this->router->generate('swp_api_core_show_organization_article', ['id' => 1])
+        );
+
+        self::assertEquals(200, $client->getResponse()->getStatusCode());
+
+        $content = json_decode($client->getResponse()->getContent(), true);
 
         self::assertArrayHasKey('isPublishable', $content);
         self::assertEquals($content['isPublishable'], false);
@@ -109,7 +134,23 @@ class ArticleAutoPublishTest extends WebTestCase
 
         self::assertEquals(201, $client->getResponse()->getStatusCode());
 
-        $content = $this->createRouteAndPushContent();
+        $this->createRouteAndPushContent();
+
+        $client->request(
+            'GET',
+            $this->router->generate('swp_api_content_show_articles', ['id' => 1])
+        );
+
+        self::assertEquals(404, $client->getResponse()->getStatusCode());
+
+        $client->request(
+            'GET',
+            $this->router->generate('swp_api_core_show_organization_article', ['id' => 1])
+        );
+
+        self::assertEquals(200, $client->getResponse()->getStatusCode());
+
+        $content = json_decode($client->getResponse()->getContent(), true);
 
         self::assertArrayHasKey('isPublishable', $content);
         self::assertEquals($content['isPublishable'], false);
@@ -207,14 +248,5 @@ class ArticleAutoPublishTest extends WebTestCase
         );
 
         self::assertEquals(201, $client->getResponse()->getStatusCode());
-
-        $client->request(
-            'GET',
-            $this->router->generate('swp_api_content_show_articles', ['id' => 'abstract-html-test'])
-        );
-
-        self::assertEquals(200, $client->getResponse()->getStatusCode());
-
-        return json_decode($client->getResponse()->getContent(), true);
     }
 }
