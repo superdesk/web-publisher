@@ -16,6 +16,8 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\ContentListBundle\Doctrine\ORM;
 
+use SWP\Component\Common\Criteria\Criteria;
+use SWP\Component\Common\Pagination\PaginationData;
 use SWP\Component\ContentList\Model\ContentListInterface;
 use SWP\Component\ContentList\Repository\ContentListItemRepositoryInterface;
 use SWP\Bundle\StorageBundle\Doctrine\ORM\SortableEntityRepository;
@@ -38,10 +40,27 @@ class ContentListItemRepository extends SortableEntityRepository implements Cont
     /**
      * {@inheritdoc}
      */
-    public function getSortedItems(array $groupValues = [])
+    public function getSortedItems(Criteria $criteria, array $sorting = [], array $groupValues = [])
     {
-        return parent::getBySortableGroupsQueryBuilder($groupValues)
-            ->select('n', 'w')
-            ->leftJoin('n.widget', 'w');
+        $queryBuilder = parent::getBySortableGroupsQueryBuilder($groupValues);
+        $this->applyCriteria($queryBuilder, $criteria, 'n');
+        $this->applySorting($queryBuilder, $sorting, 'n');
+        $this->applyLimiting($queryBuilder, $criteria);
+
+        return $queryBuilder;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getPaginatedByCriteria(Criteria $criteria, array $sorting = [], PaginationData $paginationData = null)
+    {
+        $queryBuilder = $this->getSortedItems($criteria, $sorting, ['contentList' => $criteria->get('contentList')]);
+
+        if (null === $paginationData) {
+            $paginationData = new PaginationData();
+        }
+
+        return $this->getPaginator($queryBuilder, $paginationData);
     }
 }

@@ -121,10 +121,10 @@ class LinkRequestListener
 
             $argumentResolver = new ArgumentResolver();
             $arguments = $argumentResolver->getArguments($stubRequest, $controller);
-
             if (!isset($arguments[0]) || !is_object($arguments[0])) {
                 continue;
             }
+
             $arguments[0]->attributes->set('_link_request', true);
             try {
                 $result = call_user_func_array($controller, $arguments);

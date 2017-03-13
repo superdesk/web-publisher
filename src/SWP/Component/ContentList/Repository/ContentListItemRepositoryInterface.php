@@ -16,6 +16,7 @@ declare(strict_types=1);
 
 namespace SWP\Component\ContentList\Repository;
 
+use SWP\Component\Common\Criteria\Criteria;
 use SWP\Component\ContentList\Model\ContentListInterface;
 
 interface ContentListItemRepositoryInterface
@@ -26,9 +27,11 @@ interface ContentListItemRepositoryInterface
     public function removeItems(ContentListInterface $contentList);
 
     /**
-     * @param array $groupValues
+     * @param Criteria $criteria
+     * @param array    $sorting
+     * @param array    $groupValues
      *
-     * @return \Doctrine\ORM\QueryBuilder
+     * @return mixed
      */
-    public function getSortedItems(array $groupValues = []);
+    public function getSortedItems(Criteria $criteria, array $sorting = [], array $groupValues = []);
 }

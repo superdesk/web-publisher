@@ -190,7 +190,7 @@ class ContentListController extends Controller
      *     }
      * )
      *
-     * @Route("/api/{version}/content/lists/{id}", requirements={"id"="\w+"}, defaults={"version"="v1"}, name="swp_api_content_link_unlink")
+     * @Route("/api/{version}/content/lists/{id}", requirements={"id"="\w+"}, defaults={"version"="v1"}, name="swp_api_content_list_link_unlink")
      *
      * @Method("LINK|UNLINK")
      *
@@ -243,6 +243,8 @@ class ContentListController extends Controller
                     if (!$contentListItem) {
                         $contentListItem = $this->get('swp.service.content_list')->addArticleToContentList($contentList, $object, $position);
                         $objectManager->persist($contentListItem);
+                    } else {
+                        $contentListItem->setPosition($position);
                     }
 
                     $objectManager->flush();

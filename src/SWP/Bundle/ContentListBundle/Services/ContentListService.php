@@ -69,7 +69,7 @@ final class ContentListService
             $position = $contentList->getItems()->count();
         }
 
-        $contentListItem->setPosition($position);
+        $contentListItem->setPosition((int) $position);
         $contentList->addItem($contentListItem);
         $this->eventDispatcher->dispatch(
             ContentListEvents::POST_ITEM_ADD,
