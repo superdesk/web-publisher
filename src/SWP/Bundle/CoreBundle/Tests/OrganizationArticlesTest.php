@@ -54,17 +54,12 @@ class OrganizationArticlesTest extends WebTestCase
 
         self::assertEquals(201, $client->getResponse()->getStatusCode());
 
-        $client->request('GET', $this->router->generate('swp_api_core_list_organization_articles', ['id' => 1]));
+        $client->request('GET', $this->router->generate('swp_api_core_list_organization_articles'));
         self::assertEquals(200, $client->getResponse()->getStatusCode());
         $content = json_decode($client->getResponse()->getContent(), true);
 
-        self::assertArraySubset(json_decode('{"page":1,"limit":10,"pages":1,"total":1,"_links":{"self":{"href":"\/api\/v1\/organizations\/1\/articles\/?page=1&limit=10"},"first":{"href":"\/api\/v1\/organizations\/1\/articles\/?page=1&limit=10"},"last":{"href":"\/api\/v1\/organizations\/1\/articles\/?page=1&limit=10"}},"_embedded":{"_items":[{"id":1,"title":"Abstract html test","body":"<p>some html body<\/p> ","slug":"abstract-html-test","publishedAt":null,"status":"new","route":null,"templateName":null,"publishStartDate":null,"publishEndDate":null,"isPublishable":false,"metadata":{"subject":[{"name":"lawyer","code":"02002001"}],"urgency":3,"priority":6,"located":"Warsaw","place":[{"country":"Australia","world_region":"Oceania","state":"Australian Capital Territory","qcode":"ACT","name":"ACT","group":"Australia"}],"service":[{"name":"Australian General News","code":"a"}],"type":"text","byline":"ADmin","guid":"urn:newsml:localhost:2016-09-23T13:56:39.404843:56465de4-0d5c-495a-8e36-3b396def3cf0","edNote":null,"genre":null,"language":"en"},"media":[],"featureMedia":null,"lead":"some abstract text","keywords":["keyword1","keyword2"],"code":"urn:newsml:localhost:2016-09-23T13:56:39.404843:56465de4-0d5c-495a-8e36-3b396def3cf0","tenant":null,"_links":{"self":{"href":"\/api\/v1\/content\/articles\/abstract-html-test"},"online":[{"href":"\/api\/v1\/content\/articles\/?slug=abstract-html-test"},{"href":"\/api\/v1\/content\/articles\/"}]}}]}}', true), $content);
-
-        $client->request('GET', $this->router->generate('swp_api_core_list_organization_articles', ['id' => 2]));
-        self::assertEquals(200, $client->getResponse()->getStatusCode());
-        $content = json_decode($client->getResponse()->getContent(), true);
-
-        self::assertEquals(0, $content['total']);
+        self::assertEquals(1, $content['total']);
+        self::assertArraySubset(json_decode('{"page":1,"limit":10,"pages":1,"_links":{"self":{"href":"\/api\/v1\/organization\/articles\/?page=1&limit=10"},"first":{"href":"\/api\/v1\/organization\/articles\/?page=1&limit=10"},"last":{"href":"\/api\/v1\/organization\/articles\/?page=1&limit=10"}},"_embedded":{"_items":[{"id":1,"title":"Abstract html test","body":"<p>some html body<\/p> ","slug":"abstract-html-test","publishedAt":null,"status":"new","route":null,"templateName":null,"publishStartDate":null,"publishEndDate":null,"isPublishable":false,"metadata":{"subject":[{"name":"lawyer","code":"02002001"}],"urgency":3,"priority":6,"located":"Warsaw","place":[{"country":"Australia","world_region":"Oceania","state":"Australian Capital Territory","qcode":"ACT","name":"ACT","group":"Australia"}],"service":[{"name":"Australian General News","code":"a"}],"type":"text","byline":"ADmin","guid":"urn:newsml:localhost:2016-09-23T13:56:39.404843:56465de4-0d5c-495a-8e36-3b396def3cf0","edNote":null,"genre":null,"language":"en"},"media":[],"featureMedia":null,"lead":"some abstract text","keywords":["keyword1","keyword2"],"code":"urn:newsml:localhost:2016-09-23T13:56:39.404843:56465de4-0d5c-495a-8e36-3b396def3cf0","tenant":null,"_links":{"self":{"href":"\/api\/v1\/content\/articles\/abstract-html-test"},"online":[{"href":"\/api\/v1\/content\/articles\/?slug=abstract-html-test"},{"href":"\/api\/v1\/content\/articles\/"}]}}]}}', true), $content);
 
         $client = static::createClient([], [
             'HTTP_HOST' => 'client1.'.$client->getContainer()->getParameter('domain'),
@@ -79,12 +74,13 @@ class OrganizationArticlesTest extends WebTestCase
             ['CONTENT_TYPE' => 'application/json'],
             self::CONTENT_ARTICLE_2
         );
+        self::assertEquals(201, $client->getResponse()->getStatusCode());
 
-        $client->request('GET', $this->router->generate('swp_api_core_list_organization_articles', ['id' => 2]));
+        $client->request('GET', $this->router->generate('swp_api_core_list_organization_articles'));
         self::assertEquals(200, $client->getResponse()->getStatusCode());
         $content = json_decode($client->getResponse()->getContent(), true);
 
-        self::assertArraySubset(json_decode('{"page":1,"limit":10,"pages":1,"total":1,"_links":{"self":{"href":"\/api\/v1\/organizations\/2\/articles\/?page=1&limit=10"},"first":{"href":"\/api\/v1\/organizations\/2\/articles\/?page=1&limit=10"},"last":{"href":"\/api\/v1\/organizations\/2\/articles\/?page=1&limit=10"}},"_embedded":{"_items":[{"id":2,"title":"Abstract html test 2","body":"<p>some html body<\/p> ","slug":"abstract-html-test-2","publishedAt":null,"status":"new","route":null,"templateName":null,"publishStartDate":null,"publishEndDate":null,"isPublishable":false,"metadata":{"subject":[{"name":"lawyer","code":"02002001"}],"urgency":3,"priority":6,"located":"Warsaw","place":[{"country":"Australia","world_region":"Oceania","state":"Australian Capital Territory","qcode":"ACT","name":"ACT","group":"Australia"}],"service":[{"name":"Australian General News","code":"a"}],"type":"text","byline":"ADmin","guid":"urn:newsml:localhost:2016-09-23T13:56:39.404843:56465de4-0d5c-495a-8e36-3b396def3cf0","edNote":null,"genre":null,"language":"en"},"media":[],"featureMedia":null,"lead":"some abstract text","keywords":["keyword1","keyword2"],"code":"urn:newsml:localhost:2016-09-23T13:56:39.404843:56465de4-0d5c-495a-8e36-3b396def3cf0","tenant":null,"_links":{"self":{"href":"\/api\/v1\/content\/articles\/abstract-html-test-2"},"online":[{"href":"\/api\/v1\/content\/articles\/?slug=abstract-html-test-2"},{"href":"\/api\/v1\/content\/articles\/"}]}}]}}', true), $content);
+        self::assertArraySubset(json_decode('{"page":1,"limit":10,"pages":1,"total":1,"_links":{"self":{"href":"\/api\/v1\/organization\/articles\/?page=1&limit=10"},"first":{"href":"\/api\/v1\/organization\/articles\/?page=1&limit=10"},"last":{"href":"\/api\/v1\/organization\/articles\/?page=1&limit=10"}},"_embedded":{"_items":[{"id":2,"title":"Abstract html test 2","body":"<p>some html body<\/p> ","slug":"abstract-html-test-2","publishedAt":null,"status":"new","route":null,"templateName":null,"publishStartDate":null,"publishEndDate":null,"isPublishable":false,"metadata":{"subject":[{"name":"lawyer","code":"02002001"}],"urgency":3,"priority":6,"located":"Warsaw","place":[{"country":"Australia","world_region":"Oceania","state":"Australian Capital Territory","qcode":"ACT","name":"ACT","group":"Australia"}],"service":[{"name":"Australian General News","code":"a"}],"type":"text","byline":"ADmin","guid":"urn:newsml:localhost:2016-09-23T13:56:39.404843:56465de4-0d5c-495a-8e36-3b396def3cf0","edNote":null,"genre":null,"language":"en"},"media":[],"featureMedia":null,"lead":"some abstract text","keywords":["keyword1","keyword2"],"code":"urn:newsml:localhost:2016-09-23T13:56:39.404843:56465de4-0d5c-495a-8e36-3b396def3cf0","tenant":null,"_links":{"self":{"href":"\/api\/v1\/content\/articles\/abstract-html-test-2"},"online":[{"href":"\/api\/v1\/content\/articles\/?slug=abstract-html-test-2"},{"href":"\/api\/v1\/content\/articles\/"}]}}]}}', true), $content);
     }
 
     public function testOrganizationArticlesWhenAutoPublished()
@@ -147,14 +143,14 @@ class OrganizationArticlesTest extends WebTestCase
         self::assertEquals(1, $content['total']);
         self::assertEquals('new', $content['_embedded']['_items'][0]['status']);
 
-        $client->request('PATCH', $this->router->generate('swp_api_content_update_articles', ['id' => 'abstract-html-test']), [
+        $client->request('PATCH', $this->router->generate('swp_api_core_update_organization_articles', ['id' => 1]), [
             'article' => [
                 'status' => ArticleInterface::STATUS_PUBLISHED,
             ],
         ]);
         self::assertEquals(200, $client->getResponse()->getStatusCode());
 
-        $client->request('GET', $this->router->generate('swp_api_core_list_organization_articles', ['id' => 1]));
+        $client->request('GET', $this->router->generate('swp_api_core_list_organization_articles'));
         self::assertEquals(200, $client->getResponse()->getStatusCode());
         $content = json_decode($client->getResponse()->getContent(), true);
 
