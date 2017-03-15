@@ -25,13 +25,6 @@ use SWP\Bundle\ContentBundle\Model\ArticleInterface;
 interface ArticleMediaProviderInterface
 {
     /**
-     * Gets article media repository.
-     *
-     * @return ArticleMediaRepositoryInterface
-     */
-    public function getRepository(): ArticleMediaRepositoryInterface;
-
-    /**
      * Gets the article by id.
      *
      * @param $id

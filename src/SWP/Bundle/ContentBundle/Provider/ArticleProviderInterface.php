@@ -24,13 +24,6 @@ use SWP\Bundle\ContentBundle\Model\ArticleInterface;
 interface ArticleProviderInterface
 {
     /**
-     * Gets article repository.
-     *
-     * @return ArticleRepositoryInterface
-     */
-    public function getRepository(): ArticleRepositoryInterface;
-
-    /**
      * Gets the article by id.
      *
      * @param $id
@@ -62,13 +55,6 @@ interface ArticleProviderInterface
      * @return ArticleInterface
      */
     public function getOneByCriteria(Criteria $criteria): ArticleInterface;
-
-    /**
-     * @param Criteria $criteria
-     *
-     * @return Collection
-     */
-    public function getManyByCriteria(Criteria $criteria): Collection;
 
     /**
      * @param Criteria $criteria

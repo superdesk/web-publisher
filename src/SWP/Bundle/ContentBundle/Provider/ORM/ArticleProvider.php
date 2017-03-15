@@ -26,7 +26,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 /**
  * ArticleProvider to provide articles from ORM.
  */
-class ArticleProvider extends AbstractProvider implements ArticleProviderInterface
+class ArticleProvider implements ArticleProviderInterface
 {
     /**
      * @var ArticleRepositoryInterface
@@ -42,14 +42,6 @@ class ArticleProvider extends AbstractProvider implements ArticleProviderInterfa
         ArticleRepositoryInterface $articleRepository
     ) {
         $this->articleRepository = $articleRepository;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getRepository(): ArticleRepositoryInterface
-    {
-        return $this->articleRepository;
     }
 
     /**
