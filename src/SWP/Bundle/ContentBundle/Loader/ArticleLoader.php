@@ -19,11 +19,9 @@ namespace SWP\Bundle\ContentBundle\Loader;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Persistence\ObjectManager;
 use SWP\Bundle\ContentBundle\Doctrine\ArticleRepositoryInterface;
-use SWP\Bundle\ContentBundle\Doctrine\ORM\ArticleRepository;
 use SWP\Component\Common\Criteria\Criteria;
 use SWP\Bundle\ContentBundle\Model\ArticleInterface;
 use SWP\Bundle\ContentBundle\Model\RouteInterface;
-use SWP\Bundle\ContentBundle\Provider\ArticleProviderInterface;
 use SWP\Bundle\ContentBundle\Provider\RouteProviderInterface;
 use SWP\Component\TemplatesSystem\Gimme\Context\Context;
 use SWP\Component\TemplatesSystem\Gimme\Factory\MetaFactoryInterface;
@@ -71,10 +69,10 @@ class ArticleLoader extends PaginatedLoader implements LoaderInterface
      * ArticleLoader constructor.
      *
      * @param ArticleRepositoryInterface $articleRepository
-     * @param RouteProviderInterface   $routeProvider
-     * @param ObjectManager            $dm
-     * @param MetaFactoryInterface     $metaFactory
-     * @param Context                  $context
+     * @param RouteProviderInterface     $routeProvider
+     * @param ObjectManager              $dm
+     * @param MetaFactoryInterface       $metaFactory
+     * @param Context                    $context
      */
     public function __construct(
         ArticleRepositoryInterface $articleRepository,

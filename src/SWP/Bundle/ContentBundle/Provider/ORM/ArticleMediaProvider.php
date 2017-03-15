@@ -19,7 +19,6 @@ namespace SWP\Bundle\ContentBundle\Provider\ORM;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 use SWP\Bundle\ContentBundle\Doctrine\ArticleMediaRepositoryInterface;
 use SWP\Bundle\ContentBundle\Model\ArticleMediaInterface;
-use SWP\Bundle\ContentBundle\Provider\AbstractProvider;
 use SWP\Bundle\ContentBundle\Provider\ArticleMediaProviderInterface;
 use SWP\Component\Common\Criteria\Criteria;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
