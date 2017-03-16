@@ -3,3 +3,9 @@ services:
         class: SWP\Bundle\ContentListBundle\Remover\ContentListItemsRemover
         arguments:
             - '@swp.repository.content_list_item'
+
+    swp.service.content_list:
+        class: SWP\Bundle\ContentListBundle\Services\ContentListService
+        arguments:
+            - '@event_dispatcher'
+            - '@swp.factory.content_list_item'

@@ -23,7 +23,7 @@ class ContentPushController extends BaseContentPushController
      *         201="Returned on successful post."
      *     }
      * )
-     * @Route("/api/{version}/content/push", options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_content_push")
+     * @Route("/api/{version}/content/push/", options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_content_push")
      * @Method("POST")
      */
     public function pushContentAction(Request $request)

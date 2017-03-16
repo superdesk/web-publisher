@@ -16,6 +16,7 @@ namespace SWP\Bundle\TemplatesSystemBundle\Service;
 
 use Doctrine\ORM\EntityManagerInterface;
 use SWP\Bundle\TemplatesSystemBundle\Factory\ContainerDataFactoryInterface;
+use SWP\Component\Common\Request\RequestParser;
 use SWP\Component\TemplatesSystem\Gimme\Model\ContainerDataInterface;
 use SWP\Component\TemplatesSystem\Gimme\Model\ContainerInterface;
 use SWP\Component\Common\Event\HttpCacheEvent;
@@ -149,7 +150,7 @@ class ContainerService implements ContainerServiceInterface
 
         if ($request->getMethod() === 'LINK') {
             $position = false;
-            if (count($notConvertedLinks = self::getNotConvertedLinks($request)) > 0) {
+            if (count($notConvertedLinks = RequestParser::getNotConvertedLinks($request->attributes->get('links'))) > 0) {
                 foreach ($notConvertedLinks as $link) {
                     if (isset($link['resourceType']) && $link['resourceType'] == 'widget-position') {
                         $position = $link['resource'];
@@ -179,34 +180,5 @@ class ContainerService implements ContainerServiceInterface
         }
 
         return $container;
-    }
-
-    /**
-     * @param Request $request
-     *
-     * @return array
-     */
-    public static function getNotConvertedLinks($request)
-    {
-        $links = [];
-        foreach ($request->attributes->get('links') as $idx => $link) {
-            if (is_string($link)) {
-                $linkParams = explode(';', trim($link));
-                $resourceType = null;
-                if (count($linkParams) > 1) {
-                    $resourceType = trim(preg_replace('/<|>/', '', $linkParams[1]));
-                    $resourceType = str_replace('"', '', str_replace('rel=', '', $resourceType));
-                }
-                $resource = array_shift($linkParams);
-                $resource = preg_replace('/<|>/', '', $resource);
-
-                $links[] = [
-                    'resource' => $resource,
-                    'resourceType' => $resourceType,
-                ];
-            }
-        }
-
-        return $links;
     }
 }

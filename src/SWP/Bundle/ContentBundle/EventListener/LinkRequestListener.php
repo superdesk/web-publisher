@@ -14,8 +14,11 @@
 
 namespace SWP\Bundle\ContentBundle\EventListener;
 
+use SWP\Component\Common\Response\ResourcesListResponseInterface;
+use SWP\Component\Common\Response\SingleResourceResponseInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\Controller\ArgumentResolver;
 use Symfony\Component\HttpKernel\Controller\ControllerResolverInterface;
 use Symfony\Component\HttpKernel\Event\FilterControllerEvent;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
@@ -118,17 +121,21 @@ class LinkRequestListener
             $dispatcher->dispatch(KernelEvents::CONTROLLER, $subEvent);
             $controller = $subEvent->getController();
 
-            $arguments = $this->resolver->getArguments($stubRequest, $controller);
-            if (!isset($arguments[0])) {
-                continue;
-            }
+            $argumentResolver = new ArgumentResolver();
+            $arguments = $argumentResolver->getArguments($stubRequest, $controller);
 
-            $arguments[0]->attributes->set('_link_request', true);
             try {
                 $result = call_user_func_array($controller, $arguments);
                 // Our api returns objects for single resources
                 if (!is_object($result)) {
                     continue;
+                }
+
+                // return clean object for LINK requests
+                if ($result instanceof ResourcesListResponseInterface) {
+                    $result = $result->getResources();
+                } elseif ($result instanceof SingleResourceResponseInterface) {
+                    $result = $result->getResource();
                 }
 
                 $links[$idx] = ['object' => $result, 'resourceType' => $resourceType];

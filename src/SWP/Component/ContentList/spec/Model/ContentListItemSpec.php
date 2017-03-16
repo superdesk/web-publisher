@@ -42,7 +42,7 @@ final class ContentListItemSpec extends ObjectBehavior
 
     public function it_has_position_by_default()
     {
-        $this->getPosition()->shouldReturn(null);
+        $this->getPosition()->shouldReturn(0);
     }
 
     public function its_position_is_mutable()
