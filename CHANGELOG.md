@@ -7,6 +7,9 @@ in 0.1 minor versions.
 
 To get the diff for a specific change, go to https://github.com/superdesk/web-publisher/commit/XXX where XXX is the change hash
 
+* 0.6.0
+ * feature [#294] Add support for Manual Content List in API
+
 * 0.5.0
  * feature [#281] Allow to filter articles by route id in API
  * feature [#280] Add correct Content-Type header to routes with extensions
