@@ -45,10 +45,8 @@ final class ResourceResponseListener
     public function onKernelView(GetResponseForControllerResultEvent $event)
     {
         $controllerResult = $event->getControllerResult();
-
         if ($controllerResult instanceof ResourcesListResponseInterface) {
             $responseContext = $controllerResult->getResponseContext();
-
             if ($responseContext->getIntention() === ResponseContextInterface::INTENTION_API) {
                 $factory = new KnpPaginatorRepresentationFactory();
                 $representation = $factory->createRepresentation($controllerResult->getResources(), $event->getRequest());
