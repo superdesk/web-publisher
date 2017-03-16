@@ -27,7 +27,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use SWP\Bundle\ContentBundle\Form\Type\ArticleType;
-use SWP\Bundle\ContentBundle\Model\ArticleInterface;
 
 class ArticleController extends Controller
 {
@@ -97,9 +96,9 @@ class ArticleController extends Controller
      * Possible article statuses are:
      *
      *  * new
-     *  * submitted
      *  * published
      *  * unpublished
+     *  * canceled
      *
      * Changing status from any status to `published` will make article visible for every user.
      *
@@ -128,8 +127,7 @@ class ArticleController extends Controller
 
         $form->handleRequest($request);
         if ($form->isValid()) {
-            $this->reactOnStatusChange($originalArticleStatus, $article);
-            $article->setUpdatedAt(new \DateTime());
+            $this->get('swp.service.article')->reactOnStatusChange($originalArticleStatus, $article);
             $objectManager->flush();
             $objectManager->refresh($article);
 
@@ -137,24 +135,6 @@ class ArticleController extends Controller
         }
 
         return new SingleResourceResponse($form, new ResponseContext(500));
-    }
-
-    private function reactOnStatusChange($originalArticleStatus, ArticleInterface $article)
-    {
-        $newArticleStatus = $article->getStatus();
-        if ($originalArticleStatus === $newArticleStatus) {
-            return;
-        }
-
-        $articleService = $this->container->get('swp.service.article');
-        switch ($newArticleStatus) {
-            case ArticleInterface::STATUS_PUBLISHED:
-                $articleService->publish($article);
-                break;
-            default:
-                $articleService->unpublish($article, $newArticleStatus);
-                break;
-        }
     }
 
     private function findOr404($id)

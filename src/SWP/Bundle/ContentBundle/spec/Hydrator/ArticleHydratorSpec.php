@@ -56,7 +56,6 @@ final class ArticleHydratorSpec extends ObjectBehavior
         $item->setDescription('item lead');
 
         $package->getGuid()->shouldBeCalled()->willReturn('123guid223');
-        $package->getEvolvedFrom()->willReturn(null);
         $package->getHeadline()->shouldBeCalled()->willReturn('item headline');
         $package->getDescription()->shouldBeCalled()->willReturn('package lead');
         $package->getBody()->shouldBeCalled()->willReturn('some package body');
@@ -93,7 +92,7 @@ final class ArticleHydratorSpec extends ObjectBehavior
         $item->setType('text');
         $item->setDescription('item lead');
 
-        $package->getEvolvedFrom()->willReturn('123guid223');
+        $package->getGuid()->shouldBeCalled()->willReturn('123guid223');
         $package->getHeadline()->shouldBeCalled()->willReturn('item headline');
         $package->getDescription()->shouldBeCalled()->willReturn('package lead');
         $package->getBody()->shouldBeCalled()->willReturn('some package body');
@@ -129,7 +128,6 @@ final class ArticleHydratorSpec extends ObjectBehavior
         $item->setType('fake');
 
         $package->getGuid()->shouldNotBeCalled();
-        $package->getEvolvedFrom()->shouldNotBeCalled();
         $package->getHeadline()->shouldNotBeCalled();
         $package->getBody()->shouldNotBeCalled();
         $package->getKeywords()->shouldNotBeCalled();

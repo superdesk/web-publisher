@@ -99,7 +99,7 @@ class ContainerController extends Controller
      *         404="Container not found"
      *     }
      * )
-     * @Route("/api/{version}/templates/containers/{uuid}/render", requirements={"uuid"="\w+"}, options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_templates_render_container")
+     * @Route("/api/{version}/templates/containers/{uuid}/render/", requirements={"uuid"="\w+"}, options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_templates_render_container")
      * @Method("GET")
      * @Cache(expires="10 minutes", public=true)
      */
