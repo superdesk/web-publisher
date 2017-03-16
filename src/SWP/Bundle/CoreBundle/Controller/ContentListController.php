@@ -170,7 +170,7 @@ class ContentListController extends Controller
     /**
      * Link or Unlink resource with Content List.
      *
-     * **link or unlink widget**:
+     * **link or unlink content**:
      *
      *     header name: "link"
      *     header value: "</api/{version}/content/articles/{id}; rel="article">"
@@ -227,7 +227,7 @@ class ContentListController extends Controller
                     ]);
 
                 if ($request->getMethod() === 'LINK') {
-                    $position = -1;
+                    $position = 0;
                     if (count($notConvertedLinks = RequestParser::getNotConvertedLinks($request->attributes->get('links'))) > 0) {
                         foreach ($notConvertedLinks as $link) {
                             if (isset($link['resourceType']) && $link['resourceType'] == 'position') {
@@ -250,7 +250,7 @@ class ContentListController extends Controller
                     $objectManager->flush();
                 } elseif ($request->getMethod() === 'UNLINK') {
                     if (!$contentList->getItems()->contains($contentListItem)) {
-                        throw new ConflictHttpException('WidgetModel is not linked to container');
+                        throw new ConflictHttpException('Content is not linked to content list');
                     }
                     $objectManager->remove($contentListItem);
                 }

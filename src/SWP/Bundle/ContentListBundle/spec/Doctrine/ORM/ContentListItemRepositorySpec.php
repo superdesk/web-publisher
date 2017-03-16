@@ -16,11 +16,11 @@ declare(strict_types=1);
 
 namespace spec\SWP\Bundle\ContentListBundle\Doctrine\ORM;
 
-use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\Common\EventManager;
+use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Mapping\ClassMetadata;
 use PhpSpec\ObjectBehavior;
 use SWP\Bundle\ContentListBundle\Doctrine\ORM\ContentListItemRepository;
-use SWP\Bundle\StorageBundle\Doctrine\ORM\EntityRepository;
 use SWP\Component\ContentList\Repository\ContentListItemRepositoryInterface;
 
 /**
@@ -28,8 +28,10 @@ use SWP\Component\ContentList\Repository\ContentListItemRepositoryInterface;
  */
 final class ContentListItemRepositorySpec extends ObjectBehavior
 {
-    public function let(EntityManagerInterface $entityManager, ClassMetadata $classMetadata)
+    public function let(EntityManager $entityManager, ClassMetadata $classMetadata, EventManager $em)
     {
+        $em->getListeners()->willReturn([]);
+        $entityManager->getEventManager()->willReturn($em);
         $this->beConstructedWith($entityManager, $classMetadata);
     }
 
@@ -40,7 +42,7 @@ final class ContentListItemRepositorySpec extends ObjectBehavior
 
     public function it_is_a_repository()
     {
-        $this->shouldHaveType(EntityRepository::class);
+        $this->shouldHaveType(ContentListItemRepository::class);
         $this->shouldImplement(ContentListItemRepositoryInterface::class);
     }
 }

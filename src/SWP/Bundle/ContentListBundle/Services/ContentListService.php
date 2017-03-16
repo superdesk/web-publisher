@@ -25,7 +25,7 @@ use SWP\Component\ContentList\Model\ListContentInterface;
 use SWP\Component\Storage\Factory\FactoryInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
-final class ContentListService
+final class ContentListService implements ContentListServiceInterface
 {
     /**
      * @var EventDispatcherInterface
@@ -50,11 +50,7 @@ final class ContentListService
     }
 
     /**
-     * @param ContentListInterface $contentList
-     * @param ArticleInterface     $article
-     * @param null                 $position
-     *
-     * @return ContentListItemInterface
+     * {@inheritdoc}
      */
     public function addArticleToContentList(ContentListInterface $contentList, ArticleInterface $article, $position = null)
     {

@@ -55,7 +55,7 @@ class ContentListItem implements ContentListItemInterface
     public function __construct()
     {
         $this->createdAt = new \DateTime();
-        $this->position = -1;
+        $this->position = 0;
     }
 
     /**

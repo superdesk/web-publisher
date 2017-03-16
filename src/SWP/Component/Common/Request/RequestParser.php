@@ -16,12 +16,10 @@ declare(strict_types=1);
 
 namespace SWP\Component\Common\Request;
 
-final class RequestParser
+final class RequestParser implements RequestParserInterface
 {
     /**
-     * @param array $requestLinks
-     *
-     * @return array
+     * {@inheritdoc}
      */
     public static function getNotConvertedLinks(array $requestLinks)
     {
