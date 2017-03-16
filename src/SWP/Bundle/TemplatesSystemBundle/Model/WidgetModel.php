@@ -178,7 +178,11 @@ class WidgetModel implements WidgetModelInterface, TimestampableInterface, Persi
         if (array_key_exists($type, $this->types)) {
             $this->type = $this->types[$type];
         } else {
-            $this->type = $this->types[self::TYPE_HTML];
+            if (in_array($type, $this->types)) {
+                $this->type = $type;
+            } else {
+                $this->type = $this->types[self::TYPE_HTML];
+            }
         }
 
         return $this;

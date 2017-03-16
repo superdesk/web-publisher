@@ -69,13 +69,18 @@ class WidgetController extends FOSRestController
      * @Route("/api/{version}/templates/widgets/{id}", requirements={"id"="\d+"}, options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_templates_get_widget")
      * @Method("GET")
      */
-    public function getAction(Request $request, $id)
+    public function getAction($id)
     {
         return new SingleResourceResponse($this->findOr404($id));
     }
 
     /**
      * Create new widget.
+     *
+     * Note:
+     *
+     *     Widget Type can be widget ID or his class (string).
+     *     Example: "SWP\\Bundle\\CoreBundle\\Widget\\ContentListWidget"
      *
      * @ApiDoc(
      *     resource=true,
