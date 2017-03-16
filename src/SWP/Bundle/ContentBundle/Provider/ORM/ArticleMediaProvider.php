@@ -19,7 +19,6 @@ namespace SWP\Bundle\ContentBundle\Provider\ORM;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 use SWP\Bundle\ContentBundle\Doctrine\ArticleMediaRepositoryInterface;
 use SWP\Bundle\ContentBundle\Model\ArticleMediaInterface;
-use SWP\Bundle\ContentBundle\Provider\AbstractProvider;
 use SWP\Bundle\ContentBundle\Provider\ArticleMediaProviderInterface;
 use SWP\Component\Common\Criteria\Criteria;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -29,7 +28,7 @@ use Doctrine\Common\Collections\Collection;
 /**
  * ArticleMediaProvider to provide media from ORM.
  */
-class ArticleMediaProvider extends AbstractProvider implements ArticleMediaProviderInterface
+class ArticleMediaProvider implements ArticleMediaProviderInterface
 {
     /**
      * @var ArticleMediaRepositoryInterface
@@ -50,14 +49,6 @@ class ArticleMediaProvider extends AbstractProvider implements ArticleMediaProvi
         ArticleMediaRepositoryInterface $articleMediaRepository
     ) {
         $this->articleMediaRepository = $articleMediaRepository;
-    }
-
-    /**
-     * @return ArticleMediaRepositoryInterface
-     */
-    public function getRepository(): ArticleMediaRepositoryInterface
-    {
-        return $this->articleMediaRepository;
     }
 
     /**
@@ -128,6 +119,14 @@ class ArticleMediaProvider extends AbstractProvider implements ArticleMediaProvi
             ->setMaxResults(null)
             ->getQuery()
             ->getSingleScalarResult();
+    }
+
+    /**
+     * @return ArticleMediaRepositoryInterface
+     */
+    private function getRepository(): ArticleMediaRepositoryInterface
+    {
+        return $this->articleMediaRepository;
     }
 
     private function getFromInternalCache(Criteria $criteria)
