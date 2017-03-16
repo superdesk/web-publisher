@@ -107,6 +107,21 @@ class WidgetControllerTest extends WebTestCase
         $this->assertEquals($client->getResponse()->getContent(), '{"id":3,"type":"SWP\\\\Bundle\\\\CoreBundle\\\\Widget\\\\ContentListWidget","name":"Simple list widget","visible":false,"parameters":[],"_links":{"self":{"href":"\/api\/v1\/templates\/widgets\/3"}}}');
     }
 
+    public function testCreateWidgetByHisClassApi()
+    {
+        $client = static::createClient();
+        $client->request('POST', $this->router->generate('swp_api_templates_create_widget'), [
+            'widget' => [
+                'name' => 'Simple list widget',
+                'visible' => false,
+                'type' => 'SWP\\Bundle\\CoreBundle\\Widget\\ContentListWidget',
+            ],
+        ]);
+
+        $this->assertEquals(201, $client->getResponse()->getStatusCode());
+        $this->assertEquals($client->getResponse()->getContent(), '{"id":3,"type":"SWP\\\\Bundle\\\\CoreBundle\\\\Widget\\\\ContentListWidget","name":"Simple list widget","visible":false,"parameters":[],"_links":{"self":{"href":"\/api\/v1\/templates\/widgets\/3"}}}');
+    }
+
     public function testUpdateWidgetApi()
     {
         $client = static::createClient();

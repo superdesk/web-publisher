@@ -42,7 +42,7 @@ Example with filtering articles by metadata:
 
 .. code-block:: twig
 
-    {% gimmelist article from articles with {metadata: {byline: "Karen Ruhiger", located: "Sydney"} %}
+    {% gimmelist article from articles with {metadata: {byline: "Karen Ruhiger", located: "Sydney"}} %}
         {{ article.title }}
     {% endgimmelist %}
 
