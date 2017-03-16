@@ -41,24 +41,7 @@ class ArticlePreviewTest extends WebTestCase
 
     public function testArticlePreview()
     {
-        $this->client->request('POST', $this->router->generate('swp_api_content_create_routes'), [
-            'route' => [
-                'name' => 'news',
-                'type' => 'collection',
-                'content' => null,
-                'templateName' => 'news.html.twig',
-                'articlesTemplateName' => 'article.html.twig'
-            ],
-        ]);
-
-        self::assertEquals(201, $this->client->getResponse()->getStatusCode());
-        $routeContent = json_decode($this->client->getResponse()->getContent(), true);
-
-        $this->client->request('PATCH', $this->router->generate('swp_api_content_update_articles', ['id' => 'art1-not-published']), [
-            'article' => [
-                'route' => $routeContent['id'],
-            ],
-        ]);
+        $this->createAndAssignRouteToArticle();
 
         $this->client->request('GET', '/news/art1-not-published');
 
@@ -72,10 +55,44 @@ class ArticlePreviewTest extends WebTestCase
         self::assertGreaterThan(0, $crawler->filter('html:contains("Slug: art1-not-published")')->count());
     }
 
-    private function logIn($username)
+    public function testArticlePreviewWhenUserIsNotAllowedToPreview()
+    {
+        $this->createAndAssignRouteToArticle();
+
+        $this->logIn('test.user', ['ROLE_USER']);
+        $this->client->request('GET', '/news/art1-not-published');
+
+        self::assertFalse($this->client->getResponse()->isSuccessful());
+        self::assertEquals(404, $this->client->getResponse()->getStatusCode());
+    }
+
+    private function createAndAssignRouteToArticle()
+    {
+        $this->client->request('POST', $this->router->generate('swp_api_content_create_routes'), [
+            'route' => [
+                'name' => 'news',
+                'type' => 'collection',
+                'content' => null,
+                'templateName' => 'news.html.twig',
+                'articlesTemplateName' => 'article.html.twig'
+            ],
+        ]);
+
+        self::assertEquals(201, $this->client->getResponse()->getStatusCode());
+        $routeContent = json_decode($this->client->getResponse()->getContent(), true);
+
+        $this->client->request('PATCH', $this->router->generate('swp_api_core_update_organization_articles', ['id' => 1]), [
+            'article' => [
+                'route' => $routeContent['id'],
+            ],
+        ]);
+
+        self::assertEquals(200, $this->client->getResponse()->getStatusCode());
+    }
+
+    private function logIn(string $username, array $roles = [])
     {
         $session = $this->client->getContainer()->get('session');
-
         $firewall = 'main';
 
         /** @var UserInterface $user */
@@ -85,7 +102,7 @@ class ArticlePreviewTest extends WebTestCase
             throw new UsernameNotFoundException(sprintf('Username "%s" not found.', $username));
         }
 
-        $token = new UsernamePasswordToken($user, null, $firewall, $user->getRoles());
+        $token = new UsernamePasswordToken($user, null, $firewall, !empty($roles) ? $roles : $user->getRoles());
         $session->set('_security_'.$firewall, serialize($token));
         $session->save();
 
