@@ -9,6 +9,7 @@ To get the diff for a specific change, go to https://github.com/superdesk/web-pu
 
 * 0.6.0
  * feature [#295] Implemented article preview for users with special privileges
+ * feature [#297] Add API to delete article
  * feature [#294] Add support for Manual Content List in API
 
 * 0.5.0

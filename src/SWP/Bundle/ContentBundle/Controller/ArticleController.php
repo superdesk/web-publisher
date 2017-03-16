@@ -137,6 +137,34 @@ class ArticleController extends Controller
         return new SingleResourceResponse($form, new ResponseContext(500));
     }
 
+    /**
+     * Delete Article.
+     *
+     * @ApiDoc(
+     *     resource=true,
+     *     description="Deletes articles",
+     *     statusCodes={
+     *         204="Returned on success.",
+     *         404="Returned when article not found.",
+     *         500="Returned when unexpected error."
+     *     }
+     * )
+     * @Route("/api/{version}/content/articles/{id}", options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_content_delete_articles", requirements={"id"=".+"})
+     * @Method("DELETE")
+     *
+     * @param int $id
+     *
+     * @return SingleResourceResponse
+     */
+    public function deleteAction($id)
+    {
+        $objectManager = $this->get('swp.object_manager.article');
+        $objectManager->remove($this->findOr404($id));
+        $objectManager->flush();
+
+        return new SingleResourceResponse(null, new ResponseContext(204));
+    }
+
     private function findOr404($id)
     {
         if (null === $article = $this->get('swp.provider.article')->getOneById($id)) {

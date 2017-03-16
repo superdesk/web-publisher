@@ -14,6 +14,21 @@ jms_serializer:
                 namespace_prefix: SWP\Bundle\ContentBundle
                 path: "@SWPContentBundle/Resources/config/serializer"
 
+
+doctrine:
+    orm:
+        entity_managers:
+            default:
+                filters:
+                    soft-deleteable:
+                        class: Gedmo\SoftDeleteable\Filter\SoftDeleteableFilter
+                        enabled: true
+
+stof_doctrine_extensions:
+    orm:
+        default:
+            softdeleteable: true
+
 cmf_routing:
     chain:
         replace_symfony_router: true
