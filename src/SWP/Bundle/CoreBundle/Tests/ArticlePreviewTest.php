@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 /*
  * This file is part of the Superdesk Web Publisher Core Bundle.
@@ -74,7 +74,7 @@ class ArticlePreviewTest extends WebTestCase
                 'type' => 'collection',
                 'content' => null,
                 'templateName' => 'news.html.twig',
-                'articlesTemplateName' => 'article.html.twig'
+                'articlesTemplateName' => 'article.html.twig',
             ],
         ]);
 
