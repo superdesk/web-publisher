@@ -27,7 +27,7 @@ use SWP\Component\Common\Response\SingleResourceResponse;
 use SWP\Bundle\TemplatesSystemBundle\Form\Type\WidgetType;
 use SWP\Bundle\CoreBundle\Model\WidgetModel;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\HttpKernel\Exception\ConflictHttpException;
 
 class WidgetController extends FOSRestController
 {
@@ -71,14 +71,7 @@ class WidgetController extends FOSRestController
      */
     public function getAction(Request $request, $id)
     {
-        $entityManager = $this->get('doctrine')->getManager();
-        $widget = $entityManager->getRepository('SWP\Bundle\CoreBundle\Model\WidgetModel')->getById($id)->getQuery()->getOneOrNullResult();
-
-        if (!$widget) {
-            throw new NotFoundHttpException('WidgetModel with this id was not found.');
-        }
-
-        return new SingleResourceResponse($widget);
+        return new SingleResourceResponse($this->findOr404($id));
     }
 
     /**
@@ -98,14 +91,12 @@ class WidgetController extends FOSRestController
      */
     public function createAction(Request $request)
     {
-        $entityManager = $this->get('doctrine')->getManager();
-
         $widget = new WidgetModel();
         $form = $this->createForm(WidgetType::class, $widget);
         $form->handleRequest($request);
         if ($form->isValid()) {
-            $entityManager->persist($widget);
-            $entityManager->flush();
+            $this->ensureWidgetExists($widget->getName());
+            $this->getWidgetRepository()->add($widget);
 
             return new SingleResourceResponse($widget, new ResponseContext(201));
         }
@@ -131,18 +122,13 @@ class WidgetController extends FOSRestController
     public function deleteAction($id)
     {
         $entityManager = $this->get('doctrine')->getManager();
-        $widget = $entityManager->getRepository('SWP\Bundle\CoreBundle\Model\WidgetModel')->getById($id)->getQuery()->getOneOrNullResult();
-
-        if (!$widget) {
-            throw new NotFoundHttpException('Widget with this id was not found.');
-        }
+        $widget = $this->findOr404($id);
 
         foreach ($widget->getContainers() as $containerWidget) {
             $entityManager->remove($containerWidget);
         }
 
-        $entityManager->remove($widget);
-        $entityManager->flush();
+        $this->getWidgetRepository()->remove($widget);
 
         return new SingleResourceResponse(null, new ResponseContext(204));
     }
@@ -166,25 +152,41 @@ class WidgetController extends FOSRestController
      */
     public function updateAction(Request $request, $id)
     {
-        $entityManager = $this->get('doctrine')->getManager();
-        $widget = $entityManager->getRepository('SWP\Bundle\CoreBundle\Model\WidgetModel')->getById($id)->getQuery()->getOneOrNullResult();
-
-        if (!$widget) {
-            throw new NotFoundHttpException('Widget with this id was not found.');
-        }
-
+        $widget = $this->findOr404($id);
         $form = $this->createForm(WidgetType::class, $widget, [
             'method' => $request->getMethod(),
         ]);
 
         $form->handleRequest($request);
         if ($form->isValid()) {
-            $entityManager->flush($widget);
-            $entityManager->refresh($widget);
+            $this->getWidgetRepository()->add($widget);
 
             return new SingleResourceResponse($widget, new ResponseContext(201));
         }
 
         return new SingleResourceResponse($form);
+    }
+
+    private function findOr404(int $id)
+    {
+        if (null === $widget = $this->getWidgetRepository()->findOneById($id)) {
+            throw $this->createNotFoundException(sprintf('Widget with id "%s" was not found.', $id));
+        }
+
+        return $widget;
+    }
+
+    private function ensureWidgetExists(string $name)
+    {
+        if (null !== $widget = $this->getWidgetRepository()->findOneByName($name)) {
+            throw new ConflictHttpException(sprintf('Widget with name "%s" already exists.', $name));
+        }
+
+        return $widget;
+    }
+
+    private function getWidgetRepository()
+    {
+        return $this->get('swp.repository.widget_model');
     }
 }
