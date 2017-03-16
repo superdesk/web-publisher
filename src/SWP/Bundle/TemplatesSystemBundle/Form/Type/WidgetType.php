@@ -31,11 +31,21 @@ class WidgetType extends AbstractType
                 'required' => false,
             ])
             ->add('visible', ChoiceType::class, [
-                'choices' => [true => '1', false => '0'],
+                'choices' => ['false', 'true'],
             ])
             ->add('parameters', TextType::class, [
                 'required' => false,
             ]);
+
+        $builder->get('visible')
+            ->addModelTransformer(new CallbackTransformer(
+                function ($value) {
+                    return $value;
+                },
+                function ($value) {
+                    return filter_var($value, FILTER_VALIDATE_BOOLEAN);
+                }
+            ));
 
         $builder->get('parameters')
             ->addModelTransformer(new CallbackTransformer(
