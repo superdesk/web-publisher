@@ -90,6 +90,15 @@ class WidgetControllerTest extends WebTestCase
 
         $this->assertEquals(201, $client->getResponse()->getStatusCode());
         $this->assertEquals($client->getResponse()->getContent(), '{"id":3,"type":"SWP\\\\Component\\\\TemplatesSystem\\\\Gimme\\\\Widget\\\\HtmlWidgetHandler","name":"Simple html widget","visible":false,"parameters":[],"_links":{"self":{"href":"\/api\/v1\/templates\/widgets\/3"}}}');
+
+        $client->request('POST', $this->router->generate('swp_api_templates_create_widget'), [
+            'widget' => [
+                'name' => 'Simple html widget',
+                'visible' => false,
+            ],
+        ]);
+
+        $this->assertEquals(409, $client->getResponse()->getStatusCode());
     }
 
     public function testCreateContentListWidgetApi()
@@ -125,6 +134,23 @@ class WidgetControllerTest extends WebTestCase
         $this->assertEquals($client->getResponse()->getContent(), '{"id":1,"type":"SWP\\\\Component\\\\TemplatesSystem\\\\Gimme\\\\Widget\\\\HtmlWidgetHandler","name":"Simple Updated html widget","visible":false,"parameters":{"html_body":"sample widget with <span style=\'color:red\'>html<\/span>","extra_param":"extra value"},"_links":{"self":{"href":"\/api\/v1\/templates\/widgets\/1"}}}');
     }
 
+    public function testUpdateFakeWidget()
+    {
+        $client = static::createClient();
+        $client->request('PATCH', $this->router->generate('swp_api_templates_update_widget', ['id' => 99999]), [
+            'widget' => [
+                'name' => 'Simple Updated html widget',
+                'visible' => false,
+                'parameters' => [
+                    'html_body' => 'sample widget with <span style=\'color:red\'>html</span>',
+                    'extra_param' => 'extra value',
+                ],
+            ],
+        ]);
+
+        $this->assertEquals(404, $client->getResponse()->getStatusCode());
+    }
+
     public function testDeleteWidgetApi()
     {
         $client = static::createClient();
@@ -132,5 +158,10 @@ class WidgetControllerTest extends WebTestCase
 
         $this->assertEquals(204, $client->getResponse()->getStatusCode());
         $this->assertEquals($client->getResponse()->getContent(), '');
+
+        $client = static::createClient();
+        $client->request('DELETE', $this->router->generate('swp_api_templates_delete_widget', ['id' => 9999]));
+
+        $this->assertEquals(404, $client->getResponse()->getStatusCode());
     }
 }
