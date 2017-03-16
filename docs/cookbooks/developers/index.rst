@@ -7,3 +7,4 @@ Technical Cookbooks
    metaloaders
    widgets
    content_lists
+   article_preview

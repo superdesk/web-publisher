@@ -16,11 +16,12 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\ContentBundle\Loader;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Persistence\ObjectManager;
+use SWP\Bundle\ContentBundle\Doctrine\ArticleRepositoryInterface;
 use SWP\Component\Common\Criteria\Criteria;
 use SWP\Bundle\ContentBundle\Model\ArticleInterface;
 use SWP\Bundle\ContentBundle\Model\RouteInterface;
-use SWP\Bundle\ContentBundle\Provider\ArticleProviderInterface;
 use SWP\Bundle\ContentBundle\Provider\RouteProviderInterface;
 use SWP\Component\TemplatesSystem\Gimme\Context\Context;
 use SWP\Component\TemplatesSystem\Gimme\Factory\MetaFactoryInterface;
@@ -35,9 +36,9 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 class ArticleLoader extends PaginatedLoader implements LoaderInterface
 {
     /**
-     * @var ArticleProviderInterface
+     * @var ArticleRepositoryInterface
      */
-    protected $articleProvider;
+    protected $articleRepository;
 
     /**
      * @var RouteProviderInterface
@@ -67,20 +68,20 @@ class ArticleLoader extends PaginatedLoader implements LoaderInterface
     /**
      * ArticleLoader constructor.
      *
-     * @param ArticleProviderInterface $articleProvider
-     * @param RouteProviderInterface   $routeProvider
-     * @param ObjectManager            $dm
-     * @param MetaFactoryInterface     $metaFactory
-     * @param Context                  $context
+     * @param ArticleRepositoryInterface $articleRepository
+     * @param RouteProviderInterface     $routeProvider
+     * @param ObjectManager              $dm
+     * @param MetaFactoryInterface       $metaFactory
+     * @param Context                    $context
      */
     public function __construct(
-        ArticleProviderInterface $articleProvider,
+        ArticleRepositoryInterface $articleRepository,
         RouteProviderInterface $routeProvider,
         ObjectManager $dm,
         MetaFactoryInterface $metaFactory,
         Context $context
     ) {
-        $this->articleProvider = $articleProvider;
+        $this->articleRepository = $articleRepository;
         $this->routeProvider = $routeProvider;
         $this->dm = $dm;
         $this->metaFactory = $metaFactory;
@@ -111,15 +112,17 @@ class ArticleLoader extends PaginatedLoader implements LoaderInterface
     {
         $criteria = new Criteria();
         if ($type === 'article' && $responseType === LoaderInterface::SINGLE) {
+            $article = null;
             if (array_key_exists('article', $parameters) && $parameters['article'] instanceof ArticleInterface) {
                 $this->dm->detach($parameters['article']);
-                $criteria->set('id', $parameters['article']->getId());
+                $article = $this->articleRepository->findOneBy(['id' => $parameters['article']->getId()]);
+                unset($parameters['article']);
             } elseif (array_key_exists('slug', $parameters)) {
-                $criteria->set('slug', $parameters['slug']);
+                $article = $this->articleRepository->findOneBySlug($parameters['slug']);
             }
 
             try {
-                return $this->getArticleMeta($this->articleProvider->getOneByCriteria($criteria));
+                return $this->getArticleMeta($article);
             } catch (NotFoundHttpException $e) {
                 return;
             }
@@ -157,17 +160,18 @@ class ArticleLoader extends PaginatedLoader implements LoaderInterface
             }
 
             $criteria = $this->applyPaginationToCriteria($criteria, $parameters);
-            $articles = $this->articleProvider->getManyByCriteria($criteria);
-            if ($articles->count() > 0) {
+            $articles = $this->articleRepository->findArticlesByCriteria($criteria, $criteria->get('order', []));
+            $articlesCollection = new ArrayCollection($articles);
+            if ($articlesCollection->count() > 0) {
                 $metaCollection = new MetaCollection();
-                $metaCollection->setTotalItemsCount($this->articleProvider->getCountByCriteria($criteria));
-                foreach ($articles as $article) {
+                $metaCollection->setTotalItemsCount($this->articleRepository->countByCriteria($criteria));
+                foreach ($articlesCollection as $article) {
                     $articleMeta = $this->getArticleMeta($article);
                     if (null !== $articleMeta) {
                         $metaCollection->add($articleMeta);
                     }
                 }
-                unset($articles, $route, $criteria);
+                unset($articlesCollection, $route, $criteria);
 
                 return $metaCollection;
             }
