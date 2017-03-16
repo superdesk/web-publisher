@@ -7,7 +7,8 @@ in 0.1 minor versions.
 
 To get the diff for a specific change, go to https://github.com/superdesk/web-publisher/commit/XXX where XXX is the change hash
 
-* 0.5.0
+* 0.5.0-3
+ * feature [#295] Implemented article preview for users with special privileges
  * feature [#281] Allow to filter articles by route id in API
  * feature [#280] Add correct Content-Type header to routes with extensions
  * feature [#279] Allow to filter articles by status in API
