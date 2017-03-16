@@ -19,8 +19,10 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use SWP\Bundle\ContentListBundle\Form\Type\ContentListType;
+use SWP\Bundle\CoreBundle\Model\ArticleInterface;
 use SWP\Component\Common\Criteria\Criteria;
 use SWP\Component\Common\Pagination\PaginationData;
+use SWP\Component\Common\Request\RequestParser;
 use SWP\Component\Common\Response\ResourcesListResponse;
 use SWP\Component\Common\Response\ResponseContext;
 use SWP\Component\Common\Response\SingleResourceResponse;
@@ -163,6 +165,107 @@ class ContentListController extends Controller
         $repository->remove($contentList);
 
         return new SingleResourceResponse(null, new ResponseContext(204));
+    }
+
+    /**
+     * Link or Unlink resource with Content List.
+     *
+     * **link or unlink content**:
+     *
+     *     header name: "link"
+     *     header value: "</api/{version}/content/articles/{id}; rel="article">"
+     *
+     * or with specific position:
+     *
+     *     header name: "link"
+     *     header value: "</api/{version}/content/articles/{id}; rel="article">,<1; rel="position">"
+     *
+     * @ApiDoc(
+     *     statusCodes={
+     *         201="Returned when successful",
+     *         404="Returned when resource not found",
+     *         409={
+     *           "Returned when the link already exists",
+     *         }
+     *     }
+     * )
+     *
+     * @Route("/api/{version}/content/lists/{id}", requirements={"id"="\w+"}, defaults={"version"="v1"}, name="swp_api_content_list_link_unlink")
+     *
+     * @Method("LINK|UNLINK")
+     *
+     * @param Request $request
+     * @param string  $id
+     *
+     * @throws NotFoundHttpException
+     * @throws \Exception
+     *
+     * @return SingleResourceResponse
+     */
+    public function linkUnlinkToContentListAction(Request $request, $id)
+    {
+        $objectManager = $this->get('swp.object_manager.content_list');
+        /** @var ContentListInterface $contentList */
+        $contentList = $this->findOr404($id);
+
+        $matched = false;
+        foreach ($request->attributes->get('links', []) as $key => $objectArray) {
+            if (!is_array($objectArray)) {
+                continue;
+            }
+
+            $object = $objectArray['object'];
+            if ($object instanceof \Exception) {
+                throw $object;
+            }
+
+            if ($object instanceof ArticleInterface) {
+                $contentListItem = $this->get('swp.repository.content_list_item')
+                    ->findOneBy([
+                        'contentList' => $contentList,
+                        'content' => $object,
+                    ]);
+
+                if ($request->getMethod() === 'LINK') {
+                    $position = 0;
+                    if (count($notConvertedLinks = RequestParser::getNotConvertedLinks($request->attributes->get('links'))) > 0) {
+                        foreach ($notConvertedLinks as $link) {
+                            if (isset($link['resourceType']) && $link['resourceType'] == 'position') {
+                                $position = $link['resource'];
+                            }
+                        }
+                    }
+
+                    if ($position === false && $contentListItem) {
+                        throw new ConflictHttpException('This content is already linked to Content List');
+                    }
+
+                    if (!$contentListItem) {
+                        $contentListItem = $this->get('swp.service.content_list')->addArticleToContentList($contentList, $object, $position);
+                        $objectManager->persist($contentListItem);
+                    } else {
+                        $contentListItem->setPosition($position);
+                    }
+
+                    $objectManager->flush();
+                } elseif ($request->getMethod() === 'UNLINK') {
+                    if (!$contentList->getItems()->contains($contentListItem)) {
+                        throw new ConflictHttpException('Content is not linked to content list');
+                    }
+                    $objectManager->remove($contentListItem);
+                }
+
+                $matched = true;
+                break;
+            }
+        }
+        if ($matched === false) {
+            throw new NotFoundHttpException('Any supported link object was not found');
+        }
+
+        $objectManager->flush();
+
+        return new SingleResourceResponse($contentList, new ResponseContext(201));
     }
 
     private function findOr404($id)

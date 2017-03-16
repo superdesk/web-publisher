@@ -160,8 +160,9 @@ class ArticleController extends Controller
     {
         $objectManager = $this->get('swp.object_manager.article');
         $objectManager->remove($this->findOr404($id));
+        $objectManager->flush();
 
-        return new SingleResourceResponse(null, 204);
+        return new SingleResourceResponse(null, new ResponseContext(204));
     }
 
     private function findOr404($id)

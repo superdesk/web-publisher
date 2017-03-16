@@ -78,11 +78,6 @@ class WidgetController extends FOSRestController
             throw new NotFoundHttpException('WidgetModel with this id was not found.');
         }
 
-        // return clean object for LINK requests
-        if ($request->attributes->get('_link_request', false) === true) {
-            return $widget;
-        }
-
         return new SingleResourceResponse($widget);
     }
 
