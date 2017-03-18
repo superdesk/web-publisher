@@ -24,6 +24,7 @@ class FixtureRegistry
                 'container' => 'SWP\Bundle\FixturesBundle\DataFixtures\ORM\LoadContainersData',
                 'container_widget' => 'SWP\Bundle\FixturesBundle\DataFixtures\ORM\LoadContainerWidgetsData',
                 'amp_html' => 'SWP\Bundle\FixturesBundle\DataFixtures\ORM\LoadAmpHtmlData',
+                'metadata_articles' => 'SWP\Bundle\FixturesBundle\DataFixtures\ORM\LoadArticlesWithMetadata',
             ],
         ];
 
