@@ -1,3 +1,4 @@
+/src/SWP/Bundle/FixturesBundle/Resources/themes/DefaultTheme/sftp-config.json
 /app/bootstrap.php.cache
 /app/cache/*
 !app/cache/.gitkeep
