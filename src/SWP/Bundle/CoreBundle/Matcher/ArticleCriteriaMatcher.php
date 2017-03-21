@@ -28,7 +28,7 @@ final class ArticleCriteriaMatcher implements ArticleCriteriaMatcherInterface
     {
         if ($criteria->has('route')) {
             foreach ($criteria->get('route') as $value) {
-                if ($value !== $article->getRoute()->getId()) {
+                if (null !== $article->getRoute() && $value !== $article->getRoute()->getId()) {
                     return false;
                 }
             }
