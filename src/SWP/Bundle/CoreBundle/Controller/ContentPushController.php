@@ -37,8 +37,6 @@ class ContentPushController extends BaseContentPushController
         $entityManager = $this->get('doctrine.orm.entity_manager');
         $tenantContext = $this->get('swp_multi_tenancy.tenant_context');
         $organization = $tenantContext->getTenant()->getOrganization();
-
-
         $entityManager->getFilters()->disable('tenantable');
 
         $existingArticle = $this->findArticleByOrganizationAndCode($organization, $package->getGuid());
