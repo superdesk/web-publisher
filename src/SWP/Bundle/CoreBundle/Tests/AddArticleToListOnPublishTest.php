@@ -64,12 +64,11 @@ final class AddArticleToListOnPublishTest extends WebTestCase
         self::assertEquals(200, $client->getResponse()->getStatusCode());
 
         // publish article
-        $client->request('PATCH', $this->router->generate('swp_api_content_update_articles', ['id' => 'abstract-html-test']), [
+        $client->request('PATCH', $this->router->generate('swp_api_core_update_organization_articles', ['id' => 1]), [
             'article' => [
                 'status' => 'published',
             ],
         ]);
-
         self::assertEquals(200, $client->getResponse()->getStatusCode());
 
         $client->request('GET', $this->router->generate('swp_api_core_list_items', ['id' => 1]));
@@ -189,15 +188,15 @@ final class AddArticleToListOnPublishTest extends WebTestCase
             $this->router->generate('swp_api_content_show_articles', ['id' => 'abstract-html-test'])
         );
 
-        self::assertEquals(200, $client->getResponse()->getStatusCode());
+        // 404 because tenant is not assigned
+        self::assertEquals(404, $client->getResponse()->getStatusCode());
 
         // assign route
-        $client->request('PATCH', $this->router->generate('swp_api_content_update_articles', ['id' => 'abstract-html-test']), [
+        $client->request('PATCH', $this->router->generate('swp_api_core_update_organization_articles', ['id' => '1']), [
             'article' => [
                 'route' => $routeContent['id'],
             ],
         ]);
-
         self::assertEquals(200, $client->getResponse()->getStatusCode());
 
         return json_decode($client->getResponse()->getContent(), true);

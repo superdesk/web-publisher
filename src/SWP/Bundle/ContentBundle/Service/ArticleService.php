@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Superdesk Web Publisher Content Bundle.
  *
@@ -55,7 +57,7 @@ class ArticleService implements ArticleServiceInterface
     /**
      * {@inheritdoc}
      */
-    public function unpublish(ArticleInterface $article, $status)
+    public function unpublish(ArticleInterface $article, string $status)
     {
         $this->checkIfCanBePublishedOrUnpublished($article, 'Article cannot be unpublished');
 
@@ -63,6 +65,26 @@ class ArticleService implements ArticleServiceInterface
         $article->setStatus($status);
 
         return $article;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function reactOnStatusChange(string $originalArticleStatus, ArticleInterface $article)
+    {
+        $newArticleStatus = $article->getStatus();
+        if ($originalArticleStatus === $newArticleStatus) {
+            return;
+        }
+
+        switch ($newArticleStatus) {
+            case ArticleInterface::STATUS_PUBLISHED:
+                $this->publish($article);
+                break;
+            default:
+                $this->unpublish($article, $newArticleStatus);
+                break;
+        }
     }
 
     private function checkIfCanBePublishedOrUnpublished($article, $exceptionMessage)

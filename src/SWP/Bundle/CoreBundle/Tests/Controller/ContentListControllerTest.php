@@ -407,6 +407,84 @@ class ContentListControllerTest extends WebTestCase
         self::assertEquals(1, $content['total']);
     }
 
+    public function testLinkingAndUnlinkingWidgetToContainerApi()
+    {
+        $this->loadFixtureFiles([
+            '@SWPFixturesBundle/Resources/fixtures/ORM/test/content_list.yml',
+            '@SWPFixturesBundle/Resources/fixtures/ORM/test/list_content.yml',
+        ], true);
+        $response = $this->createNewContentList([
+            'name' => 'Manual list',
+            'type' => 'manual',
+        ]);
+        $contentListId = json_decode($response->getContent(), true)['id'];
+
+        $client = static::createClient();
+        $client->request('LINK', $this->router->generate('swp_api_content_list_link_unlink', ['id' => $contentListId]), [], [], [
+            'HTTP_LINK' => '</api/v1/content/articles/1; rel="article">',
+        ]);
+        $this->assertEquals(201, $client->getResponse()->getStatusCode());
+        $client->request('GET', json_decode($client->getResponse()->getContent(), true)['_links']['items']['href']);
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+
+        self::assertCount(1, json_decode($client->getResponse()->getContent(), true)['_embedded']['_items']);
+
+        $client->request('UNLINK', $this->router->generate('swp_api_content_list_link_unlink', ['id' => $contentListId]), [], [], [
+            'HTTP_LINK' => '</api/v1/content/articles/1; rel="article">',
+        ]);
+        $this->assertEquals(201, $client->getResponse()->getStatusCode());
+        $client->request('GET', json_decode($client->getResponse()->getContent(), true)['_links']['items']['href']);
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+
+        self::assertCount(0, json_decode($client->getResponse()->getContent(), true)['_embedded']['_items']);
+    }
+
+    public function testLinkingOnExactPositionApi()
+    {
+        $this->loadFixtureFiles([
+            '@SWPFixturesBundle/Resources/fixtures/ORM/test/content_list.yml',
+            '@SWPFixturesBundle/Resources/fixtures/ORM/test/list_content.yml',
+        ], true);
+        $response = $this->createNewContentList([
+            'name' => 'Manual list',
+            'type' => 'manual',
+        ]);
+        $contentListId = json_decode($response->getContent(), true)['id'];
+
+        $client = static::createClient();
+        $client->request('LINK', $this->router->generate('swp_api_content_list_link_unlink', ['id' => $contentListId]), [], [], [
+            'HTTP_LINK' => '</api/v1/content/articles/1; rel="widget">',
+        ]);
+        self::assertEquals(201, $client->getResponse()->getStatusCode());
+
+        $client->request('GET', json_decode($client->getResponse()->getContent(), true)['_links']['items']['href']);
+        self::assertEquals(200, $client->getResponse()->getStatusCode());
+        self::assertCount(1, json_decode($client->getResponse()->getContent(), true)['_embedded']['_items']);
+
+        // Move article 2 on position 1
+        $client->request('LINK', $this->router->generate('swp_api_content_list_link_unlink', ['id' => $contentListId]), [], [], [
+            'HTTP_LINK' => '</api/v1/content/articles/2; rel="widget">,<1; rel="position">',
+        ]);
+        $client->request('GET', json_decode($client->getResponse()->getContent(), true)['_links']['items']['href']);
+        self::assertEquals(200, $client->getResponse()->getStatusCode());
+        $requestResult = json_decode($client->getResponse()->getContent(), true);
+        self::assertCount(2, $requestResult['_embedded']['_items']);
+        self::assertEquals(1, $requestResult['_embedded']['_items'][1]['position']);
+        self::assertEquals(2, $requestResult['_embedded']['_items'][1]['content']['id']);
+
+        // Move article 2 on position 0
+        $client->request('LINK', $this->router->generate('swp_api_content_list_link_unlink', ['id' => $contentListId]), [], [], [
+            'HTTP_LINK' => '</api/v1/content/articles/2; rel="widget">,<0; rel="position">',
+        ]);
+
+        $client->request('GET', json_decode($client->getResponse()->getContent(), true)['_links']['items']['href']);
+        self::assertEquals(200, $client->getResponse()->getStatusCode());
+        $requestResult = json_decode($client->getResponse()->getContent(), true);
+        self::assertCount(2, $requestResult['_embedded']['_items']);
+        self::assertEquals(0, $requestResult['_embedded']['_items'][0]['position']);
+        self::assertEquals(2, $requestResult['_embedded']['_items'][0]['content']['id']);
+    }
+
     private function createNewContentList(array $params)
     {
         $this->client->request('POST', $this->router->generate('swp_api_content_create_lists'), [

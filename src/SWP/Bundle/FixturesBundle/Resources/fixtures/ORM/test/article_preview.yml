@@ -1,0 +1,6 @@
+SWP\Bundle\CoreBundle\Model\Article:
+    article1:
+        title: "art1 not published"
+        body: "Test news article content"
+        locale: "en"
+        code: "<uuid()>"

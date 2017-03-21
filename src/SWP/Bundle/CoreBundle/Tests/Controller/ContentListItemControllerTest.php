@@ -56,7 +56,78 @@ class ContentListItemControllerTest extends WebTestCase
         self::assertEquals(200, $this->client->getResponse()->getStatusCode());
         $content = json_decode($this->client->getResponse()->getContent(), true);
 
-        self::assertArraySubset(json_decode('{"page":1,"limit":10,"pages":1,"total":4,"_links":{"self":{"href":"\/api\/v1\/content\/lists\/1\/items\/?page=1&limit=10"},"first":{"href":"\/api\/v1\/content\/lists\/1\/items\/?page=1&limit=10"},"last":{"href":"\/api\/v1\/content\/lists\/1\/items\/?page=1&limit=10"}},"_embedded":{"_items":[{"id":1,"content":{"id":1,"title":"article1","body":"art1","slug":"article-1","publishedAt":null,"status":"published","route":{"id":3,"content":null,"staticPrefix":null,"variablePattern":"\/{slug}","root":3,"parent":null,"children":[],"level":0,"templateName":null,"articlesTemplateName":null,"type":"collection","cacheTimeInSeconds":0,"name":"news","position":2,"_links":{"self":{"href":"\/api\/v1\/content\/routes\/3"}}},"templateName":null,"publishStartDate":null,"publishEndDate":null,"isPublishable":true,"metadata":{"byline":"John Smith","located":"Berlin"},"media":[],"featureMedia":null,"lead":null,"keywords":[],"_links":{"self":{"href":"\/api\/v1\/content\/articles\/article-1"},"online":{"href":"\/article-1"}}},"position":0,"sticky":true,"enabled":true,"_links":{"list":{"href":"\/api\/v1\/content\/lists\/1"},"item":{"href":"\/api\/v1\/content\/lists\/1\/items\/1"}}},{"id":3,"content":{"id":3,"title":"article3","body":"art3","slug":"article-3","publishedAt":null,"status":"published","route":{"id":4,"content":null,"staticPrefix":null,"variablePattern":"\/{slug}","root":4,"parent":null,"children":[],"level":0,"templateName":null,"articlesTemplateName":null,"type":"collection","cacheTimeInSeconds":0,"name":"sport","position":3,"_links":{"self":{"href":"\/api\/v1\/content\/routes\/4"}}},"templateName":null,"publishStartDate":null,"publishEndDate":null,"isPublishable":true,"metadata":{"byline":"Adam Hide","located":"Sydney"},"media":[],"featureMedia":null,"lead":null,"keywords":[],"_links":{"self":{"href":"\/api\/v1\/content\/articles\/article-3"},"online":{"href":"\/article-3"}}},"position":2,"sticky":true,"enabled":true,"_links":{"list":{"href":"\/api\/v1\/content\/lists\/1"},"item":{"href":"\/api\/v1\/content\/lists\/1\/items\/3"}}},{"id":2,"content":{"id":2,"title":"article2","body":"art2","slug":"article-2","publishedAt":null,"status":"published","route":{"id":3,"content":null,"staticPrefix":null,"variablePattern":"\/{slug}","root":3,"parent":null,"children":[],"level":0,"templateName":null,"articlesTemplateName":null,"type":"collection","cacheTimeInSeconds":0,"name":"news","position":2,"_links":{"self":{"href":"\/api\/v1\/content\/routes\/3"}}},"templateName":null,"publishStartDate":null,"publishEndDate":null,"isPublishable":true,"metadata":{"byline":"John Smith","located":"Berlin"},"media":[],"featureMedia":null,"lead":null,"keywords":[],"_links":{"self":{"href":"\/api\/v1\/content\/articles\/article-2"},"online":{"href":"\/article-2"}}},"position":1,"sticky":false,"enabled":true,"_links":{"list":{"href":"\/api\/v1\/content\/lists\/1"},"item":{"href":"\/api\/v1\/content\/lists\/1\/items\/2"}}},{"id":4,"content":{"id":4,"title":"article4","body":"art4","slug":"article-4","publishedAt":null,"status":"published","route":{"id":4,"content":null,"staticPrefix":null,"variablePattern":"\/{slug}","root":4,"parent":null,"children":[],"level":0,"templateName":null,"articlesTemplateName":null,"type":"collection","cacheTimeInSeconds":0,"name":"sport","position":3,"_links":{"self":{"href":"\/api\/v1\/content\/routes\/4"}}},"templateName":null,"publishStartDate":null,"publishEndDate":null,"isPublishable":true,"metadata":{"byline":"Adam Hide","located":"Sydney"},"media":[],"featureMedia":null,"lead":null,"keywords":[],"_links":{"self":{"href":"\/api\/v1\/content\/articles\/article-4"},"online":{"href":"\/article-4"}}},"position":3,"sticky":false,"enabled":true,"_links":{"list":{"href":"\/api\/v1\/content\/lists\/1"},"item":{"href":"\/api\/v1\/content\/lists\/1\/items\/4"}}}]}}', true), $content);
+        self::assertCount(4, $content['_embedded']['_items']);
+        self::assertEquals(0, $content['_embedded']['_items'][0]['position']);
+        self::assertArraySubset(json_decode('
+        {
+            "_links": {
+                "item": {
+                    "href": "/api/v1/content/lists/1/items/1"
+                },
+                "list": {
+                    "href": "/api/v1/content/lists/1"
+                }
+            },
+            "content": {
+                "_links": {
+                    "online": {
+                        "href": "/article-1"
+                    },
+                    "self": {
+                        "href": "/api/v1/content/articles/article-1"
+                    }
+                },
+                "body": "art1",
+                "featureMedia": null,
+                "id": 1,
+                "isPublishable": true,
+                "keywords": [
+                ],
+                "lead": null,
+                "media": [
+                ],
+                "metadata": {
+                    "byline": "John Smith",
+                    "located": "Berlin"
+                },
+                "publishedAt": null,
+                "publishEndDate": null,
+                "publishStartDate": null,
+                "route": {
+                    "_links": {
+                        "self": {
+                            "href": "/api/v1/content/routes/3"
+                        }
+                    },
+                    "articlesTemplateName": null,
+                    "cacheTimeInSeconds": 0,
+                    "children": [
+                    ],
+                    "content": null,
+                    "id": 3,
+                    "level": 0,
+                    "name": "news",
+                    "parent": null,
+                    "position": 2,
+                    "root": 3,
+                    "staticPrefix": null,
+                    "templateName": null,
+                    "type": "collection",
+                    "variablePattern": "/{slug}"
+                },
+                "slug": "article-1",
+                "status": "published",
+                "templateName": null,
+                "title": "article1"
+            },
+            "enabled": true,
+            "id": 1,
+            "position": 0,
+            "sticky": true
+        }', true), $content['_embedded']['_items'][0]);
+        self::assertEquals(1, $content['_embedded']['_items'][1]['position']);
+        self::assertEquals(2, $content['_embedded']['_items'][2]['position']);
+        self::assertEquals(3, $content['_embedded']['_items'][3]['position']);
     }
 
     public function testGetSingleContentListItem()

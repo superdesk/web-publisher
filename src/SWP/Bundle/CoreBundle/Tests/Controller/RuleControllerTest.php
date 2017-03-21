@@ -200,6 +200,8 @@ class RuleControllerTest extends WebTestCase
 
         self::assertEquals(201, $client->getResponse()->getStatusCode());
 
+        $this->publishArticle();
+
         $client->request(
             'GET',
             $this->router->generate('swp_api_content_show_articles', ['id' => 1])
@@ -251,6 +253,8 @@ class RuleControllerTest extends WebTestCase
         );
 
         self::assertEquals(201, $client->getResponse()->getStatusCode());
+
+        $this->publishArticle();
 
         $client->request(
             'GET',
@@ -317,6 +321,8 @@ class RuleControllerTest extends WebTestCase
 
         self::assertEquals(201, $client->getResponse()->getStatusCode());
 
+        $this->publishArticle();
+
         $client->request(
             'GET',
             $this->router->generate('swp_api_content_show_articles', ['id' => 'ads-fsadf-sdaf-sadf-sadf'])
@@ -332,5 +338,16 @@ class RuleControllerTest extends WebTestCase
             ['templateName' => 'test.html.twig'],
             json_decode($client->getResponse()->getContent(), true)
         );
+    }
+
+    private function publishArticle()
+    {
+        $client = static::createClient();
+        $client->request('PATCH', $this->router->generate('swp_api_core_update_organization_articles', ['id' => 1]), [
+            'article' => [
+                'status' => 'published',
+            ],
+        ]);
+        self::assertEquals(200, $client->getResponse()->getStatusCode());
     }
 }

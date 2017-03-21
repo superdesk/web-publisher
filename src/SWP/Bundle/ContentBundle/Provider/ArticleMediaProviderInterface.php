@@ -17,20 +17,12 @@ declare(strict_types=1);
 namespace SWP\Bundle\ContentBundle\Provider;
 
 use Doctrine\Common\Collections\Collection;
-use SWP\Bundle\ContentBundle\Doctrine\ArticleMediaRepositoryInterface;
 use SWP\Bundle\ContentBundle\Model\ArticleMediaInterface;
 use SWP\Component\Common\Criteria\Criteria;
 use SWP\Bundle\ContentBundle\Model\ArticleInterface;
 
 interface ArticleMediaProviderInterface
 {
-    /**
-     * Gets article media repository.
-     *
-     * @return ArticleMediaRepositoryInterface
-     */
-    public function getRepository(): ArticleMediaRepositoryInterface;
-
     /**
      * Gets the article by id.
      *

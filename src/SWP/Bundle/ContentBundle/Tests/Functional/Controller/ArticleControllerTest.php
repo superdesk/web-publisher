@@ -283,6 +283,19 @@ class ArticleControllerTest extends WebTestCase
         self::assertEquals(0, $content['total']);
     }
 
+    public function testArticleDelete()
+    {
+        $client = static::createClient();
+        $client->request('GET', $this->router->generate('swp_api_content_show_articles', ['id' => 'features']));
+        self::assertEquals(200, $client->getResponse()->getStatusCode());
+
+        $client->request('DELETE', $this->router->generate('swp_api_content_show_articles', ['id' => 'features']));
+        self::assertEquals(204, $client->getResponse()->getStatusCode());
+
+        $client->request('GET', $this->router->generate('swp_api_content_show_articles', ['id' => 'features']));
+        self::assertEquals(404, $client->getResponse()->getStatusCode());
+    }
+
     private function getArticlesByRouteId($routeId)
     {
         $client = static::createClient();

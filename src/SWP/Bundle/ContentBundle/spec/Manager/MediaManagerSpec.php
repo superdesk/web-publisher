@@ -18,7 +18,6 @@ use PhpSpec\ObjectBehavior;
 use SWP\Bundle\ContentBundle\Doctrine\ArticleMediaRepositoryInterface;
 use SWP\Bundle\ContentBundle\Factory\MediaFactoryInterface;
 use SWP\Bundle\ContentBundle\Manager\MediaManager;
-use SWP\Component\MultiTenancy\Context\TenantContextInterface;
 use League\Flysystem\Filesystem;
 use Symfony\Component\Routing\RouterInterface;
 
@@ -28,10 +27,9 @@ class MediaManagerSpec extends ObjectBehavior
         ArticleMediaRepositoryInterface $mediaRepository,
         MediaFactoryInterface $mediaFactory,
         Filesystem $filesystem,
-        RouterInterface $router,
-        TenantContextInterface $tenantContext
+        RouterInterface $router
     ) {
-        $this->beConstructedWith($mediaRepository, $mediaFactory, $filesystem, $router, $tenantContext);
+        $this->beConstructedWith($mediaRepository, $mediaFactory, $filesystem, $router);
     }
 
     public function it_is_initializable()
