@@ -48,11 +48,11 @@ class ContentPushController extends BaseContentPushController
         $entityManager->getFilters()->enable('tenantable')
             ->setParameter('tenantCode', $tenantContext->getTenant()->getCode());
 
-        if (null !== $existingArticle
-            && $existingArticle->getTenantCode() !== $tenantContext->getTenant()->getCode()
-        ) {
-            return;
-        }
+//        if (null !== $existingArticle
+//            && $existingArticle->getTenantCode() !== $tenantContext->getTenant()->getCode()
+//        ) {
+//            return;
+//        }
 
         return $existingArticle;
     }
