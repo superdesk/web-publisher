@@ -59,16 +59,13 @@ class MenuWidgetTest extends WebTestCase
         $this->assertContainsRenderedWidget($content);
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     */
     public function testMenuWidgetWhenCustomTemplateDoesNotExist()
     {
         $widgetModel = new WidgetModel();
-        $widgetModel->setParameters(['menu_name' => 'test', 'template_name' => 'test_menu.html.twig']);
+        $widgetModel->setParameters(['menu_name' => 'test', 'template_name' => 'fake_menu.html.twig']);
         $widgetHandler = new MenuWidgetHandler($widgetModel, $this->getContainer());
 
-        $widgetHandler->render();
+        $this->assertNull($widgetHandler->render());
     }
 
     public function testMenuWidgetWhenCustomTemplateIsNotSet()
