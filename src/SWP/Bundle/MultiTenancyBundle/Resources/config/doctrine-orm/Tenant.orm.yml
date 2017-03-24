@@ -48,7 +48,6 @@ SWP\Component\MultiTenancy\Model\Tenant:
         organization:
             targetEntity: SWP\Component\MultiTenancy\Model\OrganizationInterface
             inversedBy: tenants
-            cascade: ["remove"]
             joinColumn:
                 name: organization_id
                 referencedColumnName: id
