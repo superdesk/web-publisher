@@ -24,11 +24,13 @@ use SWP\Bundle\ContentBundle\Event\ArticleEvent;
 use SWP\Bundle\ContentBundle\Form\Type\MediaFileType;
 use SWP\Bundle\ContentBundle\Model\ArticleInterface;
 use SWP\Bundle\ContentBundle\Model\ArticleMedia;
+use SWP\Component\Bridge\Events;
 use SWP\Component\Bridge\Model\ContentInterface;
 use SWP\Component\Bridge\Model\PackageInterface;
 use SWP\Component\Common\Response\ResponseContext;
 use SWP\Component\Common\Response\SingleResourceResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\EventDispatcher\GenericEvent;
 use Symfony\Component\HttpFoundation\Request;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -51,6 +53,7 @@ class ContentPushController extends Controller
     public function pushContentAction(Request $request)
     {
         $package = $this->handlePackage($request);
+
         $existingArticle = $this->getExistingArticleOrNull($package);
 
         if (null !== $existingArticle) {
@@ -61,7 +64,8 @@ class ContentPushController extends Controller
                 return new SingleResourceResponse(['status' => 'OK'], new ResponseContext(201));
             }
 
-            $this->get('swp.hydrator.article')->hydrate($existingArticle, $package);
+            $article = $this->get('swp.hydrator.article')->hydrate($existingArticle, $package);
+            $this->get('event_dispatcher')->dispatch(Events::SWP_VALIDATION, new GenericEvent($article));
             $this->get('event_dispatcher')->dispatch(ArticleEvents::PRE_CREATE, new ArticleEvent($existingArticle, $package));
             $this->get('swp.object_manager.article')->flush();
             $this->get('event_dispatcher')->dispatch(ArticleEvents::POST_CREATE, new ArticleEvent($existingArticle));
@@ -70,6 +74,7 @@ class ContentPushController extends Controller
         }
 
         $article = $this->get('swp_content.transformer.package_to_article')->transform($package);
+        $this->get('event_dispatcher')->dispatch(Events::SWP_VALIDATION, new GenericEvent($package));
         $this->get('event_dispatcher')->dispatch(ArticleEvents::PRE_CREATE, new ArticleEvent($article, $package));
         $this->getArticleRepository()->add($article);
         $this->get('event_dispatcher')->dispatch(ArticleEvents::POST_CREATE, new ArticleEvent($article));
@@ -169,6 +174,8 @@ class ContentPushController extends Controller
     {
         $content = $request->getContent();
         $package = $this->get('swp_bridge.transformer.json_to_package')->transform($content);
+
+        $this->get('event_dispatcher')->dispatch(Events::SWP_VALIDATION, new GenericEvent($package));
 
         $packageRepository = $this->get('swp.repository.package');
         $existingPackage = $packageRepository->findOneBy(['guid' => $package->getGuid()]);
