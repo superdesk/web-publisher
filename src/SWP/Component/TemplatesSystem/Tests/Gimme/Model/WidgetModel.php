@@ -21,10 +21,6 @@ use SWP\Component\TemplatesSystem\Gimme\Model\WidgetModelInterface;
  */
 class WidgetModel implements WidgetModelInterface
 {
-    protected $types = [
-        self::TYPE_HTML => '\\SWP\\Component\\TemplatesSystem\\Gimme\\WidgetModel\\HtmlWidgetHandler',
-    ];
-
     /**
      * @var int
      */
@@ -54,6 +50,13 @@ class WidgetModel implements WidgetModelInterface
     {
         $this->parameters = [];
         $this->setVisible(true);
+    }
+
+    public function getTypes(): array
+    {
+        return [
+            self::TYPE_HTML => '\\SWP\\Component\\TemplatesSystem\\Gimme\\WidgetModel\\HtmlWidgetHandler',
+        ];
     }
 
     /**
@@ -147,10 +150,10 @@ class WidgetModel implements WidgetModelInterface
      */
     public function setType($type = self::TYPE_HTML)
     {
-        if (array_key_exists($type, $this->types)) {
-            $this->type = $this->types[$type];
+        if (array_key_exists($type, $this->getTypes())) {
+            $this->type = $this->getTypes()[$type];
         } else {
-            $this->type = $this->types[self::TYPE_HTML];
+            $this->type = $this->getTypes()[self::TYPE_HTML];
         }
 
         return $this;
