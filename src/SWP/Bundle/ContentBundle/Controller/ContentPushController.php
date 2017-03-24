@@ -74,7 +74,7 @@ class ContentPushController extends Controller
         }
 
         $article = $this->get('swp_content.transformer.package_to_article')->transform($package);
-        $this->get('event_dispatcher')->dispatch(Events::SWP_VALIDATION, new GenericEvent($package));
+        $this->get('event_dispatcher')->dispatch(Events::SWP_VALIDATION, new GenericEvent($article));
         $this->get('event_dispatcher')->dispatch(ArticleEvents::PRE_CREATE, new ArticleEvent($article, $package));
         $this->getArticleRepository()->add($article);
         $this->get('event_dispatcher')->dispatch(ArticleEvents::POST_CREATE, new ArticleEvent($article));
