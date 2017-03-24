@@ -6,6 +6,7 @@ framework:
     router: { resource: "%kernel.root_dir%/%kernel.test_case%/routing.yml" }
     translator: ~
     test: ~
+    validation:      { enable_annotations: false }
 
 swp_bridge:
     persistence:

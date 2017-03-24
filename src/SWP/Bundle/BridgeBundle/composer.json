@@ -47,7 +47,7 @@
         "doctrine/doctrine-bundle": ">=1.6.7 <1.7.0",
         "symfony/doctrine-bridge": "3.1.*",
         "doctrine/orm": "2.6.*",
-        "jms/serializer-bundle": "1.2.*"
+        "swp/jms-serializer-bridge": "^0.5"
     },
     "config": {
         "bin-dir": "bin"
