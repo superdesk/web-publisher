@@ -77,7 +77,7 @@ class AutomaticListAddArticleListener
     {
         $article = $event->getArticle();
         /** @var ContentListInterface[] $contentLists */
-        $contentLists = $this->listRepository->findBy(['type' => ['automatic', 'bucket']]);
+        $contentLists = $this->listRepository->findAll();
 
         foreach ($contentLists as $contentList) {
             $filters = $contentList->getFilters();
