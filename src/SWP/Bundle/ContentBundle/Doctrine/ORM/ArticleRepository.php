@@ -54,6 +54,8 @@ class ArticleRepository extends EntityRepository implements ArticleRepositoryInt
             ->leftJoin('a.media', 'm')
             ->addSelect('m');
 
+        $this->applyCustomFiltering($qb, $criteria);
+
         return $qb;
     }
 
@@ -62,14 +64,15 @@ class ArticleRepository extends EntityRepository implements ArticleRepositoryInt
      */
     public function countByCriteria(Criteria $criteria): int
     {
-        $qb = $this->createQueryBuilder('a')
+        $queryBuilder = $this->createQueryBuilder('a')
             ->select('COUNT(a.id)')
             ->where('a.status = :status')
             ->setParameter('status', $criteria->get('status', ArticleInterface::STATUS_PUBLISHED));
 
-        $this->applyCriteria($qb, $criteria, 'a');
+        $this->applyCustomFiltering($queryBuilder, $criteria);
+        $this->applyCriteria($queryBuilder, $criteria, 'a');
 
-        return (int) $qb->getQuery()->getSingleScalarResult();
+        return (int) $queryBuilder->getQuery()->getSingleScalarResult();
     }
 
     /**
@@ -83,6 +86,26 @@ class ArticleRepository extends EntityRepository implements ArticleRepositoryInt
             ->leftJoin('a.media', 'm')
             ->addSelect('m');
 
+        $this->applyCustomFiltering($queryBuilder, $criteria);
+        $this->applyCriteria($queryBuilder, $criteria, 'a');
+        $this->applySorting($queryBuilder, $sorting, 'a');
+        $this->applyLimiting($queryBuilder, $criteria);
+
+        $paginator = new Paginator($queryBuilder->getQuery(), true);
+
+        return $paginator->getIterator()->getArrayCopy();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getQueryForRouteArticles(string $identifier, array $order = [])
+    {
+        throw new \Exception('Not implemented');
+    }
+
+    private function applyCustomFiltering(QueryBuilder $queryBuilder, Criteria $criteria)
+    {
         foreach (['metadata', 'author'] as $name) {
             if (!$criteria->has($name)) {
                 continue;
@@ -108,21 +131,5 @@ class ArticleRepository extends EntityRepository implements ArticleRepositoryInt
                 ->setParameter('after', $criteria->get('publishedAfter'));
             $criteria->remove('publishedAfter');
         }
-
-        $this->applyCriteria($queryBuilder, $criteria, 'a');
-        $this->applySorting($queryBuilder, $sorting, 'a');
-        $this->applyLimiting($queryBuilder, $criteria);
-
-        $paginator = new Paginator($queryBuilder->getQuery(), true);
-
-        return $paginator->getIterator()->getArrayCopy();
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getQueryForRouteArticles(string $identifier, array $order = [])
-    {
-        throw new \Exception('Not implemented');
     }
 }
