@@ -27,12 +27,6 @@ use SWP\Component\TemplatesSystem\Gimme\Widget\HtmlWidgetHandler;
  */
 class WidgetModel implements WidgetModelInterface, TimestampableInterface, PersistableInterface
 {
-    protected $types = [
-        self::TYPE_HTML => HtmlWidgetHandler::class,
-        self::TYPE_ADSENSE => GoogleAdSenseWidgetHandler::class,
-        self::TYPE_MENU => MenuWidgetHandler::class,
-    ];
-
     /**
      * @var int
      */
@@ -82,6 +76,18 @@ class WidgetModel implements WidgetModelInterface, TimestampableInterface, Persi
         $this->parameters = [];
         $this->setVisible();
         $this->setType();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getTypes(): array
+    {
+        return [
+            self::TYPE_HTML => HtmlWidgetHandler::class,
+            self::TYPE_ADSENSE => GoogleAdSenseWidgetHandler::class,
+            self::TYPE_MENU => MenuWidgetHandler::class,
+        ];
     }
 
     /**
@@ -175,13 +181,13 @@ class WidgetModel implements WidgetModelInterface, TimestampableInterface, Persi
      */
     public function setType($type = self::TYPE_HTML)
     {
-        if (array_key_exists($type, $this->types)) {
-            $this->type = $this->types[$type];
+        if (array_key_exists($type, $this->getTypes())) {
+            $this->type = $this->getTypes()[$type];
         } else {
-            if (in_array($type, $this->types)) {
+            if (in_array($type, $this->getTypes())) {
                 $this->type = $type;
             } else {
-                $this->type = $this->types[self::TYPE_HTML];
+                $this->type = $this->getTypes()[self::TYPE_HTML];
             }
         }
 

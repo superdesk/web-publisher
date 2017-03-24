@@ -14,10 +14,13 @@
 
 namespace SWP\Bundle\CoreBundle\Provider;
 
+use Doctrine\ORM\PersistentCollection;
 use Doctrine\ORM\Query;
+use Doctrine\ORM\QueryBuilder;
 use SWP\Component\Revision\Context\RevisionContext;
 use SWP\Bundle\TemplatesSystemBundle\Provider\ContainerProvider as BaseContentProvider;
 use SWP\Component\Common\Criteria\Criteria;
+use SWP\Component\Revision\Model\RevisionInterface;
 use SWP\Component\TemplatesSystem\Gimme\Model\ContainerInterface;
 
 /**
@@ -46,11 +49,12 @@ class ContainerProvider extends BaseContentProvider
      */
     public function getOneByName(string $name)
     {
-        $qb = $this->containerRepository->getByName($name);
-        $qb->andWhere('c.revision = :revision')
-            ->setParameter('revision', $this->revisionContext->getCurrentRevision());
+        /** @var PersistentCollection $containers */
+        $containers = $this->addRevisionToQueryBuilder($this->containerRepository->getByName($name))
+            ->getQuery()
+            ->getResult();
 
-        return $qb->getQuery()->getOneOrNullResult();
+        return $this->getContainerFromCollection($containers);
     }
 
     /**
@@ -59,14 +63,16 @@ class ContainerProvider extends BaseContentProvider
     public function getOneById($uuid)
     {
         $qb = $this->containerRepository->createQueryBuilder('c')
-            ->andWhere('c.revision = :revision')
             ->andWhere('c.uuid = :uuid')
             ->setParameters([
-                'revision' => $this->revisionContext->getCurrentRevision(),
                 'uuid' => $uuid,
             ]);
 
-        return $qb->getQuery()->getOneOrNullResult();
+        $containers = $this->addRevisionToQueryBuilder($qb)
+            ->getQuery()
+            ->getResult();
+
+        return $this->getContainerFromCollection($containers);
     }
 
     /**
@@ -86,5 +92,41 @@ class ContainerProvider extends BaseContentProvider
     public function setRevisionContext(RevisionContext $revisionContext)
     {
         $this->revisionContext = $revisionContext;
+    }
+
+    private function addRevisionToQueryBuilder(QueryBuilder $queryBuilder)
+    {
+        if (RevisionInterface::STATE_NEW === $this->revisionContext->getCurrentRevision()->getStatus()) {
+            $queryBuilder->andWhere($queryBuilder->expr()->orX(
+                $queryBuilder->expr()->eq('c.revision', $this->revisionContext->getPublishedRevision()->getId()),
+                $queryBuilder->expr()->eq('c.revision', $this->revisionContext->getCurrentRevision()->getId())
+            ));
+        } else {
+            $queryBuilder
+                ->andWhere('c.revision = :currentRevision')
+                ->setParameter('currentRevision', $this->revisionContext->getCurrentRevision());
+        }
+
+        return $queryBuilder;
+    }
+
+    private function getContainerFromCollection($containers)
+    {
+        if (empty($containers)) {
+            return;
+        }
+
+        if (count($containers) > 1) {
+            /** @var \SWP\Bundle\CoreBundle\Model\ContainerInterface $container */
+            foreach ($containers as $container) {
+                if (RevisionInterface::STATE_NEW === $container->getRevision()->getStatus()) {
+                    break;
+                }
+            }
+        } else {
+            $container = $containers[0];
+        }
+
+        return $container;
     }
 }

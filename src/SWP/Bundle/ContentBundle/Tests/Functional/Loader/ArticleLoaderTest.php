@@ -68,31 +68,33 @@ class ArticleLoaderTest extends WebTestCase
 
     public function testLoadWithParameters()
     {
-        $this->assertTrue(count($this->articleLoader->load('articles', ['route' => '/news', 'limit' => 2], LoaderInterface::COLLECTION)) == 2);
+        self::assertTrue(count($this->articleLoader->load('articles', ['route' => '/news', 'limit' => 2], LoaderInterface::COLLECTION)) == 2);
 
         $articlesCollection = $this->articleLoader->load('articles', ['route' => '/news', 'limit' => 1], LoaderInterface::COLLECTION);
-        $this->assertTrue($articlesCollection->getTotalItemsCount() == 3);
+        self::assertTrue($articlesCollection->getTotalItemsCount() === 3);
 
         $articlesZero = $this->articleLoader->load('articles', ['route' => '/news'], LoaderInterface::COLLECTION);
         $articlesOne = $this->articleLoader->load('articles', ['route' => '/news', 'start' => 1], LoaderInterface::COLLECTION);
-        $this->assertTrue($articlesZero[1]->title === $articlesOne[0]->title);
+        self::assertTrue($articlesZero[1]->title === $articlesOne[0]->title);
 
         $articles = $this->articleLoader->load('articles', ['metadata' => ['located' => 'Sydney']], LoaderInterface::COLLECTION);
 
-        $this->assertCount(3, $articles);
+        self::assertCount(3, $articles);
+        self::assertTrue($articles->getTotalItemsCount() === 3);
 
         $articles = $this->articleLoader->load('articles', ['metadata' => ['byline' => 'Jhon Doe']], LoaderInterface::COLLECTION);
 
-        $this->assertCount(3, $articles);
+        self::assertCount(3, $articles);
+        self::assertTrue($articles->getTotalItemsCount() === 3);
 
         $articlesAsc = $this->articleLoader->load('articles', ['route' => '/news', 'order' => ['title', 'asc']], LoaderInterface::COLLECTION);
         $articlesDesc = $this->articleLoader->load('articles', ['route' => '/news', 'order' => ['title', 'desc']], LoaderInterface::COLLECTION);
 
-        $this->assertTrue(count($articlesAsc) == count($articlesDesc));
+        self::assertTrue(count($articlesAsc) == count($articlesDesc));
 
         $count = count($articlesAsc);
-        $this->assertTrue($articlesAsc[0]->title === $articlesDesc[$count - 1]->title);
-        $this->assertTrue($articlesAsc[$count - 1]->title === $articlesDesc[0]->title);
+        self::assertTrue($articlesAsc[0]->title === $articlesDesc[$count - 1]->title);
+        self::assertTrue($articlesAsc[$count - 1]->title === $articlesDesc[0]->title);
     }
 
     public function testLoadWithOrderByIdParameter()

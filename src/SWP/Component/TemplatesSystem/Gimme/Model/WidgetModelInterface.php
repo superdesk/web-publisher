@@ -78,4 +78,9 @@ interface WidgetModelInterface
      * @return self
      */
     public function setName($name);
+
+    /**
+     * @return array
+     */
+    public function getTypes(): array;
 }
