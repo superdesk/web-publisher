@@ -18,7 +18,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Prophecy\Argument;
 use SWP\Bundle\ContentBundle\Event\ArticleEvent;
 use SWP\Bundle\ContentListBundle\Event\ContentListEvent;
-use SWP\Bundle\CoreBundle\EventListener\AutomaticListAddArticleListener;
+use SWP\Bundle\CoreBundle\EventListener\AddArticleToListListener;
 use PhpSpec\ObjectBehavior;
 use SWP\Bundle\CoreBundle\Matcher\ArticleCriteriaMatcherInterface;
 use SWP\Bundle\CoreBundle\Model\Article;
@@ -30,10 +30,7 @@ use SWP\Component\ContentList\Repository\ContentListRepositoryInterface;
 use SWP\Component\Storage\Factory\FactoryInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
-/**
- * @mixin AutomaticListAddArticleListener
- */
-final class AutomaticListAddArticleListenerSpec extends ObjectBehavior
+final class AddArticleToListListenerSpec extends ObjectBehavior
 {
     public function let(
         ContentListRepositoryInterface $listRepository,
@@ -51,7 +48,7 @@ final class AutomaticListAddArticleListenerSpec extends ObjectBehavior
 
     public function it_is_initializable()
     {
-        $this->shouldHaveType(AutomaticListAddArticleListener::class);
+        $this->shouldHaveType(AddArticleToListListener::class);
     }
 
     public function it_adds_article_to_list(
@@ -68,7 +65,7 @@ final class AutomaticListAddArticleListenerSpec extends ObjectBehavior
 
         $list->getFilters()->willReturn(['metadata' => ['locale' => 'en']]);
         $list->getItems()->willReturn(new ArrayCollection());
-        $listRepository->findAll()->willReturn([$list]);
+        $listRepository->findByTypes(['automatic', 'bucket'])->willReturn([$list]);
 
         $articleCriteriaMatcher->match($article, new Criteria(['metadata' => ['locale' => 'en']]))->willReturn(true);
 
@@ -101,7 +98,7 @@ final class AutomaticListAddArticleListenerSpec extends ObjectBehavior
 
         $list->getFilters()->willReturn(['metadata' => ['locale' => 'en']]);
         $list->getItems()->willReturn(new ArrayCollection());
-        $listRepository->findAll()->willReturn([$list]);
+        $listRepository->findByTypes(['automatic', 'bucket'])->willReturn([$list]);
 
         $articleCriteriaMatcher->match($article, new Criteria(['metadata' => ['locale' => 'en']]))->willReturn(false);
 
