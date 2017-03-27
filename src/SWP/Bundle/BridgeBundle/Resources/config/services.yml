@@ -10,3 +10,16 @@ services:
         tags:
             - { name: jms_serializer.event_subscriber }
 
+    swp_bridge_bundle.listener.validation:
+        class: SWP\Bundle\BridgeBundle\EventListener\ValidationListener
+        arguments:
+            - '@validator'
+        tags:
+            - { name: kernel.event_listener, event: swp.validation, method: onValidation }
+
+    swp_bridge_bundle.listener.validation_exception:
+        class: SWP\Bundle\BridgeBundle\EventListener\ValidationExceptionListener
+        arguments:
+            - '@swp.serializer'
+        tags:
+            - { name: kernel.event_listener, event: kernel.exception }

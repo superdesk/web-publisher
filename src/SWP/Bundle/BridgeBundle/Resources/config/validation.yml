@@ -1,11 +1,6 @@
-SWP\Bundle\ContentBundle\Model\Route:
+SWP\Component\Bridge\Model\Package:
     properties:
-        type:
-            - SWP\Bundle\ContentBundle\Validator\Constraints\RouteType: ~
-
-SWP\Bundle\ContentBundle\Model\Article:
-    properties:
-        slug:
+        slugline:
             - NotBlank: ~
             - Length:
                   min: 3
