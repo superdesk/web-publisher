@@ -24,11 +24,13 @@ class ContentListRepository extends EntityRepository implements ContentListRepos
     /**
      * {@inheritdoc}
      */
-    public function findByType(string $type): array
+    public function findByTypes(array $types): array
     {
-        return $this->createQueryBuilder('cl')
-            ->where('cl.type = :type')
-            ->setParameter('type', $type)
+        $queryBuilder = $this->createQueryBuilder('cl');
+
+        return $queryBuilder
+            ->where($queryBuilder->expr()->in('cl.type', ':types'))
+            ->setParameter('types', $types)
             ->getQuery()
             ->getResult()
         ;

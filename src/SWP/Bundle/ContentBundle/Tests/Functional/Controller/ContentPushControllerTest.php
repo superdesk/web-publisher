@@ -35,6 +35,8 @@ class ContentPushControllerTest extends WebTestCase
 
     const TEST_ITEM_CONTENT_CORRECTED = '{"language": "en", "evolvedfrom": "urn:newsml:localhost:2016-09-23T13:56:39.404843:56465de4-0d5c-495a-8e36-3b396def3cf0", "slugline": "abstract-html-test-corrected", "body_html": "<p>some html body</p>", "versioncreated": "2017-02-23T13:57:28+0000", "firstcreated":"2017-05-25T10:23:15+0000", "description_text": "some abstract text", "place": [{"country": "Australia", "world_region": "Oceania", "state": "Australian Capital Territory", "qcode": "ACT", "name": "ACT", "group": "Australia"}], "version": "2", "byline": "ADmin", "keywords": ["keyword1","keyword2"], "guid": "urn:newsml:localhost:2017-02-02T11:26:59.404843:7u465de4-0d5c-495a-2u36-3b986def3k81", "priority": 6, "subject": [{"name": "lawyer", "code": "02002001"}], "urgency": 3, "type": "text", "headline": "Abstract html test corrected", "service": [{"name": "Australian General News", "code": "a"}], "description_html": "<p><b><u>some abstract text</u></b></p>", "located": "Warsaw", "pubstatus": "usable"}';
 
+    const TEST_ITEM_CONTENT_VALIDATION = '{"language": "en", "slugline": "too long slugline too long slugline too long slugline too long slugline too long slugline too long slugline too long slugline too long slugline too long slugline too long slugline too long slugline too long slugline too long slugline too long slugline too long slugline too long slugline too long slugline too long slugline too long slugline too long slugline too long slugline too long slugline too long slugline too long slugline too long slugline too long slugline too long slugline too long slugline too long slugline too long slugline too long slugline", "body_html": "<p>some html body</p>", "versioncreated": "2017-02-23T13:57:28+0000", "firstcreated":"2017-05-25T10:23:15+0000", "description_text": "some abstract text", "place": [{"country": "Australia", "world_region": "Oceania", "state": "Australian Capital Territory", "qcode": "ACT", "name": "ACT", "group": "Australia"}], "version": "2", "byline": "ADmin", "keywords": ["keyword1","keyword2"], "guid": "urn:newsml:localhost:2017-02-02T11:26:59.404843:7u465de4-0d5c-495a-2u36-3b986def3k81", "priority": 6, "subject": [{"name": "lawyer", "code": "02002001"}], "urgency": 3, "type": "text", "headline": "Abstract html test corrected", "service": [{"name": "Australian General News", "code": "a"}], "description_html": "<p><b><u>some abstract text</u></b></p>", "located": "Warsaw", "pubstatus": "usable"}';
+
     private $router;
 
     /**
@@ -910,5 +912,21 @@ class ContentPushControllerTest extends WebTestCase
         self::assertEquals('abstract-html-test-corrected', $content['slug']);
         self::assertEquals(1, $content['id']);
         self::assertEquals('urn:newsml:localhost:2017-02-02T11:26:59.404843:7u465de4-0d5c-495a-2u36-3b986def3k81', $content['code']);
+    }
+
+    public function testIncomingDataWhenSlugNotValid()
+    {
+        $client = static::createClient();
+        $crawler = $client->request(
+            'POST',
+            $this->router->generate('swp_api_content_push'),
+            [],
+            [],
+            ['CONTENT_TYPE' => 'application/json'],
+            self::TEST_ITEM_CONTENT_VALIDATION
+        );
+
+        self::assertEquals(400, $client->getResponse()->getStatusCode());
+        self::assertEquals(0, $crawler->filter('html:contains("Slug cannot be longer than 200 characters")')->count());
     }
 }

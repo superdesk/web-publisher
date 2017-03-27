@@ -89,7 +89,7 @@ services:
             - { name: kernel.event_subscriber }
 
     swp_core.listener.article_content_list:
-        class: SWP\Bundle\CoreBundle\EventListener\AutomaticListAddArticleListener
+        class: SWP\Bundle\CoreBundle\EventListener\AddArticleToListListener
         arguments:
             - '@swp.repository.content_list'
             - '@swp.factory.content_list_item'
