@@ -41,7 +41,7 @@ final class Version
     protected $releaseDate = '2017-03-01';
 
     /**
-     * {@inheritdoc}
+     * @return string
      */
     public function getVersion()
     {
@@ -49,7 +49,9 @@ final class Version
     }
 
     /**
-     * {@inheritdoc}
+     * @param $version
+     *
+     * @return $this
      */
     public function setVersion($version)
     {
