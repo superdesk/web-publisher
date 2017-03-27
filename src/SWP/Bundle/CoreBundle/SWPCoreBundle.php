@@ -20,6 +20,7 @@ use SWP\Bundle\CoreBundle\DependencyInjection\Compiler\OverrideMediaManagerPass;
 use SWP\Bundle\CoreBundle\DependencyInjection\Compiler\OverrideTemplatesSystemPass;
 use SWP\Bundle\CoreBundle\DependencyInjection\Compiler\OverrideThemeAssetsInstallerPass;
 use SWP\Bundle\CoreBundle\DependencyInjection\Compiler\OverrideThemeFactoryPass;
+use SWP\Bundle\CoreBundle\DependencyInjection\Compiler\OverrideThemeLoaderPass;
 use SWP\Bundle\CoreBundle\DependencyInjection\Compiler\OverrideThemePathResolverPass;
 use SWP\Bundle\StorageBundle\DependencyInjection\Bundle\Bundle;
 use SWP\Bundle\StorageBundle\Drivers;
@@ -46,6 +47,7 @@ class SWPCoreBundle extends Bundle
         $container->addCompilerPass(new OverrideMediaManagerPass());
         $container->addCompilerPass(new OverrideContainerProviderPass());
         $container->addCompilerPass(new OverrideTemplatesSystemPass());
+        $container->addCompilerPass(new OverrideThemeLoaderPass());
     }
 
     /**

@@ -35,7 +35,10 @@ class ContainerWidgetFactory
     }
 
     /**
-     * {@inheritdoc}
+     * @param ContainerInterface   $container
+     * @param WidgetModelInterface $widget
+     *
+     * @return mixed
      */
     public function create(ContainerInterface $container, WidgetModelInterface $widget)
     {
