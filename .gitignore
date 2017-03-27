@@ -22,5 +22,4 @@
 /web/config.php
 logs/
 build/
-/src/SWP/Bundle/FixturesBundle/Resources/themes/DefaultTheme/sftp-config.json
 RMT
