@@ -33,6 +33,9 @@ doctrine:
                         dir: "%kernel.root_dir%/../vendor/gedmo/doctrine-extensions/lib/Gedmo/Loggable/Entity"
                         is_bundle: false
                 filters:
+                    tenantable:
+                        class: SWP\Bundle\MultiTenancyBundle\Query\Filter\TenantableFilter
+                        enabled: true
                     soft-deleteable:
                         class: Gedmo\SoftDeleteable\Filter\SoftDeleteableFilter
                         enabled: true

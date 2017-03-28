@@ -45,9 +45,9 @@ class TenantSubscriberSpec extends ObjectBehavior
         $this->shouldImplement(EventSubscriber::class);
     }
 
-    public function it_subscribes_to_an_event()
+    public function it_subscribes_to_events()
     {
-        $this->getSubscribedEvents()->shouldReturn([Events::prePersist]);
+        $this->getSubscribedEvents()->shouldReturn([Events::prePersist, Events::preUpdate]);
     }
 
     public function it_should_skip_when_tenant_code_is_already_set_on_tenant_aware_object(

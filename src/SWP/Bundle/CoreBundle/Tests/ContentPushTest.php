@@ -90,6 +90,7 @@ final class ContentPushTest extends WebTestCase
         );
 
         self::assertEquals(201, $client->getResponse()->getStatusCode());
+        $this->assetsThereIsOnlyOneArticle();
 
         $content = $this->getPushedOrganizationArticle();
 
@@ -110,6 +111,7 @@ final class ContentPushTest extends WebTestCase
         );
 
         self::assertEquals(201, $client->getResponse()->getStatusCode());
+        $this->assetsThereIsOnlyOneArticle();
 
         $content = $this->getPushedOrganizationArticle();
 

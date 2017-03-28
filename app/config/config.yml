@@ -85,10 +85,6 @@ doctrine:
                         type: yml
                         prefix: SWP\Bundle\AnalyticsBundle\Model
                         dir: Resources/config/doctrine
-                filters:
-                    tenantable:
-                        class: SWP\Bundle\MultiTenancyBundle\Query\Filter\TenantableFilter
-                        enabled: true
 
 doctrine_cache:
     providers:
