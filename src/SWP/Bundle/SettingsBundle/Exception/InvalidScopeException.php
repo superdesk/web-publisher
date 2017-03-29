@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 /*
- * This file is part of the Superdesk Web Publisher Core Bundle.
+ * This file is part of the Superdesk Web Publisher Settings Bundle.
  *
  * Copyright 2016 Sourcefabric z.ú. and contributors.
  *
@@ -14,12 +14,12 @@ declare(strict_types=1);
  * @license http://www.superdesk.org/license
  */
 
-namespace SWP\Bundle\CoreBundle\Model;
+namespace SWP\Bundle\SettingsBundle\Exception;
 
-use SWP\Bundle\UserBundle\Model\User as BaseUser;
-use SWP\Component\MultiTenancy\Model\TenantAwareTrait;
-
-class User extends BaseUser implements UserInterface
+class InvalidScopeException extends \InvalidArgumentException
 {
-    use TenantAwareTrait;
+    public function __construct($scope)
+    {
+        parent::__construct(sprintf('Scope %s is not supported!.', $scope));
+    }
 }

@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 /*
- * This file is part of the Superdesk Web Publisher Core Bundle.
+ * This file is part of the Superdesk Web Publisher User Bundle.
  *
  * Copyright 2016 Sourcefabric z.ú. and contributors.
  *
@@ -14,12 +14,19 @@ declare(strict_types=1);
  * @license http://www.superdesk.org/license
  */
 
-namespace SWP\Bundle\CoreBundle\Model;
+namespace SWP\Bundle\UserBundle\Model;
 
-use SWP\Bundle\UserBundle\Model\User as BaseUser;
-use SWP\Component\MultiTenancy\Model\TenantAwareTrait;
+use FOS\UserBundle\Model\User as BaseUser;
+use SWP\Component\Common\Model\TimestampableTrait;
 
 class User extends BaseUser implements UserInterface
 {
-    use TenantAwareTrait;
+    use TimestampableTrait;
+
+    public function __construct()
+    {
+        $this->setCreatedAt(new \DateTime());
+
+        parent::__construct();
+    }
 }

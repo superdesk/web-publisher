@@ -1,7 +1,9 @@
 <?php
 
+declare(strict_types=1);
+
 /*
- * This file is part of the Superdesk Web Publisher Core Bundle.
+ * This file is part of the Superdesk Web Publisher User Bundle.
  *
  * Copyright 2016 Sourcefabric z.ú. and contributors.
  *
@@ -12,20 +14,26 @@
  * @license http://www.superdesk.org/license
  */
 
-namespace SWP\Bundle\CoreBundle\Controller;
+namespace SWP\Bundle\UserBundle\Controller;
 
 use FOS\RestBundle\Controller\FOSRestController;
+use FOS\UserBundle\Event\FilterUserResponseEvent;
+use FOS\UserBundle\Event\FormEvent;
+use FOS\UserBundle\Event\GetResponseUserEvent;
+use FOS\UserBundle\FOSUserEvents;
 use FOS\UserBundle\Model\UserInterface;
+use FOS\UserBundle\Model\UserManagerInterface;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use SWP\Bundle\CoreBundle\Form\Type\RegistrationFormType;
+use SWP\Bundle\UserBundle\Form\Type\RegistrationFormType;
 use SWP\Component\Common\Response\ResponseContext;
 use SWP\Component\Common\Response\SingleResourceResponse;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\ConflictHttpException;
 
-class UserController extends FOSRestController
+class RegistrationController extends FOSRestController
 {
     /**
      * Register new user.
@@ -38,19 +46,28 @@ class UserController extends FOSRestController
      *         400="Returned on failure.",
      *         409="Returned on conflict."
      *     },
-     *     input="SWP\Bundle\CoreBundle\Form\Type\RegistrationFormType"
+     *     input="SWP\Bundle\UserBundle\Form\Type\RegistrationFormType"
      * )
      * @Route("/api/{version}/users/", options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_core_register_user")
      * @Method("POST")
      */
     public function registerAction(Request $request)
     {
+        /** @var UserManagerInterface $userManager */
         $userManager = $this->get('fos_user.user_manager');
+        /** @var $dispatcher EventDispatcherInterface */
+        $dispatcher = $this->get('event_dispatcher');
         $user = $userManager->createUser();
+        $user->setEnabled(true);
+
+        $event = new GetResponseUserEvent($user, $request);
+        $dispatcher->dispatch(FOSUserEvents::REGISTRATION_INITIALIZE, $event);
+        if (null !== $event->getResponse()) {
+            return $event->getResponse();
+        }
+
         $form = $this->createForm(RegistrationFormType::class, $user);
-
         $form->handleRequest($request);
-
         if ($form->isValid()) {
             /** @var UserInterface $formData */
             $formData = $form->getData();
@@ -63,10 +80,23 @@ class UserController extends FOSRestController
                 throw new ConflictHttpException(sprintf('User with username "%s" already exists', $formData->getUsername()));
             }
 
-            $formData->setEnabled(true);
+            $event = new FormEvent($form, $request);
+            $dispatcher->dispatch(FOSUserEvents::REGISTRATION_SUCCESS, $event);
+
             $this->get('swp.repository.user')->add($formData);
 
-            return new SingleResourceResponse($formData, new ResponseContext(201));
+            if (null === $response = $event->getResponse()) {
+                return new SingleResourceResponse($formData, new ResponseContext(201));
+            }
+            $dispatcher->dispatch(FOSUserEvents::REGISTRATION_COMPLETED, new FilterUserResponseEvent($user, $request, $response));
+
+            return $response;
+        }
+
+        $event = new FormEvent($form, $request);
+        $dispatcher->dispatch(FOSUserEvents::REGISTRATION_FAILURE, $event);
+        if (null !== $response = $event->getResponse()) {
+            return $response;
         }
 
         return new SingleResourceResponse($form, new ResponseContext(400));

@@ -1,0 +1,3 @@
+swp_user:
+    resource: "@SWPUserBundle/Controller"
+    type:     annotation

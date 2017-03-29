@@ -179,3 +179,28 @@ takeit_amp_html:
     routing:
         parameter_strategy:
             enabled: true
+
+swp_user:
+    persistence:
+        orm:
+            enabled: true
+            classes:
+                user:
+                    model: SWP\Bundle\CoreBundle\Model\User
+                    interface: SWP\Bundle\CoreBundle\Model\UserInterface
+
+swp_settings:
+    persistence:
+        orm:
+            enabled: true
+    settings:
+        my_first_setting:
+            value: null
+        my_second_setting:
+            value: "test"
+            scope: "tenant"
+        my_third_setting: ~
+        array_setting:
+            value: '{"a":"b","c":"d"}'
+            type: array
+            scope: global

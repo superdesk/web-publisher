@@ -49,6 +49,12 @@ class DefaultController extends Controller
 
         $templateEngineContext->setCurrentPage($metaFactory->create($route));
 
+        //$this->get('swp_settings.manager.settings')->set('array_setting', ['a1' => 'b2', 'sdfsdfgsd', 43532463245324]);
+
+        //$this->get('swp_settings.manager.settings')->clear('array_setting');
+        dump($this->get('swp_settings.manager.settings')->all());
+        die;
+
         return $this->render('index.html.twig');
     }
 }

@@ -1,7 +1,9 @@
 <?php
 
+declare(strict_types=1);
+
 /*
- * This file is part of the Superdesk Web Publisher Core Bundle.
+ * This file is part of the Superdesk Web Publisher User Bundle.
  *
  * Copyright 2016 Sourcefabric z.ú. and contributors.
  *
@@ -12,7 +14,7 @@
  * @license http://www.superdesk.org/license
  */
 
-namespace SWP\Bundle\CoreBundle\Form\Type;
+namespace SWP\Bundle\UserBundle\Form\Type;
 
 use FOS\UserBundle\Form\Type\RegistrationFormType as BaseRegistrationFormType;
 use SWP\Bundle\CoreBundle\Model\User;

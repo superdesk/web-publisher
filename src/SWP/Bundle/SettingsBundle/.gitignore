@@ -1,0 +1,8 @@
+vendor/
+bin/
+composer.phar
+composer.lock
+Tests/Functional/app/cache/*
+!Tests/Functional/app/cache
+Tests/Functional/app/logs/*
+!Tests/Functional/app/logs
