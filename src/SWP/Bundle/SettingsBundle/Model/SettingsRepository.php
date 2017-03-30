@@ -24,11 +24,12 @@ class SettingsRepository extends EntityRepository implements SettingsRepositoryI
     /**
      * {@inheritdoc}
      */
-    public function findAllByScopeAndOwner(string $scope, SettingsOwnerInterface $owner = null): QueryBuilder
+    public function findAllByScopeAndOwner(string $scope = null, SettingsOwnerInterface $owner = null): QueryBuilder
     {
-        $qb = $this->createQueryBuilder('s')
-            ->andWhere('s.scope = :scope')
-            ->setParameter('scope', $scope);
+        $qb = $this->createQueryBuilder('s');
+        if (null !== $scope) {
+            $qb->andWhere('s.scope = :scope')->setParameter('scope', $scope);
+        }
 
         return $qb;
     }

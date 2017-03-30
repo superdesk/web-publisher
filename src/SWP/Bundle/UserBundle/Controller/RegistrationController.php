@@ -48,7 +48,7 @@ class RegistrationController extends FOSRestController
      *     },
      *     input="SWP\Bundle\UserBundle\Form\Type\RegistrationFormType"
      * )
-     * @Route("/api/{version}/users/", options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_core_register_user")
+     * @Route("/api/{version}/users/register", options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_core_register_user")
      * @Method("POST")
      */
     public function registerAction(Request $request)

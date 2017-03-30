@@ -139,7 +139,10 @@ sylius_theme:
 fos_user:
     db_driver: orm
     firewall_name: main
-    user_class: "SWP\\Bundle\\CoreBundle\\Model\\User"
+    user_class: SWP\Bundle\CoreBundle\Model\User
+    registration:
+        confirmation:
+            enabled: true
 
 swp_multi_tenancy:
     use_orm_listeners: true
@@ -193,14 +196,3 @@ swp_settings:
     persistence:
         orm:
             enabled: true
-    settings:
-        my_first_setting:
-            value: null
-        my_second_setting:
-            value: "test"
-            scope: "tenant"
-        my_third_setting: ~
-        array_setting:
-            value: '{"a":"b","c":"d"}'
-            type: array
-            scope: global

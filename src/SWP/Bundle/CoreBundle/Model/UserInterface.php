@@ -21,4 +21,5 @@ use SWP\Component\MultiTenancy\Model\TenantAwareInterface;
 
 interface UserInterface extends BaseUserInterface, TenantAwareInterface
 {
+    const ROLE_READER = 'ROLE_READER';
 }

@@ -20,6 +20,7 @@ use Doctrine\Common\Persistence\ObjectManager;
 use SWP\Bundle\SettingsBundle\Exception\InvalidScopeException;
 use SWP\Bundle\SettingsBundle\Model\SettingsInterface;
 use SWP\Bundle\SettingsBundle\Model\SettingsOwnerInterface;
+use SWP\Bundle\SettingsBundle\Model\SettingsRepositoryInterface;
 use SWP\Bundle\StorageBundle\Doctrine\ORM\EntityRepository;
 use SWP\Component\Common\Serializer\SerializerInterface;
 use SWP\Component\Storage\Factory\FactoryInterface;
@@ -63,7 +64,7 @@ class SettingsManager implements SettingsManagerInterface
         ObjectManager $em,
         SerializerInterface $serializer,
         array $settingsConfiguration,
-        EntityRepository $settingsRepository,
+        SettingsRepositoryInterface $settingsRepository,
         FactoryInterface $settingsFactory
     ) {
         $this->em = $em;
@@ -81,6 +82,7 @@ class SettingsManager implements SettingsManagerInterface
         return [
             SettingsManagerInterface::SCOPE_GLOBAL,
             SettingsManagerInterface::SCOPE_USER,
+            'tenant',
         ];
     }
 
@@ -109,9 +111,11 @@ class SettingsManager implements SettingsManagerInterface
     /**
      * {@inheritdoc}
      */
-    public function all($scope = self::SCOPE_GLOBAL, SettingsOwnerInterface $owner = null)
+    public function all($scope = null, SettingsOwnerInterface $owner = null)
     {
-        $this->validateScope($scope);
+        if (null !== $scope) {
+            $this->validateScope($scope);
+        }
 
         return $this->getSettings($scope, $owner);
     }
@@ -157,20 +161,22 @@ class SettingsManager implements SettingsManagerInterface
         return false;
     }
 
-    protected function getSettings($scope, SettingsOwnerInterface $owner = null)
+    protected function getSettings(string $scope = null, SettingsOwnerInterface $owner = null)
     {
         $settings = $this->getFromConfiguration($scope);
         foreach ($this->getSettingsFromRepository($scope, $owner) as $setting) {
-            $settings[$setting->getName()]['value'] = $this->decodeValue(
-                $settings[$setting->getName()]['type'],
-                $setting->getValue()
-            );
+            if (array_key_exists($setting->getName(), $settings)) {
+                $settings[$setting->getName()]['value'] = $this->decodeValue(
+                    $settings[$setting->getName()]['type'],
+                    $setting->getValue()
+                );
+            }
         }
 
         return $settings;
     }
 
-    private function getFromConfiguration($scope, $name = null)
+    private function getFromConfiguration(string $scope = null, $name = null)
     {
         $settings = [];
         if ($name !== null && array_key_exists($name, $this->settingsConfiguration)) {
@@ -185,7 +191,7 @@ class SettingsManager implements SettingsManagerInterface
         }
 
         foreach ($this->settingsConfiguration as $name => $setting) {
-            if ($setting['scope'] === $scope) {
+            if ($setting['scope'] === $scope || null === $scope) {
                 $setting['value'] = $this->decodeValue($setting['type'], $setting['value']);
                 $settings[$name] = $setting;
             }

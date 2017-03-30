@@ -72,7 +72,15 @@ class Configuration implements ConfigurationInterface
                         ->addDefaultsIfNotSet()
                         ->children()
                             ->scalarNode('scope')->defaultValue('global')->end()
-                            ->scalarNode('value')->defaultValue(null)->end()
+                            ->scalarNode('value')
+                                ->beforeNormalization()
+                                ->ifArray()
+                                ->then(function ($value) {
+                                    return json_encode($value);
+                                })
+                                ->end()
+                                ->defaultValue(null)
+                            ->end()
                             ->scalarNode('type')
                                 ->defaultValue('string')
                                 ->validate()

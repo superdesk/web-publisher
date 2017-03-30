@@ -21,7 +21,7 @@ use SWP\Bundle\SettingsBundle\Manager\SettingsManager;
 use SWP\Bundle\SettingsBundle\Manager\SettingsManagerInterface;
 use SWP\Bundle\SettingsBundle\Tests\Functional\WebTestCase;
 
-class ContainerServiceTest extends WebTestCase
+class SettingsManagerTest extends WebTestCase
 {
     public function testDebugConstruct()
     {
