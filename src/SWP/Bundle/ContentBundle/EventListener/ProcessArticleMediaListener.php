@@ -70,7 +70,7 @@ class ProcessArticleMediaListener
         if (null === $package || (null !== $package && 0 === count($package->getItems()))) {
             return;
         }
-dump($package);die;
+
         $this->removeOldArticleMedia($article);
         foreach ($package->getItems() as $key => $packageItem) {
             if (ItemInterface::TYPE_PICTURE === $packageItem->getType() || ItemInterface::TYPE_FILE === $packageItem->getType()) {
