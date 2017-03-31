@@ -68,6 +68,7 @@ class Configuration implements ConfigurationInterface
                     ->end()
                 ->end()
                 ->arrayNode('settings')
+                    ->useAttributeAsKey('settings')
                     ->prototype('array')
                         ->addDefaultsIfNotSet()
                         ->children()

@@ -43,6 +43,11 @@ class Settings implements SettingsInterface
     protected $value;
 
     /**
+     * @var int
+     */
+    protected $owner;
+
+    /**
      * Settings constructor.
      */
     public function __construct()
@@ -104,5 +109,21 @@ class Settings implements SettingsInterface
     public function setValue(string $value)
     {
         $this->value = $value;
+    }
+
+    /**
+     * @return int
+     */
+    public function getOwner()
+    {
+        return $this->owner;
+    }
+
+    /**
+     * @param int $owner
+     */
+    public function setOwner(int $owner)
+    {
+        $this->owner = $owner;
     }
 }

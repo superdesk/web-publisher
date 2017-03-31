@@ -229,6 +229,14 @@ services:
         tags:
             - { name: doctrine.event_subscriber, priority: -5 }
 
+
+    swp_core.context.scope.subscriber:
+        class: SWP\Bundle\CoreBundle\EventSubscriber\ScopeContextSubscriber
+        arguments:
+          - '@swp_settings.context.scope'
+        tags:
+            - { name: kernel.event_subscriber }
+
     swp_core.jms_tenant_handler:
         class: SWP\Bundle\CoreBundle\Serializer\TenantHandler
         arguments:

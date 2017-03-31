@@ -16,18 +16,11 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\SettingsBundle\Manager;
 
+use SWP\Bundle\SettingsBundle\Context\ScopeContext;
 use SWP\Bundle\SettingsBundle\Model\SettingsOwnerInterface;
 
 interface SettingsManagerInterface
 {
-    const SCOPE_GLOBAL = 'global';
-    const SCOPE_USER = 'user';
-
-    /**
-     * @return array
-     */
-    public function getScopes(): array;
-
     /**
      * Returns setting value by its name.
      *
@@ -38,17 +31,14 @@ interface SettingsManagerInterface
      *
      * @return mixed
      */
-    public function get(string $name, $scope = self::SCOPE_GLOBAL, SettingsOwnerInterface $owner = null, $default = null);
+    public function get(string $name, $scope = ScopeContext::SCOPE_GLOBAL, SettingsOwnerInterface $owner = null, $default = null);
 
     /**
      * Returns all settings as associative name-value array.
      *
-     * @param string                      $scope
-     * @param SettingsOwnerInterface|null $owner
-     *
-     * @return mixed
+     * @return array
      */
-    public function all($scope = self::SCOPE_GLOBAL, SettingsOwnerInterface $owner = null);
+    public function all();
 
     /**
      * Sets setting value by its name.
@@ -60,7 +50,7 @@ interface SettingsManagerInterface
      *
      * @return mixed
      */
-    public function set(string $name, $value, $scope = self::SCOPE_GLOBAL, SettingsOwnerInterface $owner = null);
+    public function set(string $name, $value, $scope = ScopeContext::SCOPE_GLOBAL, SettingsOwnerInterface $owner = null);
 
     /**
      * Clears setting value.
@@ -71,5 +61,5 @@ interface SettingsManagerInterface
      *
      * @return mixed
      */
-    public function clear(string $name, $scope = self::SCOPE_GLOBAL, SettingsOwnerInterface $owner = null);
+    public function clear(string $name, $scope = ScopeContext::SCOPE_GLOBAL, SettingsOwnerInterface $owner = null);
 }

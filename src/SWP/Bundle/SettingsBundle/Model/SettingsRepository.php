@@ -17,6 +17,7 @@ declare(strict_types=1);
 namespace SWP\Bundle\SettingsBundle\Model;
 
 use Doctrine\ORM\QueryBuilder;
+use SWP\Bundle\SettingsBundle\Context\ScopeContextInterface;
 use SWP\Bundle\StorageBundle\Doctrine\ORM\EntityRepository;
 
 class SettingsRepository extends EntityRepository implements SettingsRepositoryInterface
@@ -24,16 +25,30 @@ class SettingsRepository extends EntityRepository implements SettingsRepositoryI
     /**
      * {@inheritdoc}
      */
-    public function findAllByScopeAndOwner(string $scope = null, SettingsOwnerInterface $owner = null): QueryBuilder
+    public function findAllByScopeAndOwner(ScopeContextInterface $scopeContext): QueryBuilder
     {
-        $qb = $this->createQueryBuilder('s');
-        if (null !== $scope) {
-            $qb->andWhere('s.scope = :scope')->setParameter('scope', $scope);
+        $qb = $this->createQueryBuilder('s')
+            ->andWhere('s.scope = :globalScope')
+            ->setParameter('globalScope', ScopeContextInterface::SCOPE_GLOBAL);
+
+        /* @var array $scope */
+        foreach ($scopeContext->getScopesOwners() as $scopeName => $owner) {
+            $qb->orWhere(
+                $qb->expr()->andX(
+                    $qb->expr()->eq('s.scope', ':scope_'.$scopeName),
+                    $qb->expr()->eq('s.owner', ':owner_'.$scopeName)
+                )
+            )
+            ->setParameter('scope_'.$scopeName, $scopeName)
+            ->setParameter('owner_'.$scopeName, $owner->getId());
         }
 
         return $qb;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function findOneByNameAndScopeAndOwner(string $name, string $scope, SettingsOwnerInterface $owner = null): QueryBuilder
     {
         $qb = $this->createQueryBuilder('s')
@@ -41,6 +56,13 @@ class SettingsRepository extends EntityRepository implements SettingsRepositoryI
             ->setParameter('scope', $scope)
             ->andWhere('s.name = :name')
             ->setParameter('name', $name);
+
+        if (null !== $scope && null !== $owner) {
+            $qb
+                ->andWhere('s.owner = :owner')
+                ->setParameter('owner', $owner->getId())
+            ;
+        }
 
         return $qb;
     }

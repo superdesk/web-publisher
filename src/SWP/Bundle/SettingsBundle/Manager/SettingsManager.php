@@ -17,6 +17,7 @@ declare(strict_types=1);
 namespace SWP\Bundle\SettingsBundle\Manager;
 
 use Doctrine\Common\Persistence\ObjectManager;
+use SWP\Bundle\SettingsBundle\Context\ScopeContextInterface;
 use SWP\Bundle\SettingsBundle\Exception\InvalidScopeException;
 use SWP\Bundle\SettingsBundle\Model\SettingsInterface;
 use SWP\Bundle\SettingsBundle\Model\SettingsOwnerInterface;
@@ -53,6 +54,11 @@ class SettingsManager implements SettingsManagerInterface
     protected $settingsFactory;
 
     /**
+     * @var ScopeContextInterface
+     */
+    protected $scopeContext;
+
+    /**
      * SettingsManager constructor.
      *
      * @param ObjectManager       $em
@@ -65,25 +71,15 @@ class SettingsManager implements SettingsManagerInterface
         SerializerInterface $serializer,
         array $settingsConfiguration,
         SettingsRepositoryInterface $settingsRepository,
-        FactoryInterface $settingsFactory
+        FactoryInterface $settingsFactory,
+        ScopeContextInterface $scopeContext
     ) {
         $this->em = $em;
         $this->serializer = $serializer;
         $this->settingsConfiguration = $settingsConfiguration;
         $this->settingsRepository = $settingsRepository;
         $this->settingsFactory = $settingsFactory;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getScopes(): array
-    {
-        return [
-            SettingsManagerInterface::SCOPE_GLOBAL,
-            SettingsManagerInterface::SCOPE_USER,
-            'tenant',
-        ];
+        $this->scopeContext = $scopeContext;
     }
 
     /**
@@ -111,13 +107,19 @@ class SettingsManager implements SettingsManagerInterface
     /**
      * {@inheritdoc}
      */
-    public function all($scope = null, SettingsOwnerInterface $owner = null)
+    public function all()
     {
-        if (null !== $scope) {
-            $this->validateScope($scope);
+        $settings = $this->getFromConfiguration();
+        foreach ($this->getSettingsFromRepository() as $setting) {
+            if (array_key_exists($setting->getName(), $settings)) {
+                $settings[$setting->getName()]['value'] = $this->decodeValue(
+                    $settings[$setting->getName()]['type'],
+                    $setting->getValue()
+                );
+            }
         }
 
-        return $this->getSettings($scope, $owner);
+        return $settings;
     }
 
     /**
@@ -161,19 +163,11 @@ class SettingsManager implements SettingsManagerInterface
         return false;
     }
 
-    protected function getSettings(string $scope = null, SettingsOwnerInterface $owner = null)
+    protected function validateScope($scope)
     {
-        $settings = $this->getFromConfiguration($scope);
-        foreach ($this->getSettingsFromRepository($scope, $owner) as $setting) {
-            if (array_key_exists($setting->getName(), $settings)) {
-                $settings[$setting->getName()]['value'] = $this->decodeValue(
-                    $settings[$setting->getName()]['type'],
-                    $setting->getValue()
-                );
-            }
+        if (!in_array($scope, $this->scopeContext->getScopes())) {
+            throw new InvalidScopeException($scope);
         }
-
-        return $settings;
     }
 
     private function getFromConfiguration(string $scope = null, $name = null)
@@ -201,20 +195,19 @@ class SettingsManager implements SettingsManagerInterface
     }
 
     /**
-     * @param                             $scope
-     * @param SettingsOwnerInterface|null $owner
-     *
-     * @return mixed
+     * @return array|mixed
      */
-    private function getSettingsFromRepository($scope, SettingsOwnerInterface $owner = null)
+    private function getSettingsFromRepository()
     {
-        return $this->settingsRepository->findAllByScopeAndOwner($scope, $owner)->getQuery()->getResult();
+        return $this->settingsRepository->findAllByScopeAndOwner($this->scopeContext)->getQuery()->getResult();
     }
 
     /**
      * @param string                      $name
      * @param string                      $scope
      * @param SettingsOwnerInterface|null $owner
+     *
+     * @return mixed
      */
     private function getSettingFromRepository(string $name, string $scope, SettingsOwnerInterface $owner = null)
     {
@@ -222,13 +215,6 @@ class SettingsManager implements SettingsManagerInterface
             ->findOneByNameAndScopeAndOwner($name, $scope, $owner)
             ->getQuery()
             ->getOneOrNullResult();
-    }
-
-    private function validateScope($scope)
-    {
-        if (!in_array($scope, $this->getScopes())) {
-            throw new InvalidScopeException($scope);
-        }
     }
 
     /**

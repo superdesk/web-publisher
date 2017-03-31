@@ -14,12 +14,18 @@ declare(strict_types=1);
  * @license http://www.superdesk.org/license
  */
 
-namespace SWP\Bundle\SettingsBundle\Model;
+namespace SWP\Bundle\SettingsBundle\Context;
 
-interface SettingsOwnerInterface
+class ScopeContext extends AbstractScopeContext implements ScopeContextInterface
 {
     /**
-     * @return int|string
+     * {@inheritdoc}
      */
-    public function getId();
+    public function getScopes(): array
+    {
+        return [
+            ScopeContextInterface::SCOPE_GLOBAL,
+            ScopeContextInterface::SCOPE_USER,
+        ];
+    }
 }

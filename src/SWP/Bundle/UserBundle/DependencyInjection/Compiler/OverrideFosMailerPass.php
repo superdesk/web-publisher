@@ -34,10 +34,10 @@ final class OverrideFosMailerPass implements CompilerPassInterface
         }
 
         $mailerService = $container->getDefinition($serviceId);
-
         $mailerService
             ->setClass(Mailer::class)
             ->addArgument(new Reference('swp_settings.manager.settings'))
+            ->addArgument(new Reference('swp_multi_tenancy.tenant_context'))
         ;
     }
 }

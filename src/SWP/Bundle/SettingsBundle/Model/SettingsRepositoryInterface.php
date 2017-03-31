@@ -17,16 +17,16 @@ declare(strict_types=1);
 namespace SWP\Bundle\SettingsBundle\Model;
 
 use Doctrine\ORM\QueryBuilder;
+use SWP\Bundle\SettingsBundle\Context\ScopeContextInterface;
 
 interface SettingsRepositoryInterface
 {
     /**
-     * @param string                      $scope
-     * @param SettingsOwnerInterface|null $owner
+     * @param ScopeContextInterface $scopeContext
      *
      * @return QueryBuilder
      */
-    public function findAllByScopeAndOwner(string $scope, SettingsOwnerInterface $owner = null): QueryBuilder;
+    public function findAllByScopeAndOwner(ScopeContextInterface $scopeContext): QueryBuilder;
 
     /**
      * @param string                      $name

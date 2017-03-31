@@ -21,6 +21,9 @@ swp_facebook_instant_articles:
 swp_user:
     resource: "@SWPUserBundle/Resources/config/routing.yml"
 
+swp_settings:
+    resource: "@SWPSettingsBundle/Resources/config/routing.yml"
+
 NelmioApiDocBundle:
     resource: "@NelmioApiDocBundle/Resources/config/routing.yml"
     prefix:   /api/doc
