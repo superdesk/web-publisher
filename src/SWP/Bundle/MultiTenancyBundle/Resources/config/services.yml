@@ -33,3 +33,10 @@ services:
     swp_multi_tenancy.random_string_generator:
         class: '%swp_multi_tenancy.random_string_generator.class%'
 
+    swp_multi_tenancy.form.type.tenant_choice:
+        class: SWP\Bundle\MultiTenancyBundle\Form\Type\TenantChoiceType
+        arguments:
+            - '@swp.repository.tenant'
+            - '@swp_multi_tenancy.tenant_context'
+        tags:
+            - { name: form.type }

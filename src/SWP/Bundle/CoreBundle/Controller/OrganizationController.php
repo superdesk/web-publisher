@@ -21,6 +21,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use SWP\Bundle\ContentBundle\Form\Type\ArticleType;
+use SWP\Bundle\CoreBundle\Form\Type\MultiplePublishType;
 use SWP\Component\Common\Criteria\Criteria;
 use SWP\Component\Common\Pagination\PaginationData;
 use SWP\Component\Common\Response\ResourcesListResponse;
@@ -150,6 +151,39 @@ class OrganizationController extends Controller
     public function getAction(int $id)
     {
         return new SingleResourceResponse($this->getOrganizationArticle($id));
+    }
+
+    /**
+     * Publishes article to many websites.
+     *
+     * @ApiDoc(
+     *     resource=true,
+     *     description="Publishes article to many tenants",
+     *     statusCodes={
+     *         200="Returned on success.",
+     *         400="Returned when validation failed.",
+     *         500="Returned when unexpected error."
+     *     },
+     *     input="SWP\Bundle\CoreBundle\Form\Type\MultiplePublishType"
+     * )
+     * @Route("/api/{version}/organization/articles/{id}/publish/", options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_core_publish_organization_articles", requirements={"id"="\d+"})
+     * @Method("POST")
+     */
+    public function publishAction(Request $request, int $id)
+    {
+        $article = $this->getOrganizationArticle($id);
+        $form = $this->createForm(MultiplePublishType::class, null, ['method' => $request->getMethod()]);
+
+        $form->handleRequest($request);
+        if ($form->isValid()) {
+            $formData = $form->getData();
+
+            $this->get('swp_core.article.publisher')->publish($article, $formData['tenants']);
+
+            return new SingleResourceResponse(null, new ResponseContext(201));
+        }
+
+        return new SingleResourceResponse($form, new ResponseContext(500));
     }
 
     private function getOrganizationArticle(int $id)

@@ -217,18 +217,6 @@ services:
             - "@swp_menu.extension_chain"
         public: false
 
-    swp_core.article_publish.subscriber:
-        class: SWP\Bundle\CoreBundle\EventSubscriber\ArticlePublishSubscriber
-        arguments:
-          - '@service_container'
-        tags:
-            - { name: kernel.event_subscriber }
-
-    swp_core.article_tenant.subscriber:
-        class: SWP\Bundle\CoreBundle\EventSubscriber\ArticleTenantSubscriber
-        tags:
-            - { name: doctrine.event_subscriber, priority: -5 }
-
     swp_core.jms_tenant_handler:
         class: SWP\Bundle\CoreBundle\Serializer\TenantHandler
         arguments:
@@ -236,3 +224,21 @@ services:
           - '@router.default'
         tags:
             - { name: jms_serializer.subscribing_handler }
+
+    swp_core.article.publisher:
+        class: SWP\Bundle\CoreBundle\Service\ArticlePublisher
+        arguments:
+          - '@swp.repository.article'
+          - '@event_dispatcher'
+          - '@swp.factory.cloner'
+
+    swp_core.form.type.tenant_route_selector:
+        class: SWP\Bundle\CoreBundle\Form\Type\TenantAwareRouteSelectorType
+        arguments:
+          - '@swp_multi_tenancy.tenant_context'
+          - '@swp.repository.route'
+        tags:
+            - { name: form.type }
+
+    swp.factory.cloner:
+      class: SWP\Bundle\CoreBundle\Factory\ClonerFactory
