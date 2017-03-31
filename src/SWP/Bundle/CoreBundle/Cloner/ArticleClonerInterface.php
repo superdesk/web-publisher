@@ -14,15 +14,22 @@ declare(strict_types=1);
  * @license http://www.superdesk.org/license
  */
 
-namespace SWP\Bundle\CoreBundle\Service;
+namespace SWP\Bundle\CoreBundle\Cloner;
 
 use SWP\Bundle\CoreBundle\Model\ArticleInterface;
 
-interface ArticlePublisherInterface
+interface ArticleClonerInterface
 {
     /**
      * @param ArticleInterface $article
-     * @param array            $tenants
+     * @param array            $config
+     *
+     * @return ArticleInterface
      */
-    public function publish(ArticleInterface $article, array $tenants);
+    public function clone(ArticleInterface $article, array $config = []): ArticleInterface;
+
+    /**
+     * @param array $config
+     */
+    public function validateConfig(array $config = []);
 }
