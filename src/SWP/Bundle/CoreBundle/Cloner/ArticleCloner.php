@@ -83,6 +83,10 @@ final class ArticleCloner implements ArticleClonerInterface
      */
     public function validateConfig(array $config = [])
     {
+        if (!isset($config['tenant']) || !isset($config['route'])) {
+            throw new \InvalidArgumentException('Configuration is missing!');
+        }
+
         if (isset($config['tenant']) && !$config['tenant'] instanceof TenantInterface) {
             throw UnexpectedTypeException::unexpectedType(
                 is_object($config['tenant']) ? get_class($config['tenant']) : gettype($config['tenant']),
