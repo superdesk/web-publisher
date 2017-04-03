@@ -67,10 +67,6 @@ final class ArticlePublisher implements ArticlePublisherInterface
             /** @var TenantInterface $tenant */
             $tenant = $data['tenant'];
 
-            if ($article->getTenantCode() === $tenant->getCode()) {
-                continue;
-            }
-
             if (null !== $this->findArticleByTenantAndCode($tenant->getCode(), $article->getCode())) {
                 continue;
             }
