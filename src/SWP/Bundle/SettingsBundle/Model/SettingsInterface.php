@@ -55,4 +55,14 @@ interface SettingsInterface extends PersistableInterface, TimestampableInterface
      * @param string $value
      */
     public function setValue(string $value);
+
+    /**
+     * @return int
+     */
+    public function getOwner();
+
+    /**
+     * @param int $owner
+     */
+    public function setOwner(int $owner);
 }

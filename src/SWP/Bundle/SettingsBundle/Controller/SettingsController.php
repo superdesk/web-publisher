@@ -16,15 +16,18 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\SettingsBundle\Controller;
 
-use SWP\Bundle\CoreBundle\Model\UserInterface;
+use SWP\Bundle\SettingsBundle\Context\ScopeContextInterface;
+use SWP\Bundle\SettingsBundle\Exception\InvalidScopeException;
+use SWP\Bundle\SettingsBundle\Form\Type\SettingType;
+use SWP\Component\Common\Response\SingleResourceResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use SWP\Component\Common\Response\ResourcesListResponse;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class SettingsController extends Controller
 {
@@ -50,7 +53,7 @@ class SettingsController extends Controller
     {
         $settingsManager = $this->get('swp_settings.manager.settings');
 
-        return new JsonResponse($settingsManager->all());
+        return new SingleResourceResponse($settingsManager->all());
     }
 
     /**
@@ -63,31 +66,46 @@ class SettingsController extends Controller
      *         201="Returned on success.",
      *         404="Setting not found",
      *     },
-     *     input="SWP\Bundle\TemplatesSystemBundle\Form\Type\ContainerType"
+     *     input="SWP\Bundle\SettingsBundle\Form\Type\SettingType"
      * )
      * @Route("/api/{version}/settings/", options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_settings_update")
      * @Method("PATCH")
      *
      * @param Request $request
-     * @param string  $uuid
-     *
-     * @throws NotFoundHttpException
-     * @throws UnprocessableEntityHttpException
      *
      * @return SingleResourceResponse
      */
     public function updateAction(Request $request)
     {
-        $settingsManager = $this->get('swp_settings.manager.settings');
-        $container = $this->getContainerForUpdate($uuid);
-        $user = null;
-        if ($this->getUser() instanceof UserInterface) {
-            $user = $this->getUser();
+        $form = $this->createForm(SettingType::class, [], [
+            'method' => $request->getMethod(),
+        ]);
+
+        $form->handleRequest($request);
+        if ($form->isValid()) {
+            $settingsManager = $this->get('swp_settings.manager.settings');
+            $scopeContext = $this->get('swp_settings.context.scope');
+            $data = $form->getData();
+
+            if (!array_key_exists($data['name'], $settingsManager->all())) {
+                throw new NotFoundHttpException('Setting with this name was not found.');
+            }
+
+            $setting = $settingsManager->all()[$data['name']];
+            $scope = $setting['scope'];
+            $owner = null;
+            if ($scope !== ScopeContextInterface::SCOPE_GLOBAL) {
+                $owner = $scopeContext->getScopeOwner($scope);
+                if (!$owner) {
+                    throw new InvalidScopeException($scope);
+                }
+            }
+
+            $setting = $settingsManager->set($data['name'], $data['value'], $scope, $owner);
+
+            return new SingleResourceResponse($setting);
         }
 
-        $tenant = $this->get('swp_multi_tenancy.tenant_context')->getTenant();
-        $organization = $tenant->getOrganization();
-
-        return new SingleResourceResponse([]);
+        return new SingleResourceResponse($form);
     }
 }

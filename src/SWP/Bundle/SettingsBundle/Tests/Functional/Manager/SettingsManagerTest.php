@@ -16,9 +16,11 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\SettingsBundle\Tests\Functional\Manager;
 
+use SWP\Bundle\SettingsBundle\Context\ScopeContextInterface;
 use SWP\Bundle\SettingsBundle\Exception\InvalidScopeException;
 use SWP\Bundle\SettingsBundle\Manager\SettingsManager;
-use SWP\Bundle\SettingsBundle\Manager\SettingsManagerInterface;
+use SWP\Bundle\SettingsBundle\Model\SettingsInterface;
+use SWP\Bundle\SettingsBundle\Tests\Functional\Model\User;
 use SWP\Bundle\SettingsBundle\Tests\Functional\WebTestCase;
 
 class SettingsManagerTest extends WebTestCase
@@ -33,12 +35,18 @@ class SettingsManagerTest extends WebTestCase
         $this->initDatabase();
         $settingsManager = $this->createService();
 
-        self::assertCount(3, $settingsManager->all());
+        self::assertCount(4, $settingsManager->all());
         self::assertEquals(null, $settingsManager->get('first_setting'));
-        self::assertEquals('default', $settingsManager->get('first_setting', 'global', null, 'default'));
+        self::assertEquals('default', $settingsManager->get('first_setting', ScopeContextInterface::SCOPE_GLOBAL, null, 'default'));
         self::assertEquals(123, $settingsManager->get('second_setting'));
         self::assertEquals(null, $settingsManager->get('first_setting'));
-        self::assertEquals('sdfgesgts4tgse5tdg4t', $settingsManager->get('third_setting', 'user'));
+
+        $owner = $this->getContainer()->get('swp_settings.context.scope')->setScopeOwner(
+            ScopeContextInterface::SCOPE_USER,
+            new User(1, 'publisher', 'testpass')
+        );
+
+        self::assertEquals('sdfgesgts4tgse5tdg4t', $settingsManager->get('third_setting', ScopeContextInterface::SCOPE_USER, $owner));
         self::assertEquals(['a' => 1, 'b' => 2], $settingsManager->get('fourth_setting'));
     }
 
@@ -66,31 +74,24 @@ class SettingsManagerTest extends WebTestCase
         $settingsManager = $this->createService();
 
         self::assertEquals(null, $settingsManager->get('first_setting'));
-        self::assertTrue($settingsManager->set('first_setting', 'value'));
+        self::assertInstanceOf(SettingsInterface::class, $settingsManager->set('first_setting', 'value'));
         self::assertEquals('value', $settingsManager->get('first_setting'));
         self::assertTrue($settingsManager->clear('first_setting'));
         self::assertEquals(null, $settingsManager->get('first_setting'));
-    }
 
-    public function testScopes()
-    {
-        $this->initDatabase();
-        $settingsManager = $this->createService();
-
-        self::assertEquals([
-            SettingsManagerInterface::SCOPE_GLOBAL,
-            SettingsManagerInterface::SCOPE_USER,
-        ], $settingsManager->getScopes());
+        $owner = $this->getContainer()->get('swp_settings.context.scope')->setScopeOwner(ScopeContextInterface::SCOPE_USER, new User(1, 'publisher', 'testpass'));
+        self::assertInstanceOf(SettingsInterface::class, $settingsManager->set('third_setting', '123456', ScopeContextInterface::SCOPE_USER, $owner));
+        self::assertEquals('123456', $settingsManager->get('third_setting', ScopeContextInterface::SCOPE_USER, $owner));
     }
 
     private function createService()
     {
         return new SettingsManager(
             $this->getContainer()->get('doctrine.orm.entity_manager'),
-            $this->getContainer()->get('swp.serializer'),
             $this->getContainer()->getParameter('swp_settings.settings'),
             $this->getContainer()->get('swp.repository.settings'),
-            $this->getContainer()->get('swp.factory.settings')
+            $this->getContainer()->get('swp.factory.settings'),
+            $this->getContainer()->get('swp_settings.context.scope')
         );
     }
 }

@@ -14,12 +14,14 @@
 
 return [
     new Symfony\Bundle\FrameworkBundle\FrameworkBundle(),
+    new Symfony\Bundle\SecurityBundle\SecurityBundle(),
     new Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle(),
     new Doctrine\Bundle\DoctrineBundle\DoctrineBundle(),
     new Doctrine\Bundle\DoctrineCacheBundle\DoctrineCacheBundle(),
     new Symfony\Bundle\MonologBundle\MonologBundle(),
     new Liip\FunctionalTestBundle\LiipFunctionalTestBundle(),
-    new JMS\SerializerBundle\JMSSerializerBundle(),
+    new Symfony\Bundle\TwigBundle\TwigBundle(),
+    new Nelmio\ApiDocBundle\NelmioApiDocBundle(),
     //new Stof\DoctrineExtensionsBundle\StofDoctrineExtensionsBundle(),
 
     new SWP\Bundle\StorageBundle\SWPStorageBundle(),

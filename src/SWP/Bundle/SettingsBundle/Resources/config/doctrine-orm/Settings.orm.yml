@@ -17,6 +17,7 @@ SWP\Bundle\SettingsBundle\Model\Settings:
             type: string
         owner:
             type: integer
+            nullable: true
         updatedAt:
             type: datetime
             nullable: true

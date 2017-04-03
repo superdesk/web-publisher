@@ -4,7 +4,6 @@ services:
         public: true
         arguments:
             - '@doctrine.orm.entity_manager'
-            - '@swp.serializer'
             - '%swp_settings.settings%'
             - '@swp.repository.settings'
             - '@swp.factory.settings'

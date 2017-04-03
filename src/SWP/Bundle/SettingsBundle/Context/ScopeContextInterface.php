@@ -37,7 +37,14 @@ interface ScopeContextInterface
      * @param string                 $scope
      * @param SettingsOwnerInterface $owner
      *
-     * @return mixed
+     * @return null|SettingsOwnerInterface
      */
     public function setScopeOwner(string $scope, SettingsOwnerInterface $owner);
+
+    /**
+     * @param string $scope
+     *
+     * @return SettingsOwnerInterface
+     */
+    public function getScopeOwner(string $scope);
 }

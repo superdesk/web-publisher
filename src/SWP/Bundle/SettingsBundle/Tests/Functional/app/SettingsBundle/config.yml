@@ -1,15 +1,22 @@
+imports:
+    - { resource: security.yml }
+
 parameters:
     domain: localhost
     test_env: doctrine
-    templating.cache_warmer.template_paths.class: "Symfony\\Bundle\\FrameworkBundle\\CacheWarmer\\TemplatePathsCacheWarmer"
 
 framework:
     secret: "Three can keep a secret, if two of them are dead."
     router:
-        resource: "%kernel.root_dir%/TemplatesSystem/routing.yml"
+        resource: "%kernel.root_dir%/../../../Resources/config/routing.yml"
         strict_requirements: ~
     test: ~
     serializer: ~
+    validation: ~
+    form: ~
+    session: ~
+    templating:
+        engines: ['twig']
 
 monolog:
     handlers:
@@ -22,7 +29,7 @@ doctrine_cache:
     providers:
         main_cache:
             type: array
-            namespace: templates_engine
+            namespace: settings_bundle
 
 liip_functional_test: ~
 
@@ -40,7 +47,7 @@ doctrine:
         driver:   pdo_sqlite
         memory:   true
         charset:  UTF8
-        path:     "%kernel.cache_dir%/templates_system.db3"
+        path:     "%kernel.cache_dir%/settings.db3"
     orm:
         auto_generate_proxy_classes: true
         entity_managers:
@@ -65,7 +72,10 @@ swp_settings:
             value: '{"a":1, "b": 2}'
 
 services:
-    swp.serializer:
-        class: SWP\Bridge\JMSSerializerBundle\JMSSerializer
-        arguments:
-            - "@jms_serializer"
+    swp_content_bundle.resources_list_response_listener:
+        class: SWP\Bundle\SettingsBundle\Tests\Functional\EventListener\ResourceResponseListener
+        tags:
+            - { name: kernel.event_listener, event: kernel.view }
+
+    tests_user_provider:
+        class: SWP\Bundle\SettingsBundle\Tests\Functional\UserProvider

@@ -18,12 +18,12 @@ namespace SWP\Bundle\SettingsBundle\Manager;
 
 use Doctrine\Common\Persistence\ObjectManager;
 use SWP\Bundle\SettingsBundle\Context\ScopeContextInterface;
+use SWP\Bundle\SettingsBundle\Exception\InvalidOwnerException;
 use SWP\Bundle\SettingsBundle\Exception\InvalidScopeException;
 use SWP\Bundle\SettingsBundle\Model\SettingsInterface;
 use SWP\Bundle\SettingsBundle\Model\SettingsOwnerInterface;
 use SWP\Bundle\SettingsBundle\Model\SettingsRepositoryInterface;
 use SWP\Bundle\StorageBundle\Doctrine\ORM\EntityRepository;
-use SWP\Component\Common\Serializer\SerializerInterface;
 use SWP\Component\Storage\Factory\FactoryInterface;
 
 class SettingsManager implements SettingsManagerInterface
@@ -37,11 +37,6 @@ class SettingsManager implements SettingsManagerInterface
      * @var ObjectManager
      */
     protected $em;
-
-    /**
-     * @var SerializerInterface
-     */
-    protected $serializer;
 
     /**
      * @var EntityRepository
@@ -61,21 +56,20 @@ class SettingsManager implements SettingsManagerInterface
     /**
      * SettingsManager constructor.
      *
-     * @param ObjectManager       $em
-     * @param SerializerInterface $serializer
-     * @param array               $settingsConfiguration
-     * @param EntityRepository    $settingsRepository
+     * @param ObjectManager               $em
+     * @param array                       $settingsConfiguration
+     * @param SettingsRepositoryInterface $settingsRepository
+     * @param FactoryInterface            $settingsFactory
+     * @param ScopeContextInterface       $scopeContext
      */
     public function __construct(
         ObjectManager $em,
-        SerializerInterface $serializer,
         array $settingsConfiguration,
         SettingsRepositoryInterface $settingsRepository,
         FactoryInterface $settingsFactory,
         ScopeContextInterface $scopeContext
     ) {
         $this->em = $em;
-        $this->serializer = $serializer;
         $this->settingsConfiguration = $settingsConfiguration;
         $this->settingsRepository = $settingsRepository;
         $this->settingsFactory = $settingsFactory;
@@ -85,13 +79,15 @@ class SettingsManager implements SettingsManagerInterface
     /**
      * {@inheritdoc}
      */
-    public function get(string $name, $scope = self::SCOPE_GLOBAL, SettingsOwnerInterface $owner = null, $default = null)
+    public function get(string $name, $scope = ScopeContextInterface::SCOPE_GLOBAL, SettingsOwnerInterface $owner = null, $default = null)
     {
-        $this->validateScope($scope);
+        if (null !== $scope) {
+            $this->validateScope($scope, $owner);
+        }
 
         $defaultSetting = $this->getFromConfiguration($scope, $name);
         /** @var SettingsInterface $setting */
-        $setting = $this->getSettingFromRepository($name, $scope, $owner);
+        $setting = $this->getSettingFromRepository($name, $defaultSetting['scope'], $owner);
 
         if (null !== $setting) {
             return $this->decodeValue($defaultSetting['type'], $setting->getValue());
@@ -125,33 +121,38 @@ class SettingsManager implements SettingsManagerInterface
     /**
      * {@inheritdoc}
      */
-    public function set(string $name, $value, $scope = self::SCOPE_GLOBAL, SettingsOwnerInterface $owner = null)
+    public function set(string $name, $value, $scope = ScopeContextInterface::SCOPE_GLOBAL, SettingsOwnerInterface $owner = null)
     {
-        $this->validateScope($scope);
+        $this->validateScope($scope, $owner);
         $defaultSetting = $this->getFromConfiguration($scope, $name);
 
+        /** @var SettingsInterface $setting */
         $setting = $this->getSettingFromRepository($name, $scope, $owner);
         if (null === $setting) {
             /** @var SettingsInterface $setting */
             $setting = $this->settingsFactory->create();
             $setting->setName($name);
             $setting->setScope($scope);
-            //$setting->setOwner($owner);
+            if (null !== $owner) {
+                $setting->setOwner($owner->getId());
+            }
             $this->settingsRepository->persist($setting);
+        } else {
+            $setting->setUpdatedAt(new \DateTime());
         }
 
         $setting->setValue($this->encodeValue($defaultSetting['type'], $value));
         $this->settingsRepository->flush();
 
-        return true;
+        return $setting;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function clear(string $name, $scope = self::SCOPE_GLOBAL, SettingsOwnerInterface $owner = null)
+    public function clear(string $name, $scope = ScopeContextInterface::SCOPE_GLOBAL, SettingsOwnerInterface $owner = null)
     {
-        $this->validateScope($scope);
+        $this->validateScope($scope, $owner);
 
         $setting = $this->getSettingFromRepository($name, $scope, $owner);
         if (null !== $setting) {
@@ -163,10 +164,14 @@ class SettingsManager implements SettingsManagerInterface
         return false;
     }
 
-    protected function validateScope($scope)
+    protected function validateScope($scope, $owner = null)
     {
         if (!in_array($scope, $this->scopeContext->getScopes())) {
             throw new InvalidScopeException($scope);
+        }
+
+        if ($scope !== ScopeContextInterface::SCOPE_GLOBAL && null === $owner) {
+            throw new InvalidOwnerException($scope);
         }
     }
 
@@ -175,7 +180,7 @@ class SettingsManager implements SettingsManagerInterface
         $settings = [];
         if ($name !== null && array_key_exists($name, $this->settingsConfiguration)) {
             $setting = $this->settingsConfiguration[$name];
-            if ($setting['scope'] === $scope) {
+            if ($setting['scope'] === $scope || null === $scope) {
                 return $settings[$name] = $setting;
             }
 
@@ -232,7 +237,7 @@ class SettingsManager implements SettingsManagerInterface
         }
 
         if ('array' === $settingType) {
-            return $this->serializer->serialize($value, 'json');
+            return json_encode($value);
         }
 
         return $value;
@@ -247,7 +252,7 @@ class SettingsManager implements SettingsManagerInterface
     private function decodeValue($settingType, $value)
     {
         if ('array' === $settingType) {
-            return $this->serializer->deserialize($value, 'array', 'json');
+            return json_decode($value, true);
         }
 
         return $value;

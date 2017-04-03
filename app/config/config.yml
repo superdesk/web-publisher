@@ -226,8 +226,10 @@ fos_rest:
     exception:
         codes:
             "Symfony\\Component\\Routing\\Exception\\ResourceNotFoundException": 404
+            "SWP\\Bundle\\SettingsBundle\\Exception\\InvalidScopeException": 500
         messages:
             "Symfony\\Component\\Routing\\Exception\\ResourceNotFoundException": true
+            "SWP\\Bundle\\SettingsBundle\\Exception\\InvalidScopeException": true
 
 swp_core:
     device_listener:

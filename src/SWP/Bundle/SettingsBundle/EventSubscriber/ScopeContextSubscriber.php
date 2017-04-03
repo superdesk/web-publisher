@@ -17,6 +17,7 @@ declare(strict_types=1);
 namespace SWP\Bundle\SettingsBundle\EventSubscriber;
 
 use SWP\Bundle\SettingsBundle\Context\ScopeContextInterface;
+use SWP\Bundle\SettingsBundle\Model\SettingsOwnerInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
@@ -70,7 +71,7 @@ class ScopeContextSubscriber implements EventSubscriberInterface
         $token = $this->securityTokenStorage->getToken();
         if ($token instanceof TokenInterface) {
             $user = $token->getUser();
-            if ($user instanceof UserInterface) {
+            if ($user instanceof UserInterface && $user instanceof SettingsOwnerInterface) {
                 $this->scopeContext->setScopeOwner(ScopeContextInterface::SCOPE_USER, $user);
             }
         }

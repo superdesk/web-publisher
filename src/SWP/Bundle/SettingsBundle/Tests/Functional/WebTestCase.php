@@ -18,9 +18,13 @@ namespace SWP\Bundle\SettingsBundle\Tests\Functional;
 
 use Doctrine\ORM\Tools\SchemaTool;
 use Liip\FunctionalTestBundle\Test\WebTestCase as BaseWebTestCase;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class WebTestCase extends BaseWebTestCase
 {
+    /**
+     * @var ContainerInterface
+     */
     protected $container;
 
     protected $manager;
@@ -36,6 +40,7 @@ class WebTestCase extends BaseWebTestCase
     {
         $kernel = $this->createKernel();
         $kernel->boot();
+        /* @var ContainerInterface container */
         $this->container = $kernel->getContainer();
         $this->manager = $kernel->getContainer()->get('doctrine.orm.entity_manager');
         $schemaTool = new SchemaTool($this->manager);

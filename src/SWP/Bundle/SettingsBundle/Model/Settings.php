@@ -112,7 +112,7 @@ class Settings implements SettingsInterface
     }
 
     /**
-     * @return int
+     * {@inheritdoc}
      */
     public function getOwner()
     {
@@ -120,7 +120,7 @@ class Settings implements SettingsInterface
     }
 
     /**
-     * @param int $owner
+     * {@inheritdoc}
      */
     public function setOwner(int $owner)
     {

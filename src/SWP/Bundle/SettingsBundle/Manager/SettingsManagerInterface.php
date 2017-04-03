@@ -17,6 +17,7 @@ declare(strict_types=1);
 namespace SWP\Bundle\SettingsBundle\Manager;
 
 use SWP\Bundle\SettingsBundle\Context\ScopeContext;
+use SWP\Bundle\SettingsBundle\Model\SettingsInterface;
 use SWP\Bundle\SettingsBundle\Model\SettingsOwnerInterface;
 
 interface SettingsManagerInterface
@@ -48,7 +49,7 @@ interface SettingsManagerInterface
      * @param string                      $scope
      * @param SettingsOwnerInterface|null $owner
      *
-     * @return mixed
+     * @return SettingsInterface
      */
     public function set(string $name, $value, $scope = ScopeContext::SCOPE_GLOBAL, SettingsOwnerInterface $owner = null);
 
