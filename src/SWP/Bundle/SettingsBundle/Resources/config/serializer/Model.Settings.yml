@@ -1,2 +1,2 @@
 SWP\Bundle\SettingsBundle\Model\Settings:
-    exclusion_policy: ALL
+    exclusion_policy: NONE

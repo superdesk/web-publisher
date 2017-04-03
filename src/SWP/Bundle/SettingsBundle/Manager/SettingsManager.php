@@ -81,6 +81,7 @@ class SettingsManager implements SettingsManagerInterface
      */
     public function get(string $name, $scope = ScopeContextInterface::SCOPE_GLOBAL, SettingsOwnerInterface $owner = null, $default = null)
     {
+        // Allow scope discovery from configuration
         if (null !== $scope) {
             $this->validateScope($scope, $owner);
         }
