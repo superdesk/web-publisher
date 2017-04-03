@@ -67,7 +67,7 @@ final class ContentPushTest extends WebTestCase
             $this->router->generate('swp_api_content_show_articles', ['id' => 'test-item-update'])
         );
 
-        self::assertEquals(404, $client->getResponse()->getStatusCode());
+        self::assertEquals(200, $client->getResponse()->getStatusCode());
 
         $content = $this->getPushedOrganizationArticle();
 

@@ -50,4 +50,15 @@ class ArticleEvents
      * @var string
      */
     const POST_PUBLISH = 'swp.article.published';
+
+    /**
+     * The PUBLISH event occurs on article publish.
+     *
+     * This event allows you to modify article during publishing.
+     *
+     * @Event("SWP\Bundle\ContentBundle\Event\ArticleEvent")
+     *
+     * @var string
+     */
+    const PUBLISH = 'swp.article.publish';
 }

@@ -31,6 +31,7 @@ use SWP\Bundle\CoreBundle\Model\Article;
 use SWP\Bundle\CoreBundle\Model\ArticleInterface;
 use SWP\Bundle\CoreBundle\Model\Image;
 use SWP\Bundle\CoreBundle\Model\Organization;
+use SWP\Bundle\CoreBundle\Model\Route;
 use SWP\Bundle\CoreBundle\Model\TenantInterface;
 use SWP\Component\Common\Exception\UnexpectedTypeException;
 
@@ -65,6 +66,7 @@ final class ArticleCloner implements ArticleClonerInterface
         $cloner = $this->clonerFactory->create();
         $cloner->skipUncloneable();
 
+        $cloner->addFilter(new KeepFilter(), new PropertyTypeMatcher(Route::class));
         $cloner->addFilter(new KeepFilter(), new PropertyTypeMatcher(Organization::class));
         $cloner->addFilter(new SetNullFilter(), new PropertyNameMatcher(self::PROPERTY_NAME));
         $cloner->addFilter(new DoctrineCollectionFilter(), new PropertyTypeMatcher(Collection::class));

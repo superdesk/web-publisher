@@ -99,7 +99,7 @@ class ArticleAutoPublishTest extends WebTestCase
             $this->router->generate('swp_api_content_show_articles', ['id' => 1])
         );
 
-        self::assertEquals(404, $client->getResponse()->getStatusCode());
+        self::assertEquals(200, $client->getResponse()->getStatusCode());
 
         $client->request(
             'GET',
@@ -141,7 +141,7 @@ class ArticleAutoPublishTest extends WebTestCase
             $this->router->generate('swp_api_content_show_articles', ['id' => 1])
         );
 
-        self::assertEquals(404, $client->getResponse()->getStatusCode());
+        self::assertEquals(200, $client->getResponse()->getStatusCode());
 
         $client->request(
             'GET',

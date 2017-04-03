@@ -2,6 +2,18 @@
 
 declare(strict_types=1);
 
+/*
+ * This file is part of the Superdesk Web Publisher Core Bundle.
+ *
+ * Copyright 2017 Sourcefabric z.ú. and contributors.
+ *
+ * For the full copyright and license information, please see the
+ * AUTHORS and LICENSE files distributed with this source code.
+ *
+ * @copyright 2017 Sourcefabric z.ú
+ * @license http://www.superdesk.org/license
+ */
+
 namespace SWP\Bundle\CoreBundle\Service;
 
 use SWP\Bundle\ContentBundle\ArticleEvents;
@@ -67,7 +79,8 @@ final class ArticlePublisher implements ArticlePublisherInterface
                 'tenant' => $tenant,
                 'route' => $data['route'],
             ]);
-            $this->eventDispatcher->dispatch(ArticleEvents::PRE_CREATE, new ArticleEvent($clonedArticle));
+
+            $this->eventDispatcher->dispatch(ArticleEvents::PUBLISH, new ArticleEvent($clonedArticle));
 
             $this->articleRepository->persist($clonedArticle);
         }
@@ -77,7 +90,7 @@ final class ArticlePublisher implements ArticlePublisherInterface
 
     private function findArticleByTenantAndCode(string $tenantCode, string $code)
     {
-        return $existingArticle = $this->articleRepository->findOneBy([
+        return $this->articleRepository->findOneBy([
             'tenantCode' => $tenantCode,
             'code' => $code,
         ]);

@@ -69,6 +69,7 @@ final class AddArticleToListOnPublishTest extends WebTestCase
                 'status' => 'published',
             ],
         ]);
+
         self::assertEquals(200, $client->getResponse()->getStatusCode());
 
         $client->request('GET', $this->router->generate('swp_api_core_list_items', ['id' => 1]));
@@ -182,14 +183,13 @@ final class AddArticleToListOnPublishTest extends WebTestCase
 
         self::assertEquals(201, $client->getResponse()->getStatusCode());
 
-        // check if article exists
+        // check if article exists for default tenant
         $client->request(
             'GET',
             $this->router->generate('swp_api_content_show_articles', ['id' => 'abstract-html-test'])
         );
 
-        // 404 because tenant is not assigned
-        self::assertEquals(404, $client->getResponse()->getStatusCode());
+        self::assertEquals(200, $client->getResponse()->getStatusCode());
 
         // assign route
         $client->request('PATCH', $this->router->generate('swp_api_core_update_organization_articles', ['id' => '1']), [
