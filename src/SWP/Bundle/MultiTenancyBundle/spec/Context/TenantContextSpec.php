@@ -19,14 +19,16 @@ use SWP\Component\MultiTenancy\Model\TenantInterface;
 use SWP\Component\MultiTenancy\Resolver\TenantResolverInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class TenantContextSpec extends ObjectBehavior
 {
     public function let(
         TenantResolverInterface $tenantResolver,
-        RequestStack $requestStack
+        RequestStack $requestStack,
+        EventDispatcherInterface $eventDispatcher
     ) {
-        $this->beConstructedWith($tenantResolver, $requestStack);
+        $this->beConstructedWith($tenantResolver, $requestStack, $eventDispatcher);
     }
 
     public function it_is_initializable()
