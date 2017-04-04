@@ -47,9 +47,11 @@ class Mailer extends FOSMailer
         $this->parameters = $parameters;
 
         $tenant = $tenantContext->getTenant();
+        $fromEmail = ['contact@'.$tenant->getDomainName() => 'contact'];
+
         $this->parameters['confirmation.template'] = $settingsManager->get('registration_confirmation.template', 'tenant', $tenant);
-        $this->parameters['from_email']['confirmation'] = $settingsManager->get('registration_from_email.confirmation', 'tenant', $tenant);
+        $this->parameters['from_email']['confirmation'] = $settingsManager->get('registration_from_email.confirmation', 'tenant', $tenant, $fromEmail);
         $this->parameters['resetting.template'] = $settingsManager->get('registration_resetting.template', 'tenant', $tenant);
-        $this->parameters['from_email']['resetting'] = $settingsManager->get('registration_from_email.resetting', 'tenant', $tenant);
+        $this->parameters['from_email']['resetting'] = $settingsManager->get('registration_from_email.resetting', 'tenant', $tenant, $fromEmail);
     }
 }

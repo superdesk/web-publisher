@@ -8,7 +8,7 @@
  * For the full copyright and license information, please see the
  * AUTHORS and LICENSE files distributed with this source code.
  *
- * @copyright 2016 Sourcefabric z.ú
+ * @copyright 2017 Sourcefabric z.ú
  * @license http://www.superdesk.org/license
  */
 
@@ -17,14 +17,14 @@ namespace SWP\Bundle\CoreBundle\Tests\Controller;
 use SWP\Bundle\FixturesBundle\WebTestCase;
 use Symfony\Component\Routing\RouterInterface;
 
-class RegistrationController extends WebTestCase
+class RegistrationControllerTest extends WebTestCase
 {
     /**
      * @var RouterInterface
      */
     private $router;
 
-    /**
+    /**x
      * {@inheritdoc}
      */
     public function setUp()
@@ -35,7 +35,7 @@ class RegistrationController extends WebTestCase
         $this->router = $this->getContainer()->get('router');
     }
 
-    public function testRevisionPublishing()
+    public function testRegistration()
     {
         $client = static::createClient();
         $client->enableProfiler();
@@ -53,8 +53,6 @@ class RegistrationController extends WebTestCase
         self::assertEquals(302, $client->getResponse()->getStatusCode());
 
         $mailCollector = $client->getProfile()->getCollector('swiftmailer');
-
-        // Check that an email was sent
         $this->assertEquals(1, $mailCollector->getMessageCount());
 
         $collectedMessages = $mailCollector->getMessages();
@@ -63,12 +61,11 @@ class RegistrationController extends WebTestCase
         // Asserting email data
         $this->assertInstanceOf('Swift_Message', $message);
         $this->assertEquals('Welcome sofab.contact!', $message->getSubject());
-        $this->assertEquals('webmaster@example.com', key($message->getFrom()));
+        $this->assertEquals('contact@localhost', key($message->getFrom()));
         $this->assertEquals('contact@example.com', key($message->getTo()));
 
         preg_match_all('#\bhttps?://[^\s()<>]+(?:\([\w\d]+\)|([^[:punct:]\s]|/))#', $message->getBody(), $match);
 
-        $client->enableProfiler();
         $client->request('GET', $match[0][0]);
         self::assertEquals(302, $client->getResponse()->getStatusCode());
 

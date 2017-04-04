@@ -31,7 +31,7 @@ by adding the following lines in the ``app/AppKernel.php`` file:
             $bundles = array(
                 // ...
 
-                new SWP\Bundle\StorageBundle\SWPSettingsBundle(),
+                new SWP\Bundle\SettingsBundle\SWPSettingsBundle(),
             );
 
             // ...
@@ -39,6 +39,15 @@ by adding the following lines in the ``app/AppKernel.php`` file:
 
         // ...
     }
+
+Enable the bundle in application configuration (``config.yml``):
+
+.. code-block:: yaml
+
+    swp_settings:
+        persistence:
+            orm:
+                enabled: true
 
 .. note::
 

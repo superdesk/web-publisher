@@ -31,9 +31,25 @@ Minimal definition looks like that:
 Settings scopes
 ```````````````
 
-Scope defines level for custom changes. If setting have scope ``user`` then every user will can have his own value for this setting.
+Scope defines level for custom changes. If setting have scope ``user`` then every user will have his own value for this setting.
 
 Settings value types
 ````````````````````
 
 Setting value can be ``string`` or ``array`` (it will be saved as json).
+
+Example with array as value:
+
+.. code-block:: yaml
+
+    parameters:
+        array_value:
+            a: 1
+            b: 2
+
+    swp_settings:
+        settings:
+            custom_setting_1:
+                value: "%array_value%"
+            custom_setting_2:
+                value: '{"a":1, "b": 2}'

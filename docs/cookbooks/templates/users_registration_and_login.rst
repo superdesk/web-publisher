@@ -15,17 +15,25 @@ After that user will get email message with link for account confirmation. Link 
 Customize sender email address:
 ```````````````````````````````
 
-...
+By default email will be send from ``'contact@{tenant domain}`` - example: ``contact@example.com``. You can override it by customizing ``registration_from_email.confirmation`` setting.
+
 
 Customize confirmation email template:
 ``````````````````````````````````````
 
-...
+Default template used for confirmation is ``@FOSUser/Registration/email.txt.twig`` You can override it by customizing ``registration_from_email.confirmation`` setting.
 
 Customize account confirmation page template:
 `````````````````````````````````````````````
 
-...
+After clicking on conformation link (from email) user will be redirected to ``/register/confirmed`` url. To render this page publisher by default use ``'@FOSUser/Registration/confirmed.html.twig``.
+
+You can override it in Your theme (with creating ``FOSUser/Registration/confirmed.html.twig`` file in your theme.
+
+
+.. note::
+
+    Read more about settings in :doc:`../../bundles/SWPSettingsBundle/index`.
 
 Login
 -----
