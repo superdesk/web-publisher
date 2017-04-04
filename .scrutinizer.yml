@@ -15,12 +15,3 @@ coding_style:
         spaces:
             around_operators:
                 concatenation: false
-
-build:
-    environment:
-        php:
-            version: 7.0.16
-    tests:
-        override:
-            -
-                command: 'bin/phpunit -c app/'

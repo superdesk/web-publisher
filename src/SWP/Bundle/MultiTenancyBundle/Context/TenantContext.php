@@ -50,8 +50,9 @@ class TenantContext implements TenantContextInterface
     /**
      * TenantContext constructor.
      *
-     * @param TenantResolverInterface $tenantResolver
-     * @param RequestStack            $requestStack
+     * @param TenantResolverInterface  $tenantResolver
+     * @param RequestStack             $requestStack
+     * @param EventDispatcherInterface $dispatcher
      */
     public function __construct(TenantResolverInterface $tenantResolver, RequestStack $requestStack, EventDispatcherInterface $dispatcher)
     {
