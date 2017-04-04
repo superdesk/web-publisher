@@ -16,6 +16,7 @@ namespace SWP\Bundle\CoreBundle\EventSubscriber;
 
 use SWP\Bundle\MultiTenancyBundle\MultiTenancyEvents;
 use SWP\Bundle\CoreBundle\Context\ScopeContextInterface;
+use SWP\Bundle\SettingsBundle\Model\SettingsOwnerInterface;
 use SWP\Component\MultiTenancy\Model\TenantInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
@@ -54,7 +55,7 @@ class ScopeContextSubscriber implements EventSubscriberInterface
     {
         $tenant = $event->getSubject();
 
-        if ($tenant instanceof TenantInterface) {
+        if ($tenant instanceof TenantInterface && $tenant instanceof SettingsOwnerInterface) {
             $this->scopeContext->setScopeOwner(ScopeContextInterface::SCOPE_TENANT, $tenant);
             $this->scopeContext->setScopeOwner(ScopeContextInterface::SCOPE_ORGANIZATION, $tenant->getOrganization());
         }

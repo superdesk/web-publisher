@@ -18,9 +18,10 @@ namespace SWP\Bundle\UserBundle\Mailer;
 
 use FOS\UserBundle\Mailer\Mailer as FOSMailer;
 use SWP\Bundle\SettingsBundle\Manager\SettingsManagerInterface;
+use SWP\Bundle\SettingsBundle\Model\SettingsOwnerInterface;
 use SWP\Component\MultiTenancy\Context\TenantContextInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
-use Symfony\Component\Templating\EngineInterface;
+use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
 
 class Mailer extends FOSMailer
 {
@@ -45,13 +46,15 @@ class Mailer extends FOSMailer
         $this->router = $router;
         $this->templating = $templating;
         $this->parameters = $parameters;
-
         $tenant = $tenantContext->getTenant();
-        $fromEmail = ['contact@'.$tenant->getDomainName() => 'contact'];
 
-        $this->parameters['confirmation.template'] = $settingsManager->get('registration_confirmation.template', 'tenant', $tenant);
-        $this->parameters['from_email']['confirmation'] = $settingsManager->get('registration_from_email.confirmation', 'tenant', $tenant, $fromEmail);
-        $this->parameters['resetting.template'] = $settingsManager->get('registration_resetting.template', 'tenant', $tenant);
-        $this->parameters['from_email']['resetting'] = $settingsManager->get('registration_from_email.resetting', 'tenant', $tenant, $fromEmail);
+        if ($tenant instanceof SettingsOwnerInterface) {
+            $fromEmail = ['contact@'.$tenant->getDomainName() => 'contact'];
+
+            $this->parameters['confirmation.template'] = $settingsManager->get('registration_confirmation.template', 'tenant', $tenant);
+            $this->parameters['from_email']['confirmation'] = $settingsManager->get('registration_from_email.confirmation', 'tenant', $tenant, $fromEmail);
+            $this->parameters['resetting.template'] = $settingsManager->get('registration_resetting.template', 'tenant', $tenant);
+            $this->parameters['from_email']['resetting'] = $settingsManager->get('registration_from_email.resetting', 'tenant', $tenant, $fromEmail);
+        }
     }
 }

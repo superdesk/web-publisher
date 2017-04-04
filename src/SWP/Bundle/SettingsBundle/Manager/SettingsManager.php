@@ -23,7 +23,6 @@ use SWP\Bundle\SettingsBundle\Exception\InvalidScopeException;
 use SWP\Bundle\SettingsBundle\Model\SettingsInterface;
 use SWP\Bundle\SettingsBundle\Model\SettingsOwnerInterface;
 use SWP\Bundle\SettingsBundle\Model\SettingsRepositoryInterface;
-use SWP\Bundle\StorageBundle\Doctrine\ORM\EntityRepository;
 use SWP\Component\Storage\Factory\FactoryInterface;
 
 class SettingsManager implements SettingsManagerInterface
@@ -39,7 +38,7 @@ class SettingsManager implements SettingsManagerInterface
     protected $em;
 
     /**
-     * @var EntityRepository
+     * @var SettingsRepositoryInterface
      */
     protected $settingsRepository;
 

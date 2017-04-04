@@ -44,7 +44,7 @@ interface ScopeContextInterface
     /**
      * @param string $scope
      *
-     * @return SettingsOwnerInterface
+     * @return null|SettingsOwnerInterface
      */
     public function getScopeOwner(string $scope);
 }

@@ -24,7 +24,7 @@ final class OverrideSettingsManagerPass extends AbstractOverridePass
      */
     public function process(ContainerBuilder $container)
     {
-        $settingsManagerDefinition = $this->overrideDefinitionClassIfExists(
+        $this->overrideDefinitionClassIfExists(
             $container,
             'swp_settings.context.scope',
             ScopeContext::class

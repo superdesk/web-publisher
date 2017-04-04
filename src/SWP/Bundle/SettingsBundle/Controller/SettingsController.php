@@ -45,11 +45,9 @@ class SettingsController extends Controller
      * @Method("GET")
      * Cache(expires="10 minutes", public=true)
      *
-     * @param Request $request
-     *
      * @return ResourcesListResponse
      */
-    public function listAction(Request $request)
+    public function listAction()
     {
         $settingsManager = $this->get('swp_settings.manager.settings');
 
@@ -96,7 +94,7 @@ class SettingsController extends Controller
             $owner = null;
             if ($scope !== ScopeContextInterface::SCOPE_GLOBAL) {
                 $owner = $scopeContext->getScopeOwner($scope);
-                if (!$owner) {
+                if (null === $owner) {
                     throw new InvalidScopeException($scope);
                 }
             }

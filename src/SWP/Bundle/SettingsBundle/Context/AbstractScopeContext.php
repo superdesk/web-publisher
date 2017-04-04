@@ -53,6 +53,6 @@ abstract class AbstractScopeContext implements ScopeContextInterface
             return $this->scopeOwners[$scope];
         }
 
-        return false;
+        return null;
     }
 }

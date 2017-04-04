@@ -85,7 +85,7 @@ class RegistrationController extends FOSRestController
 
             $this->get('swp.repository.user')->add($formData);
 
-            if (null === $response = $event->getResponse()) {
+            if (null === ($response = $event->getResponse())) {
                 return new SingleResourceResponse($formData, new ResponseContext(201));
             }
             $dispatcher->dispatch(FOSUserEvents::REGISTRATION_COMPLETED, new FilterUserResponseEvent($user, $request, $response));
