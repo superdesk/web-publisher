@@ -9,6 +9,9 @@ SWP\Bundle\SettingsBundle\Model\Settings:
     fields:
         createdAt:
             type: datetime
+        updatedAt:
+            type: datetime
+            nullable: true
         scope:
             type: string
         value:
@@ -17,7 +20,4 @@ SWP\Bundle\SettingsBundle\Model\Settings:
             type: string
         owner:
             type: integer
-            nullable: true
-        updatedAt:
-            type: datetime
             nullable: true

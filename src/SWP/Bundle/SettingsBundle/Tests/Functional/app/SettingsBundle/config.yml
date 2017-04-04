@@ -36,12 +36,6 @@ liip_functional_test: ~
 sensio_framework_extra:
     view:    { annotations: false }
 
-#stof_doctrine_extensions:
-#    orm:
-#        default:
-#            sortable: true
-#            tree: true
-
 doctrine:
     dbal:
         driver:   pdo_sqlite

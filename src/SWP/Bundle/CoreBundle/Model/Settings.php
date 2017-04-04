@@ -14,11 +14,8 @@
 
 namespace SWP\Bundle\CoreBundle\Model;
 
-use SWP\Component\MultiTenancy\Model\TenantAwareInterface;
-use SWP\Component\MultiTenancy\Model\TenantAwareTrait;
 use SWP\Bundle\SettingsBundle\Model\Settings as BaseSettings;
 
-class Settings extends BaseSettings implements TenantAwareInterface
+class Settings extends BaseSettings
 {
-    use TenantAwareTrait;
 }

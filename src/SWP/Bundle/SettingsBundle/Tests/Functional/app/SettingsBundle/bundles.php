@@ -22,7 +22,6 @@ return [
     new Liip\FunctionalTestBundle\LiipFunctionalTestBundle(),
     new Symfony\Bundle\TwigBundle\TwigBundle(),
     new Nelmio\ApiDocBundle\NelmioApiDocBundle(),
-    //new Stof\DoctrineExtensionsBundle\StofDoctrineExtensionsBundle(),
 
     new SWP\Bundle\StorageBundle\SWPStorageBundle(),
     new SWP\Bundle\SettingsBundle\SWPSettingsBundle(),
