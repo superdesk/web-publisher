@@ -16,6 +16,7 @@ namespace SWP\Bundle\MultiTenancyBundle\EventListener;
 
 use Doctrine\Common\EventSubscriber;
 use Doctrine\ORM\Event\LifecycleEventArgs;
+use Doctrine\ORM\Event\PreUpdateEventArgs;
 use Doctrine\ORM\Events;
 use SWP\Component\MultiTenancy\Model\TenantAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -47,6 +48,7 @@ final class TenantSubscriber implements EventSubscriber
     {
         return [
             Events::prePersist,
+            Events::preUpdate,
         ];
     }
 
@@ -54,6 +56,14 @@ final class TenantSubscriber implements EventSubscriber
      * @param LifecycleEventArgs $args
      */
     public function prePersist(LifecycleEventArgs $args)
+    {
+        $this->addTenant($args);
+    }
+
+    /**
+     * @param PreUpdateEventArgs $args
+     */
+    public function preUpdate(PreUpdateEventArgs $args)
     {
         $this->addTenant($args);
     }

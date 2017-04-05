@@ -19,11 +19,9 @@ use SWP\Bundle\CoreBundle\Model\FacebookInstantArticlesArticle;
 use SWP\Bundle\CoreBundle\Model\FacebookInstantArticlesArticleInterface;
 use SWP\Bundle\CoreBundle\Model\FacebookInstantArticlesFeed;
 use SWP\Bundle\CoreBundle\Model\FacebookInstantArticlesFeedInterface;
-use SWP\Bundle\CoreBundle\Model\UserInterface;
 use SWP\Bundle\CoreBundle\Repository\ApiKeyRepository;
 use SWP\Bundle\CoreBundle\Factory\ApiKeyFactory;
 use SWP\Bundle\CoreBundle\Model\ApiKey;
-use SWP\Bundle\CoreBundle\Model\User;
 use SWP\Bundle\CoreBundle\Repository\FacebookInstantArticlesArticleRepository;
 use SWP\Bundle\StorageBundle\Doctrine\ORM\EntityRepository;
 use SWP\Component\Storage\Factory\Factory;
@@ -59,16 +57,6 @@ class Configuration implements ConfigurationInterface
                                 ->arrayNode('classes')
                                 ->addDefaultsIfNotSet()
                                 ->children()
-                                    ->arrayNode('user')
-                                        ->addDefaultsIfNotSet()
-                                        ->children()
-                                            ->scalarNode('model')->cannotBeEmpty()->defaultValue(User::class)->end()
-                                            ->scalarNode('repository')->defaultValue(EntityRepository::class)->end()
-                                            ->scalarNode('factory')->defaultValue(Factory::class)->end()
-                                            ->scalarNode('interface')->defaultValue(UserInterface::class)->end()
-                                            ->scalarNode('object_manager_name')->defaultValue(null)->end()
-                                        ->end()
-                                    ->end()
                                     ->arrayNode('api_key')
                                         ->addDefaultsIfNotSet()
                                         ->children()

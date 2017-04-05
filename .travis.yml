@@ -44,6 +44,8 @@ script:
   - cd src/SWP/Bundle/TemplatesSystemBundle && composer install --no-interaction --prefer-dist --ignore-platform-reqs && bin/phpunit
   - cd ../../../../
   - cd src/SWP/Bundle/ContentBundle && composer install --no-interaction --prefer-dist --ignore-platform-reqs && bin/phpunit
+  - cd ../../../../
+  - cd src/SWP/Bundle/SettingsBundle && composer install --no-interaction --prefer-dist --ignore-platform-reqs && bin/phpunit
 
 cache:
   directories:

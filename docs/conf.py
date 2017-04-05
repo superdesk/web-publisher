@@ -69,7 +69,7 @@ author = u'Sourcefabric z.ú.'
 # built documents.
 #
 # The short X.Y version.
-version = '0.5.x'
+version = '0.6.x'
 # The full version, including alpha/beta/rc tags.
 release = '0.5.0'
 

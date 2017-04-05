@@ -54,7 +54,7 @@ class CreateTenantCommandTest extends \PHPUnit_Framework_TestCase
         $this->commandTester->execute(['command' => $this->command->getName()]);
 
         $this->assertContains(
-            'Please enter domain:Please enter name:Please enter organization:Tenant Test (code: 123abc) has been created and enabled!',
+            'Please enter domain:Please enter name:Please enter organization code:Tenant Test (code: 123abc) has been created and enabled!',
             $this->commandTester->getDisplay()
         );
     }
@@ -131,7 +131,7 @@ class CreateTenantCommandTest extends \PHPUnit_Framework_TestCase
         ]);
 
         $this->assertContains(
-            'Please enter domain:Please enter name:Please enter organization:Tenant Example (code: 123abc) has been created and disabled!',
+            'Please enter domain:Please enter name:Please enter organization code:Tenant Example (code: 123abc) has been created and disabled!',
             $this->commandTester->getDisplay()
         );
     }

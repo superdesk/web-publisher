@@ -160,11 +160,12 @@ class ArticleLoader extends PaginatedLoader implements LoaderInterface
             }
 
             $criteria = $this->applyPaginationToCriteria($criteria, $parameters);
+            $countCriteria = clone $criteria;
             $articles = $this->articleRepository->findArticlesByCriteria($criteria, $criteria->get('order', []));
             $articlesCollection = new ArrayCollection($articles);
             if ($articlesCollection->count() > 0) {
                 $metaCollection = new MetaCollection();
-                $metaCollection->setTotalItemsCount($this->articleRepository->countByCriteria($criteria));
+                $metaCollection->setTotalItemsCount($this->articleRepository->countByCriteria($countCriteria));
                 foreach ($articlesCollection as $article) {
                     $articleMeta = $this->getArticleMeta($article);
                     if (null !== $articleMeta) {
