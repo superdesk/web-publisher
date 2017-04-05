@@ -15,15 +15,3 @@ coding_style:
         spaces:
             around_operators:
                 concatenation: false
-
-build:
-    environment:
-        php:
-            version: 7.0.8
-    tests:
-        override:
-            -
-                command: 'bin/phpunit -d zend.enable_gc=0 -c app/ --coverage-clover=coverage.xml && bash <(curl -s https://codecov.io/bash) -t 9774e0ee-fd3e-43d3-8ba6-a25e4ef57fe5'
-                coverage:
-                    file: 'coverage.xml'
-                    format: 'clover'

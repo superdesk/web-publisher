@@ -24,6 +24,7 @@ services:
         arguments:
             - '@swp_multi_tenancy.tenant_resolver'
             - '@request_stack'
+            - '@event_dispatcher'
 
     swp_multi_tenancy.tenant_provider:
        class: '%swp_multi_tenancy.tenant_provider.class%'

@@ -1,0 +1,23 @@
+SWP\Bundle\SettingsBundle\Model\Settings:
+    type:  mappedSuperclass
+    table: swp_settings
+    id:
+        id:
+            type: integer
+            generator:
+                strategy: AUTO
+    fields:
+        createdAt:
+            type: datetime
+        updatedAt:
+            type: datetime
+            nullable: true
+        scope:
+            type: string
+        value:
+            type: text
+        name:
+            type: string
+        owner:
+            type: integer
+            nullable: true

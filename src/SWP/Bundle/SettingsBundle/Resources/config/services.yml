@@ -1,0 +1,22 @@
+services:
+    swp_settings.manager.settings:
+        class: SWP\Bundle\SettingsBundle\Manager\SettingsManager
+        public: true
+        arguments:
+            - '@doctrine.orm.entity_manager'
+            - '%swp_settings.settings%'
+            - '@swp.repository.settings'
+            - '@swp.factory.settings'
+            - '@swp_settings.context.scope'
+
+    swp_settings.context.scope:
+        class: SWP\Bundle\SettingsBundle\Context\ScopeContext
+        public: true
+
+    swp_settings.context.scope.subscriber:
+        class: SWP\Bundle\SettingsBundle\EventSubscriber\ScopeContextSubscriber
+        arguments:
+          - '@swp_settings.context.scope'
+          - '@security.token_storage'
+        tags:
+            - { name: kernel.event_subscriber }
