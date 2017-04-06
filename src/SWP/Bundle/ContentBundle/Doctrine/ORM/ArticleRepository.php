@@ -22,6 +22,7 @@ use SWP\Component\Common\Criteria\Criteria;
 use SWP\Bundle\ContentBundle\Doctrine\ArticleRepositoryInterface;
 use SWP\Bundle\ContentBundle\Model\ArticleInterface;
 use SWP\Bundle\StorageBundle\Doctrine\ORM\EntityRepository;
+use SWP\Component\Common\Pagination\PaginationData;
 
 class ArticleRepository extends EntityRepository implements ArticleRepositoryInterface
 {
@@ -99,6 +100,21 @@ class ArticleRepository extends EntityRepository implements ArticleRepositoryInt
     /**
      * {@inheritdoc}
      */
+    public function getPaginatedByCriteria(Criteria $criteria, array $sorting = [], PaginationData $paginationData = null)
+    {
+        $queryBuilder = $this->getQueryByCriteria($criteria, $sorting, 'a');
+        $this->applyCustomFiltering($queryBuilder, $criteria);
+
+        if (null === $paginationData) {
+            $paginationData = new PaginationData();
+        }
+
+        return $this->getPaginator($queryBuilder, $paginationData);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function getQueryForRouteArticles(string $identifier, array $order = [])
     {
         throw new \Exception('Not implemented');
@@ -111,25 +127,41 @@ class ArticleRepository extends EntityRepository implements ArticleRepositoryInt
                 continue;
             }
 
+            if (!is_array($criteria->get($name))) {
+                $criteria->remove($name);
+                continue;
+            }
+
             $orX = $queryBuilder->expr()->orX();
             foreach ($criteria->get($name) as $value) {
-                $orX->add($queryBuilder->expr()->like('a.metadata', $queryBuilder->expr()->literal('%'.$value.'%')));
+                $valueExpression = $queryBuilder->expr()->literal('%'.$value.'%');
+                if ('author' === $name) {
+                    $valueExpression = $queryBuilder->expr()->literal('%"byline":"'.$value.'"%');
+                }
+                $orX->add($queryBuilder->expr()->like('a.metadata', $valueExpression));
             }
 
             $queryBuilder->andWhere($orX);
             $criteria->remove($name);
         }
 
-        if ($criteria->has('publishedBefore')) {
+        if ($criteria->has('publishedBefore') && $criteria->get('publishedBefore') instanceof \DateTime) {
             $queryBuilder->andWhere('a.publishedAt < :before')
                 ->setParameter('before', $criteria->get('publishedBefore'));
             $criteria->remove('publishedBefore');
         }
 
-        if ($criteria->has('publishedAfter')) {
+        if ($criteria->has('publishedAfter') && $criteria->get('publishedAfter') instanceof \DateTime) {
             $queryBuilder->andWhere('a.publishedAt > :after')
                 ->setParameter('after', $criteria->get('publishedAfter'));
             $criteria->remove('publishedAfter');
+        }
+
+        if ($criteria->has('query') && strlen($query = trim($criteria->get('query'))) > 0) {
+            $like = $queryBuilder->expr()->like('a.title', $queryBuilder->expr()->literal('%'.$query.'%'));
+
+            $queryBuilder->andWhere($like);
+            $criteria->remove('query');
         }
     }
 }

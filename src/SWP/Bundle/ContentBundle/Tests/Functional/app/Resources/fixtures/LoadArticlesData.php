@@ -109,6 +109,7 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface, Orde
                 'content' => 'Test article content',
                 'route' => 'news',
                 'locale' => 'en',
+                'published_at' => '2017-04-05 12:12:00',
             ],
             [
                 'title' => 'Features',
@@ -155,7 +156,12 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface, Orde
             $article->setLocale($articleData['locale']);
             if (!isset($articleData['status'])) {
                 $article->setPublishable(true);
-                $article->setPublishedAt(new \DateTime());
+                if (isset($articleData['published_at'])) {
+                    $article->setPublishedAt(new \DateTime($articleData['published_at']));
+                } else {
+                    $article->setPublishedAt(new \DateTime());
+                }
+
                 $article->setStatus(ArticleInterface::STATUS_PUBLISHED);
             } else {
                 $article->setStatus($articleData['status']);
