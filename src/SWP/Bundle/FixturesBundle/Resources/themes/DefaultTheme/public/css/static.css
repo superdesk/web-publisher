@@ -1,6 +1,6 @@
 #page {
-	position: relative;
-	margin-top: 40px;
+    position: relative;
+    margin-top: 60px;
 }
 
 .header_wrap {
@@ -220,7 +220,26 @@
 
 }
 
+.submenu_wrapper {
+    font-family: 'Oswald', sans-serif;
+    margin: 0;
+    padding: 10px 0;
+    list-style: none;
+    background-color: #d74b4b ;
+}
 
+#submenu li {
+    float: left;
+    margin-right: 20px;
+    color: #fff;
+    font-weight: 600;
+}
+
+#submenu li a {
+    color: #ffffff ;
+    text-transform: uppercase;
+    font-weight: 300;
+}
 
 
 
@@ -587,5 +606,3 @@ body.okayNav-loaded {
   -webkit-transform: rotate(90deg);
           transform: rotate(90deg);
 }
-
-

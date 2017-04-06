@@ -27,14 +27,13 @@ class WidgetModel extends BaseWidgetModel implements WidgetModelInterface, Tenan
 
     use TenantAwareTrait;
 
-    public function __construct()
+    /**
+     * {@inheritdoc}
+     */
+    public function getTypes(): array
     {
-        parent::__construct();
-
-        $types = [
+        return parent::getTypes() + [
             self::TYPE_LIST => ContentListWidget::class,
         ];
-
-        $this->types += $types;
     }
 }

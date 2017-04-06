@@ -48,7 +48,7 @@ class ArticlePreviewTest extends WebTestCase
         self::assertFalse($this->client->getResponse()->isSuccessful());
         self::assertEquals(404, $this->client->getResponse()->getStatusCode());
 
-        $this->logIn('test.user');
+        $this->logIn('test.user', ['ROLE_INTERNAL_API']);
 
         $crawler = $this->client->request('GET', '/news/art1-not-published');
         self::assertTrue($this->client->getResponse()->isSuccessful());
@@ -103,6 +103,7 @@ class ArticlePreviewTest extends WebTestCase
         }
 
         $token = new UsernamePasswordToken($user, null, $firewall, !empty($roles) ? $roles : $user->getRoles());
+
         $session->set('_security_'.$firewall, serialize($token));
         $session->save();
 

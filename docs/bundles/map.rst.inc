@@ -4,3 +4,5 @@
 * :doc:`/bundles/SWPContentBundle/index`
 * :doc:`/bundles/SWPRuleBundle/index`
 * :doc:`/bundles/SWPContentListBundle/index`
+* :doc:`/bundles/SWPFacebookInstantArticlesBundle/index`
+* :doc:`/bundles/SWPSettingsBundle/index`

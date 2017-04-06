@@ -14,8 +14,9 @@
 
 namespace SWP\Bundle\CoreBundle\Model;
 
+use SWP\Bundle\SettingsBundle\Model\SettingsOwnerInterface;
 use SWP\Component\MultiTenancy\Model\Organization as BaseOrganization;
 
-class Organization extends BaseOrganization
+class Organization extends BaseOrganization implements SettingsOwnerInterface
 {
 }

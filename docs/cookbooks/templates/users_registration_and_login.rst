@@ -4,11 +4,36 @@ Users registration and login
 Registration
 ------------
 
-User can be registered in Publisher with REST API :code:`/{version}/users/` POST request.
+User can be registered in Publisher with REST API :code:`/{version}/users/register/` POST request.
 
 .. code-block:: bash
 
     curl -X POST 'http://webpublisher.dev/api/v1/users/' -H 'Origin: http://webpublisher.dev' -H 'Content-Type: application/x-www-form-urlencoded' -H 'Accept: */*' -H 'Connection: keep-alive' -H 'DNT: 1' --data '_format=json&user_registration%5Bemail%5D=pawel.mikolajczuk%40sourcefabric.org&user_registration%5Busername%5D=pawel.mikolajczuk&user_registration%5BplainPassword%5D%5Bfirst%5D=superStronP%40SSword&user_registration%5BplainPassword%5D%5Bsecond%5D=superStronP%40SSword' --compressed
+
+After that user will get email message with link for account confirmation. Link will redirect him to :code:`/register/confirmed` page.
+
+Customize sender email address:
+```````````````````````````````
+
+By default email will be send from ``'contact@{tenant domain}`` - example: ``contact@example.com``. You can override it by customizing ``registration_from_email.confirmation`` setting.
+
+
+Customize confirmation email template:
+``````````````````````````````````````
+
+Default template used for confirmation is ``@FOSUser/Registration/email.txt.twig`` You can override it by customizing ``registration_from_email.confirmation`` setting.
+
+Customize account confirmation page template:
+`````````````````````````````````````````````
+
+After clicking on conformation link (from email) user will be redirected to ``/register/confirmed`` url. To render this page publisher by default use ``'@FOSUser/Registration/confirmed.html.twig``.
+
+You can override it in Your theme (with creating ``FOSUser/Registration/confirmed.html.twig`` file in your theme.
+
+
+.. note::
+
+    Read more about settings in :doc:`../../bundles/SWPSettingsBundle/index`.
 
 Login
 -----

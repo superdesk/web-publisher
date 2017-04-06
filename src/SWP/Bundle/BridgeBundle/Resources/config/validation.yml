@@ -1,0 +1,9 @@
+SWP\Component\Bridge\Model\Package:
+    properties:
+        slugline:
+            - NotBlank: ~
+            - Length:
+                  min: 3
+                  max: 200
+                  minMessage: 'Slug must be at least {{ limit }} characters long'
+                  maxMessage: 'Slug cannot be longer than {{ limit }} characters'

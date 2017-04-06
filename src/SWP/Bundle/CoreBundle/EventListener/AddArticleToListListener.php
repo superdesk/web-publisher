@@ -28,7 +28,7 @@ use SWP\Component\ContentList\Repository\ContentListRepositoryInterface;
 use SWP\Component\Storage\Factory\FactoryInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
-class AutomaticListAddArticleListener
+class AddArticleToListListener
 {
     /**
      * @var ContentListRepositoryInterface
@@ -77,7 +77,10 @@ class AutomaticListAddArticleListener
     {
         $article = $event->getArticle();
         /** @var ContentListInterface[] $contentLists */
-        $contentLists = $this->listRepository->findAll();
+        $contentLists = $this->listRepository->findByTypes([
+            ContentListInterface::TYPE_AUTOMATIC,
+            ContentListInterface::TYPE_BUCKET,
+        ]);
 
         foreach ($contentLists as $contentList) {
             $filters = $contentList->getFilters();

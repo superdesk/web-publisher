@@ -1,0 +1,75 @@
+imports:
+    - { resource: security.yml }
+
+parameters:
+    domain: localhost
+    test_env: doctrine
+
+framework:
+    secret: "Three can keep a secret, if two of them are dead."
+    router:
+        resource: "%kernel.root_dir%/../../../Resources/config/routing.yml"
+        strict_requirements: ~
+    test: ~
+    serializer: ~
+    validation: ~
+    form: ~
+    session: ~
+    templating:
+        engines: ['twig']
+
+monolog:
+    handlers:
+        main:
+            type:   stream
+            path:   "%kernel.logs_dir%/%kernel.environment%.log"
+            level:  debug
+
+doctrine_cache:
+    providers:
+        main_cache:
+            type: array
+            namespace: settings_bundle
+
+liip_functional_test: ~
+
+sensio_framework_extra:
+    view:    { annotations: false }
+
+doctrine:
+    dbal:
+        driver:   pdo_sqlite
+        memory:   true
+        charset:  UTF8
+        path:     "%kernel.cache_dir%/settings.db3"
+    orm:
+        auto_generate_proxy_classes: true
+        entity_managers:
+            default:
+                naming_strategy: doctrine.orm.naming_strategy.underscore
+                auto_mapping: true
+
+swp_settings:
+    persistence:
+        orm:
+            enabled: true
+    settings:
+        first_setting: ~
+        second_setting:
+            scope: global
+            value: 123
+        third_setting:
+            scope: user
+            value: "sdfgesgts4tgse5tdg4t"
+        fourth_setting:
+            type: array
+            value: '{"a":1, "b": 2}'
+
+services:
+    swp_content_bundle.resources_list_response_listener:
+        class: SWP\Bundle\SettingsBundle\Tests\Functional\EventListener\ResourceResponseListener
+        tags:
+            - { name: kernel.event_listener, event: kernel.view }
+
+    tests_user_provider:
+        class: SWP\Bundle\SettingsBundle\Tests\Functional\UserProvider

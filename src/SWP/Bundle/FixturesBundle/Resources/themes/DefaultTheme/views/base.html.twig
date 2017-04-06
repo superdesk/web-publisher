@@ -66,6 +66,29 @@
         } %}    
         <!-- nothing by default -->
         {% endcontainer %}
+
+        {# Trending topics is array of first in a row keyword of three latest articles #}
+        {% cache 'subMenu' { time:3600 } %}
+        {% set trendingTopics = [] %}
+        {% set i = 0 %}
+        {% gimmelist article from articles|order('publishedAt','desc')|limit(3) ignoreContext %}
+          {% for keyword in article.keywords %}
+            {% if loop.first and (keyword not in trendingTopics) %}
+            {% set trendingTopics = trendingTopics|merge([keyword]) %}
+            {% endif %}
+          {% endfor %}
+          {% set i = i+1 %}
+        {% endgimmelist %}
+
+        <div class="submenu_wrapper">
+        <ul id="submenu" class="container">
+          <li>TRENDING TOPICS</li>
+          {% for topic in trendingTopics %}
+          <li><a href="{{ url('trending') }}?topic={{ topic }}">{{ topic }}</a></li>
+          {% endfor %}
+        </ul>
+        </div>
+        {% endcache %}
     </div>
   </div>
 

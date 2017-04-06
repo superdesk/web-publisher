@@ -96,7 +96,8 @@ class TokenAuthenticator extends AbstractGuardAuthenticator
             ->getQuery()
             ->getOneOrNullResult();
 
-        $this->entityManager->getFilters()->enable('tenantable');
+        $this->entityManager->getFilters()->enable('tenantable')
+            ->setParameter('tenantCode', $this->tenantContext->getTenant()->getCode());
 
         if (null === $apiKey) {
             return;

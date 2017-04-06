@@ -2,7 +2,6 @@ Tutorials
 =========
 
 .. toctree::
-   :numbered:
    :maxdepth: 2
 
    routing_integration

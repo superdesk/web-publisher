@@ -22,11 +22,11 @@ use SWP\Component\Storage\Repository\RepositoryInterface;
 interface ContentListRepositoryInterface extends RepositoryInterface
 {
     /**
-     * @param string $type
+     * @param array $types
      *
      * @return array
      */
-    public function findByType(string $type): array;
+    public function findByTypes(array $types): array;
 
     /**
      * @param int $listId
