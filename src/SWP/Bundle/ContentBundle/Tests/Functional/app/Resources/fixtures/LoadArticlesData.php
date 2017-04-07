@@ -66,10 +66,16 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface, Orde
                 'name' => 'articles/features',
                 'type' => 'content',
             ],
+            [
+                'name' => 'lifestyle',
+                'type' => 'collection',
+                'parent' => 'articles',
+            ],
         ];
 
         $routeService = $this->container->get('swp.service.route');
 
+        $routesCache = [];
         foreach ($routes as $routeData) {
             $route = $this->container->get('swp.factory.route')->create();
             $route->setName($routeData['name']);
@@ -87,8 +93,13 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface, Orde
                 $route->setArticlesTemplateName($routeData['articlesTemplateName']);
             }
 
+            if (isset($routeData['parent'])) {
+                $route->setParent($routesCache[$routeData['parent']]);
+            }
+
             $route = $routeService->fillRoute($route);
 
+            $routesCache[$routeData['name']] = $route;
             $manager->persist($route);
         }
 
@@ -143,6 +154,12 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface, Orde
                 'route' => 'articles',
                 'locale' => 'en',
                 'status' => ArticleInterface::STATUS_CANCELED,
+            ],
+            [
+                'title' => 'Lifestyle article 1',
+                'content' => 'Lifestyle article content',
+                'route' => 'lifestyle',
+                'locale' => 'en',
             ],
         ];
 

@@ -18,7 +18,6 @@ use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
-use SWP\Bundle\ContentBundle\Model\ArticleInterface;
 use SWP\Component\Common\Criteria\Criteria;
 use SWP\Component\Common\Pagination\PaginationData;
 use SWP\Component\Common\Response\ResourcesListResponse;
@@ -43,8 +42,9 @@ class ArticleController extends Controller
      *     filters={
      *         {"name"="status", "dataType"="string", "pattern"="new|published|unpublished|canceled"},
      *         {"name"="route", "dataType"="integer"},
-     *         {"name"="publishedBefore", "dataType"="DateTime", "pattern"="Y-m-d h:i:s"},
-     *         {"name"="publishedAfter", "dataType"="DateTime", "pattern"="Y-m-d h:i:s"},
+     *         {"name"="includeSubRoutes", "dataType"="boolean"},
+     *         {"name"="publishedBefore", "dataType"="datetime", "pattern"="Y-m-d h:i:s"},
+     *         {"name"="publishedAfter", "dataType"="datetime", "pattern"="Y-m-d h:i:s"},
      *         {"name"="author", "dataType"="string", "pattern"="John Doe | John Doe, Matt Smith"},
      *         {"name"="query", "dataType"="string", "pattern"="Part of title"}
      *     }
@@ -65,9 +65,21 @@ class ArticleController extends Controller
             $authors = explode(', ', $request->query->get('author'));
         }
 
+        if ($request->query->get('route', false) && $request->query->get('includeSubRoutes', false)) {
+            $routeObject = $this->get('swp.provider.route')->getOneById($request->query->get('route'));
+
+            if (null !== $routeObject) {
+                $ids = [$routeObject->getId()];
+                foreach ($routeObject->getChildren() as $child) {
+                    $ids[] = $child->getId();
+                }
+                $request->query->set('route', $ids);
+            }
+        }
+
         $articles = $this->get('swp.repository.article')
             ->getPaginatedByCriteria(new Criteria([
-                'status' => $request->query->get('status', ArticleInterface::STATUS_PUBLISHED),
+                'status' => $request->query->get('status', ''),
                 'route' => $request->query->get('route', ''),
                 'publishedBefore' => $request->query->has('publishedBefore') ? new \DateTime($request->query->get('publishedBefore')) : '',
                 'publishedAfter' => $request->query->has('publishedAfter') ? new \DateTime($request->query->get('publishedAfter')) : '',
