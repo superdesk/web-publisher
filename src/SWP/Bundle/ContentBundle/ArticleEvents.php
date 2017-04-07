@@ -61,4 +61,15 @@ class ArticleEvents
      * @var string
      */
     const PUBLISH = 'swp.article.publish';
+
+    /**
+     * The UNPUBLISH event occurs on article un-publish.
+     *
+     * This event allows you to modify article during un-publishing.
+     *
+     * @Event("SWP\Bundle\ContentBundle\Event\ArticleEvent")
+     *
+     * @var string
+     */
+    const UNPUBLISH = 'swp.article.unpublish';
 }

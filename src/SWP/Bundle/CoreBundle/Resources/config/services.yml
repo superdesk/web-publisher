@@ -230,7 +230,8 @@ services:
         arguments:
           - '@swp.repository.article'
           - '@event_dispatcher'
-          - '@swp.core.cloner.article'
+          - '@swp.factory.article'
+          - '@swp_multi_tenancy.tenant_context'
 
     swp_core.form.type.tenant_route_selector:
         class: SWP\Bundle\CoreBundle\Form\Type\TenantAwareRouteSelectorType
@@ -239,11 +240,3 @@ services:
           - '@swp.repository.route'
         tags:
             - { name: form.type }
-
-    swp.factory.cloner:
-      class: SWP\Bundle\CoreBundle\Factory\ClonerFactory
-
-    swp.core.cloner.article:
-        class: SWP\Bundle\CoreBundle\Cloner\ArticleCloner
-        arguments:
-            - '@swp.factory.cloner'

@@ -16,13 +16,19 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\CoreBundle\Service;
 
-use SWP\Bundle\CoreBundle\Model\ArticleInterface;
+use SWP\Bundle\CoreBundle\Model\PackageInterface;
 
 interface ArticlePublisherInterface
 {
     /**
-     * @param ArticleInterface $article
+     * @param PackageInterface $package
      * @param array            $tenants
      */
-    public function publish(ArticleInterface $article, array $tenants);
+    public function publish(PackageInterface $package, array $tenants);
+
+    /**
+     * @param PackageInterface $package
+     * @param array            $tenants
+     */
+    public function unpublish(PackageInterface $package, array $tenants = []);
 }

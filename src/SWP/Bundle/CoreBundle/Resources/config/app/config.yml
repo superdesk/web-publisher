@@ -132,7 +132,12 @@ swp_facebook_instant_articles:
 
 swp_bridge:
     persistence:
-        orm: true
+        orm:
+            enabled: true
+            classes:
+                package:
+                    model: SWP\Bundle\CoreBundle\Model\Package
+                    #interface: SWP\Bundle\CoreBundle\Model\PackageInterface
 
 sylius_theme:
     context: "swp_core.theme.context.tenant_aware"

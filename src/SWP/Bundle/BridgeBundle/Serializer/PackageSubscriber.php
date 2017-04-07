@@ -46,6 +46,17 @@ class PackageSubscriber implements EventSubscriberInterface
             if (null === $package->getItems()) {
                 $package->setItems(new ArrayCollection());
             }
+
+            foreach ($package->getItems() as $item) {
+                foreach ($item->getRenditions() as $key => $rendition) {
+                    $rendition->setName($key);
+                    $rendition->setItem($item);
+                }
+            }
+
+            foreach ($package->getItems() as $key => $item) {
+                $item->setName($key);
+            }
         }
     }
 }

@@ -14,7 +14,12 @@
 
 namespace SWP\Bundle\BridgeBundle\DependencyInjection;
 
+use SWP\Component\Bridge\Model\Item;
+use SWP\Component\Bridge\Model\ItemInterface;
 use SWP\Component\Bridge\Model\Package;
+use SWP\Component\Bridge\Model\PackageInterface;
+use SWP\Component\Bridge\Model\Rendition;
+use SWP\Component\Bridge\Model\RenditionInterface;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
 
@@ -50,9 +55,30 @@ class Configuration implements ConfigurationInterface
                                             ->children()
                                                 ->scalarNode('model')->cannotBeEmpty()->defaultValue(Package::class)->end()
                                                 ->scalarNode('repository')->defaultValue(null)->end()
+                                                ->scalarNode('interface')->defaultValue(PackageInterface::class)->end()
                                                 ->scalarNode('factory')->defaultValue(null)->end()
                                                 ->scalarNode('object_manager_name')->defaultValue(null)->end()
                                             ->end()
+                                        ->end()
+                                        ->arrayNode('item')
+                                            ->addDefaultsIfNotSet()
+                                            ->children()
+                                                ->scalarNode('model')->cannotBeEmpty()->defaultValue(Item::class)->end()
+                                                ->scalarNode('repository')->defaultValue(null)->end()
+                                                ->scalarNode('interface')->defaultValue(ItemInterface::class)->end()
+                                                ->scalarNode('factory')->defaultValue(null)->end()
+                                                ->scalarNode('object_manager_name')->defaultValue(null)->end()
+                                            ->end()
+                                        ->end()
+                                        ->arrayNode('rendition')
+                                        ->addDefaultsIfNotSet()
+                                        ->children()
+                                        ->scalarNode('model')->cannotBeEmpty()->defaultValue(Rendition::class)->end()
+                                        ->scalarNode('repository')->defaultValue(null)->end()
+                                        ->scalarNode('interface')->defaultValue(RenditionInterface::class)->end()
+                                        ->scalarNode('factory')->defaultValue(null)->end()
+                                        ->scalarNode('object_manager_name')->defaultValue(null)->end()
+                                        ->end()
                                         ->end()
                                     ->end()
                                 ->end()

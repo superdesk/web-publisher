@@ -1,5 +1,5 @@
 SWP\Component\Bridge\Model\Package:
-    type: entity
+    type: mappedSuperclass
     table: swp_package
     repositoryClass: SWP\Bundle\BridgeBundle\Doctrine\ORM\PackageRepository
     gedmo:
@@ -18,6 +18,7 @@ SWP\Component\Bridge\Model\Package:
             type: string
         slugline:
             type: string
+            nullable: true
         guid:
             type: string
         evolvedFrom:
@@ -53,6 +54,9 @@ SWP\Component\Bridge\Model\Package:
             type: integer
         version:
             type: integer
+        body:
+            type: text
+            nullable: true
         enabled:
             type: boolean
         createdAt:
@@ -71,6 +75,6 @@ SWP\Component\Bridge\Model\Package:
             nullable: true
     oneToMany:
         items:
-            targetEntity: SWP\Component\Bridge\Model\Item
+            targetEntity: SWP\Component\Bridge\Model\ItemInterface
             cascade: ["persist"]
             mappedBy: package

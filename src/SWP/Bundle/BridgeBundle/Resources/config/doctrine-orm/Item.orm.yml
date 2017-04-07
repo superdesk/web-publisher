@@ -1,5 +1,5 @@
 SWP\Component\Bridge\Model\Item:
-    type: entity
+    type: mappedSuperclass
     table: swp_item
     repositoryClass: SWP\Bundle\BridgeBundle\Doctrine\ORM\ItemRepository
     id:
@@ -9,6 +9,8 @@ SWP\Component\Bridge\Model\Item:
             generator:
                 strategy: AUTO
     fields:
+        name:
+            type: string
         headline:
             type: string
         slugline:
@@ -65,6 +67,11 @@ SWP\Component\Bridge\Model\Item:
                     on: update
     manyToOne:
         package:
-            targetEntity: SWP\Component\Bridge\Model\Package
+            targetEntity: SWP\Component\Bridge\Model\PackageInterface
             joinColumn:
               onDelete: CASCADE
+    oneToMany:
+        renditions:
+            targetEntity: SWP\Component\Bridge\Model\RenditionInterface
+            cascade: ["persist"]
+            mappedBy: item

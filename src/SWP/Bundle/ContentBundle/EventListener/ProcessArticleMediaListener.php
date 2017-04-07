@@ -72,11 +72,13 @@ class ProcessArticleMediaListener
         }
 
         $this->removeOldArticleMedia($article);
-        foreach ($package->getItems() as $key => $packageItem) {
+        foreach ($package->getItems() as $packageItem) {
+            $key = $packageItem->getName();
             if (ItemInterface::TYPE_PICTURE === $packageItem->getType() || ItemInterface::TYPE_FILE === $packageItem->getType()) {
                 $this->removeArticleMediaIfNeeded($key, $article);
 
                 $articleMedia = $this->handleMedia($article, $key, $packageItem);
+
                 $this->articleMediaRepository->persist($articleMedia);
             }
 

@@ -44,7 +44,7 @@ class ContentPushController extends Controller
      *     resource=true,
      *     description="Adds a new content from HTTP Push",
      *     statusCodes={
-     *         201="Returned on successful post."
+     *         201="Returned on success"
      *     }
      * )
      * @Route("/api/{version}/content/push", options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_content_push")
@@ -52,32 +52,26 @@ class ContentPushController extends Controller
      */
     public function pushContentAction(Request $request)
     {
-        $package = $this->handlePackage($request);
+        $content = $request->getContent();
+        $package = $this->get('swp_bridge.transformer.json_to_package')->transform($content);
+        $this->get('event_dispatcher')->dispatch(Events::SWP_VALIDATION, new GenericEvent($package));
+        $packageRepository = $this->get('swp.repository.package');
 
-        $existingArticle = $this->getExistingArticleOrNull($package);
+        /** @var PackageInterface $existingPackage */
+        $existingPackage = $packageRepository->findOneBy(['guid' => $package->getGuid()]);
 
-        if (null !== $existingArticle) {
-            if (ContentInterface::STATUS_CANCELED === $package->getPubStatus()) {
-                $this->get('swp.service.article')->unpublish($existingArticle, ArticleInterface::STATUS_CANCELED);
-                $this->get('swp.object_manager.article')->flush();
+        if (null !== $existingPackage) {
+            $objectManager = $this->get('swp.object_manager.package');
+            $package->setId($existingPackage->getId());
+            $package->setCreatedAt($existingPackage->getCreatedAt());
 
-                return new SingleResourceResponse(['status' => 'OK'], new ResponseContext(201));
-            }
-
-            $article = $this->get('swp.hydrator.article')->hydrate($existingArticle, $package);
-            $this->get('event_dispatcher')->dispatch(Events::SWP_VALIDATION, new GenericEvent($article));
-            $this->get('event_dispatcher')->dispatch(ArticleEvents::PRE_CREATE, new ArticleEvent($existingArticle, $package));
-            $this->get('swp.object_manager.article')->flush();
-            $this->get('event_dispatcher')->dispatch(ArticleEvents::POST_CREATE, new ArticleEvent($existingArticle));
+            $objectManager->merge($package);
+            $objectManager->flush();
 
             return new SingleResourceResponse(['status' => 'OK'], new ResponseContext(201));
         }
 
-        $article = $this->get('swp_content.transformer.package_to_article')->transform($package);
-        $this->get('event_dispatcher')->dispatch(Events::SWP_VALIDATION, new GenericEvent($article));
-        $this->get('event_dispatcher')->dispatch(ArticleEvents::PRE_CREATE, new ArticleEvent($article, $package));
-        $this->getArticleRepository()->add($article);
-        $this->get('event_dispatcher')->dispatch(ArticleEvents::POST_CREATE, new ArticleEvent($article));
+        $packageRepository->add($package);
 
         return new SingleResourceResponse(['status' => 'OK'], new ResponseContext(201));
     }
@@ -107,8 +101,10 @@ class ContentPushController extends Controller
             $mediaManager = $this->get('swp_content_bundle.manager.media');
             $uploadedFile = $form->getData()['media'];
             $mediaId = $request->request->get('media_id');
+
             if ($uploadedFile->isValid()) {
                 $image = $this->get('swp.repository.image')->findImageByAssetId(ArticleMedia::handleMediaId($mediaId));
+
                 if (null == $image) {
                     $image = $mediaManager->handleUploadedFile($uploadedFile, $mediaId);
 
@@ -172,8 +168,7 @@ class ContentPushController extends Controller
      */
     private function handlePackage(Request $request): PackageInterface
     {
-        $content = $request->getContent();
-        $package = $this->get('swp_bridge.transformer.json_to_package')->transform($content);
+        $package = $this->get('swp_bridge.transformer.json_to_package')->transform($request->getContent());
 
         $this->get('event_dispatcher')->dispatch(Events::SWP_VALIDATION, new GenericEvent($package));
 
@@ -182,6 +177,7 @@ class ContentPushController extends Controller
         if (null !== $existingPackage) {
             $packageRepository->remove($existingPackage);
         }
+
         $packageRepository->add($package);
 
         return $package;

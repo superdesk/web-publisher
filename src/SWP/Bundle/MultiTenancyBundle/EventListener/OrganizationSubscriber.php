@@ -48,6 +48,7 @@ final class OrganizationSubscriber implements EventSubscriber
     {
         return [
             Events::prePersist,
+            Events::preUpdate,
         ];
     }
 
@@ -55,6 +56,14 @@ final class OrganizationSubscriber implements EventSubscriber
      * @param LifecycleEventArgs $args
      */
     public function prePersist(LifecycleEventArgs $args)
+    {
+        $this->addOrganization($args);
+    }
+
+    /**
+     * @param LifecycleEventArgs $args
+     */
+    public function preUpdate(LifecycleEventArgs $args)
     {
         $this->addOrganization($args);
     }

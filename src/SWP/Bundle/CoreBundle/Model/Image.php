@@ -21,5 +21,4 @@ use SWP\Component\MultiTenancy\Model\TenantAwareTrait;
 
 class Image extends BaseImage implements ImageInterface
 {
-    use TenantAwareTrait;
 }

@@ -25,6 +25,11 @@ class Item extends BaseContent implements ItemInterface, TimestampableInterface
     /**
      * @var string
      */
+    protected $name;
+
+    /**
+     * @var string
+     */
     protected $body;
 
     /**
@@ -55,6 +60,22 @@ class Item extends BaseContent implements ItemInterface, TimestampableInterface
     public function __construct()
     {
         $this->renditions = new ArrayCollection();
+    }
+
+    /**
+     * @return string
+     */
+    public function getName(): string
+    {
+        return $this->name;
+    }
+
+    /**
+     * @param string $name
+     */
+    public function setName(string $name)
+    {
+        $this->name = $name;
     }
 
     /**

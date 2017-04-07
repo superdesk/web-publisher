@@ -37,6 +37,13 @@ services:
         class: SWP\Bundle\MultiTenancyBundle\Form\Type\TenantChoiceType
         arguments:
             - '@swp.repository.tenant'
+        tags:
+            - { name: form.type }
+
+    swp_multi_tenancy.form.type.tenant_selector:
+        class: SWP\Bundle\MultiTenancyBundle\Form\Type\TenantSelectorType
+        arguments:
+            - '@swp.repository.tenant'
             - '@swp_multi_tenancy.tenant_context'
         tags:
             - { name: form.type }

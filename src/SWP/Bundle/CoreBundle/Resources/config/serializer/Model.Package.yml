@@ -1,0 +1,5 @@
+SWP\Bundle\CoreBundle\Model\Package:
+    exclusion_policy: ALL
+    properties:
+        articles:
+            expose: true

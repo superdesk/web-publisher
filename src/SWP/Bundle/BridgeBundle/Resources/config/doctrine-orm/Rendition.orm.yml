@@ -1,0 +1,41 @@
+SWP\Component\Bridge\Model\Rendition:
+    type: mappedSuperclass
+    table: swp_item_renditions
+    repositoryClass: SWP\Bundle\StorageBundle\Doctrine\ORM\EntityRepository
+    gedmo:
+        soft_deleteable:
+            field_name: deletedAt
+            time_aware: false
+        loggable: true
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        name:
+            expose: true
+            type: string
+        href:
+            expose: true
+            type: string
+        width:
+            expose: true
+            type: integer
+        height:
+            exose: true
+            type: integer
+        mimetype:
+            exose: true
+            type: string
+        media:
+            exose: true
+            type: string
+        deletedAt:
+            type: datetime
+            nullable: true
+    manyToOne:
+        item:
+            targetEntity: SWP\Component\Bridge\Model\ItemInterface
+            inversedBy: renditions

@@ -150,3 +150,11 @@ services:
             - '@swp.service.article'
         tags:
             - { name: kernel.event_listener, event: swp.article.publish, method: publish }
+            - { name: kernel.event_listener, event: swp.article.unpublish, method: unpublish }
+
+    swp_content_bundle.listener.article_subscriber:
+        class: SWP\Bundle\ContentBundle\EventListener\ArticleSubscriber
+        arguments:
+            - '@event_dispatcher'
+        tags:
+            - { name: doctrine.event_subscriber }

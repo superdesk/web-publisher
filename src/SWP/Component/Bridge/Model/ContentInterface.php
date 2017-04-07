@@ -14,7 +14,9 @@
 
 namespace SWP\Component\Bridge\Model;
 
-interface ContentInterface
+use SWP\Component\Storage\Model\PersistableInterface;
+
+interface ContentInterface extends PersistableInterface
 {
     const STATUS_USABLE = 'usable';
     const STATUS_CANCELED = 'canceled';

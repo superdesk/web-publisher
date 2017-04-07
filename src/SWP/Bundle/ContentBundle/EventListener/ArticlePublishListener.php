@@ -19,7 +19,6 @@ namespace SWP\Bundle\ContentBundle\EventListener;
 use SWP\Bundle\ContentBundle\Event\ArticleEvent;
 use SWP\Bundle\ContentBundle\Model\ArticleInterface;
 use SWP\Bundle\ContentBundle\Service\ArticleServiceInterface;
-use SWP\Component\Common\Exception\UnexpectedTypeException;
 
 final class ArticlePublishListener
 {
@@ -43,14 +42,24 @@ final class ArticlePublishListener
      */
     public function publish(ArticleEvent $event)
     {
-        if (!($article = $event->getArticle()) instanceof ArticleInterface) {
-            throw UnexpectedTypeException::unexpectedType(is_object($article) ? get_class($article) : gettype($article), ArticleInterface::class);
-        }
+        $article = $event->getArticle();
 
         if ($article->isPublished()) {
             return;
         }
 
         $this->articleService->publish($article);
+    }
+
+    /**
+     * @param ArticleEvent $event
+     */
+    public function unpublish(ArticleEvent $event)
+    {
+        $article = $event->getArticle();
+
+        if ($article->isPublished()) {
+            $this->articleService->unpublish($article, ArticleInterface::STATUS_UNPUBLISHED);
+        }
     }
 }

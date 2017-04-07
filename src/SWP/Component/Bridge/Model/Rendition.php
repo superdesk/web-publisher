@@ -14,8 +14,22 @@
 
 namespace SWP\Component\Bridge\Model;
 
-class Rendition
+use SWP\Component\Common\Model\SoftDeletableTrait;
+
+class Rendition implements RenditionInterface
 {
+    use SoftDeletableTrait;
+
+    /**
+     * @var mixed
+     */
+    protected $id;
+
+    /**
+     * @var string
+     */
+    protected $name;
+
     /**
      * @var string
      */
@@ -40,6 +54,43 @@ class Rendition
      * @var string
      */
     protected $media;
+
+    /**
+     * @var ItemInterface
+     */
+    protected $item;
+
+    /**
+     * @return mixed
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * @param mixed $id
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
+    }
+
+    /**
+     * @return string
+     */
+    public function getName(): string
+    {
+        return $this->name;
+    }
+
+    /**
+     * @param string $name
+     */
+    public function setName(string $name)
+    {
+        $this->name = $name;
+    }
 
     /**
      * @return string
@@ -139,5 +190,21 @@ class Rendition
         $this->media = $media;
 
         return $this;
+    }
+
+    /**
+     * @return ItemInterface
+     */
+    public function getItem(): ItemInterface
+    {
+        return $this->item;
+    }
+
+    /**
+     * @param ItemInterface $item
+     */
+    public function setItem(ItemInterface $item)
+    {
+        $this->item = $item;
     }
 }

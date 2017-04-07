@@ -16,15 +16,14 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\MultiTenancyBundle\Form\Type;
 
+use SWP\Bundle\MultiTenancyBundle\Form\DataTransformer\TenantToCodeTransformer;
+use SWP\Component\MultiTenancy\Context\TenantContextInterface;
 use SWP\Component\MultiTenancy\Repository\TenantRepositoryInterface;
-use Symfony\Bridge\Doctrine\Form\DataTransformer\CollectionToArrayTransformer;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\Options;
-use Symfony\Component\OptionsResolver\OptionsResolver;
 
-final class TenantChoiceType extends AbstractType
+final class TenantSelectorType extends AbstractType
 {
     /**
      * @var TenantRepositoryInterface
@@ -32,13 +31,20 @@ final class TenantChoiceType extends AbstractType
     private $tenantRepository;
 
     /**
+     * @var TenantContextInterface
+     */
+    private $tenantContext;
+
+    /**
      * TenantChoiceType constructor.
      *
      * @param TenantRepositoryInterface $tenantRepository
+     * @param TenantContextInterface    $tenantContext
      */
-    public function __construct(TenantRepositoryInterface $tenantRepository)
+    public function __construct(TenantRepositoryInterface $tenantRepository, TenantContextInterface $tenantContext)
     {
         $this->tenantRepository = $tenantRepository;
+        $this->tenantContext = $tenantContext;
     }
 
     /**
@@ -46,23 +52,7 @@ final class TenantChoiceType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        if ($options['multiple']) {
-            $builder->addModelTransformer(new CollectionToArrayTransformer());
-        }
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function configureOptions(OptionsResolver $resolver)
-    {
-        $resolver->setDefaults([
-            'choices' => function (Options $options) {
-                return $this->tenantRepository->findAll();
-            },
-            'choice_value' => 'code',
-            'choice_label' => 'name'
-        ]);
+        $builder->addModelTransformer(new TenantToCodeTransformer($this->tenantRepository, $this->tenantContext));
     }
 
     /**
@@ -70,7 +60,7 @@ final class TenantChoiceType extends AbstractType
      */
     public function getParent()
     {
-        return ChoiceType::class;
+        return TextType::class;
     }
 
     /**
@@ -78,6 +68,6 @@ final class TenantChoiceType extends AbstractType
      */
     public function getBlockPrefix()
     {
-        return 'swp_tenant';
+        return 'swp_tenant_selector';
     }
 }
