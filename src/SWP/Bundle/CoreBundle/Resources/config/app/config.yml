@@ -147,7 +147,10 @@ sylius_theme:
 fos_user:
     db_driver: orm
     firewall_name: main
-    user_class: "SWP\\Bundle\\CoreBundle\\Model\\User"
+    user_class: SWP\Bundle\CoreBundle\Model\User
+    registration:
+        confirmation:
+            enabled: true
 
 swp_multi_tenancy:
     use_orm_listeners: true
@@ -187,3 +190,25 @@ takeit_amp_html:
     routing:
         parameter_strategy:
             enabled: true
+
+swp_user:
+    persistence:
+        orm:
+            enabled: true
+            classes:
+                user:
+                    model: SWP\Bundle\CoreBundle\Model\User
+                    interface: SWP\Bundle\CoreBundle\Model\UserInterface
+
+swp_settings:
+    persistence:
+        orm:
+            enabled: true
+            classes:
+                settings:
+                    model: SWP\Bundle\CoreBundle\Model\Settings
+    settings:
+        instance_name:
+            scope: global
+            type: string
+            value: "Publisher Master"

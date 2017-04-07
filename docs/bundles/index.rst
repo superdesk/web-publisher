@@ -11,3 +11,4 @@ Bundles
    SWPRuleBundle/index
    SWPContentListBundle/index
    SWPFacebookInstantArticlesBundle/index
+   SWPSettingsBundle/index

@@ -14,9 +14,12 @@
 
 namespace SWP\Bundle\MultiTenancyBundle\Context;
 
+use SWP\Bundle\MultiTenancyBundle\MultiTenancyEvents;
 use SWP\Component\MultiTenancy\Context\TenantContextInterface;
 use SWP\Component\MultiTenancy\Model\TenantInterface;
 use SWP\Component\MultiTenancy\Resolver\TenantResolverInterface;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\EventDispatcher\GenericEvent;
 use Symfony\Component\HttpFoundation\RequestStack;
 
 /**
@@ -40,15 +43,22 @@ class TenantContext implements TenantContextInterface
     protected $requestStack;
 
     /**
+     * @var EventDispatcherInterface
+     */
+    protected $dispatcher;
+
+    /**
      * TenantContext constructor.
      *
-     * @param TenantResolverInterface $tenantResolver
-     * @param RequestStack            $requestStack
+     * @param TenantResolverInterface  $tenantResolver
+     * @param RequestStack             $requestStack
+     * @param EventDispatcherInterface $dispatcher
      */
-    public function __construct(TenantResolverInterface $tenantResolver, RequestStack $requestStack)
+    public function __construct(TenantResolverInterface $tenantResolver, RequestStack $requestStack, EventDispatcherInterface $dispatcher)
     {
         $this->tenantResolver = $tenantResolver;
         $this->requestStack = $requestStack;
+        $this->dispatcher = $dispatcher;
     }
 
     /**
@@ -58,9 +68,9 @@ class TenantContext implements TenantContextInterface
     {
         if (null === $this->tenant) {
             $currentRequest = $this->requestStack->getCurrentRequest();
-            $this->tenant = $this->tenantResolver->resolve(
+            $this->setTenant($this->tenantResolver->resolve(
                 $currentRequest ? $currentRequest->getHost() : null
-            );
+            ));
         }
 
         return $this->tenant;
@@ -72,5 +82,7 @@ class TenantContext implements TenantContextInterface
     public function setTenant(TenantInterface $tenant)
     {
         $this->tenant = $tenant;
+
+        $this->dispatcher->dispatch(MultiTenancyEvents::TENANT_SET, new GenericEvent($tenant));
     }
 }

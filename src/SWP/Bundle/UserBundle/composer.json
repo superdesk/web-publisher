@@ -1,0 +1,34 @@
+{
+  "name": "swp/user-bundle",
+  "type": "symfony-bundle",
+  "description": "User specific features for Superdesk Publisher.",
+  "keywords": ["user bundle", "user", "superdesk", "publisher"],
+  "license":"AGPL-3.0",
+  "minimum-stability": "dev",
+  "authors": [
+    {
+      "name": "Paweł Mikołajczuk",
+      "email": "pawel.mikolajczuk@sourcefabric.org"
+    }
+  ],
+  "require": {
+    "php": "^7.0",
+    "swp/storage": "^0.5",
+    "swp/common": "^0.5"
+  },
+  "require-dev": {
+    "phpspec/phpspec": ">=3.2.3 <4.0",
+    "phpspec/prophecy": "1.7.*"
+  },
+  "autoload": {
+    "psr-4": { "SWP\\Bundle\\UserBundle\\": "" }
+  },
+  "config": {
+    "bin-dir": "bin"
+  },
+  "extra": {
+    "branch-alias": {
+      "dev-master": "0.6-dev"
+    }
+  }
+}

@@ -34,7 +34,7 @@ class CreateTenantCommand extends ContainerAwareCommand
     /**
      * @var array
      */
-    protected $arguments = ['domain', 'subdomain', 'name', 'organization'];
+    protected $arguments = ['domain', 'subdomain', 'name', 'organization code'];
 
     /**
      * {@inheritdoc}

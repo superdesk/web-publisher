@@ -16,18 +16,42 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\CoreBundle\Model;
 
-use FOS\UserBundle\Model\User as BaseUser;
-use SWP\Component\Common\Model\TimestampableTrait;
+use SWP\Bundle\UserBundle\Model\User as BaseUser;
 use SWP\Component\MultiTenancy\Model\TenantAwareTrait;
 
 class User extends BaseUser implements UserInterface
 {
-    use TenantAwareTrait, TimestampableTrait;
+    use TenantAwareTrait;
 
-    public function __construct()
+    /**
+     * {@inheritdoc}
+     */
+    public function addRole($role)
     {
-        $this->setCreatedAt(new \DateTime());
+        $role = strtoupper($role);
+        if ($role === static::ROLE_READER) {
+            return $this;
+        }
 
-        parent::__construct();
+        if (!in_array($role, $this->roles, true)) {
+            $this->roles[] = $role;
+        }
+
+        return $this;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getRoles()
+    {
+        $roles = $this->roles;
+        foreach ($this->getGroups() as $group) {
+            $roles = array_merge($roles, $group->getRoles());
+        }
+        // we need to make sure to have at least one role
+        $roles[] = static::ROLE_READER;
+
+        return array_unique($roles);
     }
 }

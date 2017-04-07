@@ -16,11 +16,11 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\CoreBundle\Model;
 
-use FOS\UserBundle\Model\UserInterface as BaseUserInterface;
-use SWP\Component\Common\Model\TimestampableInterface;
+use SWP\Bundle\SettingsBundle\Model\SettingsOwnerInterface;
+use SWP\Bundle\UserBundle\Model\UserInterface as BaseUserInterface;
 use SWP\Component\MultiTenancy\Model\TenantAwareInterface;
-use SWP\Component\Storage\Model\PersistableInterface;
 
-interface UserInterface extends BaseUserInterface, PersistableInterface, TenantAwareInterface, TimestampableInterface
+interface UserInterface extends BaseUserInterface, TenantAwareInterface, SettingsOwnerInterface
 {
+    const ROLE_READER = 'ROLE_READER';
 }
