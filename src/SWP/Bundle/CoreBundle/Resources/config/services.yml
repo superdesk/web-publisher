@@ -217,19 +217,6 @@ services:
             - "@swp_menu.extension_chain"
         public: false
 
-    swp_core.article_publish.subscriber:
-        class: SWP\Bundle\CoreBundle\EventSubscriber\ArticlePublishSubscriber
-        arguments:
-          - '@service_container'
-        tags:
-            - { name: kernel.event_subscriber }
-
-    swp_core.article_tenant.subscriber:
-        class: SWP\Bundle\CoreBundle\EventSubscriber\ArticleTenantSubscriber
-        tags:
-            - { name: doctrine.event_subscriber, priority: -5 }
-
-
     swp_core.context.scope.subscriber:
         class: SWP\Bundle\CoreBundle\EventSubscriber\ScopeContextSubscriber
         arguments:
