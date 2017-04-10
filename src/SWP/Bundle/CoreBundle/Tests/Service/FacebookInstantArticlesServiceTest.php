@@ -26,6 +26,7 @@ use SWP\Bundle\CoreBundle\Service\FacebookInstantArticlesService;
 use SWP\Bundle\FacebookInstantArticlesBundle\Manager\FacebookInstantArticlesManager;
 use SWP\Bundle\FacebookInstantArticlesBundle\Manager\FacebookManager;
 use SWP\Component\Storage\Factory\Factory;
+use Symfony\Component\Routing\Generator\UrlGenerator;
 
 class FacebookInstantArticlesServiceTest extends \PHPUnit_Framework_TestCase
 {
@@ -58,6 +59,7 @@ class FacebookInstantArticlesServiceTest extends \PHPUnit_Framework_TestCase
             new FacebookInstantArticlesManager($this->facebookManager),
             $this->getMock(Factory::class, [], [], '', false),
             $this->facebookInstantArticlesArticleRepository,
+            $this->getMock(UrlGenerator::class, [], [], '', false),
         ]);
         $client = $this->getMock(Client::class, [], [], '', false);
         $client->method('importArticle')->willReturn('456345765423634563');
@@ -78,6 +80,7 @@ class FacebookInstantArticlesServiceTest extends \PHPUnit_Framework_TestCase
             new FacebookInstantArticlesManager($this->facebookManager),
             $this->getMock(Factory::class, [], [], '', false),
             $this->facebookInstantArticlesArticleRepository,
+            $this->getMock(UrlGenerator::class, [], [], '', false),
         ]);
         $client = $this->getMock(Client::class, [], [], '', false);
         $client->method('getSubmissionStatus')->willReturn(new InstantArticleStatus('success'));
@@ -88,12 +91,33 @@ class FacebookInstantArticlesServiceTest extends \PHPUnit_Framework_TestCase
         self::assertInstanceOf(FacebookInstantArticlesArticle::class, $result);
     }
 
+    public function testRemoving()
+    {
+        $service = $this->getMock(FacebookInstantArticlesService::class, ['getClient', 'pushInstantArticle'], [
+            new FacebookInstantArticlesManager($this->facebookManager),
+            $this->getMock(Factory::class, [], [], '', false),
+            $this->facebookInstantArticlesArticleRepository,
+            $this->getMock(UrlGenerator::class, [], [], '', false),
+        ]);
+        $client = $this->getMock(Client::class, [], [], '', false);
+
+        $client->method('removeArticle')->willReturn($this->getMock(InstantArticleStatus::class, [], [], '', false));
+        $service->method('getClient')->willReturn($client);
+        $feed = $this->getMock(FacebookInstantArticlesFeed::class);
+
+        $service->removeInstantArticle(
+            $feed,
+            $this->getMock(Article::class)
+        );
+    }
+
     private function getService()
     {
         return new FacebookInstantArticlesService(
             new FacebookInstantArticlesManager($this->facebookManager),
             $this->getMock(Factory::class, [], [], '', false),
-            $this->facebookInstantArticlesArticleRepository
+            $this->facebookInstantArticlesArticleRepository,
+            $this->getMock(UrlGenerator::class, [], [], '', false)
         );
     }
 }

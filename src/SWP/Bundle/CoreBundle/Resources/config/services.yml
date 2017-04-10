@@ -148,6 +148,7 @@ services:
             - "@swp_facebook.instant_articles_manager"
             - "@swp.factory.facebook_instant_articles_article"
             - "@swp.repository.facebook_instant_articles_article"
+            - "@router"
 
     swp.facebook.listener.instant_articles:
         class: SWP\Bundle\CoreBundle\EventListener\FacebookInstantArticlesListener
@@ -155,11 +156,13 @@ services:
             - "@swp_facebook.template_parser"
             - "@swp_template_engine_context.factory.meta_factory"
             - "@swp.repository.facebook_instant_articles_feed"
+            - "@swp.repository.facebook_page"
             - "@swp.facebook.service.instant_articles"
             - "@swp.repository.facebook_instant_articles_article"
         tags:
             - { name: kernel.event_listener, event: swp.content_list.post_item_add, method: sendArticleToFacebook }
             - { name: kernel.event_listener, event: swp.article.post_create, method: resendUpdatedArticleToFacebook }
+            - { name: kernel.event_listener, event: swp.article.unpublished, method: removeArticleFromFacebook }
 
     swp_core.listener.tenant_revision:
         class: SWP\Bundle\CoreBundle\EventListener\TenantRevisionListener
