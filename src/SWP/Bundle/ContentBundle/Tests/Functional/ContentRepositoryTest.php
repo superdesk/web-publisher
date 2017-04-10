@@ -36,7 +36,7 @@ class ContentRepositoryTest extends WebTestCase
     {
         $repository = $this->getContainer()->get('swp.repository.article');
         $articles = $repository->findAllArticles();
-        $this->assertTrue(count($articles) === 7);
+        self::assertCount(8, $articles);
         $article1 = $repository->findOneBySlug('test-article');
         $this->assertInstanceOf($this->getContainer()->getParameter('swp.model.article.class'), $article1);
 

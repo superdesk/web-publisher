@@ -18,6 +18,7 @@ use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use SWP\Bundle\ContentBundle\Model\ImageRendition;
+use SWP\Bundle\ContentBundle\Model\RouteInterface;
 use SWP\Bundle\FixturesBundle\AbstractFixture;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
@@ -165,6 +166,7 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface, Orde
         $routeService = $this->container->get('swp.service.route');
 
         foreach ($routes[$env] as $routeData) {
+            /** @var RouteInterface $route */
             $route = $this->container->get('swp.factory.route')->create();
             $route->setName($routeData['name']);
             $route->setType($routeData['type']);
