@@ -66,10 +66,16 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface, Orde
                 'name' => 'articles/features',
                 'type' => 'content',
             ],
+            [
+                'name' => 'lifestyle',
+                'type' => 'collection',
+                'parent' => 'articles',
+            ],
         ];
 
         $routeService = $this->container->get('swp.service.route');
 
+        $routesCache = [];
         foreach ($routes as $routeData) {
             $route = $this->container->get('swp.factory.route')->create();
             $route->setName($routeData['name']);
@@ -87,8 +93,13 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface, Orde
                 $route->setArticlesTemplateName($routeData['articlesTemplateName']);
             }
 
+            if (isset($routeData['parent'])) {
+                $route->setParent($routesCache[$routeData['parent']]);
+            }
+
             $route = $routeService->fillRoute($route);
 
+            $routesCache[$routeData['name']] = $route;
             $manager->persist($route);
         }
 
@@ -109,6 +120,7 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface, Orde
                 'content' => 'Test article content',
                 'route' => 'news',
                 'locale' => 'en',
+                'published_at' => '2017-04-05 12:12:00',
             ],
             [
                 'title' => 'Features',
@@ -143,6 +155,12 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface, Orde
                 'locale' => 'en',
                 'status' => ArticleInterface::STATUS_CANCELED,
             ],
+            [
+                'title' => 'Lifestyle article 1',
+                'content' => 'Lifestyle article content',
+                'route' => 'lifestyle',
+                'locale' => 'en',
+            ],
         ];
 
         $routeProvider = $this->container->get('swp.provider.route');
@@ -155,7 +173,12 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface, Orde
             $article->setLocale($articleData['locale']);
             if (!isset($articleData['status'])) {
                 $article->setPublishable(true);
-                $article->setPublishedAt(new \DateTime());
+                if (isset($articleData['published_at'])) {
+                    $article->setPublishedAt(new \DateTime($articleData['published_at']));
+                } else {
+                    $article->setPublishedAt(new \DateTime());
+                }
+
                 $article->setStatus(ArticleInterface::STATUS_PUBLISHED);
             } else {
                 $article->setStatus($articleData['status']);
