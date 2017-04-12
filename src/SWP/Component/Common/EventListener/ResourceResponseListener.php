@@ -18,6 +18,7 @@ use FOS\RestBundle\View\View;
 use FOS\RestBundle\View\ViewHandlerInterface;
 use SWP\Component\Common\Factory\KnpPaginatorRepresentationFactory;
 use SWP\Component\Common\Response\ResourcesListResponseInterface;
+use SWP\Component\Common\Response\ResponseContext;
 use SWP\Component\Common\Response\ResponseContextInterface;
 use SWP\Component\Common\Response\SingleResourceResponseInterface;
 use Symfony\Component\HttpKernel\Event\GetResponseForControllerResultEvent;
@@ -45,8 +46,9 @@ final class ResourceResponseListener
     public function onKernelView(GetResponseForControllerResultEvent $event)
     {
         $controllerResult = $event->getControllerResult();
+        /** @var ResponseContext $responseContext */
+        $responseContext = $controllerResult->getResponseContext();
         if ($controllerResult instanceof ResourcesListResponseInterface) {
-            $responseContext = $controllerResult->getResponseContext();
             if ($responseContext->getIntention() === ResponseContextInterface::INTENTION_API) {
                 $factory = new KnpPaginatorRepresentationFactory();
                 $representation = $factory->createRepresentation($controllerResult->getResources(), $event->getRequest());
@@ -55,12 +57,46 @@ final class ResourceResponseListener
                 ));
             }
         } elseif ($controllerResult instanceof SingleResourceResponseInterface) {
-            $responseContext = $controllerResult->getResponseContext();
             if ($responseContext->getIntention() === ResponseContextInterface::INTENTION_API) {
                 $event->setResponse($this->viewHandler->handle(
                     View::create($controllerResult->getResource(), $responseContext->getStatusCode())
                 ));
             }
+        }
+
+        $this->setHeaders($event, $responseContext);
+        $this->clearCookies($event, $responseContext);
+    }
+
+    /**
+     * @param GetResponseForControllerResultEvent $event
+     * @param ResponseContext                     $responseContext
+     */
+    protected function setHeaders(GetResponseForControllerResultEvent $event, ResponseContext $responseContext)
+    {
+        if (count($responseContext->getHeaders()) > 0) {
+            $response = $event->getResponse();
+            foreach ($responseContext->getHeaders() as $key => $value) {
+                $response->headers->set($key, $value);
+            }
+
+            $event->setResponse($response);
+        }
+    }
+
+    /**
+     * @param GetResponseForControllerResultEvent $event
+     * @param ResponseContext                     $responseContext
+     */
+    protected function clearCookies(GetResponseForControllerResultEvent $event, ResponseContext $responseContext)
+    {
+        if (count($responseContext->getClearedCookies()) > 0) {
+            $response = $event->getResponse();
+            foreach ($responseContext->getClearedCookies() as $key) {
+                $response->headers->clearCookie($key);
+            }
+
+            $event->setResponse($response);
         }
     }
 }
