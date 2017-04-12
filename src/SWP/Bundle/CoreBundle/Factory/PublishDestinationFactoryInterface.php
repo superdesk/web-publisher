@@ -16,8 +16,8 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\CoreBundle\Factory;
 
-use src\SWP\Bundle\CoreBundle\Model\PublishDestinationInterface;
 use SWP\Bundle\ContentBundle\Model\RouteInterface;
+use SWP\Bundle\CoreBundle\Model\PublishDestinationInterface;
 use SWP\Bundle\CoreBundle\Model\TenantInterface;
 
 interface PublishDestinationFactoryInterface

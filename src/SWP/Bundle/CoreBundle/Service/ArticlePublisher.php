@@ -79,9 +79,6 @@ final class ArticlePublisher implements ArticlePublisherInterface
     {
         foreach ($package->getArticles() as $article) {
             foreach ($tenants as $tenant) {
-                if (!$tenant instanceof TenantInterface) {
-                }
-
                 /* @var TenantInterface $tenant */
                 $this->tenantContext->setTenant($tenant);
                 if ($article->getTenantCode() === $tenant->getCode()) {
