@@ -6,7 +6,7 @@ namespace SWP\Bundle\CoreBundle\Rule;
 
 use SWP\Bundle\CoreBundle\Model\CompositePublishActionInterface;
 
-interface CompositePublishActionResolverInterface
+interface PublishDestinationResolverInterface
 {
     /**
      * @param string $tenant

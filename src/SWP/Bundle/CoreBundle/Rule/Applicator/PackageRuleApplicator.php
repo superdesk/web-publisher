@@ -7,7 +7,7 @@ namespace SWP\Bundle\CoreBundle\Rule\Applicator;
 use Psr\Log\LoggerInterface;
 use SWP\Bundle\CoreBundle\Factory\PublishActionFactoryInterface;
 use SWP\Bundle\CoreBundle\Model\PackageInterface;
-use SWP\Bundle\CoreBundle\Rule\CompositePublishActionResolverInterface;
+use SWP\Bundle\CoreBundle\Rule\PublishDestinationResolverInterface;
 use SWP\Bundle\CoreBundle\Service\ArticlePublisherInterface;
 use SWP\Component\Rule\Applicator\RuleApplicatorInterface;
 use SWP\Component\Rule\Model\RuleInterface;
@@ -27,7 +27,7 @@ final class PackageRuleApplicator implements RuleApplicatorInterface
     private $logger;
 
     /**
-     * @var CompositePublishActionResolverInterface
+     * @var PublishDestinationResolverInterface
      */
     private $publishDestinationResolver;
 
@@ -44,13 +44,13 @@ final class PackageRuleApplicator implements RuleApplicatorInterface
     /**
      * PackageRuleApplicator constructor.
      *
-     * @param ArticlePublisherInterface               $articlePublisher
-     * @param CompositePublishActionResolverInterface $publishDestinationResolver
-     * @param PublishActionFactoryInterface           $publishActionFactory
+     * @param ArticlePublisherInterface           $articlePublisher
+     * @param PublishDestinationResolverInterface $publishDestinationResolver
+     * @param PublishActionFactoryInterface       $publishActionFactory
      */
     public function __construct(
         ArticlePublisherInterface $articlePublisher,
-        CompositePublishActionResolverInterface $publishDestinationResolver,
+        PublishDestinationResolverInterface $publishDestinationResolver,
         PublishActionFactoryInterface $publishActionFactory
     ) {
         $this->articlePublisher = $articlePublisher;

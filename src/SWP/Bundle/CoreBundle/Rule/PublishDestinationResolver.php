@@ -11,7 +11,7 @@ use SWP\Bundle\CoreBundle\Model\TenantInterface;
 use SWP\Component\Common\Exception\UnexpectedTypeException;
 use SWP\Component\MultiTenancy\Repository\TenantRepositoryInterface;
 
-final class CompositePublishActionResolver implements CompositePublishActionResolverInterface
+final class PublishDestinationResolver implements PublishDestinationResolverInterface
 {
     private $tenantRepository;
     private $routeRepository;
