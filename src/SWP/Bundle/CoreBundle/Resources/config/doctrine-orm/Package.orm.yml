@@ -1,6 +1,10 @@
 SWP\Bundle\CoreBundle\Model\Package:
     type: mappedSuperclass
     table: swp_package
+    fields:
+        status:
+            type: string
+            nullable: false
     manyToOne:
         organization:
             targetEntity: SWP\Component\MultiTenancy\Model\OrganizationInterface

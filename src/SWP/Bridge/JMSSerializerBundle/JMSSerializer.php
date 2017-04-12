@@ -49,4 +49,20 @@ class JMSSerializer implements SerializerInterface
     {
         return $this->serializer->deserialize($data, $type, $format);
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function toArray($object)
+    {
+        return $this->serializer->toArray($object);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function fromArray(array $data, $type)
+    {
+        return $this->serializer->fromArray($data, $type);
+    }
 }

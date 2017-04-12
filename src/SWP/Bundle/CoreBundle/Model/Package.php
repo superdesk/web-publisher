@@ -30,6 +30,11 @@ class Package extends BasePackage implements PackageInterface
      */
     protected $articles;
 
+    /**
+     * @var string
+     */
+    protected $status = ArticleInterface::STATUS_NEW;
+
     public function __construct()
     {
         parent::__construct();
@@ -71,5 +76,29 @@ class Package extends BasePackage implements PackageInterface
     public function hasArticle(ArticleInterface $article)
     {
         return $this->articles->contains($article);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getStatus(): string
+    {
+        return $this->status;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setStatus(string $status)
+    {
+        $this->status = $status;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getSubjectType()
+    {
+        return 'package';
     }
 }

@@ -19,13 +19,9 @@ namespace SWP\Bundle\ContentBundle\Controller;
 use Hoa\Mime\Mime;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use SWP\Bundle\ContentBundle\ArticleEvents;
-use SWP\Bundle\ContentBundle\Event\ArticleEvent;
 use SWP\Bundle\ContentBundle\Form\Type\MediaFileType;
-use SWP\Bundle\ContentBundle\Model\ArticleInterface;
 use SWP\Bundle\ContentBundle\Model\ArticleMedia;
 use SWP\Component\Bridge\Events;
-use SWP\Component\Bridge\Model\ContentInterface;
 use SWP\Component\Bridge\Model\PackageInterface;
 use SWP\Component\Common\Response\ResponseContext;
 use SWP\Component\Common\Response\SingleResourceResponse;
@@ -68,10 +64,14 @@ class ContentPushController extends Controller
             $objectManager->merge($package);
             $objectManager->flush();
 
+            $this->get('event_dispatcher')->dispatch(Events::PACKAGE_POST_CREATE, new GenericEvent($package));
+
             return new SingleResourceResponse(['status' => 'OK'], new ResponseContext(201));
         }
 
         $packageRepository->add($package);
+
+        $this->get('event_dispatcher')->dispatch(Events::PACKAGE_POST_CREATE, new GenericEvent($package));
 
         return new SingleResourceResponse(['status' => 'OK'], new ResponseContext(201));
     }
@@ -159,44 +159,6 @@ class ContentPushController extends Controller
             'mime_type' => Mime::getMimeFromExtension($image->getFileExtension()),
             'filemeta' => [],
         ]);
-    }
-
-    /**
-     * @param Request $request
-     *
-     * @return PackageInterface
-     */
-    private function handlePackage(Request $request): PackageInterface
-    {
-        $package = $this->get('swp_bridge.transformer.json_to_package')->transform($request->getContent());
-
-        $this->get('event_dispatcher')->dispatch(Events::SWP_VALIDATION, new GenericEvent($package));
-
-        $packageRepository = $this->get('swp.repository.package');
-        $existingPackage = $packageRepository->findOneBy(['guid' => $package->getGuid()]);
-        if (null !== $existingPackage) {
-            $packageRepository->remove($existingPackage);
-        }
-
-        $packageRepository->add($package);
-
-        return $package;
-    }
-
-    /**
-     * @param PackageInterface $package
-     *
-     * @return ArticleInterface|null
-     */
-    protected function getExistingArticleOrNull(PackageInterface $package)
-    {
-        $existingArticle = $this->getArticleRepository()->findOneByCode($package->getGuid());
-
-        if (null === $existingArticle) {
-            $existingArticle = $this->getArticleRepository()->findOneByCode($package->getEvolvedFrom());
-        }
-
-        return $existingArticle;
     }
 
     protected function getArticleRepository()

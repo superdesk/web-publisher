@@ -16,12 +16,12 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\CoreBundle\Form\Type;
 
-use SWP\Bundle\MultiTenancyBundle\Form\Type\TenantChoiceType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-final class MultipleUnpublishType extends AbstractType
+final class CompositePublishActionType extends AbstractType
 {
     /**
      * {@inheritdoc}
@@ -29,9 +29,11 @@ final class MultipleUnpublishType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('tenants', TenantChoiceType::class, [
-                'multiple' => true,
-                'expanded' => true,
+            ->add('destinations', CollectionType::class, [
+                'entry_type' => PublishDestinationType::class,
+                'allow_add' => true,
+                'allow_delete' => true,
+                'by_reference' => false,
             ])
         ;
     }
@@ -49,6 +51,6 @@ final class MultipleUnpublishType extends AbstractType
      */
     public function getBlockPrefix()
     {
-        return 'unpublish';
+        return 'publish';
     }
 }

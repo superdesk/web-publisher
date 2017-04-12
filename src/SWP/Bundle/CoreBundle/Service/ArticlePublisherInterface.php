@@ -16,15 +16,16 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\CoreBundle\Service;
 
+use SWP\Bundle\CoreBundle\Model\CompositePublishActionInterface;
 use SWP\Bundle\CoreBundle\Model\PackageInterface;
 
 interface ArticlePublisherInterface
 {
     /**
-     * @param PackageInterface $package
-     * @param array            $tenants
+     * @param PackageInterface                $package
+     * @param CompositePublishActionInterface $action
      */
-    public function publish(PackageInterface $package, array $tenants);
+    public function publish(PackageInterface $package, CompositePublishActionInterface $action);
 
     /**
      * @param PackageInterface $package

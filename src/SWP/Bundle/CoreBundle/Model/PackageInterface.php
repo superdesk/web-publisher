@@ -19,8 +19,9 @@ namespace SWP\Bundle\CoreBundle\Model;
 use Doctrine\Common\Collections\Collection;
 use SWP\Component\Bridge\Model\PackageInterface as BasePackageInterface;
 use SWP\Component\MultiTenancy\Model\OrganizationAwareInterface;
+use SWP\Component\Rule\Model\RuleSubjectInterface;
 
-interface PackageInterface extends BasePackageInterface, OrganizationAwareInterface
+interface PackageInterface extends BasePackageInterface, OrganizationAwareInterface, RuleSubjectInterface
 {
     /**
      * @return ArticleInterface[]|Collection
@@ -41,4 +42,14 @@ interface PackageInterface extends BasePackageInterface, OrganizationAwareInterf
      * @param ArticleInterface $article
      */
     public function hasArticle(ArticleInterface $article);
+
+    /**
+     * @return string
+     */
+    public function getStatus(): string;
+
+    /**
+     * @param string $status
+     */
+    public function setStatus(string $status);
 }

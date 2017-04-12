@@ -18,13 +18,14 @@ use SWP\Bundle\ContentBundle\Event\ArticleEvent;
 use SWP\Bundle\ContentBundle\Model\ArticleInterface;
 use SWP\Bundle\ContentListBundle\Event\ContentListEvent;
 use SWP\Bundle\CoreBundle\Model\FacebookInstantArticlesArticleInterface;
+use SWP\Bundle\CoreBundle\Model\FacebookPage;
 use SWP\Bundle\CoreBundle\Repository\FacebookInstantArticlesArticleRepositoryInterface;
 use SWP\Bundle\CoreBundle\Service\FacebookInstantArticlesService;
 use SWP\Bundle\CoreBundle\Service\FacebookInstantArticlesServiceInterface;
 use SWP\Bundle\FacebookInstantArticlesBundle\Parser\TemplateParser;
 use SWP\Bundle\FacebookInstantArticlesBundle\Parser\TemplateParserInterface;
-use SWP\Bundle\StorageBundle\Doctrine\ORM\EntityRepository;
 use SWP\Component\Common\Criteria\Criteria;
+use SWP\Component\Storage\Repository\RepositoryInterface;
 use SWP\Component\TemplatesSystem\Gimme\Factory\MetaFactory;
 use SWP\Component\TemplatesSystem\Gimme\Factory\MetaFactoryInterface;
 
@@ -41,9 +42,14 @@ final class FacebookInstantArticlesListener
     protected $metaFactory;
 
     /**
-     * @var EntityRepository
+     * @var RepositoryInterface
      */
     protected $feedRepository;
+
+    /**
+     * @var RepositoryInterface
+     */
+    protected $pageRepository;
 
     /**
      * @var FacebookInstantArticlesService
@@ -55,20 +61,23 @@ final class FacebookInstantArticlesListener
      *
      * @param TemplateParserInterface                           $templateParser
      * @param MetaFactoryInterface                              $metaFactory
-     * @param EntityRepository                                  $feedRepository
+     * @param RepositoryInterface                               $feedRepository
+     * @param RepositoryInterface                               $pageRepository
      * @param FacebookInstantArticlesServiceInterface           $instantArticlesService
      * @param FacebookInstantArticlesArticleRepositoryInterface $facebookInstantArticlesArticleRepository
      */
     public function __construct(
         TemplateParserInterface $templateParser,
         MetaFactoryInterface $metaFactory,
-        EntityRepository $feedRepository,
+        RepositoryInterface $feedRepository,
+        RepositoryInterface $pageRepository,
         FacebookInstantArticlesServiceInterface $instantArticlesService,
         FacebookInstantArticlesArticleRepositoryInterface $facebookInstantArticlesArticleRepository
     ) {
         $this->templateParser = $templateParser;
         $this->metaFactory = $metaFactory;
         $this->feedRepository = $feedRepository;
+        $this->pageRepository = $pageRepository;
         $this->instantArticlesService = $instantArticlesService;
         $this->facebookInstantArticlesArticleRepository = $facebookInstantArticlesArticleRepository;
     }
@@ -117,6 +126,28 @@ final class FacebookInstantArticlesListener
 
         foreach ($articleSubmissions as $articleSubmission) {
             $this->instantArticlesService->pushInstantArticle($articleSubmission->getFeed(), $instantArticle, $article);
+        }
+    }
+
+    /**
+     * @param ArticleEvent $event
+     */
+    public function removeArticleFromFacebook(ArticleEvent $event)
+    {
+        $article = $event->getArticle();
+        $pages = $this->pageRepository->findAll();
+        /** @var FacebookPage $page */
+        foreach ($pages as $page) {
+            $feeds = $this->feedRepository->getQueryByCriteria(new Criteria([
+                'facebookPage' => $page,
+            ]), [], 'f')->getQuery()->getResult();
+            if (count($feeds) === 0) {
+                continue;
+            }
+
+            foreach ($feeds as $feed) {
+                $this->instantArticlesService->removeInstantArticle($feed, $article);
+            }
         }
     }
 }

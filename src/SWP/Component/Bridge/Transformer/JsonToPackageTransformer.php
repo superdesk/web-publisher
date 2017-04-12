@@ -33,6 +33,11 @@ final class JsonToPackageTransformer implements DataTransformerInterface
     private $validatorChain;
 
     /**
+     * @var string
+     */
+    private $className;
+
+    /**
      * JsonToPackageTransformer constructor.
      *
      * @param SerializerInterface $serializer

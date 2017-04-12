@@ -33,7 +33,10 @@ class Version20170221091231 extends AbstractMigration implements ContainerAwareI
         // this up() migration is auto-generated, please modify it to your needs
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'postgresql', 'Migration can only be executed safely on \'postgresql\'.');
 
-        $tenants = $this->container->get('swp.repository.tenant')->findAll();
+        $tenantRepository = $this->container->get('swp.repository.tenant');
+        $revisionRepository = $this->container->get('swp.repository.revision');
+        $revisionFactory = $this->container->get('swp.factory.revision');
+        $tenants = $tenantRepository->findAll();
         $revisionManager = $this->container->get('swp.manager.revision');
         foreach ($tenants as $tenant) {
             $existingRevision = $this->container->get('swp.repository.revision')
@@ -47,10 +50,13 @@ class Version20170221091231 extends AbstractMigration implements ContainerAwareI
                 continue;
             }
 
-            $publishedRevision = $revisionManager->create();
+            $publishedRevision = $revisionFactory->create();
             $publishedRevision->setTenantCode($tenant->getCode());
-            $workingRevision = $revisionManager->create();
+            $revisionRepository->add($publishedRevision);
+
+            $workingRevision = $revisionFactory->create();
             $workingRevision->setTenantCode($tenant->getCode());
+            $revisionRepository->add($workingRevision);
             $workingRevision->setPrevious($publishedRevision);
             $revisionManager->publish($publishedRevision, $workingRevision);
         }

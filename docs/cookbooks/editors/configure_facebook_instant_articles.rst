@@ -124,7 +124,7 @@ removed. You can preview how You template works with currently published article
 
 .. note::
 
-  Preview url is available only in Publisher Development mode.
+  Preview url is available only in Publisher Development mode. To send that article to FBIA library from preview add `?listId={content bucket Id}` to url.
 
 
 Step 5. Publish Your articles to Facebook Instant Articles

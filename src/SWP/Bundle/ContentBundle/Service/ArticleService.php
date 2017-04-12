@@ -64,6 +64,8 @@ class ArticleService implements ArticleServiceInterface
         $article->setPublishable(false);
         $article->setStatus($status);
 
+        $this->dispatchArticleEvent(ArticleEvents::POST_UNPUBLISH, $article);
+
         return $article;
     }
 

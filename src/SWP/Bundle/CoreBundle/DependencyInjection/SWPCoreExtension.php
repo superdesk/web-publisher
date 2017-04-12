@@ -49,6 +49,8 @@ class SWPCoreExtension extends Extension
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.yml');
         $loader->load('twig.yml');
+        $loader->load('composite_publishing.yml');
+        $loader->load('rules.yml');
         $this->loadDeviceListener($config, $loader);
 
         $this->registerStorage(Drivers::DRIVER_DOCTRINE_ORM, $config['persistence']['orm']['classes'], $container);

@@ -27,6 +27,15 @@ final class Events
      */
     const SWP_VALIDATION = 'swp.validation';
 
+    /**
+     * The PACKAGE_POST_CREATE event occurs after package is created.
+     *
+     * @Event("Symfony\Component\EventDispatcher\GenericEvent")
+     *
+     * @var string
+     */
+    const PACKAGE_POST_CREATE = 'swp.bridge.package_post_create';
+
     private function __construct()
     {
     }

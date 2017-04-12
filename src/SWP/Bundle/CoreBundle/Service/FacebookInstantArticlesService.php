@@ -20,12 +20,14 @@ use Facebook\InstantArticles\Client\Client;
 use Facebook\InstantArticles\Client\InstantArticleStatus;
 use Facebook\InstantArticles\Elements\InstantArticle;
 use SWP\Bundle\ContentBundle\Model\ArticleInterface;
+use SWP\Bundle\ContentBundle\Model\RouteInterface;
 use SWP\Bundle\CoreBundle\Model\FacebookInstantArticlesArticle;
 use SWP\Bundle\CoreBundle\Model\FacebookInstantArticlesFeedInterface;
 use SWP\Bundle\CoreBundle\Repository\FacebookInstantArticlesArticleRepositoryInterface;
 use SWP\Bundle\FacebookInstantArticlesBundle\Manager\FacebookInstantArticlesManagerInterface;
 use SWP\Bundle\StorageBundle\Doctrine\ORM\EntityRepository;
 use SWP\Component\Storage\Factory\FactoryInterface;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class FacebookInstantArticlesService implements FacebookInstantArticlesServiceInterface
 {
@@ -45,6 +47,11 @@ class FacebookInstantArticlesService implements FacebookInstantArticlesServiceIn
     protected $facebookInstantArticlesArticleRepository;
 
     /**
+     * @var UrlGeneratorInterface
+     */
+    protected $urlGenerator;
+
+    /**
      * FacebookInstantArticlesService constructor.
      *
      * @param FacebookInstantArticlesManagerInterface           $facebookInstantArticlesManager
@@ -54,11 +61,13 @@ class FacebookInstantArticlesService implements FacebookInstantArticlesServiceIn
     public function __construct(
         FacebookInstantArticlesManagerInterface $facebookInstantArticlesManager,
         FactoryInterface $instantArticlesArticleFactory,
-        FacebookInstantArticlesArticleRepositoryInterface $facebookInstantArticlesArticleRepository
+        FacebookInstantArticlesArticleRepositoryInterface $facebookInstantArticlesArticleRepository,
+        UrlGeneratorInterface $urlGenerator
     ) {
         $this->facebookInstantArticlesManager = $facebookInstantArticlesManager;
         $this->instantArticlesArticleFactory = $instantArticlesArticleFactory;
         $this->facebookInstantArticlesArticleRepository = $facebookInstantArticlesArticleRepository;
+        $this->urlGenerator = $urlGenerator;
     }
 
     /**
@@ -103,6 +112,21 @@ class FacebookInstantArticlesService implements FacebookInstantArticlesServiceIn
         $this->facebookInstantArticlesArticleRepository->flush();
 
         return $instantArticle;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function removeInstantArticle(FacebookInstantArticlesFeedInterface $feed, ArticleInterface $article)
+    {
+        if ($article->getRoute() instanceof RouteInterface) {
+            $url = $this->urlGenerator->generate($article->getRoute(), ['slug' => $article->getSlug()], UrlGeneratorInterface::ABSOLUTE_URL);
+            $status = $this->getClient($feed)->removeArticle($url);
+
+            return $status;
+        }
+
+        return;
     }
 
     /**

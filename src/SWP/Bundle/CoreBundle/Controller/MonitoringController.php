@@ -21,9 +21,10 @@ use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use SWP\Bundle\CoreBundle\Form\Type\MultiplePublishType;
-use SWP\Bundle\CoreBundle\Form\Type\MultipleUnpublishType;
+use SWP\Bundle\CoreBundle\Form\Type\CompositePublishActionType;
+use SWP\Bundle\CoreBundle\Form\Type\UnpublishFromTenantsType;
 use SWP\Bundle\CoreBundle\Model\Article;
+use SWP\Bundle\CoreBundle\Model\CompositePublishAction;
 use SWP\Component\Common\Criteria\Criteria;
 use SWP\Component\Common\Pagination\PaginationData;
 use SWP\Component\Common\Response\ResourcesListResponse;
@@ -110,13 +111,12 @@ class MonitoringController extends Controller
         $entityManager = $this->get('doctrine.orm.entity_manager');
         $entityManager->getFilters()->disable('tenantable');
         $package = $this->findOr404($id);
-        $form = $this->createForm(MultiplePublishType::class, null, ['method' => $request->getMethod()]);
+
+        $form = $this->createForm(CompositePublishActionType::class, new CompositePublishAction(), ['method' => $request->getMethod()]);
 
         $form->handleRequest($request);
         if ($form->isValid()) {
-            $formData = $form->getData();
-
-            $this->get('swp_core.article.publisher')->publish($package, $formData['tenants']);
+            $this->get('swp_core.article.publisher')->publish($package, $form->getData());
 
             return new SingleResourceResponse(null, new ResponseContext(201));
         }
@@ -145,7 +145,7 @@ class MonitoringController extends Controller
         $entityManager = $this->get('doctrine.orm.entity_manager');
         $entityManager->getFilters()->disable('tenantable');
         $package = $this->findOr404($id);
-        $form = $this->createForm(MultipleUnpublishType::class, null, ['method' => $request->getMethod()]);
+        $form = $this->createForm(UnpublishFromTenantsType::class, null, ['method' => $request->getMethod()]);
 
         $form->handleRequest($request);
         if ($form->isValid()) {

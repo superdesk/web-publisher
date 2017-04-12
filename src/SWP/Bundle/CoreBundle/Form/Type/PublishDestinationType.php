@@ -16,11 +16,13 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\CoreBundle\Form\Type;
 
+use SWP\Bundle\CoreBundle\Model\PublishDestination;
 use SWP\Bundle\MultiTenancyBundle\Form\Type\TenantSelectorType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
-final class TenantPublishType extends AbstractType
+final class PublishDestinationType extends AbstractType
 {
     /**
      * {@inheritdoc}
@@ -30,5 +32,12 @@ final class TenantPublishType extends AbstractType
         $builder
             ->add('tenant', TenantSelectorType::class)
             ->add('route', TenantAwareRouteSelectorType::class);
+    }
+
+    public function configureOptions(OptionsResolver $resolver)
+    {
+        $resolver->setDefaults(array(
+            'data_class' => PublishDestination::class,
+        ));
     }
 }

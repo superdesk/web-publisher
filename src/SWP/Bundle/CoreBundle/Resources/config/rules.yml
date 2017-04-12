@@ -1,0 +1,19 @@
+services:
+    swp_core.applicator.rule.package:
+        class: SWP\Bundle\CoreBundle\Rule\Applicator\PackageRuleApplicator
+        arguments:
+            - '@swp_core.article.publisher'
+            - '@swp_core.resolver.composite_publish'
+            - '@swp_core.factory.composite_publish_action'
+        calls:
+             - [setLogger, ['@logger']]
+        tags:
+            - { name: applicator.rule_applicator }
+
+    swp_core.listener.package_rules_subscriber:
+        class: SWP\Bundle\CoreBundle\EventSubscriber\ProcessPackageRulesSubscriber
+        arguments:
+            - '@swp_rule.processor.rule'
+            - '@doctrine.orm.entity_manager'
+        tags:
+            - { name: kernel.event_subscriber }

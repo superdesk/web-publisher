@@ -1,6 +1,13 @@
 SWP\Bundle\CoreBundle\Model\Rule:
-    type: entity
+    type: mappedSuperclass
     table: swp_rule
     fields:
         tenantCode:
             type: string
+    manyToOne:
+        organization:
+            targetEntity: SWP\Component\MultiTenancy\Model\OrganizationInterface
+            joinColumn:
+                name: organization_id
+                referencedColumnName: id
+                nullable: false
