@@ -81,7 +81,7 @@ class OrganizationController extends Controller
      *     },
      *     input="SWP\Bundle\RuleBundle\Form\Type\RuleType"
      * )
-     * @Route("/api/{version}/organiziation/rules/", options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_core_create_organization_rule")
+     * @Route("/api/{version}/organization/rules/", options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_core_create_organization_rule")
      * @Method("POST")
      */
     public function createAction(Request $request)
@@ -94,6 +94,8 @@ class OrganizationController extends Controller
 
         if ($form->isValid()) {
             $ruleRepository->add($rule);
+            $rule->setTenantCode(null);
+            $ruleRepository->flush();
 
             return new SingleResourceResponse($rule, new ResponseContext(201));
         }
@@ -118,8 +120,6 @@ class OrganizationController extends Controller
      */
     public function getAction(int $id)
     {
-        $this->getEventDispatcher()->dispatch(MultiTenancyEvents::TENANTABLE_DISABLE);
-
         return new SingleResourceResponse($this->findOr404($id));
     }
 
@@ -141,8 +141,6 @@ class OrganizationController extends Controller
      */
     public function updateRuleAction(Request $request, int $id)
     {
-        $this->getEventDispatcher()->dispatch(MultiTenancyEvents::TENANTABLE_DISABLE);
-
         $objectManager = $this->get('swp.object_manager.rule');
         $rule = $this->findOr404($id);
         $form = $this->createForm(RuleType::class, $rule, ['method' => $request->getMethod()]);
@@ -161,6 +159,7 @@ class OrganizationController extends Controller
     private function findOr404(int $id)
     {
         $tenantContext = $this->get('swp_multi_tenancy.tenant_context');
+        $this->getEventDispatcher()->dispatch(MultiTenancyEvents::TENANTABLE_DISABLE);
 
         if (null === ($rule = $this->getRuleRepository()->findOneBy([
                 'id' => $id,

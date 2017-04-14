@@ -65,7 +65,13 @@ final class TenantSubscriber implements EventSubscriber
      */
     public function preUpdate(PreUpdateEventArgs $args)
     {
-        $this->addTenant($args);
+        $entity = $args->getEntity();
+
+        if ($entity instanceof TenantAwareInterface) {
+            if (null === $entity->getTenantCode()) {
+                return;
+            }
+        }
     }
 
     /**

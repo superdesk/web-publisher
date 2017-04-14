@@ -31,7 +31,7 @@ class WidgetType extends AbstractType
                 'required' => false,
             ])
             ->add('visible', TextType::class, [
-                'description' => "Defines whether widget is visible or not (true or false)."
+                'description' => 'Defines whether widget is visible or not (true or false).',
             ])
             ->add('parameters', TextType::class, [
                 'required' => false,

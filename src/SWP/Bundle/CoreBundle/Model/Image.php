@@ -17,7 +17,6 @@ declare(strict_types=1);
 namespace SWP\Bundle\CoreBundle\Model;
 
 use SWP\Bundle\ContentBundle\Model\Image as BaseImage;
-use SWP\Component\MultiTenancy\Model\TenantAwareTrait;
 
 class Image extends BaseImage implements ImageInterface
 {

@@ -61,7 +61,7 @@ final class TenantChoiceType extends AbstractType
                 return $this->tenantRepository->findAll();
             },
             'choice_value' => 'code',
-            'choice_label' => 'name'
+            'choice_label' => 'name',
         ]);
     }
 
