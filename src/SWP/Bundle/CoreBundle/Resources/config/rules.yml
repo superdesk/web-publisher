@@ -10,8 +10,8 @@ services:
         tags:
             - { name: applicator.rule_applicator }
 
-    swp_core.listener.package_rules_subscriber:
-        class: SWP\Bundle\CoreBundle\EventSubscriber\ProcessPackageRulesSubscriber
+    swp_core.listener.organization_rules_subscriber:
+        class: SWP\Bundle\CoreBundle\EventSubscriber\ProcessOrganizationRulesSubscriber
         arguments:
             - '@swp_rule.processor.rule'
             - '@event_dispatcher'

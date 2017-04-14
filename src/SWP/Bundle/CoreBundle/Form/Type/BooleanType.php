@@ -36,9 +36,10 @@ class BooleanType extends AbstractType
      */
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults([
+        $resolver->setDefaults(array(
+            'value' => false,
             'compound' => false,
-        ]);
+        ));
     }
 
     /**

@@ -57,25 +57,6 @@ services:
             - '@sylius.repository.theme'
             - '@swp_multi_tenancy.tenant_context'
 
-    swp_core.form.type.theme_name_choice:
-        class: SWP\Bundle\CoreBundle\Form\Type\ThemeNameChoiceType
-        arguments:
-            - '@swp_core.provider.theme'
-        tags:
-            - { name: form.type }
-
-    swp_core.form.type.organization_code_choice:
-        class: SWP\Bundle\CoreBundle\Form\Type\OrganizationCodeChoiceType
-        arguments:
-            - '@swp.repository.organization'
-        tags:
-            - { name: form.type }
-
-    swp_core.form.type.boolean:
-        class: SWP\Bundle\CoreBundle\Form\Type\BooleanType
-        tags:
-            - { name: form.type }
-
     swp_core.security.session.domain_dynamic_storage:
         class: SWP\Bundle\CoreBundle\Security\Storage\DynamicDomainSessionStorage
         arguments:
@@ -243,20 +224,11 @@ services:
           - '@swp.factory.article'
           - '@swp_multi_tenancy.tenant_context'
 
-    swp_core.form.type.tenant_route_selector:
-        class: SWP\Bundle\CoreBundle\Form\Type\TenantAwareRouteSelectorType
-        arguments:
-          - '@swp_multi_tenancy.tenant_context'
-          - '@swp.repository.route'
-        tags:
-            - { name: form.type }
-
     swp_core.listener.canceled_package:
         class: SWP\Bundle\CoreBundle\EventListener\CanceledPackageListener
         arguments:
             - '@event_dispatcher'
             - '@swp.repository.article'
             - '@swp.object_manager.article'
-            - '@swp.service.article'
         tags:
             - { name: kernel.event_listener, event: swp.bridge.package_pre_update, method: onCanceled }

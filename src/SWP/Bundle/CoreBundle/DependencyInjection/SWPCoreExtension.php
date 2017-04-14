@@ -51,6 +51,7 @@ class SWPCoreExtension extends Extension
         $loader->load('twig.yml');
         $loader->load('composite_publishing.yml');
         $loader->load('rules.yml');
+        $loader->load('form.yml');
         $this->loadDeviceListener($config, $loader);
 
         $this->registerStorage(Drivers::DRIVER_DOCTRINE_ORM, $config['persistence']['orm']['classes'], $container);

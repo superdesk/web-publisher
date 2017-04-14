@@ -23,7 +23,7 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
 
-class ProcessPackageRulesSubscriber implements EventSubscriberInterface
+class ProcessOrganizationRulesSubscriber implements EventSubscriberInterface
 {
     /**
      * @var RuleProcessorInterface
