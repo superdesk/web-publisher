@@ -84,4 +84,15 @@ class ArticleEvents
      * @var string
      */
     const POST_UNPUBLISH = 'swp.article.unpublished';
+
+    /**
+     * The CANCELED event occurs on article cancellation.
+     *
+     * This event allows you to modify article during cancellation.
+     *
+     * @Event("SWP\Bundle\ContentBundle\Event\ArticleEvent")
+     *
+     * @var string
+     */
+    const CANCELED = 'swp.article.canceled';
 }

@@ -12,18 +12,7 @@ SWP\Bundle\CoreBundle\Model\Package:
                 name: organization_id
                 referencedColumnName: id
                 nullable: false
-    manyToMany:
+    oneToMany:
         articles:
             targetEntity: SWP\Bundle\ContentBundle\Model\ArticleInterface
-            joinTable:
-                name: swp_package_articles
-                joinColumns:
-                    package_id:
-                        referencedColumnName: id
-                        nullable: false
-                        onDelete: "CASCADE"
-                inverseJoinColumns:
-                    article_id:
-                        referencedColumnName: id
-                        nullable: false
-                        onDelete: "CASCADE"
+            mappedBy: package

@@ -250,3 +250,13 @@ services:
           - '@swp.repository.route'
         tags:
             - { name: form.type }
+
+    swp_core.listener.canceled_package:
+        class: SWP\Bundle\CoreBundle\EventListener\CanceledPackageListener
+        arguments:
+            - '@event_dispatcher'
+            - '@swp.repository.article'
+            - '@swp.object_manager.article'
+            - '@swp.service.article'
+        tags:
+            - { name: kernel.event_listener, event: swp.bridge.package_pre_update, method: onCanceled }

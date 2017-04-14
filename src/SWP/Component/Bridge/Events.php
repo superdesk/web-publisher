@@ -28,6 +28,15 @@ final class Events
     const SWP_VALIDATION = 'swp.validation';
 
     /**
+     * The PACKAGE_PRE_CREATE event occurs before package is created.
+     *
+     * @Event("Symfony\Component\EventDispatcher\GenericEvent")
+     *
+     * @var string
+     */
+    const PACKAGE_PRE_CREATE = 'swp.bridge.package_pre_create';
+
+    /**
      * The PACKAGE_POST_CREATE event occurs after package is created.
      *
      * @Event("Symfony\Component\EventDispatcher\GenericEvent")
@@ -35,6 +44,24 @@ final class Events
      * @var string
      */
     const PACKAGE_POST_CREATE = 'swp.bridge.package_post_create';
+
+    /**
+     * The PACKAGE_PRE_UPDATE event occurs before package update.
+     *
+     * @Event("Symfony\Component\EventDispatcher\GenericEvent")
+     *
+     * @var string
+     */
+    const PACKAGE_PRE_UPDATE = 'swp.bridge.package_pre_update';
+
+    /**
+     * The PACKAGE_POST_UPDATE event occurs after package update.
+     *
+     * @Event("Symfony\Component\EventDispatcher\GenericEvent")
+     *
+     * @var string
+     */
+    const PACKAGE_POST_UPDATE = 'swp.bridge.package_post_update';
 
     private function __construct()
     {

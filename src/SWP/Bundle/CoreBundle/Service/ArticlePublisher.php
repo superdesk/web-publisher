@@ -112,10 +112,12 @@ final class ArticlePublisher implements ArticlePublisherInterface
                 continue;
             }
 
+
+            $article->setPackage($package);
             $article->setRoute($destination->getRoute());
             $this->dispatchEvents($article, $package);
             $this->articleRepository->persist($article);
-            $package->addArticle($article);
+
         }
 
         $this->articleRepository->flush();

@@ -2,11 +2,24 @@
 
 declare(strict_types=1);
 
+/*
+ * This file is part of the Superdesk Web Publisher Core Bundle.
+ *
+ * Copyright 2017 Sourcefabric z.ú. and contributors.
+ *
+ * For the full copyright and license information, please see the
+ * AUTHORS and LICENSE files distributed with this source code.
+ *
+ * @copyright 2017 Sourcefabric z.ú
+ * @license http://www.superdesk.org/license
+ */
+
 namespace SWP\Bundle\CoreBundle\EventSubscriber;
 
-use Doctrine\ORM\EntityManagerInterface;
+use SWP\Bundle\MultiTenancyBundle\MultiTenancyEvents;
 use SWP\Component\Bridge\Events;
 use SWP\Component\Rule\Processor\RuleProcessorInterface;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
 
@@ -18,22 +31,22 @@ class ProcessPackageRulesSubscriber implements EventSubscriberInterface
     private $ruleProcessor;
 
     /**
-     * @var EntityManagerInterface
+     * @var EventDispatcherInterface
      */
-    private $entityManager;
+    private $eventDispatcher;
 
     /**
      * ProcessArticleRulesSubscriber constructor.
      *
-     * @param RuleProcessorInterface $ruleProcessor
-     * @param EntityManagerInterface $entityManager
+     * @param RuleProcessorInterface   $ruleProcessor
+     * @param EventDispatcherInterface $eventDispatcher
      */
     public function __construct(
         RuleProcessorInterface $ruleProcessor,
-        EntityManagerInterface $entityManager
+        EventDispatcherInterface $eventDispatcher
     ) {
         $this->ruleProcessor = $ruleProcessor;
-        $this->entityManager = $entityManager;
+        $this->eventDispatcher = $eventDispatcher;
     }
 
     /**
@@ -43,6 +56,7 @@ class ProcessPackageRulesSubscriber implements EventSubscriberInterface
     {
         return [
             Events::PACKAGE_POST_CREATE => 'processRules',
+            Events::PACKAGE_POST_UPDATE => 'processRules',
         ];
     }
 
@@ -51,8 +65,8 @@ class ProcessPackageRulesSubscriber implements EventSubscriberInterface
      */
     public function processRules(GenericEvent $event)
     {
-        $this->entityManager->getFilters()->disable('tenantable');
+        $this->eventDispatcher->dispatch(MultiTenancyEvents::TENANTABLE_DISABLE);
         $this->ruleProcessor->process($event->getSubject());
-        $this->entityManager->getFilters()->enable('tenantable');
+        $this->eventDispatcher->dispatch(MultiTenancyEvents::TENANTABLE_ENABLE);
     }
 }

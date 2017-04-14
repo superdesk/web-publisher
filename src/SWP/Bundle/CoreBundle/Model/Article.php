@@ -23,4 +23,25 @@ use SWP\Component\MultiTenancy\Model\TenantAwareTrait;
 class Article extends BaseArticle implements ArticleInterface
 {
     use TenantAwareTrait, OrganizationAwareTrait;
+
+    /**
+     * @var PackageInterface
+     */
+    protected $package;
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getPackage(): PackageInterface
+    {
+        return $this->package;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setPackage(PackageInterface $package)
+    {
+        $this->package = $package;
+    }
 }

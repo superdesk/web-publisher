@@ -151,6 +151,7 @@ services:
         tags:
             - { name: kernel.event_listener, event: swp.article.publish, method: publish }
             - { name: kernel.event_listener, event: swp.article.unpublish, method: unpublish }
+            - { name: kernel.event_listener, event: swp.article.canceled, method: cancel }
 
     swp_content_bundle.listener.article_subscriber:
         class: SWP\Bundle\ContentBundle\EventListener\ArticleSubscriber

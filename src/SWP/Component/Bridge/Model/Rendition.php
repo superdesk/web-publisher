@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Superdesk Web Publisher Bridge Component.
  *
@@ -46,7 +48,7 @@ class Rendition implements RenditionInterface
     protected $height;
 
     /**
-     * @var int
+     * @var string
      */
     protected $mimetype;
 
@@ -61,7 +63,7 @@ class Rendition implements RenditionInterface
     protected $item;
 
     /**
-     * @return mixed
+     * {@inheritdoc}
      */
     public function getId()
     {
@@ -69,7 +71,7 @@ class Rendition implements RenditionInterface
     }
 
     /**
-     * @param mixed $id
+     * {@inheritdoc}
      */
     public function setId($id)
     {
@@ -77,7 +79,7 @@ class Rendition implements RenditionInterface
     }
 
     /**
-     * @return string
+     * {@inheritdoc}
      */
     public function getName(): string
     {
@@ -85,7 +87,7 @@ class Rendition implements RenditionInterface
     }
 
     /**
-     * @param string $name
+     * {@inheritdoc}
      */
     public function setName(string $name)
     {
@@ -93,107 +95,87 @@ class Rendition implements RenditionInterface
     }
 
     /**
-     * @return string
+     * {@inheritdoc}
      */
-    public function getHref()
+    public function getHref(): string
     {
         return $this->href;
     }
 
     /**
-     * @param string $href
-     *
-     * @return Rendition
+     * {@inheritdoc}
      */
-    public function setHref($href)
+    public function setHref(string $href)
     {
         $this->href = $href;
-
-        return $this;
     }
 
     /**
-     * @return int
+     * {@inheritdoc}
      */
-    public function getWidth()
+    public function getWidth(): int
     {
         return $this->width;
     }
 
     /**
-     * @param int $width
-     *
-     * @return Rendition
+     * {@inheritdoc}
      */
-    public function setWidth($width)
+    public function setWidth(int $width)
     {
         $this->width = $width;
-
-        return $this;
     }
 
     /**
-     * @return int
+     * {@inheritdoc}
      */
-    public function getHeight()
+    public function getHeight(): int
     {
         return $this->height;
     }
 
     /**
-     * @param int $height
-     *
-     * @return Rendition
+     * {@inheritdoc}
      */
-    public function setHeight($height)
+    public function setHeight(int $height)
     {
         $this->height = $height;
-
-        return $this;
     }
 
     /**
-     * @return int
+     * {@inheritdoc}
      */
-    public function getMimetype()
+    public function getMimetype(): string
     {
         return $this->mimetype;
     }
 
     /**
-     * @param int $mimetype
-     *
-     * @return Rendition
+     * {@inheritdoc}
      */
-    public function setMimetype($mimetype)
+    public function setMimetype(string $mimetype)
     {
         $this->mimetype = $mimetype;
-
-        return $this;
     }
 
     /**
-     * @return string
+     * {@inheritdoc}
      */
-    public function getMedia()
+    public function getMedia(): string
     {
         return $this->media;
     }
 
     /**
-     * @param string $media
-     *
-     * @return Rendition
+     * {@inheritdoc}
      */
-    public function setMedia($media)
+    public function setMedia(string $media)
     {
         $this->media = $media;
-
-        return $this;
     }
 
     /**
-     * @return ItemInterface
+     * {@inheritdoc}
      */
     public function getItem(): ItemInterface
     {
@@ -201,7 +183,7 @@ class Rendition implements RenditionInterface
     }
 
     /**
-     * @param ItemInterface $item
+     * {@inheritdoc}
      */
     public function setItem(ItemInterface $item)
     {

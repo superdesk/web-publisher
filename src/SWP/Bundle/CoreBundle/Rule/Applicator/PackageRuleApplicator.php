@@ -2,6 +2,18 @@
 
 declare(strict_types=1);
 
+/*
+ * This file is part of the Superdesk Web Publisher Core Bundle.
+ *
+ * Copyright 2017 Sourcefabric z.ú. and contributors.
+ *
+ * For the full copyright and license information, please see the
+ * AUTHORS and LICENSE files distributed with this source code.
+ *
+ * @copyright 2017 Sourcefabric z.ú
+ * @license http://www.superdesk.org/license
+ */
+
 namespace SWP\Bundle\CoreBundle\Rule\Applicator;
 
 use Psr\Log\LoggerInterface;
@@ -9,6 +21,7 @@ use SWP\Bundle\CoreBundle\Factory\PublishActionFactoryInterface;
 use SWP\Bundle\CoreBundle\Model\PackageInterface;
 use SWP\Bundle\CoreBundle\Rule\PublishDestinationResolverInterface;
 use SWP\Bundle\CoreBundle\Service\ArticlePublisherInterface;
+use SWP\Component\Bridge\Model\ContentInterface;
 use SWP\Component\Rule\Applicator\RuleApplicatorInterface;
 use SWP\Component\Rule\Model\RuleInterface;
 use SWP\Component\Rule\Model\RuleSubjectInterface;
@@ -66,6 +79,10 @@ final class PackageRuleApplicator implements RuleApplicatorInterface
         $configuration = $this->validateRuleConfiguration(json_decode($rule->getConfiguration(), true));
 
         if ($subject instanceof PackageInterface && !empty($configuration)) {
+            if (ContentInterface::STATUS_CANCELED === $subject->getPubStatus()) {
+                return;
+            }
+
             foreach ($configuration[$this->supportedKeys[0]] as $value) {
                 if (empty($this->validateDestinationConfig($value))) {
                     return;

@@ -25,4 +25,13 @@ use Takeit\Bundle\AmpHtmlBundle\Model\AmpInterface;
 
 interface ArticleInterface extends BaseArticleInterface, TenantAwareInterface, RuleSubjectInterface, ListContentInterface, AmpInterface, OrganizationAwareInterface
 {
+    /**
+     * @return PackageInterface
+     */
+    public function getPackage(): PackageInterface;
+
+    /**
+     * @param PackageInterface $package
+     */
+    public function setPackage(PackageInterface $package);
 }

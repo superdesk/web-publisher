@@ -15,6 +15,7 @@
 namespace SWP\Bundle\MultiTenancyBundle\EventListener;
 
 use Doctrine\ORM\EntityManagerInterface;
+use SWP\Bundle\MultiTenancyBundle\MultiTenancyEvents;
 use SWP\Component\MultiTenancy\Context\TenantContextInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\KernelEvents;
@@ -51,7 +52,7 @@ class TenantableListener implements EventSubscriberInterface
     /**
      * Enables tenantable filter on kernel.request.
      */
-    public function onKernelRequest()
+    public function enable()
     {
         $tenant = $this->tenantContext->getTenant();
 
@@ -64,12 +65,25 @@ class TenantableListener implements EventSubscriberInterface
     }
 
     /**
+     * Disabled tenantable filter.
+     */
+    public function disable()
+    {
+        $filters = $this->entityManager->getFilters();
+        if ($filters->isEnabled('tenantable')) {
+            $filters->disable('tenantable');
+        }
+    }
+
+    /**
      * {@inheritdoc}
      */
     public static function getSubscribedEvents()
     {
         return [
-            KernelEvents::REQUEST => 'onKernelRequest',
+            KernelEvents::REQUEST => 'enable',
+            MultiTenancyEvents::TENANTABLE_ENABLE => 'enable',
+            MultiTenancyEvents::TENANTABLE_DISABLE => 'disable',
         ];
     }
 }

@@ -62,4 +62,12 @@ final class ArticlePublishListener
             $this->articleService->unpublish($article, ArticleInterface::STATUS_UNPUBLISHED);
         }
     }
+
+    /**
+     * @param ArticleEvent $event
+     */
+    public function cancel(ArticleEvent $event)
+    {
+        $this->articleService->unpublish($event->getArticle(), ArticleInterface::STATUS_CANCELED);
+    }
 }

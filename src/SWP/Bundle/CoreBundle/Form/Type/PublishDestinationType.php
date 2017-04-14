@@ -34,6 +34,9 @@ final class PublishDestinationType extends AbstractType
             ->add('route', TenantAwareRouteSelectorType::class);
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
