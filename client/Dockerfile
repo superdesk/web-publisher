@@ -1,0 +1,28 @@
+FROM ubuntu:trusty
+
+##### Install system-wide dependencies
+RUN apt-get update && \
+DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
+libfreetype6 libfontconfig nodejs npm nginx git ca-certificates \
+&& echo "\ndaemon off;" >> /etc/nginx/nginx.conf \
+&& rm /etc/nginx/sites-enabled/default \
+&& ln --symbolic /usr/bin/nodejs /usr/bin/node
+
+RUN npm -g install grunt-cli bower
+
+##### Setup the environment
+WORKDIR	/opt/superdesk-client/
+COPY ./superdesk_vhost.conf /etc/nginx/sites-enabled/superdesk.conf
+EXPOSE	9000
+EXPOSE	80
+CMD ["sh", "-c", "grunt build && nginx"]
+
+##### Install app-wide dependencies
+COPY ./package.json /opt/superdesk-client/
+RUN npm install
+COPY ./bower.json /opt/superdesk-client/
+COPY ./.bowerrc /opt/superdesk-client/
+RUN bower --allow-root install
+
+##### Copy application sources
+COPY . /opt/superdesk-client

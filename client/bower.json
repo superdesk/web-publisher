@@ -1,0 +1,28 @@
+{
+  "name": "web-renderer",
+  "version": "1.0.0",
+  "homepage": "https://github.com/superdesk/web-renderer/tree/master/client",
+  "authors": [
+    "Mark Lewis <mailto:mark.lewis@sourcefabric.org>"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "superdesk": "https://github.com/verifiedpixel/superdesk.git#vp20151001-1"
+  },
+  "resolutions": {
+    "angular": "1.3.9",
+    "angular-bootstrap": "0.13.0",
+    "jquery": "2.1.3"
+  },
+  "devDependencies": {
+    "rangy": "~1.3.0",
+    "font-awesome": "~4.4.0"
+  }
+}
