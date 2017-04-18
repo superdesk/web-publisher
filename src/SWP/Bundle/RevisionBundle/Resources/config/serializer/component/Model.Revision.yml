@@ -22,6 +22,6 @@ SWP\Component\Revision\Model\Revision:
             href:
                 route: swp_api_templates_revision_single
                 parameters:
-                    id: "expr(object.getId())"
+                    id: "expr(object.getPrevious().getId())"
             exclusion:
                 exclude_if: "expr(null == object.getPrevious())"

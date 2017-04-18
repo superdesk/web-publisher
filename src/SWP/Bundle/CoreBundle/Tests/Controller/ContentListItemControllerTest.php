@@ -225,7 +225,7 @@ class ContentListItemControllerTest extends WebTestCase
         self::assertEquals(3, $listItems['_embedded']['_items'][2]['content']['id']);
         self::assertEquals(4, $listItems['_embedded']['_items'][3]['content']['id']);
 
-        $this->client->request('PATCH', $this->router->generate('swp_api_core_update_lists_item', [
+        $this->client->request('PATCH', $this->router->generate('swp_api_core_batch_update_lists_item', [
             'listId' => 1,
         ]), [
             'content_list' => [
@@ -246,7 +246,7 @@ class ContentListItemControllerTest extends WebTestCase
         self::assertCount(3, $listItems['_embedded']['_items']);
         self::assertEquals(4, $listItems['_embedded']['_items'][2]['content']['id']);
 
-        $this->client->request('PATCH', $this->router->generate('swp_api_core_update_lists_item', [
+        $this->client->request('PATCH', $this->router->generate('swp_api_core_batch_update_lists_item', [
             'listId' => 1,
         ]), [
             'content_list' => [
@@ -268,7 +268,7 @@ class ContentListItemControllerTest extends WebTestCase
         self::assertCount(4, $listItems['_embedded']['_items']);
         self::assertEquals(3, $listItems['_embedded']['_items'][3]['content']['id']);
 
-        $this->client->request('PATCH', $this->router->generate('swp_api_core_update_lists_item', [
+        $this->client->request('PATCH', $this->router->generate('swp_api_core_batch_update_lists_item', [
             'listId' => 1,
         ]), [
             'content_list' => [
@@ -318,7 +318,7 @@ class ContentListItemControllerTest extends WebTestCase
         $this->client->request(
             'PATCH',
             $this->router->generate(
-                'swp_api_core_update_lists_item',
+                'swp_api_core_batch_update_lists_item',
                 [
                     'listId' => 1,
                 ]
@@ -361,7 +361,7 @@ class ContentListItemControllerTest extends WebTestCase
         $this->client->request(
             'PATCH',
             $this->router->generate(
-                'swp_api_core_update_lists_item',
+                'swp_api_core_batch_update_lists_item',
                 [
                     'listId' => 1,
                 ]
@@ -396,7 +396,7 @@ class ContentListItemControllerTest extends WebTestCase
         $this->client->request(
             'PATCH',
             $this->router->generate(
-                'swp_api_core_update_lists_item',
+                'swp_api_core_batch_update_lists_item',
                 [
                     'listId' => 1,
                 ]

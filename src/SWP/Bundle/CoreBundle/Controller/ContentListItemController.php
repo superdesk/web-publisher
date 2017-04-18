@@ -19,6 +19,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use SWP\Bundle\ContentListBundle\Form\Type\ContentListItemsType;
+use SWP\Bundle\CoreBundle\Form\Type\ContentListItemType;
 use SWP\Bundle\CoreBundle\Model\ContentListInterface;
 use SWP\Bundle\CoreBundle\Model\ContentListItemInterface;
 use SWP\Component\Common\Criteria\Criteria;
@@ -137,7 +138,7 @@ class ContentListItemController extends Controller
      *     },
      *     input="SWP\Bundle\ContentListBundle\Form\Type\ContentListItemsType"
      * )
-     * @Route("/api/{version}/content/lists/{listId}/items/", options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_core_update_lists_item", requirements={"listId"="\d+"})
+     * @Route("/api/{version}/content/lists/{listId}/items/", options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_core_batch_update_lists_item", requirements={"listId"="\d+"})
      * @Method("PATCH")
      */
     public function batchUpdateAction(Request $request, $listId)

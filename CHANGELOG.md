@@ -8,6 +8,8 @@ in 0.1 minor versions.
 To get the diff for a specific change, go to https://github.com/superdesk/web-publisher/commit/XXX where XXX is the change hash
 
 * 0.6.0
+ * feature [#316] Add possibility to set custom headers and clear cookies with ResponseContext class.
+ * feature [#314] Add more options to articles filtering api
  * feature [#312] Improve user registration 
  * feature [#312] Add Settings Bundle
  * feature [#309] Validate objects based on configured model's validation when content is pushed

@@ -29,15 +29,30 @@ class ResponseContext implements ResponseContextInterface
     protected $statusCode;
 
     /**
+     * @var array
+     */
+    protected $headers;
+
+    /**
+     * @var array
+     */
+    protected $clearedCookies = [];
+
+    /**
      * ResponseContext constructor.
      *
-     * @param string $intention
      * @param int    $statusCode
+     * @param string $intention
+     * @param array  $headers
      */
-    public function __construct(int $statusCode = 200, string $intention = self::INTENTION_API)
-    {
+    public function __construct(
+        int $statusCode = 200,
+        string $intention = ResponseContextInterface::INTENTION_API,
+        array $headers = []
+    ) {
         $this->intention = $intention;
         $this->statusCode = $statusCode;
+        $this->headers = $headers;
     }
 
     /**
@@ -54,5 +69,29 @@ class ResponseContext implements ResponseContextInterface
     public function getStatusCode(): int
     {
         return $this->statusCode;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getHeaders(): array
+    {
+        return $this->headers;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getClearedCookies(): array
+    {
+        return $this->clearedCookies;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function clearCookie(string $key)
+    {
+        $this->clearedCookies[] = $key;
     }
 }
