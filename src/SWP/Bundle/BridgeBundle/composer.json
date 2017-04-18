@@ -30,7 +30,7 @@
         "superdesk/contentapi-sdk-php": "dev-master",
         "swp/storage-bundle": "^0.5",
         "swp/bridge": "^0.5",
-        "symfony/monolog-bundle": "3.0.*",
+        "symfony/monolog-bundle": "3.1.*",
         "symfony/monolog-bridge": "3.1.*",
         "symfony/translation": "3.1.*",
         "symfony/framework-bundle": "3.1.*",
