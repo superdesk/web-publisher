@@ -46,6 +46,10 @@ final class ResourceResponseListener
     public function onKernelView(GetResponseForControllerResultEvent $event)
     {
         $controllerResult = $event->getControllerResult();
+        if (null === $controllerResult) {
+            return;
+        }
+
         /** @var ResponseContext $responseContext */
         $responseContext = $controllerResult->getResponseContext();
         if ($controllerResult instanceof ResourcesListResponseInterface) {

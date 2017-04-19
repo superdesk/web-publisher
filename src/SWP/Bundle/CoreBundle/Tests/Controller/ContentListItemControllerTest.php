@@ -207,4 +207,228 @@ class ContentListItemControllerTest extends WebTestCase
 
         self::assertArraySubset(json_decode('{"sticky":false}', true), $content);
     }
+
+    public function testBatchUpdate()
+    {
+        $this->client->request('GET', $this->router->generate('swp_api_content_show_lists', [
+            'id' => 1,
+        ]));
+        self::assertEquals(200, $this->client->getResponse()->getStatusCode());
+        $listData = json_decode($this->client->getResponse()->getContent(), true);
+        $listUpdatedAt = $listData['updatedAt'];
+
+        $this->client->request('GET', $listData['_links']['items']['href']);
+        $listItems = json_decode($this->client->getResponse()->getContent(), true);
+        self::assertCount(4, $listItems['_embedded']['_items']);
+        self::assertEquals(1, $listItems['_embedded']['_items'][0]['content']['id']);
+        self::assertEquals(2, $listItems['_embedded']['_items'][1]['content']['id']);
+        self::assertEquals(3, $listItems['_embedded']['_items'][2]['content']['id']);
+        self::assertEquals(4, $listItems['_embedded']['_items'][3]['content']['id']);
+
+        $this->client->request('PATCH', $this->router->generate('swp_api_core_batch_update_lists_item', [
+            'listId' => 1,
+        ]), [
+            'content_list' => [
+                'updated_at' => $listUpdatedAt,
+                'items' => [
+                    [
+                        'content_id' => 3,
+                        'action' => 'delete',
+                    ],
+                ],
+            ],
+        ]);
+        self::assertEquals(201, $this->client->getResponse()->getStatusCode());
+        $listData = json_decode($this->client->getResponse()->getContent(), true);
+        $listUpdatedAt = $listData['updatedAt'];
+        $this->client->request('GET', $listData['_links']['items']['href']);
+        $listItems = json_decode($this->client->getResponse()->getContent(), true);
+        self::assertCount(3, $listItems['_embedded']['_items']);
+        self::assertEquals(4, $listItems['_embedded']['_items'][2]['content']['id']);
+
+        $this->client->request('PATCH', $this->router->generate('swp_api_core_batch_update_lists_item', [
+            'listId' => 1,
+        ]), [
+            'content_list' => [
+                'updated_at' => $listUpdatedAt,
+                'items' => [
+                    [
+                        'content_id' => 3,
+                        'action' => 'add',
+                        'position' => '-1',
+                    ],
+                ],
+            ],
+        ]);
+        self::assertEquals(201, $this->client->getResponse()->getStatusCode());
+        $listData = json_decode($this->client->getResponse()->getContent(), true);
+        $listUpdatedAt = $listData['updatedAt'];
+        $this->client->request('GET', $listData['_links']['items']['href']);
+        $listItems = json_decode($this->client->getResponse()->getContent(), true);
+        self::assertCount(4, $listItems['_embedded']['_items']);
+        self::assertEquals(3, $listItems['_embedded']['_items'][3]['content']['id']);
+
+        $this->client->request('PATCH', $this->router->generate('swp_api_core_batch_update_lists_item', [
+            'listId' => 1,
+        ]), [
+            'content_list' => [
+                'updated_at' => $listUpdatedAt,
+                'items' => [
+                    [
+                        'content_id' => 3,
+                        'action' => 'move',
+                        'position' => 2,
+                    ],
+                ],
+            ],
+        ]);
+        self::assertEquals(201, $this->client->getResponse()->getStatusCode());
+        $listData = json_decode($this->client->getResponse()->getContent(), true);
+        $listUpdatedAt = $listData['updatedAt'];
+        $this->client->request('GET', $listData['_links']['items']['href']);
+        $listItems = json_decode($this->client->getResponse()->getContent(), true);
+        self::assertCount(4, $listItems['_embedded']['_items']);
+        self::assertEquals(3, $listItems['_embedded']['_items'][2]['content']['id']);
+        self::assertEquals(4, $listItems['_embedded']['_items'][3]['content']['id']);
+    }
+
+    public function testMultipleBatchUpdate()
+    {
+        $this->client->request(
+            'GET',
+            $this->router->generate(
+                'swp_api_content_show_lists',
+                [
+                    'id' => 1,
+                ]
+            )
+        );
+        self::assertEquals(200, $this->client->getResponse()->getStatusCode());
+        $listData = json_decode($this->client->getResponse()->getContent(), true);
+        $listUpdatedAt = $listData['updatedAt'];
+
+        $this->client->request('GET', $listData['_links']['items']['href']);
+        $listItems = json_decode($this->client->getResponse()->getContent(), true);
+        self::assertCount(4, $listItems['_embedded']['_items']);
+        self::assertEquals(1, $listItems['_embedded']['_items'][0]['content']['id']);
+        self::assertEquals(2, $listItems['_embedded']['_items'][1]['content']['id']);
+        self::assertEquals(3, $listItems['_embedded']['_items'][2]['content']['id']);
+        self::assertEquals(4, $listItems['_embedded']['_items'][3]['content']['id']);
+
+        $this->client->request(
+            'PATCH',
+            $this->router->generate(
+                'swp_api_core_batch_update_lists_item',
+                [
+                    'listId' => 1,
+                ]
+            ),
+            [
+                'content_list' => [
+                    'updated_at' => $listUpdatedAt,
+                    'items' => [
+                        [
+                            'content_id' => 3,
+                            'action' => 'delete',
+                        ],
+                        [
+                            'content_id' => 3,
+                            'action' => 'add',
+                            'position' => '-1',
+                        ],
+                        [
+                            'content_id' => 3,
+                            'action' => 'move',
+                            'position' => 2,
+                        ],
+                    ],
+                ],
+            ]
+        );
+        self::assertEquals(201, $this->client->getResponse()->getStatusCode());
+        $listData = json_decode($this->client->getResponse()->getContent(), true);
+        $listUpdatedAt = $listData['updatedAt'];
+
+        $this->client->request('GET', $listData['_links']['items']['href']);
+        $listItems = json_decode($this->client->getResponse()->getContent(), true);
+        self::assertEquals(200, $this->client->getResponse()->getStatusCode());
+        self::assertCount(4, $listItems['_embedded']['_items']);
+        self::assertEquals(1, $listItems['_embedded']['_items'][0]['content']['id']);
+        self::assertEquals(2, $listItems['_embedded']['_items'][1]['content']['id']);
+        self::assertEquals(3, $listItems['_embedded']['_items'][2]['content']['id']);
+        self::assertEquals(4, $listItems['_embedded']['_items'][3]['content']['id']);
+
+        $this->client->request(
+            'PATCH',
+            $this->router->generate(
+                'swp_api_core_batch_update_lists_item',
+                [
+                    'listId' => 1,
+                ]
+            ),
+            [
+                'content_list' => [
+                    'updated_at' => $listUpdatedAt,
+                    'items' => [
+                        [
+                            'content_id' => 3,
+                            'action' => 'delete',
+                        ],
+                        [
+                            'content_id' => 2,
+                            'action' => 'delete',
+                        ],
+                        [
+                            'content_id' => 1,
+                            'action' => 'delete',
+                        ],
+                    ],
+                ],
+            ]
+        );
+        self::assertEquals(201, $this->client->getResponse()->getStatusCode());
+        $listData = json_decode($this->client->getResponse()->getContent(), true);
+        $listUpdatedAt = $listData['updatedAt'];
+        $this->client->request('GET', $listData['_links']['items']['href']);
+        $listItems = json_decode($this->client->getResponse()->getContent(), true);
+        self::assertCount(1, $listItems['_embedded']['_items']);
+
+        $this->client->request(
+            'PATCH',
+            $this->router->generate(
+                'swp_api_core_batch_update_lists_item',
+                [
+                    'listId' => 1,
+                ]
+            ),
+            [
+                'content_list' => [
+                    'updated_at' => $listUpdatedAt,
+                    'items' => [
+                        [
+                            'content_id' => 3,
+                            'action' => 'add',
+                        ],
+                        [
+                            'content_id' => 2,
+                            'action' => 'add',
+                        ],
+                        [
+                            'content_id' => 1,
+                            'action' => 'add',
+                        ],
+                    ],
+                ],
+            ]
+        );
+        self::assertEquals(201, $this->client->getResponse()->getStatusCode());
+        $listData = json_decode($this->client->getResponse()->getContent(), true);
+        $this->client->request('GET', $listData['_links']['items']['href']);
+        $listItems = json_decode($this->client->getResponse()->getContent(), true);
+        self::assertCount(4, $listItems['_embedded']['_items']);
+        self::assertEquals(1, $listItems['_embedded']['_items'][0]['content']['id']);
+        self::assertEquals(2, $listItems['_embedded']['_items'][1]['content']['id']);
+        self::assertEquals(3, $listItems['_embedded']['_items'][2]['content']['id']);
+        self::assertEquals(4, $listItems['_embedded']['_items'][3]['content']['id']);
+    }
 }
