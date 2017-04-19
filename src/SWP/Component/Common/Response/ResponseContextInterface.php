@@ -30,4 +30,21 @@ interface ResponseContextInterface
      * @return int
      */
     public function getStatusCode(): int;
+
+    /**
+     * @return array
+     */
+    public function getHeaders(): array;
+
+    /**
+     * @return array
+     */
+    public function getClearedCookies(): array;
+
+    /**
+     * @param string $key
+     *
+     * @return mixed
+     */
+    public function clearCookie(string $key);
 }
