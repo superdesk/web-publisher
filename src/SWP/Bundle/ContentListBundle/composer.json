@@ -25,9 +25,9 @@
         "php": "^7.0",
         "stof/doctrine-extensions-bundle": "1.2.x",
         "gedmo/doctrine-extensions": ">=2.4.26 <3.0",
-        "symfony/dependency-injection": "3.1.*",
-        "symfony/form": "3.1.*",
-        "symfony/validator": "3.1.*",
+        "symfony/dependency-injection": "^3.1",
+        "symfony/form": "^3.1",
+        "symfony/validator": "^3.1",
         "swp/storage-bundle": "^0.5",
         "swp/content-list": "^0.5",
         "swp/common": "^0.5"
@@ -52,7 +52,7 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-master": "0.5-dev"
+            "dev-master": "0.6-dev"
         }
     }
 }

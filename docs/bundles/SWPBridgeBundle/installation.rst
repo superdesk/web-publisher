@@ -8,7 +8,7 @@ In your project directory execute the following command to download the latest s
 
 .. code-block:: bash
 
-    composer require swp/bridge-bundle
+    composer require swp/bridge-bundle jms/serializer-bundle swp/jms-serializer-bridge
 
 This command requires you to have Composer installed globally. If it's not installed `globally`_,
 download the ``.phar`` file `locally`_ as explained in Composer documentation.
@@ -30,6 +30,7 @@ by adding the following lines in the ``app/AppKernel.php`` file:
         {
             $bundles = array(
                 // ...
+                new JMS\SerializerBundle\JMSSerializerBundle(),
                 new SWP\Bundle\BridgeBundle\SWPBridgeBundle()
             );
 

@@ -14,9 +14,9 @@
     "require": {
         "php": "^7.0",
         "symfony/dependency-injection": "3.1.*",
-        "symfony/config": "3.1.*",
-        "symfony/validator": "3.1.*",
-        "symfony/form": "3.1.*",
+        "symfony/config": "^3.1",
+        "symfony/validator": "^3.1",
+        "symfony/form": "^3.1",
         "swp/storage-bundle": "^0.5",
         "swp/rule": "^0.5",
         "burgov/key-value-form-bundle": "@stable"
@@ -40,7 +40,7 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-master": "0.5-dev"
+            "dev-master": "0.6-dev"
         }
     }
 }

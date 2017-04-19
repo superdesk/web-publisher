@@ -39,13 +39,13 @@
     "phpspec/phpspec": "^2.4",
     "phpunit/phpunit": "^5.6",
     "phpdocumentor/reflection-docblock": "3.1.*",
-    "symfony/framework-bundle": "3.1.*",
+    "symfony/framework-bundle": "^3.1",
     "symfony/twig-bridge": "3.1.7",
     "symfony/monolog-bundle": "~2.0",
-    "symfony/monolog-bridge": "3.1.*",
-    "symfony/validator": "3.1.*",
-    "symfony/twig-bundle": "3.1.*",
-    "symfony/form": "3.1.*",
+    "symfony/monolog-bridge": "^3.1",
+    "symfony/validator": "^3.1",
+    "symfony/twig-bundle": "^3.1",
+    "symfony/form": "^3.1",
     "doctrine/orm": "2.6.*",
     "doctrine/doctrine-bundle": ">=1.6.7 <1.7.0",
     "doctrine/doctrine-fixtures-bundle": "2.3.*",
@@ -72,7 +72,7 @@
   },
   "extra": {
     "branch-alias": {
-      "dev-master": "0.5-dev"
+      "dev-master": "0.6-dev"
     }
   }
 }
