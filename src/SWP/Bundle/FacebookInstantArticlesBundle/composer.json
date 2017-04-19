@@ -26,8 +26,8 @@
     "facebook/facebook-instant-articles-sdk-php": ">=v1.5.5 <v2.0",
     "swp/common": "^0.5",
     "twig/twig": "^1.26.0",
-    "symfony/twig-bundle": "3.1.*",
-    "symfony/templating": "3.1.*",
+    "symfony/twig-bundle": "^3.1",
+    "symfony/templating": "^3.1",
     "stof/doctrine-extensions-bundle": "1.2.x",
     "swp/storage-bundle": "^0.5"
   },
@@ -51,7 +51,7 @@
   },
   "extra": {
     "branch-alias": {
-      "dev-master": "0.5-dev"
+      "dev-master": "0.6-dev"
     }
   }
 }

@@ -20,8 +20,8 @@
     "require": {
         "php": "^7.0",
         "swp/storage": "^0.5",
-        "symfony/framework-bundle": "3.1.*",
-        "symfony/doctrine-bridge": "3.1.*",
+        "symfony/framework-bundle": "^3.1",
+        "symfony/doctrine-bridge": "^3.1",
         "doctrine/orm": "2.6.*",
         "doctrine/doctrine-bundle": ">=1.6.7 <1.7.0"
     },
@@ -52,7 +52,7 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-master": "0.5-dev"
+            "dev-master": "0.6-dev"
         }
     }
 }

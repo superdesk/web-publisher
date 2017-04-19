@@ -11,10 +11,6 @@ cache:
   directories:
     - $HOME/.composer/cache/files
 
-env:
-  - COMPOSER_FLAGS='--prefer-lowest --prefer-stable'
-  - COMPOSER_FLAGS=''
-
 matrix:
   allow_failures:
     - php: hhvm
@@ -24,7 +20,7 @@ matrix:
 before_install:
   - composer self-update
 
-install: composer update $COMPOSER_FLAGS --prefer-dist --no-interaction
+install: composer update --prefer-dist --no-interaction
 
 script:
   - bin/phpunit --coverage-text --debug --verbose
