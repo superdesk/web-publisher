@@ -18,7 +18,7 @@ matrix:
 before_install:
   - composer self-update
 
-install: composer update --prefer-dist --no-interaction
+install: composer update --prefer-stable --prefer-dist --no-interaction
 
 script:
   - bin/phpspec run -fpretty --verbose
