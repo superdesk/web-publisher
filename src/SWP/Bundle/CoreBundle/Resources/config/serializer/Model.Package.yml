@@ -3,3 +3,6 @@ SWP\Bundle\CoreBundle\Model\Package:
     properties:
         articles:
             expose: true
+        status:
+            expose: true
+            type: string

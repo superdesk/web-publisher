@@ -76,5 +76,6 @@ SWP\Component\Bridge\Model\Package:
     oneToMany:
         items:
             targetEntity: SWP\Component\Bridge\Model\ItemInterface
-            cascade: ["persist"]
+            cascade: ["all"]
+            orphanRemoval: true
             mappedBy: package

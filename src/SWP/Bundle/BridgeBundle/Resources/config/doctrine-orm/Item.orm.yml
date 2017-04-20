@@ -68,10 +68,11 @@ SWP\Component\Bridge\Model\Item:
     manyToOne:
         package:
             targetEntity: SWP\Component\Bridge\Model\PackageInterface
+            inversedBy: items
             joinColumn:
-              onDelete: CASCADE
+                onDelete: CASCADE
     oneToMany:
         renditions:
             targetEntity: SWP\Component\Bridge\Model\RenditionInterface
-            cascade: ["persist"]
+            cascade: ["all"]
             mappedBy: item

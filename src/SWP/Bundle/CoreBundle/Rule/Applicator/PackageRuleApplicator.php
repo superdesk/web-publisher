@@ -76,7 +76,7 @@ final class PackageRuleApplicator implements RuleApplicatorInterface
      */
     public function apply(RuleInterface $rule, RuleSubjectInterface $subject)
     {
-        $configuration = $this->validateRuleConfiguration(json_decode($rule->getConfiguration(), true));
+        $configuration = $this->validateRuleConfiguration($rule->getConfiguration());
 
         if ($subject instanceof PackageInterface && !empty($configuration)) {
             if (ContentInterface::STATUS_CANCELED === $subject->getPubStatus()) {

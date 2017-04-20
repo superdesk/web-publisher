@@ -231,4 +231,14 @@ services:
             - '@swp.repository.article'
             - '@swp.object_manager.article'
         tags:
-            - { name: kernel.event_listener, event: swp.bridge.package_pre_update, method: onCanceled }
+            - { name: kernel.event_listener, event: swp.bridge.package_post_update, method: onCanceled, priority: 10 }
+
+    swp_core.listener.updated_package:
+        class: SWP\Bundle\CoreBundle\EventListener\UpdatedPackageListener
+        arguments:
+            - '@swp.hydrator.article'
+            - '@swp.object_manager.article'
+            - '@swp.repository.article'
+            - '@event_dispatcher'
+        tags:
+            - { name: kernel.event_listener, event: swp.bridge.package_post_update, method: onUpdated, priority: 20 }

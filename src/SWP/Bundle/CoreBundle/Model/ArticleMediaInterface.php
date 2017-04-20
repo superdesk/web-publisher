@@ -16,8 +16,8 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\CoreBundle\Model;
 
-use SWP\Component\MultiTenancy\Model\TenantAwareInterface;
+use SWP\Bundle\ContentBundle\Model\ArticleMediaInterface as BaseArticleMediaInterface;
 
-interface ArticleMediaInterface extends TenantAwareInterface
+interface ArticleMediaInterface extends BaseArticleMediaInterface
 {
 }

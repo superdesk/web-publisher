@@ -15,6 +15,7 @@
 namespace SWP\Component\Bridge\Model;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use SWP\Component\Common\Model\TimestampableInterface;
 use SWP\Component\Common\Model\TimestampableTrait;
 
@@ -60,6 +61,7 @@ class Item extends BaseContent implements ItemInterface, TimestampableInterface
     public function __construct()
     {
         $this->renditions = new ArrayCollection();
+        $this->items = new ArrayCollection();
     }
 
     /**
@@ -95,17 +97,17 @@ class Item extends BaseContent implements ItemInterface, TimestampableInterface
     }
 
     /**
-     * @param ArrayCollection $renditions
+     * {@inheritdoc}
      */
-    public function setRenditions(ArrayCollection $renditions)
+    public function setRenditions(Collection $renditions)
     {
         $this->renditions = $renditions;
     }
 
     /**
-     * @return ArrayCollection
+     * {@inheritdoc}
      */
-    public function getRenditions()
+    public function getRenditions(): Collection
     {
         return $this->renditions;
     }

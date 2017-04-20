@@ -14,6 +14,8 @@
 
 namespace SWP\Component\Bridge\Model;
 
+use Doctrine\Common\Collections\Collection;
+
 /**
  * Interface ItemInterface.
  */
@@ -48,4 +50,14 @@ interface ItemInterface extends ContentInterface
      * @param PackageInterface|void $package
      */
     public function setPackage(PackageInterface $package = null);
+
+    /**
+     * @param Collection $renditions
+     */
+    public function setRenditions(Collection $renditions);
+
+    /**
+     * @return Collection
+     */
+    public function getRenditions(): Collection;
 }

@@ -70,6 +70,7 @@ class TenantableListener implements EventSubscriberInterface
     public function disable()
     {
         $filters = $this->entityManager->getFilters();
+
         if ($filters->isEnabled('tenantable')) {
             $filters->disable('tenantable');
         }

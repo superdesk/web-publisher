@@ -21,5 +21,4 @@ use SWP\Component\MultiTenancy\Model\TenantAwareTrait;
 
 class ArticleMedia extends BaseArticleMedia implements ArticleMediaInterface
 {
-    use TenantAwareTrait;
 }

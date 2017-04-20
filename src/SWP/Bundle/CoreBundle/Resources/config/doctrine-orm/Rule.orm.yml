@@ -4,6 +4,7 @@ SWP\Bundle\CoreBundle\Model\Rule:
     fields:
         tenantCode:
             type: string
+            nullable: true
     manyToOne:
         organization:
             targetEntity: SWP\Component\MultiTenancy\Model\OrganizationInterface

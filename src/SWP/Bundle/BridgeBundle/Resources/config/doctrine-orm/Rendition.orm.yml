@@ -29,6 +29,7 @@ SWP\Component\Bridge\Model\Rendition:
         mimetype:
             exose: true
             type: string
+            nullable: true
         media:
             exose: true
             type: string
@@ -39,3 +40,5 @@ SWP\Component\Bridge\Model\Rendition:
         item:
             targetEntity: SWP\Component\Bridge\Model\ItemInterface
             inversedBy: renditions
+            joinColumn:
+                onDelete: CASCADE

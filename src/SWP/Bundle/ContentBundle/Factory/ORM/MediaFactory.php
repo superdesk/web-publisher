@@ -29,6 +29,7 @@ use SWP\Bundle\ContentBundle\Model\ImageInterface;
 use SWP\Bundle\ContentBundle\Model\ImageRenditionInterface;
 use SWP\Component\Bridge\Model\ItemInterface;
 use SWP\Component\Bridge\Model\Rendition;
+use SWP\Component\Bridge\Model\RenditionInterface;
 use SWP\Component\Storage\Factory\FactoryInterface;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
@@ -130,7 +131,7 @@ class MediaFactory implements MediaFactoryInterface
         }
 
         $originalRendition = $item->getRenditions()->filter(
-            function ($rendition) {
+            function (RenditionInterface $rendition) {
                 return 'original' === $rendition->getName();
             }
         )->first();
