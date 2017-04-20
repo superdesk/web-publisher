@@ -310,7 +310,8 @@ class ArticleControllerTest extends WebTestCase
         $content = $this->getArticlesByPublicationDate($date, 'publishedAfter');
         self::assertEquals(4, $content['total']);
 
-        $now = new \DateTime();
+        $now = new \DateTime('now');
+        $now->modify('-1 minute');
         $content = $this->getArticlesByPublicationDate($now->format('Y-m-d H:i:s'), 'publishedBefore');
         self::assertEquals(1, $content['total']);
 
