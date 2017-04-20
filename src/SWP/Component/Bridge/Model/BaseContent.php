@@ -412,7 +412,7 @@ class BaseContent implements ContentInterface
     /**
      * {@inheritdoc}
      */
-    public function getKeywords(): array
+    public function getKeywords()
     {
         return $this->keywords;
     }

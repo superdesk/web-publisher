@@ -22,10 +22,10 @@
         }
     ],
     "require": {
-        "swp/multi-tenancy": ">=v0.5.2",
+        "swp/multi-tenancy": "^v0.5.2",
+        "swp/storage-bundle": "^0.6",
         "doctrine/doctrine-bundle": ">=1.6.7 <1.7.0",
         "twig/twig": "^1.24.0",
-        "swp/storage-bundle": "^0.5",
         "ocramius/proxy-manager": "^1.0",
         "jackalope/jackalope-doctrine-dbal": "^1.2",
         "doctrine/phpcr-odm": "^1.3",
