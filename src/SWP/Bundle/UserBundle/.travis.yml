@@ -25,3 +25,8 @@ env:
 
 before_script:
   - composer $COMPOSER_FLAGS --prefer-dist --no-interaction
+
+script:
+  -
+
+

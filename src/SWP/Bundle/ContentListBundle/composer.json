@@ -23,14 +23,14 @@
     ],
     "require": {
         "php": "^7.0",
+        "swp/storage-bundle": "^0.6",
+        "swp/content-list": "^0.6",
+        "swp/common": "^0.5",
         "stof/doctrine-extensions-bundle": "1.2.x",
         "gedmo/doctrine-extensions": ">=2.4.26 <3.0",
         "symfony/dependency-injection": "^3.1",
         "symfony/form": "^3.1",
-        "symfony/validator": "^3.1",
-        "swp/storage-bundle": "^0.5",
-        "swp/content-list": "^0.5",
-        "swp/common": "^0.5"
+        "symfony/validator": "^3.1"
     },
     "require-dev": {
         "phpspec/phpspec": ">=3.2.3 <4.0",
