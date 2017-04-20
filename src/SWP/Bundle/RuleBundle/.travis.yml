@@ -2,6 +2,7 @@ language: php
 
 php:
   - 7.0
+  - 7.1
   - nightly
 
 sudo: false
@@ -15,10 +16,12 @@ matrix:
     - php: nightly
   fast_finish: true
 
-before_install:
-  - composer self-update
+env:
+  - COMPOSER_FLAGS='update --prefer-stable'
+  - COMPOSER_FLAGS='install'
 
-install: composer update --prefer-stable --prefer-dist --no-interaction
+before_script:
+  - composer $COMPOSER_FLAGS --prefer-dist --no-interaction
 
 script:
   - bin/phpspec run -fpretty --verbose

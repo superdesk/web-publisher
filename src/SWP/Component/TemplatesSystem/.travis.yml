@@ -2,20 +2,18 @@ language: php
 php:
   - 7.0
   - 7.1
-  - hhvm
+  - nightly
 
 matrix:
   allow_failures:
-    - php: hhvm
-    - php: 7.1
-
+    - php: nightly
 
 env:
-  - COMPOSER_FLAGS='--prefer-stable'
-  - COMPOSER_FLAGS=''
+  - COMPOSER_FLAGS='update --prefer-stable'
+  - COMPOSER_FLAGS='install'
 
 before_script:
-  - composer install $COMPOSER_FLAGS --prefer-dist --no-interaction
+  - composer $COMPOSER_FLAGS --prefer-dist --no-interaction
 
 script:
   - bin/phpspec run
