@@ -1,23 +1,13 @@
 language: php
-
 php:
   - 7.0
   - 7.1
   - nightly
 
-sudo: false
-
-cache:
-  directories:
-    - $HOME/.composer/cache/files
-
 matrix:
   allow_failures:
     - php: nightly
-  fast_finish: true
 
-before_install:
-  - composer self-update
 
 env:
   - COMPOSER_FLAGS='update --prefer-stable'
@@ -27,4 +17,8 @@ before_script:
   - composer $COMPOSER_FLAGS --prefer-dist --no-interaction
 
 script:
-  - bin/phpspec run -fpretty --verbose
+  - bin/phpspec run
+
+cache:
+  directories:
+    - $HOME/.composer/cache
