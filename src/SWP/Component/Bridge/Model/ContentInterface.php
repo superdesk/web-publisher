@@ -197,7 +197,7 @@ interface ContentInterface
     /**
      * @return string
      */
-    public function getPubStatus(): string;
+    public function getPubStatus();
 
     /**
      * @param string $pubStatus

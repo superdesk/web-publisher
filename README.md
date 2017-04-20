@@ -70,9 +70,10 @@ Symfony Bundles:
 | [swp/rule-bundle](https://github.com/SuperdeskWebPublisher/SWPRuleBundle) | [![Build Status](https://travis-ci.org/SuperdeskWebPublisher/SWPRuleBundle.svg?branch=master)](https://travis-ci.org/SuperdeskWebPublisher/SWPRuleBundle) |
 | [swp/storage-bundle](https://github.com/SuperdeskWebPublisher/SWPStorageBundle) | [![Build Status](https://travis-ci.org/SuperdeskWebPublisher/SWPStorageBundle.svg?branch=master)](https://travis-ci.org/SuperdeskWebPublisher/SWPStorageBundle) |
 | [swp/bridge-bundle](https://github.com/SuperdeskWebPublisher/SWPBridgeBundle) | [![Build Status](https://travis-ci.org/SuperdeskWebPublisher/SWPBridgeBundle.svg?branch=master)](https://travis-ci.org/SuperdeskWebPublisher/SWPBridgeBundle) |
-| [swp/analytics-bundle](https://github.com/SuperdeskWebPublisher/SWPAnalyticsBundle) | - |
 | [swp/templates-system-bundle](https://github.com/SuperdeskWebPublisher/SWPTemplatesBundle) | [![Build Status](https://travis-ci.org/SuperdeskWebPublisher/SWPTemplatesBundle.svg?branch=master)](https://travis-ci.org/SuperdeskWebPublisher/SWPTemplatesBundle) |
-
+| [swp/settings-bundle](https://github.com/SuperdeskWebPublisher/SWPSettingsBundle) | [![Build Status](https://travis-ci.org/SuperdeskWebPublisher/SWPSettingsBundle.svg?branch=master)](https://travis-ci.org/SuperdeskWebPublisher/SWPSettingsBundle) |
+| [swp/content-list-bundle](https://github.com/SuperdeskWebPublisher/SWPContentListBundle) | [![Build Status](https://travis-ci.org/SuperdeskWebPublisher/SWPContentListBundle.svg?branch=master)](https://travis-ci.org/SuperdeskWebPublisher/SWPContentListBundle) |
+| [swp/menu-bundle](https://github.com/SuperdeskWebPublisher/SWPMenuBundle) | [![Build Status](https://travis-ci.org/SuperdeskWebPublisher/SWPMenuBundle.svg?branch=master)](https://travis-ci.org/SuperdeskWebPublisher/SWPMenuBundle) |
 
 Components:
 
