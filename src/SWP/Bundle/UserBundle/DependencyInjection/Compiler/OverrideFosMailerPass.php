@@ -29,7 +29,8 @@ final class OverrideFosMailerPass implements CompilerPassInterface
     public function process(ContainerBuilder $container)
     {
         $serviceId = 'fos_user.mailer.default';
-        if (!$container->hasDefinition($serviceId)) {
+        $multitenancyContextServiceId = 'swp_multi_tenancy.tenant_context';
+        if (!$container->hasDefinition($serviceId) || !$container->hasDefinition($multitenancyContextServiceId)) {
             return;
         }
 
@@ -37,7 +38,7 @@ final class OverrideFosMailerPass implements CompilerPassInterface
         $mailerService
             ->setClass(Mailer::class)
             ->addArgument(new Reference('swp_settings.manager.settings'))
-            ->addArgument(new Reference('swp_multi_tenancy.tenant_context'))
+            ->addArgument(new Reference($multitenancyContextServiceId))
         ;
     }
 }

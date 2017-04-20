@@ -14,7 +14,8 @@
   "require": {
     "php": "^7.0",
     "swp/storage": "^0.5",
-    "swp/common": "^0.5"
+    "swp/common": "^0.5",
+    "friendsofsymfony/user-bundle": "^2.0.0"
   },
   "require-dev": {
     "phpspec/phpspec": ">=3.2.3 <4.0",
