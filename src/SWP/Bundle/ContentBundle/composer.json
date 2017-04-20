@@ -31,11 +31,8 @@
   ],
   "require": {
     "php": "^7.0",
-    "swp/storage-bundle": "^0.5",
-    "swp/bridge": "^0.5",
-    "swp/common": "^0.5",
-    "swp/templates-system-bundle": "^0.5",
-    "swp/bridge-bundle": "^0.5",
+    "swp/templates-system-bundle": "^0.6",
+    "swp/bridge-bundle": "^0.6",
     "swp/jms-serializer-bridge": "^0.5",
     "symfony/validator": "^3.1",
     "symfony/form": "^3.1",
