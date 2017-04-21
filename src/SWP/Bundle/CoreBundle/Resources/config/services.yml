@@ -101,7 +101,7 @@ services:
             - "@swp.repository.api_key"
             - "@swp_multi_tenancy.tenant_context"
             - "@swp.repository.tenant"
-            - "@doctrine.orm.default_entity_manager"
+            - "@event_dispatcher"
 
     swp.security.user_provider:
         class: SWP\Bundle\CoreBundle\Security\Provider\UserProvider
