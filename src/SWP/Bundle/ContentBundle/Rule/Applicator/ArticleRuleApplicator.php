@@ -97,6 +97,10 @@ final class ArticleRuleApplicator implements RuleApplicatorInterface
             $this->articleService->publish($subject);
         }
 
+        if (!(bool) $configuration['published']) {
+            $this->articleService->unpublish($subject, ArticleInterface::STATUS_UNPUBLISHED);
+        }
+
         $this->logger->info(sprintf(
             'Configuration: "%s" for "%s" rule has been applied!',
             json_encode($configuration),
