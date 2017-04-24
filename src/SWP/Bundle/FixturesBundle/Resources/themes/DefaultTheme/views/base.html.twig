@@ -47,6 +47,20 @@
   <div class="header_wrap">
     <div class="container">
 
+{% include '_tpl/login-popup.html.twig' %}
+
+<header id="titlebar">
+  {% if app.user %}
+  <div class="logininfo">
+     <a href="/dashboard" class="icon_link hidden-phone">Hey {{ app.user.username }}</a>
+     <a href="{{ url('security_logout') }}" class="icon_link icon_key">Logout</a>
+  </div>
+  {% else %}
+     <a href="/register" class="icon_link icon_padlock hidden-phone" id="registerButtonFront">Registration</a>
+     <a href="#" class="icon_link icon_key open_login_popup">Login</a>
+  {% endif %}  
+</header>    
+
 <!-- Top -->
       <header id="top" class="padding_bottom_10">
         <div class="top_content">
