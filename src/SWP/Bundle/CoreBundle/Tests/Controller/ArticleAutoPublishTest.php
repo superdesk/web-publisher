@@ -273,6 +273,7 @@ final class ArticleAutoPublishTest extends WebTestCase
 
         self::assertEquals(200, $client->getResponse()->getStatusCode());
         $article = json_decode($client->getResponse()->getContent(), true);
+
         self::assertEquals('unpublished', $article['status']);
     }
 

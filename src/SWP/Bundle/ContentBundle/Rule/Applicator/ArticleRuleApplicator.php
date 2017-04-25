@@ -68,6 +68,7 @@ final class ArticleRuleApplicator implements RuleApplicatorInterface
      */
     public function apply(RuleInterface $rule, RuleSubjectInterface $subject)
     {
+
         $configuration = $this->validateRuleConfiguration($rule->getConfiguration());
 
         if (!$this->isAllowedType($subject) || empty($configuration)) {
@@ -97,7 +98,7 @@ final class ArticleRuleApplicator implements RuleApplicatorInterface
             $this->articleService->publish($subject);
         }
 
-        if (!(bool) $configuration['published']) {
+        if (null === $configuration['published'] || !(bool) $configuration['published']) {
             $this->articleService->unpublish($subject, ArticleInterface::STATUS_UNPUBLISHED);
         }
 
