@@ -98,6 +98,8 @@ class TokenAuthenticator extends AbstractGuardAuthenticator
             ->getQuery()
             ->getOneOrNullResult();
 
+        $this->eventDispatcher->dispatch(MultiTenancyEvents::TENANTABLE_ENABLE);
+
         if (null === $apiKey) {
             return;
         }

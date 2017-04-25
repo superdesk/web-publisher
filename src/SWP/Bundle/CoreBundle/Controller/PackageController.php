@@ -25,12 +25,15 @@ use SWP\Bundle\CoreBundle\Form\Type\CompositePublishActionType;
 use SWP\Bundle\CoreBundle\Form\Type\UnpublishFromTenantsType;
 use SWP\Bundle\CoreBundle\Model\CompositePublishAction;
 use SWP\Bundle\MultiTenancyBundle\MultiTenancyEvents;
+use SWP\Component\Bridge\Events;
+use SWP\Component\Bridge\Model\ContentInterface;
 use SWP\Component\Common\Criteria\Criteria;
 use SWP\Component\Common\Pagination\PaginationData;
 use SWP\Component\Common\Response\ResourcesListResponse;
 use SWP\Component\Common\Response\ResponseContext;
 use SWP\Component\Common\Response\SingleResourceResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\EventDispatcher\GenericEvent;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
@@ -114,7 +117,9 @@ class PackageController extends Controller
 
         $form->handleRequest($request);
         if ($form->isValid()) {
+            $this->get('event_dispatcher')->dispatch(Events::PACKAGE_PRE_UPDATE, new GenericEvent($package));
             $this->get('swp_core.article.publisher')->publish($package, $form->getData());
+            $this->get('event_dispatcher')->dispatch(Events::PACKAGE_POST_UPDATE, new GenericEvent($package));
 
             return new SingleResourceResponse(null, new ResponseContext(201));
         }
@@ -151,7 +156,7 @@ class PackageController extends Controller
             $tenants = $formData['tenants'];
             $this->get('swp_core.article.publisher')->unpublish($package, $tenants->toArray());
 
-            return new SingleResourceResponse(null, new ResponseContext(201));
+            return new SingleResourceResponse(null, new ResponseContext(200));
         }
 
         return new SingleResourceResponse($form, new ResponseContext(500));

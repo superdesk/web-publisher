@@ -72,13 +72,7 @@ final class UpdatedPackageListener
 
     public function onUpdated(GenericEvent $event)
     {
-        /** @var PackageInterface $package */
-        if (!($package = $event->getSubject()) instanceof PackageInterface) {
-            throw UnexpectedTypeException::unexpectedType(
-                is_object($package) ? get_class($package) : gettype($package),
-                PackageInterface::class
-            );
-        }
+        $package = $this->getPackage($event);
 
         if (ContentInterface::STATUS_USABLE !== $package->getPubStatus()) {
             return;
@@ -94,5 +88,18 @@ final class UpdatedPackageListener
 
         $this->articleManager->flush();
         $this->eventDispatcher->dispatch(MultiTenancyEvents::TENANTABLE_ENABLE);
+    }
+
+    private function getPackage(GenericEvent $event)
+    {
+        /** @var PackageInterface $package */
+        if (!($package = $event->getSubject()) instanceof PackageInterface) {
+            throw UnexpectedTypeException::unexpectedType(
+                is_object($package) ? get_class($package) : gettype($package),
+                PackageInterface::class
+            );
+        }
+
+        return $package;
     }
 }

@@ -20,6 +20,8 @@ interface ContentInterface extends PersistableInterface
 {
     const STATUS_USABLE = 'usable';
     const STATUS_CANCELED = 'canceled';
+    const STATUS_PUBLISHED = 'published';
+    const STATUS_UNPUBLISHED = 'unpublished';
 
     /**
      * @return mixed

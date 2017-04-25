@@ -242,3 +242,10 @@ services:
             - '@event_dispatcher'
         tags:
             - { name: kernel.event_listener, event: swp.bridge.package_post_update, method: onUpdated, priority: 20 }
+
+    swp_core.listener.package_status:
+        class: SWP\Bundle\CoreBundle\EventListener\PackageStatusListener
+        tags:
+            - { name: kernel.event_listener, event: swp.article.publish, method: onArticlePublish }
+            - { name: kernel.event_listener, event: swp.article.unpublish, method: onArticleUnpublish }
+            - { name: kernel.event_listener, event: swp.article.canceled, method: onArticleCancel }

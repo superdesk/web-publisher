@@ -762,6 +762,16 @@ final class ContentPushTest extends WebTestCase
 
         self::assertEquals(201, $client->getResponse()->getStatusCode());
 
+        // check package status
+        $client->request(
+            'GET',
+            $this->router->generate('swp_api_core_show_package', ['id' => 1])
+        );
+
+        self::assertEquals(200, $client->getResponse()->getStatusCode());
+        $content = json_decode($client->getResponse()->getContent(), true);
+        self::assertEquals('canceled', $content['status']);
+
         $client->request(
             'GET',
             $this->router->generate('swp_api_content_show_articles', ['id' => 'abstract-html-test'])

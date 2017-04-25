@@ -63,6 +63,12 @@ class LoadTenantsData extends AbstractFixture implements FixtureInterface, Order
         $secondTenantPublishedRevision->setTenantCode('456def');
         $secondTenantWorkingRevision = $revisionManager->create($secondTenantPublishedRevision);
         $revisionManager->publish($secondTenantPublishedRevision, $secondTenantWorkingRevision);
+
+        /** @var RevisionInterface|TenantAwareInterface $firstPublishedRevision */
+        $secondTenantPublishedRevision = $revisionManager->create();
+        $secondTenantPublishedRevision->setTenantCode('678iop');
+        $secondTenantWorkingRevision = $revisionManager->create($secondTenantPublishedRevision);
+        $revisionManager->publish($secondTenantPublishedRevision, $secondTenantWorkingRevision);
     }
 
     /**
