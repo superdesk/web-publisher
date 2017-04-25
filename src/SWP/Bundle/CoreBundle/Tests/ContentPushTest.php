@@ -427,7 +427,7 @@ final class ContentPushTest extends WebTestCase
         $content = json_decode($client->getResponse()->getContent(), true);
 
         self::assertEquals(200, $client->getResponse()->getStatusCode());
-        //self::assertEquals('unpublished', $content['status']);
+        self::assertEquals('unpublished', $content['status']);
         self::assertCount(1, $content['articles']);
     }
 

@@ -33,7 +33,7 @@ class JsonToPackageTransformerSpec extends ObjectBehavior
 {
     public function let(SerializerInterface $serializer, ValidatorInterface $validator)
     {
-        $this->beConstructedWith($serializer, $validator);
+        $this->beConstructedWith($serializer, $validator, Package::class);
     }
 
     public function it_is_initializable()

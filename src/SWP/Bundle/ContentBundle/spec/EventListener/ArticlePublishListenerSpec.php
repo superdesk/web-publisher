@@ -59,13 +59,39 @@ final class ArticlePublishListenerSpec extends ObjectBehavior
         $this->publish($event);
     }
 
-    public function it_throws_exception_if_article_is_of_wrong_type(ArticleEvent $event)
-    {
-        $event->getArticle()->willReturn('fakeObject')->shouldBeCalled();
+    public function it_unpublishes_an_article_if_it_is_already_published(
+        ArticleServiceInterface $articleService,
+        ArticleEvent $event,
+        ArticleInterface $article
+    ) {
+        $event->getArticle()->willReturn($article);
+        $articleService->unpublish($article, ArticleInterface::STATUS_UNPUBLISHED)->shouldBeCalled()->willReturn($article);
+        $article->isPublished()->willReturn(true);
 
-        $this
-            ->shouldThrow(UnexpectedTypeException::class)
-            ->during('publish', [$event])
-        ;
+        $this->unpublish($event);
+    }
+
+    public function it_doesnt_unpublishe_an_article_if_it_is_not_published(
+        ArticleServiceInterface $articleService,
+        ArticleEvent $event,
+        ArticleInterface $article
+    ) {
+        $event->getArticle()->willReturn($article);
+        $articleService->unpublish($article, ArticleInterface::STATUS_UNPUBLISHED)->shouldBeCalled()->shouldNotBeCalled();
+        $article->isPublished()->willReturn(false);
+
+        $this->unpublish($event);
+    }
+
+    public function it_cancels_an_article(
+        ArticleServiceInterface $articleService,
+        ArticleEvent $event,
+        ArticleInterface $article
+    ) {
+        $event->getArticle()->willReturn($article);
+        $articleService->unpublish($article, ArticleInterface::STATUS_CANCELED)->shouldBeCalled()->willReturn($article);
+        $article->isPublished()->willReturn(true);
+
+        $this->cancel($event);
     }
 }

@@ -21,7 +21,8 @@ use SWP\Bundle\MultiTenancyBundle\Form\DataTransformer\TenantToCodeTransformer;
 use SWP\Bundle\MultiTenancyBundle\Form\Type\TenantChoiceType;
 use SWP\Component\MultiTenancy\Context\TenantContextInterface;
 use SWP\Component\MultiTenancy\Repository\TenantRepositoryInterface;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Bridge\Doctrine\Form\DataTransformer\CollectionToArrayTransformer;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormTypeInterface;
 
@@ -43,19 +44,14 @@ final class TenantChoiceTypeSpec extends ObjectBehavior
     }
 
     public function it_should_build_form(
-        FormBuilderInterface $builder,
-        TenantRepositoryInterface $tenantRepository,
-        TenantContextInterface $tenantContext
+        FormBuilderInterface $builder
     ) {
         $builder
             ->addModelTransformer(
-                new TenantToCodeTransformer(
-                    $tenantRepository->getWrappedObject(),
-                    $tenantContext->getWrappedObject()
-                )
+                new CollectionToArrayTransformer()
             )->shouldBeCalled();
 
-        $this->buildForm($builder, []);
+        $this->buildForm($builder, ['multiple' => true]);
     }
 
     public function it_has_block_prefix()
@@ -65,6 +61,6 @@ final class TenantChoiceTypeSpec extends ObjectBehavior
 
     public function it_should_have_a_parent()
     {
-        $this->getParent()->shouldReturn(TextType::class);
+        $this->getParent()->shouldReturn(ChoiceType::class);
     }
 }

@@ -48,7 +48,7 @@ final class OrganizationSubscriberSpec extends ObjectBehavior
 
     public function it_subscribes_to_an_event()
     {
-        $this->getSubscribedEvents()->shouldReturn([Events::prePersist]);
+        $this->getSubscribedEvents()->shouldReturn([Events::prePersist, Events::preUpdate]);
     }
 
     public function it_should_skip_when_organization_is_already_set_on_organization_aware_object(
@@ -64,6 +64,7 @@ final class OrganizationSubscriberSpec extends ObjectBehavior
         $event->getEntity()->willReturn($organizationAware);
 
         $this->prePersist($event);
+        $this->preUpdate($event);
     }
 
     public function it_sets_the_organization_on_pre_persist_doctrine_event(
@@ -95,6 +96,7 @@ final class OrganizationSubscriberSpec extends ObjectBehavior
         $container->get('swp_multi_tenancy.tenant_context')->willReturn($tenantContext);
 
         $this->prePersist($event);
+        $this->preUpdate($event);
     }
 
     public function it_throws_exception_when_no_organization_on_pre_persist_doctrine_event(
@@ -126,5 +128,6 @@ final class OrganizationSubscriberSpec extends ObjectBehavior
         $organizationAware->getOrganization()->shouldNotBeCalled();
 
         $this->prePersist($event);
+        $this->preUpdate($event);
     }
 }

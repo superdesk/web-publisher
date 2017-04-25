@@ -12,7 +12,7 @@ interface CompositePublishActionInterface
     public function getDestinations(): array;
 
     /**
-     * @param DestinationInterface[] $destinations
+     * @param PublishDestinationInterface[] $destinations
      */
     public function setDestinations(array $destinations);
 }

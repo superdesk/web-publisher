@@ -246,6 +246,7 @@ services:
     swp_core.listener.package_status:
         class: SWP\Bundle\CoreBundle\EventListener\PackageStatusListener
         tags:
-            - { name: kernel.event_listener, event: swp.article.publish, method: onArticlePublish }
-            - { name: kernel.event_listener, event: swp.article.unpublish, method: onArticleUnpublish }
             - { name: kernel.event_listener, event: swp.article.canceled, method: onArticleCancel }
+            - { name: kernel.event_listener, event: swp.article.unpublished, method: onArticleUnpublish }
+            - { name: kernel.event_listener, event: swp.article.published, method: onArticlePublish }
+
