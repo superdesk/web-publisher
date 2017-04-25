@@ -17,7 +17,6 @@ declare(strict_types=1);
 namespace spec\SWP\Bundle\MultiTenancyBundle\Form\Type;
 
 use PhpSpec\ObjectBehavior;
-use SWP\Bundle\MultiTenancyBundle\Form\DataTransformer\TenantToCodeTransformer;
 use SWP\Bundle\MultiTenancyBundle\Form\Type\TenantChoiceType;
 use SWP\Component\MultiTenancy\Context\TenantContextInterface;
 use SWP\Component\MultiTenancy\Repository\TenantRepositoryInterface;

@@ -21,7 +21,6 @@ use SWP\Bundle\ContentBundle\Event\ArticleEvent;
 use SWP\Bundle\ContentBundle\EventListener\ArticlePublishListener;
 use SWP\Bundle\ContentBundle\Model\ArticleInterface;
 use SWP\Bundle\ContentBundle\Service\ArticleServiceInterface;
-use SWP\Component\Common\Exception\UnexpectedTypeException;
 
 final class ArticlePublishListenerSpec extends ObjectBehavior
 {
