@@ -34,7 +34,7 @@ before_script:
 
 script:
   - bin/phpspec run
-  - bin/phpunit -c app/
+  - bin/phpunit -c app/ --debug
   - cd src/SWP/Bundle/BridgeBundle && composer install --no-interaction --prefer-dist --ignore-platform-reqs && bin/phpunit
   - cd ../../../../
   - cd src/SWP/Bundle/TemplatesSystemBundle && composer install --no-interaction --prefer-dist --ignore-platform-reqs && bin/phpunit
