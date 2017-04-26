@@ -78,6 +78,7 @@ services:
             - '@event_dispatcher'
         tags:
             - { name: kernel.event_listener, event: swp.article.published, method: addArticleToList }
+            - { name: kernel.event_listener, event: swp.article.published, method: addArticleToBucket }
 
     swp_core.listener.revision_subscriber:
         class: SWP\Bundle\CoreBundle\EventSubscriber\RevisionsSubscriber

@@ -39,4 +39,14 @@ interface PublishDestinationInterface
      * @param TenantInterface $tenant
      */
     public function setTenant(TenantInterface $tenant);
+
+    /**
+     * @return bool
+     */
+    public function isFbia(): bool;
+
+    /**
+     * @param bool $isFbia
+     */
+    public function setFbia(bool $isFbia);
 }

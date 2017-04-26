@@ -30,6 +30,11 @@ class Article extends BaseArticle implements ArticleInterface
     protected $package;
 
     /**
+     * @var bool
+     */
+    protected $isPublishedFBIA = false;
+
+    /**
      * {@inheritdoc}
      */
     public function getPackage(): PackageInterface
@@ -43,5 +48,21 @@ class Article extends BaseArticle implements ArticleInterface
     public function setPackage(PackageInterface $package)
     {
         $this->package = $package;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function isPublishedFBIA(): bool
+    {
+        return $this->isPublishedFBIA;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setPublishedFBIA(bool $isPublished)
+    {
+        $this->isPublishedFBIA = $isPublished;
     }
 }
