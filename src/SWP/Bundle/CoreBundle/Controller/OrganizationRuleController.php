@@ -156,6 +156,30 @@ class OrganizationRuleController extends Controller
         return new SingleResourceResponse($form, new ResponseContext(500));
     }
 
+    /**
+     * Delete single organization rule.
+     *
+     * @ApiDoc(
+     *     resource=true,
+     *     description="Delete single organization rule",
+     *     statusCodes={
+     *         204="Returned on success.",
+     *         404="Returned when rule not found.",
+     *         405="Returned when method not allowed."
+     *     }
+     * )
+     * @Route("/api/{version}/organization/rules/{id}", options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_core_delete_organization_rule", requirements={"id"="\d+"})
+     * @Method("DELETE")
+     */
+    public function deleteAction(int $id)
+    {
+        $rule = $this->findOr404($id);
+        $ruleRepository = $this->get('swp.repository.rule');
+        $ruleRepository->remove($rule);
+
+        return new SingleResourceResponse(null, new ResponseContext(204));
+    }
+
     private function findOr404(int $id)
     {
         $tenantContext = $this->get('swp_multi_tenancy.tenant_context');

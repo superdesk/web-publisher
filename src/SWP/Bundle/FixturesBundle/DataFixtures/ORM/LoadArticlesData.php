@@ -19,6 +19,7 @@ use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use SWP\Bundle\ContentBundle\Model\ImageRendition;
 use SWP\Bundle\ContentBundle\Model\RouteInterface;
+use SWP\Bundle\CoreBundle\Model\PackageInterface;
 use SWP\Bundle\FixturesBundle\AbstractFixture;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
@@ -355,6 +356,9 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface, Orde
                 $article->setRoute($this->getRouteByName($articleData['route']));
                 $article->setLocale($articleData['locale']);
                 $article->setCode(md5($articleData['title']));
+                $package = $this->createPackage($articleData);
+                $manager->persist($package);
+                $article->setPackage($package);
                 $manager->persist($article);
                 $articleService->publish($article);
 
@@ -363,6 +367,22 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface, Orde
 
             $manager->flush();
         }
+    }
+
+    private function createPackage(array $articleData)
+    {
+        /** @var PackageInterface $package */
+        $package = $this->container->get('swp.factory.package')->create();
+        $package->setHeadline($articleData['title']);
+        $package->setType('text');
+        $package->setPubStatus('usable');
+        $package->setGuid($this->container->get('swp_multi_tenancy.random_string_generator')->generate(10));
+        $package->setLanguage('en');
+        $package->setUrgency(1);
+        $package->setPriority(1);
+        $package->setVersion(1);
+
+        return $package;
     }
 
     /**

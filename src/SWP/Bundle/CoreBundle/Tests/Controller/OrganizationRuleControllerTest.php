@@ -97,11 +97,11 @@ class OrganizationRuleControllerTest extends WebTestCase
         self::assertEquals($expected, $data);
     }
 
-    public function testDeleteSingleRuleApi()
+    public function testDeleteSingleOrganizationRuleApi()
     {
         $this->createOrganizationRule();
         $client = static::createClient();
-        $client->request('DELETE', $this->router->generate('swp_api_core_delete_rule', ['id' => 1]));
+        $client->request('DELETE', $this->router->generate('swp_api_core_delete_organization_rule', ['id' => 1]));
 
         self::assertEquals(204, $client->getResponse()->getStatusCode());
     }
