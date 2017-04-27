@@ -70,6 +70,9 @@ final class UpdatedPackageListener
         $this->eventDispatcher = $eventDispatcher;
     }
 
+    /**
+     * @param GenericEvent $event
+     */
     public function onUpdated(GenericEvent $event)
     {
         $package = $this->getPackage($event);

@@ -59,6 +59,9 @@ final class CanceledPackageListener
         $this->articleManager = $articleManager;
     }
 
+    /**
+     * @param GenericEvent $event
+     */
     public function onCanceled(GenericEvent $event)
     {
         $package = $this->getPackage($event);
@@ -77,6 +80,11 @@ final class CanceledPackageListener
         $this->eventDispatcher->dispatch(MultiTenancyEvents::TENANTABLE_ENABLE);
     }
 
+    /**
+     * @param GenericEvent $event
+     *
+     * @return PackageInterface
+     */
     private function getPackage(GenericEvent $event)
     {
         /** @var PackageInterface $package */

@@ -16,28 +16,22 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\CoreBundle\Rule\Applicator;
 
-use Psr\Log\LoggerInterface;
 use SWP\Bundle\CoreBundle\Factory\PublishActionFactoryInterface;
 use SWP\Bundle\CoreBundle\Model\PackageInterface;
 use SWP\Bundle\CoreBundle\Rule\PublishDestinationResolverInterface;
 use SWP\Bundle\CoreBundle\Service\ArticlePublisherInterface;
 use SWP\Component\Bridge\Model\ContentInterface;
-use SWP\Component\Rule\Applicator\RuleApplicatorInterface;
+use SWP\Component\Rule\Applicator\AbstractRuleApplicator;
 use SWP\Component\Rule\Model\RuleInterface;
 use SWP\Component\Rule\Model\RuleSubjectInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-final class PackageRuleApplicator implements RuleApplicatorInterface
+final class PackageRuleApplicator extends AbstractRuleApplicator
 {
     /**
      * @var ArticlePublisherInterface
      */
     private $articlePublisher;
-
-    /**
-     * @var LoggerInterface
-     */
-    private $logger;
 
     /**
      * @var PublishDestinationResolverInterface
@@ -136,25 +130,5 @@ final class PackageRuleApplicator implements RuleApplicatorInterface
         $resolver->setDefined($this->supportedKeys[0]);
 
         return $this->resolveConfig($resolver, $config);
-    }
-
-    // TODO move to abstract rule applicator
-    private function resolveConfig(OptionsResolver $resolver, array $config)
-    {
-        try {
-            return $resolver->resolve($config);
-        } catch (\Exception $e) {
-            $this->logger->warning($e->getMessage());
-        }
-
-        return [];
-    }
-
-    /**
-     * @param LoggerInterface $logger
-     */
-    public function setLogger(LoggerInterface $logger)
-    {
-        $this->logger = $logger;
     }
 }

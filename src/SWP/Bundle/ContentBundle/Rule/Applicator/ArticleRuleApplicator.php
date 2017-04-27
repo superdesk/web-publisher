@@ -19,22 +19,17 @@ use SWP\Bundle\ContentBundle\Model\ArticleInterface;
 use SWP\Bundle\ContentBundle\Model\RouteInterface;
 use SWP\Bundle\ContentBundle\Provider\RouteProviderInterface;
 use SWP\Bundle\ContentBundle\Service\ArticleServiceInterface;
-use SWP\Component\Rule\Applicator\RuleApplicatorInterface;
+use SWP\Component\Rule\Applicator\AbstractRuleApplicator;
 use SWP\Component\Rule\Model\RuleSubjectInterface;
 use SWP\Component\Rule\Model\RuleInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-final class ArticleRuleApplicator implements RuleApplicatorInterface
+final class ArticleRuleApplicator extends AbstractRuleApplicator
 {
     /**
      * @var RouteProviderInterface
      */
     private $routeProvider;
-
-    /**
-     * @var LoggerInterface
-     */
-    private $logger;
 
     /**
      * @var ArticleServiceInterface
@@ -121,13 +116,7 @@ final class ArticleRuleApplicator implements RuleApplicatorInterface
         $resolver = new OptionsResolver();
         $this->configureOptions($resolver);
 
-        try {
-            return $resolver->resolve($configuration);
-        } catch (\Exception $e) {
-            $this->logger->warning($e->getMessage());
-        }
-
-        return [];
+        return $this->resolveConfig($resolver, $configuration);
     }
 
     private function configureOptions(OptionsResolver $resolver)

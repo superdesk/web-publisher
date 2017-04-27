@@ -24,6 +24,9 @@ use SWP\Component\Common\Exception\UnexpectedTypeException;
 
 final class PackageStatusListener
 {
+    /**
+     * @param ArticleEvent $event
+     */
     public function onArticleUnpublish(ArticleEvent $event)
     {
         /** @var ArticleInterface $article */
@@ -37,6 +40,9 @@ final class PackageStatusListener
         $package->setStatus(ContentInterface::STATUS_UNPUBLISHED);
     }
 
+    /**
+     * @param ArticleEvent $event
+     */
     public function onArticlePublish(ArticleEvent $event)
     {
         /** @var ArticleInterface $article */
@@ -50,6 +56,9 @@ final class PackageStatusListener
         $package->setStatus(ContentInterface::STATUS_PUBLISHED);
     }
 
+    /**
+     * @param ArticleEvent $event
+     */
     public function onArticleCancel(ArticleEvent $event)
     {
         /** @var ArticleInterface $article */

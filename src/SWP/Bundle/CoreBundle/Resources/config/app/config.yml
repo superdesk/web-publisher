@@ -137,7 +137,6 @@ swp_bridge:
             classes:
                 package:
                     model: SWP\Bundle\CoreBundle\Model\Package
-                    #interface: SWP\Bundle\CoreBundle\Model\PackageInterface
 
 sylius_theme:
     context: "swp_core.theme.context.tenant_aware"
