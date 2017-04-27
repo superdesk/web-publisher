@@ -27,7 +27,6 @@ class Version20170425143513 extends AbstractMigration
         $this->addSql('ALTER TABLE swp_article ALTER keywords SET NOT NULL');
         $this->addSql('ALTER TABLE swp_article ADD CONSTRAINT FK_FB21E858F44CABFF FOREIGN KEY (package_id) REFERENCES swp_package (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('CREATE INDEX IDX_FB21E858F44CABFF ON swp_article (package_id)');
-        $this->addSql('CREATE UNIQUE INDEX swp_article_slug_idx ON swp_article (slug, tenant_code, organization_id)');
         $this->addSql('ALTER TABLE swp_container ALTER created_at SET DEFAULT \'now\'');
         $this->addSql('ALTER TABLE swp_container ALTER uuid DROP DEFAULT');
         $this->addSql('ALTER TABLE swp_package ADD organization_id INT DEFAULT NULL');
@@ -67,7 +66,6 @@ class Version20170425143513 extends AbstractMigration
         $this->addSql('ALTER TABLE swp_container ALTER uuid SET DEFAULT \'substr(md5((random())::text), 0, 12)\'');
         $this->addSql('ALTER TABLE swp_article DROP CONSTRAINT FK_FB21E858F44CABFF');
         $this->addSql('DROP INDEX IDX_FB21E858F44CABFF');
-        $this->addSql('DROP INDEX swp_article_slug_idx');
         $this->addSql('ALTER TABLE swp_article DROP package_id');
         $this->addSql('ALTER TABLE swp_article ALTER keywords DROP NOT NULL');
         $this->addSql('ALTER TABLE swp_article ALTER tenant_code DROP NOT NULL');
