@@ -40,7 +40,10 @@ class Version20170427114227 extends AbstractMigration
         $this->addSql('ALTER TABLE swp_package ALTER pub_status SET NOT NULL');
         $this->addSql('ALTER TABLE swp_package ADD CONSTRAINT FK_277381AB32C8A3DE FOREIGN KEY (organization_id) REFERENCES swp_organization (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('CREATE INDEX IDX_277381AB32C8A3DE ON swp_package (organization_id)');
-        $this->addSql('ALTER TABLE swp_rule ADD organization_id INT NOT NULL');
+        $this->addSql('ALTER TABLE swp_rule ADD COLUMN organization_id INT DEFAULT NULL');
+        $this->addSql('UPDATE swp_rule SET organization_id = (SELECT t.organization_id FROM swp_tenant AS t WHERE tenant_code = t.code)');
+        $this->addSql('ALTER TABLE swp_rule ALTER organization_id DROP DEFAULT');
+        $this->addSql('ALTER TABLE swp_rule ALTER tenant_code SET NOT NULL');
         $this->addSql('ALTER TABLE swp_rule ALTER tenant_code DROP NOT NULL');
         $this->addSql('ALTER TABLE swp_rule ADD CONSTRAINT FK_B8CF81B432C8A3DE FOREIGN KEY (organization_id) REFERENCES swp_organization (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('CREATE INDEX IDX_B8CF81B432C8A3DE ON swp_rule (organization_id)');
