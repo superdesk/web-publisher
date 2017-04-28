@@ -38,7 +38,7 @@ class Version20170427114227 extends AbstractMigration
         $this->addSql('ALTER TABLE swp_package ADD body TEXT DEFAULT NULL');
         $this->addSql('ALTER TABLE swp_package ADD status VARCHAR(255) NOT NULL');
         $this->addSql('ALTER TABLE swp_package ALTER slugline DROP NOT NULL');
-        $this->addSql('UPDATE swp_package SET pub_status = "usable" WHERE pub_status IS NULL');
+        $this->addSql('UPDATE swp_package SET pub_status = \'usable\' WHERE pub_status IS NULL');
         $this->addSql('ALTER TABLE swp_package ALTER pub_status SET NOT NULL');
         $this->addSql('ALTER TABLE swp_package ADD CONSTRAINT FK_277381AB32C8A3DE FOREIGN KEY (organization_id) REFERENCES swp_organization (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('CREATE INDEX IDX_277381AB32C8A3DE ON swp_package (organization_id)');
