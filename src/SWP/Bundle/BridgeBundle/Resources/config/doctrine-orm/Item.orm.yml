@@ -11,6 +11,7 @@ SWP\Component\Bridge\Model\Item:
     fields:
         name:
             type: string
+            nullable: true
         headline:
             type: string
         slugline:

@@ -22,7 +22,7 @@ class Version20170427114227 extends AbstractMigration
         $this->addSql('CREATE TABLE swp_item_renditions (id INT NOT NULL, item_id INT DEFAULT NULL, name VARCHAR(255) NOT NULL, href VARCHAR(255) NOT NULL, width INT NOT NULL, height INT NOT NULL, mimetype VARCHAR(255) DEFAULT NULL, media VARCHAR(255) NOT NULL, deleted_at TIMESTAMP(0) WITHOUT TIME ZONE DEFAULT NULL, PRIMARY KEY(id))');
         $this->addSql('CREATE INDEX IDX_C89753FD126F525E ON swp_item_renditions (item_id)');
         $this->addSql('ALTER TABLE swp_item_renditions ADD CONSTRAINT FK_C89753FD126F525E FOREIGN KEY (item_id) REFERENCES swp_item (id) ON DELETE CASCADE NOT DEFERRABLE INITIALLY IMMEDIATE');
-        $this->addSql('ALTER TABLE swp_item ADD name VARCHAR(255) NOT NULL');
+        $this->addSql('ALTER TABLE swp_item ADD name VARCHAR(255) DEFAULT NULL');
         $this->addSql('ALTER TABLE swp_item ALTER pub_status SET NOT NULL');
         $this->addSql('ALTER TABLE swp_article ADD package_id INT DEFAULT NULL');
         $this->addSql('UPDATE swp_article SET package_id = (SELECT distinct on (p.guid) p.id FROM swp_package AS p WHERE code = p.guid)');
