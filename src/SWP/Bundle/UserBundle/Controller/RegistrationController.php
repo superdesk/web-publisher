@@ -16,7 +16,6 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\UserBundle\Controller;
 
-use FOS\RestBundle\Controller\FOSRestController;
 use FOS\UserBundle\Event\FilterUserResponseEvent;
 use FOS\UserBundle\Event\FormEvent;
 use FOS\UserBundle\Event\GetResponseUserEvent;
@@ -29,11 +28,12 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use SWP\Bundle\UserBundle\Form\Type\RegistrationFormType;
 use SWP\Component\Common\Response\ResponseContext;
 use SWP\Component\Common\Response\SingleResourceResponse;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\ConflictHttpException;
 
-class RegistrationController extends FOSRestController
+class RegistrationController extends Controller
 {
     /**
      * Register new user.

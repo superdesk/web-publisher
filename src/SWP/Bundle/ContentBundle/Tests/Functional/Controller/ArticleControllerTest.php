@@ -14,6 +14,8 @@
 
 namespace SWP\Bundle\ContentBundle\Tests\Functional\Controller;
 
+use SWP\Bundle\ContentBundle\Model\Article;
+use SWP\Bundle\ContentBundle\Model\ArticleInterface;
 use SWP\Bundle\ContentBundle\Tests\Functional\WebTestCase;
 use Symfony\Component\Routing\RouterInterface;
 
@@ -222,10 +224,10 @@ class ArticleControllerTest extends WebTestCase
         self::assertEquals(200, $client->getResponse()->getStatusCode());
 
         $content = json_decode($client->getResponse()->getContent(), true);
-        self::assertEquals(5, $content['total']);
+        self::assertEquals(6, $content['total']);
 
         $content = $this->getArticlesByStatus('published');
-        self::assertEquals(4, $content['total']);
+        self::assertEquals(5, $content['total']);
 
         $content = $this->getArticlesByStatus('fake');
         self::assertEquals(0, $content['total']);
@@ -243,9 +245,9 @@ class ArticleControllerTest extends WebTestCase
     public function testFilterArticlesByRoute()
     {
         $content = $this->getArticlesByRouteId(1);
-        self::assertEquals(5, $content['total']);
+        self::assertEquals(3, $content['total']);
 
-        $content = $this->getArticlesByRouteId(2);
+        $content = $this->getArticlesByRouteId(2, ArticleInterface::STATUS_CANCELED);
         self::assertEquals(1, $content['total']);
         self::assertEquals(2, $content['_embedded']['_items'][0]['route']['id']);
         self::assertEquals('Article 3', $content['_embedded']['_items'][0]['title']);
@@ -254,6 +256,16 @@ class ArticleControllerTest extends WebTestCase
         self::assertEquals(1, $content['total']);
         self::assertEquals(3, $content['_embedded']['_items'][0]['route']['id']);
         self::assertEquals('Features client1', $content['_embedded']['_items'][0]['title']);
+
+        $content = $this->getArticlesByRouteId(4);
+        self::assertEquals(1, $content['total']);
+        self::assertEquals(4, $content['_embedded']['_items'][0]['route']['id']);
+        self::assertEquals('Lifestyle article 1', $content['_embedded']['_items'][0]['title']);
+
+        $content = $this->getArticlesByRouteId(2, ArticleInterface::STATUS_PUBLISHED, true);
+        self::assertEquals(1, $content['total']);
+        self::assertEquals(4, $content['_embedded']['_items'][0]['route']['id']);
+        self::assertEquals('Lifestyle article 1', $content['_embedded']['_items'][0]['title']);
     }
 
     public function testFilterArticlesByRouteAndStatus()
@@ -283,6 +295,48 @@ class ArticleControllerTest extends WebTestCase
         self::assertEquals(0, $content['total']);
     }
 
+    public function testFilterArticlesByAuthor()
+    {
+        $content = $this->getArticlesByAuthor('Jhon Doe');
+        self::assertEquals(8, $content['total']);
+
+        $content = $this->getArticlesByAuthor('John Doe');
+        self::assertEquals(0, $content['total']);
+    }
+
+    public function testFilterArticlesByDate()
+    {
+        $date = '2017-04-05 12:12:00';
+        $content = $this->getArticlesByPublicationDate($date, 'publishedAfter');
+        self::assertEquals(4, $content['total']);
+
+        $now = new \DateTime('now');
+        $now->modify('-1 minute');
+        $content = $this->getArticlesByPublicationDate($now->format('Y-m-d H:i:s'), 'publishedBefore');
+        self::assertEquals(1, $content['total']);
+
+        $client = static::createClient();
+        $client->request('GET', $this->router->generate('swp_api_content_list_articles', [
+            'publishedAfter' => '2017-04-05 12:10:00',
+            'publishedBefore' => '2017-04-05 12:15:00',
+        ]));
+        self::assertEquals(200, $client->getResponse()->getStatusCode());
+        $content = json_decode($client->getResponse()->getContent(), true);
+        self::assertEquals(1, $content['total']);
+    }
+
+    public function testFilteringArticlesByTitle()
+    {
+        $content = $this->getArticlesByTitle('Features client1');
+        self::assertEquals(1, $content['total']);
+
+        $content = $this->getArticlesByTitle('Article 1');
+        self::assertEquals(2, $content['total']);
+
+        $content = $this->getArticlesByTitle('Features');
+        self::assertEquals(2, $content['total']);
+    }
+
     public function testArticleDelete()
     {
         $client = static::createClient();
@@ -296,10 +350,48 @@ class ArticleControllerTest extends WebTestCase
         self::assertEquals(404, $client->getResponse()->getStatusCode());
     }
 
-    private function getArticlesByRouteId($routeId)
+    private function getArticlesByRouteId($routeId, $status = ArticleInterface::STATUS_PUBLISHED, $includeSubRoutes = false)
     {
         $client = static::createClient();
-        $client->request('GET', $this->router->generate('swp_api_content_list_articles', ['route' => $routeId]));
+
+        $parameters = [
+            'route' => $routeId,
+            'status' => $status,
+        ];
+        if ($includeSubRoutes) {
+            $parameters['includeSubRoutes'] = true;
+        }
+
+        $client->request('GET', $this->router->generate('swp_api_content_list_articles', $parameters));
+        self::assertEquals(200, $client->getResponse()->getStatusCode());
+
+        return json_decode($client->getResponse()->getContent(), true);
+    }
+
+    private function getArticlesByAuthor($author)
+    {
+        $client = static::createClient();
+        $client->request('GET', $this->router->generate('swp_api_content_list_articles', ['author' => $author]));
+        self::assertEquals(200, $client->getResponse()->getStatusCode());
+
+        return json_decode($client->getResponse()->getContent(), true);
+    }
+
+    private function getArticlesByPublicationDate($date, $type)
+    {
+        $client = static::createClient();
+        $client->request('GET', $this->router->generate('swp_api_content_list_articles', [$type => $date]));
+        self::assertEquals(200, $client->getResponse()->getStatusCode());
+
+        return json_decode($client->getResponse()->getContent(), true);
+    }
+
+    private function getArticlesByTitle($query)
+    {
+        $client = static::createClient();
+        $client->request('GET', $this->router->generate('swp_api_content_list_articles', [
+            'query' => $query,
+        ]));
         self::assertEquals(200, $client->getResponse()->getStatusCode());
 
         return json_decode($client->getResponse()->getContent(), true);

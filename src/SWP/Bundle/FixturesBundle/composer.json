@@ -17,7 +17,7 @@
   ],
   "require": {
     "php": "^7.0",
-    "symfony/dependency-injection": "~3.1",
+    "symfony/dependency-injection": "^3.1",
     "doctrine/common": "2.6.*",
     "nelmio/alice": "2.2.*",
     "liip/functional-test-bundle": "1.6.*"
@@ -31,17 +31,12 @@
     ],
     "psr-4": { "SWP\\Bundle\\FixturesBundle\\": "" }
   },
-  "autoload-dev": {
-    "psr-4": {
-      "SWP\\Bundle\\FixturesBundle\\Tests\\": "Tests/"
-    }
-  },
   "config": {
     "bin-dir": "bin"
   },
   "extra": {
     "branch-alias": {
-      "dev-master": "0.5-dev"
+      "dev-master": "0.6-dev"
     }
   }
 }

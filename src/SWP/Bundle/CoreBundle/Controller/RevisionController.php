@@ -17,6 +17,7 @@ namespace SWP\Bundle\CoreBundle\Controller;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use SWP\Component\Common\Response\ResponseContext;
 use SWP\Component\Common\Response\SingleResourceResponse;
 use SWP\Component\Revision\Model\RevisionInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -125,7 +126,10 @@ class RevisionController extends Controller
         $revision = $this->get('swp_revision.context.revision')->getWorkingRevision();
         $revisionManager->publish($revision);
 
-        return new SingleResourceResponse($revision);
+        $responseContext = new ResponseContext();
+        $responseContext->clearCookie('swp_revision_key');
+
+        return new SingleResourceResponse($revision, $responseContext);
     }
 
     /**

@@ -55,7 +55,7 @@ class MetaRouter extends DynamicRouter
             $route = $name;
         }
 
-        if (null === $route) {
+        if (null === $route || is_array($route)) {
             throw new RouteNotFoundException(sprintf('Unable to generate a URL for the named route "%s" as such route does not exist.', $name));
         }
 

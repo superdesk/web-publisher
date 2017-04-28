@@ -412,7 +412,7 @@ class BaseContent implements ContentInterface
     /**
      * {@inheritdoc}
      */
-    public function getKeywords(): array
+    public function getKeywords()
     {
         return $this->keywords;
     }
@@ -428,7 +428,7 @@ class BaseContent implements ContentInterface
     /**
      * {@inheritdoc}
      */
-    public function getPubStatus(): string
+    public function getPubStatus()
     {
         return $this->pubStatus;
     }

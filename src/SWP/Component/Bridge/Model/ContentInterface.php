@@ -187,7 +187,7 @@ interface ContentInterface
     /**
      * @return array
      */
-    public function getKeywords(): array;
+    public function getKeywords();
 
     /**
      * @param array $keywords
@@ -197,7 +197,7 @@ interface ContentInterface
     /**
      * @return string
      */
-    public function getPubStatus(): string;
+    public function getPubStatus();
 
     /**
      * @param string $pubStatus

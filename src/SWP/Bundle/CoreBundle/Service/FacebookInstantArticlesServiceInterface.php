@@ -16,6 +16,7 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\CoreBundle\Service;
 
+use Facebook\InstantArticles\Client\InstantArticleStatus;
 use Facebook\InstantArticles\Elements\InstantArticle;
 use SWP\Bundle\ContentBundle\Model\ArticleInterface;
 use SWP\Bundle\CoreBundle\Model\FacebookInstantArticlesFeedInterface;
@@ -41,4 +42,12 @@ interface FacebookInstantArticlesServiceInterface
      * @throws \Exception
      */
     public function updateSubmissionStatus(string $submissionId);
+
+    /**
+     * @param FacebookInstantArticlesFeedInterface $feed
+     * @param ArticleInterface                     $article
+     *
+     * @return null|InstantArticleStatus
+     */
+    public function removeInstantArticle(FacebookInstantArticlesFeedInterface $feed, ArticleInterface $article);
 }

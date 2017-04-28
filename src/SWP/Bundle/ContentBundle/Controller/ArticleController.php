@@ -41,7 +41,12 @@ class ArticleController extends Controller
      *     },
      *     filters={
      *         {"name"="status", "dataType"="string", "pattern"="new|published|unpublished|canceled"},
-     *         {"name"="route", "dataType"="integer"}
+     *         {"name"="route", "dataType"="integer"},
+     *         {"name"="includeSubRoutes", "dataType"="boolean"},
+     *         {"name"="publishedBefore", "dataType"="datetime", "pattern"="Y-m-d h:i:s"},
+     *         {"name"="publishedAfter", "dataType"="datetime", "pattern"="Y-m-d h:i:s"},
+     *         {"name"="author", "dataType"="string", "pattern"="John Doe | John Doe, Matt Smith"},
+     *         {"name"="query", "dataType"="string", "pattern"="Part of title"}
      *     }
      * )
      * @Route("/api/{version}/content/articles/", options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_content_list_articles")
@@ -55,10 +60,31 @@ class ArticleController extends Controller
      */
     public function listAction(Request $request)
     {
+        $authors = '';
+        if (null !== $request->query->get('author', null)) {
+            $authors = explode(', ', $request->query->get('author'));
+        }
+
+        if ($request->query->get('route', false) && $request->query->get('includeSubRoutes', false)) {
+            $routeObject = $this->get('swp.provider.route')->getOneById($request->query->get('route'));
+
+            if (null !== $routeObject) {
+                $ids = [$routeObject->getId()];
+                foreach ($routeObject->getChildren() as $child) {
+                    $ids[] = $child->getId();
+                }
+                $request->query->set('route', $ids);
+            }
+        }
+
         $articles = $this->get('swp.repository.article')
             ->getPaginatedByCriteria(new Criteria([
                 'status' => $request->query->get('status', ''),
                 'route' => $request->query->get('route', ''),
+                'publishedBefore' => $request->query->has('publishedBefore') ? new \DateTime($request->query->get('publishedBefore')) : '',
+                'publishedAfter' => $request->query->has('publishedAfter') ? new \DateTime($request->query->get('publishedAfter')) : '',
+                'author' => $authors,
+                'query' => $request->query->get('query', ''),
             ]), [], new PaginationData($request));
 
         return new ResourcesListResponse($articles);

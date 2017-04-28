@@ -24,15 +24,16 @@ use SWP\Bundle\CoreBundle\Model\ContentListItem;
 use SWP\Bundle\FacebookInstantArticlesBundle\Parser\TemplateParser;
 use SWP\Component\ContentList\ContentListEvents;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Request;
 
 class ParsingPreviewController extends Controller
 {
     /**
-     * @Route("/facebook/instantarticles/preview/{articleId}", options={"expose"=true}, name="swp_fbia_preview_parsing")
+     * @Route("/facebook/instantarticles/preview/{articleId}/", options={"expose"=true}, name="swp_fbia_preview_parsing")
      * @Method("GET")
      * @Template()
      */
-    public function previewAction($articleId)
+    public function previewAction(Request $request, $articleId)
     {
         /** @var TemplateParser $templateParser */
         $templateParser = $this->get('swp_facebook.template_parser');
@@ -40,14 +41,19 @@ class ParsingPreviewController extends Controller
         $this->get('swp_template_engine_context.factory.meta_factory')->create($article);
         $instantArticle = $templateParser->parse();
 
-        $contentList = $this->get('swp.repository.content_list')->findOneById(1);
-        $contentListItem = new ContentListItem();
-        $contentListItem->setContent($article);
-        $contentListItem->setContentList($contentList);
-        $this->get('event_dispatcher')->dispatch(ContentListEvents::POST_ITEM_ADD, new ContentListEvent(
-            $contentList,
-            $contentListItem
-        ));
+        if ($request->query->has('listId')) {
+            $contentList = $this->get('swp.repository.content_list')->findOneById($request->query->get('listId'));
+            $contentListItem = new ContentListItem();
+            $contentListItem->setContent($article);
+            $contentListItem->setContentList($contentList);
+            $this->get('event_dispatcher')->dispatch(
+                ContentListEvents::POST_ITEM_ADD,
+                new ContentListEvent(
+                    $contentList,
+                    $contentListItem
+                )
+            );
+        }
 
         return $this->render('SWPFacebookInstantArticlesBundle:ParsingPreview:preview.html.twig', [
             'instantArticle' => $instantArticle,
