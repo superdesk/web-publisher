@@ -25,7 +25,7 @@ class Version20170427114227 extends AbstractMigration
         $this->addSql('ALTER TABLE swp_item ADD name VARCHAR(255) NOT NULL');
         $this->addSql('ALTER TABLE swp_item ALTER pub_status SET NOT NULL');
         $this->addSql('ALTER TABLE swp_article ADD package_id INT DEFAULT NULL');
-        $this->addSql('UPDATE swp_article SET package_id = (SELECT distinct on (p.guid) p.id FROM swp_package AS p WHERE code = p.guid);');
+        $this->addSql('UPDATE swp_article SET package_id = (SELECT distinct on (p.guid) p.id FROM swp_package AS p WHERE code = p.guid)');
         $this->addSql('ALTER TABLE swp_article ALTER keywords SET NOT NULL');
         $this->addSql('ALTER TABLE swp_article ALTER tenant_code SET NOT NULL');
         $this->addSql('ALTER TABLE swp_article ADD CONSTRAINT FK_FB21E858F44CABFF FOREIGN KEY (package_id) REFERENCES swp_package (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
