@@ -1,5 +1,5 @@
-Custom error pages
-==================
+Creating custom templates
+=========================
 
 Setting error pages from theme
 ------------------------------

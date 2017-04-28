@@ -1,7 +1,7 @@
-Publishing and un-publishing content
+(Un)publishing content
 ====================================
 
-Deciding if content is visible for user in Web Publisher is done dynamically - based on user roles.
+Deciding if content is visible for user in Publisher is done dynamically - based on user roles.
 
 .. note::
 
