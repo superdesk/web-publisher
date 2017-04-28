@@ -25,6 +25,7 @@ class Version20170427114227 extends AbstractMigration
         $this->addSql('ALTER TABLE swp_item ADD name VARCHAR(255) NOT NULL');
         $this->addSql('ALTER TABLE swp_item ALTER pub_status SET NOT NULL');
         $this->addSql('ALTER TABLE swp_article ADD package_id INT DEFAULT NULL');
+        $this->addSql('UPDATE swp_article SET package_id = (SELECT distinct on (p.guid) p.id FROM swp_package AS p WHERE code = p.guid);');
         $this->addSql('ALTER TABLE swp_article ALTER keywords SET NOT NULL');
         $this->addSql('ALTER TABLE swp_article ALTER tenant_code SET NOT NULL');
         $this->addSql('ALTER TABLE swp_article ADD CONSTRAINT FK_FB21E858F44CABFF FOREIGN KEY (package_id) REFERENCES swp_package (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
@@ -43,7 +44,6 @@ class Version20170427114227 extends AbstractMigration
         $this->addSql('ALTER TABLE swp_rule ADD COLUMN organization_id INT DEFAULT NULL');
         $this->addSql('UPDATE swp_rule SET organization_id = (SELECT t.organization_id FROM swp_tenant AS t WHERE tenant_code = t.code)');
         $this->addSql('ALTER TABLE swp_rule ALTER organization_id DROP DEFAULT');
-        $this->addSql('ALTER TABLE swp_rule ALTER tenant_code SET NOT NULL');
         $this->addSql('ALTER TABLE swp_rule ALTER tenant_code DROP NOT NULL');
         $this->addSql('ALTER TABLE swp_rule ADD CONSTRAINT FK_B8CF81B432C8A3DE FOREIGN KEY (organization_id) REFERENCES swp_organization (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('CREATE INDEX IDX_B8CF81B432C8A3DE ON swp_rule (organization_id)');
