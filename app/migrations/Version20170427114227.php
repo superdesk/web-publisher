@@ -23,6 +23,7 @@ class Version20170427114227 extends AbstractMigration
         $this->addSql('CREATE INDEX IDX_C89753FD126F525E ON swp_item_renditions (item_id)');
         $this->addSql('ALTER TABLE swp_item_renditions ADD CONSTRAINT FK_C89753FD126F525E FOREIGN KEY (item_id) REFERENCES swp_item (id) ON DELETE CASCADE NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('ALTER TABLE swp_item ADD name VARCHAR(255) DEFAULT NULL');
+        $this->addSql('UPDATE swp_item SET pub_status = \'usable\' WHERE pub_status IS NULL');
         $this->addSql('ALTER TABLE swp_item ALTER pub_status SET NOT NULL');
         $this->addSql('ALTER TABLE swp_article ADD package_id INT DEFAULT NULL');
         $this->addSql('UPDATE swp_article SET package_id = (SELECT distinct on (p.guid) p.id FROM swp_package AS p WHERE code = p.guid)');
