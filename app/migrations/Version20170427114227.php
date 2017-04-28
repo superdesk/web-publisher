@@ -35,7 +35,9 @@ class Version20170427114227 extends AbstractMigration
         $this->addSql('ALTER TABLE swp_container ALTER created_at SET DEFAULT \'now\'');
         $this->addSql('ALTER TABLE swp_container ALTER uuid DROP DEFAULT');
         $this->addSql('ALTER TABLE swp_image DROP tenant_code');
-        $this->addSql('ALTER TABLE swp_package ADD organization_id INT NOT NULL');
+        $this->addSql('ALTER TABLE swp_package ADD organization_id INT DEFAULT NULL');
+        $this->addSql('UPDATE swp_package SET organization_id = (SELECT t.id FROM swp_organization AS t LIMIT 1)');
+        $this->addSql('ALTER TABLE swp_package ALTER organization_id DROP DEFAULT');
         $this->addSql('ALTER TABLE swp_package ADD body TEXT DEFAULT NULL');
         $this->addSql('ALTER TABLE swp_package ADD status VARCHAR(255) NOT NULL');
         $this->addSql('ALTER TABLE swp_package ALTER slugline DROP NOT NULL');
