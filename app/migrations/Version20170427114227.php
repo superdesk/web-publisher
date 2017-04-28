@@ -39,7 +39,11 @@ class Version20170427114227 extends AbstractMigration
         $this->addSql('UPDATE swp_package SET organization_id = (SELECT t.id FROM swp_organization AS t LIMIT 1)');
         $this->addSql('ALTER TABLE swp_package ALTER organization_id DROP DEFAULT');
         $this->addSql('ALTER TABLE swp_package ADD body TEXT DEFAULT NULL');
-        $this->addSql('ALTER TABLE swp_package ADD status VARCHAR(255) NOT NULL');
+        $this->addSql('ALTER TABLE swp_package ADD status VARCHAR(255) DEFAULT NULL');
+        $this->addSql('UPDATE swp_package SET status = \'new\' WHERE (SELECT COUNT(a.id) FROM swp_article AS a WHERE a.package_id = id) = 0');
+        $this->addSql('UPDATE swp_package SET status = \'published\' WHERE (SELECT COUNT(a.id) FROM swp_article AS a WHERE a.package_id = id AND a.status = \'published\') > 0');
+        $this->addSql('UPDATE swp_package SET status = \'unpublished\' WHERE (SELECT COUNT(a.id) FROM swp_article AS a WHERE a.package_id = id AND a.status = \'unpublished\') > 0');
+        $this->addSql('ALTER TABLE swp_package ALTER status SET NOT NULL');
         $this->addSql('ALTER TABLE swp_package ALTER slugline DROP NOT NULL');
         $this->addSql('UPDATE swp_package SET pub_status = \'usable\' WHERE pub_status IS NULL');
         $this->addSql('ALTER TABLE swp_package ALTER pub_status SET NOT NULL');
