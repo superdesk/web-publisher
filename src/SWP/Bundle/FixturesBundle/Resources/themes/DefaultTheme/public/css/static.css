@@ -5,6 +5,7 @@
 
 .header_wrap {
    background: #fff;
+   padding-top: 30px;
 }
 
 .wrap_menu_wrap{
@@ -605,3 +606,4 @@ body.okayNav-loaded {
   -webkit-transform: rotate(90deg);
           transform: rotate(90deg);
 }
+
