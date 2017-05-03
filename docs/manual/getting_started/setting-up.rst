@@ -12,7 +12,7 @@ b) add all js changes from `public/js/` to `public/dist/all.js` file
 - For applying changes for production, there is the task 'build' which will also minify css and js and add specific version to these files (to prevent browser caching issues)
 - You can also manually run tasks `sass`, `js`, `cssmin`, `jsmin`, `version`, as well as `sw` (service worker steps that ensure propper pre-caching on browser side)
 
-To start from scrach, you should know that theme structure:
+To start from scrach, you should know the theme structure:
 
 .. code-block:: bash
 

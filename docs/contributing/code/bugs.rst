@@ -2,7 +2,7 @@ Reporting a Bug
 ===============
 
 Whenever you find a bug, we kindly ask you to report it. It helps
-us make a better Superdesk Web Publisher.
+us make a better Superdesk Publisher.
 
 .. caution::
 
@@ -25,7 +25,7 @@ If your problem definitely looks like a bug, report it using the bug
   (providing a unit test that illustrates the bug is best);
 
 * Give as much detail as possible about your environment (OS, PHP version,
-  Superdesk Web Publisher version, enabled extensions, ...);
+  Superdesk Publisher version, enabled extensions, ...);
 
 * *(optional)* Attach a :doc:`patch <patches>`.
 

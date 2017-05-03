@@ -1,7 +1,7 @@
 Manual
 ======
 
-**New Generation Web Publishing**
+**New Generation Publishing**
 
 Modern online newsrooms require powerful publishing tools that can support their need to get stories out on time, 24/7 and delivered to any channel, platform or device. Successful digital publishers rely on the technology used to create content as much as on the content quality itself.
 

@@ -4,7 +4,7 @@ Creating custom templates
 Setting error pages from theme
 ------------------------------
 
-Web Publisher provides simple default templates for error pages. You can find them in :code:`app/Resources/TwigBundle/views/Exception/` directory.
+Publisher provides simple default templates for error pages. You can find them in :code:`app/Resources/TwigBundle/views/Exception/` directory.
 
 To override these templates from theme you need to create :code:`TwigBundle/views/Exception/` directory in your theme, and put there new error pages files.
 
