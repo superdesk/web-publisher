@@ -1,5 +1,21 @@
-Templates
-=========
+Templates System
+================
+
+The Superdesk Web Publisher templates system has its own git repository, at: https://github.com/SuperdeskWebPublisher/templates-system
+
+.. toctree::
+   :maxdepth: 4
+   :glob:
+
+   twig
+   page_templates
+   custom_pages
+   properties
+   templates_features
+   article_media
+   templates_caching
+   tips
+
 
 Templates inheritance
 ---------------------
