@@ -199,12 +199,23 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface, Orde
     public function loadArticles($env, ObjectManager $manager)
     {
         if ($env !== 'test') {
-            $articles = $this->loadFixtures(
-                '@SWPFixturesBundle/Resources/fixtures/ORM/'.$env.'/article.yml',
+            $this->loadFixtures([
+                '@SWPFixturesBundle/Resources/fixtures/ORM/'.$env.'/package.yml',
+            ],
                 $manager,
                 [
                     'providers' => [$this],
                 ]
+            );
+
+            $articles = $this->loadFixtures([
+                    '@SWPFixturesBundle/Resources/fixtures/ORM/'.$env.'/article.yml',
+                ],
+                $manager,
+                [
+                    'providers' => [$this],
+                ],
+                true
             );
 
             $renditions = [
