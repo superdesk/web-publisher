@@ -53,7 +53,7 @@ class KnpPaginatorRepresentationFactory
      */
     public function createRepresentation(AbstractPagination $pagination, Request $request, $collectionName = '_items')
     {
-        $route = new Route($request->get('_route', 'homepage'), $request->get('_route_params', $request->query->all()));
+        $route = new Route($request->get('_route', 'homepage'), array_merge($request->get('_route_params', $request->query->all()), ['sorting' => $request->query->get('sorting', [])]));
 
         $routeParameters = is_array($route->getParameters()) ? $route->getParameters() : [];
 

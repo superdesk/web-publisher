@@ -85,7 +85,7 @@ class ArticleController extends Controller
                 'publishedAfter' => $request->query->has('publishedAfter') ? new \DateTime($request->query->get('publishedAfter')) : '',
                 'author' => $authors,
                 'query' => $request->query->get('query', ''),
-            ]), [], new PaginationData($request));
+            ]), $request->query->get('sorting', []), new PaginationData($request));
 
         return new ResourcesListResponse($articles);
     }
