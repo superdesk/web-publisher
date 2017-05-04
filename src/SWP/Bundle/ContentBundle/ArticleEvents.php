@@ -52,6 +52,28 @@ class ArticleEvents
     const POST_PUBLISH = 'swp.article.published';
 
     /**
+     * The PUBLISH event occurs on article publish.
+     *
+     * This event allows you to modify article during publishing.
+     *
+     * @Event("SWP\Bundle\ContentBundle\Event\ArticleEvent")
+     *
+     * @var string
+     */
+    const PUBLISH = 'swp.article.publish';
+
+    /**
+     * The UNPUBLISH event occurs on article un-publish.
+     *
+     * This event allows you to modify article during un-publishing.
+     *
+     * @Event("SWP\Bundle\ContentBundle\Event\ArticleEvent")
+     *
+     * @var string
+     */
+    const UNPUBLISH = 'swp.article.unpublish';
+
+    /**
      * The POST_UNPUBLISH event occurs at the very ending of article
      * unpublishing.
      *
@@ -62,4 +84,15 @@ class ArticleEvents
      * @var string
      */
     const POST_UNPUBLISH = 'swp.article.unpublished';
+
+    /**
+     * The CANCELED event occurs on article cancellation.
+     *
+     * This event allows you to modify article during cancellation.
+     *
+     * @Event("SWP\Bundle\ContentBundle\Event\ArticleEvent")
+     *
+     * @var string
+     */
+    const CANCELED = 'swp.article.canceled';
 }

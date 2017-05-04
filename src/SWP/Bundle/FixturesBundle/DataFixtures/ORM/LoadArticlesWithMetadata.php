@@ -4,6 +4,7 @@ namespace SWP\Bundle\FixturesBundle\DataFixtures\ORM;
 
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
+use SWP\Bundle\CoreBundle\Model\PackageInterface;
 use SWP\Bundle\FixturesBundle\AbstractFixture;
 
 class LoadArticlesWithMetadata extends AbstractFixture implements FixtureInterface
@@ -93,6 +94,10 @@ class LoadArticlesWithMetadata extends AbstractFixture implements FixtureInterfa
                     'located' => 'Sydney',
                     'byline' => $articleData['author'],
                 ]);
+                $package = $this->createPackage($articleData);
+                $manager->persist($package);
+                $article->setPackage($package);
+
                 $manager->persist($article);
                 $articleService->publish($article);
                 $article->setTenantCode($articleData['tenant']);
@@ -102,5 +107,21 @@ class LoadArticlesWithMetadata extends AbstractFixture implements FixtureInterfa
 
             $manager->flush();
         }
+    }
+
+    private function createPackage(array $articleData)
+    {
+        /** @var PackageInterface $package */
+        $package = $this->container->get('swp.factory.package')->create();
+        $package->setHeadline($articleData['title']);
+        $package->setType('text');
+        $package->setPubStatus('usable');
+        $package->setGuid($this->container->get('swp_multi_tenancy.random_string_generator')->generate(10));
+        $package->setLanguage('en');
+        $package->setUrgency(1);
+        $package->setPriority(1);
+        $package->setVersion(1);
+
+        return $package;
     }
 }

@@ -16,9 +16,8 @@ namespace spec\SWP\Bundle\CoreBundle\Model;
 
 use SWP\Bundle\CoreBundle\Model\Rule;
 use PhpSpec\ObjectBehavior;
-use SWP\Component\MultiTenancy\Model\TenantAwareInterface;
-use SWP\Component\Rule\Model\RuleInterface;
-use SWP\Component\Storage\Model\PersistableInterface;
+use SWP\Bundle\CoreBundle\Model\RuleInterface;
+use SWP\Component\MultiTenancy\Model\OrganizationInterface;
 
 /**
  * @mixin Rule
@@ -28,13 +27,11 @@ final class RuleSpec extends ObjectBehavior
     public function it_is_initializable()
     {
         $this->shouldHaveType(Rule::class);
-        $this->shouldHaveType(RuleInterface::class);
     }
 
     public function it_implements_an_interface()
     {
-        $this->shouldImplement(TenantAwareInterface::class);
-        $this->shouldImplement(PersistableInterface::class);
+        $this->shouldImplement(RuleInterface::class);
     }
 
     public function it_has_no_tenant_code_by_default()
@@ -46,5 +43,16 @@ final class RuleSpec extends ObjectBehavior
     {
         $this->setTenantCode('eyt645');
         $this->getTenantCode()->shouldReturn('eyt645');
+    }
+
+    public function it_has_no_organization_by_default()
+    {
+        $this->getOrganization()->shouldReturn(null);
+    }
+
+    public function its_organization_is_mutable(OrganizationInterface $organization)
+    {
+        $this->setOrganization($organization);
+        $this->getOrganization()->shouldReturn($organization);
     }
 }

@@ -16,6 +16,7 @@ namespace SWP\Bundle\RuleBundle\DependencyInjection;
 
 use SWP\Bundle\RuleBundle\Doctrine\ORM\RuleRepository;
 use SWP\Component\Rule\Model\Rule;
+use SWP\Component\Rule\Model\RuleInterface;
 use SWP\Component\Storage\Factory\Factory;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
@@ -45,6 +46,7 @@ class Configuration implements ConfigurationInterface
                                             ->children()
                                                 ->scalarNode('model')->cannotBeEmpty()->defaultValue(Rule::class)->end()
                                                 ->scalarNode('repository')->defaultValue(RuleRepository::class)->end()
+                                                ->scalarNode('interface')->defaultValue(RuleInterface::class)->end()
                                                 ->scalarNode('factory')->defaultValue(Factory::class)->end()
                                                 ->scalarNode('object_manager_name')->defaultValue(null)->end()
                                             ->end()

@@ -26,3 +26,11 @@ SWP\Bundle\CoreBundle\Model\Tenant:
         organization: "@org2"
         homepage: "@route2"
         ampEnabled: true
+    tenant3:
+        name: "<company()>"
+        subdomain: "client2"
+        domainName: "<getParameter('domain')>"
+        themeName: "swp/test-theme"
+        code: "678iop"
+        organization: "@org1"
+        ampEnabled: true

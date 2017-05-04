@@ -37,15 +37,4 @@ final class ArticleMediaSpec extends ObjectBehavior
     {
         $this->shouldHaveType(BaseArticleMedia::class);
     }
-
-    function it_has_no_tenant_code_by_default()
-    {
-        $this->getTenantCode()->shouldReturn(null);
-    }
-
-    function its_tenant_code_is_mutable()
-    {
-        $this->setTenantCode('12345');
-        $this->getTenantCode()->shouldReturn('12345');
-    }
 }

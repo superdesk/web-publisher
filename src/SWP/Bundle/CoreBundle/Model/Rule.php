@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Superdesk Web Publisher Core Bundle.
  *
@@ -14,12 +16,11 @@
 
 namespace SWP\Bundle\CoreBundle\Model;
 
-use SWP\Component\MultiTenancy\Model\TenantAwareInterface;
+use SWP\Component\MultiTenancy\Model\OrganizationAwareTrait;
 use SWP\Component\MultiTenancy\Model\TenantAwareTrait;
-use SWP\Component\Storage\Model\PersistableInterface;
 use SWP\Component\Rule\Model\Rule as BaseRule;
 
-class Rule extends BaseRule implements TenantAwareInterface, PersistableInterface
+class Rule extends BaseRule implements RuleInterface
 {
-    use TenantAwareTrait;
+    use TenantAwareTrait, OrganizationAwareTrait;
 }

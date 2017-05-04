@@ -143,3 +143,19 @@ services:
         class: SWP\Bundle\ContentBundle\Hydrator\ArticleHydrator
         arguments:
              - '@swp.provider.route'
+
+    swp_content_bundle.listener.article_publish:
+        class: SWP\Bundle\ContentBundle\EventListener\ArticlePublishListener
+        arguments:
+            - '@swp.service.article'
+        tags:
+            - { name: kernel.event_listener, event: swp.article.publish, method: publish }
+            - { name: kernel.event_listener, event: swp.article.unpublish, method: unpublish }
+            - { name: kernel.event_listener, event: swp.article.canceled, method: cancel }
+
+    swp_content_bundle.listener.article_subscriber:
+        class: SWP\Bundle\ContentBundle\EventListener\ArticleSubscriber
+        arguments:
+            - '@event_dispatcher'
+        tags:
+            - { name: doctrine.event_subscriber }

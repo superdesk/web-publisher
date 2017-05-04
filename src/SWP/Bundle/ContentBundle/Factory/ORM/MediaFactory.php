@@ -29,6 +29,7 @@ use SWP\Bundle\ContentBundle\Model\ImageInterface;
 use SWP\Bundle\ContentBundle\Model\ImageRenditionInterface;
 use SWP\Component\Bridge\Model\ItemInterface;
 use SWP\Component\Bridge\Model\Rendition;
+use SWP\Component\Bridge\Model\RenditionInterface;
 use SWP\Component\Storage\Factory\FactoryInterface;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
@@ -129,18 +130,23 @@ class MediaFactory implements MediaFactoryInterface
             return $articleMedia;
         }
 
-        $originalRendition = $item->getRenditions()['original'];
+        $originalRendition = $item->getRenditions()->filter(
+            function (RenditionInterface $rendition) {
+                return 'original' === $rendition->getName();
+            }
+        )->first();
+
         $articleMedia->setMimetype($originalRendition->getMimetype());
         $articleMedia->setKey($key);
         $image = $this->findImage($originalRendition->getMedia());
         $articleMedia->setImage($image);
-        foreach ($item->getRenditions() as $key => $rendition) {
+        foreach ($item->getRenditions() as $rendition) {
             $image = $this->findImage($rendition->getMedia());
             if (null === $image) {
                 continue;
             }
 
-            $imageRendition = $this->createImageRendition($image, $articleMedia, $key, $rendition);
+            $imageRendition = $this->createImageRendition($image, $articleMedia, $rendition->getName(), $rendition);
             $this->imageRepository->persist($imageRendition);
 
             $articleMedia->addRendition($imageRendition);

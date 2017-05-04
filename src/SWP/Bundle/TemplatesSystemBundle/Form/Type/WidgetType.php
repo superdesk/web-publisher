@@ -16,7 +16,7 @@ namespace SWP\Bundle\TemplatesSystemBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\CallbackTransformer;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Exception\TransformationFailedException;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -30,8 +30,8 @@ class WidgetType extends AbstractType
             ->add('type', null, [
                 'required' => false,
             ])
-            ->add('visible', ChoiceType::class, [
-                'choices' => ['false', 'true'],
+            ->add('visible', TextType::class, [
+                'description' => 'Defines whether widget is visible or not (true or false).',
             ])
             ->add('parameters', TextType::class, [
                 'required' => false,
@@ -43,7 +43,11 @@ class WidgetType extends AbstractType
                     return $value;
                 },
                 function ($value) {
-                    return filter_var($value, FILTER_VALIDATE_BOOLEAN);
+                    if (is_bool($value) || in_array($value, ['true', 'false', '1', '0', null])) {
+                        return filter_var($value, FILTER_VALIDATE_BOOLEAN);
+                    }
+
+                    throw new TransformationFailedException('Wrong boolean value passed.');
                 }
             ));
 

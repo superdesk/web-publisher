@@ -25,6 +25,24 @@ final class MultiTenancyEvents
      */
     const TENANT_SET = 'swp.tenant.set';
 
+    /**
+     * The TENANTABLE_ENABLE event occurs on tenantable filter enable.
+     *
+     * @Event("Symfony\Component\EventDispatcher\GenericEvent")
+     *
+     * @var string
+     */
+    const TENANTABLE_ENABLE = 'swp.tenant.tenantable_enable';
+
+    /**
+     * The TENANTABLE_DISABLE event occurs on tenantable filter disable.
+     *
+     * @Event("Symfony\Component\EventDispatcher\GenericEvent")
+     *
+     * @var string
+     */
+    const TENANTABLE_DISABLE = 'swp.tenant.tenantable_disable';
+
     private function __construct()
     {
     }

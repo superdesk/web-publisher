@@ -16,11 +16,12 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\CoreBundle\Security\Authenticator;
 
-use Doctrine\ORM\EntityManagerInterface;
 use SWP\Bundle\CoreBundle\Model\UserInterface as CoreUserInterface;
 use SWP\Bundle\CoreBundle\Repository\ApiKeyRepository;
+use SWP\Bundle\MultiTenancyBundle\MultiTenancyEvents;
 use SWP\Component\MultiTenancy\Context\TenantContextInterface;
 use SWP\Component\MultiTenancy\Repository\TenantRepositoryInterface;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -47,9 +48,9 @@ class TokenAuthenticator extends AbstractGuardAuthenticator
     protected $tenantRepository;
 
     /**
-     * @var EntityManagerInterface
+     * @var EventDispatcherInterface
      */
-    protected $entityManager;
+    protected $eventDispatcher;
 
     /**
      * TokenAuthenticator constructor.
@@ -57,18 +58,18 @@ class TokenAuthenticator extends AbstractGuardAuthenticator
      * @param ApiKeyRepository          $apiKeyRepository
      * @param TenantContextInterface    $tenantContext
      * @param TenantRepositoryInterface $tenantRepository
-     * @param EntityManagerInterface    $entityManager
+     * @param EventDispatcherInterface  $eventDispatcher
      */
     public function __construct(
         ApiKeyRepository $apiKeyRepository,
         TenantContextInterface $tenantContext,
         TenantRepositoryInterface $tenantRepository,
-        EntityManagerInterface $entityManager
+        EventDispatcherInterface $eventDispatcher
     ) {
         $this->apiKeyRepository = $apiKeyRepository;
         $this->tenantContext = $tenantContext;
         $this->tenantRepository = $tenantRepository;
-        $this->entityManager = $entityManager;
+        $this->eventDispatcher = $eventDispatcher;
     }
 
     /**
@@ -90,14 +91,14 @@ class TokenAuthenticator extends AbstractGuardAuthenticator
 
     public function getUser($credentials, UserProviderInterface $userProvider)
     {
-        $this->entityManager->getFilters()->disable('tenantable');
+        $this->eventDispatcher->dispatch(MultiTenancyEvents::TENANTABLE_DISABLE);
+
         $apiKey = $this->apiKeyRepository
             ->getValidToken(str_replace('Basic ', '', $credentials['token']))
             ->getQuery()
             ->getOneOrNullResult();
 
-        $this->entityManager->getFilters()->enable('tenantable')
-            ->setParameter('tenantCode', $this->tenantContext->getTenant()->getCode());
+        $this->eventDispatcher->dispatch(MultiTenancyEvents::TENANTABLE_ENABLE);
 
         if (null === $apiKey) {
             return;

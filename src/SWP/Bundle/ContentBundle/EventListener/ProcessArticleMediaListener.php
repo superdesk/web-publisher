@@ -67,16 +67,18 @@ class ProcessArticleMediaListener
         $package = $event->getPackage();
         $article = $event->getArticle();
 
-        if (null !== $package && 0 === count($package->getItems())) {
+        if (null === $package || (null !== $package && 0 === count($package->getItems()))) {
             return;
         }
 
         $this->removeOldArticleMedia($article);
-        foreach ($package->getItems() as $key => $packageItem) {
+        foreach ($package->getItems() as $packageItem) {
+            $key = $packageItem->getName();
             if (ItemInterface::TYPE_PICTURE === $packageItem->getType() || ItemInterface::TYPE_FILE === $packageItem->getType()) {
                 $this->removeArticleMediaIfNeeded($key, $article);
 
                 $articleMedia = $this->handleMedia($article, $key, $packageItem);
+
                 $this->articleMediaRepository->persist($articleMedia);
             }
 
