@@ -65,7 +65,7 @@ services:
     swp_core.listener.article_rules_subscriber:
         class: SWP\Bundle\CoreBundle\EventSubscriber\ProcessArticleRulesSubscriber
         arguments:
-            - '@swp_rule.processor.rule'
+            - '@swp_core.processor.tenant_aware_rule'
         tags:
             - { name: kernel.event_subscriber }
 

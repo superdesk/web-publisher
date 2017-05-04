@@ -192,6 +192,22 @@ final class ArticleAutoPublishTest extends WebTestCase
 
         $this->createRouteAndPushContent();
 
+        // create route for tenant2
+        $client2 = static::createClient([], [
+            'HTTP_HOST' => 'client2.localhost',
+            'HTTP_Authorization' => base64_encode('client2_token'),
+        ]);
+
+        $client2->request('POST', $this->router->generate('swp_api_content_create_routes'), [
+            'route' => [
+                'name' => 'articles',
+                'type' => RouteInterface::TYPE_COLLECTION,
+                'content' => null,
+            ],
+        ]);
+
+        self::assertEquals(201, $client2->getResponse()->getStatusCode());
+
         $client->request(
             'POST',
             $this->router->generate('swp_api_core_publish_package', ['id' => 1]), [
@@ -200,6 +216,10 @@ final class ArticleAutoPublishTest extends WebTestCase
                         [
                             'tenant' => '123abc',
                             'route' => 4,
+                        ],
+                        [
+                            'tenant' => '678iop',
+                            'route' => 5,
                         ],
                     ],
                 ],
@@ -227,6 +247,19 @@ final class ArticleAutoPublishTest extends WebTestCase
 
         self::assertArrayHasKey('content', $content);
         self::assertEquals($content['content']['id'], $article['id']);
+        self::assertEquals($article['route']['id'], $content['id']);
+
+        $client2->request(
+            'GET',
+            $this->router->generate('swp_api_content_show_articles', ['id' => 'abstract-html-test'])
+        );
+
+        self::assertEquals(200, $client2->getResponse()->getStatusCode());
+
+        $article2 = json_decode($client2->getResponse()->getContent(), true);
+
+        self::assertEquals($article2['route']['id'], 5);
+        self::assertEquals($article2['status'], 'published');
     }
 
     public function testArticlePublishUnpublishBasedOnOrganizationAndArticleRules()

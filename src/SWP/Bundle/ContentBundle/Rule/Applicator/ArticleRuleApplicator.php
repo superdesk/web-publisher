@@ -92,7 +92,8 @@ final class ArticleRuleApplicator extends AbstractRuleApplicator
             $this->articleService->publish($subject);
         }
 
-        if (null === $configuration['published'] || !(bool) $configuration['published']) {
+        if ($subject->getStatus() === ArticleInterface::STATUS_PUBLISHED
+            && (null === $configuration['published'] || !(bool) $configuration['published'])) {
             $this->articleService->unpublish($subject, ArticleInterface::STATUS_UNPUBLISHED);
         }
 
@@ -123,7 +124,7 @@ final class ArticleRuleApplicator extends AbstractRuleApplicator
     {
         $resolver->setDefaults([
             $this->supportedKeys[1] => null,
-            $this->supportedKeys[2] => false,
+            $this->supportedKeys[2] => null,
         ]);
         $resolver->setDefined($this->supportedKeys[0]);
     }
