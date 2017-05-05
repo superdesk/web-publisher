@@ -1,8 +1,7 @@
 Updating database schema after customizing model's mapping
 ==========================================================
 
-If you modified one of the model's mapping file or you added completely new model with mapping,
-you will need to update the database schema.
+If you modified one of the model's mapping file or you added completely new model with mapping, you will need to update the database schema.
 
 There are two ways to do it.
 

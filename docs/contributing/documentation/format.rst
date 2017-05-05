@@ -1,7 +1,7 @@
 Documentation Format
 ====================
 
-The Superdesk Web Publisher documentation uses reStructuredText_ as its markup language and
+The Superdesk Publisher documentation uses reStructuredText_ as its markup language and
 Sphinx_ for generating the documentation in the formats read by the end users,
 such as HTML and PDF.
 
@@ -10,7 +10,7 @@ reStructuredText
 
 reStructuredText is a plaintext markup syntax similar to Markdown, but much
 stricter with its syntax. If you are new to reStructuredText, take some time to
-familiarize with this format by reading the existing `Superdesk Web Publisher documentation`_
+familiarize with this format by reading the existing `Superdesk Publisher documentation`_
 source code.
 
 If you want to learn more about this format, check out the `reStructuredText Primer`_
@@ -172,13 +172,13 @@ New Features or Behaviour Changes
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 If you're documenting a brand new feature or a change that's been made in
-Superdesk Web Publisher, you should precede your description of the change with a
+Superdesk Publisher, you should precede your description of the change with a
 ``.. versionadded:: 2.X`` directive and a short description:
 
 .. code-block:: rst
 
     .. versionadded:: 2.3
-        The ``askHiddenResponse`` method was introduced in Superdesk Web Publisher 2.3.
+        The ``askHiddenResponse`` method was introduced in Superdesk Publisher 2.3.
 
     You can also ask a question and hide the response. This is particularly [...]
 
@@ -189,10 +189,10 @@ how the behaviour has changed:
 
     .. versionadded:: 2.3
         The ``include()`` function is a new MultiTenancy feature that's available in
-        Superdesk Web Publisher 2.3. Prior, the ``{% include %}`` tag was used.
+        Superdesk Publisher 2.3. Prior, the ``{% include %}`` tag was used.
 
-At this point, all the ``versionadded`` tags for Superdesk Web Publisher versions that have
-reached end-of-maintenance will be removed. For example, if Superdesk Web Publisher 2.5 were
+At this point, all the ``versionadded`` tags for Superdesk Publisher versions that have
+reached end-of-maintenance will be removed. For example, if Superdesk Publisher 2.5 were
 released today, and 2.2 had recently reached its end-of-life, the 2.2 ``versionadded``
 tags would be removed from the new ``2.5`` branch.
 
@@ -212,7 +212,7 @@ submitting your documentation, follow these steps:
 
 .. _reStructuredText: http://docutils.sourceforge.net/rst.html
 .. _Sphinx: http://sphinx-doc.org/
-.. _`Superdesk Web Publisher documentation`: https://github.com/superdesk/web-publisher/tree/master/docs
+.. _`Superdesk Publisher documentation`: https://github.com/superdesk/web-publisher/tree/master/docs
 .. _`reStructuredText Primer`: http://sphinx-doc.org/rest.html
 .. _`reStructuredText Reference`: http://docutils.sourceforge.net/docs/user/rst/quickref.html
 .. _`Sphinx Markup Constructs`: http://sphinx-doc.org/markup/

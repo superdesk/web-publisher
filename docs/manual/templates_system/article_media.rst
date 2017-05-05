@@ -4,7 +4,7 @@ Handling Article Media
 Listing Article Media
 ---------------------
 
-Web Publisher have concept of Meta Loaders - one of built in loaders covers article media.
+Publisher have concept of Meta Loaders - one of built in loaders covers article media.
 
 Article Media
 `````````````

@@ -1,7 +1,7 @@
 Templates System
 ================
 
-The Superdesk Web Publisher templates system has its own git repository, at: https://github.com/SuperdeskWebPublisher/templates-system
+The Superdesk Publisher templates system has its own git repository, at: https://github.com/SuperdeskWebPublisher/templates-system
 
 .. toctree::
    :maxdepth: 4
@@ -20,7 +20,7 @@ The Superdesk Web Publisher templates system has its own git repository, at: htt
 Templates inheritance
 ---------------------
 
-Default template name for route and articles in Web Publisher is :code:`article.html.twig`.
+Default template name for route and articles in Publisher is :code:`article.html.twig`.
 
 **Inheritance overview:**
 
