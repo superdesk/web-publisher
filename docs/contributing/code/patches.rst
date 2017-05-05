@@ -2,7 +2,7 @@ Submitting a Patch
 ==================
 
 Patches are the best way to provide a bug fix or to propose enhancements to
-Superdesk Web Publisher.
+Superdesk Publisher.
 
 Step 1: Setup your Environment
 ------------------------------
@@ -10,7 +10,7 @@ Step 1: Setup your Environment
 Install the Software Stack
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Before working on Superdesk Web Publisher, setup a friendly environment with the following
+Before working on Superdesk Publisher, setup a friendly environment with the following
 software:
 
 * Git;
@@ -44,8 +44,7 @@ Set up your user information with your real name and a working email address:
 
     Windows users: when installing Git, the installer will ask what to do with
     line endings, and suggests replacing all LF with CRLF. This is the wrong
-    setting if you wish to contribute to Superdesk Web Publisher! Selecting the as-is method is
-    your best choice, as Git will convert your line feeds to the ones in the
+    setting if you wish to contribute to Superdesk Publisher! Selecting the as-is method is your best choice, as Git will convert your line feeds to the ones in the
     repository. If you have already installed Git, you can check the value of
     this setting by typing:
 
@@ -63,14 +62,14 @@ Set up your user information with your real name and a working email address:
     Replace --global by --local if you want to set it only for the active
     repository
 
-Get the Superdesk Web Publisher Source Code
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Get the Superdesk Publisher Source Code
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Get the Superdesk Web Publisher source code:
+Get the Superdesk Publisher source code:
 
 * Create a `GitHub`_ account and sign in;
 
-* Fork the `Superdesk Web Publisher repository`_ (click on the "Fork" button);
+* Fork the `Superdesk Publisher repository`_ (click on the "Fork" button);
 
 * After the "forking action" has completed, clone your fork locally
   (this will create a ``web-publisher`` directory):
@@ -89,7 +88,7 @@ Get the Superdesk Web Publisher source code:
 Check that the current Tests Pass
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Now that Superdesk Web Publisher is installed, check that all tests pass for your
+Now that Superdesk Publisher is installed, check that all tests pass for your
 environment as explained in the dedicated :doc:`document <tests>`.
 
 Step 2: Work on your Patch
@@ -125,7 +124,7 @@ Work on your Patch
 Work on the code as much as you want and commit as much as you want; but keep
 in mind the following:
 
-* Read about the Superdesk Web Publisher :doc:`conventions <conventions>` and follow the
+* Read about the Superdesk Publisher :doc:`conventions <conventions>` and follow the
   coding :doc:`standards <standards>` (use ``git diff --check`` to check for
   trailing spaces -- also read the tip below);
 
@@ -228,7 +227,7 @@ pull request message, like in:
 
 The pull request description must include the following checklist at the top
 to ensure that contributions may be reviewed without needless feedback
-loops and that your contributions can be included into Superdesk Web Publisher as quickly as
+loops and that your contributions can be included into Superdesk Publisher as quickly as
 possible:
 
 .. code-block:: text
@@ -271,7 +270,7 @@ translation files, use the shorter version of the check-list:
 Some answers to the questions trigger some more requirements:
 
 * If you answer yes to "Bug fix?", check if the bug is already listed in the
-  Superdesk Web Publisher bug tracker and reference it/them in "Fixed tickets";
+  Superdesk Publisher bug tracker and reference it/them in "Fixed tickets";
 
 * If you answer yes to "New feature?", you must submit a pull request to the
   documentation and reference it under the "Doc PR" section;
@@ -343,7 +342,7 @@ If moderators asked you to "squash" your commits, this means you will need to co
 .. _ProGit: http://git-scm.com/book
 .. _GitHub: https://github.com/join
 .. _`GitHub's Documentation`: https://help.github.com/articles/ignoring-files
-.. _Superdesk Web Publisher repository: https://github.com/superdesk/web-publisher
+.. _Superdesk Publisher repository: https://github.com/superdesk/web-publisher
 .. _travis-ci.org: https://travis-ci.org/
 .. _`travis-ci.org status icon`: http://about.travis-ci.org/docs/user/status-images/
 .. _`travis-ci.org Getting Started Guide`: http://about.travis-ci.org/docs/user/getting-started/

@@ -1,15 +1,15 @@
 Coding Standards
 ================
 
-When contributing code to Superdesk Web Publisher, you must follow its coding standards. To
+When contributing code to Superdesk Publisher, you must follow its coding standards. To
 make a long story short, here is the golden rule: **Imitate the existing
-Superdesk Web Publisher code**. Most open-source Bundles and libraries used by Superdesk Web Publisher also
+Superdesk Publisher code**. Most open-source Bundles and libraries used by Superdesk Publisher also
 follow the same guidelines, and you should too.
 
 Remember that the main advantage of standards is that every piece of code
 looks and feels familiar, it's not about this or that being more readable.
 
-Superdesk Web Publisher follows the standards defined in the `PSR-0`_, `PSR-1`_, `PSR-2`_ and `PSR-4`_
+Superdesk Publisher follows the standards defined in the `PSR-0`_, `PSR-1`_, `PSR-2`_ and `PSR-4`_
 documents.
 
 Since a picture - or some code - is worth a thousand words, here's a short
@@ -20,7 +20,7 @@ example containing most features described below:
     <?php
 
     /**
-     * This file is part of the Superdesk Web Publisher package.
+     * This file is part of the Superdesk Publisher package.
      *
      * Copyright 2016 Sourcefabric z.ú. and contributors.
      *
@@ -228,7 +228,7 @@ Documentation
 License
 -------
 
-* Superdesk Web Publisher is released under the `license`_, and the license block has to be
+* Superdesk Publisher is released under the `license`_, and the license block has to be
   present at the top of every PHP file, before the namespace.
 
 .. _`PSR-0`: http://www.php-fig.org/psr/psr-0/
@@ -238,4 +238,3 @@ License
 .. _`identical comparison`: http://php.net/manual/en/language.operators.comparison.php
 .. _`Yoda conditions`: https://en.wikipedia.org/wiki/Yoda_conditions
 .. _`license`: http://www.superdesk.org/license
-
