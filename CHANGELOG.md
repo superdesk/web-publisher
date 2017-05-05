@@ -1,13 +1,14 @@
 
-CHANGELOG for version <= 0.5.x
+CHANGELOG for version <= 0.6.x
 ==============================
 
 This changelog references the relevant changes (bug and security fixes) done
-in 0.1 minor versions.
+in <= 0.6 minor versions.
 
 To get the diff for a specific change, go to https://github.com/superdesk/web-publisher/commit/XXX where XXX is the change hash
 
 * 0.6.0
+ * feature [#324] Added an option to sort collections
  * feature [#316] Add possibility to set custom headers and clear cookies with ResponseContext class.
  * feature [#314] Add more options to articles filtering api
  * feature [#312] Improve user registration 
