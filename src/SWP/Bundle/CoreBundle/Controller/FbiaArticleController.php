@@ -33,6 +33,9 @@ class FbiaArticleController extends Controller
      *     statusCodes={
      *         200="Returned on success.",
      *         500="Unexpected error."
+     *     },
+     *     filters={
+     *         {"name"="sorting", "dataType"="string", "pattern"="[updatedAt]=asc|desc"}
      *     }
      * )
      * @Route("/api/{version}/facebook/instantarticles/articles/", options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_list_facebook_instant_articles_articles")
@@ -44,7 +47,7 @@ class FbiaArticleController extends Controller
 
         $items = $repository->getPaginatedByCriteria(
             new Criteria(),
-            ['createdAt' => 'desc'],
+            $request->query->get('sorting', ['createdAt' => 'desc']),
             new PaginationData($request)
         );
 

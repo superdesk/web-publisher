@@ -41,6 +41,9 @@ class RuleController extends FOSRestController
      *     statusCodes={
      *         200="Returned on success.",
      *         405="Method Not Allowed."
+     *     },
+     *     filters={
+     *         {"name"="sorting", "dataType"="string", "pattern"="[updatedAt]=asc|desc"}
      *     }
      * )
      * @Route("/api/{version}/rules/", options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_core_list_rule")
@@ -51,7 +54,7 @@ class RuleController extends FOSRestController
     public function listAction(Request $request)
     {
         $rules = $this->get('swp.repository.rule')
-            ->getPaginatedByCriteria(new Criteria(), [], new PaginationData($request));
+            ->getPaginatedByCriteria(new Criteria(), $request->query->get('sorting', []), new PaginationData($request));
 
         if (0 === $rules->count()) {
             throw new NotFoundHttpException('No rules were found.');
