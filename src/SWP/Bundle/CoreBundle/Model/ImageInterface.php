@@ -17,8 +17,7 @@ declare(strict_types=1);
 namespace SWP\Bundle\CoreBundle\Model;
 
 use SWP\Bundle\ContentBundle\Model\ImageInterface as BaseImageInterface;
-use SWP\Component\MultiTenancy\Model\TenantAwareInterface;
 
-interface ImageInterface extends BaseImageInterface, TenantAwareInterface
+interface ImageInterface extends BaseImageInterface
 {
 }

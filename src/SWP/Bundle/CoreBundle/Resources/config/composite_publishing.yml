@@ -1,0 +1,13 @@
+services:
+    swp_core.factory.composite_publish_action:
+        class: SWP\Bundle\CoreBundle\Factory\PublishActionFactory
+
+    swp_core.factory.composite_publish_destination:
+        class: SWP\Bundle\CoreBundle\Factory\PublishDestinationFactory
+
+    swp_core.resolver.composite_publish:
+        class: SWP\Bundle\CoreBundle\Rule\PublishDestinationResolver
+        arguments:
+            - '@swp.repository.tenant'
+            - '@swp.repository.route'
+            - '@swp_core.factory.composite_publish_destination'

@@ -1,7 +1,7 @@
 Getting started
 ===============
 
-The Superdesk Web Publisher themes system is built on top of fast, flexible and easy to use Twig templates.
+The Superdesk Publisher themes system is built on fast, flexible and easy-to-use Twig templates.
 
 .. toctree::
    :maxdepth: 2

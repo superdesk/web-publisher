@@ -9,15 +9,13 @@ Step 1. Register Facebook Page and Application in Publisher
 
 .. note::
 
-  As at the moment of creation this documentation there is no UI in Superdesk for this feature, needed actions will
-  be described with CURL direct API calls.
+  As at the moment of creation this documentation there is no UI in Superdesk for this feature, needed actions will   be described with CURL direct API calls.
 
 .. note::
 
   Publisher API request require authentication. Read more about this here: :doc:`../../internal_api/authentication`
 
-Instant Articles are strongly connected with Facebook Page. To start you need to enabled that feature in Your
-Facebook Page settings. After that call our API to register that page in Publusher.
+Instant Articles are strongly connected with Facebook Page. To start you need to enable that feature in Your Facebook Page settings. After that call our API to register that page in Publusher.
 
 **Facebook Page** can be registered in Publisher with REST API :code:`/api/{version}/facebook/pages/` POST request.
 
@@ -30,8 +28,7 @@ Required parameters:
 
     curl -X POST 'http://webpublisher.dev/api/v1/facebook/pages/' -H 'Origin: http://webpublisher.dev' -H 'Content-Type: application/x-www-form-urlencoded' -H 'Accept: */*' -H 'Connection: keep-alive' -H 'DNT: 1' -d "facebook_page[pageId]=1234567890987654321&facebook_page[name]=Test Page" --compressed
 
-Next step is registering Facebook Application (You need to create it first on Facebook Platform). Application is used
-for retrieving :code:`never expired access token` - it will be used by Publisher in Facebook API calls.
+Next step is registering Facebook Application (You need to create it first on Facebook Platform). Application is used for retrieving :code:`never expired access token` - it will be used by Publisher in Facebook API calls.
 
 **Facebook Application** can be registered in Publisher with REST API :code:`/api/{version}/facebook/applications/` POST request.
 
@@ -131,4 +128,3 @@ Step 5. Publish Your articles to Facebook Instant Articles
 ``````````````````````````````````````````````````````````
 
 After all previous steps - publishing should happen automatically just after publishing article matching Content List criteria.
-

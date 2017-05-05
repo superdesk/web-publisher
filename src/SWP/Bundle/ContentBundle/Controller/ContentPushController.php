@@ -5,46 +5,42 @@ declare(strict_types=1);
 /*
  * This file is part of the Superdesk Web Publisher Content Bundle.
  *
- * Copyright 2016 Sourcefabric z.ú. and contributors.
+ * Copyright 2017 Sourcefabric z.ú. and contributors.
  *
  * For the full copyright and license information, please see the
  * AUTHORS and LICENSE files distributed with this source code.
  *
- * @copyright 2016 Sourcefabric z.ú
+ * @copyright 2017 Sourcefabric z.ú
  * @license http://www.superdesk.org/license
  */
 
 namespace SWP\Bundle\ContentBundle\Controller;
 
 use Hoa\Mime\Mime;
+use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use SWP\Bundle\ContentBundle\ArticleEvents;
-use SWP\Bundle\ContentBundle\Event\ArticleEvent;
 use SWP\Bundle\ContentBundle\Form\Type\MediaFileType;
-use SWP\Bundle\ContentBundle\Model\ArticleInterface;
 use SWP\Bundle\ContentBundle\Model\ArticleMedia;
 use SWP\Component\Bridge\Events;
-use SWP\Component\Bridge\Model\ContentInterface;
 use SWP\Component\Bridge\Model\PackageInterface;
 use SWP\Component\Common\Response\ResponseContext;
 use SWP\Component\Common\Response\SingleResourceResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\EventDispatcher\GenericEvent;
 use Symfony\Component\HttpFoundation\Request;
-use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class ContentPushController extends Controller
 {
     /**
-     * Receives HTTP Push Request's payload which is then processed by the pipeline.
+     * Receives HTTP Push Request's payload.
      *
      * @ApiDoc(
      *     resource=true,
      *     description="Adds a new content from HTTP Push",
      *     statusCodes={
-     *         201="Returned on successful post."
+     *         201="Returned on success"
      *     }
      * )
      * @Route("/api/{version}/content/push", options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_content_push")
@@ -52,32 +48,28 @@ class ContentPushController extends Controller
      */
     public function pushContentAction(Request $request)
     {
-        $package = $this->handlePackage($request);
+        $content = $request->getContent();
+        $package = $this->get('swp_bridge.transformer.json_to_package')->transform($content);
+        $this->get('event_dispatcher')->dispatch(Events::SWP_VALIDATION, new GenericEvent($package));
 
-        $existingArticle = $this->getExistingArticleOrNull($package);
+        /** @var PackageInterface $existingPackage */
+        $existingPackage = $this->findExistingPackage($package);
 
-        if (null !== $existingArticle) {
-            if (ContentInterface::STATUS_CANCELED === $package->getPubStatus()) {
-                $this->get('swp.service.article')->unpublish($existingArticle, ArticleInterface::STATUS_CANCELED);
-                $this->get('swp.object_manager.article')->flush();
-
-                return new SingleResourceResponse(['status' => 'OK'], new ResponseContext(201));
-            }
-
-            $article = $this->get('swp.hydrator.article')->hydrate($existingArticle, $package);
-            $this->get('event_dispatcher')->dispatch(Events::SWP_VALIDATION, new GenericEvent($article));
-            $this->get('event_dispatcher')->dispatch(ArticleEvents::PRE_CREATE, new ArticleEvent($existingArticle, $package));
-            $this->get('swp.object_manager.article')->flush();
-            $this->get('event_dispatcher')->dispatch(ArticleEvents::POST_CREATE, new ArticleEvent($existingArticle));
+        if (null !== $existingPackage) {
+            $objectManager = $this->get('swp.object_manager.package');
+            $package->setId($existingPackage->getId());
+            $package->setCreatedAt($existingPackage->getCreatedAt());
+            $this->get('event_dispatcher')->dispatch(Events::PACKAGE_PRE_UPDATE, new GenericEvent($package));
+            $objectManager->merge($package);
+            $objectManager->flush();
+            $this->get('event_dispatcher')->dispatch(Events::PACKAGE_POST_UPDATE, new GenericEvent($package));
 
             return new SingleResourceResponse(['status' => 'OK'], new ResponseContext(201));
         }
 
-        $article = $this->get('swp_content.transformer.package_to_article')->transform($package);
-        $this->get('event_dispatcher')->dispatch(Events::SWP_VALIDATION, new GenericEvent($article));
-        $this->get('event_dispatcher')->dispatch(ArticleEvents::PRE_CREATE, new ArticleEvent($article, $package));
-        $this->getArticleRepository()->add($article);
-        $this->get('event_dispatcher')->dispatch(ArticleEvents::POST_CREATE, new ArticleEvent($article));
+        $this->get('event_dispatcher')->dispatch(Events::PACKAGE_PRE_CREATE, new GenericEvent($package));
+        $this->getPackageRepository()->add($package);
+        $this->get('event_dispatcher')->dispatch(Events::PACKAGE_POST_CREATE, new GenericEvent($package));
 
         return new SingleResourceResponse(['status' => 'OK'], new ResponseContext(201));
     }
@@ -107,8 +99,10 @@ class ContentPushController extends Controller
             $mediaManager = $this->get('swp_content_bundle.manager.media');
             $uploadedFile = $form->getData()['media'];
             $mediaId = $request->request->get('media_id');
+
             if ($uploadedFile->isValid()) {
                 $image = $this->get('swp.repository.image')->findImageByAssetId(ArticleMedia::handleMediaId($mediaId));
+
                 if (null == $image) {
                     $image = $mediaManager->handleUploadedFile($uploadedFile, $mediaId);
 
@@ -165,46 +159,21 @@ class ContentPushController extends Controller
         ]);
     }
 
-    /**
-     * @param Request $request
-     *
-     * @return PackageInterface
-     */
-    private function handlePackage(Request $request): PackageInterface
+    protected function findExistingPackage(PackageInterface $package)
     {
-        $content = $request->getContent();
-        $package = $this->get('swp_bridge.transformer.json_to_package')->transform($content);
+        $existingPackage = $this->getPackageRepository()->findOneBy(['guid' => $package->getGuid()]);
 
-        $this->get('event_dispatcher')->dispatch(Events::SWP_VALIDATION, new GenericEvent($package));
-
-        $packageRepository = $this->get('swp.repository.package');
-        $existingPackage = $packageRepository->findOneBy(['guid' => $package->getGuid()]);
-        if (null !== $existingPackage) {
-            $packageRepository->remove($existingPackage);
-        }
-        $packageRepository->add($package);
-
-        return $package;
-    }
-
-    /**
-     * @param PackageInterface $package
-     *
-     * @return ArticleInterface|null
-     */
-    protected function getExistingArticleOrNull(PackageInterface $package)
-    {
-        $existingArticle = $this->getArticleRepository()->findOneByCode($package->getGuid());
-
-        if (null === $existingArticle) {
-            $existingArticle = $this->getArticleRepository()->findOneByCode($package->getEvolvedFrom());
+        if (null === $existingPackage) {
+            $existingPackage = $this->getPackageRepository()->findOneBy([
+                'guid' => $package->getEvolvedFrom(),
+            ]);
         }
 
-        return $existingArticle;
+        return $existingPackage;
     }
 
-    protected function getArticleRepository()
+    protected function getPackageRepository()
     {
-        return $this->get('swp.repository.article');
+        return $this->get('swp.repository.package');
     }
 }

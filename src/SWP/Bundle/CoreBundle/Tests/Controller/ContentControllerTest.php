@@ -82,7 +82,7 @@ class ContentControllerTest extends WebTestCase
         $this->loadCustomFixtures(['tenant', 'collection_route']);
 
         $client = static::createClient();
-        $crawler = $client->request('GET', '/collection-test/fake-article');
+        $client->request('GET', '/collection-test/fake-article');
 
         $this->assertEquals(404, $client->getResponse()->getStatusCode());
     }

@@ -1,0 +1,19 @@
+SWP\Bundle\CoreBundle\Model\Package:
+    package1:
+        headline: "headline1"
+        guid: "urn:newsml:localhost:2016-09-23T13:56:39.404843:56465de4-0d5c-495a-8e36-3b396def3cf0"
+        slugline: "abstract-html-test1"
+        language: "en"
+        type: "text"
+        urgency: 1
+        priority: 2
+        version: 1
+    package2:
+        headline: "headline2"
+        guid: "urn:newsml:localhost:2016-09-23T13:56:39.404843:56465de4-0d5c-495a-8e36-3b396def3cg7"
+        slugline: "abstract-html-test2"
+        language: "en"
+        type: "text"
+        urgency: 1
+        priority: 2
+        version: 1

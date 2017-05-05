@@ -1,0 +1,27 @@
+services:
+    swp_core.applicator.rule.package:
+        class: SWP\Bundle\CoreBundle\Rule\Applicator\PackageRuleApplicator
+        arguments:
+            - '@swp_core.article.publisher'
+            - '@swp_core.resolver.composite_publish'
+            - '@swp_core.factory.composite_publish_action'
+        calls:
+             - [setLogger, ['@logger']]
+        tags:
+            - { name: applicator.rule_applicator }
+
+    swp_core.processor.tenant_aware_rule:
+        class: SWP\Bundle\CoreBundle\Rule\Processor\TenantAwareRuleProcessor
+        decorates: swp_rule.processor.rule
+        arguments:
+            - '@swp_core.processor.tenant_aware_rule.inner'
+            - '@event_dispatcher'
+        public: false
+
+    swp_core.listener.organization_rules_subscriber:
+        class: SWP\Bundle\CoreBundle\EventSubscriber\ProcessOrganizationRulesSubscriber
+        arguments:
+            - '@swp_core.processor.tenant_aware_rule.inner'
+            - '@event_dispatcher'
+        tags:
+            - { name: kernel.event_subscriber }

@@ -1,6 +1,9 @@
 SWP\Component\Bridge\Model\Rendition:
     exclusion_policy: ALL
     properties:
+        id:
+            expose: true
+            type: integer
         href:
             expose: true
             type: string
@@ -14,5 +17,8 @@ SWP\Component\Bridge\Model\Rendition:
             expose: true
             type: string
         media:
+            expose: true
+            type: string
+        name:
             expose: true
             type: string

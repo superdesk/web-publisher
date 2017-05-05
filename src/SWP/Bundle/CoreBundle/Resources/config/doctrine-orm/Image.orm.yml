@@ -1,6 +1,3 @@
 SWP\Bundle\CoreBundle\Model\Image:
     type: mappedSuperclass
     table: swp_image
-    fields:
-        tenantCode:
-            type: string

@@ -105,7 +105,25 @@ class FacebookInstantArticlesListenerTest extends WebTestCase
             ContentPushControllerTest::TEST_CONTENT
         );
 
+        $this->assertEquals(201, $client->getResponse()->getStatusCode());
+
+        $client->request(
+            'POST',
+            $this->router->generate('swp_api_core_publish_package', ['id' => 1]), [
+                'publish' => [
+                    'destinations' => [
+                        [
+                            'tenant' => '123abc',
+                            'route' => 3,
+                            'fbia' => true,
+                        ],
+                    ],
+                ],
+            ]
+        );
+
         $this->assertEquals(500, $client->getResponse()->getStatusCode());
+
         $response = json_decode($client->getResponse()->getContent(), true);
         $this->assertEquals('Page is not authorized to publish Instant Articles', $response['message']);
     }

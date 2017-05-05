@@ -14,9 +14,9 @@
 
 namespace SWP\Bundle\BridgeBundle\Serializer;
 
-use Doctrine\Common\Collections\ArrayCollection;
 use JMS\Serializer\EventDispatcher\EventSubscriberInterface;
 use JMS\Serializer\EventDispatcher\ObjectEvent;
+use SWP\Component\Bridge\Model\ItemInterface;
 use SWP\Component\Bridge\Model\PackageInterface;
 
 class PackageSubscriber implements EventSubscriberInterface
@@ -43,9 +43,25 @@ class PackageSubscriber implements EventSubscriberInterface
             /** @var PackageInterface $package */
             $package = $event->getObject();
 
-            if (null === $package->getItems()) {
-                $package->setItems(new ArrayCollection());
+            foreach ($package->getItems() as $item) {
+                $this->processRenditions($item);
+
+                foreach ($item->getItems() as $imageItem) {
+                    $this->processRenditions($imageItem);
+                }
             }
+
+            foreach ($package->getItems() as $key => $item) {
+                $item->setName($key);
+            }
+        }
+    }
+
+    private function processRenditions(ItemInterface $item)
+    {
+        foreach ($item->getRenditions() as $key => $rendition) {
+            $rendition->setName($key);
+            $rendition->setItem($item);
         }
     }
 }
