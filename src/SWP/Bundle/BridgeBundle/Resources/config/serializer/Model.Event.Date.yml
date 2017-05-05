@@ -1,0 +1,11 @@
+SWP\Component\Bridge\Model\Event\Date:
+    exclusion_policy: ALL
+    properties:
+        startDate:
+            serialized_name: start
+            type: DateTime<'Y-m-d\TH:i:sP'>
+        endDate:
+            type: DateTime<'Y-m-d\TH:i:sP'>
+            serialized_name: end
+        tz:
+            type: string

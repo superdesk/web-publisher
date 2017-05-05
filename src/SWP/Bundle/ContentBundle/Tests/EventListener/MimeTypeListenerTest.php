@@ -41,7 +41,7 @@ class MimeTypeListenerTest extends WebTestCase
         );
         $listener->onKernelResponse($event);
         $eventResponse = $event->getResponse();
-        self::assertEquals('application/rss+xml', $eventResponse->headers->get('Content-Type'));
+        self::assertEquals('application/rss+xml; charset=UTF-8', $eventResponse->headers->get('Content-Type'));
         self::assertEquals(Response::HTTP_OK, $eventResponse->getStatusCode());
 
         $route->setName('articles');

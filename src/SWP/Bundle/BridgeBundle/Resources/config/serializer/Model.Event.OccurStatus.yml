@@ -1,0 +1,7 @@
+SWP\Component\Bridge\Model\Event\OccurStatus:
+    exclusion_policy: ALL
+    properties:
+        name:
+            type: string
+        qcode:
+            type: string

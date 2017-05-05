@@ -35,7 +35,7 @@ class MimeTypeListener
             $extension = pathinfo($routeObject->getName(), PATHINFO_EXTENSION);
             $response = $event->getResponse();
             if ('' !== $extension && Response::HTTP_OK === $response->getStatusCode()) {
-                $response->headers->set('Content-Type', Mime::getMimeFromExtension($extension));
+                $response->headers->set('Content-Type', Mime::getMimeFromExtension($extension).'; charset=UTF-8');
             }
         }
     }

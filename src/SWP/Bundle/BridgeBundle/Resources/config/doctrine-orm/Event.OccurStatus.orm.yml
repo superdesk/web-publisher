@@ -1,0 +1,14 @@
+SWP\Component\Bridge\Model\Event\OccurStatus:
+    type:  mappedSuperclass
+    table: swp_event_occur_status
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        name:
+            type: string
+        qcode:
+            type: string
