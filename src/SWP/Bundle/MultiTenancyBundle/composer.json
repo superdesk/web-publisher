@@ -33,7 +33,8 @@
         "symfony/dependency-injection": "^3.1",
         "symfony/expression-language": "^3.1",
         "symfony-cmf/routing-bundle": "2.0.*",
-        "doctrine/orm": "2.6.*"
+        "doctrine/orm": "2.6.*",
+        "symfony/form": "^3.1"
     },
     "require-dev": {
         "phpunit/phpunit": "^5.6",

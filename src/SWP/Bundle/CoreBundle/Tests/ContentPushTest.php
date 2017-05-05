@@ -910,6 +910,7 @@ final class ContentPushTest extends WebTestCase
 
         self::assertEquals(200, $client->getResponse()->getStatusCode());
         $content = json_decode($client->getResponse()->getContent(), true);
+        $publishedAt = $content['publishedAt'];
 
         self::assertEquals('published', $content['status']);
         self::assertTrue($content['isPublishable']);
@@ -938,6 +939,7 @@ final class ContentPushTest extends WebTestCase
         self::assertEquals(200, $client->getResponse()->getStatusCode());
         $content = json_decode($client->getResponse()->getContent(), true);
 
+        self::assertEquals($publishedAt, $content['publishedAt']);
         self::assertEquals('published', $content['status']);
         self::assertTrue($content['isPublishable']);
         self::assertEquals('Abstract html test corrected', $content['title']);

@@ -77,7 +77,8 @@ class ArticleControllerTest extends WebTestCase
         ]);
         $responseArray = json_decode($client->getResponse()->getContent(), true);
         $this->assertArraySubset(json_decode('{"status":"new"}', true), $responseArray);
-
+        $publishedAt = $responseArray['publishedAt'];
+        sleep(1);
         //publish unpublished article
         $client->request('PATCH', $this->router->generate('swp_api_content_update_articles', ['id' => 'features']), [
             'article' => [
@@ -90,6 +91,7 @@ class ArticleControllerTest extends WebTestCase
         $this->assertTrue(null != $responseArray['updatedAt']);
         $this->assertTrue(new \DateTime($responseArray['updatedAt']) >= new \DateTime($responseArray['createdAt']));
         $this->assertTrue(new \DateTime($responseArray['updatedAt']) >= new \DateTime($responseArray['createdAt']));
+        $this->assertNotEquals($publishedAt, $responseArray['publishedAt']);
     }
 
     public function testIfRouteChangedWhenRouteParentWasSwitched()
