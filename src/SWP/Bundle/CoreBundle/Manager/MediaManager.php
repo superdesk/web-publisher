@@ -47,7 +47,7 @@ class MediaManager extends BaseMediaMnager
     protected function getMediaBasePath(): string
     {
         $tenant = $this->tenantContext->getTenant();
-        $pathElements = ['swp', $tenant->getOrganization()->getCode(), $tenant->getCode(), 'media'];
+        $pathElements = ['swp', $tenant->getOrganization()->getCode(), 'media'];
 
         return implode('/', $pathElements);
     }

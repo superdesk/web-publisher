@@ -13,5 +13,6 @@ services:
         arguments:
             - '@swp.serializer'
             - '@swp_bridge.http_push.validator_chain'
+            - '%swp.model.package.class%'
         tags:
             - { name: transformer.http_push_transformer, alias: transformer.json_to_package }

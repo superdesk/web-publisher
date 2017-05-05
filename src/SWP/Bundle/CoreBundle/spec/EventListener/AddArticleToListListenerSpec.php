@@ -65,7 +65,7 @@ final class AddArticleToListListenerSpec extends ObjectBehavior
 
         $list->getFilters()->willReturn(['metadata' => ['locale' => 'en']]);
         $list->getItems()->willReturn(new ArrayCollection());
-        $listRepository->findByTypes(['automatic', 'bucket'])->willReturn([$list]);
+        $listRepository->findByTypes(['automatic'])->willReturn([$list]);
 
         $articleCriteriaMatcher->match($article, new Criteria(['metadata' => ['locale' => 'en']]))->willReturn(true);
 
@@ -98,7 +98,7 @@ final class AddArticleToListListenerSpec extends ObjectBehavior
 
         $list->getFilters()->willReturn(['metadata' => ['locale' => 'en']]);
         $list->getItems()->willReturn(new ArrayCollection());
-        $listRepository->findByTypes(['automatic', 'bucket'])->willReturn([$list]);
+        $listRepository->findByTypes(['automatic'])->willReturn([$list]);
 
         $articleCriteriaMatcher->match($article, new Criteria(['metadata' => ['locale' => 'en']]))->willReturn(false);
 
@@ -110,6 +110,58 @@ final class AddArticleToListListenerSpec extends ObjectBehavior
         $list->addItem($contentListItem)->shouldNotBeCalled();
 
         $this->addArticleToList($event);
+
+        $eventDispatcher->dispatch(
+            ContentListEvents::POST_ITEM_ADD,
+            Argument::type(ContentListEvent::class)
+        )->shouldNotHaveBeenCalled();
+    }
+
+    public function it_adds_article_to_bucket(
+        ArticleEvent $event,
+        Article $article,
+        ContentListRepositoryInterface $listRepository,
+        ContentListInterface $list,
+        FactoryInterface $listItemFactory,
+        ContentListItemInterface $contentListItem,
+        EventDispatcherInterface $eventDispatcher
+    ) {
+        $article->isPublishedFBIA()->willReturn(true);
+        $event->getArticle()->willReturn($article);
+        $list->getItems()->willReturn(new ArrayCollection());
+        $listRepository->findByTypes(['bucket'])->willReturn([$list]);
+        $listItemFactory->create()->willReturn($contentListItem);
+        $contentListItem->setContent($article)->shouldBeCalled();
+        $contentListItem->setPosition(0)->shouldBeCalled();
+        $list->addItem($contentListItem)->shouldBeCalled();
+
+        $this->addArticleToBucket($event);
+
+        $eventDispatcher->dispatch(
+            ContentListEvents::POST_ITEM_ADD,
+            Argument::type(ContentListEvent::class)
+        )->shouldHaveBeenCalled();
+    }
+
+    public function it_shouldnt_add_article_to_bucket(
+        ArticleEvent $event,
+        Article $article,
+        ContentListRepositoryInterface $listRepository,
+        ContentListInterface $list,
+        FactoryInterface $listItemFactory,
+        ContentListItemInterface $contentListItem,
+        EventDispatcherInterface $eventDispatcher
+    ) {
+        $article->isPublishedFBIA()->willReturn(false);
+        $event->getArticle()->willReturn($article);
+        $list->getItems()->willReturn(new ArrayCollection())->shouldNotBeCalled();
+        $listRepository->findByTypes(['bucket'])->willReturn([$list]);
+        $listItemFactory->create()->willReturn($contentListItem)->shouldNotBeCalled();
+        $contentListItem->setContent($article)->shouldNotBeCalled();
+        $contentListItem->setPosition(0)->shouldNotBeCalled();
+        $list->addItem($contentListItem)->shouldNotBeCalled();
+
+        $this->addArticleToBucket($event);
 
         $eventDispatcher->dispatch(
             ContentListEvents::POST_ITEM_ADD,

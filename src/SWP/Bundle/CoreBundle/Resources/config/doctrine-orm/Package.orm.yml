@@ -1,0 +1,18 @@
+SWP\Bundle\CoreBundle\Model\Package:
+    type: mappedSuperclass
+    table: swp_package
+    fields:
+        status:
+            type: string
+            nullable: false
+    manyToOne:
+        organization:
+            targetEntity: SWP\Component\MultiTenancy\Model\OrganizationInterface
+            joinColumn:
+                name: organization_id
+                referencedColumnName: id
+                nullable: false
+    oneToMany:
+        articles:
+            targetEntity: SWP\Bundle\ContentBundle\Model\ArticleInterface
+            mappedBy: package

@@ -23,4 +23,46 @@ use SWP\Component\MultiTenancy\Model\TenantAwareTrait;
 class Article extends BaseArticle implements ArticleInterface
 {
     use TenantAwareTrait, OrganizationAwareTrait;
+
+    /**
+     * @var PackageInterface
+     */
+    protected $package;
+
+    /**
+     * @var bool
+     */
+    protected $isPublishedFBIA = false;
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getPackage(): PackageInterface
+    {
+        return $this->package;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setPackage(PackageInterface $package)
+    {
+        $this->package = $package;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function isPublishedFBIA(): bool
+    {
+        return $this->isPublishedFBIA;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setPublishedFBIA(bool $isPublished)
+    {
+        $this->isPublishedFBIA = $isPublished;
+    }
 }

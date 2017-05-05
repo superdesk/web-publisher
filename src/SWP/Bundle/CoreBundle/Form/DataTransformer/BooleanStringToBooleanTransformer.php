@@ -17,6 +17,7 @@ declare(strict_types=1);
 namespace SWP\Bundle\CoreBundle\Form\DataTransformer;
 
 use Symfony\Component\Form\DataTransformerInterface;
+use Symfony\Component\Form\Exception\TransformationFailedException;
 
 class BooleanStringToBooleanTransformer implements DataTransformerInterface
 {
@@ -33,6 +34,12 @@ class BooleanStringToBooleanTransformer implements DataTransformerInterface
      */
     public function reverseTransform($value)
     {
-        return filter_var($value, FILTER_VALIDATE_BOOLEAN);
+        $allowed = ['true', 'false', '1', '0', null];
+
+        if (is_bool($value) || in_array($value, $allowed)) {
+            return filter_var($value, FILTER_VALIDATE_BOOLEAN);
+        }
+
+        throw new TransformationFailedException('Wrong boolean value passed.');
     }
 }

@@ -19,9 +19,8 @@ use Doctrine\Common\Collections\Collection;
 use SWP\Component\Common\Model\EnableableTrait;
 use SWP\Component\Common\Model\SoftDeletableTrait;
 use SWP\Component\Common\Model\TimestampableTrait;
-use SWP\Component\Storage\Model\PersistableInterface;
 
-class Package extends BaseContent implements PackageInterface, PersistableInterface
+class Package extends BaseContent implements PackageInterface
 {
     use TimestampableTrait, SoftDeletableTrait, EnableableTrait;
 

@@ -4,12 +4,17 @@ SWP\Bundle\CoreBundle\Model\Article:
     fields:
         tenantCode:
             type: string
-            nullable: true
     manyToOne:
         organization:
             targetEntity: SWP\Component\MultiTenancy\Model\OrganizationInterface
             joinColumn:
                 name: organization_id
+                referencedColumnName: id
+        package:
+            targetEntity: SWP\Component\Bridge\Model\PackageInterface
+            inversedBy: articles
+            joinColumn:
+                name: package_id
                 referencedColumnName: id
     uniqueConstraints:
         swp_article_slug_idx:

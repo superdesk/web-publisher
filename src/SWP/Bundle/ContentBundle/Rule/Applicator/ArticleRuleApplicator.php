@@ -19,22 +19,17 @@ use SWP\Bundle\ContentBundle\Model\ArticleInterface;
 use SWP\Bundle\ContentBundle\Model\RouteInterface;
 use SWP\Bundle\ContentBundle\Provider\RouteProviderInterface;
 use SWP\Bundle\ContentBundle\Service\ArticleServiceInterface;
-use SWP\Component\Rule\Applicator\RuleApplicatorInterface;
+use SWP\Component\Rule\Applicator\AbstractRuleApplicator;
 use SWP\Component\Rule\Model\RuleSubjectInterface;
 use SWP\Component\Rule\Model\RuleInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-final class ArticleRuleApplicator implements RuleApplicatorInterface
+final class ArticleRuleApplicator extends AbstractRuleApplicator
 {
     /**
      * @var RouteProviderInterface
      */
     private $routeProvider;
-
-    /**
-     * @var LoggerInterface
-     */
-    private $logger;
 
     /**
      * @var ArticleServiceInterface
@@ -97,6 +92,11 @@ final class ArticleRuleApplicator implements RuleApplicatorInterface
             $this->articleService->publish($subject);
         }
 
+        if ($subject->getStatus() === ArticleInterface::STATUS_PUBLISHED
+            && (null === $configuration['published'] || !(bool) $configuration['published'])) {
+            $this->articleService->unpublish($subject, ArticleInterface::STATUS_UNPUBLISHED);
+        }
+
         $this->logger->info(sprintf(
             'Configuration: "%s" for "%s" rule has been applied!',
             json_encode($configuration),
@@ -117,20 +117,14 @@ final class ArticleRuleApplicator implements RuleApplicatorInterface
         $resolver = new OptionsResolver();
         $this->configureOptions($resolver);
 
-        try {
-            return $resolver->resolve($configuration);
-        } catch (\Exception $e) {
-            $this->logger->warning($e->getMessage());
-        }
-
-        return [];
+        return $this->resolveConfig($resolver, $configuration);
     }
 
     private function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
             $this->supportedKeys[1] => null,
-            $this->supportedKeys[2] => false,
+            $this->supportedKeys[2] => null,
         ]);
         $resolver->setDefined($this->supportedKeys[0]);
     }

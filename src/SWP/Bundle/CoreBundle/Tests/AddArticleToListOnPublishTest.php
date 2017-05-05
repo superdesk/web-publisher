@@ -44,8 +44,6 @@ final class AddArticleToListOnPublishTest extends WebTestCase
 
     public function testAddArticleToContentListOnPublish()
     {
-        $article = $this->prepareArticle();
-
         $now = new \DateTime();
         $now = $now->format('Y-m-d');
 
@@ -55,7 +53,7 @@ final class AddArticleToListOnPublishTest extends WebTestCase
                 'content_list' => [
                     'filters' => sprintf(
                         '{"route":[%d],"author":["ADmin"],"metadata":{"located":"Sydney"},"publishedAt":"%s"}',
-                        $article['route']['id'],
+                        3,
                         $now
                     ),
                 ],
@@ -63,13 +61,7 @@ final class AddArticleToListOnPublishTest extends WebTestCase
 
         self::assertEquals(200, $client->getResponse()->getStatusCode());
 
-        // publish article
-        $client->request('PATCH', $this->router->generate('swp_api_core_update_organization_articles', ['id' => 1]), [
-            'article' => [
-                'status' => 'published',
-            ],
-        ]);
-        self::assertEquals(200, $client->getResponse()->getStatusCode());
+        $this->prepareArticle();
 
         $client->request('GET', $this->router->generate('swp_api_core_list_items', ['id' => 1]));
         self::assertEquals(200, $client->getResponse()->getStatusCode());
@@ -182,24 +174,35 @@ final class AddArticleToListOnPublishTest extends WebTestCase
 
         self::assertEquals(201, $client->getResponse()->getStatusCode());
 
-        // check if article exists
         $client->request(
             'GET',
             $this->router->generate('swp_api_content_show_articles', ['id' => 'abstract-html-test'])
         );
 
-        // 404 because tenant is not assigned
         self::assertEquals(404, $client->getResponse()->getStatusCode());
 
-        // assign route
-        $client->request('PATCH', $this->router->generate('swp_api_core_update_organization_articles', ['id' => '1']), [
-            'article' => [
-                'route' => $routeContent['id'],
-            ],
-        ]);
-        self::assertEquals(200, $client->getResponse()->getStatusCode());
+        $client->request(
+            'POST',
+            $this->router->generate('swp_api_core_publish_package', ['id' => 1]), [
+                'publish' => [
+                    'destinations' => [
+                        [
+                            'tenant' => '123abc',
+                            'route' => $routeContent['id'],
+                        ],
+                    ],
+                ],
+            ]
+        );
 
-        return json_decode($client->getResponse()->getContent(), true);
+        self::assertEquals(201, $client->getResponse()->getStatusCode());
+
+        $client->request(
+            'GET',
+            $this->router->generate('swp_api_content_show_articles', ['id' => 'abstract-html-test'])
+        );
+
+        self::assertEquals(200, $client->getResponse()->getStatusCode());
     }
 
     public function tearDown()

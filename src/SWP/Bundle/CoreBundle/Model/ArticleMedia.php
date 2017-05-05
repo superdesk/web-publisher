@@ -17,9 +17,7 @@ declare(strict_types=1);
 namespace SWP\Bundle\CoreBundle\Model;
 
 use SWP\Bundle\ContentBundle\Model\ArticleMedia as BaseArticleMedia;
-use SWP\Component\MultiTenancy\Model\TenantAwareTrait;
 
 class ArticleMedia extends BaseArticleMedia implements ArticleMediaInterface
 {
-    use TenantAwareTrait;
 }

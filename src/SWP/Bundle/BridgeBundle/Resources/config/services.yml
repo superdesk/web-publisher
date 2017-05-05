@@ -23,3 +23,11 @@ services:
             - '@swp.serializer'
         tags:
             - { name: kernel.event_listener, event: kernel.exception }
+
+    swp_bridge_bundle.object_constructor:
+        class: SWP\Bundle\BridgeBundle\Serializer\ObjectConstructor
+        public: false
+
+    jms_serializer.object_constructor:
+        alias: swp_bridge_bundle.object_constructor
+        public: false
