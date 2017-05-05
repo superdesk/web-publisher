@@ -42,6 +42,9 @@ class OrganizationRuleController extends Controller
      *     statusCodes={
      *         200="Returned on success.",
      *         500="Returned when unexpected error occurred."
+     *     },
+     *     filters={
+     *         {"name"="sorting", "dataType"="string", "pattern"="[updatedAt]=asc|desc"}
      *     }
      * )
      * @Route("/api/{version}/organization/rules/", options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_core_list_organization_rules")
@@ -61,7 +64,7 @@ class OrganizationRuleController extends Controller
                 'organization' => $tenantContext->getTenant()->getOrganization(),
                 'tenantCode' => null,
             ]),
-            [],
+            $request->query->get('sorting', []),
             new PaginationData($request)
         );
 

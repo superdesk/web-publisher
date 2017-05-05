@@ -39,6 +39,9 @@ class WidgetController extends FOSRestController
      *     description="Lists all registered widgets",
      *     statusCodes={
      *         200="Returned on success."
+     *     },
+     *     filters={
+     *         {"name"="sorting", "dataType"="string", "pattern"="[updatedAt]=asc|desc"}
      *     }
      * )
      * @Route("/api/{version}/templates/widgets/", options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_templates_list_widgets")
@@ -49,7 +52,7 @@ class WidgetController extends FOSRestController
     {
         $repository = $this->get('swp.repository.widget_model');
 
-        $widgets = $repository->getPaginatedByCriteria(new Criteria(), [], new PaginationData($request));
+        $widgets = $repository->getPaginatedByCriteria(new Criteria(), $request->query->get('sorting', []), new PaginationData($request));
 
         return new ResourcesListResponse($widgets);
     }

@@ -42,7 +42,8 @@ class RouteController extends FOSRestController
      *         200="Returned on success."
      *     },
      *     filters={
-     *         {"name"="type", "dataType"="string", "pattern"="collection|content"}
+     *         {"name"="type", "dataType"="string", "pattern"="collection|content"},
+     *         {"name"="sorting", "dataType"="string", "pattern"="[updatedAt]=asc|desc"}
      *     }
      * )
      * @Route("/api/{version}/content/routes/", options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_content_list_routes")

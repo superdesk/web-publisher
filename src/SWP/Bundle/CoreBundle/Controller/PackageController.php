@@ -47,7 +47,8 @@ class PackageController extends Controller
      *         500="Returned when unexpected error occurred."
      *     },
      *     filters={
-     *         {"name"="status", "dataType"="string", "pattern"="published|unpublished|new|canceled"}
+     *         {"name"="status", "dataType"="string", "pattern"="published|unpublished|new|canceled"},
+     *         {"name"="sorting", "dataType"="string", "pattern"="[updatedAt]=asc|desc"}
      *     }
      * )
      * @Route("/api/{version}/packages/", options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_core_list_packages")
@@ -64,7 +65,7 @@ class PackageController extends Controller
             ->getPaginatedByCriteria(new Criteria([
                 'organization' => $tenantContext->getTenant()->getOrganization()->getId(),
                 'status' => $request->query->get('status', ''),
-            ]), [], new PaginationData($request));
+            ]), $request->query->get('sorting', []), new PaginationData($request));
 
         return new ResourcesListResponse($packages);
     }
