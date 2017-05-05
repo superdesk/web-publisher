@@ -42,7 +42,8 @@ class RouteController extends FOSRestController
      *         200="Returned on success."
      *     },
      *     filters={
-     *         {"name"="type", "dataType"="string", "pattern"="collection|content"}
+     *         {"name"="type", "dataType"="string", "pattern"="collection|content"},
+     *         {"name"="sorting", "dataType"="string", "pattern"="[updatedAt]=asc|desc"}
      *     }
      * )
      * @Route("/api/{version}/content/routes/", options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_content_list_routes")
@@ -56,7 +57,7 @@ class RouteController extends FOSRestController
 
         $routes = $routeRepository->getPaginatedByCriteria(new Criteria([
             'type' => $request->query->get('type', ''),
-        ]), [], new PaginationData($request));
+        ]), $request->query->get('sorting', []), new PaginationData($request));
 
         return $this->handleView(View::create($this->get('swp_pagination_rep')->createRepresentation($routes, $request), 200));
     }

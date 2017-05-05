@@ -39,6 +39,9 @@ class FbApplicationController extends Controller
      *     statusCodes={
      *         200="Returned on success.",
      *         500="Unexpected error."
+     *     },
+     *     filters={
+     *         {"name"="sorting", "dataType"="string", "pattern"="[updatedAt]=asc|desc"}
      *     }
      * )
      * @Route("/api/{version}/facebook/applications/", options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_list_facebook_applications")
@@ -50,7 +53,7 @@ class FbApplicationController extends Controller
 
         $items = $repository->getPaginatedByCriteria(
             new Criteria(),
-            ['id' => 'asc'],
+            $request->query->get('sorting', ['id' => 'asc']),
             new PaginationData($request)
         );
 
