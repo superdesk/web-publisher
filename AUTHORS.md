@@ -6,3 +6,4 @@ AUTHORS
  - Mark Lewis (thnkloud9)
  - Mischa Gorinskat (m038)
  - Daniel Read (djbrd-sourcefabric)
+ - Ljuba Ranković (ljubar)
