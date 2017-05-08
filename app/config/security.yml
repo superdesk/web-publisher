@@ -35,6 +35,14 @@ security:
                 authenticators:
                     - swp.security.token_authenticator
             stateless: true
+        preview:
+            pattern: ^/preview/article
+            anonymous: false
+            logout: false
+            guard:
+                authenticators:
+                    - swp.security.preview_token_authenticator
+            stateless: true
         main:
             pattern: ^/
             form_login:
@@ -45,3 +53,6 @@ security:
             logout:
                 path: security_logout
             anonymous: true
+
+    access_control:
+        - { path: ^/preview/article, roles: ROLE_ARTICLE_PREVIEW }

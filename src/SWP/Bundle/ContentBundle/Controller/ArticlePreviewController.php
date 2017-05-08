@@ -20,19 +20,18 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use SWP\Bundle\ContentBundle\Model\ArticleInterface;
 use SWP\Bundle\ContentBundle\Model\RouteInterface;
-use SWP\Bundle\CoreBundle\Model\UserInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 class ArticlePreviewController extends Controller
 {
+    const ROLE_ARTICLE_PREVIEW = 'ROLE_ARTICLE_PREVIEW';
+
     /**
-     * @Route("/article/preview/{routeId}/{slug}/{token}", options={"expose"=true}, requirements={"slug"=".+", "routeId"="\d+", "token"=".+"}, name="swp_article_preview")
+     * @Route("/preview/article/{routeId}/{slug}", options={"expose"=true}, requirements={"slug"=".+", "routeId"="\d+", "token"=".+"}, name="swp_article_preview")
      * @Method("GET")
      */
-    public function previewAction(int $routeId, string $slug, string $token)
+    public function previewAction(int $routeId, string $slug)
     {
-        $this->ensureIsGranted($token);
-
         /** @var RouteInterface $route */
         $route = $this->findRouteOr404($routeId);
         /** @var ArticleInterface $article */
@@ -45,30 +44,11 @@ class ArticlePreviewController extends Controller
 
         if (null === $route->getArticlesTemplateName()) {
             throw $this->createNotFoundException(
-                sprintf('Template "%s" not found!', $route->getArticlesTemplateName())
+                sprintf('Template for route with id "%d" (%s) not found!', $route->getId(), $route->getName())
             );
         }
 
         return $this->render($route->getArticlesTemplateName());
-    }
-
-    private function ensureIsGranted(string $token)
-    {
-        $apiKey = $this->get('swp.repository.api_key')
-            ->getValidToken($token)
-            ->getQuery()
-            ->getOneOrNullResult();
-
-        if (null === $apiKey) {
-            throw $this->createAccessDeniedException();
-        }
-
-        /** @var UserInterface $user */
-        $user = $apiKey->getUser();
-
-        if (!$user->hasRole('ROLE_ARTICLE_PREVIEW')) {
-            throw $this->createAccessDeniedException();
-        }
     }
 
     private function findRouteOr404(int $id)
