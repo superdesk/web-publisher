@@ -167,7 +167,9 @@ final class ArticlePreviewTest extends WebTestCase
             ['routeId' => $route['id'], 'slug' => 'art1-not-published', 'auth_token' => base64_encode('client2_token')]
         ));
 
-        self::assertEquals(403, $client->getResponse()->getStatusCode());
+        self::assertTrue($client->getResponse()->isSuccessful());
+        self::assertGreaterThan(0, $crawler->filter('html:contains("Slug: art1-not-published")')->count());
+        self::assertGreaterThan(0, $crawler->filter('html:contains("Current tenant: Default tenant")')->count());
     }
 
     private function createRoute()
