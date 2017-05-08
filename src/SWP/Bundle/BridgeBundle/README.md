@@ -3,7 +3,7 @@
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/SuperdeskWebPublisher/SWPBridgeBundle/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/SuperdeskWebPublisher/SWPBridgeBundle/?branch=master)
 [![Code Climate](https://codeclimate.com/github/SuperdeskWebPublisher/SWPBridgeBundle/badges/gpa.svg)](https://codeclimate.com/github/SuperdeskWebPublisher/SWPBridgeBundle)
 
-This bundle is a bridge between the Superdesk Content API and the Superdesk Web Publisher.
+This bundle is a bridge between the Superdesk Content API and the Superdesk Publisher.
 
 ## Installation
 

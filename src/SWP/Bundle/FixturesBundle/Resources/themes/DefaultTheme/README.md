@@ -10,7 +10,7 @@ To create richer user experience, 3rd-party services can be incorporated. In **P
 SETTING UP DEVELOPMENT ENVIRONMENT
 ----------------------------------
 
-For information and explanation on the theme structure, please see http://superdesk-web-publisher.readthedocs.io/en/latest/themes.html 
+For information and explanation on the theme structure, please see http://superdesk-publisher.readthedocs.io/en/latest/manual/themes/index.html 
 
 This Superdesk Publisher theme uses Gulp workflow automation (http://gulpjs.com/). 
 
@@ -35,4 +35,4 @@ ADJUSTING AND CUSTOMIZING THEME
 - static page template 
 - Theme has built-in support for Google AMP (accelerated mobile pages). These templates are in subfolder `/amp`. More information on Google AMP project is here: https://www.ampproject.org/
 
-For theme templates customization please refer to Superdesk Publisher documentation, starting here: http://superdesk-web-publisher.readthedocs.io/en/latest/templates_system/index.html
+For theme templates customization please refer to Superdesk Publisher documentation, starting here: http://superdesk-publisher.readthedocs.io/en/latest/manual/templates_system/index.html

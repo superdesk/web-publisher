@@ -6,13 +6,13 @@ Superdesk Web Publisher
 [![Dependency Status](https://www.versioneye.com/user/projects/56bc97382a29ed00396b3760/badge.svg?style=flat)](https://www.versioneye.com/user/projects/56bc97382a29ed00396b3760)
 [![SensioLabsInsight](https://insight.sensiolabs.com/projects/c1d40e6d-f4c3-42fa-af0e-d4a4e521d435/mini.png)](https://insight.sensiolabs.com/projects/c1d40e6d-f4c3-42fa-af0e-d4a4e521d435)
 
-Superdesk Web Publisher - the next generation publishing platform for journalists and newsrooms.
+Superdesk Publisher - the next generation publishing platform for journalists and newsrooms.
 
 *The Superdesk Publisher is an API-centric delivery tool for all digital platforms. Written from scratch in 2016, it utilizes the knowledge gained from 17 years of delivering digital news at scale with [Newscoop][2]. The Publisher is designed to work with any editorial system. Naturally, it works the best with our in-house newsroom management system, [Superdesk][3]. Therefore, it allows independent maintenance, upgrade and change of the editorial back-end system.*
 
 ## Documentation
 
-Full documentation can be found here: [http://superdesk-web-publisher.readthedocs.org][1]
+Full documentation can be found here: [http://superdesk-publisher.readthedocs.org][1]
 
 ## Requirements
 
@@ -42,7 +42,7 @@ Full documentation can be found here: [http://superdesk-web-publisher.readthedoc
 
 See [installation guide](install.md) for more details.
 
-[1]: http://superdesk-web-publisher.readthedocs.org/en/latest/
+[1]: http://superdesk-publisher.readthedocs.org/en/latest/
 [2]: https://www.sourcefabric.org/en/newscoop/
 [3]: https://www.superdesk.org/
 
@@ -60,7 +60,7 @@ This project is a Sourcefabric z.ú. and contributors initiative.
 
 List of all authors and contributors can be found [here](AUTHORS.md).
 
-## Superdesk Web Publisher is possible thanks to other Sourcefabric initiatives:
+## Superdesk Publisher is possible thanks to other Sourcefabric initiatives:
 
 Symfony Bundles:
 
