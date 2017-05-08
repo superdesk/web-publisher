@@ -1,0 +1,82 @@
+SWP\Component\Bridge\Model\Event:
+    type: mappedSuperclass
+    table: swp_event
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        etag:
+            type: string
+        guid:
+            type: string
+        type:
+            type: string
+        name:
+            type: string
+        version:
+            type: integer
+            nullable: true
+        ingestId:
+            type: string
+            nullable: true
+        recurrenceId:
+            type: string
+            nullable: true
+        originalCreator:
+            type: string
+        versionCreator:
+            type: string
+            nullable: true
+        ingestProvider:
+            type: string
+            nullable: true
+        originalSource:
+            type: string
+            nullable: true
+        ingestProviderSequence:
+            type: string
+            nullable: true
+        definitionShort:
+            type: string
+            nullable: true
+        definitionLong:
+            type: string
+            nullable: true
+        createdAt:
+            type: datetime
+            gedmo:
+                timestampable:
+                    on: create
+        updatedAt:
+            type: datetime
+            nullable: true
+            gedmo:
+                timestampable:
+                    on: update
+    oneToMany:
+        locations:
+            mappedBy: event
+            targetEntity: SWP\Component\Bridge\Model\Event\LocationInterface
+            cascade: ['persist']
+        anpaCategory:
+            mappedBy: event
+            targetEntity: SWP\Component\Bridge\Model\Event\CategoryInterface
+            cascade: ['persist']
+    oneToOne:
+        dates:
+            targetEntity: SWP\Component\Bridge\Model\Event\DateInterface
+            cascade: ['persist', 'remove']
+            joinColumn:
+                nullable: true
+                name: dates_id
+                referencedColumnName: id
+        occurStatus:
+            targetEntity: SWP\Component\Bridge\Model\Event\OccurStatusInterface
+            cascade: ['persist', 'remove']
+            joinColumn:
+                nullable: true
+                name: occur_status_id
+                referencedColumnName: id

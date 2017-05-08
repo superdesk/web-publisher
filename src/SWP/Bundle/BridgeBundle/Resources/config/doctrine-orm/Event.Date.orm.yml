@@ -1,0 +1,18 @@
+SWP\Component\Bridge\Model\Event\Date:
+    type:  mappedSuperclass
+    table: swp_event_date
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        startDate:
+            type: datetime
+            nullable: true
+        endDate:
+            type: datetime
+            nullable: true
+        tz:
+            type: string

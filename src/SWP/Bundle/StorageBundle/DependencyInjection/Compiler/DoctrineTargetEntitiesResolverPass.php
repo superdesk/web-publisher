@@ -15,6 +15,7 @@
 
 namespace SWP\Bundle\StorageBundle\DependencyInjection\Compiler;
 
+use Doctrine\ORM\Events;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Exception\InvalidArgumentException;
@@ -34,8 +35,7 @@ final class DoctrineTargetEntitiesResolverPass implements CompilerPassInterface
     {
         try {
             $resources = $container->getParameter('swp.resources');
-            $resolveTargetEntityListener =
-                $container->findDefinition('doctrine.orm.listeners.resolve_target_entity');
+            $resolveTargetEntityListener = $container->findDefinition('doctrine.orm.listeners.resolve_target_entity');
         } catch (InvalidArgumentException $exception) {
             return;
         }
@@ -50,7 +50,7 @@ final class DoctrineTargetEntitiesResolverPass implements CompilerPassInterface
         }
 
         if (!$resolveTargetEntityListener->hasTag('doctrine.event_listener')) {
-            $resolveTargetEntityListener->addTag('doctrine.event_listener', ['event' => 'loadClassMetadata']);
+            $resolveTargetEntityListener->addTag('doctrine.event_listener', ['event' => Events::loadClassMetadata]);
         }
     }
 
