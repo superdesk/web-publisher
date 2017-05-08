@@ -5,7 +5,7 @@ security:
     role_hierarchy:
         ROLE_USER:          [ROLE_READER]
         ROLE_JOURNALIST:    [ROLE_USER]
-        ROLE_EDITOR:        [ROLE_JOURNALIST, ROLE_CAN_VIEW_NON_PUBLISHED]
+        ROLE_EDITOR:        [ROLE_JOURNALIST, ROLE_ARTICLE_PREVIEW]
         ROLE_INTERNAL_API:  [ROLE_EDITOR]
         ROLE_ADMIN:         [ROLE_EDITOR]
         ROLE_SUPER_ADMIN:   [ROLE_ADMIN, ROLE_ALLOWED_TO_SWITCH]
@@ -55,4 +55,4 @@ security:
             anonymous: true
 
     access_control:
-        - { path: ^/preview/article, roles: ROLE_ARTICLE_PREVIEW }
+        - { path: ^/preview/article, roles: ROLE_EDITOR }

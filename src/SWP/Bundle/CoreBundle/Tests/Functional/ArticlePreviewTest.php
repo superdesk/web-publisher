@@ -147,7 +147,7 @@ final class ArticlePreviewTest extends WebTestCase
         self::assertEquals(403, $client->getResponse()->getStatusCode());
     }
 
-    public function testOneTenantCantPreviewArticlesOfOtherTenantsUsingTokensWithinSameOrganization()
+    public function testOneTenantCanPreviewArticlesOfOtherTenantsUsingTokensWithinSameOrganization()
     {
         $route = $this->createRoute();
         $this->ensureArticleIsNotAccessible();
