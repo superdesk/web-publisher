@@ -1,0 +1,9 @@
+SWP\Component\Bridge\Model\Event\Category:
+    exclusion_policy: ALL
+    properties:
+        name:
+            type: string
+        qcode:
+            type: string
+        subject:
+            type: string

@@ -170,7 +170,7 @@ class ContentControllerTest extends WebTestCase
 
         $client->request('GET', '/feed/sitemap.rss');
 
-        self::assertEquals('application/rss+xml', $client->getResponse()->headers->get('Content-Type'));
+        self::assertEquals('application/rss+xml; charset=UTF-8', $client->getResponse()->headers->get('Content-Type'));
         self::assertEquals(200, $client->getResponse()->getStatusCode());
     }
 }

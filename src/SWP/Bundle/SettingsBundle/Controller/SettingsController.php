@@ -25,7 +25,6 @@ use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use SWP\Component\Common\Response\ResourcesListResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
@@ -43,9 +42,9 @@ class SettingsController extends Controller
      * )
      * @Route("/api/{version}/settings/", options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_settings_list")
      * @Method("GET")
-     * Cache(expires="10 minutes", public=true)
+     * @Cache(expires="10 minutes", public=true)
      *
-     * @return ResourcesListResponse
+     * @return SingleResourceResponse
      */
     public function listAction()
     {

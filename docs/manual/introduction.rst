@@ -16,8 +16,8 @@ What is Publisher’s focus?
 - Full commercial support from the upstream development and implementation teams.
 
 
-How the Publisher is structured?
---------------------------------
+How is Publisher structured?
+----------------------------
 
 This graphic shows how the Publisher is configured.
 
