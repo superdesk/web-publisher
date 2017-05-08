@@ -24,8 +24,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 class ArticlePreviewController extends Controller
 {
-    const ROLE_ARTICLE_PREVIEW = 'ROLE_ARTICLE_PREVIEW';
-
     /**
      * @Route("/preview/article/{routeId}/{slug}", options={"expose"=true}, requirements={"slug"=".+", "routeId"="\d+", "token"=".+"}, name="swp_article_preview")
      * @Method("GET")
