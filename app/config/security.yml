@@ -5,7 +5,7 @@ security:
     role_hierarchy:
         ROLE_USER:          [ROLE_READER]
         ROLE_JOURNALIST:    [ROLE_USER]
-        ROLE_EDITOR:        [ROLE_JOURNALIST, ROLE_CAN_VIEW_NON_PUBLISHED]
+        ROLE_EDITOR:        [ROLE_JOURNALIST, ROLE_ARTICLE_PREVIEW]
         ROLE_INTERNAL_API:  [ROLE_EDITOR]
         ROLE_ADMIN:         [ROLE_EDITOR]
         ROLE_SUPER_ADMIN:   [ROLE_ADMIN, ROLE_ALLOWED_TO_SWITCH]
@@ -35,6 +35,14 @@ security:
                 authenticators:
                     - swp.security.token_authenticator
             stateless: true
+        preview:
+            pattern: ^/preview/article
+            anonymous: false
+            logout: false
+            guard:
+                authenticators:
+                    - swp.security.preview_token_authenticator
+            stateless: true
         main:
             pattern: ^/
             form_login:
@@ -45,3 +53,6 @@ security:
             logout:
                 path: security_logout
             anonymous: true
+
+    access_control:
+        - { path: ^/preview/article, roles: ROLE_EDITOR }

@@ -104,6 +104,10 @@ services:
             - "@swp.repository.tenant"
             - "@event_dispatcher"
 
+    swp.security.preview_token_authenticator:
+        class: SWP\Bundle\CoreBundle\Security\Authenticator\PreviewTokenAuthenticator
+        parent: swp.security.token_authenticator
+
     swp.security.user_provider:
         class: SWP\Bundle\CoreBundle\Security\Provider\UserProvider
         arguments:
