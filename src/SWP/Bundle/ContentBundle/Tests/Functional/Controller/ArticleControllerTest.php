@@ -306,6 +306,15 @@ class ArticleControllerTest extends WebTestCase
         self::assertEquals(0, $content['total']);
     }
 
+    public function testFilterArticlesBySource()
+    {
+        $content = $this->getArticlesBySource('aap');
+        self::assertEquals(1, $content['total']);
+
+        $content = $this->getArticlesBySource('ntb');
+        self::assertEquals(0, $content['total']);
+    }
+
     public function testFilterArticlesByDate()
     {
         $date = '2017-04-05 12:12:00';
@@ -393,6 +402,17 @@ class ArticleControllerTest extends WebTestCase
         $client = static::createClient();
         $client->request('GET', $this->router->generate('swp_api_content_list_articles', [
             'query' => $query,
+        ]));
+        self::assertEquals(200, $client->getResponse()->getStatusCode());
+
+        return json_decode($client->getResponse()->getContent(), true);
+    }
+
+    private function getArticlesBySource($source)
+    {
+        $client = static::createClient();
+        $client->request('GET', $this->router->generate('swp_api_content_list_articles', [
+            'source' => $source,
         ]));
         self::assertEquals(200, $client->getResponse()->getStatusCode());
 
