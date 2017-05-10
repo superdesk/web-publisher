@@ -1,6 +1,7 @@
 parameters:
     swp_core.routing.route_enhancer.class: SWP\Bundle\CoreBundle\Enhancer\RouteEnhancer
     swp_core.theme.resolver.template_name.class: SWP\Bundle\CoreBundle\Resolver\TemplateNameResolver
+    swp_multi_tenancy.tenant_context.class: SWP\Bundle\CoreBundle\Context\CachedTenantContext
 
 services:
     swp_core.detection.device_detection:
@@ -255,3 +256,10 @@ services:
             - { name: kernel.event_listener, event: swp.article.unpublished, method: onArticleUnpublish }
             - { name: kernel.event_listener, event: swp.article.published, method: onArticlePublish }
 
+    swp_multi_tenancy.tenant_context:
+        class: '%swp_multi_tenancy.tenant_context.class%'
+        arguments:
+            - '@swp_multi_tenancy.tenant_resolver'
+            - '@request_stack'
+            - '@event_dispatcher'
+            - '@doctrine_cache.providers.main_cache'
