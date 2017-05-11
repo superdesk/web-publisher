@@ -30,6 +30,7 @@
             <exclude>../src/SWP/Bundle/TemplatesSystemBundle/Tests/*</exclude>
             <exclude>../src/SWP/Bundle/ContentBundle/Tests/*</exclude>
             <exclude>../src/SWP/Bundle/SettingsBundle/Tests/*</exclude>
+            <exclude>../src/SWP/Bundle/UserBundle/Tests/*</exclude>
         </testsuite>
     </testsuites>
 
