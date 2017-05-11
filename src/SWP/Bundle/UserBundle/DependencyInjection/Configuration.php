@@ -17,7 +17,7 @@ declare(strict_types=1);
 namespace SWP\Bundle\UserBundle\DependencyInjection;
 
 use SWP\Bundle\StorageBundle\Doctrine\ORM\EntityRepository;
-use SWP\Bundle\UserBundle\Model\Settings;
+use SWP\Bundle\UserBundle\Model\User;
 use SWP\Bundle\UserBundle\Model\UserInterface;
 use SWP\Component\Storage\Factory\Factory;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
@@ -51,7 +51,7 @@ class Configuration implements ConfigurationInterface
                                     ->arrayNode('user')
                                         ->addDefaultsIfNotSet()
                                         ->children()
-                                            ->scalarNode('model')->cannotBeEmpty()->defaultValue(Settings::class)->end()
+                                            ->scalarNode('model')->cannotBeEmpty()->defaultValue(User::class)->end()
                                             ->scalarNode('repository')->defaultValue(EntityRepository::class)->end()
                                             ->scalarNode('factory')->defaultValue(Factory::class)->end()
                                             ->scalarNode('interface')->defaultValue(UserInterface::class)->end()

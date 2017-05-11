@@ -11,18 +11,50 @@
       "email": "pawel.mikolajczuk@sourcefabric.org"
     }
   ],
+  "repositories": [
+    {
+      "type": "path",
+      "url": "../*"
+    },
+    {
+      "type": "path",
+      "url": "../../Component/*"
+    }
+  ],
   "require": {
     "php": "^7.0",
-    "swp/storage": "^0.5",
-    "swp/common": "^0.5",
-    "friendsofsymfony/user-bundle": "^2.0.0"
+    "swp/storage-bundle": "^1.0",
+    "swp/settings-bundle": "^1.0",
+    "friendsofsymfony/user-bundle": "^2.0.0",
+    "nelmio/api-doc-bundle": "^2.13",
+    "symfony/swiftmailer-bundle": "~2.3",
+    "symfony/serializer": "^3.1"
   },
   "require-dev": {
-    "phpspec/phpspec": ">=3.2.3 <4.0",
-    "phpspec/prophecy": "1.7.*"
+    "phpspec/phpspec": "^2.4",
+    "phpunit/phpunit": "^5.6",
+    "phpdocumentor/reflection-docblock": "3.1.*",
+    "symfony/framework-bundle": "^3.1",
+    "symfony/monolog-bundle": "~2.0",
+    "symfony/monolog-bridge": "^3.1",
+    "symfony/validator": "^3.1",
+    "symfony/form": "^3.1",
+    "symfony/twig-bundle": "^3.1",
+    "symfony/asset": "^3.1",
+    "doctrine/orm": "2.6.*",
+    "doctrine/doctrine-bundle": ">=1.6.7 <1.7.0",
+    "doctrine/doctrine-fixtures-bundle": "2.3.*",
+    "liip/functional-test-bundle": "1.6.*",
+    "sensio/framework-extra-bundle": "~3.0,>=3.0.2",
+    "doctrine/doctrine-cache-bundle": "1.3.*"
   },
   "autoload": {
     "psr-4": { "SWP\\Bundle\\UserBundle\\": "" }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "SWP\\Bundle\\UserBundle\\Tests\\": "Tests/"
+    }
   },
   "config": {
     "bin-dir": "bin"
