@@ -44,6 +44,7 @@ class TenantResolver implements TenantResolverInterface
     {
         $domain = $this->extractDomain($host);
         $subdomain = $this->extractSubdomain($host);
+
         if (null !== $subdomain) {
             $tenant = $this->tenantRepository->findOneBySubdomainAndDomain($subdomain, $domain);
         } else {
