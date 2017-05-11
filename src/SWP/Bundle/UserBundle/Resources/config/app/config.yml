@@ -1,5 +1,9 @@
 swp_settings:
     settings:
+        registration_enabled:
+            type: boolean
+            scope: tenant
+            value: true
         registration_confirmation.template:
             value: %fos_user.registration.confirmation.template%
             scope: tenant

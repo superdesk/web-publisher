@@ -86,7 +86,7 @@ class Configuration implements ConfigurationInterface
                                 ->defaultValue('string')
                                 ->validate()
                                     ->always(function ($v) {
-                                        if (!in_array($v, ['string', 'array'])) {
+                                        if (!in_array($v, ['string', 'array', 'boolean'])) {
                                             throw new InvalidTypeException();
                                         }
 

@@ -1,0 +1,92 @@
+imports:
+    - { resource: security.yml }
+
+parameters:
+    domain: localhost
+    test_env: doctrine
+    templating.cache_warmer.template_paths.class: "Symfony\\Bundle\\FrameworkBundle\\CacheWarmer\\TemplatePathsCacheWarmer"
+
+framework:
+    secret: "Three can keep a secret, if two of them are dead."
+    router:
+        resource: "%kernel.root_dir%/../../../Resources/config/routing.yml"
+        strict_requirements: ~
+    templating:
+        engines: ['twig']
+    session: ~
+    test: ~
+    validation:      { enable_annotations: false }
+    form: ~
+
+swiftmailer:
+    disable_delivery: true
+
+monolog:
+    handlers:
+        main:
+            type:   stream
+            path:   "%kernel.logs_dir%/%kernel.environment%.log"
+            level:  debug
+
+doctrine_cache:
+    providers:
+        main_cache:
+            type: array
+            namespace: templates_engine
+
+liip_functional_test: ~
+
+sensio_framework_extra:
+    view:    { annotations: false }
+
+# Twig Configuration
+twig:
+    debug:            "%kernel.debug%"
+    strict_variables: false
+
+doctrine:
+    dbal:
+        driver:   pdo_sqlite
+        memory:   true
+        charset:  UTF8
+        path:     "%kernel.cache_dir%/user_bundle.db3"
+    orm:
+        auto_generate_proxy_classes: true
+        resolve_target_entities:
+            SWP\Bundle\UserBundle\Model\UserInterface: SWP\Bundle\UserBundle\Model\User
+        entity_managers:
+            default:
+                naming_strategy: doctrine.orm.naming_strategy.underscore
+                auto_mapping: true
+
+fos_user:
+    db_driver: orm
+    firewall_name: main
+    user_class: SWP\Bundle\UserBundle\Model\User
+    from_email:
+        address: contact@publisher.dev
+        sender_name: Publisher
+
+swp_settings:
+    persistence:
+        orm:
+            enabled: true
+    settings:
+        registration_enabled:
+            type: boolean
+            scope: global
+            value: false
+
+swp_user:
+    persistence:
+        orm:
+            enabled: true
+
+services:
+    swp_content_bundle.resources_list_response_listener:
+        class: SWP\Bundle\SettingsBundle\Tests\Functional\EventListener\ResourceResponseListener
+        tags:
+            - { name: kernel.event_listener, event: kernel.view }
+
+    tests_user_provider:
+        class: SWP\Bundle\SettingsBundle\Tests\Functional\UserProvider
