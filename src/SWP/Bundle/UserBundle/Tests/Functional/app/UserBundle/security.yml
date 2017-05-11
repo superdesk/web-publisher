@@ -1,0 +1,12 @@
+security:
+    firewalls:
+        main:
+            anonymous: ~
+            http_basic: ~
+            provider: test_user
+            stateless: true
+    encoders:
+        SWP\Bundle\UserBundle\Model\User: plaintext
+    providers:
+        test_user:
+            id: tests_user_provider
