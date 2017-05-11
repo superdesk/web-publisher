@@ -32,6 +32,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\ConflictHttpException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class RegistrationController extends Controller
 {
@@ -53,6 +54,8 @@ class RegistrationController extends Controller
      */
     public function registerAction(Request $request)
     {
+        $this->ensureThatRegistrationIsEnabled();
+
         /** @var UserManagerInterface $userManager */
         $userManager = $this->get('fos_user.user_manager');
         /** @var $dispatcher EventDispatcherInterface */
@@ -100,5 +103,21 @@ class RegistrationController extends Controller
         }
 
         return new SingleResourceResponse($form, new ResponseContext(400));
+    }
+
+    /**
+     * @throws NotFoundHttpException
+     */
+    private function ensureThatRegistrationIsEnabled()
+    {
+        $settingName = 'registration_enabled';
+        $settingsManager = $this->get('swp_settings.manager.settings');
+        $scopeContext = $this->get('swp_settings.context.scope');
+
+        $scope = $settingsManager->all()[$settingName]['scope'];
+        $registrationEnabled = $settingsManager->get($settingName, $scope, $scopeContext->getScopeOwner($scope));
+        if (!$registrationEnabled) {
+            throw new NotFoundHttpException('Registration is disabled.');
+        }
     }
 }

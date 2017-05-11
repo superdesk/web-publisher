@@ -1,0 +1,7 @@
+services:
+    swp_user.form.registration_type:
+        class: SWP\Bundle\UserBundle\Form\Type\RegistrationFormType
+        arguments:
+            - "%swp.model.user.class%"
+        tags:
+            - { name: form.type }
