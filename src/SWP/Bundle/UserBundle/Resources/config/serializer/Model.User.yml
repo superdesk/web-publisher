@@ -1,2 +1,18 @@
 SWP\Bundle\UserBundle\Model\User:
     exclusion_policy: ALL
+    properties:
+        firstName:
+            expose: true
+            type: string
+        lastName:
+            expose: true
+            type: string
+        about:
+            expose: true
+            type: string
+        createdAt:
+            expose: true
+            type: DateTime<'Y-m-d\TH:i:sO'>
+        updatedAt:
+            expose: true
+            type: DateTime<'Y-m-d\TH:i:sO'>

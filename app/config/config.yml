@@ -6,7 +6,6 @@ imports:
     - { resource: "@SWPMenuBundle/Resources/config/app/config.yml" }
     - { resource: "@SWPContentListBundle/Resources/config/app/config.yml" }
     - { resource: "@SWPRevisionBundle/Resources/config/app/config.yml" }
-    - { resource: "@SWPUserBundle/Resources/config/app/config.yml" }
     - { resource: "@SWPCoreBundle/Resources/config/app/config.yml" }
     - { resource: parameters.yml }
     - { resource: security.yml }

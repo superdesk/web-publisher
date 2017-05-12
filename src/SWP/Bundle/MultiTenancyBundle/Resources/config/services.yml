@@ -48,3 +48,11 @@ services:
             - '@swp_multi_tenancy.tenant_context'
         tags:
             - { name: form.type }
+
+    swp_multi_tenancy.tenant.console_command.listener:
+        class: SWP\Bundle\MultiTenancyBundle\EventListener\ConsoleCommandTenantListener
+        arguments:
+            - '@swp_multi_tenancy.tenant_context'
+            - '@swp.repository.tenant'
+        tags:
+            - { name: kernel.event_listener, event: console.command, method: onConsoleCommand }
