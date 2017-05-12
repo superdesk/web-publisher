@@ -52,9 +52,9 @@ interface SettingsInterface extends PersistableInterface, TimestampableInterface
     public function getValue(): string;
 
     /**
-     * @param string $value
+     * @param mixed $value
      */
-    public function setValue(string $value);
+    public function setValue($value);
 
     /**
      * @return int

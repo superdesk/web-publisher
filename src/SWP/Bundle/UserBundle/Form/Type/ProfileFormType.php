@@ -27,19 +27,6 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 class ProfileFormType extends AbstractType
 {
     /**
-     * @var string
-     */
-    protected $class;
-
-    /**
-     * {@inheritdoc}
-     */
-    public function __construct($class = null)
-    {
-        $this->class = $class;
-    }
-
-    /**
      * {@inheritdoc}
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
@@ -62,7 +49,7 @@ class ProfileFormType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => UserInterface::class, //$this->class,
+            'data_class' => UserInterface::class,
             'csrf_protection' => false,
         ));
     }

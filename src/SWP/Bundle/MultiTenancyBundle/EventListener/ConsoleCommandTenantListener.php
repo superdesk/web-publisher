@@ -51,6 +51,10 @@ class ConsoleCommandTenantListener
      */
     public function onConsoleCommand(ConsoleCommandEvent $event)
     {
+        if (!$event->getInput()->hasOption('tenant')) {
+            return;
+        }
+
         $tenantCode = $event->getInput()->getOption('tenant');
         if (null !== $tenantCode) {
             $tenant = $this->tenantRepository->findOneByCode($tenantCode);

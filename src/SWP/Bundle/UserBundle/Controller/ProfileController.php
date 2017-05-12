@@ -16,7 +16,6 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\UserBundle\Controller;
 
-use FOS\UserBundle\Event\FilterUserResponseEvent;
 use FOS\UserBundle\Event\FormEvent;
 use FOS\UserBundle\Event\GetResponseUserEvent;
 use FOS\UserBundle\FOSUserEvents;
@@ -29,7 +28,6 @@ use SWP\Bundle\UserBundle\Model\UserInterface;
 use SWP\Component\Common\Response\SingleResourceResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
@@ -110,9 +108,8 @@ class ProfileController extends Controller
             $event = new FormEvent($form, $request);
             $dispatcher->dispatch(FOSUserEvents::PROFILE_EDIT_SUCCESS, $event);
             $userManager->updateUser($requestedUser);
-            $dispatcher->dispatch(FOSUserEvents::PROFILE_EDIT_COMPLETED, new FilterUserResponseEvent($requestedUser, $request, new Response()));
 
-            return new SingleResourceResponse($currentUser);
+            return new SingleResourceResponse($requestedUser);
         }
 
         return new SingleResourceResponse($form, new ResponseContext(400));

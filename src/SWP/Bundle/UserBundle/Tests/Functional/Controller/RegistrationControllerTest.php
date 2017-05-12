@@ -29,6 +29,7 @@ class RegistrationControllerTest extends WebTestCase
 
     public function testRegistrationDisabling()
     {
+        $this->getContainer()->get('swp_settings.manager.settings')->set('registration_enabled', false);
         $client = static::createClient();
         $client->request('POST', $this->router->generate('swp_api_core_register_user'), []);
 
