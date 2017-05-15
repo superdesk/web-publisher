@@ -25,30 +25,30 @@ final class Criteria
     /**
      * @var Pagination
      */
-    private $paginating;
+    private $pagination;
 
     /**
-     * @var Ordering
+     * @var Order
      */
-    private $ordering;
+    private $order;
 
     /**
-     * @var Filtering
+     * @var Filters
      */
-    private $filtering;
+    private $filters;
 
     /**
      * @param string     $term
-     * @param Pagination $paginating
-     * @param Ordering   $ordering
-     * @param Filtering  $filtering
+     * @param Pagination $pagination
+     * @param Order      $order
+     * @param Filters    $filters
      */
-    private function __construct(string $term, Pagination $paginating, Ordering $ordering, Filtering $filtering)
+    private function __construct(string $term, Pagination $pagination, Order $order, Filters $filters)
     {
         $this->term = $term;
-        $this->paginating = $paginating;
-        $this->ordering = $ordering;
-        $this->filtering = $filtering;
+        $this->pagination = $pagination;
+        $this->order = $order;
+        $this->filters = $filters;
     }
 
     /**
@@ -59,11 +59,11 @@ final class Criteria
      */
     public static function fromQueryParameters($term, array $parameters)
     {
-        $paginating = Pagination::fromQueryParameters($parameters);
-        $ordering = Ordering::fromQueryParameters($parameters);
-        $filtering = Filtering::fromQueryParameters($parameters);
+        $pagination = Pagination::fromQueryParameters($parameters);
+        $order = Order::fromQueryParameters($parameters);
+        $filters = Filters::fromQueryParameters($parameters);
 
-        return new self($term, $paginating, $ordering, $filtering);
+        return new self($term, $pagination, $order, $filters);
     }
 
     /**
@@ -77,24 +77,24 @@ final class Criteria
     /**
      * @return Pagination
      */
-    public function getPaginating()
+    public function getPagination()
     {
-        return $this->paginating;
+        return $this->pagination;
     }
 
     /**
-     * @return Ordering
+     * @return Order
      */
-    public function getOrdering()
+    public function getOrder()
     {
-        return $this->ordering;
+        return $this->order;
     }
 
     /**
-     * @return Filtering
+     * @return Filters
      */
-    public function getFiltering()
+    public function getFilters()
     {
-        return $this->filtering;
+        return $this->filters;
     }
 }

@@ -28,9 +28,14 @@ use SWP\Bundle\ElasticSearchBundle\Criteria\Criteria;
 
 class PackageRepository extends Repository
 {
+    /**
+     * @param Criteria $criteria
+     *
+     * @return \FOS\ElasticaBundle\Paginator\PaginatorAdapterInterface
+     */
     public function findByCriteria(Criteria $criteria)
     {
-        $fields = $criteria->getFiltering()->getFields();
+        $fields = $criteria->getFilters()->getFields();
         $boolFilter = new BoolQuery();
 
         if ($criteria->getTerm() !== null && $criteria->getTerm() !== '') {
@@ -75,7 +80,7 @@ class PackageRepository extends Repository
 
         $query = Query::create($boolFilter)
             ->addSort([
-                $criteria->getOrdering()->getField() => $criteria->getOrdering()->getDirection(),
+                $criteria->getOrder()->getField() => $criteria->getOrder()->getDirection(),
             ]);
 
         return $this->createPaginatorAdapter($query);

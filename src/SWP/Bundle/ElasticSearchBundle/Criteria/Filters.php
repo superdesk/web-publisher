@@ -15,7 +15,7 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\ElasticSearchBundle\Criteria;
 
-final class Filtering
+final class Filters
 {
     /**
      * @var array
@@ -33,7 +33,7 @@ final class Filtering
     /**
      * @param array $queryParameters
      *
-     * @return Filtering
+     * @return Filters
      */
     public static function fromQueryParameters(array $queryParameters)
     {

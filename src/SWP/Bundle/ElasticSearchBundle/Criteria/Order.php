@@ -1,6 +1,7 @@
 <?php
 
 declare(strict_types=1);
+
 /*
  * This file is part of the Superdesk Web Publisher ElasticSearch Bundle.
  *
@@ -15,16 +16,18 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\ElasticSearchBundle\Criteria;
 
-final class Ordering
+final class Order
 {
     const DEFAULT_FIELD = 'id';
     const DEFAULT_DIRECTION = self::ASCENDING_DIRECTION;
     const ASCENDING_DIRECTION = 'asc';
     const DESCENDING_DIRECTION = 'desc';
+
     /**
      * @var string
      */
     private $field;
+
     /**
      * @var string
      */
@@ -43,7 +46,7 @@ final class Ordering
     /**
      * @param array $parameters
      *
-     * @return Ordering
+     * @return Order
      */
     public static function fromQueryParameters(array $parameters)
     {

@@ -19,8 +19,8 @@ namespace SWP\Bundle\ElasticSearchBundle\Controller\Api;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use SWP\Bundle\CoreBundle\Model\Article;
 use SWP\Bundle\ElasticSearchBundle\Criteria\Criteria;
+use SWP\Bundle\ElasticSearchBundle\Repository\ArticleRepository;
 use SWP\Component\Common\Response\ResourcesListResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -58,7 +58,7 @@ class ArticleSearchController extends Controller
                 'per_page' => $request->query->get('per_page', 10),
                 'route' => $request->query->get('route'),
                 'status' => $request->query->get('status'),
-                'authors' => explode(',', $request->query->get('authors', [])),
+                'authors' => array_filter(explode(',', $request->query->get('authors', ''))),
                 'publishedBefore' => $request->query->get('publishedBefore'),
                 'publishedAfter' => $request->query->get('publishedAfter'),
                 'tenantCode' => $currentTenant->getCode(),
@@ -67,18 +67,19 @@ class ArticleSearchController extends Controller
         );
 
         $repositoryManager = $this->get('fos_elastica.manager');
-        $repository = $repositoryManager->getRepository(Article::class);
+        /** @var ArticleRepository $repository */
+        $repository = $repositoryManager->getRepository($this->getParameter('swp.model.article.class'));
         $articles = $repository->findByCriteria($criteria);
         $partialResult = $articles->getResults(
-            $criteria->getPaginating()->getOffset(),
-            $criteria->getPaginating()->getItemsPerPage()
+            $criteria->getPagination()->getOffset(),
+            $criteria->getPagination()->getItemsPerPage()
         );
 
         $paginator = $this->get('knp_paginator');
         $pagination = $paginator->paginate(
             $partialResult->toArray(),
             $request->query->get('page', 1),
-            $request->query->get('per_page', 10)
+            $criteria->getPagination()->getItemsPerPage()
         );
 
         return new ResourcesListResponse($pagination);
