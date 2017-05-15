@@ -46,6 +46,9 @@ SWP\Component\Bridge\Model\Package:
         located:
             type: string
             nullable: true
+        source:
+            type: string
+            nullable: true
         pubStatus:
             type: string
         urgency:

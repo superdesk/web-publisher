@@ -153,4 +153,14 @@ interface ArticleInterface extends TimestampableInterface, TranslatableInterface
      * @param string $code
      */
     public function setCode(string $code);
+
+    /**
+     * @return mixed
+     */
+    public function getSource();
+
+    /**
+     * @param mixed $source
+     */
+    public function setSource($source);
 }

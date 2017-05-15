@@ -38,4 +38,7 @@ properties:
     featureMedia:
         description: "Article feature media"
         type: meta
+    source:
+        description: "Article source (ex. ingest source)"
+        type: text
 to_string: title

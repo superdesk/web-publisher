@@ -117,6 +117,11 @@ class BaseContent implements ContentInterface
     protected $evolvedFrom;
 
     /**
+     * @var string|null
+     */
+    protected $source;
+
+    /**
      * @return mixed
      */
     public function getId()
@@ -455,5 +460,21 @@ class BaseContent implements ContentInterface
     public function setEvolvedFrom(string $evolvedFrom)
     {
         $this->evolvedFrom = $evolvedFrom;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getSource()
+    {
+        return $this->source;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setSource($source)
+    {
+        $this->source = $source;
     }
 }
