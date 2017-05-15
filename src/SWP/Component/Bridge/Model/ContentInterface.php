@@ -217,4 +217,14 @@ interface ContentInterface extends PersistableInterface
      * @param string $evolvedFrom
      */
     public function setEvolvedFrom(string $evolvedFrom);
+
+    /**
+     * @return null|string
+     */
+    public function getSource();
+
+    /**
+     * @param null|string $source
+     */
+    public function setSource($source);
 }
