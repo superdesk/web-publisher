@@ -16,8 +16,8 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\ElasticSearchBundle\Controller;
 
-use SWP\Bundle\CoreBundle\Model\Article;
 use SWP\Bundle\ElasticSearchBundle\Criteria\Criteria;
+use SWP\Bundle\ElasticSearchBundle\Repository\ArticleRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 class SearchController extends Controller
@@ -29,11 +29,12 @@ class SearchController extends Controller
         $criteria['tenantCode'] = $currentTenant->getCode();
         $criteria = Criteria::fromQueryParameters($criteria['term'], $criteria);
         $repositoryManager = $this->get('fos_elastica.manager');
-        $repository = $repositoryManager->getRepository(Article::class);
+        /** @var ArticleRepository $repository */
+        $repository = $repositoryManager->getRepository($this->getParameter('swp.model.article.class'));
         $query = $repository->findByCriteria($criteria);
         $partialResult = $query->getResults(
-            $criteria->getPaginating()->getOffset(),
-            $criteria->getPaginating()->getItemsPerPage()
+            $criteria->getPagination()->getOffset(),
+            $criteria->getPagination()->getItemsPerPage()
         );
 
         return $this->render($template, [
