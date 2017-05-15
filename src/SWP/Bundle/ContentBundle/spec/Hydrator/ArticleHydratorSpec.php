@@ -62,6 +62,7 @@ final class ArticleHydratorSpec extends ObjectBehavior
         $package->getByLine()->shouldBeCalled()->willReturn('Person');
         $package->getKeywords()->shouldBeCalled()->willReturn(['key1', 'key2']);
         $package->getItems()->shouldBeCalled()->willReturn(new ArrayCollection([$item]));
+        $package->getSource()->willReturn('package_source');
         $package->getLanguage()->shouldBeCalled()->willReturn('en');
         $package->getMetadata()->shouldBeCalled()->willReturn(['some' => 'meta']);
         $package->getSlugline()->shouldBeCalled();
@@ -75,6 +76,7 @@ final class ArticleHydratorSpec extends ObjectBehavior
         $article->setMetadata(['some' => 'meta'])->shouldBeCalled();
         $article->setKeywords(['key1', 'key2'])->shouldBeCalled();
         $article->setSlug('item headline')->shouldNotBeCalled();
+        $article->setSource('package_source')->shouldBeCalled();
 
         $routeProvider->getRouteForArticle($article)->willReturn($route);
 
@@ -99,6 +101,7 @@ final class ArticleHydratorSpec extends ObjectBehavior
         $package->getByLine()->shouldBeCalled()->willReturn('Person');
         $package->getKeywords()->shouldBeCalled()->willReturn(['key1', 'key2']);
         $package->getItems()->shouldBeCalled()->willReturn(new ArrayCollection([$item]));
+        $package->getSource()->willReturn('package_source');
         $package->getLanguage()->shouldBeCalled()->willReturn('en');
         $package->getMetadata()->shouldBeCalled()->willReturn(['some' => 'meta']);
         $package->getSlugline()->shouldBeCalled()->willReturn('slugline');
@@ -112,6 +115,7 @@ final class ArticleHydratorSpec extends ObjectBehavior
         $article->setMetadata(['some' => 'meta'])->shouldBeCalled();
         $article->setSlug('slugline')->shouldBeCalled();
         $article->setKeywords(['key1', 'key2'])->shouldBeCalled();
+        $article->setSource('package_source')->shouldBeCalled();
 
         $routeProvider->getRouteForArticle($article)->willReturn($route);
 

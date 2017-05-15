@@ -116,6 +116,11 @@ class Article implements ArticleInterface, MediaAwareArticleInterface
     protected $code;
 
     /**
+     * @var string
+     */
+    protected $source;
+
+    /**
      * Article constructor.
      */
     public function __construct()
@@ -417,5 +422,21 @@ class Article implements ArticleInterface, MediaAwareArticleInterface
     public function setCode(string $code)
     {
         $this->code = $code;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getSource()
+    {
+        return $this->source;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setSource($source)
+    {
+        $this->source = $source;
     }
 }

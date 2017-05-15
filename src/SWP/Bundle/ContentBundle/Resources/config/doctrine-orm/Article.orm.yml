@@ -62,6 +62,9 @@ SWP\Bundle\ContentBundle\Model\Article:
             nullable: true
         code:
             type: string
+        source:
+            type: string
+            nullable: true
     manyToOne:
         route:
             targetEntity: SWP\Bundle\ContentBundle\Model\RouteInterface
