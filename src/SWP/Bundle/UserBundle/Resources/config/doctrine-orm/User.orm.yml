@@ -12,3 +12,12 @@ SWP\Bundle\UserBundle\Model\User:
         updatedAt:
             type: datetime
             nullable: true
+        firstName:
+            type: string
+            nullable: true
+        lastName:
+            type: string
+            nullable: true
+        about:
+            type: text
+            nullable: true

@@ -7,6 +7,7 @@ security:
             stateless: true
     encoders:
         SWP\Bundle\UserBundle\Model\User: plaintext
+        SWP\Bundle\SettingsBundle\Tests\Functional\Model\User: plaintext
     providers:
         test_user:
             id: tests_user_provider
