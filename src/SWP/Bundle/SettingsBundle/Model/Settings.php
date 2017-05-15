@@ -106,7 +106,7 @@ class Settings implements SettingsInterface
     /**
      * {@inheritdoc}
      */
-    public function setValue(string $value)
+    public function setValue($value)
     {
         $this->value = $value;
     }

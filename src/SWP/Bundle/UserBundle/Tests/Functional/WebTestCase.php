@@ -47,4 +47,12 @@ class WebTestCase extends BaseWebTestCase
         $schemaTool->dropSchema($metadata);
         $schemaTool->createSchema($metadata);
     }
+
+    public static function createClient(array $options = [], array $server = [])
+    {
+        $server['PHP_AUTH_USER'] = 'publisher';
+        $server['PHP_AUTH_PW'] = 'testpass';
+
+        return parent::createClient($options, $server);
+    }
 }

@@ -15,6 +15,7 @@
 namespace SWP\Bundle\CoreBundle\Command;
 
 use SWP\Bundle\MultiTenancyBundle\Command\CreateTenantCommand as BaseCreateTenantCommand;
+use SWP\Component\Revision\Manager\RevisionManagerInterface;
 use SWP\Component\Revision\Model\RevisionInterface;
 
 class CreateTenantCommand extends BaseCreateTenantCommand
