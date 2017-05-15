@@ -86,8 +86,8 @@ final class PackageRuleApplicator extends AbstractRuleApplicator
             $destinations = [];
             foreach ($configuration[$this->supportedKeys[0]] as $destination) {
                 $destinations[] = $this->publishDestinationResolver->resolve(
-                    $destination['tenant'],
-                    $destination['route']
+                    (string) $destination['tenant'],
+                    (int) $destination['route']
                 );
             }
 

@@ -27,3 +27,7 @@ swp_settings:
 NelmioApiDocBundle:
     resource: "@NelmioApiDocBundle/Resources/config/routing.yml"
     prefix:   /api/doc
+
+swp_elasticsearch:
+    resource: "@SWPElasticSearchBundle/Controller/Api"
+    type:     annotation

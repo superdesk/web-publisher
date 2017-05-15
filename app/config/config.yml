@@ -8,6 +8,7 @@ imports:
     - { resource: "@SWPRevisionBundle/Resources/config/app/config.yml" }
     - { resource: "@SWPUserBundle/Resources/config/app/config.yml" }
     - { resource: "@SWPCoreBundle/Resources/config/app/config.yml" }
+    - { resource: "@SWPElasticSearchBundle/Resources/config/app/config.yml" }
     - { resource: parameters.yml }
     - { resource: security.yml }
 
