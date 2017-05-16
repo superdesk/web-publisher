@@ -16,8 +16,6 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\ElasticSearchBundle;
 
-use SWP\Bundle\ElasticSearchBundle\DependencyInjection\Compiler\SearchApplicatorCompilerPass;
-use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
 final class SWPElasticSearchBundle extends Bundle

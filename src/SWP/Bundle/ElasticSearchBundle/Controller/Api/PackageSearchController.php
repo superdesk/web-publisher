@@ -66,7 +66,7 @@ class PackageSearchController extends Controller
                 'source' => $request->query->get('source'),
                 'tenantCode' => $request->query->get('tenantCode'),
                 'route' => $request->query->get('route'),
-                'status' => $request->query->get('status')
+                'status' => $request->query->get('status'),
             ]
         );
 
