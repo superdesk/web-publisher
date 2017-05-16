@@ -61,7 +61,7 @@ final class Pagination
     public static function fromQueryParameters(array $parameters)
     {
         $currentPage = isset($parameters['page']) ? $parameters['page'] : self::DEFAULT_CURRENT_PAGE;
-        $itemsPerPage = isset($parameters['per_page']) ? $parameters['per_page'] : self::DEFAULT_ITEMS_PER_PAGE;
+        $itemsPerPage = isset($parameters['limit']) ? $parameters['limit'] : self::DEFAULT_ITEMS_PER_PAGE;
 
         return new self($currentPage, $itemsPerPage);
     }

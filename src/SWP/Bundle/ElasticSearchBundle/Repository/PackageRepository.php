@@ -79,8 +79,10 @@ class PackageRepository extends Repository
             $boolFilter->addMust($nested);
         }
 
-        if (null !== $fields->get('status')) {
-            $boolFilter->addMust(new Term(['status' => $fields->get('status')]));
+        if ($fields->get('status') !== null && !empty($fields->get('status'))) {
+            foreach ($fields->get('status') as $status) {
+                $boolFilter->addShould(new Term(['status' => $status]));
+            }
         }
 
         $bool = new BoolQuery();

@@ -50,11 +50,16 @@ final class Order
      */
     public static function fromQueryParameters(array $parameters)
     {
-        $field = isset($parameters['sort']) ? $parameters['sort'] : self::DEFAULT_FIELD;
+        $sort = isset($parameters['sort']) && is_array($parameters['sort']) ? $parameters['sort'] : [self::DEFAULT_FIELD => self::DEFAULT_DIRECTION];
+
         $direction = self::DEFAULT_DIRECTION;
-        if ('-' === $field[0]) {
+        if (self::DESCENDING_DIRECTION === array_values($sort)[0]) {
             $direction = self::DESCENDING_DIRECTION;
-            $field = trim($field, '-');
+        }
+
+        $field = self::DEFAULT_FIELD;
+        if (self::DEFAULT_FIELD !== array_keys($sort)[0]) {
+            $field = array_keys($sort)[0];
         }
 
         return new self($field, $direction);
