@@ -101,7 +101,7 @@ class PackageRepository extends Repository
             ->addSort([
                 $criteria->getOrder()->getField() => $criteria->getOrder()->getDirection(),
             ]);
-dump($query->toArray());die;
+
         return $this->createPaginatorAdapter($query);
     }
 }
