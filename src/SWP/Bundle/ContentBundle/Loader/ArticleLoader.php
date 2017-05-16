@@ -159,6 +159,10 @@ class ArticleLoader extends PaginatedLoader implements LoaderInterface
                 $criteria->set('metadata', $parameters['metadata']);
             }
 
+            if (isset($parameters['keywords'])) {
+                $criteria->set('keywords', $parameters['keywords']);
+            }
+
             $criteria = $this->applyPaginationToCriteria($criteria, $parameters);
             $countCriteria = clone $criteria;
             $articles = $this->articleRepository->findArticlesByCriteria($criteria, $criteria->get('order', []));

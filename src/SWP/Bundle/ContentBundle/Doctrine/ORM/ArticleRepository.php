@@ -145,6 +145,17 @@ class ArticleRepository extends EntityRepository implements ArticleRepositoryInt
             $criteria->remove($name);
         }
 
+        if ($criteria->has('keywords')) {
+            $orX = $queryBuilder->expr()->orX();
+            foreach ($criteria->get('keywords') as $value) {
+                $valueExpression = $queryBuilder->expr()->literal('%'.$value.'%');
+                $orX->add($queryBuilder->expr()->like('a.keywords', $valueExpression));
+            }
+
+            $queryBuilder->andWhere($orX);
+            $criteria->remove('keywords');
+        }
+
         if ($criteria->has('publishedBefore') && $criteria->get('publishedBefore') instanceof \DateTime) {
             $queryBuilder->andWhere('a.publishedAt < :before')
                 ->setParameter('before', $criteria->get('publishedBefore'));
