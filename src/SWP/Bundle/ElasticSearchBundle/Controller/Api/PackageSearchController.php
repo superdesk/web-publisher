@@ -42,7 +42,9 @@ class PackageSearchController extends Controller
      *         {"name"="authors", "dataType"="string", "pattern"="John Doe | John Doe, Matt Smith"},
      *         {"name"="term", "dataType"="string", "pattern"="search phrase"},
      *         {"name"="sorting", "dataType"="string", "pattern"="-id|id"},
-     *         {"name"="source", "dataType"="string"}
+     *         {"name"="source", "dataType"="string"},
+     *         {"name"="per_page", "dataType"="integer"},
+     *         {"name"="tenantCode", "dataType"="string"}
      *     }
      * )
      * @Route("/api/{version}/search/packages/", options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_search_packages")

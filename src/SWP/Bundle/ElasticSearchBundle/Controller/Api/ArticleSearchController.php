@@ -41,7 +41,9 @@ class ArticleSearchController extends Controller
      *         {"name"="publishedAfter", "dataType"="datetime", "pattern"="Y-m-d h:i:s"},
      *         {"name"="authors", "dataType"="string", "pattern"="John Doe | John Doe, Matt Smith"},
      *         {"name"="term", "dataType"="string", "pattern"="find that"},
-     *         {"name"="sorting", "dataType"="string", "pattern"="-id|id"}
+     *         {"name"="sorting", "dataType"="string", "pattern"="-id|id"},
+     *         {"name"="per_page", "dataType"="integer"},
+     *         {"name"="source", "dataType"="string"}
      *     }
      * )
      * @Route("/api/{version}/search/articles/", options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_search_articles")
