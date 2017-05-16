@@ -17,6 +17,7 @@ declare(strict_types=1);
 namespace SWP\Bundle\SettingsBundle\Tests\Functional\EventListener;
 
 use SWP\Component\Common\Response\ResourcesListResponseInterface;
+use SWP\Component\Common\Response\ResponseContext;
 use SWP\Component\Common\Response\SingleResourceResponseInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -36,8 +37,10 @@ final class ResourceResponseListener
     public function onKernelView(GetResponseForControllerResultEvent $event)
     {
         $controllerResult = $event->getControllerResult();
+        /** @var ResponseContext $responseContext */
+        $responseContext = $controllerResult->getResponseContext();
         if ($controllerResult instanceof ResourcesListResponseInterface) {
-            $event->setResponse(new JsonResponse($controllerResult->getResources()));
+            $event->setResponse(new JsonResponse($controllerResult->getResources(), $responseContext->getStatusCode()));
         } elseif ($controllerResult instanceof SingleResourceResponseInterface) {
             if ($controllerResult->getResource() instanceof FormInterface) {
                 $errors = array();
@@ -45,12 +48,12 @@ final class ResourceResponseListener
                     $errors[] = array('message' => $error->getMessage());
                 }
 
-                $event->setResponse(new Response($this->getSerializer()->serialize($errors, 'json')));
+                $event->setResponse(new Response($this->getSerializer()->serialize($errors, 'json'), $responseContext->getStatusCode()));
 
                 return;
             }
 
-            $event->setResponse(new Response($this->getSerializer()->serialize($controllerResult->getResource(), 'json')));
+            $event->setResponse(new Response($this->getSerializer()->serialize($controllerResult->getResource(), 'json'), $responseContext->getStatusCode()));
         }
     }
 

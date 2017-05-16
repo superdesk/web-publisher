@@ -172,6 +172,9 @@ class TenantController extends FOSRestController
             $formData->setUpdatedAt(new \DateTime('now'));
             $this->get('swp.object_manager.tenant')->flush();
 
+            $cacheProvider = $this->get('doctrine_cache.providers.main_cache');
+            $cacheProvider->save(md5($request->getHost()), $formData);
+
             return new SingleResourceResponse($formData);
         }
 

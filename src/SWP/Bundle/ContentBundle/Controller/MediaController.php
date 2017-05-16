@@ -34,9 +34,13 @@ class MediaController extends Controller
      */
     public function getAction($mediaId)
     {
-        $media = $this->get('swp.repository.image')
-            ->findImageByAssetId(ArticleMedia::handleMediaId($mediaId));
+        $cacheProvider = $this->get('doctrine_cache.providers.main_cache');
+        $cacheKey = md5(serialize(['media', $mediaId]));
+        if ($cacheProvider->contains($cacheKey)) {
+            return $cacheProvider->fetch($cacheKey);
+        }
 
+        $media = $this->get('swp.repository.image')->findImageByAssetId(ArticleMedia::handleMediaId($mediaId));
         if (null === $media) {
             throw new NotFoundHttpException('Media was not found.');
         }
@@ -54,9 +58,11 @@ class MediaController extends Controller
         $response->setPublic();
         $response->setMaxAge(63072000);
         $response->setSharedMaxAge(63072000);
+        $response->setLastModified($media->getUpdatedAt() ? $media->getUpdatedAt() : $media->getCreatedAt());
 
         $mediaManager = $this->get('swp_content_bundle.manager.media');
         $response->setContent($mediaManager->getFile($media));
+        $cacheProvider->save($cacheKey, $response, 63072000);
 
         return $response;
     }

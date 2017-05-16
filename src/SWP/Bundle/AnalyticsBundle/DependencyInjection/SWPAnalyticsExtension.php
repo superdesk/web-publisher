@@ -31,8 +31,11 @@ class SWPAnalyticsExtension extends Extension
      */
     public function load(array $configs, ContainerBuilder $container)
     {
-        $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
-        $loader->load('services.yml');
+        $config = $this->processConfiguration(new Configuration(), $configs);
+        if ($config['metrics_listener']['enabled']) {
+            $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
+            $loader->load('services.yml');
+        }
     }
 
     public function getAlias()

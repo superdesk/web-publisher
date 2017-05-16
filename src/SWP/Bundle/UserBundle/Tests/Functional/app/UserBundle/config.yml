@@ -75,7 +75,7 @@ swp_settings:
         registration_enabled:
             type: boolean
             scope: global
-            value: false
+            value: true
 
 swp_user:
     persistence:
