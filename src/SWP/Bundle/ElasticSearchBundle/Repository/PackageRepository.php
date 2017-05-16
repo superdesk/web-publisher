@@ -49,17 +49,15 @@ class PackageRepository extends Repository
         }
 
         if ($fields->get('organization') !== null && $fields->get('organization') !== '') {
-            $boolFilter->addMust(new Term(['organization.id' => $fields->get('organization')]));
+            $boolFilter->addFilter(new Term(['organization.id' => $fields->get('organization')]));
         }
 
         if ($fields->get('source') !== null && $fields->get('source') !== '') {
-            $boolFilter->addMust(new Term(['source' => $fields->get('source')]));
+            $boolFilter->addFilter(new Term(['source' => $fields->get('source')]));
         }
 
         if ($fields->get('authors') !== null && !empty($fields->get('authors'))) {
-            foreach ($fields->get('authors') as $author) {
-                $boolFilter->addShould(new Term(['byline' => $author]));
-            }
+            $boolFilter->addFilter(new Query\Terms('byline', $fields->get('authors')));
         }
 
         if (null !== $fields->get('publishedAfter') || null !== $fields->get('publishedBefore')) {
@@ -80,9 +78,7 @@ class PackageRepository extends Repository
         }
 
         if ($fields->get('status') !== null && !empty($fields->get('status'))) {
-            foreach ($fields->get('status') as $status) {
-                $boolFilter->addShould(new Term(['status' => $status]));
-            }
+            $boolFilter->addFilter(new Query\Terms('status', $fields->get('status')));
         }
 
         $bool = new BoolQuery();
@@ -105,7 +101,7 @@ class PackageRepository extends Repository
             ->addSort([
                 $criteria->getOrder()->getField() => $criteria->getOrder()->getDirection(),
             ]);
-
+dump($query->toArray());die;
         return $this->createPaginatorAdapter($query);
     }
 }

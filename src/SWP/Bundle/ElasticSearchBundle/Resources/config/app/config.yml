@@ -43,6 +43,7 @@ fos_elastica:
                         language: { type: string }
                         description: { type: string }
                         byline: { type: string }
+                        status: { type: string }
                         source: { type: string }
                         organization:
                             type: "object"
