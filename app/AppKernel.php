@@ -52,6 +52,9 @@ class AppKernel extends Kernel
             new SWP\Bundle\SettingsBundle\SWPSettingsBundle(),
             new SWP\Bundle\CoreBundle\SWPCoreBundle(),
 
+            new FOS\ElasticaBundle\FOSElasticaBundle(),
+            new SWP\Bundle\ElasticSearchBundle\SWPElasticSearchBundle(),
+
             new Sentry\SentryBundle\SentryBundle(),
         ];
 
