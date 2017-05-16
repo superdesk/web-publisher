@@ -41,7 +41,7 @@ class PackageSearchController extends Controller
      *         {"name"="publishedAfter", "dataType"="datetime", "pattern"="Y-m-d h:i:s|now-1M|now", "description"="The datetime after which the package has been published"},
      *         {"name"="authors", "dataType"="string", "pattern"="John Doe | John Doe, Matt Smith", "description"="Package authors"},
      *         {"name"="term", "dataType"="string", "pattern"="search phrase", "description"="Search phrase"},
-     *         {"name"="sorting", "dataType"="string", "pattern"="-id|id", "description"="List order"},
+     *         {"name"="sorting", "dataType"="array", "pattern"="sorting[id]=desc", "description"="List order"},
      *         {"name"="source", "dataType"="string", "description"="Package source"},
      *         {"name"="limit", "dataType"="integer", "description"="Items per page"},
      *         {"name"="page", "dataType"="integer", "description"="Page number"},
