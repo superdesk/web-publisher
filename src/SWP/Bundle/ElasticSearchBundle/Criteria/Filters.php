@@ -15,10 +15,12 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\ElasticSearchBundle\Criteria;
 
+use Symfony\Component\HttpFoundation\ParameterBag;
+
 final class Filters
 {
     /**
-     * @var array
+     * @var ParameterBag
      */
     private $fields;
 
@@ -27,7 +29,7 @@ final class Filters
      */
     private function __construct(array $fields)
     {
-        $this->fields = $fields;
+        $this->fields = new ParameterBag($fields);
     }
 
     /**
@@ -46,7 +48,7 @@ final class Filters
     }
 
     /**
-     * @return array
+     * @return ParameterBag
      */
     public function getFields()
     {

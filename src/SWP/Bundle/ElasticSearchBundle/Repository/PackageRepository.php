@@ -36,6 +36,7 @@ class PackageRepository extends Repository
     public function findByCriteria(Criteria $criteria)
     {
         $fields = $criteria->getFilters()->getFields();
+
         $boolFilter = new BoolQuery();
 
         if ($criteria->getTerm() !== null && $criteria->getTerm() !== '') {
@@ -47,34 +48,54 @@ class PackageRepository extends Repository
             $boolFilter->addMust(new MatchAll());
         }
 
-        if ($fields['organization'] !== null && $fields['organization'] !== '') {
-            $boolFilter->addMust(new Term(['organization.id' => $fields['organization']]));
+        if ($fields->get('organization') !== null && $fields->get('organization') !== '') {
+            $boolFilter->addMust(new Term(['organization.id' => $fields->get('organization')]));
         }
 
-        if ($fields['source'] !== null && $fields['source'] !== '') {
-            $boolFilter->addMust(new Term(['source' => $fields['source']]));
+        if ($fields->get('source') !== null && $fields->get('source') !== '') {
+            $boolFilter->addMust(new Term(['source' => $fields->get('source')]));
         }
 
-        if ($fields['authors'] !== null && !empty($fields['authors'])) {
-            foreach ($fields['authors'] as $author) {
+        if ($fields->get('authors') !== null && !empty($fields->get('authors'))) {
+            foreach ($fields->get('authors') as $author) {
                 $boolFilter->addShould(new Term(['byline' => $author]));
             }
         }
 
-        if (null !== $fields['publishedAfter'] || null !== $fields['publishedBefore']) {
+        if (null !== $fields->get('publishedAfter') || null !== $fields->get('publishedBefore')) {
             $nested = new Nested();
             $nested->setPath('articles');
             $boolQuery = new BoolQuery();
             $boolQuery->addMust(new Range(
                 'articles.publishedAt',
                 [
-                    'gte' => $fields['publishedAfter'],
-                    'lte' => $fields['publishedBefore'],
+                    'gte' => $fields->get('publishedAfter'),
+                    'lte' => $fields->get('publishedBefore'),
                 ]
             ));
 
-            $boolQuery->addMust(new \Elastica\Query\Term(['articles.isPublishable' => true]));
+            $boolQuery->addMust(new Term(['articles.isPublishable' => true]));
             $nested->setQuery($boolQuery);
+            $boolFilter->addMust($nested);
+        }
+
+        if (null !== $fields->get('status')) {
+            $boolFilter->addMust(new Term(['status' => $fields->get('status')]));
+        }
+
+        $bool = new BoolQuery();
+        if (null !== $fields->get('tenantCode')) {
+            $bool->addMust(new Term(['articles.tenantCode' => $fields->get('tenantCode')]));
+        }
+
+        if (null !== $fields->get('route')) {
+            $bool->addMust(new Term(['articles.route.id' => (int) $fields->get('route')]));
+        }
+
+        if (!empty($bool->getParams())) {
+            $nested = new Nested();
+            $nested->setPath('articles');
+            $nested->setQuery($bool);
             $boolFilter->addMust($nested);
         }
 

@@ -62,6 +62,9 @@ class PackageSearchController extends Controller
                 'publishedAfter' => $request->query->get('publishedAfter'),
                 'organization' => $currentTenant->getOrganization()->getId(),
                 'source' => $request->query->get('source'),
+                'tenantCode' => $request->query->get('tenantCode'),
+                'route' => $request->query->get('route'),
+                'status' => $request->query->get('status')
             ]
         );
 
