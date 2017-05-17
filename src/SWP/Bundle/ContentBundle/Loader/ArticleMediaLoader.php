@@ -92,7 +92,7 @@ class ArticleMediaLoader extends PaginatedLoader implements LoaderInterface
             }
 
             $criteria = $this->applyPaginationToCriteria($criteria, $parameters);
-            if ($criteria->get('article')->getMedia()->isInitialized()) {
+            if ($criteria->get('article')->getMedia()) {
                 $collectionCriteria = new \Doctrine\Common\Collections\Criteria(
                     null,
                     $criteria->get('order'),

@@ -25,15 +25,17 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 class ArticlePreviewController extends Controller
 {
     /**
-     * @Route("/preview/article/{routeId}/{slug}", options={"expose"=true}, requirements={"slug"=".+", "routeId"="\d+", "token"=".+"}, name="swp_article_preview")
+     * @Route("/preview/article/{routeId}/{id}", options={"expose"=true}, requirements={"slug"=".+", "routeId"="\d+", "token"=".+"}, name="swp_article_preview")
      * @Method("GET")
      */
-    public function previewAction(int $routeId, string $slug)
+    public function previewAction(int $routeId, $id)
     {
         /** @var RouteInterface $route */
         $route = $this->findRouteOr404($routeId);
-        /** @var ArticleInterface $article */
-        $article = $this->findArticleOr404($slug);
+
+        $package = $this->findArticleOr404($id);
+
+        $article = $this->get('swp.factory.article')->createFromPackage($package);
 
         $metaFactory = $this->get('swp_template_engine_context.factory.meta_factory');
         $templateEngineContext = $this->get('swp_template_engine_context');
@@ -58,9 +60,9 @@ class ArticlePreviewController extends Controller
         return $route;
     }
 
-    private function findArticleOr404(string $slug)
+    private function findArticleOr404(string $id)
     {
-        if (null === ($article = $this->get('swp.repository.article')->findOneBy(['slug' => $slug]))) {
+        if (null === ($article = $this->get('swp.repository.package')->findOneBy(['id' => $id]))) {
             throw $this->createNotFoundException(sprintf('Article with slug: "%s" not found!', $slug));
         }
 
