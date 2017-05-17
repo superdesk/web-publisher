@@ -45,6 +45,8 @@ fos_elastica:
                         byline: { type: string }
                         status: { type: string }
                         source: { type: string }
+                        updatedAt:
+                            type: date
                         organization:
                             type: "object"
                             properties:

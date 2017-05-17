@@ -52,8 +52,8 @@ class PackageRepository extends Repository
             $boolFilter->addFilter(new Term(['organization.id' => $fields->get('organization')]));
         }
 
-        if ($fields->get('source') !== null && $fields->get('source') !== '') {
-            $boolFilter->addFilter(new Term(['source' => $fields->get('source')]));
+        if ($fields->get('sources') !== null && !empty($fields->get('sources'))) {
+            $boolFilter->addFilter(new Query\Terms('sources', $fields->get('sources')));
         }
 
         if ($fields->get('authors') !== null && !empty($fields->get('authors'))) {
@@ -77,17 +77,17 @@ class PackageRepository extends Repository
             $boolFilter->addMust($nested);
         }
 
-        if ($fields->get('status') !== null && !empty($fields->get('status'))) {
-            $boolFilter->addFilter(new Query\Terms('status', $fields->get('status')));
+        if ($fields->get('statuses') !== null && !empty($fields->get('statuses'))) {
+            $boolFilter->addFilter(new Query\Terms('status', $fields->get('statuses')));
         }
 
         $bool = new BoolQuery();
-        if (null !== $fields->get('tenantCode')) {
-            $bool->addMust(new Term(['articles.tenantCode' => $fields->get('tenantCode')]));
+        if (null !== $fields->get('tenants') && !empty($fields->get('tenants'))) {
+            $bool->addFilter(new Query\Terms('articles.tenantCode', $fields->get('tenants')));
         }
 
-        if (null !== $fields->get('route')) {
-            $bool->addMust(new Term(['articles.route.id' => (int) $fields->get('route')]));
+        if (null !== $fields->get('routes') && !empty($fields->get('routes'))) {
+            $bool->addFilter(new Query\Terms('articles.route.id', $fields->get('routes')));
         }
 
         if (!empty($bool->getParams())) {

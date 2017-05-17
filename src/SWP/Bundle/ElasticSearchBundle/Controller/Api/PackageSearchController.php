@@ -21,6 +21,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use SWP\Bundle\ElasticSearchBundle\Criteria\Criteria;
 use SWP\Bundle\ElasticSearchBundle\Repository\PackageRepository;
+use SWP\Bundle\MultiTenancyBundle\MultiTenancyEvents;
 use SWP\Component\Common\Response\ResourcesListResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -39,13 +40,14 @@ class PackageSearchController extends Controller
      *         {"name"="status", "dataType"="array", "pattern"="new|published|unpublished|canceled","description"="Package status"},
      *         {"name"="publishedBefore", "dataType"="datetime", "pattern"="Y-m-d h:i:s|now-1M|now", "description"="The datetime before which the package has been published"},
      *         {"name"="publishedAfter", "dataType"="datetime", "pattern"="Y-m-d h:i:s|now-1M|now", "description"="The datetime after which the package has been published"},
-     *         {"name"="authors", "dataType"="string", "pattern"="John Doe | John Doe, Matt Smith", "description"="Package authors"},
+     *         {"name"="author", "dataType"="array", "description"="Package authors"},
      *         {"name"="term", "dataType"="string", "pattern"="search phrase", "description"="Search phrase"},
      *         {"name"="sorting", "dataType"="array", "pattern"="sorting[id]=desc", "description"="List order"},
-     *         {"name"="source", "dataType"="string", "description"="Package source"},
+     *         {"name"="source", "dataType"="array", "description"="Sources"},
      *         {"name"="limit", "dataType"="integer", "description"="Items per page"},
      *         {"name"="page", "dataType"="integer", "description"="Page number"},
-     *         {"name"="tenant", "dataType"="string", "description"="Tenant's code"}
+     *         {"name"="tenant", "dataType"="array", "description"="Tenant codes"},
+     *         {"name"="route", "dataType"="array", "description"="Routes ids"}
      *     }
      * )
      * @Route("/api/{version}/packages/", options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_core_list_packages")
@@ -53,6 +55,7 @@ class PackageSearchController extends Controller
      */
     public function searchAction(Request $request)
     {
+        $this->get('event_dispatcher')->dispatch(MultiTenancyEvents::TENANTABLE_DISABLE);
         $currentTenant = $this->get('swp_multi_tenancy.tenant_context')->getTenant();
 
         $criteria = Criteria::fromQueryParameters(
@@ -61,14 +64,14 @@ class PackageSearchController extends Controller
                 'page' => $request->query->get('page'),
                 'sort' => $request->query->get('sorting'),
                 'limit' => $request->query->get('limit', 10),
-                'authors' => array_filter(explode(',', $request->query->get('authors', ''))),
+                'authors' => array_filter((array) $request->query->get('author', [])),
                 'publishedBefore' => $request->query->get('publishedBefore'),
                 'publishedAfter' => $request->query->get('publishedAfter'),
                 'organization' => $currentTenant->getOrganization()->getId(),
-                'source' => $request->query->get('source'),
-                'tenantCode' => $request->query->get('tenant'),
-                'route' => $request->query->get('route'),
-                'status' => array_filter((array) $request->query->get('status', [])),
+                'sources' => array_filter((array) $request->query->get('source', [])),
+                'tenants' => array_filter((array) $request->query->get('tenant', [])),
+                'routes' => array_filter((array) $request->query->get('route', [])),
+                'statuses' => array_filter((array) $request->query->get('status', [])),
             ]
         );
 
