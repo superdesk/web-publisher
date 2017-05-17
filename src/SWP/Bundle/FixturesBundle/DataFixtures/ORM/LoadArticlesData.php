@@ -17,6 +17,7 @@ namespace SWP\Bundle\FixturesBundle\DataFixtures\ORM;
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
+use SWP\Bundle\ContentBundle\Model\ArticleInterface;
 use SWP\Bundle\ContentBundle\Model\ImageRendition;
 use SWP\Bundle\ContentBundle\Model\RouteInterface;
 use SWP\Bundle\CoreBundle\Model\PackageInterface;
@@ -370,12 +371,14 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface, Orde
         if (isset($articles[$env])) {
             $articleService = $this->container->get('swp.service.article');
             foreach ($articles[$env] as $articleData) {
+                /** @var ArticleInterface $article */
                 $article = $this->container->get('swp.factory.article')->create();
                 $article->setTitle($articleData['title']);
                 $article->setBody($articleData['content']);
                 $article->setRoute($this->getRouteByName($articleData['route']));
                 $article->setLocale($articleData['locale']);
                 $article->setCode(md5($articleData['title']));
+                $article->setKeywords($this->articleKeywords());
                 $package = $this->createPackage($articleData);
                 $manager->persist($package);
                 $article->setPackage($package);
