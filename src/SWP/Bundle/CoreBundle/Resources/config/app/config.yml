@@ -234,6 +234,10 @@ swp_settings:
             scope: global
             type: string
             value: "Publisher Master"
+        filtering_prefrences:
+            scope: user
+            type: string
+            value: "{}"
 
 swp_analytics:
     metrics_listener:
