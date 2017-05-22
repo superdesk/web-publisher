@@ -20,7 +20,10 @@ fos_elastica:
                         lead: { type: string }
                         slug: { type: string }
                         status: { type: string }
+                        author:
+                            property_path: metadata[byline]
                         tenantCode: { type: string }
+                        isPublishable: { type: boolean }
                         publishedAt:
                             type: date
                         route:

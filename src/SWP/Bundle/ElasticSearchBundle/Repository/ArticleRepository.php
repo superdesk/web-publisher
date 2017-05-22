@@ -46,41 +46,51 @@ class ArticleRepository extends Repository
             $boolFilter->addMust(new MatchAll());
         }
 
-        if ($fields['route'] !== null && $fields['route'] !== '') {
-            $boolFilter->addMust(new Term(['route.name' => $fields['route']]));
-        }
-
-        if ($fields['tenantCode'] !== null && $fields['tenantCode'] !== '') {
-            $boolFilter->addMust(new Term(['tenantCode' => $fields['tenantCode']]));
-        }
-
-        if ($fields['source'] !== null && $fields['source'] !== '') {
-            $boolFilter->addMust(new Term(['source' => $fields['source']]));
-        }
-
-        if ($fields['authors'] !== null && !empty($fields['authors'])) {
-            foreach ($fields['authors'] as $author) {
-                $boolFilter->addShould(new Query\Match(['metadata' => $author]));
+        if ($fields->get('authors') !== null && !empty($fields->get('authors'))) {
+            foreach ($fields->get('authors') as $author) {
+                $boolFilter->addFilter(new Query\Match('author', $author));
             }
         }
 
-        if (null !== $fields['publishedAfter'] || null !== $fields['publishedBefore']) {
-            $boolFilter->addMust(new Range(
+        if ($fields->get('sources') !== null && !empty($fields->get('sources'))) {
+            $boolFilter->addFilter(new Query\Terms('sources', $fields->get('sources')));
+        }
+
+        if ($fields->get('statuses') !== null && !empty($fields->get('statuses'))) {
+            $boolFilter->addFilter(new Query\Terms('status', $fields->get('statuses')));
+        }
+
+
+        if (null !== $fields->get('tenantCode')) {
+            $boolFilter->addFilter(new Term(['tenantCode' => $fields->get('tenantCode')]));
+        }
+
+        $bool = new BoolQuery();
+        if (null !== $fields->get('routes') && !empty($fields->get('routes'))) {
+            $bool->addFilter(new Query\Terms('route.id', $fields->get('routes')));
+        }
+
+        if (null !== $fields->get('publishedAfter') || null !== $fields->get('publishedBefore')) {
+            $boolFilter->addFilter(new Range(
                 'publishedAt',
                 [
-                    'gte' => $fields['publishedAfter'],
-                    'lte' => $fields['publishedBefore'],
+                    'gte' => $fields->get('publishedAfter'),
+                    'lte' => $fields->get('publishedBefore')
                 ]
             ));
 
-            $boolFilter->addMust(new \Elastica\Query\Term(['isPublishable' => true]));
+            $boolFilter->addFilter(new \Elastica\Query\Term(['isPublishable' => true]));
+        }
+
+        if (!empty($bool->getParams())) {
+            $boolFilter->addMust($bool);
         }
 
         $query = Query::create($boolFilter)
             ->addSort([
                 $criteria->getOrder()->getField() => $criteria->getOrder()->getDirection(),
             ]);
-
+//dump($query->toArray());die;
         return $this->createPaginatorAdapter($query);
     }
 }

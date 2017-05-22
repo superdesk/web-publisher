@@ -14,6 +14,7 @@ The Superdesk Publisher templates system has its own git repository, at: https:/
    templates_features
    article_media
    templates_caching
+   search
    tips
 
 

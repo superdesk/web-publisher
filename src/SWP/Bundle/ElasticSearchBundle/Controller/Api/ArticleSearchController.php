@@ -36,17 +36,19 @@ class ArticleSearchController extends Controller
      *         500="Unexpected error."
      *     },
      *     filters={
-     *         {"name"="route", "dataType"="integer"},
-     *         {"name"="publishedBefore", "dataType"="datetime", "pattern"="Y-m-d h:i:s|now-1M|now"},
-     *         {"name"="publishedAfter", "dataType"="datetime", "pattern"="Y-m-d h:i:s"},
-     *         {"name"="authors", "dataType"="string", "pattern"="John Doe | John Doe, Matt Smith"},
-     *         {"name"="term", "dataType"="string", "pattern"="find that"},
-     *         {"name"="sorting", "dataType"="string", "pattern"="-id|id"},
-     *         {"name"="per_page", "dataType"="integer"},
-     *         {"name"="source", "dataType"="string"}
+     *         {"name"="status", "dataType"="array", "pattern"="new|published|unpublished|canceled","description"="Package status"},
+     *         {"name"="publishedBefore", "dataType"="datetime", "pattern"="Y-m-d h:i:s|now-1M|now", "description"="The datetime before which the article has been published"},
+     *         {"name"="publishedAfter", "dataType"="datetime", "pattern"="Y-m-d h:i:s|now-1M|now", "description"="The datetime after which the article has been published"},
+     *         {"name"="author", "dataType"="array", "description"="Article authors"},
+     *         {"name"="term", "dataType"="string", "pattern"="search phrase", "description"="Search phrase"},
+     *         {"name"="sorting", "dataType"="array", "pattern"="sorting[id]=desc", "description"="List order"},
+     *         {"name"="source", "dataType"="array", "description"="Sources"},
+     *         {"name"="limit", "dataType"="integer", "description"="Items per page"},
+     *         {"name"="page", "dataType"="integer", "description"="Page number"},
+     *         {"name"="route", "dataType"="array", "description"="Routes ids"}
      *     }
      * )
-     * @Route("/api/{version}/search/articles/", options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_search_articles")
+     * @Route("/api/{version}/content/articles/", options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_content_list_articles")
      * @Method("GET")
      */
     public function searchAction(Request $request)
@@ -56,15 +58,17 @@ class ArticleSearchController extends Controller
         $criteria = Criteria::fromQueryParameters(
             $request->query->get('term', ''),
             [
+                'page' => $request->query->get('page'),
                 'sort' => $request->query->get('sorting'),
-                'per_page' => $request->query->get('per_page', 10),
-                'route' => $request->query->get('route'),
-                'status' => $request->query->get('status'),
-                'authors' => array_filter(explode(',', $request->query->get('authors', ''))),
+                'limit' => $request->query->get('limit', 10),
+                'routes' => array_filter((array) $request->query->get('route', [])),
+                'statuses' => array_filter((array) $request->query->get('status', [])),
+                'authors' => array_filter((array) $request->query->get('author', [])),
                 'publishedBefore' => $request->query->get('publishedBefore'),
                 'publishedAfter' => $request->query->get('publishedAfter'),
+                'publishedAt' => $request->query->get('publishedAt'),
                 'tenantCode' => $currentTenant->getCode(),
-                'source' => $request->query->get('source'),
+                'sources' => array_filter((array) $request->query->get('source', [])),
             ]
         );
 
