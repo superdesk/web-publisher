@@ -44,7 +44,9 @@ class ContentListItemRepository extends SortableEntityRepository implements Cont
     {
         $queryBuilder = parent::getBySortableGroupsQueryBuilder($groupValues);
         $this->applyCriteria($queryBuilder, $criteria, 'n');
+        $queryBuilder->resetDQLPart('orderBy');
         $this->applySorting($queryBuilder, $sorting, 'n');
+        $queryBuilder->addOrderBy('n.position');
         $this->applyLimiting($queryBuilder, $criteria);
 
         return $queryBuilder;
@@ -56,7 +58,6 @@ class ContentListItemRepository extends SortableEntityRepository implements Cont
     public function getPaginatedByCriteria(Criteria $criteria, array $sorting = [], PaginationData $paginationData = null)
     {
         $queryBuilder = $this->getSortedItems($criteria, $sorting, ['contentList' => $criteria->get('contentList')]);
-
         if (null === $paginationData) {
             $paginationData = new PaginationData();
         }
