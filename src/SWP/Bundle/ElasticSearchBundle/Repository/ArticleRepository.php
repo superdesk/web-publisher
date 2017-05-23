@@ -60,7 +60,6 @@ class ArticleRepository extends Repository
             $boolFilter->addFilter(new Query\Terms('status', $fields->get('statuses')));
         }
 
-
         if (null !== $fields->get('tenantCode')) {
             $boolFilter->addFilter(new Term(['tenantCode' => $fields->get('tenantCode')]));
         }
@@ -75,7 +74,7 @@ class ArticleRepository extends Repository
                 'publishedAt',
                 [
                     'gte' => $fields->get('publishedAfter'),
-                    'lte' => $fields->get('publishedBefore')
+                    'lte' => $fields->get('publishedBefore'),
                 ]
             ));
 
@@ -90,7 +89,7 @@ class ArticleRepository extends Repository
             ->addSort([
                 $criteria->getOrder()->getField() => $criteria->getOrder()->getDirection(),
             ]);
-//dump($query->toArray());die;
+
         return $this->createPaginatorAdapter($query);
     }
 }

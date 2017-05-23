@@ -1,0 +1,10 @@
+SWP\Bundle\CoreBundle\Model\Package:
+    package1:
+        headline: "art1 not published"
+        body: "Test news article content"
+        language: "en"
+        guid: "<uuid()>"
+        type: "text"
+        urgency: 1
+        priority: 2
+        version: 1

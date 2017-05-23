@@ -14,29 +14,28 @@ declare(strict_types=1);
  * @license http://www.superdesk.org/license
  */
 
-namespace SWP\Bundle\ContentBundle\Controller;
+namespace SWP\Bundle\CoreBundle\Controller;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use SWP\Bundle\ContentBundle\Model\ArticleInterface;
 use SWP\Bundle\ContentBundle\Model\RouteInterface;
+use SWP\Bundle\CoreBundle\Model\PackageInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
-class ArticlePreviewController extends Controller
+class PackagePreviewController extends Controller
 {
     /**
-     * @Route("/preview/article/{routeId}/{id}", options={"expose"=true}, requirements={"slug"=".+", "routeId"="\d+", "token"=".+"}, name="swp_article_preview")
+     * @Route("/preview/package/{routeId}/{id}", options={"expose"=true}, requirements={"slug"=".+", "routeId"="\d+", "token"=".+"}, name="swp_package_preview")
+     * @Route("/preview/article/{routeId}/{id}", options={"expose"=true}, requirements={"slug"=".+", "routeId"="\d+", "token"=".+"}, name="swp_package_preview_1")
      * @Method("GET")
      */
     public function previewAction(int $routeId, $id)
     {
         /** @var RouteInterface $route */
         $route = $this->findRouteOr404($routeId);
-
-        $package = $this->findArticleOr404($id);
-
+        /** @var PackageInterface $package */
+        $package = $this->findPackageOr404($id);
         $article = $this->get('swp.factory.article')->createFromPackage($package);
-
         $metaFactory = $this->get('swp_template_engine_context.factory.meta_factory');
         $templateEngineContext = $this->get('swp_template_engine_context');
         $templateEngineContext->setCurrentPage($metaFactory->create($route));
@@ -60,12 +59,12 @@ class ArticlePreviewController extends Controller
         return $route;
     }
 
-    private function findArticleOr404(string $id)
+    private function findPackageOr404(string $id)
     {
-        if (null === ($article = $this->get('swp.repository.package')->findOneBy(['id' => $id]))) {
-            throw $this->createNotFoundException(sprintf('Article with slug: "%s" not found!', $slug));
+        if (null === ($package = $this->get('swp.repository.package')->findOneBy(['id' => $id]))) {
+            throw $this->createNotFoundException(sprintf('Package with id: "%s" not found!', $id));
         }
 
-        return $article;
+        return $package;
     }
 }
