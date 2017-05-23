@@ -16,11 +16,13 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\ContentListBundle\Doctrine\ORM;
 
+use SWP\Bundle\CoreBundle\Pagination\Paginator;
 use SWP\Component\Common\Criteria\Criteria;
 use SWP\Component\Common\Pagination\PaginationData;
 use SWP\Component\ContentList\Model\ContentListInterface;
 use SWP\Component\ContentList\Repository\ContentListItemRepositoryInterface;
 use SWP\Bundle\StorageBundle\Doctrine\ORM\SortableEntityRepository;
+use SWP\Component\Storage\Repository\RepositoryInterface;
 
 class ContentListItemRepository extends SortableEntityRepository implements ContentListItemRepositoryInterface
 {
@@ -58,10 +60,8 @@ class ContentListItemRepository extends SortableEntityRepository implements Cont
     public function getPaginatedByCriteria(Criteria $criteria, array $sorting = [], PaginationData $paginationData = null)
     {
         $queryBuilder = $this->getSortedItems($criteria, $sorting, ['contentList' => $criteria->get('contentList')]);
-        if (null === $paginationData) {
-            $paginationData = new PaginationData();
-        }
+        $paginator = new Paginator();
 
-        return $this->getPaginator($queryBuilder, $paginationData);
+        return $paginator->paginate($queryBuilder, $criteria->get('firstResult', 0), $criteria->get('maxResults', RepositoryInterface::MAX_RESULTS));
     }
 }

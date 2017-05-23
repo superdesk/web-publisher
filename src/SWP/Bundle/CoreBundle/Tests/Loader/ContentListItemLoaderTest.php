@@ -87,7 +87,22 @@ class ContentListItemLoaderTest extends WebTestCase
         $result = $this->getRendered($template);
         self::assertEquals(' article1-0-true  article2-1-true  article3-2-true ', $result);
 
+        $template = '{% gimmelist item from contentListItems with { contentListName: "List1", sticky: true} %} {{ item.content.title }}-{{ item.position}}-{{ item.sticky ? "true" : "false" }} {% endgimmelist %}';
+        $result = $this->getRendered($template);
+        self::assertEquals(' article2-1-true ', $result);
+
         $template = '{% gimmelist item from contentListItems with { contentListName: "List1", sticky: false} %} {{ item.content.title }}-{{ item.position}}-{{ item.sticky ? "true" : "false" }} {% endgimmelist %}';
+        $result = $this->getRendered($template);
+        self::assertEquals(' article4-3-false ', $result);
+    }
+
+    public function testPagination()
+    {
+        $template = '{% gimmelist item from contentListItems|start(0)|limit(3) with { contentListName: "List1"} %} {{ item.content.title }}-{{ item.position}}-{{ item.sticky ? "true":"false" }} {% endgimmelist %}';
+        $result = $this->getRendered($template);
+        self::assertEquals(' article1-0-true  article3-2-true  article2-1-false ', $result);
+
+        $template = '{% gimmelist item from contentListItems|start(3)|limit(3) with { contentListName: "List1"} %} {{ item.content.title }}-{{ item.position}}-{{ item.sticky ? "true":"false" }} {% endgimmelist %}';
         $result = $this->getRendered($template);
         self::assertEquals(' article4-3-false ', $result);
     }

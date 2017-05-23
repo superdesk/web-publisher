@@ -84,8 +84,6 @@ class ContentListsItemLoader extends PaginatedLoader implements LoaderInterface
     {
         $criteria = new Criteria();
         if ($responseType === LoaderInterface::COLLECTION) {
-            $criteria->set('maxResults', null);
-
             if (array_key_exists('contentListId', $parameters) && is_numeric($parameters['contentListId'])) {
                 $contentList = $this->contentListRepository->findOneBy(['id' => $parameters['contentListId']]);
                 $criteria->set('contentList', $contentList);
