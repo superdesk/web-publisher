@@ -52,15 +52,19 @@ class AddArticleToListListener
      */
     private $eventDispatcher;
 
+    /**
+     * @var ContentListItemRepositoryInterface
+     */
     private $contentListItemRepository;
 
     /**
      * AutomaticListAddArticleListener constructor.
      *
-     * @param ContentListRepositoryInterface  $listRepository
-     * @param FactoryInterface                $listItemFactory
-     * @param ArticleCriteriaMatcherInterface $articleCriteriaMatcher
-     * @param EventDispatcherInterface        $eventDispatcher
+     * @param ContentListRepositoryInterface     $listRepository
+     * @param FactoryInterface                   $listItemFactory
+     * @param ArticleCriteriaMatcherInterface    $articleCriteriaMatcher
+     * @param EventDispatcherInterface           $eventDispatcher
+     * @param ContentListItemRepositoryInterface $contentListItemRepository
      */
     public function __construct(
         ContentListRepositoryInterface $listRepository,
@@ -136,8 +140,6 @@ class AddArticleToListListener
             $contentListItem->setContent($article);
         }
 
-        // if article is already part of content list item
-        // remove it
         $contentListItem->setPosition($bucket->getItems()->count());
         $bucket->addItem($contentListItem);
         $this->eventDispatcher->dispatch(
