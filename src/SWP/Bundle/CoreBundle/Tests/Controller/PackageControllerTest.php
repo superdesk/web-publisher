@@ -109,6 +109,37 @@ final class PackageControllerTest extends WebTestCase
         self::assertCount(1, $content['articles']);
         self::assertEquals('published', $content['articles'][0]['status']);
         self::assertEquals($content['headline'], $content['articles'][0]['title']);
+        self::assertEquals(3, $content['articles'][0]['route']['id']);
+    }
+
+    public function testRouteChangeWhenPackageAlreadyPublishedUnderExistingRoute()
+    {
+        $client = static::createClient();
+        $this->publishPackage();
+
+        $client->request('GET', $this->router->generate('swp_api_core_show_package', ['id' => 1]));
+        self::assertEquals(200, $client->getResponse()->getStatusCode());
+
+        $content = json_decode($client->getResponse()->getContent(), true);
+
+        self::assertEquals('published', $content['status']);
+        self::assertCount(1, $content['articles']);
+        self::assertEquals('published', $content['articles'][0]['status']);
+        self::assertEquals($content['headline'], $content['articles'][0]['title']);
+        self::assertEquals(3, $content['articles'][0]['route']['id']);
+
+        $this->publishPackage(4);
+
+        $client->request('GET', $this->router->generate('swp_api_core_show_package', ['id' => 1]));
+        self::assertEquals(200, $client->getResponse()->getStatusCode());
+
+        $content = json_decode($client->getResponse()->getContent(), true);
+
+        self::assertEquals('published', $content['status']);
+        self::assertCount(1, $content['articles']);
+        self::assertEquals('published', $content['articles'][0]['status']);
+        self::assertEquals($content['headline'], $content['articles'][0]['title']);
+        self::assertEquals(4, $content['articles'][0]['route']['id']);
     }
 
     public function testUnpublishPackageApi()
@@ -129,7 +160,7 @@ final class PackageControllerTest extends WebTestCase
         self::assertEquals($content['headline'], $content['articles'][0]['title']);
     }
 
-    private function publishPackage()
+    private function publishPackage(int $routeId = 3)
     {
         $client = static::createClient();
         $client->request(
@@ -139,7 +170,7 @@ final class PackageControllerTest extends WebTestCase
                     'destinations' => [
                         [
                             'tenant' => '123abc',
-                            'route' => 3,
+                            'route' => $routeId,
                         ],
                     ],
                 ],
