@@ -6,6 +6,7 @@ SWP\Bundle\CoreBundle\Model\Article:
             type: string
         isPublishedFBIA:
             type: boolean
+            nullable: true
     manyToOne:
         organization:
             targetEntity: SWP\Component\MultiTenancy\Model\OrganizationInterface

@@ -18,7 +18,7 @@ class Version20170523140050 extends AbstractMigration
         // this up() migration is auto-generated, please modify it to your needs
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'postgresql', 'Migration can only be executed safely on \'postgresql\'.');
 
-        $this->addSql('ALTER TABLE swp_article ADD is_published_fbia BOOLEAN NOT NULL');
+        $this->addSql('ALTER TABLE swp_article ADD is_published_fbia BOOLEAN DEFAULT NULL');
     }
 
     /**
