@@ -273,7 +273,7 @@ final class ArticleAutoPublishTest extends WebTestCase
                 'configuration' => [
                     [
                         'key' => 'published',
-                        'value' => false,
+                        'value' => true,
                     ],
                 ],
             ],
@@ -307,7 +307,7 @@ final class ArticleAutoPublishTest extends WebTestCase
         self::assertEquals(200, $client->getResponse()->getStatusCode());
         $article = json_decode($client->getResponse()->getContent(), true);
 
-        self::assertEquals('unpublished', $article['status']);
+        self::assertEquals('published', $article['status']);
     }
 
     private function createRouteAndPushContent()

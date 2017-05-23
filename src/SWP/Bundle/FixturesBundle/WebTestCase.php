@@ -30,7 +30,6 @@ class WebTestCase extends BaseWebTestCase
 
         $this->runCommand('doctrine:schema:drop', ['--force' => true, '--env' => 'test'], true);
         $this->runCommand('doctrine:migrations:migrate', ['--force' => true, '--env' => 'test'], true);
-        $this->runCommand('fos:elastica:populate', ['--env' => 'test'], true);
     }
 
     /**

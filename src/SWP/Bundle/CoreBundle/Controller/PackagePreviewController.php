@@ -26,7 +26,6 @@ class PackagePreviewController extends Controller
 {
     /**
      * @Route("/preview/package/{routeId}/{id}", options={"expose"=true}, requirements={"slug"=".+", "routeId"="\d+", "token"=".+"}, name="swp_package_preview")
-     * @Route("/preview/article/{routeId}/{id}", options={"expose"=true}, requirements={"slug"=".+", "routeId"="\d+", "token"=".+"}, name="swp_package_preview_1")
      * @Method("GET")
      */
     public function previewAction(int $routeId, $id)
