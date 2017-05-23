@@ -193,6 +193,14 @@ class ContentList implements ContentListInterface
     /**
      * {@inheritdoc}
      */
+    public function hasItem(ContentListItemInterface $item)
+    {
+        return $this->items->contains($item);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function removeItem(ContentListItemInterface $item)
     {
         if ($this->items->contains($item)) {

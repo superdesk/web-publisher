@@ -25,6 +25,7 @@ use SWP\Component\ContentList\ContentListEvents;
 use SWP\Component\ContentList\Model\ContentListInterface;
 use SWP\Component\ContentList\Model\ContentListItemInterface;
 use SWP\Component\ContentList\Model\ListContentInterface;
+use SWP\Component\ContentList\Repository\ContentListItemRepositoryInterface;
 use SWP\Component\ContentList\Repository\ContentListRepositoryInterface;
 use SWP\Component\Storage\Factory\FactoryInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
@@ -51,6 +52,8 @@ class AddArticleToListListener
      */
     private $eventDispatcher;
 
+    private $contentListItemRepository;
+
     /**
      * AutomaticListAddArticleListener constructor.
      *
@@ -63,12 +66,14 @@ class AddArticleToListListener
         ContentListRepositoryInterface $listRepository,
         FactoryInterface $listItemFactory,
         ArticleCriteriaMatcherInterface $articleCriteriaMatcher,
-        EventDispatcherInterface $eventDispatcher
+        EventDispatcherInterface $eventDispatcher,
+        ContentListItemRepositoryInterface $contentListItemRepository
     ) {
         $this->listRepository = $listRepository;
         $this->listItemFactory = $listItemFactory;
         $this->articleCriteriaMatcher = $articleCriteriaMatcher;
         $this->eventDispatcher = $eventDispatcher;
+        $this->contentListItemRepository = $contentListItemRepository;
     }
 
     /**
@@ -105,9 +110,19 @@ class AddArticleToListListener
             ContentListInterface::TYPE_BUCKET,
         ]);
 
+        if (empty($buckets)) {
+            return;
+        }
+
+        $item = $this->contentListItemRepository->findItemByArticleInBuckets($article);
+
         foreach ($buckets as $bucket) {
             if ($article->isPublishedFBIA()) {
                 $this->createAndAddItem($article, $bucket);
+            }
+
+            if (!$article->isPublishedFBIA() && null !== $item && $bucket->hasItem($item)) {
+                $bucket->removeItem($item);
             }
         }
     }
@@ -121,6 +136,8 @@ class AddArticleToListListener
             $contentListItem->setContent($article);
         }
 
+        // if article is already part of content list item
+        // remove it
         $contentListItem->setPosition($bucket->getItems()->count());
         $bucket->addItem($contentListItem);
         $this->eventDispatcher->dispatch(

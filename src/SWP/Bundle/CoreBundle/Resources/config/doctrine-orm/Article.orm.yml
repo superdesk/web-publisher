@@ -4,6 +4,8 @@ SWP\Bundle\CoreBundle\Model\Article:
     fields:
         tenantCode:
             type: string
+        isPublishedFBIA:
+            type: boolean
     manyToOne:
         organization:
             targetEntity: SWP\Component\MultiTenancy\Model\OrganizationInterface
