@@ -37,6 +37,7 @@ Full documentation can be found here: [http://superdesk-publisher.readthedocs.or
  * Memcached
    * memcached (running)
    * php-memcached
+ * ElasticSearch >= 5.4
 
 ## Installation
 
