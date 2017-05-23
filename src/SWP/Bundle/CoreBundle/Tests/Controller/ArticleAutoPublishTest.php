@@ -320,7 +320,6 @@ final class ArticleAutoPublishTest extends WebTestCase
             ],
         ]);
 
-
         self::assertEquals(201, $client->getResponse()->getStatusCode());
         $content = json_decode($client->getResponse()->getContent(), true);
 
@@ -334,7 +333,7 @@ final class ArticleAutoPublishTest extends WebTestCase
                         [
                             'tenant' => '123abc',
                             'route' => 3,
-                            'fbia' => true
+                            'fbia' => true,
                         ],
                     ],
                 ],
@@ -359,7 +358,6 @@ final class ArticleAutoPublishTest extends WebTestCase
             ],
         ]);
 
-
         self::assertEquals(201, $client->getResponse()->getStatusCode());
         $bucket = json_decode($client->getResponse()->getContent(), true);
 
@@ -373,7 +371,7 @@ final class ArticleAutoPublishTest extends WebTestCase
                         [
                             'tenant' => '123abc',
                             'route' => 3,
-                            'fbia' => true
+                            'fbia' => true,
                         ],
                     ],
                 ],
@@ -396,7 +394,7 @@ final class ArticleAutoPublishTest extends WebTestCase
                         [
                             'tenant' => '123abc',
                             'route' => 3,
-                            'fbia' => false
+                            'fbia' => false,
                         ],
                     ],
                 ],
@@ -421,7 +419,6 @@ final class ArticleAutoPublishTest extends WebTestCase
             ],
         ]);
 
-
         self::assertEquals(201, $client->getResponse()->getStatusCode());
         $content = json_decode($client->getResponse()->getContent(), true);
 
@@ -435,7 +432,7 @@ final class ArticleAutoPublishTest extends WebTestCase
                         [
                             'tenant' => '123abc',
                             'route' => 3,
-                            'fbia' => false
+                            'fbia' => false,
                         ],
                     ],
                 ],
