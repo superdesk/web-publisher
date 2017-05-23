@@ -76,14 +76,9 @@ class ArticleSearchController extends Controller
         /** @var ArticleRepository $repository */
         $repository = $repositoryManager->getRepository($this->getParameter('swp.model.article.class'));
         $articles = $repository->findByCriteria($criteria);
-        $partialResult = $articles->getResults(
-            $criteria->getPagination()->getOffset(),
-            $criteria->getPagination()->getItemsPerPage()
-        );
-
         $paginator = $this->get('knp_paginator');
         $pagination = $paginator->paginate(
-            $partialResult->toArray(),
+            $articles,
             $request->query->get('page', 1),
             $criteria->getPagination()->getItemsPerPage()
         );

@@ -79,16 +79,10 @@ class PackageSearchController extends Controller
         /** @var PackageRepository $repository */
         $repository = $repositoryManager->getRepository($this->getParameter('swp.model.package.class'));
         $result = $repository->findByCriteria($criteria);
-
-        $partialResult = $result->getResults(
-            $criteria->getPagination()->getOffset(),
-            $criteria->getPagination()->getItemsPerPage()
-        );
-
         $paginator = $this->get('knp_paginator');
 
         $pagination = $paginator->paginate(
-            $partialResult->toArray(),
+            $result,
             $request->query->get('page', 1),
             $criteria->getPagination()->getItemsPerPage()
         );
