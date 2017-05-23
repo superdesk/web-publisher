@@ -186,8 +186,9 @@ class RuleControllerTest extends WebTestCase
                 'content' => null,
             ],
         ]);
-
         self::assertEquals(201, $client->getResponse()->getStatusCode());
+        $data = json_decode($client->getResponse()->getContent(), true);
+        self::assertEquals(0, $data['articlesCount']);
 
         $client->request(
             'POST',
@@ -208,9 +209,11 @@ class RuleControllerTest extends WebTestCase
         );
 
         self::assertEquals(200, $client->getResponse()->getStatusCode());
+        $data = json_decode($client->getResponse()->getContent(), true);
+        self::assertEquals(1, $data['route']['articlesCount']);
         self::assertArraySubset(
             ['route' => ['name' => 'articles/assign-article-automatically-here']],
-            json_decode($client->getResponse()->getContent(), true)
+            $data
         );
     }
 
