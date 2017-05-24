@@ -24,6 +24,7 @@ use SWP\Bundle\CoreBundle\Matcher\ArticleCriteriaMatcherInterface;
 use SWP\Bundle\CoreBundle\Model\Article;
 use SWP\Bundle\CoreBundle\Model\ContentListInterface;
 use SWP\Bundle\CoreBundle\Model\ContentListItemInterface;
+use SWP\Bundle\CoreBundle\Repository\ContentListItemRepositoryInterface;
 use SWP\Component\Common\Criteria\Criteria;
 use SWP\Component\ContentList\ContentListEvents;
 use SWP\Component\ContentList\Repository\ContentListRepositoryInterface;
@@ -36,13 +37,15 @@ final class AddArticleToListListenerSpec extends ObjectBehavior
         ContentListRepositoryInterface $listRepository,
         FactoryInterface $listItemFactory,
         ArticleCriteriaMatcherInterface $articleCriteriaMatcher,
-        EventDispatcherInterface $eventDispatcher
+        EventDispatcherInterface $eventDispatcher,
+        ContentListItemRepositoryInterface $listItemRepository
     ) {
         $this->beConstructedWith(
             $listRepository,
             $listItemFactory,
             $articleCriteriaMatcher,
-            $eventDispatcher
+            $eventDispatcher,
+            $listItemRepository
         );
     }
 
