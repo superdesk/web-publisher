@@ -58,6 +58,8 @@ fos_http_cache:
 fos_elastica:
     indexes:
         swp:
+            use_alias: true
+            index_name: swp_test
             types:
                 article:
                     persistence:
