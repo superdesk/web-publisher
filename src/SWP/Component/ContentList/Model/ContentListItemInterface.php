@@ -59,6 +59,11 @@ interface ContentListItemInterface extends TimestampableInterface, SoftDeletable
     public function isSticky(): bool;
 
     /**
+     * @return bool
+     */
+    public function getSticky(): bool;
+
+    /**
      * @param bool $sticky
      */
     public function setSticky(bool $sticky);

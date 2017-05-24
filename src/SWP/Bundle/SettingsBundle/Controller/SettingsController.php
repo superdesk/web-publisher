@@ -19,6 +19,7 @@ namespace SWP\Bundle\SettingsBundle\Controller;
 use SWP\Bundle\SettingsBundle\Context\ScopeContextInterface;
 use SWP\Bundle\SettingsBundle\Exception\InvalidScopeException;
 use SWP\Bundle\SettingsBundle\Form\Type\SettingType;
+use SWP\Component\Common\Response\ResponseContext;
 use SWP\Component\Common\Response\SingleResourceResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
@@ -103,6 +104,6 @@ class SettingsController extends Controller
             return new SingleResourceResponse($setting);
         }
 
-        return new SingleResourceResponse($form);
+        return new SingleResourceResponse($form, new ResponseContext(400));
     }
 }
