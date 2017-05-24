@@ -77,9 +77,10 @@ services:
             - '@swp.factory.content_list_item'
             - '@swp.matcher.article_criteria'
             - '@event_dispatcher'
+            - '@swp.repository.content_list_item'
         tags:
-            - { name: kernel.event_listener, event: swp.article.published, method: addArticleToList }
-            - { name: kernel.event_listener, event: swp.article.published, method: addArticleToBucket }
+            - { name: kernel.event_listener, event: swp.article.publish, method: addArticleToList }
+            - { name: kernel.event_listener, event: swp.article.publish, method: addArticleToBucket }
 
     swp_core.listener.revision_subscriber:
         class: SWP\Bundle\CoreBundle\EventSubscriber\RevisionsSubscriber
