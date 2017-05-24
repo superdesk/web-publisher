@@ -54,16 +54,21 @@ final class PackageControllerTest extends WebTestCase
     public function testFilterByPackageStatusApi()
     {
         $this->runCommand('fos:elastica:populate', ['--env' => 'test'], true);
+
         $content = $this->filterByStatus('new');
         self::assertEquals(2, $content['total']);
 
         $this->publishPackage();
+        // wait 1 second so it can index package
+        // before getting it
+        sleep(1);
 
         $content = $this->filterByStatus('published');
 
         self::assertEquals(1, $content['total']);
 
         $this->unpublishPackage();
+        sleep(1);
 
         $content = $this->filterByStatus('unpublished');
 
