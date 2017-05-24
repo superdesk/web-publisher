@@ -56,10 +56,11 @@ interface ArticleRepositoryInterface extends RepositoryInterface
 
     /**
      * @param Criteria $criteria
+     * @param string   $status
      *
      * @return int
      */
-    public function countByCriteria(Criteria $criteria): int;
+    public function countByCriteria(Criteria $criteria, $status = ArticleInterface::STATUS_PUBLISHED): int;
 
     /**
      * @param Criteria $criteria
