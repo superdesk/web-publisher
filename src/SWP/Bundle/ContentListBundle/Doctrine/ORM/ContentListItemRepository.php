@@ -60,8 +60,17 @@ class ContentListItemRepository extends SortableEntityRepository implements Cont
     public function getPaginatedByCriteria(Criteria $criteria, array $sorting = [], PaginationData $paginationData = null)
     {
         $queryBuilder = $this->getSortedItems($criteria, $sorting, ['contentList' => $criteria->get('contentList')]);
-        $paginator = new Paginator();
 
-        return $paginator->paginate($queryBuilder, $criteria->get('firstResult', 0), $criteria->get('maxResults', RepositoryInterface::MAX_RESULTS));
+        if (null === $paginationData) {
+            $paginator = new Paginator();
+
+            return $paginator->paginate(
+                $queryBuilder,
+                $criteria->get('firstResult', 0),
+                $criteria->get('maxResults', RepositoryInterface::MAX_RESULTS)
+            );
+        }
+
+        return $this->getPaginator($queryBuilder, $paginationData);
     }
 }

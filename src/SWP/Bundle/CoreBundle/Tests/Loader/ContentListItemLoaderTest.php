@@ -89,7 +89,7 @@ class ContentListItemLoaderTest extends WebTestCase
 
         $template = '{% gimmelist item from contentListItems with { contentListName: "List1", sticky: true} %} {{ item.content.title }}-{{ item.position}}-{{ item.sticky ? "true" : "false" }} {% endgimmelist %}';
         $result = $this->getRendered($template);
-        self::assertEquals(' article2-1-true ', $result);
+        self::assertEquals(' article1-0-true  article2-1-true  article3-2-true ', $result);
 
         $template = '{% gimmelist item from contentListItems with { contentListName: "List1", sticky: false} %} {{ item.content.title }}-{{ item.position}}-{{ item.sticky ? "true" : "false" }} {% endgimmelist %}';
         $result = $this->getRendered($template);

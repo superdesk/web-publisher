@@ -39,8 +39,6 @@ class Paginator extends BasePaginator
         }
         $options = array_merge($this->defaultOptions, $options);
 
-        dump($offset, $page, $limit);
-
         // normalize default sort field
         if (isset($options['defaultSortFieldName']) && is_array($options['defaultSortFieldName'])) {
             $options['defaultSortFieldName'] = implode('+', $options['defaultSortFieldName']);
