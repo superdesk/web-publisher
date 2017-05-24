@@ -1,6 +1,6 @@
 language: php
 
-sudo: required
+sudo: false
 
 services:
   - redis-server
@@ -14,7 +14,7 @@ php:
 env:
   global:
     - SYMFONY_ENV="test"
-    - ES_VERSION=5.4.0 ES_DOWNLOAD_URL=https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-${ES_VERSION}.tar.gz
+    - ES_VERSION=5.4.0 ES_DOWNLOAD_URL=https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-${ES_VERSION}.deb
   matrix:
    - DOCTRINE_CACHE_DRIVER="redis" COMPOSER_FLAGS='update --prefer-stable'
    - DOCTRINE_CACHE_DRIVER="redis" COMPOSER_FLAGS='install'
@@ -26,12 +26,13 @@ matrix:
     - php: nightly
   fast_finish: true
 
+install:
+  - curl -O ${ES_DOWNLOAD_URL}
+  - sudo dpkg -i --force-confnew elasticsearch-${ES_VERSION}.deb
+  - sudo service elasticsearch restart
+
 before_script:
   - java -version
-  - wget ${ES_DOWNLOAD_URL}
-  - tar -xzf elasticsearch-${ES_VERSION}.tar.gz
-  - ./elasticsearch-${ES_VERSION}/bin/elasticsearch &
-  - curl -v http://localhost:9200
   - echo "memory_limit=-1" >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
   - echo 'extension="redis.so"' >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
   - cat ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini|grep redis
@@ -40,6 +41,7 @@ before_script:
   - composer $COMPOSER_FLAGS --no-interaction --prefer-dist
 
 script:
+  - wget -q --waitretry=1 --retry-connrefused -T 10 -O - http://127.0.0.1:9200
   - bin/phpspec run
   - bin/phpunit -c app/
   - cd src/SWP/Bundle/BridgeBundle && composer install --no-interaction --prefer-dist --ignore-platform-reqs && bin/phpunit
