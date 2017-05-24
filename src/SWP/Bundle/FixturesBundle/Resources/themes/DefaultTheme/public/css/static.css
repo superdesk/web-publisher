@@ -22,7 +22,7 @@
 	top: 153px;
 	z-index:1999;
 }
-
+ 
 .menu_fixed {
 	position:fixed;
 	top:0;
@@ -80,7 +80,6 @@
 .icon_padlock,
 .icon_key
 {
-	/* border-right: 1px solid #e8e8e8; */
 	margin-right: 10px;
 }
 
