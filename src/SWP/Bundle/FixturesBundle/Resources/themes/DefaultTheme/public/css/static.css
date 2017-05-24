@@ -80,7 +80,7 @@
 .icon_padlock,
 .icon_key
 {
-	border-right: 1px solid #e8e8e8;
+	/* border-right: 1px solid #e8e8e8; */
 	margin-right: 10px;
 }
 
