@@ -222,6 +222,13 @@ services:
         tags:
             - { name: jms_serializer.subscribing_handler }
 
+    swp_core.jms_articles_count_handler:
+        class: SWP\Bundle\CoreBundle\Serializer\ArticlesCountHandler
+        arguments:
+          - '@swp.repository.article'
+        tags:
+            - { name: jms_serializer.subscribing_handler }
+
     swp_core.article.publisher:
         class: SWP\Bundle\CoreBundle\Service\ArticlePublisher
         arguments:

@@ -1,2 +1,7 @@
 SWP\Bundle\CoreBundle\Model\Route:
     exclusion_policy: ALL
+    properties:
+        articlesCount:
+            serialized_name: articlesCount
+            expose: true
+            type: SWP\Bundle\CoreBundle\Model\ArticlesCountInterface
