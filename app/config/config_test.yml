@@ -54,9 +54,3 @@ fos_http_cache:
         noop: ~
     invalidation:
         enabled: false
-
-fos_elastica:
-    indexes:
-        swp:
-            use_alias: true
-            index_name: swp_test

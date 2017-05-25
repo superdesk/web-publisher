@@ -3,8 +3,6 @@ fos_elastica:
         default: { host: "%env(ELASTICA_HOST)%", port: "%env(ELASTICA_PORT)%" }
     indexes:
         swp:
-            use_alias: true
-            index_name: swp_prod
             settings:
                 analysis:
                     analyzer:
