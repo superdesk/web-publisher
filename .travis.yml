@@ -6,7 +6,6 @@ dist: trusty
 
 services:
   - redis-server
-  - elasticsearch
 
 php:
   - 7.0
@@ -31,10 +30,10 @@ matrix:
 install:
   - wget ${ES_DOWNLOAD_URL}
   - tar -xzf elasticsearch-${ES_VERSION}.tar.gz
-  - ./elasticsearch-${ES_VERSION}/bin/elasticsearch &
+  - ./elasticsearch-${ES_VERSION}/bin/elasticsearch -d
+  - sleep 3
 
 before_script:
-  - java -version
   - echo "memory_limit=-1" >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
   - echo 'extension="redis.so"' >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
   - cat ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini|grep redis
@@ -43,7 +42,6 @@ before_script:
   - composer $COMPOSER_FLAGS --no-interaction --prefer-dist
 
 script:
-  - wget -q --waitretry=1 --retry-connrefused -T 10 -O - http://127.0.0.1:9200
   - bin/phpspec run
   - bin/phpunit -c app/
   - cd src/SWP/Bundle/BridgeBundle && composer install --no-interaction --prefer-dist --ignore-platform-reqs && bin/phpunit
