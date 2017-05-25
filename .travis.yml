@@ -1,11 +1,12 @@
 language: php
 
-sudo: false
-
 dist: trusty
+
+sudo: required
 
 services:
   - redis-server
+  - elasticsearch
 
 php:
   - 7.0
@@ -15,7 +16,7 @@ php:
 env:
   global:
     - SYMFONY_ENV="test"
-    - ES_VERSION=5.4.0 ES_DOWNLOAD_URL=https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-${ES_VERSION}.tar.gz
+    - ES_VERSION=5.4.0 ES_DOWNLOAD_URL=https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-${ES_VERSION}.deb
   matrix:
    - DOCTRINE_CACHE_DRIVER="redis" COMPOSER_FLAGS='update --prefer-stable'
    - DOCTRINE_CACHE_DRIVER="redis" COMPOSER_FLAGS='install'
@@ -28,10 +29,9 @@ matrix:
   fast_finish: true
 
 install:
-  - wget ${ES_DOWNLOAD_URL}
-  - tar -xzf elasticsearch-${ES_VERSION}.tar.gz
-  - ./elasticsearch-${ES_VERSION}/bin/elasticsearch &
-  - sleep 10
+  - curl -O ${ES_DOWNLOAD_URL}
+  - sudo dpkg -i --force-confnew elasticsearch-${ES_VERSION}.deb
+  - sudo service elasticsearch restart
 
 before_script:
   - echo "memory_limit=-1" >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
