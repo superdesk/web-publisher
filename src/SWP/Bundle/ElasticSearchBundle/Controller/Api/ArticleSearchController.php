@@ -69,6 +69,7 @@ class ArticleSearchController extends Controller
                 'publishedAt' => $request->query->get('publishedAt'),
                 'tenantCode' => $currentTenant->getCode(),
                 'sources' => array_filter((array) $request->query->get('source', [])),
+                'metadata' => array_filter((array) $request->query->get('metadata', [])),
             ]
         );
 

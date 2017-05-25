@@ -22,6 +22,16 @@ fos_elastica:
                         status: { type: string }
                         author:
                             property_path: metadata[byline]
+                        located:
+                            property_path: metadata[located]
+                        version:
+                            property_path: metadata[version]
+                        priority:
+                            property_path: metadata[priority]
+                        urgency:
+                            property_path: metadata[urgency]
+                        language:
+                            property_path: metadata[language]
                         tenantCode: { type: string }
                         isPublishable: { type: boolean }
                         publishedAt:

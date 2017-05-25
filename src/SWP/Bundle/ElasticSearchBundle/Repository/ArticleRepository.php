@@ -60,6 +60,14 @@ class ArticleRepository extends Repository
             $boolFilter->addFilter(new Query\Terms('status', $fields->get('statuses')));
         }
 
+        if ($fields->get('metadata') !== null && !empty($fields->get('metadata'))) {
+            foreach ($fields->get('metadata') as $key => $values) {
+                foreach ((array) $values as $value) {
+                    $boolFilter->addFilter(new Query\Match($key, $value));
+                }
+            }
+        }
+
         if (null !== $fields->get('tenantCode')) {
             $boolFilter->addFilter(new Term(['tenantCode' => $fields->get('tenantCode')]));
         }
