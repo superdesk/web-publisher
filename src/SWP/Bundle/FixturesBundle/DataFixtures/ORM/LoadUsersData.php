@@ -46,7 +46,7 @@ class LoadUsersData extends AbstractFixture implements FixtureInterface
         $user->setUsername('test.client1');
         $user->setEmail('test.client1@sourcefabric.org');
         $user->setPlainPassword('testPassword');
-        $user->setTenantCode('456def');
+        $user->setOrganization($this->container->get('swp.repository.organization')->findOneByCode('654321'));
 
         $userManager->updateUser($user);
 
@@ -59,7 +59,7 @@ class LoadUsersData extends AbstractFixture implements FixtureInterface
         $user->setUsername('test.client2');
         $user->setEmail('test.client2@sourcefabric.org');
         $user->setPlainPassword('testPassword');
-        $user->setTenantCode('678iop');
+        $user->setOrganization($this->container->get('swp.repository.organization')->findOneByCode('123456'));
 
         $userManager->updateUser($user);
 
