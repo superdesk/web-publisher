@@ -45,7 +45,8 @@ class ArticleSearchController extends Controller
      *         {"name"="source", "dataType"="array", "description"="Sources"},
      *         {"name"="limit", "dataType"="integer", "description"="Items per page"},
      *         {"name"="page", "dataType"="integer", "description"="Page number"},
-     *         {"name"="route", "dataType"="array", "description"="Routes ids"}
+     *         {"name"="route", "dataType"="array", "description"="Routes ids"},
+     *         {"name"="metadata", "dataType"="array", "description"="Metadata (e.g. query param: ?metadata[located][]=Sydney&metadata[located][]=Berlin)"}
      *     }
      * )
      * @Route("/api/{version}/content/articles/", options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_content_list_articles")
