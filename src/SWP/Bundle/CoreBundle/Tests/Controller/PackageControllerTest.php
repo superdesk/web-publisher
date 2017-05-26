@@ -39,7 +39,6 @@ final class PackageControllerTest extends WebTestCase
 
     public function testListAllPackagesApi()
     {
-        $this->runCommand('fos:elastica:populate', ['--env' => 'test'], true);
         $client = static::createClient();
         $client->request('GET', $this->router->generate('swp_api_core_list_packages'));
         self::assertEquals(200, $client->getResponse()->getStatusCode());
@@ -53,8 +52,8 @@ final class PackageControllerTest extends WebTestCase
 
     public function testFilterByPackageStatusApi()
     {
-        $this->runCommand('fos:elastica:populate', ['--env' => 'test'], true);
-
+        //$this->runCommand('fos:elastica:populate', ['--env' => 'test'], true);
+sleep(2);
         $content = $this->filterByStatus('new');
         self::assertEquals(2, $content['total']);
 
