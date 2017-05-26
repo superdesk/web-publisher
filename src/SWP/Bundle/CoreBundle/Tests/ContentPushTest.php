@@ -178,6 +178,7 @@ final class ContentPushTest extends WebTestCase
 
     private function assetsThereIsOnlyOneArticle()
     {
+        $this->runCommand('fos:elastica:populate', ['--env' => 'test'], true);
         $client = static::createClient();
         $client->request(
             'GET',

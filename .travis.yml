@@ -1,7 +1,5 @@
 language: php
 
-dist: trusty
-
 sudo: false
 
 services:
@@ -14,6 +12,7 @@ php:
 
 env:
   global:
+    - JAVA_HOME="/usr/lib/jvm/java-8-oracle/jre"
     - SYMFONY_ENV="test"
     - ES_VERSION=5.4.0 ES_DOWNLOAD_URL=https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-${ES_VERSION}.tar.gz
   matrix:
@@ -27,11 +26,16 @@ matrix:
     - php: nightly
   fast_finish: true
 
+addons:
+  apt:
+    packages:
+      - oracle-java8-set-default
+
 install:
   - wget ${ES_DOWNLOAD_URL}
   - tar -xzf elasticsearch-${ES_VERSION}.tar.gz
   - ./elasticsearch-${ES_VERSION}/bin/elasticsearch &
-  - sleep 10
+  - sleep 20
 
 before_script:
   - echo "memory_limit=-1" >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
