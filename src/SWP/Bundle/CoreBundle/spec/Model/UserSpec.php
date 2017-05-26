@@ -20,33 +20,34 @@ use FOS\UserBundle\Model\UserInterface as BaseUserInterface;
 use PhpSpec\ObjectBehavior;
 use SWP\Bundle\CoreBundle\Model\User;
 use SWP\Bundle\CoreBundle\Model\UserInterface;
+use SWP\Component\MultiTenancy\Model\OrganizationInterface;
 
 final class UserSpec extends ObjectBehavior
 {
-    function it_is_initializable()
+    public function it_is_initializable()
     {
         $this->shouldHaveType(User::class);
     }
 
-    function it_implements_interface()
+    public function it_implements_interface()
     {
         $this->shouldHaveType(UserInterface::class);
     }
 
-    function it_extends_user()
+    public function it_extends_user()
     {
         $this->shouldHaveType(BaseUserInterface::class);
     }
 
-    function it_has_no_tenant_code_by_default()
+    public function it_has_no_organization_by_default()
     {
-        $this->getTenantCode()->shouldReturn(null);
+        $this->getOrganization()->shouldReturn(null);
     }
 
-    function its_tenant_code_is_mutable()
+    public function its_organization_is_mutable(OrganizationInterface $organization)
     {
-        $this->setTenantCode('eyt645');
-        $this->getTenantCode()->shouldReturn('eyt645');
+        $this->setOrganization($organization);
+        $this->getOrganization()->shouldReturn($organization);
     }
 
     public function it_should_initialize_creation_date_by_default()
@@ -54,18 +55,18 @@ final class UserSpec extends ObjectBehavior
         $this->getCreatedAt()->shouldHaveType('DateTime');
     }
 
-    function its_creation_date_is_mutable(\DateTime $date)
+    public function its_creation_date_is_mutable(\DateTime $date)
     {
         $this->setCreatedAt($date);
         $this->getCreatedAt()->shouldReturn($date);
     }
 
-    function it_has_no_last_update_date_by_default()
+    public function it_has_no_last_update_date_by_default()
     {
         $this->getUpdatedAt()->shouldReturn(null);
     }
 
-    function its_last_update_date_is_mutable(\DateTime $date)
+    public function its_last_update_date_is_mutable(\DateTime $date)
     {
         $this->setUpdatedAt($date);
         $this->getUpdatedAt()->shouldReturn($date);

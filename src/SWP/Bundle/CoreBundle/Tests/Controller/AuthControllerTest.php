@@ -18,6 +18,8 @@ use SWP\Bundle\FixturesBundle\WebTestCase;
 
 class AuthControllerTest extends WebTestCase
 {
+    protected $router;
+
     /**
      * {@inheritdoc}
      */
@@ -92,5 +94,44 @@ class AuthControllerTest extends WebTestCase
         $content = json_decode($client->getResponse()->getContent(), true);
         self::assertEquals($token, $content['token']);
         self::assertArrayHasKey('token', $content);
+    }
+
+    public function testAuthenticationToMultipleTenants()
+    {
+        $client = static::createClient();
+        $client->request('POST', $this->router->generate('swp_api_auth'), [
+            'auth' => [
+                'username' => 'test.user',
+                'password' => 'testPassword',
+            ],
+        ]);
+        self::assertEquals(200, $client->getResponse()->getStatusCode());
+        $domain = $client->getContainer()->getParameter('domain');
+
+        $client2 = static::createClient([], [
+            'HTTP_HOST' => 'client2.'.$domain,
+            'HTTP_Authorization' => base64_encode('client2_token'),
+        ]);
+        $client2->request('GET', $this->router->generate('swp_api_user_get_user_profile', ['id' => 1]));
+        self::assertEquals(200, $client2->getResponse()->getStatusCode());
+
+        $client1 = static::createClient([], [
+            'HTTP_HOST' => 'client1.'.$domain,
+            'HTTP_Authorization' => base64_encode('client2_token'),
+        ]);
+        $client1->request('GET', $this->router->generate('swp_api_user_get_user_profile', ['id' => 1]));
+        self::assertEquals(403, $client1->getResponse()->getStatusCode());
+
+        $client = static::createClient([], [
+            'HTTP_Authorization' => base64_encode('client2_token'),
+        ]);
+        $client->request('GET', $this->router->generate('swp_api_user_get_user_profile', ['id' => 1]));
+        self::assertEquals(200, $client->getResponse()->getStatusCode());
+
+        $client = static::createClient([], [
+            'HTTP_Authorization' => base64_encode('client1_token'),
+        ]);
+        $client->request('GET', $this->router->generate('swp_api_user_get_user_profile', ['id' => 1]));
+        self::assertEquals(403, $client->getResponse()->getStatusCode());
     }
 }

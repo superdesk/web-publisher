@@ -119,7 +119,7 @@ class TokenAuthenticator extends AbstractGuardAuthenticator
     {
         if ($user instanceof CoreUserInterface) {
             $currentOrganization = $this->tenantContext->getTenant()->getOrganization();
-            $userOrganization = $this->tenantRepository->findOneByCode($user->getTenantCode())->getOrganization();
+            $userOrganization = $user->getOrganization();
 
             if ($currentOrganization->getId() === $userOrganization->getId()) {
                 return true;

@@ -1,6 +1,10 @@
 SWP\Bundle\CoreBundle\Model\User:
     type:  mappedSuperclass
     table: swp_user
-    fields:
-        tenantCode:
-            type: string
+    manyToOne:
+        organization:
+            targetEntity: SWP\Component\MultiTenancy\Model\OrganizationInterface
+            joinColumn:
+                name: organization_id
+                referencedColumnName: id
+                nullable: false
