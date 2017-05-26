@@ -17,11 +17,11 @@ declare(strict_types=1);
 namespace SWP\Bundle\CoreBundle\Model;
 
 use SWP\Bundle\UserBundle\Model\User as BaseUser;
-use SWP\Component\MultiTenancy\Model\TenantAwareTrait;
+use SWP\Component\MultiTenancy\Model\OrganizationAwareTrait;
 
 class User extends BaseUser implements UserInterface
 {
-    use TenantAwareTrait;
+    use OrganizationAwareTrait;
 
     /**
      * {@inheritdoc}
