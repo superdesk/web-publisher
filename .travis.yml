@@ -1,6 +1,6 @@
 language: php
 
-sudo: false
+sudo: required
 
 dist: trusty
 
@@ -15,7 +15,6 @@ php:
 env:
   global:
     - JAVA_HOME="/usr/lib/jvm/java-8-oracle/jre"
-    - ES_JAVA_OPTS="-Xms2g -Xmx2g"
     - SYMFONY_ENV="test"
     - ES_VERSION=5.4.0 ES_DOWNLOAD_URL=https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-${ES_VERSION}.tar.gz
   matrix:
@@ -35,8 +34,8 @@ addons:
       - oracle-java8-set-default
 
 install:
-  - sysctl -w vm.max_map_count=262144
-  - sysctl -w fs.file-max=65536
+  - sudo sysctl -w vm.max_map_count=262144
+  - sudo sysctl -w fs.file-max=65536
   - wget ${ES_DOWNLOAD_URL}
   - tar -xzf elasticsearch-${ES_VERSION}.tar.gz
   - ./elasticsearch-${ES_VERSION}/bin/elasticsearch &
@@ -53,7 +52,7 @@ before_script:
 script:
   - bin/phpspec run
   - wget -q --waitretry=1 --retry-connrefused -T 10 -O - http://127.0.0.1:9200
-  - bin/phpunit -c app/
+  - bin/phpunit -c app/ --stop-on-error --stop-on-failure
   - cd src/SWP/Bundle/BridgeBundle && composer install --no-interaction --prefer-dist --ignore-platform-reqs && bin/phpunit
   - cd ../../../../
   - cd src/SWP/Bundle/TemplatesSystemBundle && composer install --no-interaction --prefer-dist --ignore-platform-reqs && bin/phpunit
