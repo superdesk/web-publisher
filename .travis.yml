@@ -2,8 +2,6 @@ language: php
 
 sudo: required
 
-dist: trusty
-
 services:
   - redis-server
 
