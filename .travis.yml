@@ -15,7 +15,7 @@ php:
 env:
   global:
     - JAVA_HOME="/usr/lib/jvm/java-8-oracle/jre"
-    - ES_JAVA_OPTS="-Xms3g -Xmx3g"
+    - ES_JAVA_OPTS="-Xms2g -Xmx2g"
     - SYMFONY_ENV="test"
     - ES_VERSION=5.4.0 ES_DOWNLOAD_URL=https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-${ES_VERSION}.tar.gz
   matrix:
