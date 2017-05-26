@@ -39,7 +39,8 @@ final class PackageControllerTest extends WebTestCase
 
     public function testListAllPackagesApi()
     {
-        sleep(10);
+        $this->runCommand('fos:elastica:populate', ['--env' => 'test'], true);
+        sleep(5);
         $client = static::createClient();
         $client->request('GET', $this->router->generate('swp_api_core_list_packages'));
 
