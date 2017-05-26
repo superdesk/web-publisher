@@ -41,6 +41,7 @@ final class PackageControllerTest extends WebTestCase
     {
         $client = static::createClient();
         $client->request('GET', $this->router->generate('swp_api_core_list_packages'));
+        dump($client->getResponse()->getContent());die;
         self::assertEquals(200, $client->getResponse()->getStatusCode());
 
         $content = json_decode($client->getResponse()->getContent(), true);
