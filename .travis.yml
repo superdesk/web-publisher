@@ -36,6 +36,7 @@ addons:
 install:
   - sudo sysctl -w vm.max_map_count=262144
   - sudo sysctl -w fs.file-max=65536
+  - sudo sysctl -p
   - wget ${ES_DOWNLOAD_URL}
   - tar -xzf elasticsearch-${ES_VERSION}.tar.gz
   - ./elasticsearch-${ES_VERSION}/bin/elasticsearch &
