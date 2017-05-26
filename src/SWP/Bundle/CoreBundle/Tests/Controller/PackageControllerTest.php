@@ -33,14 +33,14 @@ final class PackageControllerTest extends WebTestCase
     {
         self::bootKernel();
         $this->initDatabase();
+        $this->runCommand('fos:elastica:populate', ['--env' => 'test'], true);
         $this->loadCustomFixtures(['tenant', 'package', 'route']);
         $this->router = $this->getContainer()->get('router');
     }
 
     public function testListAllPackagesApi()
     {
-        $this->runCommand('fos:elastica:populate', ['--env' => 'test'], true);
-        sleep(5);
+        sleep(2);
         $client = static::createClient();
         $client->request('GET', $this->router->generate('swp_api_core_list_packages'));
 
