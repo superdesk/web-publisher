@@ -52,5 +52,18 @@ class LoadUsersData extends AbstractFixture implements FixtureInterface
 
         $apiKey = $this->container->get('swp.factory.api_key')->create($user, base64_encode('client1_token'));
         $this->container->get('swp.repository.api_key')->add($apiKey);
+
+        /** @var UserInterface $user */
+        $user = $userManager->createUser();
+        $user->setEnabled(true);
+        $user->setUsername('test.client2');
+        $user->setEmail('test.client2@sourcefabric.org');
+        $user->setPlainPassword('testPassword');
+        $user->setTenantCode('678iop');
+
+        $userManager->updateUser($user);
+
+        $apiKey = $this->container->get('swp.factory.api_key')->create($user, base64_encode('client2_token'));
+        $this->container->get('swp.repository.api_key')->add($apiKey);
     }
 }

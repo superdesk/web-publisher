@@ -28,7 +28,7 @@ Example
     =======
 
     When you are working on the docs, you should follow the
-    `Superdesk Web Publisher Documentation`_ standards.
+    `Superdesk Publisher Documentation`_ standards.
 
     Level 2
     -------
@@ -44,12 +44,12 @@ Example
 
         echo 'You cannot use the :: shortcut here';
 
-    .. _`Superdesk Web Publisher Documentation`: http://superdesk-web-publisher.readthedocs.io/en/latest
+    .. _`Superdesk Publisher Documentation`: http://superdesk-publisher.readthedocs.io/en/latest
 
 Code Examples
 -------------
 
-* The code follows the :doc:`Superdesk Web Publisher Coding Standards </contributing/code/standards>`
+* The code follows the :doc:`Superdesk Publisher Coding Standards </contributing/code/standards>`
   as well as the `Twig Coding Standards`_;
 * The code examples should look real for a web application context. Avoid abstract
   or trivial examples (``foo``, ``bar``, ``demo``, etc.);
@@ -136,7 +136,7 @@ Files and Directories
   directory").
 * When referencing file extensions explicitly, you should include a leading dot
   for every extension (e.g. "XML files use the ``.xml`` extension").
-* When you list a Superdesk Web Publisher file/directory hierarchy, use ``your-project/`` as the
+* When you list a Superdesk Publisher file/directory hierarchy, use ``your-project/`` as the
   top level directory. E.g.
 
   .. code-block:: text
@@ -150,7 +150,7 @@ Files and Directories
 English Language Standards
 --------------------------
 
-Superdesk Web Publisher documentation uses the English dialect, sometimes called
+Superdesk Publisher documentation uses the English dialect, sometimes called
 `British English`_ by people who don't know any better. `Collins Dictionary`_ is used as the
 vocabulary reference.
 
@@ -184,4 +184,3 @@ In addition, documentation follows these rules:
 .. _`Serial (Oxford) Commas`: https://en.wikipedia.org/wiki/Serial_comma
 .. _`nosism`: https://en.wikipedia.org/wiki/Nosism
 .. _`Symfony Best Practices`: http://symfony.com/doc/current/best_practices/index.html
-

@@ -18,6 +18,7 @@ use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use SWP\Bundle\CoreBundle\Model\ArticleInterface;
+use SWP\Bundle\CoreBundle\Model\PackageInterface;
 use SWP\Bundle\FixturesBundle\AbstractFixture;
 use SWP\Component\Common\Criteria\Criteria;
 
@@ -176,12 +177,32 @@ class LoadCollectionRouteArticles extends AbstractFixture implements FixtureInte
                     $article->setRoute($routeProvider->getRouteByName($articleData['route']));
                 }
 
+                $package = $this->createPackage($articleData);
+                $manager->persist($package);
+                $article->setPackage($package);
+
                 $manager->persist($article);
                 $articleService->publish($article);
             }
 
             $manager->flush();
         }
+    }
+
+    private function createPackage(array $articleData)
+    {
+        /** @var PackageInterface $package */
+        $package = $this->container->get('swp.factory.package')->create();
+        $package->setHeadline($articleData['title']);
+        $package->setType('text');
+        $package->setPubStatus('usable');
+        $package->setGuid($this->container->get('swp_multi_tenancy.random_string_generator')->generate(10));
+        $package->setLanguage('en');
+        $package->setUrgency(1);
+        $package->setPriority(1);
+        $package->setVersion(1);
+
+        return $package;
     }
 
     /**

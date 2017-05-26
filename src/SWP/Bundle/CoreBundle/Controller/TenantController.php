@@ -40,6 +40,9 @@ class TenantController extends FOSRestController
      *     description="List all tenants/websites",
      *     statusCodes={
      *         200="Returned on success.",
+     *     },
+     *     filters={
+     *         {"name"="sorting", "dataType"="string", "pattern"="[updatedAt]=asc|desc"}
      *     }
      * )
      * @Route("/api/{version}/tenants/", options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_core_list_tenants")
@@ -50,7 +53,7 @@ class TenantController extends FOSRestController
     public function listAction(Request $request)
     {
         $tenants = $this->getTenantRepository()
-            ->getPaginatedByCriteria(new Criteria(), [], new PaginationData($request));
+            ->getPaginatedByCriteria(new Criteria(), $request->query->get('sorting', []), new PaginationData($request));
 
         return new ResourcesListResponse($tenants);
     }
@@ -168,6 +171,9 @@ class TenantController extends FOSRestController
 
             $formData->setUpdatedAt(new \DateTime('now'));
             $this->get('swp.object_manager.tenant')->flush();
+
+            $cacheProvider = $this->get('doctrine_cache.providers.main_cache');
+            $cacheProvider->save(md5($request->getHost()), $formData);
 
             return new SingleResourceResponse($formData);
         }

@@ -1,16 +1,16 @@
 Community Reviews
 =================
 
-Superdesk Web Publisher is an open-source project driven by its community. If you don't feel
+Superdesk Publisher is an open-source project driven by its community. If you don't feel
 ready to contribute code or patches, reviewing issues and pull requests (PRs)
 can be a great start to get involved and give back. In fact, people who "triage"
-issues are the backbone to Superdesk Web Publisher's success!
+issues are the backbone to Superdesk Publisher's success!
 
 Why Reviewing Is Important
 --------------------------
 
-Community reviews are essential for the development of the Superdesk Web Publisher project.
-On the Superdesk Web Publisher JIRA_ bug tracker and GitHub_, you can find many items to work on:
+Community reviews are essential for the development of the Superdesk Publisher project.
+On the Superdesk Publisher JIRA_ bug tracker and GitHub_, you can find many items to work on:
 
 * **Bug Reports**: Bug reports need to be checked for completeness.
   Is any important information missing? Can the bug be *easily* reproduced?
@@ -34,13 +34,13 @@ next step.
 Create a GitHub Account
 -----------------------
 
-Superdesk Web Publisher uses GitHub_ to manage pull requests. If you want to
+Superdesk Publisher uses GitHub_ to manage pull requests. If you want to
 do reviews, you need to `create a GitHub account`_ and log in.
 
 Create a JIRA Account
 -----------------------
 
-Superdesk Web Publisher uses JIRA_ to manage bug reports. If you want to
+Superdesk Publisher uses JIRA_ to manage bug reports. If you want to
 report a bug, you need to `create a JIRA account`_ and log in.
 
 

@@ -186,8 +186,9 @@ class RuleControllerTest extends WebTestCase
                 'content' => null,
             ],
         ]);
-
         self::assertEquals(201, $client->getResponse()->getStatusCode());
+        $data = json_decode($client->getResponse()->getContent(), true);
+        self::assertEquals(0, $data['articlesCount']);
 
         $client->request(
             'POST',
@@ -208,9 +209,11 @@ class RuleControllerTest extends WebTestCase
         );
 
         self::assertEquals(200, $client->getResponse()->getStatusCode());
+        $data = json_decode($client->getResponse()->getContent(), true);
+        self::assertEquals(1, $data['route']['articlesCount']);
         self::assertArraySubset(
             ['route' => ['name' => 'articles/assign-article-automatically-here']],
-            json_decode($client->getResponse()->getContent(), true)
+            $data
         );
     }
 
@@ -225,7 +228,7 @@ class RuleControllerTest extends WebTestCase
                 'configuration' => [
                     [
                         'key' => 'route',
-                        'value' => 3,
+                        'value' => 2,
                     ],
                 ],
             ],
@@ -263,7 +266,7 @@ class RuleControllerTest extends WebTestCase
 
         self::assertEquals(200, $client->getResponse()->getStatusCode());
         self::assertArraySubset(
-            ['route' => null],
+            ['route' => ['id' => 3]],
             json_decode($client->getResponse()->getContent(), true)
         );
     }
@@ -343,11 +346,20 @@ class RuleControllerTest extends WebTestCase
     private function publishArticle()
     {
         $client = static::createClient();
-        $client->request('PATCH', $this->router->generate('swp_api_core_update_organization_articles', ['id' => 1]), [
-            'article' => [
-                'status' => 'published',
-            ],
-        ]);
-        self::assertEquals(200, $client->getResponse()->getStatusCode());
+        $client->request(
+            'POST',
+            $this->router->generate('swp_api_core_publish_package', ['id' => 1]), [
+                'publish' => [
+                    'destinations' => [
+                        [
+                            'tenant' => '123abc',
+                            'route' => 3,
+                        ],
+                    ],
+                ],
+            ]
+        );
+
+        self::assertEquals(201, $client->getResponse()->getStatusCode());
     }
 }

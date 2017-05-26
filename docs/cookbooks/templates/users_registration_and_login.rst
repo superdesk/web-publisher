@@ -15,7 +15,7 @@ After that user will get email message with link for account confirmation. Link 
 Customize sender email address:
 ```````````````````````````````
 
-By default email will be send from ``'contact@{tenant domain}`` - example: ``contact@example.com``. You can override it by customizing ``registration_from_email.confirmation`` setting.
+By default email will be sent from ``'contact@{tenant domain}`` - example: ``contact@example.com``. You can override it by customizing ``registration_from_email.confirmation`` setting.
 
 
 Customize confirmation email template:
@@ -38,9 +38,7 @@ You can override it in Your theme (with creating ``FOSUser/Registration/confirme
 Login
 -----
 
-Publisher don't provide single page for login action, instead that we made sure that login can be placed in any template
-(or even widget) of You choice. Only hardcoded url's for security are :code:`/security/login_check` (used for user
-authentication - you need to send your login form data there) and :code:`/security/logout` (used for logging out user).
+Publisher don't provide single page for login action, instead that we made sure that login can be placed in any template (or even widget) of You choice. Only hardcoded url's for security are :code:`/security/login_check` (used for user authentication - you need to send your login form data there) and :code:`/security/logout` (used for logging out user).
 
 Example login form:
 ```````````````````

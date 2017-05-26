@@ -17,6 +17,7 @@ namespace spec\SWP\Bundle\MultiTenancyBundle\EventListener;
 use Doctrine\ORM\EntityManagerInterface;
 use PhpSpec\ObjectBehavior;
 use SWP\Bundle\MultiTenancyBundle\EventListener\TenantableListener;
+use SWP\Bundle\MultiTenancyBundle\MultiTenancyEvents;
 use SWP\Component\MultiTenancy\Context\TenantContextInterface;
 use SWP\Component\MultiTenancy\Model\Tenant;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -49,7 +50,9 @@ class TenantableListenerSpec extends ObjectBehavior
     public function it_subscribes_to_event()
     {
         $this::getSubscribedEvents()->shouldReturn([
-            KernelEvents::REQUEST => 'onKernelRequest',
+            KernelEvents::REQUEST => 'enable',
+            MultiTenancyEvents::TENANTABLE_ENABLE => 'enable',
+            MultiTenancyEvents::TENANTABLE_DISABLE => 'disable',
         ]);
     }
 
@@ -61,6 +64,6 @@ class TenantableListenerSpec extends ObjectBehavior
         $tenantContext->getTenant()->shouldBeCalled()->willReturn(new Tenant());
         $entityManager->getFilters()->shouldNotBeCalled();
 
-        $this->onKernelRequest($event)->shouldBeNull();
+        $this->enable($event)->shouldBeNull();
     }
 }

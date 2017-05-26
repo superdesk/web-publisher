@@ -132,7 +132,11 @@ swp_facebook_instant_articles:
 
 swp_bridge:
     persistence:
-        orm: true
+        orm:
+            enabled: true
+            classes:
+                package:
+                    model: SWP\Bundle\CoreBundle\Model\Package
 
 sylius_theme:
     context: "swp_core.theme.context.tenant_aware"
@@ -206,7 +210,35 @@ swp_settings:
                 settings:
                     model: SWP\Bundle\CoreBundle\Model\Settings
     settings:
+        registration_enabled:
+            type: boolean
+            scope: tenant
+            value: true
+        registration_confirmation.template:
+            value: %fos_user.registration.confirmation.template%
+            scope: tenant
+            type: string
+        registration_from_email.confirmation:
+            value: %fos_user.registration.confirmation.from_email%
+            scope: tenant
+            type: array
+        registration_resetting.template:
+            value: %fos_user.resetting.email.template%
+            scope: tenant
+            type: string
+        registration_from_email.resetting:
+            value: %fos_user.resetting.email.from_email%
+            scope: tenant
+            type: array
         instance_name:
             scope: global
             type: string
             value: "Publisher Master"
+        filtering_prefrences:
+            scope: user
+            type: string
+            value: "{}"
+
+swp_analytics:
+    metrics_listener:
+        enabled: false

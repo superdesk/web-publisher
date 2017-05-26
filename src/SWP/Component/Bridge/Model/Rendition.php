@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Superdesk Web Publisher Bridge Component.
  *
@@ -14,8 +16,22 @@
 
 namespace SWP\Component\Bridge\Model;
 
-class Rendition
+use SWP\Component\Common\Model\SoftDeletableTrait;
+
+class Rendition implements RenditionInterface
 {
+    use SoftDeletableTrait;
+
+    /**
+     * @var mixed
+     */
+    protected $id;
+
+    /**
+     * @var string
+     */
+    protected $name;
+
     /**
      * @var string
      */
@@ -32,7 +48,7 @@ class Rendition
     protected $height;
 
     /**
-     * @var int
+     * @var string
      */
     protected $mimetype;
 
@@ -42,102 +58,135 @@ class Rendition
     protected $media;
 
     /**
-     * @return string
+     * @var ItemInterface
      */
-    public function getHref()
+    protected $item;
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getName(): string
+    {
+        return $this->name;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setName(string $name)
+    {
+        $this->name = $name;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getHref(): string
     {
         return $this->href;
     }
 
     /**
-     * @param string $href
-     *
-     * @return Rendition
+     * {@inheritdoc}
      */
-    public function setHref($href)
+    public function setHref(string $href)
     {
         $this->href = $href;
-
-        return $this;
     }
 
     /**
-     * @return int
+     * {@inheritdoc}
      */
-    public function getWidth()
+    public function getWidth(): int
     {
         return $this->width;
     }
 
     /**
-     * @param int $width
-     *
-     * @return Rendition
+     * {@inheritdoc}
      */
-    public function setWidth($width)
+    public function setWidth(int $width)
     {
         $this->width = $width;
-
-        return $this;
     }
 
     /**
-     * @return int
+     * {@inheritdoc}
      */
-    public function getHeight()
+    public function getHeight(): int
     {
         return $this->height;
     }
 
     /**
-     * @param int $height
-     *
-     * @return Rendition
+     * {@inheritdoc}
      */
-    public function setHeight($height)
+    public function setHeight(int $height)
     {
         $this->height = $height;
-
-        return $this;
     }
 
     /**
-     * @return int
+     * {@inheritdoc}
      */
-    public function getMimetype()
+    public function getMimetype(): string
     {
         return $this->mimetype;
     }
 
     /**
-     * @param int $mimetype
-     *
-     * @return Rendition
+     * {@inheritdoc}
      */
-    public function setMimetype($mimetype)
+    public function setMimetype(string $mimetype)
     {
         $this->mimetype = $mimetype;
-
-        return $this;
     }
 
     /**
-     * @return string
+     * {@inheritdoc}
      */
-    public function getMedia()
+    public function getMedia(): string
     {
         return $this->media;
     }
 
     /**
-     * @param string $media
-     *
-     * @return Rendition
+     * {@inheritdoc}
      */
-    public function setMedia($media)
+    public function setMedia(string $media)
     {
         $this->media = $media;
+    }
 
-        return $this;
+    /**
+     * {@inheritdoc}
+     */
+    public function getItem(): ItemInterface
+    {
+        return $this->item;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setItem(ItemInterface $item)
+    {
+        $this->item = $item;
     }
 }

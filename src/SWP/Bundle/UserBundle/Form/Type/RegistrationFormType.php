@@ -17,7 +17,6 @@ declare(strict_types=1);
 namespace SWP\Bundle\UserBundle\Form\Type;
 
 use FOS\UserBundle\Form\Type\RegistrationFormType as BaseRegistrationFormType;
-use SWP\Bundle\CoreBundle\Model\User;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class RegistrationFormType extends BaseRegistrationFormType
@@ -25,9 +24,9 @@ class RegistrationFormType extends BaseRegistrationFormType
     /**
      * {@inheritdoc}
      */
-    public function __construct()
+    public function __construct($class)
     {
-        parent::__construct(User::class);
+        parent::__construct($class);
     }
 
     /**

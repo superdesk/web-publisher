@@ -1,0 +1,27 @@
+services:
+    swp_core.form.type.tenant_route_selector:
+        class: SWP\Bundle\CoreBundle\Form\Type\TenantAwareRouteSelectorType
+        arguments:
+          - '@swp_multi_tenancy.tenant_context'
+          - '@swp.repository.route'
+        tags:
+            - { name: form.type }
+
+    swp_core.form.type.theme_name_choice:
+        class: SWP\Bundle\CoreBundle\Form\Type\ThemeNameChoiceType
+        arguments:
+            - '@swp_core.provider.theme'
+        tags:
+            - { name: form.type }
+
+    swp_core.form.type.organization_code_choice:
+        class: SWP\Bundle\CoreBundle\Form\Type\OrganizationCodeChoiceType
+        arguments:
+            - '@swp.repository.organization'
+        tags:
+            - { name: form.type }
+
+    swp_core.form.type.boolean:
+        class: SWP\Bundle\CoreBundle\Form\Type\BooleanType
+        tags:
+            - { name: form.type }

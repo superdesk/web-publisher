@@ -1,0 +1,24 @@
+SWP\Component\Bridge\Model\Event\Category:
+    type:  mappedSuperclass
+    table: swp_event_category
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        name:
+            type: string
+        qcode:
+            type: string
+        subject:
+            type: string
+    manyToOne:
+        event:
+            targetEntity: SWP\Component\Bridge\Model\EventInterface
+            joinColumn:
+                name: event_id
+                referencedColumnName: id
+                onDelete: CASCADE
+                nullable: false

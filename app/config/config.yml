@@ -6,7 +6,6 @@ imports:
     - { resource: "@SWPMenuBundle/Resources/config/app/config.yml" }
     - { resource: "@SWPContentListBundle/Resources/config/app/config.yml" }
     - { resource: "@SWPRevisionBundle/Resources/config/app/config.yml" }
-    - { resource: "@SWPUserBundle/Resources/config/app/config.yml" }
     - { resource: "@SWPCoreBundle/Resources/config/app/config.yml" }
     - { resource: parameters.yml }
     - { resource: security.yml }
@@ -147,7 +146,7 @@ fos_http_cache:
                 routes:
                     swp_api_content_list_articles: ~
                     swp_api_content_show_articles: ~
-                    swp_api_core_list_organization_articles: ~
+                    swp_api_core_list_packages: ~
             -
                 match:
                     attributes:
@@ -183,6 +182,13 @@ fos_http_cache:
                 routes:
                     swp_api_core_list_rule: ~
                     swp_api_core_get_rule: ~
+            -
+                match:
+                    attributes:
+                        _route: "swp_api_core_update_organization_rule|swp_api_core_delete_organization_rule"
+                routes:
+                    swp_api_core_list_organization_rules: ~
+                    swp_api_core_show_organization_rule: ~
             -
                 match:
                     attributes:

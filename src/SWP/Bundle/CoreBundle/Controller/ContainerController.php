@@ -41,6 +41,9 @@ class ContainerController extends Controller
      *     description="Lists all registered containers",
      *     statusCodes={
      *         200="Returned on success."
+     *     },
+     *     filters={
+     *         {"name"="sorting", "dataType"="string", "pattern"="[updatedAt]=asc|desc"}
      *     }
      * )
      * @Route("/api/{version}/templates/containers/", options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_templates_list_containers")
@@ -54,7 +57,7 @@ class ContainerController extends Controller
     public function listAction(Request $request)
     {
         $repository = $this->get('swp.repository.container');
-        $containers = $repository->getPaginatedByCriteria(new Criteria(), [], new PaginationData($request));
+        $containers = $repository->getPaginatedByCriteria(new Criteria(), $request->query->get('sorting', []), new PaginationData($request));
 
         return new ResourcesListResponse($containers);
     }

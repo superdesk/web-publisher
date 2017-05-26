@@ -3,7 +3,7 @@
 Contributed Documentation License
 =================================
 
-The Superdesk Web Publisher documentation is licensed under a Creative Commons
+The Superdesk Publisher documentation is licensed under a Creative Commons
 Attribution-Share Alike 3.0 Unported License (`CC BY-SA 3.0`_).
 
 **You are free:**

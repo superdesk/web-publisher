@@ -42,6 +42,9 @@ class ContentListController extends Controller
      *     description="Lists all content lists",
      *     statusCodes={
      *         200="Returned on success."
+     *     },
+     *     filters={
+     *         {"name"="sorting", "dataType"="string", "pattern"="[updatedAt]=asc|desc"}
      *     }
      * )
      * @Route("/api/{version}/content/lists/", options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_content_list_lists")
@@ -53,7 +56,7 @@ class ContentListController extends Controller
     {
         $repository = $this->get('swp.repository.content_list');
 
-        $lists = $repository->getPaginatedByCriteria(new Criteria(), [], new PaginationData($request));
+        $lists = $repository->getPaginatedByCriteria(new Criteria(), $request->query->get('sorting', []), new PaginationData($request));
 
         return new ResourcesListResponse($lists);
     }

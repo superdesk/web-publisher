@@ -62,6 +62,9 @@ SWP\Bundle\ContentBundle\Model\Article:
             nullable: true
         code:
             type: string
+        source:
+            type: string
+            nullable: true
     manyToOne:
         route:
             targetEntity: SWP\Bundle\ContentBundle\Model\RouteInterface
@@ -74,6 +77,7 @@ SWP\Bundle\ContentBundle\Model\Article:
         featureMedia:
             targetEntity: SWP\Bundle\ContentBundle\Model\ArticleMediaInterface
             fetch: "EAGER"
+            cascade: ["persist"]
             joinColumn:
                 name: feature_media
                 referencedColumnName: id

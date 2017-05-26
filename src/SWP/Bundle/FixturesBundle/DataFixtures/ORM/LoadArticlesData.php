@@ -17,8 +17,10 @@ namespace SWP\Bundle\FixturesBundle\DataFixtures\ORM;
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
+use SWP\Bundle\ContentBundle\Model\ArticleInterface;
 use SWP\Bundle\ContentBundle\Model\ImageRendition;
 use SWP\Bundle\ContentBundle\Model\RouteInterface;
+use SWP\Bundle\CoreBundle\Model\PackageInterface;
 use SWP\Bundle\FixturesBundle\AbstractFixture;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
@@ -33,6 +35,15 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface, Orde
     {
         $this->manager = $manager;
         $env = $this->getEnvironment();
+
+        $tenantContext = $this->container->get('swp_multi_tenancy.tenant_context');
+        $mediaManager = $this->container->get('swp_content_bundle.manager.media');
+        if (null === $tenantContext->getTenant()) {
+            $tenantContext->setTenant(
+                $this->container->get('swp.repository.tenant')->findOneByCode('123abc')
+            );
+        }
+        $mediaManager->setTenantContext($tenantContext);
 
         $this->loadRoutes($env, $manager);
         $this->loadArticles($env, $manager);
@@ -198,12 +209,23 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface, Orde
     public function loadArticles($env, ObjectManager $manager)
     {
         if ($env !== 'test') {
-            $articles = $this->loadFixtures(
-                '@SWPFixturesBundle/Resources/fixtures/ORM/'.$env.'/article.yml',
+            $this->loadFixtures([
+                '@SWPFixturesBundle/Resources/fixtures/ORM/'.$env.'/package.yml',
+            ],
                 $manager,
                 [
                     'providers' => [$this],
                 ]
+            );
+
+            $articles = $this->loadFixtures([
+                    '@SWPFixturesBundle/Resources/fixtures/ORM/'.$env.'/article.yml',
+                ],
+                $manager,
+                [
+                    'providers' => [$this],
+                ],
+                true
             );
 
             $renditions = [
@@ -349,12 +371,17 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface, Orde
         if (isset($articles[$env])) {
             $articleService = $this->container->get('swp.service.article');
             foreach ($articles[$env] as $articleData) {
+                /** @var ArticleInterface $article */
                 $article = $this->container->get('swp.factory.article')->create();
                 $article->setTitle($articleData['title']);
                 $article->setBody($articleData['content']);
                 $article->setRoute($this->getRouteByName($articleData['route']));
                 $article->setLocale($articleData['locale']);
                 $article->setCode(md5($articleData['title']));
+                $article->setKeywords($this->articleKeywords());
+                $package = $this->createPackage($articleData);
+                $manager->persist($package);
+                $article->setPackage($package);
                 $manager->persist($article);
                 $articleService->publish($article);
 
@@ -363,6 +390,22 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface, Orde
 
             $manager->flush();
         }
+    }
+
+    private function createPackage(array $articleData)
+    {
+        /** @var PackageInterface $package */
+        $package = $this->container->get('swp.factory.package')->create();
+        $package->setHeadline($articleData['title']);
+        $package->setType('text');
+        $package->setPubStatus('usable');
+        $package->setGuid($this->container->get('swp_multi_tenancy.random_string_generator')->generate(10));
+        $package->setLanguage('en');
+        $package->setUrgency(1);
+        $package->setPriority(1);
+        $package->setVersion(1);
+
+        return $package;
     }
 
     /**

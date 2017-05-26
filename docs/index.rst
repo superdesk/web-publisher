@@ -1,44 +1,34 @@
-Superdesk Web Publisher technical documentation
-===============================================
+Welcome to Superdesk Publisher documentation
+============================================
 
-*The next generation publishing platform for journalists and newsrooms*
+*The next-generation publishing platform for newsrooms*
 
-Superdesk Web Publisher is a lightweight open source renderer which takes news articles from an API feed and delivers them directly to readers via the Internet. The code is released under the `GNU Affero General Public License, version 3 <https://github.com/superdesk/web-publisher/blob/master/LICENSE.md>`_.
+Superdesk Publisher is a lightweight open source renderer for news articles and other content delivered via an API feed. The code is released under the `GNU Affero General Public Licence, version 3 <https://github.com/superdesk/web-publisher/blob/master/LICENSE.md>`_.
 
-The Web Publisher is designed to work with the `Superdesk <https://www.superdesk.org/>`_ news room management system from `Sourcefabric <https://www.sourcefabric.org/>`_, but could be made to work with any compatible API. It is written in PHP and runs on a standard web server or in a Docker container. A PostgreSQL database is also required.
+Publisher is designed to work with the `Superdesk <https://www.superdesk.org/>`_ newsroom management system from `Sourcefabric <https://www.sourcefabric.org/>`_, but it can also be adapted to work with any compatible API. Publisher is a lightweight PHP 7 renderer for HTTP-pushed content in HTML/CSS/JavaScript templates, and it runs on a standard web server or in a Docker container. A PostgreSQL database is also required.
 
-The presentation of articles is taken care of by a flexible, device-responsive themes system which can be customised to match your publication.
 
-This documentation includes text and code examples from the Symfony and Sylius projects, released under the `Creative Commons BY-SA 3.0 <http://creativecommons.org/licenses/by-sa/3.0/>`_ license.
-Pull requests to `improve the documentation <http://superdesk-web-publisher.readthedocs.io/en/latest/contributing/documentation/index.html>`_ are very welcome.
+.. container:: image_bck
 
-.. toctree::
-   :caption: Documentation for theme designers
-   :maxdepth: 2
+  .. image:: _static/publisher.png
+     :alt: example image
+     :align: center
 
-   themes
-   templates_system/index
+The presentation of articles is taken care of by a flexible, device-responsive themes system, which can be customised to suit your publications.
 
-.. toctree::
-   :caption: Documentation for developers
-   :maxdepth: 2
+This documentation includes text and code examples from the Symfony and Sylius projects, released under the `Creative Commons BY-SA 3.0 <http://creativecommons.org/licenses/by-sa/3.0/>`_ licence. Pull requests to `improve the documentation <http://superdesk-publisher.readthedocs.io/en/latest/contributing/documentation/index.html>`_ are welcome.
 
-   bundles/index
-   components/index
-   content_publishing
 
 .. toctree::
-   :caption: API documentation
-   :maxdepth: 2
+   :maxdepth: 3
 
-   internal_api/index
-
-.. toctree::
-   :caption: Cookbooks
-   :maxdepth: 2
-
+   manual/index
    cookbooks/index
+   reference/index
+   bundles/index
+   developers
 
+   
 Contributing to Web Publisher
 -----------------------------
 

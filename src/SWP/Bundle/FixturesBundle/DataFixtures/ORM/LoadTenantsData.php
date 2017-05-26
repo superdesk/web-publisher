@@ -50,6 +50,13 @@ class LoadTenantsData extends AbstractFixture implements FixtureInterface, Order
     {
         /** @var RevisionManagerInterface $revisionManager */
         $revisionManager = $this->container->get('swp.manager.revision');
+        $tenantContext = $this->container->get('swp_multi_tenancy.tenant_context');
+
+        if (null === $tenantContext->getTenant()) {
+            $tenantContext->setTenant(
+                $this->container->get('swp.repository.tenant')->findOneByCode('123abc')
+            );
+        }
 
         /** @var RevisionInterface|TenantAwareInterface $firstPublishedRevision */
         $firstTenantPublishedRevision = $revisionManager->create();
@@ -61,6 +68,12 @@ class LoadTenantsData extends AbstractFixture implements FixtureInterface, Order
         /** @var RevisionInterface|TenantAwareInterface $firstPublishedRevision */
         $secondTenantPublishedRevision = $revisionManager->create();
         $secondTenantPublishedRevision->setTenantCode('456def');
+        $secondTenantWorkingRevision = $revisionManager->create($secondTenantPublishedRevision);
+        $revisionManager->publish($secondTenantPublishedRevision, $secondTenantWorkingRevision);
+
+        /** @var RevisionInterface|TenantAwareInterface $firstPublishedRevision */
+        $secondTenantPublishedRevision = $revisionManager->create();
+        $secondTenantPublishedRevision->setTenantCode('678iop');
         $secondTenantWorkingRevision = $revisionManager->create($secondTenantPublishedRevision);
         $revisionManager->publish($secondTenantPublishedRevision, $secondTenantWorkingRevision);
     }

@@ -46,7 +46,9 @@ class ArticleController extends Controller
      *         {"name"="publishedBefore", "dataType"="datetime", "pattern"="Y-m-d h:i:s"},
      *         {"name"="publishedAfter", "dataType"="datetime", "pattern"="Y-m-d h:i:s"},
      *         {"name"="author", "dataType"="string", "pattern"="John Doe | John Doe, Matt Smith"},
-     *         {"name"="query", "dataType"="string", "pattern"="Part of title"}
+     *         {"name"="query", "dataType"="string", "pattern"="Part of title"},
+     *         {"name"="sorting", "dataType"="string", "pattern"="[publishedAt|code]=asc|desc"},
+     *         {"name"="source", "dataType"="string"}
      *     }
      * )
      * @Route("/api/{version}/content/articles/", options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_content_list_articles")
@@ -85,7 +87,8 @@ class ArticleController extends Controller
                 'publishedAfter' => $request->query->has('publishedAfter') ? new \DateTime($request->query->get('publishedAfter')) : '',
                 'author' => $authors,
                 'query' => $request->query->get('query', ''),
-            ]), [], new PaginationData($request));
+                'source' => $request->query->get('source', ''),
+            ]), $request->query->get('sorting', []), new PaginationData($request));
 
         return new ResourcesListResponse($articles);
     }

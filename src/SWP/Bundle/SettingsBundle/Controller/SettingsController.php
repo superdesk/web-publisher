@@ -19,13 +19,13 @@ namespace SWP\Bundle\SettingsBundle\Controller;
 use SWP\Bundle\SettingsBundle\Context\ScopeContextInterface;
 use SWP\Bundle\SettingsBundle\Exception\InvalidScopeException;
 use SWP\Bundle\SettingsBundle\Form\Type\SettingType;
+use SWP\Component\Common\Response\ResponseContext;
 use SWP\Component\Common\Response\SingleResourceResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use SWP\Component\Common\Response\ResourcesListResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
@@ -43,9 +43,9 @@ class SettingsController extends Controller
      * )
      * @Route("/api/{version}/settings/", options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_settings_list")
      * @Method("GET")
-     * Cache(expires="10 minutes", public=true)
+     * @Cache(expires="10 minutes", public=true)
      *
-     * @return ResourcesListResponse
+     * @return SingleResourceResponse
      */
     public function listAction()
     {
@@ -104,6 +104,6 @@ class SettingsController extends Controller
             return new SingleResourceResponse($setting);
         }
 
-        return new SingleResourceResponse($form);
+        return new SingleResourceResponse($form, new ResponseContext(400));
     }
 }

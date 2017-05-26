@@ -1,9 +1,9 @@
 .. _running-webpublisher-tests:
 
-Running Superdesk Web Publisher Tests
+Running Superdesk Publisher Tests
 =====================================
 
-The Superdesk Web Publisher project uses a third-party service which automatically runs tests
+The Superdesk Publisher project uses a third-party service which automatically runs tests
 for any submitted :doc:`patch <patches>`. If the new code breaks any test,
 the pull request will show an error message with a link to the full error details.
 
@@ -16,7 +16,7 @@ In any case, it's a good practice to run tests locally before submitting a
 Before Running the Tests
 ------------------------
 
-To run the Superdesk Web Publisher test suite, install the external dependencies used during the
+To run the Superdesk Publisher test suite, install the external dependencies used during the
 tests, such as Doctrine, Twig and Monolog. To do so,
 :doc:`install Composer </cookbooks/developers/composer>` and execute the following:
 
@@ -33,7 +33,7 @@ tests, such as Doctrine, Twig and Monolog. To do so,
 Running the PHPUnit Tests
 -------------------------
 
-Then, run the test suite from the Superdesk Web Publisher root directory with the following
+Then, run the test suite from the Superdesk Publisher root directory with the following
 command:
 
 .. code-block:: bash
@@ -45,7 +45,7 @@ what's going on and if the tests are broken because of the new code.
 
 .. tip::
 
-    The entire Superdesk Web Publisher suite can take up to several minutes to complete. If you
+    The entire Superdesk Publisher suite can take up to several minutes to complete. If you
     want to test a single component/bundle, type its path after the ``phpunit`` command,
     e.g.:
 
@@ -68,7 +68,7 @@ Running the PHPSpec specs
 PHPSpec is a PHP toolset to drive emergent design by specification.
 It is not really a testing tool, but a design instrument, which helps structuring the objects and how they work together.
 
-The Superdesk Web Publisher approach is to always describe the behaviour of the next object you are about to implement.
+The Superdesk Publisher approach is to always describe the behaviour of the next object you are about to implement.
 
 As an example, we'll write a service, which sets the current tenant in the context.
 To initialize a new spec, use the ``desc`` command.
@@ -197,7 +197,7 @@ Done! If you run PHPSpec again, you should see the following output:
 This example is greatly simplified, in order to illustrate how we work.
 More examples might cover errors, API exceptions and other edge-cases.
 
-A few tips & rules to follow when working with PHPSpec & Superdesk Web Publisher:
+A few tips & rules to follow when working with PHPSpec & Superdesk Publisher:
 
 * RED is good, add or fix the code to make it green;
 * RED-GREEN-REFACTOR is our rule;

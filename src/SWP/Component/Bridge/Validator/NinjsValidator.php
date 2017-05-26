@@ -111,6 +111,10 @@ class NinjsValidator extends JsonValidator
             "description" : "The human language used by the content. The value should follow IETF BCP47",
             "type" : "string"
         },
+        "source" : {
+            "description" : "The source of the news object",
+            "type" : "string"
+        },
         "service" : {
             "description" : "A service e.g. World Photos, UK News etc.",
             "type" : "array",

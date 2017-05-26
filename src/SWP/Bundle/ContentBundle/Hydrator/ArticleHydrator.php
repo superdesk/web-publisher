@@ -61,6 +61,7 @@ final class ArticleHydrator implements ArticleHydratorInterface
         $article->setCode($package->getGuid());
         $article->setBody($this->populateBody($package));
         $article->setTitle($package->getHeadline());
+        $article->setSource($package->getSource());
         if (null !== $package->getSlugline()) {
             $article->setSlug($package->getSlugline());
         }
@@ -80,7 +81,7 @@ final class ArticleHydrator implements ArticleHydratorInterface
      *
      * @return string
      */
-    protected function populateLead(PackageInterface $package)
+    private function populateLead(PackageInterface $package)
     {
         if (null === $package->getDescription() || '' === $package->getDescription()) {
             $items = $this->filterTextItems($package->getItems());
@@ -102,7 +103,7 @@ final class ArticleHydrator implements ArticleHydratorInterface
      *
      * @return string
      */
-    protected function populateByline(PackageInterface $package)
+    private function populateByline(PackageInterface $package)
     {
         $items = $this->filterTextItems($package->getItems());
 
@@ -135,7 +136,7 @@ final class ArticleHydrator implements ArticleHydratorInterface
      *
      * @return string
      */
-    protected function populateBody(PackageInterface $package)
+    private function populateBody(PackageInterface $package)
     {
         return $package->getBody().' '.implode('', array_map(function (ItemInterface $item) {
             $this->ensureTypeIsAllowed($item->getType());
@@ -149,7 +150,7 @@ final class ArticleHydrator implements ArticleHydratorInterface
      *
      * @throws \InvalidArgumentException
      */
-    protected function ensureTypeIsAllowed(string $type)
+    private function ensureTypeIsAllowed(string $type)
     {
         if (!in_array($type, $this->allowedTypes)) {
             throw new \InvalidArgumentException(sprintf(

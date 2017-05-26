@@ -21,16 +21,14 @@ By default, articles in Automatic Content List are ordered by "sticky" flag (des
 How articles are being added to Automatic Content Lists
 -------------------------------------------------------
 
-When a new list will be created and relevant criteria/filters will be set for that list,
+When a new list is created and relevant criteria/filters are set for that list,
 articles to be published will automatically be added to the list but only when they meet the list's criteria.
 
-If the list's criteria are not defined, or if the articles do not match the list's criteria,
-articles will not be added to the list.
+If the list's criteria are not defined, or if the articles do not match the list's criteria, articles will not be added to the list.
 
 Here is an example to demonstrate this:
 
-Given that your list's criteria/filters are set to match "Sports" route so when you publish an article which
-is assigned to "Sports" route, it will be automatically assigned to the list.
+Given that your list's criteria/filters are set to match "Sports" route so when you publish an article which is assigned to "Sports" route, it will be automatically assigned to the list.
 
 Built in criteria:
 

@@ -17,8 +17,10 @@ namespace SWP\Bundle\CoreBundle\Model;
 use SWP\Bundle\ContentBundle\Model\RouteInterface;
 use SWP\Component\MultiTenancy\Model\Tenant as BaseTenant;
 
-class Tenant extends BaseTenant implements TenantInterface
+class Tenant extends BaseTenant implements TenantInterface, ArticlesCountInterface
 {
+    use ArticlesCountTrait;
+
     /**
      * @var string
      */

@@ -63,12 +63,16 @@ class ArticleRepository extends EntityRepository implements ArticleRepositoryInt
     /**
      * {@inheritdoc}
      */
-    public function countByCriteria(Criteria $criteria): int
+    public function countByCriteria(Criteria $criteria, $status = ArticleInterface::STATUS_PUBLISHED): int
     {
         $queryBuilder = $this->createQueryBuilder('a')
-            ->select('COUNT(a.id)')
-            ->where('a.status = :status')
-            ->setParameter('status', $criteria->get('status', ArticleInterface::STATUS_PUBLISHED));
+            ->select('COUNT(a.id)');
+
+        if (null !== $status) {
+            $queryBuilder
+                ->where('a.status = :status')
+                ->setParameter('status', $criteria->get('status', $status));
+        }
 
         $this->applyCustomFiltering($queryBuilder, $criteria);
         $this->applyCriteria($queryBuilder, $criteria, 'a');
@@ -143,6 +147,17 @@ class ArticleRepository extends EntityRepository implements ArticleRepositoryInt
 
             $queryBuilder->andWhere($orX);
             $criteria->remove($name);
+        }
+
+        if ($criteria->has('keywords')) {
+            $orX = $queryBuilder->expr()->orX();
+            foreach ($criteria->get('keywords') as $value) {
+                $valueExpression = $queryBuilder->expr()->literal('%'.$value.'%');
+                $orX->add($queryBuilder->expr()->like('a.keywords', $valueExpression));
+            }
+
+            $queryBuilder->andWhere($orX);
+            $criteria->remove('keywords');
         }
 
         if ($criteria->has('publishedBefore') && $criteria->get('publishedBefore') instanceof \DateTime) {

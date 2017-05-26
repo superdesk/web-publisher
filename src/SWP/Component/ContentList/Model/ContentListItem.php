@@ -125,6 +125,14 @@ class ContentListItem implements ContentListItemInterface
     /**
      * {@inheritdoc}
      */
+    public function getSticky(): bool
+    {
+        return $this->sticky;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function setSticky(bool $sticky)
     {
         $this->sticky = $sticky;

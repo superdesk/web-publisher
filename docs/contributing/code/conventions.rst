@@ -1,7 +1,7 @@
 Conventions
 ===========
 
-The :doc:`standards` document describes the coding standards for the Superdesk Web Publisher
+The :doc:`standards` document describes the coding standards for the Superdesk Publisher
 projects and the internal and third-party bundles. This document describes
 coding standards and conventions used in the core project to make it more
 consistent and predictable.

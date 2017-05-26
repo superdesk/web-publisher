@@ -46,7 +46,8 @@ class ContentListItemController extends Controller
      *         500="Unexpected error."
      *     },
      *     filters={
-     *         {"name"="sticky", "dataType"="boolean", "pattern"="true|false"}
+     *         {"name"="sticky", "dataType"="boolean", "pattern"="true|false"},
+     *         {"name"="sorting", "dataType"="string", "pattern"="[updatedAt]=asc|desc"}
      *     }
      * )
      * @Route("/api/{version}/content/lists/{id}/items/", options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_core_list_items", requirements={"id"="\d+"})
@@ -61,7 +62,7 @@ class ContentListItemController extends Controller
                 'contentList' => $id,
                 'sticky' => $request->query->get('sticky', ''),
             ]),
-            ['sticky' => 'desc', 'createdAt' => 'desc'],
+            $request->query->get('sorting', ['sticky' => 'desc']),
             new PaginationData($request)
         );
 

@@ -2,7 +2,7 @@ Git
 ===
 
 This document explains some conventions and specificities in the way we manage
-the Superdesk Web Publisher code with Git.
+the Superdesk Publisher code with Git.
 
 Pull Requests
 -------------

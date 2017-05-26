@@ -12,8 +12,6 @@ SWP\Bundle\ContentBundle\Model\Image:
             expose: true
         assetId:
             expose: true
-        renditions:
-            expose: true
     relations:
         -
             rel: download

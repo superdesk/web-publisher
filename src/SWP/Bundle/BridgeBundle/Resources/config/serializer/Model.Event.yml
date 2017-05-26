@@ -1,0 +1,41 @@
+SWP\Component\Bridge\Model\Event:
+    exclusion_policy: ALL
+    properties:
+        id:
+            type: string
+            serialized_name: _id
+        etag:
+            type: string
+            serialized_name: _etag
+        guid:
+            type: string
+        type:
+            type: string
+            serialized_name: _type
+        createdAt:
+            type: DateTime<'Y-m-d\TH:i:sP'>
+            serialized_name: _created
+        updatedAt:
+            type: DateTime<'Y-m-d\TH:i:sP'>
+            serialized_name: _updated
+        originalCreator:
+            type: string
+        name:
+            type: string
+        definitionShort:
+            type: string
+            serialized_name: definition_short
+        definitionLong:
+            type: string
+            serialized_name: definition_long
+        anpaCategory:
+            type: array<SWP\Component\Bridge\Model\Event\Category>
+        dates:
+            type: SWP\Component\Bridge\Model\Event\Date
+        recurrenceId:
+            type: string
+        locations:
+            type: array<SWP\Component\Bridge\Model\Event\Location>
+            serialized_name: location
+        occurStatus:
+            type: SWP\Component\Bridge\Model\Event\OccurStatus

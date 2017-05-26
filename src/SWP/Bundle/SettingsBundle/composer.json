@@ -11,16 +11,27 @@
       "email": "pawel.mikolajczuk@sourcefabric.org"
     }
   ],
+  "repositories": [
+    {
+      "type": "path",
+      "url": "../*"
+    },
+    {
+      "type": "path",
+      "url": "../../Component/*"
+    }
+  ],
   "require": {
     "php": "^7.0",
-    "swp/storage-bundle": "^0.6",
-    "swp/common": "^0.5",
+    "swp/storage-bundle": "^1.0",
+    "swp/common": "^1.0",
     "symfony/twig-bundle": "^3.1",
     "symfony/form": "^3.1",
     "symfony/validator": "^3.1",
+    "symfony/security": "^3.1",
     "nelmio/api-doc-bundle": "2.13.*",
     "sensio/framework-extra-bundle": "~3.0,>=3.0.2",
-    "doctrine/orm": "2.6.*",
+    "doctrine/orm": "^2.5",
     "doctrine/doctrine-bundle": ">=1.6.7 <1.7.0"
   },
   "require-dev": {
@@ -28,6 +39,7 @@
     "phpdocumentor/reflection-docblock": "3.1.*",
     "symfony/framework-bundle": "^3.1",
     "symfony/security-bundle": "^3.1",
+    "symfony/property-access": "^3.1",
     "symfony/monolog-bundle": "~2.0",
     "symfony/monolog-bridge": "^3.1",
     "symfony/serializer": "^3.1",
@@ -44,7 +56,7 @@
   },
   "extra": {
     "branch-alias": {
-      "dev-master": "0.6-dev"
+      "dev-master": "1.0-dev"
     }
   }
 }

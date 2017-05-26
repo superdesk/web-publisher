@@ -14,10 +14,14 @@
 
 namespace SWP\Component\Bridge\Model;
 
-interface ContentInterface
+use SWP\Component\Storage\Model\PersistableInterface;
+
+interface ContentInterface extends PersistableInterface
 {
     const STATUS_USABLE = 'usable';
     const STATUS_CANCELED = 'canceled';
+    const STATUS_PUBLISHED = 'published';
+    const STATUS_UNPUBLISHED = 'unpublished';
 
     /**
      * @return mixed
@@ -213,4 +217,14 @@ interface ContentInterface
      * @param string $evolvedFrom
      */
     public function setEvolvedFrom(string $evolvedFrom);
+
+    /**
+     * @return null|string
+     */
+    public function getSource();
+
+    /**
+     * @param null|string $source
+     */
+    public function setSource($source);
 }

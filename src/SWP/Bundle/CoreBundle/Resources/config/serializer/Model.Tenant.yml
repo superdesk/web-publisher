@@ -8,7 +8,11 @@ SWP\Bundle\CoreBundle\Model\Tenant:
             expose: true
             type: SWP\Bundle\CoreBundle\Model\Organization
         ampEnabled:
-          expose: true
+            expose: true
+        articlesCount:
+            serialized_name: articlesCount
+            expose: true
+            type: SWP\Bundle\CoreBundle\Model\ArticlesCountInterface
     relations:
         - rel: self
           href:

@@ -77,7 +77,8 @@ class ArticleControllerTest extends WebTestCase
         ]);
         $responseArray = json_decode($client->getResponse()->getContent(), true);
         $this->assertArraySubset(json_decode('{"status":"new"}', true), $responseArray);
-
+        $publishedAt = $responseArray['publishedAt'];
+        sleep(1);
         //publish unpublished article
         $client->request('PATCH', $this->router->generate('swp_api_content_update_articles', ['id' => 'features']), [
             'article' => [
@@ -90,6 +91,7 @@ class ArticleControllerTest extends WebTestCase
         $this->assertTrue(null != $responseArray['updatedAt']);
         $this->assertTrue(new \DateTime($responseArray['updatedAt']) >= new \DateTime($responseArray['createdAt']));
         $this->assertTrue(new \DateTime($responseArray['updatedAt']) >= new \DateTime($responseArray['createdAt']));
+        $this->assertNotEquals($publishedAt, $responseArray['publishedAt']);
     }
 
     public function testIfRouteChangedWhenRouteParentWasSwitched()
@@ -304,6 +306,15 @@ class ArticleControllerTest extends WebTestCase
         self::assertEquals(0, $content['total']);
     }
 
+    public function testFilterArticlesBySource()
+    {
+        $content = $this->getArticlesBySource('aap');
+        self::assertEquals(1, $content['total']);
+
+        $content = $this->getArticlesBySource('ntb');
+        self::assertEquals(0, $content['total']);
+    }
+
     public function testFilterArticlesByDate()
     {
         $date = '2017-04-05 12:12:00';
@@ -391,6 +402,17 @@ class ArticleControllerTest extends WebTestCase
         $client = static::createClient();
         $client->request('GET', $this->router->generate('swp_api_content_list_articles', [
             'query' => $query,
+        ]));
+        self::assertEquals(200, $client->getResponse()->getStatusCode());
+
+        return json_decode($client->getResponse()->getContent(), true);
+    }
+
+    private function getArticlesBySource($source)
+    {
+        $client = static::createClient();
+        $client->request('GET', $this->router->generate('swp_api_content_list_articles', [
+            'source' => $source,
         ]));
         self::assertEquals(200, $client->getResponse()->getStatusCode());
 
