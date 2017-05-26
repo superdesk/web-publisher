@@ -54,20 +54,3 @@ fos_http_cache:
         noop: ~
     invalidation:
         enabled: false
-
-fos_elastica:
-    indexes:
-        swp:
-            types:
-                article:
-                    persistence:
-                        listener:
-                            insert: false
-                            update: false
-                            delete: false
-                package:
-                    persistence:
-                        listener:
-                            insert: false
-                            update: true
-                            delete: false
