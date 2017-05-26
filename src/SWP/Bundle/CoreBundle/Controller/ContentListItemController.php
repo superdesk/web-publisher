@@ -62,7 +62,7 @@ class ContentListItemController extends Controller
                 'contentList' => $id,
                 'sticky' => $request->query->get('sticky', ''),
             ]),
-            $request->query->get('sorting', ['sticky' => 'desc', 'createdAt' => 'desc']),
+            $request->query->get('sorting', ['sticky' => 'desc']),
             new PaginationData($request)
         );
 

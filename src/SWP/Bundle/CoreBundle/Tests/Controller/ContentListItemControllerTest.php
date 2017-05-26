@@ -125,8 +125,9 @@ class ContentListItemControllerTest extends WebTestCase
             "position": 0,
             "sticky": true
         }', true), $content['_embedded']['_items'][0]);
-        self::assertEquals(1, $content['_embedded']['_items'][1]['position']);
-        self::assertEquals(2, $content['_embedded']['_items'][2]['position']);
+
+        self::assertEquals(2, $content['_embedded']['_items'][1]['position']);
+        self::assertEquals(1, $content['_embedded']['_items'][2]['position']);
         self::assertEquals(3, $content['_embedded']['_items'][3]['position']);
     }
 
@@ -221,8 +222,8 @@ class ContentListItemControllerTest extends WebTestCase
         $listItems = json_decode($this->client->getResponse()->getContent(), true);
         self::assertCount(4, $listItems['_embedded']['_items']);
         self::assertEquals(1, $listItems['_embedded']['_items'][0]['content']['id']);
-        self::assertEquals(2, $listItems['_embedded']['_items'][1]['content']['id']);
-        self::assertEquals(3, $listItems['_embedded']['_items'][2]['content']['id']);
+        self::assertEquals(3, $listItems['_embedded']['_items'][1]['content']['id']);
+        self::assertEquals(2, $listItems['_embedded']['_items'][2]['content']['id']);
         self::assertEquals(4, $listItems['_embedded']['_items'][3]['content']['id']);
 
         $this->client->request('PATCH', $this->router->generate('swp_api_core_batch_update_lists_item', [
@@ -311,8 +312,8 @@ class ContentListItemControllerTest extends WebTestCase
         $listItems = json_decode($this->client->getResponse()->getContent(), true);
         self::assertCount(4, $listItems['_embedded']['_items']);
         self::assertEquals(1, $listItems['_embedded']['_items'][0]['content']['id']);
-        self::assertEquals(2, $listItems['_embedded']['_items'][1]['content']['id']);
-        self::assertEquals(3, $listItems['_embedded']['_items'][2]['content']['id']);
+        self::assertEquals(3, $listItems['_embedded']['_items'][1]['content']['id']);
+        self::assertEquals(2, $listItems['_embedded']['_items'][2]['content']['id']);
         self::assertEquals(4, $listItems['_embedded']['_items'][3]['content']['id']);
 
         $this->client->request(

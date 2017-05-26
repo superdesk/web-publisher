@@ -1,0 +1,13 @@
+name: content_list_item
+class: "SWP\\Component\\ContentList\\Model\\ContentListItemInterface"
+description: Content List Item Meta is representation of Content List elements in Superdesk Web Publisher.
+properties:
+    content:
+        description: "Item content meta"
+        type: meta
+    position:
+        description: "Item position in content list"
+        type: int
+    sticky:
+        description: "Tells you if item is pinned on top of the list or not"
+        type: bool
