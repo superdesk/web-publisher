@@ -18,7 +18,6 @@ namespace SWP\Bundle\CoreBundle\Widget;
 
 use SWP\Bundle\TemplatesSystemBundle\Widget\TemplatingWidgetHandler;
 use SWP\Component\ContentList\Model\ContentListInterface;
-use SWP\Component\ContentList\Repository\ContentListRepositoryInterface;
 
 final class ContentListWidget extends TemplatingWidgetHandler
 {
@@ -40,13 +39,12 @@ final class ContentListWidget extends TemplatingWidgetHandler
         $templateName = $this->getModelParameter('template_name');
         $listId = (int) $this->getModelParameter('list_id');
 
-        /** @var ContentListRepositoryInterface $contentListRepository */
-        $contentListRepository = $this->getContainer()->get('swp.repository.content_list');
         /** @var ContentListInterface $contentList */
-        $contentList = $contentListRepository->findListById($listId);
+        $contentList = $this->getContainer()->get('swp.repository.content_list')->findListById($listId);
 
         return $this->renderTemplate($templateName, [
             'contentList' => $contentList,
+            'listId' => $listId,
         ]);
     }
 }
