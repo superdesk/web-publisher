@@ -33,6 +33,11 @@ addons:
       - oracle-java8-set-default
 
 install:
+  - sudo swapon --show
+  - df -h
+  - sudo /bin/dd if=/dev/zero of=/var/swap.1 bs=1M count=1024
+  - sudo /sbin/mkswap /var/swap.1
+  - sudo /sbin/swapon /var/swap.1
   - sudo sysctl -w vm.max_map_count=262144
   - sudo sysctl -p
   - wget ${ES_DOWNLOAD_URL}
