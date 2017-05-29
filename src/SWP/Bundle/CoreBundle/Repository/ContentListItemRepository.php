@@ -20,7 +20,7 @@ use SWP\Bundle\ContentListBundle\Doctrine\ORM\ContentListItemRepository as BaseR
 use SWP\Bundle\CoreBundle\Model\ArticleInterface;
 use SWP\Bundle\CoreBundle\Model\ContentListInterface;
 
-class ContentListItemRepository extends BaseRepository
+class ContentListItemRepository extends BaseRepository implements ContentListItemRepositoryInterface
 {
     /**
      * {@inheritdoc}

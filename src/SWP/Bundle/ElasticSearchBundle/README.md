@@ -6,7 +6,7 @@ This bundle integrates ElasticSearch into Superdesk Publisher.
 Documentation
 -------------
 
-Documentation is available here: [http://superdesk-publisher.readthedocs.org](http://superdesk-publisher.readthedocs.org/en/latest/bundles/SWPMultiTenancyBundle/index.html)
+Documentation is available here: [http://superdesk-publisher.readthedocs.org](http://superdesk-publisher.readthedocs.org/en/latest/bundles/SWPElasticSearchBundle/index.html)
 
 How to Contribute
 -----------------
