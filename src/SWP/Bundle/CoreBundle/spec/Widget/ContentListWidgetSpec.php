@@ -62,6 +62,7 @@ final class ContentListWidgetSpec extends ObjectBehavior
         $contentListRepository->findListById(8)->willReturn($contentList);
         $templating->render('widgets/list.html.twig', [
             'contentList' => $contentList,
+            'listId' => 8,
         ])->willReturn($response);
 
         $this->render()->shouldReturn($response);
@@ -92,6 +93,7 @@ final class ContentListWidgetSpec extends ObjectBehavior
         $contentListRepository->findListById(8)->willReturn($contentList);
         $templating->render('widgets/custom.html.twig', [
             'contentList' => $contentList,
+            'listId' => 8,
         ])->willReturn($response);
 
         $this->render()->shouldReturn($response);
