@@ -33,7 +33,9 @@ class SWPStorageExtension extends Extension
     {
         $this->processConfiguration(new Configuration(), $configs);
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
-        $loader->load('listeners.yml');
+        if ($container->hasParameter('swp.resources')) {
+            $loader->load('listeners.yml');
+        }
         $loader->load('repositories.yml');
     }
 }
