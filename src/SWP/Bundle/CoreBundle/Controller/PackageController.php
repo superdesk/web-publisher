@@ -24,6 +24,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use SWP\Bundle\CoreBundle\Form\Type\CompositePublishActionType;
 use SWP\Bundle\CoreBundle\Form\Type\UnpublishFromTenantsType;
 use SWP\Bundle\CoreBundle\Model\CompositePublishAction;
+use SWP\Bundle\CoreBundle\Model\PackageInterface;
 use SWP\Bundle\MultiTenancyBundle\MultiTenancyEvents;
 use SWP\Component\Common\Criteria\Criteria;
 use SWP\Component\Common\Pagination\PaginationData;
@@ -109,6 +110,7 @@ class PackageController extends Controller
     public function publishAction(Request $request, int $id)
     {
         $this->get('event_dispatcher')->dispatch(MultiTenancyEvents::TENANTABLE_DISABLE);
+        /** @var PackageInterface $package */
         $package = $this->findOr404($id);
 
         $form = $this->createForm(CompositePublishActionType::class, new CompositePublishAction(), ['method' => $request->getMethod()]);
@@ -116,6 +118,7 @@ class PackageController extends Controller
         $form->handleRequest($request);
         if ($form->isValid()) {
             $this->get('swp_core.article.publisher')->publish($package, $form->getData());
+            $this->get('fos_elastica.object_persister.swp.package')->replaceOne($package);
 
             return new SingleResourceResponse(null, new ResponseContext(201));
         }
@@ -160,6 +163,7 @@ class PackageController extends Controller
 
     private function findOr404(int $id)
     {
+        $this->get('event_dispatcher')->dispatch(MultiTenancyEvents::TENANTABLE_DISABLE);
         $tenantContext = $this->get('swp_multi_tenancy.tenant_context');
 
         if (null === $package = $this->getPackageRepository()->findOneBy([
