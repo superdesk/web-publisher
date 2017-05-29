@@ -1,5 +1,6 @@
 language: php
 
+dist: trusty
 sudo: required
 
 services:
@@ -14,7 +15,7 @@ env:
   global:
     - JAVA_HOME="/usr/lib/jvm/java-8-oracle/jre"
     - SYMFONY_ENV="test"
-    - ES_VERSION=5.4.0 ES_DOWNLOAD_URL=https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-${ES_VERSION}.tar.gz
+    - ES_VERSION=5.4.0 ES_DOWNLOAD_URL=https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-${ES_VERSION}.deb
   matrix:
    - DOCTRINE_CACHE_DRIVER="redis" COMPOSER_FLAGS='update --prefer-stable'
    - DOCTRINE_CACHE_DRIVER="redis" COMPOSER_FLAGS='install'
@@ -33,11 +34,10 @@ addons:
 
 install:
   - sudo sysctl -w vm.max_map_count=262144
-  - sudo sysctl -w fs.file-max=65536
   - sudo sysctl -p
   - wget ${ES_DOWNLOAD_URL}
-  - tar -xzf elasticsearch-${ES_VERSION}.tar.gz
-  - ./elasticsearch-${ES_VERSION}/bin/elasticsearch &
+  - sudo dpkg -i --force-confnew elasticsearch-${ES_VERSION}.deb
+  - sudo service elasticsearch restart
   - sleep 10
 
 before_script:
