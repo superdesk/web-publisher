@@ -32,14 +32,14 @@ addons:
     packages:
       - oracle-java8-set-default
 
-install:
-  - free -m
-  - df -h
-  - sudo /bin/dd if=/dev/zero of=/var/swap.1 bs=1M count=1024
+before_install:
+  - sudo /bin/dd if=/dev/zero of=/var/swap.1 bs=1M count=2048
   - sudo /sbin/mkswap /var/swap.1
   - sudo /sbin/swapon /var/swap.1
   - sudo sysctl -w vm.max_map_count=262144
   - sudo sysctl -p
+
+install:
   - wget ${ES_DOWNLOAD_URL}
   - sudo dpkg -i --force-confnew elasticsearch-${ES_VERSION}.deb
   - sudo service elasticsearch restart
