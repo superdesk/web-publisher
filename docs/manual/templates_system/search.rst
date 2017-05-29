@@ -44,9 +44,10 @@ and the ``search_results.html.twig`` template:
         <input type="search" id="filter_search" name="q">
         </form>
 
-        {% for item in results %}
-            <h4>{{ item.title }}</h4>
-            <p>{{ item.lead }}</p>
+        # results is meta collection
+        {% for article in results %}
+            <h4>{{ article.title }}</h4>
+            <p>{{ article.lead }}</p>
         {% endfor %}
 
         {{ dump(criteria) }}
@@ -55,7 +56,7 @@ and the ``search_results.html.twig`` template:
 
         Showing {{ results|length }} out of {{ total }} articles.
 
-
+The results variable is of type MetaCollection.
 
 Available search criteria:
 --------------------------

@@ -18,6 +18,7 @@ namespace SWP\Bundle\ElasticSearchBundle\Controller;
 
 use SWP\Bundle\ElasticSearchBundle\Criteria\Criteria;
 use SWP\Bundle\ElasticSearchBundle\Repository\ArticleRepository;
+use SWP\Component\TemplatesSystem\Gimme\Meta\MetaCollection;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 class SearchController extends Controller
@@ -37,8 +38,18 @@ class SearchController extends Controller
             $criteria->getPagination()->getItemsPerPage()
         );
 
+        $metaFactory = $this->get('swp_template_engine_context.factory.meta_factory');
+        $metaCollection = new MetaCollection();
+        $metaCollection->setTotalItemsCount($partialResult->getTotalHits());
+        foreach ($partialResult->toArray() as $article) {
+            $articleMeta = $metaFactory->create($article);
+            if (null !== $articleMeta) {
+                $metaCollection->add($articleMeta);
+            }
+        }
+
         return $this->render($template, [
-            'results' => $partialResult->toArray(),
+            'results' => $metaCollection,
             'criteria' => $criteria,
             'total' => $partialResult->getTotalHits(),
         ]);
