@@ -6,57 +6,54 @@ To make use of features (e.g. full-text search) provided by ElasticSearch and it
 Create a new Route
 ------------------
 
-You can create a new route using admin interface as described in :doc:`/cookbooks/templates/routes_with_extensions` section. In this example the created route under which we will place search, will be named: ``search``.
+You can create a new route using admin interface as described in :doc:`/cookbooks/templates/routes_with_extensions` section. In this example the created route under which we will place search will be named: ``search``.
 
 Create a template file
 ----------------------
 
-Example search template which calls controller and renders search:
+Example search template which loads search and its results when filtered by criteria:
 
     .. code-block:: twig
 
         # ../view/search.html.twig
-        {{ render(controller(
-            'SWPElasticSearchBundle:Search:search',
-            {
-                'template': 'search_results.html.twig',
-                'criteria': {
-                    'sort': app.request.get('sort'),
-                    'page': app.request.get('page', 1),
-                    'limit': app.request.get('limit', 10),
-                    'routes': app.request.get('route', []),
-                    'term': app.request.get('q', ''),
-                    'publishedBefore': app.request.get('publishedBefore'),
-                    'publishedAfter': app.request.get('publishedAfter'),
-                    'publishedAt': app.request.get('publishedAt'),
-                    'sources': app.request.get('source', []),
-                    'authors': app.request.get('author', []),
-                    'statuses': app.request.get('status', []),
-                }
-            }
-        )) }}
-
-and the ``search_results.html.twig`` template:
-
-    .. code-block:: twig
-
         <form name="filter" method="get">
-        <input type="search" id="filter_search" name="q">
+            <input type="search" id="filter_search" name="q">
         </form>
 
-        # results is meta collection
-        {% for article in results %}
+        {% set itemsPerPage, currentPage = 8, app.request.get('page', 1) %}
+        {% set start = ((currentPage - 1) * itemsPerPage) %}
+
+        {% gimmelist article from searchResults|limit(app.request.get('limit', 10))|order(app.request.get('field', 'publishedAt'), app.request.get('direction', 'desc')) with {
+            term: app.request.get('q', ''),
+            page: app.request.get('page', 1),
+            routes: app.request.get('route', []),
+            term: app.request.get('q', ''),
+            publishedBefore: app.request.get('publishedBefore'),
+            publishedAfter: app.request.get('publishedAfter'),
+            publishedAt: app.request.get('publishedAt'),
+            sources: app.request.get('source', []),
+            authors: app.request.get('author', []),
+            statuses: app.request.get('status', []),
+        } %}
             <h4>{{ article.title }}</h4>
             <p>{{ article.lead }}</p>
-        {% endfor %}
 
-        {{ dump(criteria) }}
+        {% if loop.last  %}
+            {% include '_tpl/pagination.html.twig' with {
+            currentFilters: {}|merge(app.request.query.all()),
+            currentPage: currentPage,
+            paginationPath: gimme.route,
+            lastPage: (loop.totalLength/itemsPerPage)|round(0, 'ceil')
+            } only %}
+
+            Showing {{ searchResults|length }} out of {{ loop.totalLength }} articles.
+        {% endif %}
+        {% endgimmelist %}
+
         <a href="search?route[]=50">Business</a>
         <a href="search?route[]=49">Politics</a>
 
-        Showing {{ results|length }} out of {{ total }} articles.
-
-The results variable is of type MetaCollection.
+Alternatively, to built-in ``order`` function, you can also use ``sort: app.request.get('sort', []),`` parameter to sort by different fields and directions which needs to be passed directly to the ``with`` statement.
 
 Available search criteria:
 --------------------------

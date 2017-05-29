@@ -1,0 +1,10 @@
+services:
+    swp_elastic_search.loader.results:
+        class: SWP\Bundle\ElasticSearchBundle\Loader\SearchResultLoader
+        arguments:
+            - '@fos_elastica.manager'
+            - '@swp_template_engine_context.factory.meta_factory'
+            - '@swp_multi_tenancy.tenant_context'
+            - '%swp.model.article.class%'
+        tags:
+            - { name: swp.meta_loader }

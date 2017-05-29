@@ -36,6 +36,8 @@ fos_elastica:
                         isPublishable: { type: boolean }
                         publishedAt:
                             type: date
+                        updatedAt:
+                            type: date
                         route:
                             type: "object"
                             properties:
