@@ -39,6 +39,7 @@ final class PackageControllerTest extends WebTestCase
 
     public function testListAllPackagesApi()
     {
+        sleep(2);
         $client = static::createClient();
         $client->request('GET', $this->router->generate('swp_api_core_list_packages'));
 
@@ -53,6 +54,7 @@ final class PackageControllerTest extends WebTestCase
 
     public function testFilterByPackageStatusApi()
     {
+        sleep(2);
         $content = $this->filterByStatus('new');
         self::assertEquals(2, $content['total']);
 
