@@ -69,6 +69,7 @@
         "twig/twig": "1.29.0",
         "emanueleminotto/twig-cache-bundle": "~1.0",
         "incenteev/composer-parameter-handler": "~2.0",
+        "friendsofsymfony/http-cache": "2.0.0-beta2",
         "friendsofsymfony/http-cache-bundle": "2.0.0-beta1 as 2.0.0",
         "friendsofsymfony/rest-bundle": "2.1.x-dev as 1.5",
         "friendsofsymfony/user-bundle": "~2.0",
