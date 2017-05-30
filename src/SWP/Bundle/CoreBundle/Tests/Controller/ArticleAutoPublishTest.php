@@ -273,7 +273,7 @@ final class ArticleAutoPublishTest extends WebTestCase
                 'configuration' => [
                     [
                         'key' => 'published',
-                        'value' => false,
+                        'value' => true,
                     ],
                 ],
             ],
@@ -307,7 +307,144 @@ final class ArticleAutoPublishTest extends WebTestCase
         self::assertEquals(200, $client->getResponse()->getStatusCode());
         $article = json_decode($client->getResponse()->getContent(), true);
 
-        self::assertEquals('unpublished', $article['status']);
+        self::assertEquals('published', $article['status']);
+    }
+
+    public function testArticleAddToBucket()
+    {
+        $client = static::createClient();
+        $client->request('POST', $this->router->generate('swp_api_content_create_lists'), [
+            'content_list' => [
+                'name' => 'Example bucket',
+                'type' => 'bucket',
+            ],
+        ]);
+
+        self::assertEquals(201, $client->getResponse()->getStatusCode());
+        $content = json_decode($client->getResponse()->getContent(), true);
+
+        $this->createRouteAndPushContent();
+
+        $client->request(
+            'POST',
+            $this->router->generate('swp_api_core_publish_package', ['id' => 1]), [
+                'publish' => [
+                    'destinations' => [
+                        [
+                            'tenant' => '123abc',
+                            'route' => 3,
+                            'fbia' => true,
+                        ],
+                    ],
+                ],
+            ]
+        );
+
+        self::assertEquals(201, $client->getResponse()->getStatusCode());
+
+        $client->request('GET', $this->router->generate('swp_api_core_list_items', ['id' => $content['id']]));
+
+        $content = json_decode($client->getResponse()->getContent(), true);
+        self::assertEquals(1, $content['total']);
+    }
+
+    public function testAlreadyAddedArticleRemovalFromBucket()
+    {
+        $client = static::createClient();
+        $client->request('POST', $this->router->generate('swp_api_content_create_lists'), [
+            'content_list' => [
+                'name' => 'Example bucket',
+                'type' => 'bucket',
+            ],
+        ]);
+
+        self::assertEquals(201, $client->getResponse()->getStatusCode());
+        $bucket = json_decode($client->getResponse()->getContent(), true);
+
+        $this->createRouteAndPushContent();
+
+        $client->request(
+            'POST',
+            $this->router->generate('swp_api_core_publish_package', ['id' => 1]), [
+                'publish' => [
+                    'destinations' => [
+                        [
+                            'tenant' => '123abc',
+                            'route' => 3,
+                            'fbia' => true,
+                        ],
+                    ],
+                ],
+            ]
+        );
+
+        self::assertEquals(201, $client->getResponse()->getStatusCode());
+
+        $client->request('GET', $this->router->generate('swp_api_core_list_items', ['id' => $bucket['id']]));
+
+        $content = json_decode($client->getResponse()->getContent(), true);
+        self::assertTrue($content['_embedded']['_items'][0]['content']['isPublishedFBIA']);
+        self::assertEquals(1, $content['total']);
+
+        $client->request(
+            'POST',
+            $this->router->generate('swp_api_core_publish_package', ['id' => 1]), [
+                'publish' => [
+                    'destinations' => [
+                        [
+                            'tenant' => '123abc',
+                            'route' => 3,
+                            'fbia' => false,
+                        ],
+                    ],
+                ],
+            ]
+        );
+
+        self::assertEquals(201, $client->getResponse()->getStatusCode());
+
+        $client->request('GET', $this->router->generate('swp_api_core_list_items', ['id' => $bucket['id']]));
+
+        $content = json_decode($client->getResponse()->getContent(), true);
+        self::assertEquals(0, $content['total']);
+    }
+
+    public function testDontAddArticleToBucket()
+    {
+        $client = static::createClient();
+        $client->request('POST', $this->router->generate('swp_api_content_create_lists'), [
+            'content_list' => [
+                'name' => 'Example bucket',
+                'type' => 'bucket',
+            ],
+        ]);
+
+        self::assertEquals(201, $client->getResponse()->getStatusCode());
+        $content = json_decode($client->getResponse()->getContent(), true);
+
+        $this->createRouteAndPushContent();
+
+        $client->request(
+            'POST',
+            $this->router->generate('swp_api_core_publish_package', ['id' => 1]), [
+                'publish' => [
+                    'destinations' => [
+                        [
+                            'tenant' => '123abc',
+                            'route' => 3,
+                            'fbia' => false,
+                        ],
+                    ],
+                ],
+            ]
+        );
+
+        self::assertEquals(201, $client->getResponse()->getStatusCode());
+
+        $client->request('GET', $this->router->generate('swp_api_core_list_items', ['id' => $content['id']]));
+
+        $content = json_decode($client->getResponse()->getContent(), true);
+        self::assertEquals(0, $content['total']);
     }
 
     private function createRouteAndPushContent()

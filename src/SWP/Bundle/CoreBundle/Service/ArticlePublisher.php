@@ -102,12 +102,13 @@ final class ArticlePublisher implements ArticlePublisherInterface
             $article = $this->articleFactory->createFromPackage($package);
             $this->eventDispatcher->dispatch(Events::SWP_VALIDATION, new GenericEvent($article));
 
+            /** @var ArticleInterface $existingArticle */
             if (null !== ($existingArticle = $this->findArticleByTenantAndCode(
                     $destination->getTenant()->getCode(),
                     $article->getCode())
                 )) {
-                $article->setRoute($destination->getRoute());
-                $article->setPublishedFBIA($destination->isFbia());
+                $existingArticle->setRoute($destination->getRoute());
+                $existingArticle->setPublishedFBIA($destination->isFbia());
                 $this->dispatchEvents($existingArticle, $package);
 
                 continue;

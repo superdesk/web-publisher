@@ -77,6 +77,7 @@ final class TenantHandler implements SubscribingHandlerInterface
            'id' => $tenant->getId(),
            'subdomain' => $tenant->getSubdomain(),
            'domainName' => $tenant->getDomainName(),
+           'code' => $tenantCode,
            'name' => $tenant->getName(),
            'ampEnabled' => $tenant->isAmpEnabled(),
             '_links' => [

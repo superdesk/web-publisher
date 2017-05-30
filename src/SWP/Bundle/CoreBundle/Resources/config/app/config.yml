@@ -117,6 +117,7 @@ swp_content_list:
                     model: SWP\Bundle\CoreBundle\Model\ContentList
                 content_list_item:
                     model: SWP\Bundle\CoreBundle\Model\ContentListItem
+                    repository: SWP\Bundle\CoreBundle\Repository\ContentListItemRepository
                 list_content:
                     model: SWP\Bundle\CoreBundle\Model\Article
 

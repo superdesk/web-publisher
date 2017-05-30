@@ -116,7 +116,6 @@ final class ArticleRuleApplicatorSpec extends ObjectBehavior
         $rule->getExpression()->willReturn('article.getSomething("something") matches /something/');
         $routeProvider->getOneById('some/route')->willReturn($route);
 
-        $subject->getStatus()->shouldBeCalled();
         $subject->setRoute($route)->shouldBeCalled();
         $subject->setTemplateName('template.twig.html')->shouldBeCalled();
         $articleService->publish($subject)->shouldBeCalled();
@@ -142,7 +141,6 @@ final class ArticleRuleApplicatorSpec extends ObjectBehavior
         $route->getType()->willReturn(RouteInterface::TYPE_CONTENT);
         $routeProvider->getOneById('some/route')->willReturn($route);
 
-        $subject->getStatus()->shouldBeCalled();
         $subject->setRoute($route)->shouldBeCalled();
         $route->setContent($subject)->shouldBeCalled();
         $subject->setTemplateName('template.twig.html')->shouldBeCalled();

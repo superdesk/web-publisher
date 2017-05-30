@@ -45,3 +45,5 @@ parameters:
     trusted_proxies:
         - 192.0.0.1
         - 10.0.0.0/8
+    env(ELASTICA_HOST): localhost
+    env(ELASTICA_PORT): 9200

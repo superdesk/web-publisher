@@ -258,11 +258,11 @@ class MenuControllerTest extends WebTestCase
 
         self::assertEquals(201, $client->getResponse()->getStatusCode());
 
-        $client->request('GET', $this->router->generate('swp_api_core_list_menu', ['id' => $rootContent['id']]));
+        $client->request('GET', $this->router->generate('swp_api_core_get_menu', ['id' => $rootContent['id']]));
 
         $content = json_decode($client->getResponse()->getContent(), true);
         self::assertEquals(200, $client->getResponse()->getStatusCode());
-        self::assertArraySubset(json_decode('{"page":1,"limit":10,"pages":1,"total":2,"_links":{"self":{"href":"\/api\/v1\/menus\/?page=1&limit=10"},"first":{"href":"\/api\/v1\/menus\/?page=1&limit=10"},"last":{"href":"\/api\/v1\/menus\/?page=1&limit=10"}},"_embedded":{"_items":[{"id":1,"level":0,"name":"test","label":"Test","uri":null,"children":[],"route":null,"_links":{"self":{"href":"\/api\/v1\/menus\/1"},"children":{"href":"\/api\/v1\/menus\/1\/children\/"}}},{"id":2,"level":0,"name":"main-menu","label":"Main menu","uri":null,"children":[{"id":3,"level":1,"name":"main-menu-child1","label":"child1","uri":null,"children":[{"id":4,"level":2,"name":"main-menu-child1-child1","label":"child1","uri":null,"children":[],"route":null,"_links":{"self":{"href":"\/api\/v1\/menus\/4"},"children":{"href":"\/api\/v1\/menus\/4\/children\/"},"parent":{"href":"\/api\/v1\/menus\/3"},"root":{"href":"\/api\/v1\/menus\/2"}}}],"route":null,"_links":{"self":{"href":"\/api\/v1\/menus\/3"},"children":{"href":"\/api\/v1\/menus\/3\/children\/"},"parent":{"href":"\/api\/v1\/menus\/2"},"root":{"href":"\/api\/v1\/menus\/2"}}}],"route":null,"_links":{"self":{"href":"\/api\/v1\/menus\/2"},"children":{"href":"\/api\/v1\/menus\/2\/children\/"}}}]}}', true), $content);
+        self::assertArraySubset(json_decode('{"id":2,"root":2,"level":0,"name":"main-menu","label":"Main menu","uri":null,"children":[{"id":3,"root":2,"level":1,"name":"main-menu-child1","label":"child1","uri":null,"children":[{"id":4,"root":2,"level":2,"name":"main-menu-child1-child1","label":"child1","uri":null,"children":[],"parent":3,"position":0,"route":null,"_links":{"self":{"href":"\/api\/v1\/menus\/4"},"children":{"href":"\/api\/v1\/menus\/4\/children\/"},"parent":{"href":"\/api\/v1\/menus\/3"},"root":{"href":"\/api\/v1\/menus\/2"}}}],"parent":2,"position":0,"route":null,"_links":{"self":{"href":"\/api\/v1\/menus\/3"},"children":{"href":"\/api\/v1\/menus\/3\/children\/"},"parent":{"href":"\/api\/v1\/menus\/2"},"root":{"href":"\/api\/v1\/menus\/2"}}}],"parent":null,"position":1,"route":null,"_links":{"self":{"href":"\/api\/v1\/menus\/2"},"children":{"href":"\/api\/v1\/menus\/2\/children\/"}}}', true), $content);
     }
 
     public function testAssigningNotExistingMenuItem()

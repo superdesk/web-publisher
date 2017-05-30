@@ -18,7 +18,7 @@ namespace SWP\Bundle\CoreBundle\Tests\Functional;
 
 use SWP\Bundle\FixturesBundle\WebTestCase;
 
-final class ArticlePreviewTest extends WebTestCase
+final class PackagePreviewTest extends WebTestCase
 {
     private $router;
 
@@ -28,13 +28,13 @@ final class ArticlePreviewTest extends WebTestCase
         $this->initDatabase();
         $this->loadCustomFixtures(['tenant']);
         $this->loadFixtureFiles([
-            '@SWPFixturesBundle/Resources/fixtures/ORM/test/article_preview.yml',
+            '@SWPFixturesBundle/Resources/fixtures/ORM/test/package_preview.yml',
         ], true);
 
         $this->router = $this->getContainer()->get('router');
     }
 
-    public function testArticlePreview()
+    public function testPackagePreview()
     {
         $route = $this->createRoute();
 
@@ -42,8 +42,8 @@ final class ArticlePreviewTest extends WebTestCase
 
         $client = static::createClient([], ['HTTP_Authorization' => null]);
         $crawler = $client->request('GET', $this->router->generate(
-            'swp_article_preview',
-            ['routeId' => $route['id'], 'slug' => 'art1-not-published', 'auth_token' => base64_encode('test_token:')]
+            'swp_package_preview',
+            ['routeId' => $route['id'], 'id' => 1, 'auth_token' => base64_encode('test_token:')]
         ));
 
         self::assertTrue($client->getResponse()->isSuccessful());
@@ -51,19 +51,19 @@ final class ArticlePreviewTest extends WebTestCase
         self::assertGreaterThan(0, $crawler->filter('html:contains("Current tenant: Default tenant")')->count());
     }
 
-    public function testArticlePreviewWithoutToken()
+    public function testPackagePreviewWithoutToken()
     {
         $route = $this->createRoute();
         $client = static::createClient([], ['HTTP_Authorization' => null]);
         $client->request('GET', $this->router->generate(
-            'swp_article_preview',
-            ['routeId' => $route['id'], 'slug' => 'art1-not-published']
+            'swp_package_preview',
+            ['routeId' => $route['id'], 'id' => 1]
         ));
 
         self::assertEquals(401, $client->getResponse()->getStatusCode());
     }
 
-    public function testArticlePreviewWithFakeToken()
+    public function testPackagePreviewWithFakeToken()
     {
         $route = $this->createRoute();
 
@@ -71,14 +71,14 @@ final class ArticlePreviewTest extends WebTestCase
 
         $client = static::createClient([], ['HTTP_Authorization' => null]);
         $client->request('GET', $this->router->generate(
-            'swp_article_preview',
-            ['routeId' => $route['id'], 'slug' => 'art1-not-published', 'auth_token' => 'fake']
+            'swp_package_preview',
+            ['routeId' => $route['id'], 'id' => 1, 'auth_token' => 'fake']
         ));
 
         self::assertEquals(403, $client->getResponse()->getStatusCode());
     }
 
-    public function testArticlePreviewWithNotExistingArticle()
+    public function testPackagePreviewWithNotExistingPackage()
     {
         $route = $this->createRoute();
 
@@ -86,29 +86,29 @@ final class ArticlePreviewTest extends WebTestCase
 
         $client = static::createClient([], ['HTTP_Authorization' => null]);
         $client->request('GET', $this->router->generate(
-            'swp_article_preview',
-            ['routeId' => $route['id'], 'slug' => 'fake-article', 'auth_token' => base64_encode('test_token:')]
+            'swp_package_preview',
+            ['routeId' => $route['id'], 'id' => 9999, 'auth_token' => base64_encode('test_token:')]
         ));
 
         self::assertFalse($client->getResponse()->isSuccessful());
         self::assertEquals($client->getResponse()->getStatusCode(), 404);
     }
 
-    public function testArticlePreviewWithNotExistingRoute()
+    public function testPackagePreviewWithNotExistingRoute()
     {
         $this->ensureArticleIsNotAccessible();
 
         $client = static::createClient([], ['HTTP_Authorization' => null]);
         $client->request('GET', $this->router->generate(
-            'swp_article_preview',
-            ['routeId' => 9999, 'slug' => 'art1-not-published', 'auth_token' => base64_encode('test_token:')]
+            'swp_package_preview',
+            ['routeId' => 9999, 'id' => 1, 'auth_token' => base64_encode('test_token:')]
         ));
 
         self::assertFalse($client->getResponse()->isSuccessful());
         self::assertEquals($client->getResponse()->getStatusCode(), 404);
     }
 
-    public function testArticlePreviewWithoutRouteTemplate()
+    public function testPackagePreviewWithoutRouteTemplate()
     {
         $route = $this->createRouteWithoutTemplate();
 
@@ -116,8 +116,8 @@ final class ArticlePreviewTest extends WebTestCase
 
         $client = static::createClient([], ['HTTP_Authorization' => null]);
         $client->request('GET', $this->router->generate(
-            'swp_article_preview',
-            ['routeId' => $route['id'], 'slug' => 'art1-not-published', 'auth_token' => base64_encode('test_token:')]
+            'swp_package_preview',
+            ['routeId' => $route['id'], 'id' => 1, 'auth_token' => base64_encode('test_token:')]
         ));
 
         self::assertFalse($client->getResponse()->isSuccessful());
@@ -131,8 +131,8 @@ final class ArticlePreviewTest extends WebTestCase
 
         $client = static::createClient([], ['HTTP_Authorization' => null]);
         $crawler = $client->request('GET', $this->router->generate(
-            'swp_article_preview',
-            ['routeId' => $route['id'], 'slug' => 'art1-not-published', 'auth_token' => base64_encode('test_token:')]
+            'swp_package_preview',
+            ['routeId' => $route['id'], 'id' => 1, 'auth_token' => base64_encode('test_token:')]
         ));
 
         self::assertTrue($client->getResponse()->isSuccessful());
@@ -140,22 +140,22 @@ final class ArticlePreviewTest extends WebTestCase
         self::assertGreaterThan(0, $crawler->filter('html:contains("Current tenant: Default tenant")')->count());
 
         $client->request('GET', $this->router->generate(
-            'swp_article_preview',
-            ['routeId' => $route['id'], 'slug' => 'art1-not-published', 'auth_token' => base64_encode('client1_token')]
+            'swp_package_preview',
+            ['routeId' => $route['id'], 'id' => 1, 'auth_token' => base64_encode('client1_token')]
         ));
 
         self::assertEquals(403, $client->getResponse()->getStatusCode());
     }
 
-    public function testOneTenantCanPreviewArticlesOfOtherTenantsUsingTokensWithinSameOrganization()
+    public function testOneTenantCanPreviewPackagesOfOtherTenantsUsingTokensWithinSameOrganization()
     {
         $route = $this->createRoute();
         $this->ensureArticleIsNotAccessible();
 
         $client = static::createClient([], ['HTTP_Authorization' => null]);
         $crawler = $client->request('GET', $this->router->generate(
-            'swp_article_preview',
-            ['routeId' => $route['id'], 'slug' => 'art1-not-published', 'auth_token' => base64_encode('test_token:')]
+            'swp_package_preview',
+            ['routeId' => $route['id'], 'id' => 1, 'auth_token' => base64_encode('test_token:')]
         ));
 
         self::assertTrue($client->getResponse()->isSuccessful());
@@ -163,8 +163,8 @@ final class ArticlePreviewTest extends WebTestCase
         self::assertGreaterThan(0, $crawler->filter('html:contains("Current tenant: Default tenant")')->count());
 
         $client->request('GET', $this->router->generate(
-            'swp_article_preview',
-            ['routeId' => $route['id'], 'slug' => 'art1-not-published', 'auth_token' => base64_encode('client2_token')]
+            'swp_package_preview',
+            ['routeId' => $route['id'], 'id' => 1, 'auth_token' => base64_encode('client2_token')]
         ));
 
         self::assertTrue($client->getResponse()->isSuccessful());

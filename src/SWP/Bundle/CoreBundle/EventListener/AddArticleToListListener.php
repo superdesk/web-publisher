@@ -20,6 +20,7 @@ use SWP\Bundle\ContentBundle\Event\ArticleEvent;
 use SWP\Bundle\ContentListBundle\Event\ContentListEvent;
 use SWP\Bundle\CoreBundle\Matcher\ArticleCriteriaMatcherInterface;
 use SWP\Bundle\CoreBundle\Model\ArticleInterface;
+use SWP\Bundle\CoreBundle\Repository\ContentListItemRepositoryInterface;
 use SWP\Component\Common\Criteria\Criteria;
 use SWP\Component\ContentList\ContentListEvents;
 use SWP\Component\ContentList\Model\ContentListInterface;
@@ -52,23 +53,31 @@ class AddArticleToListListener
     private $eventDispatcher;
 
     /**
+     * @var ContentListItemRepositoryInterface
+     */
+    private $contentListItemRepository;
+
+    /**
      * AutomaticListAddArticleListener constructor.
      *
-     * @param ContentListRepositoryInterface  $listRepository
-     * @param FactoryInterface                $listItemFactory
-     * @param ArticleCriteriaMatcherInterface $articleCriteriaMatcher
-     * @param EventDispatcherInterface        $eventDispatcher
+     * @param ContentListRepositoryInterface     $listRepository
+     * @param FactoryInterface                   $listItemFactory
+     * @param ArticleCriteriaMatcherInterface    $articleCriteriaMatcher
+     * @param EventDispatcherInterface           $eventDispatcher
+     * @param ContentListItemRepositoryInterface $contentListItemRepository
      */
     public function __construct(
         ContentListRepositoryInterface $listRepository,
         FactoryInterface $listItemFactory,
         ArticleCriteriaMatcherInterface $articleCriteriaMatcher,
-        EventDispatcherInterface $eventDispatcher
+        EventDispatcherInterface $eventDispatcher,
+        ContentListItemRepositoryInterface $contentListItemRepository
     ) {
         $this->listRepository = $listRepository;
         $this->listItemFactory = $listItemFactory;
         $this->articleCriteriaMatcher = $articleCriteriaMatcher;
         $this->eventDispatcher = $eventDispatcher;
+        $this->contentListItemRepository = $contentListItemRepository;
     }
 
     /**
@@ -105,9 +114,19 @@ class AddArticleToListListener
             ContentListInterface::TYPE_BUCKET,
         ]);
 
+        if (empty($buckets)) {
+            return;
+        }
+
+        $item = $this->contentListItemRepository->findItemByArticleInBuckets($article);
+
         foreach ($buckets as $bucket) {
             if ($article->isPublishedFBIA()) {
                 $this->createAndAddItem($article, $bucket);
+            }
+
+            if (!$article->isPublishedFBIA() && null !== $item && $bucket->hasItem($item)) {
+                $bucket->removeItem($item);
             }
         }
     }

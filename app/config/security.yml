@@ -36,7 +36,7 @@ security:
                     - swp.security.token_authenticator
             stateless: true
         preview:
-            pattern: ^/preview/article
+            pattern: ^/preview/package
             anonymous: false
             logout: false
             guard:

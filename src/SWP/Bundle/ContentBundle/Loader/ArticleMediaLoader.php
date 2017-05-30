@@ -16,6 +16,8 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\ContentBundle\Loader;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\ORM\PersistentCollection;
 use SWP\Bundle\ContentBundle\Provider\ArticleMediaProviderInterface;
 use SWP\Component\Common\Criteria\Criteria;
 use SWP\Component\TemplatesSystem\Gimme\Context\Context;
@@ -92,7 +94,11 @@ class ArticleMediaLoader extends PaginatedLoader implements LoaderInterface
             }
 
             $criteria = $this->applyPaginationToCriteria($criteria, $parameters);
-            if ($criteria->get('article')->getMedia()->isInitialized()) {
+            $media = $criteria->get('article')->getMedia();
+
+            if (($media instanceof PersistentCollection
+                && $media->isInitialized())
+                || $media instanceof ArrayCollection) {
                 $collectionCriteria = new \Doctrine\Common\Collections\Criteria(
                     null,
                     $criteria->get('order'),

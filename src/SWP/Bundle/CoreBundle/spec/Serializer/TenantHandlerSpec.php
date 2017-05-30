@@ -62,6 +62,7 @@ final class TenantHandlerSpec extends ObjectBehavior
             'id' => 1,
             'subdomain' => 'subdomain',
             'domainName' => 'domain.com',
+            'code' => '123abc',
             'name' => 'Default',
             'ampEnabled' => true,
             '_links' => [

@@ -92,11 +92,6 @@ final class ArticleRuleApplicator extends AbstractRuleApplicator
             $this->articleService->publish($subject);
         }
 
-        if ($subject->getStatus() === ArticleInterface::STATUS_PUBLISHED
-            && (null === $configuration['published'] || !(bool) $configuration['published'])) {
-            $this->articleService->unpublish($subject, ArticleInterface::STATUS_UNPUBLISHED);
-        }
-
         $this->logger->info(sprintf(
             'Configuration: "%s" for "%s" rule has been applied!',
             json_encode($configuration),
