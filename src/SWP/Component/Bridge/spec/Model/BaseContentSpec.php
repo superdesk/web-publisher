@@ -148,9 +148,9 @@ class BaseContentSpec extends ObjectBehavior
         $this->getLocated()->shouldReturn('Paris');
     }
 
-    public function it_has_no_urgency_by_default()
+    public function it_has_urgency_by_default()
     {
-        $this->getUrgency()->shouldReturn(null);
+        $this->getUrgency()->shouldReturn(0);
     }
 
     public function its_urgency_is_mutable()

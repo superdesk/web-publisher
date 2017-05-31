@@ -35,6 +35,9 @@ SWP\Component\Bridge\Model\Item:
         services:
             type: array
             nullable: true
+        genre:
+            type: array
+            nullable: true
         keywords:
             type: array
         places:
