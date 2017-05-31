@@ -52,7 +52,7 @@ SWP\Component\Bridge\Model\BaseContent:
             type: array
         genre:
             expose: true
-            type: string
+            type: array
         edNote:
             expose: true
             type: string

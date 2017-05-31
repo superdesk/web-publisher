@@ -74,7 +74,7 @@ class BaseContent implements ContentInterface
     /**
      * @var int
      */
-    protected $urgency;
+    protected $urgency = 0;
 
     /**
      * @var int
