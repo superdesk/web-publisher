@@ -42,7 +42,7 @@ class ProcessArticleRulesSubscriber implements EventSubscriberInterface
     public static function getSubscribedEvents()
     {
         return [
-            ArticleEvents::PUBLISH => 'processRules',
+            ArticleEvents::PRE_CREATE => 'processRules',
         ];
     }
 

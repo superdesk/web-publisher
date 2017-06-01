@@ -45,7 +45,7 @@ final class ProcessArticleRulesSubscriberSpec extends ObjectBehavior
     public function it_subscribes_to_events()
     {
         $this->getSubscribedEvents()->shouldReturn([
-            ArticleEvents::PUBLISH => 'processRules',
+            ArticleEvents::PRE_CREATE => 'processRules',
         ]);
     }
 

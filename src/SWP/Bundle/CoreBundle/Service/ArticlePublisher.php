@@ -109,7 +109,7 @@ final class ArticlePublisher implements ArticlePublisherInterface
                 )) {
                 $existingArticle->setRoute($destination->getRoute());
                 $existingArticle->setPublishedFBIA($destination->isFbia());
-                $this->dispatchEvents($existingArticle);
+                $this->dispatchEvents($existingArticle, $package);
 
                 continue;
             }
@@ -117,8 +117,8 @@ final class ArticlePublisher implements ArticlePublisherInterface
             $article->setPackage($package);
             $article->setRoute($destination->getRoute());
             $article->setPublishedFBIA($destination->isFbia());
-            $this->dispatchEvents($article);
             $this->articleRepository->persist($article);
+            $this->dispatchEvents($article, $package);
         }
 
         $this->articleRepository->flush();
@@ -132,8 +132,9 @@ final class ArticlePublisher implements ArticlePublisherInterface
         ]);
     }
 
-    private function dispatchEvents(ArticleInterface $article)
+    private function dispatchEvents(ArticleInterface $article, PackageInterface $package)
     {
         $this->eventDispatcher->dispatch(ArticleEvents::PUBLISH, new ArticleEvent($article));
+        $this->eventDispatcher->dispatch(ArticleEvents::PRE_CREATE, new ArticleEvent($article, $package));
     }
 }
