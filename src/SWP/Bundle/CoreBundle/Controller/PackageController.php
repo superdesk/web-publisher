@@ -114,8 +114,8 @@ class PackageController extends Controller
         $package = $this->findOr404($id);
 
         $form = $this->createForm(CompositePublishActionType::class, new CompositePublishAction(), ['method' => $request->getMethod()]);
-
         $form->handleRequest($request);
+
         if ($form->isValid()) {
             $this->get('swp_core.article.publisher')->publish($package, $form->getData());
             $this->get('fos_elastica.object_persister.swp.package')->replaceOne($package);

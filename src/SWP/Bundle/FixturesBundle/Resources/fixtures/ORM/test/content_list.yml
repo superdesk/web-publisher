@@ -23,3 +23,11 @@ SWP\Bundle\CoreBundle\Model\ContentList:
         limit: 10
         enabled: true
         tenantCode: "456def"
+    contentList4:
+        name: "List1"
+        description: "List1 description"
+        type: "automatic"
+        cacheLifeTime: 400
+        limit: 10
+        enabled: true
+        tenantCode: "678iop"

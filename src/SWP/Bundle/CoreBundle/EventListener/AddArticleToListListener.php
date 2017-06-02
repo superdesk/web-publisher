@@ -21,6 +21,7 @@ use SWP\Bundle\ContentListBundle\Event\ContentListEvent;
 use SWP\Bundle\CoreBundle\Matcher\ArticleCriteriaMatcherInterface;
 use SWP\Bundle\CoreBundle\Model\ArticleInterface;
 use SWP\Bundle\CoreBundle\Repository\ContentListItemRepositoryInterface;
+use SWP\Bundle\MultiTenancyBundle\MultiTenancyEvents;
 use SWP\Component\Common\Criteria\Criteria;
 use SWP\Component\ContentList\ContentListEvents;
 use SWP\Component\ContentList\Model\ContentListInterface;
@@ -87,6 +88,8 @@ class AddArticleToListListener
     {
         /** @var ArticleInterface $article */
         $article = $event->getArticle();
+        $this->eventDispatcher->dispatch(MultiTenancyEvents::TENANTABLE_ENABLE);
+
         /** @var ContentListInterface[] $contentLists */
         $contentLists = $this->listRepository->findByTypes([
             ContentListInterface::TYPE_AUTOMATIC,
@@ -99,6 +102,8 @@ class AddArticleToListListener
                 $this->createAndAddItem($article, $contentList);
             }
         }
+
+        $this->eventDispatcher->dispatch(MultiTenancyEvents::TENANTABLE_DISABLE);
     }
 
     /**
