@@ -227,6 +227,7 @@ services:
         class: SWP\Bundle\CoreBundle\Serializer\ArticlesCountHandler
         arguments:
           - '@swp.repository.article'
+          - '@event_dispatcher'
         tags:
             - { name: jms_serializer.subscribing_handler }
 
