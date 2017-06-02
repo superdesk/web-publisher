@@ -38,6 +38,9 @@ final class MultipleWebsitesPublish extends WebTestCase
 
         $this->initDatabase();
         $this->loadCustomFixtures(['tenant']);
+        $this->loadFixtureFiles([
+            '@SWPFixturesBundle/Resources/fixtures/ORM/test/content_list.yml',
+        ], true);
 
         $this->router = $this->getContainer()->get('router');
     }
@@ -56,6 +59,37 @@ final class MultipleWebsitesPublish extends WebTestCase
 
         self::assertEquals(201, $client->getResponse()->getStatusCode());
 
+        $clientContent = json_decode($client->getResponse()->getContent(), true);
+
+        // update content list filters for tenant2
+        $client->request('PATCH',
+            $this->router->generate('swp_api_content_update_lists', ['id' => 1]), [
+                'content_list' => [
+                    'filters' => sprintf(
+                        '{"route":[%d],"author":["ADmin"],"metadata":{"located":"Sydney"}}',
+                        $clientContent['id']
+                    ),
+                ],
+            ]);
+
+        self::assertEquals(200, $client->getResponse()->getStatusCode());
+
+        $client->request('PATCH',
+            $this->router->generate('swp_api_content_update_lists', ['id' => 2]), [
+                'content_list' => [
+                    'filters' => sprintf(
+                        '{"route":[%d],"author":["fakeeeee"],"metadata":{"located":"Sydney"}}',
+                        $clientContent['id']
+                    ),
+                ],
+            ]);
+
+        self::assertEquals(200, $client->getResponse()->getStatusCode());
+
+        $client->request('GET', $this->router->generate('swp_api_content_list_lists'));
+        $content = json_decode($client->getResponse()->getContent(), true);
+        self::assertEquals(2, $content['total']);
+
         // create route for tenant2
         $client2 = static::createClient([], [
             'HTTP_HOST' => 'client2.'.$client->getContainer()->getParameter('domain'),
@@ -71,6 +105,24 @@ final class MultipleWebsitesPublish extends WebTestCase
         ]);
 
         self::assertEquals(201, $client2->getResponse()->getStatusCode());
+        $client2Content = json_decode($client2->getResponse()->getContent(), true);
+
+        $client2->request('GET', $this->router->generate('swp_api_content_list_lists'));
+        $content = json_decode($client2->getResponse()->getContent(), true);
+        self::assertEquals(1, $content['total']);
+
+        // update content list filters for tenant2
+        $client2->request('PATCH',
+            $this->router->generate('swp_api_content_update_lists', ['id' => 4]), [
+                'content_list' => [
+                    'filters' => sprintf(
+                        '{"route":[%d],"author":["ADmin"],"metadata":{"located":"Sydney"}}',
+                        $client2Content['id']
+                    ),
+                ],
+            ]);
+
+        self::assertEquals(200, $client2->getResponse()->getStatusCode());
 
         // push content to the whole organization
         $client->request(
@@ -130,6 +182,27 @@ final class MultipleWebsitesPublish extends WebTestCase
         );
 
         self::assertEquals(201, $client->getResponse()->getStatusCode());
+
+        // check if article was added to content list for tenant2
+        $client2->request('GET', $this->router->generate('swp_api_core_list_items', ['id' => 4]));
+        self::assertEquals(200, $client2->getResponse()->getStatusCode());
+
+        $contentListItems = json_decode($client2->getResponse()->getContent(), true);
+        self::assertEquals($contentListItems['total'], 1);
+        self::assertEquals('Abstract html test', $contentListItems['_embedded']['_items'][0]['content']['title']);
+
+        // one list from tenant1 should contain one item
+        $client->request('GET', $this->router->generate('swp_api_core_list_items', ['id' => 1]));
+        self::assertEquals(200, $client->getResponse()->getStatusCode());
+
+        $contentListItems = json_decode($client->getResponse()->getContent(), true);
+        self::assertEquals($contentListItems['total'], 1);
+
+        $client->request('GET', $this->router->generate('swp_api_core_list_items', ['id' => 2]));
+        self::assertEquals(200, $client->getResponse()->getStatusCode());
+
+        $contentListItems = json_decode($client->getResponse()->getContent(), true);
+        self::assertEquals($contentListItems['total'], 0);
 
         // check package status
         $client->request(
