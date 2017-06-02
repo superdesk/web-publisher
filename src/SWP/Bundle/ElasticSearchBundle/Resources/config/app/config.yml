@@ -38,6 +38,8 @@ fos_elastica:
                             type: date
                         updatedAt:
                             type: date
+                        createdAt:
+                            type: date
                         route:
                             type: "object"
                             properties:
