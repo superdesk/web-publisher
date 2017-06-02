@@ -21,9 +21,11 @@ use JMS\Serializer\Handler\SubscribingHandlerInterface;
 use JMS\Serializer\JsonSerializationVisitor;
 use SWP\Bundle\ContentBundle\Doctrine\ArticleRepositoryInterface;
 use SWP\Bundle\ContentBundle\Model\RouteInterface;
+use SWP\Bundle\MultiTenancyBundle\MultiTenancyEvents;
 use SWP\Component\Common\Criteria\Criteria;
 use SWP\Component\MultiTenancy\Model\TenantInterface;
 use SWP\Component\Storage\Model\PersistableInterface;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 final class ArticlesCountHandler implements SubscribingHandlerInterface
 {
@@ -33,13 +35,19 @@ final class ArticlesCountHandler implements SubscribingHandlerInterface
     private $articleRepository;
 
     /**
+     * @var EventDispatcherInterface
+     */
+    private $eventDispatcher;
+
+    /**
      * ArticlesCountHandler constructor.
      *
      * @param ArticleRepositoryInterface $articleRepository
      */
-    public function __construct(ArticleRepositoryInterface $articleRepository)
+    public function __construct(ArticleRepositoryInterface $articleRepository, EventDispatcherInterface $eventDispatcher)
     {
         $this->articleRepository = $articleRepository;
+        $this->eventDispatcher = $eventDispatcher;
     }
 
     /**
@@ -74,7 +82,9 @@ final class ArticlesCountHandler implements SubscribingHandlerInterface
         } elseif ($object instanceof TenantInterface) {
             $tenantCode = $object->getCode();
             $criteria->set('tenantCode', $tenantCode);
+            $this->eventDispatcher->dispatch(MultiTenancyEvents::TENANTABLE_DISABLE);
             $count = $this->articleRepository->countByCriteria($criteria, null);
+            $this->eventDispatcher->dispatch(MultiTenancyEvents::TENANTABLE_ENABLE);
 
             return $count;
         }
