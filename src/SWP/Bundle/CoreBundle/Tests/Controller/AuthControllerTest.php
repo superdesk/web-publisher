@@ -15,6 +15,7 @@
 namespace SWP\Bundle\CoreBundle\Tests\Controller;
 
 use SWP\Bundle\FixturesBundle\WebTestCase;
+use Symfony\Bundle\SwiftmailerBundle\DataCollector\MessageDataCollector;
 
 class AuthControllerTest extends WebTestCase
 {
@@ -133,5 +134,66 @@ class AuthControllerTest extends WebTestCase
         ]);
         $client->request('GET', $this->router->generate('swp_api_user_get_user_profile', ['id' => 1]));
         self::assertEquals(403, $client->getResponse()->getStatusCode());
+    }
+
+    public function testRegisterLoginAndUpdateProfileTest()
+    {
+        $client = static::createClient();
+        $client->enableProfiler();
+        $client->request('POST', $this->router->generate('swp_api_core_register_user'), [
+            'user_registration' => [
+                'email' => 'contact@example.com',
+                'username' => 'sofab.contact',
+                'plainPassword' => [
+                    'first' => 'testPass',
+                    'second' => 'testPass',
+                ],
+            ],
+        ]);
+        /** @var MessageDataCollector $swiftMailer */
+        $swiftMailer = $client->getProfile()->getCollector('swiftmailer');
+        /** @var \Swift_Message $message */
+        $messageBody = $swiftMailer->getMessages()[0]->getBody();
+        $client->followRedirect();
+        self::assertEquals(200, $client->getResponse()->getStatusCode());
+
+        // activate URL
+        preg_match_all('#\bhttps?://[^\s()<>]+(?:\([\w\d]+\)|([^[:punct:]\s]|/))#', $messageBody, $match);
+        $client->request('GET', $match[0][0]);
+        self::assertEquals(302, $client->getResponse()->getStatusCode());
+
+        $client->request('POST', $this->router->generate('swp_api_auth'), [
+            'auth' => [
+                'username' => 'sofab.contact',
+                'password' => 'testPass',
+            ],
+        ]);
+        self::assertEquals(200, $client->getResponse()->getStatusCode());
+        $data = json_decode($client->getResponse()->getContent(), true);
+        $token = $data['token']['api_key'];
+
+        $client = static::createClient([], [
+            'HTTP_Authorization' => $token,
+        ]);
+        $client->request('GET', $this->router->generate('swp_api_user_get_user_profile', ['id' => 4]));
+        self::assertEquals(200, $client->getResponse()->getStatusCode());
+        $content = json_decode($client->getResponse()->getContent(), true);
+        self::assertEquals('sofab.contact', $content['username']);
+
+        $client->request('PATCH', $this->router->generate('swp_api_user_edit_user_profile', ['id' => 4]), [
+            'user_profile' => [
+                'email' => 'contact2@example.com',
+                'username' => 'sofab.contact2',
+                'firstName' => 'Test',
+                'lastName' => 'User',
+                'about' => 'About content',
+            ],
+        ]);
+        self::assertEquals(200, $client->getResponse()->getStatusCode());
+        $content = json_decode($client->getResponse()->getContent(), true);
+        self::assertEquals('sofab.contact2', $content['username']);
+        self::assertEquals('Test', $content['firstName']);
+        self::assertEquals('User', $content['lastName']);
+        self::assertEquals('About content', $content['about']);
     }
 }
