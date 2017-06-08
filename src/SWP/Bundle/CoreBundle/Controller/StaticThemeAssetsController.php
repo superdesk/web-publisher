@@ -88,6 +88,9 @@ class StaticThemeAssetsController extends Controller
             $mime = str_replace('/x-', '/', Mime::getMimeFromExtension($type->getExtension()));
             $response->headers->set('Content-Type', $mime);
             $response->setStatusCode(Response::HTTP_OK);
+            $response->setPublic();
+            $response->setMaxAge(3600);
+            $response->setSharedMaxAge(7200);
 
             return $response;
         }
