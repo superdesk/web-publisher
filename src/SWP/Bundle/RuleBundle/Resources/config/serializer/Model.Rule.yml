@@ -13,3 +13,9 @@ SWP\Component\Rule\Model\Rule:
         configuration:
             expose: true
             type: array
+        description:
+            expose: true
+            type: string
+        name:
+            expose: true
+            type: string

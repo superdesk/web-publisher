@@ -50,4 +50,24 @@ interface RuleInterface extends PersistableInterface
      * @param array $configuration
      */
     public function setConfiguration(array $configuration);
+
+    /**
+     * @return string
+     */
+    public function getDescription();
+
+    /**
+     * @param string $description
+     */
+    public function setDescription($description);
+
+    /**
+     * @return mixed
+     */
+    public function getName();
+
+    /**
+     * @param mixed $name
+     */
+    public function setName($name);
 }
