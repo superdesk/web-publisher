@@ -20,6 +20,9 @@ class Version20170608091640 extends AbstractMigration
 
         $this->addSql('ALTER TABLE swp_rule ADD description VARCHAR(255) DEFAULT NULL');
         $this->addSql('ALTER TABLE swp_rule ADD name VARCHAR(255) DEFAULT NULL');
+        $this->addSql('UPDATE swp_article SET package_id = (SELECT p.id FROM swp_package AS p WHERE p.guid = code ORDER BY p.id DESC LIMIT 1)');
+        $this->addSql('delete from swp_article where is_publishable = false and package_id = (select p.id from swp_package as p where p.guid = code order by p.id desc limit 1)');
+        $this->addSql('update swp_package set status = \'published\' where (select count(*) from swp_article as a where a.package_id = id) > 0');
     }
 
     /**
