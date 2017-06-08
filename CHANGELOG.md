@@ -1,11 +1,27 @@
 
-CHANGELOG for version <= 0.6.x
+CHANGELOG for version <= 1.0.x
 ==============================
 
 This changelog references the relevant changes (bug and security fixes) done
-in <= 0.6 minor versions.
+in <= 1.0 minor versions.
 
 To get the diff for a specific change, go to https://github.com/superdesk/web-publisher/commit/XXX where XXX is the change hash
+
+* 1.0.1
+ * [feature][RuleBundle] Implemented name and description fields in Rules API 
+
+* 1.0.0
+ * [fix] adding article to content lists on publish (#349)
+142561c set default value for urgency, handle genre as array in package item
+ * [feature] ElasticSearch integration & bugfixes (#336)
+0544e35 Use organization instead tenant in user entity
+ * [feature] [UserBundle] add API to promote and demote users (add/remove user roles)
+ * [feature] Add articles count to tenant and article api endpoints
+ * [feature] Add loader for content list items
+ * [feature] [UserBundle][CoreBundle] add user profile update and get API, add option to set tenant from console command with optional argument
+ * [feature] [Content Bundle] add option to filter articles by criteria
+ 
+ Full list of commits: https://github.com/superdesk/web-publisher/compare/cd75f77...046da8f
 
 * 0.6.0
  * feature [#324] Added an option to sort collections
