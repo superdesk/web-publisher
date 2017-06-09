@@ -32,6 +32,7 @@ before_install:
   - sudo /sbin/swapon /var/swap.1
   - sudo sysctl -w vm.max_map_count=262144
   - sudo sysctl -p
+  - npm install -g json-server
 
 install:
   - wget ${ES_DOWNLOAD_URL}
@@ -39,6 +40,7 @@ install:
   - sudo service elasticsearch restart
 
 before_script:
+  - nohup json-server --watch src/SWP/Bundle/CoreBundle/Tests/Functional/Resources/db.json --routes=src/SWP/Bundle/CoreBundle/Tests/Functional/Resources/routes.json &
   - echo "memory_limit=-1" >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
   - echo 'extension="redis.so"' >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
   - cat ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini|grep redis
@@ -61,4 +63,5 @@ script:
 
 cache:
   directories:
+    - "node_modules"
     - $HOME/.composer/cache

@@ -196,4 +196,24 @@ class AuthControllerTest extends WebTestCase
         self::assertEquals('User', $content['lastName']);
         self::assertEquals('About content', $content['about']);
     }
+
+    public function testSuperdeskAuthentication()
+    {
+        $client = static::createClient();
+        $client->request('POST', $this->router->generate('swp_api_auth_superdesk'), [
+            'auth_superdesk' => [
+                'session_id' => '4f5gwe4f5w45as4fd',
+                'token' => 'test_token',
+            ],
+        ]);
+        self::assertEquals(200, $client->getResponse()->getStatusCode());
+
+        $client->request('POST', $this->router->generate('swp_api_auth_superdesk'), [
+            'auth_superdesk' => [
+                'session_id' => '123456789',
+                'token' => 'test_token',
+            ],
+        ]);
+        self::assertEquals(401, $client->getResponse()->getStatusCode());
+    }
 }

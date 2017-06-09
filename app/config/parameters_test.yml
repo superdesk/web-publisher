@@ -2,3 +2,5 @@ parameters:
     domain: localhost
     cache_servers:
         - localhost
+    superdesk_servers:
+        - localhost:3000

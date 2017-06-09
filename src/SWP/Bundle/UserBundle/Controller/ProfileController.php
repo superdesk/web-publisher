@@ -40,7 +40,7 @@ class ProfileController extends Controller
      *
      * @ApiDoc(
      *     resource=true,
-     *     description="Update user profile",
+     *     description="Get user profile",
      *     statusCodes={
      *         200="Returned on success.",
      *         404="Returned on user not found."

@@ -49,7 +49,7 @@ class User extends BaseUser implements UserInterface
     }
 
     /**
-     * @return string
+     * {@inheritdoc}
      */
     public function getAbout()
     {
@@ -57,7 +57,7 @@ class User extends BaseUser implements UserInterface
     }
 
     /**
-     * @param string $about
+     * {@inheritdoc}
      */
     public function setAbout(string $about)
     {
@@ -65,7 +65,7 @@ class User extends BaseUser implements UserInterface
     }
 
     /**
-     * @return string
+     * {@inheritdoc}
      */
     public function getFirstName()
     {
@@ -73,7 +73,7 @@ class User extends BaseUser implements UserInterface
     }
 
     /**
-     * @param string $firstName
+     * {@inheritdoc}
      */
     public function setFirstName(string $firstName)
     {
@@ -81,7 +81,7 @@ class User extends BaseUser implements UserInterface
     }
 
     /**
-     * @return string
+     * {@inheritdoc}
      */
     public function getLastName()
     {
@@ -89,7 +89,7 @@ class User extends BaseUser implements UserInterface
     }
 
     /**
-     * @param string $lastName
+     * {@inheritdoc}
      */
     public function setLastName(string $lastName)
     {

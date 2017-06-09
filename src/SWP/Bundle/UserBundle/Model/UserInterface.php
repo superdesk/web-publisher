@@ -22,4 +22,33 @@ use SWP\Component\Storage\Model\PersistableInterface;
 
 interface UserInterface extends BaseUserInterface, PersistableInterface, TimestampableInterface
 {
+    /**
+     * @return string
+     */
+    public function getAbout();
+
+    /**
+     * @param string $about
+     */
+    public function setAbout(string $about);
+
+    /**
+     * @return string
+     */
+    public function getFirstName();
+
+    /**
+     * @param string $firstName
+     */
+    public function setFirstName(string $firstName);
+
+    /**
+     * @return string
+     */
+    public function getLastName();
+
+    /**
+     * @param string $lastName
+     */
+    public function setLastName(string $lastName);
 }
