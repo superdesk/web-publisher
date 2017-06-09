@@ -16,6 +16,7 @@ namespace SWP\Bundle\CoreBundle\Tests\Controller;
 
 use SWP\Bundle\FixturesBundle\WebTestCase;
 use Symfony\Bundle\SwiftmailerBundle\DataCollector\MessageDataCollector;
+use GuzzleHttp;
 
 class AuthControllerTest extends WebTestCase
 {
@@ -199,6 +200,15 @@ class AuthControllerTest extends WebTestCase
 
     public function testSuperdeskAuthentication()
     {
+        try {
+            $baseUrl = $this->getContainer()->getParameter('superdesk_servers')[0];
+            $client = new GuzzleHttp\Client();
+            $apiRequest = new GuzzleHttp\Psr7\Request('GET', $baseUrl.'/sessions');
+            $client->send($apiRequest);
+        } catch (GuzzleHttp\Exception\ConnectException $e) {
+            $this->markTestSkipped('Superdesk fake server is offline');
+        }
+
         $client = static::createClient();
         $client->request('POST', $this->router->generate('swp_api_auth_superdesk'), [
             'auth_superdesk' => [
