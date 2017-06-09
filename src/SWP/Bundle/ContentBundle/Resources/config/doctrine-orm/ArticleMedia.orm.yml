@@ -26,7 +26,7 @@ SWP\Bundle\ContentBundle\Model\ArticleMedia:
         mimetype:
             type: string
         usageTerms:
-            type: string
+            type: text
             nullable: true
         createdAt:
             type: date
