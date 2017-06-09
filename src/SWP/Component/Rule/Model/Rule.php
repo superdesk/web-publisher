@@ -37,6 +37,16 @@ class Rule implements RuleInterface
     protected $configuration = [];
 
     /**
+     * @var string
+     */
+    protected $description;
+
+    /**
+     * @var string
+     */
+    protected $name;
+
+    /**
      * {@inheritdoc}
      */
     public function getId()
@@ -87,5 +97,37 @@ class Rule implements RuleInterface
     public function setConfiguration(array $configuration)
     {
         $this->configuration = $configuration;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getDescription()
+    {
+        return $this->description;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setDescription($description)
+    {
+        $this->description = $description;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
     }
 }

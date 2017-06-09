@@ -66,6 +66,16 @@ final class RuleTypeSpec extends ObjectBehavior
             ->willReturn($builder)
         ;
 
+        $builder
+            ->add('description', TextType::class)
+            ->willReturn($builder)
+        ;
+
+        $builder
+            ->add('name', TextType::class)
+            ->willReturn($builder)
+        ;
+
         $this->buildForm($builder, []);
     }
 
