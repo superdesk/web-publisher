@@ -16,6 +16,7 @@ namespace SWP\Bundle\CoreBundle\Tests\Controller;
 
 use SWP\Bundle\FixturesBundle\WebTestCase;
 use Symfony\Bundle\SwiftmailerBundle\DataCollector\MessageDataCollector;
+use GuzzleHttp;
 
 class AuthControllerTest extends WebTestCase
 {
@@ -195,5 +196,34 @@ class AuthControllerTest extends WebTestCase
         self::assertEquals('Test', $content['firstName']);
         self::assertEquals('User', $content['lastName']);
         self::assertEquals('About content', $content['about']);
+    }
+
+    public function testSuperdeskAuthentication()
+    {
+        try {
+            $baseUrl = $this->getContainer()->getParameter('superdesk_servers')[0];
+            $client = new GuzzleHttp\Client();
+            $apiRequest = new GuzzleHttp\Psr7\Request('GET', $baseUrl.'/sessions');
+            $client->send($apiRequest);
+        } catch (GuzzleHttp\Exception\ConnectException $e) {
+            $this->markTestSkipped('Superdesk fake server is offline');
+        }
+
+        $client = static::createClient();
+        $client->request('POST', $this->router->generate('swp_api_auth_superdesk'), [
+            'auth_superdesk' => [
+                'session_id' => '4f5gwe4f5w45as4fd',
+                'token' => 'test_token',
+            ],
+        ]);
+        self::assertEquals(200, $client->getResponse()->getStatusCode());
+
+        $client->request('POST', $this->router->generate('swp_api_auth_superdesk'), [
+            'auth_superdesk' => [
+                'session_id' => '123456789',
+                'token' => 'test_token',
+            ],
+        ]);
+        self::assertEquals(401, $client->getResponse()->getStatusCode());
     }
 }
