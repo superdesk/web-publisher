@@ -17,14 +17,16 @@ declare(strict_types=1);
 namespace SWP\Bundle\CoreBundle\Repository;
 
 use SWP\Bundle\CoreBundle\Model\ArticleInterface;
+use SWP\Bundle\CoreBundle\Model\ContentListInterface;
 use SWP\Component\ContentList\Repository\ContentListItemRepositoryInterface as BaseInterface;
 
 interface ContentListItemRepositoryInterface extends BaseInterface
 {
     /**
-     * @param ArticleInterface $article
+     * @param ArticleInterface     $article
+     * @param ContentListInterface $list
      *
      * @return mixed
      */
-    public function findItemByArticleInBuckets(ArticleInterface $article);
+    public function findItemByArticleAndListInBuckets(ArticleInterface $article, ContentListInterface $list);
 }
