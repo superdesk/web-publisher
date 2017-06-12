@@ -22,7 +22,7 @@ class NinjsValidator extends JsonValidator
     "type" : "object",
     "title" : "IPTC ninjs - News in JSON - version 1.1 (approved, 2014-03-12) / document revision of 2014-11-15: geometry_* moved under place",
     "description" : "A news item as JSON object -- copyright 2014 IPTC - International Press Telecommunications Council - www.iptc.org - This document is published under the Creative Commons Attribution 3.0 license, see  http://creativecommons.org/licenses/by/3.0/  $$comment: as of 2014-03-13 ",
-    "additionalProperties" : false,
+    "additionalProperties" : true,
     "patternProperties" : {
         "^description_[a-zA-Z0-9_]+" : {
             "description" : "A free-form textual description of the content of the item. (The string appended to description_ in the property name should reflect the format of the text)",
