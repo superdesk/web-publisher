@@ -20,11 +20,11 @@ use SWP\Bundle\ContentBundle\Event\ArticleEvent;
 use SWP\Bundle\ContentListBundle\Event\ContentListEvent;
 use SWP\Bundle\CoreBundle\Matcher\ArticleCriteriaMatcherInterface;
 use SWP\Bundle\CoreBundle\Model\ArticleInterface;
+use SWP\Bundle\CoreBundle\Model\ContentListInterface;
 use SWP\Bundle\CoreBundle\Repository\ContentListItemRepositoryInterface;
 use SWP\Bundle\MultiTenancyBundle\MultiTenancyEvents;
 use SWP\Component\Common\Criteria\Criteria;
 use SWP\Component\ContentList\ContentListEvents;
-use SWP\Component\ContentList\Model\ContentListInterface;
 use SWP\Component\ContentList\Model\ContentListItemInterface;
 use SWP\Component\ContentList\Model\ListContentInterface;
 use SWP\Component\ContentList\Repository\ContentListRepositoryInterface;
@@ -123,10 +123,10 @@ class AddArticleToListListener
             return;
         }
 
-        $item = $this->contentListItemRepository->findItemByArticleInBuckets($article);
-
         foreach ($buckets as $bucket) {
-            if ($article->isPublishedFBIA()) {
+            $item = $this->contentListItemRepository->findItemByArticleAndListInBuckets($article, $bucket);
+
+            if ($article->isPublishedFBIA() && null === $item) {
                 $this->createAndAddItem($article, $bucket);
             }
 
