@@ -18,6 +18,7 @@ namespace SWP\Bundle\CoreBundle\Repository;
 
 use SWP\Bundle\CoreBundle\Model\ArticleInterface;
 use SWP\Bundle\CoreBundle\Model\ContentListInterface;
+use SWP\Bundle\CoreBundle\Model\ContentListItemInterface;
 use SWP\Component\ContentList\Repository\ContentListItemRepositoryInterface as BaseInterface;
 
 interface ContentListItemRepositoryInterface extends BaseInterface
@@ -25,8 +26,13 @@ interface ContentListItemRepositoryInterface extends BaseInterface
     /**
      * @param ArticleInterface     $article
      * @param ContentListInterface $list
+     * @param string               $type
      *
-     * @return mixed
+     * @return null|ContentListItemInterface
      */
-    public function findItemByArticleAndListInBuckets(ArticleInterface $article, ContentListInterface $list);
+    public function findItemByArticleAndList(
+        ArticleInterface $article,
+        ContentListInterface $list,
+        string $type = ContentListInterface::TYPE_BUCKET
+    );
 }
