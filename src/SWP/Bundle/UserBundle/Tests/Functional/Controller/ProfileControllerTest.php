@@ -62,5 +62,12 @@ class ProfileControllerTest extends WebTestCase
         self::assertEquals('Test', $content['first_name']);
         self::assertEquals('User', $content['last_name']);
         self::assertEquals('About content', $content['about']);
+
+        $client->request('PATCH', $this->router->generate('swp_api_user_edit_user_profile', ['id' => 1]), [
+            'user_profile' => [
+                'about' => '',
+            ],
+        ]);
+        self::assertEquals(200, $client->getResponse()->getStatusCode());
     }
 }
