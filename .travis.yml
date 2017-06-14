@@ -51,15 +51,15 @@ before_script:
 script:
   - bin/phpspec run
   - bin/phpunit -c app/
-  - cd src/SWP/Bundle/BridgeBundle && composer install --no-interaction --prefer-dist --ignore-platform-reqs && bin/phpunit
+  - cd src/SWP/Bundle/BridgeBundle && composer $COMPOSER_FLAGS --no-interaction --prefer-dist && bin/phpunit
   - cd ../../../../
-  - cd src/SWP/Bundle/TemplatesSystemBundle && composer install --no-interaction --prefer-dist --ignore-platform-reqs && bin/phpunit
+  - cd src/SWP/Bundle/TemplatesSystemBundle && composer $COMPOSER_FLAGS --no-interaction --prefer-dist && bin/phpunit
   - cd ../../../../
-  - cd src/SWP/Bundle/ContentBundle && composer install --no-interaction --prefer-dist --ignore-platform-reqs && bin/phpunit
+  - cd src/SWP/Bundle/ContentBundle && composer $COMPOSER_FLAGS --no-interaction --prefer-dist && bin/phpunit
   - cd ../../../../
-  - cd src/SWP/Bundle/SettingsBundle && composer install --no-interaction --prefer-dist --ignore-platform-reqs && bin/phpunit
+  - cd src/SWP/Bundle/SettingsBundle && composer $COMPOSER_FLAGS --no-interaction --prefer-dist && bin/phpunit
   - cd ../../../../
-  - cd src/SWP/Bundle/UserBundle && composer install --no-interaction --prefer-dist --ignore-platform-reqs && bin/phpunit
+  - cd src/SWP/Bundle/UserBundle && composer $COMPOSER_FLAGS --no-interaction --prefer-dist && bin/phpunit
 
 cache:
   directories:
