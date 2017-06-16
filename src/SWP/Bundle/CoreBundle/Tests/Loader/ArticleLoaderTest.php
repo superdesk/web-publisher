@@ -41,6 +41,20 @@ class ArticleLoaderTest extends WebTestCase
         self::assertNotContains('mazda', $result);
     }
 
+    public function testFilteringMyMultipleRoutes()
+    {
+        $template = '{% gimmelist article from articles with {"route": [3, 5]} %} {{ article.route.id }} {% endgimmelist %}';
+        $result = $this->getRendered($template);
+
+        self::assertContains('3', $result);
+        self::assertContains('5', $result);
+
+        $template = '{% gimmelist article from articles with {"route": [1, 2]} %} {{ article.route.id }} {% endgimmelist %}';
+        $result = $this->getRendered($template);
+
+        self::assertEquals('  ', $result);
+    }
+
     private function getRendered($template, $context = [])
     {
         $template = $this->twig->createTemplate($template);
