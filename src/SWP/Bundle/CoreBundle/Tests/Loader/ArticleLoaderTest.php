@@ -52,7 +52,7 @@ class ArticleLoaderTest extends WebTestCase
         $template = '{% gimmelist article from articles with {"route": [1, 2]} %} {{ article.route.id }} {% endgimmelist %}';
         $result = $this->getRendered($template);
 
-        self::assertEquals('  ', $result);
+        self::assertEquals('', $result);
     }
 
     private function getRendered($template, $context = [])
