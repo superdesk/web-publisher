@@ -1,0 +1,11 @@
+@import url('//www.example.com/test5a.css');
+
+@import url('http://example.com/test5b.css');
+
+h2 {
+  font-size: 10px;
+}
+
+p {
+  line-height: 1.5;
+}

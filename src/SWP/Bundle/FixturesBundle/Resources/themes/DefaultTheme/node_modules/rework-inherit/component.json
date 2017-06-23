@@ -1,0 +1,14 @@
+{
+  "name": "rework-inherit",
+  "description": "Inherit rules from other selectors",
+  "repo": "reworkcss/rework-inherit",
+  "version": "0.2.3",
+  "dependencies": {
+    "visionmedia/debug": "*"
+  },
+  "main": "index.js",
+  "scripts": [
+    "index.js"
+  ],
+  "license": "MIT"
+}
