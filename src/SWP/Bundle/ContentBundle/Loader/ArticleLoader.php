@@ -140,6 +140,8 @@ class ArticleLoader extends PaginatedLoader implements LoaderInterface
                         $route = $this->routeProvider->getOneById($parameters['route']);
                     } elseif (is_string($parameters['route'])) {
                         $route = $this->routeProvider->getOneByStaticPrefix($parameters['route']);
+                    } elseif (is_array($parameters['route'])) {
+                        $route = $parameters['route'];
                     }
 
                     if (null === $route) {
@@ -149,10 +151,14 @@ class ArticleLoader extends PaginatedLoader implements LoaderInterface
                 }
             }
 
-            if (null !== $route) {
-                if ($route instanceof RouteInterface && RouteInterface::TYPE_COLLECTION === $route->getType()) {
-                    $criteria->set('route', $route);
-                }
+            if (
+                null !== $route &&
+                (
+                    $route instanceof RouteInterface && RouteInterface::TYPE_COLLECTION === $route->getType() ||
+                    is_array($route)
+                )
+            ) {
+                $criteria->set('route', $route);
             }
 
             if (isset($parameters['metadata'])) {
