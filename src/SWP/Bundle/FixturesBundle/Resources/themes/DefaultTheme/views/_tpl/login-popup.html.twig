@@ -21,17 +21,18 @@
 				</ul>
 
 				<form name="login" action="{{ path('security_login_check') }}" method="POST" id="loginform">
+				{#<form name="login" action="/app_dev.php/api/v1/auth/" id="loginform">#}
 					<div class="field_row row">
 						<label for="l_field_login" class="span2">{{ 'user.popup.username'|trans|desc('User name') }}</label>
 						<div class="span3">
-							<input type="text" name="_username" value="{{ app.session.get('_security.last_username') }}" />
+							<input type="text" id="_username" name="_username" value="{{ app.session.get('_security.last_username') }}" />
 						</div>
 					</div>
 
 					<div class="field_row row">
 						<label for="l_field_password" class="span2">{{ 'user.popup.password'|trans|desc('Password') }}</label>
 						<div class="span3">
-							<input type="password" name="_password" value="" />
+							<input id="_password" type="password" name="_password" value="" />
 						</div>
 					</div>
 
@@ -43,6 +44,8 @@
 						</div>
 					</div>
 				</form>
+
+				<div id="userAuth"></div>
 
 				<h4>Don't have account yet? Create one here:</h4>
 				<form name="register" action="/app_dev.php/api/v1/users/register/" id="registerForm">
@@ -78,63 +81,6 @@
 				</form>
 
 				<div id="registrationResult"></div>
-
-				<script type="text/javascript">
-
-				// Will use these to remove unnecessary HTML nodes from modal
-				var formLogin = document.getElementById("loginform"),
-					loginHeader = document.getElementById("loginHeader"),
-					parentOfHead = document.getElementById("childHolder"),
-					formRegister = document.getElementById("registerForm"),
-					parentDiv = document.getElementById( "formsHolder" );
-
-				// Attach a submit handler to the form
-				$( "#registerForm" ).submit(function( event ) {
-
-					// Stop form from submitting normally
-					event.preventDefault();
-
-					// Get some values from elements on the page:
-					var $form = $( this ),
-					email = $form.find( "input[name='_email']" ).val(),
-					username = $form.find( "input[name='_username']" ).val(),
-					password = $form.find( "input[name='_password']" ).val(),
-					password2 = $form.find( "input[name='_password2']" ).val(),
-					url = $form.attr( "action" );
-					data = {'user_registration': { 'email': email, 'username' : username, 'plainPassword' : { 'first' : password, 'second' : password2 }}};
-
-					// Send the data using post
-					var posting = $.post( url, data );
-
-					// Put the results in a div
-					posting.done(function( data ) {
-					var content = $( data );
-
-					parentDiv.removeChild( formLogin );
-					parentDiv.removeChild( formRegister );
-					Array.prototype.slice.call(document.getElementsByTagName('h4')).forEach(function(item) {
-					item.remove();
-				});       
-				$( "#registrationResult" ).empty().append( content );
-				}); 
-
-				// If posting is unsuccessful, then:
-				posting.fail(function(xhr) {
-					var content = $.parseJSON( xhr.responseText );
-					var para = document.createElement("p");
-					var head = document.createElement("h5");
-					var nodeH5 = document.createTextNode( "Error code " + content.code + ":" );
-					var nodeP = document.createTextNode( content.message );
-					para.appendChild(nodeP);
-					head.appendChild(nodeH5);
-					parentDiv.removeChild( formLogin );
-					parentOfHead.removeChild( loginHeader );    
-					var element = document.getElementById("registrationResult");
-					element.appendChild(head);
-					element.appendChild(para);
-				});
-				}); 
-				</script>
 
 			</div>
 		</div>

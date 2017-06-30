@@ -24,7 +24,6 @@
     }
 
 }
-
 /* jQuery
 ``````````````````````````````````````````````````````````````````````````` */
 window.onload = function() {
@@ -39,6 +38,162 @@ window.onload = function() {
 
 $(document).ready(function() {
 
+        /** USER MANAGEMENT **/
+        /* LOGIN USER */
+
+        $('#loginform').submit(function(event) {
+          // Stop form from submitting normally
+          event.preventDefault();
+          
+          var $inputs = $('#loginform :input');
+          var values = {};
+          var userName = "",
+            passWord = "";
+            $inputs.each(function() {
+                values[this.name] = $(this).val();
+              });
+
+          var username = values["_username"];
+          var password = values["_password"];
+          var user;
+          var apiKey;
+
+          });
+
+        /* REGISTER USER */
+
+        // Will use these to remove unnecessary HTML nodes from modal
+        var formLogin = document.getElementById("loginform"),
+          loginHeader = document.getElementById("loginHeader"),
+          parentOfHead = document.getElementById("childHolder"),
+          formRegister = document.getElementById("registerForm"),
+          parentDiv = document.getElementById( "formsHolder" );
+
+        // Attach a submit handler to the form
+        $( "#registerForm" ).submit(function( event ) {
+
+          // Stop form from submitting normally
+          event.preventDefault();
+
+          // Get some values from elements on the page:
+          var $form = $( this ),
+          email = $form.find( "input[name='_email']" ).val(),
+          username = $form.find( "input[name='_username']" ).val(),
+          password = $form.find( "input[name='_password']" ).val(),
+          password2 = $form.find( "input[name='_password2']" ).val(),
+          url = $form.attr( "action" );
+          data = {'user_registration': { 'email': email, 'username' : username, 'plainPassword' : { 'first' : password, 'second' : password2 }}};
+
+          // Send the data using post
+          var posting = $.post( url, data );
+
+          // Put the results in a div
+          posting.done(function( data ) {
+          var content = $( data );
+
+          parentDiv.removeChild( formLogin );
+          parentDiv.removeChild( formRegister );
+          Array.prototype.slice.call(document.getElementsByTagName('h4')).forEach(function(item) {
+          item.remove();
+            });       
+        $( "#registrationResult" ).empty().append( content );
+        }); 
+
+        // If posting is unsuccessful, then:
+        posting.fail(function(xhr) {
+          var content = $.parseJSON( xhr.responseText );
+          var para = document.createElement("p");
+          var head = document.createElement("h5");
+          var nodeH5 = document.createTextNode( "Error code " + content.code + ":" );
+          var nodeP = document.createTextNode( content.message );
+          para.appendChild(nodeP);
+          head.appendChild(nodeH5);
+          parentDiv.removeChild( formLogin );
+          parentOfHead.removeChild( loginHeader );    
+          var element = document.getElementById("registrationResult");
+          element.appendChild(head);
+          element.appendChild(para);
+        });
+        }); 
+
+        /* USER PROFILE */
+        var username = localStorage.getItem("username");
+        var password = localStorage.getItem("password");
+        var user;
+        var apiKey;
+        // obtain user token
+        if ( typeof(username) !== "undefined" ) {
+            var data = {'auth': {'username': username, 'password': password}},
+              url = "/app_dev.php/api/v1/auth/";
+          // Send the data using post
+          var posting = $.post( url, data );  
+          // Put the user values in editable form
+          posting.done(function( data ) {
+            var content = $( data ); 
+            apiKey = content["0"]["token"]["api_key"];
+            user = content["0"]["user"];
+            document.getElementById("_usernameP").setAttribute("value", user["username"]);
+            document.getElementById("_emailP").setAttribute("value", user["email"]);
+            if(user["firstName"]){
+              document.getElementById("_fnameP").setAttribute("value", user["firstName"]);
+            };
+            if(user["lastName"]){
+              document.getElementById("_lnameP").setAttribute("value", user["lastName"]);
+            };
+            if(user["about"]){
+              document.getElementById("_aboutP").setAttribute("placeholder", user["about"]);
+            };
+          });
+          // If posting is unsuccessful, then:
+          posting.fail(function(xhr) {
+            var content = $.parseJSON( xhr.responseText );    
+            console.log( content );
+          });
+          $('#editProfile').submit(function(event) {
+            // Stop form from submitting normally
+            event.preventDefault();
+            // Get updated values from the form:
+            var $form = $( this ),
+            username = $form.find( "input[name='_username']" ).val(),
+            email = $form.find( "input[name='_email']" ).val(),
+            firstName = $form.find( "input[name='_fname']" ).val(),
+            lastName = $form.find( "input[name='_lname']" ).val(),
+            about = $form.find( "textarea[name='_about']" ).val(),
+            password = $form.find( "input[name='_password']" ).val(),
+            password2 = $form.find( "input[name='_password2']" ).val();
+              
+            $.ajax({
+                    headers : {
+                        'Accept' : 'application/json',
+                        'Content-Type' : 'application/json',
+                        'Authorization' : apiKey
+                    },
+                    url : "/app_dev.php/api/v1/users/profile/" + user["id"],
+                    type : 'PATCH',
+                    dataType : 'json',
+                    data : JSON.stringify({'user_profile': { 'email': email, 'username' : username, 'firstName' : firstName, 'lastName' : lastName, 'about' : about,  'plainPassword' : { 'first' : password, 'second' : password2 }}}),
+                    success : function(response, textStatus, jqXhr) {
+                      var head = document.createElement("h5");
+                      var nodeH5 = document.createTextNode( "Your user profile was successfuly saved." );
+                      head.appendChild(nodeH5);
+                      var element = document.getElementById("editProfileResult");
+                element.appendChild(head);
+                    },
+                    error : function(jqXHR, textStatus, errorThrown) {
+                var para = document.createElement("p");
+                var head = document.createElement("h5");
+                var nodeH5 = document.createTextNode( "Error occured:" );
+                var nodeP = document.createTextNode( textStatus +  errorThrown ); 
+                para.appendChild(nodeP);
+                head.appendChild(nodeH5);
+                var element = document.getElementById("editProfileResult");
+                element.appendChild(head);
+                element.appendChild(para);    
+                    }
+                });
+          }); 
+        }
+/* END USER MGMNT */
 
 
 
@@ -183,6 +338,11 @@ $(document).ready(function() {
         'open_popup_link': $('.open_login_popup'),
         'close_popup_link': $('#login_popup .close')
     });
+
+    $('#user_profile').hsPopup({
+        'open_popup_link': $('.open_user_profile'),
+        'close_popup_link': $('#user_profile .close')
+    });    
 
 
     var frm = $('#loginform');

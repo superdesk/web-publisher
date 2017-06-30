@@ -1,0 +1,3 @@
+
+// TODO: require() directly in plugins...
+exports.declarations = require('rework-visit');
