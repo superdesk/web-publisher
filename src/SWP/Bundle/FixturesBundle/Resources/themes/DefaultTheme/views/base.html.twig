@@ -10,7 +10,7 @@
   <title>{% block title %}Default Theme for Superdesk Publisher{% endblock %}</title>
   <meta name="author" content="Sourcefabric">
 
-  <meta name="description" content="Superdesk Publisher is state of the art publishing system.">
+  <meta name="description" content="Superdesk Publisher is a state-of-the-art publishing system.">
   <meta name="keywords" content="Superdesk, Sourcefabric, open source, media, journalism">
 
   {#
@@ -50,11 +50,13 @@
 
 {% include '_tpl/login-popup.html.twig' %}
 
+{% include '_tpl/user-profile.html.twig' %}        
+
 <header id="titlebar">
   {% if app.user %}
   <div class="logininfo">
-     <a href="{{ url('security_logout') }}" class="icon_link icon_key">Logout</a>
-     <span class="icon_link">Logged in as  {{ app.user.username }}</span>
+     <a href="{{ url('security_logout') }}" class="icon_link icon_key">{{ 'global.user.logout'|trans|desc('Logout') }}</a>
+     <a href="#" span class="icon_link open_user_profile">{{ 'global.user.loggedin'|trans|desc('Logged in as') }} {{ app.user.username }}</span>
   </div>
   {% else %}
      <a href="#" class="icon_link icon_key open_login_popup">Sign In / Sign Up</a>
