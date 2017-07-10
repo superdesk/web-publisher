@@ -17,28 +17,10 @@
 
 {% cache 'frontTop3' { time:600 } %}
 
-{% gimmelist article from articles|order('publishedAt','desc')|limit(3) %}
+{% gimmelist item from contentListItems|limit(3) with {contentListName: "Top news"} %}
 {% if loop.first %}
-        <article class="news_item">
 
-          {% if article.featureMedia %}
-            {% gimme rendition with { 'media': article.featureMedia, 'name': '770x515' } %}
-              <a href="{{ url(article) }}" class="thumbnail"><img src="{{ url(rendition) }}" alt="{{ article.featureMedia.description }}"></a>
-            {% endgimme %}
-          {% else %}
-            {% gimmelist media from articleMedia|limit(1) with {'article': article} %}
-              {% gimme rendition with { media: media, 'name': '770x515', 'fallback': 'original' } %}
-                <a href="{{ url(article) }}" class="thumbnail"><img src="{{ url(rendition) }}" alt="{{ media.body }}"></a>
-              {% endgimme %}
-            {% endgimmelist %}
-          {% endif %}
-
-          <div class="content content_text">
-                <h6 class="info">{% if article.metadata.byline %} {{ article.metadata.byline }} - {% endif %} {{ article.publishedAt|date("d.m.Y, H:i") }}</h6>
-                <h3 class="title"><a href="{{ url(article) }}">{{ article.title }}</a></h3>
-                <p>{{ article.lead|striptags|truncate(200,true) }}</p>
-          </div>
-        </article>
+  {% include 'partials/firstArticle.html.twig' with { 'article': item.content } %}
 
 {% elseif (loop.index == 2) or (loop.index == 3) %}
 
@@ -49,27 +31,8 @@
           <div class="span3">
 
             <!-- News item -->
-            <article class="news_item">
+            {% include 'partials/secondArticle.html.twig' with { 'article': item.content } %}
 
-                {% if article.featureMedia %}
-                  {% gimme rendition with { 'media': article.featureMedia, 'name': '478x326' } %}
-                    <a href="{{ url(article) }}" class="thumbnail"><img src="{{ url(rendition) }}" alt="{{ article.featureMedia.description }}"></a>
-                  {% endgimme %}
-                {% else %}
-                  {% gimmelist media from articleMedia|limit(1) with {'article': article} %}
-                    {% gimme rendition with { media: media, 'name': '478x326', 'fallback': 'original' } %}
-                      <a href="{{ url(article) }}" class="thumbnail"><img src="{{ url(rendition) }}" alt="{{ media.body }}"></a>
-                    {% endgimme %}
-                  {% endgimmelist %}
-                {% endif %}
-
-
-              <div class="content content_text">
-                <h6 class="info">{% if article.metadata.byline %} {{ article.metadata.byline }} - {% endif %} {{ article.publishedAt|date("d.m.Y, H:i") }}</h6>
-                <h3 class="title"><a href="{{ url(article) }}">{{ article.title }}</a></h3>
-                <p>{{ article.lead|striptags|truncate(200,true) }}</p>
-               </div>
-            </article><!-- End News item -->
           </div><!--End Span (3) -->
           {% endif %}
 
@@ -78,28 +41,9 @@
           <!-- Span (5) -->
           <div class="span5">
 
-    <article class="news_item">
+            {% include 'partials/thirdArticle.html.twig' with { 'article': item.content } %}
 
-      {% if article.featureMedia %}
-        {% gimme rendition with { 'media': article.featureMedia, 'name': '478x326' } %}
-          <a href="{{ url(article) }}" class="thumbnail"><img src="{{ url(rendition) }}" alt="{{ article.featureMedia.description }}"></a>
-        {% endgimme %}
-      {% else %}
-        {% gimmelist media from articleMedia|limit(1) with {'article': article} %}
-          {% gimme rendition with {media: media, 'name': '478x326', 'fallback': 'original' } %}
-            <a href="{{ url(article) }}" class="thumbnail"><img src="{{ url(rendition) }}" alt="{{ media.body }}"></a>
-          {% endgimme %}
-        {% endgimmelist %}
-      {% endif %}
-
-              <div class="content content_text">
-                <h6 class="info">{% if article.metadata.byline %} {{ article.metadata.byline }} - {% endif %} {{ article.publishedAt|date("d.m.Y, H:i") }}</h6>
-                <h3 class="title"><a href="{{ url(article) }}">{{ article.title }}</a></h3>
-                <p>{{ article.lead|striptags|truncate(200,true) }}</p>
-              </div>
-    </article>
-
-</div><!-- End Span (5) -->
+          </div><!-- End Span (5) -->
 {% endif %}
 {% endif %}
 {% if loop.last and loop.index > 1 %}</div><!-- End Row (8) -->{% endif %}
