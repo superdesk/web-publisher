@@ -20,12 +20,17 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use SWP\Bundle\CoreBundle\Form\Type\SuperdeskCredentialAuthenticationType;
 use SWP\Bundle\CoreBundle\Form\Type\UserAuthenticationType;
+use SWP\Bundle\CoreBundle\Model\ApiKeyInterface;
 use SWP\Bundle\CoreBundle\Model\UserInterface;
+use SWP\Bundle\CoreBundle\Security\Authenticator\TokenAuthenticator;
 use SWP\Component\Common\Response\ResponseContext;
 use SWP\Component\Common\Response\SingleResourceResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 class AuthController extends Controller
 {
@@ -58,7 +63,7 @@ class AuthController extends Controller
 
             if (null !== $user) {
                 if ($this->get('security.password_encoder')->isPasswordValid($user, $formData['password'])) {
-                    return $this->getApiToken($user, null);
+                    return $this->returnApiTokenResponse($user, null);
                 }
             }
         }
@@ -100,25 +105,24 @@ class AuthController extends Controller
                         'Authorization' => $formData['token'],
                     ]);
                     $apiResponse = $client->send($apiRequest);
+                    if ($apiResponse->getStatusCode() !== 200) {
+                        continue;
+                    }
+
+                    $content = json_decode($apiResponse->getBody()->getContents(), true);
+                    if (is_array($content) && array_key_exists('user', $content)) {
+                        $superdeskUser = $content['user'];
+
+                        break;
+                    }
                 } catch (GuzzleHttp\Exception\ClientException $e) {
                     if ($e->getResponse()->getStatusCode() !== 200) {
                         continue;
                     }
                 }
-
-                if ($apiResponse->getStatusCode() !== 200) {
-                    continue;
-                }
-
-                $content = json_decode($apiResponse->getBody()->getContents(), true);
-                if (is_array($content) && array_key_exists('user', $content)) {
-                    $superdeskUser = $content['user'];
-
-                    break;
-                }
             }
 
-            if (null == $superdeskUser) {
+            if (null === $superdeskUser) {
                 return new SingleResourceResponse([
                     'status' => 401,
                     'message' => 'Unauthorized (user not found in Superdesk)',
@@ -150,7 +154,7 @@ class AuthController extends Controller
             }
 
             if (null !== $publisherUser) {
-                return $this->getApiToken($publisherUser, str_replace('Basic ', '', $formData['token']));
+                return $this->returnApiTokenResponse($publisherUser, str_replace('Basic ', '', $formData['token']));
             }
         }
 
@@ -160,7 +164,92 @@ class AuthController extends Controller
         ], new ResponseContext(401));
     }
 
-    private function getApiToken($user, $token)
+    /**
+     * Generate url with authentication code for authorization.
+     *
+     * @ApiDoc(
+     *     resource=true,
+     *     description="Generate url with authentication code for authorization",
+     *     statusCodes={
+     *         200="Returned on success.",
+     *         401="No user found or not authorized."
+     *     }
+     * )
+     * @Route("/api/{version}/livesite/auth/{intention}", options={"expose"=true}, defaults={"version"="v1", "intention"="api"}, name="swp_api_auth_url")
+     *
+     * @Method("POST")
+     *
+     * @return SingleResourceResponse
+     */
+    public function generateAuthenticationUrl($intention)
+    {
+        /** @var ApiKeyInterface $apiKey */
+        $apiKey = $this->generateOrGetApiKey($this->getUser(), null);
+        $parameters = [
+            'auth_token' => $apiKey->getApiKey(),
+        ];
+        if (TokenAuthenticator::INTENTION_LIVESITE_EDITOR === $intention) {
+            $parameters['intention'] = $intention;
+        }
+
+        $url = $this->generateUrl('swp_api_auth_redirect', $parameters, UrlGeneratorInterface::ABSOLUTE_URL);
+
+        return new SingleResourceResponse([
+            'token' => [
+                'api_key' => $apiKey->getApiKey(),
+                'valid_to' => $apiKey->getValidTo(),
+            ],
+            'url' => $url,
+        ]);
+    }
+
+    /**
+     * Redirect authorized user to homepage.
+     *
+     * @Route("/api/{version}/livesite/redirect", options={"expose"=true}, defaults={"version"="v1", "intention"="api"}, name="swp_api_auth_redirect")
+     *
+     * @Method("GET")
+     *
+     * @return RedirectResponse
+     */
+    public function redirectAuthenticated()
+    {
+        $user = $this->getUser();
+
+        if ($user instanceof UserInterface) {
+            return new RedirectResponse($this->generateUrl('homepage'));
+        }
+
+        throw new AccessDeniedException('This user does not have access to this page.');
+    }
+
+    /**
+     * @param UserInterface $user
+     * @param string        $token
+     *
+     * @return SingleResourceResponse
+     */
+    private function returnApiTokenResponse(UserInterface $user, $token)
+    {
+        /** @var ApiKeyInterface $apiKey */
+        $apiKey = $this->generateOrGetApiKey($user, $token);
+
+        return new SingleResourceResponse([
+            'token' => [
+                'api_key' => $apiKey->getApiKey(),
+                'valid_to' => $apiKey->getValidTo(),
+            ],
+            'user' => $user,
+        ]);
+    }
+
+    /**
+     * @param UserInterface $user
+     * @param string        $token
+     *
+     * @return mixed|null
+     */
+    private function generateOrGetApiKey(UserInterface $user, $token)
     {
         $apiKey = null;
         $apiKeyRepository = $this->get('swp.repository.api_key');
@@ -178,12 +267,6 @@ class AuthController extends Controller
             $apiKeyRepository->add($apiKey);
         }
 
-        return new SingleResourceResponse([
-            'token' => [
-                'api_key' => $apiKey->getApiKey(),
-                'valid_to' => $apiKey->getValidTo(),
-            ],
-            'user' => $user,
-        ]);
+        return $apiKey;
     }
 }

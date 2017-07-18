@@ -16,6 +16,8 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\CoreBundle\Security\Authenticator;
 
+use SWP\Bundle\CoreBundle\EventListener\ActivateLivesiteEditorListener;
+use SWP\Bundle\CoreBundle\Model\ApiKeyInterface;
 use SWP\Bundle\CoreBundle\Model\UserInterface as CoreUserInterface;
 use SWP\Bundle\CoreBundle\Repository\ApiKeyRepository;
 use SWP\Bundle\MultiTenancyBundle\MultiTenancyEvents;
@@ -32,6 +34,8 @@ use Symfony\Component\Security\Core\User\UserProviderInterface;
 
 class TokenAuthenticator extends AbstractGuardAuthenticator
 {
+    const INTENTION_LIVESITE_EDITOR = 'livesite_editor';
+
     /**
      * @var ApiKeyRepository
      */
@@ -78,21 +82,28 @@ class TokenAuthenticator extends AbstractGuardAuthenticator
      */
     public function getCredentials(Request $request)
     {
-        if (!$token = $request->headers->get('Authorization', $request->query->get('auth_token'))) {
+        if (!$token = $this->getToken($request)) {
             // no token? Return null and no other methods will be called
             return;
         }
 
-        // What you return here will be passed to getUser() as $credentials
-        return [
+        $data = [
             'token' => $token,
         ];
+
+        if (self::INTENTION_LIVESITE_EDITOR === $this->getIntention($request)) {
+            $data['intention'] = self::INTENTION_LIVESITE_EDITOR;
+        }
+
+        // What you return here will be passed to getUser() as $credentials
+        return $data;
     }
 
     public function getUser($credentials, UserProviderInterface $userProvider)
     {
         $this->eventDispatcher->dispatch(MultiTenancyEvents::TENANTABLE_DISABLE);
 
+        /** @var ApiKeyInterface $apiKey */
         $apiKey = $this->apiKeyRepository
             ->getValidToken(str_replace('Basic ', '', $credentials['token']))
             ->getQuery()
@@ -106,11 +117,15 @@ class TokenAuthenticator extends AbstractGuardAuthenticator
 
         // extend valid time after login
         $apiKey->extendValidTo();
-        $this->apiKeyRepository->flush();
 
         /** @var CoreUserInterface $user */
         $user = $apiKey->getUser();
         $user->addRole('ROLE_INTERNAL_API');
+        $this->apiKeyRepository->flush();
+
+        if (array_key_exists('intention', $credentials) && self::INTENTION_LIVESITE_EDITOR === $credentials['intention']) {
+            $user->addRole('ROLE_LIVESITE_EDITOR');
+        }
 
         return $user;
     }
@@ -131,6 +146,10 @@ class TokenAuthenticator extends AbstractGuardAuthenticator
 
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, $providerKey)
     {
+        if (self::INTENTION_LIVESITE_EDITOR === $this->getIntention($request)) {
+            $request->attributes->set(ActivateLivesiteEditorListener::ACTIVATION_KEY, $this->getToken($request));
+        }
+
         // on success, let the request continue
         return;
     }
@@ -161,5 +180,20 @@ class TokenAuthenticator extends AbstractGuardAuthenticator
     public function supportsRememberMe()
     {
         return false;
+    }
+
+    private function getIntention(Request $request)
+    {
+        return $request->headers->get('Intention', $request->query->get('intention'));
+    }
+
+    /**
+     * @param Request $request
+     *
+     * @return string
+     */
+    private function getToken(Request $request)
+    {
+        return $request->headers->get('Authorization', $request->query->get('auth_token'));
     }
 }
