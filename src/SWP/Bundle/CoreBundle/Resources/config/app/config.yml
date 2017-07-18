@@ -239,6 +239,14 @@ swp_settings:
             scope: user
             type: string
             value: "{}"
+        user_private_preferences:
+            scope: user
+            type: string
+            value: "{}"
+        user_favourite_articles:
+            scope: user
+            type: string
+            value: "{}"
 
 swp_analytics:
     metrics_listener:
