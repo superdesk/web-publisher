@@ -43,6 +43,8 @@ class RuleType extends AbstractType
             ->add('configuration', KeyValueType::class, [
                 'value_type' => TextType::class,
             ])
+            ->add('description', TextType::class)
+            ->add('name', TextType::class)
         ;
     }
 

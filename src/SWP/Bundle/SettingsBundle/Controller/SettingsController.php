@@ -61,7 +61,7 @@ class SettingsController extends Controller
      *     resource=true,
      *     description="Change setting value",
      *     statusCodes={
-     *         201="Returned on success.",
+     *         200="Returned on success.",
      *         404="Setting not found",
      *     },
      *     input="SWP\Bundle\SettingsBundle\Form\Type\SettingType"

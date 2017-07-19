@@ -4,6 +4,3 @@ jms_serializer:
             SWPMenuBundle:
                 namespace_prefix: "SWP\\Bundle\\MenuBundle"
                 path: "@SWPMenuBundle/Resources/config/serializer"
-            KNPMenu:
-                namespace_prefix: "Knp\\Menu"
-                path: "@SWPMenuBundle/Resources/config/serializer/KnpMenu"

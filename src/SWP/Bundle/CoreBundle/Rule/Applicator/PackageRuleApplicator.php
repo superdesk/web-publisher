@@ -120,6 +120,7 @@ final class PackageRuleApplicator extends AbstractRuleApplicator
         $resolver = new OptionsResolver();
         $resolver->setDefined('tenant');
         $resolver->setDefined('route');
+        $resolver->setDefined('fbia');
 
         return $this->resolveConfig($resolver, $config);
     }

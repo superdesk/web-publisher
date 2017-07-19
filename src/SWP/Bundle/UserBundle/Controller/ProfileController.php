@@ -40,7 +40,7 @@ class ProfileController extends Controller
      *
      * @ApiDoc(
      *     resource=true,
-     *     description="Update user profile",
+     *     description="Get user profile",
      *     statusCodes={
      *         200="Returned on success.",
      *         404="Returned on user not found."
@@ -85,7 +85,7 @@ class ProfileController extends Controller
         /** @var UserInterface $currentUser */
         $currentUser = $this->getUser();
         if (
-            !$this->get('security.authorization_checker')->isGranted('ROLE_ADMIN') ||
+            !$this->get('security.authorization_checker')->isGranted('ROLE_ADMIN') &&
             $requestedUser->getId() !== $currentUser->getId()
         ) {
             throw new AccessDeniedException('This user does not have access to this section.');

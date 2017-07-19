@@ -72,4 +72,26 @@ final class RuleSpec extends ObjectBehavior
         $this->setConfiguration(['key' => 'value']);
         $this->getConfiguration()->shouldReturn(['key' => 'value']);
     }
+
+    public function it_has_no_description_by_default()
+    {
+        $this->getDescription()->shouldReturn(null);
+    }
+
+    public function its_description_is_mutable()
+    {
+        $this->setDescription('description');
+        $this->getDescription()->shouldReturn('description');
+    }
+
+    public function it_has_no_name_by_default()
+    {
+        $this->getName()->shouldReturn(null);
+    }
+
+    public function its_name_is_mutable()
+    {
+        $this->setName('name');
+        $this->getName()->shouldReturn('name');
+    }
 }

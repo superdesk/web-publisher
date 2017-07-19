@@ -1,0 +1,26 @@
+{
+  "sessions": [
+    {
+      "id": "4f5gwe4f5w45as4fd",
+      "user": {
+        "email": "superdesk.test.user@sourcefabric.org",
+        "first_name": "Superdesk Test",
+        "username": "superdesk.test.user",
+        "needs_activation": false,
+        "is_enabled": true,
+        "role": null,
+        "byline": "TestUser",
+        "_id": "5889ee45470fb30669d12207",
+        "_updated": "2017-06-09T08:09:13+0000",
+        "language": "en",
+        "is_active": true,
+        "_created": "2017-01-26T12:40:37+0000",
+        "_etag": "307f8207548f393f0e623c3f4e60e71948e0bfb7",
+        "user_type": "administrator",
+        "display_name": "Superdesk Test User",
+        "last_name": "User",
+        "sign_off": "testu"
+      }
+    }
+  ]
+}

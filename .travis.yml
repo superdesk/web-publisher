@@ -32,6 +32,7 @@ before_install:
   - sudo /sbin/swapon /var/swap.1
   - sudo sysctl -w vm.max_map_count=262144
   - sudo sysctl -p
+  - npm install -g json-server
 
 install:
   - wget ${ES_DOWNLOAD_URL}
@@ -39,6 +40,7 @@ install:
   - sudo service elasticsearch restart
 
 before_script:
+  - nohup json-server --watch src/SWP/Bundle/CoreBundle/Tests/Functional/Resources/db.json --routes=src/SWP/Bundle/CoreBundle/Tests/Functional/Resources/routes.json &
   - echo "memory_limit=-1" >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
   - echo 'extension="redis.so"' >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
   - cat ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini|grep redis
@@ -49,16 +51,17 @@ before_script:
 script:
   - bin/phpspec run
   - bin/phpunit -c app/
-  - cd src/SWP/Bundle/BridgeBundle && composer install --no-interaction --prefer-dist --ignore-platform-reqs && bin/phpunit
+  - cd src/SWP/Bundle/BridgeBundle && composer $COMPOSER_FLAGS --no-interaction --prefer-dist && bin/phpunit
   - cd ../../../../
-  - cd src/SWP/Bundle/TemplatesSystemBundle && composer install --no-interaction --prefer-dist --ignore-platform-reqs && bin/phpunit
+  - cd src/SWP/Bundle/TemplatesSystemBundle && composer $COMPOSER_FLAGS --no-interaction --prefer-dist && bin/phpunit
   - cd ../../../../
-  - cd src/SWP/Bundle/ContentBundle && composer install --no-interaction --prefer-dist --ignore-platform-reqs && bin/phpunit
+  - cd src/SWP/Bundle/ContentBundle && composer $COMPOSER_FLAGS --no-interaction --prefer-dist && bin/phpunit
   - cd ../../../../
-  - cd src/SWP/Bundle/SettingsBundle && composer install --no-interaction --prefer-dist --ignore-platform-reqs && bin/phpunit
+  - cd src/SWP/Bundle/SettingsBundle && composer $COMPOSER_FLAGS --no-interaction --prefer-dist && bin/phpunit
   - cd ../../../../
-  - cd src/SWP/Bundle/UserBundle && composer install --no-interaction --prefer-dist --ignore-platform-reqs && bin/phpunit
+  - cd src/SWP/Bundle/UserBundle && composer $COMPOSER_FLAGS --no-interaction --prefer-dist && bin/phpunit
 
 cache:
   directories:
+    - "node_modules"
     - $HOME/.composer/cache

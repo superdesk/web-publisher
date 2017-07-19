@@ -14,3 +14,9 @@ SWP\Component\Rule\Model\Rule:
             type: integer
         configuration:
             type: array
+        description:
+            type: string
+            nullable: true
+        name:
+            type: string
+            nullable: true
