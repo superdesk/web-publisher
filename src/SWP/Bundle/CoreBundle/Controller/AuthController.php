@@ -188,6 +188,7 @@ class AuthController extends Controller
         $parameters = [
             'auth_token' => $apiKey->getApiKey(),
         ];
+
         if (TokenAuthenticator::INTENTION_LIVESITE_EDITOR === $intention) {
             $parameters['intention'] = $intention;
         }
