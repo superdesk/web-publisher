@@ -41,7 +41,7 @@ Full documentation can be found here: [http://superdesk-publisher.readthedocs.or
 
 ## Installation
 
-See [installation guide](install.md) for more details.
+See [installation guide](INSTALL.md) for more details.
 
 [1]: http://superdesk-publisher.readthedocs.org/en/latest/
 [2]: https://www.sourcefabric.org/en/newscoop/
