@@ -118,3 +118,12 @@ The last step is to install assets:
 ```bash
 php app/console sylius:theme:assets:install
 ```
+
+#### Preview
+
+Run project with built in php server:
+
+```bash
+php app/console server:start publisher.dev
+```
+Replace publisher.dev with your `domain` parameter value configured on composer installation.
