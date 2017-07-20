@@ -21,4 +21,38 @@ use SWP\Component\Storage\Model\PersistableInterface;
 
 interface ApiKeyInterface extends TimestampableInterface, PersistableInterface
 {
+    /**
+     * @return string
+     */
+    public function getApiKey(): string;
+
+    /**
+     * @param string $apiKey
+     */
+    public function setApiKey(string $apiKey);
+
+    /**
+     * @return UserInterface
+     */
+    public function getUser(): UserInterface;
+
+    /**
+     * @param UserInterface $user
+     */
+    public function setUser(UserInterface $user);
+
+    /**
+     * @return \DateTime
+     */
+    public function getValidTo(): \DateTime;
+
+    /**
+     * @param \DateTime $validTo
+     */
+    public function setValidTo(\DateTime $validTo);
+
+    /**
+     *  Extend token.
+     */
+    public function extendValidTo();
 }

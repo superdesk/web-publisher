@@ -90,6 +90,13 @@ services:
         tags:
             - { name: kernel.event_subscriber }
 
+    swp_core.listener.activate_livesite_editor:
+        class: SWP\Bundle\CoreBundle\EventListener\ActivateLivesiteEditorListener
+        arguments:
+            - '@security.token_storage'
+        tags:
+            - { name: kernel.event_listener, event: kernel.response, method: onKernelResponse }
+
     swp_core.subscriber.http_cache:
         class: SWP\Bundle\CoreBundle\EventSubscriber\HttpCacheSubscriber
         arguments:
