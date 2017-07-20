@@ -124,7 +124,7 @@ $(document).ready(function() {
           var username = values["_username"];
           var password = values["_password"];
           var data = {'auth': {'username': username, 'password': password}},
-              url = "/app_dev.php/api/v1/auth/";
+              url = "/api/v1/auth/";
 
           var posting = $.post( url, data );  
 
@@ -207,7 +207,7 @@ $(document).ready(function() {
               'Content-Type' : 'application/json',
               'Authorization' : authToken
             },
-            url : "/app_dev.php/api/v1/users/profile/" + userId,
+            url : "/api/v1/users/profile/" + userId,
             type : 'GET',
             dataType : 'json',
             data : JSON.stringify({ 'Authorization': authToken }),
@@ -252,7 +252,7 @@ $(document).ready(function() {
                         'Content-Type' : 'application/json',
                         'Authorization' : authToken
                     },
-                    url : "/app_dev.php/api/v1/users/profile/" + userId,
+                    url : "/api/v1/users/profile/" + userId,
                     type : 'PATCH',
                     dataType : 'json',
                     data : JSON.stringify({'user_profile': { 'email': email, 'username' : username, 'firstName' : firstName, 'lastName' : lastName, 'about' : about,  'plainPassword' : { 'first' : password, 'second' : password2 }}}),
