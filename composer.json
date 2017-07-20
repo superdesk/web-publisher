@@ -156,7 +156,7 @@
     "prefer-stable": true,
     "extra": {
         "branch-alias": {
-            "dev-master": "0.1-dev"
+            "dev-master": "1.1-dev"
         },
         "symfony-app-dir": "app",
         "symfony-web-dir": "web",

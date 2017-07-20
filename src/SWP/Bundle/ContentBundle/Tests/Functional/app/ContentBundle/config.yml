@@ -30,6 +30,7 @@ framework:
     test: ~
     validation:      { enable_annotations: false }
     form: ~
+    fragments: ~
     templating:
         engines: ['twig']
     translator:

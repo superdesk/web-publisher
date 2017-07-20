@@ -115,7 +115,6 @@ $(document).ready(function() {
         $('#loginform').submit(function(event) {
           // Stop form from submitting normally
           event.preventDefault();
-
           var $inputs = $('#loginform :input');
           var values = {};
             $inputs.each(function() {
@@ -152,6 +151,7 @@ $(document).ready(function() {
         });
 
         /* REGISTER USER */
+
 
         // Attach a submit handler to the form
         $( "#registerForm" ).submit(function( event ) {
@@ -278,7 +278,6 @@ $(document).ready(function() {
           }); 
 
 /* END USER MGMNT */
-
 
 
     sticky_menu.init();
