@@ -4,7 +4,7 @@
 		<a href="#" class="close"></a>
 		<div class="content content_text" id="childHolder">
 									
-			<h3 class="popup_title bigger">{{ 'user.popup.title'|trans|desc('Sign In / Sign up') }}</h3>
+			<h3 class="popup_title bigger">{{ 'user.popup.title'|trans|desc('Sign In') }}</h3>
 			<div id="loginHeader">
 				<h4>{{ 'user.popup.loginHere'|trans|desc('Already have acoount? Login here:') }}</h4>
 				{% if app.session.has('_security.last_error') %}
@@ -45,42 +45,7 @@
 				</form>
 
 				<div id="userAuth"></div>
-
-				<h4>Don't have account yet? Create one here:</h4>
-				<form name="register" action="/app_dev.php/api/v1/users/register/" id="registerForm">
-					<div class="field_row row">
-						<label for="l_field_login" class="span2">{{ 'user.popup.email'|trans|desc('E-mail') }}</label>
-						<div class="span3">
-							<input type="email" name="_email" value="" />
-						</div> 
-					</div>                   
-					<div class="field_row row">
-						<label for="l_field_login" class="span2">{{ 'user.popup.username'|trans|desc('User name') }}</label>
-						<div class="span3">
-							<input type="text" name="_username" value="" />
-						</div>
-					</div>
-					<div class="field_row row">
-						<label for="l_field_login" class="span2">{{ 'user.popup.password'|trans|desc('Password') }}</label>
-						<div class="span3">
-							<input type="password" name="_password" value="" />
-						</div>
-					</div>   
-					<div class="field_row row">
-						<label for="l_field_login" class="span2">{{ 'user.popup.passwordConfirm'|trans|desc('Confirm password') }}</label>
-						<div class="span3">
-							<input type="password" name="_password2" value="" />
-						</div>
-					</div>                         
-					<div class="field_row row">
-						<div class="span3 offset2"> 
-							<input type="submit" value="Sign Up" class="float_right">
-						</div>
-					</div>           
-				</form>
-
-				<div id="registrationResult"></div>
-
+				
 			</div>
 		</div>
 	</div>

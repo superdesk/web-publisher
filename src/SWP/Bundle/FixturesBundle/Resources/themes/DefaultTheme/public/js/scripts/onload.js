@@ -44,30 +44,43 @@ $(document).ready(function() {
         $('#loginform').submit(function(event) {
           // Stop form from submitting normally
           event.preventDefault();
-          
+
           var $inputs = $('#loginform :input');
           var values = {};
-          var userName = "",
-            passWord = "";
             $inputs.each(function() {
                 values[this.name] = $(this).val();
               });
 
           var username = values["_username"];
           var password = values["_password"];
-          var user;
-          var apiKey;
+          var data = {'auth': {'username': username, 'password': password}},
+              url = "/app_dev.php/api/v1/auth/";
+
+          var posting = $.post( url, data );  
+
+          posting.done(function( data ) {
+          var content = $( data ); 
+          apiKey = content["0"]["token"]["api_key"];
+          userId = content["0"]["user"]["id"];
+          localStorage.setItem('auth_token', apiKey);
+          localStorage.setItem('user_id', userId);
+          $.post($('#loginform').attr('action'), {'_format': 'json', '_username': username, '_password': password}).done(function (done) {location.reload()});
 
           });
+          // If posting is unsuccessful, then:
+          posting.fail(function(xhr) {
+            var content = $.parseJSON( xhr.responseText );
+          var para = document.createElement("p");
+          var head = document.createElement("h5");
+          var nodeH5 = document.createTextNode( "Error code " + content.code + ":" );
+          var nodeP = document.createTextNode( content.message );
+          para.appendChild(nodeP);
+          head.appendChild(nodeH5);    
+          $( "#userAuth" ).empty().append( head, para );          
+          });
+        });
 
         /* REGISTER USER */
-
-        // Will use these to remove unnecessary HTML nodes from modal
-        var formLogin = document.getElementById("loginform"),
-          loginHeader = document.getElementById("loginHeader"),
-          parentOfHead = document.getElementById("childHolder"),
-          formRegister = document.getElementById("registerForm"),
-          parentDiv = document.getElementById( "formsHolder" );
 
         // Attach a submit handler to the form
         $( "#registerForm" ).submit(function( event ) {
@@ -91,8 +104,6 @@ $(document).ready(function() {
           posting.done(function( data ) {
           var content = $( data );
 
-          parentDiv.removeChild( formLogin );
-          parentDiv.removeChild( formRegister );
           Array.prototype.slice.call(document.getElementsByTagName('h4')).forEach(function(item) {
           item.remove();
             });       
@@ -107,48 +118,50 @@ $(document).ready(function() {
           var nodeH5 = document.createTextNode( "Error code " + content.code + ":" );
           var nodeP = document.createTextNode( content.message );
           para.appendChild(nodeP);
-          head.appendChild(nodeH5);
-          parentDiv.removeChild( formLogin );
-          parentOfHead.removeChild( loginHeader );    
+          head.appendChild(nodeH5);    
           var element = document.getElementById("registrationResult");
           element.appendChild(head);
           element.appendChild(para);
         });
         }); 
 
-        /* USER PROFILE */
-        var username = localStorage.getItem("username");
-        var password = localStorage.getItem("password");
-        var user;
-        var apiKey;
-        // obtain user token
-        if ( typeof(username) !== "undefined" ) {
-            var data = {'auth': {'username': username, 'password': password}},
-              url = "/app_dev.php/api/v1/auth/";
-          // Send the data using post
-          var posting = $.post( url, data );  
-          // Put the user values in editable form
-          posting.done(function( data ) {
-            var content = $( data ); 
-            apiKey = content["0"]["token"]["api_key"];
-            user = content["0"]["user"];
-            document.getElementById("_usernameP").setAttribute("value", user["username"]);
-            document.getElementById("_emailP").setAttribute("value", user["email"]);
-            if(user["firstName"]){
-              document.getElementById("_fnameP").setAttribute("value", user["firstName"]);
-            };
-            if(user["lastName"]){
-              document.getElementById("_lnameP").setAttribute("value", user["lastName"]);
-            };
-            if(user["about"]){
-              document.getElementById("_aboutP").setAttribute("placeholder", user["about"]);
-            };
-          });
-          // If posting is unsuccessful, then:
-          posting.fail(function(xhr) {
-            var content = $.parseJSON( xhr.responseText );    
-            console.log( content );
-          });
+        /* LOAD USER PROFILE */
+
+        var authToken = localStorage.getItem('auth_token');
+        var userId = localStorage.getItem('user_id');
+        if (authToken) {
+          $.ajax({
+            headers : {
+              'Accept' : 'application/json',
+              'Content-Type' : 'application/json',
+              'Authorization' : authToken
+            },
+            url : "/app_dev.php/api/v1/users/profile/" + userId,
+            type : 'GET',
+            dataType : 'json',
+            data : JSON.stringify({ 'Authorization': authToken }),
+            success : function(response, textStatus, jqXhr) {
+              var user = response;
+              document.getElementById("_usernameP").setAttribute("value", user["username"]);
+              document.getElementById("_emailP").setAttribute("value", user["email"]);
+              if(user["firstName"]){
+                document.getElementById("_fnameP").setAttribute("value", user["firstName"]);
+              };
+              if(user["lastName"]){
+                document.getElementById("_lnameP").setAttribute("value", user["lastName"]);
+              };
+              if(user["about"]){
+                document.getElementById("_aboutP").setAttribute("placeholder", user["about"]);
+              };                
+            },
+            error : function(jqXHR, textStatus, errorThrown) {
+              console.log("Error getting user profile");
+            }
+            });
+          };
+
+        /* EDIT USER PROFILE */
+
           $('#editProfile').submit(function(event) {
             // Stop form from submitting normally
             event.preventDefault();
@@ -166,9 +179,9 @@ $(document).ready(function() {
                     headers : {
                         'Accept' : 'application/json',
                         'Content-Type' : 'application/json',
-                        'Authorization' : apiKey
+                        'Authorization' : authToken
                     },
-                    url : "/app_dev.php/api/v1/users/profile/" + user["id"],
+                    url : "/app_dev.php/api/v1/users/profile/" + userId,
                     type : 'PATCH',
                     dataType : 'json',
                     data : JSON.stringify({'user_profile': { 'email': email, 'username' : username, 'firstName' : firstName, 'lastName' : lastName, 'about' : about,  'plainPassword' : { 'first' : password, 'second' : password2 }}}),
@@ -192,7 +205,7 @@ $(document).ready(function() {
                     }
                 });
           }); 
-        }
+
 /* END USER MGMNT */
 
 
@@ -337,6 +350,11 @@ $(document).ready(function() {
     $('#login_popup').hsPopup({
         'open_popup_link': $('.open_login_popup'),
         'close_popup_link': $('#login_popup .close')
+    });
+
+    $('#register_popup').hsPopup({
+        'open_popup_link': $('.open_register_popup'),
+        'close_popup_link': $('#register_popup .close')
     });
 
     $('#user_profile').hsPopup({
