@@ -50,6 +50,8 @@
 
 {% include '_tpl/login-popup.html.twig' %}
 
+{% include '_tpl/register-popup.html.twig' %}
+
 {% include '_tpl/user-profile.html.twig' %}        
 
 <header id="titlebar">
@@ -59,7 +61,8 @@
      <a href="#" span class="icon_link open_user_profile">{{ 'global.user.loggedin'|trans|desc('Logged in as') }} {{ app.user.username }}</span>
   </div>
   {% else %}
-     <a href="#" class="icon_link icon_key open_login_popup">Sign In / Sign Up</a>
+    <a href="#" class="icon_link icon_key open_register_popup">Sign Up</a>
+    <a href="#" class="icon_link icon_key open_login_popup">Sign In</a>
   {% endif %}  
 </header>    
 
