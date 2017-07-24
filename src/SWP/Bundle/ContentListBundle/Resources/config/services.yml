@@ -19,3 +19,11 @@ services:
             - "@swp_template_engine_context.factory.meta_factory"
         tags:
             - { name: swp.meta_loader }
+
+    swp_content_list.loader.content_list:
+        class: SWP\Bundle\ContentListBundle\Loader\ContentListLoader
+        arguments:
+            - "@swp.repository.content_list"
+            - "@swp_template_engine_context.factory.meta_factory"
+        tags:
+            - { name: swp.meta_loader }
