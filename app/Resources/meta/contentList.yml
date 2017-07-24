@@ -1,0 +1,26 @@
+name: content_list
+class: "SWP\\Component\\ContentList\\Model\\ContentListInterface"
+description: Content List Meta is representation of Content List in Superdesk Web Publisher.
+properties:
+    id:
+        description: "Content List id"
+        type: int
+    name:
+        description: "Content List name"
+        type: string
+    description:
+        description: "Content List description"
+        type: string
+    type:
+        description: "Content List type (automatic, manual or bucket)"
+        type: string
+    cacheLifeTime:
+        description: "Content List cache lifetime (in seconds)"
+        type: int
+    limit:
+        description: "Maximum number of items attached to this Content List"
+        type: int
+    filters:
+        description: "Content List filters used on attaching items to content list of automatic or bucket types"
+        type: array
+to_string: name

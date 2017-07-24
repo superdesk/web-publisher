@@ -2,10 +2,12 @@
 CHANGELOG for version <= 1.1.x
 ==============================
 
-This changelog references the relevant changes (bug and security fixes) done
-in <= 1.1 minor versions.
+This changelog references the relevant changes (bug and security fixes) done in <= 1.1 minor versions.
 
 To get the diff for a specific change, go to https://github.com/superdesk/web-publisher/commit/XXX where XXX is the change hash
+
+* 1.1.x
+ * feature [#368] Add Content List Loader
 
 * 1.1.0
  * feature [#364] Add two new user settings

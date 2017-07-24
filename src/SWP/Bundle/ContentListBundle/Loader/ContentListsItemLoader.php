@@ -51,6 +51,7 @@ class ContentListsItemLoader extends PaginatedLoader implements LoaderInterface
      *
      * @param ContentListRepositoryInterface     $contentListRepository
      * @param ContentListItemRepositoryInterface $contentListItemRepository
+     * @param MetaFactoryInterface               $metaFactory
      */
     public function __construct(
         ContentListRepositoryInterface $contentListRepository,
@@ -68,7 +69,8 @@ class ContentListsItemLoader extends PaginatedLoader implements LoaderInterface
      * @MetaLoaderDoc(
      *     description="Content List Item Loader loads Content List Items from Content List",
      *     parameters={
-     *         listName="COLLECTION|name of content list"
+     *         contentListName="COLLECTION|name of content list"
+     *         contentListId="COLLECTION|id of content list"
      *     }
      * )
      *
