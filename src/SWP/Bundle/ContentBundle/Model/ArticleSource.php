@@ -20,11 +20,6 @@ class ArticleSource implements ArticleSourceInterface
      */
     protected $name;
 
-    /**
-     * @var ArticleInterface
-     */
-    protected $article;
-
     public function __construct()
     {
         $this->createdAt = new \DateTime();
@@ -52,21 +47,5 @@ class ArticleSource implements ArticleSourceInterface
     public function setName(string $name)
     {
         $this->name = $name;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getArticle()
-    {
-        return $this->article;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function setArticle(ArticleInterface $article = null)
-    {
-        $this->article = $article;
     }
 }

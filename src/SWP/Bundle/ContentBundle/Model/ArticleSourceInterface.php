@@ -18,14 +18,4 @@ interface ArticleSourceInterface extends TimestampableInterface, PersistableInte
      * @param string $name
      */
     public function setName(string $name);
-
-    /**
-     * @return ArticleInterface|null
-     */
-    public function getArticle();
-
-    /**
-     * @param ArticleInterface $article
-     */
-    public function setArticle(ArticleInterface $article = null);
 }

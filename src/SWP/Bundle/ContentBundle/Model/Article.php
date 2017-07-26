@@ -432,7 +432,6 @@ class Article implements ArticleInterface, MediaAwareArticleInterface
     {
         if (!$this->hasSource($source)) {
             $this->sources->add($source);
-            //$source->setArticle($this);
         }
     }
 
@@ -442,7 +441,6 @@ class Article implements ArticleInterface, MediaAwareArticleInterface
     public function removeSource(ArticleSourceInterface $source)
     {
         $this->sources->removeElement($source);
-        //$source->setArticle(null);
     }
 
     /**

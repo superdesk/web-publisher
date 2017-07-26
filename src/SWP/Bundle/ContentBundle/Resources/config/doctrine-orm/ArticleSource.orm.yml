@@ -1,7 +1,6 @@
 SWP\Bundle\ContentBundle\Model\ArticleSource:
     type: mappedSuperclass
     table: swp_article_source
-    repositoryClass: SWP\Bundle\ContentBundle\Doctrine\ORM\ArticleSourceRepository
     id:
         id:
             type: integer

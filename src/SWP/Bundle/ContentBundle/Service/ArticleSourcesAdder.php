@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\ContentBundle\Service;
 
-use SWP\Bundle\ContentBundle\Doctrine\ArticleSourceRepositoryInterface;
 use SWP\Bundle\ContentBundle\Model\ArticleInterface;
 use SWP\Bundle\ContentBundle\Model\ArticleSourceInterface;
 use SWP\Component\Storage\Factory\FactoryInterface;
+use SWP\Component\Storage\Repository\RepositoryInterface;
 
 final class ArticleSourcesAdder implements ArticleSourcesAdderInterface
 {
@@ -17,19 +17,19 @@ final class ArticleSourcesAdder implements ArticleSourcesAdderInterface
     private $articleSourceFactory;
 
     /**
-     * @var ArticleSourceRepositoryInterface
+     * @var RepositoryInterface
      */
     private $articleSourceRepository;
 
     /**
      * ArticleSourcesAdder constructor.
      *
-     * @param FactoryInterface                 $articleSourceFactory
-     * @param ArticleSourceRepositoryInterface $articleSourceRepository
+     * @param FactoryInterface    $articleSourceFactory
+     * @param RepositoryInterface $articleSourceRepository
      */
     public function __construct(
         FactoryInterface $articleSourceFactory,
-        ArticleSourceRepositoryInterface $articleSourceRepository
+        RepositoryInterface $articleSourceRepository
     ) {
         $this->articleSourceFactory = $articleSourceFactory;
         $this->articleSourceRepository = $articleSourceRepository;

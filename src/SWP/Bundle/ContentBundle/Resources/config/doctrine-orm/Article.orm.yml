@@ -92,7 +92,7 @@ SWP\Bundle\ContentBundle\Model\Article:
     manyToMany:
         sources:
             targetEntity: SWP\Bundle\ContentBundle\Model\ArticleSourceInterface
-            cascade: ["all"]
+            cascade: ["persist"]
             joinTable:
                 name: swp_article_sources
                 joinColumns:
