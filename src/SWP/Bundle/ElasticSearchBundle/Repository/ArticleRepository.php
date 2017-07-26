@@ -103,7 +103,7 @@ class ArticleRepository extends Repository
             ->addSort([
                 $criteria->getOrder()->getField() => $criteria->getOrder()->getDirection(),
             ]);
-dump(json_encode($query->toArray()));die;
+
         return $this->createPaginatorAdapter($query);
     }
 }
