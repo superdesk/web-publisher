@@ -49,7 +49,8 @@ class ProcessArticleMediaListenerTest extends WebTestCase
 
         $this->listener = new ProcessArticleMediaListener(
             $this->getContainer()->get('swp.repository.media'),
-            $this->getContainer()->get('swp.factory.media')
+            $this->getContainer()->get('swp.factory.media'),
+            $this->getContainer()->get('swp_content_bundle.processor.article_body')
         );
     }
 

@@ -31,9 +31,10 @@
   ],
   "require": {
     "php": "^7.0",
-    "swp/templates-system-bundle": "^0.6",
+    "swp/templates-system-bundle": "^1.1",
     "swp/bridge-bundle": "^1.0",
     "swp/jms-serializer-bridge": "^0.5",
+    "swp/rule": "^1.1",
     "symfony/validator": "^3.1",
     "symfony/form": "^3.1",
     "symfony/css-selector": "^3.1",
