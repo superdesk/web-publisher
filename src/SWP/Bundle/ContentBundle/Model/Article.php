@@ -26,7 +26,7 @@ use SWP\Component\Common\Model\TranslatableTrait;
 /**
  * Class Article.
  */
-class Article implements ArticleInterface, MediaAwareArticleInterface
+class Article implements ArticleInterface
 {
     use TranslatableTrait, SoftDeletableTrait, TimestampableTrait;
 

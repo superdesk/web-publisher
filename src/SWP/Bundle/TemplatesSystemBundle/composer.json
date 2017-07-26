@@ -23,7 +23,7 @@
   ],
   "require": {
     "php": "^7.0",
-    "swp/templates-system": "^0.5",
+    "swp/templates-system": "^1.1",
     "swp/common": "^0.5",
     "swp/menu-bundle": "^0.5",
     "swp/storage-bundle": "^0.6",

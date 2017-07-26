@@ -58,6 +58,11 @@ class Context implements \ArrayAccess
     private $temporaryMeta = [];
 
     /**
+     * @var bool
+     */
+    private $previewMode = false;
+
+    /**
      * Context constructor.
      *
      * @param Cache  $metadataCache
@@ -250,6 +255,22 @@ class Context implements \ArrayAccess
     public function getRegisteredMeta()
     {
         return $this->registeredMeta;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isPreviewMode(): bool
+    {
+        return $this->previewMode;
+    }
+
+    /**
+     * @param bool $previewMode
+     */
+    public function setPreviewMode(bool $previewMode)
+    {
+        $this->previewMode = $previewMode;
     }
 
     /**

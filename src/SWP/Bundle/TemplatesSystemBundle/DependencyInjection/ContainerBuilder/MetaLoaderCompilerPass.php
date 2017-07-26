@@ -31,7 +31,7 @@ class MetaLoaderCompilerPass implements CompilerPassInterface
         );
 
         $taggedServices = $container->findTaggedServiceIds(
-            'swp.meta_loader'
+            'swp.meta_loader.add'
         );
         foreach ($taggedServices as $id => $tags) {
             $definition->addMethodCall(
