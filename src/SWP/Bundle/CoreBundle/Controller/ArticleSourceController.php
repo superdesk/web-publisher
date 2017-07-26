@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 /*
@@ -14,7 +15,6 @@ declare(strict_types=1);
  */
 
 namespace SWP\Bundle\CoreBundle\Controller;
-
 
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
@@ -52,5 +52,4 @@ class ArticleSourceController extends Controller
 
         return new ResourcesListResponse($lists);
     }
-
 }
