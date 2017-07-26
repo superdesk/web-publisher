@@ -24,14 +24,12 @@ use SWP\Bundle\ContentBundle\Model\ImageRendition;
 use SWP\Bundle\ContentBundle\Factory\MediaFactoryInterface;
 use SWP\Bundle\ContentBundle\Model\ArticleInterface;
 use SWP\Bundle\ContentBundle\Model\ArticleMediaInterface;
-use SWP\Bundle\ContentBundle\Model\FileInterface;
 use SWP\Bundle\ContentBundle\Model\ImageInterface;
 use SWP\Bundle\ContentBundle\Model\ImageRenditionInterface;
 use SWP\Component\Bridge\Model\ItemInterface;
 use SWP\Component\Bridge\Model\Rendition;
 use SWP\Component\Bridge\Model\RenditionInterface;
 use SWP\Component\Storage\Factory\FactoryInterface;
-use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class MediaFactory implements MediaFactoryInterface
 {
@@ -46,35 +44,20 @@ class MediaFactory implements MediaFactoryInterface
     protected $factory;
 
     /**
-     * @var FactoryInterface
-     */
-    protected $imageFactory;
-
-    /**
-     * @var FactoryInterface
-     */
-    protected $fileFactory;
-
-    /**
      * MediaFactory constructor.
      *
      * @param ImageRepositoryInterface $imageRepository
      * @param FactoryInterface         $factory
-     * @param FactoryInterface         $imageFactory
-     * @param FactoryInterface         $fileFactory
      */
-    public function __construct(
-        ImageRepositoryInterface $imageRepository,
-        FactoryInterface $factory,
-        FactoryInterface $imageFactory,
-        FactoryInterface $fileFactory
-    ) {
+    public function __construct(ImageRepositoryInterface $imageRepository, FactoryInterface $factory)
+    {
         $this->imageRepository = $imageRepository;
         $this->factory = $factory;
-        $this->imageFactory = $imageFactory;
-        $this->fileFactory = $fileFactory;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function create(ArticleInterface $article, string $key, ItemInterface $item): ArticleMediaInterface
     {
         $articleMedia = $this->factory->create();
@@ -88,22 +71,11 @@ class MediaFactory implements MediaFactoryInterface
     /**
      * {@inheritdoc}
      */
-    public function createMediaAsset(UploadedFile $uploadedFile, string $assetId): FileInterface
-    {
-        $asset = $this->getProperObject($uploadedFile);
-        $asset->setAssetId($assetId);
-        $asset->setFileExtension($uploadedFile->guessClientExtension());
-
-        return $asset;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function createImageRendition(
         ImageInterface $image,
         ArticleMediaInterface $articleMedia,
-        string $key, Rendition $rendition
+        string $key,
+        Rendition $rendition
     ): ImageRenditionInterface {
         $imageRendition = new ImageRendition();
         $imageRendition->setImage($image);
@@ -147,31 +119,14 @@ class MediaFactory implements MediaFactoryInterface
             }
 
             $imageRendition = $this->createImageRendition($image, $articleMedia, $rendition->getName(), $rendition);
-            $this->imageRepository->persist($imageRendition);
-
             $articleMedia->addRendition($imageRendition);
         }
 
         return $articleMedia;
     }
 
-    private function findImage(string $mediaId)
+    protected function findImage(string $mediaId)
     {
-        return $this->imageRepository
-            ->findImageByAssetId(ArticleMedia::handleMediaId($mediaId));
-    }
-
-    protected function getProperObject(UploadedFile $uploadedFile)
-    {
-        if (in_array(exif_imagetype($uploadedFile->getRealPath()), [
-            IMAGETYPE_GIF,
-            IMAGETYPE_JPEG,
-            IMAGETYPE_PNG,
-            IMAGETYPE_BMP,
-        ])) {
-            return $this->imageFactory->create();
-        }
-
-        return $this->fileFactory->create();
+        return $this->imageRepository->findImageByAssetId(ArticleMedia::handleMediaId($mediaId));
     }
 }

@@ -15,20 +15,15 @@
 namespace SWP\Bundle\ContentBundle\Manager;
 
 use SWP\Bundle\ContentBundle\Doctrine\ArticleMediaRepositoryInterface;
-use SWP\Bundle\ContentBundle\Factory\MediaFactoryInterface;
 use SWP\Bundle\ContentBundle\Model\ArticleMedia;
 use SWP\Bundle\ContentBundle\Model\FileInterface;
+use SWP\Component\Storage\Factory\FactoryInterface;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use League\Flysystem\Filesystem;
 use Symfony\Component\Routing\RouterInterface;
 
 class MediaManager implements MediaManagerInterface
 {
-    /**
-     * @var MediaFactoryInterface
-     */
-    protected $mediaFactory;
-
     /**
      * @var Filesystem
      */
@@ -45,23 +40,36 @@ class MediaManager implements MediaManagerInterface
     protected $mediaRepository;
 
     /**
+     * @var FactoryInterface
+     */
+    protected $imageFactory;
+
+    /**
+     * @var FactoryInterface
+     */
+    protected $fileFactory;
+
+    /**
      * MediaManager constructor.
      *
      * @param ArticleMediaRepositoryInterface $mediaRepository
-     * @param MediaFactoryInterface           $mediaFactory
      * @param Filesystem                      $filesystem
      * @param RouterInterface                 $router
+     * @param FactoryInterface                $imageFactory
+     * @param FactoryInterface                $fileFactory
      */
     public function __construct(
         ArticleMediaRepositoryInterface $mediaRepository,
-        MediaFactoryInterface $mediaFactory,
         Filesystem $filesystem,
-        RouterInterface $router
+        RouterInterface $router,
+        FactoryInterface $imageFactory,
+        FactoryInterface $fileFactory
     ) {
         $this->mediaRepository = $mediaRepository;
-        $this->mediaFactory = $mediaFactory;
         $this->filesystem = $filesystem;
         $this->router = $router;
+        $this->imageFactory = $imageFactory;
+        $this->fileFactory = $fileFactory;
     }
 
     /**
@@ -71,7 +79,7 @@ class MediaManager implements MediaManagerInterface
     {
         $mediaId = ArticleMedia::handleMediaId($mediaId);
         $this->saveFile($uploadedFile, $mediaId);
-        $asset = $this->mediaFactory->createMediaAsset($uploadedFile, $mediaId);
+        $asset = $this->createMediaAsset($uploadedFile, $mediaId);
         $this->mediaRepository->persist($asset);
 
         return $asset;
@@ -121,10 +129,44 @@ class MediaManager implements MediaManagerInterface
         ], $type);
     }
 
+    /**
+     * {@inheritdoc}
+     */
+    public function createMediaAsset(UploadedFile $uploadedFile, string $assetId): FileInterface
+    {
+        $asset = $this->getProperObject($uploadedFile);
+        $asset->setAssetId($assetId);
+        $asset->setFileExtension($uploadedFile->guessClientExtension());
+
+        return $asset;
+    }
+
+    /**
+     * @return string
+     */
     protected function getMediaBasePath(): string
     {
         $pathElements = ['swp', 'media'];
 
         return implode('/', $pathElements);
+    }
+
+    /**
+     * @param UploadedFile $uploadedFile
+     *
+     * @return mixed
+     */
+    protected function getProperObject(UploadedFile $uploadedFile)
+    {
+        if (in_array(exif_imagetype($uploadedFile->getRealPath()), [
+            IMAGETYPE_GIF,
+            IMAGETYPE_JPEG,
+            IMAGETYPE_PNG,
+            IMAGETYPE_BMP,
+        ])) {
+            return $this->imageFactory->create();
+        }
+
+        return $this->fileFactory->create();
     }
 }

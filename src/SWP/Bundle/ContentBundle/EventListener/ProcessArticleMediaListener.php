@@ -18,12 +18,10 @@ use SWP\Bundle\ContentBundle\Doctrine\ArticleMediaRepositoryInterface;
 use SWP\Bundle\ContentBundle\Doctrine\ORM\ArticleMediaRepository;
 use SWP\Bundle\ContentBundle\Event\ArticleEvent;
 use SWP\Bundle\ContentBundle\Factory\MediaFactoryInterface;
-use SWP\Bundle\ContentBundle\Manager\MediaManagerInterface;
 use SWP\Bundle\ContentBundle\Model\ArticleInterface;
-use SWP\Bundle\ContentBundle\Model\ArticleMedia;
 use SWP\Bundle\ContentBundle\Model\ArticleMediaInterface;
+use SWP\Bundle\ContentBundle\Processor\ArticleBodyProcessorInterface;
 use SWP\Component\Bridge\Model\ItemInterface;
-use Symfony\Component\DomCrawler\Crawler;
 
 class ProcessArticleMediaListener
 {
@@ -33,30 +31,27 @@ class ProcessArticleMediaListener
     protected $articleMediaRepository;
 
     /**
-     * @var MediaManagerInterface
-     */
-    protected $mediaManager;
-
-    /**
      * @var MediaFactoryInterface
      */
     protected $mediaFactory;
 
     /**
+     * @var ArticleBodyProcessorInterface
+     */
+    protected $articleBodyProcessor;
+
+    /**
      * ProcessArticleMediaListener constructor.
      *
      * @param ArticleMediaRepositoryInterface $articleMediaRepository
-     * @param MediaManagerInterface           $mediaManager
      * @param MediaFactoryInterface           $mediaFactory
+     * @param ArticleBodyProcessorInterface   $articleBodyProcessor
      */
-    public function __construct(
-        ArticleMediaRepositoryInterface $articleMediaRepository,
-        MediaManagerInterface $mediaManager,
-        MediaFactoryInterface $mediaFactory
-    ) {
+    public function __construct(ArticleMediaRepositoryInterface $articleMediaRepository, MediaFactoryInterface $mediaFactory, ArticleBodyProcessorInterface $articleBodyProcessor)
+    {
         $this->articleMediaRepository = $articleMediaRepository;
-        $this->mediaManager = $mediaManager;
         $this->mediaFactory = $mediaFactory;
+        $this->articleBodyProcessor = $articleBodyProcessor;
     }
 
     /**
@@ -105,13 +100,17 @@ class ProcessArticleMediaListener
     public function handleMedia(ArticleInterface $article, string $key, ItemInterface $item)
     {
         $articleMedia = $this->mediaFactory->create($article, $key, $item);
+        foreach ($articleMedia->getRenditions() as $rendition) {
+            $this->articleMediaRepository->persist($rendition);
+        }
+
         if (ItemInterface::TYPE_PICTURE === $item->getType()) {
-            $this->replaceBodyImagesWithMedia($article, $articleMedia);
+            $this->articleBodyProcessor->replaceBodyImagesWithMedia($article, $articleMedia);
         } elseif (ItemInterface::TYPE_FILE === $item->getType()) {
             //TODO: handle files upload
         }
 
-        if ($key === ArticleInterface::KEY_FEATURE_MEDIA) {
+        if (ArticleInterface::KEY_FEATURE_MEDIA === $key) {
             $article->setFeatureMedia($articleMedia);
         }
 
@@ -150,44 +149,5 @@ class ProcessArticleMediaListener
         if (null !== $existingArticleMedia) {
             $this->articleMediaRepository->remove($existingArticleMedia);
         }
-    }
-
-    /**
-     * @param ArticleInterface      $article
-     * @param ArticleMediaInterface $articleMedia
-     */
-    private function replaceBodyImagesWithMedia(ArticleInterface $article, ArticleMediaInterface $articleMedia)
-    {
-        $body = $article->getBody();
-        $mediaId = $articleMedia->getKey();
-        preg_match(
-            "/(<!-- EMBED START Image {id: \"$mediaId\"} -->)(.+?)(<!-- EMBED END Image {id: \"$mediaId\"} -->)/im",
-            str_replace(PHP_EOL, '', $body),
-            $embeds
-        );
-
-        if (empty($embeds)) {
-            return;
-        }
-
-        $figureString = $embeds[2];
-        $crawler = new Crawler($figureString);
-        $images = $crawler->filter('figure img');
-        /** @var \DOMElement $imageElement */
-        foreach ($images as $imageElement) {
-            foreach ($articleMedia->getRenditions() as $rendition) {
-                if (strpos($imageElement->getAttribute('src'), ArticleMedia::getOriginalMediaId($rendition->getImage()->getAssetId())) !== false) {
-                    $attributes = $imageElement->attributes;
-                    while ($attributes->length) {
-                        $imageElement->removeAttribute($attributes->item(0)->name);
-                    }
-                    $imageElement->setAttribute('src', $this->mediaManager->getMediaUri($rendition->getImage()));
-                    $imageElement->setAttribute('data-media-id', $mediaId);
-                    $imageElement->setAttribute('data-image-id', $rendition->getImage()->getAssetId());
-                }
-            }
-        }
-
-        $article->setBody(str_replace($figureString, $crawler->filter('body')->html(), $body));
     }
 }
