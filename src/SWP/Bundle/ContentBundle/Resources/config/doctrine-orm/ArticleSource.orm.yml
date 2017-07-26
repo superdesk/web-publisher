@@ -1,0 +1,26 @@
+SWP\Bundle\ContentBundle\Model\ArticleSource:
+    type: mappedSuperclass
+    table: swp_article_source
+    repositoryClass: SWP\Bundle\ContentBundle\Doctrine\ORM\ArticleSourceRepository
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: IDENTITY
+    gedmo:
+        loggable: true
+    fields:
+        name:
+            type: string
+        createdAt:
+            type: datetime
+            gedmo:
+                timestampable:
+                    on: create
+        updatedAt:
+            type: datetime
+            nullable: true
+            gedmo:
+                timestampable:
+                    on: update

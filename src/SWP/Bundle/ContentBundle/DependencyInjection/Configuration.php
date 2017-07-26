@@ -15,6 +15,7 @@
 namespace SWP\Bundle\ContentBundle\DependencyInjection;
 
 use SWP\Bundle\ContentBundle\Doctrine\ORM\ArticleRepository;
+use SWP\Bundle\ContentBundle\Doctrine\ORM\ArticleSourceRepository;
 use SWP\Bundle\ContentBundle\Doctrine\ORM\FileRepository;
 use SWP\Bundle\ContentBundle\Doctrine\ORM\RouteRepository;
 use SWP\Bundle\ContentBundle\Doctrine\ORM\ArticleMediaRepository;
@@ -26,6 +27,8 @@ use SWP\Bundle\ContentBundle\Model\Article;
 use SWP\Bundle\ContentBundle\Model\ArticleInterface;
 use SWP\Bundle\ContentBundle\Model\ArticleMedia;
 use SWP\Bundle\ContentBundle\Model\ArticleMediaInterface;
+use SWP\Bundle\ContentBundle\Model\ArticleSource;
+use SWP\Bundle\ContentBundle\Model\ArticleSourceInterface;
 use SWP\Bundle\ContentBundle\Model\File;
 use SWP\Bundle\ContentBundle\Model\FileInterface;
 use SWP\Bundle\ContentBundle\Model\Image;
@@ -71,6 +74,16 @@ class Configuration implements ConfigurationInterface
                                                 ->scalarNode('interface')->cannotBeEmpty()->defaultValue(ArticleInterface::class)->end()
                                                 ->scalarNode('repository')->defaultValue(ArticleRepository::class)->end()
                                                 ->scalarNode('factory')->defaultValue(ArticleFactory::class)->end()
+                                                ->scalarNode('object_manager_name')->defaultValue(null)->end()
+                                            ->end()
+                                        ->end()
+                                        ->arrayNode('article_source')
+                                            ->addDefaultsIfNotSet()
+                                            ->children()
+                                                ->scalarNode('model')->cannotBeEmpty()->defaultValue(ArticleSource::class)->end()
+                                                ->scalarNode('interface')->cannotBeEmpty()->defaultValue(ArticleSourceInterface::class)->end()
+                                                ->scalarNode('repository')->defaultValue(ArticleSourceRepository::class)->end()
+                                                ->scalarNode('factory')->defaultValue(Factory::class)->end()
                                                 ->scalarNode('object_manager_name')->defaultValue(null)->end()
                                             ->end()
                                         ->end()

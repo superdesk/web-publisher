@@ -1,0 +1,6 @@
+SWP\Bundle\CoreBundle\Model\ArticleSource:
+    type:  mappedSuperclass
+    table: swp_article_source
+    fields:
+        tenantCode:
+            type: string

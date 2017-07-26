@@ -62,9 +62,6 @@ SWP\Bundle\ContentBundle\Model\Article:
             nullable: true
         code:
             type: string
-        source:
-            type: string
-            nullable: true
     manyToOne:
         route:
             targetEntity: SWP\Bundle\ContentBundle\Model\RouteInterface
@@ -87,3 +84,24 @@ SWP\Bundle\ContentBundle\Model\Article:
             targetEntity: SWP\Bundle\ContentBundle\Model\ArticleMediaInterface
             mappedBy: article
             cascade: ["remove"]
+    oneToMany:
+        sources:
+            targetEntity: SWP\Bundle\ContentBundle\Model\ArticleSourceInterface
+            mappedBy: article
+            cascade: ["persist"]
+    manyToMany:
+        sources:
+            targetEntity: SWP\Bundle\ContentBundle\Model\ArticleSourceInterface
+            cascade: ["all"]
+            joinTable:
+                name: swp_article_sources
+                joinColumns:
+                    article_id:
+                        referencedColumnName: id
+                        onDelete: CASCADE
+                        nullable: false
+                inverseJoinColumns:
+                    source_id:
+                        referencedColumnName: id
+                        onDelete: CASCADE
+                        nullable: false

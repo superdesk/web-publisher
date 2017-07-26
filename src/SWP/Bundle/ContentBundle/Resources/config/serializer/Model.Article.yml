@@ -24,9 +24,8 @@ SWP\Bundle\ContentBundle\Model\Article:
         status:
             expose: true
             type: string
-        source:
+        sources:
             expose: true
-            type: string
         templateName:
             expose: true
             type: string

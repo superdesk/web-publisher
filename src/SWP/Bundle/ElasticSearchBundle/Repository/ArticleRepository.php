@@ -20,6 +20,7 @@ use Elastica\Query;
 use Elastica\Query\BoolQuery;
 use Elastica\Query\MatchAll;
 use Elastica\Query\MultiMatch;
+use Elastica\Query\Nested;
 use Elastica\Query\Range;
 use Elastica\Query\Term;
 use FOS\ElasticaBundle\Repository;
@@ -53,7 +54,12 @@ class ArticleRepository extends Repository
         }
 
         if ($fields->get('sources') !== null && !empty($fields->get('sources'))) {
-            $boolFilter->addFilter(new Query\Terms('sources', $fields->get('sources')));
+            $nested = new Nested();
+            $nested->setPath('sources');
+            $boolQuery = new BoolQuery();
+            $boolQuery->addMust(new Query\Terms('sources.name', $fields->get('sources')));
+            $nested->setQuery($boolQuery);
+            $boolFilter->addMust($nested);
         }
 
         if ($fields->get('statuses') !== null && !empty($fields->get('statuses'))) {
@@ -97,7 +103,7 @@ class ArticleRepository extends Repository
             ->addSort([
                 $criteria->getOrder()->getField() => $criteria->getOrder()->getDirection(),
             ]);
-
+dump(json_encode($query->toArray()));die;
         return $this->createPaginatorAdapter($query);
     }
 }

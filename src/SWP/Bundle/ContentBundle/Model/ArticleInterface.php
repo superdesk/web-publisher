@@ -14,6 +14,7 @@
 
 namespace SWP\Bundle\ContentBundle\Model;
 
+use Doctrine\Common\Collections\Collection;
 use SWP\Component\Common\Model\SoftDeletableInterface;
 use SWP\Component\Common\Model\TimestampableInterface;
 use SWP\Component\Common\Model\TranslatableInterface;
@@ -155,12 +156,24 @@ interface ArticleInterface extends TimestampableInterface, TranslatableInterface
     public function setCode(string $code);
 
     /**
-     * @return mixed
+     * @param ArticleSourceInterface $source
      */
-    public function getSource();
+    public function addSource(ArticleSourceInterface $source);
 
     /**
-     * @param mixed $source
+     * @param ArticleSourceInterface $source
      */
-    public function setSource($source);
+    public function removeSource(ArticleSourceInterface $source);
+
+    /**
+     * @param ArticleSourceInterface $source
+     *
+     * @return bool
+     */
+    public function hasSource(ArticleSourceInterface $source): bool;
+
+    /**
+     * @return Collection|ArticleSourceInterface[]
+     */
+    public function getSources(): Collection;
 }

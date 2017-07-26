@@ -116,9 +116,9 @@ class Article implements ArticleInterface, MediaAwareArticleInterface
     protected $code;
 
     /**
-     * @var string
+     * @var Collection|ArticleSourceInterface[]
      */
-    protected $source;
+    protected $sources;
 
     /**
      * Article constructor.
@@ -128,6 +128,7 @@ class Article implements ArticleInterface, MediaAwareArticleInterface
         $this->setCreatedAt(new \DateTime());
         $this->setPublishable(false);
         $this->setMedia(new ArrayCollection());
+        $this->sources = new ArrayCollection();
     }
 
     /**
@@ -427,16 +428,36 @@ class Article implements ArticleInterface, MediaAwareArticleInterface
     /**
      * {@inheritdoc}
      */
-    public function getSource()
+    public function addSource(ArticleSourceInterface $source)
     {
-        return $this->source;
+        if (!$this->hasSource($source)) {
+            $this->sources->add($source);
+            //$source->setArticle($this);
+        }
     }
 
     /**
      * {@inheritdoc}
      */
-    public function setSource($source)
+    public function removeSource(ArticleSourceInterface $source)
     {
-        $this->source = $source;
+        $this->sources->removeElement($source);
+        //$source->setArticle(null);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function hasSource(ArticleSourceInterface $source): bool
+    {
+        return $this->sources->contains($source);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getSources(): Collection
+    {
+        return $this->sources;
     }
 }
