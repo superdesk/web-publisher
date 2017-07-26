@@ -39,15 +39,5 @@ class MetaLoaderCompilerPass implements CompilerPassInterface
                 [new Reference($id)]
             );
         }
-
-        $taggedServices = $container->findTaggedServiceIds(
-            'swp.meta_loader.remove'
-        );
-        foreach ($taggedServices as $id => $tags) {
-            $definition->addMethodCall(
-                'removeLoader',
-                [new Reference($id)]
-            );
-        }
     }
 }

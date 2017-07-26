@@ -17,7 +17,6 @@ declare(strict_types=1);
 namespace SWP\Bundle\ContentBundle\Factory\ORM;
 
 use SWP\Bundle\ContentBundle\Doctrine\ImageRepositoryInterface;
-use SWP\Bundle\ContentBundle\Manager\MediaManagerInterface;
 use SWP\Bundle\ContentBundle\Model\ArticleMedia;
 use SWP\Bundle\ContentBundle\Model\File;
 use SWP\Bundle\ContentBundle\Model\Image;
@@ -31,7 +30,6 @@ use SWP\Component\Bridge\Model\ItemInterface;
 use SWP\Component\Bridge\Model\Rendition;
 use SWP\Component\Bridge\Model\RenditionInterface;
 use SWP\Component\Storage\Factory\FactoryInterface;
-use Symfony\Component\DomCrawler\Crawler;
 
 class MediaFactory implements MediaFactoryInterface
 {
@@ -46,26 +44,15 @@ class MediaFactory implements MediaFactoryInterface
     protected $factory;
 
     /**
-     * @var MediaManagerInterface
-     */
-    protected $mediaManager;
-
-    /**
      * MediaFactory constructor.
      *
      * @param ImageRepositoryInterface $imageRepository
      * @param FactoryInterface         $factory
-     * @param FactoryInterface         $imageFactory
-     * @param FactoryInterface         $fileFactory
-     * @param MediaManagerInterface    $mediaManager
      */
-    public function __construct(ImageRepositoryInterface $imageRepository, FactoryInterface $factory, FactoryInterface $imageFactory, FactoryInterface $fileFactory, MediaManagerInterface $mediaManager)
+    public function __construct(ImageRepositoryInterface $imageRepository, FactoryInterface $factory)
     {
         $this->imageRepository = $imageRepository;
         $this->factory = $factory;
-        $this->mediaManager = $mediaManager;
-        $this->imageFactory = $imageFactory;
-        $this->fileFactory = $fileFactory;
     }
 
     /**
@@ -98,44 +85,6 @@ class MediaFactory implements MediaFactoryInterface
         $imageRendition->setName($key);
 
         return $imageRendition;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function replaceBodyImagesWithMedia(ArticleInterface $article, ArticleMediaInterface $articleMedia)
-    {
-        $body = $article->getBody();
-        $mediaId = $articleMedia->getKey();
-        preg_match(
-            "/(<!-- EMBED START Image {id: \"$mediaId\"} -->)(.+?)(<!-- EMBED END Image {id: \"$mediaId\"} -->)/im",
-            str_replace(PHP_EOL, '', $body),
-            $embeds
-        );
-
-        if (empty($embeds)) {
-            return;
-        }
-
-        $figureString = $embeds[2];
-        $crawler = new Crawler($figureString);
-        $images = $crawler->filter('figure img');
-        /** @var \DOMElement $imageElement */
-        foreach ($images as $imageElement) {
-            foreach ($articleMedia->getRenditions() as $rendition) {
-                if (strpos($imageElement->getAttribute('src'), ArticleMedia::getOriginalMediaId($rendition->getImage()->getAssetId())) !== false) {
-                    $attributes = $imageElement->attributes;
-                    while ($attributes->length) {
-                        $imageElement->removeAttribute($attributes->item(0)->name);
-                    }
-                    $imageElement->setAttribute('src', $this->mediaManager->getMediaUri($rendition->getImage()));
-                    $imageElement->setAttribute('data-media-id', $mediaId);
-                    $imageElement->setAttribute('data-image-id', $rendition->getImage()->getAssetId());
-                }
-            }
-        }
-
-        $article->setBody(str_replace($figureString, $crawler->filter('body')->html(), $body));
     }
 
     /**

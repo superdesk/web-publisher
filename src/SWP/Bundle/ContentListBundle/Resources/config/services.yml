@@ -18,7 +18,7 @@ services:
             - "@swp.repository.content_list_item"
             - "@swp_template_engine_context.factory.meta_factory"
         tags:
-            - { name: swp.meta_loader }
+            - { name: swp.meta_loader.add }
 
     swp_content_list.loader.content_list:
         class: SWP\Bundle\ContentListBundle\Loader\ContentListLoader
@@ -26,4 +26,4 @@ services:
             - "@swp.repository.content_list"
             - "@swp_template_engine_context.factory.meta_factory"
         tags:
-            - { name: swp.meta_loader }
+            - { name: swp.meta_loader.add }

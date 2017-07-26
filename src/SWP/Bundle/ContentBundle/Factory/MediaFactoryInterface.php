@@ -41,10 +41,4 @@ interface MediaFactoryInterface
      * @return ImageRenditionInterface
      */
     public function createImageRendition(ImageInterface $image, ArticleMediaInterface $articleMedia, string $key, Rendition $rendition): ImageRenditionInterface;
-
-    /**
-     * @param ArticleInterface      $article
-     * @param ArticleMediaInterface $articleMedia
-     */
-    public function replaceBodyImagesWithMedia(ArticleInterface $article, ArticleMediaInterface $articleMedia);
 }

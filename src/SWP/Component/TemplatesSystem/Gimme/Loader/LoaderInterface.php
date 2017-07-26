@@ -26,7 +26,6 @@ interface LoaderInterface
 {
     const SINGLE = 0;
     const COLLECTION = 1;
-    const PREVIEW_MODE = 'preview_mode';
 
     /**
      * Loads a Meta class from given datasource.

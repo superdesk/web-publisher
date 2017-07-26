@@ -132,6 +132,6 @@ class ArticleMediaLoader extends PaginatedLoader implements LoaderInterface
      */
     public function isSupported(string $type): bool
     {
-        return in_array($type, ['articleMedia']);
+        return in_array($type, ['articleMedia']) && !$this->context->isPreviewMode();
     }
 }

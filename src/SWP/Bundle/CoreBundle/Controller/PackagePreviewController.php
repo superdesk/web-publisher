@@ -21,23 +21,28 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use SWP\Bundle\ContentBundle\Factory\MediaFactoryInterface;
 use SWP\Bundle\ContentBundle\Model\RouteInterface;
+use SWP\Bundle\ContentBundle\Processor\ArticleBodyProcessorInterface;
 use SWP\Bundle\CoreBundle\Model\ArticleInterface;
 use SWP\Bundle\CoreBundle\Model\PackageInterface;
 use SWP\Component\Bridge\Model\ItemInterface;
-use SWP\Component\TemplatesSystem\Gimme\Loader\LoaderInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 
 class PackagePreviewController extends Controller
 {
     /**
+     * @var ArticleBodyProcessorInterface
+     */
+    protected $articleBodyProcessor;
+
+    /**
      * @Route("/preview/package/{routeId}/{id}", options={"expose"=true}, requirements={"slug"=".+", "routeId"="\d+", "token"=".+"}, name="swp_package_preview")
      * @Method("GET")
      */
     public function previewAction(Request $request, int $routeId, $id)
     {
-        $request->attributes->set(LoaderInterface::PREVIEW_MODE, true);
         $mediaFactory = $this->get('swp.factory.media');
+        $this->articleBodyProcessor = $this->get('swp_content_bundle.processor.article_body');
         /** @var RouteInterface $route */
         $route = $this->findRouteOr404($routeId);
         /** @var PackageInterface $package */
@@ -47,6 +52,7 @@ class PackagePreviewController extends Controller
 
         $metaFactory = $this->get('swp_template_engine_context.factory.meta_factory');
         $templateEngineContext = $this->get('swp_template_engine_context');
+        $templateEngineContext->setPreviewMode(true);
         $templateEngineContext->setCurrentPage($metaFactory->create($route));
         $templateEngineContext->getMetaForValue($article);
 
@@ -101,7 +107,7 @@ class PackagePreviewController extends Controller
     {
         $articleMedia = $mediaFactory->create($article, $key, $item);
         if (ItemInterface::TYPE_PICTURE === $item->getType()) {
-            $mediaFactory->replaceBodyImagesWithMedia($article, $articleMedia);
+            $this->articleBodyProcessor->replaceBodyImagesWithMedia($article, $articleMedia);
         }
 
         if (ArticleInterface::KEY_FEATURE_MEDIA === $key) {

@@ -283,9 +283,7 @@ services:
     swp_core.loader.media:
         class: SWP\Bundle\CoreBundle\Loader\PreviewArticleMediaLoader
         arguments:
-            - "@swp.factory.media"
             - "@swp_template_engine_context.factory.meta_factory"
             - "@swp_template_engine_context"
-            - "@request_stack"
         tags:
             - { name: swp.meta_loader.add }

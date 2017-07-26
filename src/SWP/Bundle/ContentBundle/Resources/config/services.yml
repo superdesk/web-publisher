@@ -69,6 +69,7 @@ services:
         arguments:
             - '@swp.repository.media'
             - '@swp.factory.media'
+            - '@swp_content_bundle.processor.article_body'
         tags:
             - { name: kernel.event_listener, event: swp.article.pre_create, method: onArticleCreate }
 
@@ -106,6 +107,11 @@ services:
             - '@router'
             - '@swp.factory.image'
             - '@swp.factory.file'
+
+    swp_content_bundle.processor.article_body:
+        class: SWP\Bundle\ContentBundle\Processor\ArticleBodyProcessor
+        arguments:
+            - '@swp_content_bundle.manager.media'
 
     router.symfony:
         parent: "router.default"

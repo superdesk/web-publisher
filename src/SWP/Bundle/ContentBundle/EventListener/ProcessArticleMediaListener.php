@@ -20,6 +20,7 @@ use SWP\Bundle\ContentBundle\Event\ArticleEvent;
 use SWP\Bundle\ContentBundle\Factory\MediaFactoryInterface;
 use SWP\Bundle\ContentBundle\Model\ArticleInterface;
 use SWP\Bundle\ContentBundle\Model\ArticleMediaInterface;
+use SWP\Bundle\ContentBundle\Processor\ArticleBodyProcessorInterface;
 use SWP\Component\Bridge\Model\ItemInterface;
 
 class ProcessArticleMediaListener
@@ -35,15 +36,22 @@ class ProcessArticleMediaListener
     protected $mediaFactory;
 
     /**
+     * @var ArticleBodyProcessorInterface
+     */
+    protected $articleBodyProcessor;
+
+    /**
      * ProcessArticleMediaListener constructor.
      *
      * @param ArticleMediaRepositoryInterface $articleMediaRepository
      * @param MediaFactoryInterface           $mediaFactory
+     * @param ArticleBodyProcessorInterface   $articleBodyProcessor
      */
-    public function __construct(ArticleMediaRepositoryInterface $articleMediaRepository, MediaFactoryInterface $mediaFactory)
+    public function __construct(ArticleMediaRepositoryInterface $articleMediaRepository, MediaFactoryInterface $mediaFactory, ArticleBodyProcessorInterface $articleBodyProcessor)
     {
         $this->articleMediaRepository = $articleMediaRepository;
         $this->mediaFactory = $mediaFactory;
+        $this->articleBodyProcessor = $articleBodyProcessor;
     }
 
     /**
@@ -97,7 +105,7 @@ class ProcessArticleMediaListener
         }
 
         if (ItemInterface::TYPE_PICTURE === $item->getType()) {
-            $this->mediaFactory->replaceBodyImagesWithMedia($article, $articleMedia);
+            $this->articleBodyProcessor->replaceBodyImagesWithMedia($article, $articleMedia);
         } elseif (ItemInterface::TYPE_FILE === $item->getType()) {
             //TODO: handle files upload
         }
