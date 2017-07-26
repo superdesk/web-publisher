@@ -31,11 +31,21 @@ class MetaLoaderCompilerPass implements CompilerPassInterface
         );
 
         $taggedServices = $container->findTaggedServiceIds(
-            'swp.meta_loader'
+            'swp.meta_loader.add'
         );
         foreach ($taggedServices as $id => $tags) {
             $definition->addMethodCall(
                 'addLoader',
+                [new Reference($id)]
+            );
+        }
+
+        $taggedServices = $container->findTaggedServiceIds(
+            'swp.meta_loader.remove'
+        );
+        foreach ($taggedServices as $id => $tags) {
+            $definition->addMethodCall(
+                'removeLoader',
                 [new Reference($id)]
             );
         }

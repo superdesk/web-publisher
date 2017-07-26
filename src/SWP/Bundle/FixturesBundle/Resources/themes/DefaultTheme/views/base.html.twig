@@ -164,13 +164,15 @@
 <!-- End Footer -->
 
   <script type="text/javascript">
-    blueimp.Gallery(
-       document.getElementById('links').getElementsByTagName('a'),
-       {
-           container: '#blueimp-gallery-carousel',
-           carousel: true
-       }
-   );
+      $(document).ready(function() {
+          blueimp.Gallery(
+              document.getElementById('links').getElementsByTagName('a'),
+              {
+                  container: '#blueimp-gallery-carousel',
+                  carousel: true
+              }
+          );
+      });
   </script>
 
   <script type="text/javascript">

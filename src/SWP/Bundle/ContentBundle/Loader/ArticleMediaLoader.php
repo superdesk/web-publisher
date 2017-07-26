@@ -53,11 +53,8 @@ class ArticleMediaLoader extends PaginatedLoader implements LoaderInterface
      * @param MetaFactory                   $metaFactory
      * @param Context                       $context
      */
-    public function __construct(
-        ArticleMediaProviderInterface $articleMediaProvider,
-        MetaFactory $metaFactory,
-        Context $context
-    ) {
+    public function __construct(ArticleMediaProviderInterface $articleMediaProvider, MetaFactory $metaFactory, Context $context)
+    {
         $this->articleMediaProvider = $articleMediaProvider;
         $this->metaFactory = $metaFactory;
         $this->context = $context;
@@ -81,7 +78,7 @@ class ArticleMediaLoader extends PaginatedLoader implements LoaderInterface
      */
     public function load($type, $parameters = [], $responseType = LoaderInterface::COLLECTION)
     {
-        if ($responseType === LoaderInterface::COLLECTION) {
+        if (LoaderInterface::COLLECTION === $responseType) {
             $criteria = new Criteria();
             $criteria->set('maxResults', null);
 

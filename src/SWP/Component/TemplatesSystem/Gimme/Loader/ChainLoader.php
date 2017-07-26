@@ -30,7 +30,27 @@ class ChainLoader implements LoaderInterface
      */
     public function addLoader(LoaderInterface $loader)
     {
-        $this->loaders[] = $loader;
+        if (false !== $key = array_search($loader, $this->loaders)) {
+            $this->loaders[$key] = $loader;
+        } else {
+            $this->loaders[] = $loader;
+        }
+    }
+
+    /**
+     * @param LoaderInterface $loader
+     *
+     * @return bool
+     */
+    public function removeLoader(LoaderInterface $loader)
+    {
+        if (false !== $key = array_search($loader, $this->loaders)) {
+            unset($this->loaders[$key]);
+
+            return true;
+        }
+
+        return false;
     }
 
     /**

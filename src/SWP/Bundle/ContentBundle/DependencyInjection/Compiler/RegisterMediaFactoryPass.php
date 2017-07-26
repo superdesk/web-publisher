@@ -45,6 +45,7 @@ class RegisterMediaFactoryPass implements CompilerPassInterface
                 $baseDefinition,
                 $container->getDefinition('swp.factory.image'),
                 $container->getDefinition('swp.factory.file'),
+                $container->getDefinition('swp_content_bundle.manager.media'),
             ]
         );
 

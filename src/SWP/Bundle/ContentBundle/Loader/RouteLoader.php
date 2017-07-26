@@ -46,7 +46,7 @@ class RouteLoader implements LoaderInterface
      * Load meta object by provided type and parameters.
      *
      * @MetaLoaderDoc(
-     *     description="Article Loader loads articles from Content Repository",
+     *     description="Route Loader gives you route meta for passed route object",
      *     parameters={
      *         route_object="SINGLE|required route object"
      *     }
