@@ -287,3 +287,23 @@ services:
             - "@swp_template_engine_context"
         tags:
             - { name: swp.meta_loader.add }
+
+    swp_core.fragment.renderer.external:
+        class: SWP\Bundle\CoreBundle\Fragment\ExternalFragmentRenderer
+        arguments:
+            - "@kernel"
+            - "@event_dispatcher"
+        public: false
+
+    swp_core.fragment.renderer.external_esi:
+        class: SWP\Bundle\CoreBundle\Fragment\ExternalEsiFragmentRenderer
+        arguments:
+            - "@esi"
+            - "@swp_core.fragment.renderer.external"
+            - "@uri_signer"
+        tags:
+            - { name: kernel.fragment_renderer, alias: external_esi }
+        calls:
+            - method: setFragmentPath
+              arguments:
+                  - '%fragment.path%'

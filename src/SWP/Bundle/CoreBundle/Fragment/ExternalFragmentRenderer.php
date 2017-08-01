@@ -1,0 +1,97 @@
+<?php
+
+/*
+ * This file is part of the Superdesk Web Publisher Core Bundle.
+ *
+ * Copyright 2016 Sourcefabric z.ú. and contributors.
+ *
+ * For the full copyright and license information, please see the
+ * AUTHORS and LICENSE files distributed with this source code.
+ *
+ * @copyright 2016 Sourcefabric z.ú
+ * @license http://www.superdesk.org/license
+ */
+
+namespace SWP\Bundle\CoreBundle\Fragment;
+
+use SWP\Bundle\BridgeBundle\Client\GuzzleClient;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent;
+use Symfony\Component\HttpKernel\Fragment\FragmentRendererInterface;
+use Symfony\Component\HttpKernel\HttpKernelInterface;
+use Symfony\Component\HttpKernel\KernelEvents;
+
+class ExternalFragmentRenderer implements FragmentRendererInterface
+{
+    private $kernel;
+    private $dispatcher;
+
+    /**
+     * Constructor.
+     *
+     * @param HttpKernelInterface      $kernel     A HttpKernelInterface instance
+     * @param EventDispatcherInterface $dispatcher A EventDispatcherInterface instance
+     */
+    public function __construct(HttpKernelInterface $kernel, EventDispatcherInterface $dispatcher = null)
+    {
+        $this->kernel = $kernel;
+        $this->dispatcher = $dispatcher;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function render($uri, Request $request, array $options = array())
+    {
+        $level = ob_get_level();
+        try {
+            return new Response($this->createExternalRequest($uri));
+        } catch (\Exception $e) {
+            // we dispatch the exception event to trigger the logging
+            // the response that comes back is simply ignored
+            if (isset($options['ignore_errors']) && $options['ignore_errors'] && $this->dispatcher) {
+                $event = new GetResponseForExceptionEvent($this->kernel, $request, HttpKernelInterface::SUB_REQUEST, $e);
+
+                $this->dispatcher->dispatch(KernelEvents::EXCEPTION, $event);
+            }
+
+            // let's clean up the output buffers that were created by the sub-request
+            Response::closeOutputBuffers($level, false);
+
+            if (isset($options['alt'])) {
+                $alt = $options['alt'];
+                unset($options['alt']);
+
+                return $this->render($alt, $request, $options);
+            }
+
+            if (!isset($options['ignore_errors']) || !$options['ignore_errors']) {
+                throw $e;
+            }
+
+            return new Response();
+        }
+    }
+
+    /**
+     * @param string $uri
+     *
+     * @return mixed
+     */
+    private function createExternalRequest(string $uri)
+    {
+        $client = new GuzzleClient();
+
+        return $client->makeCall($uri)['body'];
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getName()
+    {
+        return 'external';
+    }
+}
