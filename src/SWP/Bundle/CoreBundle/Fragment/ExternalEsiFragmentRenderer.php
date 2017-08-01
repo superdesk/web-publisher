@@ -17,6 +17,9 @@ namespace SWP\Bundle\CoreBundle\Fragment;
 use Symfony\Component\HttpKernel\Fragment\AbstractSurrogateFragmentRenderer;
 use Symfony\Component\HttpKernel\Fragment\FragmentRendererInterface;
 
+/**
+ * Class ExternalEsiFragmentRenderer.
+ */
 class ExternalEsiFragmentRenderer extends AbstractSurrogateFragmentRenderer implements FragmentRendererInterface
 {
     /**

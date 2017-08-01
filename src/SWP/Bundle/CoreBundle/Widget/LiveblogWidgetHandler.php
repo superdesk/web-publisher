@@ -26,6 +26,10 @@ class LiveblogWidgetHandler extends TemplatingWidgetHandler
         'url' => [
             'type' => 'string',
         ],
+        'template_name' => [
+            'type' => 'string',
+            'default' => self::TEMPLATE_NAME,
+        ],
     ];
 
     /**
@@ -33,11 +37,8 @@ class LiveblogWidgetHandler extends TemplatingWidgetHandler
      */
     public function render()
     {
-        $url = $this->getModelParameter('url');
-        dump(self::TEMPLATE_NAME, $url);
-
-        return $this->renderTemplate(self::TEMPLATE_NAME, [
-            'url' => $url,
+        return $this->renderTemplate($this->getModelParameter('template_name'), [
+            'url' => $this->getModelParameter('url'),
         ]);
     }
 }

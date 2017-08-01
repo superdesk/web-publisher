@@ -23,9 +23,21 @@ use Symfony\Component\HttpKernel\Fragment\FragmentRendererInterface;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 use Symfony\Component\HttpKernel\KernelEvents;
 
+/**
+ * Class ExternalFragmentRenderer.
+ *
+ * Render content fetched from external uri with guzzle.
+ */
 class ExternalFragmentRenderer implements FragmentRendererInterface
 {
+    /**
+     * @var HttpKernelInterface
+     */
     private $kernel;
+
+    /**
+     * @var EventDispatcherInterface
+     */
     private $dispatcher;
 
     /**
@@ -43,7 +55,7 @@ class ExternalFragmentRenderer implements FragmentRendererInterface
     /**
      * {@inheritdoc}
      */
-    public function render($uri, Request $request, array $options = array())
+    public function render($uri, Request $request, array $options = [])
     {
         $level = ob_get_level();
         try {
