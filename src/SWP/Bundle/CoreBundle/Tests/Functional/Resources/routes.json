@@ -1,3 +1,4 @@
 {
-  "/api/sessions/:id": "/sessions/:id"
+  "/api/sessions/:id": "/sessions/:id",
+  "/api/esi_fragment": "/esi_fragment"
 }
