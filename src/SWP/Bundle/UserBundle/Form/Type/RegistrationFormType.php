@@ -35,7 +35,7 @@ class RegistrationFormType extends BaseRegistrationFormType
     public function configureOptions(OptionsResolver $resolver)
     {
         parent::configureOptions($resolver);
-
+        $resolver->setDefault('validation_groups', ['Registration', 'Default']);
         $resolver->setDefault('csrf_protection', false);
     }
 

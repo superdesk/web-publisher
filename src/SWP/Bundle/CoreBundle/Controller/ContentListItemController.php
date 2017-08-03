@@ -211,7 +211,7 @@ class ContentListItemController extends Controller
         ]);
 
         if (null === $listItem) {
-            throw new NotFoundHttpException(sprintf('Content list item with content_id "%s" was not found.', $contentId));
+            throw new NotFoundHttpException(sprintf('Content list item with content_id "%s" was not found on that list. If You want to add new item - use action type "add".', $contentId));
         }
 
         return $listItem;
