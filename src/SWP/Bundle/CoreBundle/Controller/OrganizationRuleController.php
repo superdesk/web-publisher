@@ -137,7 +137,7 @@ class OrganizationRuleController extends Controller
      *         400="Returned when validation failed.",
      *         500="Returned when unexpected error."
      *     },
-     *     input="SWP\Bundle\CoreBundle\Form\Type\RuleType"
+     *     input="SWP\Bundle\RuleBundle\Form\Type\RuleType"
      * )
      * @Route("/api/{version}/organization/rules/{id}", options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_core_update_organization_rule", requirements={"id"="\d+"})
      * @Method("PATCH")
