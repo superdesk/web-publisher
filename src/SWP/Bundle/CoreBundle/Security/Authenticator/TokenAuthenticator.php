@@ -79,6 +79,8 @@ class TokenAuthenticator extends AbstractGuardAuthenticator
     /**
      * Called on every request. Return whatever credentials you want,
      * or null to stop authentication.
+     *
+     * {@inheritdoc}
      */
     public function getCredentials(Request $request)
     {
@@ -99,6 +101,9 @@ class TokenAuthenticator extends AbstractGuardAuthenticator
         return $data;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getUser($credentials, UserProviderInterface $userProvider)
     {
         $this->eventDispatcher->dispatch(MultiTenancyEvents::TENANTABLE_DISABLE);
@@ -130,6 +135,9 @@ class TokenAuthenticator extends AbstractGuardAuthenticator
         return $user;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function checkCredentials($credentials, UserInterface $user)
     {
         if ($user instanceof CoreUserInterface) {
@@ -144,6 +152,9 @@ class TokenAuthenticator extends AbstractGuardAuthenticator
         return false;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, $providerKey)
     {
         if (self::INTENTION_LIVESITE_EDITOR === $this->getIntention($request)) {
@@ -154,6 +165,9 @@ class TokenAuthenticator extends AbstractGuardAuthenticator
         return;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function onAuthenticationFailure(Request $request, AuthenticationException $exception)
     {
         $data = [
@@ -165,7 +179,7 @@ class TokenAuthenticator extends AbstractGuardAuthenticator
     }
 
     /**
-     * Called when authentication is needed, but it's not sent.
+     * {@inheritdoc}
      */
     public function start(Request $request, AuthenticationException $authException = null)
     {
@@ -177,11 +191,19 @@ class TokenAuthenticator extends AbstractGuardAuthenticator
         return new JsonResponse($data, 401);
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function supportsRememberMe()
     {
         return false;
     }
 
+    /**
+     * @param Request $request
+     *
+     * @return array|string
+     */
     private function getIntention(Request $request)
     {
         return $request->headers->get('Intention', $request->query->get('intention'));
