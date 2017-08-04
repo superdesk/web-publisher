@@ -353,6 +353,36 @@ class MenuControllerTest extends WebTestCase
         self::assertArraySubset(json_decode('{"page":1,"limit":10,"pages":1,"total":2,"_links":{"self":{"href":"\/api\/v1\/menus\/1\/children\/?page=1&limit=10"},"first":{"href":"\/api\/v1\/menus\/1\/children\/?page=1&limit=10"},"last":{"href":"\/api\/v1\/menus\/1\/children\/?page=1&limit=10"}},"_embedded":{"_items":[{"id":3,"level":1,"name":"child2","label":"child2","uri":null,"children":[],"route":null,"_links":{"self":{"href":"\/api\/v1\/menus\/3"},"children":{"href":"\/api\/v1\/menus\/3\/children\/"},"parent":{"href":"\/api\/v1\/menus\/1"},"root":{"href":"\/api\/v1\/menus\/1"}}},{"id":2,"level":1,"name":"child1","label":"child1","uri":null,"children":[],"route":null,"_links":{"self":{"href":"\/api\/v1\/menus\/2"},"children":{"href":"\/api\/v1\/menus\/2\/children\/"},"parent":{"href":"\/api\/v1\/menus\/1"},"root":{"href":"\/api\/v1\/menus\/1"}}}]}}', true), $content);
     }
 
+    public function testMoveMenuItemFromFirstPositionToFirstPositionUnderParent()
+    {
+        $client = static::createClient();
+
+        $client->request('POST', $this->router->generate('swp_api_core_create_menu'), [
+            'menu' => [
+                'name' => 'menu 1',
+                'label' => 'menu 1',
+                'parent' => null,
+            ],
+        ]);
+
+        self::assertEquals(201, $client->getResponse()->getStatusCode());
+
+        $client->request('PATCH', $this->router->generate('swp_api_core_move_menu', ['id' => 1]), [
+            'menu_move' => [
+                'parent' => 2,
+                'position' => 0,
+            ],
+        ]);
+
+        self::assertEquals(200, $client->getResponse()->getStatusCode());
+
+        $client->request('GET', $this->router->generate('swp_api_core_list_menu'));
+
+        $content = json_decode($client->getResponse()->getContent(), true);
+        self::assertEquals($content['_embedded']['_items'][0]['id'], 2);
+        self::assertEquals($content['_embedded']['_items'][0]['children'][0]['id'], 1);
+    }
+
     public function testMoveMenuItemFromFirstToSecondPositionInParentSubtree()
     {
         $client = static::createClient();
