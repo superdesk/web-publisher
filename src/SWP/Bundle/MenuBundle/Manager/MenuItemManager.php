@@ -47,11 +47,8 @@ class MenuItemManager implements MenuItemManagerInterface
      * @param ObjectManager               $objectManager
      * @param ExtensionInterface          $extensionsChain
      */
-    public function __construct(
-        MenuItemRepositoryInterface $menuItemRepository,
-        ObjectManager $objectManager,
-        ExtensionInterface $extensionsChain
-    ) {
+    public function __construct(MenuItemRepositoryInterface $menuItemRepository, ObjectManager $objectManager, ExtensionInterface $extensionsChain)
+    {
         $this->menuItemRepository = $menuItemRepository;
         $this->objectManager = $objectManager;
         $this->extensionsChain = $extensionsChain;
@@ -63,7 +60,7 @@ class MenuItemManager implements MenuItemManagerInterface
     public function move(MenuItemInterface $sourceItem, MenuItemInterface $parent, int $position = 0)
     {
         if (0 === $position) {
-            $this->ensurePositionIsValid($sourceItem, $position);
+            $this->ensurePositionIsValid($sourceItem, $position, $parent);
             $this->menuItemRepository->persistAsFirstChildOf($sourceItem, $parent);
         } else {
             $afterItemPosition = $position;
@@ -72,7 +69,7 @@ class MenuItemManager implements MenuItemManagerInterface
                 $afterItemPosition -= 1;
             }
 
-            $this->ensurePositionIsValid($sourceItem, $afterItemPosition);
+            $this->ensurePositionIsValid($sourceItem, $afterItemPosition, $parent);
             // find menu item after which source item should be placed
             $afterItem = $this->menuItemRepository->findChildByParentAndPosition($parent, $afterItemPosition);
 
@@ -113,9 +110,14 @@ class MenuItemManager implements MenuItemManagerInterface
         $this->extensionsChain->buildItem($menu, $options);
     }
 
-    private function ensurePositionIsValid(MenuItemInterface $menuItem, int $position)
+    /**
+     * @param MenuItemInterface $menuItem
+     * @param int               $position
+     * @param MenuItemInterface $parent
+     */
+    private function ensurePositionIsValid(MenuItemInterface $menuItem, int $position, MenuItemInterface $parent)
     {
-        if ($menuItem->getPosition() === $position) {
+        if ($menuItem->getPosition() === $position && $menuItem->getParent() === $parent) {
             throw new ConflictHttpException(sprintf(
                 'Menu item %d is already placed at position %d.',
                 $menuItem->getId(),
