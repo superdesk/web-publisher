@@ -60,12 +60,8 @@ final class ArticlePublisher implements ArticlePublisherInterface
      * @param ArticleFactoryInterface    $articleFactory
      * @param TenantContextInterface     $tenantContext
      */
-    public function __construct(
-        ArticleRepositoryInterface $articleRepository,
-        EventDispatcherInterface $eventDispatcher,
-        ArticleFactoryInterface $articleFactory,
-        TenantContextInterface $tenantContext
-    ) {
+    public function __construct(ArticleRepositoryInterface $articleRepository, EventDispatcherInterface $eventDispatcher, ArticleFactoryInterface $articleFactory, TenantContextInterface $tenantContext)
+    {
         $this->articleRepository = $articleRepository;
         $this->eventDispatcher = $eventDispatcher;
         $this->articleFactory = $articleFactory;
@@ -103,10 +99,7 @@ final class ArticlePublisher implements ArticlePublisherInterface
             $this->eventDispatcher->dispatch(Events::SWP_VALIDATION, new GenericEvent($article));
 
             /** @var ArticleInterface $existingArticle */
-            if (null !== ($existingArticle = $this->findArticleByTenantAndCode(
-                    $destination->getTenant()->getCode(),
-                    $article->getCode())
-                )) {
+            if (null !== ($existingArticle = $this->findArticleByTenantAndCode($destination->getTenant()->getCode(), $article->getCode()))) {
                 $existingArticle->setRoute($destination->getRoute());
                 $existingArticle->setPublishedFBIA($destination->isFbia());
                 $this->dispatchEvents($existingArticle, $package);
@@ -124,6 +117,12 @@ final class ArticlePublisher implements ArticlePublisherInterface
         $this->articleRepository->flush();
     }
 
+    /**
+     * @param string $tenantCode
+     * @param string $code
+     *
+     * @return object
+     */
     private function findArticleByTenantAndCode(string $tenantCode, string $code)
     {
         return $this->articleRepository->findOneBy([
@@ -132,6 +131,10 @@ final class ArticlePublisher implements ArticlePublisherInterface
         ]);
     }
 
+    /**
+     * @param ArticleInterface $article
+     * @param PackageInterface $package
+     */
     private function dispatchEvents(ArticleInterface $article, PackageInterface $package)
     {
         $this->eventDispatcher->dispatch(ArticleEvents::PUBLISH, new ArticleEvent($article));
