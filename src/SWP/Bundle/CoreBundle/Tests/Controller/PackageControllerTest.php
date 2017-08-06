@@ -17,6 +17,7 @@ declare(strict_types=1);
 namespace SWP\Bundle\CoreBundle\Tests\Controller;
 
 use SWP\Bundle\FixturesBundle\WebTestCase;
+use SWP\Component\Bridge\Model\ContentInterface;
 use Symfony\Component\Routing\RouterInterface;
 
 final class PackageControllerTest extends WebTestCase
@@ -167,12 +168,36 @@ final class PackageControllerTest extends WebTestCase
         self::assertEquals($content['headline'], $content['articles'][0]['title']);
     }
 
+    public function testCancelPackageApi()
+    {
+        $client = static::createClient();
+        $client->enableProfiler();
+        $client->request(
+            'PATCH',
+            $this->router->generate('swp_api_core_update_package', ['id' => 1]),
+            [
+                'update' => [
+                    'pubStatus' => ContentInterface::STATUS_CANCELED,
+                ],
+            ]
+        );
+
+        self::assertEquals(200, $client->getResponse()->getStatusCode());
+
+        $client->request('GET', $this->router->generate('swp_api_core_show_package', ['id' => 1]));
+        self::assertEquals(200, $client->getResponse()->getStatusCode());
+
+        $content = json_decode($client->getResponse()->getContent(), true);
+        self::assertEquals(ContentInterface::STATUS_CANCELED, $content['status']);
+    }
+
     private function publishPackage(int $routeId = 3)
     {
         $client = static::createClient();
         $client->request(
             'POST',
-            $this->router->generate('swp_api_core_publish_package', ['id' => 1]), [
+            $this->router->generate('swp_api_core_publish_package', ['id' => 1]),
+            [
                 'publish' => [
                     'destinations' => [
                         [
@@ -192,7 +217,8 @@ final class PackageControllerTest extends WebTestCase
         $client = static::createClient();
         $client->request(
             'POST',
-            $this->router->generate('swp_api_core_unpublish_package', ['id' => 1]), [
+            $this->router->generate('swp_api_core_unpublish_package', ['id' => 1]),
+            [
                 'unpublish' => [
                     'tenants' => ['123abc'],
                 ],

@@ -7,6 +7,7 @@ This changelog references the relevant changes (bug and security fixes) done in 
 To get the diff for a specific change, go to https://github.com/superdesk/web-publisher/commit/XXX where XXX is the change hash
 
 * 1.1.x
+ * feature [#377] Add API endpoint for package update (pubStatus)
  * [BC Break] fix [#376] Make domainName field required in tenant create API
  * feature [#372] Add Liveblog widget, add external ESI renderer
  * feature [#368] Add Content List Loader

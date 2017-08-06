@@ -22,10 +22,12 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use SWP\Bundle\CoreBundle\Form\Type\CompositePublishActionType;
+use SWP\Bundle\CoreBundle\Form\Type\PackageType;
 use SWP\Bundle\CoreBundle\Form\Type\UnpublishFromTenantsType;
 use SWP\Bundle\CoreBundle\Model\CompositePublishAction;
 use SWP\Bundle\CoreBundle\Model\PackageInterface;
 use SWP\Bundle\MultiTenancyBundle\MultiTenancyEvents;
+use SWP\Component\Bridge\Model\ContentInterface;
 use SWP\Component\Common\Criteria\Criteria;
 use SWP\Component\Common\Pagination\PaginationData;
 use SWP\Component\Common\Response\ResourcesListResponse;
@@ -123,7 +125,7 @@ class PackageController extends Controller
             return new SingleResourceResponse(null, new ResponseContext(201));
         }
 
-        return new SingleResourceResponse($form, new ResponseContext(500));
+        return new SingleResourceResponse($form, new ResponseContext(400));
     }
 
     /**
@@ -158,18 +160,62 @@ class PackageController extends Controller
             return new SingleResourceResponse(null, new ResponseContext(200));
         }
 
-        return new SingleResourceResponse($form, new ResponseContext(500));
+        return new SingleResourceResponse($form, new ResponseContext(400));
     }
 
+    /**
+     * Update package.
+     *
+     * @param Request $request
+     * @param int     $id
+     *
+     * @ApiDoc(
+     *     resource=true,
+     *     description="Updates package",
+     *     statusCodes={
+     *         200="Returned on success.",
+     *         400="Returned when validation failed.",
+     *         500="Returned when unexpected error."
+     *     },
+     *     input="SWP\Bundle\CoreBundle\Form\Type\PackageType"
+     * )
+     *
+     * @Route("/api/{version}/packages/{id}/", options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_core_update_package", requirements={"id"="\d+"})
+     *
+     * @Method("PATCH")
+     *
+     * @return SingleResourceResponse
+     */
+    public function updateAction(Request $request, int $id)
+    {
+        $this->get('event_dispatcher')->dispatch(MultiTenancyEvents::TENANTABLE_DISABLE);
+        $package = $this->findOr404($id);
+        $form = $this->createForm(PackageType::class, $package, ['method' => $request->getMethod()]);
+
+        $form->handleRequest($request);
+        if ($form->isValid()) {
+            if (ContentInterface::STATUS_CANCELED === $package->getPubStatus()) {
+                $package->setStatus(ContentInterface::STATUS_CANCELED);
+            }
+            $this->getPackageRepository()->flush();
+
+            return new SingleResourceResponse($package, new ResponseContext(200));
+        }
+
+        return new SingleResourceResponse($form, new ResponseContext(400));
+    }
+
+    /**
+     * @param int $id
+     *
+     * @return null|object
+     */
     private function findOr404(int $id)
     {
         $this->get('event_dispatcher')->dispatch(MultiTenancyEvents::TENANTABLE_DISABLE);
         $tenantContext = $this->get('swp_multi_tenancy.tenant_context');
 
-        if (null === $package = $this->getPackageRepository()->findOneBy([
-                'id' => $id,
-                'organization' => $tenantContext->getTenant()->getOrganization(),
-            ])) {
+        if (null === $package = $this->getPackageRepository()->findOneBy(['id' => $id, 'organization' => $tenantContext->getTenant()->getOrganization()])) {
             throw new NotFoundHttpException('Package was not found.');
         }
 
