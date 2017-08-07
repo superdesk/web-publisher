@@ -63,8 +63,8 @@ $(document).ready(function() {
       var content = $( data ); 
       apiKey = content["0"]["token"]["api_key"];
       userId = content["0"]["user"]["id"];
-      localStorage.setItem('auth_token', apiKey);
-      localStorage.setItem('user_id', userId);
+      sessionStorage.setItem('auth_token', apiKey);
+      sessionStorage.setItem('user_id', userId);
       $.post($('#loginform').attr('action'), {'_format': 'json', '_username': username, '_password': password}).done(function (done) {location.reload()});
     });
 
@@ -128,8 +128,8 @@ $(document).ready(function() {
 
   /* LOAD USER PROFILE */
 
-  var authToken = localStorage.getItem('auth_token');
-  var userId = localStorage.getItem('user_id');
+  var authToken = sessionStorage.getItem('auth_token');
+  var userId = sessionStorage.getItem('user_id');
   if (authToken) {
     $.ajax({
       headers : {
