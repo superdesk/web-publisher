@@ -95,7 +95,6 @@ class FacebookInstantArticlesListenerTest extends WebTestCase
         ]);
         self::assertEquals(201, $client->getResponse()->getStatusCode());
 
-        $client->enableProfiler();
         $client->request(
             'POST',
             $this->router->generate('swp_api_content_push'),
