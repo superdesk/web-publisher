@@ -43,15 +43,9 @@
         "exclude-from-classmap": [ "**/Tests/", "**/spec/" ],
         "classmap": [ "app/AppKernel.php" ]
     },
-    "repositories": [
-        {
-            "type": "vcs",
-            "url": "https://github.com/ahilles107/SyliusThemeBundle"
-        }
-    ],
     "require": {
-        "php": "^7.0",
-        "symfony/symfony": "3.1.*",
+        "php": "^7.1",
+        "symfony/symfony": "3.2",
         "symfony/swiftmailer-bundle": "~2.3",
         "symfony/monolog-bundle": "~2.4",
         "sensio/distribution-bundle": "v5.0.x",
@@ -82,7 +76,7 @@
         "stof/doctrine-extensions-bundle": "^1.2",
         "symfony-cmf/routing-bundle": "^2.0",
         "symfony-cmf/core-bundle": "^2.0",
-        "sylius/theme-bundle": "dev-master",
+        "sylius/theme-bundle": "^1.0",
         "superdesk/contentapi-sdk-php": "^1.0.0",
         "justinrainbow/json-schema": "1.4.4",
         "jms/translation-bundle": "^1.2",
