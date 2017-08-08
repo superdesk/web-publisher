@@ -25,6 +25,11 @@ use Takeit\Bundle\AmpHtmlBundle\Model\AmpInterface;
 interface ArticleInterface extends BaseArticleInterface, TenantAwareInterface, ListContentInterface, AmpInterface, OrganizationAwareInterface
 {
     /**
+     * @param int $id
+     */
+    public function setId($id);
+
+    /**
      * @return PackageInterface
      */
     public function getPackage(): PackageInterface;
