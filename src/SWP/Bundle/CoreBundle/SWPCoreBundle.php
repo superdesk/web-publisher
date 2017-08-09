@@ -14,6 +14,7 @@
 
 namespace SWP\Bundle\CoreBundle;
 
+use SWP\Bundle\CoreBundle\DependencyInjection\Compiler\OverrideArticleBodyProcessorPass;
 use SWP\Bundle\CoreBundle\DependencyInjection\Compiler\OverrideContainerProviderPass;
 use SWP\Bundle\CoreBundle\DependencyInjection\Compiler\OverrideDynamicRouterPass;
 use SWP\Bundle\CoreBundle\DependencyInjection\Compiler\OverrideMediaManagerPass;
@@ -50,6 +51,7 @@ class SWPCoreBundle extends Bundle
         $container->addCompilerPass(new OverrideTemplatesSystemPass());
         $container->addCompilerPass(new OverrideThemeLoaderPass());
         $container->addCompilerPass(new OverrideSettingsManagerPass());
+        $container->addCompilerPass(new OverrideArticleBodyProcessorPass());
     }
 
     /**
