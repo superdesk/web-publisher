@@ -20,7 +20,6 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use SWP\Bundle\ContentBundle\Factory\ArticleFactoryInterface;
 use SWP\Bundle\ContentBundle\Factory\MediaFactoryInterface;
 use SWP\Bundle\CoreBundle\Processor\ArticleBodyProcessorInterface;
-use Takeit\Bundle\AmpHtmlBundle\Model\AmpInterface;
 use Takeit\Bundle\AmpHtmlBundle\Request\ParamConverter\ResolveEntityParamConverter as BaseResolveEntityParamConverter;
 use SWP\Bundle\CoreBundle\Model\ArticleInterface;
 use SWP\Bundle\CoreBundle\Model\PackageInterface;
@@ -134,11 +133,11 @@ class ResolveEntityParamConverter extends BaseResolveEntityParamConverter
      */
     public function supports(ParamConverter $configuration)
     {
-        if (!$this->templateContext->isPreviewMode() && AmpInterface::class !== $configuration->getClass()) {
+        if (!$this->templateContext->isPreviewMode()) {
             return false;
         }
 
-        return true;
+        return parent::supports($configuration);
     }
 
     /**
