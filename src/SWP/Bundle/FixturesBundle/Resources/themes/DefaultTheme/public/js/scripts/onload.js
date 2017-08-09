@@ -24,6 +24,7 @@
     }
 
 }
+
 /* jQuery
 ``````````````````````````````````````````````````````````````````````````` */
 window.onload = function() {
@@ -32,11 +33,19 @@ window.onload = function() {
             return containerWidth / 4;
         }
     });
-
-
 };
 
 $(document).ready(function() {
+
+          var navigation = $('#nav-main').okayNav();
+
+          blueimp.Gallery(
+              document.getElementById('links').getElementsByTagName('a'),
+              {
+                  container: '#blueimp-gallery-carousel',
+                  carousel: true
+              }
+          );
 
   /** USER MANAGEMENT **/
   /* LOGIN USER */
@@ -210,7 +219,6 @@ $(document).ready(function() {
   }); 
 
 /* END USER MGMNT */
-
 
 
     sticky_menu.init();
@@ -391,7 +399,7 @@ $(document).ready(function() {
         return false;
     });
 
-    $('#outer_side_menu').scrollToFixed();
+    $('#outer_side_menu').scrollTo();
     $('#top_menu').hsSubMenu();
 });
 
@@ -661,4 +669,5 @@ $.fn.hsSlide = function(options) {
             return $(e).height()
         })));
     };
+
 })(jQuery);

@@ -6,14 +6,14 @@
         <!-- Content -->
         <section id="content">
 
-            {% set trendingTopic = app.request.get('topic') %}
+            {% set trendingTopic = app.request.get('topic')|toUpperCase %}
             <h2>Topic '{{ trendingTopic }}'</h2>
 
             {# Setup list and pagination parameters #}
             {% set itemsPerPage, currentPage = 8, app.request.get('page', 1) %}
             {% set start = ((currentPage - 1) * itemsPerPage) %}
 
-            {% gimmelist article from articles|order('publishedAt','desc')|start(start)|limit(itemsPerPage) with {keyword: trendingTopic} %}
+            {% gimmelist article from articles|start(start)|limit(itemsPerPage)|order('publishedAt','desc') with {keywords: [trendingTopic]} %}
             {% if loop.first %}
             <div class="row masonry" id="masonry_container" style="position: relative; height: 1076px;">
                 {% endif %}
