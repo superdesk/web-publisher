@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "255c6a0cad04c463cf35eaefda8f6461",
+    "content-hash": "f28be8638324f06ed8e6a7b740d7c3af",
     "packages": [
         {
             "name": "apache/log4php",
@@ -6827,12 +6827,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/takeit/AmpHtmlBundle.git",
-                "reference": "c22732c7d473b40662da393e2d408784dedcb8dc"
+                "reference": "8deb3f53018164e21c735df48358cb3893c64675"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/takeit/AmpHtmlBundle/zipball/c22732c7d473b40662da393e2d408784dedcb8dc",
-                "reference": "c22732c7d473b40662da393e2d408784dedcb8dc",
+                "url": "https://api.github.com/repos/takeit/AmpHtmlBundle/zipball/8deb3f53018164e21c735df48358cb3893c64675",
+                "reference": "8deb3f53018164e21c735df48358cb3893c64675",
                 "shasum": ""
             },
             "require": {
@@ -6876,7 +6876,7 @@
                 "google",
                 "html"
             ],
-            "time": "2017-07-06 14:10:10"
+            "time": "2017-08-08 21:20:49"
         },
         {
             "name": "true/punycode",
@@ -8037,24 +8037,25 @@
         },
         {
             "name": "matthiasnoback/symfony-config-test",
-            "version": "v3.0.1",
+            "version": "v2.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/matthiasnoback/SymfonyConfigTest.git",
-                "reference": "e1539aa8552126b9ce41852ab23957a2315f1709"
+                "reference": "dbf93be91b8004203029301bf98142bd06de4f5a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/matthiasnoback/SymfonyConfigTest/zipball/e1539aa8552126b9ce41852ab23957a2315f1709",
-                "reference": "e1539aa8552126b9ce41852ab23957a2315f1709",
+                "url": "https://api.github.com/repos/matthiasnoback/SymfonyConfigTest/zipball/dbf93be91b8004203029301bf98142bd06de4f5a",
+                "reference": "dbf93be91b8004203029301bf98142bd06de4f5a",
                 "shasum": ""
             },
             "require": {
-                "php": "^7.0",
+                "php": "^5.3|^7.0",
+                "sebastian/exporter": "^1.0|^2.0",
                 "symfony/config": "^2.3|^3.0"
             },
             "require-dev": {
-                "phpunit/phpunit": "^6.0"
+                "phpunit/phpunit": "^4.0|^5.0"
             },
             "type": "library",
             "autoload": {
@@ -8080,31 +8081,31 @@
                 "phpunit",
                 "symfony"
             ],
-            "time": "2017-02-08T11:30:13+00:00"
+            "time": "2016-11-30T15:53:12+00:00"
         },
         {
             "name": "matthiasnoback/symfony-dependency-injection-test",
-            "version": "v2.1.0",
+            "version": "v1.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/matthiasnoback/SymfonyDependencyInjectionTest.git",
-                "reference": "09833e217f4da582e892a231ee04d4d9a9c7059c"
+                "reference": "95c3b8f0f708fcc49360412f84186d562add50dc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/matthiasnoback/SymfonyDependencyInjectionTest/zipball/09833e217f4da582e892a231ee04d4d9a9c7059c",
-                "reference": "09833e217f4da582e892a231ee04d4d9a9c7059c",
+                "url": "https://api.github.com/repos/matthiasnoback/SymfonyDependencyInjectionTest/zipball/95c3b8f0f708fcc49360412f84186d562add50dc",
+                "reference": "95c3b8f0f708fcc49360412f84186d562add50dc",
                 "shasum": ""
             },
             "require": {
-                "matthiasnoback/symfony-config-test": "^3.0",
-                "php": "^7.0",
+                "matthiasnoback/symfony-config-test": "^1.0|^2.0",
+                "sebastian/exporter": "^1.0|^2.0",
                 "symfony/config": "^2.3|^3.0",
                 "symfony/dependency-injection": "^2.3|^3.0",
                 "symfony/yaml": "^2.7|^3.0"
             },
             "require-dev": {
-                "phpunit/phpunit": "^6.0"
+                "phpunit/phpunit": "^4.0|^5.0"
             },
             "type": "library",
             "autoload": {
@@ -8130,7 +8131,7 @@
                 "dependency injection",
                 "phpunit"
             ],
-            "time": "2017-03-20T15:33:52+00:00"
+            "time": "2016-11-30T15:51:50+00:00"
         },
         {
             "name": "myclabs/deep-copy",
@@ -8176,32 +8177,34 @@
         },
         {
             "name": "nelmio/alice",
-            "version": "2.1.4",
+            "version": "v2.3.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nelmio/alice.git",
-                "reference": "c8cb3413ab5d1fa76ee84296dafe356b0c703014"
+                "reference": "0976436419f61863a072b390ea4c2ff75e62e364"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nelmio/alice/zipball/c8cb3413ab5d1fa76ee84296dafe356b0c703014",
-                "reference": "c8cb3413ab5d1fa76ee84296dafe356b0c703014",
+                "url": "https://api.github.com/repos/nelmio/alice/zipball/0976436419f61863a072b390ea4c2ff75e62e364",
+                "reference": "0976436419f61863a072b390ea4c2ff75e62e364",
                 "shasum": ""
             },
             "require": {
-                "fzaninotto/faker": "~1.0",
-                "php": ">=5.4",
-                "symfony/yaml": "~2.0|~3.0"
+                "fzaninotto/faker": "^1.5",
+                "php": "^5.6||^7.0",
+                "symfony/yaml": "^2.0||^3.0"
             },
             "require-dev": {
-                "doctrine/common": "~2.3",
-                "phpunit/phpunit": "~4.0",
-                "symfony/property-access": "~2.2|~3.0"
+                "doctrine/common": "^2.3",
+                "phpspec/prophecy": "^1.5.0",
+                "phpunit/phpunit": "^5.6||^6.0",
+                "symfony/phpunit-bridge": "^3.0",
+                "symfony/property-access": "^2.2||^3.0"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.0.x-dev"
+                    "dev-master": "3.0.x-dev"
                 }
             },
             "autoload": {
@@ -8221,6 +8224,10 @@
                 {
                     "name": "Tim Shelburne",
                     "email": "shelburt02@gmail.com"
+                },
+                {
+                    "name": "Théo FIDRY",
+                    "email": "theo.fidry@gmail.com"
                 }
             ],
             "description": "Expressive fixtures generator",
@@ -8230,7 +8237,7 @@
                 "orm",
                 "test"
             ],
-            "time": "2016-01-07T14:44:47+00:00"
+            "time": "2017-03-24T16:33:53+00:00"
         },
         {
             "name": "phpdocumentor/reflection-common",

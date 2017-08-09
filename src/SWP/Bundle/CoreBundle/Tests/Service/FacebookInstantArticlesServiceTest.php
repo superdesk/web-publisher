@@ -36,10 +36,12 @@ class FacebookInstantArticlesServiceTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->facebookManager = $this->getMock(FacebookManager::class);
-        $this->facebookManager->method('createForApp')->willReturn($this->getMock(Facebook::class, [], [], '', false));
-
-        $this->facebookInstantArticlesArticleRepository = $this->getMock(FacebookInstantArticlesArticleRepository::class, [], ['findInFeed'], '', false);
+        $this->facebookManager = $this->createMock(FacebookManager::class);
+        $this->facebookManager->method('createForApp')->willReturn($this->createMock(Facebook::class));
+        $this->facebookInstantArticlesArticleRepository = $this->getMockBuilder(FacebookInstantArticlesArticleRepository::class)
+            ->setConstructorArgs(['findInFeed'])
+            ->disableOriginalConstructor()
+            ->getMock();
         $this->facebookInstantArticlesArticleRepository->method('findInFeed')->willReturn(new FacebookInstantArticlesArticle());
         $article = new FacebookInstantArticlesArticle();
         $article->setFeed(new FacebookInstantArticlesFeed());
@@ -55,34 +57,41 @@ class FacebookInstantArticlesServiceTest extends \PHPUnit_Framework_TestCase
 
     public function testPushing()
     {
-        $service = $this->getMock(FacebookInstantArticlesService::class, ['getClient', 'pushInstantArticle'], [
-            new FacebookInstantArticlesManager($this->facebookManager),
-            $this->getMock(Factory::class, [], [], '', false),
-            $this->facebookInstantArticlesArticleRepository,
-            $this->getMock(UrlGenerator::class, [], [], '', false),
-        ]);
-        $client = $this->getMock(Client::class, [], [], '', false);
+        $service = $this->getMockBuilder(FacebookInstantArticlesService::class)
+            ->setConstructorArgs([
+                new FacebookInstantArticlesManager($this->facebookManager),
+                $this->createMock(Factory::class),
+                $this->facebookInstantArticlesArticleRepository,
+                $this->createMock(UrlGenerator::class),
+            ])
+            ->setMethods(['getClient', 'pushInstantArticle'])
+            ->disableOriginalConstructor()
+            ->getMock();
+        $client = $this->createMock(Client::class);
         $client->method('importArticle')->willReturn('456345765423634563');
         $service->method('getClient')->willReturn($client);
 
-        $feed = $this->getMock(FacebookInstantArticlesFeed::class);
+        $feed = $this->createMock(FacebookInstantArticlesFeed::class);
 
         $service->pushInstantArticle(
             $feed,
             InstantArticle::create(),
-            $this->getMock(Article::class)
+            $this->createMock(Article::class)
         );
     }
 
     public function testUpdatingSubmission()
     {
-        $service = $this->getMock(FacebookInstantArticlesService::class, ['getClient'], [
+        $service = $this->getMockBuilder(FacebookInstantArticlesService::class)
+        ->setMethods(['getClient'])
+        ->setConstructorArgs([
             new FacebookInstantArticlesManager($this->facebookManager),
-            $this->getMock(Factory::class, [], [], '', false),
+            $this->createMock(Factory::class),
             $this->facebookInstantArticlesArticleRepository,
-            $this->getMock(UrlGenerator::class, [], [], '', false),
-        ]);
-        $client = $this->getMock(Client::class, [], [], '', false);
+            $this->createMock(UrlGenerator::class),
+        ])
+        ->getMock();
+        $client = $this->createMock(Client::class);
         $client->method('getSubmissionStatus')->willReturn(new InstantArticleStatus('success'));
         $service->method('getClient')->willReturn($client);
 
@@ -93,21 +102,24 @@ class FacebookInstantArticlesServiceTest extends \PHPUnit_Framework_TestCase
 
     public function testRemoving()
     {
-        $service = $this->getMock(FacebookInstantArticlesService::class, ['getClient', 'pushInstantArticle'], [
+        $service = $this->getMockBuilder(FacebookInstantArticlesService::class)
+        ->setMethods(['getClient', 'pushInstantArticle'])
+        ->setConstructorArgs([
             new FacebookInstantArticlesManager($this->facebookManager),
-            $this->getMock(Factory::class, [], [], '', false),
+            $this->createMock(Factory::class, [], [], '', false),
             $this->facebookInstantArticlesArticleRepository,
-            $this->getMock(UrlGenerator::class, [], [], '', false),
-        ]);
-        $client = $this->getMock(Client::class, [], [], '', false);
+            $this->createMock(UrlGenerator::class, [], [], '', false),
+        ])
+        ->getMock();
+        $client = $this->createMock(Client::class);
 
-        $client->method('removeArticle')->willReturn($this->getMock(InstantArticleStatus::class, [], [], '', false));
+        $client->method('removeArticle')->willReturn($this->createMock(InstantArticleStatus::class));
         $service->method('getClient')->willReturn($client);
-        $feed = $this->getMock(FacebookInstantArticlesFeed::class);
+        $feed = $this->createMock(FacebookInstantArticlesFeed::class);
 
         $service->removeInstantArticle(
             $feed,
-            $this->getMock(Article::class)
+            $this->createMock(Article::class)
         );
     }
 
@@ -115,9 +127,9 @@ class FacebookInstantArticlesServiceTest extends \PHPUnit_Framework_TestCase
     {
         return new FacebookInstantArticlesService(
             new FacebookInstantArticlesManager($this->facebookManager),
-            $this->getMock(Factory::class, [], [], '', false),
+            $this->createMock(Factory::class),
             $this->facebookInstantArticlesArticleRepository,
-            $this->getMock(UrlGenerator::class, [], [], '', false)
+            $this->createMock(UrlGenerator::class)
         );
     }
 }
