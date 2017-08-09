@@ -37,6 +37,14 @@ class Article extends BaseArticle implements ArticleInterface
     /**
      * {@inheritdoc}
      */
+    public function setId($id)
+    {
+        $this->id = $id;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function getPackage(): PackageInterface
     {
         return $this->package;

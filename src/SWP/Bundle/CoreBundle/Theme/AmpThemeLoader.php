@@ -43,9 +43,12 @@ final class AmpThemeLoader implements ThemeLoaderInterface
     private $themeHierarchyProvider;
 
     /**
-     * @param \Twig_Loader_Filesystem $filesystem
-     * @param ThemeContextInterface   $themeContext
-     * @param string                  $themePath
+     * AmpThemeLoader constructor.
+     *
+     * @param \Twig_Loader_Filesystem         $filesystem
+     * @param ThemeContextInterface           $themeContext
+     * @param ThemeHierarchyProviderInterface $themeHierarchyProvider
+     * @param string                          $themePath
      */
     public function __construct(
         \Twig_Loader_Filesystem $filesystem,
