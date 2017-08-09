@@ -87,7 +87,7 @@
         {% endcontainer %}
 
         {# Trending topics is array of first in a row keyword of three latest articles #}
-        {% cache 'subMenu' { time:3600 } %}
+        {% cache 'subMenu' { time:0 } %}
         {% set trendingTopics = [] %}
         {% set i = 0 %}
         {% gimmelist article from articles|order('publishedAt','desc')|limit(3) ignoreContext %}
@@ -103,8 +103,8 @@
         <ul id="submenu" class="container">
           <li>TRENDING TOPICS</li>
           {% for topic in trendingTopics %}
-          <li><a href="{{ url('trending') }}?topic={{ topic }}">{{ topic }}</a></li>
-          {% endfor %}
+          <li><a href="{{ url('trending') }}?topic={{ topic|lower }}">{{ topic }}</a></li>
+          {% endfor %}          
         </ul>
         </div>
         {% endcache %}
@@ -164,24 +164,6 @@
 <!-- End Footer -->
 
   <script type="text/javascript">
-      $(document).ready(function() {
-          blueimp.Gallery(
-              document.getElementById('links').getElementsByTagName('a'),
-              {
-                  container: '#blueimp-gallery-carousel',
-                  carousel: true
-              }
-          );
-      });
-  </script>
-
-  <script type="text/javascript">
-    $(document).ready(function() {
-      var navigation = $('#nav-main').okayNav();
-    });
-  </script>
-
-  <script>
     $( ".js-toggle-code" ).click(function(e) {
       e.preventDefault();
       $(".js-template-code").toggle();
@@ -191,6 +173,7 @@
       $(".js-theme-info").toggle();
     });
   </script>
+
   <script id="dsq-count-scr" src="//superdesk-publisher.disqus.com/count.js" async></script>
 </body>
 </html>

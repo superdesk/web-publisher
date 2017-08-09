@@ -17,9 +17,14 @@
 
 {% cache 'frontTop3' { time:600 } %}
 
-{% gimmelist item from contentListItems|limit(3) with {contentListName: "Top news"} %}
+{% set i = 0 %}{# This variable is used to check if manual content list 'Top news' exist #}
+
+{% gimme contentList with { contentListName: "Top news" } %}
+{% set listId = contentList.id %}
+{% gimmelist item from contentListItems|limit(3)  with { contentListId: listId } %}
 {% if loop.first %}
 
+  {% set i = 1 %}
   {% include 'partials/firstArticle.html.twig' with { 'article': item.content } %}
 
 {% elseif (loop.index == 2) or (loop.index == 3) %}
@@ -48,6 +53,45 @@
 {% endif %}
 {% if loop.last and loop.index > 1 %}</div><!-- End Row (8) -->{% endif %}
 {% endgimmelist %}
+
+{% endgimme %}
+
+{% if i == 0 %}
+
+{# No 'Top news' manual list? No problem - just load three latest articles instead! #}
+
+{% gimmelist article from articles|order('publishedAt','desc')|limit(3) %}
+{% if loop.first %}
+
+  {% include 'partials/firstArticle.html.twig' with { 'article': article } %}
+
+{% elseif (loop.index == 2) or (loop.index == 3) %}
+
+      {% if loop.index == 2 %}
+      <!-- Row (8) -->
+      <div class="row">
+          <!-- Span (3) -->
+          <div class="span3">
+
+            <!-- News item -->
+              {% include 'partials/secondArticle.html.twig' with { 'article': article } %}
+            </div><!--End Span (3) -->
+      {% endif %}
+
+      {% if loop.index == 3 %}
+
+          <!-- Span (5) -->
+          <div class="span5">
+            {% include 'partials/thirdArticle.html.twig' with { 'article': article } %}
+          </div><!-- End Span (5) -->
+
+      {% endif %}
+
+{% endif %}
+{% if loop.last and loop.index > 1 %}</div><!-- End Row (8) -->{% endif %}
+{% endgimmelist %}
+
+{% endif %}
 
 {% endcache %}
 {% endcontainer %}<!-- End Span (8) -->

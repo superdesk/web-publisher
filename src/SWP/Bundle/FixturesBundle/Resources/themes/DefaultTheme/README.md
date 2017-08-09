@@ -1,7 +1,7 @@
 DESCRIPTION
 -----------
 
-**Publisher Mag** ships within Superdesk Publisher Release, thus can be considered the default and most basic Publisher theme. It serves purpose of showing most common features of the software, such as listing articles, showing article elements and full content, working with menu widgets etc.
+**Publisher Mag** ships within Superdesk Publisher Release, thus can be considered the default and most basic Publisher theme. It serves purpose of showing most common features of the software, such as listing articles, showing article elements and full content, working with menu widgets, content lists etc.
 
 **Publisher Mag** also features html and content list widgets which enable live-site editing from frontend.
 
@@ -28,11 +28,18 @@ b) add all js changes from `public/js/` to `public/dist/all.js` file
 ADJUSTING AND CUSTOMIZING THEME
 -------------------------------
 **Publisher Mag** theme comes with predefined functionality which includes:
-- front page with automated list of three latest articles
-- list of articles with specific criteria under it 
+- front page main content area organized using manual content list of three articles (manually curated by the editor) with fallback to newest articles if manual list is empty or not defined
+- list of few latest articles per section under it (on frontpage, section parameter is ignored)
 - category pages with pagination
 - article page with featured image on top, article content and article image slider under it
 - static page template 
 - Theme has built-in support for Google AMP (accelerated mobile pages). These templates are in subfolder `/amp`. More information on Google AMP project is here: https://www.ampproject.org/
+
+PREDEFINED CONTENT LIST AND MENU NAMES
+--------------------------------------
+Some values need to be pre-defined in templates in order to properly link template functionality and site editing via Live Site Editor on one side, and UI in Superdesk on another:
+- main navigation in header is called *mainNavigation* by default (if you want to use another name for it in Superdesk Publisher, also rename it in template `views/widgets/menu1.html.twig`)
+- footer navigation is called *footerPrim* (you can change it in `views/widgets/menu2.html.twig`)
+- front page top content is using manual content list named *Top news*; if you want to have it by different name, you will also need to change it in `views/index.html.twig`
 
 For theme templates customization please refer to Superdesk Publisher documentation, starting here: http://superdesk-publisher.readthedocs.io/en/latest/manual/templates_system/index.html
