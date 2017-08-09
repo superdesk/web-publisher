@@ -51,11 +51,8 @@ class RouteEnhancer implements RouteEnhancerInterface
      * @param LoaderInterface               $metaLoader
      * @param Context                       $context
      */
-    public function __construct(
-        TemplateNameResolverInterface $templateNameResolver,
-        LoaderInterface $metaLoader,
-        Context $context
-    ) {
+    public function __construct(TemplateNameResolverInterface $templateNameResolver, LoaderInterface $metaLoader, Context $context)
+    {
         $this->templateNameResolver = $templateNameResolver;
         $this->metaLoader = $metaLoader;
         $this->context = $context;

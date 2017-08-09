@@ -51,6 +51,23 @@ final class PackagePreviewTest extends WebTestCase
         self::assertGreaterThan(0, $crawler->filter('html:contains("Current tenant: Default tenant")')->count());
     }
 
+    public function testPackagePreviewWithAmp()
+    {
+        $route = $this->createRoute();
+
+        $this->ensureArticleIsNotAccessible();
+
+        $client = static::createClient([], ['HTTP_Authorization' => null]);
+        $crawler = $client->request('GET', $this->router->generate(
+            'swp_package_preview',
+            ['routeId' => $route['id'], 'id' => 1, 'auth_token' => base64_encode('test_token:'), 'amp' => true]
+        ));
+
+        self::assertTrue($client->getResponse()->isSuccessful());
+        self::assertContains('<script async src="https://cdn.ampproject.org/v0.js"></script>', $client->getResponse()->getContent());
+        self::assertContains('art1 not published', $client->getResponse()->getContent());
+    }
+
     public function testPackagePreviewWithoutToken()
     {
         $route = $this->createRoute();
