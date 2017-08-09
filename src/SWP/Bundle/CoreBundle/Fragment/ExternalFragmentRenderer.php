@@ -60,7 +60,7 @@ class ExternalFragmentRenderer implements FragmentRendererInterface
         $level = ob_get_level();
         try {
             return new Response($this->createExternalRequest($uri));
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             // we dispatch the exception event to trigger the logging
             // the response that comes back is simply ignored
             if (isset($options['ignore_errors']) && $options['ignore_errors'] && $this->dispatcher) {
@@ -88,6 +88,14 @@ class ExternalFragmentRenderer implements FragmentRendererInterface
     }
 
     /**
+     * {@inheritdoc}
+     */
+    public function getName()
+    {
+        return 'external';
+    }
+
+    /**
      * @param string $uri
      *
      * @return mixed
@@ -97,13 +105,5 @@ class ExternalFragmentRenderer implements FragmentRendererInterface
         $client = new GuzzleClient();
 
         return $client->makeCall($uri)['body'];
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getName()
-    {
-        return 'external';
     }
 }
