@@ -137,6 +137,12 @@ services:
             - "@sylius.theme.hierarchy_provider"
             - "%takeit_amp_html.configuration.theme.theme_path%"
 
+    swp.twig.cache.tenant_aware:
+        class: SWP\Bundle\CoreBundle\Twig\Cache\TenantAwareCache
+        arguments:
+            - '%kernel.cache_dir%/twig'
+            - '@swp_multi_tenancy.tenant_context'
+
     swp.facebook.service.instant_articles:
         class: SWP\Bundle\CoreBundle\Service\FacebookInstantArticlesService
         arguments:
