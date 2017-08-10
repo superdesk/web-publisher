@@ -139,10 +139,8 @@ services:
 
     swp.twig.cache.tenant_aware:
         class: SWP\Bundle\CoreBundle\Twig\Cache\TenantAwareCache
-        public: false
         arguments:
             - '%kernel.cache_dir%/twig'
-            - '@swp_core.theme.context.tenant_aware'
             - '@swp_multi_tenancy.tenant_context'
 
     swp.facebook.service.instant_articles:
