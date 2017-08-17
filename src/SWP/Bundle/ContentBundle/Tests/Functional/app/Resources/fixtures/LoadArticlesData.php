@@ -114,7 +114,7 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface, Orde
                 'content' => 'Test news article content',
                 'route' => 'news',
                 'locale' => 'en',
-                'source' => 'aap',
+                'sources' => ['aap'],
             ],
             [
                 'title' => 'Test article',
@@ -187,8 +187,11 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface, Orde
 
             $article->setMetadata($this->articleMetadata());
             $article->setCode(md5($articleData['title']));
-            if (array_key_exists('source', $articleData)) {
-                $article->setSource($articleData['source']);
+            if (array_key_exists('sources', $articleData)) {
+                foreach ($articleData['sources'] as $source) {
+                    $this->container->get('swp.adder.article_source')->add($article, $source);
+                }
+
             }
             $manager->persist($article);
 

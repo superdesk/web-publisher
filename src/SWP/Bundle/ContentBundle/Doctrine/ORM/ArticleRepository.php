@@ -178,5 +178,17 @@ class ArticleRepository extends EntityRepository implements ArticleRepositoryInt
             $queryBuilder->andWhere($like);
             $criteria->remove('query');
         }
+
+        if ($criteria->has('source') && !empty($criteria->get('source'))) {
+            $queryBuilder->leftJoin('a.sources', 's');
+
+            $orX = $queryBuilder->expr()->orX();
+            foreach ((array) $criteria->get('source') as $value) {
+                $orX->add($queryBuilder->expr()->eq('s.name', $queryBuilder->expr()->literal($value)));
+            }
+
+            $queryBuilder->andWhere($orX);
+            $criteria->remove('source');
+        }
     }
 }
