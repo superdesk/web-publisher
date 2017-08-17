@@ -27,7 +27,7 @@ class ResourceResponseListenerTest extends \PHPUnit_Framework_TestCase
 {
     public function testInitialization()
     {
-        $viewHandler = $this->getMockWithoutInvokingTheOriginalConstructor(ViewHandler::class);
+        $viewHandler = $this->createMock(ViewHandler::class);
         $listener = new ResourceResponseListener($viewHandler);
 
         self::assertInstanceOf(ResourceResponseListener::class, $listener);
@@ -35,7 +35,7 @@ class ResourceResponseListenerTest extends \PHPUnit_Framework_TestCase
 
     public function testOnKernelView()
     {
-        $viewHandler = $this->getMockWithoutInvokingTheOriginalConstructor(ViewHandler::class);
+        $viewHandler = $this->createMock(ViewHandler::class);
         $viewHandler
             ->method('handle')
             ->will($this->returnValue(new Response()));
@@ -43,7 +43,7 @@ class ResourceResponseListenerTest extends \PHPUnit_Framework_TestCase
         $listener = new ResourceResponseListener($viewHandler);
 
         $resourcesListResponse = new ResourcesListResponse(new SlidingPagination([]));
-        $event = $this->getMockWithoutInvokingTheOriginalConstructor(GetResponseForControllerResultEvent::class);
+        $event = $this->createMock(GetResponseForControllerResultEvent::class);
         $event
             ->method('getControllerResult')
             ->will($this->returnValue($resourcesListResponse));
@@ -54,7 +54,7 @@ class ResourceResponseListenerTest extends \PHPUnit_Framework_TestCase
         $listener->onKernelView($event);
 
         $singleResponse = new SingleResourceResponse([1, 2, 3]);
-        $event = $this->getMockWithoutInvokingTheOriginalConstructor(GetResponseForControllerResultEvent::class);
+        $event = $this->createMock(GetResponseForControllerResultEvent::class);
         $event
             ->method('getControllerResult')
             ->will($this->returnValue($singleResponse));

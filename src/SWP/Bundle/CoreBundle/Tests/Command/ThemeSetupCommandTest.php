@@ -55,7 +55,8 @@ class ThemeSetupCommandTest extends KernelTestCase
 
     private function getMockContainer($mockTenant = null, $tenantCode = '123456')
     {
-        $mockRepo = $this->getMock(TenantRepositoryInterface::class);
+        $mockRepo = $this->getMockBuilder(TenantRepositoryInterface::class)
+            ->getMock();
 
         $mockRepo->expects($this->any())
             ->method('findOneByCode')

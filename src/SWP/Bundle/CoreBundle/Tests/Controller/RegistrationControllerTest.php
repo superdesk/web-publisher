@@ -77,7 +77,6 @@ class RegistrationControllerTest extends WebTestCase
     public function testValidation()
     {
         $client = static::createClient();
-        $client->enableProfiler();
         $client->request('POST', $this->router->generate('swp_api_core_register_user'), [
             'user_registration' => [
                 'email' => 'notemail',

@@ -114,9 +114,9 @@ class GimmeListNode extends \Twig_Node
             }
         }
 
-        $compiler->write('$swpCollectionMetaLoader'.$i." = \$this->env->getExtension('swp_gimme')->getLoader();\n");
+        $compiler->write('$swpCollectionMetaLoader'.$i." = \$this->env->getExtension('SWP\Component\TemplatesSystem\Twig\Extension\GimmeExtension')->getLoader();\n");
         if ($this->hasNode('ignoreContext')) {
-            $compiler->write('$swpContext'.$i."GimmeList = \$this->env->getExtension('swp_gimme')->getContext();\n");
+            $compiler->write('$swpContext'.$i."GimmeList = \$this->env->getExtension('SWP\Component\TemplatesSystem\Twig\Extension\GimmeExtension')->getContext();\n");
             $compiler->write('$swpIgnoreContext'.$i.'GimmeList = $swpContext'.$i.'GimmeList->temporaryUnset(')->subcompile($this->getNode('ignoreContext'))->raw(");\n");
         }
         $compiler->write('')->subcompile($this->getNode('collectionType'))->raw(' = twig_ensure_traversable($swpCollectionMetaLoader'.$i.'->load("')->raw($collectionTypeName)->raw('", ');

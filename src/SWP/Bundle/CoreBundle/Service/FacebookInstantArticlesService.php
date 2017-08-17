@@ -101,7 +101,6 @@ class FacebookInstantArticlesService implements FacebookInstantArticlesServiceIn
     {
         /** @var FacebookInstantArticlesArticle $instantArticleEntity */
         $instantArticle = $this->facebookInstantArticlesArticleRepository->findSubmission($submissionId);
-
         if (null === $instantArticle) {
             throw new \Exception('Instant Article with provided submission ID does not exists.');
         }
@@ -130,13 +129,9 @@ class FacebookInstantArticlesService implements FacebookInstantArticlesServiceIn
     }
 
     /**
-     * @param $feed
-     *
-     * @return Client
-     *
-     * @throws \Exception
+     * {@inheritdoc}
      */
-    protected function getClient($feed)
+    public function getClient(FacebookInstantArticlesFeedInterface $feed)
     {
         $facebookPage = $feed->getFacebookPage();
 

@@ -64,9 +64,9 @@ class GimmeNode extends \Twig_Node
 
         $compiler
             ->addDebugInfo($this)
-            ->write('$swpMetaLoader'.$i." = \$this->env->getExtension('swp_gimme')->getLoader();\n");
+            ->write('$swpMetaLoader'.$i." = \$this->env->getExtension('SWP\Component\TemplatesSystem\Twig\Extension\GimmeExtension')->getLoader();\n");
         if ($this->hasNode('ignoreContext')) {
-            $compiler->write('$swpContext'.$i."Gimme = \$this->env->getExtension('swp_gimme')->getContext();\n");
+            $compiler->write('$swpContext'.$i."Gimme = \$this->env->getExtension('SWP\Component\TemplatesSystem\Twig\Extension\GimmeExtension')->getContext();\n");
             $compiler->write('$swpIgnoreContext'.$i.'Gimme = $swpContext'.$i.'Gimme->temporaryUnset(')->subcompile($this->getNode('ignoreContext'))->raw(");\n");
         }
         $compiler
