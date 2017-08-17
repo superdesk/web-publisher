@@ -26,6 +26,7 @@ use SWP\Component\Common\Response\ResponseContext;
 use SWP\Component\Common\Response\SingleResourceResponse;
 use SWP\Bundle\TemplatesSystemBundle\Form\Type\WidgetType;
 use SWP\Bundle\CoreBundle\Model\WidgetModel;
+use Symfony\Component\Finder\Finder;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\ConflictHttpException;
 
@@ -55,6 +56,47 @@ class WidgetController extends FOSRestController
         $widgets = $repository->getPaginatedByCriteria(new Criteria(), $request->query->get('sorting', []), new PaginationData($request));
 
         return new ResourcesListResponse($widgets);
+    }
+
+    /**
+     * Lists all theme widgets templates.
+     *
+     * @ApiDoc(
+     *     resource=true,
+     *     description="Lists all theme widgets templates",
+     *     statusCodes={
+     *         200="Returned on success."
+     *     }
+     * )
+     * @Route("/api/{version}/templates/widgets/templates/", options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_templates_list_widgets_templates")
+     * @Method("GET")
+     * Cache(expires="10 minutes", public=true)
+     */
+    public function listTemplatesAction(Request $request)
+    {
+        $themeContext = $this->container->get('sylius.context.theme');
+        $path = $themeContext->getTheme()->getPath().DIRECTORY_SEPARATOR.'views'.DIRECTORY_SEPARATOR.'widgets';
+
+        if (!file_exists($path)) {
+            return new SingleResourceResponse([]);
+        }
+
+        $files = Finder::create()
+            ->files()
+            ->depth(0)
+            ->in($path)
+            ->sortByName();
+
+        $templates = [];
+
+        foreach ($files as $file) {
+            $templates[] = [
+                'name' => $file->getFilename(),
+                'modified' => date('Y-m-d H:i:s', $file->getMTime()),
+            ];
+        }
+
+        return new SingleResourceResponse($templates);
     }
 
     /**

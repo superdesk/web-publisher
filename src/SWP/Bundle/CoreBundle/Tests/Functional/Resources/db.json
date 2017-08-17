@@ -22,5 +22,8 @@
         "sign_off": "testu"
       }
     }
-  ]
+  ],
+  "esi_fragment": {
+    "content": "some content"
+  }
 }

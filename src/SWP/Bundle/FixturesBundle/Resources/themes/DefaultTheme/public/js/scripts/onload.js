@@ -24,6 +24,7 @@
     }
 
 }
+
 /* jQuery
 ``````````````````````````````````````````````````````````````````````````` */
 window.onload = function() {
@@ -32,11 +33,19 @@ window.onload = function() {
             return containerWidth / 4;
         }
     });
-
-
 };
 
 $(document).ready(function() {
+
+          var navigation = $('#nav-main').okayNav();
+
+          blueimp.Gallery(
+              document.getElementById('links').getElementsByTagName('a'),
+              {
+                  container: '#blueimp-gallery-carousel',
+                  carousel: true
+              }
+          );
 
   /** USER MANAGEMENT **/
   /* LOGIN USER */
@@ -63,8 +72,8 @@ $(document).ready(function() {
       var content = $( data ); 
       apiKey = content["0"]["token"]["api_key"];
       userId = content["0"]["user"]["id"];
-      localStorage.setItem('auth_token', apiKey);
-      localStorage.setItem('user_id', userId);
+      sessionStorage.setItem('auth_token', apiKey);
+      sessionStorage.setItem('user_id', userId);
       $.post($('#loginform').attr('action'), {'_format': 'json', '_username': username, '_password': password}).done(function (done) {location.reload()});
     });
 
@@ -128,8 +137,8 @@ $(document).ready(function() {
 
   /* LOAD USER PROFILE */
 
-  var authToken = localStorage.getItem('auth_token');
-  var userId = localStorage.getItem('user_id');
+  var authToken = sessionStorage.getItem('auth_token');
+  var userId = sessionStorage.getItem('user_id');
   if (authToken) {
     $.ajax({
       headers : {
@@ -210,7 +219,6 @@ $(document).ready(function() {
   }); 
 
 /* END USER MGMNT */
-
 
 
     sticky_menu.init();
@@ -391,7 +399,7 @@ $(document).ready(function() {
         return false;
     });
 
-    $('#outer_side_menu').scrollToFixed();
+    $('#outer_side_menu').scrollTo();
     $('#top_menu').hsSubMenu();
 });
 
@@ -661,4 +669,5 @@ $.fn.hsSlide = function(options) {
             return $(e).height()
         })));
     };
+
 })(jQuery);

@@ -1,8 +1,8 @@
 {
-  "name": "Boilerplate",
-  "version": "0.1.0",
+  "name": "defaultTheme",
+  "version": "1.0.0",
   "devDependencies": {
-    "gulp": "*",
+    "gulp": "^3.9.1",
     "gulp-autoprefixer": "*",
     "gulp-concat": "*",
     "gulp-cssmin": "*",
@@ -16,8 +16,5 @@
     "node-sass": "*",
     "sw-precache": "*",
     "sw-toolbox": "*"
-  },
-  "dependencies": {
-
   }
 }

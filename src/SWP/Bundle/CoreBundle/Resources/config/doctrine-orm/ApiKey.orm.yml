@@ -25,4 +25,4 @@ SWP\Bundle\CoreBundle\Model\ApiKey:
                 onDelete: CASCADE
     uniqueConstraints:
         search_idx:
-            columns: [ api_key ]
+            columns: [ api_key, valid_to ]

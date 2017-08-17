@@ -137,6 +137,12 @@ services:
             - "@sylius.theme.hierarchy_provider"
             - "%takeit_amp_html.configuration.theme.theme_path%"
 
+    swp.twig.cache.tenant_aware:
+        class: SWP\Bundle\CoreBundle\Twig\Cache\TenantAwareCache
+        arguments:
+            - '%kernel.cache_dir%/twig'
+            - '@swp_multi_tenancy.tenant_context'
+
     swp.facebook.service.instant_articles:
         class: SWP\Bundle\CoreBundle\Service\FacebookInstantArticlesService
         arguments:
@@ -166,6 +172,14 @@ services:
             - "@swp_revision.context.revision"
         tags:
             - { name: kernel.event_listener, event: kernel.request, method: onKernelRequest }
+
+    swp_core.listener.preview_mode:
+        class:  SWP\Bundle\CoreBundle\EventListener\PreviewModeListener
+        arguments:
+            - "@swp_template_engine_context"
+        tags:
+            - { name: kernel.event_listener, event: kernel.request, method: onKernelRequest }
+
     swp.matcher.article_criteria:
         class: SWP\Bundle\CoreBundle\Matcher\ArticleCriteriaMatcher
 
@@ -287,3 +301,37 @@ services:
             - "@swp_template_engine_context"
         tags:
             - { name: swp.meta_loader.add }
+
+    swp_core.fragment.renderer.external:
+        class: SWP\Bundle\CoreBundle\Fragment\ExternalFragmentRenderer
+        arguments:
+            - "@kernel"
+            - "@event_dispatcher"
+        public: false
+
+    swp_core.fragment.renderer.external_esi:
+        class: SWP\Bundle\CoreBundle\Fragment\ExternalEsiFragmentRenderer
+        arguments:
+            - "@esi"
+            - "@swp_core.fragment.renderer.external"
+            - "@uri_signer"
+        tags:
+            - { name: kernel.fragment_renderer, alias: external_esi }
+        calls:
+            - method: setFragmentPath
+              arguments:
+                  - '%fragment.path%'
+
+    swp_core.param_converter.article_preview.resolve_entity_converter:
+        class: SWP\Bundle\CoreBundle\Request\ParamConverter\ResolveEntityParamConverter
+        public: false
+        tags:
+            - { name: request.param_converter, priority: 11, converter: doctrine.orm }
+        arguments:
+            - {'Takeit\Bundle\AmpHtmlBundle\Model\AmpInterface': "%takeit_amp_html.configuration.model.class%"}
+            - '@swp_template_engine_context'
+            - '@swp_content_bundle.processor.article_body'
+            - '@swp.repository.package'
+            - '@swp.factory.article'
+            - '@swp.factory.media'
+            - '@?doctrine'

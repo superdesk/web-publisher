@@ -77,6 +77,8 @@ class ContentListLoader implements LoaderInterface
                 $criteria->set('id', $parameters['contentListId']);
             } elseif (array_key_exists('contentListName', $parameters) && is_string($parameters['contentListName'])) {
                 $criteria->set('name', $parameters['contentListName']);
+            } else {
+                return false;
             }
 
             $contentList = $this->contentListRepository->getQueryByCriteria($criteria, [], 'c')->getQuery()->getOneOrNullResult();
