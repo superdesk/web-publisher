@@ -32,8 +32,8 @@ class GimmeListNode extends \Twig_Node
      * @param \Twig_Node_Expression|null        $parameters
      * @param \Twig_Node_Expression|null        $ignoreContext
      * @param \Twig_Node_Expression|null        $ifExpression
-     * @param \Twig_NodeInterface|null          $else
-     * @param \Twig_NodeInterface               $body
+     * @param \Twig_Node|null                   $else
+     * @param \Twig_Node                        $body
      * @param int                               $lineno
      * @param null                              $tag
      */
@@ -44,8 +44,8 @@ class GimmeListNode extends \Twig_Node
         \Twig_Node_Expression $parameters = null,
         \Twig_Node_Expression $ignoreContext = null,
         \Twig_Node_Expression $ifExpression = null,
-        \Twig_NodeInterface $else = null,
-        \Twig_NodeInterface $body,
+        \Twig_Node $else = null,
+        \Twig_Node $body,
         $lineno,
         $tag = null
     ) {

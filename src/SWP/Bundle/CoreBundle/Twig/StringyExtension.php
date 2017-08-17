@@ -14,6 +14,9 @@
 
 namespace SWP\Bundle\CoreBundle\Twig;
 
+/**
+ * Class StringyExtension.
+ */
 class StringyExtension extends \Twig_Extension
 {
     const EXCLUDE_FUNCTIONS = ['__construct', '__toString', 'create'];
@@ -33,6 +36,11 @@ class StringyExtension extends \Twig_Extension
      */
     protected $filters = [];
 
+    /**
+     * StringyExtension constructor.
+     *
+     * @param \Twig_Environment $environment
+     */
     public function __construct(\Twig_Environment $environment)
     {
         $this->environment = $environment;
@@ -69,6 +77,7 @@ class StringyExtension extends \Twig_Extension
             return $value->getName();
         }, $methods);
 
+        $addedMethods = [];
         foreach ($names as $name) {
             if (in_array($name, self::EXCLUDE_FUNCTIONS)) {
                 continue;
@@ -80,20 +89,22 @@ class StringyExtension extends \Twig_Extension
             $doc = $method->getDocComment();
             if (strpos($doc, '@return bool')) {
                 // Don't add functions which have the same name as any already in the environment
-                if ($this->environment->getFunction($name)) {
+                if (in_array($name, $addedMethods)) {
                     continue;
                 }
                 $this->functions[$name] = new \Twig_SimpleFunction($name, function () use ($name) {
                     return call_user_func_array(['Stringy\StaticStringy', $name], func_get_args());
                 });
+                $addedMethods[] = $name;
             } else {
                 // Don't add filters which have the same name as any already in the environment
-                if ($this->environment->getFilter($name)) {
+                if (in_array($name, $addedMethods)) {
                     continue;
                 }
                 $this->filters[$name] = new \Twig_SimpleFilter($name, function () use ($name) {
                     return call_user_func_array(['Stringy\StaticStringy', $name], func_get_args());
                 });
+                $addedMethods[] = $name;
             }
         }
     }

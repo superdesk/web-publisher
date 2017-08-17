@@ -29,7 +29,7 @@ class StringyExtensionTest extends WebTestCase
 
         $this->loadCustomFixtures(['tenant']);
 
-        $this->twig = $this->getContainer()->get('Twig');
+        $this->twig = $this->getContainer()->get('twig');
     }
 
     public function testCamelize()
