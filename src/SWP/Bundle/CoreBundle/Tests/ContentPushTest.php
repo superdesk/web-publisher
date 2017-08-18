@@ -1023,6 +1023,7 @@ final class ContentPushTest extends WebTestCase
         );
         self::assertEquals(200, $client->getResponse()->getStatusCode());
         $content = json_decode($client->getResponse()->getContent(), true);
-        self::assertEquals('package_tests_source', $content['source']);
+
+        self::assertArraySubset([['name' => 'package_tests_source'], ['name' => 'package_item_tests_source']], $content['sources']);
     }
 }

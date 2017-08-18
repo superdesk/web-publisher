@@ -90,6 +90,8 @@ swp_content:
                     model: SWP\Bundle\CoreBundle\Model\Route
                 image:
                     model: SWP\Bundle\CoreBundle\Model\Image
+                article_source:
+                    model: SWP\Bundle\CoreBundle\Model\ArticleSource
 
 swp_revision:
     persistence:
