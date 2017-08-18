@@ -38,17 +38,17 @@ final class TenantType extends AbstractType
                 ],
             ])
             ->add('subdomain', TextType::class, [
-                'required' => true,
+                'required' => false,
                 'description' => 'Tenant subdomain',
                 'constraints' => [
-                    new NotBlank(),
                     new Length(['min' => 3]),
                 ],
             ])
             ->add('domainName', TextType::class, [
-                'required' => false,
+                'required' => true,
                 'description' => 'Tenant domain name',
                 'constraints' => [
+                    new NotBlank(),
                     new Length(['min' => 3]),
                 ],
             ])

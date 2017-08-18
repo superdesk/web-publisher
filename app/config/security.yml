@@ -3,12 +3,13 @@ security:
         FOS\UserBundle\Model\UserInterface: bcrypt
 
     role_hierarchy:
-        ROLE_USER:          [ROLE_READER]
-        ROLE_JOURNALIST:    [ROLE_USER]
-        ROLE_EDITOR:        [ROLE_JOURNALIST, ROLE_ARTICLE_PREVIEW]
-        ROLE_INTERNAL_API:  [ROLE_EDITOR]
-        ROLE_ADMIN:         [ROLE_EDITOR]
-        ROLE_SUPER_ADMIN:   [ROLE_ADMIN, ROLE_ALLOWED_TO_SWITCH]
+        ROLE_USER:            [ROLE_READER]
+        ROLE_JOURNALIST:      [ROLE_USER]
+        ROLE_EDITOR:          [ROLE_JOURNALIST, ROLE_ARTICLE_PREVIEW]
+        ROLE_INTERNAL_API:    [ROLE_EDITOR]
+        ROLE_LIVESITE_EDITOR: [ROLE_INTERNAL_API]
+        ROLE_ADMIN:           [ROLE_EDITOR, ROLE_LIVESITE_EDITOR]
+        ROLE_SUPER_ADMIN:     [ROLE_ADMIN, ROLE_ALLOWED_TO_SWITCH]
 
     providers:
         fos_userbundle:

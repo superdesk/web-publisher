@@ -17,7 +17,7 @@
         <ini name="intl.default_locale" value="en" />
         <ini name="intl.error_level" value="0" />
         <ini name="memory_limit" value="-1" />
-        <env name="SYMFONY_DEPRECATIONS_HELPER" value="1000" />
+        <env name="SYMFONY_DEPRECATIONS_HELPER" value="1500" />
     </php>
 
     <testsuites>
@@ -31,6 +31,7 @@
             <exclude>../src/SWP/Bundle/ContentBundle/Tests/*</exclude>
             <exclude>../src/SWP/Bundle/SettingsBundle/Tests/*</exclude>
             <exclude>../src/SWP/Bundle/UserBundle/Tests/*</exclude>
+            <exclude>../src/SWP/Bundle/CoreBundle/Tests/Controller/*</exclude>
         </testsuite>
     </testsuites>
 

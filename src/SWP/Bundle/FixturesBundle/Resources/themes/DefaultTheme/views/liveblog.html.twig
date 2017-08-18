@@ -1,0 +1,29 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div id="page" class="container">
+
+        <!-- Content -->
+        <section id="content">
+
+            <div class="row article_content">
+                <article class="news_item span8 ">
+                {% container 'liveblog' %}
+                    <p>Attach liveblog widget to container (name: liveblog)</p>
+                {% endcontainer %}
+                </article>
+                <aside class="span4 news_item">
+                    <img style="margin: 20px auto 0 auto; display:block;" src="{{ asset('theme/img/300x250.png') }}" alt="Sourcefabric">
+                </aside>
+            </div>
+
+            {% include '_tpl/latest-news.html.twig' %}
+
+        </section><!-- End Content -->
+
+    </div>
+{% endblock %}
+
+{% block template_code %}
+    <pre class="js-template-code" style="display:none;">{{ source(_self.getTemplateName())|escape('html') }}</pre>
+{% endblock %}

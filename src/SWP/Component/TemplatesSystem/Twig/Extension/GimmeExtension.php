@@ -107,6 +107,6 @@ class GimmeExtension extends \Twig_Extension implements \Twig_Extension_GlobalsI
      */
     public function getName()
     {
-        return 'swp_gimme';
+        return self::class;
     }
 }

@@ -16,7 +16,7 @@ services:
             - "@swp_template_engine_context.factory.meta_factory"
             - "@swp_template_engine_context"
         tags:
-            - { name: swp.meta_loader }
+            - { name: swp.meta_loader.add }
 
     swp_template_engine.loader.media:
         class: SWP\Bundle\ContentBundle\Loader\ArticleMediaLoader
@@ -25,7 +25,7 @@ services:
             - "@swp_template_engine_context.factory.meta_factory"
             - "@swp_template_engine_context"
         tags:
-            - { name: swp.meta_loader }
+            - { name: swp.meta_loader.add }
 
     swp_template_engine.loader.rendition:
         class: SWP\Bundle\ContentBundle\Loader\RenditionLoader
@@ -33,14 +33,14 @@ services:
             - "@swp_template_engine_context"
             - "@swp_template_engine_context.factory.meta_factory"
         tags:
-            - { name: swp.meta_loader }
+            - { name: swp.meta_loader.add }
 
     swp_template_engine.loader.route:
         class: SWP\Bundle\ContentBundle\Loader\RouteLoader
         arguments:
              - "@swp_template_engine_context.factory.meta_factory"
         tags:
-            - { name: swp.meta_loader }
+            - { name: swp.meta_loader.add }
 
     swp_content_bundle.factory.knp_paginator_representation:
         class: SWP\Component\Common\Factory\KnpPaginatorRepresentationFactory
@@ -68,8 +68,8 @@ services:
         class: SWP\Bundle\ContentBundle\EventListener\ProcessArticleMediaListener
         arguments:
             - '@swp.repository.media'
-            - '@swp_content_bundle.manager.media'
             - '@swp.factory.media'
+            - '@swp_content_bundle.processor.article_body'
         tags:
             - { name: kernel.event_listener, event: swp.article.pre_create, method: onArticleCreate }
 
@@ -103,9 +103,15 @@ services:
         class: '%swp_content_bundle.manager.media.class%'
         arguments:
             - '@swp.repository.media'
-            - '@swp.factory.media'
             - '@swp_filesystem'
             - '@router'
+            - '@swp.factory.image'
+            - '@swp.factory.file'
+
+    swp_content_bundle.processor.article_body:
+        class: SWP\Bundle\ContentBundle\Processor\ArticleBodyProcessor
+        arguments:
+            - '@swp_content_bundle.manager.media'
 
     router.symfony:
         parent: "router.default"

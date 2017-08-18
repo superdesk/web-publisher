@@ -19,7 +19,7 @@ use Psr\Log\LoggerInterface;
 use SWP\Bundle\ContentBundle\Model\RouteInterface;
 use SWP\Bundle\ContentBundle\Provider\RouteProviderInterface;
 use SWP\Bundle\ContentBundle\Rule\Applicator\ArticleRuleApplicator;
-use SWP\Bundle\CoreBundle\Model\Article;
+use SWP\Bundle\ContentBundle\Model\Article;
 use PhpSpec\ObjectBehavior;
 use SWP\Bundle\ContentBundle\Service\ArticleServiceInterface;
 use SWP\Component\Rule\Applicator\RuleApplicatorInterface;

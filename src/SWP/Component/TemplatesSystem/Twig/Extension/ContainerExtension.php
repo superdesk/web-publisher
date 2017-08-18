@@ -39,6 +39,6 @@ class ContainerExtension extends \Twig_Extension
 
     public function getName()
     {
-        return 'swp_container';
+        return self::class;
     }
 }

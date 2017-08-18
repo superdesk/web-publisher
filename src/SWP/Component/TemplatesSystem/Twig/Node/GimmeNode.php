@@ -27,7 +27,7 @@ class GimmeNode extends \Twig_Node
      * @param \Twig_Node                 $annotation
      * @param \Twig_Node_Expression|null $parameters
      * @param \Twig_Node_Expression|null $ignoreContext
-     * @param \Twig_NodeInterface        $body
+     * @param \Twig_Node                 $body
      * @param $lineno
      * @param null $tag
      */
@@ -35,7 +35,7 @@ class GimmeNode extends \Twig_Node
         \Twig_Node $annotation,
         \Twig_Node_Expression $parameters = null,
         \Twig_Node_Expression $ignoreContext = null,
-        \Twig_NodeInterface $body,
+        \Twig_Node $body,
         $lineno,
         $tag = null
     ) {
@@ -64,9 +64,9 @@ class GimmeNode extends \Twig_Node
 
         $compiler
             ->addDebugInfo($this)
-            ->write('$swpMetaLoader'.$i." = \$this->env->getExtension('swp_gimme')->getLoader();\n");
+            ->write('$swpMetaLoader'.$i." = \$this->env->getExtension('SWP\Component\TemplatesSystem\Twig\Extension\GimmeExtension')->getLoader();\n");
         if ($this->hasNode('ignoreContext')) {
-            $compiler->write('$swpContext'.$i."Gimme = \$this->env->getExtension('swp_gimme')->getContext();\n");
+            $compiler->write('$swpContext'.$i."Gimme = \$this->env->getExtension('SWP\Component\TemplatesSystem\Twig\Extension\GimmeExtension')->getContext();\n");
             $compiler->write('$swpIgnoreContext'.$i.'Gimme = $swpContext'.$i.'Gimme->temporaryUnset(')->subcompile($this->getNode('ignoreContext'))->raw(");\n");
         }
         $compiler

@@ -31,3 +31,10 @@ NelmioApiDocBundle:
 swp_elasticsearch:
     resource: "@SWPElasticSearchBundle/Controller/Api"
     type:     annotation
+
+remove_trailing_slash:
+    path: /{url}
+    defaults: { _controller: SWPCoreBundle:Redirecting:removeTrailingSlash }
+    requirements:
+        url: .*/$
+    methods: [GET]

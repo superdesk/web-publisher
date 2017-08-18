@@ -17,11 +17,12 @@ namespace SWP\Bundle\ContentBundle\Model;
 use SWP\Component\Common\Model\SoftDeletableInterface;
 use SWP\Component\Common\Model\TimestampableInterface;
 use SWP\Component\Common\Model\TranslatableInterface;
+use SWP\Component\Rule\Model\RuleSubjectInterface;
 use SWP\Component\Storage\Model\PersistableInterface;
 use Symfony\Cmf\Bundle\CoreBundle\PublishWorkflow\PublishableInterface;
 use Symfony\Cmf\Bundle\CoreBundle\PublishWorkflow\PublishTimePeriodInterface;
 
-interface ArticleInterface extends TimestampableInterface, TranslatableInterface, PersistableInterface, SoftDeletableInterface, PublishableInterface, PublishTimePeriodInterface, MetadataAwareInterface
+interface ArticleInterface extends TimestampableInterface, RuleSubjectInterface, TranslatableInterface, PersistableInterface, SoftDeletableInterface, PublishableInterface, PublishTimePeriodInterface, MetadataAwareInterface, MediaAwareArticleInterface
 {
     const STATUS_NEW = 'new';
     const STATUS_PUBLISHED = 'published';

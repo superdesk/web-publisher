@@ -16,6 +16,8 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\CoreBundle\Security\Authenticator;
 
+use SWP\Bundle\CoreBundle\EventListener\ActivateLivesiteEditorListener;
+use SWP\Bundle\CoreBundle\Model\ApiKeyInterface;
 use SWP\Bundle\CoreBundle\Model\UserInterface as CoreUserInterface;
 use SWP\Bundle\CoreBundle\Repository\ApiKeyRepository;
 use SWP\Bundle\MultiTenancyBundle\MultiTenancyEvents;
@@ -32,6 +34,8 @@ use Symfony\Component\Security\Core\User\UserProviderInterface;
 
 class TokenAuthenticator extends AbstractGuardAuthenticator
 {
+    const INTENTION_LIVESITE_EDITOR = 'livesite_editor';
+
     /**
      * @var ApiKeyRepository
      */
@@ -75,24 +79,36 @@ class TokenAuthenticator extends AbstractGuardAuthenticator
     /**
      * Called on every request. Return whatever credentials you want,
      * or null to stop authentication.
+     *
+     * {@inheritdoc}
      */
     public function getCredentials(Request $request)
     {
-        if (!$token = $request->headers->get('Authorization', $request->query->get('auth_token'))) {
+        if (!$token = $this->getToken($request)) {
             // no token? Return null and no other methods will be called
             return;
         }
 
-        // What you return here will be passed to getUser() as $credentials
-        return [
+        $data = [
             'token' => $token,
         ];
+
+        if (self::INTENTION_LIVESITE_EDITOR === $this->getIntention($request)) {
+            $data['intention'] = self::INTENTION_LIVESITE_EDITOR;
+        }
+
+        // What you return here will be passed to getUser() as $credentials
+        return $data;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getUser($credentials, UserProviderInterface $userProvider)
     {
         $this->eventDispatcher->dispatch(MultiTenancyEvents::TENANTABLE_DISABLE);
 
+        /** @var ApiKeyInterface $apiKey */
         $apiKey = $this->apiKeyRepository
             ->getValidToken(str_replace('Basic ', '', $credentials['token']))
             ->getQuery()
@@ -106,15 +122,22 @@ class TokenAuthenticator extends AbstractGuardAuthenticator
 
         // extend valid time after login
         $apiKey->extendValidTo();
-        $this->apiKeyRepository->flush();
 
         /** @var CoreUserInterface $user */
         $user = $apiKey->getUser();
         $user->addRole('ROLE_INTERNAL_API');
+        $this->apiKeyRepository->flush();
+
+        if (array_key_exists('intention', $credentials) && self::INTENTION_LIVESITE_EDITOR === $credentials['intention']) {
+            $user->addRole('ROLE_LIVESITE_EDITOR');
+        }
 
         return $user;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function checkCredentials($credentials, UserInterface $user)
     {
         if ($user instanceof CoreUserInterface) {
@@ -129,12 +152,22 @@ class TokenAuthenticator extends AbstractGuardAuthenticator
         return false;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, $providerKey)
     {
+        if (self::INTENTION_LIVESITE_EDITOR === $this->getIntention($request)) {
+            $request->attributes->set(ActivateLivesiteEditorListener::ACTIVATION_KEY, $this->getToken($request));
+        }
+
         // on success, let the request continue
         return;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function onAuthenticationFailure(Request $request, AuthenticationException $exception)
     {
         $data = [
@@ -146,7 +179,7 @@ class TokenAuthenticator extends AbstractGuardAuthenticator
     }
 
     /**
-     * Called when authentication is needed, but it's not sent.
+     * {@inheritdoc}
      */
     public function start(Request $request, AuthenticationException $authException = null)
     {
@@ -158,8 +191,31 @@ class TokenAuthenticator extends AbstractGuardAuthenticator
         return new JsonResponse($data, 401);
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function supportsRememberMe()
     {
         return false;
+    }
+
+    /**
+     * @param Request $request
+     *
+     * @return array|string
+     */
+    private function getIntention(Request $request)
+    {
+        return $request->headers->get('Intention', $request->query->get('intention'));
+    }
+
+    /**
+     * @param Request $request
+     *
+     * @return string
+     */
+    private function getToken(Request $request)
+    {
+        return $request->headers->get('Authorization', $request->query->get('auth_token'));
     }
 }

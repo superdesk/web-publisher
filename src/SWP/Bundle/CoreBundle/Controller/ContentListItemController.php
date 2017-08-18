@@ -181,6 +181,7 @@ class ContentListItemController extends Controller
                         $contentListItem->setPosition($item['position']);
                         $list->setUpdatedAt(new \DateTime('now'));
                         $objectManager->flush();
+
                         break;
                     case 'add':
                         $object = $this->get('swp.repository.article')->findOneById($item['content_id']);
@@ -189,12 +190,14 @@ class ContentListItemController extends Controller
                         $objectManager->persist($contentListItem);
                         $list->setUpdatedAt(new \DateTime('now'));
                         $objectManager->flush();
+
                         break;
                     case 'delete':
                         $contentListItem = $this->findByContentOr404($list, $item['content_id']);
                         $objectManager->remove($contentListItem);
                         $list->setUpdatedAt(new \DateTime('now'));
                         $objectManager->flush();
+
                         break;
                 }
             }
@@ -211,7 +214,7 @@ class ContentListItemController extends Controller
         ]);
 
         if (null === $listItem) {
-            throw new NotFoundHttpException(sprintf('Content list item with content_id "%s" was not found.', $contentId));
+            throw new NotFoundHttpException(sprintf('Content list item with content_id "%s" was not found on that list. If You want to add new item - use action type "add".', $contentId));
         }
 
         return $listItem;

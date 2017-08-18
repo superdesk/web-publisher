@@ -10,7 +10,7 @@
   <title>{% block title %}Default Theme for Superdesk Publisher{% endblock %}</title>
   <meta name="author" content="Sourcefabric">
 
-  <meta name="description" content="Superdesk Publisher is state of the art publishing system.">
+  <meta name="description" content="Superdesk Publisher is a state-of-the-art publishing system.">
   <meta name="keywords" content="Superdesk, Sourcefabric, open source, media, journalism">
 
   {#
@@ -50,14 +50,19 @@
 
 {% include '_tpl/login-popup.html.twig' %}
 
+{% include '_tpl/register-popup.html.twig' %}
+
+{% include '_tpl/user-profile.html.twig' %}        
+
 <header id="titlebar">
   {% if app.user %}
   <div class="logininfo">
-     <a href="{{ url('security_logout') }}" class="icon_link icon_key">Logout</a>
-     <span class="icon_link">Logged in as  {{ app.user.username }}</span>
+     <a href="{{ url('security_logout') }}" class="icon_link icon_key">{{ 'global.user.logout'|trans|desc('Logout') }}</a>
+     <a href="#" span class="icon_link open_user_profile">{{ 'global.user.loggedin'|trans|desc('Logged in as') }} {{ app.user.username }}</span>
   </div>
   {% else %}
-     <a href="#" class="icon_link icon_key open_login_popup">Sign In / Sign Up</a>
+    <a href="#" class="icon_link icon_key open_register_popup">Sign Up</a>
+    <a href="#" class="icon_link icon_key open_login_popup">Sign In</a>
   {% endif %}  
 </header>    
 
@@ -82,7 +87,7 @@
         {% endcontainer %}
 
         {# Trending topics is array of first in a row keyword of three latest articles #}
-        {% cache 'subMenu' { time:3600 } %}
+        {% cache 'subMenu' { time:0 } %}
         {% set trendingTopics = [] %}
         {% set i = 0 %}
         {% gimmelist article from articles|order('publishedAt','desc')|limit(3) ignoreContext %}
@@ -98,8 +103,8 @@
         <ul id="submenu" class="container">
           <li>TRENDING TOPICS</li>
           {% for topic in trendingTopics %}
-          <li><a href="{{ url('trending') }}?topic={{ topic }}">{{ topic }}</a></li>
-          {% endfor %}
+          <li><a href="{{ url('trending') }}?topic={{ topic|lower }}">{{ topic }}</a></li>
+          {% endfor %}          
         </ul>
         </div>
         {% endcache %}
@@ -159,22 +164,6 @@
 <!-- End Footer -->
 
   <script type="text/javascript">
-    blueimp.Gallery(
-       document.getElementById('links').getElementsByTagName('a'),
-       {
-           container: '#blueimp-gallery-carousel',
-           carousel: true
-       }
-   );
-  </script>
-
-  <script type="text/javascript">
-    $(document).ready(function() {
-      var navigation = $('#nav-main').okayNav();
-    });
-  </script>
-
-  <script>
     $( ".js-toggle-code" ).click(function(e) {
       e.preventDefault();
       $(".js-template-code").toggle();
@@ -184,6 +173,7 @@
       $(".js-theme-info").toggle();
     });
   </script>
+
   <script id="dsq-count-scr" src="//superdesk-publisher.disqus.com/count.js" async></script>
 </body>
 </html>

@@ -60,7 +60,7 @@ class GimmeNodeTest extends \Twig_Test_NodeTestCase
         return [
             [$node1, <<<'EOF'
 // line 1
-$swpMetaLoader3 = $this->env->getExtension('swp_gimme')->getLoader();
+$swpMetaLoader3 = $this->env->getExtension('SWP\Component\TemplatesSystem\Twig\Extension\GimmeExtension')->getLoader();
 $context["article"] = $swpMetaLoader3->load("article", array());
 if ($context["article"] !== false) {
     echo "Test body";
@@ -70,7 +70,7 @@ EOF
             ],
             [$node2, <<<'EOF'
 // line 2
-$swpMetaLoader4 = $this->env->getExtension('swp_gimme')->getLoader();
+$swpMetaLoader4 = $this->env->getExtension('SWP\Component\TemplatesSystem\Twig\Extension\GimmeExtension')->getLoader();
 $context["article"] = $swpMetaLoader4->load("article", null);
 if ($context["article"] !== false) {
     echo "Test body";
@@ -80,7 +80,7 @@ EOF
             ],
             [$node3, <<<'EOF'
 // line 3
-$swpMetaLoader5 = $this->env->getExtension('swp_gimme')->getLoader();
+$swpMetaLoader5 = $this->env->getExtension('SWP\Component\TemplatesSystem\Twig\Extension\GimmeExtension')->getLoader();
 $context["article"] = $swpMetaLoader5->load("article", array("foo" => true));
 if ($context["article"] !== false) {
     echo "Test body";
@@ -90,8 +90,8 @@ EOF
             ],
             [$node4, <<<'EOF'
 // line 4
-$swpMetaLoader6 = $this->env->getExtension('swp_gimme')->getLoader();
-$swpContext6Gimme = $this->env->getExtension('swp_gimme')->getContext();
+$swpMetaLoader6 = $this->env->getExtension('SWP\Component\TemplatesSystem\Twig\Extension\GimmeExtension')->getLoader();
+$swpContext6Gimme = $this->env->getExtension('SWP\Component\TemplatesSystem\Twig\Extension\GimmeExtension')->getContext();
 $swpIgnoreContext6Gimme = $swpContext6Gimme->temporaryUnset(array());
 $context["article"] = $swpMetaLoader6->load("article", array("foo" => true));
 if ($context["article"] !== false) {

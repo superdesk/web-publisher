@@ -64,4 +64,12 @@ interface MediaManagerInterface
      * @return string
      */
     public function getMediaUri(FileInterface $media);
+
+    /**
+     * @param UploadedFile $uploadedFile
+     * @param string       $assetId
+     *
+     * @return FileInterface
+     */
+    public function createMediaAsset(UploadedFile $uploadedFile, string $assetId): FileInterface;
 }

@@ -81,7 +81,6 @@ composer install
 Execute the following commands in terminal:
 
 ```bash
-php app/console doctrine:schema:create
 php app/console doctrine:migrations:migrate
 php app/console swp:organization:create --default
 php app/console swp:tenant:create --default
@@ -119,3 +118,12 @@ The last step is to install assets:
 ```bash
 php app/console sylius:theme:assets:install
 ```
+
+#### Preview
+
+Run project with built in php server:
+
+```bash
+php app/console server:start publisher.dev
+```
+Replace publisher.dev with your `domain` parameter value configured on composer installation.

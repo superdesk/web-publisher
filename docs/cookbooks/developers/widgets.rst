@@ -79,6 +79,7 @@ By default there are three types of widgets bundled into the project:
 - HtmlWidget (default one)
 - GoogleAdsenseWidget
 - MenuWidget
+- LiveblogWidget
 
 ContentListWidget
 -----------------
@@ -94,3 +95,21 @@ This is the widget responsible for displaying Content Lists' items. For more det
 +--------------+---------------------------------+--------------+------------------+------------------+
 | template_name| Template name to render         | yes          | list.html.twig   |     string       |
 +--------------+---------------------------------+--------------+------------------+------------------+
+
+
+LiveblogWidget
+--------------
+
+This is the widget responsible for displaying  `Superdesk LiveBlog <https://liveblog.pro/>`_  embeds.
+
+**Default parameters:**
+
++--------------+---------------------------------+--------------+--------------------+------------------+
+| Parameter    | Description                     | Required?    | Default value      |      Type        |
++==============+=================================+==============+====================+==================+
+| uri          | Liveblog embed (fragment) uri   | yes          | N/A                |     string       |
++--------------+---------------------------------+--------------+--------------------+------------------+
+| template_name| Template name to render         | yes          | liveblog.html.twig |     string       |
++--------------+---------------------------------+--------------+--------------------+------------------+
+
+Default template file name: :code:`liveblog.html.twig` (default version provided by Publisher can be override by theme).

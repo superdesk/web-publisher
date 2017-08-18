@@ -21,6 +21,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use SWP\Bundle\ContentBundle\Model\RouteInterface;
 use SWP\Bundle\CoreBundle\Model\PackageInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Request;
 
 class PackagePreviewController extends Controller
 {
@@ -28,15 +29,19 @@ class PackagePreviewController extends Controller
      * @Route("/preview/package/{routeId}/{id}", options={"expose"=true}, requirements={"slug"=".+", "routeId"="\d+", "token"=".+"}, name="swp_package_preview")
      * @Method("GET")
      */
-    public function previewAction(int $routeId, $id)
+    public function previewAction(Request $request, int $routeId, $id)
     {
+        $mediaFactory = $this->get('swp.factory.media');
         /** @var RouteInterface $route */
         $route = $this->findRouteOr404($routeId);
         /** @var PackageInterface $package */
         $package = $this->findPackageOr404($id);
         $article = $this->get('swp.factory.article')->createFromPackage($package);
+        $this->get('swp_content_bundle.processor.article_body')->fillArticleMedia($mediaFactory, $package, $article);
+
         $metaFactory = $this->get('swp_template_engine_context.factory.meta_factory');
         $templateEngineContext = $this->get('swp_template_engine_context');
+        $templateEngineContext->setPreviewMode(true);
         $templateEngineContext->setCurrentPage($metaFactory->create($route));
         $templateEngineContext->getMetaForValue($article);
 
@@ -49,6 +54,11 @@ class PackagePreviewController extends Controller
         return $this->render($route->getArticlesTemplateName());
     }
 
+    /**
+     * @param int $id
+     *
+     * @return null|object
+     */
     private function findRouteOr404(int $id)
     {
         if (null === ($route = $this->get('swp.repository.route')->findOneBy(['id' => $id]))) {
@@ -58,6 +68,11 @@ class PackagePreviewController extends Controller
         return $route;
     }
 
+    /**
+     * @param string $id
+     *
+     * @return null|object
+     */
     private function findPackageOr404(string $id)
     {
         if (null === ($package = $this->get('swp.repository.package')->findOneBy(['id' => $id]))) {

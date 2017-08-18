@@ -100,6 +100,7 @@ final class MenuItemManagerSpec extends ObjectBehavior
     ) {
         $sourceItem->getPosition()->willReturn(0);
         $sourceItem->getId()->willReturn(5);
+        $sourceItem->getParent()->willReturn($parentItem);
         $menuItemRepository->persistAsFirstChildOf($sourceItem, $parentItem)->shouldNotBeCalled();
         $sourceItem->setPosition(0)->shouldNotBeCalled();
         $objectManager->flush()->shouldNotBeCalled();
@@ -117,6 +118,7 @@ final class MenuItemManagerSpec extends ObjectBehavior
     ) {
         $sourceItem->getPosition()->willReturn(2);
         $sourceItem->getId()->shouldBeCalled();
+        $sourceItem->getParent()->willReturn($parentItem);
         $menuItemRepository->findChildByParentAndPosition($parentItem, 2)->shouldNotBeCalled();
         $menuItemRepository->persistAsNextSiblingOf($sourceItem, $afterItem)->shouldNotBeCalled();
         $objectManager->flush()->shouldNotBeCalled();

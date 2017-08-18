@@ -7,4 +7,4 @@ services:
             - '@swp_multi_tenancy.tenant_context'
             - '%swp.model.article.class%'
         tags:
-            - { name: swp.meta_loader }
+            - { name: swp.meta_loader.add }

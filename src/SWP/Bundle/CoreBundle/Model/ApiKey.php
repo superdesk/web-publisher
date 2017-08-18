@@ -51,7 +51,7 @@ class ApiKey implements ApiKeyInterface
     }
 
     /**
-     * @return int
+     * {@inheritdoc}
      */
     public function getId(): int
     {
@@ -59,7 +59,7 @@ class ApiKey implements ApiKeyInterface
     }
 
     /**
-     * @return string
+     * {@inheritdoc}
      */
     public function getApiKey(): string
     {
@@ -67,7 +67,7 @@ class ApiKey implements ApiKeyInterface
     }
 
     /**
-     * @param string $apiKey
+     * {@inheritdoc}
      */
     public function setApiKey(string $apiKey)
     {
@@ -75,7 +75,7 @@ class ApiKey implements ApiKeyInterface
     }
 
     /**
-     * @return UserInterface
+     * {@inheritdoc}
      */
     public function getUser(): UserInterface
     {
@@ -83,7 +83,7 @@ class ApiKey implements ApiKeyInterface
     }
 
     /**
-     * @param UserInterface $user
+     * {@inheritdoc}
      */
     public function setUser(UserInterface $user)
     {
@@ -91,7 +91,7 @@ class ApiKey implements ApiKeyInterface
     }
 
     /**
-     * @return \DateTime
+     * {@inheritdoc}
      */
     public function getValidTo(): \DateTime
     {
@@ -99,17 +99,20 @@ class ApiKey implements ApiKeyInterface
     }
 
     /**
-     * @param \DateTime $validTo
+     * {@inheritdoc}
      */
     public function setValidTo(\DateTime $validTo)
     {
         $this->validTo = $validTo;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function extendValidTo()
     {
         $extendedDate = new \DateTime();
-        $extendedDate->modify('+30 minutes');
+        $extendedDate->modify('+4 hours');
 
         if ($this->getValidTo() < $extendedDate) {
             $this->setValidTo($extendedDate);

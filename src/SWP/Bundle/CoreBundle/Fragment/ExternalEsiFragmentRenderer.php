@@ -12,22 +12,21 @@
  * @license http://www.superdesk.org/license
  */
 
-namespace SWP\Bundle\CoreBundle\Twig;
+namespace SWP\Bundle\CoreBundle\Fragment;
 
-use Asm89\Twig\CacheExtension\Extension;
-use EmanueleMinotto\TwigCacheBundle\Twig\ProfilerExtension;
+use Symfony\Component\HttpKernel\Fragment\AbstractSurrogateFragmentRenderer;
+use Symfony\Component\HttpKernel\Fragment\FragmentRendererInterface;
 
 /**
- * Class TwigCacheProfilerExtension
- * It's needed to cover that issue: https://github.com/asm89/twig-cache-extension/pull/46.
+ * Class ExternalEsiFragmentRenderer.
  */
-class TwigCacheProfilerExtension extends ProfilerExtension
+class ExternalEsiFragmentRenderer extends AbstractSurrogateFragmentRenderer implements FragmentRendererInterface
 {
     /**
-     * @return string
+     * {@inheritdoc}
      */
     public function getName()
     {
-        return Extension::class;
+        return 'external_esi';
     }
 }

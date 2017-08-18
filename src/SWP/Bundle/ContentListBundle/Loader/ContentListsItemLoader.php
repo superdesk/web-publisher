@@ -51,6 +51,7 @@ class ContentListsItemLoader extends PaginatedLoader implements LoaderInterface
      *
      * @param ContentListRepositoryInterface     $contentListRepository
      * @param ContentListItemRepositoryInterface $contentListItemRepository
+     * @param MetaFactoryInterface               $metaFactory
      */
     public function __construct(
         ContentListRepositoryInterface $contentListRepository,
@@ -68,7 +69,8 @@ class ContentListsItemLoader extends PaginatedLoader implements LoaderInterface
      * @MetaLoaderDoc(
      *     description="Content List Item Loader loads Content List Items from Content List",
      *     parameters={
-     *         listName="COLLECTION|name of content list"
+     *         contentListName="COLLECTION|name of content list"
+     *         contentListId="COLLECTION|id of content list"
      *     }
      * )
      *
@@ -83,7 +85,7 @@ class ContentListsItemLoader extends PaginatedLoader implements LoaderInterface
     public function load($type, $parameters = [], $responseType = LoaderInterface::SINGLE)
     {
         $criteria = new Criteria();
-        if ($responseType === LoaderInterface::COLLECTION) {
+        if (LoaderInterface::COLLECTION === $responseType) {
             if (array_key_exists('contentListId', $parameters) && is_numeric($parameters['contentListId'])) {
                 $contentList = $this->contentListRepository->findOneBy(['id' => $parameters['contentListId']]);
                 $criteria->set('contentList', $contentList);
@@ -133,6 +135,11 @@ class ContentListsItemLoader extends PaginatedLoader implements LoaderInterface
         return in_array($type, ['contentListItems']);
     }
 
+    /**
+     * @param mixed $item
+     *
+     * @return null|Meta
+     */
     private function getItemMeta($item)
     {
         if (null !== $item) {

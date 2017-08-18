@@ -16,7 +16,7 @@ namespace spec\SWP\Bundle\ContentBundle\Service;
 
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
-use SWP\Bundle\CoreBundle\Model\Route;
+use SWP\Bundle\ContentBundle\Model\Route;
 use SWP\Bundle\ContentBundle\Event\RouteEvent;
 use SWP\Bundle\ContentBundle\Model\RouteInterface;
 use SWP\Bundle\ContentBundle\RouteEvents;

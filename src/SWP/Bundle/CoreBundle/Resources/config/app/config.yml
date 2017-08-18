@@ -2,7 +2,7 @@ services:
     session.memcached:
         class: "Memcached"
         arguments:
-            persistent_id: "%session_memcached_prefix%"
+            - "%session_memcached_prefix%"
         calls:
             - [ addServer, [ "%session_memcached_host%", "%session_memcached_port%" ]]
 
@@ -236,6 +236,14 @@ swp_settings:
             type: string
             value: "Publisher Master"
         filtering_prefrences:
+            scope: user
+            type: string
+            value: "{}"
+        user_private_preferences:
+            scope: user
+            type: string
+            value: "{}"
+        user_favourite_articles:
             scope: user
             type: string
             value: "{}"

@@ -59,7 +59,7 @@ class User extends BaseUser implements UserInterface
     /**
      * {@inheritdoc}
      */
-    public function setAbout(string $about)
+    public function setAbout(string $about = null)
     {
         $this->about = $about;
     }

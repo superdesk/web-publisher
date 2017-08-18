@@ -9,6 +9,7 @@ framework:
         resource: "%kernel.root_dir%/TemplatesSystem/routing.yml"
         strict_requirements: ~
     test: ~
+    fragments: ~
     validation:      { enable_annotations: false }
     templating:
         engines: ['twig']

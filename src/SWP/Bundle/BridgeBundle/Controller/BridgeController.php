@@ -68,6 +68,7 @@ class BridgeController extends Controller
                 } else {
                     $data = $sdk->getItems($requestParams);
                 }
+
                 break;
 
             case $sdk::SUPERDESK_ENDPOINT_PACKAGES:
@@ -79,6 +80,7 @@ class BridgeController extends Controller
                 } else {
                     $data = $sdk->getPackages($requestParams, $resolve);
                 }
+
                 break;
         }
 

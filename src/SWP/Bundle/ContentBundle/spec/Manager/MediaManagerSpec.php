@@ -16,20 +16,21 @@ namespace spec\SWP\Bundle\ContentBundle\Manager;
 
 use PhpSpec\ObjectBehavior;
 use SWP\Bundle\ContentBundle\Doctrine\ArticleMediaRepositoryInterface;
-use SWP\Bundle\ContentBundle\Factory\MediaFactoryInterface;
 use SWP\Bundle\ContentBundle\Manager\MediaManager;
 use League\Flysystem\Filesystem;
+use SWP\Component\Storage\Factory\FactoryInterface;
 use Symfony\Component\Routing\RouterInterface;
 
 class MediaManagerSpec extends ObjectBehavior
 {
     public function let(
         ArticleMediaRepositoryInterface $mediaRepository,
-        MediaFactoryInterface $mediaFactory,
         Filesystem $filesystem,
-        RouterInterface $router
+        RouterInterface $router,
+        FactoryInterface $imageFactory,
+        FactoryInterface $fileFactory
     ) {
-        $this->beConstructedWith($mediaRepository, $mediaFactory, $filesystem, $router);
+        $this->beConstructedWith($mediaRepository, $filesystem, $router, $imageFactory, $fileFactory);
     }
 
     public function it_is_initializable()

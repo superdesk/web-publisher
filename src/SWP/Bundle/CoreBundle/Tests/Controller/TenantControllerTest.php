@@ -67,6 +67,7 @@ class TenantControllerTest extends WebTestCase
             'tenant' => [
                 'name' => 'Test Tenant',
                 'subdomain' => 'test',
+                'domainName' => 'localhost',
                 'themeName' => 'swp/test-theme',
                 'organization' => '123456',
             ],
@@ -74,7 +75,7 @@ class TenantControllerTest extends WebTestCase
 
         $this->assertEquals(201, $client->getResponse()->getStatusCode());
         $this->assertArraySubset(json_decode(
-            '{"id":4,"subdomain":"test","name":"Test Tenant","organization":{"id":1,"name":"Organization1","code":"123456"},"enabled":true,"themeName":"swp\/test-theme","domainName":null}', true
+            '{"id":4,"subdomain":"test","name":"Test Tenant","organization":{"id":1,"name":"Organization1","code":"123456"},"enabled":true,"themeName":"swp\/test-theme","domainName":"localhost"}', true
         ), json_decode(
             $client->getResponse()->getContent(),
             true
@@ -88,6 +89,7 @@ class TenantControllerTest extends WebTestCase
             'tenant' => [
                 'name' => 'Test Tenant',
                 'subdomain' => 'test',
+                'domainName' => 'localhost',
                 'themeName' => 'fake/theme-name',
             ],
         ]);
@@ -102,6 +104,7 @@ class TenantControllerTest extends WebTestCase
             'tenant' => [
                 'name' => 'Test Tenant',
                 'subdomain' => 'test',
+                'domainName' => 'localhost',
                 'themeName' => 'swp/test-theme',
             ],
         ]);
@@ -112,6 +115,7 @@ class TenantControllerTest extends WebTestCase
             'tenant' => [
                 'name' => 'Test Tenant',
                 'subdomain' => 'test',
+                'domainName' => 'localhost',
                 'themeName' => 'swp/test-theme',
             ],
         ]);
@@ -126,6 +130,7 @@ class TenantControllerTest extends WebTestCase
             'tenant' => [
                 'name' => 'Test Tenant',
                 'subdomain' => 'test',
+                'domainName' => 'localhost',
                 'themeName' => 'swp/test-theme',
             ],
         ]);
@@ -148,6 +153,7 @@ class TenantControllerTest extends WebTestCase
             'tenant' => [
                 'name' => 'Test Tenant',
                 'subdomain' => 'test',
+                'domainName' => 'localhost',
                 'themeName' => 'swp/test-theme',
             ],
         ]);

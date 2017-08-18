@@ -54,11 +54,8 @@ final class TenantAwareThemeContext implements ThemeContextInterface
      * @param ThemeRepositoryInterface $themeRepository Theme repository
      * @param CacheProvider            $cacheService    Cache Service
      */
-    public function __construct(
-        TenantContextInterface $tenantContext,
-        ThemeRepositoryInterface $themeRepository,
-        CacheProvider $cacheService
-    ) {
+    public function __construct(TenantContextInterface $tenantContext, ThemeRepositoryInterface $themeRepository, CacheProvider $cacheService)
+    {
         $this->tenantContext = $tenantContext;
         $this->themeRepository = $themeRepository;
         $this->cacheService = $cacheService;
@@ -98,6 +95,11 @@ final class TenantAwareThemeContext implements ThemeContextInterface
         return $theme;
     }
 
+    /**
+     * @param ThemeAwareTenantInterface $tenant
+     *
+     * @return string
+     */
     private function resolveThemeName(ThemeAwareTenantInterface $tenant)
     {
         $themeName = $tenant->getThemeName();
