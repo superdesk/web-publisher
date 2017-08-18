@@ -191,7 +191,6 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface, Orde
                 foreach ($articleData['sources'] as $source) {
                     $this->container->get('swp.adder.article_source')->add($article, $source);
                 }
-
             }
             $manager->persist($article);
 
