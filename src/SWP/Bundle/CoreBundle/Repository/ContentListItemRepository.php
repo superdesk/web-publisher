@@ -25,8 +25,11 @@ class ContentListItemRepository extends BaseRepository implements ContentListIte
     /**
      * {@inheritdoc}
      */
-    public function findItemByArticleAndListInBuckets(ArticleInterface $article, ContentListInterface $list)
-    {
+    public function findItemByArticleAndList(
+        ArticleInterface $article,
+        ContentListInterface $list,
+        string $type = ContentListInterface::TYPE_BUCKET
+    ) {
         $queryBuilder = $this->createQueryBuilder('cl');
 
         return $queryBuilder
@@ -38,7 +41,7 @@ class ContentListItemRepository extends BaseRepository implements ContentListIte
             ->setParameters([
                 'article' => $article->getId(),
                 'list' => $list->getId(),
-                'type' => ContentListInterface::TYPE_BUCKET,
+                'type' => $type,
             ])
             ->getQuery()
             ->getOneOrNullResult();
