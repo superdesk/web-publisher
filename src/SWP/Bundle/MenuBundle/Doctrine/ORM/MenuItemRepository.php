@@ -49,6 +49,7 @@ class MenuItemRepository extends EntityRepository implements MenuItemRepositoryI
             foreach ($listeners as $listener) {
                 if ($listener instanceof TreeListener) {
                     $treeListener = $listener;
+
                     break;
                 }
             }

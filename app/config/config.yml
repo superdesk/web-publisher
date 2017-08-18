@@ -16,7 +16,6 @@ imports:
 parameters:
     locale: en
     templating.cache_warmer.template_paths.class: "Symfony\\Bundle\\FrameworkBundle\\CacheWarmer\\TemplatePathsCacheWarmer"
-    twig_cache.extension.class: "SWP\\Bundle\\CoreBundle\\Twig\\TwigCacheProfilerExtension"
 
 framework:
     ide: 'phpstorm://open?file=%%f&line=%%l'
@@ -39,7 +38,6 @@ framework:
         engines: ['twig']
     default_locale:  "%locale%"
     trusted_hosts:   ~
-    trusted_proxies: "%trusted_proxies%"
     fragments: { path: /_fragment }
     http_method_override: true
 

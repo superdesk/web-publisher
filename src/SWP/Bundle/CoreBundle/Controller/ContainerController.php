@@ -225,6 +225,7 @@ class ContainerController extends Controller
                 $container = $this->get('swp_template_engine.container.service')
                     ->linkUnlinkWidget($object, $container, $request);
                 $matched = true;
+
                 break;
             }
         }

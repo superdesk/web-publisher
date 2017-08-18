@@ -32,8 +32,8 @@ class GimmeListNode extends \Twig_Node
      * @param \Twig_Node_Expression|null        $parameters
      * @param \Twig_Node_Expression|null        $ignoreContext
      * @param \Twig_Node_Expression|null        $ifExpression
-     * @param \Twig_NodeInterface|null          $else
-     * @param \Twig_NodeInterface               $body
+     * @param \Twig_Node|null                   $else
+     * @param \Twig_Node                        $body
      * @param int                               $lineno
      * @param null                              $tag
      */
@@ -44,8 +44,8 @@ class GimmeListNode extends \Twig_Node
         \Twig_Node_Expression $parameters = null,
         \Twig_Node_Expression $ignoreContext = null,
         \Twig_Node_Expression $ifExpression = null,
-        \Twig_NodeInterface $else = null,
-        \Twig_NodeInterface $body,
+        \Twig_Node $else = null,
+        \Twig_Node $body,
         $lineno,
         $tag = null
     ) {
@@ -114,9 +114,9 @@ class GimmeListNode extends \Twig_Node
             }
         }
 
-        $compiler->write('$swpCollectionMetaLoader'.$i." = \$this->env->getExtension('swp_gimme')->getLoader();\n");
+        $compiler->write('$swpCollectionMetaLoader'.$i." = \$this->env->getExtension('SWP\Component\TemplatesSystem\Twig\Extension\GimmeExtension')->getLoader();\n");
         if ($this->hasNode('ignoreContext')) {
-            $compiler->write('$swpContext'.$i."GimmeList = \$this->env->getExtension('swp_gimme')->getContext();\n");
+            $compiler->write('$swpContext'.$i."GimmeList = \$this->env->getExtension('SWP\Component\TemplatesSystem\Twig\Extension\GimmeExtension')->getContext();\n");
             $compiler->write('$swpIgnoreContext'.$i.'GimmeList = $swpContext'.$i.'GimmeList->temporaryUnset(')->subcompile($this->getNode('ignoreContext'))->raw(");\n");
         }
         $compiler->write('')->subcompile($this->getNode('collectionType'))->raw(' = twig_ensure_traversable($swpCollectionMetaLoader'.$i.'->load("')->raw($collectionTypeName)->raw('", ');

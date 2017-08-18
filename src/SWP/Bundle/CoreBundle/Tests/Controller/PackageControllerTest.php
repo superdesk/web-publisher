@@ -171,7 +171,6 @@ final class PackageControllerTest extends WebTestCase
     public function testCancelPackageApi()
     {
         $client = static::createClient();
-        $client->enableProfiler();
         $client->request(
             'PATCH',
             $this->router->generate('swp_api_core_update_package', ['id' => 1]),

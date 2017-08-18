@@ -58,6 +58,7 @@ abstract class Bundle extends BaseBundle implements BundleInterface
                                 [sprintf('%s.persistence.manager_name', $this->getBundlePrefix())],
                                 sprintf('%s.backend_type_%s', $this->getBundlePrefix(), $driver)
                             ));
+
                             break;
                         case BundleInterface::MAPPING_ANNOTATION:
                             $container->addCompilerPass($compilerPassClassName::$compilerPassMethod(
@@ -66,6 +67,7 @@ abstract class Bundle extends BaseBundle implements BundleInterface
                                 [sprintf('%s.persistence.manager_name', $this->getBundlePrefix())],
                                 sprintf('%s.backend_type_%s', $this->getBundlePrefix(), $driver)
                             ));
+
                             break;
                     }
                 }
@@ -107,12 +109,15 @@ abstract class Bundle extends BaseBundle implements BundleInterface
         switch ($driverType) {
             case Drivers::DRIVER_DOCTRINE_MONGODB_ODM:
                 $mappingsPassClassName = 'Doctrine\\Bundle\\MongoDBBundle\\DependencyInjection\\Compiler\\DoctrineMongoDBMappingsPass';
+
                 break;
             case Drivers::DRIVER_DOCTRINE_ORM:
                 $mappingsPassClassName = 'Doctrine\\Bundle\\DoctrineBundle\\DependencyInjection\\Compiler\\DoctrineOrmMappingsPass';
+
                 break;
             case Drivers::DRIVER_DOCTRINE_PHPCR_ODM:
                 $mappingsPassClassName = 'Doctrine\\Bundle\\PHPCRBundle\\DependencyInjection\\Compiler\\DoctrinePhpcrMappingsPass';
+
                 break;
             default:
                 throw new InvalidDriverException($driverType);
