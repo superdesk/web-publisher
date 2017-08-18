@@ -10,6 +10,10 @@ fos_elastica:
                             type: custom
                             tokenizer: whitespace
                             filter: [lowercase]
+                        swp_sources_analyzer:
+                            type: custom
+                            tokenizer: keyword
+                            filter: [standard]
             types:
                 article:
                     properties:
@@ -48,7 +52,7 @@ fos_elastica:
                         sources:
                             type: "nested"
                             properties:
-                                name: { type: string }
+                                name: { type: string, analyzer: swp_sources_analyzer }
                     persistence:
                         driver: orm
                         model: "%swp.model.article.class%"
