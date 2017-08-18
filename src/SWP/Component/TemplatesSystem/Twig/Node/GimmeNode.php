@@ -27,7 +27,7 @@ class GimmeNode extends \Twig_Node
      * @param \Twig_Node                 $annotation
      * @param \Twig_Node_Expression|null $parameters
      * @param \Twig_Node_Expression|null $ignoreContext
-     * @param \Twig_NodeInterface        $body
+     * @param \Twig_Node                 $body
      * @param $lineno
      * @param null $tag
      */
@@ -35,7 +35,7 @@ class GimmeNode extends \Twig_Node
         \Twig_Node $annotation,
         \Twig_Node_Expression $parameters = null,
         \Twig_Node_Expression $ignoreContext = null,
-        \Twig_NodeInterface $body,
+        \Twig_Node $body,
         $lineno,
         $tag = null
     ) {

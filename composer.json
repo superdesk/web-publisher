@@ -45,10 +45,10 @@
     },
     "require": {
         "php": "^7.1",
-        "symfony/symfony": "3.2",
-        "symfony/swiftmailer-bundle": "~2.3",
-        "symfony/monolog-bundle": "~2.4",
-        "sensio/distribution-bundle": "v5.0.x",
+        "symfony/symfony": "3.3",
+        "symfony/swiftmailer-bundle": "~3.0",
+        "symfony/monolog-bundle": "~3.0",
+        "sensio/distribution-bundle": "~v5.0",
         "sensio/framework-extra-bundle": "~3.0,>=3.0.2",
         "sensio/generator-bundle": "~3.0",
         "doctrine/orm": "2.5.*",
@@ -60,7 +60,7 @@
         "guzzlehttp/guzzle": "^6.2",
         "php-http/guzzle6-adapter": "^v1.1",
         "twig/extensions": "~1.0",
-        "twig/twig": "1.29.0",
+        "twig/twig": "~2.0",
         "emanueleminotto/twig-cache-bundle": "~1.0",
         "incenteev/composer-parameter-handler": "~2.0",
         "friendsofsymfony/http-cache": "2.0.0-beta2",
@@ -105,7 +105,9 @@
         "symfony/phpunit-bridge": "^3.1",
         "symfony-cmf/testing": "2.0.x",
         "liip/rmt": "dev-master",
-        "pixers/doctrine-profiler-bundle": "^1.0"
+        "pixers/doctrine-profiler-bundle": "^1.0",
+        "escapestudios/symfony2-coding-standard": "3.x-dev",
+        "symfony/web-server-bundle": "^3.3"
     },
     "replace": {
         "swp/common": "self.version",

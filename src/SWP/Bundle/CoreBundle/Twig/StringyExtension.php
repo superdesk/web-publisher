@@ -14,9 +14,14 @@
 
 namespace SWP\Bundle\CoreBundle\Twig;
 
+/**
+ * Class StringyExtension.
+ */
 class StringyExtension extends \Twig_Extension
 {
     const EXCLUDE_FUNCTIONS = ['__construct', '__toString', 'create'];
+
+    protected $initialized = false;
 
     /**
      * @var \Twig_Environment
@@ -33,6 +38,11 @@ class StringyExtension extends \Twig_Extension
      */
     protected $filters = [];
 
+    /**
+     * StringyExtension constructor.
+     *
+     * @param \Twig_Environment $environment
+     */
     public function __construct(\Twig_Environment $environment)
     {
         $this->environment = $environment;
@@ -59,10 +69,23 @@ class StringyExtension extends \Twig_Extension
     }
 
     /**
+     * {@inheritdoc}
+     */
+    public function getName()
+    {
+        return self::class;
+    }
+
+    /**
      * Initializes arrays of filters and functions.
      */
     private function lazyInit()
     {
+        if ($this->initialized) {
+            return;
+        }
+
+        $this->initialized = true;
         $stringyClass = new \ReflectionClass('Stringy\Stringy');
         $methods = $stringyClass->getMethods(\ReflectionMethod::IS_PUBLIC);
         $names = array_map(function ($value) {
@@ -75,12 +98,11 @@ class StringyExtension extends \Twig_Extension
             }
 
             $method = $stringyClass->getMethod($name);
-
             // Get the return type from the doc comment
             $doc = $method->getDocComment();
             if (strpos($doc, '@return bool')) {
                 // Don't add functions which have the same name as any already in the environment
-                if ($this->environment->getFunction($name)) {
+                if (array_key_exists($name, $this->environment->getFunctions())) {
                     continue;
                 }
                 $this->functions[$name] = new \Twig_SimpleFunction($name, function () use ($name) {
@@ -88,7 +110,7 @@ class StringyExtension extends \Twig_Extension
                 });
             } else {
                 // Don't add filters which have the same name as any already in the environment
-                if ($this->environment->getFilter($name)) {
+                if (array_key_exists($name, $this->environment->getFilters())) {
                     continue;
                 }
                 $this->filters[$name] = new \Twig_SimpleFilter($name, function () use ($name) {
@@ -96,13 +118,5 @@ class StringyExtension extends \Twig_Extension
                 });
             }
         }
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getName()
-    {
-        return 'stringy_extension';
     }
 }

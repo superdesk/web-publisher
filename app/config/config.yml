@@ -38,7 +38,6 @@ framework:
         engines: ['twig']
     default_locale:  "%locale%"
     trusted_hosts:   ~
-    trusted_proxies: "%trusted_proxies%"
     fragments: { path: /_fragment }
     http_method_override: true
 

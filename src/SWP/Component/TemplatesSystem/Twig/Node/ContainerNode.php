@@ -24,11 +24,11 @@ class ContainerNode extends \Twig_Node
      *
      * @param \Twig_Node                 $name
      * @param \Twig_Node_Expression|null $parameters
-     * @param \Twig_NodeInterface        $body
+     * @param \Twig_Node                 $body
      * @param null|string                $lineno
      * @param null                       $tag
      */
-    public function __construct(\Twig_Node $name, \Twig_Node_Expression $parameters = null, \Twig_NodeInterface $body, $lineno, $tag = null)
+    public function __construct(\Twig_Node $name, \Twig_Node_Expression $parameters = null, \Twig_Node $body, $lineno, $tag = null)
     {
         $nodes = [
             'name' => $name,
@@ -49,7 +49,7 @@ class ContainerNode extends \Twig_Node
     {
         $compiler
             ->addDebugInfo($this)
-            ->write("\$rendererService = \$this->env->getExtension('swp_container')->getContainerService();\n")
+            ->write("\$rendererService = \$this->env->getExtension('SWP\Component\TemplatesSystem\Twig\Extension\ContainerExtension')->getContainerService();\n")
             ->write('$container = $rendererService->getContainerRenderer(')->subcompile($this->getNode('name'))->raw(', ');
         if ($this->hasNode('parameters')) {
             $compiler->subcompile($this->getNode('parameters'));
