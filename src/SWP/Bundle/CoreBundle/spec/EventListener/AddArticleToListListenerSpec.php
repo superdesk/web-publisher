@@ -78,6 +78,7 @@ final class AddArticleToListListenerSpec extends ObjectBehavior
         $contentListItem->setPosition(0)->shouldBeCalled();
 
         $list->addItem($contentListItem)->shouldBeCalled();
+        $list->setUpdatedAt(Argument::type(\DateTime::class))->shouldBeCalled();
 
         $this->addArticleToList($event);
 
@@ -137,6 +138,7 @@ final class AddArticleToListListenerSpec extends ObjectBehavior
         $contentListItem->setContent($article)->shouldBeCalled();
         $contentListItem->setPosition(0)->shouldBeCalled();
         $list->addItem($contentListItem)->shouldBeCalled();
+        $list->setUpdatedAt(Argument::type(\DateTime::class))->shouldBeCalled();
 
         $this->addArticleToBucket($event);
 
