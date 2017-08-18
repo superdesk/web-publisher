@@ -82,9 +82,11 @@ class ArticleService implements ArticleServiceInterface
         switch ($newArticleStatus) {
             case ArticleInterface::STATUS_PUBLISHED:
                 $this->publish($article);
+
                 break;
             default:
                 $this->unpublish($article, $newArticleStatus);
+
                 break;
         }
     }

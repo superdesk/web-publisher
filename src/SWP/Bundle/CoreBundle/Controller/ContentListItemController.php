@@ -181,6 +181,7 @@ class ContentListItemController extends Controller
                         $contentListItem->setPosition($item['position']);
                         $list->setUpdatedAt(new \DateTime('now'));
                         $objectManager->flush();
+
                         break;
                     case 'add':
                         $object = $this->get('swp.repository.article')->findOneById($item['content_id']);
@@ -189,12 +190,14 @@ class ContentListItemController extends Controller
                         $objectManager->persist($contentListItem);
                         $list->setUpdatedAt(new \DateTime('now'));
                         $objectManager->flush();
+
                         break;
                     case 'delete':
                         $contentListItem = $this->findByContentOr404($list, $item['content_id']);
                         $objectManager->remove($contentListItem);
                         $list->setUpdatedAt(new \DateTime('now'));
                         $objectManager->flush();
+
                         break;
                 }
             }
