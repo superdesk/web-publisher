@@ -17,6 +17,7 @@ declare(strict_types=1);
 namespace SWP\Bundle\ContentBundle\Hydrator;
 
 use Doctrine\Common\Collections\Collection;
+use SWP\Bundle\ContentBundle\Service\ArticleSourcesAdderInterface;
 use SWP\Bundle\ContentBundle\Model\ArticleInterface;
 use SWP\Bundle\ContentBundle\Provider\RouteProviderInterface;
 use SWP\Component\Bridge\Model\ItemInterface;
@@ -28,6 +29,11 @@ final class ArticleHydrator implements ArticleHydratorInterface
      * @var RouteProviderInterface
      */
     private $routeProvider;
+
+    /**
+     * @var ArticleSourcesAdderInterface
+     */
+    private $articleSourcesAdder;
 
     /**
      * @var array
@@ -42,11 +48,13 @@ final class ArticleHydrator implements ArticleHydratorInterface
     /**
      * ArticleHydrator constructor.
      *
-     * @param RouteProviderInterface $routeProvider
+     * @param RouteProviderInterface       $routeProvider
+     * @param ArticleSourcesAdderInterface $articleSourcesAdder
      */
-    public function __construct(RouteProviderInterface $routeProvider)
+    public function __construct(RouteProviderInterface $routeProvider, ArticleSourcesAdderInterface $articleSourcesAdder)
     {
         $this->routeProvider = $routeProvider;
+        $this->articleSourcesAdder = $articleSourcesAdder;
     }
 
     /**
@@ -61,7 +69,9 @@ final class ArticleHydrator implements ArticleHydratorInterface
         $article->setCode($package->getGuid());
         $article->setBody($this->populateBody($package));
         $article->setTitle($package->getHeadline());
-        $article->setSource($package->getSource());
+
+        $this->populateSources($article, $package);
+
         if (null !== $package->getSlugline()) {
             $article->setSlug($package->getSlugline());
         }
@@ -143,6 +153,23 @@ final class ArticleHydrator implements ArticleHydratorInterface
 
             return $item->getBody();
         }, $package->getItems()->toArray()));
+    }
+
+    private function populateSources(ArticleInterface $article, PackageInterface $package)
+    {
+        if (null === $package->getSource()) {
+            return;
+        }
+
+        $this->articleSourcesAdder->add($article, $package->getSource());
+
+        foreach ($package->getItems() as $item) {
+            if ($item->getSource() === null) {
+                continue;
+            }
+
+            $this->articleSourcesAdder->add($article, $item->getSource());
+        }
     }
 
     /**
