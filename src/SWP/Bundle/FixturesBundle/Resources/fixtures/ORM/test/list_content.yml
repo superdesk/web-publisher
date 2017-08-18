@@ -37,7 +37,7 @@ SWP\Bundle\CoreBundle\Model\Article:
         metadata:
             byline: "Adam Hide"
             located: "Sydney"
-    listContent{5}:
+    listContent{5..5}:
         title: "article<current()>"
         body: "art<current()>"
         slug: "article-<current()>"

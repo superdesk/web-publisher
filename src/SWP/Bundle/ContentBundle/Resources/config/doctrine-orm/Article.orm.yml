@@ -84,11 +84,6 @@ SWP\Bundle\ContentBundle\Model\Article:
             targetEntity: SWP\Bundle\ContentBundle\Model\ArticleMediaInterface
             mappedBy: article
             cascade: ["remove"]
-    oneToMany:
-        sources:
-            targetEntity: SWP\Bundle\ContentBundle\Model\ArticleSourceInterface
-            mappedBy: article
-            cascade: ["persist"]
     manyToMany:
         sources:
             targetEntity: SWP\Bundle\ContentBundle\Model\ArticleSourceInterface
