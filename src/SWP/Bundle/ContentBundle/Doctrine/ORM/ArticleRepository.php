@@ -133,6 +133,7 @@ class ArticleRepository extends EntityRepository implements ArticleRepositoryInt
 
             if (!is_array($criteria->get($name))) {
                 $criteria->remove($name);
+
                 continue;
             }
 

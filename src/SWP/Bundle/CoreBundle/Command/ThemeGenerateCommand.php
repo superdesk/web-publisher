@@ -60,6 +60,7 @@ class ThemeGenerateCommand extends ContainerAwareCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $themeName = $input->getArgument('themeName');
+
         try {
             $tenant = $this->getTenant($input, $output);
             if (null === $tenant) {

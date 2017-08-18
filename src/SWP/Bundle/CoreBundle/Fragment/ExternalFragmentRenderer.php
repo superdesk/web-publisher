@@ -58,6 +58,7 @@ class ExternalFragmentRenderer implements FragmentRendererInterface
     public function render($uri, Request $request, array $options = [])
     {
         $level = ob_get_level();
+
         try {
             return new Response($this->createExternalRequest($uri));
         } catch (\Throwable $e) {

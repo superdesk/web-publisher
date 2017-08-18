@@ -259,6 +259,7 @@ class ContentListController extends Controller
                 }
 
                 $matched = true;
+
                 break;
             }
         }

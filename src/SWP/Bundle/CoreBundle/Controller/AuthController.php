@@ -55,6 +55,7 @@ class AuthController extends Controller
         $form->handleRequest($request);
         if ($form->isValid()) {
             $formData = $form->getData();
+
             try {
                 $user = $this->get('swp.security.user_provider')->loadUserByUsername($formData['username']);
             } catch (UsernameNotFoundException $e) {

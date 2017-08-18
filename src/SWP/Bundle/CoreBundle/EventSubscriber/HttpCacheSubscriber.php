@@ -56,6 +56,7 @@ class HttpCacheSubscriber implements EventSubscriberInterface
                 $this->cacheManager->invalidateRoute('swp_api_templates_get_container', [
                     'uuid' => $event->getSubject()->getUuid(),
                 ]);
+
                 break;
         }
 

@@ -66,9 +66,11 @@ class KnpPaginatorRepresentationFactory
         switch (true) {
             case $items instanceof ArrayCollection:
                 $items = $items->toArray();
+
                 break;
             case $items instanceof \ArrayObject:
                 $items = $items->getArrayCopy();
+
                 break;
         }
 
