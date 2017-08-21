@@ -26,7 +26,7 @@ use SWP\Component\Storage\Repository\RepositoryInterface;
 final class TenantAwareArticleSourcesAdder implements ArticleSourcesAdderInterface
 {
     /**
-     * @var
+     * @var FactoryInterface
      */
     private $articleSourceFactory;
 
@@ -57,6 +57,9 @@ final class TenantAwareArticleSourcesAdder implements ArticleSourcesAdderInterfa
         $this->tenantContext = $tenantContext;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function add(ArticleInterface $article, string $name)
     {
         /** @var ArticleSourceInterface $articleSource */
