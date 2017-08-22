@@ -15,6 +15,7 @@
 namespace SWP\Bundle\CoreBundle;
 
 use SWP\Bundle\CoreBundle\DependencyInjection\Compiler\AddCustomTwigCachePass;
+use SWP\Bundle\CoreBundle\DependencyInjection\Compiler\OrganizationThemesProviderPass;
 use SWP\Bundle\CoreBundle\DependencyInjection\Compiler\OverrideArticleBodyProcessorPass;
 use SWP\Bundle\CoreBundle\DependencyInjection\Compiler\OverrideContainerProviderPass;
 use SWP\Bundle\CoreBundle\DependencyInjection\Compiler\OverrideDynamicRouterPass;
@@ -54,6 +55,7 @@ class SWPCoreBundle extends Bundle
         $container->addCompilerPass(new OverrideSettingsManagerPass());
         $container->addCompilerPass(new OverrideArticleBodyProcessorPass());
         $container->addCompilerPass(new AddCustomTwigCachePass());
+        $container->addCompilerPass(new OrganizationThemesProviderPass());
     }
 
     /**
