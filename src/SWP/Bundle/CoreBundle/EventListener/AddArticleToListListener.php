@@ -100,6 +100,19 @@ class AddArticleToListListener
 
             if ($this->articleCriteriaMatcher->match($article, new Criteria($filters))) {
                 $this->createAndAddItem($article, $contentList);
+
+                continue;
+            }
+
+            $item = $this->contentListItemRepository->findItemByArticleAndList(
+                $article,
+                $contentList,
+                ContentListInterface::TYPE_AUTOMATIC
+            );
+
+            if (null !== $item) {
+                $contentList->removeItem($item);
+                $contentList->setUpdatedAt(new \DateTime());
             }
         }
 
@@ -124,7 +137,7 @@ class AddArticleToListListener
         }
 
         foreach ($buckets as $bucket) {
-            $item = $this->contentListItemRepository->findItemByArticleAndListInBuckets($article, $bucket);
+            $item = $this->contentListItemRepository->findItemByArticleAndList($article, $bucket);
 
             if ($article->isPublishedFBIA() && null === $item) {
                 $this->createAndAddItem($article, $bucket);
@@ -132,6 +145,7 @@ class AddArticleToListListener
 
             if (!$article->isPublishedFBIA() && null !== $item && $bucket->hasItem($item)) {
                 $bucket->removeItem($item);
+                $bucket->setUpdatedAt(new \DateTime());
             }
         }
     }
@@ -147,6 +161,7 @@ class AddArticleToListListener
 
         $contentListItem->setPosition($bucket->getItems()->count());
         $bucket->addItem($contentListItem);
+        $bucket->setUpdatedAt(new \DateTime());
         $this->eventDispatcher->dispatch(
             ContentListEvents::POST_ITEM_ADD,
             new ContentListEvent($bucket, $contentListItem)

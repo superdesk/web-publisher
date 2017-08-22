@@ -78,12 +78,15 @@ class ContainerService implements ContainerServiceInterface
             switch ($key) {
                 case 'cssClass':
                     $container->setCssClass($value);
+
                     break;
                 case 'styles':
                     $container->setStyles($value);
+
                     break;
                 case 'visible':
                     $container->setVisible($value);
+
                     break;
                 case 'data':
                     foreach ($value as $dataKey => $dataValue) {
