@@ -12,26 +12,24 @@
  * @license http://www.superdesk.org/license
  */
 
-namespace SWP\Bundle\CoreBundle\Theme\Uploader;
+namespace SWP\Bundle\CoreBundle\Theme\Installer;
 
-use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Sylius\Bundle\ThemeBundle\Model\ThemeInterface;
 
 /**
  * Interface ThemeUploaderInterface.
  */
-interface ThemeUploaderInterface
+interface ThemeInstallerInterface
 {
-    const AVAILABLE_THEMES_PATH = 'available_themes'.DIRECTORY_SEPARATOR.'%s';
-
     /**
-     * @param UploadedFile $file
+     * @param string $themeName
      *
-     * @return bool True when successfully uploaded, false otherwise
+     * @return ThemeInterface|bool Theme when successful, false otherwise
      */
-    public function upload(UploadedFile $file);
+    public function install(string $themeName);
 
     /**
      * @return string
      */
-    public function getAvailableThemesPath();
+    public function getThemesPath();
 }

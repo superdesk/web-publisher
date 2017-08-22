@@ -15,6 +15,7 @@
 namespace SWP\Bundle\CoreBundle\Controller;
 
 use Knp\Component\Pager\Pagination\SlidingPagination;
+use SWP\Bundle\CoreBundle\Form\Type\ThemeInstallType;
 use SWP\Bundle\CoreBundle\Form\Type\ThemeUploadType;
 use SWP\Component\Common\Response\ResponseContext;
 use SWP\Component\Common\Response\SingleResourceResponse;
@@ -63,7 +64,7 @@ class ThemesController extends Controller
      *     resource=true,
      *     description="Upload new theme to organization",
      *     statusCodes={
-     *         200="Returned on success."
+     *         201="Returned on success."
      *     },
      *     input="SWP\Bundle\CoreBundle\Form\Type\ThemeUploadType"
      * )
@@ -82,9 +83,44 @@ class ThemesController extends Controller
         if ($form->isValid()) {
             $formData = $form->getData();
             $themeUploader = $this->container->get('swp_core.uploader.theme');
-            $themeUploader->upload($formData['file']);
+            $themePath = $themeUploader->upload($formData['file']);
+            $themeConfig = json_decode(file_get_contents($themePath.DIRECTORY_SEPARATOR.'theme.json'), true);
 
-            return new SingleResourceResponse($formData, new ResponseContext(201));
+            return new SingleResourceResponse($themeConfig, new ResponseContext(201));
+        }
+
+        return new SingleResourceResponse($form, new ResponseContext(400));
+    }
+
+    /**
+     * Install theme for tenant.
+     *
+     * @ApiDoc(
+     *     resource=true,
+     *     description="Install theme for tenant",
+     *     statusCodes={
+     *         201="Returned on success."
+     *     },
+     *     input="SWP\Bundle\CoreBundle\Form\Type\ThemeUploadType"
+     * )
+     * @Route("/api/{version}/themes/", options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_install_theme")
+     *
+     * @Method("POST")
+     *
+     * @param Request $request
+     *
+     * @return SingleResourceResponse
+     */
+    public function installThemeAction(Request $request)
+    {
+        $form = $this->createForm(ThemeInstallType::class, []);
+        $form->handleRequest($request);
+        if ($form->isValid()) {
+            $formData = $form->getData();
+            $themeInstaller = $this->container->get('swp_core.installer.theme');
+            $theme = $themeInstaller->install($formData['name']);
+
+            return new SingleResourceResponse($theme, new ResponseContext(201));
         }
 
         return new SingleResourceResponse($form, new ResponseContext(400));

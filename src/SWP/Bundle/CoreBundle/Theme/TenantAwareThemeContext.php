@@ -15,7 +15,6 @@
 namespace SWP\Bundle\CoreBundle\Theme;
 
 use Doctrine\Common\Cache\CacheProvider;
-use SWP\Bundle\CoreBundle\Exception\NoThemeException;
 use SWP\Bundle\CoreBundle\Theme\Helper\ThemeHelper;
 use SWP\Component\Common\Model\ThemeAwareTenantInterface;
 use SWP\Component\MultiTenancy\Context\TenantContextInterface;
@@ -86,7 +85,7 @@ final class TenantAwareThemeContext implements ThemeContextInterface
         unset($tenant);
 
         if (null === $theme) {
-            throw new NoThemeException();
+            return null;
         }
 
         $this->themes[$key] = $theme;

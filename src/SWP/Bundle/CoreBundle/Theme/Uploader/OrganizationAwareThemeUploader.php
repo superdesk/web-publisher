@@ -21,9 +21,9 @@ use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 /**
- * Class TenantAwareThemeUploader.
+ * Class OrganizationAwareThemeUploader.
  */
-final class TenantAwareThemeUploader implements ThemeUploaderInterface
+final class OrganizationAwareThemeUploader implements ThemeUploaderInterface
 {
     /**
      * @var TenantContextInterface
@@ -36,7 +36,7 @@ final class TenantAwareThemeUploader implements ThemeUploaderInterface
     private $baseDir;
 
     /**
-     * TenantAwareThemeUploader constructor.
+     * OrganizationAwareThemeUploader constructor.
      *
      * @param TenantContextInterface $tenantContext
      * @param string                 $baseDir
@@ -78,7 +78,7 @@ final class TenantAwareThemeUploader implements ThemeUploaderInterface
             $zip->extractTo($destinationFolder);
             $zip->close();
 
-            return true;
+            return $destinationFolder.DIRECTORY_SEPARATOR.$themeDirInZip;
         }
 
         return false;
