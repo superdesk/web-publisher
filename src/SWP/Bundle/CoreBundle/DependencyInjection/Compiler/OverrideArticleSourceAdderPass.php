@@ -16,7 +16,9 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\CoreBundle\DependencyInjection\Compiler;
 
+use SWP\Bundle\CoreBundle\Service\TenantAwareArticleSourcesAdder;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\Reference;
 
 class OverrideArticleSourceAdderPass extends AbstractOverridePass
 {
@@ -25,7 +27,12 @@ class OverrideArticleSourceAdderPass extends AbstractOverridePass
      */
     public function process(ContainerBuilder $container)
     {
-        $definition = $this->getDefinitionIfExists($container, 'swp.hydrator.article');
-        $definition->replaceArgument(1, $this->getDefinitionIfExists($container, 'swp.adder.tenant_aware_article_source'));
+        $definition = $this->overrideDefinitionClassIfExists(
+            $container,
+            'swp.adder.article_source',
+            TenantAwareArticleSourcesAdder::class
+        );
+
+        $definition->addArgument(new Reference('swp_multi_tenancy.tenant_context'));
     }
 }
