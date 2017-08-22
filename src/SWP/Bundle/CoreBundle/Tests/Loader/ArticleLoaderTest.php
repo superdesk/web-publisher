@@ -55,6 +55,20 @@ class ArticleLoaderTest extends WebTestCase
         self::assertEquals('', $result);
     }
 
+    public function testFilteringBySources()
+    {
+        $template = '{% gimmelist article from articles with {source: ["Forbes"]} %} {% for source in article.sources %} {{ source.name }} {% endfor %} {% endgimmelist %}';
+        $result = $this->getRendered($template);
+
+        self::assertContains('Forbes', $result);
+        self::assertNotContains('Reuters', $result);
+
+        $template = '{% gimmelist article from articles if article.sources is empty %} {% for source in article.sources %} {{ source.name }} {% endfor %} {% endgimmelist %}';
+        $result = $this->getRendered($template);
+
+        self::assertEmpty($result);
+    }
+
     private function getRendered($template, $context = [])
     {
         $template = $this->twig->createTemplate($template);
