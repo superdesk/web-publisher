@@ -4,3 +4,4 @@ parameters:
         - localhost
     superdesk_servers:
         - localhost:3000
+    themes.upload_dir: "%kernel.cache_dir%"
