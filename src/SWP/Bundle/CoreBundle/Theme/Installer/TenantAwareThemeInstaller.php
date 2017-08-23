@@ -69,24 +69,23 @@ final class TenantAwareThemeInstaller implements ThemeInstallerInterface
      */
     public function install(string $themeName)
     {
-        $themes = $this->themeLoader->load();
-        $theme = array_filter(
-            $themes,
+        $themes = array_filter(
+            $this->themeLoader->load(),
             function ($element) use (&$themeName) {
                 return $element->getName() === $themeName;
             }
         );
 
-        if (count($theme) === 0) {
+        if (count($themes) === 0) {
             throw new NotFoundHttpException(sprintf('Theme with name "%s" was not found in organization themes.', $themeName));
         }
         /** @var ThemeInterface $theme */
-        $theme = $theme[0];
+        $theme = reset($themes);
 
         $filesystem = new Filesystem();
         $directoryName = basename($theme->getPath());
-
         $filesystem->mirror($theme->getPath(), $this->getThemesPath().DIRECTORY_SEPARATOR.$directoryName);
+
         $cache = $this->twig->getCache();
         if ($cache instanceof TenantAwareCacheInterface) {
             $filesystem->remove($cache->generateCacheDir());

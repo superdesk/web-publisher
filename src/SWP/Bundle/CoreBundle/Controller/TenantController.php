@@ -19,6 +19,7 @@ use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
+use SWP\Bundle\CoreBundle\Context\CachedTenantContext;
 use SWP\Component\Common\Response\ResourcesListResponse;
 use SWP\Component\Common\Response\ResponseContext;
 use SWP\Component\Common\Response\SingleResourceResponse;
@@ -29,6 +30,7 @@ use SWP\Component\MultiTenancy\Model\OrganizationInterface;
 use SWP\Component\MultiTenancy\Model\TenantInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\ConflictHttpException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class TenantController extends FOSRestController
 {
@@ -121,20 +123,17 @@ class TenantController extends FOSRestController
     {
         $tenant = $this->get('swp.factory.tenant')->create();
         $form = $this->createForm(TenantType::class, $tenant, ['method' => $request->getMethod()]);
-
         $form->handleRequest($request);
 
         if ($form->isValid()) {
-            /** @var TenantInterface $formData */
-            $formData = $form->getData();
+            $this->ensureTenantExists($tenant->getSubdomain());
+            $tenant = $this->assignDefaultOrganization($tenant);
+            $this->getTenantRepository()->add($tenant);
 
-            $this->ensureTenantExists($formData->getSubdomain());
+            $cacheProvider = $this->get('doctrine_cache.providers.main_cache');
+            $cacheProvider->save(CachedTenantContext::getCacheKey($request->getHost()), $tenant);
 
-            $formData = $this->assignDefaultOrganization($formData);
-
-            $this->getTenantRepository()->add($formData);
-
-            return new SingleResourceResponse($formData, new ResponseContext(201));
+            return new SingleResourceResponse($tenant, new ResponseContext(201));
         }
 
         return new SingleResourceResponse($form, new ResponseContext(400));
@@ -155,32 +154,39 @@ class TenantController extends FOSRestController
      *     input="SWP\Bundle\CoreBundle\Form\Type\TenantType"
      * )
      * @Route("/api/{version}/tenants/{code}", options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_core_update_tenant", requirements={"code"="[a-z0-9]+"})
+     *
      * @Method("PATCH")
+     *
+     * @param Request $request
+     * @param string  $code
+     *
+     * @return SingleResourceResponse
      */
     public function updateAction(Request $request, $code)
     {
         $tenant = $this->findOr404($code);
-
         $form = $this->createForm(TenantType::class, $tenant, ['method' => $request->getMethod()]);
-
         $form->handleRequest($request);
-
         if ($form->isValid()) {
-            /** @var TenantInterface $formData */
-            $formData = $form->getData();
-
-            $formData->setUpdatedAt(new \DateTime('now'));
+            $tenant->setUpdatedAt(new \DateTime('now'));
             $this->get('swp.object_manager.tenant')->flush();
 
             $cacheProvider = $this->get('doctrine_cache.providers.main_cache');
-            $cacheProvider->save(md5($request->getHost()), $formData);
+            $cacheProvider->save(CachedTenantContext::getCacheKey($request->getHost()), $tenant);
 
-            return new SingleResourceResponse($formData);
+            return new SingleResourceResponse($tenant);
         }
 
         return new SingleResourceResponse($form, new ResponseContext(400));
     }
 
+    /**
+     * @param string $code
+     *
+     * @throws NotFoundHttpException
+     *
+     * @return mixed|null|TenantInterface
+     */
     private function findOr404($code)
     {
         if (null === $tenant = $this->getTenantRepository()->findOneByCode($code)) {
@@ -190,6 +196,13 @@ class TenantController extends FOSRestController
         return $tenant;
     }
 
+    /**
+     * @param string $subdomain
+     *
+     * @throws ConflictHttpException
+     *
+     * @return mixed
+     */
     private function ensureTenantExists($subdomain)
     {
         if (null !== $tenant = $this->getTenantRepository()->findOneBySubdomain($subdomain)) {
@@ -199,6 +212,13 @@ class TenantController extends FOSRestController
         return $tenant;
     }
 
+    /**
+     * @param TenantInterface $tenant
+     *
+     * @throws NotFoundHttpException
+     *
+     * @return TenantInterface
+     */
     private function assignDefaultOrganization(TenantInterface $tenant)
     {
         if (null === $tenant->getOrganization()) {

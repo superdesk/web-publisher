@@ -20,7 +20,7 @@ use SWP\Component\MultiTenancy\Resolver\TenantResolverInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 
-class CachedTenantContext extends TenantContext
+class CachedTenantContext extends TenantContext implements CachedTenantContextInterface
 {
     /**
      * CachedTenantContext constructor.
@@ -64,5 +64,13 @@ class CachedTenantContext extends TenantContext
         }
 
         return $this->tenant;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public static function getCacheKey($host)
+    {
+        return 'tenant_cache__'.$host;
     }
 }

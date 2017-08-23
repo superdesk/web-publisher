@@ -65,6 +65,6 @@ class TenantAwareThemeContextSpec extends ObjectBehavior
         $tenant->getThemeName()->willReturn(null);
         $tenantContext->getTenant()->willReturn($tenant);
         $themeRepository->findOneByName(null)->shouldBeCalled()->willReturn(null);
-        $this->shouldThrow('SWP\Bundle\CoreBundle\Exception\NoThemeException')->during('getTheme');
+        $this->getTheme()->shouldReturn(null);
     }
 }
