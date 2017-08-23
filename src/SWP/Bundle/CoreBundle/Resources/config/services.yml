@@ -2,6 +2,7 @@ parameters:
     swp_core.routing.route_enhancer.class: SWP\Bundle\CoreBundle\Enhancer\RouteEnhancer
     swp_core.theme.resolver.template_name.class: SWP\Bundle\CoreBundle\Resolver\TemplateNameResolver
     swp_multi_tenancy.tenant_context.class: SWP\Bundle\CoreBundle\Context\CachedTenantContext
+    themes.upload_dir: "%kernel.project_dir%"
 
 services:
     swp_core.detection.device_detection:
@@ -57,6 +58,22 @@ services:
         arguments:
             - '@sylius.repository.theme'
             - '@swp_multi_tenancy.tenant_context'
+
+    swp_core.uploader.theme:
+        class: SWP\Bundle\CoreBundle\Theme\Uploader\TenantAwareThemeUploader
+        arguments:
+            - '@swp_multi_tenancy.tenant_context'
+            - '%themes.upload_dir%'
+
+    swp_core.loader.organization.theme:
+        class: Sylius\Bundle\ThemeBundle\Loader\ThemeLoader
+        arguments:
+            - '@swp_core.organization.theme.configuration.provider'
+            - '@sylius.factory.theme'
+            - '@sylius.factory.theme_author'
+            - '@sylius.factory.theme_screenshot'
+            - '@sylius.theme.hydrator'
+            - '@sylius.theme.circular_dependency_checker'
 
     swp_core.security.session.domain_dynamic_storage:
         class: SWP\Bundle\CoreBundle\Security\Storage\DynamicDomainSessionStorage
