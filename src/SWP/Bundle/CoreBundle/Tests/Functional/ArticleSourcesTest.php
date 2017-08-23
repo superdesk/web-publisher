@@ -16,6 +16,7 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\CoreBundle\Tests\Functional;
 
+use SWP\Bundle\ContentBundle\Model\RouteInterface;
 use SWP\Bundle\FixturesBundle\WebTestCase;
 use Symfony\Component\Routing\RouterInterface;
 
@@ -180,13 +181,111 @@ final class ArticleSourcesTest extends WebTestCase
         self::assertArraySubset([['id' => 1, 'name' => 'FOX News'], ['id' => 2, 'name' => 'CNN']], $content['_embedded']['_items']);
     }
 
+    public function testArticleSourcesWithDifferentTenants()
+    {
+        $this->createRoute();
+
+        $client = static::createClient();
+
+        $client->request(
+            'POST',
+            $this->router->generate('swp_api_content_push'),
+            [],
+            [],
+            ['CONTENT_TYPE' => 'application/json'],
+            self::TEST_PACKAGE
+        );
+
+        self::assertEquals(201, $client->getResponse()->getStatusCode());
+
+        // create route for tenant2
+        $client2 = static::createClient([], [
+            'HTTP_HOST' => 'client2.'.$client->getContainer()->getParameter('domain'),
+            'HTTP_Authorization' => base64_encode('client2_token'),
+        ]);
+
+        $client2->request('POST', $this->router->generate('swp_api_content_create_routes'), [
+            'route' => [
+                'name' => 'business',
+                'type' => RouteInterface::TYPE_COLLECTION,
+                'content' => null,
+            ],
+        ]);
+
+        self::assertEquals(201, $client2->getResponse()->getStatusCode());
+
+        $client2->request(
+            'POST',
+            $this->router->generate('swp_api_core_publish_package', ['id' => 1]), [
+                'publish' => [
+                    'destinations' => [
+                        [
+                            'tenant' => '123abc',
+                            'route' => 3,
+                        ],
+                        [
+                            'tenant' => '678iop',
+                            'route' => 4,
+                        ],
+                    ],
+                ],
+            ]
+        );
+
+        self::assertEquals(201, $client->getResponse()->getStatusCode());
+
+        $client->request(
+            'GET',
+            $this->router->generate('swp_api_content_show_articles', ['id' => 'example-headline'])
+        );
+
+        self::assertEquals(200, $client->getResponse()->getStatusCode());
+
+        $content = json_decode($client->getResponse()->getContent(), true);
+
+        self::assertArraySubset([['id' => 1, 'name' => 'FOX News'], ['id' => 2, 'name' => 'CNN']], $content['sources']);
+
+        $client2->request(
+            'GET',
+            $this->router->generate('swp_api_content_show_articles', ['id' => 'example-headline'])
+        );
+
+        self::assertEquals(200, $client2->getResponse()->getStatusCode());
+
+        $content = json_decode($client2->getResponse()->getContent(), true);
+
+        self::assertArraySubset([['id' => 3, 'name' => 'FOX News'], ['id' => 4, 'name' => 'CNN']], $content['sources']);
+
+        $client->request(
+            'GET',
+            $this->router->generate('swp_api_core_article_sources')
+        );
+
+        self::assertEquals(200, $client->getResponse()->getStatusCode());
+
+        $content = json_decode($client->getResponse()->getContent(), true);
+
+        self::assertArraySubset([['id' => 1, 'name' => 'FOX News'], ['id' => 2, 'name' => 'CNN']], $content['_embedded']['_items']);
+
+        $client2->request(
+            'GET',
+            $this->router->generate('swp_api_core_article_sources')
+        );
+
+        self::assertEquals(200, $client2->getResponse()->getStatusCode());
+
+        $content = json_decode($client2->getResponse()->getContent(), true);
+
+        self::assertArraySubset([['id' => 3, 'name' => 'FOX News'], ['id' => 4, 'name' => 'CNN']], $content['_embedded']['_items']);
+    }
+
     private function createRoute()
     {
         $client = static::createClient();
         $client->request('POST', $this->router->generate('swp_api_content_create_routes'), [
             'route' => [
                 'name' => 'articles',
-                'type' => 'collection',
+                'type' => RouteInterface::TYPE_COLLECTION,
                 'content' => null,
             ],
         ]);

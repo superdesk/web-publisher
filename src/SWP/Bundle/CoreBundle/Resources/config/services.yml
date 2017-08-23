@@ -352,3 +352,10 @@ services:
             - '@swp.factory.article'
             - '@swp.factory.media'
             - '@?doctrine'
+
+    swp.adder.tenant_aware_article_source:
+        class: SWP\Bundle\CoreBundle\Service\TenantAwareArticleSourcesAdder
+        arguments:
+            - '@swp.factory.article_source'
+            - '@swp.repository.article_source'
+            - '@swp_multi_tenancy.tenant_context'

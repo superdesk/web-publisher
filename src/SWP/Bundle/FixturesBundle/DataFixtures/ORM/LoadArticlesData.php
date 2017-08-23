@@ -368,6 +368,8 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface, Orde
             ],
         ];
 
+        $sources = ['Forbes', 'Reuters'];
+
         if (isset($articles[$env])) {
             $articleService = $this->container->get('swp.service.article');
             foreach ($articles[$env] as $articleData) {
@@ -379,6 +381,9 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface, Orde
                 $article->setLocale($articleData['locale']);
                 $article->setCode(md5($articleData['title']));
                 $article->setKeywords($this->articleKeywords());
+                $articleSource = $this->container->get('swp.factory.article_source')->create();
+                $articleSource->setName($sources[array_rand($sources)]);
+                $article->addSource($articleSource);
                 $package = $this->createPackage($articleData);
                 $manager->persist($package);
                 $article->setPackage($package);
