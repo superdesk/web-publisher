@@ -176,7 +176,7 @@ class AuthController extends Controller
      *         401="No user found or not authorized."
      *     }
      * )
-     * @Route("/api/{version}/livesite/auth/{intention}", options={"expose"=true}, defaults={"version"="v1", "intention"="api"}, name="swp_api_auth_url")
+     * @Route("/api/{version}/livesite/auth/{intention}/", options={"expose"=true}, defaults={"version"="v1", "intention"="api"}, name="swp_api_auth_url")
      *
      * @Method("POST")
      *
@@ -208,7 +208,7 @@ class AuthController extends Controller
     /**
      * Redirect authorized user to homepage.
      *
-     * @Route("/api/{version}/livesite/redirect", options={"expose"=true}, defaults={"version"="v1", "intention"="api"}, name="swp_api_auth_redirect")
+     * @Route("/api/{version}/livesite/redirect/", options={"expose"=true}, defaults={"version"="v1", "intention"="api"}, name="swp_api_auth_redirect")
      *
      * @Method("GET")
      *
@@ -261,7 +261,10 @@ class AuthController extends Controller
                 ->getQuery()
                 ->getOneOrNullResult();
         } else {
-            $apiKey = $apiKeyRepository->getValidTokenForUser($user)->getQuery()->getOneOrNullResult();
+            $validKeys = $apiKeyRepository->getValidTokenForUser($user)->getQuery()->getResult();
+            if (count($validKeys) > 0) {
+                $apiKey = reset($validKeys);
+            }
         }
 
         if (null === $apiKey) {

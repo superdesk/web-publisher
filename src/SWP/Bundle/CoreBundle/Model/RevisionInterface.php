@@ -16,7 +16,8 @@ namespace SWP\Bundle\CoreBundle\Model;
 
 use SWP\Component\MultiTenancy\Model\TenantAwareInterface;
 use SWP\Component\Storage\Model\PersistableInterface;
+use SWP\Component\Revision\Model\RevisionInterface as BaseRevisionInterface;
 
-interface RevisionInterface extends TenantAwareInterface, PersistableInterface
+interface RevisionInterface extends BaseRevisionInterface, TenantAwareInterface, PersistableInterface
 {
 }

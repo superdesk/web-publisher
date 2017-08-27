@@ -20,6 +20,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
 use SWP\Bundle\CoreBundle\Context\CachedTenantContext;
+use SWP\Bundle\CoreBundle\Model\RevisionInterface;
 use SWP\Component\Common\Response\ResourcesListResponse;
 use SWP\Component\Common\Response\ResponseContext;
 use SWP\Component\Common\Response\SingleResourceResponse;
@@ -28,6 +29,7 @@ use SWP\Component\Common\Pagination\PaginationData;
 use SWP\Bundle\CoreBundle\Form\Type\TenantType;
 use SWP\Component\MultiTenancy\Model\OrganizationInterface;
 use SWP\Component\MultiTenancy\Model\TenantInterface;
+use SWP\Component\Revision\Manager\RevisionManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\ConflictHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -122,16 +124,21 @@ class TenantController extends FOSRestController
     public function createAction(Request $request)
     {
         $tenant = $this->get('swp.factory.tenant')->create();
+        $tenantContext = $this->get('swp_multi_tenancy.tenant_context');
         $form = $this->createForm(TenantType::class, $tenant, ['method' => $request->getMethod()]);
         $form->handleRequest($request);
 
         if ($form->isValid()) {
-            $this->ensureTenantExists($tenant->getSubdomain());
-            $tenant = $this->assignDefaultOrganization($tenant);
+            $this->ensureTenantExists($tenant->getSubdomain(), $tenant->getDomainName());
+            $tenant->setOrganization($tenantContext->getTenant()->getOrganization());
             $this->getTenantRepository()->add($tenant);
 
-            $cacheProvider = $this->get('doctrine_cache.providers.main_cache');
-            $cacheProvider->save(CachedTenantContext::getCacheKey($request->getHost()), $tenant);
+            /** @var RevisionManagerInterface $revisionManager */
+            $revisionManager = $this->get('swp.manager.revision');
+            /** @var RevisionInterface $revision */
+            $revision = $revisionManager->create();
+            $revision->setTenantCode($tenant->getCode());
+            $revisionManager->publish($revision);
 
             return new SingleResourceResponse($tenant, new ResponseContext(201));
         }
@@ -203,10 +210,10 @@ class TenantController extends FOSRestController
      *
      * @return mixed
      */
-    private function ensureTenantExists($subdomain)
+    private function ensureTenantExists(string $subdomain, string $domain)
     {
-        if (null !== $tenant = $this->getTenantRepository()->findOneBySubdomain($subdomain)) {
-            throw new ConflictHttpException(sprintf('Tenant with "%s" subdomain already exists.', $subdomain));
+        if (null !== $tenant = $this->getTenantRepository()->findOneBySubdomainAndDomain($subdomain, $domain)) {
+            throw new ConflictHttpException('Tenant for this host already exists.');
         }
 
         return $tenant;

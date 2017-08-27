@@ -23,6 +23,11 @@ use Symfony\Component\HttpFoundation\RequestStack;
 class CachedTenantContext extends TenantContext implements CachedTenantContextInterface
 {
     /**
+     * @var Cache
+     */
+    protected $cacheProvider;
+
+    /**
      * CachedTenantContext constructor.
      *
      * @param TenantResolverInterface  $tenantResolver
@@ -50,7 +55,7 @@ class CachedTenantContext extends TenantContext implements CachedTenantContextIn
         if (null === $this->tenant) {
             $currentRequest = $this->requestStack->getCurrentRequest();
             if (null !== $currentRequest) {
-                $cacheKey = md5($currentRequest->getHost());
+                $cacheKey = self::getCacheKey($currentRequest->getHost());
                 if ($this->cacheProvider->contains($cacheKey)) {
                     $this->setTenant($this->cacheProvider->fetch($cacheKey));
                 } else {

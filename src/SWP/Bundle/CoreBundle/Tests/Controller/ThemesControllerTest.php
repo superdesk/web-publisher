@@ -19,7 +19,7 @@ use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Routing\RouterInterface;
 
-class ThemeControllerTest extends WebTestCase
+class ThemesControllerTest extends WebTestCase
 {
     /**
      * @var RouterInterface
@@ -43,19 +43,19 @@ class ThemeControllerTest extends WebTestCase
     public function testThemeUpload()
     {
         $client = static::createClient();
-        $client->request('GET', $this->router->generate('swp_api_list_themes'));
+        $client->request('GET', $this->router->generate('swp_api_list_available_themes'));
         $data = json_decode($client->getResponse()->getContent(), true);
         self::assertCount(0, $data['_embedded']['_items']);
 
-        $fileName = $this->createZipArchive();
+        $fileName = $this->createZipArchive(realpath(__DIR__.'/../Fixtures/themes/123abc/'));
         $client->request('POST', $this->router->generate('swp_api_upload_theme'), [
             'theme_upload' => [
-                'file' => new UploadedFile($fileName, 'test_theme.png', 'application/zip', filesize($fileName), null, true),
+                'file' => new UploadedFile($fileName, 'test_theme.zip', 'application/zip', filesize($fileName), null, true),
             ],
         ]);
         self::assertEquals(201, $client->getResponse()->getStatusCode());
 
-        $client->request('GET', $this->router->generate('swp_api_list_themes'));
+        $client->request('GET', $this->router->generate('swp_api_list_available_themes'));
         $data = json_decode($client->getResponse()->getContent(), true);
         self::assertCount(1, $data['_embedded']['_items']);
 
@@ -64,13 +64,47 @@ class ThemeControllerTest extends WebTestCase
         $filesystem->remove($this->getContainer()->get('swp_core.uploader.theme')->getAvailableThemesPath());
     }
 
-    private function createZipArchive()
+    public function testThemeInstall()
+    {
+        $client = static::createClient();
+        $client->request('GET', $this->router->generate('swp_api_list_available_themes'));
+        $data = json_decode($client->getResponse()->getContent(), true);
+        self::assertCount(0, $data['_embedded']['_items']);
+
+        $fileName = $this->createZipArchive(realpath(__DIR__.'/../Fixtures/themes/123abc/'));
+        $client->request('POST', $this->router->generate('swp_api_upload_theme'), [
+            'theme_upload' => [
+                'file' => new UploadedFile($fileName, 'test_theme.zip', 'application/zip', filesize($fileName), null, true),
+            ],
+        ]);
+        self::assertEquals(201, $client->getResponse()->getStatusCode());
+        $filesystem = new Filesystem();
+        $filesystem->remove($fileName);
+        $filesystem->remove(realpath(__DIR__.'/../Fixtures/themes/123abc/'));
+
+        $client->request('GET', $this->router->generate('swp_api_list_tenant_themes'));
+        $data = json_decode($client->getResponse()->getContent(), true);
+        self::assertCount(0, $data['_embedded']['_items']);
+
+        $client->request('POST', $this->router->generate('swp_api_install_theme'), [
+            'theme_install' => ['name' => 'swp/test-theme'],
+        ]);
+        self::assertEquals(201, $client->getResponse()->getStatusCode());
+
+        $client->request('GET', $this->router->generate('swp_api_list_tenant_themes'));
+        $data = json_decode($client->getResponse()->getContent(), true);
+        self::assertCount(1, $data['_embedded']['_items']);
+        self::assertEquals('swp/test-theme@123abc', $data['_embedded']['_items'][0]['name']);
+
+        $filesystem->remove($this->getContainer()->get('swp_core.uploader.theme')->getAvailableThemesPath());
+    }
+
+    private function createZipArchive($rootPath)
     {
         $zip = new \ZipArchive();
         $zipName = $this->getContainer()->getParameter('kernel.cache_dir').'/'.time().'.zip';
         $zip->open($zipName, \ZipArchive::CREATE);
 
-        $rootPath = realpath(__DIR__.'/../Fixtures/themes/123abc/');
         $files = new \RecursiveIteratorIterator(
             new \RecursiveDirectoryIterator($rootPath),
             \RecursiveIteratorIterator::LEAVES_ONLY

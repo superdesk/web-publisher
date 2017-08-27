@@ -40,26 +40,6 @@ class TenantControllerTest extends WebTestCase
         $this->router = $this->getContainer()->get('router');
     }
 
-    public function testCreateNewTenantWithDefaultOrganization()
-    {
-        $client = static::createClient();
-        $client->request('POST', $this->router->generate('swp_api_core_create_tenant'), [
-            'tenant' => [
-                'name' => 'Test Tenant',
-                'subdomain' => 'test',
-                'domainName' => 'localhost',
-                'themeName' => 'swp/test-theme',
-            ],
-        ]);
-
-        self::assertEquals(201, $client->getResponse()->getStatusCode());
-        self::assertArraySubset(json_decode(
-            '{"id":4,"subdomain":"test","name":"Test Tenant","organization":{"id":3,"name":"default"},"enabled":true,"themeName":"swp\/test-theme","domainName":"localhost"}', true
-        ),
-            json_decode($client->getResponse()->getContent(), true)
-        );
-    }
-
     public function testCreateNewTenantWithCustomOrganization()
     {
         $client = static::createClient();
@@ -174,9 +154,8 @@ class TenantControllerTest extends WebTestCase
         ]);
 
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
-
         $this->assertArraySubset(json_decode(
-            '{"subdomain":"updated test subdomain","name":"Updated tenant name","organization":{"id":3,"name":"default"},"enabled":true,"themeName":"swp\/test-theme","domainName":"test.com"}', true),
+            '{"subdomain":"updated test subdomain","name":"Updated tenant name","organization":{"id":1,"name":"Organization1"},"enabled":true,"themeName":"swp\/test-theme","domainName":"test.com"}', true),
             json_decode($client->getResponse()->getContent(), true));
     }
 }
