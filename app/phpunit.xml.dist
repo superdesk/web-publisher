@@ -31,7 +31,6 @@
             <exclude>../src/SWP/Bundle/ContentBundle/Tests/*</exclude>
             <exclude>../src/SWP/Bundle/SettingsBundle/Tests/*</exclude>
             <exclude>../src/SWP/Bundle/UserBundle/Tests/*</exclude>
-            <exclude>../src/SWP/Bundle/CoreBundle/Tests/Controller/*</exclude>
         </testsuite>
     </testsuites>
 

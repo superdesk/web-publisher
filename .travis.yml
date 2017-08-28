@@ -50,7 +50,6 @@ before_script:
 script:
   - bin/phpspec run
   - bin/phpunit -c app/
-  - bin/phpunit -c app/ src/SWP/Bundle/CoreBundle/Tests/Controller
   - cd src/SWP/Bundle/BridgeBundle && composer $COMPOSER_FLAGS --no-interaction --prefer-dist && bin/phpunit
   - cd ../../../../
   - cd src/SWP/Bundle/TemplatesSystemBundle && composer $COMPOSER_FLAGS --no-interaction --prefer-dist && bin/phpunit

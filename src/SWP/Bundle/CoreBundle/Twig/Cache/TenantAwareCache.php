@@ -19,7 +19,7 @@ use SWP\Bundle\MultiTenancyBundle\Context\TenantContext;
 /**
  * Implements tenant aware Twig cache.
  */
-class TenantAwareCache extends \Twig_Cache_Filesystem
+class TenantAwareCache extends \Twig_Cache_Filesystem implements TenantAwareCacheInterface
 {
     /**
      * @var string
@@ -60,7 +60,7 @@ class TenantAwareCache extends \Twig_Cache_Filesystem
     }
 
     /**
-     * @return string
+     * {@inheritdoc}
      */
     public function generateCacheDir()
     {

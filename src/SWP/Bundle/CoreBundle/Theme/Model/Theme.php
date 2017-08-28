@@ -24,6 +24,12 @@ class Theme extends BaseTheme implements ThemeInterface
      */
     protected $config;
 
+    /**
+     * Theme constructor.
+     *
+     * @param string $name
+     * @param string $path
+     */
     public function __construct($name, $path)
     {
         if ($tempName = strstr($name, ThemeHelper::SUFFIX_SEPARATOR, true)) {

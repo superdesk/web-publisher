@@ -59,7 +59,7 @@ class TenantResolver implements TenantResolverInterface
     }
 
     /**
-     * @param $host
+     * @param string $host
      *
      * @return string
      */

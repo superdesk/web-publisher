@@ -29,11 +29,6 @@ services:
             - "@sylius.repository.theme"
             - "@doctrine_cache.providers.main_cache"
 
-    swp_core.no_theme_exception_listener:
-        class: SWP\Bundle\CoreBundle\EventListener\NoThemeExceptionListener
-        tags:
-            - { name: kernel.event_listener, event: kernel.exception }
-
     swp_core.resources_list_response_listener:
         class: SWP\Component\Common\EventListener\ResourceResponseListener
         arguments:
@@ -60,10 +55,18 @@ services:
             - '@swp_multi_tenancy.tenant_context'
 
     swp_core.uploader.theme:
-        class: SWP\Bundle\CoreBundle\Theme\Uploader\TenantAwareThemeUploader
+        class: SWP\Bundle\CoreBundle\Theme\Uploader\OrganizationAwareThemeUploader
         arguments:
             - '@swp_multi_tenancy.tenant_context'
-            - '%themes.upload_dir%'
+            - '%themes.upload_dir%/web/uploads'
+
+    swp_core.installer.theme:
+        class: SWP\Bundle\CoreBundle\Theme\Installer\TenantAwareThemeInstaller
+        arguments:
+            - '@swp_multi_tenancy.tenant_context'
+            - '@swp_core.loader.organization.theme'
+            - '@twig'
+            - '%swp.theme.configuration.default_directory%'
 
     swp_core.loader.organization.theme:
         class: Sylius\Bundle\ThemeBundle\Loader\ThemeLoader
