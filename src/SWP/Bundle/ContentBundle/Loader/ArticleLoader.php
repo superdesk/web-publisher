@@ -161,12 +161,10 @@ class ArticleLoader extends PaginatedLoader implements LoaderInterface
                 $criteria->set('route', $route);
             }
 
-            if (isset($parameters['metadata'])) {
-                $criteria->set('metadata', $parameters['metadata']);
-            }
-
-            if (isset($parameters['keywords'])) {
-                $criteria->set('keywords', $parameters['keywords']);
+            foreach (['metadata', 'keywords', 'source'] as $item) {
+                if (isset($parameters[$item])) {
+                    $criteria->set($item, $parameters[$item]);
+                }
             }
 
             $criteria = $this->applyPaginationToCriteria($criteria, $parameters);
