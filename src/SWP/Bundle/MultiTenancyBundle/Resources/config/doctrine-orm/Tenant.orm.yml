@@ -17,7 +17,6 @@ SWP\Component\MultiTenancy\Model\Tenant:
         name:
             type: string
             length: 255
-            unique: true
         subdomain:
             type: string
             length: 255
@@ -53,4 +52,4 @@ SWP\Component\MultiTenancy\Model\Tenant:
                 referencedColumnName: id
     uniqueConstraints:
         host_idx:
-            columns: [ domain_name, subdomain ]
+            columns: [ domain_name, subdomain, deleted_at ]
