@@ -143,7 +143,7 @@ class ThemesController extends Controller
      *     statusCodes={
      *         201="Returned on success."
      *     },
-     *     input="SWP\Bundle\CoreBundle\Form\Type\ThemeUploadType"
+     *     input="SWP\Bundle\CoreBundle\Form\Type\ThemeInstallType"
      * )
      * @Route("/api/{version}/themes/", options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_install_theme")
      *
