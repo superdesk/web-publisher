@@ -106,8 +106,6 @@ class ProcessArticleMediaListener
 
         if (ItemInterface::TYPE_PICTURE === $item->getType()) {
             $this->articleBodyProcessor->replaceBodyImagesWithMedia($article, $articleMedia);
-        } elseif (ItemInterface::TYPE_FILE === $item->getType()) {
-            //TODO: handle files upload
         }
 
         if (ArticleInterface::KEY_FEATURE_MEDIA === $key) {
@@ -132,7 +130,6 @@ class ProcessArticleMediaListener
                 $article->setFeatureMedia(null);
             }
         }
-        //$this->articleMediaRepository->flush();
     }
 
     /**

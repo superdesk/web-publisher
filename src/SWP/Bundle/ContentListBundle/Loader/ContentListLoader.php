@@ -20,7 +20,6 @@ use SWP\Component\Common\Criteria\Criteria;
 use SWP\Component\ContentList\Repository\ContentListRepositoryInterface;
 use SWP\Component\TemplatesSystem\Gimme\Factory\MetaFactoryInterface;
 use SWP\Component\TemplatesSystem\Gimme\Loader\LoaderInterface;
-use SWP\Component\TemplatesSystem\Gimme\Meta\Meta;
 
 /**
  * Class ContentListLoader.

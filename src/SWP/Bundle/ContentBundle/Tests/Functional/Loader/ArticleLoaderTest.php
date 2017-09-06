@@ -59,36 +59,36 @@ class ArticleLoaderTest extends WebTestCase
         $this->assertInstanceOf('SWP\Component\TemplatesSystem\Gimme\Meta\Meta', $article);
 
         $this->assertNull($this->articleLoader->load('article', ['slug' => 'test-articles']));
-        $this->assertNull($this->articleLoader->load('article', ['slug' => 'test-article'], LoaderInterface::COLLECTION));
-        $this->assertTrue(count($this->articleLoader->load('articles', ['route' => '/news'], LoaderInterface::COLLECTION)) == 3);
-        $this->assertNull($this->articleLoader->load('articles', ['route' => 99], LoaderInterface::COLLECTION));
+        $this->assertNull($this->articleLoader->load('article', ['slug' => 'test-article'], [], LoaderInterface::COLLECTION));
+        $this->assertTrue(count($this->articleLoader->load('articles', ['route' => '/news'], [], LoaderInterface::COLLECTION)) == 3);
+        $this->assertNull($this->articleLoader->load('articles', ['route' => 99], [], LoaderInterface::COLLECTION));
 
-        $this->assertNull($this->articleLoader->load('article', [], LoaderInterface::COLLECTION));
+        $this->assertNull($this->articleLoader->load('article', [], [], LoaderInterface::COLLECTION));
     }
 
     public function testLoadWithParameters()
     {
-        self::assertTrue(count($this->articleLoader->load('articles', ['route' => '/news', 'limit' => 2], LoaderInterface::COLLECTION)) == 2);
+        self::assertTrue(count($this->articleLoader->load('articles', ['route' => '/news', 'limit' => 2], [], LoaderInterface::COLLECTION)) == 2);
 
-        $articlesCollection = $this->articleLoader->load('articles', ['route' => '/news', 'limit' => 1], LoaderInterface::COLLECTION);
+        $articlesCollection = $this->articleLoader->load('articles', ['route' => '/news', 'limit' => 1], [], LoaderInterface::COLLECTION);
         self::assertTrue($articlesCollection->getTotalItemsCount() === 3);
 
-        $articlesZero = $this->articleLoader->load('articles', ['route' => '/news'], LoaderInterface::COLLECTION);
-        $articlesOne = $this->articleLoader->load('articles', ['route' => '/news', 'start' => 1], LoaderInterface::COLLECTION);
+        $articlesZero = $this->articleLoader->load('articles', ['route' => '/news'], [], LoaderInterface::COLLECTION);
+        $articlesOne = $this->articleLoader->load('articles', ['route' => '/news', 'start' => 1], [], LoaderInterface::COLLECTION);
         self::assertTrue($articlesZero[1]->title === $articlesOne[0]->title);
 
-        $articles = $this->articleLoader->load('articles', ['metadata' => ['located' => 'Sydney']], LoaderInterface::COLLECTION);
+        $articles = $this->articleLoader->load('articles', ['metadata' => ['located' => 'Sydney']], [], LoaderInterface::COLLECTION);
 
         self::assertCount(3, $articles);
         self::assertTrue($articles->getTotalItemsCount() === 3);
 
-        $articles = $this->articleLoader->load('articles', ['metadata' => ['byline' => 'Jhon Doe']], LoaderInterface::COLLECTION);
+        $articles = $this->articleLoader->load('articles', ['metadata' => ['byline' => 'Jhon Doe']], [], LoaderInterface::COLLECTION);
 
         self::assertCount(3, $articles);
         self::assertTrue($articles->getTotalItemsCount() === 3);
 
-        $articlesAsc = $this->articleLoader->load('articles', ['route' => '/news', 'order' => ['title', 'asc']], LoaderInterface::COLLECTION);
-        $articlesDesc = $this->articleLoader->load('articles', ['route' => '/news', 'order' => ['title', 'desc']], LoaderInterface::COLLECTION);
+        $articlesAsc = $this->articleLoader->load('articles', ['route' => '/news', 'order' => ['title', 'asc']], [], LoaderInterface::COLLECTION);
+        $articlesDesc = $this->articleLoader->load('articles', ['route' => '/news', 'order' => ['title', 'desc']], [], LoaderInterface::COLLECTION);
 
         self::assertTrue(count($articlesAsc) == count($articlesDesc));
 
@@ -99,13 +99,13 @@ class ArticleLoaderTest extends WebTestCase
 
     public function testLoadWithOrderByIdParameter()
     {
-        $this->assertEquals(3, count($this->articleLoader->load('articles', ['route' => '/news', 'order' => ['id', 'asc']], LoaderInterface::COLLECTION)));
+        $this->assertEquals(3, count($this->articleLoader->load('articles', ['route' => '/news', 'order' => ['id', 'asc']], [], LoaderInterface::COLLECTION)));
     }
 
     public function testLoadWithInvalidOrderByParameter()
     {
         $this->expectException(\Exception::class);
 
-        $this->articleLoader->load('articles', ['route' => '/news', 'order' => ['truncate Table', 'asc']], LoaderInterface::COLLECTION);
+        $this->articleLoader->load('articles', ['route' => '/news', 'order' => ['truncate Table', 'asc']], [], LoaderInterface::COLLECTION);
     }
 }

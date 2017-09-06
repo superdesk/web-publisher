@@ -59,7 +59,7 @@ To list articles by authors you can also do:
 
 It will then list all articles written by ``Karen Ruhiger`` **AND** ``Doe``.
 
-To list articles by with source ``Forbes`` but without ``AAP`` you can also do:
+To list articles from the ``Forbes`` source but without an ``AAP`` source you can also do:
 
 .. code-block:: twig
 
