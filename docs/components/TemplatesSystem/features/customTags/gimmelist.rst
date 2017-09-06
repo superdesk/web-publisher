@@ -6,6 +6,7 @@ The :code:`gimmelist` tag has two required parameters and two optional parameter
  * (required) Name of variable available inside block: :code:`article`
  * (required) Keyword :code:`from` and type of requested Metas in collection: :code:`from articles` with filters passed to Meta Loader as extra parameters (:code:`start`, :code:`limit`, :code:`order`)
  * (optional) Keyword :code:`with` and parameters for Meta Loader, for example: :code:`with {foo: 'bar', param1: 'value1'}`
+ * (optional) Keyword :code:`without` and parameters for Meta Loader, for example: :code:`without {source: 'AAP'}`
  * (optional) Keyword :code:`if` and expression used for results filtering
  * (optional) Keyword :code:`ignoreContext` and optional array of selected meta to be ignored
 
@@ -57,6 +58,17 @@ To list articles by authors you can also do:
     {% endgimmelist %}
 
 It will then list all articles written by ``Karen Ruhiger`` **AND** ``Doe``.
+
+To list articles by with source ``Forbes`` but without ``AAP`` you can also do:
+
+.. code-block:: twig
+
+    {% gimmelist article from articles with {source: ["Forbes"]} without {source: ["AAP"]} %}
+        {% for source in article.sources %} {{ source.name }} {% endfor %}
+    {% endgimmelist %}
+
+It will then list all articles **with** source ``Forbes`` and **without** ``AAP``.
+
 
 Example with usage of all parameters:
 

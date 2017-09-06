@@ -132,7 +132,7 @@ class ProcessArticleMediaListener
                 $article->setFeatureMedia(null);
             }
         }
-        $this->articleMediaRepository->flush();
+        //$this->articleMediaRepository->flush();
     }
 
     /**

@@ -1,0 +1,27 @@
+SWP\Bundle\ContentBundle\Model\ArticleSourceReference:
+    type: entity
+    table: swp_article_sources
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: IDENTITY
+    manyToOne:
+        article:
+            targetEntity: SWP\Bundle\ContentBundle\Model\ArticleInterface
+            inversedBy: sources
+            fetch: "EAGER"
+            joinColumn:
+                name: article_id
+                referencedColumnName: id
+                nullable: false
+        articleSource:
+            targetEntity: SWP\Bundle\ContentBundle\Model\ArticleSourceInterface
+            inversedBy: sources
+            fetch: "EAGER"
+            cascade: ["persist"]
+            joinColumn:
+                name: source_id
+                referencedColumnName: id
+                nullable: false

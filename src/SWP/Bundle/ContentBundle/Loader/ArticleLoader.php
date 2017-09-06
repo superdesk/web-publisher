@@ -26,7 +26,6 @@ use SWP\Bundle\ContentBundle\Provider\RouteProviderInterface;
 use SWP\Component\TemplatesSystem\Gimme\Context\Context;
 use SWP\Component\TemplatesSystem\Gimme\Factory\MetaFactoryInterface;
 use SWP\Component\TemplatesSystem\Gimme\Loader\LoaderInterface;
-use SWP\Component\TemplatesSystem\Gimme\Meta\Meta;
 use SWP\Component\TemplatesSystem\Gimme\Meta\MetaCollection;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
@@ -89,29 +88,12 @@ class ArticleLoader extends PaginatedLoader implements LoaderInterface
     }
 
     /**
-     * Load meta object by provided type and parameters.
-     *
-     * @MetaLoaderDoc(
-     *     description="Article Loader loads articles from Content Repository",
-     *     parameters={
-     *         contentPath="SINGLE|required content path",
-     *         slug="SINGLE|required content slug",
-     *         pageName="COLLECTiON|name of Page for required articles"
-     *     }
-     * )
-     *
-     * @param string $type         object type
-     * @param array  $parameters   parameters needed to load required object type
-     * @param int    $responseType response type: single meta (LoaderInterface::SINGLE) or collection of metas (LoaderInterface::COLLECTION)
-     *
-     * @return Meta|Meta[]|bool false if meta cannot be loaded, a Meta instance otherwise
-     *
-     * @throws \Exception
+     *  {@inheritdoc}
      */
-    public function load($type, $parameters = [], $responseType = LoaderInterface::SINGLE)
+    public function load($type, $parameters = [], $withoutParameters = [], $responseType = LoaderInterface::SINGLE)
     {
         $criteria = new Criteria();
-        if ($type === 'article' && $responseType === LoaderInterface::SINGLE) {
+        if ('article' === $type && LoaderInterface::SINGLE === $responseType) {
             $article = null;
             if (array_key_exists('article', $parameters) && $parameters['article'] instanceof ArticleInterface) {
                 $this->dm->detach($parameters['article']);
@@ -126,7 +108,7 @@ class ArticleLoader extends PaginatedLoader implements LoaderInterface
             } catch (NotFoundHttpException $e) {
                 return;
             }
-        } elseif ($type === 'articles' && $responseType === LoaderInterface::COLLECTION) {
+        } elseif ('articles' === $type && LoaderInterface::COLLECTION === $responseType) {
             $currentPage = $this->context['route'];
             $route = null;
 
@@ -151,19 +133,17 @@ class ArticleLoader extends PaginatedLoader implements LoaderInterface
                 }
             }
 
-            if (
-                null !== $route &&
-                (
-                    $route instanceof RouteInterface && RouteInterface::TYPE_COLLECTION === $route->getType() ||
-                    is_array($route)
-                )
-            ) {
+            if (null !== $route && ($route instanceof RouteInterface && RouteInterface::TYPE_COLLECTION === $route->getType() || is_array($route))) {
                 $criteria->set('route', $route);
             }
 
             foreach (['metadata', 'keywords', 'source'] as $item) {
                 if (isset($parameters[$item])) {
                     $criteria->set($item, $parameters[$item]);
+                }
+
+                if (isset($withoutParameters[$item])) {
+                    $criteria->set('exclude_'.$item, $withoutParameters[$item]);
                 }
             }
 

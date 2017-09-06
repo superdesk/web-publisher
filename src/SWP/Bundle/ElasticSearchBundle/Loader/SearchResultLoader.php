@@ -69,14 +69,14 @@ final class SearchResultLoader implements LoaderInterface
     /**
      * {@inheritdoc}
      */
-    public function load($metaType, $parameters = [], $responseType = self::COLLECTION)
+    public function load($metaType, $withParameters = [], $withoutParameters = [], $responseType = self::COLLECTION)
     {
-        if (isset($parameters['order']) && count($parameters['order']) == 2) {
-            $parameters['sort'] = [$parameters['order'][0] => $parameters['order'][1]];
-            unset($parameters['order']);
+        if (isset($withParameters['order']) && count($withParameters['order']) === 2) {
+            $withParameters['sort'] = [$withParameters['order'][0] => $withParameters['order'][1]];
+            unset($withParameters['order']);
         }
 
-        $criteria = Criteria::fromQueryParameters(isset($parameters['term']) ? $parameters['term'] : '', $parameters);
+        $criteria = Criteria::fromQueryParameters(isset($withParameters['term']) ? $withParameters['term'] : '', $withParameters);
 
         /** @var ArticleRepository $repository */
         $repository = $this->repositoryManager->getRepository($this->modelClass);

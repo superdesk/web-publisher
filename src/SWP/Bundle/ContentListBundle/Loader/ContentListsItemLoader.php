@@ -64,25 +64,9 @@ class ContentListsItemLoader extends PaginatedLoader implements LoaderInterface
     }
 
     /**
-     * Load meta object by provided type and parameters.
-     *
-     * @MetaLoaderDoc(
-     *     description="Content List Item Loader loads Content List Items from Content List",
-     *     parameters={
-     *         contentListName="COLLECTION|name of content list"
-     *         contentListId="COLLECTION|id of content list"
-     *     }
-     * )
-     *
-     * @param string $type         object type
-     * @param array  $parameters   parameters needed to load required object type
-     * @param int    $responseType response type: single meta (LoaderInterface::SINGLE) or collection of metas (LoaderInterface::COLLECTION)
-     *
-     * @return Meta|Meta[]|bool false if meta cannot be loaded, a Meta instance otherwise
-     *
-     * @throws \Exception
+     *  {@inheritdoc}
      */
-    public function load($type, $parameters = [], $responseType = LoaderInterface::SINGLE)
+    public function load($type, $parameters = [], $withoutParameters = [], $responseType = LoaderInterface::SINGLE)
     {
         $criteria = new Criteria();
         if (LoaderInterface::COLLECTION === $responseType) {

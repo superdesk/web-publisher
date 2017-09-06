@@ -18,6 +18,7 @@ namespace SWP\Bundle\CoreBundle\Service;
 
 use SWP\Bundle\ContentBundle\Model\ArticleInterface;
 use SWP\Bundle\ContentBundle\Service\ArticleSourcesAdderInterface;
+use SWP\Bundle\ContentBundle\Service\ArticleSourceServiceInterface;
 use SWP\Bundle\CoreBundle\Model\ArticleSourceInterface;
 use SWP\Component\MultiTenancy\Context\TenantContextInterface;
 use SWP\Component\Storage\Factory\FactoryInterface;
@@ -31,6 +32,11 @@ final class TenantAwareArticleSourcesAdder implements ArticleSourcesAdderInterfa
     private $articleSourceFactory;
 
     /**
+     * @var ArticleSourceServiceInterface
+     */
+    private $articleSourceService;
+
+    /**
      * @var RepositoryInterface
      */
     private $articleSourceRepository;
@@ -41,18 +47,21 @@ final class TenantAwareArticleSourcesAdder implements ArticleSourcesAdderInterfa
     private $tenantContext;
 
     /**
-     * ArticleSourcesAdder constructor.
+     * TenantAwareArticleSourcesAdder constructor.
      *
-     * @param FactoryInterface       $articleSourceFactory
-     * @param RepositoryInterface    $articleSourceRepository
-     * @param TenantContextInterface $tenantContext
+     * @param FactoryInterface              $articleSourceFactory
+     * @param ArticleSourceServiceInterface $articleSourceService
+     * @param RepositoryInterface           $articleSourceRepository
+     * @param TenantContextInterface        $tenantContext
      */
     public function __construct(
         FactoryInterface $articleSourceFactory,
+        ArticleSourceServiceInterface $articleSourceService,
         RepositoryInterface $articleSourceRepository,
         TenantContextInterface $tenantContext
     ) {
         $this->articleSourceFactory = $articleSourceFactory;
+        $this->articleSourceService = $articleSourceService;
         $this->articleSourceRepository = $articleSourceRepository;
         $this->tenantContext = $tenantContext;
     }
@@ -62,21 +71,18 @@ final class TenantAwareArticleSourcesAdder implements ArticleSourcesAdderInterfa
      */
     public function add(ArticleInterface $article, string $name)
     {
-        /** @var ArticleSourceInterface $articleSource */
-        $articleSource = $this->articleSourceFactory->create();
-        $articleSource->setName($name);
-        $articleSource->setTenantCode($this->tenantContext->getTenant()->getCode());
-
+        $tenantCode = $this->tenantContext->getTenant()->getCode();
         /** @var ArticleSourceInterface $source */
-        if ($source = $this->articleSourceRepository->findOneBy([
-            'name' => $articleSource->getName(),
-            'tenantCode' => $articleSource->getTenantCode(),
-        ])) {
-            $article->addSource($source);
+        if ($source = $this->articleSourceRepository->findOneBy(['name' => $name, 'tenantCode' => $tenantCode])) {
+            $article->addSourceReference($this->articleSourceService->getArticleSourceReference($article, $source));
 
             return;
         }
 
-        $article->addSource($articleSource);
+        /** @var ArticleSourceInterface $articleSource */
+        $articleSource = $this->articleSourceFactory->create();
+        $articleSource->setName($name);
+        $articleSource->setTenantCode($tenantCode);
+        $article->addSourceReference($this->articleSourceService->getArticleSourceReference($article, $articleSource));
     }
 }

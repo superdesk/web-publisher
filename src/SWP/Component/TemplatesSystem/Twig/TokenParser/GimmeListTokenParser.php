@@ -61,9 +61,14 @@ class GimmeListTokenParser extends \Twig_TokenParser
             $collectionFilters = $this->parser->getExpressionParser()->parsePostfixExpression($collectionType);
         }
 
-        $parameters = null;
+        $withParameters = null;
         if ($stream->nextIf(\Twig_Token::NAME_TYPE, 'with')) {
-            $parameters = $this->parser->getExpressionParser()->parseExpression();
+            $withParameters = $this->parser->getExpressionParser()->parseExpression();
+        }
+
+        $withoutParameters = null;
+        if ($stream->nextIf(\Twig_Token::NAME_TYPE, 'without')) {
+            $withoutParameters = $this->parser->getExpressionParser()->parseExpression();
         }
 
         $ignoreContext = null;
@@ -82,7 +87,7 @@ class GimmeListTokenParser extends \Twig_TokenParser
 
         $stream->expect(\Twig_Token::BLOCK_END_TYPE);
         $body = $this->parser->subparse([$this, 'decideGimmeListFork']);
-        if ($stream->next()->getValue() == 'else') {
+        if ($stream->next()->getValue() === 'else') {
             $stream->expect(\Twig_Token::BLOCK_END_TYPE);
             $else = $this->parser->subparse([$this, 'decideGimmeListEnd'], true);
         } else {
@@ -95,7 +100,8 @@ class GimmeListTokenParser extends \Twig_TokenParser
             $variable,
             $collectionType,
             $collectionFilters,
-            $parameters,
+            $withParameters,
+            $withoutParameters,
             $ignoreContext,
             $ifExpression,
             $else,

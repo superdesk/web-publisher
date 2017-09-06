@@ -29,7 +29,8 @@ class GimmeListNode extends \Twig_Node
      * @param \Twig_Node                        $variable
      * @param \Twig_Node                        $collectionType
      * @param \Twig_Node_Expression_Filter|null $collectionFilters
-     * @param \Twig_Node_Expression|null        $parameters
+     * @param \Twig_Node_Expression|null        $withParameters
+     * @param \Twig_Node_Expression|null        $withoutParameters
      * @param \Twig_Node_Expression|null        $ignoreContext
      * @param \Twig_Node_Expression|null        $ifExpression
      * @param \Twig_Node|null                   $else
@@ -41,7 +42,8 @@ class GimmeListNode extends \Twig_Node
         \Twig_Node $variable,
         \Twig_Node $collectionType,
         \Twig_Node_Expression_Filter $collectionFilters = null,
-        \Twig_Node_Expression $parameters = null,
+        \Twig_Node_Expression $withParameters = null,
+        \Twig_Node_Expression $withoutParameters = null,
         \Twig_Node_Expression $ignoreContext = null,
         \Twig_Node_Expression $ifExpression = null,
         \Twig_Node $else = null,
@@ -61,8 +63,12 @@ class GimmeListNode extends \Twig_Node
             'body' => $body,
         ];
 
-        if (!is_null($parameters)) {
-            $nodes['parameters'] = $parameters;
+        if (!is_null($withParameters)) {
+            $nodes['withParameters'] = $withParameters;
+        }
+
+        if (!is_null($withoutParameters)) {
+            $nodes['withoutParameters'] = $withoutParameters;
         }
 
         if (!is_null($ignoreContext)) {
@@ -101,17 +107,23 @@ class GimmeListNode extends \Twig_Node
             $compiler->write("\$context['".$collectionTypeName."'] = null;\n");
             $compiler->write("\$context['_collection_type_filters'] = ")->subcompile($this->getNode('collectionFilters'))->raw("['_collection_type_filters']; unset(\$context['".$collectionTypeName."']['_collection_type_filters']);\n");
 
-            if ($this->hasNode('parameters')) {
-                $compiler->write('$parameters = array_merge(')->subcompile($this->getNode('parameters'))->raw(", \$context['_collection_type_filters']);\n");
+            if ($this->hasNode('withParameters')) {
+                $compiler->write('$withParameters = array_merge(')->subcompile($this->getNode('withParameters'))->raw(", \$context['_collection_type_filters']);\n");
             } else {
-                $compiler->write("\$parameters = \$context['_collection_type_filters'];\n");
+                $compiler->write("\$withParameters = \$context['_collection_type_filters'];\n");
             }
         } else {
-            if ($this->hasNode('parameters')) {
-                $compiler->raw('$parameters = ')->subcompile($this->getNode('parameters'))->raw(";\n");
+            if ($this->hasNode('withParameters')) {
+                $compiler->raw('$withParameters = ')->subcompile($this->getNode('withParameters'))->raw(";\n");
             } else {
-                $compiler->raw("\$parameters = [];\n");
+                $compiler->raw("\$withParameters = [];\n");
             }
+        }
+
+        if ($this->hasNode('withoutParameters')) {
+            $compiler->raw('$withoutParameters = ')->subcompile($this->getNode('withoutParameters'))->raw(";\n");
+        } else {
+            $compiler->raw("\$withoutParameters = [];\n");
         }
 
         $compiler->write('$swpCollectionMetaLoader'.$i." = \$this->env->getExtension('SWP\Component\TemplatesSystem\Twig\Extension\GimmeExtension')->getLoader();\n");
@@ -120,8 +132,7 @@ class GimmeListNode extends \Twig_Node
             $compiler->write('$swpIgnoreContext'.$i.'GimmeList = $swpContext'.$i.'GimmeList->temporaryUnset(')->subcompile($this->getNode('ignoreContext'))->raw(");\n");
         }
         $compiler->write('')->subcompile($this->getNode('collectionType'))->raw(' = twig_ensure_traversable($swpCollectionMetaLoader'.$i.'->load("')->raw($collectionTypeName)->raw('", ');
-        $compiler->raw('$parameters');
-        $compiler->raw(", \SWP\Component\TemplatesSystem\Gimme\Loader\LoaderInterface::COLLECTION));\n");
+        $compiler->raw('$withParameters, $withoutParameters, \SWP\Component\TemplatesSystem\Gimme\Loader\LoaderInterface::COLLECTION));')->raw("\n");
 
         // the (array) cast bypasses a PHP 5.2.6 bug
         $compiler->write("\$context['_parent'] = (array) \$context;\n");

@@ -50,25 +50,9 @@ class ContentListLoader implements LoaderInterface
     }
 
     /**
-     * Load meta object by provided type and parameters.
-     *
-     * @MetaLoaderDoc(
-     *     description="Content List Loader loads Content List",
-     *     parameters={
-     *         listName="SINGLE|name of content list",
-     *         listId="SINGLE|name of content list"
-     *     }
-     * )
-     *
-     * @param string $type         object type
-     * @param array  $parameters   parameters needed to load required object type
-     * @param int    $responseType response type: single meta (LoaderInterface::SINGLE) or collection of metas (LoaderInterface::COLLECTION)
-     *
-     * @return Meta|bool false if meta cannot be loaded, a Meta instance otherwise
-     *
-     * @throws \Exception
+     *  {@inheritdoc}
      */
-    public function load($type, $parameters = [], $responseType = LoaderInterface::SINGLE)
+    public function load($type, $parameters = [], $withoutParameters = [], $responseType = LoaderInterface::SINGLE)
     {
         if (LoaderInterface::SINGLE === $responseType) {
             $contentList = null;
