@@ -16,11 +16,11 @@ namespace SWP\Bundle\TemplatesSystemBundle\Model;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use SWP\Bundle\TemplatesSystemBundle\Widget\GoogleAdSenseWidgetHandler;
+use SWP\Bundle\TemplatesSystemBundle\Widget\HtmlWidgetHandler;
 use SWP\Bundle\TemplatesSystemBundle\Widget\MenuWidgetHandler;
 use SWP\Component\Common\Model\TimestampableInterface;
 use SWP\Component\Storage\Model\PersistableInterface;
 use SWP\Component\TemplatesSystem\Gimme\Model\WidgetModelInterface;
-use SWP\Component\TemplatesSystem\Gimme\Widget\HtmlWidgetHandler;
 
 /**
  * WidgetModel.

@@ -7,6 +7,8 @@ This changelog references the relevant changes (bug and security fixes) done in 
 To get the diff for a specific change, go to https://github.com/superdesk/web-publisher/commit/XXX where XXX is the change hash
 
 * 1.1.x
+ * feature [#394] add "template_name" parameter to html widget
+ * feature [#393] Introduce "without" keyword for gimmelist and add refactor article sources to allow better filtering
  * [BC Break] feature [#371] Handle article sources (Article source is now an array of sources instead of a string.)
  * feature [#379] Add API endpoint for listing available widgets templates in current theme
  * feature [#377] Add API endpoint for package update (pubStatus)
