@@ -369,9 +369,12 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface, Orde
         ];
 
         $sources = ['Forbes', 'Reuters'];
+        $secondSources = ['AAP', 'AFP'];
 
         if (isset($articles[$env])) {
             $articleService = $this->container->get('swp.service.article');
+            $sourcesFactory = $this->container->get('swp.factory.article_source');
+            $articleSourcesService = $this->container->get('swp.service.article_source');
             foreach ($articles[$env] as $articleData) {
                 /** @var ArticleInterface $article */
                 $article = $this->container->get('swp.factory.article')->create();
@@ -381,9 +384,12 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface, Orde
                 $article->setLocale($articleData['locale']);
                 $article->setCode(md5($articleData['title']));
                 $article->setKeywords($this->articleKeywords());
-                $articleSource = $this->container->get('swp.factory.article_source')->create();
+                $articleSource = $sourcesFactory->create();
                 $articleSource->setName($sources[array_rand($sources)]);
-                $article->addSource($articleSource);
+                $article->addSourceReference($articleSourcesService->getArticleSourceReference($article, $articleSource));
+                $articleSourceSecond = $sourcesFactory->create();
+                $articleSourceSecond->setName($secondSources[array_rand($secondSources)]);
+                $article->addSourceReference($articleSourcesService->getArticleSourceReference($article, $articleSourceSecond));
                 $package = $this->createPackage($articleData);
                 $manager->persist($package);
                 $article->setPackage($package);

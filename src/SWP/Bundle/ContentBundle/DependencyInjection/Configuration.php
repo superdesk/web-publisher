@@ -28,6 +28,8 @@ use SWP\Bundle\ContentBundle\Model\ArticleMedia;
 use SWP\Bundle\ContentBundle\Model\ArticleMediaInterface;
 use SWP\Bundle\ContentBundle\Model\ArticleSource;
 use SWP\Bundle\ContentBundle\Model\ArticleSourceInterface;
+use SWP\Bundle\ContentBundle\Model\ArticleSourceReference;
+use SWP\Bundle\ContentBundle\Model\ArticleSourceReferenceInterface;
 use SWP\Bundle\ContentBundle\Model\File;
 use SWP\Bundle\ContentBundle\Model\FileInterface;
 use SWP\Bundle\ContentBundle\Model\Image;
@@ -81,6 +83,16 @@ class Configuration implements ConfigurationInterface
                                             ->children()
                                                 ->scalarNode('model')->cannotBeEmpty()->defaultValue(ArticleSource::class)->end()
                                                 ->scalarNode('interface')->cannotBeEmpty()->defaultValue(ArticleSourceInterface::class)->end()
+                                                ->scalarNode('repository')->defaultValue(EntityRepository::class)->end()
+                                                ->scalarNode('factory')->defaultValue(Factory::class)->end()
+                                                ->scalarNode('object_manager_name')->defaultValue(null)->end()
+                                            ->end()
+                                        ->end()
+                                        ->arrayNode('article_source_reference')
+                                            ->addDefaultsIfNotSet()
+                                            ->children()
+                                                ->scalarNode('model')->cannotBeEmpty()->defaultValue(ArticleSourceReference::class)->end()
+                                                ->scalarNode('interface')->cannotBeEmpty()->defaultValue(ArticleSourceReferenceInterface::class)->end()
                                                 ->scalarNode('repository')->defaultValue(EntityRepository::class)->end()
                                                 ->scalarNode('factory')->defaultValue(Factory::class)->end()
                                                 ->scalarNode('object_manager_name')->defaultValue(null)->end()

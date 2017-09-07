@@ -18,6 +18,7 @@ namespace SWP\Bundle\ContentBundle\Doctrine\ORM;
 
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\Tools\Pagination\Paginator;
+use SWP\Bundle\ContentBundle\Model\ArticleSourceReference;
 use SWP\Component\Common\Criteria\Criteria;
 use SWP\Bundle\ContentBundle\Doctrine\ArticleRepositoryInterface;
 use SWP\Bundle\ContentBundle\Model\ArticleInterface;
@@ -124,6 +125,10 @@ class ArticleRepository extends EntityRepository implements ArticleRepositoryInt
         throw new \Exception('Not implemented');
     }
 
+    /**
+     * @param QueryBuilder $queryBuilder
+     * @param Criteria     $criteria
+     */
     private function applyCustomFiltering(QueryBuilder $queryBuilder, Criteria $criteria)
     {
         foreach (['metadata', 'author'] as $name) {
@@ -180,15 +185,38 @@ class ArticleRepository extends EntityRepository implements ArticleRepositoryInt
             $criteria->remove('query');
         }
 
-        if ($criteria->has('source') && !empty($criteria->get('source'))) {
-            $queryBuilder->leftJoin('a.sources', 's');
+        if ($criteria->has('exclude_source') && !empty($criteria->get('exclude_source'))) {
+            $articleSourcesQueryBuilder = $this->getEntityManager()
+                ->createQueryBuilder()
+                ->select('excluded_article.id')
+                ->from(ArticleSourceReference::class, 'excluded_asr')
+                ->leftJoin('excluded_asr.article', 'excluded_article')
+                ->leftJoin('excluded_asr.articleSource', 'excluded_articleSource');
 
             $orX = $queryBuilder->expr()->orX();
-            foreach ((array) $criteria->get('source') as $value) {
-                $orX->add($queryBuilder->expr()->eq('s.name', $queryBuilder->expr()->literal($value)));
+            foreach ((array) $criteria->get('exclude_source') as $value) {
+                $orX->add($articleSourcesQueryBuilder->expr()->eq('excluded_articleSource.name', $articleSourcesQueryBuilder->expr()->literal($value)));
             }
+            $articleSourcesQueryBuilder->andWhere($orX);
+            $queryBuilder->andWhere($queryBuilder->expr()->notIn('a.id', $articleSourcesQueryBuilder->getQuery()->getDQL()));
 
-            $queryBuilder->andWhere($orX);
+            $criteria->remove('exclude_source');
+        }
+
+        if ($criteria->has('source') && !empty($criteria->get('source'))) {
+            $articleSourcesQueryBuilder = $this->getEntityManager()
+                ->createQueryBuilder()
+                ->select('article.id')
+                ->from(ArticleSourceReference::class, 'asr')
+                ->leftJoin('asr.article', 'article')
+                ->leftJoin('asr.articleSource', 'articleSource');
+            $orX = $queryBuilder->expr()->orX();
+            foreach ((array) $criteria->get('source') as $value) {
+                $orX->add($articleSourcesQueryBuilder->expr()->eq('articleSource.name', $articleSourcesQueryBuilder->expr()->literal($value)));
+            }
+            $articleSourcesQueryBuilder->andWhere($orX);
+            $queryBuilder->andWhere($queryBuilder->expr()->in('a.id', $articleSourcesQueryBuilder->getQuery()->getDQL()));
+
             $criteria->remove('source');
         }
     }

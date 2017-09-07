@@ -42,20 +42,9 @@ class ArticleLoader implements LoaderInterface
     }
 
     /**
-     * Load meta object by provided type and parameters.
-     *
-     * @MetaLoaderDoc(
-     *     description="Article Meta Loader provide simple way to test Loader, it will be removed when real loaders will be merged.",
-     *     parameters={}
-     * )
-     *
-     * @param string $type         object type
-     * @param array  $parameters   parameters needed to load required object type
-     * @param int    $responseType response type: single meta (LoaderInterface::SINGLE) or collection of metas (LoaderInterface::COLLECTION)
-     *
-     * @return Meta|MetaCollection false if meta cannot be loaded, a Meta instance otherwise
+     *  {@inheritdoc}
      */
-    public function load($type, $parameters = [], $responseType = LoaderInterface::SINGLE)
+    public function load($type, $parameters = [], $withoutParameters = [], $responseType = LoaderInterface::SINGLE)
     {
         if (!is_readable($this->rootDir.'/Resources/meta/article.yml')) {
             throw new \InvalidArgumentException('Configuration file is not readable for parser');
@@ -63,13 +52,13 @@ class ArticleLoader implements LoaderInterface
         $parser = new Parser();
         $configuration = (array) $parser->parse(file_get_contents($this->rootDir.'/Resources/meta/article.yml'));
 
-        if ($responseType === LoaderInterface::SINGLE) {
+        if (LoaderInterface::SINGLE === $responseType) {
             return $this->metaFactory->create([
                 'title' => 'New article',
                 'keywords' => 'lorem, ipsum, dolor, sit, amet',
                 'don\'t expose it' => 'this should be not exposed',
             ], $configuration);
-        } elseif ($responseType === LoaderInterface::COLLECTION) {
+        } elseif (LoaderInterface::COLLECTION === $responseType) {
             $metaCollection = new MetaCollection([
                 $this->metaFactory->create([
                     'title' => 'New article 1',
@@ -86,6 +75,8 @@ class ArticleLoader implements LoaderInterface
 
             return $metaCollection;
         }
+
+        return false;
     }
 
     /**

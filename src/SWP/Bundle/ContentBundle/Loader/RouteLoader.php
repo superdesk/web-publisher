@@ -18,7 +18,6 @@ namespace SWP\Bundle\ContentBundle\Loader;
 
 use SWP\Component\TemplatesSystem\Gimme\Factory\MetaFactoryInterface;
 use SWP\Component\TemplatesSystem\Gimme\Loader\LoaderInterface;
-use SWP\Component\TemplatesSystem\Gimme\Meta\Meta;
 
 /**
  * Class RouteLoader.
@@ -43,22 +42,9 @@ class RouteLoader implements LoaderInterface
     }
 
     /**
-     * Load meta object by provided type and parameters.
-     *
-     * @MetaLoaderDoc(
-     *     description="Route Loader gives you route meta for passed route object",
-     *     parameters={
-     *         route_object="SINGLE|required route object"
-     *     }
-     * )
-     *
-     * @param string $type         object type
-     * @param array  $parameters   parameters needed to load required object type
-     * @param int    $responseType response type: single meta (LoaderInterface::SINGLE)
-     *
-     * @return Meta|bool false if meta cannot be loaded, a Meta instance otherwise
+     *  {@inheritdoc}
      */
-    public function load($type, $parameters = [], $responseType = LoaderInterface::SINGLE)
+    public function load($type, $parameters = [], $withoutParameters = [], $responseType = LoaderInterface::SINGLE)
     {
         $route = isset($parameters['route_object']) ? $parameters['route_object'] : null;
 

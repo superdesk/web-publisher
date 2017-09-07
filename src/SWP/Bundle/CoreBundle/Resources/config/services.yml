@@ -360,5 +360,6 @@ services:
         class: SWP\Bundle\CoreBundle\Service\TenantAwareArticleSourcesAdder
         arguments:
             - '@swp.factory.article_source'
+            - '@swp.service.article_source'
             - '@swp.repository.article_source'
             - '@swp_multi_tenancy.tenant_context'

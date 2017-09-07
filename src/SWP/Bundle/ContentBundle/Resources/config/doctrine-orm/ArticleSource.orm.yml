@@ -23,3 +23,8 @@ SWP\Bundle\ContentBundle\Model\ArticleSource:
             gedmo:
                 timestampable:
                     on: update
+    oneToMany:
+        sources:
+            targetEntity: SWP\Bundle\ContentBundle\Model\ArticleSourceReference
+            mappedBy: articleSource
+            cascade: ["remove"]

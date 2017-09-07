@@ -49,19 +49,19 @@ class PreviewArticleMediaLoader extends PaginatedLoader implements LoaderInterfa
     /**
      * {@inheritdoc}
      */
-    public function load($metaType, $parameters = [], $responseType = self::SINGLE)
+    public function load($metaType, $withParameters = [], $withoutParameters = [], $responseType = self::SINGLE)
     {
         if (LoaderInterface::COLLECTION === $responseType) {
             $criteria = new Criteria();
-            if (array_key_exists('article', $parameters) && $parameters['article'] instanceof Meta) {
-                $article = $parameters['article']->getValues();
+            if (array_key_exists('article', $withParameters) && $withParameters['article'] instanceof Meta) {
+                $article = $withParameters['article']->getValues();
             } elseif (isset($this->context->article) && null !== $this->context->article) {
                 $article = $this->context->article->getValues();
             } else {
                 return false;
             }
 
-            $criteria = $this->applyPaginationToCriteria($criteria, $parameters);
+            $criteria = $this->applyPaginationToCriteria($criteria, $withParameters);
             $articleMedia = $article->getMedia();
             if (0 < count($articleMedia)) {
                 $collectionCriteria = new \Doctrine\Common\Collections\Criteria(

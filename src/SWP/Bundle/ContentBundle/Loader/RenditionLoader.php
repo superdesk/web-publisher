@@ -52,7 +52,7 @@ class RenditionLoader implements LoaderInterface
     /**
      * {@inheritdoc}
      */
-    public function load($metaType, $parameters = [], $responseType = self::SINGLE)
+    public function load($metaType, $parameters = [], $withoutParameters = [], $responseType = self::SINGLE)
     {
         if ($responseType === LoaderInterface::SINGLE) {
             $renditionName = null;

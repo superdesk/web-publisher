@@ -40,16 +40,27 @@ final class ExternalFragmentRendererTest extends WebTestCase
 
     public function testRendering()
     {
-        $content = json_decode($this->renderer->render('localhost:3000/esi_fragment', new Request())->getContent(), true);
-        self::assertEquals(['content' => 'some content'], $content);
+        try {
+            $content = json_decode(
+                $this->renderer->render('localhost:3000/esi_fragment', new Request())->getContent(),
+                true
+            );
+            self::assertEquals(['content' => 'some content'], $content);
+        } catch (ClientException $e) {
+            self::markTestSkipped();
+        }
     }
 
     public function testRenderingAlternativeContent()
     {
-        $content = json_decode($this->renderer->render('localhost:3001/404', new Request(), [
-            'alt' => 'localhost:3000/esi_fragment',
-        ])->getContent(), true);
-        self::assertEquals(['content' => 'some content'], $content);
+        try {
+            $content = json_decode($this->renderer->render('localhost:3001/404', new Request(), [
+                'alt' => 'localhost:3000/esi_fragment',
+            ])->getContent(), true);
+            self::assertEquals(['content' => 'some content'], $content);
+        } catch (ClientException $e) {
+            self::markTestSkipped();
+        }
     }
 
     public function testRenderingWithErrors()

@@ -30,13 +30,14 @@ interface LoaderInterface
     /**
      * Loads a Meta class from given datasource.
      *
-     * @param string     $metaType     object type
-     * @param array|null $parameters   parameters needed to load required object type
-     * @param int        $responseType response type: single meta (LoaderInterface::SINGLE) or collection of metas (LoaderInterface::COLLECTION)
+     * @param string $metaType          object type
+     * @param array  $withParameters    parameters needed to load required object type
+     * @param array  $withoutParameters parameters used to exclude items from result
+     * @param int    $responseType      response type: single meta (LoaderInterface::SINGLE) or collection of metas (LoaderInterface::COLLECTION)
      *
      * @return bool|Meta|MetaCollection false if meta cannot be loaded, a Meta instance otherwise or MetaCollection instance (in case of LoaderInterface::COLLECTION response type)
      */
-    public function load($metaType, $parameters = [], $responseType = self::SINGLE);
+    public function load($metaType, $withParameters = [], $withoutParameters = [], $responseType = self::SINGLE);
 
     /**
      * Check if loader support required type.

@@ -28,7 +28,7 @@ class ArticleLoaderTest extends \PHPUnit_Framework_TestCase
         $metaFactory = new MetaFactory($context);
         $articleLoader = new ArticleLoader(__DIR__.'/../../Twig/Node', $metaFactory);
 
-        $result = $articleLoader->load('articles', [], LoaderInterface::COLLECTION);
+        $result = $articleLoader->load('articles', [], [], LoaderInterface::COLLECTION);
         self::assertInstanceOf(MetaCollection::class, $result);
         self::assertCount(2, $result);
     }
