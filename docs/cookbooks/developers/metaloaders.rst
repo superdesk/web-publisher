@@ -52,13 +52,14 @@ Required methods:
          *     parameters={}
          * )
          *
-         * @param string $type         object type
-         * @param array  $parameters   parameters needed to load required object type
-         * @param int    $responseType response type: single meta (LoaderInterface::SINGLE) or collection of metas (LoaderInterface::COLLECTION)
+         * @param string $type              object type
+         * @param array  $parameters        parameters needed to load required object type
+         * @param array  $withoutParameters parameters used to exclude items from result
+         * @param int    $responseType      response type: single meta (LoaderInterface::SINGLE) or collection of metas (LoaderInterface::COLLECTION)
          *
          * @return Meta|array false if meta cannot be loaded, a Meta instance otherwise
          */
-        public function load($type, array $parameters = null, $responseType = LoaderInterface::SINGLE)
+        public function load($type, array $parameters = null, $withoutParameters = [], $responseType = LoaderInterface::SINGLE)
         {
             if (!is_readable($this->rootDir.'/Resources/meta/article.yml')) {
                 throw new \InvalidArgumentException('Configuration file is not readable for parser');

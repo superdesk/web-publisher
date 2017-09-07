@@ -17,6 +17,11 @@ final class ArticleSourcesAdder implements ArticleSourcesAdderInterface
     private $articleSourceFactory;
 
     /**
+     * @var ArticleSourceServiceInterface
+     */
+    private $articleSourceService;
+
+    /**
      * @var RepositoryInterface
      */
     private $articleSourceRepository;
@@ -24,14 +29,17 @@ final class ArticleSourcesAdder implements ArticleSourcesAdderInterface
     /**
      * ArticleSourcesAdder constructor.
      *
-     * @param FactoryInterface    $articleSourceFactory
-     * @param RepositoryInterface $articleSourceRepository
+     * @param FactoryInterface              $articleSourceFactory
+     * @param ArticleSourceServiceInterface $articleSourceService
+     * @param RepositoryInterface           $articleSourceRepository
      */
     public function __construct(
         FactoryInterface $articleSourceFactory,
+        ArticleSourceServiceInterface $articleSourceService,
         RepositoryInterface $articleSourceRepository
     ) {
         $this->articleSourceFactory = $articleSourceFactory;
+        $this->articleSourceService = $articleSourceService;
         $this->articleSourceRepository = $articleSourceRepository;
     }
 
@@ -45,14 +53,12 @@ final class ArticleSourcesAdder implements ArticleSourcesAdderInterface
         $articleSource->setName($name);
 
         /** @var ArticleSourceInterface $source */
-        if ($source = $this->articleSourceRepository->findOneBy([
-                'name' => $articleSource->getName(),
-            ])) {
-            $article->addSource($source);
+        if ($source = $this->articleSourceRepository->findOneBy(['name' => $articleSource->getName()])) {
+            $article->addSourceReference($this->articleSourceService->getArticleSourceReference($article, $source));
 
             return;
         }
 
-        $article->addSource($articleSource);
+        $article->addSourceReference($this->articleSourceService->getArticleSourceReference($article, $articleSource));
     }
 }

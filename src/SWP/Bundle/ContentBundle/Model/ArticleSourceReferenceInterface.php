@@ -16,18 +16,27 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\ContentBundle\Model;
 
-use SWP\Component\Common\Model\TimestampableInterface;
 use SWP\Component\Storage\Model\PersistableInterface;
 
-interface ArticleSourceInterface extends TimestampableInterface, PersistableInterface
+interface ArticleSourceReferenceInterface extends PersistableInterface
 {
     /**
-     * @return mixed
+     * @return ArticleInterface
      */
-    public function getName();
+    public function getArticle(): ArticleInterface;
 
     /**
-     * @param string $name
+     * @param ArticleInterface $article
      */
-    public function setName(string $name);
+    public function setArticle(ArticleInterface $article);
+
+    /**
+     * @return ArticleSource
+     */
+    public function getArticleSource(): ArticleSourceInterface;
+
+    /**
+     * @param ArticleSource $articleSource
+     */
+    public function setArticleSource(ArticleSourceInterface $articleSource);
 }

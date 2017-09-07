@@ -69,6 +69,15 @@ class ArticleLoaderTest extends WebTestCase
         self::assertEmpty($result);
     }
 
+    public function testFilteringByExcludedSources()
+    {
+        $template = '{% gimmelist article from articles with {source: ["Forbes"]} without {source: ["AAP"]} %} {% for source in article.sources %} {{ source.name }} {% endfor %} {% endgimmelist %}';
+        $result = $this->getRendered($template);
+
+        self::assertContains('Forbes', $result);
+        self::assertNotContains('AAP', $result);
+    }
+
     private function getRendered($template, $context = [])
     {
         $template = $this->twig->createTemplate($template);

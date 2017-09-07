@@ -171,4 +171,11 @@ services:
         class: SWP\Bundle\ContentBundle\Service\ArticleSourcesAdder
         arguments:
             - '@swp.factory.article_source'
+            - '@swp.service.article_source'
             - '@swp.repository.article_source'
+
+    swp.service.article_source:
+        class: SWP\Bundle\ContentBundle\Service\ArticleSourceService
+        arguments:
+            - '@swp.factory.article_source_reference'
+            - '@swp.repository.article_source_reference'

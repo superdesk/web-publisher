@@ -27,7 +27,7 @@ class ChainLoaderSpec extends ObjectBehavior
     {
         $articleLoader->isSupported(Argument::exact('article'))->willReturn(true);
         $articleLoader->isSupported(Argument::exact('article2'))->willReturn(false);
-        $articleLoader->load(Argument::exact('article'), Argument::type('array'), \SWP\Component\TemplatesSystem\Gimme\Loader\LoaderInterface::SINGLE)->willReturn($meta);
+        $articleLoader->load(Argument::exact('article'), Argument::type('array'), Argument::type('array'), \SWP\Component\TemplatesSystem\Gimme\Loader\LoaderInterface::SINGLE)->willReturn($meta);
     }
 
     public function it_is_initializable()
@@ -43,7 +43,7 @@ class ChainLoaderSpec extends ObjectBehavior
     public function it_should_load_meta($articleLoader, $meta)
     {
         $this->addLoader($articleLoader);
-        $this->load('article', [])->shouldReturn($meta);
+        $this->load('article', [], [])->shouldReturn($meta);
     }
 
     public function it_should_check_if_type_is_supported($articleLoader)

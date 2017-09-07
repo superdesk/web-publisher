@@ -157,24 +157,24 @@ interface ArticleInterface extends TimestampableInterface, RuleSubjectInterface,
     public function setCode(string $code);
 
     /**
-     * @param ArticleSourceInterface $source
+     * @param ArticleSourceReferenceInterface $source
      */
-    public function addSource(ArticleSourceInterface $source);
+    public function addSourceReference(ArticleSourceReferenceInterface $source);
 
     /**
-     * @param ArticleSourceInterface $source
+     * @param ArticleSourceReferenceInterface $source
      */
-    public function removeSource(ArticleSourceInterface $source);
+    public function removeSourceReference(ArticleSourceReferenceInterface $source);
 
     /**
-     * @param ArticleSourceInterface $source
+     * @param ArticleSourceReferenceInterface $source
      *
      * @return bool
      */
-    public function hasSource(ArticleSourceInterface $source): bool;
+    public function hasSourceReference(ArticleSourceReferenceInterface $source): bool;
 
     /**
-     * @return Collection|ArticleSourceInterface[]
+     * @return Collection|ArticleSourceReferenceInterface[]
      */
     public function getSources(): Collection;
 }

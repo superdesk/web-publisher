@@ -428,9 +428,9 @@ class Article implements ArticleInterface
     /**
      * {@inheritdoc}
      */
-    public function addSource(ArticleSourceInterface $source)
+    public function addSourceReference(ArticleSourceReferenceInterface $source)
     {
-        if (!$this->hasSource($source)) {
+        if (!$this->hasSourceReference($source)) {
             $this->sources->add($source);
         }
     }
@@ -438,7 +438,7 @@ class Article implements ArticleInterface
     /**
      * {@inheritdoc}
      */
-    public function removeSource(ArticleSourceInterface $source)
+    public function removeSourceReference(ArticleSourceReferenceInterface $source)
     {
         $this->sources->removeElement($source);
     }
@@ -446,7 +446,7 @@ class Article implements ArticleInterface
     /**
      * {@inheritdoc}
      */
-    public function hasSource(ArticleSourceInterface $source): bool
+    public function hasSourceReference(ArticleSourceReferenceInterface $source): bool
     {
         return $this->sources->contains($source);
     }
@@ -456,6 +456,16 @@ class Article implements ArticleInterface
      */
     public function getSources(): Collection
     {
+        if (0 < $this->sources->count()) {
+            $sources = new ArrayCollection();
+            /** @var ArticleSourceReferenceInterface $source */
+            foreach ($this->sources as $source) {
+                $sources->add($source->getArticleSource());
+            }
+
+            return $sources;
+        }
+
         return $this->sources;
     }
 }
