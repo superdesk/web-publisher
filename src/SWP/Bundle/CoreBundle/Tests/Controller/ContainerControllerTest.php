@@ -125,7 +125,7 @@ class ContainerControllerTest extends WebTestCase
             'HTTP_LINK' => '</api/v1/templates/widgets/1; rel="widget">',
         ]);
         $this->assertEquals(201, $client->getResponse()->getStatusCode());
-        self::assertArraySubset(json_decode('{"id":3,"type":1,"name":"Simple Container 1","styles":"color: #00000","cssClass":"col-md-12","visible":true,"data":[],"widgets":[{"id":1,"widget":{"id":1,"type":"SWP\\\\Component\\\\TemplatesSystem\\\\Gimme\\\\Widget\\\\HtmlWidgetHandler","name":"HtmlWidgetHandler number 1","visible":true,"parameters":{"html_body":"sample widget with <span style=\'color:red\'>html<\/span>"},"_links":{"self":{"href":"\/api\/v1\/templates\/widgets\/1"}}},"position":"0"}],"uuid": "5tfdv6resqg","_links":{"self":{"href":"\/api\/v1\/templates\/containers\/5tfdv6resqg"}}}', true), json_decode($client->getResponse()->getContent(), true));
+        self::assertArraySubset(json_decode('{"id":3,"type":1,"name":"Simple Container 1","styles":"color: #00000","cssClass":"col-md-12","visible":true,"data":[],"widgets":[{"id":1,"widget":{"id":1,"type":"SWP\\\\Bundle\\\\TemplatesSystemBundle\\\\Widget\\\\HtmlWidgetHandler","name":"HtmlWidgetHandler number 1","visible":true,"parameters":{"html_body":"sample widget with <span style=\'color:red\'>html<\/span>"},"_links":{"self":{"href":"\/api\/v1\/templates\/widgets\/1"}}},"position":"0"}],"uuid": "5tfdv6resqg","_links":{"self":{"href":"\/api\/v1\/templates\/containers\/5tfdv6resqg"}}}', true), json_decode($client->getResponse()->getContent(), true));
 
         $client->request('UNLINK', $this->router->generate('swp_api_templates_link_container', ['uuid' => '5tfdv6resqg']), [], [], [
             'HTTP_LINK' => '</api/v1/templates/widgets/1; rel="widget">',
@@ -147,7 +147,7 @@ class ContainerControllerTest extends WebTestCase
 
         self::assertEquals(201, $client->getResponse()->getStatusCode());
         self::assertArraySubset(
-            json_decode('{"id":3,"type":1,"name":"Simple Container 1","styles":"color: #00000","cssClass":"col-md-12","visible":true,"data":[],"widgets":[{"id":1,"widget":{"id":1,"type":"SWP\\\\Component\\\\TemplatesSystem\\\\Gimme\\\\Widget\\\\HtmlWidgetHandler","name":"HtmlWidgetHandler number 1","visible":true,"parameters":{"html_body":"sample widget with <span style=\'color:red\'>html<\/span>"},"_links":{"self":{"href":"\/api\/v1\/templates\/widgets\/1"}}},"position":"0"}],"uuid": "5tfdv6resqg","_links":{"self":{"href":"\/api\/v1\/templates\/containers\/5tfdv6resqg"}}}', true),
+            json_decode('{"id":3,"type":1,"name":"Simple Container 1","styles":"color: #00000","cssClass":"col-md-12","visible":true,"data":[],"widgets":[{"id":1,"widget":{"id":1,"type":"SWP\\\\Bundle\\\\TemplatesSystemBundle\\\\Widget\\\\HtmlWidgetHandler","name":"HtmlWidgetHandler number 1","visible":true,"parameters":{"html_body":"sample widget with <span style=\'color:red\'>html<\/span>"},"_links":{"self":{"href":"\/api\/v1\/templates\/widgets\/1"}}},"position":"0"}],"uuid": "5tfdv6resqg","_links":{"self":{"href":"\/api\/v1\/templates\/containers\/5tfdv6resqg"}}}', true),
             json_decode($client->getResponse()->getContent(), true)
         );
 
@@ -157,7 +157,7 @@ class ContainerControllerTest extends WebTestCase
         ]);
 
         self::assertArraySubset(
-            json_decode('{"id":3,"type":1,"name":"Simple Container 1","styles":"color: #00000","cssClass":"col-md-12","visible":true,"data":[],"widgets":[{"id":1,"widget":{"id":1,"type":"SWP\\\Component\\\\TemplatesSystem\\\Gimme\\\Widget\\\HtmlWidgetHandler","name":"HtmlWidgetHandler number 1","visible":true,"parameters":{"html_body":"sample widget with <span style=\'color:red\'>html<\/span>"},"_links":{"self":{"href":"\/api\/v1\/templates\/widgets\/1"}}},"position":"0"},{"id":2,"widget":{"id":2,"type":"SWP\\\Component\\\\TemplatesSystem\\\Gimme\\\Widget\\\HtmlWidgetHandler","name":"HtmlWidgetHandler number 2","visible":true,"parameters":{"html_body":"sample widget with html 2"},"_links":{"self":{"href":"\/api\/v1\/templates\/widgets\/2"}}},"position":"1"}],"uuid": "5tfdv6resqg","_links":{"self":{"href":"\/api\/v1\/templates\/containers\/5tfdv6resqg"}}}', true),
+            json_decode('{"id":3,"type":1,"name":"Simple Container 1","styles":"color: #00000","cssClass":"col-md-12","visible":true,"data":[],"widgets":[{"id":1,"widget":{"id":1,"type":"SWP\\\Bundle\\\\TemplatesSystemBundle\\\Widget\\\HtmlWidgetHandler","name":"HtmlWidgetHandler number 1","visible":true,"parameters":{"html_body":"sample widget with <span style=\'color:red\'>html<\/span>"},"_links":{"self":{"href":"\/api\/v1\/templates\/widgets\/1"}}},"position":"0"},{"id":2,"widget":{"id":2,"type":"SWP\\\Bundle\\\\TemplatesSystemBundle\\\Widget\\\HtmlWidgetHandler","name":"HtmlWidgetHandler number 2","visible":true,"parameters":{"html_body":"sample widget with html 2"},"_links":{"self":{"href":"\/api\/v1\/templates\/widgets\/2"}}},"position":"1"}],"uuid": "5tfdv6resqg","_links":{"self":{"href":"\/api\/v1\/templates\/containers\/5tfdv6resqg"}}}', true),
             json_decode($client->getResponse()->getContent(), true)
         );
 
@@ -167,7 +167,7 @@ class ContainerControllerTest extends WebTestCase
         ]);
 
         self::assertArraySubset(
-            json_decode('{"id":3,"type":1,"name":"Simple Container 1","styles":"color: #00000","cssClass":"col-md-12","visible":true,"data":[],"widgets":[{"id":1,"widget":{"id":1,"type":"SWP\\\Component\\\\TemplatesSystem\\\Gimme\\\Widget\\\HtmlWidgetHandler","name":"HtmlWidgetHandler number 1","visible":true,"parameters":{"html_body":"sample widget with <span style=\'color:red\'>html<\/span>"},"_links":{"self":{"href":"\/api\/v1\/templates\/widgets\/1"}}},"position":"1"},{"id":2,"widget":{"id":2,"type":"SWP\\\Component\\\\TemplatesSystem\\\Gimme\\\Widget\\\HtmlWidgetHandler","name":"HtmlWidgetHandler number 2","visible":true,"parameters":{"html_body":"sample widget with html 2"},"_links":{"self":{"href":"\/api\/v1\/templates\/widgets\/2"}}},"position":"0"}],"uuid": "5tfdv6resqg","_links":{"self":{"href":"\/api\/v1\/templates\/containers\/5tfdv6resqg"}}}', true),
+            json_decode('{"id":3,"type":1,"name":"Simple Container 1","styles":"color: #00000","cssClass":"col-md-12","visible":true,"data":[],"widgets":[{"id":1,"widget":{"id":1,"type":"SWP\\\Bundle\\\\TemplatesSystemBundle\\\Widget\\\HtmlWidgetHandler","name":"HtmlWidgetHandler number 1","visible":true,"parameters":{"html_body":"sample widget with <span style=\'color:red\'>html<\/span>"},"_links":{"self":{"href":"\/api\/v1\/templates\/widgets\/1"}}},"position":"1"},{"id":2,"widget":{"id":2,"type":"SWP\\\Bundle\\\\TemplatesSystemBundle\\\Widget\\\HtmlWidgetHandler","name":"HtmlWidgetHandler number 2","visible":true,"parameters":{"html_body":"sample widget with html 2"},"_links":{"self":{"href":"\/api\/v1\/templates\/widgets\/2"}}},"position":"0"}],"uuid": "5tfdv6resqg","_links":{"self":{"href":"\/api\/v1\/templates\/containers\/5tfdv6resqg"}}}', true),
             json_decode($client->getResponse()->getContent(), true)
         );
 
@@ -177,7 +177,7 @@ class ContainerControllerTest extends WebTestCase
         ]);
 
         self::assertArraySubset(
-            json_decode('{"id":3,"type":1,"name":"Simple Container 1","styles":"color: #00000","cssClass":"col-md-12","visible":true,"data":[],"widgets":[{"id":1,"widget":{"id":1,"type":"SWP\\\Component\\\\TemplatesSystem\\\Gimme\\\Widget\\\HtmlWidgetHandler","name":"HtmlWidgetHandler number 1","visible":true,"parameters":{"html_body":"sample widget with <span style=\'color:red\'>html<\/span>"},"_links":{"self":{"href":"\/api\/v1\/templates\/widgets\/1"}}},"position":"0"},{"id":2,"widget":{"id":2,"type":"SWP\\\Component\\\\TemplatesSystem\\\Gimme\\\Widget\\\HtmlWidgetHandler","name":"HtmlWidgetHandler number 2","visible":true,"parameters":{"html_body":"sample widget with html 2"},"_links":{"self":{"href":"\/api\/v1\/templates\/widgets\/2"}}},"position":"1"}],"uuid": "5tfdv6resqg","_links":{"self":{"href":"\/api\/v1\/templates\/containers\/5tfdv6resqg"}}}', true),
+            json_decode('{"id":3,"type":1,"name":"Simple Container 1","styles":"color: #00000","cssClass":"col-md-12","visible":true,"data":[],"widgets":[{"id":1,"widget":{"id":1,"type":"SWP\\\Bundle\\\\TemplatesSystemBundle\\\Widget\\\HtmlWidgetHandler","name":"HtmlWidgetHandler number 1","visible":true,"parameters":{"html_body":"sample widget with <span style=\'color:red\'>html<\/span>"},"_links":{"self":{"href":"\/api\/v1\/templates\/widgets\/1"}}},"position":"0"},{"id":2,"widget":{"id":2,"type":"SWP\\\Bundle\\\\TemplatesSystemBundle\\\Widget\\\HtmlWidgetHandler","name":"HtmlWidgetHandler number 2","visible":true,"parameters":{"html_body":"sample widget with html 2"},"_links":{"self":{"href":"\/api\/v1\/templates\/widgets\/2"}}},"position":"1"}],"uuid": "5tfdv6resqg","_links":{"self":{"href":"\/api\/v1\/templates\/containers\/5tfdv6resqg"}}}', true),
             json_decode($client->getResponse()->getContent(), true)
         );
     }
@@ -194,7 +194,7 @@ class ContainerControllerTest extends WebTestCase
         ]);
         self::assertEquals(201, $client->getResponse()->getStatusCode());
         self::assertArraySubset(
-            json_decode('{"id":3,"type":1,"name":"Simple Container 1","styles":"color: #00000","cssClass":"col-md-12","visible":true,"data":[],"widgets":[{"id":1,"widget":{"id":1,"type":"SWP\\\\Component\\\\TemplatesSystem\\\\Gimme\\\\Widget\\\\HtmlWidgetHandler","name":"HtmlWidgetHandler number 1","visible":true,"parameters":{"html_body":"sample widget with <span style=\'color:red\'>html<\/span>"},"_links":{"self":{"href":"\/api\/v1\/templates\/widgets\/1"}}},"position":"0"}],"uuid": "5tfdv6resqg","_links":{"self":{"href":"\/api\/v1\/templates\/containers\/5tfdv6resqg"}}}', true),
+            json_decode('{"id":3,"type":1,"name":"Simple Container 1","styles":"color: #00000","cssClass":"col-md-12","visible":true,"data":[],"widgets":[{"id":1,"widget":{"id":1,"type":"SWP\\\\Bundle\\\\TemplatesSystemBundle\\\\Widget\\\\HtmlWidgetHandler","name":"HtmlWidgetHandler number 1","visible":true,"parameters":{"html_body":"sample widget with <span style=\'color:red\'>html<\/span>"},"_links":{"self":{"href":"\/api\/v1\/templates\/widgets\/1"}}},"position":"0"}],"uuid": "5tfdv6resqg","_links":{"self":{"href":"\/api\/v1\/templates\/containers\/5tfdv6resqg"}}}', true),
             json_decode($client->getResponse()->getContent(), true)
         );
 
