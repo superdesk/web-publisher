@@ -29,7 +29,7 @@ class LoadWidgetsData extends AbstractFixture implements FixtureInterface, Order
     public function load(ObjectManager $manager)
     {
         /** @var TenantInterface $tenant */
-        $tenant = $this->container->get('swp.repository.tenant')->findOneBySubdomain('default');
+        $tenant = $this->container->get('swp.repository.tenant')->findOneByDomain(AbstractFixture::DEFAULT_TENANT_DOMAIN);
 
         $widget = new WidgetModel();
         $widget->setType(WidgetModel::TYPE_MENU);

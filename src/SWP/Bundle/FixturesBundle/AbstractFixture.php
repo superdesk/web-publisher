@@ -27,6 +27,8 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  */
 abstract class AbstractFixture extends BaseFixture implements ContainerAwareInterface
 {
+    const DEFAULT_TENANT_DOMAIN = 'publisher.dev';
+
     /**
      * @var ContainerInterface
      */
@@ -107,7 +109,7 @@ abstract class AbstractFixture extends BaseFixture implements ContainerAwareInte
      */
     public function generatePath($id)
     {
-        return $this->getTenantPrefix().'/'.ltrim($id, '/');
+        return $this->getTenantPrefix(self::DEFAULT_TENANT_DOMAIN).'/'.ltrim($id, '/');
     }
 
     public function getRouteByName($id)
@@ -122,13 +124,13 @@ abstract class AbstractFixture extends BaseFixture implements ContainerAwareInte
      *
      * @return string
      */
-    public function getTenantPrefix($subdomain = TenantInterface::DEFAULT_TENANT_SUBDOMAIN)
+    public function getTenantPrefix($domain)
     {
         /** @var TenantInterface $tenant */
-        $tenant = $this->container->get('swp.repository.tenant')->findOneBySubdomain($subdomain);
+        $tenant = $this->container->get('swp.repository.tenant')->findOneByDomain($domain);
 
         if (null === $tenant) {
-            throw new TenantNotFoundException($subdomain);
+            throw new TenantNotFoundException($domain);
         }
 
         return $tenant->getId();
