@@ -25,7 +25,6 @@ use SWP\Component\Storage\Model\PersistableInterface;
 interface TenantInterface extends TimestampableInterface, EnableableInterface, SoftDeletableInterface, PersistableInterface
 {
     const DEFAULT_TENANT_NAME = 'Default tenant';
-    const DEFAULT_TENANT_SUBDOMAIN = 'default';
 
     /**
      * Gets the tenant identifier.

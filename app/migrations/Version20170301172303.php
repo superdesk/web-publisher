@@ -43,7 +43,7 @@ class Version20170301172303 extends AbstractMigration implements ContainerAwareI
             if (null === $tenant->getDomainName()) {
                 $this->addSql('UPDATE swp_tenant SET domain_name = ?, updated_at = ? WHERE id = ?', [$domain, $date->format('Y-m-d H:i:s'), $tenant->getId()]);
             }
-            if (TenantInterface::DEFAULT_TENANT_SUBDOMAIN === $tenant->getSubdomain()) {
+            if ('default' === $tenant->getSubdomain()) {
                 $this->addSql('UPDATE swp_tenant SET subdomain = ?, updated_at = ? WHERE id = ?', [null, $date->format('Y-m-d H:i:s'), $tenant->getId()]);
             }
         }
@@ -65,7 +65,7 @@ class Version20170301172303 extends AbstractMigration implements ContainerAwareI
         /** @var TenantInterface $tenant */
         foreach ($tenants as $tenant) {
             if (null === $tenant->getSubdomain()) {
-                $tenant->setSubdomain(TenantInterface::DEFAULT_TENANT_SUBDOMAIN);
+                $tenant->setSubdomain('default');
             }
         }
         $this->container->get('doctrine')->getManager()->flush();
