@@ -59,11 +59,6 @@ script:
   - cd src/SWP/Bundle/SettingsBundle && composer $COMPOSER_FLAGS --no-interaction --prefer-dist && bin/phpunit
   - cd ../../../../
   - cd src/SWP/Bundle/UserBundle && composer $COMPOSER_FLAGS --no-interaction --prefer-dist && bin/phpunit
-  - cd ../../../../
-  - php app/console doctrine:migrations:migrate
-  - php app/console doctrine:fixtures:load
-  - php app/console swp:theme:install 123abc src/SWP/Bundle/FixturesBundle/Resources/themes/DefaultTheme/ -f
-  - php app/console sylius:theme:assets:install
 
 cache:
   directories:
