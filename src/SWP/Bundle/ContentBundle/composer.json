@@ -33,7 +33,7 @@
     "php": "^7.0",
     "swp/templates-system-bundle": "^1.1",
     "swp/bridge-bundle": "^1.0",
-    "swp/jms-serializer-bridge": "^0.5",
+    "swp/jms-serializer-bridge": "^1.1",
     "swp/rule": "^1.1",
     "symfony/validator": "^3.1",
     "symfony/form": "^3.1",

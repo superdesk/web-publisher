@@ -76,7 +76,7 @@
         "stof/doctrine-extensions-bundle": "^1.2",
         "symfony-cmf/routing-bundle": "^2.0",
         "symfony-cmf/core-bundle": "^2.0",
-        "sylius/theme-bundle": "^1.0",
+        "sylius/theme-bundle": "v1.0.0-beta.3",
         "superdesk/contentapi-sdk-php": "^1.0.0",
         "justinrainbow/json-schema": "1.4.4",
         "jms/translation-bundle": "^1.2",

@@ -48,7 +48,7 @@
         "sensio/framework-extra-bundle": "3.*,>=3.0.2",
         "doctrine/doctrine-bundle": ">=1.6.7 <1.7.0",
         "doctrine/orm": "2.5.*",
-        "swp/jms-serializer-bridge": "^0.5"
+        "swp/jms-serializer-bridge": "^1.0"
     },
     "config": {
         "bin-dir": "bin"
