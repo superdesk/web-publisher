@@ -190,8 +190,8 @@ class ArticleRepository extends EntityRepository implements ArticleRepositoryInt
                 ->createQueryBuilder()
                 ->select('excluded_article.id')
                 ->from(ArticleSourceReference::class, 'excluded_asr')
-                ->leftJoin('excluded_asr.article', 'excluded_article')
-                ->leftJoin('excluded_asr.articleSource', 'excluded_articleSource');
+                ->join('excluded_asr.article', 'excluded_article')
+                ->join('excluded_asr.articleSource', 'excluded_articleSource');
 
             $orX = $queryBuilder->expr()->orX();
             foreach ((array) $criteria->get('exclude_source') as $value) {
@@ -208,8 +208,8 @@ class ArticleRepository extends EntityRepository implements ArticleRepositoryInt
                 ->createQueryBuilder()
                 ->select('article.id')
                 ->from(ArticleSourceReference::class, 'asr')
-                ->leftJoin('asr.article', 'article')
-                ->leftJoin('asr.articleSource', 'articleSource');
+                ->join('asr.article', 'article')
+                ->join('asr.articleSource', 'articleSource');
             $orX = $queryBuilder->expr()->orX();
             foreach ((array) $criteria->get('source') as $value) {
                 $orX->add($articleSourcesQueryBuilder->expr()->eq('articleSource.name', $articleSourcesQueryBuilder->expr()->literal($value)));

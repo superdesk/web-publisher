@@ -18,9 +18,12 @@ namespace SWP\Bundle\CoreBundle\EventListener;
 
 use SWP\Bundle\CoreBundle\Model\UserInterface;
 use Symfony\Component\HttpFoundation\Cookie;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\FilterResponseEvent;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
+use Twig\Environment;
 
 /**
  * Class ActivateLivesiteEditorListener.
@@ -28,6 +31,7 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 class ActivateLivesiteEditorListener
 {
     const ACTIVATION_KEY = 'activate_livesite_editor';
+    const APPEND_SCRIPTS = 'append_livesite_editor_scripts';
 
     /**
      * @var TokenStorageInterface
@@ -35,13 +39,19 @@ class ActivateLivesiteEditorListener
     protected $securityTokenStorage;
 
     /**
+     * @var Environment
+     */
+    protected $twig;
+
+    /**
      * ActivateLivesiteEditorListener constructor.
      *
      * @param TokenStorageInterface $tokenStorage
      */
-    public function __construct(TokenStorageInterface $tokenStorage)
+    public function __construct(TokenStorageInterface $tokenStorage, Environment $twig)
     {
         $this->securityTokenStorage = $tokenStorage;
+        $this->twig = $twig;
     }
 
     /**
@@ -53,6 +63,7 @@ class ActivateLivesiteEditorListener
     public function onKernelResponse(FilterResponseEvent $event)
     {
         $request = $event->getRequest();
+        $response = $event->getResponse();
         if ($request->attributes->has(self::ACTIVATION_KEY)) {
             $token = $this->securityTokenStorage->getToken();
             if ($token instanceof TokenInterface) {
@@ -62,10 +73,29 @@ class ActivateLivesiteEditorListener
                 }
             }
 
-            $response = $event->getResponse();
-            $response->headers->setCookie(new Cookie(self::ACTIVATION_KEY, $request->attributes->get(self::ACTIVATION_KEY)));
+            $response->headers->setCookie(new Cookie(self::ACTIVATION_KEY, $request->attributes->get(self::ACTIVATION_KEY), 0, '/', null, false, false));
+            $response->headers->setCookie(new Cookie(self::APPEND_SCRIPTS, true));
+        }
 
-            $event->setResponse($response);
+        $this->injectScripts($response, $request);
+    }
+
+    /**
+     * Injects the required scripts into the given Response.
+     */
+    protected function injectScripts(Response $response, Request $request)
+    {
+        if (null === $request->cookies->get(self::APPEND_SCRIPTS, null)) {
+            return;
+        }
+
+        $content = $response->getContent();
+        $content = str_replace('<html ', '<html ng-app="livesite-management" ', $content);
+        $pos = strripos($content, '</body>');
+        if (false !== $pos) {
+            $toolbar = "\n".str_replace("\n", '', $this->twig->render('livesite_editor/scripts.html.twig'))."\n";
+            $content = substr($content, 0, $pos).$toolbar.substr($content, $pos);
+            $response->setContent($content);
         }
     }
 }
