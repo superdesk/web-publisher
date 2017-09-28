@@ -52,6 +52,28 @@ class StaticThemeAssetsController extends Controller
     }
 
     /**
+     * @Route("/themes/{type}/{themeName}/screenshots/{fileName}", name="static_theme_screenshots", requirements={
+     *     "type": "organization|tenant"
+     * })
+     * @Method("GET")
+     */
+    public function screenshotsAction(string $type, string $themeName, $fileName)
+    {
+        if ('organization' === $type) {
+            $theme = $this->loadOrganizationTheme(str_replace('__', '/', $themeName));
+        } elseif ('tenant' === $type) {
+            $theme = $this->loadTenantTheme(str_replace('__', '/', $themeName));
+        }
+
+        $filePath = $theme->getPath().'/screenshots/'.$fileName;
+        if (null !== $response = $this->handleFileLoading($filePath)) {
+            return $response;
+        }
+
+        throw new NotFoundHttpException('Page was not found.');
+    }
+
+    /**
      * @Route("/public/{filePath}", name="static_theme_assets_public", requirements={"filePath"=".+"})
      * @Method("GET")
      */
@@ -94,5 +116,51 @@ class StaticThemeAssetsController extends Controller
 
             return $response;
         }
+    }
+
+    /**
+     * @param string $themeName
+     *
+     * @return mixed
+     */
+    private function loadOrganizationTheme(string $themeName)
+    {
+        $loadedThemes = $this->container->get('swp_core.loader.organization.theme')->load();
+
+        return $this->filterThemes($loadedThemes, $themeName);
+    }
+
+    /**
+     * @param string $themeName
+     *
+     * @return mixed
+     */
+    private function loadTenantTheme(string $themeName)
+    {
+        $loadedThemes = $this->container->get('sylius.repository.theme')->findAll();
+
+        return $this->filterThemes($loadedThemes, $themeName);
+    }
+
+    /**
+     * @param array  $loadedThemes
+     * @param string $themeName
+     *
+     * @return mixed
+     */
+    private function filterThemes($loadedThemes, string $themeName)
+    {
+        $themes = array_filter(
+            $loadedThemes,
+            function ($element) use (&$themeName) {
+                return $element->getName() === $themeName;
+            }
+        );
+
+        if (count($themes) === 0) {
+            throw new NotFoundHttpException(sprintf('Theme with name "%s" was not found in organization themes.', $themeName));
+        }
+
+        return reset($themes);
     }
 }

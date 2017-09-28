@@ -15,6 +15,8 @@ By default, themes are located under the :code:`app/themes` directory. A basic t
         translations/           <=== Translations directory
             messages.en.xlf
             messages.de.xlf
+        screenshots/                <=== Theme screenshots
+            front.jpg
         public/                 <=== Assets directory
             css/
             js/
@@ -53,6 +55,8 @@ A theme with device-specific templates could be structured like this:
         translations/               <=== Translations directory
             messages.en.xlf
             messages.de.xlf
+        screenshots/                <=== Theme screenshots
+            front.jpg
         public/                     <=== Assets directory
             css/
             js/

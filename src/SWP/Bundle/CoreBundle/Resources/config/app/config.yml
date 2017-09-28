@@ -49,6 +49,9 @@ jms_serializer:
             FOSUserBundle:
                 namespace_prefix: "FOS\\UserBundle"
                 path: "@SWPCoreBundle/Resources/config/serializer/fos-user"
+            SyliusThemeBundle:
+                namespace_prefix: "Sylius\\Bundle\\ThemeBundle"
+                path: "@SWPCoreBundle/Resources/config/serializer/sylius-theme"
 
 swp_templates_system:
     persistence:

@@ -64,6 +64,24 @@ class ThemesControllerTest extends WebTestCase
         $filesystem->remove($this->getContainer()->get('swp_core.uploader.theme')->getAvailableThemesPath());
     }
 
+    public function testAddingUrlToThemeScreenshots()
+    {
+        $client = static::createClient();
+        $fileName = $this->createZipArchive(realpath(__DIR__.'/../Fixtures/themes/123abc/'));
+        $client->request('POST', $this->router->generate('swp_api_upload_theme'), [
+            'theme_upload' => [
+                'file' => new UploadedFile($fileName, 'test_theme.zip', 'application/zip', filesize($fileName), null, true),
+            ],
+        ]);
+        self::assertEquals(201, $client->getResponse()->getStatusCode());
+
+        $client->request('GET', $this->router->generate('swp_api_list_available_themes'));
+        $data = json_decode($client->getResponse()->getContent(), true);
+        self::assertCount(1, $data['_embedded']['_items']);
+        self::assertCount(1, $data['_embedded']['_items'][0]['screenshots']);
+        self::assertArrayHasKey('url', $data['_embedded']['_items'][0]['screenshots'][0]);
+    }
+
     public function testThemeInstall()
     {
         $client = static::createClient();
