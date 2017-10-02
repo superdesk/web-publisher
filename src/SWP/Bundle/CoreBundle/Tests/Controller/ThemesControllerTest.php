@@ -80,6 +80,10 @@ class ThemesControllerTest extends WebTestCase
         self::assertCount(1, $data['_embedded']['_items']);
         self::assertCount(1, $data['_embedded']['_items'][0]['screenshots']);
         self::assertArrayHasKey('url', $data['_embedded']['_items'][0]['screenshots'][0]);
+
+        $filesystem = new Filesystem();
+        $filesystem->remove($fileName);
+        $filesystem->remove($this->getContainer()->get('swp_core.uploader.theme')->getAvailableThemesPath());
     }
 
     public function testThemeInstall()
