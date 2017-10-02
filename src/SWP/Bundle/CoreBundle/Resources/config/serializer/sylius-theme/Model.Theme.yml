@@ -1,0 +1,6 @@
+Sylius\Bundle\ThemeBundle\Model\Theme:
+    exclusion_policy: NONE
+    properties:
+        screenshots:
+            expose: true
+            type: array<Sylius\Bundle\ThemeBundle\Model\ThemeScreenshot>

@@ -265,6 +265,14 @@ services:
         tags:
             - { name: jms_serializer.subscribing_handler }
 
+    swp_core.jms_theme_handler:
+        class: SWP\Bundle\CoreBundle\Serializer\ThemeSerializationSubscriber
+        arguments:
+          - '@router.default'
+          - '@swp.serializer'
+        tags:
+            - { name: jms_serializer.event_subscriber }
+
     swp_core.jms_articles_count_handler:
         class: SWP\Bundle\CoreBundle\Serializer\ArticlesCountHandler
         arguments:
