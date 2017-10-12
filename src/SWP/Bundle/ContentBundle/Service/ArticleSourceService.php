@@ -49,8 +49,9 @@ class ArticleSourceService implements ArticleSourceServiceInterface
      */
     public function getArticleSourceReference(ArticleInterface $article, ArticleSourceInterface $source)
     {
-        if ($articleSourceReference = $this->articleSourceReferenceRepository->findBy(['article' => $article, 'articleSource' => $source])) {
-            return $articleSourceReference;
+        $articleSourceReference = $this->articleSourceReferenceRepository->findBy(['article' => $article, 'articleSource' => $source]);
+        if (count($articleSourceReference) > 0) {
+            return reset($articleSourceReference);
         }
 
         /** @var ArticleSourceReferenceInterface $articleSourceReference */

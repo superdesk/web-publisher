@@ -18,11 +18,13 @@ namespace SWP\Bundle\CoreBundle\Tests\Functional;
 
 use SWP\Bundle\ContentBundle\Model\RouteInterface;
 use SWP\Bundle\FixturesBundle\WebTestCase;
+use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Routing\RouterInterface;
 
 final class MultipleWebsitesPublish extends WebTestCase
 {
-    const TEST_ITEM_CONTENT = '{"language": "en", "slugline": "abstract-html-test", "body_html": "<p>some html body</p>", "versioncreated": "2016-09-23T13:57:28+0000", "firstcreated": "2016-09-23T09:11:28+0000", "description_text": "some abstract text", "place": [{"country": "Australia", "world_region": "Oceania", "state": "Australian Capital Territory", "qcode": "ACT", "name": "ACT", "group": "Australia"}], "version": "2", "byline": "ADmin", "keywords": [], "guid": "urn:newsml:localhost:2016-09-23T13:56:39.404843:56465de4-0d5c-495a-8e36-3b396def3cf0", "priority": 6, "subject": [{"name": "lawyer", "code": "02002001"}], "urgency": 3, "type": "text", "headline": "Abstract html test", "service": [{"name": "Australian General News", "code": "a"}], "description_html": "<p><b><u>some abstract text</u></b></p>", "located": "Sydney", "pubstatus": "usable"}';
+    const TEST_ITEM_CONTENT = '{"language": "en", "source": "superdesk publisher", "slugline": "abstract-html-test", "body_html": "<p>some html body</p>\n<!-- EMBED START Image {id: \"embedded4905430171\"} -->\n<figure><img src=\"http://localhost:5000/api/upload/1234567890987654321a/raw?_schema=http\" alt=\"test image\" srcset=\"//localhost:5000/api/upload/1234567890987654321a/raw?_schema=http 800w, //localhost:5000/api/upload/1234567890987654321c/raw?_schema=http 1079w\" /><figcaption>test image</figcaption></figure>\n<!-- EMBED END Image {id: \"embedded4905430171\"} -->", "versioncreated": "2016-09-23T13:57:28+0000", "firstcreated": "2016-09-23T09:11:28+0000", "description_text": "some abstract text", "place": [{"country": "Australia", "world_region": "Oceania", "state": "Australian Capital Territory", "qcode": "ACT", "name": "ACT", "group": "Australia"}], "version": "2", "byline": "ADmin", "keywords": [], "guid": "urn:newsml:localhost:2016-09-23T13:56:39.404843:56465de4-0d5c-495a-8e36-3b396def3cf0", "priority": 6, "subject": [{"name": "lawyer", "code": "02002001"}], "urgency": 3, "type": "text", "headline": "Abstract html test", "service": [{"name": "Australian General News", "code": "a"}], "description_html": "<p><b><u>some abstract text</u></b></p>", "located": "Sydney", "pubstatus": "usable", "associations": {"embedded4905430171": {"renditions": {"16-9": {"height": 720, "mimetype": "image/jpeg", "width": 1079, "media": "1234567890987654321a", "href": "http://localhost:5000/api/upload/1234567890987654321a/raw?_schema=http"}, "4-3": {"height": 533, "mimetype": "image/jpeg", "width": 800, "media": "1234567890987654321b", "href": "http://localhost:5000/api/upload/1234567890987654321b/raw?_schema=http"}, "original": {"height": 2667, "mimetype": "image/jpeg", "width": 4000, "media": "1234567890987654321c", "href": "http://localhost:5000/api/upload/1234567890987654321c/raw?_schema=http"}}, "urgency": 3, "body_text": "test image", "versioncreated": "2016-08-17T17:46:52+0000", "guid": "tag:localhost:2016:56753145-8d59-4eed-bdd5-387013db97a6", "byline": "Pawe\u0142 Miko\u0142ajczuk", "pubstatus": "usable", "language": "en", "version": "2", "description_text": "test image", "priority": 6, "type": "picture", "service": [{"name": "Australian General News", "code": "a"}], "usageterms": "indefinite-usage", "mimetype": "image/jpeg", "headline": "test image", "located": "Porto"}}}';
 
     /**
      * @var RouterInterface
@@ -43,10 +45,46 @@ final class MultipleWebsitesPublish extends WebTestCase
         ], true);
 
         $this->router = $this->getContainer()->get('router');
+        $elasticaResseter = $this->getContainer()->get('fos_elastica.resetter');
+        $elasticaResseter->resetAllIndexes();
     }
 
     public function testPackagePublishAndUnpublishToFromManyWebsites()
     {
+        $filesystem = new Filesystem();
+        $filesystem->remove($this->getContainer()->getParameter('kernel.cache_dir').'/uploads');
+
+        $client = static::createClient();
+        $client->request(
+            'POST',
+            $this->router->generate('swp_api_assets_push'),
+            [
+                'media_id' => '1234567890987654321a',
+                'media' => new UploadedFile(__DIR__.'/Resources/test_file.png', 'test_file.png', 'image/png', 3992, null, true),
+            ]
+        );
+        $this->assertEquals(201, $client->getResponse()->getStatusCode());
+
+        $client->request(
+            'POST',
+            $this->router->generate('swp_api_assets_push'),
+            [
+                'media_id' => '1234567890987654321b',
+                'media' => new UploadedFile(__DIR__.'/Resources/test_file.png', 'test_file.png', 'image/png', 3992, null, true),
+            ]
+        );
+        $this->assertEquals(201, $client->getResponse()->getStatusCode());
+
+        $client->request(
+            'POST',
+            $this->router->generate('swp_api_assets_push'),
+            [
+                'media_id' => '1234567890987654321c',
+                'media' => new UploadedFile(__DIR__.'/Resources/test_file.png', 'test_file.png', 'image/png', 3992, null, true),
+            ]
+        );
+        $this->assertEquals(201, $client->getResponse()->getStatusCode());
+
         $client = static::createClient();
         // create route for tenant1
         $client->request('POST', $this->router->generate('swp_api_content_create_routes'), [
@@ -244,6 +282,43 @@ final class MultipleWebsitesPublish extends WebTestCase
         self::assertNotNull($content['publishedAt']);
         self::assertEquals($content['status'], 'published');
         self::assertEquals($content['route']['id'], 4);
+
+        // re-push content to the whole organization
+        $client->request(
+            'POST',
+            $this->router->generate('swp_api_content_push'),
+            [],
+            [],
+            ['CONTENT_TYPE' => 'application/json'],
+            self::TEST_ITEM_CONTENT
+        );
+        self::assertEquals(201, $client->getResponse()->getStatusCode());
+
+        $client->request(
+            'GET',
+            $this->router->generate('swp_api_core_list_packages')
+        );
+        self::assertEquals(200, $client->getResponse()->getStatusCode());
+
+        // publish to tenants within same organization
+        $client->request(
+            'POST',
+            $this->router->generate('swp_api_core_publish_package', ['id' => 1]), [
+                'publish' => [
+                    'destinations' => [
+                        [
+                            'tenant' => '123abc',
+                            'route' => 3,
+                        ],
+                        [
+                            'tenant' => '678iop',
+                            'route' => 4,
+                        ],
+                    ],
+                ],
+            ]
+        );
+        self::assertEquals(201, $client->getResponse()->getStatusCode());
 
         $client->request(
             'POST',

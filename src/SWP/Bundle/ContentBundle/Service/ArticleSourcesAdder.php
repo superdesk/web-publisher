@@ -48,17 +48,16 @@ final class ArticleSourcesAdder implements ArticleSourcesAdderInterface
      */
     public function add(ArticleInterface $article, string $name)
     {
-        /** @var ArticleSourceInterface $articleSource */
-        $articleSource = $this->articleSourceFactory->create();
-        $articleSource->setName($name);
-
         /** @var ArticleSourceInterface $source */
-        if ($source = $this->articleSourceRepository->findOneBy(['name' => $articleSource->getName()])) {
+        if ($source = $this->articleSourceRepository->findOneBy(['name' => $name])) {
             $article->addSourceReference($this->articleSourceService->getArticleSourceReference($article, $source));
 
             return;
         }
 
+        /** @var ArticleSourceInterface $articleSource */
+        $articleSource = $this->articleSourceFactory->create();
+        $articleSource->setName($name);
         $article->addSourceReference($this->articleSourceService->getArticleSourceReference($article, $articleSource));
     }
 }

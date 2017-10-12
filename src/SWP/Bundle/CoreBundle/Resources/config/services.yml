@@ -81,7 +81,7 @@ services:
     swp_core.security.session.domain_dynamic_storage:
         class: SWP\Bundle\CoreBundle\Security\Storage\DynamicDomainSessionStorage
         arguments:
-            - "%domain%"
+            - "%env(SWP_DOMAIN)%"
 
     swp_core.listener.article_rules_subscriber:
         class: SWP\Bundle\CoreBundle\EventSubscriber\ProcessArticleRulesSubscriber
@@ -305,6 +305,7 @@ services:
             - '@swp.object_manager.article'
             - '@swp.repository.article'
             - '@event_dispatcher'
+            - '@fos_elastica.object_persister.swp.package'
         tags:
             - { name: kernel.event_listener, event: swp.bridge.package_post_update, method: onUpdated, priority: 20 }
 
