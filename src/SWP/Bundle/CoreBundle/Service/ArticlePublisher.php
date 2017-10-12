@@ -94,19 +94,20 @@ final class ArticlePublisher implements ArticlePublisherInterface
         /** @var PublishDestinationInterface $destination */
         foreach ($action->getDestinations() as $destination) {
             $this->tenantContext->setTenant($destination->getTenant());
-            /** @var ArticleInterface $article */
-            $article = $this->articleFactory->createFromPackage($package);
-            $this->eventDispatcher->dispatch(Events::SWP_VALIDATION, new GenericEvent($article));
 
-            /** @var ArticleInterface $existingArticle */
-            if (null !== ($existingArticle = $this->findArticleByTenantAndCode($destination->getTenant()->getCode(), $article->getCode()))) {
-                $existingArticle->setRoute($destination->getRoute());
-                $existingArticle->setPublishedFBIA($destination->isFbia());
-                $this->dispatchEvents($existingArticle, $package);
+            /* @var ArticleInterface $existingArticle */
+            if (null !== ($article = $this->findArticleByTenantAndCode($destination->getTenant()->getCode(), $package->getGuid()))) {
+                $article->setRoute($destination->getRoute());
+                $article->setPublishedFBIA($destination->isFbia());
+                $this->eventDispatcher->dispatch(Events::SWP_VALIDATION, new GenericEvent($article));
+                $this->dispatchEvents($article, $package);
 
                 continue;
             }
 
+            /** @var ArticleInterface $article */
+            $article = $this->articleFactory->createFromPackage($package);
+            $this->eventDispatcher->dispatch(Events::SWP_VALIDATION, new GenericEvent($article));
             $article->setPackage($package);
             $article->setRoute($destination->getRoute());
             $article->setPublishedFBIA($destination->isFbia());

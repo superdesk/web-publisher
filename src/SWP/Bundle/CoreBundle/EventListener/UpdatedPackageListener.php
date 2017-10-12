@@ -17,6 +17,7 @@ declare(strict_types=1);
 namespace SWP\Bundle\CoreBundle\EventListener;
 
 use Doctrine\Common\Persistence\ObjectManager;
+use FOS\ElasticaBundle\Persister\ObjectPersisterInterface;
 use SWP\Bundle\ContentBundle\ArticleEvents;
 use SWP\Bundle\ContentBundle\Doctrine\ArticleRepositoryInterface;
 use SWP\Bundle\ContentBundle\Event\ArticleEvent;
@@ -51,6 +52,11 @@ final class UpdatedPackageListener
     private $eventDispatcher;
 
     /**
+     * @var ObjectPersisterInterface
+     */
+    private $elasticaObjectPersister;
+
+    /**
      * UpdatedPackageListener constructor.
      *
      * @param ArticleHydratorInterface   $articleHydrator
@@ -62,12 +68,14 @@ final class UpdatedPackageListener
         ArticleHydratorInterface $articleHydrator,
         ObjectManager $articleManager,
         ArticleRepositoryInterface $articleRepository,
-        EventDispatcherInterface $eventDispatcher
+        EventDispatcherInterface $eventDispatcher,
+        ObjectPersisterInterface $elasticaObjectPersister
     ) {
         $this->articleHydrator = $articleHydrator;
         $this->articleManager = $articleManager;
         $this->articleRepository = $articleRepository;
         $this->eventDispatcher = $eventDispatcher;
+        $this->elasticaObjectPersister = $elasticaObjectPersister;
     }
 
     /**
@@ -76,6 +84,7 @@ final class UpdatedPackageListener
     public function onUpdated(GenericEvent $event)
     {
         $package = $this->getPackage($event);
+        $this->elasticaObjectPersister->replaceOne($package);
 
         if (ContentInterface::STATUS_USABLE !== $package->getPubStatus()) {
             return;
@@ -84,7 +93,7 @@ final class UpdatedPackageListener
         $this->eventDispatcher->dispatch(MultiTenancyEvents::TENANTABLE_DISABLE);
 
         foreach ($this->articleRepository->findBy(['package' => $package]) as $article) {
-            $this->articleHydrator->hydrate($article, $package);
+            $article = $this->articleHydrator->hydrate($article, $package);
             $this->eventDispatcher->dispatch(ArticleEvents::PRE_CREATE, new ArticleEvent($article, $package));
             $this->eventDispatcher->dispatch(ArticleEvents::PUBLISH, new ArticleEvent($article));
         }
