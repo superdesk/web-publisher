@@ -27,7 +27,6 @@ use SWP\Component\Common\Response\SingleResourceResponse;
 use SWP\Component\Common\Criteria\Criteria;
 use SWP\Component\Common\Pagination\PaginationData;
 use SWP\Bundle\CoreBundle\Form\Type\TenantType;
-use SWP\Component\MultiTenancy\Model\OrganizationInterface;
 use SWP\Component\MultiTenancy\Model\TenantInterface;
 use SWP\Component\Revision\Manager\RevisionManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -129,8 +128,9 @@ class TenantController extends FOSRestController
         $form->handleRequest($request);
 
         if ($form->isValid()) {
-            $this->ensureTenantExists($tenant->getSubdomain(), $tenant->getDomainName());
-            $tenant->setOrganization($tenantContext->getTenant()->getOrganization());
+            $this->ensureTenantDontExists($tenant->getDomainName(), $tenant->getSubdomain());
+            $organization = $this->getTenantRepository()->merge($tenantContext->getTenant()->getOrganization());
+            $tenant->setOrganization($organization);
             $this->getTenantRepository()->add($tenant);
 
             /** @var RevisionManagerInterface $revisionManager */
@@ -204,13 +204,12 @@ class TenantController extends FOSRestController
     }
 
     /**
-     * @param string $subdomain
+     * @param string      $domain
+     * @param string|null $subdomain
      *
-     * @throws ConflictHttpException
-     *
-     * @return mixed
+     * @return mixed|null|TenantInterface
      */
-    private function ensureTenantExists(string $subdomain, string $domain)
+    private function ensureTenantDontExists(string $domain, string $subdomain = null)
     {
         if (null !== $tenant = $this->getTenantRepository()->findOneBySubdomainAndDomain($subdomain, $domain)) {
             throw new ConflictHttpException('Tenant for this host already exists.');
@@ -220,28 +219,8 @@ class TenantController extends FOSRestController
     }
 
     /**
-     * @param TenantInterface $tenant
-     *
-     * @throws NotFoundHttpException
-     *
-     * @return TenantInterface
+     * @return object|\SWP\Bundle\MultiTenancyBundle\Doctrine\ORM\TenantRepository
      */
-    private function assignDefaultOrganization(TenantInterface $tenant)
-    {
-        if (null === $tenant->getOrganization()) {
-            $organization = $this->get('swp.repository.organization')
-                ->findOneByName(OrganizationInterface::DEFAULT_NAME);
-
-            if (null === $organization) {
-                throw $this->createNotFoundException('Default organization was not found.');
-            }
-
-            $tenant->setOrganization($organization);
-        }
-
-        return $tenant;
-    }
-
     private function getTenantRepository()
     {
         return $this->get('swp.repository.tenant');

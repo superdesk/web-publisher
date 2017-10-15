@@ -22,7 +22,6 @@ include_once __DIR__.'/../app/bootstrap.php.cache';
 Debug::enable();
 
 $kernel = new AppKernel('test', true);
-$kernel->loadClassCache();
 
 Request::enableHttpMethodParameterOverride();
 $request = Request::createFromGlobals();

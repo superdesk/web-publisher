@@ -41,6 +41,16 @@ trait EntityRepositoryTrait
     }
 
     /**
+     * @param PersistableInterface $object
+     *
+     * @return mixed
+     */
+    public function merge(PersistableInterface $object)
+    {
+        return $this->_em->merge($object);
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function flush()

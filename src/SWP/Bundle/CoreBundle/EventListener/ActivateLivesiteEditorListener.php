@@ -85,7 +85,11 @@ class ActivateLivesiteEditorListener
      */
     protected function injectScripts(Response $response, Request $request)
     {
-        if (null === $request->cookies->get(self::APPEND_SCRIPTS, null)) {
+        if (
+            null === $request->cookies->get(self::APPEND_SCRIPTS, null) ||
+            strpos($request->get('_route', ''), '_profiler') !== false ||
+            strpos($request->get('_route', ''), 'swp_api') !== false
+        ) {
             return;
         }
 

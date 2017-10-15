@@ -1,4 +1,5 @@
 imports:
+    - { resource: "@SWPAnalyticsBundle/Resources/config/app/config.yml" }
     - { resource: "@SWPBridgeBundle/Resources/config/app/config.yml" }
     - { resource: "@SWPContentBundle/Resources/config/app/config.yml" }
     - { resource: "@SWPMultiTenancyBundle/Resources/config/app/config.yml" }
@@ -61,9 +62,9 @@ doctrine:
         port:     '%env(DATABASE_PORT)%'
         dbname:   '%env(DATABASE_NAME)%'
         user:     '%env(DATABASE_USER)%'
-        password: "%env(DATABASE_PASSWORD)%"
+        password: '%env(DATABASE_PASSWORD)%'
         charset:  UTF8
-        server_version: "%server_version%"
+        server_version: '%env(DATABASE_SERVER_VERSION)%'
         mapping_types:
             json: string
 
@@ -88,8 +89,8 @@ doctrine:
 doctrine_cache:
     providers:
         main_cache:
-            type: "%doctrine_cache_driver%"
-            namespace: "%env(SYMFONY_SECRET)%"
+            type: '%doctrine_cache_driver%'
+            namespace: '%env(SYMFONY_SECRET)%'
 
 doctrine_migrations:
     dir_name: "%kernel.root_dir%/migrations"
@@ -115,7 +116,7 @@ fos_http_cache:
         varnish:
             http:
                 servers: "%cache_servers%"
-                base_url: "%domain%"
+                base_url: "%env(SWP_DOMAIN)%"
     invalidation:
         rules:
             -
@@ -244,7 +245,7 @@ nelmio_cors:
         allow_credentials: false
         allow_origin: ["%allow_origin_cors%"]
         allow_methods: ["POST", "LINK", "UNLINK", "GET", "DELETE", "OPTIONS", "PATCH"]
-        allow_headers: ["origin", "content-type", "accept", "authorization"]
+        allow_headers: ["origin", "content-type", "accept", "authorization", "link"]
         expose_headers: ["link"]
         max_age: 3600
     paths:
