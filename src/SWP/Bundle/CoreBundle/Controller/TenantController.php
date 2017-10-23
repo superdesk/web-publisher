@@ -124,13 +124,16 @@ class TenantController extends FOSRestController
     {
         $tenant = $this->get('swp.factory.tenant')->create();
         $tenantContext = $this->get('swp_multi_tenancy.tenant_context');
+        $tenantObjectManager = $this->get('swp.object_manager.tenant');
         $form = $this->createForm(TenantType::class, $tenant, ['method' => $request->getMethod()]);
         $form->handleRequest($request);
 
         if ($form->isValid()) {
             $this->ensureTenantDontExists($tenant->getDomainName(), $tenant->getSubdomain());
-            $organization = $this->getTenantRepository()->merge($tenantContext->getTenant()->getOrganization());
-            $tenant->setOrganization($organization);
+            if (null === $tenant->getOrganization()) {
+                $organization = $tenantObjectManager->merge($tenantContext->getTenant()->getOrganization());
+                $tenant->setOrganization($organization);
+            }
             $this->getTenantRepository()->add($tenant);
 
             /** @var RevisionManagerInterface $revisionManager */
