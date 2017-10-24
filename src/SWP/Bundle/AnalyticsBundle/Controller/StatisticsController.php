@@ -17,10 +17,9 @@ namespace SWP\Bundle\AnalyticsBundle\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-/**ProcessArticleMediaListener.php
+/**
  * @Route("/statistics")
  */
 class StatisticsController extends Controller
@@ -28,19 +27,14 @@ class StatisticsController extends Controller
     /**
      * @Route("/receive")
      *
-     * @Method("GET")
+     * @Method("GET|POST")
      *
      * Receive events
      *
-     * @param Request $request
-     *
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function receiveAction(Request $request)
+    public function receiveAction()
     {
-        $msg = array('user_id' => 1235, 'image_path' => '/path/to/new/pic.png');
-        $this->get('old_sound_rabbit_mq.send_event_producer')->setContentType('application/json')->publish(json_encode($msg, true));
-
-        return new Response();
+        return new Response('received');
     }
 }
