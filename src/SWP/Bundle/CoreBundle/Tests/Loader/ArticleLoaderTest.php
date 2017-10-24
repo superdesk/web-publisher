@@ -26,9 +26,9 @@ class ArticleLoaderTest extends WebTestCase
     public function setUp()
     {
         self::bootKernel();
+        $this->initDatabase();
 
         $this->loadCustomFixtures(['tenant', 'article']);
-
         $this->twig = $this->getContainer()->get('twig');
     }
 
