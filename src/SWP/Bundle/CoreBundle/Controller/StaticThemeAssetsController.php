@@ -31,7 +31,10 @@ class StaticThemeAssetsController extends Controller
     const ASSETS_DIRECTORY = 'public';
 
     /**
-     * @Route("/{fileName}.{fileExtension}", name="static_theme_assets_root")
+     * @Route("/{fileName}.{fileExtension}", name="static_theme_assets_root", requirements={"fileName": "sw|manifest"})
+     * @Route("/public-{fileName}.{fileExtension}", name="static_theme_assets_root_public")
+     * @Route("/public/{fileName}.{fileExtension}", name="static_theme_assets_public", requirements={"fileName"=".+"})
+     *
      * @Method("GET")
      */
     public function rootAction($fileName, $fileExtension)
@@ -39,8 +42,10 @@ class StaticThemeAssetsController extends Controller
         $themes = $this->get('sylius.theme.hierarchy_provider')->getThemeHierarchy(
             $this->get('sylius.context.theme')->getTheme()
         );
+
+        $fileName = (null === $fileExtension) ? basename($fileName) : $fileName.'.'.$fileExtension;
         foreach ($themes as $theme) {
-            $filePath = $theme->getPath().'/'.self::ASSETS_DIRECTORY.'/'.$fileName.'.'.$fileExtension;
+            $filePath = $theme->getPath().'/'.self::ASSETS_DIRECTORY.'/'.$fileName;
             if (null !== $response = $this->handleFileLoading($filePath)) {
                 return $response;
             }
@@ -61,6 +66,8 @@ class StaticThemeAssetsController extends Controller
             $theme = $this->loadOrganizationTheme(str_replace('__', '/', $themeName));
         } elseif ('tenant' === $type) {
             $theme = $this->loadTenantTheme(str_replace('__', '/', $themeName));
+        } else {
+            throw new NotFoundHttpException('Page was not found.');
         }
 
         $filePath = $theme->getPath().'/screenshots/'.$fileName;
@@ -69,25 +76,6 @@ class StaticThemeAssetsController extends Controller
         }
 
         throw new NotFoundHttpException('Page was not found.');
-    }
-
-    /**
-     * @Route("/public/{filePath}", name="static_theme_assets_public", requirements={"filePath"=".+"})
-     * @Method("GET")
-     */
-    public function publicAction($filePath)
-    {
-        $themes = $this->get('sylius.theme.hierarchy_provider')->getThemeHierarchy(
-            $this->get('sylius.context.theme')->getTheme()
-        );
-        foreach ($themes as $theme) {
-            $themeFilePath = $theme->getPath().'/'.self::ASSETS_DIRECTORY.'/'.$filePath;
-            if (null !== $response = $this->handleFileLoading($themeFilePath, basename($filePath))) {
-                return $response;
-            }
-        }
-
-        throw new NotFoundHttpException('File was not found.', null, 404);
     }
 
     /**
