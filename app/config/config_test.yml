@@ -47,7 +47,7 @@ doctrine_cache:
     providers:
         main_cache:
             type: "%doctrine_cache_driver%"
-            namespace: "test_%secret%"
+            namespace: "test_%env(SYMFONY_SECRET)%"
 
 fos_http_cache:
     proxy_client:

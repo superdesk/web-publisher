@@ -229,7 +229,7 @@ class ContainerController extends Controller
                 break;
             }
         }
-        if ($matched === false) {
+        if (false === $matched) {
             throw new NotFoundHttpException('Any supported link object was not found');
         }
 
