@@ -31,9 +31,7 @@ class StaticThemeAssetsController extends Controller
     const ASSETS_DIRECTORY = 'public';
 
     /**
-     * @Route("/{fileName}.{fileExtension}", name="static_theme_assets_root", requirements={
-     *     "fileName": "sw|manifest"
-     * })
+     * @Route("/{fileName}.{fileExtension}", name="static_theme_assets_root")
      * @Method("GET")
      */
     public function rootAction($fileName, $fileExtension)

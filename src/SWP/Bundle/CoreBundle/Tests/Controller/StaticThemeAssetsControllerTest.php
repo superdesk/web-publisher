@@ -32,6 +32,8 @@ class StaticThemeAssetsControllerTest extends WebTestCase
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
         $client->request('GET', '/sw.html');
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
+        $client->request('GET', '/robots.txt');
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
 
         $client->request('GET', '/sw2.js');
         $this->assertEquals(404, $client->getResponse()->getStatusCode());
