@@ -32,7 +32,9 @@ class StaticThemeAssetsControllerTest extends WebTestCase
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
         $client->request('GET', '/sw.html');
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
-        $client->request('GET', '/robots.txt');
+        $client->request('GET', '/public-robots.txt');
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+        $client->request('GET', '/public/robots.txt');
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
 
         $client->request('GET', '/sw2.js');
@@ -47,6 +49,7 @@ class StaticThemeAssetsControllerTest extends WebTestCase
         $this->assertEquals('application/javascript', $client->getResponse()->headers->get('Content-Type'));
         $client->request('GET', '/public/css/test.css');
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
+        $this->assertEquals('text/css; charset=UTF-8', $client->getResponse()->headers->get('Content-Type'));
 
         $client->request('GET', '/public/noneexisitng.js');
         $this->assertEquals(404, $client->getResponse()->getStatusCode());
