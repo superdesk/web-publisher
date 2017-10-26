@@ -21,8 +21,6 @@ parameters:
 framework:
     ide: 'phpstorm://open?file=%%f&line=%%l'
     cache:
-        app: cache.adapter.doctrine
-        system: cache.adapter.doctrine
         default_doctrine_provider: doctrine_cache.providers.main_cache
     esi: { enabled: true }
     translator:
@@ -80,6 +78,9 @@ doctrine:
                 query_cache_driver:
                     type: service
                     id: doctrine_cache.providers.main_cache
+                result_cache_driver:
+                      type: service
+                      id: doctrine_cache.providers.main_cache
                 mappings:
                     SWPAnalyticsBundle:
                         type: yml

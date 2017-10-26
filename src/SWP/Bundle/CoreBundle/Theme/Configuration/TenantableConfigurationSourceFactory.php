@@ -15,10 +15,10 @@
 namespace SWP\Bundle\CoreBundle\Theme\Configuration;
 
 use SWP\Bundle\CoreBundle\Theme\Helper\ThemeHelper;
+use SWP\Bundle\CoreBundle\Theme\Locator\TenentThemesRecursiveFileLocator;
 use Sylius\Bundle\ThemeBundle\Configuration\ConfigurationSourceFactoryInterface;
 use Sylius\Bundle\ThemeBundle\Configuration\Filesystem\JsonFileConfigurationLoader;
 use Sylius\Bundle\ThemeBundle\Configuration\Filesystem\ProcessingConfigurationLoader;
-use Sylius\Bundle\ThemeBundle\Locator\RecursiveFileLocator;
 use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
@@ -48,7 +48,7 @@ final class TenantableConfigurationSourceFactory implements ConfigurationSourceF
      */
     public function initializeSource(ContainerBuilder $container, array $config)
     {
-        $recursiveFileLocator = new Definition(RecursiveFileLocator::class, [
+        $recursiveFileLocator = new Definition(TenentThemesRecursiveFileLocator::class, [
             new Reference('sylius.theme.finder_factory'),
             $config['directories'],
         ]);

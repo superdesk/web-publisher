@@ -32,7 +32,7 @@ class StaticThemeAssetsController extends Controller
 
     /**
      * @Route("/{fileName}.{fileExtension}", name="static_theme_assets_root", requirements={"fileName": "sw|manifest"})
-     * @Route("/public-{fileName}.{fileExtension}", name="static_theme_assets_root_public")
+     * @Route("/public-{fileName}.{fileExtension}", name="static_theme_assets_root_public", requirements={"fileName"=".+"})
      * @Route("/public/{fileName}.{fileExtension}", name="static_theme_assets_public", requirements={"fileName"=".+"})
      *
      * @Method("GET")
