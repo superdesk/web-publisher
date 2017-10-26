@@ -22,6 +22,10 @@ class ServicesTest extends WebTestCase
     public function testContainerServices()
     {
         $client = static::createClient();
+        $this->loadCustomFixtures(['tenant']);
+        $tenant = $client->getContainer()->get('swp.repository.tenant')->findOneByCode('123abc');
+        $tenantContext = $client->getContainer()->get('swp_multi_tenancy.tenant_context');
+        $tenantContext->setTenant($tenant);
         foreach ($client->getContainer()->getServiceIds() as $serviceId) {
             if (strpos($serviceId, 'swp_') !== false) {
                 try {

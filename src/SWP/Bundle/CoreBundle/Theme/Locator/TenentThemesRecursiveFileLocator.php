@@ -14,12 +14,11 @@
 
 namespace SWP\Bundle\CoreBundle\Theme\Locator;
 
-use SWP\Bundle\CoreBundle\Theme\Uploader\ThemeUploaderInterface;
-use Sylius\Bundle\ThemeBundle\Factory\FinderFactoryInterface;
 use Sylius\Bundle\ThemeBundle\Locator\FileLocatorInterface;
+use Sylius\Bundle\ThemeBundle\Factory\FinderFactoryInterface;
 use Symfony\Component\Finder\SplFileInfo;
 
-final class OrganizationThemesRecursiveFileLocator implements FileLocatorInterface
+final class TenentThemesRecursiveFileLocator implements FileLocatorInterface
 {
     /**
      * @var FinderFactoryInterface
@@ -32,19 +31,13 @@ final class OrganizationThemesRecursiveFileLocator implements FileLocatorInterfa
     private $paths;
 
     /**
-     * @var ThemeUploaderInterface
-     */
-    private $themeUploader;
-
-    /**
      * @param FinderFactoryInterface $finderFactory
-     * @param ThemeUploaderInterface $themeUploader
+     * @param array                  $paths         An array of paths where to look for resources
      */
-    public function __construct(FinderFactoryInterface $finderFactory, ThemeUploaderInterface $themeUploader)
+    public function __construct(FinderFactoryInterface $finderFactory, array $paths)
     {
         $this->finderFactory = $finderFactory;
-        $this->themeUploader = $themeUploader;
-        $this->paths = [$themeUploader->getAvailableThemesPath()];
+        $this->paths = $paths;
     }
 
     /**
@@ -78,6 +71,7 @@ final class OrganizationThemesRecursiveFileLocator implements FileLocatorInterfa
                 $finder = $this->finderFactory->create();
                 $finder
                     ->files()
+                    ->followLinks()
                     ->name($name)
                     ->ignoreUnreadableDirs()
                     ->in($path);
