@@ -38,6 +38,8 @@ Full documentation can be found here: [http://superdesk-publisher.readthedocs.or
    * memcached (running)
    * php-memcached
  * ElasticSearch >= 5.4
+ * RabbitMQ >= 3.5
+    * php-bcmath
 
 ## Installation
 
