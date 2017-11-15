@@ -26,6 +26,16 @@ By default, themes are located under the :code:`app/themes` directory. A basic t
 
 Web Publisher does not support the option of `Sylius theme structure`_ to have bundle resources nested inside a theme.
 
+
+Minimum theme.json version:
+
+.. code-block:: json
+
+    {
+        "name": "vendor/default-theme"
+    }
+
+
 Multitenancy
 ------------
 
@@ -71,9 +81,9 @@ A theme with device-specific templates could be structured like this:
 
      More details about theme structure and configuration can be found in the `Sylius Theme Bundle documentation`_.
 
-.. _Sylius Theme Bundle documentation: http://docs.sylius.org/en/latest/bundles/SyliusThemeBundle/your_first_theme.html
+.. _Sylius Theme Bundle documentation: http://docs.sylius.org/en/latest/components_and_bundles/bundles/SyliusThemeBundle/your_first_theme.html
 
-.. _Sylius Theme structure: http://docs.sylius.org/en/latest/bundles/SyliusThemeBundle/your_first_theme.html#theme-structure
+.. _Sylius Theme structure: http://docs.sylius.org/en/latest/components_and_bundles/bundles/SyliusThemeBundle/your_first_theme.html#theme-structure
 
 
 Assets
