@@ -101,4 +101,15 @@ class RevisionControllerTest extends WebTestCase
         self::assertEquals(200, $client->getResponse()->getStatusCode());
         self::assertContains('"isActive":true,"status":"published"', $client->getResponse()->getContent());
     }
+
+    public function testUnlinkingWidgetFromPublishedContainer()
+    {
+        $this->testLinkWidgetToContainerAndPublish();
+
+        $client = static::createClient();
+        $client->request('UNLINK', $this->router->generate('swp_api_templates_link_container', ['uuid' => '5tfdv6resqg']), [], [], [
+            'HTTP_LINK' => '</api/v1/templates/widgets/1; rel="widget">',
+        ]);
+        $this->assertEquals(201, $client->getResponse()->getStatusCode());
+    }
 }
