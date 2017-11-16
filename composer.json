@@ -78,7 +78,7 @@
         "symfony-cmf/core-bundle": "^2.0",
         "sylius/theme-bundle": "v1.0.0-beta.3",
         "superdesk/contentapi-sdk-php": "^1.0.0",
-        "justinrainbow/json-schema": "1.4.4",
+        "justinrainbow/json-schema": "~5.0",
         "jms/translation-bundle": "^1.2",
         "hoa/mime": "3.16.01.15",
         "hoa/file": "1.16.01.15",
