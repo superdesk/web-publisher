@@ -105,7 +105,7 @@ class LoadArticlesMediaData extends AbstractFixture implements FixtureInterface,
                     $uploadedFile = new UploadedFile($fakeImage, $rendition['media'], 'image/jpeg', filesize($fakeImage), null, true);
                     $image = $mediaManager->handleUploadedFile($uploadedFile, $rendition['media']);
 
-                    if ($key === 'original') {
+                    if ('original' === $key) {
                         $articleMedia->setImage($image);
                     }
 

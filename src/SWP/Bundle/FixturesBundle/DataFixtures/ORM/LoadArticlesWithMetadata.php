@@ -19,7 +19,7 @@ class LoadArticlesWithMetadata extends AbstractFixture implements FixtureInterfa
         $this->manager = $manager;
         $env = $this->getEnvironment();
 
-        if ($env === 'test') {
+        if ('test' === $env) {
             $routes = [
                 [
                     'name' => 'news',

@@ -151,17 +151,17 @@ class ContainerService implements ContainerServiceInterface
                 'container' => $container,
             ]);
 
-        if ($request->getMethod() === 'LINK') {
+        if ('LINK' === $request->getMethod()) {
             $position = false;
             if (count($notConvertedLinks = RequestParser::getNotConvertedLinks($request->attributes->get('links'))) > 0) {
                 foreach ($notConvertedLinks as $link) {
-                    if (isset($link['resourceType']) && $link['resourceType'] == 'widget-position') {
+                    if (isset($link['resourceType']) && 'widget-position' == $link['resourceType']) {
                         $position = $link['resource'];
                     }
                 }
             }
 
-            if ($position === false && $containerWidget) {
+            if (false === $position && $containerWidget) {
                 throw new ConflictHttpException('WidgetModel is already linked to container');
             }
 
@@ -170,12 +170,12 @@ class ContainerService implements ContainerServiceInterface
                 $this->entityManager->persist($containerWidget);
             }
 
-            if ($position !== false) {
+            if (false !== $position) {
                 $containerWidget->setPosition($position);
             }
             $container->addWidget($containerWidget);
             $this->entityManager->flush();
-        } elseif ($request->getMethod() === 'UNLINK') {
+        } elseif ('UNLINK' === $request->getMethod()) {
             if (!$container->getWidgets()->contains($containerWidget)) {
                 throw new ConflictHttpException('WidgetModel is not linked to container');
             }

@@ -28,7 +28,7 @@ class MetaCollection extends ArrayCollection implements MetaCollectionInterface
      */
     public function getTotalItemsCount()
     {
-        if ($this->totalItemsCount === 0 && $this->count() > 0) {
+        if (0 === $this->totalItemsCount && $this->count() > 0) {
             return $this->count();
         }
 

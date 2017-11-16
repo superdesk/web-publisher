@@ -16,7 +16,7 @@ class Version20170818100707 extends AbstractMigration
     public function up(Schema $schema)
     {
         // this up() migration is auto-generated, please modify it to your needs
-        $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'postgresql', 'Migration can only be executed safely on \'postgresql\'.');
+        $this->abortIf('postgresql' !== $this->connection->getDatabasePlatform()->getName(), 'Migration can only be executed safely on \'postgresql\'.');
 
         $this->addSql('CREATE TABLE swp_article_sources (article_id INT NOT NULL, source_id INT NOT NULL, PRIMARY KEY(article_id, source_id))');
         $this->addSql('CREATE INDEX IDX_E38D33537294869C ON swp_article_sources (article_id)');
@@ -33,7 +33,7 @@ class Version20170818100707 extends AbstractMigration
     public function down(Schema $schema)
     {
         // this down() migration is auto-generated, please modify it to your needs
-        $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'postgresql', 'Migration can only be executed safely on \'postgresql\'.');
+        $this->abortIf('postgresql' !== $this->connection->getDatabasePlatform()->getName(), 'Migration can only be executed safely on \'postgresql\'.');
 
         $this->addSql('ALTER TABLE swp_article_sources DROP CONSTRAINT FK_E38D3353953C1C61');
         $this->addSql('DROP TABLE swp_article_sources');

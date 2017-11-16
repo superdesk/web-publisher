@@ -16,7 +16,7 @@ class Version20170302121124 extends AbstractMigration
     public function up(Schema $schema)
     {
         // this up() migration is auto-generated, please modify it to your needs
-        $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'postgresql', 'Migration can only be executed safely on \'postgresql\'.');
+        $this->abortIf('postgresql' !== $this->connection->getDatabasePlatform()->getName(), 'Migration can only be executed safely on \'postgresql\'.');
 
         $this->addSql('DROP INDEX swp_article_slug_idx');
         $this->addSql('ALTER TABLE swp_article ADD organization_id INT DEFAULT NULL');
@@ -33,7 +33,7 @@ class Version20170302121124 extends AbstractMigration
     public function down(Schema $schema)
     {
         // this down() migration is auto-generated, please modify it to your needs
-        $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'postgresql', 'Migration can only be executed safely on \'postgresql\'.');
+        $this->abortIf('postgresql' !== $this->connection->getDatabasePlatform()->getName(), 'Migration can only be executed safely on \'postgresql\'.');
 
         $this->addSql('ALTER TABLE swp_article DROP CONSTRAINT FK_FB21E85832C8A3DE');
         $this->addSql('DROP INDEX IDX_FB21E85832C8A3DE');

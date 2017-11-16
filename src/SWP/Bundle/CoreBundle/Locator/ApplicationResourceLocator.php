@@ -65,7 +65,7 @@ class ApplicationResourceLocator implements ResourceLocatorInterface
     protected function getApplicationPaths($resourceName, ThemeInterface $theme)
     {
         $paths = [sprintf('%s/%s', $theme->getPath(), $resourceName)];
-        if ($this->deviceDetection->getType() !== null) {
+        if (null !== $this->deviceDetection->getType()) {
             $paths[] = sprintf('%s/%s/%s', $theme->getPath(), $this->deviceDetection->getType(), $resourceName);
             krsort($paths);
         }

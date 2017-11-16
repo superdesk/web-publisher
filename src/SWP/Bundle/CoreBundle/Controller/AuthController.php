@@ -106,7 +106,7 @@ class AuthController extends Controller
                         'Authorization' => $formData['token'],
                     ]);
                     $apiResponse = $client->send($apiRequest);
-                    if ($apiResponse->getStatusCode() !== 200) {
+                    if (200 !== $apiResponse->getStatusCode()) {
                         continue;
                     }
 
@@ -117,7 +117,7 @@ class AuthController extends Controller
                         break;
                     }
                 } catch (GuzzleHttp\Exception\ClientException $e) {
-                    if ($e->getResponse()->getStatusCode() !== 200) {
+                    if (200 !== $e->getResponse()->getStatusCode()) {
                         continue;
                     }
                 }

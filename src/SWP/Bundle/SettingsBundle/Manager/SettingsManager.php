@@ -170,7 +170,7 @@ class SettingsManager implements SettingsManagerInterface
             throw new InvalidScopeException($scope);
         }
 
-        if ($scope !== ScopeContextInterface::SCOPE_GLOBAL && null === $owner) {
+        if (ScopeContextInterface::SCOPE_GLOBAL !== $scope && null === $owner) {
             throw new InvalidOwnerException($scope);
         }
     }
@@ -178,14 +178,14 @@ class SettingsManager implements SettingsManagerInterface
     private function getFromConfiguration(string $scope = null, $name = null)
     {
         $settings = [];
-        if ($name !== null && array_key_exists($name, $this->settingsConfiguration)) {
+        if (null !== $name && array_key_exists($name, $this->settingsConfiguration)) {
             $setting = $this->settingsConfiguration[$name];
             if ($setting['scope'] === $scope || null === $scope) {
                 return $settings[$name] = $setting;
             }
 
             throw new InvalidScopeException($scope);
-        } elseif ($name !== null) {
+        } elseif (null !== $name) {
             throw new \Exception('There is no setting with this name.');
         }
 
