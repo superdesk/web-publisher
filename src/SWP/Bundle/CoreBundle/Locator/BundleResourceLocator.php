@@ -79,7 +79,7 @@ class BundleResourceLocator implements ResourceLocatorInterface
         $paths = [];
         if (is_array($bundles)) {
             foreach ($bundles as $bundle) {
-                if ($this->deviceDetection->getType() !== null) {
+                if (null !== $this->deviceDetection->getType()) {
                     $paths[] = sprintf('%s/%s/%s/%s', $theme->getPath(), $this->deviceDetection->getType(), $bundle->getName(), $resourceName);
                 }
                 $paths[] = sprintf('%s/%s/%s', $theme->getPath(), $bundle->getName(), $resourceName);

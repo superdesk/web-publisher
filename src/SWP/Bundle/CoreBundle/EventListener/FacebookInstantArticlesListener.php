@@ -90,7 +90,7 @@ final class FacebookInstantArticlesListener
         $feeds = $this->feedRepository->getQueryByCriteria(new Criteria([
             'contentList' => $event->getContentList(),
         ]), [], 'f')->getQuery()->getResult();
-        if (count($feeds) === 0) {
+        if (0 === count($feeds)) {
             return;
         }
 
@@ -141,7 +141,7 @@ final class FacebookInstantArticlesListener
             $feeds = $this->feedRepository->getQueryByCriteria(new Criteria([
                 'facebookPage' => $page,
             ]), [], 'f')->getQuery()->getResult();
-            if (count($feeds) === 0) {
+            if (0 === count($feeds)) {
                 continue;
             }
 

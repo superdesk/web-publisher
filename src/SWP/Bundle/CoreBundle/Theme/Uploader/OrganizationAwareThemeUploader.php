@@ -60,7 +60,7 @@ final class OrganizationAwareThemeUploader implements ThemeUploaderInterface
         $filesystem = new Filesystem();
 
         $zip = new \ZipArchive();
-        if ($zip->open($filePath) === true) {
+        if (true === $zip->open($filePath)) {
             if (!$filesystem->exists($destinationFolder)) {
                 $filesystem->mkdir($destinationFolder);
             }

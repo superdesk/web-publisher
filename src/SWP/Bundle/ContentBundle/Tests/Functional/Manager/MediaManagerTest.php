@@ -43,8 +43,8 @@ class MediaManagerTest extends WebTestCase
             'asdgsadfvasdf4w35qwetasftest'
         );
 
-        $this->assertTrue($media->getAssetId() === 'asdgsadfvasdf4w35qwetasftest');
-        $this->assertTrue($media->getFileExtension() === 'png');
+        $this->assertTrue('asdgsadfvasdf4w35qwetasftest' === $media->getAssetId());
+        $this->assertTrue('png' === $media->getFileExtension());
 
         $file = $mediaManager->getFile($media);
         $this->assertTrue($file === file_get_contents(__DIR__.'/../app/Resources/test_file.png'));

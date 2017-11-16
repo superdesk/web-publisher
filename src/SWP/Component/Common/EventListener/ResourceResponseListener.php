@@ -53,7 +53,7 @@ final class ResourceResponseListener
         /** @var ResponseContext $responseContext */
         $responseContext = $controllerResult->getResponseContext();
         if ($controllerResult instanceof ResourcesListResponseInterface) {
-            if ($responseContext->getIntention() === ResponseContextInterface::INTENTION_API) {
+            if (ResponseContextInterface::INTENTION_API === $responseContext->getIntention()) {
                 $factory = new KnpPaginatorRepresentationFactory();
                 $representation = $factory->createRepresentation($controllerResult->getResources(), $event->getRequest());
                 $event->setResponse($this->viewHandler->handle(
@@ -61,7 +61,7 @@ final class ResourceResponseListener
                 ));
             }
         } elseif ($controllerResult instanceof SingleResourceResponseInterface) {
-            if ($responseContext->getIntention() === ResponseContextInterface::INTENTION_API) {
+            if (ResponseContextInterface::INTENTION_API === $responseContext->getIntention()) {
                 $event->setResponse($this->viewHandler->handle(
                     View::create($controllerResult->getResource(), $responseContext->getStatusCode())
                 ));

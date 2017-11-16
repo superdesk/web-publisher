@@ -32,7 +32,7 @@ class ImageRepository extends EntityRepository implements ImageRepositoryInterfa
             ->getQuery()
             ->getResult();
 
-        if (count($images) === 0) {
+        if (0 === count($images)) {
             return;
         }
 

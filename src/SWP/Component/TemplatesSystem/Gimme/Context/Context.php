@@ -325,7 +325,7 @@ class Context implements \ArrayAccess
         $metas = [];
         $keysId = md5(serialize($keys));
 
-        if (count($keys) === 0) {
+        if (0 === count($keys)) {
             foreach ($this->registeredMeta as $key => $configuration) {
                 if (isset($this[$key])) {
                     $metas[$key] = $this[$key];

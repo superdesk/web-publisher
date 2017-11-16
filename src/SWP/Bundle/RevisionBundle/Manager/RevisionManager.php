@@ -72,7 +72,7 @@ class RevisionManager implements RevisionManagerInterface
      */
     public function publish(RevisionInterface $revision, RevisionInterface $workingRevision = null): RevisionInterface
     {
-        if ($revision->getStatus() !== RevisionInterface::STATE_NEW) {
+        if (RevisionInterface::STATE_NEW !== $revision->getStatus()) {
             return $revision;
         }
 

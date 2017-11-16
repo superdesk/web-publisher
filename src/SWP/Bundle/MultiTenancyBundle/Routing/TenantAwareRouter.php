@@ -45,7 +45,7 @@ class TenantAwareRouter extends DynamicRouter
 
     private function checkAndRemoveFirstSlash($string)
     {
-        if (substr($string, 0, 1) === '/') {
+        if ('/' === substr($string, 0, 1)) {
             return substr($string, 1);
         }
 

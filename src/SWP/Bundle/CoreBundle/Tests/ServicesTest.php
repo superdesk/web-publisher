@@ -27,7 +27,7 @@ class ServicesTest extends WebTestCase
         $tenantContext = $client->getContainer()->get('swp_multi_tenancy.tenant_context');
         $tenantContext->setTenant($tenant);
         foreach ($client->getContainer()->getServiceIds() as $serviceId) {
-            if (strpos($serviceId, 'swp_') !== false) {
+            if (false !== strpos($serviceId, 'swp_')) {
                 try {
                     $startedAt = microtime(true);
                     $client->getContainer()->get($serviceId);

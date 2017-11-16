@@ -76,7 +76,7 @@ final class TenantAwareThemeInstaller implements ThemeInstallerInterface
             }
         );
 
-        if (count($themes) === 0) {
+        if (0 === count($themes)) {
             throw new NotFoundHttpException(sprintf('Theme with name "%s" was not found in organization themes.', $themeName));
         }
         /** @var ThemeInterface $theme */

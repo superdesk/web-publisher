@@ -87,8 +87,8 @@ class ActivateLivesiteEditorListener
     {
         if (
             null === $request->cookies->get(self::APPEND_SCRIPTS, null) ||
-            strpos($request->get('_route', ''), '_profiler') !== false ||
-            strpos($request->get('_route', ''), 'swp_api') !== false
+            false !== strpos($request->get('_route', ''), '_profiler') ||
+            false !== strpos($request->get('_route', ''), 'swp_api')
         ) {
             return;
         }

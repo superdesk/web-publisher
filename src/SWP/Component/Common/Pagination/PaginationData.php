@@ -114,7 +114,7 @@ class PaginationData implements PaginationInterface
      */
     public function setOrder(array $order)
     {
-        if (count($order) == 2 && in_array(strtolower($order[1]), ['asc', 'desc'])) {
+        if (2 == count($order) && in_array(strtolower($order[1]), ['asc', 'desc'])) {
             $this->orderDirection = $order[1];
             $fields = array();
             $aliases = array();
