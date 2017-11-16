@@ -96,10 +96,6 @@ class RevisionAwareContainerService extends ContainerService implements Containe
         if ($container instanceof RevisionAwareInterface &&
             $container->getRevision()->getStatus() === RevisionInterface::STATE_PUBLISHED
         ) {
-            if ($this->entityManager->contains($container)) {
-                $this->entityManager->detach($container);
-            }
-
             $workingContainer = $container->fork();
             $workingContainer->setWidgets(new ArrayCollection());
             $workingContainer->setData(new ArrayCollection());
