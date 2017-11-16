@@ -18,7 +18,6 @@ class NinjsValidator extends JsonValidator
 {
     protected $schema = '{
     "$schema": "http://json-schema.org/draft-03/schema#",
-    "id" : "http://www.iptc.org/std/ninjs/ninjs-schema_1.1.json#",
     "type" : "object",
     "title" : "IPTC ninjs - News in JSON - version 1.1 (approved, 2014-03-12) / document revision of 2014-11-15: geometry_* moved under place",
     "description" : "A news item as JSON object -- copyright 2014 IPTC - International Press Telecommunications Council - www.iptc.org - This document is published under the Creative Commons Attribution 3.0 license, see  http://creativecommons.org/licenses/by/3.0/  $$comment: as of 2014-03-13 ",
@@ -47,8 +46,7 @@ class NinjsValidator extends JsonValidator
         },
         "slugline" : {
             "description" : "The slugline",
-            "type" : "string",
-            "required" : true
+            "type" : "string"
         },
         "mimetype" : {
             "description" : "A MIME type which applies to this news object",
@@ -385,7 +383,7 @@ class NinjsValidator extends JsonValidator
                 "^[a-zA-Z0-9]+" : {
                     "description" : "A specific rendition of a non-textual content of the news object.",
                     "type" : "object",
-                    "additionalProperties" : false,
+                    "additionalProperties" : true,
                     "properties" : {
                         "href" : {
                             "description" : "The URL for accessing the rendition as a resource",
@@ -411,6 +409,11 @@ class NinjsValidator extends JsonValidator
                         "sizeinbytes" : {
                             "description" : "The size of the rendition resource in bytes",
                             "type" : "number"
+                        },
+                        "media" : {
+                            "description": "Media object identifier",
+                            "type" : "string",
+                            "required" : true
                         }
                     }
                 }
@@ -421,7 +424,7 @@ class NinjsValidator extends JsonValidator
             "type" : "object",
             "additionalProperties" : false,
             "patternProperties" : {
-                "^[a-zA-Z0-9]+" :  { "$ref": "http://www.iptc.org/std/ninjs/ninjs-schema_1.0.json#" }
+                "^[a-zA-Z0-9]+" :  { "$ref": "#" }
             }
         }
     }
