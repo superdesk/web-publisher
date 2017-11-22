@@ -132,6 +132,28 @@ class ThemeSetupCommandTest extends KernelTestCase
         );
     }
 
+    public function testExecuteWithActivation()
+    {
+        $this->commandTester->execute(
+            [
+                'tenant' => '123456',
+                'theme_dir' => __DIR__.'/../Fixtures/themes/123abc/theme_test',
+                '--force' => true,
+                '--activate' => true,
+            ]
+        );
+
+        $this->assertContains(
+            'Theme has been installed successfully!',
+            $this->commandTester->getDisplay()
+        );
+
+        $this->assertContains(
+            'Theme was activated!',
+            $this->commandTester->getDisplay()
+        );
+    }
+
     /**
      * @expectedException \SWP\Component\MultiTenancy\Exception\TenantNotFoundException
      */

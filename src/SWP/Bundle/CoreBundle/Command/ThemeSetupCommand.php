@@ -50,6 +50,12 @@ class ThemeSetupCommand extends ContainerAwareCommand
                 InputOption::VALUE_NONE,
                 'If set, forces to execute an action without confirmation.'
             )
+            ->addOption(
+                'activate',
+                'a',
+                InputOption::VALUE_NONE,
+                'If set, theme will be activated in tenant.'
+            )
             ->setHelp(
                 <<<'EOT'
                 The <info>%command.name%</info> command installs your custom theme for given tenant:
@@ -79,10 +85,11 @@ EOT
         $fileSystem = new Filesystem();
         $helper = $this->getHelper('question');
         $force = true === $input->getOption('force');
+        $activate = true === $input->getOption('activate');
 
+        $tenantRepository = $this->getContainer()->get('swp.repository.tenant');
         /** @var ThemeAwareTenantInterface $tenant */
-        $tenant = $this->getContainer()->get('swp.repository.tenant')
-            ->findOneByCode($input->getArgument('tenant'));
+        $tenant = $tenantRepository->findOneByCode($input->getArgument('tenant'));
 
         $sourceDir = $input->getArgument('theme_dir');
 
@@ -112,8 +119,18 @@ EOT
             }
 
             $fileSystem->mirror($sourceDir, $themeDir, null, ['override' => true, 'delete' => true]);
-
             $output->writeln('<info>Theme has been installed successfully!</info>');
+
+            if (!$activate) {
+                return;
+            }
+            if (file_exists($themeDir.\DIRECTORY_SEPARATOR.'theme.json')) {
+                $json = json_decode(file_get_contents($themeDir.\DIRECTORY_SEPARATOR.'theme.json'), true);
+                $themeName = $json['name'];
+                $tenant->setThemeName($themeName);
+                $tenantRepository->flush();
+                $output->writeln('<info>Theme was activated!</info>');
+            }
         } catch (\Exception $e) {
             $output->writeln('<error>Theme could not be installed!</error>');
             $output->writeln('<error>Stacktrace: '.$e->getMessage().'</error>');

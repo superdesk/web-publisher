@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "4a0e9fed69d03664ab7899a1a937fd4d",
+    "content-hash": "27ec4d1116765fa579e2da5ad356c347",
     "packages": [
         {
             "name": "apache/log4php",
@@ -2793,126 +2793,6 @@
             "time": "2015-11-10T17:04:01+00:00"
         },
         {
-            "name": "jackalope/jackalope",
-            "version": "1.3.3",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/jackalope/jackalope.git",
-                "reference": "0e92e4c9018e32ba147411b4127f20ea6c35113f"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/jackalope/jackalope/zipball/0e92e4c9018e32ba147411b4127f20ea6c35113f",
-                "reference": "0e92e4c9018e32ba147411b4127f20ea6c35113f",
-                "shasum": ""
-            },
-            "require": {
-                "ext-xml": "*",
-                "jackalope/jackalope-transport": "*",
-                "php": "^5.6|^7.0",
-                "phpcr/phpcr": "~2.1.0,>=2.1.0-beta12",
-                "phpcr/phpcr-utils": "^1.2.6"
-            },
-            "provide": {
-                "phpcr/phpcr-implementation": "2.1.0"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "^5.7"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "1.3-dev"
-                }
-            },
-            "autoload": {
-                "psr-0": {
-                    "Jackalope\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT",
-                "Apache-2.0"
-            ],
-            "authors": [
-                {
-                    "name": "Jackalope Community",
-                    "homepage": "https://github.com/jackalope/jackalope/contributors"
-                }
-            ],
-            "description": "Jackalope PHPCR library",
-            "homepage": "http://jackalope.github.io",
-            "keywords": [
-                "phpcr"
-            ],
-            "time": "2017-04-18T20:09:58+00:00"
-        },
-        {
-            "name": "jackalope/jackalope-doctrine-dbal",
-            "version": "1.3.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/jackalope/jackalope-doctrine-dbal.git",
-                "reference": "67c8f17225dd727b052dbb5a0db7e52061a1896e"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/jackalope/jackalope-doctrine-dbal/zipball/67c8f17225dd727b052dbb5a0db7e52061a1896e",
-                "reference": "67c8f17225dd727b052dbb5a0db7e52061a1896e",
-                "shasum": ""
-            },
-            "require": {
-                "doctrine/dbal": "^2.4.5",
-                "jackalope/jackalope": "^1.3.0",
-                "php": "^5.6|^7.0",
-                "phpcr/phpcr": "~2.1.2",
-                "phpcr/phpcr-utils": "^1.2.9"
-            },
-            "provide": {
-                "jackalope/jackalope-transport": "1.3.0"
-            },
-            "require-dev": {
-                "phpcr/phpcr-api-tests": "2.1.17",
-                "phpunit/dbunit": "^1.3",
-                "phpunit/phpunit": "^5.7",
-                "psr/log": "^1.0"
-            },
-            "bin": [
-                "bin/jackalope"
-            ],
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "1.3-dev"
-                }
-            },
-            "autoload": {
-                "psr-0": {
-                    "Jackalope\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT",
-                "Apache-2.0"
-            ],
-            "authors": [
-                {
-                    "name": "Jackalope Community",
-                    "homepage": "https://github.com/jackalope/jackalope-jackrabbit/contributors"
-                }
-            ],
-            "description": "Jackalope Transport library for Doctrine DBAL",
-            "homepage": "http://jackalope.github.io",
-            "keywords": [
-                "doctrine-dbal",
-                "phpcr",
-                "transport implementation"
-            ],
-            "time": "2017-04-07T11:18:50+00:00"
-        },
-        {
             "name": "jdorn/sql-formatter",
             "version": "v1.2.17",
             "source": {
@@ -3417,37 +3297,35 @@
         },
         {
             "name": "knplabs/knp-menu",
-            "version": "2.2.0",
+            "version": "2.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/KnpLabs/KnpMenu.git",
-                "reference": "964b5b3ca7fd23019147991f4f75f361d061eb20"
+                "reference": "655630a1db0b72108262d1a844de3b1ba0885be5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/KnpLabs/KnpMenu/zipball/964b5b3ca7fd23019147991f4f75f361d061eb20",
-                "reference": "964b5b3ca7fd23019147991f4f75f361d061eb20",
+                "url": "https://api.github.com/repos/KnpLabs/KnpMenu/zipball/655630a1db0b72108262d1a844de3b1ba0885be5",
+                "reference": "655630a1db0b72108262d1a844de3b1ba0885be5",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.3.0"
+                "php": ">=5.6.0"
             },
             "require-dev": {
-                "pimple/pimple": "~1.0",
-                "silex/silex": "~1.0",
-                "symfony/phpunit-bridge": "~2.7|~3.0",
-                "symfony/routing": "~2.3|~3.0",
+                "psr/container": "^1.0",
+                "symfony/http-foundation": "~2.4|~3.0|^4.0",
+                "symfony/phpunit-bridge": "~3.3|^4.0",
+                "symfony/routing": "~2.3|~3.0|^4.0",
                 "twig/twig": "~1.16|~2.0"
             },
             "suggest": {
-                "pimple/pimple": "for the built-in implementations of the menu provider and renderer provider",
-                "silex/silex": "for the integration with your silex application",
                 "twig/twig": "for the TwigRenderer and the integration with your templates"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.2-dev"
+                    "dev-master": "2.3-dev"
                 }
             },
             "autoload": {
@@ -3465,21 +3343,21 @@
                     "email": "stof@notk.org"
                 },
                 {
-                    "name": "KnpLabs",
-                    "homepage": "http://knplabs.com"
-                },
-                {
                     "name": "Symfony Community",
                     "homepage": "https://github.com/KnpLabs/KnpMenu/contributors"
+                },
+                {
+                    "name": "KnpLabs",
+                    "homepage": "https://knplabs.com"
                 }
             ],
             "description": "An object oriented menu library",
-            "homepage": "http://knplabs.com",
+            "homepage": "https://knplabs.com",
             "keywords": [
                 "menu",
                 "tree"
             ],
-            "time": "2016-09-22T07:36:19+00:00"
+            "time": "2017-11-18T20:49:26+00:00"
         },
         {
             "name": "knplabs/knp-menu-bundle",
@@ -3653,16 +3531,16 @@
         },
         {
             "name": "layershifter/tld-extract",
-            "version": "1.2.2",
+            "version": "1.2.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/layershifter/TLDExtract.git",
-                "reference": "c27974a38e0b64248bbd859d71cec72464621070"
+                "reference": "e570f7a2390a96d00e5b1d871ed2b248f886f93f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/layershifter/TLDExtract/zipball/c27974a38e0b64248bbd859d71cec72464621070",
-                "reference": "c27974a38e0b64248bbd859d71cec72464621070",
+                "url": "https://api.github.com/repos/layershifter/TLDExtract/zipball/e570f7a2390a96d00e5b1d871ed2b248f886f93f",
+                "reference": "e570f7a2390a96d00e5b1d871ed2b248f886f93f",
                 "shasum": ""
             },
             "require": {
@@ -3700,7 +3578,7 @@
                 "TLDExtract",
                 "domain parser"
             ],
-            "time": "2017-10-17T17:50:33+00:00"
+            "time": "2017-11-18T19:32:25+00:00"
         },
         {
             "name": "layershifter/tld-support",
@@ -5242,139 +5120,6 @@
                 "set"
             ],
             "time": "2015-05-17T12:39:23+00:00"
-        },
-        {
-            "name": "phpcr/phpcr",
-            "version": "2.1.4",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/phpcr/phpcr.git",
-                "reference": "db909970ca7449d69ccecd1912dedb857817eba7"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/phpcr/phpcr/zipball/db909970ca7449d69ccecd1912dedb857817eba7",
-                "reference": "db909970ca7449d69ccecd1912dedb857817eba7",
-                "shasum": ""
-            },
-            "require": {
-                "php": "^5.6|^7.0"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "^5.7"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "2.1-dev"
-                }
-            },
-            "autoload": {
-                "psr-0": {
-                    "PHPCR": "src"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT",
-                "Apache-2.0"
-            ],
-            "authors": [
-                {
-                    "name": "Lukas Kahwe Smith",
-                    "email": "smith@pooteeweet.org"
-                },
-                {
-                    "name": "David Buchmann",
-                    "email": "david@liip.ch"
-                },
-                {
-                    "name": "Karsten Dambekalns",
-                    "email": "karsten@typo3.org"
-                }
-            ],
-            "description": "PHP Content Repository interfaces",
-            "homepage": "http://phpcr.github.io",
-            "keywords": [
-                "contentrepository",
-                "phpcr"
-            ],
-            "time": "2017-02-08T13:54:11+00:00"
-        },
-        {
-            "name": "phpcr/phpcr-utils",
-            "version": "1.3.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/phpcr/phpcr-utils.git",
-                "reference": "39e2639d312b7aa442b83aac1bc219d70bca5e6e"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/phpcr/phpcr-utils/zipball/39e2639d312b7aa442b83aac1bc219d70bca5e6e",
-                "reference": "39e2639d312b7aa442b83aac1bc219d70bca5e6e",
-                "shasum": ""
-            },
-            "require": {
-                "php": "^5.6|^7.0",
-                "phpcr/phpcr": "~2.1.0",
-                "symfony/console": "~2.3|~3.0"
-            },
-            "conflict": {
-                "jackalope/jackalope-jackrabbit": "<1.2.1"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "^5.7",
-                "ramsey/uuid": "^3.5"
-            },
-            "suggest": {
-                "ramsey/uuid": "A PHP 5.4+ library for generating RFC 4122 version 1, 3, 4, and 5 universally unique identifiers (UUID)."
-            },
-            "bin": [
-                "bin/phpcr"
-            ],
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "1.3-dev"
-                }
-            },
-            "autoload": {
-                "psr-0": {
-                    "PHPCR\\Util": "src"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT",
-                "Apache-2.0"
-            ],
-            "authors": [
-                {
-                    "name": "Lukas Kahwe Smith",
-                    "email": "smith@pooteeweet.org"
-                },
-                {
-                    "name": "David Buchmann",
-                    "email": "david@liip.ch"
-                },
-                {
-                    "name": "Nacho Martín",
-                    "email": "nitram.ohcan@gmail.com"
-                },
-                {
-                    "name": "Daniel Barsotti",
-                    "email": "daniel.barsotti@liip.ch"
-                }
-            ],
-            "description": "PHP Content Repository implementation independant utilities",
-            "homepage": "http://phpcr.github.io",
-            "keywords": [
-                "cli",
-                "contentrepository",
-                "phpcr"
-            ],
-            "time": "2017-11-12T21:15:34+00:00"
         },
         {
             "name": "phpoption/phpoption",
@@ -8325,6 +8070,126 @@
             "time": "2017-08-15T16:48:10+00:00"
         },
         {
+            "name": "jackalope/jackalope",
+            "version": "1.3.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/jackalope/jackalope.git",
+                "reference": "5face3a39b8d8889a2eb4c96b7068ac63e5cf3c3"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/jackalope/jackalope/zipball/5face3a39b8d8889a2eb4c96b7068ac63e5cf3c3",
+                "reference": "5face3a39b8d8889a2eb4c96b7068ac63e5cf3c3",
+                "shasum": ""
+            },
+            "require": {
+                "ext-xml": "*",
+                "jackalope/jackalope-transport": "*",
+                "php": "^5.6|^7.0",
+                "phpcr/phpcr": "~2.1.0,>=2.1.0-beta12",
+                "phpcr/phpcr-utils": "^1.2.6"
+            },
+            "provide": {
+                "phpcr/phpcr-implementation": "2.1.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^5.7"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.3-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "Jackalope\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT",
+                "Apache-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "Jackalope Community",
+                    "homepage": "https://github.com/jackalope/jackalope/contributors"
+                }
+            ],
+            "description": "Jackalope PHPCR library",
+            "homepage": "http://jackalope.github.io",
+            "keywords": [
+                "phpcr"
+            ],
+            "time": "2017-11-21T15:06:18+00:00"
+        },
+        {
+            "name": "jackalope/jackalope-doctrine-dbal",
+            "version": "1.3.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/jackalope/jackalope-doctrine-dbal.git",
+                "reference": "67c8f17225dd727b052dbb5a0db7e52061a1896e"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/jackalope/jackalope-doctrine-dbal/zipball/67c8f17225dd727b052dbb5a0db7e52061a1896e",
+                "reference": "67c8f17225dd727b052dbb5a0db7e52061a1896e",
+                "shasum": ""
+            },
+            "require": {
+                "doctrine/dbal": "^2.4.5",
+                "jackalope/jackalope": "^1.3.0",
+                "php": "^5.6|^7.0",
+                "phpcr/phpcr": "~2.1.2",
+                "phpcr/phpcr-utils": "^1.2.9"
+            },
+            "provide": {
+                "jackalope/jackalope-transport": "1.3.0"
+            },
+            "require-dev": {
+                "phpcr/phpcr-api-tests": "2.1.17",
+                "phpunit/dbunit": "^1.3",
+                "phpunit/phpunit": "^5.7",
+                "psr/log": "^1.0"
+            },
+            "bin": [
+                "bin/jackalope"
+            ],
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.3-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "Jackalope\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT",
+                "Apache-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "Jackalope Community",
+                    "homepage": "https://github.com/jackalope/jackalope-jackrabbit/contributors"
+                }
+            ],
+            "description": "Jackalope Transport library for Doctrine DBAL",
+            "homepage": "http://jackalope.github.io",
+            "keywords": [
+                "doctrine-dbal",
+                "phpcr",
+                "transport implementation"
+            ],
+            "time": "2017-04-07T11:18:50+00:00"
+        },
+        {
             "name": "johnkary/phpunit-speedtrap",
             "version": "v1.1.0",
             "source": {
@@ -8713,6 +8578,139 @@
                 "test"
             ],
             "time": "2017-10-31T11:42:39+00:00"
+        },
+        {
+            "name": "phpcr/phpcr",
+            "version": "2.1.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/phpcr/phpcr.git",
+                "reference": "db909970ca7449d69ccecd1912dedb857817eba7"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/phpcr/phpcr/zipball/db909970ca7449d69ccecd1912dedb857817eba7",
+                "reference": "db909970ca7449d69ccecd1912dedb857817eba7",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^5.6|^7.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^5.7"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.1-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "PHPCR": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT",
+                "Apache-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "Lukas Kahwe Smith",
+                    "email": "smith@pooteeweet.org"
+                },
+                {
+                    "name": "David Buchmann",
+                    "email": "david@liip.ch"
+                },
+                {
+                    "name": "Karsten Dambekalns",
+                    "email": "karsten@typo3.org"
+                }
+            ],
+            "description": "PHP Content Repository interfaces",
+            "homepage": "http://phpcr.github.io",
+            "keywords": [
+                "contentrepository",
+                "phpcr"
+            ],
+            "time": "2017-02-08T13:54:11+00:00"
+        },
+        {
+            "name": "phpcr/phpcr-utils",
+            "version": "1.3.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/phpcr/phpcr-utils.git",
+                "reference": "c41d9857bd9cb610d59d57e7a80184e07119a434"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/phpcr/phpcr-utils/zipball/c41d9857bd9cb610d59d57e7a80184e07119a434",
+                "reference": "c41d9857bd9cb610d59d57e7a80184e07119a434",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^5.6|^7.0",
+                "phpcr/phpcr": "~2.1.0",
+                "symfony/console": "~2.3|~3.0|^4.0"
+            },
+            "conflict": {
+                "jackalope/jackalope-jackrabbit": "<1.2.1"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^5.7",
+                "ramsey/uuid": "^3.5"
+            },
+            "suggest": {
+                "ramsey/uuid": "A PHP 5.4+ library for generating RFC 4122 version 1, 3, 4, and 5 universally unique identifiers (UUID)."
+            },
+            "bin": [
+                "bin/phpcr"
+            ],
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.3-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "PHPCR\\Util": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT",
+                "Apache-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "Lukas Kahwe Smith",
+                    "email": "smith@pooteeweet.org"
+                },
+                {
+                    "name": "David Buchmann",
+                    "email": "david@liip.ch"
+                },
+                {
+                    "name": "Nacho Martín",
+                    "email": "nitram.ohcan@gmail.com"
+                },
+                {
+                    "name": "Daniel Barsotti",
+                    "email": "daniel.barsotti@liip.ch"
+                }
+            ],
+            "description": "PHP Content Repository implementation independant utilities",
+            "homepage": "http://phpcr.github.io",
+            "keywords": [
+                "cli",
+                "contentrepository",
+                "phpcr"
+            ],
+            "time": "2017-11-18T15:45:37+00:00"
         },
         {
             "name": "phpdocumentor/reflection-common",
@@ -10033,7 +10031,7 @@
         },
         {
             "name": "symfony/phpunit-bridge",
-            "version": "v3.3.12",
+            "version": "v3.3.13",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/phpunit-bridge.git",
