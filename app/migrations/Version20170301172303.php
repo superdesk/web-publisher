@@ -36,7 +36,7 @@ class Version20170301172303 extends AbstractMigration implements ContainerAwareI
 
         $this->addSql('ALTER TABLE swp_tenant ALTER subdomain DROP NOT NULL');
         $tenants = $this->container->get('swp.repository.tenant')->findAll();
-        $domain = $this->container->getParameter('domain');
+        $domain = $this->container->getParameter('env(SWP_DOMAIN)');
         /** @var TenantInterface $tenant */
         foreach ($tenants as $tenant) {
             $date = new \DateTime();
