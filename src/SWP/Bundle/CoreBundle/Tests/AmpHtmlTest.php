@@ -48,7 +48,7 @@ final class AmpHtmlTest extends WebTestCase
         self::assertEquals(1, $crawler->filter('html:contains("AMP Demo Theme")')->count());
 
         $client = static::createClient([], [
-            'HTTP_HOST' => 'client1.'.$client->getContainer()->getParameter('domain'),
+            'HTTP_HOST' => 'client1.'.$client->getContainer()->getParameter('env(SWP_DOMAIN)'),
         ]);
 
         // get amp page from another tenant

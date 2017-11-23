@@ -108,7 +108,7 @@ class AuthControllerTest extends WebTestCase
             ],
         ]);
         self::assertEquals(200, $client->getResponse()->getStatusCode());
-        $domain = $client->getContainer()->getParameter('domain');
+        $domain = $client->getContainer()->getParameter('env(SWP_DOMAIN)');
 
         $client2 = static::createClient([], [
             'HTTP_HOST' => 'client2.'.$domain,

@@ -203,7 +203,7 @@ final class ArticleSourcesTest extends WebTestCase
 
         // create route for tenant2
         $client2 = static::createClient([], [
-            'HTTP_HOST' => 'client2.'.$client->getContainer()->getParameter('domain'),
+            'HTTP_HOST' => 'client2.'.$client->getContainer()->getParameter('env(SWP_DOMAIN)'),
             'HTTP_Authorization' => base64_encode('client2_token'),
         ]);
 
