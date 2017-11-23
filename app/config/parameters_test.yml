@@ -1,5 +1,5 @@
 parameters:
-    domain: localhost
+    env(SWP_DOMAIN): localhost
     cache_servers:
         - localhost
     superdesk_servers:
