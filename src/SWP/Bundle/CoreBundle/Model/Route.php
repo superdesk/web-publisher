@@ -66,6 +66,9 @@ class Route extends BaseRoute implements PersistableInterface, RouteInterface, T
      */
     protected $level;
 
+    /**
+     * Route constructor.
+     */
     public function __construct()
     {
         $this->articles = new ArrayCollection();

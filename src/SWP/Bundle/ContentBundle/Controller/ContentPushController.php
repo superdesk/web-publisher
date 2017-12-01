@@ -49,6 +49,7 @@ class ContentPushController extends Controller
     public function pushContentAction(Request $request)
     {
         $content = $request->getContent();
+        /** @var PackageInterface $package */
         $package = $this->get('swp_bridge.transformer.json_to_package')->transform($content);
         $this->get('event_dispatcher')->dispatch(Events::SWP_VALIDATION, new GenericEvent($package));
 
@@ -71,7 +72,7 @@ class ContentPushController extends Controller
         $this->getPackageRepository()->add($package);
         $this->get('event_dispatcher')->dispatch(Events::PACKAGE_POST_CREATE, new GenericEvent($package));
 
-        return new SingleResourceResponse(['status' => 'OK'], new ResponseContext(201));
+        return new SingleResourceResponse(['status' => 'OK', 'package' => ['id' => $package->getId()]], new ResponseContext(201));
     }
 
     /**
