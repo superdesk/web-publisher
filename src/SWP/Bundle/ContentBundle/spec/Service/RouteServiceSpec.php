@@ -88,7 +88,7 @@ class RouteServiceSpec extends ObjectBehavior
         )->shouldBeCalled();
 
         $route->setVariablePattern(Argument::exact('/{slug}'))->shouldBeCalled();
-        $route->setRequirement(Argument::exact('slug'), Argument::exact('[a-zA-Z0-9*\-_\/]+'))->shouldBeCalled();
+        $route->setRequirement(Argument::exact('slug'), Argument::exact('[a-zA-Z0-9*\-_]+'))->shouldBeCalled();
         $route->setDefault('slug', null)->shouldBeCalled();
         $route->setStaticPrefix('/test-name')->shouldBeCalled();
 
@@ -115,7 +115,7 @@ class RouteServiceSpec extends ObjectBehavior
         )->shouldBeCalled();
 
         $route->setVariablePattern(Argument::exact('/{slug}'))->shouldBeCalled();
-        $route->setRequirement(Argument::exact('slug'), Argument::exact('[a-zA-Z0-9*\-_\/]+'))->shouldBeCalled();
+        $route->setRequirement(Argument::exact('slug'), Argument::exact('[a-zA-Z0-9*\-_]+'))->shouldBeCalled();
         $route->setDefault('slug', null)->shouldBeCalled();
         $route->setStaticPrefix('/test-name')->shouldBeCalled();
 
