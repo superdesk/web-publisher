@@ -87,7 +87,7 @@ class GimmeListTokenParser extends \Twig_TokenParser
 
         $stream->expect(\Twig_Token::BLOCK_END_TYPE);
         $body = $this->parser->subparse([$this, 'decideGimmeListFork']);
-        if ($stream->next()->getValue() === 'else') {
+        if ('else' === $stream->next()->getValue()) {
             $stream->expect(\Twig_Token::BLOCK_END_TYPE);
             $else = $this->parser->subparse([$this, 'decideGimmeListEnd'], true);
         } else {

@@ -184,7 +184,7 @@ class Article implements ArticleInterface
      */
     public function isPublished()
     {
-        return $this->getStatus() === ArticleInterface::STATUS_PUBLISHED;
+        return ArticleInterface::STATUS_PUBLISHED === $this->getStatus();
     }
 
     /**

@@ -41,7 +41,7 @@ class ThemeHelper implements ThemeHelperInterface
         foreach ($this->themePaths as $path) {
             $themesDir = rtrim($path, \DIRECTORY_SEPARATOR).\DIRECTORY_SEPARATOR;
 
-            if (strpos($themeConfig['path'], $themesDir) !== false) {
+            if (false !== strpos($themeConfig['path'], $themesDir)) {
                 $exploded = explode(\DIRECTORY_SEPARATOR, str_replace($themesDir, '', $themeConfig['path']));
                 $themeConfig['name'] .= self::SUFFIX_SEPARATOR.$exploded[0];
             }

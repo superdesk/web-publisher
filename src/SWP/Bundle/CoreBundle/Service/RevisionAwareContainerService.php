@@ -94,7 +94,7 @@ class RevisionAwareContainerService extends ContainerService implements Containe
     private function handleForking($container)
     {
         if ($container instanceof RevisionAwareInterface &&
-            $container->getRevision()->getStatus() === RevisionInterface::STATE_PUBLISHED
+            RevisionInterface::STATE_PUBLISHED === $container->getRevision()->getStatus()
         ) {
             $workingContainer = $container->fork();
             $workingContainer->setWidgets(new ArrayCollection());

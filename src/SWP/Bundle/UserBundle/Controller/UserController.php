@@ -65,9 +65,9 @@ class UserController extends Controller
             $userManager = $this->get('fos_user.user_manager');
             foreach (explode(',', $form->getData()['roles']) as $role) {
                 $role = trim($role);
-                if ($request->attributes->get('_route') === 'swp_api_user_promote_user') {
+                if ('swp_api_user_promote_user' === $request->attributes->get('_route')) {
                     $requestedUser->addRole($role);
-                } elseif ($request->attributes->get('_route') === 'swp_api_user_demote_user') {
+                } elseif ('swp_api_user_demote_user' === $request->attributes->get('_route')) {
                     $requestedUser->removeRole($role);
                 }
             }

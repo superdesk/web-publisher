@@ -67,7 +67,7 @@ interface RevisionInterface
     /**
      * @param RevisionInterface $revision
      */
-    public function setPrevious(RevisionInterface $revision);
+    public function setPrevious(self $revision);
 
     /**
      * @return RevisionInterface|null

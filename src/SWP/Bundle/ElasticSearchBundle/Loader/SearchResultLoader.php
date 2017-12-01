@@ -71,7 +71,7 @@ final class SearchResultLoader implements LoaderInterface
      */
     public function load($metaType, $withParameters = [], $withoutParameters = [], $responseType = self::COLLECTION)
     {
-        if (isset($withParameters['order']) && count($withParameters['order']) === 2) {
+        if (isset($withParameters['order']) && 2 === count($withParameters['order'])) {
             $withParameters['sort'] = [$withParameters['order'][0] => $withParameters['order'][1]];
             unset($withParameters['order']);
         }

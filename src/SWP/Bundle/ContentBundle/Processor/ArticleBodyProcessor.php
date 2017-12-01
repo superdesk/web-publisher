@@ -65,7 +65,7 @@ class ArticleBodyProcessor implements ArticleBodyProcessorInterface
         /** @var \DOMElement $imageElement */
         foreach ($images as $imageElement) {
             foreach ($articleMedia->getRenditions() as $rendition) {
-                if (strpos($imageElement->getAttribute('src'), ArticleMedia::getOriginalMediaId($rendition->getImage()->getAssetId())) !== false) {
+                if (false !== strpos($imageElement->getAttribute('src'), ArticleMedia::getOriginalMediaId($rendition->getImage()->getAssetId()))) {
                     $attributes = $imageElement->attributes;
                     while ($attributes->length) {
                         $imageElement->removeAttribute($attributes->item(0)->name);

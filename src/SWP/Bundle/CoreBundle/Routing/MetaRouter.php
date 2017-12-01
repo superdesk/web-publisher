@@ -89,6 +89,6 @@ class MetaRouter extends DynamicRouter
         return ($name instanceof Meta && (
             $name->getValues() instanceof ArticleInterface ||
             $name->getValues() instanceof RouteInterface
-        )) || $name instanceof RouteInterface || (is_string($name) && $name !== 'homepage');
+        )) || $name instanceof RouteInterface || (is_string($name) && 'homepage' !== $name);
     }
 }
