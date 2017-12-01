@@ -641,7 +641,7 @@ class MenuItem implements MenuItemInterface
         $name = $name instanceof ItemInterface ? $name->getName() : $name;
         $child = $this->getChild($name);
 
-        if ($child !== null) {
+        if (null !== $child) {
             $child->setParent(null);
             $this->children->remove($name);
         }

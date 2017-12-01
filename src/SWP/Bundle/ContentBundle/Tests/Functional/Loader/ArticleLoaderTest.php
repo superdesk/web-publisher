@@ -60,7 +60,7 @@ class ArticleLoaderTest extends WebTestCase
 
         $this->assertNull($this->articleLoader->load('article', ['slug' => 'test-articles']));
         $this->assertNull($this->articleLoader->load('article', ['slug' => 'test-article'], [], LoaderInterface::COLLECTION));
-        $this->assertTrue(count($this->articleLoader->load('articles', ['route' => '/news'], [], LoaderInterface::COLLECTION)) == 3);
+        $this->assertTrue(3 == count($this->articleLoader->load('articles', ['route' => '/news'], [], LoaderInterface::COLLECTION)));
         $this->assertNull($this->articleLoader->load('articles', ['route' => 99], [], LoaderInterface::COLLECTION));
 
         $this->assertNull($this->articleLoader->load('article', [], [], LoaderInterface::COLLECTION));
@@ -68,10 +68,10 @@ class ArticleLoaderTest extends WebTestCase
 
     public function testLoadWithParameters()
     {
-        self::assertTrue(count($this->articleLoader->load('articles', ['route' => '/news', 'limit' => 2], [], LoaderInterface::COLLECTION)) == 2);
+        self::assertTrue(2 == count($this->articleLoader->load('articles', ['route' => '/news', 'limit' => 2], [], LoaderInterface::COLLECTION)));
 
         $articlesCollection = $this->articleLoader->load('articles', ['route' => '/news', 'limit' => 1], [], LoaderInterface::COLLECTION);
-        self::assertTrue($articlesCollection->getTotalItemsCount() === 3);
+        self::assertTrue(3 === $articlesCollection->getTotalItemsCount());
 
         $articlesZero = $this->articleLoader->load('articles', ['route' => '/news'], [], LoaderInterface::COLLECTION);
         $articlesOne = $this->articleLoader->load('articles', ['route' => '/news', 'start' => 1], [], LoaderInterface::COLLECTION);
@@ -80,12 +80,12 @@ class ArticleLoaderTest extends WebTestCase
         $articles = $this->articleLoader->load('articles', ['metadata' => ['located' => 'Sydney']], [], LoaderInterface::COLLECTION);
 
         self::assertCount(3, $articles);
-        self::assertTrue($articles->getTotalItemsCount() === 3);
+        self::assertTrue(3 === $articles->getTotalItemsCount());
 
         $articles = $this->articleLoader->load('articles', ['metadata' => ['byline' => 'Jhon Doe']], [], LoaderInterface::COLLECTION);
 
         self::assertCount(3, $articles);
-        self::assertTrue($articles->getTotalItemsCount() === 3);
+        self::assertTrue(3 === $articles->getTotalItemsCount());
 
         $articlesAsc = $this->articleLoader->load('articles', ['route' => '/news', 'order' => ['title', 'asc']], [], LoaderInterface::COLLECTION);
         $articlesDesc = $this->articleLoader->load('articles', ['route' => '/news', 'order' => ['title', 'desc']], [], LoaderInterface::COLLECTION);

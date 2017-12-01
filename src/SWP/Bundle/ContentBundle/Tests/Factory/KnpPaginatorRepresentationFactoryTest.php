@@ -31,16 +31,16 @@ class KnpPaginatorRepresentationFactoryTest extends \PHPUnit_Framework_TestCase
         $pagination = $paginator->paginate(['item_1', 'item_2'], 1, 10);
         $response = $representation->createRepresentation($pagination, new Request());
         self::assertTrue(is_array($response->getInline()->getResources()));
-        self::assertTrue(count($response->getInline()->getResources()) == 2);
+        self::assertTrue(2 == count($response->getInline()->getResources()));
 
         $pagination = $paginator->paginate(new ArrayCollection(['test_item', 'test_item2', 'test_item_3']), 1, 10);
         $response = $representation->createRepresentation($pagination, new Request());
         self::assertTrue(is_array($response->getInline()->getResources()));
-        self::assertTrue(count($response->getInline()->getResources()) == 3);
+        self::assertTrue(3 == count($response->getInline()->getResources()));
 
         $pagination = $paginator->paginate(new \ArrayObject(['test_item', 'test_item2']), 1, 10);
         $response = $representation->createRepresentation($pagination, new Request());
         self::assertTrue(is_array($response->getInline()->getResources()));
-        self::assertTrue(count($response->getInline()->getResources()) == 2);
+        self::assertTrue(2 == count($response->getInline()->getResources()));
     }
 }

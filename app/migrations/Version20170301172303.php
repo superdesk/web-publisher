@@ -32,7 +32,7 @@ class Version20170301172303 extends AbstractMigration implements ContainerAwareI
     public function up(Schema $schema)
     {
         // this up() migration is auto-generated, please modify it to your needs
-        $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'postgresql', 'Migration can only be executed safely on \'postgresql\'.');
+        $this->abortIf('postgresql' !== $this->connection->getDatabasePlatform()->getName(), 'Migration can only be executed safely on \'postgresql\'.');
 
         $this->addSql('ALTER TABLE swp_tenant ALTER subdomain DROP NOT NULL');
         $tenants = $this->container->get('swp.repository.tenant')->findAll();
@@ -59,7 +59,7 @@ class Version20170301172303 extends AbstractMigration implements ContainerAwareI
     public function down(Schema $schema)
     {
         // this down() migration is auto-generated, please modify it to your needs
-        $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'postgresql', 'Migration can only be executed safely on \'postgresql\'.');
+        $this->abortIf('postgresql' !== $this->connection->getDatabasePlatform()->getName(), 'Migration can only be executed safely on \'postgresql\'.');
 
         $tenants = $this->container->get('swp.repository.tenant')->findAll();
         /** @var TenantInterface $tenant */

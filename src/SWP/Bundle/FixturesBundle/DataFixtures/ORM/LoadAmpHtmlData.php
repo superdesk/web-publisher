@@ -19,7 +19,7 @@ class LoadAmpHtmlData extends AbstractFixture implements FixtureInterface
         $this->manager = $manager;
         $env = $this->getEnvironment();
 
-        if ($env === 'test') {
+        if ('test' === $env) {
             $routes = [
                 [
                     'name' => 'amp-articles',

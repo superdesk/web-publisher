@@ -57,7 +57,7 @@ class ThemeProvider implements ThemeProviderInterface
         $currentTenantCode = $this->tenantContext->getTenant()->getCode();
 
         foreach ($themes as $key => $theme) {
-            if (strpos($key, ThemeHelper::SUFFIX_SEPARATOR.$currentTenantCode) !== false) {
+            if (false !== strpos($key, ThemeHelper::SUFFIX_SEPARATOR.$currentTenantCode)) {
                 $theme->setName(strstr($theme->getName(), ThemeHelper::SUFFIX_SEPARATOR, true));
 
                 yield $theme;

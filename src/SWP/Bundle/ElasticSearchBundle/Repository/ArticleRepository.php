@@ -38,7 +38,7 @@ class ArticleRepository extends Repository
         $fields = $criteria->getFilters()->getFields();
         $boolFilter = new BoolQuery();
 
-        if ($criteria->getTerm() !== null && $criteria->getTerm() !== '') {
+        if (null !== $criteria->getTerm() && '' !== $criteria->getTerm()) {
             $query = new MultiMatch();
             $query->setFields(['title^3', 'lead^2', 'body^1']);
             $query->setQuery($criteria->getTerm());
@@ -47,13 +47,13 @@ class ArticleRepository extends Repository
             $boolFilter->addMust(new MatchAll());
         }
 
-        if ($fields->get('authors') !== null && !empty($fields->get('authors'))) {
+        if (null !== $fields->get('authors') && !empty($fields->get('authors'))) {
             foreach ($fields->get('authors') as $author) {
                 $boolFilter->addFilter(new Query\Match('author', $author));
             }
         }
 
-        if ($fields->get('sources') !== null && !empty($fields->get('sources'))) {
+        if (null !== $fields->get('sources') && !empty($fields->get('sources'))) {
             $nested = new Nested();
             $nested->setPath('sources');
             $boolQuery = new BoolQuery();
@@ -62,11 +62,11 @@ class ArticleRepository extends Repository
             $boolFilter->addMust($nested);
         }
 
-        if ($fields->get('statuses') !== null && !empty($fields->get('statuses'))) {
+        if (null !== $fields->get('statuses') && !empty($fields->get('statuses'))) {
             $boolFilter->addFilter(new Query\Terms('status', $fields->get('statuses')));
         }
 
-        if ($fields->get('metadata') !== null && !empty($fields->get('metadata'))) {
+        if (null !== $fields->get('metadata') && !empty($fields->get('metadata'))) {
             foreach ($fields->get('metadata') as $key => $values) {
                 foreach ((array) $values as $value) {
                     $boolFilter->addFilter(new Query\Match($key, $value));

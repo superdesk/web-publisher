@@ -229,17 +229,17 @@ class ContentListController extends Controller
                         'content' => $object,
                     ]);
 
-                if ($request->getMethod() === 'LINK') {
+                if ('LINK' === $request->getMethod()) {
                     $position = 0;
                     if (count($notConvertedLinks = RequestParser::getNotConvertedLinks($request->attributes->get('links'))) > 0) {
                         foreach ($notConvertedLinks as $link) {
-                            if (isset($link['resourceType']) && $link['resourceType'] == 'position') {
+                            if (isset($link['resourceType']) && 'position' == $link['resourceType']) {
                                 $position = $link['resource'];
                             }
                         }
                     }
 
-                    if ($position === false && $contentListItem) {
+                    if (false === $position && $contentListItem) {
                         throw new ConflictHttpException('This content is already linked to Content List');
                     }
 
@@ -251,7 +251,7 @@ class ContentListController extends Controller
                     }
 
                     $objectManager->flush();
-                } elseif ($request->getMethod() === 'UNLINK') {
+                } elseif ('UNLINK' === $request->getMethod()) {
                     if (!$contentList->getItems()->contains($contentListItem)) {
                         throw new ConflictHttpException('Content is not linked to content list');
                     }
@@ -263,7 +263,7 @@ class ContentListController extends Controller
                 break;
             }
         }
-        if ($matched === false) {
+        if (false === $matched) {
             throw new NotFoundHttpException('Any supported link object was not found');
         }
 

@@ -143,7 +143,7 @@ class StaticThemeAssetsController extends Controller
             }
         );
 
-        if (count($themes) === 0) {
+        if (0 === count($themes)) {
             throw new NotFoundHttpException(sprintf('Theme with name "%s" was not found in organization themes.', $themeName));
         }
 

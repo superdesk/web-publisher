@@ -164,7 +164,7 @@ final class ArticleHydrator implements ArticleHydratorInterface
         $this->articleSourcesAdder->add($article, $package->getSource());
 
         foreach ($package->getItems() as $item) {
-            if ($item->getSource() === null) {
+            if (null === $item->getSource()) {
                 continue;
             }
 

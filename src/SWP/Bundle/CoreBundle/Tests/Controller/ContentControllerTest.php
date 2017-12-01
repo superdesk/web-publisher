@@ -36,9 +36,9 @@ class ContentControllerTest extends WebTestCase
         $crawler = $client->request('GET', '/news/features');
 
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
-        $this->assertTrue($crawler->filter('html:contains("Features")')->count() === 1);
-        $this->assertTrue($crawler->filter('html:contains("Content:")')->count() === 1);
-        $this->assertTrue($crawler->filter('html:contains("Current tenant: Default tenant")')->count() === 1);
+        $this->assertTrue(1 === $crawler->filter('html:contains("Features")')->count());
+        $this->assertTrue(1 === $crawler->filter('html:contains("Content:")')->count());
+        $this->assertTrue(1 === $crawler->filter('html:contains("Current tenant: Default tenant")')->count());
     }
 
     public function testLoadingNotExistingArticleUnderContainerPage()
@@ -141,7 +141,7 @@ class ContentControllerTest extends WebTestCase
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
 
         // Check that route id is in the rendered html - accessed through {% gimme.route.id %}
-        $this->assertTrue($crawler->filter('html:contains("3")')->count() === 1);
+        $this->assertTrue(1 === $crawler->filter('html:contains("3")')->count());
     }
 
     public function testTestLoadingRouteWithCustomArticlesTemplate()

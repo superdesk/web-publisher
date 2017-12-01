@@ -92,7 +92,7 @@ class SettingsController extends Controller
             $setting = $settingsManager->all()[$data['name']];
             $scope = $setting['scope'];
             $owner = null;
-            if ($scope !== ScopeContextInterface::SCOPE_GLOBAL) {
+            if (ScopeContextInterface::SCOPE_GLOBAL !== $scope) {
                 $owner = $scopeContext->getScopeOwner($scope);
                 if (null === $owner) {
                     throw new InvalidScopeException($scope);
