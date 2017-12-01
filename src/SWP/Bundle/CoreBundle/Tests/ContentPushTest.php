@@ -639,7 +639,8 @@ final class ContentPushTest extends WebTestCase
         // publish package
         $client->request(
             'POST',
-            $this->router->generate('swp_api_core_publish_package', ['id' => 1]), [
+            $this->router->generate('swp_api_core_publish_package', ['id' => 1]),
+            [
                 'publish' => [
                     'destinations' => [
                         [
@@ -678,7 +679,8 @@ final class ContentPushTest extends WebTestCase
         // publish package
         $client->request(
             'POST',
-            $this->router->generate('swp_api_core_publish_package', ['id' => 2]), [
+            $this->router->generate('swp_api_core_publish_package', ['id' => 2]),
+            [
                 'publish' => [
                     'destinations' => [
                         [
@@ -732,7 +734,8 @@ final class ContentPushTest extends WebTestCase
         // publish package
         $client->request(
             'POST',
-            $this->router->generate('swp_api_core_publish_package', ['id' => 1]), [
+            $this->router->generate('swp_api_core_publish_package', ['id' => 1]),
+            [
                 'publish' => [
                     'destinations' => [
                         [
@@ -1026,5 +1029,64 @@ final class ContentPushTest extends WebTestCase
 
         self::assertArraySubset(['name' => 'package_tests_source'], $content['sources'][0]['articleSource']);
         self::assertArraySubset(['name' => 'package_item_tests_source'], $content['sources'][1]['articleSource']);
+    }
+
+    public function testLoadingArticleFromChildRoute()
+    {
+        $client = static::createClient();
+        $client->request('POST', $this->router->generate('swp_api_content_create_routes'), [
+            'route' => [
+                'name' => 'root',
+                'type' => 'collection',
+            ],
+        ]);
+
+        $rootRouteContent = json_decode($client->getResponse()->getContent(), true);
+        self::assertEquals(201, $client->getResponse()->getStatusCode());
+
+        $client->request('POST', $this->router->generate('swp_api_content_create_routes'), [
+            'route' => [
+                'name' => 'child',
+                'type' => 'collection',
+                'parent' => $rootRouteContent['id'],
+            ],
+        ]);
+
+        $childRouteContent = json_decode($client->getResponse()->getContent(), true);
+        self::assertEquals(201, $client->getResponse()->getStatusCode());
+
+        $client->request(
+            'POST',
+            $this->router->generate('swp_api_content_push'),
+            [],
+            [],
+            ['CONTENT_TYPE' => 'application/json'],
+            self::TEST_ITEM_CONTENT
+        );
+        self::assertEquals(201, $client->getResponse()->getStatusCode());
+
+        $client->request(
+            'POST',
+            $this->router->generate('swp_api_core_publish_package', ['id' => 1]),
+            [
+                'publish' => [
+                    'destinations' => [
+                        [
+                            'tenant' => '123abc',
+                            'route' => $childRouteContent['id'],
+                        ],
+                    ],
+                ],
+            ]
+        );
+        self::assertEquals(201, $client->getResponse()->getStatusCode());
+
+        $client->request('GET', $this->router->generate('swp_api_content_show_articles', ['id' => 1]));
+        self::assertEquals(200, $client->getResponse()->getStatusCode());
+        $response = json_decode($client->getResponse()->getContent(), true);
+        $client->request('GET', $response['_links']['online']['href']);
+        self::assertEquals(200, $client->getResponse()->getStatusCode());
+        $client->request('GET', str_replace('/child', '', $response['_links']['online']['href']));
+        self::assertEquals(404, $client->getResponse()->getStatusCode());
     }
 }

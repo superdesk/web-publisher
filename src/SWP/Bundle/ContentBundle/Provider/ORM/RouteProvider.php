@@ -17,10 +17,13 @@ namespace SWP\Bundle\ContentBundle\Provider\ORM;
 use SWP\Bundle\ContentBundle\Model\ArticleInterface;
 use SWP\Bundle\ContentBundle\Model\RouteRepositoryInterface;
 use SWP\Bundle\ContentBundle\Provider\RouteProviderInterface;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Exception\RouteNotFoundException;
 use Symfony\Cmf\Bundle\RoutingBundle\Doctrine\Orm\RouteProvider as BaseRouteProvider;
 use Doctrine\Common\Persistence\ManagerRegistry;
 use Symfony\Cmf\Component\Routing\Candidates\CandidatesInterface;
+use Symfony\Component\Routing\RouteCollection;
+use Symfony\Cmf\Bundle\RoutingBundle\Doctrine\Orm\Route;
 
 class RouteProvider extends BaseRouteProvider implements RouteProviderInterface
 {
@@ -52,6 +55,31 @@ class RouteProvider extends BaseRouteProvider implements RouteProviderInterface
         parent::__construct($managerRegistry, $candidatesStrategy, $className);
     }
 
+    /**
+     * {@inheritdoc}
+     */
+    public function getRouteCollectionForRequest(Request $request)
+    {
+        $collection = new RouteCollection();
+
+        $candidates = $this->candidatesStrategy->getCandidates($request);
+        if (0 === count($candidates)) {
+            return $collection;
+        }
+        // As we use Gedmo Sortable on position field, we need to reverse sorting to get child routes first
+        $routes = $this->getRouteRepository()->findByStaticPrefix($candidates, ['position' => 'DESC']);
+
+        /** @var $route Route */
+        foreach ($routes as $route) {
+            $collection->add($route->getName(), $route);
+        }
+
+        return $collection;
+    }
+
+    /**
+     * @return RouteRepositoryInterface
+     */
     public function getRepository(): RouteRepositoryInterface
     {
         return $this->routeRepository;

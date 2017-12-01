@@ -19,6 +19,9 @@ use SWP\Bundle\ContentBundle\Model\RouteInterface;
 use SWP\Bundle\ContentBundle\RouteEvents;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
+/**
+ * Class RouteService.
+ */
 class RouteService implements RouteServiceInterface
 {
     /**
@@ -64,11 +67,6 @@ class RouteService implements RouteServiceInterface
         return $route;
     }
 
-    private function dispatchRouteEvent($eventName, RouteInterface $route)
-    {
-        $this->eventDispatcher->dispatch($eventName, new RouteEvent($route));
-    }
-
     /**
      * @param RouteInterface $route
      *
@@ -86,7 +84,7 @@ class RouteService implements RouteServiceInterface
             case RouteInterface::TYPE_COLLECTION:
                 $route->setVariablePattern('/{slug}');
                 $route->setStaticPrefix($this->generatePath($route));
-                $route->setRequirement('slug', '[a-zA-Z0-9*\-_\/]+');
+                $route->setRequirement('slug', '[a-zA-Z0-9*\-_]+');
                 $route->setDefault('slug', null);
 
                 break;
@@ -109,5 +107,14 @@ class RouteService implements RouteServiceInterface
         }
 
         return sprintf('%s/%s', $parent->getStaticPrefix(), $route->getName());
+    }
+
+    /**
+     * @param string         $eventName
+     * @param RouteInterface $route
+     */
+    private function dispatchRouteEvent($eventName, RouteInterface $route)
+    {
+        $this->eventDispatcher->dispatch($eventName, new RouteEvent($route));
     }
 }

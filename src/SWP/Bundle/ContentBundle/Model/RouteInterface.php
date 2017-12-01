@@ -173,4 +173,14 @@ interface RouteInterface extends TreeAwareRouteInterface, PersistableInterface
      * @return int|null
      */
     public function getRootId();
+
+    /**
+     * @return int
+     */
+    public function getPosition();
+
+    /**
+     * @param int $position
+     */
+    public function setPosition(int $position);
 }
