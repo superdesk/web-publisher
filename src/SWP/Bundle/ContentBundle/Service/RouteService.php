@@ -115,6 +115,6 @@ class RouteService implements RouteServiceInterface
      */
     private function dispatchRouteEvent($eventName, RouteInterface $route)
     {
-        $this->eventDispatcher->dispatch($eventName, new RouteEvent($route));
+        $this->eventDispatcher->dispatch($eventName, new RouteEvent($route, $eventName));
     }
 }

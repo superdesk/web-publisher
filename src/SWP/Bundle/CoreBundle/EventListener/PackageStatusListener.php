@@ -37,6 +37,7 @@ final class PackageStatusListener
             return;
         }
 
+        // TODO: think about situation when just one from few articles is unpublished.
         $package->setStatus(ContentInterface::STATUS_UNPUBLISHED);
     }
 

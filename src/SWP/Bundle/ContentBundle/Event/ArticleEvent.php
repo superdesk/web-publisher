@@ -31,15 +31,22 @@ class ArticleEvent extends Event
     protected $package;
 
     /**
+     * @var string
+     */
+    protected $eventName;
+
+    /**
      * ArticleEvent constructor.
      *
-     * @param ArticleInterface $article
-     * @param PackageInterface $package
+     * @param ArticleInterface      $article
+     * @param PackageInterface|null $package
+     * @param string|null           $eventName
      */
-    public function __construct(ArticleInterface $article, PackageInterface $package = null)
+    public function __construct(ArticleInterface $article, PackageInterface $package = null, $eventName = null)
     {
         $this->article = $article;
         $this->package = $package;
+        $this->eventName = $eventName;
     }
 
     /**
@@ -56,5 +63,13 @@ class ArticleEvent extends Event
     public function getPackage()
     {
         return $this->package;
+    }
+
+    /**
+     * @return null|string
+     */
+    public function getEventName()
+    {
+        return $this->eventName;
     }
 }

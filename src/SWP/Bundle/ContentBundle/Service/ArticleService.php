@@ -103,6 +103,6 @@ class ArticleService implements ArticleServiceInterface
 
     private function dispatchArticleEvent($eventName, ArticleInterface $article)
     {
-        $this->eventDispatcher->dispatch($eventName, new ArticleEvent($article));
+        $this->eventDispatcher->dispatch($eventName, new ArticleEvent($article, null, $eventName));
     }
 }

@@ -25,13 +25,20 @@ class RouteEvent extends Event
     protected $route;
 
     /**
+     * @var string
+     */
+    protected $eventName;
+
+    /**
      * RouteEvent constructor.
      *
      * @param RouteInterface $route
+     * @param string         $eventName
      */
-    public function __construct(RouteInterface $route)
+    public function __construct(RouteInterface $route, $eventName)
     {
         $this->route = $route;
+        $this->eventName = $eventName;
     }
 
     /**
@@ -40,5 +47,13 @@ class RouteEvent extends Event
     public function getRoute()
     {
         return $this->route;
+    }
+
+    /**
+     * @return string
+     */
+    public function getEventName()
+    {
+        return $this->eventName;
     }
 }

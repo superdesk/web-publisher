@@ -257,6 +257,15 @@ services:
         tags:
             - { name: kernel.event_subscriber }
 
+    swp_core.webhook.subscriber:
+        class: SWP\Bundle\CoreBundle\EventSubscriber\WebhookEventsSubscriber
+        arguments:
+            - '@old_sound_rabbit_mq.send_webhook_producer'
+            - '@jms_serializer'
+            - '@swp.repository.webhook'
+        tags:
+            - { name: kernel.event_subscriber }
+
     swp_core.jms_tenant_handler:
         class: SWP\Bundle\CoreBundle\Serializer\TenantHandler
         arguments:
@@ -373,3 +382,7 @@ services:
             - '@swp.service.article_source'
             - '@swp.repository.article_source'
             - '@swp_multi_tenancy.tenant_context'
+
+    SWP\Bundle\CoreBundle\Consumer\SendWebhookConsumer:
+        arguments:
+            - '@jms_serializer'

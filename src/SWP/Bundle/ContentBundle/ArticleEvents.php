@@ -28,8 +28,7 @@ class ArticleEvents
     const PRE_CREATE = 'swp.article.pre_create';
 
     /**
-     * The POST_CREATE event occurs at the very ending of article
-     * creation.
+     * The POST_CREATE event occurs at the very end of article creation.
      *
      * This event allows you to modify article after it will be created.
      *
@@ -40,8 +39,18 @@ class ArticleEvents
     const POST_CREATE = 'swp.article.post_create';
 
     /**
-     * The POST_PUBLISH event occurs at the very ending of article
-     * publication.
+     * The POST_UPDATE event occurs at the very end of article update.
+     *
+     * This event allows you to react on article change after it will be updated.
+     *
+     * @Event("SWP\Bundle\ContentBundle\Event\ArticleEvent")
+     *
+     * @var string
+     */
+    const POST_UPDATE = 'swp.article.post_update';
+
+    /**
+     * The POST_PUBLISH event occurs at the very end of article publication.
      *
      * This event allows you to modify article after it will be published.
      *
@@ -74,8 +83,7 @@ class ArticleEvents
     const UNPUBLISH = 'swp.article.unpublish';
 
     /**
-     * The POST_UNPUBLISH event occurs at the very ending of article
-     * unpublishing.
+     * The POST_UNPUBLISH event occurs at the very end of article unpublishing.
      *
      * This event allows you to modify article after it will be unpublished.
      *

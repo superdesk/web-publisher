@@ -78,7 +78,7 @@ final class ArticlePublisher implements ArticlePublisherInterface
                 /* @var TenantInterface $tenant */
                 $this->tenantContext->setTenant($tenant);
                 if ($article->getTenantCode() === $tenant->getCode()) {
-                    $this->eventDispatcher->dispatch(ArticleEvents::UNPUBLISH, new ArticleEvent($article));
+                    $this->eventDispatcher->dispatch(ArticleEvents::UNPUBLISH, new ArticleEvent($article, null, ArticleEvents::UNPUBLISH));
                 }
             }
         }
@@ -138,7 +138,7 @@ final class ArticlePublisher implements ArticlePublisherInterface
      */
     private function dispatchEvents(ArticleInterface $article, PackageInterface $package)
     {
-        $this->eventDispatcher->dispatch(ArticleEvents::PUBLISH, new ArticleEvent($article));
-        $this->eventDispatcher->dispatch(ArticleEvents::PRE_CREATE, new ArticleEvent($article, $package));
+        $this->eventDispatcher->dispatch(ArticleEvents::PUBLISH, new ArticleEvent($article, null, ArticleEvents::PUBLISH));
+        $this->eventDispatcher->dispatch(ArticleEvents::PRE_CREATE, new ArticleEvent($article, $package, ArticleEvents::PRE_CREATE));
     }
 }

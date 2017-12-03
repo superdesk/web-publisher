@@ -1,0 +1,15 @@
+{
+    "name": "swp/webhook",
+    "description": "Webhook implementation",
+    "type": "library",
+    "require": {
+        "swp/common": "^1.2"
+    },
+    "license": "AGPL-3.0",
+    "authors": [
+        {
+            "name": "Paweł Mikołajczuk",
+            "email": "pawel.mikolajczuk@sourcefabric.org"
+        }
+    ]
+}

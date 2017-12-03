@@ -60,17 +60,36 @@ class ContentPushController extends Controller
             $objectManager = $this->get('swp.object_manager.package');
             $package->setId($existingPackage->getId());
             $package->setCreatedAt($existingPackage->getCreatedAt());
-            $this->get('event_dispatcher')->dispatch(Events::PACKAGE_PRE_UPDATE, new GenericEvent($package));
-            $objectManager->merge($package);
+            $this->get('event_dispatcher')->dispatch(Events::PACKAGE_PRE_UPDATE, new GenericEvent(
+                $package,
+                ['eventName' => Events::PACKAGE_PRE_UPDATE]
+            ));
+
+            $package = $objectManager->merge($package);
             $objectManager->flush();
-            $this->get('event_dispatcher')->dispatch(Events::PACKAGE_POST_UPDATE, new GenericEvent($package));
+
+            $this->get('event_dispatcher')->dispatch(Events::PACKAGE_POST_UPDATE, new GenericEvent(
+                $package,
+                ['eventName' => Events::PACKAGE_POST_UPDATE]
+            ));
+
+            $this->get('event_dispatcher')->dispatch(Events::PACKAGE_POST_UPDATE, new GenericEvent(
+                $package,
+                ['eventName' => Events::PACKAGE_PROCESSED]
+            ));
 
             return new SingleResourceResponse(['status' => 'OK'], new ResponseContext(201));
         }
 
-        $this->get('event_dispatcher')->dispatch(Events::PACKAGE_PRE_CREATE, new GenericEvent($package));
+        $this->get('event_dispatcher')->dispatch(Events::PACKAGE_PRE_CREATE, new GenericEvent(
+            $package,
+            ['eventName' => Events::PACKAGE_PRE_CREATE]
+        ));
         $this->getPackageRepository()->add($package);
-        $this->get('event_dispatcher')->dispatch(Events::PACKAGE_POST_CREATE, new GenericEvent($package));
+        $this->get('event_dispatcher')->dispatch(Events::PACKAGE_POST_CREATE, new GenericEvent(
+            $package,
+            ['eventName' => Events::PACKAGE_POST_CREATE]
+        ));
 
         return new SingleResourceResponse(['status' => 'OK', 'package' => ['id' => $package->getId()]], new ResponseContext(201));
     }

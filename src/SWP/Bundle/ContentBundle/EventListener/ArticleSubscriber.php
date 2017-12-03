@@ -29,7 +29,7 @@ final class ArticleSubscriber implements EventSubscriber
     /**
      * @var EventDispatcherInterface
      */
-    protected $eventDispatcher;
+    private $eventDispatcher;
 
     /**
      * TenantSubscriber constructor.
@@ -48,7 +48,19 @@ final class ArticleSubscriber implements EventSubscriber
     {
         return [
             Events::postPersist,
+            Events::postUpdate,
         ];
+    }
+
+    /**
+     * @param LifecycleEventArgs $args
+     */
+    public function postUpdate(LifecycleEventArgs $args)
+    {
+        $entity = $args->getEntity();
+        if ($entity instanceof ArticleInterface) {
+            $this->eventDispatcher->dispatch(ArticleEvents::POST_UPDATE, new ArticleEvent($entity, null, ArticleEvents::POST_UPDATE));
+        }
     }
 
     /**
@@ -57,7 +69,6 @@ final class ArticleSubscriber implements EventSubscriber
     public function postPersist(LifecycleEventArgs $args)
     {
         $entity = $args->getEntity();
-
         if ($entity instanceof ArticleInterface) {
             $this->eventDispatcher->dispatch(ArticleEvents::POST_CREATE, new ArticleEvent($entity));
         }
