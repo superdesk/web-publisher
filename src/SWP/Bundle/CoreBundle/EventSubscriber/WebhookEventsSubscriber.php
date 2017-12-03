@@ -80,11 +80,14 @@ class WebhookEventsSubscriber implements EventSubscriberInterface
      */
     public function handleEvent(Event $event)
     {
-        $webhooks = $this->webhooksRepository->getEnabledForEvent($this->getEventName($event))->getResult();
+        $eventName = $this->getEventName($event);
+        if (!is_string($eventName)) {
+            return;
+        }
 
+        $webhooks = $this->webhooksRepository->getEnabledForEvent($this->getEventName($event))->getResult();
         /** @var WebhookInterface $webhook */
         foreach ($webhooks as $webhook) {
-            dump($webhook, $this->getEventName($event), $this->getSubject($event), $this->serializer->serialize(['url' => $webhook->getUrl(), 'subject' => $this->getSubject($event)], 'json'));
             $this->producer->publish($this->serializer->serialize(['url' => $webhook->getUrl(), 'subject' => $this->getSubject($event)], 'json'));
         }
     }

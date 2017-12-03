@@ -17,9 +17,9 @@ declare(strict_types=1);
 namespace SWP\Bundle\CoreBundle\Repository;
 
 use Doctrine\ORM\Query;
-use SWP\Bundle\ContentListBundle\Doctrine\ORM\ContentListItemRepository as BaseRepository;
+use SWP\Bundle\StorageBundle\Doctrine\ORM\EntityRepository;
 
-class WebhookRepository extends BaseRepository implements WebhookRepositoryInterface
+class WebhookRepository extends EntityRepository implements WebhookRepositoryInterface
 {
     /**
      * {@inheritdoc}

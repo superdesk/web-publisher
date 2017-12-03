@@ -60,7 +60,7 @@ class SendWebhookConsumer implements ConsumerInterface
 
         try {
             $this->getClient()->send($webhookRequest);
-        } catch (GuzzleHttp\Exception\ClientException $e) {
+        } catch (GuzzleHttp\Exception\ClientException | GuzzleHttp\Exception\ServerException $e) {
             return;
         }
     }
