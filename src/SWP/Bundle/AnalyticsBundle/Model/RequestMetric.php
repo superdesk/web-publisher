@@ -30,6 +30,7 @@ class RequestMetric
      * @var @string
      */
     protected $route;
+
     /**
      * @var @int
      */

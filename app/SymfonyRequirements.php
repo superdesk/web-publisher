@@ -33,9 +33,13 @@
 class Requirement
 {
     private $fulfilled;
+
     private $testMessage;
+
     private $helpText;
+
     private $helpHtml;
+
     private $optional;
 
     /**
@@ -380,6 +384,7 @@ class RequirementCollection implements IteratorAggregate
 class SymfonyRequirements extends RequirementCollection
 {
     const LEGACY_REQUIRED_PHP_VERSION = '5.3.3';
+
     const REQUIRED_PHP_VERSION = '5.5.9';
 
     /**

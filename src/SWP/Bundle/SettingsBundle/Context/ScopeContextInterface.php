@@ -21,6 +21,7 @@ use SWP\Bundle\SettingsBundle\Model\SettingsOwnerInterface;
 interface ScopeContextInterface
 {
     const SCOPE_GLOBAL = 'global';
+
     const SCOPE_USER = 'user';
 
     /**

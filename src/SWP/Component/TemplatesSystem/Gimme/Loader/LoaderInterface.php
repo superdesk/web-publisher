@@ -25,6 +25,7 @@ use SWP\Component\TemplatesSystem\Gimme\Meta\Meta;
 interface LoaderInterface
 {
     const SINGLE = 0;
+
     const COLLECTION = 1;
 
     /**

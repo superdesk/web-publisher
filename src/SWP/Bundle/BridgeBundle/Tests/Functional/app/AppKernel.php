@@ -21,6 +21,7 @@ use Symfony\Component\HttpKernel\Kernel;
 class AppKernel extends Kernel
 {
     private $testCase;
+
     private $rootConfig;
 
     public function __construct($testCase, $rootConfig, $environment, $debug)

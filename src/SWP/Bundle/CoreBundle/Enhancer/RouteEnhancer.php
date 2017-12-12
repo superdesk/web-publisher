@@ -29,6 +29,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 class RouteEnhancer implements RouteEnhancerInterface
 {
     const ARTICLE_META = '_article_meta';
+
     const ROUTE_META = '_route_meta';
 
     /**

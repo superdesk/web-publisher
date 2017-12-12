@@ -19,8 +19,11 @@ namespace SWP\Bundle\ElasticSearchBundle\Criteria;
 final class Order
 {
     const DEFAULT_FIELD = 'id';
+
     const DEFAULT_DIRECTION = self::ASCENDING_DIRECTION;
+
     const ASCENDING_DIRECTION = 'asc';
+
     const DESCENDING_DIRECTION = 'desc';
 
     /**

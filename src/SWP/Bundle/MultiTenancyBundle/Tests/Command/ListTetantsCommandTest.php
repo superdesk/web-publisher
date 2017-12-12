@@ -28,6 +28,7 @@ class ListTetantsCommandTest extends \PHPUnit_Framework_TestCase
     const ORGANIZATION_CODE = '123456';
 
     private $commandTester;
+
     private $command;
 
     public function setUp()

@@ -23,7 +23,9 @@ use SWP\Bundle\FixturesBundle\AbstractFixture;
 class LoadRoutesData extends AbstractFixture implements FixtureInterface, OrderedFixtureInterface
 {
     const TEST_CACHE_TIME = 1;
+
     const TEST_CACHE_ROUTE_NAME = 'cache-route';
+
     const TEST_NO_CACHE_ROUTE_NAME = 'no-cache-route';
 
     /** @var array */

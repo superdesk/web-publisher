@@ -19,7 +19,9 @@ use Symfony\Component\DependencyInjection\Reference;
 class TenantAwareRouterCompilerPassTest extends \PHPUnit_Framework_TestCase
 {
     private $container;
+
     private $definition;
+
     private $pass;
 
     public function setUp()
