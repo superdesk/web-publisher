@@ -25,7 +25,9 @@ use Symfony\Component\Console\Tester\CommandTester;
 class CreateOrganizationCommandTest extends \PHPUnit_Framework_TestCase
 {
     private $commandTester;
+
     private $command;
+
     private $question;
 
     public function setUp()

@@ -20,6 +20,7 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 class SWPCoreExtensionTest extends \PHPUnit_Framework_TestCase
 {
     private $extension;
+
     private $container;
 
     public function setUp()

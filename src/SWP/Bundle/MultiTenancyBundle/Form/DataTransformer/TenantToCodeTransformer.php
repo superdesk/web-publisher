@@ -29,6 +29,7 @@ final class TenantToCodeTransformer implements DataTransformerInterface
      * @var TenantRepositoryInterface
      */
     private $tenantRepository;
+
     /**
      * @var TenantContextInterface
      */

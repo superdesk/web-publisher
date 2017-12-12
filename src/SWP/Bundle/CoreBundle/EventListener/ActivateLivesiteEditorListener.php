@@ -31,6 +31,7 @@ use Twig\Environment;
 class ActivateLivesiteEditorListener
 {
     const ACTIVATION_KEY = 'activate_livesite_editor';
+
     const APPEND_SCRIPTS = 'append_livesite_editor_scripts';
 
     /**

@@ -26,8 +26,11 @@ use Symfony\Cmf\Bundle\CoreBundle\PublishWorkflow\PublishTimePeriodInterface;
 interface ArticleInterface extends TimestampableInterface, RuleSubjectInterface, TranslatableInterface, PersistableInterface, SoftDeletableInterface, PublishableInterface, PublishTimePeriodInterface, MetadataAwareInterface, MediaAwareArticleInterface
 {
     const STATUS_NEW = 'new';
+
     const STATUS_PUBLISHED = 'published';
+
     const STATUS_UNPUBLISHED = 'unpublished';
+
     const STATUS_CANCELED = 'canceled';
 
     const KEY_FEATURE_MEDIA = 'featuremedia';

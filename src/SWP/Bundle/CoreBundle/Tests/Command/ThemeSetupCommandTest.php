@@ -25,6 +25,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 class ThemeSetupCommandTest extends KernelTestCase
 {
     private $commandTester;
+
     private $command;
 
     public function setUp()

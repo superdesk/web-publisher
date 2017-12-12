@@ -19,6 +19,7 @@ namespace SWP\Component\Common\Response;
 interface ResponseContextInterface
 {
     const INTENTION_API = 'api';
+
     const INTENTION_TEMPLATE = 'template';
 
     /**

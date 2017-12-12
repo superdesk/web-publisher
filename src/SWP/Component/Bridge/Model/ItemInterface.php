@@ -22,8 +22,11 @@ use Doctrine\Common\Collections\Collection;
 interface ItemInterface extends ContentInterface
 {
     const TYPE_TEXT = 'text';
+
     const TYPE_FILE = 'file';
+
     const TYPE_PICTURE = 'picture';
+
     const TYPE_COMPOSITE = 'composite';
 
     /**
