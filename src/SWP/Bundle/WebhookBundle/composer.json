@@ -1,0 +1,42 @@
+{
+  "name": "swp/webhook-bundle",
+  "type": "symfony-bundle",
+  "description": "Webhooks support for Symfony projects.",
+  "keywords": ["webhook bundle", "webhook", "publisher"],
+  "license":"AGPL-3.0",
+  "authors": [
+    {
+      "name": "Paweł Mikołajczuk",
+      "email": "pawel.mikolajczuk@sourcefabric.org"
+    }
+  ],
+  "repositories": [
+    {
+      "type": "path",
+      "url": "../../Component/*"
+    }
+  ],
+  "require": {
+    "php": "^7.0",
+    "swp/webhook": "^1.2"
+  },
+  "require-dev": {
+    "phpspec/phpspec": "^2.4"
+  },
+  "autoload": {
+    "psr-4": { "SWP\\Bundle\\WebhookBundle\\": "" }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "SWP\\Bundle\\WebhookBundle\\Tests\\": "Tests/"
+    }
+  },
+  "config": {
+    "bin-dir": "bin"
+  },
+  "extra": {
+    "branch-alias": {
+      "dev-master": "1.2-dev"
+    }
+  }
+}

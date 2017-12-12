@@ -14,24 +14,18 @@
 
 namespace SWP\Bundle\CoreBundle\Controller;
 
-use Doctrine\ORM\OptimisticLockException;
-use FOS\RestBundle\Controller\FOSRestController;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
-use SWP\Bundle\WebhookBundle\Form\Type\WebhookType;
+use SWP\Bundle\WebhookBundle\Controller\AbstractAPIController;
 use SWP\Bundle\WebhookBundle\Model\WebhookInterface;
 use SWP\Component\Common\Response\ResourcesListResponse;
-use SWP\Component\Common\Response\ResponseContext;
 use SWP\Component\Common\Response\SingleResourceResponse;
-use SWP\Component\Common\Criteria\Criteria;
-use SWP\Component\Common\Pagination\PaginationData;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
-class WebhookController extends FOSRestController
+class WebhookController extends AbstractAPIController
 {
     /**
      * List all Webhook entities for current tenant.
@@ -51,22 +45,15 @@ class WebhookController extends FOSRestController
      *
      * @Method("GET")
      *
-     * @Cache(expires="10 minutes", public=true)
+     * @param Request $request
      *
-     * @throws NotFoundHttpException
+     * @Cache(expires="10 minutes", public=true)
      *
      * @return ResourcesListResponse
      */
     public function listAction(Request $request)
     {
-        $rules = $this->get('swp.repository.webhook')
-            ->getPaginatedByCriteria(new Criteria(), $request->query->get('sorting', []), new PaginationData($request));
-
-        if (0 === $rules->count()) {
-            throw new NotFoundHttpException('No webhooks were found.');
-        }
-
-        return new ResourcesListResponse($rules);
+        return parent::listWebhooks($this->container->get('swp.repository.webhook'), $request);
     }
 
     /**
@@ -89,11 +76,13 @@ class WebhookController extends FOSRestController
      *
      * @Cache(expires="10 minutes", public=true)
      *
+     * @param WebhookInterface $webhook
+     *
      * @return SingleResourceResponse
      */
     public function getAction(WebhookInterface $webhook)
     {
-        return new SingleResourceResponse($webhook);
+        return parent::getSingleWebhook($webhook);
     }
 
     /**
@@ -113,23 +102,16 @@ class WebhookController extends FOSRestController
      *
      * @Method("POST")
      *
+     * @param Request $request
+     *
      * @return SingleResourceResponse
      */
     public function createAction(Request $request)
     {
         $ruleRepository = $this->get('swp.repository.webhook');
+        $ruleFactory = $this->get('swp.factory.webhook');
 
-        $webhook = $this->get('swp.factory.webhook')->create();
-        $form = $this->createForm(WebhookType::class, $webhook);
-        $form->handleRequest($request);
-
-        if ($form->isValid()) {
-            $ruleRepository->add($webhook);
-
-            return new SingleResourceResponse($webhook, new ResponseContext(201));
-        }
-
-        return new SingleResourceResponse($form, new ResponseContext(400));
+        return parent::createWebhook($ruleRepository, $ruleFactory, $request);
     }
 
     /**
@@ -155,9 +137,8 @@ class WebhookController extends FOSRestController
     public function deleteAction(WebhookInterface $webhook)
     {
         $webhookRepository = $this->get('swp.repository.webhook');
-        $webhookRepository->remove($webhook);
 
-        return new SingleResourceResponse(null, new ResponseContext(204));
+        return parent::deleteWebhook($webhookRepository, $webhook);
     }
 
     /**
@@ -184,26 +165,12 @@ class WebhookController extends FOSRestController
      * @param Request          $request
      * @param WebhookInterface $webhook
      *
-     * @throws OptimisticLockException
-     *
      * @return SingleResourceResponse
      */
     public function updateAction(Request $request, WebhookInterface $webhook)
     {
         $objectManager = $this->get('swp.object_manager.webhook');
 
-        $form = $this->createForm(WebhookType::class, $webhook, [
-            'method' => $request->getMethod(),
-        ]);
-
-        $form->handleRequest($request);
-        if ($form->isValid()) {
-            $objectManager->flush();
-            $objectManager->refresh($webhook);
-
-            return new SingleResourceResponse($webhook);
-        }
-
-        return new SingleResourceResponse($form, new ResponseContext(400));
+        return parent::updateWebhook($objectManager, $request, $webhook);
     }
 }

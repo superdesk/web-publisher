@@ -19,8 +19,6 @@ namespace SWP\Bundle\WebhookBundle\DependencyInjection;
 use SWP\Bundle\StorageBundle\Drivers;
 use SWP\Bundle\StorageBundle\DependencyInjection\Extension\Extension;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\Config\FileLocator;
-use Symfony\Component\DependencyInjection\Loader;
 
 /**
  * This is the class that loads and manages your bundle configuration.
@@ -35,8 +33,6 @@ class SWPWebhookExtension extends Extension
     public function load(array $configs, ContainerBuilder $container)
     {
         $config = $this->processConfiguration(new Configuration(), $configs);
-        $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
-        $loader->load('services.yml');
 
         if ($config['persistence']['orm']['enabled']) {
             $this->registerStorage(Drivers::DRIVER_DOCTRINE_ORM, $config['persistence']['orm']['classes'], $container);

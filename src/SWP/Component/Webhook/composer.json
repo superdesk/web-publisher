@@ -11,5 +11,10 @@
             "name": "Paweł Mikołajczuk",
             "email": "pawel.mikolajczuk@sourcefabric.org"
         }
-    ]
+    ],
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.2-dev"
+        }
+    }
 }
