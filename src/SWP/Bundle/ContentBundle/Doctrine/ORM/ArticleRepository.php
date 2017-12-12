@@ -90,7 +90,9 @@ class ArticleRepository extends EntityRepository implements ArticleRepositoryInt
             ->where('a.status = :status')
             ->setParameter('status', $criteria->get('status', ArticleInterface::STATUS_PUBLISHED))
             ->leftJoin('a.media', 'm')
-            ->addSelect('m');
+            ->leftJoin('m.renditions', 'r')
+            ->leftJoin('a.sources', 's')
+            ->addSelect('m', 's', 'r');
 
         $this->applyCustomFiltering($queryBuilder, $criteria);
         $this->applyCriteria($queryBuilder, $criteria, 'a');
