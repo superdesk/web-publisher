@@ -20,7 +20,9 @@ namespace SWP\Component\Storage\Bundle;
 interface BundleInterface
 {
     const MAPPING_XML = 'xml';
+
     const MAPPING_YAML = 'yaml';
+
     const MAPPING_ANNOTATION = 'annotation';
 
     /**

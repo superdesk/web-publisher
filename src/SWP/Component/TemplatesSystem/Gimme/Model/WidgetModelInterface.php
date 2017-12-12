@@ -20,7 +20,9 @@ namespace SWP\Component\TemplatesSystem\Gimme\Model;
 interface WidgetModelInterface
 {
     const TYPE_HTML = 1;
+
     const TYPE_ADSENSE = 2;
+
     const TYPE_MENU = 3;
 
     /**

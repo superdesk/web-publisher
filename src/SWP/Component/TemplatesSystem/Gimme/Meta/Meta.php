@@ -163,7 +163,7 @@ class Meta implements MetaInterface
      * Fill Meta from object. Object must have public getters for properties.
      *
      * @param mixed $values        Object with public getters for properties
-     * @param       $configuration
+     * @param array $configuration
      *
      * @return bool
      */
@@ -185,7 +185,7 @@ class Meta implements MetaInterface
      * Get exposed properties (according to configuration) from provided values.
      *
      * @param array $values
-     * @param       $configuration
+     * @param array $configuration
      *
      * @return array
      */
@@ -214,7 +214,7 @@ class Meta implements MetaInterface
     {
         json_decode($string);
 
-        return JSON_ERROR_NONE == json_last_error();
+        return JSON_ERROR_NONE === json_last_error();
     }
 
     /**

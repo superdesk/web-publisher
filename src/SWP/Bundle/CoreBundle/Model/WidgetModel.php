@@ -25,6 +25,7 @@ use SWP\Component\MultiTenancy\Model\TenantAwareTrait;
 class WidgetModel extends BaseWidgetModel implements WidgetModelInterface, TenantAwareInterface
 {
     const TYPE_LIST = 4;
+
     const TYPE_LIVEBLOG = 5;
 
     use TenantAwareTrait;

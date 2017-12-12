@@ -46,6 +46,8 @@ class ArticleMediaLoader extends PaginatedLoader implements LoaderInterface
      */
     protected $articleMediaProvider;
 
+    private $mediaCache = [];
+
     /**
      * ArticleMediaLoader constructor.
      *
@@ -65,6 +67,11 @@ class ArticleMediaLoader extends PaginatedLoader implements LoaderInterface
      */
     public function load($type, $parameters = [], $withoutParameters = [], $responseType = LoaderInterface::COLLECTION)
     {
+        $mediaKey = md5($type.json_encode([$parameters, $withoutParameters]).$responseType);
+        if (isset($this->mediaCache[$mediaKey])) {
+            return $this->mediaCache[$mediaKey];
+        }
+
         if (LoaderInterface::COLLECTION === $responseType) {
             $criteria = new Criteria();
             $criteria->set('maxResults', null);
@@ -80,9 +87,7 @@ class ArticleMediaLoader extends PaginatedLoader implements LoaderInterface
             $criteria = $this->applyPaginationToCriteria($criteria, $parameters);
             $media = $criteria->get('article')->getMedia();
 
-            if (($media instanceof PersistentCollection
-                && $media->isInitialized())
-                || $media instanceof ArrayCollection) {
+            if (($media instanceof PersistentCollection && $media->isInitialized()) || $media instanceof ArrayCollection) {
                 $collectionCriteria = new \Doctrine\Common\Collections\Criteria(
                     null,
                     $criteria->get('order'),
@@ -102,6 +107,7 @@ class ArticleMediaLoader extends PaginatedLoader implements LoaderInterface
                 foreach ($media as $item) {
                     $metaCollection->add($this->metaFactory->create($item));
                 }
+                $this->mediaCache[$mediaKey] = $metaCollection;
 
                 return $metaCollection;
             }

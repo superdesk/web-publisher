@@ -17,5 +17,6 @@ namespace SWP\Component\Common\Pagination;
 interface PaginationInterface
 {
     const PAGE_PARAMETER_NAME = 'page';
+
     const LIMIT_PARAMETER_NAME = 'limit';
 }

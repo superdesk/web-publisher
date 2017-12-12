@@ -17,6 +17,8 @@ namespace SWP\Bundle\StorageBundle;
 class Drivers
 {
     const DRIVER_DOCTRINE_ORM = 'orm';
+
     const DRIVER_DOCTRINE_MONGODB_ODM = 'mongodb';
+
     const DRIVER_DOCTRINE_PHPCR_ODM = 'phpcr';
 }

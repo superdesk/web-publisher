@@ -19,6 +19,7 @@ namespace SWP\Bundle\ElasticSearchBundle\Criteria;
 final class Pagination
 {
     const DEFAULT_CURRENT_PAGE = 1;
+
     const DEFAULT_ITEMS_PER_PAGE = 10;
 
     /**
