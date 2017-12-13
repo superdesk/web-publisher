@@ -12,6 +12,9 @@
             "email": "pawel.mikolajczuk@sourcefabric.org"
         }
     ],
+    "autoload": {
+        "psr-4": { "SWP\\Component\\Webhook\\": "" }
+    },
     "extra": {
         "branch-alias": {
             "dev-master": "1.2-dev"

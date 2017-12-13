@@ -110,8 +110,9 @@ class WebhookController extends AbstractAPIController
     {
         $ruleRepository = $this->get('swp.repository.webhook');
         $ruleFactory = $this->get('swp.factory.webhook');
+        $formFactory = $this->ge('form.factory');
 
-        return parent::createWebhook($ruleRepository, $ruleFactory, $request);
+        return parent::createWebhook($ruleRepository, $ruleFactory, $request, $formFactory);
     }
 
     /**
@@ -170,7 +171,8 @@ class WebhookController extends AbstractAPIController
     public function updateAction(Request $request, WebhookInterface $webhook)
     {
         $objectManager = $this->get('swp.object_manager.webhook');
+        $formFactory = $this->ge('form.factory');
 
-        return parent::updateWebhook($objectManager, $request, $webhook);
+        return parent::updateWebhook($objectManager, $request, $webhook, $formFactory);
     }
 }

@@ -16,20 +16,24 @@
       "url": "../../Component/*"
     }
   ],
+  "minimum-stability": "dev",
   "require": {
-    "php": "^7.0",
-    "swp/webhook": "^1.2"
+    "php": "^7.1",
+    "swp/webhook": "^1.2",
+    "swp/storage-bundle": "^1.2",
+    "symfony/form": "^3.4"
   },
   "require-dev": {
     "phpspec/phpspec": "^2.4"
   },
   "autoload": {
+    "exclude-from-classmap": [
+      "spec/"
+    ],
     "psr-4": { "SWP\\Bundle\\WebhookBundle\\": "" }
   },
   "autoload-dev": {
-    "psr-4": {
-      "SWP\\Bundle\\WebhookBundle\\Tests\\": "Tests/"
-    }
+    "psr-4": { "SWP\\Bundle\\WebhookBundle\\spec\\": "spec/" }
   },
   "config": {
     "bin-dir": "bin"

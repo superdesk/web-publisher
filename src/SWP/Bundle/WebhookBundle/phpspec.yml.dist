@@ -1,0 +1,5 @@
+suites:
+    main:
+        namespace: SWP\Bundle\WebhookBundle
+        psr4_prefix: SWP\Bundle\WebhookBundle
+        src_path: .

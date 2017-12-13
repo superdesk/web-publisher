@@ -19,6 +19,9 @@ namespace SWP\Bundle\WebhookBundle\Model;
 use SWP\Component\Storage\Model\PersistableInterface;
 use SWP\Component\Webhook\Model\WebhookInterface as BaseWebhookInterface;
 
+/**
+ * Interface WebhookInterface.
+ */
 interface WebhookInterface extends BaseWebhookInterface, PersistableInterface
 {
     /**
