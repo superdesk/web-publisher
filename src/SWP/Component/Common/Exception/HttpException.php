@@ -23,6 +23,7 @@ namespace SWP\Component\Common\Exception;
 class HttpException extends \RuntimeException
 {
     private $statusCode;
+
     private $headers;
 
     /**
