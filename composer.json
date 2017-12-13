@@ -92,7 +92,8 @@
         "doctrine/doctrine-migrations-bundle": "^1.0",
         "layershifter/tld-extract": "^1.2",
         "friendsofsymfony/elastica-bundle": "^4.0",
-        "php-amqplib/rabbitmq-bundle": "^1.13"
+        "php-amqplib/rabbitmq-bundle": "^1.13",
+        "behat-extension/doctrine-data-fixtures-extension": "^4.0"
     },
     "require-dev": {
         "phpspec/phpspec": "^2.4",

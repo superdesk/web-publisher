@@ -29,7 +29,7 @@ final class OrganizationSubscriber implements EventSubscriber
     /**
      * @var ContainerInterface
      */
-    protected $container;
+    private $container;
 
     /**
      * Constructor.
