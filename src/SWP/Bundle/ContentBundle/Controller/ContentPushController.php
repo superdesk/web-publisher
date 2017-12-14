@@ -49,47 +49,30 @@ class ContentPushController extends Controller
     public function pushContentAction(Request $request)
     {
         $content = $request->getContent();
-        /** @var PackageInterface $package */
+        $dispatcher = $this->get('event_dispatcher');
         $package = $this->get('swp_bridge.transformer.json_to_package')->transform($content);
-        $this->get('event_dispatcher')->dispatch(Events::SWP_VALIDATION, new GenericEvent($package));
+        $dispatcher->dispatch(Events::SWP_VALIDATION, new GenericEvent($package));
 
-        /** @var PackageInterface $existingPackage */
         $existingPackage = $this->findExistingPackage($package);
-
         if (null !== $existingPackage) {
             $objectManager = $this->get('swp.object_manager.package');
             $package->setId($existingPackage->getId());
             $package->setCreatedAt($existingPackage->getCreatedAt());
-            $this->get('event_dispatcher')->dispatch(Events::PACKAGE_PRE_UPDATE, new GenericEvent(
-                $package,
-                ['eventName' => Events::PACKAGE_PRE_UPDATE]
-            ));
+            $this->get('event_dispatcher')->dispatch(Events::PACKAGE_PRE_UPDATE, new GenericEvent($package, ['eventName' => Events::PACKAGE_PRE_UPDATE]));
 
             $package = $objectManager->merge($package);
             $objectManager->flush();
 
-            $this->get('event_dispatcher')->dispatch(Events::PACKAGE_POST_UPDATE, new GenericEvent(
-                $package,
-                ['eventName' => Events::PACKAGE_POST_UPDATE]
-            ));
-
-            $this->get('event_dispatcher')->dispatch(Events::PACKAGE_POST_UPDATE, new GenericEvent(
-                $package,
-                ['eventName' => Events::PACKAGE_PROCESSED]
-            ));
+            $dispatcher->dispatch(Events::PACKAGE_POST_UPDATE, new GenericEvent($package, ['eventName' => Events::PACKAGE_POST_UPDATE]));
+            $dispatcher->dispatch(Events::PACKAGE_POST_UPDATE, new GenericEvent($package, ['eventName' => Events::PACKAGE_PROCESSED]));
 
             return new SingleResourceResponse(['status' => 'OK'], new ResponseContext(201));
         }
 
-        $this->get('event_dispatcher')->dispatch(Events::PACKAGE_PRE_CREATE, new GenericEvent(
-            $package,
-            ['eventName' => Events::PACKAGE_PRE_CREATE]
-        ));
+        $dispatcher->dispatch(Events::PACKAGE_PRE_CREATE, new GenericEvent($package, ['eventName' => Events::PACKAGE_PRE_CREATE]));
         $this->getPackageRepository()->add($package);
-        $this->get('event_dispatcher')->dispatch(Events::PACKAGE_POST_CREATE, new GenericEvent(
-            $package,
-            ['eventName' => Events::PACKAGE_POST_CREATE]
-        ));
+        $dispatcher->dispatch(Events::PACKAGE_POST_CREATE, new GenericEvent($package, ['eventName' => Events::PACKAGE_POST_CREATE]));
+        $dispatcher->dispatch(Events::PACKAGE_POST_UPDATE, new GenericEvent($package, ['eventName' => Events::PACKAGE_PROCESSED]));
 
         return new SingleResourceResponse(['status' => 'OK', 'package' => ['id' => $package->getId()]], new ResponseContext(201));
     }
@@ -123,9 +106,8 @@ class ContentPushController extends Controller
             if ($uploadedFile->isValid()) {
                 $image = $this->get('swp.repository.image')->findImageByAssetId(ArticleMedia::handleMediaId($mediaId));
 
-                if (null == $image) {
+                if (null === $image) {
                     $image = $mediaManager->handleUploadedFile($uploadedFile, $mediaId);
-
                     $this->get('swp.object_manager.media')->flush();
                 }
 
