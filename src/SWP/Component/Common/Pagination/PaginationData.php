@@ -50,6 +50,11 @@ class PaginationData implements PaginationInterface
      */
     protected $orderAliases = [];
 
+    /**
+     * PaginationData constructor.
+     *
+     * @param Request|null $request
+     */
     public function __construct(Request $request = null)
     {
         if (null !== $request) {
@@ -114,7 +119,7 @@ class PaginationData implements PaginationInterface
      */
     public function setOrder(array $order)
     {
-        if (2 == count($order) && in_array(strtolower($order[1]), ['asc', 'desc'])) {
+        if (2 === count($order) && in_array(strtolower($order[1]), ['asc', 'desc'])) {
             $this->orderDirection = $order[1];
             $fields = array();
             $aliases = array();
@@ -159,7 +164,7 @@ class PaginationData implements PaginationInterface
      */
     public function resolveFromRequest(Request $request)
     {
-        $this->setPageNumber((int) $request->get(self::PAGE_PARAMETER_NAME, 1));
-        $this->setLimit((int) $request->get(self::LIMIT_PARAMETER_NAME, 10));
+        $this->setPageNumber((int) $request->get(PaginationInterface::PAGE_PARAMETER_NAME, 1));
+        $this->setLimit((int) $request->get(PaginationInterface::LIMIT_PARAMETER_NAME, 10));
     }
 }

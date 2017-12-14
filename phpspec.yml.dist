@@ -87,6 +87,11 @@ suites:
         psr4_prefix: SWP\Bundle\FacebookInstantArticlesBundle
         spec_path: src/SWP/Bundle/FacebookInstantArticlesBundle
         src_path: src/SWP/Bundle/FacebookInstantArticlesBundle
+    WebhookBundle_suite:
+        namespace: SWP\Bundle\WebhookBundle
+        psr4_prefix: SWP\Bundle\WebhookBundle
+        spec_path: src/SWP/Bundle/WebhookBundle
+        src_path: src/SWP/Bundle/WebhookBundle
 
 #extensions:
 #    - PhpSpec\Extension\CodeCoverageExtension

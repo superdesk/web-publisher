@@ -1,0 +1,18 @@
+SWP\Bundle\WebhookBundle\Model\Webhook:
+    type:  mappedSuperclass
+    table: swp_webhook
+    id:
+        id:
+            type: integer
+            generator:
+                strategy: AUTO
+    fields:
+        enabled:
+            type: boolean
+            nullable: true
+        url:
+            type: string
+            nullable: false
+        events:
+            type: string
+            nullable: true

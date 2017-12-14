@@ -1,0 +1,18 @@
+SWP\Bundle\CoreBundle\Model\Webhook:
+    type: mappedSuperclass
+    table: swp_webhook
+    fields:
+        tenantCode:
+            type: string
+            nullable: true
+        createdAt:
+            type: datetime
+            gedmo:
+                timestampable:
+                    on: create
+        updatedAt:
+            type: datetime
+            nullable: true
+            gedmo:
+                timestampable:
+                    on: update

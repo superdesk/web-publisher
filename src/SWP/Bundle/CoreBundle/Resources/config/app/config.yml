@@ -208,6 +208,16 @@ swp_user:
                     model: SWP\Bundle\CoreBundle\Model\User
                     interface: SWP\Bundle\CoreBundle\Model\UserInterface
 
+swp_webhook:
+    persistence:
+        orm:
+            enabled: true
+            classes:
+                webhook:
+                    model: SWP\Bundle\CoreBundle\Model\Webhook
+                    interface: SWP\Bundle\CoreBundle\Model\WebhookInterface
+                    repository: SWP\Bundle\CoreBundle\Repository\WebhookRepository
+
 swp_settings:
     persistence:
         orm:
@@ -256,3 +266,30 @@ swp_settings:
 swp_analytics:
     metrics_listener:
         enabled: false
+
+old_sound_rabbit_mq:
+    connections:
+        default:
+            host:     '%env(rabbit_mq_host)%'
+            port:     '%env(rabbit_mq_port)%'
+            user:     '%env(rabbit_mq_user)%'
+            password: '%env(rabbit_mq_password)%'
+            vhost:    '/'
+            lazy:     true
+            connection_timeout: 3
+            read_write_timeout: 3
+            # requires php-amqplib v2.4.1+ and PHP5.4+
+            keepalive: false
+            # requires php-amqplib v2.4.1+
+            heartbeat: 0
+    producers:
+        send_webhook:
+            connection:       default
+            exchange_options: {name: 'send_webhook', type: direct}
+    consumers:
+        send_webhook:
+            connection:       default
+            exchange_options: {name: 'send_webhook', type: direct}
+            queue_options:    {name: 'send_webhook'}
+            callback:         SWP\Bundle\CoreBundle\Consumer\SendWebhookConsumer
+

@@ -73,7 +73,7 @@ final class CanceledPackageListener
         $this->eventDispatcher->dispatch(MultiTenancyEvents::TENANTABLE_DISABLE);
 
         foreach ($this->articleRepository->findBy(['package' => $package]) as $article) {
-            $this->eventDispatcher->dispatch(ArticleEvents::CANCELED, new ArticleEvent($article));
+            $this->eventDispatcher->dispatch(ArticleEvents::CANCELED, new ArticleEvent($article, null, ArticleEvents::CANCELED));
         }
 
         $this->articleManager->flush();

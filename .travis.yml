@@ -48,6 +48,7 @@ before_script:
   - composer $COMPOSER_FLAGS --no-interaction --prefer-dist
 
 script:
+  - bin/behat -f progress
   - bin/phpspec run
   - bin/phpunit -c app/
   - cd src/SWP/Bundle/BridgeBundle && composer $COMPOSER_FLAGS --no-interaction --prefer-dist && bin/phpunit

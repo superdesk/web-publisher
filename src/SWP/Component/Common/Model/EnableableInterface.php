@@ -33,4 +33,14 @@ interface EnableableInterface
      * @return bool Whether true or false
      */
     public function isEnabled();
+
+    /**
+     * Sets $enabled to true.
+     */
+    public function enable();
+
+    /**
+     * Sets $enabled to false.
+     */
+    public function disable();
 }

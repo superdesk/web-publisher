@@ -107,7 +107,13 @@
         "liip/rmt": "dev-master",
         "pixers/doctrine-profiler-bundle": "^1.0",
         "escapestudios/symfony2-coding-standard": "3.x-dev",
-        "symfony/web-server-bundle": "^3.3"
+        "symfony/web-server-bundle": "^3.3",
+        "behat/behat": "^3.4",
+        "behat/mink": "^1.7",
+        "behat/mink-browserkit-driver": "^1.3",
+        "behat/symfony2-extension": "^2.1",
+        "behatch/contexts": "^3.0",
+        "behat-extension/doctrine-data-fixtures-extension": "^4.0"
     },
     "replace": {
         "swp/common": "self.version",

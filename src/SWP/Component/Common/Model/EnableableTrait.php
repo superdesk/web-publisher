@@ -35,4 +35,20 @@ trait EnableableTrait
     {
         $this->enabled = $enabled;
     }
+
+    /**
+     * Set $enabled to true.
+     */
+    public function enable()
+    {
+        $this->enabled = true;
+    }
+
+    /**
+     * Set $enabled to false.
+     */
+    public function disable()
+    {
+        $this->enabled = false;
+    }
 }

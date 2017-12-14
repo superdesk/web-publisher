@@ -26,7 +26,7 @@ class RouteEventSpec extends ObjectBehavior
 {
     public function let(RouteInterface $route)
     {
-        $this->beConstructedWith($route);
+        $this->beConstructedWith($route, 'eventName');
     }
 
     public function it_is_initializable()
