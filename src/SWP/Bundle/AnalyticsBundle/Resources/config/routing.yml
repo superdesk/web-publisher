@@ -1,4 +1,0 @@
-swp_analytics:
-    resource: "@SWPAnalyticsBundle/Controller/"
-    type: annotation
-    prefix: /

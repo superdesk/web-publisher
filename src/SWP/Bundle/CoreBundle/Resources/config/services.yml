@@ -114,7 +114,7 @@ services:
         class: SWP\Bundle\CoreBundle\EventListener\ActivateLivesiteEditorListener
         arguments:
             - '@security.token_storage'
-            - '@twig'
+            - '%kernel.environment%'
         tags:
             - { name: kernel.event_listener, event: kernel.response, method: onKernelResponse }
 

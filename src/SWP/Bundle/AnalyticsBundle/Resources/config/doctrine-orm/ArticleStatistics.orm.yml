@@ -1,0 +1,28 @@
+SWP\Bundle\AnalyticsBundle\Model\ArticleStatistics:
+    type:  mappedSuperclass
+    table: swp_article_statistics
+    id:
+        id:
+            type: integer
+            generator:
+                strategy: AUTO
+    fields:
+        impressionsNumber:
+            type: integer
+            nullable: true
+        pageViewsNumber:
+            type: integer
+            nullable: true
+    oneToOne:
+        article:
+            targetEntity: SWP\Bundle\ContentBundle\Model\ArticleInterface
+            joinColumn:
+                name: article_id
+                referencedColumnName: id
+                nullable: false
+    oneToMany:
+        events:
+            targetEntity: SWP\Bundle\AnalyticsBundle\Model\ArticleEventsInterface
+            mappedBy: articleStatistics
+            orphanRemoval: true
+            cascade: ["all"]

@@ -1,0 +1,6 @@
+SWP\Bundle\CoreBundle\Model\ArticleEvents:
+    type:  mappedSuperclass
+    table: swp_article_events
+    fields:
+        tenantCode:
+            type: string

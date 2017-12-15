@@ -266,6 +266,14 @@ swp_settings:
 swp_analytics:
     metrics_listener:
         enabled: false
+    persistence:
+        orm:
+            enabled: true
+            classes:
+                article_statistics:
+                    model: SWP\Bundle\CoreBundle\Model\ArticleStatistics
+                article_events:
+                    model: SWP\Bundle\CoreBundle\Model\ArticleEvents
 
 old_sound_rabbit_mq:
     connections:

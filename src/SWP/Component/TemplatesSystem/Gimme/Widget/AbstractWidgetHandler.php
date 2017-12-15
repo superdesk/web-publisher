@@ -57,11 +57,11 @@ abstract class AbstractWidgetHandler implements WidgetHandlerInterface
     }
 
     /**
-     * @param $name
+     * @param string $name
      *
      * @return null|string
      */
-    protected function getModelParameter($name)
+    protected function getModelParameter(string $name)
     {
         if (isset($this->widgetModel->getParameters()[$name])) {
             return $this->widgetModel->getParameters()[$name];

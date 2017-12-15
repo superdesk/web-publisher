@@ -14,8 +14,35 @@
 
 namespace SWP\Bundle\AnalyticsBundle;
 
-use Symfony\Component\HttpKernel\Bundle\Bundle;
+use SWP\Bundle\StorageBundle\Drivers;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
+use SWP\Bundle\StorageBundle\DependencyInjection\Bundle\Bundle;
 
 class SWPAnalyticsBundle extends Bundle
 {
+    /**
+     * {@inheritdoc}
+     */
+    public function build(ContainerBuilder $container)
+    {
+        parent::build($container);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getSupportedDrivers()
+    {
+        return [
+            Drivers::DRIVER_DOCTRINE_ORM,
+        ];
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getModelClassNamespace()
+    {
+        return 'SWP\Bundle\AnalyticsBundle\Model';
+    }
 }

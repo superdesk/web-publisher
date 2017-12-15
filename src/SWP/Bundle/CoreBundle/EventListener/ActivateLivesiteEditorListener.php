@@ -23,7 +23,6 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\FilterResponseEvent;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
-use Twig\Environment;
 
 /**
  * Class ActivateLivesiteEditorListener.
@@ -40,19 +39,20 @@ class ActivateLivesiteEditorListener
     protected $securityTokenStorage;
 
     /**
-     * @var Environment
+     * @var string
      */
-    protected $twig;
+    protected $env;
 
     /**
      * ActivateLivesiteEditorListener constructor.
      *
      * @param TokenStorageInterface $tokenStorage
+     * @param string                $env
      */
-    public function __construct(TokenStorageInterface $tokenStorage, Environment $twig)
+    public function __construct(TokenStorageInterface $tokenStorage, string $env)
     {
         $this->securityTokenStorage = $tokenStorage;
-        $this->twig = $twig;
+        $this->env = $env;
     }
 
     /**
@@ -82,7 +82,8 @@ class ActivateLivesiteEditorListener
     }
 
     /**
-     * Injects the required scripts into the given Response.
+     * @param Response $response
+     * @param Request  $request
      */
     protected function injectScripts(Response $response, Request $request)
     {
@@ -98,9 +99,21 @@ class ActivateLivesiteEditorListener
         $content = str_replace('<html ', '<html ng-app="livesite-management" ', $content);
         $pos = strripos($content, '</body>');
         if (false !== $pos) {
-            $toolbar = "\n".str_replace("\n", '', $this->twig->render('livesite_editor/scripts.html.twig'))."\n";
+            $toolbar = "\n".str_replace("\n", '', $this->getLivesiteEditorScript($this->env))."\n";
             $content = substr($content, 0, $pos).$toolbar.substr($content, $pos);
             $response->setContent($content);
         }
+    }
+
+    /**
+     * @param string $env
+     *
+     * @return string
+     */
+    private function getLivesiteEditorScript(string $env)
+    {
+        $script = $env === 'prod' ? 'app.js' : 'app_dev.js';
+
+        return '<script src="/livesite_editor/assets/'.$script.'"></script>';
     }
 }

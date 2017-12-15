@@ -14,6 +14,12 @@
 
 namespace SWP\Bundle\AnalyticsBundle\DependencyInjection;
 
+use SWP\Bundle\AnalyticsBundle\Model\ArticleEvents;
+use SWP\Bundle\AnalyticsBundle\Model\ArticleEventsInterface;
+use SWP\Bundle\AnalyticsBundle\Model\ArticleStatistics;
+use SWP\Bundle\AnalyticsBundle\Model\ArticleStatisticsInterface;
+use SWP\Bundle\StorageBundle\Doctrine\ORM\EntityRepository;
+use SWP\Component\Storage\Factory\Factory;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
 
@@ -30,10 +36,44 @@ class Configuration implements ConfigurationInterface
     public function getConfigTreeBuilder()
     {
         $treeBuilder = new TreeBuilder();
-        $rootNode = $treeBuilder->root('swp_analytics', 'array');
-
-        $rootNode
+        $treeBuilder->root('swp_analytics')
             ->children()
+                ->arrayNode('persistence')
+                    ->addDefaultsIfNotSet()
+                    ->children()
+                        ->arrayNode('orm')
+                            ->addDefaultsIfNotSet()
+                            ->canBeEnabled()
+                            ->children()
+                                ->arrayNode('classes')
+                                ->addDefaultsIfNotSet()
+                                ->children()
+                                    ->arrayNode('article_statistics')
+                                        ->addDefaultsIfNotSet()
+                                        ->children()
+                                            ->scalarNode('model')->cannotBeEmpty()->defaultValue(ArticleStatistics::class)->end()
+                                            ->scalarNode('repository')->defaultValue(EntityRepository::class)->end()
+                                            ->scalarNode('factory')->defaultValue(Factory::class)->end()
+                                            ->scalarNode('interface')->defaultValue(ArticleStatisticsInterface::class)->end()
+                                            ->scalarNode('object_manager_name')->defaultValue(null)->end()
+                                        ->end()
+                                    ->end()
+                                    ->arrayNode('article_events')
+                                        ->addDefaultsIfNotSet()
+                                        ->children()
+                                            ->scalarNode('model')->cannotBeEmpty()->defaultValue(ArticleEvents::class)->end()
+                                            ->scalarNode('repository')->defaultValue(EntityRepository::class)->end()
+                                            ->scalarNode('factory')->defaultValue(Factory::class)->end()
+                                            ->scalarNode('interface')->defaultValue(ArticleEventsInterface::class)->end()
+                                            ->scalarNode('object_manager_name')->defaultValue(null)->end()
+                                        ->end()
+                                    ->end()
+                                ->end() // children
+                                ->end() // classes
+                            ->end()
+                        ->end()
+                    ->end()
+                ->end()
                 ->arrayNode('metrics_listener')
                     ->addDefaultsIfNotSet()
                     ->canBeDisabled()

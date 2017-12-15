@@ -1,0 +1,23 @@
+SWP\Bundle\AnalyticsBundle\Model\ArticleEvents:
+    type:  mappedSuperclass
+    table: swp_article_events
+    id:
+        id:
+            type: integer
+            generator:
+                strategy: AUTO
+    fields:
+        action:
+            type: string
+            nullable: true
+        value:
+            type: string
+            nullable: true
+    manyToOne:
+        articleStatistics:
+            targetEntity: SWP\Bundle\AnalyticsBundle\Model\ArticleStatisticsInterface
+            joinColumn:
+                name: article_statistics_id
+                referencedColumnName: id
+                onDelete: CASCADE
+                nullable: false
