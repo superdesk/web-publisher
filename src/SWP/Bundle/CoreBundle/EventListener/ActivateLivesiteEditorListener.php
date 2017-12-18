@@ -112,7 +112,7 @@ class ActivateLivesiteEditorListener
      */
     private function getLivesiteEditorScript(string $env)
     {
-        $script = $env === 'prod' ? 'app.js' : 'app_dev.js';
+        $script = 'prod' === $env ? 'app.js' : 'app_dev.js';
 
         return '<script src="/livesite_editor/assets/'.$script.'"></script>';
     }

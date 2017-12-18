@@ -74,6 +74,7 @@ class LimitSubqueryWalker extends TreeWalkerAdapter
             // Preserve mixed data in query for ordering.
             if (isset($qComp['resultVariable'])) {
                 $selectExpressions[] = new SelectExpression($qComp['resultVariable'], $dqlAlias);
+
                 continue;
             }
         }
@@ -159,7 +160,7 @@ class LimitSubqueryWalker extends TreeWalkerAdapter
      */
     private function createSelectExpressionItem(PathExpression $pathExpression)
     {
-        if ($pathExpression->type === PathExpression::TYPE_SINGLE_VALUED_ASSOCIATION) {
+        if (PathExpression::TYPE_SINGLE_VALUED_ASSOCIATION === $pathExpression->type) {
             $identity = new IdentityFunction('identity');
 
             $identity->pathExpression = clone $pathExpression;

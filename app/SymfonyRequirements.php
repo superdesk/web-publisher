@@ -33,9 +33,13 @@
 class Requirement
 {
     private $fulfilled;
+
     private $testMessage;
+
     private $helpText;
+
     private $helpHtml;
+
     private $optional;
 
     /**
@@ -260,7 +264,7 @@ class RequirementCollection implements IteratorAggregate
      *
      * @param RequirementCollection $collection A RequirementCollection instance
      */
-    public function addCollection(RequirementCollection $collection)
+    public function addCollection(self $collection)
     {
         $this->requirements = array_merge($this->requirements, $collection->all());
     }
@@ -380,6 +384,7 @@ class RequirementCollection implements IteratorAggregate
 class SymfonyRequirements extends RequirementCollection
 {
     const LEGACY_REQUIRED_PHP_VERSION = '5.3.3';
+
     const REQUIRED_PHP_VERSION = '5.5.9';
 
     /**
@@ -731,7 +736,7 @@ class SymfonyRequirements extends RequirementCollection
             'Install and/or enable a <strong>PHP accelerator</strong> (highly recommended).'
         );
 
-        if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
+        if ('WIN' === strtoupper(substr(PHP_OS, 0, 3))) {
             $this->addRecommendation(
                 $this->getRealpathCacheSize() >= 5 * 1024 * 1024,
                 'realpath_cache_size should be at least 5M in php.ini',

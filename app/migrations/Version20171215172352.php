@@ -16,7 +16,7 @@ class Version20171215172352 extends AbstractMigration
     public function up(Schema $schema)
     {
         // this up() migration is auto-generated, please modify it to your needs
-        $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'postgresql', 'Migration can only be executed safely on \'postgresql\'.');
+        $this->abortIf('postgresql' !== $this->connection->getDatabasePlatform()->getName(), 'Migration can only be executed safely on \'postgresql\'.');
 
         $this->addSql('ALTER TABLE swp_article_events ADD created_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL');
         $this->addSql('ALTER TABLE swp_article_events ADD updated_at TIMESTAMP(0) WITHOUT TIME ZONE DEFAULT NULL');
@@ -30,7 +30,7 @@ class Version20171215172352 extends AbstractMigration
     public function down(Schema $schema)
     {
         // this down() migration is auto-generated, please modify it to your needs
-        $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'postgresql', 'Migration can only be executed safely on \'postgresql\'.');
+        $this->abortIf('postgresql' !== $this->connection->getDatabasePlatform()->getName(), 'Migration can only be executed safely on \'postgresql\'.');
 
         $this->addSql('ALTER TABLE swp_article_events DROP created_at');
         $this->addSql('ALTER TABLE swp_article_events DROP updated_at');

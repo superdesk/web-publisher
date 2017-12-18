@@ -40,7 +40,7 @@ class ArticleEventsExtension extends AbstractExtension
      */
     public function renderPageViewCount(Meta $meta)
     {
-        $jsTemplate = <<<EOT
+        $jsTemplate = <<<'EOT'
 <script type="text/javascript">
 var xhr = new XMLHttpRequest();
 var read_date = new Date();

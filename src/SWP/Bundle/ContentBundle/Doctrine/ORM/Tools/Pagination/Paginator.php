@@ -116,7 +116,7 @@ class Paginator
 
     public function count()
     {
-        if ($this->count === null) {
+        if (null === $this->count) {
             try {
                 $this->count = array_sum(array_map('current', $this->getCountQuery()->getScalarResult()));
             } catch (NoResultException $e) {
@@ -147,7 +147,7 @@ class Paginator
 
             $whereInQuery = $this->cloneQuery($this->query);
             // don't do this for an empty id array
-            if (count($ids) === 0) {
+            if (0 === count($ids)) {
                 return new \ArrayIterator(array());
             }
 
@@ -201,8 +201,8 @@ class Paginator
      */
     private function useOutputWalker(Query $query)
     {
-        if ($this->useOutputWalkers === null) {
-            return (bool) $query->getHint(Query::HINT_CUSTOM_OUTPUT_WALKER) === false;
+        if (null === $this->useOutputWalkers) {
+            return false === (bool) $query->getHint(Query::HINT_CUSTOM_OUTPUT_WALKER);
         }
 
         return $this->useOutputWalkers;

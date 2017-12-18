@@ -76,6 +76,7 @@ class ArticleStatisticsService implements ArticleStatisticsServiceInterface
         switch ($action) {
             case ArticleEventsInterface::ACTION_PAGEVIEW:
                 $this->addNewPageViewEvent($articleStatistics, $articleId);
+
                 break;
         }
 
