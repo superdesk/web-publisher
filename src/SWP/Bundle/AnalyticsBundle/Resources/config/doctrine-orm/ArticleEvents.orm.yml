@@ -13,6 +13,18 @@ SWP\Bundle\AnalyticsBundle\Model\ArticleEvents:
         value:
             type: string
             nullable: true
+        createdAt:
+            type: datetime
+            gedmo:
+                timestampable:
+                    on: create
+        updatedAt:
+            type: datetime
+            nullable: true
+            gedmo:
+                timestampable:
+                    on: update
+
     manyToOne:
         articleStatistics:
             targetEntity: SWP\Bundle\AnalyticsBundle\Model\ArticleStatisticsInterface

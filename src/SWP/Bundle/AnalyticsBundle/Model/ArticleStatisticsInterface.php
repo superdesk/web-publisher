@@ -17,8 +17,12 @@ namespace SWP\Bundle\AnalyticsBundle\Model;
 
 use Doctrine\Common\Collections\Collection;
 use SWP\Bundle\ContentBundle\Model\ArticleInterface;
+use SWP\Component\Storage\Model\PersistableInterface;
 
-interface ArticleStatisticsInterface
+/**
+ * Interface ArticleStatisticsInterface.
+ */
+interface ArticleStatisticsInterface extends PersistableInterface
 {
     /**
      * @return ArticleInterface
@@ -59,4 +63,14 @@ interface ArticleStatisticsInterface
      * @param Collection $events
      */
     public function setEvents(Collection $events): void;
+
+    /**
+     * @param ArticleEventsInterface $articleEvent
+     */
+    public function addEvent(ArticleEventsInterface $articleEvent);
+
+    /**
+     * Add one more page view.
+     */
+    public function increasePageViewsNumber();
 }

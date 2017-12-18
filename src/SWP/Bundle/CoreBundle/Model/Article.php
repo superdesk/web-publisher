@@ -35,6 +35,11 @@ class Article extends BaseArticle implements ArticleInterface
     protected $isPublishedFBIA = false;
 
     /**
+     * @var ArticleStatisticsInterface
+     */
+    protected $articleStatistics;
+
+    /**
      * {@inheritdoc}
      */
     public function setId($id)
@@ -72,5 +77,21 @@ class Article extends BaseArticle implements ArticleInterface
     public function setPublishedFBIA(bool $isPublished)
     {
         $this->isPublishedFBIA = $isPublished;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getArticleStatistics(): ArticleStatisticsInterface
+    {
+        return $this->articleStatistics;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setArticleStatistics(ArticleStatisticsInterface $articleStatistics): void
+    {
+        $this->articleStatistics = $articleStatistics;
     }
 }

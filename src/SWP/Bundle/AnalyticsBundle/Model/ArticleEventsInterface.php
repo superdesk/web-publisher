@@ -15,10 +15,12 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\AnalyticsBundle\Model;
 
+use SWP\Component\Storage\Model\PersistableInterface;
+
 /**
  * Interface ArticleEventsInterface.
  */
-interface ArticleEventsInterface
+interface ArticleEventsInterface extends PersistableInterface
 {
     const ACTION_IMPRESSION = 'impression';
 
@@ -47,4 +49,14 @@ interface ArticleEventsInterface
      * @param null|string $value
      */
     public function setValue(?string $value): void;
+
+    /**
+     * @return ArticleStatisticsInterface
+     */
+    public function getArticleStatistics(): ArticleStatisticsInterface;
+
+    /**
+     * @param ArticleStatisticsInterface $articleStatistics
+     */
+    public function setArticleStatistics(ArticleStatisticsInterface $articleStatistics): void;
 }

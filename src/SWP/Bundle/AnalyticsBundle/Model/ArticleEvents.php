@@ -16,12 +16,11 @@ namespace SWP\Bundle\AnalyticsBundle\Model;
 
 use SWP\Component\Common\Model\TimestampableInterface;
 use SWP\Component\Common\Model\TimestampableTrait;
-use SWP\Component\Storage\Model\PersistableInterface;
 
 /**
  * Class ArticleStatistics.
  */
-class ArticleEvents implements ArticleEventsInterface, PersistableInterface, TimestampableInterface
+class ArticleEvents implements ArticleEventsInterface, TimestampableInterface
 {
     use TimestampableTrait;
 
@@ -83,5 +82,21 @@ class ArticleEvents implements ArticleEventsInterface, PersistableInterface, Tim
     public function setValue(?string $value): void
     {
         $this->value = $value;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getArticleStatistics(): ArticleStatisticsInterface
+    {
+        return $this->articleStatistics;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setArticleStatistics(ArticleStatisticsInterface $articleStatistics): void
+    {
+        $this->articleStatistics = $articleStatistics;
     }
 }

@@ -17,7 +17,7 @@ declare(strict_types=1);
 namespace SWP\Bundle\ContentBundle\Doctrine\ORM;
 
 use Doctrine\ORM\QueryBuilder;
-use Doctrine\ORM\Tools\Pagination\Paginator;
+use SWP\Bundle\ContentBundle\Doctrine\ORM\Tools\Pagination\Paginator;
 use SWP\Bundle\ContentBundle\Model\ArticleSourceReference;
 use SWP\Component\Common\Criteria\Criteria;
 use SWP\Bundle\ContentBundle\Doctrine\ArticleRepositoryInterface;
@@ -25,6 +25,9 @@ use SWP\Bundle\ContentBundle\Model\ArticleInterface;
 use SWP\Bundle\StorageBundle\Doctrine\ORM\EntityRepository;
 use SWP\Component\Common\Pagination\PaginationData;
 
+/**
+ * Class ArticleRepository.
+ */
 class ArticleRepository extends EntityRepository implements ArticleRepositoryInterface
 {
     /**
@@ -53,8 +56,9 @@ class ArticleRepository extends EntityRepository implements ArticleRepositoryInt
         $qb = $this->getQueryByCriteria($criteria, $sorting, 'a');
         $qb->andWhere('a.status = :status')
             ->setParameter('status', $criteria->get('status', ArticleInterface::STATUS_PUBLISHED))
-            ->leftJoin('a.media', 'm')
-            ->addSelect('m');
+            ->leftJoin('m.renditions', 'r')
+            ->leftJoin('a.sources', 's')
+            ->addSelect('m', 's', 'r');
 
         $this->applyCustomFiltering($qb, $criteria);
 
@@ -94,12 +98,13 @@ class ArticleRepository extends EntityRepository implements ArticleRepositoryInt
             ->leftJoin('a.sources', 's')
             ->addSelect('m', 's', 'r');
 
-        $this->applyCustomFiltering($queryBuilder, $criteria);
         $this->applyCriteria($queryBuilder, $criteria, 'a');
         $this->applySorting($queryBuilder, $sorting, 'a');
         $this->applyLimiting($queryBuilder, $criteria);
+        $this->applyCustomFiltering($queryBuilder, $criteria);
 
         $paginator = new Paginator($queryBuilder->getQuery(), true);
+        $paginator->setUseOutputWalkers(false);
 
         return $paginator->getIterator()->getArrayCopy();
     }

@@ -48,4 +48,14 @@ interface ArticleInterface extends BaseArticleInterface, TenantAwareInterface, L
      * @param bool $isPublished
      */
     public function setPublishedFBIA(bool $isPublished);
+
+    /**
+     * @return ArticleStatisticsInterface
+     */
+    public function getArticleStatistics(): ArticleStatisticsInterface;
+
+    /**
+     * @param ArticleStatisticsInterface $articleStatistics
+     */
+    public function setArticleStatistics(ArticleStatisticsInterface $articleStatistics): void;
 }

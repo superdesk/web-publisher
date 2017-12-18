@@ -300,4 +300,9 @@ old_sound_rabbit_mq:
             exchange_options: {name: 'send_webhook', type: direct}
             queue_options:    {name: 'send_webhook'}
             callback:         SWP\Bundle\CoreBundle\Consumer\SendWebhookConsumer
+        analytics_event:
+            connection:       default
+            exchange_options: {name: 'analytics_event', type: direct}
+            queue_options:    {name: 'analytics_event'}
+            callback:         SWP\Bundle\CoreBundle\Consumer\AnalyticsEventConsumer
 

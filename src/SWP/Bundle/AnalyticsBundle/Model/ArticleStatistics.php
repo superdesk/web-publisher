@@ -14,16 +14,16 @@
 
 namespace SWP\Bundle\AnalyticsBundle\Model;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use SWP\Bundle\ContentBundle\Model\ArticleInterface;
 use SWP\Component\Common\Model\TimestampableInterface;
 use SWP\Component\Common\Model\TimestampableTrait;
-use SWP\Component\Storage\Model\PersistableInterface;
 
 /**
  * Class ArticleStatistics.
  */
-class ArticleStatistics implements ArticleStatisticsInterface, PersistableInterface, TimestampableInterface
+class ArticleStatistics implements ArticleStatisticsInterface, TimestampableInterface
 {
     use TimestampableTrait;
 
@@ -51,6 +51,14 @@ class ArticleStatistics implements ArticleStatisticsInterface, PersistableInterf
      * @var Collection
      */
     protected $events;
+
+    /**
+     * ArticleStatistics constructor.
+     */
+    public function __construct()
+    {
+        $this->events = new ArrayCollection();
+    }
 
     /**
      * {@inheritdoc}
@@ -111,6 +119,14 @@ class ArticleStatistics implements ArticleStatisticsInterface, PersistableInterf
     /**
      * {@inheritdoc}
      */
+    public function increasePageViewsNumber()
+    {
+        $this->pageViewsNumber = $this->pageViewsNumber + 1;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function getEvents(): Collection
     {
         return $this->events;
@@ -122,5 +138,13 @@ class ArticleStatistics implements ArticleStatisticsInterface, PersistableInterf
     public function setEvents(Collection $events): void
     {
         $this->events = $events;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function addEvent(ArticleEventsInterface $articleEvent)
+    {
+        $this->events->add($articleEvent);
     }
 }

@@ -1,5 +1,5 @@
 services:
-   swp.analytics.analytics_event_listener:
+    swp.analytics.analytics_event_listener:
         class:  SWP\Bundle\AnalyticsBundle\EventListener\AnalyticsEventListener
         arguments:
             - '@old_sound_rabbit_mq.analytics_event_producer'
@@ -8,3 +8,10 @@ services:
             - { name: kernel.event_listener, event: kernel.response, method: onKernelResponse, priority: 20 }
             - { name: kernel.event_listener, event: kernel.finish_request, method: onKernelFinishRequest, priority: 1 }
             - { name: kernel.event_listener, event: kernel.terminate, method: onKernelTerminate, priority: 1 }
+
+    SWP\Bundle\AnalyticsBundle\Services\ArticleStatisticsService:
+        arguments:
+            - '@swp.repository.article'
+            - '@swp.repository.article_statistics'
+            - '@swp.factory.article_statistics'
+            - '@swp.factory.article_events'

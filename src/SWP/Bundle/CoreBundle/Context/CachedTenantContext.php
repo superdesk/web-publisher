@@ -35,12 +35,8 @@ class CachedTenantContext extends TenantContext implements CachedTenantContextIn
      * @param EventDispatcherInterface $dispatcher
      * @param Cache                    $cacheProvider
      */
-    public function __construct(
-        TenantResolverInterface $tenantResolver,
-        RequestStack $requestStack,
-        EventDispatcherInterface $dispatcher,
-        Cache $cacheProvider
-    ) {
+    public function __construct(TenantResolverInterface $tenantResolver, RequestStack $requestStack, EventDispatcherInterface $dispatcher, Cache $cacheProvider)
+    {
         $this->tenantResolver = $tenantResolver;
         $this->requestStack = $requestStack;
         $this->dispatcher = $dispatcher;

@@ -56,6 +56,7 @@ class AppKernel extends Kernel
             new FOS\ElasticaBundle\FOSElasticaBundle(),
             new SWP\Bundle\ElasticSearchBundle\SWPElasticSearchBundle(),
             new OldSound\RabbitMqBundle\OldSoundRabbitMqBundle(),
+            new Phobetor\RabbitMqSupervisorBundle\RabbitMqSupervisorBundle(),
 
             new Sentry\SentryBundle\SentryBundle(),
         ];
