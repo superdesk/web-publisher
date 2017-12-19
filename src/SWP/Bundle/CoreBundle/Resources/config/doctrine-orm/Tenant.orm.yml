@@ -10,6 +10,7 @@ SWP\Bundle\CoreBundle\Model\Tenant:
     oneToOne:
         homepage:
             targetEntity: SWP\Bundle\ContentBundle\Model\RouteInterface
+            fetch: EAGER
             joinColumn:
                 name: tenant_route_id
                 referencedColumnName: id

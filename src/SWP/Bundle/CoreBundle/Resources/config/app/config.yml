@@ -278,10 +278,10 @@ swp_analytics:
 old_sound_rabbit_mq:
     connections:
         default:
-            host:     '%env(rabbit_mq_host)%'
-            port:     '%env(rabbit_mq_port)%'
-            user:     '%env(rabbit_mq_user)%'
-            password: '%env(rabbit_mq_password)%'
+            host:     '%env(RABBIT_MQ_HOST)%'
+            port:     '%env(RABBIT_MQ_PORT)%'
+            user:     '%env(RABBIT_MQ_USER)%'
+            password: '%env(RABBIT_MQ_PASSWORD)%'
             vhost:    '/'
             lazy:     true
             connection_timeout: 3

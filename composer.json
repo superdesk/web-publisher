@@ -45,7 +45,7 @@
     },
     "require": {
         "php": "^7.1",
-        "symfony/symfony": "3.3",
+        "symfony/symfony": "3.4",
         "symfony/swiftmailer-bundle": "~3.0",
         "symfony/monolog-bundle": "~3.0",
         "sensio/distribution-bundle": "~v5.0",

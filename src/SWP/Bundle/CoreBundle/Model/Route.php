@@ -16,6 +16,7 @@ namespace SWP\Bundle\CoreBundle\Model;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\ORM\Proxy\Proxy;
 use SWP\Bundle\ContentBundle\Model\RouteInterface;
 use SWP\Component\MultiTenancy\Model\TenantAwareInterface;
 use SWP\Component\MultiTenancy\Model\TenantAwareTrait;
@@ -225,5 +226,27 @@ class Route extends BaseRoute implements PersistableInterface, RouteInterface, T
     public function setLevel(int $level)
     {
         $this->level = $level;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function serialize()
+    {
+        $parentSerializedData = unserialize(parent::serialize());
+        $parentSerializedData['id'] = $this->getId();
+
+        return serialize($parentSerializedData);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function unserialize($serialized)
+    {
+        parent::unserialize($serialized);
+
+        $data = unserialize($serialized);
+        $this->id = $data['id'];
     }
 }
