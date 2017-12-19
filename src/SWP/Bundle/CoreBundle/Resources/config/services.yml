@@ -296,6 +296,7 @@ services:
           - '@swp.repository.article'
           - '@event_dispatcher'
           - '@swp.factory.article'
+          - '@swp.factory.article_statistics'
           - '@swp_multi_tenancy.tenant_context'
 
     swp_core.listener.canceled_package:
