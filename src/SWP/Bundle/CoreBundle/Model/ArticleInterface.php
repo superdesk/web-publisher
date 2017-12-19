@@ -52,7 +52,7 @@ interface ArticleInterface extends BaseArticleInterface, TenantAwareInterface, L
     /**
      * @return ArticleStatisticsInterface
      */
-    public function getArticleStatistics(): ArticleStatisticsInterface;
+    public function getArticleStatistics(): ?ArticleStatisticsInterface;
 
     /**
      * @param ArticleStatisticsInterface $articleStatistics

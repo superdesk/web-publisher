@@ -181,6 +181,11 @@ class ArticleLoader extends PaginatedLoader implements LoaderInterface
         return in_array($type, ['articles', 'article']);
     }
 
+    /**
+     * @param $article
+     *
+     * @return \SWP\Component\TemplatesSystem\Gimme\Meta\Meta|void
+     */
     private function getArticleMeta($article)
     {
         if (null !== $article) {

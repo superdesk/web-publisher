@@ -40,12 +40,12 @@ class ArticleStatistics implements ArticleStatisticsInterface, TimestampableInte
     /**
      * @var int
      */
-    protected $impressionsNumber;
+    protected $impressionsNumber = 0;
 
     /**
      * @var int
      */
-    protected $pageViewsNumber;
+    protected $pageViewsNumber = 0;
 
     /**
      * @var Collection

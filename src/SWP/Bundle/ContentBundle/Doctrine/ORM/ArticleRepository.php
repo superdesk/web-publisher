@@ -17,7 +17,6 @@ declare(strict_types=1);
 namespace SWP\Bundle\ContentBundle\Doctrine\ORM;
 
 use Doctrine\ORM\QueryBuilder;
-use SWP\Bundle\ContentBundle\Doctrine\ORM\Tools\Pagination\Paginator;
 use SWP\Bundle\ContentBundle\Model\ArticleSourceReference;
 use SWP\Component\Common\Criteria\Criteria;
 use SWP\Bundle\ContentBundle\Doctrine\ArticleRepositoryInterface;
@@ -91,22 +90,35 @@ class ArticleRepository extends EntityRepository implements ArticleRepositoryInt
     public function findArticlesByCriteria(Criteria $criteria, array $sorting = []): array
     {
         $queryBuilder = $this->createQueryBuilder('a')
+            ->select('partial a.{id}', 'stats')
             ->where('a.status = :status')
             ->setParameter('status', $criteria->get('status', ArticleInterface::STATUS_PUBLISHED))
-            ->leftJoin('a.media', 'm')
-            ->leftJoin('m.renditions', 'r')
-            ->leftJoin('a.sources', 's')
-            ->addSelect('m', 's', 'r');
+            ->leftJoin('a.articleStatistics', 'stats');
 
         $this->applyCriteria($queryBuilder, $criteria, 'a');
         $this->applySorting($queryBuilder, $sorting, 'a');
-        $this->applyLimiting($queryBuilder, $criteria);
         $this->applyCustomFiltering($queryBuilder, $criteria);
+        $articlesQueryBuilder = clone $queryBuilder;
+        $this->applyLimiting($queryBuilder, $criteria);
+        $selectedArticles = $queryBuilder->getQuery()->getScalarResult();
+        if (!is_array($selectedArticles)) {
+            return [];
+        }
 
-        $paginator = new Paginator($queryBuilder->getQuery(), true);
-        $paginator->setUseOutputWalkers(false);
+        $ids = [];
 
-        return $paginator->getIterator()->getArrayCopy();
+        foreach ($selectedArticles as $partialArticle) {
+            $ids[] = $partialArticle['a_id'];
+        }
+        $articlesQueryBuilder->leftJoin('a.media', 'm')
+            ->select('a')
+            ->leftJoin('m.renditions', 'r')
+            ->leftJoin('a.sources', 's')
+            ->addSelect('a', 'm', 'r', 's', 'stats')
+            ->andWhere('a.id IN (:ids)')
+            ->setParameter('ids', $ids);
+
+        return $articlesQueryBuilder->getQuery()->getResult();
     }
 
     /**

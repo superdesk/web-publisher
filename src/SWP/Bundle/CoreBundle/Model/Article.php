@@ -82,7 +82,7 @@ class Article extends BaseArticle implements ArticleInterface
     /**
      * {@inheritdoc}
      */
-    public function getArticleStatistics(): ArticleStatisticsInterface
+    public function getArticleStatistics(): ?ArticleStatisticsInterface
     {
         return $this->articleStatistics;
     }
