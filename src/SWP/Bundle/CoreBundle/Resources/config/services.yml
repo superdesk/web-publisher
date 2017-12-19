@@ -332,6 +332,7 @@ services:
             - '@request_stack'
             - '@event_dispatcher'
             - '@doctrine_cache.providers.main_cache'
+            - '@doctrine.orm.entity_manager'
 
     swp_core.loader.media:
         class: SWP\Bundle\CoreBundle\Loader\PreviewArticleMediaLoader
