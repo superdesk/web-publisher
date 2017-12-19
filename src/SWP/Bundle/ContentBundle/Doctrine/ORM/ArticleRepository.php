@@ -55,6 +55,7 @@ class ArticleRepository extends EntityRepository implements ArticleRepositoryInt
         $qb = $this->getQueryByCriteria($criteria, $sorting, 'a');
         $qb->andWhere('a.status = :status')
             ->setParameter('status', $criteria->get('status', ArticleInterface::STATUS_PUBLISHED))
+            ->leftJoin('a.media', 'm')
             ->leftJoin('m.renditions', 'r')
             ->leftJoin('a.sources', 's')
             ->addSelect('m', 's', 'r');
@@ -95,12 +96,13 @@ class ArticleRepository extends EntityRepository implements ArticleRepositoryInt
             ->setParameter('status', $criteria->get('status', ArticleInterface::STATUS_PUBLISHED))
             ->leftJoin('a.articleStatistics', 'stats');
 
+        $this->applyCustomFiltering($queryBuilder, $criteria);
         $this->applyCriteria($queryBuilder, $criteria, 'a');
         $this->applySorting($queryBuilder, $sorting, 'a');
-        $this->applyCustomFiltering($queryBuilder, $criteria);
         $articlesQueryBuilder = clone $queryBuilder;
         $this->applyLimiting($queryBuilder, $criteria);
         $selectedArticles = $queryBuilder->getQuery()->getScalarResult();
+
         if (!is_array($selectedArticles)) {
             return [];
         }
@@ -110,11 +112,11 @@ class ArticleRepository extends EntityRepository implements ArticleRepositoryInt
         foreach ($selectedArticles as $partialArticle) {
             $ids[] = $partialArticle['a_id'];
         }
-        $articlesQueryBuilder->leftJoin('a.media', 'm')
-            ->select('a')
+        $articlesQueryBuilder->select('a')
+            ->leftJoin('a.media', 'm')
             ->leftJoin('m.renditions', 'r')
             ->leftJoin('a.sources', 's')
-            ->addSelect('a', 'm', 'r', 's', 'stats')
+            ->addSelect('m', 'r', 's')
             ->andWhere('a.id IN (:ids)')
             ->setParameter('ids', $ids);
 

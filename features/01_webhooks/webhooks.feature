@@ -69,5 +69,5 @@ Feature: Manage Webhooks
   Scenario: Listing existing webhooks after deleting one
     Given I am authenticated as "test.user"
     When I add "Content-Type" header equal to "application/json"
-    And I send a GET request to "/api/v1/webhooks/"
+    And I send a GET request to "/api/v1/webhooks"
     Then the response status code should be 404

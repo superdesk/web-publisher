@@ -1,0 +1,34 @@
+{
+  "name": "swp/analytics-bundle",
+  "type": "symfony-bundle",
+  "description": "Bundle used for internal analytics in Superdesk Publisher.",
+  "keywords": ["analytics", "superdesk", "webpublisher"],
+  "license":"AGPL-3.0",
+  "minimum-stability": "dev",
+  "authors": [
+    {
+      "name": "Paweł Mikołajczuk",
+      "email": "pawel.mikolajczuk@sourcefabric.org"
+    }
+  ],
+  "require": {
+    "php": "^7.1"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "5.*"
+  },
+  "autoload": {
+    "exclude-from-classmap": [
+      "spec/"
+    ],
+    "psr-4": { "SWP\\Bundle\\AnalyticsBundle\\": "" }
+  },
+  "config": {
+    "bin-dir": "bin"
+  },
+  "extra": {
+    "branch-alias": {
+      "dev-master": "1.2-dev"
+    }
+  }
+}
