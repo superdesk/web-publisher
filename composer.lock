@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "54d1cce25792a354050106b312c2f8fb",
+    "content-hash": "23e725fc99737b2243214c611a5f5ec0",
     "packages": [
         {
             "name": "apache/log4php",
@@ -89,267 +89,6 @@
                 "twig"
             ],
             "time": "2017-01-10T22:04:15+00:00"
-        },
-        {
-            "name": "behat-extension/doctrine-data-fixtures-extension",
-            "version": "v4.0.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/BehatExtension/DoctrineDataFixturesExtension.git",
-                "reference": "bd8de54f5329ccb88a752649ba928afa6ec067d7"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/BehatExtension/DoctrineDataFixturesExtension/zipball/bd8de54f5329ccb88a752649ba928afa6ec067d7",
-                "reference": "bd8de54f5329ccb88a752649ba928afa6ec067d7",
-                "shasum": ""
-            },
-            "require": {
-                "behat/behat": "^3.0",
-                "behat/symfony2-extension": "^2.0",
-                "doctrine/data-fixtures": "^1.0",
-                "php": ">=5.3.6"
-            },
-            "suggest": {
-                "doctrine/migrations": "Uses DBAL to load versioned database schema and migration classes"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "1.0.x-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "BehatExtension\\DoctrineDataFixturesExtension\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Florent Morselli",
-                    "role": "developer"
-                },
-                {
-                    "name": "Anthon Pang",
-                    "email": "apang@softwaredevelopment.ca",
-                    "role": "original developer"
-                }
-            ],
-            "description": "Doctrine data fixtures extension for Behat",
-            "homepage": "http://github.com/BehatExtension/",
-            "keywords": [
-                "BDD",
-                "Behat",
-                "Data fixtures",
-                "doctrine"
-            ],
-            "time": "2017-09-28T10:03:21+00:00"
-        },
-        {
-            "name": "behat/behat",
-            "version": "v3.4.3",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/Behat/Behat.git",
-                "reference": "d60b161bff1b95ec4bb80bb8cb210ccf890314c2"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/Behat/Behat/zipball/d60b161bff1b95ec4bb80bb8cb210ccf890314c2",
-                "reference": "d60b161bff1b95ec4bb80bb8cb210ccf890314c2",
-                "shasum": ""
-            },
-            "require": {
-                "behat/gherkin": "^4.5.1",
-                "behat/transliterator": "^1.2",
-                "container-interop/container-interop": "^1.2",
-                "ext-mbstring": "*",
-                "php": ">=5.3.3",
-                "psr/container": "^1.0",
-                "symfony/class-loader": "~2.1||~3.0||~4.0",
-                "symfony/config": "~2.3||~3.0||~4.0",
-                "symfony/console": "~2.5||~3.0||~4.0",
-                "symfony/dependency-injection": "~2.1||~3.0||~4.0",
-                "symfony/event-dispatcher": "~2.1||~3.0||~4.0",
-                "symfony/translation": "~2.3||~3.0||~4.0",
-                "symfony/yaml": "~2.1||~3.0||~4.0"
-            },
-            "require-dev": {
-                "herrera-io/box": "~1.6.1",
-                "phpunit/phpunit": "^4.8.36|^6.3",
-                "symfony/process": "~2.5|~3.0|~4.0"
-            },
-            "suggest": {
-                "behat/mink-extension": "for integration with Mink testing framework",
-                "behat/symfony2-extension": "for integration with Symfony2 web framework",
-                "behat/yii-extension": "for integration with Yii web framework"
-            },
-            "bin": [
-                "bin/behat"
-            ],
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "3.2.x-dev"
-                }
-            },
-            "autoload": {
-                "psr-0": {
-                    "Behat\\Behat": "src/",
-                    "Behat\\Testwork": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Konstantin Kudryashov",
-                    "email": "ever.zet@gmail.com",
-                    "homepage": "http://everzet.com"
-                }
-            ],
-            "description": "Scenario-oriented BDD framework for PHP 5.3",
-            "homepage": "http://behat.org/",
-            "keywords": [
-                "Agile",
-                "BDD",
-                "ScenarioBDD",
-                "Scrum",
-                "StoryBDD",
-                "User story",
-                "business",
-                "development",
-                "documentation",
-                "examples",
-                "symfony",
-                "testing"
-            ],
-            "time": "2017-11-27T10:37:56+00:00"
-        },
-        {
-            "name": "behat/gherkin",
-            "version": "v4.5.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/Behat/Gherkin.git",
-                "reference": "74ac03d52c5e23ad8abd5c5cce4ab0e8dc1b530a"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/Behat/Gherkin/zipball/74ac03d52c5e23ad8abd5c5cce4ab0e8dc1b530a",
-                "reference": "74ac03d52c5e23ad8abd5c5cce4ab0e8dc1b530a",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.3.1"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "~4.5|~5",
-                "symfony/phpunit-bridge": "~2.7|~3",
-                "symfony/yaml": "~2.3|~3"
-            },
-            "suggest": {
-                "symfony/yaml": "If you want to parse features, represented in YAML files"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "4.4-dev"
-                }
-            },
-            "autoload": {
-                "psr-0": {
-                    "Behat\\Gherkin": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Konstantin Kudryashov",
-                    "email": "ever.zet@gmail.com",
-                    "homepage": "http://everzet.com"
-                }
-            ],
-            "description": "Gherkin DSL parser for PHP 5.3",
-            "homepage": "http://behat.org/",
-            "keywords": [
-                "BDD",
-                "Behat",
-                "Cucumber",
-                "DSL",
-                "gherkin",
-                "parser"
-            ],
-            "time": "2017-08-30T11:04:43+00:00"
-        },
-        {
-            "name": "behat/symfony2-extension",
-            "version": "2.1.2",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/Behat/Symfony2Extension.git",
-                "reference": "4eec9ec8dec86c24d82d50b072e693ff2e98ecca"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/Behat/Symfony2Extension/zipball/4eec9ec8dec86c24d82d50b072e693ff2e98ecca",
-                "reference": "4eec9ec8dec86c24d82d50b072e693ff2e98ecca",
-                "shasum": ""
-            },
-            "require": {
-                "behat/behat": "~3.0,>=3.0.4",
-                "php": ">=5.3.3",
-                "symfony/framework-bundle": "~2.0|~3.0"
-            },
-            "require-dev": {
-                "behat/mink-browserkit-driver": "~1.0",
-                "behat/mink-extension": "~2.0",
-                "phpspec/phpspec": "~2.0",
-                "phpunit/phpunit": "~4.0",
-                "symfony/symfony": "~2.1|~3.0"
-            },
-            "type": "behat-extension",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "2.1.x-dev"
-                }
-            },
-            "autoload": {
-                "psr-0": {
-                    "Behat\\Symfony2Extension": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Christophe Coevoet",
-                    "email": "stof@notk.org"
-                },
-                {
-                    "name": "Konstantin Kudryashov",
-                    "email": "ever.zet@gmail.com"
-                }
-            ],
-            "description": "Symfony2 framework extension for Behat",
-            "homepage": "http://behat.org",
-            "keywords": [
-                "BDD",
-                "framework",
-                "symfony"
-            ],
-            "time": "2017-11-15T09:55:17+00:00"
         },
         {
             "name": "behat/transliterator",
@@ -541,37 +280,6 @@
                 "tls"
             ],
             "time": "2017-11-29T09:37:33+00:00"
-        },
-        {
-            "name": "container-interop/container-interop",
-            "version": "1.2.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/container-interop/container-interop.git",
-                "reference": "79cbf1341c22ec75643d841642dd5d6acd83bdb8"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/container-interop/container-interop/zipball/79cbf1341c22ec75643d841642dd5d6acd83bdb8",
-                "reference": "79cbf1341c22ec75643d841642dd5d6acd83bdb8",
-                "shasum": ""
-            },
-            "require": {
-                "psr/container": "^1.0"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Interop\\Container\\": "src/Interop/Container/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "description": "Promoting the interoperability of container objects (DIC, SL, etc.)",
-            "homepage": "https://github.com/container-interop/container-interop",
-            "time": "2017-02-14T19:40:03+00:00"
         },
         {
             "name": "danielstjules/stringy",
@@ -910,63 +618,6 @@
                 "spl"
             ],
             "time": "2016-11-30T16:50:46+00:00"
-        },
-        {
-            "name": "doctrine/data-fixtures",
-            "version": "v1.3.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/doctrine/data-fixtures.git",
-                "reference": "7b76ccc8e648c4502aad7f61347326c8a072bd3b"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/data-fixtures/zipball/7b76ccc8e648c4502aad7f61347326c8a072bd3b",
-                "reference": "7b76ccc8e648c4502aad7f61347326c8a072bd3b",
-                "shasum": ""
-            },
-            "require": {
-                "doctrine/common": "~2.2",
-                "php": "^7.1"
-            },
-            "require-dev": {
-                "doctrine/dbal": "^2.5.4",
-                "doctrine/orm": "^2.5.4",
-                "phpunit/phpunit": "^6.3"
-            },
-            "suggest": {
-                "alcaeus/mongo-php-adapter": "For using MongoDB ODM with PHP 7",
-                "doctrine/mongodb-odm": "For loading MongoDB ODM fixtures",
-                "doctrine/orm": "For loading ORM fixtures",
-                "doctrine/phpcr-odm": "For loading PHPCR ODM fixtures"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "1.3.x-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Doctrine\\Common\\DataFixtures\\": "lib/Doctrine/Common/DataFixtures"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Jonathan Wage",
-                    "email": "jonwage@gmail.com"
-                }
-            ],
-            "description": "Data Fixtures for all Doctrine Object Managers",
-            "homepage": "http://www.doctrine-project.org",
-            "keywords": [
-                "database"
-            ],
-            "time": "2017-11-27T18:48:06+00:00"
         },
         {
             "name": "doctrine/dbal",
@@ -1524,16 +1175,16 @@
         },
         {
             "name": "doctrine/orm",
-            "version": "v2.5.13",
+            "version": "v2.5.14",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/doctrine2.git",
-                "reference": "93103f44a3e36e7b48165b6e6b736833f33b18ef"
+                "reference": "810a7baf81462a5ddf10e8baa8cb94b6eec02754"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/doctrine2/zipball/93103f44a3e36e7b48165b6e6b736833f33b18ef",
-                "reference": "93103f44a3e36e7b48165b6e6b736833f33b18ef",
+                "url": "https://api.github.com/repos/doctrine/doctrine2/zipball/810a7baf81462a5ddf10e8baa8cb94b6eec02754",
+                "reference": "810a7baf81462a5ddf10e8baa8cb94b6eec02754",
                 "shasum": ""
             },
             "require": {
@@ -1596,7 +1247,7 @@
                 "database",
                 "orm"
             ],
-            "time": "2017-11-27T23:25:55+00:00"
+            "time": "2017-12-17T02:57:51+00:00"
         },
         {
             "name": "egulias/email-validator",
@@ -1883,55 +1534,50 @@
         },
         {
             "name": "friendsofsymfony/elastica-bundle",
-            "version": "v4.0.1",
+            "version": "v4.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/FriendsOfSymfony/FOSElasticaBundle.git",
-                "reference": "454f8d8d4cb99add96f08e1e38652ccbcd5d5542"
+                "reference": "3cae3b674cf9abc5d953f3bb575d54ca094e7b74"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSElasticaBundle/zipball/454f8d8d4cb99add96f08e1e38652ccbcd5d5542",
-                "reference": "454f8d8d4cb99add96f08e1e38652ccbcd5d5542",
+                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSElasticaBundle/zipball/3cae3b674cf9abc5d953f3bb575d54ca094e7b74",
+                "reference": "3cae3b674cf9abc5d953f3bb575d54ca094e7b74",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.5.0",
-                "psr/log": "~1.0",
+                "psr/log": "^1.0",
                 "ruflin/elastica": "3.2.*",
-                "symfony/asset": "~2.7|~3.0",
-                "symfony/console": "~2.7|~3.0",
-                "symfony/form": "~2.7|~3.0",
-                "symfony/framework-bundle": "~2.7|~3.0",
-                "symfony/property-access": "~2.7|~3.0",
-                "symfony/templating": "~2.7|~3.0",
-                "symfony/translation": "~2.7|~3.0"
+                "symfony/console": "^2.8|^3.2",
+                "symfony/dependency-injection": "^2.8|^3.2",
+                "symfony/framework-bundle": "^2.8|^3.2",
+                "symfony/options-resolver": "^2.8|^3.2",
+                "symfony/property-access": "^2.8|^3.2"
             },
             "require-dev": {
-                "doctrine/doctrine-bundle": "~1.6",
-                "doctrine/orm": "~2.4",
-                "doctrine/phpcr-bundle": "~1.2",
-                "jackalope/jackalope-doctrine-dbal": "~1.1",
-                "jms/serializer-bundle": "~1.1",
-                "knplabs/knp-components": "~1.2",
-                "knplabs/knp-paginator-bundle": "~2.4",
-                "pagerfanta/pagerfanta": "~1.0",
-                "phpunit/phpunit": "~4.8|~5.0",
-                "propel/propel1": "1.6.*",
-                "symfony/browser-kit": "~2.7|~3.0",
-                "symfony/dependency-injection": "~2.7|~3.0",
-                "symfony/expression-language": "~2.7|~3.0",
-                "symfony/serializer": "~2.7|~3.0",
-                "symfony/twig-bundle": "~2.7|~3.0",
-                "symfony/validator": "~2.7|~3.0",
-                "symfony/yaml": "~2.7|~3.0"
+                "doctrine/doctrine-bundle": "^1.6",
+                "doctrine/orm": "^2.5",
+                "doctrine/phpcr-bundle": "^1.3",
+                "doctrine/phpcr-odm": "^1.4",
+                "jackalope/jackalope-doctrine-dbal": "^1.2",
+                "jms/serializer-bundle": "^2.2",
+                "knplabs/knp-components": "^1.2",
+                "pagerfanta/pagerfanta": "^1.0.5",
+                "phpunit/phpunit": "^4.8|^5.0",
+                "propel/propel1": "^1.7",
+                "symfony/browser-kit": "^2.8|^3.2",
+                "symfony/expression-language": "^2.8|^3.2",
+                "symfony/serializer": "^2.8|^3.2",
+                "symfony/stopwatch": "^2.8|^3.2",
+                "symfony/twig-bundle": "^2.8|^3.4",
+                "symfony/yaml": "^2.8|^3.2"
+            },
+            "suggest": {
+                "enqueue/elastica-bundle": "The bundle adds extra features to FOSElasticaBundle bundle. Aimed to improve performance."
             },
             "type": "symfony-bundle",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "4.0.x-dev"
-                }
-            },
             "autoload": {
                 "psr-4": {
                     "FOS\\ElasticaBundle\\": ""
@@ -1959,7 +1605,7 @@
                     "email": "jmikola@gmail.com"
                 }
             ],
-            "description": "Elasticsearch PHP integration for your Symfony2 project using Elastica",
+            "description": "Elasticsearch PHP integration for your Symfony project using Elastica",
             "homepage": "https://github.com/FriendsOfSymfony/FOSElasticaBundle",
             "keywords": [
                 "doctrine2",
@@ -1969,7 +1615,7 @@
                 "propel",
                 "search"
             ],
-            "time": "2017-08-10T13:45:18+00:00"
+            "time": "2017-12-18T17:11:13+00:00"
         },
         {
             "name": "friendsofsymfony/http-cache",
@@ -4603,33 +4249,34 @@
         },
         {
             "name": "ocramius/proxy-manager",
-            "version": "2.1.1",
+            "version": "2.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Ocramius/ProxyManager.git",
-                "reference": "e18ac876b2e4819c76349de8f78ccc8ef1554cd7"
+                "reference": "81d53b2878f1d1c40ad27270e64b51798485dfc5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Ocramius/ProxyManager/zipball/e18ac876b2e4819c76349de8f78ccc8ef1554cd7",
-                "reference": "e18ac876b2e4819c76349de8f78ccc8ef1554cd7",
+                "url": "https://api.github.com/repos/Ocramius/ProxyManager/zipball/81d53b2878f1d1c40ad27270e64b51798485dfc5",
+                "reference": "81d53b2878f1d1c40ad27270e64b51798485dfc5",
                 "shasum": ""
             },
             "require": {
-                "ocramius/package-versions": "^1.1.1",
-                "php": "^7.1.0",
-                "zendframework/zend-code": "^3.1.0"
+                "ocramius/package-versions": "^1.1.3",
+                "php": "^7.2.0",
+                "zendframework/zend-code": "^3.3.0"
             },
             "require-dev": {
-                "couscous/couscous": "^1.5.2",
+                "couscous/couscous": "^1.6.1",
                 "ext-phar": "*",
-                "humbug/humbug": "dev-master@DEV",
-                "nikic/php-parser": "^3.0.4",
+                "humbug/humbug": "1.0.0-RC.0@RC",
+                "nikic/php-parser": "^3.1.1",
+                "padraic/phpunit-accelerator": "dev-master@DEV",
                 "phpbench/phpbench": "^0.12.2",
-                "phpstan/phpstan": "^0.6.4",
-                "phpunit/phpunit": "^5.6.4",
-                "phpunit/phpunit-mock-objects": "^3.4.1",
-                "squizlabs/php_codesniffer": "^2.7.0"
+                "phpstan/phpstan": "dev-master#856eb10a81c1d27c701a83f167dc870fd8f4236a as 0.9.999",
+                "phpstan/phpstan-phpunit": "dev-master#5629c0a1f4a9c417cb1077cf6693ad9753895761",
+                "phpunit/phpunit": "^6.4.3",
+                "squizlabs/php_codesniffer": "^2.9.1"
             },
             "suggest": {
                 "ocramius/generated-hydrator": "To have very fast object to array to object conversion for ghost objects",
@@ -4668,7 +4315,7 @@
                 "proxy pattern",
                 "service proxies"
             ],
-            "time": "2017-05-04T11:12:50+00:00"
+            "time": "2017-11-16T23:22:31+00:00"
         },
         {
             "name": "oneup/flysystem-bundle",
@@ -6059,16 +5706,16 @@
         },
         {
             "name": "sensio/framework-extra-bundle",
-            "version": "v3.0.28",
+            "version": "v3.0.29",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sensiolabs/SensioFrameworkExtraBundle.git",
-                "reference": "65eadf9e3fd5c47eee7986b306a5aed8affe6496"
+                "reference": "bb907234df776b68922eb4b25bfa061683597b6a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sensiolabs/SensioFrameworkExtraBundle/zipball/65eadf9e3fd5c47eee7986b306a5aed8affe6496",
-                "reference": "65eadf9e3fd5c47eee7986b306a5aed8affe6496",
+                "url": "https://api.github.com/repos/sensiolabs/SensioFrameworkExtraBundle/zipball/bb907234df776b68922eb4b25bfa061683597b6a",
+                "reference": "bb907234df776b68922eb4b25bfa061683597b6a",
                 "shasum": ""
             },
             "require": {
@@ -6125,7 +5772,7 @@
                 "annotations",
                 "controllers"
             ],
-            "time": "2017-10-12T17:37:20+00:00"
+            "time": "2017-12-14T19:03:23+00:00"
         },
         {
             "name": "sensio/generator-bundle",
@@ -6840,6 +6487,62 @@
             "time": "2017-11-06T16:02:17+00:00"
         },
         {
+            "name": "symfony/polyfill-apcu",
+            "version": "v1.6.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/polyfill-apcu.git",
+                "reference": "04f62674339602def515bff4bc6901fc1d4951e8"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/polyfill-apcu/zipball/04f62674339602def515bff4bc6901fc1d4951e8",
+                "reference": "04f62674339602def515bff4bc6901fc1d4951e8",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.3"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.6-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Symfony\\Polyfill\\Apcu\\": ""
+                },
+                "files": [
+                    "bootstrap.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Nicolas Grekas",
+                    "email": "p@tchwork.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
+                }
+            ],
+            "description": "Symfony polyfill backporting apcu_* functions to lower PHP versions",
+            "homepage": "https://symfony.com",
+            "keywords": [
+                "apcu",
+                "compatibility",
+                "polyfill",
+                "portable",
+                "shim"
+            ],
+            "time": "2017-10-11T12:05:26+00:00"
+        },
+        {
             "name": "symfony/polyfill-intl-icu",
             "version": "v1.6.0",
             "source": {
@@ -7187,42 +6890,45 @@
         },
         {
             "name": "symfony/symfony",
-            "version": "v3.3.0",
+            "version": "v3.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/symfony.git",
-                "reference": "5a7e31c48e7cd4831efa409fffb661beb9995174"
+                "reference": "0a47db379b8cc74cdd84e1e6870fafc4a4ac8351"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/symfony/zipball/5a7e31c48e7cd4831efa409fffb661beb9995174",
-                "reference": "5a7e31c48e7cd4831efa409fffb661beb9995174",
+                "url": "https://api.github.com/repos/symfony/symfony/zipball/0a47db379b8cc74cdd84e1e6870fafc4a4ac8351",
+                "reference": "0a47db379b8cc74cdd84e1e6870fafc4a4ac8351",
                 "shasum": ""
             },
             "require": {
                 "doctrine/common": "~2.4",
+                "ext-xml": "*",
                 "fig/link-util": "^1.0",
-                "php": ">=5.5.9",
+                "php": "^5.5.9|>=7.0.8",
                 "psr/cache": "~1.0",
                 "psr/container": "^1.0",
                 "psr/link": "^1.0",
                 "psr/log": "~1.0",
                 "psr/simple-cache": "^1.0",
+                "symfony/polyfill-apcu": "~1.1",
                 "symfony/polyfill-intl-icu": "~1.0",
                 "symfony/polyfill-mbstring": "~1.0",
                 "symfony/polyfill-php56": "~1.0",
-                "symfony/polyfill-php70": "~1.0",
+                "symfony/polyfill-php70": "~1.6",
                 "symfony/polyfill-util": "~1.0",
-                "twig/twig": "~1.32|~2.2"
+                "twig/twig": "^1.35|^2.4.4"
             },
             "conflict": {
-                "phpdocumentor/reflection-docblock": "<3.0",
-                "phpdocumentor/type-resolver": "<0.2.0",
+                "phpdocumentor/reflection-docblock": "<3.0||>=3.2.0,<3.2.2",
+                "phpdocumentor/type-resolver": "<0.2.1",
                 "phpunit/phpunit": "<4.8.35|<5.4.3,>=5.0"
             },
             "provide": {
                 "psr/cache-implementation": "1.0",
                 "psr/container-implementation": "1.0",
+                "psr/log-implementation": "1.0",
                 "psr/simple-cache-implementation": "1.0"
             },
             "replace": {
@@ -7250,6 +6956,7 @@
                 "symfony/inflector": "self.version",
                 "symfony/intl": "self.version",
                 "symfony/ldap": "self.version",
+                "symfony/lock": "self.version",
                 "symfony/monolog-bridge": "self.version",
                 "symfony/options-resolver": "self.version",
                 "symfony/process": "self.version",
@@ -7279,6 +6986,7 @@
             },
             "require-dev": {
                 "cache/integration-tests": "dev-master",
+                "doctrine/annotations": "~1.0",
                 "doctrine/cache": "~1.6",
                 "doctrine/data-fixtures": "1.0.*",
                 "doctrine/dbal": "~2.4",
@@ -7287,17 +6995,15 @@
                 "egulias/email-validator": "~1.2,>=1.2.8|~2.0",
                 "monolog/monolog": "~1.11",
                 "ocramius/proxy-manager": "~0.4|~1.0|~2.0",
-                "phpdocumentor/reflection-docblock": "^3.0",
+                "phpdocumentor/reflection-docblock": "^3.0|^4.0",
                 "predis/predis": "~1.0",
-                "sensio/framework-extra-bundle": "^3.0.2",
-                "symfony/phpunit-bridge": "~3.2",
-                "symfony/polyfill-apcu": "~1.1",
+                "symfony/phpunit-bridge": "~3.4|~4.0",
                 "symfony/security-acl": "~2.8|~3.0"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "3.3-dev"
+                    "dev-master": "3.4-dev"
                 }
             },
             "autoload": {
@@ -7305,7 +7011,6 @@
                     "Symfony\\Bridge\\Doctrine\\": "src/Symfony/Bridge/Doctrine/",
                     "Symfony\\Bridge\\Monolog\\": "src/Symfony/Bridge/Monolog/",
                     "Symfony\\Bridge\\ProxyManager\\": "src/Symfony/Bridge/ProxyManager/",
-                    "Symfony\\Bridge\\Swiftmailer\\": "src/Symfony/Bridge/Swiftmailer/",
                     "Symfony\\Bridge\\Twig\\": "src/Symfony/Bridge/Twig/",
                     "Symfony\\Bundle\\": "src/Symfony/Bundle/",
                     "Symfony\\Component\\": "src/Symfony/Component/"
@@ -7336,7 +7041,7 @@
             "keywords": [
                 "framework"
             ],
-            "time": "2017-05-29T21:02:32+00:00"
+            "time": "2017-11-30T16:56:19+00:00"
         },
         {
             "name": "takeit/amp-html-bundle",
@@ -7989,6 +7694,207 @@
     ],
     "packages-dev": [
         {
+            "name": "behat-extension/doctrine-data-fixtures-extension",
+            "version": "v4.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/BehatExtension/DoctrineDataFixturesExtension.git",
+                "reference": "bd8de54f5329ccb88a752649ba928afa6ec067d7"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/BehatExtension/DoctrineDataFixturesExtension/zipball/bd8de54f5329ccb88a752649ba928afa6ec067d7",
+                "reference": "bd8de54f5329ccb88a752649ba928afa6ec067d7",
+                "shasum": ""
+            },
+            "require": {
+                "behat/behat": "^3.0",
+                "behat/symfony2-extension": "^2.0",
+                "doctrine/data-fixtures": "^1.0",
+                "php": ">=5.3.6"
+            },
+            "suggest": {
+                "doctrine/migrations": "Uses DBAL to load versioned database schema and migration classes"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "BehatExtension\\DoctrineDataFixturesExtension\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Florent Morselli",
+                    "role": "developer"
+                },
+                {
+                    "name": "Anthon Pang",
+                    "email": "apang@softwaredevelopment.ca",
+                    "role": "original developer"
+                }
+            ],
+            "description": "Doctrine data fixtures extension for Behat",
+            "homepage": "http://github.com/BehatExtension/",
+            "keywords": [
+                "BDD",
+                "Behat",
+                "Data fixtures",
+                "doctrine"
+            ],
+            "time": "2017-09-28T10:03:21+00:00"
+        },
+        {
+            "name": "behat/behat",
+            "version": "v3.4.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Behat/Behat.git",
+                "reference": "d60b161bff1b95ec4bb80bb8cb210ccf890314c2"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Behat/Behat/zipball/d60b161bff1b95ec4bb80bb8cb210ccf890314c2",
+                "reference": "d60b161bff1b95ec4bb80bb8cb210ccf890314c2",
+                "shasum": ""
+            },
+            "require": {
+                "behat/gherkin": "^4.5.1",
+                "behat/transliterator": "^1.2",
+                "container-interop/container-interop": "^1.2",
+                "ext-mbstring": "*",
+                "php": ">=5.3.3",
+                "psr/container": "^1.0",
+                "symfony/class-loader": "~2.1||~3.0||~4.0",
+                "symfony/config": "~2.3||~3.0||~4.0",
+                "symfony/console": "~2.5||~3.0||~4.0",
+                "symfony/dependency-injection": "~2.1||~3.0||~4.0",
+                "symfony/event-dispatcher": "~2.1||~3.0||~4.0",
+                "symfony/translation": "~2.3||~3.0||~4.0",
+                "symfony/yaml": "~2.1||~3.0||~4.0"
+            },
+            "require-dev": {
+                "herrera-io/box": "~1.6.1",
+                "phpunit/phpunit": "^4.8.36|^6.3",
+                "symfony/process": "~2.5|~3.0|~4.0"
+            },
+            "suggest": {
+                "behat/mink-extension": "for integration with Mink testing framework",
+                "behat/symfony2-extension": "for integration with Symfony2 web framework",
+                "behat/yii-extension": "for integration with Yii web framework"
+            },
+            "bin": [
+                "bin/behat"
+            ],
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "3.2.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "Behat\\Behat": "src/",
+                    "Behat\\Testwork": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Konstantin Kudryashov",
+                    "email": "ever.zet@gmail.com",
+                    "homepage": "http://everzet.com"
+                }
+            ],
+            "description": "Scenario-oriented BDD framework for PHP 5.3",
+            "homepage": "http://behat.org/",
+            "keywords": [
+                "Agile",
+                "BDD",
+                "ScenarioBDD",
+                "Scrum",
+                "StoryBDD",
+                "User story",
+                "business",
+                "development",
+                "documentation",
+                "examples",
+                "symfony",
+                "testing"
+            ],
+            "time": "2017-11-27T10:37:56+00:00"
+        },
+        {
+            "name": "behat/gherkin",
+            "version": "v4.5.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Behat/Gherkin.git",
+                "reference": "74ac03d52c5e23ad8abd5c5cce4ab0e8dc1b530a"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Behat/Gherkin/zipball/74ac03d52c5e23ad8abd5c5cce4ab0e8dc1b530a",
+                "reference": "74ac03d52c5e23ad8abd5c5cce4ab0e8dc1b530a",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.1"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~4.5|~5",
+                "symfony/phpunit-bridge": "~2.7|~3",
+                "symfony/yaml": "~2.3|~3"
+            },
+            "suggest": {
+                "symfony/yaml": "If you want to parse features, represented in YAML files"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "4.4-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "Behat\\Gherkin": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Konstantin Kudryashov",
+                    "email": "ever.zet@gmail.com",
+                    "homepage": "http://everzet.com"
+                }
+            ],
+            "description": "Gherkin DSL parser for PHP 5.3",
+            "homepage": "http://behat.org/",
+            "keywords": [
+                "BDD",
+                "Behat",
+                "Cucumber",
+                "DSL",
+                "gherkin",
+                "parser"
+            ],
+            "time": "2017-08-30T11:04:43+00:00"
+        },
+        {
             "name": "behat/mink",
             "version": "v1.7.1",
             "source": {
@@ -8162,6 +8068,67 @@
             "time": "2017-11-24T19:30:49+00:00"
         },
         {
+            "name": "behat/symfony2-extension",
+            "version": "2.1.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Behat/Symfony2Extension.git",
+                "reference": "58ff14069fa50828c70bec05fc2feb25d6ed0f5b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Behat/Symfony2Extension/zipball/58ff14069fa50828c70bec05fc2feb25d6ed0f5b",
+                "reference": "58ff14069fa50828c70bec05fc2feb25d6ed0f5b",
+                "shasum": ""
+            },
+            "require": {
+                "behat/behat": "^3.4.3",
+                "php": ">=5.3.3",
+                "symfony/framework-bundle": "~2.0|~3.0|~4.0"
+            },
+            "require-dev": {
+                "behat/mink": "~1.7@dev",
+                "behat/mink-browserkit-driver": "~1.3@dev",
+                "behat/mink-extension": "~2.0",
+                "phpspec/phpspec": "~2.0|~3.0|~4.0",
+                "phpunit/phpunit": "~4.0|~5.0",
+                "symfony/symfony": "~2.1|~3.0|~4.0"
+            },
+            "type": "behat-extension",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.1.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "Behat\\Symfony2Extension": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Christophe Coevoet",
+                    "email": "stof@notk.org"
+                },
+                {
+                    "name": "Konstantin Kudryashov",
+                    "email": "ever.zet@gmail.com"
+                }
+            ],
+            "description": "Symfony2 framework extension for Behat",
+            "homepage": "http://behat.org",
+            "keywords": [
+                "BDD",
+                "framework",
+                "symfony"
+            ],
+            "time": "2017-12-13T15:41:53+00:00"
+        },
+        {
             "name": "behatch/contexts",
             "version": "3.0.1",
             "source": {
@@ -8217,6 +8184,94 @@
                 "Symfony2"
             ],
             "time": "2017-12-05T13:58:02+00:00"
+        },
+        {
+            "name": "container-interop/container-interop",
+            "version": "1.2.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/container-interop/container-interop.git",
+                "reference": "79cbf1341c22ec75643d841642dd5d6acd83bdb8"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/container-interop/container-interop/zipball/79cbf1341c22ec75643d841642dd5d6acd83bdb8",
+                "reference": "79cbf1341c22ec75643d841642dd5d6acd83bdb8",
+                "shasum": ""
+            },
+            "require": {
+                "psr/container": "^1.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Interop\\Container\\": "src/Interop/Container/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "Promoting the interoperability of container objects (DIC, SL, etc.)",
+            "homepage": "https://github.com/container-interop/container-interop",
+            "time": "2017-02-14T19:40:03+00:00"
+        },
+        {
+            "name": "doctrine/data-fixtures",
+            "version": "v1.3.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/doctrine/data-fixtures.git",
+                "reference": "7b76ccc8e648c4502aad7f61347326c8a072bd3b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/doctrine/data-fixtures/zipball/7b76ccc8e648c4502aad7f61347326c8a072bd3b",
+                "reference": "7b76ccc8e648c4502aad7f61347326c8a072bd3b",
+                "shasum": ""
+            },
+            "require": {
+                "doctrine/common": "~2.2",
+                "php": "^7.1"
+            },
+            "require-dev": {
+                "doctrine/dbal": "^2.5.4",
+                "doctrine/orm": "^2.5.4",
+                "phpunit/phpunit": "^6.3"
+            },
+            "suggest": {
+                "alcaeus/mongo-php-adapter": "For using MongoDB ODM with PHP 7",
+                "doctrine/mongodb-odm": "For loading MongoDB ODM fixtures",
+                "doctrine/orm": "For loading ORM fixtures",
+                "doctrine/phpcr-odm": "For loading PHPCR ODM fixtures"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.3.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Doctrine\\Common\\DataFixtures\\": "lib/Doctrine/Common/DataFixtures"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Jonathan Wage",
+                    "email": "jonwage@gmail.com"
+                }
+            ],
+            "description": "Data Fixtures for all Doctrine Object Managers",
+            "homepage": "http://www.doctrine-project.org",
+            "keywords": [
+                "database"
+            ],
+            "time": "2017-11-27T18:48:06+00:00"
         },
         {
             "name": "doctrine/doctrine-fixtures-bundle",
@@ -9819,16 +9874,16 @@
         },
         {
             "name": "phpunit/phpunit",
-            "version": "5.7.25",
+            "version": "5.7.26",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "4b1c822a68ae6577df38a59eb49b046712ec0f6a"
+                "reference": "7fbc25c13309de0c4c9bb48b7361f1eca34c7fbd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/4b1c822a68ae6577df38a59eb49b046712ec0f6a",
-                "reference": "4b1c822a68ae6577df38a59eb49b046712ec0f6a",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/7fbc25c13309de0c4c9bb48b7361f1eca34c7fbd",
+                "reference": "7fbc25c13309de0c4c9bb48b7361f1eca34c7fbd",
                 "shasum": ""
             },
             "require": {
@@ -9897,7 +9952,7 @@
                 "testing",
                 "xunit"
             ],
-            "time": "2017-11-14T14:50:51+00:00"
+            "time": "2017-12-17T06:14:38+00:00"
         },
         {
             "name": "phpunit/phpunit-mock-objects",
@@ -10464,16 +10519,16 @@
         },
         {
             "name": "squizlabs/php_codesniffer",
-            "version": "3.2.0",
+            "version": "3.2.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/squizlabs/PHP_CodeSniffer.git",
-                "reference": "ba816f2e1bacc16278792c78b67c730dfff064a6"
+                "reference": "4064632daf602552d40dcff30a1658ab76fc1621"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/squizlabs/PHP_CodeSniffer/zipball/ba816f2e1bacc16278792c78b67c730dfff064a6",
-                "reference": "ba816f2e1bacc16278792c78b67c730dfff064a6",
+                "url": "https://api.github.com/repos/squizlabs/PHP_CodeSniffer/zipball/4064632daf602552d40dcff30a1658ab76fc1621",
+                "reference": "4064632daf602552d40dcff30a1658ab76fc1621",
                 "shasum": ""
             },
             "require": {
@@ -10511,7 +10566,7 @@
                 "phpcs",
                 "standards"
             ],
-            "time": "2017-12-12T21:36:10+00:00"
+            "time": "2017-12-18T00:24:01+00:00"
         },
         {
             "name": "symfony-cmf/testing",
@@ -10567,16 +10622,16 @@
         },
         {
             "name": "symfony/phpunit-bridge",
-            "version": "v3.4.1",
+            "version": "v3.4.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/phpunit-bridge.git",
-                "reference": "9ecf83a2628b4668f02e680f65357c62600749fc"
+                "reference": "074c2e205c849a5fb37b1c24ade03cc975ac8079"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/phpunit-bridge/zipball/9ecf83a2628b4668f02e680f65357c62600749fc",
-                "reference": "9ecf83a2628b4668f02e680f65357c62600749fc",
+                "url": "https://api.github.com/repos/symfony/phpunit-bridge/zipball/074c2e205c849a5fb37b1c24ade03cc975ac8079",
+                "reference": "074c2e205c849a5fb37b1c24ade03cc975ac8079",
                 "shasum": ""
             },
             "require": {
@@ -10625,7 +10680,7 @@
             ],
             "description": "Symfony PHPUnit Bridge",
             "homepage": "https://symfony.com",
-            "time": "2017-12-04T20:23:06+00:00"
+            "time": "2017-12-14T19:40:10+00:00"
         },
         {
             "name": "vierbergenlars/php-semver",

@@ -4,7 +4,6 @@ default:
     suites:
         default:
             contexts:
-                - FeatureContext
                 - AuthTokenContext:
                     userProvider: '@swp.security.user_provider'
                     apiKeyRepository: '@swp.repository.api_key'

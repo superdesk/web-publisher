@@ -15,6 +15,8 @@
 namespace SWP\Bundle\CoreBundle\Context;
 
 use Doctrine\Common\Cache\Cache;
+use Doctrine\ORM\EntityManager;
+use SWP\Bundle\CoreBundle\Model\Route;
 use SWP\Bundle\MultiTenancyBundle\Context\TenantContext;
 use SWP\Component\MultiTenancy\Resolver\TenantResolverInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
@@ -28,23 +30,31 @@ class CachedTenantContext extends TenantContext implements CachedTenantContextIn
     protected $cacheProvider;
 
     /**
+     * @var EntityManager
+     */
+    protected $entityManager;
+
+    /**
      * CachedTenantContext constructor.
      *
      * @param TenantResolverInterface  $tenantResolver
      * @param RequestStack             $requestStack
      * @param EventDispatcherInterface $dispatcher
      * @param Cache                    $cacheProvider
+     * @param EntityManager            $entityManager
      */
     public function __construct(
         TenantResolverInterface $tenantResolver,
         RequestStack $requestStack,
         EventDispatcherInterface $dispatcher,
-        Cache $cacheProvider
+        Cache $cacheProvider,
+        EntityManager $entityManager
     ) {
         $this->tenantResolver = $tenantResolver;
         $this->requestStack = $requestStack;
         $this->dispatcher = $dispatcher;
         $this->cacheProvider = $cacheProvider;
+        $this->entityManager = $entityManager;
     }
 
     /**
@@ -57,7 +67,12 @@ class CachedTenantContext extends TenantContext implements CachedTenantContextIn
             if (null !== $currentRequest) {
                 $cacheKey = self::getCacheKey($currentRequest->getHost());
                 if ($this->cacheProvider->contains($cacheKey)) {
-                    $this->setTenant($this->cacheProvider->fetch($cacheKey));
+                    $tenant = $this->cacheProvider->fetch($cacheKey);
+                    // solution for Symfony Route heavy serialization
+                    if (null !== $tenant->getHomepage()) {
+                        $tenant->setHomepage($this->entityManager->find(Route::class, $tenant->getHomepage()->getId()));
+                    }
+                    $this->setTenant($tenant);
                 } else {
                     $tenant = $this->tenantResolver->resolve(
                         $currentRequest ? $currentRequest->getHost() : null
