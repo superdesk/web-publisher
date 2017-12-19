@@ -27,6 +27,7 @@ SWP\Bundle\AnalyticsBundle\Model\ArticleStatistics:
     oneToOne:
         article:
             targetEntity: SWP\Bundle\ContentBundle\Model\ArticleInterface
+            inversedBy: articleStatistics
             joinColumn:
                 name: article_id
                 referencedColumnName: id

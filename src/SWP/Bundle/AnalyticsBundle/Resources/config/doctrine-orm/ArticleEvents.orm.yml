@@ -28,6 +28,7 @@ SWP\Bundle\AnalyticsBundle\Model\ArticleEvents:
     manyToOne:
         articleStatistics:
             targetEntity: SWP\Bundle\AnalyticsBundle\Model\ArticleStatisticsInterface
+            inversedBy: events
             joinColumn:
                 name: article_statistics_id
                 referencedColumnName: id
