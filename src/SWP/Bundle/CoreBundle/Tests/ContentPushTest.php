@@ -68,6 +68,7 @@ final class ContentPushTest extends WebTestCase
 
         $this->initDatabase();
         $this->loadCustomFixtures(['tenant']);
+        $this->runCommand('fos:elastica:reset');
         $this->router = $this->getContainer()->get('router');
     }
 
