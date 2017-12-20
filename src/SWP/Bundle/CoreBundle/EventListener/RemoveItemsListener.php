@@ -79,10 +79,10 @@ final class RemoveItemsListener
             $filters = $contentList->getFilters();
             $filters = $this->determineLimit($contentList, $filters);
 
-            $articles = $this->articleRepository->findArticlesByCriteria(
+            $articles = $this->articleRepository->getArticlesByCriteria(
                 new Criteria($filters),
                 ['publishedAt' => 'desc']
-            );
+            )->getQuery()->getResult();
 
             $position = 0;
             foreach ($articles as $article) {

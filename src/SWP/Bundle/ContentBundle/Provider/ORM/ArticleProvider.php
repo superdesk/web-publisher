@@ -16,6 +16,8 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\ContentBundle\Provider\ORM;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use SWP\Component\Common\Criteria\Criteria;
 use SWP\Bundle\ContentBundle\Doctrine\ArticleRepositoryInterface;
 use SWP\Bundle\ContentBundle\Model\ArticleInterface;
@@ -37,9 +39,8 @@ class ArticleProvider implements ArticleProviderInterface
      *
      * @param ArticleRepositoryInterface $articleRepository
      */
-    public function __construct(
-        ArticleRepositoryInterface $articleRepository
-    ) {
+    public function __construct(ArticleRepositoryInterface $articleRepository)
+    {
         $this->articleRepository = $articleRepository;
     }
 
@@ -76,13 +77,22 @@ class ArticleProvider implements ArticleProviderInterface
      */
     public function getOneByCriteria(Criteria $criteria): ArticleInterface
     {
-        $criteria->set('maxResults', 1);
-        $article = $this->articleRepository->getByCriteria($criteria, [])->getQuery()->getOneOrNullResult();
-        if (null === $article) {
+        $article = $this->articleRepository->getByCriteria($criteria, [])->getQuery()->getResult();
+        if (null === $article || 0 === count($article)) {
             throw new NotFoundHttpException('Article was not found');
         }
 
-        return $article;
+        return $article[0];
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getManyByCriteria(Criteria $criteria, array $sorting): Collection
+    {
+        $articles = $this->articleRepository->getArticlesByCriteria($criteria, $sorting)->getQuery()->getResult();
+
+        return new ArrayCollection($articles);
     }
 
     /**

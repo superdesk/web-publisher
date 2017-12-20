@@ -87,6 +87,7 @@ swp_content:
             classes:
                 article:
                     model: SWP\Bundle\CoreBundle\Model\Article
+                    repository: SWP\Bundle\CoreBundle\Repository\ArticleRepository
                 media:
                     model: SWP\Bundle\CoreBundle\Model\ArticleMedia
                 route:

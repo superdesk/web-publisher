@@ -16,9 +16,10 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\ContentBundle\Loader;
 
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Persistence\ObjectManager;
 use SWP\Bundle\ContentBundle\Doctrine\ArticleRepositoryInterface;
+use SWP\Bundle\ContentBundle\Provider\ArticleProviderInterface;
+use SWP\Bundle\ContentBundle\Provider\ORM\ArticleProvider;
 use SWP\Component\Common\Criteria\Criteria;
 use SWP\Bundle\ContentBundle\Model\ArticleInterface;
 use SWP\Bundle\ContentBundle\Model\RouteInterface;
@@ -35,9 +36,9 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 class ArticleLoader extends PaginatedLoader implements LoaderInterface
 {
     /**
-     * @var ArticleRepositoryInterface
+     * @var ArticleProviderInterface
      */
-    protected $articleRepository;
+    protected $articleProvider;
 
     /**
      * @var RouteProviderInterface
@@ -74,13 +75,13 @@ class ArticleLoader extends PaginatedLoader implements LoaderInterface
      * @param Context                    $context
      */
     public function __construct(
-        ArticleRepositoryInterface $articleRepository,
+        ArticleProvider $articleProvider,
         RouteProviderInterface $routeProvider,
         ObjectManager $dm,
         MetaFactoryInterface $metaFactory,
         Context $context
     ) {
-        $this->articleRepository = $articleRepository;
+        $this->articleProvider = $articleProvider;
         $this->routeProvider = $routeProvider;
         $this->dm = $dm;
         $this->metaFactory = $metaFactory;
@@ -98,11 +99,15 @@ class ArticleLoader extends PaginatedLoader implements LoaderInterface
             if (array_key_exists('article', $parameters) && $parameters['article'] instanceof ArticleInterface) {
                 $this->dm->detach($parameters['article']);
                 $criteria->set('id', $parameters['article']->getId());
-                $article = $this->articleRepository->getByCriteria($criteria, [])->getQuery()->getOneOrNullResult();
                 unset($parameters['article']);
             } elseif (array_key_exists('slug', $parameters)) {
                 $criteria->set('slug', $parameters['slug']);
-                $article = $this->articleRepository->getByCriteria($criteria, [])->getQuery()->getOneOrNullResult();
+            }
+
+            try {
+                $article = $this->articleProvider->getOneByCriteria($criteria);
+            } catch (NotFoundHttpException $e) {
+                return;
             }
 
             try {
@@ -151,11 +156,10 @@ class ArticleLoader extends PaginatedLoader implements LoaderInterface
 
             $criteria = $this->applyPaginationToCriteria($criteria, $parameters);
             $countCriteria = clone $criteria;
-            $articles = $this->articleRepository->findArticlesByCriteria($criteria, $criteria->get('order', []));
-            $articlesCollection = new ArrayCollection($articles);
+            $articlesCollection = $this->articleProvider->getManyByCriteria($criteria, $criteria->get('order', []));
             if ($articlesCollection->count() > 0) {
                 $metaCollection = new MetaCollection();
-                $metaCollection->setTotalItemsCount($this->articleRepository->countByCriteria($countCriteria));
+                $metaCollection->setTotalItemsCount($this->articleProvider->getCountByCriteria($countCriteria));
                 foreach ($articlesCollection as $article) {
                     $articleMeta = $this->getArticleMeta($article);
                     if (null !== $articleMeta) {

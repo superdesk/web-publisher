@@ -5,6 +5,8 @@ sudo: required
 
 services:
   - redis-server
+  - rabbitmq
+  - memcached
 
 php:
   - 7.1
