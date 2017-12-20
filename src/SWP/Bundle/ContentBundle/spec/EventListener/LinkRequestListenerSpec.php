@@ -15,6 +15,8 @@
 namespace spec\SWP\Bundle\ContentBundle\EventListener;
 
 use PhpSpec\ObjectBehavior;
+use Symfony\Component\HttpKernel\Controller\ControllerResolverInterface;
+use Symfony\Component\Routing\Matcher\UrlMatcherInterface;
 
 class LinkRequestListenerSpec extends ObjectBehavior
 {
@@ -22,7 +24,7 @@ class LinkRequestListenerSpec extends ObjectBehavior
      * @param \Symfony\Component\HttpKernel\Controller\ControllerResolverInterface $controllerResolver
      * @param \Symfony\Component\Routing\Matcher\UrlMatcherInterface               $urlMatcher
      */
-    public function let($controllerResolver, $urlMatcher)
+    public function let(ControllerResolverInterface $controllerResolver, UrlMatcherInterface $urlMatcher)
     {
         $this->beConstructedWith($controllerResolver, $urlMatcher);
     }

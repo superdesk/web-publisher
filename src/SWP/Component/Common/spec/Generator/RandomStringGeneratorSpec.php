@@ -48,7 +48,10 @@ class RandomStringGeneratorSpec extends ObjectBehavior
             ->during('generate', ['']);
     }
 
-    public function getMatchers()
+    /**
+     * @inheritdoc
+     */
+    public function getMatchers() : array
     {
         return [
             'haveLength' => function ($subject, $length) {

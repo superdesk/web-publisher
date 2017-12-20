@@ -23,6 +23,11 @@ class DynamicDomainSessionStorage extends NativeSessionStorage
      */
     protected $domain;
 
+    /**
+     * DynamicDomainSessionStorage constructor.
+     *
+     * @param string $domain
+     */
     public function __construct(string $domain)
     {
         $this->domain = $domain;

@@ -66,7 +66,7 @@ class ORMDriverSpec extends ObjectBehavior
         $this->isSupported('fake')->shouldReturn(false);
     }
 
-    public function getMatchers()
+    public function getMatchers() : array
     {
         return [
             'haveParameterName' => function (Parameter $parameter, $expectedName) {

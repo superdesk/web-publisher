@@ -10,6 +10,7 @@ use SWP\Bundle\ContentBundle\Factory\ArticleFactoryInterface;
 use SWP\Bundle\CoreBundle\Service\ArticlePublisher;
 use SWP\Bundle\CoreBundle\Service\ArticlePublisherInterface;
 use SWP\Component\MultiTenancy\Context\TenantContextInterface;
+use SWP\Component\Storage\Factory\FactoryInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 final class ArticlePublisherSpec extends ObjectBehavior
@@ -18,9 +19,10 @@ final class ArticlePublisherSpec extends ObjectBehavior
         ArticleRepositoryInterface $articleRepository,
         EventDispatcherInterface $eventDispatcher,
         ArticleFactoryInterface $articleFactory,
+        FactoryInterface $factory,
         TenantContextInterface $tenantContext
     ) {
-        $this->beConstructedWith($articleRepository, $eventDispatcher, $articleFactory, $tenantContext);
+        $this->beConstructedWith($articleRepository, $eventDispatcher, $articleFactory, $factory, $tenantContext);
     }
 
     public function it_is_initializable()

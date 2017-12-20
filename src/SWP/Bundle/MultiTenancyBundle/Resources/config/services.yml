@@ -6,6 +6,9 @@ parameters:
     swp_multi_tenancy.random_string_generator.class: SWP\Component\Common\Generator\RandomStringGenerator
 
 services:
+    _defaults:
+        public: true
+
     swp_multi_tenancy.twig_extension:
         class: '%swp_multi_tenancy.twig_extension.class%'
         public: false
@@ -21,6 +24,7 @@ services:
 
     swp_multi_tenancy.tenant_context:
         class: '%swp_multi_tenancy.tenant_context.class%'
+        public: true
         arguments:
             - '@swp_multi_tenancy.tenant_resolver'
             - '@request_stack'
