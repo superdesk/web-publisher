@@ -8,6 +8,10 @@ services:
     _defaults:
         public: true
 
+#    logger:
+#        parent: "@monolog.logger"
+#        public: true
+
     swp_core.detection.device_detection:
         class: SWP\Bundle\CoreBundle\Detection\DeviceDetection
 

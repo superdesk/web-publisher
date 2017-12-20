@@ -58,7 +58,8 @@ class ArticleRepository extends EntityRepository implements ArticleRepositoryInt
             ->leftJoin('a.media', 'm')
             ->leftJoin('m.renditions', 'r')
             ->leftJoin('a.sources', 's')
-            ->addSelect('m', 's', 'r');
+            ->leftJoin('a.articleStatistics', 'stats')
+            ->addSelect('m', 's', 'r', 'stats');
 
         $this->applyCustomFiltering($qb, $criteria);
 

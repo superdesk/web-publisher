@@ -23,6 +23,7 @@ SWP\Bundle\CoreBundle\Model\Article:
         articleStatistics:
             targetEntity: SWP\Bundle\AnalyticsBundle\Model\ArticleStatisticsInterface
             mappedBy: article
+            fetch: EAGER
     uniqueConstraints:
         swp_article_slug_idx:
           columns: [ slug, tenant_code, organization_id ]

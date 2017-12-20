@@ -64,7 +64,7 @@ class ContentPushController extends Controller
             $objectManager->flush();
 
             $dispatcher->dispatch(Events::PACKAGE_POST_UPDATE, new GenericEvent($package, ['eventName' => Events::PACKAGE_POST_UPDATE]));
-            $dispatcher->dispatch(Events::PACKAGE_POST_UPDATE, new GenericEvent($package, ['eventName' => Events::PACKAGE_PROCESSED]));
+            $dispatcher->dispatch(Events::PACKAGE_PROCESSED, new GenericEvent($package, ['eventName' => Events::PACKAGE_PROCESSED]));
 
             return new SingleResourceResponse(['status' => 'OK'], new ResponseContext(201));
         }

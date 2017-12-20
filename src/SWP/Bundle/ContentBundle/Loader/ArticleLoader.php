@@ -97,10 +97,12 @@ class ArticleLoader extends PaginatedLoader implements LoaderInterface
             $article = null;
             if (array_key_exists('article', $parameters) && $parameters['article'] instanceof ArticleInterface) {
                 $this->dm->detach($parameters['article']);
-                $article = $this->articleRepository->findOneBy(['id' => $parameters['article']->getId()]);
+                $criteria->set('id', $parameters['article']->getId());
+                $article = $this->articleRepository->getByCriteria($criteria, [])->getQuery()->getOneOrNullResult();
                 unset($parameters['article']);
             } elseif (array_key_exists('slug', $parameters)) {
-                $article = $this->articleRepository->findOneBySlug($parameters['slug']);
+                $criteria->set('slug', $parameters['slug']);
+                $article = $this->articleRepository->getByCriteria($criteria, [])->getQuery()->getOneOrNullResult();
             }
 
             try {

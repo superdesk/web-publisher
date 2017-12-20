@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "b37cfb5e3813af571b3add2007281daf",
+    "content-hash": "e22617293c8227b2e9535bec0dbb6d2e",
     "packages": [
         {
             "name": "apache/log4php",
@@ -1597,16 +1597,16 @@
         },
         {
             "name": "friendsofsymfony/elastica-bundle",
-            "version": "v5.0.0",
+            "version": "v5.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/FriendsOfSymfony/FOSElasticaBundle.git",
-                "reference": "1addd2de35e9fea1ad66ea6789f4abae15b36cd8"
+                "reference": "96c79eb57c8c19d6ee05261335521cf459914eda"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSElasticaBundle/zipball/1addd2de35e9fea1ad66ea6789f4abae15b36cd8",
-                "reference": "1addd2de35e9fea1ad66ea6789f4abae15b36cd8",
+                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSElasticaBundle/zipball/96c79eb57c8c19d6ee05261335521cf459914eda",
+                "reference": "96c79eb57c8c19d6ee05261335521cf459914eda",
                 "shasum": ""
             },
             "require": {
@@ -1679,7 +1679,7 @@
                 "mongodb",
                 "search"
             ],
-            "time": "2017-12-18T17:19:32+00:00"
+            "time": "2017-12-19T11:54:25+00:00"
         },
         {
             "name": "friendsofsymfony/http-cache",
@@ -4687,17 +4687,17 @@
         },
         {
             "name": "phobetor/rabbitmq-supervisor-bundle",
-            "version": "2.0.0",
+            "version": "dev-ahilles107-old_sound_config_read",
             "target-dir": "Phobetor/RabbitMqSupervisorBundle",
             "source": {
                 "type": "git",
-                "url": "https://github.com/Phobetor/rabbitmq-supervisor-bundle.git",
-                "reference": "25f795b48a625273c267dd0c3486eb838a4af224"
+                "url": "https://github.com/ahilles107/rabbitmq-supervisor-bundle.git",
+                "reference": "73cae7c578109c9610ef519f0cae950c3a8cc97e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Phobetor/rabbitmq-supervisor-bundle/zipball/25f795b48a625273c267dd0c3486eb838a4af224",
-                "reference": "25f795b48a625273c267dd0c3486eb838a4af224",
+                "url": "https://api.github.com/repos/ahilles107/rabbitmq-supervisor-bundle/zipball/73cae7c578109c9610ef519f0cae950c3a8cc97e",
+                "reference": "73cae7c578109c9610ef519f0cae950c3a8cc97e",
                 "shasum": ""
             },
             "require": {
@@ -4715,7 +4715,6 @@
                     "Phobetor\\RabbitMqSupervisorBundle\\": ""
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -4729,12 +4728,15 @@
             "description": "Symfony 2 bundle to automatically create and update supervisor configurations for RabbitMQ consumer daemons",
             "homepage": "https://github.com/Phobetor/rabbitmq-supervisor-bundle",
             "keywords": [
-                "Symfony2",
                 "rabbitmq",
                 "supervisor",
-                "supervisord"
+                "supervisord",
+                "symfony2"
             ],
-            "time": "2017-01-07T14:43:37+00:00"
+            "support": {
+                "source": "https://github.com/ahilles107/rabbitmq-supervisor-bundle/tree/ahilles107-old_sound_config_read"
+            },
+            "time": "2017-12-20T14:13:43+00:00"
         },
         {
             "name": "php-amqplib/php-amqplib",
@@ -9162,12 +9164,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/liip/RMT.git",
-                "reference": "cedd796c24714899d70657a5d2d2618a52103569"
+                "reference": "a948dbdd9a2a2f0a6d5bd784010ff749819fe9dd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/liip/RMT/zipball/cedd796c24714899d70657a5d2d2618a52103569",
-                "reference": "cedd796c24714899d70657a5d2d2618a52103569",
+                "url": "https://api.github.com/repos/liip/RMT/zipball/a948dbdd9a2a2f0a6d5bd784010ff749819fe9dd",
+                "reference": "a948dbdd9a2a2f0a6d5bd784010ff749819fe9dd",
                 "shasum": ""
             },
             "require": {
@@ -9221,7 +9223,7 @@
                 "vcs tag",
                 "version"
             ],
-            "time": "2017-11-24T22:54:13+00:00"
+            "time": "2017-12-20T13:37:57+00:00"
         },
         {
             "name": "matthiasnoback/symfony-config-test",
@@ -11072,6 +11074,7 @@
     "stability-flags": {
         "friendsofsymfony/rest-bundle": 20,
         "burgov/key-value-form-bundle": 0,
+        "phobetor/rabbitmq-supervisor-bundle": 20,
         "liip/rmt": 20,
         "escapestudios/symfony2-coding-standard": 20
     },
