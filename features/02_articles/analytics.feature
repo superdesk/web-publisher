@@ -6,7 +6,7 @@ Feature: Collect article statistics
   Scenario: Opening article page
     When I go to "/news/test-news-article"
     Then the response status code should be 200
-    And I should see "/_swp_analytics?articleId="
+    And I should see "/_swp_analytics?articleId=1"
 
   Scenario: Send analytics request
     When I go to "/_swp_analytics?articleId=1"
