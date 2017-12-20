@@ -26,6 +26,7 @@ env:
 matrix:
   allow_failures:
     - php: nightly
+    - php: 7.2
   fast_finish: true
 
 before_install:

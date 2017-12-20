@@ -77,6 +77,8 @@ class ArticleProvider implements ArticleProviderInterface
      */
     public function getOneByCriteria(Criteria $criteria): ArticleInterface
     {
+        // set max results to null to not break joins
+        $criteria->set('maxResults', null);
         $article = $this->articleRepository->getByCriteria($criteria, [])->getQuery()->getResult();
         if (null === $article || 0 === count($article)) {
             throw new NotFoundHttpException('Article was not found');
