@@ -140,8 +140,9 @@ services:
         class: SWP\Bundle\ContentBundle\Rule\Applicator\ArticleRuleApplicator
         arguments:
             - '@swp.provider.route'
-            - '@logger'
-            - '@swp.service.article'
+            - '@event_dispatcher'
+        calls:
+             - [setLogger, ['@logger']]
         tags:
             - { name: applicator.rule_applicator }
 
