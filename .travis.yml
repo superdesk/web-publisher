@@ -68,7 +68,7 @@ script:
   - cd ../../../../
   - cd src/SWP/Bundle/SettingsBundle && composer $COMPOSER_FLAGS --no-interaction --prefer-dist && bin/phpunit
   - cd ../../../../
-  - cd src/SWP/Bundle/UserBundle && composer $COMPOSER_FLAGS --no-interaction --prefer-dist && bin/phpunit
+  - cd src/SWP/Bundle/UserBundle && composer $COMPOSER_FLAGS --no-interaction --prefer-dist && bin/phpunit --stderr
 
 cache:
   directories:

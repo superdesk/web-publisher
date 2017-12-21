@@ -140,7 +140,7 @@
         },
         {
             "type": "vcs",
-            "url": "https://github.com/ahilles107/PixersDoctrineProfilerBundle"
+            "url": "https://github.com/ahilles107/PixersDoctrineProfilerBundle.git"
         }
     ],
     "scripts": {
