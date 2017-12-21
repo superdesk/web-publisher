@@ -19,6 +19,7 @@ services:
 
     swp_multi_tenancy.tenant_resolver:
         class: '%swp_multi_tenancy.tenant_resolver.class%'
+        lazy: true
         arguments:
             - '@swp.repository.tenant'
 

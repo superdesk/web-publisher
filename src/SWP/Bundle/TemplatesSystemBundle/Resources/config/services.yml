@@ -17,6 +17,7 @@ services:
 
     swp_template_engine.container.renderer:
         class: SWP\Bundle\TemplatesSystemBundle\Service\RendererService
+        lazy: true
         arguments:
             - "@service_container"
             - "%kernel.cache_dir%"

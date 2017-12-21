@@ -9,6 +9,7 @@ services:
 
     swp.provider.route:
         class: '%swp.provider.route.class%'
+        lazy: true
         arguments:
             - '@swp.repository.route'
             - '@doctrine'

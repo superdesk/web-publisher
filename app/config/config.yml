@@ -105,6 +105,8 @@ swiftmailer:
 fos_http_cache:
     user_context:
         enabled: false
+    tags:
+        enabled: false
     cache_manager:
         enabled: true
         generate_url_type: 0

@@ -99,7 +99,7 @@ class RendererService implements RendererServiceInterface
             throw new \Exception('Container was not found');
         }
 
-        $containerRenderer = $this->containerRendererFactory->create($container, null, $this->cacheDir, $this->debug);
+        $containerRenderer = $this->containerRendererFactory->create($container, null, $this->debug, $this->cacheDir);
         $widgets = $this->initializeWidgets($this->containerProvider->getContainerWidgets($container));
         $containerRenderer->setWidgets($widgets);
 

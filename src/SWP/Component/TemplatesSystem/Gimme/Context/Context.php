@@ -120,11 +120,19 @@ class Context implements \ArrayAccess
     public function loadConfigsFromPath($configsPath)
     {
         if (file_exists($configsPath)) {
-            $finder = new Finder();
-            $finder->in($configsPath)->files()->name('*.yml');
-
-            foreach ($finder as $file) {
-                $this->addNewConfig($file->getRealPath());
+            if (!$this->metadataCache->contains('metadata_config_files')) {
+                $finder = new Finder();
+                $finder->in($configsPath)->files()->name('*.yml');
+                $files = [];
+                foreach ($finder as $file) {
+                    $files[] = $file->getRealPath();
+                    $this->addNewConfig($file->getRealPath());
+                }
+                $this->metadataCache->save('metadata_config_files', $files);
+            } else {
+                foreach ($this->metadataCache->fetch('metadata_config_files') as $file) {
+                    $this->addNewConfig($file);
+                }
             }
         }
     }

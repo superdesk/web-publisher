@@ -48,6 +48,7 @@ services:
 
     swp_core.routing.route_enhancer:
         class: '%swp_core.routing.route_enhancer.class%'
+        lazy: true
         arguments:
             - "@swp_core.theme.resolver.template_name"
             - "@swp_template_engine_loader_chain"
@@ -196,6 +197,7 @@ services:
 
     swp_core.listener.tenant_revision:
         class: SWP\Bundle\CoreBundle\EventListener\TenantRevisionListener
+        lazy: true
         arguments:
             - "@swp.repository.revision"
             - "@swp_revision.context.revision"

@@ -36,12 +36,8 @@ class ContainerRendererFactory implements ContainerRendererFactoryInterface
     /**
      * {@inheritdoc}
      */
-    public function create(
-        ContainerInterface $containerEntity,
-        \Twig_Environment $renderer = null,
-        $debug = false,
-        $cacheDir = null
-    ) {
+    public function create(ContainerInterface $containerEntity, \Twig_Environment $renderer = null, $debug = false, $cacheDir = null)
+    {
         return new $this->className($containerEntity, $renderer, $debug, $cacheDir);
     }
 }
