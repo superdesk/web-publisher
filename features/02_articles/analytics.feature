@@ -11,11 +11,5 @@ Feature: Collect article statistics
   Scenario: Send analytics request
     When I go to "/_swp_analytics?articleId=1"
     Then the response status code should be 200
-
-  Scenario: Checking article stats in API
-    Given I am authenticated as "test.user"
-    When I add "Content-Type" header equal to "application/json"
-    And I send a GET request to "/api/v1/content/articles/1"
-    Then the response status code should be 200
-    And the JSON node "articleStatistics.pageViewsNumber" should be equal to "1"
+    And the header "terminate-imidediately" should be equal to "1"
 

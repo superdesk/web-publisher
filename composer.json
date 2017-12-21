@@ -106,7 +106,7 @@
         "symfony/phpunit-bridge": "^3.1",
         "symfony-cmf/testing": "2.0.x",
         "liip/rmt": "dev-master",
-        "pixers/doctrine-profiler-bundle": "^1.0",
+        "pixers/doctrine-profiler-bundle": "dev-php_72_compatibility",
         "escapestudios/symfony2-coding-standard": "3.x-dev",
         "symfony/web-server-bundle": "^3.3",
         "behat/behat": "^3.4",
@@ -137,6 +137,10 @@
         {
             "type": "vcs",
             "url": "https://github.com/ahilles107/rabbitmq-supervisor-bundle"
+        },
+        {
+            "type": "vcs",
+            "url": "https://github.com/ahilles107/PixersDoctrineProfilerBundle"
         }
     ],
     "scripts": {

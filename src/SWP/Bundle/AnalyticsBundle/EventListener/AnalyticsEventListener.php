@@ -54,12 +54,12 @@ class AnalyticsEventListener
     {
         $request = $event->getRequest();
         if (strpos($request->getPathInfo(), self::EVENT_ENDPOINT)) {
+            $this->producer->publish(serialize($request));
+
             $response = new Response();
             $response->headers->add(['terminate-imidediately' => true]);
             $event->setResponse($response);
             $event->stopPropagation();
-
-            $this->producer->publish(serialize($request));
         }
     }
 

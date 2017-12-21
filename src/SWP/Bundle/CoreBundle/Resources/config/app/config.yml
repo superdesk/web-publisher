@@ -155,7 +155,7 @@ fos_user:
     firewall_name: main
     user_class: SWP\Bundle\CoreBundle\Model\User
     from_email:
-        address: contact@publisher.dev
+        address: contact@publisher.test
         sender_name: Publisher
     registration:
         confirmation:
@@ -294,16 +294,16 @@ old_sound_rabbit_mq:
     producers:
         send_webhook:
             connection:       default
-            exchange_options: {name: 'send_webhook', type: direct}
+            exchange_options: {name: '%kernel.environment%_send_webhook', type: direct}
     consumers:
         send_webhook:
             connection:       default
-            exchange_options: {name: 'send_webhook', type: direct}
-            queue_options:    {name: 'send_webhook'}
+            exchange_options: {name: '%kernel.environment%_send_webhook', type: direct}
+            queue_options:    {name: '%kernel.environment%_send_webhook'}
             callback:         SWP\Bundle\CoreBundle\Consumer\SendWebhookConsumer
         analytics_event:
             connection:       default
-            exchange_options: {name: 'analytics_event', type: direct}
-            queue_options:    {name: 'analytics_event'}
+            exchange_options: {name: '%kernel.environment%_analytics_event', type: direct}
+            queue_options:    {name: '%kernel.environment%_analytics_event'}
             callback:         SWP\Bundle\CoreBundle\Consumer\AnalyticsEventConsumer
 

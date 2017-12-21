@@ -66,7 +66,7 @@ class AnalyticsEventConsumer implements ConsumerInterface
     public function execute(AMQPMessage $message)
     {
         /** @var Request $request */
-        $request = unserialize($message->body);
+        $request = unserialize($message->getBody());
         if (!$request instanceof Request) {
             return ConsumerInterface::MSG_REJECT;
         }
@@ -85,7 +85,7 @@ class AnalyticsEventConsumer implements ConsumerInterface
     /**
      * @param Request $request
      */
-    protected function setTenant(Request $request)
+    private function setTenant(Request $request)
     {
         $this->tenantContext->setTenant($this->tenantResolver->resolve($request->getHost()));
     }

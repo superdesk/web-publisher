@@ -17,6 +17,7 @@ namespace SWP\Bundle\FixturesBundle\DataFixtures\ORM;
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
+use SWP\Bundle\AnalyticsBundle\Model\ArticleStatisticsInterface;
 use SWP\Bundle\ContentBundle\Model\ArticleInterface;
 use SWP\Bundle\ContentBundle\Model\ImageRendition;
 use SWP\Bundle\ContentBundle\Model\RouteInterface;
@@ -346,24 +347,28 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface, Orde
                     'content' => 'Test news article content',
                     'route' => 'news',
                     'locale' => 'en',
+                    'pageViews' => 20,
                 ],
                 [
                     'title' => 'Test article',
                     'content' => 'Test article content',
                     'route' => 'news',
                     'locale' => 'en',
+                    'pageViews' => 10,
                 ],
                 [
                     'title' => 'Features',
                     'content' => 'Features content',
                     'route' => 'news',
                     'locale' => 'en',
+                    'pageViews' => 5,
                 ],
                 [
                     'title' => 'Features client1',
                     'content' => 'Features client1 content',
                     'route' => 'articles/features',
                     'locale' => 'en',
+                    'pageViews' => 0,
                 ],
             ],
         ];
@@ -391,6 +396,8 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface, Orde
                 $articleSourceSecond->setName($secondSources[array_rand($secondSources)]);
                 $article->addSourceReference($articleSourcesService->getArticleSourceReference($article, $articleSourceSecond));
                 $package = $this->createPackage($articleData);
+                $articleStatistics = $this->createArticleStatistics($articleData['pageViews'], $article);
+                $manager->persist($articleStatistics);
                 $manager->persist($package);
                 $article->setPackage($package);
                 $manager->persist($article);
@@ -417,6 +424,16 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface, Orde
         $package->setVersion(1);
 
         return $package;
+    }
+
+    private function createArticleStatistics(int $pageViewsNumber, ArticleInterface $article)
+    {
+        /** @var ArticleStatisticsInterface $articleStatistics */
+        $articleStatistics = $this->container->get('swp.factory.article_statistics')->create();
+        $articleStatistics->setArticle($article);
+        $articleStatistics->setPageViewsNumber($pageViewsNumber);
+
+        return $articleStatistics;
     }
 
     /**
