@@ -16,13 +16,13 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\CoreBundle\Model;
 
-use SWP\Bundle\AnalyticsBundle\Model\ArticleEvents as BaseArticleEvents;
+use SWP\Bundle\AnalyticsBundle\Model\ArticleEvent as BaseArticleEvent;
 use SWP\Component\MultiTenancy\Model\TenantAwareTrait;
 
 /**
  * Class ArticleEvents.
  */
-class ArticleEvents extends BaseArticleEvents implements ArticleEventsInterface
+class ArticleEvent extends BaseArticleEvent implements ArticleEventInterface
 {
     use TenantAwareTrait;
 }

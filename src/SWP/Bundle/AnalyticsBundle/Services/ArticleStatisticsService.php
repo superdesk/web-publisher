@@ -16,7 +16,7 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\AnalyticsBundle\Services;
 
-use SWP\Bundle\AnalyticsBundle\Model\ArticleEventsInterface;
+use SWP\Bundle\AnalyticsBundle\Model\ArticleEventInterface;
 use SWP\Bundle\AnalyticsBundle\Model\ArticleStatisticsInterface;
 use SWP\Bundle\ContentBundle\Doctrine\ArticleRepositoryInterface;
 use SWP\Bundle\ContentBundle\Model\ArticleInterface;

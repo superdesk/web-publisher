@@ -274,7 +274,7 @@ swp_analytics:
                 article_statistics:
                     model: SWP\Bundle\CoreBundle\Model\ArticleStatistics
                 article_events:
-                    model: SWP\Bundle\CoreBundle\Model\ArticleEvents
+                    model: SWP\Bundle\CoreBundle\Model\ArticleEvent
 
 old_sound_rabbit_mq:
     connections:

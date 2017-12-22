@@ -17,11 +17,11 @@ declare(strict_types=1);
 namespace SWP\Bundle\CoreBundle\Model;
 
 use SWP\Component\MultiTenancy\Model\TenantAwareInterface;
-use SWP\Bundle\AnalyticsBundle\Model\ArticleEventsInterface as BaseArticleEventsInterface;
+use SWP\Bundle\AnalyticsBundle\Model\ArticleEventInterface as BaseArticleEventInterface;
 
 /**
  * Interface ArticleStatisticsInterface.
  */
-interface ArticleEventsInterface extends BaseArticleEventsInterface, TenantAwareInterface
+interface ArticleEventInterface extends BaseArticleEventInterface, TenantAwareInterface
 {
 }

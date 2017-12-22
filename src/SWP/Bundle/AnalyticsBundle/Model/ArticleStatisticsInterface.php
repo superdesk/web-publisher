@@ -65,9 +65,9 @@ interface ArticleStatisticsInterface extends PersistableInterface
     public function setEvents(Collection $events): void;
 
     /**
-     * @param ArticleEventsInterface $articleEvent
+     * @param ArticleEventInterface $articleEvent
      */
-    public function addEvent(ArticleEventsInterface $articleEvent);
+    public function addEvent(ArticleEventInterface $articleEvent);
 
     /**
      * Add one more page view.

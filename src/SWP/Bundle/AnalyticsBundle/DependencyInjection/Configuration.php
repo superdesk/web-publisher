@@ -14,8 +14,8 @@
 
 namespace SWP\Bundle\AnalyticsBundle\DependencyInjection;
 
-use SWP\Bundle\AnalyticsBundle\Model\ArticleEvents;
-use SWP\Bundle\AnalyticsBundle\Model\ArticleEventsInterface;
+use SWP\Bundle\AnalyticsBundle\Model\ArticleEvent;
+use SWP\Bundle\AnalyticsBundle\Model\ArticleEventInterface;
 use SWP\Bundle\AnalyticsBundle\Model\ArticleStatistics;
 use SWP\Bundle\AnalyticsBundle\Model\ArticleStatisticsInterface;
 use SWP\Bundle\StorageBundle\Doctrine\ORM\EntityRepository;
@@ -61,10 +61,10 @@ class Configuration implements ConfigurationInterface
                                     ->arrayNode('article_events')
                                         ->addDefaultsIfNotSet()
                                         ->children()
-                                            ->scalarNode('model')->cannotBeEmpty()->defaultValue(ArticleEvents::class)->end()
+                                            ->scalarNode('model')->cannotBeEmpty()->defaultValue(ArticleEvent::class)->end()
                                             ->scalarNode('repository')->defaultValue(EntityRepository::class)->end()
                                             ->scalarNode('factory')->defaultValue(Factory::class)->end()
-                                            ->scalarNode('interface')->defaultValue(ArticleEventsInterface::class)->end()
+                                            ->scalarNode('interface')->defaultValue(ArticleEventInterface::class)->end()
                                             ->scalarNode('object_manager_name')->defaultValue(null)->end()
                                         ->end()
                                     ->end()

@@ -34,7 +34,7 @@ SWP\Bundle\AnalyticsBundle\Model\ArticleStatistics:
                 nullable: false
     oneToMany:
         events:
-            targetEntity: SWP\Bundle\AnalyticsBundle\Model\ArticleEventsInterface
+            targetEntity: SWP\Bundle\AnalyticsBundle\Model\ArticleEventInterface
             mappedBy: articleStatistics
             orphanRemoval: true
             cascade: ["all"]

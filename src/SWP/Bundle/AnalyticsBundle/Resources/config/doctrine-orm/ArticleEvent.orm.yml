@@ -1,4 +1,4 @@
-SWP\Bundle\AnalyticsBundle\Model\ArticleEvents:
+SWP\Bundle\AnalyticsBundle\Model\ArticleEvent:
     type:  mappedSuperclass
     table: swp_article_events
     id:

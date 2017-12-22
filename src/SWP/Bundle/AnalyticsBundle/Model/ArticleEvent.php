@@ -18,9 +18,9 @@ use SWP\Component\Common\Model\TimestampableInterface;
 use SWP\Component\Common\Model\TimestampableTrait;
 
 /**
- * Class ArticleStatistics.
+ * Class ArticleEvent.
  */
-class ArticleEvents implements ArticleEventsInterface, TimestampableInterface
+class ArticleEvent implements ArticleEventInterface, TimestampableInterface
 {
     use TimestampableTrait;
 

@@ -18,9 +18,9 @@ namespace SWP\Bundle\AnalyticsBundle\Model;
 use SWP\Component\Storage\Model\PersistableInterface;
 
 /**
- * Interface ArticleEventsInterface.
+ * Interface ArticleEventInterface.
  */
-interface ArticleEventsInterface extends PersistableInterface
+interface ArticleEventInterface extends PersistableInterface
 {
     const ACTION_IMPRESSION = 'impression';
 
