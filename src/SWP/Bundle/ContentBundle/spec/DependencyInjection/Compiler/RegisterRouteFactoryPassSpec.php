@@ -55,6 +55,7 @@ class RegisterRouteFactoryPassSpec extends ObjectBehavior
                 $baseDefinition,
             ]
         );
+        $routeFactoryDefinition->setPublic(true);
 
         $container->setDefinition('swp.factory.route', $routeFactoryDefinition)->shouldBeCalled();
 
@@ -79,6 +80,8 @@ class RegisterRouteFactoryPassSpec extends ObjectBehavior
                 $baseChannelFactoryDefinition,
             ]
         );
+        $routeFactoryDefinition->setPublic(true);
+
         $container->setDefinition('swp.factory.route', $routeFactoryDefinition)->shouldNotBeCalled();
 
         $this->process($container);
