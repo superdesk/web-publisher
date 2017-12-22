@@ -17,7 +17,7 @@ declare(strict_types=1);
 namespace SWP\Bundle\ContentBundle\Doctrine\ORM;
 
 use Doctrine\ORM\QueryBuilder;
-use Doctrine\ORM\Tools\Pagination\Paginator;
+use Elastica\Query;
 use SWP\Bundle\ContentBundle\Model\ArticleSourceReference;
 use SWP\Component\Common\Criteria\Criteria;
 use SWP\Bundle\ContentBundle\Doctrine\ArticleRepositoryInterface;
@@ -25,6 +25,9 @@ use SWP\Bundle\ContentBundle\Model\ArticleInterface;
 use SWP\Bundle\StorageBundle\Doctrine\ORM\EntityRepository;
 use SWP\Component\Common\Pagination\PaginationData;
 
+/**
+ * Class ArticleRepository.
+ */
 class ArticleRepository extends EntityRepository implements ArticleRepositoryInterface
 {
     /**
@@ -54,7 +57,9 @@ class ArticleRepository extends EntityRepository implements ArticleRepositoryInt
         $qb->andWhere('a.status = :status')
             ->setParameter('status', $criteria->get('status', ArticleInterface::STATUS_PUBLISHED))
             ->leftJoin('a.media', 'm')
-            ->addSelect('m');
+            ->leftJoin('m.renditions', 'r')
+            ->leftJoin('a.sources', 's')
+            ->addSelect('m', 's', 'r');
 
         $this->applyCustomFiltering($qb, $criteria);
 
@@ -84,24 +89,49 @@ class ArticleRepository extends EntityRepository implements ArticleRepositoryInt
     /**
      * {@inheritdoc}
      */
-    public function findArticlesByCriteria(Criteria $criteria, array $sorting = []): array
+    public function getArticlesByCriteria(Criteria $criteria, array $sorting = []): QueryBuilder
     {
-        $queryBuilder = $this->createQueryBuilder('a')
-            ->where('a.status = :status')
-            ->setParameter('status', $criteria->get('status', ArticleInterface::STATUS_PUBLISHED))
-            ->leftJoin('a.media', 'm')
-            ->leftJoin('m.renditions', 'r')
-            ->leftJoin('a.sources', 's')
-            ->addSelect('m', 's', 'r');
-
+        $queryBuilder = $this->getArticlesByCriteriaIds($criteria);
         $this->applyCustomFiltering($queryBuilder, $criteria);
         $this->applyCriteria($queryBuilder, $criteria, 'a');
         $this->applySorting($queryBuilder, $sorting, 'a');
+        $articlesQueryBuilder = clone $queryBuilder;
         $this->applyLimiting($queryBuilder, $criteria);
+        $selectedArticles = $queryBuilder->getQuery()->getScalarResult();
 
-        $paginator = new Paginator($queryBuilder->getQuery(), true);
+        if (!is_array($selectedArticles)) {
+            return [];
+        }
 
-        return $paginator->getIterator()->getArrayCopy();
+        $ids = [];
+
+        foreach ($selectedArticles as $partialArticle) {
+            $ids[] = $partialArticle['a_id'];
+        }
+        $articlesQueryBuilder->select('a')
+            ->leftJoin('a.media', 'm')
+            ->leftJoin('m.renditions', 'r')
+            ->leftJoin('a.sources', 's')
+            ->addSelect('m', 'r', 's')
+            ->andWhere('a.id IN (:ids)')
+            ->setParameter('ids', $ids);
+
+        return $articlesQueryBuilder;
+    }
+
+    /**
+     * @param Criteria $criteria
+     *
+     * @return QueryBuilder
+     */
+    public function getArticlesByCriteriaIds(Criteria $criteria): QueryBuilder
+    {
+        $queryBuilder = $this->createQueryBuilder('a')
+            ->select('partial a.{id}')
+            ->where('a.status = :status')
+            ->setParameter('status', $criteria->get('status', ArticleInterface::STATUS_PUBLISHED));
+
+        return $queryBuilder;
     }
 
     /**

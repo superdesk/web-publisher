@@ -1,0 +1,40 @@
+SWP\Bundle\AnalyticsBundle\Model\ArticleStatistics:
+    type:  mappedSuperclass
+    table: swp_article_statistics
+    id:
+        id:
+            type: integer
+            generator:
+                strategy: AUTO
+    fields:
+        impressionsNumber:
+            type: integer
+            nullable: true
+        pageViewsNumber:
+            type: integer
+            nullable: true
+        createdAt:
+            type: datetime
+            gedmo:
+                timestampable:
+                    on: create
+        updatedAt:
+            type: datetime
+            nullable: true
+            gedmo:
+                timestampable:
+                    on: update
+    oneToOne:
+        article:
+            targetEntity: SWP\Bundle\ContentBundle\Model\ArticleInterface
+            inversedBy: articleStatistics
+            joinColumn:
+                name: article_id
+                referencedColumnName: id
+                nullable: false
+    oneToMany:
+        events:
+            targetEntity: SWP\Bundle\AnalyticsBundle\Model\ArticleEventInterface
+            mappedBy: articleStatistics
+            orphanRemoval: true
+            cascade: ["all"]

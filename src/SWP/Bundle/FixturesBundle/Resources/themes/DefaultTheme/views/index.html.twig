@@ -15,7 +15,7 @@
         'cssClass': 'span8'
       } %}
 
-{% cache 'frontTop3' { time:600 } %}
+{% cache 'frontTop34' { time:600 } %}
 
 {% set i = 0 %}{# This variable is used to check if manual content list 'Top news' exist #}
 
@@ -58,9 +58,9 @@
 
 {% if i == 0 %}
 
-{# No 'Top news' manual list? No problem - just load three latest articles instead! #}
+{# No 'Top news' manual list? No problem - just load three most popular articles instead! #}
 
-{% gimmelist article from articles|order('publishedAt','desc')|limit(3) %}
+{% gimmelist article from articles|order('pageViews','desc')|limit(3) %}
 {% if loop.first %}
 
   {% include 'partials/firstArticle.html.twig' with { 'article': article } %}

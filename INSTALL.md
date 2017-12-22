@@ -119,6 +119,14 @@ The last step is to install assets:
 php app/console sylius:theme:assets:install
 ```
 
+#### Run RabbitMQ consumers
+
+Setup supervisor for created queues consumers
+
+```bash
+php app/console rabbitmq-supervisor:build --env=prod
+```
+
 #### Preview
 
 Run project with built in php server:

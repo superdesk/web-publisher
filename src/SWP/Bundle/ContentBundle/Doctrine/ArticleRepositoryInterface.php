@@ -16,6 +16,7 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\ContentBundle\Doctrine;
 
+use Doctrine\ORM\QueryBuilder;
 use SWP\Bundle\ContentBundle\Model\ArticleInterface;
 use SWP\Component\Common\Criteria\Criteria;
 use SWP\Component\Storage\Repository\RepositoryInterface;
@@ -52,7 +53,7 @@ interface ArticleRepositoryInterface extends RepositoryInterface
      *
      * @return mixed
      */
-    public function getByCriteria(Criteria $criteria, array $sorting);
+    public function getByCriteria(Criteria $criteria, array $sorting): QueryBuilder;
 
     /**
      * @param Criteria $criteria
@@ -66,7 +67,14 @@ interface ArticleRepositoryInterface extends RepositoryInterface
      * @param Criteria $criteria
      * @param array    $sorting
      *
-     * @return array
+     * @return QueryBuilder
      */
-    public function findArticlesByCriteria(Criteria $criteria, array $sorting = []): array;
+    public function getArticlesByCriteria(Criteria $criteria, array $sorting = []): QueryBuilder;
+
+    /**
+     * @param Criteria $criteria
+     *
+     * @return QueryBuilder
+     */
+    public function getArticlesByCriteriaIds(Criteria $criteria): QueryBuilder;
 }

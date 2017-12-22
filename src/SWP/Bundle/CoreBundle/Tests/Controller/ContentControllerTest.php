@@ -144,6 +144,35 @@ class ContentControllerTest extends WebTestCase
         $this->assertTrue(1 === $crawler->filter('html:contains("3")')->count());
     }
 
+    public function testLoadingArticlesOrderedByPageViews()
+    {
+        $this->loadCustomFixtures(['tenant', 'article']);
+
+        $router = $this->getContainer()->get('router');
+        $client = static::createClient();
+        $client->request('PATCH', $router->generate('swp_api_content_update_routes', ['id' => 3]), [
+            'route' => [
+                'templateName' => 'articles_by_pageviews.html.twig',
+            ],
+        ]);
+
+        $expected = <<<'EOT'
+Articles by page views count desc
+    <a href="http://localhost/news/test-news-article">Test news article</a> Page views count: 20
+    <a href="http://localhost/news/test-article">Test article</a> Page views count: 10
+    <a href="http://localhost/news/features">Features</a> Page views count: 5
+
+    <a href="http://localhost/news/features">Features</a>
+    <a href="http://localhost/news/test-article">Test article</a>
+    <a href="http://localhost/news/test-news-article">Test news article</a>
+
+EOT;
+
+        $client->request('GET', '/news');
+        self::assertTrue($client->getResponse()->isSuccessful());
+        self::assertEquals($expected, $client->getResponse()->getContent());
+    }
+
     public function testTestLoadingRouteWithCustomArticlesTemplate()
     {
         $this->loadCustomFixtures(['tenant', 'collection_route']);

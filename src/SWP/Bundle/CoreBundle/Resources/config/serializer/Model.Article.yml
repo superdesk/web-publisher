@@ -7,3 +7,5 @@ SWP\Bundle\CoreBundle\Model\Article:
             serialized_name: tenant
             expose: true
             type: SWP\Bundle\CoreBundle\Model\TenantInterface
+        articleStatistics:
+            expose: true

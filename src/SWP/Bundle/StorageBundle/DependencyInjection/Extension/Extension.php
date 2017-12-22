@@ -45,6 +45,7 @@ abstract class Extension extends BaseExtension
             $classConfig['name'] = $key;
             $driver->load($container, $classConfig);
         }
+
         $container->setParameter('swp.resources', $resources);
     }
 }

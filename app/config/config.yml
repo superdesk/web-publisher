@@ -81,11 +81,6 @@ doctrine:
                 result_cache_driver:
                       type: service
                       id: doctrine_cache.providers.main_cache
-                mappings:
-                    SWPAnalyticsBundle:
-                        type: yml
-                        prefix: SWP\Bundle\AnalyticsBundle\Model
-                        dir: Resources/config/doctrine
 
 doctrine_cache:
     providers:
@@ -109,6 +104,8 @@ swiftmailer:
 
 fos_http_cache:
     user_context:
+        enabled: false
+    tags:
         enabled: false
     cache_manager:
         enabled: true

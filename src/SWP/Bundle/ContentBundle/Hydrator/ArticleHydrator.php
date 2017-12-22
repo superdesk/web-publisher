@@ -130,6 +130,11 @@ final class ArticleHydrator implements ArticleHydratorInterface
         return implode(', ', $authors);
     }
 
+    /**
+     * @param Collection $items
+     *
+     * @return Collection
+     */
     private function filterTextItems(Collection $items)
     {
         return $items->filter(
@@ -155,6 +160,10 @@ final class ArticleHydrator implements ArticleHydratorInterface
         }, $package->getItems()->toArray()));
     }
 
+    /**
+     * @param ArticleInterface $article
+     * @param PackageInterface $package
+     */
     private function populateSources(ArticleInterface $article, PackageInterface $package)
     {
         if (null === $package->getSource()) {

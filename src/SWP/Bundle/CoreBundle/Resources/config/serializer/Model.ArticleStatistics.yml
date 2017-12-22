@@ -1,0 +1,2 @@
+SWP\Bundle\CoreBundle\Model\ArticleStatistics:
+    exclusion_policy: ALL

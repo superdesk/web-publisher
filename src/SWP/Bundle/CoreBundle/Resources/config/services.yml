@@ -5,6 +5,13 @@ parameters:
     themes.upload_dir: "%kernel.project_dir%"
 
 services:
+    _defaults:
+        public: true
+
+#    logger:
+#        parent: "@monolog.logger"
+#        public: true
+
     swp_core.detection.device_detection:
         class: SWP\Bundle\CoreBundle\Detection\DeviceDetection
 
@@ -41,6 +48,7 @@ services:
 
     swp_core.routing.route_enhancer:
         class: '%swp_core.routing.route_enhancer.class%'
+        lazy: true
         arguments:
             - "@swp_core.theme.resolver.template_name"
             - "@swp_template_engine_loader_chain"
@@ -114,7 +122,7 @@ services:
         class: SWP\Bundle\CoreBundle\EventListener\ActivateLivesiteEditorListener
         arguments:
             - '@security.token_storage'
-            - '@twig'
+            - '%kernel.environment%'
         tags:
             - { name: kernel.event_listener, event: kernel.response, method: onKernelResponse }
 
@@ -136,6 +144,7 @@ services:
 
     swp.security.preview_token_authenticator:
         class: SWP\Bundle\CoreBundle\Security\Authenticator\PreviewTokenAuthenticator
+        public: true
         parent: swp.security.token_authenticator
 
     swp.security.user_provider:
@@ -188,6 +197,7 @@ services:
 
     swp_core.listener.tenant_revision:
         class: SWP\Bundle\CoreBundle\EventListener\TenantRevisionListener
+        lazy: true
         arguments:
             - "@swp.repository.revision"
             - "@swp_revision.context.revision"
@@ -296,6 +306,7 @@ services:
           - '@swp.repository.article'
           - '@event_dispatcher'
           - '@swp.factory.article'
+          - '@swp.factory.article_statistics'
           - '@swp_multi_tenancy.tenant_context'
 
     swp_core.listener.canceled_package:
@@ -332,6 +343,7 @@ services:
             - '@request_stack'
             - '@event_dispatcher'
             - '@doctrine_cache.providers.main_cache'
+            - '@doctrine.orm.entity_manager'
 
     swp_core.loader.media:
         class: SWP\Bundle\CoreBundle\Loader\PreviewArticleMediaLoader
@@ -386,3 +398,9 @@ services:
     SWP\Bundle\CoreBundle\Consumer\SendWebhookConsumer:
         arguments:
             - '@jms_serializer'
+
+    SWP\Bundle\CoreBundle\Consumer\AnalyticsEventConsumer:
+        arguments:
+            - '@SWP\Bundle\AnalyticsBundle\Services\ArticleStatisticsService'
+            - '@swp_multi_tenancy.tenant_resolver'
+            - '@swp_multi_tenancy.tenant_context'

@@ -45,17 +45,17 @@
     },
     "require": {
         "php": "^7.1",
-        "symfony/symfony": "3.3",
+        "symfony/symfony": "3.4",
         "symfony/swiftmailer-bundle": "~3.0",
         "symfony/monolog-bundle": "~3.0",
         "sensio/distribution-bundle": "~v5.0",
         "sensio/framework-extra-bundle": "~3.0,>=3.0.2",
         "sensio/generator-bundle": "~3.0",
-        "doctrine/orm": "2.5.*",
-        "doctrine/common": "2.6.*",
-        "doctrine/dbal": "2.5.*",
-        "doctrine/doctrine-bundle": "~1.6",
-        "doctrine/inflector": "^1.0",
+        "doctrine/orm": "2.6.*",
+        "doctrine/common": "2.8.*",
+        "doctrine/dbal": "2.6.*",
+        "doctrine/doctrine-bundle": "~1.8",
+        "doctrine/inflector": "^1.2",
         "doctrine/doctrine-cache-bundle": "1.3.*",
         "guzzlehttp/guzzle": "^6.2",
         "php-http/guzzle6-adapter": "^v1.1",
@@ -91,12 +91,13 @@
         "asm89/twig-cache-extension": "^1.3",
         "doctrine/doctrine-migrations-bundle": "^1.0",
         "layershifter/tld-extract": "^1.2",
-        "friendsofsymfony/elastica-bundle": "^4.0",
-        "php-amqplib/rabbitmq-bundle": "^1.13"
+        "friendsofsymfony/elastica-bundle": "^5.0",
+        "php-amqplib/rabbitmq-bundle": "^1.14",
+        "phobetor/rabbitmq-supervisor-bundle": "dev-ahilles107-old_sound_config_read"
     },
     "require-dev": {
-        "phpspec/phpspec": "^2.4",
-        "phpunit/phpunit": "^5.0",
+        "phpspec/phpspec": "^4.2",
+        "phpunit/phpunit": "^5.4.0",
         "liip/functional-test-bundle": "^1.3",
         "doctrine/doctrine-fixtures-bundle": "^2.2",
         "nelmio/alice": "^2.1",
@@ -105,7 +106,7 @@
         "symfony/phpunit-bridge": "^3.1",
         "symfony-cmf/testing": "2.0.x",
         "liip/rmt": "dev-master",
-        "pixers/doctrine-profiler-bundle": "^1.0",
+        "pixers/doctrine-profiler-bundle": "dev-php_72_compatibility",
         "escapestudios/symfony2-coding-standard": "3.x-dev",
         "symfony/web-server-bundle": "^3.3",
         "behat/behat": "^3.4",
@@ -132,6 +133,16 @@
         "swp/revision": "self.version",
         "swp/elastic-search-bundle": "self.version"
     },
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/ahilles107/rabbitmq-supervisor-bundle"
+        },
+        {
+            "type": "vcs",
+            "url": "https://github.com/ahilles107/PixersDoctrineProfilerBundle.git"
+        }
+    ],
     "scripts": {
         "post-install-cmd": [
             "Incenteev\\ParameterHandler\\ScriptHandler::buildParameters",
@@ -151,7 +162,10 @@
         ]
     },
     "config": {
-        "bin-dir": "bin"
+        "bin-dir": "bin",
+        "platform": {
+            "php": "7.1.12"
+        }
     },
     "minimum-stability":"dev",
     "prefer-stable": true,

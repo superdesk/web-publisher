@@ -34,10 +34,8 @@ class ArticleFactory extends AbstractArticleFactory
      * @param FactoryInterface         $baseFactory
      * @param ArticleHydratorInterface $articleHydrator
      */
-    public function __construct(
-        FactoryInterface $baseFactory,
-        ArticleHydratorInterface $articleHydrator
-    ) {
+    public function __construct(FactoryInterface $baseFactory, ArticleHydratorInterface $articleHydrator)
+    {
         parent::__construct($articleHydrator);
 
         $this->baseFactory = $baseFactory;

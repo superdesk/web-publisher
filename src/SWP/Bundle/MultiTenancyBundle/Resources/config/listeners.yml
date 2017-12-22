@@ -2,7 +2,7 @@ services:
     swp_multi_tenancy.tenant_listener:
         class: SWP\Bundle\MultiTenancyBundle\EventListener\TenantableListener
         arguments:
-            - '@doctrine.orm.entity_manager'
+            - '@doctrine'
             - '@swp_multi_tenancy.tenant_context'
         tags:
             - { name: kernel.event_listener, event: kernel.request, method: enable, priority: 38 }

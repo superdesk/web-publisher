@@ -87,6 +87,7 @@ swp_content:
             classes:
                 article:
                     model: SWP\Bundle\CoreBundle\Model\Article
+                    repository: SWP\Bundle\CoreBundle\Repository\ArticleRepository
                 media:
                     model: SWP\Bundle\CoreBundle\Model\ArticleMedia
                 route:
@@ -154,7 +155,7 @@ fos_user:
     firewall_name: main
     user_class: SWP\Bundle\CoreBundle\Model\User
     from_email:
-        address: contact@publisher.dev
+        address: contact@publisher.test
         sender_name: Publisher
     registration:
         confirmation:
@@ -266,14 +267,22 @@ swp_settings:
 swp_analytics:
     metrics_listener:
         enabled: false
+    persistence:
+        orm:
+            enabled: true
+            classes:
+                article_statistics:
+                    model: SWP\Bundle\CoreBundle\Model\ArticleStatistics
+                article_events:
+                    model: SWP\Bundle\CoreBundle\Model\ArticleEvent
 
 old_sound_rabbit_mq:
     connections:
         default:
-            host:     '%env(rabbit_mq_host)%'
-            port:     '%env(rabbit_mq_port)%'
-            user:     '%env(rabbit_mq_user)%'
-            password: '%env(rabbit_mq_password)%'
+            host:     '%env(RABBIT_MQ_HOST)%'
+            port:     '%env(RABBIT_MQ_PORT)%'
+            user:     '%env(RABBIT_MQ_USER)%'
+            password: '%env(RABBIT_MQ_PASSWORD)%'
             vhost:    '/'
             lazy:     true
             connection_timeout: 3
@@ -285,11 +294,16 @@ old_sound_rabbit_mq:
     producers:
         send_webhook:
             connection:       default
-            exchange_options: {name: 'send_webhook', type: direct}
+            exchange_options: {name: '%kernel.environment%_send_webhook', type: direct}
     consumers:
         send_webhook:
             connection:       default
-            exchange_options: {name: 'send_webhook', type: direct}
-            queue_options:    {name: 'send_webhook'}
+            exchange_options: {name: '%kernel.environment%_send_webhook', type: direct}
+            queue_options:    {name: '%kernel.environment%_send_webhook'}
             callback:         SWP\Bundle\CoreBundle\Consumer\SendWebhookConsumer
+        analytics_event:
+            connection:       default
+            exchange_options: {name: '%kernel.environment%_analytics_event', type: direct}
+            queue_options:    {name: '%kernel.environment%_analytics_event'}
+            callback:         SWP\Bundle\CoreBundle\Consumer\AnalyticsEventConsumer
 

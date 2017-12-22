@@ -7,10 +7,13 @@ parameters:
     swp_content_bundle.router.media.class: SWP\Bundle\ContentBundle\Routing\MediaRouter
 
 services:
+    _defaults:
+        public: true
+
     swp_template_engine.loader.article:
         class: SWP\Bundle\ContentBundle\Loader\ArticleLoader
         arguments:
-            - "@swp.repository.article"
+            - "@swp.provider.article"
             - "@swp.provider.route"
             - "@swp.object_manager.article"
             - "@swp_template_engine_context.factory.meta_factory"
@@ -115,10 +118,12 @@ services:
 
     router.symfony:
         parent: "router.default"
+        public: true
 
     swp_content_bundle.router.media:
         class: "%swp_content_bundle.router.media.class%"
         parent: "router.symfony"
+        public: true
         tags:
             - { name: router, priority: 300 }
 

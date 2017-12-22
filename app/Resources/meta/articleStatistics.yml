@@ -1,0 +1,13 @@
+name: articleStatistics
+class: "SWP\\Bundle\\AnalyticsBundle\\Model\\ArticleStatisticsInterface"
+description: ArticleStatistics Meta is representation of article analytics data.
+properties:
+    id:
+        description: "Article title"
+        type: integer
+    impressionsNumber:
+        description: "Article impressions count"
+        type: integer
+    pageViewsNumber:
+        descriptions: "Article page views count"
+        type: integer

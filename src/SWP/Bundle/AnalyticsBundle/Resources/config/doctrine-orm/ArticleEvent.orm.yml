@@ -1,0 +1,36 @@
+SWP\Bundle\AnalyticsBundle\Model\ArticleEvent:
+    type:  mappedSuperclass
+    table: swp_article_events
+    id:
+        id:
+            type: integer
+            generator:
+                strategy: AUTO
+    fields:
+        action:
+            type: string
+            nullable: true
+        value:
+            type: string
+            nullable: true
+        createdAt:
+            type: datetime
+            gedmo:
+                timestampable:
+                    on: create
+        updatedAt:
+            type: datetime
+            nullable: true
+            gedmo:
+                timestampable:
+                    on: update
+
+    manyToOne:
+        articleStatistics:
+            targetEntity: SWP\Bundle\AnalyticsBundle\Model\ArticleStatisticsInterface
+            inversedBy: events
+            joinColumn:
+                name: article_statistics_id
+                referencedColumnName: id
+                onDelete: CASCADE
+                nullable: false

@@ -1,5 +1,7 @@
 /app/bootstrap.php.cache
 /app/cache/*
+/app/supervisor
+!app/supervisor/.gitkeep
 !app/cache/.gitkeep
 /app/config/parameters.yml
 /app/config/parameters.yml.bak

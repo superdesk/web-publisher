@@ -14,10 +14,11 @@
 
 namespace SWP\Bundle\AnalyticsBundle\DependencyInjection;
 
+use SWP\Bundle\StorageBundle\DependencyInjection\Extension\Extension;
+use SWP\Bundle\StorageBundle\Drivers;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader;
-use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 
 /**
  * This is the class that loads and manages your bundle configuration.
@@ -32,14 +33,15 @@ class SWPAnalyticsExtension extends Extension
     public function load(array $configs, ContainerBuilder $container)
     {
         $config = $this->processConfiguration(new Configuration(), $configs);
-        if ($config['metrics_listener']['enabled']) {
-            $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
-            $loader->load('services.yml');
-        }
-    }
+        $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
+        $loader->load('services.yml');
 
-    public function getAlias()
-    {
-        return 'swp_analytics';
+        if ($config['metrics_listener']['enabled']) {
+            $loader->load('metrics.yml');
+        }
+
+        if ($config['persistence']['orm']['enabled']) {
+            $this->registerStorage(Drivers::DRIVER_DOCTRINE_ORM, $config['persistence']['orm']['classes'], $container);
+        }
     }
 }

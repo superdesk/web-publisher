@@ -66,6 +66,9 @@ fos_user:
     from_email:
         address: contact@publisher.dev
         sender_name: Publisher
+    registration:
+        confirmation:
+            enabled: true
 
 swp_settings:
     persistence:

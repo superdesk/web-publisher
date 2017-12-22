@@ -1,0 +1,11 @@
+SWP\Bundle\AnalyticsBundle\Model\ArticleStatistics:
+    exclusion_policy: ALL
+    properties:
+        impressionsNumber:
+            expose: true
+        pageViewsNumber:
+            expose: true
+        createdAt:
+            expose: true
+        updatedAt:
+            expose: true
