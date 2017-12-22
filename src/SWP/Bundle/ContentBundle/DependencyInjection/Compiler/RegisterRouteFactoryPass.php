@@ -44,6 +44,7 @@ class RegisterRouteFactoryPass implements CompilerPassInterface
                 $baseDefinition,
             ]
         );
+        $routeFactoryDefinition->setPublic(true);
 
         $container->setDefinition('swp.factory.route', $routeFactoryDefinition);
     }

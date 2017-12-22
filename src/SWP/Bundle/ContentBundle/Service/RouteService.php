@@ -14,6 +14,7 @@
 
 namespace SWP\Bundle\ContentBundle\Service;
 
+use Behat\Transliterator\Transliterator;
 use SWP\Bundle\ContentBundle\Event\RouteEvent;
 use SWP\Bundle\ContentBundle\Model\RouteInterface;
 use SWP\Bundle\ContentBundle\RouteEvents;
@@ -102,11 +103,15 @@ class RouteService implements RouteServiceInterface
      */
     protected function generatePath(RouteInterface $route)
     {
+        $slug = $route->getSlug();
+        if (null === $slug) {
+            $slug = Transliterator::urlize($route->getName());
+        }
         if (null === $parent = $route->getParent()) {
-            return '/'.$route->getName();
+            return '/'.$slug;
         }
 
-        return sprintf('%s/%s', $parent->getStaticPrefix(), $route->getName());
+        return sprintf('%s/%s', $parent->getStaticPrefix(), $slug);
     }
 
     /**

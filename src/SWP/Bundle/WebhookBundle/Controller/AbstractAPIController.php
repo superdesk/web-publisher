@@ -48,10 +48,6 @@ abstract class AbstractAPIController extends Controller
     {
         $webhooks = $repository->getPaginatedByCriteria(new Criteria(), $request->query->get('sorting', []), new PaginationData($request));
 
-        if (0 === $webhooks->count()) {
-            throw new NotFoundHttpException('No webhooks were found.');
-        }
-
         return new ResourcesListResponse($webhooks);
     }
 

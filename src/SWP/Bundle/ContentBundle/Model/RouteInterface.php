@@ -120,6 +120,18 @@ interface RouteInterface extends TreeAwareRouteInterface, PersistableInterface
     public function getName();
 
     /**
+     * @return string
+     */
+    public function getSlug(): ?string;
+
+    /**
+     * Slug is used for static prefix generation.
+     *
+     * @param string $slug
+     */
+    public function setSlug(string $slug): void;
+
+    /**
      * @return int
      */
     public function getCacheTimeInSeconds();

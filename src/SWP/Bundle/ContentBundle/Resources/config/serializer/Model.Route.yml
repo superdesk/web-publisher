@@ -7,6 +7,8 @@ SWP\Bundle\ContentBundle\Model\Route:
             expose: true
         name:
             expose: true
+        slug:
+            expose: true
         cacheTimeInSeconds:
             expose: true
             type: integer

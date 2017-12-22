@@ -99,7 +99,7 @@ class TenantableListener implements EventSubscriberInterface
     private function lazyLoad()
     {
         if (null === $this->entityManager) {
-            $this->entityManager = $this->doctrine->getEntityManager();
+            $this->entityManager = $this->doctrine->getManager();
         }
     }
 }

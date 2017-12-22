@@ -20,8 +20,14 @@ use Symfony\Cmf\Bundle\RoutingBundle\Routing\DynamicRouter;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\FilterResponseEvent;
 
+/**
+ * Class MimeTypeListener.
+ */
 class MimeTypeListener
 {
+    /**
+     * @param FilterResponseEvent $event
+     */
     public function onKernelResponse(FilterResponseEvent $event)
     {
         if (!$event->isMasterRequest()) {
@@ -30,9 +36,8 @@ class MimeTypeListener
 
         /** @var RouteInterface $routeObject */
         $routeObject = $event->getRequest()->get(DynamicRouter::ROUTE_KEY);
-
         if (null !== $routeObject) {
-            $extension = pathinfo($routeObject->getName(), PATHINFO_EXTENSION);
+            $extension = pathinfo($routeObject->getStaticPrefix(), PATHINFO_EXTENSION);
             $response = $event->getResponse();
             if ('' !== $extension && Response::HTTP_OK === $response->getStatusCode()) {
                 $response->headers->set('Content-Type', Mime::getMimeFromExtension($extension).'; charset=UTF-8');
