@@ -66,7 +66,7 @@ class PHPCRDriverSpec extends ObjectBehavior
         $this->isSupported('fake')->shouldReturn(false);
     }
 
-    public function getMatchers() : array
+    public function getMatchers(): array
     {
         return [
             'haveParameterName' => function (Parameter $parameter, $expectedName) {

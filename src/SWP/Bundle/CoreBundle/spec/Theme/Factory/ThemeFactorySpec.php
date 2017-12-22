@@ -32,7 +32,7 @@ class ThemeFactorySpec extends ObjectBehavior
             ->during('create', ['testtheme', '/theme/path']);
     }
 
-    public function getMatchers() : array
+    public function getMatchers(): array
     {
         return [
             'haveNameAndPath' => function (ThemeInterface $theme, $expectedName, $expectedPath) {
