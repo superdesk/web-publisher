@@ -60,6 +60,7 @@ class RegisterTenantFactoryCompilerPassSpec extends ObjectBehavior
                 new Reference('swp.repository.organization'),
             ]
         );
+        $tenantFactoryDefinition->setPublic(true);
 
         $container->setDefinition('swp.factory.tenant', $tenantFactoryDefinition)->shouldBeCalled();
 

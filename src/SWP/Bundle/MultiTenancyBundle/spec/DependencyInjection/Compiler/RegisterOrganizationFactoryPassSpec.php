@@ -70,6 +70,7 @@ class RegisterOrganizationFactoryPassSpec extends ObjectBehavior
                 new Parameter('swp_multi_tenancy.persistence.phpcr.basepath'),
             ]
         );
+        $organizationFactoryDefinition->setPublic(true);
 
         $container->setDefinition('swp.factory.organization', $organizationFactoryDefinition)->shouldBeCalled();
 
