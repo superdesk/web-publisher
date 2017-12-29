@@ -46,6 +46,7 @@ class RegisterORMArticleFactoryPass implements CompilerPassInterface
                 $container->findDefinition('swp.hydrator.article'),
             ]
         );
+        $articleFactoryDefinition->setPublic(true);
 
         $container->setDefinition('swp.factory.article', $articleFactoryDefinition);
     }
