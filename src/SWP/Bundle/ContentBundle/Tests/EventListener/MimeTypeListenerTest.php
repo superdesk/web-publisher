@@ -31,7 +31,8 @@ class MimeTypeListenerTest extends WebTestCase
         $request = new Request();
         $route = new Route();
 
-        $route->setName('feed/siteamap.rss');
+        $route->setName('Sitemap');
+        $route->setStaticPrefix('/feed/siteamap.rss');
         $request->attributes->set(DynamicRouter::ROUTE_KEY, $route);
         $event = new FilterResponseEvent(
             $this->getContainer()->get('kernel'),
@@ -45,6 +46,7 @@ class MimeTypeListenerTest extends WebTestCase
         self::assertEquals(Response::HTTP_OK, $eventResponse->getStatusCode());
 
         $route->setName('articles');
+        $route->setStaticPrefix('/articles');
         $request->attributes->set(DynamicRouter::ROUTE_KEY, $route);
         $event = new FilterResponseEvent(
             $this->getContainer()->get('kernel'),
