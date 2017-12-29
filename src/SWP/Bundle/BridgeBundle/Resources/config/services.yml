@@ -1,4 +1,7 @@
 services:
+    _defaults:
+        public: true
+
     # move it into an appropriate place (CoreBundle?)
     swp.serializer:
         class: SWP\Bridge\JMSSerializerBundle\JMSSerializer

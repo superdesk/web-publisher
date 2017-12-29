@@ -1,4 +1,7 @@
 services:
+    _defaults:
+        public: true
+
     swp_core.decorating_routing.twig_extension:
         class: SWP\Bundle\CoreBundle\Twig\RoutingExtension
         decorates: twig.extension.routing

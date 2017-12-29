@@ -44,6 +44,11 @@ trait RouteTrait
     /**
      * @var string
      */
+    protected $slug;
+
+    /**
+     * @var string
+     */
     protected $variablePattern;
 
     /**
@@ -68,12 +73,28 @@ trait RouteTrait
      * Rename a route by setting its new name.
      *
      * @param string $name the new name
-     *
-     * @return self
      */
     public function setName($name)
     {
         $this->name = $name;
+    }
+
+    /**
+     * @return string
+     */
+    public function getSlug(): ?string
+    {
+        return $this->slug;
+    }
+
+    /**
+     * Slug is used for static prefix generation.
+     *
+     * @param string $slug
+     */
+    public function setSlug(string $slug): void
+    {
+        $this->slug = $slug;
     }
 
     /**

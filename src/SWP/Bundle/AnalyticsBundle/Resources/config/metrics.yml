@@ -1,4 +1,7 @@
 services:
+    _defaults:
+        public: true
+
     swp.analytics.requestmetric_repository:
         class: SWP\Bundle\AnalyticsBundle\Repository\RequestMetricRepository
         factory: ["@doctrine.orm.entity_manager", getRepository]

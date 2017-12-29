@@ -3,6 +3,9 @@ parameters:
     swp_bridge.http_push.validator.ninjs.class: SWP\Component\Bridge\Validator\NinjsValidator
 
 services:
+    _defaults:
+        public: true
+
     swp_bridge.http_push.validator_chain:
         class: '%swp_bridge.http_push.validator_chain.class%'
 

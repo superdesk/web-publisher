@@ -7,7 +7,11 @@ This changelog references the relevant changes (bug and security fixes) done in 
 To get the diff for a specific change, go to https://github.com/superdesk/web-publisher/commit/XXX where XXX is the change hash
 
 * 1.1.x
- * feature [#394] add "template_name" parameter to html widget
+ * improvement [#423] Add slug field to route. It will be used for url generation instead name field
+ * feature [#420] Add option to order list by pageViews parameter
+ * feature [#420] Add statistics to articles. Collect page views and make them visible in template and api
+ * feature [#416] Add Webhooks system (with API) to publisher
+ * feature [#394] Add "template_name" parameter to html widget
  * feature [#393] Introduce "without" keyword for gimmelist and add refactor article sources to allow better filtering
  * [BC Break] feature [#371] Handle article sources (Article source is now an array of sources instead of a string.)
  * feature [#379] Add API endpoint for listing available widgets templates in current theme

@@ -50,6 +50,7 @@ class RegisterTenantFactoryCompilerPass implements CompilerPassInterface
                 new Reference('swp.repository.organization'),
             ]
         );
+        $tenantFactoryDefinition->setPublic(true);
 
         $container->setDefinition('swp.factory.tenant', $tenantFactoryDefinition);
     }

@@ -48,6 +48,7 @@ class RegisterPHPCRArticleFactoryPass implements CompilerPassInterface
                 $container->getParameter('swp_multi_tenancy.persistence.phpcr.content_basepath'),
             ]
         );
+        $articleFactoryDefinition->setPublic(true);
 
         $container->setDefinition('swp.factory.article', $articleFactoryDefinition);
     }

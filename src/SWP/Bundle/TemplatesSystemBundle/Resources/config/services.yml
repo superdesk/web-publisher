@@ -1,4 +1,7 @@
 services:
+    _defaults:
+        public: true
+
     swp_template_engine_loader_chain:
         class: SWP\Component\TemplatesSystem\Gimme\Loader\ChainLoader
 

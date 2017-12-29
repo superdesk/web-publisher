@@ -1,3 +1,6 @@
 services:
+    _defaults:
+        public: true
+
     swp_revision.context.revision:
         class: SWP\Component\Revision\Context\RevisionContext
