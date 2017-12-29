@@ -18,6 +18,7 @@ use Doctrine\Common\Cache\Cache;
 use Doctrine\ORM\EntityManager;
 use SWP\Bundle\CoreBundle\Model\Route;
 use SWP\Bundle\MultiTenancyBundle\Context\TenantContext;
+use SWP\Component\MultiTenancy\Model\TenantInterface;
 use SWP\Component\MultiTenancy\Resolver\TenantResolverInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -79,6 +80,19 @@ class CachedTenantContext extends TenantContext implements CachedTenantContextIn
         }
 
         return $this->tenant;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setTenant(TenantInterface $tenant)
+    {
+        parent::setTenant($tenant);
+        $host = $tenant->getDomainName();
+        if ($subdomain = $tenant->getSubdomain()) {
+            $host = $subdomain.'.'.$host;
+        }
+        $this->cacheProvider->delete(self::getCacheKey($host));
     }
 
     /**

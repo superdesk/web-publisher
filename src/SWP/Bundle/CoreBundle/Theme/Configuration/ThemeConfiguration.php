@@ -50,6 +50,7 @@ final class ThemeConfiguration implements ConfigurationInterface
         $this->addOptionalScreenshotsList($rootNodeDefinition);
         $this->addOptionalAuthorsList($rootNodeDefinition);
         $this->addOptionalConfig($rootNodeDefinition);
+        $this->addOptionalRequiredData($rootNodeDefinition);
 
         return $treeBuilder;
     }
@@ -113,6 +114,32 @@ final class ThemeConfiguration implements ConfigurationInterface
         ;
 
         $configNodeDefinition->children()->variableNode('defaultTemplates');
+    }
+
+    /**
+     * @param ArrayNodeDefinition $rootNodeDefinition
+     */
+    private function addOptionalRequiredData(ArrayNodeDefinition $rootNodeDefinition)
+    {
+        $requiredDataNodeDefinition = $rootNodeDefinition->children()->arrayNode('requiredData');
+        $routesNodeDefinition = $requiredDataNodeDefinition->children()->arrayNode('routes');
+        $routesNodeDefinition->cannotBeEmpty();
+
+        /** @var ArrayNodeDefinition $authorNodeDefinition */
+        $routeNodeDefinition = $routesNodeDefinition->prototype('array');
+        $routeNodeDefinition
+            ->validate()
+            ->ifTrue(function ($route) {
+                return [] === $route;
+            })
+            ->thenInvalid('Route cannot be empty!')
+        ;
+
+        $routeNodeBuilder = $routeNodeDefinition->children();
+        $routeNodeBuilder->scalarNode('name')->cannotBeEmpty();
+        $routeNodeBuilder->scalarNode('slug')->cannotBeEmpty();
+        $routeNodeBuilder->scalarNode('type')->cannotBeEmpty();
+        $routeNodeBuilder->scalarNode('parentName')->defaultNull();
     }
 
     /**

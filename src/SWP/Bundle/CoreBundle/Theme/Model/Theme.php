@@ -25,6 +25,11 @@ class Theme extends BaseTheme implements ThemeInterface
     protected $config;
 
     /**
+     * @var array
+     */
+    protected $requiredData;
+
+    /**
      * Theme constructor.
      *
      * @param string $name
@@ -50,8 +55,16 @@ class Theme extends BaseTheme implements ThemeInterface
     /**
      * {@inheritdoc}
      */
-    public function getDefaultTemplates()
+    public function getDefaultTemplates(): array
     {
         return $this->config['defaultTemplates'];
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getRoutes(): array
+    {
+        return $this->requiredData['routes'];
     }
 }

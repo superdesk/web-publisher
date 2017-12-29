@@ -12,26 +12,17 @@
  * @license http://www.superdesk.org/license
  */
 
-namespace SWP\Bundle\CoreBundle\Theme\Installer;
+namespace SWP\Bundle\CoreBundle\Theme\Processor;
 
 use SWP\Bundle\CoreBundle\Theme\Model\ThemeInterface;
 
 /**
  * Interface ThemeUploaderInterface.
  */
-interface ThemeInstallerInterface
+interface RequiredDataProcessorInterface
 {
     /**
-     * @param string|null $themeName
-     * @param null        $sourceDir
-     * @param null        $themeDir
-     *
-     * @return null|ThemeInterface
+     * @param ThemeInterface $theme
      */
-    public function install(string $themeName = null, $sourceDir = null, $themeDir = null): ?ThemeInterface;
-
-    /**
-     * @return string
-     */
-    public function getThemesPath();
+    public function processTheme(ThemeInterface $theme): void;
 }

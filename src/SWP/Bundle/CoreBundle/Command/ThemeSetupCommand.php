@@ -83,29 +83,28 @@ EOT
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $fileSystem = new Filesystem();
-        $helper = $this->getHelper('question');
-        $force = true === $input->getOption('force');
-        $activate = true === $input->getOption('activate');
-
-        $tenantRepository = $this->getContainer()->get('swp.repository.tenant');
-        /** @var ThemeAwareTenantInterface $tenant */
-        $tenant = $tenantRepository->findOneByCode($input->getArgument('tenant'));
-
         $sourceDir = $input->getArgument('theme_dir');
-
-        $this->assertTenantIsFound($input->getArgument('tenant'), $tenant);
-
         if (!$fileSystem->exists($sourceDir) || !is_dir($sourceDir)) {
             $output->writeln(sprintf('<error>Directory "%s" does not exist or it is not a directory!</error>', $sourceDir));
 
             return;
         }
 
-        $themesDir = $this->getContainer()->getParameter('swp.theme.configuration.default_directory');
-        $tenantThemeDir = $themesDir.\DIRECTORY_SEPARATOR.$tenant->getCode();
-        $themeDir = $tenantThemeDir.\DIRECTORY_SEPARATOR.basename($sourceDir);
+        $container = $this->getContainer();
+        $tenantRepository = $container->get('swp.repository.tenant');
+        $tenantContext = $container->get('swp_multi_tenancy.tenant_context');
+        $tenant = $tenantRepository->findOneByCode($input->getArgument('tenant'));
+        $this->assertTenantIsFound($input->getArgument('tenant'), $tenant);
+        $tenantContext->setTenant($tenant);
+        $themeInstaller = $container->get('swp_core.installer.theme');
+
+        $force = true === $input->getOption('force');
+        $activate = true === $input->getOption('activate');
+        $themesDir = $container->getParameter('swp.theme.configuration.default_directory');
+        $themeDir = $themesDir.\DIRECTORY_SEPARATOR.$tenant->getCode().\DIRECTORY_SEPARATOR.basename($sourceDir);
 
         try {
+            $helper = $this->getHelper('question');
             $question = new ConfirmationQuestion(
                 '<question>This will override your current theme. Continue with this action? (yes/no)<question> <comment>[yes]</comment> ',
                 true,
@@ -118,18 +117,23 @@ EOT
                 }
             }
 
-            $fileSystem->mirror($sourceDir, $themeDir, null, ['override' => true, 'delete' => true]);
+            $themeInstaller->install(null, $sourceDir, $themeDir);
             $output->writeln('<info>Theme has been installed successfully!</info>');
 
-            if (!$activate) {
-                return;
-            }
             if (file_exists($themeDir.\DIRECTORY_SEPARATOR.'theme.json')) {
-                $json = json_decode(file_get_contents($themeDir.\DIRECTORY_SEPARATOR.'theme.json'), true);
-                $themeName = $json['name'];
+                $themeName = json_decode(file_get_contents($themeDir.\DIRECTORY_SEPARATOR.'theme.json'), true)['name'];
                 $tenant->setThemeName($themeName);
-                $tenantRepository->flush();
-                $output->writeln('<info>Theme was activated!</info>');
+
+                if ($activate) {
+                    $tenantRepository->flush();
+                    $output->writeln('<info>Theme was activated!</info>');
+                }
+
+                $output->writeln('<info>Persisting theme required data...</info>');
+                $theme = $container->get('sylius.context.theme')->getTheme();
+                $requiredDataProcessor = $container->get('swp_core.processor.theme.required_data');
+                $requiredDataProcessor->processTheme($theme);
+                $output->writeln('<info>Theme required data was persisted successfully!</info>');
             }
         } catch (\Exception $e) {
             $output->writeln('<error>Theme could not be installed!</error>');

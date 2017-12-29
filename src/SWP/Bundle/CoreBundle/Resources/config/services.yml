@@ -76,6 +76,15 @@ services:
             - '@twig'
             - '%swp.theme.configuration.default_directory%'
 
+    swp_core.processor.theme.required_data:
+        class: SWP\Bundle\CoreBundle\Theme\Processor\RequiredDataProcessor
+        arguments:
+            - '@swp.service.route'
+            - '@swp.repository.route'
+            - '@swp.provider.route'
+            - '@swp.factory.route'
+
+
     swp_core.loader.organization.theme:
         class: Sylius\Bundle\ThemeBundle\Loader\ThemeLoader
         arguments:

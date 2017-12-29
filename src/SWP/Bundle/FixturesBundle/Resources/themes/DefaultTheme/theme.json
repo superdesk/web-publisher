@@ -9,5 +9,50 @@
             "homepage": "https://www.sourcefabric.org",
             "role": "Organization"
         }
-    ]
+    ],
+    "requiredData": {
+        "routes": [
+            {
+                "name": "Politics",
+                "slug": "politics",
+                "type": "collection"
+            },
+            {
+                "name": "Business",
+                "slug": "business",
+                "type": "collection"
+            },
+            {
+                "name": "Sci/Tech",
+                "slug": "scitech",
+                "type": "collection"
+            },
+            {
+                "name": "Health",
+                "slug": "health",
+                "type": "collection"
+            },
+            {
+                "name": "Entertainment",
+                "slug": "entertainment",
+                "type": "collection"
+            },
+            {
+                "name": "Sports",
+                "slug": "sports",
+                "type": "collection"
+            },
+            {
+                "name": "Football",
+                "slug": "football",
+                "type": "collection",
+                "parentName": "Sports"
+            }
+        ],
+        "navigation": [
+            {
+
+            }
+        ]
+    }
 }

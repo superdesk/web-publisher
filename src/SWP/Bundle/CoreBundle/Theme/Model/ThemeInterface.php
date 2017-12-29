@@ -26,5 +26,10 @@ interface ThemeInterface extends BaseThemeInterface
     /**
      * @return $array
      */
-    public function getDefaultTemplates();
+    public function getDefaultTemplates(): array;
+
+    /**
+     * @return array
+     */
+    public function getRoutes(): array;
 }
