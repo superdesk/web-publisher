@@ -3,6 +3,9 @@ parameters:
     swp_bridge.transformer.json_to_package.class: SWP\Component\Bridge\Transformer\JsonToPackageTransformer
 
 services:
+    _defaults:
+        public: true
+
     swp_bridge.http_push.transformer_chain:
         class: '%swp_bridge.http_push.transformer_chain.class%'
         arguments:

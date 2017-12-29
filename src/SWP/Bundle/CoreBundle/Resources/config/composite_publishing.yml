@@ -1,4 +1,7 @@
 services:
+    _defaults:
+        public: true
+
     swp_core.factory.composite_publish_action:
         class: SWP\Bundle\CoreBundle\Factory\PublishActionFactory
 

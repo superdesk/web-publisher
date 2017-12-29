@@ -1,6 +1,7 @@
 services:
     swp_elastic_search.loader.results:
         class: SWP\Bundle\ElasticSearchBundle\Loader\SearchResultLoader
+        public: true
         arguments:
             - '@fos_elastica.manager'
             - '@swp_template_engine_context.factory.meta_factory'

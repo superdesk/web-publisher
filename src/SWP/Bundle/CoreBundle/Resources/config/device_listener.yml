@@ -1,6 +1,7 @@
 services:
     swp_core.listener.device:
         class: SWP\Bundle\CoreBundle\EventListener\CurrentDeviceListener
+        public: true
         arguments:
             - "@swp_core.detection.device_detection"
         tags:

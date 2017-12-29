@@ -1,4 +1,7 @@
 services:
+    _defaults:
+        public: true
+
     swp_menu.provider.orm_menu_provider:
         class: SWP\Bundle\MenuBundle\Provider\OrmMenuProvider
         public: false
