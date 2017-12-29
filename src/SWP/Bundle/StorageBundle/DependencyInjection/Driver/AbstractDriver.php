@@ -89,10 +89,11 @@ abstract class AbstractDriver implements PersistenceDriverInterface
      */
     protected function createObjectManagerAlias(ContainerBuilder $container, $config)
     {
-        $container->setAlias(
+        $aliasDefinition = $container->setAlias(
             'swp.object_manager.'.$config['name'],
             new Alias($this->getObjectManagerId($config))
         );
+        $aliasDefinition->setPublic(true);
     }
 
     /**
