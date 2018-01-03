@@ -15,7 +15,10 @@
             {
                 "name": "Politics",
                 "slug": "politics",
-                "type": "collection"
+                "type": "collection",
+                "templateName": "",
+                "articlesTemplateName": "",
+                "numberOfArticles": 1
             },
             {
                 "name": "Business",
@@ -46,12 +49,7 @@
                 "name": "Football",
                 "slug": "football",
                 "type": "collection",
-                "parentName": "Sports"
-            }
-        ],
-        "navigation": [
-            {
-
+                "parent": "Sports"
             }
         ]
     }

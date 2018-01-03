@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "aee56fe696e5feea16e5643ea1cc07d3",
+    "content-hash": "302d34b478eae48c8f97d9c556763ce9",
     "packages": [
         {
             "name": "apache/log4php",
@@ -1597,21 +1597,21 @@
         },
         {
             "name": "friendsofsymfony/elastica-bundle",
-            "version": "v5.0.1",
+            "version": "v5.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/FriendsOfSymfony/FOSElasticaBundle.git",
-                "reference": "96c79eb57c8c19d6ee05261335521cf459914eda"
+                "reference": "4857392c7cb40b5b970157c283e57c5ebb08fcf5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSElasticaBundle/zipball/96c79eb57c8c19d6ee05261335521cf459914eda",
-                "reference": "96c79eb57c8c19d6ee05261335521cf459914eda",
+                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSElasticaBundle/zipball/4857392c7cb40b5b970157c283e57c5ebb08fcf5",
+                "reference": "4857392c7cb40b5b970157c283e57c5ebb08fcf5",
                 "shasum": ""
             },
             "require": {
                 "pagerfanta/pagerfanta": "^1.0.5",
-                "php": ">=5.6.0",
+                "php": "^5.6.0|^7.0",
                 "psr/log": "^1.0",
                 "ruflin/elastica": "^5.2.1|^6.0",
                 "symfony/console": "^3.2|^4",
@@ -1679,7 +1679,7 @@
                 "mongodb",
                 "search"
             ],
-            "time": "2017-12-19T11:54:25+00:00"
+            "time": "2018-01-03T13:22:51+00:00"
         },
         {
             "name": "friendsofsymfony/http-cache",
@@ -2020,6 +2020,56 @@
                 "User management"
             ],
             "time": "2017-11-29T17:01:21+00:00"
+        },
+        {
+            "name": "fzaninotto/faker",
+            "version": "v1.7.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/fzaninotto/Faker.git",
+                "reference": "d3ed4cc37051c1ca52d22d76b437d14809fc7e0d"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/fzaninotto/Faker/zipball/d3ed4cc37051c1ca52d22d76b437d14809fc7e0d",
+                "reference": "d3ed4cc37051c1ca52d22d76b437d14809fc7e0d",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^5.3.3 || ^7.0"
+            },
+            "require-dev": {
+                "ext-intl": "*",
+                "phpunit/phpunit": "^4.0 || ^5.0",
+                "squizlabs/php_codesniffer": "^1.5"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.8-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Faker\\": "src/Faker/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "François Zaninotto"
+                }
+            ],
+            "description": "Faker is a PHP library that generates fake data for you.",
+            "keywords": [
+                "data",
+                "faker",
+                "fixtures"
+            ],
+            "time": "2017-08-15T16:48:10+00:00"
         },
         {
             "name": "gedmo/doctrine-extensions",
@@ -3644,16 +3694,16 @@
         },
         {
             "name": "layershifter/tld-database",
-            "version": "1.0.51",
+            "version": "1.0.52",
             "source": {
                 "type": "git",
                 "url": "https://github.com/layershifter/TLDDatabase.git",
-                "reference": "102bc740155d28471da7bfde66e504bf57e4ffb5"
+                "reference": "19970b911b44f69922d6c1b5ed2a73cbeffa98ac"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/layershifter/TLDDatabase/zipball/102bc740155d28471da7bfde66e504bf57e4ffb5",
-                "reference": "102bc740155d28471da7bfde66e504bf57e4ffb5",
+                "url": "https://api.github.com/repos/layershifter/TLDDatabase/zipball/19970b911b44f69922d6c1b5ed2a73cbeffa98ac",
+                "reference": "19970b911b44f69922d6c1b5ed2a73cbeffa98ac",
                 "shasum": ""
             },
             "require": {
@@ -3691,7 +3741,7 @@
                 "domain database",
                 "tld database"
             ],
-            "time": "2017-10-31T18:18:21+00:00"
+            "time": "2018-01-01T14:09:21+00:00"
         },
         {
             "name": "layershifter/tld-extract",
@@ -8340,16 +8390,16 @@
         },
         {
             "name": "behat/symfony2-extension",
-            "version": "2.1.3",
+            "version": "2.1.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Behat/Symfony2Extension.git",
-                "reference": "58ff14069fa50828c70bec05fc2feb25d6ed0f5b"
+                "reference": "022ece0c1f7e88be720fd94a47e5a512cebdc328"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Behat/Symfony2Extension/zipball/58ff14069fa50828c70bec05fc2feb25d6ed0f5b",
-                "reference": "58ff14069fa50828c70bec05fc2feb25d6ed0f5b",
+                "url": "https://api.github.com/repos/Behat/Symfony2Extension/zipball/022ece0c1f7e88be720fd94a47e5a512cebdc328",
+                "reference": "022ece0c1f7e88be720fd94a47e5a512cebdc328",
                 "shasum": ""
             },
             "require": {
@@ -8397,7 +8447,7 @@
                 "framework",
                 "symfony"
             ],
-            "time": "2017-12-13T15:41:53+00:00"
+            "time": "2017-12-13T16:50:51+00:00"
         },
         {
             "name": "behatch/contexts",
@@ -8868,56 +8918,6 @@
                 "routing"
             ],
             "time": "2017-08-25T15:21:42+00:00"
-        },
-        {
-            "name": "fzaninotto/faker",
-            "version": "v1.7.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/fzaninotto/Faker.git",
-                "reference": "d3ed4cc37051c1ca52d22d76b437d14809fc7e0d"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/fzaninotto/Faker/zipball/d3ed4cc37051c1ca52d22d76b437d14809fc7e0d",
-                "reference": "d3ed4cc37051c1ca52d22d76b437d14809fc7e0d",
-                "shasum": ""
-            },
-            "require": {
-                "php": "^5.3.3 || ^7.0"
-            },
-            "require-dev": {
-                "ext-intl": "*",
-                "phpunit/phpunit": "^4.0 || ^5.0",
-                "squizlabs/php_codesniffer": "^1.5"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "1.8-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Faker\\": "src/Faker/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "François Zaninotto"
-                }
-            ],
-            "description": "Faker is a PHP library that generates fake data for you.",
-            "keywords": [
-                "data",
-                "faker",
-                "fixtures"
-            ],
-            "time": "2017-08-15T16:48:10+00:00"
         },
         {
             "name": "jackalope/jackalope",
@@ -10850,16 +10850,16 @@
         },
         {
             "name": "symfony-cmf/testing",
-            "version": "2.0.0",
+            "version": "2.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony-cmf/testing.git",
-                "reference": "9cb4e1ca3ad263422cda806bb55dc9d39a0f4140"
+                "reference": "c7d3da3d955635aee6e8874634165bc51b3ac873"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony-cmf/testing/zipball/9cb4e1ca3ad263422cda806bb55dc9d39a0f4140",
-                "reference": "9cb4e1ca3ad263422cda806bb55dc9d39a0f4140",
+                "url": "https://api.github.com/repos/symfony-cmf/testing/zipball/c7d3da3d955635aee6e8874634165bc51b3ac873",
+                "reference": "c7d3da3d955635aee6e8874634165bc51b3ac873",
                 "shasum": ""
             },
             "require": {
@@ -10867,14 +10867,27 @@
                 "doctrine/data-fixtures": "^1.0",
                 "doctrine/doctrine-bundle": "^1.0",
                 "doctrine/phpcr-bundle": "^1.1",
-                "doctrine/phpcr-odm": "^1.1|^2.0",
+                "doctrine/phpcr-odm": "^1.1 || ^2.0",
                 "friendsofsymfony/jsrouting-bundle": "^1.1",
                 "jackalope/jackalope": "^1.1.5",
                 "jackalope/jackalope-doctrine-dbal": "^1.1.5",
-                "php": "^5.6|^7.0",
-                "symfony/monolog-bundle": "^2.1|^3.0",
-                "symfony/phpunit-bridge": "^3.2",
-                "symfony/symfony": "^2.8|^3.0"
+                "php": "^5.6 || ^7.0",
+                "symfony/browser-kit": "^2.8 || ^3.0",
+                "symfony/console": "^2.8 || ^3.0",
+                "symfony/css-selector": "^2.8 || ^3.0",
+                "symfony/debug": "^2.8 || ^3.0",
+                "symfony/dependency-injection": "^2.8 || ^3.0",
+                "symfony/doctrine-bridge": "^2.8 || ^3.0",
+                "symfony/framework-bundle": "^2.8.1 || ^3.0",
+                "symfony/http-foundation": "^2.8 || ^3.0",
+                "symfony/http-kernel": "^2.8 || ^3.0",
+                "symfony/monolog-bundle": "^2.8 || ^3.0",
+                "symfony/process": "^2.8 || ^3.0",
+                "symfony/security-bundle": "^2.8 || ^3.0",
+                "symfony/twig-bundle": "^2.8 || ^3.0"
+            },
+            "require-dev": {
+                "symfony/phpunit-bridge": "^4.0"
             },
             "type": "library",
             "extra": {
@@ -10898,7 +10911,7 @@
                 }
             ],
             "description": "Component providing tools for writing tests with Symfony.",
-            "time": "2017-02-18T17:34:40+00:00"
+            "time": "2018-01-02T08:15:28+00:00"
         },
         {
             "name": "symfony/phpunit-bridge",

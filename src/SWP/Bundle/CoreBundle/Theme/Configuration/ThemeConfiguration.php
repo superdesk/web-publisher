@@ -123,7 +123,7 @@ final class ThemeConfiguration implements ConfigurationInterface
     {
         $requiredDataNodeDefinition = $rootNodeDefinition->children()->arrayNode('requiredData');
         $routesNodeDefinition = $requiredDataNodeDefinition->children()->arrayNode('routes');
-        $routesNodeDefinition->cannotBeEmpty();
+        $routesNodeDefinition->requiresAtLeastOneElement();
 
         /** @var ArrayNodeDefinition $authorNodeDefinition */
         $routeNodeDefinition = $routesNodeDefinition->prototype('array');
@@ -139,7 +139,10 @@ final class ThemeConfiguration implements ConfigurationInterface
         $routeNodeBuilder->scalarNode('name')->cannotBeEmpty();
         $routeNodeBuilder->scalarNode('slug')->cannotBeEmpty();
         $routeNodeBuilder->scalarNode('type')->cannotBeEmpty();
-        $routeNodeBuilder->scalarNode('parentName')->defaultNull();
+        $routeNodeBuilder->scalarNode('parent')->defaultNull();
+        $routeNodeBuilder->scalarNode('templateName')->defaultNull();
+        $routeNodeBuilder->scalarNode('articlesTemplateName')->defaultNull();
+        $routeNodeBuilder->scalarNode('numberOfArticles')->defaultNull();
     }
 
     /**

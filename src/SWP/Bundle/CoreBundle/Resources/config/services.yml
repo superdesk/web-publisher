@@ -76,14 +76,29 @@ services:
             - '@twig'
             - '%swp.theme.configuration.default_directory%'
 
-    swp_core.processor.theme.required_data:
-        class: SWP\Bundle\CoreBundle\Theme\Processor\RequiredDataProcessor
+    swp_core.generator.theme.fake_article:
+        class: SWP\Bundle\CoreBundle\Theme\Generator\FakeArticlesGenerator
+        arguments:
+            - '@swp.factory.article'
+            - '@swp.service.article'
+            - '@swp.factory.article_source'
+            - '@swp.service.article_source'
+            - '@swp.repository.article'
+
+    swp_core.generator.theme.routes:
+        class: SWP\Bundle\CoreBundle\Theme\Generator\ThemeRoutesGenerator
         arguments:
             - '@swp.service.route'
             - '@swp.repository.route'
             - '@swp.provider.route'
             - '@swp.factory.route'
+            - '@form.factory'
+            - '@swp_core.generator.theme.fake_article'
 
+    swp_core.processor.theme.required_data:
+        class: SWP\Bundle\CoreBundle\Theme\Processor\RequiredDataProcessor
+        arguments:
+            - '@swp_core.generator.theme.routes'
 
     swp_core.loader.organization.theme:
         class: Sylius\Bundle\ThemeBundle\Loader\ThemeLoader

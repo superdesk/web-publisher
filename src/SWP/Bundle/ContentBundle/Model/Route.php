@@ -20,17 +20,12 @@ use Symfony\Cmf\Bundle\RoutingBundle\Model\Route as BaseRoute;
 
 class Route extends BaseRoute implements RouteInterface
 {
-    use RouteTrait;
+    use RouteTrait, ArticlesAwareTrait;
 
     /**
      * @var int
      */
     protected $id;
-
-    /**
-     * @var Collection
-     */
-    protected $articles;
 
     /**
      * @var RouteInterface
@@ -76,22 +71,6 @@ class Route extends BaseRoute implements RouteInterface
     /**
      * {@inheritdoc}
      */
-    public function getArticles()
-    {
-        return $this->articles;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function setArticles($articles)
-    {
-        $this->articles = $articles;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function getId()
     {
         return parent::getId();
@@ -103,6 +82,15 @@ class Route extends BaseRoute implements RouteInterface
     public function getRouteName()
     {
         return $this->getName();
+    }
+
+    /**
+     * @param ArticleInterface $article
+     */
+    public function addArticle(ArticleInterface $article): void
+    {
+        $this->articles->add($article);
+        $article->setRoute($this);
     }
 
     /**

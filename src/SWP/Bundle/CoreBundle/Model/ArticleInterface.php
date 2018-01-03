@@ -32,7 +32,7 @@ interface ArticleInterface extends BaseArticleInterface, TenantAwareInterface, L
     /**
      * @return PackageInterface
      */
-    public function getPackage(): PackageInterface;
+    public function getPackage(): ?PackageInterface;
 
     /**
      * @param PackageInterface $package

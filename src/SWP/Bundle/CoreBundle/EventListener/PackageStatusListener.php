@@ -73,6 +73,11 @@ final class PackageStatusListener
         $package->setStatus(ContentInterface::STATUS_CANCELED);
     }
 
+    /**
+     * @param ArticleInterface $article
+     *
+     * @return PackageInterface
+     */
     private function getPackage(ArticleInterface $article)
     {
         /** @var PackageInterface $package */

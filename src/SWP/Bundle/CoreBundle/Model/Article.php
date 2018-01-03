@@ -50,7 +50,7 @@ class Article extends BaseArticle implements ArticleInterface
     /**
      * {@inheritdoc}
      */
-    public function getPackage(): PackageInterface
+    public function getPackage(): ?PackageInterface
     {
         return $this->package;
     }
