@@ -61,13 +61,13 @@ final class PublishArticleToFBIARuleApplicator extends AbstractRuleApplicator
         if ($isPublishedFBIA = (bool) $configuration['fbia']) {
             $subject->setPublishedFBIA($isPublishedFBIA);
             $this->eventDispatcher->dispatch(ArticleEvents::PUBLISH, new ArticleEvent($subject, null, ArticleEvents::PUBLISH));
-        }
 
-        $this->logger->info(sprintf(
-            'Configuration: "%s" for "%s" rule has been applied!',
-            json_encode($configuration),
-            $rule->getExpression()
-        ));
+            $this->logger->info(sprintf(
+                'Configuration: "%s" for "%s" rule has been applied!',
+                json_encode($configuration),
+                $rule->getExpression()
+            ));
+        }
     }
 
     /**
