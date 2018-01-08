@@ -57,6 +57,7 @@ class RegisterOrganizationFactoryPass implements CompilerPassInterface
                     ? new Parameter('swp_multi_tenancy.persistence.phpcr.basepath') : null,
             ]
         );
+        $organizationFactoryDefinition->setPublic(true);
 
         $container->setDefinition('swp.factory.organization', $organizationFactoryDefinition);
     }

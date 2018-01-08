@@ -14,14 +14,10 @@ declare(strict_types=1);
  * @license http://www.superdesk.org/license
  */
 
-namespace SWP\Bundle\CoreBundle\Model;
+namespace SWP\Bundle\CoreBundle\Repository;
 
-use SWP\Component\MultiTenancy\Model\TenantAwareInterface;
-use SWP\Bundle\AnalyticsBundle\Model\ArticleEventsInterface as BaseArticleEventsInterface;
+use SWP\Bundle\ContentBundle\Doctrine\ArticleRepositoryInterface as BaseInterface;
 
-/**
- * Interface ArticleStatisticsInterface.
- */
-interface ArticleEventsInterface extends BaseArticleEventsInterface, TenantAwareInterface
+interface ArticleRepositoryInterface extends BaseInterface
 {
 }

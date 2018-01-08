@@ -1,4 +1,7 @@
 services:
+    _defaults:
+        public: true
+
     swp.remover.content_list_items_remover:
         class: SWP\Bundle\ContentListBundle\Remover\ContentListItemsRemover
         arguments:

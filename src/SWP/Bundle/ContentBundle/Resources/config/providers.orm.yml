@@ -4,8 +4,12 @@ parameters:
     swp.provider.media.class: SWP\Bundle\ContentBundle\Provider\ORM\ArticleMediaProvider
 
 services:
+    _defaults:
+        public: true
+
     swp.provider.route:
         class: '%swp.provider.route.class%'
+        lazy: true
         arguments:
             - '@swp.repository.route'
             - '@doctrine'

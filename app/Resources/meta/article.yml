@@ -41,4 +41,7 @@ properties:
     sources:
         description: "Article sources (ex. ingest source)"
         type: array
+    articleStatistics:
+        description: "Article analytics data"
+        type: meta
 to_string: title

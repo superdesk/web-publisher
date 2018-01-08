@@ -1,4 +1,7 @@
 services:
+    _defaults:
+        public: true
+
     swp_core.applicator.rule.package:
         class: SWP\Bundle\CoreBundle\Rule\Applicator\PackageRuleApplicator
         arguments:

@@ -57,19 +57,16 @@ class ContainerRenderer implements ContainerRendererInterface
      * @param bool                   $debug
      * @param null                   $cacheDir
      */
-    public function __construct(
-        ContainerInterface $containerEntity,
-        \Twig_Environment $renderer = null,
-        $debug = false,
-        $cacheDir = null
-    ) {
+    public function __construct(ContainerInterface $containerEntity, \Twig_Environment $renderer = null, $debug = false, $cacheDir = null)
+    {
         $this->containerEntity = $containerEntity;
+        $this->debug = $debug;
+        $this->cacheDir = $cacheDir;
+
         if (null === $renderer) {
             $renderer = $this->getRenderer();
         }
         $this->renderer = $renderer;
-        $this->debug = $debug;
-        $this->cacheDir = $cacheDir;
     }
 
     /**

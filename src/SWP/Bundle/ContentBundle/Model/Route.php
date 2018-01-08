@@ -62,6 +62,9 @@ class Route extends BaseRoute implements RouteInterface
      */
     protected $level;
 
+    /**
+     * Route constructor.
+     */
     public function __construct()
     {
         $this->articles = new ArrayCollection();

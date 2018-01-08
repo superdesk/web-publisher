@@ -41,7 +41,7 @@ class UserControllerTest extends WebTestCase
             ],
         ]);
 
-        self::assertEquals(201, $client->getResponse()->getStatusCode());
+        self::assertEquals(302, $client->getResponse()->getStatusCode());
 
         $client->request('GET', $this->router->generate('swp_api_user_get_user_profile', ['id' => 1]));
         self::assertEquals(200, $client->getResponse()->getStatusCode());

@@ -17,6 +17,7 @@ declare(strict_types=1);
 namespace SWP\Bundle\ContentBundle\Doctrine\ORM;
 
 use Doctrine\ORM\QueryBuilder;
+use Elastica\Query;
 use SWP\Bundle\ContentBundle\Model\ArticleSourceReference;
 use SWP\Component\Common\Criteria\Criteria;
 use SWP\Bundle\ContentBundle\Doctrine\ArticleRepositoryInterface;
@@ -88,14 +89,9 @@ class ArticleRepository extends EntityRepository implements ArticleRepositoryInt
     /**
      * {@inheritdoc}
      */
-    public function findArticlesByCriteria(Criteria $criteria, array $sorting = []): array
+    public function getArticlesByCriteria(Criteria $criteria, array $sorting = []): QueryBuilder
     {
-        $queryBuilder = $this->createQueryBuilder('a')
-            ->select('partial a.{id}', 'stats')
-            ->where('a.status = :status')
-            ->setParameter('status', $criteria->get('status', ArticleInterface::STATUS_PUBLISHED))
-            ->leftJoin('a.articleStatistics', 'stats');
-
+        $queryBuilder = $this->getArticlesByCriteriaIds($criteria);
         $this->applyCustomFiltering($queryBuilder, $criteria);
         $this->applyCriteria($queryBuilder, $criteria, 'a');
         $this->applySorting($queryBuilder, $sorting, 'a');
@@ -120,7 +116,22 @@ class ArticleRepository extends EntityRepository implements ArticleRepositoryInt
             ->andWhere('a.id IN (:ids)')
             ->setParameter('ids', $ids);
 
-        return $articlesQueryBuilder->getQuery()->getResult();
+        return $articlesQueryBuilder;
+    }
+
+    /**
+     * @param Criteria $criteria
+     *
+     * @return QueryBuilder
+     */
+    public function getArticlesByCriteriaIds(Criteria $criteria): QueryBuilder
+    {
+        $queryBuilder = $this->createQueryBuilder('a')
+            ->select('partial a.{id}')
+            ->where('a.status = :status')
+            ->setParameter('status', $criteria->get('status', ArticleInterface::STATUS_PUBLISHED));
+
+        return $queryBuilder;
     }
 
     /**

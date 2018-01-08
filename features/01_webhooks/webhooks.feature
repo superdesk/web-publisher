@@ -8,8 +8,8 @@ Feature: Manage Webhooks
     Given I am authenticated as "test.user"
     When I add "Content-Type" header equal to "application/json"
     And I send a GET request to "/api/v1/webhooks/"
-    Then the response status code should be 404
-    And the JSON node "message" should be equal to the string "No webhooks were found."
+    Then the response status code should be 200
+    And the JSON node total should be equal to 0
 
   Scenario: Creating new webhook
     Given I am authenticated as "test.user"
@@ -70,4 +70,5 @@ Feature: Manage Webhooks
     Given I am authenticated as "test.user"
     When I add "Content-Type" header equal to "application/json"
     And I send a GET request to "/api/v1/webhooks/"
-    Then the response status code should be 404
+    Then the response status code should be 200
+    And the JSON node total should be equal to 0

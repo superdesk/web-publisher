@@ -21,12 +21,17 @@ use SWP\Bundle\CoreBundle\Model\TenantInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Cmf\Bundle\RoutingBundle\Routing\DynamicRouter;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 class DefaultController extends Controller
 {
     /**
      * @Route("/", name="homepage")
-     * @Method("GET")
+     * @Method("GET|POST")
+     *
+     * @param Request $request
+     *
+     * @return Response
      */
     public function indexAction(Request $request)
     {

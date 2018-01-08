@@ -16,7 +16,6 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\ContentBundle\Provider;
 
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use SWP\Component\Common\Criteria\Criteria;
 
@@ -33,8 +32,8 @@ abstract class AbstractProvider
     public function getManyByCriteria(Criteria $criteria): Collection
     {
         $result = $this->getRepository()
-            ->findArticlesByCriteria($criteria, $criteria->get('order', []));
+            ->getArticlesByCriteria($criteria, $criteria->get('order', []))->getQuery()->getResult();
 
-        return new ArrayCollection($result);
+        return $result;
     }
 }

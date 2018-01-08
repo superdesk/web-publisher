@@ -17,5 +17,7 @@
         {% gimmelist media from articleMedia with {'article': gimme.article} %} <!-- It will use article from context -->
         <img alt="Article defined in parameters" src="{{ url(media) }}" />
         {% endgimmelist %}
+
+        {{ countPageView(gimme.article) }}
     </body>
 </html>

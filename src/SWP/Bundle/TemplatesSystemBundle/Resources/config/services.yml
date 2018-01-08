@@ -1,4 +1,7 @@
 services:
+    _defaults:
+        public: true
+
     swp_template_engine_loader_chain:
         class: SWP\Component\TemplatesSystem\Gimme\Loader\ChainLoader
 
@@ -17,6 +20,7 @@ services:
 
     swp_template_engine.container.renderer:
         class: SWP\Bundle\TemplatesSystemBundle\Service\RendererService
+        lazy: true
         arguments:
             - "@service_container"
             - "%kernel.cache_dir%"

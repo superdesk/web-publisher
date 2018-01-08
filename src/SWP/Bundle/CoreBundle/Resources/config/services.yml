@@ -5,6 +5,13 @@ parameters:
     themes.upload_dir: "%kernel.project_dir%"
 
 services:
+    _defaults:
+        public: true
+
+#    logger:
+#        parent: "@monolog.logger"
+#        public: true
+
     swp_core.detection.device_detection:
         class: SWP\Bundle\CoreBundle\Detection\DeviceDetection
 
@@ -41,6 +48,7 @@ services:
 
     swp_core.routing.route_enhancer:
         class: '%swp_core.routing.route_enhancer.class%'
+        lazy: true
         arguments:
             - "@swp_core.theme.resolver.template_name"
             - "@swp_template_engine_loader_chain"
@@ -136,6 +144,7 @@ services:
 
     swp.security.preview_token_authenticator:
         class: SWP\Bundle\CoreBundle\Security\Authenticator\PreviewTokenAuthenticator
+        public: true
         parent: swp.security.token_authenticator
 
     swp.security.user_provider:
@@ -188,6 +197,7 @@ services:
 
     swp_core.listener.tenant_revision:
         class: SWP\Bundle\CoreBundle\EventListener\TenantRevisionListener
+        lazy: true
         arguments:
             - "@swp.repository.revision"
             - "@swp_revision.context.revision"

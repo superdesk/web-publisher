@@ -32,13 +32,14 @@ class RegisterContainerWidgetFactory implements CompilerPassInterface
             return;
         }
 
-        $containerDataFactoryDefinition = new Definition(
+        $containerWidgetFactoryDefinition = new Definition(
             $container->getParameter('swp.factory.container_widget.class'),
             [
                 new Parameter('swp.model.container_widget.class'),
             ]
         );
+        $containerWidgetFactoryDefinition->setPublic(true);
 
-        $container->setDefinition('swp.factory.container_widget', $containerDataFactoryDefinition);
+        $container->setDefinition('swp.factory.container_widget', $containerWidgetFactoryDefinition);
     }
 }

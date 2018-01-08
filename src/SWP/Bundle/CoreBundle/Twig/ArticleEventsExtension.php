@@ -38,8 +38,12 @@ class ArticleEventsExtension extends AbstractExtension
      *
      * @return string|void
      */
-    public function renderPageViewCount(Meta $meta)
+    public function renderPageViewCount(Meta $meta = null)
     {
+        if (null === $meta) {
+            return;
+        }
+
         $jsTemplate = <<<'EOT'
 <script type="text/javascript">
 var xhr = new XMLHttpRequest();

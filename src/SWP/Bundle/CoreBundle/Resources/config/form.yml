@@ -1,4 +1,7 @@
 services:
+    _defaults:
+        public: true
+
     swp_core.form.type.tenant_route_selector:
         class: SWP\Bundle\CoreBundle\Form\Type\TenantAwareRouteSelectorType
         arguments:

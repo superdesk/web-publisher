@@ -62,6 +62,7 @@ abstract class AbstractDriver implements PersistenceDriverInterface
         }
 
         $definition = new Definition($repositoryClass);
+        $definition->setPublic(true);
         $definition->setArguments([
             new Reference($this->getObjectManagerId($config)),
             $this->getClassMetadataDefinition($config),
@@ -78,6 +79,7 @@ abstract class AbstractDriver implements PersistenceDriverInterface
         $factoryClass = $config['factory'];
         $modelClass = $config['model'];
         $definition = new Definition($factoryClass);
+        $definition->setPublic(true);
         $definition->setArguments([$modelClass]);
         $container->setDefinition('swp.factory.'.$config['name'], $definition);
     }
@@ -87,10 +89,11 @@ abstract class AbstractDriver implements PersistenceDriverInterface
      */
     protected function createObjectManagerAlias(ContainerBuilder $container, $config)
     {
-        $container->setAlias(
+        $aliasDefinition = $container->setAlias(
             'swp.object_manager.'.$config['name'],
             new Alias($this->getObjectManagerId($config))
         );
+        $aliasDefinition->setPublic(true);
     }
 
     /**

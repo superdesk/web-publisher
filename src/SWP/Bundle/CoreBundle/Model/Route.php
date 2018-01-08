@@ -16,13 +16,15 @@ namespace SWP\Bundle\CoreBundle\Model;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use Doctrine\ORM\Proxy\Proxy;
 use SWP\Bundle\ContentBundle\Model\RouteInterface;
 use SWP\Component\MultiTenancy\Model\TenantAwareInterface;
 use SWP\Component\MultiTenancy\Model\TenantAwareTrait;
 use SWP\Bundle\ContentBundle\Model\Route as BaseRoute;
 use SWP\Component\Storage\Model\PersistableInterface;
 
+/**
+ * Class Route.
+ */
 class Route extends BaseRoute implements PersistableInterface, RouteInterface, TenantAwareInterface, ArticlesCountInterface
 {
     use TenantAwareTrait, ArticlesCountTrait;

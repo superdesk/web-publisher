@@ -38,6 +38,7 @@ class RegisterContainerDataFactory implements CompilerPassInterface
                 new Parameter('swp.model.container_data.class'),
             ]
         );
+        $containerDataFactoryDefinition->setPublic('true');
 
         $container->setDefinition('swp.factory.container_data', $containerDataFactoryDefinition);
     }

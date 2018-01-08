@@ -10,6 +10,7 @@ services:
             - { name: kernel.event_listener, event: kernel.terminate, method: onKernelTerminate, priority: 1 }
 
     SWP\Bundle\AnalyticsBundle\Services\ArticleStatisticsService:
+        public: true
         arguments:
             - '@swp.repository.article'
             - '@swp.repository.article_statistics'

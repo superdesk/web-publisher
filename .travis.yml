@@ -5,9 +5,12 @@ sudo: required
 
 services:
   - redis-server
+  - rabbitmq
+  - memcached
 
 php:
   - 7.1
+  - 7.2
   - nightly
 
 env:
@@ -23,6 +26,7 @@ env:
 matrix:
   allow_failures:
     - php: nightly
+    - php: 7.2
   fast_finish: true
 
 before_install:
@@ -32,11 +36,13 @@ before_install:
   - sudo sysctl -w vm.max_map_count=262144
   - sudo sysctl -p
   - npm install -g json-server
+  - sudo apt-get install supervisor
 
 install:
   - wget ${ES_DOWNLOAD_URL}
   - sudo dpkg -i --force-confnew elasticsearch-${ES_VERSION}.deb
   - sudo service elasticsearch restart
+
 
 before_script:
   - nohup json-server --watch src/SWP/Bundle/CoreBundle/Tests/Functional/Resources/db.json --routes=src/SWP/Bundle/CoreBundle/Tests/Functional/Resources/routes.json &
@@ -46,11 +52,14 @@ before_script:
   - phpenv config-rm xdebug.ini || echo "xdebug not available"
   - phpenv rehash
   - composer $COMPOSER_FLAGS --no-interaction --prefer-dist
+  - php app/console rabbitmq-supervisor:build --env=test
+  - php app/console rabbitmq-supervisor:control start --env=test
 
 script:
   - bin/behat -f progress
   - bin/phpspec run
   - bin/phpunit -c app/
+  - bin/phpunit --stderr -c app/ src/SWP/Bundle/CoreBundle/Tests/Security/Storage/DynamicDomainSessionStorageTest.php
   - cd src/SWP/Bundle/BridgeBundle && composer $COMPOSER_FLAGS --no-interaction --prefer-dist && bin/phpunit
   - cd ../../../../
   - cd src/SWP/Bundle/TemplatesSystemBundle && composer $COMPOSER_FLAGS --no-interaction --prefer-dist && bin/phpunit
@@ -59,7 +68,7 @@ script:
   - cd ../../../../
   - cd src/SWP/Bundle/SettingsBundle && composer $COMPOSER_FLAGS --no-interaction --prefer-dist && bin/phpunit
   - cd ../../../../
-  - cd src/SWP/Bundle/UserBundle && composer $COMPOSER_FLAGS --no-interaction --prefer-dist && bin/phpunit
+  - cd src/SWP/Bundle/UserBundle && composer $COMPOSER_FLAGS --no-interaction --prefer-dist && bin/phpunit --stderr
 
 cache:
   directories:

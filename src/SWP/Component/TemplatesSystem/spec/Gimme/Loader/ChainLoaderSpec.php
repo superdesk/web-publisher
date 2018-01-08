@@ -16,6 +16,8 @@ namespace spec\SWP\Component\TemplatesSystem\Gimme\Loader;
 
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
+use SWP\Component\TemplatesSystem\Gimme\Loader\ArticleLoader;
+use SWP\Component\TemplatesSystem\Gimme\Meta\Meta;
 
 class ChainLoaderSpec extends ObjectBehavior
 {
@@ -23,7 +25,7 @@ class ChainLoaderSpec extends ObjectBehavior
      * @param \SWP\Component\TemplatesSystem\Gimme\Loader\ArticleLoader $articleLoader
      * @param \SWP\Component\TemplatesSystem\Gimme\Meta\Meta            $meta
      */
-    public function let($articleLoader, $meta)
+    public function let(ArticleLoader $articleLoader, Meta $meta)
     {
         $articleLoader->isSupported(Argument::exact('article'))->willReturn(true);
         $articleLoader->isSupported(Argument::exact('article2'))->willReturn(false);

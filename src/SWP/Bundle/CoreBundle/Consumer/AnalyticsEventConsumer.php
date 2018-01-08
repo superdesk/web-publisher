@@ -18,7 +18,7 @@ namespace SWP\Bundle\CoreBundle\Consumer;
 
 use OldSound\RabbitMqBundle\RabbitMq\ConsumerInterface;
 use PhpAmqpLib\Message\AMQPMessage;
-use SWP\Bundle\AnalyticsBundle\Model\ArticleEventsInterface;
+use SWP\Bundle\AnalyticsBundle\Model\ArticleEventInterface;
 use SWP\Bundle\AnalyticsBundle\Services\ArticleStatisticsServiceInterface;
 use SWP\Component\MultiTenancy\Context\TenantContextInterface;
 use SWP\Component\MultiTenancy\Resolver\TenantResolver;
@@ -66,14 +66,14 @@ class AnalyticsEventConsumer implements ConsumerInterface
     public function execute(AMQPMessage $message)
     {
         /** @var Request $request */
-        $request = unserialize($message->body);
+        $request = unserialize($message->getBody());
         if (!$request instanceof Request) {
             return ConsumerInterface::MSG_REJECT;
         }
 
         $this->setTenant($request);
         $articleId = $request->query->get('articleId', null);
-        $action = $request->query->get('action', ArticleEventsInterface::ACTION_PAGEVIEW);
+        $action = $request->query->get('action', ArticleEventInterface::ACTION_PAGEVIEW);
 
         if (null !== $articleId) {
             $this->articleStatisticsService->addArticleEvent((int) $articleId, $action);
@@ -85,7 +85,7 @@ class AnalyticsEventConsumer implements ConsumerInterface
     /**
      * @param Request $request
      */
-    protected function setTenant(Request $request)
+    private function setTenant(Request $request)
     {
         $this->tenantContext->setTenant($this->tenantResolver->resolve($request->getHost()));
     }
