@@ -16,13 +16,18 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\CoreBundle\Theme\Generator;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use SWP\Bundle\ContentBundle\Factory\ArticleFactoryInterface;
-use SWP\Bundle\ContentBundle\Service\ArticleServiceInterface;
-use SWP\Bundle\ContentBundle\Service\ArticleSourceServiceInterface;
+use SWP\Bundle\ContentBundle\Factory\MediaFactoryInterface;
+use SWP\Bundle\ContentBundle\Manager\MediaManagerInterface;
+use SWP\Bundle\ContentBundle\Model\ImageRendition;
 use SWP\Bundle\CoreBundle\Model\ArticleInterface;
+use SWP\Bundle\CoreBundle\Model\ArticleMediaInterface;
+use SWP\Bundle\CoreBundle\Model\Image;
 use SWP\Bundle\CoreBundle\Repository\ArticleRepositoryInterface;
-use SWP\Component\Storage\Factory\FactoryInterface;
 use Faker;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class FakeArticlesGenerator implements FakeArticlesGeneratorInterface
 {
@@ -32,19 +37,14 @@ class FakeArticlesGenerator implements FakeArticlesGeneratorInterface
     protected $articleFactory;
 
     /**
-     * @var ArticleServiceInterface
+     * @var MediaManagerInterface
      */
-    protected $articleService;
+    protected $mediaManager;
 
     /**
-     * @var FactoryInterface
+     * @var MediaFactoryInterface
      */
-    protected $articleSourceFactory;
-
-    /**
-     * @var ArticleSourceServiceInterface
-     */
-    protected $articleSourceService;
+    protected $articleMediaFactory;
 
     /**
      * @var ArticleRepositoryInterface
@@ -54,18 +54,16 @@ class FakeArticlesGenerator implements FakeArticlesGeneratorInterface
     /**
      * FakeArticlesGenerator constructor.
      *
-     * @param ArticleFactoryInterface       $articleFactory
-     * @param ArticleServiceInterface       $articleService
-     * @param FactoryInterface              $articleSourceFactory
-     * @param ArticleSourceServiceInterface $articleSourceService
-     * @param ArticleRepositoryInterface    $articleRepository
+     * @param ArticleFactoryInterface    $articleFactory
+     * @param MediaManagerInterface      $mediaManager
+     * @param MediaFactoryInterface      $articleMediaFactory
+     * @param ArticleRepositoryInterface $articleRepository
      */
-    public function __construct(ArticleFactoryInterface $articleFactory, ArticleServiceInterface $articleService, FactoryInterface $articleSourceFactory, ArticleSourceServiceInterface $articleSourceService, ArticleRepositoryInterface $articleRepository)
+    public function __construct(ArticleFactoryInterface $articleFactory, MediaManagerInterface $mediaManager, MediaFactoryInterface $articleMediaFactory, ArticleRepositoryInterface $articleRepository)
     {
         $this->articleFactory = $articleFactory;
-        $this->articleService = $articleService;
-        $this->articleSourceFactory = $articleSourceFactory;
-        $this->articleSourceService = $articleSourceService;
+        $this->mediaManager = $mediaManager;
+        $this->articleMediaFactory = $articleMediaFactory;
         $this->articleRepository = $articleRepository;
     }
 
@@ -88,26 +86,51 @@ class FakeArticlesGenerator implements FakeArticlesGeneratorInterface
             $article->setPublishable(true);
             $article->setCode($faker->uuid);
             $this->articleRepository->persist($article);
-            $this->createArticleMedia($article);
+            $article->setMedia($this->createArticleMedia($article));
 
             $articles[] = $article;
         }
+        $this->articleRepository->flush();
 
         return $articles;
     }
 
-    protected function createArticleMedia(ArticleInterface $article)
+    /**
+     * @param ArticleInterface $article
+     *
+     * @return Collection
+     */
+    protected function createArticleMedia(ArticleInterface $article): Collection
     {
-//        $image = $mediaManager->handleUploadedFile($uploadedFile, $mediaId);
-//        $articleMedia->setImage($image);
-//
-//        $imageRendition = new ImageRendition();
-//        $imageRendition->setImage($image);
-//        $imageRendition->setHeight($rendition['height']);
-//        $imageRendition->setWidth($rendition['width']);
-//        $imageRendition->setName($key);
-//        $imageRendition->setMedia($articleMedia);
-//        $articleMedia->addRendition($imageRendition);
-//        $manager->persist($imageRendition);
-//    }
+        $mediaId = uniqid();
+        $faker = Faker\Factory::create();
+        $fakeImage = $faker->image(sys_get_temp_dir(), 800, 800, 'cats', true, true, $article->getSlug());
+        $uploadedFile = new UploadedFile($fakeImage, $mediaId, 'image/jpeg', filesize($fakeImage), null, true);
+        /** @var Image $image */
+        $image = $this->mediaManager->handleUploadedFile($uploadedFile, $mediaId);
+        /** @var ArticleMediaInterface $articleMedia */
+        $articleMedia = $this->articleMediaFactory->createEmpty();
+        $articleMedia->setImage($image);
+        $articleMedia->setArticle($article);
+        $articleMedia->setKey('embedded'.uniqid());
+        $articleMedia->setBody('This is very nice image caption...');
+        $articleMedia->setByLine('By Best Editor');
+        $articleMedia->setLocated('Porto');
+        $articleMedia->setDescription('Media description');
+        $articleMedia->setUsageTerms('Some super open terms');
+        $articleMedia->setMimetype('image/jpeg');
+        $article->setFeatureMedia($articleMedia);
+        $this->articleRepository->persist($articleMedia);
+
+        $imageRendition = new ImageRendition();
+        $imageRendition->setImage($image);
+        $imageRendition->setHeight(800);
+        $imageRendition->setWidth(800);
+        $imageRendition->setName('original');
+        $imageRendition->setMedia($articleMedia);
+        $articleMedia->addRendition($imageRendition);
+        $this->articleRepository->persist($imageRendition);
+
+        return new ArrayCollection([$articleMedia]);
+    }
 }

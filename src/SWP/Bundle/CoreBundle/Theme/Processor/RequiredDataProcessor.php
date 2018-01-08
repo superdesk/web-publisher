@@ -28,13 +28,20 @@ class RequiredDataProcessor implements RequiredDataProcessorInterface
     protected $themeRoutesGenerator;
 
     /**
+     * @var GeneratorInterface
+     */
+    protected $themeMenusGenerator;
+
+    /**
      * RequiredDataProcessor constructor.
      *
      * @param GeneratorInterface $themeRoutesGenerator
+     * @param GeneratorInterface $themeMenusGenerator
      */
-    public function __construct(GeneratorInterface $themeRoutesGenerator)
+    public function __construct(GeneratorInterface $themeRoutesGenerator, GeneratorInterface $themeMenusGenerator)
     {
         $this->themeRoutesGenerator = $themeRoutesGenerator;
+        $this->themeMenusGenerator = $themeMenusGenerator;
     }
 
     /**
@@ -43,5 +50,6 @@ class RequiredDataProcessor implements RequiredDataProcessorInterface
     public function processTheme(ThemeInterface $theme): void
     {
         $this->themeRoutesGenerator->generate($theme->getRoutes());
+        $this->themeMenusGenerator->generate($theme->getMenus());
     }
 }

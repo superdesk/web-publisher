@@ -10,14 +10,14 @@
             "role": "Organization"
         }
     ],
-    "requiredData": {
+    "generatedData": {
         "routes": [
             {
                 "name": "Politics",
                 "slug": "politics",
                 "type": "collection",
-                "templateName": "",
-                "articlesTemplateName": "",
+                "templateName": "category.html.twig",
+                "articlesTemplateName": "article.html.twig",
                 "numberOfArticles": 1
             },
             {
@@ -50,6 +50,99 @@
                 "slug": "football",
                 "type": "collection",
                 "parent": "Sports"
+            }
+        ],
+        "menus": [
+            {
+                "name": "mainNavigation",
+                "label": "Main Navigation",
+                "children": [
+                    {
+                        "name": "home",
+                        "label": "Home",
+                        "uri": "/"
+                    },
+                    {
+                        "name": "politics",
+                        "label": "Politics",
+                        "route": "Politics"
+                    },
+                    {
+                        "name": "business",
+                        "label": "Business",
+                        "route": "Business"
+                    },
+                    {
+                        "name": "scitech",
+                        "label": "Sci/Tech",
+                        "route": "Sci/Tech"
+                    },
+                    {
+                        "name": "health",
+                        "label": "Health",
+                        "route": "Health"
+                    },
+                    {
+                        "name": "entertainment",
+                        "label": "Entertainment",
+                        "route": "Entertainment"
+                    },
+                    {
+                        "name": "sports",
+                        "label": "Sports",
+                        "route": "Sports",
+                        "children": [
+                            {
+                                "name": "football",
+                                "label": "Football",
+                                "route": "Football"
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "name": "footerPrim",
+                "label": "Footer Navigation",
+                "children": [
+                    {
+                        "name": "politics",
+                        "label": "Politics",
+                        "route": "Politics"
+                    },
+                    {
+                        "name": "business",
+                        "label": "Business",
+                        "route": "Business"
+                    },
+                    {
+                        "name": "scitech",
+                        "label": "Sci/Tech",
+                        "route": "Sci/Tech"
+                    },
+                    {
+                        "name": "health",
+                        "label": "Health",
+                        "route": "Health"
+                    },
+                    {
+                        "name": "entertainment",
+                        "label": "Entertainment",
+                        "route": "Entertainment"
+                    },
+                    {
+                        "name": "sports",
+                        "label": "Sports",
+                        "route": "Sports",
+                        "children": [
+                            {
+                                "name": "football",
+                                "label": "Football",
+                                "route": "Football"
+                            }
+                        ]
+                    }
+                ]
             }
         ]
     }

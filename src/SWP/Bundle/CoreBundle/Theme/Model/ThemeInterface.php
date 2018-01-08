@@ -32,4 +32,9 @@ interface ThemeInterface extends BaseThemeInterface
      * @return array
      */
     public function getRoutes(): array;
+
+    /**
+     * @return array
+     */
+    public function getMenus(): array;
 }

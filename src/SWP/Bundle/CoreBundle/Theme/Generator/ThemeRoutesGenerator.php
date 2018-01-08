@@ -82,10 +82,14 @@ class ThemeRoutesGenerator implements GeneratorInterface
     public function generate(array $routes): void
     {
         foreach ($routes as $routeData) {
-            $route = $this->createRoute($routeData);
+            $cleanRouteData = $routeData;
+            unset($cleanRouteData['numberOfArticles']);
+            $route = $this->createRoute($cleanRouteData);
             if (null !== $this->routeProvider->getOneByStaticPrefix($route->getStaticPrefix())) {
                 continue;
             }
+
+            $this->processFakeArticles($route, $routeData);
 
             $this->routeRepository->add($route);
         }
@@ -111,14 +115,6 @@ class ThemeRoutesGenerator implements GeneratorInterface
             unset($routeData['parent']);
         }
 
-        if (null !== $routeData['numberOfArticles']) {
-            $articles = $this->fakeArticlesGenerator->generate($routeData['numberOfArticles']);
-            foreach ($articles as $article) {
-                $route->addArticle($article);
-            }
-        }
-        unset($routeData['numberOfArticles']);
-
         $form = $this->formFactory->create(RouteType::class, $route);
         $form->submit($routeData, false);
 
@@ -128,9 +124,21 @@ class ThemeRoutesGenerator implements GeneratorInterface
             throw new \Exception('Invalid route definition');
         }
 
-        dump($route);
-        die;
-
         return $route;
+    }
+
+    /**
+     * @param RouteInterface $route
+     * @param array          $routeData
+     */
+    protected function processFakeArticles(RouteInterface $route, array $routeData)
+    {
+        if (null !== $routeData['numberOfArticles']) {
+            $articles = $this->fakeArticlesGenerator->generate($routeData['numberOfArticles']);
+            foreach ($articles as $article) {
+                $route->addArticle($article);
+            }
+        }
+        unset($routeData['numberOfArticles']);
     }
 }

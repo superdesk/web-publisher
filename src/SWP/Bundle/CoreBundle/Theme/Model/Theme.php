@@ -27,7 +27,7 @@ class Theme extends BaseTheme implements ThemeInterface
     /**
      * @var array
      */
-    protected $requiredData;
+    protected $generatedData;
 
     /**
      * Theme constructor.
@@ -65,6 +65,14 @@ class Theme extends BaseTheme implements ThemeInterface
      */
     public function getRoutes(): array
     {
-        return $this->requiredData['routes'];
+        return $this->generatedData['routes'];
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getMenus(): array
+    {
+        return $this->generatedData['menus'];
     }
 }

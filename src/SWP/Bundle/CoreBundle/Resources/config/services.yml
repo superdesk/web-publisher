@@ -8,10 +8,6 @@ services:
     _defaults:
         public: true
 
-#    logger:
-#        parent: "@monolog.logger"
-#        public: true
-
     swp_core.detection.device_detection:
         class: SWP\Bundle\CoreBundle\Detection\DeviceDetection
 
@@ -80,9 +76,8 @@ services:
         class: SWP\Bundle\CoreBundle\Theme\Generator\FakeArticlesGenerator
         arguments:
             - '@swp.factory.article'
-            - '@swp.service.article'
-            - '@swp.factory.article_source'
-            - '@swp.service.article_source'
+            - '@swp_content_bundle.manager.media'
+            - '@swp.factory.media'
             - '@swp.repository.article'
 
     swp_core.generator.theme.routes:
@@ -95,10 +90,20 @@ services:
             - '@form.factory'
             - '@swp_core.generator.theme.fake_article'
 
+    swp_core.generator.theme.menus:
+        class: SWP\Bundle\CoreBundle\Theme\Generator\ThemeMenusGenerator
+        arguments:
+            - '@swp.provider.route'
+            - '@form.factory'
+            - '@swp.factory.menu'
+            - '@swp.repository.menu'
+            - '@swp_menu.manager.menu_item'
+
     swp_core.processor.theme.required_data:
         class: SWP\Bundle\CoreBundle\Theme\Processor\RequiredDataProcessor
         arguments:
             - '@swp_core.generator.theme.routes'
+            - '@swp_core.generator.theme.menus'
 
     swp_core.loader.organization.theme:
         class: Sylius\Bundle\ThemeBundle\Loader\ThemeLoader

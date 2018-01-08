@@ -14,6 +14,8 @@
 
 namespace SWP\Bundle\CoreBundle\Command;
 
+use SWP\Bundle\CoreBundle\Theme\Repository\ReloadableThemeRepositoryInterface;
+use SWP\Bundle\MultiTenancyBundle\MultiTenancyEvents;
 use SWP\Component\Common\Model\ThemeAwareTenantInterface;
 use SWP\Component\MultiTenancy\Exception\TenantNotFoundException;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
@@ -93,9 +95,11 @@ EOT
         $container = $this->getContainer();
         $tenantRepository = $container->get('swp.repository.tenant');
         $tenantContext = $container->get('swp_multi_tenancy.tenant_context');
+        $eventDispatcher = $container->get('event_dispatcher');
         $tenant = $tenantRepository->findOneByCode($input->getArgument('tenant'));
         $this->assertTenantIsFound($input->getArgument('tenant'), $tenant);
         $tenantContext->setTenant($tenant);
+        $eventDispatcher->dispatch(MultiTenancyEvents::TENANTABLE_ENABLE);
         $themeInstaller = $container->get('swp_core.installer.theme');
 
         $force = true === $input->getOption('force');
@@ -118,6 +122,9 @@ EOT
             }
 
             $themeInstaller->install(null, $sourceDir, $themeDir);
+            /** @var ReloadableThemeRepositoryInterface $themeRepository */
+            $themeRepository = $container->get('sylius.repository.theme');
+            $themeRepository->reloadThemes();
             $output->writeln('<info>Theme has been installed successfully!</info>');
 
             if (file_exists($themeDir.\DIRECTORY_SEPARATOR.'theme.json')) {
@@ -137,7 +144,8 @@ EOT
             }
         } catch (\Exception $e) {
             $output->writeln('<error>Theme could not be installed!</error>');
-            $output->writeln('<error>Stacktrace: '.$e->getMessage().'</error>');
+            $output->writeln('<error>Error message: '.$e->getMessage().'</error>');
+            //$output->writeln('<error>Stack trace: '.$e->getTraceAsString().'</error>');
         }
     }
 

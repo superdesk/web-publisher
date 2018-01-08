@@ -50,7 +50,7 @@ final class ThemeConfiguration implements ConfigurationInterface
         $this->addOptionalScreenshotsList($rootNodeDefinition);
         $this->addOptionalAuthorsList($rootNodeDefinition);
         $this->addOptionalConfig($rootNodeDefinition);
-        $this->addOptionalRequiredData($rootNodeDefinition);
+        $this->addOptionalGeneratedData($rootNodeDefinition);
 
         return $treeBuilder;
     }
@@ -119,13 +119,22 @@ final class ThemeConfiguration implements ConfigurationInterface
     /**
      * @param ArrayNodeDefinition $rootNodeDefinition
      */
-    private function addOptionalRequiredData(ArrayNodeDefinition $rootNodeDefinition)
+    private function addOptionalGeneratedData(ArrayNodeDefinition $rootNodeDefinition)
     {
-        $requiredDataNodeDefinition = $rootNodeDefinition->children()->arrayNode('requiredData');
-        $routesNodeDefinition = $requiredDataNodeDefinition->children()->arrayNode('routes');
+        $generatedDataNodeDefinition = $rootNodeDefinition->children()->arrayNode('generatedData');
+        $this->addOptionalGeneratedRoutesData($generatedDataNodeDefinition);
+        $this->addOptionalGeneratedMenusData($generatedDataNodeDefinition);
+    }
+
+    /**
+     * @param ArrayNodeDefinition $generatedDataNodeDefinition
+     */
+    private function addOptionalGeneratedRoutesData(ArrayNodeDefinition $generatedDataNodeDefinition)
+    {
+        $routesNodeDefinition = $generatedDataNodeDefinition->children()->arrayNode('routes');
         $routesNodeDefinition->requiresAtLeastOneElement();
 
-        /** @var ArrayNodeDefinition $authorNodeDefinition */
+        /** @var ArrayNodeDefinition $routeNodeDefinition */
         $routeNodeDefinition = $routesNodeDefinition->prototype('array');
         $routeNodeDefinition
             ->validate()
@@ -143,6 +152,67 @@ final class ThemeConfiguration implements ConfigurationInterface
         $routeNodeBuilder->scalarNode('templateName')->defaultNull();
         $routeNodeBuilder->scalarNode('articlesTemplateName')->defaultNull();
         $routeNodeBuilder->scalarNode('numberOfArticles')->defaultNull();
+    }
+
+    /**
+     * @param ArrayNodeDefinition $generatedDataNodeDefinition
+     */
+    private function addOptionalGeneratedMenusData(ArrayNodeDefinition $generatedDataNodeDefinition)
+    {
+        $menusNodeDefinition = $generatedDataNodeDefinition->children()->arrayNode('menus');
+        $menusNodeDefinition->requiresAtLeastOneElement();
+
+        /** @var ArrayNodeDefinition $menuNodeDefinition */
+        $menuNodeDefinition = $menusNodeDefinition->prototype('array');
+        $menuNodeDefinition
+            ->validate()
+            ->ifTrue(function ($menu) {
+                return [] === $menu;
+            })
+            ->thenInvalid('Menu cannot be empty!')
+        ;
+
+        $menuNodeBuilder = $menuNodeDefinition->children();
+        $menuNodeBuilder->scalarNode('name')->cannotBeEmpty()->end();
+        $menuNodeBuilder->scalarNode('label')->cannotBeEmpty()->end();
+        $menuNodeBuilder->scalarNode('uri')->cannotBeEmpty()->end();
+        $menuNodeBuilder->scalarNode('route')->cannotBeEmpty()->defaultNull()->end();
+
+        // 1st level of children
+        $childrensNodeDefinition = $menuNodeBuilder->arrayNode('children');
+        /** @var ArrayNodeDefinition $childrenNodeDefinition */
+        $childrenNodeDefinition = $childrensNodeDefinition->prototype('array');
+        $childrenNodeDefinition
+            ->validate()
+            ->ifTrue(function ($menu) {
+                return [] === $menu;
+            })
+            ->thenInvalid('Menu cannot be empty!')
+        ;
+
+        $childrenNodeBuilder = $childrenNodeDefinition->children();
+        $childrenNodeBuilder->scalarNode('name')->cannotBeEmpty()->end();
+        $childrenNodeBuilder->scalarNode('label')->cannotBeEmpty()->end();
+        $childrenNodeBuilder->scalarNode('uri')->cannotBeEmpty()->end();
+        $childrenNodeBuilder->scalarNode('route')->cannotBeEmpty()->defaultNull()->end();
+
+        // 2nd level of children
+        $childrensChildrensNodeDefinition = $childrenNodeBuilder->arrayNode('children');
+        /** @var ArrayNodeDefinition $childrensChildrenNodeDefinition */
+        $childrensChildrenNodeDefinition = $childrensChildrensNodeDefinition->prototype('array');
+        $childrensChildrenNodeDefinition
+            ->validate()
+            ->ifTrue(function ($menu) {
+                return [] === $menu;
+            })
+            ->thenInvalid('Menu cannot be empty!')
+        ;
+
+        $childrenNodeBuilder = $childrensChildrenNodeDefinition->children();
+        $childrenNodeBuilder->scalarNode('name')->cannotBeEmpty()->end();
+        $childrenNodeBuilder->scalarNode('label')->cannotBeEmpty()->end();
+        $childrenNodeBuilder->scalarNode('uri')->cannotBeEmpty()->end();
+        $childrenNodeBuilder->scalarNode('route')->cannotBeEmpty()->defaultNull()->end();
     }
 
     /**

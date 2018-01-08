@@ -33,6 +33,11 @@ interface MediaFactoryInterface
     public function create(ArticleInterface $article, string $key, ItemInterface $item): ArticleMediaInterface;
 
     /**
+     * @return ArticleMediaInterface
+     */
+    public function createEmpty(): ArticleMediaInterface;
+
+    /**
      * @param ImageInterface        $image
      * @param ArticleMediaInterface $articleMedia
      * @param string                $key
