@@ -24,9 +24,11 @@ use SWP\Bundle\ContentBundle\Manager\MediaManagerInterface;
 use SWP\Bundle\ContentBundle\Model\ImageRendition;
 use SWP\Bundle\CoreBundle\Model\ArticleInterface;
 use SWP\Bundle\CoreBundle\Model\ArticleMediaInterface;
+use SWP\Bundle\CoreBundle\Model\ArticleStatisticsInterface;
 use SWP\Bundle\CoreBundle\Model\Image;
 use SWP\Bundle\CoreBundle\Repository\ArticleRepositoryInterface;
 use Faker;
+use SWP\Component\Storage\Factory\FactoryInterface;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class FakeArticlesGenerator implements FakeArticlesGeneratorInterface
@@ -52,19 +54,26 @@ class FakeArticlesGenerator implements FakeArticlesGeneratorInterface
     protected $articleRepository;
 
     /**
+     * @var FactoryInterface
+     */
+    protected $articleStatisticsFactory;
+
+    /**
      * FakeArticlesGenerator constructor.
      *
      * @param ArticleFactoryInterface    $articleFactory
      * @param MediaManagerInterface      $mediaManager
      * @param MediaFactoryInterface      $articleMediaFactory
      * @param ArticleRepositoryInterface $articleRepository
+     * @param FactoryInterface           $articleStatisticsFactory
      */
-    public function __construct(ArticleFactoryInterface $articleFactory, MediaManagerInterface $mediaManager, MediaFactoryInterface $articleMediaFactory, ArticleRepositoryInterface $articleRepository)
+    public function __construct(ArticleFactoryInterface $articleFactory, MediaManagerInterface $mediaManager, MediaFactoryInterface $articleMediaFactory, ArticleRepositoryInterface $articleRepository, FactoryInterface $articleStatisticsFactory)
     {
         $this->articleFactory = $articleFactory;
         $this->mediaManager = $mediaManager;
         $this->articleMediaFactory = $articleMediaFactory;
         $this->articleRepository = $articleRepository;
+        $this->articleStatisticsFactory = $articleStatisticsFactory;
     }
 
     /**
@@ -87,12 +96,29 @@ class FakeArticlesGenerator implements FakeArticlesGeneratorInterface
             $article->setCode($faker->uuid);
             $this->articleRepository->persist($article);
             $article->setMedia($this->createArticleMedia($article));
+            $article->setArticleStatistics($this->createArticleStatistics($article));
 
             $articles[] = $article;
         }
         $this->articleRepository->flush();
 
         return $articles;
+    }
+
+    /**
+     * @param $article
+     *
+     * @return ArticleStatisticsInterface
+     */
+    protected function createArticleStatistics($article): ArticleStatisticsInterface
+    {
+        /** @var ArticleStatisticsInterface $articleStatistics */
+        $articleStatistics = $this->articleStatisticsFactory->create();
+        $articleStatistics->setArticle($article);
+        $articleStatistics->setPageViewsNumber(0);
+        $this->articleRepository->persist($articleStatistics);
+
+        return $articleStatistics;
     }
 
     /**

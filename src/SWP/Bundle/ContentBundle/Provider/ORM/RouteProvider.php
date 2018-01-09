@@ -70,7 +70,7 @@ class RouteProvider extends BaseRouteProvider implements RouteProviderInterface
             return $collection;
         }
         // As we use Gedmo Sortable on position field, we need to reverse sorting to get child routes first
-        $routes = $this->getRouteRepository()->findByStaticPrefix($candidates, ['position' => 'DESC']);
+        $routes = $this->getRouteRepository()->findByStaticPrefix($candidates, ['level' => 'DESC', 'position' => 'DESC']);
 
         /** @var $route Route */
         foreach ($routes as $route) {

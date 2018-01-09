@@ -79,6 +79,7 @@ services:
             - '@swp_content_bundle.manager.media'
             - '@swp.factory.media'
             - '@swp.repository.article'
+            - '@swp.factory.article_statistics'
 
     swp_core.generator.theme.routes:
         class: SWP\Bundle\CoreBundle\Theme\Generator\ThemeRoutesGenerator

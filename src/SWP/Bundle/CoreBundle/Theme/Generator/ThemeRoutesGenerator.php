@@ -22,6 +22,7 @@ use SWP\Bundle\ContentBundle\Model\RouteInterface;
 use SWP\Bundle\ContentBundle\Model\RouteRepositoryInterface;
 use SWP\Bundle\ContentBundle\Provider\RouteProviderInterface;
 use SWP\Bundle\ContentBundle\Service\RouteServiceInterface;
+use SWP\Bundle\CoreBundle\Model\ArticleInterface;
 use Symfony\Component\Form\FormFactoryInterface;
 
 class ThemeRoutesGenerator implements GeneratorInterface
@@ -135,8 +136,11 @@ class ThemeRoutesGenerator implements GeneratorInterface
     {
         if (null !== $routeData['numberOfArticles']) {
             $articles = $this->fakeArticlesGenerator->generate($routeData['numberOfArticles']);
+            /** @var ArticleInterface $article */
             foreach ($articles as $article) {
                 $route->addArticle($article);
+                $article->setRoute($route);
+                $this->routeRepository->persist($article);
             }
         }
         unset($routeData['numberOfArticles']);
