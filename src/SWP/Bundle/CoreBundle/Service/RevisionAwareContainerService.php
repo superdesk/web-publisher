@@ -40,11 +40,8 @@ class RevisionAwareContainerService extends ContainerService implements Containe
      * @param EventDispatcherInterface  $eventDispatcher
      * @param ServiceContainerInterface $serviceContainer
      */
-    public function __construct(
-        EntityManagerInterface $entityManager,
-        EventDispatcherInterface $eventDispatcher,
-        ServiceContainerInterface $serviceContainer
-    ) {
+    public function __construct(EntityManagerInterface $entityManager, EventDispatcherInterface $eventDispatcher, ServiceContainerInterface $serviceContainer)
+    {
         parent::__construct($entityManager, $eventDispatcher, $serviceContainer);
     }
 
@@ -53,8 +50,11 @@ class RevisionAwareContainerService extends ContainerService implements Containe
      */
     public function createContainer($name, array $parameters = [], ContainerInterface $container = null): ContainerInterface
     {
+        if (null === $container) {
+            $container = $this->serviceContainer->get('swp.factory.container')->create();
+        }
+
         // assign current revision to container
-        $container = $this->serviceContainer->get('swp.factory.container')->create();
         if ($container instanceof RevisionAwareInterface) {
             $revisionContext = $this->serviceContainer->get('swp_revision.context.revision');
             // Containers created from template definitions goes to published revision
@@ -80,6 +80,10 @@ class RevisionAwareContainerService extends ContainerService implements Containe
         return parent::linkUnlinkWidget($object, $this->handleForking($container), $request);
     }
 
+    /**
+     * @param ContainerInterface $container
+     * @param ContainerInterface $workingContainer
+     */
     private function forkContainerRelations(ContainerInterface $container, ContainerInterface $workingContainer)
     {
         $containerWidgetFactory = $this->serviceContainer->get('swp.factory.container_widget');
@@ -91,7 +95,12 @@ class RevisionAwareContainerService extends ContainerService implements Containe
         }
     }
 
-    private function handleForking($container)
+    /**
+     * @param $container
+     *
+     * @return mixed|RevisionAwareInterface|ContainerInterface
+     */
+    private function handleForking(ContainerInterface $container)
     {
         if ($container instanceof RevisionAwareInterface &&
             RevisionInterface::STATE_PUBLISHED === $container->getRevision()->getStatus()

@@ -75,4 +75,20 @@ class Theme extends BaseTheme implements ThemeInterface
     {
         return $this->generatedData['menus'];
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getContainers(): array
+    {
+        return $this->generatedData['containers'];
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getWidgets(): array
+    {
+        return $this->generatedData['widgets'];
+    }
 }

@@ -99,11 +99,30 @@ services:
             - '@swp.repository.menu'
             - '@swp_menu.manager.menu_item'
 
+    swp_core.generator.theme.containers:
+        class: SWP\Bundle\CoreBundle\Theme\Generator\ThemeContainersGenerator
+        arguments:
+            - '@form.factory'
+            - '@swp.factory.container'
+            - '@swp.repository.container'
+            - '@swp_template_engine.container.service'
+
+    swp_core.generator.theme.widgets:
+        class: SWP\Bundle\CoreBundle\Theme\Generator\ThemeWidgetsGenerator
+        arguments:
+            - '@form.factory'
+            - '@swp.factory.widget_model'
+            - '@swp.repository.widget_model'
+            - '@swp.factory.container_widget'
+            - '@swp.provider.container'
+
     swp_core.processor.theme.required_data:
         class: SWP\Bundle\CoreBundle\Theme\Processor\RequiredDataProcessor
         arguments:
             - '@swp_core.generator.theme.routes'
             - '@swp_core.generator.theme.menus'
+            - '@swp_core.generator.theme.containers'
+            - '@swp_core.generator.theme.widgets'
 
     swp_core.loader.organization.theme:
         class: Sylius\Bundle\ThemeBundle\Loader\ThemeLoader

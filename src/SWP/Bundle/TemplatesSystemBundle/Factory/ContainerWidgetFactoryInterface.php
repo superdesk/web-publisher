@@ -17,28 +17,13 @@ namespace SWP\Bundle\TemplatesSystemBundle\Factory;
 use SWP\Component\TemplatesSystem\Gimme\Model\ContainerInterface;
 use SWP\Component\TemplatesSystem\Gimme\Model\WidgetModelInterface;
 
-class ContainerWidgetFactory implements ContainerWidgetFactoryInterface
+interface ContainerWidgetFactoryInterface
 {
     /**
-     * @var string
-     */
-    private $className;
-
-    /**
-     * Factory constructor.
+     * @param ContainerInterface   $container
+     * @param WidgetModelInterface $widget
      *
-     * @param string $className
+     * @return mixed
      */
-    public function __construct($className)
-    {
-        $this->className = $className;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function create(ContainerInterface $container, WidgetModelInterface $widget)
-    {
-        return new $this->className($container, $widget);
-    }
+    public function create(ContainerInterface $container, WidgetModelInterface $widget);
 }

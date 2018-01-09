@@ -37,4 +37,14 @@ interface ThemeInterface extends BaseThemeInterface
      * @return array
      */
     public function getMenus(): array;
+
+    /**
+     * @return array
+     */
+    public function getContainers(): array;
+
+    /**
+     * @return array
+     */
+    public function getWidgets(): array;
 }

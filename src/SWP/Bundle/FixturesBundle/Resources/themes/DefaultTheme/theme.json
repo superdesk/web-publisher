@@ -144,6 +144,29 @@
                     }
                 ]
             }
+        ],
+        "containers": [
+            {
+                "name": "mainNav",
+                "styles": "border: 1px ",
+                "visible": true,
+                "cssClass": "col-md-12",
+                "data": {
+                    "some_extra_data": true
+                }
+            }
+        ],
+        "widgets": [
+            {
+                "name": "NavigationMain",
+                "type": "SWP\\Bundle\\TemplatesSystemBundle\\Widget\\MenuWidgetHandler",
+                "visible": true,
+                "parameters": {
+                    "menu_name": "mainNavigation",
+                    "template_name": "menu1.html.twig"
+                },
+                "containers": ["mainNav"]
+            }
         ]
     }
 }

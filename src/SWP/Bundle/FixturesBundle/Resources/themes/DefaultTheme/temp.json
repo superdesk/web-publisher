@@ -1,77 +1,8 @@
 {
-  "menus": [
-    {
-      "name": "mainNavigation",
-      "label": "Main Navigation"
-    },
-    {
-      "name": "footerPrim",
-      "label": "Footer Navigation"
-    },
-    {
-      "name": "home",
-      "label": "Home",
-      "uri": "/",
-      "parentsNames": ["mainNavigation", "footerPrim"]
-    },
-    {
-      "name": "politics",
-      "label": "Politics",
-      "route": "politics",
-      "parentsNames": ["mainNavigation", "footerPrim"]
-    },
-    {
-      "name": "business",
-      "label": "Bolitics",
-      "route": "business",
-      "parentsNames": ["mainNavigation", "footerPrim"]
-    },
-    {
-      "name": "scitech",
-      "label": "Sci/Tech",
-      "route": "scitech",
-      "parentsNames": ["mainNavigation", "footerPrim"]
-    },
-    {
-      "name": "health",
-      "label": "Health",
-      "route": "health",
-      "parentsNames": ["mainNavigation", "footerPrim"]
-    },
-    {
-      "name": "entertainment",
-      "label": "Entertainment",
-      "route": "entertainment",
-      "parentsNames": ["mainNavigation", "footerPrim"]
-    },
-    {
-      "name": "sports",
-      "label": "Sports",
-      "route": "sports",
-      "parentsNames": ["mainNavigation", "footerPrim"]
-    },
-    {
-      "name": "football",
-      "label": "Football",
-      "route": "football",
-      "parentsNames": ["sports"]
-    }
-  ],
   "contentLists": [
     {
       "name": "Main Content list",
       "numberOfArticles": 1
-    }
-  ],
-  "widgets": [
-    {
-      "name": "NavigationMain",
-      "type": "SWP\\Bundle\\TemplatesSystemBundle\\Widget\\MenuWidgetHandler",
-      "visible": true,
-      "parameters": {
-        "menu_name": "mainNavigation",
-        "template_name": "menu1.html.twig"
-      }
     }
   ]
 }

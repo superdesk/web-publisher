@@ -96,9 +96,12 @@ EOT
         $tenantRepository = $container->get('swp.repository.tenant');
         $tenantContext = $container->get('swp_multi_tenancy.tenant_context');
         $eventDispatcher = $container->get('event_dispatcher');
+        $revisionListener = $container->get('swp_core.listener.tenant_revision');
+
         $tenant = $tenantRepository->findOneByCode($input->getArgument('tenant'));
         $this->assertTenantIsFound($input->getArgument('tenant'), $tenant);
         $tenantContext->setTenant($tenant);
+        $revisionListener->setRevisions();
         $eventDispatcher->dispatch(MultiTenancyEvents::TENANTABLE_ENABLE);
         $themeInstaller = $container->get('swp_core.installer.theme');
 
