@@ -14,7 +14,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 /**
  * Add article statistics to articles.
  */
-class Version20171218194100 extends AbstractMigration implements ContainerAwareInterface
+class Version20180118194100 extends AbstractMigration implements ContainerAwareInterface
 {
     /**
      * @var ContainerInterface
