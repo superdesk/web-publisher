@@ -84,14 +84,15 @@ class ArticleRepository extends Repository
         }
 
         if (null !== $fields->get('publishedAfter') || null !== $fields->get('publishedBefore')) {
-            $boolFilter->addFilter(new Range(
+            $range = new Range(
                 'publishedAt',
                 [
-                    'gte' => $fields->get('publishedAfter'),
-                    'lte' => $fields->get('publishedBefore'),
+                    'gte' => null !== $fields->get('publishedAfter') ? $fields->get('publishedAfter')->format('Y-m-d') : null,
+                    'lte' => null !== $fields->get('publishedBefore') ? $fields->get('publishedBefore')->format('Y-m-d') : null,
                 ]
-            ));
+            );
 
+            $boolFilter->addFilter($range);
             $boolFilter->addFilter(new \Elastica\Query\Term(['isPublishable' => true]));
         }
 
