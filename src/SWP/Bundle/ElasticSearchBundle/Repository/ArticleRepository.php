@@ -91,7 +91,7 @@ class ArticleRepository extends Repository
                     'lte' => null !== $fields->get('publishedBefore') ? $fields->get('publishedBefore')->format('Y-m-d') : null,
                 ]
             ));
-            
+
             $boolFilter->addFilter(new \Elastica\Query\Term(['isPublishable' => true]));
         }
 
