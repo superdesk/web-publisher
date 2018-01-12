@@ -67,12 +67,21 @@ class ArticleBodyProcessor implements ArticleBodyProcessorInterface
             foreach ($articleMedia->getRenditions() as $rendition) {
                 if (false !== strpos($imageElement->getAttribute('src'), ArticleMedia::getOriginalMediaId($rendition->getImage()->getAssetId()))) {
                     $attributes = $imageElement->attributes;
+                    $altAttribute = null;
+                    if ($imageElement->hasAttribute('alt')) {
+                        $altAttribute = $attributes->getNamedItem('alt');
+                    }
+
                     while ($attributes->length) {
                         $imageElement->removeAttribute($attributes->item(0)->name);
                     }
+
                     $imageElement->setAttribute('src', $this->mediaManager->getMediaUri($rendition->getImage()));
                     $imageElement->setAttribute('data-media-id', $mediaId);
                     $imageElement->setAttribute('data-image-id', $rendition->getImage()->getAssetId());
+                    if (null !== $altAttribute) {
+                        $imageElement->setAttribute('alt', $altAttribute->nodeValue);
+                    }
                 }
             }
         }

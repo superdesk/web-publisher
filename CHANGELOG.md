@@ -8,6 +8,7 @@ To get the diff for a specific change, go to https://github.com/superdesk/web-pu
 
 * 1.1.x
  * bug [#422] Eliminated rules regression, where tenant rules were not executed and refactored the way rules are handled.
+ * bug [#425] Fixed losing alt attribute in images body
  * improvement [#423] Add slug field to route. It will be used for url generation instead name field
  * feature [#420] Add option to order list by pageViews parameter
  * feature [#420] Add statistics to articles. Collect page views and make them visible in template and api

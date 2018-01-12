@@ -78,9 +78,10 @@ class ProcessArticleMediaListenerTest extends WebTestCase
         $expected = $text = <<<'EOT'
  <p>here goes the picture</p><p><br></p>
 <!-- EMBED START Image {id: "embedded6358005131"} -->
-<figure><img src="/media/20160905140916_12345678987654321c.jpeg" data-media-id="embedded6358005131" data-image-id="20160905140916_12345678987654321c"><figcaption>man and tractor</figcaption></figure>
+<figure><img src="/media/20160905140916_12345678987654321c.jpeg" data-media-id="embedded6358005131" data-image-id="20160905140916_12345678987654321c" alt="man and tractor"><figcaption>man and tractor</figcaption></figure>
 <!-- EMBED END Image {id: "embedded6358005131"} -->
 EOT;
+
         self::assertEquals($expected, $article->getBody());
     }
 
@@ -95,13 +96,13 @@ EOT;
 
         $embed1 = <<<'EOT'
 <!-- EMBED START Image {id: "embedded11331114891"} -->
-<figure><img src="/media/58512c44c3a5be49f3529d98.jpeg" data-media-id="embedded11331114891" data-image-id="58512c44c3a5be49f3529d98"><figcaption>Stockholm, Sweden | Photo by Peter Adermark (CC BY-NC-ND 2.0)</figcaption></figure>
+<figure><img src="/media/58512c44c3a5be49f3529d98.jpeg" data-media-id="embedded11331114891" data-image-id="58512c44c3a5be49f3529d98" alt="Stockholm, Sweden | Photo by Peter Adermark (CC BY-NC-ND 2.0)"><figcaption>Stockholm, Sweden | Photo by Peter Adermark (CC BY-NC-ND 2.0)</figcaption></figure>
 <!-- EMBED END Image {id: "embedded11331114891"} -->
 EOT;
 
         $embed2 = <<<'EOT'
 <!-- EMBED START Image {id: "embedded5366428123"} -->
-<figure><img src="/media/58512c10c3a5be49fad39a2d.jpeg" data-media-id="embedded5366428123" data-image-id="58512c10c3a5be49fad39a2d"><figcaption>Snapshot of the IPTC summer meeting | Photo by Jill Laurinaitis</figcaption></figure>
+<figure><img src="/media/58512c10c3a5be49fad39a2d.jpeg" data-media-id="embedded5366428123" data-image-id="58512c10c3a5be49fad39a2d" alt="Snapshot of the IPTC summer meeting | Photo by Jill Laurinaitis"><figcaption>Snapshot of the IPTC summer meeting | Photo by Jill Laurinaitis</figcaption></figure>
 <!-- EMBED END Image {id: "embedded5366428123"} -->
 EOT;
         self::assertContains($embed1, $article->getBody());
