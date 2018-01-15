@@ -87,8 +87,8 @@ class ArticleRepository extends Repository
             $boolFilter->addFilter(new Range(
                 'publishedAt',
                 [
-                    'gte' => $fields->get('publishedAfter'),
-                    'lte' => $fields->get('publishedBefore'),
+                    'gte' => null !== $fields->get('publishedAfter') ? $fields->get('publishedAfter')->format('Y-m-d') : null,
+                    'lte' => null !== $fields->get('publishedBefore') ? $fields->get('publishedBefore')->format('Y-m-d') : null,
                 ]
             ));
 
