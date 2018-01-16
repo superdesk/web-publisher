@@ -258,6 +258,12 @@ class Article implements ArticleInterface
     {
         $this->title = $title;
 
+        if (null !== $this->slug) {
+            $this->setSlug(Transliterator::urlize($this->slug));
+
+            return;
+        }
+
         $this->setSlug(Transliterator::urlize($this->title));
     }
 
