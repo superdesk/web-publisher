@@ -278,7 +278,7 @@ final class ArticleTitleChangeTest extends WebTestCase
 
         $client->request(
             'GET',
-            $this->router->generate('swp_api_content_show_articles', ['id' => 'abstract-html-test-slugline-edited'])
+            $this->router->generate('swp_api_content_show_articles', ['id' => 'abstract-html-test-slugline'])
         );
 
         self::assertEquals(200, $client->getResponse()->getStatusCode());
@@ -288,6 +288,7 @@ final class ArticleTitleChangeTest extends WebTestCase
         self::assertArrayHasKey('title', $content);
         self::assertArrayHasKey('slug', $content);
         self::assertEquals('Abstract html test', $content['title']);
-        self::assertEquals('abstract-html-test-slugline-edited', $content['slug']);
+        self::assertEquals('abstract-html-test-slugline', $content['slug']);
+        self::assertNotEquals('abstract-html-test-slugline-edited', $content['slug']);
     }
 }
