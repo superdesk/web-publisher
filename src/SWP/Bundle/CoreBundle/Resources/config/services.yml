@@ -117,6 +117,15 @@ services:
             - '@swp.factory.container_widget'
             - '@swp.provider.container'
 
+    swp_core.generator.theme.content_lists:
+        class: SWP\Bundle\CoreBundle\Theme\Generator\ThemeContentListsGenerator
+        arguments:
+            - '@form.factory'
+            - '@swp.factory.content_list'
+            - '@swp.repository.content_list'
+            - '@swp_core.generator.theme.fake_article'
+            - '@event_dispatcher'
+
     swp_core.processor.theme.required_data:
         class: SWP\Bundle\CoreBundle\Theme\Processor\RequiredDataProcessor
         arguments:
@@ -124,6 +133,7 @@ services:
             - '@swp_core.generator.theme.menus'
             - '@swp_core.generator.theme.containers'
             - '@swp_core.generator.theme.widgets'
+            - '@swp_core.generator.theme.content_lists'
 
     swp_core.loader.organization.theme:
         class: Sylius\Bundle\ThemeBundle\Loader\ThemeLoader

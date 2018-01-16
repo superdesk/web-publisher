@@ -154,6 +154,9 @@
                 "data": {
                     "some_extra_data": true
                 }
+            },
+            {
+                "name": "frontArticles"
             }
         ],
         "widgets": [
@@ -166,6 +169,25 @@
                     "template_name": "menu1.html.twig"
                 },
                 "containers": ["mainNav"]
+            },
+            {
+                "name": "Automatic list widget",
+                "type": "SWP\\Bundle\\CoreBundle\\Widget\\ContentListWidget",
+                "visible": true,
+                "parameters": {
+                    "list_name": "Example automatic list"
+                },
+                "containers": ["frontArticles"]
+            }
+        ],
+        "contentLists": [
+            {
+                "name": "Example automatic list",
+                "type": "automatic",
+                "description": "New list",
+                "limit": 5,
+                "cacheLifeTime": 30,
+                "filters": "{\"metadata\":{\"located\":\"Porto\"}}"
             }
         ]
     }

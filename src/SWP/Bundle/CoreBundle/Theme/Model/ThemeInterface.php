@@ -47,4 +47,9 @@ interface ThemeInterface extends BaseThemeInterface
      * @return array
      */
     public function getWidgets(): array;
+
+    /**
+     * @return array
+     */
+    public function getContentLists(): array;
 }

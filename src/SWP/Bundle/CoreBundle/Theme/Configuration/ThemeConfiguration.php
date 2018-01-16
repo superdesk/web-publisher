@@ -126,6 +126,7 @@ final class ThemeConfiguration implements ConfigurationInterface
         $this->addOptionalGeneratedMenusData($generatedDataNodeDefinition);
         $this->addOptionalGeneratedContainersData($generatedDataNodeDefinition);
         $this->addOptionalGeneratedWidgetsData($generatedDataNodeDefinition);
+        $this->addOptionalGenerateContentListsData($generatedDataNodeDefinition);
     }
 
     /**
@@ -217,6 +218,9 @@ final class ThemeConfiguration implements ConfigurationInterface
         $childrenNodeBuilder->scalarNode('route')->cannotBeEmpty()->defaultNull()->end();
     }
 
+    /**
+     * @param ArrayNodeDefinition $generatedDataNodeDefinition
+     */
     private function addOptionalGeneratedContainersData(ArrayNodeDefinition $generatedDataNodeDefinition)
     {
         $containersNodeDefinition = $generatedDataNodeDefinition->children()->arrayNode('containers');
@@ -238,6 +242,30 @@ final class ThemeConfiguration implements ConfigurationInterface
         $widgetNodeBuilder->booleanNode('visible')->defaultTrue()->end();
         $widgetNodeBuilder->variableNode('data')->cannotBeEmpty()->end();
         $widgetNodeBuilder->scalarNode('cssClass')->cannotBeEmpty()->end();
+    }
+
+    private function addOptionalGenerateContentListsData(ArrayNodeDefinition $generatedDataNodeDefinition)
+    {
+        $containersNodeDefinition = $generatedDataNodeDefinition->children()->arrayNode('contentLists');
+        $containersNodeDefinition->requiresAtLeastOneElement();
+
+        /** @var ArrayNodeDefinition $containerNodeDefinition */
+        $containerNodeDefinition = $containersNodeDefinition->prototype('array');
+        $containerNodeDefinition
+            ->validate()
+            ->ifTrue(function ($widget) {
+                return [] === $widget;
+            })
+            ->thenInvalid('Content List cannot be empty!')
+        ;
+
+        $widgetNodeBuilder = $containerNodeDefinition->children();
+        $widgetNodeBuilder->scalarNode('name')->cannotBeEmpty()->end();
+        $widgetNodeBuilder->scalarNode('type')->cannotBeEmpty()->end();
+        $widgetNodeBuilder->scalarNode('description')->defaultNull()->end();
+        $widgetNodeBuilder->scalarNode('limit')->defaultNull()->end();
+        $widgetNodeBuilder->scalarNode('cacheLifeTime')->defaultNull()->end();
+        $widgetNodeBuilder->scalarNode('filters')->defaultNull()->end();
     }
 
     private function addOptionalGeneratedWidgetsData(ArrayNodeDefinition $generatedDataNodeDefinition)

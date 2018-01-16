@@ -90,6 +90,7 @@ class FakeArticlesGenerator implements FakeArticlesGeneratorInterface
             $article->setBody($faker->paragraph(20));
             $article->setLead($faker->paragraph(3));
             $article->setLocale('en');
+            $article->setMetadata(['located' => 'Porto']);
             $article->setStatus(ArticleInterface::STATUS_PUBLISHED);
             $article->setPublishedAt(new \DateTime());
             $article->setPublishable(true);

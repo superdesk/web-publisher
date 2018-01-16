@@ -91,4 +91,12 @@ class Theme extends BaseTheme implements ThemeInterface
     {
         return $this->generatedData['widgets'];
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getContentLists(): array
+    {
+        return $this->generatedData['contentLists'];
+    }
 }

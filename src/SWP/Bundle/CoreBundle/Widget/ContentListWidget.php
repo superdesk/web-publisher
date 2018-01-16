@@ -25,6 +25,9 @@ final class ContentListWidget extends TemplatingWidgetHandler
         'list_id' => [
             'type' => 'int',
         ],
+        'list_name' => [
+            'type' => 'int',
+        ],
         'template_name' => [
             'type' => 'string',
             'default' => 'list.html.twig',
@@ -38,13 +41,20 @@ final class ContentListWidget extends TemplatingWidgetHandler
     {
         $templateName = $this->getModelParameter('template_name');
         $listId = (int) $this->getModelParameter('list_id');
+        $listName = $this->getModelParameter('list_name');
 
-        /** @var ContentListInterface $contentList */
-        $contentList = $this->getContainer()->get('swp.repository.content_list')->findListById($listId);
+        if (null !== $listName) {
+            /** @var ContentListInterface $contentList */
+            $contentList = $this->getContainer()->get('swp.repository.content_list')->findListByName($listName);
+        } else {
+            /** @var ContentListInterface $contentList */
+            $contentList = $this->getContainer()->get('swp.repository.content_list')->findListById($listId);
+        }
 
         return $this->renderTemplate($templateName, [
             'contentList' => $contentList,
             'listId' => $listId,
+            'listName' => $listName,
         ]);
     }
 }

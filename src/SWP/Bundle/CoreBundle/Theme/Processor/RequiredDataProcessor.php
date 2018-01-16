@@ -43,19 +43,26 @@ class RequiredDataProcessor implements RequiredDataProcessorInterface
     protected $themeWidgetsGenerator;
 
     /**
+     * @var GeneratorInterface
+     */
+    protected $themeContentListsGenerator;
+
+    /**
      * RequiredDataProcessor constructor.
      *
      * @param GeneratorInterface $themeRoutesGenerator
      * @param GeneratorInterface $themeMenusGenerator
      * @param GeneratorInterface $themeContainersGenerator
      * @param GeneratorInterface $themeWidgetsGenerator
+     * @param GeneratorInterface $themeContentListsGenerator
      */
-    public function __construct(GeneratorInterface $themeRoutesGenerator, GeneratorInterface $themeMenusGenerator, GeneratorInterface $themeContainersGenerator, GeneratorInterface $themeWidgetsGenerator)
+    public function __construct(GeneratorInterface $themeRoutesGenerator, GeneratorInterface $themeMenusGenerator, GeneratorInterface $themeContainersGenerator, GeneratorInterface $themeWidgetsGenerator, GeneratorInterface $themeContentListsGenerator)
     {
         $this->themeRoutesGenerator = $themeRoutesGenerator;
         $this->themeMenusGenerator = $themeMenusGenerator;
         $this->themeContainersGenerator = $themeContainersGenerator;
         $this->themeWidgetsGenerator = $themeWidgetsGenerator;
+        $this->themeContentListsGenerator = $themeContentListsGenerator;
     }
 
     /**
@@ -66,6 +73,7 @@ class RequiredDataProcessor implements RequiredDataProcessorInterface
         $this->themeRoutesGenerator->generate($theme->getRoutes());
         $this->themeMenusGenerator->generate($theme->getMenus());
         $this->themeContainersGenerator->generate($theme->getContainers());
+        $this->themeContentListsGenerator->generate($theme->getContentLists());
         $this->themeWidgetsGenerator->generate($theme->getWidgets());
     }
 }

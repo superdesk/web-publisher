@@ -41,17 +41,35 @@ class ContentListRepository extends EntityRepository implements ContentListRepos
      */
     public function findListById(int $listId)
     {
-        return $this->createQueryBuilder('cl')
+        return $this->getListQueryBuilder()
             ->where('cl.id = :id')
+            ->setParameter('id', $listId)
+            ->getQuery()
+            ->getOneOrNullResult()
+        ;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function findListByName(string $listName)
+    {
+        return $this->getListQueryBuilder()
+            ->where('cl.name = :name')
+            ->setParameter('name', $listName)
+            ->getQuery()
+            ->getOneOrNullResult()
+            ;
+    }
+
+    private function getListQueryBuilder()
+    {
+        return $this->createQueryBuilder('cl')
             ->leftJoin('cl.items', 'i')
             ->addSelect('i')
             ->leftJoin('i.content', 'c')
             ->addSelect('c')
-            ->setParameter('id', $listId)
             ->addOrderBy('i.sticky', 'desc')
-            ->addOrderBy('i.createdAt', 'desc')
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
+            ->addOrderBy('i.createdAt', 'desc');
     }
 }
