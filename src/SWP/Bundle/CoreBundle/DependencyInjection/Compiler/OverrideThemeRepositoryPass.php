@@ -24,10 +24,11 @@ final class OverrideThemeRepositoryPass extends AbstractOverridePass
      */
     public function process(ContainerBuilder $container)
     {
-        $this->overrideDefinitionClassIfExists(
+        $definition = $this->overrideDefinitionClassIfExists(
             $container,
             'sylius.repository.theme',
             ReloadableInMemoryRepository::class
         );
+        $definition->setPublic(true);
     }
 }

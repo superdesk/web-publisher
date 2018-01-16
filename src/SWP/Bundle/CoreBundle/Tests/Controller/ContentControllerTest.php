@@ -56,9 +56,10 @@ class ContentControllerTest extends WebTestCase
         $this->loadCustomFixtures(['tenant', 'collection_route']);
 
         $client = static::createClient();
+        $client->enableProfiler();
         $client->request('GET', '/collection-no-template');
 
-        $this->assertEquals(404, $client->getResponse()->getStatusCode());
+        $this->assertEquals(500, $client->getResponse()->getStatusCode());
     }
 
     public function testLoadingCollectionRouteWithArticles()
@@ -115,7 +116,7 @@ class ContentControllerTest extends WebTestCase
         $client = static::createClient();
 
         $client->request('GET', '/collection-content');
-        $this->assertEquals(404, $client->getResponse()->getStatusCode());
+        $this->assertEquals(500, $client->getResponse()->getStatusCode());
     }
 
     public function testTestLoadingRouteWithCustomTemplate()

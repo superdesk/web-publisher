@@ -15,14 +15,11 @@
 namespace SWP\Bundle\CoreBundle\Tests\Command;
 
 use SWP\Bundle\CoreBundle\Command\ThemeSetupCommand;
-use SWP\Bundle\CoreBundle\Document\Tenant;
-use SWP\Component\MultiTenancy\Repository\TenantRepositoryInterface;
+use SWP\Bundle\FixturesBundle\WebTestCase;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
-use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Console\Tester\CommandTester;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 
-class ThemeSetupCommandTest extends KernelTestCase
+class ThemeSetupCommandTest extends WebTestCase
 {
     private $commandTester;
 
@@ -30,6 +27,10 @@ class ThemeSetupCommandTest extends KernelTestCase
 
     public function setUp()
     {
+        self::bootKernel();
+        $this->initDatabase();
+        $this->loadCustomFixtures(['tenant']);
+
         $this->command = self::createCommand();
         $this->commandTester = $this->createCommandTester();
     }
@@ -47,38 +48,8 @@ class ThemeSetupCommandTest extends KernelTestCase
     protected function createCommandTester()
     {
         $command = self::createCommand();
-        $tenant = new Tenant();
-        $tenant->setCode('123456');
-        $command->setContainer($this->getMockContainer($tenant));
 
         return new CommandTester($command);
-    }
-
-    private function getMockContainer($mockTenant = null, $tenantCode = '123456')
-    {
-        $mockRepo = $this->getMockBuilder(TenantRepositoryInterface::class)
-            ->getMock();
-
-        $mockRepo->expects($this->any())
-            ->method('findOneByCode')
-            ->with($tenantCode)
-            ->will($this->returnValue($mockTenant));
-
-        $mockContainer = $this->getMockBuilder(ContainerInterface::class)
-            ->getMock();
-
-        $mockContainer->expects($this->any())
-            ->method('getParameter')
-            ->with('swp.theme.configuration.default_directory')
-            ->will($this->returnValue('/tmp'));
-
-        $mockContainer->expects($this->any())
-            ->method('get')
-            ->will($this->returnValueMap([
-                ['swp.repository.tenant', 1, $mockRepo],
-            ]));
-
-        return $mockContainer;
     }
 
     /**
@@ -89,23 +60,20 @@ class ThemeSetupCommandTest extends KernelTestCase
     {
         $this->commandTester->execute(
             [
-                'tenant' => '123456',
+                'tenant' => '123abc',
                 'theme_dir' => __DIR__.'/../Fixtures/themes/123abc/theme_test',
                 '--force' => true,
             ]
         );
 
-        $this->assertContains(
-            'Theme has been installed successfully!',
-            $this->commandTester->getDisplay()
-        );
+        self::assertContains('Theme has been installed successfully!', $this->commandTester->getDisplay());
     }
 
     public function testExecuteWhenDirectoryNotValid()
     {
         $this->commandTester->execute(
             [
-                'tenant' => '123456',
+                'tenant' => '123abc',
                 'theme_dir' => 'fake/dir',
                 '--force' => true,
             ]
@@ -121,7 +89,7 @@ class ThemeSetupCommandTest extends KernelTestCase
     {
         $this->commandTester->execute(
             [
-                'tenant' => '123456',
+                'tenant' => '123abc',
                 'theme_dir' => '/',
                 '--force' => true,
             ]
@@ -137,7 +105,7 @@ class ThemeSetupCommandTest extends KernelTestCase
     {
         $this->commandTester->execute(
             [
-                'tenant' => '123456',
+                'tenant' => '123abc',
                 'theme_dir' => __DIR__.'/../Fixtures/themes/123abc/theme_test',
                 '--force' => true,
                 '--activate' => true,
@@ -160,12 +128,7 @@ class ThemeSetupCommandTest extends KernelTestCase
      */
     public function testExecuteWhenTenantNotFound()
     {
-        $command = self::createCommand();
-        $command->setContainer($this->getMockContainer(null, '111'));
-
-        $commandTester = new CommandTester($command);
-
-        $commandTester->execute(
+        $this->commandTester->execute(
             [
                 'tenant' => '111',
                 'theme_dir' => '/',

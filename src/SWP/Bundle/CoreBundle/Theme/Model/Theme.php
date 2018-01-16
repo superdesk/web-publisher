@@ -27,7 +27,13 @@ class Theme extends BaseTheme implements ThemeInterface
     /**
      * @var array
      */
-    protected $generatedData;
+    protected $generatedData = [
+        'routes' => [],
+        'menus' => [],
+        'containers' => [],
+        'widgets' => [],
+        'contentLists' => [],
+    ];
 
     /**
      * Theme constructor.
