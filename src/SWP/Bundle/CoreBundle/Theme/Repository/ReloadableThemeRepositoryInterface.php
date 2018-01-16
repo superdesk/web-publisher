@@ -16,7 +16,9 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\CoreBundle\Theme\Repository;
 
-interface ReloadableThemeRepositoryInterface
+use Sylius\Bundle\ThemeBundle\Repository\ThemeRepositoryInterface;
+
+interface ReloadableThemeRepositoryInterface extends ThemeRepositoryInterface
 {
     /**
      * Reload available themes.

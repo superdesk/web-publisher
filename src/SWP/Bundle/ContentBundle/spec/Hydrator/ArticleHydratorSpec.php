@@ -20,7 +20,6 @@ use SWP\Bundle\ContentBundle\Hydrator\ArticleHydrator;
 use SWP\Bundle\ContentBundle\Hydrator\ArticleHydratorInterface;
 use SWP\Bundle\ContentBundle\Model\ArticleInterface;
 use SWP\Bundle\ContentBundle\Model\RouteInterface;
-use SWP\Bundle\ContentBundle\Provider\RouteProviderInterface;
 use SWP\Bundle\ContentBundle\Service\ArticleSourcesAdderInterface;
 use SWP\Component\Bridge\Model\Item;
 use SWP\Component\Bridge\Model\PackageInterface;
@@ -30,9 +29,9 @@ use SWP\Component\Bridge\Model\PackageInterface;
  */
 final class ArticleHydratorSpec extends ObjectBehavior
 {
-    public function let(RouteProviderInterface $routeProvider, ArticleSourcesAdderInterface $articleSourcesAdder)
+    public function let(ArticleSourcesAdderInterface $articleSourcesAdder)
     {
-        $this->beConstructedWith($routeProvider, $articleSourcesAdder);
+        $this->beConstructedWith($articleSourcesAdder);
     }
 
     public function it_has_an_interface()

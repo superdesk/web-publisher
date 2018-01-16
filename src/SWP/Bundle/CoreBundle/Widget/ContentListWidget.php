@@ -53,8 +53,8 @@ final class ContentListWidget extends TemplatingWidgetHandler
 
         return $this->renderTemplate($templateName, [
             'contentList' => $contentList,
-            'listId' => $listId,
-            'listName' => $listName,
+            'listId' => $contentList->getId(),
+            'listName' => $contentList->getName(),
         ]);
     }
 }

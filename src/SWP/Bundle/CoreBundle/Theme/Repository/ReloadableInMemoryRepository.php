@@ -24,13 +24,12 @@ namespace SWP\Bundle\CoreBundle\Theme\Repository;
 
 use Sylius\Bundle\ThemeBundle\Loader\ThemeLoaderInterface;
 use Sylius\Bundle\ThemeBundle\Model\ThemeInterface;
-use Sylius\Bundle\ThemeBundle\Repository\ThemeRepositoryInterface;
 
 /**
  * @author Kamil Kokot <kamil@kokot.me>
  * @author Paweł Mikołajczuk <pawel.mikolajczuk@sourcefabric.org>
  */
-final class ReloadableInMemoryRepository implements ThemeRepositoryInterface, ReloadableThemeRepositoryInterface
+final class ReloadableInMemoryRepository implements ReloadableThemeRepositoryInterface
 {
     /**
      * @var ThemeInterface[]

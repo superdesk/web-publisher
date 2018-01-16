@@ -16,11 +16,11 @@ namespace spec\SWP\Bundle\CoreBundle\Theme;
 
 use Doctrine\Common\Cache\CacheProvider;
 use PhpSpec\ObjectBehavior;
+use SWP\Bundle\CoreBundle\Theme\Repository\ReloadableThemeRepositoryInterface;
 use SWP\Bundle\CoreBundle\Theme\TenantAwareThemeContext;
 use SWP\Component\Common\Model\ThemeAwareTenantInterface;
 use SWP\Component\MultiTenancy\Context\TenantContextInterface;
 use Sylius\Bundle\ThemeBundle\Model\ThemeInterface;
-use Sylius\Bundle\ThemeBundle\Repository\ThemeRepositoryInterface;
 
 /**
  * @mixin TenantAwareThemeContext
@@ -29,7 +29,7 @@ class TenantAwareThemeContextSpec extends ObjectBehavior
 {
     public function let(
         TenantContextInterface $tenantContext,
-        ThemeRepositoryInterface $themeRepository,
+        ReloadableThemeRepositoryInterface $themeRepository,
         CacheProvider $cacheProvider
     ) {
         $this->beConstructedWith($tenantContext, $themeRepository, $cacheProvider);
@@ -44,7 +44,7 @@ class TenantAwareThemeContextSpec extends ObjectBehavior
         TenantContextInterface $tenantContext,
         ThemeAwareTenantInterface $tenant,
         ThemeInterface $theme,
-        ThemeRepositoryInterface $themeRepository
+        ReloadableThemeRepositoryInterface $themeRepository
     ) {
         $tenantContext->getTenant()->willReturn($tenant);
         $tenant->getSubdomain()->willReturn('subdomain1');

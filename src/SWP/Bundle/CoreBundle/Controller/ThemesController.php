@@ -125,6 +125,7 @@ class ThemesController extends Controller
         if ($form->isValid()) {
             $formData = $form->getData();
             $themeUploader = $this->container->get('swp_core.uploader.theme');
+
             try {
                 $themePath = $themeUploader->upload($formData['file']);
             } catch (\Exception $e) {
