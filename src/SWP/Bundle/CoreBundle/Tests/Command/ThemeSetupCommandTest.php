@@ -18,6 +18,7 @@ use SWP\Bundle\CoreBundle\Command\ThemeSetupCommand;
 use SWP\Bundle\FixturesBundle\WebTestCase;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
+use Symfony\Component\Filesystem\Filesystem;
 
 class ThemeSetupCommandTest extends WebTestCase
 {
@@ -147,5 +148,12 @@ class ThemeSetupCommandTest extends WebTestCase
                 '--force' => true,
             ]
         );
+    }
+
+    public static function tearDownAfterClass()
+    {
+        $filesystem = new Filesystem();
+        $filesystem->remove(__DIR__.'/../Fixtures/themes/123abc/theme_test_install');
+        $filesystem->remove(__DIR__.'/../Fixtures/themes/123abc/theme_test_install_with_generated_data');
     }
 }

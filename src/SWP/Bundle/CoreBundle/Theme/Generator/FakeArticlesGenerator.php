@@ -132,6 +132,14 @@ class FakeArticlesGenerator implements FakeArticlesGeneratorInterface
         $mediaId = uniqid();
         $faker = Faker\Factory::create();
         $fakeImage = $faker->image(sys_get_temp_dir(), 800, 800, 'cats', true, true, $article->getSlug());
+        if (!is_string($fakeImage)) {
+            $im = imagecreatetruecolor(800, 800);
+            $textColor = imagecolorallocate($im, 233, 14, 91);
+            imagestring($im, 1, 5, 5, $article->getTitle(), $textColor);
+            $fakeImage = sys_get_temp_dir().'/'.$article->getSlug().'.jpg';
+            imagejpeg($im, $fakeImage);
+            imagedestroy($im);
+        }
         $uploadedFile = new UploadedFile($fakeImage, $mediaId, 'image/jpeg', filesize($fakeImage), null, true);
         /** @var Image $image */
         $image = $this->mediaManager->handleUploadedFile($uploadedFile, $mediaId);
