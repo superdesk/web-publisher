@@ -61,7 +61,7 @@ class ThemeSetupCommandTest extends WebTestCase
         $this->commandTester->execute(
             [
                 'tenant' => '123abc',
-                'theme_dir' => __DIR__.'/../Fixtures/themes/123abc/theme_test',
+                'theme_dir' => __DIR__.'/../Fixtures/themes_to_be_installed/theme_test_install',
                 '--force' => true,
             ]
         );
@@ -106,7 +106,7 @@ class ThemeSetupCommandTest extends WebTestCase
         $this->commandTester->execute(
             [
                 'tenant' => '123abc',
-                'theme_dir' => __DIR__.'/../Fixtures/themes/123abc/theme_test',
+                'theme_dir' => __DIR__.'/../Fixtures/themes_to_be_installed/theme_test_install',
                 '--force' => true,
                 '--activate' => true,
             ]

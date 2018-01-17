@@ -1,0 +1,18 @@
+{
+    "name": "swp/test-theme-install",
+    "title": "Test Theme",
+    "description": "Superdesk Web Publisher test theme",
+    "authors": [
+        {
+            "name": "Sourcefabric z.ú.",
+            "email": "contact@sourcefabric.org",
+            "homepage": "https://www.sourcefabric.org",
+            "role": "Organization"
+        }
+    ],
+    "screenshots": [
+        {
+            "path": "screenshots/front.png"
+        }
+    ]
+}
