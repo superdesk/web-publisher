@@ -8,6 +8,7 @@ To get the diff for a specific change, go to https://github.com/superdesk/web-pu
 
 * 1.1.x
  * bug [#422] Eliminated rules regression, where tenant rules were not executed and refactored the way rules are handled.
+ * improvement [#427] Improved the way how the article slug is generated
  * bug [#426] Allow different date time format when filtering articles by date range
  * bug [#425] Fixed losing alt attribute in images body
  * improvement [#423] Add slug field to route. It will be used for url generation instead name field
