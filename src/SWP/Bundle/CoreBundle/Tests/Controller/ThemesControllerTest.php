@@ -48,6 +48,7 @@ class ThemesControllerTest extends WebTestCase
         self::assertCount(0, $data['_embedded']['_items']);
 
         $fileName = $this->createZipArchive(realpath(__DIR__.'/../Fixtures/themes/123abc/'));
+        $client->enableProfiler();
         $client->request('POST', $this->router->generate('swp_api_upload_theme'), [
             'theme_upload' => [
                 'file' => new UploadedFile($fileName, 'test_theme.zip', 'application/zip', filesize($fileName), null, true),

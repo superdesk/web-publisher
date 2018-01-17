@@ -20,6 +20,7 @@ use SWP\Bundle\CoreBundle\Theme\Repository\ReloadableThemeRepositoryInterface;
 use SWP\Component\Common\Model\ThemeAwareTenantInterface;
 use SWP\Component\MultiTenancy\Context\TenantContextInterface;
 use Sylius\Bundle\ThemeBundle\Context\ThemeContextInterface;
+use Sylius\Bundle\ThemeBundle\Repository\ThemeRepositoryInterface;
 
 /**
  * Class TenantAwareThemeContext.
@@ -49,11 +50,11 @@ final class TenantAwareThemeContext implements ThemeContextInterface
     /**
      * TenantAwareThemeContext constructor.
      *
-     * @param TenantContextInterface             $tenantContext   Tenant context
-     * @param ReloadableThemeRepositoryInterface $themeRepository Theme repository
-     * @param CacheProvider                      $cacheService    Cache Service
+     * @param TenantContextInterface   $tenantContext   Tenant context
+     * @param ThemeRepositoryInterface $themeRepository Theme repository
+     * @param CacheProvider            $cacheService    Cache Service
      */
-    public function __construct(TenantContextInterface $tenantContext, ReloadableThemeRepositoryInterface $themeRepository, CacheProvider $cacheService)
+    public function __construct(TenantContextInterface $tenantContext, ThemeRepositoryInterface $themeRepository, CacheProvider $cacheService)
     {
         $this->tenantContext = $tenantContext;
         $this->themeRepository = $themeRepository;

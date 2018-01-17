@@ -1,0 +1,8 @@
+Articles by page views count desc
+{% gimmelist article from articles|order('pageViews', 'desc') %}
+    <a href="{{ url(article) }}">{{ article.title }}</a> Page views count: {{ article.articleStatistics.pageViewsNumber }}
+{% endgimmelist %}
+
+{% gimmelist article from articles|order('pageViews', 'asc') %}
+    <a href="{{ url(article) }}">{{ article.title }}</a>
+{% endgimmelist %}

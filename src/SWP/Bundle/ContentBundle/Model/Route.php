@@ -89,8 +89,10 @@ class Route extends BaseRoute implements RouteInterface
      */
     public function addArticle(ArticleInterface $article): void
     {
-        $this->articles->add($article);
-        $article->setRoute($this);
+        if (!$this->articles->contains($article)) {
+            $this->articles->add($article);
+            $article->setRoute($this);
+        }
     }
 
     /**

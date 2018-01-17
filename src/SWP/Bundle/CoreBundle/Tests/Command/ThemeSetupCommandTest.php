@@ -79,10 +79,7 @@ class ThemeSetupCommandTest extends WebTestCase
             ]
         );
 
-        $this->assertContains(
-            'Directory "fake/dir" does not exist or it is not a directory!',
-            $this->commandTester->getDisplay()
-        );
+        self::assertContains('Directory "fake/dir" does not exist or it is not a directory!', $this->commandTester->getDisplay());
     }
 
     public function testExecuteWhenFailure()
@@ -95,10 +92,7 @@ class ThemeSetupCommandTest extends WebTestCase
             ]
         );
 
-        $this->assertContains(
-            'Theme could not be installed!',
-            $this->commandTester->getDisplay()
-        );
+        self::assertContains('Source directory doesn\'t contain a theme!', $this->commandTester->getDisplay());
     }
 
     public function testExecuteWithActivation()
@@ -112,15 +106,33 @@ class ThemeSetupCommandTest extends WebTestCase
             ]
         );
 
-        $this->assertContains(
-            'Theme has been installed successfully!',
-            $this->commandTester->getDisplay()
+        self::assertContains('Theme has been installed successfully!', $this->commandTester->getDisplay());
+        self::assertContains('Theme was activated!', $this->commandTester->getDisplay());
+    }
+
+    public function testExecuteWithActivationAndDataGeneration()
+    {
+        $this->commandTester->execute(
+            [
+                'tenant' => '123abc',
+                'theme_dir' => __DIR__.'/../Fixtures/themes_to_be_installed/theme_test_install_with_generated_data',
+                '--force' => true,
+                '--activate' => true,
+            ]
         );
 
-        $this->assertContains(
-            'Theme was activated!',
-            $this->commandTester->getDisplay()
-        );
+        self::assertContains('Theme has been installed successfully!', $this->commandTester->getDisplay());
+        self::assertContains('Theme was activated!', $this->commandTester->getDisplay());
+
+        $client = self::createClient();
+        $router = $this->getContainer()->get('router');
+        $client->request('GET', $router->generate('swp_api_content_show_articles', ['id' => 1]));
+        self::assertEquals(200, $client->getResponse()->getStatusCode());
+
+//        $content = json_decode($client->getResponse()->getContent(), true);
+//
+//        self::assertCount(0, $content['articles']);
+//        self::assertEquals($content['status'], 'new');
     }
 
     /**
@@ -131,7 +143,7 @@ class ThemeSetupCommandTest extends WebTestCase
         $this->commandTester->execute(
             [
                 'tenant' => '111',
-                'theme_dir' => '/',
+                'theme_dir' => __DIR__.'/../Fixtures/themes_to_be_installed/theme_test_install',
                 '--force' => true,
             ]
         );

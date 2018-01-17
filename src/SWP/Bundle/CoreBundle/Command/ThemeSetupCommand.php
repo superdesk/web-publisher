@@ -98,6 +98,12 @@ EOT
             return;
         }
 
+        if (!$fileSystem->exists($sourceDir.DIRECTORY_SEPARATOR.'theme.json')) {
+            $output->writeln(sprintf('<error>Source directory doesn\'t contain a theme!</error>', $sourceDir));
+
+            return;
+        }
+
         $container = $this->getContainer();
         $tenantRepository = $container->get('swp.repository.tenant');
         $tenantContext = $container->get('swp_multi_tenancy.tenant_context');
@@ -154,7 +160,6 @@ EOT
         } catch (\Exception $e) {
             $output->writeln('<error>Theme could not be installed!</error>');
             $output->writeln('<error>Error message: '.$e->getMessage().'</error>');
-            //$output->writeln('<error>Stack trace: '.$e->getTraceAsString().'</error>');
         }
     }
 
