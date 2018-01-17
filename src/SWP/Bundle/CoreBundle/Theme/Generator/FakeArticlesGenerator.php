@@ -107,11 +107,11 @@ class FakeArticlesGenerator implements FakeArticlesGeneratorInterface
     }
 
     /**
-     * @param $article
+     * @param ArticleInterface $article
      *
      * @return ArticleStatisticsInterface
      */
-    protected function createArticleStatistics($article): ArticleStatisticsInterface
+    protected function createArticleStatistics(ArticleInterface $article): ArticleStatisticsInterface
     {
         /** @var ArticleStatisticsInterface $articleStatistics */
         $articleStatistics = $this->articleStatisticsFactory->create();

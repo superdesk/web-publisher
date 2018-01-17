@@ -60,7 +60,7 @@ class ThemeSetupCommand extends ContainerAwareCommand
             )
             ->setHelp(
                 <<<'EOT'
-                The <info>%command.name%</info> command installs your custom theme for given tenant:
+The <info>%command.name%</info> command installs your custom theme for given tenant:
 
   <info>%command.full_name% <tenant> <theme_dir></info>
 
@@ -75,6 +75,12 @@ where <comment><tenant></comment> is the tenant code you typed in the first argu
 To force an action, you need to add an option: <info>--force</info>:
 
   <info>%command.full_name% <tenant> <theme_dir> --force</info>
+
+To activate this theme in tenant, you need to add and option <info>--activate</info>:
+  <info>%command.full_name% <tenant> <theme_dir> --activate</info>
+
+Theme installation will generated declared in theme config elements 
+like: routes, articles, menus, widgets, content lists and containers
 EOT
             );
     }
