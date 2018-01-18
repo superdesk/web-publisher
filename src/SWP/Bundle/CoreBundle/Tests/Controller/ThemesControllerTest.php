@@ -151,7 +151,6 @@ class ThemesControllerTest extends WebTestCase
         $filesystem->mirror(realpath(__DIR__.'/../Fixtures/themes_to_be_installed/theme_test_install_with_generated_data/'), $tempThemeDir.'/test_theme', null, ['override' => true, 'delete' => true]);
 
         $fileName = $this->createZipArchive($tempThemeDir);
-        $client->enableProfiler();
         $client->request('POST', $this->router->generate('swp_api_upload_theme'), [
             'theme_upload' => [
                 'file' => new UploadedFile($fileName, 'test_theme.zip', 'application/zip', filesize($fileName), null, true),
@@ -165,7 +164,6 @@ class ThemesControllerTest extends WebTestCase
         $data = json_decode($client->getResponse()->getContent(), true);
         self::assertCount(0, $data['_embedded']['_items']);
 
-        $client->enableProfiler();
         $client->request('POST', $this->router->generate('swp_api_install_theme'), [
             'theme_install' => ['name' => 'swp/test-theme-install-generated-data'],
         ]);
