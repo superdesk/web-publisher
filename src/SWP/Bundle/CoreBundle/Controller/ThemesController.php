@@ -17,6 +17,7 @@ namespace SWP\Bundle\CoreBundle\Controller;
 use Knp\Component\Pager\Pagination\SlidingPagination;
 use SWP\Bundle\CoreBundle\Form\Type\ThemeInstallType;
 use SWP\Bundle\CoreBundle\Form\Type\ThemeUploadType;
+use SWP\Bundle\CoreBundle\Model\Tenant;
 use SWP\Bundle\CoreBundle\Model\TenantInterface;
 use SWP\Bundle\CoreBundle\Theme\Helper\ThemeHelper;
 use SWP\Component\Common\Response\ResponseContext;
@@ -166,6 +167,10 @@ class ThemesController extends Controller
             $formData = $form->getData();
             $themeInstaller = $this->container->get('swp_core.installer.theme');
             $theme = $themeInstaller->install($formData['name']);
+            /** @var Tenant $tenant */
+            $tenant = $this->container->get('swp_multi_tenancy.tenant_context')->getTenant();
+            $tenant->setThemeName($formData['name']);
+            $this->container->get('swp.repository.tenant')->flush();
             $requiredDataProcessor = $this->container->get('swp_core.processor.theme.required_data');
             $requiredDataProcessor->processTheme($theme);
 

@@ -122,6 +122,64 @@ class ThemesControllerTest extends WebTestCase
         $filesystem->remove($this->getContainer()->get('swp_core.uploader.theme')->getAvailableThemesPath());
     }
 
+    public function testTenantCreationThemeUploadAndInstallationWithActivation()
+    {
+        $client = static::createClient();
+        $client->request('POST', $this->router->generate('swp_api_core_create_tenant'), [
+            'tenant' => [
+                'name' => 'Test Tenant for theme installation',
+                'subdomain' => 'newtheme',
+                'domainName' => 'localhost',
+                'organization' => '123456',
+            ],
+        ]);
+
+        $this->assertEquals(201, $client->getResponse()->getStatusCode());
+        $newTenant = json_decode($client->getResponse()->getContent(), true);
+
+        $client = static::createClient([], [
+            'HTTP_HOST' => 'newtheme.localhost',
+        ]);
+
+        $client->request('GET', $this->router->generate('swp_api_list_available_themes'));
+        $data = json_decode($client->getResponse()->getContent(), true);
+        self::assertCount(0, $data['_embedded']['_items']);
+
+        $filesystem = new Filesystem();
+        $tempThemeDir = $zipName = $this->getContainer()->getParameter('kernel.cache_dir').'/temp_theme/';
+        $filesystem->mkdir($tempThemeDir);
+        $filesystem->mirror(realpath(__DIR__.'/../Fixtures/themes_to_be_installed/theme_test_install_with_generated_data/'), $tempThemeDir.'/test_theme', null, ['override' => true, 'delete' => true]);
+
+        $fileName = $this->createZipArchive($tempThemeDir);
+        $client->enableProfiler();
+        $client->request('POST', $this->router->generate('swp_api_upload_theme'), [
+            'theme_upload' => [
+                'file' => new UploadedFile($fileName, 'test_theme.zip', 'application/zip', filesize($fileName), null, true),
+            ],
+        ]);
+
+        self::assertEquals(201, $client->getResponse()->getStatusCode());
+        $filesystem->remove($fileName);
+
+        $client->request('GET', $this->router->generate('swp_api_list_tenant_themes'));
+        $data = json_decode($client->getResponse()->getContent(), true);
+        self::assertCount(0, $data['_embedded']['_items']);
+
+        $client->enableProfiler();
+        $client->request('POST', $this->router->generate('swp_api_install_theme'), [
+            'theme_install' => ['name' => 'swp/test-theme-install-generated-data'],
+        ]);
+        self::assertEquals(201, $client->getResponse()->getStatusCode());
+
+        $client->request('GET', $this->router->generate('swp_api_list_tenant_themes'));
+        $data = json_decode($client->getResponse()->getContent(), true);
+        self::assertCount(1, $data['_embedded']['_items']);
+        self::assertEquals('swp/test-theme-install-generated-data@'.$newTenant['code'], $data['_embedded']['_items'][0]['name']);
+
+        $filesystem->remove(realpath(__DIR__.'/../Fixtures/themes/'.$newTenant['code'].'/'));
+        $filesystem->remove($this->getContainer()->get('swp_core.uploader.theme')->getAvailableThemesPath());
+    }
+
     private function createZipArchive($rootPath)
     {
         $zip = new \ZipArchive();
