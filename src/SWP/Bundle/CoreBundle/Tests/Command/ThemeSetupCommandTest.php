@@ -130,10 +130,39 @@ class ThemeSetupCommandTest extends WebTestCase
         $client->request('GET', $router->generate('swp_api_content_show_articles', ['id' => 1]));
         self::assertEquals(200, $client->getResponse()->getStatusCode());
 
-//        $content = json_decode($client->getResponse()->getContent(), true);
-//
-//        self::assertCount(0, $content['articles']);
-//        self::assertEquals($content['status'], 'new');
+        $content = json_decode($client->getResponse()->getContent(), true);
+        self::assertNotNull(1, $content['featureMedia']);
+        self::assertCount(1, $content['media']);
+        self::assertCount(1, $content['media'][0]['renditions']);
+        self::assertNotNull(1, $content['route']);
+        self::assertNotNull(1, $content['articleStatistics']);
+
+        $client->request('GET', $router->generate('swp_api_templates_list_containers'));
+        self::assertEquals(200, $client->getResponse()->getStatusCode());
+        $content = json_decode($client->getResponse()->getContent(), true);
+        self::assertCount(2, $content['_embedded']['_items']);
+
+        $client->request('GET', $router->generate('swp_api_content_list_lists'));
+        self::assertEquals(200, $client->getResponse()->getStatusCode());
+        $content = json_decode($client->getResponse()->getContent(), true);
+        self::assertCount(1, $content['_embedded']['_items']);
+
+        $client->request('GET', $router->generate('swp_api_content_list_routes'));
+        self::assertEquals(200, $client->getResponse()->getStatusCode());
+        $content = json_decode($client->getResponse()->getContent(), true);
+        self::assertCount(4, $content['_embedded']['_items']);
+
+        $client->request('GET', $router->generate('swp_api_core_list_menu'));
+        self::assertEquals(200, $client->getResponse()->getStatusCode());
+        $content = json_decode($client->getResponse()->getContent(), true);
+        self::assertCount(2, $content['_embedded']['_items']);
+        self::assertCount(2, $content['_embedded']['_items'][0]['children']);
+        self::assertCount(2, $content['_embedded']['_items'][1]['children']);
+
+        $client->request('GET', $router->generate('swp_api_templates_list_widgets'));
+        self::assertEquals(200, $client->getResponse()->getStatusCode());
+        $content = json_decode($client->getResponse()->getContent(), true);
+        self::assertCount(2, $content['_embedded']['_items']);
     }
 
     /**

@@ -288,7 +288,7 @@ final class ThemeConfiguration implements ConfigurationInterface
         $widgetNodeBuilder->scalarNode('type')->cannotBeEmpty()->end();
         $widgetNodeBuilder->booleanNode('visible')->defaultTrue()->end();
         $widgetNodeBuilder->variableNode('parameters')->cannotBeEmpty()->end();
-        $widgetNodeBuilder->arrayNode('containers')->cannotBeEmpty()->prototype('scalar')->end();
+        $widgetNodeBuilder->arrayNode('containers')->requiresAtLeastOneElement()->prototype('scalar')->end();
     }
 
     /**
