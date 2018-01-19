@@ -19,7 +19,6 @@ namespace spec\SWP\Component\Bridge\Model;
 use PhpSpec\ObjectBehavior;
 use SWP\Component\Bridge\Model\Author;
 use SWP\Component\Bridge\Model\AuthorInterface;
-use SWP\Component\Bridge\Model\JobTitle;
 
 final class AuthorSpec extends ObjectBehavior
 {
