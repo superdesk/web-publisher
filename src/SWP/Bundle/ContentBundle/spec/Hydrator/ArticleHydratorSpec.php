@@ -107,6 +107,7 @@ final class ArticleHydratorSpec extends ObjectBehavior
         $package->getMetadata()->shouldBeCalled()->willReturn(['some' => 'meta']);
         $package->getSlugline()->shouldBeCalled()->willReturn('slugline');
 
+        $article->getSlug()->shouldBeCalled();
         $article->setCode('123guid223')->shouldBeCalled();
         $article->setTitle('item headline')->shouldBeCalled();
         $article->setBody('some package body some item body')->shouldBeCalled();

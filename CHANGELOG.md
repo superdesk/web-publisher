@@ -7,6 +7,7 @@ This changelog references the relevant changes (bug and security fixes) done in 
 To get the diff for a specific change, go to https://github.com/superdesk/web-publisher/commit/XXX where XXX is the change hash
 
 * 1.1.x
+ * improvement [#427] Improved the way how the article slug is generated
  * bug [#426] Allow different date time format when filtering articles by date range
  * bug [#425] Fixed losing alt attribute in images body
  * improvement [#423] Add slug field to route. It will be used for url generation instead name field

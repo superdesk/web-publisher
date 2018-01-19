@@ -1,7 +1,6 @@
 SWP\Component\Bridge\Model\Package:
     properties:
         slugline:
-            - NotBlank: ~
             - Length:
                   min: 3
                   max: 200
