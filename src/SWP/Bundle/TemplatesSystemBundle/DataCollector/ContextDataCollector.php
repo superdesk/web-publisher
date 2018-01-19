@@ -26,11 +26,21 @@ class ContextDataCollector extends DataCollector
      */
     protected $context;
 
-    public function __construct($context)
+    /**
+     * ContextDataCollector constructor.
+     *
+     * @param Context $context
+     */
+    public function __construct(Context $context)
     {
         $this->context = $context;
     }
 
+    /**
+     * @param Request         $request
+     * @param Response        $response
+     * @param \Exception|null $exception
+     */
     public function collect(Request $request, Response $response, \Exception $exception = null)
     {
         $this->data = [
@@ -39,13 +49,27 @@ class ContextDataCollector extends DataCollector
         ];
     }
 
+    /**
+     * @return array
+     */
     public function getData()
     {
         return $this->data;
     }
 
+    /**
+     * @return string
+     */
     public function getName()
     {
         return 'context_collector';
+    }
+
+    /**
+     * We don't have anything to reset here.
+     */
+    public function reset()
+    {
+        return;
     }
 }

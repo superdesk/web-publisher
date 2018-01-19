@@ -145,7 +145,7 @@ class WidgetController extends FOSRestController
         $form = $this->createForm(WidgetType::class, $widget);
         $form->handleRequest($request);
         if ($form->isValid()) {
-            $this->ensureWidgetExists($widget->getName());
+            $this->ensureWidgetDontExists($widget->getName());
             $this->getWidgetRepository()->add($widget);
 
             return new SingleResourceResponse($widget, new ResponseContext(201));
@@ -226,13 +226,11 @@ class WidgetController extends FOSRestController
         return $widget;
     }
 
-    private function ensureWidgetExists(string $name)
+    private function ensureWidgetDontExists(string $name)
     {
-        if (null !== $widget = $this->getWidgetRepository()->findOneByName($name)) {
+        if (null !== $this->getWidgetRepository()->findOneByName($name)) {
             throw new ConflictHttpException(sprintf('Widget with name "%s" already exists.', $name));
         }
-
-        return $widget;
     }
 
     private function getWidgetRepository()

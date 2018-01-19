@@ -14,7 +14,6 @@
 
 namespace SWP\Bundle\ContentBundle\Provider\ORM;
 
-use SWP\Bundle\ContentBundle\Model\ArticleInterface;
 use SWP\Bundle\ContentBundle\Model\RouteRepositoryInterface;
 use SWP\Bundle\ContentBundle\Provider\RouteProviderInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -42,12 +41,16 @@ class RouteProvider extends BaseRouteProvider implements RouteProviderInterface
      */
     private $candidatesStrategy;
 
-    public function __construct(
-        RouteRepositoryInterface $routeRepository,
-        ManagerRegistry $managerRegistry,
-        CandidatesInterface $candidatesStrategy,
-        $className
-    ) {
+    /**
+     * RouteProvider constructor.
+     *
+     * @param RouteRepositoryInterface $routeRepository
+     * @param ManagerRegistry          $managerRegistry
+     * @param CandidatesInterface      $candidatesStrategy
+     * @param string                   $className
+     */
+    public function __construct(RouteRepositoryInterface $routeRepository, ManagerRegistry $managerRegistry, CandidatesInterface $candidatesStrategy, string $className)
+    {
         $this->routeRepository = $routeRepository;
         $this->internalRoutesCache = [];
         $this->candidatesStrategy = $candidatesStrategy;
@@ -67,7 +70,7 @@ class RouteProvider extends BaseRouteProvider implements RouteProviderInterface
             return $collection;
         }
         // As we use Gedmo Sortable on position field, we need to reverse sorting to get child routes first
-        $routes = $this->getRouteRepository()->findByStaticPrefix($candidates, ['position' => 'DESC']);
+        $routes = $this->getRouteRepository()->findByStaticPrefix($candidates, ['level' => 'DESC', 'position' => 'DESC']);
 
         /** @var $route Route */
         foreach ($routes as $route) {
@@ -107,14 +110,6 @@ class RouteProvider extends BaseRouteProvider implements RouteProviderInterface
     public function getOneByStaticPrefix($staticPrefix)
     {
         return $this->routeRepository->findOneBy(['staticPrefix' => $staticPrefix]);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getRouteForArticle(ArticleInterface $article)
-    {
-        return $article->getRoute();
     }
 
     /**

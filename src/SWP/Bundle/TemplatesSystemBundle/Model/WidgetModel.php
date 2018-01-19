@@ -48,7 +48,7 @@ class WidgetModel implements WidgetModelInterface, TimestampableInterface, Persi
     protected $visible;
 
     /**
-     * @var []
+     * @var array
      */
     protected $parameters;
 

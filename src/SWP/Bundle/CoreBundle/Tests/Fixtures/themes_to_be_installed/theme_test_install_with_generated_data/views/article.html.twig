@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+    </head>
+    <body>
+        <h2>{{gimme.article.title}}</h2>
+        <p>Id: {{gimme.article.id}}</p>
+        <p>Slug: {{gimme.article.slug}}</p>
+        <p>Content: {{gimme.article.body|raw }}</p>
+        <p><strong>Current tenant:</strong> {{ tenant.name }}</p>
+
+        {% gimmelist media from articleMedia %} <!-- It will use article from context -->
+            <img alt="Article loaded from context" src="{{ url(media) }}" />
+        {% endgimmelist %}
+
+        {% gimmelist media from articleMedia with {'article': gimme.article} %} <!-- It will use article from context -->
+        <img alt="Article defined in parameters" src="{{ url(media) }}" />
+        {% endgimmelist %}
+
+        {{ countPageView(gimme.article) }}
+    </body>
+</html>

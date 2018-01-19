@@ -34,4 +34,11 @@ interface ContentListRepositoryInterface extends RepositoryInterface
      * @return null|ContentListInterface
      */
     public function findListById(int $listId);
+
+    /**
+     * @param string $listName
+     *
+     * @return mixed
+     */
+    public function findListByName(string $listName);
 }

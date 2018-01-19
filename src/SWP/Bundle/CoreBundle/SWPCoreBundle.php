@@ -28,6 +28,8 @@ use SWP\Bundle\CoreBundle\DependencyInjection\Compiler\OverrideThemeAssetsInstal
 use SWP\Bundle\CoreBundle\DependencyInjection\Compiler\OverrideThemeFactoryPass;
 use SWP\Bundle\CoreBundle\DependencyInjection\Compiler\OverrideThemeLoaderPass;
 use SWP\Bundle\CoreBundle\DependencyInjection\Compiler\OverrideThemePathResolverPass;
+use SWP\Bundle\CoreBundle\DependencyInjection\Compiler\OverrideThemeRepositoryPass;
+use SWP\Bundle\CoreBundle\DependencyInjection\Compiler\OverrideTwigContentCache;
 use SWP\Bundle\StorageBundle\DependencyInjection\Bundle\Bundle;
 use SWP\Bundle\StorageBundle\Drivers;
 use SWP\Bundle\CoreBundle\Theme\Configuration\TenantableConfigurationSourceFactory;
@@ -60,6 +62,8 @@ class SWPCoreBundle extends Bundle
         $container->addCompilerPass(new OverrideArticleSourceAdderPass());
         $container->addCompilerPass(new OrganizationThemesProviderPass());
         $container->addCompilerPass(new OverrideHateoasTwigHelperPass());
+        $container->addCompilerPass(new OverrideThemeRepositoryPass());
+        $container->addCompilerPass(new OverrideTwigContentCache());
     }
 
     /**

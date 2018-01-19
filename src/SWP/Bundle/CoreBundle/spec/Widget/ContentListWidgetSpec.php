@@ -54,6 +54,7 @@ final class ContentListWidgetSpec extends ObjectBehavior
         Response $response
     ) {
         $contentList->getId()->willReturn(8);
+        $contentList->getName()->willReturn('list_name');
         $contentList->getItems()->willReturn(new ArrayCollection([$contentListItem]));
 
         $container->get('swp.repository.content_list')->willReturn($contentListRepository);
@@ -63,6 +64,36 @@ final class ContentListWidgetSpec extends ObjectBehavior
         $templating->render('widgets/list.html.twig', [
             'contentList' => $contentList,
             'listId' => 8,
+            'listName' => 'list_name',
+        ])->willReturn($response);
+
+        $this->render()->shouldReturn($response);
+    }
+
+    public function it_should_render_with_list_name(
+        ContentListRepositoryInterface $contentListRepository,
+        WidgetModelInterface $widgetModel,
+        ContainerInterface $container,
+        EngineInterface $templating,
+        ContentListInterface $contentList,
+        ContentListItemInterface $contentListItem,
+        Response $response
+    ) {
+        $widgetModel->getParameters()->willReturn(['list_name' => 'list_name']);
+        $this->beConstructedWith($widgetModel, $container);
+
+        $contentList->getId()->willReturn(8);
+        $contentList->getName()->willReturn('list_name');
+        $contentList->getItems()->willReturn(new ArrayCollection([$contentListItem]));
+
+        $container->get('swp.repository.content_list')->willReturn($contentListRepository);
+        $container->get('templating')->willReturn($templating);
+        $contentListRepository->findListByName('list_name')->willReturn($contentList);
+
+        $templating->render('widgets/list.html.twig', [
+            'contentList' => $contentList,
+            'listId' => 8,
+            'listName' => 'list_name',
         ])->willReturn($response);
 
         $this->render()->shouldReturn($response);
@@ -80,11 +111,13 @@ final class ContentListWidgetSpec extends ObjectBehavior
         $widgetModel->getParameters()->willReturn([
             'list_id' => 8,
             'template_name' => 'custom.html.twig',
+            'list_name' => null,
         ]);
 
         $this->beConstructedWith($widgetModel, $container);
 
         $contentList->getId()->willReturn(8);
+        $contentList->getName()->willReturn('list_name');
         $contentList->getItems()->willReturn(new ArrayCollection([$contentListItem]));
 
         $container->get('swp.repository.content_list')->willReturn($contentListRepository);
@@ -94,6 +127,7 @@ final class ContentListWidgetSpec extends ObjectBehavior
         $templating->render('widgets/custom.html.twig', [
             'contentList' => $contentList,
             'listId' => 8,
+            'listName' => 'list_name',
         ])->willReturn($response);
 
         $this->render()->shouldReturn($response);

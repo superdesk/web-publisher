@@ -14,6 +14,8 @@
 
 namespace SWP\Bundle\CoreBundle\Command;
 
+use SWP\Bundle\CoreBundle\Theme\Repository\ReloadableThemeRepositoryInterface;
+use SWP\Bundle\MultiTenancyBundle\MultiTenancyEvents;
 use SWP\Component\Common\Model\ThemeAwareTenantInterface;
 use SWP\Component\MultiTenancy\Exception\TenantNotFoundException;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
@@ -58,7 +60,7 @@ class ThemeSetupCommand extends ContainerAwareCommand
             )
             ->setHelp(
                 <<<'EOT'
-                The <info>%command.name%</info> command installs your custom theme for given tenant:
+The <info>%command.name%</info> command installs your custom theme for given tenant:
 
   <info>%command.full_name% <tenant> <theme_dir></info>
 
@@ -73,6 +75,12 @@ where <comment><tenant></comment> is the tenant code you typed in the first argu
 To force an action, you need to add an option: <info>--force</info>:
 
   <info>%command.full_name% <tenant> <theme_dir> --force</info>
+
+To activate this theme in tenant, you need to add and option <info>--activate</info>:
+  <info>%command.full_name% <tenant> <theme_dir> --activate</info>
+
+Theme installation will generated declared in theme config elements 
+like: routes, articles, menus, widgets, content lists and containers
 EOT
             );
     }
@@ -83,29 +91,39 @@ EOT
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $fileSystem = new Filesystem();
-        $helper = $this->getHelper('question');
-        $force = true === $input->getOption('force');
-        $activate = true === $input->getOption('activate');
-
-        $tenantRepository = $this->getContainer()->get('swp.repository.tenant');
-        /** @var ThemeAwareTenantInterface $tenant */
-        $tenant = $tenantRepository->findOneByCode($input->getArgument('tenant'));
-
         $sourceDir = $input->getArgument('theme_dir');
-
-        $this->assertTenantIsFound($input->getArgument('tenant'), $tenant);
-
         if (!$fileSystem->exists($sourceDir) || !is_dir($sourceDir)) {
             $output->writeln(sprintf('<error>Directory "%s" does not exist or it is not a directory!</error>', $sourceDir));
 
             return;
         }
 
-        $themesDir = $this->getContainer()->getParameter('swp.theme.configuration.default_directory');
-        $tenantThemeDir = $themesDir.\DIRECTORY_SEPARATOR.$tenant->getCode();
-        $themeDir = $tenantThemeDir.\DIRECTORY_SEPARATOR.basename($sourceDir);
+        if (!$fileSystem->exists($sourceDir.DIRECTORY_SEPARATOR.'theme.json')) {
+            $output->writeln(sprintf('<error>Source directory doesn\'t contain a theme!</error>', $sourceDir));
+
+            return;
+        }
+
+        $container = $this->getContainer();
+        $tenantRepository = $container->get('swp.repository.tenant');
+        $tenantContext = $container->get('swp_multi_tenancy.tenant_context');
+        $eventDispatcher = $container->get('event_dispatcher');
+        $revisionListener = $container->get('swp_core.listener.tenant_revision');
+
+        $tenant = $tenantRepository->findOneByCode($input->getArgument('tenant'));
+        $this->assertTenantIsFound($input->getArgument('tenant'), $tenant);
+        $tenantContext->setTenant($tenant);
+        $revisionListener->setRevisions();
+        $eventDispatcher->dispatch(MultiTenancyEvents::TENANTABLE_ENABLE);
+        $themeInstaller = $container->get('swp_core.installer.theme');
+
+        $force = true === $input->getOption('force');
+        $activate = true === $input->getOption('activate');
+        $themesDir = $container->getParameter('swp.theme.configuration.default_directory');
+        $themeDir = $themesDir.\DIRECTORY_SEPARATOR.$tenant->getCode().\DIRECTORY_SEPARATOR.basename($sourceDir);
 
         try {
+            $helper = $this->getHelper('question');
             $question = new ConfirmationQuestion(
                 '<question>This will override your current theme. Continue with this action? (yes/no)<question> <comment>[yes]</comment> ',
                 true,
@@ -118,22 +136,30 @@ EOT
                 }
             }
 
-            $fileSystem->mirror($sourceDir, $themeDir, null, ['override' => true, 'delete' => true]);
+            $themeInstaller->install(null, $sourceDir, $themeDir);
+            /** @var ReloadableThemeRepositoryInterface $themeRepository */
+            $themeRepository = $container->get('sylius.repository.theme');
+            $themeRepository->reloadThemes();
             $output->writeln('<info>Theme has been installed successfully!</info>');
 
-            if (!$activate) {
-                return;
-            }
             if (file_exists($themeDir.\DIRECTORY_SEPARATOR.'theme.json')) {
-                $json = json_decode(file_get_contents($themeDir.\DIRECTORY_SEPARATOR.'theme.json'), true);
-                $themeName = $json['name'];
+                $themeName = json_decode(file_get_contents($themeDir.\DIRECTORY_SEPARATOR.'theme.json'), true)['name'];
                 $tenant->setThemeName($themeName);
-                $tenantRepository->flush();
-                $output->writeln('<info>Theme was activated!</info>');
+
+                if ($activate) {
+                    $tenantRepository->flush();
+                    $output->writeln('<info>Theme was activated!</info>');
+                }
+
+                $output->writeln('<info>Persisting theme required data...</info>');
+                $theme = $container->get('sylius.context.theme')->getTheme();
+                $requiredDataProcessor = $container->get('swp_core.processor.theme.required_data');
+                $requiredDataProcessor->processTheme($theme);
+                $output->writeln('<info>Theme required data was persisted successfully!</info>');
             }
         } catch (\Exception $e) {
             $output->writeln('<error>Theme could not be installed!</error>');
-            $output->writeln('<error>Stacktrace: '.$e->getMessage().'</error>');
+            $output->writeln('<error>Error message: '.$e->getMessage().'</error>');
         }
     }
 

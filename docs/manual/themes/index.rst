@@ -6,6 +6,7 @@ Themes
 
    about
    install
+   assets
    translations
    amp
    example_themes

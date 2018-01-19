@@ -15,6 +15,7 @@
 namespace SWP\Bundle\ContentBundle\Model;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use SWP\Component\Bridge\Model\ItemInterface;
 use SWP\Component\Storage\Model\PersistableInterface;
 
 /**
@@ -27,49 +28,152 @@ interface ArticleMediaInterface extends PersistableInterface
     const PATH_RENDITIONS = 'renditions';
 
     /**
-     * @return FileInterface
-     */
-    public function getFile();
-
-    /**
-     * @return FileInterface
-     */
-    public function getImage();
-
-    /**
-     * @return ArticleInterface
-     */
-    public function getArticle();
-
-    /**
-     * @return string
-     */
-    public function getDescription();
-
-    /**
      * @return ArrayCollection
      */
     public function getRenditions();
 
     /**
-     * @return string
+     * @param ImageRendition $rendition
+     */
+    public function addRendition(ImageRendition $rendition);
+
+    /**
+     * @param ArrayCollection $renditions
+     */
+    public function setRenditions($renditions);
+
+    /**
+     * @return mixed
+     */
+    public function getFile();
+
+    /**
+     * @param FileInterface $file
+     *
+     * @return ArticleMedia
+     */
+    public function setFile($file);
+
+    /**
+     * @return mixed
+     */
+    public function getImage();
+
+    /**
+     * @param ImageInterface $image
+     *
+     * @return ArticleMedia
+     */
+    public function setImage($image);
+
+    /**
+     * @return mixed
+     */
+    public function getArticle();
+
+    /**
+     * @param ArticleInterface $article
+     *
+     * @return ArticleMedia
+     */
+    public function setArticle(ArticleInterface $article);
+
+    /**
+     * @return mixed
+     */
+    public function getAssetId();
+
+    /**
+     * @return mixed
+     */
+    public function getDescription();
+
+    /**
+     * @param string $description
+     *
+     * @return ArticleMedia
+     */
+    public function setDescription($description);
+
+    /**
+     * @return mixed
      */
     public function getLocated();
 
     /**
-     * @return string
+     * @param string $located
+     *
+     * @return ArticleMedia
+     */
+    public function setLocated($located);
+
+    /**
+     * @return mixed
      */
     public function getByLine();
 
     /**
-     * @return string
+     * @param string $byLine
+     *
+     * @return ArticleMedia
+     */
+    public function setByLine($byLine);
+
+    /**
+     * @return mixed
      */
     public function getBody();
 
     /**
+     * @param string $body
+     *
+     * @return ArticleMedia
+     */
+    public function setBody($body);
+
+    /**
+     * @return string
+     */
+    public function getMimetype();
+
+    /**
+     * @param string $mimetype
+     *
+     * @return ArticleMedia
+     */
+    public function setMimetype($mimetype);
+
+    /**
+     * @return mixed
+     */
+    public function getUsageTerms();
+
+    /**
+     * @param mixed $usageTerms
+     *
+     * @return ArticleMedia
+     */
+    public function setUsageTerms($usageTerms);
+
+    /**
+     * @return string
+     */
+    public function getKey(): string;
+
+    /**
+     * @param string $key
+     */
+    public function setKey(string $key);
+
+    /**
+     * @param ItemInterface $item
+     */
+    public function setFromItem(ItemInterface $item);
+
+    /**
      * @param string $mediaId
      *
-     * @return string
+     * @return mixed
      */
     public static function handleMediaId($mediaId);
 

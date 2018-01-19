@@ -15,14 +15,12 @@
 namespace SWP\Bundle\CoreBundle\Tests\Command;
 
 use SWP\Bundle\CoreBundle\Command\ThemeSetupCommand;
-use SWP\Bundle\CoreBundle\Document\Tenant;
-use SWP\Component\MultiTenancy\Repository\TenantRepositoryInterface;
+use SWP\Bundle\FixturesBundle\WebTestCase;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
-use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Console\Tester\CommandTester;
-use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\Filesystem\Filesystem;
 
-class ThemeSetupCommandTest extends KernelTestCase
+class ThemeSetupCommandTest extends WebTestCase
 {
     private $commandTester;
 
@@ -30,6 +28,10 @@ class ThemeSetupCommandTest extends KernelTestCase
 
     public function setUp()
     {
+        self::bootKernel();
+        $this->initDatabase();
+        $this->loadCustomFixtures(['tenant']);
+
         $this->command = self::createCommand();
         $this->commandTester = $this->createCommandTester();
     }
@@ -47,38 +49,8 @@ class ThemeSetupCommandTest extends KernelTestCase
     protected function createCommandTester()
     {
         $command = self::createCommand();
-        $tenant = new Tenant();
-        $tenant->setCode('123456');
-        $command->setContainer($this->getMockContainer($tenant));
 
         return new CommandTester($command);
-    }
-
-    private function getMockContainer($mockTenant = null, $tenantCode = '123456')
-    {
-        $mockRepo = $this->getMockBuilder(TenantRepositoryInterface::class)
-            ->getMock();
-
-        $mockRepo->expects($this->any())
-            ->method('findOneByCode')
-            ->with($tenantCode)
-            ->will($this->returnValue($mockTenant));
-
-        $mockContainer = $this->getMockBuilder(ContainerInterface::class)
-            ->getMock();
-
-        $mockContainer->expects($this->any())
-            ->method('getParameter')
-            ->with('swp.theme.configuration.default_directory')
-            ->will($this->returnValue('/tmp'));
-
-        $mockContainer->expects($this->any())
-            ->method('get')
-            ->will($this->returnValueMap([
-                ['swp.repository.tenant', 1, $mockRepo],
-            ]));
-
-        return $mockContainer;
     }
 
     /**
@@ -89,70 +61,108 @@ class ThemeSetupCommandTest extends KernelTestCase
     {
         $this->commandTester->execute(
             [
-                'tenant' => '123456',
-                'theme_dir' => __DIR__.'/../Fixtures/themes/123abc/theme_test',
+                'tenant' => '123abc',
+                'theme_dir' => __DIR__.'/../Fixtures/themes_to_be_installed/theme_test_install',
                 '--force' => true,
             ]
         );
 
-        $this->assertContains(
-            'Theme has been installed successfully!',
-            $this->commandTester->getDisplay()
-        );
+        self::assertContains('Theme has been installed successfully!', $this->commandTester->getDisplay());
     }
 
     public function testExecuteWhenDirectoryNotValid()
     {
         $this->commandTester->execute(
             [
-                'tenant' => '123456',
+                'tenant' => '123abc',
                 'theme_dir' => 'fake/dir',
                 '--force' => true,
             ]
         );
 
-        $this->assertContains(
-            'Directory "fake/dir" does not exist or it is not a directory!',
-            $this->commandTester->getDisplay()
-        );
+        self::assertContains('Directory "fake/dir" does not exist or it is not a directory!', $this->commandTester->getDisplay());
     }
 
     public function testExecuteWhenFailure()
     {
         $this->commandTester->execute(
             [
-                'tenant' => '123456',
+                'tenant' => '123abc',
                 'theme_dir' => '/',
                 '--force' => true,
             ]
         );
 
-        $this->assertContains(
-            'Theme could not be installed!',
-            $this->commandTester->getDisplay()
-        );
+        self::assertContains('Source directory doesn\'t contain a theme!', $this->commandTester->getDisplay());
     }
 
     public function testExecuteWithActivation()
     {
         $this->commandTester->execute(
             [
-                'tenant' => '123456',
-                'theme_dir' => __DIR__.'/../Fixtures/themes/123abc/theme_test',
+                'tenant' => '123abc',
+                'theme_dir' => __DIR__.'/../Fixtures/themes_to_be_installed/theme_test_install',
                 '--force' => true,
                 '--activate' => true,
             ]
         );
 
-        $this->assertContains(
-            'Theme has been installed successfully!',
-            $this->commandTester->getDisplay()
+        self::assertContains('Theme has been installed successfully!', $this->commandTester->getDisplay());
+        self::assertContains('Theme was activated!', $this->commandTester->getDisplay());
+    }
+
+    public function testExecuteWithActivationAndDataGeneration()
+    {
+        $this->commandTester->execute(
+            [
+                'tenant' => '123abc',
+                'theme_dir' => __DIR__.'/../Fixtures/themes_to_be_installed/theme_test_install_with_generated_data',
+                '--force' => true,
+                '--activate' => true,
+            ]
         );
 
-        $this->assertContains(
-            'Theme was activated!',
-            $this->commandTester->getDisplay()
-        );
+        self::assertContains('Theme has been installed successfully!', $this->commandTester->getDisplay());
+        self::assertContains('Theme was activated!', $this->commandTester->getDisplay());
+
+        $client = self::createClient();
+        $router = $this->getContainer()->get('router');
+        $client->request('GET', $router->generate('swp_api_content_show_articles', ['id' => 1]));
+        self::assertEquals(200, $client->getResponse()->getStatusCode());
+
+        $content = json_decode($client->getResponse()->getContent(), true);
+        self::assertNotNull(1, $content['featureMedia']);
+        self::assertCount(1, $content['media']);
+        self::assertCount(1, $content['media'][0]['renditions']);
+        self::assertNotNull(1, $content['route']);
+        self::assertNotNull(1, $content['articleStatistics']);
+
+        $client->request('GET', $router->generate('swp_api_templates_list_containers'));
+        self::assertEquals(200, $client->getResponse()->getStatusCode());
+        $content = json_decode($client->getResponse()->getContent(), true);
+        self::assertCount(2, $content['_embedded']['_items']);
+
+        $client->request('GET', $router->generate('swp_api_content_list_lists'));
+        self::assertEquals(200, $client->getResponse()->getStatusCode());
+        $content = json_decode($client->getResponse()->getContent(), true);
+        self::assertCount(1, $content['_embedded']['_items']);
+
+        $client->request('GET', $router->generate('swp_api_content_list_routes'));
+        self::assertEquals(200, $client->getResponse()->getStatusCode());
+        $content = json_decode($client->getResponse()->getContent(), true);
+        self::assertCount(4, $content['_embedded']['_items']);
+
+        $client->request('GET', $router->generate('swp_api_core_list_menu'));
+        self::assertEquals(200, $client->getResponse()->getStatusCode());
+        $content = json_decode($client->getResponse()->getContent(), true);
+        self::assertCount(2, $content['_embedded']['_items']);
+        self::assertCount(2, $content['_embedded']['_items'][0]['children']);
+        self::assertCount(2, $content['_embedded']['_items'][1]['children']);
+
+        $client->request('GET', $router->generate('swp_api_templates_list_widgets'));
+        self::assertEquals(200, $client->getResponse()->getStatusCode());
+        $content = json_decode($client->getResponse()->getContent(), true);
+        self::assertCount(2, $content['_embedded']['_items']);
     }
 
     /**
@@ -160,17 +170,19 @@ class ThemeSetupCommandTest extends KernelTestCase
      */
     public function testExecuteWhenTenantNotFound()
     {
-        $command = self::createCommand();
-        $command->setContainer($this->getMockContainer(null, '111'));
-
-        $commandTester = new CommandTester($command);
-
-        $commandTester->execute(
+        $this->commandTester->execute(
             [
                 'tenant' => '111',
-                'theme_dir' => '/',
+                'theme_dir' => __DIR__.'/../Fixtures/themes_to_be_installed/theme_test_install',
                 '--force' => true,
             ]
         );
+    }
+
+    public static function tearDownAfterClass()
+    {
+        $filesystem = new Filesystem();
+        $filesystem->remove(__DIR__.'/../Fixtures/themes/123abc/theme_test_install');
+        $filesystem->remove(__DIR__.'/../Fixtures/themes/123abc/theme_test_install_with_generated_data');
     }
 }
