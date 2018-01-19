@@ -35,3 +35,8 @@ services:
         public: false
         tags:
             - { name: twig.extension }
+
+    swp_core.key_generator.meta_key_generator:
+        class: SWP\Bundle\CoreBundle\Twig\Cache\KeyGenerator\TenantAwareMetaKeyGenerator
+        arguments:
+            - '@swp_multi_tenancy.tenant_context'

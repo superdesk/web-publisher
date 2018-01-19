@@ -25,6 +25,17 @@ class Theme extends BaseTheme implements ThemeInterface
     protected $config;
 
     /**
+     * @var array
+     */
+    protected $generatedData = [
+        'routes' => [],
+        'menus' => [],
+        'containers' => [],
+        'widgets' => [],
+        'contentLists' => [],
+    ];
+
+    /**
      * Theme constructor.
      *
      * @param string $name
@@ -50,8 +61,48 @@ class Theme extends BaseTheme implements ThemeInterface
     /**
      * {@inheritdoc}
      */
-    public function getDefaultTemplates()
+    public function getDefaultTemplates(): array
     {
         return $this->config['defaultTemplates'];
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getRoutes(): array
+    {
+        return $this->generatedData['routes'];
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getMenus(): array
+    {
+        return $this->generatedData['menus'];
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getContainers(): array
+    {
+        return $this->generatedData['containers'];
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getWidgets(): array
+    {
+        return $this->generatedData['widgets'];
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getContentLists(): array
+    {
+        return $this->generatedData['contentLists'];
     }
 }

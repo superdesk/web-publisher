@@ -14,17 +14,20 @@
 
 namespace SWP\Bundle\CoreBundle\Manager;
 
-use SWP\Bundle\ContentBundle\Manager\MediaManager as BaseMediaMnager;
+use SWP\Bundle\ContentBundle\Manager\MediaManager as BaseMediaManager;
 use SWP\Bundle\ContentBundle\Model\FileInterface;
 use SWP\Component\MultiTenancy\Context\TenantContextInterface;
 
-class MediaManager extends BaseMediaMnager
+class MediaManager extends BaseMediaManager
 {
     /**
      * @var TenantContextInterface
      */
     protected $tenantContext;
 
+    /**
+     * @param TenantContextInterface $tenantContext
+     */
     public function setTenantContext(TenantContextInterface $tenantContext)
     {
         $this->tenantContext = $tenantContext;
@@ -44,6 +47,9 @@ class MediaManager extends BaseMediaMnager
         return parent::getMediaPublicUrl($media);
     }
 
+    /**
+     * @return string
+     */
     protected function getMediaBasePath(): string
     {
         $tenant = $this->tenantContext->getTenant();

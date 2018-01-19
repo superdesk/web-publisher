@@ -19,7 +19,6 @@ namespace SWP\Bundle\CoreBundle\Resolver;
 
 use SWP\Bundle\ContentBundle\Model\ArticleInterface;
 use SWP\Bundle\ContentBundle\Model\RouteInterface;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
  * Class TemplateNameResolver.
@@ -76,7 +75,7 @@ class TemplateNameResolver implements TemplateNameResolverInterface
             if ($contentTemplateName = $this->getTemplateNameFromRouteContent($route)) {
                 $templateName = $contentTemplateName;
             } else {
-                throw new NotFoundHttpException(sprintf('There is no template file defined for "%s" route!', $route->getName()));
+                $templateName = TemplateNameResolverInterface::ROUTE_TEMPLATE_NAME;
             }
         } elseif (RouteInterface::TYPE_CONTENT === $route->getType()) {
             if ($contentTemplateName = $this->getTemplateNameFromRouteContent($route)) {

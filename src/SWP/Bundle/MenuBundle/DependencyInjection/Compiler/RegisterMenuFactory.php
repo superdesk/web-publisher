@@ -47,6 +47,7 @@ class RegisterMenuFactory implements CompilerPassInterface
                 $container->findDefinition('swp_menu.extension_chain'),
             ]
         );
+        $menuFactoryDefinition->setPublic(true);
 
         $container->setDefinition('swp.factory.menu', $menuFactoryDefinition);
     }

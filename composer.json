@@ -93,7 +93,8 @@
         "layershifter/tld-extract": "^1.2",
         "friendsofsymfony/elastica-bundle": "^5.0",
         "php-amqplib/rabbitmq-bundle": "^1.14",
-        "phobetor/rabbitmq-supervisor-bundle": "dev-ahilles107-old_sound_config_read"
+        "phobetor/rabbitmq-supervisor-bundle": "dev-ahilles107-old_sound_config_read",
+        "fzaninotto/faker": "^1.5"
     },
     "require-dev": {
         "phpspec/phpspec": "^4.2",

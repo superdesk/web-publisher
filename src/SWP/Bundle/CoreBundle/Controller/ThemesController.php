@@ -17,6 +17,7 @@ namespace SWP\Bundle\CoreBundle\Controller;
 use Knp\Component\Pager\Pagination\SlidingPagination;
 use SWP\Bundle\CoreBundle\Form\Type\ThemeInstallType;
 use SWP\Bundle\CoreBundle\Form\Type\ThemeUploadType;
+use SWP\Bundle\CoreBundle\Model\Tenant;
 use SWP\Bundle\CoreBundle\Model\TenantInterface;
 use SWP\Bundle\CoreBundle\Theme\Helper\ThemeHelper;
 use SWP\Component\Common\Response\ResponseContext;
@@ -125,7 +126,12 @@ class ThemesController extends Controller
         if ($form->isValid()) {
             $formData = $form->getData();
             $themeUploader = $this->container->get('swp_core.uploader.theme');
-            $themePath = $themeUploader->upload($formData['file']);
+
+            try {
+                $themePath = $themeUploader->upload($formData['file']);
+            } catch (\Exception $e) {
+                return new SingleResourceResponse(['message' => $e->getMessage()], new ResponseContext(400));
+            }
             $themeConfig = json_decode(file_get_contents($themePath.DIRECTORY_SEPARATOR.'theme.json'), true);
 
             return new SingleResourceResponse($themeConfig, new ResponseContext(201));
@@ -161,6 +167,12 @@ class ThemesController extends Controller
             $formData = $form->getData();
             $themeInstaller = $this->container->get('swp_core.installer.theme');
             $theme = $themeInstaller->install($formData['name']);
+            /** @var Tenant $tenant */
+            $tenant = $this->container->get('swp_multi_tenancy.tenant_context')->getTenant();
+            $tenant->setThemeName($formData['name']);
+            $this->container->get('swp.repository.tenant')->flush();
+            $requiredDataProcessor = $this->container->get('swp_core.processor.theme.required_data');
+            $requiredDataProcessor->processTheme($theme);
 
             return new SingleResourceResponse($theme, new ResponseContext(201));
         }

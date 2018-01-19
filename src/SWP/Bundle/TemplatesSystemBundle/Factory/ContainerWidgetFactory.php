@@ -17,7 +17,7 @@ namespace SWP\Bundle\TemplatesSystemBundle\Factory;
 use SWP\Component\TemplatesSystem\Gimme\Model\ContainerInterface;
 use SWP\Component\TemplatesSystem\Gimme\Model\WidgetModelInterface;
 
-class ContainerWidgetFactory
+class ContainerWidgetFactory implements ContainerWidgetFactoryInterface
 {
     /**
      * @var string
@@ -35,10 +35,7 @@ class ContainerWidgetFactory
     }
 
     /**
-     * @param ContainerInterface   $container
-     * @param WidgetModelInterface $widget
-     *
-     * @return mixed
+     * {@inheritdoc}
      */
     public function create(ContainerInterface $container, WidgetModelInterface $widget)
     {

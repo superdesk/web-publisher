@@ -21,6 +21,8 @@ interface TemplateNameResolverInterface
 {
     const TEMPLATE_NAME = 'article.html.twig';
 
+    const ROUTE_TEMPLATE_NAME = 'category.html.twig';
+
     /**
      * @param object $object
      * @param string $default

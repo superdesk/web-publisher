@@ -97,7 +97,7 @@ class ArticleMedia implements ArticleMediaInterface
     }
 
     /**
-     * @return ArrayCollection
+     * {@inheritdoc}
      */
     public function getRenditions()
     {
@@ -105,7 +105,7 @@ class ArticleMedia implements ArticleMediaInterface
     }
 
     /**
-     * @param ImageRendition $rendition
+     * {@inheritdoc}
      */
     public function addRendition(ImageRendition $rendition)
     {
@@ -113,7 +113,7 @@ class ArticleMedia implements ArticleMediaInterface
     }
 
     /**
-     * @param ArrayCollection $renditions
+     * {@inheritdoc}
      */
     public function setRenditions($renditions)
     {
@@ -137,9 +137,7 @@ class ArticleMedia implements ArticleMediaInterface
     }
 
     /**
-     * @param FileInterface $file
-     *
-     * @return ArticleMedia
+     * {@inheritdoc}
      */
     public function setFile($file)
     {
@@ -157,9 +155,7 @@ class ArticleMedia implements ArticleMediaInterface
     }
 
     /**
-     * @param ImageInterface $image
-     *
-     * @return ArticleMedia
+     * {@inheritdoc}
      */
     public function setImage($image)
     {
@@ -177,9 +173,7 @@ class ArticleMedia implements ArticleMediaInterface
     }
 
     /**
-     * @param ArticleInterface $article
-     *
-     * @return ArticleMedia
+     * {@inheritdoc}
      */
     public function setArticle(ArticleInterface $article)
     {
@@ -188,6 +182,9 @@ class ArticleMedia implements ArticleMediaInterface
         return $this;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getAssetId()
     {
         if ($this->getImage() instanceof Image) {
@@ -208,9 +205,7 @@ class ArticleMedia implements ArticleMediaInterface
     }
 
     /**
-     * @param string $description
-     *
-     * @return ArticleMedia
+     * {@inheritdoc}
      */
     public function setDescription($description)
     {
@@ -228,9 +223,7 @@ class ArticleMedia implements ArticleMediaInterface
     }
 
     /**
-     * @param string $located
-     *
-     * @return ArticleMedia
+     * {@inheritdoc}
      */
     public function setLocated($located)
     {
@@ -248,9 +241,7 @@ class ArticleMedia implements ArticleMediaInterface
     }
 
     /**
-     * @param string $byLine
-     *
-     * @return ArticleMedia
+     * {@inheritdoc}
      */
     public function setByLine($byLine)
     {
@@ -268,9 +259,7 @@ class ArticleMedia implements ArticleMediaInterface
     }
 
     /**
-     * @param string $body
-     *
-     * @return ArticleMedia
+     * {@inheritdoc}
      */
     public function setBody($body)
     {
@@ -280,7 +269,7 @@ class ArticleMedia implements ArticleMediaInterface
     }
 
     /**
-     * @return string
+     * {@inheritdoc}
      */
     public function getMimetype()
     {
@@ -288,9 +277,7 @@ class ArticleMedia implements ArticleMediaInterface
     }
 
     /**
-     * @param string $mimetype
-     *
-     * @return ArticleMedia
+     * {@inheritdoc}
      */
     public function setMimetype($mimetype)
     {
@@ -300,7 +287,7 @@ class ArticleMedia implements ArticleMediaInterface
     }
 
     /**
-     * @return mixed
+     * {@inheritdoc}
      */
     public function getUsageTerms()
     {
@@ -308,9 +295,7 @@ class ArticleMedia implements ArticleMediaInterface
     }
 
     /**
-     * @param mixed $usageTerms
-     *
-     * @return ArticleMedia
+     * {@inheritdoc}
      */
     public function setUsageTerms($usageTerms)
     {
@@ -320,7 +305,7 @@ class ArticleMedia implements ArticleMediaInterface
     }
 
     /**
-     * @return string
+     * {@inheritdoc}
      */
     public function getKey(): string
     {
@@ -328,7 +313,7 @@ class ArticleMedia implements ArticleMediaInterface
     }
 
     /**
-     * @param string $key
+     * {@inheritdoc}
      */
     public function setKey(string $key)
     {
@@ -336,7 +321,7 @@ class ArticleMedia implements ArticleMediaInterface
     }
 
     /**
-     * @param ItemInterface $item
+     * {@inheritdoc}
      */
     public function setFromItem(ItemInterface $item)
     {

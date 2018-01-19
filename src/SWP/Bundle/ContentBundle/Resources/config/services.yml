@@ -153,7 +153,6 @@ services:
     swp.hydrator.article:
         class: SWP\Bundle\ContentBundle\Hydrator\ArticleHydrator
         arguments:
-             - '@swp.provider.route'
              - '@swp.adder.article_source'
 
     swp_content_bundle.listener.article_publish:

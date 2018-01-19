@@ -55,6 +55,7 @@ final class OrganizationAwareThemeUploader implements ThemeUploaderInterface
         if (null === $this->tenantContext->getTenant()) {
             throw new \Exception('Tenant was not found in context!');
         }
+
         $destinationFolder = $this->getAvailableThemesPath();
         $filePath = $file->getRealPath();
         $filesystem = new Filesystem();

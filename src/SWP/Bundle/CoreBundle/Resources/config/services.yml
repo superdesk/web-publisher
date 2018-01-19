@@ -8,10 +8,6 @@ services:
     _defaults:
         public: true
 
-#    logger:
-#        parent: "@monolog.logger"
-#        public: true
-
     swp_core.detection.device_detection:
         class: SWP\Bundle\CoreBundle\Detection\DeviceDetection
 
@@ -75,6 +71,69 @@ services:
             - '@swp_core.loader.organization.theme'
             - '@twig'
             - '%swp.theme.configuration.default_directory%'
+
+    swp_core.generator.theme.fake_article:
+        class: SWP\Bundle\CoreBundle\Theme\Generator\FakeArticlesGenerator
+        arguments:
+            - '@swp.factory.article'
+            - '@swp_content_bundle.manager.media'
+            - '@swp.factory.media'
+            - '@swp.repository.article'
+            - '@swp.factory.article_statistics'
+
+    swp_core.generator.theme.routes:
+        class: SWP\Bundle\CoreBundle\Theme\Generator\ThemeRoutesGenerator
+        arguments:
+            - '@swp.service.route'
+            - '@swp.repository.route'
+            - '@swp.provider.route'
+            - '@swp.factory.route'
+            - '@form.factory'
+            - '@swp_core.generator.theme.fake_article'
+
+    swp_core.generator.theme.menus:
+        class: SWP\Bundle\CoreBundle\Theme\Generator\ThemeMenusGenerator
+        arguments:
+            - '@swp.provider.route'
+            - '@form.factory'
+            - '@swp.factory.menu'
+            - '@swp.repository.menu'
+            - '@swp_menu.manager.menu_item'
+
+    swp_core.generator.theme.containers:
+        class: SWP\Bundle\CoreBundle\Theme\Generator\ThemeContainersGenerator
+        arguments:
+            - '@form.factory'
+            - '@swp.factory.container'
+            - '@swp.repository.container'
+            - '@swp_template_engine.container.service'
+
+    swp_core.generator.theme.widgets:
+        class: SWP\Bundle\CoreBundle\Theme\Generator\ThemeWidgetsGenerator
+        arguments:
+            - '@form.factory'
+            - '@swp.factory.widget_model'
+            - '@swp.repository.widget_model'
+            - '@swp.factory.container_widget'
+            - '@swp.provider.container'
+
+    swp_core.generator.theme.content_lists:
+        class: SWP\Bundle\CoreBundle\Theme\Generator\ThemeContentListsGenerator
+        arguments:
+            - '@form.factory'
+            - '@swp.factory.content_list'
+            - '@swp.repository.content_list'
+            - '@swp_core.generator.theme.fake_article'
+            - '@event_dispatcher'
+
+    swp_core.processor.theme.required_data:
+        class: SWP\Bundle\CoreBundle\Theme\Processor\RequiredDataProcessor
+        arguments:
+            - '@swp_core.generator.theme.routes'
+            - '@swp_core.generator.theme.menus'
+            - '@swp_core.generator.theme.containers'
+            - '@swp_core.generator.theme.widgets'
+            - '@swp_core.generator.theme.content_lists'
 
     swp_core.loader.organization.theme:
         class: Sylius\Bundle\ThemeBundle\Loader\ThemeLoader

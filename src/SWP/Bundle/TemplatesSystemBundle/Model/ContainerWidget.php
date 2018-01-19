@@ -14,6 +14,7 @@
 
 namespace SWP\Bundle\TemplatesSystemBundle\Model;
 
+use SWP\Component\Storage\Model\PersistableInterface;
 use SWP\Component\TemplatesSystem\Gimme\Model\ContainerInterface;
 use SWP\Component\TemplatesSystem\Gimme\Model\ContainerWidgetInterface;
 use SWP\Component\TemplatesSystem\Gimme\Model\WidgetModelInterface;
@@ -21,7 +22,7 @@ use SWP\Component\TemplatesSystem\Gimme\Model\WidgetModelInterface;
 /**
  * ContainerWidget.
  */
-class ContainerWidget implements ContainerWidgetInterface
+class ContainerWidget implements ContainerWidgetInterface, PersistableInterface
 {
     /**
      * @var int
@@ -54,6 +55,14 @@ class ContainerWidget implements ContainerWidgetInterface
         $this->container = $container;
         $this->widget = $widget;
         $this->position = -1;
+    }
+
+    /**
+     * @return int
+     */
+    public function getId(): int
+    {
+        return $this->id;
     }
 
     /**

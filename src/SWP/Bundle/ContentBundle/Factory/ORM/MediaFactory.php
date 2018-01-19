@@ -18,8 +18,6 @@ namespace SWP\Bundle\ContentBundle\Factory\ORM;
 
 use SWP\Bundle\ContentBundle\Doctrine\ImageRepositoryInterface;
 use SWP\Bundle\ContentBundle\Model\ArticleMedia;
-use SWP\Bundle\ContentBundle\Model\File;
-use SWP\Bundle\ContentBundle\Model\Image;
 use SWP\Bundle\ContentBundle\Model\ImageRendition;
 use SWP\Bundle\ContentBundle\Factory\MediaFactoryInterface;
 use SWP\Bundle\ContentBundle\Model\ArticleInterface;
@@ -66,6 +64,14 @@ class MediaFactory implements MediaFactoryInterface
         $articleMedia = $this->createImageMedia($articleMedia, $key, $item);
 
         return $articleMedia;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function createEmpty(): ArticleMediaInterface
+    {
+        return $this->factory->create();
     }
 
     /**
