@@ -54,7 +54,8 @@ class JsonToPackageTransformerSpec extends ObjectBehavior
         $json = '{
             "language": "en",
             "slugline": "slugline",
-            "headline": "headline"
+            "headline": "headline",
+            "authors": {},
         }';
 
         $package->getHeadline()->willReturn('headline');
@@ -62,6 +63,7 @@ class JsonToPackageTransformerSpec extends ObjectBehavior
         $package->getLanguage()->willReturn('en');
         $items = new ArrayCollection();
         $package->getItems()->willReturn($items);
+        $package->getAuthors()->willReturn($items);
 
         $validator->isValid($json)->willReturn(true);
         $serializer->deserialize($json, Argument::exact(Package::class), Argument::exact('json'))->willReturn($package);

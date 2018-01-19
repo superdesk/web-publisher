@@ -14,6 +14,9 @@
 
 namespace SWP\Component\Bridge\Model;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
+
 class BaseContent implements ContentInterface
 {
     /**
@@ -120,6 +123,16 @@ class BaseContent implements ContentInterface
      * @var string|null
      */
     protected $source;
+
+    /**
+     * @var Collection
+     */
+    protected $authors;
+
+    public function __construct()
+    {
+        $this->authors = new ArrayCollection();
+    }
 
     /**
      * @return mixed
@@ -476,5 +489,21 @@ class BaseContent implements ContentInterface
     public function setSource($source)
     {
         $this->source = $source;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getAuthors(): Collection
+    {
+        return $this->authors;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setAuthors(Collection $authors): void
+    {
+        $this->authors = $authors;
     }
 }

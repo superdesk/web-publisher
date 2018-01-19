@@ -15,6 +15,8 @@
 namespace SWP\Bundle\BridgeBundle\DependencyInjection;
 
 use SWP\Bundle\StorageBundle\Doctrine\ORM\EntityRepository;
+use SWP\Component\Bridge\Model\Author;
+use SWP\Component\Bridge\Model\AuthorInterface;
 use SWP\Component\Bridge\Model\Event;
 use SWP\Component\Bridge\Model\Event\Date;
 use SWP\Component\Bridge\Model\Event\DateInterface;
@@ -84,6 +86,16 @@ class Configuration implements ConfigurationInterface
                                                 ->scalarNode('model')->cannotBeEmpty()->defaultValue(Rendition::class)->end()
                                                 ->scalarNode('repository')->defaultValue(EntityRepository::class)->end()
                                                 ->scalarNode('interface')->defaultValue(RenditionInterface::class)->end()
+                                                ->scalarNode('factory')->defaultValue(Factory::class)->end()
+                                                ->scalarNode('object_manager_name')->defaultValue(null)->end()
+                                            ->end()
+                                        ->end()
+                                        ->arrayNode('author')
+                                            ->addDefaultsIfNotSet()
+                                            ->children()
+                                                ->scalarNode('model')->cannotBeEmpty()->defaultValue(Author::class)->end()
+                                                ->scalarNode('repository')->defaultValue(EntityRepository::class)->end()
+                                                ->scalarNode('interface')->defaultValue(AuthorInterface::class)->end()
                                                 ->scalarNode('factory')->defaultValue(Factory::class)->end()
                                                 ->scalarNode('object_manager_name')->defaultValue(null)->end()
                                             ->end()
