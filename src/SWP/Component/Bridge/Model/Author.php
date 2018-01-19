@@ -18,8 +18,6 @@ namespace SWP\Component\Bridge\Model;
 
 class Author implements AuthorInterface
 {
-    protected $id;
-
     protected $name;
 
     protected $role;
@@ -27,13 +25,6 @@ class Author implements AuthorInterface
     protected $jobTitle = [];
 
     protected $biography;
-
-    protected $package;
-
-    public function getId()
-    {
-        return $this->id;
-    }
 
     public function getName(): ?string
     {
@@ -73,15 +64,5 @@ class Author implements AuthorInterface
     public function getBiography(): ?string
     {
         return $this->biography;
-    }
-
-    public function getPackage(): PackageInterface
-    {
-        return $this->package;
-    }
-
-    public function setPackage(PackageInterface $package): void
-    {
-        $this->package = $package;
     }
 }

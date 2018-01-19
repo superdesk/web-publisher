@@ -16,21 +16,19 @@ declare(strict_types=1);
 
 namespace SWP\Component\Bridge\Model;
 
-interface AuthorInterface
+use Doctrine\Common\Collections\Collection;
+
+trait AuthorsAwareTrait
 {
-    public function getName(): ?string;
+    protected $authors;
 
-    public function setName(?string $name): void;
+    public function getAuthors(): Collection
+    {
+        return $this->authors;
+    }
 
-    public function getRole(): ?string;
-
-    public function setRole(?string $role): void;
-
-    public function setBiography(?string $biography): void;
-
-    public function getBiography(): ?string;
-
-    public function getJobTitle(): array;
-
-    public function setJobTitle(array $jobTitle): void;
+    public function setAuthors(Collection $authors): void
+    {
+        $this->authors = $authors;
+    }
 }

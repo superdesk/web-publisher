@@ -14,10 +14,9 @@
 
 namespace SWP\Component\Bridge\Model;
 
-use Doctrine\Common\Collections\Collection;
 use SWP\Component\Storage\Model\PersistableInterface;
 
-interface ContentInterface extends PersistableInterface
+interface ContentInterface extends PersistableInterface, AuthorsAwareInterface
 {
     const STATUS_USABLE = 'usable';
 
@@ -231,14 +230,4 @@ interface ContentInterface extends PersistableInterface
      * @param null|string $source
      */
     public function setSource($source);
-
-    /**
-     * @return Collection
-     */
-    public function getAuthors(): Collection;
-
-    /**
-     * @param Collection $authors
-     */
-    public function setAuthors(Collection $authors): void;
 }

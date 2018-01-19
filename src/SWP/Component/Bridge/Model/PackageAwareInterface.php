@@ -16,21 +16,9 @@ declare(strict_types=1);
 
 namespace SWP\Component\Bridge\Model;
 
-interface AuthorInterface
+interface PackageAwareInterface
 {
-    public function getName(): ?string;
+    public function getPackage(): PackageInterface;
 
-    public function setName(?string $name): void;
-
-    public function getRole(): ?string;
-
-    public function setRole(?string $role): void;
-
-    public function setBiography(?string $biography): void;
-
-    public function getBiography(): ?string;
-
-    public function getJobTitle(): array;
-
-    public function setJobTitle(array $jobTitle): void;
+    public function setPackage(PackageInterface $package): void;
 }

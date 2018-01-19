@@ -19,6 +19,7 @@ namespace SWP\Bundle\ContentBundle\Model;
 use Behat\Transliterator\Transliterator;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use SWP\Component\Bridge\Model\AuthorsAwareTrait;
 use SWP\Component\Common\Model\SoftDeletableTrait;
 use SWP\Component\Common\Model\TimestampableTrait;
 use SWP\Component\Common\Model\TranslatableTrait;
@@ -28,7 +29,7 @@ use SWP\Component\Common\Model\TranslatableTrait;
  */
 class Article implements ArticleInterface
 {
-    use TranslatableTrait, SoftDeletableTrait, TimestampableTrait;
+    use TranslatableTrait, SoftDeletableTrait, TimestampableTrait, AuthorsAwareTrait;
 
     /**
      * @var mixed
@@ -129,6 +130,7 @@ class Article implements ArticleInterface
         $this->setPublishable(false);
         $this->setMedia(new ArrayCollection());
         $this->sources = new ArrayCollection();
+        $this->authors = new ArrayCollection();
     }
 
     /**
@@ -473,5 +475,21 @@ class Article implements ArticleInterface
         }
 
         return $this->sources;
+    }
+
+    public function addAuthor(ArticleAuthorInterface $author)
+    {
+        if (!$this->authors->contains($author)) {
+            $this->authors->add($author);
+            $author->setArticle($this);
+        }
+    }
+
+    public function removeAuthor(ArticleAuthorInterface $author)
+    {
+        if ($this->authors->contains($author)) {
+            $this->authors->removeElement($author);
+            $author->setArticle(null);
+        }
     }
 }

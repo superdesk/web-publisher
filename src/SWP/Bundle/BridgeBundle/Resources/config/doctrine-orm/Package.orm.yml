@@ -83,7 +83,7 @@ SWP\Component\Bridge\Model\Package:
             orphanRemoval: true
             mappedBy: package
         authors:
-            targetEntity: SWP\Component\Bridge\Model\AuthorInterface
+            targetEntity: SWP\Component\Bridge\Model\PackageAuthorInterface
             cascade: ["all"]
             orphanRemoval: true
             mappedBy: package

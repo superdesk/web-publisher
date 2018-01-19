@@ -16,8 +16,8 @@ namespace SWP\Component\Bridge\Transformer;
 
 use SWP\Component\Bridge\Exception\MethodNotSupportedException;
 use SWP\Component\Bridge\Exception\TransformationFailedException;
-use SWP\Component\Bridge\Model\AuthorInterface;
 use SWP\Component\Bridge\Model\ItemInterface;
+use SWP\Component\Bridge\Model\PackageAuthorInterface;
 use SWP\Component\Bridge\Validator\ValidatorInterface;
 use SWP\Component\Common\Serializer\SerializerInterface;
 
@@ -68,7 +68,7 @@ final class JsonToPackageTransformer implements DataTransformerInterface
             $item->setPackage($package);
         }
 
-        /** @var AuthorInterface $author */
+        /** @var PackageAuthorInterface $author */
         foreach ($package->getAuthors()->toArray() as $author) {
             $author->setPackage($package);
         }

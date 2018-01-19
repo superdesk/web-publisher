@@ -1,0 +1,27 @@
+SWP\Bundle\ContentBundle\Model\ArticleAuthor:
+    type: mappedSuperclass
+    table: swp_article_author
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        name:
+            type: string
+        role:
+            type: string
+        biography:
+            type: string
+            nullable: true
+        jobTitle:
+            type: array
+    manyToOne:
+        article:
+            targetEntity: SWP\Bundle\ContentBundle\Model\ArticleInterface
+            inversedBy: authors
+            joinColumn:
+                name: article_id
+                referencedColumnName: id
+                onDelete: CASCADE

@@ -16,21 +16,8 @@ declare(strict_types=1);
 
 namespace SWP\Component\Bridge\Model;
 
-interface AuthorInterface
+use SWP\Component\Storage\Model\PersistableInterface;
+
+interface PackageAuthorInterface extends PersistableInterface, PackageAwareInterface
 {
-    public function getName(): ?string;
-
-    public function setName(?string $name): void;
-
-    public function getRole(): ?string;
-
-    public function setRole(?string $role): void;
-
-    public function setBiography(?string $biography): void;
-
-    public function getBiography(): ?string;
-
-    public function getJobTitle(): array;
-
-    public function setJobTitle(array $jobTitle): void;
 }

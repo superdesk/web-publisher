@@ -91,3 +91,33 @@ Feature: Checking if the package authors are saved properly
       | authors[1].name                | vincer vincer               |
       | authors[1].biography           | not dead yet                |
       | authors[1].role                | subeditor                   |
+    And the JSON node "authors[1].jobtitle.name" should not exist
+    And I am authenticated as "test.user"
+    And I add "Content-Type" header equal to "application/json"
+    Then I send a "POST" request to "/api/{version}/content/routes/" with body:
+     """
+      {
+        "route":{
+          "name":"article",
+          "type":"content"
+        }
+      }
+     """
+    Then the response status code should be 201
+    And I am authenticated as "test.user"
+    And I add "Content-Type" header equal to "application/json"
+    Then I send a "POST" request to "/api/{version}/packages/5/publish/" with body:
+     """
+      {
+        "publish":{
+          "destinations":[
+            {
+              "tenant":"123abc",
+              "route":6,
+              "fbia":false
+            }
+          ]
+        }
+      }
+     """
+    Then the response status code should be 201

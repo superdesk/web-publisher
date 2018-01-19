@@ -17,6 +17,7 @@ declare(strict_types=1);
 namespace SWP\Bundle\ContentBundle\Hydrator;
 
 use Doctrine\Common\Collections\Collection;
+use SWP\Bundle\ContentBundle\Model\ArticleAuthor;
 use SWP\Bundle\ContentBundle\Service\ArticleSourcesAdderInterface;
 use SWP\Bundle\ContentBundle\Model\ArticleInterface;
 use SWP\Bundle\ContentBundle\Provider\RouteProviderInterface;
@@ -74,6 +75,19 @@ final class ArticleHydrator implements ArticleHydratorInterface
         }
 
         $article->setTitle($package->getHeadline());
+
+        // put it into ArticleAuthorsProcessor
+        // create ArticleProcessorChain class and allow to register new processors
+        foreach ($package->getAuthors()->toArray() as $packageAuthor) {
+            $articleAuthor = new ArticleAuthor();
+            $articleAuthor->setArticle($article);
+            $articleAuthor->setName($packageAuthor->getName());
+            $articleAuthor->setRole($packageAuthor->getRole());
+            $articleAuthor->setBiography($packageAuthor->getBiography());
+            $articleAuthor->setJobTitle($packageAuthor->getJobTitle());
+
+            $article->addAuthor($articleAuthor);
+        }
 
         $this->populateSources($article, $package);
 

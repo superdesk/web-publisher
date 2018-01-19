@@ -76,4 +76,4 @@ SWP\Component\Bridge\Model\BaseContent:
             type: string
         authors:
             expose: true
-            type: ArrayCollection<SWP\Component\Bridge\Model\Author>
+            type: ArrayCollection<SWP\Component\Bridge\Model\PackageAuthor>
