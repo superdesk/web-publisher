@@ -58,6 +58,7 @@ class ContentPushController extends Controller
             $objectManager = $this->get('swp.object_manager.package');
             $package->setId($existingPackage->getId());
             $package->setCreatedAt($existingPackage->getCreatedAt());
+            // TODO: on pre update, remove authors that does not match current authors in package
             $this->get('event_dispatcher')->dispatch(Events::PACKAGE_PRE_UPDATE, new GenericEvent($package, ['eventName' => Events::PACKAGE_PRE_UPDATE]));
 
             $package = $objectManager->merge($package);

@@ -29,12 +29,12 @@ class ArticleAuthor extends BaseAuthor implements ArticleAuthorInterface
         return $this->id;
     }
 
-    public function getArticle(): ArticleInterface
+    public function getArticle(): ?ArticleInterface
     {
         return $this->article;
     }
 
-    public function setArticle(ArticleInterface $article): void
+    public function setArticle(?ArticleInterface $article): void
     {
         $this->article = $article;
     }

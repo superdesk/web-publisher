@@ -20,7 +20,7 @@ use SWP\Component\Bridge\Model\AuthorInterface as BaseAuthorInterface;
 
 interface ArticleAuthorInterface extends BaseAuthorInterface
 {
-    public function getArticle(): ArticleInterface;
+    public function getArticle(): ?ArticleInterface;
 
-    public function setArticle(ArticleInterface $article): void;
+    public function setArticle(?ArticleInterface $article): void;
 }
