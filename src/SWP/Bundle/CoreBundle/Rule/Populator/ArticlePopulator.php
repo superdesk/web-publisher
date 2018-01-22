@@ -97,9 +97,8 @@ final class ArticlePopulator implements ArticlePopulatorInterface
             $this->articleRepository->persist($article);
 
             $this->eventDispatcher->dispatch(ArticleEvents::PRE_CREATE, new ArticleEvent($article, $package, ArticleEvents::PRE_CREATE));
+            $this->articleRepository->flush();
         }
-
-        $this->articleRepository->flush();
     }
 
     /**
