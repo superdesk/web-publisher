@@ -56,9 +56,11 @@ class ContentControllerTest extends WebTestCase
         $this->loadCustomFixtures(['tenant', 'collection_route']);
 
         $client = static::createClient();
-        $client->request('GET', '/collection-no-template');
+        $client->enableProfiler();
+        $crawler = $client->request('GE:T', '/collection-no-template');
 
-        $this->assertEquals(404, $client->getResponse()->getStatusCode());
+        self::assertEquals(200, $client->getResponse()->getStatusCode());
+        self::assertContains('This is default "category.html.twig" template file.', $client->getResponse()->getContent());
     }
 
     public function testLoadingCollectionRouteWithArticles()
@@ -114,8 +116,9 @@ class ContentControllerTest extends WebTestCase
 
         $client = static::createClient();
 
-        $client->request('GET', '/collection-content');
-        $this->assertEquals(404, $client->getResponse()->getStatusCode());
+        $crawler = $client->request('GET', '/collection-content');
+        self::assertEquals(200, $client->getResponse()->getStatusCode());
+        self::assertContains('This is default "category.html.twig" template file.', $client->getResponse()->getContent());
     }
 
     public function testTestLoadingRouteWithCustomTemplate()

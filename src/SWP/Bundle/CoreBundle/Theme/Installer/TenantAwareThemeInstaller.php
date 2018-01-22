@@ -19,7 +19,7 @@ namespace SWP\Bundle\CoreBundle\Theme\Installer;
 use SWP\Bundle\CoreBundle\Twig\Cache\TenantAwareCacheInterface;
 use SWP\Component\MultiTenancy\Context\TenantContextInterface;
 use Sylius\Bundle\ThemeBundle\Loader\ThemeLoaderInterface;
-use Sylius\Bundle\ThemeBundle\Model\ThemeInterface;
+use SWP\Bundle\CoreBundle\Theme\Model\ThemeInterface;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
@@ -39,14 +39,14 @@ final class TenantAwareThemeInstaller implements ThemeInstallerInterface
     private $themeLoader;
 
     /**
-     * @var string
-     */
-    private $baseDir;
-
-    /**
      * @var \Twig_Environment
      */
     private $twig;
+
+    /**
+     * @var string
+     */
+    private $baseDir;
 
     /**
      * TenantAwareThemeInstaller constructor.
@@ -67,24 +67,32 @@ final class TenantAwareThemeInstaller implements ThemeInstallerInterface
     /**
      * {@inheritdoc}
      */
-    public function install(string $themeName)
+    public function install(string $themeName = null, $sourceDir = null, $themeDir = null): ?ThemeInterface
     {
-        $themes = array_filter(
-            $this->themeLoader->load(),
-            function ($element) use (&$themeName) {
-                return $element->getName() === $themeName;
-            }
-        );
+        $theme = null;
+        if (null === $sourceDir || null === $themeDir) {
+            $themes = array_filter(
+                $this->themeLoader->load(),
+                function ($element) use (&$themeName) {
+                    return $element->getName() === $themeName;
+                }
+            );
 
-        if (0 === count($themes)) {
-            throw new NotFoundHttpException(sprintf('Theme with name "%s" was not found in organization themes.', $themeName));
+            if (0 === count($themes)) {
+                throw new NotFoundHttpException(
+                    sprintf('Theme with name "%s" was not found in organization themes.', $themeName)
+                );
+            }
+            /** @var ThemeInterface $theme */
+            $theme = reset($themes);
+            $sourceDir = $theme->getPath();
+            $directoryName = basename($theme->getPath());
+            $themeDir = $this->getThemesPath().DIRECTORY_SEPARATOR.$directoryName;
         }
-        /** @var ThemeInterface $theme */
-        $theme = reset($themes);
 
         $filesystem = new Filesystem();
-        $directoryName = basename($theme->getPath());
-        $filesystem->mirror($theme->getPath(), $this->getThemesPath().DIRECTORY_SEPARATOR.$directoryName);
+
+        $filesystem->mirror($sourceDir, $themeDir, null, ['override' => true, 'delete' => true]);
 
         $cache = $this->twig->getCache();
         if ($cache instanceof TenantAwareCacheInterface) {

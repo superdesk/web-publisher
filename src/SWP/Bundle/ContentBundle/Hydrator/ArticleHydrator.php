@@ -19,17 +19,11 @@ namespace SWP\Bundle\ContentBundle\Hydrator;
 use Doctrine\Common\Collections\Collection;
 use SWP\Bundle\ContentBundle\Service\ArticleSourcesAdderInterface;
 use SWP\Bundle\ContentBundle\Model\ArticleInterface;
-use SWP\Bundle\ContentBundle\Provider\RouteProviderInterface;
 use SWP\Component\Bridge\Model\ItemInterface;
 use SWP\Component\Bridge\Model\PackageInterface;
 
 final class ArticleHydrator implements ArticleHydratorInterface
 {
-    /**
-     * @var RouteProviderInterface
-     */
-    private $routeProvider;
-
     /**
      * @var ArticleSourcesAdderInterface
      */
@@ -48,12 +42,10 @@ final class ArticleHydrator implements ArticleHydratorInterface
     /**
      * ArticleHydrator constructor.
      *
-     * @param RouteProviderInterface       $routeProvider
      * @param ArticleSourcesAdderInterface $articleSourcesAdder
      */
-    public function __construct(RouteProviderInterface $routeProvider, ArticleSourcesAdderInterface $articleSourcesAdder)
+    public function __construct(ArticleSourcesAdderInterface $articleSourcesAdder)
     {
-        $this->routeProvider = $routeProvider;
         $this->articleSourcesAdder = $articleSourcesAdder;
     }
 
@@ -81,8 +73,7 @@ final class ArticleHydrator implements ArticleHydratorInterface
         $article->setLead($this->populateLead($package));
         $article->setMetadata($package->getMetadata());
         $article->setKeywords($package->getKeywords());
-        // assign default route
-        $article->setRoute($this->routeProvider->getRouteForArticle($article));
+        $article->setRoute($article->getRoute());
 
         return $article;
     }

@@ -12,7 +12,7 @@
  * @license http://www.superdesk.org/license
  */
 
-namespace SWP\Bundle\CoreBundle\Tests\Twig;
+namespace SWP\Bundle\CoreBundle\Tests\Loader;
 
 use SWP\Bundle\FixturesBundle\WebTestCase;
 

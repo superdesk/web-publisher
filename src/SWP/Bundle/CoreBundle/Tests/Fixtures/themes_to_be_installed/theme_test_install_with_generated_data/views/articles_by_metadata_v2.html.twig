@@ -1,0 +1,4 @@
+Articles by metadata: author Test Persona and located Sydney
+{% gimmelist article from articles with {metadata: {byline: "Test Persona", located: "Sydney"}} %}
+<li><a href="{{ url(article) }}">{{ article.title }} </a></li>
+{% endgimmelist %}

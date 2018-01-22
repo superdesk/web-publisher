@@ -84,13 +84,8 @@ class TokenAuthenticator extends AbstractGuardAuthenticator
      */
     public function getCredentials(Request $request)
     {
-        if (!$token = $this->getToken($request)) {
-            // no token? Return null and no other methods will be called
-            return;
-        }
-
         $data = [
-            'token' => $token,
+            'token' => $this->getToken($request),
         ];
 
         if (self::INTENTION_LIVESITE_EDITOR === $this->getIntention($request)) {
@@ -197,6 +192,18 @@ class TokenAuthenticator extends AbstractGuardAuthenticator
     public function supportsRememberMe()
     {
         return false;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function supports(Request $request)
+    {
+        if (!$token = $this->getToken($request)) {
+            return false;
+        }
+
+        return true;
     }
 
     /**

@@ -146,8 +146,14 @@ class MenuController extends Controller
      *     },
      *     input="SWP\Bundle\MenuBundle\Form\Type\MenuType"
      * )
+     *
      * @Route("/api/{version}/menus/", options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_core_create_menu")
+     *
      * @Method("POST")
+     *
+     * @param Request $request
+     *
+     * @return SingleResourceResponse
      */
     public function createAction(Request $request)
     {

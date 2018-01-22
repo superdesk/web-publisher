@@ -14,7 +14,7 @@
 
 namespace SWP\Bundle\CoreBundle\Theme\Installer;
 
-use Sylius\Bundle\ThemeBundle\Model\ThemeInterface;
+use SWP\Bundle\CoreBundle\Theme\Model\ThemeInterface;
 
 /**
  * Interface ThemeUploaderInterface.
@@ -22,11 +22,13 @@ use Sylius\Bundle\ThemeBundle\Model\ThemeInterface;
 interface ThemeInstallerInterface
 {
     /**
-     * @param string $themeName
+     * @param string|null $themeName
+     * @param null        $sourceDir
+     * @param null        $themeDir
      *
-     * @return ThemeInterface|bool Theme when successful, false otherwise
+     * @return null|ThemeInterface
      */
-    public function install(string $themeName);
+    public function install(string $themeName = null, $sourceDir = null, $themeDir = null): ?ThemeInterface;
 
     /**
      * @return string

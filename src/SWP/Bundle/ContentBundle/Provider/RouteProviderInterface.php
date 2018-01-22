@@ -14,11 +14,11 @@
 
 namespace SWP\Bundle\ContentBundle\Provider;
 
-use SWP\Bundle\ContentBundle\Model\ArticleInterface;
 use SWP\Bundle\ContentBundle\Model\RouteInterface;
 use SWP\Bundle\ContentBundle\Model\RouteRepositoryInterface;
+use Symfony\Cmf\Component\Routing\RouteProviderInterface as CmfRouteProviderInterface;
 
-interface RouteProviderInterface
+interface RouteProviderInterface extends CmfRouteProviderInterface
 {
     /**
      * Gets routes repository.
@@ -42,15 +42,6 @@ interface RouteProviderInterface
      * @return RouteInterface|void
      */
     public function getOneById($id);
-
-    /**
-     * Gets the route for article. Indicates route the article should have.
-     *
-     * @param ArticleInterface $article
-     *
-     * @return RouteInterface|null
-     */
-    public function getRouteForArticle(ArticleInterface $article);
 
     /**
      * @param string $staticPrefix

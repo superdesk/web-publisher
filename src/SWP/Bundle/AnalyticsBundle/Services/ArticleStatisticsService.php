@@ -16,6 +16,7 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\AnalyticsBundle\Services;
 
+use SWP\Bundle\AnalyticsBundle\Model\ArticleEventInterface;
 use SWP\Bundle\AnalyticsBundle\Model\ArticleStatisticsInterface;
 use SWP\Bundle\ContentBundle\Doctrine\ArticleRepositoryInterface;
 use SWP\Bundle\ContentBundle\Model\ArticleInterface;
@@ -73,7 +74,7 @@ class ArticleStatisticsService implements ArticleStatisticsServiceInterface
     {
         $articleStatistics = $this->getOrCreateNewArticleStatistics($articleId);
         switch ($action) {
-            case ArticleEventsInterface::ACTION_PAGEVIEW:
+            case ArticleEventInterface::ACTION_PAGEVIEW:
                 $this->addNewPageViewEvent($articleStatistics, $articleId);
 
                 break;

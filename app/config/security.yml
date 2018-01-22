@@ -46,6 +46,7 @@ security:
             stateless: true
         main:
             pattern: ^/
+            logout_on_user_change: true
             form_login:
                 check_path: security_login_check
                 provider: fos_userbundle

@@ -16,6 +16,7 @@ namespace SWP\Bundle\CoreBundle\Theme;
 
 use Doctrine\Common\Cache\CacheProvider;
 use SWP\Bundle\CoreBundle\Theme\Helper\ThemeHelper;
+use SWP\Bundle\CoreBundle\Theme\Repository\ReloadableThemeRepositoryInterface;
 use SWP\Component\Common\Model\ThemeAwareTenantInterface;
 use SWP\Component\MultiTenancy\Context\TenantContextInterface;
 use Sylius\Bundle\ThemeBundle\Context\ThemeContextInterface;
@@ -32,7 +33,7 @@ final class TenantAwareThemeContext implements ThemeContextInterface
     private $tenantContext;
 
     /**
-     * @var ThemeRepositoryInterface
+     * @var ReloadableThemeRepositoryInterface
      */
     private $themeRepository;
 
