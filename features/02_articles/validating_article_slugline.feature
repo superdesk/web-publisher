@@ -28,9 +28,7 @@ Feature: Validating if article slugline is created out of the package headline
       ],
       "version":"2",
       "byline":"ADmin",
-      "keywords":[
-
-      ],
+      "keywords":[],
       "guid":"urn:newsml:localhost:2016-09-23T13:56:39.404843:56465de4-0d5c-495a-8e36-3b396def3cf0",
       "priority":6,
       "subject":[
@@ -68,7 +66,7 @@ Feature: Validating if article slugline is created out of the package headline
     Then the response status code should be 201
     And I am authenticated as "test.user"
     And I add "Content-Type" header equal to "application/json"
-    Then I send a "POST" request to "/api/{version}/packages/5/publish/" with body:
+    Then I send a "POST" request to "/api/{version}/packages/6/publish/" with body:
      """
       {
         "publish":{

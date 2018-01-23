@@ -132,6 +132,7 @@ class ArticleLoader extends PaginatedLoader implements LoaderInterface
                         foreach ($parameters['route'] as $key => $providedRoute) {
                             if (!is_string($providedRoute)) {
                                 $loadByStaticPrefix = false;
+
                                 break;
                             }
                         }
