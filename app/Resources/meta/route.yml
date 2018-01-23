@@ -9,11 +9,14 @@ properties:
         description: "Route identifier"
         type: text
     name:
-         description: "Route name"
-         type: text
+        description: "Route name"
+        type: text
     slug:
-         description: "Route slug"
-         type: text
+        description: "Route slug"
+        type: text
+    staticPrefix:
+        description: "Route prefix"
+        type: text
     type:
         description: "Route type"
         type: text

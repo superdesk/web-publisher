@@ -17,9 +17,7 @@ declare(strict_types=1);
 namespace SWP\Bundle\ContentBundle\Loader;
 
 use Doctrine\Common\Persistence\ObjectManager;
-use SWP\Bundle\ContentBundle\Doctrine\ArticleRepositoryInterface;
 use SWP\Bundle\ContentBundle\Provider\ArticleProviderInterface;
-use SWP\Bundle\ContentBundle\Provider\ORM\ArticleProvider;
 use SWP\Component\Common\Criteria\Criteria;
 use SWP\Bundle\ContentBundle\Model\ArticleInterface;
 use SWP\Bundle\ContentBundle\Model\RouteInterface;
@@ -68,14 +66,14 @@ class ArticleLoader extends PaginatedLoader implements LoaderInterface
     /**
      * ArticleLoader constructor.
      *
-     * @param ArticleRepositoryInterface $articleRepository
-     * @param RouteProviderInterface     $routeProvider
-     * @param ObjectManager              $dm
-     * @param MetaFactoryInterface       $metaFactory
-     * @param Context                    $context
+     * @param ArticleProviderInterface $articleProvider
+     * @param RouteProviderInterface   $routeProvider
+     * @param ObjectManager            $dm
+     * @param MetaFactoryInterface     $metaFactory
+     * @param Context                  $context
      */
     public function __construct(
-        ArticleProvider $articleProvider,
+        ArticleProviderInterface $articleProvider,
         RouteProviderInterface $routeProvider,
         ObjectManager $dm,
         MetaFactoryInterface $metaFactory,
@@ -130,7 +128,19 @@ class ArticleLoader extends PaginatedLoader implements LoaderInterface
                     } elseif (is_string($parameters['route'])) {
                         $route = $this->routeProvider->getOneByStaticPrefix($parameters['route']);
                     } elseif (is_array($parameters['route'])) {
-                        $route = $parameters['route'];
+                        $loadByStaticPrefix = true;
+                        foreach ($parameters['route'] as $key => $providedRoute) {
+                            if (!is_string($providedRoute)) {
+                                $loadByStaticPrefix = false;
+                                break;
+                            }
+                        }
+
+                        if ($loadByStaticPrefix) {
+                            $route = $this->routeProvider->getWithChildrensByStaticPrefix($parameters['route']);
+                        } else {
+                            $route = $parameters['route'];
+                        }
                     }
 
                     if (null === $route) {
@@ -188,7 +198,7 @@ class ArticleLoader extends PaginatedLoader implements LoaderInterface
     }
 
     /**
-     * @param $article
+     * @param ArticleInterface|null $article
      *
      * @return \SWP\Component\TemplatesSystem\Gimme\Meta\Meta|void
      */

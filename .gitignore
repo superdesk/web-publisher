@@ -12,6 +12,8 @@
 /bin/
 !/bin/UpdateApplicationVersion.php
 /docs/_build/
+/docs/_extensions/sensio/sphinx/__pycache__/
+/docs/_extensions/sensio/__pycache__/
 /composer.phar
 /docker/pgsql/config/*
 !/docker/pgsql/config/.gitkeep

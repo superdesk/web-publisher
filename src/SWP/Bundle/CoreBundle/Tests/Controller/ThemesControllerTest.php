@@ -38,6 +38,9 @@ class ThemesControllerTest extends WebTestCase
         $this->loadCustomFixtures(['tenant']);
 
         $this->router = $this->getContainer()->get('router');
+
+        $filesystem = new Filesystem();
+        $filesystem->remove($this->getContainer()->get('swp_core.uploader.theme')->getAvailableThemesPath());
     }
 
     public function testThemeUpload()
@@ -62,7 +65,6 @@ class ThemesControllerTest extends WebTestCase
 
         $filesystem = new Filesystem();
         $filesystem->remove($fileName);
-        $filesystem->remove($this->getContainer()->get('swp_core.uploader.theme')->getAvailableThemesPath());
     }
 
     public function testAddingUrlToThemeScreenshots()
@@ -84,7 +86,6 @@ class ThemesControllerTest extends WebTestCase
 
         $filesystem = new Filesystem();
         $filesystem->remove($fileName);
-        $filesystem->remove($this->getContainer()->get('swp_core.uploader.theme')->getAvailableThemesPath());
     }
 
     public function testThemeInstall()
@@ -118,8 +119,6 @@ class ThemesControllerTest extends WebTestCase
         $data = json_decode($client->getResponse()->getContent(), true);
         self::assertCount(1, $data['_embedded']['_items']);
         self::assertEquals('swp/test-theme@123abc', $data['_embedded']['_items'][0]['name']);
-
-        $filesystem->remove($this->getContainer()->get('swp_core.uploader.theme')->getAvailableThemesPath());
     }
 
     public function testTenantCreationThemeUploadAndInstallationWithActivation()
@@ -175,7 +174,6 @@ class ThemesControllerTest extends WebTestCase
         self::assertEquals('swp/test-theme-install-generated-data@'.$newTenant['code'], $data['_embedded']['_items'][0]['name']);
 
         $filesystem->remove(realpath(__DIR__.'/../Fixtures/themes/'.$newTenant['code'].'/'));
-        $filesystem->remove($this->getContainer()->get('swp_core.uploader.theme')->getAvailableThemesPath());
     }
 
     private function createZipArchive($rootPath)

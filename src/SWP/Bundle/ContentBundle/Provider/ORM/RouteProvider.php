@@ -70,7 +70,7 @@ class RouteProvider extends BaseRouteProvider implements RouteProviderInterface
             return $collection;
         }
         // As we use Gedmo Sortable on position field, we need to reverse sorting to get child routes first
-        $routes = $this->getRouteRepository()->findByStaticPrefix($candidates, ['level' => 'DESC', 'position' => 'DESC']);
+        $routes = $this->getByStaticPrefix($candidates, ['level' => 'DESC', 'position' => 'DESC']);
 
         /** @var $route Route */
         foreach ($routes as $route) {
@@ -115,6 +115,61 @@ class RouteProvider extends BaseRouteProvider implements RouteProviderInterface
     /**
      * {@inheritdoc}
      */
+    public function getByStaticPrefix(array $candidates, array $orderBy = []): array
+    {
+        return $this->getRouteRepository()->findBy(['staticPrefix' => $candidates], $orderBy);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getChildrensByStaticPrefix(array $candidates, array $orderBy = []): array
+    {
+        return $this->getRepository()->getChildrensByStaticPrefix($candidates, $orderBy)->getQuery()->getResult();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getWithChildrensByStaticPrefix(array $candidates): ?array
+    {
+        $routes = null;
+        $routesForChilldrensLoading = [];
+        foreach ($candidates as $key => $providedRoute) {
+            if (false !== strpos($providedRoute, '/*')) {
+                $cleanRouteName = str_replace('/*', '', $providedRoute);
+                $routesForChilldrensLoading[$cleanRouteName] = null;
+                $candidates[$key] = $cleanRouteName;
+            }
+        }
+
+        $routesArray = $this->getByStaticPrefix($candidates);
+        if (count($routesArray) <= 0) {
+            return null;
+        }
+
+        $routes = $this->getArrayOfIdsFromRoutesArray($routesArray);
+
+        if (count($routesForChilldrensLoading) > 0) {
+            foreach ($routesArray as $key => $element) {
+                if (array_key_exists($element->getStaticPrefix(), $routesForChilldrensLoading)) {
+                    $routesForChilldrensLoading[$element->getStaticPrefix()] = $element->getId();
+                }
+            }
+
+            $routesForChilldrensLoading = array_filter(array_values($routesForChilldrensLoading));
+            $childrenRoutesArray = $this->getChildrensByStaticPrefix($routesForChilldrensLoading);
+            if (count($childrenRoutesArray) > 0) {
+                $routes = array_merge($routes, $this->getArrayOfIdsFromRoutesArray($childrenRoutesArray));
+            }
+        }
+
+        return $routes;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function getRouteByName($name)
     {
         if (array_key_exists($name, $this->internalRoutesCache)) {
@@ -132,5 +187,17 @@ class RouteProvider extends BaseRouteProvider implements RouteProviderInterface
         }
 
         return $route;
+    }
+
+    /**
+     * @param array $routes
+     *
+     * @return array
+     */
+    private function getArrayOfIdsFromRoutesArray(array $routes): array
+    {
+        return array_map(function ($route) {
+            return $route->getId();
+        }, $routes);
     }
 }
