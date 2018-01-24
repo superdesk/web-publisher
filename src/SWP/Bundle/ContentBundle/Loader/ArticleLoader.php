@@ -138,7 +138,7 @@ class ArticleLoader extends PaginatedLoader implements LoaderInterface
                         }
 
                         if ($loadByStaticPrefix) {
-                            $route = $this->routeProvider->getWithChildrensByStaticPrefix($parameters['route']);
+                            $route = $this->routeProvider->getWithChildrenByStaticPrefix($parameters['route']);
                         } else {
                             $route = $parameters['route'];
                         }

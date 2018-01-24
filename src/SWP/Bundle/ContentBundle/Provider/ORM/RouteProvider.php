@@ -131,7 +131,7 @@ class RouteProvider extends BaseRouteProvider implements RouteProviderInterface
     /**
      * {@inheritdoc}
      */
-    public function getWithChildrensByStaticPrefix(array $candidates): ?array
+    public function getWithChildrenByStaticPrefix(array $candidates): ?array
     {
         $routes = null;
         $routesForChilldrensLoading = [];

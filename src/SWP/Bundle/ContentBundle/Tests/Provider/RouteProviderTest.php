@@ -23,7 +23,7 @@ use Symfony\Cmf\Component\Routing\Candidates\Candidates;
 
 class RouteProviderTest extends \PHPUnit_Framework_TestCase
 {
-    public function testGetWithChildrensByStaticPrefix()
+    public function testGetWithChildrenByStaticPrefix()
     {
         $routeRepository = $this->getMockBuilder(RouteRepository::class)
             ->disableOriginalConstructor()
@@ -78,8 +78,8 @@ class RouteProviderTest extends \PHPUnit_Framework_TestCase
             ->withConsecutive([[2], []])
             ->willReturnOnConsecutiveCalls([$footballRoute]);
 
-        self::assertEquals([1], $routeProvider->getWithChildrensByStaticPrefix(['/news']));
-        self::assertEquals([2, 3], $routeProvider->getWithChildrensByStaticPrefix(['/sport/*']));
+        self::assertEquals([1], $routeProvider->getWithChildrenByStaticPrefix(['/news']));
+        self::assertEquals([2, 3], $routeProvider->getWithChildrenByStaticPrefix(['/sport/*']));
     }
 }
 

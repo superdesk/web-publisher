@@ -71,5 +71,5 @@ interface RouteProviderInterface extends CmfRouteProviderInterface
      *
      * @return array|null
      */
-    public function getWithChildrensByStaticPrefix(array $candidates): ?array;
+    public function getWithChildrenByStaticPrefix(array $candidates): ?array;
 }
