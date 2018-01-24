@@ -18,12 +18,13 @@ namespace SWP\Bundle\CoreBundle\Model;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use SWP\Component\Bridge\Model\AuthorsAwareTrait;
 use SWP\Component\Bridge\Model\Package as BasePackage;
 use SWP\Component\MultiTenancy\Model\OrganizationAwareTrait;
 
 class Package extends BasePackage implements PackageInterface
 {
-    use OrganizationAwareTrait;
+    use OrganizationAwareTrait, AuthorsAwareTrait;
 
     /**
      * @var ArticleInterface[]|Collection
@@ -40,6 +41,7 @@ class Package extends BasePackage implements PackageInterface
         parent::__construct();
 
         $this->articles = new ArrayCollection();
+        $this->authors = new ArrayCollection();
     }
 
     /**

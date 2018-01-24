@@ -1,6 +1,6 @@
 SWP\Bundle\ContentBundle\Model\ArticleAuthor:
     type: mappedSuperclass
-    table: swp_article_author
+    table: swp_author
     id:
         id:
             type: integer
@@ -17,11 +17,11 @@ SWP\Bundle\ContentBundle\Model\ArticleAuthor:
             nullable: true
         jobTitle:
             type: array
-    manyToOne:
-        article:
-            targetEntity: SWP\Bundle\ContentBundle\Model\ArticleInterface
-            inversedBy: authors
-            joinColumn:
-                name: article_id
-                referencedColumnName: id
-                onDelete: CASCADE
+#    manyToOne:
+#        article:
+#            targetEntity: SWP\Bundle\ContentBundle\Model\ArticleInterface
+#            inversedBy: authors
+#            joinColumn:
+#                name: article_id
+#                referencedColumnName: id
+#                onDelete: CASCADE

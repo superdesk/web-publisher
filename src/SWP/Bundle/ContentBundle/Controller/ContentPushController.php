@@ -21,6 +21,7 @@ use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use SWP\Bundle\ContentBundle\Form\Type\MediaFileType;
+use SWP\Bundle\ContentBundle\Model\ArticleAuthor;
 use SWP\Bundle\ContentBundle\Model\ArticleMedia;
 use SWP\Component\Bridge\Events;
 use SWP\Component\Bridge\Model\PackageInterface;
@@ -71,7 +72,7 @@ class ContentPushController extends Controller
         }
 
         $dispatcher->dispatch(Events::PACKAGE_PRE_CREATE, new GenericEvent($package, ['eventName' => Events::PACKAGE_PRE_CREATE]));
-
+dump($package);die;
         $this->getPackageRepository()->add($package);
 
         $dispatcher->dispatch(Events::PACKAGE_POST_CREATE, new GenericEvent($package, ['eventName' => Events::PACKAGE_POST_CREATE]));

@@ -15,6 +15,8 @@
 namespace SWP\Bundle\BridgeBundle\DependencyInjection;
 
 use SWP\Bundle\StorageBundle\Doctrine\ORM\EntityRepository;
+use SWP\Component\Bridge\Model\Author;
+use SWP\Component\Bridge\Model\AuthorInterface;
 use SWP\Component\Bridge\Model\Event;
 use SWP\Component\Bridge\Model\Event\Date;
 use SWP\Component\Bridge\Model\Event\DateInterface;
@@ -24,8 +26,6 @@ use SWP\Component\Bridge\Model\EventInterface;
 use SWP\Component\Bridge\Model\Item;
 use SWP\Component\Bridge\Model\ItemInterface;
 use SWP\Component\Bridge\Model\Package;
-use SWP\Component\Bridge\Model\PackageAuthor;
-use SWP\Component\Bridge\Model\PackageAuthorInterface;
 use SWP\Component\Bridge\Model\PackageInterface;
 use SWP\Component\Bridge\Model\Rendition;
 use SWP\Component\Bridge\Model\RenditionInterface;
@@ -90,16 +90,16 @@ class Configuration implements ConfigurationInterface
                                                 ->scalarNode('object_manager_name')->defaultValue(null)->end()
                                             ->end()
                                         ->end()
-                                        ->arrayNode('package_author')
-                                            ->addDefaultsIfNotSet()
-                                            ->children()
-                                                ->scalarNode('model')->cannotBeEmpty()->defaultValue(PackageAuthor::class)->end()
-                                                ->scalarNode('repository')->defaultValue(EntityRepository::class)->end()
-                                                ->scalarNode('interface')->defaultValue(PackageAuthorInterface::class)->end()
-                                                ->scalarNode('factory')->defaultValue(Factory::class)->end()
-                                                ->scalarNode('object_manager_name')->defaultValue(null)->end()
-                                            ->end()
-                                        ->end()
+//                                        ->arrayNode('author')
+//                                            ->addDefaultsIfNotSet()
+//                                            ->children()
+//                                                ->scalarNode('model')->cannotBeEmpty()->defaultValue(Author::class)->end()
+//                                                ->scalarNode('repository')->defaultValue(EntityRepository::class)->end()
+//                                                ->scalarNode('interface')->defaultValue(AuthorInterface::class)->end()
+//                                                ->scalarNode('factory')->defaultValue(Factory::class)->end()
+//                                                ->scalarNode('object_manager_name')->defaultValue(null)->end()
+//                                            ->end()
+//                                        ->end()
                                         ->arrayNode('event')
                                             ->addDefaultsIfNotSet()
                                             ->children()

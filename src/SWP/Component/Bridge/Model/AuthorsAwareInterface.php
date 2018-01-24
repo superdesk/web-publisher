@@ -23,4 +23,10 @@ interface AuthorsAwareInterface
     public function getAuthors(): Collection;
 
     public function setAuthors(Collection $authors): void;
+
+    public function addAuthor(AuthorInterface $author): void;
+
+    public function removeAuthor(AuthorInterface $author): void;
+
+    public function hasAuthor(AuthorInterface $author): bool;
 }

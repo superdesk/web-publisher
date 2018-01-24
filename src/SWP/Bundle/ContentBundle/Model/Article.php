@@ -476,20 +476,4 @@ class Article implements ArticleInterface
 
         return $this->sources;
     }
-
-    public function addAuthor(ArticleAuthorInterface $author)
-    {
-        if (!$this->authors->contains($author)) {
-            $this->authors->add($author);
-            $author->setArticle($this);
-        }
-    }
-
-    public function removeAuthor(ArticleAuthorInterface $author)
-    {
-        if ($this->authors->contains($author)) {
-            $this->authors->removeElement($author);
-            $author->setArticle(null);
-        }
-    }
 }

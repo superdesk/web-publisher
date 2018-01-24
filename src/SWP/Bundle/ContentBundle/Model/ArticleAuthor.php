@@ -22,20 +22,8 @@ class ArticleAuthor extends BaseAuthor implements ArticleAuthorInterface
 {
     protected $id;
 
-    protected $article;
-
     public function getId()
     {
         return $this->id;
-    }
-
-    public function getArticle(): ?ArticleInterface
-    {
-        return $this->article;
-    }
-
-    public function setArticle(?ArticleInterface $article): void
-    {
-        $this->article = $article;
     }
 }

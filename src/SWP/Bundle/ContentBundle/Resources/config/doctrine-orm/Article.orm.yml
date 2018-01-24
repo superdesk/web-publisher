@@ -88,8 +88,14 @@ SWP\Bundle\ContentBundle\Model\Article:
             targetEntity: SWP\Bundle\ContentBundle\Model\ArticleSourceReference
             mappedBy: article
             cascade: ["remove"]
+    manyToMany:
         authors:
             targetEntity: SWP\Bundle\ContentBundle\Model\ArticleAuthorInterface
-            cascade: ["all"]
-            orphanRemoval: true
-            mappedBy: article
+            joinTable:
+                name: swp_article_author
+                joinColumns:
+                    article_id:
+                        referencedColumnName: id
+                inverseJoinColumns:
+                    author_id:
+                        referencedColumnName: id

@@ -17,10 +17,11 @@ declare(strict_types=1);
 namespace SWP\Bundle\ContentBundle\Model;
 
 use SWP\Component\Bridge\Model\AuthorInterface as BaseAuthorInterface;
+use SWP\Component\Storage\Model\PersistableInterface;
 
-interface ArticleAuthorInterface extends BaseAuthorInterface
+interface ArticleAuthorInterface extends BaseAuthorInterface, PersistableInterface
 {
-    public function getArticle(): ?ArticleInterface;
-
-    public function setArticle(?ArticleInterface $article): void;
+//    public function getArticle(): ?ArticleInterface;
+//
+//    public function setArticle(?ArticleInterface $article): void;
 }

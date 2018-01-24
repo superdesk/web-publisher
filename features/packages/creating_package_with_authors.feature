@@ -99,8 +99,8 @@ Feature: Checking if the package authors are saved properly
       "urgency":3,
       "authors":[
         {
-          "biography":"ed bio",
-          "name":"ed",
+          "biography":"not dead yet",
+          "name":"vincer vincer",
           "role":"subeditor"
         }
       ],
