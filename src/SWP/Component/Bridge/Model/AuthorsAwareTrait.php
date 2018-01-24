@@ -31,4 +31,23 @@ trait AuthorsAwareTrait
     {
         $this->authors = $authors;
     }
+
+    public function addAuthor(AuthorInterface $author): void
+    {
+        if (!$this->hasAuthor($author)) {
+            $this->authors->add($author);
+        }
+    }
+
+    public function removeAuthor(AuthorInterface $author): void
+    {
+        if ($this->hasAuthor($author)) {
+            $this->authors->removeElement($author);
+        }
+    }
+
+    public function hasAuthor(AuthorInterface $author): bool
+    {
+        return $this->authors->contains($author);
+    }
 }
