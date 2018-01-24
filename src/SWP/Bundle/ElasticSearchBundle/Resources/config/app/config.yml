@@ -97,6 +97,11 @@ fos_elastica:
                                     properties:
                                         name: { type: string }
                                         id: { type: integer }
+                        authors:
+                            type: "nested"
+                            properties:
+                                id: { type: integer }
+                                name: { type: string }
                     persistence:
                         driver: orm
                         model: "%swp.model.package.class%"

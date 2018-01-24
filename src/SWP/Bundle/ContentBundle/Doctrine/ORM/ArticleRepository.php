@@ -163,7 +163,10 @@ class ArticleRepository extends EntityRepository implements ArticleRepositoryInt
      */
     private function applyCustomFiltering(QueryBuilder $queryBuilder, Criteria $criteria)
     {
-        foreach (['metadata', 'author'] as $name) {
+        $queryBuilder
+            ->leftJoin('a.authors', 'au');
+
+        foreach (['metadata'/*, 'author'*/] as $name) {
             if (!$criteria->has($name)) {
                 continue;
             }
@@ -177,9 +180,9 @@ class ArticleRepository extends EntityRepository implements ArticleRepositoryInt
             $orX = $queryBuilder->expr()->orX();
             foreach ($criteria->get($name) as $value) {
                 $valueExpression = $queryBuilder->expr()->literal('%'.$value.'%');
-                if ('author' === $name) {
-                    $valueExpression = $queryBuilder->expr()->literal('%"byline":"'.$value.'"%');
-                }
+//                if ('author' === $name) {
+//                    $valueExpression = $queryBuilder->expr()->literal('%"byline":"'.$value.'"%');
+//                }
                 $orX->add($queryBuilder->expr()->like('a.metadata', $valueExpression));
             }
 
@@ -250,6 +253,26 @@ class ArticleRepository extends EntityRepository implements ArticleRepositoryInt
             $queryBuilder->andWhere($queryBuilder->expr()->in('a.id', $articleSourcesQueryBuilder->getQuery()->getDQL()));
 
             $criteria->remove('source');
+        }
+
+        if ($criteria->has('author') && !empty($criteria->get('author'))) {
+            $orX = $queryBuilder->expr()->orX();
+            foreach ((array) $criteria->get('author') as $value) {
+                $orX->add($queryBuilder->expr()->eq('au.name', $queryBuilder->expr()->literal($value)));
+            }
+
+            $queryBuilder->andWhere($orX);
+            $criteria->remove('author');
+        }
+
+        if ($criteria->has('exclude_author') && !empty($criteria->get('exclude_author'))) {
+            $orX = $queryBuilder->expr()->andX();
+            foreach ((array) $criteria->get('exclude_author') as $value) {
+                $orX->add($queryBuilder->expr()->neq('au.name', $queryBuilder->expr()->literal($value)));
+            }
+
+            $queryBuilder->andWhere($orX);
+            $criteria->remove('author');
         }
     }
 }

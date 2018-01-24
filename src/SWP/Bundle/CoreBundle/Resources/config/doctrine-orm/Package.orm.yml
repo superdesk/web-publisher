@@ -19,7 +19,7 @@ SWP\Bundle\CoreBundle\Model\Package:
     manyToMany:
         authors:
             targetEntity: SWP\Bundle\ContentBundle\Model\ArticleAuthorInterface
-            cascade: ["persist"]
+            cascade: ["all"]
             joinTable:
                 name: swp_package_author
                 joinColumns:
