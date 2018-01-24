@@ -8,3 +8,4 @@ Technical Cookbooks
    widgets
    content_lists
    article_preview
+   rules

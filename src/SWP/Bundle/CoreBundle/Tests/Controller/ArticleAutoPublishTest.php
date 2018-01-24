@@ -41,7 +41,7 @@ final class ArticleAutoPublishTest extends WebTestCase
         $this->router = $this->getContainer()->get('router');
     }
 
-    public function testArticleAutoPublishBasedOnRule()
+    public function testArticlePushToTenantBasedOnOrganizationRule()
     {
         $client = static::createClient();
         $client->request('POST', $this->router->generate('swp_api_core_create_organization_rule'), [
@@ -54,7 +54,6 @@ final class ArticleAutoPublishTest extends WebTestCase
                         'value' => [
                             [
                                 'tenant' => '123abc',
-                                'route' => 3,
                             ],
                         ],
                     ],
@@ -76,8 +75,130 @@ final class ArticleAutoPublishTest extends WebTestCase
         $content = json_decode($client->getResponse()->getContent(), true);
 
         self::assertArrayHasKey('isPublishable', $content);
+        self::assertEquals($content['isPublishable'], false);
+        self::assertEquals($content['isPublishedFBIA'], false);
+        self::assertNull($content['publishedAt']);
+        self::assertNull($content['route']);
+        self::assertEquals($content['status'], 'new');
+    }
+
+    public function testArticleRePushBasedOnOrganizationRule()
+    {
+        $client = static::createClient();
+        $client->request('POST', $this->router->generate('swp_api_core_create_organization_rule'), [
+            'rule' => [
+                'expression' => 'package.getLocated() matches "/Sydney/"',
+                'priority' => 1,
+                'configuration' => [
+                    [
+                        'key' => 'destinations',
+                        'value' => [
+                            [
+                                'tenant' => '123abc',
+                            ],
+                        ],
+                    ],
+                ],
+            ],
+        ]);
+
+        self::assertEquals(201, $client->getResponse()->getStatusCode());
+
+        $response = $this->pushContent();
+
+        self::assertEquals(201, $response->getStatusCode());
+
+        $response = $this->pushContent();
+
+        self::assertEquals(201, $response->getStatusCode());
+
+        $client->request(
+            'GET',
+            $this->router->generate('swp_api_content_show_articles', ['id' => 1])
+        );
+
+        self::assertEquals(200, $client->getResponse()->getStatusCode());
+
+        $content = json_decode($client->getResponse()->getContent(), true);
+
+        self::assertArrayHasKey('isPublishable', $content);
+        self::assertEquals($content['isPublishable'], false);
+        self::assertEquals($content['isPublishedFBIA'], false);
+        self::assertNull($content['publishedAt']);
+        self::assertNull($content['route']);
+        self::assertEquals($content['status'], 'new');
+    }
+
+    public function testArticleAutoPublishBasedOnTenantRule()
+    {
+        $client = static::createClient();
+        $client->request('POST', $this->router->generate('swp_api_core_create_organization_rule'), [
+            'rule' => [
+                'expression' => 'package.getLocated() matches "/Sydney/"',
+                'priority' => 1,
+                'configuration' => [
+                    [
+                        'key' => 'destinations',
+                        'value' => [
+                            [
+                                'tenant' => '123abc',
+                            ],
+                        ],
+                    ],
+                ],
+            ],
+        ]);
+
+        self::assertEquals(201, $client->getResponse()->getStatusCode());
+
+        $client->request('POST', $this->router->generate('swp_api_content_create_routes'), [
+            'route' => [
+                'name' => 'article',
+                'type' => RouteInterface::TYPE_CONTENT,
+            ],
+        ]);
+
+        self::assertEquals(201, $client->getResponse()->getStatusCode());
+
+        $route = json_decode($client->getResponse()->getContent(), true);
+
+        $client->request('POST', $this->router->generate('swp_api_core_create_rule'), [
+            'rule' => [
+                'expression' => 'article.getMetadataByKey("located") matches "/Sydney/"',
+                'priority' => 1,
+                'configuration' => [
+                    [
+                        'key' => 'published',
+                        'value' => true,
+                    ],
+                    [
+                        'key' => 'route',
+                        'value' => $route['id'],
+                    ],
+                ],
+            ],
+        ]);
+
+        self::assertEquals(201, $client->getResponse()->getStatusCode());
+
+        $response = $this->pushContent();
+
+        self::assertEquals(201, $response->getStatusCode());
+
+        $client->request(
+            'GET',
+            $this->router->generate('swp_api_content_show_articles', ['id' => 1])
+        );
+
+        self::assertEquals(200, $client->getResponse()->getStatusCode());
+
+        $content = json_decode($client->getResponse()->getContent(), true);
+
+        self::assertArrayHasKey('isPublishable', $content);
         self::assertEquals($content['isPublishable'], true);
+        self::assertEquals($content['isPublishedFBIA'], false);
         self::assertNotNull($content['publishedAt']);
+        self::assertEquals($content['route']['id'], $route['id']);
         self::assertEquals($content['status'], 'published');
     }
 
@@ -461,6 +582,15 @@ final class ArticleAutoPublishTest extends WebTestCase
 
         self::assertEquals(201, $client->getResponse()->getStatusCode());
 
+        $response = $this->pushContent();
+
+        self::assertEquals(201, $response->getStatusCode());
+    }
+
+    private function pushContent()
+    {
+        $client = static::createClient();
+
         $client->request(
             'POST',
             $this->router->generate('swp_api_content_push'),
@@ -470,6 +600,6 @@ final class ArticleAutoPublishTest extends WebTestCase
             self::TEST_ITEM_CONTENT
         );
 
-        self::assertEquals(201, $client->getResponse()->getStatusCode());
+        return $client->getResponse();
     }
 }

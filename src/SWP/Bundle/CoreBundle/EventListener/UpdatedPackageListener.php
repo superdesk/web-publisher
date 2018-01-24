@@ -96,7 +96,6 @@ final class UpdatedPackageListener
         foreach ($this->articleRepository->findBy(['package' => $package]) as $article) {
             $article = $this->articleHydrator->hydrate($article, $package);
             $this->eventDispatcher->dispatch(ArticleEvents::PRE_CREATE, new ArticleEvent($article, $package, ArticleEvents::PRE_CREATE));
-            $this->eventDispatcher->dispatch(ArticleEvents::PUBLISH, new ArticleEvent($article, null, ArticleEvents::PUBLISH));
         }
 
         $this->articleManager->flush();
