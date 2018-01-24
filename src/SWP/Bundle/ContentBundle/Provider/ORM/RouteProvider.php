@@ -123,9 +123,9 @@ class RouteProvider extends BaseRouteProvider implements RouteProviderInterface
     /**
      * {@inheritdoc}
      */
-    public function getChildrensByStaticPrefix(array $candidates, array $orderBy = []): array
+    public function getChildrenByStaticPrefix(array $candidates, array $orderBy = []): array
     {
-        return $this->getRepository()->getChildrensByStaticPrefix($candidates, $orderBy)->getQuery()->getResult();
+        return $this->getRepository()->getChildrenByStaticPrefix($candidates, $orderBy)->getQuery()->getResult();
     }
 
     /**
@@ -158,7 +158,7 @@ class RouteProvider extends BaseRouteProvider implements RouteProviderInterface
             }
 
             $routesForChilldrensLoading = array_filter(array_values($routesForChilldrensLoading));
-            $childrenRoutesArray = $this->getChildrensByStaticPrefix($routesForChilldrensLoading);
+            $childrenRoutesArray = $this->getChildrenByStaticPrefix($routesForChilldrensLoading);
             if (count($childrenRoutesArray) > 0) {
                 $routes = array_merge($routes, $this->getArrayOfIdsFromRoutesArray($childrenRoutesArray));
             }

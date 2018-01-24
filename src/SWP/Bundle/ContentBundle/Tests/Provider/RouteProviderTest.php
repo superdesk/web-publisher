@@ -70,11 +70,11 @@ class RouteProviderTest extends \PHPUnit_Framework_TestCase
 
         $routeProvider = $this->getMockBuilder(RouteProvider::class)
             ->setConstructorArgs([$routeRepository, $managerRegistry, $candidatesStrategy, Route::class])
-            ->setMethods(['getChildrensByStaticPrefix'])
+            ->setMethods(['getChildrenByStaticPrefix'])
             ->getMock();
 
         $routeProvider->expects(self::any())
-            ->method('getChildrensByStaticPrefix')
+            ->method('getChildrenByStaticPrefix')
             ->withConsecutive([[2], []])
             ->willReturnOnConsecutiveCalls([$footballRoute]);
 

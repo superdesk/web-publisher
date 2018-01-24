@@ -23,7 +23,7 @@ class RouteRepository extends EntityRepository implements RouteRepositoryInterfa
     /**
      * {@inheritdoc}
      */
-    public function getChildrensByStaticPrefix(array $candidates, array $orderBy): QueryBuilder
+    public function getChildrenByStaticPrefix(array $candidates, array $orderBy): QueryBuilder
     {
         $queryBuilder = $this->createQueryBuilder('r');
         $queryBuilder->andWhere($queryBuilder->expr()->in('r.parent', $candidates));

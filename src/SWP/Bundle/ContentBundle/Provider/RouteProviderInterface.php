@@ -64,7 +64,7 @@ interface RouteProviderInterface extends CmfRouteProviderInterface
      *
      * @return array
      */
-    public function getChildrensByStaticPrefix(array $candidates, array $orderBy = []): array;
+    public function getChildrenByStaticPrefix(array $candidates, array $orderBy = []): array;
 
     /**
      * @param array $candidates

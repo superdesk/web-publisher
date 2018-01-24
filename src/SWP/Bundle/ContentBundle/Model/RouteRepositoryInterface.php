@@ -13,5 +13,5 @@ interface RouteRepositoryInterface extends RepositoryInterface
      *
      * @return QueryBuilder
      */
-    public function getChildrensByStaticPrefix(array $candidates, array $orderBy): QueryBuilder;
+    public function getChildrenByStaticPrefix(array $candidates, array $orderBy): QueryBuilder;
 }

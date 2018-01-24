@@ -36,7 +36,7 @@ The :code:`articles` loader parameters:
 
 .. note::
 
-   :code:`'/sport/*'` syntax will load articles from main route (:code:`'/sport'`) and all of it 1st level childrens (eg. :code:`'/sport/football'`).
+   :code:`'/sport/*'` syntax will load articles from main route (:code:`'/sport'`) and all of it 1st level children (eg. :code:`'/sport/football'`).
 
 .. code-block:: twig
 
