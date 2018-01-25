@@ -17,7 +17,6 @@ namespace SWP\Component\Bridge\Transformer;
 use SWP\Component\Bridge\Exception\MethodNotSupportedException;
 use SWP\Component\Bridge\Exception\TransformationFailedException;
 use SWP\Component\Bridge\Model\ItemInterface;
-use SWP\Component\Bridge\Model\PackageAuthorInterface;
 use SWP\Component\Bridge\Validator\ValidatorInterface;
 use SWP\Component\Common\Serializer\SerializerInterface;
 
