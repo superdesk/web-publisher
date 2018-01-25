@@ -15,13 +15,8 @@ SWP\Bundle\ContentBundle\Model\ArticleAuthor:
         biography:
             type: string
             nullable: true
+        avatarUrl:
+            type: string
+            nullable: true
         jobTitle:
             type: array
-#    manyToOne:
-#        article:
-#            targetEntity: SWP\Bundle\ContentBundle\Model\ArticleInterface
-#            inversedBy: authors
-#            joinColumn:
-#                name: article_id
-#                referencedColumnName: id
-#                onDelete: CASCADE

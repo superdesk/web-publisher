@@ -23,9 +23,7 @@ final class ArticleAuthorsHydrator implements ArticleHydratorInterface
 {
     public function hydrate(ArticleInterface $article, PackageInterface $package): ArticleInterface
     {
-//        $article->setAuthors([]);
         foreach ($package->getAuthors()->toArray() as $author) {
-            // remove all authors and add again?
             $article->addAuthor($author);
         }
 

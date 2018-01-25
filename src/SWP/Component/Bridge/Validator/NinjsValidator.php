@@ -462,7 +462,12 @@ class NinjsValidator extends JsonValidator
 					"biography" : {
 						"description" : "Author\'s biography",
 						"type" : "string"
-					}
+					},
+					"avatar_url": {
+                        "description": "Author\'s avatar url",
+                        "type": "string",
+                        "format": "uri"
+                    }
 				}
 			}
 		},

@@ -75,4 +75,15 @@ final class AuthorSpec extends ObjectBehavior
         $this->setBiography('bio');
         $this->getBiography()->shouldReturn('bio');
     }
+
+    function it_has_no_avatar_url_by_default()
+    {
+        $this->getAvatarUrl()->shouldReturn(null);
+    }
+
+    function its_avatar_url_is_mutable()
+    {
+        $this->setAvatarUrl('http://example.com/avatar.png');
+        $this->getAvatarUrl()->shouldReturn('http://example.com/avatar.png');
+    }
 }

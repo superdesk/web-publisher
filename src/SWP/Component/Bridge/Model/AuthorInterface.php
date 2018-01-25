@@ -33,4 +33,8 @@ interface AuthorInterface
     public function getJobTitle(): array;
 
     public function setJobTitle(array $jobTitle): void;
+
+    public function getAvatarUrl(): ?string;
+
+    public function setAvatarUrl(?string $avatarUrl);
 }

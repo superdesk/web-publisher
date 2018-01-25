@@ -26,6 +26,8 @@ class Author implements AuthorInterface
 
     protected $biography;
 
+    protected $avatarUrl;
+
     public function getName(): ?string
     {
         return $this->name;
@@ -64,5 +66,15 @@ class Author implements AuthorInterface
     public function getBiography(): ?string
     {
         return $this->biography;
+    }
+
+    public function getAvatarUrl(): ?string
+    {
+        return $this->avatarUrl;
+    }
+
+    public function setAvatarUrl(?string $avatarUrl)
+    {
+        $this->avatarUrl = $avatarUrl;
     }
 }
