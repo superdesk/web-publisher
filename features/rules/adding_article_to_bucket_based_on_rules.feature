@@ -54,7 +54,7 @@ Feature: Adding article to bucket based on organization and tenant rules
       }
      """
     Then the response status code should be 201
-    And the Json node "id" should be equal to "6"
+    And the Json node "id" should be equal to "7"
     And I am authenticated as "test.user"
     And I add "Content-Type" header equal to "application/json"
     Then I send a "POST" request to "/api/{version}/rules/" with body:

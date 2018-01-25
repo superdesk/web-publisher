@@ -49,4 +49,27 @@ interface RouteProviderInterface extends CmfRouteProviderInterface
      * @return RouteInterface|null
      */
     public function getOneByStaticPrefix($staticPrefix);
+
+    /**
+     * @param array $candidates
+     * @param array $orderBy
+     *
+     * @return array
+     */
+    public function getByStaticPrefix(array $candidates, array $orderBy = []): array;
+
+    /**
+     * @param array $candidates
+     * @param array $orderBy
+     *
+     * @return array
+     */
+    public function getChildrenByStaticPrefix(array $candidates, array $orderBy = []): array;
+
+    /**
+     * @param array $candidates
+     *
+     * @return array|null
+     */
+    public function getWithChildrenByStaticPrefix(array $candidates): ?array;
 }

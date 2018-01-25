@@ -101,12 +101,12 @@ trait EntityRepositoryTrait
     }
 
     /**
-     * @param $queryBuilder
+     * @param QueryBuilder   $queryBuilder
      * @param PaginationData $paginationData
      *
      * @return PaginationInterface
      */
-    protected function getPaginator($queryBuilder, PaginationData $paginationData)
+    protected function getPaginator(QueryBuilder $queryBuilder, PaginationData $paginationData)
     {
         $paginator = new Paginator();
 
