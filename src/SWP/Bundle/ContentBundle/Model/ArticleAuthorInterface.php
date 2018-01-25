@@ -21,7 +21,4 @@ use SWP\Component\Storage\Model\PersistableInterface;
 
 interface ArticleAuthorInterface extends BaseAuthorInterface, PersistableInterface
 {
-//    public function getArticle(): ?ArticleInterface;
-//
-//    public function setArticle(?ArticleInterface $article): void;
 }

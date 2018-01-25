@@ -68,11 +68,6 @@ final class JsonToPackageTransformer implements DataTransformerInterface
             $item->setPackage($package);
         }
 
-//        /** @var PackageAuthorInterface $author */
-//        foreach ($package->getAuthors()->toArray() as $author) {
-//            $author->setPackage($package);
-//        }
-
         return $package;
     }
 

@@ -1,0 +1,18 @@
+SWP\Bundle\ContentBundle\Model\ArticleAuthor:
+    exclusion_policy: ALL
+    properties:
+        id:
+            expose: true
+            type: integer
+        name:
+            expose: true
+            type: string
+        role:
+            expose: true
+            type: string
+        bio:
+            expose: true
+            type: string
+        jobtitle:
+            expose: true
+            type: array

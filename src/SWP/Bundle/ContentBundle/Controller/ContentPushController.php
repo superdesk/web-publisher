@@ -21,7 +21,6 @@ use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use SWP\Bundle\ContentBundle\Form\Type\MediaFileType;
-use SWP\Bundle\ContentBundle\Model\ArticleAuthor;
 use SWP\Bundle\ContentBundle\Model\ArticleMedia;
 use SWP\Component\Bridge\Events;
 use SWP\Component\Bridge\Model\PackageInterface;
@@ -59,7 +58,6 @@ class ContentPushController extends Controller
             $objectManager = $this->get('swp.object_manager.package');
             $package->setId($existingPackage->getId());
             $package->setCreatedAt($existingPackage->getCreatedAt());
-            // TODO: on pre update, remove authors that does not match current authors in package
             $this->get('event_dispatcher')->dispatch(Events::PACKAGE_PRE_UPDATE, new GenericEvent($package, ['eventName' => Events::PACKAGE_PRE_UPDATE]));
 
             $package = $objectManager->merge($package);
@@ -72,7 +70,7 @@ class ContentPushController extends Controller
         }
 
         $dispatcher->dispatch(Events::PACKAGE_PRE_CREATE, new GenericEvent($package, ['eventName' => Events::PACKAGE_PRE_CREATE]));
-dump($package);die;
+
         $this->getPackageRepository()->add($package);
 
         $dispatcher->dispatch(Events::PACKAGE_POST_CREATE, new GenericEvent($package, ['eventName' => Events::PACKAGE_POST_CREATE]));

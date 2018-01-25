@@ -1,4 +1,6 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 namespace SWP\Migrations;
 
@@ -13,7 +15,7 @@ class Version20180122115426 extends AbstractMigration
     public function up(Schema $schema)
     {
         // this up() migration is auto-generated, please modify it to your needs
-        $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'postgresql', 'Migration can only be executed safely on \'postgresql\'.');
+        $this->abortIf('postgresql' !== $this->connection->getDatabasePlatform()->getName(), 'Migration can only be executed safely on \'postgresql\'.');
 
         $this->addSql('CREATE SEQUENCE swp_author_id_seq INCREMENT BY 1 MINVALUE 1 START 1');
         $this->addSql('CREATE TABLE swp_author (id INT NOT NULL, name VARCHAR(255) NOT NULL, role VARCHAR(255) NOT NULL, biography VARCHAR(255) DEFAULT NULL, job_title TEXT NOT NULL, PRIMARY KEY(id))');
@@ -33,7 +35,7 @@ class Version20180122115426 extends AbstractMigration
     public function down(Schema $schema)
     {
         // this down() migration is auto-generated, please modify it to your needs
-        $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'postgresql', 'Migration can only be executed safely on \'postgresql\'.');
+        $this->abortIf('postgresql' !== $this->connection->getDatabasePlatform()->getName(), 'Migration can only be executed safely on \'postgresql\'.');
 
         $this->addSql('ALTER TABLE swp_package_author DROP CONSTRAINT FK_574B723AF675F31B');
         $this->addSql('ALTER TABLE swp_article_author DROP CONSTRAINT FK_3779666F675F31B');

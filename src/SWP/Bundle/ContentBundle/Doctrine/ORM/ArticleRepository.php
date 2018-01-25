@@ -180,9 +180,6 @@ class ArticleRepository extends EntityRepository implements ArticleRepositoryInt
             $orX = $queryBuilder->expr()->orX();
             foreach ($criteria->get($name) as $value) {
                 $valueExpression = $queryBuilder->expr()->literal('%'.$value.'%');
-//                if ('author' === $name) {
-//                    $valueExpression = $queryBuilder->expr()->literal('%"byline":"'.$value.'"%');
-//                }
                 $orX->add($queryBuilder->expr()->like('a.metadata', $valueExpression));
             }
 
@@ -266,12 +263,12 @@ class ArticleRepository extends EntityRepository implements ArticleRepositoryInt
         }
 
         if ($criteria->has('exclude_author') && !empty($criteria->get('exclude_author'))) {
-            $orX = $queryBuilder->expr()->andX();
+            $andX = $queryBuilder->expr()->andX();
             foreach ((array) $criteria->get('exclude_author') as $value) {
-                $orX->add($queryBuilder->expr()->neq('au.name', $queryBuilder->expr()->literal($value)));
+                $andX->add($queryBuilder->expr()->neq('au.name', $queryBuilder->expr()->literal($value)));
             }
 
-            $queryBuilder->andWhere($orX);
+            $queryBuilder->andWhere($andX);
             $criteria->remove('author');
         }
     }

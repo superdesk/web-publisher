@@ -30,6 +30,11 @@ final class ArticleHydrator implements ArticleHydratorInterface
     private $articleSourcesAdder;
 
     /**
+     * @var ArticleHydratorInterface
+     */
+    private $articleAuthorsHydrator;
+
+    /**
      * @var array
      */
     private $allowedTypes = [
@@ -43,10 +48,12 @@ final class ArticleHydrator implements ArticleHydratorInterface
      * ArticleHydrator constructor.
      *
      * @param ArticleSourcesAdderInterface $articleSourcesAdder
+     * @param ArticleHydratorInterface     $articleAuthorsHydrator
      */
-    public function __construct(ArticleSourcesAdderInterface $articleSourcesAdder)
+    public function __construct(ArticleSourcesAdderInterface $articleSourcesAdder, ArticleHydratorInterface $articleAuthorsHydrator)
     {
         $this->articleSourcesAdder = $articleSourcesAdder;
+        $this->articleAuthorsHydrator = $articleAuthorsHydrator;
     }
 
     /**
@@ -67,15 +74,7 @@ final class ArticleHydrator implements ArticleHydratorInterface
 
         $article->setTitle($package->getHeadline());
 
-        // put it into ArticleAuthorsProcessor
-        // create ArticleProcessorChain class and allow to register new processors
-        foreach ($package->getAuthors()->toArray() as $author) {
-            $article->addAuthor($author);
-
-            // if author does not exist in package and exists in article
-            // remove author from article
-        }
-
+        $this->articleAuthorsHydrator->hydrate($article, $package);
         $this->populateSources($article, $package);
 
         $article->setLocale($package->getLanguage());

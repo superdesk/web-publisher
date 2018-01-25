@@ -154,6 +154,10 @@ services:
         class: SWP\Bundle\ContentBundle\Hydrator\ArticleHydrator
         arguments:
              - '@swp.adder.article_source'
+             - '@swp.hydrator.article_authors'
+
+    swp.hydrator.article_authors:
+        class: SWP\Bundle\ContentBundle\Hydrator\ArticleAuthorsHydrator
 
     swp_content_bundle.listener.article_publish:
         class: SWP\Bundle\ContentBundle\EventListener\ArticlePublishListener
