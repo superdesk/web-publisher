@@ -24,9 +24,19 @@ The :code:`articles` loader parameters:
 
 .. code-block:: twig
 
-    {% gimmelist article from articles with {'route': '/news'} %} <!-- route name -->
+    {% gimmelist article from articles with {'route': '/news'} %} <!-- route staticPrefix -->
         <img src="{{ url(article) }}" />
     {% endgimmelist %}
+
+.. code-block:: twig
+
+    {% gimmelist article from articles with {'route': ['/news', '/sport/*']} %} <!-- route staticPrefix -->
+        <img src="{{ url(article) }}" />
+    {% endgimmelist %}
+
+.. note::
+
+   :code:`'/sport/*'` syntax will load articles from main route (:code:`'/sport'`) and all of it 1st level children (eg. :code:`'/sport/football'`).
 
 .. code-block:: twig
 
@@ -34,7 +44,8 @@ The :code:`articles` loader parameters:
         <img src="{{ url(article) }}" />
     {% endgimmelist %}
 
- * (optional) key :code:`metadata` - It matches article’s metadata, and you can use all metadata fields that are defined for the article, i.e.: language, located etc.
+
+* (optional) key :code:`metadata` - It matches article’s metadata, and you can use all metadata fields that are defined for the article, i.e.: language, located etc.
 
 .. code-block:: twig
 
@@ -43,6 +54,8 @@ The :code:`articles` loader parameters:
     {% endgimmelist %}
 
 * (optional) key :code:`keywords` - It matches article’s keywords,
+
+.. code-block:: twig
 
     {% gimmelist article from articles with {'keywords':['keyword1', 'keyword2']} %}
         <img src="{{ url(article) }}" />

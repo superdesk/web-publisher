@@ -108,7 +108,7 @@ class ArticleStatisticsService implements ArticleStatisticsServiceInterface
         $article = $this->articleRepository->findOneBy(['id' => $articleId]);
         /** @var ArticleEventsInterface $articleEvent */
         $articleEvent = $this->articleEventFactory->create();
-        $articleEvent->setAction(ArticleEventsInterface::ACTION_PAGEVIEW);
+        $articleEvent->setAction(ArticleEventInterface::ACTION_PAGEVIEW);
         $articleEvent->setArticleStatistics($articleStatistics);
         $this->articleStatisticsRepository->persist($articleEvent);
         $articleStatistics->addEvent($articleEvent);

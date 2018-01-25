@@ -371,4 +371,15 @@ class Context implements \ArrayAccess
 
         return true;
     }
+
+    /**
+     *  Resets context data.
+     */
+    public function reset()
+    {
+        $this->currentPage = null;
+        $this->registeredMeta = [];
+        $this->availableConfigs = [];
+        $this->previewMode = false;
+    }
 }

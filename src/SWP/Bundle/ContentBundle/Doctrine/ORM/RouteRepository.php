@@ -14,9 +14,21 @@
 
 namespace SWP\Bundle\ContentBundle\Doctrine\ORM;
 
+use Doctrine\ORM\QueryBuilder;
 use SWP\Bundle\ContentBundle\Model\RouteRepositoryInterface;
 use SWP\Bundle\StorageBundle\Doctrine\ORM\EntityRepository;
 
 class RouteRepository extends EntityRepository implements RouteRepositoryInterface
 {
+    /**
+     * {@inheritdoc}
+     */
+    public function getChildrenByStaticPrefix(array $candidates, array $orderBy): QueryBuilder
+    {
+        $queryBuilder = $this->createQueryBuilder('r');
+        $queryBuilder->andWhere($queryBuilder->expr()->in('r.parent', $candidates));
+        $this->applySorting($queryBuilder, $orderBy, 'r');
+
+        return $queryBuilder;
+    }
 }

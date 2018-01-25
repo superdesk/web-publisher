@@ -41,7 +41,7 @@ class ArticleLoaderTest extends WebTestCase
         self::assertNotContains('mazda', $result);
     }
 
-    public function testFilteringMyMultipleRoutes()
+    public function testFilteringByMultipleRoutes()
     {
         $template = '{% gimmelist article from articles with {"route": [3, 5]} %} {{ article.route.id }} {% endgimmelist %}';
         $result = $this->getRendered($template);
@@ -53,6 +53,31 @@ class ArticleLoaderTest extends WebTestCase
         $result = $this->getRendered($template);
 
         self::assertEquals('', $result);
+    }
+
+    public function testFilteringByMultipleRoutesNames()
+    {
+        $context = $this->getContainer()->get('context');
+        $template = '{% gimmelist article from articles with {"route": ["/news", "/articles"]} %} {{ article.route.staticPrefix }} {% endgimmelist %}';
+        $result = $this->getRendered($template);
+        self::assertContains('/news', $result);
+
+        $context->reset();
+        $template = '{% gimmelist article from articles with {"route": ["/articles"]} %} {{ article.route.staticPrefix }} {% endgimmelist %}';
+        $result = $this->getRendered($template);
+        self::assertEquals('', $result);
+
+        $context->reset();
+        $template = '{% gimmelist article from articles with {"route": ["/news", "/news/sports"]} %} {{ article.route.staticPrefix }} {% endgimmelist %}';
+        $result = $this->getRendered($template);
+        self::assertContains('/news', $result);
+        self::assertContains('/news/sports', $result);
+
+        $context->reset();
+        $template = '{% gimmelist article from articles with {"route": ["/news/*"]} %} {{ article.route.staticPrefix }} {% endgimmelist %}';
+        $result = $this->getRendered($template);
+        self::assertContains('/news', $result);
+        self::assertContains('/news/sports', $result);
     }
 
     public function testFilteringBySources()

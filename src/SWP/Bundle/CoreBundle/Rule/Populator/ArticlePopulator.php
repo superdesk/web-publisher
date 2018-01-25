@@ -20,6 +20,8 @@ use SWP\Bundle\ContentBundle\ArticleEvents;
 use SWP\Bundle\ContentBundle\Doctrine\ArticleRepositoryInterface;
 use SWP\Bundle\ContentBundle\Event\ArticleEvent;
 use SWP\Bundle\ContentBundle\Factory\ArticleFactoryInterface;
+use SWP\Bundle\CoreBundle\Model\ArticleInterface;
+use SWP\Bundle\CoreBundle\Model\ArticleStatisticsInterface;
 use SWP\Bundle\CoreBundle\Model\PackageInterface;
 use SWP\Bundle\CoreBundle\Model\TenantInterface;
 use SWP\Component\Bridge\Events;
@@ -106,7 +108,7 @@ final class ArticlePopulator implements ArticlePopulatorInterface
      * @param string $tenantCode
      * @param string $code
      *
-     * @return TenantInterface
+     * @return ArticleInterface
      */
     private function findArticleByTenantAndCode(string $tenantCode, string $code)
     {

@@ -928,20 +928,20 @@
         },
         {
             "name": "doctrine/inflector",
-            "version": "v1.2.0",
+            "version": "v1.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/inflector.git",
-                "reference": "e11d84c6e018beedd929cff5220969a3c6d1d462"
+                "reference": "5527a48b7313d15261292c149e55e26eae771b0a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/inflector/zipball/e11d84c6e018beedd929cff5220969a3c6d1d462",
-                "reference": "e11d84c6e018beedd929cff5220969a3c6d1d462",
+                "url": "https://api.github.com/repos/doctrine/inflector/zipball/5527a48b7313d15261292c149e55e26eae771b0a",
+                "reference": "5527a48b7313d15261292c149e55e26eae771b0a",
                 "shasum": ""
             },
             "require": {
-                "php": "^7.0"
+                "php": "^7.1"
             },
             "require-dev": {
                 "phpunit/phpunit": "^6.2"
@@ -949,7 +949,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.2.x-dev"
+                    "dev-master": "1.3.x-dev"
                 }
             },
             "autoload": {
@@ -991,7 +991,7 @@
                 "singularize",
                 "string"
             ],
-            "time": "2017-07-22T12:18:28+00:00"
+            "time": "2018-01-09T20:05:19+00:00"
         },
         {
             "name": "doctrine/instantiator",
@@ -2073,16 +2073,16 @@
         },
         {
             "name": "gedmo/doctrine-extensions",
-            "version": "v2.4.32",
+            "version": "v2.4.33",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Atlantic18/DoctrineExtensions.git",
-                "reference": "a268224b312353be62d72e6390a286f4166a7542"
+                "reference": "d5fdc573b6a2ecfa29c070ecb3db8397ac55ed78"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Atlantic18/DoctrineExtensions/zipball/a268224b312353be62d72e6390a286f4166a7542",
-                "reference": "a268224b312353be62d72e6390a286f4166a7542",
+                "url": "https://api.github.com/repos/Atlantic18/DoctrineExtensions/zipball/d5fdc573b6a2ecfa29c070ecb3db8397ac55ed78",
+                "reference": "d5fdc573b6a2ecfa29c070ecb3db8397ac55ed78",
                 "shasum": ""
             },
             "require": {
@@ -2147,7 +2147,7 @@
                 "tree",
                 "uploadable"
             ],
-            "time": "2017-12-28T14:36:10+00:00"
+            "time": "2018-01-08T14:13:45+00:00"
         },
         {
             "name": "guzzlehttp/guzzle",
@@ -4095,30 +4095,25 @@
         },
         {
             "name": "michelf/php-markdown",
-            "version": "1.7.0",
+            "version": "1.8.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/michelf/php-markdown.git",
-                "reference": "1f51cc520948f66cd2af8cbc45a5ee175e774220"
+                "reference": "01ab082b355bf188d907b9929cd99b2923053495"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/michelf/php-markdown/zipball/1f51cc520948f66cd2af8cbc45a5ee175e774220",
-                "reference": "1f51cc520948f66cd2af8cbc45a5ee175e774220",
+                "url": "https://api.github.com/repos/michelf/php-markdown/zipball/01ab082b355bf188d907b9929cd99b2923053495",
+                "reference": "01ab082b355bf188d907b9929cd99b2923053495",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.3.0"
             },
             "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-lib": "1.4.x-dev"
-                }
-            },
             "autoload": {
-                "psr-0": {
-                    "Michelf": ""
+                "psr-4": {
+                    "Michelf\\": "Michelf/"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -4142,7 +4137,7 @@
             "keywords": [
                 "markdown"
             ],
-            "time": "2016-10-29T18:58:20+00:00"
+            "time": "2018-01-15T00:49:33+00:00"
         },
         {
             "name": "monolog/monolog",
@@ -6147,16 +6142,16 @@
         },
         {
             "name": "sensiolabs/security-checker",
-            "version": "v4.1.6",
+            "version": "v4.1.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sensiolabs/security-checker.git",
-                "reference": "387b6a3b723ba35588b33d5f8d14e28ed608bd30"
+                "reference": "d539ccba2b4dce515de04f16b7ed7ae5b9eeb434"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sensiolabs/security-checker/zipball/387b6a3b723ba35588b33d5f8d14e28ed608bd30",
-                "reference": "387b6a3b723ba35588b33d5f8d14e28ed608bd30",
+                "url": "https://api.github.com/repos/sensiolabs/security-checker/zipball/d539ccba2b4dce515de04f16b7ed7ae5b9eeb434",
+                "reference": "d539ccba2b4dce515de04f16b7ed7ae5b9eeb434",
                 "shasum": ""
             },
             "require": {
@@ -6188,7 +6183,7 @@
                 }
             ],
             "description": "A security checker for your composer.lock",
-            "time": "2017-10-29T18:48:08+00:00"
+            "time": "2018-01-11T05:54:03+00:00"
         },
         {
             "name": "sentry/sentry",
@@ -6680,16 +6675,16 @@
         },
         {
             "name": "symfony-cmf/routing-bundle",
-            "version": "2.0.1",
+            "version": "2.0.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony-cmf/routing-bundle.git",
-                "reference": "3c6331fa664991065aa29423da2fcb940d42f578"
+                "reference": "ebc63f97f47f7c21ce3c61c38538522eaae428ab"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony-cmf/routing-bundle/zipball/3c6331fa664991065aa29423da2fcb940d42f578",
-                "reference": "3c6331fa664991065aa29423da2fcb940d42f578",
+                "url": "https://api.github.com/repos/symfony-cmf/routing-bundle/zipball/ebc63f97f47f7c21ce3c61c38538522eaae428ab",
+                "reference": "ebc63f97f47f7c21ce3c61c38538522eaae428ab",
                 "shasum": ""
             },
             "require": {
@@ -6742,7 +6737,7 @@
                 "database",
                 "routing"
             ],
-            "time": "2017-09-26T21:30:30+00:00"
+            "time": "2018-01-22T07:32:57+00:00"
         },
         {
             "name": "symfony/monolog-bundle",
@@ -9089,16 +9084,16 @@
         },
         {
             "name": "liip/functional-test-bundle",
-            "version": "1.9.0",
+            "version": "1.9.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/liip/LiipFunctionalTestBundle.git",
-                "reference": "3223bca0ddde7e8ff0c348998746cf20f9f89fa0"
+                "reference": "297c33e82a05f9628cefc1cf47c6f3792f2665af"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/liip/LiipFunctionalTestBundle/zipball/3223bca0ddde7e8ff0c348998746cf20f9f89fa0",
-                "reference": "3223bca0ddde7e8ff0c348998746cf20f9f89fa0",
+                "url": "https://api.github.com/repos/liip/LiipFunctionalTestBundle/zipball/297c33e82a05f9628cefc1cf47c6f3792f2665af",
+                "reference": "297c33e82a05f9628cefc1cf47c6f3792f2665af",
                 "shasum": ""
             },
             "require": {
@@ -9163,7 +9158,7 @@
             "keywords": [
                 "Symfony2"
             ],
-            "time": "2017-12-20T22:44:08+00:00"
+            "time": "2018-01-10T16:49:19+00:00"
         },
         {
             "name": "liip/rmt",
@@ -10850,27 +10845,27 @@
         },
         {
             "name": "symfony-cmf/testing",
-            "version": "2.0.1",
+            "version": "2.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony-cmf/testing.git",
-                "reference": "c7d3da3d955635aee6e8874634165bc51b3ac873"
+                "reference": "b042a6e73ad5051bcda3721f8c66248211fbe286"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony-cmf/testing/zipball/c7d3da3d955635aee6e8874634165bc51b3ac873",
-                "reference": "c7d3da3d955635aee6e8874634165bc51b3ac873",
+                "url": "https://api.github.com/repos/symfony-cmf/testing/zipball/b042a6e73ad5051bcda3721f8c66248211fbe286",
+                "reference": "b042a6e73ad5051bcda3721f8c66248211fbe286",
                 "shasum": ""
             },
             "require": {
-                "doctrine/common": "^2.4",
-                "doctrine/data-fixtures": "^1.0",
-                "doctrine/doctrine-bundle": "^1.0",
-                "doctrine/phpcr-bundle": "^1.1",
-                "doctrine/phpcr-odm": "^1.1 || ^2.0",
+                "doctrine/common": "^2.7",
+                "doctrine/data-fixtures": "^1.2",
+                "doctrine/doctrine-bundle": "^1.8",
+                "doctrine/phpcr-bundle": "^1.3",
+                "doctrine/phpcr-odm": "^1.4 || ^2.0",
                 "friendsofsymfony/jsrouting-bundle": "^1.1",
-                "jackalope/jackalope": "^1.1.5",
-                "jackalope/jackalope-doctrine-dbal": "^1.1.5",
+                "jackalope/jackalope": "^1.3",
+                "jackalope/jackalope-doctrine-dbal": "^1.3",
                 "php": "^5.6 || ^7.0",
                 "symfony/browser-kit": "^2.8 || ^3.0",
                 "symfony/console": "^2.8 || ^3.0",
@@ -10911,7 +10906,7 @@
                 }
             ],
             "description": "Component providing tools for writing tests with Symfony.",
-            "time": "2018-01-02T08:15:28+00:00"
+            "time": "2018-01-09T21:05:40+00:00"
         },
         {
             "name": "symfony/phpunit-bridge",

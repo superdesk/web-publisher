@@ -9,7 +9,7 @@ Feature: Manage Routes
     When I add "Content-Type" header equal to "application/json"
     And I send a GET request to "/api/v1/content/routes/"
     Then the response status code should be 200
-    And the JSON node total should be equal to 4
+    And the JSON node total should be equal to 5
 
   Scenario: Creating new route with custom slug
     Given I am authenticated as "test.user"
