@@ -15,8 +15,6 @@
 namespace SWP\Bundle\BridgeBundle\DependencyInjection;
 
 use SWP\Bundle\StorageBundle\Doctrine\ORM\EntityRepository;
-use SWP\Component\Bridge\Model\Author;
-use SWP\Component\Bridge\Model\AuthorInterface;
 use SWP\Component\Bridge\Model\Event;
 use SWP\Component\Bridge\Model\Event\Date;
 use SWP\Component\Bridge\Model\Event\DateInterface;
