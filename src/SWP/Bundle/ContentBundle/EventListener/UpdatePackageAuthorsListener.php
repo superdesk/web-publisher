@@ -17,6 +17,7 @@ declare(strict_types=1);
 namespace SWP\Bundle\ContentBundle\EventListener;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use SWP\Bundle\ContentBundle\Model\ArticleAuthorInterface;
 use SWP\Component\Bridge\Model\PackageInterface;
 use SWP\Component\Common\Exception\UnexpectedTypeException;
 use SWP\Component\Storage\Repository\RepositoryInterface;
@@ -40,6 +41,7 @@ final class UpdatePackageAuthorsListener
         }
 
         $authors = [];
+        /** @var ArticleAuthorInterface $packageAuthor */
         foreach ($package->getAuthors()->toArray() as $packageAuthor) {
             if (null !== ($author = $this->authorRepository->findOneBy(['name' => $packageAuthor->getName()]))) {
                 $packageAuthor->setId($author->getId());
