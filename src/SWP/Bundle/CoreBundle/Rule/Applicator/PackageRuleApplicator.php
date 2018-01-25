@@ -16,11 +16,12 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\CoreBundle\Rule\Applicator;
 
-use SWP\Bundle\CoreBundle\Factory\PublishActionFactoryInterface;
 use SWP\Bundle\CoreBundle\Model\PackageInterface;
-use SWP\Bundle\CoreBundle\Rule\PublishDestinationResolverInterface;
-use SWP\Bundle\CoreBundle\Service\ArticlePublisherInterface;
+use SWP\Bundle\CoreBundle\Model\TenantInterface;
+use SWP\Bundle\CoreBundle\Rule\Populator\ArticlePopulatorInterface;
 use SWP\Component\Bridge\Model\ContentInterface;
+use SWP\Component\Common\Exception\UnexpectedTypeException;
+use SWP\Component\MultiTenancy\Repository\TenantRepositoryInterface;
 use SWP\Component\Rule\Applicator\AbstractRuleApplicator;
 use SWP\Component\Rule\Model\RuleInterface;
 use SWP\Component\Rule\Model\RuleSubjectInterface;
@@ -29,19 +30,14 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 final class PackageRuleApplicator extends AbstractRuleApplicator
 {
     /**
-     * @var ArticlePublisherInterface
+     * @var TenantRepositoryInterface
      */
-    private $articlePublisher;
+    private $tenantRepository;
 
     /**
-     * @var PublishDestinationResolverInterface
+     * @var ArticlePopulatorInterface
      */
-    private $publishDestinationResolver;
-
-    /**
-     * @var PublishActionFactoryInterface
-     */
-    private $publishActionFactory;
+    private $articlePopulator;
 
     /**
      * @var array
@@ -51,18 +47,15 @@ final class PackageRuleApplicator extends AbstractRuleApplicator
     /**
      * PackageRuleApplicator constructor.
      *
-     * @param ArticlePublisherInterface           $articlePublisher
-     * @param PublishDestinationResolverInterface $publishDestinationResolver
-     * @param PublishActionFactoryInterface       $publishActionFactory
+     * @param TenantRepositoryInterface $tenantRepository
+     * @param ArticlePopulatorInterface $articlePopulator
      */
     public function __construct(
-        ArticlePublisherInterface $articlePublisher,
-        PublishDestinationResolverInterface $publishDestinationResolver,
-        PublishActionFactoryInterface $publishActionFactory
+        TenantRepositoryInterface $tenantRepository,
+        ArticlePopulatorInterface $articlePopulator
     ) {
-        $this->articlePublisher = $articlePublisher;
-        $this->publishDestinationResolver = $publishDestinationResolver;
-        $this->publishActionFactory = $publishActionFactory;
+        $this->tenantRepository = $tenantRepository;
+        $this->articlePopulator = $articlePopulator;
     }
 
     /**
@@ -85,16 +78,22 @@ final class PackageRuleApplicator extends AbstractRuleApplicator
 
             $destinations = [];
             foreach ($configuration[$this->supportedKeys[0]] as $destination) {
-                $destinations[] = $this->publishDestinationResolver->resolve(
-                    (string) $destination['tenant'],
-                    (int) $destination['route']
-                );
+                $destinations[] = $this->findTenantByCodeOrThrowException((string) $destination['tenant']);
             }
 
-            $publishAction = $this->publishActionFactory->createWithDestinations($destinations);
-
-            $this->articlePublisher->publish($subject, $publishAction);
+            $this->articlePopulator->populate($subject, $destinations);
         }
+    }
+
+    private function findTenantByCodeOrThrowException(string $code): TenantInterface
+    {
+        if (!($tenant = $this->tenantRepository->findOneByCode($code)) instanceof TenantInterface) {
+            throw UnexpectedTypeException::unexpectedType(
+                is_object($tenant) ? get_class($tenant) : gettype($tenant),
+                TenantInterface::class);
+        }
+
+        return $tenant;
     }
 
     /**
@@ -119,8 +118,6 @@ final class PackageRuleApplicator extends AbstractRuleApplicator
     {
         $resolver = new OptionsResolver();
         $resolver->setDefined('tenant');
-        $resolver->setDefined('route');
-        $resolver->setDefined('fbia');
 
         return $this->resolveConfig($resolver, $config);
     }

@@ -5,9 +5,8 @@ services:
     swp_core.applicator.rule.package:
         class: SWP\Bundle\CoreBundle\Rule\Applicator\PackageRuleApplicator
         arguments:
-            - '@swp_core.article.publisher'
-            - '@swp_core.resolver.composite_publish'
-            - '@swp_core.factory.composite_publish_action'
+            - '@swp.repository.tenant'
+            - '@swp_core.article.populator'
         calls:
              - [setLogger, ['@logger']]
         tags:
@@ -28,3 +27,12 @@ services:
             - '@event_dispatcher'
         tags:
             - { name: kernel.event_subscriber }
+
+    swp_core.applicator.rule.publish_article_to_fbia:
+        class: SWP\Bundle\CoreBundle\Rule\Applicator\PublishArticleToFBIARuleApplicator
+        arguments:
+            - '@event_dispatcher'
+        calls:
+             - [setLogger, ['@logger']]
+        tags:
+            - { name: applicator.rule_applicator }

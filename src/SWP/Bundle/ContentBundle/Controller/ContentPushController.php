@@ -74,7 +74,7 @@ class ContentPushController extends Controller
         $this->getPackageRepository()->add($package);
 
         $dispatcher->dispatch(Events::PACKAGE_POST_CREATE, new GenericEvent($package, ['eventName' => Events::PACKAGE_POST_CREATE]));
-        $dispatcher->dispatch(Events::PACKAGE_POST_UPDATE, new GenericEvent($package, ['eventName' => Events::PACKAGE_PROCESSED]));
+        $dispatcher->dispatch(Events::PACKAGE_PROCESSED, new GenericEvent($package, ['eventName' => Events::PACKAGE_PROCESSED]));
 
         return new SingleResourceResponse(['status' => 'OK', 'package' => ['id' => $package->getId()]], new ResponseContext(201));
     }

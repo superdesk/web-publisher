@@ -16,15 +16,17 @@ namespace spec\SWP\Bundle\ContentBundle\Rule\Applicator;
 
 use Prophecy\Argument;
 use Psr\Log\LoggerInterface;
+use SWP\Bundle\ContentBundle\ArticleEvents;
+use SWP\Bundle\ContentBundle\Event\ArticleEvent;
 use SWP\Bundle\ContentBundle\Model\RouteInterface;
 use SWP\Bundle\ContentBundle\Provider\RouteProviderInterface;
 use SWP\Bundle\ContentBundle\Rule\Applicator\ArticleRuleApplicator;
 use SWP\Bundle\ContentBundle\Model\Article;
 use PhpSpec\ObjectBehavior;
-use SWP\Bundle\ContentBundle\Service\ArticleServiceInterface;
 use SWP\Component\Rule\Applicator\RuleApplicatorInterface;
 use SWP\Component\Rule\Model\RuleInterface;
 use SWP\Component\Rule\Model\RuleSubjectInterface;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 /**
  * @mixin ArticleRuleApplicator
@@ -33,10 +35,11 @@ final class ArticleRuleApplicatorSpec extends ObjectBehavior
 {
     public function let(
         RouteProviderInterface $routeProvider,
-        LoggerInterface $logger,
-        ArticleServiceInterface $articleService
+        EventDispatcherInterface $eventDispatcher,
+        LoggerInterface $logger
     ) {
-        $this->beConstructedWith($routeProvider, $logger, $articleService);
+        $this->beConstructedWith($routeProvider, $eventDispatcher);
+        $this->setLogger($logger);
     }
 
     public function it_is_initializable()
@@ -106,7 +109,7 @@ final class ArticleRuleApplicatorSpec extends ObjectBehavior
         RouteProviderInterface $routeProvider,
         RouteInterface $route,
         LoggerInterface $logger,
-        ArticleServiceInterface $articleService
+        EventDispatcherInterface $eventDispatcher
     ) {
         $rule->getConfiguration()->willReturn([
             'route' => 'some/route',
@@ -118,7 +121,7 @@ final class ArticleRuleApplicatorSpec extends ObjectBehavior
 
         $subject->setRoute($route)->shouldBeCalled();
         $subject->setTemplateName('template.twig.html')->shouldBeCalled();
-        $articleService->publish($subject)->shouldBeCalled();
+        $eventDispatcher->dispatch(ArticleEvents::PUBLISH, Argument::type(ArticleEvent::class))->shouldBeCalled();
         $logger->info(Argument::any('string'))->shouldBeCalled();
 
         $this->apply($rule, $subject)->shouldReturn(null);
@@ -130,7 +133,7 @@ final class ArticleRuleApplicatorSpec extends ObjectBehavior
         RouteProviderInterface $routeProvider,
         RouteInterface $route,
         LoggerInterface $logger,
-        ArticleServiceInterface $articleService
+        EventDispatcherInterface $eventDispatcher
     ) {
         $rule->getConfiguration()->willReturn([
             'route' => 'some/route',
@@ -144,7 +147,7 @@ final class ArticleRuleApplicatorSpec extends ObjectBehavior
         $subject->setRoute($route)->shouldBeCalled();
         $route->setContent($subject)->shouldBeCalled();
         $subject->setTemplateName('template.twig.html')->shouldBeCalled();
-        $articleService->publish($subject)->shouldBeCalled();
+        $eventDispatcher->dispatch(ArticleEvents::PUBLISH, Argument::type(ArticleEvent::class))->shouldBeCalled();
         $logger->info(Argument::any('string'))->shouldBeCalled();
 
         $this->apply($rule, $subject)->shouldReturn(null);
