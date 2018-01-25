@@ -18,6 +18,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use PhpSpec\ObjectBehavior;
 use SWP\Bundle\ContentBundle\Hydrator\ArticleHydrator;
 use SWP\Bundle\ContentBundle\Hydrator\ArticleHydratorInterface;
+use SWP\Bundle\ContentBundle\Model\ArticleAuthor;
 use SWP\Bundle\ContentBundle\Model\ArticleInterface;
 use SWP\Bundle\ContentBundle\Model\RouteInterface;
 use SWP\Bundle\ContentBundle\Service\ArticleSourcesAdderInterface;
@@ -56,6 +57,11 @@ final class ArticleHydratorSpec extends ObjectBehavior
         $item->setDescription('item lead');
         $item->setSource('item_source');
 
+        $author = new ArticleAuthor();
+        $author->setName('Test Person');
+        $author->setRole('Writer');
+        $authors = new ArrayCollection([$author]);
+
         $package->getGuid()->shouldBeCalled()->willReturn('123guid223');
         $package->getHeadline()->shouldBeCalled()->willReturn('item headline');
         $package->getDescription()->shouldBeCalled()->willReturn('package lead');
@@ -67,7 +73,9 @@ final class ArticleHydratorSpec extends ObjectBehavior
         $package->getLanguage()->shouldBeCalled()->willReturn('en');
         $package->getMetadata()->shouldBeCalled()->willReturn(['some' => 'meta']);
         $package->getSlugline()->shouldBeCalled();
+        $package->getAuthors()->willReturn($authors);
 
+        $article->setAuthors($authors)->shouldBeCalled();
         $article->setCode('123guid223')->shouldBeCalled();
         $article->setTitle('item headline')->shouldBeCalled();
         $article->setBody('some package body some item body')->shouldBeCalled();
@@ -95,6 +103,11 @@ final class ArticleHydratorSpec extends ObjectBehavior
         $item->setType('text');
         $item->setDescription('item lead');
 
+        $author = new ArticleAuthor();
+        $author->setName('Test Person');
+        $author->setRole('Writer');
+        $authors = new ArrayCollection([$author]);
+
         $package->getGuid()->shouldBeCalled()->willReturn('123guid223');
         $package->getHeadline()->shouldBeCalled()->willReturn('item headline');
         $package->getDescription()->shouldBeCalled()->willReturn('package lead');
@@ -106,7 +119,9 @@ final class ArticleHydratorSpec extends ObjectBehavior
         $package->getLanguage()->shouldBeCalled()->willReturn('en');
         $package->getMetadata()->shouldBeCalled()->willReturn(['some' => 'meta']);
         $package->getSlugline()->shouldBeCalled()->willReturn('slugline');
+        $package->getAuthors()->willReturn($authors);
 
+        $article->setAuthors($authors)->shouldBeCalled();
         $article->getSlug()->shouldBeCalled();
         $article->setCode('123guid223')->shouldBeCalled();
         $article->setTitle('item headline')->shouldBeCalled();
