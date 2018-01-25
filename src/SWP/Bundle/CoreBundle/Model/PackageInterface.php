@@ -17,12 +17,11 @@ declare(strict_types=1);
 namespace SWP\Bundle\CoreBundle\Model;
 
 use Doctrine\Common\Collections\Collection;
-use SWP\Component\Bridge\Model\AuthorsAwareInterface;
 use SWP\Component\Bridge\Model\PackageInterface as BasePackageInterface;
 use SWP\Component\MultiTenancy\Model\OrganizationAwareInterface;
 use SWP\Component\Rule\Model\RuleSubjectInterface;
 
-interface PackageInterface extends BasePackageInterface, OrganizationAwareInterface, RuleSubjectInterface, AuthorsAwareInterface
+interface PackageInterface extends BasePackageInterface, OrganizationAwareInterface, RuleSubjectInterface
 {
     /**
      * @return ArticleInterface[]|Collection

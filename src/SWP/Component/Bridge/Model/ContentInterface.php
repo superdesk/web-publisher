@@ -16,7 +16,7 @@ namespace SWP\Component\Bridge\Model;
 
 use SWP\Component\Storage\Model\PersistableInterface;
 
-interface ContentInterface extends PersistableInterface
+interface ContentInterface extends PersistableInterface, AuthorsAwareInterface
 {
     const STATUS_USABLE = 'usable';
 

@@ -18,6 +18,7 @@ namespace SWP\Bundle\ContentBundle\Doctrine\ORM;
 
 use Doctrine\ORM\QueryBuilder;
 use Elastica\Query;
+use SWP\Bundle\ContentBundle\Model\ArticleAuthorInterface;
 use SWP\Bundle\ContentBundle\Model\ArticleSourceReference;
 use SWP\Component\Common\Criteria\Criteria;
 use SWP\Bundle\ContentBundle\Doctrine\ArticleRepositoryInterface;

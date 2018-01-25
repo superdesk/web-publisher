@@ -157,9 +157,6 @@ services:
              - '@swp.adder.article_source'
              - '@swp.hydrator.article_authors'
 
-    swp.hydrator.article_authors:
-        class: SWP\Bundle\ContentBundle\Hydrator\ArticleAuthorsHydrator
-
     swp_content_bundle.listener.article_publish:
         class: SWP\Bundle\ContentBundle\EventListener\ArticlePublishListener
         arguments:
@@ -188,3 +185,10 @@ services:
         arguments:
             - '@swp.factory.article_source_reference'
             - '@swp.repository.article_source_reference'
+
+    swp.listener.update_package_authors:
+        class: SWP\Bundle\ContentBundle\EventListener\UpdatePackageAuthorsListener
+        arguments:
+            - '@swp.repository.author'
+        tags:
+            - { name: kernel.event_listener, event: swp.bridge.package_pre_update, method: preUpdate }

@@ -30,11 +30,6 @@ final class ArticleHydrator implements ArticleHydratorInterface
     private $articleSourcesAdder;
 
     /**
-     * @var ArticleHydratorInterface
-     */
-    private $articleAuthorsHydrator;
-
-    /**
      * @var array
      */
     private $allowedTypes = [
@@ -48,12 +43,10 @@ final class ArticleHydrator implements ArticleHydratorInterface
      * ArticleHydrator constructor.
      *
      * @param ArticleSourcesAdderInterface $articleSourcesAdder
-     * @param ArticleHydratorInterface     $articleAuthorsHydrator
      */
-    public function __construct(ArticleSourcesAdderInterface $articleSourcesAdder, ArticleHydratorInterface $articleAuthorsHydrator)
+    public function __construct(ArticleSourcesAdderInterface $articleSourcesAdder)
     {
         $this->articleSourcesAdder = $articleSourcesAdder;
-        $this->articleAuthorsHydrator = $articleAuthorsHydrator;
     }
 
     /**
@@ -73,8 +66,8 @@ final class ArticleHydrator implements ArticleHydratorInterface
         }
 
         $article->setTitle($package->getHeadline());
+        $article->setAuthors($package->getAuthors());
 
-        $this->articleAuthorsHydrator->hydrate($article, $package);
         $this->populateSources($article, $package);
 
         $article->setLocale($package->getLanguage());

@@ -26,4 +26,9 @@ class ArticleAuthor extends BaseAuthor implements ArticleAuthorInterface
     {
         return $this->id;
     }
+
+    public function setId($id)
+    {
+        $this->id = $id;
+    }
 }
