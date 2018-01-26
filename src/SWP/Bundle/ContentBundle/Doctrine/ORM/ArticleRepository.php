@@ -59,7 +59,8 @@ class ArticleRepository extends EntityRepository implements ArticleRepositoryInt
             ->leftJoin('a.media', 'm')
             ->leftJoin('m.renditions', 'r')
             ->leftJoin('a.sources', 's')
-            ->addSelect('m', 's', 'r');
+            ->leftJoin('a.authors', 'au')
+            ->addSelect('m', 's', 'r', 'au');
 
         $this->applyCustomFiltering($qb, $criteria);
 
@@ -112,7 +113,8 @@ class ArticleRepository extends EntityRepository implements ArticleRepositoryInt
             ->leftJoin('a.media', 'm')
             ->leftJoin('m.renditions', 'r')
             ->leftJoin('a.sources', 's')
-            ->addSelect('m', 'r', 's')
+            ->leftJoin('a.authors', 'au')
+            ->addSelect('m', 'r', 's', 'au')
             ->andWhere('a.id IN (:ids)')
             ->setParameter('ids', $ids);
 
@@ -163,9 +165,6 @@ class ArticleRepository extends EntityRepository implements ArticleRepositoryInt
      */
     private function applyCustomFiltering(QueryBuilder $queryBuilder, Criteria $criteria)
     {
-        $queryBuilder
-            ->leftJoin('a.authors', 'au');
-
         foreach (['metadata'] as $name) {
             if (!$criteria->has($name)) {
                 continue;
