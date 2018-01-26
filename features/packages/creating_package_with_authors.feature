@@ -79,7 +79,7 @@ Feature: Checking if the package authors are saved properly
     Then the response status code should be 201
     And I am authenticated as "test.user"
     And I add "Content-Type" header equal to "application/json"
-    Then I send a "GET" request to "/api/{version}/packages/5"
+    Then I send a "GET" request to "/api/{version}/packages/6"
     Then the response status code should be 200
     And the JSON node "authors" should exist
     And the JSON nodes should contain:
@@ -106,7 +106,7 @@ Feature: Checking if the package authors are saved properly
     Then the response status code should be 201
     And I am authenticated as "test.user"
     And I add "Content-Type" header equal to "application/json"
-    Then I send a "POST" request to "/api/{version}/packages/5/publish/" with body:
+    Then I send a "POST" request to "/api/{version}/packages/6/publish/" with body:
      """
       {
         "publish":{
@@ -212,7 +212,7 @@ Feature: Checking if the package authors are saved properly
     Then the response status code should be 201
     And I am authenticated as "test.user"
     And I add "Content-Type" header equal to "application/json"
-    Then I send a "POST" request to "/api/{version}/packages/5/publish/" with body:
+    Then I send a "POST" request to "/api/{version}/packages/6/publish/" with body:
      """
       {
         "publish":{
@@ -307,7 +307,7 @@ Feature: Checking if the package authors are saved properly
     Then the response status code should be 201
     And I am authenticated as "test.user"
     And I add "Content-Type" header equal to "application/json"
-    Then I send a "GET" request to "/api/{version}/packages/5"
+    Then I send a "GET" request to "/api/{version}/packages/6"
     Then the response status code should be 200
     And the JSON node "authors" should exist
     And the JSON nodes should contain:
@@ -398,7 +398,7 @@ Feature: Checking if the package authors are saved properly
     Then the response status code should be 201
     And I am authenticated as "test.user"
     And I add "Content-Type" header equal to "application/json"
-    Then I send a "GET" request to "/api/{version}/packages/5"
+    Then I send a "GET" request to "/api/{version}/packages/6"
     Then the response status code should be 200
     And the JSON node "authors" should exist
     And the JSON nodes should contain:
