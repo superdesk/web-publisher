@@ -73,7 +73,8 @@ class ArticleRepository extends EntityRepository implements ArticleRepositoryInt
     public function countByCriteria(Criteria $criteria, $status = ArticleInterface::STATUS_PUBLISHED): int
     {
         $queryBuilder = $this->createQueryBuilder('a')
-            ->select('COUNT(a.id)');
+            ->select('COUNT(a.id)')
+            ->leftJoin('a.authors', 'au');
 
         if (null !== $status) {
             $queryBuilder
