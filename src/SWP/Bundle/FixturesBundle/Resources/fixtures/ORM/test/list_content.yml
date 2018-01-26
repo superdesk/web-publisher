@@ -12,6 +12,29 @@ SWP\Bundle\CoreBundle\Model\Route:
         variablePattern: "/{slug}"
         type: "collection"
 
+SWP\Bundle\ContentBundle\Model\ArticleAuthor:
+    author1:
+        name: "John Smith"
+        role: "Editor"
+        jobTitle:
+            qcode: 1
+        biography: "bio"
+        avatarUrl: "http://example.com/avatar1.png"
+    author2:
+        name: "Adam Hide"
+        role: "Writer"
+        jobTitle:
+            qcode: 2
+        biography: "bio"
+        avatarUrl: "http://example.com/avatar2.png"
+    author3:
+        name: "Fake Doe"
+        role: "Subeditor"
+        jobTitle:
+            qcode: 3
+        biography: "bio"
+        avatarUrl: "http://example.com/avatar2.png"
+
 SWP\Bundle\CoreBundle\Model\Article:
     listContent{1..2}:
         title: "article<current()>"
@@ -22,6 +45,7 @@ SWP\Bundle\CoreBundle\Model\Article:
         code: "<uuid()>"
         route: '@newsRoute'
         publishable: true
+        authors: ['@author1']
         metadata:
             byline: "John Smith"
             located: "Berlin"
@@ -34,6 +58,7 @@ SWP\Bundle\CoreBundle\Model\Article:
         code: "<uuid()>"
         route: '@sportRoute'
         publishable: true
+        authors: ['@author2']
         metadata:
             byline: "Adam Hide"
             located: "Sydney"
@@ -46,6 +71,7 @@ SWP\Bundle\CoreBundle\Model\Article:
         code: "<uuid()>"
         route: '@politicsRoute'
         publishable: true
+        authors: ['@author3']
         metadata:
             byline: "Fake Doe"
             located: "Warsaw"
