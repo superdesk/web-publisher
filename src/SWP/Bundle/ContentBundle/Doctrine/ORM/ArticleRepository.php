@@ -93,6 +93,8 @@ class ArticleRepository extends EntityRepository implements ArticleRepositoryInt
     public function getArticlesByCriteria(Criteria $criteria, array $sorting = []): QueryBuilder
     {
         $queryBuilder = $this->getArticlesByCriteriaIds($criteria);
+        $queryBuilder->addSelect('au');
+        $queryBuilder->leftJoin('a.authors', 'au');
         $this->applyCustomFiltering($queryBuilder, $criteria);
         $this->applyCriteria($queryBuilder, $criteria, 'a');
         $this->applySorting($queryBuilder, $sorting, 'a');
@@ -109,12 +111,11 @@ class ArticleRepository extends EntityRepository implements ArticleRepositoryInt
         foreach ($selectedArticles as $partialArticle) {
             $ids[] = $partialArticle['a_id'];
         }
-        $articlesQueryBuilder->select('a')
+        $articlesQueryBuilder->addSelect('a')
             ->leftJoin('a.media', 'm')
             ->leftJoin('m.renditions', 'r')
             ->leftJoin('a.sources', 's')
-            ->leftJoin('a.authors', 'au')
-            ->addSelect('m', 'r', 's', 'au')
+            ->addSelect('m', 'r', 's')
             ->andWhere('a.id IN (:ids)')
             ->setParameter('ids', $ids);
 
