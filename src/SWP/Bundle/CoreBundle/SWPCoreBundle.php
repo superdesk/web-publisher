@@ -20,7 +20,6 @@ use SWP\Bundle\CoreBundle\DependencyInjection\Compiler\OverrideArticleBodyProces
 use SWP\Bundle\CoreBundle\DependencyInjection\Compiler\OverrideArticleSourceAdderPass;
 use SWP\Bundle\CoreBundle\DependencyInjection\Compiler\OverrideContainerProviderPass;
 use SWP\Bundle\CoreBundle\DependencyInjection\Compiler\OverrideDynamicRouterPass;
-use SWP\Bundle\CoreBundle\DependencyInjection\Compiler\OverrideHateoasTwigHelperPass;
 use SWP\Bundle\CoreBundle\DependencyInjection\Compiler\OverrideMediaManagerPass;
 use SWP\Bundle\CoreBundle\DependencyInjection\Compiler\OverrideSettingsManagerPass;
 use SWP\Bundle\CoreBundle\DependencyInjection\Compiler\OverrideTemplatesSystemPass;
@@ -61,7 +60,6 @@ class SWPCoreBundle extends Bundle
         $container->addCompilerPass(new AddCustomTwigCachePass());
         $container->addCompilerPass(new OverrideArticleSourceAdderPass());
         $container->addCompilerPass(new OrganizationThemesProviderPass());
-        $container->addCompilerPass(new OverrideHateoasTwigHelperPass());
         $container->addCompilerPass(new OverrideThemeRepositoryPass());
         $container->addCompilerPass(new OverrideTwigContentCache());
     }
