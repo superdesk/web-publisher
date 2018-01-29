@@ -144,6 +144,10 @@ class ArticleRepository extends EntityRepository implements ArticleRepositoryInt
     public function getPaginatedByCriteria(Criteria $criteria, array $sorting = [], PaginationData $paginationData = null)
     {
         $queryBuilder = $this->getQueryByCriteria($criteria, $sorting, 'a');
+        $queryBuilder
+            ->addSelect('au')
+            ->leftJoin('a.authors', 'au');
+
         $this->applyCustomFiltering($queryBuilder, $criteria);
 
         if (null === $paginationData) {

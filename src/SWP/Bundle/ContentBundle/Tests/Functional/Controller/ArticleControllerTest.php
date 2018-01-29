@@ -300,10 +300,10 @@ class ArticleControllerTest extends WebTestCase
     public function testFilterArticlesByAuthor()
     {
         $content = $this->getArticlesByAuthor('Jhon Doe');
-        self::assertEquals(8, $content['total']);
+        self::assertEquals(0, $content['total']);
 
         $content = $this->getArticlesByAuthor('John Doe');
-        self::assertEquals(0, $content['total']);
+        self::assertEquals(8, $content['total']);
     }
 
     public function testFilterArticlesBySource()

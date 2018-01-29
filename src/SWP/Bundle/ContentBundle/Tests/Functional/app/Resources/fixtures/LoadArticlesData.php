@@ -18,6 +18,7 @@ use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\Common\DataFixtures\AbstractFixture;
+use SWP\Bundle\ContentBundle\Model\ArticleAuthor;
 use SWP\Bundle\ContentBundle\Model\ArticleInterface;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -172,6 +173,12 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface, Orde
             $article->setBody($articleData['content']);
             $article->setRoute($routeProvider->getRouteByName($articleData['route']));
             $article->setLocale($articleData['locale']);
+
+            $author = new ArticleAuthor();
+            $author->setRole('Writer');
+            $author->setName('John Doe');
+            $article->addAuthor($author);
+
             if (!isset($articleData['status'])) {
                 $article->setPublishable(true);
                 if (isset($articleData['published_at'])) {
