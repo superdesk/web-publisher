@@ -46,6 +46,7 @@ class TenantResolverSpec extends ObjectBehavior
             ->willReturn($tenant);
 
         $this->resolve('example1.domain.com')->shouldReturn($tenant);
+        $this->resolve('www.example1.domain.com')->shouldReturn($tenant);
     }
 
     public function it_resolves_tenant_from_default_root_host($tenantRepository, TenantInterface $tenant)
@@ -59,5 +60,6 @@ class TenantResolverSpec extends ObjectBehavior
             ->willReturn($tenant);
 
         $this->resolve('domain.com')->shouldReturn($tenant);
+        $this->resolve('www.domain.com')->shouldReturn($tenant);
     }
 }
