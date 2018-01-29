@@ -41,6 +41,9 @@ properties:
     sources:
         description: "Article sources (ex. ingest source)"
         type: array
+    authors:
+        description: "An array of article authors"
+        type: array
     articleStatistics:
         description: "Article analytics data"
         type: meta

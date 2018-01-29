@@ -14,6 +14,7 @@
 
 namespace spec\SWP\Bundle\ContentBundle\Model;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use PhpSpec\ObjectBehavior;
 use SWP\Bundle\ContentBundle\Model\Article;
 use SWP\Bundle\ContentBundle\Model\ArticleInterface;
@@ -215,5 +216,10 @@ class ArticleSpec extends ObjectBehavior
     {
         $this->setCode('urn:235:sdkfsdfsdkgs');
         $this->getCode()->shouldReturn('urn:235:sdkfsdfsdkgs');
+    }
+
+    public function it_has_no_authors_by_default()
+    {
+        $this->getAuthors()->shouldHaveType(ArrayCollection::class);
     }
 }

@@ -48,9 +48,12 @@ class ArticleRepository extends Repository
         }
 
         if (null !== $fields->get('authors') && !empty($fields->get('authors'))) {
-            foreach ($fields->get('authors') as $author) {
-                $boolFilter->addFilter(new Query\Match('author', $author));
-            }
+            $bool = new BoolQuery();
+            $bool->addFilter(new Query\Terms('authors.name', $fields->get('authors')));
+            $nested = new Nested();
+            $nested->setPath('authors');
+            $nested->setQuery($bool);
+            $boolFilter->addMust($nested);
         }
 
         if (null !== $fields->get('sources') && !empty($fields->get('sources'))) {

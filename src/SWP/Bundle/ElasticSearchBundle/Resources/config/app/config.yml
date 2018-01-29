@@ -24,8 +24,6 @@ fos_elastica:
                         lead: { type: string }
                         slug: { type: string }
                         status: { type: string }
-                        author:
-                            property_path: metadata[byline]
                         located:
                             property_path: metadata[located]
                         version:
@@ -70,6 +68,10 @@ fos_elastica:
                         byline: { type: string }
                         status: { type: string }
                         source: { type: string }
+                        authors:
+                            type: "nested"
+                            properties:
+                                name: { type: string}
                         updatedAt:
                             type: date
                         organization:
@@ -95,6 +97,11 @@ fos_elastica:
                                     properties:
                                         name: { type: string }
                                         id: { type: integer }
+                        authors:
+                            type: "nested"
+                            properties:
+                                id: { type: integer }
+                                name: { type: string }
                     persistence:
                         driver: orm
                         model: "%swp.model.package.class%"

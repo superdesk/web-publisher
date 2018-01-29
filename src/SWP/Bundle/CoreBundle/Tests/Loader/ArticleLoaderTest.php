@@ -103,6 +103,41 @@ class ArticleLoaderTest extends WebTestCase
         self::assertNotContains('AAP', $result);
     }
 
+    public function testFilteringByAuthors()
+    {
+        $template = '{% gimmelist article from articles with {author: ["Test Person"]} %} {% for author in article.authors %} {{ author.name }} {% endfor %} {% endgimmelist %}';
+        $result = $this->getRendered($template);
+
+        self::assertContains('Test Person', $result);
+        self::assertNotContains('John Doe', $result);
+        self::assertNotContains('Tom', $result);
+
+        $template = '{% gimmelist article from articles if article.authors is empty %} {% for author in article.authors %} {{ author.name }} {% endfor %} {% endgimmelist %}';
+        $result = $this->getRendered($template);
+
+        self::assertEmpty($result);
+    }
+
+    public function testFilteringByExcludedAuthors()
+    {
+        $template = '{% gimmelist article from articles with {author: ["Tom"]} without {author: ["Test Person", "John Doe"]} %} {% for author in article.authors %} {{ author.name }} {% endfor %} {% endgimmelist %}';
+        $result = $this->getRendered($template);
+
+        self::assertContains('Tom', $result);
+        self::assertNotContains('Test Person', $result);
+        self::assertNotContains('John Doe', $result);
+    }
+
+    public function testFilteringByInvludedAndExcludedAuthors()
+    {
+        $template = '{% gimmelist article from articles with {author: ["Tom"]} without {author: ["Test Person", "John Doe"]} %} {% for author in article.authors %} {{ author.name }} {% endfor %} {% endgimmelist %}';
+        $result = $this->getRendered($template);
+
+        self::assertContains('Tom', $result);
+        self::assertNotContains('Test Person', $result);
+        self::assertNotContains('John Doe', $result);
+    }
+
     private function getRendered($template, $context = [])
     {
         $template = $this->twig->createTemplate($template);

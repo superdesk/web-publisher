@@ -1,0 +1,15 @@
+SWP\Component\Bridge\Model\Author:
+    exclusion_policy: ALL
+    properties:
+        name:
+            type: string
+        biography:
+            type: string
+        role:
+            type: string
+        avatarUrl:
+            type: string
+            serialized_name: avatar_url
+        jobTitle:
+            serialized_name: jobtitle
+            type: array

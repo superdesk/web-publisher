@@ -249,6 +249,7 @@ final class ContentPushTest extends WebTestCase
             ['CONTENT_TYPE' => 'application/json'],
             self::TEST_CONTENT_WITH_MEDIA
         );
+
         $this->assertEquals(201, $client->getResponse()->getStatusCode());
 
         // publish package

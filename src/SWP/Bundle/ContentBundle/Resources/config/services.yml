@@ -184,3 +184,10 @@ services:
         arguments:
             - '@swp.factory.article_source_reference'
             - '@swp.repository.article_source_reference'
+
+    swp.listener.update_package_authors:
+        class: SWP\Bundle\ContentBundle\EventListener\UpdatePackageAuthorsListener
+        arguments:
+            - '@swp.repository.author'
+        tags:
+            - { name: kernel.event_listener, event: swp.bridge.package_pre_update, method: preUpdate }

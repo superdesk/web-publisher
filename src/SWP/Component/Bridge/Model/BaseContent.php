@@ -14,8 +14,12 @@
 
 namespace SWP\Component\Bridge\Model;
 
+use Doctrine\Common\Collections\ArrayCollection;
+
 class BaseContent implements ContentInterface
 {
+    use AuthorsAwareTrait;
+
     /**
      * @var mixed
      */
@@ -120,6 +124,11 @@ class BaseContent implements ContentInterface
      * @var string|null
      */
     protected $source;
+
+    public function __construct()
+    {
+        $this->authors = new ArrayCollection();
+    }
 
     /**
      * @return mixed

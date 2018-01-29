@@ -18,6 +18,7 @@ use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use SWP\Bundle\AnalyticsBundle\Model\ArticleStatisticsInterface;
+use SWP\Bundle\ContentBundle\Model\ArticleAuthor;
 use SWP\Bundle\ContentBundle\Model\ArticleInterface;
 use SWP\Bundle\ContentBundle\Model\ImageRendition;
 use SWP\Bundle\ContentBundle\Model\RouteInterface;
@@ -393,6 +394,7 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface, Orde
 
         $sources = ['Forbes', 'Reuters'];
         $secondSources = ['AAP', 'AFP'];
+        $authors = ['John Doe', 'Test Person', 'Tom'];
 
         if (isset($articles[$env])) {
             $articleService = $this->container->get('swp.service.article');
@@ -407,6 +409,12 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface, Orde
                 $article->setLocale($articleData['locale']);
                 $article->setCode(md5($articleData['title']));
                 $article->setKeywords($this->articleKeywords());
+
+                $author = new ArticleAuthor();
+                $author->setRole('Writer');
+                $author->setName($authors[array_rand($authors)]);
+                $article->addAuthor($author);
+
                 $articleSource = $sourcesFactory->create();
                 $articleSource->setName($sources[array_rand($sources)]);
                 $article->addSourceReference($articleSourcesService->getArticleSourceReference($article, $articleSource));

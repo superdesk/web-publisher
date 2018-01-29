@@ -57,7 +57,12 @@ class PackageRepository extends Repository
         }
 
         if (null !== $fields->get('authors') && !empty($fields->get('authors'))) {
-            $boolFilter->addFilter(new Query\Terms('byline', $fields->get('authors')));
+            $bool = new BoolQuery();
+            $bool->addFilter(new Query\Terms('authors.name', $fields->get('authors')));
+            $nested = new Nested();
+            $nested->setPath('authors');
+            $nested->setQuery($bool);
+            $boolFilter->addMust($nested);
         }
 
         if (null !== $fields->get('publishedAfter') || null !== $fields->get('publishedBefore')) {

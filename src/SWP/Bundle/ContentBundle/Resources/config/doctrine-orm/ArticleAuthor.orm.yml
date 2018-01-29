@@ -1,0 +1,22 @@
+SWP\Bundle\ContentBundle\Model\ArticleAuthor:
+    type: mappedSuperclass
+    table: swp_author
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        name:
+            type: string
+        role:
+            type: string
+        biography:
+            type: string
+            nullable: true
+        avatarUrl:
+            type: string
+            nullable: true
+        jobTitle:
+            type: array

@@ -155,7 +155,7 @@ class ArticleLoader extends PaginatedLoader implements LoaderInterface
                 $criteria->set('route', $route);
             }
 
-            foreach (['metadata', 'keywords', 'source'] as $item) {
+            foreach (['metadata', 'keywords', 'source', 'author'] as $item) {
                 if (isset($parameters[$item])) {
                     $criteria->set($item, $parameters[$item]);
                 }
@@ -168,6 +168,7 @@ class ArticleLoader extends PaginatedLoader implements LoaderInterface
             $criteria = $this->applyPaginationToCriteria($criteria, $parameters);
             $countCriteria = clone $criteria;
             $articlesCollection = $this->articleProvider->getManyByCriteria($criteria, $criteria->get('order', []));
+
             if ($articlesCollection->count() > 0) {
                 $metaCollection = new MetaCollection();
                 $metaCollection->setTotalItemsCount($this->articleProvider->getCountByCriteria($countCriteria));

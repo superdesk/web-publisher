@@ -16,3 +16,15 @@ SWP\Bundle\CoreBundle\Model\Package:
         articles:
             targetEntity: SWP\Bundle\ContentBundle\Model\ArticleInterface
             mappedBy: package
+    manyToMany:
+        authors:
+            targetEntity: SWP\Bundle\ContentBundle\Model\ArticleAuthorInterface
+            cascade: ["all"]
+            joinTable:
+                name: swp_package_author
+                joinColumns:
+                    package_id:
+                        referencedColumnName: id
+                inverseJoinColumns:
+                    author_id:
+                        referencedColumnName: id

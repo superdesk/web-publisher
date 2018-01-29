@@ -103,4 +103,9 @@ class PackageSpec extends ObjectBehavior
         $this->setEvolvedFrom('urn:235:sdkfsdfsdkgs');
         $this->getEvolvedFrom()->shouldReturn('urn:235:sdkfsdfsdkgs');
     }
+
+    public function it_has_no_authors_by_default()
+    {
+        $this->getAuthors()->shouldHaveCount(0);
+    }
 }

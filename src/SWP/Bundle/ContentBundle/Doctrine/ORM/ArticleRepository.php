@@ -59,7 +59,8 @@ class ArticleRepository extends EntityRepository implements ArticleRepositoryInt
             ->leftJoin('a.media', 'm')
             ->leftJoin('m.renditions', 'r')
             ->leftJoin('a.sources', 's')
-            ->addSelect('m', 's', 'r');
+            ->leftJoin('a.authors', 'au')
+            ->addSelect('m', 's', 'r', 'au');
 
         $this->applyCustomFiltering($qb, $criteria);
 
@@ -72,7 +73,8 @@ class ArticleRepository extends EntityRepository implements ArticleRepositoryInt
     public function countByCriteria(Criteria $criteria, $status = ArticleInterface::STATUS_PUBLISHED): int
     {
         $queryBuilder = $this->createQueryBuilder('a')
-            ->select('COUNT(a.id)');
+            ->select('COUNT(a.id)')
+            ->leftJoin('a.authors', 'au');
 
         if (null !== $status) {
             $queryBuilder
@@ -92,6 +94,8 @@ class ArticleRepository extends EntityRepository implements ArticleRepositoryInt
     public function getArticlesByCriteria(Criteria $criteria, array $sorting = []): QueryBuilder
     {
         $queryBuilder = $this->getArticlesByCriteriaIds($criteria);
+        $queryBuilder->addSelect('au');
+        $queryBuilder->leftJoin('a.authors', 'au');
         $this->applyCustomFiltering($queryBuilder, $criteria);
         $this->applyCriteria($queryBuilder, $criteria, 'a');
         $this->applySorting($queryBuilder, $sorting, 'a');
@@ -108,7 +112,7 @@ class ArticleRepository extends EntityRepository implements ArticleRepositoryInt
         foreach ($selectedArticles as $partialArticle) {
             $ids[] = $partialArticle['a_id'];
         }
-        $articlesQueryBuilder->select('a')
+        $articlesQueryBuilder->addSelect('a')
             ->leftJoin('a.media', 'm')
             ->leftJoin('m.renditions', 'r')
             ->leftJoin('a.sources', 's')
@@ -140,6 +144,10 @@ class ArticleRepository extends EntityRepository implements ArticleRepositoryInt
     public function getPaginatedByCriteria(Criteria $criteria, array $sorting = [], PaginationData $paginationData = null)
     {
         $queryBuilder = $this->getQueryByCriteria($criteria, $sorting, 'a');
+        $queryBuilder
+            ->addSelect('au')
+            ->leftJoin('a.authors', 'au');
+
         $this->applyCustomFiltering($queryBuilder, $criteria);
 
         if (null === $paginationData) {
@@ -163,7 +171,7 @@ class ArticleRepository extends EntityRepository implements ArticleRepositoryInt
      */
     private function applyCustomFiltering(QueryBuilder $queryBuilder, Criteria $criteria)
     {
-        foreach (['metadata', 'author'] as $name) {
+        foreach (['metadata'] as $name) {
             if (!$criteria->has($name)) {
                 continue;
             }
@@ -177,9 +185,6 @@ class ArticleRepository extends EntityRepository implements ArticleRepositoryInt
             $orX = $queryBuilder->expr()->orX();
             foreach ($criteria->get($name) as $value) {
                 $valueExpression = $queryBuilder->expr()->literal('%'.$value.'%');
-                if ('author' === $name) {
-                    $valueExpression = $queryBuilder->expr()->literal('%"byline":"'.$value.'"%');
-                }
                 $orX->add($queryBuilder->expr()->like('a.metadata', $valueExpression));
             }
 
@@ -250,6 +255,26 @@ class ArticleRepository extends EntityRepository implements ArticleRepositoryInt
             $queryBuilder->andWhere($queryBuilder->expr()->in('a.id', $articleSourcesQueryBuilder->getQuery()->getDQL()));
 
             $criteria->remove('source');
+        }
+
+        if ($criteria->has('author') && !empty($criteria->get('author'))) {
+            $orX = $queryBuilder->expr()->orX();
+            foreach ((array) $criteria->get('author') as $value) {
+                $orX->add($queryBuilder->expr()->eq('au.name', $queryBuilder->expr()->literal($value)));
+            }
+
+            $queryBuilder->andWhere($orX);
+            $criteria->remove('author');
+        }
+
+        if ($criteria->has('exclude_author') && !empty($criteria->get('exclude_author'))) {
+            $andX = $queryBuilder->expr()->andX();
+            foreach ((array) $criteria->get('exclude_author') as $value) {
+                $andX->add($queryBuilder->expr()->neq('au.name', $queryBuilder->expr()->literal($value)));
+            }
+
+            $queryBuilder->andWhere($andX);
+            $criteria->remove('author');
         }
     }
 }
