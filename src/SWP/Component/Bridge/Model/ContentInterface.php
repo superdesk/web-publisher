@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Superdesk Web Publisher Bridge Component.
  *
@@ -230,4 +232,14 @@ interface ContentInterface extends PersistableInterface, AuthorsAwareInterface
      * @param null|string $source
      */
     public function setSource($source);
+
+    /**
+     * @return array
+     */
+    public function getExtra(): array;
+
+    /**
+     * @param array $extra
+     */
+    public function setExtra(array $extra): void;
 }

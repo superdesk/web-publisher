@@ -1,10 +1,11 @@
-@packages
-Feature: Checking if created package is returned properly by api
-  In order to package
+@articles
+Feature: Validating if article slugline is created out of the package headline
+  when slugline metadata is is not present in request payload.
+  In order to publish an article and access it via slug
   As a HTTP Client
-  I want to be able to push JSON content with package and see it in the system
+  I want to be able to check if the article slug was generated properly
 
-  Scenario: Submitting request payload in ninjs format
+  Scenario: Submitting and publishing a package with extra custom fields
     Given I am authenticated as "test.user"
     When I add "Content-Type" header equal to "application/json"
     And I send a "POST" request to "/api/{version}/content/push" with body:
@@ -74,11 +75,39 @@ Feature: Checking if created package is returned properly by api
     Then the response status code should be 201
     And I am authenticated as "test.user"
     And I add "Content-Type" header equal to "application/json"
-    Then I send a "GET" request to "/api/{version}/packages/6"
+    Then I send a "POST" request to "/api/{version}/content/routes/" with body:
+     """
+      {
+        "route":{
+          "name":"article",
+          "type":"content"
+        }
+      }
+     """
+    Then the response status code should be 201
+    And I am authenticated as "test.user"
+    And I add "Content-Type" header equal to "application/json"
+    Then I send a "POST" request to "/api/{version}/packages/6/publish/" with body:
+     """
+      {
+        "publish":{
+          "destinations":[
+            {
+              "tenant":"123abc",
+              "route":6,
+              "fbia":false
+            }
+          ]
+        }
+      }
+     """
+    Then the response status code should be 201
+    And I am authenticated as "test.user"
+    And I add "Content-Type" header equal to "application/json"
+    Then I send a "GET" request to "/api/{version}/content/articles/testing-authors"
     Then the response status code should be 200
-    And the JSON node "updatedAt" should exist
-    And the JSON node "createdAt" should exist
-    And the JSON node "extra" should exist
-    And the JSON node "extra.custom-date" should be equal to "2018-01-18T00:00:00+0000"
-    And the JSON node "extra.ID" should be equal to "<p>custom botttom field text</p>"
-    And the JSON node "extra.limit-test" should be equal to "<p>limit test field</p>"
+    And the JSON nodes should contain:
+      | slug                      | testing-authors                       |
+      | extra.custom-date         | 2018-01-18T00:00:00+0000              |
+      | extra.ID                  | <p>custom botttom field text</p>      |
+      | extra.limit-test          | <p>limit test field</p>               |

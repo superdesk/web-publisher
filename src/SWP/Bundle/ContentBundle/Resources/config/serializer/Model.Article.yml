@@ -61,6 +61,9 @@ SWP\Bundle\ContentBundle\Model\Article:
             type: string
         authors:
             expose: true
+        extra:
+            expose: true
+            type: array
     relations:
         -
             rel: self
