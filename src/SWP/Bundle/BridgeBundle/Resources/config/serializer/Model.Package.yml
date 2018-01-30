@@ -9,6 +9,9 @@ SWP\Component\Bridge\Model\Package:
             expose: true
             serialized_name: body_html
             type: string
+        createdAt:
+            expose: true
+            type: DateTime
         updatedAt:
             expose: true
             type: DateTime
