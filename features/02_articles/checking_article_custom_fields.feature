@@ -1,9 +1,8 @@
 @articles
-Feature: Validating if article slugline is created out of the package headline
-  when slugline metadata is is not present in request payload.
-  In order to publish an article and access it via slug
+Feature: Validate custom fields
+  In order to handle custom fields
   As a HTTP Client
-  I want to be able to check if the article slug was generated properly
+  I want to be able to check if the custom fields were processed properly
 
   Scenario: Submitting and publishing a package with extra custom fields
     Given I am authenticated as "test.user"
