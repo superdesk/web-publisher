@@ -380,8 +380,7 @@ class NinjsValidator extends JsonValidator
       "additionalProperties":false,
       "patternProperties":{
         "^[a-zA-Z0-9]+":{
-          "description":"Metadata field name",
-          "type":"string"
+          "description":"Metadata field name"
         }
       }
     },

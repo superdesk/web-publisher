@@ -60,7 +60,11 @@ Feature: Validating if article slugline is created out of the package headline
       "extra":{
         "custom-date":"2018-01-18T00:00:00+0000",
         "ID":"<p>custom botttom field text</p>",
-        "limit-test":"<p>limit test field</p>"
+        "limit-test":"<p>limit test field</p>",
+        "rafal-embed":{
+            "embed":"embed link",
+            "description":"Shakin' Stevens"
+        }
       },
       "service":[
         {
@@ -107,7 +111,9 @@ Feature: Validating if article slugline is created out of the package headline
     Then I send a "GET" request to "/api/{version}/content/articles/testing-authors"
     Then the response status code should be 200
     And the JSON nodes should contain:
-      | slug                      | testing-authors                       |
-      | extra.custom-date         | 2018-01-18T00:00:00+0000              |
-      | extra.ID                  | <p>custom botttom field text</p>      |
-      | extra.limit-test          | <p>limit test field</p>               |
+      | slug                          | testing-authors                   |
+      | extra.custom-date             | 2018-01-18T00:00:00+0000          |
+      | extra.ID                      | <p>custom botttom field text</p>  |
+      | extra.limit-test              | <p>limit test field</p>           |
+      | extra.rafal-embed.description | Shakin' Stevens                   |
+      | extra.rafal-embed.embed       | embed link                        |
