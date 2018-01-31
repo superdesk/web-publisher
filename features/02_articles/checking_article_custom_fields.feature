@@ -8,6 +8,13 @@ Feature: Validating if article slugline is created out of the package headline
   Scenario: Submitting and publishing a package with extra custom fields
     Given I am authenticated as "test.user"
     When I add "Content-Type" header equal to "application/json"
+    And I send a "POST" request to "/api/{version}/assets/push" with parameters:
+      | key      | value      |
+      | media    | @image.jpg |
+      | media_id | 20180131130152/f4dacebedb22ae2d67a97cdc059aef3165bd3a73affa316a7c2d397dc6ead14b.jpg |
+    Then the response status code should be 201
+    And I am authenticated as "test.user"
+    When I add "Content-Type" header equal to "application/json"
     And I send a "POST" request to "/api/{version}/content/push" with body:
     """
     {
@@ -73,7 +80,104 @@ Feature: Validating if article slugline is created out of the package headline
         }
       ],
       "readtime":0,
-      "firstcreated":"2018-01-18T09:26:52+0000"
+      "firstcreated":"2018-01-18T09:26:52+0000",
+      "associations":{
+        "rafal-media-field--1":{
+            "priority":6,
+            "guid":"tag:sd-master.test.superdesk.org:2018:db9d5ffd-4bbe-463c-a514-f97d75ad51c4",
+            "firstcreated":"2018-01-31T13:53:29+0000",
+            "language":"en",
+            "source":"Superdesk",
+            "copyrightholder":"",
+            "body_text":"alt text",
+            "type":"picture",
+            "pubstatus":"usable",
+            "copyrightnotice":"",
+            "located":"Prague",
+            "mimetype":"image/jpeg",
+            "versioncreated":"2018-01-31T13:53:30+0000",
+            "headline":"cosmos image",
+            "usageterms":"",
+            "byline":"John Jones",
+            "version":"2",
+            "urgency":3,
+            "genre":[
+                {
+                    "code":"Article",
+                    "name":"Article (news)"
+                }
+            ],
+            "renditions":{
+                "baseImage":{
+                    "mimetype":"image/jpeg",
+                    "width":933,
+                    "href":"https://sd-master.test.superdesk.org/api/upload-raw/20180131130152/3d993efd0cc466e4ccd83abe070ef9f1538155576dfef9aaec18be1bce3e32cf.jpg",
+                    "poi":{
+                        "y":700,
+                        "x":466
+                    },
+                    "height":1400,
+                    "media":"20180131130152/3d993efd0cc466e4ccd83abe070ef9f1538155576dfef9aaec18be1bce3e32cf.jpg"
+                },
+                "ff":{
+                    "mimetype":"image/jpeg",
+                    "width":700,
+                    "href":"https://sd-master.test.superdesk.org/api/upload-raw/20180131130152/92ee81e0-27a7-495c-8bb9-e97e0105d7e9.jpg",
+                    "poi":{
+                        "y":481,
+                        "x":1728
+                    },
+                    "height":200,
+                    "media":"20180131130152/92ee81e0-27a7-495c-8bb9-e97e0105d7e9.jpg"
+                },
+                "thumbnail":{
+                    "mimetype":"image/jpeg",
+                    "width":79,
+                    "href":"https://sd-master.test.superdesk.org/api/upload-raw/20180131130152/11bf536fd8003bdd07897f51f6e8500de84ee361650b6129e0afb3224d274057.jpg",
+                    "poi":{
+                        "y":60,
+                        "x":39
+                    },
+                    "height":120,
+                    "media":"20180131130152/11bf536fd8003bdd07897f51f6e8500de84ee361650b6129e0afb3224d274057.jpg"
+                },
+                "viewImage":{
+                    "mimetype":"image/jpeg",
+                    "width":426,
+                    "href":"https://sd-master.test.superdesk.org/api/upload-raw/20180131130152/5a701412b122e607bb7470b280863fee74dd039fd34e3ff156131d5c3ebc0f65.jpg",
+                    "poi":{
+                        "y":320,
+                        "x":213
+                    },
+                    "height":640,
+                    "media":"20180131130152/5a701412b122e607bb7470b280863fee74dd039fd34e3ff156131d5c3ebc0f65.jpg"
+                },
+                "original":{
+                    "mimetype":"image/jpeg",
+                    "width":3456,
+                    "href":"https://sd-master.test.superdesk.org/api/upload-raw/20180131130152/f4dacebedb22ae2d67a97cdc059aef3165bd3a73affa316a7c2d397dc6ead14b.jpg",
+                    "poi":{
+                        "y":2592,
+                        "x":1728
+                    },
+                    "height":5184,
+                    "media":"20180131130152/f4dacebedb22ae2d67a97cdc059aef3165bd3a73affa316a7c2d397dc6ead14b.jpg"
+                },
+                "FIXME":{
+                    "mimetype":"image/jpeg",
+                    "width":800,
+                    "href":"https://sd-master.test.superdesk.org/api/upload-raw/20180131130152/9f1d2961-9c94-4b6e-880e-f129a52afdc3.jpg",
+                    "poi":{
+                        "y":1296,
+                        "x":1728
+                    },
+                    "height":600,
+                    "media":"20180131130152/9f1d2961-9c94-4b6e-880e-f129a52afdc3.jpg"
+                }
+            },
+            "description_text":"cosmos image"
+        }
+      }
     }
     """
     Then the response status code should be 201
@@ -111,9 +215,10 @@ Feature: Validating if article slugline is created out of the package headline
     Then I send a "GET" request to "/api/{version}/content/articles/testing-authors"
     Then the response status code should be 200
     And the JSON nodes should contain:
-      | slug                          | testing-authors                   |
-      | extra.custom-date             | 2018-01-18T00:00:00+0000          |
-      | extra.ID                      | <p>custom botttom field text</p>  |
-      | extra.limit-test              | <p>limit test field</p>           |
-      | extra.rafal-embed.description | Shakin' Stevens                   |
-      | extra.rafal-embed.embed       | embed link                        |
+      | slug                          | testing-authors                                                                 |
+      | extra.custom-date             | 2018-01-18T00:00:00+0000                                                        |
+      | extra.ID                      | <p>custom botttom field text</p>                                                |
+      | extra.limit-test              | <p>limit test field</p>                                                         |
+      | extra.rafal-embed.description | Shakin' Stevens                                                                 |
+      | extra.rafal-embed.embed       | embed link                                                                      |
+      | media[0].image.assetId        | 20180131130152_f4dacebedb22ae2d67a97cdc059aef3165bd3a73affa316a7c2d397dc6ead14b |
