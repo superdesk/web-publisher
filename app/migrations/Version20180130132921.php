@@ -21,7 +21,7 @@ class Version20180130132921 extends AbstractMigration
         $this->addSql('COMMENT ON COLUMN swp_item.extra IS \'(DC2Type:array)\'');
         $this->addSql('ALTER TABLE swp_package ADD extra TEXT DEFAULT NULL');
         $this->addSql('COMMENT ON COLUMN swp_package.extra IS \'(DC2Type:array)\'');
-        $this->addSql('ALTER TABLE swp_article ADD extra TEXT DEFAULT NULL');
+        $this->addSql('ALTER TABLE swp_article ADD extra TEXT DEFAULT \'a:0:{}\'');
         $this->addSql('COMMENT ON COLUMN swp_article.extra IS \'(DC2Type:array)\'');
     }
 
