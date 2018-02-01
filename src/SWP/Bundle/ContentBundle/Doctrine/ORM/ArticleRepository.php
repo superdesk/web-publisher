@@ -98,7 +98,7 @@ class ArticleRepository extends EntityRepository implements ArticleRepositoryInt
         $queryBuilder->leftJoin('a.authors', 'au');
         $this->applyCustomFiltering($queryBuilder, $criteria);
         $this->applyCriteria($queryBuilder, $criteria, 'a');
-        $this->applySorting($queryBuilder, $sorting, 'a');
+        $this->applySorting($queryBuilder, $sorting, 'a', $criteria);
         $articlesQueryBuilder = clone $queryBuilder;
         $this->applyLimiting($queryBuilder, $criteria);
         $selectedArticles = $queryBuilder->getQuery()->getScalarResult();

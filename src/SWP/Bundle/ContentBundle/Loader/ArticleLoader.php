@@ -165,7 +165,8 @@ class ArticleLoader extends PaginatedLoader implements LoaderInterface
                 }
             }
 
-            $criteria = $this->applyPaginationToCriteria($criteria, $parameters);
+            $this->applyPaginationToCriteria($criteria, $parameters);
+            $this->setDateRangeToCriteria($criteria, $parameters);
             $countCriteria = clone $criteria;
             $articlesCollection = $this->articleProvider->getManyByCriteria($criteria, $criteria->get('order', []));
 
@@ -188,15 +189,22 @@ class ArticleLoader extends PaginatedLoader implements LoaderInterface
     }
 
     /**
-     * Checks if Loader supports provided type.
-     *
-     * @param string $type
-     *
-     * @return bool
+     * {@inheritdoc}
      */
     public function isSupported(string $type): bool
     {
         return in_array($type, ['articles', 'article']);
+    }
+
+    /**
+     * @param Criteria $criteria
+     * @param array    $parameters
+     */
+    private function setDateRangeToCriteria(Criteria $criteria, array $parameters)
+    {
+        if (isset($parameters['date_range']) && is_array($parameters['date_range']) && 2 === count($parameters['date_range'])) {
+            $criteria->set('dateRange', $parameters['date_range']);
+        }
     }
 
     /**
