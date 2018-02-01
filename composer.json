@@ -69,7 +69,7 @@
         "friendsofsymfony/user-bundle": "~2.0",
         "oneup/flysystem-bundle": "^1.4",
         "behat/transliterator": "^1.1",
-        "willdurand/hateoas-bundle": "^1.1",
+        "willdurand/hateoas-bundle": "^1.4",
         "knplabs/knp-paginator-bundle": "^2.4",
         "knplabs/knp-menu-bundle": "^2.1",
         "stof/doctrine-extensions-bundle": "^1.2",
