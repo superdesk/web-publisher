@@ -12,6 +12,25 @@ Here is example how to order articles by their page views number:
         <a href="{{ url(article) }}">{{ article.title }}</a>
     {% endgimmelist %}
 
+
+There is also option to get most popular (ordered by page views) articles from date range.
+
+For example this is how You can list yesterday most popular articles:
+
+.. code-block:: twig
+
+    {% gimmelist article from articles|order('pageViews', 'desc')|dateRange('now', '-1 day') %}
+        <a href="{{ url(article) }}">{{ article.title }}</a>
+    {% endgimmelist %}
+
+
+Filter :code:`dateRange` takes two parameters compatible with PHP strtotime syntax (http://php.net/manual/en/function.strtotime.php):
+
+  - start date (<= equal or in past ) - time will be reset to 23:59:59
+  - end date (>= equal or in feature) - time will be reset to 00:00:00
+
+So :code:`|dateRange('now', '-1 day')` will filter all page views from whole day today and whole yesterday (from midnight)
+
 To activate article page views counting you need to call short twig function.
 
 .. code-block:: twig

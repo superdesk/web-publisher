@@ -58,12 +58,19 @@ class ArticleRepository extends ContentBundleArticleRepository implements Articl
     {
         if (isset($sorting['pageViews']) && !empty($sorting['pageViews'])) {
             if ($criteria instanceof Criteria && null !== $dateRange = $criteria->get('dateRange', null)) {
-                list($start, $end) = $dateRange;
+                $start = new \DateTime();
+                $start->setTimestamp(strtotime($dateRange[0]));
+                $start->setTime(23, 59, 59);
+                $end = new \DateTime();
+                $end->setTimestamp(strtotime($dateRange[1]));
+                $end->setTime(0, 0, 0);
+
                 $articleEventsQuery = $this->_em->createQueryBuilder()
                     ->from(ArticleEvent::class, 'ae')
                     ->select('COUNT(ae.id)')
-                    ->where('ae.createdAt >= :start')
-                    ->andWhere('ae.createdAt <= :end');
+                    ->where('ae.createdAt <= :start')
+                    ->andWhere('ae.createdAt >= :end')
+                    ->andWhere('ae.articleStatistics = stats.id');
 
                 $queryBuilder
                     ->addSelect(sprintf('(%s) as HIDDEN events_count', $articleEventsQuery))

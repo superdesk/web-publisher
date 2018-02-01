@@ -190,14 +190,25 @@ EOT;
 
         $expected = <<<'EOT'
 Articles by page views in last 7 days
+    <a href="http://localhost/news/sports/test-news-sports-article">Test news sports article</a> Page views count: 30
     <a href="http://localhost/news/test-news-article">Test news article</a> Page views count: 20
     <a href="http://localhost/news/test-article">Test article</a> Page views count: 10
     <a href="http://localhost/news/features">Features</a> Page views count: 5
+    <a href="http://localhost/articles-features?slug=features-client1">Features client1</a> Page views count: 0
 
 Articles by page views in between 3 and 7 days ago
+    <a href="http://localhost/news/sports/test-news-sports-article">Test news sports article</a>
+    <a href="http://localhost/news/test-news-article">Test news article</a>
     <a href="http://localhost/news/features">Features</a>
     <a href="http://localhost/news/test-article">Test article</a>
+    <a href="http://localhost/articles-features?slug=features-client1">Features client1</a>
+
+Articles by page views from yesterday
     <a href="http://localhost/news/test-news-article">Test news article</a>
+    <a href="http://localhost/news/sports/test-news-sports-article">Test news sports article</a>
+    <a href="http://localhost/news/test-article">Test article</a>
+    <a href="http://localhost/news/features">Features</a>
+    <a href="http://localhost/articles-features?slug=features-client1">Features client1</a>
 
 EOT;
 

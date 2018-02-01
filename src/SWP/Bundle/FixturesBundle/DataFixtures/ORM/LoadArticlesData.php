@@ -363,9 +363,13 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface, Orde
                     'locale' => 'en',
                     'pageViews' => 20,
                     'pageViewsDates' => [
-                        '-1 day' => 10,
-                        '-4 days' => 5,
-                        '- 7 days' => 5,
+                        '-1 day' => 3,
+                        '-2 days' => 2,
+                        '-3 days' => 3,
+                        '-4 days' => 1,
+                        '-5 days' => 6,
+                        '-6 days' => 1,
+                        '-7 days' => 4,
                     ],
                 ],
                 [
@@ -375,9 +379,13 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface, Orde
                     'locale' => 'en',
                     'pageViews' => 30,
                     'pageViewsDates' => [
-                        '-1 day' => 20,
-                        '-4 days' => 3,
-                        '- 7 days' => 7,
+                        '-1 day' => 3,
+                        '-2 days' => 2,
+                        '-3 days' => 8,
+                        '-4 days' => 1,
+                        '-5 days' => 6,
+                        '-6 days' => 6,
+                        '-7 days' => 4,
                     ],
                 ],
                 [
@@ -387,9 +395,12 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface, Orde
                     'locale' => 'en',
                     'pageViews' => 10,
                     'pageViewsDates' => [
-                        '-1 day' => 2,
-                        '-4 days' => 5,
-                        '- 7 days' => 3,
+                        '-1 day' => 3,
+                        '-2 days' => 3,
+                        '-4 days' => 1,
+                        '-5 days' => 1,
+                        '-6 days' => 1,
+                        '-7 days' => 1,
                     ],
                 ],
                 [
@@ -480,8 +491,9 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface, Orde
         $articleStatistics->setArticle($article);
         $articleStatistics->setPageViewsNumber($pageViewsNumber);
 
+        $count = 0;
         foreach ($pageViewsDates as $dateValue => $number) {
-            for ($i = $number; $i >= 0; --$i) {
+            for ($i = $number; $i > 0; --$i) {
                 $articleEvent = new ArticleEvent();
                 $articleEvent->setArticleStatistics($articleStatistics);
                 $articleEvent->setAction(ArticleEventInterface::ACTION_PAGEVIEW);
@@ -490,6 +502,7 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface, Orde
                 $date->setTime(mt_rand(0, 23), str_pad(mt_rand(0, 59), 2, '0', STR_PAD_LEFT));
                 $articleEvent->setCreatedAt($date);
                 $manager->persist($articleEvent);
+                ++$count;
             }
         }
 
