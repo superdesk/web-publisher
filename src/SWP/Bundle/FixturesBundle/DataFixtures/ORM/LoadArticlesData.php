@@ -360,6 +360,9 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface, Orde
                     'route' => 'news',
                     'locale' => 'en',
                     'pageViews' => 20,
+                    'extra' => [
+                        'custom-field' => 'my custom field',
+                    ],
                 ],
                 [
                     'title' => 'Test news sports article',
@@ -409,6 +412,10 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface, Orde
                 $article->setLocale($articleData['locale']);
                 $article->setCode(md5($articleData['title']));
                 $article->setKeywords($this->articleKeywords());
+
+                if (isset($articleData['extra'])) {
+                    $article->setExtra($articleData['extra']);
+                }
 
                 $author = new ArticleAuthor();
                 $author->setRole('Writer');
