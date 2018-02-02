@@ -448,10 +448,10 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface, Orde
                 $article->addAuthor($author);
 
                 $articleSource = $sourcesFactory->create();
-                $articleSource->setName($sources[array_rand($sources)]);
+                $articleSource->setName($sources[random_int(0, 1)]);
                 $article->addSourceReference($articleSourcesService->getArticleSourceReference($article, $articleSource));
                 $articleSourceSecond = $sourcesFactory->create();
-                $articleSourceSecond->setName($secondSources[array_rand($secondSources)]);
+                $articleSourceSecond->setName($secondSources[random_int(0, 1)]);
                 $article->addSourceReference($articleSourcesService->getArticleSourceReference($article, $articleSourceSecond));
                 $package = $this->createPackage($articleData);
                 $articleStatistics = $this->createArticleStatistics($articleData['pageViews'], $articleData['pageViewsDates'], $article, $manager);

@@ -102,7 +102,6 @@ class ArticleRepository extends EntityRepository implements ArticleRepositoryInt
         $articlesQueryBuilder = clone $queryBuilder;
         $this->applyLimiting($queryBuilder, $criteria);
         $selectedArticles = $queryBuilder->getQuery()->getScalarResult();
-
         if (!is_array($selectedArticles)) {
             return [];
         }

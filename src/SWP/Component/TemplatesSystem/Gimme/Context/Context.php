@@ -246,7 +246,6 @@ class Context implements \ArrayAccess
         $name = $configuration['name'];
         if (!array_key_exists($name, $this->registeredMeta)) {
             $this->registeredMeta[$name] = $configuration;
-
             if (null !== $meta) {
                 $this[$name] = $meta;
             }
