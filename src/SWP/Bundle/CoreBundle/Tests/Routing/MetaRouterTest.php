@@ -15,7 +15,9 @@
 namespace SWP\Bundle\CoreBundle\Tests\Controller;
 
 use Doctrine\Common\Cache\ArrayCache;
+use SWP\Bundle\CoreBundle\Model\Article;
 use SWP\Bundle\FixturesBundle\WebTestCase;
+use SWP\Component\Common\Criteria\Criteria;
 use SWP\Component\TemplatesSystem\Gimme\Context\Context;
 use SWP\Component\TemplatesSystem\Gimme\Meta\Meta;
 
@@ -32,30 +34,29 @@ class MetaRouterTest extends WebTestCase
     {
         $router = $this->getContainer()->get('cmf_routing.dynamic_router');
         $this->assertTrue($router->supports('some_string'));
+        $this->assertTrue($router->supports(new Article()));
     }
 
     public function testGenerate()
     {
         self::bootKernel();
 
-        $this->runCommand('doctrine:phpcr:init:dbal', ['--force' => true, '--env' => 'test'], true);
-        $this->runCommand('doctrine:phpcr:repository:init', ['--env' => 'test'], true);
         $this->loadCustomFixtures(['tenant', 'article']);
 
         $metaLoader = $this->getContainer()->get('swp_template_engine_loader_chain');
+        $articleProvider = $this->getContainer()->get('swp.provider.article');
         $router = $this->getContainer()->get('cmf_routing.dynamic_router');
-        $this->assertEquals(
-            '/news/test-news-article',
-            $router->generate($metaLoader->load('article', ['slug' => 'test-news-article']))
-        );
+        $this->assertEquals('/news/test-news-article', $router->generate($metaLoader->load('article', ['slug' => 'test-news-article'])));
+
+        $criteria = new Criteria();
+        $criteria->set('slug', 'test-news-article');
+        $this->assertEquals('/news/test-news-article', $router->generate($articleProvider->getOneByCriteria($criteria)));
     }
 
     public function testGenerateForRouteWithContentWithoutRouteAssigned()
     {
         self::bootKernel();
 
-        $this->runCommand('doctrine:phpcr:init:dbal', ['--force' => true, '--env' => 'test'], true);
-        $this->runCommand('doctrine:phpcr:repository:init', ['--env' => 'test'], true);
         $this->loadCustomFixtures(['tenant', 'collection_route']);
 
         $metaLoader = $this->getContainer()->get('swp_template_engine_loader_chain');
