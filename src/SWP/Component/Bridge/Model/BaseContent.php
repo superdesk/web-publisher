@@ -125,6 +125,11 @@ class BaseContent implements ContentInterface
      */
     protected $source;
 
+    /**
+     * @var array
+     */
+    protected $extra = [];
+
     public function __construct()
     {
         $this->authors = new ArrayCollection();
@@ -485,5 +490,21 @@ class BaseContent implements ContentInterface
     public function setSource($source)
     {
         $this->source = $source;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getExtra(): array
+    {
+        return $this->extra;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setExtra(array $extra): void
+    {
+        $this->extra = $extra;
     }
 }

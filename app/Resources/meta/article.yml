@@ -47,4 +47,7 @@ properties:
     articleStatistics:
         description: "Article analytics data"
         type: meta
+    extra:
+        description: "An array of extra custom fields"
+        type: array
 to_string: title

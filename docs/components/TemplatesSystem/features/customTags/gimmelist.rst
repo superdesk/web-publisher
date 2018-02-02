@@ -71,6 +71,16 @@ To list articles from the ``Forbes`` source but without an ``AAP`` source you ca
 It will then list all articles **with** source ``Forbes`` and **without** ``AAP``.
 
 
+Listing article's custom fields:
+
+.. code-block:: twig
+
+    {% gimmelist article from articles %}
+        {{ article.title }}
+        {{ article.extra['my-custom-field'] }}
+    {% endgimmelist %}
+
+
 Example with usage of all parameters:
 
 .. code-block:: twig

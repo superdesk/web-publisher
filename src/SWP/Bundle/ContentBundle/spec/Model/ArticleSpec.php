@@ -222,4 +222,15 @@ class ArticleSpec extends ObjectBehavior
     {
         $this->getAuthors()->shouldHaveType(ArrayCollection::class);
     }
+
+    public function it_has_no_extra_by_default()
+    {
+        $this->getExtra()->shouldReturn([]);
+    }
+
+    public function its_extra_is_mutable()
+    {
+        $this->setExtra(['f1' => '1', 'f2' => 'test']);
+        $this->getExtra()->shouldReturn(['f1' => '1', 'f2' => 'test']);
+    }
 }

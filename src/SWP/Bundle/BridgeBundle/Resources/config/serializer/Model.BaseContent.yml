@@ -77,3 +77,6 @@ SWP\Component\Bridge\Model\BaseContent:
         authors:
             expose: true
             type: ArrayCollection<SWP\Bundle\ContentBundle\Model\ArticleAuthor>
+        extra:
+            expose: true
+            type: array

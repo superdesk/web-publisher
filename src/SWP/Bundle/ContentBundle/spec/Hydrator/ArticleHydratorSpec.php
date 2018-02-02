@@ -62,6 +62,8 @@ final class ArticleHydratorSpec extends ObjectBehavior
         $author->setRole('Writer');
         $authors = new ArrayCollection([$author]);
 
+        $extra = ['custom-field' => 'hello'];
+
         $package->getGuid()->shouldBeCalled()->willReturn('123guid223');
         $package->getHeadline()->shouldBeCalled()->willReturn('item headline');
         $package->getDescription()->shouldBeCalled()->willReturn('package lead');
@@ -74,7 +76,9 @@ final class ArticleHydratorSpec extends ObjectBehavior
         $package->getMetadata()->shouldBeCalled()->willReturn(['some' => 'meta']);
         $package->getSlugline()->shouldBeCalled();
         $package->getAuthors()->willReturn($authors);
+        $package->getExtra()->willReturn($extra);
 
+        $article->setExtra($extra)->shouldBeCalled();
         $article->setAuthors($authors)->shouldBeCalled();
         $article->setCode('123guid223')->shouldBeCalled();
         $article->setTitle('item headline')->shouldBeCalled();
@@ -108,6 +112,8 @@ final class ArticleHydratorSpec extends ObjectBehavior
         $author->setRole('Writer');
         $authors = new ArrayCollection([$author]);
 
+        $extra = ['custom-field' => 'hello'];
+
         $package->getGuid()->shouldBeCalled()->willReturn('123guid223');
         $package->getHeadline()->shouldBeCalled()->willReturn('item headline');
         $package->getDescription()->shouldBeCalled()->willReturn('package lead');
@@ -120,7 +126,9 @@ final class ArticleHydratorSpec extends ObjectBehavior
         $package->getMetadata()->shouldBeCalled()->willReturn(['some' => 'meta']);
         $package->getSlugline()->shouldBeCalled()->willReturn('slugline');
         $package->getAuthors()->willReturn($authors);
+        $package->getExtra()->willReturn($extra);
 
+        $article->setExtra($extra)->shouldBeCalled();
         $article->setAuthors($authors)->shouldBeCalled();
         $article->getSlug()->shouldBeCalled();
         $article->setCode('123guid223')->shouldBeCalled();
