@@ -160,7 +160,7 @@ EOF
             [$node2, <<<EOF
 \$context['_collection_type_filters'] = [];
 \$context['articles'] = null;
-\$context['_collection_type_filters'] = call_user_func_array(\$this->env->getFilter('start')->getCallable(), array(\$context, \$context["articles"], 0))['_collection_type_filters']; unset(\$context['articles']['_collection_type_filters']);
+\$context['_collection_type_filters'] = call_user_func_array(\$this->env->getFilter('start')->getCallable(), array(\$context["articles"], 0))['_collection_type_filters']; unset(\$context['articles']['_collection_type_filters']);
 \$withParameters = array_merge(array(), \$context['_collection_type_filters']);
 \$withoutParameters = [];
 \$swpCollectionMetaLoader2 = \$this->env->getExtension('SWP\Component\TemplatesSystem\Twig\Extension\GimmeExtension')->getLoader();
@@ -195,7 +195,7 @@ EOF
             [$node3, <<<EOF
 \$context['_collection_type_filters'] = [];
 \$context['articles'] = null;
-\$context['_collection_type_filters'] = call_user_func_array(\$this->env->getFilter('start')->getCallable(), array(\$context, call_user_func_array(\$this->env->getFilter('limit')->getCallable(), array(\$context, call_user_func_array(\$this->env->getFilter('order')->getCallable(), array(\$context, \$context["articles"], array("id" => "desc"))), 10)), 0))['_collection_type_filters']; unset(\$context['articles']['_collection_type_filters']);
+\$context['_collection_type_filters'] = call_user_func_array(\$this->env->getFilter('start')->getCallable(), array(call_user_func_array(\$this->env->getFilter('limit')->getCallable(), array(call_user_func_array(\$this->env->getFilter('order')->getCallable(), array(\$context["articles"], array("id" => "desc"))), 10)), 0))['_collection_type_filters']; unset(\$context['articles']['_collection_type_filters']);
 \$withParameters = \$context['_collection_type_filters'];
 \$withoutParameters = [];
 \$swpCollectionMetaLoader3 = \$this->env->getExtension('SWP\Component\TemplatesSystem\Twig\Extension\GimmeExtension')->getLoader();
@@ -239,7 +239,7 @@ EOF
             [$node4, <<<EOF
 \$context['_collection_type_filters'] = [];
 \$context['articles'] = null;
-\$context['_collection_type_filters'] = call_user_func_array(\$this->env->getFilter('start')->getCallable(), array(\$context, call_user_func_array(\$this->env->getFilter('limit')->getCallable(), array(\$context, call_user_func_array(\$this->env->getFilter('order')->getCallable(), array(\$context, \$context["articles"], array("id" => "desc"))), 10)), 0))['_collection_type_filters']; unset(\$context['articles']['_collection_type_filters']);
+\$context['_collection_type_filters'] = call_user_func_array(\$this->env->getFilter('start')->getCallable(), array(call_user_func_array(\$this->env->getFilter('limit')->getCallable(), array(call_user_func_array(\$this->env->getFilter('order')->getCallable(), array(\$context["articles"], array("id" => "desc"))), 10)), 0))['_collection_type_filters']; unset(\$context['articles']['_collection_type_filters']);
 \$withParameters = array_merge(array(), \$context['_collection_type_filters']);
 \$withoutParameters = array();
 \$swpCollectionMetaLoader4 = \$this->env->getExtension('SWP\Component\TemplatesSystem\Twig\Extension\GimmeExtension')->getLoader();
@@ -283,7 +283,7 @@ EOF
             [$node5, <<<EOF
 \$context['_collection_type_filters'] = [];
 \$context['articles'] = null;
-\$context['_collection_type_filters'] = call_user_func_array(\$this->env->getFilter('start')->getCallable(), array(\$context, call_user_func_array(\$this->env->getFilter('limit')->getCallable(), array(\$context, call_user_func_array(\$this->env->getFilter('order')->getCallable(), array(\$context, \$context["articles"], array("id" => "desc"))), 10)), 0))['_collection_type_filters']; unset(\$context['articles']['_collection_type_filters']);
+\$context['_collection_type_filters'] = call_user_func_array(\$this->env->getFilter('start')->getCallable(), array(call_user_func_array(\$this->env->getFilter('limit')->getCallable(), array(call_user_func_array(\$this->env->getFilter('order')->getCallable(), array(\$context["articles"], array("id" => "desc"))), 10)), 0))['_collection_type_filters']; unset(\$context['articles']['_collection_type_filters']);
 \$withParameters = array_merge(array(), \$context['_collection_type_filters']);
 \$withoutParameters = array();
 \$swpCollectionMetaLoader5 = \$this->env->getExtension('SWP\Component\TemplatesSystem\Twig\Extension\GimmeExtension')->getLoader();
@@ -313,7 +313,7 @@ EOF
             [$node6, <<<EOF
 \$context['_collection_type_filters'] = [];
 \$context['articles'] = null;
-\$context['_collection_type_filters'] = call_user_func_array(\$this->env->getFilter('start')->getCallable(), array(\$context, call_user_func_array(\$this->env->getFilter('limit')->getCallable(), array(\$context, call_user_func_array(\$this->env->getFilter('order')->getCallable(), array(\$context, \$context["articles"], array("id" => "desc"))), 10)), 0))['_collection_type_filters']; unset(\$context['articles']['_collection_type_filters']);
+\$context['_collection_type_filters'] = call_user_func_array(\$this->env->getFilter('start')->getCallable(), array(call_user_func_array(\$this->env->getFilter('limit')->getCallable(), array(call_user_func_array(\$this->env->getFilter('order')->getCallable(), array(\$context["articles"], array("id" => "desc"))), 10)), 0))['_collection_type_filters']; unset(\$context['articles']['_collection_type_filters']);
 \$withParameters = array_merge(array(), \$context['_collection_type_filters']);
 \$withoutParameters = array();
 \$swpCollectionMetaLoader6 = \$this->env->getExtension('SWP\Component\TemplatesSystem\Twig\Extension\GimmeExtension')->getLoader();

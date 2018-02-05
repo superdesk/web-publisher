@@ -80,7 +80,7 @@ trait EntityRepositoryTrait
     {
         $queryBuilder = $this->createQueryBuilder($alias);
         $this->applyCriteria($queryBuilder, $criteria, $alias);
-        $this->applySorting($queryBuilder, $sorting, $alias);
+        $this->applySorting($queryBuilder, $sorting, $alias, $criteria);
         $this->applyLimiting($queryBuilder, $criteria);
 
         return $queryBuilder;
@@ -142,11 +142,12 @@ trait EntityRepositoryTrait
     }
 
     /**
-     * @param QueryBuilder $queryBuilder
-     * @param array        $sorting
-     * @param string       $alias
+     * @param QueryBuilder  $queryBuilder
+     * @param array         $sorting
+     * @param string        $alias
+     * @param Criteria|null $criteria
      */
-    protected function applySorting(QueryBuilder $queryBuilder, array $sorting, string $alias)
+    protected function applySorting(QueryBuilder $queryBuilder, array $sorting, string $alias, Criteria $criteria = null)
     {
         foreach ($sorting as $property => $order) {
             if (!empty($order)) {
