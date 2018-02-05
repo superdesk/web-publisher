@@ -62,6 +62,9 @@ SWP\Component\Bridge\Model\Package:
             nullable: true
         enabled:
             type: boolean
+        extra:
+            type: array
+            nullable: true
         createdAt:
             type: datetime
             gedmo:

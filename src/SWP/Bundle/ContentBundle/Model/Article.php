@@ -122,6 +122,11 @@ class Article implements ArticleInterface
     protected $sources;
 
     /**
+     * @var array
+     */
+    protected $extra = [];
+
+    /**
      * Article constructor.
      */
     public function __construct()
@@ -475,5 +480,21 @@ class Article implements ArticleInterface
         }
 
         return $this->sources;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getExtra(): array
+    {
+        return $this->extra;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setExtra(array $extra): void
+    {
+        $this->extra = $extra;
     }
 }

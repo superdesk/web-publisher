@@ -7,6 +7,7 @@ This changelog references the relevant changes (bug and security fixes) done in 
 To get the diff for a specific change, go to https://github.com/superdesk/web-publisher/commit/XXX where XXX is the change hash
 
 * 1.1.x
+ * feature [#434] Add support for custom fields
  * feature [#428] Added support for authors
  * bug [#422] Eliminated rules regression, where tenant rules were not executed and refactored the way rules are handled.
  * improvement [#427] Improved the way how the article slug is generated
