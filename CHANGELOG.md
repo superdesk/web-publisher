@@ -10,6 +10,7 @@ To get the diff for a specific change, go to https://github.com/superdesk/web-pu
  * feature [#436] Added support for ordering by articles page views in selected date range
  * bug [#431] ignore www prefix in theme resolver
  * feature [#429] Implemented articles loading by routes static prefix and allowing to load articles from route children's
+ * feature [#434] Add support for custom fields
  * feature [#428] Added support for authors
  * bug [#422] Eliminated rules regression, where tenant rules were not executed and refactored the way rules are handled.
  * improvement [#427] Improved the way how the article slug is generated

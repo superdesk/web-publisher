@@ -61,6 +61,9 @@ SWP\Component\Bridge\Model\Item:
         body:
             type: text
             nullable: true
+        extra:
+            type: array
+            nullable: true
         createdAt:
             type: datetime
             gedmo:

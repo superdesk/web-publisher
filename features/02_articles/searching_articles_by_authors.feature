@@ -11,4 +11,4 @@ Feature: Filtering/searching existing articles by authors
     Then I should see "Refreshing swp" in the output
     Then I send a "GET" request to "/api/{version}/content/articles/?author[]=Tom"
     Then the response status code should be 200
-    And the JSON node "total" should be equal to "2"
+    And the JSON node "total" should be equal to "1"

@@ -371,6 +371,9 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface, Orde
                         '-6 days' => 1,
                         '-7 days' => 4,
                     ],
+                    'extra' => [
+                        'custom-field' => 'my custom field',
+                    ],
                 ],
                 [
                     'title' => 'Test news sports article',
@@ -441,6 +444,10 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface, Orde
                 $article->setLocale($articleData['locale']);
                 $article->setCode(md5($articleData['title']));
                 $article->setKeywords($this->articleKeywords());
+
+                if (isset($articleData['extra'])) {
+                    $article->setExtra($articleData['extra']);
+                }
 
                 $author = new ArticleAuthor();
                 $author->setRole('Writer');

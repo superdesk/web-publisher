@@ -19,6 +19,7 @@ default:
                 debug: "true"
         Behat\MinkExtension:
             base_url: "http://localhost/"
+            files_path: 'features/fixtures'
             sessions:
                 default:
                     symfony2: ~

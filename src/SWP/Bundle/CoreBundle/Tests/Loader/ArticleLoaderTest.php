@@ -32,6 +32,14 @@ class ArticleLoaderTest extends WebTestCase
         $this->twig = $this->getContainer()->get('twig');
     }
 
+    public function testRenderingExtraFields()
+    {
+        $template = '{% gimmelist article from articles %} {{ article.extra[\'custom-field\'] }}  {% endgimmelist %}';
+        $result = $this->getRendered($template);
+
+        self::assertContains('my custom field', $result);
+    }
+
     public function testFilteringByKeyword()
     {
         $template = '{% gimmelist article from articles with {keywords: ["car"]} %} {% for keyword in article.keywords %} {{ keyword }} {% endfor %} {% endgimmelist %}';

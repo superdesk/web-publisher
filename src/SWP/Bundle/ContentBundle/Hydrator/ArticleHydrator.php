@@ -67,6 +67,7 @@ final class ArticleHydrator implements ArticleHydratorInterface
 
         $article->setTitle($package->getHeadline());
         $article->setAuthors($package->getAuthors());
+        $article->setExtra($package->getExtra());
 
         $this->populateSources($article, $package);
 
