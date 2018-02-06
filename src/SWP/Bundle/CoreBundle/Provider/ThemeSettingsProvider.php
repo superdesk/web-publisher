@@ -16,6 +16,7 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\CoreBundle\Provider;
 
+use SWP\Bundle\CoreBundle\Context\ScopeContextInterface;
 use SWP\Bundle\SettingsBundle\Provider\SettingsProviderInterface;
 use Sylius\Bundle\ThemeBundle\Context\ThemeContextInterface;
 
@@ -35,16 +36,17 @@ final class ThemeSettingsProvider implements SettingsProviderInterface
     public function getSettings(): array
     {
         $currentTheme = $this->themeContext->getTheme();
-        $content = file_get_contents($currentTheme->getPath().\DIRECTORY_SEPARATOR.$this->themeConfigFilename);
+        $themeConfigFile = $currentTheme->getPath().\DIRECTORY_SEPARATOR.$this->themeConfigFilename;
+        $content = file_get_contents($themeConfigFile);
         $config = json_decode($content, true);
 
         if (!isset($config['settings'])) {
-            return [];
+            throw new \InvalidArgumentException(sprintf('Settings ("settings" key) not set in %s', $themeConfigFile));
         }
 
         $settings = [];
         foreach ((array) $config['settings'] as $key => $value) {
-            $value['scope'] = 'theme';
+            $value['scope'] = ScopeContextInterface::SCOPE_THEME;
             $settings[$key] = $value;
         }
 
