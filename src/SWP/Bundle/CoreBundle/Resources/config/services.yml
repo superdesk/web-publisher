@@ -323,6 +323,7 @@ services:
         class: SWP\Bundle\CoreBundle\EventSubscriber\ScopeContextSubscriber
         arguments:
           - '@swp_settings.context.scope'
+          - '@swp_core.theme.context.tenant_aware'
         tags:
             - { name: kernel.event_subscriber }
 
@@ -472,3 +473,12 @@ services:
           - '@event_dispatcher'
           - '@swp.repository.article'
           - '@swp_multi_tenancy.tenant_context'
+
+    SWP\Bundle\CoreBundle\Provider\ThemeSettingsProvider:
+        arguments:
+            - '@swp_core.theme.context.tenant_aware'
+            - '%swp.theme.configuration.filename%'
+
+    SWP\Bundle\SettingsBundle\Provider\SettingsProviderChain:
+        arguments:
+            - ['@SWP\Bundle\SettingsBundle\Provider\ConfigurationSettingsProvider', '@SWP\Bundle\CoreBundle\Provider\ThemeSettingsProvider']

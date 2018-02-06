@@ -23,14 +23,12 @@ use SWP\Bundle\SettingsBundle\Exception\InvalidScopeException;
 use SWP\Bundle\SettingsBundle\Model\SettingsInterface;
 use SWP\Bundle\SettingsBundle\Model\SettingsOwnerInterface;
 use SWP\Bundle\SettingsBundle\Model\SettingsRepositoryInterface;
+use SWP\Bundle\SettingsBundle\Provider\SettingsProviderInterface;
 use SWP\Component\Storage\Factory\FactoryInterface;
 
 class SettingsManager implements SettingsManagerInterface
 {
-    /**
-     * @var array
-     */
-    protected $settingsConfiguration;
+    protected $settingsProvider;
 
     /**
      * @var ObjectManager
@@ -56,20 +54,20 @@ class SettingsManager implements SettingsManagerInterface
      * SettingsManager constructor.
      *
      * @param ObjectManager               $em
-     * @param array                       $settingsConfiguration
+     * @param SettingsProviderInterface   $settingsProvider
      * @param SettingsRepositoryInterface $settingsRepository
      * @param FactoryInterface            $settingsFactory
      * @param ScopeContextInterface       $scopeContext
      */
     public function __construct(
         ObjectManager $em,
-        array $settingsConfiguration,
+        SettingsProviderInterface $settingsProvider,
         SettingsRepositoryInterface $settingsRepository,
         FactoryInterface $settingsFactory,
         ScopeContextInterface $scopeContext
     ) {
         $this->em = $em;
-        $this->settingsConfiguration = $settingsConfiguration;
+        $this->settingsProvider = $settingsProvider;
         $this->settingsRepository = $settingsRepository;
         $this->settingsFactory = $settingsFactory;
         $this->scopeContext = $scopeContext;
@@ -86,6 +84,7 @@ class SettingsManager implements SettingsManagerInterface
         }
 
         $defaultSetting = $this->getFromConfiguration($scope, $name);
+
         /** @var SettingsInterface $setting */
         $setting = $this->getSettingFromRepository($name, $defaultSetting['scope'], $owner);
 
@@ -166,7 +165,7 @@ class SettingsManager implements SettingsManagerInterface
 
     protected function validateScope($scope, $owner = null)
     {
-        if (!in_array($scope, $this->scopeContext->getScopes())) {
+        if (!\in_array($scope, $this->scopeContext->getScopes(), true)) {
             throw new InvalidScopeException($scope);
         }
 
@@ -178,21 +177,24 @@ class SettingsManager implements SettingsManagerInterface
     private function getFromConfiguration(string $scope = null, $name = null)
     {
         $settings = [];
-        if (null !== $name && array_key_exists($name, $this->settingsConfiguration)) {
-            $setting = $this->settingsConfiguration[$name];
-            if ($setting['scope'] === $scope || null === $scope) {
+        $settingsConfig = $this->settingsProvider->getSettings();
+        if (null !== $name && array_key_exists($name, $settingsConfig)) {
+            $setting = $settingsConfig[$name];
+            if (null === $scope || $setting['scope'] === $scope) {
                 return $settings[$name] = $setting;
             }
 
             throw new InvalidScopeException($scope);
-        } elseif (null !== $name) {
+        }
+
+        if (null !== $name) {
             throw new \Exception('There is no setting with this name.');
         }
 
-        foreach ($this->settingsConfiguration as $name => $setting) {
-            if ($setting['scope'] === $scope || null === $scope) {
+        foreach ($settingsConfig as $key => $setting) {
+            if (null === $scope || $setting['scope'] === $scope) {
                 $setting['value'] = $this->decodeValue($setting['type'], $setting['value']);
-                $settings[$name] = $setting;
+                $settings[$key] = $setting;
             }
         }
 

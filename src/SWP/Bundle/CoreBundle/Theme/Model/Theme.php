@@ -50,6 +50,11 @@ class Theme extends BaseTheme implements ThemeInterface
         parent::__construct($name, $path);
     }
 
+    public function getId()
+    {
+        return $this->name;
+    }
+
     /**
      * {@inheritdoc}
      */

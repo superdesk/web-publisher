@@ -16,7 +16,7 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\SettingsBundle\Context;
 
-class ScopeContext extends AbstractScopeContext implements ScopeContextInterface
+class ScopeContext extends AbstractScopeContext
 {
     /**
      * {@inheritdoc}

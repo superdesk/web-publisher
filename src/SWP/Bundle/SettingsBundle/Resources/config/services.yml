@@ -7,7 +7,7 @@ services:
         public: true
         arguments:
             - '@doctrine.orm.entity_manager'
-            - '%swp_settings.settings%'
+            - '@SWP\Bundle\SettingsBundle\Provider\SettingsProviderChain'
             - '@swp.repository.settings'
             - '@swp.factory.settings'
             - '@swp_settings.context.scope'
@@ -23,3 +23,11 @@ services:
           - '@security.token_storage'
         tags:
             - { name: kernel.event_subscriber }
+
+    SWP\Bundle\SettingsBundle\Provider\ConfigurationSettingsProvider:
+        arguments:
+            - '%swp_settings.settings%'
+
+    SWP\Bundle\SettingsBundle\Provider\SettingsProviderChain:
+        arguments:
+            - ['@SWP\Bundle\SettingsBundle\Provider\ConfigurationSettingsProvider']
