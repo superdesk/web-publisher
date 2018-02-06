@@ -1,8 +1,8 @@
-@packages
-Feature: Checking if created package is returned properly by api
-  In order to package
+@settings
+Feature: Checking if theme settings work correctly
+  In order to manage theme settings
   As a HTTP Client
-  I want to be able to push JSON content with package and see it in the system
+  I want to be able to read theme settings via API
 
   Scenario: Listing theme settings
     Given I am authenticated as "test.user"
@@ -22,4 +22,4 @@ Feature: Checking if created package is returned properly by api
       | body_font_size.scope           | theme                       |
       | body_font_size.label           | Body Font Size              |
       | body_font_size.type            | integer                     |
-    #"primary_font_family":{"label":"Primary Font Family","value":"Roboto","type":"string","help":"The primary font","scope":"theme"},"secondary_font_family":{"value":"Roboto","type":"string","scope":"theme"},"body_font_size":{"label":"Body Font Size","value":14,"type":"integer","scope":"theme"}}
+    
