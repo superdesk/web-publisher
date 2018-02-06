@@ -14,6 +14,7 @@
 
 namespace SWP\Bundle\CoreBundle\Controller;
 
+use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use GuzzleHttp;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -250,16 +251,15 @@ class AuthController extends Controller
      * @param string        $token
      *
      * @return mixed|null
+     *
+     * @throws \Doctrine\ORM\NonUniqueResultException
      */
     private function generateOrGetApiKey(UserInterface $user, $token)
     {
         $apiKey = null;
         $apiKeyRepository = $this->get('swp.repository.api_key');
         if (null !== $token) {
-            $apiKey = $apiKeyRepository
-                ->getValidToken($token)
-                ->getQuery()
-                ->getOneOrNullResult();
+            $apiKey = $apiKeyRepository->getValidToken($token)->getQuery()->getOneOrNullResult();
         } else {
             $validKeys = $apiKeyRepository->getValidTokenForUser($user)->getQuery()->getResult();
             if (count($validKeys) > 0) {
@@ -269,7 +269,12 @@ class AuthController extends Controller
 
         if (null === $apiKey) {
             $apiKey = $this->get('swp.factory.api_key')->create($user, $token);
-            $apiKeyRepository->add($apiKey);
+
+            try {
+                $apiKeyRepository->add($apiKey);
+            } catch (UniqueConstraintViolationException $e) {
+                return $this->generateOrGetApiKey($user, $token);
+            }
         }
 
         return $apiKey;

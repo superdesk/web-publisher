@@ -18,6 +18,7 @@ namespace SWP\Bundle\CoreBundle\Repository;
 
 use Doctrine\ORM\QueryBuilder;
 use SWP\Bundle\ContentBundle\Doctrine\ORM\ArticleRepository as ContentBundleArticleRepository;
+use SWP\Bundle\CoreBundle\Model\ArticleEvent;
 use SWP\Component\Common\Criteria\Criteria;
 
 /**
@@ -53,10 +54,32 @@ class ArticleRepository extends ContentBundleArticleRepository implements Articl
     /**
      * {@inheritdoc}
      */
-    protected function applySorting(QueryBuilder $queryBuilder, array $sorting, string $alias)
+    protected function applySorting(QueryBuilder $queryBuilder, array $sorting, string $alias, Criteria $criteria = null)
     {
         if (isset($sorting['pageViews']) && !empty($sorting['pageViews'])) {
-            $queryBuilder->addOrderBy($this->getPropertyName('pageViewsNumber', 'stats'), $sorting['pageViews']);
+            if ($criteria instanceof Criteria && null !== $dateRange = $criteria->get('dateRange', null)) {
+                $start = new \DateTime();
+                $start->setTimestamp(strtotime($dateRange[0]));
+                $start->setTime(23, 59, 59);
+                $end = new \DateTime();
+                $end->setTimestamp(strtotime($dateRange[1]));
+                $end->setTime(0, 0, 0);
+
+                $articleEventsQuery = $this->_em->createQueryBuilder()
+                    ->from(ArticleEvent::class, 'ae')
+                    ->select('COUNT(ae.id)')
+                    ->where('ae.createdAt <= :start')
+                    ->andWhere('ae.createdAt >= :end')
+                    ->andWhere('ae.articleStatistics = stats.id');
+
+                $queryBuilder
+                    ->addSelect(sprintf('(%s) as HIDDEN events_count', $articleEventsQuery))
+                    ->setParameter('start', $start)
+                    ->setParameter('end', $end);
+                $queryBuilder->addOrderBy('events_count', $sorting['pageViews']);
+            } else {
+                $queryBuilder->addOrderBy($this->getPropertyName('pageViewsNumber', 'stats'), $sorting['pageViews']);
+            }
             unset($sorting['pageViews']);
         }
 

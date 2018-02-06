@@ -76,21 +76,26 @@ class GimmeExtension extends \Twig_Extension implements \Twig_Extension_GlobalsI
     public function getFilters()
     {
         return [
-            new \Twig_SimpleFilter('start', function ($context, $node, $value) {
+            new \Twig_SimpleFilter('start', function ($node, $value) {
                 $node['_collection_type_filters']['start'] = $value;
 
                 return $node;
-            }, ['needs_context' => true]),
-            new \Twig_SimpleFilter('limit', function ($context, $node, $value) {
+            }, ['needs_context' => false]),
+            new \Twig_SimpleFilter('limit', function ($node, $value) {
                 $node['_collection_type_filters']['limit'] = $value;
 
                 return $node;
-            }, ['needs_context' => true]),
-            new \Twig_SimpleFilter('order', function ($context, $node, $value1, $value2) {
+            }, ['needs_context' => false]),
+            new \Twig_SimpleFilter('order', function ($node, $value1, $value2) {
                 $node['_collection_type_filters']['order'] = [$value1, $value2];
 
                 return $node;
-            }, ['needs_context' => true]),
+            }, ['needs_context' => false]),
+            new \Twig_SimpleFilter('dateRange', function ($node, $value1, $value2) {
+                $node['_collection_type_filters']['date_range'] = [$value1, $value2];
+
+                return $node;
+            }, ['needs_context' => false]),
         ];
     }
 
