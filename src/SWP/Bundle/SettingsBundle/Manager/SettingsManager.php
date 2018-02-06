@@ -80,7 +80,7 @@ class SettingsManager implements SettingsManagerInterface
     {
         // Allow scope discovery from configuration
         if (null !== $scope) {
-            $this->validateScope($scope, $owner);
+            $this->validateScopeAndOwner($scope, $owner);
         }
 
         $defaultSetting = $this->getFromConfiguration($scope, $name);
@@ -122,7 +122,7 @@ class SettingsManager implements SettingsManagerInterface
      */
     public function set(string $name, $value, $scope = ScopeContextInterface::SCOPE_GLOBAL, SettingsOwnerInterface $owner = null)
     {
-        $this->validateScope($scope, $owner);
+        $this->validateScopeAndOwner($scope, $owner);
         $defaultSetting = $this->getFromConfiguration($scope, $name);
 
         /** @var SettingsInterface $setting */
@@ -132,6 +132,7 @@ class SettingsManager implements SettingsManagerInterface
             $setting = $this->settingsFactory->create();
             $setting->setName($name);
             $setting->setScope($scope);
+
             if (null !== $owner) {
                 $setting->setOwner($owner->getId());
             }
@@ -151,7 +152,7 @@ class SettingsManager implements SettingsManagerInterface
      */
     public function clear(string $name, $scope = ScopeContextInterface::SCOPE_GLOBAL, SettingsOwnerInterface $owner = null)
     {
-        $this->validateScope($scope, $owner);
+        $this->validateScopeAndOwner($scope, $owner);
 
         $setting = $this->getSettingFromRepository($name, $scope, $owner);
         if (null !== $setting) {
@@ -163,11 +164,23 @@ class SettingsManager implements SettingsManagerInterface
         return false;
     }
 
-    protected function validateScope($scope, $owner = null)
+    public function clearAllByScope($scope = ScopeContextInterface::SCOPE_GLOBAL)
+    {
+        $this->validateScope($scope);
+
+        $this->settingsRepository->removeAllByScope($scope);
+    }
+
+    protected function validateScope(string $scope)
     {
         if (!\in_array($scope, $this->scopeContext->getScopes(), true)) {
             throw new InvalidScopeException($scope);
         }
+    }
+
+    protected function validateScopeAndOwner(string $scope, $owner = null)
+    {
+        $this->validateScope($scope);
 
         if (ScopeContextInterface::SCOPE_GLOBAL !== $scope && null === $owner) {
             throw new InvalidOwnerException($scope);

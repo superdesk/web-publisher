@@ -52,7 +52,7 @@ class Theme extends BaseTheme implements ThemeInterface
 
     public function getId()
     {
-        return $this->name;
+        return 0;
     }
 
     /**

@@ -22,6 +22,11 @@ use SWP\Bundle\SettingsBundle\Context\ScopeContextInterface;
 interface SettingsRepositoryInterface
 {
     /**
+     * @param string $scope
+     */
+    public function removeAllByScope(string $scope): void;
+
+    /**
      * @param ScopeContextInterface $scopeContext
      *
      * @return QueryBuilder

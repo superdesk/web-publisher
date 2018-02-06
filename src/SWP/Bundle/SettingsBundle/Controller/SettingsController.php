@@ -55,6 +55,31 @@ class SettingsController extends Controller
     }
 
     /**
+     * Revert settings to defaults by scope.
+     *
+     * @ApiDoc(
+     *     resource=true,
+     *     description="Revert settings to defaults by scope",
+     *     statusCodes={
+     *         204="Returned on success."
+     *     }
+     * )
+     * @Route("/api/{version}/settings/revert/{scope}", options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_settings_revert")
+     * @Method("POST")
+     * @Cache(expires="10 minutes", public=true)
+     *
+     * @return SingleResourceResponse
+     */
+    public function revertAction(string $scope)
+    {
+        $settingsManager = $this->get('swp_settings.manager.settings');
+
+        $settingsManager->clearAllByScope($scope);
+
+        return new SingleResourceResponse(null, new ResponseContext(204));
+    }
+
+    /**
      * Change setting value.
      *
      * @ApiDoc(
