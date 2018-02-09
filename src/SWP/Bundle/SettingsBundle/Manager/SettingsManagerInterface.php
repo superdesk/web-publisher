@@ -17,6 +17,7 @@ declare(strict_types=1);
 namespace SWP\Bundle\SettingsBundle\Manager;
 
 use SWP\Bundle\SettingsBundle\Context\ScopeContext;
+use SWP\Bundle\SettingsBundle\Context\ScopeContextInterface;
 use SWP\Bundle\SettingsBundle\Model\SettingsInterface;
 use SWP\Bundle\SettingsBundle\Model\SettingsOwnerInterface;
 
