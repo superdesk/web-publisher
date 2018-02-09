@@ -51,6 +51,7 @@ final class ThemeConfiguration implements ConfigurationInterface
         $this->addOptionalAuthorsList($rootNodeDefinition);
         $this->addOptionalConfig($rootNodeDefinition);
         $this->addOptionalGeneratedData($rootNodeDefinition);
+        $this->addOptionalSettingsList($rootNodeDefinition);
 
         return $treeBuilder;
     }
@@ -352,5 +353,34 @@ final class ThemeConfiguration implements ConfigurationInterface
         $authorNodeBuilder->scalarNode('email')->cannotBeEmpty();
         $authorNodeBuilder->scalarNode('homepage')->cannotBeEmpty();
         $authorNodeBuilder->scalarNode('role')->cannotBeEmpty();
+    }
+
+    /**
+     * @param ArrayNodeDefinition $rootNodeDefinition
+     */
+    private function addOptionalSettingsList(ArrayNodeDefinition $rootNodeDefinition)
+    {
+        $settingsNodeDefinition = $rootNodeDefinition->children()->arrayNode('settings');
+        $settingsNodeDefinition
+            ->requiresAtLeastOneElement()
+            ->performNoDeepMerging()
+        ;
+
+        /** @var ArrayNodeDefinition $settingNodeDefinition */
+        $settingNodeDefinition = $settingsNodeDefinition->prototype('array');
+        $settingNodeDefinition
+            ->validate()
+            ->ifTrue(function ($setting) {
+                return [] === $setting;
+            })
+            ->thenInvalid('Setting cannot be empty!')
+        ;
+
+        $settingNodeBuilder = $settingNodeDefinition->children();
+        $settingNodeBuilder->scalarNode('name')->cannotBeEmpty();
+        $settingNodeBuilder->scalarNode('label')->defaultNull();
+        $settingNodeBuilder->scalarNode('value')->cannotBeEmpty();
+        $settingNodeBuilder->scalarNode('type')->cannotBeEmpty();
+        $settingNodeBuilder->scalarNode('help')->defaultNull();
     }
 }

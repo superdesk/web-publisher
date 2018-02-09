@@ -18,8 +18,9 @@ namespace SWP\Bundle\SettingsBundle\Model;
 
 use Doctrine\ORM\QueryBuilder;
 use SWP\Bundle\SettingsBundle\Context\ScopeContextInterface;
+use SWP\Component\Storage\Repository\RepositoryInterface;
 
-interface SettingsRepositoryInterface
+interface SettingsRepositoryInterface extends RepositoryInterface
 {
     /**
      * @param string $scope
@@ -41,4 +42,11 @@ interface SettingsRepositoryInterface
      * @return QueryBuilder
      */
     public function findOneByNameAndScopeAndOwner(string $name, string $scope, SettingsOwnerInterface $owner = null): QueryBuilder;
+
+    /**
+     * @param string $scope
+     *
+     * @return QueryBuilder
+     */
+    public function findAllByScope(string $scope): QueryBuilder;
 }

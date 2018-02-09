@@ -105,7 +105,25 @@ class SettingsManager implements SettingsManagerInterface
     public function all()
     {
         $settings = $this->getFromConfiguration();
-        foreach ($this->getSettingsFromRepository() as $setting) {
+
+        return $this->processSettings($settings, $this->getSettingsFromRepository());
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getAllByScope(string $scope): array
+    {
+        $settings = $this->getFromConfiguration($scope);
+
+        $persistedSettings = $this->settingsRepository->findAllByScope($scope)->getQuery()->getResult();
+
+        return $this->processSettings($settings, $persistedSettings);
+    }
+
+    private function processSettings(array $settings = [], array $persistedSettings = []): array
+    {
+        foreach ($persistedSettings as $setting) {
             if (array_key_exists($setting->getName(), $settings)) {
                 $settings[$setting->getName()]['value'] = $this->decodeValue(
                     $settings[$setting->getName()]['type'],
@@ -164,7 +182,10 @@ class SettingsManager implements SettingsManagerInterface
         return false;
     }
 
-    public function clearAllByScope($scope = ScopeContextInterface::SCOPE_GLOBAL)
+    /**
+     * {@inheritdoc}
+     */
+    public function clearAllByScope(string $scope = ScopeContextInterface::SCOPE_GLOBAL): void
     {
         $this->validateScope($scope);
 

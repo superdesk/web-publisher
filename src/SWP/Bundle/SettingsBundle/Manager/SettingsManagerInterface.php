@@ -63,4 +63,16 @@ interface SettingsManagerInterface
      * @return mixed
      */
     public function clear(string $name, $scope = ScopeContext::SCOPE_GLOBAL, SettingsOwnerInterface $owner = null);
+
+    /**
+     * @param $scope
+     */
+    public function clearAllByScope(string $scope = ScopeContextInterface::SCOPE_GLOBAL): void;
+
+    /**
+     * @param string $scope
+     *
+     * @return array
+     */
+    public function getAllByScope(string $scope): array;
 }
