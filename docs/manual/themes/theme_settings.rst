@@ -53,8 +53,8 @@ Every setting is a JSON object which can contain the following properties:
 
 Read more about theme's structure in :doc:`Themes </manual/themes/index>` chapter.
 
-How to display theme's settings in templates?
-`````````````````````````````````````````````
+How to display current theme's settings in templates?
+`````````````````````````````````````````````````````
 
 .. code-block:: twig
 
@@ -62,3 +62,32 @@ How to display theme's settings in templates?
     {{ themeSetting('primary_font_family') }} # will print "Roboto"
 
 If the theme's setting doesn't exists an exception will be thrown with a proper message that it does not exist.
+
+
+How to display current theme's settings using API?
+``````````````````````````````````````````````````
+
+Theme's settings can be accessed by calling an ``/theme/settings/`` API endpoint using ``GET`` method.
+
+How to update current theme's settings using API?
+`````````````````````````````````````````````````
+
+To update theme's settings using API, a ``PATCH`` request must be submitted to the ``/settings/`` endpoint with the
+JSON payload:
+
+.. code-block:: twig
+
+    {
+        "settings": {
+            "name": "primary_font_family",
+            "value": "custom font"
+        }
+    }
+
+How to restore current theme's settings using API?
+``````````````````````````````````````````````````
+
+There is a possibility to restore the current theme's settings to the default ones, defined in the ``theme.json`` file.
+
+This can be done using API and calling a ``/settings/revert/{scope}`` endpint using ``POST`` method.
+The ``scope`` parameter should be set to ``theme`` in order to restore settings for current theme.
