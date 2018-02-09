@@ -22,9 +22,22 @@ use Sylius\Bundle\ThemeBundle\Context\ThemeContextInterface;
 
 final class ThemeSettingsProvider implements SettingsProviderInterface
 {
+    /**
+     * @var ThemeContextInterface
+     */
     private $themeContext;
+
+    /**
+     * @var string
+     */
     private $themeConfigFilename;
 
+    /**
+     * ThemeSettingsProvider constructor.
+     *
+     * @param ThemeContextInterface $themeContext
+     * @param string                $themeConfigFileName
+     */
     public function __construct(
         ThemeContextInterface $themeContext,
         string $themeConfigFileName
@@ -33,6 +46,9 @@ final class ThemeSettingsProvider implements SettingsProviderInterface
         $this->themeConfigFilename = $themeConfigFileName;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getSettings(): array
     {
         $currentTheme = $this->themeContext->getTheme();
@@ -53,6 +69,9 @@ final class ThemeSettingsProvider implements SettingsProviderInterface
         return $settings;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function supports(): bool
     {
         return null !== $this->themeContext->getTheme();

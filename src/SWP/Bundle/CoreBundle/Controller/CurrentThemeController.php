@@ -16,19 +16,16 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\CoreBundle\Controller;
 
-use Doctrine\Common\Collections\ArrayCollection;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
 use SWP\Bundle\CoreBundle\Context\ScopeContextInterface;
 use SWP\Bundle\CoreBundle\Form\Type\ThemeLogoUploadType;
-use SWP\Bundle\SettingsBundle\SettingsEvents;
 use SWP\Component\Common\Response\ResourcesListResponse;
 use SWP\Component\Common\Response\ResponseContext;
 use SWP\Component\Common\Response\SingleResourceResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\EventDispatcher\GenericEvent;
 use Symfony\Component\HttpFoundation\Request;
 
 class CurrentThemeController extends Controller
@@ -66,7 +63,7 @@ class CurrentThemeController extends Controller
         if ($form->isValid()) {
             try {
                 $settingsManager = $this->get('swp_settings.manager.settings');
-                $setting = $settingsManager->get('theme_logo',ScopeContextInterface::SCOPE_THEME, $theme);
+                $setting = $settingsManager->get('theme_logo', ScopeContextInterface::SCOPE_THEME, $theme);
                 $theme->setLogoPath($setting);
                 $themeLogoUploader = $this->get('swp_core.uploader.theme_logo');
                 $themeLogoUploader->upload($theme);

@@ -18,13 +18,24 @@ namespace SWP\Bundle\SettingsBundle\Provider;
 
 final class SettingsProviderChain implements SettingsProviderInterface
 {
+    /**
+     * @var array
+     */
     private $providers = [];
 
+    /**
+     * SettingsProviderChain constructor.
+     *
+     * @param array $providers
+     */
     public function __construct(array $providers)
     {
         $this->providers = $providers;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getSettings(): array
     {
         $settings = [];
@@ -38,6 +49,9 @@ final class SettingsProviderChain implements SettingsProviderInterface
         return $settings;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function supports(): bool
     {
         foreach ($this->providers as $provider) {
