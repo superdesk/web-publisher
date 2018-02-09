@@ -17,6 +17,7 @@ declare(strict_types=1);
 namespace SWP\Bundle\SettingsBundle\Manager;
 
 use SWP\Bundle\SettingsBundle\Context\ScopeContext;
+use SWP\Bundle\SettingsBundle\Context\ScopeContextInterface;
 use SWP\Bundle\SettingsBundle\Model\SettingsInterface;
 use SWP\Bundle\SettingsBundle\Model\SettingsOwnerInterface;
 
@@ -63,4 +64,16 @@ interface SettingsManagerInterface
      * @return mixed
      */
     public function clear(string $name, $scope = ScopeContext::SCOPE_GLOBAL, SettingsOwnerInterface $owner = null);
+
+    /**
+     * @param $scope
+     */
+    public function clearAllByScope(string $scope = ScopeContextInterface::SCOPE_GLOBAL): void;
+
+    /**
+     * @param string $scope
+     *
+     * @return array
+     */
+    public function getAllByScope(string $scope): array;
 }

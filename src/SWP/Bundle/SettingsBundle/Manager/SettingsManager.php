@@ -23,14 +23,12 @@ use SWP\Bundle\SettingsBundle\Exception\InvalidScopeException;
 use SWP\Bundle\SettingsBundle\Model\SettingsInterface;
 use SWP\Bundle\SettingsBundle\Model\SettingsOwnerInterface;
 use SWP\Bundle\SettingsBundle\Model\SettingsRepositoryInterface;
+use SWP\Bundle\SettingsBundle\Provider\SettingsProviderInterface;
 use SWP\Component\Storage\Factory\FactoryInterface;
 
 class SettingsManager implements SettingsManagerInterface
 {
-    /**
-     * @var array
-     */
-    protected $settingsConfiguration;
+    protected $settingsProvider;
 
     /**
      * @var ObjectManager
@@ -56,20 +54,20 @@ class SettingsManager implements SettingsManagerInterface
      * SettingsManager constructor.
      *
      * @param ObjectManager               $em
-     * @param array                       $settingsConfiguration
+     * @param SettingsProviderInterface   $settingsProvider
      * @param SettingsRepositoryInterface $settingsRepository
      * @param FactoryInterface            $settingsFactory
      * @param ScopeContextInterface       $scopeContext
      */
     public function __construct(
         ObjectManager $em,
-        array $settingsConfiguration,
+        SettingsProviderInterface $settingsProvider,
         SettingsRepositoryInterface $settingsRepository,
         FactoryInterface $settingsFactory,
         ScopeContextInterface $scopeContext
     ) {
         $this->em = $em;
-        $this->settingsConfiguration = $settingsConfiguration;
+        $this->settingsProvider = $settingsProvider;
         $this->settingsRepository = $settingsRepository;
         $this->settingsFactory = $settingsFactory;
         $this->scopeContext = $scopeContext;
@@ -82,10 +80,11 @@ class SettingsManager implements SettingsManagerInterface
     {
         // Allow scope discovery from configuration
         if (null !== $scope) {
-            $this->validateScope($scope, $owner);
+            $this->validateScopeAndOwner($scope, $owner);
         }
 
         $defaultSetting = $this->getFromConfiguration($scope, $name);
+
         /** @var SettingsInterface $setting */
         $setting = $this->getSettingFromRepository($name, $defaultSetting['scope'], $owner);
 
@@ -106,7 +105,25 @@ class SettingsManager implements SettingsManagerInterface
     public function all()
     {
         $settings = $this->getFromConfiguration();
-        foreach ($this->getSettingsFromRepository() as $setting) {
+
+        return $this->processSettings($settings, $this->getSettingsFromRepository());
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getAllByScope(string $scope): array
+    {
+        $settings = $this->getFromConfiguration($scope);
+
+        $persistedSettings = $this->settingsRepository->findAllByScope($scope)->getQuery()->getResult();
+
+        return $this->processSettings($settings, $persistedSettings);
+    }
+
+    private function processSettings(array $settings = [], array $persistedSettings = []): array
+    {
+        foreach ($persistedSettings as $setting) {
             if (array_key_exists($setting->getName(), $settings)) {
                 $settings[$setting->getName()]['value'] = $this->decodeValue(
                     $settings[$setting->getName()]['type'],
@@ -123,7 +140,7 @@ class SettingsManager implements SettingsManagerInterface
      */
     public function set(string $name, $value, $scope = ScopeContextInterface::SCOPE_GLOBAL, SettingsOwnerInterface $owner = null)
     {
-        $this->validateScope($scope, $owner);
+        $this->validateScopeAndOwner($scope, $owner);
         $defaultSetting = $this->getFromConfiguration($scope, $name);
 
         /** @var SettingsInterface $setting */
@@ -133,6 +150,7 @@ class SettingsManager implements SettingsManagerInterface
             $setting = $this->settingsFactory->create();
             $setting->setName($name);
             $setting->setScope($scope);
+
             if (null !== $owner) {
                 $setting->setOwner($owner->getId());
             }
@@ -152,7 +170,7 @@ class SettingsManager implements SettingsManagerInterface
      */
     public function clear(string $name, $scope = ScopeContextInterface::SCOPE_GLOBAL, SettingsOwnerInterface $owner = null)
     {
-        $this->validateScope($scope, $owner);
+        $this->validateScopeAndOwner($scope, $owner);
 
         $setting = $this->getSettingFromRepository($name, $scope, $owner);
         if (null !== $setting) {
@@ -164,11 +182,26 @@ class SettingsManager implements SettingsManagerInterface
         return false;
     }
 
-    protected function validateScope($scope, $owner = null)
+    /**
+     * {@inheritdoc}
+     */
+    public function clearAllByScope(string $scope = ScopeContextInterface::SCOPE_GLOBAL): void
     {
-        if (!in_array($scope, $this->scopeContext->getScopes())) {
+        $this->validateScope($scope);
+
+        $this->settingsRepository->removeAllByScope($scope);
+    }
+
+    protected function validateScope(string $scope)
+    {
+        if (!\in_array($scope, $this->scopeContext->getScopes(), true)) {
             throw new InvalidScopeException($scope);
         }
+    }
+
+    protected function validateScopeAndOwner(string $scope, $owner = null)
+    {
+        $this->validateScope($scope);
 
         if (ScopeContextInterface::SCOPE_GLOBAL !== $scope && null === $owner) {
             throw new InvalidOwnerException($scope);
@@ -178,21 +211,24 @@ class SettingsManager implements SettingsManagerInterface
     private function getFromConfiguration(string $scope = null, $name = null)
     {
         $settings = [];
-        if (null !== $name && array_key_exists($name, $this->settingsConfiguration)) {
-            $setting = $this->settingsConfiguration[$name];
-            if ($setting['scope'] === $scope || null === $scope) {
+        $settingsConfig = $this->settingsProvider->getSettings();
+        if (null !== $name && array_key_exists($name, $settingsConfig)) {
+            $setting = $settingsConfig[$name];
+            if (null === $scope || $setting['scope'] === $scope) {
                 return $settings[$name] = $setting;
             }
 
             throw new InvalidScopeException($scope);
-        } elseif (null !== $name) {
+        }
+
+        if (null !== $name) {
             throw new \Exception('There is no setting with this name.');
         }
 
-        foreach ($this->settingsConfiguration as $name => $setting) {
-            if ($setting['scope'] === $scope || null === $scope) {
+        foreach ($settingsConfig as $key => $setting) {
+            if (null === $scope || $setting['scope'] === $scope) {
                 $setting['value'] = $this->decodeValue($setting['type'], $setting['value']);
-                $settings[$name] = $setting;
+                $settings[$key] = $setting;
             }
         }
 

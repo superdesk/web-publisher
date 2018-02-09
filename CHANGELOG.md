@@ -7,6 +7,7 @@ This changelog references the relevant changes (bug and security fixes) done in 
 To get the diff for a specific change, go to https://github.com/superdesk/web-publisher/commit/XXX where XXX is the change hash
 
 * 1.1.x
+ * feature [#439] Added support for theme settings and logo upload
  * feature [#436] Added support for ordering by articles page views in selected date range
  * bug [#431] ignore www prefix in theme resolver
  * feature [#429] Implemented articles loading by routes static prefix and allowing to load articles from route children's

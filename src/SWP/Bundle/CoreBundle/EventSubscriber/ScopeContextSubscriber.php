@@ -14,10 +14,11 @@
 
 namespace SWP\Bundle\CoreBundle\EventSubscriber;
 
+use SWP\Bundle\CoreBundle\Theme\Model\ThemeInterface;
 use SWP\Bundle\MultiTenancyBundle\MultiTenancyEvents;
 use SWP\Bundle\CoreBundle\Context\ScopeContextInterface;
 use SWP\Bundle\SettingsBundle\Model\SettingsOwnerInterface;
-use SWP\Component\MultiTenancy\Model\TenantInterface;
+use Sylius\Bundle\ThemeBundle\Context\ThemeContextInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
 
@@ -29,13 +30,20 @@ class ScopeContextSubscriber implements EventSubscriberInterface
     protected $scopeContext;
 
     /**
+     * @var ThemeContextInterface
+     */
+    protected $themeContext;
+
+    /**
      * ScopeContextSubscriber constructor.
      *
      * @param ScopeContextInterface $scopeContext
+     * @param ThemeContextInterface $themeContext
      */
-    public function __construct(ScopeContextInterface $scopeContext)
+    public function __construct(ScopeContextInterface $scopeContext, ThemeContextInterface $themeContext)
     {
         $this->scopeContext = $scopeContext;
+        $this->themeContext = $themeContext;
     }
 
     /**
@@ -55,9 +63,13 @@ class ScopeContextSubscriber implements EventSubscriberInterface
     {
         $tenant = $event->getSubject();
 
-        if ($tenant instanceof TenantInterface && $tenant instanceof SettingsOwnerInterface) {
+        if ($tenant instanceof SettingsOwnerInterface) {
             $this->scopeContext->setScopeOwner(ScopeContextInterface::SCOPE_TENANT, $tenant);
             $this->scopeContext->setScopeOwner(ScopeContextInterface::SCOPE_ORGANIZATION, $tenant->getOrganization());
+
+            if (($theme = $this->themeContext->getTheme()) instanceof ThemeInterface) {
+                $this->scopeContext->setScopeOwner(ScopeContextInterface::SCOPE_THEME, $theme);
+            }
         }
     }
 }

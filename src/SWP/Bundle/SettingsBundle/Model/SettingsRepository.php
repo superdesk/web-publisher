@@ -25,6 +25,31 @@ class SettingsRepository extends EntityRepository implements SettingsRepositoryI
     /**
      * {@inheritdoc}
      */
+    public function removeAllByScope(string $scope): void
+    {
+        $qb = $this->createQueryBuilder('s')
+            ->delete()
+            ->where('s.scope = :scope')
+            ->setParameter('scope', $scope);
+
+        $qb->getQuery()->execute();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function findAllByScope(string $scope): QueryBuilder
+    {
+        $qb = $this->createQueryBuilder('s')
+            ->andWhere('s.scope = :scope')
+            ->setParameter('scope', $scope);
+
+        return $qb;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function findAllByScopeAndOwner(ScopeContextInterface $scopeContext): QueryBuilder
     {
         $qb = $this->createQueryBuilder('s')

@@ -35,7 +35,7 @@ abstract class AbstractScopeContext implements ScopeContextInterface
      */
     public function setScopeOwner(string $scope, SettingsOwnerInterface $owner)
     {
-        if (in_array($scope, $this->getScopes())) {
+        if (\in_array($scope, $this->getScopes(), true)) {
             $this->scopeOwners[$scope] = $owner;
 
             return $owner;

@@ -73,7 +73,7 @@ final class TenantAwareThemeContext implements ThemeContextInterface
             return;
         }
 
-        $key = md5($tenant->getCode());
+        $key = md5($tenant->getCode().$tenant->getThemeName());
         if (array_key_exists($key, $this->themes)) {
             return $this->themes[$key];
         }

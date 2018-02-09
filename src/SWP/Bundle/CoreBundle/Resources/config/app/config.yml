@@ -263,6 +263,10 @@ swp_settings:
             scope: user
             type: string
             value: "{}"
+        theme_logo:
+            value: ""
+            scope: theme
+            type: string
 
 swp_analytics:
     metrics_listener:
