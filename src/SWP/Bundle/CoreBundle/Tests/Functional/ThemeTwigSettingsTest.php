@@ -32,12 +32,21 @@ class ThemeTwigSettingsTest extends WebTestCase
         $this->twig = $this->getContainer()->get('twig');
     }
 
-    public function testRenderingExtraFields()
+    public function testRenderingThemeSettings()
     {
         $template = '{{ themeSetting(\'primary_font_family\') }}';
         $result = $this->getRendered($template);
 
         self::assertContains('Roboto', $result);
+    }
+
+    /**
+     * @expectedException \Exception
+     */
+    public function testRenderingNotExistingThemeSettings()
+    {
+        $template = '{{ themeSetting(\'fake\') }}';
+        $this->getRendered($template);
     }
 
     private function getRendered($template, $context = [])
