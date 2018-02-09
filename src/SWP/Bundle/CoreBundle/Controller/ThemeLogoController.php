@@ -40,7 +40,7 @@ class ThemeLogoController extends Controller
 
         $fileSystem = $this->get('swp_filesystem');
         $themeLogoUploader = $this->get('swp_core.uploader.theme_logo');
-        $id = $themeLogoUploader->getThemeLogoUploadPath().DIRECTORY_SEPARATOR.$id;
+        $id = $themeLogoUploader->getThemeLogoUploadPath($id);
 
         $file = $fileSystem->has($id);
 

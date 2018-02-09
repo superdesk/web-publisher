@@ -16,9 +16,11 @@ interface ThemeLogoUploaderInterface
     public function upload(ThemeInterface $theme): void;
 
     /**
+     * @param string $path
+     *
      * @return string
      */
-    public function getThemeLogoUploadPath(): string;
+    public function getThemeLogoUploadPath(string $path): string;
 
     /**
      * @param string $path

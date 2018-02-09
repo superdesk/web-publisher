@@ -45,7 +45,7 @@ final class ThemeLogoUploader implements ThemeLogoUploaderInterface
         $theme->setLogoPath($filePath);
 
         $this->filesystem->write(
-            $this->getThemeLogoUploadPath().DIRECTORY_SEPARATOR.$theme->getLogoPath(),
+            $this->getThemeLogoUploadPath($theme->getLogoPath()),
             file_get_contents($theme->getLogo()->getPathname())
         );
     }
@@ -53,9 +53,9 @@ final class ThemeLogoUploader implements ThemeLogoUploaderInterface
     /**
      * {@inheritdoc}
      */
-    public function getThemeLogoUploadPath(): string
+    public function getThemeLogoUploadPath(string $path): string
     {
-        return sprintf(ThemeLogoUploaderInterface::THEME_LOGO_UPLOAD_SUBDIR);
+        return ThemeLogoUploaderInterface::THEME_LOGO_UPLOAD_SUBDIR.DIRECTORY_SEPARATOR.$path;
     }
 
     /**
