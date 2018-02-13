@@ -33,10 +33,11 @@ class Version20170221091231 extends AbstractMigration implements ContainerAwareI
         // this up() migration is auto-generated, please modify it to your needs
         $this->abortIf('postgresql' !== $this->connection->getDatabasePlatform()->getName(), 'Migration can only be executed safely on \'postgresql\'.');
 
-        $tenantRepository = $this->container->get('swp.repository.tenant');
         $revisionRepository = $this->container->get('swp.repository.revision');
         $revisionFactory = $this->container->get('swp.factory.revision');
-        $tenants = $tenantRepository->findAll();
+        $query = $this->container->get('doctrine.orm.default_entity_manager')
+            ->createQuery('SELECT t FROM SWP\Bundle\CoreBundle\Model\Tenant t');
+        $tenants = $query->getResult();
         $revisionManager = $this->container->get('swp.manager.revision');
         foreach ($tenants as $tenant) {
             $existingRevision = $this->container->get('swp.repository.revision')
