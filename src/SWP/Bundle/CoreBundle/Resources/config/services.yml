@@ -26,7 +26,7 @@ services:
 
     swp_core.theme.context.tenant_aware:
         class: SWP\Bundle\CoreBundle\Theme\TenantAwareThemeContext
-        public: false
+        public: true
         arguments:
             - "@swp_multi_tenancy.tenant_context"
             - "@sylius.repository.theme"
@@ -63,6 +63,11 @@ services:
         arguments:
             - '@swp_multi_tenancy.tenant_context'
             - '%themes.upload_dir%/web/uploads'
+
+    swp_core.uploader.theme_logo:
+        class: SWP\Bundle\CoreBundle\Theme\Uploader\ThemeLogoUploader
+        arguments:
+            - '@swp_filesystem'
 
     swp_core.installer.theme:
         class: SWP\Bundle\CoreBundle\Theme\Installer\TenantAwareThemeInstaller
@@ -323,6 +328,7 @@ services:
         class: SWP\Bundle\CoreBundle\EventSubscriber\ScopeContextSubscriber
         arguments:
           - '@swp_settings.context.scope'
+          - '@swp_core.theme.context.tenant_aware'
         tags:
             - { name: kernel.event_subscriber }
 
@@ -472,3 +478,18 @@ services:
           - '@event_dispatcher'
           - '@swp.repository.article'
           - '@swp_multi_tenancy.tenant_context'
+
+    SWP\Bundle\CoreBundle\Provider\ThemeSettingsProvider:
+        arguments:
+            - '@swp_core.theme.context.tenant_aware'
+            - '%swp.theme.configuration.filename%'
+
+    SWP\Bundle\SettingsBundle\Provider\SettingsProviderChain:
+        arguments:
+            - ['@SWP\Bundle\SettingsBundle\Provider\ConfigurationSettingsProvider', '@SWP\Bundle\CoreBundle\Provider\ThemeSettingsProvider']
+
+    swp_core.provider.theme_logo:
+        class: SWP\Bundle\CoreBundle\Theme\Provider\ThemeLogoProvider
+        arguments:
+            - '@swp_settings.manager.settings'
+            - '@router.default'

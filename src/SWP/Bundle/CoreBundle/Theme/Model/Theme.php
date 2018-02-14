@@ -25,6 +25,16 @@ class Theme extends BaseTheme implements ThemeInterface
     protected $config;
 
     /**
+     * @var \SplFileInfo
+     */
+    protected $logo;
+
+    /**
+     * @var string
+     */
+    protected $logoPath;
+
+    /**
      * @var array
      */
     protected $generatedData = [
@@ -34,6 +44,11 @@ class Theme extends BaseTheme implements ThemeInterface
         'widgets' => [],
         'contentLists' => [],
     ];
+
+    /**
+     * @var array
+     */
+    protected $settings = [];
 
     /**
      * Theme constructor.
@@ -48,6 +63,11 @@ class Theme extends BaseTheme implements ThemeInterface
         }
 
         parent::__construct($name, $path);
+    }
+
+    public function getId()
+    {
+        return 0;
     }
 
     /**
@@ -104,5 +124,61 @@ class Theme extends BaseTheme implements ThemeInterface
     public function getContentLists(): array
     {
         return $this->generatedData['contentLists'];
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getLogo(): ?\SplFileInfo
+    {
+        return $this->logo;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setLogo(?\SplFileInfo $file): void
+    {
+        $this->logo = $file;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getSettings(): array
+    {
+        return $this->settings;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setSettings(array $settings): void
+    {
+        $this->settings = $settings;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getLogoPath(): ?string
+    {
+        return $this->logoPath;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setLogoPath(?string $path): void
+    {
+        $this->logoPath = $path;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function hasLogo(): bool
+    {
+        return null !== $this->logo;
     }
 }

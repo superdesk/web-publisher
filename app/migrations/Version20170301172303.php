@@ -35,7 +35,9 @@ class Version20170301172303 extends AbstractMigration implements ContainerAwareI
         $this->abortIf('postgresql' !== $this->connection->getDatabasePlatform()->getName(), 'Migration can only be executed safely on \'postgresql\'.');
 
         $this->addSql('ALTER TABLE swp_tenant ALTER subdomain DROP NOT NULL');
-        $tenants = $this->container->get('swp.repository.tenant')->findAll();
+        $query = $this->container->get('doctrine.orm.default_entity_manager')
+            ->createQuery('SELECT t FROM SWP\Bundle\CoreBundle\Model\Tenant t');
+        $tenants = $query->getResult();
         $domain = $this->container->getParameter('env(SWP_DOMAIN)');
         /** @var TenantInterface $tenant */
         foreach ($tenants as $tenant) {

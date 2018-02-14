@@ -14,9 +14,10 @@
 
 namespace SWP\Bundle\CoreBundle\Theme\Model;
 
+use SWP\Bundle\SettingsBundle\Model\SettingsOwnerInterface;
 use Sylius\Bundle\ThemeBundle\Model\ThemeInterface as BaseThemeInterface;
 
-interface ThemeInterface extends BaseThemeInterface
+interface ThemeInterface extends BaseThemeInterface, SettingsOwnerInterface
 {
     /**
      * @param string $name
@@ -52,4 +53,39 @@ interface ThemeInterface extends BaseThemeInterface
      * @return array
      */
     public function getContentLists(): array;
+
+    /**
+     * @return array
+     */
+    public function getSettings(): array;
+
+    /**
+     * @param array $settings
+     */
+    public function setSettings(array $settings): void;
+
+    /**
+     * @return \SplFileInfo|null
+     */
+    public function getLogo(): ?\SplFileInfo;
+
+    /**
+     * @param \SplFileInfo|null $file
+     */
+    public function setLogo(?\SplFileInfo $file): void;
+
+    /**
+     * @return bool
+     */
+    public function hasLogo(): bool;
+
+    /**
+     * @return string|null
+     */
+    public function getLogoPath(): ?string;
+
+    /**
+     * @param string|null $path
+     */
+    public function setLogoPath(?string $path): void;
 }

@@ -40,3 +40,13 @@ services:
         class: SWP\Bundle\CoreBundle\Twig\Cache\KeyGenerator\TenantAwareMetaKeyGenerator
         arguments:
             - '@swp_multi_tenancy.tenant_context'
+
+    swp_core.theme_twig_extension:
+        class: SWP\Bundle\CoreBundle\Twig\ThemeExtension
+        public: false
+        arguments:
+            - '@swp_core.provider.theme_logo'
+            - '@swp_core.theme.context.tenant_aware'
+            - '@swp_settings.manager.settings'
+        tags:
+            - { name: twig.extension }

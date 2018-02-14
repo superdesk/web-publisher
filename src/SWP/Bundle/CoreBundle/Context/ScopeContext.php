@@ -26,6 +26,7 @@ class ScopeContext extends BaseScopeContext implements ScopeContextInterface
         return array_merge(parent::getScopes(), [
             ScopeContextInterface::SCOPE_ORGANIZATION,
             ScopeContextInterface::SCOPE_TENANT,
+            ScopeContextInterface::SCOPE_THEME,
         ]);
     }
 }
