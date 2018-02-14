@@ -73,8 +73,10 @@ class HttpCacheSubscriber implements EventSubscriberInterface
                 break;
 
             case $event->getSubject() instanceof ArticleInterface:
-                $this->cacheManager->invalidateRoute($event->getSubject());
-                $this->cacheManager->invalidateRoute($event->getSubject()->getRoute());
+                if (null !== $event->getSubject()->getRoute()) {
+                    $this->cacheManager->invalidateRoute($event->getSubject());
+                    $this->cacheManager->invalidateRoute($event->getSubject()->getRoute());
+                }
                 $this->cacheManager->invalidateRoute('homepage');
                 $this->cacheManager->invalidateRoute('swp_api_content_list_articles');
                 $this->cacheManager->invalidateRoute('swp_api_content_show_articles', [
