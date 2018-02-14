@@ -42,7 +42,7 @@ class Version20180118194100 extends AbstractMigration implements ContainerAwareI
             ->createQuery('SELECT count(a) FROM SWP\Bundle\CoreBundle\Model\Article a');
         $articlesCount = $query->getSingleScalarResult();
 
-        if ($articlesCount === 0) {
+        if (0 === $articlesCount) {
             return;
         }
 
