@@ -20,6 +20,9 @@ use Symfony\Component\HttpKernel\Event\FilterResponseEvent;
 
 class HttpCacheHeaderListener
 {
+    /**
+     * @param FilterResponseEvent $event
+     */
     public function onKernelResponse(FilterResponseEvent $event)
     {
         if (!$event->isMasterRequest()) {
