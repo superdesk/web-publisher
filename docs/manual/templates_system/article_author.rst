@@ -44,6 +44,7 @@ Usage:
         <li>{{ author.biography }}</li> <!-- Author's biography -->
         <li>{{ author.jobTitle.name }}</li> <!-- Author's job title name -->
         <li>{{ author.jobTitle.qcode }}</li> <!-- Author's job title code -->
+        <li><img src="{{ author.avatarUrl }}"><li> <!-- Author's job title code -->
     {% endgimmelist %}
     </ul>
 
