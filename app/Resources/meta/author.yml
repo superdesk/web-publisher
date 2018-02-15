@@ -1,0 +1,23 @@
+name: author
+class: 'SWP\Component\Bridge\Model\AuthorInterface'
+description: Author Meta is representation of article author
+properties:
+    id:
+        description: "Author's id"
+        type: text
+    name:
+        description: "Author's name"
+        type: text
+    role:
+        description: "Author's role"
+        type: text
+    biography:
+        description: "Author's biography"
+        type: text
+    jobtitle:
+        description: "Author's job title"
+        type: array
+    avatarUrl:
+        description: "Author's avatar URL"
+        type: text
+to_string: name

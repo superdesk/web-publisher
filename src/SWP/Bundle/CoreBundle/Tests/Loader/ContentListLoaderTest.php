@@ -16,7 +16,6 @@ namespace SWP\Bundle\CoreBundle\Tests\Twig;
 
 use SWP\Bundle\FixturesBundle\WebTestCase;
 use SWP\Bundle\MultiTenancyBundle\MultiTenancyEvents;
-use Symfony\Component\Routing\RouterInterface;
 
 class ContentListLoaderTest extends WebTestCase
 {
@@ -24,11 +23,6 @@ class ContentListLoaderTest extends WebTestCase
      * @var \Twig_Environment
      */
     private $twig;
-
-    /**
-     * @var RouterInterface
-     */
-    private $router;
 
     /**
      * @var WebTestCase
@@ -51,7 +45,6 @@ class ContentListLoaderTest extends WebTestCase
         );
 
         $this->twig = $this->getContainer()->get('twig');
-        $this->router = $this->getContainer()->get('router');
         $this->client = static::createClient();
         $this->getContainer()->get('event_dispatcher')->dispatch(MultiTenancyEvents::TENANTABLE_ENABLE);
     }
