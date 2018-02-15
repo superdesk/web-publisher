@@ -17,6 +17,7 @@ declare(strict_types=1);
 namespace SWP\Bundle\ContentBundle\Loader;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use SWP\Bundle\ContentBundle\Doctrine\ArticleAuthorRepositoryInterface;
 use SWP\Component\Common\Criteria\Criteria;
 use SWP\Component\Storage\Repository\RepositoryInterface;
 use SWP\Component\TemplatesSystem\Gimme\Context\Context;
@@ -34,7 +35,7 @@ final class ArticleAuthorLoader extends PaginatedLoader implements LoaderInterfa
     private $metaFactory;
 
     /**
-     * @var RepositoryInterface
+     * @var ArticleAuthorRepositoryInterface
      */
     private $authorRepository;
 
@@ -46,9 +47,9 @@ final class ArticleAuthorLoader extends PaginatedLoader implements LoaderInterfa
     /**
      * ArticleAuthorLoader constructor.
      *
-     * @param MetaFactoryInterface $metaFactory
-     * @param RepositoryInterface  $authorRepository
-     * @param Context              $context
+     * @param MetaFactoryInterface             $metaFactory
+     * @param ArticleAuthorRepositoryInterface $authorRepository
+     * @param Context                          $context
      */
     public function __construct(
         MetaFactoryInterface $metaFactory,
@@ -65,10 +66,7 @@ final class ArticleAuthorLoader extends PaginatedLoader implements LoaderInterfa
      */
     public function load($type, $parameters = [], $withoutParameters = [], $responseType = LoaderInterface::SINGLE)
     {
-        $criteria = new Criteria($parameters);
-
         if ('author' === $type && LoaderInterface::SINGLE === $responseType) {
-            $author = null;
             $criteria = new Criteria();
             if (array_key_exists('id', $parameters) && is_numeric($parameters['id'])) {
                 $criteria->set('id', $parameters['id']);
@@ -87,6 +85,7 @@ final class ArticleAuthorLoader extends PaginatedLoader implements LoaderInterfa
             return false;
         }
 
+        $criteria = new Criteria($parameters);
         foreach ($withoutParameters as $key => $withoutParameter) {
             $criteria->set('exclude_'.$key, $withoutParameter[0]);
         }
