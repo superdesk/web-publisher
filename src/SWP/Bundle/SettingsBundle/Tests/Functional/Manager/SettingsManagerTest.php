@@ -20,6 +20,7 @@ use SWP\Bundle\SettingsBundle\Context\ScopeContextInterface;
 use SWP\Bundle\SettingsBundle\Exception\InvalidScopeException;
 use SWP\Bundle\SettingsBundle\Manager\SettingsManager;
 use SWP\Bundle\SettingsBundle\Model\SettingsInterface;
+use SWP\Bundle\SettingsBundle\Provider\SettingsProviderChain;
 use SWP\Bundle\SettingsBundle\Tests\Functional\Model\User;
 use SWP\Bundle\SettingsBundle\Tests\Functional\WebTestCase;
 
@@ -88,7 +89,7 @@ class SettingsManagerTest extends WebTestCase
     {
         return new SettingsManager(
             $this->getContainer()->get('doctrine.orm.entity_manager'),
-            $this->getContainer()->getParameter('swp_settings.settings'),
+            $this->getContainer()->get(SettingsProviderChain::class),
             $this->getContainer()->get('swp.repository.settings'),
             $this->getContainer()->get('swp.factory.settings'),
             $this->getContainer()->get('swp_settings.context.scope')
