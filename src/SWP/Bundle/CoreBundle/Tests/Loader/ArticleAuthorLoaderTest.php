@@ -47,7 +47,7 @@ class ArticleAuthorLoaderTest extends WebTestCase
     {
         $template = '{% gimmelist author from authors %} {{ author.name }} {% endgimmelist %}';
         $result = $this->getRendered($template);
-        self::assertEquals(' John Doe  Test Person  Test Person  John Doe  Tom ', $result);
+        self::assertEquals(' Tom  Test Person  John Doe  John Doe  Test Person ', $result);
     }
 
     public function testRenderingArticleAuthorsWith()
@@ -58,7 +58,7 @@ class ArticleAuthorLoaderTest extends WebTestCase
 
         $template = '{% gimmelist author from authors with {role: ["Writer"]} %} {{ author.name }} {% endgimmelist %}';
         $result = $this->getRendered($template);
-        self::assertEquals(' John Doe  Tom  Tom  Test Person  John Doe ', $result);
+        self::assertEquals(' Tom  Test Person  John Doe  John Doe  Test Person ', $result);
     }
 
     public function testRenderingArticleAuthorsWithout()
@@ -79,7 +79,7 @@ class ArticleAuthorLoaderTest extends WebTestCase
     {
         $template = '{% gimme author with {id: 1} %} {{ author.name }} {% endgimme %}';
         $result = $this->getRendered($template);
-        self::assertEquals(' Test Person ', $result);
+        self::assertEquals(' Tom ', $result);
     }
 
     public function testLoadAuthorByName()

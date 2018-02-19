@@ -374,6 +374,9 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface, Orde
                     'extra' => [
                         'custom-field' => 'my custom field',
                     ],
+                    'authors' => [
+                        'Tom',
+                    ],
                 ],
                 [
                     'title' => 'Test news sports article',
@@ -390,6 +393,9 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface, Orde
                         '-6 days' => 6,
                         '-7 days' => 4,
                     ],
+                    'authors' => [
+                        'Test Person',
+                    ],
                 ],
                 [
                     'title' => 'Test article',
@@ -405,6 +411,9 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface, Orde
                         '-6 days' => 1,
                         '-7 days' => 1,
                     ],
+                    'authors' => [
+                        'John Doe',
+                    ],
                 ],
                 [
                     'title' => 'Features',
@@ -415,6 +424,9 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface, Orde
                     'pageViewsDates' => [
                         '- 7 days' => 5,
                     ],
+                    'authors' => [
+                        'John Doe',
+                    ],
                 ],
                 [
                     'title' => 'Features client1',
@@ -423,13 +435,15 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface, Orde
                     'locale' => 'en',
                     'pageViews' => 0,
                     'pageViewsDates' => [],
+                    'authors' => [
+                        'Test Person',
+                    ],
                 ],
             ],
         ];
 
         $sources = ['Forbes', 'Reuters'];
         $secondSources = ['AAP', 'AFP'];
-        $authors = ['John Doe', 'Test Person', 'Tom'];
 
         if (isset($articles[$env])) {
             $articleService = $this->container->get('swp.service.article');
@@ -449,10 +463,14 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface, Orde
                     $article->setExtra($articleData['extra']);
                 }
 
-                $author = new ArticleAuthor();
-                $author->setRole('Writer');
-                $author->setName($authors[array_rand($authors)]);
-                $article->addAuthor($author);
+                if (isset($articleData['authors'])) {
+                    foreach ($articleData['authors'] as $authorName) {
+                        $author = new ArticleAuthor();
+                        $author->setRole('Writer');
+                        $author->setName($authorName);
+                        $article->addAuthor($author);
+                    }
+                }
 
                 $articleSource = $sourcesFactory->create();
                 $articleSource->setName($sources[random_int(0, 1)]);
