@@ -96,6 +96,8 @@ swp_content:
                     model: SWP\Bundle\CoreBundle\Model\Image
                 article_source:
                     model: SWP\Bundle\CoreBundle\Model\ArticleSource
+                author:
+                    repository: SWP\Bundle\ContentBundle\Doctrine\ORM\ArticleAuthorRepository
 
 swp_revision:
     persistence:
