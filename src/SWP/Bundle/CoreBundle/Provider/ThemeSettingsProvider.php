@@ -57,7 +57,7 @@ final class ThemeSettingsProvider implements SettingsProviderInterface
         $config = json_decode($content, true);
 
         if (!isset($config['settings'])) {
-            throw new \InvalidArgumentException(sprintf('Settings ("settings" key) not set in %s', $themeConfigFile));
+            return [];
         }
 
         $settings = [];
