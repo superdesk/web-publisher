@@ -20,13 +20,14 @@ Run command:
 
 .. code-block:: bash
 
-    sudo apt-get install curl -y && curl -s https://raw.githubusercontent.com/takeit/superdesk-install/master/install | sudo bash
+    sudo apt-get install curl -y
+    && curl -s https://raw.githubusercontent.com/takeit/superdesk-install/master/install | sudo bash
 
 .. note::
 
     If you have the following issue when running the command above:
 
-    .. code-block:: bash
+    .. code:: bash
 
         The virtual environment was not created successfully because ensurepip is not
         available. On Debian/Ubuntu systems, you need to install the python3-venv
@@ -38,16 +39,17 @@ Run command:
 
     Run:
 
-    .. code-block:: bash
+    .. code:: bash
 
         export LC_ALL="en_US.UTF-8"
         export LC_CTYPE="en_US.UTF-8"
 
     and then again execute the command:
 
-    .. code-block:: bash
+    .. code:: bash
 
-    sudo apt-get install curl -y && curl -s https://raw.githubusercontent.com/takeit/superdesk-install/master/install | sudo bash
+      sudo apt-get install curl -y
+      && curl -s https://raw.githubusercontent.com/takeit/superdesk-install/master/install | sudo bash
 
 The above command will install all the required dependencies needed by Superdesk.
 Once this is done, the Superdesk will run on your server.
@@ -129,7 +131,8 @@ Let’s install PHP-FPM 7.2 with all the required extensions:
     sudo apt install software-properties-common
     sudo LC_ALL=C.UTF-8 add-apt-repository ppa:ondrej/php
     sudo apt update
-    sudo apt install -y php7.2-fpm php7.2-pgsql php7.2-gd php7.2-xml php7.2-intl php7.2-zip php7.2-mbstring php7.2-curl php7.2-bcmath
+    sudo apt install -y php7.2-fpm php7.2-pgsql php7.2-gd php7.2-xml \
+    php7.2-intl php7.2-zip php7.2-mbstring php7.2-curl php7.2-bcmath
 
 4. Configure PHP-FPM 7.2
 """"""""""""""""""""""""
@@ -139,7 +142,8 @@ Run command:
 .. code-block:: bash
 
     cd /etc/php/7.2/fpm/pool.d/ &&
-    sudo curl -s -O https://gist.githubusercontent.com/takeit/2ee16ee50878eeab01a7ca11b69dec10/raw/e9eda2801ac3657495374fcb846c2ff101a3e070/www.conf && sudo service php7.2-fpm restart
+    sudo curl -s -O https://gist.githubusercontent.com/takeit/2ee16ee50878eeab01a7ca11b69dec10/raw/e9eda2801ac3657495374fcb846c2ff101a3e070/www.conf
+    && sudo service php7.2-fpm restart
 
 5. Install Nginx server
 """""""""""""""""""""""
@@ -157,7 +161,9 @@ Run command:
 
 .. code-block:: bash
 
-    cd /etc/nginx/sites-enabled/ && sudo curl -s -O https://gist.githubusercontent.com/takeit/9c895b4d59930a9b550a43a0d26c0e0e/raw/bff973443d244929c8deda70f97b4ae862d9158b/default && sudo service nginx restart
+    cd /etc/nginx/sites-enabled/
+    && sudo curl -s -O https://gist.githubusercontent.com/takeit/9c895b4d59930a9b550a43a0d26c0e0e/raw/bff973443d244929c8deda70f97b4ae862d9158b/default
+    && sudo service nginx restart
 
 7. Install RabbitMQ server
 """"""""""""""""""""""""""
@@ -169,6 +175,7 @@ Run command:
     sudo apt install -y rabbitmq-server
 
 8. Install Supervisor
+"""""""""""""""""""""
 
 Run command:
 
@@ -182,13 +189,17 @@ The Superdesk Publisher installation
 ------------------------------------
 
 The Superdesk Publisher `repository`_ can be found on GitHub.
+
 From there the source code can be downloaded and the Superdesk Publisher can be installed on your server.
+
 Follow the guide below.
-Assumed our server has ``192.168.0.102`` IP address. You can change it to your own IP or domain name. But in this guide we will use ``192.168.0.102`` IP for Superdesk Publisher instance. 
+
+Assumed our server has ``192.168.0.102`` IP address.
+You can change it to your own IP or domain name. But in this guide we will use ``192.168.0.102`` IP for Superdesk Publisher instance. 
 Superdesk instance will run using ``192.168.0.101`` IP address.
 
 1. Install Composer
-"""""""""""""""""""
+-------------------
 
 .. code-block:: bash
 
@@ -197,7 +208,7 @@ Superdesk instance will run using ``192.168.0.101`` IP address.
     sudo mv composer.phar /usr/local/bin/composer
 
 2. Download the source code
-"""""""""""""""""""""""""""
+---------------------------
 
 The default directory where the Publisher source code will be downloaded can be ``/var/www/publisher`` and all console commands
 need to be executed inside that directory starting from now on.
@@ -212,7 +223,9 @@ Install Superdesk Publisher source code dependencies:
 
 .. code-block:: bash
 
-    HTTPDUSER=$(ps axo user,comm | grep -E '[a]pache|[h]ttpd|[_]www|[w]ww-data|[n]ginx' | grep -v root | head -1 | cut -d\  -f1) && sudo chown -R "$HTTPDUSER":"$HTTPDUSER" publisher/ && cd publisher && sudo -u www-data SYMFONY_ENV=prod composer install --no-dev --optimize-autoloader
+    HTTPDUSER=$(ps axo user,comm | grep -E '[a]pache|[h]ttpd|[_]www|[w]ww-data|[n]ginx' | grep -v root | head -1 | cut -d\  -f1)
+    && sudo chown -R "$HTTPDUSER":"$HTTPDUSER" publisher/ && cd publisher
+    && sudo -u www-data SYMFONY_ENV=prod composer install --no-dev --optimize-autoloader
 
 All the source code dependencies will start to install.
 Once it is done, you will be asked to fill the ``parameters.yml`` file which needs to be completed before proceeding.
@@ -260,10 +273,11 @@ And set a proper permissions to ``cache`` and ``logs`` directories, run:
 
 .. code-block:: bash
 
-    sudo setfacl -dR -m u:"$HTTPDUSER":rwX -m u:$(whoami):rwX app/cache app/logs && sudo setfacl -R -m u:"$HTTPDUSER":rwX -m u:$(whoami):rwX app/cache app/logs
+    sudo setfacl -dR -m u:"$HTTPDUSER":rwX -m u:$(whoami):rwX app/cache app/logs
+    && sudo setfacl -R -m u:"$HTTPDUSER":rwX -m u:$(whoami):rwX app/cache app/logs
 
 3. Check Requirements
-"""""""""""""""""""""
+---------------------
 
 Check if your server meets the requirements by running:
 
@@ -274,7 +288,7 @@ Check if your server meets the requirements by running:
 If all is fine, you should see a message ``Your system is ready to run Symfony projects on your screen.``
 
 4. Create the Database and Update the Schema
-""""""""""""""""""""""""""""""""""""""""""""
+--------------------------------------------
 
 Inside ``/var/www/publisher`` directory, run the command to create the database:
 
@@ -288,15 +302,15 @@ And populate the database with the schema, run:
 
     SYMFONY_ENV=prod php app/console doctrine:migrations:migrate --no-interaction
 
-5. Create organization:
-"""""""""""""""""""""""
+5. Create organization
+----------------------
 
 .. code-block:: bash
 
     SYMFONY_ENV=prod php app/console swp:organization:create Publisher
 
-6. Create tenant:
-"""""""""""""""""
+6. Create tenant
+----------------
 
 .. code-block:: bash
 
@@ -305,8 +319,8 @@ And populate the database with the schema, run:
 Where ``<organization_code>`` is the organization code generated by the previous command and ``192.168.0.102`` is your IP/domain name
 which points to the server where Superdesk Publisher is installed. Replace it with your and appropriate data.
 
-7. Install theme:
-"""""""""""""""""
+7. Install theme
+----------------
 
 .. code-block:: bash
 
@@ -321,7 +335,7 @@ which points to the server where Superdesk Publisher is installed. Replace it wi
     sudo -u www-data SYMFONY_ENV=prod php app/console sylius:theme:assets:install
 
 8. Run supervisor
-"""""""""""""""""
+-----------------
 
 .. code-block:: bash
 
@@ -331,7 +345,7 @@ which points to the server where Superdesk Publisher is installed. Replace it wi
 The Superdesk Publisher should be running and be accessible using your remote server IP, ``192.168.0.102`` in this case.
 
 9. Clear the cache
-""""""""""""""""""
+------------------
 
 Run command:
 
