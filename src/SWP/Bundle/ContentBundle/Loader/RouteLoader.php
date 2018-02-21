@@ -86,6 +86,6 @@ class RouteLoader implements LoaderInterface
      */
     public function isSupported(string $type): bool
     {
-        return  self::SUPPORTED_TYPE === $type;
+        return self::SUPPORTED_TYPE === $type;
     }
 }
