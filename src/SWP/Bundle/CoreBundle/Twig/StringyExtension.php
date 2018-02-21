@@ -19,7 +19,7 @@ namespace SWP\Bundle\CoreBundle\Twig;
  */
 class StringyExtension extends \Twig_Extension
 {
-    const EXCLUDE_FUNCTIONS = ['__construct', '__toString', 'create'];
+    const EXCLUDE_FUNCTIONS = ['__construct', 'create'];
 
     protected $initialized = false;
 
@@ -114,7 +114,7 @@ class StringyExtension extends \Twig_Extension
                     continue;
                 }
                 $this->filters[$name] = new \Twig_SimpleFilter($name, function () use ($name) {
-                    return call_user_func_array(['Stringy\StaticStringy', $name], func_get_args());
+                    return (string) call_user_func_array(['Stringy\StaticStringy', $name], func_get_args());
                 });
             }
         }

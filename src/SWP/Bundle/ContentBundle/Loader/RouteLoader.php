@@ -16,6 +16,8 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\ContentBundle\Loader;
 
+use SWP\Bundle\ContentBundle\Model\RouteRepositoryInterface;
+use SWP\Component\Common\Criteria\Criteria;
 use SWP\Component\TemplatesSystem\Gimme\Factory\MetaFactoryInterface;
 use SWP\Component\TemplatesSystem\Gimme\Loader\LoaderInterface;
 
@@ -32,13 +34,20 @@ class RouteLoader implements LoaderInterface
     protected $metaFactory;
 
     /**
+     * @var RouteRepositoryInterface
+     */
+    protected $routeRepository;
+
+    /**
      * RouteLoader constructor.
      *
-     * @param MetaFactoryInterface $metaFactory
+     * @param MetaFactoryInterface     $metaFactory
+     * @param RouteRepositoryInterface $routeRepository
      */
-    public function __construct(MetaFactoryInterface $metaFactory)
+    public function __construct(MetaFactoryInterface $metaFactory, RouteRepositoryInterface $routeRepository)
     {
         $this->metaFactory = $metaFactory;
+        $this->routeRepository = $routeRepository;
     }
 
     /**
@@ -47,6 +56,19 @@ class RouteLoader implements LoaderInterface
     public function load($type, $parameters = [], $withoutParameters = [], $responseType = LoaderInterface::SINGLE)
     {
         $route = isset($parameters['route_object']) ? $parameters['route_object'] : null;
+
+        if (null === $route) {
+            $criteria = new Criteria();
+            if (array_key_exists('name', $parameters) && \is_string($parameters['name'])) {
+                $criteria->set('name', $parameters['name']);
+            }
+
+            if (array_key_exists('slug', $parameters) && \is_string($parameters['slug'])) {
+                $criteria->set('slug', $parameters['slug']);
+            }
+
+            $route = $this->routeRepository->getQueryByCriteria($criteria, [], 'r')->getQuery()->getOneOrNullResult();
+        }
 
         if (null !== $route) {
             return $this->metaFactory->create($route);
@@ -64,6 +86,6 @@ class RouteLoader implements LoaderInterface
      */
     public function isSupported(string $type): bool
     {
-        return self::SUPPORTED_TYPE === $type;
+        return  self::SUPPORTED_TYPE === $type;
     }
 }
