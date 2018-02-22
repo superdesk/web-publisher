@@ -1,8 +1,9 @@
 How to Install and Configure Superdesk Publisher with Superdesk
 ===============================================================
 
-This guide describes what is the Superdesk Publisher and Superdesk and what are the required steps to run both applications
-concurrently in a production environment on two **different** servers. Although, both apps can work on a single machine too.
+This guide describes the functions of Superdesk Publisher and Superdesk, along with the required steps to run
+both applications concurrently in a production environment on two **different** servers.
+(However, both applications can also work on a single machine.)
 
 How to Install Superdesk?
 -------------------------
@@ -25,7 +26,7 @@ Run command:
 
 .. note::
 
-    If you have the following issue when running the command above:
+    If you see the following message:
 
     .. code:: bash
 
@@ -185,8 +186,8 @@ Run command:
 
 Before starting the installation make sure your server meets all the requirements listed above.
 
-The Superdesk Publisher installation
-------------------------------------
+Completing the Superdesk Publisher installation
+-----------------------------------------------
 
 The Superdesk Publisher `repository`_ can be found on GitHub.
 
@@ -269,7 +270,7 @@ and replace the content of ``/var/www/publisher/app/config/parameters.yml`` file
         env(RABBIT_MQ_USER): guest
         env(RABBIT_MQ_PASSWORD): guest
 
-And set a proper permissions to ``cache`` and ``logs`` directories, run:
+And set proper permissions for ``cache`` and ``logs`` directories, run:
 
 .. code-block:: bash
 
@@ -285,7 +286,7 @@ Check if your server meets the requirements by running:
 
     php app/check.php
 
-If all is fine, you should see a message ``Your system is ready to run Symfony projects on your screen.``
+If everything is in order, you should see this message: ``Your system is ready to run Symfony projects on your screen.``
 
 4. Create the Database and Update the Schema
 --------------------------------------------
@@ -356,10 +357,11 @@ Run command:
 How to Configure Superdesk Publisher with Superdesk?
 ----------------------------------------------------
 
-Now, that the Superdesk and Superdesk Publisher applications are installed, it is possible to enable
+Now that the Superdesk and Superdesk Publisher applications are installed, it is possible to enable
 Superdesk Publisher Component inside the Superdesk UI.
+
 Superdesk Publisher Component is a JavaScript component that is a separate dependency
-and can be included into the Superdesk in order to manage Superdesk Publisher application.
+and can be included in Superdesk in order to manage Superdesk Publisher application.
 
 The source code of this component can be found at `GitHub`_.
 
