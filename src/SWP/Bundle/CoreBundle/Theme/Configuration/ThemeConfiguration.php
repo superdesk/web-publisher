@@ -382,5 +382,9 @@ final class ThemeConfiguration implements ConfigurationInterface
         $settingNodeBuilder->scalarNode('value')->cannotBeEmpty();
         $settingNodeBuilder->scalarNode('type')->cannotBeEmpty();
         $settingNodeBuilder->scalarNode('help')->defaultNull();
+        $optionsNodeDefinition = $settingNodeBuilder->arrayNode('options');
+        $optionsChildren = $optionsNodeDefinition->arrayPrototype()->children();
+        $optionsChildren->scalarNode('value')->cannotBeEmpty();
+        $optionsChildren->scalarNode('label')->cannotBeEmpty();
     }
 }
