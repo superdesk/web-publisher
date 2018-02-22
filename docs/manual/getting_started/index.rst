@@ -7,6 +7,7 @@ The Superdesk Publisher themes system is built on fast, flexible and easy-to-use
    :maxdepth: 2
    
    setting-up
+   superdesk-superdesk-publisher-setup
    superdesk-configuration
    publisher-configuration
    containers-widgets
