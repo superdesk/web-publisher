@@ -24,16 +24,31 @@ An example of ``theme.json`` file with defined settings will look like:
                 "label": "Primary Font Family",
                 "value": "Roboto",
                 "type": "string",
-                "help": "The primary font"
+                "help": "The primary font",
+                "options": [
+                    {"value": "Roboto", "label": "Roboto"},
+                    {"value": "Lato", "label": "Lato"},
+                    {"value": "Oswald", "label": "Oswald"}
+                ]
             },
             "secondary_font_family": {
                 "value": "Roboto",
-                "type": "string"
+                "type": "string",
+                "options": [
+                    {"value": "Roboto", "label": "Roboto"},
+                    {"value": "Lato", "label": "Lato"},
+                    {"value": "Oswald", "label": "Oswald"}
+                ]
             },
             "body_font_size": {
                 "label": "Body Font Size",
                 "value": 14,
-                "type": "integer"
+                "type": "integer",
+                "options": [
+                    {"value": 14, "label": "14px"},
+                    {"value": 16, "label": "16px"},
+                    {"value": 18, "label": "18px"}
+                ]
             }
         }
     }
@@ -46,10 +61,12 @@ in your Superdesk Publisher instance.
 Read more about settings in :doc:`Settings </bundles/SWPSettingsBundle/settings_definitions>` chapter to find out more.
 
 Every setting is a JSON object which can contain the following properties:
+
 - ``label`` - Setting's label, will be visible in API when defined,
 - ``value`` - Setting's value, will be visible in API when defined,
 - ``type`` - Setting's type, either it's ``string``, ``integer``, ``boolean`` or ``array``.
 - ``help`` - Settins's helper text.
+- ``options`` - an array of optional values that can be used to implement select box.
 
 Read more about theme's structure in :doc:`Themes </manual/themes/index>` chapter.
 
