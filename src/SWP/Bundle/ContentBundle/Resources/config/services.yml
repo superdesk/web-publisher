@@ -42,6 +42,7 @@ services:
         class: SWP\Bundle\ContentBundle\Loader\RouteLoader
         arguments:
              - "@swp_template_engine_context.factory.meta_factory"
+             - "@swp.repository.route"
         tags:
             - { name: swp.meta_loader.add }
 

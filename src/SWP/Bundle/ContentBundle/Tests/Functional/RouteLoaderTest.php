@@ -30,7 +30,8 @@ class RouteLoaderTest extends WebTestCase
     public function testFindRoute()
     {
         $routeLoader = new RouteLoader(
-            $this->getContainer()->get('swp_template_engine_context.factory.meta_factory')
+            $this->getContainer()->get('swp_template_engine_context.factory.meta_factory'),
+            $this->getContainer()->get('swp.repository.route')
         );
 
         $meta = $routeLoader->load('route', ['route_object' => $this->getContainer()->get('swp.factory.route')->create()]);
