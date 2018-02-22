@@ -58,6 +58,10 @@ class RouteLoader implements LoaderInterface
         $route = isset($parameters['route_object']) ? $parameters['route_object'] : null;
 
         if (null === $route) {
+            if (empty($parameters)) {
+                return false;
+            }
+
             $criteria = new Criteria();
             if (array_key_exists('name', $parameters) && \is_string($parameters['name'])) {
                 $criteria->set('name', $parameters['name']);
