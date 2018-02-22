@@ -7,6 +7,7 @@ This changelog references the relevant changes (bug and security fixes) done in 
 To get the diff for a specific change, go to https://github.com/superdesk/web-publisher/commit/XXX where XXX is the change hash
 
 * 1.1.x
+* feature [#445] Implemented a list of optional values to theme's settings
  * feature [#441] Added an option to list articles' authors in Twig templates
  * feature [#439] Added support for theme settings and logo upload
  * feature [#436] Added support for ordering by articles page views in selected date range
