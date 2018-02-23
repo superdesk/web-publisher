@@ -36,7 +36,7 @@ class Version20180223095718 extends AbstractMigration implements ContainerAwareI
 
         $entityManager = $this->container->get('doctrine.orm.default_entity_manager');
         $query = $entityManager
-            ->createQuery('SELECT r.id, r.name, r.slug FROM SWP\Bundle\CoreBundle\Model\Route r  WHERE r.slug IS NULL');
+            ->createQuery('SELECT r.id, r.name FROM SWP\Bundle\CoreBundle\Model\Route r  WHERE r.slug IS NULL');
         $routes = $query->getArrayResult();
 
         foreach ($routes as $route) {
