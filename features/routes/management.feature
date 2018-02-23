@@ -45,5 +45,5 @@ Feature: Manage Routes
     """
     Then the response status code should be 201
     And the JSON node name should be equal to "Simple test route number 2"
-    And the JSON node slug should be null
+    And the JSON node slug should be equal to "simple-test-route-number-2"
     And the JSON node staticPrefix should be equal to "/simple-test-route-number-2"

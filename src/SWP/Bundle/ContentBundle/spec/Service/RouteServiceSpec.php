@@ -52,7 +52,7 @@ class RouteServiceSpec extends ObjectBehavior
     ) {
         $route->getType()->willReturn(RouteInterface::TYPE_CONTENT);
         $route->getName()->willReturn('test-name');
-        $route->getSlug()->willReturn(null);
+        $route->getSlug()->willReturn('test-name');
         $route->getTemplateName()->willReturn('index.html.twig');
         $route->getParent()->willReturn($parent);
 
@@ -80,7 +80,7 @@ class RouteServiceSpec extends ObjectBehavior
     ) {
         $route->getType()->willReturn(RouteInterface::TYPE_CONTENT);
         $route->getName()->willReturn('Test Name');
-        $route->getSlug()->willReturn('test-name');
+        $route->getSlug()->willReturn('test-name-2');
         $route->getTemplateName()->willReturn('index.html.twig');
         $route->getParent()->willReturn($parent);
 
@@ -91,7 +91,7 @@ class RouteServiceSpec extends ObjectBehavior
 
         $route->setVariablePattern(null)->shouldBeCalled();
         $route->setRequirements([])->shouldBeCalled();
-        $route->setStaticPrefix('/test-name')->shouldBeCalled();
+        $route->setStaticPrefix('/test-name-2')->shouldBeCalled();
 
         $eventDispatcher->dispatch(
             RouteEvents::POST_CREATE,
@@ -108,7 +108,7 @@ class RouteServiceSpec extends ObjectBehavior
     ) {
         $route->getType()->willReturn(RouteInterface::TYPE_CONTENT);
         $route->getName()->willReturn('Test Name');
-        $route->getSlug()->willReturn(null);
+        $route->getSlug()->willReturn('test-name');
         $route->getTemplateName()->willReturn('index.html.twig');
         $route->getParent()->willReturn($parent);
 
@@ -136,7 +136,7 @@ class RouteServiceSpec extends ObjectBehavior
     ) {
         $route->getType()->willReturn(RouteInterface::TYPE_COLLECTION);
         $route->getName()->willReturn('test-name');
-        $route->getSlug()->willReturn(null);
+        $route->getSlug()->willReturn('test-name');
         $route->getTemplateName()->willReturn('index.html.twig');
         $route->getParent()->willReturn($parent);
 
@@ -166,7 +166,7 @@ class RouteServiceSpec extends ObjectBehavior
         $route->getType()->willReturn(RouteInterface::TYPE_COLLECTION);
         $route->getParent()->willReturn($parent);
         $route->getName()->willReturn('test-name');
-        $route->getSlug()->willReturn(null);
+        $route->getSlug()->willReturn('test-name');
 
         $eventDispatcher->dispatch(
             RouteEvents::PRE_UPDATE,

@@ -29,7 +29,6 @@ Feature: Listing single route by slug or name
       {
         "route": {
           "name": "Test route",
-          "slug": "test-route",
           "type": "content",
           "parent": 7
         }
