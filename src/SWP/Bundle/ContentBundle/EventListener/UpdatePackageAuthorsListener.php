@@ -41,10 +41,18 @@ final class UpdatePackageAuthorsListener
         }
 
         $authors = [];
+
         /** @var ArticleAuthorInterface $packageAuthor */
         foreach ($package->getAuthors()->toArray() as $packageAuthor) {
+            /** @var ArticleAuthorInterface $author */
             if (null !== ($author = $this->authorRepository->findOneBy(['name' => $packageAuthor->getName()]))) {
-                $packageAuthor->setId($author->getId());
+                $author->setRole($packageAuthor->getRole());
+                $author->setBiography($packageAuthor->getBiography());
+                $author->setJobTitle($packageAuthor->getJobTitle());
+                $author->setAvatarUrl($packageAuthor->getAvatarUrl());
+                $authors[] = $author;
+
+                continue;
             }
 
             $authors[] = $packageAuthor;
