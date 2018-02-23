@@ -35,14 +35,21 @@ class Version20180223095718 extends AbstractMigration implements ContainerAwareI
         $this->abortIf('postgresql' !== $this->connection->getDatabasePlatform()->getName(), 'Migration can only be executed safely on \'postgresql\'.');
 
         $entityManager = $this->container->get('doctrine.orm.default_entity_manager');
-        $routeRepository = $this->container->get('swp.repository.route');
+        $query = $entityManager
+            ->createQuery('SELECT r FROM SWP\Bundle\CoreBundle\Model\Route r WHERE r.slug IS NULL');
+        $routes = $query->getResult();
 
-        /** @var RouteInterface $route */
-        foreach ($routeRepository->findBy(['slug' => null]) as $route) {
-            $route->setSlug(Transliterator::transliterate($route->getName()));
+        foreach ($routes as $route) {
+            $qb = $entityManager->createQueryBuilder();
+            $query = $qb->update(RouteInterface::class, 'r')
+                ->set('r.slug', '?1')
+                ->where('r.id = ?2')
+                ->setParameter(1, Transliterator::transliterate($route->getName()))
+                ->setParameter(2, $route->getId())
+                ->getQuery();
+
+            $query->execute();
         }
-
-        $entityManager->flush();
     }
 
     public function down(Schema $schema)
@@ -51,15 +58,22 @@ class Version20180223095718 extends AbstractMigration implements ContainerAwareI
         $this->abortIf('postgresql' !== $this->connection->getDatabasePlatform()->getName(), 'Migration can only be executed safely on \'postgresql\'.');
 
         $entityManager = $this->container->get('doctrine.orm.default_entity_manager');
-        $routeRepository = $this->container->get('swp.repository.route');
+        $query = $entityManager
+            ->createQuery('SELECT r FROM SWP\Bundle\CoreBundle\Model\Route r');
+        $routes = $query->getResult();
 
-        /** @var RouteInterface $route */
-        foreach ($routeRepository->findAll() as $route) {
+        foreach ($routes as $route) {
             if ($route->getSlug() === Transliterator::transliterate($route->getName())) {
-                $route->setSlug(null);
+                $qb = $entityManager->createQueryBuilder();
+                $query = $qb->update(RouteInterface::class, 'r')
+                    ->set('r.slug', '?1')
+                    ->where('r.id = ?2')
+                    ->setParameter(1, null)
+                    ->setParameter(2, $route->getId())
+                    ->getQuery();
+
+                $query->execute();
             }
         }
-
-        $entityManager->flush();
     }
 }
