@@ -39,6 +39,11 @@ class RouteLoader implements LoaderInterface
     protected $routeRepository;
 
     /**
+     * @var array
+     */
+    protected $supportedParameters = ['name', 'slug', 'parent'];
+
+    /**
      * RouteLoader constructor.
      *
      * @param MetaFactoryInterface     $metaFactory
@@ -63,15 +68,16 @@ class RouteLoader implements LoaderInterface
             }
 
             $criteria = new Criteria();
-            if (array_key_exists('name', $parameters) && \is_string($parameters['name'])) {
-                $criteria->set('name', $parameters['name']);
+            foreach ($this->supportedParameters as $supportedParameter) {
+                if (array_key_exists($supportedParameter, $parameters)) {
+                    $criteria->set($supportedParameter, $parameters[$supportedParameter]);
+                }
             }
 
-            if (array_key_exists('slug', $parameters) && \is_string($parameters['slug'])) {
-                $criteria->set('slug', $parameters['slug']);
-            }
-
-            $route = $this->routeRepository->getQueryByCriteria($criteria, [], 'r')->getQuery()->getOneOrNullResult();
+            $route = $this->routeRepository->getQueryByCriteria($criteria, [], 'r')
+                ->setMaxResults(1)
+                ->getQuery()
+                ->getOneOrNullResult();
         }
 
         if (null !== $route) {
