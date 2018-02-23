@@ -19,12 +19,22 @@
         "primary_font_family": {
             "label": "Primary Font Family",
             "value": "Roboto",
-            "type": "string"
+            "type": "string",
+            "options": [
+                {"value": "Roboto", "label": "Roboto"},
+                {"value": "Lato", "label": "Lato"},
+                {"value": "Oswald", "label": "Oswald"}
+            ]
         },
         "secondary_font_family": {
             "label": "Secondary Font Family",
             "value": "Roboto",
-            "type": "string"
+            "type": "string",
+            "options": [
+                {"value": "Roboto", "label": "Roboto"},
+                {"value": "Lato", "label": "Lato"},
+                {"value": "Oswald", "label": "Oswald"}
+            ]
         },
         "body_font_size": {
             "label": "Body Font Size",
