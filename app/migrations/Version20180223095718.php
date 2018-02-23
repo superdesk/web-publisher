@@ -63,7 +63,7 @@ class Version20180223095718 extends AbstractMigration implements ContainerAwareI
         $routes = $query->getArrayResult();
 
         foreach ($routes as $route) {
-            if ($route['slug'] === Transliterator::transliterate($route['slug'])) {
+            if ($route['slug'] === Transliterator::transliterate($route['name'])) {
                 $qb = $entityManager->createQueryBuilder();
                 $query = $qb->update(RouteInterface::class, 'r')
                     ->set('r.slug', '?1')
