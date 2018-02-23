@@ -36,16 +36,16 @@ class Version20180223095718 extends AbstractMigration implements ContainerAwareI
 
         $entityManager = $this->container->get('doctrine.orm.default_entity_manager');
         $query = $entityManager
-            ->createQuery('SELECT r FROM SWP\Bundle\CoreBundle\Model\Route r WHERE r.slug IS NULL');
-        $routes = $query->getResult();
+            ->createQuery('SELECT r.id, r.name, r.slug FROM SWP\Bundle\CoreBundle\Model\Route r');
+        $routes = $query->getArrayResult();
 
         foreach ($routes as $route) {
             $qb = $entityManager->createQueryBuilder();
             $query = $qb->update(RouteInterface::class, 'r')
                 ->set('r.slug', '?1')
                 ->where('r.id = ?2')
-                ->setParameter(1, Transliterator::transliterate($route->getName()))
-                ->setParameter(2, $route->getId())
+                ->setParameter(1, Transliterator::transliterate($route['name']))
+                ->setParameter(2, $route['id'])
                 ->getQuery();
 
             $query->execute();
@@ -59,17 +59,17 @@ class Version20180223095718 extends AbstractMigration implements ContainerAwareI
 
         $entityManager = $this->container->get('doctrine.orm.default_entity_manager');
         $query = $entityManager
-            ->createQuery('SELECT r FROM SWP\Bundle\CoreBundle\Model\Route r');
-        $routes = $query->getResult();
+            ->createQuery('SELECT r.id, r.name, r.slug FROM SWP\Bundle\CoreBundle\Model\Route r');
+        $routes = $query->getArrayResult();
 
         foreach ($routes as $route) {
-            if ($route->getSlug() === Transliterator::transliterate($route->getName())) {
+            if ($route['slug'] === Transliterator::transliterate($route['slug'])) {
                 $qb = $entityManager->createQueryBuilder();
                 $query = $qb->update(RouteInterface::class, 'r')
                     ->set('r.slug', '?1')
                     ->where('r.id = ?2')
                     ->setParameter(1, null)
-                    ->setParameter(2, $route->getId())
+                    ->setParameter(2, $route['id'])
                     ->getQuery();
 
                 $query->execute();
