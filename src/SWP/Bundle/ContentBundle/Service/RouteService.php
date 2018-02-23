@@ -75,6 +75,10 @@ class RouteService implements RouteServiceInterface
      */
     public function fillRoute(RouteInterface $route)
     {
+        if (null === $route->getSlug()) {
+            $route->setSlug(Transliterator::urlize($route->getName()));
+        }
+
         switch ($route->getType()) {
             case RouteInterface::TYPE_CONTENT:
                 $route->setVariablePattern(null);
@@ -104,9 +108,7 @@ class RouteService implements RouteServiceInterface
     protected function generatePath(RouteInterface $route)
     {
         $slug = $route->getSlug();
-        if (null === $slug) {
-            $slug = Transliterator::urlize($route->getName());
-        }
+
         if (null === $parent = $route->getParent()) {
             return '/'.$slug;
         }

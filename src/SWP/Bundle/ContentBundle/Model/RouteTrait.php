@@ -90,9 +90,9 @@ trait RouteTrait
     /**
      * Slug is used for static prefix generation.
      *
-     * @param string $slug
+     * @param string|null $slug
      */
-    public function setSlug(string $slug): void
+    public function setSlug(?string $slug): void
     {
         $this->slug = $slug;
     }

@@ -66,7 +66,7 @@ master_doc = 'index'
 
 # General information about the project.
 project = u'Superdesk Publisher'
-copyright = u'2016, Sourcefabric z.ú'
+copyright = u'2018, Sourcefabric z.ú'
 author = u'Sourcefabric z.ú.'
 
 # The version info for the project you're documenting, acts as replacement for
