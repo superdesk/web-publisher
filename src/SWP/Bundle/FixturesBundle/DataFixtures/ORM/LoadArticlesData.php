@@ -377,6 +377,7 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface, Orde
                     'authors' => [
                         'Tom',
                     ],
+                    'sources' => ['Forbes', 'AAP'],
                 ],
                 [
                     'title' => 'Test news sports article',
@@ -396,6 +397,7 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface, Orde
                     'authors' => [
                         'Test Person',
                     ],
+                    'sources' => ['Reuters', 'AFP'],
                 ],
                 [
                     'title' => 'Test article',
@@ -414,6 +416,7 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface, Orde
                     'authors' => [
                         'John Doe',
                     ],
+                    'sources' => ['Forbes', 'AAP'],
                 ],
                 [
                     'title' => 'Features',
@@ -427,6 +430,7 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface, Orde
                     'authors' => [
                         'John Doe',
                     ],
+                    'sources' => ['Reuters', 'AAP'],
                 ],
                 [
                     'title' => 'Features client1',
@@ -438,12 +442,10 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface, Orde
                     'authors' => [
                         'Test Person',
                     ],
+                    'sources' => ['Forbes', 'AFP'],
                 ],
             ],
         ];
-
-        $sources = ['Forbes', 'Reuters'];
-        $secondSources = ['AAP', 'AFP'];
 
         if (isset($articles[$env])) {
             $articleService = $this->container->get('swp.service.article');
@@ -472,12 +474,14 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface, Orde
                     }
                 }
 
-                $articleSource = $sourcesFactory->create();
-                $articleSource->setName($sources[random_int(0, 1)]);
-                $article->addSourceReference($articleSourcesService->getArticleSourceReference($article, $articleSource));
-                $articleSourceSecond = $sourcesFactory->create();
-                $articleSourceSecond->setName($secondSources[random_int(0, 1)]);
-                $article->addSourceReference($articleSourcesService->getArticleSourceReference($article, $articleSourceSecond));
+                if (isset($articleData['sources'])) {
+                    foreach ((array) $articleData['sources'] as $source) {
+                        $articleSource = $sourcesFactory->create();
+                        $articleSource->setName($source);
+                        $article->addSourceReference($articleSourcesService->getArticleSourceReference($article, $articleSource));
+                    }
+                }
+
                 $package = $this->createPackage($articleData);
                 $articleStatistics = $this->createArticleStatistics($articleData['pageViews'], $articleData['pageViewsDates'], $article, $manager);
                 $manager->persist($articleStatistics);
