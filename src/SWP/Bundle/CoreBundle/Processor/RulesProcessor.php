@@ -16,6 +16,7 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\CoreBundle\Processor;
 
+use SWP\Bundle\ContentBundle\Model\RouteInterface;
 use SWP\Bundle\ContentBundle\Model\RouteRepositoryInterface;
 use SWP\Bundle\CoreBundle\Model\RuleInterface;
 use SWP\Component\MultiTenancy\Repository\TenantRepositoryInterface;
@@ -60,42 +61,35 @@ final class RulesProcessor implements RulesProcessorInterface
     public function process(array $evaluatedRules): array
     {
         $processedEvaluatedRules = $this->processEvaluatedRules($evaluatedRules);
-
         $rules = [];
-        foreach ($processedEvaluatedRules as $processedEvaluatedRule) {
+        foreach ($processedEvaluatedRules as $key => $processedEvaluatedRule) {
             foreach ($evaluatedRules as $evaluatedRule) {
                 if (null !== $evaluatedRule->getTenantCode()) {
-                    $matched = $this->match($processedEvaluatedRule[self::KEY_TENANTS], $evaluatedRule);
+                    $rules[$key] = $processedEvaluatedRule;
 
-                    if (empty($matched)) {
+                    if (self::KEY_TENANTS !== $key) {
                         continue;
                     }
 
-                    $rules[] = $matched[0];
+                    $rules[$key] = $this->match((array) $processedEvaluatedRule, $evaluatedRule);
                 }
             }
         }
 
-        return $this->mergeRecursive($processedEvaluatedRules, $rules);
+        return $this->merge([$processedEvaluatedRules], [$rules]);
     }
 
     private function processEvaluatedRules(array $rules): array
     {
         $processedRules = [];
 
-        /** @var RuleInterface $evaluatedRule */
         foreach ($rules as $evaluatedRule) {
             if (null === $evaluatedRule->getTenantCode()) {
-                $entry = [self::KEY_ORGANIZATION => $evaluatedRule->getOrganization()];
+                $processedRules[self::KEY_ORGANIZATION] = $evaluatedRule->getOrganization();
                 $evaluatedRuleConfig = $evaluatedRule->getConfiguration();
-                $tenants = [];
-
                 foreach ((array) $evaluatedRuleConfig['destinations'] as $item) {
-                    $tenants[][self::KEY_TENANT] = $this->tenantRepository->findOneByCode($item[self::KEY_TENANT]);
+                    $processedRules[self::KEY_TENANTS][][self::KEY_TENANT] = $this->tenantRepository->findOneByCode($item[self::KEY_TENANT]);
                 }
-
-                $entry[self::KEY_TENANTS] = $tenants;
-                $processedRules[] = $entry;
             }
         }
 
@@ -104,43 +98,44 @@ final class RulesProcessor implements RulesProcessorInterface
 
     private function match(array $tenants, RuleInterface $evaluatedRule): array
     {
-        $rules = [];
-
+        $tenantsTemp = [];
         foreach ($tenants as $tenant) {
             if ($tenant[self::KEY_TENANT]->getCode() === $evaluatedRule->getTenantCode()) {
-                $rules[] = $this->buildRuleArray($evaluatedRule);
+                if (null === $route = $this->findRoute($evaluatedRule)) {
+                    continue;
+                }
+
+                $tenant[self::KEY_ROUTES][] = $route;
+                $tenantsTemp[] = $tenant;
             }
         }
 
-        return $rules;
+        return $tenantsTemp;
     }
 
-    private function buildRuleArray(RuleInterface $evaluatedRule): array
+    private function findRoute(RuleInterface $evaluatedRule): ?RouteInterface
     {
-        return [
-            self::KEY_ORGANIZATION => $evaluatedRule->getOrganization(),
-            self::KEY_TENANTS => [
-                [
-                    self::KEY_TENANT => $this->tenantRepository->findOneByCode($evaluatedRule->getTenantCode()),
-                    self::KEY_ROUTES => [
-                        $this->routeRepository->findOneBy(['id' => $evaluatedRule->getConfiguration()[self::KEY_ROUTE]]),
-                    ],
-                ],
-            ],
-        ];
+        return $this->routeRepository->findOneBy(['id' => $evaluatedRule->getConfiguration()[self::KEY_ROUTE]]);
     }
 
-    private function mergeRecursive(array &$firstArray, array &$secondArray): array
+    private function merge(array $organizationRules, array $tempRules): array
     {
-        $result = $firstArray;
-        foreach ($secondArray as $key => &$value) {
-            if (\is_array($value) && isset($result[$key]) && \is_array($result[$key])) {
-                $result[$key] = $this->mergeRecursive($result[$key], $value);
-            } else {
-                $result[$key] = $value;
+        foreach ($organizationRules as $keyOrg => $processedEvaluatedRule) {
+            foreach ($tempRules as $rule) {
+                if (!isset($rule[self::KEY_TENANTS])) {
+                    continue;
+                }
+
+                foreach ((array) $rule[self::KEY_TENANTS] as $tenant) {
+                    foreach ((array) $processedEvaluatedRule[self::KEY_TENANTS] as $key => $orgTenant) {
+                        if ($tenant[self::KEY_TENANT]->getCode() === $orgTenant[self::KEY_TENANT]->getCode()) {
+                            $organizationRules[$keyOrg][self::KEY_TENANTS][$key] = $tenant;
+                        }
+                    }
+                }
             }
         }
 
-        return $result;
+        return $organizationRules[0];
     }
 }
