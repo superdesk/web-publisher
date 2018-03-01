@@ -23,9 +23,13 @@ use SWP\Component\MultiTenancy\Repository\TenantRepositoryInterface;
 final class RulesProcessor implements RulesProcessorInterface
 {
     public const KEY_ORGANIZATION = 'organization';
+
     public const KEY_TENANTS = 'tenants';
+
     public const KEY_TENANT = 'tenant';
+
     public const KEY_ROUTES = 'routes';
+
     public const KEY_ROUTE = 'route';
 
     /**
