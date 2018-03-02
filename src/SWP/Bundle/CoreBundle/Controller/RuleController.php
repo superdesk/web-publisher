@@ -20,8 +20,6 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
-use SWP\Bundle\CoreBundle\Matcher\RulesMatcher;
-use SWP\Component\Bridge\Events;
 use SWP\Component\Common\Response\ResourcesListResponse;
 use SWP\Component\Common\Response\ResponseContext;
 use SWP\Component\Common\Response\SingleResourceResponse;
@@ -29,35 +27,11 @@ use SWP\Component\Common\Criteria\Criteria;
 use SWP\Component\Common\Pagination\PaginationData;
 use SWP\Bundle\RuleBundle\Form\Type\RuleType;
 use SWP\Component\Rule\Model\RuleInterface;
-use Symfony\Component\EventDispatcher\GenericEvent;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class RuleController extends FOSRestController
 {
-    /**
-     * @ApiDoc(
-     *     resource=true,
-     *     description="Returns a list of rules that will be executed on the package",
-     *     statusCodes={
-     *         201="Returned on success"
-     *     }
-     * )
-     * @Route("/api/{version}/rules/evaluate", options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_rules_evaluate")
-     * @Method("POST")
-     */
-    public function rulesEvaluationAction(Request $request)
-    {
-        $content = $request->getContent();
-        $dispatcher = $this->get('event_dispatcher');
-        $package = $this->get('swp_bridge.transformer.json_to_package')->transform($content);
-        $dispatcher->dispatch(Events::SWP_VALIDATION, new GenericEvent($package));
-
-        $rules = $this->get(RulesMatcher::class)->getMatchedRules($package);
-
-        return new SingleResourceResponse($rules);
-    }
-
     /**
      * List all Rule entities for current tenant.
      *
