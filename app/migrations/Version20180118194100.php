@@ -5,6 +5,7 @@ namespace SWP\Migrations;
 use Doctrine\DBAL\Migrations\AbstractMigration;
 use Doctrine\DBAL\Migrations\IrreversibleMigrationException;
 use Doctrine\DBAL\Schema\Schema;
+use SWP\Bundle\CoreBundle\Model\Article;
 use SWP\Bundle\CoreBundle\Model\ArticleInterface;
 use SWP\Bundle\CoreBundle\Model\ArticleStatistics;
 use SWP\Bundle\MultiTenancyBundle\MultiTenancyEvents;
@@ -37,29 +38,30 @@ class Version20180118194100 extends AbstractMigration implements ContainerAwareI
         // this up() migration is auto-generated, please modify it to your needs
         $this->abortIf('postgresql' !== $this->connection->getDatabasePlatform()->getName(), 'Migration can only be executed safely on \'postgresql\'.');
 
+        $entityManager = $this->container->get('doctrine.orm.default_entity_manager');
         $this->container->get('event_dispatcher')->dispatch(MultiTenancyEvents::TENANTABLE_DISABLE);
-        $query = $this->container->get('doctrine.orm.default_entity_manager')
-            ->createQuery('SELECT count(a) FROM SWP\Bundle\CoreBundle\Model\Article a');
-        $articlesCount = $query->getSingleScalarResult();
 
-        if (0 === $articlesCount) {
+        $articles = $entityManager
+            ->createQuery('SELECT partial a.{id,tenantCode}, es FROM SWP\Bundle\CoreBundle\Model\Article a LEFT JOIN a.articleStatistics es')
+            ->getArrayResult();
+
+        if (empty($articles)) {
             return;
         }
 
-        $articles = $this->container->get('swp.repository.article')->findAll();
-
         /* @var ArticleInterface $article */
         foreach ($articles as $article) {
-            if (null !== $article->getArticleStatistics()) {
+            if (null !== $article['articleStatistics']) {
                 continue;
             }
 
             $articleStatistics = new ArticleStatistics();
-            $articleStatistics->setArticle($article);
-            $articleStatistics->setTenantCode($article->getTenantCode());
-            $this->container->get('doctrine')->getManager()->persist($articleStatistics);
+            $articleStatistics->setArticle($entityManager->getReference(Article::class, $article['id']));
+            $articleStatistics->setTenantCode($article['tenantCode']);
+            $entityManager->persist($articleStatistics);
         }
-        $this->container->get('doctrine')->getManager()->flush();
+
+        $entityManager->flush();
     }
 
     /**
