@@ -81,14 +81,23 @@ class RulesMatcher implements RulesMatcherInterface
     {
         $article = $this->articleFactory->createFromPackage($package);
         $this->eventDispatcher->dispatch(MultiTenancyEvents::TENANTABLE_DISABLE);
-        $rules = $this->ruleRepository->findBy([], ['priority' => 'desc']);
+        $organizationRules = $this->ruleRepository->findBy(['tenantCode' => null], ['priority' => 'desc']);
+
+        $evaluatedOrganizationRules = [];
+        foreach ($organizationRules as $rule) {
+            if ($this->ruleEvaluator->evaluate($rule, $package)) {
+                $evaluatedOrganizationRules[] = $rule;
+            }
+        }
+
+        $tenantRules = $this->ruleRepository->createQueryBuilder('r')
+            ->where('r.tenantCode IS NOT NULL')
+            ->orderBy('r.priority', 'desc')
+            ->getQuery()
+            ->getResult();
 
         $evaluatedRules = [];
-        foreach ($rules as $rule) {
-            if ($this->ruleEvaluator->evaluate($rule, $package)) {
-                $evaluatedRules[] = $rule;
-            }
-
+        foreach ($tenantRules as $rule) {
             if ($this->ruleEvaluator->evaluate($rule, $article)) {
                 $evaluatedRules[] = $rule;
             }
@@ -96,6 +105,6 @@ class RulesMatcher implements RulesMatcherInterface
 
         $this->eventDispatcher->dispatch(MultiTenancyEvents::TENANTABLE_ENABLE);
 
-        return $this->rulesProcessor->process($evaluatedRules);
+        return $this->rulesProcessor->process(array_merge($evaluatedOrganizationRules, $evaluatedRules));
     }
 }
