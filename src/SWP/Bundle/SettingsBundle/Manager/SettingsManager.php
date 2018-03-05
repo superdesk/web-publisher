@@ -123,16 +123,27 @@ class SettingsManager implements SettingsManagerInterface
 
     private function processSettings(array $settings = [], array $persistedSettings = []): array
     {
-        foreach ($persistedSettings as $setting) {
-            if (array_key_exists($setting->getName(), $settings)) {
-                $settings[$setting->getName()]['value'] = $this->decodeValue(
-                    $settings[$setting->getName()]['type'],
-                    $setting->getValue()
-                );
+        $convertedSettings = [];
+
+        foreach ($settings as $key => $setting) {
+            $setting['name'] = $key;
+            $convertedSettings[] = $setting;
+        }
+
+        foreach ($persistedSettings as $key => $setting) {
+            foreach ($convertedSettings as $keyConverted => $convertedSetting) {
+                if (isset($convertedSetting['name']) && $convertedSetting['name'] === $setting->getName()) {
+                    $convertedSetting['value'] = $this->decodeValue(
+                        $convertedSetting['type'],
+                        $setting->getValue()
+                    );
+
+                    $convertedSettings[$key] = $convertedSetting;
+                }
             }
         }
 
-        return $settings;
+        return $convertedSettings;
     }
 
     /**
@@ -163,6 +174,20 @@ class SettingsManager implements SettingsManagerInterface
         $this->settingsRepository->flush();
 
         return $setting;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getOneSettingByName(string $name): ?array
+    {
+        foreach ($this->all() as $setting) {
+            if ($setting['name'] === $name) {
+                return $setting;
+            }
+        }
+
+        return null;
     }
 
     /**

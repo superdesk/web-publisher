@@ -76,4 +76,11 @@ interface SettingsManagerInterface
      * @return array
      */
     public function getAllByScope(string $scope): array;
+
+    /**
+     * @param string $name
+     *
+     * @return array|null
+     */
+    public function getOneSettingByName(string $name): ?array;
 }

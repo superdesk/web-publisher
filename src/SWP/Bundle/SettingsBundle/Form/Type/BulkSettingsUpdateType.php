@@ -17,12 +17,11 @@ declare(strict_types=1);
 namespace SWP\Bundle\SettingsBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\Validator\Constraints\NotBlank;
 
-class SettingType extends AbstractType
+class BulkSettingsUpdateType extends AbstractType
 {
     /**
      * {@inheritdoc}
@@ -30,15 +29,11 @@ class SettingType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('name', TextType::class, [
-                'constraints' => [
-                    new NotBlank(),
-                ],
-            ])
-            ->add('value', TextType::class, [
-                'constraints' => [
-                    new NotBlank(),
-                ],
+            ->add('bulk', CollectionType::class, [
+                'entry_type' => SettingType::class,
+                'allow_add' => true,
+                'allow_delete' => true,
+                'by_reference' => false,
             ])
         ;
     }
