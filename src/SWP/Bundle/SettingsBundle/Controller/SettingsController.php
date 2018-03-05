@@ -135,7 +135,7 @@ class SettingsController extends Controller
     }
 
     /**
-     * Settings bulk update - update multiple settings
+     * Settings bulk update - update multiple settings.
      *
      * @ApiDoc(
      *     resource=true,
