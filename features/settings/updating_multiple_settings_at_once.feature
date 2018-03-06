@@ -350,3 +350,43 @@ Feature: Settings bulk update
       }
     ]
     """
+
+  Scenario: Checking if theme_logo setting is not overridden
+    Given I am authenticated as "test.user"
+    When I add "Content-Type" header equal to "application/json"
+    And I send a "POST" request to "/api/{version}/theme/logo_upload/" with parameters:
+      | key     | value      |
+      | logo    | @logo.png  |
+    Then the response status code should be 201
+    And I am authenticated as "test.user"
+    When I add "Content-Type" header equal to "application/json"
+    And I send a "PATCH" request to "/api/{version}/settings/bulk/" with body:
+    """
+    {
+      "settings":{
+        "bulk":[
+          {
+            "name":"primary_font_family",
+            "value":"Lato"
+          },
+          {
+            "name":"secondary_font_family",
+            "value":"Oswald"
+          }
+        ]
+      }
+    }
+    """
+    Then the response status code should be 200
+    And I am authenticated as "test.user"
+    When I add "Content-Type" header equal to "application/json"
+    And I send a "GET" request to "/api/{version}/settings/"
+    Then the response status code should be 200
+    And the JSON nodes should contain:
+      | [0].name               | primary_font_family                 |
+      | [0].value              | Lato                                |
+      | [1].name               | secondary_font_family               |
+      | [1].value              | Oswald                              |
+    And the JSON node "[2].name" should be equal to "theme_logo"
+    And the JSON node "[2].value" should contain ".png"
+
