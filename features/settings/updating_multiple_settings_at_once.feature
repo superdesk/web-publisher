@@ -387,6 +387,5 @@ Feature: Settings bulk update
       | [0].value              | Lato                                |
       | [1].name               | secondary_font_family               |
       | [1].value              | Oswald                              |
-    And the JSON node "[2].name" should be equal to "theme_logo"
-    And the JSON node "[2].value" should contain ".png"
-
+      | [2].name               | theme_logo                          |
+      | [2].value              | .png                                |
