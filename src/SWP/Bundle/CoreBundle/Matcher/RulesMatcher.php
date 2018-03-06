@@ -17,6 +17,7 @@ declare(strict_types=1);
 namespace SWP\Bundle\CoreBundle\Matcher;
 
 use SWP\Bundle\ContentBundle\Factory\ArticleFactoryInterface;
+use SWP\Bundle\CoreBundle\Model\ArticleInterface;
 use SWP\Bundle\CoreBundle\Model\PackageInterface;
 use SWP\Bundle\CoreBundle\Processor\RulesProcessorInterface;
 use SWP\Bundle\MultiTenancyBundle\MultiTenancyEvents;
@@ -81,6 +82,16 @@ class RulesMatcher implements RulesMatcherInterface
     {
         $article = $this->articleFactory->createFromPackage($package);
         $this->eventDispatcher->dispatch(MultiTenancyEvents::TENANTABLE_DISABLE);
+        $evaluatedOrganizationRules = $this->processPackageRules($package);
+        $evaluatedRules = $this->processArticleRules($article);
+
+        $this->eventDispatcher->dispatch(MultiTenancyEvents::TENANTABLE_ENABLE);
+
+        return $this->rulesProcessor->process(array_merge($evaluatedOrganizationRules, $evaluatedRules));
+    }
+
+    private function processPackageRules(PackageInterface $package): array
+    {
         $organizationRules = $this->ruleRepository->findBy(['tenantCode' => null], ['priority' => 'desc']);
 
         $evaluatedOrganizationRules = [];
@@ -90,6 +101,11 @@ class RulesMatcher implements RulesMatcherInterface
             }
         }
 
+        return $evaluatedOrganizationRules;
+    }
+
+    private function processArticleRules(ArticleInterface $article): array
+    {
         $tenantRules = $this->ruleRepository->createQueryBuilder('r')
             ->where('r.tenantCode IS NOT NULL')
             ->orderBy('r.priority', 'desc')
@@ -97,14 +113,12 @@ class RulesMatcher implements RulesMatcherInterface
             ->getResult();
 
         $evaluatedRules = [];
-        foreach ($tenantRules as $rule) {
+        foreach ((array) $tenantRules as $rule) {
             if ($this->ruleEvaluator->evaluate($rule, $article)) {
                 $evaluatedRules[] = $rule;
             }
         }
 
-        $this->eventDispatcher->dispatch(MultiTenancyEvents::TENANTABLE_ENABLE);
-
-        return $this->rulesProcessor->process(array_merge($evaluatedOrganizationRules, $evaluatedRules));
+        return $evaluatedRules;
     }
 }
