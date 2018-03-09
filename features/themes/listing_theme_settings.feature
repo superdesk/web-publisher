@@ -70,7 +70,7 @@ Feature: Checking if theme settings work correctly
     ]
     """
 
-  Scenario: Listing theme settings
+  Scenario: Listing theme settings of the second tenant
     Given I am authenticated as "test.client2"
     When I add "Content-Type" header equal to "application/json"
     And I send a "GET" request to "http://client2.localhost/api/{version}/theme/settings/"
