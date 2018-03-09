@@ -17,6 +17,7 @@ declare(strict_types=1);
 namespace SWP\Bundle\CoreBundle\Twig;
 
 use SWP\Bundle\CoreBundle\Context\ScopeContextInterface;
+use SWP\Bundle\CoreBundle\Model\TenantInterface;
 use SWP\Bundle\CoreBundle\Theme\Provider\ThemeLogoProviderInterface;
 use SWP\Bundle\SettingsBundle\Manager\SettingsManagerInterface;
 use SWP\Component\MultiTenancy\Context\TenantContextInterface;
@@ -91,10 +92,13 @@ final class ThemeExtension extends AbstractExtension
      */
     public function getThemeSetting(string $setting): string
     {
+        /** @var TenantInterface $tenant */
+        $tenant = $this->tenantContext->getTenant();
+
         return (string) $this->settingsManager->get(
             $setting,
             ScopeContextInterface::SCOPE_THEME,
-            $this->tenantContext->getTenant()
+            $tenant
         );
     }
 }

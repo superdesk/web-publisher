@@ -17,6 +17,7 @@ declare(strict_types=1);
 namespace SWP\Bundle\CoreBundle\Theme\Provider;
 
 use SWP\Bundle\CoreBundle\Context\ScopeContextInterface;
+use SWP\Bundle\CoreBundle\Model\TenantInterface;
 use SWP\Bundle\SettingsBundle\Manager\SettingsManagerInterface;
 use SWP\Component\MultiTenancy\Context\TenantContextInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
@@ -61,10 +62,12 @@ final class ThemeLogoProvider implements ThemeLogoProviderInterface
      */
     public function getLogoLink(): string
     {
+        /** @var TenantInterface $tenant */
+        $tenant = $this->tenantContext->getTenant();
         $setting = $this->settingsManager->get(
             'theme_logo',
             ScopeContextInterface::SCOPE_THEME,
-            $this->tenantContext->getTenant()
+            $tenant
         );
 
         if ('' === $setting) {
