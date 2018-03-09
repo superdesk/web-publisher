@@ -8,6 +8,7 @@ To get the diff for a specific change, go to https://github.com/superdesk/web-pu
 
 * 1.1.x
  * feature [#451] Allowed to evaluate rules that match given package
+ * feature [#453] Implemented bulk updates - settings API
  * feature [#447] Generate route's slug based on route's name if not provided by default
  * feature [#445] Implemented a list of optional values to theme's settings
  * feature [#444] Added an to get a single route by name and slug 

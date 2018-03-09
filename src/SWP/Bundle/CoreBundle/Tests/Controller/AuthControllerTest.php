@@ -153,6 +153,7 @@ class AuthControllerTest extends WebTestCase
         ]);
         /** @var MessageDataCollector $swiftMailer */
         $swiftMailer = $client->getProfile()->getCollector('swiftmailer');
+
         /** @var \Swift_Message $message */
         $messageBody = $swiftMailer->getMessages()[0]->getBody();
         $client->followRedirect();

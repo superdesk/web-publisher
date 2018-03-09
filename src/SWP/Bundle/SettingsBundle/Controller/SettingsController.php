@@ -18,6 +18,7 @@ namespace SWP\Bundle\SettingsBundle\Controller;
 
 use SWP\Bundle\SettingsBundle\Context\ScopeContextInterface;
 use SWP\Bundle\SettingsBundle\Exception\InvalidScopeException;
+use SWP\Bundle\SettingsBundle\Form\Type\BulkSettingsUpdateType;
 use SWP\Bundle\SettingsBundle\Form\Type\SettingType;
 use SWP\Component\Common\Response\ResponseContext;
 use SWP\Component\Common\Response\SingleResourceResponse;
@@ -110,11 +111,12 @@ class SettingsController extends Controller
             $scopeContext = $this->get('swp_settings.context.scope');
             $data = $form->getData();
 
-            if (!array_key_exists($data['name'], $settingsManager->all())) {
+            $setting = $settingsManager->getOneSettingByName($data['name']);
+
+            if (null === $setting) {
                 throw new NotFoundHttpException('Setting with this name was not found.');
             }
 
-            $setting = $settingsManager->all()[$data['name']];
             $scope = $setting['scope'];
             $owner = null;
             if (ScopeContextInterface::SCOPE_GLOBAL !== $scope) {
@@ -127,6 +129,61 @@ class SettingsController extends Controller
             $setting = $settingsManager->set($data['name'], $data['value'], $scope, $owner);
 
             return new SingleResourceResponse($setting);
+        }
+
+        return new SingleResourceResponse($form, new ResponseContext(400));
+    }
+
+    /**
+     * Settings bulk update - update multiple settings.
+     *
+     * @ApiDoc(
+     *     resource=true,
+     *     description="Settings bulk update",
+     *     statusCodes={
+     *         200="Returned on success.",
+     *         404="Setting not found",
+     *     },
+     *     input="SWP\Bundle\SettingsBundle\Form\Type\BulkSettingsUpdateType"
+     * )
+     * @Route("/api/{version}/settings/bulk/", options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_settings_bulk_update")
+     * @Method("PATCH")
+     *
+     * @param Request $request
+     *
+     * @return SingleResourceResponse
+     */
+    public function bulkAction(Request $request)
+    {
+        $form = $this->createForm(BulkSettingsUpdateType::class, [], [
+            'method' => $request->getMethod(),
+        ]);
+
+        $form->handleRequest($request);
+        if ($form->isValid()) {
+            $settingsManager = $this->get('swp_settings.manager.settings');
+            $scopeContext = $this->get('swp_settings.context.scope');
+            $data = $form->getData();
+
+            foreach ((array) $data['bulk'] as $item) {
+                $setting = $settingsManager->getOneSettingByName($item['name']);
+                if (null === $setting) {
+                    throw new NotFoundHttpException(sprintf('Setting with "%s" name was not found.', $item['name']));
+                }
+
+                $scope = $setting['scope'];
+                $owner = null;
+                if (ScopeContextInterface::SCOPE_GLOBAL !== $scope) {
+                    $owner = $scopeContext->getScopeOwner($scope);
+                    if (null === $owner) {
+                        throw new InvalidScopeException($scope);
+                    }
+                }
+
+                $settingsManager->set($item['name'], $item['value'], $scope, $owner);
+            }
+
+            return new SingleResourceResponse($settingsManager->all());
         }
 
         return new SingleResourceResponse($form, new ResponseContext(400));

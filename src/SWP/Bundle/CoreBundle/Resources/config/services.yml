@@ -493,6 +493,7 @@ services:
         arguments:
             - '@swp_settings.manager.settings'
             - '@router.default'
+            - '@swp_multi_tenancy.tenant_context'
 
     SWP\Bundle\CoreBundle\Processor\RulesProcessor:
         arguments:

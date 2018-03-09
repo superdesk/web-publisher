@@ -44,9 +44,10 @@ interface SettingsRepositoryInterface extends RepositoryInterface
     public function findOneByNameAndScopeAndOwner(string $name, string $scope, SettingsOwnerInterface $owner = null): QueryBuilder;
 
     /**
-     * @param string $scope
+     * @param string                 $scope
+     * @param SettingsOwnerInterface $settingsOwner
      *
      * @return QueryBuilder
      */
-    public function findAllByScope(string $scope): QueryBuilder;
+    public function findByScopeAndOwner(string $scope, SettingsOwnerInterface $settingsOwner): QueryBuilder;
 }

@@ -17,9 +17,10 @@ declare(strict_types=1);
 namespace SWP\Bundle\CoreBundle\Twig;
 
 use SWP\Bundle\CoreBundle\Context\ScopeContextInterface;
+use SWP\Bundle\CoreBundle\Model\TenantInterface;
 use SWP\Bundle\CoreBundle\Theme\Provider\ThemeLogoProviderInterface;
 use SWP\Bundle\SettingsBundle\Manager\SettingsManagerInterface;
-use Sylius\Bundle\ThemeBundle\Context\ThemeContextInterface;
+use SWP\Component\MultiTenancy\Context\TenantContextInterface;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
 
@@ -31,9 +32,9 @@ final class ThemeExtension extends AbstractExtension
     private $themeLogoProvider;
 
     /**
-     * @var ThemeContextInterface
+     * @var TenantContextInterface
      */
-    private $themeContext;
+    private $tenantContext;
 
     /**
      * @var SettingsManagerInterface
@@ -44,16 +45,16 @@ final class ThemeExtension extends AbstractExtension
      * ThemeExtension constructor.
      *
      * @param ThemeLogoProviderInterface $themeLogoProvider
-     * @param ThemeContextInterface      $themeContext
+     * @param TenantContextInterface     $tenantContext
      * @param SettingsManagerInterface   $settingsManager
      */
     public function __construct(
         ThemeLogoProviderInterface $themeLogoProvider,
-        ThemeContextInterface $themeContext,
+        TenantContextInterface $tenantContext,
         SettingsManagerInterface $settingsManager
     ) {
         $this->themeLogoProvider = $themeLogoProvider;
-        $this->themeContext = $themeContext;
+        $this->tenantContext = $tenantContext;
         $this->settingsManager = $settingsManager;
     }
 
@@ -75,7 +76,7 @@ final class ThemeExtension extends AbstractExtension
      */
     public function getThemeLogoPath(string $fallBackPath): string
     {
-        $link = $this->themeLogoProvider->getLogoLink($this->themeContext->getTheme());
+        $link = $this->themeLogoProvider->getLogoLink();
 
         if ('' === $link) {
             return $fallBackPath;
@@ -91,10 +92,13 @@ final class ThemeExtension extends AbstractExtension
      */
     public function getThemeSetting(string $setting): string
     {
+        /** @var TenantInterface $tenant */
+        $tenant = $this->tenantContext->getTenant();
+
         return (string) $this->settingsManager->get(
             $setting,
             ScopeContextInterface::SCOPE_THEME,
-            $this->themeContext->getTheme()
+            $tenant
         );
     }
 }

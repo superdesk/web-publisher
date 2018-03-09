@@ -51,8 +51,10 @@ final class ThemeLogoTest extends WebTestCase
         $client = static::createClient();
 
         $client->request('GET', $this->router->generate('swp_api_theme_settings_list'));
+
         $data = json_decode($client->getResponse()->getContent(), true);
-        self::assertEquals('', $data['theme_logo']['value']);
+        self::assertEquals('theme_logo', $data[0]['name']);
+        self::assertEquals('', $data[0]['value']);
 
         $template = '{{ themeLogo(asset(\'theme/logo.png\')) }}';
         $result = $this->getRendered($template);
@@ -62,18 +64,18 @@ final class ThemeLogoTest extends WebTestCase
         $fileName = realpath(__DIR__.'/../Fixtures/logo.png');
 
         $client->request('POST', $this->router->generate('swp_api_upload_theme_logo'), [
-            'theme_logo_upload' => [
-                'logo' => new UploadedFile($fileName, 'logo.png', 'image/png', filesize($fileName), null, true),
-            ],
+            'logo' => new UploadedFile($fileName, 'logo.png', 'image/png', filesize($fileName), null, true),
         ]);
+
         self::assertEquals(201, $client->getResponse()->getStatusCode());
 
         $client->request('GET', $this->router->generate('swp_api_theme_settings_list'));
         $data = json_decode($client->getResponse()->getContent(), true);
-        self::assertNotEquals('', $data['theme_logo']['value']);
+        self::assertEquals('theme_logo', $data[0]['name']);
+        self::assertNotEquals('', $data[0]['value']);
         self::assertEquals(200, $client->getResponse()->getStatusCode());
 
-        $route = $this->router->generate('swp_theme_logo_get', ['id' => $data['theme_logo']['value']]);
+        $route = $this->router->generate('swp_theme_logo_get', ['id' => $data[0]['value']]);
 
         $client->request('GET', $route);
         self::assertArrayHasKey('content-disposition', $client->getResponse()->headers->all());

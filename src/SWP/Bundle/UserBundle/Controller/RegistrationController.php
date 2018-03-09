@@ -114,8 +114,8 @@ class RegistrationController extends Controller
         $settingsManager = $this->get('swp_settings.manager.settings');
         $scopeContext = $this->get('swp_settings.context.scope');
 
-        $scope = $settingsManager->all()[$settingName]['scope'];
-        $registrationEnabled = $settingsManager->get($settingName, $scope, $scopeContext->getScopeOwner($scope));
+        $setting = $settingsManager->getOneSettingByName($settingName);
+        $registrationEnabled = $settingsManager->get($settingName, $setting['scope'], $scopeContext->getScopeOwner($setting['scope']));
         if (!$registrationEnabled) {
             throw new NotFoundHttpException('Registration is disabled.');
         }
