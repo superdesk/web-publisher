@@ -16,14 +16,10 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\CoreBundle\Theme\Provider;
 
-use SWP\Bundle\CoreBundle\Theme\Model\ThemeInterface;
-
 interface ThemeLogoProviderInterface
 {
     /**
-     * @param ThemeInterface $theme
-     *
      * @return string
      */
-    public function getLogoLink(ThemeInterface $theme): string;
+    public function getLogoLink(): string;
 }

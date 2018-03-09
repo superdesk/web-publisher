@@ -61,9 +61,12 @@ class CurrentThemeController extends Controller
         $form->handleRequest($request);
 
         if ($form->isValid()) {
+            $tenantContext = $this->get('swp_multi_tenancy.tenant_context');
+            $currentTenant = $tenantContext->getTenant();
+
             try {
                 $settingsManager = $this->get('swp_settings.manager.settings');
-                $setting = $settingsManager->get('theme_logo', ScopeContextInterface::SCOPE_THEME, $theme);
+                $setting = $settingsManager->get('theme_logo', ScopeContextInterface::SCOPE_THEME, $currentTenant);
                 $theme->setLogoPath($setting);
                 $themeLogoUploader = $this->get('swp_core.uploader.theme_logo');
                 $themeLogoUploader->upload($theme);
@@ -72,7 +75,7 @@ class CurrentThemeController extends Controller
             }
 
             $settingsManager = $this->get('swp_settings.manager.settings');
-            $setting = $settingsManager->set('theme_logo', $theme->getLogoPath(), ScopeContextInterface::SCOPE_THEME, $theme);
+            $setting = $settingsManager->set('theme_logo', $theme->getLogoPath(), ScopeContextInterface::SCOPE_THEME, $currentTenant);
 
             return new SingleResourceResponse($setting, new ResponseContext(201));
         }
@@ -104,8 +107,9 @@ class CurrentThemeController extends Controller
             throw new \LogicException('Theme is not set!');
         }
 
+        $tenantContext = $this->get('swp_multi_tenancy.tenant_context');
         $settingsManager = $this->get('swp_settings.manager.settings');
-        $settings = $settingsManager->getAllByScope(ScopeContextInterface::SCOPE_THEME);
+        $settings = $settingsManager->getByScopeAndOwner(ScopeContextInterface::SCOPE_THEME, $tenantContext->getTenant());
 
         return new SingleResourceResponse($settings);
     }

@@ -112,27 +112,37 @@ class SettingsManager implements SettingsManagerInterface
     /**
      * {@inheritdoc}
      */
-    public function getAllByScope(string $scope): array
+    public function getByScopeAndOwner(string $scope, SettingsOwnerInterface $settingsOwner): array
     {
         $settings = $this->getFromConfiguration($scope);
-
-        $persistedSettings = $this->settingsRepository->findAllByScope($scope)->getQuery()->getResult();
+        $persistedSettings = $this->settingsRepository->findByScopeAndOwner($scope, $settingsOwner)->getQuery()->getResult();
 
         return $this->processSettings($settings, $persistedSettings);
     }
 
     private function processSettings(array $settings = [], array $persistedSettings = []): array
     {
-        foreach ($persistedSettings as $setting) {
-            if (array_key_exists($setting->getName(), $settings)) {
-                $settings[$setting->getName()]['value'] = $this->decodeValue(
-                    $settings[$setting->getName()]['type'],
-                    $setting->getValue()
-                );
+        $convertedSettings = [];
+
+        foreach ($settings as $key => $setting) {
+            $setting['name'] = $key;
+            $convertedSettings[] = $setting;
+        }
+
+        foreach ($persistedSettings as $key => $setting) {
+            foreach ($convertedSettings as $keyConverted => $convertedSetting) {
+                if (isset($convertedSetting['name']) && $convertedSetting['name'] === $setting->getName()) {
+                    $convertedSetting['value'] = $this->decodeValue(
+                        $convertedSetting['type'],
+                        $setting->getValue()
+                    );
+
+                    $convertedSettings[$keyConverted] = $convertedSetting;
+                }
             }
         }
 
-        return $settings;
+        return $convertedSettings;
     }
 
     /**
@@ -163,6 +173,20 @@ class SettingsManager implements SettingsManagerInterface
         $this->settingsRepository->flush();
 
         return $setting;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getOneSettingByName(string $name): ?array
+    {
+        foreach ($this->all() as $setting) {
+            if ($setting['name'] === $name) {
+                return $setting;
+            }
+        }
+
+        return null;
     }
 
     /**
@@ -212,6 +236,7 @@ class SettingsManager implements SettingsManagerInterface
     {
         $settings = [];
         $settingsConfig = $this->settingsProvider->getSettings();
+
         if (null !== $name && array_key_exists($name, $settingsConfig)) {
             $setting = $settingsConfig[$name];
             if (null === $scope || $setting['scope'] === $scope) {

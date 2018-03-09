@@ -9,5 +9,22 @@
             "homepage": "https://www.sourcefabric.org",
             "role": "Organization"
         }
-    ]
+    ],
+    "settings": {
+        "primary_font_family": {
+            "label": "Primary Font Family",
+            "value": "Roboto",
+            "type": "string",
+            "options": [
+                {"value": "Roboto", "label": "Roboto"},
+                {"value": "Lato", "label": "Lato"},
+                {"value": "Oswald", "label": "Oswald"}
+            ]
+        },
+        "body_font_size": {
+            "label": "Body Font Size",
+            "value": "14px",
+            "type": "string"
+        }
+    }
 }
