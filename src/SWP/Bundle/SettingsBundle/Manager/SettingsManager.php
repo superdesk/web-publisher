@@ -112,11 +112,10 @@ class SettingsManager implements SettingsManagerInterface
     /**
      * {@inheritdoc}
      */
-    public function getAllByScope(string $scope): array
+    public function getByScopeAndOwner(string $scope, SettingsOwnerInterface $settingsOwner): array
     {
         $settings = $this->getFromConfiguration($scope);
-
-        $persistedSettings = $this->settingsRepository->findAllByScope($scope)->getQuery()->getResult();
+        $persistedSettings = $this->settingsRepository->findByScopeAndOwner($scope, $settingsOwner)->getQuery()->getResult();
 
         return $this->processSettings($settings, $persistedSettings);
     }
@@ -138,7 +137,7 @@ class SettingsManager implements SettingsManagerInterface
                         $setting->getValue()
                     );
 
-                    $convertedSettings[$key] = $convertedSetting;
+                    $convertedSettings[$keyConverted] = $convertedSetting;
                 }
             }
         }
@@ -237,6 +236,7 @@ class SettingsManager implements SettingsManagerInterface
     {
         $settings = [];
         $settingsConfig = $this->settingsProvider->getSettings();
+
         if (null !== $name && array_key_exists($name, $settingsConfig)) {
             $setting = $settingsConfig[$name];
             if (null === $scope || $setting['scope'] === $scope) {

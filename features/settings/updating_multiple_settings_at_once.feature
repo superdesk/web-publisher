@@ -31,46 +31,16 @@ Feature: Settings bulk update
     """
     [
       {
-        "label":"Primary Font Family",
-        "value":"Lato",
-        "type":"string",
-        "options":[
-          {
-            "value":"Roboto",
-            "label":"Roboto"
-          },
-          {
-            "value":"Lato",
-            "label":"Lato"
-          },
-          {
-            "value":"Oswald",
-            "label":"Oswald"
-          }
-        ],
-        "scope":"theme",
-        "name":"primary_font_family"
+        "type":"boolean",
+        "scope":"tenant",
+        "value":true,
+        "name":"registration_enabled"
       },
       {
-        "label":"Secondary Font Family",
-        "value":"Oswald",
+        "value":"@FOSUser\/Registration\/email.txt.twig",
+        "scope":"tenant",
         "type":"string",
-        "options":[
-          {
-            "value":"Roboto",
-            "label":"Roboto"
-          },
-          {
-            "value":"Lato",
-            "label":"Lato"
-          },
-          {
-            "value":"Oswald",
-            "label":"Oswald"
-          }
-        ],
-        "scope":"theme",
-        "name":"secondary_font_family"
+        "name":"registration_confirmation.template"
       },
       {
         "value":{
@@ -126,7 +96,7 @@ Feature: Settings bulk update
       },
       {
         "label":"Primary Font Family",
-        "value":"Roboto",
+        "value":"Lato",
         "type":"string",
         "options":[
           {
@@ -147,7 +117,7 @@ Feature: Settings bulk update
       },
       {
         "label":"Secondary Font Family",
-        "value":"Roboto",
+        "value":"Oswald",
         "type":"string",
         "options":[
           {
@@ -206,46 +176,16 @@ Feature: Settings bulk update
     """
     [
       {
-        "label":"Primary Font Family",
-        "value":"Lato",
-        "type":"string",
-        "options":[
-          {
-            "value":"Roboto",
-            "label":"Roboto"
-          },
-          {
-            "value":"Lato",
-            "label":"Lato"
-          },
-          {
-            "value":"Oswald",
-            "label":"Oswald"
-          }
-        ],
-        "scope":"theme",
-        "name":"primary_font_family"
+        "type":"boolean",
+        "scope":"tenant",
+        "value":true,
+        "name":"registration_enabled"
       },
       {
-        "label":"Secondary Font Family",
-        "value":"Oswald",
+        "value":"@FOSUser\/Registration\/email.txt.twig",
+        "scope":"tenant",
         "type":"string",
-        "options":[
-          {
-            "value":"Roboto",
-            "label":"Roboto"
-          },
-          {
-            "value":"Lato",
-            "label":"Lato"
-          },
-          {
-            "value":"Oswald",
-            "label":"Oswald"
-          }
-        ],
-        "scope":"theme",
-        "name":"secondary_font_family"
+        "name":"registration_confirmation.template"
       },
       {
         "value":{
@@ -301,7 +241,7 @@ Feature: Settings bulk update
       },
       {
         "label":"Primary Font Family",
-        "value":"Roboto",
+        "value":"Lato",
         "type":"string",
         "options":[
           {
@@ -322,7 +262,7 @@ Feature: Settings bulk update
       },
       {
         "label":"Secondary Font Family",
-        "value":"Roboto",
+        "value":"Oswald",
         "type":"string",
         "options":[
           {
@@ -383,9 +323,9 @@ Feature: Settings bulk update
     And I send a "GET" request to "/api/{version}/settings/"
     Then the response status code should be 200
     And the JSON nodes should contain:
-      | [0].name               | primary_font_family                 |
-      | [0].value              | Lato                                |
-      | [1].name               | secondary_font_family               |
-      | [1].value              | Oswald                              |
-      | [2].name               | theme_logo                          |
-      | [2].value              | .png                                |
+      | [10].name               | primary_font_family                 |
+      | [10].value              | Lato                                |
+      | [11].name               | secondary_font_family               |
+      | [11].value              | Oswald                              |
+      | [9].name                | theme_logo                          |
+      | [9].value               | .png                                |

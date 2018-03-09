@@ -14,10 +14,9 @@
 
 namespace SWP\Bundle\CoreBundle\Theme\Model;
 
-use SWP\Bundle\SettingsBundle\Model\SettingsOwnerInterface;
 use Sylius\Bundle\ThemeBundle\Model\ThemeInterface as BaseThemeInterface;
 
-interface ThemeInterface extends BaseThemeInterface, SettingsOwnerInterface
+interface ThemeInterface extends BaseThemeInterface
 {
     /**
      * @param string $name

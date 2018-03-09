@@ -62,6 +62,6 @@ final class ThemeLogoUploadType extends AbstractType
      */
     public function getBlockPrefix()
     {
-        return 'theme_logo_upload';
+        return '';
     }
 }

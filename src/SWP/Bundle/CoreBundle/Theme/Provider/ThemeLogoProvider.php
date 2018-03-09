@@ -17,8 +17,8 @@ declare(strict_types=1);
 namespace SWP\Bundle\CoreBundle\Theme\Provider;
 
 use SWP\Bundle\CoreBundle\Context\ScopeContextInterface;
-use SWP\Bundle\CoreBundle\Theme\Model\ThemeInterface;
 use SWP\Bundle\SettingsBundle\Manager\SettingsManagerInterface;
+use SWP\Component\MultiTenancy\Context\TenantContextInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Routing\RouterInterface;
 
@@ -35,23 +35,37 @@ final class ThemeLogoProvider implements ThemeLogoProviderInterface
     private $router;
 
     /**
+     * @var TenantContextInterface
+     */
+    private $tenantContext;
+
+    /**
      * ThemeLogoProvider constructor.
      *
      * @param SettingsManagerInterface $settingsManager
      * @param RouterInterface          $router
+     * @param TenantContextInterface   $tenantContext
      */
-    public function __construct(SettingsManagerInterface $settingsManager, RouterInterface $router)
-    {
+    public function __construct(
+        SettingsManagerInterface $settingsManager,
+        RouterInterface $router,
+        TenantContextInterface $tenantContext
+    ) {
         $this->settingsManager = $settingsManager;
         $this->router = $router;
+        $this->tenantContext = $tenantContext;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function getLogoLink(ThemeInterface $theme): string
+    public function getLogoLink(): string
     {
-        $setting = $this->settingsManager->get('theme_logo', ScopeContextInterface::SCOPE_THEME, $theme);
+        $setting = $this->settingsManager->get(
+            'theme_logo',
+            ScopeContextInterface::SCOPE_THEME,
+            $this->tenantContext->getTenant()
+        );
 
         if ('' === $setting) {
             return $setting;

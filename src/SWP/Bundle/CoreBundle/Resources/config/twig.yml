@@ -46,7 +46,7 @@ services:
         public: false
         arguments:
             - '@swp_core.provider.theme_logo'
-            - '@swp_core.theme.context.tenant_aware'
+            - '@swp_multi_tenancy.tenant_context'
             - '@swp_settings.manager.settings'
         tags:
             - { name: twig.extension }

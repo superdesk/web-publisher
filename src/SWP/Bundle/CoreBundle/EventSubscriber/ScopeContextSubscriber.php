@@ -67,8 +67,8 @@ class ScopeContextSubscriber implements EventSubscriberInterface
             $this->scopeContext->setScopeOwner(ScopeContextInterface::SCOPE_TENANT, $tenant);
             $this->scopeContext->setScopeOwner(ScopeContextInterface::SCOPE_ORGANIZATION, $tenant->getOrganization());
 
-            if (($theme = $this->themeContext->getTheme()) instanceof ThemeInterface) {
-                $this->scopeContext->setScopeOwner(ScopeContextInterface::SCOPE_THEME, $theme);
+            if ($this->themeContext->getTheme() instanceof ThemeInterface) {
+                $this->scopeContext->setScopeOwner(ScopeContextInterface::SCOPE_THEME, $tenant);
             }
         }
     }

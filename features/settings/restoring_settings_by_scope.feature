@@ -170,10 +170,68 @@ Feature: Checking if restoring settings by scope works correctly
     """
     [
       {
+        "type":"boolean",
+        "scope":"tenant",
+        "value":true,
+        "name":"registration_enabled"
+      },
+      {
+        "value":"@FOSUser\/Registration\/email.txt.twig",
+        "scope":"tenant",
+        "type":"string",
+        "name":"registration_confirmation.template"
+      },
+      {
+        "value":{
+          "contact@publisher.test":"Publisher"
+        },
+        "scope":"tenant",
+        "type":"array",
+        "name":"registration_from_email.confirmation"
+      },
+      {
+        "value":"@FOSUser\/Resetting\/email.txt.twig",
+        "scope":"tenant",
+        "type":"string",
+        "name":"registration_resetting.template"
+      },
+      {
+        "value":{
+          "contact@publisher.test":"Publisher"
+        },
+        "scope":"tenant",
+        "type":"array",
+        "name":"registration_from_email.resetting"
+      },
+      {
         "scope":"global",
         "type":"string",
         "value":"Publisher edited",
         "name":"instance_name"
+      },
+      {
+        "scope":"user",
+        "type":"string",
+        "value":"{}",
+        "name":"filtering_prefrences"
+      },
+      {
+        "scope":"user",
+        "type":"string",
+        "value":"{}",
+        "name":"user_private_preferences"
+      },
+      {
+        "scope":"user",
+        "type":"string",
+        "value":"{}",
+        "name":"user_favourite_articles"
+      },
+      {
+        "value":"",
+        "scope":"theme",
+        "type":"string",
+        "name":"theme_logo"
       },
       {
         "label":"Primary Font Family",
@@ -218,92 +276,6 @@ Feature: Checking if restoring settings by scope works correctly
         "name":"secondary_font_family"
       },
       {
-        "value":"@FOSUser\/Resetting\/email.txt.twig",
-        "scope":"tenant",
-        "type":"string",
-        "name":"registration_resetting.template"
-      },
-      {
-        "value":{
-          "contact@publisher.test":"Publisher"
-        },
-        "scope":"tenant",
-        "type":"array",
-        "name":"registration_from_email.resetting"
-      },
-      {
-        "scope":"global",
-        "type":"string",
-        "value":"Publisher Master",
-        "name":"instance_name"
-      },
-      {
-        "scope":"user",
-        "type":"string",
-        "value":"{}",
-        "name":"filtering_prefrences"
-      },
-      {
-        "scope":"user",
-        "type":"string",
-        "value":"{}",
-        "name":"user_private_preferences"
-      },
-      {
-        "scope":"user",
-        "type":"string",
-        "value":"{}",
-        "name":"user_favourite_articles"
-      },
-      {
-        "value":"",
-        "scope":"theme",
-        "type":"string",
-        "name":"theme_logo"
-      },
-      {
-        "label":"Primary Font Family",
-        "value":"Roboto",
-        "type":"string",
-        "options":[
-          {
-            "value":"Roboto",
-            "label":"Roboto"
-          },
-          {
-            "value":"Lato",
-            "label":"Lato"
-          },
-          {
-            "value":"Oswald",
-            "label":"Oswald"
-          }
-        ],
-        "scope":"theme",
-        "name":"primary_font_family"
-      },
-      {
-        "label":"Secondary Font Family",
-        "value":"Roboto",
-        "type":"string",
-        "options":[
-          {
-            "value":"Roboto",
-            "label":"Roboto"
-          },
-          {
-            "value":"Lato",
-            "label":"Lato"
-          },
-          {
-            "value":"Oswald",
-            "label":"Oswald"
-          }
-        ],
-        "scope":"theme",
-        "name":"secondary_font_family"
-      },
-      {
         "label":"Body Font Size",
         "value":14,
         "type":"integer",
@@ -323,10 +295,10 @@ Feature: Checking if restoring settings by scope works correctly
     """
     [
       {
-        "scope":"global",
-        "type":"string",
-        "value":"Publisher edited",
-        "name":"instance_name"
+        "type":"boolean",
+        "scope":"tenant",
+        "value":true,
+        "name":"registration_enabled"
       },
       {
         "value":"@FOSUser\/Registration\/email.txt.twig",
@@ -359,7 +331,7 @@ Feature: Checking if restoring settings by scope works correctly
       {
         "scope":"global",
         "type":"string",
-        "value":"Publisher Master",
+        "value":"Publisher edited",
         "name":"instance_name"
       },
       {

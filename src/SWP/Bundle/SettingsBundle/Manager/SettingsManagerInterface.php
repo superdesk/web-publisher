@@ -71,11 +71,12 @@ interface SettingsManagerInterface
     public function clearAllByScope(string $scope = ScopeContextInterface::SCOPE_GLOBAL): void;
 
     /**
-     * @param string $scope
+     * @param string                 $scope
+     * @param SettingsOwnerInterface $settingsOwner
      *
      * @return array
      */
-    public function getAllByScope(string $scope): array;
+    public function getByScopeAndOwner(string $scope, SettingsOwnerInterface $settingsOwner): array;
 
     /**
      * @param string $name
