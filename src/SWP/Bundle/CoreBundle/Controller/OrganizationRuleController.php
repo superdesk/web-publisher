@@ -20,19 +20,45 @@ use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use SWP\Bundle\CoreBundle\Matcher\RulesMatcher;
 use SWP\Bundle\MultiTenancyBundle\MultiTenancyEvents;
 use SWP\Bundle\RuleBundle\Form\Type\RuleType;
+use SWP\Component\Bridge\Events;
 use SWP\Component\Common\Criteria\Criteria;
 use SWP\Component\Common\Pagination\PaginationData;
 use SWP\Component\Common\Response\ResourcesListResponse;
 use SWP\Component\Common\Response\ResponseContext;
 use SWP\Component\Common\Response\SingleResourceResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\EventDispatcher\GenericEvent;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class OrganizationRuleController extends Controller
 {
+    /**
+     * @ApiDoc(
+     *     resource=true,
+     *     description="Returns a list of rules that will be executed on the package",
+     *     statusCodes={
+     *         200="Returned on success"
+     *     }
+     * )
+     * @Route("/api/{version}/organization/rules/evaluate", options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_core_organization_rules_evaluate")
+     * @Method("POST")
+     */
+    public function rulesEvaluationAction(Request $request)
+    {
+        $content = $request->getContent();
+        $dispatcher = $this->get('event_dispatcher');
+        $package = $this->get('swp_bridge.transformer.json_to_package')->transform($content);
+        $dispatcher->dispatch(Events::SWP_VALIDATION, new GenericEvent($package));
+
+        $rules = $this->get(RulesMatcher::class)->getMatchedRules($package);
+
+        return new SingleResourceResponse($rules);
+    }
+
     /**
      * List all current organization's rules.
      *

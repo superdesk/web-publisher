@@ -494,3 +494,16 @@ services:
             - '@swp_settings.manager.settings'
             - '@router.default'
             - '@swp_multi_tenancy.tenant_context'
+
+    SWP\Bundle\CoreBundle\Processor\RulesProcessor:
+        arguments:
+            - '@swp.repository.tenant'
+            - '@swp.repository.route'
+
+    SWP\Bundle\CoreBundle\Matcher\RulesMatcher:
+        arguments:
+            - '@event_dispatcher'
+            - '@swp.repository.rule'
+            - '@swp_rule.evaluator.rule'
+            - '@SWP\Bundle\CoreBundle\Processor\RulesProcessor'
+            - '@swp.factory.article'

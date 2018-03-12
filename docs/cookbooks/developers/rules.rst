@@ -112,3 +112,10 @@ Note the ``fbia`` key in the ``configuration`` property is set to ``true``.
 If the content will be pushed to the tenant, the content will be also submitted to the Facebook Instant Articles.
 
 Read more about Facebook Instant Articles in :doc:`this section </cookbooks/editors/configure_facebook_instant_articles>`.
+
+Evaluation of the rules which match given package/item
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Based on the package, there is a possibility to evaluate rules that match given package's/item's metadata.
+If the package/item in NINJS format will be passed to the ``/api/v1/organization/rules/evaluate`` as a request's payload,
+then the (organization and/or tenant) rules that match that package's/item's metadata will be returned.
