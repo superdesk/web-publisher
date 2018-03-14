@@ -59,7 +59,8 @@
     "nelmio/api-doc-bundle": "2.13.*",
     "willdurand/hateoas-bundle": "^1.2",
     "hoa/mime": "3.16.01.15",
-    "phpoption/phpoption": "1.5.*"
+    "phpoption/phpoption": "1.5.*",
+    "burgov/key-value-form-bundle": "@stable"
   },
   "require-dev": {
     "phpspec/phpspec": "^2.4",
