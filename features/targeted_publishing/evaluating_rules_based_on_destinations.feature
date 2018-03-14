@@ -18,6 +18,9 @@ Feature: Evaluate rules based on publishing destinations
               "value":[
                 {
                   "tenant":"123abc"
+                },
+                {
+                  "tenant":"678iop"
                 }
               ]
             }
@@ -29,6 +32,26 @@ Feature: Evaluate rules based on publishing destinations
     And I am authenticated as "test.user"
     And I add "Content-Type" header equal to "application/json"
     Then I send a "POST" request to "/api/{version}/rules/" with body:
+     """
+      {
+        "rule":{
+          "name":"Test tenant rule",
+          "description":"Test tenant rule description",
+          "priority":1,
+          "expression":"article.getMetadataByKey(\"located\") matches \"/Sydney/\"",
+          "configuration":[
+            {
+              "key":"route",
+              "value":6
+            }
+          ]
+        }
+      }
+     """
+    Then the response status code should be 201
+    And I am authenticated as "test.client2"
+    And I add "Content-Type" header equal to "application/json"
+    Then I send a "POST" request to "http://client2.localhost/api/{version}/rules/" with body:
      """
       {
         "rule":{
@@ -56,7 +79,9 @@ Feature: Evaluate rules based on publishing destinations
     And the JSON nodes should contain:
       | organization.id         | 1      |
       | tenants[0].tenant.code  | 123abc |
-      | tenants[0].routes[0].id | 3      |
+      | tenants[0].routes[0].id | 6      |
+      | tenants[1].tenant.code  | 678iop |
+      | tenants[1].routes[0].id | 3      |
     And I am authenticated as "test.user"
     When I add "Content-Type" header equal to "application/json"
     And I send a "PUT" request to "/api/{version}/organization/destinations/" with body:
@@ -67,6 +92,13 @@ Feature: Evaluate rules based on publishing destinations
             {
               "tenant":"123abc",
               "route":5,
+              "fbia":false,
+              "published":false,
+              "packageGuid": "urn:newsml:localhost:2016-09-23T13:56:39.404843:56465de4-0d5c-495a-8e36-3b396def3cf0"
+            },
+            {
+              "tenant":"678iop",
+              "route":3,
               "fbia":false,
               "published":false,
               "packageGuid": "urn:newsml:localhost:2016-09-23T13:56:39.404843:56465de4-0d5c-495a-8e36-3b396def3cf0"
@@ -86,4 +118,6 @@ Feature: Evaluate rules based on publishing destinations
     And the JSON nodes should contain:
     | organization.id         | 1      |
     | tenants[0].tenant.code  | 123abc |
+    | tenants[1].tenant.code  | 678iop |
     | tenants[0].routes[0].id | 5      |
+    | tenants[1].routes[0].id | 3      |

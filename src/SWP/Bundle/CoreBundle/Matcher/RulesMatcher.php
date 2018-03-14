@@ -19,13 +19,11 @@ namespace SWP\Bundle\CoreBundle\Matcher;
 use SWP\Bundle\ContentBundle\Factory\ArticleFactoryInterface;
 use SWP\Bundle\ContentBundle\Model\ArticleInterface;
 use SWP\Bundle\CoreBundle\Model\PackageInterface;
-use SWP\Bundle\CoreBundle\Model\PublishDestinationInterface;
-use SWP\Bundle\CoreBundle\Model\RuleInterface;
 use SWP\Bundle\CoreBundle\Processor\RulesProcessorInterface;
+use SWP\Bundle\CoreBundle\Provider\PublishDestinationProviderInterface;
 use SWP\Bundle\MultiTenancyBundle\MultiTenancyEvents;
 use SWP\Component\Rule\Evaluator\RuleEvaluatorInterface;
 use SWP\Component\Rule\Repository\RuleRepositoryInterface;
-use SWP\Component\Storage\Repository\RepositoryInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class RulesMatcher implements RulesMatcherInterface
@@ -55,16 +53,20 @@ class RulesMatcher implements RulesMatcherInterface
      */
     private $articleFactory;
 
-    private $publishDestinationRepository;
+    /**
+     * @var PublishDestinationProviderInterface
+     */
+    private $publishDestinationProvider;
 
     /**
      * RulesMatcher constructor.
      *
-     * @param EventDispatcherInterface $eventDispatcher
-     * @param RuleRepositoryInterface  $ruleRepository
-     * @param RuleEvaluatorInterface   $ruleEvaluator
-     * @param RulesProcessorInterface  $rulesProcessor
-     * @param ArticleFactoryInterface  $articleFactory
+     * @param EventDispatcherInterface            $eventDispatcher
+     * @param RuleRepositoryInterface             $ruleRepository
+     * @param RuleEvaluatorInterface              $ruleEvaluator
+     * @param RulesProcessorInterface             $rulesProcessor
+     * @param ArticleFactoryInterface             $articleFactory
+     * @param PublishDestinationProviderInterface $publishDestinationProvider
      */
     public function __construct(
         EventDispatcherInterface $eventDispatcher,
@@ -72,14 +74,14 @@ class RulesMatcher implements RulesMatcherInterface
         RuleEvaluatorInterface $ruleEvaluator,
         RulesProcessorInterface $rulesProcessor,
         ArticleFactoryInterface $articleFactory,
-        RepositoryInterface $publishDestinationRepository
+        PublishDestinationProviderInterface $publishDestinationProvider
     ) {
         $this->eventDispatcher = $eventDispatcher;
         $this->ruleRepository = $ruleRepository;
         $this->ruleEvaluator = $ruleEvaluator;
         $this->rulesProcessor = $rulesProcessor;
         $this->articleFactory = $articleFactory;
-        $this->publishDestinationRepository = $publishDestinationRepository;
+        $this->publishDestinationProvider = $publishDestinationProvider;
     }
 
     /**
@@ -89,25 +91,29 @@ class RulesMatcher implements RulesMatcherInterface
     {
         $article = $this->articleFactory->createFromPackage($package);
         $this->eventDispatcher->dispatch(MultiTenancyEvents::TENANTABLE_DISABLE);
-        $evaluatedOrganizationRules = $this->processPackageRules($package);
-        $evaluatedRules = $this->processArticleRules($article, $package);
-        $destinations = $this->publishDestinationRepository->findBy(['packageGuid' => $package->getEvolvedFrom() ?: $package->getGuid()]);
 
-        /** @var PublishDestinationInterface $destination */
+        $destinations = $this->publishDestinationProvider->getDestinations($package);
+
+        $evaluatedOrganizationRules = $this->processPackageRules($package);
+        $evaluatedRules = $this->processArticleRules($article, $package, $destinations);
+        $processedRules = $this->rulesProcessor->process(array_merge($evaluatedOrganizationRules, $evaluatedRules));
+
         foreach ($destinations as $destination) {
-            /** @var RuleInterface $rule */
-            foreach ($evaluatedRules as $rule) {
-                    $rule->setConfiguration([
-                        'route' => $destination->getRoute()->getId(),
-                        'published' => $destination->isPublished(),
-                        'fbia' => $destination->isFbia(),
-                    ]);
+            foreach ((array) $processedRules['tenants'] as $key => $tenant) {
+                if ($tenant['tenant'] === $destination->getTenant()) {
+                    $processedRules['tenants'][$key] = [
+                        'tenant' => $destination->getTenant(),
+                        'routes' => [
+                            $destination->getRoute(),
+                        ],
+                    ];
+                } else {
+                    $processedRules['tenants'][$key] = $tenant;
+                }
             }
         }
 
-        $this->eventDispatcher->dispatch(MultiTenancyEvents::TENANTABLE_ENABLE);
-
-        return $this->rulesProcessor->process(array_merge($evaluatedOrganizationRules, $evaluatedRules));
+        return $processedRules;
     }
 
     private function processPackageRules(PackageInterface $package): array
@@ -124,12 +130,9 @@ class RulesMatcher implements RulesMatcherInterface
         return $evaluatedOrganizationRules;
     }
 
-    private function processArticleRules(ArticleInterface $article, PackageInterface $package): array
+    private function processArticleRules(ArticleInterface $article, PackageInterface $package, array $destinations): array
     {
         $qb = $this->ruleRepository->createQueryBuilder('r');
-
-        $destinations = $this->publishDestinationRepository
-            ->findBy(['packageGuid' => $package->getEvolvedFrom() ?: $package->getGuid()]);
 
         if (!empty($destinations)) {
             $tenants = [];
@@ -138,7 +141,7 @@ class RulesMatcher implements RulesMatcherInterface
             }
 
             $qb
-                ->where('r.tenantCode IN (:tenants)')
+                ->where('r.tenantCode NOT IN (:tenants)')
                 ->setParameter('tenants', $tenants);
         }
 

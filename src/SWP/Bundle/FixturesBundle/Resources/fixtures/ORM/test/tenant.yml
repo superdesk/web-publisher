@@ -7,6 +7,10 @@ SWP\Bundle\CoreBundle\Model\Route:
         name: "homepage2"
         type: "content"
         tenantCode: "456def"
+    route3:
+        name: "articles"
+        type: "collection"
+        tenantCode: "678iop"
 
 SWP\Bundle\CoreBundle\Model\Tenant:
     tenant1:

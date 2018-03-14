@@ -508,7 +508,7 @@ services:
             - '@swp_rule.evaluator.rule'
             - '@SWP\Bundle\CoreBundle\Processor\RulesProcessor'
             - '@swp.factory.article'
-            - '@swp.repository.publish_destination'
+            - '@SWP\Bundle\CoreBundle\Provider\PublishDestinationProvider'
 
     SWP\Bundle\CoreBundle\Provider\PublishDestinationProvider:
         arguments:
