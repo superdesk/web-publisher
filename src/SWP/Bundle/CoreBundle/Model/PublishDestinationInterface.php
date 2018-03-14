@@ -17,8 +17,10 @@ declare(strict_types=1);
 namespace SWP\Bundle\CoreBundle\Model;
 
 use SWP\Bundle\ContentBundle\Model\RouteInterface;
+use SWP\Component\Common\Model\TimestampableInterface;
+use SWP\Component\Storage\Model\PersistableInterface;
 
-interface PublishDestinationInterface
+interface PublishDestinationInterface extends TimestampableInterface, PersistableInterface
 {
     /**
      * @param RouteInterface $route
@@ -46,7 +48,27 @@ interface PublishDestinationInterface
     public function isFbia(): bool;
 
     /**
-     * @param bool $isFbia
+     * @param bool $fbia
      */
-    public function setFbia(bool $isFbia);
+    public function setFbia(bool $fbia);
+
+    /**
+     * @return bool
+     */
+    public function isPublished(): bool;
+
+    /**
+     * @param bool $published
+     */
+    public function setPublished(bool $published): void;
+
+    /**
+     * @return string
+     */
+    public function getPackageGuid(): string;
+
+    /**
+     * @param string $packageGuid
+     */
+    public function setPackageGuid(string $packageGuid): void;
 }

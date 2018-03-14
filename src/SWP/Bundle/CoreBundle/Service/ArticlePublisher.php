@@ -124,6 +124,7 @@ final class ArticlePublisher implements ArticlePublisherInterface
             $article->setPackage($package);
             $article->setRoute($destination->getRoute());
             $article->setPublishedFBIA($destination->isFbia());
+            $article->setStatus($destination->isPublished() ? ArticleInterface::STATUS_NEW : ArticleInterface::STATUS_PUBLISHED);
             $article->setArticleStatistics($articleStatistics);
             $this->articleRepository->persist($article);
             $this->dispatchEvents($article, $package);

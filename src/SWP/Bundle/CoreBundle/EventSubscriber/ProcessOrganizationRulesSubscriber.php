@@ -16,6 +16,9 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\CoreBundle\EventSubscriber;
 
+use SWP\Bundle\CoreBundle\Model\CompositePublishAction;
+use SWP\Bundle\CoreBundle\Provider\PublishDestinationProviderInterface;
+use SWP\Bundle\CoreBundle\Service\ArticlePublisherInterface;
 use SWP\Bundle\MultiTenancyBundle\MultiTenancyEvents;
 use SWP\Component\Bridge\Events;
 use SWP\Component\Rule\Processor\RuleProcessorInterface;
@@ -36,17 +39,33 @@ class ProcessOrganizationRulesSubscriber implements EventSubscriberInterface
     private $eventDispatcher;
 
     /**
-     * ProcessArticleRulesSubscriber constructor.
+     * @var PublishDestinationProviderInterface
+     */
+    private $publishDestinationProvider;
+
+    /**
+     * @var ArticlePublisherInterface
+     */
+    private $articlePublisher;
+
+    /**
+     * ProcessOrganizationRulesSubscriber constructor.
      *
-     * @param RuleProcessorInterface   $ruleProcessor
-     * @param EventDispatcherInterface $eventDispatcher
+     * @param RuleProcessorInterface              $ruleProcessor
+     * @param EventDispatcherInterface            $eventDispatcher
+     * @param PublishDestinationProviderInterface $publishDestinationProvider
+     * @param ArticlePublisherInterface           $articlePublisher
      */
     public function __construct(
         RuleProcessorInterface $ruleProcessor,
-        EventDispatcherInterface $eventDispatcher
+        EventDispatcherInterface $eventDispatcher,
+        PublishDestinationProviderInterface $publishDestinationProvider,
+        ArticlePublisherInterface $articlePublisher
     ) {
         $this->ruleProcessor = $ruleProcessor;
         $this->eventDispatcher = $eventDispatcher;
+        $this->publishDestinationProvider = $publishDestinationProvider;
+        $this->articlePublisher = $articlePublisher;
     }
 
     /**
@@ -65,6 +84,16 @@ class ProcessOrganizationRulesSubscriber implements EventSubscriberInterface
      */
     public function processRules(GenericEvent $event)
     {
+        $package = $event->getSubject();
+        $destinations = $this->publishDestinationProvider->getDestinations($package);
+
+        if (!empty($destinations)) {
+            $publishAction = new CompositePublishAction($destinations);
+            $this->articlePublisher->publish($package, $publishAction);
+
+            return;
+        }
+
         $this->eventDispatcher->dispatch(MultiTenancyEvents::TENANTABLE_DISABLE);
         $this->ruleProcessor->process($event->getSubject());
         $this->eventDispatcher->dispatch(MultiTenancyEvents::TENANTABLE_ENABLE);

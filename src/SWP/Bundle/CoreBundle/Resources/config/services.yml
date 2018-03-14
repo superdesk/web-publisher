@@ -159,6 +159,7 @@ services:
         class: SWP\Bundle\CoreBundle\EventSubscriber\ProcessArticleRulesSubscriber
         arguments:
             - '@swp_core.processor.tenant_aware_rule'
+            - '@SWP\Bundle\CoreBundle\Provider\PublishDestinationProvider'
         tags:
             - { name: kernel.event_subscriber }
 
@@ -507,3 +508,9 @@ services:
             - '@swp_rule.evaluator.rule'
             - '@SWP\Bundle\CoreBundle\Processor\RulesProcessor'
             - '@swp.factory.article'
+            - '@swp.repository.publish_destination'
+
+    SWP\Bundle\CoreBundle\Provider\PublishDestinationProvider:
+        arguments:
+            - '@swp.repository.publish_destination'
+            - '@swp_multi_tenancy.tenant_context'

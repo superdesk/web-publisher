@@ -34,7 +34,7 @@ trait OrganizationAwareTrait
     /**
      * {@inheritdoc}
      */
-    public function setOrganization(OrganizationInterface $organization)
+    public function setOrganization(?OrganizationInterface $organization)
     {
         $this->organization = $organization;
     }

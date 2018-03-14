@@ -7,7 +7,7 @@ services:
 
     swp_rule.evaluator.rule:
         class: SWP\Component\Rule\Evaluator\RuleEvaluator
-        public: false
+        public: true
         arguments:
             - '@logger'
             - '@swp_rule.expression_language'
@@ -25,3 +25,4 @@ services:
             - '@swp.repository.rule'
             - '@swp_rule.evaluator.rule'
             - '@swp_rule.applicator_chain'
+            - '@swp.repository.publish_destination'

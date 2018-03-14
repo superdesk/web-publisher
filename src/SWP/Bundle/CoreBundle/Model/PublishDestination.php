@@ -17,23 +17,50 @@ declare(strict_types=1);
 namespace SWP\Bundle\CoreBundle\Model;
 
 use SWP\Bundle\ContentBundle\Model\RouteInterface;
+use SWP\Component\Common\Model\TimestampableTrait;
+use SWP\Component\MultiTenancy\Model\OrganizationAwareTrait;
 
 class PublishDestination implements PublishDestinationInterface
 {
+    use TimestampableTrait, OrganizationAwareTrait;
+
+    /**
+     * @var string
+     */
+    protected $id;
+
     /**
      * @var TenantInterface
      */
-    private $tenant;
+    protected $tenant;
 
     /**
      * @var RouteInterface
      */
-    private $route;
+    protected $route;
 
     /**
      * @var bool
      */
-    private $isFbia = true;
+    protected $fbia = true;
+
+    /**
+     * @var bool
+     */
+    protected $published = true;
+
+    /**
+     * @var string
+     */
+    protected $packageGuid = '';
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getId(): string
+    {
+        return $this->id;
+    }
 
     /**
      * {@inheritdoc}
@@ -72,14 +99,46 @@ class PublishDestination implements PublishDestinationInterface
      */
     public function isFbia(): bool
     {
-        return $this->isFbia;
+        return $this->fbia;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function setFbia(bool $isFbia)
+    public function setFbia(bool $fbia)
     {
-        $this->isFbia = $isFbia;
+        $this->fbia = $fbia;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function isPublished(): bool
+    {
+        return $this->published;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setPublished(bool $published): void
+    {
+        $this->published = $published;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getPackageGuid(): string
+    {
+        return $this->packageGuid;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setPackageGuid(string $packageGuid): void
+    {
+        $this->packageGuid = $packageGuid;
     }
 }
