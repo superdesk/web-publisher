@@ -89,6 +89,17 @@ class ArticleAuthorLoaderTest extends WebTestCase
         self::assertEquals(' Tom ', $result);
     }
 
+    public function testLoadAuthorBySlug()
+    {
+        $template = '{% gimme author with {slug: "tom"} %} {{ author.name }} {% endgimme %}';
+        $result = $this->getRendered($template);
+        self::assertEquals(' Tom ', $result);
+
+        $template = '{% gimme author with {slug: "john-doe"} %} {{ author.name }} {% endgimme %}';
+        $result = $this->getRendered($template);
+        self::assertEquals(' John Doe ', $result);
+    }
+
     private function getRendered($template, $context = [])
     {
         $template = $this->twig->createTemplate($template);

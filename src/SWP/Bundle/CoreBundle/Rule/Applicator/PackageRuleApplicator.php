@@ -50,10 +50,8 @@ final class PackageRuleApplicator extends AbstractRuleApplicator
      * @param TenantRepositoryInterface $tenantRepository
      * @param ArticlePopulatorInterface $articlePopulator
      */
-    public function __construct(
-        TenantRepositoryInterface $tenantRepository,
-        ArticlePopulatorInterface $articlePopulator
-    ) {
+    public function __construct(TenantRepositoryInterface $tenantRepository, ArticlePopulatorInterface $articlePopulator)
+    {
         $this->tenantRepository = $tenantRepository;
         $this->articlePopulator = $articlePopulator;
     }

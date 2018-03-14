@@ -22,6 +22,8 @@ interface RouteInterface extends TreeAwareRouteInterface, PersistableInterface, 
 
     const TYPE_COLLECTION = 'collection';
 
+    const TYPE_CUSTOM = 'custom';
+
     /**
      * @return string
      */

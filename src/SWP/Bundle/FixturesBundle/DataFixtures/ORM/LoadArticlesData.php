@@ -428,7 +428,7 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface, Orde
                         '- 7 days' => 5,
                     ],
                     'authors' => [
-                        'John Doe',
+                        'John Doe Second',
                     ],
                     'sources' => ['Reuters', 'AAP'],
                 ],

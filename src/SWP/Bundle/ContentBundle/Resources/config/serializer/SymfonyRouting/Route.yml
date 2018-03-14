@@ -1,2 +1,6 @@
 Symfony\Component\Routing\Route:
     exclusion_policy: ALL
+    properties:
+        requirements:
+            expose: true
+            type: array
