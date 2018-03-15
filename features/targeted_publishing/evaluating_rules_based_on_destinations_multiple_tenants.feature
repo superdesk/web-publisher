@@ -50,7 +50,20 @@ Feature: Evaluate rules based on publishing destinations when rule of one tenant
       }
      """
     Then the response status code should be 201
-    And I am authenticated as "test.user"
+    And I am authenticated as "test.client2"
+    When I add "Content-Type" header equal to "application/json"
+    And I send a "POST" request to "http://client2.localhost/api/v1/content/routes/" with body:
+     """
+      {
+        "route": {
+          "name": "My route",
+          "type": "collection"
+        }
+      }
+    """
+    Then the response status code should be 201
+    And the JSON node "id" should be equal to "7"
+    And I am authenticated as "test.client2"
     And I add "Content-Type" header equal to "application/json"
     Then I send a "POST" request to "http://client2.localhost/api/{version}/rules/" with body:
      """
@@ -63,7 +76,7 @@ Feature: Evaluate rules based on publishing destinations when rule of one tenant
           "configuration":[
             {
               "key":"route",
-              "value":3
+              "value":7
             }
           ]
         }
@@ -82,7 +95,7 @@ Feature: Evaluate rules based on publishing destinations when rule of one tenant
       | tenants[0].tenant.code  | 123abc |
       | tenants[0].route.id     | 6      |
       | tenants[1].tenant.code  | 678iop |
-      | tenants[1].route.id     | 3      |
+      | tenants[1].route.id     | 7      |
     And I am authenticated as "test.user"
     When I add "Content-Type" header equal to "application/json"
     And I send a "PUT" request to "/api/{version}/organization/destinations/" with body:
@@ -114,4 +127,4 @@ Feature: Evaluate rules based on publishing destinations when rule of one tenant
       | tenants[0].tenant.code  | 123abc |
       | tenants[1].tenant.code  | 678iop |
       | tenants[0].route.id     | 5      |
-      | tenants[1].route.id     | 3      |
+      | tenants[1].route.id     | 7      |

@@ -25,6 +25,7 @@ use SWP\Bundle\CoreBundle\Form\Type\CompositePublishActionType;
 use SWP\Bundle\CoreBundle\Form\Type\PackageType;
 use SWP\Bundle\CoreBundle\Form\Type\UnpublishFromTenantsType;
 use SWP\Bundle\CoreBundle\Model\CompositePublishAction;
+use SWP\Bundle\CoreBundle\Model\CompositePublishActionInterface;
 use SWP\Bundle\CoreBundle\Model\PackageInterface;
 use SWP\Bundle\MultiTenancyBundle\MultiTenancyEvents;
 use SWP\Component\Bridge\Model\ContentInterface;
@@ -119,7 +120,8 @@ class PackageController extends Controller
         $form->handleRequest($request);
 
         if ($form->isValid()) {
-            $this->get('swp_core.article.publisher')->publish($package, $form->getData());
+            $compositeAction = $this->ensureIsAlwaysPublished($form->getData());
+            $this->get('swp_core.article.publisher')->publish($package, $compositeAction);
             $this->get('fos_elastica.object_persister.swp.package')->replaceOne($package);
 
             return new SingleResourceResponse(null, new ResponseContext(201));
@@ -203,6 +205,16 @@ class PackageController extends Controller
         }
 
         return new SingleResourceResponse($form, new ResponseContext(400));
+    }
+
+    private function ensureIsAlwaysPublished(CompositePublishActionInterface $publishAction)
+    {
+        $destinations = $publishAction->getDestinations();
+        foreach ($destinations as $destination) {
+            $destination->setPublished(true);
+        }
+
+        return $publishAction;
     }
 
     /**

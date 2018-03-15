@@ -21,7 +21,7 @@ Feature: Listing single route by slug or name
     And the JSON node name should be equal to "Authors"
     And the JSON node slug should be equal to "authors"
     And the JSON node staticPrefix should be equal to "/authors"
-    And the JSON node id should be equal to "8"
+    And the JSON node id should be equal to "7"
     And I am authenticated as "test.user"
     When I add "Content-Type" header equal to "application/json"
     And I send a "POST" request to "/api/v1/content/routes/" with body:
@@ -30,7 +30,7 @@ Feature: Listing single route by slug or name
         "route": {
           "name": "Test route",
           "type": "content",
-          "parent": 8
+          "parent": 7
         }
       }
     """
