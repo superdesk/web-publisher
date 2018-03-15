@@ -8,6 +8,8 @@ To get the diff for a specific change, go to https://github.com/superdesk/web-pu
 
 * 1.1.x
  * feature [#454] Override existing rules by publish destinations
+ * improvement [#455] Add slug to article author - allow to load authors by slug
+ * feature [#455] Allow to create custom routes (variable prefix and requirements)
  * feature [#451] Allowed to evaluate rules that match given package
  * feature [#453] Implemented bulk updates - settings API
  * feature [#447] Generate route's slug based on route's name if not provided by default

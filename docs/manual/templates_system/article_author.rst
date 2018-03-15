@@ -58,6 +58,14 @@ Filter authors by author's name:
         {{ author.name }}
     {% endgimmelist %}
 
+Filter authors by author's slug (automatically created from name. Example: John Doe -> john-doe):
+
+.. code-block:: twig
+
+    {% gimmelist author from authors with { slug: ["john-doe"] } %}
+        {{ author.name }}
+    {% endgimmelist %}
+
 Filter authors by author's name and role:
 
 .. code-block:: twig

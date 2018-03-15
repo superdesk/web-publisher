@@ -20,3 +20,6 @@ SWP\Bundle\ContentBundle\Model\ArticleAuthor:
             nullable: true
         jobTitle:
             type: array
+        slug:
+            type: string
+            nullable: true

@@ -93,6 +93,10 @@ class RouteService implements RouteServiceInterface
                 $route->setDefault('slug', null);
 
                 break;
+            case RouteInterface::TYPE_CUSTOM:
+                $route->setStaticPrefix($this->generatePath($route));
+
+                break;
             default:
                 throw new \InvalidArgumentException(sprintf('Route type "%s" is unsupported!', $route->getType()));
         }

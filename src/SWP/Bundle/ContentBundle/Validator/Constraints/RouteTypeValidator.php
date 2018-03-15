@@ -29,7 +29,7 @@ class RouteTypeValidator extends ConstraintValidator
             return;
         }
 
-        $supportedTypes = [RouteInterface::TYPE_COLLECTION, RouteInterface::TYPE_CONTENT];
+        $supportedTypes = [RouteInterface::TYPE_COLLECTION, RouteInterface::TYPE_CONTENT, RouteInterface::TYPE_CUSTOM];
 
         if (!in_array($value, $supportedTypes)) {
             $this->context->buildViolation($constraint->message)

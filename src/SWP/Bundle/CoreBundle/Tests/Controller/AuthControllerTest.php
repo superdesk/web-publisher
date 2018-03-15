@@ -262,7 +262,7 @@ class AuthControllerTest extends WebTestCase
         $client->request('GET', $content['url']);
         self::assertEquals(302, $client->getResponse()->getStatusCode());
         $cookies = $client->getResponse()->headers->getCookies();
-        self::assertCount(2, $cookies);
+        self::assertCount(3, $cookies);
         self::assertEquals('activate_livesite_editor', $cookies[0]->getName());
         self::assertEquals('append_livesite_editor_scripts', $cookies[1]->getName());
         $client->followRedirect();

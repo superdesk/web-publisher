@@ -21,4 +21,13 @@ use SWP\Component\Storage\Model\PersistableInterface;
 
 interface ArticleAuthorInterface extends BaseAuthorInterface, PersistableInterface
 {
+    /**
+     * @return string|null
+     */
+    public function getSlug(): ?string;
+
+    /**
+     * @param string $slug
+     */
+    public function setSlug(string $slug): void;
 }
