@@ -64,7 +64,7 @@ Feature: Manage Routes
               "key": "customParameter",
               "value": "[a-zA-Z]+"
             }
-		  ]
+          ]
         }
       }
     """
