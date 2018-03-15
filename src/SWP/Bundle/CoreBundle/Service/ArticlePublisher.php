@@ -109,7 +109,11 @@ final class ArticlePublisher implements ArticlePublisherInterface
                 $article->setRoute($destination->getRoute());
                 $article->setPublishedFBIA($destination->isFbia());
                 $this->eventDispatcher->dispatch(Events::SWP_VALIDATION, new GenericEvent($article));
-                $this->dispatchEvents($article, $package);
+                if ($destination->isPublished()) {
+                    $this->eventDispatcher->dispatch(ArticleEvents::PUBLISH, new ArticleEvent($article, null, ArticleEvents::PUBLISH));
+                }
+
+                $this->eventDispatcher->dispatch(ArticleEvents::PRE_CREATE, new ArticleEvent($article, $package, ArticleEvents::PRE_CREATE));
 
                 continue;
             }
