@@ -60,7 +60,7 @@
         "guzzlehttp/guzzle": "^6.2",
         "php-http/guzzle6-adapter": "^v1.1",
         "twig/extensions": "~1.0",
-        "twig/twig": "~2.0",
+        "twig/twig": "~2.4",
         "emanueleminotto/twig-cache-bundle": "~1.0",
         "incenteev/composer-parameter-handler": "~2.0",
         "friendsofsymfony/http-cache": "2.0.0-beta2",

@@ -16,19 +16,51 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\ContentBundle\Model;
 
+use Behat\Transliterator\Transliterator;
 use SWP\Component\Bridge\Model\Author as BaseAuthor;
 
 class ArticleAuthor extends BaseAuthor implements ArticleAuthorInterface
 {
+    /**
+     * @var int
+     */
     protected $id;
 
+    /**
+     * @var string|null
+     */
+    protected $slug;
+
+    /**
+     * {@inheritdoc}
+     */
     public function getId()
     {
         return $this->id;
     }
 
-    public function setId($id)
+    /**
+     * {@inheritdoc}
+     */
+    public function setName(?string $name): void
     {
-        $this->id = $id;
+        $this->setSlug(Transliterator::urlize($name));
+        parent::setName($name);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getSlug(): ?string
+    {
+        return $this->slug;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setSlug(string $slug): void
+    {
+        $this->slug = $slug;
     }
 }

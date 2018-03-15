@@ -174,7 +174,7 @@ EOF
   'first'  => true,
 );
 foreach (\$context["articles"] as \$_key => \$context["article"]) {
-    if ((twig_get_attribute(\$this->env, \$this->getSourceContext(), (\$context["article"] ?? null), "title", array(), null) == "New article")) {
+    if ((twig_get_attribute(\$this->env, \$this->source, (\$context["article"] ?? null), "title", array(), null) == "New article")) {
         // line 1
         echo "";
         \$context['_iterated'] = true;
@@ -296,7 +296,7 @@ EOF
   'first'  => true,
 );
 foreach (\$context["articles"] as \$_key => \$context["article"]) {
-    if ((twig_get_attribute(\$this->env, \$this->getSourceContext(), (\$context["article"] ?? null), "title", array(), null) == "New article")) {
+    if ((twig_get_attribute(\$this->env, \$this->source, (\$context["article"] ?? null), "title", array(), null) == "New article")) {
         // line 1
         echo "";
         ++\$context['loop']['index0'];
@@ -328,7 +328,7 @@ EOF
   'first'  => true,
 );
 foreach (\$context["articles"] as \$_key => \$context["article"]) {
-    if ((twig_get_attribute(\$this->env, \$this->getSourceContext(), (\$context["article"] ?? null), "title", array(), null) == "New article")) {
+    if ((twig_get_attribute(\$this->env, \$this->source, (\$context["article"] ?? null), "title", array(), null) == "New article")) {
         // line 1
         echo "";
         ++\$context['loop']['index0'];

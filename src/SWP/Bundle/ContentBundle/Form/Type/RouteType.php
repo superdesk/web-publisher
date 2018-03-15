@@ -14,6 +14,7 @@
 
 namespace SWP\Bundle\ContentBundle\Form\Type;
 
+use Burgov\Bundle\KeyValueFormBundle\Form\Type\KeyValueType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\CallbackTransformer;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
@@ -78,7 +79,19 @@ class RouteType extends AbstractType
                 'constraints' => [
                     new GreaterThanOrEqual(0),
                 ],
-            ]);
+            ])
+            ->add('variablePattern', TextType::class, [
+                'required' => false,
+                'constraints' => [
+                    new Length(['min' => 1]),
+                ],
+            ])
+            ->add('requirements', KeyValueType::class, [
+                'required' => false,
+                'value_type' => TextType::class,
+            ])
+
+        ;
 
         $builder->get('cacheTimeInSeconds')
             ->addModelTransformer(new CallbackTransformer(

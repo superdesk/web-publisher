@@ -72,6 +72,8 @@ final class ArticleAuthorLoader extends PaginatedLoader implements LoaderInterfa
                 $criteria->set('id', $parameters['id']);
             } elseif (array_key_exists('name', $parameters) && \is_string($parameters['name'])) {
                 $criteria->set('name', $parameters['name']);
+            } elseif (array_key_exists('slug', $parameters) && \is_string($parameters['slug'])) {
+                $criteria->set('slug', $parameters['slug']);
             } else {
                 return false;
             }
