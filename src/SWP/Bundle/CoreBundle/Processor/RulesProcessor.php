@@ -23,16 +23,6 @@ use SWP\Component\MultiTenancy\Repository\TenantRepositoryInterface;
 
 final class RulesProcessor implements RulesProcessorInterface
 {
-    public const KEY_ORGANIZATION = 'organization';
-
-    public const KEY_TENANTS = 'tenants';
-
-    public const KEY_TENANT = 'tenant';
-
-    public const KEY_ROUTES = 'routes';
-
-    public const KEY_ROUTE = 'route';
-
     /**
      * @var TenantRepositoryInterface
      */
@@ -101,13 +91,16 @@ final class RulesProcessor implements RulesProcessorInterface
     private function match(array $tenants, RuleInterface $evaluatedRule): array
     {
         $tenantsTemp = [];
+        $ruleConfig = $evaluatedRule->getConfiguration();
         foreach ($tenants as $tenant) {
             if ($tenant[self::KEY_TENANT]->getCode() === $evaluatedRule->getTenantCode()) {
                 if (null === $route = $this->findRoute($evaluatedRule)) {
                     continue;
                 }
 
-                $tenant[self::KEY_ROUTES][] = $route;
+                $tenant[self::KEY_ROUTE] = $route;
+                $tenant[self::KEY_FBIA] = isset($ruleConfig[self::KEY_FBIA]) ?? false;
+                $tenant[self::KEY_PUBLISHED] = isset($ruleConfig[self::KEY_PUBLISHED]) ?? false;
                 $tenantsTemp[] = $tenant;
             }
         }

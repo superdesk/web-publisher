@@ -95,7 +95,7 @@ class RulesMatcher implements RulesMatcherInterface
         $destinations = $this->publishDestinationProvider->getDestinations($package);
 
         $evaluatedOrganizationRules = $this->processPackageRules($package);
-        $evaluatedRules = $this->processArticleRules($article, $package, $destinations);
+        $evaluatedRules = $this->processArticleRules($article, $destinations);
         $processedRules = $this->rulesProcessor->process(array_merge($evaluatedOrganizationRules, $evaluatedRules));
 
         foreach ($destinations as $destination) {
@@ -103,9 +103,9 @@ class RulesMatcher implements RulesMatcherInterface
                 if ($tenant['tenant'] === $destination->getTenant()) {
                     $processedRules['tenants'][$key] = [
                         'tenant' => $destination->getTenant(),
-                        'routes' => [
-                            $destination->getRoute(),
-                        ],
+                        'route' => $destination->getRoute(),
+                        'fbia' => $destination->isFbia(),
+                        'published' => $destination->isPublished(),
                     ];
                 } else {
                     $processedRules['tenants'][$key] = $tenant;
@@ -130,7 +130,7 @@ class RulesMatcher implements RulesMatcherInterface
         return $evaluatedOrganizationRules;
     }
 
-    private function processArticleRules(ArticleInterface $article, PackageInterface $package, array $destinations): array
+    private function processArticleRules(ArticleInterface $article, array $destinations): array
     {
         $qb = $this->ruleRepository->createQueryBuilder('r');
 

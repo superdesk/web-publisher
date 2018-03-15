@@ -25,4 +25,3 @@ services:
             - '@swp.repository.rule'
             - '@swp_rule.evaluator.rule'
             - '@swp_rule.applicator_chain'
-            - '@swp.repository.publish_destination'

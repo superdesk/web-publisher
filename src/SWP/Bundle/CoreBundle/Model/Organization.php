@@ -19,12 +19,12 @@ use Doctrine\Common\Collections\Collection;
 use SWP\Bundle\SettingsBundle\Model\SettingsOwnerInterface;
 use SWP\Component\MultiTenancy\Model\Organization as BaseOrganization;
 
-class Organization extends BaseOrganization implements SettingsOwnerInterface
+class Organization extends BaseOrganization implements SettingsOwnerInterface, OrganizationInterface
 {
     /**
-     * @var array
+     * @var Collection
      */
-    protected $publishDestinations = [];
+    protected $publishDestinations;
 
     public function __construct()
     {
@@ -33,11 +33,17 @@ class Organization extends BaseOrganization implements SettingsOwnerInterface
         $this->publishDestinations = new ArrayCollection();
     }
 
-    public function getPublishDestinations()
+    /**
+     * {@inheritdoc}
+     */
+    public function getPublishDestinations(): Collection
     {
         return $this->publishDestinations;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function setPublishDestinations(Collection $publishDestinations): void
     {
         $this->publishDestinations = $publishDestinations;

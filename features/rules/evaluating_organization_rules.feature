@@ -35,4 +35,4 @@ Feature: Evaluating organization rules
     Then the response status code should be 200
     And the JSON node "organization.code" should be equal to "123456"
     And the JSON node "tenants[0].tenant.code" should be equal to "123abc"
-    And the JSON node "tenants[0].routes" should not exist
+    And the JSON node "tenants[0].route" should not exist

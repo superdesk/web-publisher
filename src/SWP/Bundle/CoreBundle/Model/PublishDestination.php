@@ -52,7 +52,7 @@ class PublishDestination implements PublishDestinationInterface
     /**
      * @var string
      */
-    protected $packageGuid = '';
+    protected $packageGuid;
 
     /**
      * {@inheritdoc}
@@ -129,7 +129,7 @@ class PublishDestination implements PublishDestinationInterface
     /**
      * {@inheritdoc}
      */
-    public function getPackageGuid(): string
+    public function getPackageGuid(): ?string
     {
         return $this->packageGuid;
     }
@@ -137,7 +137,7 @@ class PublishDestination implements PublishDestinationInterface
     /**
      * {@inheritdoc}
      */
-    public function setPackageGuid(string $packageGuid): void
+    public function setPackageGuid(?string $packageGuid): void
     {
         $this->packageGuid = $packageGuid;
     }

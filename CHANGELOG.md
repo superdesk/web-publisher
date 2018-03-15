@@ -7,6 +7,7 @@ This changelog references the relevant changes (bug and security fixes) done in 
 To get the diff for a specific change, go to https://github.com/superdesk/web-publisher/commit/XXX where XXX is the change hash
 
 * 1.1.x
+ * feature [#454] Override existing rules by publish destinations
  * feature [#451] Allowed to evaluate rules that match given package
  * feature [#453] Implemented bulk updates - settings API
  * feature [#447] Generate route's slug based on route's name if not provided by default

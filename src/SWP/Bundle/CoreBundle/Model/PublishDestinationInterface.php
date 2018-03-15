@@ -63,12 +63,12 @@ interface PublishDestinationInterface extends TimestampableInterface, Persistabl
     public function setPublished(bool $published): void;
 
     /**
-     * @return string
+     * @return null|string
      */
-    public function getPackageGuid(): string;
+    public function getPackageGuid(): ?string;
 
     /**
-     * @param string $packageGuid
+     * @param null|string $packageGuid
      */
-    public function setPackageGuid(string $packageGuid): void;
+    public function setPackageGuid(?string $packageGuid): void;
 }

@@ -16,6 +16,7 @@ namespace SWP\Bundle\CoreBundle\EventSubscriber;
 
 use SWP\Bundle\ContentBundle\ArticleEvents;
 use SWP\Bundle\ContentBundle\Event\ArticleEvent;
+use SWP\Bundle\CoreBundle\Model\PackageInterface;
 use SWP\Bundle\CoreBundle\Provider\PublishDestinationProviderInterface;
 use SWP\Component\Rule\Processor\RuleProcessorInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -61,6 +62,7 @@ class ProcessArticleRulesSubscriber implements EventSubscriberInterface
      */
     public function processRules(ArticleEvent $event)
     {
+        /** @var PackageInterface $package */
         $package = $event->getPackage();
         $count = $this->publishDestinationProvider->countDestinations($package);
 

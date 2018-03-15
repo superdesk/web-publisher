@@ -79,8 +79,8 @@ Feature: Listing evaluated rules which match the package's metadata
     Then the response status code should be 200
     And the JSON node "organization.code" should be equal to "123456"
     And the JSON node "tenants[0].tenant.code" should be equal to "123abc"
-    And the JSON node "tenants[0].routes" should exist
-    And the JSON node "tenants[0].routes[0].id" should be equal to "3"
+    And the JSON node "tenants[0].route" should exist
+    And the JSON node "tenants[0].route.id" should be equal to "3"
     And the JSON node "tenants[1].tenant.code" should be equal to "123abc"
-    And the JSON node "tenants[1].routes" should exist
-    And the JSON node "tenants[1].routes[0].id" should be equal to "3"
+    And the JSON node "tenants[1].route" should exist
+    And the JSON node "tenants[1].route.id" should be equal to "3"

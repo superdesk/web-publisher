@@ -80,9 +80,9 @@ Feature: Evaluate rules based on publishing destinations when rule of one tenant
     And the JSON nodes should contain:
       | organization.id         | 1      |
       | tenants[0].tenant.code  | 123abc |
-      | tenants[0].routes[0].id | 6      |
+      | tenants[0].route.id     | 6      |
       | tenants[1].tenant.code  | 678iop |
-      | tenants[1].routes[0].id | 3      |
+      | tenants[1].route.id     | 3      |
     And I am authenticated as "test.user"
     When I add "Content-Type" header equal to "application/json"
     And I send a "PUT" request to "/api/{version}/organization/destinations/" with body:
@@ -113,5 +113,5 @@ Feature: Evaluate rules based on publishing destinations when rule of one tenant
       | organization.id         | 1      |
       | tenants[0].tenant.code  | 123abc |
       | tenants[1].tenant.code  | 678iop |
-      | tenants[0].routes[0].id | 5      |
-      | tenants[1].routes[0].id | 3      |
+      | tenants[0].route.id     | 5      |
+      | tenants[1].route.id     | 3      |
