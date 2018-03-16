@@ -25,6 +25,8 @@ services:
         arguments:
             - '@swp_core.processor.tenant_aware_rule.inner'
             - '@event_dispatcher'
+            - '@SWP\Bundle\CoreBundle\Provider\PublishDestinationProvider'
+            - '@swp_core.article.publisher'
         tags:
             - { name: kernel.event_subscriber }
 

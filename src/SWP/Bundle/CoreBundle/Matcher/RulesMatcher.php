@@ -20,6 +20,7 @@ use SWP\Bundle\ContentBundle\Factory\ArticleFactoryInterface;
 use SWP\Bundle\ContentBundle\Model\ArticleInterface;
 use SWP\Bundle\CoreBundle\Model\PackageInterface;
 use SWP\Bundle\CoreBundle\Processor\RulesProcessorInterface;
+use SWP\Bundle\CoreBundle\Provider\PublishDestinationProviderInterface;
 use SWP\Bundle\MultiTenancyBundle\MultiTenancyEvents;
 use SWP\Component\Rule\Evaluator\RuleEvaluatorInterface;
 use SWP\Component\Rule\Repository\RuleRepositoryInterface;
@@ -53,26 +54,34 @@ class RulesMatcher implements RulesMatcherInterface
     private $articleFactory;
 
     /**
+     * @var PublishDestinationProviderInterface
+     */
+    private $publishDestinationProvider;
+
+    /**
      * RulesMatcher constructor.
      *
-     * @param EventDispatcherInterface $eventDispatcher
-     * @param RuleRepositoryInterface  $ruleRepository
-     * @param RuleEvaluatorInterface   $ruleEvaluator
-     * @param RulesProcessorInterface  $rulesProcessor
-     * @param ArticleFactoryInterface  $articleFactory
+     * @param EventDispatcherInterface            $eventDispatcher
+     * @param RuleRepositoryInterface             $ruleRepository
+     * @param RuleEvaluatorInterface              $ruleEvaluator
+     * @param RulesProcessorInterface             $rulesProcessor
+     * @param ArticleFactoryInterface             $articleFactory
+     * @param PublishDestinationProviderInterface $publishDestinationProvider
      */
     public function __construct(
         EventDispatcherInterface $eventDispatcher,
         RuleRepositoryInterface $ruleRepository,
         RuleEvaluatorInterface $ruleEvaluator,
         RulesProcessorInterface $rulesProcessor,
-        ArticleFactoryInterface $articleFactory
+        ArticleFactoryInterface $articleFactory,
+        PublishDestinationProviderInterface $publishDestinationProvider
     ) {
         $this->eventDispatcher = $eventDispatcher;
         $this->ruleRepository = $ruleRepository;
         $this->ruleEvaluator = $ruleEvaluator;
         $this->rulesProcessor = $rulesProcessor;
         $this->articleFactory = $articleFactory;
+        $this->publishDestinationProvider = $publishDestinationProvider;
     }
 
     /**
@@ -82,12 +91,29 @@ class RulesMatcher implements RulesMatcherInterface
     {
         $article = $this->articleFactory->createFromPackage($package);
         $this->eventDispatcher->dispatch(MultiTenancyEvents::TENANTABLE_DISABLE);
+
+        $destinations = $this->publishDestinationProvider->getDestinations($package);
+
         $evaluatedOrganizationRules = $this->processPackageRules($package);
-        $evaluatedRules = $this->processArticleRules($article);
+        $evaluatedRules = $this->processArticleRules($article, $destinations);
+        $processedRules = $this->rulesProcessor->process(array_merge($evaluatedOrganizationRules, $evaluatedRules));
 
-        $this->eventDispatcher->dispatch(MultiTenancyEvents::TENANTABLE_ENABLE);
+        foreach ($destinations as $destination) {
+            foreach ((array) $processedRules['tenants'] as $key => $tenant) {
+                if ($tenant['tenant'] === $destination->getTenant()) {
+                    $processedRules['tenants'][$key] = [
+                        'tenant' => $destination->getTenant(),
+                        'route' => $destination->getRoute(),
+                        'fbia' => $destination->isFbia(),
+                        'published' => $destination->isPublished(),
+                    ];
+                } else {
+                    $processedRules['tenants'][$key] = $tenant;
+                }
+            }
+        }
 
-        return $this->rulesProcessor->process(array_merge($evaluatedOrganizationRules, $evaluatedRules));
+        return $processedRules;
     }
 
     private function processPackageRules(PackageInterface $package): array
@@ -104,10 +130,23 @@ class RulesMatcher implements RulesMatcherInterface
         return $evaluatedOrganizationRules;
     }
 
-    private function processArticleRules(ArticleInterface $article): array
+    private function processArticleRules(ArticleInterface $article, array $destinations): array
     {
-        $tenantRules = $this->ruleRepository->createQueryBuilder('r')
-            ->where('r.tenantCode IS NOT NULL')
+        $qb = $this->ruleRepository->createQueryBuilder('r');
+
+        if (!empty($destinations)) {
+            $tenants = [];
+            foreach ($destinations as $destination) {
+                $tenants[] = $destination->getTenant()->getCode();
+            }
+
+            $qb
+                ->where('r.tenantCode NOT IN (:tenants)')
+                ->setParameter('tenants', $tenants);
+        }
+
+        $tenantRules = $qb
+            ->andWhere('r.tenantCode IS NOT NULL')
             ->orderBy('r.priority', 'desc')
             ->getQuery()
             ->getResult();

@@ -16,6 +16,8 @@ namespace SWP\Bundle\CoreBundle\EventSubscriber;
 
 use SWP\Bundle\ContentBundle\ArticleEvents;
 use SWP\Bundle\ContentBundle\Event\ArticleEvent;
+use SWP\Bundle\CoreBundle\Model\PackageInterface;
+use SWP\Bundle\CoreBundle\Provider\PublishDestinationProviderInterface;
 use SWP\Component\Rule\Processor\RuleProcessorInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
@@ -27,13 +29,22 @@ class ProcessArticleRulesSubscriber implements EventSubscriberInterface
     private $ruleProcessor;
 
     /**
+     * @var PublishDestinationProviderInterface
+     */
+    private $publishDestinationProvider;
+
+    /**
      * ProcessArticleRulesSubscriber constructor.
      *
-     * @param RuleProcessorInterface $ruleProcessor
+     * @param RuleProcessorInterface              $ruleProcessor
+     * @param PublishDestinationProviderInterface $publishDestinationProvider
      */
-    public function __construct(RuleProcessorInterface $ruleProcessor)
-    {
+    public function __construct(
+        RuleProcessorInterface $ruleProcessor,
+        PublishDestinationProviderInterface $publishDestinationProvider
+    ) {
         $this->ruleProcessor = $ruleProcessor;
+        $this->publishDestinationProvider = $publishDestinationProvider;
     }
 
     /**
@@ -51,6 +62,14 @@ class ProcessArticleRulesSubscriber implements EventSubscriberInterface
      */
     public function processRules(ArticleEvent $event)
     {
+        /** @var PackageInterface $package */
+        $package = $event->getPackage();
+        $count = $this->publishDestinationProvider->countDestinations($package);
+
+        if (0 < $count) {
+            return;
+        }
+
         $this->ruleProcessor->process($event->getArticle());
     }
 }

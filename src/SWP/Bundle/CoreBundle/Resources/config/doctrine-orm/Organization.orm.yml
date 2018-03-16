@@ -1,3 +1,9 @@
 SWP\Bundle\CoreBundle\Model\Organization:
     type: entity
     table: swp_organization
+    oneToMany:
+        publishDestinations:
+            targetEntity: SWP\Bundle\CoreBundle\Model\PublishDestinationInterface
+            mappedBy: organization
+            orphanRemoval: true
+            cascade: ['all']

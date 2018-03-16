@@ -23,16 +23,6 @@ use SWP\Component\MultiTenancy\Repository\TenantRepositoryInterface;
 
 final class RulesProcessor implements RulesProcessorInterface
 {
-    public const KEY_ORGANIZATION = 'organization';
-
-    public const KEY_TENANTS = 'tenants';
-
-    public const KEY_TENANT = 'tenant';
-
-    public const KEY_ROUTES = 'routes';
-
-    public const KEY_ROUTE = 'route';
-
     /**
      * @var TenantRepositoryInterface
      */
@@ -61,22 +51,23 @@ final class RulesProcessor implements RulesProcessorInterface
     public function process(array $evaluatedRules): array
     {
         $processedEvaluatedRules = $this->processEvaluatedRules($evaluatedRules);
-        $rules = [];
+        $tenants = [];
+
         foreach ($processedEvaluatedRules as $key => $processedEvaluatedRule) {
             foreach ($evaluatedRules as $evaluatedRule) {
                 if (null !== $evaluatedRule->getTenantCode()) {
-                    $rules[$key] = $processedEvaluatedRule;
+                    if (!empty($processedEvaluatedRule)) {
+                        $matched = $this->match((array) $processedEvaluatedRule[self::KEY_TENANTS], $evaluatedRule);
 
-                    if (self::KEY_TENANTS !== $key) {
-                        continue;
+                        if (!empty($matched)) {
+                            $tenants[] = $matched;
+                        }
                     }
-
-                    $rules[$key] = $this->match((array) $processedEvaluatedRule, $evaluatedRule);
                 }
             }
         }
 
-        return $this->merge([$processedEvaluatedRules], [$rules]);
+        return $this->merge($processedEvaluatedRules, $tenants);
     }
 
     private function processEvaluatedRules(array $rules): array
@@ -87,30 +78,38 @@ final class RulesProcessor implements RulesProcessorInterface
             if (null === $evaluatedRule->getTenantCode()) {
                 $processedRules[self::KEY_ORGANIZATION] = $evaluatedRule->getOrganization();
                 $evaluatedRuleConfig = $evaluatedRule->getConfiguration();
+
                 foreach ((array) $evaluatedRuleConfig['destinations'] as $item) {
                     $processedRules[self::KEY_TENANTS][][self::KEY_TENANT] = $this->tenantRepository->findOneByCode($item[self::KEY_TENANT]);
                 }
             }
         }
 
-        return $processedRules;
+        return [$processedRules];
     }
 
     private function match(array $tenants, RuleInterface $evaluatedRule): array
     {
         $tenantsTemp = [];
+        $ruleConfig = $evaluatedRule->getConfiguration();
         foreach ($tenants as $tenant) {
             if ($tenant[self::KEY_TENANT]->getCode() === $evaluatedRule->getTenantCode()) {
                 if (null === $route = $this->findRoute($evaluatedRule)) {
                     continue;
                 }
 
-                $tenant[self::KEY_ROUTES][] = $route;
+                $tenant[self::KEY_ROUTE] = $route;
+                $tenant[self::KEY_FBIA] = isset($ruleConfig[self::KEY_FBIA]) ?? false;
+                $tenant[self::KEY_PUBLISHED] = isset($ruleConfig[self::KEY_PUBLISHED]) ?? false;
                 $tenantsTemp[] = $tenant;
             }
         }
 
-        return $tenantsTemp;
+        if (empty($tenantsTemp)) {
+            return $tenantsTemp;
+        }
+
+        return $tenantsTemp[0];
     }
 
     private function findRoute(RuleInterface $evaluatedRule): ?RouteInterface
@@ -118,19 +117,13 @@ final class RulesProcessor implements RulesProcessorInterface
         return $this->routeRepository->findOneBy(['id' => $evaluatedRule->getConfiguration()[self::KEY_ROUTE]]);
     }
 
-    private function merge(array $organizationRules, array $tempRules): array
+    private function merge(array $organizationRules, array $tenants): array
     {
         foreach ($organizationRules as $keyOrg => $processedEvaluatedRule) {
-            foreach ($tempRules as $rule) {
-                if (!isset($rule[self::KEY_TENANTS])) {
-                    continue;
-                }
-
-                foreach ((array) $rule[self::KEY_TENANTS] as $tenant) {
-                    foreach ((array) $processedEvaluatedRule[self::KEY_TENANTS] as $key => $orgTenant) {
-                        if ($tenant[self::KEY_TENANT]->getCode() === $orgTenant[self::KEY_TENANT]->getCode()) {
-                            $organizationRules[$keyOrg][self::KEY_TENANTS][$key] = $tenant;
-                        }
+            foreach ($tenants as $tenant) {
+                foreach ((array) $processedEvaluatedRule[self::KEY_TENANTS] as $key => $orgTenant) {
+                    if ($tenant[self::KEY_TENANT]->getCode() === $orgTenant[self::KEY_TENANT]->getCode()) {
+                        $organizationRules[$keyOrg][self::KEY_TENANTS][$key] = $tenant;
                     }
                 }
             }

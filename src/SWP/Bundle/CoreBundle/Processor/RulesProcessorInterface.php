@@ -18,6 +18,18 @@ namespace SWP\Bundle\CoreBundle\Processor;
 
 interface RulesProcessorInterface
 {
+    public const KEY_ORGANIZATION = 'organization';
+
+    public const KEY_TENANTS = 'tenants';
+
+    public const KEY_TENANT = 'tenant';
+
+    public const KEY_ROUTE = 'route';
+
+    public const KEY_FBIA = 'fbia';
+
+    public const KEY_PUBLISHED = 'published';
+
     /**
      * @param array $evaluatedRules
      *
