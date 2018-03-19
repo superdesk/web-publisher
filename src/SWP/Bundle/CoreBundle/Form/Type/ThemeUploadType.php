@@ -34,7 +34,7 @@ final class ThemeUploadType extends AbstractType
                 'required' => true,
                 'constraints' => [
                     new File([
-                        'maxSize' => '5120k',
+                        'maxSize' => '10240k',
                         'mimeTypes' => [
                             'application/zip',
                         ],
