@@ -6,9 +6,10 @@ This changelog references the relevant changes (bug and security fixes) done in 
 
 To get the diff for a specific change, go to https://github.com/superdesk/web-publisher/commit/XXX where XXX is the change hash
 
-* 1.1.x
+* 1.3.0
+ * feature [#458] Added redirect and notFound functions for twig templates
  * feature [#454] Override existing rules by publish destinations
- * improvement [#455] Add slug to article author - allow to load authors by slug
+ * improvement [#455] Added slug to article author - allow to load authors by slug
  * feature [#455] Allow to create custom routes (variable prefix and requirements)
  * feature [#451] Allowed to evaluate rules that match given package
  * feature [#453] Implemented bulk updates - settings API
@@ -31,6 +32,8 @@ To get the diff for a specific change, go to https://github.com/superdesk/web-pu
  * feature [#420] Add option to order list by pageViews parameter
  * feature [#420] Add statistics to articles. Collect page views and make them visible in template and api
  * feature [#416] Add Webhooks system (with API) to publisher
+ 
+* 1.2.0
  * feature [#394] Add "template_name" parameter to html widget
  * feature [#393] Introduce "without" keyword for gimmelist and add refactor article sources to allow better filtering
  * [BC Break] feature [#371] Handle article sources (Article source is now an array of sources instead of a string.)
