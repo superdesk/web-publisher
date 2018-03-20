@@ -62,7 +62,7 @@ class PackagePreviewController extends Controller
     }
 
     /**
-     * Publishes package to many websites.
+     * Generates package preview token for specific route.
      *
      * @ApiDoc(
      *     resource=true,
