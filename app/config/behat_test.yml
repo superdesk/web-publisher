@@ -1,0 +1,3 @@
+services:
+    swp_multi_tenancy.random_string_generator:
+        class: RandomStringGeneratorMock

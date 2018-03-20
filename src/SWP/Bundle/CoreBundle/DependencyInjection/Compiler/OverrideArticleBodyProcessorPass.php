@@ -16,6 +16,7 @@ namespace SWP\Bundle\CoreBundle\DependencyInjection\Compiler;
 
 use SWP\Bundle\CoreBundle\Processor\ArticleBodyProcessor;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\Reference;
 
 final class OverrideArticleBodyProcessorPass extends AbstractOverridePass
 {
@@ -27,6 +28,7 @@ final class OverrideArticleBodyProcessorPass extends AbstractOverridePass
         $mediaManager = $this->getDefinitionIfExists($container, 'swp_content_bundle.processor.article_body');
         $mediaManager
             ->setClass(ArticleBodyProcessor::class)
+            ->addArgument(new Reference('swp.factory.media'))
         ;
     }
 }

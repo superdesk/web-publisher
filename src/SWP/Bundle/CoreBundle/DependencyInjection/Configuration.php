@@ -14,6 +14,7 @@
 
 namespace SWP\Bundle\CoreBundle\DependencyInjection;
 
+use SWP\Bundle\CoreBundle\Factory\PackagePreviewTokenFactory;
 use SWP\Bundle\CoreBundle\Model\ApiKeyInterface;
 use SWP\Bundle\CoreBundle\Model\FacebookInstantArticlesArticle;
 use SWP\Bundle\CoreBundle\Model\FacebookInstantArticlesArticleInterface;
@@ -107,7 +108,7 @@ class Configuration implements ConfigurationInterface
                                             ->scalarNode('model')->cannotBeEmpty()->defaultValue(PackagePreviewToken::class)->end()
                                             ->scalarNode('interface')->defaultValue(PackagePreviewTokenInterface::class)->end()
                                             ->scalarNode('repository')->defaultValue(EntityRepository::class)->end()
-                                            ->scalarNode('factory')->defaultValue(Factory::class)->end()
+                                            ->scalarNode('factory')->defaultValue(PackagePreviewTokenFactory::class)->end()
                                             ->scalarNode('object_manager_name')->defaultValue(null)->end()
                                         ->end()
                                     ->end()

@@ -1,5 +1,6 @@
 imports:
     - { resource: config_dev.yml }
+    - { resource: behat_test.yml }
     - { resource: parameters_test.yml }
 
 framework:
