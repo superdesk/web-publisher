@@ -1,6 +1,6 @@
 @preview
 Feature: Preview article under route based on package data
-  
+
   Scenario: Preview article based on package under selected route
     Given I am authenticated as "test.user"
     When I add "Content-Type" header equal to "application/json"

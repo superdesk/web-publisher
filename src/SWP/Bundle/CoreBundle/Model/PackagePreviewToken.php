@@ -17,7 +17,6 @@ declare(strict_types=1);
 namespace SWP\Bundle\CoreBundle\Model;
 
 use SWP\Bundle\ContentBundle\Model\RouteAwareTrait;
-use SWP\Bundle\ContentBundle\Model\RouteInterface;
 use SWP\Component\Common\Model\TimestampableTrait;
 use SWP\Component\MultiTenancy\Model\TenantAwareTrait;
 
