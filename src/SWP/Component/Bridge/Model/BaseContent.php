@@ -495,7 +495,7 @@ class BaseContent implements ContentInterface
     /**
      * {@inheritdoc}
      */
-    public function getExtra(): array
+    public function getExtra(): ?array
     {
         return $this->extra;
     }
@@ -503,7 +503,7 @@ class BaseContent implements ContentInterface
     /**
      * {@inheritdoc}
      */
-    public function setExtra(array $extra): void
+    public function setExtra(?array $extra): void
     {
         $this->extra = $extra;
     }
