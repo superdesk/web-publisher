@@ -38,7 +38,8 @@
         "psr-4": {
             "SWP\\Bundle\\": "src/SWP/Bundle/",
             "SWP\\Component\\": "src/SWP/Component/",
-            "SWP\\Bridge\\": "src/SWP/Bridge/"
+            "SWP\\Bridge\\": "src/SWP/Bridge/",
+            "SWP\\Behat\\": "src/SWP/Behat/"
         },
         "exclude-from-classmap": [ "**/Tests/", "**/spec/" ],
         "classmap": [ "app/AppKernel.php" ]

@@ -1,5 +1,9 @@
 <?php
 
+declare(strict_types=1);
+
+namespace SWP\Behat\Service;
+
 use SWP\Component\Common\Generator\GeneratorInterface;
 
 final class RandomStringGeneratorStub implements GeneratorInterface
