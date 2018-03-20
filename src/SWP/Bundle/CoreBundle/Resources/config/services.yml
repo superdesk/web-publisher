@@ -450,7 +450,6 @@ services:
             - '@swp_content_bundle.processor.article_body'
             - '@swp.repository.package'
             - '@swp.factory.article'
-            - '@swp.factory.media'
             - '@?doctrine'
 
     swp.adder.tenant_aware_article_source:
