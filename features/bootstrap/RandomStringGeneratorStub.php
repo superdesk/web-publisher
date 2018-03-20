@@ -2,7 +2,7 @@
 
 use SWP\Component\Common\Generator\GeneratorInterface;
 
-final class RandomStringGeneratorMock implements GeneratorInterface
+final class RandomStringGeneratorStub implements GeneratorInterface
 {
     /**
      * {@inheritdoc}
