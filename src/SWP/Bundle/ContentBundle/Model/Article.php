@@ -485,7 +485,7 @@ class Article implements ArticleInterface
     /**
      * {@inheritdoc}
      */
-    public function getExtra(): array
+    public function getExtra(): ?array
     {
         return $this->extra;
     }
@@ -493,7 +493,7 @@ class Article implements ArticleInterface
     /**
      * {@inheritdoc}
      */
-    public function setExtra(array $extra): void
+    public function setExtra(?array $extra): void
     {
         $this->extra = $extra;
     }
