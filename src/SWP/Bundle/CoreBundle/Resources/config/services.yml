@@ -524,3 +524,6 @@ services:
             - '@swp.factory.article'
             - '@swp_content_bundle.processor.article_body'
             - '@SWP\Bundle\CoreBundle\Service\ArticlePreviewTemplateHelper'
+
+    swp.random_string_generator:
+        alias: swp_multi_tenancy.random_string_generator

@@ -44,7 +44,7 @@ class OverridePackagePreviewTokenFactoryPass extends AbstractOverridePass
             $container->getParameter('swp.factory.package_preview_token.class'),
             [
                 $baseDefinition,
-                new Reference('swp_multi_tenancy.random_string_generator'),
+                new Reference('swp.random_string_generator'),
             ]
         );
 
