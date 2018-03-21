@@ -27,7 +27,7 @@
     "swp/common": "^0.5",
     "swp/menu-bundle": "^0.5",
     "swp/storage-bundle": "^0.6",
-    "twig/twig": "^1.26.0",
+    "twig/twig": "~2.4",
     "stof/doctrine-extensions-bundle": "^1.2",
     "knplabs/knp-paginator-bundle": "2.5.*",
     "symfony/http-foundation": "^3.1",
