@@ -50,7 +50,6 @@ before_script:
 - cat ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini|grep redis
 - phpenv config-rm xdebug.ini || echo "xdebug not available"
 - phpenv rehash
-- composer config --global github-oauth.github.com "${GITHUB_TOKEN}"
 - composer $COMPOSER_FLAGS --no-interaction --prefer-dist
 - php app/console rabbitmq-supervisor:build --env=test
 - php app/console rabbitmq-supervisor:control start --env=test
