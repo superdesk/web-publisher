@@ -22,7 +22,7 @@
     }
   ],
   "require": {
-    "php": "^7.0",
+    "php": "^7.1",
     "swp/storage-bundle": "^1.0",
     "swp/common": "^1.0",
     "symfony/twig-bundle": "^3.1",
