@@ -31,3 +31,31 @@ And the function camelize(), which doesn't require any parameters, can simply be
 
     {% set string_var = 'Beginning' %}
     {{ string_var|camelize }} // will render bEGINNING
+
+
+Redirects
+---------
+
+We provide two functions which can be used for redirects:
+
+redirect
+````````
+
+.. code-block:: twig
+
+    {# redirect(route, code, parameters) #}
+    {{ redirect('homepage', 301, [] }}
+
+* route param can be string with ruute name or route meta object (article meta object will work also).
+* code is a redirection HTTP code (301 by default)
+* parameters - if route requires any it can be provided here
+
+
+notFound
+````````
+
+.. code-block:: twig
+
+    {{ notFound('Error message visible for reader' }}
+
+:code:`notFound` function will redirect user to 404 error page with provided message (it's usefull when in your custom route, loader can't find requested data).
