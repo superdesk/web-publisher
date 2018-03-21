@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "fb5ac8805c2f62811f67f6c5985870d6",
+    "content-hash": "2a26d73eb38a05639c5c8b52efa9b7cc",
     "packages": [
         {
             "name": "apache/log4php",
@@ -3435,16 +3435,16 @@
         },
         {
             "name": "knplabs/knp-components",
-            "version": "1.3.5",
+            "version": "v1.3.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/KnpLabs/knp-components.git",
-                "reference": "a03bbd87ecf9e56db6f7533db2c63d6da6cd5f33"
+                "reference": "9e8df46807bb288567a6906f490d4f2815e2c2af"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/KnpLabs/knp-components/zipball/a03bbd87ecf9e56db6f7533db2c63d6da6cd5f33",
-                "reference": "a03bbd87ecf9e56db6f7533db2c63d6da6cd5f33",
+                "url": "https://api.github.com/repos/KnpLabs/knp-components/zipball/9e8df46807bb288567a6906f490d4f2815e2c2af",
+                "reference": "9e8df46807bb288567a6906f490d4f2815e2c2af",
                 "shasum": ""
             },
             "require": {
@@ -3504,7 +3504,7 @@
                 "pager",
                 "paginator"
             ],
-            "time": "2017-09-15T12:50:01+00:00"
+            "time": "2018-03-20T10:18:20+00:00"
         },
         {
             "name": "knplabs/knp-menu",
@@ -3693,16 +3693,16 @@
         },
         {
             "name": "layershifter/tld-database",
-            "version": "1.0.55",
+            "version": "1.0.56",
             "source": {
                 "type": "git",
                 "url": "https://github.com/layershifter/TLDDatabase.git",
-                "reference": "cb5df36b4750aced85a792aed80b2a493c421d6f"
+                "reference": "5798fa9a29a013f0ca4ef391d081639007b0c6ae"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/layershifter/TLDDatabase/zipball/cb5df36b4750aced85a792aed80b2a493c421d6f",
-                "reference": "cb5df36b4750aced85a792aed80b2a493c421d6f",
+                "url": "https://api.github.com/repos/layershifter/TLDDatabase/zipball/5798fa9a29a013f0ca4ef391d081639007b0c6ae",
+                "reference": "5798fa9a29a013f0ca4ef391d081639007b0c6ae",
                 "shasum": ""
             },
             "require": {
@@ -3740,7 +3740,7 @@
                 "domain database",
                 "tld database"
             ],
-            "time": "2018-03-11T11:29:33+00:00"
+            "time": "2018-03-17T22:10:15+00:00"
         },
         {
             "name": "layershifter/tld-extract",
@@ -4732,59 +4732,6 @@
                 "random"
             ],
             "time": "2017-09-27T21:40:39+00:00"
-        },
-        {
-            "name": "phobetor/rabbitmq-supervisor-bundle",
-            "version": "dev-ahilles107-old_sound_config_read",
-            "target-dir": "Phobetor/RabbitMqSupervisorBundle",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/ahilles107/rabbitmq-supervisor-bundle.git",
-                "reference": "73cae7c578109c9610ef519f0cae950c3a8cc97e"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/ahilles107/rabbitmq-supervisor-bundle/zipball/73cae7c578109c9610ef519f0cae950c3a8cc97e",
-                "reference": "73cae7c578109c9610ef519f0cae950c3a8cc97e",
-                "shasum": ""
-            },
-            "require": {
-                "symfony/console": "~2.5|~3.0",
-                "symfony/framework-bundle": "~2.5|~3.0",
-                "symfony/process": "~2.5|~3.0"
-            },
-            "suggest": {
-                "oldsound/rabbitmq-bundle": "The abandoned older version of php-amqplib/rabbitmq-bundle which also works",
-                "php-amqplib/rabbitmq-bundle": "The rabbitmq bundle for symfony which this bundle takes the consumer information from"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-0": {
-                    "Phobetor\\RabbitMqSupervisorBundle\\": ""
-                }
-            },
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Andreas Kintzinger",
-                    "homepage": "https://github.com/Phobetor/",
-                    "role": "Developer"
-                }
-            ],
-            "description": "Symfony 2 bundle to automatically create and update supervisor configurations for RabbitMQ consumer daemons",
-            "homepage": "https://github.com/Phobetor/rabbitmq-supervisor-bundle",
-            "keywords": [
-                "rabbitmq",
-                "supervisor",
-                "supervisord",
-                "symfony2"
-            ],
-            "support": {
-                "source": "https://github.com/ahilles107/rabbitmq-supervisor-bundle/tree/ahilles107-old_sound_config_read"
-            },
-            "time": "2017-12-20T14:13:43+00:00"
         },
         {
             "name": "php-amqplib/php-amqplib",
@@ -6188,16 +6135,16 @@
         },
         {
             "name": "sentry/sentry",
-            "version": "1.8.3",
+            "version": "1.8.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/getsentry/sentry-php.git",
-                "reference": "512661046e403dc5eb5ae192d5a6cda10e068a95"
+                "reference": "643ec20d181ca55317d4ccda6ad658b9a8b4f06a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/getsentry/sentry-php/zipball/512661046e403dc5eb5ae192d5a6cda10e068a95",
-                "reference": "512661046e403dc5eb5ae192d5a6cda10e068a95",
+                "url": "https://api.github.com/repos/getsentry/sentry-php/zipball/643ec20d181ca55317d4ccda6ad658b9a8b4f06a",
+                "reference": "643ec20d181ca55317d4ccda6ad658b9a8b4f06a",
                 "shasum": ""
             },
             "require": {
@@ -6248,7 +6195,7 @@
                 "log",
                 "logging"
             ],
-            "time": "2018-02-07T11:26:52+00:00"
+            "time": "2018-03-20T12:52:10+00:00"
         },
         {
             "name": "sentry/sentry-symfony",
@@ -7520,16 +7467,16 @@
         },
         {
             "name": "twig/twig",
-            "version": "v2.4.6",
+            "version": "v2.4.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/twigphp/Twig.git",
-                "reference": "d2117ec118c1ff3d28ccddca8212d82787a4809f"
+                "reference": "69aacd44dbbaa3199d5afb68605c996d577896fc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/twigphp/Twig/zipball/d2117ec118c1ff3d28ccddca8212d82787a4809f",
-                "reference": "d2117ec118c1ff3d28ccddca8212d82787a4809f",
+                "url": "https://api.github.com/repos/twigphp/Twig/zipball/69aacd44dbbaa3199d5afb68605c996d577896fc",
+                "reference": "69aacd44dbbaa3199d5afb68605c996d577896fc",
                 "shasum": ""
             },
             "require": {
@@ -7538,8 +7485,8 @@
             },
             "require-dev": {
                 "psr/container": "^1.0",
-                "symfony/debug": "~2.7",
-                "symfony/phpunit-bridge": "~3.3@dev"
+                "symfony/debug": "^2.7",
+                "symfony/phpunit-bridge": "^3.3"
             },
             "type": "library",
             "extra": {
@@ -7582,7 +7529,7 @@
             "keywords": [
                 "templating"
             ],
-            "time": "2018-03-03T16:23:01+00:00"
+            "time": "2018-03-20T04:31:17+00:00"
         },
         {
             "name": "willdurand/hateoas",
@@ -10290,16 +10237,16 @@
         },
         {
             "name": "pixers/doctrine-profiler-bundle",
-            "version": "dev-php_72_compatibility",
+            "version": "v1.0.5",
             "source": {
                 "type": "git",
-                "url": "https://github.com/ahilles107/PixersDoctrineProfilerBundle.git",
-                "reference": "2c58e46b35610d2d9a1839f2978365a79807373d"
+                "url": "https://github.com/pixers/PixersDoctrineProfilerBundle.git",
+                "reference": "5b3f1d20cd6f49ba14d9b158819cefb1633867ac"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ahilles107/PixersDoctrineProfilerBundle/zipball/2c58e46b35610d2d9a1839f2978365a79807373d",
-                "reference": "2c58e46b35610d2d9a1839f2978365a79807373d",
+                "url": "https://api.github.com/repos/pixers/PixersDoctrineProfilerBundle/zipball/5b3f1d20cd6f49ba14d9b158819cefb1633867ac",
+                "reference": "5b3f1d20cd6f49ba14d9b158819cefb1633867ac",
                 "shasum": ""
             },
             "require": {
@@ -10318,6 +10265,7 @@
                     "Pixers\\DoctrineProfilerBundle\\": ""
                 }
             },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "BSD-3-Clause"
             ],
@@ -10328,10 +10276,7 @@
                 }
             ],
             "description": "PIXERS Doctrine profiler bundle",
-            "support": {
-                "source": "https://github.com/ahilles107/PixersDoctrineProfilerBundle/tree/php_72_compatibility"
-            },
-            "time": "2017-12-21T09:05:19+00:00"
+            "time": "2017-12-21T12:33:01+00:00"
         },
         {
             "name": "sebastian/code-unit-reverse-lookup",
@@ -11046,9 +10991,7 @@
     "stability-flags": {
         "friendsofsymfony/rest-bundle": 20,
         "burgov/key-value-form-bundle": 0,
-        "phobetor/rabbitmq-supervisor-bundle": 20,
         "liip/rmt": 20,
-        "pixers/doctrine-profiler-bundle": 20,
         "escapestudios/symfony2-coding-standard": 20
     },
     "prefer-stable": true,

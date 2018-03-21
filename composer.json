@@ -94,7 +94,6 @@
         "layershifter/tld-extract": "^1.2",
         "friendsofsymfony/elastica-bundle": "^5.0",
         "php-amqplib/rabbitmq-bundle": "^1.14",
-        "phobetor/rabbitmq-supervisor-bundle": "dev-ahilles107-old_sound_config_read",
         "fzaninotto/faker": "^1.5"
     },
     "require-dev": {
@@ -108,7 +107,7 @@
         "symfony/phpunit-bridge": "^3.1",
         "symfony-cmf/testing": "2.0.x",
         "liip/rmt": "dev-master",
-        "pixers/doctrine-profiler-bundle": "dev-php_72_compatibility",
+        "pixers/doctrine-profiler-bundle": "v1.0.5",
         "escapestudios/symfony2-coding-standard": "3.x-dev",
         "symfony/web-server-bundle": "^3.3",
         "behat/behat": "^3.4",
@@ -135,16 +134,6 @@
         "swp/revision": "self.version",
         "swp/elastic-search-bundle": "self.version"
     },
-    "repositories": [
-        {
-            "type": "vcs",
-            "url": "https://github.com/ahilles107/rabbitmq-supervisor-bundle"
-        },
-        {
-            "type": "vcs",
-            "url": "https://github.com/ahilles107/PixersDoctrineProfilerBundle.git"
-        }
-    ],
     "scripts": {
         "post-install-cmd": [
             "Incenteev\\ParameterHandler\\ScriptHandler::buildParameters",
