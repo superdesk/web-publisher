@@ -17,7 +17,7 @@
     },
     "require": {
         "php": "^7.0",
-        "twig/twig": "^1.25",
+        "twig/twig": "^1.25 || ~2.4",
         "doctrine/cache": "^1.6",
         "doctrine/collections": "^1.3"
     },
