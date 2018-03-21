@@ -51,8 +51,12 @@ before_script:
 - phpenv config-rm xdebug.ini || echo "xdebug not available"
 - phpenv rehash
 - composer $COMPOSER_FLAGS --no-interaction --prefer-dist
-- php app/console rabbitmq-supervisor:build --env=test
-- php app/console rabbitmq-supervisor:control start --env=test
+- cat /etc/supervisor/supervisord.conf
+- sudo rm -rf /etc/supervisor/supervisord.conf
+- sudo wget -P /etc/supervisor https://gist.githubusercontent.com/ahilles107/6145814c50f6b404369ea21f7578cebe/raw/3c6377f817a19e915802f5c4ea8557667c293f08/supervisord.conf
+- sudo chmod -R 777 /var/log/supervisor/
+- sudo service supervisor restart
+- sudo supervisorctl status
 
 script:
 - bin/behat -f progress
