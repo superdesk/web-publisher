@@ -121,11 +121,7 @@ php app/console sylius:theme:assets:install
 
 #### Run RabbitMQ consumers
 
-Setup supervisor for created queues consumers
-
-```bash
-php app/console rabbitmq-supervisor:build --env=prod
-```
+For supervisor setup (and consumers managed by it) read instructions in `supervisor.md`
 
 #### Preview
 

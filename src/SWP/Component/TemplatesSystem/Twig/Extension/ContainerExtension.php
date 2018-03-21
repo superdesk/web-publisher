@@ -14,22 +14,37 @@
 
 namespace SWP\Component\TemplatesSystem\Twig\Extension;
 
+use SWP\Bundle\TemplatesSystemBundle\Service\RendererServiceInterface;
 use SWP\Component\TemplatesSystem\Twig\TokenParser\ContainerTokenParser;
 
 class ContainerExtension extends \Twig_Extension
 {
+    /**
+     * @var RendererServiceInterface
+     */
     protected $rendererService;
 
+    /**
+     * ContainerExtension constructor.
+     *
+     * @param RendererServiceInterface $rendererService
+     */
     public function __construct($rendererService)
     {
         $this->rendererService = $rendererService;
     }
 
+    /**
+     * @return RendererServiceInterface
+     */
     public function getContainerService()
     {
         return $this->rendererService;
     }
 
+    /**
+     * @return array|\Twig_TokenParserInterface[]
+     */
     public function getTokenParsers()
     {
         return [
@@ -37,6 +52,9 @@ class ContainerExtension extends \Twig_Extension
         ];
     }
 
+    /**
+     * @return string
+     */
     public function getName()
     {
         return self::class;
