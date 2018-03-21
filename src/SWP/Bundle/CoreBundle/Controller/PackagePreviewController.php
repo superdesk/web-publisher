@@ -80,13 +80,10 @@ class PackagePreviewController extends Controller
     {
         $route = $this->findRouteOr404($routeId);
 
-        if (null === $route->getArticlesTemplateName()) {
-            throw $this->createNotFoundException(
-                sprintf('Template for route with id "%d" (%s) not found!', $route->getId(), $route->getName())
-            );
-        }
+        $this->ensureRouteTemplateExists($route);
 
-        $content = $request->getContent();
+        /** @var string $content */
+        $content = (string) $request->getContent();
         $dispatcher = $this->get('event_dispatcher');
         $package = $this->get('swp_bridge.transformer.json_to_package')->transform($content);
         $dispatcher->dispatch(Events::SWP_VALIDATION, new GenericEvent($package));
@@ -133,7 +130,7 @@ class PackagePreviewController extends Controller
      * @Route("/preview/publish/package/{token}", options={"expose"=true}, requirements={"token"=".+"}, name="swp_package_preview_publish")
      * @Method("GET")
      */
-    public function publishPreviewAction(Request $request, string $token)
+    public function publishPreviewAction(string $token)
     {
         $existingPreviewToken = $this->get('swp.repository.package_preview_token')->findOneBy(['token' => $token]);
 
@@ -150,13 +147,18 @@ class PackagePreviewController extends Controller
         $article = $articlePreviewer->preview($package, $existingPreviewToken->getRoute());
         $route = $article->getRoute();
 
-        if (null === ($template = $route->getArticlesTemplateName())) {
+        $this->ensureRouteTemplateExists($route);
+
+        return $this->render($route->getArticlesTemplateName());
+    }
+
+    private function ensureRouteTemplateExists(RouteInterface $route): void
+    {
+        if (null === $route->getArticlesTemplateName()) {
             throw $this->createNotFoundException(
                 sprintf('Template for route with id "%d" (%s) not found!', $route->getId(), $route->getName())
             );
         }
-
-        return $this->render($template);
     }
 
     /**

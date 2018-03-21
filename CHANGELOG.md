@@ -7,6 +7,7 @@ This changelog references the relevant changes (bug and security fixes) done in 
 To get the diff for a specific change, go to https://github.com/superdesk/web-publisher/commit/XXX where XXX is the change hash
 
 * 1.3.0
+ * feature [#459] Added an option to preview an article before even publishing it
  * feature [#458] Added redirect and notFound functions for twig templates
  * feature [#454] Override existing rules by publish destinations
  * improvement [#455] Added slug to article author - allow to load authors by slug

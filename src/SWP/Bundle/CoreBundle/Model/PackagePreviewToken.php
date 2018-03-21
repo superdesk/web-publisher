@@ -66,22 +66,6 @@ class PackagePreviewToken implements PackagePreviewTokenInterface
     /**
      * {@inheritdoc}
      */
-    public function getChecksum(): string
-    {
-        return $this->checksum;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function setChecksum(string $checksum): void
-    {
-        $this->checksum = $checksum;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function getToken(): string
     {
         return $this->token;

@@ -16,7 +16,7 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\CoreBundle\Service;
 
-use SWP\Bundle\CoreBundle\Model\ArticleInterface;
+use SWP\Bundle\ContentBundle\Model\ArticleInterface;
 use SWP\Component\TemplatesSystem\Gimme\Context\Context;
 use SWP\Component\TemplatesSystem\Gimme\Factory\MetaFactoryInterface;
 

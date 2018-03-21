@@ -16,8 +16,8 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\CoreBundle\Service;
 
+use SWP\Bundle\ContentBundle\Model\ArticleInterface;
 use SWP\Bundle\ContentBundle\Model\RouteInterface;
-use SWP\Bundle\CoreBundle\Model\ArticleInterface;
 use SWP\Bundle\CoreBundle\Model\PackageInterface;
 
 interface ArticlePreviewerInterface

@@ -122,9 +122,9 @@ class Article implements ArticleInterface
     protected $sources;
 
     /**
-     * @var array
+     * @var array|null
      */
-    protected $extra = [];
+    protected $extra;
 
     /**
      * Article constructor.

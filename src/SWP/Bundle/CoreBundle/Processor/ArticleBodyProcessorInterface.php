@@ -16,8 +16,8 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\CoreBundle\Processor;
 
+use SWP\Bundle\ContentBundle\Model\ArticleInterface;
 use SWP\Bundle\ContentBundle\Processor\ArticleBodyProcessorInterface as BaseProcessorInterface;
-use SWP\Bundle\CoreBundle\Model\ArticleInterface;
 use SWP\Bundle\CoreBundle\Model\PackageInterface;
 
 interface ArticleBodyProcessorInterface extends BaseProcessorInterface
