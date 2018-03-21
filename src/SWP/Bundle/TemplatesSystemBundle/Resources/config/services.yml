@@ -53,6 +53,20 @@ services:
         tags:
             - { name: twig.extension }
 
+    swp_template_engine_twig_extension.redirect:
+        class: SWP\Bundle\TemplatesSystemBundle\Twig\Extension\RedirectExtension
+        public: false
+        arguments:
+            - "@request_stack"
+            - "@router"
+        tags:
+            - { name: twig.extension }
+
+    swp_template_engine.listener.redirect:
+        class: SWP\Bundle\TemplatesSystemBundle\EventListener\RedirectListener
+        tags:
+            - { name: kernel.event_listener, event: kernel.response, method: onKernelResponse }
+
     swp_template_engine.data_collector.context_collector:
         class: SWP\Bundle\TemplatesSystemBundle\DataCollector\ContextDataCollector
         arguments:

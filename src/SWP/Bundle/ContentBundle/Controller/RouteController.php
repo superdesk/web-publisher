@@ -112,7 +112,7 @@ class RouteController extends FOSRestController
     /**
      * Creates routes for current tenant.
      *
-     * Parameter `type` cane have one of two values: `content` or `collection`.
+     * Parameter `type` cane have one of two values: `content`, `collection` or `custom`.
      *
      * @ApiDoc(
      *     resource=true,
