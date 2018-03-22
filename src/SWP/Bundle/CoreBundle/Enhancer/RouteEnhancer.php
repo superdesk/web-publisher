@@ -74,7 +74,6 @@ class RouteEnhancer implements RouteEnhancerInterface
      */
     public function enhance(array $defaults, Request $request)
     {
-        dump($request);
         $defaultsKey = md5(json_encode($defaults));
         if (!isset($this->enhancedRoutesDefaults[$defaultsKey])) {
             $defaults['_controller'] = ContentController::class.'::renderPageAction';
