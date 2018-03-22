@@ -68,7 +68,7 @@ class Meta implements MetaInterface
     {
         if (array_key_exists('to_string', $this->configuration)) {
             $toStringProperty = $this->configuration['to_string'];
-
+            $this->__load($toStringProperty);
             if (isset($this->copiedValues[$toStringProperty])) {
                 return $this->copiedValues[$toStringProperty];
             }
@@ -105,7 +105,7 @@ class Meta implements MetaInterface
                 $newValue[$key] = $this->getValueOrMeta($item);
             }
 
-            $this->$name = $newValue;
+            $this->copiedValues[$name] = $newValue;
 
             return;
         }
@@ -120,16 +120,12 @@ class Meta implements MetaInterface
      */
     public function __get(string $name)
     {
-        return $this->copiedValues[$name];
-    }
-
-    private function getValueOrMeta($value)
-    {
-        if ($this->context->isSupported($value)) {
-            return $this->context->getMetaForValue($value);
+        if (array_key_exists($name, $this->copiedValues)) {
+            return $this->copiedValues[$name];
         }
+        $this->__load($name);
 
-        return $value;
+        return $this->copiedValues[$name];
     }
 
     /**
@@ -162,6 +158,20 @@ class Meta implements MetaInterface
     public function getContext()
     {
         return $this->context;
+    }
+
+    /**
+     * Don't serialize values, context and configuration.
+     *
+     * @return array
+     */
+    public function __sleep()
+    {
+        unset($this->values);
+        unset($this->context);
+        unset($this->configuration);
+
+        return array_keys(get_object_vars($this));
     }
 
     /**
@@ -217,17 +227,17 @@ class Meta implements MetaInterface
     }
 
     /**
-     * Don't serialize values, context and configuration.
+     * @param $value
      *
-     * @return array
+     * @return Meta
      */
-    public function __sleep()
+    private function getValueOrMeta($value)
     {
-        unset($this->values);
-        unset($this->context);
-        unset($this->configuration);
+        if ($this->context->isSupported($value)) {
+            return $this->context->getMetaForValue($value);
+        }
 
-        return array_keys(get_object_vars($this));
+        return $value;
     }
 
     /**

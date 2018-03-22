@@ -78,7 +78,6 @@ class ArticleLoaderTest extends WebTestCase
         self::assertTrue($articlesZero[1]->title === $articlesOne[0]->title);
 
         $articles = $this->articleLoader->load('articles', ['metadata' => ['located' => 'Sydney']], [], LoaderInterface::COLLECTION);
-
         self::assertCount(3, $articles);
         self::assertTrue(3 === $articles->getTotalItemsCount());
 
