@@ -14,11 +14,11 @@
 
 namespace SWP\Bundle\CoreBundle\Theme\Asset;
 
+use SWP\Bundle\CoreBundle\Theme\Repository\ReloadableThemeRepositoryInterface;
 use Sylius\Bundle\ThemeBundle\Asset\Installer\AssetsInstallerInterface;
 use Sylius\Bundle\ThemeBundle\Asset\PathResolverInterface;
 use Sylius\Bundle\ThemeBundle\HierarchyProvider\ThemeHierarchyProviderInterface;
 use Sylius\Bundle\ThemeBundle\Model\ThemeInterface;
-use Sylius\Bundle\ThemeBundle\Repository\ThemeRepositoryInterface;
 use Symfony\Component\Filesystem\Exception\IOException;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Finder\Finder;
@@ -42,7 +42,7 @@ final class AssetsInstaller implements AssetsInstallerInterface
     private $kernel;
 
     /**
-     * @var ThemeRepositoryInterface
+     * @var ReloadableThemeRepositoryInterface
      */
     private $themeRepository;
 
@@ -57,16 +57,16 @@ final class AssetsInstaller implements AssetsInstallerInterface
     private $pathResolver;
 
     /**
-     * @param Filesystem                      $filesystem
-     * @param KernelInterface                 $kernel
-     * @param ThemeRepositoryInterface        $themeRepository
-     * @param ThemeHierarchyProviderInterface $themeHierarchyProvider
-     * @param PathResolverInterface           $pathResolver
+     * @param Filesystem                         $filesystem
+     * @param KernelInterface                    $kernel
+     * @param ReloadableThemeRepositoryInterface $themeRepository
+     * @param ThemeHierarchyProviderInterface    $themeHierarchyProvider
+     * @param PathResolverInterface              $pathResolver
      */
     public function __construct(
         Filesystem $filesystem,
         KernelInterface $kernel,
-        ThemeRepositoryInterface $themeRepository,
+        ReloadableThemeRepositoryInterface $themeRepository,
         ThemeHierarchyProviderInterface $themeHierarchyProvider,
         PathResolverInterface $pathResolver
     ) {
@@ -86,6 +86,7 @@ final class AssetsInstaller implements AssetsInstallerInterface
     {
         $targetDir = rtrim($targetDir, '/').'/theme/';
         $this->filesystem->mkdir($targetDir);
+        $this->themeRepository->reloadThemes();
         $this->installGlobalAssets($targetDir, $symlinkMask);
 
         $effectiveSymlinkMask = $symlinkMask;
