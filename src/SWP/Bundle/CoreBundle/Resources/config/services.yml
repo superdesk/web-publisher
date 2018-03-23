@@ -76,6 +76,7 @@ services:
             - '@swp_core.loader.organization.theme'
             - '@twig'
             - '%swp.theme.configuration.default_directory%'
+            - '@sylius.theme.asset.assets_installer'
 
     swp_core.generator.theme.fake_article:
         class: SWP\Bundle\CoreBundle\Theme\Generator\FakeArticlesGenerator

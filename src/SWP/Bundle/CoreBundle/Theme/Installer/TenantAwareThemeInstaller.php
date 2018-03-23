@@ -18,6 +18,7 @@ namespace SWP\Bundle\CoreBundle\Theme\Installer;
 
 use SWP\Bundle\CoreBundle\Twig\Cache\TenantAwareCacheInterface;
 use SWP\Component\MultiTenancy\Context\TenantContextInterface;
+use Sylius\Bundle\ThemeBundle\Asset\Installer\AssetsInstallerInterface;
 use Sylius\Bundle\ThemeBundle\Loader\ThemeLoaderInterface;
 use SWP\Bundle\CoreBundle\Theme\Model\ThemeInterface;
 use Symfony\Component\Filesystem\Filesystem;
@@ -28,6 +29,8 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
  */
 final class TenantAwareThemeInstaller implements ThemeInstallerInterface
 {
+    public const TRAGET_DIR = 'web';
+
     /**
      * @var TenantContextInterface
      */
@@ -49,6 +52,11 @@ final class TenantAwareThemeInstaller implements ThemeInstallerInterface
     private $baseDir;
 
     /**
+     * @var AssetsInstallerInterface
+     */
+    private $assetsInstaller;
+
+    /**
      * TenantAwareThemeInstaller constructor.
      *
      * @param TenantContextInterface $tenantContext
@@ -56,12 +64,18 @@ final class TenantAwareThemeInstaller implements ThemeInstallerInterface
      * @param \Twig_Environment      $twig
      * @param string                 $baseDir
      */
-    public function __construct(TenantContextInterface $tenantContext, ThemeLoaderInterface $themeLoader, \Twig_Environment $twig, string $baseDir)
-    {
+    public function __construct(
+        TenantContextInterface $tenantContext,
+        ThemeLoaderInterface $themeLoader,
+        \Twig_Environment $twig,
+        string $baseDir,
+        AssetsInstallerInterface $assetsInstaller
+    ) {
         $this->tenantContext = $tenantContext;
         $this->themeLoader = $themeLoader;
         $this->twig = $twig;
         $this->baseDir = $baseDir;
+        $this->assetsInstaller = $assetsInstaller;
     }
 
     /**
@@ -98,6 +112,8 @@ final class TenantAwareThemeInstaller implements ThemeInstallerInterface
         if ($cache instanceof TenantAwareCacheInterface) {
             $filesystem->remove($cache->generateCacheDir());
         }
+
+        $this->assetsInstaller->installAssets(self::TRAGET_DIR, AssetsInstallerInterface::HARD_COPY);
 
         return $theme;
     }
