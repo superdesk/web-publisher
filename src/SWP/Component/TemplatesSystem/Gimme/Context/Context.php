@@ -63,6 +63,16 @@ class Context implements \ArrayAccess
     private $previewMode = false;
 
     /**
+     * @var array
+     */
+    private $supportedCache = [];
+
+    /**
+     * @var array
+     */
+    private $configurationCache = [];
+
+    /**
      * Context constructor.
      *
      * @param Cache  $metadataCache
@@ -150,8 +160,15 @@ class Context implements \ArrayAccess
             throw new \Exception('Context supports configuration loading only for objects');
         }
 
+        $objectClassName = get_class($value);
+        if (array_key_exists($objectClassName, $this->configurationCache)) {
+            return $this->configurationCache[$objectClassName];
+        }
+
         foreach ($this->getAvailableConfigs() as $class => $configuration) {
             if ($value instanceof $class) {
+                $this->configurationCache[$objectClassName] = $configuration;
+
                 return $configuration;
             }
         }
@@ -180,7 +197,15 @@ class Context implements \ArrayAccess
             return false;
         }
 
-        return count($this->getConfigurationForValue($value)) > 0 ? true : false;
+        $objectClassName = get_class($value);
+        if (array_key_exists($objectClassName, $this->supportedCache)) {
+            return $this->supportedCache[$objectClassName];
+        }
+
+        $result = count($this->getConfigurationForValue($value)) > 0 ? true : false;
+        $this->supportedCache[$objectClassName] = $result;
+
+        return $result;
     }
 
     /**
@@ -203,6 +228,7 @@ class Context implements \ArrayAccess
         }
 
         $this->addAvailableConfig($configuration);
+        $this->supportedCache = [];
 
         return $configuration;
     }
