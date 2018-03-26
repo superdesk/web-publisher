@@ -126,9 +126,9 @@ class BaseContent implements ContentInterface
     protected $source;
 
     /**
-     * @var array
+     * @var array|null
      */
-    protected $extra = [];
+    protected $extra;
 
     public function __construct()
     {
