@@ -84,8 +84,9 @@ final class AssetsInstaller implements AssetsInstallerInterface
      */
     public function installAssets($targetDir, $symlinkMask)
     {
-        $targetDir = rtrim($targetDir, '/').'/theme/';
+        $targetDir = rtrim($targetDir, '/');
         $this->filesystem->mkdir($targetDir);
+        $targetDir .= '/theme/';
         $this->installGlobalAssets($targetDir, $symlinkMask);
 
         $effectiveSymlinkMask = $symlinkMask;
