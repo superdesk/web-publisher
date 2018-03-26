@@ -39,6 +39,11 @@ class Meta implements MetaInterface
     protected $configuration;
 
     /**
+     * @var array
+     */
+    private $copiedValues = [];
+
+    /**
      * Create Meta class from provided configuration and values.
      *
      * @param Context             $context
@@ -50,14 +55,6 @@ class Meta implements MetaInterface
         $this->context = $context;
         $this->values = $values;
         $this->configuration = $configuration;
-
-        if (is_array($this->values)) {
-            $this->fillFromArray($this->values, $this->configuration);
-        } elseif (is_string($this->values) && $this->isJson($this->values)) {
-            $this->fillFromArray(json_decode($this->values, true), $this->configuration);
-        } elseif (is_object($this->values)) {
-            $this->fillFromObject($this->values, $this->configuration);
-        }
 
         $this->context->registerMeta($this);
     }
@@ -71,13 +68,28 @@ class Meta implements MetaInterface
     {
         if (array_key_exists('to_string', $this->configuration)) {
             $toStringProperty = $this->configuration['to_string'];
-
-            if (isset($this->$toStringProperty)) {
-                return $this->$toStringProperty;
+            $this->__load($toStringProperty);
+            if (isset($this->copiedValues[$toStringProperty])) {
+                return $this->copiedValues[$toStringProperty];
             }
         }
 
         return gettype($this->values);
+    }
+
+    /**
+     * @param string $name
+     *
+     * @return bool
+     */
+    public function __isset(string $name)
+    {
+        $this->__load($name);
+        if (array_key_exists($name, $this->copiedValues)) {
+            return true;
+        }
+
+        return false;
     }
 
     /**
@@ -93,21 +105,27 @@ class Meta implements MetaInterface
                 $newValue[$key] = $this->getValueOrMeta($item);
             }
 
-            $this->$name = $newValue;
+            $this->copiedValues[$name] = $newValue;
 
             return;
         }
 
-        $this->$name = $this->getValueOrMeta($value);
+        $this->copiedValues[$name] = $this->getValueOrMeta($value);
     }
 
-    private function getValueOrMeta($value)
+    /**
+     * @param string $name
+     *
+     * @return mixed|null
+     */
+    public function __get(string $name)
     {
-        if ($this->context->isSupported($value)) {
-            return $this->context->getMetaForValue($value);
+        if (array_key_exists($name, $this->copiedValues)) {
+            return $this->copiedValues[$name];
         }
+        $this->__load($name);
 
-        return $value;
+        return $this->copiedValues[$name];
     }
 
     /**
@@ -143,17 +161,30 @@ class Meta implements MetaInterface
     }
 
     /**
-     * Fill Meta from array. Array must have property names and keys.
+     * Don't serialize values, context and configuration.
      *
-     * @param array $values        Array with properyy names as keys
-     * @param array $configuration
+     * @return array
+     */
+    public function __sleep()
+    {
+        unset($this->values);
+        unset($this->context);
+        unset($this->configuration);
+
+        return array_keys(get_object_vars($this));
+    }
+
+    /**
+     * @param array  $values
+     * @param array  $configuration
+     * @param string $name
      *
      * @return bool
      */
-    private function fillFromArray(array $values, $configuration)
+    private function fillFromArray(array $values, array $configuration, string $name)
     {
-        foreach ($this->getExposedProperties($values, $configuration) as $key => $propertyValue) {
-            $this->$key = $propertyValue;
+        if (count($values) > 0 && isset($configuration['properties'][$name]) && isset($values[$name])) {
+            $this->$name = $values[$name];
         }
 
         return true;
@@ -167,40 +198,18 @@ class Meta implements MetaInterface
      *
      * @return bool
      */
-    private function fillFromObject($values, $configuration)
+    private function fillFromObject($values, array $configuration, string $name)
     {
-        foreach ($configuration['properties'] as $key => $propertyValue) {
-            $getterName = 'get'.ucfirst($key);
+        if (isset($configuration['properties'][$name])) {
+            $getterName = 'get'.ucfirst($name);
             if (method_exists($values, $getterName)) {
-                $this->$key = $values->$getterName();
+                $this->$name = $values->$getterName();
             }
         }
 
         unset($values, $configuration);
 
         return true;
-    }
-
-    /**
-     * Get exposed properties (according to configuration) from provided values.
-     *
-     * @param array $values
-     * @param array $configuration
-     *
-     * @return array
-     */
-    private function getExposedProperties(array $values = [], $configuration = [])
-    {
-        $exposedProperties = [];
-        if (count($values) > 0 && isset($configuration['properties'])) {
-            foreach ($values as $key => $propertyValue) {
-                if (array_key_exists($key, $configuration['properties'])) {
-                    $exposedProperties[$key] = $propertyValue;
-                }
-            }
-        }
-
-        return $exposedProperties;
     }
 
     /**
@@ -218,16 +227,30 @@ class Meta implements MetaInterface
     }
 
     /**
-     * Don't serialize values, context and configuration.
+     * @param $value
      *
-     * @return array
+     * @return Meta
      */
-    public function __sleep()
+    private function getValueOrMeta($value)
     {
-        unset($this->values);
-        unset($this->context);
-        unset($this->configuration);
+        if ($this->context->isSupported($value)) {
+            return $this->context->getMetaForValue($value);
+        }
 
-        return array_keys(get_object_vars($this));
+        return $value;
+    }
+
+    /**
+     * @param string $name
+     */
+    private function __load(string $name)
+    {
+        if (is_array($this->values)) {
+            $this->fillFromArray($this->values, $this->configuration, $name);
+        } elseif (is_string($this->values) && $this->isJson($this->values)) {
+            $this->fillFromArray(json_decode($this->values, true), $this->configuration, $name);
+        } elseif (is_object($this->values)) {
+            $this->fillFromObject($this->values, $this->configuration, $name);
+        }
     }
 }

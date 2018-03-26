@@ -72,6 +72,8 @@ class ArticleMediaLoaderTest extends WebTestCase
 
         // test loading article media without article meta provided - it should use current article from context
         $articleMedia2 = $this->articleMediaLoader->load('articleMedia', []);
+        self::assertEquals('By Best Editor', $articleMedia2[0]->byLine);
+        self::assertCount(15, $articleMedia2[0]->renditions);
         self::assertEquals($articleMedia, $articleMedia2);
     }
 }
