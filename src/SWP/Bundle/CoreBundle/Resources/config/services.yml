@@ -286,6 +286,7 @@ services:
             - '@swp.remover.content_list_items_remover'
             - '@swp.repository.article'
             - '@swp.factory.content_list_item'
+            - "@swp.provider.route"
         tags:
             - { name: kernel.event_listener, event: swp.list_criteria_change, method: onListCriteriaChange }
 
