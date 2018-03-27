@@ -19,10 +19,6 @@ twig:
     debug: true
 
 services:
-    twig.extension.debug:
-        class: Twig_Extension_Debug
-        tags:
-                - { name: 'twig.extension' }
     #Disable translations collector
     data_collector.translation:
         class: "%data_collector.config.class%"
