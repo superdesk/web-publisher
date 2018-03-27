@@ -183,12 +183,12 @@ interface ArticleInterface extends TimestampableInterface, RuleSubjectInterface,
     public function getSources(): Collection;
 
     /**
-     * @return array
+     * @return array|null
      */
-    public function getExtra(): array;
+    public function getExtra(): ?array;
 
     /**
-     * @param array $extra
+     * @param array|null $extra
      */
-    public function setExtra(array $extra): void;
+    public function setExtra(?array $extra): void;
 }
