@@ -97,17 +97,19 @@ final class ThemeExtension extends AbstractExtension
      * @param string $setting
      *
      * @return string
+     *
+     * @throws \Exception
      */
     public function getThemeSetting(string $setting): string
     {
-        if ('dev' === $this->env) {
-            return $this->getSetting($setting);
-        }
-
         try {
             return $this->getSetting($setting);
         } catch (\Exception $e) {
-            return '';
+            if ('dev' !== $this->env) {
+                return '';
+            }
+
+            throw $e;
         }
     }
 
