@@ -105,7 +105,7 @@ final class ThemeExtension extends AbstractExtension
         try {
             return $this->getSetting($setting);
         } catch (\Exception $e) {
-            if ('dev' !== $this->env) {
+            if ('prod' === $this->env) {
                 return '';
             }
 
