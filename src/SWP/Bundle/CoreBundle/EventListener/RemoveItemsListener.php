@@ -17,6 +17,7 @@ declare(strict_types=1);
 namespace SWP\Bundle\CoreBundle\EventListener;
 
 use SWP\Bundle\ContentBundle\Doctrine\ArticleRepositoryInterface;
+use SWP\Bundle\ContentBundle\Provider\RouteProviderInterface;
 use SWP\Bundle\ContentListBundle\Remover\ContentListItemsRemoverInterface;
 use SWP\Component\Common\Criteria\Criteria;
 use SWP\Component\ContentList\Model\ContentListInterface;
@@ -42,6 +43,11 @@ final class RemoveItemsListener
     private $contentListItemFactory;
 
     /**
+     * @var RouteProviderInterface
+     */
+    private $routeProvider;
+
+    /**
      * RemoveItemsListener constructor.
      *
      * @param ContentListItemsRemoverInterface $contentListItemsRemover
@@ -51,11 +57,13 @@ final class RemoveItemsListener
     public function __construct(
         ContentListItemsRemoverInterface $contentListItemsRemover,
         ArticleRepositoryInterface $articleRepository,
-        FactoryInterface $contentListItemFactory
+        FactoryInterface $contentListItemFactory,
+        RouteProviderInterface $routeProvider
     ) {
         $this->contentListItemsRemover = $contentListItemsRemover;
         $this->articleRepository = $articleRepository;
         $this->contentListItemFactory = $contentListItemFactory;
+        $this->routeProvider = $routeProvider;
     }
 
     /**
@@ -79,8 +87,14 @@ final class RemoveItemsListener
             $filters = $contentList->getFilters();
             $filters = $this->determineLimit($contentList, $filters);
 
+            $criteria = new Criteria($filters);
+
+            if (isset($filters['route'])) {
+                $criteria->set('route', $this->routeProvider->getByMixed($filters['route']));
+            }
+
             $articles = $this->articleRepository->getArticlesByCriteria(
-                new Criteria($filters),
+                $criteria,
                 ['publishedAt' => 'desc']
             )->getQuery()->getResult();
 
