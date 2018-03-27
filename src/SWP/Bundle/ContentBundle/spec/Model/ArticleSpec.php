@@ -225,7 +225,7 @@ class ArticleSpec extends ObjectBehavior
 
     public function it_has_no_extra_by_default()
     {
-        $this->getExtra()->shouldReturn([]);
+        $this->getExtra()->shouldReturn(null);
     }
 
     public function its_extra_is_mutable()
