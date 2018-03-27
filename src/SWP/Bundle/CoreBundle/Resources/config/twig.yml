@@ -48,5 +48,6 @@ services:
             - '@swp_core.provider.theme_logo'
             - '@swp_multi_tenancy.tenant_context'
             - '@swp_settings.manager.settings'
+            - '%kernel.environment%'
         tags:
             - { name: twig.extension }
