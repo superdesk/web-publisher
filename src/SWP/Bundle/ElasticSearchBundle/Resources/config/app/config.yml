@@ -66,6 +66,8 @@ fos_elastica:
                         provider: ~
                         finder: ~
                         repository: SWP\Bundle\ElasticSearchBundle\Repository\ArticleRepository
+                        elastica_to_model_transformer:
+                            ignore_missing: true
                 package:
                     properties:
                         id: { type: integer}
@@ -113,3 +115,5 @@ fos_elastica:
                         provider: ~
                         finder: ~
                         repository: SWP\Bundle\ElasticSearchBundle\Repository\PackageRepository
+                        elastica_to_model_transformer:
+                            ignore_missing: true
