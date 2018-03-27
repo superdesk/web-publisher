@@ -40,6 +40,7 @@ parameters:
 
     env(ELASTICA_HOST): localhost
     env(ELASTICA_PORT): 9200
+    env(ELASTICA_INDEX_NAME): 'swp_index'
 
     env(RABBIT_MQ_HOST): 127.0.0.1
     env(RABBIT_MQ_PORT): 5672
