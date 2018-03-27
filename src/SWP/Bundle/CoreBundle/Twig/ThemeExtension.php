@@ -42,20 +42,28 @@ final class ThemeExtension extends AbstractExtension
     private $settingsManager;
 
     /**
+     * @var string
+     */
+    private $env;
+
+    /**
      * ThemeExtension constructor.
      *
      * @param ThemeLogoProviderInterface $themeLogoProvider
      * @param TenantContextInterface     $tenantContext
      * @param SettingsManagerInterface   $settingsManager
+     * @param string                     $env
      */
     public function __construct(
         ThemeLogoProviderInterface $themeLogoProvider,
         TenantContextInterface $tenantContext,
-        SettingsManagerInterface $settingsManager
+        SettingsManagerInterface $settingsManager,
+        string $env
     ) {
         $this->themeLogoProvider = $themeLogoProvider;
         $this->tenantContext = $tenantContext;
         $this->settingsManager = $settingsManager;
+        $this->env = $env;
     }
 
     /**
@@ -91,6 +99,19 @@ final class ThemeExtension extends AbstractExtension
      * @return string
      */
     public function getThemeSetting(string $setting): string
+    {
+        if ('dev' === $this->env) {
+            return $this->getSetting($setting);
+        }
+
+        try {
+            return $this->getSetting($setting);
+        } catch (\Exception $e) {
+            return '';
+        }
+    }
+
+    private function getSetting(string $setting): string
     {
         /** @var TenantInterface $tenant */
         $tenant = $this->tenantContext->getTenant();
