@@ -18,15 +18,18 @@ namespace SWP\Bundle\CoreBundle\Model;
 
 use SWP\Bundle\CoreBundle\Widget\ContentListWidget;
 use SWP\Bundle\CoreBundle\Widget\LiveblogWidgetHandler;
+use SWP\Bundle\CoreBundle\Widget\TemplateWidgetHandler;
 use SWP\Bundle\TemplatesSystemBundle\Model\WidgetModel as BaseWidgetModel;
 use SWP\Component\MultiTenancy\Model\TenantAwareInterface;
 use SWP\Component\MultiTenancy\Model\TenantAwareTrait;
 
 class WidgetModel extends BaseWidgetModel implements WidgetModelInterface, TenantAwareInterface
 {
-    const TYPE_LIST = 4;
+    public const TYPE_LIST = 4;
 
-    const TYPE_LIVEBLOG = 5;
+    public const TYPE_LIVEBLOG = 5;
+
+    public const TYPE_TEMPLATE = 6;
 
     use TenantAwareTrait;
 
@@ -38,6 +41,7 @@ class WidgetModel extends BaseWidgetModel implements WidgetModelInterface, Tenan
         return parent::getTypes() + [
             self::TYPE_LIST => ContentListWidget::class,
             self::TYPE_LIVEBLOG => LiveblogWidgetHandler::class,
+            self::TYPE_TEMPLATE => TemplateWidgetHandler::class,
         ];
     }
 }
