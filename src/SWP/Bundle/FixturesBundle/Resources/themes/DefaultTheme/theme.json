@@ -10,6 +10,45 @@
             "role": "Organization"
         }
     ],
+   "settings": {
+        "primary_color": {
+            "label": "Primary Color",
+            "value": "#d74b4b",
+            "type": "string"
+        },
+
+        "primary_font_family": {
+            "label": "Primary Font Family",
+            "value": "Oswald",
+            "type": "string",
+            "help": "The primary font",
+            "options": [
+                {"value": "Oswald", "label": "Oswald"},
+                {"value": "Lato", "label": "Lato"},
+                {"value": "Roboto", "label": "Roboto"}
+            ]
+        },
+        "secondary_font_family": {
+            "value": "Tahoma",
+            "type": "string",
+            "options": [
+                {"value": "Tahoma", "label": "Tahoma"},
+                {"value": "Lato", "label": "Lato"},
+                {"value": "Roboto", "label": "Roboto"}
+            ]
+        },
+        "body_font_size": {
+            "label": "Body Font Size",
+            "value": 14,
+            "type": "integer",
+            "options": [
+                {"value": 14, "label": "14px"},
+                {"value": 16, "label": "16px"},
+                {"value": 18, "label": "18px"}
+            ]
+        }
+    },
+
     "generatedData": {
         "routes": [
             {
@@ -190,22 +229,5 @@
                 "filters": "{\"metadata\":{\"located\":\"Porto\"}}"
             }
         ]
-    },
-    "settings": {
-        "primary_font_family": {
-            "label": "Primary Font Family",
-            "value": "Roboto",
-            "type": "string",
-            "help": "The primary font"
-        },
-        "secondary_font_family": {
-            "value": "Roboto",
-            "type": "string"
-        },
-        "body_font_size": {
-            "label": "Body Font Size",
-            "value": 14,
-            "type": "integer"
-        }
     }
 }

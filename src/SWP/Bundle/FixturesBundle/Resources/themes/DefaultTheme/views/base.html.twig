@@ -34,7 +34,30 @@
   {% block amphtml %}{% endblock %}
   {% block stylesheets %}
   <!-- CSS: implied media="all" -->
+  <link href="https://fonts.googleapis.com/css?family=Oswald&subset=latin,latin-ext" rel="stylesheet">
   <link rel="stylesheet" href="/public/dist/style.css" />
+
+    <style>
+
+      .submenu_wrapper, ul.tabs_menu li.current {
+        background: {{ themeSetting('primary_color') }};
+      }
+
+      li.current a, span.headline a, h6, .sidebar a {
+        color: {{ themeSetting('primary_color') }};
+      }
+
+      h1, h2, h3, h3.title, .feedTitle, .okayNav li, .submenu_wrapper li {
+        font-family: {{ themeSetting('primary_font_family') }};
+      }
+
+      body {
+        font-size: {{ themeSetting('body_font_size') }};
+        font-family: {{ themeSetting('secondary_font_family') }};
+      }
+
+    </style>
+
   <script src="/public/dist/all.js" type="text/javascript"></script>
 
 {% endblock %}
@@ -42,6 +65,7 @@
   <!--[if lt IE 9]>
   <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js" type="text/javascript"></script>
   <![endif]-->
+
 </head>
 
 <body>

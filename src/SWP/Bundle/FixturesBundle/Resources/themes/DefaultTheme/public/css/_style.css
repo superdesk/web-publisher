@@ -1,5 +1,3 @@
-@import url(//fonts.googleapis.com/css?family=Oswald&subset=latin,latin-ext);
-
 /* ---------------- */
 /* General */
 /* ---------------- */
@@ -347,6 +345,23 @@ color: #475f77 ;
    margin-bottom: 20px;
    padding-left: 50px;
 background: url(../img/icons/news_icon.png) no-repeat top left;
+}
+
+/* Sidebar Top articles list */
+.sidebar li {
+   margin-bottom: 15px;
+}
+.sidebar a {
+   color: #e04c4e;
+}
+.sidebar .sectionCount {
+   display: block;
+   color: #606060;
+   font-size: 14px;
+}
+
+.sidebar h3 {
+margin-bottom: 5px;
 }
 
 /* article content */
