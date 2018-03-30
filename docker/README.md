@@ -35,6 +35,8 @@ parameters:
     env(DATABASE_NAME): publisher
     env(DATABASE_USER): postgres
     env(DATABASE_PASSWORD): postgres
+    # ...
+    env(ELASTICA_HOST): elasticsearch
 ```
 
 #### Create database:
