@@ -49,6 +49,12 @@ SWP\Component\Bridge\Model\Package:
         source:
             type: string
             nullable: true
+        edNote:
+            type: text
+            nullable: true
+        genre:
+            type: text
+            nullable: true
         pubStatus:
             type: string
         urgency:
