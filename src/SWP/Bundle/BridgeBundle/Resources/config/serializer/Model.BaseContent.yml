@@ -55,6 +55,7 @@ SWP\Component\Bridge\Model\BaseContent:
             type: array
         edNote:
             expose: true
+            serialized_name: ednote
             type: string
         description:
             expose: true
