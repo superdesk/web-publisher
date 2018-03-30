@@ -1,37 +1,38 @@
-FROM php:7.0-fpm
+FROM php:7.2-fpm-alpine3.7
 
-# install OS software
-RUN apt-get update && apt-get install -y \
-    python-setuptools \
-    python-software-properties \
-    software-properties-common \
-    wget \
-    git \
-    curl
+RUN apk update
+RUN apk add curl-dev
 
-# Add packages for PHP 7
-RUN echo "deb http://packages.dotdeb.org jessie all" > /etc/apt/sources.list.d/dotdeb.list
-RUN wget https://www.dotdeb.org/dotdeb.gpg && apt-key add dotdeb.gpg
-RUN apt-get update -y
+RUN set -ex \
+    && apk --no-cache add \
+        postgresql-dev \
+        zlib-dev \
+        libxml2-dev \
+        freetype \
+        libpng \
+        libjpeg-turbo \
+        freetype-dev \
+        libpng-dev \
+        libjpeg-turbo-dev \
+        libintl \
+        icu \
+        icu-dev \
+        git \
+    && docker-php-ext-configure intl \
+    && docker-php-ext-install intl \
+    && docker-php-ext-configure pgsql -with-pgsql=/usr/local/pgsql \
+    && docker-php-ext-install pdo pdo_pgsql pgsql \
+    && docker-php-ext-install exif \
+    && docker-php-ext-configure gd \
+        --with-png-dir=/usr/include/ \
+        --with-jpeg-dir=/usr/include/ \
+    && docker-php-ext-install zip xml gd mbstring curl bcmath
 
-# Install PHP 7 libraries
-RUN apt-get update && apt-get install -y \
-    libpq-dev \
-    libzip-dev \
-    zip \
-    unzip \
-    php7.0-zip
-
-# Install Composer
-RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
-RUN composer --version
+RUN curl --insecure https://getcomposer.org/composer.phar -o /usr/bin/composer && chmod +x /usr/bin/composer
 
 # Set timezone
 RUN rm /etc/localtime
 RUN ln -s /usr/share/zoneinfo/Europe/Berlin /etc/localtime
 RUN "date"
-
-# Install extensions
-RUN docker-php-ext-install pdo pdo_pgsql
 
 WORKDIR /var/www/publisher

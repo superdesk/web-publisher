@@ -27,7 +27,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  */
 abstract class AbstractFixture extends BaseFixture implements ContainerAwareInterface
 {
-    const DEFAULT_TENANT_DOMAIN = 'publisher.dev';
+    const DEFAULT_TENANT_DOMAIN = 'localhost';
 
     /**
      * @var ContainerInterface
