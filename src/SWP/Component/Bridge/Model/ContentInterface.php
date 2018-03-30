@@ -234,12 +234,12 @@ interface ContentInterface extends PersistableInterface, AuthorsAwareInterface
     public function setSource($source);
 
     /**
-     * @return array
+     * @return array|null
      */
-    public function getExtra(): array;
+    public function getExtra(): ?array;
 
     /**
-     * @param array $extra
+     * @param array|null $extra
      */
-    public function setExtra(array $extra): void;
+    public function setExtra(?array $extra): void;
 }
