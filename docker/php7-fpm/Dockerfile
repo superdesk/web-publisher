@@ -18,10 +18,18 @@ RUN set -ex \
         icu \
         icu-dev \
         git \
+        libmemcached-dev \
+        autoconf \
+        build-base \
     && docker-php-ext-configure intl \
     && docker-php-ext-install intl \
     && docker-php-ext-configure pgsql -with-pgsql=/usr/local/pgsql \
     && docker-php-ext-install pdo pdo_pgsql pgsql \
+    && docker-php-ext-install opcache \
+    && pecl install memcached \
+    && docker-php-ext-enable memcached \
+    && pecl install xdebug \
+    && docker-php-ext-enable xdebug \
     && docker-php-ext-install exif \
     && docker-php-ext-configure gd \
         --with-png-dir=/usr/include/ \
