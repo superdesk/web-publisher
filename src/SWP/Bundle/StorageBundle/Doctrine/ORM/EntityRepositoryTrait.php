@@ -149,7 +149,12 @@ trait EntityRepositoryTrait
      */
     protected function applySorting(QueryBuilder $queryBuilder, array $sorting, string $alias, Criteria $criteria = null)
     {
+        $properties = array_merge($this->getClassMetadata()->getFieldNames(), $this->getClassMetadata()->getAssociationNames());
         foreach ($sorting as $property => $order) {
+            if (!in_array($property, $properties)) {
+                continue;
+            }
+
             if (!empty($order)) {
                 $queryBuilder->addOrderBy($this->getPropertyName($property, $alias), $order);
             }
