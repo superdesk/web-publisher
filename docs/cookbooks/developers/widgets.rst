@@ -80,6 +80,7 @@ By default there are three types of widgets bundled into the project:
 - GoogleAdsenseWidget
 - MenuWidget
 - LiveblogWidget
+- TemplateWidget
 
 ContentListWidget
 -----------------
@@ -112,4 +113,17 @@ This is the widget responsible for displaying  `Superdesk LiveBlog <https://live
 | template_name| Template name to render         | yes          | liveblog.html.twig |     string       |
 +--------------+---------------------------------+--------------+--------------------+------------------+
 
-Default template file name: :code:`liveblog.html.twig` (default version provided by Publisher can be override by theme).
+Default template file name: :code:`liveblog.html.twig` (default version provided by Publisher can be overriden by theme).
+
+TemplateWidget
+--------------
+
+This widget is used to trigger some smaller template functionality, for example list of most popular articles, or author profile. It is by default looking for template in folder `views/widgets`
+
+**Default parameters:**
+
++--------------+---------------------------------+--------------+--------------------+------------------+
+| Parameter    | Description                     | Required?    | Default value      |      Type        |
++==============+=================================+==============+====================+==================+
+| template_name| Template name to render         | yes          | N/A                |     string       |
++--------------+---------------------------------+--------------+--------------------+------------------+
