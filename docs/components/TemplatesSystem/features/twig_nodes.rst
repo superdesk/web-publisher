@@ -79,7 +79,7 @@ Here is commented example of pagination:
                 * lastPage (int) : represents the total number of existing pages
                 * showAlwaysFirstAndLast (bool) : Always show first and last link (just disabled)
             #}
-            {% include 'partials/pagination.html.twig' with {
+            {% include '@SWPTemplatesSystem/pagination.html.twig' with {
                 currentFilters: {}|merge(app.request.query.all()),
                 currentPage: currentPage,
                 paginationPath: gimme.route,
@@ -89,7 +89,7 @@ Here is commented example of pagination:
         {% endif %}
     {% endgimmelist %}
 
-Included *pagination.html.twig* template example (you can place it in folder `/partials` inside `/views`):
+For referrence, see original *pagination.html.twig* template (if you want to customize it and use instead of default one):
 
 .. code-block:: twig
 
