@@ -190,6 +190,39 @@ class RouteProvider extends BaseRouteProvider implements RouteProviderInterface
     }
 
     /**
+     * {@inheritdoc}
+     */
+    public function getByMixed($routeData)
+    {
+        if (is_int($routeData)) {
+            $route = $this->getOneById($routeData);
+        } elseif (is_string($routeData)) {
+            if (false !== strpos($routeData, '/')) {
+                $route = $this->getOneByStaticPrefix($routeData);
+            } else {
+                $route = $this->getRouteByName($routeData);
+            }
+        } elseif (is_array($routeData)) {
+            $loadByStaticPrefix = true;
+            foreach ($routeData as $key => $providedRoute) {
+                if (!is_string($providedRoute)) {
+                    $loadByStaticPrefix = false;
+
+                    break;
+                }
+            }
+
+            if ($loadByStaticPrefix) {
+                $route = $this->getWithChildrenByStaticPrefix($routeData);
+            } else {
+                $route = $routeData;
+            }
+        }
+
+        return $route;
+    }
+
+    /**
      * @param array $routes
      *
      * @return array
