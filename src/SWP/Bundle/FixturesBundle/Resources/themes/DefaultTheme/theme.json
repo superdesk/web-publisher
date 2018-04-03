@@ -24,8 +24,8 @@
             "help": "The primary font",
             "options": [
                 {"value": "Oswald", "label": "Oswald"},
-                {"value": "Lato", "label": "Lato"},
-                {"value": "Roboto", "label": "Roboto"}
+                {"value": "Roboto", "label": "Roboto"},
+                {"value": "Merriweather", "label": "Merriweather"}
             ]
         },
         "secondary_font_family": {
@@ -33,7 +33,9 @@
             "type": "string",
             "options": [
                 {"value": "Tahoma", "label": "Tahoma"},
-                {"value": "Lato", "label": "Lato"},
+                {"value": "Merriweather", "label": "Merriweather"},
+                {"value": "Times New Roman", "label": "Times New Roman"},
+                {"value": "Georgia", "label": "Georgia"},
                 {"value": "Roboto", "label": "Roboto"}
             ]
         },
