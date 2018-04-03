@@ -45,7 +45,7 @@
     },
     "require": {
         "php": "^7.1",
-        "symfony/symfony": "3.4.*",
+        "symfony/symfony": "3.4.6",
         "symfony/swiftmailer-bundle": "~3.0",
         "symfony/monolog-bundle": "~3.0",
         "sensio/distribution-bundle": "~v5.0",
@@ -93,8 +93,7 @@
         "layershifter/tld-extract": "^1.2",
         "friendsofsymfony/elastica-bundle": "^5.0",
         "php-amqplib/rabbitmq-bundle": "^1.14",
-        "fzaninotto/faker": "^1.5",
-        "symfony/web-profiler-bundle": "3.4.6"
+        "fzaninotto/faker": "^1.5"
     },
     "require-dev": {
         "phpspec/phpspec": "^4.2",
