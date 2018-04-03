@@ -53,7 +53,7 @@ SWP\Component\Bridge\Model\Package:
             type: text
             nullable: true
         genre:
-            type: text
+            type: array
             nullable: true
         pubStatus:
             type: string
