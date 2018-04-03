@@ -1,8 +1,5 @@
-
 <div class="span4 sidebar hidden-phone">
-
     <h3>Top stories</h3>
-
     <ul>
     {% gimmelist article from articles|limit(5)|order('pageViews', 'desc')|dateRange('now', '-1 month') ignoreContext %}
         <li>
@@ -11,7 +8,5 @@
     	</li>
     {% endgimmelist %}
     </ul>
-
-<div class="sidebarBanner"><p class="sponsored">sponsored</p><a target="_blank" href="http://www.superdesk.org/"><img src="{{ asset('theme/img/300x400.jpg') }}" alt="Superdesk"></a></div>
-
+	<div class="sidebarBanner"><p class="sponsored">sponsored</p><a target="_blank" href="http://www.superdesk.org/"><img src="{{ asset('theme/img/300x400.jpg') }}" alt="Superdesk"></a></div>
 </div>

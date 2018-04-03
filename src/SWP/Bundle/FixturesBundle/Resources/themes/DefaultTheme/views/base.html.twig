@@ -40,16 +40,13 @@
   {% set systemFont = ["Tahoma", "Times New Roman", "Georgia"] %}
   {% set googleFont = ["Oswald", "Roboto", "Merriweather"] %}  
 
-{% if themeSetting('primary_font_family') in googleFont %}
-
+  {% if themeSetting('primary_font_family') in googleFont %}
   <link href="https://fonts.googleapis.com/css?family={{ themeSetting('primary_font_family') }}{% if themeSetting('secondary_font_family') in googleFont %}|{{ themeSetting('secondary_font_family') }}{% endif %}" rel="stylesheet">
-  
-{% endif %}  
+  {% endif %}  
 
   <link rel="stylesheet" href="/public/dist/style.css" />
 
     <style>
-
       .submenu_wrapper, ul.tabs_menu li.current {
         background: {{ themeSetting('primary_color') }};
       }
@@ -66,7 +63,6 @@
         font-size: {{ themeSetting('body_font_size') }};
         font-family: {{ themeSetting('secondary_font_family') }}, {% if themeSetting('secondary_font_family') in sansSerif %}sans-serif{% else %}serif{% endif %};
       }
-
     </style>
 
   <script src="/public/dist/all.js" type="text/javascript"></script>
