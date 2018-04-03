@@ -118,7 +118,7 @@ Default template file name: :code:`liveblog.html.twig` (default version provided
 TemplateWidget
 --------------
 
-This widget is used to trigger some smaller template functionality, for example list of most popular articles, or author profile. It is by default looking for template in folder `views/widgets`
+This widget is used to trigger some smaller template functionality, for example list of most popular articles in last week, or featured author profile. It is by default looking for template in folder `views/widgets`
 
 **Default parameters:**
 
