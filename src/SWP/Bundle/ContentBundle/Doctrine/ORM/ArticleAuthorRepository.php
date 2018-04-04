@@ -74,7 +74,12 @@ class ArticleAuthorRepository extends EntityRepository implements ArticleAuthorR
             $criteria->remove($name);
         }
 
+        $properties = array_merge($this->getClassMetadata()->getFieldNames(), $this->getClassMetadata()->getAssociationNames());
         foreach ($criteria as $key => $criterion) {
+            if (!\in_array(\str_replace('exclude_', '', $key), $properties, true)) {
+                continue;
+            }
+
             if ($criteria->has($key) && !empty($criteria->get($key))) {
                 $orX = $queryBuilder->expr()->orX();
                 foreach ((array) $criteria->get($key) as $value) {
