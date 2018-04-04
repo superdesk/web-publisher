@@ -76,7 +76,7 @@ class ArticleAuthorRepository extends EntityRepository implements ArticleAuthorR
 
         $properties = array_merge($this->getClassMetadata()->getFieldNames(), $this->getClassMetadata()->getAssociationNames());
         foreach ($criteria as $key => $criterion) {
-            if (!in_array(str_replace('exclude_', '', $key), $properties)) {
+            if (!\in_array(str_replace('exclude_', '', $key, true), $properties)) {
                 continue;
             }
 

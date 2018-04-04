@@ -122,17 +122,17 @@ trait EntityRepositoryTrait
     {
         $properties = array_merge($this->getClassMetadata()->getFieldNames(), $this->getClassMetadata()->getAssociationNames());
         foreach ($criteria->all() as $property => $value) {
-            if (!in_array($property, $properties)) {
+            if (!\in_array($property, $properties)) {
                 continue;
             }
 
             $name = $this->getPropertyName($property, $alias);
             if (null === $value) {
                 $queryBuilder->andWhere($queryBuilder->expr()->isNull($name));
-            } elseif (is_array($value)) {
+            } elseif (\is_array($value)) {
                 $queryBuilder->andWhere($queryBuilder->expr()->in($name, $value));
             } elseif ('' !== $value) {
-                $parameter = str_replace('.', '_', $property);
+                $parameter = \str_replace('.', '_', $property);
                 $queryBuilder
                     ->andWhere($queryBuilder->expr()->eq($name, ':'.$parameter))
                     ->setParameter($parameter, $value)
@@ -149,9 +149,9 @@ trait EntityRepositoryTrait
      */
     protected function applySorting(QueryBuilder $queryBuilder, array $sorting, string $alias, Criteria $criteria = null)
     {
-        $properties = array_merge($this->getClassMetadata()->getFieldNames(), $this->getClassMetadata()->getAssociationNames());
+        $properties = \array_merge($this->getClassMetadata()->getFieldNames(), $this->getClassMetadata()->getAssociationNames());
         foreach ($sorting as $property => $order) {
-            if (!in_array($property, $properties)) {
+            if (!\in_array($property, $properties)) {
                 continue;
             }
 
@@ -169,7 +169,7 @@ trait EntityRepositoryTrait
      */
     protected function getPropertyName(string $name, string $alias)
     {
-        if (false === strpos($name, '.')) {
+        if (false === \strpos($name, '.')) {
             return $alias.'.'.$name;
         }
 
