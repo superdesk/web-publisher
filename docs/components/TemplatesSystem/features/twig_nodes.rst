@@ -64,6 +64,7 @@ Here is commented example of pagination:
 
     {# List all articles from route '/news' and limit them to `itemsPerPage` value starting from `start` value #}
     {% gimmelist article from articles|start(start)|limit(itemsPerPage) with {'route': '/news'} %}
+
         <li><a href="{{ url(article) }}">{{ article.title }} </a></li>
 
         {# Render pagination only at end of list #}
@@ -88,7 +89,75 @@ Here is commented example of pagination:
         {% endif %}
     {% endgimmelist %}
 
+For referrence, see original *pagination.html.twig* template (if you want to customize it and use instead of default one):
 
+.. code-block:: twig
+
+    {#
+      Source: http://dev.dbl-a.com/symfony-2-0/symfony2-and-twig-pagination/
+      Updated by: Simon Schick <simonsimcity@gmail.com>
+
+      Parameters:
+        * currentFilters (array) : associative array that contains the current route-arguments
+        * currentPage (int) : the current page you are in
+        * paginationPath (string) : the route name to use for links
+        * showAlwaysFirstAndLast (bool) : Always show first and last link (just disabled)
+        * lastPage (int) : represents the total number of existing pages
+    #}
+    {% spaceless %}
+        {% if lastPage > 1 %}
+
+            {# the number of first and last pages to be displayed #}
+            {% set extremePagesLimit = 3 %}
+
+            {# the number of pages that are displayed around the active page #}
+            {% set nearbyPagesLimit = 2 %}
+
+            <nav class="pagination">
+                <div class="numbers">
+                    <ul>
+                        {% if currentPage > 1 %}
+                            <li><a href="{{ path(paginationPath, currentFilters|merge({page: currentPage-1})) }}">Previous</a></li>
+
+                            {% for i in range(1, extremePagesLimit) if ( i < currentPage - nearbyPagesLimit ) %}
+                                <li><a href="{{ path(paginationPath, currentFilters|merge({page: i})) }}">{{ i }}</a></li>
+                            {% endfor %}
+
+                            {% if extremePagesLimit + 1 < currentPage - nearbyPagesLimit %}
+                                <span class="sep-dots">...</span>
+                            {% endif %}
+
+                            {% for i in range(currentPage-nearbyPagesLimit, currentPage-1) if ( i > 0 ) %}
+                                <li><a href="{{ path(paginationPath, currentFilters|merge({page: i})) }}">{{ i }}</a></li>
+                            {% endfor %}
+                        {% elseif showAlwaysFirstAndLast %}
+                            <span class="disabled">Previous</span>
+                        {% endif %}
+
+                        <li class="current"><a href="{{ path(paginationPath, currentFilters|merge({ page: currentPage })) }}">{{ currentPage }}</a></li>
+
+                        {% if currentPage < lastPage %}
+                            {% for i in range(currentPage+1, currentPage + nearbyPagesLimit) if ( i <= lastPage ) %}
+                                <li><a href="{{ path(paginationPath, currentFilters|merge({page: i})) }}">{{ i }}</a></li>
+                            {% endfor %}
+
+                            {% if  (lastPage - extremePagesLimit) > (currentPage + nearbyPagesLimit) %}
+                                <li><span class="sep-dots">...</span></li>
+                            {% endif %}
+
+                            {% for i in range(lastPage - extremePagesLimit+1, lastPage) if ( i > currentPage + nearbyPagesLimit ) %}
+                                <li><a href="{{ path(paginationPath, currentFilters|merge({page: i})) }}">{{ i }}</a></li>
+                            {% endfor %}
+
+                            <li><a href="{{ path(paginationPath, currentFilters|merge({page: currentPage+1})) }}">Next</a></li>
+                        {% elseif showAlwaysFirstAndLast %}
+                            <li><span class="disabled">Next</span></li>
+                        {% endif %}
+                    </ul>
+                </div>
+            </nav>
+        {% endif %}
+    {% endspaceless %}
 
 How to work with Meta objects
 -----------------------------

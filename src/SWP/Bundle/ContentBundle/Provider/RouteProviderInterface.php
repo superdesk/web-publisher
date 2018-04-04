@@ -72,4 +72,11 @@ interface RouteProviderInterface extends CmfRouteProviderInterface
      * @return array|null
      */
     public function getWithChildrenByStaticPrefix(array $candidates): ?array;
+
+    /**
+     * @param mixed $routeData
+     *
+     * @return array|null|object|\SWP\Bundle\ContentBundle\Model\RouteInterface
+     */
+    public function getByMixed($routeData);
 }

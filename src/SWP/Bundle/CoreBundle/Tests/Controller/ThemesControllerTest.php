@@ -41,6 +41,7 @@ class ThemesControllerTest extends WebTestCase
 
         $filesystem = new Filesystem();
         $filesystem->remove($this->getContainer()->get('swp_core.uploader.theme')->getAvailableThemesPath());
+        $filesystem->remove($this->getContainer()->getParameter('kernel.project_dir').'/web/bundles/_themes/swp/test-theme@123abc');
     }
 
     public function testThemeUpload()
@@ -110,6 +111,9 @@ class ThemesControllerTest extends WebTestCase
         $data = json_decode($client->getResponse()->getContent(), true);
         self::assertCount(0, $data['_embedded']['_items']);
 
+        $asset = $this->getContainer()->getParameter('kernel.project_dir').'/web/bundles/_themes/swp/test-theme@123abc/css/test.css';
+        self::assertFileNotExists($asset);
+
         $client->request('POST', $this->router->generate('swp_api_install_theme'), [
             'theme_install' => ['name' => 'swp/test-theme'],
         ]);
@@ -119,6 +123,10 @@ class ThemesControllerTest extends WebTestCase
         $data = json_decode($client->getResponse()->getContent(), true);
         self::assertCount(1, $data['_embedded']['_items']);
         self::assertEquals('swp/test-theme@123abc', $data['_embedded']['_items'][0]['name']);
+
+        $asset = $this->getContainer()->getParameter('kernel.project_dir').'/web/bundles/_themes/swp/test-theme@123abc/css/test.css';
+        self::assertFileExists($asset);
+        $filesystem->remove($this->getContainer()->getParameter('kernel.project_dir').'/web/bundles/_themes/swp/test-theme@123abc');
     }
 
     public function testTenantCreationThemeUploadAndInstallationWithActivation()

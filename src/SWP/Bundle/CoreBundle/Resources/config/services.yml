@@ -76,6 +76,8 @@ services:
             - '@swp_core.loader.organization.theme'
             - '@twig'
             - '%swp.theme.configuration.default_directory%'
+            - '@sylius.theme.asset.assets_installer'
+            - '%kernel.project_dir%/web'
 
     swp_core.generator.theme.fake_article:
         class: SWP\Bundle\CoreBundle\Theme\Generator\FakeArticlesGenerator
@@ -285,6 +287,7 @@ services:
             - '@swp.remover.content_list_items_remover'
             - '@swp.repository.article'
             - '@swp.factory.content_list_item'
+            - "@swp.provider.route"
         tags:
             - { name: kernel.event_listener, event: swp.list_criteria_change, method: onListCriteriaChange }
 

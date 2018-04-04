@@ -123,26 +123,7 @@ class ArticleLoader extends PaginatedLoader implements LoaderInterface
 
             if (array_key_exists('route', $parameters)) {
                 if (null === $route || ($route instanceof RouteInterface && $route->getId() !== $parameters['route'])) {
-                    if (is_int($parameters['route'])) {
-                        $route = $this->routeProvider->getOneById($parameters['route']);
-                    } elseif (is_string($parameters['route'])) {
-                        $route = $this->routeProvider->getOneByStaticPrefix($parameters['route']);
-                    } elseif (is_array($parameters['route'])) {
-                        $loadByStaticPrefix = true;
-                        foreach ($parameters['route'] as $key => $providedRoute) {
-                            if (!is_string($providedRoute)) {
-                                $loadByStaticPrefix = false;
-
-                                break;
-                            }
-                        }
-
-                        if ($loadByStaticPrefix) {
-                            $route = $this->routeProvider->getWithChildrenByStaticPrefix($parameters['route']);
-                        } else {
-                            $route = $parameters['route'];
-                        }
-                    }
+                    $route = $this->routeProvider->getByMixed($parameters['route']);
 
                     if (null === $route) {
                         // if Route parameter was passed but it was not found - don't return articles not filtered by route
