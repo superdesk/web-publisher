@@ -11,7 +11,7 @@
     ],
     "license":"AGPL-3.0",
     "require": {
-        "php": "^7.0",
+        "php": "^7.1",
         "justinrainbow/json-schema": "~5.0",
         "swp/common": "^0.5",
         "swp/storage": "^0.5",
