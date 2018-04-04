@@ -14,11 +14,14 @@
 
 namespace SWP\Bundle\CoreBundle\DependencyInjection;
 
+use SWP\Bundle\CoreBundle\Factory\PackagePreviewTokenFactory;
 use SWP\Bundle\CoreBundle\Model\ApiKeyInterface;
 use SWP\Bundle\CoreBundle\Model\FacebookInstantArticlesArticle;
 use SWP\Bundle\CoreBundle\Model\FacebookInstantArticlesArticleInterface;
 use SWP\Bundle\CoreBundle\Model\FacebookInstantArticlesFeed;
 use SWP\Bundle\CoreBundle\Model\FacebookInstantArticlesFeedInterface;
+use SWP\Bundle\CoreBundle\Model\PackagePreviewToken;
+use SWP\Bundle\CoreBundle\Model\PackagePreviewTokenInterface;
 use SWP\Bundle\CoreBundle\Model\PublishDestination;
 use SWP\Bundle\CoreBundle\Model\PublishDestinationInterface;
 use SWP\Bundle\CoreBundle\Repository\ApiKeyRepository;
@@ -96,6 +99,16 @@ class Configuration implements ConfigurationInterface
                                             ->scalarNode('interface')->defaultValue(PublishDestinationInterface::class)->end()
                                             ->scalarNode('repository')->defaultValue(EntityRepository::class)->end()
                                             ->scalarNode('factory')->defaultValue(Factory::class)->end()
+                                            ->scalarNode('object_manager_name')->defaultValue(null)->end()
+                                        ->end()
+                                    ->end()
+                                    ->arrayNode('package_preview_token')
+                                        ->addDefaultsIfNotSet()
+                                        ->children()
+                                            ->scalarNode('model')->cannotBeEmpty()->defaultValue(PackagePreviewToken::class)->end()
+                                            ->scalarNode('interface')->defaultValue(PackagePreviewTokenInterface::class)->end()
+                                            ->scalarNode('repository')->defaultValue(EntityRepository::class)->end()
+                                            ->scalarNode('factory')->defaultValue(PackagePreviewTokenFactory::class)->end()
                                             ->scalarNode('object_manager_name')->defaultValue(null)->end()
                                         ->end()
                                     ->end()

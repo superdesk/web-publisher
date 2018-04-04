@@ -453,7 +453,6 @@ services:
             - '@swp_content_bundle.processor.article_body'
             - '@swp.repository.package'
             - '@swp.factory.article'
-            - '@swp.factory.media'
             - '@?doctrine'
 
     swp.adder.tenant_aware_article_source:
@@ -517,3 +516,17 @@ services:
         arguments:
             - '@swp.repository.publish_destination'
             - '@swp_multi_tenancy.tenant_context'
+
+    SWP\Bundle\CoreBundle\Service\ArticlePreviewTemplateHelper:
+        arguments:
+            - '@swp_template_engine_context.factory.meta_factory'
+            - '@swp_template_engine_context'
+
+    SWP\Bundle\CoreBundle\Service\ArticlePreviewer:
+        arguments:
+            - '@swp.factory.article'
+            - '@swp_content_bundle.processor.article_body'
+            - '@SWP\Bundle\CoreBundle\Service\ArticlePreviewTemplateHelper'
+
+    swp.random_string_generator:
+        alias: swp_multi_tenancy.random_string_generator

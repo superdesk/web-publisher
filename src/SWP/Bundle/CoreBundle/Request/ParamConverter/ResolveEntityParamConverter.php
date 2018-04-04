@@ -18,7 +18,6 @@ namespace SWP\Bundle\CoreBundle\Request\ParamConverter;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use SWP\Bundle\ContentBundle\Factory\ArticleFactoryInterface;
-use SWP\Bundle\ContentBundle\Factory\MediaFactoryInterface;
 use SWP\Bundle\CoreBundle\Processor\ArticleBodyProcessorInterface;
 use Takeit\Bundle\AmpHtmlBundle\Request\ParamConverter\ResolveEntityParamConverter as BaseResolveEntityParamConverter;
 use SWP\Bundle\CoreBundle\Model\ArticleInterface;
@@ -55,11 +54,6 @@ class ResolveEntityParamConverter extends BaseResolveEntityParamConverter
     protected $articleFactory;
 
     /**
-     * @var MediaFactoryInterface
-     */
-    protected $mediaFactory;
-
-    /**
      * @var array
      */
     protected $mapping;
@@ -77,7 +71,6 @@ class ResolveEntityParamConverter extends BaseResolveEntityParamConverter
      * @param ArticleBodyProcessorInterface $articleBodyProcessor
      * @param RepositoryInterface           $packageRepository
      * @param ArticleFactoryInterface       $articleFactory
-     * @param MediaFactoryInterface         $mediaFactory
      * @param ManagerRegistry|null          $registry
      */
     public function __construct(
@@ -86,7 +79,6 @@ class ResolveEntityParamConverter extends BaseResolveEntityParamConverter
         ArticleBodyProcessorInterface $articleBodyProcessor,
         RepositoryInterface $packageRepository,
         ArticleFactoryInterface $articleFactory,
-        MediaFactoryInterface $mediaFactory,
         ManagerRegistry $registry = null
     ) {
         $this->mapping = $mapping;
@@ -94,7 +86,6 @@ class ResolveEntityParamConverter extends BaseResolveEntityParamConverter
         $this->templateContext = $templateContext;
         $this->articleBodyProcessor = $articleBodyProcessor;
         $this->articleFactory = $articleFactory;
-        $this->mediaFactory = $mediaFactory;
         $this->registry = $registry;
 
         parent::__construct($mapping, $registry);
@@ -120,7 +111,7 @@ class ResolveEntityParamConverter extends BaseResolveEntityParamConverter
         $package = $this->findPackageOr404((int) $id);
         /** @var ArticleInterface $article */
         $article = $this->articleFactory->createFromPackage($package);
-        $this->articleBodyProcessor->fillArticleMedia($this->mediaFactory, $package, $article);
+        $this->articleBodyProcessor->fillArticleMedia($package, $article);
         $article->setId($id);
 
         $request->attributes->set($name, $article);

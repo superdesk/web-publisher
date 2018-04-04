@@ -1,0 +1,3 @@
+services:
+    swp.random_string_generator:
+        class: SWP\Behat\Service\RandomStringGeneratorStub

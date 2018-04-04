@@ -1,0 +1,33 @@
+SWP\Bundle\CoreBundle\Model\PackagePreviewToken:
+    type: mappedSuperclass
+    table: swp_package_preview_token
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        token:
+            type: string
+        body:
+            type: text
+        tenantCode:
+            type: string
+        createdAt:
+            type: datetime
+            gedmo:
+                timestampable:
+                    on: create
+        updatedAt:
+            type: datetime
+            nullable: true
+            gedmo:
+                timestampable:
+                    on: update
+    manyToOne:
+        route:
+            targetEntity: SWP\Bundle\ContentBundle\Model\RouteInterface
+            joinColumn:
+                name: route_id
+                referencedColumnName: id

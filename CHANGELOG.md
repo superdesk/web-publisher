@@ -1,10 +1,13 @@
 
-CHANGELOG for version <= 1.3.x
+CHANGELOG for version <= 1.4.x
 ==============================
 
 This changelog references the relevant changes (bug and security fixes) done in <= 1.1 minor versions.
 
 To get the diff for a specific change, go to https://github.com/superdesk/web-publisher/commit/XXX where XXX is the change hash
+
+* 1.4.0
+ * feature [#459] Added an option to preview an article before even publishing it
 
 * 1.3.0
  * feature [#462] Added template widget
