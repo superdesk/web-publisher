@@ -2,7 +2,7 @@ SWP\Bundle\CoreBundle\Model\Tenant:
     tenant1:
         name: "Default tenant"
         subdomain: null
-        domain_name: "publisher.dev"
+        domain_name: "localhost"
         themeName: "swp/default-theme"
         code: "123abc"
         organization: "@org1"
