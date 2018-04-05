@@ -42,6 +42,7 @@ class PathResolverSpec extends ObjectBehavior
 
     public function it_does_not_change_path_if_its_not_referencing_asset(ThemeInterface $theme)
     {
+        $theme->getName()->willReturn('theme/name');
         $this->resolve('/path/asset.min.js', $theme)->shouldReturn('/path/asset.min.js');
     }
 }

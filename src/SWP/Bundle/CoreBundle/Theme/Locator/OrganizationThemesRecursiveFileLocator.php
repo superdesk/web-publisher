@@ -32,25 +32,19 @@ final class OrganizationThemesRecursiveFileLocator implements FileLocatorInterfa
     private $paths;
 
     /**
-     * @var ThemeUploaderInterface
-     */
-    private $themeUploader;
-
-    /**
      * @param FinderFactoryInterface $finderFactory
      * @param ThemeUploaderInterface $themeUploader
      */
     public function __construct(FinderFactoryInterface $finderFactory, ThemeUploaderInterface $themeUploader)
     {
         $this->finderFactory = $finderFactory;
-        $this->themeUploader = $themeUploader;
         $this->paths = [$themeUploader->getAvailableThemesPath()];
     }
 
     /**
      * {@inheritdoc}
      */
-    public function locateFileNamed($name)
+    public function locateFileNamed(string $name): string
     {
         return $this->doLocateFilesNamed($name)->current();
     }
@@ -58,7 +52,7 @@ final class OrganizationThemesRecursiveFileLocator implements FileLocatorInterfa
     /**
      * {@inheritdoc}
      */
-    public function locateFilesNamed($name)
+    public function locateFilesNamed(string $name): array
     {
         return iterator_to_array($this->doLocateFilesNamed($name));
     }

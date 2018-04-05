@@ -83,7 +83,12 @@ final class TenantAwareThemeContext implements ThemeContextInterface
             return $this->themes[$key] = $this->cacheService->fetch('theme_'.$key);
         }
 
-        $theme = $this->themeRepository->findOneByName($this->resolveThemeName($tenant));
+        $themeName = $this->resolveThemeName($tenant);
+        if (null === $themeName) {
+            return null;
+        }
+
+        $theme = $this->themeRepository->findOneByName($themeName);
         unset($tenant);
 
         if (null === $theme) {

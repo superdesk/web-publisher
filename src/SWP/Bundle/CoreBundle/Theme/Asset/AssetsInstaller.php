@@ -82,7 +82,7 @@ final class AssetsInstaller implements AssetsInstallerInterface
     /**
      * {@inheritdoc}
      */
-    public function installAssets($targetDir, $symlinkMask)
+    public function installAssets(string $targetDir, int $symlinkMask)
     {
         $targetDir = rtrim($targetDir, '/');
         $this->filesystem->mkdir($targetDir);
@@ -101,7 +101,7 @@ final class AssetsInstaller implements AssetsInstallerInterface
     /**
      * {@inheritdoc}
      */
-    public function installBundleAssets(BundleInterface $bundle, $targetDir, $symlinkMask)
+    public function installBundleAssets(BundleInterface $bundle, string $targetDir, int $symlinkMask)
     {
         $targetDir .= preg_replace('/bundle$/', '', strtolower($bundle->getName()));
 
