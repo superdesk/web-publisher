@@ -82,7 +82,7 @@
         "jms/translation-bundle": "^1.2",
         "hoa/mime": "3.16.01.15",
         "hoa/file": "1.16.01.15",
-        "sentry/sentry-symfony": "^0.4.0",
+        "sentry/sentry-symfony": "^2.0",
         "danielstjules/stringy": "~3.1",
         "burgov/key-value-form-bundle": "@stable",
         "nelmio/api-doc-bundle": "^2.13",
