@@ -29,13 +29,18 @@ matrix:
   fast_finish: true
 
 before_install:
+- which php
+- php -i
+- sudo pip install supervisor
+- sudo wget -P /etc/supervisor https://gist.githubusercontent.com/ahilles107/6145814c50f6b404369ea21f7578cebe/raw/aa5104727b872a2bf2c3083abdd7f357ce41d41e/supervisord.conf
+- sudo mkdir /var/log/supervisor/
+- sudo chmod -R 777 /var/log/supervisor/
 - sudo /bin/dd if=/dev/zero of=/var/swap.1 bs=1M count=4096
 - sudo /sbin/mkswap /var/swap.1
 - sudo /sbin/swapon /var/swap.1
 - sudo sysctl -w vm.max_map_count=262144
 - sudo sysctl -p
 - npm install -g json-server
-- sudo apt-get install supervisor
 
 install:
 - wget ${ES_DOWNLOAD_URL}
@@ -43,28 +48,24 @@ install:
 - sudo service elasticsearch restart
 
 before_script:
-- nohup json-server --watch src/SWP/Bundle/CoreBundle/Tests/Functional/Resources/db.json
-  --routes=src/SWP/Bundle/CoreBundle/Tests/Functional/Resources/routes.json &
 - echo "memory_limit=-1" >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
 - echo 'extension="redis.so"' >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
 - cat ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini|grep redis
 - phpenv config-rm xdebug.ini || echo "xdebug not available"
 - phpenv rehash
 - composer $COMPOSER_FLAGS --no-interaction --prefer-dist
-- cat /etc/supervisor/supervisord.conf
-- sudo rm -rf /etc/supervisor/supervisord.conf
-- sudo wget -P /etc/supervisor https://gist.githubusercontent.com/ahilles107/6145814c50f6b404369ea21f7578cebe/raw/3c6377f817a19e915802f5c4ea8557667c293f08/supervisord.conf
-- sudo chmod -R 777 /var/log/supervisor/
-- sudo service supervisor restart
-- sudo supervisorctl status
 
 script:
+- sudo supervisord -c /etc/supervisor/supervisord.conf
+- sudo supervisorctl status
+- nohup json-server --watch src/SWP/Bundle/CoreBundle/Tests/Functional/Resources/db.json
+  --routes=src/SWP/Bundle/CoreBundle/Tests/Functional/Resources/routes.json &
 - bin/behat -f progress
 - bin/phpspec run
 - bin/phpunit -c app/
 - bin/phpunit --stderr -c app/ src/SWP/Bundle/CoreBundle/Tests/Security/Storage/DynamicDomainSessionStorageTest.php
 - cd src/SWP/Bundle/BridgeBundle && composer $COMPOSER_FLAGS --no-interaction --prefer-dist
-  && bin/phpunit
+&& bin/phpunit
 - cd ../../../../
 - cd src/SWP/Bundle/TemplatesSystemBundle && composer $COMPOSER_FLAGS --no-interaction
   --prefer-dist && bin/phpunit
