@@ -30,9 +30,8 @@ matrix:
 
 before_install:
 - which php
-- php -i
 - sudo pip install supervisor
-- sudo wget -P /etc/supervisor https://gist.githubusercontent.com/ahilles107/6145814c50f6b404369ea21f7578cebe/raw/aa5104727b872a2bf2c3083abdd7f357ce41d41e/supervisord.conf
+- sudo wget -P /etc/supervisor https://gist.githubusercontent.com/ahilles107/6145814c50f6b404369ea21f7578cebe/raw/e72d9234d693709e8b3a7a9ff8423954a18994f1/supervisord.conf
 - sudo mkdir /var/log/supervisor/
 - sudo chmod -R 777 /var/log/supervisor/
 - sudo /bin/dd if=/dev/zero of=/var/swap.1 bs=1M count=4096
@@ -65,7 +64,7 @@ script:
 - bin/phpunit -c app/
 - bin/phpunit --stderr -c app/ src/SWP/Bundle/CoreBundle/Tests/Security/Storage/DynamicDomainSessionStorageTest.php
 - cd src/SWP/Bundle/BridgeBundle && composer $COMPOSER_FLAGS --no-interaction --prefer-dist
-&& bin/phpunit
+  && bin/phpunit
 - cd ../../../../
 - cd src/SWP/Bundle/TemplatesSystemBundle && composer $COMPOSER_FLAGS --no-interaction
   --prefer-dist && bin/phpunit
