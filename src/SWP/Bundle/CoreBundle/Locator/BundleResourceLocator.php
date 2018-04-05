@@ -55,7 +55,7 @@ class BundleResourceLocator implements ResourceLocatorInterface
      *
      * @param string $resourcePath Eg. "@AcmeBundle/Resources/views/template.html.twig"
      */
-    public function locateResource($resourcePath, ThemeInterface $theme)
+    public function locateResource(string $resourcePath, ThemeInterface $theme): string
     {
         $this->assertResourcePathIsValid($resourcePath);
         foreach ($this->getBundlePaths($resourcePath, $theme) as $path) {

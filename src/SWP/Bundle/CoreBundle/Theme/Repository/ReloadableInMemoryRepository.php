@@ -66,7 +66,7 @@ final class ReloadableInMemoryRepository implements ReloadableThemeRepositoryInt
     /**
      * {@inheritdoc}
      */
-    public function findAll()
+    public function findAll(): array
     {
         $this->loadThemesIfNeeded();
 
@@ -76,7 +76,7 @@ final class ReloadableInMemoryRepository implements ReloadableThemeRepositoryInt
     /**
      * {@inheritdoc}
      */
-    public function findOneByName($name)
+    public function findOneByName($name): ?ThemeInterface
     {
         $this->loadThemesIfNeeded();
 
@@ -86,7 +86,7 @@ final class ReloadableInMemoryRepository implements ReloadableThemeRepositoryInt
     /**
      * {@inheritdoc}
      */
-    public function findOneByTitle($title)
+    public function findOneByTitle($title): ?ThemeInterface
     {
         $this->loadThemesIfNeeded();
 

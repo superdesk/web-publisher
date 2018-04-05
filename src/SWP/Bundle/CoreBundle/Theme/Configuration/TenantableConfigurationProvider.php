@@ -62,7 +62,7 @@ class TenantableConfigurationProvider implements ConfigurationProviderInterface
     /**
      * {@inheritdoc}
      */
-    public function getConfigurations()
+    public function getConfigurations(): array
     {
         // Handle there being no theme.json file
         try {

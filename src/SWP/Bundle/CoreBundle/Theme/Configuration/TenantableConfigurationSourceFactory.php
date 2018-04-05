@@ -29,7 +29,7 @@ final class TenantableConfigurationSourceFactory implements ConfigurationSourceF
     /**
      * {@inheritdoc}
      */
-    public function buildConfiguration(ArrayNodeDefinition $node)
+    public function buildConfiguration(ArrayNodeDefinition $node): void
     {
         $node
             ->fixXmlConfig('directory', 'directories')
@@ -81,7 +81,7 @@ final class TenantableConfigurationSourceFactory implements ConfigurationSourceF
     /**
      * {@inheritdoc}
      */
-    public function getName()
+    public function getName(): string
     {
         return 'tenantable';
     }

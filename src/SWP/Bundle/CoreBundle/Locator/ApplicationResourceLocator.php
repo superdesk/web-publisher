@@ -44,7 +44,7 @@ class ApplicationResourceLocator implements ResourceLocatorInterface
     /**
      * {@inheritdoc}
      */
-    public function locateResource($resourceName, ThemeInterface $theme)
+    public function locateResource(string $resourceName, ThemeInterface $theme): string
     {
         $paths = $this->getApplicationPaths($resourceName, $theme);
         foreach ($paths as $path) {

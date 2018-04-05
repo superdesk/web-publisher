@@ -43,7 +43,7 @@ final class TenentThemesRecursiveFileLocator implements FileLocatorInterface
     /**
      * {@inheritdoc}
      */
-    public function locateFileNamed($name)
+    public function locateFileNamed($name): string
     {
         return $this->doLocateFilesNamed($name)->current();
     }
@@ -51,7 +51,7 @@ final class TenentThemesRecursiveFileLocator implements FileLocatorInterface
     /**
      * {@inheritdoc}
      */
-    public function locateFilesNamed($name)
+    public function locateFilesNamed($name): array
     {
         return iterator_to_array($this->doLocateFilesNamed($name));
     }

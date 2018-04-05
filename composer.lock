@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "ffb847a6d95290b01a754db956c72790",
+    "content-hash": "f172fb971fb812ba99212e6d9b27b4f3",
     "packages": [
         {
             "name": "apache/log4php",
@@ -6496,38 +6496,42 @@
         },
         {
             "name": "sylius/theme-bundle",
-            "version": "v1.0.0-beta.3",
+            "version": "v1.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Sylius/SyliusThemeBundle.git",
-                "reference": "30658002e6837fb33bb6f8e079427952daf18d95"
+                "reference": "a46aad9dfc4a0276e66f6f7e8b1f51b97ebb2b9d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Sylius/SyliusThemeBundle/zipball/30658002e6837fb33bb6f8e079427952daf18d95",
-                "reference": "30658002e6837fb33bb6f8e079427952daf18d95",
+                "url": "https://api.github.com/repos/Sylius/SyliusThemeBundle/zipball/a46aad9dfc4a0276e66f6f7e8b1f51b97ebb2b9d",
+                "reference": "a46aad9dfc4a0276e66f6f7e8b1f51b97ebb2b9d",
                 "shasum": ""
             },
             "require": {
                 "doctrine/common": "^2.5",
-                "php": "^5.6|^7.0",
-                "symfony/symfony": "^3.2",
+                "php": "^7.1",
+                "symfony/symfony": "^3.4",
                 "zendframework/zend-hydrator": "^2.2"
+            },
+            "conflict": {
+                "twig/twig": "^1.0"
             },
             "require-dev": {
                 "matthiasnoback/symfony-config-test": "^2.0",
                 "matthiasnoback/symfony-dependency-injection-test": "^1.0",
                 "mikey179/vfsstream": "^1.6",
-                "phpspec/phpspec": "^3.2",
+                "phpspec/phpspec": "^4.0",
                 "phpunit/phpunit": "^5.6",
                 "sylius/registry": "^1.0",
-                "symfony/twig-bundle": "^3.2",
-                "twig/twig": "^1.28"
+                "symfony/dependency-injection": "^3.4",
+                "symfony/twig-bundle": "^3.4",
+                "twig/twig": "^2.0"
             },
             "type": "symfony-bundle",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.0-dev"
+                    "dev-master": "1.1-dev"
                 }
             },
             "autoload": {
@@ -6544,25 +6548,25 @@
             ],
             "authors": [
                 {
-                    "name": "Sylius project",
-                    "homepage": "http://sylius.org"
-                },
-                {
                     "name": "Community contributions",
                     "homepage": "http://github.com/Sylius/Sylius/contributors"
                 },
                 {
                     "name": "Kamil Kokot",
                     "homepage": "http://kamil.kokot.me"
+                },
+                {
+                    "name": "Sylius project",
+                    "homepage": "http://sylius.com"
                 }
             ],
             "description": "Themes management for Symfony2 projects.",
-            "homepage": "http://sylius.org",
+            "homepage": "http://sylius.com",
             "keywords": [
                 "themes",
                 "theming"
             ],
-            "time": "2017-07-17T14:27:16+00:00"
+            "time": "2018-02-08T16:38:47+00:00"
         },
         {
             "name": "symfony-cmf/core-bundle",
