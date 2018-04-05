@@ -19,10 +19,10 @@ parameters:
 
     env(SYMFONY_SECRET): 'SuperSecretTokenPleaseChangeIt'
     swp_updater.version.class: "SWP\\Bundle\\CoreBundle\\Version\\Version"
-    env(SWP_DOMAIN): wps.dev
+    env(SWP_DOMAIN): localhost
     # Array of caching servers
     cache_servers:
-        - wps.dev
+        - localhost
     doctrine_cache_driver: "array"
 
     sentry.dsn: false

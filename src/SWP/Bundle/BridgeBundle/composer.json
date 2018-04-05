@@ -29,7 +29,7 @@
         }
     ],
     "require": {
-        "php": ">=5.6|^7.0",
+        "php": "^7.1",
         "guzzlehttp/guzzle": "^6.0",
         "superdesk/contentapi-sdk-php": "dev-master",
         "swp/storage-bundle": "^0.6",

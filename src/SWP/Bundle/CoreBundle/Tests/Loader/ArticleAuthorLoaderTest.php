@@ -50,6 +50,17 @@ class ArticleAuthorLoaderTest extends WebTestCase
         self::assertEquals(' Tom  Test Person  John Doe  John Doe Second  Test Person ', $result);
     }
 
+    public function testRenderingArticleAuthorsOrdered()
+    {
+        $template = '{% gimmelist author from authors|order("name", "asc") %} {{ author.name }} {% endgimmelist %}';
+        $result = $this->getRendered($template);
+        self::assertEquals(' John Doe  John Doe Second  Test Person  Test Person  Tom ', $result);
+
+        $template = '{% gimmelist author from authors|order("name", "desc") %} {{ author.name }} {% endgimmelist %}';
+        $result = $this->getRendered($template);
+        self::assertEquals(' Tom  Test Person  Test Person  John Doe Second  John Doe ', $result);
+    }
+
     public function testRenderingArticleAuthorsWith()
     {
         $template = '{% gimmelist author from authors with {jobtitle: {name: "quality check"}} %} {{ author.name }} {% endgimmelist %}';

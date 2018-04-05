@@ -92,10 +92,9 @@ final class ArticleAuthorLoader extends PaginatedLoader implements LoaderInterfa
             $criteria->set('exclude_'.$key, $withoutParameter[0]);
         }
 
+        $this->applyPaginationToCriteria($criteria, $parameters);
         $authors = $this->authorRepository->getByCriteria($criteria, $criteria->get('order', []));
         $authors = new ArrayCollection($authors);
-
-        $this->applyPaginationToCriteria($criteria, $parameters);
         $countCriteria = clone $criteria;
 
         if (0 === $authors->count()) {

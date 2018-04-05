@@ -67,7 +67,11 @@ class ArticleMediaLoader extends PaginatedLoader implements LoaderInterface
      */
     public function load($type, $parameters = [], $withoutParameters = [], $responseType = LoaderInterface::COLLECTION)
     {
-        $mediaKey = md5($type.json_encode([$parameters, $withoutParameters]).$responseType);
+        $extra = [];
+        if (array_key_exists('article', $parameters) && $parameters['article'] instanceof Meta) {
+            $extra[] = $parameters['article']->getValues()->getId();
+        }
+        $mediaKey = md5($type.json_encode([$parameters, $withoutParameters, $extra]).$responseType);
         if (isset($this->mediaCache[$mediaKey])) {
             return $this->mediaCache[$mediaKey];
         }
