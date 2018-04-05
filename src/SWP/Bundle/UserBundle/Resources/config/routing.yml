@@ -4,12 +4,12 @@ swp_user:
 
 fos_user_registration_check_email:
     path: /register/check-email
-    defaults: { _controller: FOSUserBundle:Registration:checkEmail }
+    defaults: { _controller: fos_user.registration.controller:checkEmailAction }
 
 fos_user_registration_confirm:
     path: /register/confirm/{token}
-    defaults: { _controller: FOSUserBundle:Registration:confirm }
+    defaults: { _controller: fos_user.registration.controller:confirmAction }
 
 fos_user_registration_confirmed:
     path: /register/confirmed
-    defaults: { _controller: FOSUserBundle:Registration:confirmed }
+    defaults: { _controller: fos_user.registration.controller:confirmedAction }
