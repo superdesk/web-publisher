@@ -16,13 +16,14 @@ namespace SWP\Bundle\CoreBundle\Theme\Factory;
 
 use SWP\Bundle\CoreBundle\Theme\Model\Theme;
 use Sylius\Bundle\ThemeBundle\Factory\ThemeFactoryInterface;
+use Sylius\Bundle\ThemeBundle\Model\ThemeInterface;
 
 class ThemeFactory implements ThemeFactoryInterface
 {
     /**
      * {@inheritdoc}
      */
-    public function create($name, $path)
+    public function create(string $name, string $path): ThemeInterface
     {
         return new Theme($name, $path);
     }

@@ -20,6 +20,7 @@ use SWP\Bundle\CoreBundle\Theme\Repository\ReloadableThemeRepositoryInterface;
 use SWP\Component\Common\Model\ThemeAwareTenantInterface;
 use SWP\Component\MultiTenancy\Context\TenantContextInterface;
 use Sylius\Bundle\ThemeBundle\Context\ThemeContextInterface;
+use Sylius\Bundle\ThemeBundle\Model\ThemeInterface;
 use Sylius\Bundle\ThemeBundle\Repository\ThemeRepositoryInterface;
 
 /**
@@ -65,12 +66,12 @@ final class TenantAwareThemeContext implements ThemeContextInterface
     /**
      * {@inheritdoc}
      */
-    public function getTheme()
+    public function getTheme(): ?ThemeInterface
     {
         /* @var ThemeAwareTenantInterface $tenant */
         $tenant = $this->tenantContext->getTenant();
         if (null === $tenant) {
-            return;
+            return null;
         }
 
         $key = md5($tenant->getCode().$tenant->getThemeName());
@@ -82,7 +83,12 @@ final class TenantAwareThemeContext implements ThemeContextInterface
             return $this->themes[$key] = $this->cacheService->fetch('theme_'.$key);
         }
 
-        $theme = $this->themeRepository->findOneByName($this->resolveThemeName($tenant));
+        $themeName = $this->resolveThemeName($tenant);
+        if (null === $themeName) {
+            return null;
+        }
+
+        $theme = $this->themeRepository->findOneByName($themeName);
         unset($tenant);
 
         if (null === $theme) {

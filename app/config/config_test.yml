@@ -41,8 +41,9 @@ oneup_flysystem:
                 directory: "%kernel.cache_dir%/uploads/"
 
 sentry:
-    environment: "test"
-    dsn: false
+    dsn: "false"
+    options:
+        environment: "test"
 
 doctrine_cache:
     providers:

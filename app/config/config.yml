@@ -252,9 +252,10 @@ nelmio_cors:
         '^/api/': ~
 
 sentry:
-    environment: "%kernel.environment%"
     dsn: "%sentry.dsn%"
-    release: "dev-master"
+    options:
+        environment: "%kernel.environment%"
+        release: "dev-master"
 
 monolog:
     handlers:

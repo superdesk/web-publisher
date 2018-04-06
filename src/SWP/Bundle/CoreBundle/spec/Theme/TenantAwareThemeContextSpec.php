@@ -64,7 +64,7 @@ class TenantAwareThemeContextSpec extends ObjectBehavior
         $tenant->getCode()->willReturn('code');
         $tenant->getThemeName()->willReturn(null);
         $tenantContext->getTenant()->willReturn($tenant);
-        $themeRepository->findOneByName(null)->shouldBeCalled()->willReturn(null);
+        $themeRepository->findOneByName(null)->shouldNotBeCalled();
         $this->getTheme()->shouldReturn(null);
     }
 }
