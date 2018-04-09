@@ -147,15 +147,15 @@ EOT
             $themeRepository->reloadThemes();
             $output->writeln('<info>Theme has been installed successfully!</info>');
             if (file_exists($themeDir.\DIRECTORY_SEPARATOR.'theme.json')) {
+                $themeConfig = json_decode(file_get_contents($themeDir.\DIRECTORY_SEPARATOR.'theme.json'), true);
+                $themeName = $themeConfig['name'];
+                $tenant->setThemeName($themeName);
                 $output->writeln('<info>Persisting theme required data...</info>');
                 $theme = $container->get('sylius.context.theme')->getTheme();
                 $requiredDataProcessor = $container->get('swp_core.processor.theme.required_data');
                 $requiredDataProcessor->processTheme($theme);
                 $output->writeln('<info>Theme required data was persisted successfully!</info>');
 
-                $themeConfig = json_decode(file_get_contents($themeDir.\DIRECTORY_SEPARATOR.'theme.json'), true);
-                $themeName = $themeConfig['name'];
-                $tenant->setThemeName($themeName);
                 if ($activate) {
                     $tenantRepository->flush();
                     $output->writeln('<info>Theme was activated!</info>');
@@ -163,9 +163,11 @@ EOT
             }
         } catch (\Exception $e) {
             $fileSystem->remove($themeDir);
-            $fileSystem->rename($backupThemeDir, $themeDir);
+            if ($fileSystem->exists($backupThemeDir)) {
+                $fileSystem->rename($backupThemeDir, $themeDir);
+            }
 
-            $output->writeln('<error>Theme could not be installed, files are reverted to previous verion!</error>');
+            $output->writeln('<error>Theme could not be installed, files are reverted to previous version!</error>');
             $output->writeln('<error>Error message: '.$e->getMessage().'</error>');
         }
 
