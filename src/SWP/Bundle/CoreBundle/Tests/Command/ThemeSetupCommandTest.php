@@ -111,6 +111,19 @@ class ThemeSetupCommandTest extends WebTestCase
         self::assertContains('Theme was activated!', $this->commandTester->getDisplay());
     }
 
+    public function testExecuteWithBrokenThemeConfiguration()
+    {
+        $this->commandTester->execute(
+            [
+                'tenant' => '123abc',
+                'theme_dir' => __DIR__.'/../Fixtures/themes_to_be_installed/theme_test_install_with_broken_theme_json',
+                '--force' => true,
+            ]
+        );
+
+        self::assertContains('Theme could not be installed, files are reverted to previous version!', $this->commandTester->getDisplay());
+    }
+
     public function testExecuteWithActivationAndDataGeneration()
     {
         $this->commandTester->execute(
