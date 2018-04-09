@@ -53,7 +53,7 @@
     "generatedData": {
         "routes": [
             {
-                "name": "Politics",
+                "name": "politics",
                 "slug": "politics",
                 "type": "collection",
                 "templateName": "category.html.twig",
@@ -61,35 +61,35 @@
                 "numberOfArticles": 1
             },
             {
-                "name": "Business",
+                "name": "business",
                 "slug": "business",
                 "type": "collection"
             },
             {
-                "name": "Sci/Tech",
+                "name": "sci/tech",
                 "slug": "scitech",
                 "type": "collection"
             },
             {
-                "name": "Health",
+                "name": "health",
                 "slug": "health",
                 "type": "collection"
             },
             {
-                "name": "Entertainment",
+                "name": "entertainment",
                 "slug": "entertainment",
                 "type": "collection"
             },
             {
-                "name": "Sports",
+                "name": "sports",
                 "slug": "sports",
                 "type": "collection"
             },
             {
-                "name": "Football",
+                "name": "football",
                 "slug": "football",
                 "type": "collection",
-                "parent": "Sports"
+                "parent": "sports"
             }
         ],
         "menus": [
@@ -105,17 +105,17 @@
                     {
                         "name": "politics",
                         "label": "Politics",
-                        "route": "Politics"
+                        "route": "politics"
                     },
                     {
                         "name": "business",
                         "label": "Business",
-                        "route": "Business"
+                        "route": "business"
                     },
                     {
                         "name": "scitech",
                         "label": "Sci/Tech",
-                        "route": "Sci/Tech"
+                        "route": "sci/tech"
                     },
                     {
                         "name": "health",
@@ -125,17 +125,17 @@
                     {
                         "name": "entertainment",
                         "label": "Entertainment",
-                        "route": "Entertainment"
+                        "route": "entertainment"
                     },
                     {
                         "name": "sports",
                         "label": "Sports",
-                        "route": "Sports",
+                        "route": "sports",
                         "children": [
                             {
                                 "name": "football",
                                 "label": "Football",
-                                "route": "Football"
+                                "route": "football"
                             }
                         ]
                     }
@@ -148,37 +148,37 @@
                     {
                         "name": "politics",
                         "label": "Politics",
-                        "route": "Politics"
+                        "route": "politics"
                     },
                     {
                         "name": "business",
                         "label": "Business",
-                        "route": "Business"
+                        "route": "pusiness"
                     },
                     {
                         "name": "scitech",
                         "label": "Sci/Tech",
-                        "route": "Sci/Tech"
+                        "route": "sci/tech"
                     },
                     {
                         "name": "health",
                         "label": "Health",
-                        "route": "Health"
+                        "route": "health"
                     },
                     {
                         "name": "entertainment",
                         "label": "Entertainment",
-                        "route": "Entertainment"
+                        "route": "entertainment"
                     },
                     {
                         "name": "sports",
                         "label": "Sports",
-                        "route": "Sports",
+                        "route": "sports",
                         "children": [
                             {
                                 "name": "football",
                                 "label": "Football",
-                                "route": "Football"
+                                "route": "football"
                             }
                         ]
                     }

@@ -121,8 +121,13 @@ EOT
         $activate = true === $input->getOption('activate');
         $themesDir = $container->getParameter('swp.theme.configuration.default_directory');
         $themeDir = $themesDir.\DIRECTORY_SEPARATOR.$tenant->getCode().\DIRECTORY_SEPARATOR.basename($sourceDir);
+        $backupThemeDir = $themesDir.\DIRECTORY_SEPARATOR.'backup'.\DIRECTORY_SEPARATOR.$tenant->getCode().\DIRECTORY_SEPARATOR.basename($sourceDir).'_previous';
 
         try {
+            if ($fileSystem->exists($themeDir)) {
+                $fileSystem->rename($themeDir, $backupThemeDir, true);
+            }
+
             $helper = $this->getHelper('question');
             $question = new ConfirmationQuestion(
                 '<question>This will override your current theme. Continue with this action? (yes/no)<question> <comment>[yes]</comment> ',
@@ -141,28 +146,38 @@ EOT
             $themeRepository = $container->get('sylius.repository.theme');
             $themeRepository->reloadThemes();
             $output->writeln('<info>Theme has been installed successfully!</info>');
-
             if (file_exists($themeDir.\DIRECTORY_SEPARATOR.'theme.json')) {
-                $themeName = json_decode(file_get_contents($themeDir.\DIRECTORY_SEPARATOR.'theme.json'), true)['name'];
-                $tenant->setThemeName($themeName);
-
-                if ($activate) {
-                    $tenantRepository->flush();
-                    $output->writeln('<info>Theme was activated!</info>');
-                }
-
                 $output->writeln('<info>Persisting theme required data...</info>');
                 $theme = $container->get('sylius.context.theme')->getTheme();
                 $requiredDataProcessor = $container->get('swp_core.processor.theme.required_data');
                 $requiredDataProcessor->processTheme($theme);
                 $output->writeln('<info>Theme required data was persisted successfully!</info>');
+
+                $themeConfig = json_decode(file_get_contents($themeDir.\DIRECTORY_SEPARATOR.'theme.json'), true);
+                $themeName = $themeConfig['name'];
+                $tenant->setThemeName($themeName);
+                if ($activate) {
+                    $tenantRepository->flush();
+                    $output->writeln('<info>Theme was activated!</info>');
+                }
             }
         } catch (\Exception $e) {
-            $output->writeln('<error>Theme could not be installed!</error>');
+            $fileSystem->remove($themeDir);
+            $fileSystem->rename($backupThemeDir, $themeDir);
+
+            $output->writeln('<error>Theme could not be installed, files are reverted to previous verion!</error>');
             $output->writeln('<error>Error message: '.$e->getMessage().'</error>');
+        }
+
+        if ($fileSystem->exists($backupThemeDir)) {
+            $fileSystem->remove($backupThemeDir);
         }
     }
 
+    /**
+     * @param string                         $tenantCode
+     * @param ThemeAwareTenantInterface|null $tenant
+     */
     private function assertTenantIsFound(string $tenantCode, ThemeAwareTenantInterface $tenant = null)
     {
         if (null === $tenant) {
