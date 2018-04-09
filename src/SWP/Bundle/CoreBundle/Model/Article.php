@@ -92,6 +92,7 @@ class Article extends BaseArticle implements ArticleInterface
      */
     public function setArticleStatistics(ArticleStatisticsInterface $articleStatistics): void
     {
+        $articleStatistics->setArticle($this);
         $this->articleStatistics = $articleStatistics;
     }
 }

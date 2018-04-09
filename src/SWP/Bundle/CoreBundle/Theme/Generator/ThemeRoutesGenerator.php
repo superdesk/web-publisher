@@ -86,7 +86,7 @@ class ThemeRoutesGenerator implements GeneratorInterface
             $cleanRouteData = $routeData;
             unset($cleanRouteData['numberOfArticles']);
             $route = $this->createRoute($cleanRouteData);
-            if (null !== $this->routeProvider->getOneByStaticPrefix($route->getStaticPrefix())) {
+            if ((null !== $existingRoute = $this->routeProvider->getOneByStaticPrefix($route->getStaticPrefix())) && ($existingRoute->getName() === $route->getName())) {
                 continue;
             }
 
