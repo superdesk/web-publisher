@@ -1,0 +1,6 @@
+jms_serializer:
+    metadata:
+        directories:
+            SWPOutputChannelBundle:
+                namespace_prefix: "SWP\\Component\\OutputChannel"
+                path: "@SWPOutputChannelBundle/Resources/config/serializer"

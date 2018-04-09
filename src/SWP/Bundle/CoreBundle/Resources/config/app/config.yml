@@ -282,6 +282,14 @@ swp_analytics:
                 article_events:
                     model: SWP\Bundle\CoreBundle\Model\ArticleEvent
 
+swp_output_channel:
+    persistence:
+        orm:
+            enabled: true
+            classes:
+                output_channel:
+                    model: SWP\Bundle\CoreBundle\Model\OutputChannel
+
 old_sound_rabbit_mq:
     connections:
         default:

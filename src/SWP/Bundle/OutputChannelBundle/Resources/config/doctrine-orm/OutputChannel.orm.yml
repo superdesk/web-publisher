@@ -1,0 +1,14 @@
+SWP\Component\OutputChannel\Model\OutputChannel:
+    type: mappedSuperclass
+    table: swp_output_channel
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        config:
+            type: array
+        type:
+            type: string

@@ -15,3 +15,7 @@ SWP\Bundle\CoreBundle\Model\Tenant:
                 name: tenant_route_id
                 referencedColumnName: id
                 nullable: true
+        outputChannel:
+            targetEntity: SWP\Component\OutputChannel\Model\OutputChannelInterface
+            cascade: ['persist', 'remove']
+            mappedBy: tenant

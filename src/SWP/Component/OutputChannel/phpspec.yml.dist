@@ -1,0 +1,5 @@
+suites:
+    main:
+        namespace: SWP\Component\OutputChannel
+        psr4_prefix: SWP\Component\OutputChannel
+        src_path: .

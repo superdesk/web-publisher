@@ -1,0 +1,2 @@
+SWP\Bundle\CoreBundle\Model\OutputChannel:
+    exclusion_policy: ALL
