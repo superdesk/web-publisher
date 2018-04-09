@@ -47,4 +47,14 @@ interface OrganizationInterface extends BaseOrganizationInterface
      * @return bool
      */
     public function hasPublishDestination(PublishDestinationInterface $publishDestination): bool;
+
+    /**
+     * @return null|string
+     */
+    public function getSecretToken(): ?string;
+
+    /**
+     * @param null|string $secretToken
+     */
+    public function setSecretToken(?string $secretToken): void;
 }

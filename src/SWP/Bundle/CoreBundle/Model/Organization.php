@@ -26,6 +26,11 @@ class Organization extends BaseOrganization implements SettingsOwnerInterface, O
      */
     protected $publishDestinations;
 
+    /**
+     * @var string|null
+     */
+    protected $secretToken;
+
     public function __construct()
     {
         parent::__construct();
@@ -77,5 +82,21 @@ class Organization extends BaseOrganization implements SettingsOwnerInterface, O
     public function hasPublishDestination(PublishDestinationInterface $publishDestination): bool
     {
         return $this->publishDestinations->contains($publishDestination);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getSecretToken(): ?string
+    {
+        return $this->secretToken;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setSecretToken(?string $secretToken): void
+    {
+        $this->secretToken = $secretToken;
     }
 }

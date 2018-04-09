@@ -1,6 +1,11 @@
 SWP\Bundle\CoreBundle\Model\Organization:
     type: entity
     table: swp_organization
+    fields:
+        secretToken:
+            type: string
+            nullable: true
+            length: 255
     oneToMany:
         publishDestinations:
             targetEntity: SWP\Bundle\CoreBundle\Model\PublishDestinationInterface
