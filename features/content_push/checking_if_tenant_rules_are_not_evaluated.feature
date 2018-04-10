@@ -1,3 +1,4 @@
+@content_push
 Feature: Making sure that the tenant rules are ignored
   if they are overridden by the publish destinations
 

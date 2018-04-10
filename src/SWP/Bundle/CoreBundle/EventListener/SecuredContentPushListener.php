@@ -19,6 +19,7 @@ namespace SWP\Bundle\CoreBundle\EventListener;
 use Superdesk\ContentApiSdk\Exception\AuthenticationException;
 use SWP\Bundle\CoreBundle\Model\OrganizationInterface;
 use SWP\Component\MultiTenancy\Context\TenantContextInterface;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 
 class SecuredContentPushListener
@@ -54,7 +55,8 @@ class SecuredContentPushListener
         $organization = $this->tenantContext->getTenant()->getOrganization();
         $token = hash_hmac('sha1', $request->getContent(), $organization->getSecretToken());
         if ($request->headers->get('x-superdesk-signature') !== 'sha1='.$token) {
-            throw new AuthenticationException('Bad credentials');
+            $event->setResponse(new Response('Bad credentials', 401));
+            $event->stopPropagation();
         }
     }
 }
