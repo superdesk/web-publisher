@@ -46,14 +46,15 @@ class SecuredContentPushListener
      */
     public function onKernelRequest(GetResponseEvent $event)
     {
+        /** @var OrganizationInterface $organization */
+        $organization = $this->tenantContext->getTenant()->getOrganization();
+        $organizationToken = $organization->getSecretToken();
         $request = $event->getRequest();
-        if (!$request->headers->has('x-superdesk-signature')) {
+        if (null === $organizationToken && !$request->headers->has('x-superdesk-signature')) {
             return;
         }
 
-        /** @var OrganizationInterface $organization */
-        $organization = $this->tenantContext->getTenant()->getOrganization();
-        $token = hash_hmac('sha1', $request->getContent(), $organization->getSecretToken());
+        $token = hash_hmac('sha1', $request->getContent(), $organizationToken);
         if ($request->headers->get('x-superdesk-signature') !== 'sha1='.$token) {
             $event->setResponse(new Response('Bad credentials', 401));
             $event->stopPropagation();
