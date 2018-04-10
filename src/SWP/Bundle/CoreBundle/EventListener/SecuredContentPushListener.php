@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 /*
- * This file is part of the Superdesk Web Publisher Bridge Bundle.
+ * This file is part of the Superdesk Web Publisher Core Bundle.
  *
  * Copyright 2018 Sourcefabric z.ú. and contributors.
  *
@@ -14,7 +14,7 @@ declare(strict_types=1);
  * @license http://www.superdesk.org/license
  */
 
-namespace SWP\Bundle\BridgeBundle\EventListener;
+namespace SWP\Bundle\CoreBundle\EventListener;
 
 use Superdesk\ContentApiSdk\Exception\AuthenticationException;
 use SWP\Bundle\CoreBundle\Model\OrganizationInterface;

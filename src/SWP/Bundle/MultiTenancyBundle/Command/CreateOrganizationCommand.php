@@ -44,7 +44,7 @@ class CreateOrganizationCommand extends ContainerAwareCommand
             ])
             ->setHelp(
                 <<<'EOT'
-                The <info>%command.name%</info> command creates a new organization..
+                The <info>%command.name%</info> command creates a new organization.
 EOT
             );
     }

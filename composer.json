@@ -51,7 +51,6 @@
         "symfony/monolog-bundle": "~3.0",
         "sensio/distribution-bundle": "~v5.0",
         "sensio/framework-extra-bundle": "~3.0,>=3.0.2",
-        "sensio/generator-bundle": "~3.0",
         "doctrine/orm": "2.6.*",
         "doctrine/common": "2.8.*",
         "doctrine/dbal": "2.6.*",

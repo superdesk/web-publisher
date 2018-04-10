@@ -27,13 +27,6 @@ services:
         tags:
             - { name: kernel.event_listener, event: kernel.exception }
 
-    swp_bridge_bundle.listener.secured_request:
-        class: SWP\Bundle\BridgeBundle\EventListener\SecuredContentPushListener
-        arguments:
-            - '@swp_multi_tenancy.tenant_context'
-        tags:
-            - { name: kernel.event_listener, event: kernel.request, method: onKernelRequest }
-
     swp_bridge_bundle.object_constructor:
         class: SWP\Bundle\BridgeBundle\Serializer\ObjectConstructor
         public: false
