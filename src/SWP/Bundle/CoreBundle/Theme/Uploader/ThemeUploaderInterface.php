@@ -27,6 +27,8 @@ interface ThemeUploaderInterface
      * @param UploadedFile $file
      *
      * @return bool True when successfully uploaded, false otherwise
+     *
+     * @throws \Exception
      */
     public function upload(UploadedFile $file);
 

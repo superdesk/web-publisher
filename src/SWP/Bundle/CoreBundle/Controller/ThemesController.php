@@ -165,16 +165,11 @@ class ThemesController extends Controller
         $form->handleRequest($request);
         if ($form->isValid()) {
             $formData = $form->getData();
-            $themeInstaller = $this->container->get('swp_core.installer.theme');
-            $theme = $themeInstaller->install($formData['name']);
-            /** @var Tenant $tenant */
-            $tenant = $this->container->get('swp_multi_tenancy.tenant_context')->getTenant();
-            $tenant->setThemeName($formData['name']);
-            $this->container->get('swp.repository.tenant')->flush();
-            $requiredDataProcessor = $this->container->get('swp_core.processor.theme.required_data');
-            $requiredDataProcessor->processTheme($theme);
+            $themeService = $this->container->get('swp_core.service.theme');
+            list($sourceDir, $themeDir) = $themeService->getDirectoriesForTheme($formData['name']);
+            $themeService->installAndProcessGeneratedData($sourceDir, $themeDir);
 
-            return new SingleResourceResponse($theme, new ResponseContext(201));
+            return new SingleResourceResponse(['status' => 'installed'], new ResponseContext(201));
         }
 
         return new SingleResourceResponse($form, new ResponseContext(400));

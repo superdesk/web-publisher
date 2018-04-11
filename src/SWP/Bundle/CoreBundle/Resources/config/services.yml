@@ -88,6 +88,16 @@ services:
             - '@swp.repository.article'
             - '@swp.factory.article_statistics'
 
+    swp_core.service.theme:
+        class: SWP\Bundle\CoreBundle\Theme\Service\ThemeService
+        arguments:
+            - '@swp_core.installer.theme'
+            - '@swp_core.processor.theme.required_data'
+            - '%kernel.cache_dir%'
+            - '@swp_multi_tenancy.tenant_context'
+            - '@sylius.repository.theme'
+            - '@sylius.context.theme'
+
     swp_core.generator.theme.routes:
         class: SWP\Bundle\CoreBundle\Theme\Generator\ThemeRoutesGenerator
         arguments:
