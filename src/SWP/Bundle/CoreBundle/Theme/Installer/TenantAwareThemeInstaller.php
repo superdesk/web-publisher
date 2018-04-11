@@ -112,7 +112,6 @@ final class TenantAwareThemeInstaller implements ThemeInstallerInterface
         }
 
         $filesystem = new Filesystem();
-
         $filesystem->mirror($sourceDir, $themeDir, null, ['override' => true, 'delete' => true]);
 
         $cache = $this->twig->getCache();
