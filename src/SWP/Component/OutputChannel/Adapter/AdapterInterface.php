@@ -14,17 +14,17 @@ declare(strict_types=1);
  * @license http://www.superdesk.org/license
  */
 
-namespace SWP\Component\OutputChannel\Model;
+namespace SWP\Component\OutputChannel\Adapter;
 
-interface OutputChannelAwareInterface
+interface AdapterInterface
 {
     /**
-     * @return OutputChannelInterface|null
+     * @param array $config
      */
-    public function getOutputChannel(): ?OutputChannelInterface;
+    public function setConfig(array $config): void;
 
     /**
-     * @param OutputChannelInterface|null $outputChannel
+     * @param string $content
      */
-    public function setOutputChannel(?OutputChannelInterface $outputChannel): void;
+    public function send(string $content): void;
 }

@@ -16,7 +16,6 @@ namespace SWP\Bundle\CoreBundle\Form\Type;
 
 use SWP\Bundle\OutputChannelBundle\Form\Type\OutputChannelType;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;

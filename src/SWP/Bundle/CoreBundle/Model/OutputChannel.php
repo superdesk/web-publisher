@@ -26,7 +26,7 @@ class OutputChannel extends BaseOutputChannel implements OutputChannelInterface
     protected $tenant;
 
     /**
-     * @return TenantInterface
+     * {@inheritdoc}
      */
     public function getTenant(): TenantInterface
     {
@@ -34,7 +34,7 @@ class OutputChannel extends BaseOutputChannel implements OutputChannelInterface
     }
 
     /**
-     * @param TenantInterface $tenant
+     * {@inheritdoc}
      */
     public function setTenant(TenantInterface $tenant): void
     {

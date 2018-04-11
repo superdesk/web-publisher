@@ -16,6 +16,17 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\CoreBundle\Model;
 
-interface OutputChannelInterface
+use SWP\Component\OutputChannel\Model\OutputChannelInterface as BaseOutputChannel;
+
+interface OutputChannelInterface extends BaseOutputChannel
 {
+    /**
+     * @return TenantInterface
+     */
+    public function getTenant(): TenantInterface;
+
+    /**
+     * @param TenantInterface $tenant
+     */
+    public function setTenant(TenantInterface $tenant): void;
 }

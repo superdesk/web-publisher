@@ -35,6 +35,11 @@ suites:
         psr4_prefix: SWP\Component\ContentList
         spec_path: src/SWP/Component/ContentList
         src_path: src/SWP/Component/ContentList
+    OutputChannel_suite:
+        namespace: SWP\Component\OutputChannel
+        psr4_prefix: SWP\Component\OutputChannel
+        spec_path: src/SWP/Component/OutputChannel
+        src_path: src/SWP/Component/OutputChannel
 
     # bundles
     MultiTenancyBundle_suite:
@@ -92,6 +97,11 @@ suites:
         psr4_prefix: SWP\Bundle\WebhookBundle
         spec_path: src/SWP/Bundle/WebhookBundle
         src_path: src/SWP/Bundle/WebhookBundle
+    OutputChannelBundle_suite:
+        namespace: SWP\Bundle\OutputChannelBundle
+        psr4_prefix: SWP\Bundle\OutputChannelBundle
+        spec_path: src/SWP/Bundle/OutputChannelBundle
+        src_path: src/SWP/Bundle/OutputChannelBundle
 
 #extensions:
 #    - PhpSpec\Extension\CodeCoverageExtension

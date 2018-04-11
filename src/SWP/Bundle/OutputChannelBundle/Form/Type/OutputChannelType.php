@@ -1,5 +1,19 @@
 <?php
 
+declare(strict_types=1);
+
+/*
+ * This file is part of the Superdesk Web Publisher Output Channel Bundle.
+ *
+ * Copyright 2018 Sourcefabric z.ú. and contributors.
+ *
+ * For the full copyright and license information, please see the
+ * AUTHORS and LICENSE files distributed with this source code.
+ *
+ * @copyright 2018 Sourcefabric z.ú
+ * @license http://www.superdesk.org/license
+ */
+
 namespace SWP\Bundle\OutputChannelBundle\Form\Type;
 
 use SWP\Bundle\CoreBundle\Model\OutputChannel;
@@ -54,6 +68,9 @@ final class OutputChannelType extends AbstractType
         );
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
@@ -62,6 +79,9 @@ final class OutputChannelType extends AbstractType
         ]);
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getBlockPrefix(): string
     {
         return 'swp_output_channel';

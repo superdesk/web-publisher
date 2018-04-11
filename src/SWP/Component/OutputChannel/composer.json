@@ -10,7 +10,6 @@
     }
   ],
   "require": {
-    "swp/common": "^1.3",
     "swp/storage": "^1.3"
   },
   "require-dev": {
@@ -31,7 +30,7 @@
   "minimum-stability": "dev",
   "extra": {
     "branch-alias": {
-      "dev-master": "1.3-dev"
+      "dev-master": "1.4-dev"
     }
   }
 }

@@ -16,11 +16,16 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\OutputChannelBundle;
 
+use SWP\Bundle\OutputChannelBundle\DependencyInjection\Compiler\RegisterOutputChannelAdapterPass;
 use SWP\Bundle\StorageBundle\DependencyInjection\Bundle\Bundle;
 use SWP\Bundle\StorageBundle\Drivers;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 class SWPOutputChannelBundle extends Bundle
 {
+    /**
+     * {@inheritdoc}
+     */
     public function getSupportedDrivers()
     {
         return [
@@ -28,8 +33,21 @@ class SWPOutputChannelBundle extends Bundle
         ];
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getModelClassNamespace()
     {
         return 'SWP\Component\OutputChannel\Model';
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function build(ContainerBuilder $container)
+    {
+        parent::build($container);
+
+        $container->addCompilerPass(new RegisterOutputChannelAdapterPass());
     }
 }

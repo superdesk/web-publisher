@@ -1,0 +1,18 @@
+services:
+    SWP\Component\OutputChannel\Provider\AdapterProviderChain:
+        public: true
+
+    GuzzleHttp\Client:
+        public: false
+
+    SWP\Component\OutputChannel\Adapter\WordpressAdapter:
+        public: false
+        arguments:
+            - '@GuzzleHttp\Client'
+
+    SWP\Component\OutputChannel\Provider\WordpressAdapterProvider:
+        public: false
+        arguments:
+            - '@SWP\Component\OutputChannel\Adapter\WordpressAdapter'
+        tags:
+            - { name: swp.output_channel_adapter, alias: wordpress_adapter }
