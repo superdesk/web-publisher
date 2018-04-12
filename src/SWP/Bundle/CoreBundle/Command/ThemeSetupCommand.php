@@ -14,7 +14,6 @@
 
 namespace SWP\Bundle\CoreBundle\Command;
 
-use SWP\Bundle\CoreBundle\Theme\Repository\ReloadableThemeRepositoryInterface;
 use SWP\Bundle\MultiTenancyBundle\MultiTenancyEvents;
 use SWP\Component\Common\Model\ThemeAwareTenantInterface;
 use SWP\Component\MultiTenancy\Exception\TenantNotFoundException;
@@ -115,64 +114,39 @@ EOT
         $tenantContext->setTenant($tenant);
         $revisionListener->setRevisions();
         $eventDispatcher->dispatch(MultiTenancyEvents::TENANTABLE_ENABLE);
-        $themeInstaller = $container->get('swp_core.installer.theme');
 
         $force = true === $input->getOption('force');
         $activate = true === $input->getOption('activate');
         $themesDir = $container->getParameter('swp.theme.configuration.default_directory');
         $themeDir = $themesDir.\DIRECTORY_SEPARATOR.$tenant->getCode().\DIRECTORY_SEPARATOR.basename($sourceDir);
-        $backupThemeDir = $themesDir.\DIRECTORY_SEPARATOR.'backup'.\DIRECTORY_SEPARATOR.$tenant->getCode().\DIRECTORY_SEPARATOR.basename($sourceDir).'_previous';
 
-        try {
-            if ($fileSystem->exists($themeDir)) {
-                $fileSystem->rename($themeDir, $backupThemeDir, true);
+        $helper = $this->getHelper('question');
+        $question = new ConfirmationQuestion(
+            '<question>This will override your current theme. Continue with this action? (yes/no)<question> <comment>[yes]</comment> ',
+            true,
+            '/^(y|j)/i'
+        );
+
+        if (!$force) {
+            if (!$helper->ask($input, $output, $question)) {
+                return;
             }
-
-            $helper = $this->getHelper('question');
-            $question = new ConfirmationQuestion(
-                '<question>This will override your current theme. Continue with this action? (yes/no)<question> <comment>[yes]</comment> ',
-                true,
-                '/^(y|j)/i'
-            );
-
-            if (!$force) {
-                if (!$helper->ask($input, $output, $question)) {
-                    return;
-                }
-            }
-
-            $themeInstaller->install(null, $sourceDir, $themeDir);
-            /** @var ReloadableThemeRepositoryInterface $themeRepository */
-            $themeRepository = $container->get('sylius.repository.theme');
-            $themeRepository->reloadThemes();
-            $output->writeln('<info>Theme has been installed successfully!</info>');
-            if (file_exists($themeDir.\DIRECTORY_SEPARATOR.'theme.json')) {
-                $themeConfig = json_decode(file_get_contents($themeDir.\DIRECTORY_SEPARATOR.'theme.json'), true);
-                $themeName = $themeConfig['name'];
-                $tenant->setThemeName($themeName);
-                $output->writeln('<info>Persisting theme required data...</info>');
-                $theme = $container->get('sylius.context.theme')->getTheme();
-                $requiredDataProcessor = $container->get('swp_core.processor.theme.required_data');
-                $requiredDataProcessor->processTheme($theme);
-                $output->writeln('<info>Theme required data was persisted successfully!</info>');
-
-                if ($activate) {
-                    $tenantRepository->flush();
-                    $output->writeln('<info>Theme was activated!</info>');
-                }
-            }
-        } catch (\Exception $e) {
-            $fileSystem->remove($themeDir);
-            if ($fileSystem->exists($backupThemeDir)) {
-                $fileSystem->rename($backupThemeDir, $themeDir);
-            }
-
-            $output->writeln('<error>Theme could not be installed, files are reverted to previous version!</error>');
-            $output->writeln('<error>Error message: '.$e->getMessage().'</error>');
         }
 
-        if ($fileSystem->exists($backupThemeDir)) {
-            $fileSystem->remove($backupThemeDir);
+        $themeService = $container->get('swp_core.service.theme');
+        $installationResult = $themeService->installAndProcessGeneratedData($sourceDir, $themeDir);
+        if ($installationResult instanceof \Exception) {
+            $output->writeln('<error>Theme could not be installed, files are reverted to previous version!</error>');
+            $output->writeln('<error>Error message: '.$installationResult->getMessage().'</error>');
+        } elseif (is_array($installationResult)) {
+            foreach ($installationResult as $message) {
+                $output->writeln('<info>'.$message.'</info>');
+            }
+
+            if ($activate) {
+                $tenantRepository->flush();
+                $output->writeln('<info>Theme was activated!</info>');
+            }
         }
     }
 

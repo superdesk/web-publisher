@@ -88,29 +88,8 @@ final class TenantAwareThemeInstaller implements ThemeInstallerInterface
     /**
      * {@inheritdoc}
      */
-    public function install(string $themeName = null, $sourceDir = null, $themeDir = null): ?ThemeInterface
+    public function install($sourceDir = null, $themeDir = null): void
     {
-        $theme = null;
-        if (null === $sourceDir || null === $themeDir) {
-            $themes = array_filter(
-                $this->themeLoader->load(),
-                function ($element) use (&$themeName) {
-                    return $element->getName() === $themeName;
-                }
-            );
-
-            if (0 === count($themes)) {
-                throw new NotFoundHttpException(
-                    sprintf('Theme with name "%s" was not found in organization themes.', $themeName)
-                );
-            }
-            /** @var ThemeInterface $theme */
-            $theme = reset($themes);
-            $sourceDir = $theme->getPath();
-            $directoryName = basename($theme->getPath());
-            $themeDir = $this->getThemesPath().DIRECTORY_SEPARATOR.$directoryName;
-        }
-
         $filesystem = new Filesystem();
         $filesystem->mirror($sourceDir, $themeDir, null, ['override' => true, 'delete' => true]);
 
@@ -120,8 +99,27 @@ final class TenantAwareThemeInstaller implements ThemeInstallerInterface
         }
 
         $this->assetsInstaller->installAssets($this->assetsDir, AssetsInstallerInterface::HARD_COPY);
+    }
 
-        return $theme;
+    /**
+     * {@inheritdoc}
+     */
+    public function getThemeFromOrganizationThemes(string $themeName): ThemeInterface
+    {
+        $themes = \array_filter(
+            $this->themeLoader->load(),
+            function ($element) use (&$themeName) {
+                return $element->getName() === $themeName;
+            }
+        );
+
+        if (0 === count($themes)) {
+            throw new NotFoundHttpException(
+                \sprintf('Theme with name "%s" was not found in organization themes.', $themeName)
+            );
+        }
+
+        return \reset($themes);
     }
 
     /**
