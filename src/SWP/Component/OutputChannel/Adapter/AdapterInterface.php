@@ -16,6 +16,8 @@ declare(strict_types=1);
 
 namespace SWP\Component\OutputChannel\Adapter;
 
+use SWP\Bundle\CoreBundle\Model\ArticleInterface;
+
 interface AdapterInterface
 {
     /**
@@ -24,7 +26,7 @@ interface AdapterInterface
     public function setConfig(array $config): void;
 
     /**
-     * @param string $content
+     * @param ArticleInterface $article
      */
-    public function send(string $content): void;
+    public function send(ArticleInterface $article): void;
 }

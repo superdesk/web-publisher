@@ -17,6 +17,7 @@ declare(strict_types=1);
 namespace SWP\Component\OutputChannel\Adapter;
 
 use GuzzleHttp\ClientInterface;
+use SWP\Bundle\CoreBundle\Model\ArticleInterface;
 
 final class WordpressAdapter implements AdapterInterface
 {
@@ -51,13 +52,13 @@ final class WordpressAdapter implements AdapterInterface
     /**
      * {@inheritdoc}
      */
-    public function send(string $content): void
+    public function send(ArticleInterface $article): void
     {
         $url = $this->config['url'];
 
         $this->client->post($url, [
             'headers' => ['Content-Type' => 'application/json'],
-            'body' => $content,
+            'body' => $article->getBody(),
             'timeout' => 5,
         ]);
     }
