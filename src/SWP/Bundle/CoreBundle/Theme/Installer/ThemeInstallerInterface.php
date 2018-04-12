@@ -22,16 +22,24 @@ use SWP\Bundle\CoreBundle\Theme\Model\ThemeInterface;
 interface ThemeInstallerInterface
 {
     /**
-     * @param string|null $themeName
-     * @param null        $sourceDir
-     * @param null        $themeDir
+     * @param null $sourceDir
+     * @param null $themeDir
      *
      * @return null|ThemeInterface
      */
-    public function install(string $themeName = null, $sourceDir = null, $themeDir = null): ?ThemeInterface;
+    public function install($sourceDir = null, $themeDir = null): void;
+
+    /**
+     * @param string $themeName
+     *
+     * @return ThemeInterface
+     */
+    public function getThemeFromOrganizationThemes(string $themeName): ThemeInterface;
 
     /**
      * @return string
+     *
+     * @throws \Exception
      */
     public function getThemesPath();
 }
