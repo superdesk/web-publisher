@@ -52,7 +52,12 @@ final class SendArticleToOutputChannelListener
     public function send(ArticleEvent $event)
     {
         $article = $event->getArticle();
-        $outputChannel = $this->tenantContext->getTenant();
+        $tenant = $this->tenantContext->getTenant();
+
+        if (null === $outputChannel = $tenant->getOutputChannel()) {
+            return;
+        }
+
         $adapter = $this->adapterProviderChain->get($outputChannel);
 
         $adapter->send($article);
