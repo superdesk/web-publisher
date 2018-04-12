@@ -12,3 +12,4 @@ Cookbooks
    templates/index
    developers/index
    editors/index
+   implementators/index
