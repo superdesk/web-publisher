@@ -1,7 +1,7 @@
 Secure content push to Publisher
 ================================
 
-Content can be pushed to Publisher via HTTP requests from any system. But it's important store and publish one requests
+Content can be pushed to Publisher via HTTP requests from any system. But it's important to store and publish only requests
 from approved by us sources.
 
 To verify incoming requests we use special header: :code:`x-superdesk-signature`. Value of this header have format like
