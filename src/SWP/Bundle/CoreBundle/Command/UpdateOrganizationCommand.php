@@ -16,22 +16,31 @@ namespace SWP\Bundle\CoreBundle\Command;
 
 use SWP\Bundle\CoreBundle\Model\OrganizationInterface;
 use SWP\Bundle\MultiTenancyBundle\Command\CreateOrganizationCommand;
+use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class CreateUpdateOrganizationCommand extends CreateOrganizationCommand
+class UpdateOrganizationCommand extends CreateOrganizationCommand
 {
     /**
      * {@inheritdoc}
      */
     protected function configure()
     {
-        parent::configure();
         $this
-            ->setDescription('Creates a new organization or updates existing one.')
-            ->addOption('secretToken', 's', InputOption::VALUE_REQUIRED, 'Organization secret token')
-            ->addOption('update', 'u', InputOption::VALUE_NONE, 'Update existing organization');
+            ->setName('swp:organization:update')
+            ->setDescription('Updates existing organization.')
+            ->setDefinition([
+                new InputArgument('name', InputArgument::OPTIONAL, 'Organization name'),
+                new InputOption('disabled', null, InputOption::VALUE_NONE, 'Set the organization as a disabled'),
+                new InputOption('secretToken', null, InputOption::VALUE_REQUIRED, 'Organization secret token'),
+            ])
+            ->setHelp(
+                <<<'EOT'
+                The <info>%command.name%</info> command updates existing organization.
+EOT
+            );
     }
 
     /**
@@ -47,40 +56,43 @@ class CreateUpdateOrganizationCommand extends CreateOrganizationCommand
         $name = $input->getArgument('name');
         $disabled = $input->getOption('disabled');
         $secretToken = $input->getOption('secretToken');
-        $update = $input->getOption('update');
-        $default = $input->getOption('default');
-
-        if ($default) {
-            $name = OrganizationInterface::DEFAULT_NAME;
-        }
 
         /** @var OrganizationInterface $organization */
         $organization = $this->getOrganizationRepository()->findOneByName($name);
-
-        if (null !== $organization && $update) {
+        if (null !== $organization) {
             $this->updateOrganization($organization, $disabled, $secretToken);
-            $message = sprintf(
-                'Organization <info>%s</info> (code: <info>%s</info>) has been updated and is <info>%s</info>!',
-                $name,
-                $organization->getCode(),
-                $organization->isEnabled() ? 'enabled' : 'disabled'
-            );
-        } elseif (null !== $organization) {
-            throw new \InvalidArgumentException(sprintf('"%s" organization already exists!', $name));
         } else {
-            $organization = $this->createOrganization($name, $disabled);
-            $organization->setSecretToken($secretToken);
-            $message = sprintf(
-                'Organization <info>%s</info> (code: <info>%s</info>) has been created and <info>%s</info>!',
-                $name,
-                $organization->getCode(),
-                $organization->isEnabled() ? 'enabled' : 'disabled'
-            );
+            throw new \InvalidArgumentException(sprintf('"%s" organization don\'t exists!', $name));
         }
 
         $this->getObjectManager()->persist($organization);
         $this->getObjectManager()->flush();
-        $output->writeln($message);
+        $this->sendOutput($output, $organization);
+    }
+
+    /**
+     * @param OutputInterface       $output
+     * @param OrganizationInterface $organization
+     */
+    protected function sendOutput(OutputInterface $output, $organization)
+    {
+        $output->writeln(
+            sprintf(
+                'Organization <info>%s</info> (code: <info>%s</info>%s) has been updated and is <info>%s</info>!',
+                $organization->getName(),
+                $organization->getCode(),
+                $organization->getSecretToken() ? ', secret token: <info>'.$organization->getSecretToken().'</info>' : '',
+                $organization->isEnabled() ? 'enabled' : 'disabled'
+            )
+        );
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function interact(InputInterface $input, OutputInterface $output)
+    {
+        $this->askAndValidateInteract($input, $output, 'name');
     }
 
     /**

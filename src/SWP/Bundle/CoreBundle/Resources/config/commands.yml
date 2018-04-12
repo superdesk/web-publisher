@@ -1,4 +1,8 @@
 services:
-    SWP\Bundle\CoreBundle\Command\CreateUpdateOrganizationCommand:
+    SWP\Bundle\CoreBundle\Command\UpdateOrganizationCommand:
+        tags:
+            - { name: 'console.command', command: 'swp:organization:update' }
+
+    SWP\Bundle\CoreBundle\Command\CreateOrganizationCommand:
         tags:
             - { name: 'console.command', command: 'swp:organization:create' }

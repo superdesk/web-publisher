@@ -5,8 +5,8 @@ Feature: Checking if not authorized content push is rejected
   I want to be able to check if request is signed correctly
 
   Scenario: Setting secret token in organization and sending secured content push
-    When I run "swp:organization:create Organization1 --env=test -u --secretToken secret_token" command
-    Then I should see "Organization Organization1 (code: 123456) has been updated and is enabled!" in the output
+    When I run "swp:organization:update Organization1 --env=test --secretToken secret_token" command
+    Then I should see "Organization Organization1 (code: 123456, secret token: secret_token) has been updated and is enabled!" in the output
     And I am authenticated as "test.user"
     When I add "Content-Type" header equal to "application/json"
     When I add "x-superdesk-signature" header equal to "sha1=04ed4c6f9227b55dead294034c08a7a30d3cbc99"
@@ -58,8 +58,8 @@ Feature: Checking if not authorized content push is rejected
     Then the response status code should be 201
 
   Scenario: Setting wrong secret token in organization and sending secured content push
-    When I run "swp:organization:create Organization1 --env=test -u --secretToken secret_token" command
-    Then I should see "Organization Organization1 (code: 123456) has been updated and is enabled!" in the output
+    When I run "swp:organization:update Organization1 --env=test --secretToken secret_token" command
+    Then I should see "Organization Organization1 (code: 123456, secret token: secret_token) has been updated and is enabled!" in the output
     And I am authenticated as "test.user"
     When I add "Content-Type" header equal to "application/json"
     When I add "x-superdesk-signature" header equal to "sha1=04ed4c6f9227b55dead294034c08a7a30d3cbc99"
