@@ -16,6 +16,7 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\CoreBundle\Theme\Generator;
 
+use SWP\Bundle\CoreBundle\Model\WidgetModelInterface;
 use SWP\Bundle\TemplatesSystemBundle\Factory\ContainerWidgetFactoryInterface;
 use SWP\Bundle\TemplatesSystemBundle\Form\Type\WidgetType;
 use SWP\Bundle\TemplatesSystemBundle\Provider\ContainerProviderInterface;
@@ -78,8 +79,8 @@ class ThemeWidgetsGenerator implements GeneratorInterface
                 continue;
             }
 
-            $widgetContainers = 0;
-            if (count($widgetData['containers']) > 0) {
+            $widgetContainers = [];
+            if (\count($widgetData['containers']) > 0) {
                 $widgetContainers = $widgetData['containers'];
             }
             unset($widgetData['containers']);
@@ -112,10 +113,10 @@ class ThemeWidgetsGenerator implements GeneratorInterface
     }
 
     /**
-     * @param $widget
-     * @param $containers
+     * @param WidgetModelInterface $widget
+     * @param array                $containers
      */
-    protected function linkWidgets($widget, $containers)
+    protected function linkWidgets(WidgetModelInterface $widget, array $containers): void
     {
         foreach ($containers as $containerName) {
             $container = $this->containerProvider->getOneByName($containerName);

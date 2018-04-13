@@ -91,14 +91,14 @@ EOT
     {
         $fileSystem = new Filesystem();
         $sourceDir = $input->getArgument('theme_dir');
-        if (!$fileSystem->exists($sourceDir) || !is_dir($sourceDir)) {
+        if (!$fileSystem->exists($sourceDir) || !\is_dir($sourceDir)) {
             $output->writeln(sprintf('<error>Directory "%s" does not exist or it is not a directory!</error>', $sourceDir));
 
             return;
         }
 
         if (!$fileSystem->exists($sourceDir.DIRECTORY_SEPARATOR.'theme.json')) {
-            $output->writeln(sprintf('<error>Source directory doesn\'t contain a theme!</error>', $sourceDir));
+            $output->writeln('<error>Source directory doesn\'t contain a theme!</error>');
 
             return;
         }
@@ -138,7 +138,7 @@ EOT
         if ($installationResult instanceof \Exception) {
             $output->writeln('<error>Theme could not be installed, files are reverted to previous version!</error>');
             $output->writeln('<error>Error message: '.$installationResult->getMessage().'</error>');
-        } elseif (is_array($installationResult)) {
+        } elseif (\is_array($installationResult)) {
             foreach ($installationResult as $message) {
                 $output->writeln('<info>'.$message.'</info>');
             }
