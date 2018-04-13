@@ -17,6 +17,7 @@ declare(strict_types=1);
 namespace SWP\Bundle\CoreBundle\EventListener;
 
 use SWP\Bundle\ContentBundle\Event\ArticleEvent;
+use SWP\Bundle\CoreBundle\Model\ArticleInterface;
 use SWP\Component\MultiTenancy\Context\TenantContextInterface;
 use SWP\Component\OutputChannel\Provider\AdapterProviderChain;
 
@@ -51,6 +52,7 @@ final class SendArticleToOutputChannelListener
      */
     public function send(ArticleEvent $event)
     {
+        /** @var ArticleInterface $article */
         $article = $event->getArticle();
         $tenant = $this->tenantContext->getTenant();
 

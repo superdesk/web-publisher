@@ -68,4 +68,3 @@ Feature: Adding a new tenant with output channel
     """
     Then the response status code should be 201
     And the JSON node "outputChannel" should be null
-    
