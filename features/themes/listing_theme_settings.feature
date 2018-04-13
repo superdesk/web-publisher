@@ -66,6 +66,13 @@ Feature: Checking if theme settings work correctly
         "type":"integer",
         "scope":"theme",
         "name":"body_font_size"
+      },
+      {
+        "label": "Simple switch",
+        "value": false,
+        "type": "boolean",
+        "scope": "theme",
+        "name": "switch"
       }
     ]
     """
