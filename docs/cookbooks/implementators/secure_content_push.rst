@@ -14,13 +14,9 @@ created from request content and :code:`secret token` value with sha1 algorithm 
 
 .. code-block:: bash
 
-    php app/console swp:organization:create -u --secretToken secret_token
+    php app/console swp:organization:update OrganizationName --secretToken secret_token
 
-.. note::
-
-   :code:`-u` parameter activates update mode
-
-Organization secret token is not visible in any API or in command.
+Organization secret token is not visible in any API.
 
 If token is set in organization then Publisher will reject all requests without :code:`x-superdesk-signature` header or
 with wrong value in it.
