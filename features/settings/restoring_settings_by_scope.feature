@@ -123,6 +123,13 @@ Feature: Checking if restoring settings by scope works correctly
         "type":"integer",
         "scope":"theme",
         "name":"body_font_size"
+      },
+      {
+        "label": "Simple switch",
+        "value": false,
+        "type": "boolean",
+        "scope": "theme",
+        "name": "switch"
       }
     ]
     """
@@ -281,6 +288,13 @@ Feature: Checking if restoring settings by scope works correctly
         "type":"integer",
         "scope":"theme",
         "name":"body_font_size"
+      },
+      {
+        "label": "Simple switch",
+        "value": false,
+        "type": "boolean",
+        "scope": "theme",
+        "name": "switch"
       }
     ]
     """
@@ -406,6 +420,13 @@ Feature: Checking if restoring settings by scope works correctly
         "type":"integer",
         "scope":"theme",
         "name":"body_font_size"
+      },
+      {
+        "label": "Simple switch",
+        "value": false,
+        "type": "boolean",
+        "scope": "theme",
+        "name": "switch"
       }
     ]
     """
