@@ -25,7 +25,6 @@ use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Validator\Constraints\NotBlank;
 
 final class OutputChannelType extends AbstractType
 {
@@ -38,7 +37,7 @@ final class OutputChannelType extends AbstractType
             ->add('type', ChoiceType::class, [
                 'choices' => [
                     'Wordpress' => OutputChannelInterface::TYPE_WORDPRESS,
-                ]
+                ],
             ])
         ;
 
