@@ -16,12 +16,18 @@ declare(strict_types=1);
 
 namespace spec\SWP\Component\OutputChannel\Adapter;
 
+use GuzzleHttp\ClientInterface;
 use SWP\Component\OutputChannel\Adapter\AdapterInterface;
 use SWP\Component\OutputChannel\Adapter\WordpressAdapter;
 use PhpSpec\ObjectBehavior;
 
 final class WordpressAdapterSpec extends ObjectBehavior
 {
+    function let(ClientInterface $client)
+    {
+        $this->beConstructedWith($client);
+    }
+
     function it_is_initializable()
     {
         $this->shouldHaveType(WordpressAdapter::class);
