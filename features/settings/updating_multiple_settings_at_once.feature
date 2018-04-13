@@ -142,6 +142,13 @@ Feature: Settings bulk update
         "type":"integer",
         "scope":"theme",
         "name":"body_font_size"
+      },
+      {
+        "label": "Simple switch",
+        "value": false,
+        "type": "boolean",
+        "scope": "theme",
+        "name": "switch"
       }
     ]
     """
@@ -287,6 +294,13 @@ Feature: Settings bulk update
         "type":"integer",
         "scope":"theme",
         "name":"body_font_size"
+      },
+      {
+        "label": "Simple switch",
+        "value": false,
+        "type": "boolean",
+        "scope": "theme",
+        "name": "switch"
       }
     ]
     """
@@ -312,6 +326,10 @@ Feature: Settings bulk update
           {
             "name":"secondary_font_family",
             "value":"Oswald"
+          },
+          {
+            "name":"switch",
+            "value":true
           }
         ]
       }
@@ -329,3 +347,26 @@ Feature: Settings bulk update
       | [11].value              | Oswald                              |
       | [9].name                | theme_logo                          |
       | [9].value               | .png                                |
+    And I am authenticated as "test.user"
+    When I add "Content-Type" header equal to "application/json"
+    And I send a "PATCH" request to "/api/{version}/settings/bulk/" with body:
+    """
+    {
+      "settings":{
+        "bulk":[
+          {
+            "name":"switch",
+            "value":false
+          }
+        ]
+      }
+    }
+    """
+    Then the response status code should be 200
+    And I am authenticated as "test.user"
+    When I add "Content-Type" header equal to "application/json"
+    And I send a "GET" request to "/api/{version}/settings/"
+    Then the response status code should be 200
+    And the JSON nodes should contain:
+      | [13].name                | switch   |
+    And the JSON node "[13].value" should be false

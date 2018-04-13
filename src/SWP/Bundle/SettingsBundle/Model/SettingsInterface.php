@@ -47,9 +47,9 @@ interface SettingsInterface extends PersistableInterface, TimestampableInterface
     public function setScope(string $scope);
 
     /**
-     * @return string
+     * @return mixed
      */
-    public function getValue(): string;
+    public function getValue();
 
     /**
      * @param mixed $value
