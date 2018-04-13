@@ -107,6 +107,14 @@ class RouteProvider extends BaseRouteProvider implements RouteProviderInterface
     /**
      * {@inheritdoc}
      */
+    public function getOneByName(string $name)
+    {
+        return $this->routeRepository->findOneBy(['name' => $name]);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function getOneByStaticPrefix($staticPrefix)
     {
         return $this->routeRepository->findOneBy(['staticPrefix' => $staticPrefix]);

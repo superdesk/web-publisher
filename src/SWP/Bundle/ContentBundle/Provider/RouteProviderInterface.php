@@ -51,6 +51,13 @@ interface RouteProviderInterface extends CmfRouteProviderInterface
     public function getOneByStaticPrefix($staticPrefix);
 
     /**
+     * @param string $name
+     *
+     * @return mixed
+     */
+    public function getOneByName(string $name);
+
+    /**
      * @param array $candidates
      * @param array $orderBy
      *
