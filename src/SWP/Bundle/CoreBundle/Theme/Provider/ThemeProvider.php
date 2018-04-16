@@ -31,6 +31,13 @@ class ThemeProvider implements ThemeProviderInterface
     private $tenantContext;
 
     /**
+     * @var array
+     *
+     * Internall cache for loaded themes. It prevents multiple filtering themes by tenant code
+     */
+    private $loadedThemes = [];
+
+    /**
      * ThemeProvider constructor.
      *
      * @param ThemeRepositoryInterface $themeRepository
@@ -47,18 +54,29 @@ class ThemeProvider implements ThemeProviderInterface
      */
     public function getCurrentTenantAvailableThemes()
     {
-        $themes = $this->themeRepository->findAll();
+        if (\count($this->loadedThemes) > 0) {
+            return $this->loadedThemes;
+        }
 
-        return iterator_to_array($this->filterThemesByTenantCode($themes));
+        $themes = $this->themeRepository->findAll();
+        $this->loadedThemes = iterator_to_array($this->filterThemesByTenantCode($themes));
+
+        return $this->loadedThemes;
     }
 
-    private function filterThemesByTenantCode(array $themes)
+    /**
+     * @param array $themes
+     *
+     * @return \Generator|null
+     */
+    private function filterThemesByTenantCode(array $themes): ?\Generator
     {
         $currentTenantCode = $this->tenantContext->getTenant()->getCode();
 
         foreach ($themes as $key => $theme) {
-            if (false !== strpos($key, ThemeHelper::SUFFIX_SEPARATOR.$currentTenantCode)) {
-                $theme->setName(strstr($theme->getName(), ThemeHelper::SUFFIX_SEPARATOR, true));
+            $themeName = $theme->getName();
+            if (false !== strpos($themeName, ThemeHelper::SUFFIX_SEPARATOR.$currentTenantCode)) {
+                $theme->setName(strstr($themeName, ThemeHelper::SUFFIX_SEPARATOR, true));
 
                 yield $theme;
             }
