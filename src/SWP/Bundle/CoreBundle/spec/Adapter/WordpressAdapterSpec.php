@@ -13,6 +13,7 @@ declare(strict_types=1);
  * @copyright 2018 Sourcefabric z.ú
  * @license http://www.superdesk.org/license
  */
+
 namespace spec\SWP\Bundle\CoreBundle\Adapter;
 
 use GuzzleHttp\ClientInterface;
