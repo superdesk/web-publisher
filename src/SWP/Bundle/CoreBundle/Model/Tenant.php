@@ -105,6 +105,9 @@ class Tenant extends BaseTenant implements TenantInterface, ArticlesCountInterfa
     public function setOutputChannel(?BaseOutputChannelInterface $outputChannel): void
     {
         $this->outputChannel = $outputChannel;
-        $outputChannel->setTenant($this);
+
+        if ($outputChannel instanceof OutputChannelInterface) {
+            $outputChannel->setTenant($this);
+        }
     }
 }
