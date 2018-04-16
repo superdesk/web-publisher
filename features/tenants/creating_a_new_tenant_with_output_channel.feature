@@ -16,7 +16,7 @@ Feature: Adding a new tenant with output channel
           "outputChannel": {
             "type": "wordpress",
             "config": {
-              "url": "api.wordpress.com",
+              "url": "http://api.wordpress.com",
               "key": "private key",
               "secret": "secret"
             }
@@ -26,7 +26,7 @@ Feature: Adding a new tenant with output channel
     """
     Then the response status code should be 201
     And the JSON node "outputChannel.type" should be equal to "wordpress"
-    And the JSON node "outputChannel.config.url" should be equal to "api.wordpress.com"
+    And the JSON node "outputChannel.config.url" should be equal to "http://api.wordpress.com"
     And the JSON node "outputChannel.config.key" should be equal to "private key"
     And the JSON node "outputChannel.config.secret" should be equal to "secret"
 
@@ -43,7 +43,7 @@ Feature: Adding a new tenant with output channel
           "outputChannel": {
             "type": "fake",
             "config": {
-              "url": "api.wordpress.com",
+              "url": "http://api.wordpress.com",
               "key": "private key",
               "secret": "secret"
             }

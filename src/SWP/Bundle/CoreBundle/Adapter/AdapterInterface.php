@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 /*
- * This file is part of the Superdesk Web Publisher Output Channel Component.
+ * This file is part of the Superdesk Web Publisher Core Bundle.
  *
  * Copyright 2018 Sourcefabric z.ú. and contributors.
  *
@@ -14,19 +14,18 @@ declare(strict_types=1);
  * @license http://www.superdesk.org/license
  */
 
-namespace SWP\Component\OutputChannel\Provider;
+namespace SWP\Bundle\CoreBundle\Adapter;
 
-use SWP\Component\OutputChannel\Adapter\AdapterInterface;
-use SWP\Component\OutputChannel\Model\OutputChannelInterface;
+use SWP\Bundle\CoreBundle\Model\ArticleInterface;
+use SWP\Bundle\CoreBundle\Model\OutputChannelInterface;
 
-interface AdapterProviderInterface
+interface AdapterInterface
 {
     /**
      * @param OutputChannelInterface $outputChannel
-     *
-     * @return AdapterInterface
+     * @param ArticleInterface       $article
      */
-    public function get(OutputChannelInterface $outputChannel): AdapterInterface;
+    public function send(OutputChannelInterface $outputChannel, ArticleInterface $article): void;
 
     /**
      * @param OutputChannelInterface $outputChannel

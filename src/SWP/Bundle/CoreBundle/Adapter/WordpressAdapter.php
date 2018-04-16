@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 /*
- * This file is part of the Superdesk Web Publisher Output Channel Component.
+ * This file is part of the Superdesk Web Publisher Core Bundle.
  *
  * Copyright 2018 Sourcefabric z.ú. and contributors.
  *
@@ -14,10 +14,11 @@ declare(strict_types=1);
  * @license http://www.superdesk.org/license
  */
 
-namespace SWP\Component\OutputChannel\Adapter;
+namespace SWP\Bundle\CoreBundle\Adapter;
 
 use GuzzleHttp\ClientInterface;
 use SWP\Bundle\CoreBundle\Model\ArticleInterface;
+use SWP\Bundle\CoreBundle\Model\OutputChannelInterface;
 
 final class WordpressAdapter implements AdapterInterface
 {
@@ -25,11 +26,6 @@ final class WordpressAdapter implements AdapterInterface
      * @var ClientInterface
      */
     private $client;
-
-    /**
-     * @var array
-     */
-    private $config = [];
 
     /**
      * WordpressAdapter constructor.
@@ -44,22 +40,22 @@ final class WordpressAdapter implements AdapterInterface
     /**
      * {@inheritdoc}
      */
-    public function setConfig(array $config): void
+    public function send(OutputChannelInterface $outputChannel, ArticleInterface $article): void
     {
-        $this->config = $config;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function send(ArticleInterface $article): void
-    {
-        $url = $this->config['url'];
+        $url = $outputChannel->getConfig()['url'];
 
         $this->client->post($url, [
             'headers' => ['Content-Type' => 'application/json'],
             'body' => $article->getBody(),
             'timeout' => 5,
         ]);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function supports(OutputChannelInterface $outputChannel): bool
+    {
+        return OutputChannelInterface::TYPE_WORDPRESS === $outputChannel->getType();
     }
 }

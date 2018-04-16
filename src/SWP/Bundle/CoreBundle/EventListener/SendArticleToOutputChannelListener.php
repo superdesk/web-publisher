@@ -17,16 +17,16 @@ declare(strict_types=1);
 namespace SWP\Bundle\CoreBundle\EventListener;
 
 use SWP\Bundle\ContentBundle\Event\ArticleEvent;
+use SWP\Bundle\CoreBundle\Adapter\AdapterInterface;
 use SWP\Bundle\CoreBundle\Model\ArticleInterface;
 use SWP\Component\MultiTenancy\Context\TenantContextInterface;
-use SWP\Component\OutputChannel\Provider\AdapterProviderChain;
 
 final class SendArticleToOutputChannelListener
 {
     /**
-     * @var AdapterProviderChain
+     * @var AdapterInterface
      */
-    private $adapterProviderChain;
+    private $compositeAdapter;
 
     /**
      * @var TenantContextInterface
@@ -36,14 +36,14 @@ final class SendArticleToOutputChannelListener
     /**
      * SendArticleToOutputChannelListener constructor.
      *
-     * @param AdapterProviderChain   $adapterProviderChain
+     * @param AdapterInterface       $compositeAdapter
      * @param TenantContextInterface $tenantContext
      */
     public function __construct(
-        AdapterProviderChain $adapterProviderChain,
+        AdapterInterface $compositeAdapter,
         TenantContextInterface $tenantContext
     ) {
-        $this->adapterProviderChain = $adapterProviderChain;
+        $this->compositeAdapter = $compositeAdapter;
         $this->tenantContext = $tenantContext;
     }
 
@@ -60,8 +60,6 @@ final class SendArticleToOutputChannelListener
             return;
         }
 
-        $adapter = $this->adapterProviderChain->get($outputChannel);
-
-        $adapter->send($article);
+        $this->compositeAdapter->send($outputChannel, $article);
     }
 }

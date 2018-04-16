@@ -20,6 +20,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Validator\Constraints\Url;
 
 final class WordpressOutputChannelConfigType extends AbstractType
 {
@@ -32,6 +33,7 @@ final class WordpressOutputChannelConfigType extends AbstractType
             ->add('url', TextType::class, [
                 'constraints' => [
                     new NotBlank(),
+                    new Url(),
                 ],
             ])
             ->add('key', TextType::class, [
