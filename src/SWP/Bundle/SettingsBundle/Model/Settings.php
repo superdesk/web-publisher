@@ -98,7 +98,7 @@ class Settings implements SettingsInterface
     /**
      * {@inheritdoc}
      */
-    public function getValue(): string
+    public function getValue()
     {
         return $this->value;
     }

@@ -316,6 +316,10 @@ class SettingsManager implements SettingsManagerInterface
             return json_decode($value, true);
         }
 
+        if ('boolean' === $settingType) {
+            return filter_var($value, FILTER_VALIDATE_BOOLEAN);
+        }
+
         return $value;
     }
 }

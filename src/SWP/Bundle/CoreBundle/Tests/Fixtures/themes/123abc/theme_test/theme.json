@@ -40,6 +40,11 @@
             "label": "Body Font Size",
             "value": 14,
             "type": "integer"
+        },
+        "switch": {
+            "label": "Simple switch",
+            "value": false,
+            "type": "boolean"
         }
     }
 }
