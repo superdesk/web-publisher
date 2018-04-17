@@ -18,3 +18,4 @@ The goal of these components is to solve the problems related to content publish
    TemplatesSystem/index
    Rule/index
    ContentList/index
+   OutputChannel/index

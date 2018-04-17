@@ -1,0 +1,5 @@
+suites:
+    main:
+        namespace: SWP\Bundle\OutputChannelBundle
+        psr4_prefix: SWP\Bundle\OutputChannelBundle
+        src_path: .

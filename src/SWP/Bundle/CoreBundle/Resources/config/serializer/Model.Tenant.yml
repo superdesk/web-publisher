@@ -7,6 +7,8 @@ SWP\Bundle\CoreBundle\Model\Tenant:
         organization:
             expose: true
             type: SWP\Bundle\CoreBundle\Model\Organization
+        outputChannel:
+            expose: true
         ampEnabled:
             expose: true
         articlesCount:

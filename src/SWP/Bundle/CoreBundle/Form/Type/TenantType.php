@@ -14,6 +14,7 @@
 
 namespace SWP\Bundle\CoreBundle\Form\Type;
 
+use SWP\Bundle\OutputChannelBundle\Form\Type\OutputChannelType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -63,6 +64,10 @@ final class TenantType extends AbstractType
             ->add('ampEnabled', BooleanType::class, [
                 'required' => false,
                 'description' => 'Defines whether Google AMP HTML support is enabled or not (true or false).',
+            ])
+            ->add('outputChannel', OutputChannelType::class, [
+                'required' => false,
+                'description' => 'Output Channel',
             ]);
     }
 

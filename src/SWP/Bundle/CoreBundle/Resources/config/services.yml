@@ -547,3 +547,10 @@ services:
 
     swp.random_string_generator:
         alias: swp_multi_tenancy.random_string_generator
+
+    SWP\Bundle\CoreBundle\EventListener\SendArticleToOutputChannelListener:
+        arguments:
+            - '@SWP\Bundle\CoreBundle\Adapter\CompositeOutputChannelAdapter'
+            - '@swp_multi_tenancy.tenant_context'
+        tags:
+            - { name: kernel.event_listener, event: swp.article.published, method: send }

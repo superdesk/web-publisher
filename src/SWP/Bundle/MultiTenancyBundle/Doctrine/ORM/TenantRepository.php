@@ -31,6 +31,7 @@ class TenantRepository extends EntityRepository implements TenantRepositoryInter
             ->createQueryBuilder('t')
             ->select('t', 'o')
             ->leftJoin('t.organization', 'o')
+            ->leftJoin('t.outputChannel', 'oc')
             ->where('t.subdomain = :subdomain')
             ->andWhere('t.domainName = :domainName')
             ->setParameters([
@@ -50,6 +51,7 @@ class TenantRepository extends EntityRepository implements TenantRepositoryInter
             ->createQueryBuilder('t')
             ->select('t', 'o')
             ->leftJoin('t.organization', 'o')
+            ->leftJoin('t.outputChannel', 'oc')
             ->where('t.domainName = :domainName')
             ->andWhere('t.subdomain IS NULL')
             ->setParameter('domainName', $domain)
@@ -66,6 +68,7 @@ class TenantRepository extends EntityRepository implements TenantRepositoryInter
             ->createQueryBuilder('t')
             ->select('t', 'o')
             ->leftJoin('t.organization', 'o')
+            ->leftJoin('t.outputChannel', 'oc')
             ->where('t.code = :code')
             ->setParameter('code', $code)
             ->getQuery()
@@ -81,6 +84,7 @@ class TenantRepository extends EntityRepository implements TenantRepositoryInter
             ->createQueryBuilder('t')
             ->select('t', 'o')
             ->leftJoin('t.organization', 'o')
+            ->leftJoin('t.outputChannel', 'oc')
             ->getQuery()
             ->getArrayResult();
     }

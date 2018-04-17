@@ -1,0 +1,12 @@
+SWP\Bundle\CoreBundle\Model\OutputChannel:
+    type: entity
+    table: swp_output_channel
+    oneToOne:
+        tenant:
+            targetEntity: SWP\Component\MultiTenancy\Model\TenantInterface
+            inversedBy: outputChannel
+            joinColumn:
+                name: tenant_id
+                referencedColumnName: id
+                onDelete: "SET NULL"
+                nullable: true

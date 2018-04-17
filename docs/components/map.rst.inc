@@ -3,3 +3,4 @@
 * :doc:`/components/Bridge/index`
 * :doc:`/components/Rule/index`
 * :doc:`/components/ContentList/index`
+* :doc:`/components/OutputChannel/index`

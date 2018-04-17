@@ -13,3 +13,4 @@ Bundles
    SWPFacebookInstantArticlesBundle/index
    SWPSettingsBundle/index
    SWPWebhookBundle/index
+   SWPOutputChannelBundle/index

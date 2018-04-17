@@ -1,0 +1,13 @@
+services:
+    GuzzleHttp\Client:
+        public: false
+
+    SWP\Bundle\CoreBundle\Adapter\CompositeOutputChannelAdapter:
+        public: true
+
+    SWP\Bundle\CoreBundle\Adapter\WordpressAdapter:
+        public: true
+        arguments:
+            - '@GuzzleHttp\Client'
+        tags:
+            - { name: swp.output_channel_adapter, alias: wordpress_adapter }

@@ -16,8 +16,10 @@ namespace SWP\Bundle\CoreBundle\Model;
 
 use SWP\Bundle\ContentBundle\Model\RouteInterface;
 use SWP\Component\MultiTenancy\Model\Tenant as BaseTenant;
+use SWP\Component\OutputChannel\Model\OutputChannelAwareInterface;
+use SWP\Component\OutputChannel\Model\OutputChannelInterface as BaseOutputChannelInterface;
 
-class Tenant extends BaseTenant implements TenantInterface, ArticlesCountInterface
+class Tenant extends BaseTenant implements TenantInterface, ArticlesCountInterface, OutputChannelAwareInterface
 {
     use ArticlesCountTrait;
 
@@ -35,6 +37,11 @@ class Tenant extends BaseTenant implements TenantInterface, ArticlesCountInterfa
      * @var bool
      */
     protected $ampEnabled = false;
+
+    /**
+     * @var BaseOutputChannelInterface|null
+     */
+    protected $outputChannel;
 
     /**
      * {@inheritdoc}
@@ -82,5 +89,25 @@ class Tenant extends BaseTenant implements TenantInterface, ArticlesCountInterfa
     public function setAmpEnabled(bool $ampEnabled)
     {
         $this->ampEnabled = $ampEnabled;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getOutputChannel(): ?BaseOutputChannelInterface
+    {
+        return $this->outputChannel;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setOutputChannel(?BaseOutputChannelInterface $outputChannel): void
+    {
+        $this->outputChannel = $outputChannel;
+
+        if ($outputChannel instanceof OutputChannelInterface) {
+            $outputChannel->setTenant($this);
+        }
     }
 }

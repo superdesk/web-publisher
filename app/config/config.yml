@@ -7,6 +7,7 @@ imports:
     - { resource: "@SWPMenuBundle/Resources/config/app/config.yml" }
     - { resource: "@SWPContentListBundle/Resources/config/app/config.yml" }
     - { resource: "@SWPRevisionBundle/Resources/config/app/config.yml" }
+    - { resource: "@SWPOutputChannelBundle/Resources/config/app/config.yml" }
     - { resource: "@SWPCoreBundle/Resources/config/app/config.yml" }
     - { resource: "@SWPElasticSearchBundle/Resources/config/app/config.yml" }
     - { resource: parameters.yml }

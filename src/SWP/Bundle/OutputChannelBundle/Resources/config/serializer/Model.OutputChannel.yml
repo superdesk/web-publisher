@@ -1,0 +1,9 @@
+SWP\Component\OutputChannel\Model\OutputChannel:
+    exclusion_policy: ALL
+    properties:
+        config:
+            expose: true
+            type: array
+        type:
+            expose: true
+            type: string
