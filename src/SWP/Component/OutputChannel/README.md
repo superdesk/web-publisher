@@ -1,4 +1,4 @@
-OutputChannel Component [![Build Status](https://travis-ci.org/SuperdeskWebPublisher/rule.svg?branch=master)](https://travis-ci.org/SuperdeskWebPublisher/rule)
+OutputChannel Component [![Build Status](https://travis-ci.org/SuperdeskWebPublisher/OutputChannel.svg?branch=master)](https://travis-ci.org/SuperdeskWebPublisher/OutputChannel)
 =======================
 
 This component provides the implementation of output channels.
