@@ -276,7 +276,10 @@ Usage:
 
     $article = new Article();
 
-    $wordpressAdapter = new WordpressAdapter();
+    $guzzle = new GuzzleHttp\Client();
+    // ...
+
+    $wordpressAdapter = new WordpressAdapter($guzzle);
     $outputChannel = new OutputChannel();
     $outputChannel->setType('wordpress');
     // ...
@@ -307,8 +310,10 @@ Usage:
     // ..
 
     $article = new Article();
+    $guzzle = new GuzzleHttp\Client();
+    // ...
 
-    $wordpressAdapter = new WordpressAdapter();
+    $wordpressAdapter = new WordpressAdapter($guzzle);
     // ...
 
     $compositeAdapter = new CompositeOutputChannelAdapter();
