@@ -266,12 +266,12 @@ class Article implements ArticleInterface
         $this->title = $title;
 
         if (null !== $this->slug) {
-            $this->setSlug(Transliterator::urlize($this->slug));
+            $this->setSlug($this->slug);
 
             return;
         }
 
-        $this->setSlug(Transliterator::urlize($this->title));
+        $this->setSlug($this->title);
     }
 
     /**
@@ -287,7 +287,16 @@ class Article implements ArticleInterface
      */
     public function setSlug($slug)
     {
-        $this->slug = Transliterator::urlize($slug);
+        $urlizedSlug = Transliterator::urlize($slug);
+
+        if ('' === $urlizedSlug) {
+            $slug = str_replace('\'', '-', $slug);
+            $this->slug = Transliterator::transliterate($slug);
+
+            return;
+        }
+
+        $this->slug = $urlizedSlug;
     }
 
     /**
