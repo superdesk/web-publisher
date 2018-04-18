@@ -17,7 +17,6 @@ declare(strict_types=1);
 namespace SWP\Bundle\CoreBundle\Controller;
 
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use SWP\Bundle\CoreBundle\Matcher\RulesMatcher;
@@ -75,8 +74,6 @@ class OrganizationRuleController extends Controller
      * )
      * @Route("/api/{version}/organization/rules/", options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_core_list_organization_rules")
      * @Method("GET")
-     *
-     * @Cache(expires="10 minutes", public=true)
      */
     public function rulesAction(Request $request)
     {
@@ -144,8 +141,6 @@ class OrganizationRuleController extends Controller
      * )
      * @Route("/api/{version}/organization/rules/{id}", options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_core_show_organization_rule", requirements={"id"="\d+"})
      * @Method("GET")
-     *
-     * @Cache(expires="10 minutes", public=true)
      */
     public function getAction(int $id)
     {

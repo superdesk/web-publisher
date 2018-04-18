@@ -18,7 +18,6 @@ use FOS\RestBundle\Controller\FOSRestController;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
 use SWP\Bundle\CoreBundle\Context\CachedTenantContext;
 use SWP\Bundle\CoreBundle\Model\RevisionInterface;
 use SWP\Component\Common\Response\ResourcesListResponse;
@@ -50,8 +49,6 @@ class TenantController extends FOSRestController
      * )
      * @Route("/api/{version}/tenants/", options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_core_list_tenants")
      * @Method("GET")
-     *
-     * @Cache(expires="10 minutes", public=true)
      */
     public function listAction(Request $request)
     {
@@ -73,8 +70,6 @@ class TenantController extends FOSRestController
      * )
      * @Route("/api/{version}/tenants/{code}", options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_core_get_tenant", requirements={"code"="[a-z0-9]+"})
      * @Method("GET")
-     *
-     * @Cache(expires="10 minutes", public=true)
      */
     public function getAction($code)
     {

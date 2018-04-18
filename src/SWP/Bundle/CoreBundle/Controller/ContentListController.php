@@ -15,7 +15,6 @@
 namespace SWP\Bundle\CoreBundle\Controller;
 
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use SWP\Bundle\ContentListBundle\Form\Type\ContentListType;
@@ -49,8 +48,6 @@ class ContentListController extends Controller
      * )
      * @Route("/api/{version}/content/lists/", options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_content_list_lists")
      * @Method("GET")
-     *
-     * @Cache(expires="10 minutes", public=true)
      */
     public function listAction(Request $request)
     {
@@ -71,8 +68,6 @@ class ContentListController extends Controller
      * )
      * @Route("/api/{version}/content/lists/{id}", options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_content_show_lists", requirements={"id"="\d+"})
      * @Method("GET")
-     *
-     * @Cache(expires="10 minutes", public=true)
      */
     public function getAction($id)
     {

@@ -24,7 +24,6 @@ use SWP\Component\Common\Response\ResponseContext;
 use SWP\Component\Common\Response\SingleResourceResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
@@ -44,7 +43,6 @@ class SettingsController extends Controller
      * )
      * @Route("/api/{version}/settings/", options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_settings_list")
      * @Method("GET")
-     * @Cache(expires="10 minutes", public=true)
      *
      * @return SingleResourceResponse
      */
@@ -67,7 +65,6 @@ class SettingsController extends Controller
      * )
      * @Route("/api/{version}/settings/revert/{scope}", options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_settings_revert")
      * @Method("POST")
-     * @Cache(expires="10 minutes", public=true)
      *
      * @return SingleResourceResponse
      */
