@@ -7,6 +7,7 @@ This changelog references the relevant changes (bug and security fixes) done in 
 To get the diff for a specific change, go to https://github.com/superdesk/web-publisher/commit/XXX where XXX is the change hash
 
 * 1.4.0
+ * bug [#494] Fixed article's slug line so it can handle chinese chars
  * feature [#459] Added an option to preview an article before even publishing it
 
 * 1.3.0
