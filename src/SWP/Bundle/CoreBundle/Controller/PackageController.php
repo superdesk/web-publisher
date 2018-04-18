@@ -18,7 +18,6 @@ namespace SWP\Bundle\CoreBundle\Controller;
 
 use Doctrine\Common\Collections\Collection;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use SWP\Bundle\CoreBundle\Form\Type\CompositePublishActionType;
@@ -57,8 +56,6 @@ class PackageController extends Controller
      * )
      * @Route("/api/{version}/packages/", options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_core_list_packages")
      * @Method("GET")
-     *
-     * @Cache(expires="10 minutes", public=true)
      */
     public function listAction(Request $request)
     {
@@ -86,8 +83,6 @@ class PackageController extends Controller
      * )
      * @Route("/api/{version}/packages/{id}", options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_core_show_package", requirements={"id"="\d+"})
      * @Method("GET")
-     *
-     * @Cache(expires="10 minutes", public=true)
      */
     public function getAction(int $id)
     {

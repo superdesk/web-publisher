@@ -16,7 +16,6 @@ namespace SWP\Bundle\CoreBundle\Controller;
 
 use FOS\RestBundle\Controller\FOSRestController;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use SWP\Component\Common\Criteria\Criteria;
@@ -47,7 +46,6 @@ class WidgetController extends FOSRestController
      * )
      * @Route("/api/{version}/templates/widgets/", options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_templates_list_widgets")
      * @Method("GET")
-     * @Cache(expires="10 minutes", public=true)
      */
     public function listAction(Request $request)
     {
@@ -70,7 +68,6 @@ class WidgetController extends FOSRestController
      * )
      * @Route("/api/{version}/templates/widgets/templates/", options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_templates_list_widgets_templates")
      * @Method("GET")
-     * Cache(expires="10 minutes", public=true)
      */
     public function listTemplatesAction(Request $request)
     {

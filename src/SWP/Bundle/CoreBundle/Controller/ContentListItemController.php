@@ -15,7 +15,6 @@
 namespace SWP\Bundle\CoreBundle\Controller;
 
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use SWP\Bundle\ContentListBundle\Form\Type\ContentListItemsType;
@@ -79,8 +78,6 @@ class ContentListItemController extends Controller
      * )
      * @Route("/api/{version}/content/lists/{listId}/items/{id}", options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_core_show_lists_item", requirements={"id"="\d+"})
      * @Method("GET")
-     *
-     * @Cache(expires="10 minutes", public=true)
      */
     public function getAction($listId, $id)
     {
