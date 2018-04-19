@@ -167,7 +167,7 @@ class ThemesController extends Controller
             $formData = $form->getData();
             $themeService = $this->container->get('swp_core.service.theme');
             list($sourceDir, $themeDir) = $themeService->getDirectoriesForTheme($formData['name']);
-            $themeService->installAndProcessGeneratedData($sourceDir, $themeDir);
+            $themeService->installAndProcessGeneratedData($sourceDir, $themeDir, $formData['processGeneratedData']);
 
             return new SingleResourceResponse(['status' => 'installed'], new ResponseContext(201));
         }
