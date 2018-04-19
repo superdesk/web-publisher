@@ -19,7 +19,6 @@ namespace SWP\Bundle\CoreBundle\Controller;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
 use SWP\Bundle\CoreBundle\Context\ScopeContextInterface;
 use SWP\Bundle\CoreBundle\Form\Type\ThemeLogoUploadType;
 use SWP\Component\Common\Response\ResourcesListResponse;
@@ -95,7 +94,6 @@ class CurrentThemeController extends Controller
      * )
      * @Route("/api/{version}/theme/settings/", options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_theme_settings_list")
      * @Method("GET")
-     * @Cache(expires="10 minutes", public=true)
      *
      * @return SingleResourceResponse
      */

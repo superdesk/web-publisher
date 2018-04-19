@@ -17,7 +17,6 @@ namespace SWP\Bundle\ContentBundle\Controller;
 use FOS\RestBundle\Controller\FOSRestController;
 use FOS\RestBundle\View\View;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use SWP\Bundle\ContentBundle\Model\RouteInterface;
@@ -48,8 +47,6 @@ class RouteController extends FOSRestController
      * )
      * @Route("/api/{version}/content/routes/", options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_content_list_routes")
      * @Method("GET")
-     *
-     * @Cache(expires="10 minutes", public=true)
      */
     public function listAction(Request $request)
     {
@@ -74,8 +71,6 @@ class RouteController extends FOSRestController
      * )
      * @Route("/api/{version}/content/routes/{id}", options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_content_show_routes", requirements={"id"=".+"})
      * @Method("GET")
-     *
-     * @Cache(expires="10 minutes", public=true)
      */
     public function getAction($id)
     {

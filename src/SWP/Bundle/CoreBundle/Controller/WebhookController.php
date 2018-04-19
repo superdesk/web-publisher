@@ -15,7 +15,6 @@
 namespace SWP\Bundle\CoreBundle\Controller;
 
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
@@ -47,8 +46,6 @@ class WebhookController extends AbstractAPIController
      *
      * @param Request $request
      *
-     * @Cache(expires="10 minutes", public=true)
-     *
      * @return ResourcesListResponse
      */
     public function listAction(Request $request)
@@ -73,8 +70,6 @@ class WebhookController extends AbstractAPIController
      * @Method("GET")
      *
      * @ParamConverter("webhook", class="SWP\Bundle\WebhookBundle\Model\Webhook")
-     *
-     * @Cache(expires="10 minutes", public=true)
      *
      * @param WebhookInterface $webhook
      *

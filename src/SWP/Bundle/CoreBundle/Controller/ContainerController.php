@@ -20,7 +20,6 @@ use SWP\Component\TemplatesSystem\Gimme\Model\ContainerInterface;
 use SWP\Component\TemplatesSystem\Gimme\Model\WidgetModelInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use SWP\Component\Common\Response\ResourcesListResponse;
@@ -48,7 +47,6 @@ class ContainerController extends Controller
      * )
      * @Route("/api/{version}/templates/containers/", options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_templates_list_containers")
      * @Method("GET")
-     * @Cache(expires="10 minutes", public=true)
      *
      * @param Request $request
      *
@@ -75,7 +73,6 @@ class ContainerController extends Controller
      * )
      * @Route("/api/{version}/templates/containers/{uuid}", requirements={"uuid"="\w+"}, options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_templates_get_container")
      * @Method("GET")
-     * @Cache(expires="10 minutes", public=true)
      *
      * @param string $uuid
      *
@@ -104,7 +101,6 @@ class ContainerController extends Controller
      * )
      * @Route("/api/{version}/templates/containers/{uuid}/render/", requirements={"uuid"="\w+"}, options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_templates_render_container")
      * @Method("GET")
-     * @Cache(expires="10 minutes", public=true)
      */
     public function renderAction($uuid)
     {
