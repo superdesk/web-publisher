@@ -50,6 +50,10 @@ class SettingType extends AbstractType
                     return filter_var($value, FILTER_VALIDATE_BOOLEAN);
                 }
 
+                if (\is_numeric($value)) {
+                    return filter_var($value, FILTER_VALIDATE_INT);
+                }
+
                 return $value;
             }
         ));

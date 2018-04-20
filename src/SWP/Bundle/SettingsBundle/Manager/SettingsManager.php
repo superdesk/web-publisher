@@ -320,6 +320,10 @@ class SettingsManager implements SettingsManagerInterface
             return filter_var($value, FILTER_VALIDATE_BOOLEAN);
         }
 
+        if ('integer' === $settingType) {
+            return filter_var($value, FILTER_VALIDATE_INT);
+        }
+
         return $value;
     }
 }

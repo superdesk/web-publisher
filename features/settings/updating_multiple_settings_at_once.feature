@@ -330,6 +330,10 @@ Feature: Settings bulk update
           {
             "name":"switch",
             "value":true
+          },
+          {
+            "name":"body_font_size",
+            "value":16
           }
         ]
       }
@@ -347,6 +351,8 @@ Feature: Settings bulk update
       | [11].value              | Oswald                              |
       | [9].name                | theme_logo                          |
       | [9].value               | .png                                |
+      | [12].name               | body_font_size                      |
+      | [12].value              | 16                                  |
     And I am authenticated as "test.user"
     When I add "Content-Type" header equal to "application/json"
     And I send a "PATCH" request to "/api/{version}/settings/bulk/" with body:

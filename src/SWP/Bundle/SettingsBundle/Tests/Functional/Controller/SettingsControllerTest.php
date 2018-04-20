@@ -61,10 +61,23 @@ class SettingsControllerTest extends WebTestCase
         $client->request('PATCH', $this->router->generate('swp_api_settings_update', []), [
             'settings' => [
                 'name' => 'third_setting',
-                'value' => '1234567',
+                'value' => '1234567string',
             ],
         ]);
         $this->assertEquals(500, $client->getResponse()->getStatusCode());
+
+        $client = static::createClient([], ['PHP_AUTH_USER' => 'publisher', 'PHP_AUTH_PW' => 'testpass']);
+        $client->request('PATCH', $this->router->generate('swp_api_settings_update'), [
+            'settings' => [
+                'name' => 'third_setting',
+                'value' => '1234567string',
+            ],
+        ]);
+
+        $data = json_decode($client->getResponse()->getContent(), true);
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+        self::assertEquals('1234567string', $data['value']);
+        self::assertEquals('1234567string', $this->getContainer()->get('swp_settings.manager.settings')->get('third_setting', null));
 
         $client = static::createClient([], ['PHP_AUTH_USER' => 'publisher', 'PHP_AUTH_PW' => 'testpass']);
         $client->request('PATCH', $this->router->generate('swp_api_settings_update'), [
@@ -74,9 +87,6 @@ class SettingsControllerTest extends WebTestCase
             ],
         ]);
 
-        $data = json_decode($client->getResponse()->getContent(), true);
-        $this->assertEquals(200, $client->getResponse()->getStatusCode());
-        self::assertEquals('1234567', $data['value']);
-        self::assertEquals('1234567', $this->getContainer()->get('swp_settings.manager.settings')->get('third_setting', null));
+        $this->assertEquals(500, $client->getResponse()->getStatusCode());
     }
 }
