@@ -96,12 +96,13 @@ class FakeArticlesGenerator implements FakeArticlesGeneratorInterface
             $article->setPublishable(true);
             $article->setCode($faker->uuid);
             $this->articleRepository->persist($article);
+            $this->articleRepository->flush();
             $article->setMedia($this->createArticleMedia($article));
             $article->setArticleStatistics($this->createArticleStatistics($article));
+            $this->articleRepository->flush();
 
             $articles[] = $article;
         }
-        $this->articleRepository->flush();
 
         return $articles;
     }
