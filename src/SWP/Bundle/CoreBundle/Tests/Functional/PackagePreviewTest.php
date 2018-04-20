@@ -141,6 +141,34 @@ final class PackagePreviewTest extends WebTestCase
         self::assertEquals($client->getResponse()->getStatusCode(), 404);
     }
 
+    public function testPackagePreviewWithNotExistingRouteTemplate()
+    {
+        $client = static::createClient();
+        $client->request('POST', $this->router->generate('swp_api_content_create_routes'), [
+            'route' => [
+                'name' => 'news',
+                'type' => 'collection',
+                'content' => null,
+                'articlesTemplateName' => 'fake.html.twig',
+            ],
+        ]);
+
+        self::assertEquals(201, $client->getResponse()->getStatusCode());
+
+        $route = json_decode($client->getResponse()->getContent(), true);
+
+        $this->ensureArticleIsNotAccessible();
+
+        $client = static::createClient([], ['HTTP_Authorization' => null]);
+        $client->request('GET', $this->router->generate(
+            'swp_package_preview',
+            ['routeId' => $route['id'], 'id' => 1, 'auth_token' => base64_encode('test_token:')]
+        ));
+
+        self::assertFalse($client->getResponse()->isSuccessful());
+        self::assertEquals($client->getResponse()->getStatusCode(), 404);
+    }
+
     public function testTenantsFromDifferentOrganizationsCantPreviewArticlesOfEachother()
     {
         $route = $this->createRoute();

@@ -56,8 +56,6 @@ class PackagePreviewController extends Controller
         if (null === $route->getArticlesTemplateName()) {
             $templateNameResolver = $this->get('swp_core.theme.resolver.template_name');
             $route->setArticlesTemplateName($templateNameResolver->resolve($article));
-
-            return $this->render($templateNameResolver->resolve($article));
         }
 
         try {
