@@ -24,5 +24,6 @@ To install theme assets you need to run ``swp:theme:install`` command.
     To activate this theme in tenant, you need to add and option --activate:
         app/console swp:theme:install <tenant> <theme_dir> --activate
 
-    Theme installation will generated declared in theme config elements
-    like: routes, articles, menus, widgets, content lists and containers
+    If option --processGeneratedData will be passed theme installator will
+    generate declared in theme config elements like: routes, articles, menus, widgets,
+    content lists and containers
