@@ -90,7 +90,7 @@ final class ThemeService implements ThemeServiceInterface
     /**
      * {@inheritdoc}
      */
-    public function installAndProcessGeneratedData(string $sourceDir, string $themeDir)
+    public function installAndProcessGeneratedData(string $sourceDir, string $themeDir, $processGeneratedData = false)
     {
         $messages = [];
         /** @var TenantInterface $tenant */
@@ -106,7 +106,7 @@ final class ThemeService implements ThemeServiceInterface
             $this->themeInstaller->install($sourceDir, $themeDir);
             $messages[] = 'Theme has been installed successfully!';
             $this->themeRepository->reloadThemes();
-            if (file_exists($themeDir.\DIRECTORY_SEPARATOR.'theme.json')) {
+            if (file_exists($themeDir.\DIRECTORY_SEPARATOR.'theme.json') && $processGeneratedData) {
                 $themeName = json_decode(file_get_contents($themeDir.\DIRECTORY_SEPARATOR.'theme.json'), true)['name'];
                 $tenant->setThemeName($themeName);
                 /** @var ThemeInterface $theme */

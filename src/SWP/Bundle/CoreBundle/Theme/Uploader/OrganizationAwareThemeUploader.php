@@ -73,19 +73,25 @@ final class OrganizationAwareThemeUploader implements ThemeUploaderInterface
                 throw new \Exception('In ZIP file we expect one directory and theme.json file inside');
             }
 
-            \json_decode($themeConfiguration);
+            $themeConfiguration = \json_decode($themeConfiguration, true);
             if (\JSON_ERROR_NONE !== json_last_error()) {
                 throw new \Exception('Theme configuration is not valid. Syntax error in theme.json');
             }
 
-            if ($filesystem->exists($destinationFolder.DIRECTORY_SEPARATOR.$themeDirInZip)) {
-                $filesystem->remove($destinationFolder.DIRECTORY_SEPARATOR.$themeDirInZip);
+            $themeName = $themeConfiguration['name'];
+            $unpackedThemePath = $destinationFolder.DIRECTORY_SEPARATOR.$themeDirInZip;
+
+            if ($filesystem->exists($unpackedThemePath)) {
+                $filesystem->remove($unpackedThemePath);
             }
 
             $zip->extractTo($destinationFolder);
             $zip->close();
 
-            return $destinationFolder.DIRECTORY_SEPARATOR.$themeDirInZip;
+            $finalPath = $destinationFolder.DIRECTORY_SEPARATOR.str_replace('/', '__', $themeName);
+            $filesystem->rename($unpackedThemePath, $finalPath, true);
+
+            return $finalPath;
         }
 
         return false;
