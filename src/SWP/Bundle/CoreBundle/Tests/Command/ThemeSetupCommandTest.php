@@ -130,6 +130,7 @@ class ThemeSetupCommandTest extends WebTestCase
             [
                 'tenant' => '123abc',
                 'theme_dir' => __DIR__.'/../Fixtures/themes_to_be_installed/theme_test_install_with_generated_data',
+                '--processGeneratedData' => true,
                 '--force' => true,
                 '--activate' => true,
             ]

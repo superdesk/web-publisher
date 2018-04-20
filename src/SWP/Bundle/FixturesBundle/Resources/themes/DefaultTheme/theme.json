@@ -10,7 +10,7 @@
             "role": "Organization"
         }
     ],
-   "settings": {
+    "settings": {
         "primary_color": {
             "label": "Primary Color",
             "value": "#d74b4b",
@@ -120,7 +120,7 @@
                     {
                         "name": "health",
                         "label": "Health",
-                        "route": "Health"
+                        "route": "health"
                     },
                     {
                         "name": "entertainment",
@@ -153,7 +153,7 @@
                     {
                         "name": "business",
                         "label": "Business",
-                        "route": "pusiness"
+                        "route": "business"
                     },
                     {
                         "name": "scitech",

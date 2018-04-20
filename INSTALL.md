@@ -40,7 +40,7 @@ php -d memory_limit=-1 app/console doctrine:fixtures:load
 #### 6. Install demo theme
 
 ```bash
-php app/console swp:theme:install 123abc src/SWP/Bundle/FixturesBundle/Resources/themes/DefaultTheme/ -f
+php app/console swp:theme:install 123abc src/SWP/Bundle/FixturesBundle/Resources/themes/DefaultTheme/ -f -p
 ```
 
 

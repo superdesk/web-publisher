@@ -57,6 +57,12 @@ class ThemeSetupCommand extends ContainerAwareCommand
                 InputOption::VALUE_NONE,
                 'If set, theme will be activated in tenant.'
             )
+            ->addOption(
+                'processGeneratedData',
+                'p',
+                InputOption::VALUE_NONE,
+                'If set, theme installer will process generated data defined in theme config.'
+            )
             ->setHelp(
                 <<<'EOT'
 The <info>%command.name%</info> command installs your custom theme for given tenant:
@@ -77,9 +83,10 @@ To force an action, you need to add an option: <info>--force</info>:
 
 To activate this theme in tenant, you need to add and option <info>--activate</info>:
   <info>%command.full_name% <tenant> <theme_dir> --activate</info>
-
-Theme installation will generated declared in theme config elements 
-like: routes, articles, menus, widgets, content lists and containers
+  
+If option <info>--processGeneratedData</info> will be passed theme installator will 
+generate declared in theme config elements like: routes, articles, menus, widgets, 
+content lists and containers
 EOT
             );
     }
@@ -134,7 +141,7 @@ EOT
         }
 
         $themeService = $container->get('swp_core.service.theme');
-        $installationResult = $themeService->installAndProcessGeneratedData($sourceDir, $themeDir);
+        $installationResult = $themeService->installAndProcessGeneratedData($sourceDir, $themeDir, $input->getOption('processGeneratedData'));
         if ($installationResult instanceof \Exception) {
             $output->writeln('<error>Theme could not be installed, files are reverted to previous version!</error>');
             $output->writeln('<error>Error message: '.$installationResult->getMessage().'</error>');

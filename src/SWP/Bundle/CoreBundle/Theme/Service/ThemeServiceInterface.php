@@ -19,10 +19,11 @@ interface ThemeServiceInterface
     /**
      * @param string $sourceDir
      * @param string $themeDir
+     * @param bool   $processGeneratedData
      *
-     * @return array|\Exception
+     * @return mixed
      */
-    public function installAndProcessGeneratedData(string $sourceDir, string $themeDir);
+    public function installAndProcessGeneratedData(string $sourceDir, string $themeDir, $processGeneratedData = false);
 
     /**
      * @param string $themeName

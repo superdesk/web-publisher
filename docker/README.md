@@ -68,7 +68,7 @@ if the memory limit exceeded.
 #### Install demo theme and its assets:
 
 ```bash
-docker-compose run php app/console swp:theme:install 123abc src/SWP/Bundle/FixturesBundle/Resources/themes/DefaultTheme/ -f
+docker-compose run php app/console swp:theme:install 123abc src/SWP/Bundle/FixturesBundle/Resources/themes/DefaultTheme/ -f -p
 docker-compose run php app/console sylius:theme:assets:install
 ```
 

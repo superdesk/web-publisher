@@ -36,11 +36,10 @@ final class ThemeInstallType extends AbstractType
                 'required' => true,
                 'constraints' => [
                     new NotBlank(),
-                    new Regex([
-                        'pattern' => '/^[^\/ .]+\/[^\/]+$/',
-                    ]),
+                    new Regex(['pattern' => '/^[^\/ .]+\/[^\/]+$/']),
                 ],
             ])
+            ->add('processGeneratedData', BooleanType::class)
         ;
     }
 

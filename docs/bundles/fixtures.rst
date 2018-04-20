@@ -153,7 +153,7 @@ following command in a console:
 
 .. code-block:: bash
 
-    php app/console swp:theme:install 123abc src/SWP/Bundle/FixturesBundle/Resources/themes/DefaultTheme/ -f
+    php app/console swp:theme:install 123abc src/SWP/Bundle/FixturesBundle/Resources/themes/DefaultTheme/ -f -p
 
 This command will install default theme for the default tenant which was already created by loading fixtures (see above).
 
