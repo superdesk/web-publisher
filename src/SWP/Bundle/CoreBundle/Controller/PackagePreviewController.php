@@ -46,6 +46,7 @@ class PackagePreviewController extends Controller
         $article = $this->get('swp.factory.article')->createFromPackage($package);
         $this->get('swp_content_bundle.processor.article_body')->fillArticleMedia($package, $article);
 
+        $article->setRoute($route);
         $metaFactory = $this->get('swp_template_engine_context.factory.meta_factory');
         $templateEngineContext = $this->get('swp_template_engine_context');
         $templateEngineContext->setPreviewMode(true);
@@ -53,12 +54,17 @@ class PackagePreviewController extends Controller
         $templateEngineContext->getMetaForValue($article);
 
         if (null === $route->getArticlesTemplateName()) {
+            $templateNameResolver = $this->get('swp_core.theme.resolver.template_name');
+            $route->setArticlesTemplateName($templateNameResolver->resolve($article));
+        }
+
+        try {
+            return $this->render($route->getArticlesTemplateName());
+        } catch (\Exception $e) {
             throw $this->createNotFoundException(
                 sprintf('Template for route with id "%d" (%s) not found!', $route->getId(), $route->getName())
             );
         }
-
-        return $this->render($route->getArticlesTemplateName());
     }
 
     /**
