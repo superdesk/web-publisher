@@ -19,14 +19,13 @@ use SWP\Bundle\CoreBundle\Theme\Helper\ThemeHelper;
 use SWP\Bundle\CoreBundle\Theme\Repository\ReloadableThemeRepositoryInterface;
 use SWP\Component\Common\Model\ThemeAwareTenantInterface;
 use SWP\Component\MultiTenancy\Context\TenantContextInterface;
-use Sylius\Bundle\ThemeBundle\Context\ThemeContextInterface;
 use Sylius\Bundle\ThemeBundle\Model\ThemeInterface;
 use Sylius\Bundle\ThemeBundle\Repository\ThemeRepositoryInterface;
 
 /**
  * Class TenantAwareThemeContext.
  */
-final class TenantAwareThemeContext implements ThemeContextInterface
+final class TenantAwareThemeContext implements TenantAwareThemeContextInterface
 {
     /**
      * @var TenantContextInterface
@@ -102,13 +101,14 @@ final class TenantAwareThemeContext implements ThemeContextInterface
     }
 
     /**
-     * @param ThemeAwareTenantInterface $tenant
-     *
-     * @return string
+     * {@inheritdoc}
      */
-    private function resolveThemeName(ThemeAwareTenantInterface $tenant)
+    public function resolveThemeName(ThemeAwareTenantInterface $tenant, string $themeName = null): ?string
     {
-        $themeName = $tenant->getThemeName();
+        if (null === $themeName) {
+            $themeName = $tenant->getThemeName();
+        }
+
         if (null !== $themeName) {
             return $tenant->getThemeName().ThemeHelper::SUFFIX_SEPARATOR.$tenant->getCode();
         }
