@@ -46,10 +46,15 @@ class SecuredContentPushListener
      */
     public function onKernelRequest(GetResponseEvent $event)
     {
+        $request = $event->getRequest();
+        $routeName = $request->attributes->get('_route');
+        if ('swp_api_content_push' !== $routeName && 'swp_api_assets_push' !== $routeName) {
+            return;
+        }
+
         /** @var OrganizationInterface $organization */
         $organization = $this->tenantContext->getTenant()->getOrganization();
         $organizationToken = $organization->getSecretToken();
-        $request = $event->getRequest();
         if (null === $organizationToken && !$request->headers->has('x-superdesk-signature')) {
             return;
         }
