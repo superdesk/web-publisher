@@ -19,16 +19,13 @@ namespace SWP\Bundle\CoreBundle\Adapter;
 use SWP\Bundle\CoreBundle\Model\ArticleInterface;
 use SWP\Bundle\CoreBundle\Model\OutputChannelInterface;
 
-final class CompositeOutputChannelAdapter implements AdapterInterface
+final class CompositeOutputChannelAdapter //implements AdapterInterface
 {
     /**
      * @var array
      */
     private $adapters = [];
 
-    /**
-     * {@inheritdoc}
-     */
     public function send(OutputChannelInterface $outputChannel, ArticleInterface $article): void
     {
         foreach ($this->adapters as $adapter) {
@@ -40,9 +37,6 @@ final class CompositeOutputChannelAdapter implements AdapterInterface
         throw new \InvalidArgumentException(sprintf('There is no adapter provider registered which supports %s type!', $outputChannel->getType()));
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function supports(OutputChannelInterface $outputChannel): bool
     {
         foreach ($this->adapters as $adapter) {

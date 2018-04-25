@@ -20,6 +20,7 @@ use SWP\Bundle\ContentBundle\Event\ArticleEvent;
 use SWP\Bundle\CoreBundle\Adapter\AdapterInterface;
 use SWP\Bundle\CoreBundle\Model\ArticleInterface;
 use SWP\Component\MultiTenancy\Context\TenantContextInterface;
+use SWP\Component\OutputChannel\Model\OutputChannelAwareInterface;
 
 final class SendArticleToOutputChannelListener
 {
@@ -39,10 +40,8 @@ final class SendArticleToOutputChannelListener
      * @param AdapterInterface       $compositeAdapter
      * @param TenantContextInterface $tenantContext
      */
-    public function __construct(
-        AdapterInterface $compositeAdapter,
-        TenantContextInterface $tenantContext
-    ) {
+    public function __construct(AdapterInterface $compositeAdapter, TenantContextInterface $tenantContext)
+    {
         $this->compositeAdapter = $compositeAdapter;
         $this->tenantContext = $tenantContext;
     }
@@ -50,16 +49,17 @@ final class SendArticleToOutputChannelListener
     /**
      * @param ArticleEvent $event
      */
-    public function send(ArticleEvent $event)
+    public function send(ArticleEvent $event): void
     {
         /** @var ArticleInterface $article */
         $article = $event->getArticle();
+        /** @var OutputChannelAwareInterface $tenant */
         $tenant = $this->tenantContext->getTenant();
 
         if (null === $outputChannel = $tenant->getOutputChannel()) {
             return;
         }
 
-        $this->compositeAdapter->send($outputChannel, $article);
+        $this->compositeAdapter->create($outputChannel, $article);
     }
 }

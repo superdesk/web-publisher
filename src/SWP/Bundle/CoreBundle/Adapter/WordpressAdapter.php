@@ -19,6 +19,9 @@ namespace SWP\Bundle\CoreBundle\Adapter;
 use GuzzleHttp\ClientInterface;
 use SWP\Bundle\CoreBundle\Model\ArticleInterface;
 use SWP\Bundle\CoreBundle\Model\OutputChannelInterface;
+use SWP\Bundle\CoreBundle\OutputChannel\External\Wordpress\Post;
+use SWP\Component\Common\Serializer\SerializerInterface;
+use Symfony\Component\Serializer\Serializer;
 
 final class WordpressAdapter implements AdapterInterface
 {
@@ -28,6 +31,11 @@ final class WordpressAdapter implements AdapterInterface
     private $client;
 
     /**
+     * @var SerializerInterface
+     */
+    private $serializer;
+
+    /**
      * WordpressAdapter constructor.
      *
      * @param ClientInterface $client
@@ -35,20 +43,37 @@ final class WordpressAdapter implements AdapterInterface
     public function __construct(ClientInterface $client)
     {
         $this->client = $client;
+        $this->serializer = new Serializer();
     }
 
     /**
      * {@inheritdoc}
      */
-    public function send(OutputChannelInterface $outputChannel, ArticleInterface $article): void
+    public function create(OutputChannelInterface $outputChannel, ArticleInterface $article): void
     {
-        $url = $outputChannel->getConfig()['url'];
+        $post = $this->createPost($article);
+        $this->send($outputChannel, $post);
+    }
 
-        $this->client->post($url, [
-            'headers' => ['Content-Type' => 'application/json'],
-            'body' => $article->getBody(),
-            'timeout' => 5,
-        ]);
+    /**
+     * {@inheritdoc}
+     */
+    public function update(OutputChannelInterface $outputChannel, ArticleInterface $article): void
+    {
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function publish(OutputChannelInterface $outputChannel, ArticleInterface $article): void
+    {
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function unpublish(OutputChannelInterface $outputChannel, ArticleInterface $article): void
+    {
     }
 
     /**
@@ -57,5 +82,40 @@ final class WordpressAdapter implements AdapterInterface
     public function supports(OutputChannelInterface $outputChannel): bool
     {
         return OutputChannelInterface::TYPE_WORDPRESS === $outputChannel->getType();
+    }
+
+    /**
+     * @param ArticleInterface $article
+     *
+     * @return Post
+     */
+    private function createPost(ArticleInterface $article): Post
+    {
+        $post = new Post();
+        $post->setTitle($article->getTitle());
+        $post->setContent($article->getBody());
+        $post->setSlug($article->getSlug());
+        $post->setStatus('draft');
+
+        return $post;
+    }
+
+    private function updatePost(ArticleInterface $article)
+    {
+    }
+
+    /**
+     * @param OutputChannelInterface $outputChannel
+     * @param Post                   $post
+     */
+    private function send(OutputChannelInterface $outputChannel, Post $post): void
+    {
+        $url = $outputChannel->getConfig()['url'];
+
+        $this->client->post($url, [
+            'headers' => ['Content-Type' => 'application/json'],
+            'body' => $this->serializer->serialize($post, 'json'),
+            'timeout' => 5,
+        ]);
     }
 }
