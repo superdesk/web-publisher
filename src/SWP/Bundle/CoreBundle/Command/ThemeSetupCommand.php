@@ -121,9 +121,6 @@ EOT
         $tenantContext->setTenant($tenant);
         $revisionListener->setRevisions();
         $eventDispatcher->dispatch(MultiTenancyEvents::TENANTABLE_ENABLE);
-
-        $force = true === $input->getOption('force');
-        $activate = true === $input->getOption('activate');
         $themesDir = $container->getParameter('swp.theme.configuration.default_directory');
         $themeDir = $themesDir.\DIRECTORY_SEPARATOR.$tenant->getCode().\DIRECTORY_SEPARATOR.basename($sourceDir);
 
@@ -134,25 +131,27 @@ EOT
             '/^(y|j)/i'
         );
 
-        if (!$force) {
-            if (!$helper->ask($input, $output, $question)) {
+        if (!$input->getOption('force')) {
+            $answer = $helper->ask($input, $output, $question);
+            if (!$answer) {
                 return;
             }
         }
 
         $themeService = $container->get('swp_core.service.theme');
-        $installationResult = $themeService->installAndProcessGeneratedData($sourceDir, $themeDir, $input->getOption('processGeneratedData'));
+        $installationResult = $themeService->installAndProcessGeneratedData(
+            $sourceDir,
+            $themeDir,
+            $input->getOption('processGeneratedData'),
+            $input->getOption('activate')
+        );
+
         if ($installationResult instanceof \Exception) {
             $output->writeln('<error>Theme could not be installed, files are reverted to previous version!</error>');
             $output->writeln('<error>Error message: '.$installationResult->getMessage().'</error>');
         } elseif (\is_array($installationResult)) {
             foreach ($installationResult as $message) {
                 $output->writeln('<info>'.$message.'</info>');
-            }
-
-            if ($activate) {
-                $tenantRepository->flush();
-                $output->writeln('<info>Theme was activated!</info>');
             }
         }
     }

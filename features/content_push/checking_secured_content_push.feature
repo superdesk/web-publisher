@@ -56,6 +56,8 @@ Feature: Checking if not authorized content push is rejected
     }
     """
     Then the response status code should be 201
+    When I send a "POST" request to "/"
+    Then the response status code should be 200
 
   Scenario: Setting wrong secret token in organization and sending secured content push
     When I run "swp:organization:update Organization1 --env=test --secretToken secret_token" command
@@ -63,7 +65,7 @@ Feature: Checking if not authorized content push is rejected
     And I am authenticated as "test.user"
     When I add "Content-Type" header equal to "application/json"
     When I add "x-superdesk-signature" header equal to "sha1=04ed4c6f9227b55dead294034c08a7a30d3cbc99"
-    And I send a "POST" request to "/api/{version}/content/push" with body:
+    And I send a "POST" request to "/api/v1/content/push" with body:
     """
     {
       "language":"en",

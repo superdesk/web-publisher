@@ -21,8 +21,8 @@ use SWP\Bundle\CoreBundle\Theme\Installer\ThemeInstallerInterface;
 use SWP\Bundle\CoreBundle\Theme\Model\ThemeInterface;
 use SWP\Bundle\CoreBundle\Theme\Processor\RequiredDataProcessorInterface;
 use SWP\Bundle\CoreBundle\Theme\Repository\ReloadableThemeRepositoryInterface;
+use SWP\Bundle\CoreBundle\Theme\TenantAwareThemeContextInterface;
 use SWP\Component\MultiTenancy\Context\TenantContextInterface;
-use Sylius\Bundle\ThemeBundle\Context\ThemeContextInterface;
 use Sylius\Bundle\ThemeBundle\Repository\ThemeRepositoryInterface;
 use Symfony\Component\Filesystem\Filesystem;
 
@@ -57,7 +57,7 @@ final class ThemeService implements ThemeServiceInterface
     private $themeRepository;
 
     /**
-     * @var ThemeContextInterface
+     * @var TenantAwareThemeContextInterface
      */
     private $themeContext;
 
@@ -69,7 +69,7 @@ final class ThemeService implements ThemeServiceInterface
      * @param string                             $cacheDir
      * @param TenantContextInterface             $tenantContext
      * @param ReloadableThemeRepositoryInterface $themeRepository
-     * @param ThemeContextInterface              $themeContext
+     * @param TenantAwareThemeContextInterface   $themeContext
      */
     public function __construct(
         ThemeInstallerInterface $themeInstaller,
@@ -77,7 +77,7 @@ final class ThemeService implements ThemeServiceInterface
         string $cacheDir,
         TenantContextInterface $tenantContext,
         ReloadableThemeRepositoryInterface $themeRepository,
-        ThemeContextInterface $themeContext
+        TenantAwareThemeContextInterface $themeContext
     ) {
         $this->themeInstaller = $themeInstaller;
         $this->requiredDataProcessor = $requiredDataProcessor;
@@ -90,7 +90,7 @@ final class ThemeService implements ThemeServiceInterface
     /**
      * {@inheritdoc}
      */
-    public function installAndProcessGeneratedData(string $sourceDir, string $themeDir, $processGeneratedData = false)
+    public function installAndProcessGeneratedData(string $sourceDir, string $themeDir, $processGeneratedData = false, $activate = false)
     {
         $messages = [];
         /** @var TenantInterface $tenant */
@@ -106,11 +106,21 @@ final class ThemeService implements ThemeServiceInterface
             $this->themeInstaller->install($sourceDir, $themeDir);
             $messages[] = 'Theme has been installed successfully!';
             $this->themeRepository->reloadThemes();
-            if (file_exists($themeDir.\DIRECTORY_SEPARATOR.'theme.json') && $processGeneratedData) {
-                $themeName = json_decode(file_get_contents($themeDir.\DIRECTORY_SEPARATOR.'theme.json'), true)['name'];
+
+            if (!file_exists($themeDir.\DIRECTORY_SEPARATOR.'theme.json')) {
+                return new \Exception('Theme doesn\'t have required theme.json file with configuration.');
+            }
+
+            $themeName = json_decode(file_get_contents($themeDir.\DIRECTORY_SEPARATOR.'theme.json'), true)['name'];
+
+            if ($activate) {
                 $tenant->setThemeName($themeName);
+                $messages[] = 'Theme was activated!';
+            }
+
+            if ($processGeneratedData) {
                 /** @var ThemeInterface $theme */
-                $theme = $this->themeContext->getTheme();
+                $theme = $this->themeRepository->findOneByName($this->themeContext->resolveThemeName($tenant, $themeName));
                 $this->requiredDataProcessor->processTheme($theme);
                 $messages[] = 'Required data were generated and persisted successfully';
             }
