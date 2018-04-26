@@ -1,0 +1,5 @@
+services:
+    swp.websocket.topic_package:
+        class: SWP\Bundle\CoreBundle\WebSocket\Topic\PackageTopic
+        tags:
+            - { name: gos_web_socket.topic }

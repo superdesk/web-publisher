@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "e982be6a2dcaca89342e8f0ebdc149c1",
+    "content-hash": "b35ab60a59756ff3d36e1c016da80d25",
     "packages": [
         {
             "name": "apache/log4php",
@@ -172,6 +172,59 @@
             ],
             "description": "A form type for managing key-value pairs",
             "time": "2017-11-30T19:47:38+00:00"
+        },
+        {
+            "name": "cboden/ratchet",
+            "version": "v0.4.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/ratchetphp/Ratchet.git",
+                "reference": "0d31f3a8ad4795fd48397712709e55cd07f51360"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/ratchetphp/Ratchet/zipball/0d31f3a8ad4795fd48397712709e55cd07f51360",
+                "reference": "0d31f3a8ad4795fd48397712709e55cd07f51360",
+                "shasum": ""
+            },
+            "require": {
+                "guzzlehttp/psr7": "^1.0",
+                "php": ">=5.4.2",
+                "ratchet/rfc6455": "^0.2",
+                "react/socket": "^1.0 || ^0.8 || ^0.7 || ^0.6 || ^0.5",
+                "symfony/http-foundation": "^2.6|^3.0|^4.0",
+                "symfony/routing": "^2.6|^3.0|^4.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~4.8"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Ratchet\\": "src/Ratchet"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Chris Boden",
+                    "email": "cboden@gmail.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "PHP WebSocket library",
+            "homepage": "http://socketo.me",
+            "keywords": [
+                "Ratchet",
+                "WebSockets",
+                "server",
+                "sockets",
+                "websocket"
+            ],
+            "time": "2017-12-12T00:49:31+00:00"
         },
         {
             "name": "clue/stream-filter",
@@ -1433,6 +1486,49 @@
             "time": "2018-03-29T15:04:03+00:00"
         },
         {
+            "name": "evenement/evenement",
+            "version": "v3.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/igorw/evenement.git",
+                "reference": "531bfb9d15f8aa57454f5f0285b18bec903b8fb7"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/igorw/evenement/zipball/531bfb9d15f8aa57454f5f0285b18bec903b8fb7",
+                "reference": "531bfb9d15f8aa57454f5f0285b18bec903b8fb7",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^6.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "Evenement": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Igor Wiedler",
+                    "email": "igor@wiedler.ch"
+                }
+            ],
+            "description": "Événement is a very simple event dispatching library for PHP",
+            "keywords": [
+                "event-dispatcher",
+                "event-emitter"
+            ],
+            "time": "2017-07-23T21:35:13+00:00"
+        },
+        {
             "name": "facebook/facebook-instant-articles-sdk-php",
             "version": "v1.5.9",
             "source": {
@@ -1942,7 +2038,7 @@
             "keywords": [
                 "rest"
             ],
-            "time": "2017-06-26T10:00:46+00:00"
+            "time": "2017-06-26 10:00:46"
         },
         {
             "name": "friendsofsymfony/user-bundle",
@@ -5769,6 +5865,182 @@
             "time": "2016-08-01T22:40:30+00:00"
         },
         {
+            "name": "ratchet/rfc6455",
+            "version": "v0.2.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/ratchetphp/RFC6455.git",
+                "reference": "cc8a1a46a703ce01de10fdb5fab387381b66edc8"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/ratchetphp/RFC6455/zipball/cc8a1a46a703ce01de10fdb5fab387381b66edc8",
+                "reference": "cc8a1a46a703ce01de10fdb5fab387381b66edc8",
+                "shasum": ""
+            },
+            "require": {
+                "guzzlehttp/psr7": "^1.0",
+                "php": ">=5.4.2"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "4.8.*",
+                "react/http": "^0.4.1",
+                "react/socket-client": "^0.4.3"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Ratchet\\RFC6455\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Chris Boden",
+                    "email": "cboden@gmail.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "RFC6455 WebSocket protocol handler",
+            "homepage": "http://socketo.me",
+            "keywords": [
+                "WebSockets",
+                "rfc6455",
+                "websocket"
+            ],
+            "time": "2017-09-13T13:49:42+00:00"
+        },
+        {
+            "name": "react/cache",
+            "version": "v0.4.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/reactphp/cache.git",
+                "reference": "75494f26b4ef089db9bf8c90b63c296246e099e8"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/reactphp/cache/zipball/75494f26b4ef089db9bf8c90b63c296246e099e8",
+                "reference": "75494f26b4ef089db9bf8c90b63c296246e099e8",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0",
+                "react/promise": "~2.0|~1.1"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^6.4 || ^5.7 || ^4.8.35"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "React\\Cache\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "Async, Promise-based cache interface for ReactPHP",
+            "keywords": [
+                "cache",
+                "caching",
+                "promise",
+                "reactphp"
+            ],
+            "time": "2017-12-20T16:47:13+00:00"
+        },
+        {
+            "name": "react/dns",
+            "version": "v0.4.13",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/reactphp/dns.git",
+                "reference": "7d1e08c300fd7de600810883386ee5e2a64898f4"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/reactphp/dns/zipball/7d1e08c300fd7de600810883386ee5e2a64898f4",
+                "reference": "7d1e08c300fd7de600810883386ee5e2a64898f4",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0",
+                "react/cache": "~0.4.0|~0.3.0",
+                "react/event-loop": "^1.0 || ^0.5 || ^0.4 || ^0.3.5",
+                "react/promise": "^2.1 || ^1.2.1",
+                "react/promise-timer": "^1.2",
+                "react/stream": "^1.0 || ^0.7 || ^0.6 || ^0.5 || ^0.4.5"
+            },
+            "require-dev": {
+                "clue/block-react": "^1.2",
+                "phpunit/phpunit": "^6.4 || ^5.7 || ^4.8.35"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "React\\Dns\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "Async DNS resolver for ReactPHP",
+            "keywords": [
+                "async",
+                "dns",
+                "dns-resolver",
+                "reactphp"
+            ],
+            "time": "2018-02-27T12:51:22+00:00"
+        },
+        {
+            "name": "react/event-loop",
+            "version": "v0.4.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/reactphp/event-loop.git",
+                "reference": "8bde03488ee897dc6bb3d91e4e17c353f9c5252f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/reactphp/event-loop/zipball/8bde03488ee897dc6bb3d91e4e17c353f9c5252f",
+                "reference": "8bde03488ee897dc6bb3d91e4e17c353f9c5252f",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.4.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~4.8"
+            },
+            "suggest": {
+                "ext-event": "~1.0",
+                "ext-libev": "*",
+                "ext-libevent": ">=0.1.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "React\\EventLoop\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "Event loop abstraction layer that libraries can use for evented I/O.",
+            "keywords": [
+                "asynchronous",
+                "event-loop"
+            ],
+            "time": "2017-04-27T10:56:23+00:00"
+        },
+        {
             "name": "react/promise",
             "version": "v2.5.1",
             "source": {
@@ -5813,6 +6085,193 @@
                 "promises"
             ],
             "time": "2017-03-25T12:08:31+00:00"
+        },
+        {
+            "name": "react/promise-timer",
+            "version": "v1.2.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/reactphp/promise-timer.git",
+                "reference": "9b4cd9cbe7457e0d87fe8aa7ccceab8a2c830fbd"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/reactphp/promise-timer/zipball/9b4cd9cbe7457e0d87fe8aa7ccceab8a2c830fbd",
+                "reference": "9b4cd9cbe7457e0d87fe8aa7ccceab8a2c830fbd",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3",
+                "react/event-loop": "^1.0 || ^0.5 || ^0.4 || ^0.3.5",
+                "react/promise": "~2.1|~1.2"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^6.4 || ^5.7 || ^4.8.35"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "React\\Promise\\Timer\\": "src/"
+                },
+                "files": [
+                    "src/functions.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Christian Lück",
+                    "email": "christian@lueck.tv"
+                }
+            ],
+            "description": "A trivial implementation of timeouts for Promises, built on top of ReactPHP.",
+            "homepage": "https://github.com/react/promise-timer",
+            "keywords": [
+                "async",
+                "event-loop",
+                "promise",
+                "reactphp",
+                "timeout",
+                "timer"
+            ],
+            "time": "2017-12-22T15:41:41+00:00"
+        },
+        {
+            "name": "react/socket",
+            "version": "v0.8.10",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/reactphp/socket.git",
+                "reference": "d3957313c92b539537fccc80170c05a27ec25796"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/reactphp/socket/zipball/d3957313c92b539537fccc80170c05a27ec25796",
+                "reference": "d3957313c92b539537fccc80170c05a27ec25796",
+                "shasum": ""
+            },
+            "require": {
+                "evenement/evenement": "^3.0 || ^2.0 || ^1.0",
+                "php": ">=5.3.0",
+                "react/dns": "^0.4.13",
+                "react/event-loop": "^1.0 || ^0.5 || ^0.4 || ^0.3.5",
+                "react/promise": "^2.1 || ^1.2",
+                "react/promise-timer": "~1.0",
+                "react/stream": "^1.0 || ^0.7.1"
+            },
+            "require-dev": {
+                "clue/block-react": "^1.2",
+                "phpunit/phpunit": "^6.4 || ^5.7 || ^4.8.35"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "React\\Socket\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "Async, streaming plaintext TCP/IP and secure TLS socket server and client connections for ReactPHP",
+            "keywords": [
+                "Connection",
+                "Socket",
+                "async",
+                "reactphp",
+                "stream"
+            ],
+            "time": "2018-02-28T09:32:38+00:00"
+        },
+        {
+            "name": "react/stream",
+            "version": "v0.7.7",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/reactphp/stream.git",
+                "reference": "10100896018fd847a257cd81143b8e1b7be08e40"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/reactphp/stream/zipball/10100896018fd847a257cd81143b8e1b7be08e40",
+                "reference": "10100896018fd847a257cd81143b8e1b7be08e40",
+                "shasum": ""
+            },
+            "require": {
+                "evenement/evenement": "^3.0 || ^2.0 || ^1.0",
+                "php": ">=5.3.8",
+                "react/event-loop": "^1.0 || ^0.5 || ^0.4 || ^0.3.5"
+            },
+            "require-dev": {
+                "clue/stream-filter": "~1.2",
+                "phpunit/phpunit": "^6.4 || ^5.7 || ^4.8.35"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "React\\Stream\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "Event-driven readable and writable streams for non-blocking I/O in ReactPHP",
+            "keywords": [
+                "event-driven",
+                "io",
+                "non-blocking",
+                "pipe",
+                "reactphp",
+                "readable",
+                "stream",
+                "writable"
+            ],
+            "time": "2018-01-19T15:04:38+00:00"
+        },
+        {
+            "name": "react/zmq",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/friends-of-reactphp/zmq.git",
+                "reference": "2b7903b4c6a4bf4c7f23552bec7f24cbb5eeffc2"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/friends-of-reactphp/zmq/zipball/2b7903b4c6a4bf4c7f23552bec7f24cbb5eeffc2",
+                "reference": "2b7903b4c6a4bf4c7f23552bec7f24cbb5eeffc2",
+                "shasum": ""
+            },
+            "require": {
+                "evenement/evenement": "^3.0 || ^2.0",
+                "ext-zmq": "*",
+                "php": ">=5.4.0",
+                "react/event-loop": "^1.0 || ^0.5 || ^0.4"
+            },
+            "require-dev": {
+                "ext-pcntl": "*",
+                "phpunit/phpunit": "~4.8.35 || ~5.7 || ~6.4"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "React\\ZMQ\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "ZeroMQ bindings for React.",
+            "keywords": [
+                "zeromq",
+                "zmq"
+            ],
+            "time": "2018-04-10 05:50:26"
         },
         {
             "name": "ruflin/elastica",
@@ -6389,7 +6848,7 @@
                 "Superdesk SDK",
                 "Superdesk Web Publisher"
             ],
-            "time": "2016-01-18T15:52:24+00:00"
+            "time": "2016-01-18 15:52:24"
         },
         {
             "name": "swiftmailer/swiftmailer",
@@ -7384,7 +7843,7 @@
                 "google",
                 "html"
             ],
-            "time": "2017-08-08T21:20:49+00:00"
+            "time": "2017-08-08 21:20:49"
         },
         {
             "name": "true/punycode",
@@ -8836,6 +9295,232 @@
             "time": "2017-08-25T15:21:42+00:00"
         },
         {
+            "name": "gos/pnctl-event-loop-emitter",
+            "version": "v0.1.7",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/GeniusesOfSymfony/PNCTLEventLoopEmitter.git",
+                "reference": "93bb0f0e60e4e1f4025f77c8a4fd9ae0c3b45fb3"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/GeniusesOfSymfony/PNCTLEventLoopEmitter/zipball/93bb0f0e60e4e1f4025f77c8a4fd9ae0c3b45fb3",
+                "reference": "93bb0f0e60e4e1f4025f77c8a4fd9ae0c3b45fb3",
+                "shasum": ""
+            },
+            "require": {
+                "evenement/evenement": "~2.0|~3.0",
+                "php": ">=5.4",
+                "react/event-loop": "~0.4.0|^0.5"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Gos\\Component\\PnctlEventLoopEmitter\\": "src/"
+                },
+                "files": [
+                    "src/functions.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Johann Saunier",
+                    "email": "johann_27@hotmail.fr"
+                }
+            ],
+            "description": "Pnctl event emitter for event loop",
+            "homepage": "https://github.com/GeniusesOfSymfony/PnctlEventLoopEmitter",
+            "keywords": [
+                "Pnctl",
+                "event loop",
+                "reactphp"
+            ],
+            "time": "2018-04-09T11:12:07+00:00"
+        },
+        {
+            "name": "gos/pubsub-router-bundle",
+            "version": "v0.3.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/GeniusesOfSymfony/PubSubRouterBundle.git",
+                "reference": "ed8cb7905502b828a296683099526a023c641cfc"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/GeniusesOfSymfony/PubSubRouterBundle/zipball/ed8cb7905502b828a296683099526a023c641cfc",
+                "reference": "ed8cb7905502b828a296683099526a023c641cfc",
+                "shasum": ""
+            },
+            "require": {
+                "doctrine/cache": "~1.4",
+                "php": ">=5.4",
+                "symfony/framework-bundle": "~2.3|~3.0|~4.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~4.0"
+            },
+            "type": "symfony-bundle",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "0.2.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Gos\\Bundle\\PubSubRouterBundle\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Johann Saunier",
+                    "email": "johann_27@hotmail.fr"
+                }
+            ],
+            "description": "Symfony PubSub Router Bundle",
+            "homepage": "https://github.com/GeniusesOfSymfony/PubSubRouterBundle",
+            "keywords": [
+                "PubSub Bundle",
+                "WAMP",
+                "bundle",
+                "pubsub",
+                "redis",
+                "zmq"
+            ],
+            "time": "2018-01-23T17:20:01+00:00"
+        },
+        {
+            "name": "gos/web-socket-bundle",
+            "version": "v1.8.12",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/GeniusesOfSymfony/WebSocketBundle.git",
+                "reference": "15174761596ebe9fb58d037ec144822531922f66"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/GeniusesOfSymfony/WebSocketBundle/zipball/15174761596ebe9fb58d037ec144822531922f66",
+                "reference": "15174761596ebe9fb58d037ec144822531922f66",
+                "shasum": ""
+            },
+            "require": {
+                "cboden/ratchet": "^0.4.1",
+                "gos/pnctl-event-loop-emitter": "^0.1",
+                "gos/pubsub-router-bundle": "^0.3",
+                "gos/websocket-client": "^0.1",
+                "ocramius/proxy-manager": "^1.0|^2.1",
+                "php": ">=5.4",
+                "symfony/framework-bundle": "^2.3|^3.0|^4.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^4.8"
+            },
+            "suggest": {
+                "ext-amqp": "*",
+                "ext-libev": "*",
+                "ext-libevent": ">=0.0.5",
+                "ext-zmq": "*",
+                "symfony/proxy-manager-bridge": "~2.3"
+            },
+            "type": "symfony-bundle",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.8.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Gos\\Bundle\\WebSocketBundle\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Jeremy Dare",
+                    "email": "jeremy.d.dare@gmail.com"
+                },
+                {
+                    "name": "Johann Saunier",
+                    "email": "johann_27@hotmail.fr"
+                }
+            ],
+            "description": "Symfony Web Socket Bundle",
+            "homepage": "https://github.com/GeniusesOfSymfony/WebSocketBundle",
+            "keywords": [
+                "Ratchet",
+                "WAMP",
+                "Web Socket Bundle",
+                "io",
+                "websocket"
+            ],
+            "time": "2018-03-08T20:37:00+00:00"
+        },
+        {
+            "name": "gos/websocket-client",
+            "version": "v0.1.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/GeniusesOfSymfony/WebSocketPhpClient.git",
+                "reference": "13bb38cb01acee648fea1a6ca4ad3dc6148da7fe"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/GeniusesOfSymfony/WebSocketPhpClient/zipball/13bb38cb01acee648fea1a6ca4ad3dc6148da7fe",
+                "reference": "13bb38cb01acee648fea1a6ca4ad3dc6148da7fe",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "0.1.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Gos\\Component\\WebSocketClient\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Johann Saunier",
+                    "email": "johann_27@hotmail.fr"
+                },
+                {
+                    "name": "Martin Bažík",
+                    "email": "martin@bazo.sk"
+                }
+            ],
+            "description": "WAMP client in PHP",
+            "keywords": [
+                "Ratchet",
+                "WAMP",
+                "websocket"
+            ],
+            "time": "2015-08-04T11:43:11+00:00"
+        },
+        {
             "name": "jackalope/jackalope",
             "version": "1.3.5",
             "source": {
@@ -10258,12 +10943,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Roave/SecurityAdvisories.git",
-                "reference": "c83f6aa0ed08f680c012656d411d1b7c94003012"
+                "reference": "9deddd9fc64853356d688a1514318abb2d9f3d4b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Roave/SecurityAdvisories/zipball/c83f6aa0ed08f680c012656d411d1b7c94003012",
-                "reference": "c83f6aa0ed08f680c012656d411d1b7c94003012",
+                "url": "https://api.github.com/repos/Roave/SecurityAdvisories/zipball/9deddd9fc64853356d688a1514318abb2d9f3d4b",
+                "reference": "9deddd9fc64853356d688a1514318abb2d9f3d4b",
                 "shasum": ""
             },
             "conflict": {
@@ -10280,8 +10965,8 @@
                 "codeigniter/framework": "<=3.0.6",
                 "composer/composer": "<=1.0.0-alpha11",
                 "contao-components/mediaelement": ">=2.14.2,<2.21.1",
-                "contao/core": ">=2,<3.5.32",
-                "contao/core-bundle": ">=4,<4.4.8",
+                "contao/core": ">=2,<3.5.35",
+                "contao/core-bundle": ">=4,<4.4.18|>=4.5,<4.5.8",
                 "contao/listing-bundle": ">=4,<4.4.8",
                 "contao/newsletter-bundle": ">=4,<4.1",
                 "doctrine/annotations": ">=1,<1.2.7",
@@ -10308,6 +10993,7 @@
                 "illuminate/database": ">=4,<4.0.99|>=4.1,<4.1.29",
                 "illuminate/encryption": ">=4,<=4.0.11|>=4.1,<=4.1.31|>=4.2,<=4.2.22|>=5,<=5.0.35|>=5.1,<=5.1.46|>=5.2,<=5.2.45|>=5.3,<=5.3.31|>=5.4,<=5.4.36|>=5.5,<5.5.40|>=5.6,<5.6.15",
                 "joomla/session": "<1.3.1",
+                "kreait/firebase-php": ">=3.2,<3.8.1",
                 "laravel/framework": ">=4,<4.0.99|>=4.1,<=4.1.31|>=4.2,<=4.2.22|>=5,<=5.0.35|>=5.1,<=5.1.46|>=5.2,<=5.2.45|>=5.3,<=5.3.31|>=5.4,<=5.4.36|>=5.5,<5.5.40|>=5.6,<5.6.15",
                 "laravel/socialite": ">=1,<1.0.99|>=2,<2.0.10",
                 "magento/magento1ce": ">=1.5.0.1,<1.9.3.2",
@@ -10321,6 +11007,7 @@
                 "padraic/humbug_get_contents": "<1.1.2",
                 "pagarme/pagarme-php": ">=0,<3",
                 "paragonie/random_compat": "<2",
+                "paypal/merchant-sdk-php": "<3.12",
                 "phpmailer/phpmailer": ">=5,<5.2.24",
                 "phpunit/phpunit": ">=4.8.19,<4.8.28|>=5.0.10,<5.6.3",
                 "phpxmlrpc/extras": "<0.6.1",
@@ -10336,6 +11023,7 @@
                 "simplesamlphp/saml2": "<1.10.6|>=2,<2.3.8|>=3,<3.1.4",
                 "simplesamlphp/simplesamlphp": "<1.15.2",
                 "simplesamlphp/simplesamlphp-module-infocard": "<1.0.1",
+                "slim/slim": "<2.6",
                 "socalnick/scn-social-auth": "<1.15.2",
                 "squizlabs/php_codesniffer": ">=1,<2.8.1|>=3,<3.0.1",
                 "stormpath/sdk": ">=0,<9.9.99",
@@ -10358,7 +11046,7 @@
                 "symfony/web-profiler-bundle": ">=2,<2.3.19|>=2.4,<2.4.9|>=2.5,<2.5.4",
                 "symfony/yaml": ">=2,<2.0.22|>=2.1,<2.1.7",
                 "thelia/backoffice-default-template": ">=2.1,<2.1.2",
-                "thelia/thelia": ">=2.1.0-beta1,<2.1.3|>=2.1,<2.1.2",
+                "thelia/thelia": ">=2.1,<2.1.2|>=2.1.0-beta1,<2.1.3",
                 "titon/framework": ">=0,<9.9.99",
                 "twig/twig": "<1.20",
                 "typo3/cms": ">=6.2,<6.2.30|>=7,<7.6.22|>=8,<8.7.5",
@@ -10410,7 +11098,7 @@
                 }
             ],
             "description": "Prevents installation of composer packages with known security vulnerabilities: no API, simply require it",
-            "time": "2018-04-02T06:47:13+00:00"
+            "time": "2018-04-22T05:30:14+00:00"
         },
         {
             "name": "sebastian/code-unit-reverse-lookup",
@@ -11125,6 +11813,7 @@
     "stability-flags": {
         "friendsofsymfony/rest-bundle": 20,
         "burgov/key-value-form-bundle": 0,
+        "react/zmq": 20,
         "roave/security-advisories": 20
     },
     "prefer-stable": true,
