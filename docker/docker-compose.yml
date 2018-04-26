@@ -47,5 +47,5 @@ services:
         volumes_from:
             - php
         ports:
-            - "8081:8888"
+            - "8081:8080"
             - "5555:5555"
