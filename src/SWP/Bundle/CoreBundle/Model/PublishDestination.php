@@ -54,11 +54,6 @@ class PublishDestination implements PublishDestinationInterface
      */
     protected $packageGuid;
 
-    public function setId($id): void
-    {
-        $this->id = $id;
-    }
-
     /**
      * {@inheritdoc}
      */
