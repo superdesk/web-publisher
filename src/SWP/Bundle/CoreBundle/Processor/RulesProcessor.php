@@ -72,7 +72,10 @@ final class RulesProcessor implements RulesProcessorInterface
 
     private function processEvaluatedRules(array $rules): array
     {
-        $processedRules = [];
+        $processedRules = [
+            self::KEY_ORGANIZATION => null,
+            self::KEY_TENANTS => [],
+        ];
 
         foreach ($rules as $evaluatedRule) {
             if (null === $evaluatedRule->getTenantCode()) {
