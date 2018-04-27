@@ -101,26 +101,30 @@ Feature: Evaluate rules based on publishing destinations
     And the JSON node "tenants[1].fbia" should be false
     And I am authenticated as "test.user"
     When I add "Content-Type" header equal to "application/json"
-    And I send a "PUT" request to "/api/{version}/organization/destinations/" with body:
+    And I send a "POST" request to "/api/{version}/organization/destinations/" with body:
      """
       {
         "publish_destination":{
-          "publishDestinations":[
-            {
-              "tenant":"123abc",
-              "route":5,
-              "fbia":false,
-              "published":false,
-              "packageGuid": "urn:newsml:localhost:2016-09-23T13:56:39.404843:56465de4-0d5c-495a-8e36-3b396def3cf0"
-            },
-            {
-              "tenant":"678iop",
-              "route":7,
-              "fbia":false,
-              "published":true,
-              "packageGuid": "urn:newsml:localhost:2016-09-23T13:56:39.404843:56465de4-0d5c-495a-8e36-3b396def3cf0"
-            }
-          ]
+          "tenant":"123abc",
+          "route":5,
+          "fbia":false,
+          "published":false,
+          "packageGuid": "urn:newsml:localhost:2016-09-23T13:56:39.404843:56465de4-0d5c-495a-8e36-3b396def3cf0"
+        }
+      }
+    """
+    Then the response status code should be 200
+    And I am authenticated as "test.user"
+    When I add "Content-Type" header equal to "application/json"
+    And I send a "POST" request to "/api/{version}/organization/destinations/" with body:
+     """
+      {
+        "publish_destination":{
+          "tenant":"678iop",
+          "route":7,
+          "fbia":false,
+          "published":true,
+          "packageGuid": "urn:newsml:localhost:2016-09-23T13:56:39.404843:56465de4-0d5c-495a-8e36-3b396def3cf0"
         }
       }
     """

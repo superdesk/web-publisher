@@ -98,19 +98,15 @@ Feature: Evaluate rules based on publishing destinations when rule of one tenant
       | tenants[1].route.id     | 7      |
     And I am authenticated as "test.user"
     When I add "Content-Type" header equal to "application/json"
-    And I send a "PUT" request to "/api/{version}/organization/destinations/" with body:
+    And I send a "POST" request to "/api/{version}/organization/destinations/" with body:
      """
       {
         "publish_destination":{
-          "publishDestinations":[
-            {
-              "tenant":"123abc",
-              "route":5,
-              "fbia":false,
-              "published":false,
-              "packageGuid": "urn:newsml:localhost:2016-09-23T13:56:39.404843:56465de4-0d5c-495a-8e36-3b396def3cf0"
-            }
-          ]
+          "tenant":"123abc",
+          "route":5,
+          "fbia":false,
+          "published":false,
+          "packageGuid": "urn:newsml:localhost:2016-09-23T13:56:39.404843:56465de4-0d5c-495a-8e36-3b396def3cf0"
         }
       }
     """
@@ -125,6 +121,4 @@ Feature: Evaluate rules based on publishing destinations when rule of one tenant
     And the JSON nodes should contain:
       | organization.id         | 1      |
       | tenants[0].tenant.code  | 123abc |
-      | tenants[1].tenant.code  | 678iop |
       | tenants[0].route.id     | 5      |
-      | tenants[1].route.id     | 7      |

@@ -93,24 +93,27 @@ class RulesMatcher implements RulesMatcherInterface
         $this->eventDispatcher->dispatch(MultiTenancyEvents::TENANTABLE_DISABLE);
 
         $destinations = $this->publishDestinationProvider->getDestinations($package);
-
         $evaluatedOrganizationRules = $this->processPackageRules($package);
         $evaluatedRules = $this->processArticleRules($article, $destinations);
         $processedRules = $this->rulesProcessor->process(array_merge($evaluatedOrganizationRules, $evaluatedRules));
 
-        foreach ($destinations as $destination) {
-            foreach ((array) $processedRules['tenants'] as $key => $tenant) {
-                if ($tenant['tenant'] === $destination->getTenant()) {
-                    $processedRules['tenants'][$key] = [
-                        'tenant' => $destination->getTenant(),
-                        'route' => $destination->getRoute(),
-                        'fbia' => $destination->isFbia(),
-                        'published' => $destination->isPublished(),
-                    ];
-                } else {
-                    $processedRules['tenants'][$key] = $tenant;
-                }
+        if (!empty($destinations)) {
+            $processed = [];
+            foreach ($destinations as $destination) {
+                $processed['organization'] = $destination->getOrganization();
+                $processed['tenants'][] = [
+                    'tenant' => $destination->getTenant(),
+                    'route' => $destination->getRoute(),
+                    'fbia' => $destination->isFbia(),
+                    'published' => $destination->isPublished(),
+                ];
             }
+
+            return $processed;
+        }
+
+        if (empty((array) $processedRules['tenants'])) {
+            return [];
         }
 
         return $processedRules;
