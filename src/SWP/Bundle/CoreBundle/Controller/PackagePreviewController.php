@@ -20,6 +20,7 @@ use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use SWP\Bundle\ContentBundle\Model\RouteInterface;
+use SWP\Bundle\CoreBundle\Model\ArticleInterface;
 use SWP\Bundle\CoreBundle\Model\PackageInterface;
 use SWP\Bundle\CoreBundle\Model\PackagePreviewTokenInterface;
 use SWP\Bundle\CoreBundle\Service\ArticlePreviewer;
@@ -29,6 +30,7 @@ use SWP\Component\Common\Response\SingleResourceResponseInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\EventDispatcher\GenericEvent;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class PackagePreviewController extends Controller
@@ -53,10 +55,7 @@ class PackagePreviewController extends Controller
         $templateEngineContext->setCurrentPage($metaFactory->create($route));
         $templateEngineContext->getMetaForValue($article);
 
-        if (null === $route->getArticlesTemplateName()) {
-            $templateNameResolver = $this->get('swp_core.theme.resolver.template_name');
-            $route->setArticlesTemplateName($templateNameResolver->resolve($article));
-        }
+        $route = $this->ensureRouteTemplateExists($route, $article);
 
         try {
             return $this->render($route->getArticlesTemplateName());
@@ -85,8 +84,6 @@ class PackagePreviewController extends Controller
     public function generateTokenAction(Request $request, int $routeId)
     {
         $route = $this->findRouteOr404($routeId);
-
-        $this->ensureRouteTemplateExists($route);
 
         /** @var string $content */
         $content = (string) $request->getContent();
@@ -152,19 +149,30 @@ class PackagePreviewController extends Controller
 
         $article = $articlePreviewer->preview($package, $existingPreviewToken->getRoute());
         $route = $article->getRoute();
+        $route = $this->ensureRouteTemplateExists($route, $article);
 
-        $this->ensureRouteTemplateExists($route);
-
-        return $this->render($route->getArticlesTemplateName());
+        return $this->renderTemplateOr404($route);
     }
 
-    private function ensureRouteTemplateExists(RouteInterface $route): void
+    private function renderTemplateOr404(RouteInterface $route): Response
     {
-        if (null === $route->getArticlesTemplateName()) {
+        try {
+            return $this->render($route->getArticlesTemplateName());
+        } catch (\Exception $e) {
             throw $this->createNotFoundException(
                 sprintf('Template for route with id "%d" (%s) not found!', $route->getId(), $route->getName())
             );
         }
+    }
+
+    private function ensureRouteTemplateExists(RouteInterface $route, ArticleInterface $article): RouteInterface
+    {
+        if (null === $route->getArticlesTemplateName()) {
+            $templateNameResolver = $this->get('swp_core.theme.resolver.template_name');
+            $route->setArticlesTemplateName($templateNameResolver->resolve($article));
+        }
+
+        return $route;
     }
 
     /**
