@@ -1,15 +1,16 @@
-Feature: Preview article based on package when route template is not set.
+Feature: Preview article based on package when fake template is set.
 
-  Scenario: Preview article based on package under selected route when route's template is not defined
+  Scenario: Preview article based on package under selected route when route's template is is set and does not exist
     Given I am authenticated as "test.user"
     When I add "Content-Type" header equal to "application/json"
     And I send a "POST" request to "/api/v1/content/routes/" with body:
      """
       {
         "route": {
-          "name": "Simple test route 3",
-          "slug": "simple-test-route-3",
-          "type": "collection"
+          "name": "Simple test route 2",
+          "slug": "simple-test-route-2",
+          "type": "collection",
+          "articlesTemplateName": "fake.html.twig"
         }
       }
     """
@@ -82,4 +83,4 @@ Feature: Preview article based on package when route template is not set.
     """
     Then the response status code should be 200
     When I go to "http://localhost/preview/publish/package/0123456789"
-    Then the response status code should be 200
+    Then the response status code should be 404
