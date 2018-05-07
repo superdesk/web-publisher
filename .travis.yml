@@ -63,6 +63,7 @@ before_script:
 script:
 - sudo supervisord -c /etc/supervisor/supervisord.conf
 - sudo supervisorctl status
+- app/console gos:websocket:server
 - nohup json-server --watch src/SWP/Bundle/CoreBundle/Tests/Functional/Resources/db.json
   --routes=src/SWP/Bundle/CoreBundle/Tests/Functional/Resources/routes.json &
 - bin/behat -f progress
