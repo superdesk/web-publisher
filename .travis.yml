@@ -6,6 +6,11 @@ services:
 - rabbitmq
 - memcached
 
+addons:
+  apt:
+    packages:
+    - libzmq-dev
+
 php:
 - 7.1
 - 7.2
