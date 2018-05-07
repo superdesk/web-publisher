@@ -1,0 +1,14 @@
+SWP\Bundle\CoreBundle\Model\ExternalArticle:
+    type: entity
+    table: swp_article_external
+    fields:
+        tenantCode:
+            type: string
+    oneToOne:
+        article:
+            targetEntity: SWP\Bundle\CoreBundle\Model\ArticleInterface
+            inversedBy: externalArticle
+            joinColumn:
+                name: article_id
+                referencedColumnName: id
+                onDelete: "CASCADE"

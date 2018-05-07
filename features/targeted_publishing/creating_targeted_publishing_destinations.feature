@@ -4,7 +4,7 @@ Feature: Managing targeted publishing destinations
   Scenario: Creating a new targeted publishing destinations
     Given I am authenticated as "test.user"
     When I add "Content-Type" header equal to "application/json"
-    And I send a "PUT" request to "/api/{version}/organization/destinations/" with body:
+    And I send a "PUT" request to "/api/v1/organization/destinations/" with body:
      """
       {
         "publish_destination":{
@@ -25,7 +25,7 @@ Feature: Managing targeted publishing destinations
   Scenario: Removing existing destinations
     Given I am authenticated as "test.user"
     When I add "Content-Type" header equal to "application/json"
-    And I send a "PUT" request to "/api/{version}/organization/destinations/" with body:
+    And I send a "PUT" request to "/api/v1/organization/destinations/" with body:
      """
       {
         "publish_destination":{
@@ -51,7 +51,7 @@ Feature: Managing targeted publishing destinations
     Then the response status code should be 200
     And I am authenticated as "test.user"
     When I add "Content-Type" header equal to "application/json"
-    And I send a "PUT" request to "/api/{version}/organization/destinations/" with body:
+    And I send a "PUT" request to "/api/v1/organization/destinations/" with body:
      """
       {
         "publish_destination":{
