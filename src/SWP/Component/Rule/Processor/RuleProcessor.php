@@ -16,7 +16,6 @@ namespace SWP\Component\Rule\Processor;
 
 use SWP\Component\Rule\Applicator\RuleApplicatorInterface;
 use SWP\Component\Rule\Evaluator\RuleEvaluatorInterface;
-use SWP\Component\Rule\Model\Rule;
 use SWP\Component\Rule\Model\RuleSubjectInterface;
 use SWP\Component\Rule\Repository\RuleRepositoryInterface;
 
