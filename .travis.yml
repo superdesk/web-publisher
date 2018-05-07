@@ -40,7 +40,7 @@ before_install:
 - sudo sysctl -w vm.max_map_count=262144
 - sudo sysctl -p
 - npm install -g json-server
-- pecl install zmq-beta
+- printf "\n" | pecl install zmq-beta
 
 install:
 - wget ${ES_DOWNLOAD_URL}
