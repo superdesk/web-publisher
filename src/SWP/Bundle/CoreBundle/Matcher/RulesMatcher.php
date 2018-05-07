@@ -147,17 +147,6 @@ class RulesMatcher implements RulesMatcherInterface
         return $rules;
     }
 
-    private function search(array $array, $code)
-    {
-        foreach ($array as $key => $val) {
-            if ($val['tenant']->getCode() === $code) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
     private function createTenantArrayFromDestination(PublishDestinationInterface $destination): array
     {
         return [
