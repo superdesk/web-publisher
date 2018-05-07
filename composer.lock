@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "b35ab60a59756ff3d36e1c016da80d25",
+    "content-hash": "fbcd6ed8d34b2c500445c702f526db58",
     "packages": [
         {
             "name": "apache/log4php",
@@ -2243,6 +2243,232 @@
                 "uploadable"
             ],
             "time": "2018-01-08T14:13:45+00:00"
+        },
+        {
+            "name": "gos/pnctl-event-loop-emitter",
+            "version": "v0.1.7",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/GeniusesOfSymfony/PNCTLEventLoopEmitter.git",
+                "reference": "93bb0f0e60e4e1f4025f77c8a4fd9ae0c3b45fb3"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/GeniusesOfSymfony/PNCTLEventLoopEmitter/zipball/93bb0f0e60e4e1f4025f77c8a4fd9ae0c3b45fb3",
+                "reference": "93bb0f0e60e4e1f4025f77c8a4fd9ae0c3b45fb3",
+                "shasum": ""
+            },
+            "require": {
+                "evenement/evenement": "~2.0|~3.0",
+                "php": ">=5.4",
+                "react/event-loop": "~0.4.0|^0.5"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Gos\\Component\\PnctlEventLoopEmitter\\": "src/"
+                },
+                "files": [
+                    "src/functions.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Johann Saunier",
+                    "email": "johann_27@hotmail.fr"
+                }
+            ],
+            "description": "Pnctl event emitter for event loop",
+            "homepage": "https://github.com/GeniusesOfSymfony/PnctlEventLoopEmitter",
+            "keywords": [
+                "Pnctl",
+                "event loop",
+                "reactphp"
+            ],
+            "time": "2018-04-09T11:12:07+00:00"
+        },
+        {
+            "name": "gos/pubsub-router-bundle",
+            "version": "v0.3.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/GeniusesOfSymfony/PubSubRouterBundle.git",
+                "reference": "ed8cb7905502b828a296683099526a023c641cfc"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/GeniusesOfSymfony/PubSubRouterBundle/zipball/ed8cb7905502b828a296683099526a023c641cfc",
+                "reference": "ed8cb7905502b828a296683099526a023c641cfc",
+                "shasum": ""
+            },
+            "require": {
+                "doctrine/cache": "~1.4",
+                "php": ">=5.4",
+                "symfony/framework-bundle": "~2.3|~3.0|~4.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~4.0"
+            },
+            "type": "symfony-bundle",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "0.2.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Gos\\Bundle\\PubSubRouterBundle\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Johann Saunier",
+                    "email": "johann_27@hotmail.fr"
+                }
+            ],
+            "description": "Symfony PubSub Router Bundle",
+            "homepage": "https://github.com/GeniusesOfSymfony/PubSubRouterBundle",
+            "keywords": [
+                "PubSub Bundle",
+                "WAMP",
+                "bundle",
+                "pubsub",
+                "redis",
+                "zmq"
+            ],
+            "time": "2018-01-23T17:20:01+00:00"
+        },
+        {
+            "name": "gos/web-socket-bundle",
+            "version": "v1.8.12",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/GeniusesOfSymfony/WebSocketBundle.git",
+                "reference": "15174761596ebe9fb58d037ec144822531922f66"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/GeniusesOfSymfony/WebSocketBundle/zipball/15174761596ebe9fb58d037ec144822531922f66",
+                "reference": "15174761596ebe9fb58d037ec144822531922f66",
+                "shasum": ""
+            },
+            "require": {
+                "cboden/ratchet": "^0.4.1",
+                "gos/pnctl-event-loop-emitter": "^0.1",
+                "gos/pubsub-router-bundle": "^0.3",
+                "gos/websocket-client": "^0.1",
+                "ocramius/proxy-manager": "^1.0|^2.1",
+                "php": ">=5.4",
+                "symfony/framework-bundle": "^2.3|^3.0|^4.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^4.8"
+            },
+            "suggest": {
+                "ext-amqp": "*",
+                "ext-libev": "*",
+                "ext-libevent": ">=0.0.5",
+                "ext-zmq": "*",
+                "symfony/proxy-manager-bridge": "~2.3"
+            },
+            "type": "symfony-bundle",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.8.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Gos\\Bundle\\WebSocketBundle\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Jeremy Dare",
+                    "email": "jeremy.d.dare@gmail.com"
+                },
+                {
+                    "name": "Johann Saunier",
+                    "email": "johann_27@hotmail.fr"
+                }
+            ],
+            "description": "Symfony Web Socket Bundle",
+            "homepage": "https://github.com/GeniusesOfSymfony/WebSocketBundle",
+            "keywords": [
+                "Ratchet",
+                "WAMP",
+                "Web Socket Bundle",
+                "io",
+                "websocket"
+            ],
+            "time": "2018-03-08T20:37:00+00:00"
+        },
+        {
+            "name": "gos/websocket-client",
+            "version": "v0.1.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/GeniusesOfSymfony/WebSocketPhpClient.git",
+                "reference": "13bb38cb01acee648fea1a6ca4ad3dc6148da7fe"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/GeniusesOfSymfony/WebSocketPhpClient/zipball/13bb38cb01acee648fea1a6ca4ad3dc6148da7fe",
+                "reference": "13bb38cb01acee648fea1a6ca4ad3dc6148da7fe",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "0.1.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Gos\\Component\\WebSocketClient\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Johann Saunier",
+                    "email": "johann_27@hotmail.fr"
+                },
+                {
+                    "name": "Martin Bažík",
+                    "email": "martin@bazo.sk"
+                }
+            ],
+            "description": "WAMP client in PHP",
+            "keywords": [
+                "Ratchet",
+                "WAMP",
+                "websocket"
+            ],
+            "time": "2015-08-04T11:43:11+00:00"
         },
         {
             "name": "guzzlehttp/guzzle",
@@ -9293,232 +9519,6 @@
                 "routing"
             ],
             "time": "2017-08-25T15:21:42+00:00"
-        },
-        {
-            "name": "gos/pnctl-event-loop-emitter",
-            "version": "v0.1.7",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/GeniusesOfSymfony/PNCTLEventLoopEmitter.git",
-                "reference": "93bb0f0e60e4e1f4025f77c8a4fd9ae0c3b45fb3"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/GeniusesOfSymfony/PNCTLEventLoopEmitter/zipball/93bb0f0e60e4e1f4025f77c8a4fd9ae0c3b45fb3",
-                "reference": "93bb0f0e60e4e1f4025f77c8a4fd9ae0c3b45fb3",
-                "shasum": ""
-            },
-            "require": {
-                "evenement/evenement": "~2.0|~3.0",
-                "php": ">=5.4",
-                "react/event-loop": "~0.4.0|^0.5"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "1.0.x-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Gos\\Component\\PnctlEventLoopEmitter\\": "src/"
-                },
-                "files": [
-                    "src/functions.php"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Johann Saunier",
-                    "email": "johann_27@hotmail.fr"
-                }
-            ],
-            "description": "Pnctl event emitter for event loop",
-            "homepage": "https://github.com/GeniusesOfSymfony/PnctlEventLoopEmitter",
-            "keywords": [
-                "Pnctl",
-                "event loop",
-                "reactphp"
-            ],
-            "time": "2018-04-09T11:12:07+00:00"
-        },
-        {
-            "name": "gos/pubsub-router-bundle",
-            "version": "v0.3.3",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/GeniusesOfSymfony/PubSubRouterBundle.git",
-                "reference": "ed8cb7905502b828a296683099526a023c641cfc"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/GeniusesOfSymfony/PubSubRouterBundle/zipball/ed8cb7905502b828a296683099526a023c641cfc",
-                "reference": "ed8cb7905502b828a296683099526a023c641cfc",
-                "shasum": ""
-            },
-            "require": {
-                "doctrine/cache": "~1.4",
-                "php": ">=5.4",
-                "symfony/framework-bundle": "~2.3|~3.0|~4.0"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "~4.0"
-            },
-            "type": "symfony-bundle",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "0.2.x-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Gos\\Bundle\\PubSubRouterBundle\\": ""
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Johann Saunier",
-                    "email": "johann_27@hotmail.fr"
-                }
-            ],
-            "description": "Symfony PubSub Router Bundle",
-            "homepage": "https://github.com/GeniusesOfSymfony/PubSubRouterBundle",
-            "keywords": [
-                "PubSub Bundle",
-                "WAMP",
-                "bundle",
-                "pubsub",
-                "redis",
-                "zmq"
-            ],
-            "time": "2018-01-23T17:20:01+00:00"
-        },
-        {
-            "name": "gos/web-socket-bundle",
-            "version": "v1.8.12",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/GeniusesOfSymfony/WebSocketBundle.git",
-                "reference": "15174761596ebe9fb58d037ec144822531922f66"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/GeniusesOfSymfony/WebSocketBundle/zipball/15174761596ebe9fb58d037ec144822531922f66",
-                "reference": "15174761596ebe9fb58d037ec144822531922f66",
-                "shasum": ""
-            },
-            "require": {
-                "cboden/ratchet": "^0.4.1",
-                "gos/pnctl-event-loop-emitter": "^0.1",
-                "gos/pubsub-router-bundle": "^0.3",
-                "gos/websocket-client": "^0.1",
-                "ocramius/proxy-manager": "^1.0|^2.1",
-                "php": ">=5.4",
-                "symfony/framework-bundle": "^2.3|^3.0|^4.0"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "^4.8"
-            },
-            "suggest": {
-                "ext-amqp": "*",
-                "ext-libev": "*",
-                "ext-libevent": ">=0.0.5",
-                "ext-zmq": "*",
-                "symfony/proxy-manager-bridge": "~2.3"
-            },
-            "type": "symfony-bundle",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "1.8.x-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Gos\\Bundle\\WebSocketBundle\\": ""
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Jeremy Dare",
-                    "email": "jeremy.d.dare@gmail.com"
-                },
-                {
-                    "name": "Johann Saunier",
-                    "email": "johann_27@hotmail.fr"
-                }
-            ],
-            "description": "Symfony Web Socket Bundle",
-            "homepage": "https://github.com/GeniusesOfSymfony/WebSocketBundle",
-            "keywords": [
-                "Ratchet",
-                "WAMP",
-                "Web Socket Bundle",
-                "io",
-                "websocket"
-            ],
-            "time": "2018-03-08T20:37:00+00:00"
-        },
-        {
-            "name": "gos/websocket-client",
-            "version": "v0.1.2",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/GeniusesOfSymfony/WebSocketPhpClient.git",
-                "reference": "13bb38cb01acee648fea1a6ca4ad3dc6148da7fe"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/GeniusesOfSymfony/WebSocketPhpClient/zipball/13bb38cb01acee648fea1a6ca4ad3dc6148da7fe",
-                "reference": "13bb38cb01acee648fea1a6ca4ad3dc6148da7fe",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.3.0"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "0.1.x-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Gos\\Component\\WebSocketClient\\": ""
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Johann Saunier",
-                    "email": "johann_27@hotmail.fr"
-                },
-                {
-                    "name": "Martin Bažík",
-                    "email": "martin@bazo.sk"
-                }
-            ],
-            "description": "WAMP client in PHP",
-            "keywords": [
-                "Ratchet",
-                "WAMP",
-                "websocket"
-            ],
-            "time": "2015-08-04T11:43:11+00:00"
         },
         {
             "name": "jackalope/jackalope",
