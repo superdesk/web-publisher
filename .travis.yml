@@ -36,7 +36,7 @@ matrix:
 before_install:
 - which php
 - sudo pip install supervisor
-- sudo wget -P /etc/supervisor https://gist.githubusercontent.com/ahilles107/6145814c50f6b404369ea21f7578cebe/raw/e72d9234d693709e8b3a7a9ff8423954a18994f1/supervisord.conf
+- sudo wget -P /etc/supervisor https://gist.githubusercontent.com/takeit/86c925a07cdca17e2fded7fc9f8fc557/raw/fd620ceb17c70364118c73045e9ac08967fbe995/supervisord.conf
 - sudo mkdir /var/log/supervisor/
 - sudo chmod -R 777 /var/log/supervisor/
 - sudo /bin/dd if=/dev/zero of=/var/swap.1 bs=1M count=4096
@@ -63,7 +63,6 @@ before_script:
 script:
 - sudo supervisord -c /etc/supervisor/supervisord.conf
 - sudo supervisorctl status
-- app/console gos:websocket:server
 - nohup json-server --watch src/SWP/Bundle/CoreBundle/Tests/Functional/Resources/db.json
   --routes=src/SWP/Bundle/CoreBundle/Tests/Functional/Resources/routes.json &
 - bin/behat -f progress
