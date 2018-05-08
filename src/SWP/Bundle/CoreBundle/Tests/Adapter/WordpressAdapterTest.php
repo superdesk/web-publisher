@@ -18,6 +18,7 @@ namespace SWP\Bundle\CoreBundle\Tests\Adapter;
 
 use SWP\Bundle\CoreBundle\Adapter\AdapterInterface;
 use SWP\Bundle\CoreBundle\Model\ArticleInterface;
+use SWP\Bundle\CoreBundle\Model\ExternalArticleInterface;
 use SWP\Bundle\CoreBundle\Model\OutputChannelInterface;
 use SWP\Bundle\FixturesBundle\WebTestCase;
 use Symfony\Component\Routing\RouterInterface;
@@ -72,6 +73,10 @@ final class WordpressAdapterTest extends WebTestCase
         $article = $this->getContainer()->get('swp.repository.article')->findOneBy(['id' => 1]);
 
         $compositeOutputChannelAdapter->create($outputChannel, $article);
+
+        self::assertInstanceOf(ExternalArticleInterface::class, $article->getExternalArticle());
+
         $compositeOutputChannelAdapter->publish($outputChannel, $article);
+        $compositeOutputChannelAdapter->update($outputChannel, $article);
     }
 }

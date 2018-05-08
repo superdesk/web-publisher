@@ -20,6 +20,7 @@ use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Psr7\Response as GuzzleResponse;
 use SWP\Bundle\CoreBundle\Model\ArticleInterface;
 use SWP\Bundle\CoreBundle\Model\ExternalArticle;
+use SWP\Bundle\CoreBundle\Model\ExternalArticleInterface;
 use SWP\Bundle\CoreBundle\Model\OutputChannelInterface;
 use SWP\Bundle\CoreBundle\OutputChannel\External\Wordpress\Post;
 use SWP\Component\Storage\Repository\RepositoryInterface;
@@ -31,6 +32,9 @@ use Symfony\Component\Serializer\SerializerInterface;
 
 final class WordpressAdapter implements AdapterInterface
 {
+    const STATUS_DRAFT = 'draft';
+    const STATUS_PUBLISHED = 'published';
+
     /**
      * @var ClientInterface
      */
@@ -59,7 +63,7 @@ final class WordpressAdapter implements AdapterInterface
     public function create(OutputChannelInterface $outputChannel, ArticleInterface $article): void
     {
         $post = $this->createPost($article);
-        $post->setStatus('draft');
+        $post->setStatus(self::STATUS_DRAFT);
         $response = $this->send($outputChannel, '/posts', $post);
 
         if (201 === $response->getStatusCode()) {
@@ -78,21 +82,11 @@ final class WordpressAdapter implements AdapterInterface
     public function update(OutputChannelInterface $outputChannel, ArticleInterface $article): void
     {
         $post = $this->createPost($article);
-        $externalArticle = $article->getExternalArticle();
-        if (null === $externalArticle) {
-            throw new \BadMethodCallException('You try to update not created external article');
-        }
+        $externalArticle = $this->getExternalArticle($article);
 
         $post->setStatus($externalArticle->getStatus());
         $response = $this->send($outputChannel, sprintf('/posts/%s', $externalArticle->getExternalId()), $post);
-        if (200 === $response->getStatusCode()) {
-            $responseData = \json_decode($response->getBody()->getContents(), true);
-            if (isset($responseData['link'])) {
-                $externalArticle->setLiveUrl($responseData['link']);
-            }
-            $externalArticle->setUpdatedAt(new \DateTime());
-            $this->externalArticleRepository->flush();
-        }
+        $this->handleExternalArticleUpdate($externalArticle, $response);
     }
 
     /**
@@ -100,6 +94,7 @@ final class WordpressAdapter implements AdapterInterface
      */
     public function publish(OutputChannelInterface $outputChannel, ArticleInterface $article): void
     {
+        $this->handleArticleUpdate($outputChannel, $article, self::STATUS_PUBLISHED);
     }
 
     /**
@@ -107,6 +102,7 @@ final class WordpressAdapter implements AdapterInterface
      */
     public function unpublish(OutputChannelInterface $outputChannel, ArticleInterface $article): void
     {
+        $this->handleArticleUpdate($outputChannel, $article, self::STATUS_DRAFT);
     }
 
     /**
@@ -115,6 +111,38 @@ final class WordpressAdapter implements AdapterInterface
     public function supports(OutputChannelInterface $outputChannel): bool
     {
         return OutputChannelInterface::TYPE_WORDPRESS === $outputChannel->getType();
+    }
+
+    private function handleArticleUpdate(OutputChannelInterface $outputChannel, ArticleInterface $article, string $status): void
+    {
+        $post = $this->createPost($article);
+        $externalArticle = $this->getExternalArticle($article);
+
+        $post->setStatus($status);
+        $response = $this->send($outputChannel, sprintf('/posts/%s', $externalArticle->getExternalId()), $post);
+        $this->handleExternalArticleUpdate($externalArticle, $response);
+    }
+
+    private function getExternalArticle(ArticleInterface $article): ExternalArticleInterface
+    {
+        $externalArticle = $article->getExternalArticle();
+        if (null === $externalArticle) {
+            throw new \BadMethodCallException('You try to work on not existing external article');
+        }
+
+        return $externalArticle;
+    }
+
+    private function handleExternalArticleUpdate(ExternalArticleInterface $externalArticle, GuzzleResponse $response): void
+    {
+        if (200 === $response->getStatusCode()) {
+            $responseData = \json_decode($response->getBody()->getContents(), true);
+            if (isset($responseData['link'])) {
+                $externalArticle->setLiveUrl($responseData['link']);
+            }
+            $externalArticle->setUpdatedAt(new \DateTime());
+            $this->externalArticleRepository->flush();
+        }
     }
 
     /**
