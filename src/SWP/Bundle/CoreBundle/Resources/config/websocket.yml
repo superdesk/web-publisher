@@ -1,5 +1,11 @@
 services:
-    swp.websocket.topic_package:
-        class: SWP\Bundle\CoreBundle\WebSocket\Topic\PackageTopic
+    SWP\Bundle\CoreBundle\WebSocket\Topic\AbstractSecuredTopic:
+        abstract:  true
+        arguments:
+            - '@swp.repository.api_key'
+            - '@logger'
+
+    SWP\Bundle\CoreBundle\WebSocket\Topic\PackageTopic:
+        parent: SWP\Bundle\CoreBundle\WebSocket\Topic\AbstractSecuredTopic
         tags:
             - { name: gos_web_socket.topic }
