@@ -19,7 +19,6 @@ class BridgeTest extends WebTestCase
     const TEST_CASE_NAME = 'Bridge';
 
     /**
-     * @expectedException \Superdesk\ContentApiSdk\Exception\ContentApiException
      * @dataProvider getConfigs
      */
     public function testIndexForCallToInvalidEndpoints($config)
@@ -27,6 +26,9 @@ class BridgeTest extends WebTestCase
         $client = $this->createClient(['test_case' => self::TEST_CASE_NAME, 'root_config' => $config]);
 
         $client->request('GET', '/bridge/invalid_endpoint/');
+
+        $this->assertEquals(500, $client->getResponse()->getStatusCode());
+        $this->assertContains('Endpoint invalid_endpoint not supported.', $client->getResponse()->getContent());
     }
 
     public function getConfigs()

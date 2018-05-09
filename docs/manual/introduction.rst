@@ -37,6 +37,7 @@ Notable features
 - Built-in support for reverse proxy caching (Varnish, Nginx, internal system as a fallback)
 - Live-site management
 - Widget support (managed by editors)
+- WebSocket communication handling, mainly to refresh views
 
 
 Website architecture

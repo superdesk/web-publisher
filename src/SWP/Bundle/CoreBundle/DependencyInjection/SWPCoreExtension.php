@@ -40,6 +40,7 @@ class SWPCoreExtension extends Extension
         $loader->load('rules.yml');
         $loader->load('form.yml');
         $loader->load('output_channel_adapter.yml');
+        $loader->load('websocket.yml');
         $this->loadDeviceListener($config, $loader);
 
         $this->registerStorage(Drivers::DRIVER_DOCTRINE_ORM, $config['persistence']['orm']['classes'], $container);
