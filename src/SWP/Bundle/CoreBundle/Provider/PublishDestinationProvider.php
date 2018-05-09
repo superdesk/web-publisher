@@ -63,6 +63,19 @@ final class PublishDestinationProvider implements PublishDestinationProviderInte
     /**
      * {@inheritdoc}
      */
+    public function countDestinationsByPackageGuid(PackageInterface $package): int
+    {
+        return (int) $this->publishDestinationRepository->createQueryBuilder('pd')
+            ->select('count(pd)')
+            ->where('pd.packageGuid = :guid')
+            ->setParameter('guid', $package->getEvolvedFrom() ?: $package->getGuid())
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function countDestinations(PackageInterface $package): int
     {
         return (int) $this->publishDestinationRepository->createQueryBuilder('pd')

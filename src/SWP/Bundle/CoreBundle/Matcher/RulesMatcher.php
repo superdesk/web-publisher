@@ -19,6 +19,7 @@ namespace SWP\Bundle\CoreBundle\Matcher;
 use SWP\Bundle\ContentBundle\Factory\ArticleFactoryInterface;
 use SWP\Bundle\ContentBundle\Model\ArticleInterface;
 use SWP\Bundle\CoreBundle\Model\PackageInterface;
+use SWP\Bundle\CoreBundle\Model\PublishDestinationInterface;
 use SWP\Bundle\CoreBundle\Processor\RulesProcessorInterface;
 use SWP\Bundle\CoreBundle\Provider\PublishDestinationProviderInterface;
 use SWP\Bundle\MultiTenancyBundle\MultiTenancyEvents;
@@ -93,27 +94,67 @@ class RulesMatcher implements RulesMatcherInterface
         $this->eventDispatcher->dispatch(MultiTenancyEvents::TENANTABLE_DISABLE);
 
         $destinations = $this->publishDestinationProvider->getDestinations($package);
-
         $evaluatedOrganizationRules = $this->processPackageRules($package);
         $evaluatedRules = $this->processArticleRules($article, $destinations);
         $processedRules = $this->rulesProcessor->process(array_merge($evaluatedOrganizationRules, $evaluatedRules));
 
-        foreach ($destinations as $destination) {
-            foreach ((array) $processedRules['tenants'] as $key => $tenant) {
-                if ($tenant['tenant'] === $destination->getTenant()) {
-                    $processedRules['tenants'][$key] = [
-                        'tenant' => $destination->getTenant(),
-                        'route' => $destination->getRoute(),
-                        'fbia' => $destination->isFbia(),
-                        'published' => $destination->isPublished(),
-                    ];
+        return $this->process($processedRules, $destinations);
+    }
+
+    private function process(array $processedRules, array $destinations): array
+    {
+        if (empty((array) $processedRules['tenants'])) {
+            foreach ($destinations as $destination) {
+                $processedRules['organization'] = $destination->getOrganization();
+                $processedRules['tenants'][] = $this->createTenantArrayFromDestination($destination);
+            }
+
+            return $processedRules;
+        }
+
+        if (empty((array) $processedRules['tenants'])) {
+            return [];
+        }
+
+        $rules = [];
+        foreach ($destinations as $destinationKey => $destination) {
+            $rules['organization'] = $destination->getOrganization();
+            $rules['tenants'][] = $this->createTenantArrayFromDestination($destination);
+        }
+
+        if (empty($rules)) {
+            return $processedRules;
+        }
+
+        foreach ((array) $rules['tenants'] as $key => $rule) {
+            foreach ((array) $processedRules['tenants'] as $tenant) {
+                if ($tenant['tenant'] === $rule['tenant']) {
+                    $rules['tenants'][$key] = $rule;
                 } else {
-                    $processedRules['tenants'][$key] = $tenant;
+                    $rules['tenants'][] = $tenant;
                 }
             }
         }
 
-        return $processedRules;
+        $ids = array_column($rules['tenants'], 'tenant');
+        $ids = array_unique($ids);
+        $tenants = array_filter($rules['tenants'], function ($key, $value) use ($ids) {
+            return \in_array($value, \array_keys($ids));
+        }, ARRAY_FILTER_USE_BOTH);
+
+        $rules['tenants'] = $tenants;
+
+        return $rules;
+    }
+
+    private function createTenantArrayFromDestination(PublishDestinationInterface $destination): array
+    {
+        return [
+            'tenant' => $destination->getTenant(),
+            'route' => $destination->getRoute(),
+            'fbia' => $destination->isFbia(),
+            'published' => $destination->isPublished(),
+        ];
     }
 
     private function processPackageRules(PackageInterface $package): array
