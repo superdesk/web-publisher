@@ -76,4 +76,14 @@ interface ExternalArticleInterface extends PersistableInterface, SoftDeletableIn
      * @param \DateTime $unpublishedAt
      */
     public function setUnpublishedAt(\DateTime $unpublishedAt): void;
+
+    /**
+     * @return array|null
+     */
+    public function getExtra(): ?array;
+
+    /**
+     * @param array|null $extra
+     */
+    public function setExtra(?array $extra): void;
 }

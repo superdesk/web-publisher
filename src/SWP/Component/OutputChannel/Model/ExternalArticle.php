@@ -54,6 +54,19 @@ class ExternalArticle implements ExternalArticleInterface
     protected $unpublishedAt;
 
     /**
+     * @var array|null
+     */
+    protected $extra;
+
+    /**
+     * ExternalArticle constructor.
+     */
+    public function __construct()
+    {
+        $this->setExtra([]);
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function getId(): int
@@ -147,5 +160,21 @@ class ExternalArticle implements ExternalArticleInterface
     public function setUnpublishedAt(\DateTime $unpublishedAt): void
     {
         $this->unpublishedAt = $unpublishedAt;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getExtra(): ?array
+    {
+        return $this->extra;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setExtra(?array $extra): void
+    {
+        $this->extra = $extra;
     }
 }

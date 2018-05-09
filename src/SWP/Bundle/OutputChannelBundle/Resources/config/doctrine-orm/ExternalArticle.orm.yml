@@ -25,6 +25,10 @@ SWP\Component\OutputChannel\Model\ExternalArticle:
         unpublishedAt:
             type: datetime
             nullable: true
+        extra:
+            type: array
+            options:
+                default: 'a:0:{}'
         createdAt:
             type: datetime
             gedmo:

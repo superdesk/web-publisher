@@ -16,7 +16,7 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\CoreBundle\OutputChannel\External\Wordpress;
 
-class Post
+class Post implements PostInterface
 {
     /**
      * @var string
@@ -39,7 +39,31 @@ class Post
     protected $slug;
 
     /**
-     * @return string
+     * @var string
+     */
+    protected $type;
+
+    /**
+     * @var array
+     */
+    protected $tags;
+
+    /**
+     * @var int|null
+     */
+    protected $featuredMedia;
+
+    /**
+     * Post constructor.
+     */
+    public function __construct()
+    {
+        $this->setType(PostInterface::TYPE_STANDARD);
+        $this->setTags([]);
+    }
+
+    /**
+     * {@inheritdoc}
      */
     public function getTitle(): string
     {
@@ -47,7 +71,7 @@ class Post
     }
 
     /**
-     * @param string $title
+     * {@inheritdoc}
      */
     public function setTitle(string $title): void
     {
@@ -55,7 +79,7 @@ class Post
     }
 
     /**
-     * @return string
+     * {@inheritdoc}
      */
     public function getContent(): string
     {
@@ -63,7 +87,7 @@ class Post
     }
 
     /**
-     * @param string $content
+     * {@inheritdoc}
      */
     public function setContent(string $content): void
     {
@@ -71,7 +95,7 @@ class Post
     }
 
     /**
-     * @return string
+     * {@inheritdoc}
      */
     public function getStatus(): string
     {
@@ -79,7 +103,7 @@ class Post
     }
 
     /**
-     * @param string $status
+     * {@inheritdoc}
      */
     public function setStatus(string $status): void
     {
@@ -87,7 +111,7 @@ class Post
     }
 
     /**
-     * @return string
+     * {@inheritdoc}
      */
     public function getSlug(): string
     {
@@ -95,10 +119,58 @@ class Post
     }
 
     /**
-     * @param string $slug
+     * {@inheritdoc}
      */
     public function setSlug(string $slug): void
     {
         $this->slug = $slug;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getType(): string
+    {
+        return $this->type;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setType(string $type): void
+    {
+        $this->type = $type;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getFeaturedMedia(): ?int
+    {
+        return $this->featuredMedia;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setFeaturedMedia(?int $featuredMedia): void
+    {
+        $this->featuredMedia = $featuredMedia;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getTags(): array
+    {
+        return $this->tags;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setTags(array $tags): void
+    {
+        $this->tags = $tags;
     }
 }

@@ -77,6 +77,7 @@ class LoadArticlesMediaData extends AbstractFixture implements FixtureInterface,
 
         if (isset($articles[$env])) {
             foreach ($articles[$env] as $articleData) {
+                /** @var ArticleInterface $article */
                 $article = $this->container->get('swp.factory.article')->create();
                 $article->setTitle($articleData['title']);
                 $article->setBody($articleData['content']);
@@ -99,6 +100,7 @@ class LoadArticlesMediaData extends AbstractFixture implements FixtureInterface,
                 $articleMedia->setUsageTerms('Some super open terms');
                 $articleMedia->setMimetype('image/jpeg');
                 $manager->persist($articleMedia);
+                $article->setFeatureMedia($articleMedia);
 
                 /* @var $rendition Rendition */
                 foreach ($renditions as $key => $rendition) {

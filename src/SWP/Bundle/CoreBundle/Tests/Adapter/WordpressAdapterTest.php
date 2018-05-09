@@ -41,7 +41,7 @@ final class WordpressAdapterTest extends WebTestCase
         self::bootKernel();
 
         $this->initDatabase();
-        $this->loadCustomFixtures(['tenant', 'article']);
+        $this->loadCustomFixtures(['tenant', 'article_media']);
         $this->router = $this->getContainer()->get('router');
     }
 
