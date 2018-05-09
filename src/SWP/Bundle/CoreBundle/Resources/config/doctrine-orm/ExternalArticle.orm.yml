@@ -6,7 +6,7 @@ SWP\Bundle\CoreBundle\Model\ExternalArticle:
             type: string
     oneToOne:
         article:
-            targetEntity: SWP\Bundle\CoreBundle\Model\ArticleInterface
+            targetEntity: SWP\Bundle\ContentBundle\Model\ArticleInterface
             inversedBy: externalArticle
             joinColumn:
                 name: article_id

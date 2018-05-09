@@ -16,7 +16,10 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\CoreBundle\Tests\Adapter;
 
+use GuzzleHttp\Client;
+use GuzzleHttp\Exception\ClientException;
 use SWP\Bundle\CoreBundle\Adapter\AdapterInterface;
+use SWP\Bundle\CoreBundle\Adapter\WordpressAdapter;
 use SWP\Bundle\CoreBundle\Model\ArticleInterface;
 use SWP\Bundle\CoreBundle\Model\ExternalArticleInterface;
 use SWP\Bundle\CoreBundle\Model\OutputChannelInterface;
@@ -73,10 +76,38 @@ final class WordpressAdapterTest extends WebTestCase
         $article = $this->getContainer()->get('swp.repository.article')->findOneBy(['id' => 1]);
 
         $compositeOutputChannelAdapter->create($outputChannel, $article);
+        $externalArticle = $article->getExternalArticle();
+        self::assertInstanceOf(ExternalArticleInterface::class, $externalArticle);
+        self::assertEquals(WordpressAdapter::STATUS_DRAFT, $externalArticle->getStatus());
+        self::assertNotEmpty($externalArticle->getExternalId());
+        self::assertNotEmpty($externalArticle->getLiveUrl());
 
-        self::assertInstanceOf(ExternalArticleInterface::class, $article->getExternalArticle());
+        $guzzleClient = new Client();
+        try {
+            $response = $guzzleClient->request('GET', $externalArticle->getLiveUrl());
+        } catch (ClientException $e) {
+            $response = $e->getResponse();
+        }
+        self::assertEquals(404, $response->getStatusCode());
+        self::assertNull($externalArticle->getPublishedAt());
 
         $compositeOutputChannelAdapter->publish($outputChannel, $article);
+        $response = $guzzleClient->request('GET', $externalArticle->getLiveUrl());
+        self::assertEquals(200, $response->getStatusCode());
+        self::assertEquals(WordpressAdapter::STATUS_PUBLISHED, $externalArticle->getStatus());
+        self::assertInstanceOf(\DateTime::class, $externalArticle->getPublishedAt());
+
+        $previousUpdatedAt = $externalArticle->getUpdatedAt();
         $compositeOutputChannelAdapter->update($outputChannel, $article);
+        self::assertNotEquals($previousUpdatedAt, $externalArticle->getUpdatedAt());
+
+        $compositeOutputChannelAdapter->unpublish($outputChannel, $article);
+        self::assertInstanceOf(\DateTime::class, $externalArticle->getUnpublishedAt());
+        try {
+            $response = $guzzleClient->request('GET', $externalArticle->getLiveUrl());
+        } catch (ClientException $e) {
+            $response = $e->getResponse();
+        }
+        self::assertEquals(404, $response->getStatusCode());
     }
 }

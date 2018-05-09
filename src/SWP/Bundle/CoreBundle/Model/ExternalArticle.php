@@ -57,6 +57,7 @@ class ExternalArticle extends BaseExternalArticle implements ExternalArticleInte
     public function setArticle(ArticleInterface $article): void
     {
         $this->article = $article;
+        $article->setExternalArticle($this);
     }
 
     /**

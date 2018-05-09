@@ -32,8 +32,8 @@ use Symfony\Component\Serializer\SerializerInterface;
 
 final class WordpressAdapter implements AdapterInterface
 {
-    const STATUS_DRAFT = 'draft';
-    const STATUS_PUBLISHED = 'published';
+    public const STATUS_DRAFT = 'draft';
+    public const STATUS_PUBLISHED = 'publish';
 
     /**
      * @var ClientInterface
@@ -85,7 +85,7 @@ final class WordpressAdapter implements AdapterInterface
         $externalArticle = $this->getExternalArticle($article);
 
         $post->setStatus($externalArticle->getStatus());
-        $response = $this->send($outputChannel, sprintf('/posts/%s', $externalArticle->getExternalId()), $post);
+        $response = $this->send($outputChannel, sprintf('posts/%s', $externalArticle->getExternalId()), $post);
         $this->handleExternalArticleUpdate($externalArticle, $response);
     }
 
@@ -113,16 +113,31 @@ final class WordpressAdapter implements AdapterInterface
         return OutputChannelInterface::TYPE_WORDPRESS === $outputChannel->getType();
     }
 
+    /**
+     * @param OutputChannelInterface $outputChannel
+     * @param ArticleInterface       $article
+     * @param string                 $status
+     */
     private function handleArticleUpdate(OutputChannelInterface $outputChannel, ArticleInterface $article, string $status): void
     {
         $post = $this->createPost($article);
         $externalArticle = $this->getExternalArticle($article);
 
         $post->setStatus($status);
-        $response = $this->send($outputChannel, sprintf('/posts/%s', $externalArticle->getExternalId()), $post);
+        $response = $this->send($outputChannel, sprintf('posts/%s', $externalArticle->getExternalId()), $post);
+        if (self::STATUS_PUBLISHED === $status) {
+            $externalArticle->setPublishedAt(new \DateTime());
+        } elseif (self::STATUS_DRAFT === $status && $externalArticle->getPublishedAt() instanceof \DateTime) {
+            $externalArticle->setUnpublishedAt(new \DateTime());
+        }
         $this->handleExternalArticleUpdate($externalArticle, $response);
     }
 
+    /**
+     * @param ArticleInterface $article
+     *
+     * @return ExternalArticleInterface
+     */
     private function getExternalArticle(ArticleInterface $article): ExternalArticleInterface
     {
         $externalArticle = $article->getExternalArticle();
@@ -133,6 +148,10 @@ final class WordpressAdapter implements AdapterInterface
         return $externalArticle;
     }
 
+    /**
+     * @param ExternalArticleInterface $externalArticle
+     * @param GuzzleResponse           $response
+     */
     private function handleExternalArticleUpdate(ExternalArticleInterface $externalArticle, GuzzleResponse $response): void
     {
         if (200 === $response->getStatusCode()) {
@@ -141,6 +160,7 @@ final class WordpressAdapter implements AdapterInterface
                 $externalArticle->setLiveUrl($responseData['link']);
             }
             $externalArticle->setUpdatedAt(new \DateTime());
+            $externalArticle->setStatus($responseData['status']);
             $this->externalArticleRepository->flush();
         }
     }
