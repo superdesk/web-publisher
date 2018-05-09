@@ -22,7 +22,7 @@ use Gos\Bundle\WebSocketBundle\Topic\TopicInterface;
 use Ratchet\ConnectionInterface;
 use Ratchet\Wamp\Topic;
 
-final class PackageTopic implements TopicInterface, PushableTopicInterface
+final class PackageTopic extends AbstractSecuredTopic implements TopicInterface, PushableTopicInterface
 {
     /**
      * {@inheritdoc}

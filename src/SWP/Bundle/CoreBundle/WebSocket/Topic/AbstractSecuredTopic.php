@@ -70,15 +70,15 @@ abstract class AbstractSecuredTopic implements SecuredTopicInterface
                 ->getValidToken($token)
                 ->getQuery()
                 ->getOneOrNullResult();
+
+            if (null === $apiKey) {
+                throw new FirewallRejectionException();
+            }
         } else {
             $this->logger->warning(
                 'Token was not found in the request',
                 ['remoteAddress' => $conn->remoteAddress, 'connectionId' => $conn->resourceId]
             );
-        }
-
-        if (null === $apiKey) {
-            throw new FirewallRejectionException();
         }
     }
 }
