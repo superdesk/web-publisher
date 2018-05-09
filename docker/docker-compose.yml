@@ -42,3 +42,10 @@ services:
         image: rabbitmq
         ports:
             - 5672:5672
+    supervisor:
+        build: supervisor
+        volumes_from:
+            - php
+        ports:
+            - "8081:8080"
+            - "5555:5555"

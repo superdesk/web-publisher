@@ -10,3 +10,4 @@ Technical Cookbooks
    article_preview
    rules
    output_channels_adapters
+   websocket

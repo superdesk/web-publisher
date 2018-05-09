@@ -21,6 +21,8 @@ RUN set -ex \
         libmemcached-dev \
         autoconf \
         build-base \
+        libzmq \
+        zeromq-dev \
     && docker-php-ext-configure intl \
     && docker-php-ext-install intl \
     && docker-php-ext-configure pgsql -with-pgsql=/usr/local/pgsql \
@@ -28,6 +30,8 @@ RUN set -ex \
     && docker-php-ext-install opcache \
     && pecl install memcached \
     && docker-php-ext-enable memcached \
+    && pecl install zmq-beta \
+    && docker-php-ext-enable zmq \
     && pecl install xdebug \
     && docker-php-ext-enable xdebug \
     && docker-php-ext-install exif \
