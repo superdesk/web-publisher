@@ -60,6 +60,8 @@ For supervisor setup (and consumers managed by it) read instructions in `supervi
 php app/console gos:websocket:server
 ```
 
+or it can be started using [Supervisor](supervisor.md#running-websocket-server).
+
 #### 10. Preview
 
 Run project with built in php server:

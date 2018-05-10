@@ -41,6 +41,9 @@ Full documentation can be found here: [http://superdesk-publisher.readthedocs.or
  * RabbitMQ >= 3.5
     * php-bcmath
  * Supervisor
+ * WebSocker server
+    * zeromq
+    * php-zmq extension (`pecl install zmq-beta`)
 
 ## Installation
 
