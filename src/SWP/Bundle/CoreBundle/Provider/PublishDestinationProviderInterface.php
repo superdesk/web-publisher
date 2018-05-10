@@ -32,5 +32,12 @@ interface PublishDestinationProviderInterface
      *
      * @return int
      */
+    public function countDestinationsByPackageGuid(PackageInterface $package): int;
+
+    /**
+     * @param PackageInterface $package
+     *
+     * @return int
+     */
     public function countDestinations(PackageInterface $package): int;
 }

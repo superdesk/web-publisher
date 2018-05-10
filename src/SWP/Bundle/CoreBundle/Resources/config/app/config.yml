@@ -327,3 +327,19 @@ old_sound_rabbit_mq:
 bazinga_hateoas:
     twig_extension:
         enabled: false
+
+gos_web_socket:
+    assetic: false
+    server:
+        port: '%env(WEBSOCKET_PORT)%'
+        host: '%env(WEBSOCKET_HOST)%'
+        router:
+            resources:
+                - '@SWPCoreBundle/Resources/config/pubsub/routing.yml'
+    pushers:
+        zmq:
+            default: true
+            host: '%env(WEBSOCKET_HOST)%'
+            port: 5555
+            persistent: true
+            protocol: tcp

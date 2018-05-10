@@ -57,7 +57,7 @@ class PublishDestination implements PublishDestinationInterface
     /**
      * {@inheritdoc}
      */
-    public function getId(): string
+    public function getId()
     {
         return $this->id;
     }

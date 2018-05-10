@@ -45,6 +45,15 @@ final class PublishDestinationType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => PublishDestination::class,
+            'csrf_protection' => false,
         ]);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getBlockPrefix()
+    {
+        return 'publish_destination';
     }
 }

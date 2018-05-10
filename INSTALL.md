@@ -54,7 +54,13 @@ php app/console sylius:theme:assets:install
 
 For supervisor setup (and consumers managed by it) read instructions in `supervisor.md`
 
-#### 9. Preview
+#### 9. Run WebSocket server:
+
+```bash
+php app/console gos:websocket:server
+```
+
+#### 10. Preview
 
 Run project with built in php server:
 

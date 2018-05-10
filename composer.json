@@ -93,7 +93,11 @@
         "layershifter/tld-extract": "^1.2",
         "friendsofsymfony/elastica-bundle": "^5.0",
         "php-amqplib/rabbitmq-bundle": "^1.14",
-        "fzaninotto/faker": "^1.5"
+        "fzaninotto/faker": "^1.5",
+        "cboden/ratchet": "^0.4.1",
+        "evenement/evenement": "^3.0",
+        "react/zmq": "dev-master",
+        "gos/web-socket-bundle": "^1.8"
     },
     "require-dev": {
         "roave/security-advisories": "dev-master",

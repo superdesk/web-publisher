@@ -27,6 +27,7 @@ services:
             - '@event_dispatcher'
             - '@SWP\Bundle\CoreBundle\Provider\PublishDestinationProvider'
             - '@swp_core.article.publisher'
+            - '@SWP\Bundle\CoreBundle\Matcher\RulesMatcher'
         tags:
             - { name: kernel.event_subscriber }
 
