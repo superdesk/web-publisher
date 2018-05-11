@@ -57,7 +57,7 @@ final class WordpressAdapterTest extends WebTestCase
                 'outputChannel' => [
                     'type' => 'wordpress',
                     'config' => [
-                        'url' => 'http://wordpress.test:8080',
+                        'url' => 'http://localhost:3000',
                         'authorization_key' => 'Basic YWRtaW46dTJnWiB1QTlpIFVkYXogZnVtMSAxQnNkIHpwV2c=',
                     ],
                 ],

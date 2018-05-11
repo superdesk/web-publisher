@@ -44,7 +44,6 @@ before_install:
 - sudo /sbin/swapon /var/swap.1
 - sudo sysctl -w vm.max_map_count=262144
 - sudo sysctl -p
-- npm install -g json-server
 - printf "\n" | pecl install zmq-beta
 
 install:
@@ -63,8 +62,7 @@ before_script:
 script:
 - sudo supervisord -c /etc/supervisor/supervisord.conf
 - sudo supervisorctl status
-- nohup json-server --watch src/SWP/Bundle/CoreBundle/Tests/Functional/Resources/db.json
-  --routes=src/SWP/Bundle/CoreBundle/Tests/Functional/Resources/routes.json &
+- cd src/SWP/Bundle/CoreBundle/Tests/Functional/Resources/ && npm install json-server && nohup node server.js &
 - bin/behat -f progress
 - bin/phpspec run
 - bin/phpunit -c app/

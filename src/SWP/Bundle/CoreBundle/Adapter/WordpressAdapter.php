@@ -74,7 +74,7 @@ final class WordpressAdapter implements AdapterInterface
     {
         $post = $this->createPost($outputChannel, $article);
         $post->setStatus(self::STATUS_DRAFT);
-        $response = $this->send($outputChannel, '/posts', $post);
+        $response = $this->send($outputChannel, 'posts', $post);
 
         if (201 === $response->getStatusCode()) {
             $responseData = \json_decode($response->getBody()->getContents(), true);
