@@ -41,6 +41,8 @@ class ExternalArticle extends BaseExternalArticle implements ExternalArticleInte
         $this->setArticle($article);
         $this->setExternalId($externalId);
         $this->setStatus($status);
+
+        parent::__construct();
     }
 
     /**

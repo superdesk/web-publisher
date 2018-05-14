@@ -175,13 +175,6 @@ services:
             - { name: kernel.event_listener, event: swp.article.unpublish, method: unpublish }
             - { name: kernel.event_listener, event: swp.article.canceled, method: cancel }
 
-    swp_content_bundle.listener.article_subscriber:
-        class: SWP\Bundle\ContentBundle\EventListener\ArticleSubscriber
-        arguments:
-            - '@event_dispatcher'
-        tags:
-            - { name: doctrine.event_subscriber }
-
     swp.adder.article_source:
         class: SWP\Bundle\ContentBundle\Service\ArticleSourcesAdder
         arguments:

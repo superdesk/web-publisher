@@ -56,7 +56,7 @@ Feature: Checking if not authorized content push is rejected
     }
     """
     Then the response status code should be 201
-    When I send a "POST" request to "/"
+    When I send a "GET" request to "/"
     Then the response status code should be 200
 
   Scenario: Setting wrong secret token in organization and sending secured content push

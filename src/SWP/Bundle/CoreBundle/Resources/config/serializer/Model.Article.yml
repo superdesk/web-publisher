@@ -9,3 +9,5 @@ SWP\Bundle\CoreBundle\Model\Article:
             type: SWP\Bundle\CoreBundle\Model\TenantInterface
         articleStatistics:
             expose: true
+        externalArticle:
+            expose: true

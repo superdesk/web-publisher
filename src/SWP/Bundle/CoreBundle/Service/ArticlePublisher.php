@@ -130,15 +130,15 @@ final class ArticlePublisher implements ArticlePublisherInterface
             $article->setPublishedFBIA($destination->isFbia());
             $article->setArticleStatistics($articleStatistics);
             $this->articleRepository->persist($article);
+            $this->eventDispatcher->dispatch(ArticleEvents::PRE_CREATE, new ArticleEvent($article, $package, ArticleEvents::PRE_CREATE));
+            $this->articleRepository->flush();
+            $this->eventDispatcher->dispatch(ArticleEvents::POST_CREATE, new ArticleEvent($article, $package, ArticleEvents::POST_CREATE));
 
             if ($destination->isPublished()) {
                 $this->eventDispatcher->dispatch(ArticleEvents::PUBLISH, new ArticleEvent($article, null, ArticleEvents::PUBLISH));
             }
-
-            $this->eventDispatcher->dispatch(ArticleEvents::PRE_CREATE, new ArticleEvent($article, $package, ArticleEvents::PRE_CREATE));
+            $this->articleRepository->flush();
         }
-
-        $this->articleRepository->flush();
     }
 
     /**
