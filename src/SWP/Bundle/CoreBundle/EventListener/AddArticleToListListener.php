@@ -142,7 +142,7 @@ class AddArticleToListListener
             if ($article->isPublishedFBIA() && null === $item) {
                 $this->createAndAddItem($article, $bucket);
             }
-            dump(!$article->isPublishedFBIA() && null !== $item && $bucket->hasItem($item));
+
             if (!$article->isPublishedFBIA() && null !== $item && $bucket->hasItem($item)) {
                 $bucket->removeItem($item);
                 $bucket->setUpdatedAt(new \DateTime());

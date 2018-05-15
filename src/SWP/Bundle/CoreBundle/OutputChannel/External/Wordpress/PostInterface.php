@@ -19,6 +19,7 @@ namespace SWP\Bundle\CoreBundle\OutputChannel\External\Wordpress;
 interface PostInterface
 {
     public const TYPE_STANDARD = 'standard';
+
     public const TYPE_IMAGE = 'image';
 
     /**

@@ -83,6 +83,7 @@ final class WordpressAdapterTest extends WebTestCase
         self::assertNotEmpty($externalArticle->getLiveUrl());
 
         $guzzleClient = new Client();
+
         try {
             $response = $guzzleClient->request('GET', $externalArticle->getLiveUrl());
         } catch (ClientException $e) {
@@ -103,6 +104,7 @@ final class WordpressAdapterTest extends WebTestCase
 
         $compositeOutputChannelAdapter->unpublish($outputChannel, $article);
         self::assertInstanceOf(\DateTime::class, $externalArticle->getUnpublishedAt());
+
         try {
             $response = $guzzleClient->request('GET', $externalArticle->getLiveUrl());
         } catch (ClientException $e) {

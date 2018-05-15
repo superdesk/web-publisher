@@ -37,6 +37,7 @@ use Symfony\Component\Serializer\SerializerInterface;
 final class WordpressAdapter implements AdapterInterface
 {
     public const STATUS_DRAFT = 'draft';
+
     public const STATUS_PUBLISHED = 'publish';
 
     /**
@@ -215,6 +216,7 @@ final class WordpressAdapter implements AdapterInterface
                     $edge .= '/'.$featuredMediaId;
                 }
             }
+
             try {
                 $response = $this->send(
                     $outputChannel,
