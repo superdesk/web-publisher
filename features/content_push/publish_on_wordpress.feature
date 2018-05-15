@@ -61,7 +61,6 @@ Feature: Checking if pushed package will be published on tenant with output chan
     And the JSON nodes should contain:
       | status | new |
 
-
     And I am authenticated as "test.user"
     And I add "Content-Type" header equal to "application/json"
     Then I send a "POST" request to "/api/v1/packages/6/publish/" with body:

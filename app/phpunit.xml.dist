@@ -18,6 +18,7 @@
         <ini name="intl.error_level" value="0" />
         <ini name="memory_limit" value="-1" />
         <env name="SYMFONY_DEPRECATIONS_HELPER" value="150000" />
+        <server name="KERNEL_CLASS" value="\AppKernel" />
     </php>
 
     <testsuites>

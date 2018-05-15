@@ -1,16 +1,16 @@
 SWP\Component\OutputChannel\Model\ExternalArticle:
     type: mappedSuperclass
     table: swp_article_external
+    gedmo:
+        soft_deleteable:
+            field_name: deletedAt
+            time_aware: false
     id:
         id:
             type: integer
             id: true
             generator:
                 strategy: IDENTITY
-    gedmo:
-        soft_deleteable:
-            field_name: deletedAt
-            time_aware: false
     fields:
         externalId:
             type: string
@@ -40,3 +40,6 @@ SWP\Component\OutputChannel\Model\ExternalArticle:
             gedmo:
                 timestampable:
                     on: update
+        deletedAt:
+            type: datetime
+            nullable: true
