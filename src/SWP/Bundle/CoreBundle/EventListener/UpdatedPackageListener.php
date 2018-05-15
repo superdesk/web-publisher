@@ -96,11 +96,11 @@ final class UpdatedPackageListener
 
         foreach ($this->articleRepository->findBy(['package' => $package]) as $article) {
             $article = $this->articleHydrator->hydrate($article, $package);
-            $this->eventDispatcher->dispatch(ArticleEvents::PRE_CREATE, new ArticleEvent($article, $package, ArticleEvents::PRE_UPDATE));
+            $this->eventDispatcher->dispatch(ArticleEvents::PRE_UPDATE, new ArticleEvent($article, $package, ArticleEvents::PRE_UPDATE));
             $this->eventDispatcher->dispatch(HttpCacheEvent::EVENT_NAME, new HttpCacheEvent($article));
             // Flush in loop to emit POST_UPDATE article event
             $this->articleManager->flush();
-            $this->eventDispatcher->dispatch(ArticleEvents::PRE_CREATE, new ArticleEvent($article, $package, ArticleEvents::POST_UPDATE));
+            $this->eventDispatcher->dispatch(ArticleEvents::POST_UPDATE, new ArticleEvent($article, $package, ArticleEvents::POST_UPDATE));
         }
 
         $this->eventDispatcher->dispatch(MultiTenancyEvents::TENANTABLE_ENABLE);

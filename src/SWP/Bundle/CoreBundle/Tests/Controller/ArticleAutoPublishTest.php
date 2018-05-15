@@ -527,6 +527,7 @@ final class ArticleAutoPublishTest extends WebTestCase
         $client->request('GET', $this->router->generate('swp_api_core_list_items', ['id' => $bucket['id']]));
 
         $content = json_decode($client->getResponse()->getContent(), true);
+        dump($content);
         self::assertEquals(0, $content['total']);
     }
 
