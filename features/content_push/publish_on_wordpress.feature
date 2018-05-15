@@ -11,9 +11,6 @@ Feature: Checking if pushed package will be published on tenant with output chan
      """
       {
         "tenant": {
-          "domainName": "example.com",
-          "name": "Example tenant",
-          "subdomain": "tenant1",
           "outputChannel": {
             "type": "wordpress",
             "config": {
