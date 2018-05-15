@@ -1,6 +1,6 @@
-Publisher queue should be running all the time. Best solution for this is `supervisor`.
+#### Installing and Configuring Supervisor
 
-In Ubuntu it can be installed with:
+On Ubuntu it can be installed with:
 
 `apt-get install supervisor` 
 
@@ -11,6 +11,10 @@ Once this has completed, the supervisor daemon should already be started, as the
 The program configuration files for Supervisor programs are found in the `/etc/supervisor/conf.d` directory, normally with one program per file and a .conf extension. 
 We prepared ready to use configuration files for publisher consumers. You can find them in `scripts/supervisor` directory. Copy  them to supervisor configs directory and run `supervisorctl reload`.
 
+More detailed configuration tutorial can be found [here](https://www.digitalocean.com/community/tutorials/how-to-install-and-manage-supervisor-on-ubuntu-and-debian-vps).
+
+#### Running RabbitMQ Consumers
+
 Be sure to adjust (to your real publisher location) directory and logs paths inf config files.
 
 Good configuration should give you similar output from command `supervisorctl status`:
@@ -20,4 +24,6 @@ publisher_analytics              RUNNING   pid 77111, uptime 0:00:04
 publisher_webhooks               RUNNING   pid 77112, uptime 0:00:04
 ```
 
-More detailed configuration tutorial can be found here: https://www.digitalocean.com/community/tutorials/how-to-install-and-manage-supervisor-on-ubuntu-and-debian-vps
+#### Running WebSocket Server
+
+Supervisor config file for running WebSocket server can be found in [scripts/supervisor/supervisor_websocket.conf](scripts/supervisor/supervisor_websocket.conf)
