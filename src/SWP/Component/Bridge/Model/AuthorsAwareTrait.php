@@ -53,6 +53,8 @@ trait AuthorsAwareTrait
 
     public function getAuthorsNames()
     {
-        return array_map(function ($author) { return $author->getName(); }, $this->authors->toArray());
+        return array_map(function ($author) {
+            return $author->getName();
+        }, $this->authors->toArray());
     }
 }
