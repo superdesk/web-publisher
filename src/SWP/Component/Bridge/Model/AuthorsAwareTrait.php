@@ -50,4 +50,11 @@ trait AuthorsAwareTrait
     {
         return $this->authors->contains($author);
     }
+
+    public function getAuthorsNames(): array
+    {
+        return array_map(function ($author) {
+            return $author->getName();
+        }, $this->authors->toArray());
+    }
 }

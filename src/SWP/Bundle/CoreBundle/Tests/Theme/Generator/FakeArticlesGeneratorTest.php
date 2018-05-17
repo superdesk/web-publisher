@@ -14,6 +14,7 @@
 
 namespace SWP\Bundle\CoreBundle\Tests;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use SWP\Bundle\CoreBundle\Model\ArticleInterface;
 use SWP\Bundle\CoreBundle\Model\ArticleMediaInterface;
 use SWP\Bundle\CoreBundle\Model\ArticleStatisticsInterface;
@@ -50,7 +51,11 @@ class FakeArticlesGeneratorTest extends WebTestCase
         $generatedArticles = $fakeArticlesGenerator->generate(5);
         self::assertCount(5, $generatedArticles);
         self::assertInstanceOf(ArticleInterface::class, $generatedArticles[0]);
+        self::assertEquals(['John Doe'], $generatedArticles[0]->getAuthorsNames());
         self::assertInstanceOf(ArticleStatisticsInterface::class, $generatedArticles[0]->getArticleStatistics());
         self::assertInstanceOf(ArticleMediaInterface::class, $generatedArticles[0]->getMedia()[0]);
+
+        $generatedArticles[0]->setAuthors(new ArrayCollection([]));
+        self::assertEquals([], $generatedArticles[0]->getAuthorsNames());
     }
 }
