@@ -204,7 +204,7 @@ class AuthControllerTest extends WebTestCase
         try {
             $baseUrl = $this->getContainer()->getParameter('superdesk_servers')[0];
             $client = new GuzzleHttp\Client();
-            $apiRequest = new GuzzleHttp\Psr7\Request('GET', $baseUrl.'/sessions');
+            $apiRequest = new GuzzleHttp\Psr7\Request('GET', $baseUrl.'/api/sessions');
             $client->send($apiRequest);
         } catch (GuzzleHttp\Exception\ConnectException $e) {
             $this->markTestSkipped('Superdesk fake server is offline');
@@ -262,7 +262,7 @@ class AuthControllerTest extends WebTestCase
         $client->request('GET', $content['url']);
         self::assertEquals(302, $client->getResponse()->getStatusCode());
         $cookies = $client->getResponse()->headers->getCookies();
-        self::assertCount(3, $cookies);
+        self::assertCount(2, $cookies);
         self::assertEquals('activate_livesite_editor', $cookies[0]->getName());
         self::assertEquals('append_livesite_editor_scripts', $cookies[1]->getName());
         $client->followRedirect();

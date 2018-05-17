@@ -18,7 +18,6 @@ namespace SWP\Bundle\CoreBundle\EventListener;
 
 use SWP\Bundle\ContentBundle\Event\ArticleEvent;
 use SWP\Bundle\CoreBundle\Adapter\AdapterInterface;
-use SWP\Bundle\CoreBundle\Model\ArticleInterface;
 use SWP\Component\MultiTenancy\Context\TenantContextInterface;
 
 final class SendArticleToOutputChannelListener
@@ -39,10 +38,8 @@ final class SendArticleToOutputChannelListener
      * @param AdapterInterface       $compositeAdapter
      * @param TenantContextInterface $tenantContext
      */
-    public function __construct(
-        AdapterInterface $compositeAdapter,
-        TenantContextInterface $tenantContext
-    ) {
+    public function __construct(AdapterInterface $compositeAdapter, TenantContextInterface $tenantContext)
+    {
         $this->compositeAdapter = $compositeAdapter;
         $this->tenantContext = $tenantContext;
     }
@@ -50,16 +47,40 @@ final class SendArticleToOutputChannelListener
     /**
      * @param ArticleEvent $event
      */
-    public function send(ArticleEvent $event)
+    public function create(ArticleEvent $event): void
     {
-        /** @var ArticleInterface $article */
-        $article = $event->getArticle();
-        $tenant = $this->tenantContext->getTenant();
-
-        if (null === $outputChannel = $tenant->getOutputChannel()) {
-            return;
+        if (null !== $outputChannel = $this->tenantContext->getTenant()->getOutputChannel()) {
+            $this->compositeAdapter->create($outputChannel, $event->getArticle());
         }
+    }
 
-        $this->compositeAdapter->send($outputChannel, $article);
+    /**
+     * @param ArticleEvent $event
+     */
+    public function update(ArticleEvent $event): void
+    {
+        if (null !== $outputChannel = $this->tenantContext->getTenant()->getOutputChannel()) {
+            $this->compositeAdapter->update($outputChannel, $event->getArticle());
+        }
+    }
+
+    /**
+     * @param ArticleEvent $event
+     */
+    public function publish(ArticleEvent $event): void
+    {
+        if (null !== $outputChannel = $this->tenantContext->getTenant()->getOutputChannel()) {
+            $this->compositeAdapter->publish($outputChannel, $event->getArticle());
+        }
+    }
+
+    /**
+     * @param ArticleEvent $event
+     */
+    public function unpublish(ArticleEvent $event): void
+    {
+        if (null !== $outputChannel = $this->tenantContext->getTenant()->getOutputChannel()) {
+            $this->compositeAdapter->unpublish($outputChannel, $event->getArticle());
+        }
     }
 }

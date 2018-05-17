@@ -553,7 +553,11 @@ services:
             - '@SWP\Bundle\CoreBundle\Adapter\CompositeOutputChannelAdapter'
             - '@swp_multi_tenancy.tenant_context'
         tags:
-            - { name: kernel.event_listener, event: swp.article.published, method: send }
+            - { name: kernel.event_listener, event: swp.article.post_create, method: create }
+            - { name: kernel.event_listener, event: swp.article.post_update, method: update }
+            - { name: kernel.event_listener, event: swp.article.published, method: publish }
+            - { name: kernel.event_listener, event: swp.article.unpublished, method: unpublish }
+
 
     SWP\Bundle\CoreBundle\EventListener\PushNotificationOnPackageProcessedListener:
         arguments:

@@ -25,7 +25,25 @@ interface AdapterInterface
      * @param OutputChannelInterface $outputChannel
      * @param ArticleInterface       $article
      */
-    public function send(OutputChannelInterface $outputChannel, ArticleInterface $article): void;
+    public function create(OutputChannelInterface $outputChannel, ArticleInterface $article): void;
+
+    /**
+     * @param OutputChannelInterface $outputChannel
+     * @param ArticleInterface       $article
+     */
+    public function update(OutputChannelInterface $outputChannel, ArticleInterface $article): void;
+
+    /**
+     * @param OutputChannelInterface $outputChannel
+     * @param ArticleInterface       $article
+     */
+    public function publish(OutputChannelInterface $outputChannel, ArticleInterface $article): void;
+
+    /**
+     * @param OutputChannelInterface $outputChannel
+     * @param ArticleInterface       $article
+     */
+    public function unpublish(OutputChannelInterface $outputChannel, ArticleInterface $article): void;
 
     /**
      * @param OutputChannelInterface $outputChannel

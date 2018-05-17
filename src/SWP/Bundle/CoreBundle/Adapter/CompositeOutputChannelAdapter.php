@@ -29,15 +29,37 @@ final class CompositeOutputChannelAdapter implements AdapterInterface
     /**
      * {@inheritdoc}
      */
-    public function send(OutputChannelInterface $outputChannel, ArticleInterface $article): void
+    public function create(OutputChannelInterface $outputChannel, ArticleInterface $article): void
     {
-        foreach ($this->adapters as $adapter) {
-            if ($adapter->supports($outputChannel)) {
-                $adapter->send($outputChannel, $article);
-            }
-        }
+        $adapter = $this->getSupportedAdapter($outputChannel);
+        $adapter->create($outputChannel, $article);
+    }
 
-        throw new \InvalidArgumentException(sprintf('There is no adapter provider registered which supports %s type!', $outputChannel->getType()));
+    /**
+     * {@inheritdoc}
+     */
+    public function update(OutputChannelInterface $outputChannel, ArticleInterface $article): void
+    {
+        $adapter = $this->getSupportedAdapter($outputChannel);
+        $adapter->update($outputChannel, $article);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function publish(OutputChannelInterface $outputChannel, ArticleInterface $article): void
+    {
+        $adapter = $this->getSupportedAdapter($outputChannel);
+        $adapter->publish($outputChannel, $article);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function unpublish(OutputChannelInterface $outputChannel, ArticleInterface $article): void
+    {
+        $adapter = $this->getSupportedAdapter($outputChannel);
+        $adapter->unpublish($outputChannel, $article);
     }
 
     /**
@@ -60,5 +82,23 @@ final class CompositeOutputChannelAdapter implements AdapterInterface
     public function addAdapter(AdapterInterface $provider): void
     {
         $this->adapters[] = $provider;
+    }
+
+    /**
+     * @param OutputChannelInterface $outputChannel
+     *
+     * @throws \InvalidArgumentException
+     *
+     * @return AdapterInterface
+     */
+    private function getSupportedAdapter(OutputChannelInterface $outputChannel): AdapterInterface
+    {
+        foreach ($this->adapters as $adapter) {
+            if ($adapter->supports($outputChannel)) {
+                return $adapter;
+            }
+        }
+
+        throw new \InvalidArgumentException(sprintf('There is no adapter provider registered which supports %s type!', $outputChannel->getType()));
     }
 }

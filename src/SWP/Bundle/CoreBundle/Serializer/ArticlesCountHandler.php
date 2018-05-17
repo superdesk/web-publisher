@@ -55,14 +55,14 @@ final class ArticlesCountHandler implements SubscribingHandlerInterface
      */
     public static function getSubscribingMethods()
     {
-        return array(
-            array(
+        return [
+            [
                 'direction' => GraphNavigator::DIRECTION_SERIALIZATION,
                 'format' => 'json',
                 'type' => 'SWP\Bundle\CoreBundle\Model\ArticlesCountInterface',
                 'method' => 'serializeToJson',
-            ),
-        );
+            ],
+        ];
     }
 
     public function serializeToJson(

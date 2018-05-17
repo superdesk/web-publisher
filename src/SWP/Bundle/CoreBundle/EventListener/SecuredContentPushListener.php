@@ -59,6 +59,13 @@ class SecuredContentPushListener
             return;
         }
 
+        if (null === $organizationToken) {
+            $event->setResponse(new Response('Bad credentials', 401));
+            $event->stopPropagation();
+
+            return;
+        }
+
         $token = hash_hmac('sha1', $request->getContent(), $organizationToken);
         if ($request->headers->get('x-superdesk-signature') !== 'sha1='.$token) {
             $event->setResponse(new Response('Bad credentials', 401));
