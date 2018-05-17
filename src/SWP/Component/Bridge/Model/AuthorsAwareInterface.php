@@ -20,13 +20,35 @@ use Doctrine\Common\Collections\Collection;
 
 interface AuthorsAwareInterface
 {
+    /**
+     * @return Collection
+     */
     public function getAuthors(): Collection;
 
+    /**
+     * @param Collection $authors
+     */
     public function setAuthors(Collection $authors): void;
 
+    /**
+     * @param AuthorInterface $author
+     */
     public function addAuthor(AuthorInterface $author): void;
 
+    /**
+     * @param AuthorInterface $author
+     */
     public function removeAuthor(AuthorInterface $author): void;
 
+    /**
+     * @param AuthorInterface $author
+     *
+     * @return bool
+     */
     public function hasAuthor(AuthorInterface $author): bool;
+
+    /**
+     * @return array
+     */
+    public function getAuthorsNames(): array;
 }
