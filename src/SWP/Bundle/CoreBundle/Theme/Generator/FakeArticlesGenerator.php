@@ -21,6 +21,7 @@ use Doctrine\Common\Collections\Collection;
 use SWP\Bundle\ContentBundle\Factory\ArticleFactoryInterface;
 use SWP\Bundle\ContentBundle\Factory\MediaFactoryInterface;
 use SWP\Bundle\ContentBundle\Manager\MediaManagerInterface;
+use SWP\Bundle\ContentBundle\Model\ArticleAuthor;
 use SWP\Bundle\ContentBundle\Model\ImageRendition;
 use SWP\Bundle\CoreBundle\Model\ArticleInterface;
 use SWP\Bundle\CoreBundle\Model\ArticleMediaInterface;
@@ -99,6 +100,10 @@ class FakeArticlesGenerator implements FakeArticlesGeneratorInterface
             $this->articleRepository->flush();
             $article->setMedia($this->createArticleMedia($article));
             $article->setArticleStatistics($this->createArticleStatistics($article));
+            $author = new ArticleAuthor();
+            $author->setRole('editor');
+            $author->setName('John Doe');
+            $article->setAuthors(new ArrayCollection([$author]));
             $this->articleRepository->flush();
 
             $articles[] = $article;
