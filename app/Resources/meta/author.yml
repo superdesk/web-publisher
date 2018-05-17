@@ -20,4 +20,7 @@ properties:
     avatarUrl:
         description: "Author's avatar URL"
         type: text
+    slug:
+        description: "Author's slug"
+        type: text
 to_string: name
