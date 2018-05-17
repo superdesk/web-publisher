@@ -102,13 +102,13 @@ class ArticleAuthorLoaderTest extends WebTestCase
 
     public function testLoadAuthorBySlug()
     {
-        $template = '{% gimme author with {slug: "tom"} %} {{ author.name }} {% endgimme %}';
+        $template = '{% gimme author with {slug: "tom"} %} {{ author.name }} {{ author.slug }} {% endgimme %}';
         $result = $this->getRendered($template);
-        self::assertEquals(' Tom ', $result);
+        self::assertEquals(' Tom tom ', $result);
 
-        $template = '{% gimme author with {slug: "john-doe"} %} {{ author.name }} {% endgimme %}';
+        $template = '{% gimme author with {slug: "john-doe"} %} {{ author.name }} {{ author.slug }} {% endgimme %}';
         $result = $this->getRendered($template);
-        self::assertEquals(' John Doe ', $result);
+        self::assertEquals(' John Doe john-doe ', $result);
     }
 
     private function getRendered($template, $context = [])
