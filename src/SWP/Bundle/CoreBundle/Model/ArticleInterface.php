@@ -58,4 +58,14 @@ interface ArticleInterface extends BaseArticleInterface, TenantAwareInterface, L
      * @param ArticleStatisticsInterface $articleStatistics
      */
     public function setArticleStatistics(ArticleStatisticsInterface $articleStatistics): void;
+
+    /**
+     * @return ExternalArticleInterface
+     */
+    public function getExternalArticle(): ?ExternalArticleInterface;
+
+    /**
+     * @param ExternalArticleInterface $externalArticle
+     */
+    public function setExternalArticle(ExternalArticleInterface $externalArticle): void;
 }

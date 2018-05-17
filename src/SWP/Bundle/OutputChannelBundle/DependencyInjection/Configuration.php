@@ -17,6 +17,8 @@ declare(strict_types=1);
 namespace SWP\Bundle\OutputChannelBundle\DependencyInjection;
 
 use SWP\Bundle\StorageBundle\Doctrine\ORM\EntityRepository;
+use SWP\Component\OutputChannel\Model\ExternalArticle;
+use SWP\Component\OutputChannel\Model\ExternalArticleInterface;
 use SWP\Component\OutputChannel\Model\OutputChannel;
 use SWP\Component\OutputChannel\Model\OutputChannelInterface;
 use SWP\Component\Storage\Factory\Factory;
@@ -49,6 +51,16 @@ class Configuration implements ConfigurationInterface
                                                 ->scalarNode('model')->cannotBeEmpty()->defaultValue(OutputChannel::class)->end()
                                                 ->scalarNode('repository')->defaultValue(EntityRepository::class)->end()
                                                 ->scalarNode('interface')->defaultValue(OutputChannelInterface::class)->end()
+                                                ->scalarNode('factory')->defaultValue(Factory::class)->end()
+                                                ->scalarNode('object_manager_name')->defaultValue(null)->end()
+                                            ->end()
+                                        ->end()
+                                        ->arrayNode('external_article')
+                                            ->addDefaultsIfNotSet()
+                                            ->children()
+                                                ->scalarNode('model')->cannotBeEmpty()->defaultValue(ExternalArticle::class)->end()
+                                                ->scalarNode('repository')->defaultValue(EntityRepository::class)->end()
+                                                ->scalarNode('interface')->defaultValue(ExternalArticleInterface::class)->end()
                                                 ->scalarNode('factory')->defaultValue(Factory::class)->end()
                                                 ->scalarNode('object_manager_name')->defaultValue(null)->end()
                                             ->end()

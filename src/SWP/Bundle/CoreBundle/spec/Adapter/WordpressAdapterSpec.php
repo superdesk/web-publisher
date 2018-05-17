@@ -16,24 +16,31 @@ declare(strict_types=1);
 
 namespace spec\SWP\Bundle\CoreBundle\Adapter;
 
+use Doctrine\ORM\EntityManagerInterface;
 use GuzzleHttp\ClientInterface;
+use SWP\Bundle\ContentBundle\Manager\MediaManagerInterface;
 use SWP\Bundle\CoreBundle\Adapter\AdapterInterface;
 use SWP\Bundle\CoreBundle\Adapter\WordpressAdapter;
 use PhpSpec\ObjectBehavior;
+use SWP\Component\Storage\Repository\RepositoryInterface;
 
 final class WordpressAdapterSpec extends ObjectBehavior
 {
-    function let(ClientInterface $client)
-    {
-        $this->beConstructedWith($client);
+    public function let(
+        ClientInterface $client,
+        RepositoryInterface $externalArticleRepository,
+        EntityManagerInterface $externalArticleManager,
+        MediaManagerInterface $mediaManager
+    ) {
+        $this->beConstructedWith($client, $externalArticleRepository, $externalArticleManager, $mediaManager);
     }
 
-    function it_is_initializable()
+    public function it_is_initializable()
     {
         $this->shouldHaveType(WordpressAdapter::class);
     }
 
-    function it_implements_interface()
+    public function it_implements_interface()
     {
         $this->shouldImplement(AdapterInterface::class);
     }

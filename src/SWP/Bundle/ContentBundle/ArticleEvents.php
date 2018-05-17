@@ -39,6 +39,17 @@ class ArticleEvents
     const POST_CREATE = 'swp.article.post_create';
 
     /**
+     * The PRE_CREATE event occurs before the article is updated.
+     *
+     * This event allows you to modify article before it will be updated.
+     *
+     * @Event("SWP\Bundle\ContentBundle\Event\ArticleEvent")
+     *
+     * @var string
+     */
+    const PRE_UPDATE = 'swp.article.pre_update';
+
+    /**
      * The POST_UPDATE event occurs at the very end of article update.
      *
      * This event allows you to react on article change after it will be updated.

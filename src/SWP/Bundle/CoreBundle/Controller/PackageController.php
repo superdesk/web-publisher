@@ -103,6 +103,7 @@ class PackageController extends Controller
      *     input="SWP\Bundle\CoreBundle\Form\Type\CompositePublishActionType"
      * )
      * @Route("/api/{version}/packages/{id}/publish/", options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_core_publish_package", requirements={"id"="\d+"})
+     *
      * @Method("POST")
      */
     public function publishAction(Request $request, int $id)

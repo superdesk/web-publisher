@@ -6,7 +6,7 @@ Feature: Adding a new tenant with output channel
   Scenario: Adding a new tenant with Wordpress output channel
     Given I am authenticated as "test.user"
     When I add "Content-Type" header equal to "application/json"
-    And I send a "POST" request to "/api/{version}/tenants/" with body:
+    And I send a "POST" request to "/api/v1/tenants/" with body:
      """
       {
         "tenant": {
@@ -17,8 +17,7 @@ Feature: Adding a new tenant with output channel
             "type": "wordpress",
             "config": {
               "url": "http://api.wordpress.com",
-              "key": "private key",
-              "secret": "secret"
+              "authorization_key": "private key"
             }
           }
         }
@@ -27,13 +26,12 @@ Feature: Adding a new tenant with output channel
     Then the response status code should be 201
     And the JSON node "outputChannel.type" should be equal to "wordpress"
     And the JSON node "outputChannel.config.url" should be equal to "http://api.wordpress.com"
-    And the JSON node "outputChannel.config.key" should be equal to "private key"
-    And the JSON node "outputChannel.config.secret" should be equal to "secret"
+    And the JSON node "outputChannel.config.authorization_key" should be equal to "private key"
 
   Scenario: Adding a new tenant with fake type of output channel
     Given I am authenticated as "test.user"
     When I add "Content-Type" header equal to "application/json"
-    And I send a "POST" request to "/api/{version}/tenants/" with body:
+    And I send a "POST" request to "/api/v1/tenants/" with body:
      """
       {
         "tenant": {
@@ -44,8 +42,7 @@ Feature: Adding a new tenant with output channel
             "type": "fake",
             "config": {
               "url": "http://api.wordpress.com",
-              "key": "private key",
-              "secret": "secret"
+              "authorization_key": "private key"
             }
           }
         }
@@ -56,13 +53,12 @@ Feature: Adding a new tenant with output channel
   Scenario: Adding a new tenant without output channel
     Given I am authenticated as "test.user"
     When I add "Content-Type" header equal to "application/json"
-    And I send a "POST" request to "/api/{version}/tenants/" with body:
+    And I send a "POST" request to "/api/v1/tenants/" with body:
      """
       {
         "tenant": {
           "domainName": "example2.com",
-          "name": "Example tenant2",
-          "subdomain": "tenant2"
+          "name": "Example tenant2"
         }
       }
     """

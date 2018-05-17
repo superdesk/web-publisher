@@ -9,5 +9,8 @@ services:
         public: true
         arguments:
             - '@GuzzleHttp\Client'
+            - '@swp.repository.external_article'
+            - '@swp.object_manager.external_article'
+            - '@swp_content_bundle.manager.media'
         tags:
             - { name: swp.output_channel_adapter, alias: wordpress_adapter }

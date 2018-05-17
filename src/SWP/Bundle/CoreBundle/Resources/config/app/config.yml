@@ -289,6 +289,9 @@ swp_output_channel:
             classes:
                 output_channel:
                     model: SWP\Bundle\CoreBundle\Model\OutputChannel
+                external_article:
+                    model: SWP\Bundle\CoreBundle\Model\ExternalArticle
+                    interface: SWP\Bundle\CoreBundle\Model\ExternalArticleInterface
 
 old_sound_rabbit_mq:
     connections:

@@ -40,6 +40,11 @@ class Article extends BaseArticle implements ArticleInterface
     protected $articleStatistics;
 
     /**
+     * @var ExternalArticleInterface
+     */
+    protected $externalArticle;
+
+    /**
      * {@inheritdoc}
      */
     public function setId($id)
@@ -94,5 +99,21 @@ class Article extends BaseArticle implements ArticleInterface
     {
         $articleStatistics->setArticle($this);
         $this->articleStatistics = $articleStatistics;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getExternalArticle(): ?ExternalArticleInterface
+    {
+        return $this->externalArticle;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setExternalArticle(ExternalArticleInterface $externalArticle): void
+    {
+        $this->externalArticle = $externalArticle;
     }
 }
