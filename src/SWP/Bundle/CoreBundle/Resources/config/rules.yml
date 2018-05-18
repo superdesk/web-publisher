@@ -20,10 +20,16 @@ services:
             - '@event_dispatcher'
         public: false
 
+    SWP\Bundle\CoreBundle\Rule\Processor\OrganizationRuleProcessor:
+        arguments:
+            - '@swp.repository.rule'
+            - '@swp_rule.evaluator.rule'
+            - '@swp_rule.applicator_chain'
+
     swp_core.listener.organization_rules_subscriber:
         class: SWP\Bundle\CoreBundle\EventSubscriber\ProcessOrganizationRulesSubscriber
         arguments:
-            - '@swp_core.processor.tenant_aware_rule.inner'
+            - '@SWP\Bundle\CoreBundle\Rule\Processor\OrganizationRuleProcessor'
             - '@event_dispatcher'
             - '@SWP\Bundle\CoreBundle\Provider\PublishDestinationProvider'
             - '@swp_core.article.publisher'

@@ -71,7 +71,7 @@ swp_rule:
             classes:
                 rule:
                     model: SWP\Bundle\CoreBundle\Model\Rule
-
+                    repository: SWP\Bundle\CoreBundle\Repository\RuleRepository
 swp_menu:
     persistence:
         orm:
