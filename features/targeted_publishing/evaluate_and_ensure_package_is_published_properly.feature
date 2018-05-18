@@ -5,7 +5,7 @@ Feature: Evaluate and ensure the package has been published under specific tenan
   Scenario: Create rules for one tenant and destinations for the second one
     Given I am authenticated as "test.user"
     And I add "Content-Type" header equal to "application/json"
-    Then I send a "POST" request to "/api/{version}/organization/rules/" with body:
+    Then I send a "POST" request to "/api/v1/organization/rules/" with body:
      """
       {
         "rule":{
@@ -29,7 +29,7 @@ Feature: Evaluate and ensure the package has been published under specific tenan
     Then the response status code should be 201
     And I am authenticated as "test.user"
     And I add "Content-Type" header equal to "application/json"
-    Then I send a "POST" request to "/api/{version}/rules/" with body:
+    Then I send a "POST" request to "/api/v1/rules/" with body:
      """
       {
         "rule":{
@@ -143,6 +143,7 @@ Feature: Evaluate and ensure the package has been published under specific tenan
           "code":"02002001"
         }
       ],
+      "source": "superdesk publisher",
       "urgency":3,
       "type":"text",
       "headline":"Abstract html test",
@@ -163,14 +164,16 @@ Feature: Evaluate and ensure the package has been published under specific tenan
     Then I send a "GET" request to "/api/{version}/content/articles/abstract-html-test"
     Then the response status code should be 200
     And the JSON nodes should contain:
-      | slug                          | abstract-html-test |
-      | route.id                      | 6                  |
-      | status                        | published          |
+      | slug                          | abstract-html-test  |
+      | route.id                      | 6                   |
+      | status                        | published           |
+      | sources[0].articleSource.name | superdesk publisher |
     And I am authenticated as "test.client2"
     And I add "Content-Type" header equal to "application/json"
     Then I send a "GET" request to "http://client2.localhost/api/{version}/content/articles/abstract-html-test"
     Then the response status code should be 200
     And the JSON nodes should contain:
-      | slug                          | abstract-html-test |
-      | route.id                      | 7                  |
-      | status                        | published          |
+      | slug                          | abstract-html-test  |
+      | route.id                      | 7                   |
+      | status                        | published           |
+      | sources[0].articleSource.name | superdesk publisher |

@@ -58,7 +58,6 @@ class ArticleSourceService implements ArticleSourceServiceInterface
         $articleSourceReference = $this->articleSourceReferenceFactory->create();
         $articleSourceReference->setArticle($article);
         $articleSourceReference->setArticleSource($source);
-        $this->articleSourceReferenceRepository->persist($articleSourceReference);
 
         return $articleSourceReference;
     }
