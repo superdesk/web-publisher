@@ -74,7 +74,22 @@ Feature: Listing evaluated rules which match the package's metadata
     And I add "Content-Type" header equal to "application/json"
     Then I send a "POST" request to "/api/{version}/organization/rules/evaluate" with body:
      """
-     {"language": "en", "slugline": "abstract-html-test", "body_html": "<p>some html body</p>", "versioncreated": "2016-09-23T13:57:28+0000", "firstcreated": "2016-09-23T09:11:28+0000", "description_text": "some abstract text", "place": [{"country": "Australia", "world_region": "Oceania", "state": "Australian Capital Territory", "qcode": "ACT", "name": "ACT", "group": "Australia"}], "version": "2", "byline": "ADmin", "keywords": [], "guid": "urn:newsml:localhost:2016-09-23T13:56:39.404843:56465de4-0d5c-495a-8e36-3b396def3cf0", "priority": 6, "subject": [{"name": "lawyer", "code": "02002001"}], "urgency": 3, "type": "text", "headline": "Abstract html test", "service": [{"name": "Australian General News", "code": "a"}], "description_html": "<p><b><u>some abstract text</u></b></p>", "located": "Sydney", "pubstatus": "usable"}
+     {"language": "en", "slugline": "abstract-html-test", "source": "superdesk publisher", "body_html": "<p>some html body</p>", "versioncreated": "2016-09-23T13:57:28+0000", "firstcreated": "2016-09-23T09:11:28+0000", "description_text": "some abstract text", "place": [{"country": "Australia", "world_region": "Oceania", "state": "Australian Capital Territory", "qcode": "ACT", "name": "ACT", "group": "Australia"}], "version": "2", "byline": "ADmin", "keywords": [], "guid": "urn:newsml:localhost:2016-09-23T13:56:39.404843:56465de4-0d5c-495a-8e36-3b396def3cf0", "priority": 6, "subject": [{"name": "lawyer", "code": "02002001"}], "urgency": 3, "type": "text", "headline": "Abstract html test", "service": [{"name": "Australian General News", "code": "a"}], "description_html": "<p><b><u>some abstract text</u></b></p>", "located": "Sydney", "pubstatus": "usable"}
+     """
+    Then the response status code should be 200
+    And the JSON node "organization.code" should be equal to "123456"
+    And the JSON node "tenants[0].tenant.code" should be equal to "123abc"
+    And the JSON node "tenants[0].route" should exist
+    And the JSON node "tenants[0].route.id" should be equal to "3"
+    And the JSON node "tenants[1].tenant.code" should be equal to "123abc"
+    And the JSON node "tenants[1].route" should exist
+    And the JSON node "tenants[1].route.id" should be equal to "3"
+
+    And I am authenticated as "test.user"
+    And I add "Content-Type" header equal to "application/json"
+    Then I send a "POST" request to "/api/{version}/organization/rules/evaluate" with body:
+     """
+     {"language": "en", "slugline": "abstract-html-test-second", "source": "superdesk publisher", "body_html": "<p>some html body for second package</p>", "versioncreated": "2016-09-23T13:58:28+0000", "firstcreated": "2016-09-23T09:12:28+0000", "description_text": "some abstract text second", "place": [{"country": "Australia", "world_region": "Oceania", "state": "Australian Capital Territory", "qcode": "ACT", "name": "ACT", "group": "Australia"}], "version": "2", "byline": "ADmin", "keywords": [], "guid": "urn:newsml:localhost:2016-09-23T13:59:39.404843:56465de4-0d5c-495a-8e36-3b396def3cf1", "priority": 6, "subject": [{"name": "lawyer", "code": "02002001"}], "urgency": 3, "type": "text", "headline": "Abstract html test second", "service": [{"name": "Australian General News", "code": "a"}], "description_html": "<p><b><u>some abstract text</u></b></p>", "located": "Sydney", "pubstatus": "usable"}
      """
     Then the response status code should be 200
     And the JSON node "organization.code" should be equal to "123456"
