@@ -116,7 +116,7 @@ class ContentListsItemLoader extends PaginatedLoader implements LoaderInterface
      */
     public function isSupported(string $type): bool
     {
-        return in_array($type, ['contentListItems']);
+        return 'contentListItems' === $type;
     }
 
     /**
@@ -129,7 +129,5 @@ class ContentListsItemLoader extends PaginatedLoader implements LoaderInterface
         if (null !== $item) {
             return $this->metaFactory->create($item);
         }
-
-        return;
     }
 }

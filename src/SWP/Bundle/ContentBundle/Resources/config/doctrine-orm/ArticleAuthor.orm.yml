@@ -14,6 +14,7 @@ SWP\Bundle\ContentBundle\Model\ArticleAuthor:
             type: string
         biography:
             type: string
+            length: 460
             nullable: true
         avatarUrl:
             type: string
