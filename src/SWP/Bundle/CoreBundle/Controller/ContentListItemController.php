@@ -158,7 +158,7 @@ class ContentListItemController extends Controller
             $data = $form->getData();
             $updatedAt = \DateTime::createFromFormat(\DateTime::RFC3339, $data['updated_at'], new \DateTimeZone('UTC'));
             $updatedAt->setTimezone(new \DateTimeZone('UTC'));
-            if ($updatedAt != $list->getUpdatedAt()) {
+            if ($updatedAt !== $list->getUpdatedAt()) {
                 throw new ConflictHttpException('List was already updated');
             }
 

@@ -176,6 +176,13 @@ services:
             - { name: kernel.event_listener, event: swp.article.unpublish, method: unpublish }
             - { name: kernel.event_listener, event: swp.article.canceled, method: cancel }
 
+    swp_content_bundle.listener.route_remove:
+        class: SWP\Bundle\ContentBundle\EventListener\RouteRemoveListener
+        arguments:
+            - '@doctrine.orm.entity_manager'
+        tags:
+            - { name: kernel.event_listener, event: swp.route.pre_delete, method: onDelete }
+
     swp.adder.article_source:
         class: SWP\Bundle\ContentBundle\Service\ArticleSourcesAdder
         arguments:

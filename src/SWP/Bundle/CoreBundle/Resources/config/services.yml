@@ -295,6 +295,12 @@ services:
         tags:
             - { name: kernel.event_listener, event: kernel.request, method: onKernelRequest }
 
+    SWP\Bundle\CoreBundle\EventListener\RouteRemoveListener:
+        arguments:
+            - '@doctrine.orm.entity_manager'
+        tags:
+            - { name: kernel.event_listener, event: swp.route.pre_delete, method: onDelete }
+
     swp.matcher.article_criteria:
         class: SWP\Bundle\CoreBundle\Matcher\ArticleCriteriaMatcher
 

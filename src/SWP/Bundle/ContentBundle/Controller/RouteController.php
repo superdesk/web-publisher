@@ -19,13 +19,16 @@ use FOS\RestBundle\View\View;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use SWP\Bundle\ContentBundle\Event\RouteEvent;
 use SWP\Bundle\ContentBundle\Model\RouteInterface;
+use SWP\Bundle\ContentBundle\RouteEvents;
 use SWP\Component\Common\Criteria\Criteria;
 use SWP\Bundle\ContentBundle\Form\Type\RouteType;
 use SWP\Component\Common\Pagination\PaginationData;
 use SWP\Component\Common\Response\ResponseContext;
 use SWP\Component\Common\Response\SingleResourceResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\ConflictHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
@@ -88,7 +91,10 @@ class RouteController extends FOSRestController
      *     }
      * )
      * @Route("/api/{version}/content/routes/{id}", options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_content_delete_routes", requirements={"id"=".+"})
+     *
      * @Method("DELETE")
+     *
+     * @return Response
      */
     public function deleteAction($id)
     {
@@ -99,7 +105,14 @@ class RouteController extends FOSRestController
             throw new ConflictHttpException('Route has content attached to it.');
         }
 
+        if (0 < $route->getChildren()->count()) {
+            throw new ConflictHttpException('Remove route childrens before removing this route.');
+        }
+
+        $eventDispatcher = $this->container->get('event_dispatcher');
+        $eventDispatcher->dispatch(RouteEvents::PRE_DELETE, new RouteEvent($route, RouteEvents::PRE_DELETE));
         $repository->remove($route);
+        $eventDispatcher->dispatch(RouteEvents::POST_DELETE, new RouteEvent($route, RouteEvents::POST_DELETE));
 
         return $this->handleView(View::create(true, 204));
     }

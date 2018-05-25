@@ -62,4 +62,27 @@ class RouteEvents
      * @var string
      */
     const POST_CREATE = 'swp.route.post_create';
+
+    /**
+     * The PRE_DELETE event occurs before the route is deleted.
+     *
+     * This event allows you to modify route (and it's articles) before after it will be deleted.
+     *
+     * @Event("SWP\Bundle\ContentBundle\Event\RouteEvent")
+     *
+     * @var string
+     */
+    const PRE_DELETE = 'swp.route.pre_delete';
+
+    /**
+     * The POST_CREATE event occurs at the very ending of route
+     * removing.
+     *
+     * This event allows you to modify route (and it's articles) after it will be deleted.
+     *
+     * @Event("SWP\Bundle\ContentBundle\Event\RouteEvent")
+     *
+     * @var string
+     */
+    const POST_DELETE = 'swp.route.post_delete';
 }
