@@ -115,6 +115,7 @@ class FacebookInstantArticlesListenerTest extends WebTestCase
                             'tenant' => '123abc',
                             'route' => 3,
                             'fbia' => true,
+                            'published' => true,
                         ],
                     ],
                 ],
