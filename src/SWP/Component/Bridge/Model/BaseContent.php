@@ -357,7 +357,11 @@ class BaseContent implements ContentInterface
     public function getServicesNames(): array
     {
         return array_map(function ($service) {
-            return $service['name'];
+            if (\is_array($service) && \array_key_exists('name', $service)) {
+                return $service['name'];
+            }
+
+            return $service;
         }, $this->services);
     }
 
@@ -367,7 +371,11 @@ class BaseContent implements ContentInterface
     public function getServicesCodes(): array
     {
         return array_map(function ($service) {
-            return $service['code'];
+            if (\is_array($service) && \array_key_exists('code', $service)) {
+                return $service['code'];
+            }
+
+            return $service;
         }, $this->services);
     }
 
