@@ -354,6 +354,34 @@ class BaseContent implements ContentInterface
     /**
      * {@inheritdoc}
      */
+    public function getServicesNames(): array
+    {
+        return array_map(function ($service) {
+            if (\is_array($service) && \array_key_exists('name', $service)) {
+                return $service['name'];
+            }
+
+            return $service;
+        }, $this->services);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getServicesCodes(): array
+    {
+        return array_map(function ($service) {
+            if (\is_array($service) && \array_key_exists('code', $service)) {
+                return $service['code'];
+            }
+
+            return $service;
+        }, $this->services);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function setServices(array $services = [])
     {
         $this->services = $services;
