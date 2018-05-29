@@ -159,6 +159,16 @@ interface ContentInterface extends PersistableInterface, AuthorsAwareInterface
     public function getServices();
 
     /**
+     * @return array
+     */
+    public function getServicesNames(): array;
+
+    /**
+     * @return array
+     */
+    public function getServicesCodes(): array;
+
+    /**
      * @param array $services
      */
     public function setServices(array $services = []);

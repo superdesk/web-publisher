@@ -81,9 +81,9 @@ final class ContentPushControllerTest extends WebTestCase
         self::assertEquals(201, $client->getResponse()->getStatusCode());
     }
 
-    /*
- * @covers SWP\Bundle\ContentBundle\Controller\ContentPushController::pushAssetsAction
- */
+    /**
+     * @covers \SWP\Bundle\ContentBundle\Controller\ContentPushController::pushAssetsAction
+     */
     public function testAssetsPush()
     {
         $filesystem = new Filesystem();

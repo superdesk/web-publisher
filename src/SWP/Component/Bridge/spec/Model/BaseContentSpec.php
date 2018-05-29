@@ -115,6 +115,18 @@ class BaseContentSpec extends ObjectBehavior
         $this->getServices()->shouldReturn(['sub1', 'sub2']);
     }
 
+    public function its_gives_services_by_name()
+    {
+        $this->setServices([['code' => 'sub1', 'name' => 'SUB1']]);
+        $this->getServicesNames()->shouldReturn(['SUB1']);
+    }
+
+    public function its_gives_services_by_codes()
+    {
+        $this->setServices([['code' => 'sub1', 'name' => 'SUB1']]);
+        $this->getServicesCodes()->shouldReturn(['sub1']);
+    }
+
     public function it_has_no_type_by_default()
     {
         $this->getType()->shouldReturn(null);
