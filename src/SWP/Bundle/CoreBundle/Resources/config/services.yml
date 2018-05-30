@@ -571,3 +571,7 @@ services:
             - '@swp.serializer'
         tags:
             - { name: kernel.event_listener, event: swp.bridge.package_processed, method: onProcessed }
+
+    SWP\Bundle\CoreBundle\EventListener\MergePackageListener:
+        tags:
+            - { name: kernel.event_listener, event: swp.bridge.package_pre_update, method: preUpdate }

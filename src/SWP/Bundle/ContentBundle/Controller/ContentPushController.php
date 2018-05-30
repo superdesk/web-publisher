@@ -58,8 +58,10 @@ class ContentPushController extends Controller
             $objectManager = $this->get('swp.object_manager.package');
             $package->setId($existingPackage->getId());
             $package->setCreatedAt($existingPackage->getCreatedAt());
-            $package->setStatus($existingPackage->getStatus());
-            $this->get('event_dispatcher')->dispatch(Events::PACKAGE_PRE_UPDATE, new GenericEvent($package, ['eventName' => Events::PACKAGE_PRE_UPDATE]));
+            $this->get('event_dispatcher')->dispatch(Events::PACKAGE_PRE_UPDATE, new GenericEvent($package, [
+                'eventName' => Events::PACKAGE_PRE_UPDATE,
+                'package' => $existingPackage
+            ]));
 
             $package = $objectManager->merge($package);
             $objectManager->flush();
