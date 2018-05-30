@@ -358,6 +358,8 @@ class RuleControllerTest extends WebTestCase
                         [
                             'tenant' => '123abc',
                             'route' => 3,
+                            'fbia' => false,
+                            'published' => true,
                         ],
                     ],
                 ],
