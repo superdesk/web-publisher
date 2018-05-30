@@ -66,7 +66,8 @@ Feature: Checking if pushed package will be published on tenant with output chan
         "publish":{
           "destinations":[
             {
-              "tenant":"123abc"
+              "tenant":"123abc",
+              "published":true
             }
           ]
         }
