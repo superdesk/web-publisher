@@ -60,7 +60,7 @@ class ContentPushController extends Controller
             $package->setCreatedAt($existingPackage->getCreatedAt());
             $this->get('event_dispatcher')->dispatch(Events::PACKAGE_PRE_UPDATE, new GenericEvent($package, [
                 'eventName' => Events::PACKAGE_PRE_UPDATE,
-                'package' => $existingPackage
+                'package' => $existingPackage,
             ]));
 
             $package = $objectManager->merge($package);
