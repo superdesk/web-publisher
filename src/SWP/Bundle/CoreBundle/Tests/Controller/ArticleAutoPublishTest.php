@@ -471,8 +471,9 @@ final class ArticleAutoPublishTest extends WebTestCase
             ],
         ]);
         self::assertEquals(201, $client1->getResponse()->getStatusCode());
-        $this->pushContent(self::TEST_ITEM_CONTENT_CORRECTED);
         $response = $this->pushContent();
+        self::assertEquals(201, $response->getStatusCode());
+        $response = $this->pushContent(self::TEST_ITEM_CONTENT_CORRECTED);
         self::assertEquals(201, $response->getStatusCode());
     }
 
