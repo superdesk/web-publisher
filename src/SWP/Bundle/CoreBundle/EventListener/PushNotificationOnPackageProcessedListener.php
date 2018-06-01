@@ -52,7 +52,6 @@ final class PushNotificationOnPackageProcessedListener
     public function onProcessed(GenericEvent $event)
     {
         $package = $this->getPackage($event);
-
         $this->pusher->push(['package' => json_decode($this->serializer->serialize($package, 'json'), true)], 'package_created');
     }
 
