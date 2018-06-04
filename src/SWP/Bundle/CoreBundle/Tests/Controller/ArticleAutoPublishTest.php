@@ -24,6 +24,8 @@ final class ArticleAutoPublishTest extends WebTestCase
 {
     const TEST_ITEM_CONTENT = '{"language": "en", "slugline": "abstract-html-test", "body_html": "<p>some html body</p>", "versioncreated": "2016-09-23T13:57:28+0000", "firstcreated": "2016-09-23T09:11:28+0000", "description_text": "some abstract text", "place": [{"country": "Australia", "world_region": "Oceania", "state": "Australian Capital Territory", "qcode": "ACT", "name": "ACT", "group": "Australia"}], "version": "2", "byline": "ADmin", "keywords": [], "guid": "urn:newsml:localhost:2016-09-23T13:56:39.404843:56465de4-0d5c-495a-8e36-3b396def3cf0", "priority": 6, "subject": [{"name": "lawyer", "code": "02002001"}], "urgency": 3, "type": "text", "headline": "Abstract html test", "service": [{"name": "Australian General News", "code": "a"}], "description_html": "<p><b><u>some abstract text</u></b></p>", "located": "Sydney", "pubstatus": "usable"}';
 
+    const TEST_ITEM_CONTENT_CORRECTED = '{"language": "en", "slugline": "abstract-html-test-corrected", "body_html": "<p>some html body corrected</p>", "versioncreated": "2016-09-23T14:57:28+0000", "firstcreated": "2016-09-23T09:11:28+0000", "description_text": "some abstract text", "place": [{"country": "Australia", "world_region": "Oceania", "state": "Australian Capital Territory", "qcode": "ACT", "name": "ACT", "group": "Australia"}], "version": "3", "byline": "ADmin", "keywords": [], "guid": "urn:newsml:localhost:2016-09-23T13:56:39.404843:56465de4-0d5c-495a-8e36-3b396def3cf0", "priority": 6, "subject": [{"name": "lawyer", "code": "02002001"}], "urgency": 3, "type": "text", "headline": "Abstract html test corrected", "service": [{"name": "Australian General News", "code": "a"}], "description_html": "<p><b><u>some abstract text</u></b></p>", "located": "Sydney", "pubstatus": "usable"}';
+
     /**
      * @var RouterInterface
      */
@@ -387,6 +389,95 @@ final class ArticleAutoPublishTest extends WebTestCase
         self::assertEquals($article2['status'], 'published');
     }
 
+    public function testContentCorrectOnPublishedToManyTenantsPackakage()
+    {
+        $client = static::createClient();
+        $client->request('POST', $this->router->generate('swp_api_core_create_organization_rule'), [
+            'rule' => [
+                'expression' => 'package.getLocated() matches "/Sydney/"',
+                'priority' => 1,
+                'configuration' => [
+                    [
+                        'key' => 'destinations',
+                        'value' => [
+                            [
+                                'tenant' => '123abc',
+                            ],
+                            [
+                                'tenant' => '456def',
+                            ],
+                        ],
+                    ],
+                ],
+            ],
+        ]);
+
+        $client->request('POST', $this->router->generate('swp_api_content_create_routes'), [
+            'route' => [
+                'name' => 'article',
+                'type' => RouteInterface::TYPE_CONTENT,
+            ],
+        ]);
+
+        self::assertEquals(201, $client->getResponse()->getStatusCode());
+        $route = json_decode($client->getResponse()->getContent(), true);
+        $client->request('POST', $this->router->generate('swp_api_core_create_rule'), [
+            'rule' => [
+                'expression' => 'article.getMetadataByKey("located") matches "/Sydney/"',
+                'priority' => 1,
+                'configuration' => [
+                    [
+                        'key' => 'published',
+                        'value' => true,
+                    ],
+                    [
+                        'key' => 'route',
+                        'value' => $route['id'],
+                    ],
+                ],
+            ],
+        ]);
+        self::assertEquals(201, $client->getResponse()->getStatusCode());
+
+        // create route for tenant2
+        $client1 = static::createClient([], [
+            'HTTP_HOST' => 'client1.localhost',
+            'HTTP_Authorization' => base64_encode('client1_token'),
+        ]);
+
+        $client1->request('POST', $this->router->generate('swp_api_content_create_routes'), [
+            'route' => [
+                'name' => 'articles',
+                'type' => RouteInterface::TYPE_COLLECTION,
+                'content' => null,
+            ],
+        ]);
+        self::assertEquals(201, $client->getResponse()->getStatusCode());
+        $route2 = json_decode($client->getResponse()->getContent(), true);
+
+        $client1->request('POST', $this->router->generate('swp_api_core_create_rule'), [
+            'rule' => [
+                'expression' => 'article.getMetadataByKey("located") matches "/Sydney/"',
+                'priority' => 1,
+                'configuration' => [
+                    [
+                        'key' => 'published',
+                        'value' => true,
+                    ],
+                    [
+                        'key' => 'route',
+                        'value' => $route2['id'],
+                    ],
+                ],
+            ],
+        ]);
+        self::assertEquals(201, $client1->getResponse()->getStatusCode());
+        $response = $this->pushContent();
+        self::assertEquals(201, $response->getStatusCode());
+        $response = $this->pushContent(self::TEST_ITEM_CONTENT_CORRECTED);
+        self::assertEquals(201, $response->getStatusCode());
+    }
+
     public function testArticlePublishUnpublishBasedOnOrganizationAndArticleRules()
     {
         $client = static::createClient();
@@ -597,7 +688,7 @@ final class ArticleAutoPublishTest extends WebTestCase
         self::assertEquals(201, $response->getStatusCode());
     }
 
-    private function pushContent()
+    private function pushContent($content = self::TEST_ITEM_CONTENT)
     {
         $client = static::createClient();
 
@@ -607,7 +698,7 @@ final class ArticleAutoPublishTest extends WebTestCase
             [],
             [],
             ['CONTENT_TYPE' => 'application/json'],
-            self::TEST_ITEM_CONTENT
+            $content
         );
 
         return $client->getResponse();

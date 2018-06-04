@@ -96,6 +96,7 @@ class ArticleRepository extends EntityRepository implements ArticleRepositoryInt
         $queryBuilder = $this->getArticlesByCriteriaIds($criteria);
         $queryBuilder->addSelect('au');
         $queryBuilder->leftJoin('a.authors', 'au');
+        $queryBuilder->andWhere('a.route IS NOT NULL');
         $this->applyCustomFiltering($queryBuilder, $criteria);
         $this->applyCriteria($queryBuilder, $criteria, 'a');
         $this->applySorting($queryBuilder, $sorting, 'a', $criteria);
