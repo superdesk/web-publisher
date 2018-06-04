@@ -191,5 +191,4 @@ Feature: As a user I want to be able to re-publish un-published package to one o
     And I add "Content-Type" header equal to "application/json"
     Then I send a "GET" request to "/api/{version}/content/articles/lorem-ipsum-package"
     Then the response status code should be 200
-    And the JSON node "status" should be equal to "unpublished"
-    
+    And the JSON node "status" should be equal to "unpublished
