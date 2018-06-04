@@ -22,6 +22,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use SWP\Bundle\ContentBundle\Event\RouteEvent;
 use SWP\Bundle\ContentBundle\Model\RouteInterface;
 use SWP\Bundle\ContentBundle\RouteEvents;
+use SWP\Bundle\CoreBundle\Repository\MenuItemRepositoryInterface;
 use SWP\Component\Common\Criteria\Criteria;
 use SWP\Bundle\ContentBundle\Form\Type\RouteType;
 use SWP\Component\Common\Pagination\PaginationData;
@@ -103,6 +104,12 @@ class RouteController extends FOSRestController
 
         if (null !== $route->getContent()) {
             throw new ConflictHttpException('Route has content attached to it.');
+        }
+
+        /** @var MenuItemRepositoryInterface $menuItemRepository */
+        $menuItemRepository = $this->get('swp.repository.menu');
+        if (count($menuItemRepository->findByRoute($route->getId()))) {
+            throw new ConflictHttpException('Route has menu attached to it.');
         }
 
         if (0 < $route->getChildren()->count()) {
