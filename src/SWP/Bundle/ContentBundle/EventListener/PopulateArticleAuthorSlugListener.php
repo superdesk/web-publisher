@@ -18,11 +18,9 @@ namespace SWP\Bundle\ContentBundle\EventListener;
 
 use Doctrine\Common\Persistence\Event\LifecycleEventArgs;
 use SWP\Bundle\ContentBundle\Model\ArticleAuthorInterface;
-use SWP\Bundle\ContentBundle\Model\ArticleInterface;
 
 final class PopulateArticleAuthorSlugListener
 {
-
     /**
      * @param LifecycleEventArgs $event
      */
