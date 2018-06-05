@@ -79,6 +79,7 @@ swp_menu:
             classes:
                 menu:
                     model: SWP\Bundle\CoreBundle\Model\MenuItem
+                    repository: SWP\Bundle\CoreBundle\Repository\MenuItemRepository
 
 swp_content:
     persistence:

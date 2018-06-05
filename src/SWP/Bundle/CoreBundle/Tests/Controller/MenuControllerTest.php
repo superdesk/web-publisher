@@ -562,4 +562,22 @@ class MenuControllerTest extends WebTestCase
         self::assertEquals(200, $client->getResponse()->getStatusCode());
         self::assertContains('"route":3', $content);
     }
+
+    public function testAssingRouteToMenuAndRemoveRoute()
+    {
+        self::testAssignRouteToMenuApi();
+
+        $client = static::createClient();
+        $client->request('DELETE', $this->router->generate('swp_api_content_delete_routes', ['id' => 3]));
+        self::assertEquals(409, $client->getResponse()->getStatusCode());
+
+        $client->request('PATCH', $this->router->generate('swp_api_core_update_menu', ['id' => 1]), [
+            'menu' => [
+                'route' => null,
+            ],
+        ]);
+        self::assertEquals(200, $client->getResponse()->getStatusCode());
+        $client->request('DELETE', $this->router->generate('swp_api_content_delete_routes', ['id' => 3]));
+        self::assertEquals(204, $client->getResponse()->getStatusCode());
+    }
 }

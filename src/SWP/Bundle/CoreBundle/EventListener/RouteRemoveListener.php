@@ -23,6 +23,8 @@ use SWP\Bundle\ContentBundle\Model\Article;
 use SWP\Bundle\ContentBundle\Model\ArticleInterface;
 use SWP\Bundle\CoreBundle\Model\Package;
 use SWP\Bundle\CoreBundle\Model\PackageInterface;
+use SWP\Bundle\CoreBundle\Repository\MenuItemRepositoryInterface;
+use Symfony\Component\HttpKernel\Exception\ConflictHttpException;
 
 final class RouteRemoveListener
 {
@@ -32,13 +34,20 @@ final class RouteRemoveListener
     private $manager;
 
     /**
+     * @var MenuItemRepositoryInterface
+     */
+    private $menuItemRepository;
+
+    /**
      * RouteRemoveListener constructor.
      *
-     * @param EntityManagerInterface $manager
+     * @param EntityManagerInterface      $manager
+     * @param MenuItemRepositoryInterface $menuItemRepository
      */
-    public function __construct(EntityManagerInterface $manager)
+    public function __construct(EntityManagerInterface $manager, MenuItemRepositoryInterface $menuItemRepository)
     {
         $this->manager = $manager;
+        $this->menuItemRepository = $menuItemRepository;
     }
 
     /**
@@ -47,6 +56,10 @@ final class RouteRemoveListener
     public function onDelete(RouteEvent $event)
     {
         $route = $event->getRoute();
+        if (\count($this->menuItemRepository->findByRoute($route->getId()))) {
+            throw new ConflictHttpException('Route has menu attached to it.');
+        }
+
         $queryBuilder = $this->manager->createQueryBuilder();
         $queryBuilder->update(Package::class, 'p')
             ->set('p.status', $queryBuilder->expr()->literal(PackageInterface::STATUS_USABLE))
