@@ -87,6 +87,11 @@ services:
             - { name: kernel.event_listener, event: swp.article.pre_create, method: onArticleCreate }
             - { name: kernel.event_listener, event: swp.article.pre_update, method: onArticleCreate }
 
+    SWP\Bundle\ContentBundle\EventListener\SetProvidedPublishedDateListener:
+        tags:
+            - { name: kernel.event_listener, event: swp.article.pre_create, method: onArticleCreate }
+
+
     swp_content_bundle.key_generator.meta_key_generator:
         class: SWP\Bundle\ContentBundle\KeyGenerator\MetaKeyGenerator
 
