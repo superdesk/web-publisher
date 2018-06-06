@@ -203,3 +203,7 @@ services:
         tags:
             - { name: kernel.event_listener, event: swp.bridge.package_pre_update, method: preUpdate }
             - { name: kernel.event_listener, event: swp.bridge.package_pre_create, method: preUpdate }
+
+    SWP\Bundle\ContentBundle\EventListener\PopulateArticleAuthorSlugListener:
+        tags:
+            - { name: doctrine.event_listener, event: prePersist }

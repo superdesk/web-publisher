@@ -44,7 +44,7 @@ class ArticleAuthor extends BaseAuthor implements ArticleAuthorInterface
      */
     public function setName(?string $name): void
     {
-        $this->setSlug(Transliterator::urlize($name));
+        $this->setSlug($name);
         parent::setName($name);
     }
 
@@ -61,6 +61,6 @@ class ArticleAuthor extends BaseAuthor implements ArticleAuthorInterface
      */
     public function setSlug(string $slug): void
     {
-        $this->slug = $slug;
+        $this->slug = Transliterator::urlize($slug);
     }
 }

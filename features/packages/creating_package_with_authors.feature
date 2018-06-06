@@ -114,7 +114,8 @@ Feature: Checking if the package authors are saved properly
             {
               "tenant":"123abc",
               "route":6,
-              "fbia":false
+              "fbia":false,
+              "published":true
             }
           ]
         }
@@ -131,9 +132,11 @@ Feature: Checking if the package authors are saved properly
       | authors[0].role                | writer                      |
       | authors[0].jobtitle.name       | quality check               |
       | authors[0].jobtitle.qcode      | 1                           |
+      | authors[0].slug                | nareg-asmarian              |
       | authors[1].name                | vincer vincer               |
       | authors[1].biography           | not dead yet                |
       | authors[1].role                | subeditor                   |
+      | authors[1].slug                | vincer-vincer               |
 
   Scenario: Submitting request payload containing authors data in ninjs format - updating
     Given I am authenticated as "test.user"
@@ -242,6 +245,8 @@ Feature: Checking if the package authors are saved properly
       | authors[1].biography           | not dead yet                   |
       | authors[1].role                | subeditor                      |
       | authors[1].avatar_url          | http://example.com/avatar2.png |
+      | authors[0].slug                | nareg-asmarian                 |
+      | authors[1].slug                | vincer-vincer                  |
     And I am authenticated as "test.user"
     When I add "Content-Type" header equal to "application/json"
     And I send a "POST" request to "/api/{version}/content/push" with body:
@@ -325,6 +330,7 @@ Feature: Checking if the package authors are saved properly
       | authors[0].name                | ed              |
       | authors[0].biography           | ed bio          |
       | authors[0].role                | subeditor       |
+      | authors[0].slug                | ed              |
     And the JSON node "authors[0].avatar_url" should be null
     And the JSON node "authors[1]" should not exist
     And I am authenticated as "test.user"
@@ -419,8 +425,10 @@ Feature: Checking if the package authors are saved properly
       | authors[1].name                | ed                             |
       | authors[1].biography           | ed bio                         |
       | authors[1].role                | subeditor                      |
+      | authors[1].slug                | ed                             |
       | authors[0].name                | vincer vincer                  |
       | authors[0].biography           | not dead yet                   |
       | authors[0].role                | subeditor                      |
       | authors[0].avatar_url          | http://example.com/avatar2.png |
+      | authors[0].slug                | vincer-vincer                  |
     And the JSON node "authors[1].avatar_url" should be null
