@@ -147,7 +147,7 @@ final class WordpressAdapter implements AdapterInterface
         $externalArticle = $this->getExternalArticle($article);
         $response = $this->send($outputChannel, sprintf('posts/%s', $externalArticle->getExternalId()), $post);
 
-        if (self::STATUS_PUBLISHED === $status) {
+        if (self::STATUS_PUBLISHED === $status && null === $externalArticle->getPublishedAt()) {
             $externalArticle->setPublishedAt(new \DateTime());
         } elseif (self::STATUS_DRAFT === $status && $externalArticle->getPublishedAt() instanceof \DateTime) {
             $externalArticle->setUnpublishedAt(new \DateTime());
