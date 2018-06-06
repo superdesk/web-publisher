@@ -14,6 +14,8 @@
 
 namespace SWP\Bundle\BridgeBundle\Tests\Functional;
 
+use Superdesk\ContentApiSdk\Exception\ContentApiException;
+
 class BridgeTest extends WebTestCase
 {
     const TEST_CASE_NAME = 'Bridge';
@@ -25,10 +27,10 @@ class BridgeTest extends WebTestCase
     {
         $client = $this->createClient(['test_case' => self::TEST_CASE_NAME, 'root_config' => $config]);
 
-        $client->request('GET', '/bridge/invalid_endpoint/');
+        self::expectException(ContentApiException::class);
+        self::expectExceptionMessage('Endpoint invalid_endpoint not supported.');
 
-        $this->assertEquals(500, $client->getResponse()->getStatusCode());
-        $this->assertContains('Endpoint invalid_endpoint not supported.', $client->getResponse()->getContent());
+        $client->request('GET', '/bridge/invalid_endpoint/');
     }
 
     public function getConfigs()
