@@ -76,7 +76,7 @@ class ArticleControllerTest extends WebTestCase
             ],
         ]);
         $responseArray = json_decode($client->getResponse()->getContent(), true);
-        $this->assertArraySubset(json_decode('{"status":"new"}', true), $responseArray);
+        self::assertArraySubset(json_decode('{"status":"new"}', true), $responseArray);
         $publishedAt = $responseArray['publishedAt'];
         sleep(1);
         //publish unpublished article
@@ -85,13 +85,12 @@ class ArticleControllerTest extends WebTestCase
                 'status' => 'published',
             ],
         ]);
-        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+        self::assertEquals(200, $client->getResponse()->getStatusCode());
         $responseArray = json_decode($client->getResponse()->getContent(), true);
-        $this->assertArraySubset(['status' => 'published'], $responseArray);
-        $this->assertTrue(null != $responseArray['updatedAt']);
-        $this->assertTrue(new \DateTime($responseArray['updatedAt']) >= new \DateTime($responseArray['createdAt']));
-        $this->assertTrue(new \DateTime($responseArray['updatedAt']) >= new \DateTime($responseArray['createdAt']));
-        $this->assertNotEquals($publishedAt, $responseArray['publishedAt']);
+        self::assertArraySubset(['status' => 'published'], $responseArray);
+        self::assertTrue(null != $responseArray['updatedAt']);
+        self::assertTrue(new \DateTime($responseArray['updatedAt']) >= new \DateTime($responseArray['createdAt']));
+        self::assertTrue(new \DateTime($responseArray['updatedAt']) >= new \DateTime($responseArray['createdAt']));
     }
 
     public function testIfRouteChangedWhenRouteParentWasSwitched()
