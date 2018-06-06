@@ -7,6 +7,8 @@ namespace SWP\Migrations;
 use Behat\Transliterator\Transliterator;
 use Doctrine\DBAL\Migrations\AbstractMigration;
 use Doctrine\DBAL\Schema\Schema;
+use SWP\Bundle\ContentBundle\Model\ArticleAuthor;
+use SWP\Bundle\ContentBundle\Model\ArticleAuthorInterface;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
