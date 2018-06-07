@@ -24,7 +24,7 @@ final class Version
      *
      * @var string
      */
-    protected $version = '1.3.0';
+    protected $version = '1.4.0-beta';
 
     /**
      * Code name string.
@@ -38,7 +38,7 @@ final class Version
      *
      * @var string
      */
-    protected $releaseDate = '2018-04-05';
+    protected $releaseDate = '2018-06-07';
 
     /**
      * @return string
