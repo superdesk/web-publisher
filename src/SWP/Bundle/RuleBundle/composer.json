@@ -11,14 +11,20 @@
             "email": "rafal.muszynski@sourcefabric.org"
         }
     ],
+    "repositories": [
+        {
+            "type": "path",
+            "url": "../../*/*"
+        }
+    ],
     "require": {
         "php": "^7.0",
         "symfony/dependency-injection": "^3.1",
         "symfony/config": "^3.1",
         "symfony/validator": "^3.1",
         "symfony/form": "^3.1",
-        "swp/storage-bundle": "^0.5",
-        "swp/rule": "^0.5",
+        "swp/storage-bundle": "^1.3",
+        "swp/rule": "^1.3",
         "burgov/key-value-form-bundle": "@stable"
     },
     "require-dev": {
@@ -40,7 +46,7 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-master": "1.2-dev"
+            "dev-master": "1.3-dev"
         }
     }
 }
