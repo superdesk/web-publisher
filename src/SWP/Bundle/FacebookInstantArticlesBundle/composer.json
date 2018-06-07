@@ -14,11 +14,7 @@
   "repositories": [
     {
       "type": "path",
-      "url": "../*"
-    },
-    {
-      "type": "path",
-      "url": "../../Component/*"
+      "url": "../../*/*"
     }
   ],
   "require": {
