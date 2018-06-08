@@ -29,6 +29,8 @@ class Route extends BaseRoute implements RouteInterface
 
     /**
      * @var RouteInterface
+     *
+     * @deprecated since v1.4
      */
     protected $root;
 
@@ -105,6 +107,8 @@ class Route extends BaseRoute implements RouteInterface
 
     /**
      * {@inheritdoc}
+     *
+     * @deprecated since v1.4
      */
     public function getRoot(): RouteInterface
     {
@@ -225,6 +229,8 @@ class Route extends BaseRoute implements RouteInterface
 
     /**
      * {@inheritdoc}
+     *
+     * @deprecated since v1.4
      */
     public function getRootId()
     {

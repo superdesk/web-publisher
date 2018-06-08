@@ -64,13 +64,6 @@ SWP\Bundle\ContentBundle\Model\Route:
                 referencedColumnName: id
                 nullable: true
     manyToOne:
-        root:
-            targetEntity: SWP\Bundle\ContentBundle\Model\RouteInterface
-            joinColumn:
-                referencedColumnName: id
-                onDelete: CASCADE
-            gedmo:
-                - treeRoot
         parent:
             targetEntity: SWP\Bundle\ContentBundle\Model\RouteInterface
             inversedBy: children

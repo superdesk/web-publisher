@@ -28,11 +28,6 @@ SWP\Bundle\ContentBundle\Model\Route:
             type: integer
             accessor:
                 getter: getParentId
-        root:
-            expose: true
-            type: integer
-            accessor:
-                getter: getRootId
     relations:
         - rel: self
           href:
@@ -46,10 +41,3 @@ SWP\Bundle\ContentBundle\Model\Route:
                     id: expr(object.getParent().getId())
           exclusion:
                 exclude_if: expr(null === object.getParent())
-        - rel: root
-          href:
-                route: swp_api_content_show_routes
-                parameters:
-                    id: expr(object.getRoot().getId())
-          exclusion:
-                exclude_if: expr(object.isRoot())

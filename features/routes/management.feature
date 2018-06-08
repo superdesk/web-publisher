@@ -49,7 +49,7 @@ Feature: Manage Routes
     And the JSON node staticPrefix should be equal to "/simple-test-route-number-2"
 
 
-  Scenario: Creating new route with parent and removing parent
+  Scenario: Creating new route with parent and un-setting parent
     Given I am authenticated as "test.user"
     When I add "Content-Type" header equal to "application/json"
     And I send a "POST" request to "/api/v1/content/routes/" with body:
@@ -91,6 +91,13 @@ Feature: Manage Routes
         }
       }
     """
+    Then the response status code should be 200
+    And the JSON node name should be equal to "Simple test child route"
+    And the JSON node level should be equal to 0
+
+    Given I am authenticated as "test.user"
+    When I add "Content-Type" header equal to "application/json"
+    And I send a "GET" request to "/api/v1/content/routes/10"
     Then the response status code should be 200
     And the JSON node name should be equal to "Simple test child route"
     And the JSON node level should be equal to 0
