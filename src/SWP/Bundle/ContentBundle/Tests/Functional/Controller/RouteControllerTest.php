@@ -251,6 +251,54 @@ class RouteControllerTest extends WebTestCase
         );
     }
 
+    public function testRemovingParent()
+    {
+        $client = static::createClient();
+        $client->request(
+            'POST',
+            $this->router->generate('swp_api_content_create_routes'),
+            [
+                'route' => [
+                    'name' => 'root',
+                    'type' => 'collection',
+                ],
+            ]
+        );
+
+        $rootContent = json_decode($client->getResponse()->getContent(), true);
+        self::assertEquals(201, $client->getResponse()->getStatusCode());
+
+        $client->request(
+            'POST',
+            $this->router->generate('swp_api_content_create_routes'),
+            [
+                'route' => [
+                    'name' => 'root-child1',
+                    'type' => 'collection',
+                    'parent' => $rootContent['id'],
+                ],
+            ]
+        );
+
+        $content = json_decode($client->getResponse()->getContent(), true);
+        self::assertEquals(201, $client->getResponse()->getStatusCode());
+        self::assertEquals(1, $content['level']);
+
+        $client->request(
+            'PATCH',
+            $this->router->generate('swp_api_content_update_routes', ['id' => $content['id']]),
+            [
+                'route' => [
+                    'parent' => null,
+                ],
+            ]
+        );
+
+        $content = json_decode($client->getResponse()->getContent(), true);
+        self::assertEquals(200, $client->getResponse()->getStatusCode());
+        self::assertEquals(0, $content['level']);
+    }
+
     public function testNestedRoutes()
     {
         $client = static::createClient();
@@ -282,6 +330,7 @@ class RouteControllerTest extends WebTestCase
 
         $content = json_decode($client->getResponse()->getContent(), true);
         self::assertEquals(201, $client->getResponse()->getStatusCode());
+        self::assertEquals(1, $content['level']);
 
         $client->request(
             'POST',
