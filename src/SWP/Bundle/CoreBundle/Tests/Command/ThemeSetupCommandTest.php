@@ -109,6 +109,14 @@ class ThemeSetupCommandTest extends WebTestCase
 
         self::assertContains('Theme has been installed successfully!', $this->commandTester->getDisplay());
         self::assertContains('Theme was activated!', $this->commandTester->getDisplay());
+
+        $client = self::createClient();
+        $router = $this->getContainer()->get('router');
+        $client->request('GET', $router->generate('swp_api_core_get_tenant', ['code' => '123abc']));
+        self::assertEquals(200, $client->getResponse()->getStatusCode());
+
+        $content = json_decode($client->getResponse()->getContent(), true);
+        self::assertEquals('swp/test-theme-install', $content['themeName']);
     }
 
     public function testExecuteWithBrokenThemeConfiguration()

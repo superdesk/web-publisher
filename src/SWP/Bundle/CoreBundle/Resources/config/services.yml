@@ -97,6 +97,7 @@ services:
             - '@swp_multi_tenancy.tenant_context'
             - '@sylius.repository.theme'
             - '@sylius.context.theme'
+            - '@swp.repository.tenant'
 
     swp_core.generator.theme.routes:
         class: SWP\Bundle\CoreBundle\Theme\Generator\ThemeRoutesGenerator
