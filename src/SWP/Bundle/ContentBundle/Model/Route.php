@@ -29,13 +29,6 @@ class Route extends BaseRoute implements RouteInterface
 
     /**
      * @var RouteInterface
-     *
-     * @deprecated since v1.4
-     */
-    protected $root;
-
-    /**
-     * @var RouteInterface
      */
     protected $parent;
 
@@ -107,12 +100,10 @@ class Route extends BaseRoute implements RouteInterface
 
     /**
      * {@inheritdoc}
-     *
-     * @deprecated since v1.4
      */
     public function getRoot(): RouteInterface
     {
-        return $this->root;
+        throw new \Exception('Method not supported.');
     }
 
     /**
@@ -224,18 +215,6 @@ class Route extends BaseRoute implements RouteInterface
     {
         if (null !== $this->parent) {
             return (int) $this->parent->getId();
-        }
-    }
-
-    /**
-     * {@inheritdoc}
-     *
-     * @deprecated since v1.4
-     */
-    public function getRootId()
-    {
-        if (null !== $this->root) {
-            return (int) $this->root->getId();
         }
     }
 }
