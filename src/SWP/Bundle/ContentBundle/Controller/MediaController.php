@@ -17,6 +17,7 @@ namespace SWP\Bundle\ContentBundle\Controller;
 use SWP\Bundle\ContentBundle\Model\ArticleMedia;
 use SWP\Bundle\ContentBundle\Model\Image;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -29,10 +30,11 @@ class MediaController extends Controller
     /**
      * Send or render single media.
      *
+     * @Route("/author/media/{mediaId}.{extension}", options={"expose"=true}, requirements={"mediaId"=".+"}, name="swp_author_media_get")
      * @Route("/media/{mediaId}.{extension}", options={"expose"=true}, requirements={"mediaId"=".+"}, name="swp_media_get")
      * @Method("GET")
      */
-    public function getAction($mediaId)
+    public function getAction(Request $request, $mediaId)
     {
         $cacheProvider = $this->get('doctrine_cache.providers.main_cache');
         $cacheKey = md5(serialize(['media', $mediaId]));
@@ -60,7 +62,11 @@ class MediaController extends Controller
         $response->setSharedMaxAge(63072000);
         $response->setLastModified($media->getUpdatedAt() ? $media->getUpdatedAt() : $media->getCreatedAt());
 
-        $mediaManager = $this->get('swp_content_bundle.manager.media');
+        if ('swp_author_media_get' === $request->attributes->get('_route')) {
+            $mediaManager = $this->get('swp_core_bundle.manager.author_media');
+        } else {
+            $mediaManager = $this->get('swp_content_bundle.manager.media');
+        }
         $response->setContent($mediaManager->getFile($media));
         $cacheProvider->save($cacheKey, $response, 63072000);
 

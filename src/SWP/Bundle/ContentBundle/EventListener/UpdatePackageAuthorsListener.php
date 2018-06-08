@@ -41,7 +41,6 @@ final class UpdatePackageAuthorsListener
         }
 
         $authors = [];
-
         /** @var ArticleAuthorInterface $packageAuthor */
         foreach ($package->getAuthors()->toArray() as $packageAuthor) {
             /** @var ArticleAuthorInterface $author */

@@ -123,6 +123,8 @@ final class ThemeService implements ThemeServiceInterface
                 $theme = $this->themeRepository->findOneByName($this->themeContext->resolveThemeName($tenant, $themeName));
                 $this->requiredDataProcessor->processTheme($theme);
                 $messages[] = 'Required data were generated and persisted successfully';
+            } else {
+                // TODO flush tenant change here
             }
         } catch (\Exception $e) {
             $fileSystem->remove($themeDir);

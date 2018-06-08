@@ -135,7 +135,7 @@ class FakeArticlesGenerator implements FakeArticlesGeneratorInterface
      */
     protected function createArticleMedia(ArticleInterface $article): Collection
     {
-        $mediaId = uniqid();
+        $mediaId = \uniqid('', false);
         $faker = Faker\Factory::create();
         $fakeImage = $faker->image(sys_get_temp_dir(), 800, 800, 'cats', true, true, $article->getSlug());
         if (!is_string($fakeImage)) {

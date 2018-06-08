@@ -583,3 +583,14 @@ services:
     SWP\Bundle\CoreBundle\EventListener\MergePackageListener:
         tags:
             - { name: kernel.event_listener, event: swp.bridge.package_pre_update, method: preUpdate }
+
+    SWP\Bundle\CoreBundle\EventListener\DownloadArticleAuthorAvatarListener:
+        arguments:
+                - '@doctrine.orm.entity_manager'
+        calls:
+            - method: setAuthorMediaManager
+              arguments:
+                  - '@swp_core_bundle.manager.author_media'
+        tags:
+            - { name: kernel.event_listener, event: swp.bridge.package_pre_update, method: processAuthors }
+            - { name: kernel.event_listener, event: swp.bridge.package_pre_create, method: processAuthors }
