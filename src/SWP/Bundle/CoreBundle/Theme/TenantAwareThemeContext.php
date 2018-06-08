@@ -110,7 +110,7 @@ final class TenantAwareThemeContext implements TenantAwareThemeContextInterface
         }
 
         if (null !== $themeName) {
-            return $tenant->getThemeName().ThemeHelper::SUFFIX_SEPARATOR.$tenant->getCode();
+            return $themeName.ThemeHelper::SUFFIX_SEPARATOR.$tenant->getCode();
         }
 
         return $themeName;
