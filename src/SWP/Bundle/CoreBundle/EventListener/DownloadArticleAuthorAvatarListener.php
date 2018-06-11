@@ -89,6 +89,7 @@ final class DownloadArticleAuthorAvatarListener
             }
 
             $assetId = $object->getSlug().'_'.$pathParts['filename'];
+
             try {
                 $file = \file_get_contents($object->getAvatarUrl());
                 $tempLocation = \sys_get_temp_dir().\sha1($assetId.date('his'));

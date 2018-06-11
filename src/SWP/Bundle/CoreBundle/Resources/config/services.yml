@@ -87,6 +87,8 @@ services:
             - '@swp.factory.media'
             - '@swp.repository.article'
             - '@swp.factory.article_statistics'
+            - '@swp.factory.package'
+            - '@swp.factory.item'
 
     swp_core.service.theme:
         class: SWP\Bundle\CoreBundle\Theme\Service\ThemeService
