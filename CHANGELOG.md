@@ -7,6 +7,7 @@ This changelog references the relevant changes (bug and security fixes) done in 
 To get the diff for a specific change, go to https://github.com/superdesk/web-publisher/commit/XXX where XXX is the change hash
 
 * 1.4.0
+ * feature [#538] Store article author images in publisher
  * bug [#531] Assign package to theme generated articles
  * bug [#530] Authors without slug after publishing article
  * bug [#525] Fixed the status of already published package after the correction

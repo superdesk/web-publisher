@@ -23,6 +23,7 @@ use SWP\Bundle\CoreBundle\Theme\Processor\RequiredDataProcessorInterface;
 use SWP\Bundle\CoreBundle\Theme\Repository\ReloadableThemeRepositoryInterface;
 use SWP\Bundle\CoreBundle\Theme\TenantAwareThemeContextInterface;
 use SWP\Component\MultiTenancy\Context\TenantContextInterface;
+use SWP\Component\MultiTenancy\Repository\TenantRepositoryInterface;
 use Sylius\Bundle\ThemeBundle\Repository\ThemeRepositoryInterface;
 use Symfony\Component\Filesystem\Filesystem;
 
@@ -62,6 +63,11 @@ final class ThemeService implements ThemeServiceInterface
     private $themeContext;
 
     /**
+     * @var TenantRepositoryInterface
+     */
+    private $tenantRepository;
+
+    /**
      * ThemeService constructor.
      *
      * @param ThemeInstallerInterface            $themeInstaller
@@ -70,6 +76,7 @@ final class ThemeService implements ThemeServiceInterface
      * @param TenantContextInterface             $tenantContext
      * @param ReloadableThemeRepositoryInterface $themeRepository
      * @param TenantAwareThemeContextInterface   $themeContext
+     * @param TenantRepositoryInterface          $tenantRepositorys
      */
     public function __construct(
         ThemeInstallerInterface $themeInstaller,
@@ -77,7 +84,8 @@ final class ThemeService implements ThemeServiceInterface
         string $cacheDir,
         TenantContextInterface $tenantContext,
         ReloadableThemeRepositoryInterface $themeRepository,
-        TenantAwareThemeContextInterface $themeContext
+        TenantAwareThemeContextInterface $themeContext,
+        TenantRepositoryInterface $tenantRepository
     ) {
         $this->themeInstaller = $themeInstaller;
         $this->requiredDataProcessor = $requiredDataProcessor;
@@ -85,6 +93,7 @@ final class ThemeService implements ThemeServiceInterface
         $this->tenantContext = $tenantContext;
         $this->themeRepository = $themeRepository;
         $this->themeContext = $themeContext;
+        $this->tenantRepository = $tenantRepository;
     }
 
     /**
@@ -123,6 +132,8 @@ final class ThemeService implements ThemeServiceInterface
                 $theme = $this->themeRepository->findOneByName($this->themeContext->resolveThemeName($tenant, $themeName));
                 $this->requiredDataProcessor->processTheme($theme);
                 $messages[] = 'Required data were generated and persisted successfully';
+            } else {
+                $this->tenantRepository->flush();
             }
         } catch (\Exception $e) {
             $fileSystem->remove($themeDir);

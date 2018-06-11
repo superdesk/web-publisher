@@ -10,6 +10,7 @@ SWP\Component\Bridge\Model\Author:
         avatarUrl:
             type: string
             serialized_name: avatar_url
+            access_type: public_method
         jobTitle:
             serialized_name: jobtitle
             type: array
