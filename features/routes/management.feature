@@ -48,6 +48,60 @@ Feature: Manage Routes
     And the JSON node slug should be equal to "simple-test-route-number-2"
     And the JSON node staticPrefix should be equal to "/simple-test-route-number-2"
 
+
+  Scenario: Creating new route with parent and un-setting parent
+    Given I am authenticated as "test.user"
+    When I add "Content-Type" header equal to "application/json"
+    And I send a "POST" request to "/api/v1/content/routes/" with body:
+     """
+      {
+        "route": {
+          "name": "Simple test root route",
+          "type": "content"
+        }
+      }
+    """
+    Then the response status code should be 201
+    And the JSON node name should be equal to "Simple test root route"
+    And the JSON node level should be equal to 0
+
+    Given I am authenticated as "test.user"
+    When I add "Content-Type" header equal to "application/json"
+    And I send a "POST" request to "/api/v1/content/routes/" with body:
+     """
+      {
+        "route": {
+          "name": "Simple test child route",
+          "type": "content",
+          "parent": 9
+        }
+      }
+    """
+    Then the response status code should be 201
+    And the JSON node name should be equal to "Simple test child route"
+    And the JSON node level should be equal to 1
+
+    Given I am authenticated as "test.user"
+    When I add "Content-Type" header equal to "application/json"
+    And I send a "PATCH" request to "/api/v1/content/routes/10" with body:
+     """
+      {
+        "route": {
+          "parent": null
+        }
+      }
+    """
+    Then the response status code should be 200
+    And the JSON node name should be equal to "Simple test child route"
+    And the JSON node level should be equal to 0
+
+    Given I am authenticated as "test.user"
+    When I add "Content-Type" header equal to "application/json"
+    And I send a "GET" request to "/api/v1/content/routes/10"
+    Then the response status code should be 200
+    And the JSON node name should be equal to "Simple test child route"
+    And the JSON node level should be equal to 0
+    
   Scenario: Creating new route without type custom
     Given I am authenticated as "test.user"
     When I add "Content-Type" header equal to "application/json"

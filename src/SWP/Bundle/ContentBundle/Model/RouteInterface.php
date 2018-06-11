@@ -185,11 +185,6 @@ interface RouteInterface extends TreeAwareRouteInterface, PersistableInterface, 
     public function getParentId();
 
     /**
-     * @return int|null
-     */
-    public function getRootId();
-
-    /**
      * @return int
      */
     public function getPosition();
