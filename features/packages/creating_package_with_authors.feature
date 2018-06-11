@@ -238,13 +238,13 @@ Feature: Checking if the package authors are saved properly
       | authors[0].name                | Nareg Asmarian                                   |
       | authors[0].biography           | bioquil                                          |
       | authors[0].role                | writer                                           |
-      | authors[0].avatar_url          | http://localhost/author/media/nareg-asmarian_90x90.jpeg |
+      | authors[0].avatar_url          | /author/media/nareg-asmarian_90x90.jpeg |
       | authors[0].jobtitle.name       | quality check                                    |
       | authors[0].jobtitle.qcode      | 1                                                |
       | authors[1].name                | vincer vincer                                    |
       | authors[1].biography           | not dead yet                                     |
       | authors[1].role                | subeditor                                        |
-      | authors[1].avatar_url          | http://localhost/author/media/vincer-vincer_95x95.jpeg  |
+      | authors[1].avatar_url          | /author/media/vincer-vincer_95x95.jpeg  |
       | authors[0].slug                | nareg-asmarian                                   |
       | authors[1].slug                | vincer-vincer                                    |
     And I am authenticated as "test.user"
@@ -414,7 +414,7 @@ Feature: Checking if the package authors are saved properly
       | authors[0].name                | vincer vincer                                   |
       | authors[0].biography           | not dead yet                                    |
       | authors[0].role                | subeditor                                       |
-      | authors[0].avatar_url          | http://localhost/author/media/vincer-vincer_95x95.jpeg |
+      | authors[0].avatar_url          | /author/media/vincer-vincer_95x95.jpeg |
     And the JSON node "authors[1].jobtitle.name" should not exist
     And the JSON node "authors[1].avatar_url" should be null
     And I am authenticated as "test.user"
@@ -429,7 +429,7 @@ Feature: Checking if the package authors are saved properly
       | authors[0].name                | vincer vincer                                   |
       | authors[0].biography           | not dead yet                                    |
       | authors[0].role                | subeditor                                       |
-      | authors[0].avatar_url          | http://localhost/author/media/vincer-vincer_95x95.jpeg |
+      | authors[0].avatar_url          | /author/media/vincer-vincer_95x95.jpeg |
       | authors[0].slug                | vincer-vincer                                   |
     And the JSON node "authors[1].avatar_url" should be null
     Then I send a "GET" request to "/author/media/vincer-vincer_95x95.jpeg"
