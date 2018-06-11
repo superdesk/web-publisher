@@ -18,8 +18,8 @@
         }
     ],
     "require": {
-        "swp/multi-tenancy": "^1.3",
-        "swp/storage-bundle": "^1.3",
+        "swp/multi-tenancy": "^1.4",
+        "swp/storage-bundle": "^1.4",
         "doctrine/doctrine-bundle": ">=1.6.7 <1.7.0",
         "twig/twig": "^1.24.0",
         "ocramius/proxy-manager": "^1.0",
