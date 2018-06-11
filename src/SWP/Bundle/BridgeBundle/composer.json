@@ -29,7 +29,7 @@
         "symfony/monolog-bundle": "^3.3",
         "symfony/monolog-bridge": "^3.3",
         "symfony/translation": "^3.1",
-        "symfony/framework-bundle": "3.4.8 || ^3.1",
+        "symfony/framework-bundle": "^3.1",
         "symfony/validator": "^3.1"
     },
     "require-dev": {

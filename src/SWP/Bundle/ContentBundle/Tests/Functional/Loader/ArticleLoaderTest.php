@@ -103,8 +103,8 @@ class ArticleLoaderTest extends WebTestCase
 
     public function testLoadWithInvalidOrderByParameter()
     {
-        $this->expectException(\Exception::class);
+        $articles = $this->articleLoader->load('articles', ['route' => '/news', 'order' => ['truncate Table', 'asc']], [], LoaderInterface::COLLECTION);
 
-        $this->articleLoader->load('articles', ['route' => '/news', 'order' => ['truncate Table', 'asc']], [], LoaderInterface::COLLECTION);
+        self::assertCount(3, $articles);
     }
 }
