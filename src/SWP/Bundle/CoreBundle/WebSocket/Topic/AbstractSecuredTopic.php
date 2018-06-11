@@ -52,6 +52,10 @@ abstract class AbstractSecuredTopic implements SecuredTopicInterface
      */
     public function secure(ConnectionInterface $conn = null, Topic $topic, WampRequest $request, $payload = null, $exclude = null, $eligible = null, $provider = null)
     {
+        if (null === $conn) {
+            return;
+        }
+
         $httpRequest = $conn->httpRequest;
         $token = null;
         parse_str($httpRequest->getUri()->getQuery(), $params);
