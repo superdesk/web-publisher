@@ -14,8 +14,8 @@
   ],
   "require": {
     "php": "^7.0",
-    "swp/common": "^1.3",
-    "swp/storage": "^1.3"
+    "swp/common": "^1.4",
+    "swp/storage": "^1.4"
   },
   "require-dev": {
     "phpspec/phpspec": "^2.4",
