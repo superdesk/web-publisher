@@ -119,9 +119,12 @@ class ProcessOrganizationRulesSubscriber implements EventSubscriberInterface
         foreach ((array) $result['tenants'] as $tenant) {
             $destination = new PublishDestination();
             $destination->setTenant($tenant['tenant']);
-            $destination->setRoute($tenant['route']);
-            $destination->setPublished($tenant['published']);
-            $destination->setFbia($tenant['fbia']);
+            if (isset($tenant['route'])) {
+                $destination->setRoute($tenant['route']);
+            }
+
+            $destination->setPublished($tenant['published'] ?? false);
+            $destination->setFbia($tenant['fbia'] ?? false);
 
             $destinations[] = $destination;
         }
