@@ -12,7 +12,7 @@
  * @license http://www.superdesk.org/license
  */
 
-namespace SWP\Bundle\TemplatesSystemBundle\Tests\Functional\Controller;
+namespace SWP\Bundle\ContentBundle\Tests\Functional\Controller;
 
 use SWP\Bundle\ContentBundle\Model\ArticleInterface;
 use SWP\Bundle\ContentBundle\Tests\Functional\WebTestCase;
@@ -54,7 +54,7 @@ class RouteControllerTest extends WebTestCase
         self::assertEquals(201, $client->getResponse()->getStatusCode());
         self::assertEquals(
             json_decode(
-                '{"id":1,"content":null,"staticPrefix":"\/simple-test-route","variablePattern":null,"children":[],"level":0,"templateName":null,"articlesTemplateName":null,"type":"content","cacheTimeInSeconds":0,"name":"simple-test-route","position":0,"root":1,"parent":null,"_links":{"self":{"href":"\/api\/v1\/content\/routes\/1"}}, "slug":"simple-test-route", "requirements":[]}',
+                '{"id":1,"content":null,"staticPrefix":"\/simple-test-route","variablePattern":null,"children":[],"level":0,"templateName":null,"articlesTemplateName":null,"type":"content","cacheTimeInSeconds":0,"name":"simple-test-route","position":0,"parent":null,"_links":{"self":{"href":"\/api\/v1\/content\/routes\/1"}}, "slug":"simple-test-route", "requirements":[]}',
                 true
             ),
             json_decode($client->getResponse()->getContent(), true)
@@ -347,13 +347,12 @@ class RouteControllerTest extends WebTestCase
         self::assertEquals(201, $client->getResponse()->getStatusCode());
 
         $client->request('GET', $this->router->generate('swp_api_content_show_routes', ['id' => $rootContent['id']]));
-
         $content = json_decode($client->getResponse()->getContent(), true);
         self::assertEquals(200, $client->getResponse()->getStatusCode());
 
         self::assertArraySubset(
             json_decode(
-                '{"id":1,"content":null,"staticPrefix":"\/root","variablePattern":"\/{slug}","children":[{"id":2,"content":null,"staticPrefix":"\/root\/root-child1","variablePattern":"\/{slug}","children":[{"id":3,"content":null,"staticPrefix":"\/root\/root-child1\/child1-root-child1","variablePattern":"\/{slug}","children":[],"level":2,"templateName":null,"articlesTemplateName":null,"type":"collection","cacheTimeInSeconds":0,"name":"child1-root-child1","position":0,"_links":{"self":{"href":"\/api\/v1\/content\/routes\/3"},"parent":{"href":"\/api\/v1\/content\/routes\/2"},"root":{"href":"\/api\/v1\/content\/routes\/1"}}}],"level":1,"templateName":null,"articlesTemplateName":null,"type":"collection","cacheTimeInSeconds":0,"name":"root-child1","position":0,"_links":{"self":{"href":"\/api\/v1\/content\/routes\/2"},"parent":{"href":"\/api\/v1\/content\/routes\/1"},"root":{"href":"\/api\/v1\/content\/routes\/1"}}}],"level":0,"templateName":null,"articlesTemplateName":null,"type":"collection","cacheTimeInSeconds":0,"name":"root","position":0,"_links":{"self":{"href":"\/api\/v1\/content\/routes\/1"}}}',
+                '{"id":1,"content":null,"staticPrefix":"\/root","variablePattern":"\/{slug}","parent":null,"children":[{"id":2,"content":null,"staticPrefix":"\/root\/root-child1","variablePattern":"\/{slug}","parent":1,"children":[{"id":3,"content":null,"staticPrefix":"\/root\/root-child1\/child1-root-child1","variablePattern":"\/{slug}","parent":2,"children":[],"level":2,"templateName":null,"articlesTemplateName":null,"type":"collection","cacheTimeInSeconds":0,"name":"child1-root-child1","slug":"child1-root-child1","position":0,"_links":{"self":{"href":"\/api\/v1\/content\/routes\/3"},"parent":{"href":"\/api\/v1\/content\/routes\/2"}}}],"level":1,"templateName":null,"articlesTemplateName":null,"type":"collection","cacheTimeInSeconds":0,"name":"root-child1","slug":"root-child1","position":0,"_links":{"self":{"href":"\/api\/v1\/content\/routes\/2"},"parent":{"href":"\/api\/v1\/content\/routes\/1"}}}],"level":0,"templateName":null,"articlesTemplateName":null,"type":"collection","cacheTimeInSeconds":0,"name":"root","slug":"root","position":0,"_links":{"self":{"href":"\/api\/v1\/content\/routes\/1"}}}',
                 true
             ),
             $content
@@ -431,7 +430,7 @@ class RouteControllerTest extends WebTestCase
         $content = json_decode($client->getResponse()->getContent(), true);
         self::assertEquals(
             json_decode(
-                '{"page":1,"limit":10,"pages":1,"total":2,"_links":{"self":{"href":"\/api\/v1\/content\/routes\/?page=1&limit=10"},"first":{"href":"\/api\/v1\/content\/routes\/?page=1&limit=10"},"last":{"href":"\/api\/v1\/content\/routes\/?page=1&limit=10"}},"_embedded":{"_items":[{"id":1,"content":null,"staticPrefix":"\/route1","variablePattern":null,"children":[],"level":0,"templateName":null,"articlesTemplateName":null,"type":"content","cacheTimeInSeconds":1,"name":"route1","position":0,"root":1,"parent":null,"_links":{"self":{"href":"\/api\/v1\/content\/routes\/1"}},"slug":"route1","requirements":[]},{"id":2,"content":null,"staticPrefix":"\/route2","variablePattern":"\/{slug}","children":[],"level":0,"templateName":null,"articlesTemplateName":null,"type":"collection","cacheTimeInSeconds":2,"name":"route2","position":1,"root":2,"parent":null,"_links":{"self":{"href":"\/api\/v1\/content\/routes\/2"}},"slug":"route2","requirements":{"slug":"[a-zA-Z0-9*\\\-_]+"}}]}}',
+                '{"page":1,"limit":10,"pages":1,"total":2,"_links":{"self":{"href":"\/api\/v1\/content\/routes\/?page=1&limit=10"},"first":{"href":"\/api\/v1\/content\/routes\/?page=1&limit=10"},"last":{"href":"\/api\/v1\/content\/routes\/?page=1&limit=10"}},"_embedded":{"_items":[{"id":1,"content":null,"staticPrefix":"\/route1","variablePattern":null,"children":[],"level":0,"templateName":null,"articlesTemplateName":null,"type":"content","cacheTimeInSeconds":1,"name":"route1","position":0,"parent":null,"_links":{"self":{"href":"\/api\/v1\/content\/routes\/1"}},"slug":"route1","requirements":[]},{"id":2,"content":null,"staticPrefix":"\/route2","variablePattern":"\/{slug}","children":[],"level":0,"templateName":null,"articlesTemplateName":null,"type":"collection","cacheTimeInSeconds":2,"name":"route2","position":1,"parent":null,"_links":{"self":{"href":"\/api\/v1\/content\/routes\/2"}},"slug":"route2","requirements":{"slug":"[a-zA-Z0-9*\\\-_]+"}}]}}',
                 true
             ),
             $content
@@ -452,7 +451,7 @@ class RouteControllerTest extends WebTestCase
 
         self::assertEquals(
             json_decode(
-                '{"page":1,"limit":10,"pages":1,"total":1,"_links":{"self":{"href":"\/api\/v1\/content\/routes\/?page=1&limit=10"},"first":{"href":"\/api\/v1\/content\/routes\/?page=1&limit=10"},"last":{"href":"\/api\/v1\/content\/routes\/?page=1&limit=10"}},"_embedded":{"_items":[{"id":1,"content":null,"staticPrefix":"\/route1","variablePattern":null,"children":[],"level":0,"templateName":null,"articlesTemplateName":null,"type":"content","cacheTimeInSeconds":1,"name":"route1","position":0,"root":1,"parent":null,"_links":{"self":{"href":"\/api\/v1\/content\/routes\/1"}},"slug":"route1","requirements":[]}]}}',
+                '{"page":1,"limit":10,"pages":1,"total":1,"_links":{"self":{"href":"\/api\/v1\/content\/routes\/?type=content&page=1&limit=10"},"first":{"href":"\/api\/v1\/content\/routes\/?type=content&page=1&limit=10"},"last":{"href":"\/api\/v1\/content\/routes\/?type=content&page=1&limit=10"}},"_embedded":{"_items":[{"id":1,"content":null,"staticPrefix":"\/route1","variablePattern":null,"children":[],"level":0,"templateName":null,"articlesTemplateName":null,"type":"content","cacheTimeInSeconds":1,"name":"route1","position":0,"parent":null,"_links":{"self":{"href":"\/api\/v1\/content\/routes\/1"}},"slug":"route1","requirements":[]}]}}',
                 true
             ),
             $content
@@ -473,7 +472,7 @@ class RouteControllerTest extends WebTestCase
 
         self::assertEquals(
             json_decode(
-                '{"page":1,"limit":10,"pages":1,"total":1,"_links":{"self":{"href":"\/api\/v1\/content\/routes\/?page=1&limit=10"},"first":{"href":"\/api\/v1\/content\/routes\/?page=1&limit=10"},"last":{"href":"\/api\/v1\/content\/routes\/?page=1&limit=10"}},"_embedded":{"_items":[{"id":2,"content":null,"staticPrefix":"\/route2","variablePattern":"\/{slug}","children":[],"level":0,"templateName":null,"articlesTemplateName":null,"type":"collection","cacheTimeInSeconds":2,"name":"route2","position":1,"root":2,"parent":null,"_links":{"self":{"href":"\/api\/v1\/content\/routes\/2"}},"slug":"route2","requirements":{"slug":"[a-zA-Z0-9*\\\-_]+"}}]}}',
+                '{"page":1,"limit":10,"pages":1,"total":1,"_links":{"self":{"href":"\/api\/v1\/content\/routes\/?type=collection&page=1&limit=10"},"first":{"href":"\/api\/v1\/content\/routes\/?type=collection&page=1&limit=10"},"last":{"href":"\/api\/v1\/content\/routes\/?type=collection&page=1&limit=10"}},"_embedded":{"_items":[{"id":2,"content":null,"staticPrefix":"\/route2","variablePattern":"\/{slug}","children":[],"level":0,"templateName":null,"articlesTemplateName":null,"type":"collection","cacheTimeInSeconds":2,"name":"route2","position":1,"parent":null,"_links":{"self":{"href":"\/api\/v1\/content\/routes\/2"}},"slug":"route2","requirements":{"slug":"[a-zA-Z0-9*\\\-_]+"}}]}}',
                 true
             ),
             $content
@@ -494,7 +493,7 @@ class RouteControllerTest extends WebTestCase
 
         self::assertEquals(
             json_decode(
-                '{"page":1,"limit":10,"pages":1,"total":0,"_links":{"self":{"href":"\/api\/v1\/content\/routes\/?page=1&limit=10"},"first":{"href":"\/api\/v1\/content\/routes\/?page=1&limit=10"},"last":{"href":"\/api\/v1\/content\/routes\/?page=1&limit=10"}},"_embedded":{"_items":[]}}',
+                '{"page":1,"limit":10,"pages":1,"total":0,"_links":{"self":{"href":"\/api\/v1\/content\/routes\/?type=fake&page=1&limit=10"},"first":{"href":"\/api\/v1\/content\/routes\/?type=fake&page=1&limit=10"},"last":{"href":"\/api\/v1\/content\/routes\/?type=fake&page=1&limit=10"}},"_embedded":{"_items":[]}}',
                 true
             ),
             $content

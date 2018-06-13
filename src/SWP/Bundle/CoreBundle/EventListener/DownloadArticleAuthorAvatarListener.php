@@ -89,14 +89,13 @@ final class DownloadArticleAuthorAvatarListener
         if (null !== $object->getAvatarUrl()) {
             $filesystem = new Filesystem();
             $pathParts = \pathinfo($object->getAvatarUrl());
-            $existingAvatar = $this->entityManager->getRepository(Image::class)->findBy(['assetId' => $pathParts['filename']]);
+            $assetId = $object->getSlug().'_'.$pathParts['filename'];
+            $existingAvatar = $this->entityManager->getRepository(Image::class)->findBy(['assetId' => $assetId]);
             if (\count($existingAvatar) > 0) {
                 $object->setAvatarUrl($this->authorMediaManager->getMediaPublicUrl(\reset($existingAvatar)));
 
                 return $object;
             }
-
-            $assetId = $object->getSlug().'_'.$pathParts['filename'];
 
             try {
                 $file = \file_get_contents($object->getAvatarUrl());
@@ -105,7 +104,7 @@ final class DownloadArticleAuthorAvatarListener
                 if (!$filesystem->exists($tempDirectory)) {
                     $filesystem->mkdir($tempDirectory);
                 }
-                \file_put_contents($tempLocation, $file);                
+                $filesystem->dumpFile($tempLocation, $file);
                 $uploadedFile = new UploadedFile($tempLocation, $assetId, Mime::getMimeFromExtension($pathParts['extension']), \strlen($file), null, true);
             } catch (\Exception $e) {
                 return $object;

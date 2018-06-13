@@ -11,6 +11,10 @@ SWP\Bundle\CoreBundle\Model\Route:
         name: "politics"
         variablePattern: "/{slug}"
         type: "collection"
+    sportRoute:
+        name: "sport"
+        variablePattern: "/{slug}"
+        type: "collection"
 
 SWP\Bundle\ContentBundle\Model\ArticleAuthor:
     author1:
@@ -71,6 +75,19 @@ SWP\Bundle\CoreBundle\Model\Article:
         code: "<uuid()>"
         route: '@politicsRoute'
         publishable: true
+        authors: ['@author3']
+        metadata:
+            byline: "Fake Doe"
+            located: "Warsaw"
+    listContent{6..6}:
+        title: "article<current()>"
+        body: "art<current()>"
+        slug: "article-<current()>"
+        locale: "en"
+        status: "unpublished"
+        code: "<uuid()>"
+        route: '@sportRoute'
+        publishable: false
         authors: ['@author3']
         metadata:
             byline: "Fake Doe"

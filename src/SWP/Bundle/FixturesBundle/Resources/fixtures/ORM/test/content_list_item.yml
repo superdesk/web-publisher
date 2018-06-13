@@ -23,3 +23,9 @@ SWP\Bundle\CoreBundle\Model\ContentListItem:
         sticky: false
         enabled: true
         position: 3
+    item5:
+        content: '@listContent6'
+        contentList: '@contentList1'
+        sticky: false
+        enabled: true
+        position: 3

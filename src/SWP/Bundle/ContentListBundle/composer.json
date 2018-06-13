@@ -19,9 +19,9 @@
     ],
     "require": {
         "php": "^7.0",
-        "swp/storage-bundle": "^1.3",
-        "swp/content-list": "^1.3",
-        "swp/common": "^1.3",
+        "swp/storage-bundle": "^1.4",
+        "swp/content-list": "^1.4",
+        "swp/common": "^1.4",
         "stof/doctrine-extensions-bundle": "1.2.x",
         "gedmo/doctrine-extensions": ">=2.4.26 <3.0",
         "symfony/dependency-injection": "^3.1",
