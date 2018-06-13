@@ -590,6 +590,7 @@ services:
     SWP\Bundle\CoreBundle\EventListener\DownloadArticleAuthorAvatarListener:
         arguments:
                 - '@doctrine.orm.entity_manager'
+                - '%kernel.cache_dir%'
         calls:
             - method: setAuthorMediaManager
               arguments:
