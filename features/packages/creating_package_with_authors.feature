@@ -137,6 +137,7 @@ Feature: Checking if the package authors are saved properly
       | authors[1].biography           | not dead yet                |
       | authors[1].role                | subeditor                   |
       | authors[1].slug                | vincer-vincer               |
+    And the JSON node "authors[0].avatarMedia" should be null
 
   Scenario: Submitting request payload containing authors data in ninjs format - updating
     Given I am authenticated as "test.user"
@@ -234,17 +235,19 @@ Feature: Checking if the package authors are saved properly
     And I add "Content-Type" header equal to "application/json"
     Then I send a "GET" request to "/api/{version}/content/articles/testing-authors"
     Then the response status code should be 200
+    And the JSON node "authors[0].avatarMedia" should not be null
+    And the JSON node "authors[1].avatarMedia" should not be null
     And the JSON nodes should contain:
       | authors[0].name                | Nareg Asmarian                                   |
       | authors[0].biography           | bioquil                                          |
       | authors[0].role                | writer                                           |
-      | authors[0].avatar_url          | /author/media/nareg-asmarian_90x90.jpeg |
+      | authors[0].avatar_url          | /author/media/nareg-asmarian_fd163b853e3b825257486222cb0f0cc08a6bb687.jpeg |
       | authors[0].jobtitle.name       | quality check                                    |
       | authors[0].jobtitle.qcode      | 1                                                |
       | authors[1].name                | vincer vincer                                    |
       | authors[1].biography           | not dead yet                                     |
       | authors[1].role                | subeditor                                        |
-      | authors[1].avatar_url          | /author/media/vincer-vincer_95x95.jpeg  |
+      | authors[1].avatar_url          | /author/media/vincer-vincer_b92774bece43ddbdefe652cb7567e005cb66032c.jpeg  |
       | authors[0].slug                | nareg-asmarian                                   |
       | authors[1].slug                | vincer-vincer                                    |
     And I am authenticated as "test.user"
@@ -407,6 +410,8 @@ Feature: Checking if the package authors are saved properly
     Then I send a "GET" request to "/api/{version}/packages/6"
     Then the response status code should be 200
     And the JSON node "authors" should exist
+    And the JSON node "authors[0].avatarMedia" should not be null
+    And the JSON node "authors[1].avatarMedia" should be null
     And the JSON nodes should contain:
       | authors[1].name                | ed                                              |
       | authors[1].biography           | ed bio                                          |
@@ -414,7 +419,7 @@ Feature: Checking if the package authors are saved properly
       | authors[0].name                | vincer vincer                                   |
       | authors[0].biography           | not dead yet                                    |
       | authors[0].role                | subeditor                                       |
-      | authors[0].avatar_url          | /author/media/vincer-vincer_95x95.jpeg |
+      | authors[0].avatar_url          | /author/media/vincer-vincer_b92774bece43ddbdefe652cb7567e005cb66032c.jpeg |
     And the JSON node "authors[1].jobtitle.name" should not exist
     And the JSON node "authors[1].avatar_url" should be null
     And I am authenticated as "test.user"
@@ -429,8 +434,8 @@ Feature: Checking if the package authors are saved properly
       | authors[0].name                | vincer vincer                                   |
       | authors[0].biography           | not dead yet                                    |
       | authors[0].role                | subeditor                                       |
-      | authors[0].avatar_url          | /author/media/vincer-vincer_95x95.jpeg |
+      | authors[0].avatar_url          | /author/media/vincer-vincer_b92774bece43ddbdefe652cb7567e005cb66032c.jpeg |
       | authors[0].slug                | vincer-vincer                                   |
     And the JSON node "authors[1].avatar_url" should be null
-    Then I send a "GET" request to "/author/media/vincer-vincer_95x95.jpeg"
+    Then I send a "GET" request to "/author/media/vincer-vincer_b92774bece43ddbdefe652cb7567e005cb66032c.jpeg"
     Then the response status code should be 200

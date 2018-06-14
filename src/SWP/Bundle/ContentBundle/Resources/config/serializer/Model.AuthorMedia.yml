@@ -1,20 +1,20 @@
-SWP\Bundle\ContentBundle\Model\ArticleMedia:
+SWP\Bundle\ContentBundle\Model\AuthorMedia:
     exclusion_policy: ALL
     properties:
         id:
             expose: true
             type: string
+        key:
+            expose: true
         file:
             expose: true
         image:
-            expose: true
-        renditions:
             expose: true
     relations:
         -
             rel: download
             href:
-                route: swp_media_get
+                route: swp_author_media_get
                 parameters:
                     mediaId: "expr(object.getImage() ? object.getImage().getAssetId() : object.getFile().getAssetId())"
                     extension: "expr(object.getImage() ? object.getImage().getFileExtension() : object.getImage().getFileExtension())"

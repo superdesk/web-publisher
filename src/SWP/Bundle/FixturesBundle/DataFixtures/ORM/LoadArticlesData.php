@@ -20,6 +20,8 @@ use Doctrine\Common\Persistence\ObjectManager;
 use SWP\Bundle\AnalyticsBundle\Model\ArticleStatisticsInterface;
 use SWP\Bundle\ContentBundle\Model\ArticleAuthor;
 use SWP\Bundle\ContentBundle\Model\ArticleInterface;
+use SWP\Bundle\ContentBundle\Model\AuthorMedia;
+use SWP\Bundle\CoreBundle\Model\Image;
 use SWP\Bundle\ContentBundle\Model\ImageRendition;
 use SWP\Bundle\ContentBundle\Model\RouteInterface;
 use SWP\Bundle\CoreBundle\Model\ArticleEvent;
@@ -471,6 +473,13 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface, Orde
                         $author->setBiography('Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibu');
                         $author->setRole('Writer');
                         $author->setName($authorName);
+                        $image = new Image();
+                        $image->setAssetId($author->getSlug());
+                        $image->setFileExtension('jpg');
+                        $manager->persist($image);
+                        $authorMedia = new AuthorMedia('avatar', $author, $image);
+                        $manager->persist($authorMedia);
+                        $author->setAvatarMedia($authorMedia);
                         $article->addAuthor($author);
                     }
                 }
@@ -484,11 +493,11 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface, Orde
                 }
 
                 $package = $this->createPackage($articleData);
+                $manager->persist($article);
                 $articleStatistics = $this->createArticleStatistics($articleData['pageViews'], $articleData['pageViewsDates'], $article, $manager);
                 $manager->persist($articleStatistics);
                 $manager->persist($package);
                 $article->setPackage($package);
-                $manager->persist($article);
                 $articleService->publish($article);
 
                 $this->addReference($article->getSlug(), $article);

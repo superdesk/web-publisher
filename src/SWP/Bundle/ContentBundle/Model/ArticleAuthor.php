@@ -32,6 +32,11 @@ class ArticleAuthor extends BaseAuthor implements ArticleAuthorInterface
     protected $slug;
 
     /**
+     * @var AuthorMediaInterface
+     */
+    private $avatarMedia;
+
+    /**
      * {@inheritdoc}
      */
     public function getId()
@@ -44,7 +49,10 @@ class ArticleAuthor extends BaseAuthor implements ArticleAuthorInterface
      */
     public function setName(?string $name): void
     {
-        $this->setSlug($name);
+        if ($name) {
+            $this->setSlug($name);
+        }
+
         parent::setName($name);
     }
 
@@ -62,5 +70,21 @@ class ArticleAuthor extends BaseAuthor implements ArticleAuthorInterface
     public function setSlug(string $slug): void
     {
         $this->slug = Transliterator::urlize($slug);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setAvatarMedia(AuthorMediaInterface $avatarMedia): void
+    {
+        $this->avatarMedia = $avatarMedia;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getAvatarMedia(): AuthorMediaInterface
+    {
+        return $this->avatarMedia;
     }
 }

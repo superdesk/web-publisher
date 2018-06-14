@@ -50,6 +50,13 @@ class ArticleAuthorLoaderTest extends WebTestCase
         self::assertEquals(' Tom  Test Person  John Doe  John Doe Second  Test Person ', $result);
     }
 
+    public function testRenderingArticleAuthorsAvatars()
+    {
+        $template = '{% gimmelist author from authors %} {{ url(author.avatarMedia) }} {% endgimmelist %}';
+        $result = $this->getRendered($template);
+        self::assertEquals(' http://localhost/author/media/tom.jpg  http://localhost/author/media/test-person.jpg  http://localhost/author/media/john-doe.jpg  http://localhost/author/media/john-doe-second.jpg  http://localhost/author/media/test-person.jpg ', $result);
+    }
+
     public function testRenderingArticleAuthorsOrdered()
     {
         $template = '{% gimmelist author from authors|order("name", "asc") %} {{ author.name }} {% endgimmelist %}';
