@@ -22,65 +22,65 @@ use SWP\Component\Storage\Model\PersistableInterface;
 interface AuthorMediaInterface extends PersistableInterface
 {
     /**
-     * Get the value of id
+     * Get the value of id.
      *
-     * @return  int
+     * @return int
      */
     public function getId();
 
     /**
-     * Get the value of key
+     * Get the value of key.
      *
-     * @return  string
+     * @return string
      */
     public function getKey();
 
     /**
-     * Set the value of key
+     * Set the value of key.
      *
-     * @param  string  $key
+     * @param string $key
      */
     public function setKey(string $key);
 
     /**
-     * Get the value of file
+     * Get the value of file.
      *
-     * @return  FileInterface
+     * @return FileInterface
      */
     public function getFile();
 
     /**
-     * Set the value of file
+     * Set the value of file.
      *
-     * @param  FileInterface  $file
+     * @param FileInterface $file
      */
     public function setFile(FileInterface $file);
 
     /**
-     * Get the value of image
+     * Get the value of image.
      *
-     * @return  ImageInterface
+     * @return ImageInterface
      */
     public function getImage();
 
     /**
-     * Set the value of image
+     * Set the value of image.
      *
-     * @param  ImageInterface  $image
+     * @param ImageInterface $image
      */
     public function setImage(ImageInterface $image);
 
     /**
-     * Get the value of author
+     * Get the value of author.
      *
-     * @return  AuthorInterface
+     * @return AuthorInterface
      */
     public function getAuthor();
 
     /**
-     * Set the value of author
+     * Set the value of author.
      *
-     * @param  AuthorInterface  $author
+     * @param AuthorInterface $author
      */
     public function setAuthor(AuthorInterface $author);
 }

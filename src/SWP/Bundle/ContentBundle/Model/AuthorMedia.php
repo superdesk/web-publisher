@@ -54,8 +54,8 @@ class AuthorMedia implements AuthorMediaInterface
     /**
      * AuthorMedia constructor.
      *
-     * @param string $key
-     * @param AuthorInterface $author
+     * @param string              $key
+     * @param AuthorInterface     $author
      * @param ImageInterface|null $image
      */
     public function __construct(string $key, AuthorInterface $author, ImageInterface $image = null)
@@ -70,7 +70,7 @@ class AuthorMedia implements AuthorMediaInterface
 
     /**
      * {@inheritdoc}
-     */ 
+     */
     public function getId()
     {
         return $this->id;
@@ -78,7 +78,7 @@ class AuthorMedia implements AuthorMediaInterface
 
     /**
      * {@inheritdoc}
-     */ 
+     */
     public function getKey()
     {
         return $this->key;
@@ -118,7 +118,7 @@ class AuthorMedia implements AuthorMediaInterface
 
     /**
      * {@inheritdoc}
-     */ 
+     */
     public function setImage(ImageInterface $image)
     {
         $this->image = $image;
