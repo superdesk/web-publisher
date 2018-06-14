@@ -25,6 +25,7 @@ use Symfony\Component\EventDispatcher\GenericEvent;
 final class PushNotificationOnPackageListener
 {
     public const PACKAGE_STATE_UPDATE = 'update';
+
     public const PACKAGE_STATE_CREATE = 'create';
 
     /**
