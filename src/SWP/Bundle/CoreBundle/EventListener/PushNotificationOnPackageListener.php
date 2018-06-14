@@ -22,8 +22,11 @@ use SWP\Component\Common\Exception\UnexpectedTypeException;
 use SWP\Component\Common\Serializer\SerializerInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
 
-final class PushNotificationOnPackageProcessedListener
+final class PushNotificationOnPackageListener
 {
+    public const PACKAGE_STATE_UPDATE = 'update';
+    public const PACKAGE_STATE_CREATE = 'create';
+
     /**
      * @var PusherInterface
      */
@@ -48,24 +51,51 @@ final class PushNotificationOnPackageProcessedListener
 
     /**
      * @param GenericEvent $event
+     *
+     * @throws \SWP\Component\Common\Exception\UnexpectedTypeException
      */
-    public function onProcessed(GenericEvent $event)
+    public function onPostCreate(GenericEvent $event): void
     {
         $package = $this->getPackage($event);
-        $this->pusher->push(['package' => json_decode($this->serializer->serialize($package, 'json'), true)], 'package_created');
+
+        $this->pushNotification($package, self::PACKAGE_STATE_CREATE);
+    }
+
+    /**
+     * @param GenericEvent $event
+     *
+     * @throws \SWP\Component\Common\Exception\UnexpectedTypeException
+     */
+    public function onPostUpdate(GenericEvent $event): void
+    {
+        $package = $this->getPackage($event);
+
+        $this->pushNotification($package, self::PACKAGE_STATE_UPDATE);
+    }
+
+    private function pushNotification(PackageInterface $package, string $state)
+    {
+        $this->pusher->push([
+            'package' => json_decode($this->serializer->serialize($package, 'json'), true),
+            'state' => $state,
+        ],
+            'package_created'
+        );
     }
 
     /**
      * @param GenericEvent $event
      *
      * @return PackageInterface
+     *
+     * @throws \SWP\Component\Common\Exception\UnexpectedTypeException
      */
-    private function getPackage(GenericEvent $event)
+    private function getPackage(GenericEvent $event): PackageInterface
     {
         /** @var PackageInterface $package */
         if (!($package = $event->getSubject()) instanceof PackageInterface) {
             throw UnexpectedTypeException::unexpectedType(
-                is_object($package) ? get_class($package) : gettype($package),
+                \is_object($package) ? \get_class($package) : \gettype($package),
                 PackageInterface::class
             );
         }
