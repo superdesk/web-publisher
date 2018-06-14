@@ -16,9 +16,7 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\ContentBundle\Model;
 
-use SWP\Component\Bridge\Model\ItemInterface;
 use SWP\Component\Bridge\Model\AuthorInterface;
-use Doctrine\Common\Collections\ArrayCollection;
 use SWP\Component\Common\Model\TimestampableTrait;
 
 /**
@@ -71,9 +69,7 @@ class AuthorMedia implements AuthorMediaInterface
     }
 
     /**
-     * Get the value of id
-     *
-     * @return  int
+     * {@inheritdoc}
      */ 
     public function getId()
     {
@@ -81,9 +77,7 @@ class AuthorMedia implements AuthorMediaInterface
     }
 
     /**
-     * Get the value of key
-     *
-     * @return  string
+     * {@inheritdoc}
      */ 
     public function getKey()
     {
@@ -91,49 +85,39 @@ class AuthorMedia implements AuthorMediaInterface
     }
 
     /**
-     * Set the value of key
-     *
-     * @param  string  $key
-     */ 
+     * {@inheritdoc}
+     */
     public function setKey(string $key)
     {
         $this->key = $key;
     }
 
     /**
-     * Get the value of file
-     *
-     * @return  FileInterface
-     */ 
+     * {@inheritdoc}
+     */
     public function getFile()
     {
         return $this->file;
     }
 
     /**
-     * Set the value of file
-     *
-     * @param  FileInterface  $file
-     */ 
+     * {@inheritdoc}
+     */
     public function setFile(FileInterface $file)
     {
         $this->file = $file;
     }
 
     /**
-     * Get the value of image
-     *
-     * @return  ImageInterface
-     */ 
+     * {@inheritdoc}
+     */
     public function getImage()
     {
         return $this->image;
     }
 
     /**
-     * Set the value of image
-     *
-     * @param  ImageInterface  $image
+     * {@inheritdoc}
      */ 
     public function setImage(ImageInterface $image)
     {
@@ -141,20 +125,16 @@ class AuthorMedia implements AuthorMediaInterface
     }
 
     /**
-     * Get the value of author
-     *
-     * @return  AuthorInterface
-     */ 
+     * {@inheritdoc}
+     */
     public function getAuthor()
     {
         return $this->author;
     }
 
     /**
-     * Set the value of author
-     *
-     * @param  AuthorInterface  $author
-     */ 
+     * {@inheritdoc}
+     */
     public function setAuthor(AuthorInterface $author)
     {
         $this->author = $author;
