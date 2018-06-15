@@ -19,11 +19,15 @@ namespace SWP\Bundle\CoreBundle\WebSocket\Topic;
 use Gos\Bundle\WebSocketBundle\Router\WampRequest;
 use Gos\Bundle\WebSocketBundle\Topic\PushableTopicInterface;
 use Gos\Bundle\WebSocketBundle\Topic\TopicInterface;
+use Gos\Bundle\WebSocketBundle\Topic\TopicPeriodicTimerInterface;
+use Gos\Bundle\WebSocketBundle\Topic\TopicPeriodicTimerTrait;
 use Ratchet\ConnectionInterface;
 use Ratchet\Wamp\Topic;
 
-final class PackageTopic extends AbstractSecuredTopic implements TopicInterface, PushableTopicInterface
+final class PackageTopic extends AbstractSecuredTopic implements TopicInterface, PushableTopicInterface, TopicPeriodicTimerInterface
 {
+    use TopicPeriodicTimerTrait;
+
     /**
      * {@inheritdoc}
      */
@@ -53,6 +57,19 @@ final class PackageTopic extends AbstractSecuredTopic implements TopicInterface,
     public function onPush(Topic $topic, WampRequest $request, $data, $provider)
     {
         $topic->broadcast($data);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function registerPeriodicTimer(Topic $topic)
+    {
+        $n = 1;
+        $this->periodicTimer->addPeriodicTimer($this, 'ping', 5, function () use ($topic, &$n) {
+            $topic->broadcast(['ping' => $n]);
+
+            ++$n;
+        });
     }
 
     /**
