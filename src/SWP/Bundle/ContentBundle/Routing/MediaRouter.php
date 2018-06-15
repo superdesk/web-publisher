@@ -39,7 +39,7 @@ class MediaRouter extends Router implements VersatileGeneratorInterface
         if ($name instanceof Meta && $name->getValues() instanceof AuthorMedia) {
             $routeName = 'swp_author_media_get';
         }
-        dump($routeName);
+
         $parameters['mediaId'] = $item->getAssetId();
         $parameters['extension'] = $item->getFileExtension();
 
