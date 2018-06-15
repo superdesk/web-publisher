@@ -15,6 +15,7 @@
 namespace SWP\Bundle\ContentBundle\Routing;
 
 use SWP\Bundle\ContentBundle\Model\ArticleMedia;
+use SWP\Bundle\ContentBundle\Model\AuthorMedia;
 use SWP\Bundle\ContentBundle\Model\FileInterface;
 use SWP\Bundle\ContentBundle\Model\ImageInterface;
 use SWP\Bundle\ContentBundle\Model\ImageRendition;
@@ -34,10 +35,15 @@ class MediaRouter extends Router implements VersatileGeneratorInterface
             return;
         }
 
+        $routeName = 'swp_media_get';
+        if ($name instanceof Meta && $name->getValues() instanceof AuthorMedia) {
+            $routeName = 'swp_author_media_get';
+        }
+        dump($routeName);
         $parameters['mediaId'] = $item->getAssetId();
         $parameters['extension'] = $item->getFileExtension();
 
-        return parent::generate('swp_media_get', $parameters, $referenceType);
+        return parent::generate($routeName, $parameters, $referenceType);
     }
 
     /**
@@ -45,7 +51,11 @@ class MediaRouter extends Router implements VersatileGeneratorInterface
      */
     public function supports($name)
     {
-        return $name instanceof Meta && ($name->getValues() instanceof ArticleMedia || $name->getValues() instanceof ImageRendition);
+        return $name instanceof Meta && (
+            $name->getValues() instanceof ArticleMedia ||
+            $name->getValues() instanceof ImageRendition ||
+            $name->getValues() instanceof AuthorMedia
+        );
     }
 
     /**

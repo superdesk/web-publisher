@@ -55,7 +55,7 @@ To list articles by authors you can also do:
 
     {% gimmelist article from articles with {author: ["Karen Ruhiger", "Doe"]} %}
         {{ article.title }}
-        Author(s): {% for author in article.authors %}<img src="{{ author.avatarUrl }}" />{{ author.name }} ({{ author.role }}) {{ author.biography }} - {{ author.jobTitle.name }},{% endfor %}
+        Author(s): {% for author in article.authors %}<img src="{{ url(author.avatar) }}" />{{ author.name }} ({{ author.role }}) {{ author.biography }} - {{ author.jobTitle.name }},{% endfor %}
     {% endgimmelist %}
 
 It will then list all articles written by ``Karen Ruhiger`` **AND** ``Doe``.

@@ -1,0 +1,40 @@
+SWP\Bundle\ContentBundle\Model\AuthorMedia:
+    type: mappedSuperclass
+    table: swp_author_media
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: IDENTITY
+    fields:
+        key:
+            type: string
+        createdAt:
+            type: date
+        updatedAt:
+            type: date
+            nullable: true
+    manyToOne:
+        author:
+            targetEntity: SWP\Bundle\ContentBundle\Model\ArticleAuthorInterface
+            inversedBy: media
+            cascade: ["persist"]
+            joinColumn:
+                name: author_id
+                referencedColumnName: id
+                onDelete: CASCADE
+        file:
+            targetEntity: SWP\Bundle\ContentBundle\Model\FileInterface
+            inversedBy: media
+            cascade: ["persist"]
+            joinColumn:
+                name: file_id
+                referencedColumnName: id
+        image:
+            targetEntity: SWP\Bundle\ContentBundle\Model\ImageInterface
+            inversedBy: media
+            cascade: ["persist"]
+            joinColumn:
+                name: image_id
+                referencedColumnName: id
