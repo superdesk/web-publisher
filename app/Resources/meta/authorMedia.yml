@@ -1,0 +1,11 @@
+name: authorMedia
+class: "SWP\\Bundle\\ContentBundle\\Model\\AuthorMediaInterface"
+description: Author Media Meta is representation of author files and images
+properties:
+    id:
+        description: "Media Id"
+        type: text
+    key:
+        description: "Media key"
+        type: text
+to_string: body

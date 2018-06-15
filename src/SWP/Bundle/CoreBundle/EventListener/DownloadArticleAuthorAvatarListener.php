@@ -17,9 +17,11 @@ declare(strict_types=1);
 namespace SWP\Bundle\CoreBundle\EventListener;
 
 use Hoa\Mime\Mime;
+use SWP\Bundle\ContentBundle\Model\AuthorMediaInterface;
 use SWP\Bundle\CoreBundle\Model\Image;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Filesystem\Filesystem;
+use SWP\Bundle\ContentBundle\Model\AuthorMedia;
 use Doctrine\Common\Collections\ArrayCollection;
 use SWP\Bundle\CoreBundle\Model\PackageInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
@@ -89,7 +91,10 @@ final class DownloadArticleAuthorAvatarListener
         if (null !== $object->getAvatarUrl()) {
             $filesystem = new Filesystem();
             $pathParts = \pathinfo($object->getAvatarUrl());
-            $assetId = $object->getSlug().'_'.$pathParts['filename'];
+            $assetId = \sha1($pathParts['filename']);
+            if (null !== $object->getSlug()) {
+                $assetId = $object->getSlug().'_'.$assetId;
+            }
             $existingAvatar = $this->entityManager->getRepository(Image::class)->findBy(['assetId' => $assetId]);
             if (\count($existingAvatar) > 0) {
                 $object->setAvatarUrl($this->authorMediaManager->getMediaPublicUrl(\reset($existingAvatar)));
@@ -111,11 +116,20 @@ final class DownloadArticleAuthorAvatarListener
             }
             /** @var Image $image */
             $image = $this->authorMediaManager->handleUploadedFile($uploadedFile, $assetId);
+            $avatar = $this->createAuthorMedia($object, $image);
+            $this->entityManager->persist($avatar);
             $this->entityManager->persist($image);
             $this->entityManager->flush();
+
+            $object->setAvatar($avatar);
             $object->setAvatarUrl($this->authorMediaManager->getMediaPublicUrl($image));
         }
 
         return $object;
+    }
+
+    private function createAuthorMedia(ArticleAuthorInterface $articleAuthor, Image $image): AuthorMediaInterface
+    {
+        return new AuthorMedia('avatar', $articleAuthor, $image);
     }
 }
