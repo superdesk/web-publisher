@@ -91,6 +91,7 @@ class RulesMatcher implements RulesMatcherInterface
     public function getMatchedRules(PackageInterface $package): array
     {
         $article = $this->articleFactory->createFromPackage($package);
+        $article->setPackage($package);
         $this->eventDispatcher->dispatch(MultiTenancyEvents::TENANTABLE_DISABLE);
 
         $destinations = $this->publishDestinationProvider->getDestinations($package);
