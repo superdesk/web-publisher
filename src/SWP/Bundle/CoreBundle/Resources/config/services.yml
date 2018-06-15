@@ -575,13 +575,13 @@ services:
             - { name: kernel.event_listener, event: swp.article.published, method: publish }
             - { name: kernel.event_listener, event: swp.article.unpublished, method: unpublish }
 
-
-    SWP\Bundle\CoreBundle\EventListener\PushNotificationOnPackageProcessedListener:
+    SWP\Bundle\CoreBundle\EventListener\PushNotificationOnPackageListener:
         arguments:
             - '@gos_web_socket.zmq.pusher'
             - '@swp.serializer'
         tags:
-            - { name: kernel.event_listener, event: swp.bridge.package_processed, method: onProcessed }
+            - { name: kernel.event_listener, event: swp.bridge.package_post_update, method: onPostUpdate, priority: -10 }
+            - { name: kernel.event_listener, event: swp.bridge.package_post_create, method: onPostCreate, priority: -10 }
 
     SWP\Bundle\CoreBundle\EventListener\MergePackageListener:
         tags:
