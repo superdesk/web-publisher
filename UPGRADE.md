@@ -13,7 +13,7 @@ Most important steps to do after updating code:
 
 ## Release 1.4.0
 
-* [BC] Article author `avatarUrl` property is deprecated. It will be removed in 1.5 version. Use `avatarMedia` instead. 
+* [BC] Article author `avatarUrl` property is deprecated. It will be removed in 1.5 version. Use `avatar` instead. 
 
 ## Release 1.3.0
 

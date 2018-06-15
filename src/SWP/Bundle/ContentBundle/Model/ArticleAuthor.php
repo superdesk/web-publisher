@@ -34,7 +34,7 @@ class ArticleAuthor extends BaseAuthor implements ArticleAuthorInterface
     /**
      * @var AuthorMediaInterface
      */
-    private $avatarMedia;
+    private $avatar;
 
     /**
      * {@inheritdoc}
@@ -75,16 +75,16 @@ class ArticleAuthor extends BaseAuthor implements ArticleAuthorInterface
     /**
      * {@inheritdoc}
      */
-    public function setAvatarMedia(AuthorMediaInterface $avatarMedia): void
+    public function setAvatar(AuthorMediaInterface $avatar): void
     {
-        $this->avatarMedia = $avatarMedia;
+        $this->avatar = $avatar;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function getAvatarMedia(): AuthorMediaInterface
+    public function getAvatar(): AuthorMediaInterface
     {
-        return $this->avatarMedia;
+        return $this->avatar;
     }
 }

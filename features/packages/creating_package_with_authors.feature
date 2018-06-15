@@ -137,7 +137,7 @@ Feature: Checking if the package authors are saved properly
       | authors[1].biography           | not dead yet                |
       | authors[1].role                | subeditor                   |
       | authors[1].slug                | vincer-vincer               |
-    And the JSON node "authors[0].avatarMedia" should be null
+    And the JSON node "authors[0].avatar" should be null
 
   Scenario: Submitting request payload containing authors data in ninjs format - updating
     Given I am authenticated as "test.user"
@@ -235,8 +235,8 @@ Feature: Checking if the package authors are saved properly
     And I add "Content-Type" header equal to "application/json"
     Then I send a "GET" request to "/api/{version}/content/articles/testing-authors"
     Then the response status code should be 200
-    And the JSON node "authors[0].avatarMedia" should not be null
-    And the JSON node "authors[1].avatarMedia" should not be null
+    And the JSON node "authors[0].avatar" should not be null
+    And the JSON node "authors[1].avatar" should not be null
     And the JSON nodes should contain:
       | authors[0].name                | Nareg Asmarian                                   |
       | authors[0].biography           | bioquil                                          |
@@ -410,8 +410,8 @@ Feature: Checking if the package authors are saved properly
     Then I send a "GET" request to "/api/{version}/packages/6"
     Then the response status code should be 200
     And the JSON node "authors" should exist
-    And the JSON node "authors[0].avatarMedia" should not be null
-    And the JSON node "authors[1].avatarMedia" should be null
+    And the JSON node "authors[0].avatar" should not be null
+    And the JSON node "authors[1].avatar" should be null
     And the JSON nodes should contain:
       | authors[1].name                | ed                                              |
       | authors[1].biography           | ed bio                                          |

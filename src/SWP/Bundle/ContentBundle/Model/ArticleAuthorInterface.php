@@ -34,10 +34,10 @@ interface ArticleAuthorInterface extends BaseAuthorInterface, PersistableInterfa
     /**
      * @return AuthorMediaInterface
      */
-    public function getAvatarMedia(): AuthorMediaInterface;
+    public function getAvatar(): AuthorMediaInterface;
 
     /**
-     * @param AuthorMediaInterface $avatarMedia
+     * @param AuthorMediaInterface $avatar
      */
-    public function setAvatarMedia(AuthorMediaInterface $avatarMedia): void;
+    public function setAvatar(AuthorMediaInterface $avatar): void;
 }

@@ -44,7 +44,7 @@ Usage:
         <li>{{ author.biography }}</li> <!-- Author's biography -->
         <li>{{ author.jobTitle.name }}</li> <!-- Author's job title name -->
         <li>{{ author.jobTitle.qcode }}</li> <!-- Author's job title code -->
-        {% if author.avatarMedia %}<li> <img src="{{ url(author.avatarMedia) }}"><li>{% endif %} <!-- Author's avatar url. Check first if it's not null - author can be without avatar. -->
+        {% if author.avatar %}<li> <img src="{{ url(author.avatar) }}"><li>{% endif %} <!-- Author's avatar url. Check first if it's not null - author can be without avatar. -->
     {% endgimmelist %}
     </ul>
 

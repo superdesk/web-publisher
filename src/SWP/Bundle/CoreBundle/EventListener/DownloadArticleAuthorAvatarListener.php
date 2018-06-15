@@ -116,12 +116,12 @@ final class DownloadArticleAuthorAvatarListener
             }
             /** @var Image $image */
             $image = $this->authorMediaManager->handleUploadedFile($uploadedFile, $assetId);
-            $avatarMedia = $this->createAuthorMedia($object, $image);
-            $this->entityManager->persist($avatarMedia);
+            $avatar = $this->createAuthorMedia($object, $image);
+            $this->entityManager->persist($avatar);
             $this->entityManager->persist($image);
             $this->entityManager->flush();
 
-            $object->setAvatarMedia($avatarMedia);
+            $object->setAvatar($avatar);
             $object->setAvatarUrl($this->authorMediaManager->getMediaPublicUrl($image));
         }
 

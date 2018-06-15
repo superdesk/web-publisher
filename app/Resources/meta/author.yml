@@ -23,7 +23,7 @@ properties:
     slug:
         description: "Author's slug"
         type: text
-    avatarMedia:
+    avatar:
         description: "Author avatar media object - replaces avatar url"
         type: meta
 to_string: name

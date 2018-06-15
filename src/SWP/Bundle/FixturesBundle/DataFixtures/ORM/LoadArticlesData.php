@@ -479,7 +479,7 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface, Orde
                         $manager->persist($image);
                         $authorMedia = new AuthorMedia('avatar', $author, $image);
                         $manager->persist($authorMedia);
-                        $author->setAvatarMedia($authorMedia);
+                        $author->setAvatar($authorMedia);
                         $article->addAuthor($author);
                     }
                 }
