@@ -32,6 +32,8 @@ use SWP\Bundle\ContentBundle\Model\ArticleSourceReference;
 use SWP\Bundle\ContentBundle\Model\ArticleSourceReferenceInterface;
 use SWP\Bundle\ContentBundle\Model\ArticleAuthor;
 use SWP\Bundle\ContentBundle\Model\ArticleAuthorInterface;
+use SWP\Bundle\ContentBundle\Model\AuthorMedia;
+use SWP\Bundle\ContentBundle\Model\AuthorMediaInterface;
 use SWP\Bundle\ContentBundle\Model\File;
 use SWP\Bundle\ContentBundle\Model\FileInterface;
 use SWP\Bundle\ContentBundle\Model\Image;
@@ -127,6 +129,15 @@ class Configuration implements ConfigurationInterface
                                                 ->scalarNode('interface')->cannotBeEmpty()->defaultValue(ArticleMediaInterface::class)->end()
                                                 ->scalarNode('repository')->defaultValue(ArticleMediaRepository::class)->end()
                                                 ->scalarNode('factory')->defaultValue(MediaFactory::class)->end()
+                                                ->scalarNode('object_manager_name')->defaultValue(null)->end()
+                                            ->end()
+                                        ->end()
+                                        ->arrayNode('author_media')
+                                            ->addDefaultsIfNotSet()
+                                            ->children()
+                                                ->scalarNode('model')->cannotBeEmpty()->defaultValue(AuthorMedia::class)->end()
+                                                ->scalarNode('interface')->cannotBeEmpty()->defaultValue(AuthorMediaInterface::class)->end()
+                                                ->scalarNode('repository')->defaultValue(EntityRepository::class)->end()
                                                 ->scalarNode('object_manager_name')->defaultValue(null)->end()
                                             ->end()
                                         ->end()

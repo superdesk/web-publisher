@@ -18,9 +18,12 @@ properties:
         description: "Author's job title"
         type: array
     avatarUrl:
-        description: "Author's avatar URL"
+        description: "[depreceated-1.4] Author's avatar URL"
         type: text
     slug:
         description: "Author's slug"
         type: text
+    avatar:
+        description: "Author avatar media object - replaces avatar url"
+        type: meta
 to_string: name
