@@ -312,17 +312,17 @@ old_sound_rabbit_mq:
     producers:
         send_webhook:
             connection:       default
-            exchange_options: {name: '%kernel.environment%_send_webhook', type: direct}
+            exchange_options: {name: '%kernel.environment%_%kernel.secret%_send_webhook', type: direct}
     consumers:
         send_webhook:
             connection:       default
-            exchange_options: {name: '%kernel.environment%_send_webhook', type: direct}
-            queue_options:    {name: '%kernel.environment%_send_webhook'}
+            exchange_options: {name: '%kernel.environment%_%kernel.secret%_send_webhook', type: direct}
+            queue_options:    {name: '%kernel.environment%_%kernel.secret%_send_webhook'}
             callback:         SWP\Bundle\CoreBundle\Consumer\SendWebhookConsumer
         analytics_event:
             connection:       default
-            exchange_options: {name: '%kernel.environment%_analytics_event', type: direct}
-            queue_options:    {name: '%kernel.environment%_analytics_event'}
+            exchange_options: {name: '%kernel.environment%_%kernel.secret%_analytics_event', type: direct}
+            queue_options:    {name: '%kernel.environment%_%kernel.secret%_analytics_event'}
             callback:         SWP\Bundle\CoreBundle\Consumer\AnalyticsEventConsumer
 
 bazinga_hateoas:
