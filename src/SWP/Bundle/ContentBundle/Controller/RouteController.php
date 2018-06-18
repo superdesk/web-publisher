@@ -106,7 +106,7 @@ class RouteController extends FOSRestController
         }
 
         if (0 < $route->getChildren()->count()) {
-            throw new ConflictHttpException('Remove route childrens before removing this route.');
+            throw new ConflictHttpException('Remove route children before removing this route.');
         }
 
         $eventDispatcher = $this->container->get('event_dispatcher');
