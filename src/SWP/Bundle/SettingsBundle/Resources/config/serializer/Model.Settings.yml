@@ -1,5 +1,2 @@
 SWP\Bundle\SettingsBundle\Model\Settings:
     exclusion_policy: NONE
-    properties:
-        value:
-            type: bool
