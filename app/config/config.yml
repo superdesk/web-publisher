@@ -225,14 +225,17 @@ fos_rest:
             json: fos_rest.decoder.jsontoform
     disable_csrf_role: ROLE_API
     exception:
+        enabled: true
         codes:
-            "Symfony\\Component\\Routing\\Exception\\ResourceNotFoundException": 404
-            "SWP\\Component\\Common\\Exception\\NotFoundHttpException": 404
-            "SWP\\Bundle\\SettingsBundle\\Exception\\InvalidScopeException": 500
+            'Symfony\Component\Routing\Exception\ResourceNotFoundException': 404
+            'SWP\Component\Common\Exception\NotFoundHttpException': 404
+            'SWP\Bundle\SettingsBundle\Exception\InvalidScopeException': 500
+            'SWP\Component\MultiTenancy\Exception\TenantNotFoundException': 404
         messages:
-            "Symfony\\Component\\Routing\\Exception\\ResourceNotFoundException": true
-            "SWP\\Component\\Common\\Exception\\NotFoundHttpException": true
-            "SWP\\Bundle\\SettingsBundle\\Exception\\InvalidScopeException": true
+            'Symfony\Component\Routing\Exception\ResourceNotFoundException': true
+            'SWP\Component\Common\Exception\NotFoundHttpException': true
+            'SWP\Bundle\SettingsBundle\Exception\InvalidScopeException': true
+            'SWP\Component\MultiTenancy\Exception\TenantNotFoundException': true
 
 swp_core:
     device_listener:

@@ -18,6 +18,7 @@ use Doctrine\Common\Cache\Cache;
 use Doctrine\ORM\EntityManager;
 use SWP\Bundle\CoreBundle\Model\Route;
 use SWP\Bundle\MultiTenancyBundle\Context\TenantContext;
+use SWP\Component\MultiTenancy\Exception\TenantNotFoundException;
 use SWP\Component\MultiTenancy\Model\TenantInterface;
 use SWP\Component\MultiTenancy\Resolver\TenantResolverInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
@@ -58,6 +59,10 @@ class CachedTenantContext extends TenantContext implements CachedTenantContextIn
      */
     public function getTenant()
     {
+        if ($this->requestStack->getCurrentRequest()->attributes->get('exception') instanceof TenantNotFoundException) {
+            return;
+        }
+
         if (null === $this->tenant) {
             $currentRequest = $this->requestStack->getCurrentRequest();
             if (null !== $currentRequest) {
