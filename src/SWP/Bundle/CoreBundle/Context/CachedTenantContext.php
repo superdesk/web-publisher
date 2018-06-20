@@ -59,12 +59,12 @@ class CachedTenantContext extends TenantContext implements CachedTenantContextIn
      */
     public function getTenant()
     {
-        if ($this->requestStack->getCurrentRequest()->attributes->get('exception') instanceof TenantNotFoundException) {
+        $currentRequest = $this->requestStack->getCurrentRequest();
+        if ($currentRequest && $this->requestStack->getCurrentRequest()->attributes->get('exception') instanceof TenantNotFoundException) {
             return;
         }
 
         if (null === $this->tenant) {
-            $currentRequest = $this->requestStack->getCurrentRequest();
             if (null !== $currentRequest) {
                 $cacheKey = self::getCacheKey($currentRequest->getHost());
                 if ($this->cacheProvider->contains($cacheKey)) {
