@@ -213,7 +213,7 @@ class RouteProvider extends BaseRouteProvider implements RouteProviderInterface
         } elseif (is_array($routeData)) {
             $loadByStaticPrefix = true;
             foreach ($routeData as $key => $providedRoute) {
-                if (!is_string($providedRoute)) {
+                if (\is_numeric($providedRoute)) {
                     $loadByStaticPrefix = false;
 
                     break;

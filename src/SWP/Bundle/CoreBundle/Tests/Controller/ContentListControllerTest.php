@@ -335,6 +335,33 @@ class ContentListControllerTest extends WebTestCase
         self::assertEquals(1, $content['total']);
     }
 
+    public function testContentListItemsByRouteIdsAsStringApi()
+    {
+        $this->loadFixtureFiles([
+            '@SWPFixturesBundle/Resources/fixtures/ORM/test/content_list.yml',
+            '@SWPFixturesBundle/Resources/fixtures/ORM/test/list_content.yml',
+            '@SWPFixturesBundle/Resources/fixtures/ORM/test/content_list_item.yml',
+        ], true);
+
+        $this->client->request('PATCH',
+            $this->router->generate('swp_api_content_update_lists', ['id' => 1]), [
+                'content_list' => [
+                    'filters' => '{"route":["5"]}',
+                ],
+            ]
+        );
+
+        self::assertEquals(200, $this->client->getResponse()->getStatusCode());
+        $content = $this->client->getResponse()->getContent();
+
+        self::assertContains('"filters":{"route":["5"]}', $content);
+        $this->client->request('GET', $this->router->generate('swp_api_core_list_items', ['id' => 1]));
+
+        self::assertEquals(200, $this->client->getResponse()->getStatusCode());
+        $content = json_decode($this->client->getResponse()->getContent(), true);
+        self::assertEquals(1, $content['total']);
+    }
+
     public function testContentListItemsByManyFiltersApi()
     {
         $this->loadFixtureFiles([
