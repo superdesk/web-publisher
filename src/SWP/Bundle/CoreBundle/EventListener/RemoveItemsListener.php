@@ -90,7 +90,7 @@ final class RemoveItemsListener
             $criteria = new Criteria($filters);
 
             if (isset($filters['route'])) {
-                $criteria->set('route', $this->routeProvider->getByMixed(array_map('\intval', $filters['route'])));
+                $criteria->set('route', $this->routeProvider->getByMixed($filters['route']));
             }
 
             $articles = $this->articleRepository->getArticlesByCriteria(
