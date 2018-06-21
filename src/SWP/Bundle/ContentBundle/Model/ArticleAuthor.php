@@ -83,7 +83,7 @@ class ArticleAuthor extends BaseAuthor implements ArticleAuthorInterface
     /**
      * {@inheritdoc}
      */
-    public function getAvatar(): AuthorMediaInterface
+    public function getAvatar(): ?AuthorMediaInterface
     {
         return $this->avatar;
     }
