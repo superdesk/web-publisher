@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Superdesk Web Publisher Core Bundle.
  *
@@ -17,7 +19,7 @@ namespace SWP\Bundle\CoreBundle\Theme\Model;
 use SWP\Bundle\CoreBundle\Theme\Helper\ThemeHelper;
 use Sylius\Bundle\ThemeBundle\Model\Theme as BaseTheme;
 
-class Theme extends BaseTheme implements ThemeInterface, \Serializable
+class Theme extends BaseTheme implements ThemeInterface
 {
     /**
      * @var array
@@ -180,7 +182,7 @@ class Theme extends BaseTheme implements ThemeInterface, \Serializable
     /**
      * {@inheritdoc}
      */
-    public function serialize()
+    public function serialize(): string
     {
         return serialize([
             $this->name,
@@ -194,7 +196,7 @@ class Theme extends BaseTheme implements ThemeInterface, \Serializable
     /**
      * {@inheritdoc}
      */
-    public function unserialize($serialized)
+    public function unserialize($serialized): void
     {
         [
             $this->name,

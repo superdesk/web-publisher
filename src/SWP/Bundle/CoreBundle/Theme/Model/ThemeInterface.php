@@ -16,7 +16,7 @@ namespace SWP\Bundle\CoreBundle\Theme\Model;
 
 use Sylius\Bundle\ThemeBundle\Model\ThemeInterface as BaseThemeInterface;
 
-interface ThemeInterface extends BaseThemeInterface
+interface ThemeInterface extends BaseThemeInterface, \Serializable
 {
     /**
      * @param string $name
