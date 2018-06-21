@@ -32,9 +32,9 @@ interface ArticleAuthorInterface extends BaseAuthorInterface, PersistableInterfa
     public function setSlug(string $slug): void;
 
     /**
-     * @return AuthorMediaInterface
+     * @return null|AuthorMediaInterface
      */
-    public function getAvatar(): AuthorMediaInterface;
+    public function getAvatar(): ?AuthorMediaInterface;
 
     /**
      * @param AuthorMediaInterface $avatar
