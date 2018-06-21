@@ -18,8 +18,12 @@ namespace SWP\Bundle\CoreBundle\Theme\Provider;
 
 interface ThemeLogoProviderInterface
 {
+    public const DEFAULT = 'theme_logo';
+
     /**
+     * @param string $settingName
+     *
      * @return string
      */
-    public function getLogoLink(): string;
+    public function getLogoLink(string $settingName = self::DEFAULT): string;
 }

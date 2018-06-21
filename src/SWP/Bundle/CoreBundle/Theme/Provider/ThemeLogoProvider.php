@@ -25,6 +25,8 @@ use Symfony\Component\Routing\RouterInterface;
 
 final class ThemeLogoProvider implements ThemeLogoProviderInterface
 {
+    public const FALLBACK_LOGO_DIR = 'public';
+
     /**
      * @var SettingsManagerInterface
      */
@@ -60,17 +62,22 @@ final class ThemeLogoProvider implements ThemeLogoProviderInterface
     /**
      * {@inheritdoc}
      */
-    public function getLogoLink(): string
+    public function getLogoLink(string $settingName = ThemeLogoProviderInterface::DEFAULT): string
     {
         /** @var TenantInterface $tenant */
         $tenant = $this->tenantContext->getTenant();
+
         $setting = $this->settingsManager->get(
-            'theme_logo',
+            $settingName,
             ScopeContextInterface::SCOPE_THEME,
             $tenant
         );
 
         if ('' === $setting) {
+            return $setting;
+        }
+
+        if (0 === strpos($setting, self::FALLBACK_LOGO_DIR) || 0 === strpos($setting, '/'.self::FALLBACK_LOGO_DIR)) {
             return $setting;
         }
 

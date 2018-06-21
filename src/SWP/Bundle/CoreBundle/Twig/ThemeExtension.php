@@ -78,13 +78,14 @@ final class ThemeExtension extends AbstractExtension
     }
 
     /**
+     * @param string $logoSettingName
      * @param string $fallBackPath
      *
      * @return string
      */
-    public function getThemeLogoPath(string $fallBackPath): string
+    public function getThemeLogoPath(string $logoSettingName = ThemeLogoProviderInterface::DEFAULT, string $fallBackPath = ''): string
     {
-        $link = $this->themeLogoProvider->getLogoLink();
+        $link = $this->themeLogoProvider->getLogoLink($logoSettingName);
 
         if ('' === $link) {
             return $fallBackPath;
