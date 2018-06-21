@@ -17,7 +17,7 @@ namespace SWP\Bundle\CoreBundle\Theme\Model;
 use SWP\Bundle\CoreBundle\Theme\Helper\ThemeHelper;
 use Sylius\Bundle\ThemeBundle\Model\Theme as BaseTheme;
 
-class Theme extends BaseTheme implements ThemeInterface
+class Theme extends BaseTheme implements ThemeInterface, \Serializable
 {
     /**
      * @var array
@@ -175,5 +175,33 @@ class Theme extends BaseTheme implements ThemeInterface
     public function hasLogo(): bool
     {
         return null !== $this->logo;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function serialize()
+    {
+        return serialize([
+            $this->name,
+            $this->description,
+            $this->path,
+            $this->title,
+            $this->logoPath,
+        ]);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function unserialize($serialized)
+    {
+        [
+            $this->name,
+            $this->description,
+            $this->path,
+            $this->title,
+            $this->logoPath
+        ] = unserialize($serialized);
     }
 }
