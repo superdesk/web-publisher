@@ -575,6 +575,12 @@ services:
             - { name: kernel.event_listener, event: swp.article.published, method: publish }
             - { name: kernel.event_listener, event: swp.article.unpublished, method: unpublish }
 
+    SWP\Bundle\CoreBundle\EventListener\DuplicatedSlugListener:
+        arguments:
+            - '@swp.repository.article'
+        tags:
+            - { name: kernel.event_listener, event: swp.article.pre_create, method: onArticleCreate }
+
     SWP\Bundle\CoreBundle\EventListener\PushNotificationOnPackageListener:
         arguments:
             - '@gos_web_socket.zmq.pusher'

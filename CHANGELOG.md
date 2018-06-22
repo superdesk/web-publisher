@@ -7,6 +7,7 @@ This changelog references the relevant changes (bug and security fixes) done in 
 To get the diff for a specific change, go to https://github.com/superdesk/web-publisher/commit/XXX where XXX is the change hash
 
 * 1.4.0
+ * improvement [#560] Add prefix (generated from package guid) for duplicated article slugs
  * bug [#556] Fixed boolean values in Settings API
  * feature [#548] Added periodic ping calls to keep WebSocket connection alive
  * bug [#544] List only published articles in content lists on frontend
