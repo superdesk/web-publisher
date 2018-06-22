@@ -43,7 +43,11 @@ class DuplicatedSlugListener
         /** @var ArticleInterface $article */
         $article = $event->getArticle();
 
-        $existingArticle = $this->articleRepository->findOneBy(['slug' => $article->getSlug()]);
+        $existingArticle = $this->articleRepository
+            ->getArticleBySlugForPackage($article->getSlug(), $article->getPackage())
+            ->getQuery()
+            ->getOneOrNullResult();
+
         if (null === $existingArticle) {
             return;
         }
