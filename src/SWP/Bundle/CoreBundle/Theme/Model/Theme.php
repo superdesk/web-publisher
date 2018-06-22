@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Superdesk Web Publisher Core Bundle.
  *
@@ -175,5 +177,33 @@ class Theme extends BaseTheme implements ThemeInterface
     public function hasLogo(): bool
     {
         return null !== $this->logo;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function serialize(): string
+    {
+        return serialize([
+            $this->name,
+            $this->description,
+            $this->path,
+            $this->title,
+            $this->logoPath,
+        ]);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function unserialize($serialized): void
+    {
+        [
+            $this->name,
+            $this->description,
+            $this->path,
+            $this->title,
+            $this->logoPath
+        ] = unserialize($serialized);
     }
 }
