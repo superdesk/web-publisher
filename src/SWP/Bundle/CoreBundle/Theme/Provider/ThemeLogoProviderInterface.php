@@ -27,5 +27,5 @@ interface ThemeLogoProviderInterface
      *
      * @return string
      */
-    public function getLogoLink(string $settingName = self::DEFAULT): string;
+    public function getLogoLink(string $settingName = self::SETTING_NAME_DEFAULT): string;
 }
