@@ -77,6 +77,18 @@ Feature: Checking if settings work correctly
         "name":"theme_logo"
       },
       {
+        "value":"",
+        "scope":"theme",
+        "type":"string",
+        "name":"theme_logo_second"
+      },
+      {
+        "value":"",
+        "scope":"theme",
+        "type":"string",
+        "name":"theme_logo_third"
+      },
+      {
         "label":"Primary Font Family",
         "value":"Roboto",
         "type":"string",

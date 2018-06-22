@@ -18,7 +18,9 @@ namespace SWP\Bundle\CoreBundle\Theme\Provider;
 
 interface ThemeLogoProviderInterface
 {
-    public const DEFAULT = 'theme_logo';
+    public const SETTING_NAME_DEFAULT = 'theme_logo';
+    public const SETTING_NAME_SECOND = 'theme_logo_second';
+    public const SETTING_NAME_THIRD = 'theme_logo_third';
 
     /**
      * @param string $settingName
