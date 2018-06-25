@@ -16,8 +16,17 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\CoreBundle\Repository;
 
+use Doctrine\ORM\QueryBuilder;
 use SWP\Bundle\ContentBundle\Doctrine\ArticleRepositoryInterface as BaseInterface;
+use SWP\Bundle\CoreBundle\Model\PackageInterface;
 
 interface ArticleRepositoryInterface extends BaseInterface
 {
+    /**
+     * @param string           $slug
+     * @param PackageInterface $package
+     *
+     * @return QueryBuilder
+     */
+    public function getArticleBySlugForPackage(string $slug, PackageInterface $package): QueryBuilder;
 }

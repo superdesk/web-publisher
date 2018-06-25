@@ -19,6 +19,7 @@ namespace SWP\Bundle\CoreBundle\Repository;
 use Doctrine\ORM\QueryBuilder;
 use SWP\Bundle\ContentBundle\Doctrine\ORM\ArticleRepository as ContentBundleArticleRepository;
 use SWP\Bundle\CoreBundle\Model\ArticleEvent;
+use SWP\Bundle\CoreBundle\Model\PackageInterface;
 use SWP\Component\Common\Criteria\Criteria;
 
 /**
@@ -38,15 +39,29 @@ class ArticleRepository extends ContentBundleArticleRepository implements Articl
     }
 
     /**
-     * @param Criteria $criteria
-     *
-     * @return QueryBuilder
+     * {@inheritdoc}
      */
     public function getArticlesByCriteriaIds(Criteria $criteria): QueryBuilder
     {
         $queryBuilder = parent::getArticlesByCriteriaIds($criteria)
             ->addSelect('stats')
             ->leftJoin('a.articleStatistics', 'stats');
+
+        return $queryBuilder;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getArticleBySlugForPackage(string $slug, PackageInterface $package): QueryBuilder
+    {
+        $queryBuilder = $this->createQueryBuilder('a');
+        $queryBuilder
+            ->where('a.slug = :slug')
+                ->setParameter('slug', $slug)
+            ->andWhere('a.package != :package')
+                ->setParameter('package', $package)
+        ;
 
         return $queryBuilder;
     }
