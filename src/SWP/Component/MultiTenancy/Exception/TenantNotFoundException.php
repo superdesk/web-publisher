@@ -21,6 +21,6 @@ class TenantNotFoundException extends \RuntimeException
      */
     public function __construct($name, \Exception $previousException = null)
     {
-        parent::__construct(sprintf('Tenant for host "%s" could not be found!', $name), 0, $previousException);
+        parent::__construct(sprintf('Tenant for host "%s" could not be found!', $name), 404, $previousException);
     }
 }

@@ -206,6 +206,11 @@ services:
         tags:
             - { name: kernel.event_listener, event: kernel.response, method: onKernelResponse }
 
+    swp_core.listener.tenant_not_found:
+        class: SWP\Bundle\CoreBundle\EventListener\TenantNotFoundExceptionListener
+        tags:
+            - { name: kernel.event_listener, event: kernel.exception }
+
     swp_core.subscriber.http_cache:
         class: SWP\Bundle\CoreBundle\EventSubscriber\HttpCacheSubscriber
         arguments:

@@ -197,4 +197,20 @@ class TenantControllerTest extends WebTestCase
 
         $this->assertEquals(201, $client->getResponse()->getStatusCode());
     }
+
+    public function testLoadNotExistingTenant()
+    {
+        $client = static::createClient();
+        $client = static::createClient([], [
+            'HTTP_HOST' => 'notexisting.'.$client->getContainer()->getParameter('env(SWP_DOMAIN)'),
+        ]);
+        $client->request('GET', $this->router->generate('swp_api_core_get_tenant', ['code' => '123abc']));
+        self::assertEquals(404, $client->getResponse()->getStatusCode());
+        self::assertEquals('application/json', $client->getResponse()->headers->get('Content-Type'));
+
+        $client->request('GET', '/');
+        self::assertEquals(404, $client->getResponse()->getStatusCode());
+        self::assertContains('Tenant for host "notexisting.localhost" could not be found!', $client->getResponse()->getContent());
+        self::assertEquals('text/html; charset=UTF-8', $client->getResponse()->headers->get('Content-Type'));
+    }
 }
