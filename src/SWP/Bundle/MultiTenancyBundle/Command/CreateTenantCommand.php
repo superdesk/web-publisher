@@ -31,6 +31,8 @@ use Symfony\Component\Console\Question\Question;
  */
 class CreateTenantCommand extends ContainerAwareCommand
 {
+    protected static $defaultName = 'swp:tenant:create';
+
     /**
      * @var array
      */
