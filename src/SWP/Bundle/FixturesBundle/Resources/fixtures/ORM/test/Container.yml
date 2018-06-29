@@ -7,7 +7,7 @@ SWP\Bundle\CoreBundle\Model\Container:
         visible: true
         tenantCode: "123abc"
         uuid: 5tfdv6resqg
-        revision: 1
+        revision: "<getPublishedRevision()>"
     container2:
         name: "Simple Container 2"
         type: 1
@@ -16,4 +16,4 @@ SWP\Bundle\CoreBundle\Model\Container:
         visible: true
         uuid: 3rd56hs342q
         tenantCode: "123abc"
-        revision: 1
+        revision: "<getPublishedRevision()>"

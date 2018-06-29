@@ -57,6 +57,15 @@ class WebTestCase extends BaseWebTestCase
         }
     }
 
+    protected function getCustomFixtures(array $fixtures)
+    {
+        $env = $this->getContainer()->getParameter('test_env');
+        $registry = new FixtureRegistry();
+        $registry->setEnvironment($env);
+
+        return $registry->getFixtures($fixtures);
+    }
+
     protected function loadCustomFixtures(array $fixtures)
     {
         $env = $this->getContainer()->getParameter('test_env');

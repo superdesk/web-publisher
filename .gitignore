@@ -28,3 +28,4 @@ logs/
 build/
 RMT
 .env
+.web-server-pid

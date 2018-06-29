@@ -32,11 +32,11 @@ class HttpCacheHeaderListenerTest extends WebTestCase
     {
         self::bootKernel();
         $this->initDatabase();
-        $this->fixtures = $this->loadFixtures(
+        $this->loadFixtures(
             [
                 'SWP\Bundle\FixturesBundle\DataFixtures\ORM\LoadTenantsData',
                 'SWP\Bundle\FixturesBundle\DataFixtures\ORM\LoadRoutesData',
-            ], 'default'
+            ], false
         );
 
         $this->router = $this->getContainer()->get('router');
@@ -63,8 +63,10 @@ class HttpCacheHeaderListenerTest extends WebTestCase
         $this->assertEquals($route->getName(), $name);
 
         $client = static::createClient();
+        $client->enableProfiler();
         $client->request('GET', $this->router->generate($route));
         $response = $client->getResponse();
+
         self::assertEquals(200, $response->getStatusCode());
         $headers = $response->headers;
 
