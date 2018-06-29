@@ -202,7 +202,7 @@ class AuthControllerTest extends WebTestCase
     public function testSuperdeskAuthentication()
     {
         try {
-            $baseUrl = $this->getContainer()->getParameter('superdesk_servers')[0];
+            $baseUrl = ((array) $this->getContainer()->getParameter('superdesk_servers'))[0];
             $client = new GuzzleHttp\Client();
             $apiRequest = new GuzzleHttp\Psr7\Request('GET', $baseUrl.'/api/sessions');
             $client->send($apiRequest);
