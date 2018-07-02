@@ -19,6 +19,7 @@ namespace SWP\Bundle\CoreBundle\Service;
 use SWP\Bundle\ContentBundle\Factory\ArticleFactoryInterface;
 use SWP\Bundle\ContentBundle\Model\ArticleInterface;
 use SWP\Bundle\ContentBundle\Model\RouteInterface;
+use SWP\Bundle\ContentBundle\Processor\ArticleAuthorProcessor;
 use SWP\Bundle\CoreBundle\Model\PackageInterface;
 use SWP\Bundle\CoreBundle\Processor\ArticleBodyProcessorInterface;
 use SWP\Component\Common\Exception\NotFoundHttpException;
@@ -64,6 +65,7 @@ final class ArticlePreviewer implements ArticlePreviewerInterface
     {
         $article = $this->articleFactory->createFromPackage($package);
         $this->articleBodyProcessor->fillArticleMedia($package, $article);
+        ArticleAuthorProcessor::processArticleAuthors($article);
         $article->setRoute($route);
 
         if (null === $article->getRoute()) {
