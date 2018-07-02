@@ -156,13 +156,13 @@ class PackagePreviewController extends Controller
 
     private function renderTemplateOr404(RouteInterface $route): Response
     {
-        try {
-            return $this->render($route->getArticlesTemplateName());
-        } catch (\Exception $e) {
+        if (null === ($templateName = $route->getArticlesTemplateName())) {
             throw $this->createNotFoundException(
                 sprintf('Template for route with id "%d" (%s) not found!', $route->getId(), $route->getName())
             );
         }
+
+        return $this->render($templateName);
     }
 
     private function ensureRouteTemplateExists(RouteInterface $route, ArticleInterface $article): RouteInterface
