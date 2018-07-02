@@ -4,7 +4,7 @@ SWP\Bundle\CoreBundle\Model\WidgetModel:
         type: 1
         visible: true
         parameters:
-            html_body: "sample widget with <span style='color:red'>html</span>"
+            html_body: "sample widget with \\<span style='color:red'\\>html\\</span\\>"
     widget2:
         name: "HtmlWidgetHandler number 2"
         type: 1
