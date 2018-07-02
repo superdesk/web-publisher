@@ -66,6 +66,7 @@ class WebTestCase extends BaseWebTestCase
 
         return $this->loadFixtures(
             $registry->getFixtures($fixtures),
+            false,
             null,
             $env
         )->getReferenceRepository();
