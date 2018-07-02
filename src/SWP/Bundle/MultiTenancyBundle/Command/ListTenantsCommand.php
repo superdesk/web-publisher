@@ -23,6 +23,8 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class ListTenantsCommand extends ContainerAwareCommand
 {
+    protected static $defaultName = 'swp:tenant:list';
+
     /**
      * {@inheritdoc}
      */

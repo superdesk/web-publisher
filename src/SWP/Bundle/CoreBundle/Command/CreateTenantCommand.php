@@ -20,6 +20,8 @@ use SWP\Component\Revision\Model\RevisionInterface;
 
 class CreateTenantCommand extends BaseCreateTenantCommand
 {
+    protected static $defaultName = 'swp:tenant:create';
+
     /**
      * {@inheritdoc}
      */

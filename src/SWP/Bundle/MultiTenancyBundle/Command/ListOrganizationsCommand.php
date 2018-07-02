@@ -22,6 +22,8 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class ListOrganizationsCommand extends ContainerAwareCommand
 {
+    protected static $defaultName = 'swp:organization:list';
+
     /**
      * {@inheritdoc}
      */

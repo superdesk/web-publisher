@@ -97,7 +97,7 @@ class AuthController extends Controller
         $form->handleRequest($request);
         if ($form->isValid()) {
             $formData = $form->getData();
-            $authorizedSuperdeskHosts = $this->container->getParameter('superdesk_servers');
+            $authorizedSuperdeskHosts = (array) $this->container->getParameter('superdesk_servers');
             $superdeskUser = null;
             $client = new GuzzleHttp\Client();
 

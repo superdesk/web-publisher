@@ -29,6 +29,8 @@ class ThemeGenerateCommand extends ContainerAwareCommand
 {
     const HOME_TWIG = 'home.html.twig';
 
+    protected static $defaultName = 'theme:generate';
+
     /**
      * {@inheritdoc}
      */

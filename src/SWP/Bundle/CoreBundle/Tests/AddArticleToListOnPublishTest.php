@@ -34,12 +34,11 @@ final class AddArticleToListOnPublishTest extends WebTestCase
     {
         self::bootKernel();
 
-        $this->initDatabase();
         $this->loadCustomFixtures(['tenant']);
-        $this->router = $this->getContainer()->get('router');
         $this->loadFixtureFiles([
             '@SWPFixturesBundle/Resources/fixtures/ORM/test/content_list.yml',
-        ], true);
+        ], true, null, 'doctrine', 0);
+        $this->router = $this->getContainer()->get('router');
     }
 
     public function testAddArticleToContentListOnPublish()

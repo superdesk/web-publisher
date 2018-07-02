@@ -613,3 +613,15 @@ services:
     SWP\Bundle\CoreBundle\Serializer\SettingSerializationSubscriber:
         tags:
             - { name: jms_serializer.event_subscriber }
+
+    SWP\Bundle\FixturesBundle\Faker\Provider\ContainerProvider:
+        arguments:
+                - '@service_container'
+        tags:
+            - { name: nelmio_alice.faker.provider }
+
+    SWP\Bundle\FixturesBundle\Faker\Provider\RevisionProvider:
+        arguments:
+                - '@swp.repository.revision'
+        tags:
+            - { name: nelmio_alice.faker.provider }
