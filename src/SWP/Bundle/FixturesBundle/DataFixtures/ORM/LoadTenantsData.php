@@ -34,10 +34,6 @@ class LoadTenantsData extends AbstractFixture implements FixtureInterface, Order
             [
                 '@SWPFixturesBundle/Resources/fixtures/ORM/'.$env.'/organization.yml',
                 '@SWPFixturesBundle/Resources/fixtures/ORM/'.$env.'/tenant.yml',
-            ],
-            $manager,
-            [
-                'providers' => [$this],
             ]
         );
 
