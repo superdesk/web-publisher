@@ -17,12 +17,10 @@ declare(strict_types=1);
 namespace SWP\Bundle\ContentBundle\EventListener;
 
 use Doctrine\ORM\EntityManagerInterface;
-use OldSound\RabbitMqBundle\RabbitMq\ProducerInterface;
 use SWP\Bundle\ContentBundle\Event\ArticleEvent;
 use SWP\Bundle\ContentBundle\Event\RouteEvent;
 use SWP\Bundle\ContentBundle\Model\Article;
 use SWP\Bundle\ContentBundle\Model\ArticleInterface;
-use Symfony\Component\Console\Input\ArrayInput;
 
 final class RouteRemoveListener
 {
@@ -32,20 +30,13 @@ final class RouteRemoveListener
     private $manager;
 
     /**
-     * @var ProducerInterface
-     */
-    private $producer;
-
-    /**
      * RouteRemoveListener constructor.
      *
      * @param EntityManagerInterface $manager
-     * @param ProducerInterface      $producer
      */
-    public function __construct(EntityManagerInterface $manager, ProducerInterface $producer)
+    public function __construct(EntityManagerInterface $manager)
     {
         $this->manager = $manager;
-        $this->producer = $producer;
     }
 
     /**
@@ -61,11 +52,5 @@ final class RouteRemoveListener
             ->setParameter('route', $route->getId())
             ->getQuery()
             ->execute();
-
-        $this->producer->publish(serialize(new ArrayInput([
-            'command' => 'fos:elastica:reset',
-            '--index' => 'swp',
-            '--type' => 'article',
-        ])));
     }
 }

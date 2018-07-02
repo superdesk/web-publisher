@@ -184,7 +184,6 @@ services:
         class: SWP\Bundle\ContentBundle\EventListener\RouteRemoveListener
         arguments:
             - '@doctrine.orm.entity_manager'
-            - '@old_sound_rabbit_mq.run_command_producer'
         tags:
             - { name: kernel.event_listener, event: swp.route.pre_delete, method: onDelete }
 

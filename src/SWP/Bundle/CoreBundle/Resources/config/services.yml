@@ -307,6 +307,7 @@ services:
         arguments:
             - '@doctrine.orm.entity_manager'
             - '@swp.repository.menu'
+            - '@old_sound_rabbit_mq.run_command_producer'
         tags:
             - { name: kernel.event_listener, event: swp.route.pre_delete, method: onDelete }
 
