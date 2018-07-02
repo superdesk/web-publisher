@@ -29,6 +29,8 @@ use Symfony\Component\Console\Question\Question;
  */
 class CreateOrganizationCommand extends ContainerAwareCommand
 {
+    protected static $defaultName = 'swp:organization:create';
+
     /**
      * {@inheritdoc}
      */

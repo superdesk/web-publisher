@@ -23,6 +23,8 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class UpdateOrganizationCommand extends CreateOrganizationCommand
 {
+    protected static $defaultName = 'swp:organization:update';
+
     /**
      * {@inheritdoc}
      */

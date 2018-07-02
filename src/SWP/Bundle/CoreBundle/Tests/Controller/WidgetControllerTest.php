@@ -64,7 +64,6 @@ class WidgetControllerTest extends WebTestCase
         $client = static::createClient();
 
         $this->loadCustomFixtures(['tenant']);
-        $this->loadFixtureFiles([], true);
 
         $client->request('GET', $this->router->generate('swp_api_templates_list_widgets'));
 

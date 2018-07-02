@@ -21,6 +21,8 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class CreateOrganizationCommand extends BaseCreateOrganizationCommand
 {
+    protected static $defaultName = 'swp:organization:create';
+
     /**
      * {@inheritdoc}
      */

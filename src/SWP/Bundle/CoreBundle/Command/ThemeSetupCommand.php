@@ -27,6 +27,8 @@ use Symfony\Component\Filesystem\Filesystem;
 
 class ThemeSetupCommand extends ContainerAwareCommand
 {
+    protected static $defaultName = 'swp:theme:install';
+
     /**
      * {@inheritdoc}
      */

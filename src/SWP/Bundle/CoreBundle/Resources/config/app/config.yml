@@ -39,6 +39,8 @@ doctrine:
                     soft-deleteable:
                         class: Gedmo\SoftDeleteable\Filter\SoftDeleteableFilter
                         enabled: true
+fidry_alice_data_fixtures:
+    default_purge_mode: "no_purge"
 
 jms_serializer:
     metadata:
