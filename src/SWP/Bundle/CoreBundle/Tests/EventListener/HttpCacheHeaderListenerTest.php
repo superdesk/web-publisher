@@ -63,7 +63,6 @@ class HttpCacheHeaderListenerTest extends WebTestCase
         $this->assertEquals($route->getName(), $name);
 
         $client = static::createClient();
-        $client->enableProfiler();
         $client->request('GET', $this->router->generate($route));
         $response = $client->getResponse();
 
