@@ -161,7 +161,7 @@ Feature: Evaluate and ensure the package has been published under specific tenan
     Then the response status code should be 201
     And I am authenticated as "test.user"
     And I add "Content-Type" header equal to "application/json"
-    Then I send a "GET" request to "/api/{version}/content/articles/abstract-html-test"
+    Then I send a "GET" request to "/api/v1/content/articles/abstract-html-test"
     Then the response status code should be 200
     And the JSON nodes should contain:
       | slug                          | abstract-html-test  |
@@ -170,7 +170,7 @@ Feature: Evaluate and ensure the package has been published under specific tenan
       | sources[0].articleSource.name | superdesk publisher |
     And I am authenticated as "test.client2"
     And I add "Content-Type" header equal to "application/json"
-    Then I send a "GET" request to "http://client2.localhost/api/{version}/content/articles/abstract-html-test"
+    Then I send a "GET" request to "http://client2.localhost/api/v1/content/articles/abstract-html-test"
     Then the response status code should be 200
     And the JSON nodes should contain:
       | slug                          | abstract-html-test  |

@@ -206,6 +206,11 @@ services:
         tags:
             - { name: kernel.event_listener, event: kernel.response, method: onKernelResponse }
 
+    swp_core.listener.tenant_not_found:
+        class: SWP\Bundle\CoreBundle\EventListener\TenantNotFoundExceptionListener
+        tags:
+            - { name: kernel.event_listener, event: kernel.exception }
+
     swp_core.subscriber.http_cache:
         class: SWP\Bundle\CoreBundle\EventSubscriber\HttpCacheSubscriber
         arguments:
@@ -574,6 +579,12 @@ services:
             - { name: kernel.event_listener, event: swp.article.post_update, method: update }
             - { name: kernel.event_listener, event: swp.article.published, method: publish }
             - { name: kernel.event_listener, event: swp.article.unpublished, method: unpublish }
+
+    SWP\Bundle\CoreBundle\EventListener\DuplicatedSlugListener:
+        arguments:
+            - '@swp.repository.article'
+        tags:
+            - { name: kernel.event_listener, event: swp.article.pre_create, method: onArticleCreate }
 
     SWP\Bundle\CoreBundle\EventListener\PushNotificationOnPackageListener:
         arguments:

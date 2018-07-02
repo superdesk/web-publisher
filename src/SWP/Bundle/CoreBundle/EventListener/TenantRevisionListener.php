@@ -16,6 +16,7 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\CoreBundle\EventListener;
 
+use SWP\Component\MultiTenancy\Exception\TenantNotFoundException;
 use SWP\Component\Revision\Context\RevisionContext;
 use SWP\Component\Revision\Context\RevisionContextInterface;
 use SWP\Component\Revision\Model\RevisionInterface;
@@ -55,6 +56,10 @@ class TenantRevisionListener
      */
     public function onKernelRequest(GetResponseEvent $event)
     {
+        if ($event->getRequest()->attributes->get('exception') instanceof TenantNotFoundException) {
+            return;
+        }
+
         $this->setRevisions($this->getRevisionKeyFromRequest($event->getRequest()));
     }
 
