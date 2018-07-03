@@ -5,6 +5,7 @@ services:
 - redis-server
 - rabbitmq
 - memcached
+- postgresql
 
 addons:
   apt:
@@ -59,6 +60,9 @@ before_script:
 - phpenv rehash
 - composer $COMPOSER_FLAGS --no-interaction --prefer-dist
 - cd src/SWP/Bundle/CoreBundle/Tests/Functional/Resources/ && npm install json-server && nohup node server.js &
+- echo -e "$(echo -e "\e[33;1m$1\e[0;20m" "Testing migrations")"
+- DATABASE_URL="pgsql://postgres:''@127.0.0.1:5432/postgres" app/console doctrine:migrations:migrate --no-interaction --env=test --no-debug -vvv
+- app/console doctrine:cache:clear main_cache --env=test --no-debug -vvv
 
 script:
 - sudo supervisord -c /etc/supervisor/supervisord.conf
