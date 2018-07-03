@@ -20,12 +20,63 @@ use SWP\Bundle\FixturesBundle\WebTestCase;
 
 final class PackagePreviewTest extends WebTestCase
 {
+    const TEST_ITEM_CONTENT = <<<'EOD'
+    {
+      "language": "en",
+      "byline":"John Jones",
+      "source":"Sourcefabric",
+      "type":"text",
+      "description_text":"Lorem ipsum abstract",
+      "guid":"urn:newsml:sd-master.test.superdesk.org:2018-01-18T09:26:52.402693:f0d01867-e91e-487e-9a50-b638b78fc4bc",
+      "profile":"Article",
+      "wordcount":3,
+      "urgency":3,
+      "authors":[
+        {
+          "biography":"bioquil",
+          "name":"Nareg Asmarian",
+          "jobtitle":{
+            "qcode":"1",
+            "name":"quality check"
+          },
+          "role":"writer"
+        },
+        {
+          "biography":"not dead yet",
+          "name":"vincer vincer",
+          "role":"subeditor"
+        }
+      ],
+      "copyrightholder":"",
+      "slugline":"art1-not-published",
+      "headline":"testing authors",
+      "version":"3",
+      "description_html":"<p>Lorem ipsum abstract</p>",
+      "located":"Prague",
+      "pubstatus":"usable",
+      "copyrightnotice":"",
+      "body_html":"<p>Lorem ipsum body</p>",
+      "usageterms":"",
+      "priority":6,
+      "versioncreated":"2018-01-18T09:31:58+0000",
+      "firstpublished":"2018-01-18T09:31:58+0000",
+      "charcount":16,
+      "service":[
+        {
+          "code":"f",
+          "name":"sports"
+        }
+      ],
+      "readtime":0,
+      "firstcreated":"2018-01-18T09:26:52+0000"
+    }
+EOD;
+
     private $router;
 
     public function setUp()
     {
         self::bootKernel();
-        $this->initDatabase();
         $this->loadCustomFixtures(['tenant']);
         $this->loadFixtureFiles([
             '@SWPFixturesBundle/Resources/fixtures/ORM/test/package_preview.yml',
@@ -41,14 +92,28 @@ final class PackagePreviewTest extends WebTestCase
         $this->ensureArticleIsNotAccessible();
 
         $client = static::createClient([], ['HTTP_Authorization' => null]);
+        $client->request(
+            'POST',
+            $this->router->generate('swp_api_content_push'),
+            [],
+            [],
+            ['CONTENT_TYPE' => 'application/json'],
+            self::TEST_ITEM_CONTENT
+        );
+
+        $client->enableProfiler();
         $crawler = $client->request('GET', $this->router->generate(
             'swp_package_preview',
-            ['routeId' => $route['id'], 'id' => 1, 'auth_token' => base64_encode('test_token:')]
+            ['routeId' => $route['id'], 'id' => 2, 'auth_token' => base64_encode('test_token:')]
         ));
 
         self::assertTrue($client->getResponse()->isSuccessful());
         self::assertGreaterThan(0, $crawler->filter('html:contains("Slug: art1-not-published")')->count());
         self::assertGreaterThan(0, $crawler->filter('html:contains("Current tenant: Default tenant")')->count());
+        self::assertGreaterThan(0, $crawler->filter('html:contains("Name: Nareg Asmarian")')->count());
+        self::assertGreaterThan(0, $crawler->filter('html:contains("Slug: nareg-asmarian")')->count());
+        self::assertGreaterThan(0, $crawler->filter('html:contains("Biography: bio")')->count());
+        self::assertGreaterThan(0, $crawler->filter('html:contains("Name: vincer vincer")')->count());
     }
 
     public function testPackagePreviewWithAmp()
@@ -58,7 +123,7 @@ final class PackagePreviewTest extends WebTestCase
         $this->ensureArticleIsNotAccessible();
 
         $client = static::createClient([], ['HTTP_Authorization' => null]);
-        $crawler = $client->request('GET', $this->router->generate(
+        $client->request('GET', $this->router->generate(
             'swp_package_preview',
             ['routeId' => $route['id'], 'id' => 1, 'auth_token' => base64_encode('test_token:'), 'amp' => true]
         ));
@@ -169,7 +234,7 @@ final class PackagePreviewTest extends WebTestCase
         self::assertEquals($client->getResponse()->getStatusCode(), 404);
     }
 
-    public function testTenantsFromDifferentOrganizationsCantPreviewArticlesOfEachother()
+    public function testTenantsFromDifferentOrganizationsCantPreviewArticlesOfEachOther()
     {
         $route = $this->createRoute();
         $this->ensureArticleIsNotAccessible();

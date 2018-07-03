@@ -18,6 +18,12 @@
         <img alt="Article defined in parameters" src="{{ url(media) }}" />
         {% endgimmelist %}
 
+        {% for author in gimme.article.authors %}
+            <p>Name: {{ author.name }}</p>
+            <p>Slug: {{ author.slug }}</p>
+            <p>Biography: {{ author.biography }}</p>
+        {% endfor %}
+
         {{ countPageView(gimme.article) }}
     </body>
 </html>
