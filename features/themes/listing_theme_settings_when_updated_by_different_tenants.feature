@@ -28,6 +28,18 @@ Feature: Listing updated theme settings for two different tenants
         "name":"theme_logo"
       },
       {
+        "value":"",
+        "scope":"theme",
+        "type":"string",
+        "name":"theme_logo_second"
+      },
+      {
+        "value":"",
+        "scope":"theme",
+        "type":"string",
+        "name":"theme_logo_third"
+      },
+      {
         "label":"Primary Font Family",
         "value":"Oswald",
         "type":"string",
@@ -109,6 +121,18 @@ Feature: Listing updated theme settings for two different tenants
         "scope":"theme",
         "type":"string",
         "name":"theme_logo"
+      },
+      {
+        "value":"",
+        "scope":"theme",
+        "type":"string",
+        "name":"theme_logo_second"
+      },
+      {
+        "value":"",
+        "scope":"theme",
+        "type":"string",
+        "name":"theme_logo_third"
       },
       {
         "label":"Primary Font Family",

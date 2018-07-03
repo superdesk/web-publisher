@@ -60,12 +60,13 @@ final class ThemeLogoProvider implements ThemeLogoProviderInterface
     /**
      * {@inheritdoc}
      */
-    public function getLogoLink(): string
+    public function getLogoLink(string $settingName = ThemeLogoProviderInterface::SETTING_NAME_DEFAULT): string
     {
         /** @var TenantInterface $tenant */
         $tenant = $this->tenantContext->getTenant();
+
         $setting = $this->settingsManager->get(
-            'theme_logo',
+            $settingName,
             ScopeContextInterface::SCOPE_THEME,
             $tenant
         );

@@ -272,6 +272,14 @@ swp_settings:
             value: ""
             scope: theme
             type: string
+        theme_logo_second:
+            value: ""
+            scope: theme
+            type: string
+        theme_logo_third:
+            value: ""
+            scope: theme
+            type: string
 
 swp_analytics:
     metrics_listener:
