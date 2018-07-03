@@ -48,3 +48,6 @@ monolog:
                 VERBOSITY_VERY_VERBOSE: NOTICE
                 VERBOSITY_DEBUG: DEBUG
             channels: ["doctrine"]
+
+fidry_alice_data_fixtures:
+    default_purge_mode: "no_purge"
