@@ -15,9 +15,8 @@ doctrine:
     dbal:
         default_connection: default
         connections:
-            default:
-                driver:   pdo_sqlite
-                path:     "%kernel.cache_dir%/test.db3"
+           default:
+                url:     '%env(resolve:DATABASE_URL)%'
 
 liip_functional_test: ~
 
