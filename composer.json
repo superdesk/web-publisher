@@ -138,7 +138,9 @@
         "swp/revision": "self.version",
         "swp/elastic-search-bundle": "self.version",
         "swp/output-channel-bundle": "self.version",
-        "swp/output-channel": "self.version"
+        "swp/output-channel": "self.version",
+        "swp/plan-bundle": "self.version",
+        "swp/plan-channel": "self.version"
     },
     "scripts": {
         "post-install-cmd": [

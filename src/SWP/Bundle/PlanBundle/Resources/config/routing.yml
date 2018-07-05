@@ -1,0 +1,3 @@
+swp_plan:
+    resource: "@SWPPlanBundle/Controller"
+    type: annotation
