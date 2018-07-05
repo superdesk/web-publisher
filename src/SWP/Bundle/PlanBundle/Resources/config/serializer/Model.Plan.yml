@@ -1,0 +1,30 @@
+SWP\Component\Plan\Model\Plan:
+    exclusion_policy: ALL
+    properties:
+        id:
+            expose: true
+            type: integer
+        code:
+            expose: true
+            type: string
+        name:
+            expose: true
+            type: string
+        amount:
+            expose: true
+            type: integer
+        interval:
+            expose: true
+            type: string
+        intervalCount:
+            expose: true
+            type: integer
+        currency:
+            expose: true
+            type: string
+        createdAt:
+            expose: true
+            type: DateTime
+        updatedAt:
+            expose: true
+            type: DateTime

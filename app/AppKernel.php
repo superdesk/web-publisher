@@ -52,6 +52,7 @@ class AppKernel extends Kernel
             new SWP\Bundle\SettingsBundle\SWPSettingsBundle(),
             new SWP\Bundle\WebhookBundle\SWPWebhookBundle(),
             new SWP\Bundle\OutputChannelBundle\SWPOutputChannelBundle(),
+            new SWP\Bundle\PlanBundle\SWPPlanBundle(),
             new SWP\Bundle\CoreBundle\SWPCoreBundle(),
 
             new FOS\ElasticaBundle\FOSElasticaBundle(),
