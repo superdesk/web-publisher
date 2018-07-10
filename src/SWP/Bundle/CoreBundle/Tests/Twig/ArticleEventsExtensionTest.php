@@ -37,6 +37,21 @@ class ArticleEventsExtensionTest extends WebTestCase
 
     public function testRenderPageViewCount()
     {
+        $this->assertEquals($this->getRendered('{{ countArticlesImpressions() }}'), "<script type=\"text/javascript\">
+var arr = [], l = document.links;
+for(var i=0; i<l.length; i++) {
+  arr.push(l[i].href);
+}
+var xhr = new XMLHttpRequest();
+var read_date = new Date();
+var request_randomizer = \"&\" + read_date.getTime() + Math.random();
+xhr.open('POST', '/_swp_analytics?type=links_count'+request_randomizer);
+xhr.send(JSON.stringify(arr));
+</script>");
+    }
+
+    public function testRenderLinkImpressionCount()
+    {
         $article = new Article();
         $article->setId('1');
         $articleMeta = $this->metaFactory->create($article);

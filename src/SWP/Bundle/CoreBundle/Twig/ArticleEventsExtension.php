@@ -30,7 +30,33 @@ class ArticleEventsExtension extends AbstractExtension
     {
         return [
             new TwigFunction('countPageView', [$this, 'renderPageViewCount'], ['is_safe' => ['html']]),
+            new TwigFunction('countArticlesImpressions', [$this, 'renderLinkImpressionCount'], ['is_safe' => ['html']]),
         ];
+    }
+
+    /**
+     * @param Meta $meta
+     *
+     * @return string|void
+     */
+    public function renderLinkImpressionCount()
+    {
+        $jsTemplate = <<<'EOT'
+<script type="text/javascript">
+var arr = [], l = document.links;
+for(var i=0; i<l.length; i++) {
+  arr.push(l[i].href);
+}
+var xhr = new XMLHttpRequest();
+var read_date = new Date();
+var request_randomizer = "&" + read_date.getTime() + Math.random();
+xhr.open('POST', '/app_dev.php/_swp_analytics?type=impression'+request_randomizer);
+xhr.setRequestHeader("Content-Type", "application/json");
+xhr.send(JSON.stringify(arr));
+</script>
+EOT;
+
+        return $jsTemplate;
     }
 
     /**

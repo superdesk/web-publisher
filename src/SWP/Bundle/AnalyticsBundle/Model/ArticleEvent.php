@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Superdesk Web Publisher Analytics Bundle.
  *
@@ -14,18 +16,17 @@
 
 namespace SWP\Bundle\AnalyticsBundle\Model;
 
+use SWP\Bundle\ContentBundle\Model\RouteInterface;
+use SWP\Bundle\ContentBundle\Model\ArticleInterface;
 use SWP\Component\Common\Model\TimestampableInterface;
 use SWP\Component\Common\Model\TimestampableTrait;
 
-/**
- * Class ArticleEvent.
- */
 class ArticleEvent implements ArticleEventInterface, TimestampableInterface
 {
     use TimestampableTrait;
 
     /**
-     * @var int
+     * @var null|int
      */
     protected $id;
 
@@ -35,66 +36,75 @@ class ArticleEvent implements ArticleEventInterface, TimestampableInterface
     protected $action;
 
     /**
+     * @var null|RouteInterface
+     */
+    protected $impressionRoute;
+
+    /**
+     * @var null|ArticleInterface
+     */
+    protected $impressionArticle;
+
+    /**
      * @var null|string
      */
-    protected $value;
+    protected $impressionType;
 
     /**
      * @var ArticleStatisticsInterface
      */
     protected $articleStatistics;
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getId()
+    public function getId(): ?int
     {
         return $this->id;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getAction(): string
     {
         return $this->action;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function setAction(string $action): void
     {
         $this->action = $action;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getValue(): ?string
+    public function getImpressionRoute(): ?RouteInterface
     {
-        return $this->value;
+        return $this->impressionRoute;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function setValue(?string $value): void
+    public function setImpressionRoute(?RouteInterface $impressionRoute): void
     {
-        $this->value = $value;
+        $this->impressionRoute = $impressionRoute;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    public function getImpressionArticle(): ?ArticleInterface
+    {
+        return $this->impressionArticle;
+    }
+
+    public function setImpressionArticle(?ArticleInterface $impressionArticle): void
+    {
+        $this->impressionArticle = $impressionArticle;
+    }
+
+    public function getImpressionType(): ?string
+    {
+        return $this->impressionType;
+    }
+
+    public function setImpressionType(?string $impressionType): void
+    {
+        $this->impressionType = $impressionType;
+    }
+
     public function getArticleStatistics(): ArticleStatisticsInterface
     {
         return $this->articleStatistics;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function setArticleStatistics(ArticleStatisticsInterface $articleStatistics): void
     {
         $this->articleStatistics = $articleStatistics;

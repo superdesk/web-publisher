@@ -10,7 +10,7 @@ SWP\Bundle\AnalyticsBundle\Model\ArticleEvent:
         action:
             type: string
             nullable: true
-        value:
+        impressionType:
             type: string
             nullable: true
         createdAt:
@@ -34,3 +34,17 @@ SWP\Bundle\AnalyticsBundle\Model\ArticleEvent:
                 referencedColumnName: id
                 onDelete: CASCADE
                 nullable: false
+        impressionRoute:
+            targetEntity: SWP\Bundle\ContentBundle\Model\RouteInterface
+            inversedBy: events
+            joinColumn:
+                name: route_id
+                referencedColumnName: id
+                onDelete: CASCADE
+        impressionArticle:
+            targetEntity: SWP\Bundle\ContentBundle\Model\ArticleInterface
+            inversedBy: events
+            joinColumn:
+                name: article_id
+                referencedColumnName: id
+                onDelete: CASCADE

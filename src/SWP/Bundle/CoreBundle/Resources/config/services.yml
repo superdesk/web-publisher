@@ -511,6 +511,7 @@ services:
             - '@SWP\Bundle\AnalyticsBundle\Services\ArticleStatisticsService'
             - '@swp_multi_tenancy.tenant_resolver'
             - '@swp_multi_tenancy.tenant_context'
+            - '@router'
 
     swp_core.article.populator:
         class: SWP\Bundle\CoreBundle\Rule\Populator\ArticlePopulator

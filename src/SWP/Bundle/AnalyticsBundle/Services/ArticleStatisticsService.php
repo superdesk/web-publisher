@@ -20,6 +20,7 @@ use SWP\Bundle\AnalyticsBundle\Model\ArticleEventInterface;
 use SWP\Bundle\AnalyticsBundle\Model\ArticleStatisticsInterface;
 use SWP\Bundle\ContentBundle\Doctrine\ArticleRepositoryInterface;
 use SWP\Bundle\ContentBundle\Model\ArticleInterface;
+use SWP\Bundle\ContentBundle\Model\RouteInterface;
 use SWP\Component\Storage\Factory\FactoryInterface;
 use SWP\Component\Storage\Repository\RepositoryInterface;
 
@@ -48,34 +49,41 @@ class ArticleStatisticsService implements ArticleStatisticsServiceInterface
      */
     protected $articleEventFactory;
 
-    /**
-     * ArticleStatisticsService constructor.
-     *
-     * @param ArticleRepositoryInterface $articleRepository
-     * @param RepositoryInterface        $articleStatisticsRepository
-     * @param FactoryInterface           $articleStatisticsFactory
-     * @param FactoryInterface           $articleEventFactory
-     */
-    public function __construct(ArticleRepositoryInterface $articleRepository, RepositoryInterface $articleStatisticsRepository, FactoryInterface $articleStatisticsFactory, FactoryInterface $articleEventFactory)
-    {
+    public function __construct(
+        ArticleRepositoryInterface $articleRepository,
+        RepositoryInterface $articleStatisticsRepository,
+        FactoryInterface $articleStatisticsFactory,
+        FactoryInterface $articleEventFactory
+    ) {
         $this->articleRepository = $articleRepository;
         $this->articleStatisticsRepository = $articleStatisticsRepository;
         $this->articleStatisticsFactory = $articleStatisticsFactory;
         $this->articleEventFactory = $articleEventFactory;
     }
 
-    /**
-     * @param int    $articleId
-     * @param string $action
-     *
-     * @return ArticleStatisticsInterface
-     */
-    public function addArticleEvent(int $articleId, string $action): ArticleStatisticsInterface
+    public function addArticleEvent(int $articleId, string $action, array $extraData): ArticleStatisticsInterface
     {
+        dump($articleId, $action, $extraData);
         $articleStatistics = $this->getOrCreateNewArticleStatistics($articleId);
         switch ($action) {
             case ArticleEventInterface::ACTION_PAGEVIEW:
                 $this->addNewPageViewEvent($articleStatistics, $articleId);
+
+                break;
+            case ArticleEventInterface::ACTION_IMPRESSION:
+                $sourceArticle = null;
+                $sourceRoute = null;
+                $type = null;
+                if (array_key_exists('sourceArticle', $extraData)) {
+                    $sourceArticle = $extraData['sourceArticle'];
+                }
+                if (array_key_exists('sourceRoute', $extraData)) {
+                    $sourceRoute = $extraData['sourceRoute'];
+                }
+                if (array_key_exists('type', $extraData)) {
+                    $type = $extraData['type'];
+                }
+                $this->addNewImpressionEvent($articleStatistics, $articleId, $sourceArticle, $sourceRoute, $type);
 
                 break;
         }
@@ -83,37 +91,57 @@ class ArticleStatisticsService implements ArticleStatisticsServiceInterface
         return $articleStatistics;
     }
 
-    /**
-     * @param int $articleId
-     *
-     * @return mixed
-     */
-    protected function getOrCreateNewArticleStatistics(int $articleId)
+    protected function getOrCreateNewArticleStatistics(int $articleId): ArticleStatisticsInterface
     {
+        /** @var ArticleStatisticsInterface $articleStatistics */
         $articleStatistics = $this->articleStatisticsRepository->findOneBy(['article' => $articleId]);
         if (null === $articleStatistics) {
+            /** @var ArticleStatisticsInterface $articleStatistics */
             $articleStatistics = $this->articleStatisticsFactory->create();
         }
 
         return $articleStatistics;
     }
 
-    /**
-     * @param ArticleStatisticsInterface $articleStatistics
-     * @param int                        $articleId
-     */
-    protected function addNewPageViewEvent(ArticleStatisticsInterface $articleStatistics, int $articleId)
+    protected function addNewPageViewEvent(ArticleStatisticsInterface $articleStatistics, int $articleId): void
     {
         /** @var ArticleInterface $article */
         $article = $this->articleRepository->findOneBy(['id' => $articleId]);
-        /** @var ArticleEventsInterface $articleEvent */
+        $this->getArticleEvent($articleStatistics, $article, ArticleEventInterface::ACTION_PAGEVIEW);
+        $articleStatistics->increasePageViewsNumber();
+        $this->articleStatisticsRepository->add($articleStatistics);
+    }
+
+    protected function addNewImpressionEvent(
+        ArticleStatisticsInterface $articleStatistics,
+        int $articleId,
+        ArticleInterface $sourceArticle = null,
+        RouteInterface $sourceRoute = null,
+        string $type = null
+    ): void {
+        /** @var ArticleInterface $article */
+        $article = $this->articleRepository->findOneBy(['id' => $articleId]);
+        $articleEvent = $this->getArticleEvent($articleStatistics, $article, ArticleEventInterface::ACTION_IMPRESSION);
+        $articleEvent->setImpressionArticle($sourceArticle);
+        $articleEvent->setImpressionRoute($sourceRoute);
+        $articleEvent->setImpressionType($type);
+        $articleStatistics->increaseImpressionsNumber();
+        $this->articleStatisticsRepository->add($articleStatistics);
+    }
+
+    private function getArticleEvent(
+        ArticleStatisticsInterface $articleStatistics,
+        ArticleInterface $article,
+        string $action
+    ): ArticleEventInterface {
+        /** @var ArticleEventInterface $articleEvent */
         $articleEvent = $this->articleEventFactory->create();
-        $articleEvent->setAction(ArticleEventInterface::ACTION_PAGEVIEW);
+        $articleEvent->setAction($action);
         $articleEvent->setArticleStatistics($articleStatistics);
         $this->articleStatisticsRepository->persist($articleEvent);
         $articleStatistics->addEvent($articleEvent);
         $articleStatistics->setArticle($article);
-        $articleStatistics->increasePageViewsNumber();
-        $this->articleStatisticsRepository->add($articleStatistics);
+
+        return $articleEvent;
     }
 }
