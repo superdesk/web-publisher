@@ -1,0 +1,10 @@
+services:
+    SWP\Component\Paywall\Adapter\PaymentsHubAdapter:
+        arguments:
+            -
+                serverUrl: "%env(PAYWALL_SERVER_URL)%"
+                credentials:
+                    username: "%env(PAYWALL_SERVER_USERNAME)%"
+                    password: "%env(PAYWALL_SERVER_PASSWORD)%"
+            - '@swp.factory.subscription'
+            - '@GuzzleHttp\Client'

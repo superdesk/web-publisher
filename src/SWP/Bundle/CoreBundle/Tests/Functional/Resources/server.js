@@ -41,6 +41,30 @@ server.get('/wordpress/test_post', (req, res) => {
   }
 });
 
+// Payments Hub mock
+server.post('/api/v1/login_check', (req, res) => {
+    res.status(200).json({
+        token: '12345678',
+    });
+});
+
+server.get('/public-api/v1/subscriptions/:id', (req, res) => {
+    res.status(200).json({
+        _embedded: {
+            items: [
+                {
+                    id: 79,
+                    type: "recurring",
+                    metadata: {
+                        intention: "bottom_box",
+                        source: "web_version"
+                    }
+                }
+            ]
+        },
+    });
+});
+
 server.use('/api', router);
 server.listen(3000, () => {
   console.log('JSON Server is running');

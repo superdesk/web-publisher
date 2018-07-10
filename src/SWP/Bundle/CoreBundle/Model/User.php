@@ -16,12 +16,19 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\CoreBundle\Model;
 
+use Doctrine\Common\Collections\Collection;
 use SWP\Bundle\UserBundle\Model\User as BaseUser;
 use SWP\Component\MultiTenancy\Model\OrganizationAwareTrait;
+use SWP\Component\Paywall\Model\SubscriptionInterface;
 
 class User extends BaseUser implements UserInterface
 {
     use OrganizationAwareTrait;
+
+    /**
+     * @var Collection
+     */
+    protected $subscriptions;
 
     /**
      * {@inheritdoc}
@@ -53,5 +60,34 @@ class User extends BaseUser implements UserInterface
         $roles[] = static::ROLE_READER;
 
         return array_unique($roles);
+    }
+
+    public function getSubscriberId(): string
+    {
+        return $this->email;
+    }
+
+    public function getSubscriptions(): Collection
+    {
+        return $this->subscriptions;
+    }
+
+    public function hasSubscription(SubscriptionInterface $subscription): bool
+    {
+        return $this->subscriptions->contains($subscription);
+    }
+
+    public function addSubscription(SubscriptionInterface $subscription): void
+    {
+        if (!$this->hasSubscription($subscription)) {
+            $this->subscriptions->add($subscription);
+        }
+    }
+
+    public function removeSubscription(SubscriptionInterface $subscription): void
+    {
+        if ($this->hasSubscription($subscription)) {
+            $this->subscriptions->removeElement($subscription);
+        }
     }
 }

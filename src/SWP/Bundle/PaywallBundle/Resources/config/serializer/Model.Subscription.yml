@@ -1,0 +1,21 @@
+SWP\Component\Subscription\Model\Subscription:
+    exclusion_policy: ALL
+    properties:
+        id:
+            expose: true
+            type: integer
+        code:
+            expose: true
+            type: string
+        type:
+            expose: true
+            type: string
+        details:
+            expose: true
+            type: array
+        createdAt:
+            expose: true
+            type: DateTime
+        updatedAt:
+            expose: true
+            type: DateTime

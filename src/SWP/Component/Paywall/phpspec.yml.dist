@@ -1,0 +1,5 @@
+suites:
+    main:
+        namespace: SWP\Component\Paywall
+        psr4_prefix: SWP\Component\Paywall
+        src_path: .

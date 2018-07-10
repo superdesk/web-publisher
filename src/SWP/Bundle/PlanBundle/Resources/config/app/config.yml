@@ -1,6 +1,0 @@
-jms_serializer:
-    metadata:
-        directories:
-            SWPPlanBundle:
-                namespace_prefix: "SWP\\Component\\Plan"
-                path: "@SWPPlanBundle/Resources/config/serializer"

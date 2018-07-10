@@ -1,0 +1,51 @@
+{
+  "name": "swp/paywall-bundle",
+  "type": "symfony-bundle",
+  "description": "Pricing Plan implementation for Symfony applications.",
+  "keywords": ["paywall", "subscriptions", "billing", "superdesk", "publisher", "publishing"],
+  "license":"AGPL-3.0",
+  "minimum-stability": "dev",
+  "authors": [
+    {
+      "name": "Rafał Muszyński",
+      "email": "rafal.muszynski@sourcefabric.org"
+    }
+  ],
+  "repositories": [
+    {
+      "type": "path",
+      "url": "../../*/*"
+    }
+  ],
+  "require": {
+    "php": "^7.1",
+    "symfony/dependency-injection": "^3.1",
+    "symfony/config": "^3.1",
+    "symfony/form": "^3.1",
+    "swp/storage-bundle": "^1.4",
+    "swp/plan": "^1.4",
+    "swp/common": "^1.4"
+  },
+  "require-dev": {
+    "phpspec/phpspec": "^3.0"
+  },
+  "autoload": {
+    "exclude-from-classmap": [
+      "spec/"
+    ],
+    "psr-4": { "SWP\\Bundle\\PaywallBundle\\": "" }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "SWP\\Bundle\\PaywallBundle\\spec\\": "spec/"
+    }
+  },
+  "config": {
+    "bin-dir": "bin"
+  },
+  "extra": {
+    "branch-alias": {
+      "dev-master": "1.4-dev"
+    }
+  }
+}

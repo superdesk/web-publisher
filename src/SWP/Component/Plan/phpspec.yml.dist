@@ -1,5 +1,0 @@
-suites:
-    main:
-        namespace: SWP\Component\Plan
-        psr4_prefix: SWP\Component\Plan
-        src_path: .

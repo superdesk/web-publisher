@@ -1,0 +1,36 @@
+{
+  "name": "swp/Paywall",
+  "description": "Paywall component",
+  "type": "library",
+  "license": "AGPL-3.0",
+  "authors": [
+    {
+      "name": "Rafał Muszyński",
+      "email": "rafal.muszynski@sourcefabric.org"
+    }
+  ],
+  "require": {
+    "swp/storage": "^1.4"
+  },
+  "require-dev": {
+    "phpspec/phpspec": "^3.0"
+  },
+  "config": {
+    "bin-dir": "bin"
+  },
+  "autoload": {
+    "exclude-from-classmap": [
+      "spec/"
+    ],
+    "psr-4": { "SWP\\Component\\Paywall\\": "" }
+  },
+  "autoload-dev": {
+    "psr-4": { "SWP\\Component\\Paywall\\spec\\": "spec/" }
+  },
+  "minimum-stability": "dev",
+  "extra": {
+    "branch-alias": {
+      "dev-master": "1.4-dev"
+    }
+  }
+}

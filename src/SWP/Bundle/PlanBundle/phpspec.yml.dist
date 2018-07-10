@@ -1,5 +1,0 @@
-suites:
-    main:
-        namespace: SWP\Bundle\PlanBundle
-        psr4_prefix: SWP\Bundle\PlanBundle
-        src_path: .
