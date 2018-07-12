@@ -627,14 +627,18 @@ services:
             - { name: nelmio_alice.faker.provider }
 
     SWP\Bundle\CoreBundle\Provider\SubscriptionsProvider:
+        public: false
         arguments:
             - '@swp.paywall.adapter'
-            - '@swp.repository.subscription'
+
+    SWP\Bundle\CoreBundle\Provider\CachedSubscriptionsProvider:
+        arguments:
+            - '@SWP\Bundle\CoreBundle\Provider\SubscriptionsProvider'
+            - '@doctrine_cache.providers.main_cache'
 
     SWP\Bundle\CoreBundle\Loader\SubscriptionLoader:
         arguments:
             - '@swp_template_engine_context.factory.meta_factory'
-            - '@SWP\Bundle\CoreBundle\Provider\SubscriptionsProvider'
+            - '@SWP\Bundle\CoreBundle\Provider\CachedSubscriptionsProvider'
         tags:
             - { name: swp.meta_loader.add }
-

@@ -51,7 +51,6 @@ final class PaymentsHubAdapter extends AbstractPaywallAdapter
 
     public function getSubscriptions(SubscriberInterface $subscriber, array $filters = []): array
     {
-        // get subscriptions from 3rd party system
         $response = $this->send(self::ENDPOINT_SUBSCRIPTIONS.$subscriber->getSubscriberId());
         $subscriptionsData = \json_decode($response->getBody()->getContents(), true);
 

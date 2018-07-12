@@ -140,7 +140,7 @@
         "swp/output-channel-bundle": "self.version",
         "swp/output-channel": "self.version",
         "swp/paywall-bundle": "self.version",
-        "swp/paywall-channel": "self.version"
+        "swp/paywall": "self.version"
     },
     "scripts": {
         "post-install-cmd": [
