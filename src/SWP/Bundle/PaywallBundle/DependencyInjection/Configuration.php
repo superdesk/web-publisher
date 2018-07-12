@@ -16,6 +16,7 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\PaywallBundle\DependencyInjection;
 
+use SWP\Bundle\PaywallBundle\Doctrine\ORM\SubscriptionRepository;
 use SWP\Bundle\StorageBundle\Doctrine\ORM\EntityRepository;
 use SWP\Component\Paywall\Adapter\PaymentsHubAdapter;
 use SWP\Component\Paywall\Model\Subscription;
@@ -52,7 +53,7 @@ class Configuration implements ConfigurationInterface
                                             ->addDefaultsIfNotSet()
                                             ->children()
                                                 ->scalarNode('model')->cannotBeEmpty()->defaultValue(Subscription::class)->end()
-                                                ->scalarNode('repository')->defaultValue(EntityRepository::class)->end()
+                                                ->scalarNode('repository')->defaultValue(SubscriptionRepository::class)->end()
                                                 ->scalarNode('interface')->defaultValue(SubscriptionInterface::class)->end()
                                                 ->scalarNode('factory')->defaultValue(Factory::class)->end()
                                                 ->scalarNode('object_manager_name')->defaultValue(null)->end()

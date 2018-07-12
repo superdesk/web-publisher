@@ -45,6 +45,11 @@ class Article extends BaseArticle implements ArticleInterface
     protected $externalArticle;
 
     /**
+     * @var bool
+     */
+    protected $paywallSecured = false;
+
+    /**
      * {@inheritdoc}
      */
     public function setId($id)
@@ -115,5 +120,15 @@ class Article extends BaseArticle implements ArticleInterface
     public function setExternalArticle(ExternalArticleInterface $externalArticle): void
     {
         $this->externalArticle = $externalArticle;
+    }
+
+    public function isPaywallSecured(): bool
+    {
+        return $this->paywallSecured;
+    }
+
+    public function setPaywallSecured(bool $paywallSecured): void
+    {
+        $this->paywallSecured = $paywallSecured;
     }
 }

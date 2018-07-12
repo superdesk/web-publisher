@@ -12,6 +12,8 @@ interface SubscriberInterface
 
     public function getSubscriptions(): Collection;
 
+    public function setSubscriptions(Collection $subscriptions): void;
+
     public function hasSubscription(SubscriptionInterface $subscription): bool;
 
     public function addSubscription(SubscriptionInterface $subscription): void;

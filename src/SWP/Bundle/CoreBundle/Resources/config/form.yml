@@ -28,3 +28,11 @@ services:
         class: SWP\Bundle\CoreBundle\Form\Type\BooleanType
         tags:
             - { name: form.type }
+
+    SWP\Bundle\CoreBundle\Form\Extension\ArticleTypeExtension:
+        tags:
+            - { name: form.type_extension, extended_type: SWP\Bundle\ContentBundle\Form\Type\ArticleType }
+
+    SWP\Bundle\CoreBundle\Form\Extension\RouteTypeExtension:
+        tags:
+            - { name: form.type_extension, extended_type: SWP\Bundle\ContentBundle\Form\Type\RouteType }

@@ -72,6 +72,11 @@ class User extends BaseUser implements UserInterface
         return $this->subscriptions;
     }
 
+    public function setSubscriptions(Collection $subscriptions): void
+    {
+        $this->subscriptions = $subscriptions;
+    }
+
     public function hasSubscription(SubscriptionInterface $subscription): bool
     {
         return $this->subscriptions->contains($subscription);

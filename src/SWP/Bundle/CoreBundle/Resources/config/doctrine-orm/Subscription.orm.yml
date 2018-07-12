@@ -1,0 +1,10 @@
+SWP\Bundle\CoreBundle\Model\Subscription:
+    type: mappedSuperclass
+    table: swp_subscription
+    manyToOne:
+        user:
+            targetEntity: SWP\Bundle\CoreBundle\Model\UserInterface
+            joinColumn:
+                name: user_id
+                referencedColumnName: id
+                nullable: false

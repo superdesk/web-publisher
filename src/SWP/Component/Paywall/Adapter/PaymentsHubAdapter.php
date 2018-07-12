@@ -5,13 +5,14 @@ declare(strict_types=1);
 namespace SWP\Component\Paywall\Adapter;
 
 use GuzzleHttp\ClientInterface;
+use GuzzleHttp\Exception\RequestException;
 use Psr\Http\Message\ResponseInterface;
 use SWP\Component\Paywall\Exception\InvalidResponseException;
 use SWP\Component\Paywall\Model\SubscriberInterface;
 use SWP\Component\Paywall\Model\SubscriptionInterface;
 use SWP\Component\Storage\Factory\FactoryInterface;
 
-class PaymentsHubAdapter extends AbstractPaywallAdapter
+final class PaymentsHubAdapter extends AbstractPaywallAdapter
 {
     public const API_ENDPOINT = '/public-api/v1/';
 
@@ -46,26 +47,11 @@ class PaymentsHubAdapter extends AbstractPaywallAdapter
         $this->config = $config;
         $this->subscriptionFactory = $subscriptionFactory;
         $this->client = $client;
-        // base_uri
     }
 
-    public function getSubscription(string $subscriptionId): SubscriptionInterface
+    public function getSubscriptions(SubscriberInterface $subscriber, array $filters = []): array
     {
-        $endpoint = self::ENDPOINT_SUBSCRIPTIONS.$subscriptionId;
-        $response = $this->send($endpoint);
-        $subscriptionData = \json_decode($response->getBody()->getContents(), true);
-
-        /** @var SubscriptionInterface $subscription */
-        $subscription = $this->subscriptionFactory->create();
-        $subscription->setCode($subscriptionData['id']);
-        $subscription->setType($subscriptionData['type']);
-        $subscription->setDetails($subscriptionData['metadata']);
-
-        return $subscription;
-    }
-
-    public function getSubscriptions(SubscriberInterface $subscriber): array
-    {
+        // get subscriptions from 3rd party system
         $response = $this->send(self::ENDPOINT_SUBSCRIPTIONS.$subscriber->getSubscriberId());
         $subscriptionsData = \json_decode($response->getBody()->getContents(), true);
 
@@ -96,7 +82,7 @@ class PaymentsHubAdapter extends AbstractPaywallAdapter
                     'Content-Type' => 'application/json',
                 ],
                 'body' => $this->getJsonSerializer()->serialize($data, 'json'),
-                'timeout' => 5,
+                'timeout' => 3,
             ];
         }
 
@@ -106,8 +92,11 @@ class PaymentsHubAdapter extends AbstractPaywallAdapter
             $requestOptions['headers']['Authorization'] = sprintf('Bearer %s', $this->getAuthToken());
         }
 
-        /** @var ResponseInterface $response */
-        $response = $this->client->get($this->config['serverUrl'].$endpoint, $requestOptions);
+        try {
+            /** @var ResponseInterface $response */
+            $response = $this->client->get($this->config['serverUrl'].$endpoint, $requestOptions);
+        } catch (RequestException $requestException) {
+        }
 
         return $response;
     }

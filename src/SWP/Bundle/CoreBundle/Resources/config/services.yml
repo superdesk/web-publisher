@@ -625,3 +625,16 @@ services:
                 - '@swp.repository.revision'
         tags:
             - { name: nelmio_alice.faker.provider }
+
+    SWP\Bundle\CoreBundle\Provider\SubscriptionsProvider:
+        arguments:
+            - '@swp.paywall.adapter'
+            - '@swp.repository.subscription'
+
+    SWP\Bundle\CoreBundle\Loader\SubscriptionLoader:
+        arguments:
+            - '@swp_template_engine_context.factory.meta_factory'
+            - '@SWP\Bundle\CoreBundle\Provider\SubscriptionsProvider'
+        tags:
+            - { name: swp.meta_loader.add }
+
