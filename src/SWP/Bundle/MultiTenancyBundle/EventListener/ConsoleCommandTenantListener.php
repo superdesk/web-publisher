@@ -60,6 +60,8 @@ class ConsoleCommandTenantListener
             $tenant = $this->tenantRepository->findOneByCode($tenantCode);
             if (null !== $tenant) {
                 $this->tenantContext->setTenant($tenant);
+            } else {
+                throw new \RuntimeException(sprintf('Tenant with code %s was not found', $tenantCode));
             }
         }
     }
