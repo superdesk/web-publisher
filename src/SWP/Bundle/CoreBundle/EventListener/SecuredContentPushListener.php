@@ -25,6 +25,7 @@ use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 class SecuredContentPushListener
 {
     private const SUPERDESK_HEADER = 'x-superdesk-signature';
+
     private const PUBLISHER_HEADER = 'x-publisher-signature';
 
     /**
@@ -70,7 +71,7 @@ class SecuredContentPushListener
         /** @var OrganizationInterface $organization */
         $organization = $this->tenantContext->getTenant()->getOrganization();
         $organizationToken = $organization->getSecretToken();
-        if (null === $organizationToken && null !== $signature) {
+        if (null === $organizationToken && null === $signature) {
             return;
         }
 
