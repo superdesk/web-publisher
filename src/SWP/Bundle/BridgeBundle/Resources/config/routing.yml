@@ -1,4 +1,0 @@
-swp_bridge:
-    resource: "@SWPBridgeBundle/Controller/"
-    type: annotation
-    prefix: /

@@ -35,6 +35,11 @@ class Package extends BaseContent implements PackageInterface
     protected $body;
 
     /**
+     * @var ExternalDataInterface
+     */
+    protected $externalData;
+
+    /**
      * Package constructor.
      */
     public function __construct()
@@ -104,5 +109,15 @@ class Package extends BaseContent implements PackageInterface
     public function setBody($body)
     {
         $this->body = $body;
+    }
+
+    public function getExternalData(): ?ExternalDataInterface
+    {
+        return $this->externalData;
+    }
+
+    public function setExternalData(ExternalDataInterface $externalData): void
+    {
+        $this->externalData = $externalData;
     }
 }

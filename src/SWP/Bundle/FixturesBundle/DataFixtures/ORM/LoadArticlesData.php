@@ -14,6 +14,7 @@
 
 namespace SWP\Bundle\FixturesBundle\DataFixtures\ORM;
 
+use Behat\Transliterator\Transliterator;
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
@@ -512,6 +513,8 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface, Orde
         /** @var PackageInterface $package */
         $package = $this->container->get('swp.factory.package')->create();
         $package->setHeadline($articleData['title']);
+        $slug = str_replace('\'', '-', $package->getHeadline());
+        $package->setSlugline(Transliterator::transliterate($slug));
         $package->setType('text');
         $package->setPubStatus('usable');
         $package->setGuid($this->container->get('swp_multi_tenancy.random_string_generator')->generate(10));

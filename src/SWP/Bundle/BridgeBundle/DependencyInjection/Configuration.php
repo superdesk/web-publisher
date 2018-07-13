@@ -21,6 +21,8 @@ use SWP\Component\Bridge\Model\Event\DateInterface;
 use SWP\Component\Bridge\Model\Event\Location;
 use SWP\Component\Bridge\Model\Event\LocationInterface;
 use SWP\Component\Bridge\Model\EventInterface;
+use SWP\Component\Bridge\Model\ExternalData;
+use SWP\Component\Bridge\Model\ExternalDataInterface;
 use SWP\Component\Bridge\Model\Item;
 use SWP\Component\Bridge\Model\ItemInterface;
 use SWP\Component\Bridge\Model\Package;
@@ -84,6 +86,16 @@ class Configuration implements ConfigurationInterface
                                                 ->scalarNode('model')->cannotBeEmpty()->defaultValue(Rendition::class)->end()
                                                 ->scalarNode('repository')->defaultValue(EntityRepository::class)->end()
                                                 ->scalarNode('interface')->defaultValue(RenditionInterface::class)->end()
+                                                ->scalarNode('factory')->defaultValue(Factory::class)->end()
+                                                ->scalarNode('object_manager_name')->defaultValue(null)->end()
+                                            ->end()
+                                        ->end()
+                                        ->arrayNode('external_data')
+                                            ->addDefaultsIfNotSet()
+                                            ->children()
+                                                ->scalarNode('model')->cannotBeEmpty()->defaultValue(ExternalData::class)->end()
+                                                ->scalarNode('repository')->defaultValue(EntityRepository::class)->end()
+                                                ->scalarNode('interface')->defaultValue(ExternalDataInterface::class)->end()
                                                 ->scalarNode('factory')->defaultValue(Factory::class)->end()
                                                 ->scalarNode('object_manager_name')->defaultValue(null)->end()
                                             ->end()
