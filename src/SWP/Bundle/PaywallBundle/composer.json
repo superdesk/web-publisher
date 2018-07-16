@@ -22,7 +22,6 @@
     "symfony/dependency-injection": "^3.1",
     "symfony/config": "^3.1",
     "symfony/form": "^3.1",
-    "swp/storage-bundle": "^1.4",
     "swp/plan": "^1.4",
     "swp/common": "^1.4"
   },

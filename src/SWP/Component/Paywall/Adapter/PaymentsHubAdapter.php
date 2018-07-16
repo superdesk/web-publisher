@@ -20,9 +20,9 @@ use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Exception\RequestException;
 use Psr\Http\Message\ResponseInterface;
 use SWP\Component\Paywall\Exception\InvalidResponseException;
+use SWP\Component\Paywall\Factory\SubscriptionFactoryInterface;
 use SWP\Component\Paywall\Model\SubscriberInterface;
 use SWP\Component\Paywall\Model\SubscriptionInterface;
-use SWP\Component\Storage\Factory\FactoryInterface;
 
 final class PaymentsHubAdapter extends AbstractPaywallAdapter
 {
@@ -47,14 +47,7 @@ final class PaymentsHubAdapter extends AbstractPaywallAdapter
      */
     private $client;
 
-    /**
-     * PaymentsHubAdapter constructor.
-     *
-     * @param array            $config
-     * @param FactoryInterface $subscriptionFactory
-     * @param ClientInterface  $client
-     */
-    public function __construct(array $config, FactoryInterface $subscriptionFactory, ClientInterface $client)
+    public function __construct(array $config, SubscriptionFactoryInterface $subscriptionFactory, ClientInterface $client)
     {
         $this->config = $config;
         $this->subscriptionFactory = $subscriptionFactory;

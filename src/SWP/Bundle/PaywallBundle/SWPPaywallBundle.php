@@ -16,26 +16,8 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\PaywallBundle;
 
-use SWP\Bundle\StorageBundle\DependencyInjection\Bundle\Bundle;
-use SWP\Bundle\StorageBundle\Drivers;
+use Symfony\Component\HttpKernel\Bundle\Bundle;
 
 class SWPPaywallBundle extends Bundle
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function getSupportedDrivers()
-    {
-        return [
-            Drivers::DRIVER_DOCTRINE_ORM,
-        ];
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getModelClassNamespace()
-    {
-        return 'SWP\Component\Paywall\Model';
-    }
 }

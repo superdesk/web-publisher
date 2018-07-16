@@ -302,14 +302,6 @@ swp_output_channel:
                     model: SWP\Bundle\CoreBundle\Model\ExternalArticle
                     interface: SWP\Bundle\CoreBundle\Model\ExternalArticleInterface
 
-swp_paywall:
-    persistence:
-        orm:
-            enabled: true
-            classes:
-                subscription:
-                    model: SWP\Bundle\CoreBundle\Model\Subscription
-
 old_sound_rabbit_mq:
     connections:
         default:
