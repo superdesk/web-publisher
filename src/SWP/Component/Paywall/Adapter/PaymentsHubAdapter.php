@@ -77,6 +77,7 @@ final class PaymentsHubAdapter extends AbstractPaywallAdapter
         foreach ($items as $subscriptionData) {
             /** @var SubscriptionInterface $subscription */
             $subscription = $this->subscriptionFactory->create();
+            $subscription->setId((string) $subscriptionData['id']);
             $subscription->setCode((string) $subscriptionData['id']);
             $subscription->setType($subscriptionData['type']);
             $subscription->setDetails($subscriptionData['metadata']);

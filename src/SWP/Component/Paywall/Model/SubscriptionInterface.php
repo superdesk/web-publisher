@@ -21,6 +21,10 @@ use SWP\Component\Common\Model\TimestampableInterface;
 
 interface SubscriptionInterface extends TimestampableInterface, SoftDeletableInterface
 {
+    public function getId();
+
+    public function setId($id): void;
+
     public function getCode(): ?string;
 
     public function setCode(?string $code): void;

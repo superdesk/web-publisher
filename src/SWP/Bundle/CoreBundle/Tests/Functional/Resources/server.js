@@ -71,7 +71,7 @@ server.get('/public-api/v1/subscriptions/:id', (req, res) => {
                         intention: "bottom_box",
                         source: "web_version",
                         articleId: articleId,
-                        articleId: routeId
+                        routeId: routeId
                     }
                 }
             ]
