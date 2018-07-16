@@ -50,4 +50,7 @@ properties:
     extra:
         description: "An array of extra custom fields"
         type: array
+    paywallSecured:
+        description: "Is secured by the paywall?"
+        type: array
 to_string: title

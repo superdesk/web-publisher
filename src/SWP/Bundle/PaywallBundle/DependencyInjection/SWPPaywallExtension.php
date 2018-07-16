@@ -17,7 +17,6 @@ declare(strict_types=1);
 namespace SWP\Bundle\PaywallBundle\DependencyInjection;
 
 use SWP\Bundle\StorageBundle\DependencyInjection\Extension\Extension;
-use SWP\Bundle\StorageBundle\Drivers;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
@@ -31,10 +30,6 @@ class SWPPaywallExtension extends Extension
 
         $loader = new YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.yml');
-
-        if ($config['persistence']['orm']['enabled']) {
-            $this->registerStorage(Drivers::DRIVER_DOCTRINE_ORM, $config['persistence']['orm']['classes'], $container);
-        }
 
         $container->setAlias('swp.paywall.adapter', $config['adapter']);
     }

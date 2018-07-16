@@ -14,15 +14,19 @@ declare(strict_types=1);
  * @license http://www.superdesk.org/license
  */
 
-namespace SWP\Component\Paywall\Exception;
+namespace SWP\Component\Paywall\Model;
 
-final class InvalidResponseException extends \InvalidArgumentException
+trait PaywallSecuredTrait
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function __construct()
+    protected $paywallSecured = false;
+
+    public function isPaywallSecured(): bool
     {
-        parent::__construct('Invalid response data.');
+        return $this->paywallSecured;
+    }
+
+    public function setPaywallSecured(bool $paywallSecured): void
+    {
+        $this->paywallSecured = $paywallSecured;
     }
 }

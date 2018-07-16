@@ -20,18 +20,14 @@ use SWP\Component\MultiTenancy\Model\TenantAwareInterface;
 use SWP\Component\MultiTenancy\Model\TenantAwareTrait;
 use SWP\Bundle\ContentBundle\Model\Route as BaseRoute;
 use SWP\Component\Paywall\Model\PaywallSecuredInterface;
+use SWP\Component\Paywall\Model\PaywallSecuredTrait;
 
 /**
  * Class Route.
  */
 class Route extends BaseRoute implements TenantAwareInterface, ArticlesCountInterface, PaywallSecuredInterface
 {
-    use TenantAwareTrait, ArticlesCountTrait;
-
-    /**
-     * @var bool
-     */
-    protected $paywallSecured = false;
+    use TenantAwareTrait, ArticlesCountTrait, PaywallSecuredTrait;
 
     /**
      * {@inheritdoc}
@@ -53,15 +49,5 @@ class Route extends BaseRoute implements TenantAwareInterface, ArticlesCountInte
 
         $data = unserialize($serialized);
         $this->id = $data['id'];
-    }
-
-    public function isPaywallSecured(): bool
-    {
-        return $this->paywallSecured;
-    }
-
-    public function setPaywallSecured(bool $paywallSecured): void
-    {
-        $this->paywallSecured = $paywallSecured;
     }
 }

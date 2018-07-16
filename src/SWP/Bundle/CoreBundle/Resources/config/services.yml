@@ -633,8 +633,10 @@ services:
 
     SWP\Bundle\CoreBundle\Provider\CachedSubscriptionsProvider:
         arguments:
+            - '%env(resolve:SUBSCRIPTIONS_CACHE_LIFETIME)%'
             - '@SWP\Bundle\CoreBundle\Provider\SubscriptionsProvider'
             - '@doctrine_cache.providers.main_cache'
+            - '@swp_multi_tenancy.tenant_context'
 
     SWP\Bundle\CoreBundle\Loader\SubscriptionLoader:
         arguments:

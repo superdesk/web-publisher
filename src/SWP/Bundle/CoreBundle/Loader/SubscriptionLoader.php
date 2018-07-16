@@ -39,12 +39,6 @@ final class SubscriptionLoader extends PaginatedLoader implements LoaderInterfac
      */
     private $subscriptionsProvider;
 
-    /**
-     * ArticleAuthorLoader constructor.
-     *
-     * @param MetaFactoryInterface           $metaFactory
-     * @param SubscriptionsProviderInterface $subscriptionsProvider
-     */
     public function __construct(
         MetaFactoryInterface $metaFactory,
         SubscriptionsProviderInterface $subscriptionsProvider
@@ -53,9 +47,6 @@ final class SubscriptionLoader extends PaginatedLoader implements LoaderInterfac
         $this->subscriptionsProvider = $subscriptionsProvider;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function load($type, $parameters = [], $withoutParameters = [], $responseType = LoaderInterface::SINGLE)
     {
         if (!array_key_exists('user', $parameters)) {
