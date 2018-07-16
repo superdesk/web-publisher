@@ -1,5 +1,5 @@
 name: subscription
-class: 'SWP\Bundle\CoreBundle\Model\SubscriptionInterface'
+class: 'SWP\Component\Paywall\Model\SubscriptionInterface'
 description: Subscription Meta is representation of subscription
 properties:
     id:
@@ -7,4 +7,7 @@ properties:
         type: text
     type:
         description: "Subscription's type"
+        type: text
+    code:
+        description: "Subscription's code"
         type: text

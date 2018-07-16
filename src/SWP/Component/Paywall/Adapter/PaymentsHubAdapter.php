@@ -56,15 +56,24 @@ final class PaymentsHubAdapter extends AbstractPaywallAdapter
 
     public function getSubscriptions(SubscriberInterface $subscriber, array $filters = []): array
     {
-        $response = $this->send(self::ENDPOINT_SUBSCRIPTIONS.$subscriber->getSubscriberId());
-        $subscriptionsData = \json_decode($response->getBody()->getContents(), true);
+        $subscriptions = [];
+        $queryParams = http_build_query($filters);
+
+        $url = sprintf('%s?%s',self::ENDPOINT_SUBSCRIPTIONS.$subscriber->getSubscriberId(), $queryParams);
+
+        try {
+            $response = $this->send($url);
+            $subscriptionsData = \json_decode($response->getBody()->getContents(), true);
+        } catch (RequestException $e) {
+            return $subscriptions;
+        }
 
         if (!isset($subscriptionsData['_embedded']) && !isset($subscriptionsData['_embedded']['items'])) {
             throw new InvalidResponseException();
         }
 
         $items = $subscriptionsData['_embedded']['items'];
-        $subscriptions = [];
+
         foreach ($items as $subscriptionData) {
             /** @var SubscriptionInterface $subscription */
             $subscription = $this->subscriptionFactory->create();

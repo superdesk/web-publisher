@@ -49,15 +49,29 @@ server.post('/api/v1/login_check', (req, res) => {
 });
 
 server.get('/public-api/v1/subscriptions/:id', (req, res) => {
+    let id = 79;
+    let articleId = 20;
+    let routeId = 10;
+
+    if (req.query.articleId) {
+        id = 12;
+    }
+
+    if (req.query.routeId) {
+        id = 14;
+    }
+
     res.status(200).json({
         _embedded: {
             items: [
                 {
-                    id: 79,
+                    id: id,
                     type: "recurring",
                     metadata: {
                         intention: "bottom_box",
-                        source: "web_version"
+                        source: "web_version",
+                        articleId: articleId,
+                        articleId: routeId
                     }
                 }
             ]

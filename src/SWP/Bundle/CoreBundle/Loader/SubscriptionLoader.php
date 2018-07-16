@@ -58,8 +58,8 @@ final class SubscriptionLoader extends PaginatedLoader implements LoaderInterfac
         }
 
         $filters = [
-            'routeId' => isset($parameters['routeId']) ?? $parameters['routeId'],
-            'articleId' => isset($parameters['articleId']) ?? $parameters['articleId'],
+            'routeId' => $parameters['routeId'] ?? null,
+            'articleId' => $parameters['articleId'] ?? null,
         ];
 
         $this->applyPaginationToCriteria(new Criteria(), $parameters);

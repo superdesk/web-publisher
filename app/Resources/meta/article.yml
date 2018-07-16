@@ -52,5 +52,5 @@ properties:
         type: array
     paywallSecured:
         description: "Is secured by the paywall?"
-        type: array
+        type: bool
 to_string: title
