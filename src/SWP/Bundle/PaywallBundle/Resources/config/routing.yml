@@ -1,3 +1,0 @@
-swp_paywall:
-    resource: "@SWPPaywallBundle/Controller"
-    type: annotation

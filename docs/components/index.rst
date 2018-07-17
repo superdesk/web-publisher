@@ -19,3 +19,4 @@ The goal of these components is to solve the problems related to content publish
    Rule/index
    ContentList/index
    OutputChannel/index
+   Paywall/index

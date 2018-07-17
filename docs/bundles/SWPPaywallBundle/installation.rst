@@ -8,7 +8,7 @@ In your project directory execute the following command to download the latest s
 
 .. code-block:: bash
 
-    composer require swp/output-channel-bundle
+    composer require swp/paywall-bundle
 
 This command requires you to have Composer installed globally. If it's not installed `globally`_,
 download the ``.phar`` file `locally`_ as explained in Composer documentation.
@@ -16,7 +16,6 @@ download the ``.phar`` file `locally`_ as explained in Composer documentation.
 Enable the bundle and its dependencies
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-This bundle requires `StorageBundle`_ to be installed and configured.
 Enable the bundle by adding the following lines in the ``app/AppKernel.php`` file:
 
 .. code-block:: php
@@ -29,10 +28,8 @@ Enable the bundle by adding the following lines in the ``app/AppKernel.php`` fil
         public function registerBundles()
         {
             $bundles = array(
-
-                new SWP\Bundle\StorageBundle\SWPStorageBundle()
                 // ...
-                new SWP\Bundle\OutputChannelBundle\SWPOutputChannelBundle(),
+                new SWP\Bundle\PaywallBundle\SWPPaywallBundle(),
             );
 
             // ...
@@ -40,6 +37,14 @@ Enable the bundle by adding the following lines in the ``app/AppKernel.php`` fil
 
         // ...
     }
+
+Import config to into your ``config.yml`` file:
+
+.. code-block:: yaml
+
+    imports:
+        - { resource: "@SWPPaywallBundle/Resources/config/app/config.yml" }
+
 
 .. note::
 
@@ -49,4 +54,3 @@ That's it, the bundle is configured properly now!
 
 .. _locally: https://getcomposer.org/doc/00-intro.md#locally
 .. _globally: https://getcomposer.org/doc/00-intro.md#globally
-.. _StorageBundle: http://superdesk-publisher.readthedocs.io/en/latest/bundles/SWPStorageBundle/index.html
