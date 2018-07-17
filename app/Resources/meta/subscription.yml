@@ -17,3 +17,9 @@ properties:
     active:
         description: "Is subscription active?"
         type: bool
+    createdAt:
+        description: "Subscription created timestamp"
+        type: datetime
+    updatedAt:
+        description: "Subscription update timestamp"
+        type: datetime

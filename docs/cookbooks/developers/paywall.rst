@@ -46,7 +46,9 @@ To render user subscriptions:
             {{ subscription.code }} # subscription's code, this is set in the Paywall Adapter
             {{ subscription.active }} # is subscription active, this is set in the Paywall Adapter
             {{ subscription.type }} # type of the subscription, this is set in the Paywall Adapter
-            {{ details.articleId }} # an array with more details about the subscription, this is set in the Paywall Adapter
+            {{ subscription.details.articleId }} # an array with more details about the subscription, this is set in the Paywall Adapter
+            {{ subscription.updatedAt|date('Y-m-d') }}
+            {{ subscription.createdAt|date('Y-m-d') }}
         {% endgimmelist %}
     {% endif %}
 
