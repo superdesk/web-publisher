@@ -1,5 +1,5 @@
-OutputChannelBundle
-===================
+Paywall Bundle
+==============
 
 This bundle provides tools to build paywall solution in Symfony application.
 
@@ -7,6 +7,5 @@ This bundle provides tools to build paywall solution in Symfony application.
     :numbered:
     :maxdepth: 2
 
-    prerequisites
     installation
     usage

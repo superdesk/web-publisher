@@ -10,18 +10,20 @@ How it works
 
 .. image:: paywall.png
     :alt: Publisher Paywall architecture
-   :align: center
+    :align: center
 
 
 1. Your app (via API) or web front-end (via Twig) requests the subscriptions data.
-2. The Publisher passes the request parameters to the adapter.
-3. Adapter calls external Subscriptions System.
-4. Once the connection is initialized and the adapter has made a request to Subscriptions System,
-the Subscriptions System communicates that information and returns a list of subscriptions or a single subscription.
-5. Publisher then saves the retrieved subscriptions in the Memcached and caches it for 24 hours, by default. If the
-request parameters did not change, each request to get subscriptions will be executed to Memcached server.
-6. The Publisher gets the subscription(s) from the Memcached
 
+2. The Publisher passes the request parameters to the adapter.
+
+3. Adapter calls external Subscriptions System.
+
+4. Once the connection is initialized and the adapter has made a request to Subscriptions System, the Subscriptions System communicates that information and returns a list of subscriptions or a single subscription.
+
+5. Publisher then saves the retrieved subscriptions in the Memcached and caches it for 24 hours, by default. If the request parameters did not change, each request to get subscriptions will be executed to Memcached server.
+
+6. The Publisher gets the subscription(s) from the Memcached.
 
 How to configure subscriptions cache lifetime
 ---------------------------------------------
@@ -82,6 +84,8 @@ Articles:
     {% endgimmelist %}
 
 Routes:
+
+.. code-block:: twig
 
     {% gimmelist route from routes %}
         {% if route.paywallSecured %}
