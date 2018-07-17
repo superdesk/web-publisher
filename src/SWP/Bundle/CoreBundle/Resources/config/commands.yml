@@ -4,5 +4,10 @@ services:
         autoconfigure: true
         public: false
 
+    SWP\Bundle\CoreBundle\Command\CreateUserCommand:
+        arguments:
+            - "@fos_user.util.user_manipulator"
+
     SWP\Bundle\CoreBundle\Command\:
         resource: '../../Command/*'
+        exclude: '../../Command/{CreateUserCommand}.php'
