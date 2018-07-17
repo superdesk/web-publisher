@@ -39,9 +39,6 @@ class Package extends BaseContent implements PackageInterface
      */
     protected $externalData;
 
-    /**
-     * Package constructor.
-     */
     public function __construct()
     {
         parent::__construct();
@@ -49,29 +46,16 @@ class Package extends BaseContent implements PackageInterface
         $this->items = new ArrayCollection();
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getItems()
     {
         return $this->items;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function setItems(Collection $items)
     {
         $this->items = $items;
     }
 
-    /**
-     * Add item.
-     *
-     * @param \SWP\Component\Bridge\Model\Item $item
-     *
-     * @return Package
-     */
     public function addItem(\SWP\Component\Bridge\Model\Item $item)
     {
         if (!$this->items->contains($item)) {
@@ -82,11 +66,6 @@ class Package extends BaseContent implements PackageInterface
         return $this;
     }
 
-    /**
-     * Remove item.
-     *
-     * @param \SWP\Component\Bridge\Model\Item $item
-     */
     public function removeItem(\SWP\Component\Bridge\Model\Item $item)
     {
         if ($this->items->contains($item)) {
@@ -95,17 +74,11 @@ class Package extends BaseContent implements PackageInterface
         }
     }
 
-    /**
-     * @return mixed
-     */
     public function getBody()
     {
         return $this->body;
     }
 
-    /**
-     * @param mixed $body
-     */
     public function setBody($body)
     {
         $this->body = $body;
