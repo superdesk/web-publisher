@@ -79,6 +79,32 @@ server.get('/public-api/v1/subscriptions/:id', (req, res) => {
     });
 });
 
+server.get('/public-api/v1/subscription/:id', (req, res) => {
+    let id = 79;
+    let articleId = 20;
+    let routeId = 10;
+
+    if (req.query.articleId) {
+        id = 12;
+    }
+
+    if (req.query.routeId) {
+        id = 14;
+    }
+
+    res.status(200).json({
+        id: id,
+        type: "recurring",
+        metadata: {
+            intention: "bottom_box",
+            source: "web_version",
+            articleId: articleId,
+            routeId: routeId
+        },
+        state: 'fulfilled'
+    });
+});
+
 server.use('/api', router);
 server.listen(3000, () => {
   console.log('JSON Server is running');

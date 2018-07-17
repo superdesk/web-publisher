@@ -11,3 +11,9 @@ properties:
     code:
         description: "Subscription's code"
         type: text
+    details:
+        description: "Subscription details"
+        type: array
+    active:
+        description: "Is subscription active?"
+        type: bool

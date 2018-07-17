@@ -19,6 +19,7 @@ namespace SWP\Bundle\CoreBundle\Tests\Adapter;
 use SWP\Bundle\FixturesBundle\WebTestCase;
 use SWP\Component\Paywall\Adapter\PaymentsHubAdapter;
 use SWP\Component\Paywall\Adapter\PaywallAdapterInterface;
+use SWP\Component\Paywall\Model\SubscriberInterface;
 use SWP\Component\Paywall\Model\SubscriptionInterface;
 
 final class PaymentsHubAdapterTest extends WebTestCase
@@ -39,12 +40,31 @@ final class PaymentsHubAdapterTest extends WebTestCase
         /** @var PaywallAdapterInterface $paymentsHubAdapter */
         $paymentsHubAdapter = $this->getContainer()->get(PaymentsHubAdapter::class);
 
-        $userRepository = $this->getContainer()->get('swp.repository.user');
-        $subscriber = $userRepository->findOneBy(['email' => 'test.user@sourcefabric.org']);
+        $subscriber = $this->getSubscriber();
 
         $subscriptions = $paymentsHubAdapter->getSubscriptions($subscriber);
 
         self::assertCount(1, $subscriptions);
         self::assertInstanceOf(SubscriptionInterface::class, $subscriptions[0]);
+    }
+
+    public function testGetSubscription(): void
+    {
+        /** @var PaywallAdapterInterface $paymentsHubAdapter */
+        $paymentsHubAdapter = $this->getContainer()->get(PaymentsHubAdapter::class);
+
+        $subscriber = $this->getSubscriber();
+
+        $subscription = $paymentsHubAdapter->getSubscription($subscriber);
+
+        self::assertInstanceOf(SubscriptionInterface::class, $subscription);
+    }
+
+    private function getSubscriber(): SubscriberInterface
+    {
+        $userRepository = $this->getContainer()->get('swp.repository.user');
+        $subscriber = $userRepository->findOneBy(['email' => 'test.user@sourcefabric.org']);
+
+        return $subscriber;
     }
 }

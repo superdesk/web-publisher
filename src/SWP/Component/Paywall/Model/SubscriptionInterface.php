@@ -36,4 +36,8 @@ interface SubscriptionInterface extends TimestampableInterface, SoftDeletableInt
     public function getDetails(): array;
 
     public function setDetails(array $details): void;
+
+    public function isActive(): bool;
+
+    public function setActive(bool $active): void;
 }

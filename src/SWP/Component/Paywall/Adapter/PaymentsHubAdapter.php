@@ -19,7 +19,6 @@ namespace SWP\Component\Paywall\Adapter;
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Exception\RequestException;
 use Psr\Http\Message\ResponseInterface;
-use SWP\Component\Paywall\Exception\InvalidResponseException;
 use SWP\Component\Paywall\Factory\SubscriptionFactoryInterface;
 use SWP\Component\Paywall\Model\SubscriberInterface;
 use SWP\Component\Paywall\Model\SubscriptionInterface;
@@ -31,6 +30,10 @@ final class PaymentsHubAdapter extends AbstractPaywallAdapter
     public const API_AUTH_ENDPOINT = '/api/v1/login_check';
 
     public const ENDPOINT_SUBSCRIPTIONS = self::API_ENDPOINT.'subscriptions/';
+
+    public const ENDPOINT_SUBSCRIPTION = self::API_ENDPOINT.'subscription/';
+
+    public const ACTIVE_SUBSCRIPTION_STATE = 'fulfilled';
 
     /**
      * @var array
@@ -59,17 +62,18 @@ final class PaymentsHubAdapter extends AbstractPaywallAdapter
         $subscriptions = [];
         $queryParams = http_build_query($filters);
 
-        $url = sprintf('%s?%s',self::ENDPOINT_SUBSCRIPTIONS.$subscriber->getSubscriberId(), $queryParams);
+        $url = sprintf('%s?%s', self::ENDPOINT_SUBSCRIPTIONS.$subscriber->getSubscriberId(), $queryParams);
 
-        try {
-            $response = $this->send($url);
-            $subscriptionsData = \json_decode($response->getBody()->getContents(), true);
-        } catch (RequestException $e) {
-            return $subscriptions;
+        $response = $this->send($url);
+
+        if (null === $response) {
+            return [];
         }
 
+        $subscriptionsData = \json_decode($response->getBody()->getContents(), true);
+
         if (!isset($subscriptionsData['_embedded']) && !isset($subscriptionsData['_embedded']['items'])) {
-            throw new InvalidResponseException();
+            return null;
         }
 
         $items = $subscriptionsData['_embedded']['items'];
@@ -88,7 +92,36 @@ final class PaymentsHubAdapter extends AbstractPaywallAdapter
         return $subscriptions;
     }
 
-    private function send(string $endpoint, array $data = [], array $requestOptions = []): ResponseInterface
+    public function getSubscription(SubscriberInterface $subscriber, array $filters = []): ?SubscriptionInterface
+    {
+        $queryParams = http_build_query($filters);
+
+        $url = sprintf('%s?%s', self::ENDPOINT_SUBSCRIPTION.$subscriber->getSubscriberId(), $queryParams);
+
+        $response = $this->send($url);
+
+        if (null === $response || (null !== $response && 404 === $response->getStatusCode())) {
+            return null;
+        }
+
+        $subscriptionData = \json_decode($response->getBody()->getContents(), true);
+
+        if (!isset($subscriptionData['id'])) {
+            return null;
+        }
+
+        /** @var SubscriptionInterface $subscription */
+        $subscription = $this->subscriptionFactory->create();
+        $subscription->setId((string) $subscriptionData['id']);
+        $subscription->setCode((string) $subscriptionData['id']);
+        $subscription->setType($subscriptionData['type']);
+        $subscription->setDetails($subscriptionData['metadata']);
+        $subscription->setActive(self::ACTIVE_SUBSCRIPTION_STATE === $subscriptionData['state']);
+
+        return $subscription;
+    }
+
+    private function send(string $endpoint, array $data = [], array $requestOptions = []): ?ResponseInterface
     {
         if (empty($requestOptions)) {
             $requestOptions = [
@@ -105,6 +138,8 @@ final class PaymentsHubAdapter extends AbstractPaywallAdapter
         if (isset($requestOptions['headers'])) {
             $requestOptions['headers']['Authorization'] = sprintf('Bearer %s', $this->getAuthToken());
         }
+
+        $response = null;
 
         try {
             /** @var ResponseInterface $response */

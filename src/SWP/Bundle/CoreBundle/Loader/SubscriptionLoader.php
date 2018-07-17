@@ -17,17 +17,15 @@ declare(strict_types=1);
 namespace SWP\Bundle\CoreBundle\Loader;
 
 use Doctrine\Common\Collections\ArrayCollection;
-use SWP\Bundle\ContentBundle\Loader\PaginatedLoader;
 use SWP\Bundle\CoreBundle\Provider\SubscriptionsProviderInterface;
-use SWP\Component\Common\Criteria\Criteria;
 use SWP\Component\Paywall\Model\SubscriberInterface;
 use SWP\Component\TemplatesSystem\Gimme\Factory\MetaFactoryInterface;
 use SWP\Component\TemplatesSystem\Gimme\Loader\LoaderInterface;
 use SWP\Component\TemplatesSystem\Gimme\Meta\MetaCollection;
 
-final class SubscriptionLoader extends PaginatedLoader implements LoaderInterface
+final class SubscriptionLoader implements LoaderInterface
 {
-    public const SUPPORTED_TYPES = ['subscriptions'];
+    public const SUPPORTED_TYPES = ['subscriptions', 'subscription'];
 
     /**
      * @var MetaFactoryInterface
@@ -62,7 +60,18 @@ final class SubscriptionLoader extends PaginatedLoader implements LoaderInterfac
             'articleId' => $parameters['articleId'] ?? null,
         ];
 
-        $this->applyPaginationToCriteria(new Criteria(), $parameters);
+        if (LoaderInterface::SINGLE === $responseType) {
+            if (!isset($filters['routeId']) && !isset($filters['articleId'])) {
+                return false;
+            }
+
+            $subscription = $this->subscriptionsProvider->getSubscription($user, $filters);
+
+            if (null !== $subscription) {
+                return $this->metaFactory->create($subscription);
+            }
+        }
+
         $subscriptions = $this->subscriptionsProvider->getSubscriptions($user, $filters);
 
         $subscriptions = new ArrayCollection($subscriptions);

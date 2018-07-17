@@ -43,6 +43,11 @@ class Subscription implements SubscriptionInterface
      */
     protected $details = [];
 
+    /**
+     * @var bool
+     */
+    protected $active = false;
+
     public function __construct()
     {
         $this->createdAt = new \DateTime();
@@ -86,5 +91,15 @@ class Subscription implements SubscriptionInterface
     public function setDetails(array $details): void
     {
         $this->details = $details;
+    }
+
+    public function isActive(): bool
+    {
+        return $this->active;
+    }
+
+    public function setActive(bool $active): void
+    {
+        $this->active = $active;
     }
 }
