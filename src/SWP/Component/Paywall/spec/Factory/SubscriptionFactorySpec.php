@@ -18,7 +18,6 @@ namespace spec\SWP\Component\Paywall\Factory;
 
 use SWP\Component\Paywall\Factory\SubscriptionFactory;
 use PhpSpec\ObjectBehavior;
-use Prophecy\Argument;
 use SWP\Component\Paywall\Factory\SubscriptionFactoryInterface;
 use SWP\Component\Paywall\Model\SubscriptionInterface;
 
