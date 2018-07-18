@@ -104,7 +104,7 @@
         "phpspec/phpspec": "^4.2",
         "phpunit/phpunit": "^5.4.0",
         "liip/functional-test-bundle": "^2.0",
-        "doctrine/doctrine-fixtures-bundle": "^2.2",
+        "doctrine/doctrine-fixtures-bundle": "^3.0",
         "nelmio/alice": "^3.4",
         "matthiasnoback/symfony-dependency-injection-test": "^v1.1",
         "johnkary/phpunit-speedtrap": "^1.0",

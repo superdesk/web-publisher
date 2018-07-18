@@ -1,5 +1,6 @@
 imports:
     - { resource: config.yml }
+    - { resource: "@SWPFixturesBundle/Resources/config/dataFixture.yml" }
 
 parameters:
     data_collector.config.class: "Symfony\\Component\\Translation\\DataCollector\\TranslationDataCollector"
