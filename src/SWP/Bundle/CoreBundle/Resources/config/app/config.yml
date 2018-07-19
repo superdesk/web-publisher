@@ -16,9 +16,9 @@ services:
             - { name: twig.extension }
 
 framework:
-    session: ~
-#        storage_id: "swp_core.security.session.domain_dynamic_storage"
-#        handler_id: "session.handler.memcached"
+    session:
+        storage_id: "swp_core.security.session.domain_dynamic_storage"
+        handler_id: "session.handler.memcached"
 
 doctrine:
     orm:
