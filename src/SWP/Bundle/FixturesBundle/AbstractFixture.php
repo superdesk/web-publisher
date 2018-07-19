@@ -51,9 +51,9 @@ abstract class AbstractFixture extends BaseFixture implements ContainerAwareInte
     }
 
     /**
-     * Loads Alice fixtures.
+     * @param $paths
      *
-     * @param array|string $paths Fixtures path(s)
+     * @return mixed
      */
     public function loadFixtures($paths)
     {

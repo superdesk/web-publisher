@@ -61,8 +61,7 @@ class LoadContainersData extends AbstractFixture implements FixtureInterface, Or
             $this->loadFixtures(
                 [
                     '@SWPFixturesBundle/Resources/fixtures/ORM/'.$env.'/Container.yml',
-                ],
-                $manager
+                ]
             );
         }
     }
