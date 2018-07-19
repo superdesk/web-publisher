@@ -83,9 +83,11 @@ server.get('/public-api/v1/subscription/:id', (req, res) => {
     let id = 79;
     let articleId = 20;
     let routeId = 10;
+    let name = 'secured';
 
     if (req.query.articleId) {
         id = 12;
+        name = 'premium_content';
     }
 
     if (req.query.routeId) {
@@ -99,7 +101,8 @@ server.get('/public-api/v1/subscription/:id', (req, res) => {
             intention: "bottom_box",
             source: "web_version",
             articleId: articleId,
-            routeId: routeId
+            routeId: routeId,
+            name: name
         },
         state: 'fulfilled'
     });

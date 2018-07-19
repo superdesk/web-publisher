@@ -61,7 +61,9 @@ final class SubscriptionLoader implements LoaderInterface
         ];
 
         if (LoaderInterface::SINGLE === $responseType) {
-            if (!isset($filters['routeId']) && !isset($filters['articleId'])) {
+            $filters['name'] = $parameters['name'] ?? null;
+
+            if (!isset($filters['routeId']) && !isset($filters['articleId']) && !isset($filters['name'])) {
                 return false;
             }
 

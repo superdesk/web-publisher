@@ -133,8 +133,6 @@ final class PaymentsHubAdapter extends AbstractPaywallAdapter
             ];
         }
 
-        // TODO handle token refresh
-
         if (isset($requestOptions['headers'])) {
             $requestOptions['headers']['Authorization'] = sprintf('Bearer %s', $this->getAuthToken());
         }

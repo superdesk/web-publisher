@@ -90,6 +90,16 @@ class SubscriptionLoaderTest extends WebTestCase
         self::assertEquals(' 14 recurring 1 ', $result);
     }
 
+    public function testFilteringSubscriptionByNameAndArticleId(): void
+    {
+        $this->logInUser();
+
+        $template = '{% gimme subscription with { user: app.user, articleId: 20, name: "premium_content" } %} {{ subscription.code }} {{ subscription.type }} {{ subscription.active }} {{ subscription.details.name }} {% endgimme %}';
+        $result = $this->getRendered($template);
+
+        self::assertEquals(' 12 recurring 1 premium_content ', $result);
+    }
+
     private function logInUser()
     {
         $user = $this->getContainer()->get('swp.repository.user')->findOneByEmail('test.user@sourcefabric.org');
