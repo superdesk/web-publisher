@@ -49,8 +49,10 @@ class SubscriptionController extends Controller
     {
         $subscriptionsProvider = $this->get(CachedSubscriptionsProvider::class);
 
-        $filters['routeId'] = $request->query->get('routeId');
-        $filters['articleId'] = $request->query->get('articleId');
+        $filters = [
+            'routeId' => $request->query->get('routeId'),
+            'articleId' => $request->query->get('articleId'),
+        ];
 
         $user = $this->findOr404($userId);
 

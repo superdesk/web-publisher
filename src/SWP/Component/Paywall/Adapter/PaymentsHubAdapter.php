@@ -41,7 +41,7 @@ final class PaymentsHubAdapter extends AbstractPaywallAdapter
     private $config;
 
     /**
-     * @var FactoryInterface
+     * @var SubscriptionFactoryInterface
      */
     private $subscriptionFactory;
 
@@ -80,7 +80,7 @@ final class PaymentsHubAdapter extends AbstractPaywallAdapter
 
         foreach ($items as $subscriptionData) {
             /** @var SubscriptionInterface $subscription */
-            $subscription = $this->subscriptionFactory->create();
+            $subscription = $subscription = $this->createSubscription();
             $subscription->setId((string) $subscriptionData['id']);
             $subscription->setCode((string) $subscriptionData['id']);
             $subscription->setType($subscriptionData['type']);
@@ -111,7 +111,7 @@ final class PaymentsHubAdapter extends AbstractPaywallAdapter
         }
 
         /** @var SubscriptionInterface $subscription */
-        $subscription = $this->subscriptionFactory->create();
+        $subscription = $this->createSubscription();
         $subscription->setId((string) $subscriptionData['id']);
         $subscription->setCode((string) $subscriptionData['id']);
         $subscription->setType($subscriptionData['type']);
@@ -145,6 +145,7 @@ final class PaymentsHubAdapter extends AbstractPaywallAdapter
             /** @var ResponseInterface $response */
             $response = $this->client->get($this->config['serverUrl'].$endpoint, $requestOptions);
         } catch (RequestException $requestException) {
+            // ignore if request fails
         }
 
         return $response;
@@ -152,10 +153,12 @@ final class PaymentsHubAdapter extends AbstractPaywallAdapter
 
     private function getAuthToken(): string
     {
-        $requestOptions['body'] = $this->getJsonSerializer()->serialize([
-            'username' => $this->config['credentials']['username'],
-            'password' => $this->config['credentials']['password'],
-        ], 'json');
+        $requestOptions = [
+            'body' => $this->getJsonSerializer()->serialize([
+                'username' => $this->config['credentials']['username'],
+                'password' => $this->config['credentials']['password'],
+            ], 'json'),
+        ];
 
         /** @var ResponseInterface $response */
         $response = $this->client->post($this->config['serverUrl'].self::API_AUTH_ENDPOINT, $requestOptions);
@@ -163,5 +166,10 @@ final class PaymentsHubAdapter extends AbstractPaywallAdapter
         $decodedResponse = \json_decode($response->getBody()->getContents(), true);
 
         return $decodedResponse['token'];
+    }
+
+    private function createSubscription(): SubscriptionInterface
+    {
+        return $this->subscriptionFactory->create();
     }
 }
