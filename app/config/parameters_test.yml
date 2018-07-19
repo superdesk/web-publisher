@@ -11,3 +11,6 @@ parameters:
     env(PAYWALL_SERVER_URL): localhost:3000
     env(PAYWALL_SERVER_USERNAME): admin
     env(PAYWALL_SERVER_PASSWORD): admin
+
+    fixtures_type: '%env(FIXTURES_TYPE)%'
+    env(FIXTURES_TYPE): test

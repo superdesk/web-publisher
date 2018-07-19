@@ -47,7 +47,15 @@ abstract class AbstractFixture extends BaseFixture implements ContainerAwareInte
      */
     public function getEnvironment()
     {
-        return $this->container->get('kernel')->getEnvironment();
+        $fixturesEnv = $this->container->getParameter('fixtures_type');
+
+        $env = $this->container->get('kernel')->getEnvironment();
+
+        if ($fixturesEnv !== $env) {
+            return $fixturesEnv;
+        }
+
+        return $env;
     }
 
     /**

@@ -52,7 +52,7 @@ To render user subscriptions:
         {% endgimmelist %}
     {% endif %}
 
-To render a single user subscription:
+To render a single user subscription by article id:
 
 .. code-block:: twig
 
@@ -60,6 +60,19 @@ To render a single user subscription:
         Hey {{ app.user.username }}. <a href="{{ url('security_logout') }}">Logout</a>.
         {% gimme subscription with { user: app.user, articleId: 10 } %}
             {{ subscription.id }}
+            # ...
+        {% endgimme %}
+    {% endif %}
+
+To render a single user subscription by article id and name:
+
+.. code-block:: twig
+
+    {% if app.user %}
+        Hey {{ app.user.username }}. <a href="{{ url('security_logout') }}">Logout</a>.
+        {% gimme subscription with { user: app.user, articleId: 10, name: "premium_content" } %}
+            {{ subscription.id }}
+            {{ subscription.details.name }}
             # ...
         {% endgimme %}
     {% endif %}

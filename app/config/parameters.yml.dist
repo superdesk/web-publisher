@@ -55,3 +55,7 @@ parameters:
     env(PAYWALL_SERVER_PASSWORD):
 
     env(SUBSCRIPTIONS_CACHE_LIFETIME): 86400 # 24 hours
+
+    # allows to load dev fixtures in test env
+    fixtures_type: '%env(FIXTURES_TYPE)%'
+    env(FIXTURES_TYPE): dev
