@@ -94,6 +94,10 @@ class TenantController extends FOSRestController
         $repository = $this->getTenantRepository();
         $tenant = $this->findOr404($code);
 
+//        $articlesRepository = $this->get('swp.repository.article');
+//        $existingArticles = $articlesRepository->findAll();
+        // todo check for articles
+
         $repository->remove($tenant);
 
         return new SingleResourceResponse(null, new ResponseContext(204));
