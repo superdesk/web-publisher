@@ -117,4 +117,13 @@ class Article extends BaseArticle implements ArticleInterface
     {
         $this->externalArticle = $externalArticle;
     }
+
+    public function getPackageExternalData()
+    {
+        if (null === $this->getPackage()->getExternalData()) {
+            return [];
+        }
+
+        return $this->getPackage()->getExternalData()->getData();
+    }
 }

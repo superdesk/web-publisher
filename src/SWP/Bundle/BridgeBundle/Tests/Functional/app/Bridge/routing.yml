@@ -1,2 +1,0 @@
-_bridgetest_bundle:
-    resource: "@SWPBridgeBundle/Resources/config/routing.yml"

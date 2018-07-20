@@ -50,6 +50,9 @@ properties:
     extra:
         description: "An array of extra custom fields"
         type: array
+    packageExternalData:
+        description: "An array for data from external systems stored in article package"
+        type: array
     paywallSecured:
         description: "Is secured by the paywall?"
         type: bool

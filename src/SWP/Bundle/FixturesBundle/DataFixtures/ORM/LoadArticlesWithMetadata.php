@@ -95,6 +95,10 @@ class LoadArticlesWithMetadata extends AbstractFixture implements FixtureInterfa
                     'byline' => $articleData['author'],
                 ]);
                 $package = $this->createPackage($articleData);
+                $externalData = $this->container->get('swp.factory.external_data')->create();
+                $externalData->setData(['some test data' => 'SOME TEST VALUE', 34 => null]);
+                $manager->persist($externalData);
+                $package->setExternalData($externalData);
                 $manager->persist($package);
                 $article->setPackage($package);
 
