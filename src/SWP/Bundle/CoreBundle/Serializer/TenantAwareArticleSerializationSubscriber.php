@@ -79,7 +79,9 @@ final class TenantAwareArticleSerializationSubscriber implements EventSubscriber
         if ($this->tenantContext->getTenant()->getCode() !== $data->getTenantCode()) {
             $this->originalTenant = $this->tenantContext->getTenant();
             $tenant = $this->tenantRepository->findOneByCode($data->getTenantCode());
-            $this->tenantContext->setTenant($tenant);
+            if (null !== $tenant) {
+                $this->tenantContext->setTenant($tenant);
+            }
         }
     }
 

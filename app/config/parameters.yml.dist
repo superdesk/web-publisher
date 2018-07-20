@@ -49,3 +49,13 @@ parameters:
 
     env(WEBSOCKET_PORT): 8080
     env(WEBSOCKET_HOST): 127.0.0.1
+
+    env(PAYWALL_SERVER_URL):
+    env(PAYWALL_SERVER_USERNAME):
+    env(PAYWALL_SERVER_PASSWORD):
+
+    env(SUBSCRIPTIONS_CACHE_LIFETIME): 86400 # 24 hours
+
+    # allows to load dev fixtures in test env
+    fixtures_type: '%env(FIXTURES_TYPE)%'
+    env(FIXTURES_TYPE): dev

@@ -19,15 +19,13 @@ namespace SWP\Bundle\ContentBundle\Loader;
 use Doctrine\Common\Collections\ArrayCollection;
 use SWP\Bundle\ContentBundle\Doctrine\ArticleAuthorRepositoryInterface;
 use SWP\Component\Common\Criteria\Criteria;
-use SWP\Component\Storage\Repository\RepositoryInterface;
-use SWP\Component\TemplatesSystem\Gimme\Context\Context;
 use SWP\Component\TemplatesSystem\Gimme\Factory\MetaFactoryInterface;
 use SWP\Component\TemplatesSystem\Gimme\Loader\LoaderInterface;
 use SWP\Component\TemplatesSystem\Gimme\Meta\MetaCollection;
 
 final class ArticleAuthorLoader extends PaginatedLoader implements LoaderInterface
 {
-    const SUPPORTED_TYPES = ['authors', 'author'];
+    public const SUPPORTED_TYPES = ['authors', 'author'];
 
     /**
      * @var MetaFactoryInterface
@@ -40,25 +38,17 @@ final class ArticleAuthorLoader extends PaginatedLoader implements LoaderInterfa
     private $authorRepository;
 
     /**
-     * @var Context
-     */
-    private $context;
-
-    /**
      * ArticleAuthorLoader constructor.
      *
      * @param MetaFactoryInterface             $metaFactory
      * @param ArticleAuthorRepositoryInterface $authorRepository
-     * @param Context                          $context
      */
     public function __construct(
         MetaFactoryInterface $metaFactory,
-        RepositoryInterface $authorRepository,
-        Context $context
+        ArticleAuthorRepositoryInterface $authorRepository
     ) {
         $this->metaFactory = $metaFactory;
         $this->authorRepository = $authorRepository;
-        $this->context = $context;
     }
 
     /**

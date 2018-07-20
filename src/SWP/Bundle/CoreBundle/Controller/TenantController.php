@@ -94,6 +94,13 @@ class TenantController extends FOSRestController
         $repository = $this->getTenantRepository();
         $tenant = $this->findOr404($code);
 
+        $articlesRepository = $this->get('swp.repository.article');
+        $existingArticles = $articlesRepository->findAll();
+
+        if (0 !== \count($existingArticles)) {
+            throw new ConflictHttpException('This tenant have articles attached to it.');
+        }
+
         $repository->remove($tenant);
 
         return new SingleResourceResponse(null, new ResponseContext(204));
