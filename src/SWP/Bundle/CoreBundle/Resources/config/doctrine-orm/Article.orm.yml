@@ -7,6 +7,9 @@ SWP\Bundle\CoreBundle\Model\Article:
         isPublishedFBIA:
             type: boolean
             nullable: true
+        paywallSecured:
+            type: boolean
+            nullable: true
     manyToOne:
         organization:
             targetEntity: SWP\Component\MultiTenancy\Model\OrganizationInterface

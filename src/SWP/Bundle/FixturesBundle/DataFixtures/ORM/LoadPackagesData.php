@@ -22,10 +22,6 @@ class LoadPackagesData extends AbstractFixture implements FixtureInterface, Orde
             $this->loadFixtures(
                 [
                     '@SWPFixturesBundle/Resources/fixtures/ORM/'.$env.'/package.yml',
-                ],
-                $manager,
-                [
-                    'providers' => [$this],
                 ]
             );
         }

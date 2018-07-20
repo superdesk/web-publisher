@@ -40,6 +40,11 @@ suites:
         psr4_prefix: SWP\Component\OutputChannel
         spec_path: src/SWP/Component/OutputChannel
         src_path: src/SWP/Component/OutputChannel
+    Paywall_suite:
+        namespace: SWP\Component\Paywall
+        psr4_prefix: SWP\Component\Paywall
+        spec_path: src/SWP/Component/Paywall
+        src_path: src/SWP/Component/Paywall
 
     # bundles
     MultiTenancyBundle_suite:
@@ -102,6 +107,11 @@ suites:
         psr4_prefix: SWP\Bundle\OutputChannelBundle
         spec_path: src/SWP/Bundle/OutputChannelBundle
         src_path: src/SWP/Bundle/OutputChannelBundle
+    PaywallBundle_suite:
+        namespace: SWP\Bundle\PaywallBundle
+        psr4_prefix: SWP\Bundle\PaywallBundle
+        spec_path: src/SWP/Bundle/PaywallBundle
+        src_path: src/SWP/Bundle/PaywallBundle
 
 #extensions:
 #    - PhpSpec\Extension\CodeCoverageExtension

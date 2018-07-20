@@ -11,3 +11,4 @@ Technical Cookbooks
    rules
    output_channels_adapters
    websocket
+   paywall

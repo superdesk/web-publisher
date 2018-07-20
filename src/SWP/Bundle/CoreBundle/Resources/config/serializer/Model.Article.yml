@@ -11,3 +11,6 @@ SWP\Bundle\CoreBundle\Model\Article:
             expose: true
         externalArticle:
             expose: true
+        paywallSecured:
+            expose: true
+            type: boolean

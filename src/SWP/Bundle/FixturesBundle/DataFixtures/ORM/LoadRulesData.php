@@ -31,10 +31,6 @@ class LoadRulesData extends AbstractFixture implements FixtureInterface, Ordered
         $this->loadFixtures(
             [
                 '@SWPFixturesBundle/Resources/fixtures/ORM/'.$env.'/rule.yml',
-            ],
-            $manager,
-            [
-                'providers' => [$this],
             ]
         );
     }
