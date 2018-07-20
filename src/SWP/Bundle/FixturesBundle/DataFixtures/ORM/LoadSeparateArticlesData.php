@@ -32,10 +32,6 @@ class LoadSeparateArticlesData extends AbstractFixture implements FixtureInterfa
             $this->loadFixtures(
                 [
                     '@SWPFixturesBundle/Resources/fixtures/ORM/'.$env.'/separate_article.yml',
-                ],
-                $manager,
-                [
-                    'providers' => [$this],
                 ]
             );
         }

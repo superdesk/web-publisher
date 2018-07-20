@@ -41,6 +41,73 @@ server.get('/wordpress/test_post', (req, res) => {
   }
 });
 
+// Payments Hub mock
+server.post('/api/v1/login_check', (req, res) => {
+    res.status(200).json({
+        token: '12345678',
+    });
+});
+
+server.get('/public-api/v1/subscriptions/:id', (req, res) => {
+    let id = 79;
+    let articleId = 20;
+    let routeId = 10;
+
+    if (req.query.articleId) {
+        id = 12;
+    }
+
+    if (req.query.routeId) {
+        id = 14;
+    }
+
+    res.status(200).json({
+        _embedded: {
+            items: [
+                {
+                    id: id,
+                    type: "recurring",
+                    metadata: {
+                        intention: "bottom_box",
+                        source: "web_version",
+                        articleId: articleId,
+                        routeId: routeId
+                    }
+                }
+            ]
+        },
+    });
+});
+
+server.get('/public-api/v1/subscription/:id', (req, res) => {
+    let id = 79;
+    let articleId = 20;
+    let routeId = 10;
+    let name = 'secured';
+
+    if (req.query.articleId) {
+        id = 12;
+        name = 'premium_content';
+    }
+
+    if (req.query.routeId) {
+        id = 14;
+    }
+
+    res.status(200).json({
+        id: id,
+        type: "recurring",
+        metadata: {
+            intention: "bottom_box",
+            source: "web_version",
+            articleId: articleId,
+            routeId: routeId,
+            name: name
+        },
+        state: 'fulfilled'
+    });
+});
+
 server.use('/api', router);
 server.listen(3000, () => {
   console.log('JSON Server is running');

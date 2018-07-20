@@ -104,7 +104,7 @@
         "phpspec/phpspec": "^4.2",
         "phpunit/phpunit": "^5.4.0",
         "liip/functional-test-bundle": "^2.0",
-        "doctrine/doctrine-fixtures-bundle": "^2.2",
+        "doctrine/doctrine-fixtures-bundle": "^3.0",
         "nelmio/alice": "^3.4",
         "matthiasnoback/symfony-dependency-injection-test": "^v1.1",
         "johnkary/phpunit-speedtrap": "^1.0",
@@ -138,7 +138,9 @@
         "swp/revision": "self.version",
         "swp/elastic-search-bundle": "self.version",
         "swp/output-channel-bundle": "self.version",
-        "swp/output-channel": "self.version"
+        "swp/output-channel": "self.version",
+        "swp/paywall-bundle": "self.version",
+        "swp/paywall": "self.version"
     },
     "scripts": {
         "post-install-cmd": [

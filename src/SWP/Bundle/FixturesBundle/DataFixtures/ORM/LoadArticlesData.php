@@ -28,6 +28,7 @@ use SWP\Bundle\CoreBundle\Model\ArticleEvent;
 use SWP\Bundle\CoreBundle\Model\ArticleEventInterface;
 use SWP\Bundle\CoreBundle\Model\PackageInterface;
 use SWP\Bundle\FixturesBundle\AbstractFixture;
+use SWP\Bundle\FixturesBundle\Faker\Provider\ArticleDataProvider;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class LoadArticlesData extends AbstractFixture implements FixtureInterface, OrderedFixtureInterface
@@ -219,30 +220,15 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface, Orde
         $manager->flush();
     }
 
-    /**
-     * Sets articles manually (not via Alice) for test env due to fatal error:
-     * Method PHPCRProxies\__CG__\Doctrine\ODM\PHPCR\Document\Generic::__toString() must not throw an exception.
-     */
     public function loadArticles($env, ObjectManager $manager)
     {
-        if ('test' !== $env) {
-            $this->loadFixtures([
-                '@SWPFixturesBundle/Resources/fixtures/ORM/'.$env.'/package.yml',
-            ],
-                $manager,
-                [
-                    'providers' => [$this],
-                ]
-            );
+        $articleDataProvider = $this->container->get(ArticleDataProvider::class);
 
-            $articles = $this->loadFixtures([
+        if ('test' !== $env) {
+            $data = $this->loadFixtures([
+                    '@SWPFixturesBundle/Resources/fixtures/ORM/'.$env.'/package.yml',
                     '@SWPFixturesBundle/Resources/fixtures/ORM/'.$env.'/article.yml',
-                ],
-                $manager,
-                [
-                    'providers' => [$this],
-                ],
-                true
+                ]
             );
 
             $renditions = [
@@ -303,7 +289,11 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface, Orde
                 }
             }
 
-            foreach ($articles as $article) {
+            foreach ((array) $data as $article) {
+                if (!$article instanceof \SWP\Bundle\CoreBundle\Model\ArticleInterface) {
+                    continue;
+                }
+
                 // randomly create two media (images) for each of the article
                 for ($i = 0; $i < 2; ++$i) {
                     // create Media
@@ -461,7 +451,7 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface, Orde
                 $article->setRoute($this->getRouteByName($articleData['route']));
                 $article->setLocale($articleData['locale']);
                 $article->setCode(md5($articleData['title']));
-                $article->setKeywords($this->articleKeywords());
+                $article->setKeywords($articleDataProvider->articleKeywords());
 
                 if (isset($articleData['extra'])) {
                     $article->setExtra($articleData['extra']);
@@ -546,56 +536,6 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface, Orde
         }
 
         return $articleStatistics;
-    }
-
-    /**
-     * @return array
-     */
-    public function articleKeywords()
-    {
-        $keywords = [
-            'city',
-            'traffic',
-            'car',
-            'news',
-            'building',
-        ];
-
-        shuffle($keywords);
-
-        return $keywords;
-    }
-
-    /**
-     * Article example metadata.
-     *
-     * @return array
-     */
-    public function articleMetadata()
-    {
-        $authors = [
-            'Sarrah Staffwriter',
-            'John Smith',
-            'Test Persona',
-            'Jane Stockwriter',
-            'James Q. Reporter',
-            'Karen Ruhiger',
-            'George Langsamer',
-        ];
-
-        return [
-            'located' => 'Sydney',
-            'byline' => $authors[array_rand($authors)],
-            'place' => [
-                [
-                    'qcode' => 'AUS',
-                    'world_region' => 'Rest Of World',
-                ], [
-                    'qcode' => 'EUR',
-                    'world_region' => 'Europe',
-                ],
-            ],
-        ];
     }
 
     private function cropAndResizeImage($fakeImage, array $rendition, $targetFile)

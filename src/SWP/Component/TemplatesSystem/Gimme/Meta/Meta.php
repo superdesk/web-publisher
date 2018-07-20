@@ -201,13 +201,18 @@ class Meta implements MetaInterface
     private function fillFromObject($values, array $configuration, string $name)
     {
         if (isset($configuration['properties'][$name])) {
+            $type = $configuration['properties'][$name]['type'];
+
             $getterName = 'get'.ucfirst($name);
+
+            if ('bool' === $type) {
+                $getterName = 'is'.ucfirst($name);
+            }
+
             if (method_exists($values, $getterName)) {
                 $this->$name = $values->$getterName();
             }
         }
-
-        unset($values, $configuration);
 
         return true;
     }

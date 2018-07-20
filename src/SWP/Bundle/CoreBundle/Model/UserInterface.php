@@ -19,8 +19,9 @@ namespace SWP\Bundle\CoreBundle\Model;
 use SWP\Bundle\SettingsBundle\Model\SettingsOwnerInterface;
 use SWP\Bundle\UserBundle\Model\UserInterface as BaseUserInterface;
 use SWP\Component\MultiTenancy\Model\OrganizationAwareInterface;
+use SWP\Component\Paywall\Model\SubscriberInterface;
 
-interface UserInterface extends BaseUserInterface, OrganizationAwareInterface, SettingsOwnerInterface
+interface UserInterface extends BaseUserInterface, OrganizationAwareInterface, SettingsOwnerInterface, SubscriberInterface
 {
     const ROLE_READER = 'ROLE_READER';
 }
