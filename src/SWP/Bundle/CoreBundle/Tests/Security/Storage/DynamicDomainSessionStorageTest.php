@@ -14,6 +14,8 @@
 
 namespace SWP\Bundle\CoreBundle\Tests;
 
+use SWP\Bundle\CoreBundle\Model\Organization;
+use SWP\Bundle\CoreBundle\Model\Tenant;
 use SWP\Bundle\CoreBundle\Security\Storage\DynamicDomainSessionStorage;
 use SWP\Bundle\FixturesBundle\WebTestCase;
 
@@ -21,7 +23,14 @@ class DynamicDomainSessionStorageTest extends WebTestCase
 {
     public function testSettingOptionsInSessionNStorage()
     {
-        new DynamicDomainSessionStorage('testing.dev');
+        $tenant = new Tenant();
+        $tenant->setDomainName('testing.dev');
+        $tenant->setOrganization(new Organization());
+
+        $tenantContext = $this->getContainer()->get('swp_multi_tenancy.tenant_context');
+        $tenantContext->setTenant($tenant);
+
+        new DynamicDomainSessionStorage($tenantContext);
 
         self::assertEquals('.testing.dev', ini_get('session.cookie_domain'));
         self::assertEquals(true, ini_get('session.cookie_httponly'));
