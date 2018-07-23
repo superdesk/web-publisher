@@ -168,7 +168,7 @@ services:
     swp_core.security.session.domain_dynamic_storage:
         class: SWP\Bundle\CoreBundle\Security\Storage\DynamicDomainSessionStorage
         arguments:
-            - "%env(SWP_DOMAIN)%"
+            - "@swp_multi_tenancy.tenant_context"
 
     swp_core.listener.article_rules_subscriber:
         class: SWP\Bundle\CoreBundle\EventSubscriber\ProcessArticleRulesSubscriber
