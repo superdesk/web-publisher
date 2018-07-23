@@ -19,10 +19,11 @@ namespace SWP\Bundle\CoreBundle\Model;
 use SWP\Bundle\ContentBundle\Model\RouteInterface;
 use SWP\Component\Common\Model\TimestampableTrait;
 use SWP\Component\MultiTenancy\Model\OrganizationAwareTrait;
+use SWP\Component\Paywall\Model\PaywallSecuredTrait;
 
 class PublishDestination implements PublishDestinationInterface
 {
-    use TimestampableTrait, OrganizationAwareTrait;
+    use TimestampableTrait, OrganizationAwareTrait, PaywallSecuredTrait;
 
     /**
      * @var string
