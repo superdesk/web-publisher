@@ -16,17 +16,17 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\CoreBundle\Security\Storage;
 
-use SWP\Bundle\CoreBundle\Context\CachedTenantContextInterface;
+use SWP\Component\MultiTenancy\Context\TenantContextInterface;
 use Symfony\Component\HttpFoundation\Session\Storage\NativeSessionStorage;
 
 class DynamicDomainSessionStorage extends NativeSessionStorage
 {
     /**
-     * @var CachedTenantContextInterface
+     * @var TenantContextInterface
      */
     protected $tenantContext;
 
-    public function __construct(CachedTenantContextInterface $tenantContext)
+    public function __construct(TenantContextInterface $tenantContext)
     {
         $this->tenantContext = $tenantContext;
 
