@@ -45,3 +45,9 @@ services:
              - [setLogger, ['@logger']]
         tags:
             - { name: applicator.rule_applicator }
+
+    SWP\Bundle\CoreBundle\Rule\Applicator\PaywallSecuredRuleApplicator:
+        calls:
+             - [setLogger, ['@logger']]
+        tags:
+            - { name: applicator.rule_applicator }

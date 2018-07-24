@@ -110,3 +110,56 @@ Routes:
         {% endif %}
         # ...
     {% endgimme %}
+
+How to mark articles as paywall-secured using rules
+---------------------------------------------------
+
+Read more about it in :doc:`this section </cookbooks/developers/rules>`.
+
+
+How to mark articles as paywall-secured by manually publishing packages
+-----------------------------------------------------------------------
+
+You can also directly publish a package and mark articles as "paywall-secured" by making a ``POST`` request to
+``/api/v1/packages/<package_id>/publish/`` API endpoint with body:
+
+.. code-block:: json
+
+    {
+        "publish":{
+          "destinations":[
+            {
+              "tenant":"123abc",
+              "route":6,
+              "fbia":false,
+              "published":true,
+              "paywallSecured":true
+            }
+          ]
+        }
+    }
+
+How to override paywall-secured option using publish destination
+----------------------------------------------------------------
+
+If there is a rule configured that marks all the articles matching given expression as "paywall-secured", you can use
+publish destinations to override existing publish workflow for specific packages on specific tenants.
+
+To do this, make a ``POST`` request to
+``/api/v1/organization/destinations/`` API endpoint with body:
+
+.. code-block:: json
+
+      {
+        "publish_destination":{
+          "tenant":"123abc",
+          "route":5,
+          "fbia":false,
+          "published":true,
+          "paywallSecured":false,
+          "packageGuid": "urn:newsml:sd-master.test.superdesk.org:2022-09-19T09:26:52.402693:f0d01867-e91e-487e-9a50-b638b78fc4bc"
+        }
+      }
+
+The following destination will be processed when package will be published. The package will be published to tenant with code ``123abc``,
+route with id ``5`` and won`t be marked as "paywall-secured" even if there is a rule marking it as paywall-secured.
