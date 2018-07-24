@@ -147,7 +147,7 @@ class AuthController extends Controller
                 $publisherUser = $userManager->createUser();
                 $publisherUser->setUsername($superdeskUser['username']);
                 $publisherUser->setEmail($superdeskUser['email']);
-                $publisherUser->setRoles(['ROLE_INTERNAL_API', 'ROLE_USER']);
+                $publisherUser->setRoles(['ROLE_INTERNAL_API']);
                 $publisherUser->setFirstName($superdeskUser['first_name']);
                 $publisherUser->setLastName($superdeskUser['last_name']);
                 $publisherUser->setPlainPassword(password_hash(random_bytes(36), PASSWORD_BCRYPT));
