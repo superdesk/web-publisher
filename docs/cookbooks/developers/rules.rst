@@ -113,6 +113,36 @@ If the content will be pushed to the tenant, the content will be also submitted 
 
 Read more about Facebook Instant Articles in :doc:`this section </cookbooks/editors/configure_facebook_instant_articles>`.
 
+4. Adding a tenant rule to make an article paywall-secured
+----------------------------------------------------------
+
+Articles can be marked as paywall-secured so an access can be restricted to such articles.
+To do that, create a new tenant rule by making a ``POST``
+request to the ``/api/v1/rules/`` API endpoint with the JSON body:
+
+.. code-block:: json
+
+    {
+        "rule":{
+          "name":"Make articles paywall-secured",
+          "description":"Marks articles as paywall-secured.",
+          "priority":1,
+          "expression":"article.getMetadataByKey(\"located\") matches \"/Sydney/\"",
+          "configuration":[
+            {
+              "key":"paywallSecured",
+              "value":true
+            }
+          ]
+        }
+    }
+
+Note the ``paywallSecured`` key in the ``configuration`` property is set to ``true``.
+
+If the content will be pushed to the tenant and will match given expression, the "paywall-secured" flag will be set to ``true``.
+
+Read more about Paywall in :doc:`this section </cookbooks/developers/paywall>`.
+
 Evaluation of the rules which match given package/item
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
