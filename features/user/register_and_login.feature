@@ -1,6 +1,6 @@
 @user
 Feature: Registering and login as new user publisher
-  In order to wotk with readers accounts
+  In order to work with readers accounts
   As a HTTP Client
   I want to be able to register new account and use it for login
 
