@@ -2,11 +2,13 @@
 
 use Behat\Behat\Context\Context;
 use Behat\Behat\Context\SnippetAcceptingContext;
+use Behat\MinkExtension\Context\MinkAwareContext;
+use Behat\MinkExtension\Context\RawMinkContext;
 
 /**
  * Defines application features from the specific context.
  */
-class FeatureContext implements Context, SnippetAcceptingContext
+class FeatureContext extends RawMinkContext implements Context, SnippetAcceptingContext, MinkAwareContext
 {
     private $output = '';
 
@@ -44,5 +46,16 @@ class FeatureContext implements Context, SnippetAcceptingContext
         if (false === strpos($this->exception, $result)) {
             throw new \Exception(sprintf('Could not see "%s" in exception "%s"', $result, $this->exception->getMessage()));
         }
+    }
+
+    /**
+     * @When /^I follow the redirection$/
+     * @Then /^I should be redirected$/
+     */
+    public function iFollowTheRedirection()
+    {
+        $client = $this->getMink()->getSession()->getDriver()->getClient();
+        $client->followRedirects(true);
+        $client->followRedirect();
     }
 }

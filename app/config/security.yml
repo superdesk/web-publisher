@@ -60,4 +60,6 @@ security:
             anonymous: true
 
     access_control:
-        - { path: ^/preview/article, roles: ROLE_EDITOR }
+        - { path: "^/preview/article", roles: ROLE_EDITOR }
+        - { path: "^/api/[v0-9]{2}/users/profile/*", roles: ROLE_USER }
+        - { path: "^/api", roles: ROLE_INTERNAL_API }

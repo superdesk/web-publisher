@@ -49,12 +49,14 @@ class ProfileController extends Controller
      * @Route("/api/{version}/users/profile/{id}", options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_user_get_user_profile")
      * @Method("GET")
      */
-    public function getAction(Request $request, $id)
+    public function getAction($id)
     {
         $requestedUser = $this->container->get('swp.repository.user')->find($id);
         if (!is_object($requestedUser) || !$requestedUser instanceof UserInterface) {
             throw new NotFoundHttpException('Requested user don\'t exists');
         }
+
+        $this->checkIfCanAccess($requestedUser);
 
         return new SingleResourceResponse($requestedUser);
     }
@@ -82,14 +84,7 @@ class ProfileController extends Controller
             throw new NotFoundHttpException('Requested user don\'t exists');
         }
 
-        /** @var UserInterface $currentUser */
-        $currentUser = $this->getUser();
-        if (
-            !$this->get('security.authorization_checker')->isGranted('ROLE_ADMIN') &&
-            $requestedUser->getId() !== $currentUser->getId()
-        ) {
-            throw new AccessDeniedException('This user does not have access to this section.');
-        }
+        $this->checkIfCanAccess($requestedUser);
 
         /** @var $dispatcher EventDispatcherInterface */
         $dispatcher = $this->get('event_dispatcher');
@@ -113,5 +108,17 @@ class ProfileController extends Controller
         }
 
         return new SingleResourceResponse($form, new ResponseContext(400));
+    }
+
+    private function checkIfCanAccess($requestedUser)
+    {
+        /** @var UserInterface $currentUser */
+        $currentUser = $this->getUser();
+        if (
+            !$this->get('security.authorization_checker')->isGranted('ROLE_ADMIN') &&
+            $requestedUser->getId() !== $currentUser->getId()
+        ) {
+            throw new AccessDeniedException('This user does not have access to this section. profile');
+        }
     }
 }

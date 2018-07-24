@@ -15,6 +15,7 @@
 namespace SWP\Bundle\CoreBundle\Tests\Controller;
 
 use SWP\Bundle\FixturesBundle\WebTestCase;
+use Symfony\Bundle\FrameworkBundle\Client;
 use Symfony\Bundle\SwiftmailerBundle\DataCollector\MessageDataCollector;
 use GuzzleHttp;
 
@@ -114,26 +115,26 @@ class AuthControllerTest extends WebTestCase
             'HTTP_HOST' => 'client2.'.$domain,
             'HTTP_Authorization' => base64_encode('client2_token'),
         ]);
-        $client2->request('GET', $this->router->generate('swp_api_user_get_user_profile', ['id' => 1]));
+        $client2->request('GET', $this->router->generate('swp_api_user_get_user_profile', ['id' => 3]));
         self::assertEquals(200, $client2->getResponse()->getStatusCode());
 
         $client1 = static::createClient([], [
             'HTTP_HOST' => 'client1.'.$domain,
             'HTTP_Authorization' => base64_encode('client2_token'),
         ]);
-        $client1->request('GET', $this->router->generate('swp_api_user_get_user_profile', ['id' => 1]));
+        $client1->request('GET', $this->router->generate('swp_api_user_get_user_profile', ['id' => 3]));
         self::assertEquals(403, $client1->getResponse()->getStatusCode());
 
         $client = static::createClient([], [
             'HTTP_Authorization' => base64_encode('client2_token'),
         ]);
-        $client->request('GET', $this->router->generate('swp_api_user_get_user_profile', ['id' => 1]));
+        $client->request('GET', $this->router->generate('swp_api_user_get_user_profile', ['id' => 3]));
         self::assertEquals(200, $client->getResponse()->getStatusCode());
 
         $client = static::createClient([], [
             'HTTP_Authorization' => base64_encode('client1_token'),
         ]);
-        $client->request('GET', $this->router->generate('swp_api_user_get_user_profile', ['id' => 1]));
+        $client->request('GET', $this->router->generate('swp_api_user_get_user_profile', ['id' => 2]));
         self::assertEquals(403, $client->getResponse()->getStatusCode());
     }
 
@@ -151,18 +152,8 @@ class AuthControllerTest extends WebTestCase
                 ],
             ],
         ]);
-        /** @var MessageDataCollector $swiftMailer */
-        $swiftMailer = $client->getProfile()->getCollector('swiftmailer');
 
-        /** @var \Swift_Message $message */
-        $messageBody = $swiftMailer->getMessages()[0]->getBody();
-        $client->followRedirect();
-        self::assertEquals(200, $client->getResponse()->getStatusCode());
-
-        // activate URL
-        preg_match_all('#\bhttps?://[^\s()<>]+(?:\([\w\d]+\)|([^[:punct:]\s]|/))#', $messageBody, $match);
-        $client->request('GET', $match[0][0]);
-        self::assertEquals(302, $client->getResponse()->getStatusCode());
+        $this->activateUser($client);
 
         $client->request('POST', $this->router->generate('swp_api_auth'), [
             'auth' => [
@@ -197,6 +188,21 @@ class AuthControllerTest extends WebTestCase
         self::assertEquals('Test', $content['firstName']);
         self::assertEquals('User', $content['lastName']);
         self::assertEquals('About content', $content['about']);
+    }
+
+    private function activateUser(Client $client): void
+    {
+        /** @var MessageDataCollector $swiftMailer */
+        $swiftMailer = $client->getProfile()->getCollector('swiftmailer');
+        /** @var \Swift_Message $message */
+        $messageBody = $swiftMailer->getMessages()[0]->getBody();
+        $client->followRedirect();
+        self::assertEquals(200, $client->getResponse()->getStatusCode());
+
+        // activate URL
+        preg_match_all('#\bhttps?://[^\s()<>]+(?:\([\w\d]+\)|([^[:punct:]\s]|/))#', $messageBody, $match);
+        $client->request('GET', $match[0][0]);
+        self::assertEquals(302, $client->getResponse()->getStatusCode());
     }
 
     public function testSuperdeskAuthentication()
