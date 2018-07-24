@@ -35,7 +35,9 @@ final class PublishDestinationType extends AbstractType
             ->add('route', TenantAwareRouteSelectorType::class)
             ->add('fbia', BooleanType::class)
             ->add('packageGuid', TextType::class)
-            ->add('published', BooleanType::class);
+            ->add('published', BooleanType::class)
+            ->add('paywallSecured', BooleanType::class)
+        ;
     }
 
     /**
