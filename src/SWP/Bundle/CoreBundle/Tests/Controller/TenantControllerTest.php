@@ -258,9 +258,8 @@ class TenantControllerTest extends WebTestCase
 
     public function testLoadNotExistingTenant()
     {
-        $client = static::createClient();
         $client = static::createClient([], [
-            'HTTP_HOST' => 'notexisting.'.$client->getContainer()->getParameter('env(SWP_DOMAIN)'),
+            'HTTP_HOST' => 'notexisting.'.static::createClient()->getContainer()->getParameter('env(SWP_DOMAIN)'),
         ]);
         $client->request('GET', $this->router->generate('swp_api_core_get_tenant', ['code' => '123abc']));
         self::assertEquals(404, $client->getResponse()->getStatusCode());
@@ -270,5 +269,16 @@ class TenantControllerTest extends WebTestCase
         self::assertEquals(404, $client->getResponse()->getStatusCode());
         self::assertContains('Tenant for host "notexisting.localhost" could not be found!', $client->getResponse()->getContent());
         self::assertEquals('text/html; charset=UTF-8', $client->getResponse()->headers->get('Content-Type'));
+    }
+
+    public function testCountingTenantArticles()
+    {
+        $this->loadCustomFixtures(['tenant', 'article']);
+
+        $client = static::createClient();
+        $client->request('GET', $this->router->generate('swp_api_core_get_tenant', ['code' => '123abc']));
+        $response = \json_decode($client->getResponse()->getContent(), true);
+
+        self::assertTrue(5 === $response['articlesCount']);
     }
 }
