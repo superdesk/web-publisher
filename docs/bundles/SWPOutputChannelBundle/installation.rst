@@ -32,7 +32,7 @@ Enable the bundle by adding the following lines in the ``app/AppKernel.php`` fil
 
                 new SWP\Bundle\StorageBundle\SWPStorageBundle()
                 // ...
-                new SWP\Bundle\WebhookBundle\SWPOutputChannelBundle(),
+                new SWP\Bundle\OutputChannelBundle\SWPOutputChannelBundle(),
             );
 
             // ...

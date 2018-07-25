@@ -7,6 +7,9 @@ This changelog references the relevant changes (bug and security fixes) done in 
 To get the diff for a specific change, go to https://github.com/superdesk/web-publisher/commit/XXX where XXX is the change hash
 
 * 1.4.0
+ * feature [#583] Allow to mark articles as "paywall-secured" using rules and destinations
+ * bug [#581] Use domain name from tenant as a value of cookie_domain
+ * feature [#574] Paywall implementation
  * improvement [#560] Add sufix (generated from package guid) for duplicated article slugs
  * bug [#556] Fixed boolean values in Settings API
  * feature [#548] Added periodic ping calls to keep WebSocket connection alive

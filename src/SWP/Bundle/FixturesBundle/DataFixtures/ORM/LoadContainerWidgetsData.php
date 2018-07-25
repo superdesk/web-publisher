@@ -32,10 +32,6 @@ class LoadContainerWidgetsData extends AbstractFixture implements FixtureInterfa
             $this->loadFixtures(
                 [
                     '@SWPFixturesBundle/Resources/fixtures/ORM/'.$env.'/WidgetModel.yml',
-                ],
-                $manager,
-                [
-                    'providers' => [$this],
                 ]
             );
         }

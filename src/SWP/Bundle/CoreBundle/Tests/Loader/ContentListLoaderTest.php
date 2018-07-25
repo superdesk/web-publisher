@@ -25,11 +25,6 @@ class ContentListLoaderTest extends WebTestCase
     private $twig;
 
     /**
-     * @var WebTestCase
-     */
-    private $client;
-
-    /**
      * SetUp test.
      */
     public function setUp()
@@ -45,7 +40,6 @@ class ContentListLoaderTest extends WebTestCase
         );
 
         $this->twig = $this->getContainer()->get('twig');
-        $this->client = static::createClient();
         $this->getContainer()->get('event_dispatcher')->dispatch(MultiTenancyEvents::TENANTABLE_ENABLE);
     }
 

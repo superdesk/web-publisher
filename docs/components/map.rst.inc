@@ -4,3 +4,4 @@
 * :doc:`/components/Rule/index`
 * :doc:`/components/ContentList/index`
 * :doc:`/components/OutputChannel/index`
+* :doc:`/components/Paywall/index`

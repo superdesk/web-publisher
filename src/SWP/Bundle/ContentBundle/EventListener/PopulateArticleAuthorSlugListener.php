@@ -18,6 +18,7 @@ namespace SWP\Bundle\ContentBundle\EventListener;
 
 use Doctrine\Common\Persistence\Event\LifecycleEventArgs;
 use SWP\Bundle\ContentBundle\Model\ArticleAuthorInterface;
+use SWP\Bundle\ContentBundle\Processor\ArticleAuthorProcessor;
 
 final class PopulateArticleAuthorSlugListener
 {
@@ -32,8 +33,6 @@ final class PopulateArticleAuthorSlugListener
             return;
         }
 
-        if (null === $object->getSlug()) {
-            $object->setSlug($object->getName());
-        }
+        ArticleAuthorProcessor::setSlugInArticleAuthor($object);
     }
 }

@@ -1,0 +1,25 @@
+name: subscription
+class: 'SWP\Component\Paywall\Model\SubscriptionInterface'
+description: Subscription Meta is representation of subscription
+properties:
+    id:
+        description: "Subscription's id"
+        type: text
+    type:
+        description: "Subscription's type"
+        type: text
+    code:
+        description: "Subscription's code"
+        type: text
+    details:
+        description: "Subscription details"
+        type: array
+    active:
+        description: "Is subscription active?"
+        type: bool
+    createdAt:
+        description: "Subscription created timestamp"
+        type: datetime
+    updatedAt:
+        description: "Subscription update timestamp"
+        type: datetime

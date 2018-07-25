@@ -20,4 +20,7 @@ properties:
     type:
         description: "Route type"
         type: text
+    paywallSecured:
+        description: "Is secured by the paywall?"
+        type: bool
 to_string: path

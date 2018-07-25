@@ -21,7 +21,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use SWP\Bundle\CoreBundle\Context\ScopeContextInterface;
 use SWP\Bundle\CoreBundle\Form\Type\ThemeLogoUploadType;
-use SWP\Component\Common\Response\ResourcesListResponse;
+use SWP\Bundle\CoreBundle\Theme\Provider\ThemeLogoProviderInterface;
 use SWP\Component\Common\Response\ResponseContext;
 use SWP\Component\Common\Response\SingleResourceResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -40,15 +40,17 @@ class CurrentThemeController extends Controller
      *     },
      *     input="SWP\Bundle\CoreBundle\Form\Type\ThemeLogoUploadType"
      * )
-     * @Route("/api/{version}/theme/logo_upload/", options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_upload_theme_logo")
+     * @Route("/api/{version}/theme/logo_upload/", options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_upload_theme_logo_2")
+     * @Route("/api/{version}/theme/logo_upload/{type}", options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_upload_theme_logo")
      *
      * @Method("POST")
      *
      * @param Request $request
+     * @param string  $type
      *
-     * @return ResourcesListResponse
+     * @return SingleResourceResponse
      */
-    public function uploadThemeLogoAction(Request $request)
+    public function uploadThemeLogoAction(Request $request, string $type = ThemeLogoProviderInterface::SETTING_NAME_DEFAULT)
     {
         $themeContext = $this->get('swp_core.theme.context.tenant_aware');
 
@@ -65,7 +67,7 @@ class CurrentThemeController extends Controller
 
             try {
                 $settingsManager = $this->get('swp_settings.manager.settings');
-                $setting = $settingsManager->get('theme_logo', ScopeContextInterface::SCOPE_THEME, $currentTenant);
+                $setting = $settingsManager->get($type, ScopeContextInterface::SCOPE_THEME, $currentTenant);
                 $theme->setLogoPath($setting);
                 $themeLogoUploader = $this->get('swp_core.uploader.theme_logo');
                 $themeLogoUploader->upload($theme);
@@ -74,7 +76,7 @@ class CurrentThemeController extends Controller
             }
 
             $settingsManager = $this->get('swp_settings.manager.settings');
-            $setting = $settingsManager->set('theme_logo', $theme->getLogoPath(), ScopeContextInterface::SCOPE_THEME, $currentTenant);
+            $setting = $settingsManager->set($type, $theme->getLogoPath(), ScopeContextInterface::SCOPE_THEME, $currentTenant);
 
             return new SingleResourceResponse($setting, new ResponseContext(201));
         }

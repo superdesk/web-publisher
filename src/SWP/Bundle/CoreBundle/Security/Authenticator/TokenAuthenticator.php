@@ -120,8 +120,6 @@ class TokenAuthenticator extends AbstractGuardAuthenticator
 
         /** @var CoreUserInterface $user */
         $user = $apiKey->getUser();
-        $user->addRole('ROLE_INTERNAL_API');
-        $this->apiKeyRepository->flush();
 
         if (array_key_exists('intention', $credentials) && self::INTENTION_LIVESITE_EDITOR === $credentials['intention']) {
             $user->addRole('ROLE_LIVESITE_EDITOR');

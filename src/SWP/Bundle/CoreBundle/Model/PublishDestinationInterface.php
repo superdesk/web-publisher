@@ -18,9 +18,10 @@ namespace SWP\Bundle\CoreBundle\Model;
 
 use SWP\Bundle\ContentBundle\Model\RouteInterface;
 use SWP\Component\Common\Model\TimestampableInterface;
+use SWP\Component\Paywall\Model\PaywallSecuredInterface;
 use SWP\Component\Storage\Model\PersistableInterface;
 
-interface PublishDestinationInterface extends TimestampableInterface, PersistableInterface
+interface PublishDestinationInterface extends TimestampableInterface, PersistableInterface, PaywallSecuredInterface
 {
     /**
      * @param RouteInterface $route

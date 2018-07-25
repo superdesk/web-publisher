@@ -1,0 +1,6 @@
+jms_serializer:
+    metadata:
+        directories:
+            SWPPaywallBundle:
+                namespace_prefix: "SWP\\Component\\Paywall"
+                path: "@SWPPaywallBundle/Resources/config/serializer"

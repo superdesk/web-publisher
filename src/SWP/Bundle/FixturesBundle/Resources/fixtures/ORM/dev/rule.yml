@@ -3,6 +3,6 @@ SWP\Bundle\CoreBundle\Model\Rule:
         tenantCode: "123abc"
         priority: 1
         configuration:
-            route: "<getRouteByName('politics')->getId()>"
+            route: "<getRouteIdByName('politics')>"
             published: true
         expression: 'article.getLocale() matches "/en/"'

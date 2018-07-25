@@ -1,0 +1,38 @@
+{
+  "name": "swp/paywall-bundle",
+  "type": "symfony-bundle",
+  "description": "Paywall implementation for Symfony applications.",
+  "keywords": ["paywall", "subscriptions", "billing", "superdesk", "publisher", "publishing"],
+  "license":"AGPL-3.0",
+  "minimum-stability": "dev",
+  "authors": [
+    {
+      "name": "Rafał Muszyński",
+      "email": "rafal.muszynski@sourcefabric.org"
+    }
+  ],
+  "repositories": [
+    {
+      "type": "path",
+      "url": "../../*/*"
+    }
+  ],
+  "require": {
+    "php": "^7.1",
+    "symfony/dependency-injection": "^3.1",
+    "symfony/config": "^3.1",
+    "swp/paywall": "^1.4",
+    "swp/common": "^1.4"
+  },
+  "autoload": {
+    "psr-4": { "SWP\\Bundle\\PaywallBundle\\": "" }
+  },
+  "config": {
+    "bin-dir": "bin"
+  },
+  "extra": {
+    "branch-alias": {
+      "dev-master": "1.4-dev"
+    }
+  }
+}

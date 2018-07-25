@@ -85,7 +85,7 @@ class RegistrationController extends Controller
 
             $event = new FormEvent($form, $request);
             $dispatcher->dispatch(FOSUserEvents::REGISTRATION_SUCCESS, $event);
-
+            $formData->addRole('ROLE_USER');
             $this->get('swp.repository.user')->add($formData);
 
             if (null === ($response = $event->getResponse())) {

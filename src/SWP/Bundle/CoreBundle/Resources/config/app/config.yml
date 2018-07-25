@@ -39,8 +39,6 @@ doctrine:
                     soft-deleteable:
                         class: Gedmo\SoftDeleteable\Filter\SoftDeleteableFilter
                         enabled: true
-fidry_alice_data_fixtures:
-    default_purge_mode: "no_purge"
 
 jms_serializer:
     metadata:
@@ -269,6 +267,14 @@ swp_settings:
             type: string
             value: "{}"
         theme_logo:
+            value: ""
+            scope: theme
+            type: string
+        theme_logo_second:
+            value: ""
+            scope: theme
+            type: string
+        theme_logo_third:
             value: ""
             scope: theme
             type: string

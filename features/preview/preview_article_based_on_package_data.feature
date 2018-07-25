@@ -92,6 +92,9 @@ Feature: Preview article under route based on package data
     When I go to "http://localhost/preview/publish/package/0123456789"
     Then the response status code should be 200
     And the response should contain "package preview test"
+    And the response should contain "Name: Nareg Asmarian"
+    And the response should contain "Slug: nareg-asmarian"
+    And the response should contain "Biography: bioquil edit"
     And I am authenticated as "test.user"
     When I add "Content-Type" header equal to "application/json"
     And I send a "POST" request to "/api/{version}/preview/package/generate_token/7" with body:
