@@ -321,6 +321,9 @@ old_sound_rabbit_mq:
         send_webhook:
             connection:       default
             exchange_options: {name: '%kernel.environment%_%kernel.secret%_send_webhook', type: direct}
+        run_command:
+            connection:       default
+            exchange_options: {name: '%kernel.environment%_%kernel.secret%_run_command', type: direct}
     consumers:
         send_webhook:
             connection:       default
@@ -332,6 +335,11 @@ old_sound_rabbit_mq:
             exchange_options: {name: '%kernel.environment%_%kernel.secret%_analytics_event', type: direct}
             queue_options:    {name: '%kernel.environment%_%kernel.secret%_analytics_event'}
             callback:         SWP\Bundle\CoreBundle\Consumer\AnalyticsEventConsumer
+        run_command:
+            connection:       default
+            exchange_options: {name: '%kernel.environment%_%kernel.secret%_run_command', type: direct}
+            queue_options:    {name: '%kernel.environment%_%kernel.secret%_run_command'}
+            callback:         SWP\Bundle\CoreBundle\Consumer\CommandConsumer
 
 bazinga_hateoas:
     twig_extension:

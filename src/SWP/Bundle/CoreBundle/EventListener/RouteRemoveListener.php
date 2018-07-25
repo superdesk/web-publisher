@@ -17,13 +17,15 @@ declare(strict_types=1);
 namespace SWP\Bundle\CoreBundle\EventListener;
 
 use Doctrine\ORM\EntityManagerInterface;
+use OldSound\RabbitMqBundle\RabbitMq\ProducerInterface;
 use SWP\Bundle\ContentBundle\Event\ArticleEvent;
 use SWP\Bundle\ContentBundle\Event\RouteEvent;
 use SWP\Bundle\ContentBundle\Model\Article;
 use SWP\Bundle\ContentBundle\Model\ArticleInterface;
 use SWP\Bundle\CoreBundle\Model\Package;
-use SWP\Bundle\CoreBundle\Model\PackageInterface;
 use SWP\Bundle\CoreBundle\Repository\MenuItemRepositoryInterface;
+use SWP\Component\Bridge\Model\ContentInterface;
+use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\HttpKernel\Exception\ConflictHttpException;
 
 final class RouteRemoveListener
@@ -39,15 +41,21 @@ final class RouteRemoveListener
     private $menuItemRepository;
 
     /**
+     * @var ProducerInterface
+     */
+    private $producer;
+
+    /**
      * RouteRemoveListener constructor.
      *
      * @param EntityManagerInterface      $manager
      * @param MenuItemRepositoryInterface $menuItemRepository
      */
-    public function __construct(EntityManagerInterface $manager, MenuItemRepositoryInterface $menuItemRepository)
+    public function __construct(EntityManagerInterface $manager, MenuItemRepositoryInterface $menuItemRepository, ProducerInterface $producer)
     {
         $this->manager = $manager;
         $this->menuItemRepository = $menuItemRepository;
+        $this->producer = $producer;
     }
 
     /**
@@ -62,7 +70,7 @@ final class RouteRemoveListener
 
         $queryBuilder = $this->manager->createQueryBuilder();
         $queryBuilder->update(Package::class, 'p')
-            ->set('p.status', $queryBuilder->expr()->literal(PackageInterface::STATUS_USABLE))
+            ->set('p.status', $queryBuilder->expr()->literal(ContentInterface::STATUS_USABLE))
             ->where('p.id IN (SELECT a.id FROM SWP\Bundle\CoreBundle\Model\Article a WHERE a.route = :route AND a.package = p.id)')
             ->setParameter('route', $route->getId())
             ->getQuery()
@@ -75,5 +83,11 @@ final class RouteRemoveListener
             ->setParameter('route', $route->getId())
             ->getQuery()
             ->execute();
+
+        $this->producer->publish(serialize(new ArrayInput([
+            'command' => 'fos:elastica:reset',
+            '--index' => 'swp',
+            '--type' => 'article',
+        ])));
     }
 }
