@@ -91,6 +91,9 @@ script:
 - cd src/SWP/Bundle/UserBundle && composer $COMPOSER_FLAGS --no-interaction --prefer-dist
   && bin/phpunit --stderr
 
+after_failure:
+  - tail -n 300 app/logs/test.log
+
 cache:
   directories:
   - node_modules
