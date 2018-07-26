@@ -82,7 +82,7 @@ class RendererService implements RendererServiceInterface
         $this->containerRendererFactory = $containerRendererFactory;
     }
 
-    public function getContainerRenderer(string $name, array $parameters = [], $createIfNotExists = true, ContainerInterface $container = null): ContainerRenderer
+    public function getContainerRenderer(string $name, array $parameters = [], bool $createIfNotExists = true, ContainerInterface $container = null): ContainerRenderer
     {
         if (!$container instanceof ContainerInterface) {
             $container = $this->containerProvider->getOneByName($name);

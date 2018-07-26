@@ -96,6 +96,9 @@ class ContainerController extends Controller
      *     statusCodes={
      *         200="Returned on success.",
      *         404="Container not found"
+     *     },
+     *     parameters={
+     *         {"name"="onlyWidgets", "dataType"="bool", "required"=false, "description"="Render only container widgets (without container wrapper)"}
      *     }
      * )
      * @Route("/api/{version}/templates/containers/{uuid}/render/", requirements={"uuid"="\w+"}, options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_templates_render_container")
