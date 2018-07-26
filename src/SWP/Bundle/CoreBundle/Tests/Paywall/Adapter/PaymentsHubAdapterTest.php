@@ -48,6 +48,43 @@ final class PaymentsHubAdapterTest extends WebTestCase
         self::assertInstanceOf(SubscriptionInterface::class, $subscriptions[0]);
     }
 
+    public function testGettingSubscriptionsByCriteria(): void
+    {
+        /** @var PaywallAdapterInterface $paymentsHubAdapter */
+        $paymentsHubAdapter = $this->getContainer()->get(PaymentsHubAdapter::class);
+
+        $subscriber = $this->getSubscriber();
+
+        $subscriptions = $paymentsHubAdapter->getSubscriptions($subscriber, [
+            'metadata.articleId' => 12,
+        ]);
+
+        self::assertCount(1, $subscriptions);
+        self::assertInstanceOf(SubscriptionInterface::class, $subscriptions[0]);
+        self::assertEquals('12', $subscriptions[0]->getId());
+
+        $subscriptionDetails = $subscriptions[0]->getDetails();
+
+        self::assertEquals('12', $subscriptionDetails['articleId']);
+        self::assertEquals('premium_content', $subscriptionDetails['name']);
+        self::assertEquals('test.user@sourcefabric.org', $subscriptionDetails['email']);
+
+        $subscriptions = $paymentsHubAdapter->getSubscriptions($subscriber, [
+            'metadata.routeId' => 30,
+        ]);
+
+        self::assertCount(1, $subscriptions);
+        self::assertInstanceOf(SubscriptionInterface::class, $subscriptions[0]);
+        self::assertEquals('14', $subscriptions[0]->getId());
+
+        $subscriptionDetails = $subscriptions[0]->getDetails();
+
+        self::assertEquals('30', $subscriptionDetails['routeId']);
+        self::assertEquals('20', $subscriptionDetails['articleId']);
+        self::assertEquals('secured', $subscriptionDetails['name']);
+        self::assertEquals('test.user@sourcefabric.org', $subscriptionDetails['email']);
+    }
+
     public function testGetSubscription(): void
     {
         /** @var PaywallAdapterInterface $paymentsHubAdapter */
@@ -58,6 +95,30 @@ final class PaymentsHubAdapterTest extends WebTestCase
         $subscription = $paymentsHubAdapter->getSubscription($subscriber);
 
         self::assertInstanceOf(SubscriptionInterface::class, $subscription);
+    }
+
+    public function testGetSubscriptionByCriteria(): void
+    {
+        /** @var PaywallAdapterInterface $paymentsHubAdapter */
+        $paymentsHubAdapter = $this->getContainer()->get(PaymentsHubAdapter::class);
+
+        $subscriber = $this->getSubscriber();
+
+        $subscription = $paymentsHubAdapter->getSubscription($subscriber, [
+            'metadata.routeId' => 30,
+            'metadata.articleId' => 12,
+        ]);
+
+        self::assertInstanceOf(SubscriptionInterface::class, $subscription);
+
+        self::assertEquals('14', $subscription->getId());
+
+        $subscriptionDetails = $subscription->getDetails();
+
+        self::assertEquals('30', $subscriptionDetails['routeId']);
+        self::assertEquals('12', $subscriptionDetails['articleId']);
+        self::assertEquals('premium_content', $subscriptionDetails['name']);
+        self::assertEquals('test.user@sourcefabric.org', $subscriptionDetails['email']);
     }
 
     private function getSubscriber(): SubscriberInterface

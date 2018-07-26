@@ -48,17 +48,21 @@ server.post('/api/v1/login_check', (req, res) => {
     });
 });
 
-server.get('/public-api/v1/subscriptions/:id', (req, res) => {
+server.get('/public-api/v1/subscriptions/', (req, res) => {
     let id = 79;
     let articleId = 20;
     let routeId = 10;
+    let name = 'secured';
 
-    if (req.query.articleId) {
+    if (req.query.criteria['metadata.articleId']) {
         id = 12;
+        name = 'premium_content';
+        articleId = req.query.criteria['metadata.articleId'];
     }
 
-    if (req.query.routeId) {
+    if (req.query.criteria['metadata.routeId']) {
         id = 14;
+        routeId = req.query.criteria['metadata.routeId'];
     }
 
     res.status(200).json({
@@ -71,40 +75,14 @@ server.get('/public-api/v1/subscriptions/:id', (req, res) => {
                         intention: "bottom_box",
                         source: "web_version",
                         articleId: articleId,
-                        routeId: routeId
-                    }
+                        routeId: routeId,
+                        name: name,
+                        email: 'test.user@sourcefabric.org'
+                    },
+                    state: 'fulfilled'
                 }
             ]
         },
-    });
-});
-
-server.get('/public-api/v1/subscription/:id', (req, res) => {
-    let id = 79;
-    let articleId = 20;
-    let routeId = 10;
-    let name = 'secured';
-
-    if (req.query.articleId) {
-        id = 12;
-        name = 'premium_content';
-    }
-
-    if (req.query.routeId) {
-        id = 14;
-    }
-
-    res.status(200).json({
-        id: id,
-        type: "recurring",
-        metadata: {
-            intention: "bottom_box",
-            source: "web_version",
-            articleId: articleId,
-            routeId: routeId,
-            name: name
-        },
-        state: 'fulfilled'
     });
 });
 

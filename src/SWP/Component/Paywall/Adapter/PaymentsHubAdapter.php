@@ -31,8 +31,6 @@ final class PaymentsHubAdapter extends AbstractPaywallAdapter
 
     public const ENDPOINT_SUBSCRIPTIONS = self::API_ENDPOINT.'subscriptions/';
 
-    public const ENDPOINT_SUBSCRIPTION = self::API_ENDPOINT.'subscription/';
-
     public const ACTIVE_SUBSCRIPTION_STATE = 'fulfilled';
 
     /**
@@ -59,10 +57,15 @@ final class PaymentsHubAdapter extends AbstractPaywallAdapter
 
     public function getSubscriptions(SubscriberInterface $subscriber, array $filters = []): array
     {
-        $subscriptions = [];
-        $queryParams = http_build_query($filters);
+        $newFilters = [];
+        foreach ($filters as $key => $filter) {
+            $newFilters['metadata.'.$key] = $filter;
+        }
 
-        $url = sprintf('%s?%s', self::ENDPOINT_SUBSCRIPTIONS.$subscriber->getSubscriberId(), $queryParams);
+        $subscriptions = [];
+        $newFilters['metadata.email'] = $subscriber->getSubscriberId();
+
+        $url = sprintf('%s%s', self::ENDPOINT_SUBSCRIPTIONS, $this->buildQueryParams($newFilters));
 
         $response = $this->send($url);
 
@@ -94,9 +97,14 @@ final class PaymentsHubAdapter extends AbstractPaywallAdapter
 
     public function getSubscription(SubscriberInterface $subscriber, array $filters = []): ?SubscriptionInterface
     {
-        $queryParams = http_build_query($filters);
+        $newFilters = [];
+        foreach ($filters as $key => $filter) {
+            $newFilters['metadata.'.$key] = $filter;
+        }
 
-        $url = sprintf('%s?%s', self::ENDPOINT_SUBSCRIPTION.$subscriber->getSubscriberId(), $queryParams);
+        $filters['metadata.email'] = $subscriber->getSubscriberId();
+
+        $url = sprintf('%s%s', self::ENDPOINT_SUBSCRIPTIONS, $this->buildQueryParams($newFilters));
 
         $response = $this->send($url);
 
@@ -104,11 +112,13 @@ final class PaymentsHubAdapter extends AbstractPaywallAdapter
             return null;
         }
 
-        $subscriptionData = \json_decode($response->getBody()->getContents(), true);
+        $subscriptionsData = \json_decode($response->getBody()->getContents(), true);
 
-        if (!isset($subscriptionData['id'])) {
+        if (!isset($subscriptionsData['_embedded']) && !isset($subscriptionsData['_embedded']['items'])) {
             return null;
         }
+
+        $subscriptionData = $subscriptionsData['_embedded']['items'][0];
 
         /** @var SubscriptionInterface $subscription */
         $subscription = $this->createSubscription();
@@ -119,6 +129,15 @@ final class PaymentsHubAdapter extends AbstractPaywallAdapter
         $subscription->setActive(self::ACTIVE_SUBSCRIPTION_STATE === $subscriptionData['state']);
 
         return $subscription;
+    }
+
+    private function buildQueryParams(array $filters = []): string
+    {
+        $criteria = [
+            'criteria' => $filters,
+        ];
+
+        return '?'.http_build_query($criteria);
     }
 
     private function send(string $endpoint, array $data = [], array $requestOptions = []): ?ResponseInterface
