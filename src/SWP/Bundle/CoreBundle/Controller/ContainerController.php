@@ -16,7 +16,6 @@ namespace SWP\Bundle\CoreBundle\Controller;
 
 use SWP\Component\Common\Criteria\Criteria;
 use SWP\Component\Common\Pagination\PaginationData;
-use SWP\Component\TemplatesSystem\Gimme\Model\ContainerInterface;
 use SWP\Component\TemplatesSystem\Gimme\Model\WidgetModelInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
@@ -102,13 +101,18 @@ class ContainerController extends Controller
      * @Route("/api/{version}/templates/containers/{uuid}/render/", requirements={"uuid"="\w+"}, options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_templates_render_container")
      * @Method("GET")
      */
-    public function renderAction($uuid)
+    public function renderAction(Request $request, $uuid)
     {
-        /** @var ContainerInterface $container */
         $container = $this->get('swp.provider.container')->getOneById($uuid);
 
         if (!$container) {
             throw new NotFoundHttpException('Container with this uuid was not found.');
+        }
+
+        if ($request->query->has('onlyWidgets')) {
+            $containerRenderer = $this->get('swp_template_engine.container.renderer')->getContainerRenderer($container->getName(), [], false, $container);
+
+            return new SingleResourceResponse(['content' => $containerRenderer->renderWidgets()]);
         }
 
         $content = $this->get('templating')
@@ -237,18 +241,18 @@ class ContainerController extends Controller
     private function getContainerForUpdate($uuid)
     {
         $revisionContext = $this->get('swp_revision.context.revision');
-        $currentRenditionBackup = $revisionContext->getCurrentRevision();
+        $currentRevisionBackup = $revisionContext->getCurrentRevision();
         $revisionContext->setCurrentRevision($revisionContext->getWorkingRevision());
 
         $container = $this->get('swp.provider.container')->getOneById($uuid);
 
-        $revisionContext->setCurrentRevision($currentRenditionBackup);
+        $revisionContext->setCurrentRevision($currentRevisionBackup);
         if (null === $container) {
             if ($revisionContext->getCurrentRevision() !== $revisionContext->getPublishedRevision()) {
                 $revisionContext->setCurrentRevision($revisionContext->getPublishedRevision());
             }
             $container = $this->get('swp.provider.container')->getOneById($uuid);
-            $revisionContext->setCurrentRevision($currentRenditionBackup);
+            $revisionContext->setCurrentRevision($currentRevisionBackup);
         }
 
         return $container;

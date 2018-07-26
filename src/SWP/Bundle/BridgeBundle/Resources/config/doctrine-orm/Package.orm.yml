@@ -98,5 +98,4 @@ SWP\Component\Bridge\Model\Package:
             joinColumn:
                 nullable: true
                 name: external_data_id
-                nullable: true
                 referencedColumnName: id

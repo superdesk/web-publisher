@@ -111,6 +111,7 @@ class ContentListItemController extends Controller
         $form->handleRequest($request);
 
         if ($form->isValid()) {
+            $contentListItem->getContentList()->setUpdatedAt(new \DateTime());
             $objectManager->flush();
 
             return new SingleResourceResponse($contentListItem);
@@ -219,7 +220,7 @@ class ContentListItemController extends Controller
         return $listItem;
     }
 
-    private function findOr404($listId, $id)
+    private function findOr404($listId, $id): ContentListItemInterface
     {
         $listItem = $this->get('swp.repository.content_list_item')->findOneBy([
             'contentList' => $listId,

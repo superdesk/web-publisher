@@ -40,15 +40,9 @@ final class ContentListWidget extends TemplatingWidgetHandler
     public function render()
     {
         $templateName = $this->getModelParameter('template_name');
-        $listId = (int) $this->getModelParameter('list_id');
-        $listName = $this->getModelParameter('list_name');
-
-        if (null !== $listName) {
-            /** @var ContentListInterface $contentList */
-            $contentList = $this->getContainer()->get('swp.repository.content_list')->findListByName($listName);
-        } else {
-            /** @var ContentListInterface $contentList */
-            $contentList = $this->getContainer()->get('swp.repository.content_list')->findListById($listId);
+        $contentList = $this->getContentList($this->getModelParameter('list_name'), (int) $this->getModelParameter('list_id'));
+        if (null === $contentList) {
+            return '';
         }
 
         return $this->renderTemplate($templateName, [
@@ -56,5 +50,30 @@ final class ContentListWidget extends TemplatingWidgetHandler
             'listId' => $contentList->getId(),
             'listName' => $contentList->getName(),
         ]);
+    }
+
+    public function renderWidgetOpenTag(string $containerId): string
+    {
+        $contentList = $this->getContentList($this->getModelParameter('list_name'), (int) $this->getModelParameter('list_id'));
+        if (null === $contentList) {
+            return parent::renderWidgetOpenTag($containerId);
+        }
+
+        return sprintf(
+            '<div data-widget-type="contentlist" data-list-type="%s" data-list-id="%s" data-container="%s">',
+            $contentList->getType(),
+            $contentList->getId(),
+            $containerId
+        );
+    }
+
+    private function getContentList($listName, $listId): ?ContentListInterface
+    {
+        $contentListRepository = $this->getContainer()->get('swp.repository.content_list');
+        if (null !== $listName && null !== $contentList = $contentListRepository->findListByName($listName)) {
+            return $contentList;
+        }
+
+        return $contentListRepository->findListById($listId);
     }
 }

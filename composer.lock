@@ -1,10 +1,10 @@
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
-        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "4f6e5416b5f861a72374a1776271243c",
+    "content-hash": "c4aa436eb082a8e84b036b0c68327ded",
     "packages": [
         {
             "name": "apache/log4php",
@@ -1428,16 +1428,16 @@
         },
         {
             "name": "emanueleminotto/twig-cache-bundle",
-            "version": "1.0.5",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/EmanueleMinotto/TwigCacheBundle.git",
-                "reference": "99f7bee771daf7a02efef37297f4770745d1d761"
+                "reference": "f5188a3f56e6e4527af59d62a77aa17e95515ec9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/EmanueleMinotto/TwigCacheBundle/zipball/99f7bee771daf7a02efef37297f4770745d1d761",
-                "reference": "99f7bee771daf7a02efef37297f4770745d1d761",
+                "url": "https://api.github.com/repos/EmanueleMinotto/TwigCacheBundle/zipball/f5188a3f56e6e4527af59d62a77aa17e95515ec9",
+                "reference": "f5188a3f56e6e4527af59d62a77aa17e95515ec9",
                 "shasum": ""
             },
             "require": {
@@ -1487,7 +1487,7 @@
                 "symfony",
                 "twig"
             ],
-            "time": "2018-03-29T15:04:03+00:00"
+            "time": "2018-07-19T11:47:25+00:00"
         },
         {
             "name": "evenement/evenement",
@@ -3999,7 +3999,7 @@
                     "email": "stof@notk.org"
                 },
                 {
-                    "name": "KnpLabs",
+                    "name": "Knplabs",
                     "homepage": "http://knplabs.com"
                 },
                 {
@@ -8373,7 +8373,7 @@
                     "email": "adrien.brault@gmail.com"
                 },
                 {
-                    "name": "William DURAND",
+                    "name": "William Durand",
                     "email": "william.durand1@gmail.com"
                 }
             ],
@@ -11985,6 +11985,7 @@
     ],
     "minimum-stability": "dev",
     "stability-flags": {
+        "emanueleminotto/twig-cache-bundle": 20,
         "friendsofsymfony/rest-bundle": 20,
         "burgov/key-value-form-bundle": 0,
         "react/zmq": 20,

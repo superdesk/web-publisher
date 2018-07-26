@@ -15,20 +15,9 @@
 namespace SWP\Bundle\TemplatesSystemBundle\Service;
 
 use SWP\Bundle\TemplatesSystemBundle\Container\ContainerRenderer;
+use SWP\Component\TemplatesSystem\Gimme\Model\ContainerInterface;
 
-/**
- * Interface RendererServiceInterface.
- */
 interface RendererServiceInterface
 {
-    /**
-     * @param string $name
-     * @param array  $parameters
-     * @param bool   $createIfNotExists
-     *
-     * @return ContainerRenderer
-     *
-     * @throws \Exception
-     */
-    public function getContainerRenderer($name, array $parameters = [], $createIfNotExists = true);
+    public function getContainerRenderer(string $name, array $parameters = [], bool $createIfNotExists = true, ContainerInterface $container = null): ContainerRenderer;
 }

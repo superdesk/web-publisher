@@ -14,6 +14,7 @@
 
 namespace SWP\Component\TemplatesSystem\Gimme\Widget;
 
+use SWP\Bundle\TemplatesSystemBundle\Container\ContainerRendererInterface;
 use SWP\Component\TemplatesSystem\Gimme\Model\WidgetModelInterface;
 
 abstract class AbstractWidgetHandler implements WidgetHandlerInterface
@@ -22,46 +23,38 @@ abstract class AbstractWidgetHandler implements WidgetHandlerInterface
 
     protected $widgetModel;
 
-    /**
-     * @return array
-     */
-    public static function getExpectedParameters()
+    public static function getExpectedParameters(): array
     {
         return static::$expectedParameters;
     }
 
-    /**
-     * AbstractWidgetHandler constructor.
-     *
-     * @param WidgetModelInterface $widgetModel
-     */
     public function __construct(WidgetModelInterface $widgetModel)
     {
         $this->widgetModel = $widgetModel;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function isVisible()
+    public function isVisible(): bool
     {
         return $this->widgetModel->getVisible();
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getId()
+    public function getId(): int
     {
         return $this->widgetModel->getId();
     }
 
-    /**
-     * @param string $name
-     *
-     * @return null|string
-     */
-    protected function getModelParameter(string $name)
+    public function renderWidgetOpenTag(string $containerId): string
+    {
+        return sprintf(
+            '<div id="%s_%s" class="%s" data-container="%s">',
+            ContainerRendererInterface::WIDGET_CLASS,
+            $this->widgetModel->getId(),
+            ContainerRendererInterface::WIDGET_CLASS,
+            $containerId
+        );
+    }
+
+    protected function getModelParameter(string $name): ?string
     {
         if (isset($this->widgetModel->getParameters()[$name])) {
             return $this->widgetModel->getParameters()[$name];
@@ -75,15 +68,10 @@ abstract class AbstractWidgetHandler implements WidgetHandlerInterface
             }
         }
 
-        return;
+        return null;
     }
 
-    /**
-     * Returns associative array with all expected parameters and their values.
-     *
-     * @return array
-     */
-    protected function getAllParametersWithValue()
+    protected function getAllParametersWithValue(): array
     {
         $all = array();
         foreach (self::getExpectedParameters() as $key => $value) {
