@@ -54,13 +54,13 @@ server.get('/public-api/v1/subscriptions/', (req, res) => {
     let routeId = 10;
     let name = 'secured';
 
-    if (req.query.criteria['metadata.articleId']) {
+    if (req.query.criteria && req.query.criteria['metadata.articleId']) {
         id = 12;
         name = 'premium_content';
         articleId = req.query.criteria['metadata.articleId'];
     }
 
-    if (req.query.criteria['metadata.routeId']) {
+    if (req.query.criteria && req.query.criteria['metadata.routeId']) {
         id = 14;
         routeId = req.query.criteria['metadata.routeId'];
     }

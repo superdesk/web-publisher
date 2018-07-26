@@ -56,7 +56,7 @@ final class PaymentsHubAdapterTest extends WebTestCase
         $subscriber = $this->getSubscriber();
 
         $subscriptions = $paymentsHubAdapter->getSubscriptions($subscriber, [
-            'metadata.articleId' => 12,
+            'articleId' => 12,
         ]);
 
         self::assertCount(1, $subscriptions);
@@ -70,7 +70,7 @@ final class PaymentsHubAdapterTest extends WebTestCase
         self::assertEquals('test.user@sourcefabric.org', $subscriptionDetails['email']);
 
         $subscriptions = $paymentsHubAdapter->getSubscriptions($subscriber, [
-            'metadata.routeId' => 30,
+            'routeId' => 30,
         ]);
 
         self::assertCount(1, $subscriptions);
@@ -105,8 +105,8 @@ final class PaymentsHubAdapterTest extends WebTestCase
         $subscriber = $this->getSubscriber();
 
         $subscription = $paymentsHubAdapter->getSubscription($subscriber, [
-            'metadata.routeId' => 30,
-            'metadata.articleId' => 12,
+            'routeId' => 30,
+            'articleId' => 12,
         ]);
 
         self::assertInstanceOf(SubscriptionInterface::class, $subscription);
