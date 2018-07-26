@@ -49,7 +49,7 @@ final class ContentListWidgetTest extends WebTestCase
         $widgetModel->setParameters(['list_name' => 'List1', 'template_name' => 'list.html.twig']);
         $widgetHandler = new ContentListWidget($widgetModel, $this->getContainer());
         self::assertEquals('<div data-widget-type="contentlist" data-list-type="automatic" data-list-id="1" data-container="testContainerId">', $widgetHandler->renderWidgetOpenTag('testContainerId'));
-        self::assertEquals('1 List1', $widgetHandler->render());
+        self::assertEquals('1 List1', trim($widgetHandler->render()));
     }
 
     public function testContainerRendererRenderingWithContentList()

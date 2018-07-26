@@ -67,7 +67,7 @@ final class ContentListWidget extends TemplatingWidgetHandler
         );
     }
 
-    private function getContentList($listName, $listId): ?ContentListInterface
+    private function getContentList(?string $listName, int $listId): ?ContentListInterface
     {
         $contentListRepository = $this->getContainer()->get('swp.repository.content_list');
         if (null !== $listName && null !== $contentList = $contentListRepository->findListByName($listName)) {
