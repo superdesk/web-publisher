@@ -46,9 +46,10 @@ final class ContentListWidgetTest extends WebTestCase
     {
         $widgetModel = new WidgetModel();
         $widgetModel->setType(WidgetModel::TYPE_LIST);
+        $widgetModel->setId(1);
         $widgetModel->setParameters(['list_name' => 'List1', 'template_name' => 'list.html.twig']);
         $widgetHandler = new ContentListWidget($widgetModel, $this->getContainer());
-        self::assertEquals('<div data-widget-type="contentlist" data-list-type="automatic" data-list-id="1" data-container="testContainerId">', $widgetHandler->renderWidgetOpenTag('testContainerId'));
+        self::assertEquals('<div id="swp_widget_1" class="swp_widget" data-widget-type="contentlist" data-list-type="automatic" data-list-id="1" data-container="testContainerId">', $widgetHandler->renderWidgetOpenTag('testContainerId'));
         self::assertEquals('1 List1', trim($widgetHandler->render()));
     }
 
@@ -56,6 +57,7 @@ final class ContentListWidgetTest extends WebTestCase
     {
         $widgetModel = new WidgetModel();
         $widgetModel->setType(WidgetModel::TYPE_LIST);
+        $widgetModel->setId(1);
         $widgetModel->setParameters(['list_name' => 'List1', 'template_name' => 'list.html.twig']);
         $widgetHandler = new ContentListWidget($widgetModel, $this->getContainer());
 
@@ -64,6 +66,6 @@ final class ContentListWidgetTest extends WebTestCase
             ->getContainerRenderer('Simple Container 1');
         $containerRenderer->setWidgets([$widgetHandler]);
 
-        self::assertEquals('<div data-widget-type="contentlist" data-list-type="automatic" data-list-id="1" data-container="5tfdv6resqg">1 List1</div>', $containerRenderer->renderWidgets());
+        self::assertEquals('<div id="swp_widget_1" class="swp_widget" data-widget-type="contentlist" data-list-type="automatic" data-list-id="1" data-container="5tfdv6resqg">1 List1</div>', $containerRenderer->renderWidgets());
     }
 }

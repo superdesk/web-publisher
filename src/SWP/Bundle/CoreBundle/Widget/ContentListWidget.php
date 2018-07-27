@@ -16,6 +16,7 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\CoreBundle\Widget;
 
+use SWP\Bundle\TemplatesSystemBundle\Container\ContainerRendererInterface;
 use SWP\Bundle\TemplatesSystemBundle\Widget\TemplatingWidgetHandler;
 use SWP\Component\ContentList\Model\ContentListInterface;
 
@@ -60,7 +61,10 @@ final class ContentListWidget extends TemplatingWidgetHandler
         }
 
         return sprintf(
-            '<div data-widget-type="contentlist" data-list-type="%s" data-list-id="%s" data-container="%s">',
+            '<div id="%s_%s" class="%s" data-widget-type="contentlist" data-list-type="%s" data-list-id="%s" data-container="%s">',
+            ContainerRendererInterface::WIDGET_CLASS,
+            $this->widgetModel->getId(),
+            ContainerRendererInterface::WIDGET_CLASS,
             $contentList->getType(),
             $contentList->getId(),
             $containerId

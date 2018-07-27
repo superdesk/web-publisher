@@ -11,10 +11,6 @@ SWP\Bundle\CoreBundle\Model\Route:
         name: "politics"
         variablePattern: "/{slug}"
         type: "collection"
-    sportRoute:
-        name: "sport"
-        variablePattern: "/{slug}"
-        type: "collection"
 
 SWP\Bundle\ContentBundle\Model\ArticleAuthor:
     author1:
