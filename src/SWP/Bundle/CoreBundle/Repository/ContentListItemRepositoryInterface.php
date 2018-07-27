@@ -23,16 +23,11 @@ use SWP\Component\ContentList\Repository\ContentListItemRepositoryInterface as B
 
 interface ContentListItemRepositoryInterface extends BaseInterface
 {
-    /**
-     * @param ArticleInterface     $article
-     * @param ContentListInterface $list
-     * @param string               $type
-     *
-     * @return null|ContentListItemInterface
-     */
     public function findItemByArticleAndList(
         ArticleInterface $article,
         ContentListInterface $list,
         string $type = ContentListInterface::TYPE_BUCKET
-    );
+    ): ?ContentListItemInterface;
+
+    public function findItemsByArticle(ArticleInterface $article): array;
 }

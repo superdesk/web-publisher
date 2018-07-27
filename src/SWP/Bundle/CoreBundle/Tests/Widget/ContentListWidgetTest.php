@@ -110,4 +110,40 @@ EOT
 EOT
             , trim($widgetHandler->render()));
     }
+
+    public function testContentListCacheAfterItemContentUpdate()
+    {
+        $widgetHandler = $this->getContentListWidget('list_with_items.html.twig');
+
+        self::assertEquals('<div id="swp_widget_1" class="swp_widget" data-widget-type="contentlist" data-list-type="automatic" data-list-id="1" data-container="testContainerId">', $widgetHandler->renderWidgetOpenTag('testContainerId'));
+        self::assertEquals(<<<'EOT'
+<ul>
+    <li>article1-0-true</li>
+    <li>article3-2-true</li>
+    <li>article2-1-false</li>
+    <li>article4-3-false</li>
+</ul>
+EOT
+            , trim($widgetHandler->render()));
+
+        $client = static::createClient();
+        $router = $this->getContainer()->get('router');
+        $client->request('PATCH', $router->generate('swp_api_content_update_articles', ['id' => 'article-1']), [
+            'article' => [
+                'status' => 'unpublished',
+            ],
+        ]);
+        self::assertEquals(200, $client->getResponse()->getStatusCode());
+
+        $this->getContainer()->get('doctrine.orm.entity_manager')->clear();
+        $widgetHandler = $this->getContentListWidget('list_with_items.html.twig');
+        self::assertEquals(<<<'EOT'
+<ul>
+    <li>article3-1-true</li>
+    <li>article2-0-false</li>
+    <li>article4-2-false</li>
+</ul>
+EOT
+            , trim($widgetHandler->render()));
+    }
 }
