@@ -99,6 +99,7 @@ EOT
         ]);
 
         $this->getContainer()->get('doctrine.orm.entity_manager')->clear();
+        $widgetHandler = $this->getContentListWidget('list_with_items.html.twig');
         self::assertEquals(<<<EOT
 <ul>
     <li>article1-0-true</li>

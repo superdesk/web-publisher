@@ -84,6 +84,8 @@ final class ContentListWidget extends TemplatingWidgetHandler
 
         $contentListRepository = $this->getContainer()->get('swp.repository.content_list');
         if (null !== $listName && null !== $contentList = $contentListRepository->findListByName($listName)) {
+            $this->loadedLists[$key] = $contentList;
+
             return $contentList;
         }
 
