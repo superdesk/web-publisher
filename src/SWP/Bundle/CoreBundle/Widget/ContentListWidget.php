@@ -22,6 +22,8 @@ use SWP\Component\ContentList\Model\ContentListInterface;
 
 final class ContentListWidget extends TemplatingWidgetHandler
 {
+    private $loadedLists = [];
+
     protected static $expectedParameters = [
         'list_id' => [
             'type' => 'int',
@@ -46,8 +48,10 @@ final class ContentListWidget extends TemplatingWidgetHandler
             return '';
         }
 
+        $metaFactory = $this->getContainer()->get('swp_template_engine_context.factory.meta_factory');
+
         return $this->renderTemplate($templateName, [
-            'contentList' => $contentList,
+            'contentList' => $metaFactory->create($contentList),
             'listId' => $contentList->getId(),
             'listName' => $contentList->getName(),
         ]);
@@ -73,11 +77,19 @@ final class ContentListWidget extends TemplatingWidgetHandler
 
     private function getContentList(?string $listName, int $listId): ?ContentListInterface
     {
+        $key = $listName.'__'.$listId;
+        if (\array_key_exists($key, $this->loadedLists)) {
+            return $this->loadedLists[$key];
+        }
+
         $contentListRepository = $this->getContainer()->get('swp.repository.content_list');
         if (null !== $listName && null !== $contentList = $contentListRepository->findListByName($listName)) {
             return $contentList;
         }
 
-        return $contentListRepository->findListById($listId);
+        $list = $contentListRepository->findListById($listId);
+        $this->loadedLists[$key] = $list;
+
+        return $list;
     }
 }

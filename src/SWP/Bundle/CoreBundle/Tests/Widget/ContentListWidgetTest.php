@@ -33,6 +33,8 @@ final class ContentListWidgetTest extends WebTestCase
         $this->loadCustomFixtures(['tenant', 'container']);
         $this->loadFixtureFiles([
             '@SWPFixturesBundle/Resources/fixtures/ORM/test/content_list.yml',
+            '@SWPFixturesBundle/Resources/fixtures/ORM/test/list_content.yml',
+            '@SWPFixturesBundle/Resources/fixtures/ORM/test/content_list_item.yml',
         ], true, null, 'doctrine', 0);
 
         $this->getContainer()->get('swp_multi_tenancy.tenant_context')
@@ -42,24 +44,27 @@ final class ContentListWidgetTest extends WebTestCase
             ->setCurrentRevision($this->getContainer()->get('swp.repository.revision')->getPublishedRevision()->getQuery()->getOneOrNullResult());
     }
 
-    public function testContentListWidgetRendering()
+    protected function getContentListWidget($templateName = 'list.html.twig')
     {
         $widgetModel = new WidgetModel();
         $widgetModel->setType(WidgetModel::TYPE_LIST);
         $widgetModel->setId(1);
-        $widgetModel->setParameters(['list_name' => 'List1', 'template_name' => 'list.html.twig']);
-        $widgetHandler = new ContentListWidget($widgetModel, $this->getContainer());
+        $widgetModel->setParameters(['list_name' => 'List1', 'template_name' => $templateName]);
+
+        return new ContentListWidget($widgetModel, $this->getContainer());
+    }
+
+    public function testContentListWidgetRendering()
+    {
+        $widgetHandler = $this->getContentListWidget();
+
         self::assertEquals('<div id="swp_widget_1" class="swp_widget" data-widget-type="contentlist" data-list-type="automatic" data-list-id="1" data-container="testContainerId">', $widgetHandler->renderWidgetOpenTag('testContainerId'));
         self::assertEquals('1 List1', trim($widgetHandler->render()));
     }
 
     public function testContainerRendererRenderingWithContentList()
     {
-        $widgetModel = new WidgetModel();
-        $widgetModel->setType(WidgetModel::TYPE_LIST);
-        $widgetModel->setId(1);
-        $widgetModel->setParameters(['list_name' => 'List1', 'template_name' => 'list.html.twig']);
-        $widgetHandler = new ContentListWidget($widgetModel, $this->getContainer());
+        $widgetHandler = $widgetHandler = $this->getContentListWidget();
 
         $containerRenderer = $this->getContainer()
             ->get('swp_template_engine.container.renderer')
@@ -67,5 +72,41 @@ final class ContentListWidgetTest extends WebTestCase
         $containerRenderer->setWidgets([$widgetHandler]);
 
         self::assertEquals('<div id="swp_widget_1" class="swp_widget" data-widget-type="contentlist" data-list-type="automatic" data-list-id="1" data-container="5tfdv6resqg">1 List1</div>', $containerRenderer->renderWidgets());
+    }
+
+    public function testContentListCacheAfterListUpdate()
+    {
+        $widgetHandler = $this->getContentListWidget('list_with_items.html.twig');
+
+        self::assertEquals('<div id="swp_widget_1" class="swp_widget" data-widget-type="contentlist" data-list-type="automatic" data-list-id="1" data-container="testContainerId">', $widgetHandler->renderWidgetOpenTag('testContainerId'));
+        self::assertEquals(<<<EOT
+<ul>
+    <li>article1-0-true</li>
+    <li>article3-2-true</li>
+    <li>article2-1-false</li>
+    <li>article4-3-false</li>
+</ul>
+EOT
+, trim($widgetHandler->render()));
+        sleep(2);
+        static::createClient()->request('PATCH', $this->getContainer()->get('router')->generate('swp_api_core_update_lists_item', [
+            'id' => 3,
+            'listId' => 1,
+        ]), [
+            'content_list_item' => [
+                'sticky' => false,
+            ],
+        ]);
+
+        $this->getContainer()->get('doctrine.orm.entity_manager')->clear();
+        self::assertEquals(<<<EOT
+<ul>
+    <li>article1-0-true</li>
+    <li>article2-1-false</li>
+    <li>article3-2-false</li>
+    <li>article4-3-false</li>
+</ul>
+EOT
+            , trim($widgetHandler->render()));
     }
 }
