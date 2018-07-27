@@ -26,7 +26,6 @@ final class SoftdeletableListener
         $entity = $event->getObject();
         if ($entity instanceof Sortable) {
             $entity->setPosition(-1);
-
             $om = $event->getObjectManager();
             $om->persist($entity);
             $om->flush();

@@ -144,7 +144,7 @@ class AddArticleToListListener
             }
 
             if (!$article->isPublishedFBIA() && null !== $item && $bucket->hasItem($item)) {
-                $bucket->removeItem($item);
+                $this->listRepository->remove($item);
                 $bucket->setUpdatedAt(new \DateTime());
             }
         }
