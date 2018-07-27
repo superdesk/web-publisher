@@ -79,7 +79,7 @@ final class ContentListWidgetTest extends WebTestCase
         $widgetHandler = $this->getContentListWidget('list_with_items.html.twig');
 
         self::assertEquals('<div id="swp_widget_1" class="swp_widget" data-widget-type="contentlist" data-list-type="automatic" data-list-id="1" data-container="testContainerId">', $widgetHandler->renderWidgetOpenTag('testContainerId'));
-        self::assertEquals(<<<EOT
+        self::assertEquals(<<<'EOT'
 <ul>
     <li>article1-0-true</li>
     <li>article3-2-true</li>
@@ -100,7 +100,7 @@ EOT
 
         $this->getContainer()->get('doctrine.orm.entity_manager')->clear();
         $widgetHandler = $this->getContentListWidget('list_with_items.html.twig');
-        self::assertEquals(<<<EOT
+        self::assertEquals(<<<'EOT'
 <ul>
     <li>article1-0-true</li>
     <li>article2-1-false</li>
