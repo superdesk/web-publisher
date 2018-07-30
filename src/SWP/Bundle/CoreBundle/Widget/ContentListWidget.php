@@ -43,7 +43,7 @@ final class ContentListWidget extends TemplatingWidgetHandler
     public function render()
     {
         $templateName = $this->getModelParameter('template_name');
-        $contentList = $this->getContentList($this->getModelParameter('list_name'), (int) $this->getModelParameter('list_id'));
+        $contentList = $this->getContentList($this->getModelParameter('list_name'), (int) $this->getModelParameter('list_id'), true);
         if (null === $contentList) {
             return '';
         }
@@ -75,11 +75,14 @@ final class ContentListWidget extends TemplatingWidgetHandler
         );
     }
 
-    private function getContentList(?string $listName, int $listId): ?ContentListInterface
+    private function getContentList(?string $listName, int $listId, $render = false): ?ContentListInterface
     {
         $key = $listName.'__'.$listId;
-        if (\array_key_exists($key, $this->loadedLists)) {
-            return $this->loadedLists[$key];
+        if (\array_key_exists($key, $this->loadedLists) && $render) {
+            $list = $this->loadedLists[$key];
+            $this->loadedLists = [];
+
+            return $list;
         }
 
         $contentListRepository = $this->getContainer()->get('swp.repository.content_list');
