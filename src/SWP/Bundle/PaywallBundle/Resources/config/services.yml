@@ -1,4 +1,7 @@
 services:
+    _defaults:
+        public: true
+
     SWP\Component\Paywall\Factory\SubscriptionFactory: ~
 
     SWP\Component\Paywall\Adapter\PaymentsHubAdapter:
