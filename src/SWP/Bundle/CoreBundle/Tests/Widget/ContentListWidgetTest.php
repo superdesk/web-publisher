@@ -126,6 +126,8 @@ EOT
 EOT
             , trim($widgetHandler->render()));
 
+        sleep(2);
+
         $client = static::createClient();
         $router = $this->getContainer()->get('router');
         $client->request('PATCH', $router->generate('swp_api_content_update_articles', ['id' => 'article-1']), [
