@@ -18,7 +18,7 @@
     }
   ],
   "require": {
-    "php": "^7.0",
+    "php": "^7.1",
     "swp/templates-system": "^1.4",
     "swp/common": "^1.4",
     "swp/menu-bundle": "^1.4",

@@ -20,6 +20,7 @@ use Doctrine\ORM\QueryBuilder;
 use SWP\Bundle\ContentListBundle\Doctrine\ORM\ContentListItemRepository as BaseRepository;
 use SWP\Bundle\CoreBundle\Model\ArticleInterface;
 use SWP\Bundle\CoreBundle\Model\ContentListInterface;
+use SWP\Bundle\CoreBundle\Model\ContentListItemInterface;
 use SWP\Component\Common\Criteria\Criteria;
 
 class ContentListItemRepository extends BaseRepository implements ContentListItemRepositoryInterface
@@ -31,7 +32,7 @@ class ContentListItemRepository extends BaseRepository implements ContentListIte
         ArticleInterface $article,
         ContentListInterface $list,
         string $type = ContentListInterface::TYPE_BUCKET
-    ) {
+    ): ?ContentListItemInterface {
         $queryBuilder = $this->createQueryBuilder('cl');
 
         return $queryBuilder
@@ -47,6 +48,21 @@ class ContentListItemRepository extends BaseRepository implements ContentListIte
             ])
             ->getQuery()
             ->getOneOrNullResult();
+    }
+
+    public function findItemsByArticle(ArticleInterface $article): array
+    {
+        $queryBuilder = $this->createQueryBuilder('cl');
+
+        return $queryBuilder
+            ->leftJoin('cl.contentList', 'l')
+            ->leftJoin('cl.content', 'c')
+            ->andWhere('c.id = :article')
+            ->setParameters([
+                'article' => $article->getId(),
+            ])
+            ->getQuery()
+            ->getResult();
     }
 
     /**

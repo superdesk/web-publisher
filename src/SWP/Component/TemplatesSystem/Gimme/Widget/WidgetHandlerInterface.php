@@ -15,12 +15,6 @@
 namespace SWP\Component\TemplatesSystem\Gimme\Widget;
 
 /**
- * Widgets idea
- * * Every widget have it's own class with widget implementation
- * * Every widget have his own parameters.
- */
-
-/**
  * Container Interface.
  */
 interface WidgetHandlerInterface
@@ -32,15 +26,9 @@ interface WidgetHandlerInterface
      */
     public function render();
 
-    /**
-     * Check if widget should be rendered.
-     *
-     * @return bool
-     */
-    public function isVisible();
+    public function isVisible(): bool;
 
-    /**
-     * @return int
-     */
-    public function getId();
+    public function getId(): int;
+
+    public function renderWidgetOpenTag(string $containerId): string;
 }

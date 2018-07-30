@@ -18,6 +18,7 @@ use SWP\Bundle\TemplatesSystemBundle\Container\ContainerRenderer;
 use SWP\Bundle\TemplatesSystemBundle\Factory\ContainerRendererFactory;
 use SWP\Bundle\TemplatesSystemBundle\Provider\ContainerProviderInterface;
 use SWP\Bundle\TemplatesSystemBundle\Widget\TemplatingWidgetHandler;
+use SWP\Component\TemplatesSystem\Gimme\Model\ContainerInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface as ServiceContainerInterface;
 
 /**
@@ -81,22 +82,15 @@ class RendererService implements RendererServiceInterface
         $this->containerRendererFactory = $containerRendererFactory;
     }
 
-    /**
-     * @param string $name
-     * @param array  $parameters
-     * @param bool   $createIfNotExists
-     *
-     * @return ContainerRenderer
-     *
-     * @throws \Exception
-     */
-    public function getContainerRenderer($name, array $parameters = [], $createIfNotExists = true)
+    public function getContainerRenderer(string $name, array $parameters = [], bool $createIfNotExists = true, ContainerInterface $container = null): ContainerRenderer
     {
-        $container = $this->containerProvider->getOneByName($name);
-        if (!$container && $createIfNotExists) {
-            $container = $this->templateContainerService->createContainer($name, $parameters);
-        } elseif (!$container) {
-            throw new \Exception('Container was not found');
+        if (!$container instanceof ContainerInterface) {
+            $container = $this->containerProvider->getOneByName($name);
+            if (!$container && $createIfNotExists) {
+                $container = $this->templateContainerService->createContainer($name, $parameters);
+            } elseif (!$container) {
+                throw new \Exception('Container was not found');
+            }
         }
 
         $containerRenderer = $this->containerRendererFactory->create($container, null, $this->debug, $this->cacheDir);

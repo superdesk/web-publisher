@@ -53,7 +53,7 @@ class WidgetControllerTest extends WebTestCase
         $client->request('GET', $this->router->generate('swp_api_templates_list_widgets_templates'));
         self::assertEquals(200, $client->getResponse()->getStatusCode());
         $content = json_decode($client->getResponse()->getContent(), true);
-        self::assertCount(3, $content);
+        self::assertCount(5, $content);
         self::assertArrayHasKey('name', $content[0]);
         self::assertArrayHasKey('modified', $content[0]);
         self::assertEquals('adsense.html.twig', $content[0]['name']);

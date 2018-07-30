@@ -23,6 +23,8 @@ interface ContainerRendererInterface
 
     const CLOSE_TAG_TEMPLATE = '</div>';
 
+    const WIDGET_CLASS = 'swp_widget';
+
     /**
      * Set Widgets.
      *

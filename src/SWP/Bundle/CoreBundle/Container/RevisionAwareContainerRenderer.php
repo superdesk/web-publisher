@@ -23,6 +23,8 @@ class RevisionAwareContainerRenderer extends ContainerRenderer
      * Render open tag for container.
      *
      * @return string
+     *
+     * @throws \Exception
      */
     public function renderOpenTag()
     {
@@ -38,5 +40,14 @@ class RevisionAwareContainerRenderer extends ContainerRenderer
             'visible' => $this->containerEntity->getVisible(),
             'data' => $this->containerEntity->getData(),
         ]);
+    }
+
+    protected function getContainerId(): string
+    {
+        if ($this->containerEntity instanceof RevisionAwareInterface) {
+            return (string) $this->containerEntity->getUuid();
+        }
+
+        return parent::getContainerId();
     }
 }

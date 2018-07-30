@@ -62,7 +62,6 @@ class TenantableListener implements EventSubscriberInterface
     {
         $this->lazyLoad();
         $tenant = $this->tenantContext->getTenant();
-
         if ($tenant && $tenant->getId()) {
             $this->entityManager
                 ->getFilters()
@@ -78,7 +77,6 @@ class TenantableListener implements EventSubscriberInterface
     {
         $this->lazyLoad();
         $filters = $this->entityManager->getFilters();
-
         if ($filters->isEnabled('tenantable')) {
             $filters->disable('tenantable');
         }

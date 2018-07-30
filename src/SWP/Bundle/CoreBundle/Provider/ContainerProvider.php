@@ -110,10 +110,10 @@ class ContainerProvider extends BaseContentProvider
         return $queryBuilder;
     }
 
-    private function getContainerFromCollection($containers)
+    private function getContainerFromCollection($containers): ?ContainerInterface
     {
         if (empty($containers)) {
-            return;
+            return null;
         }
 
         if (count($containers) > 1) {
