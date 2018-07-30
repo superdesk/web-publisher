@@ -58,3 +58,15 @@ With :code:`generational` as a strategy key you need to provide :code:`gen` with
     You can pass Meta object to :code:`generational` strategy and it will be used for key generation.
     If Meta value have :code:`created_at` or :code:`updated_at` then those properties will be used, otherwise key will be generated only from object :code:`id`.
 
+
+Content list blocks caching
+```````````````````````````
+
+It's important to always use :code:`generational` strategy for content lists (and it items) caching. Publisher will update cache key generated with it every time when
+items on list are added/removed/reordered or when list criteria are updated or even when article used by list will be unpublished or updated.
+
+.. code-block:: twig
+
+    {% cache 'frontPageManualList' {gen: contentList} %}
+        {# get and render list items here #}
+    {% endcache %}
