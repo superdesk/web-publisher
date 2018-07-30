@@ -135,7 +135,7 @@ EOT
         ]);
         self::assertEquals(200, $client->getResponse()->getStatusCode());
 
-        $this->getContainer()->get('doctrine.orm.entity_manager')->clear();
+        $this->getContainer()->get('swp.object_manager.content_list_item')->clear();
         $widgetHandler = $this->getContentListWidget('list_with_items.html.twig');
         self::assertEquals(<<<'EOT'
 <ul>
