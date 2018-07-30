@@ -123,8 +123,6 @@ class ContainerRenderer implements ContainerRendererInterface
         $widgetsOutput = [];
         /** @var WidgetHandlerInterface $widget */
         foreach ($this->widgets as $widget) {
-            //if ($widget instanceof )
-
             $widgetsOutput[] = sprintf(
                 $widget->renderWidgetOpenTag($this->getContainerId()).'%s</div>',
                 $widget->render()

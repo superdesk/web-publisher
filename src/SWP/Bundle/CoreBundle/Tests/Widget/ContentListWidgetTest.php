@@ -14,7 +14,7 @@ declare(strict_types=1);
  * @license http://www.superdesk.org/license
  */
 
-namespace SWP\Bundle\CoreBundle\Tests;
+namespace SWP\Bundle\CoreBundle\Tests\Widget;
 
 use SWP\Bundle\CoreBundle\Model\WidgetModel;
 use SWP\Bundle\CoreBundle\Widget\ContentListWidget;

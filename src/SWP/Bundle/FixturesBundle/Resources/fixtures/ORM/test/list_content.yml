@@ -46,7 +46,6 @@ SWP\Bundle\CoreBundle\Model\Package:
         priority: 2
         version: 1
 
-
 SWP\Bundle\CoreBundle\Model\Article:
     listContent{1..2}:
         title: "article<current()>"
