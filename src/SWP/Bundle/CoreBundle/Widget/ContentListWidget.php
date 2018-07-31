@@ -16,11 +16,14 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\CoreBundle\Widget;
 
+use SWP\Bundle\TemplatesSystemBundle\Container\ContainerRendererInterface;
 use SWP\Bundle\TemplatesSystemBundle\Widget\TemplatingWidgetHandler;
 use SWP\Component\ContentList\Model\ContentListInterface;
 
 final class ContentListWidget extends TemplatingWidgetHandler
 {
+    private $loadedLists = [];
+
     protected static $expectedParameters = [
         'list_id' => [
             'type' => 'int',
@@ -40,21 +43,58 @@ final class ContentListWidget extends TemplatingWidgetHandler
     public function render()
     {
         $templateName = $this->getModelParameter('template_name');
-        $listId = (int) $this->getModelParameter('list_id');
-        $listName = $this->getModelParameter('list_name');
-
-        if (null !== $listName) {
-            /** @var ContentListInterface $contentList */
-            $contentList = $this->getContainer()->get('swp.repository.content_list')->findListByName($listName);
-        } else {
-            /** @var ContentListInterface $contentList */
-            $contentList = $this->getContainer()->get('swp.repository.content_list')->findListById($listId);
+        $contentList = $this->getContentList($this->getModelParameter('list_name'), (int) $this->getModelParameter('list_id'), true);
+        if (null === $contentList) {
+            return '';
         }
 
+        $metaFactory = $this->getContainer()->get('swp_template_engine_context.factory.meta_factory');
+
         return $this->renderTemplate($templateName, [
-            'contentList' => $contentList,
+            'contentList' => $metaFactory->create($contentList),
             'listId' => $contentList->getId(),
             'listName' => $contentList->getName(),
         ]);
+    }
+
+    public function renderWidgetOpenTag(string $containerId): string
+    {
+        $contentList = $this->getContentList($this->getModelParameter('list_name'), (int) $this->getModelParameter('list_id'));
+        if (null === $contentList) {
+            return parent::renderWidgetOpenTag($containerId);
+        }
+
+        return sprintf(
+            '<div id="%s_%s" class="%s" data-widget-type="contentlist" data-list-type="%s" data-list-id="%s" data-container="%s">',
+            ContainerRendererInterface::WIDGET_CLASS,
+            $this->widgetModel->getId(),
+            ContainerRendererInterface::WIDGET_CLASS,
+            $contentList->getType(),
+            $contentList->getId(),
+            $containerId
+        );
+    }
+
+    private function getContentList(?string $listName, int $listId, $render = false): ?ContentListInterface
+    {
+        $key = $listName.'__'.$listId;
+        if (\array_key_exists($key, $this->loadedLists) && $render) {
+            $list = $this->loadedLists[$key];
+            $this->loadedLists = [];
+
+            return $list;
+        }
+
+        $contentListRepository = $this->getContainer()->get('swp.repository.content_list');
+        if (null !== $listName && null !== $contentList = $contentListRepository->findListByName($listName)) {
+            $this->loadedLists[$key] = $contentList;
+
+            return $contentList;
+        }
+
+        $list = $contentListRepository->findListById($listId);
+        $this->loadedLists[$key] = $list;
+
+        return $list;
     }
 }

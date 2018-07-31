@@ -207,7 +207,11 @@ class ContainerControllerTest extends WebTestCase
         $client->request('GET', $this->router->generate('swp_api_templates_render_container', ['uuid' => '5tfdv6resqg']));
         self::assertEquals(200, $client->getResponse()->getStatusCode());
 
-        self::assertEquals('{"content":"<div id=\"swp_container_5tfdv6resqg\" class=\"swp_container col-md-12\" style=\"color: #00000\"><div id=\"swp_widget_1\" class=\"swp_widget\">sample widget with <span style=\'color:red\'>html<\/span><\/div><\/div>"}', $client->getResponse()->getContent());
+        self::assertEquals('{"content":"<div id=\"swp_container_5tfdv6resqg\" class=\"swp_container col-md-12\" style=\"color: #00000\"><div id=\"swp_widget_1\" class=\"swp_widget\" data-container=\"5tfdv6resqg\">sample widget with <span style=\'color:red\'>html<\/span><\/div><\/div>"}', $client->getResponse()->getContent());
+
+        $client->request('GET', $this->router->generate('swp_api_templates_render_container', ['uuid' => '5tfdv6resqg', 'onlyWidgets' => true]));
+        self::assertEquals(200, $client->getResponse()->getStatusCode());
+        self::assertEquals('{"content":"<div id=\"swp_widget_1\" class=\"swp_widget\" data-container=\"5tfdv6resqg\">sample widget with <span style=\'color:red\'>html<\/span><\/div>"}', $client->getResponse()->getContent());
     }
 
     public function testLinkAlreadyLinkedWidgetApi()

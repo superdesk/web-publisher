@@ -111,6 +111,7 @@ class ContentListItemController extends Controller
         $form->handleRequest($request);
 
         if ($form->isValid()) {
+            $contentListItem->getContentList()->setUpdatedAt(new \DateTime());
             $objectManager->flush();
 
             return new SingleResourceResponse($contentListItem);
@@ -175,7 +176,6 @@ class ContentListItemController extends Controller
 
                 switch ($item['action']) {
                     case 'move':
-                        /** @var ContentListItemInterface $contentListItem */
                         $contentListItem = $this->findByContentOr404($list, $item['content_id']);
                         $contentListItem->setPosition($item['position']);
                         $list->setUpdatedAt(new \DateTime('now'));
@@ -205,7 +205,7 @@ class ContentListItemController extends Controller
         }
     }
 
-    private function findByContentOr404($listId, $contentId)
+    private function findByContentOr404($listId, $contentId): ContentListItemInterface
     {
         $listItem = $this->get('swp.repository.content_list_item')->findOneBy([
             'contentList' => $listId,
@@ -219,7 +219,7 @@ class ContentListItemController extends Controller
         return $listItem;
     }
 
-    private function findOr404($listId, $id)
+    private function findOr404($listId, $id): ContentListItemInterface
     {
         $listItem = $this->get('swp.repository.content_list_item')->findOneBy([
             'contentList' => $listId,

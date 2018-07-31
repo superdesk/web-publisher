@@ -190,6 +190,13 @@ services:
             - { name: kernel.event_listener, event: swp.article.publish, method: addArticleToList }
             - { name: kernel.event_listener, event: swp.article.publish, method: addArticleToBucket }
 
+    SWP\Bundle\CoreBundle\EventSubscriber\HandleArticleChangeSubscriber:
+        arguments:
+            - "@swp.repository.content_list_item"
+            - "@doctrine.orm.entity_manager"
+        tags:
+            - { name: kernel.event_subscriber }
+
     swp_core.listener.revision_subscriber:
         class: SWP\Bundle\CoreBundle\EventSubscriber\RevisionsSubscriber
         arguments:
@@ -579,6 +586,10 @@ services:
             - { name: kernel.event_listener, event: swp.article.post_update, method: update }
             - { name: kernel.event_listener, event: swp.article.published, method: publish }
             - { name: kernel.event_listener, event: swp.article.unpublished, method: unpublish }
+
+    SWP\Bundle\CoreBundle\EventListener\SoftdeletableListener:
+        tags:
+            - { name: doctrine.event_listener, event: preRemove, priority: 10 }
 
     SWP\Bundle\CoreBundle\EventListener\DuplicatedSlugListener:
         arguments:

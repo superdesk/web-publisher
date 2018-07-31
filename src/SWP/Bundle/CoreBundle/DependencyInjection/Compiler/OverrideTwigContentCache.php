@@ -28,5 +28,6 @@ final class OverrideTwigContentCache extends AbstractOverridePass
         $lifetimeStrategyDefinition = $this->getDefinitionIfExists($container, 'twig_cache.strategy.lifetime');
         $lifetimeStrategyDefinition->setClass(LifetimeCacheStrategy::class);
         $lifetimeStrategyDefinition->addArgument(new Reference('swp_multi_tenancy.tenant_context'));
+        $lifetimeStrategyDefinition->addArgument(new Reference('swp_revision.context.revision'));
     }
 }

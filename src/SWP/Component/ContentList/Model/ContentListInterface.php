@@ -25,7 +25,7 @@ use SWP\Component\Storage\Model\PersistableInterface;
 interface ContentListInterface extends TimestampableInterface, SoftDeletableInterface, PersistableInterface, EnableableInterface
 {
     /**
-     * Items are added autmatically based on provided criteria.
+     * Items are added automatically based on provided criteria.
      * On criteria change items are also changed.
      */
     const TYPE_AUTOMATIC = 'automatic';
