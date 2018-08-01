@@ -1073,8 +1073,7 @@ final class ContentPushTest extends WebTestCase
         );
         self::assertEquals(200, $externalClient->getResponse()->getStatusCode());
         $content = json_decode($externalClient->getResponse()->getContent(), true);
-        dump($content);
-        die;
+        self::assertEquals('publish', $content['externalArticle']['status']);
     }
 
     public function testPackageWithSource()
