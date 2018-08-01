@@ -1002,6 +1002,81 @@ final class ContentPushTest extends WebTestCase
         self::assertEquals(0, $crawler->filter('html:contains("Slug cannot be longer than 200 characters")')->count());
     }
 
+    public function testOutputChannelPublish()
+    {
+        $client = static::createClient();
+        $client->request('POST', $this->router->generate('swp_api_core_create_tenant'), [
+            'tenant' => [
+                'name' => 'Local Wordpress',
+                'subdomain' => 'local_wordpress',
+                'domainName' => 'localhost',
+                'organization' => '123456',
+                'outputChannel' => [
+                    'type' => 'wordpress',
+                    'config' => [
+                        'url' => 'http://localhost:3000',
+                        'authorization_key' => 'Basic YWRtaW46dTJnWiB1QTlpIFVkYXogZnVtMSAxQnNkIHpwV2c=',
+                    ],
+                ],
+            ],
+        ]);
+        $externalTenant = \json_decode($client->getResponse()->getContent(), true);
+
+        $client->request('POST', $this->router->generate('swp_api_core_create_organization_rule'), [
+            'rule' => [
+                'expression' => 'true == true',
+                'priority' => 1,
+                'configuration' => [
+                    [
+                        'key' => 'destinations',
+                        'value' => [
+                            [
+                                'tenant' => $externalTenant['code'],
+                            ],
+                        ],
+                    ],
+                ],
+            ],
+        ]);
+        self::assertEquals(201, $client->getResponse()->getStatusCode());
+
+        $externalClient = static::createClient([], [
+            'HTTP_HOST' => 'local_wordpress.localhost',
+        ]);
+        $externalClient->request('POST', $this->router->generate('swp_api_core_create_rule'), [
+            'rule' => [
+                'expression' => 'true == true',
+                'priority' => 1,
+                'configuration' => [
+                    [
+                        'key' => 'published',
+                        'value' => true,
+                    ],
+                ],
+            ],
+        ]);
+        self::assertEquals(201, $client->getResponse()->getStatusCode());
+
+        $externalClient->request(
+            'POST',
+            $this->router->generate('swp_api_content_push'),
+            [],
+            [],
+            ['CONTENT_TYPE' => 'application/json'],
+            self::TEST_ITEM_UPDATE_ORIGIN
+        );
+        self::assertEquals(201, $client->getResponse()->getStatusCode());
+
+        $externalClient->request(
+            'GET',
+            $this->router->generate('swp_api_content_show_articles', ['id' => 1])
+        );
+        self::assertEquals(200, $externalClient->getResponse()->getStatusCode());
+        $content = json_decode($externalClient->getResponse()->getContent(), true);
+        dump($content);
+        die;
+    }
+
     public function testPackageWithSource()
     {
         $client = static::createClient();
