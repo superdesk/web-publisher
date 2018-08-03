@@ -40,4 +40,18 @@ class RedirectingControllerTest extends WebTestCase
         $client->followRedirect();
         self::assertEquals(200, $client->getResponse()->getStatusCode());
     }
+
+    public function testRedirectBasedOnExtraData()
+    {
+        $this->loadCustomFixtures(['tenant', 'article']);
+        $client = static::createClient();
+
+        $client->request('GET', '/redirecting/extra/articleNumber/10242');
+        self::assertEquals(301, $client->getResponse()->getStatusCode());
+        self::assertEquals('http://localhost/news/test-article', $client->getResponse()->headers->get('Location'));
+
+        $client->request('GET', '/redirecting/extra/webcode/+jxux6');
+        self::assertEquals(301, $client->getResponse()->getStatusCode());
+        self::assertEquals('http://localhost/news/sports/test-news-sports-article', $client->getResponse()->headers->get('Location'));
+    }
 }

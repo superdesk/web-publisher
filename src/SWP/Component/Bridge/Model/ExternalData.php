@@ -28,20 +28,38 @@ class ExternalData implements ExternalDataInterface, PersistableInterface
      */
     protected $id;
 
-    protected $data = [];
+    /**
+     * @var string
+     */
+    protected $key;
+
+    /**
+     * @var string
+     */
+    protected $value;
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getData(): array
+    public function getKey(): string
     {
-        return $this->data;
+        return $this->key;
     }
 
-    public function setData(array $data): void
+    public function setKey(string $key): void
     {
-        $this->data = $data;
+        $this->key = $key;
+    }
+
+    public function getValue(): string
+    {
+        return $this->value;
+    }
+
+    public function setValue(string $value): void
+    {
+        $this->value = $value;
     }
 }

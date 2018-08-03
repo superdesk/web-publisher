@@ -19,6 +19,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Superdesk\ContentApiSdk\Exception\InvalidDataException;
 use SWP\Bundle\BridgeBundle\Doctrine\ORM\PackageRepository;
+use SWP\Component\Bridge\Model\ExternalDataInterface;
 use SWP\Component\Bridge\Model\PackageInterface;
 use SWP\Component\Common\Exception\NotFoundHttpException;
 use SWP\Component\Common\Response\ResponseContext;
@@ -48,21 +49,32 @@ class ExternalDataController extends Controller
         /** @var PackageInterface $existingPackage */
         $existingPackage = $packageRepository->findOneBy(['slugline' => $slug]);
         if (null === $existingPackage) {
-            throw new NotFoundHttpException(sprintf('package with slug %s was not found', $slug));
+            throw new NotFoundHttpException(sprintf('Package with slug %s was not found', $slug));
         }
 
         $externalData = $existingPackage->getExternalData();
         if (null === $externalData) {
-            $externalData = $this->get('swp.factory.external_data')->create();
+            foreach ($externalData as $data) {
+                $packageRepository->remove($data);
+            }
+            $packageRepository->flush();
         }
 
         if (null !== $request->getContent()) {
             $validJson = self::getArrayFromJson($request->getContent());
-            $externalData->setData($validJson);
-            $existingPackage->setExternalData($externalData);
+            $responseData = [];
+            foreach ($validJson as $key => $value) {
+                /** @var ExternalDataInterface $externalData */
+                $externalData = $this->get('swp.factory.external_data')->create();
+                $externalData->setKey($key);
+                $externalData->setValue($value);
+                $externalData->setPackage($existingPackage);
+                $packageRepository->persist($externalData);
+                $responseData[$externalData->getKey()] = $externalData->getValue();
+            }
             $packageRepository->flush();
 
-            return new SingleResourceResponse($externalData->getData(), new ResponseContext(200));
+            return new SingleResourceResponse($responseData, new ResponseContext(200));
         }
 
         return new SingleResourceResponse(['Provided request content is not valid JSON'], new ResponseContext(400));
@@ -96,13 +108,19 @@ class ExternalDataController extends Controller
             return new SingleResourceResponse([], new ResponseContext(200));
         }
 
-        return new SingleResourceResponse($externalData->getData(), new ResponseContext(200));
+        $responseData = [];
+        /** @var ExternalDataInterface $data */
+        foreach ($externalData as $data) {
+            $responseData[$data->getKey()] = $data->getValue();
+        }
+
+        return new SingleResourceResponse($responseData, new ResponseContext(200));
     }
 
     private static function getArrayFromJson($jsonString)
     {
-        $jsonArray = json_decode($jsonString, true);
-        if (is_null($jsonArray) || JSON_ERROR_NONE !== json_last_error()) {
+        $jsonArray = \json_decode($jsonString, true);
+        if (is_null($jsonArray) || JSON_ERROR_NONE !== \json_last_error()) {
             throw new InvalidDataException('Provided request content is not valid JSON');
         }
 
