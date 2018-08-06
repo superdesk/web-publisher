@@ -54,6 +54,13 @@ services:
         tags:
             - { name: swp.meta_loader.add }
 
+    SWP\Bundle\ContentBundle\Loader\SlideshowLoader:
+        arguments:
+            - "@swp_template_engine_context.factory.meta_factory"
+            - "@swp.repository.slideshow"
+        tags:
+            - { name: swp.meta_loader.add }
+
     swp_content_bundle.factory.knp_paginator_representation:
         class: SWP\Component\Common\Factory\KnpPaginatorRepresentationFactory
         arguments:
@@ -85,6 +92,16 @@ services:
         tags:
             - { name: kernel.event_listener, event: swp.article.pre_create, method: onArticleCreate }
             - { name: kernel.event_listener, event: swp.article.pre_update, method: onArticleCreate }
+
+    SWP\Bundle\ContentBundle\EventListener\ProcessArticleSlideshowsListener:
+            arguments:
+                - '@swp.repository.media'
+                - '@swp.factory.media'
+                - '@swp_content_bundle.processor.article_body'
+                - '@swp.factory.slideshow'
+            tags:
+                - { name: kernel.event_listener, event: swp.article.pre_create, method: onArticleCreate }
+                - { name: kernel.event_listener, event: swp.article.pre_update, method: onArticleCreate }
 
     SWP\Bundle\ContentBundle\EventListener\SetProvidedPublishedDateListener:
         tags:

@@ -5,15 +5,13 @@ Feature: Handling the custom media fields
   I want to able to receive and parse the request with custom media fields payload
 
   Scenario: Saving the data from custom media fields
-    Given I am authenticated as "test.user"
-    When I add "Content-Type" header equal to "application/json"
+    Given I add "Content-Type" header equal to "application/json"
     And I send a "POST" request to "/api/v1/assets/push" with parameters:
       | key          | value                 |
       | media_id     | 1234567890987654321a  |
       | media        | @image.jpg            |
     Then the response status code should be 201
 
-    And I am authenticated as "test.user"
     When I add "Content-Type" header equal to "application/json"
     And I send a "POST" request to "/api/v1/assets/push" with parameters:
       | key          | value                 |
@@ -21,7 +19,6 @@ Feature: Handling the custom media fields
       | media        | @image.jpg            |
     Then the response status code should be 201
 
-    And I am authenticated as "test.user"
     When I add "Content-Type" header equal to "application/json"
     And I send a "POST" request to "/api/v1/assets/push" with parameters:
       | key          | value                 |
@@ -29,7 +26,6 @@ Feature: Handling the custom media fields
       | media        | @image.jpg            |
     Then the response status code should be 201
 
-    And I am authenticated as "test.user"
     When I add "Content-Type" header equal to "application/json"
     And I send a "POST" request to "/api/v1/assets/push" with parameters:
       | key          | value                 |
@@ -37,7 +33,6 @@ Feature: Handling the custom media fields
       | media        | @image.jpg            |
     Then the response status code should be 201
 
-    And I am authenticated as "test.user"
     When I add "Content-Type" header equal to "application/json"
     And I send a "POST" request to "/api/v1/assets/push" with parameters:
       | key          | value                 |
@@ -45,7 +40,6 @@ Feature: Handling the custom media fields
       | media        | @image.jpg            |
     Then the response status code should be 201
 
-    And I am authenticated as "test.user"
     When I add "Content-Type" header equal to "application/json"
     And I send a "POST" request to "/api/v1/assets/push" with parameters:
       | key          | value                 |
@@ -53,7 +47,6 @@ Feature: Handling the custom media fields
       | media        | @image.jpg            |
     Then the response status code should be 201
 
-    And I am authenticated as "test.user"
     When I add "Content-Type" header equal to "application/json"
     And I send a "POST" request to "/api/v1/content/push" with body:
     """
@@ -224,10 +217,6 @@ Feature: Handling the custom media fields
     And I add "Content-Type" header equal to "application/json"
     Then I send a "GET" request to "/api/v1/content/articles/abstract-html-test"
     Then the response status code should be 200
-    Then the JSON should be equal to:
-    """
-    {}
-    """
     And the JSON nodes should contain:
       | media[0].image.assetId                 | 1234567890987654321c |
       | media[0].renditions[0].name            | 16-9                 |
@@ -243,4 +232,8 @@ Feature: Handling the custom media fields
       | media[1].renditions[1].image.assetId   | 2234567890987654321b |
       | media[1].renditions[2].name            | original             |
       | media[1].renditions[2].image.assetId   | 2234567890987654321c |
-      | slideshows[0].image.assetId            | 1234567890987654321c |
+      | slideshows[0].code                     | slideshow1           |
+      | slideshows[0].items[0].image.assetId   | 1234567890987654321c |
+      | slideshows[0].items[0].id              | 1                    |
+      | slideshows[0].items[1].image.assetId   | 2234567890987654321c |
+      | slideshows[0].items[1].id              | 2                    |

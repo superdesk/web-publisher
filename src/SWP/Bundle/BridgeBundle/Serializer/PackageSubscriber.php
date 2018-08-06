@@ -65,6 +65,7 @@ class PackageSubscriber implements EventSubscriberInterface
             foreach ((array) $groups as $group) {
                 foreach ($group->getItems() as $groupItem) {
                     $groupItem->setGroup($group);
+                    $groupItem->setName($groupItem->getGuid());
                     $this->processRenditions($groupItem);
                 }
 

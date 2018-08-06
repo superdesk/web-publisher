@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Superdesk Web Publisher Content Bundle.
  *
@@ -14,78 +16,21 @@
 
 namespace SWP\Bundle\ContentBundle\EventListener;
 
-use SWP\Bundle\ContentBundle\Doctrine\ArticleMediaRepositoryInterface;
-use SWP\Bundle\ContentBundle\Doctrine\ORM\ArticleMediaRepository;
 use SWP\Bundle\ContentBundle\Event\ArticleEvent;
-use SWP\Bundle\ContentBundle\Factory\MediaFactoryInterface;
-use SWP\Bundle\ContentBundle\Model\ArticleInterface;
-use SWP\Bundle\ContentBundle\Model\ArticleMediaInterface;
-use SWP\Bundle\ContentBundle\Model\Slideshow;
-use SWP\Bundle\ContentBundle\Processor\ArticleBodyProcessorInterface;
 use SWP\Component\Bridge\Model\ItemInterface;
 
-class ProcessArticleMediaListener
+class ProcessArticleMediaListener extends AbstractArticleMediaListener
 {
-    /**
-     * @var ArticleMediaRepository
-     */
-    protected $articleMediaRepository;
-
-    /**
-     * @var MediaFactoryInterface
-     */
-    protected $mediaFactory;
-
-    /**
-     * @var ArticleBodyProcessorInterface
-     */
-    protected $articleBodyProcessor;
-
-    /**
-     * ProcessArticleMediaListener constructor.
-     *
-     * @param ArticleMediaRepositoryInterface $articleMediaRepository
-     * @param MediaFactoryInterface           $mediaFactory
-     * @param ArticleBodyProcessorInterface   $articleBodyProcessor
-     */
-    public function __construct(ArticleMediaRepositoryInterface $articleMediaRepository, MediaFactoryInterface $mediaFactory, ArticleBodyProcessorInterface $articleBodyProcessor)
-    {
-        $this->articleMediaRepository = $articleMediaRepository;
-        $this->mediaFactory = $mediaFactory;
-        $this->articleBodyProcessor = $articleBodyProcessor;
-    }
-
-    /**
-     * @param ArticleEvent $event
-     */
-    public function onArticleCreate(ArticleEvent $event)
+    public function onArticleCreate(ArticleEvent $event): void
     {
         $package = $event->getPackage();
         $article = $event->getArticle();
 
-        if (null === $package || (null !== $package && 0 === count($package->getItems()))) {
-            //return;
+        if (null === $package || (null !== $package && 0 === \count($package->getItems()))) {
+            return;
         }
 
         $this->removeOldArticleMedia($article);
-
-        foreach ($package->getGroups() as $packageGroup) {
-            $slideshow = new Slideshow();
-            $slideshow->setCode($packageGroup->getCode());
-
-            foreach ($packageGroup->getItems() as $key => $item) {
-                if (ItemInterface::TYPE_PICTURE === $item->getType() || ItemInterface::TYPE_FILE === $item->getType()) {
-                    $this->removeArticleMediaIfNeeded($key, $article);
-
-                    $articleMedia = $this->handleMedia($article, $key, $item);
-                    $this->articleMediaRepository->persist($articleMedia);
-
-                    $slideshow->addItem($articleMedia);
-                }
-            }
-
-            $article->addSlideshow($slideshow);
-        }
 
         foreach ($package->getItems() as $packageItem) {
             $key = $packageItem->getName();
@@ -107,64 +52,6 @@ class ProcessArticleMediaListener
                     }
                 }
             }
-        }
-    }
-
-    /**
-     * @param ArticleInterface $article
-     * @param string           $key
-     * @param ItemInterface    $item
-     *
-     * @return ArticleMediaInterface
-     */
-    public function handleMedia(ArticleInterface $article, string $key, ItemInterface $item)
-    {
-        $articleMedia = $this->mediaFactory->create($article, $key, $item);
-        foreach ($articleMedia->getRenditions() as $rendition) {
-            $this->articleMediaRepository->persist($rendition);
-        }
-
-        if (ItemInterface::TYPE_PICTURE === $item->getType()) {
-            $this->articleBodyProcessor->replaceBodyImagesWithMedia($article, $articleMedia);
-        }
-
-        if (ArticleInterface::KEY_FEATURE_MEDIA === $key) {
-            $article->setFeatureMedia($articleMedia);
-        }
-
-        return $articleMedia;
-    }
-
-    /**
-     * @param ArticleInterface $article
-     */
-    private function removeOldArticleMedia(ArticleInterface $article)
-    {
-        $existingArticleMedia = $this->articleMediaRepository->findBy([
-            'article' => $article->getId(),
-        ]);
-
-        foreach ($existingArticleMedia as $articleMedia) {
-            $this->articleMediaRepository->remove($articleMedia);
-            if ($articleMedia === $article->getFeatureMedia()) {
-                $article->setFeatureMedia(null);
-            }
-        }
-    }
-
-    /**
-     * @param string           $key
-     * @param ArticleInterface $article
-     */
-    private function removeArticleMediaIfNeeded($key, ArticleInterface $article)
-    {
-        $existingArticleMedia = $this->articleMediaRepository->findOneBy([
-            'key' => $key,
-            'article' => $article->getId(),
-        ]);
-
-        if (null !== $existingArticleMedia) {
-            $this->articleMediaRepository->remove($existingArticleMedia);
         }
     }
 }
