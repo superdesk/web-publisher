@@ -6,6 +6,7 @@ use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use SWP\Bundle\CoreBundle\Model\PackageInterface;
 use SWP\Bundle\FixturesBundle\AbstractFixture;
+use SWP\Component\Bridge\Model\ExternalDataInterface;
 
 class LoadArticlesWithMetadata extends AbstractFixture implements FixtureInterface
 {
@@ -95,10 +96,17 @@ class LoadArticlesWithMetadata extends AbstractFixture implements FixtureInterfa
                     'byline' => $articleData['author'],
                 ]);
                 $package = $this->createPackage($articleData);
-                $externalData = $this->container->get('swp.factory.external_data')->create();
-                $externalData->setData(['some test data' => 'SOME TEST VALUE', 34 => null]);
-                $manager->persist($externalData);
-                $package->setExternalData($externalData);
+                /** @var ExternalDataInterface $firstExternalData */
+                $firstExternalData = $this->container->get('swp.factory.external_data')->create();
+                $firstExternalData->setKey('some test data');
+                $firstExternalData->setValue('SOME TEST VALUE');
+                $firstExternalData->setPackage($package);
+                $secondExternalData = $this->container->get('swp.factory.external_data')->create();
+                $secondExternalData->setKey(34);
+                $secondExternalData->setValue('another value');
+                $secondExternalData->setPackage($package);
+                $manager->persist($firstExternalData);
+                $manager->persist($secondExternalData);
                 $manager->persist($package);
                 $article->setPackage($package);
 
