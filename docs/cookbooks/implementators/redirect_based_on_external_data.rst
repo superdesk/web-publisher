@@ -35,8 +35,8 @@ Redirect url
 In our case server is responsible for composing redirect (supported with regular expressions) url containing article identifier from original url
 and pushed as external data to package.
 
-For example for article with url like that: :code:`/en/sport/123456/mundial-winner` we need to push indetifier (:code:`123456`) as a eternal data
+For example for article with url like that: :code:`/en/sport/123456/mundial-winner` we need to push indetifier (:code:`123456`) as a external data
 to :code:`/api/v1/packages/extra/mundial-winner`.
 
-After that server can rediret our url to this one: :code:`/redirecting/extra/articleNumber/123456`. Publisher in response will return Redirect
+After that server can rediret our url to this one: :code:`/redirecting/extra/articleNumber/123456`. Publisher in response will return redirect
 response (with code 301) to new article location.

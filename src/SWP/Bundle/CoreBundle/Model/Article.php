@@ -124,6 +124,11 @@ class Article extends BaseArticle implements ArticleInterface
             return [];
         }
 
-        return $this->getPackage()->getExternalData()->getData();
+        $data = [];
+        foreach ($this->getPackage()->getExternalData() as $singleData) {
+            $data[$singleData->getKey()] = $singleData->getValue();
+        }
+
+        return $data;
     }
 }
