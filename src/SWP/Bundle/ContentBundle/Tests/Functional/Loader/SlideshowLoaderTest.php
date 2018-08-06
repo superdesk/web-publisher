@@ -16,7 +16,6 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\ContentBundle\Tests\Functional\Loader;
 
-use SWP\Bundle\FixturesBundle\DataFixtures\ORM\LoadArticlesMediaData;
 use SWP\Bundle\FixturesBundle\WebTestCase;
 
 class SlideshowLoaderTest extends WebTestCase
