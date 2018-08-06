@@ -1,0 +1,7 @@
+SWP\Bundle\ContentBundle\Model\Slideshow:
+    exclusion_policy: ALL
+    properties:
+        code:
+            expose: true
+        items:
+            expose: true

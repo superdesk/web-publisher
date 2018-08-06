@@ -127,6 +127,11 @@ class Article implements ArticleInterface
     protected $extra;
 
     /**
+     * @var Collection|SlideshowInterface[]
+     */
+    protected $slideshows;
+
+    /**
      * Article constructor.
      */
     public function __construct()
@@ -136,6 +141,7 @@ class Article implements ArticleInterface
         $this->setMedia(new ArrayCollection());
         $this->sources = new ArrayCollection();
         $this->authors = new ArrayCollection();
+        $this->slideshows = new ArrayCollection();
     }
 
     /**
@@ -505,5 +511,31 @@ class Article implements ArticleInterface
     public function setExtra(?array $extra): void
     {
         $this->extra = $extra;
+    }
+
+    public function getSlideshows(): Collection
+    {
+        return $this->slideshows;
+    }
+
+    public function hasSlideshow(SlideshowInterface $slideshow): bool
+    {
+        return $this->slideshows->contains($slideshow);
+    }
+
+    public function addSlideshow(SlideshowInterface $slideshow): void
+    {
+        if (!$this->hasSlideshow($slideshow)) {
+            $slideshow->setArticle($this);
+            $this->slideshows->add($slideshow);
+        }
+    }
+
+    public function removeSlideshow(SlideshowInterface $slideshow): void
+    {
+        if ($this->hasSlideshow($slideshow)) {
+            $slideshow->setArticle(null);
+            $this->slideshows->removeElement($slideshow);
+        }
     }
 }

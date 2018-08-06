@@ -58,6 +58,11 @@ class Item extends BaseContent implements ItemInterface, TimestampableInterface
      */
     protected $package;
 
+    /**
+     * @var Package
+     */
+    protected $group;
+
     public function __construct()
     {
         $this->renditions = new ArrayCollection();
@@ -180,5 +185,15 @@ class Item extends BaseContent implements ItemInterface, TimestampableInterface
     public function getPackage()
     {
         return $this->package;
+    }
+
+    public function setGroup(?GroupInterface $group): void
+    {
+        $this->group = $group;
+    }
+
+    public function getGroup(): ?GroupInterface
+    {
+        return $this->group;
     }
 }

@@ -39,4 +39,8 @@ interface PackageInterface extends ContentInterface, TimestampableInterface, Ena
     public function getExternalData(): ?ExternalDataInterface;
 
     public function setExternalData(ExternalDataInterface $externalData): void;
+
+    public function getGroups(): ?Collection;
+
+    public function setGroups(?Collection $groups): void;
 }

@@ -43,6 +43,8 @@ use SWP\Bundle\ContentBundle\Model\ImageRendition;
 use SWP\Bundle\ContentBundle\Model\ImageRenditionInterface;
 use SWP\Bundle\ContentBundle\Model\Route;
 use SWP\Bundle\ContentBundle\Model\RouteInterface;
+use SWP\Bundle\ContentBundle\Model\Slideshow;
+use SWP\Bundle\ContentBundle\Model\SlideshowInterface;
 use SWP\Bundle\StorageBundle\Doctrine\ORM\EntityRepository;
 use SWP\Component\Storage\Factory\Factory;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
@@ -158,6 +160,16 @@ class Configuration implements ConfigurationInterface
                                                 ->scalarNode('model')->cannotBeEmpty()->defaultValue(File::class)->end()
                                                 ->scalarNode('interface')->cannotBeEmpty()->defaultValue(FileInterface::class)->end()
                                                 ->scalarNode('repository')->defaultValue(FileRepository::class)->end()
+                                                ->scalarNode('factory')->defaultValue(Factory::class)->end()
+                                                ->scalarNode('object_manager_name')->defaultValue(null)->end()
+                                            ->end()
+                                        ->end()
+                                        ->arrayNode('slideshow')
+                                            ->addDefaultsIfNotSet()
+                                            ->children()
+                                                ->scalarNode('model')->cannotBeEmpty()->defaultValue(Slideshow::class)->end()
+                                                ->scalarNode('interface')->cannotBeEmpty()->defaultValue(SlideshowInterface::class)->end()
+                                                ->scalarNode('repository')->defaultValue(EntityRepository::class)->end()
                                                 ->scalarNode('factory')->defaultValue(Factory::class)->end()
                                                 ->scalarNode('object_manager_name')->defaultValue(null)->end()
                                             ->end()

@@ -16,6 +16,7 @@ declare(strict_types=1);
 
 namespace SWP\Component\Bridge\Model;
 
+use Doctrine\Common\Collections\Collection;
 use SWP\Component\Storage\Model\PersistableInterface;
 
 interface ContentInterface extends PersistableInterface, AuthorsAwareInterface

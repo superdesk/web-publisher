@@ -20,6 +20,7 @@ use SWP\Bundle\ContentBundle\Event\ArticleEvent;
 use SWP\Bundle\ContentBundle\Factory\MediaFactoryInterface;
 use SWP\Bundle\ContentBundle\Model\ArticleInterface;
 use SWP\Bundle\ContentBundle\Model\ArticleMediaInterface;
+use SWP\Bundle\ContentBundle\Model\Slideshow;
 use SWP\Bundle\ContentBundle\Processor\ArticleBodyProcessorInterface;
 use SWP\Component\Bridge\Model\ItemInterface;
 
@@ -63,10 +64,29 @@ class ProcessArticleMediaListener
         $article = $event->getArticle();
 
         if (null === $package || (null !== $package && 0 === count($package->getItems()))) {
-            return;
+            //return;
         }
 
         $this->removeOldArticleMedia($article);
+
+        foreach ($package->getGroups() as $packageGroup) {
+            $slideshow = new Slideshow();
+            $slideshow->setCode($packageGroup->getCode());
+
+            foreach ($packageGroup->getItems() as $key => $item) {
+                if (ItemInterface::TYPE_PICTURE === $item->getType() || ItemInterface::TYPE_FILE === $item->getType()) {
+                    $this->removeArticleMediaIfNeeded($key, $article);
+
+                    $articleMedia = $this->handleMedia($article, $key, $item);
+                    $this->articleMediaRepository->persist($articleMedia);
+
+                    $slideshow->addItem($articleMedia);
+                }
+            }
+
+            $article->addSlideshow($slideshow);
+        }
+
         foreach ($package->getItems() as $packageItem) {
             $key = $packageItem->getName();
             if (ItemInterface::TYPE_PICTURE === $packageItem->getType() || ItemInterface::TYPE_FILE === $packageItem->getType()) {
