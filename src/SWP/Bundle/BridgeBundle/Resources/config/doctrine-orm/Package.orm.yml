@@ -99,8 +99,6 @@ SWP\Component\Bridge\Model\Package:
     oneToOne:
         externalData:
             targetEntity: SWP\Component\Bridge\Model\ExternalData
-            cascade: ['persist', 'remove']
-            joinColumn:
-                nullable: true
-                name: external_data_id
-                referencedColumnName: id
+            cascade: ["all"]
+            orphanRemoval: true
+            mappedBy: package
