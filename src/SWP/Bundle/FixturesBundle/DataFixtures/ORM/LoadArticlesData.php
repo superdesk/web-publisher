@@ -30,6 +30,7 @@ use SWP\Bundle\CoreBundle\Model\ArticleEventInterface;
 use SWP\Bundle\CoreBundle\Model\PackageInterface;
 use SWP\Bundle\FixturesBundle\AbstractFixture;
 use SWP\Bundle\FixturesBundle\Faker\Provider\ArticleDataProvider;
+use SWP\Component\Bridge\Model\ExternalDataInterface;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class LoadArticlesData extends AbstractFixture implements FixtureInterface, OrderedFixtureInterface
@@ -371,6 +372,9 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface, Orde
                         'Tom',
                     ],
                     'sources' => ['Forbes', 'AAP'],
+                    'external' => [
+                        'webcode' => '+jxuk9',
+                    ],
                 ],
                 [
                     'title' => 'Test news sports article',
@@ -391,6 +395,10 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface, Orde
                         'Test Person',
                     ],
                     'sources' => ['Reuters', 'AFP'],
+                    'external' => [
+                        'webcode' => '+jxux6',
+                        'extra data' => 'extra value',
+                    ],
                 ],
                 [
                     'title' => 'Test article',
@@ -410,6 +418,9 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface, Orde
                         'John Doe',
                     ],
                     'sources' => ['Forbes', 'AAP'],
+                    'external' => [
+                        'articleNumber' => '10242',
+                    ],
                 ],
                 [
                     'title' => 'Features',
@@ -436,6 +447,9 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface, Orde
                         'Test Person',
                     ],
                     'sources' => ['Forbes', 'AFP'],
+                    'external' => [
+                        'articleNumber' => '64525',
+                    ],
                 ],
             ],
         ];
@@ -484,6 +498,16 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface, Orde
                 }
 
                 $package = $this->createPackage($articleData);
+                if (isset($articleData['external'])) {
+                    foreach ($articleData['external'] as $dataKey => $dataValue) {
+                        /** @var ExternalDataInterface $externalData */
+                        $externalData = $this->container->get('swp.factory.external_data')->create();
+                        $externalData->setKey($dataKey);
+                        $externalData->setValue($dataValue);
+                        $externalData->setPackage($package);
+                        $manager->persist($externalData);
+                    }
+                }
                 $manager->persist($article);
                 $articleStatistics = $this->createArticleStatistics($articleData['pageViews'], $articleData['pageViewsDates'], $article, $manager);
                 $manager->persist($articleStatistics);

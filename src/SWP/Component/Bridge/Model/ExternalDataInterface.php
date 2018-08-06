@@ -14,9 +14,13 @@
 
 namespace SWP\Component\Bridge\Model;
 
-interface ExternalDataInterface
+interface ExternalDataInterface extends PackageAwareInterface
 {
-    public function getData(): array;
+    public function getKey(): string;
 
-    public function setData(array $data): void;
+    public function setKey(string $key): void;
+
+    public function getValue(): string;
+
+    public function setValue(string $value): void;
 }

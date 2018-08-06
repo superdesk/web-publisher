@@ -38,3 +38,11 @@ remove_trailing_slash:
     requirements:
         url: .*/$
     methods: [GET]
+
+swp_redirecting_extra_data:
+    path: /redirecting/extra/{key}/{value}
+    defaults: { _controller: SWPCoreBundle:Redirecting:redirectBasedOnExtraData }
+    requirements:
+        key: \w+
+        value: \+?\w+
+    methods: [GET]

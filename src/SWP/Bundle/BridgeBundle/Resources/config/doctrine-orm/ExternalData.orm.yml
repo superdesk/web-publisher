@@ -8,9 +8,12 @@ SWP\Component\Bridge\Model\ExternalData:
             generator:
                 strategy: AUTO
     fields:
-        data:
-            type: array
-            nullable: true
+        key:
+            type: string
+            nullable: false
+        value:
+            type: string
+            nullable: false
         createdAt:
             type: datetime
             gedmo:
@@ -22,3 +25,7 @@ SWP\Component\Bridge\Model\ExternalData:
             gedmo:
                 timestampable:
                     on: update
+    manyToOne:
+        package:
+            targetEntity: SWP\Component\Bridge\Model\PackageInterface
+            inversedBy: externalData

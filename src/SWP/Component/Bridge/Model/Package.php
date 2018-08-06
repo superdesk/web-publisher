@@ -35,7 +35,7 @@ class Package extends BaseContent implements PackageInterface
     protected $body;
 
     /**
-     * @var ExternalDataInterface
+     * @var Collection
      */
     protected $externalData;
 
@@ -84,12 +84,12 @@ class Package extends BaseContent implements PackageInterface
         $this->body = $body;
     }
 
-    public function getExternalData(): ?ExternalDataInterface
+    public function getExternalData(): ?Collection
     {
         return $this->externalData;
     }
 
-    public function setExternalData(ExternalDataInterface $externalData): void
+    public function setExternalData(Collection $externalData): void
     {
         $this->externalData = $externalData;
     }

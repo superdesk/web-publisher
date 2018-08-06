@@ -69,6 +69,23 @@ class ArticleRepository extends ContentBundleArticleRepository implements Articl
     /**
      * {@inheritdoc}
      */
+    public function getArticleByPackageExtraData(string $key, string $value): QueryBuilder
+    {
+        $queryBuilder = $this->createQueryBuilder('a');
+        $queryBuilder
+            ->leftJoin('a.package', 'p')
+            ->leftJoin('p.externalData', 'e')
+            ->andWhere('e.key = :key')
+            ->andWhere('e.value = :value')
+            ->setParameters(['key' => $key, 'value' => $value])
+        ;
+
+        return $queryBuilder;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     protected function applySorting(QueryBuilder $queryBuilder, array $sorting, string $alias, Criteria $criteria = null)
     {
         if (isset($sorting['pageViews']) && !empty($sorting['pageViews'])) {
