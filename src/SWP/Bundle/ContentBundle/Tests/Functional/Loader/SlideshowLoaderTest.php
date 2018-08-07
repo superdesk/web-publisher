@@ -16,45 +16,82 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\ContentBundle\Tests\Functional\Loader;
 
+use SWP\Bundle\ContentBundle\Loader\SlideshowLoader;
 use SWP\Bundle\FixturesBundle\WebTestCase;
+use SWP\Component\TemplatesSystem\Gimme\Loader\LoaderInterface;
+use SWP\Component\TemplatesSystem\Gimme\Meta\Meta;
 
 class SlideshowLoaderTest extends WebTestCase
 {
     /**
-     * @var \Twig_Environment
+     * @var SlideshowLoader
      */
-    private $twig;
+    protected $slideshowLoader;
 
     public function setUp()
     {
-        self::bootKernel();
         $this->initDatabase();
-
         $this->loadCustomFixtures(['tenant', 'article_slideshows']);
-        $this->twig = $this->getContainer()->get('twig');
+
+        $this->slideshowLoader = new SlideshowLoader(
+            $this->getContainer()->get('swp_template_engine_context.factory.meta_factory'),
+            $this->getContainer()->get('swp.repository.slideshow'),
+            $this->getContainer()->get('swp_template_engine_context')
+        );
     }
 
-    public function testLoadSlideshows(): void
+    public function testIfIsSupported(): void
     {
-        $template = '{% gimmelist slideshow from slideshows %} {{ slideshow.code }} {% endgimmelist %}';
-        $result = $this->getRendered($template);
-
-        self::assertEquals(' slideshow1  slideshow2 ', $result);
+        $this->assertTrue($this->slideshowLoader->isSupported('slideshow'));
+        $this->assertTrue($this->slideshowLoader->isSupported('slideshows'));
     }
 
-    public function testLoadSlideshowByName(): void
+    public function testLoadingSlideshows(): void
     {
-        $template = '{% gimme slideshow with {name: "slideshow2"} %} {{ slideshow.code }} {% for item in slideshow.items %} {{ url(item) }} {% endfor %} {% endgimme %}';
-        $result = $this->getRendered($template);
+        $articleLoader = $this->getContainer()->get('swp_template_engine.loader.article');
+        $articleMeta = $articleLoader->load('article', ['slug' => 'test-news-article']);
+        $slideshows = $this->slideshowLoader->load('slideshows', ['article' => $articleMeta], [], LoaderInterface::COLLECTION);
 
-        self::assertEquals(' slideshow2  http://localhost/media/12345678987654321a.jpeg  ', $result);
+        self::assertCount(2, $slideshows);
+        self::assertInstanceOf(Meta::class, $slideshows[0]);
+        self::assertEquals('slideshow1', $slideshows[0]->code);
+        self::assertEquals('slideshow3', $slideshows[1]->code);
+        self::assertCount(1, $slideshows[0]->items);
+        self::assertCount(1, $slideshows[1]->items);
+
+        $slideshows2 = $this->slideshowLoader->load('slideshows', [], [], LoaderInterface::COLLECTION);
+        self::assertInstanceOf(Meta::class, $slideshows2[0]);
+        self::assertEquals('slideshow1', $slideshows2[0]->code);
+        self::assertEquals('slideshow3', $slideshows2[1]->code);
+        self::assertEquals($slideshows[0]->code, $slideshows2[0]->code);
     }
 
-    private function getRendered($template, $context = [])
+    public function testLoadingSingleSlideshowByName(): void
     {
-        $template = $this->twig->createTemplate($template);
-        $content = $template->render($context);
+        $articleLoader = $this->getContainer()->get('swp_template_engine.loader.article');
+        $articleMeta = $articleLoader->load('article', ['slug' => 'test-news-article']);
+        $slideshow = $this->slideshowLoader->load('slideshow', ['article' => $articleMeta, 'name' => 'slideshow1'], [], LoaderInterface::SINGLE);
 
-        return $content;
+        self::assertInstanceOf(Meta::class, $slideshow);
+        self::assertEquals('slideshow1', $slideshow->code);
+        self::assertCount(1, $slideshow->items);
+
+        $slideshow2 = $this->slideshowLoader->load('slideshow', ['name' => 'slideshow1'], [], LoaderInterface::SINGLE);
+        self::assertInstanceOf(Meta::class, $slideshow2);
+        self::assertEquals('slideshow1', $slideshow2->code);
+        self::assertEquals($slideshow->code, $slideshow2->code);
+
+        $slideshow = $this->slideshowLoader->load('slideshow', ['article' => $articleMeta, 'name' => 'slideshow3'], [], LoaderInterface::SINGLE);
+
+        self::assertInstanceOf(Meta::class, $slideshow);
+        self::assertEquals('slideshow3', $slideshow->code);
+        self::assertCount(1, $slideshow->items);
+
+        // try to load slideshow from different article
+        $articleMeta = $articleLoader->load('article', ['slug' => 'test-news-article-2']);
+        $slideshow = $this->slideshowLoader->load('slideshow', ['article' => $articleMeta, 'name' => 'slideshow1'], [], LoaderInterface::SINGLE);
+
+        self::assertNotInstanceOf(Meta::class, $slideshow);
+        self::assertFalse($slideshow);
     }
 }

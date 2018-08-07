@@ -47,13 +47,18 @@ class LoadArticlesSlideshowsData extends AbstractFixture implements FixtureInter
                     'title' => 'Test news article',
                     'content' => 'Test news article content',
                     'locale' => 'en',
-                    'slideshowCode' => 'slideshow1',
+                    'slideshows' => [
+                        'slideshow1',
+                        'slideshow3',
+                    ]
                 ],
                 [
                     'title' => 'Test news article 2',
                     'content' => 'Test news article content 2',
                     'locale' => 'en',
-                    'slideshowCode' => 'slideshow2',
+                    'slideshows' => [
+                        'slideshow2',
+                    ]
                 ],
             ],
         ];
@@ -124,12 +129,13 @@ class LoadArticlesSlideshowsData extends AbstractFixture implements FixtureInter
                     $manager->persist($imageRendition);
                 }
 
-                if (isset($articleData['slideshowCode'])) {
-                    $slideshow = new Slideshow();
-                    $slideshow->setCode($articleData['slideshowCode']);
-                    $slideshow->addItem($articleMedia);
-
-                    $article->addSlideshow($slideshow);
+                if (isset($articleData['slideshows'])) {
+                    foreach ((array) $articleData['slideshows'] as $slideshowCode) {
+                        $slideshow = new Slideshow();
+                        $slideshow->setCode($slideshowCode);
+                        $slideshow->addItem($articleMedia);
+                        $article->addSlideshow($slideshow);
+                    }
                 }
             }
 

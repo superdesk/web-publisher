@@ -19,8 +19,10 @@ namespace SWP\Bundle\ContentBundle\Loader;
 use Doctrine\Common\Collections\ArrayCollection;
 use SWP\Bundle\ContentBundle\Doctrine\SlideshowRepositoryInterface;
 use SWP\Component\Common\Criteria\Criteria;
+use SWP\Component\TemplatesSystem\Gimme\Context\Context;
 use SWP\Component\TemplatesSystem\Gimme\Factory\MetaFactoryInterface;
 use SWP\Component\TemplatesSystem\Gimme\Loader\LoaderInterface;
+use SWP\Component\TemplatesSystem\Gimme\Meta\Meta;
 use SWP\Component\TemplatesSystem\Gimme\Meta\MetaCollection;
 
 final class SlideshowLoader extends PaginatedLoader implements LoaderInterface
@@ -37,17 +39,32 @@ final class SlideshowLoader extends PaginatedLoader implements LoaderInterface
      */
     private $slideshowRepository;
 
+    /**
+     * @var Context
+     */
+    protected $context;
+
     public function __construct(
         MetaFactoryInterface $metaFactory,
-        SlideshowRepositoryInterface $slideshowRepository
+        SlideshowRepositoryInterface $slideshowRepository,
+        Context $context
     ) {
         $this->metaFactory = $metaFactory;
         $this->slideshowRepository = $slideshowRepository;
+        $this->context = $context;
     }
 
     public function load($type, $parameters = [], $withoutParameters = [], $responseType = LoaderInterface::SINGLE)
     {
         $criteria = new Criteria();
+
+        if (array_key_exists('article', $parameters) && $parameters['article'] instanceof Meta) {
+            $criteria->set('article', $parameters['article']->getValues());
+        } elseif (isset($this->context->article)) {
+            $criteria->set('article', $this->context->article->getValues());
+        } else {
+            return false;
+        }
 
         if (LoaderInterface::SINGLE === $responseType) {
             if (array_key_exists('name', $parameters) && \is_string($parameters['name'])) {
@@ -56,7 +73,10 @@ final class SlideshowLoader extends PaginatedLoader implements LoaderInterface
                 return false;
             }
 
-            $slideshow = $this->slideshowRepository->findOneBy(['code' => $parameters['name']]);
+            $slideshow = $this->slideshowRepository->findOneBy([
+                'code' => $parameters['name'],
+                'article' => $criteria->get('article')->getId(),
+            ]);
 
             if (null !== $slideshow) {
                 return $this->metaFactory->create($slideshow);
