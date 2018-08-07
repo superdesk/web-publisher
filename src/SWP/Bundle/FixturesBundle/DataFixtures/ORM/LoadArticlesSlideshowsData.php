@@ -50,7 +50,7 @@ class LoadArticlesSlideshowsData extends AbstractFixture implements FixtureInter
                     'slideshows' => [
                         'slideshow1',
                         'slideshow3',
-                    ]
+                    ],
                 ],
                 [
                     'title' => 'Test news article 2',
@@ -58,7 +58,7 @@ class LoadArticlesSlideshowsData extends AbstractFixture implements FixtureInter
                     'locale' => 'en',
                     'slideshows' => [
                         'slideshow2',
-                    ]
+                    ],
                 ],
             ],
         ];
