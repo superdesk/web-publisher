@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Superdesk Web Publisher Fixtures Bundle.
  *
@@ -15,8 +17,8 @@
 namespace SWP\Bundle\FixturesBundle\DataFixtures\ORM;
 
 use Behat\Transliterator\Transliterator;
+use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Common\DataFixtures\FixtureInterface;
-use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use SWP\Bundle\AnalyticsBundle\Model\ArticleStatisticsInterface;
 use SWP\Bundle\ContentBundle\Model\ArticleAuthor;
@@ -33,14 +35,14 @@ use SWP\Bundle\FixturesBundle\Faker\Provider\ArticleDataProvider;
 use SWP\Component\Bridge\Model\ExternalDataInterface;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
-class LoadArticlesData extends AbstractFixture implements FixtureInterface, OrderedFixtureInterface
+class LoadArticlesData extends AbstractFixture implements FixtureInterface, DependentFixtureInterface
 {
     private $manager;
 
     /**
      * {@inheritdoc}
      */
-    public function load(ObjectManager $manager)
+    public function load(ObjectManager $manager): void
     {
         $this->manager = $manager;
         $env = $this->getEnvironment();
@@ -60,7 +62,7 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface, Orde
         $manager->flush();
     }
 
-    public function loadRoutes($env, $manager)
+    public function loadRoutes($env, $manager): void
     {
         $routes = [
             'dev' => [
@@ -222,7 +224,7 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface, Orde
         $manager->flush();
     }
 
-    public function loadArticles($env, ObjectManager $manager)
+    public function loadArticles($env, ObjectManager $manager): void
     {
         $articleDataProvider = $this->container->get(ArticleDataProvider::class);
 
@@ -522,7 +524,7 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface, Orde
         }
     }
 
-    private function createPackage(array $articleData)
+    private function createPackage(array $articleData): PackageInterface
     {
         /** @var PackageInterface $package */
         $package = $this->container->get('swp.factory.package')->create();
@@ -540,7 +542,7 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface, Orde
         return $package;
     }
 
-    private function createArticleStatistics(int $pageViewsNumber, array $pageViewsDates, ArticleInterface $article, ObjectManager $manager)
+    private function createArticleStatistics(int $pageViewsNumber, array $pageViewsDates, ArticleInterface $article, ObjectManager $manager): ArticleStatisticsInterface
     {
         /** @var ArticleStatisticsInterface $articleStatistics */
         $articleStatistics = $this->container->get('swp.factory.article_statistics')->create();
@@ -565,7 +567,7 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface, Orde
         return $articleStatistics;
     }
 
-    private function cropAndResizeImage($fakeImage, array $rendition, $targetFile)
+    private function cropAndResizeImage($fakeImage, array $rendition, $targetFile): void
     {
         $image = imagecreatefromjpeg($fakeImage);
         list($width, $height) = getimagesize($fakeImage);
@@ -602,11 +604,10 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface, Orde
         unset($image);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getOrder()
+    public function getDependencies(): array
     {
-        return 1;
+        return [
+            LoadUsersData::class,
+        ];
     }
 }

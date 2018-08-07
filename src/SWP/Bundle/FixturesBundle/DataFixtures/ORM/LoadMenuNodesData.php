@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Superdesk Web Publisher Fixtures Bundle.
  *
@@ -14,18 +16,18 @@
 
 namespace SWP\Bundle\FixturesBundle\DataFixtures\ORM;
 
+use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Common\DataFixtures\FixtureInterface;
-use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use SWP\Bundle\CoreBundle\Model\MenuItem;
 use SWP\Bundle\FixturesBundle\AbstractFixture;
 use Doctrine\Common\Persistence\ObjectManager;
 
-class LoadMenuNodesData extends AbstractFixture implements FixtureInterface, OrderedFixtureInterface
+class LoadMenuNodesData extends AbstractFixture implements FixtureInterface, DependentFixtureInterface
 {
     /**
      * {@inheritdoc}
      */
-    public function load(ObjectManager $manager)
+    public function load(ObjectManager $manager): void
     {
         $env = $this->getEnvironment();
         $menuNodes = [
@@ -176,8 +178,10 @@ class LoadMenuNodesData extends AbstractFixture implements FixtureInterface, Ord
         }
     }
 
-    public function getOrder()
+    public function getDependencies(): array
     {
-        return 5;
+        return [
+            LoadTenantsData::class,
+        ];
     }
 }

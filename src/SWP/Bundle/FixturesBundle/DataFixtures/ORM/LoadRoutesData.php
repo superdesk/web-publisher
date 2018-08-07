@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Superdesk Web Publisher Fixtures Bundle.
  *
@@ -15,12 +17,11 @@
 namespace SWP\Bundle\FixturesBundle\DataFixtures\ORM;
 
 use Doctrine\Common\DataFixtures\FixtureInterface;
-use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use SWP\Bundle\ContentBundle\Doctrine\ORM\Route;
 use SWP\Bundle\FixturesBundle\AbstractFixture;
 
-class LoadRoutesData extends AbstractFixture implements FixtureInterface, OrderedFixtureInterface
+class LoadRoutesData extends AbstractFixture implements FixtureInterface
 {
     const TEST_CACHE_TIME = 1;
 
@@ -34,7 +35,7 @@ class LoadRoutesData extends AbstractFixture implements FixtureInterface, Ordere
     /**
      * {@inheritdoc}
      */
-    public function load(ObjectManager $manager)
+    public function load(ObjectManager $manager): void
     {
         $env = $this->getEnvironment();
         if ('test' === $env) {
@@ -59,13 +60,5 @@ class LoadRoutesData extends AbstractFixture implements FixtureInterface, Ordere
         $this->addReference('route_'.$data['name'], $route);
 
         $manager->persist($route);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getOrder()
-    {
-        return 3;
     }
 }

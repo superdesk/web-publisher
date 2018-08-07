@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Superdesk Web Publisher Fixtures Bundle.
  *
@@ -14,17 +16,18 @@
 
 namespace SWP\Bundle\FixturesBundle\DataFixtures\ORM;
 
+use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use SWP\Bundle\CoreBundle\Model\UserInterface;
 use SWP\Bundle\FixturesBundle\AbstractFixture;
 
-class LoadUsersData extends AbstractFixture implements FixtureInterface
+class LoadUsersData extends AbstractFixture implements FixtureInterface, DependentFixtureInterface
 {
     /**
      * {@inheritdoc}
      */
-    public function load(ObjectManager $manager)
+    public function load(ObjectManager $manager): void
     {
         $userManager = $this->container->get('fos_user.user_manager');
 
@@ -68,5 +71,12 @@ class LoadUsersData extends AbstractFixture implements FixtureInterface
 
         $apiKey = $this->container->get('swp.factory.api_key')->create($user, base64_encode('client2_token'));
         $this->container->get('swp.repository.api_key')->add($apiKey);
+    }
+
+    public function getDependencies(): array
+    {
+        return [
+            LoadTenantsData::class,
+        ];
     }
 }

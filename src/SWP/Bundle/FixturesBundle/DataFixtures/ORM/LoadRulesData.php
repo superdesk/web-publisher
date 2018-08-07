@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Superdesk Web Publisher Fixtures Bundle.
  *
@@ -14,17 +16,17 @@
 
 namespace SWP\Bundle\FixturesBundle\DataFixtures\ORM;
 
+use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Common\DataFixtures\FixtureInterface;
-use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use SWP\Bundle\FixturesBundle\AbstractFixture;
 
-class LoadRulesData extends AbstractFixture implements FixtureInterface, OrderedFixtureInterface
+class LoadRulesData extends AbstractFixture implements FixtureInterface, DependentFixtureInterface
 {
     /**
      * {@inheritdoc}
      */
-    public function load(ObjectManager $manager)
+    public function load(ObjectManager $manager): void
     {
         $env = $this->getEnvironment();
 
@@ -35,11 +37,10 @@ class LoadRulesData extends AbstractFixture implements FixtureInterface, Ordered
         );
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getOrder()
+    public function getDependencies(): array
     {
-        return 6;
+        return [
+            LoadArticlesData::class,
+        ];
     }
 }

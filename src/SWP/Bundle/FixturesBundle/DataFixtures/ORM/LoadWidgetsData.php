@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Superdesk Web Publisher Fixtures Bundle.
  *
@@ -14,19 +16,19 @@
 
 namespace SWP\Bundle\FixturesBundle\DataFixtures\ORM;
 
+use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Common\DataFixtures\FixtureInterface;
-use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use SWP\Bundle\FixturesBundle\AbstractFixture;
 use Doctrine\Common\Persistence\ObjectManager;
 use SWP\Bundle\CoreBundle\Model\WidgetModel;
 use SWP\Component\MultiTenancy\Model\TenantInterface;
 
-class LoadWidgetsData extends AbstractFixture implements FixtureInterface, OrderedFixtureInterface
+class LoadWidgetsData extends AbstractFixture implements FixtureInterface, DependentFixtureInterface
 {
     /**
      * {@inheritdoc}
      */
-    public function load(ObjectManager $manager)
+    public function load(ObjectManager $manager): void
     {
         /** @var TenantInterface $tenant */
         $tenant = $this->container->get('swp.repository.tenant')->findOneByDomain(AbstractFixture::DEFAULT_TENANT_DOMAIN);
@@ -58,8 +60,10 @@ class LoadWidgetsData extends AbstractFixture implements FixtureInterface, Order
         $this->addReference('menu_widget_footer', $widget);
     }
 
-    public function getOrder()
+    public function getDependencies(): array
     {
-        return 1;
+        return [
+            LoadUsersData::class,
+        ];
     }
 }

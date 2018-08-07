@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /*
  * This file is part of the Superdesk Web Publisher Fixtures Bundle.
  *
@@ -14,19 +17,18 @@
 namespace SWP\Bundle\FixturesBundle\DataFixtures\ORM;
 
 use Doctrine\Common\DataFixtures\FixtureInterface;
-use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use SWP\Bundle\FixturesBundle\AbstractFixture;
 use SWP\Component\MultiTenancy\Model\TenantAwareInterface;
 use SWP\Component\Revision\Manager\RevisionManagerInterface;
 use SWP\Component\Revision\Model\RevisionInterface;
 
-class LoadTenantsData extends AbstractFixture implements FixtureInterface, OrderedFixtureInterface
+class LoadTenantsData extends AbstractFixture implements FixtureInterface
 {
     /**
      * {@inheritdoc}
      */
-    public function load(ObjectManager $manager)
+    public function load(ObjectManager $manager): void
     {
         $env = $this->getEnvironment();
 
@@ -42,7 +44,7 @@ class LoadTenantsData extends AbstractFixture implements FixtureInterface, Order
         $this->loadRevisions();
     }
 
-    private function loadRevisions()
+    private function loadRevisions(): void
     {
         /** @var RevisionManagerInterface $revisionManager */
         $revisionManager = $this->container->get('swp.manager.revision');
@@ -59,7 +61,7 @@ class LoadTenantsData extends AbstractFixture implements FixtureInterface, Order
         $firstTenantPublishedRevision->setTenantCode('123abc');
         $firstTenantWorkingRevision = $revisionManager->create($firstTenantPublishedRevision);
         $revisionManager->publish($firstTenantPublishedRevision, $firstTenantWorkingRevision);
-        $this->addReference('defult_tenant_revision', $firstTenantPublishedRevision);
+        $this->addReference('default_tenant_revision', $firstTenantPublishedRevision);
 
         /** @var RevisionInterface|TenantAwareInterface $firstPublishedRevision */
         $secondTenantPublishedRevision = $revisionManager->create();
@@ -72,13 +74,5 @@ class LoadTenantsData extends AbstractFixture implements FixtureInterface, Order
         $secondTenantPublishedRevision->setTenantCode('678iop');
         $secondTenantWorkingRevision = $revisionManager->create($secondTenantPublishedRevision);
         $revisionManager->publish($secondTenantPublishedRevision, $secondTenantWorkingRevision);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getOrder()
-    {
-        return 0;
     }
 }
