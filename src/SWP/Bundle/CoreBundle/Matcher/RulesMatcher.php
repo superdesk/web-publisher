@@ -155,6 +155,7 @@ class RulesMatcher implements RulesMatcherInterface
             'route' => $destination->getRoute(),
             'fbia' => $destination->isFbia(),
             'published' => $destination->isPublished(),
+            'paywallSecured' => $destination->isPaywallSecured(),
         ];
     }
 
