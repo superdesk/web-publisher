@@ -32,7 +32,9 @@ class ArticleRepository extends ContentBundleArticleRepository implements Articl
      */
     public function getByCriteria(Criteria $criteria, array $sorting): QueryBuilder
     {
-        $qb = parent::getByCriteria($criteria, $sorting);
+        $qb = parent::getByCriteria($criteria, $sorting)
+            ->leftJoin('a.articleStatistics', 'stats')->addSelect('stats')
+            ->leftJoin('a.externalArticle', 'ext')->addSelect('ext');
 
         return $qb;
     }
@@ -42,7 +44,9 @@ class ArticleRepository extends ContentBundleArticleRepository implements Articl
      */
     public function getArticlesByCriteriaIds(Criteria $criteria): QueryBuilder
     {
-        $queryBuilder = parent::getArticlesByCriteriaIds($criteria);
+        $queryBuilder = parent::getArticlesByCriteriaIds($criteria)
+            ->leftJoin('a.articleStatistics', 'stats')->addSelect('stats')
+            ->leftJoin('a.externalArticle', 'ext')->addSelect('ext');
 
         return $queryBuilder;
     }
@@ -102,7 +106,6 @@ class ArticleRepository extends ContentBundleArticleRepository implements Articl
                     ->andWhere('ae.articleStatistics = stats.id');
 
                 $queryBuilder
-                    ->leftJoin('a.articleStatistics', 'stats')->addSelect('stats')
                     ->addSelect(sprintf('(%s) as HIDDEN events_count', $articleEventsQuery))
                     ->setParameter('start', $start)
                     ->setParameter('end', $end);

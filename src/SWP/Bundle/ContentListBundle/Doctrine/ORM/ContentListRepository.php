@@ -64,12 +64,6 @@ class ContentListRepository extends EntityRepository implements ContentListRepos
 
     private function getListQueryBuilder()
     {
-        return $this->createQueryBuilder('cl')
-            ->leftJoin('cl.items', 'i')
-            ->addSelect('i')
-            ->leftJoin('i.content', 'c')
-            ->addSelect('c')
-            ->addOrderBy('i.sticky', 'desc')
-            ->addOrderBy('i.createdAt', 'desc');
+        return $this->createQueryBuilder('cl');
     }
 }

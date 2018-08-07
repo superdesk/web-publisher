@@ -250,7 +250,7 @@ class ArticleRepository extends EntityRepository implements ArticleRepositoryInt
             ($criteria->has('author') && !empty($criteria->get('author'))) ||
             ($criteria->has('exclude_author') && !empty($criteria->get('exclude_author')))
         ) {
-            $queryBuilder->leftJoin('a.authors', 'au')->addSelect('au');
+            $queryBuilder->leftJoin('a.authors', 'au');
         }
 
         if ($criteria->has('author') && !empty($criteria->get('author'))) {
