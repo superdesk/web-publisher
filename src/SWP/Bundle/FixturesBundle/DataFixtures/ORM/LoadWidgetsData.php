@@ -16,14 +16,14 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\FixturesBundle\DataFixtures\ORM;
 
-use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Common\DataFixtures\FixtureInterface;
+use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use SWP\Bundle\FixturesBundle\AbstractFixture;
 use Doctrine\Common\Persistence\ObjectManager;
 use SWP\Bundle\CoreBundle\Model\WidgetModel;
 use SWP\Component\MultiTenancy\Model\TenantInterface;
 
-class LoadWidgetsData extends AbstractFixture implements FixtureInterface, DependentFixtureInterface
+class LoadWidgetsData extends AbstractFixture implements FixtureInterface, OrderedFixtureInterface
 {
     /**
      * {@inheritdoc}
@@ -60,10 +60,8 @@ class LoadWidgetsData extends AbstractFixture implements FixtureInterface, Depen
         $this->addReference('menu_widget_footer', $widget);
     }
 
-    public function getDependencies(): array
+    public function getOrder(): int
     {
-        return [
-            LoadUsersData::class,
-        ];
+        return 2;
     }
 }

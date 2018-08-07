@@ -17,8 +17,8 @@ declare(strict_types=1);
 namespace SWP\Bundle\FixturesBundle\DataFixtures\ORM;
 
 use Behat\Transliterator\Transliterator;
-use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Common\DataFixtures\FixtureInterface;
+use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use SWP\Bundle\AnalyticsBundle\Model\ArticleStatisticsInterface;
 use SWP\Bundle\ContentBundle\Model\ArticleAuthor;
@@ -35,7 +35,7 @@ use SWP\Bundle\FixturesBundle\Faker\Provider\ArticleDataProvider;
 use SWP\Component\Bridge\Model\ExternalDataInterface;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
-class LoadArticlesData extends AbstractFixture implements FixtureInterface, DependentFixtureInterface
+class LoadArticlesData extends AbstractFixture implements FixtureInterface, OrderedFixtureInterface
 {
     private $manager;
 
@@ -557,7 +557,7 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface, Depe
                 $articleEvent->setAction(ArticleEventInterface::ACTION_PAGEVIEW);
                 $date = new \DateTime();
                 $date->modify($dateValue);
-                $date->setTime(mt_rand(0, 23), str_pad((string) mt_rand(0, 59), 2, '0', STR_PAD_LEFT));
+                $date->setTime(mt_rand(0, 23), (int) str_pad((string) mt_rand(0, 59), 2, '0', STR_PAD_LEFT));
                 $articleEvent->setCreatedAt($date);
                 $manager->persist($articleEvent);
                 ++$count;
@@ -604,10 +604,8 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface, Depe
         unset($image);
     }
 
-    public function getDependencies(): array
+    public function getOrder(): int
     {
-        return [
-            LoadUsersData::class,
-        ];
+        return 1;
     }
 }

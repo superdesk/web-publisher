@@ -16,13 +16,13 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\FixturesBundle\DataFixtures\ORM;
 
-use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Common\DataFixtures\FixtureInterface;
+use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use SWP\Bundle\CoreBundle\Model\UserInterface;
 use SWP\Bundle\FixturesBundle\AbstractFixture;
 
-class LoadUsersData extends AbstractFixture implements FixtureInterface, DependentFixtureInterface
+class LoadUsersData extends AbstractFixture implements FixtureInterface, OrderedFixtureInterface
 {
     /**
      * {@inheritdoc}
@@ -73,10 +73,8 @@ class LoadUsersData extends AbstractFixture implements FixtureInterface, Depende
         $this->container->get('swp.repository.api_key')->add($apiKey);
     }
 
-    public function getDependencies(): array
+    public function getOrder(): int
     {
-        return [
-            LoadTenantsData::class,
-        ];
+        return 0;
     }
 }

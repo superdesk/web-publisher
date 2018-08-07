@@ -16,12 +16,12 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\FixturesBundle\DataFixtures\ORM;
 
-use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Common\DataFixtures\FixtureInterface;
+use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use SWP\Bundle\FixturesBundle\AbstractFixture;
 
-class LoadRulesData extends AbstractFixture implements FixtureInterface, DependentFixtureInterface
+class LoadRulesData extends AbstractFixture implements FixtureInterface, OrderedFixtureInterface
 {
     /**
      * {@inheritdoc}
@@ -37,10 +37,8 @@ class LoadRulesData extends AbstractFixture implements FixtureInterface, Depende
         );
     }
 
-    public function getDependencies(): array
+    public function getOrder(): int
     {
-        return [
-            LoadArticlesData::class,
-        ];
+        return 6;
     }
 }

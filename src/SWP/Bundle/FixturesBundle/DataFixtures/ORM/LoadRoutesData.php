@@ -17,11 +17,12 @@ declare(strict_types=1);
 namespace SWP\Bundle\FixturesBundle\DataFixtures\ORM;
 
 use Doctrine\Common\DataFixtures\FixtureInterface;
+use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use SWP\Bundle\ContentBundle\Doctrine\ORM\Route;
 use SWP\Bundle\FixturesBundle\AbstractFixture;
 
-class LoadRoutesData extends AbstractFixture implements FixtureInterface
+class LoadRoutesData extends AbstractFixture implements FixtureInterface, OrderedFixtureInterface
 {
     const TEST_CACHE_TIME = 1;
 
@@ -60,5 +61,10 @@ class LoadRoutesData extends AbstractFixture implements FixtureInterface
         $this->addReference('route_'.$data['name'], $route);
 
         $manager->persist($route);
+    }
+
+    public function getOrder(): int
+    {
+        return 3;
     }
 }

@@ -16,13 +16,13 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\FixturesBundle\DataFixtures\ORM;
 
-use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Common\DataFixtures\FixtureInterface;
+use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use SWP\Bundle\CoreBundle\Model\MenuItem;
 use SWP\Bundle\FixturesBundle\AbstractFixture;
 use Doctrine\Common\Persistence\ObjectManager;
 
-class LoadMenuNodesData extends AbstractFixture implements FixtureInterface, DependentFixtureInterface
+class LoadMenuNodesData extends AbstractFixture implements FixtureInterface, OrderedFixtureInterface
 {
     /**
      * {@inheritdoc}
@@ -178,10 +178,8 @@ class LoadMenuNodesData extends AbstractFixture implements FixtureInterface, Dep
         }
     }
 
-    public function getDependencies(): array
+    public function getOrder(): int
     {
-        return [
-            LoadTenantsData::class,
-        ];
+        return 5;
     }
 }
