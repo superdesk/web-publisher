@@ -557,7 +557,7 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface, Depe
                 $articleEvent->setAction(ArticleEventInterface::ACTION_PAGEVIEW);
                 $date = new \DateTime();
                 $date->modify($dateValue);
-                $date->setTime(mt_rand(0, 23), str_pad(mt_rand(0, 59), 2, '0', STR_PAD_LEFT));
+                $date->setTime(mt_rand(0, 23), str_pad((string) mt_rand(0, 59), 2, '0', STR_PAD_LEFT));
                 $articleEvent->setCreatedAt($date);
                 $manager->persist($articleEvent);
                 ++$count;
