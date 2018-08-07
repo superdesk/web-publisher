@@ -590,12 +590,12 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface, Depe
 
         imagecopyresampled($newImage,
             $image,
-            0 - ($newImageWidth - $renditionWidth) / 2,
-            0 - ($newImageHeight - $renditionHeight) / 2,
+            0 - (int) ($newImageWidth - $renditionWidth) / 2,
+            0 - (int) ($newImageHeight - $renditionHeight) / 2,
             0,
             0,
-            $newImageWidth,
-            $newImageHeight,
+            (int) $newImageWidth,
+            (int) $newImageHeight,
             $width,
             $height);
         imagejpeg($newImage, $targetFile, 80);
