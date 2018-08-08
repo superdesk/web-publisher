@@ -51,7 +51,7 @@ abstract class AbstractArticleMediaListener
         $this->articleBodyProcessor = $articleBodyProcessor;
     }
 
-    protected function handleMedia(ArticleInterface $article, string $key, ItemInterface $item): ArticleMediaInterface
+    public function handleMedia(ArticleInterface $article, string $key, ItemInterface $item): ArticleMediaInterface
     {
         $articleMedia = $this->mediaFactory->create($article, $key, $item);
         foreach ($articleMedia->getRenditions() as $rendition) {
@@ -69,7 +69,7 @@ abstract class AbstractArticleMediaListener
         return $articleMedia;
     }
 
-    protected function removeOldArticleMedia(ArticleInterface $article): void
+    public function removeOldArticleMedia(ArticleInterface $article): void
     {
         $existingArticleMedia = $this->articleMediaRepository->findBy([
             'article' => $article->getId(),
@@ -83,7 +83,7 @@ abstract class AbstractArticleMediaListener
         }
     }
 
-    protected function removeArticleMediaIfNeeded($key, ArticleInterface $article): void
+    public function removeArticleMediaIfNeeded($key, ArticleInterface $article): void
     {
         $existingArticleMedia = $this->articleMediaRepository->findOneBy([
             'key' => $key,

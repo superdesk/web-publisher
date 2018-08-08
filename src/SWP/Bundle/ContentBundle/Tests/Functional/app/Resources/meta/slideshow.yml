@@ -1,0 +1,20 @@
+name: slideshow
+class: 'SWP\Bundle\ContentBundle\Model\SlideshowInterface'
+description: Slideshow Meta is representation of slideshow
+properties:
+    code:
+        description: "Slideshow's code"
+        type: integer
+    type:
+        description: "Slideshow's type"
+        type: text
+    items:
+        description: "Slideshow' items (article media)"
+        type: array
+    createdAt:
+        description: "Slideshow create timestamp"
+        type: datetime
+    updatedAt:
+        description: "Slideshow update timestamp"
+        type: datetime
+to_string: code

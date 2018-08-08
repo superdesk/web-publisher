@@ -17,6 +17,7 @@ declare(strict_types=1);
 namespace SWP\Bundle\ContentBundle\Tests\Functional\Loader;
 
 use SWP\Bundle\ContentBundle\Loader\SlideshowLoader;
+use SWP\Bundle\ContentBundle\Tests\Functional\app\Resources\fixtures\LoadArticlesSlideshowsData;
 use SWP\Bundle\ContentBundle\Tests\Functional\WebTestCase;
 use SWP\Component\TemplatesSystem\Gimme\Loader\LoaderInterface;
 use SWP\Component\TemplatesSystem\Gimme\Meta\Meta;
@@ -31,7 +32,11 @@ class SlideshowLoaderTest extends WebTestCase
     public function setUp()
     {
         $this->initDatabase();
-        $this->loadCustomFixtures(['tenant', 'article_slideshows']);
+        $this->loadFixtures(
+            [
+                LoadArticlesSlideshowsData::class,
+            ]
+        );
 
         $this->slideshowLoader = new SlideshowLoader(
             $this->getContainer()->get('swp_template_engine_context.factory.meta_factory'),
