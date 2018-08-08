@@ -31,9 +31,9 @@ class ContentListItemRepository extends SortableEntityRepository implements Cont
      */
     public function removeItems(ContentListInterface $contentList)
     {
-        $queryBuilder = $this->createQueryBuilder('a')
+        $queryBuilder = $this->createQueryBuilder('i')
             ->delete()
-            ->where('a.contentList = :contentList')
+            ->where('i.contentList = :contentList')
             ->setParameter('contentList', $contentList);
 
         $queryBuilder->getQuery()->execute();

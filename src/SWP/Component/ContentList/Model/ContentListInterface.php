@@ -16,7 +16,6 @@ declare(strict_types=1);
 
 namespace SWP\Component\ContentList\Model;
 
-use Doctrine\Common\Collections\Collection;
 use SWP\Component\Common\Model\EnableableInterface;
 use SWP\Component\Common\Model\SoftDeletableInterface;
 use SWP\Component\Common\Model\TimestampableInterface;
@@ -94,31 +93,6 @@ interface ContentListInterface extends TimestampableInterface, SoftDeletableInte
      * @param int $limit
      */
     public function setLimit(int $limit);
-
-    /**
-     * @return Collection|ContentListItemInterface[]
-     */
-    public function getItems();
-
-    /**
-     * @param Collection|ContentListItemInterface[] $items
-     */
-    public function setItems($items);
-
-    /**
-     * @param ContentListItemInterface $item
-     */
-    public function addItem(ContentListItemInterface $item);
-
-    /**
-     * @param ContentListItemInterface $item
-     */
-    public function hasItem(ContentListItemInterface $item);
-
-    /**
-     * @param ContentListItemInterface $item
-     */
-    public function removeItem(ContentListItemInterface $item);
 
     /**
      * @return array

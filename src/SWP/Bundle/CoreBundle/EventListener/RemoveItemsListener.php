@@ -104,7 +104,8 @@ final class RemoveItemsListener
                 $contentListItem = $this->contentListItemFactory->create();
                 $contentListItem->setContent($article);
                 $contentListItem->setPosition($position);
-                $contentList->addItem($contentListItem);
+                $contentListItem->setContentList($contentList);
+                $this->articleRepository->persist($contentListItem);
                 ++$position;
             }
         }
