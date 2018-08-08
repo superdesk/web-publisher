@@ -126,7 +126,7 @@ final class RulesProcessor implements RulesProcessorInterface
         foreach ($organizationRules as $keyOrg => $processedEvaluatedRule) {
             foreach ($tenants as $tenant) {
                 foreach ((array) $processedEvaluatedRule[self::KEY_TENANTS] as $key => $orgTenant) {
-                    if ($tenant[self::KEY_TENANT]->getCode() === $orgTenant[self::KEY_TENANT]->getCode()) {
+                    if (isset($tenant[self::KEY_TENANT]) && $tenant[self::KEY_TENANT]->getCode() === $orgTenant[self::KEY_TENANT]->getCode()) {
                         $organizationRules[$keyOrg][self::KEY_TENANTS][$key] = $tenant;
                     }
                 }
