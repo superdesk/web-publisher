@@ -96,7 +96,7 @@ final class RulesProcessor implements RulesProcessorInterface
         $tenantsTemp = [];
         $ruleConfig = $evaluatedRule->getConfiguration();
         foreach ($tenants as $tenant) {
-            if ($tenant[self::KEY_TENANT]->getCode() === $evaluatedRule->getTenantCode()) {
+            if (isset($tenant[self::KEY_TENANT]) && $tenant[self::KEY_TENANT]->getCode() === $evaluatedRule->getTenantCode()) {
                 if (null === $route = $this->findRoute($evaluatedRule)) {
                     continue;
                 }
@@ -104,6 +104,7 @@ final class RulesProcessor implements RulesProcessorInterface
                 $tenant[self::KEY_ROUTE] = $route;
                 $tenant[self::KEY_FBIA] = isset($ruleConfig[self::KEY_FBIA]) ?? false;
                 $tenant[self::KEY_PUBLISHED] = isset($ruleConfig[self::KEY_PUBLISHED]) ?? false;
+                $tenant[self::KEY_PAYWALL_SECURED] = isset($ruleConfig[self::KEY_PAYWALL_SECURED]) ?? false;
                 $tenantsTemp[] = $tenant;
             }
         }
