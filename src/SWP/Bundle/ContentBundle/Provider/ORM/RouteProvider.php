@@ -14,8 +14,10 @@
 
 namespace SWP\Bundle\ContentBundle\Provider\ORM;
 
+use SWP\Bundle\ContentBundle\Model\RouteInterface;
 use SWP\Bundle\ContentBundle\Model\RouteRepositoryInterface;
 use SWP\Bundle\ContentBundle\Provider\RouteProviderInterface;
+use SWP\Component\TemplatesSystem\Gimme\Meta\Meta;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Exception\RouteNotFoundException;
 use Symfony\Cmf\Bundle\RoutingBundle\Doctrine\Orm\RouteProvider as BaseRouteProvider;
@@ -202,6 +204,11 @@ class RouteProvider extends BaseRouteProvider implements RouteProviderInterface
      */
     public function getByMixed($routeData)
     {
+        if ($routeData instanceof Meta and $routeData->getValues() instanceof RouteInterface) {
+            return $routeData->getValues();
+        }
+
+        $route = null;
         if (is_int($routeData)) {
             $route = $this->getOneById($routeData);
         } elseif (is_string($routeData)) {

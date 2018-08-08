@@ -1,0 +1,9 @@
+{% gimme route with {slug: 'test-route-with-articles'} %}
+    {% cache 'route_article' { gen: route } %}
+        <ul>
+        {% gimmelist article from articles with { route: route } %}
+            <li>{{ article.title }}</li>
+        {% endgimmelist %}
+        </ul>
+    {% endcache %}
+{% endgimme %}

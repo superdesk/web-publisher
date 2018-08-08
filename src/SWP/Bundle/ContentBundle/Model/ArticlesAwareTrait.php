@@ -24,6 +24,11 @@ trait ArticlesAwareTrait
     protected $articles;
 
     /**
+     * @var \DateTime
+     */
+    protected $articlesUpdatedAt;
+
+    /**
      * @return Collection
      */
     public function getArticles(): Collection
@@ -45,5 +50,15 @@ trait ArticlesAwareTrait
     public function addArticle(ArticleInterface $article): void
     {
         $this->articles->add($article);
+    }
+
+    public function getArticlesUpdatedAt(): ?\DateTime
+    {
+        return $this->articlesUpdatedAt;
+    }
+
+    public function setArticlesUpdatedAt(\DateTime $articlesUpdatedAt): void
+    {
+        $this->articlesUpdatedAt = $articlesUpdatedAt;
     }
 }

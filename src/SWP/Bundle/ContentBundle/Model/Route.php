@@ -217,4 +217,9 @@ class Route extends BaseRoute implements RouteInterface
             return (int) $this->parent->getId();
         }
     }
+
+    public function __toString()
+    {
+        return $this->getName();
+    }
 }
