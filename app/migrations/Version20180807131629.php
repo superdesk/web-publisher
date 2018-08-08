@@ -17,7 +17,7 @@ final class Version20180807131629 extends AbstractMigration
         // this up() migration is auto-generated, please modify it to your needs
         $this->abortIf('postgresql' !== $this->connection->getDatabasePlatform()->getName(), 'Migration can only be executed safely on \'postgresql\'.');
 
-        $this->addSql('ALTER TABLE swp_publish_destination ADD paywall_secured BOOLEAN NOT NULL');
+        $this->addSql('ALTER TABLE swp_publish_destination ADD paywall_secured BOOLEAN NOT NULL DEFAULT false');
     }
 
     public function down(Schema $schema): void
