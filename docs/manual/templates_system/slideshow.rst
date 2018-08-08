@@ -20,6 +20,8 @@ Usage:
 
 or
 
+.. code-block:: twig
+
     {% gimme slideshow with { name: "slideshow1", article: gimme.article } %}
         {{ slideshow.code }} <!-- Slideshow's code -->
         {{ slideshow.items }} <!-- Slideshow items (article media) -->
