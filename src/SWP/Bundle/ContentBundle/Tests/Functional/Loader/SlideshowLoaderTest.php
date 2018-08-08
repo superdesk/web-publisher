@@ -17,7 +17,7 @@ declare(strict_types=1);
 namespace SWP\Bundle\ContentBundle\Tests\Functional\Loader;
 
 use SWP\Bundle\ContentBundle\Loader\SlideshowLoader;
-use SWP\Bundle\FixturesBundle\WebTestCase;
+use SWP\Bundle\ContentBundle\Tests\Functional\WebTestCase;
 use SWP\Component\TemplatesSystem\Gimme\Loader\LoaderInterface;
 use SWP\Component\TemplatesSystem\Gimme\Meta\Meta;
 

@@ -50,6 +50,7 @@ class Package extends BaseContent implements PackageInterface
 
         $this->items = new ArrayCollection();
         $this->groups = new ArrayCollection();
+        $this->externalData = new ArrayCollection();
     }
 
     public function getItems()

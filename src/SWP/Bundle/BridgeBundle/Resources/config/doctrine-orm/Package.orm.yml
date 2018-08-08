@@ -96,7 +96,6 @@ SWP\Component\Bridge\Model\Package:
             cascade: ["all"]
             orphanRemoval: true
             mappedBy: package
-    oneToOne:
         externalData:
             targetEntity: SWP\Component\Bridge\Model\ExternalData
             cascade: ["all"]
