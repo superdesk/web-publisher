@@ -30,6 +30,8 @@ interface RulesProcessorInterface
 
     public const KEY_PUBLISHED = 'published';
 
+    public const KEY_PAYWALL_SECURED = 'paywallSecured';
+
     /**
      * @param array $evaluatedRules
      *
