@@ -12,3 +12,6 @@ SWP\Bundle\CoreBundle\Model\ExternalArticle:
                 name: article_id
                 referencedColumnName: id
                 onDelete: "CASCADE"
+    indexes:
+        swp_external_deleted_tenant:
+            columns: [deleted_at, tenant_code]

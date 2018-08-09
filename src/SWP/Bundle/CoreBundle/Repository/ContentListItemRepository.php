@@ -70,8 +70,11 @@ class ContentListItemRepository extends BaseRepository implements ContentListIte
      */
     protected function applyCriteria(QueryBuilder $queryBuilder, Criteria $criteria, string $alias)
     {
-        $queryBuilder->leftJoin('n.content', 'a')
-            ->addSelect('a');
+        $queryBuilder
+            ->leftJoin('n.content', 'a')->addSelect('a')
+            ->leftJoin('a.articleStatistics', 'stats')
+            ->leftJoin('a.externalArticle', 'ext')
+            ->addSelect('stats', 'ext');
 
         $queryBuilder->andWhere($queryBuilder->expr()->eq('a.status', $queryBuilder->expr()->literal(ArticleInterface::STATUS_PUBLISHED)));
 

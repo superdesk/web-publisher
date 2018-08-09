@@ -15,6 +15,7 @@
 namespace SWP\Bundle\ContentBundle\KeyGenerator;
 
 use Asm89\Twig\CacheExtension\CacheStrategy\KeyGeneratorInterface;
+use SWP\Bundle\ContentBundle\Model\ArticlesUpdatedTimeAwareInterface;
 use SWP\Component\Common\Model\TimestampableInterface;
 use SWP\Component\Storage\Model\PersistableInterface;
 use SWP\Component\TemplatesSystem\Gimme\Meta\Meta;
@@ -35,6 +36,11 @@ class MetaKeyGenerator implements KeyGeneratorInterface
 
             if ($value instanceof TimestampableInterface) {
                 $date = null !== $value->getUpdatedAt() ? $value->getUpdatedAt() : $value->getCreatedAt();
+                $keyElements[] = $date->getTimestamp();
+            }
+
+            if ($value instanceof ArticlesUpdatedTimeAwareInterface && null !== $value->getArticlesUpdatedAt()) {
+                $date = $value->getArticlesUpdatedAt();
                 $keyElements[] = $date->getTimestamp();
             }
 

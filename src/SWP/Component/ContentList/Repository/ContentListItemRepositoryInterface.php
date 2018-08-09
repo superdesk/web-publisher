@@ -19,8 +19,9 @@ namespace SWP\Component\ContentList\Repository;
 use SWP\Component\Common\Criteria\Criteria;
 use SWP\Component\Common\Pagination\PaginationData;
 use SWP\Component\ContentList\Model\ContentListInterface;
+use SWP\Component\Storage\Repository\RepositoryInterface;
 
-interface ContentListItemRepositoryInterface
+interface ContentListItemRepositoryInterface extends RepositoryInterface
 {
     /**
      * @param ContentListInterface $contentList

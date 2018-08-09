@@ -17,7 +17,6 @@ declare(strict_types=1);
 namespace SWP\Bundle\ContentBundle\Doctrine\ORM;
 
 use Doctrine\ORM\QueryBuilder;
-use Elastica\Query;
 use SWP\Bundle\ContentBundle\Model\ArticleSourceReference;
 use SWP\Component\Common\Criteria\Criteria;
 use SWP\Bundle\ContentBundle\Doctrine\ArticleRepositoryInterface;
@@ -58,9 +57,7 @@ class ArticleRepository extends EntityRepository implements ArticleRepositoryInt
             ->setParameter('status', $criteria->get('status', ArticleInterface::STATUS_PUBLISHED))
             ->leftJoin('a.media', 'm')
             ->leftJoin('m.renditions', 'r')
-            ->leftJoin('a.sources', 's')
-            ->leftJoin('a.authors', 'au')
-            ->addSelect('m', 's', 'r', 'au');
+            ->addSelect('m', 'r');
 
         $this->applyCustomFiltering($qb, $criteria);
 
@@ -73,8 +70,7 @@ class ArticleRepository extends EntityRepository implements ArticleRepositoryInt
     public function countByCriteria(Criteria $criteria, $status = ArticleInterface::STATUS_PUBLISHED): int
     {
         $queryBuilder = $this->createQueryBuilder('a')
-            ->select('COUNT(a.id)')
-            ->leftJoin('a.authors', 'au');
+            ->select('COUNT(a.id)');
 
         if (null !== $status) {
             $queryBuilder
@@ -94,8 +90,6 @@ class ArticleRepository extends EntityRepository implements ArticleRepositoryInt
     public function getArticlesByCriteria(Criteria $criteria, array $sorting = []): QueryBuilder
     {
         $queryBuilder = $this->getArticlesByCriteriaIds($criteria);
-        $queryBuilder->addSelect('au');
-        $queryBuilder->leftJoin('a.authors', 'au');
         $queryBuilder->andWhere('a.route IS NOT NULL');
         $this->applyCustomFiltering($queryBuilder, $criteria);
         $this->applyCriteria($queryBuilder, $criteria, 'a');
@@ -115,8 +109,7 @@ class ArticleRepository extends EntityRepository implements ArticleRepositoryInt
         $articlesQueryBuilder->addSelect('a')
             ->leftJoin('a.media', 'm')
             ->leftJoin('m.renditions', 'r')
-            ->leftJoin('a.sources', 's')
-            ->addSelect('m', 'r', 's')
+            ->addSelect('m', 'r')
             ->andWhere('a.id IN (:ids)')
             ->setParameter('ids', $ids);
 
@@ -144,10 +137,6 @@ class ArticleRepository extends EntityRepository implements ArticleRepositoryInt
     public function getPaginatedByCriteria(Criteria $criteria, array $sorting = [], PaginationData $paginationData = null)
     {
         $queryBuilder = $this->getQueryByCriteria($criteria, $sorting, 'a');
-        $queryBuilder
-            ->addSelect('au')
-            ->leftJoin('a.authors', 'au');
-
         $this->applyCustomFiltering($queryBuilder, $criteria);
 
         if (null === $paginationData) {
@@ -255,6 +244,13 @@ class ArticleRepository extends EntityRepository implements ArticleRepositoryInt
             $queryBuilder->andWhere($queryBuilder->expr()->in('a.id', $articleSourcesQueryBuilder->getQuery()->getDQL()));
 
             $criteria->remove('source');
+        }
+
+        if (
+            ($criteria->has('author') && !empty($criteria->get('author'))) ||
+            ($criteria->has('exclude_author') && !empty($criteria->get('exclude_author')))
+        ) {
+            $queryBuilder->leftJoin('a.authors', 'au');
         }
 
         if ($criteria->has('author') && !empty($criteria->get('author'))) {

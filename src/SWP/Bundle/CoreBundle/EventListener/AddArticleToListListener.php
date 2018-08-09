@@ -143,7 +143,7 @@ class AddArticleToListListener
                 $this->createAndAddItem($article, $bucket);
             }
 
-            if (!$article->isPublishedFBIA() && null !== $item && $bucket->hasItem($item)) {
+            if (!$article->isPublishedFBIA() && null !== $item && $item->getContentList() === $bucket) {
                 $this->listRepository->remove($item);
                 $bucket->setUpdatedAt(new \DateTime());
             }
@@ -154,13 +154,14 @@ class AddArticleToListListener
     {
         /* @var ContentListItemInterface $contentListItem */
         $contentListItem = $this->listItemFactory->create();
+        $this->contentListItemRepository->persist($contentListItem);
 
         if ($article instanceof ListContentInterface) {
             $contentListItem->setContent($article);
         }
 
-        $contentListItem->setPosition($bucket->getItems()->count());
-        $bucket->addItem($contentListItem);
+        $contentListItem->setPosition(-1);
+        $contentListItem->setContentList($bucket);
         $bucket->setUpdatedAt(new \DateTime());
         $this->eventDispatcher->dispatch(
             ContentListEvents::POST_ITEM_ADD,

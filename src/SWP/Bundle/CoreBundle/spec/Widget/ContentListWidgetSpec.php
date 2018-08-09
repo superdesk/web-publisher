@@ -16,10 +16,8 @@ declare(strict_types=1);
 
 namespace spec\SWP\Bundle\CoreBundle\Widget;
 
-use Doctrine\Common\Collections\ArrayCollection;
 use PhpSpec\ObjectBehavior;
 use SWP\Bundle\CoreBundle\Model\ContentListInterface;
-use SWP\Bundle\CoreBundle\Model\ContentListItemInterface;
 use SWP\Bundle\CoreBundle\Widget\ContentListWidget;
 use SWP\Bundle\TemplatesSystemBundle\Widget\TemplatingWidgetHandler;
 use SWP\Component\ContentList\Repository\ContentListRepositoryInterface;
@@ -52,14 +50,12 @@ final class ContentListWidgetSpec extends ObjectBehavior
         ContainerInterface $container,
         EngineInterface $templating,
         ContentListInterface $contentList,
-        ContentListItemInterface $contentListItem,
         Response $response,
         MetaFactoryInterface $metaFactory,
         MetaInterface $meta
     ) {
         $contentList->getId()->willReturn(8);
         $contentList->getName()->willReturn('list_name');
-        $contentList->getItems()->willReturn(new ArrayCollection([$contentListItem]));
 
         $container->get('swp.repository.content_list')->willReturn($contentListRepository);
         $container->get('templating')->willReturn($templating);
@@ -82,7 +78,6 @@ final class ContentListWidgetSpec extends ObjectBehavior
         ContainerInterface $container,
         EngineInterface $templating,
         ContentListInterface $contentList,
-        ContentListItemInterface $contentListItem,
         Response $response,
         MetaFactoryInterface $metaFactory,
         MetaInterface $meta
@@ -92,7 +87,6 @@ final class ContentListWidgetSpec extends ObjectBehavior
 
         $contentList->getId()->willReturn(8);
         $contentList->getName()->willReturn('list_name');
-        $contentList->getItems()->willReturn(new ArrayCollection([$contentListItem]));
 
         $container->get('swp.repository.content_list')->willReturn($contentListRepository);
         $container->get('templating')->willReturn($templating);
@@ -115,7 +109,6 @@ final class ContentListWidgetSpec extends ObjectBehavior
         ContainerInterface $container,
         EngineInterface $templating,
         ContentListInterface $contentList,
-        ContentListItemInterface $contentListItem,
         Response $response,
         MetaFactoryInterface $metaFactory,
         MetaInterface $meta
@@ -130,7 +123,6 @@ final class ContentListWidgetSpec extends ObjectBehavior
 
         $contentList->getId()->willReturn(8);
         $contentList->getName()->willReturn('list_name');
-        $contentList->getItems()->willReturn(new ArrayCollection([$contentListItem]));
 
         $container->get('swp.repository.content_list')->willReturn($contentListRepository);
         $container->get('templating')->willReturn($templating);

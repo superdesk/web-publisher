@@ -22,6 +22,7 @@ use SWP\Component\ContentList\ContentListEvents;
 use SWP\Component\ContentList\Model\ContentListInterface;
 use SWP\Component\ContentList\Model\ContentListItemInterface;
 use SWP\Component\ContentList\Model\ListContentInterface;
+use SWP\Component\ContentList\Repository\ContentListItemRepositoryInterface;
 use SWP\Component\Storage\Factory\FactoryInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
@@ -30,23 +31,23 @@ final class ContentListService implements ContentListServiceInterface
     /**
      * @var EventDispatcherInterface
      */
-    protected $eventDispatcher;
+    private $eventDispatcher;
 
     /**
      * @var FactoryInterface
      */
-    protected $listItemFactory;
+    private $listItemFactory;
 
     /**
-     * ContentListService constructor.
-     *
-     * @param EventDispatcherInterface $eventDispatcher
-     * @param FactoryInterface         $listItemFactory
+     * @var ContentListItemRepositoryInterface
      */
-    public function __construct(EventDispatcherInterface $eventDispatcher, FactoryInterface $listItemFactory)
+    private $contentListItemRepository;
+
+    public function __construct(EventDispatcherInterface $eventDispatcher, FactoryInterface $listItemFactory, ContentListItemRepositoryInterface $contentListItemRepository)
     {
         $this->eventDispatcher = $eventDispatcher;
         $this->listItemFactory = $listItemFactory;
+        $this->contentListItemRepository = $contentListItemRepository;
     }
 
     /**
@@ -66,7 +67,8 @@ final class ContentListService implements ContentListServiceInterface
         }
 
         $contentListItem->setPosition((int) $position);
-        $contentList->addItem($contentListItem);
+        $contentListItem->setContentList($contentList);
+        $this->contentListItemRepository->persist($contentListItem);
         $this->eventDispatcher->dispatch(
             ContentListEvents::POST_ITEM_ADD,
             new ContentListEvent($contentList, $contentListItem)
