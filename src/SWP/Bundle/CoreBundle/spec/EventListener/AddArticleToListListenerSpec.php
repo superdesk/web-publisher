@@ -14,7 +14,6 @@
 
 namespace spec\SWP\Bundle\CoreBundle\EventListener;
 
-use Doctrine\Common\Collections\ArrayCollection;
 use Prophecy\Argument;
 use SWP\Bundle\ContentBundle\Event\ArticleEvent;
 use SWP\Bundle\ContentListBundle\Event\ContentListEvent;
@@ -58,6 +57,7 @@ final class AddArticleToListListenerSpec extends ObjectBehavior
         ArticleEvent $event,
         Article $article,
         ContentListRepositoryInterface $listRepository,
+        ContentListItemRepositoryInterface $listItemRepository,
         ContentListInterface $list,
         ArticleCriteriaMatcherInterface $articleCriteriaMatcher,
         FactoryInterface $listItemFactory,
@@ -67,17 +67,17 @@ final class AddArticleToListListenerSpec extends ObjectBehavior
         $event->getArticle()->willReturn($article);
 
         $list->getFilters()->willReturn(['metadata' => ['locale' => 'en']]);
-        $list->getItems()->willReturn(new ArrayCollection());
         $listRepository->findByTypes(['automatic'])->willReturn([$list]);
+        $listItemRepository->persist(Argument::any())->shouldBeCalled();
 
         $articleCriteriaMatcher->match($article, new Criteria(['metadata' => ['locale' => 'en']]))->willReturn(true);
 
         $listItemFactory->create()->willReturn($contentListItem);
 
         $contentListItem->setContent($article)->shouldBeCalled();
-        $contentListItem->setPosition(0)->shouldBeCalled();
+        $contentListItem->setPosition(-1)->shouldBeCalled();
+        $contentListItem->setContentList($list)->shouldBeCalled();
 
-        $list->addItem($contentListItem)->shouldBeCalled();
         $list->setUpdatedAt(Argument::type(\DateTime::class))->shouldBeCalled();
 
         $this->addArticleToList($event);
@@ -101,7 +101,6 @@ final class AddArticleToListListenerSpec extends ObjectBehavior
         $event->getArticle()->willReturn($article);
 
         $list->getFilters()->willReturn(['metadata' => ['locale' => 'en']]);
-        $list->getItems()->willReturn(new ArrayCollection());
         $listRepository->findByTypes(['automatic'])->willReturn([$list]);
 
         $articleCriteriaMatcher->match($article, new Criteria(['metadata' => ['locale' => 'en']]))->willReturn(false);
@@ -110,8 +109,6 @@ final class AddArticleToListListenerSpec extends ObjectBehavior
 
         $contentListItem->setContent($article)->shouldNotBeCalled();
         $contentListItem->setPosition(0)->shouldNotBeCalled();
-
-        $list->addItem($contentListItem)->shouldNotBeCalled();
 
         $this->addArticleToList($event);
 
@@ -132,12 +129,11 @@ final class AddArticleToListListenerSpec extends ObjectBehavior
     ) {
         $article->isPublishedFBIA()->willReturn(true);
         $event->getArticle()->willReturn($article);
-        $list->getItems()->willReturn(new ArrayCollection());
         $listRepository->findByTypes(['bucket'])->willReturn([$list]);
         $listItemFactory->create()->willReturn($contentListItem);
         $contentListItem->setContent($article)->shouldBeCalled();
-        $contentListItem->setPosition(0)->shouldBeCalled();
-        $list->addItem($contentListItem)->shouldBeCalled();
+        $contentListItem->setPosition(-1)->shouldBeCalled();
+        $contentListItem->setContentList($list)->shouldBeCalled();
         $list->setUpdatedAt(Argument::type(\DateTime::class))->shouldBeCalled();
 
         $this->addArticleToBucket($event);
@@ -159,12 +155,10 @@ final class AddArticleToListListenerSpec extends ObjectBehavior
     ) {
         $article->isPublishedFBIA()->willReturn(false);
         $event->getArticle()->willReturn($article);
-        $list->getItems()->willReturn(new ArrayCollection())->shouldNotBeCalled();
         $listRepository->findByTypes(['bucket'])->willReturn([$list]);
         $listItemFactory->create()->willReturn($contentListItem)->shouldNotBeCalled();
         $contentListItem->setContent($article)->shouldNotBeCalled();
         $contentListItem->setPosition(0)->shouldNotBeCalled();
-        $list->addItem($contentListItem)->shouldNotBeCalled();
 
         $this->addArticleToBucket($event);
 

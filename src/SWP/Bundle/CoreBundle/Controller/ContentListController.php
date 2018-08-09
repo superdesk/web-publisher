@@ -247,7 +247,7 @@ class ContentListController extends Controller
 
                     $objectManager->flush();
                 } elseif ('UNLINK' === $request->getMethod()) {
-                    if (!$contentList->getItems()->contains($contentListItem)) {
+                    if ($contentListItem->getContentList() !== $contentList) {
                         throw new ConflictHttpException('Content is not linked to content list');
                     }
                     $objectManager->remove($contentListItem);

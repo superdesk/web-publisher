@@ -43,6 +43,9 @@ SWP\Bundle\ContentBundle\Model\Route:
             type: integer
             gedmo:
                 - treeLevel
+        articlesUpdatedAt:
+            type: datetime
+            nullable: true
     gedmo:
         tree:
             type: nested

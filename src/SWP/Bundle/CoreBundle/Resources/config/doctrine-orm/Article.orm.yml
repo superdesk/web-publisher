@@ -26,11 +26,20 @@ SWP\Bundle\CoreBundle\Model\Article:
         articleStatistics:
             targetEntity: SWP\Bundle\AnalyticsBundle\Model\ArticleStatisticsInterface
             mappedBy: article
-            fetch: EAGER
         externalArticle:
             targetEntity: SWP\Bundle\CoreBundle\Model\ExternalArticleInterface
             mappedBy: article
-            fetch: EAGER
     uniqueConstraints:
         swp_article_slug_idx:
-          columns: [ slug, tenant_code, organization_id ]
+            columns: [ slug, tenant_code, organization_id ]
+    indexes:
+        swp_status_route:
+            columns: [status, route_id]
+        swp_deleted_tenant:
+            columns: [deleted_at, tenant_code]
+        swp_status_deleted_route_tenant:
+            columns: [status, tenant_code, deleted_at, route_id]
+        swp_deleted_at:
+            columns: [deleted_at]
+        swp_count_route:
+            columns: [deleted_at, status, tenant_code]

@@ -40,6 +40,7 @@ class HandleArticleChangeSubscriber implements EventSubscriberInterface
     {
         return [
             ArticleEvents::POST_UPDATE => 'processArticle',
+            ArticleEvents::POST_CREATE => 'processArticle',
             ArticleEvents::POST_UNPUBLISH => 'processArticle',
         ];
     }
@@ -47,6 +48,18 @@ class HandleArticleChangeSubscriber implements EventSubscriberInterface
     public function processArticle(ArticleEvent $event)
     {
         $this->refreshLists($event->getArticle());
+        $this->updateRoute($event->getArticle());
+    }
+
+    private function updateRoute(ArticleInterface $article)
+    {
+        $route = $article->getRoute();
+        if (null === $route) {
+            return;
+        }
+
+        $route->setArticlesUpdatedAt(new \DateTime());
+        $this->manager->flush();
     }
 
     private function refreshLists(ArticleInterface $article)
@@ -58,7 +71,7 @@ class HandleArticleChangeSubscriber implements EventSubscriberInterface
                 $this->manager->remove($item);
             }
             $item->getContentList()->setUpdatedAt(new \DateTime('now'));
-            $this->manager->flush();
         }
+        $this->manager->flush();
     }
 }

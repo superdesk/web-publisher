@@ -14,8 +14,6 @@
 
 namespace spec\SWP\Component\ContentList\Model;
 
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use SWP\Component\ContentList\Model\ContentList;
 use PhpSpec\ObjectBehavior;
 use SWP\Component\ContentList\Model\ContentListInterface;
@@ -117,16 +115,5 @@ final class ContentListSpec extends ObjectBehavior
     {
         $this->setType('auto');
         $this->getType()->shouldReturn('auto');
-    }
-
-    public function its_items_is_mutable(ArrayCollection $collection)
-    {
-        $this->setItems($collection);
-        $this->getItems()->shouldReturn($collection);
-    }
-
-    public function it_has_no_items_by_default()
-    {
-        $this->getItems()->shouldHaveType(Collection::class);
     }
 }
