@@ -223,7 +223,7 @@ services:
         tags:
             - { name: kernel.event_listener, event: kernel.exception }
 
-    SWP\Bundle\CoreBundle\EventListener\IntroduceYourselfListener:
+    SWP\Bundle\CoreBundle\EventListener\CustomPublisherHeaderListener:
         arguments:
             - '%kernel.debug%'
             - '@swp_core.factory.version'

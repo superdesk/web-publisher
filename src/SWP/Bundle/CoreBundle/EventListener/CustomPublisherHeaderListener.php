@@ -19,7 +19,7 @@ namespace SWP\Bundle\CoreBundle\EventListener;
 use Symfony\Component\HttpKernel\Event\FilterResponseEvent;
 use SWP\Component\Storage\Factory\FactoryInterface;
 
-final class IntroduceYourselfListener
+final class CustomPublisherHeaderListener
 {
     public const PUBLISHER_HEADER = 'X-Superdesk-Publisher';
 
