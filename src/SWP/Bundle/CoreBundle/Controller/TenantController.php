@@ -20,6 +20,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use SWP\Bundle\CoreBundle\Context\CachedTenantContext;
 use SWP\Bundle\CoreBundle\Model\RevisionInterface;
+use SWP\Bundle\MultiTenancyBundle\MultiTenancyEvents;
 use SWP\Component\Common\Response\ResourcesListResponse;
 use SWP\Component\Common\Response\ResponseContext;
 use SWP\Component\Common\Response\SingleResourceResponse;
@@ -91,17 +92,25 @@ class TenantController extends FOSRestController
      */
     public function deleteAction($code)
     {
+        $tenantContext = $this->container->get('swp_multi_tenancy.tenant_context');
+        $eventDispatcher = $this->container->get('event_dispatcher');
+        $currentTenant = $tenantContext->getTenant();
+
         $repository = $this->getTenantRepository();
         $tenant = $this->findOr404($code);
 
+        $tenantContext->setTenant($tenant);
+        $eventDispatcher->dispatch(MultiTenancyEvents::TENANTABLE_ENABLE);
         $articlesRepository = $this->get('swp.repository.article');
         $existingArticles = $articlesRepository->findAll();
-
         if (0 !== \count($existingArticles)) {
             throw new ConflictHttpException('This tenant have articles attached to it.');
         }
 
         $repository->remove($tenant);
+
+        $tenantContext->setTenant($currentTenant);
+        $eventDispatcher->dispatch(MultiTenancyEvents::TENANTABLE_ENABLE);
 
         return new SingleResourceResponse(null, new ResponseContext(204));
     }
