@@ -204,7 +204,7 @@ class RouteProvider extends BaseRouteProvider implements RouteProviderInterface
      */
     public function getByMixed($routeData)
     {
-        if ($routeData instanceof Meta and $routeData->getValues() instanceof RouteInterface) {
+        if ($routeData instanceof Meta && $routeData->getValues() instanceof RouteInterface) {
             return $routeData->getValues();
         }
 
