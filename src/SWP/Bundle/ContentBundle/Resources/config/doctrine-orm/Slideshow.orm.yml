@@ -30,18 +30,3 @@ SWP\Bundle\ContentBundle\Model\Slideshow:
             joinColumn:
                 referencedColumnName: id
                 onDelete: CASCADE
-
-    manyToMany:
-        items:
-            targetEntity: SWP\Bundle\ContentBundle\Model\ArticleMediaInterface
-            fetch: "EAGER"
-            joinTable:
-                name: swp_slideshow_items
-                joinColumns:
-                    slideshow_id:
-                        referencedColumnName: id
-                        onDelete: CASCADE
-                inverseJoinColumns:
-                    item_id:
-                        referencedColumnName: id
-                        onDelete: CASCADE

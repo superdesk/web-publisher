@@ -19,6 +19,7 @@ namespace SWP\Bundle\ContentBundle\EventListener;
 use SWP\Bundle\ContentBundle\Doctrine\ArticleMediaRepositoryInterface;
 use SWP\Bundle\ContentBundle\Event\ArticleEvent;
 use SWP\Bundle\ContentBundle\Factory\MediaFactoryInterface;
+use SWP\Bundle\ContentBundle\Model\SlideshowItem;
 use SWP\Bundle\ContentBundle\Processor\ArticleBodyProcessorInterface;
 use SWP\Component\Bridge\Model\ItemInterface;
 use SWP\Component\Storage\Factory\FactoryInterface;
@@ -55,19 +56,27 @@ class ProcessArticleSlideshowsListener extends AbstractArticleMediaListener
         foreach ($package->getGroups() as $packageGroup) {
             $slideshow = $this->slideshowFactory->create();
             $slideshow->setCode($packageGroup->getCode());
+            $slideshow->setArticle($article);
 
             foreach ($packageGroup->getItems() as $item) {
                 if (ItemInterface::TYPE_PICTURE === $item->getType() || ItemInterface::TYPE_FILE === $item->getType()) {
+                    $slideshowItem = new SlideshowItem();
+
                     $this->removeArticleMediaIfNeeded($item->getName(), $article);
 
                     $articleMedia = $this->handleMedia($article, $item->getName(), $item);
                     $this->articleMediaRepository->persist($articleMedia);
 
-                    $slideshow->addItem($articleMedia);
+                    $slideshowItem->setArticleMedia($articleMedia);
+                    $slideshowItem->setSlideshow($slideshow);
+
+                    $this->articleMediaRepository->persist($slideshowItem);
+
+                    $this->articleMediaRepository->persist($slideshow);
                 }
             }
 
-            $article->addSlideshow($slideshow);
+            //$article->addSlideshow($slideshow);
         }
     }
 }

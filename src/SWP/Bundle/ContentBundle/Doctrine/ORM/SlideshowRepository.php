@@ -24,8 +24,9 @@ class SlideshowRepository extends EntityRepository implements SlideshowRepositor
 {
     public function getByCriteria(Criteria $criteria, array $sorting): array
     {
-        $qb = $this->getQueryByCriteria($criteria, $sorting, 's')
-            ->leftJoin('s.items', 'i');
+        $qb = $this->getQueryByCriteria($criteria, $sorting, 's');
+
+        // get items
 
         return $qb
             ->getQuery()

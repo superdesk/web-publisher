@@ -35,7 +35,7 @@ class Slideshow implements SlideshowInterface
     protected $code;
 
     /**
-     * @var ArticleMediaInterface[]|Collection
+     * @var SlideshowItemInterface[]|Collection
      */
     protected $items;
 
@@ -49,7 +49,7 @@ class Slideshow implements SlideshowInterface
         $this->items = new ArrayCollection();
     }
 
-    public function getId(): ?string
+    public function getId()
     {
         return $this->id;
     }

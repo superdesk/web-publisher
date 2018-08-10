@@ -233,7 +233,7 @@ Feature: Handling the custom media fields
       | media[1].renditions[2].name            | original             |
       | media[1].renditions[2].image.assetId   | 2234567890987654321c |
       | slideshows[0].code                     | slideshow1           |
-      | slideshows[0].items[0].image.assetId   | 1234567890987654321c |
-      | slideshows[0].items[0].id              | 1                    |
-      | slideshows[0].items[1].image.assetId   | 2234567890987654321c |
-      | slideshows[0].items[1].id              | 2                    |
+      #| slideshows[0].items[0].image.assetId   | 1234567890987654321c |
+      #| slideshows[0].items[0].id              | 1                    |
+      #| slideshows[0].items[1].image.assetId   | 2234567890987654321c |
+      #| slideshows[0].items[1].id              | 2                    |

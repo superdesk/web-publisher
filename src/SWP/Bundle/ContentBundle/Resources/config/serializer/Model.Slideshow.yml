@@ -3,5 +3,3 @@ SWP\Bundle\ContentBundle\Model\Slideshow:
     properties:
         code:
             expose: true
-        items:
-            expose: true

@@ -20,6 +20,7 @@ use Doctrine\Common\Persistence\ObjectManager;
 use SWP\Bundle\ContentBundle\Model\ImageRendition;
 use SWP\Bundle\ContentBundle\Model\ArticleInterface;
 use SWP\Bundle\ContentBundle\Model\Slideshow;
+use SWP\Bundle\ContentBundle\Model\SlideshowItem;
 use SWP\Bundle\FixturesBundle\AbstractFixture;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
@@ -42,7 +43,7 @@ class LoadArticlesSlideshowsData extends AbstractFixture implements FixtureInter
     public function loadArticles($env, $manager)
     {
         $articles = [
-            'test' => [
+            'dev' => [
                 [
                     'title' => 'Test news article',
                     'content' => 'Test news article content',
@@ -133,8 +134,15 @@ class LoadArticlesSlideshowsData extends AbstractFixture implements FixtureInter
                     foreach ((array) $articleData['slideshows'] as $slideshowCode) {
                         $slideshow = new Slideshow();
                         $slideshow->setCode($slideshowCode);
-                        $slideshow->addItem($articleMedia);
-                        $article->addSlideshow($slideshow);
+                        $slideshow->setArticle($article);
+                        $slideshowItem = new SlideshowItem();
+                        $slideshowItem->setArticleMedia($articleMedia);
+                        $slideshowItem->setSlideshow($slideshow);
+                        $manager->persist($slideshowItem);
+                        $manager->persist($slideshow);
+
+                        //$slideshow->addItem($articleMedia);
+                        //$article->addSlideshow($slideshow);
                     }
                 }
             }

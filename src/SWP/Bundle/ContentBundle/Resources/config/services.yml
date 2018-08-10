@@ -62,6 +62,15 @@ services:
         tags:
             - { name: swp.meta_loader.add }
 
+    SWP\Bundle\ContentBundle\Loader\SlideshowItemLoader:
+        arguments:
+            - "@swp.repository.slideshow_item"
+            - "@swp.repository.slideshow"
+            - "@swp_template_engine_context.factory.meta_factory"
+            - "@swp_template_engine_context"
+        tags:
+            - { name: swp.meta_loader.add }
+
     swp_content_bundle.factory.knp_paginator_representation:
         class: SWP\Component\Common\Factory\KnpPaginatorRepresentationFactory
         arguments:

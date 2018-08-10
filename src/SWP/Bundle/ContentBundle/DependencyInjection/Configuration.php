@@ -20,6 +20,7 @@ use SWP\Bundle\ContentBundle\Doctrine\ORM\FileRepository;
 use SWP\Bundle\ContentBundle\Doctrine\ORM\RouteRepository;
 use SWP\Bundle\ContentBundle\Doctrine\ORM\ArticleMediaRepository;
 use SWP\Bundle\ContentBundle\Doctrine\ORM\ImageRepository;
+use SWP\Bundle\ContentBundle\Doctrine\ORM\SlideshowItemRepository;
 use SWP\Bundle\ContentBundle\Doctrine\ORM\SlideshowRepository;
 use SWP\Bundle\ContentBundle\Factory\ORM\ArticleFactory;
 use SWP\Bundle\ContentBundle\Factory\ORM\MediaFactory;
@@ -46,6 +47,8 @@ use SWP\Bundle\ContentBundle\Model\Route;
 use SWP\Bundle\ContentBundle\Model\RouteInterface;
 use SWP\Bundle\ContentBundle\Model\Slideshow;
 use SWP\Bundle\ContentBundle\Model\SlideshowInterface;
+use SWP\Bundle\ContentBundle\Model\SlideshowItem;
+use SWP\Bundle\ContentBundle\Model\SlideshowItemInterface;
 use SWP\Bundle\StorageBundle\Doctrine\ORM\EntityRepository;
 use SWP\Component\Storage\Factory\Factory;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
@@ -171,6 +174,16 @@ class Configuration implements ConfigurationInterface
                                                 ->scalarNode('model')->cannotBeEmpty()->defaultValue(Slideshow::class)->end()
                                                 ->scalarNode('interface')->cannotBeEmpty()->defaultValue(SlideshowInterface::class)->end()
                                                 ->scalarNode('repository')->defaultValue(SlideshowRepository::class)->end()
+                                                ->scalarNode('factory')->defaultValue(Factory::class)->end()
+                                                ->scalarNode('object_manager_name')->defaultValue(null)->end()
+                                            ->end()
+                                        ->end()
+                                        ->arrayNode('slideshow_item')
+                                            ->addDefaultsIfNotSet()
+                                            ->children()
+                                                ->scalarNode('model')->cannotBeEmpty()->defaultValue(SlideshowItem::class)->end()
+                                                ->scalarNode('interface')->cannotBeEmpty()->defaultValue(SlideshowItemInterface::class)->end()
+                                                ->scalarNode('repository')->defaultValue(SlideshowItemRepository::class)->end()
                                                 ->scalarNode('factory')->defaultValue(Factory::class)->end()
                                                 ->scalarNode('object_manager_name')->defaultValue(null)->end()
                                             ->end()

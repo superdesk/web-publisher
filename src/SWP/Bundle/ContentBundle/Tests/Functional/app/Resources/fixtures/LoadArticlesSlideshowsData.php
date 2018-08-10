@@ -21,6 +21,7 @@ use SWP\Bundle\ContentBundle\Model\ImageRendition;
 use SWP\Bundle\ContentBundle\Model\ArticleInterface;
 use SWP\Bundle\ContentBundle\Model\Slideshow;
 use Doctrine\Common\DataFixtures\AbstractFixture;
+use SWP\Bundle\ContentBundle\Model\SlideshowItem;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
@@ -138,8 +139,12 @@ class LoadArticlesSlideshowsData extends AbstractFixture implements FixtureInter
                 foreach ((array) $articleData['slideshows'] as $slideshowCode) {
                     $slideshow = new Slideshow();
                     $slideshow->setCode($slideshowCode);
-                    $slideshow->addItem($articleMedia);
-                    $article->addSlideshow($slideshow);
+                    $slideshow->setArticle($article);
+                    $slideshowItem = new SlideshowItem();
+                    $slideshowItem->setArticleMedia($articleMedia);
+                    $slideshowItem->setSlideshow($slideshow);
+                    $manager->persist($slideshowItem);
+                    $manager->persist($slideshow);
                 }
             }
         }
