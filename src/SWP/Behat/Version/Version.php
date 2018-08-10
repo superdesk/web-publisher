@@ -12,11 +12,10 @@
  * @license http://www.superdesk.org/license
  */
 
-namespace SWP\Bundle\CoreBundle\Version;
+namespace SWP\Behat\Version;
 
-/**
- * Application version class.
- */
+use SWP\Bundle\CoreBundle\Version\VersionInterface;
+
 final class Version implements VersionInterface
 {
     /**
@@ -24,14 +23,14 @@ final class Version implements VersionInterface
      *
      * @var string
      */
-    private $version = '1.4.0-beta';
+    private $version = '1-test';
 
     /**
      * Code name string.
      *
      * @var string
      */
-    private $codeName = '';
+    private $codeName = 'test';
 
     /**
      * Release date string.

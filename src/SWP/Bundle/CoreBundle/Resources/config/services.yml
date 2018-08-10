@@ -8,6 +8,11 @@ services:
     _defaults:
         public: true
 
+    swp_core.factory.version:
+        arguments:
+            - 'SWP\Bundle\CoreBundle\Version\Version'
+        class: SWP\Bundle\CoreBundle\Factory\VersionFactory
+
     swp_core.detection.device_detection:
         class: SWP\Bundle\CoreBundle\Detection\DeviceDetection
 
@@ -217,6 +222,13 @@ services:
         class: SWP\Bundle\CoreBundle\EventListener\TenantNotFoundExceptionListener
         tags:
             - { name: kernel.event_listener, event: kernel.exception }
+
+    SWP\Bundle\CoreBundle\EventListener\IntroduceYourselfListener:
+        arguments:
+            - '%kernel.debug%'
+            - '@swp_core.factory.version'
+        tags:
+            - { name: kernel.event_listener, event: kernel.response, priority: 1 }
 
     swp_core.subscriber.http_cache:
         class: SWP\Bundle\CoreBundle\EventSubscriber\HttpCacheSubscriber
