@@ -46,7 +46,6 @@ SWP\Component\ContentList\Model\ContentListItem:
                 orphanRemoval: true
         contentList:
             targetEntity: SWP\Component\ContentList\Model\ContentListInterface
-            inversedBy: items
             joinColumn:
                 name: content_list_id
                 referencedColumnName: id

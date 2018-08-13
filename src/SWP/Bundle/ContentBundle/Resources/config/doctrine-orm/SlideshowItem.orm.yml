@@ -38,7 +38,6 @@ SWP\Bundle\ContentBundle\Model\SlideshowItem:
                 orphanRemoval: true
         slideshow:
             targetEntity: SWP\Bundle\ContentBundle\Model\SlideshowInterface
-            inversedBy: items
             joinColumn:
                 name: slideshow_id
                 referencedColumnName: id
