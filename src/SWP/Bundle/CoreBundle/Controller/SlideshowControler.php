@@ -17,6 +17,7 @@ namespace SWP\Bundle\CoreBundle\Controller;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use SWP\Bundle\ContentBundle\Model\ArticleInterface;
 use SWP\Component\Common\Criteria\Criteria;
 use SWP\Component\Common\Pagination\PaginationData;
 use SWP\Component\Common\Response\ResourcesListResponse;
@@ -38,14 +39,18 @@ class SlideshowControler extends Controller
      *         {"name"="sorting", "dataType"="string", "pattern"="[updatedAt]=asc|desc"}
      *     }
      * )
-     * @Route("/api/{version}/slideshows/", options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_slideshows_list")
+     * @Route("/api/{version}/content/slideshows/{articleId}", options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_slideshows_list")
      * @Method("GET")
      */
-    public function listAction(Request $request)
+    public function listAction(Request $request, string $articleId)
     {
         $repository = $this->get('swp.repository.slideshow');
 
-        $slideshows = $repository->getPaginatedByCriteria(new Criteria(), $request->query->get('sorting', []), new PaginationData($request));
+        $article = $this->findArticleOr404($articleId);
+
+        $slideshows = $repository->getPaginatedByCriteria(new Criteria([
+            'article' => $article,
+        ]), $request->query->get('sorting', []), new PaginationData($request));
 
         return new ResourcesListResponse($slideshows);
     }
@@ -58,20 +63,34 @@ class SlideshowControler extends Controller
      *         200="Returned on success."
      *     }
      * )
-     * @Route("/api/{version}/slideshows/{id}", options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_get_slideshow", requirements={"id"="\d+"})
+     * @Route("/api/{version}/content/slideshows/{articleId}/{id}", options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_get_slideshow", requirements={"id"="\d+"})
      * @Method("GET")
      */
-    public function getAction($id)
+    public function getAction($id, string $articleId)
     {
-        return new SingleResourceResponse($this->findOr404($id));
+        $article = $this->findArticleOr404($articleId);
+
+        return new SingleResourceResponse($this->findOr404($id, $article));
     }
 
-    private function findOr404($id)
+    private function findOr404($id, ArticleInterface $article)
     {
-        if (null === $list = $this->get('swp.repository.slideshow')->findOneById($id)) {
+        if (null === $list = $this->get('swp.repository.slideshow')->findOneBy([
+                'id' => $id,
+                'article' => $article,
+            ])) {
             throw new NotFoundHttpException(sprintf('Slideshow with id "%s" was not found.', $id));
         }
 
         return $list;
+    }
+
+    private function findArticleOr404($id)
+    {
+        if (null === $article = $this->get('swp.repository.article')->findOneById($id)) {
+            throw new NotFoundHttpException(sprintf('Article with id "%s" was not found.', $id));
+        }
+
+        return $article;
     }
 }

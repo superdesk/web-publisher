@@ -87,3 +87,9 @@ SWP\Bundle\ContentBundle\Model\Article:
                 route: "expr(object.getRoute() ? object.getRoute().getRouteName() : 'swp_api_content_list_articles' )"
             exclusion:
                 exclude_if: "expr(object.getRoute() ? object.getRoute().getType() !== 'content')"
+        -
+            rel: slideshows
+            href:
+                route: swp_api_slideshows_list
+                parameters:
+                    articleId: "expr(object.getId())"

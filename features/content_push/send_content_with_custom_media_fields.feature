@@ -218,22 +218,38 @@ Feature: Handling the custom media fields
     Then I send a "GET" request to "/api/v1/content/articles/abstract-html-test"
     Then the response status code should be 200
     And the JSON nodes should contain:
-      | media[0].image.assetId                 | 1234567890987654321c |
-      | media[0].renditions[0].name            | 16-9                 |
-      | media[0].renditions[0].image.assetId   | 1234567890987654321a |
-      | media[0].renditions[1].name            | 4-3                  |
-      | media[0].renditions[1].image.assetId   | 1234567890987654321b |
-      | media[0].renditions[2].name            | original             |
-      | media[0].renditions[2].image.assetId   | 1234567890987654321c |
-      | media[1].image.assetId                 | 2234567890987654321c |
-      | media[1].renditions[0].name            | 16-9                 |
-      | media[1].renditions[0].image.assetId   | 2234567890987654321a |
-      | media[1].renditions[1].name            | 4-3                  |
-      | media[1].renditions[1].image.assetId   | 2234567890987654321b |
-      | media[1].renditions[2].name            | original             |
-      | media[1].renditions[2].image.assetId   | 2234567890987654321c |
-      | slideshows[0].code                     | slideshow1           |
-      #| slideshows[0].items[0].image.assetId   | 1234567890987654321c |
-      #| slideshows[0].items[0].id              | 1                    |
-      #| slideshows[0].items[1].image.assetId   | 2234567890987654321c |
-      #| slideshows[0].items[1].id              | 2                    |
+      | media[0].image.assetId                 | 1234567890987654321c                   |
+      | media[0].renditions[0].name            | 16-9                                   |
+      | media[0].renditions[0].image.assetId   | 1234567890987654321a                   |
+      | media[0].renditions[1].name            | 4-3                                    |
+      | media[0].renditions[1].image.assetId   | 1234567890987654321b                   |
+      | media[0].renditions[2].name            | original                               |
+      | media[0].renditions[2].image.assetId   | 1234567890987654321c                   |
+      | media[1].image.assetId                 | 2234567890987654321c                   |
+      | media[1].renditions[0].name            | 16-9                                   |
+      | media[1].renditions[0].image.assetId   | 2234567890987654321a                   |
+      | media[1].renditions[1].name            | 4-3                                    |
+      | media[1].renditions[1].image.assetId   | 2234567890987654321b                   |
+      | media[1].renditions[2].name            | original                               |
+      | media[1].renditions[2].image.assetId   | 2234567890987654321c                   |
+      | slideshows[0].code                     | slideshow1                             |
+      | _links.slideshows.href                 | /api/v1/content/slideshows/6           |
+
+    And I am authenticated as "test.user"
+    And I add "Content-Type" header equal to "application/json"
+    Then I send a "GET" request to "/api/v1/content/slideshows/6/1"
+    Then the response status code should be 200
+    And the JSON nodes should contain:
+      | code                   | slideshow1                              |
+      | article.id             | 6                                       |
+      | id                     | 1                                       |
+      | _links.items.href      | /api/v1/content/slideshows/6/1/items/   |
+
+    And I am authenticated as "test.user"
+    And I add "Content-Type" header equal to "application/json"
+    Then I send a "GET" request to "/api/v1/content/slideshows/6/1/items/"
+    Then the response status code should be 200
+    And the JSON node "total" should be equal to 2
+    And the JSON nodes should contain:
+      | _embedded._items[0].articleMedia.image.assetId   | 1234567890987654321c |
+      | _embedded._items[1].articleMedia.image.assetId   | 2234567890987654321c |

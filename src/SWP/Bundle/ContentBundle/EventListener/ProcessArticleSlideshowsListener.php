@@ -71,12 +71,8 @@ class ProcessArticleSlideshowsListener extends AbstractArticleMediaListener
                     $slideshowItem->setSlideshow($slideshow);
 
                     $this->articleMediaRepository->persist($slideshowItem);
-
-                    $this->articleMediaRepository->persist($slideshow);
                 }
             }
-
-            //$article->addSlideshow($slideshow);
         }
     }
 }
