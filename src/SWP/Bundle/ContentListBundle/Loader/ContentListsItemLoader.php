@@ -19,6 +19,7 @@ namespace SWP\Bundle\ContentListBundle\Loader;
 use Doctrine\Common\Collections\ArrayCollection;
 use SWP\Bundle\ContentBundle\Loader\PaginatedLoader;
 use SWP\Component\Common\Criteria\Criteria;
+use SWP\Component\ContentList\Model\ContentListInterface;
 use SWP\Component\ContentList\Repository\ContentListItemRepositoryInterface;
 use SWP\Component\ContentList\Repository\ContentListRepositoryInterface;
 use SWP\Component\TemplatesSystem\Gimme\Factory\MetaFactoryInterface;
@@ -76,6 +77,12 @@ class ContentListsItemLoader extends PaginatedLoader implements LoaderInterface
             } elseif (array_key_exists('contentListName', $parameters) && is_string($parameters['contentListName'])) {
                 $contentList = $this->contentListRepository->findOneBy(['name' => $parameters['contentListName']]);
                 $criteria->set('contentList', $contentList);
+            } elseif (
+                array_key_exists('contentList', $parameters) &&
+                $parameters['contentList'] instanceof Meta &&
+                $parameters['contentList']->getValues() instanceof ContentListInterface
+            ) {
+                $criteria->set('contentList', $parameters['contentList']->getValues());
             }
 
             if (!$criteria->has('contentList')) {
