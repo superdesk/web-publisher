@@ -184,6 +184,27 @@ class TenantControllerTest extends WebTestCase
         $this->assertEquals(409, $client->getResponse()->getStatusCode());
     }
 
+    public function testTenantWithWrongSubdomainAndRemoveIt()
+    {
+        $this->loadCustomFixtures(['tenant', 'article']);
+        $client = static::createClient();
+        $client->request('POST', $this->router->generate('swp_api_core_create_tenant'), [
+            'tenant' => [
+                'name' => 'Test Tenant',
+                'subdomain' => 'test',
+                'domainName' => 'google.com',
+                'themeName' => 'swp/test-theme',
+            ],
+        ]);
+        $this->assertEquals(201, $client->getResponse()->getStatusCode());
+        $content = \json_decode($client->getResponse()->getContent(), true);
+
+        $client->request('DELETE', $this->router->generate('swp_api_core_delete_tenant', [
+            'code' => $content['code'],
+        ]));
+        $this->assertEquals(204, $client->getResponse()->getStatusCode());
+    }
+
     public function testUpdateTenant()
     {
         $client = static::createClient();

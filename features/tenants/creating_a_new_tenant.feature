@@ -26,3 +26,10 @@ Feature: Adding a new tenant
     Then the response status code should be 200
     And the JSON node "_embedded._items" should have "4" elements
 
+  Scenario: Checking if domain/subdoman is handled by Publisher
+    When I send a "GET" request to "http://testdoman.localhost"
+    Then the response status code should be 404
+    And the header "X-Superdesk-Publisher" should be equal to "1-test"
+    When I send a "GET" request to "http://localhost"
+    Then the response status code should be 200
+    And the header "X-Superdesk-Publisher" should be equal to "1-test"

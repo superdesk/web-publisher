@@ -39,8 +39,10 @@ class DynamicDomainSessionStorage extends NativeSessionStorage
     public function setOptions(array $options): void
     {
         $tenant = $this->tenantContext->getTenant();
+        if (null !== $tenant) {
+            $options['cookie_domain'] = '.'.$tenant->getDomainName();
+        }
 
-        $options['cookie_domain'] = '.'.$tenant->getDomainName();
         $options['cookie_httponly'] = true;
         $options['name'] = 'SUPERDESKPUBLISHER';
 

@@ -41,5 +41,7 @@ SWP\Bundle\CoreBundle\Model\Article:
             columns: [status, tenant_code, deleted_at, route_id]
         swp_deleted_at:
             columns: [deleted_at]
+        swp_article_published_at:
+            columns: [published_at]
         swp_count_route:
             columns: [deleted_at, status, tenant_code]
