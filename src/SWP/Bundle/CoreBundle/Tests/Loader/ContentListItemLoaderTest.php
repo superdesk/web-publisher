@@ -15,6 +15,7 @@
 namespace SWP\Bundle\CoreBundle\Tests\Twig;
 
 use SWP\Bundle\FixturesBundle\WebTestCase;
+use SWP\Bundle\MultiTenancyBundle\MultiTenancyEvents;
 use Symfony\Component\Routing\RouterInterface;
 
 class ContentListItemLoaderTest extends WebTestCase
@@ -48,6 +49,12 @@ class ContentListItemLoaderTest extends WebTestCase
         $this->twig = $this->getContainer()->get('twig');
         $this->router = $this->getContainer()->get('router');
         $this->client = static::createClient();
+
+        $this->getContainer()->get('swp_multi_tenancy.tenant_context')
+            ->setTenant($this->getContainer()->get('swp.repository.tenant')->findOneByCode('123abc'));
+        $this->getContainer()->get('event_dispatcher')->dispatch(MultiTenancyEvents::TENANTABLE_ENABLE);
+        $this->getContainer()->get('swp_revision.context.revision')
+            ->setCurrentRevision($this->getContainer()->get('swp.repository.revision')->getPublishedRevision()->getQuery()->getOneOrNullResult());
     }
 
     public function testFetchingContentListItems()
@@ -69,6 +76,13 @@ class ContentListItemLoaderTest extends WebTestCase
 
         $result = $this->getRendered($template);
         self::assertEquals(' article1-0-true  article2-1-true  article3-2-true  article4-3-false ', $result);
+    }
+
+    public function testFetchingContentListItemsByLIstObject()
+    {
+        $template = '{% gimme contentList with { contentListName: "List1"} %}{% gimmelist item from contentListItems with { contentList: contentList} %} {{ item.content.title }}-{{ item.position}}-{{ item.sticky ? "true":"false" }} {% endgimmelist %}{% endgimme %}';
+        $result = $this->getRendered($template);
+        self::assertEquals(' article1-0-true  article3-2-true  article2-1-false  article4-3-false ', $result);
     }
 
     public function testFetchingStickyItems()
