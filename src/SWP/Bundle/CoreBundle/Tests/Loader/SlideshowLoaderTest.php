@@ -54,10 +54,10 @@ class SlideshowLoaderTest extends WebTestCase
     {
         $this->articleLoader->load('article', ['slug' => 'test-news-article-2']);
 
-        $template = '{% gimme slideshow with {name: "slideshow2"} %} {{ slideshow.code }} {% for item in slideshow.items %} {{ url(item) }} {% endfor %} {% endgimme %}';
+        $template = '{% gimme slideshow with {name: "slideshow2"} %} {{ slideshow.code }} {% endgimme %}';
         $result = $this->getRendered($template);
 
-        self::assertEquals(' slideshow2  http://localhost/media/12345678987654321a.jpeg  ', $result);
+        self::assertEquals(' slideshow2 ', $result);
     }
 
     private function getRendered($template, $context = [])

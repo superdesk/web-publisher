@@ -5,9 +5,6 @@ properties:
     code:
         description: "Slideshow's code"
         type: integer
-    type:
-        description: "Slideshow's type"
-        type: text
     createdAt:
         description: "Slideshow create timestamp"
         type: datetime

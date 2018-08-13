@@ -26,8 +26,6 @@ class SlideshowRepository extends EntityRepository implements SlideshowRepositor
     {
         $qb = $this->getQueryByCriteria($criteria, $sorting, 's');
 
-        // get items
-
         return $qb
             ->getQuery()
             ->getResult()
