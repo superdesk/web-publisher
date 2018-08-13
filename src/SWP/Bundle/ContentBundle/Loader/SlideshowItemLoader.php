@@ -73,12 +73,10 @@ final class SlideshowItemLoader extends PaginatedLoader implements LoaderInterfa
                 return false;
             }
 
-            if (array_key_exists('slideshow', $parameters) && \is_string($parameters['slideshow'])) {
-                if (!$parameters['slideshow'] instanceof SlideshowInterface) {
-                    return false;
-                }
-
-                $criteria->set('slideshow', $parameters['slideshow']);
+            if (array_key_exists('slideshow', $parameters)
+                && $parameters['slideshow'] instanceof Meta
+                && $parameters['slideshow']->getValues() instanceof SlideshowInterface) {
+                $criteria->set('slideshow', $parameters['slideshow']->getValues());
             }
 
             $criteria = $this->applyPaginationToCriteria($criteria, $parameters);

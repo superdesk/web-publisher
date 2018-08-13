@@ -83,3 +83,24 @@ Usage:
     {% endgimmelist %}
 
 The ``article`` parameter in ``gimmelist`` is optional. If not provided, it will load slideshows for current article.
+
+Listing a Single Slideshow and its Items by Name
+------------------------------------------------
+
+Usage:
+
+.. code-block:: twig
+
+    {% gimmelist slideshow from slideshows with { article: gimme.article, name: "slideshow1" } %}
+        {{ slideshow.code }} <!-- Slideshow's code -->
+        <!-- Slideshow items -->
+        {% gimmelist slideshowItem from slideshowItems with { article: gimme.article, slideshow: slideshow } %}
+            {% gimme rendition with {'media': slideshowItem.articleMedia, 'name': '770x515', 'fallback': 'original' } %}
+                <img src="{{ url(rendition) }}" />
+            {% endgimme %}
+        {% endgimmelist %}
+        {{ slideshow.createdAt|date('Y-m-d hh:mm') }} <!-- Slideshow's created at datetime -->
+        {{ slideshow.updatedAt|date('Y-m-d hh:mm') }} <!-- Slideshow's updated at datetime-->
+    {% endgimmelist %}
+
+The ``article`` parameter in ``gimmelist`` is optional. If not provided, it will load slideshows for current article.

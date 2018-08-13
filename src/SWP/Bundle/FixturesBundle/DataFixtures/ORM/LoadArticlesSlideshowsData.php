@@ -43,7 +43,7 @@ class LoadArticlesSlideshowsData extends AbstractFixture implements FixtureInter
     public function loadArticles($env, $manager)
     {
         $articles = [
-            'dev' => [
+            'test' => [
                 [
                     'title' => 'Test news article',
                     'content' => 'Test news article content',
@@ -139,10 +139,6 @@ class LoadArticlesSlideshowsData extends AbstractFixture implements FixtureInter
                         $slideshowItem->setArticleMedia($articleMedia);
                         $slideshowItem->setSlideshow($slideshow);
                         $manager->persist($slideshowItem);
-                        $manager->persist($slideshow);
-
-                        //$slideshow->addItem($articleMedia);
-                        //$article->addSlideshow($slideshow);
                     }
                 }
             }

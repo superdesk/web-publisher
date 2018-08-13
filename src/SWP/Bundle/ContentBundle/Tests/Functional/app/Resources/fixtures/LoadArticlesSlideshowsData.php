@@ -144,7 +144,6 @@ class LoadArticlesSlideshowsData extends AbstractFixture implements FixtureInter
                     $slideshowItem->setArticleMedia($articleMedia);
                     $slideshowItem->setSlideshow($slideshow);
                     $manager->persist($slideshowItem);
-                    $manager->persist($slideshow);
                 }
             }
         }

@@ -38,6 +38,7 @@ SWP\Bundle\ContentBundle\Model\SlideshowItem:
                 orphanRemoval: true
         slideshow:
             targetEntity: SWP\Bundle\ContentBundle\Model\SlideshowInterface
+            cascade: ["all"]
             joinColumn:
                 name: slideshow_id
                 referencedColumnName: id

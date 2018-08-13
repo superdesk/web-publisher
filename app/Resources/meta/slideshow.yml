@@ -8,9 +8,6 @@ properties:
     type:
         description: "Slideshow's type"
         type: text
-    items:
-        description: "Slideshow' items (article media)"
-        type: array
     createdAt:
         description: "Slideshow create timestamp"
         type: datetime

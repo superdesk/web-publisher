@@ -51,19 +51,10 @@ class SlideshowItemRepository extends EntityRepository implements SlideshowItemR
 
     private function applyCustomCriteria(QueryBuilder $queryBuilder, Criteria $criteria): void
     {
-        $queryBuilder
-            ->leftJoin('s.slideshow', 'sd');
-
-        if ($criteria->has('slideshow')) {
-            $queryBuilder
-                ->andWhere($queryBuilder->expr()->eq('sd.id', $queryBuilder->expr()->literal($criteria->get('slideshow')->getId())));
-
-            $criteria->remove('slideshow');
-        }
-
         if ($criteria->has('article')) {
             $article = $criteria->get('article');
             $queryBuilder
+                ->leftJoin('s.slideshow', 'sd')
                 ->andWhere($queryBuilder->expr()->eq('sd.article', $queryBuilder->expr()->literal($article->getId())));
 
             $criteria->remove('article');
