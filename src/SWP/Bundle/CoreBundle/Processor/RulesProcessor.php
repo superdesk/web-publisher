@@ -118,6 +118,10 @@ final class RulesProcessor implements RulesProcessorInterface
 
     private function findRoute(RuleInterface $evaluatedRule): ?RouteInterface
     {
+        if (!\array_key_exists(self::KEY_ROUTE, $evaluatedRule->getConfiguration())) {
+            return null;
+        }
+
         return $this->routeRepository->findOneBy(['id' => $evaluatedRule->getConfiguration()[self::KEY_ROUTE]]);
     }
 
