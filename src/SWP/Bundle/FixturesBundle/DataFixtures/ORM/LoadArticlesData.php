@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Superdesk Web Publisher Fixtures Bundle.
  *
@@ -40,7 +42,7 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface, Orde
     /**
      * {@inheritdoc}
      */
-    public function load(ObjectManager $manager)
+    public function load(ObjectManager $manager): void
     {
         $this->manager = $manager;
         $env = $this->getEnvironment();
@@ -60,7 +62,7 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface, Orde
         $manager->flush();
     }
 
-    public function loadRoutes($env, $manager)
+    public function loadRoutes($env, $manager): void
     {
         $routes = [
             'dev' => [
@@ -222,7 +224,7 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface, Orde
         $manager->flush();
     }
 
-    public function loadArticles($env, ObjectManager $manager)
+    public function loadArticles($env, ObjectManager $manager): void
     {
         $articleDataProvider = $this->container->get(ArticleDataProvider::class);
 
@@ -522,7 +524,7 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface, Orde
         }
     }
 
-    private function createPackage(array $articleData)
+    private function createPackage(array $articleData): PackageInterface
     {
         /** @var PackageInterface $package */
         $package = $this->container->get('swp.factory.package')->create();
@@ -540,7 +542,7 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface, Orde
         return $package;
     }
 
-    private function createArticleStatistics(int $pageViewsNumber, array $pageViewsDates, ArticleInterface $article, ObjectManager $manager)
+    private function createArticleStatistics(int $pageViewsNumber, array $pageViewsDates, ArticleInterface $article, ObjectManager $manager): ArticleStatisticsInterface
     {
         /** @var ArticleStatisticsInterface $articleStatistics */
         $articleStatistics = $this->container->get('swp.factory.article_statistics')->create();
@@ -555,7 +557,7 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface, Orde
                 $articleEvent->setAction(ArticleEventInterface::ACTION_PAGEVIEW);
                 $date = new \DateTime();
                 $date->modify($dateValue);
-                $date->setTime(mt_rand(0, 23), str_pad(mt_rand(0, 59), 2, '0', STR_PAD_LEFT));
+                $date->setTime(mt_rand(0, 23), (int) str_pad((string) mt_rand(0, 59), 2, '0', STR_PAD_LEFT));
                 $articleEvent->setCreatedAt($date);
                 $manager->persist($articleEvent);
                 ++$count;
@@ -565,7 +567,7 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface, Orde
         return $articleStatistics;
     }
 
-    private function cropAndResizeImage($fakeImage, array $rendition, $targetFile)
+    private function cropAndResizeImage($fakeImage, array $rendition, $targetFile): void
     {
         $image = imagecreatefromjpeg($fakeImage);
         list($width, $height) = getimagesize($fakeImage);
@@ -588,12 +590,12 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface, Orde
 
         imagecopyresampled($newImage,
             $image,
-            0 - ($newImageWidth - $renditionWidth) / 2,
-            0 - ($newImageHeight - $renditionHeight) / 2,
+            0 - (int) (($newImageWidth - $renditionWidth) / 2),
+            0 - (int) (($newImageHeight - $renditionHeight) / 2),
             0,
             0,
-            $newImageWidth,
-            $newImageHeight,
+            (int) $newImageWidth,
+            (int) $newImageHeight,
             $width,
             $height);
         imagejpeg($newImage, $targetFile, 80);
@@ -602,10 +604,7 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface, Orde
         unset($image);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getOrder()
+    public function getOrder(): int
     {
         return 1;
     }

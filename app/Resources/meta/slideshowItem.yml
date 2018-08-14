@@ -1,0 +1,16 @@
+name: slideshowItem
+class: 'SWP\Bundle\ContentBundle\Model\SlideshowItemInterface'
+description: Slideshow's Item Meta is representation of slideshow's item
+properties:
+    articleMedia:
+        description: "Slideshow's media"
+        type: text
+    slideshow:
+        description: "Slideshow"
+        type: meta
+    createdAt:
+        description: "Slideshow create timestamp"
+        type: datetime
+    updatedAt:
+        description: "Slideshow update timestamp"
+        type: datetime

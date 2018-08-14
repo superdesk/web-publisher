@@ -81,6 +81,11 @@ SWP\Component\Bridge\Model\Item:
             inversedBy: items
             joinColumn:
                 onDelete: CASCADE
+        group:
+            targetEntity: SWP\Component\Bridge\Model\GroupInterface
+            inversedBy: groups
+            joinColumn:
+                onDelete: CASCADE
     oneToMany:
         renditions:
             targetEntity: SWP\Component\Bridge\Model\RenditionInterface

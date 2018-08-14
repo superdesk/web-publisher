@@ -91,6 +91,11 @@ SWP\Component\Bridge\Model\Package:
             cascade: ["all"]
             orphanRemoval: true
             mappedBy: package
+        groups:
+            targetEntity: SWP\Component\Bridge\Model\GroupInterface
+            cascade: ["all"]
+            orphanRemoval: true
+            mappedBy: package
         externalData:
             targetEntity: SWP\Component\Bridge\Model\ExternalData
             cascade: ["all"]

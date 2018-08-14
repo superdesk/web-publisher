@@ -39,11 +39,18 @@ class Package extends BaseContent implements PackageInterface
      */
     protected $externalData;
 
+    /**
+     * @var Collection
+     */
+    protected $groups;
+
     public function __construct()
     {
         parent::__construct();
 
         $this->items = new ArrayCollection();
+        $this->groups = new ArrayCollection();
+        $this->externalData = new ArrayCollection();
     }
 
     public function getItems()
@@ -92,5 +99,15 @@ class Package extends BaseContent implements PackageInterface
     public function setExternalData(Collection $externalData): void
     {
         $this->externalData = $externalData;
+    }
+
+    public function getGroups(): ?Collection
+    {
+        return $this->groups;
+    }
+
+    public function setGroups(?Collection $groups): void
+    {
+        $this->groups = $groups;
     }
 }

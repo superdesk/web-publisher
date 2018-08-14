@@ -18,7 +18,6 @@ SWP\Bundle\ContentBundle\Model\AuthorMedia:
     manyToOne:
         author:
             targetEntity: SWP\Bundle\ContentBundle\Model\ArticleAuthorInterface
-            inversedBy: media
             cascade: ["persist"]
             joinColumn:
                 name: author_id

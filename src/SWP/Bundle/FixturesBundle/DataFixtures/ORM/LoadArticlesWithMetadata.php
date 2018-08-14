@@ -3,12 +3,13 @@
 namespace SWP\Bundle\FixturesBundle\DataFixtures\ORM;
 
 use Doctrine\Common\DataFixtures\FixtureInterface;
+use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use SWP\Bundle\CoreBundle\Model\PackageInterface;
 use SWP\Bundle\FixturesBundle\AbstractFixture;
 use SWP\Component\Bridge\Model\ExternalDataInterface;
 
-class LoadArticlesWithMetadata extends AbstractFixture implements FixtureInterface
+class LoadArticlesWithMetadata extends AbstractFixture implements FixtureInterface, OrderedFixtureInterface
 {
     private $manager;
 
@@ -135,5 +136,10 @@ class LoadArticlesWithMetadata extends AbstractFixture implements FixtureInterfa
         $package->setVersion(1);
 
         return $package;
+    }
+
+    public function getOrder(): int
+    {
+        return 20;
     }
 }

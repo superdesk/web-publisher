@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Superdesk Web Publisher Fixtures Bundle.
  *
@@ -26,7 +28,7 @@ class LoadWidgetsData extends AbstractFixture implements FixtureInterface, Order
     /**
      * {@inheritdoc}
      */
-    public function load(ObjectManager $manager)
+    public function load(ObjectManager $manager): void
     {
         /** @var TenantInterface $tenant */
         $tenant = $this->container->get('swp.repository.tenant')->findOneByDomain(AbstractFixture::DEFAULT_TENANT_DOMAIN);
@@ -58,8 +60,8 @@ class LoadWidgetsData extends AbstractFixture implements FixtureInterface, Order
         $this->addReference('menu_widget_footer', $widget);
     }
 
-    public function getOrder()
+    public function getOrder(): int
     {
-        return 1;
+        return 2;
     }
 }

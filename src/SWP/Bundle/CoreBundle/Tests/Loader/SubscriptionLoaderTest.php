@@ -17,7 +17,6 @@ declare(strict_types=1);
 namespace SWP\Bundle\CoreBundle\Tests\Twig;
 
 use SWP\Bundle\FixturesBundle\WebTestCase;
-use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 
 class SubscriptionLoaderTest extends WebTestCase
@@ -27,11 +26,6 @@ class SubscriptionLoaderTest extends WebTestCase
      */
     private $twig;
 
-    /**
-     * @var RouterInterface
-     */
-    private $router;
-
     public function setUp()
     {
         self::bootKernel();
@@ -39,7 +33,6 @@ class SubscriptionLoaderTest extends WebTestCase
 
         $this->loadCustomFixtures(['tenant']);
         $this->twig = $this->getContainer()->get('twig');
-        $this->router = $this->getContainer()->get('router');
     }
 
     public function testLoadSubscriptionsByFakeUser(): void

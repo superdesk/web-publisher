@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Superdesk Web Publisher Fixtures Bundle.
  *
@@ -25,7 +27,7 @@ class LoadMenuNodesData extends AbstractFixture implements FixtureInterface, Ord
     /**
      * {@inheritdoc}
      */
-    public function load(ObjectManager $manager)
+    public function load(ObjectManager $manager): void
     {
         $env = $this->getEnvironment();
         $menuNodes = [
@@ -176,7 +178,7 @@ class LoadMenuNodesData extends AbstractFixture implements FixtureInterface, Ord
         }
     }
 
-    public function getOrder()
+    public function getOrder(): int
     {
         return 5;
     }
