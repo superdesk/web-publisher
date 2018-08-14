@@ -16,7 +16,6 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\ContentBundle\Model;
 
-use Doctrine\Common\Collections\ArrayCollection;
 use SWP\Component\Common\Model\TimestampableTrait;
 
 class Slideshow implements SlideshowInterface
@@ -40,7 +39,7 @@ class Slideshow implements SlideshowInterface
 
     public function __construct()
     {
-        $this->items = new ArrayCollection();
+        $this->createdAt = new \DateTime();
     }
 
     public function getId()

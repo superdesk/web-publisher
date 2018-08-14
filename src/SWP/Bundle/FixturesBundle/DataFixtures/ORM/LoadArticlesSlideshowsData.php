@@ -19,8 +19,7 @@ use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use SWP\Bundle\ContentBundle\Model\ImageRendition;
 use SWP\Bundle\ContentBundle\Model\ArticleInterface;
-use SWP\Bundle\ContentBundle\Model\Slideshow;
-use SWP\Bundle\ContentBundle\Model\SlideshowItem;
+use SWP\Bundle\CoreBundle\Model\Slideshow;
 use SWP\Bundle\FixturesBundle\AbstractFixture;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
@@ -84,6 +83,8 @@ class LoadArticlesSlideshowsData extends AbstractFixture implements FixtureInter
 
         $mediaManager = $this->container->get('swp_content_bundle.manager.media');
         $fakeImage = __DIR__.'/../../Resources/assets/test_cc_image.jpg';
+        $slideshowFactory = $this->container->get('swp.factory.slideshow');
+        $slideshowItemFactory = $this->container->get('swp.factory.slideshow_item');
 
         if (isset($articles[$env])) {
             foreach ($articles[$env] as $articleData) {
@@ -132,10 +133,10 @@ class LoadArticlesSlideshowsData extends AbstractFixture implements FixtureInter
 
                 if (isset($articleData['slideshows'])) {
                     foreach ((array) $articleData['slideshows'] as $slideshowCode) {
-                        $slideshow = new Slideshow();
+                        $slideshow = $slideshowFactory->create();
                         $slideshow->setCode($slideshowCode);
                         $slideshow->setArticle($article);
-                        $slideshowItem = new SlideshowItem();
+                        $slideshowItem = $slideshowItemFactory->create();
                         $slideshowItem->setArticleMedia($articleMedia);
                         $slideshowItem->setSlideshow($slideshow);
                         $manager->persist($slideshowItem);
