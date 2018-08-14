@@ -262,8 +262,13 @@ final class WordpressAdapter implements AdapterInterface
         if (isset($requestOptions['headers'])) {
             $requestOptions['headers']['Authorization'] = $authorizationKey;
         }
-        /** @var \GuzzleHttp\Psr7\Response $response */
-        $response = $this->client->post($url.'/wp-json/wp/v2/'.$endpoint, $requestOptions);
+
+        try {
+            /** @var \GuzzleHttp\Psr7\Response $response */
+            $response = $this->client->post($url.'/wp-json/wp/v2/'.$endpoint, $requestOptions);
+        } catch (RequestException $e) {
+            return new GuzzleResponse(500);
+        }
 
         return $response;
     }
