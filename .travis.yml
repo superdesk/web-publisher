@@ -73,7 +73,7 @@ script:
 - bin/behat -f progress
 - bin/phpspec run
 - bin/phpunit -c app/ --stop-on-failure
-- tail -f -n 100 app/logs/test.log
+- tail -n 100 app/logs/test.log
 - bin/phpunit --stderr -c app/ src/SWP/Bundle/CoreBundle/Tests/Security/Storage/DynamicDomainSessionStorageTest.php
 - bin/phpunit --stderr -c app/ src/SWP/Bundle/CoreBundle/Tests/Controller/AuthControllerTest.php
 - bin/phpunit --stderr -c app/ src/SWP/Bundle/CoreBundle/Tests/Controller/RegistrationControllerTest.php

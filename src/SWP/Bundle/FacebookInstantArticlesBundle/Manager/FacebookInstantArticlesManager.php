@@ -17,6 +17,7 @@ declare(strict_types=1);
 namespace SWP\Bundle\FacebookInstantArticlesBundle\Manager;
 
 use Facebook;
+use Symfony\Component\HttpFoundation\RequestStack;
 
 class FacebookInstantArticlesManager implements FacebookInstantArticlesManagerInterface
 {
@@ -26,13 +27,14 @@ class FacebookInstantArticlesManager implements FacebookInstantArticlesManagerIn
     protected $facebookManager;
 
     /**
-     * FacebookInstantArticlesManager constructor.
-     *
-     * @param FacebookManagerInterface $facebookManager
+     * @var RequestStack
      */
-    public function __construct(FacebookManagerInterface $facebookManager)
+    protected $requestStack;
+
+    public function __construct(FacebookManagerInterface $facebookManager, RequestStack $requestStack)
     {
         $this->facebookManager = $facebookManager;
+        $this->requestStack = $requestStack;
     }
 
     /**
@@ -56,7 +58,12 @@ class FacebookInstantArticlesManager implements FacebookInstantArticlesManagerIn
      */
     public function getPagesAndTokens(Facebook\Facebook $facebook)
     {
-        $userAccessToken = $facebook->getRedirectLoginHelper()->getAccessToken();
+        $helper = $facebook->getRedirectLoginHelper();
+        $request = $this->requestStack->getMasterRequest();
+        if (null !== $request && $request->query->has('state')) {
+            $helper->getPersistentDataHandler()->set('state', $request->query->get('state'));
+        }
+        $userAccessToken = $helper->getAccessToken();
         $helper = new Facebook\InstantArticles\Client\Helper($facebook);
 
         return $helper->getPagesAndTokens($userAccessToken);
