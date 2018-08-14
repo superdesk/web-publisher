@@ -199,7 +199,11 @@ class TenantController extends FOSRestController
             $this->get('swp.object_manager.tenant')->flush();
 
             $cacheProvider = $this->get('doctrine_cache.providers.main_cache');
-            $cacheProvider->save(CachedTenantContext::getCacheKey($request->getHost()), $tenant);
+            $host = $tenant->getDomainName();
+            if ($subdomain = $tenant->getSubdomain()) {
+                $host = $subdomain.'.'.$host;
+            }
+            $cacheProvider->save(CachedTenantContext::getCacheKey($host), $tenant);
 
             return new SingleResourceResponse($tenant);
         }
