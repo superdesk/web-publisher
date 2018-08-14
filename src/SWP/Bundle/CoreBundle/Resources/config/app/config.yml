@@ -99,6 +99,8 @@ swp_content:
                     model: SWP\Bundle\CoreBundle\Model\ArticleSource
                 author:
                     repository: SWP\Bundle\ContentBundle\Doctrine\ORM\ArticleAuthorRepository
+                slideshow:
+                    model: SWP\Bundle\CoreBundle\Model\Slideshow
 
 swp_revision:
     persistence:

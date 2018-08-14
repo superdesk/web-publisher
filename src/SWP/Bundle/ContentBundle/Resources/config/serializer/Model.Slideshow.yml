@@ -11,11 +11,3 @@ SWP\Bundle\ContentBundle\Model\Slideshow:
             expose: true
         updatedAt:
             expose: true
-    relations:
-        -
-            rel: items
-            href:
-                route: swp_api_core_slideshow_items
-                parameters:
-                    id: "expr(object.getId())"
-                    articleId: "expr(object.getArticle().getId())"

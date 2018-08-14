@@ -61,8 +61,6 @@ class SlideshowLoaderTest extends WebTestCase
         self::assertInstanceOf(Meta::class, $slideshows[0]);
         self::assertEquals('slideshow1', $slideshows[0]->code);
         self::assertEquals('slideshow3', $slideshows[1]->code);
-        self::assertCount(1, $slideshows[0]->items);
-        self::assertCount(1, $slideshows[1]->items);
 
         $slideshows2 = $this->slideshowLoader->load('slideshows', [], [], LoaderInterface::COLLECTION);
         self::assertInstanceOf(Meta::class, $slideshows2[0]);
@@ -79,7 +77,6 @@ class SlideshowLoaderTest extends WebTestCase
 
         self::assertInstanceOf(Meta::class, $slideshow);
         self::assertEquals('slideshow1', $slideshow->code);
-        self::assertCount(1, $slideshow->items);
 
         $slideshow2 = $this->slideshowLoader->load('slideshow', ['name' => 'slideshow1'], [], LoaderInterface::SINGLE);
         self::assertInstanceOf(Meta::class, $slideshow2);
@@ -90,7 +87,6 @@ class SlideshowLoaderTest extends WebTestCase
 
         self::assertInstanceOf(Meta::class, $slideshow);
         self::assertEquals('slideshow3', $slideshow->code);
-        self::assertCount(1, $slideshow->items);
 
         // try to load slideshow from different article
         $articleMeta = $articleLoader->load('article', ['slug' => 'test-news-article-2']);
