@@ -85,12 +85,15 @@ class TenantController extends FOSRestController
      *     description="Delete single tenant/website",
      *     statusCodes={
      *         204="Returned on success."
+     *     },
+     *     parameters={
+     *         {"name"="force", "dataType"="bool", "required"=false, "description"="Remove tenant ignoring attached articles"}
      *     }
      * )
      * @Route("/api/{version}/tenants/{code}", options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_core_delete_tenant", requirements={"code"="[a-z0-9]+"})
      * @Method("DELETE")
      */
-    public function deleteAction($code)
+    public function deleteAction(Request $request, $code)
     {
         $tenantContext = $this->container->get('swp_multi_tenancy.tenant_context');
         $eventDispatcher = $this->container->get('event_dispatcher');
@@ -99,12 +102,15 @@ class TenantController extends FOSRestController
         $repository = $this->getTenantRepository();
         $tenant = $this->findOr404($code);
 
-        $tenantContext->setTenant($tenant);
-        $eventDispatcher->dispatch(MultiTenancyEvents::TENANTABLE_ENABLE);
-        $articlesRepository = $this->get('swp.repository.article');
-        $existingArticles = $articlesRepository->findAll();
-        if (0 !== \count($existingArticles)) {
-            throw new ConflictHttpException('This tenant have articles attached to it.');
+        $forceRemove = $request->query->has('force');
+        if (!$forceRemove) {
+            $tenantContext->setTenant($tenant);
+            $eventDispatcher->dispatch(MultiTenancyEvents::TENANTABLE_ENABLE);
+            $articlesRepository = $this->get('swp.repository.article');
+            $existingArticles = $articlesRepository->findAll();
+            if (0 !== \count($existingArticles)) {
+                throw new ConflictHttpException('This tenant have articles attached to it.');
+            }
         }
 
         $repository->remove($tenant);
@@ -193,7 +199,11 @@ class TenantController extends FOSRestController
             $this->get('swp.object_manager.tenant')->flush();
 
             $cacheProvider = $this->get('doctrine_cache.providers.main_cache');
-            $cacheProvider->save(CachedTenantContext::getCacheKey($request->getHost()), $tenant);
+            $host = $tenant->getDomainName();
+            if ($subdomain = $tenant->getSubdomain()) {
+                $host = $subdomain.'.'.$host;
+            }
+            $cacheProvider->save(CachedTenantContext::getCacheKey($host), $tenant);
 
             return new SingleResourceResponse($tenant);
         }

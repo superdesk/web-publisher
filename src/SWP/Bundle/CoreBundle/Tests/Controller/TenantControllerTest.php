@@ -182,6 +182,12 @@ class TenantControllerTest extends WebTestCase
             'code' => $content['code'],
         ]));
         $this->assertEquals(409, $client->getResponse()->getStatusCode());
+
+        $client->request('DELETE', $this->router->generate('swp_api_core_delete_tenant', [
+            'code' => $content['code'],
+            'force' => true,
+        ]));
+        $this->assertEquals(204, $client->getResponse()->getStatusCode());
     }
 
     public function testTenantWithWrongSubdomainAndRemoveIt()
