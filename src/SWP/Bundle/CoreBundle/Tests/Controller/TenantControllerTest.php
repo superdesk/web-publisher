@@ -111,7 +111,7 @@ class TenantControllerTest extends WebTestCase
         $client->request('POST', $this->router->generate('swp_api_core_create_tenant'), [
             'tenant' => [
                 'name' => 'Test Tenant',
-                'subdomain' => 'test',
+                'subdomain' => 'test1',
                 'domainName' => 'localhost',
                 'themeName' => 'swp/test-theme',
             ],
