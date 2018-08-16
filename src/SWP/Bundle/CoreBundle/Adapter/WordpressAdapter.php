@@ -231,8 +231,6 @@ final class WordpressAdapter implements AdapterInterface
             }
         }
 
-        $post->setTags($article->getKeywords());
-
         return $post;
     }
 
