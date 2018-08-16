@@ -8,7 +8,6 @@ services:
         class: SWP\Bundle\FacebookInstantArticlesBundle\Manager\FacebookInstantArticlesManager
         arguments:
             - "@swp_facebook.manager"
-            - "@request_stack"
     swp_facebook.template_parser:
         class: SWP\Bundle\FacebookInstantArticlesBundle\Parser\TemplateParser
         arguments:
