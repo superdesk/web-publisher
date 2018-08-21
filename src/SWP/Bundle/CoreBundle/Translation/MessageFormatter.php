@@ -46,12 +46,10 @@ class MessageFormatter implements MessageFormatterInterface, ChoiceMessageFormat
     public function choiceFormat($message, $number, $locale, array $parameters = array())
     {
         $parameters = array_merge(array('%count%' => $number), $parameters);
-        dump($locale);
         $position = \strpos($locale, '@');
         if (false !== $position) {
             $locale = \substr($locale, 0, $position);
         }
-        dump($locale);
 
         return $this->format($this->selector->choose($message, (int) $number, $locale), $locale, $parameters);
     }
