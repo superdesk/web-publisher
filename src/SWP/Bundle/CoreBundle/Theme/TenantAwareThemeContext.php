@@ -72,6 +72,10 @@ final class TenantAwareThemeContext implements TenantAwareThemeContextInterface
         try {
             $tenant = $this->tenantContext->getTenant();
         } catch (TenantNotFoundException $e) {
+            $tenant = null;
+        }
+
+        if (null === $tenant) {
             return null;
         }
 
