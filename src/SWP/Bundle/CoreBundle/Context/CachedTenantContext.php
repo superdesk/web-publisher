@@ -97,7 +97,7 @@ class CachedTenantContext extends TenantContext implements CachedTenantContextIn
         if ($subdomain = $tenant->getSubdomain()) {
             $host = $subdomain.'.'.$host;
         }
-        $this->cacheProvider->delete(self::getCacheKey($host));
+        $this->cacheProvider->save(self::getCacheKey($host), $tenant);
     }
 
     /**

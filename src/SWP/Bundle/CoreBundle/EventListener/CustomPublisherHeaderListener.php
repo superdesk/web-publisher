@@ -51,5 +51,11 @@ final class CustomPublisherHeaderListener
             $value = $version->getVersion();
         }
         $response->headers->add([self::PUBLISHER_HEADER => $value]);
+
+        $exposedHeaders = (array) $response->headers->get('Access-Control-Expose-Headers');
+        if (!\in_array(self::PUBLISHER_HEADER, $exposedHeaders)) {
+            $exposedHeaders[] = self::PUBLISHER_HEADER;
+            $response->headers->set('Access-Control-Expose-Headers', strtolower(implode(', ', $exposedHeaders)));
+        }
     }
 }
