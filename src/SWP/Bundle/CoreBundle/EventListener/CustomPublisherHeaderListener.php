@@ -21,7 +21,7 @@ use SWP\Component\Storage\Factory\FactoryInterface;
 
 final class CustomPublisherHeaderListener
 {
-    public const PUBLISHER_HEADER = 'X-Superdesk-Publisher';
+    public const PUBLISHER_HEADER = 'x-superdesk-publisher';
 
     /**
      * @var bool
