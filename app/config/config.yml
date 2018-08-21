@@ -24,7 +24,7 @@ framework:
     esi: { enabled: true }
     translator:
         fallbacks: ["%locale%"]
-        logging: true
+        logging: false
     secret: "%env(SYMFONY_SECRET)%"
     router:
         resource: "%kernel.root_dir%/config/routing.yml"
