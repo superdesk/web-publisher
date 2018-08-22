@@ -77,10 +77,7 @@ final class WordpressAdapterTest extends WebTestCase
 
         $compositeOutputChannelAdapter->create($outputChannel, $article);
         $externalArticle = $article->getExternalArticle();
-        self::assertInstanceOf(ExternalArticleInterface::class, $externalArticle);
-        self::assertEquals(WordpressAdapter::STATUS_DRAFT, $externalArticle->getStatus());
-        self::assertEmpty($externalArticle->getExternalId());
-        self::assertEmpty($externalArticle->getLiveUrl());
+        self::assertNull($externalArticle);
     }
 
     public function testPublishingArticleToOutputChannel()
