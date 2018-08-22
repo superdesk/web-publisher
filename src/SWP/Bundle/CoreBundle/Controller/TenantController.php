@@ -18,7 +18,6 @@ use FOS\RestBundle\Controller\FOSRestController;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use SWP\Bundle\CoreBundle\Context\CachedTenantContext;
 use SWP\Bundle\CoreBundle\Model\RevisionInterface;
 use SWP\Bundle\MultiTenancyBundle\MultiTenancyEvents;
 use SWP\Component\Common\Response\ResourcesListResponse;
@@ -198,12 +197,8 @@ class TenantController extends FOSRestController
             $tenant->setUpdatedAt(new \DateTime('now'));
             $this->get('swp.object_manager.tenant')->flush();
 
-            $cacheProvider = $this->get('doctrine_cache.providers.main_cache');
-            $host = $tenant->getDomainName();
-            if ($subdomain = $tenant->getSubdomain()) {
-                $host = $subdomain.'.'.$host;
-            }
-            $cacheProvider->save(CachedTenantContext::getCacheKey($host), $tenant);
+            $tenantContext = $this->get('swp_multi_tenancy.tenant_context');
+            $tenantContext->setTenant($tenant);
 
             return new SingleResourceResponse($tenant);
         }

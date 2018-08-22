@@ -16,6 +16,7 @@ namespace SWP\Bundle\CoreBundle\Context;
 
 use Doctrine\Common\Cache\Cache;
 use Doctrine\ORM\EntityManager;
+use SWP\Bundle\CoreBundle\Model\OutputChannel;
 use SWP\Bundle\CoreBundle\Model\Route;
 use SWP\Bundle\MultiTenancyBundle\Context\TenantContext;
 use SWP\Component\MultiTenancy\Exception\TenantNotFoundException;
@@ -69,9 +70,12 @@ class CachedTenantContext extends TenantContext implements CachedTenantContextIn
             if (null !== $currentRequest) {
                 $cacheKey = self::getCacheKey($currentRequest->getHost());
                 if ($this->cacheProvider->contains($cacheKey) && ($tenant = $this->cacheProvider->fetch($cacheKey)) instanceof  TenantInterface) {
-                    // solution for Symfony Route heavy serialization
+                    // solution for serialization
                     if (null !== $tenant->getHomepage()) {
                         $tenant->setHomepage($this->entityManager->find(Route::class, $tenant->getHomepage()->getId()));
+                    }
+                    if (null !== $tenant->getOutputChannel()) {
+                        $tenant->setOutputChannel($this->entityManager->find(OutputChannel::class, $tenant->getOutputChannel()->getId()));
                     }
                     parent::setTenant($this->attachToEntityManager($tenant));
                 } else {
@@ -92,12 +96,13 @@ class CachedTenantContext extends TenantContext implements CachedTenantContextIn
      */
     public function setTenant(TenantInterface $tenant)
     {
-        parent::setTenant($tenant);
+        parent::setTenant($this->attachToEntityManager($tenant));
 
         $host = $tenant->getDomainName();
         if ($subdomain = $tenant->getSubdomain()) {
             $host = $subdomain.'.'.$host;
         }
+
         $this->cacheProvider->save(self::getCacheKey($host), $tenant);
     }
 
