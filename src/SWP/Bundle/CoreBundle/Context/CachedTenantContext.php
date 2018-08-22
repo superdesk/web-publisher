@@ -19,6 +19,7 @@ use Doctrine\ORM\EntityManager;
 use SWP\Bundle\CoreBundle\Model\Route;
 use SWP\Bundle\MultiTenancyBundle\Context\TenantContext;
 use SWP\Component\MultiTenancy\Exception\TenantNotFoundException;
+use SWP\Component\MultiTenancy\Model\OrganizationInterface;
 use SWP\Component\MultiTenancy\Model\TenantInterface;
 use SWP\Component\MultiTenancy\Resolver\TenantResolverInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
@@ -67,19 +68,18 @@ class CachedTenantContext extends TenantContext implements CachedTenantContextIn
         if (null === $this->tenant) {
             if (null !== $currentRequest) {
                 $cacheKey = self::getCacheKey($currentRequest->getHost());
-                if ($this->cacheProvider->contains($cacheKey)) {
-                    $tenant = $this->cacheProvider->fetch($cacheKey);
+                if ($this->cacheProvider->contains($cacheKey) && ($tenant = $this->cacheProvider->fetch($cacheKey)) instanceof  TenantInterface) {
                     // solution for Symfony Route heavy serialization
                     if (null !== $tenant->getHomepage()) {
                         $tenant->setHomepage($this->entityManager->find(Route::class, $tenant->getHomepage()->getId()));
                     }
-                    $this->setTenant($tenant);
+                    parent::setTenant($this->attachToEntityManager($tenant));
                 } else {
                     $tenant = $this->tenantResolver->resolve(
                         $currentRequest ? $currentRequest->getHost() : null
                     );
+                    parent::setTenant($tenant);
                     $this->cacheProvider->save($cacheKey, $tenant);
-                    $this->setTenant($tenant);
                 }
             }
         }
@@ -93,6 +93,7 @@ class CachedTenantContext extends TenantContext implements CachedTenantContextIn
     public function setTenant(TenantInterface $tenant)
     {
         parent::setTenant($tenant);
+
         $host = $tenant->getDomainName();
         if ($subdomain = $tenant->getSubdomain()) {
             $host = $subdomain.'.'.$host;
@@ -106,5 +107,14 @@ class CachedTenantContext extends TenantContext implements CachedTenantContextIn
     public static function getCacheKey($host)
     {
         return 'tenant_cache__'.$host;
+    }
+
+    private function attachToEntityManager(TenantInterface $tenant): TenantInterface
+    {
+        /** @var OrganizationInterface $organization */
+        $organization = $this->entityManager->merge($tenant->getOrganization());
+        $tenant->setOrganization($organization);
+
+        return  $this->entityManager->merge($tenant);
     }
 }
