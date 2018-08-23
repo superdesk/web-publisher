@@ -54,6 +54,7 @@ or
 
 
 .. code-block:: twig
+
     {% gimme contentList with { contentListName: "List1"} %}
         {% cache 'top-articles' {gen: contentList} %}
         <ul>
