@@ -44,6 +44,7 @@ final class InvalidateHttpCacheTagsListener
     ) {
         $this->cacheManager = $cacheManager;
         $this->articleTagGenerator = $articleTagGenerator;
+        $this->routeTagGenerator = $routeTagGenerator;
     }
 
     public function onPostUpdate(ArticleEvent $event): void

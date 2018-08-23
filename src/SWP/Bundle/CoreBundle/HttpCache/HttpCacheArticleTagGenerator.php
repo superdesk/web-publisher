@@ -16,7 +16,7 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\CoreBundle\HttpCache;
 
-use SWP\Bundle\CoreBundle\Model\ArticleInterface;
+use SWP\Bundle\ContentBundle\Model\ArticleInterface;
 
 final class HttpCacheArticleTagGenerator implements HttpCacheArticleTagGeneratorInterface
 {
