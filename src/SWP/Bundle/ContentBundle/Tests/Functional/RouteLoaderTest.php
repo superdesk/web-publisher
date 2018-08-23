@@ -15,6 +15,7 @@
 namespace SWP\Bundle\ContentBundle\Tests;
 
 use SWP\Bundle\ContentBundle\Loader\RouteLoader;
+use SWP\Bundle\ContentBundle\Tests\Functional\app\Resources\fixtures\LoadArticlesData;
 use SWP\Bundle\ContentBundle\Tests\Functional\WebTestCase;
 use SWP\Component\TemplatesSystem\Gimme\Loader\LoaderInterface;
 use SWP\Component\TemplatesSystem\Gimme\Meta\MetaCollection;
@@ -28,11 +29,7 @@ class RouteLoaderTest extends WebTestCase
     {
         self::bootKernel();
 
-        $this->loadFixtures(
-            [
-                'SWP\Bundle\ContentBundle\Tests\Functional\app\Resources\fixtures\LoadArticlesData',
-            ], 'default'
-        );
+        $this->loadFixtures([LoadArticlesData::class]);
     }
 
     public function testFindRoute()

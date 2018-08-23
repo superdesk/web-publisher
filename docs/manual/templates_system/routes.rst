@@ -37,7 +37,7 @@ Usage:
 .. code-block:: twig
 
     <ul>
-    {% gimmelist route with {parent: 5} %} <!-- possible values for parrent: (int) 5, (string) 'Test Route', (meta) gimme.route -->
+    {% gimmelist route with {parent: 5} %} <!-- possible values for parent: (int) 5, (string) 'Test Route', (meta) gimme.route -->
         <li>{{ route.name }}
     {% endgimme %}
     </ul>
