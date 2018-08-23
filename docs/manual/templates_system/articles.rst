@@ -60,3 +60,18 @@ The :code:`articles` loader parameters:
     {% gimmelist article from articles with {'keywords':['keyword1', 'keyword2']} %}
         <img src="{{ url(article) }}" />
     {% endgimmelist %}
+
+
+* Filtering out selected articles (useful when you want to exclude articles listed already in content list)
+
+.. code-block:: twig
+
+    {% gimmelist article from articles without {article:[1,2]} %} <!-- pass articles ids (collected before) -->
+        <img src="{{ url(article) }}" />
+    {% endgimmelist %}
+
+.. code-block:: twig
+
+    {% gimmelist article from articles without {article:[gimme.article]} %} <!-- pass articles meta objects -->
+        <img src="{{ url(article) }}" />
+    {% endgimmelist %}
