@@ -221,7 +221,7 @@ services:
     swp_core.listener.tenant_not_found:
         class: SWP\Bundle\CoreBundle\EventListener\TenantNotFoundExceptionListener
         tags:
-            - { name: kernel.event_listener, event: kernel.exception }
+            - { name: kernel.event_listener, event: kernel.exception, priority: 100 }
 
     SWP\Bundle\CoreBundle\EventListener\CustomPublisherHeaderListener:
         arguments:

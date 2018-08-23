@@ -31,7 +31,7 @@ class CreateTenantCommandTest extends WebTestCase
 
     public function testCommand()
     {
-        $result = $this->runCommand('swp:tenant:create', ['organization code' => '123456', 'subdomain' => 'test23', 'name' => 'Revision Aware Tenant'], true);
+        $result = $this->runCommand('swp:tenant:create', ['organization code' => '123456', 'subdomain' => 'test23', 'domain' => 'localhost', 'name' => 'Revision Aware Tenant'], true);
         preg_match_all('/code: \\e\[32m([azAZ\w]+)\\e\[39m/', $result, $matches);
         $code = $matches[1][0];
         $revisionRepository = $this->getContainer()->get('swp.repository.revision');

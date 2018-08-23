@@ -125,6 +125,7 @@ final class ThemeService implements ThemeServiceInterface
             if ($activate) {
                 $tenant->setThemeName($themeName);
                 $messages[] = 'Theme was activated!';
+                $this->tenantContext->setTenant($tenant);
             }
 
             if ($processGeneratedData) {

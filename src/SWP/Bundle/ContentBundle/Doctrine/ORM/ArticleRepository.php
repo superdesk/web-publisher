@@ -23,6 +23,7 @@ use SWP\Bundle\ContentBundle\Doctrine\ArticleRepositoryInterface;
 use SWP\Bundle\ContentBundle\Model\ArticleInterface;
 use SWP\Bundle\StorageBundle\Doctrine\ORM\EntityRepository;
 use SWP\Component\Common\Pagination\PaginationData;
+use SWP\Component\TemplatesSystem\Gimme\Meta\Meta;
 
 /**
  * Class ArticleRepository.
@@ -270,7 +271,22 @@ class ArticleRepository extends EntityRepository implements ArticleRepositoryInt
             }
 
             $queryBuilder->andWhere($andX);
-            $criteria->remove('author');
+            $criteria->remove('exclude_author');
+        }
+
+        if ($criteria->has('exclude_article') && !empty($criteria->get('exclude_article'))) {
+            $excludedArticles = [];
+            foreach ((array) $criteria->get('exclude_article') as $value) {
+                if (is_numeric($value)) {
+                    $excludedArticles[] = $value;
+                } elseif ($value instanceof Meta and $value->getValues() instanceof ArticleInterface) {
+                    $excludedArticles[] = $value->getValues()->getId();
+                }
+            }
+
+            $queryBuilder->andWhere('a.id NOT IN (:excludedArticles)')
+                ->setParameter('excludedArticles', $excludedArticles);
+            $criteria->remove('exclude_article');
         }
     }
 }

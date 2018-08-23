@@ -15,7 +15,10 @@
 namespace SWP\Bundle\ContentBundle\Tests;
 
 use SWP\Bundle\ContentBundle\Loader\RouteLoader;
+use SWP\Bundle\ContentBundle\Tests\Functional\app\Resources\fixtures\LoadArticlesData;
 use SWP\Bundle\ContentBundle\Tests\Functional\WebTestCase;
+use SWP\Component\TemplatesSystem\Gimme\Loader\LoaderInterface;
+use SWP\Component\TemplatesSystem\Gimme\Meta\MetaCollection;
 
 class RouteLoaderTest extends WebTestCase
 {
@@ -25,6 +28,8 @@ class RouteLoaderTest extends WebTestCase
     public function setUp()
     {
         self::bootKernel();
+
+        $this->loadFixtures([LoadArticlesData::class]);
     }
 
     public function testFindRoute()
@@ -39,5 +44,33 @@ class RouteLoaderTest extends WebTestCase
 
         $meta = $routeLoader->load('route', []);
         $this->assertFalse($meta);
+    }
+
+    public function testFindRoutesCollection()
+    {
+        $routeLoader = new RouteLoader(
+            $this->getContainer()->get('swp_template_engine_context.factory.meta_factory'),
+            $this->getContainer()->get('swp.repository.route')
+        );
+
+        $collection = $routeLoader->load('route', [], [], LoaderInterface::COLLECTION);
+        self::assertInstanceOf(MetaCollection::class, $collection);
+        self::assertEquals(4, $collection->count());
+
+        $collection = $routeLoader->load('route', ['parent' => 2], [], LoaderInterface::COLLECTION);
+        self::assertInstanceOf(MetaCollection::class, $collection);
+        self::assertEquals(1, $collection->count());
+
+        $collection = $routeLoader->load('route', ['parent' => 3], [], LoaderInterface::COLLECTION);
+        self::assertFalse($collection);
+
+        $collection = $routeLoader->load('route', ['parent' => 'articles'], [], LoaderInterface::COLLECTION);
+        self::assertInstanceOf(MetaCollection::class, $collection);
+        self::assertEquals(1, $collection->count());
+
+        $meta = $routeLoader->load('route', ['name' => 'articles']);
+        $collection = $routeLoader->load('route', ['parent' => $meta], [], LoaderInterface::COLLECTION);
+        self::assertInstanceOf(MetaCollection::class, $collection);
+        self::assertEquals(1, $collection->count());
     }
 }
