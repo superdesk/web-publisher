@@ -29,8 +29,6 @@ use SWP\Component\TemplatesSystem\Gimme\Meta\MetaCollection;
  */
 class RouteLoader extends PaginatedLoader implements LoaderInterface
 {
-    const SUPPORTED_TYPE = 'route';
-
     /**
      * @var MetaFactoryInterface
      */
@@ -135,6 +133,6 @@ class RouteLoader extends PaginatedLoader implements LoaderInterface
      */
     public function isSupported(string $type): bool
     {
-        return self::SUPPORTED_TYPE === $type;
+        return \in_array($type, ['route', 'routes']);
     }
 }
