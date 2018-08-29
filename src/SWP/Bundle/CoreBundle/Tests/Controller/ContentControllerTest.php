@@ -138,7 +138,7 @@ class ContentControllerTest extends WebTestCase
         ]);
 
         $this->assertEquals(201, $client->getResponse()->getStatusCode());
-        $this->assertEquals('{"requirements":[],"id":3,"content":null,"staticPrefix":"\/simple-test-route","variablePattern":null,"parent":null,"children":[],"level":0,"templateName":"test.html.twig","articlesTemplateName":null,"type":"content","cacheTimeInSeconds":0,"name":"simple-test-route","slug":"simple-test-route","position":1,"articlesCount":0,"paywallSecured":false,"_links":{"self":{"href":"\/api\/v1\/content\/routes\/3"}}}', $client->getResponse()->getContent());
+        $this->assertEquals('{"requirements":[],"id":3,"content":null,"staticPrefix":"\/simple-test-route","variablePattern":null,"parent":null,"children":[],,"lft":3,"rgt":4,"level":0,"templateName":"test.html.twig","articlesTemplateName":null,"type":"content","cacheTimeInSeconds":0,"name":"simple-test-route","slug":"simple-test-route","position":1,"articlesCount":0,"paywallSecured":false,"_links":{"self":{"href":"\/api\/v1\/content\/routes\/3"}}}', $client->getResponse()->getContent());
 
         $crawler = $client->request('GET', '/simple-test-route');
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
