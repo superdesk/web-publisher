@@ -177,11 +177,12 @@ class RouteController extends FOSRestController
     {
         $objectManager = $this->get('swp.object_manager.route');
         $route = $this->findOr404($id);
+        $previousRoute = clone  $route;
         $form = $this->createForm(RouteType::class, $route, ['method' => $request->getMethod()]);
         $form->handleRequest($request);
 
         if ($form->isValid()) {
-            $route = $this->get('swp.service.route')->updateRoute($form->getData());
+            $route = $this->get('swp.service.route')->updateRoute($previousRoute, $form->getData());
 
             $objectManager->flush();
 

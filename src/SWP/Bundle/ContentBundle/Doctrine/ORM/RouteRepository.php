@@ -16,10 +16,10 @@ namespace SWP\Bundle\ContentBundle\Doctrine\ORM;
 
 use Doctrine\ORM\QueryBuilder;
 use SWP\Bundle\ContentBundle\Model\RouteRepositoryInterface;
-use SWP\Bundle\StorageBundle\Doctrine\ORM\EntityRepository;
+use SWP\Bundle\StorageBundle\Doctrine\ORM\NestedTreeEntityRepository;
 use SWP\Component\Common\Criteria\Criteria;
 
-class RouteRepository extends EntityRepository implements RouteRepositoryInterface
+class RouteRepository extends NestedTreeEntityRepository implements RouteRepositoryInterface
 {
     /**
      * {@inheritdoc}

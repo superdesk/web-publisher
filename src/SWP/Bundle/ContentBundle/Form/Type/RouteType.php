@@ -90,8 +90,13 @@ class RouteType extends AbstractType
                 'required' => false,
                 'value_type' => TextType::class,
             ])
-
-        ;
+            ->add('position', IntegerType::class, [
+                'required' => false,
+                'constraints' => [
+                    new GreaterThanOrEqual(['value' => 0]),
+                ],
+                'description' => 'Position under parent subtree in which to place the route.',
+            ]);
 
         $builder->get('cacheTimeInSeconds')
             ->addModelTransformer(new CallbackTransformer(

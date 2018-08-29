@@ -17,7 +17,9 @@ namespace SWP\Bundle\ContentBundle\Service;
 use Behat\Transliterator\Transliterator;
 use SWP\Bundle\ContentBundle\Event\RouteEvent;
 use SWP\Bundle\ContentBundle\Model\RouteInterface;
+use SWP\Bundle\ContentBundle\Model\RouteRepositoryInterface;
 use SWP\Bundle\ContentBundle\RouteEvents;
+use SWP\Bundle\StorageBundle\Doctrine\ORM\NestedTreeEntityRepository;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 /**
@@ -31,18 +33,16 @@ class RouteService implements RouteServiceInterface
     private $eventDispatcher;
 
     /**
-     * RouteService constructor.
-     *
-     * @param EventDispatcherInterface $eventDispatcher
+     * @var RouteRepositoryInterface
      */
-    public function __construct(EventDispatcherInterface $eventDispatcher)
+    private $routeRepository;
+
+    public function __construct(EventDispatcherInterface $eventDispatcher, RouteRepositoryInterface $routeRepository)
     {
         $this->eventDispatcher = $eventDispatcher;
+        $this->routeRepository = $routeRepository;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function createRoute(RouteInterface $route)
     {
         $this->dispatchRouteEvent(RouteEvents::PRE_CREATE, $route);
@@ -54,26 +54,23 @@ class RouteService implements RouteServiceInterface
         return $route;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function updateRoute(RouteInterface $route)
+    public function updateRoute(RouteInterface $previousRoute, RouteInterface $route): RouteInterface
     {
         $this->dispatchRouteEvent(RouteEvents::PRE_UPDATE, $route);
 
         $route = $this->fillRoute($route);
+        if ($previousRoute->getParent() !== $route->getParent()) {
+            $this->changePositionInTree($previousRoute, $route, -1);
+        } else {
+            $this->changePositionInTree($previousRoute, $route);
+        }
 
         $this->dispatchRouteEvent(RouteEvents::POST_UPDATE, $route);
 
         return $route;
     }
 
-    /**
-     * @param RouteInterface $route
-     *
-     * @return RouteInterface
-     */
-    public function fillRoute(RouteInterface $route)
+    public function fillRoute(RouteInterface $route): RouteInterface
     {
         if (null === $route->getSlug()) {
             $route->setSlug(Transliterator::urlize($route->getName()));
@@ -102,6 +99,36 @@ class RouteService implements RouteServiceInterface
         }
 
         return $route;
+    }
+
+    protected function changePositionInTree(RouteInterface $previousRoute, RouteInterface $route, int $position = null)
+    {
+        if ($this->routeRepository instanceof NestedTreeEntityRepository) {
+            if (null !== $position) {
+                if (null !== $route->getParent()) {
+                    $this->routeRepository->persistAsLastChildOf($route, $route->getParent());
+                } else {
+                    $this->routeRepository->persistAsLastChild($route);
+                }
+            }
+
+            if ($previousRoute->getPosition() === $route->getPosition() && null !== $position) {
+                $route->setPosition($position);
+            } else {
+                if ($route->getPosition() > 0) {
+                    $previousChild = $this->routeRepository->findOneBy(
+                            ['position' => $route->getPosition() - 1, 'parent' => $route->getParent()]
+                        );
+                    $this->routeRepository->persistAsNextSiblingOf($route, $previousChild);
+                } else {
+                    if (null !== $route->getParent()) {
+                        $this->routeRepository->persistAsFirstChildOf($route, $route->getParent());
+                    } else {
+                        $this->routeRepository->persistAsFirstChild($route);
+                    }
+                }
+            }
+        }
     }
 
     /**

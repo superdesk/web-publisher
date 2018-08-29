@@ -1,9 +1,14 @@
 SWP\Bundle\CoreBundle\Model\Route:
     type: entity
     table: swp_route
+    gedmo:
+        tree:
+            type: nested
     fields:
         tenantCode:
             type: string
+            gedmo:
+                - sortableGroup
         paywallSecured:
             type: boolean
             nullable: true
