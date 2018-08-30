@@ -451,7 +451,7 @@ class RouteControllerTest extends WebTestCase
 
         self::assertEquals(
             json_decode(
-                '{"page":1,"limit":10,"pages":1,"total":1,"_links":{"self":{"href":"\/api\/v1\/content\/routes\/?type=content&page=1&limit=10"},"first":{"href":"\/api\/v1\/content\/routes\/?type=content&page=1&limit=10"},"last":{"href":"\/api\/v1\/content\/routes\/?type=content&page=1&limit=10"}},"_embedded":{"_items":[{"id":1,"content":null,"staticPrefix":"\/route1","variablePattern":null,"children":[],"level":0,"templateName":null,"articlesTemplateName":null,"type":"content","cacheTimeInSeconds":1,"name":"route1","position":0,"parent":null,"_links":{"self":{"href":"\/api\/v1\/content\/routes\/1"}},"slug":"route1","requirements":[]}]}}',
+                '{"page":1,"limit":10,"pages":1,"total":1,"_links":{"self":{"href":"\/api\/v1\/content\/routes\/?type=content&page=1&limit=10"},"first":{"href":"\/api\/v1\/content\/routes\/?type=content&page=1&limit=10"},"last":{"href":"\/api\/v1\/content\/routes\/?type=content&page=1&limit=10"}},"_embedded":{"_items":[{"id":1,"content":null,"staticPrefix":"\/route1","variablePattern":null,"children":[],"level":0,"templateName":null,"articlesTemplateName":null,"type":"content","cacheTimeInSeconds":1,"name":"route1","position":0,"parent":null,"_links":{"self":{"href":"\/api\/v1\/content\/routes\/1"}},"slug":"route1","requirements":[],"lft":1,"rgt":2}]}}',
                 true
             ),
             $content
@@ -472,7 +472,7 @@ class RouteControllerTest extends WebTestCase
 
         self::assertEquals(
             json_decode(
-                '{"page":1,"limit":10,"pages":1,"total":1,"_links":{"self":{"href":"\/api\/v1\/content\/routes\/?type=collection&page=1&limit=10"},"first":{"href":"\/api\/v1\/content\/routes\/?type=collection&page=1&limit=10"},"last":{"href":"\/api\/v1\/content\/routes\/?type=collection&page=1&limit=10"}},"_embedded":{"_items":[{"id":2,"content":null,"staticPrefix":"\/route2","variablePattern":"\/{slug}","children":[],"level":0,"templateName":null,"articlesTemplateName":null,"type":"collection","cacheTimeInSeconds":2,"name":"route2","position":1,"parent":null,"_links":{"self":{"href":"\/api\/v1\/content\/routes\/2"}},"slug":"route2","requirements":{"slug":"[a-zA-Z0-9*\\\-_]+"}}]}}',
+                '{"page":1,"limit":10,"pages":1,"total":1,"_links":{"self":{"href":"\/api\/v1\/content\/routes\/?type=collection&page=1&limit=10"},"first":{"href":"\/api\/v1\/content\/routes\/?type=collection&page=1&limit=10"},"last":{"href":"\/api\/v1\/content\/routes\/?type=collection&page=1&limit=10"}},"_embedded":{"_items":[{"id":2,"content":null,"staticPrefix":"\/route2","variablePattern":"\/{slug}","children":[],"level":0,"templateName":null,"articlesTemplateName":null,"type":"collection","cacheTimeInSeconds":2,"name":"route2","position":1,"parent":null,"_links":{"self":{"href":"\/api\/v1\/content\/routes\/2"}},"slug":"route2","requirements":{"slug":"[a-zA-Z0-9*\\\-_]+"},"lft":3,"rgt":4}]}}',
                 true
             ),
             $content
