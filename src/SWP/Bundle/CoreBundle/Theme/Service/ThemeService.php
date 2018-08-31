@@ -131,6 +131,7 @@ final class ThemeService implements ThemeServiceInterface
             /** @var ThemeInterface $theme */
             $theme = $this->themeRepository->findOneByName($this->themeContext->resolveThemeName($tenant, $themeName));
             $this->requiredDataProcessor->processTheme($theme, $processOptionalData);
+            $this->tenantRepository->flush();
             $messages[] = 'Required data were generated and persisted successfully';
             if ($processOptionalData) {
                 $messages[] = 'Optional data were generated and persisted successfully';
