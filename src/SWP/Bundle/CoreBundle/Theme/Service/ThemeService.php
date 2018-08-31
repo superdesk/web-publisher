@@ -99,7 +99,7 @@ final class ThemeService implements ThemeServiceInterface
     /**
      * {@inheritdoc}
      */
-    public function installAndProcessGeneratedData(string $sourceDir, string $themeDir, $processGeneratedData = false, $activate = false)
+    public function installAndProcessGeneratedData(string $sourceDir, string $themeDir, bool $processOptionalData = false, bool $activate = false)
     {
         $messages = [];
         /** @var TenantInterface $tenant */
@@ -120,7 +120,7 @@ final class ThemeService implements ThemeServiceInterface
                 return new \Exception('Theme doesn\'t have required theme.json file with configuration.');
             }
 
-            $themeName = json_decode(file_get_contents($themeDir.\DIRECTORY_SEPARATOR.'theme.json'), true)['name'];
+            $themeName = \json_decode(file_get_contents($themeDir.\DIRECTORY_SEPARATOR.'theme.json'), true)['name'];
 
             if ($activate) {
                 $tenant->setThemeName($themeName);
@@ -128,13 +128,12 @@ final class ThemeService implements ThemeServiceInterface
                 $this->tenantContext->setTenant($tenant);
             }
 
-            if ($processGeneratedData) {
-                /** @var ThemeInterface $theme */
-                $theme = $this->themeRepository->findOneByName($this->themeContext->resolveThemeName($tenant, $themeName));
-                $this->requiredDataProcessor->processTheme($theme);
-                $messages[] = 'Required data were generated and persisted successfully';
-            } else {
-                $this->tenantRepository->flush();
+            /** @var ThemeInterface $theme */
+            $theme = $this->themeRepository->findOneByName($this->themeContext->resolveThemeName($tenant, $themeName));
+            $this->requiredDataProcessor->processTheme($theme, $processOptionalData);
+            $messages[] = 'Required data were generated and persisted successfully';
+            if ($processOptionalData) {
+                $messages[] = 'Optional data were generated and persisted successfully';
             }
         } catch (\Exception $e) {
             $fileSystem->remove($themeDir);
