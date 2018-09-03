@@ -19,6 +19,7 @@ namespace SWP\Bundle\CoreBundle\EventListener;
 use FOS\HttpCacheBundle\CacheManager;
 use SWP\Bundle\ContentBundle\Event\ArticleEvent;
 use SWP\Bundle\CoreBundle\HttpCache\HttpCacheArticleTagGeneratorInterface;
+use SWP\Bundle\CoreBundle\HttpCache\HttpCacheRouteTagGeneratorInterface;
 
 final class InvalidateHttpCacheTagsListener
 {
