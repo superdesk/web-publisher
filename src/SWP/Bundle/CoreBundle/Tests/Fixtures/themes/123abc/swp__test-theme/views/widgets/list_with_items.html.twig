@@ -1,0 +1,7 @@
+{% cache 'contentlist' ~ contentList.id { gen: contentList } %}
+<ul>
+{% gimmelist item from contentListItems with { contentListName: "List1"} %}
+    <li>{{ item.content.title }}-{{ item.position}}-{{ item.sticky ? "true":"false" }}</li>
+{% endgimmelist %}
+</ul>
+{% endcache %}

@@ -41,6 +41,51 @@ server.get('/wordpress/test_post', (req, res) => {
   }
 });
 
+// Payments Hub mock
+server.post('/api/v1/login_check', (req, res) => {
+    res.status(200).json({
+        token: '12345678',
+    });
+});
+
+server.get('/public-api/v1/subscriptions/', (req, res) => {
+    let id = 79;
+    let articleId = 20;
+    let routeId = 10;
+    let name = 'secured';
+
+    if (req.query.criteria && req.query.criteria['metadata.articleId']) {
+        id = 12;
+        name = 'premium_content';
+        articleId = req.query.criteria['metadata.articleId'];
+    }
+
+    if (req.query.criteria && req.query.criteria['metadata.routeId']) {
+        id = 14;
+        routeId = req.query.criteria['metadata.routeId'];
+    }
+
+    res.status(200).json({
+        _embedded: {
+            items: [
+                {
+                    id: id,
+                    type: "recurring",
+                    metadata: {
+                        intention: "bottom_box",
+                        source: "web_version",
+                        articleId: articleId,
+                        routeId: routeId,
+                        name: name,
+                        email: 'test.user@sourcefabric.org'
+                    },
+                    state: 'fulfilled'
+                }
+            ]
+        },
+    });
+});
+
 server.use('/api', router);
 server.listen(3000, () => {
   console.log('JSON Server is running');

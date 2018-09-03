@@ -15,3 +15,6 @@ SWP\Component\Bridge\Model\Package:
         updatedAt:
             expose: true
             type: DateTime
+        groups:
+            expose: true
+            type: ArrayCollection<string,SWP\Component\Bridge\Model\Group>

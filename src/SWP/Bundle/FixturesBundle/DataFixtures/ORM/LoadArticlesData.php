@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Superdesk Web Publisher Fixtures Bundle.
  *
@@ -14,6 +16,7 @@
 
 namespace SWP\Bundle\FixturesBundle\DataFixtures\ORM;
 
+use Behat\Transliterator\Transliterator;
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
@@ -28,6 +31,8 @@ use SWP\Bundle\CoreBundle\Model\ArticleEvent;
 use SWP\Bundle\CoreBundle\Model\ArticleEventInterface;
 use SWP\Bundle\CoreBundle\Model\PackageInterface;
 use SWP\Bundle\FixturesBundle\AbstractFixture;
+use SWP\Bundle\FixturesBundle\Faker\Provider\ArticleDataProvider;
+use SWP\Component\Bridge\Model\ExternalDataInterface;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class LoadArticlesData extends AbstractFixture implements FixtureInterface, OrderedFixtureInterface
@@ -37,7 +42,7 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface, Orde
     /**
      * {@inheritdoc}
      */
-    public function load(ObjectManager $manager)
+    public function load(ObjectManager $manager): void
     {
         $this->manager = $manager;
         $env = $this->getEnvironment();
@@ -57,7 +62,7 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface, Orde
         $manager->flush();
     }
 
-    public function loadRoutes($env, $manager)
+    public function loadRoutes($env, $manager): void
     {
         $routes = [
             'dev' => [
@@ -219,30 +224,15 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface, Orde
         $manager->flush();
     }
 
-    /**
-     * Sets articles manually (not via Alice) for test env due to fatal error:
-     * Method PHPCRProxies\__CG__\Doctrine\ODM\PHPCR\Document\Generic::__toString() must not throw an exception.
-     */
-    public function loadArticles($env, ObjectManager $manager)
+    public function loadArticles($env, ObjectManager $manager): void
     {
-        if ('test' !== $env) {
-            $this->loadFixtures([
-                '@SWPFixturesBundle/Resources/fixtures/ORM/'.$env.'/package.yml',
-            ],
-                $manager,
-                [
-                    'providers' => [$this],
-                ]
-            );
+        $articleDataProvider = $this->container->get(ArticleDataProvider::class);
 
-            $articles = $this->loadFixtures([
+        if ('test' !== $env) {
+            $data = $this->loadFixtures([
+                    '@SWPFixturesBundle/Resources/fixtures/ORM/'.$env.'/package.yml',
                     '@SWPFixturesBundle/Resources/fixtures/ORM/'.$env.'/article.yml',
-                ],
-                $manager,
-                [
-                    'providers' => [$this],
-                ],
-                true
+                ]
             );
 
             $renditions = [
@@ -303,7 +293,11 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface, Orde
                 }
             }
 
-            foreach ($articles as $article) {
+            foreach ((array) $data as $article) {
+                if (!$article instanceof \SWP\Bundle\CoreBundle\Model\ArticleInterface) {
+                    continue;
+                }
+
                 // randomly create two media (images) for each of the article
                 for ($i = 0; $i < 2; ++$i) {
                     // create Media
@@ -380,6 +374,9 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface, Orde
                         'Tom',
                     ],
                     'sources' => ['Forbes', 'AAP'],
+                    'external' => [
+                        'webcode' => '+jxuk9',
+                    ],
                 ],
                 [
                     'title' => 'Test news sports article',
@@ -400,6 +397,10 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface, Orde
                         'Test Person',
                     ],
                     'sources' => ['Reuters', 'AFP'],
+                    'external' => [
+                        'webcode' => '+jxux6',
+                        'extra data' => 'extra value',
+                    ],
                 ],
                 [
                     'title' => 'Test article',
@@ -419,6 +420,9 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface, Orde
                         'John Doe',
                     ],
                     'sources' => ['Forbes', 'AAP'],
+                    'external' => [
+                        'articleNumber' => '10242',
+                    ],
                 ],
                 [
                     'title' => 'Features',
@@ -445,6 +449,9 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface, Orde
                         'Test Person',
                     ],
                     'sources' => ['Forbes', 'AFP'],
+                    'external' => [
+                        'articleNumber' => '64525',
+                    ],
                 ],
             ],
         ];
@@ -461,7 +468,7 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface, Orde
                 $article->setRoute($this->getRouteByName($articleData['route']));
                 $article->setLocale($articleData['locale']);
                 $article->setCode(md5($articleData['title']));
-                $article->setKeywords($this->articleKeywords());
+                $article->setKeywords($articleDataProvider->articleKeywords());
 
                 if (isset($articleData['extra'])) {
                     $article->setExtra($articleData['extra']);
@@ -493,6 +500,16 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface, Orde
                 }
 
                 $package = $this->createPackage($articleData);
+                if (isset($articleData['external'])) {
+                    foreach ($articleData['external'] as $dataKey => $dataValue) {
+                        /** @var ExternalDataInterface $externalData */
+                        $externalData = $this->container->get('swp.factory.external_data')->create();
+                        $externalData->setKey($dataKey);
+                        $externalData->setValue($dataValue);
+                        $externalData->setPackage($package);
+                        $manager->persist($externalData);
+                    }
+                }
                 $manager->persist($article);
                 $articleStatistics = $this->createArticleStatistics($articleData['pageViews'], $articleData['pageViewsDates'], $article, $manager);
                 $manager->persist($articleStatistics);
@@ -507,11 +524,13 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface, Orde
         }
     }
 
-    private function createPackage(array $articleData)
+    private function createPackage(array $articleData): PackageInterface
     {
         /** @var PackageInterface $package */
         $package = $this->container->get('swp.factory.package')->create();
         $package->setHeadline($articleData['title']);
+        $slug = str_replace('\'', '-', $package->getHeadline());
+        $package->setSlugline(Transliterator::transliterate($slug));
         $package->setType('text');
         $package->setPubStatus('usable');
         $package->setGuid($this->container->get('swp_multi_tenancy.random_string_generator')->generate(10));
@@ -523,7 +542,7 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface, Orde
         return $package;
     }
 
-    private function createArticleStatistics(int $pageViewsNumber, array $pageViewsDates, ArticleInterface $article, ObjectManager $manager)
+    private function createArticleStatistics(int $pageViewsNumber, array $pageViewsDates, ArticleInterface $article, ObjectManager $manager): ArticleStatisticsInterface
     {
         /** @var ArticleStatisticsInterface $articleStatistics */
         $articleStatistics = $this->container->get('swp.factory.article_statistics')->create();
@@ -538,7 +557,7 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface, Orde
                 $articleEvent->setAction(ArticleEventInterface::ACTION_PAGEVIEW);
                 $date = new \DateTime();
                 $date->modify($dateValue);
-                $date->setTime(mt_rand(0, 23), str_pad(mt_rand(0, 59), 2, '0', STR_PAD_LEFT));
+                $date->setTime(mt_rand(0, 23), (int) str_pad((string) mt_rand(0, 59), 2, '0', STR_PAD_LEFT));
                 $articleEvent->setCreatedAt($date);
                 $manager->persist($articleEvent);
                 ++$count;
@@ -548,57 +567,7 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface, Orde
         return $articleStatistics;
     }
 
-    /**
-     * @return array
-     */
-    public function articleKeywords()
-    {
-        $keywords = [
-            'city',
-            'traffic',
-            'car',
-            'news',
-            'building',
-        ];
-
-        shuffle($keywords);
-
-        return $keywords;
-    }
-
-    /**
-     * Article example metadata.
-     *
-     * @return array
-     */
-    public function articleMetadata()
-    {
-        $authors = [
-            'Sarrah Staffwriter',
-            'John Smith',
-            'Test Persona',
-            'Jane Stockwriter',
-            'James Q. Reporter',
-            'Karen Ruhiger',
-            'George Langsamer',
-        ];
-
-        return [
-            'located' => 'Sydney',
-            'byline' => $authors[array_rand($authors)],
-            'place' => [
-                [
-                    'qcode' => 'AUS',
-                    'world_region' => 'Rest Of World',
-                ], [
-                    'qcode' => 'EUR',
-                    'world_region' => 'Europe',
-                ],
-            ],
-        ];
-    }
-
-    private function cropAndResizeImage($fakeImage, array $rendition, $targetFile)
+    private function cropAndResizeImage($fakeImage, array $rendition, $targetFile): void
     {
         $image = imagecreatefromjpeg($fakeImage);
         list($width, $height) = getimagesize($fakeImage);
@@ -621,12 +590,12 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface, Orde
 
         imagecopyresampled($newImage,
             $image,
-            0 - ($newImageWidth - $renditionWidth) / 2,
-            0 - ($newImageHeight - $renditionHeight) / 2,
+            0 - (int) (($newImageWidth - $renditionWidth) / 2),
+            0 - (int) (($newImageHeight - $renditionHeight) / 2),
             0,
             0,
-            $newImageWidth,
-            $newImageHeight,
+            (int) $newImageWidth,
+            (int) $newImageHeight,
             $width,
             $height);
         imagejpeg($newImage, $targetFile, 80);
@@ -635,10 +604,7 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface, Orde
         unset($image);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getOrder()
+    public function getOrder(): int
     {
         return 1;
     }

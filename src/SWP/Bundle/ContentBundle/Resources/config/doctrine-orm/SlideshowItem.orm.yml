@@ -1,0 +1,46 @@
+SWP\Bundle\ContentBundle\Model\SlideshowItem:
+    type: mappedSuperclass
+    table: swp_slideshow_item
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: IDENTITY
+    gedmo:
+        soft_deleteable:
+            field_name: deletedAt
+            time_aware: false
+        loggable: true
+    fields:
+        createdAt:
+            type: datetime
+            gedmo:
+                timestampable:
+                    on: create
+        updatedAt:
+            type: datetime
+            nullable: true
+            gedmo:
+                timestampable:
+                    on: update
+        deletedAt:
+             type: datetime
+             nullable: true
+    manyToOne:
+        articleMedia:
+            targetEntity: SWP\Bundle\ContentBundle\Model\ArticleMediaInterface
+            joinColumn:
+                name: article_media_id
+                referencedColumnName: id
+                nullable: false
+                onDelete: CASCADE
+                orphanRemoval: true
+        slideshow:
+            targetEntity: SWP\Bundle\ContentBundle\Model\SlideshowInterface
+            cascade: ["all"]
+            joinColumn:
+                name: slideshow_id
+                referencedColumnName: id
+                onDelete: CASCADE
+                nullable: false

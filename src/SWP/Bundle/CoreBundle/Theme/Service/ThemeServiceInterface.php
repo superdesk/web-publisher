@@ -17,21 +17,11 @@ namespace SWP\Bundle\CoreBundle\Theme\Service;
 interface ThemeServiceInterface
 {
     /**
-     * @param string $sourceDir
-     * @param string $themeDir
-     * @param bool   $processGeneratedData
-     * @param bool   $activate
-     *
-     * @return mixed
-     */
-    public function installAndProcessGeneratedData(string $sourceDir, string $themeDir, $processGeneratedData = false, $activate = false);
-
-    /**
-     * @param string $themeName
-     *
      * @throws \Exception
      *
      * @return array
      */
+    public function installAndProcessGeneratedData(string $sourceDir, string $themeDir, bool $processOptionalData = false, bool $activate = false);
+
     public function getDirectoriesForTheme(string $themeName): array;
 }

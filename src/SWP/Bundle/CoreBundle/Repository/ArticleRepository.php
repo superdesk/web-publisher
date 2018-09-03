@@ -32,8 +32,9 @@ class ArticleRepository extends ContentBundleArticleRepository implements Articl
      */
     public function getByCriteria(Criteria $criteria, array $sorting): QueryBuilder
     {
-        $qb = parent::getByCriteria($criteria, $sorting);
-        $qb->leftJoin('a.articleStatistics', 'stats')->addSelect('stats');
+        $qb = parent::getByCriteria($criteria, $sorting)
+            ->leftJoin('a.articleStatistics', 'stats')->addSelect('stats')
+            ->leftJoin('a.externalArticle', 'ext')->addSelect('ext');
 
         return $qb;
     }
@@ -44,8 +45,8 @@ class ArticleRepository extends ContentBundleArticleRepository implements Articl
     public function getArticlesByCriteriaIds(Criteria $criteria): QueryBuilder
     {
         $queryBuilder = parent::getArticlesByCriteriaIds($criteria)
-            ->addSelect('stats')
-            ->leftJoin('a.articleStatistics', 'stats');
+            ->leftJoin('a.articleStatistics', 'stats')->addSelect('stats')
+            ->leftJoin('a.externalArticle', 'ext')->addSelect('ext');
 
         return $queryBuilder;
     }
@@ -61,6 +62,23 @@ class ArticleRepository extends ContentBundleArticleRepository implements Articl
                 ->setParameter('slug', $slug)
             ->andWhere('a.package != :package')
                 ->setParameter('package', $package)
+        ;
+
+        return $queryBuilder;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getArticleByPackageExtraData(string $key, string $value): QueryBuilder
+    {
+        $queryBuilder = $this->createQueryBuilder('a');
+        $queryBuilder
+            ->leftJoin('a.package', 'p')
+            ->leftJoin('p.externalData', 'e')
+            ->andWhere('e.key = :key')
+            ->andWhere('e.value = :value')
+            ->setParameters(['key' => $key, 'value' => $value])
         ;
 
         return $queryBuilder;

@@ -1,0 +1,10 @@
+SWP\Component\Bridge\Model\Group:
+    exclusion_policy: ALL
+    properties:
+        code:
+            expose: true
+            type: string
+            serialized_name: id
+        items:
+            expose: true
+            type: ArrayCollection<string, SWP\Component\Bridge\Model\Item>

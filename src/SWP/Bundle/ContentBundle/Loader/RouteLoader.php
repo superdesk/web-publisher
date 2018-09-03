@@ -16,18 +16,19 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\ContentBundle\Loader;
 
+use SWP\Bundle\ContentBundle\Model\RouteInterface;
 use SWP\Bundle\ContentBundle\Model\RouteRepositoryInterface;
 use SWP\Component\Common\Criteria\Criteria;
 use SWP\Component\TemplatesSystem\Gimme\Factory\MetaFactoryInterface;
 use SWP\Component\TemplatesSystem\Gimme\Loader\LoaderInterface;
+use SWP\Component\TemplatesSystem\Gimme\Meta\Meta;
+use SWP\Component\TemplatesSystem\Gimme\Meta\MetaCollection;
 
 /**
  * Class RouteLoader.
  */
-class RouteLoader implements LoaderInterface
+class RouteLoader extends PaginatedLoader implements LoaderInterface
 {
-    const SUPPORTED_TYPE = 'route';
-
     /**
      * @var MetaFactoryInterface
      */
@@ -60,28 +61,64 @@ class RouteLoader implements LoaderInterface
      */
     public function load($type, $parameters = [], $withoutParameters = [], $responseType = LoaderInterface::SINGLE)
     {
-        $route = isset($parameters['route_object']) ? $parameters['route_object'] : null;
+        if (LoaderInterface::SINGLE === $responseType) {
+            $route = isset($parameters['route_object']) ? $parameters['route_object'] : null;
+            if (null === $route) {
+                if (empty($parameters)) {
+                    return false;
+                }
 
-        if (null === $route) {
-            if (empty($parameters)) {
-                return false;
+                $criteria = new Criteria();
+                foreach ($this->supportedParameters as $supportedParameter) {
+                    if (array_key_exists($supportedParameter, $parameters)) {
+                        $criteria->set($supportedParameter, $parameters[$supportedParameter]);
+                    }
+                }
+
+                $route = $this->routeRepository->getQueryByCriteria($criteria, [], 'r')
+                    ->setMaxResults(1)
+                    ->getQuery()
+                    ->getOneOrNullResult();
             }
 
+            if (null !== $route) {
+                return $this->metaFactory->create($route);
+            }
+        } elseif (LoaderInterface::COLLECTION === $responseType) {
             $criteria = new Criteria();
-            foreach ($this->supportedParameters as $supportedParameter) {
-                if (array_key_exists($supportedParameter, $parameters)) {
-                    $criteria->set($supportedParameter, $parameters[$supportedParameter]);
+
+            if (\array_key_exists('parent', $parameters)) {
+                $parent = $parameters['parent'];
+                if (is_numeric($parent)) {
+                    $criteria->set('parent', $parent);
+                } elseif (\is_string($parent)) {
+                    $parentObject = $this->routeRepository->getQueryByCriteria(new Criteria(['name' => $parent]), $criteria->get('order', []), 'r')
+                        ->getQuery()->getOneOrNullResult();
+                    if (null !== $parentObject) {
+                        $criteria->set('parent', $parentObject->getId());
+                    }
+                } elseif ($parent instanceof Meta && $parent->getValues() instanceof RouteInterface) {
+                    $criteria->set('parent', $parent->getValues()->getId());
                 }
             }
 
-            $route = $this->routeRepository->getQueryByCriteria($criteria, [], 'r')
-                ->setMaxResults(1)
-                ->getQuery()
-                ->getOneOrNullResult();
-        }
+            $this->applyPaginationToCriteria($criteria, $parameters);
+            $countCriteria = clone $criteria;
+            $routesCollection = $this->routeRepository->getQueryByCriteria($criteria, $criteria->get('order', []), 'r')->getQuery()->getResult();
 
-        if (null !== $route) {
-            return $this->metaFactory->create($route);
+            if (\count($routesCollection) > 0) {
+                $metaCollection = new MetaCollection();
+                $metaCollection->setTotalItemsCount($this->routeRepository->countByCriteria($countCriteria));
+                foreach ($routesCollection as $route) {
+                    $routeMeta = $this->metaFactory->create($route);
+                    if (null !== $routeMeta) {
+                        $metaCollection->add($routeMeta);
+                    }
+                }
+                unset($routesCollection, $route, $criteria);
+
+                return $metaCollection;
+            }
         }
 
         return false;
@@ -96,6 +133,6 @@ class RouteLoader implements LoaderInterface
      */
     public function isSupported(string $type): bool
     {
-        return self::SUPPORTED_TYPE === $type;
+        return \in_array($type, ['route', 'routes']);
     }
 }

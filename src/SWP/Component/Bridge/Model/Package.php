@@ -35,38 +35,34 @@ class Package extends BaseContent implements PackageInterface
     protected $body;
 
     /**
-     * Package constructor.
+     * @var Collection
      */
+    protected $externalData;
+
+    /**
+     * @var Collection
+     */
+    protected $groups;
+
     public function __construct()
     {
         parent::__construct();
 
         $this->items = new ArrayCollection();
+        $this->groups = new ArrayCollection();
+        $this->externalData = new ArrayCollection();
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getItems()
     {
         return $this->items;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function setItems(Collection $items)
     {
         $this->items = $items;
     }
 
-    /**
-     * Add item.
-     *
-     * @param \SWP\Component\Bridge\Model\Item $item
-     *
-     * @return Package
-     */
     public function addItem(\SWP\Component\Bridge\Model\Item $item)
     {
         if (!$this->items->contains($item)) {
@@ -77,11 +73,6 @@ class Package extends BaseContent implements PackageInterface
         return $this;
     }
 
-    /**
-     * Remove item.
-     *
-     * @param \SWP\Component\Bridge\Model\Item $item
-     */
     public function removeItem(\SWP\Component\Bridge\Model\Item $item)
     {
         if ($this->items->contains($item)) {
@@ -90,19 +81,33 @@ class Package extends BaseContent implements PackageInterface
         }
     }
 
-    /**
-     * @return mixed
-     */
     public function getBody()
     {
         return $this->body;
     }
 
-    /**
-     * @param mixed $body
-     */
     public function setBody($body)
     {
         $this->body = $body;
+    }
+
+    public function getExternalData(): ?Collection
+    {
+        return $this->externalData;
+    }
+
+    public function setExternalData(Collection $externalData): void
+    {
+        $this->externalData = $externalData;
+    }
+
+    public function getGroups(): ?Collection
+    {
+        return $this->groups;
+    }
+
+    public function setGroups(?Collection $groups): void
+    {
+        $this->groups = $groups;
     }
 }

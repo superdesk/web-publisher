@@ -96,7 +96,7 @@ final class RulesProcessor implements RulesProcessorInterface
         $tenantsTemp = [];
         $ruleConfig = $evaluatedRule->getConfiguration();
         foreach ($tenants as $tenant) {
-            if ($tenant[self::KEY_TENANT]->getCode() === $evaluatedRule->getTenantCode()) {
+            if (isset($tenant[self::KEY_TENANT]) && $tenant[self::KEY_TENANT]->getCode() === $evaluatedRule->getTenantCode()) {
                 if (null === $route = $this->findRoute($evaluatedRule)) {
                     continue;
                 }
@@ -104,6 +104,7 @@ final class RulesProcessor implements RulesProcessorInterface
                 $tenant[self::KEY_ROUTE] = $route;
                 $tenant[self::KEY_FBIA] = isset($ruleConfig[self::KEY_FBIA]) ?? false;
                 $tenant[self::KEY_PUBLISHED] = isset($ruleConfig[self::KEY_PUBLISHED]) ?? false;
+                $tenant[self::KEY_PAYWALL_SECURED] = isset($ruleConfig[self::KEY_PAYWALL_SECURED]) ?? false;
                 $tenantsTemp[] = $tenant;
             }
         }
@@ -117,6 +118,10 @@ final class RulesProcessor implements RulesProcessorInterface
 
     private function findRoute(RuleInterface $evaluatedRule): ?RouteInterface
     {
+        if (!\array_key_exists(self::KEY_ROUTE, $evaluatedRule->getConfiguration())) {
+            return null;
+        }
+
         return $this->routeRepository->findOneBy(['id' => $evaluatedRule->getConfiguration()[self::KEY_ROUTE]]);
     }
 
@@ -125,7 +130,8 @@ final class RulesProcessor implements RulesProcessorInterface
         foreach ($organizationRules as $keyOrg => $processedEvaluatedRule) {
             foreach ($tenants as $tenant) {
                 foreach ((array) $processedEvaluatedRule[self::KEY_TENANTS] as $key => $orgTenant) {
-                    if ($tenant[self::KEY_TENANT]->getCode() === $orgTenant[self::KEY_TENANT]->getCode()) {
+                    if (isset($tenant[self::KEY_TENANT]) && isset($orgTenant[self::KEY_TENANT])
+                        && $tenant[self::KEY_TENANT]->getCode() === $orgTenant[self::KEY_TENANT]->getCode()) {
                         $organizationRules[$keyOrg][self::KEY_TENANTS][$key] = $tenant;
                     }
                 }

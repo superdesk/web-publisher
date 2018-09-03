@@ -191,4 +191,12 @@ interface ArticleInterface extends TimestampableInterface, RuleSubjectInterface,
      * @param array|null $extra
      */
     public function setExtra(?array $extra): void;
+
+    public function getSlideshows(): Collection;
+
+    public function hasSlideshow(SlideshowInterface $slideshow): bool;
+
+    public function addSlideshow(SlideshowInterface $slideshow): void;
+
+    public function removeSlideshow(SlideshowInterface $slideshow): void;
 }

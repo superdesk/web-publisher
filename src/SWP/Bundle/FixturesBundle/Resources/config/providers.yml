@@ -1,0 +1,25 @@
+services:
+    _defaults:
+        tags: ['nelmio_alice.faker.provider']
+        autowire: true
+
+    SWP\Bundle\FixturesBundle\Faker\Provider\:
+        resource: '../../Faker/Provider/*'
+
+    SWP\Bundle\FixturesBundle\Faker\Provider\ContainerProvider:
+        arguments:
+                - '@service_container'
+        tags:
+            - { name: nelmio_alice.faker.provider }
+
+    SWP\Bundle\FixturesBundle\Faker\Provider\RevisionProvider:
+        arguments:
+                - '@swp.repository.revision'
+        tags:
+            - { name: nelmio_alice.faker.provider }
+
+    SWP\Bundle\FixturesBundle\Faker\Provider\RouteProvider:
+        arguments:
+                - '@swp.provider.route'
+        tags:
+            - { name: nelmio_alice.faker.provider }

@@ -12,6 +12,8 @@ SWP\Bundle\CoreBundle\Model\PublishDestination:
             type: boolean
         published:
             type: boolean
+        paywallSecured:
+            type: boolean
         packageGuid:
             type: string
         createdAt:

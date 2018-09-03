@@ -24,6 +24,10 @@ use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 
 class SecuredContentPushListener
 {
+    private const SUPERDESK_HEADER = 'x-superdesk-signature';
+
+    private const PUBLISHER_HEADER = 'x-publisher-signature';
+
     /**
      * @var TenantContextInterface
      */
@@ -48,14 +52,26 @@ class SecuredContentPushListener
     {
         $request = $event->getRequest();
         $routeName = $request->attributes->get('_route');
-        if ('swp_api_content_push' !== $routeName && 'swp_api_assets_push' !== $routeName) {
+        if (
+            'swp_api_content_push' !== $routeName &&
+            'swp_api_assets_push' !== $routeName &&
+            'swp_api_core_add_extra_data' !== $routeName &&
+            'swp_api_core_get_extra_data' !== $routeName
+        ) {
             return;
+        }
+
+        $signature = null;
+        if ($request->headers->has(self::SUPERDESK_HEADER)) {
+            $signature = $request->headers->get(self::SUPERDESK_HEADER);
+        } elseif ($request->headers->has(self::PUBLISHER_HEADER)) {
+            $signature = $request->headers->get(self::PUBLISHER_HEADER);
         }
 
         /** @var OrganizationInterface $organization */
         $organization = $this->tenantContext->getTenant()->getOrganization();
         $organizationToken = $organization->getSecretToken();
-        if (null === $organizationToken && !$request->headers->has('x-superdesk-signature')) {
+        if (null === $organizationToken && null === $signature) {
             return;
         }
 
@@ -67,7 +83,7 @@ class SecuredContentPushListener
         }
 
         $token = hash_hmac('sha1', $request->getContent(), $organizationToken);
-        if ($request->headers->get('x-superdesk-signature') !== 'sha1='.$token) {
+        if ($signature !== 'sha1='.$token) {
             $event->setResponse(new Response('Bad credentials', 401));
             $event->stopPropagation();
         }

@@ -17,13 +17,13 @@ declare(strict_types=1);
 namespace SWP\Bundle\ContentBundle\Doctrine\ORM;
 
 use Doctrine\ORM\QueryBuilder;
-use Elastica\Query;
 use SWP\Bundle\ContentBundle\Model\ArticleSourceReference;
 use SWP\Component\Common\Criteria\Criteria;
 use SWP\Bundle\ContentBundle\Doctrine\ArticleRepositoryInterface;
 use SWP\Bundle\ContentBundle\Model\ArticleInterface;
 use SWP\Bundle\StorageBundle\Doctrine\ORM\EntityRepository;
 use SWP\Component\Common\Pagination\PaginationData;
+use SWP\Component\TemplatesSystem\Gimme\Meta\Meta;
 
 /**
  * Class ArticleRepository.
@@ -58,9 +58,7 @@ class ArticleRepository extends EntityRepository implements ArticleRepositoryInt
             ->setParameter('status', $criteria->get('status', ArticleInterface::STATUS_PUBLISHED))
             ->leftJoin('a.media', 'm')
             ->leftJoin('m.renditions', 'r')
-            ->leftJoin('a.sources', 's')
-            ->leftJoin('a.authors', 'au')
-            ->addSelect('m', 's', 'r', 'au');
+            ->addSelect('m', 'r');
 
         $this->applyCustomFiltering($qb, $criteria);
 
@@ -73,8 +71,7 @@ class ArticleRepository extends EntityRepository implements ArticleRepositoryInt
     public function countByCriteria(Criteria $criteria, $status = ArticleInterface::STATUS_PUBLISHED): int
     {
         $queryBuilder = $this->createQueryBuilder('a')
-            ->select('COUNT(a.id)')
-            ->leftJoin('a.authors', 'au');
+            ->select('COUNT(a.id)');
 
         if (null !== $status) {
             $queryBuilder
@@ -94,8 +91,6 @@ class ArticleRepository extends EntityRepository implements ArticleRepositoryInt
     public function getArticlesByCriteria(Criteria $criteria, array $sorting = []): QueryBuilder
     {
         $queryBuilder = $this->getArticlesByCriteriaIds($criteria);
-        $queryBuilder->addSelect('au');
-        $queryBuilder->leftJoin('a.authors', 'au');
         $queryBuilder->andWhere('a.route IS NOT NULL');
         $this->applyCustomFiltering($queryBuilder, $criteria);
         $this->applyCriteria($queryBuilder, $criteria, 'a');
@@ -115,8 +110,7 @@ class ArticleRepository extends EntityRepository implements ArticleRepositoryInt
         $articlesQueryBuilder->addSelect('a')
             ->leftJoin('a.media', 'm')
             ->leftJoin('m.renditions', 'r')
-            ->leftJoin('a.sources', 's')
-            ->addSelect('m', 'r', 's')
+            ->addSelect('m', 'r')
             ->andWhere('a.id IN (:ids)')
             ->setParameter('ids', $ids);
 
@@ -144,10 +138,6 @@ class ArticleRepository extends EntityRepository implements ArticleRepositoryInt
     public function getPaginatedByCriteria(Criteria $criteria, array $sorting = [], PaginationData $paginationData = null)
     {
         $queryBuilder = $this->getQueryByCriteria($criteria, $sorting, 'a');
-        $queryBuilder
-            ->addSelect('au')
-            ->leftJoin('a.authors', 'au');
-
         $this->applyCustomFiltering($queryBuilder, $criteria);
 
         if (null === $paginationData) {
@@ -257,6 +247,13 @@ class ArticleRepository extends EntityRepository implements ArticleRepositoryInt
             $criteria->remove('source');
         }
 
+        if (
+            ($criteria->has('author') && !empty($criteria->get('author'))) ||
+            ($criteria->has('exclude_author') && !empty($criteria->get('exclude_author')))
+        ) {
+            $queryBuilder->leftJoin('a.authors', 'au');
+        }
+
         if ($criteria->has('author') && !empty($criteria->get('author'))) {
             $orX = $queryBuilder->expr()->orX();
             foreach ((array) $criteria->get('author') as $value) {
@@ -274,7 +271,22 @@ class ArticleRepository extends EntityRepository implements ArticleRepositoryInt
             }
 
             $queryBuilder->andWhere($andX);
-            $criteria->remove('author');
+            $criteria->remove('exclude_author');
+        }
+
+        if ($criteria->has('exclude_article') && !empty($criteria->get('exclude_article'))) {
+            $excludedArticles = [];
+            foreach ((array) $criteria->get('exclude_article') as $value) {
+                if (is_numeric($value)) {
+                    $excludedArticles[] = $value;
+                } elseif ($value instanceof Meta and $value->getValues() instanceof ArticleInterface) {
+                    $excludedArticles[] = $value->getValues()->getId();
+                }
+            }
+
+            $queryBuilder->andWhere('a.id NOT IN (:excludedArticles)')
+                ->setParameter('excludedArticles', $excludedArticles);
+            $criteria->remove('exclude_article');
         }
     }
 }

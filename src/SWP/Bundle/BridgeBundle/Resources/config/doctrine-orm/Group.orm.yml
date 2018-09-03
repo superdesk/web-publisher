@@ -1,0 +1,32 @@
+SWP\Component\Bridge\Model\Group:
+    type: mappedSuperclass
+    table: swp_item_groups
+    repositoryClass: SWP\Bundle\StorageBundle\Doctrine\ORM\EntityRepository
+    gedmo:
+        soft_deleteable:
+            field_name: deletedAt
+            time_aware: false
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        code:
+            type: string
+        deletedAt:
+            type: datetime
+            nullable: true
+    oneToMany:
+        items:
+            targetEntity: SWP\Component\Bridge\Model\ItemInterface
+            cascade: ["all"]
+            orphanRemoval: true
+            mappedBy: group
+    manyToOne:
+        package:
+            targetEntity: SWP\Component\Bridge\Model\PackageInterface
+            inversedBy: groups
+            joinColumn:
+                onDelete: CASCADE

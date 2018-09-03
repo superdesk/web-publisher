@@ -20,9 +20,10 @@ use SWP\Bundle\ContentBundle\Model\ArticleInterface as BaseArticleInterface;
 use SWP\Component\ContentList\Model\ListContentInterface;
 use SWP\Component\MultiTenancy\Model\OrganizationAwareInterface;
 use SWP\Component\MultiTenancy\Model\TenantAwareInterface;
+use SWP\Component\Paywall\Model\PaywallSecuredInterface;
 use Takeit\Bundle\AmpHtmlBundle\Model\AmpInterface;
 
-interface ArticleInterface extends BaseArticleInterface, TenantAwareInterface, ListContentInterface, AmpInterface, OrganizationAwareInterface
+interface ArticleInterface extends BaseArticleInterface, TenantAwareInterface, ListContentInterface, AmpInterface, OrganizationAwareInterface, PaywallSecuredInterface
 {
     /**
      * @param int $id

@@ -17,91 +17,59 @@ namespace SWP\Bundle\CoreBundle\Version;
 /**
  * Application version class.
  */
-final class Version
+final class Version implements VersionInterface
 {
     /**
      * Version string.
      *
      * @var string
      */
-    protected $version = '1.4.0-beta';
+    private $version = '1.4.0-beta';
 
     /**
      * Code name string.
      *
      * @var string
      */
-    protected $codeName = '';
+    private $codeName = '';
 
     /**
      * Release date string.
      *
      * @var string
      */
-    protected $releaseDate = '2018-06-07';
+    private $releaseDate = '2018-06-07';
 
-    /**
-     * @return string
-     */
-    public function getVersion()
+    public function getVersion(): string
     {
         return $this->version;
     }
 
-    /**
-     * @param $version
-     *
-     * @return $this
-     */
-    public function setVersion($version)
+    public function setVersion(string $version): self
     {
         $this->version = $version;
 
         return $this;
     }
 
-    /**
-     * Gets the Code name string.
-     *
-     * @return string
-     */
-    public function getCodeName()
+    public function getCodeName(): string
     {
         return $this->codeName;
     }
 
-    /**
-     * Sets the Code name string.
-     *
-     * @param string $codeName the code name
-     *
-     * @return self
-     */
-    public function setCodeName($codeName)
+    public function setCodeName(string $codeName): self
     {
         $this->codeName = $codeName;
 
         return $this;
     }
 
-    /**
-     * Gets the Release date string.
-     *
-     * @return string
-     */
-    public function getReleaseDate()
+    public function getReleaseDate(): string
     {
         return $this->releaseDate;
     }
 
-    /**
-     * Sets the Release date string.
-     *
-     * @param string $releaseDate the release date
-     *
-     * @return self
-     */
-    public function setReleaseDate($releaseDate)
+    public function setReleaseDate(string $releaseDate): self
     {
         $this->releaseDate = $releaseDate;
 

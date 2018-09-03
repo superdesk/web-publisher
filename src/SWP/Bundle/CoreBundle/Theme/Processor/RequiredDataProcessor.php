@@ -68,12 +68,12 @@ class RequiredDataProcessor implements RequiredDataProcessorInterface
     /**
      * {@inheritdoc}
      */
-    public function processTheme(ThemeInterface $theme): void
+    public function processTheme(ThemeInterface $theme, bool $applyOptionalData = false): void
     {
-        $this->themeRoutesGenerator->generate($theme->getRoutes());
-        $this->themeMenusGenerator->generate($theme->getMenus());
-        $this->themeContainersGenerator->generate($theme->getContainers());
-        $this->themeContentListsGenerator->generate($theme->getContentLists());
-        $this->themeWidgetsGenerator->generate($theme->getWidgets());
+        $this->themeRoutesGenerator->generate($theme->getRoutes(), $applyOptionalData);
+        $this->themeMenusGenerator->generate($theme->getMenus(), $applyOptionalData);
+        $this->themeContainersGenerator->generate($theme->getContainers(), $applyOptionalData);
+        $this->themeContentListsGenerator->generate($theme->getContentLists(), $applyOptionalData);
+        $this->themeWidgetsGenerator->generate($theme->getWidgets(), $applyOptionalData);
     }
 }

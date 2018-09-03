@@ -85,21 +85,7 @@ final class WordpressAdapter implements AdapterInterface
      */
     public function create(OutputChannelInterface $outputChannel, ArticleInterface $article): void
     {
-        $post = $this->createPost($outputChannel, $article);
-        $post->setStatus(self::STATUS_DRAFT);
-        $response = $this->send($outputChannel, 'posts', $post);
-        if (201 === $response->getStatusCode()) {
-            $responseData = \json_decode($response->getBody()->getContents(), true);
-            $externalArticle = new ExternalArticle($article, (string) $responseData['id'], 'draft');
-            if (isset($responseData['link'])) {
-                $externalArticle->setLiveUrl($responseData['link']);
-            }
-            if (null !== $responseData['featured_media']) {
-                $externalArticle->setExtra(['featured_media' => $responseData['featured_media']]);
-            }
-            $article->setExternalArticle($externalArticle);
-            $this->externalArticleRepository->add($externalArticle);
-        }
+        $this->handleArticleCreate($outputChannel, $article);
     }
 
     /**
@@ -107,7 +93,11 @@ final class WordpressAdapter implements AdapterInterface
      */
     public function update(OutputChannelInterface $outputChannel, ArticleInterface $article): void
     {
-        $externalArticle = $this->getExternalArticle($article);
+        $externalArticle = $article->getExternalArticle();
+        if (null === $externalArticle) {
+            return;
+        }
+
         $this->handleArticleUpdate($outputChannel, $article, $externalArticle->getStatus());
     }
 
@@ -116,6 +106,11 @@ final class WordpressAdapter implements AdapterInterface
      */
     public function publish(OutputChannelInterface $outputChannel, ArticleInterface $article): void
     {
+        $externalArticle = $article->getExternalArticle();
+        if (null === $externalArticle) {
+            return;
+        }
+
         $this->handleArticleUpdate($outputChannel, $article, self::STATUS_PUBLISHED);
     }
 
@@ -124,6 +119,11 @@ final class WordpressAdapter implements AdapterInterface
      */
     public function unpublish(OutputChannelInterface $outputChannel, ArticleInterface $article): void
     {
+        $externalArticle = $article->getExternalArticle();
+        if (null === $externalArticle) {
+            return;
+        }
+
         $this->handleArticleUpdate($outputChannel, $article, self::STATUS_DRAFT);
     }
 
@@ -135,6 +135,20 @@ final class WordpressAdapter implements AdapterInterface
         return OutputChannelInterface::TYPE_WORDPRESS === $outputChannel->getType();
     }
 
+    private function handleArticleCreate(OutputChannelInterface $outputChannel, ArticleInterface $article): void
+    {
+        $post = $this->createPost($outputChannel, $article);
+        $post->setStatus(self::STATUS_DRAFT);
+        $response = $this->send($outputChannel, 'posts', $post);
+
+        if (201 !== $response->getStatusCode()) {
+            // wrong answer from wordpress - skip it
+            return;
+        }
+
+        $this->handleExternalArticleUpdateOrCreate($article, $response, $article->getExternalArticle());
+    }
+
     /**
      * @param OutputChannelInterface $outputChannel
      * @param ArticleInterface       $article
@@ -144,7 +158,7 @@ final class WordpressAdapter implements AdapterInterface
     {
         $post = $this->createPost($outputChannel, $article);
         $post->setStatus($status);
-        $externalArticle = $this->getExternalArticle($article);
+        $externalArticle = $article->getExternalArticle();
         $response = $this->send($outputChannel, sprintf('posts/%s', $externalArticle->getExternalId()), $post);
 
         if (self::STATUS_PUBLISHED === $status && null === $externalArticle->getPublishedAt()) {
@@ -153,44 +167,37 @@ final class WordpressAdapter implements AdapterInterface
             $externalArticle->setUnpublishedAt(new \DateTime());
         }
 
-        $this->handleExternalArticleUpdate($article, $externalArticle, $response);
+        if (200 !== $response->getStatusCode()) {
+            // wrong answer from wordpress - skip it
+            return;
+        }
+
+        $this->handleExternalArticleUpdateOrCreate($article, $response, $externalArticle);
     }
 
-    /**
-     * @param ArticleInterface $article
-     *
-     * @return ExternalArticleInterface
-     */
-    private function getExternalArticle(ArticleInterface $article): ExternalArticleInterface
+    private function handleExternalArticleUpdateOrCreate(ArticleInterface $article, GuzzleResponse $response, ExternalArticleInterface $externalArticle = null): ExternalArticleInterface
     {
-        $externalArticle = $article->getExternalArticle();
+        $responseData = \json_decode($response->getBody()->getContents(), true);
         if (null === $externalArticle) {
-            throw new \BadMethodCallException('You try to work on not existing external article');
+            $externalArticle = new ExternalArticle($article, (string) $responseData['id'], 'draft');
+        }
+        $article->setExternalArticle($externalArticle);
+        if (isset($responseData['link'])) {
+            $externalArticle->setLiveUrl($responseData['link']);
+        }
+        if (null !== $responseData['featured_media']) {
+            $externalArticle->setExtra(['featured_media' => $responseData['featured_media']]);
+        }
+
+        if (200 === $response->getStatusCode()) {
+            $externalArticle->setStatus($responseData['status']);
+            $externalArticle->setUpdatedAt(new \DateTime());
+            $this->externalArticleManager->flush();
+        } elseif (201 === $response->getStatusCode()) {
+            $this->externalArticleRepository->add($externalArticle);
         }
 
         return $externalArticle;
-    }
-
-    /**
-     * @param ArticleInterface         $article
-     * @param ExternalArticleInterface $externalArticle
-     * @param GuzzleResponse           $response
-     */
-    private function handleExternalArticleUpdate(ArticleInterface $article, ExternalArticleInterface $externalArticle, GuzzleResponse $response): void
-    {
-        if (200 === $response->getStatusCode()) {
-            $responseData = \json_decode($response->getBody()->getContents(), true);
-            $externalArticle->setStatus($responseData['status']);
-            if (isset($responseData['link'])) {
-                $externalArticle->setLiveUrl($responseData['link']);
-            }
-            if (null !== $responseData['featured_media']) {
-                $externalArticle->setExtra(['featured_media' => $responseData['featured_media']]);
-            }
-            $externalArticle->setUpdatedAt(new \DateTime());
-            $article->setExternalArticle($externalArticle);
-            $this->externalArticleManager->flush();
-        }
     }
 
     /**
@@ -238,8 +245,6 @@ final class WordpressAdapter implements AdapterInterface
             }
         }
 
-        $post->setTags($article->getKeywords());
-
         return $post;
     }
 
@@ -269,8 +274,13 @@ final class WordpressAdapter implements AdapterInterface
         if (isset($requestOptions['headers'])) {
             $requestOptions['headers']['Authorization'] = $authorizationKey;
         }
-        /** @var \GuzzleHttp\Psr7\Response $response */
-        $response = $this->client->post($url.'/wp-json/wp/v2/'.$endpoint, $requestOptions);
+
+        try {
+            /** @var \GuzzleHttp\Psr7\Response $response */
+            $response = $this->client->post($url.'/wp-json/wp/v2/'.$endpoint, $requestOptions);
+        } catch (RequestException $e) {
+            return new GuzzleResponse(500);
+        }
 
         return $response;
     }

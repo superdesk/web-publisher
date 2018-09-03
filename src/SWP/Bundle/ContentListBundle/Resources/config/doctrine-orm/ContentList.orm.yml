@@ -45,9 +45,3 @@ SWP\Component\ContentList\Model\ContentList:
         deletedAt:
             type: datetime
             nullable: true
-    oneToMany:
-        items:
-            targetEntity: SWP\Component\ContentList\Model\ContentListItemInterface
-            mappedBy: contentList
-            orphanRemoval: true
-            cascade: ["all"]

@@ -50,6 +50,28 @@ Usage:
     {% endgimmelist %}
     </ul>
 
+or
+
+
+.. code-block:: twig
+
+    {% gimme contentList with { contentListName: "List1"} %}
+        {% cache 'top-articles' {gen: contentList} %}
+        <ul>
+        {% gimmelist item from contentListItems with { contentList: contentList } %}
+            <li>{{ item.content.title }}</li> <!-- Article title -->
+            <li>{{ item.position }}</li> <!-- Item position in list -->
+            <li>{{ item.sticky ? "pinned" : "not pinned" }}</li> <!-- Checks if item is sticky (positioned on top of list) -->
+        {% endgimmelist %}
+        </ul>
+        {% endcache %}
+    {% endgimme %}
+
+.. note::
+
+    Passing previously fetched contentList (for cache key generation needs) is good for performance.
+
+
 Parameters:
 
 .. code-block:: twig

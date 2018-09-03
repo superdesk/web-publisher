@@ -19,3 +19,25 @@ Usage:
 - ``parent`` - an id of parent route
 - ``slug`` - route's slug
 - ``name`` - route's name
+
+
+Listing a Routes Collection
+---------------------------
+
+Usage:
+
+.. code-block:: twig
+
+    <ul>
+    {% gimmelist route from routes %}
+        <li>{{ route.name }}
+    {% endgimme %}
+    </ul>
+
+.. code-block:: twig
+
+    <ul>
+    {% gimmelist route from routes with {parent: 5} %} <!-- possible values for parent: (int) 5, (string) 'Test Route', (meta) gimme.route -->
+        <li>{{ route.name }}
+    {% endgimmelist %}
+    </ul>

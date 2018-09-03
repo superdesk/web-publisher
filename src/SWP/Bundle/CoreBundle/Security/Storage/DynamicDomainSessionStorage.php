@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Superdesk Web Publisher Core Bundle.
  *
@@ -14,23 +16,19 @@
 
 namespace SWP\Bundle\CoreBundle\Security\Storage;
 
+use SWP\Component\MultiTenancy\Context\TenantContextInterface;
 use Symfony\Component\HttpFoundation\Session\Storage\NativeSessionStorage;
 
 class DynamicDomainSessionStorage extends NativeSessionStorage
 {
     /**
-     * @var string
+     * @var TenantContextInterface
      */
-    protected $domain;
+    protected $tenantContext;
 
-    /**
-     * DynamicDomainSessionStorage constructor.
-     *
-     * @param string $domain
-     */
-    public function __construct(string $domain)
+    public function __construct(TenantContextInterface $tenantContext)
     {
-        $this->domain = $domain;
+        $this->tenantContext = $tenantContext;
 
         parent::__construct();
     }
@@ -38,9 +36,13 @@ class DynamicDomainSessionStorage extends NativeSessionStorage
     /**
      * {@inheritdoc}
      */
-    public function setOptions(array $options)
+    public function setOptions(array $options): void
     {
-        $options['cookie_domain'] = '.'.$this->domain;
+        $tenant = $this->tenantContext->getTenant();
+        if (null !== $tenant) {
+            $options['cookie_domain'] = '.'.$tenant->getDomainName();
+        }
+
         $options['cookie_httponly'] = true;
         $options['name'] = 'SUPERDESKPUBLISHER';
 

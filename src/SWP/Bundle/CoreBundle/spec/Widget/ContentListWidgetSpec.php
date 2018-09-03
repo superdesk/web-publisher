@@ -16,13 +16,13 @@ declare(strict_types=1);
 
 namespace spec\SWP\Bundle\CoreBundle\Widget;
 
-use Doctrine\Common\Collections\ArrayCollection;
 use PhpSpec\ObjectBehavior;
 use SWP\Bundle\CoreBundle\Model\ContentListInterface;
-use SWP\Bundle\CoreBundle\Model\ContentListItemInterface;
 use SWP\Bundle\CoreBundle\Widget\ContentListWidget;
 use SWP\Bundle\TemplatesSystemBundle\Widget\TemplatingWidgetHandler;
 use SWP\Component\ContentList\Repository\ContentListRepositoryInterface;
+use SWP\Component\TemplatesSystem\Gimme\Factory\MetaFactoryInterface;
+use SWP\Component\TemplatesSystem\Gimme\Meta\MetaInterface;
 use SWP\Component\TemplatesSystem\Gimme\Model\WidgetModelInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Response;
@@ -50,19 +50,21 @@ final class ContentListWidgetSpec extends ObjectBehavior
         ContainerInterface $container,
         EngineInterface $templating,
         ContentListInterface $contentList,
-        ContentListItemInterface $contentListItem,
-        Response $response
+        Response $response,
+        MetaFactoryInterface $metaFactory,
+        MetaInterface $meta
     ) {
         $contentList->getId()->willReturn(8);
         $contentList->getName()->willReturn('list_name');
-        $contentList->getItems()->willReturn(new ArrayCollection([$contentListItem]));
 
         $container->get('swp.repository.content_list')->willReturn($contentListRepository);
         $container->get('templating')->willReturn($templating);
+        $container->get('swp_template_engine_context.factory.meta_factory')->willReturn($metaFactory);
+        $metaFactory->create($contentList)->willReturn($meta);
 
         $contentListRepository->findListById(8)->willReturn($contentList);
         $templating->render('widgets/list.html.twig', [
-            'contentList' => $contentList,
+            'contentList' => $meta,
             'listId' => 8,
             'listName' => 'list_name',
         ])->willReturn($response);
@@ -76,22 +78,24 @@ final class ContentListWidgetSpec extends ObjectBehavior
         ContainerInterface $container,
         EngineInterface $templating,
         ContentListInterface $contentList,
-        ContentListItemInterface $contentListItem,
-        Response $response
+        Response $response,
+        MetaFactoryInterface $metaFactory,
+        MetaInterface $meta
     ) {
         $widgetModel->getParameters()->willReturn(['list_name' => 'list_name']);
         $this->beConstructedWith($widgetModel, $container);
 
         $contentList->getId()->willReturn(8);
         $contentList->getName()->willReturn('list_name');
-        $contentList->getItems()->willReturn(new ArrayCollection([$contentListItem]));
 
         $container->get('swp.repository.content_list')->willReturn($contentListRepository);
         $container->get('templating')->willReturn($templating);
+        $container->get('swp_template_engine_context.factory.meta_factory')->willReturn($metaFactory);
+        $metaFactory->create($contentList)->willReturn($meta);
         $contentListRepository->findListByName('list_name')->willReturn($contentList);
 
         $templating->render('widgets/list.html.twig', [
-            'contentList' => $contentList,
+            'contentList' => $meta,
             'listId' => 8,
             'listName' => 'list_name',
         ])->willReturn($response);
@@ -105,8 +109,9 @@ final class ContentListWidgetSpec extends ObjectBehavior
         ContainerInterface $container,
         EngineInterface $templating,
         ContentListInterface $contentList,
-        ContentListItemInterface $contentListItem,
-        Response $response
+        Response $response,
+        MetaFactoryInterface $metaFactory,
+        MetaInterface $meta
     ) {
         $widgetModel->getParameters()->willReturn([
             'list_id' => 8,
@@ -118,14 +123,15 @@ final class ContentListWidgetSpec extends ObjectBehavior
 
         $contentList->getId()->willReturn(8);
         $contentList->getName()->willReturn('list_name');
-        $contentList->getItems()->willReturn(new ArrayCollection([$contentListItem]));
 
         $container->get('swp.repository.content_list')->willReturn($contentListRepository);
         $container->get('templating')->willReturn($templating);
+        $container->get('swp_template_engine_context.factory.meta_factory')->willReturn($metaFactory);
+        $metaFactory->create($contentList)->willReturn($meta);
 
         $contentListRepository->findListById(8)->willReturn($contentList);
         $templating->render('widgets/custom.html.twig', [
-            'contentList' => $contentList,
+            'contentList' => $meta,
             'listId' => 8,
             'listName' => 'list_name',
         ])->willReturn($response);

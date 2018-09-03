@@ -22,8 +22,6 @@ use SWP\Component\TemplatesSystem\Gimme\Widget\WidgetHandlerInterface;
  */
 class ContainerRenderer implements ContainerRendererInterface
 {
-    const WIDGET_CLASS = 'swp_widget';
-
     /**
      * @var ContainerInterface
      */
@@ -87,11 +85,13 @@ class ContainerRenderer implements ContainerRendererInterface
      * Render open tag for container.
      *
      * @return string
+     *
+     * @throws \Exception
      */
     public function renderOpenTag()
     {
         return $this->renderer->render('open_tag', [
-            'id' => $this->containerEntity->getId(),
+            'id' => $this->getContainerId(),
             'class' => $this->containerEntity->getCssClass(),
             'styles' => $this->containerEntity->getStyles(),
             'visible' => $this->containerEntity->getVisible(),
@@ -124,10 +124,7 @@ class ContainerRenderer implements ContainerRendererInterface
         /** @var WidgetHandlerInterface $widget */
         foreach ($this->widgets as $widget) {
             $widgetsOutput[] = sprintf(
-                '<div id="%s_%s" class="%s">%s</div>',
-                self::WIDGET_CLASS,
-                $widget->getId(),
-                self::WIDGET_CLASS,
+                $widget->renderWidgetOpenTag($this->getContainerId()).'%s</div>',
                 $widget->render()
             );
         }
@@ -153,6 +150,11 @@ class ContainerRenderer implements ContainerRendererInterface
     public function renderCloseTag()
     {
         return $this->renderer->render('close_tag');
+    }
+
+    protected function getContainerId(): string
+    {
+        return (string) $this->containerEntity->getId();
     }
 
     /**

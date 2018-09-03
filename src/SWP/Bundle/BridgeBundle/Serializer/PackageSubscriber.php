@@ -51,8 +51,25 @@ class PackageSubscriber implements EventSubscriberInterface
                 }
             }
 
+            $this->processGroups($package);
+
             foreach ($package->getItems() as $key => $item) {
                 $item->setName($key);
+            }
+        }
+    }
+
+    private function processGroups(PackageInterface $package): void
+    {
+        foreach ((array) $package->getGroups() as $groups) {
+            foreach ((array) $groups as $group) {
+                foreach ($group->getItems() as $groupItem) {
+                    $groupItem->setGroup($group);
+                    $groupItem->setName($groupItem->getGuid());
+                    $this->processRenditions($groupItem);
+                }
+
+                $group->setPackage($package);
             }
         }
     }

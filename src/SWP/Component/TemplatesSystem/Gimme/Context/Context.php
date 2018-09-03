@@ -138,6 +138,7 @@ class Context implements \ArrayAccess
                     $files[] = $file->getRealPath();
                     $this->addNewConfig($file->getRealPath());
                 }
+
                 $this->metadataCache->save('metadata_config_files', $files);
             } else {
                 foreach ($this->metadataCache->fetch('metadata_config_files') as $file) {

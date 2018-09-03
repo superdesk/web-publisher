@@ -108,6 +108,7 @@ final class ArticlePublisher implements ArticlePublisherInterface
             if (null !== ($article = $this->findArticleByTenantAndCode($destination->getTenant()->getCode(), $package->getGuid()))) {
                 $article->setRoute($destination->getRoute());
                 $article->setPublishedFBIA($destination->isFbia());
+                $article->setPaywallSecured($destination->isPaywallSecured());
                 $this->eventDispatcher->dispatch(Events::SWP_VALIDATION, new GenericEvent($article));
                 $this->eventDispatcher->dispatch(ArticleEvents::PRE_UPDATE, new ArticleEvent($article, $package, ArticleEvents::PRE_UPDATE));
                 $this->articleRepository->flush();
@@ -131,6 +132,7 @@ final class ArticlePublisher implements ArticlePublisherInterface
             $article->setPackage($package);
             $article->setRoute($destination->getRoute());
             $article->setPublishedFBIA($destination->isFbia());
+            $article->setPaywallSecured($destination->isPaywallSecured());
             $article->setArticleStatistics($articleStatistics);
             $this->articleRepository->persist($article);
             $this->eventDispatcher->dispatch(ArticleEvents::PRE_CREATE, new ArticleEvent($article, $package, ArticleEvents::PRE_CREATE));

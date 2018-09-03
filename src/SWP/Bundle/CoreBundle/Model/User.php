@@ -54,4 +54,9 @@ class User extends BaseUser implements UserInterface
 
         return array_unique($roles);
     }
+
+    public function getSubscriberId(): string
+    {
+        return $this->email;
+    }
 }

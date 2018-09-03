@@ -26,6 +26,7 @@ class FixtureRegistry
                 'amp_html' => 'SWP\Bundle\FixturesBundle\DataFixtures\ORM\LoadAmpHtmlData',
                 'metadata_articles' => 'SWP\Bundle\FixturesBundle\DataFixtures\ORM\LoadArticlesWithMetadata',
                 'package' => 'SWP\Bundle\FixturesBundle\DataFixtures\ORM\LoadPackagesData',
+                'article_slideshows' => 'SWP\Bundle\FixturesBundle\DataFixtures\ORM\LoadArticlesSlideshowsData',
             ],
         ];
 

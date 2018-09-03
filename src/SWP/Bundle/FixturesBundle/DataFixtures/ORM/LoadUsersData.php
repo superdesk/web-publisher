@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Superdesk Web Publisher Fixtures Bundle.
  *
@@ -15,16 +17,17 @@
 namespace SWP\Bundle\FixturesBundle\DataFixtures\ORM;
 
 use Doctrine\Common\DataFixtures\FixtureInterface;
+use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use SWP\Bundle\CoreBundle\Model\UserInterface;
 use SWP\Bundle\FixturesBundle\AbstractFixture;
 
-class LoadUsersData extends AbstractFixture implements FixtureInterface
+class LoadUsersData extends AbstractFixture implements FixtureInterface, OrderedFixtureInterface
 {
     /**
      * {@inheritdoc}
      */
-    public function load(ObjectManager $manager)
+    public function load(ObjectManager $manager): void
     {
         $userManager = $this->container->get('fos_user.user_manager');
 
@@ -34,6 +37,7 @@ class LoadUsersData extends AbstractFixture implements FixtureInterface
         $user->setUsername('test.user');
         $user->setEmail('test.user@sourcefabric.org');
         $user->setPlainPassword('testPassword');
+        $user->addRole('ROLE_INTERNAL_API');
 
         $userManager->updateUser($user);
 
@@ -46,6 +50,7 @@ class LoadUsersData extends AbstractFixture implements FixtureInterface
         $user->setUsername('test.client1');
         $user->setEmail('test.client1@sourcefabric.org');
         $user->setPlainPassword('testPassword');
+        $user->addRole('ROLE_INTERNAL_API');
         $user->setOrganization($this->container->get('swp.repository.organization')->findOneByCode('654321'));
 
         $userManager->updateUser($user);
@@ -59,11 +64,17 @@ class LoadUsersData extends AbstractFixture implements FixtureInterface
         $user->setUsername('test.client2');
         $user->setEmail('test.client2@sourcefabric.org');
         $user->setPlainPassword('testPassword');
+        $user->addRole('ROLE_INTERNAL_API');
         $user->setOrganization($this->container->get('swp.repository.organization')->findOneByCode('123456'));
 
         $userManager->updateUser($user);
 
         $apiKey = $this->container->get('swp.factory.api_key')->create($user, base64_encode('client2_token'));
         $this->container->get('swp.repository.api_key')->add($apiKey);
+    }
+
+    public function getOrder(): int
+    {
+        return 0;
     }
 }

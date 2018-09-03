@@ -45,6 +45,41 @@ final class WordpressAdapterTest extends WebTestCase
         $this->router = $this->getContainer()->get('router');
     }
 
+    public function testWronglyConfiguredOutputChannel()
+    {
+        $client = static::createClient();
+        $client->request('POST', $this->router->generate('swp_api_core_create_tenant'), [
+            'tenant' => [
+                'name' => 'Local Broken Wordpress',
+                'subdomain' => 'local_broken_wordpress',
+                'domainName' => 'localhost',
+                'organization' => '123456',
+                'outputChannel' => [
+                    'type' => 'wordpress',
+                    'config' => [
+                        'url' => 'http://brokenhost:3000',
+                        'authorization_key' => 'Basic YWRtaW46dTJnWiB1QTlpIFVkYXogZnVtMSAxQnNkIHpwV2c=broken',
+                    ],
+                ],
+            ],
+        ]);
+
+        self::assertEquals(201, $client->getResponse()->getStatusCode());
+
+        /** @var AdapterInterface $compositeOutputChannelAdapter */
+        $compositeOutputChannelAdapter = $this->getContainer()->get('SWP\Bundle\CoreBundle\Adapter\CompositeOutputChannelAdapter');
+        /** @var OutputChannelInterface $outputChannel */
+        $outputChannel = $this->getContainer()->get('swp.repository.tenant')
+            ->findOneBySubdomainAndDomain('local_broken_wordpress', 'localhost')
+            ->getOutputChannel();
+        /** @var ArticleInterface $article */
+        $article = $this->getContainer()->get('swp.repository.article')->findOneBy(['id' => 1]);
+
+        $compositeOutputChannelAdapter->create($outputChannel, $article);
+        $externalArticle = $article->getExternalArticle();
+        self::assertNull($externalArticle);
+    }
+
     public function testPublishingArticleToOutputChannel()
     {
         $client = static::createClient();

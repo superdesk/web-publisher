@@ -136,7 +136,7 @@ class ArticleLoader extends PaginatedLoader implements LoaderInterface
                 $criteria->set('route', $route);
             }
 
-            foreach (['metadata', 'keywords', 'source', 'author'] as $item) {
+            foreach (['metadata', 'keywords', 'source', 'author', 'article'] as $item) {
                 if (isset($parameters[$item])) {
                     $criteria->set($item, $parameters[$item]);
                 }

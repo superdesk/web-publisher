@@ -1,0 +1,3 @@
+SWP\Bundle\CoreBundle\Model\Slideshow:
+    type: mappedSuperclass
+    table: swp_slideshow

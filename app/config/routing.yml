@@ -15,9 +15,6 @@ swp_core:
     resource: "@SWPCoreBundle/Controller/"
     type:     annotation
 
-swp_bridge:
-    resource: "@SWPBridgeBundle/Resources/config/routing.yml"
-
 swp_facebook_instant_articles:
     resource: "@SWPFacebookInstantArticlesBundle/Resources/config/routing.yml"
 
@@ -40,4 +37,12 @@ remove_trailing_slash:
     defaults: { _controller: SWPCoreBundle:Redirecting:removeTrailingSlash }
     requirements:
         url: .*/$
+    methods: [GET]
+
+swp_redirecting_extra_data:
+    path: /redirecting/extra/{key}/{value}
+    defaults: { _controller: SWPCoreBundle:Redirecting:redirectBasedOnExtraData }
+    requirements:
+        key: \w+
+        value: \+?\w+
     methods: [GET]

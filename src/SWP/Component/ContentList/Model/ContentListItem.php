@@ -16,11 +16,12 @@ declare(strict_types=1);
 
 namespace SWP\Component\ContentList\Model;
 
+use Gedmo\Sortable\Sortable;
 use SWP\Component\Common\Model\EnableableTrait;
 use SWP\Component\Common\Model\SoftDeletableTrait;
 use SWP\Component\Common\Model\TimestampableTrait;
 
-class ContentListItem implements ContentListItemInterface
+class ContentListItem implements ContentListItemInterface, Sortable
 {
     use TimestampableTrait, SoftDeletableTrait, EnableableTrait;
 

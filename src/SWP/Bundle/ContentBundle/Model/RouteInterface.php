@@ -16,7 +16,7 @@ namespace SWP\Bundle\ContentBundle\Model;
 
 use SWP\Component\Storage\Model\PersistableInterface;
 
-interface RouteInterface extends TreeAwareRouteInterface, PersistableInterface, ArticlesAwareInterface
+interface RouteInterface extends TreeAwareRouteInterface, PersistableInterface, ArticlesAwareInterface, ArticlesUpdatedTimeAwareInterface
 {
     const TYPE_CONTENT = 'content';
 
@@ -193,4 +193,8 @@ interface RouteInterface extends TreeAwareRouteInterface, PersistableInterface, 
      * @param int $position
      */
     public function setPosition(int $position);
+
+    public function getArticlesUpdatedAt(): ?\DateTime;
+
+    public function setArticlesUpdatedAt(\DateTime $articlesUpdatedAt): void;
 }

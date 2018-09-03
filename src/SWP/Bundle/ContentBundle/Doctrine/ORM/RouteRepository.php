@@ -17,6 +17,7 @@ namespace SWP\Bundle\ContentBundle\Doctrine\ORM;
 use Doctrine\ORM\QueryBuilder;
 use SWP\Bundle\ContentBundle\Model\RouteRepositoryInterface;
 use SWP\Bundle\StorageBundle\Doctrine\ORM\EntityRepository;
+use SWP\Component\Common\Criteria\Criteria;
 
 class RouteRepository extends EntityRepository implements RouteRepositoryInterface
 {
@@ -30,5 +31,15 @@ class RouteRepository extends EntityRepository implements RouteRepositoryInterfa
         $this->applySorting($queryBuilder, $orderBy, 'r');
 
         return $queryBuilder;
+    }
+
+    public function countByCriteria(Criteria $criteria): int
+    {
+        $queryBuilder = $this->createQueryBuilder('r')
+            ->select('COUNT(r.id)');
+
+        $this->applyCriteria($queryBuilder, $criteria, 'r');
+
+        return (int) $queryBuilder->getQuery()->getSingleScalarResult();
     }
 }

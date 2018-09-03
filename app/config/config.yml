@@ -8,15 +8,13 @@ imports:
     - { resource: "@SWPContentListBundle/Resources/config/app/config.yml" }
     - { resource: "@SWPRevisionBundle/Resources/config/app/config.yml" }
     - { resource: "@SWPOutputChannelBundle/Resources/config/app/config.yml" }
+    - { resource: "@SWPPaywallBundle/Resources/config/app/config.yml" }
     - { resource: "@SWPCoreBundle/Resources/config/app/config.yml" }
     - { resource: "@SWPElasticSearchBundle/Resources/config/app/config.yml" }
     - { resource: parameters.yml }
     - { resource: security.yml }
 
-# Put parameters here that don't need to change on each machine where the app is deployed
-# http://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
-    locale: en
     templating.cache_warmer.template_paths.class: "Symfony\\Bundle\\FrameworkBundle\\CacheWarmer\\TemplatePathsCacheWarmer"
 
 framework:
@@ -250,7 +248,7 @@ nelmio_cors:
         allow_origin: ["%allow_origin_cors%"]
         allow_methods: ["POST", "LINK", "UNLINK", "GET", "DELETE", "OPTIONS", "PATCH", "PUT"]
         allow_headers: ["origin", "content-type", "accept", "authorization", "link"]
-        expose_headers: ["link"]
+        expose_headers: ["link", "X-Superdesk-Publisher"]
         max_age: 3600
     paths:
         '^/api/': ~

@@ -6,3 +6,5 @@
 * :doc:`/bundles/SWPContentListBundle/index`
 * :doc:`/bundles/SWPFacebookInstantArticlesBundle/index`
 * :doc:`/bundles/SWPSettingsBundle/index`
+* :doc:`/bundles/SWPOutputChannelBundle/index`
+* :doc:`/bundles/SWPPaywallBundle/index`

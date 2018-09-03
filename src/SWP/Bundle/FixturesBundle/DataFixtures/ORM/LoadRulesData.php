@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Superdesk Web Publisher Fixtures Bundle.
  *
@@ -24,25 +26,18 @@ class LoadRulesData extends AbstractFixture implements FixtureInterface, Ordered
     /**
      * {@inheritdoc}
      */
-    public function load(ObjectManager $manager)
+    public function load(ObjectManager $manager): void
     {
         $env = $this->getEnvironment();
 
         $this->loadFixtures(
             [
                 '@SWPFixturesBundle/Resources/fixtures/ORM/'.$env.'/rule.yml',
-            ],
-            $manager,
-            [
-                'providers' => [$this],
             ]
         );
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getOrder()
+    public function getOrder(): int
     {
         return 6;
     }

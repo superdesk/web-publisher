@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /*
  * This file is part of the Superdesk Web Publisher Fixtures Bundle.
  *
@@ -26,7 +29,7 @@ class LoadTenantsData extends AbstractFixture implements FixtureInterface, Order
     /**
      * {@inheritdoc}
      */
-    public function load(ObjectManager $manager)
+    public function load(ObjectManager $manager): void
     {
         $env = $this->getEnvironment();
 
@@ -42,7 +45,7 @@ class LoadTenantsData extends AbstractFixture implements FixtureInterface, Order
         $this->loadRevisions();
     }
 
-    private function loadRevisions()
+    private function loadRevisions(): void
     {
         /** @var RevisionManagerInterface $revisionManager */
         $revisionManager = $this->container->get('swp.manager.revision');
@@ -59,7 +62,7 @@ class LoadTenantsData extends AbstractFixture implements FixtureInterface, Order
         $firstTenantPublishedRevision->setTenantCode('123abc');
         $firstTenantWorkingRevision = $revisionManager->create($firstTenantPublishedRevision);
         $revisionManager->publish($firstTenantPublishedRevision, $firstTenantWorkingRevision);
-        $this->addReference('defult_tenant_revision', $firstTenantPublishedRevision);
+        $this->addReference('default_tenant_revision', $firstTenantPublishedRevision);
 
         /** @var RevisionInterface|TenantAwareInterface $firstPublishedRevision */
         $secondTenantPublishedRevision = $revisionManager->create();
@@ -74,11 +77,8 @@ class LoadTenantsData extends AbstractFixture implements FixtureInterface, Order
         $revisionManager->publish($secondTenantPublishedRevision, $secondTenantWorkingRevision);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getOrder()
+    public function getOrder(): int
     {
-        return 0;
+        return -1;
     }
 }

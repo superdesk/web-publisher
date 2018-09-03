@@ -28,10 +28,11 @@ class CreateTenantCommand extends BaseCreateTenantCommand
     public function createTenant($domain, $subdomain, $name, $disabled, $organization)
     {
         $tenant = parent::createTenant($domain, $subdomain, $name, $disabled, $organization);
-        $this->getContainer()->get('swp_multi_tenancy.tenant_context')->setTenant($tenant);
 
         $this->getObjectManager()->persist($tenant);
         $this->getObjectManager()->flush();
+
+        $this->getContainer()->get('swp_multi_tenancy.tenant_context')->setTenant($tenant);
 
         /** @var RevisionManagerInterface $revisionManager */
         $revisionManager = $this->getContainer()->get('swp.manager.revision');

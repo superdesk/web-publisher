@@ -3,11 +3,12 @@
 namespace SWP\Bundle\FixturesBundle\DataFixtures\ORM;
 
 use Doctrine\Common\DataFixtures\FixtureInterface;
+use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use SWP\Bundle\CoreBundle\Model\PackageInterface;
 use SWP\Bundle\FixturesBundle\AbstractFixture;
 
-class LoadAmpHtmlData extends AbstractFixture implements FixtureInterface
+class LoadAmpHtmlData extends AbstractFixture implements FixtureInterface, OrderedFixtureInterface
 {
     private $manager;
 
@@ -136,5 +137,10 @@ class LoadAmpHtmlData extends AbstractFixture implements FixtureInterface
         $package->setVersion(1);
 
         return $package;
+    }
+
+    public function getOrder()
+    {
+        return 4;
     }
 }

@@ -8,6 +8,11 @@ services:
     _defaults:
         public: true
 
+    swp_core.factory.version:
+        arguments:
+            - 'SWP\Bundle\CoreBundle\Version\Version'
+        class: SWP\Bundle\CoreBundle\Factory\VersionFactory
+
     swp_core.detection.device_detection:
         class: SWP\Bundle\CoreBundle\Detection\DeviceDetection
 
@@ -168,7 +173,7 @@ services:
     swp_core.security.session.domain_dynamic_storage:
         class: SWP\Bundle\CoreBundle\Security\Storage\DynamicDomainSessionStorage
         arguments:
-            - "%env(SWP_DOMAIN)%"
+            - "@swp_multi_tenancy.tenant_context"
 
     swp_core.listener.article_rules_subscriber:
         class: SWP\Bundle\CoreBundle\EventSubscriber\ProcessArticleRulesSubscriber
@@ -190,6 +195,13 @@ services:
             - { name: kernel.event_listener, event: swp.article.publish, method: addArticleToList }
             - { name: kernel.event_listener, event: swp.article.publish, method: addArticleToBucket }
 
+    SWP\Bundle\CoreBundle\EventSubscriber\HandleArticleChangeSubscriber:
+        arguments:
+            - "@swp.repository.content_list_item"
+            - "@doctrine.orm.entity_manager"
+        tags:
+            - { name: kernel.event_subscriber }
+
     swp_core.listener.revision_subscriber:
         class: SWP\Bundle\CoreBundle\EventSubscriber\RevisionsSubscriber
         arguments:
@@ -209,7 +221,14 @@ services:
     swp_core.listener.tenant_not_found:
         class: SWP\Bundle\CoreBundle\EventListener\TenantNotFoundExceptionListener
         tags:
-            - { name: kernel.event_listener, event: kernel.exception }
+            - { name: kernel.event_listener, event: kernel.exception, priority: 100 }
+
+    SWP\Bundle\CoreBundle\EventListener\CustomPublisherHeaderListener:
+        arguments:
+            - '%kernel.debug%'
+            - '@swp_core.factory.version'
+        tags:
+            - { name: kernel.event_listener, event: kernel.response, priority: 1 }
 
     swp_core.subscriber.http_cache:
         class: SWP\Bundle\CoreBundle\EventSubscriber\HttpCacheSubscriber
@@ -581,6 +600,10 @@ services:
             - { name: kernel.event_listener, event: swp.article.published, method: publish }
             - { name: kernel.event_listener, event: swp.article.unpublished, method: unpublish }
 
+    SWP\Bundle\CoreBundle\EventListener\SoftdeletableListener:
+        tags:
+            - { name: doctrine.event_listener, event: preRemove, priority: 10 }
+
     SWP\Bundle\CoreBundle\EventListener\DuplicatedSlugListener:
         arguments:
             - '@swp.repository.article'
@@ -615,14 +638,21 @@ services:
         tags:
             - { name: jms_serializer.event_subscriber }
 
-    SWP\Bundle\FixturesBundle\Faker\Provider\ContainerProvider:
+    SWP\Bundle\CoreBundle\Provider\SubscriptionsProvider:
+        public: false
         arguments:
-                - '@service_container'
-        tags:
-            - { name: nelmio_alice.faker.provider }
+            - '@swp.paywall.adapter'
 
-    SWP\Bundle\FixturesBundle\Faker\Provider\RevisionProvider:
+    SWP\Bundle\CoreBundle\Provider\CachedSubscriptionsProvider:
         arguments:
-                - '@swp.repository.revision'
+            - '%env(resolve:SUBSCRIPTIONS_CACHE_LIFETIME)%'
+            - '@SWP\Bundle\CoreBundle\Provider\SubscriptionsProvider'
+            - '@doctrine_cache.providers.main_cache'
+            - '@swp_multi_tenancy.tenant_context'
+
+    SWP\Bundle\CoreBundle\Loader\SubscriptionLoader:
+        arguments:
+            - '@swp_template_engine_context.factory.meta_factory'
+            - '@SWP\Bundle\CoreBundle\Provider\CachedSubscriptionsProvider'
         tags:
-            - { name: nelmio_alice.faker.provider }
+            - { name: swp.meta_loader.add }

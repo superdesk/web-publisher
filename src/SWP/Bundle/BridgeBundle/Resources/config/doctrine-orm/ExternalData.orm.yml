@@ -1,0 +1,31 @@
+SWP\Component\Bridge\Model\ExternalData:
+    type: mappedSuperclass
+    table: swp_external_data
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        key:
+            type: string
+            nullable: false
+        value:
+            type: string
+            nullable: false
+        createdAt:
+            type: datetime
+            gedmo:
+                timestampable:
+                    on: create
+        updatedAt:
+            type: datetime
+            nullable: true
+            gedmo:
+                timestampable:
+                    on: update
+    manyToOne:
+        package:
+            targetEntity: SWP\Component\Bridge\Model\PackageInterface
+            inversedBy: externalData

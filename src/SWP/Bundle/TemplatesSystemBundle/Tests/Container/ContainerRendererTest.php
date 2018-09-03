@@ -80,8 +80,8 @@ class ContainerRendererTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($this->container->setWidgets([$widget, $widget]), $this->container);
         $this->assertEquals($this->container->hasWidgets(), true);
         $this->assertEquals(<<<'EOF'
-<div id="swp_widget_1" class="swp_widget">simple html body</div>
-<div id="swp_widget_1" class="swp_widget">simple html body</div>
+<div id="swp_widget_1" class="swp_widget" data-container="1">simple html body</div>
+<div id="swp_widget_1" class="swp_widget" data-container="1">simple html body</div>
 EOF
         , $this->container->renderWidgets());
     }

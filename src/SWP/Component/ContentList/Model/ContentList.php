@@ -16,8 +16,6 @@ declare(strict_types=1);
 
 namespace SWP\Component\ContentList\Model;
 
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use SWP\Component\Common\Model\EnableableTrait;
 use SWP\Component\Common\Model\SoftDeletableTrait;
 use SWP\Component\Common\Model\TimestampableTrait;
@@ -57,11 +55,6 @@ class ContentList implements ContentListInterface
     protected $limit;
 
     /**
-     * @var Collection|ContentListItemInterface[]
-     */
-    protected $items;
-
-    /**
      * @var array
      */
     protected $filters = [];
@@ -72,7 +65,6 @@ class ContentList implements ContentListInterface
     public function __construct()
     {
         $this->createdAt = new \DateTime();
-        $this->items = new ArrayCollection();
     }
 
     /**
@@ -161,52 +153,6 @@ class ContentList implements ContentListInterface
     public function setLimit(int $limit = 0)
     {
         $this->limit = $limit;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getItems()
-    {
-        return $this->items;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function setItems($items)
-    {
-        $this->items = $items;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function addItem(ContentListItemInterface $item)
-    {
-        if (!$this->items->contains($item)) {
-            $item->setContentList($this);
-            $this->items->add($item);
-        }
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function hasItem(ContentListItemInterface $item)
-    {
-        return $this->items->contains($item);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function removeItem(ContentListItemInterface $item)
-    {
-        if ($this->items->contains($item)) {
-            $this->items->removeElement($item);
-            $item->setContentList(null);
-        }
     }
 
     /**

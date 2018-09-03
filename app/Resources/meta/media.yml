@@ -9,10 +9,13 @@ properties:
         description: "Media description"
         type: text
     located:
-        description: "Information about mmedia location"
+        description: "Information about media location"
         type: text
     byLine:
         description: "Media author signature"
+        type: text
+    key:
+        description: "media key"
         type: text
     body:
         description: "Body content"

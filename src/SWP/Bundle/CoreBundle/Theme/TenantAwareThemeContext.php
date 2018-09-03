@@ -19,6 +19,7 @@ use SWP\Bundle\CoreBundle\Theme\Helper\ThemeHelper;
 use SWP\Bundle\CoreBundle\Theme\Repository\ReloadableThemeRepositoryInterface;
 use SWP\Component\Common\Model\ThemeAwareTenantInterface;
 use SWP\Component\MultiTenancy\Context\TenantContextInterface;
+use SWP\Component\MultiTenancy\Exception\TenantNotFoundException;
 use Sylius\Bundle\ThemeBundle\Model\ThemeInterface;
 use Sylius\Bundle\ThemeBundle\Repository\ThemeRepositoryInterface;
 
@@ -68,7 +69,12 @@ final class TenantAwareThemeContext implements TenantAwareThemeContextInterface
     public function getTheme(): ?ThemeInterface
     {
         /* @var ThemeAwareTenantInterface $tenant */
-        $tenant = $this->tenantContext->getTenant();
+        try {
+            $tenant = $this->tenantContext->getTenant();
+        } catch (TenantNotFoundException $e) {
+            $tenant = null;
+        }
+
         if (null === $tenant) {
             return null;
         }

@@ -12,7 +12,7 @@ services:
         arguments:
             - '@event_dispatcher'
             - '@swp.factory.content_list_item'
-
+            - '@swp.repository.content_list_item'
 
     swp_content_list.loader.content_list_items:
         class: SWP\Bundle\ContentListBundle\Loader\ContentListsItemLoader

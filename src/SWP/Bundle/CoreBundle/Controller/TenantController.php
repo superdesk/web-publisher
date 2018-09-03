@@ -18,8 +18,8 @@ use FOS\RestBundle\Controller\FOSRestController;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use SWP\Bundle\CoreBundle\Context\CachedTenantContext;
 use SWP\Bundle\CoreBundle\Model\RevisionInterface;
+use SWP\Bundle\MultiTenancyBundle\MultiTenancyEvents;
 use SWP\Component\Common\Response\ResourcesListResponse;
 use SWP\Component\Common\Response\ResponseContext;
 use SWP\Component\Common\Response\SingleResourceResponse;
@@ -84,17 +84,38 @@ class TenantController extends FOSRestController
      *     description="Delete single tenant/website",
      *     statusCodes={
      *         204="Returned on success."
+     *     },
+     *     parameters={
+     *         {"name"="force", "dataType"="bool", "required"=false, "description"="Remove tenant ignoring attached articles"}
      *     }
      * )
      * @Route("/api/{version}/tenants/{code}", options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_core_delete_tenant", requirements={"code"="[a-z0-9]+"})
      * @Method("DELETE")
      */
-    public function deleteAction($code)
+    public function deleteAction(Request $request, $code)
     {
+        $tenantContext = $this->container->get('swp_multi_tenancy.tenant_context');
+        $eventDispatcher = $this->container->get('event_dispatcher');
+        $currentTenant = $tenantContext->getTenant();
+
         $repository = $this->getTenantRepository();
         $tenant = $this->findOr404($code);
 
+        $forceRemove = $request->query->has('force');
+        if (!$forceRemove) {
+            $tenantContext->setTenant($tenant);
+            $eventDispatcher->dispatch(MultiTenancyEvents::TENANTABLE_ENABLE);
+            $articlesRepository = $this->get('swp.repository.article');
+            $existingArticles = $articlesRepository->findAll();
+            if (0 !== \count($existingArticles)) {
+                throw new ConflictHttpException('This tenant have articles attached to it.');
+            }
+        }
+
         $repository->remove($tenant);
+
+        $tenantContext->setTenant($currentTenant);
+        $eventDispatcher->dispatch(MultiTenancyEvents::TENANTABLE_ENABLE);
 
         return new SingleResourceResponse(null, new ResponseContext(204));
     }
@@ -176,8 +197,8 @@ class TenantController extends FOSRestController
             $tenant->setUpdatedAt(new \DateTime('now'));
             $this->get('swp.object_manager.tenant')->flush();
 
-            $cacheProvider = $this->get('doctrine_cache.providers.main_cache');
-            $cacheProvider->save(CachedTenantContext::getCacheKey($request->getHost()), $tenant);
+            $tenantContext = $this->get('swp_multi_tenancy.tenant_context');
+            $tenantContext->setTenant($tenant);
 
             return new SingleResourceResponse($tenant);
         }

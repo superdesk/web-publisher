@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Superdesk Web Publisher Fixtures Bundle.
  *
@@ -34,7 +36,7 @@ class LoadRoutesData extends AbstractFixture implements FixtureInterface, Ordere
     /**
      * {@inheritdoc}
      */
-    public function load(ObjectManager $manager)
+    public function load(ObjectManager $manager): void
     {
         $env = $this->getEnvironment();
         if ('test' === $env) {
@@ -61,10 +63,7 @@ class LoadRoutesData extends AbstractFixture implements FixtureInterface, Ordere
         $manager->persist($route);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getOrder()
+    public function getOrder(): int
     {
         return 3;
     }

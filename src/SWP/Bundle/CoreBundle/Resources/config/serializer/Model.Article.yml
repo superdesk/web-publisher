@@ -11,3 +11,13 @@ SWP\Bundle\CoreBundle\Model\Article:
             expose: true
         externalArticle:
             expose: true
+        paywallSecured:
+            expose: true
+            type: boolean
+    relations:
+        -
+            rel: slideshows
+            href:
+                route: swp_api_slideshows_list
+                parameters:
+                    articleId: "expr(object.getId())"

@@ -20,6 +20,7 @@ use Doctrine\ORM\QueryBuilder;
 use SWP\Bundle\ContentListBundle\Doctrine\ORM\ContentListItemRepository as BaseRepository;
 use SWP\Bundle\CoreBundle\Model\ArticleInterface;
 use SWP\Bundle\CoreBundle\Model\ContentListInterface;
+use SWP\Bundle\CoreBundle\Model\ContentListItemInterface;
 use SWP\Component\Common\Criteria\Criteria;
 
 class ContentListItemRepository extends BaseRepository implements ContentListItemRepositoryInterface
@@ -31,7 +32,7 @@ class ContentListItemRepository extends BaseRepository implements ContentListIte
         ArticleInterface $article,
         ContentListInterface $list,
         string $type = ContentListInterface::TYPE_BUCKET
-    ) {
+    ): ?ContentListItemInterface {
         $queryBuilder = $this->createQueryBuilder('cl');
 
         return $queryBuilder
@@ -49,13 +50,31 @@ class ContentListItemRepository extends BaseRepository implements ContentListIte
             ->getOneOrNullResult();
     }
 
+    public function findItemsByArticle(ArticleInterface $article): array
+    {
+        $queryBuilder = $this->createQueryBuilder('cl');
+
+        return $queryBuilder
+            ->leftJoin('cl.contentList', 'l')
+            ->leftJoin('cl.content', 'c')
+            ->andWhere('c.id = :article')
+            ->setParameters([
+                'article' => $article->getId(),
+            ])
+            ->getQuery()
+            ->getResult();
+    }
+
     /**
      * {@inheritdoc}
      */
     protected function applyCriteria(QueryBuilder $queryBuilder, Criteria $criteria, string $alias)
     {
-        $queryBuilder->leftJoin('n.content', 'a')
-            ->addSelect('a');
+        $queryBuilder
+            ->leftJoin('n.content', 'a')->addSelect('a')
+            ->leftJoin('a.articleStatistics', 'stats')
+            ->leftJoin('a.externalArticle', 'ext')
+            ->addSelect('stats', 'ext');
 
         $queryBuilder->andWhere($queryBuilder->expr()->eq('a.status', $queryBuilder->expr()->literal(ArticleInterface::STATUS_PUBLISHED)));
 

@@ -19,6 +19,8 @@ use Symfony\Component\Routing\RouterInterface;
 
 class TenantControllerTest extends WebTestCase
 {
+    const TEST_ITEM_ORIGIN = '{"body_html": "<p>this is test body</p><p>footer text</p>", "profile": "57d91f4ec3a5bed769c59846", "versioncreated": "2017-03-08T11:23:34+0000", "description_text": "test abstract", "byline": "Test Persona", "place": [], "version": "2", "pubstatus": "usable", "guid": "urn:newsml:localhost:2017-03-08T12:18:57.190465:2ff36225-af01-4f39-9392-39e901838d99", "language": "en", "urgency": 3, "slugline": "test item update", "headline": "test headline", "service": [{"code": "news", "name": "News"}], "priority": 6, "firstcreated": "2017-03-08T11:18:57+0000", "located": "Berlin", "type": "text", "description_html": "<p>test abstract</p>"}';
+
     /**
      * @var RouterInterface
      */
@@ -109,7 +111,7 @@ class TenantControllerTest extends WebTestCase
         $client->request('POST', $this->router->generate('swp_api_core_create_tenant'), [
             'tenant' => [
                 'name' => 'Test Tenant',
-                'subdomain' => 'test',
+                'subdomain' => 'test1',
                 'domainName' => 'localhost',
                 'themeName' => 'swp/test-theme',
             ],
@@ -123,6 +125,89 @@ class TenantControllerTest extends WebTestCase
             'code' => $content['code'],
         ]));
 
+        $this->assertEquals(204, $client->getResponse()->getStatusCode());
+
+        $client->request('POST', $this->router->generate('swp_api_core_create_tenant'), [
+            'tenant' => [
+                'name' => 'Test Tenant',
+                'subdomain' => 'test',
+                'domainName' => 'localhost',
+                'themeName' => 'swp/test-theme',
+            ],
+        ]);
+
+        $this->assertEquals(201, $client->getResponse()->getStatusCode());
+        $content = json_decode($client->getResponse()->getContent(), true);
+
+        $client = static::createClient([], [
+            'HTTP_HOST' => 'test.localhost',
+        ]);
+        $client->request(
+            'POST',
+            $this->router->generate('swp_api_content_push'),
+            [],
+            [],
+            ['CONTENT_TYPE' => 'application/json'],
+            self::TEST_ITEM_ORIGIN
+        );
+        self::assertEquals(201, $client->getResponse()->getStatusCode());
+        $client->request('POST', $this->router->generate('swp_api_content_create_routes'), [
+            'route' => [
+                'name' => 'articles',
+                'type' => 'collection',
+                'content' => null,
+            ],
+        ]);
+        self::assertEquals(201, $client->getResponse()->getStatusCode());
+        $routeContent = json_decode($client->getResponse()->getContent(), true);
+
+        $client->request(
+            'POST',
+            $this->router->generate('swp_api_core_publish_package', ['id' => 1]), [
+                'publish' => [
+                    'destinations' => [
+                        [
+                            'tenant' => $content['code'],
+                            'route' => $routeContent['id'],
+                            'fbia' => false,
+                            'published' => true,
+                        ],
+                    ],
+                ],
+            ]
+        );
+        self::assertEquals(201, $client->getResponse()->getStatusCode());
+
+        $client->request('DELETE', $this->router->generate('swp_api_core_delete_tenant', [
+            'code' => $content['code'],
+        ]));
+        $this->assertEquals(409, $client->getResponse()->getStatusCode());
+
+        $client->request('DELETE', $this->router->generate('swp_api_core_delete_tenant', [
+            'code' => $content['code'],
+            'force' => true,
+        ]));
+        $this->assertEquals(204, $client->getResponse()->getStatusCode());
+    }
+
+    public function testTenantWithWrongSubdomainAndRemoveIt()
+    {
+        $this->loadCustomFixtures(['tenant', 'article']);
+        $client = static::createClient();
+        $client->request('POST', $this->router->generate('swp_api_core_create_tenant'), [
+            'tenant' => [
+                'name' => 'Test Tenant',
+                'subdomain' => 'test',
+                'domainName' => 'google.com',
+                'themeName' => 'swp/test-theme',
+            ],
+        ]);
+        $this->assertEquals(201, $client->getResponse()->getStatusCode());
+        $content = \json_decode($client->getResponse()->getContent(), true);
+
+        $client->request('DELETE', $this->router->generate('swp_api_core_delete_tenant', [
+            'code' => $content['code'],
+        ]));
         $this->assertEquals(204, $client->getResponse()->getStatusCode());
     }
 
@@ -200,9 +285,8 @@ class TenantControllerTest extends WebTestCase
 
     public function testLoadNotExistingTenant()
     {
-        $client = static::createClient();
         $client = static::createClient([], [
-            'HTTP_HOST' => 'notexisting.'.$client->getContainer()->getParameter('env(SWP_DOMAIN)'),
+            'HTTP_HOST' => 'notexisting.'.static::createClient()->getContainer()->getParameter('env(SWP_DOMAIN)'),
         ]);
         $client->request('GET', $this->router->generate('swp_api_core_get_tenant', ['code' => '123abc']));
         self::assertEquals(404, $client->getResponse()->getStatusCode());
@@ -212,5 +296,16 @@ class TenantControllerTest extends WebTestCase
         self::assertEquals(404, $client->getResponse()->getStatusCode());
         self::assertContains('Tenant for host "notexisting.localhost" could not be found!', $client->getResponse()->getContent());
         self::assertEquals('text/html; charset=UTF-8', $client->getResponse()->headers->get('Content-Type'));
+    }
+
+    public function testCountingTenantArticles()
+    {
+        $this->loadCustomFixtures(['tenant', 'article']);
+
+        $client = static::createClient();
+        $client->request('GET', $this->router->generate('swp_api_core_get_tenant', ['code' => '123abc']));
+        $response = \json_decode($client->getResponse()->getContent(), true);
+
+        self::assertTrue(5 === $response['articlesCount']);
     }
 }

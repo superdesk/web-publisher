@@ -22,11 +22,7 @@ use SWP\Bundle\CoreBundle\Model\PackageInterface;
 
 interface ArticleRepositoryInterface extends BaseInterface
 {
-    /**
-     * @param string           $slug
-     * @param PackageInterface $package
-     *
-     * @return QueryBuilder
-     */
     public function getArticleBySlugForPackage(string $slug, PackageInterface $package): QueryBuilder;
+
+    public function getArticleByPackageExtraData(string $key, string $value): QueryBuilder;
 }
