@@ -211,3 +211,15 @@ Feature: Manage Routes
     And the JSON node lft should be equal to 6
     And the JSON node rgt should be equal to 7
     And the JSON node level should be equal to 1
+
+    Given I am authenticated as "test.user"
+    When I add "Content-Type" header equal to "application/json"
+    And I send a "PATCH" request to "/api/v1/content/routes/11" with body:
+     """
+      {
+        "route": {
+          "position": -1
+        }
+      }
+    """
+    Then the response status code should be 400

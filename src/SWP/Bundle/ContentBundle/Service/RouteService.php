@@ -101,7 +101,7 @@ class RouteService implements RouteServiceInterface
         return $route;
     }
 
-    protected function changePositionInTree(RouteInterface $previousRoute, RouteInterface $route, int $position = null)
+    protected function changePositionInTree(RouteInterface $previousRoute, RouteInterface $route, int $position = null): void
     {
         if ($this->routeRepository instanceof NestedTreeEntityRepository) {
             if (null !== $position) {
