@@ -16,13 +16,7 @@ namespace SWP\Bundle\CoreBundle\Theme\Processor;
 
 use SWP\Bundle\CoreBundle\Theme\Model\ThemeInterface;
 
-/**
- * Interface ThemeUploaderInterface.
- */
 interface RequiredDataProcessorInterface
 {
-    /**
-     * @param ThemeInterface $theme
-     */
-    public function processTheme(ThemeInterface $theme): void;
+    public function processTheme(ThemeInterface $theme, bool $applyOptionalData = false): void;
 }

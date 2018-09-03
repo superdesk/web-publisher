@@ -46,6 +46,9 @@
     },
     "require": {
         "php": "^7.1",
+        "ext-json": "*",
+        "ext-curl": "*",
+        "ext-zip": "*",
         "symfony/symfony": "3.4.14",
         "symfony/swiftmailer-bundle": "~3.0",
         "symfony/monolog-bundle": "~3.0",

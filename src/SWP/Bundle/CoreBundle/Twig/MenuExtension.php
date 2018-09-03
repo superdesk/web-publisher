@@ -26,7 +26,7 @@ class MenuExtension extends KnpMenuExtension
     public function get($menu, array $path = array(), array $options = array())
     {
         try {
-            parent::get($menu, $path, $options);
+            return parent::get($menu, $path, $options);
         } catch (\InvalidArgumentException $e) {
             // allow to render void
         }

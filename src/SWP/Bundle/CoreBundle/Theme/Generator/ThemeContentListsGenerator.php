@@ -72,7 +72,7 @@ class ThemeContentListsGenerator implements GeneratorInterface
     /**
      * {@inheritdoc}
      */
-    public function generate(array $contentLists): void
+    public function generate(array $contentLists, bool $applyOptionalData): void
     {
         foreach ($contentLists as $contentListData) {
             if (null !== $this->contentListRepository->findOneByName($contentListData['name'])) {
