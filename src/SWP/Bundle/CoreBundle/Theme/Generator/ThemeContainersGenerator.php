@@ -63,7 +63,7 @@ class ThemeContainersGenerator implements GeneratorInterface
     /**
      * {@inheritdoc}
      */
-    public function generate(array $containers): void
+    public function generate(array $containers, bool $applyOptionalData): void
     {
         foreach ($containers as $containerData) {
             if (null !== $this->containerRepository->findOneByName($containerData['name'])) {

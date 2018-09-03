@@ -130,8 +130,8 @@ class ThemesControllerTest extends WebTestCase
 
     public function testTenantCreationThemeUploadAndInstallationWithActivation()
     {
-        $client = static::createClient();
-        $client->request('POST', $this->router->generate('swp_api_core_create_tenant'), [
+        $defaultClient = static::createClient();
+        $defaultClient->request('POST', $this->router->generate('swp_api_core_create_tenant'), [
             'tenant' => [
                 'name' => 'Test Tenant for theme installation',
                 'subdomain' => 'newtheme',
@@ -140,8 +140,8 @@ class ThemesControllerTest extends WebTestCase
             ],
         ]);
 
-        $this->assertEquals(201, $client->getResponse()->getStatusCode());
-        $newTenant = json_decode($client->getResponse()->getContent(), true);
+        $this->assertEquals(201, $defaultClient->getResponse()->getStatusCode());
+        $newTenant = json_decode($defaultClient->getResponse()->getContent(), true);
 
         $client = static::createClient([], [
             'HTTP_HOST' => 'newtheme.localhost',
@@ -170,10 +170,31 @@ class ThemesControllerTest extends WebTestCase
         $data = json_decode($client->getResponse()->getContent(), true);
         self::assertCount(0, $data['_embedded']['_items']);
 
+        $client->request('GET', $this->router->generate('swp_api_content_list_articles'));
+        self::assertEquals(200, $client->getResponse()->getStatusCode());
+        $data = json_decode($client->getResponse()->getContent(), true);
+        self::assertCount(0, $data['_embedded']['_items']);
         $client->request('POST', $this->router->generate('swp_api_install_theme'), [
-            'theme_install' => ['name' => 'swp/test-theme-install-generated-data'],
+            'theme_install' => ['name' => 'swp/test-theme-install-generated-data', 'processGeneratedData' => true],
         ]);
         self::assertEquals(201, $client->getResponse()->getStatusCode());
+        $client->request('GET', $this->router->generate('swp_api_content_list_articles'));
+        self::assertEquals(200, $client->getResponse()->getStatusCode());
+        $data = json_decode($client->getResponse()->getContent(), true);
+        self::assertCount(1, $data['_embedded']['_items']);
+
+        $defaultClient->request('GET', $this->router->generate('swp_api_content_list_routes'));
+        self::assertEquals(200, $defaultClient->getResponse()->getStatusCode());
+        $data = json_decode($defaultClient->getResponse()->getContent(), true);
+        self::assertCount(1, $data['_embedded']['_items']);
+        $defaultClient->request('POST', $this->router->generate('swp_api_install_theme'), [
+            'theme_install' => ['name' => 'swp/test-theme-install-generated-data'],
+        ]);
+        self::assertEquals(201, $defaultClient->getResponse()->getStatusCode());
+        $defaultClient->request('GET', $this->router->generate('swp_api_content_list_routes'));
+        self::assertEquals(200, $defaultClient->getResponse()->getStatusCode());
+        $data = json_decode($defaultClient->getResponse()->getContent(), true);
+        self::assertCount(4, $data['_embedded']['_items']);
 
         $client->request('GET', $this->router->generate('swp_api_list_tenant_themes'));
         $data = json_decode($client->getResponse()->getContent(), true);
@@ -181,6 +202,7 @@ class ThemesControllerTest extends WebTestCase
         self::assertEquals('swp/test-theme-install-generated-data@'.$newTenant['code'], $data['_embedded']['_items'][0]['name']);
 
         $filesystem->remove(realpath(__DIR__.'/../Fixtures/themes/'.$newTenant['code'].'/'));
+        $filesystem->remove(realpath(__DIR__.'/../Fixtures/themes/123abc/swp__test-theme-install-generated-data/'));
     }
 
     private function createZipArchive($rootPath)

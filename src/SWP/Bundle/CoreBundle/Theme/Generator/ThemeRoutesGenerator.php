@@ -80,7 +80,7 @@ class ThemeRoutesGenerator implements GeneratorInterface
     /**
      * {@inheritdoc}
      */
-    public function generate(array $routes): void
+    public function generate(array $routes, bool $applyOptionalData): void
     {
         foreach ($routes as $routeData) {
             $cleanRouteData = $routeData;
@@ -91,7 +91,9 @@ class ThemeRoutesGenerator implements GeneratorInterface
                 continue;
             }
 
-            $this->processFakeArticles($route, $routeData);
+            if ($applyOptionalData) {
+                $this->processFakeArticles($route, $routeData);
+            }
 
             $this->routeRepository->add($route);
         }

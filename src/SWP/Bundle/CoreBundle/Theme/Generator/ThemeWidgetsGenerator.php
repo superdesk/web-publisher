@@ -72,7 +72,7 @@ class ThemeWidgetsGenerator implements GeneratorInterface
     /**
      * {@inheritdoc}
      */
-    public function generate(array $widgets): void
+    public function generate(array $widgets, bool $applyOptionalData): void
     {
         foreach ($widgets as $widgetData) {
             if (null !== $this->widgetModelRepository->findOneByName($widgetData['name'])) {

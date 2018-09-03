@@ -72,7 +72,7 @@ class ThemeMenusGenerator implements GeneratorInterface
     /**
      * {@inheritdoc}
      */
-    public function generate(array $menus, MenuItemInterface $parent = null): void
+    public function generate(array $menus, bool $applyOptionalData, MenuItemInterface $parent = null): void
     {
         foreach ($menus as $menuData) {
             if (null !== $this->menuRepository->findOneBy(['name' => $menuData['name'], 'parent' => $parent])) {
@@ -105,7 +105,7 @@ class ThemeMenusGenerator implements GeneratorInterface
         $this->menuRepository->add($menu);
 
         if (null !== $children) {
-            $this->generate($children, $menu);
+            $this->generate($children, false, $menu);
         }
     }
 

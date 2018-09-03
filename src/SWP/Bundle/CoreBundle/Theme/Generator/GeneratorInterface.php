@@ -18,8 +18,5 @@ namespace SWP\Bundle\CoreBundle\Theme\Generator;
 
 interface GeneratorInterface
 {
-    /**
-     * @param array $data
-     */
-    public function generate(array $data): void;
+    public function generate(array $data, bool $applyOptionalData): void;
 }
