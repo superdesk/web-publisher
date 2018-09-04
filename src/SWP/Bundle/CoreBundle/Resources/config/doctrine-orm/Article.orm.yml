@@ -29,6 +29,10 @@ SWP\Bundle\CoreBundle\Model\Article:
         externalArticle:
             targetEntity: SWP\Bundle\CoreBundle\Model\ExternalArticleInterface
             mappedBy: article
+    oneToMany:
+        events:
+            targetEntity: SWP\Bundle\AnalyticsBundle\Model\ArticleEventInterface
+            mappedBy: impressionArticle
     uniqueConstraints:
         swp_article_slug_idx:
             columns: [ slug, tenant_code, organization_id ]

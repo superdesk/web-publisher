@@ -72,5 +72,7 @@ interface ArticleStatisticsInterface extends PersistableInterface
     /**
      * Add one more page view.
      */
-    public function increasePageViewsNumber();
+    public function increasePageViewsNumber(): void;
+
+    public function increaseImpressionsNumber(): void;
 }
