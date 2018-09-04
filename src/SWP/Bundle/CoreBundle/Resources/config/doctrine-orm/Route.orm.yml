@@ -10,3 +10,7 @@ SWP\Bundle\CoreBundle\Model\Route:
     uniqueConstraints:
         swp_route_name_idx:
             columns: [ name, tenant_code ]
+    oneToMany:
+        events:
+            targetEntity: SWP\Bundle\AnalyticsBundle\Model\ArticleEventInterface
+            mappedBy: impressionRoute

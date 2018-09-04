@@ -63,7 +63,6 @@ class ArticleStatisticsService implements ArticleStatisticsServiceInterface
 
     public function addArticleEvent(int $articleId, string $action, array $extraData): ArticleStatisticsInterface
     {
-        dump($articleId, $action, $extraData);
         $articleStatistics = $this->getOrCreateNewArticleStatistics($articleId);
         switch ($action) {
             case ArticleEventInterface::ACTION_PAGEVIEW:

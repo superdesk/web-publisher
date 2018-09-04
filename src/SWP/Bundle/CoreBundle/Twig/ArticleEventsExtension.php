@@ -45,12 +45,12 @@ class ArticleEventsExtension extends AbstractExtension
 <script type="text/javascript">
 var arr = [], l = document.links;
 for(var i=0; i<l.length; i++) {
-  arr.push(l[i].href);
+  if(arr.indexOf(l[i].href) === -1){arr.push(l[i].href);}
 }
 var xhr = new XMLHttpRequest();
 var read_date = new Date();
 var request_randomizer = "&" + read_date.getTime() + Math.random();
-xhr.open('POST', '/app_dev.php/_swp_analytics?type=impression'+request_randomizer);
+xhr.open('POST', '/_swp_analytics?type=impression'+request_randomizer);
 xhr.setRequestHeader("Content-Type", "application/json");
 xhr.send(JSON.stringify(arr));
 </script>
