@@ -158,7 +158,7 @@ class AnalyticsEventConsumer implements ConsumerInterface
     {
         $articleId = $request->query->get('articleId', null);
         if (null !== $articleId) {
-            $this->articleStatisticsService->addArticleEvent((int) $articleId, ArticleEventInterface::ACTION_PAGEVIEW);
+            $this->articleStatisticsService->addArticleEvent((int) $articleId, ArticleEventInterface::ACTION_PAGEVIEW, []);
         }
     }
 
