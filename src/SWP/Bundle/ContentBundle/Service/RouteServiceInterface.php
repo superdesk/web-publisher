@@ -18,28 +18,9 @@ use SWP\Bundle\ContentBundle\Model\RouteInterface;
 
 interface RouteServiceInterface
 {
-    /**
-     * Creates a new route.
-     *
-     * @param RouteInterface $route
-     *
-     * @return RouteInterface
-     */
     public function createRoute(RouteInterface $route);
 
-    /**
-     * Updates existing route.
-     *
-     * @param RouteInterface $route
-     *
-     * @return RouteInterface
-     */
-    public function updateRoute(RouteInterface $route);
+    public function updateRoute(RouteInterface $previousRoute, RouteInterface $route): RouteInterface;
 
-    /**
-     * @param RouteInterface $route
-     *
-     * @return RouteInterface
-     */
-    public function fillRoute(RouteInterface $route);
+    public function fillRoute(RouteInterface $route): RouteInterface;
 }

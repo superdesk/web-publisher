@@ -192,7 +192,6 @@ class MenuItemRepository extends EntityRepository implements MenuItemRepositoryI
         $sibling = $newParent;
 
         $wrapped->setPropertyValue($config['parent'], $sibling);
-
         $wrapped->setPropertyValue($config['left'], 0);
         $oid = spl_object_hash($node);
         $this->treeListener

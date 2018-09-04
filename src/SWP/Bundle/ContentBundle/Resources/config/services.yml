@@ -134,6 +134,7 @@ services:
         class: '%swp.service.route.class%'
         arguments:
             - '@event_dispatcher'
+            - '@swp.repository.route'
 
     swp.service.article:
         class: '%swp.service.article.class%'

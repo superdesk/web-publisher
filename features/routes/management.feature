@@ -129,3 +129,97 @@ Feature: Manage Routes
     Then the response status code should be 200
     When I send a "GET" request to "/custom-route/parameterName234"
     Then the response status code should be 404
+
+  Scenario: Changing route position (order)
+    Given I am authenticated as "test.user"
+    When I add "Content-Type" header equal to "application/json"
+    And I send a "PATCH" request to "/api/v1/content/routes/11" with body:
+     """
+      {
+        "route": {
+          "position": 6
+        }
+      }
+    """
+    Then the response status code should be 200
+    And the JSON node position should be equal to 6
+    And the JSON node lft should be equal to 17
+    And the JSON node rgt should be equal to 18
+
+    Given I am authenticated as "test.user"
+    When I add "Content-Type" header equal to "application/json"
+    And I send a "PATCH" request to "/api/v1/content/routes/11" with body:
+     """
+      {
+        "route": {
+          "position": 0
+        }
+      }
+    """
+    Then the response status code should be 200
+    And the JSON node position should be equal to 0
+    And the JSON node lft should be equal to 1
+    And the JSON node rgt should be equal to 2
+
+    Given I am authenticated as "test.user"
+    When I add "Content-Type" header equal to "application/json"
+    And I send a "PATCH" request to "/api/v1/content/routes/11" with body:
+     """
+      {
+        "route": {
+          "position": 9
+        }
+      }
+    """
+    Then the response status code should be 200
+    And the JSON node position should be equal to 8
+    And the JSON node lft should be equal to 21
+    And the JSON node rgt should be equal to 22
+    And the JSON node level should be equal to 0
+
+    Given I am authenticated as "test.user"
+    When I add "Content-Type" header equal to "application/json"
+    And I send a "PATCH" request to "/api/v1/content/routes/11" with body:
+     """
+      {
+        "route": {
+          "parent": 3,
+          "position": 1
+        }
+      }
+    """
+    Then the response status code should be 200
+    And the JSON node parent should be equal to 3
+    And the JSON node position should be equal to 1
+    And the JSON node lft should be equal to 8
+    And the JSON node rgt should be equal to 9
+    And the JSON node level should be equal to 1
+
+    Given I am authenticated as "test.user"
+    When I add "Content-Type" header equal to "application/json"
+    And I send a "PATCH" request to "/api/v1/content/routes/11" with body:
+     """
+      {
+        "route": {
+          "position": 0
+        }
+      }
+    """
+    Then the response status code should be 200
+    And the JSON node parent should be equal to 3
+    And the JSON node position should be equal to 0
+    And the JSON node lft should be equal to 6
+    And the JSON node rgt should be equal to 7
+    And the JSON node level should be equal to 1
+
+    Given I am authenticated as "test.user"
+    When I add "Content-Type" header equal to "application/json"
+    And I send a "PATCH" request to "/api/v1/content/routes/11" with body:
+     """
+      {
+        "route": {
+          "position": -1
+        }
+      }
+    """
+    Then the response status code should be 400

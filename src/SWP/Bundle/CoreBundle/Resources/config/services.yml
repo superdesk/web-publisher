@@ -656,3 +656,23 @@ services:
             - '@SWP\Bundle\CoreBundle\Provider\CachedSubscriptionsProvider'
         tags:
             - { name: swp.meta_loader.add }
+
+    SWP\Bundle\CoreBundle\HttpCache\HttpCacheArticleTagGenerator: ~
+    SWP\Bundle\CoreBundle\HttpCache\HttpCacheRouteTagGenerator: ~
+
+    SWP\Bundle\CoreBundle\EventListener\HttpCacheTaggerListener:
+        arguments:
+            - '@fos_http_cache.http.symfony_response_tagger'
+            - '@SWP\Bundle\CoreBundle\HttpCache\HttpCacheArticleTagGenerator'
+            - '@SWP\Bundle\CoreBundle\HttpCache\HttpCacheRouteTagGenerator'
+        tags:
+            - { name: kernel.event_listener, event: kernel.response, method: onKernelResponse }
+
+    SWP\Bundle\CoreBundle\EventListener\InvalidateHttpCacheTagsListener:
+        arguments:
+            - '@fos_http_cache.cache_manager'
+            - '@SWP\Bundle\CoreBundle\HttpCache\HttpCacheArticleTagGenerator'
+            - '@SWP\Bundle\CoreBundle\HttpCache\HttpCacheRouteTagGenerator'
+        tags:
+            - { name: kernel.event_listener, event: swp.article.post_update, method: onPostUpdate }
+            - { name: kernel.event_listener, event: swp.article.unpublished, method: onPostUpdate }

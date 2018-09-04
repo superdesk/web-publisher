@@ -105,7 +105,7 @@ fos_http_cache:
     user_context:
         enabled: false
     tags:
-        enabled: false
+        enabled: true
     cache_manager:
         enabled: true
         generate_url_type: 0

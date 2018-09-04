@@ -18,6 +18,12 @@ SWP\Bundle\ContentBundle\Model\Route:
         position:
             expose: true
             type: integer
+        lft:
+          expose: true
+          type: integer
+        rgt:
+          expose: true
+          type: integer
         level:
             expose: true
             type: integer
