@@ -19,6 +19,7 @@ use Prophecy\Argument;
 use SWP\Bundle\ContentBundle\Model\Route;
 use SWP\Bundle\ContentBundle\Event\RouteEvent;
 use SWP\Bundle\ContentBundle\Model\RouteInterface;
+use SWP\Bundle\ContentBundle\Model\RouteRepositoryInterface;
 use SWP\Bundle\ContentBundle\RouteEvents;
 use SWP\Bundle\ContentBundle\Service\RouteService;
 use SWP\Bundle\ContentBundle\Service\RouteServiceInterface;
@@ -30,9 +31,10 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 class RouteServiceSpec extends ObjectBehavior
 {
     public function let(
-        EventDispatcherInterface $eventDispatcher
+        EventDispatcherInterface $eventDispatcher,
+        RouteRepositoryInterface $routeRepository
     ) {
-        $this->beConstructedWith($eventDispatcher);
+        $this->beConstructedWith($eventDispatcher, $routeRepository);
     }
 
     public function it_is_initializable()
@@ -183,6 +185,6 @@ class RouteServiceSpec extends ObjectBehavior
             Argument::type(RouteEvent::class)
         )->shouldBeCalled();
 
-        $this->updateRoute($route)->shouldReturn($route);
+        $this->updateRoute($route, $route)->shouldReturn($route);
     }
 }
