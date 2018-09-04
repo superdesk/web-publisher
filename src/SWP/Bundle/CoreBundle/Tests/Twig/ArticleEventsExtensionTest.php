@@ -40,7 +40,7 @@ class ArticleEventsExtensionTest extends WebTestCase
         $this->assertEquals("<script type=\"text/javascript\">
 var arr = [], l = document.links;
 for(var i=0; i<l.length; i++) {
-  arr.push(l[i].href);
+  if(arr.indexOf(l[i].href) === -1){arr.push(l[i].href);}
 }
 var xhr = new XMLHttpRequest();
 var read_date = new Date();
