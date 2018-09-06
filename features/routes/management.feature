@@ -201,6 +201,23 @@ Feature: Manage Routes
      """
       {
         "route": {
+          "parent": 3,
+          "position": 4
+        }
+      }
+    """
+    Then the response status code should be 200
+    And the JSON node parent should be equal to 3
+    And the JSON node position should be equal to 1
+    And the JSON node lft should be equal to 8
+    And the JSON node rgt should be equal to 9
+
+    Given I am authenticated as "test.user"
+    When I add "Content-Type" header equal to "application/json"
+    And I send a "PATCH" request to "/api/v1/content/routes/11" with body:
+     """
+      {
+        "route": {
           "position": 0
         }
       }
