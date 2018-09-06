@@ -105,11 +105,7 @@ class RouteService implements RouteServiceInterface
     {
         if ($this->routeRepository instanceof NestedTreeEntityRepository) {
             if (null !== $position) {
-                if (null !== $route->getParent()) {
-                    $this->routeRepository->persistAsLastChildOf($route, $route->getParent());
-                } else {
-                    $this->routeRepository->persistAsLastChild($route);
-                }
+                $this->persistAsLastChild($route);
             }
 
             if ($previousRoute->getPosition() === $route->getPosition() && null !== $position) {
@@ -117,9 +113,13 @@ class RouteService implements RouteServiceInterface
             } else {
                 if ($route->getPosition() > 0) {
                     $previousChild = $this->routeRepository->findOneBy(
-                            ['position' => $route->getPosition() - 1, 'parent' => $route->getParent()]
-                        );
-                    $this->routeRepository->persistAsNextSiblingOf($route, $previousChild);
+                        ['position' => $route->getPosition() - 1, 'parent' => $route->getParent()]
+                    );
+                    if (null !== $previousChild) {
+                        $this->routeRepository->persistAsNextSiblingOf($route, $previousChild);
+                    } else {
+                        $this->persistAsLastChild($route);
+                    }
                 } else {
                     if (null !== $route->getParent()) {
                         $this->routeRepository->persistAsFirstChildOf($route, $route->getParent());
@@ -128,6 +128,15 @@ class RouteService implements RouteServiceInterface
                     }
                 }
             }
+        }
+    }
+
+    private function persistAsLastChild(RouteInterface $route): void
+    {
+        if (null !== $route->getParent()) {
+            $this->routeRepository->persistAsLastChildOf($route, $route->getParent());
+        } else {
+            $this->routeRepository->persistAsLastChild($route);
         }
     }
 
