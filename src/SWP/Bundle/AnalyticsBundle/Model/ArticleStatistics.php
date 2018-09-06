@@ -124,6 +124,11 @@ class ArticleStatistics implements ArticleStatisticsInterface, TimestampableInte
         $this->pageViewsNumber = $this->pageViewsNumber + 1;
     }
 
+    public function increaseImpressionsNumber(): void
+    {
+        $this->impressionsNumber = $this->impressionsNumber + 1;
+    }
+
     /**
      * {@inheritdoc}
      */

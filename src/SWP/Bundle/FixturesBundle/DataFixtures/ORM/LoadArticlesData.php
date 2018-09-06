@@ -469,6 +469,7 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface, Orde
                 $article->setLocale($articleData['locale']);
                 $article->setCode(md5($articleData['title']));
                 $article->setKeywords($articleDataProvider->articleKeywords());
+                $manager->persist($article);
 
                 if (isset($articleData['extra'])) {
                     $article->setExtra($articleData['extra']);
@@ -510,7 +511,7 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface, Orde
                         $manager->persist($externalData);
                     }
                 }
-                $manager->persist($article);
+
                 $articleStatistics = $this->createArticleStatistics($articleData['pageViews'], $articleData['pageViewsDates'], $article, $manager);
                 $manager->persist($articleStatistics);
                 $manager->persist($package);
