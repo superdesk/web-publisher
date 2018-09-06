@@ -5,6 +5,8 @@ SWP\Bundle\AnalyticsBundle\Model\ArticleStatistics:
             expose: true
         pageViewsNumber:
             expose: true
+        internalClickRate:
+            expose: true
         createdAt:
             expose: true
         updatedAt:

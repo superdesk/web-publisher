@@ -6,10 +6,44 @@ Feature: Collect article statistics
   Scenario: Opening article page
     When I go to "/news/test-news-article"
     Then the response status code should be 200
-    And I should see "/_swp_analytics?articleId=1"
+    And I should see "/_swp_analytics?articleId=1'+request_randomizer+'&ref='+document.referrer"
 
   Scenario: Send analytics request
     When I go to "/_swp_analytics?articleId=1"
     Then the response status code should be 200
     And the header "terminate-imidediately" should be equal to "1"
 
+  Scenario: Running article events consumer
+    When I run "rabbitmq:consumer analytics_event -v" command for 1 seconds
+    Then I should see "Pageview for article 1 was processed" in the output
+
+  Scenario: Send analytics impressions request
+    When I send a POST request to "/_swp_analytics?type=impression&15362257892160.335822969944755" with body:
+    """
+["http://localhost/news/test-news-article"]
+    """
+    Then the response status code should be 200
+    And the header "terminate-imidediately" should be equal to "1"
+
+  Scenario: Running article events consumer
+    When I run "rabbitmq:consumer analytics_event -v" command for 1 seconds
+    Then I should see "Article impressions were processed" in the output
+
+  Scenario: Send analytics request
+    When I go to "/_swp_analytics?articleId=1&sdrybretybr5yrd&&ref=http://localhost/"
+    Then the response status code should be 200
+    And the header "terminate-imidediately" should be equal to "1"
+
+  Scenario: Running article events consumer
+    When I run "rabbitmq:consumer analytics_event -v" command for 1 seconds
+    Then I should see "Pageview for article 1 was processed" in the output
+
+  Scenario: Check article statistics
+    When I am authenticated as "test.user"
+    And I add "Content-Type" header equal to "application/json"
+    Then I send a "GET" request to "/api/v1/content/articles/test-news-article"
+    Then the response status code should be 200
+    And the JSON nodes should contain:
+      | slug                                | test-news-article |
+      | articleStatistics.pageViewsNumber   | 22                |
+      | articleStatistics.internalClickRate | 1                 |

@@ -31,27 +31,27 @@ use Symfony\Component\Routing\Matcher\UrlMatcherInterface;
 /**
  * Class AnalyticsEventConsumer.
  */
-class AnalyticsEventConsumer implements ConsumerInterface
+final class AnalyticsEventConsumer implements ConsumerInterface
 {
     /**
      * @var ArticleStatisticsServiceInterface
      */
-    protected $articleStatisticsService;
+    private $articleStatisticsService;
 
     /**
      * @var TenantResolver
      */
-    protected $tenantResolver;
+    private $tenantResolver;
 
     /**
      * @var TenantContextInterface
      */
-    protected $tenantContext;
+    private $tenantContext;
 
     /**
      * @var UrlMatcherInterface
      */
-    protected $matcher;
+    private $matcher;
 
     /**
      * AnalyticsEventConsumer constructor.
@@ -88,11 +88,15 @@ class AnalyticsEventConsumer implements ConsumerInterface
         $this->setTenant($request);
 
         if ($request->query->has('articleId')) {
-            $this->handleArticlePageviews($request);
+            $this->handleArticlePageViews($request);
+
+            echo 'Pageview for article '.$request->query->get('articleId')." was processed \n";
         }
 
         if ($request->attributes->has('data') && ArticleEventInterface::ACTION_IMPRESSION === $request->query->get('type')) {
             $this->handleArticleImpressions($request);
+
+            echo "Article impressions were processed \n";
         }
 
         return ConsumerInterface::MSG_ACK;
@@ -101,10 +105,13 @@ class AnalyticsEventConsumer implements ConsumerInterface
     private function handleArticleImpressions(Request $request): void
     {
         $articles = [];
-        $extraData = [];
+        if (!\is_array($request->attributes->get('data'))) {
+            return;
+        }
+
         foreach ($request->attributes->get('data') as $url) {
             try {
-                $route = $this->matcher->match($this->getPathFromUrl($url));
+                $route = $this->matcher->match($this->getFragmentFromUrl($url, 'path'));
                 if (isset($route['_article_meta']) && $route['_article_meta']->getValues() instanceof ArticleInterface) {
                     $articleId = $route['_article_meta']->getValues()->getId();
                     if (!\array_key_exists($articleId, $articles)) {
@@ -125,6 +132,16 @@ class AnalyticsEventConsumer implements ConsumerInterface
         }
     }
 
+    private function handleArticlePageViews(Request $request): void
+    {
+        $articleId = $request->query->get('articleId', null);
+        if (null !== $articleId) {
+            $this->articleStatisticsService->addArticleEvent((int) $articleId, ArticleEventInterface::ACTION_PAGEVIEW, [
+                'pageViewSource' => $this->getPageViewSource($request),
+            ]);
+        }
+    }
+
     private function getImpressionSource(Request $request): array
     {
         $source = [];
@@ -133,33 +150,52 @@ class AnalyticsEventConsumer implements ConsumerInterface
             return $source;
         }
 
-        $route = $this->matcher->match($this->getPathFromUrl($referrer));
+        $route = $this->matcher->match($this->getFragmentFromUrl($referrer, 'path'));
         if (isset($route['_article_meta']) && $route['_article_meta']->getValues() instanceof ArticleInterface) {
-            $source['type'] = 'article';
-            $source['sourceArticle'] = $route['_article_meta']->getValues();
+            $source[ArticleStatisticsServiceInterface::KEY_IMPRESSION_TYPE] = 'article';
+            $source[ArticleStatisticsServiceInterface::KEY_IMPRESSION_SOURCE_ARTICLE] = $route['_article_meta']->getValues();
         } elseif (isset($route['_route_meta']) && $route['_route_meta']->getValues() instanceof RouteInterface) {
-            $source['type'] = 'route';
-            $source['sourceRoute'] = $route['_route_meta']->getValues();
+            $source[ArticleStatisticsServiceInterface::KEY_IMPRESSION_TYPE] = 'route';
+            $source[ArticleStatisticsServiceInterface::KEY_IMPRESSION_SOURCE_ROUTE] = $route['_route_meta']->getValues();
         } elseif (isset($route['_route']) && 'homepage' === $route['_route']) {
-            $source['type'] = 'homepage';
+            $source[ArticleStatisticsServiceInterface::KEY_IMPRESSION_TYPE] = 'homepage';
         }
 
         return $source;
     }
 
-    private function getPathFromUrl(string $url): string
+    private function getPageViewSource(Request $request): string
     {
-        $fragments = \parse_url($url);
+        $pageViewReferer = $request->query->get('ref', null);
+        if (null !== $pageViewReferer) {
+            $refererHost = $this->getFragmentFromUrl($pageViewReferer, 'host');
+            if ($refererHost && $this->isHostMatchingTenant($refererHost)) {
+                return ArticleEventInterface::PAGEVIEW_SOURCE_INTERNAL;
+            }
+        }
 
-        return str_replace('/app_dev.php', '', $fragments['path']);
+        return ArticleEventInterface::PAGEVIEW_SOURCE_EXTERNAL;
     }
 
-    private function handleArticlePageviews(Request $request): void
+    private function getFragmentFromUrl(string $url, string $fragment): ?string
     {
-        $articleId = $request->query->get('articleId', null);
-        if (null !== $articleId) {
-            $this->articleStatisticsService->addArticleEvent((int) $articleId, ArticleEventInterface::ACTION_PAGEVIEW, []);
+        $fragments = \parse_url($url);
+        if (!\array_key_exists($fragment, $fragments)) {
+            return null;
         }
+
+        return str_replace('/app_dev.php', '', $fragments[$fragment]);
+    }
+
+    private function isHostMatchingTenant(string $host): bool
+    {
+        $tenant = $this->tenantContext->getTenant();
+        $tenantHost = $tenant->getDomainName();
+        if (null !== ($subdomain = $tenant->getSubdomain())) {
+            $tenantHost = $subdomain.'.'.$tenantHost;
+        }
+
+        return $host === $tenantHost;
     }
 
     /**

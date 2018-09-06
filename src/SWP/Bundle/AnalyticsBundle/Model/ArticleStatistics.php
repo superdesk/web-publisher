@@ -48,6 +48,11 @@ class ArticleStatistics implements ArticleStatisticsInterface, TimestampableInte
     protected $pageViewsNumber = 0;
 
     /**
+     * @var int
+     */
+    protected $internalClickRate = 0;
+
+    /**
      * @var Collection
      */
     protected $events;
@@ -151,5 +156,15 @@ class ArticleStatistics implements ArticleStatisticsInterface, TimestampableInte
     public function addEvent(ArticleEventInterface $articleEvent): void
     {
         $this->events->add($articleEvent);
+    }
+
+    public function getInternalClickRate(): float
+    {
+        return $this->internalClickRate;
+    }
+
+    public function setInternalClickRate(float $internalClickRate): void
+    {
+        $this->internalClickRate = $internalClickRate;
     }
 }

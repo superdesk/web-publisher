@@ -14,5 +14,6 @@ services:
         arguments:
             - '@swp.repository.article'
             - '@swp.repository.article_statistics'
+            - '@swp.repository.article_events'
             - '@swp.factory.article_statistics'
             - '@swp.factory.article_events'

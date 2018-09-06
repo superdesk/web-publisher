@@ -13,6 +13,9 @@ SWP\Bundle\AnalyticsBundle\Model\ArticleStatistics:
         pageViewsNumber:
             type: integer
             nullable: true
+        internalClickRate:
+            type: float
+            nullable: true
         createdAt:
             type: datetime
             gedmo:

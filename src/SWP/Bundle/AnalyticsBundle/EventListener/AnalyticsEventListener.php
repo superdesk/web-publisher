@@ -53,7 +53,9 @@ class AnalyticsEventListener
     public function onKernelRequest(GetResponseEvent $event)
     {
         $request = $event->getRequest();
-        if (null !== $json = file_get_contents('php://input')) {
+        if (null !== ($json = file_get_contents('php://input')) && '' !== $json) {
+            $request->attributes->set('data', \json_decode($json, true));
+        } elseif (null !== $json = $request->getContent()) {
             $request->attributes->set('data', \json_decode($json, true));
         }
 
