@@ -41,7 +41,7 @@ class Version20180118194100 extends AbstractMigration implements ContainerAwareI
         $this->container->get('event_dispatcher')->dispatch(MultiTenancyEvents::TENANTABLE_DISABLE);
 
         $articles = $entityManager
-            ->createQuery('SELECT partial a.{id,tenantCode}, es FROM SWP\Bundle\CoreBundle\Model\Article a LEFT JOIN a.articleStatistics es')
+            ->createQuery('SELECT partial a.{id,tenantCode},  partial es.{id} FROM SWP\Bundle\CoreBundle\Model\Article a LEFT JOIN a.articleStatistics es')
             ->getArrayResult();
 
         if (empty($articles)) {
