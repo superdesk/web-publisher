@@ -76,7 +76,7 @@ class AnalyticsEventListener
     {
         $response = $event->getResponse();
 
-        if ($response->headers->has(self::TERMINATE_IMMEDIIATELY)) {
+        if ($response->headers->has(self::TERMINATE_IMMEDIATELY)) {
             $event->stopPropagation();
         }
     }
@@ -98,7 +98,7 @@ class AnalyticsEventListener
     public function onKernelTerminate(PostResponseEvent $event)
     {
         $response = $event->getResponse();
-        if ($response->headers->has(self::TERMINATE_IMMEDIIATELY)) {
+        if ($response->headers->has(self::TERMINATE_IMMEDIATELY)) {
             $event->stopPropagation();
         }
     }
