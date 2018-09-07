@@ -48,7 +48,7 @@ class ArticleStatistics implements ArticleStatisticsInterface, TimestampableInte
     protected $pageViewsNumber = 0;
 
     /**
-     * @var int
+     * @var float
      */
     protected $internalClickRate = 0;
 
