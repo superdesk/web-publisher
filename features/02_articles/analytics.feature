@@ -14,7 +14,7 @@ Feature: Collect article statistics
     And the header "terminate-immediately" should be equal to "1"
 
   Scenario: Running article events consumer
-    When I run "rabbitmq:consumer analytics_event -v" command for 1 seconds
+    When I run "rabbitmq:consumer analytics_event -v" command for 3 seconds
     Then I should see "Pageview for article 1 was processed" in the output
 
   Scenario: Send analytics impressions request
@@ -26,7 +26,7 @@ Feature: Collect article statistics
     And the header "terminate-immediately" should be equal to "1"
 
   Scenario: Running article events consumer
-    When I run "rabbitmq:consumer analytics_event -v" command for 1 seconds
+    When I run "rabbitmq:consumer analytics_event -v" command for 3 seconds
     Then I should see "Article impressions were processed" in the output
 
   Scenario: Send analytics request
@@ -35,7 +35,7 @@ Feature: Collect article statistics
     And the header "terminate-immediately" should be equal to "1"
 
   Scenario: Running article events consumer
-    When I run "rabbitmq:consumer analytics_event -v" command for 1 seconds
+    When I run "rabbitmq:consumer analytics_event -v" command for 3 seconds
     Then I should see "Pageview for article 1 was processed" in the output
 
   Scenario: Check article statistics
