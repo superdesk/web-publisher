@@ -17,10 +17,13 @@ declare(strict_types=1);
 namespace SWP\Bundle\ContentBundle\Doctrine;
 
 use Doctrine\ORM\QueryBuilder;
+use SWP\Bundle\ContentBundle\Model\FileInterface;
 use SWP\Component\Common\Criteria\Criteria;
 use SWP\Component\Storage\Repository\RepositoryInterface;
 
 interface FileRepositoryInterface extends RepositoryInterface
 {
     public function getByCriteria(Criteria $criteria, array $sorting): QueryBuilder;
+
+    public function findFileByAssetId(string $assetId): ?FileInterface;
 }

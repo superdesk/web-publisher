@@ -1,15 +1,15 @@
 @content_push
-Feature: Handling the custom media fields
-  In order to be able to display galleries inside the article body
+Feature: Handling embedded video
+  In order to be able to display video inside the article body
   As a HTTP Client
-  I want to able to receive and parse the request with custom media fields payload
+  I want to able to receive and parse the request payload with video inside the body
 
-  Scenario: Saving the data from custom media fields
+  Scenario: Saving the data with embedded video
     Given I add "Content-Type" header equal to "application/json"
     And I send a "POST" request to "/api/v1/assets/push" with parameters:
-      | key          | value                 |
+      | key          | value                                                                                |
       | media_id     | 20180904130932/b42edf4c501057a44499c8148d60a6343fb0e968150fc538404b5b72ed9279b9.mp4  |
-      | media        | @video.mp4            |
+      | media        | @video.mp4                                                                           |
     Then the response status code should be 201
     And the JSON node "media_id" should be equal to "20180904130932/b42edf4c501057a44499c8148d60a6343fb0e968150fc538404b5b72ed9279b9.mp4"
     And the JSON node "mime_type" should be equal to "video/mp4"
@@ -114,24 +114,12 @@ Feature: Handling the custom media fields
      """
     Then the response status code should be 201
 
-#    And I am authenticated as "test.user"
-#    And I add "Content-Type" header equal to "application/json"
-#    Then I send a "GET" request to "/api/v1/content/articles/abstract-html-test"
-#    Then the response status code should be 200
-#    And the JSON nodes should contain:
-#      | media[0].image.assetId                 | 1234567890987654321c                   |
-#      | media[0].renditions[0].name            | 16-9                                   |
-#      | media[0].renditions[0].image.assetId   | 1234567890987654321a                   |
-#      | media[0].renditions[1].name            | 4-3                                    |
-#      | media[0].renditions[1].image.assetId   | 1234567890987654321b                   |
-#      | media[0].renditions[2].name            | original                               |
-#      | media[0].renditions[2].image.assetId   | 1234567890987654321c                   |
-#      | media[1].image.assetId                 | 2234567890987654321c                   |
-#      | media[1].renditions[0].name            | 16-9                                   |
-#      | media[1].renditions[0].image.assetId   | 2234567890987654321a                   |
-#      | media[1].renditions[1].name            | 4-3                                    |
-#      | media[1].renditions[1].image.assetId   | 2234567890987654321b                   |
-#      | media[1].renditions[2].name            | original                               |
-#      | media[1].renditions[2].image.assetId   | 2234567890987654321c                   |
-#      | slideshows[0].code                     | slideshow1                             |
-#      | _links.slideshows.href                 | /api/v1/content/slideshows/6           |
+    And I am authenticated as "test.user"
+    And I add "Content-Type" header equal to "application/json"
+    Then I send a "GET" request to "/api/v1/content/articles/test-video-in-body"
+    Then the response status code should be 200
+    And the JSON nodes should contain:
+      | media[0].file.assetId         | 20180904130932_b42edf4c501057a44499c8148d60a6343fb0e968150fc538404b5b72ed9279b9            |
+      | media[0].file.fileExtension   | mp4                                                                                        |
+      | media[0]._links.download.href | /media/20180904130932_b42edf4c501057a44499c8148d60a6343fb0e968150fc538404b5b72ed9279b9.mp4 |
+    And the JSON node "media[0].image" should be null

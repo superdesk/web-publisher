@@ -18,6 +18,7 @@ namespace SWP\Bundle\ContentBundle\Doctrine\ORM;
 
 use Doctrine\ORM\QueryBuilder;
 use SWP\Bundle\ContentBundle\Doctrine\FileRepositoryInterface;
+use SWP\Bundle\ContentBundle\Model\FileInterface;
 use SWP\Component\Common\Criteria\Criteria;
 use SWP\Bundle\StorageBundle\Doctrine\ORM\EntityRepository;
 
@@ -26,5 +27,21 @@ class FileRepository extends EntityRepository implements FileRepositoryInterface
     public function getByCriteria(Criteria $criteria, array $sorting): QueryBuilder
     {
         return $this->getQueryByCriteria($criteria, $sorting, 'f')->getQuery();
+    }
+
+    public function findFileByAssetId(string $assetId): ?FileInterface
+    {
+        $images = $this->createQueryBuilder('i')
+            ->where('i.assetId = :assetId')
+            ->setParameter('assetId', $assetId)
+            ->getQuery()
+            ->setMaxResults(1)
+            ->getResult();
+
+        if (0 === \count($images)) {
+            return null;
+        }
+
+        return $images[0];
     }
 }

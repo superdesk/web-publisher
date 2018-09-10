@@ -14,6 +14,7 @@
 
 namespace SWP\Bundle\ContentBundle\DependencyInjection\Compiler;
 
+use SWP\Bundle\ContentBundle\File\FileExtensionChecker;
 use SWP\Component\Storage\Factory\Factory;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
@@ -42,7 +43,9 @@ class RegisterMediaFactoryPass implements CompilerPassInterface
             $container->getParameter('swp.factory.media.class'),
             [
                 $container->getDefinition('swp.repository.image'),
+                $container->getDefinition('swp.repository.file'),
                 $baseDefinition,
+                $container->getDefinition(FileExtensionChecker::class),
             ]
         );
         $mediaFactoryDefinition->setPublic(true);

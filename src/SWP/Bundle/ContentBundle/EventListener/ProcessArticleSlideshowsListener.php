@@ -21,7 +21,6 @@ use SWP\Bundle\ContentBundle\Event\ArticleEvent;
 use SWP\Bundle\ContentBundle\Factory\MediaFactoryInterface;
 use SWP\Bundle\ContentBundle\Model\SlideshowItem;
 use SWP\Bundle\ContentBundle\Processor\ArticleBodyProcessorInterface;
-use SWP\Component\Bridge\Model\ItemInterface;
 use SWP\Component\Storage\Factory\FactoryInterface;
 
 class ProcessArticleSlideshowsListener extends AbstractArticleMediaListener
@@ -59,7 +58,7 @@ class ProcessArticleSlideshowsListener extends AbstractArticleMediaListener
             $slideshow->setArticle($article);
 
             foreach ($packageGroup->getItems() as $item) {
-                if (ItemInterface::TYPE_PICTURE === $item->getType() || ItemInterface::TYPE_FILE === $item->getType()) {
+                if ($this->isTypeAllowed($item->getType())) {
                     $slideshowItem = new SlideshowItem();
 
                     $this->removeArticleMediaIfNeeded($item->getName(), $article);

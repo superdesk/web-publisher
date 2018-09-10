@@ -166,6 +166,7 @@ services:
     SWP\Bundle\ContentBundle\Processor\EmbeddedVideoProcessor:
         arguments:
             - '@SWP\Bundle\ContentBundle\File\FileExtensionChecker'
+            - '@swp_content_bundle.manager.media'
         tags:
             - { name: swp.processor.article_body }
 
