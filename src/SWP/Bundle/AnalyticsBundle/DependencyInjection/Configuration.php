@@ -18,6 +18,7 @@ use SWP\Bundle\AnalyticsBundle\Model\ArticleEvent;
 use SWP\Bundle\AnalyticsBundle\Model\ArticleEventInterface;
 use SWP\Bundle\AnalyticsBundle\Model\ArticleStatistics;
 use SWP\Bundle\AnalyticsBundle\Model\ArticleStatisticsInterface;
+use SWP\Bundle\AnalyticsBundle\Repository\ArticleEventRepository;
 use SWP\Bundle\StorageBundle\Doctrine\ORM\EntityRepository;
 use SWP\Component\Storage\Factory\Factory;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
@@ -62,7 +63,7 @@ class Configuration implements ConfigurationInterface
                                         ->addDefaultsIfNotSet()
                                         ->children()
                                             ->scalarNode('model')->cannotBeEmpty()->defaultValue(ArticleEvent::class)->end()
-                                            ->scalarNode('repository')->defaultValue(EntityRepository::class)->end()
+                                            ->scalarNode('repository')->defaultValue(ArticleEventRepository::class)->end()
                                             ->scalarNode('factory')->defaultValue(Factory::class)->end()
                                             ->scalarNode('interface')->defaultValue(ArticleEventInterface::class)->end()
                                             ->scalarNode('object_manager_name')->defaultValue(null)->end()

@@ -60,7 +60,7 @@ xhr.send(JSON.stringify(arr));
 var xhr = new XMLHttpRequest();
 var read_date = new Date();
 var request_randomizer = \"&\" + read_date.getTime() + Math.random();
-xhr.open('GET', '/_swp_analytics?articleId=1'+request_randomizer);
+xhr.open('GET', '/_swp_analytics?articleId=1'+request_randomizer+'&ref='+document.referrer);
 xhr.send();
 </script>", $this->getRendered('{{ countPageView(article) }}', ['article' => $articleMeta]));
     }

@@ -36,6 +36,11 @@ class ArticleEvent implements ArticleEventInterface, TimestampableInterface
     protected $action;
 
     /**
+     * @var string
+     */
+    protected $pageViewSource;
+
+    /**
      * @var null|RouteInterface
      */
     protected $impressionRoute;
@@ -68,6 +73,16 @@ class ArticleEvent implements ArticleEventInterface, TimestampableInterface
     public function setAction(string $action): void
     {
         $this->action = $action;
+    }
+
+    public function getPageViewSource(): ?string
+    {
+        return $this->pageViewSource;
+    }
+
+    public function setPageViewSource(string $pageViewSource): void
+    {
+        $this->pageViewSource = $pageViewSource;
     }
 
     public function getImpressionRoute(): ?RouteInterface

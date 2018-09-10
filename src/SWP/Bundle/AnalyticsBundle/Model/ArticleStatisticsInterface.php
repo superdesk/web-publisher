@@ -69,10 +69,11 @@ interface ArticleStatisticsInterface extends PersistableInterface
      */
     public function addEvent(ArticleEventInterface $articleEvent);
 
-    /**
-     * Add one more page view.
-     */
     public function increasePageViewsNumber(): void;
 
     public function increaseImpressionsNumber(): void;
+
+    public function getInternalClickRate(): float;
+
+    public function setInternalClickRate(float $internalClickRate): void;
 }

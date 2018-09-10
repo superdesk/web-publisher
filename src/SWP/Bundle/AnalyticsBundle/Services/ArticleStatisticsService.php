@@ -18,6 +18,7 @@ namespace SWP\Bundle\AnalyticsBundle\Services;
 
 use SWP\Bundle\AnalyticsBundle\Model\ArticleEventInterface;
 use SWP\Bundle\AnalyticsBundle\Model\ArticleStatisticsInterface;
+use SWP\Bundle\AnalyticsBundle\Repository\ArticleEventRepositoryInterface;
 use SWP\Bundle\ContentBundle\Doctrine\ArticleRepositoryInterface;
 use SWP\Bundle\ContentBundle\Model\ArticleInterface;
 use SWP\Bundle\ContentBundle\Model\RouteInterface;
@@ -40,6 +41,11 @@ class ArticleStatisticsService implements ArticleStatisticsServiceInterface
     protected $articleStatisticsRepository;
 
     /**
+     * @var ArticleEventRepositoryInterface
+     */
+    protected $articleEventsRepository;
+
+    /**
      * @var FactoryInterface
      */
     protected $articleStatisticsFactory;
@@ -52,11 +58,13 @@ class ArticleStatisticsService implements ArticleStatisticsServiceInterface
     public function __construct(
         ArticleRepositoryInterface $articleRepository,
         RepositoryInterface $articleStatisticsRepository,
+        ArticleEventRepositoryInterface $articleEventsRepository,
         FactoryInterface $articleStatisticsFactory,
         FactoryInterface $articleEventFactory
     ) {
         $this->articleRepository = $articleRepository;
         $this->articleStatisticsRepository = $articleStatisticsRepository;
+        $this->articleEventsRepository = $articleEventsRepository;
         $this->articleStatisticsFactory = $articleStatisticsFactory;
         $this->articleEventFactory = $articleEventFactory;
     }
@@ -66,21 +74,21 @@ class ArticleStatisticsService implements ArticleStatisticsServiceInterface
         $articleStatistics = $this->getOrCreateNewArticleStatistics($articleId);
         switch ($action) {
             case ArticleEventInterface::ACTION_PAGEVIEW:
-                $this->addNewPageViewEvent($articleStatistics, $articleId);
+                $this->addNewPageViewEvent($articleStatistics, $articleId, $extraData[ArticleStatisticsServiceInterface::KEY_PAGEVIEW_SOURCE]);
 
                 break;
             case ArticleEventInterface::ACTION_IMPRESSION:
                 $sourceArticle = null;
                 $sourceRoute = null;
                 $type = null;
-                if (array_key_exists('sourceArticle', $extraData)) {
-                    $sourceArticle = $extraData['sourceArticle'];
+                if (array_key_exists(ArticleStatisticsServiceInterface::KEY_IMPRESSION_SOURCE_ARTICLE, $extraData)) {
+                    $sourceArticle = $extraData[ArticleStatisticsServiceInterface::KEY_IMPRESSION_SOURCE_ARTICLE];
                 }
-                if (array_key_exists('sourceRoute', $extraData)) {
-                    $sourceRoute = $extraData['sourceRoute'];
+                if (array_key_exists(ArticleStatisticsServiceInterface::KEY_IMPRESSION_SOURCE_ROUTE, $extraData)) {
+                    $sourceRoute = $extraData[ArticleStatisticsServiceInterface::KEY_IMPRESSION_SOURCE_ROUTE];
                 }
-                if (array_key_exists('type', $extraData)) {
-                    $type = $extraData['type'];
+                if (array_key_exists(ArticleStatisticsServiceInterface::KEY_IMPRESSION_TYPE, $extraData)) {
+                    $type = $extraData[ArticleStatisticsServiceInterface::KEY_IMPRESSION_TYPE];
                 }
                 $this->addNewImpressionEvent($articleStatistics, $articleId, $sourceArticle, $sourceRoute, $type);
 
@@ -102,12 +110,23 @@ class ArticleStatisticsService implements ArticleStatisticsServiceInterface
         return $articleStatistics;
     }
 
-    protected function addNewPageViewEvent(ArticleStatisticsInterface $articleStatistics, int $articleId): void
+    protected function addNewPageViewEvent(ArticleStatisticsInterface $articleStatistics, int $articleId, string $pageViewSource): void
     {
         /** @var ArticleInterface $article */
         $article = $this->articleRepository->findOneBy(['id' => $articleId]);
-        $this->getArticleEvent($articleStatistics, $article, ArticleEventInterface::ACTION_PAGEVIEW);
+        $articleEvent = $this->getArticleEvent($articleStatistics, $article, ArticleEventInterface::ACTION_PAGEVIEW);
+        $articleEvent->setPageViewSource($pageViewSource);
         $articleStatistics->increasePageViewsNumber();
+        if (ArticleEventInterface::PAGEVIEW_SOURCE_INTERNAL === $pageViewSource) {
+            $internalPageViewsCount = $this->articleEventsRepository->getCountForArticleInternalPageViews($article) + 1;
+            if ($internalPageViewsCount > 0 && $articleStatistics->getImpressionsNumber() > 0) {
+                $articleStatistics->setInternalClickRate(
+                    \round($internalPageViewsCount / $articleStatistics->getImpressionsNumber(), 2)
+                );
+            } else {
+                $articleStatistics->setInternalClickRate(0);
+            }
+        }
         $this->articleStatisticsRepository->add($articleStatistics);
     }
 
