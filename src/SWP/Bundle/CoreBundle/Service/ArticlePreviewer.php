@@ -50,7 +50,7 @@ final class ArticlePreviewer implements ArticlePreviewerInterface
      */
     public function __construct(
         ArticleFactoryInterface $articleFactory,
-        ArticleMediaProcessorInterface $articleBodyProcessor,
+        ArticleMediaProcessorInterface $articleMediaProcessor,
         ArticlePreviewTemplateHelperInterface $articlePreviewHelper
     ) {
         $this->articleFactory = $articleFactory;
@@ -68,7 +68,7 @@ final class ArticlePreviewer implements ArticlePreviewerInterface
         ArticleAuthorProcessor::processArticleAuthors($article);
         $article->setRoute($route);
 
-        if (null === $article->getRoute()) {ArticleBodyProcessorChain
+        if (null === $article->getRoute()) {
             throw new NotFoundHttpException('There is no route set!');
         }
 

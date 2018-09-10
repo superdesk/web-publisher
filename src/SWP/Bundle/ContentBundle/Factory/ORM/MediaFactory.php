@@ -18,7 +18,6 @@ namespace SWP\Bundle\ContentBundle\Factory\ORM;
 
 use SWP\Bundle\ContentBundle\Doctrine\FileRepositoryInterface;
 use SWP\Bundle\ContentBundle\Doctrine\ImageRepositoryInterface;
-use SWP\Bundle\ContentBundle\File\FileExtensionCheckerInterface;
 use SWP\Bundle\ContentBundle\Model\ArticleMedia;
 use SWP\Bundle\ContentBundle\Model\FileInterface;
 use SWP\Bundle\ContentBundle\Model\ImageRendition;
@@ -49,21 +48,14 @@ class MediaFactory implements MediaFactoryInterface
      */
     protected $factory;
 
-    /**
-     * @var FileExtensionCheckerInterface
-     */
-    protected $fileExtensionChecker;
-
     public function __construct(
         ImageRepositoryInterface $imageRepository,
         FileRepositoryInterface $fileRepository,
-        FactoryInterface $factory,
-        FileExtensionCheckerInterface $fileExtensionChecker
+        FactoryInterface $factory
     ) {
         $this->imageRepository = $imageRepository;
         $this->fileRepository = $fileRepository;
         $this->factory = $factory;
-        $this->fileExtensionChecker = $fileExtensionChecker;
     }
 
     /**
@@ -75,9 +67,7 @@ class MediaFactory implements MediaFactoryInterface
         $articleMedia->setArticle($article);
         $articleMedia->setFromItem($item);
 
-        $type = $item->getType();
-
-        if ($this->fileExtensionChecker->isImage($type)) {
+        if (ItemInterface::TYPE_PICTURE === $item->getType()) {
             $articleMedia = $this->createImageMedia($articleMedia, $key, $item);
         } else {
             $articleMedia = $this->createFileMedia($articleMedia, $key, $item);
