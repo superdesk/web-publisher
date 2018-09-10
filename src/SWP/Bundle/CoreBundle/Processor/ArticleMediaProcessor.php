@@ -51,15 +51,11 @@ final class ArticleMediaProcessor implements ArticleMediaProcessorInterface
         $articleMedia = new ArrayCollection();
         foreach ($package->getItems() as $packageItem) {
             $key = $packageItem->getName();
-            //if (ItemInterface::TYPE_PICTURE === $packageItem->getType() || ItemInterface::TYPE_FILE === $packageItem->getType()) {
             $articleMedia->add($this->handleMedia($article, $key, $packageItem));
-            //}
 
             if (null !== $packageItem->getItems() && 0 !== $packageItem->getItems()->count()) {
                 foreach ($packageItem->getItems() as $key => $item) {
-                    //if (ItemInterface::TYPE_PICTURE === $item->getType() || ItemInterface::TYPE_FILE === $item->getType()) {
                     $articleMedia->add($this->handleMedia($article, $key, $item));
-                    //}
                 }
             }
         }

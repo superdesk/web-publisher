@@ -55,8 +55,8 @@ final class EmbeddedVideoProcessor implements ArticleBodyProcessorInterface
             return;
         }
 
-        $figureString = $matches[0];
-        $crawler = new Crawler($figureString);
+        $videoString = $matches[0];
+        $crawler = new Crawler($videoString);
         $videos = $crawler->filter('video');
 
         /** @var \DOMElement $videoElement */
@@ -66,7 +66,7 @@ final class EmbeddedVideoProcessor implements ArticleBodyProcessorInterface
             }
         }
 
-        $article->setBody(str_replace($figureString, $crawler->filter('body')->html(), $body));
+        $article->setBody(str_replace($videoString, $crawler->filter('body')->html(), $body));
     }
 
     public function supports(string $type): bool
