@@ -61,7 +61,20 @@ class MediaFactory implements MediaFactoryInterface
         $articleMedia = $this->factory->create();
         $articleMedia->setArticle($article);
         $articleMedia->setFromItem($item);
-        $articleMedia = $this->createImageMedia($articleMedia, $key, $item);
+
+        $type = $item->getType();
+
+        if ($this->fileExtensionChecker->isVideo($type) || $this->fileExtensionChecker->isAudio($type)) {
+            return $this->createFileMedia($articleMedia, $key, $item);
+        }
+
+        if ($this->fileExtensionChecker->isImage($type)) {
+            $articleMedia = $this->createImageMedia($articleMedia, $key, $item);
+        }
+
+        // if video create fileMedia
+        /// if image create image media
+        //$articleMedia = $this->createImageMedia($articleMedia, $key, $item);
 
         return $articleMedia;
     }

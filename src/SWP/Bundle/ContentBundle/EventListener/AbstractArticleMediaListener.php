@@ -58,9 +58,7 @@ abstract class AbstractArticleMediaListener
             $this->articleMediaRepository->persist($rendition);
         }
 
-        if (ItemInterface::TYPE_PICTURE === $item->getType()) {
-            $this->articleBodyProcessor->replaceBodyImagesWithMedia($article, $articleMedia);
-        }
+        $this->articleBodyProcessor->process($article, $articleMedia);
 
         if (ArticleInterface::KEY_FEATURE_MEDIA === $key) {
             $article->setFeatureMedia($articleMedia);

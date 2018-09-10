@@ -15,6 +15,7 @@
 namespace SWP\Bundle\ContentBundle\Manager;
 
 use SWP\Bundle\ContentBundle\Doctrine\ArticleMediaRepositoryInterface;
+use SWP\Bundle\ContentBundle\Factory\FileFactoryInterface;
 use SWP\Bundle\ContentBundle\Model\ArticleMedia;
 use SWP\Bundle\ContentBundle\Model\FileInterface;
 use SWP\Component\Storage\Factory\FactoryInterface;
@@ -45,7 +46,7 @@ class MediaManager implements MediaManagerInterface
     protected $imageFactory;
 
     /**
-     * @var FactoryInterface
+     * @var FileFactoryInterface
      */
     protected $fileFactory;
 
@@ -56,14 +57,14 @@ class MediaManager implements MediaManagerInterface
      * @param Filesystem                      $filesystem
      * @param RouterInterface                 $router
      * @param FactoryInterface                $imageFactory
-     * @param FactoryInterface                $fileFactory
+     * @param FileFactoryInterface            $fileFactory
      */
     public function __construct(
         ArticleMediaRepositoryInterface $mediaRepository,
         Filesystem $filesystem,
         RouterInterface $router,
         FactoryInterface $imageFactory,
-        FactoryInterface $fileFactory
+        FileFactoryInterface $fileFactory
     ) {
         $this->mediaRepository = $mediaRepository;
         $this->filesystem = $filesystem;
@@ -98,7 +99,8 @@ class MediaManager implements MediaManagerInterface
      */
     public function saveFile(UploadedFile $uploadedFile, $fileName)
     {
-        $filePath = $this->getMediaBasePath().'/'.$fileName.'.'.$uploadedFile->guessClientExtension();
+        $filePath = $this->getMediaBasePath().'/'.$fileName.'.'.$uploadedFile->guessExtension();
+
         if ($this->filesystem->has($filePath)) {
             return true;
         }
@@ -134,11 +136,7 @@ class MediaManager implements MediaManagerInterface
      */
     public function createMediaAsset(UploadedFile $uploadedFile, string $assetId): FileInterface
     {
-        $asset = $this->getProperObject($uploadedFile);
-        $asset->setAssetId($assetId);
-        $asset->setFileExtension($uploadedFile->guessClientExtension());
-
-        return $asset;
+        return $this->fileFactory->createWith($assetId, $uploadedFile->guessExtension());
     }
 
     /**
@@ -149,24 +147,5 @@ class MediaManager implements MediaManagerInterface
         $pathElements = ['swp', 'media'];
 
         return implode('/', $pathElements);
-    }
-
-    /**
-     * @param UploadedFile $uploadedFile
-     *
-     * @return mixed
-     */
-    protected function getProperObject(UploadedFile $uploadedFile)
-    {
-        if (in_array(exif_imagetype($uploadedFile->getRealPath()), [
-            IMAGETYPE_GIF,
-            IMAGETYPE_JPEG,
-            IMAGETYPE_PNG,
-            IMAGETYPE_BMP,
-        ])) {
-            return $this->imageFactory->create();
-        }
-
-        return $this->fileFactory->create();
     }
 }

@@ -22,6 +22,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use SWP\Bundle\ContentBundle\Form\Type\MediaFileType;
 use SWP\Bundle\ContentBundle\Model\ArticleMedia;
+use SWP\Bundle\ContentBundle\Provider\FileProvider;
 use SWP\Component\Bridge\Events;
 use SWP\Component\Bridge\Model\PackageInterface;
 use SWP\Component\Common\Response\ResponseContext;
@@ -108,18 +109,19 @@ class ContentPushController extends Controller
             $mediaId = $request->request->get('media_id');
 
             if ($uploadedFile->isValid()) {
-                $image = $this->get('swp.repository.image')->findImageByAssetId(ArticleMedia::handleMediaId($mediaId));
+                $fileProvider = $this->container->get(FileProvider::class);
+                $file = $fileProvider->getFile(ArticleMedia::handleMediaId($mediaId), $uploadedFile->guessExtension());
 
-                if (null === $image) {
-                    $image = $mediaManager->handleUploadedFile($uploadedFile, $mediaId);
+                if (null === $file) {
+                    $file = $mediaManager->handleUploadedFile($uploadedFile, $mediaId);
                     $this->get('swp.object_manager.media')->flush();
                 }
 
                 return new SingleResourceResponse([
                     'media_id' => $mediaId,
-                    'URL' => $mediaManager->getMediaPublicUrl($image),
-                    'media' => base64_encode($mediaManager->getFile($image)),
-                    'mime_type' => Mime::getMimeFromExtension($image->getFileExtension()),
+                    'URL' => $mediaManager->getMediaPublicUrl($file),
+                    'media' => base64_encode($mediaManager->getFile($file)),
+                    'mime_type' => Mime::getMimeFromExtension($file->getFileExtension()),
                     'filemeta' => [],
                 ], new ResponseContext(201));
             }

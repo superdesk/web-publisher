@@ -154,9 +154,26 @@ services:
             - '@swp.factory.file'
 
     swp_content_bundle.processor.article_body:
-        class: SWP\Bundle\ContentBundle\Processor\ArticleBodyProcessor
+        class: SWP\Bundle\ContentBundle\Processor\ArticleBodyProcessorChain
+
+    SWP\Bundle\ContentBundle\Processor\EmbeddedImageProcessor:
         arguments:
             - '@swp_content_bundle.manager.media'
+            - '@SWP\Bundle\ContentBundle\File\FileExtensionChecker'
+        tags:
+            - { name: swp.processor.article_body }
+
+    SWP\Bundle\ContentBundle\Processor\EmbeddedVideoProcessor:
+        arguments:
+            - '@SWP\Bundle\ContentBundle\File\FileExtensionChecker'
+        tags:
+            - { name: swp.processor.article_body }
+
+    SWP\Bundle\ContentBundle\Processor\EmbeddedAudioProcessor:
+        arguments:
+            - '@SWP\Bundle\ContentBundle\File\FileExtensionChecker'
+        tags:
+            - { name: swp.processor.article_body }
 
     router.symfony:
         parent: "router.default"
@@ -238,3 +255,5 @@ services:
     SWP\Bundle\ContentBundle\EventListener\PopulateArticleAuthorSlugListener:
         tags:
             - { name: doctrine.event_listener, event: prePersist }
+
+    SWP\Bundle\ContentBundle\File\FileExtensionChecker: ~

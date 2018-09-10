@@ -37,6 +37,8 @@ final class ArticleHydrator implements ArticleHydratorInterface
         ItemInterface::TYPE_FILE,
         ItemInterface::TYPE_TEXT,
         ItemInterface::TYPE_COMPOSITE,
+        ItemInterface::TYPE_VIDEO,
+        ItemInterface::TYPE_AUDIO,
     ];
 
     /**
@@ -182,7 +184,7 @@ final class ArticleHydrator implements ArticleHydratorInterface
      */
     private function ensureTypeIsAllowed(string $type)
     {
-        if (!in_array($type, $this->allowedTypes)) {
+        if (!\in_array($type, $this->allowedTypes, true)) {
             throw new \InvalidArgumentException(sprintf(
                 'Item type "%s" is not supported. Supported types are: %s',
                 $type,

@@ -34,7 +34,7 @@ class ProcessArticleMediaListener extends AbstractArticleMediaListener
 
         foreach ($package->getItems() as $packageItem) {
             $key = $packageItem->getName();
-            if (ItemInterface::TYPE_PICTURE === $packageItem->getType() || ItemInterface::TYPE_FILE === $packageItem->getType()) {
+            if (ItemInterface::TYPE_PICTURE === $packageItem->getType() || ItemInterface::TYPE_VIDEO === $packageItem->getType()) {
                 $this->removeArticleMediaIfNeeded($key, $article);
 
                 $articleMedia = $this->handleMedia($article, $key, $packageItem);
@@ -44,7 +44,7 @@ class ProcessArticleMediaListener extends AbstractArticleMediaListener
 
             if (null !== $packageItem->getItems() && 0 !== $packageItem->getItems()->count()) {
                 foreach ($packageItem->getItems() as $key => $item) {
-                    if (ItemInterface::TYPE_PICTURE === $item->getType() || ItemInterface::TYPE_FILE === $item->getType()) {
+                    if (ItemInterface::TYPE_PICTURE === $item->getType() || ItemInterface::TYPE_VIDEO === $item->getType()) {
                         $this->removeArticleMediaIfNeeded($key, $article);
 
                         $articleMedia = $this->handleMedia($article, $key, $item);

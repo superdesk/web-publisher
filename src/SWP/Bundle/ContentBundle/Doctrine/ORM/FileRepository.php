@@ -16,12 +16,14 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\ContentBundle\Doctrine\ORM;
 
+use Doctrine\ORM\QueryBuilder;
+use SWP\Bundle\ContentBundle\Doctrine\FileRepositoryInterface;
 use SWP\Component\Common\Criteria\Criteria;
 use SWP\Bundle\StorageBundle\Doctrine\ORM\EntityRepository;
 
-class FileRepository extends EntityRepository
+class FileRepository extends EntityRepository implements FileRepositoryInterface
 {
-    public function getByCriteria(Criteria $criteria, array $sorting)
+    public function getByCriteria(Criteria $criteria, array $sorting): QueryBuilder
     {
         return $this->getQueryByCriteria($criteria, $sorting, 'f')->getQuery();
     }

@@ -34,4 +34,8 @@ interface FileInterface extends PersistableInterface
      * @return string
      */
     public function getAssetId();
+
+    public function setFileExtension($extension);
+
+    public function setAssetId(string $assetId);
 }

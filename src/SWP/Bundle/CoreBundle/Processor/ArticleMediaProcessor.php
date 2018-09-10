@@ -16,14 +16,13 @@ namespace SWP\Bundle\CoreBundle\Processor;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use SWP\Bundle\ContentBundle\Factory\MediaFactoryInterface;
-use SWP\Bundle\ContentBundle\Manager\MediaManagerInterface;
 use SWP\Bundle\ContentBundle\Model\ArticleInterface;
-use SWP\Bundle\ContentBundle\Processor\ArticleBodyProcessor as BaseProcessor;
+use SWP\Bundle\ContentBundle\Processor\ArticleBodyProcessorInterface;
 use SWP\Bundle\CoreBundle\Model\ArticleMediaInterface;
 use SWP\Bundle\CoreBundle\Model\PackageInterface;
 use SWP\Component\Bridge\Model\ItemInterface;
 
-final class ArticleBodyProcessor extends BaseProcessor implements ArticleBodyProcessorInterface
+final class ArticleMediaProcessor implements ArticleMediaProcessorInterface
 {
     /**
      * @var MediaFactoryInterface
@@ -31,39 +30,36 @@ final class ArticleBodyProcessor extends BaseProcessor implements ArticleBodyPro
     private $mediaFactory;
 
     /**
-     * ArticleBodyProcessor constructor.
-     *
-     * @param MediaManagerInterface $mediaManager
-     * @param MediaFactoryInterface $mediaFactory
+     * @var ArticleBodyProcessorInterface
      */
-    public function __construct(MediaManagerInterface $mediaManager, MediaFactoryInterface $mediaFactory)
-    {
-        parent::__construct($mediaManager);
+    private $articleBodyProcessor;
 
+    public function __construct(
+        MediaFactoryInterface $mediaFactory,
+        ArticleBodyProcessorInterface $articleBodyProcessor
+    ) {
         $this->mediaFactory = $mediaFactory;
+        $this->articleBodyProcessor = $articleBodyProcessor;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function fillArticleMedia(PackageInterface $package, ArticleInterface $article): void
     {
-        if (null === $package || (null !== $package && 0 === count($package->getItems()))) {
+        if (null === $package || (null !== $package && 0 === \count($package->getItems()))) {
             return;
         }
 
         $articleMedia = new ArrayCollection();
         foreach ($package->getItems() as $packageItem) {
             $key = $packageItem->getName();
-            if (ItemInterface::TYPE_PICTURE === $packageItem->getType() || ItemInterface::TYPE_FILE === $packageItem->getType()) {
-                $articleMedia->add($this->handleMedia($article, $key, $packageItem));
-            }
+            //if (ItemInterface::TYPE_PICTURE === $packageItem->getType() || ItemInterface::TYPE_FILE === $packageItem->getType()) {
+            $articleMedia->add($this->handleMedia($article, $key, $packageItem));
+            //}
 
             if (null !== $packageItem->getItems() && 0 !== $packageItem->getItems()->count()) {
                 foreach ($packageItem->getItems() as $key => $item) {
-                    if (ItemInterface::TYPE_PICTURE === $item->getType() || ItemInterface::TYPE_FILE === $item->getType()) {
-                        $articleMedia->add($this->handleMedia($article, $key, $item));
-                    }
+                    //if (ItemInterface::TYPE_PICTURE === $item->getType() || ItemInterface::TYPE_FILE === $item->getType()) {
+                    $articleMedia->add($this->handleMedia($article, $key, $item));
+                    //}
                 }
             }
         }
@@ -71,19 +67,11 @@ final class ArticleBodyProcessor extends BaseProcessor implements ArticleBodyPro
         $article->setMedia($articleMedia);
     }
 
-    /**
-     * @param ArticleInterface $article
-     * @param string           $key
-     * @param ItemInterface    $item
-     *
-     * @return ArticleMediaInterface
-     */
     private function handleMedia(ArticleInterface $article, string $key, ItemInterface $item): ArticleMediaInterface
     {
         $articleMedia = $this->mediaFactory->create($article, $key, $item);
-        if (ItemInterface::TYPE_PICTURE === $item->getType()) {
-            $this->replaceBodyImagesWithMedia($article, $articleMedia);
-        }
+
+        $this->articleBodyProcessor->process($article, $articleMedia);
 
         if (ArticleInterface::KEY_FEATURE_MEDIA === $key) {
             $article->setFeatureMedia($articleMedia);

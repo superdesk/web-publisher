@@ -54,22 +54,22 @@ interface RenditionInterface extends PersistableInterface, SoftDeletableInterfac
     /**
      * @return int
      */
-    public function getWidth(): int;
+    public function getWidth(): ?int;
 
     /**
      * @param int $width
      */
-    public function setWidth(int $width);
+    public function setWidth(?int $width);
 
     /**
      * @return int
      */
-    public function getHeight(): int;
+    public function getHeight(): ?int;
 
     /**
      * @param int $height
      */
-    public function setHeight(int $height);
+    public function setHeight(?int $height);
 
     /**
      * @return string

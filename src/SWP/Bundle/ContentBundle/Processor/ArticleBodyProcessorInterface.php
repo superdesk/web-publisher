@@ -22,9 +22,13 @@ use SWP\Bundle\ContentBundle\Model\ArticleMediaInterface;
  */
 interface ArticleBodyProcessorInterface
 {
-    /**
-     * @param ArticleInterface      $article
-     * @param ArticleMediaInterface $articleMedia
-     */
-    public function replaceBodyImagesWithMedia(ArticleInterface $article, ArticleMediaInterface $articleMedia);
+    public function process(ArticleInterface $article, ArticleMediaInterface $articleMedia): void;
+
+    public function supports(string $type): bool;
+
+//    /**
+//     * @param ArticleInterface      $article
+//     * @param ArticleMediaInterface $articleMedia
+//     */
+//    public function replaceBodyImagesWithMedia(ArticleInterface $article, ArticleMediaInterface $articleMedia);
 }

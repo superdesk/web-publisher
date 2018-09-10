@@ -508,7 +508,7 @@ services:
         arguments:
             - {'Takeit\Bundle\AmpHtmlBundle\Model\AmpInterface': "%takeit_amp_html.configuration.model.class%"}
             - '@swp_template_engine_context'
-            - '@swp_content_bundle.processor.article_body'
+            - '@SWP\Bundle\CoreBundle\Processor\ArticleMediaProcessor'
             - '@swp.repository.package'
             - '@swp.factory.article'
             - '@?doctrine'
@@ -584,7 +584,7 @@ services:
     SWP\Bundle\CoreBundle\Service\ArticlePreviewer:
         arguments:
             - '@swp.factory.article'
-            - '@swp_content_bundle.processor.article_body'
+            - '@SWP\Bundle\CoreBundle\Processor\ArticleMediaProcessor'
             - '@SWP\Bundle\CoreBundle\Service\ArticlePreviewTemplateHelper'
 
     swp.random_string_generator:
@@ -676,3 +676,8 @@ services:
         tags:
             - { name: kernel.event_listener, event: swp.article.post_update, method: onPostUpdate }
             - { name: kernel.event_listener, event: swp.article.unpublished, method: onPostUpdate }
+
+    SWP\Bundle\CoreBundle\Processor\ArticleMediaProcessor:
+        arguments:
+            - '@swp.factory.media'
+            - '@swp_content_bundle.processor.article_body'

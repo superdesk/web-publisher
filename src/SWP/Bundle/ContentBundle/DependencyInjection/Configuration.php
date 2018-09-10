@@ -22,6 +22,7 @@ use SWP\Bundle\ContentBundle\Doctrine\ORM\ArticleMediaRepository;
 use SWP\Bundle\ContentBundle\Doctrine\ORM\ImageRepository;
 use SWP\Bundle\ContentBundle\Doctrine\ORM\SlideshowItemRepository;
 use SWP\Bundle\ContentBundle\Doctrine\ORM\SlideshowRepository;
+use SWP\Bundle\ContentBundle\Factory\FileFactory;
 use SWP\Bundle\ContentBundle\Factory\ORM\ArticleFactory;
 use SWP\Bundle\ContentBundle\Factory\ORM\MediaFactory;
 use SWP\Bundle\ContentBundle\Factory\RouteFactory;
@@ -164,7 +165,7 @@ class Configuration implements ConfigurationInterface
                                                 ->scalarNode('model')->cannotBeEmpty()->defaultValue(File::class)->end()
                                                 ->scalarNode('interface')->cannotBeEmpty()->defaultValue(FileInterface::class)->end()
                                                 ->scalarNode('repository')->defaultValue(FileRepository::class)->end()
-                                                ->scalarNode('factory')->defaultValue(Factory::class)->end()
+                                                ->scalarNode('factory')->defaultValue(FileFactory::class)->end()
                                                 ->scalarNode('object_manager_name')->defaultValue(null)->end()
                                             ->end()
                                         ->end()

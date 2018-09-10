@@ -113,7 +113,7 @@ class Rendition implements RenditionInterface
     /**
      * {@inheritdoc}
      */
-    public function getWidth(): int
+    public function getWidth(): ?int
     {
         return $this->width;
     }
@@ -121,7 +121,7 @@ class Rendition implements RenditionInterface
     /**
      * {@inheritdoc}
      */
-    public function setWidth(int $width)
+    public function setWidth(?int $width)
     {
         $this->width = $width;
     }
@@ -129,7 +129,7 @@ class Rendition implements RenditionInterface
     /**
      * {@inheritdoc}
      */
-    public function getHeight(): int
+    public function getHeight(): ?int
     {
         return $this->height;
     }
@@ -137,7 +137,7 @@ class Rendition implements RenditionInterface
     /**
      * {@inheritdoc}
      */
-    public function setHeight(int $height)
+    public function setHeight(?int $height)
     {
         $this->height = $height;
     }
