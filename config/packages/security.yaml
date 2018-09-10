@@ -36,7 +36,9 @@ security:
             anonymous: false
             logout: false
             guard:
+                entry_point: lexik_jwt_authentication.jwt_token_authenticator
                 authenticators:
+                    - lexik_jwt_authentication.jwt_token_authenticator
                     - swp.security.token_authenticator
             stateless: true
         preview:
@@ -55,6 +57,8 @@ security:
                 provider: fos_userbundle
                 target_path_parameter: _login_success_path
                 failure_path_parameter: _login_failure_path
+                success_handler:          lexik_jwt_authentication.handler.authentication_success
+                failure_handler:          lexik_jwt_authentication.handler.authentication_failure
             logout:
                 path: security_logout
             anonymous: true
