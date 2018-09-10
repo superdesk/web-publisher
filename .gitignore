@@ -30,3 +30,5 @@ RMT
 .env
 .web-server-pid
 nohup.out
+/config/jwt/*.pem*
+!/config/jwt/
