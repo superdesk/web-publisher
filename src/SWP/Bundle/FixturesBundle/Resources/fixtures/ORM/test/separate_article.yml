@@ -13,7 +13,7 @@ SWP\Bundle\ContentBundle\Model\Article:
         status: "published"
         code: "<uuid()>"
         publishable: true
-        publishedAt: "<date()>"
+        publishedAt: "<date_create()>"
     article2:
         title: "Test content article"
         body: "Test article content"
@@ -22,4 +22,4 @@ SWP\Bundle\ContentBundle\Model\Article:
         status: "published"
         code: "<uuid()>"
         publishable: true
-        publishedAt: "<date()>"
+        publishedAt: "<date_create()>"
