@@ -12,32 +12,9 @@ imports:
     - { resource: "@SWPCoreBundle/Resources/config/app/config.yml" }
     - { resource: "@SWPElasticSearchBundle/Resources/config/app/config.yml" }
     - { resource: parameters.yml }
-    - { resource: security.yml }
 
 parameters:
     templating.cache_warmer.template_paths.class: "Symfony\\Bundle\\FrameworkBundle\\CacheWarmer\\TemplatePathsCacheWarmer"
-
-framework:
-    ide: 'phpstorm://open?file=%%f&line=%%l'
-    cache:
-        default_doctrine_provider: doctrine_cache.providers.main_cache
-    esi: { enabled: true }
-    translator:
-        fallbacks: ["%locale%"]
-        logging: false
-    secret: "%env(SYMFONY_SECRET)%"
-    router:
-        resource: "%kernel.root_dir%/config/routing.yml"
-        strict_requirements: ~
-    form:            ~
-    csrf_protection: ~
-    validation:      { enable_annotations: false }
-    templating:
-        engines: ['twig']
-    default_locale:  "%locale%"
-    trusted_hosts:   ~
-    fragments: { path: /_fragment }
-    http_method_override: true
 
 sensio_framework_extra:
     view:    { annotations: false }
@@ -200,40 +177,6 @@ fos_http_cache:
                         _route: "swp_api_core_create_menu"
                 routes:
                     swp_api_core_list_menu: ~
-
-fos_rest:
-    zone:
-        - { path: ^/api/* }
-    versioning:
-        enabled: false
-    routing_loader:
-        default_format: json
-    view:
-        formats:
-            json: true
-        view_response_listener: false
-    serializer:
-        serialize_null: true
-    format_listener:
-        rules:
-            - { path: "^/api", priorities: ['json'], fallback_format: json, prefer_extension: true }
-            - { path: "^/", stop: true }
-    body_listener:
-        decoders:
-            json: fos_rest.decoder.jsontoform
-    disable_csrf_role: ROLE_API
-    exception:
-        enabled: true
-        codes:
-            'Symfony\Component\Routing\Exception\ResourceNotFoundException': 404
-            'SWP\Component\Common\Exception\NotFoundHttpException': 404
-            'SWP\Bundle\SettingsBundle\Exception\InvalidScopeException': 500
-            'SWP\Component\MultiTenancy\Exception\TenantNotFoundException': 404
-        messages:
-            'Symfony\Component\Routing\Exception\ResourceNotFoundException': true
-            'SWP\Component\Common\Exception\NotFoundHttpException': true
-            'SWP\Bundle\SettingsBundle\Exception\InvalidScopeException': true
-            'SWP\Component\MultiTenancy\Exception\TenantNotFoundException': true
 
 swp_core:
     device_listener:
