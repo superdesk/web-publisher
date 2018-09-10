@@ -7,7 +7,6 @@ use Doctrine\DBAL\Migrations\IrreversibleMigrationException;
 use Doctrine\DBAL\Schema\Schema;
 use SWP\Bundle\CoreBundle\Model\Article;
 use SWP\Bundle\CoreBundle\Model\ArticleInterface;
-use SWP\Bundle\CoreBundle\Model\ArticleStatistics;
 use SWP\Bundle\MultiTenancyBundle\MultiTenancyEvents;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -42,12 +41,16 @@ class Version20180118194100 extends AbstractMigration implements ContainerAwareI
         $this->container->get('event_dispatcher')->dispatch(MultiTenancyEvents::TENANTABLE_DISABLE);
 
         $articles = $entityManager
-            ->createQuery('SELECT partial a.{id,tenantCode}, es FROM SWP\Bundle\CoreBundle\Model\Article a LEFT JOIN a.articleStatistics es')
+            ->createQuery('SELECT partial a.{id,tenantCode},  partial es.{id} FROM SWP\Bundle\CoreBundle\Model\Article a LEFT JOIN a.articleStatistics es')
             ->getArrayResult();
 
         if (empty($articles)) {
             return;
         }
+
+        $dbConnection = $entityManager->getConnection();
+        $nextvalQuery = $dbConnection->getDatabasePlatform()->getSequenceNextValSQL('swp_article_statistics_id_seq');
+        $newId = (int) $dbConnection->fetchColumn($nextvalQuery);
 
         /* @var ArticleInterface $article */
         foreach ($articles as $article) {
@@ -55,13 +58,15 @@ class Version20180118194100 extends AbstractMigration implements ContainerAwareI
                 continue;
             }
 
-            $articleStatistics = new ArticleStatistics();
-            $articleStatistics->setArticle($entityManager->getReference(Article::class, $article['id']));
-            $articleStatistics->setTenantCode($article['tenantCode']);
-            $entityManager->persist($articleStatistics);
-        }
+            $this->addSql('INSERT INTO swp_article_statistics (id, article_id, tenant_code, created_at) VALUES (:id, :article, :tenantCode, :createdAt)', [
+                'id' => $newId,
+                'article' => $article['id'],
+                'tenantCode' => $article['tenantCode'],
+                'createdAt' => (new \DateTime('now'))->format('Y-m-d h:i:sT'),
+            ]);
 
-        $entityManager->flush();
+            ++$newId;
+        }
     }
 
     /**

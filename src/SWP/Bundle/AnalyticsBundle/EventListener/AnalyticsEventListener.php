@@ -28,7 +28,7 @@ use Symfony\Component\HttpKernel\Event\PostResponseEvent;
  */
 class AnalyticsEventListener
 {
-    const TERMINATE_IMIDEDIATELY = 'terminate-imidediately';
+    const TERMINATE_IMMEDIATELY = 'terminate-immediately';
 
     const EVENT_ENDPOINT = '_swp_analytics';
 
@@ -53,7 +53,9 @@ class AnalyticsEventListener
     public function onKernelRequest(GetResponseEvent $event)
     {
         $request = $event->getRequest();
-        if (null !== $json = file_get_contents('php://input')) {
+        if (null !== ($json = file_get_contents('php://input')) && '' !== $json) {
+            $request->attributes->set('data', \json_decode($json, true));
+        } elseif (null !== $json = $request->getContent()) {
             $request->attributes->set('data', \json_decode($json, true));
         }
 
@@ -61,7 +63,7 @@ class AnalyticsEventListener
             $this->producer->publish(serialize($request));
 
             $response = new Response();
-            $response->headers->add(['terminate-imidediately' => true]);
+            $response->headers->add([self::TERMINATE_IMMEDIATELY => true]);
             $event->setResponse($response);
             $event->stopPropagation();
         }
@@ -74,7 +76,7 @@ class AnalyticsEventListener
     {
         $response = $event->getResponse();
 
-        if ($response->headers->has(self::TERMINATE_IMIDEDIATELY)) {
+        if ($response->headers->has(self::TERMINATE_IMMEDIATELY)) {
             $event->stopPropagation();
         }
     }
@@ -96,7 +98,7 @@ class AnalyticsEventListener
     public function onKernelTerminate(PostResponseEvent $event)
     {
         $response = $event->getResponse();
-        if ($response->headers->has(self::TERMINATE_IMIDEDIATELY)) {
+        if ($response->headers->has(self::TERMINATE_IMMEDIATELY)) {
             $event->stopPropagation();
         }
     }

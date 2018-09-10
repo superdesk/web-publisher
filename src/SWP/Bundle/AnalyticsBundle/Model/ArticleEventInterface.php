@@ -35,9 +35,17 @@ interface ArticleEventInterface extends PersistableInterface
 
     const IMPRESSION_TYPE_ARTICLE = 'article';
 
+    const PAGEVIEW_SOURCE_INTERNAL = 'internal';
+
+    const PAGEVIEW_SOURCE_EXTERNAL = 'external';
+
     public function getAction(): string;
 
     public function setAction(string $action): void;
+
+    public function getPageViewSource(): ?string;
+
+    public function setPageViewSource(string $pageViewSource): void;
 
     public function getImpressionRoute(): ?RouteInterface;
 

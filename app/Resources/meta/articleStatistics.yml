@@ -11,3 +11,6 @@ properties:
     pageViewsNumber:
         descriptions: "Article page views count"
         type: integer
+    internalClickRate:
+        descriptions: "Article click rate (internal page views/impressions)"
+        type: float

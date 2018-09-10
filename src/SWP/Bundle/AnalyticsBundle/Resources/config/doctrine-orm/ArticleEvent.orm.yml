@@ -1,6 +1,7 @@
 SWP\Bundle\AnalyticsBundle\Model\ArticleEvent:
     type:  mappedSuperclass
     table: swp_article_events
+    repositoryClass: SWP\Bundle\AnalyticsBundle\Repository\ArticleEventRepository
     id:
         id:
             type: integer
@@ -11,6 +12,9 @@ SWP\Bundle\AnalyticsBundle\Model\ArticleEvent:
             type: string
             nullable: true
         impressionType:
+            type: string
+            nullable: true
+        pageViewSource:
             type: string
             nullable: true
         createdAt:
