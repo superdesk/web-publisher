@@ -60,3 +60,5 @@ parameters:
     # allows to load dev fixtures in test env
     fixtures_type: '%env(FIXTURES_TYPE)%'
     env(FIXTURES_TYPE): dev
+
+    JWT_PASS_PHRASE:

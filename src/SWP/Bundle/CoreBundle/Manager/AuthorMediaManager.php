@@ -16,6 +16,7 @@ namespace SWP\Bundle\CoreBundle\Manager;
 
 use SWP\Bundle\ContentBundle\Model\FileInterface;
 use SWP\Bundle\CoreBundle\Manager\MediaManager as BaseMediaManager;
+use Symfony\Component\Routing\RouterInterface;
 
 class AuthorMediaManager extends BaseMediaManager
 {

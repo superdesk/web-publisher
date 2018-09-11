@@ -94,6 +94,10 @@ class ArticleStatistics implements ArticleStatisticsInterface, TimestampableInte
      */
     public function getImpressionsNumber(): int
     {
+        if (null === $this->impressionsNumber) {
+            return 0;
+        }
+
         return $this->impressionsNumber;
     }
 
@@ -110,6 +114,10 @@ class ArticleStatistics implements ArticleStatisticsInterface, TimestampableInte
      */
     public function getPageViewsNumber(): int
     {
+        if (null === $this->pageViewsNumber) {
+            return 0;
+        }
+
         return $this->pageViewsNumber;
     }
 

@@ -26,6 +26,7 @@ use SWP\Component\MultiTenancy\Repository\TenantRepositoryInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Guard\AbstractGuardAuthenticator;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
@@ -57,23 +58,22 @@ class TokenAuthenticator extends AbstractGuardAuthenticator
     protected $eventDispatcher;
 
     /**
-     * TokenAuthenticator constructor.
-     *
-     * @param ApiKeyRepository          $apiKeyRepository
-     * @param TenantContextInterface    $tenantContext
-     * @param TenantRepositoryInterface $tenantRepository
-     * @param EventDispatcherInterface  $eventDispatcher
+     * @var Security
      */
+    protected $security;
+
     public function __construct(
         ApiKeyRepository $apiKeyRepository,
         TenantContextInterface $tenantContext,
         TenantRepositoryInterface $tenantRepository,
-        EventDispatcherInterface $eventDispatcher
+        EventDispatcherInterface $eventDispatcher,
+        Security $security
     ) {
         $this->apiKeyRepository = $apiKeyRepository;
         $this->tenantContext = $tenantContext;
         $this->tenantRepository = $tenantRepository;
         $this->eventDispatcher = $eventDispatcher;
+        $this->security = $security;
     }
 
     /**
@@ -197,7 +197,7 @@ class TokenAuthenticator extends AbstractGuardAuthenticator
      */
     public function supports(Request $request)
     {
-        if (!$token = $this->getToken($request)) {
+        if ($this->security->getUser() || !$token = $this->getToken($request)) {
             return false;
         }
 

@@ -12,6 +12,3 @@ _errors:
 
 _swp_facebook_instant_articles:
     resource: "@SWPFacebookInstantArticlesBundle/Resources/config/routing_dev.yml"
-
-_main:
-    resource: routing.yml

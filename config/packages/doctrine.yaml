@@ -1,0 +1,16 @@
+doctrine:
+    orm:
+        auto_generate_proxy_classes: "%kernel.debug%"
+        entity_managers:
+            default:
+                naming_strategy: doctrine.orm.naming_strategy.underscore
+                auto_mapping: false
+                metadata_cache_driver:
+                    type: service
+                    id: doctrine_cache.providers.main_cache
+                query_cache_driver:
+                    type: service
+                    id: doctrine_cache.providers.main_cache
+                result_cache_driver:
+                    type: service
+                    id: doctrine_cache.providers.main_cache

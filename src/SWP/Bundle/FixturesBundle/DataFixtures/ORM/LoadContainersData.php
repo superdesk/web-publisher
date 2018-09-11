@@ -29,7 +29,7 @@ class LoadContainersData extends AbstractFixture implements FixtureInterface, Or
     public function load(ObjectManager $manager): void
     {
         $env = $this->getEnvironment();
-        if ('test' !== $env) {
+        if ('dev' === $env) {
             $revision = $manager->merge($this->getReference('default_tenant_revision'));
 
             $container1 = $this->container->get('swp.factory.container')->create();
