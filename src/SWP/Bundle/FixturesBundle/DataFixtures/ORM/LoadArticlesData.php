@@ -587,9 +587,9 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface, Orde
             $newImageHeight = $height / ($width / $renditionWidth);
         }
 
-        $newImage = imagecreatetruecolor($renditionWidth, $renditionHeight);
+        $newImage = \imagecreatetruecolor($renditionWidth, $renditionHeight);
 
-        imagecopyresampled($newImage,
+        \imagecopyresampled($newImage,
             $image,
             0 - (int) (($newImageWidth - $renditionWidth) / 2),
             0 - (int) (($newImageHeight - $renditionHeight) / 2),
