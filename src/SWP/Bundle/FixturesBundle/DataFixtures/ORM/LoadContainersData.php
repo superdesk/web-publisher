@@ -18,7 +18,6 @@ namespace SWP\Bundle\FixturesBundle\DataFixtures\ORM;
 
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
-use SWP\Bundle\CoreBundle\Model\Container;
 use SWP\Bundle\FixturesBundle\AbstractFixture;
 use Doctrine\Common\Persistence\ObjectManager;
 
@@ -61,27 +60,11 @@ class LoadContainersData extends AbstractFixture implements FixtureInterface, Or
 
             $manager->flush();
         } else {
-            $revision = $manager->merge($this->getReference('default_tenant_revision'));
-
-            /** @var Container $container1 */
-            $container1 = $this->container->get('swp.factory.container')->create();
-            $container1->setName('Simple Container 1');
-            $container1->setType(1);
-            $container1->setStyles('color: #00000');
-            $container1->setCssClass('col-md-12');
-            $container1->setTenantCode('123abc');
-            $container1->setVisible(true);
-            $container1->setRevision($revision);
-
-            /** @var Container $container2 */
-            $container2 = $this->container->get('swp.factory.container')->create();
-            $container2->setName('Simple Container 2');
-            $container2->setType(1);
-            $container2->setStyles('border: 1px solid red;');
-            $container2->setCssClass('col-md-6');
-            $container2->setTenantCode('123abc');
-            $container1->setVisible(true);
-            $container2->setRevision($revision);
+            $this->loadFixtures(
+                [
+                    '@SWPFixturesBundle/Resources/fixtures/ORM/'.$env.'/Container.yml',
+                ]
+            );
         }
     }
 

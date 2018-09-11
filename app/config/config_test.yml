@@ -1,4 +1,5 @@
 imports:
+    - { resource: config_dev.yml }
     - { resource: behat_test.yml }
     - { resource: parameters_test.yml }
 
@@ -39,28 +40,3 @@ fos_http_cache:
         noop: ~
     invalidation:
         enabled: false
-
-monolog:
-    handlers:
-        main:
-            type:   stream
-            path:   "%kernel.logs_dir%/%kernel.environment%.log"
-            level:  debug
-        console:
-            type:   console
-            bubble: false
-            verbosity_levels:
-                VERBOSITY_VERBOSE: INFO
-                VERBOSITY_VERY_VERBOSE: DEBUG
-            channels: ["!doctrine"]
-        console_very_verbose:
-            type:   console
-            bubble: false
-            verbosity_levels:
-                VERBOSITY_VERBOSE: NOTICE
-                VERBOSITY_VERY_VERBOSE: NOTICE
-                VERBOSITY_DEBUG: DEBUG
-            channels: ["doctrine"]
-
-fidry_alice_data_fixtures:
-    default_purge_mode: "no_purge"
