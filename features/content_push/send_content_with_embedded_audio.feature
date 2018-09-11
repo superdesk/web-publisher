@@ -1,19 +1,19 @@
 @content_push
-Feature: Handling embedded video
-  In order to be able to display video inside the article body
+Feature: Handling embedded audio
+  In order to be able to display audio inside the article body
   As a HTTP Client
-  I want to able to receive and parse the request payload with video inside the body
+  I want to able to receive and parse the request payload with audio inside the body
 
-  Scenario: Saving the data with embedded video
+  Scenario: Saving the data with embedded audio
     Given I add "Content-Type" header equal to "application/json"
     And I send a "POST" request to "/api/v1/assets/push" with parameters:
       | key          | value                                                                                |
-      | media_id     | 20180904130932/b42edf4c501057a44499c8148d60a6343fb0e968150fc538404b5b72ed9279b9.mp4  |
-      | media        | @video.mp4                                                                           |
+      | media_id     | 20180904130932/0a6343fb0e968150fc538404b5b72ed9279b9b42edf4c501057a44499c8148d6.mp3  |
+      | media        | @audio.mp3                                                                           |
     Then the response status code should be 201
-    And the JSON node "media_id" should be equal to "20180904130932/b42edf4c501057a44499c8148d60a6343fb0e968150fc538404b5b72ed9279b9.mp4"
-    And the JSON node "mime_type" should be equal to "video/mp4"
-    And the JSON node "URL" should be equal to "http://localhost/media/20180904130932_b42edf4c501057a44499c8148d60a6343fb0e968150fc538404b5b72ed9279b9.mp4"
+    And the JSON node "media_id" should be equal to "20180904130932/0a6343fb0e968150fc538404b5b72ed9279b9b42edf4c501057a44499c8148d6.mp3"
+    And the JSON node "mime_type" should be equal to "audio/mpeg"
+    And the JSON node "URL" should be equal to "http://localhost/media/20180904130932_0a6343fb0e968150fc538404b5b72ed9279b9b42edf4c501057a44499c8148d6.mpga"
     And the JSON node "media" should not be null
 
     When I add "Content-Type" header equal to "application/json"
@@ -21,7 +21,7 @@ Feature: Handling embedded video
     """
     {
       "version":"3",
-      "slugline":"test video in body",
+      "slugline":"test audio in body",
       "copyrightholder":"",
       "copyrightnotice":"",
       "service":[
@@ -31,14 +31,14 @@ Feature: Handling embedded video
         }
       ],
       "language":"en",
-      "byline":"test video in body",
+      "byline":"test audio in body",
       "associations":{
         "editor_0":{
           "renditions":{
             "original":{
-              "media":"20180904130932/b42edf4c501057a44499c8148d60a6343fb0e968150fc538404b5b72ed9279b9.mp4",
-              "href":"https://sdaws.com/sd-sp/20180904130932/b42edf4c501057a44499c8148d60a6343fb0e968150fc538404b5b72ed9279b9.mp4",
-              "mimetype":"video/mp4"
+              "media":"20180904130932/0a6343fb0e968150fc538404b5b72ed9279b9b42edf4c501057a44499c8148d6.mp3",
+              "href":"https://sdaws.com/sd-sp/20180904130932/0a6343fb0e968150fc538404b5b72ed9279b9b42edf4c501057a44499c8148d6.mp3",
+              "mimetype":"audio/mpeg"
             }
           },
           "version":"2",
@@ -47,7 +47,7 @@ Feature: Handling embedded video
           "copyrightnotice":"",
           "usageterms":"",
           "source":"",
-          "description_text":"inline video",
+          "description_text":"inline audio",
           "urgency":3,
           "genre":[
             {
@@ -55,11 +55,11 @@ Feature: Handling embedded video
               "name":"Article (news)"
             }
           ],
-          "body_text":"inline video",
+          "body_text":"inline audio",
           "firstcreated":"2018-09-04T11:33:00+0000",
           "pubstatus":"usable",
           "priority":6,
-          "headline":"inline video",
+          "headline":"inline audio",
           "language":"en",
           "mimetype":"video/mp4",
           "versioncreated":"2018-09-04T11:33:01+0000",
@@ -67,14 +67,14 @@ Feature: Handling embedded video
         }
       },
       "profile":"news",
-      "description_html":"<p>test video in body</p>",
+      "description_html":"<p>test audio in body</p>",
       "pubstatus":"usable",
       "firstcreated":"2018-09-04T11:30:12+0000",
-      "headline":"test video in body",
-      "body_html":"<p>test video in body</p><div class=\"media-block\"><video controls src=\"https://sdaws.com/sd-sp/20180904130932/b42edf4c501057a44499c8148d60a6343fb0e968150fc538404b5b72ed9279b9.mp4\" alt=\"inline video\" width=\"100%\" height=\"100%\" /><span class=\"media-block__description\">inline video</span></div><p>new line</p>",
+      "headline":"test audio in body",
+      "body_html":"<p>test audio in body</p><div class=\"media-block\"><audio controls src=\"https://sdaws.com/sd-sp/20180904130932/0a6343fb0e968150fc538404b5b72ed9279b9b42edf4c501057a44499c8148d6.mp3\" /><span class=\"media-block__description\">inline audio</span></div><p>new line</p>",
       "priority":5,
       "type":"text",
-      "description_text":"test video in body",
+      "description_text":"test audio in body",
       "usageterms":"",
       "guid":"urn:newsml:spsd.pro:2018-09-04T13:30:12.108807:89f823eb-6a6f-4ec9-ac09-06f5b95695d6",
       "authors":[
@@ -116,11 +116,11 @@ Feature: Handling embedded video
 
     And I am authenticated as "test.user"
     And I add "Content-Type" header equal to "application/json"
-    Then I send a "GET" request to "/api/v1/content/articles/test-video-in-body"
+    Then I send a "GET" request to "/api/v1/content/articles/test-audio-in-body"
     Then the response status code should be 200
-    And the JSON node "body" should contain "/media/20180904130932_b42edf4c501057a44499c8148d60a6343fb0e968150fc538404b5b72ed9279b9.mp4"
+    And the JSON node "body" should contain "/media/20180904130932_0a6343fb0e968150fc538404b5b72ed9279b9b42edf4c501057a44499c8148d6.mpga"
     And the JSON nodes should contain:
-      | media[0].file.assetId         | 20180904130932_b42edf4c501057a44499c8148d60a6343fb0e968150fc538404b5b72ed9279b9            |
-      | media[0].file.fileExtension   | mp4                                                                                        |
-      | media[0]._links.download.href | /media/20180904130932_b42edf4c501057a44499c8148d60a6343fb0e968150fc538404b5b72ed9279b9.mp4 |
+      | media[0].file.assetId         | 20180904130932_0a6343fb0e968150fc538404b5b72ed9279b9b42edf4c501057a44499c8148d6             |
+      | media[0].file.fileExtension   | mpga                                                                                        |
+      | media[0]._links.download.href | /media/20180904130932_0a6343fb0e968150fc538404b5b72ed9279b9b42edf4c501057a44499c8148d6.mpga |
     And the JSON node "media[0].image" should be null

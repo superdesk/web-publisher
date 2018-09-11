@@ -173,6 +173,7 @@ services:
     SWP\Bundle\ContentBundle\Processor\EmbeddedAudioProcessor:
         arguments:
             - '@SWP\Bundle\ContentBundle\File\FileExtensionChecker'
+            - '@swp_content_bundle.manager.media'
         tags:
             - { name: swp.processor.article_body }
 

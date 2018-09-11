@@ -17,8 +17,11 @@ declare(strict_types=1);
 namespace SWP\Bundle\ContentBundle\Processor;
 
 use SWP\Bundle\ContentBundle\File\FileExtensionCheckerInterface;
+use SWP\Bundle\ContentBundle\Manager\MediaManagerInterface;
 use SWP\Bundle\ContentBundle\Model\ArticleInterface;
+use SWP\Bundle\ContentBundle\Model\ArticleMedia;
 use SWP\Bundle\ContentBundle\Model\ArticleMediaInterface;
+use Symfony\Component\DomCrawler\Crawler;
 
 final class EmbeddedAudioProcessor implements ArticleBodyProcessorInterface
 {
@@ -27,14 +30,43 @@ final class EmbeddedAudioProcessor implements ArticleBodyProcessorInterface
      */
     private $fileExtensionChecker;
 
-    public function __construct(FileExtensionCheckerInterface $fileExtensionChecker)
+    /**
+     * @var MediaManagerInterface
+     */
+    private $mediaManager;
+
+    public function __construct(FileExtensionCheckerInterface $fileExtensionChecker, MediaManagerInterface $mediaManager)
     {
         $this->fileExtensionChecker = $fileExtensionChecker;
+        $this->mediaManager = $mediaManager;
     }
 
     public function process(ArticleInterface $article, ArticleMediaInterface $articleMedia): void
     {
-        // TODO: Implement process() method.
+        $body = $article->getBody();
+
+        preg_match(
+            '/< *audio[^>]*src *= *["\']?([^"\']*)/i',
+            str_replace(PHP_EOL, '', $body),
+            $matches
+        );
+
+        if (empty($matches) || !isset($matches[0])) {
+            return;
+        }
+
+        $audioString = $matches[0];
+        $crawler = new Crawler($audioString);
+        $audio = $crawler->filter('audio');
+
+        /* @var \DOMElement $videoElement */
+        foreach ($audio as $audioElement) {
+            if (false !== strpos($audioElement->getAttribute('src'), ArticleMedia::getOriginalMediaId($articleMedia->getFile()->getAssetId()))) {
+                $audioElement->setAttribute('src', $this->mediaManager->getMediaUri($articleMedia->getFile()));
+            }
+        }
+
+        $article->setBody(str_replace($audioString, $crawler->filter('body')->html(), $body));
     }
 
     public function supports(string $type): bool
