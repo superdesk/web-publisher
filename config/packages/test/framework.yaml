@@ -1,0 +1,7 @@
+framework:
+    test: ~
+    session:
+        storage_id: "swp_core.security.session.domain_dynamic_storage"
+    profiler:
+        enabled: true
+        collect: false

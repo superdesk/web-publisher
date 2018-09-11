@@ -3,21 +3,6 @@ imports:
     - { resource: behat_test.yml }
     - { resource: parameters_test.yml }
 
-framework:
-    test: ~
-    session:
-        storage_id: "swp_core.security.session.domain_dynamic_storage"
-    profiler:
-        enabled: true
-        collect: false
-
-doctrine:
-    dbal:
-        default_connection: default
-        connections:
-           default:
-                url:     '%env(resolve:DATABASE_URL)%'
-
 liip_functional_test: ~
 
 sylius_theme:
