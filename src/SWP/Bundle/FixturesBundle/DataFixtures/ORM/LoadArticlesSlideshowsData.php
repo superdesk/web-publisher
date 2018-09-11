@@ -83,6 +83,7 @@ class LoadArticlesSlideshowsData extends AbstractFixture implements FixtureInter
 
         $mediaManager = $this->container->get('swp_content_bundle.manager.media');
         $fakeImage = __DIR__.'/../../Resources/assets/test_cc_image.jpg';
+        $fakeVideo = __DIR__.'/../../Resources/assets/test_video.mp4';
         $slideshowFactory = $this->container->get('swp.factory.slideshow');
         $slideshowItemFactory = $this->container->get('swp.factory.slideshow_item');
 
@@ -136,10 +137,32 @@ class LoadArticlesSlideshowsData extends AbstractFixture implements FixtureInter
                         $slideshow = $slideshowFactory->create();
                         $slideshow->setCode($slideshowCode);
                         $slideshow->setArticle($article);
-                        $slideshowItem = $slideshowItemFactory->create();
-                        $slideshowItem->setArticleMedia($articleMedia);
-                        $slideshowItem->setSlideshow($slideshow);
-                        $manager->persist($slideshowItem);
+
+                        if ($slideshowCode === 'slideshow1') {
+                            $articleMediaVideo = new $articleMediaClass();
+                            $articleMediaVideo->setArticle($article);
+                            $articleMediaVideo->setKey('123456');
+                            $articleMediaVideo->setBody('some body');
+                            $articleMediaVideo->setByLine('By Best Editor');
+                            $articleMediaVideo->setLocated('Porto');
+                            $articleMediaVideo->setDescription('Media description');
+                            $articleMediaVideo->setUsageTerms('Some super open terms');
+                            $articleMediaVideo->setMimetype('video/mp4');
+                            $uploadedFile = new UploadedFile($fakeVideo, $articleMedia->getKey(), 'video/mp4', filesize($fakeVideo), null, true);
+                            $file = $mediaManager->handleUploadedFile($uploadedFile, $articleMediaVideo->getKey());
+                            $articleMediaVideo->setFile($file);
+                            $manager->persist($articleMediaVideo);
+
+                            $slideshowItem = $slideshowItemFactory->create();
+                            $slideshowItem->setArticleMedia($articleMediaVideo);
+                            $slideshowItem->setSlideshow($slideshow);
+                            $manager->persist($slideshowItem);
+                        }
+
+                        $slideshowItem1 = $slideshowItemFactory->create();
+                        $slideshowItem1->setArticleMedia($articleMedia);
+                        $slideshowItem1->setSlideshow($slideshow);
+                        $manager->persist($slideshowItem1);
                     }
                 }
             }
