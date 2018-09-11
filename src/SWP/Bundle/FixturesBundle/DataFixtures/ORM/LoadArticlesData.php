@@ -228,7 +228,7 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface, Orde
     {
         $articleDataProvider = $this->container->get(ArticleDataProvider::class);
 
-        if ('test' !== $env) {
+        if ('dev' === $env) {
             $data = $this->loadFixtures([
                     '@SWPFixturesBundle/Resources/fixtures/ORM/'.$env.'/package.yml',
                     '@SWPFixturesBundle/Resources/fixtures/ORM/'.$env.'/article.yml',

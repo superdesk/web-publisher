@@ -28,36 +28,6 @@ twig_cache:
     service: "doctrine_cache.providers.main_cache"
     key_generator: "swp_core.key_generator.meta_key_generator"
 
-# Doctrine Configuration
-doctrine:
-    dbal:
-        driver:   pdo_pgsql
-        host:     '%env(DATABASE_HOST)%'
-        port:     '%env(DATABASE_PORT)%'
-        dbname:   '%env(DATABASE_NAME)%'
-        user:     '%env(DATABASE_USER)%'
-        password: '%env(DATABASE_PASSWORD)%'
-        charset:  UTF8
-        server_version: '%env(DATABASE_SERVER_VERSION)%'
-        mapping_types:
-            json: string
-
-    orm:
-        auto_generate_proxy_classes: "%kernel.debug%"
-        entity_managers:
-            default:
-                naming_strategy: doctrine.orm.naming_strategy.underscore
-                auto_mapping: false
-                metadata_cache_driver:
-                    type: service
-                    id: doctrine_cache.providers.main_cache
-                query_cache_driver:
-                    type: service
-                    id: doctrine_cache.providers.main_cache
-                result_cache_driver:
-                      type: service
-                      id: doctrine_cache.providers.main_cache
-
 doctrine_cache:
     providers:
         main_cache:

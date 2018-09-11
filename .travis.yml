@@ -62,7 +62,7 @@ before_script:
 - cd src/SWP/Bundle/CoreBundle/Tests/Functional/Resources/ && npm install json-server && nohup node server.js &
 - echo -e "$(echo -e "\e[33;1m$1\e[0;20m" "Testing loading fixtures in dev env")"
 - php app/console doctrine:schema:update -f
-- FIXTURES_TYPE=dev php app/console doctrine:fixtures:load --no-interaction -v --env=dev
+- FIXTURES_TYPE=dev php app/console doctrine:fixtures:load --env=test --no-interaction > /dev/null 2>&1
 - echo -e "$(echo -e "\e[33;1m$1\e[0;20m" "Testing migrations")"
 - DATABASE_URL="pgsql://postgres:''@127.0.0.1:5432/postgres" app/console doctrine:migrations:migrate --no-interaction --env=test --no-debug -vvv
 - app/console doctrine:cache:clear main_cache --env=test --no-debug -vvv
