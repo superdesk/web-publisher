@@ -138,7 +138,7 @@ class LoadArticlesSlideshowsData extends AbstractFixture implements FixtureInter
                         $slideshow->setCode($slideshowCode);
                         $slideshow->setArticle($article);
 
-                        if ($slideshowCode === 'slideshow1') {
+                        if ('slideshow1' === $slideshowCode) {
                             $articleMediaVideo = new $articleMediaClass();
                             $articleMediaVideo->setArticle($article);
                             $articleMediaVideo->setKey('123456');
