@@ -37,24 +37,43 @@ or
 php -d memory_limit=-1 app/console doctrine:fixtures:load
 ```
 
-#### 6. Install demo theme
+
+#### 6. Generate the SSH keys to properly use the authentication (readers):
+
+Generate the SSH keys:
+
+
+``` bash
+$ mkdir -p config/jwt
+$ openssl genrsa -out config/jwt/private.pem -aes256 4096
+$ openssl rsa -pubout -in config/jwt/private.pem -out config/jwt/public.pem
+```
+
+In case first ```openssl``` command forces you to input password use following to get the private key decrypted
+``` bash
+$ openssl rsa -in config/jwt/private.pem -out config/jwt/private2.pem
+$ mv config/jwt/private.pem config/jwt/private.pem-back
+$ mv config/jwt/private2.pem config/jwt/private.pem
+```
+
+#### 7. Install demo theme
 
 ```bash
 php app/console swp:theme:install 123abc src/SWP/Bundle/FixturesBundle/Resources/themes/DefaultTheme/ -f -p
 ```
 
 
-#### 7. Install theme assets:
+#### 8. Install theme assets:
 
 ```bash
 php app/console sylius:theme:assets:install
 ```
 
-#### 8. Run RabbitMQ consumers
+#### 9. Run RabbitMQ consumers
 
 For supervisor setup (and consumers managed by it) read instructions in `supervisor.md`
 
-#### 9. Run WebSocket server:
+#### 10. Run WebSocket server:
 
 ```bash
 php app/console gos:websocket:server
@@ -62,7 +81,7 @@ php app/console gos:websocket:server
 
 or it can be started using [Supervisor](supervisor.md#running-websocket-server).
 
-#### 10. Preview
+#### 11. Preview
 
 Run project with built in php server:
 
