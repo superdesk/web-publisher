@@ -46,7 +46,7 @@ final class EmbeddedAudioProcessor implements ArticleBodyProcessorInterface
         $body = $article->getBody();
 
         preg_match(
-            '/< *audio[^>]*src *= *["\']?([^"\']*)/i',
+            '/<audio[^>]*>/',
             str_replace(PHP_EOL, '', $body),
             $matches
         );
