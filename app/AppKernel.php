@@ -29,7 +29,9 @@ class AppKernel extends Kernel
 
         // old configuration
         $loader->load($this->getRootDir().'/config/config.yml');
-        $loader->load($this->getRootDir().'/config/config_'.$this->getEnvironment().'.yml');
+        if (\file_exists($this->getRootDir().'/config/config_'.$this->getEnvironment().'.yml')) {
+            $loader->load($this->getRootDir().'/config/config_'.$this->getEnvironment().'.yml');
+        }
 
         $loader->load($confDir.'/packages/*'.self::CONFIG_EXTS, 'glob');
         if (is_dir($confDir.'/packages/'.$this->environment)) {
