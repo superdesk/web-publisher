@@ -1,0 +1,6 @@
+doctrine_migrations:
+    dir_name: "%kernel.root_dir%/../src/SWP/Bundle/CoreBundle/Migrations"
+    namespace: SWP\Migrations
+    table_name: swp_migration
+    name: Publisher Migrations
+    organize_migrations: BY_YEAR_AND_MONTH
