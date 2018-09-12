@@ -23,9 +23,11 @@ SWP\Component\Bridge\Model\Rendition:
         width:
             expose: true
             type: integer
+            nullable: true
         height:
             exose: true
             type: integer
+            nullable: true
         mimetype:
             exose: true
             type: string

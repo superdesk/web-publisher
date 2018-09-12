@@ -28,3 +28,9 @@ services:
         class: '%swp.provider.article.class%'
         arguments:
             - '@swp.repository.article'
+
+    SWP\Bundle\ContentBundle\Provider\FileProvider:
+        arguments:
+            - '@swp.repository.image'
+            - '@swp.repository.file'
+            - '@SWP\Bundle\ContentBundle\File\FileExtensionChecker'

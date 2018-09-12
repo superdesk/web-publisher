@@ -14,6 +14,7 @@
 
 namespace SWP\Bundle\ContentBundle\Tests\EventListener;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use SWP\Bundle\ContentBundle\ArticleEvents;
 use SWP\Bundle\ContentBundle\Event\ArticleEvent;
 use SWP\Bundle\ContentBundle\EventListener\ProcessArticleMediaListener;
@@ -21,6 +22,7 @@ use SWP\Bundle\ContentBundle\Model\ArticleInterface;
 use SWP\Bundle\ContentBundle\Model\ArticleMediaInterface;
 use SWP\Bundle\ContentBundle\Tests\Functional\WebTestCase;
 use SWP\Component\Bridge\Model\Item;
+use SWP\Component\Bridge\Model\Rendition;
 use Symfony\Component\Filesystem\Filesystem;
 
 class ProcessArticleMediaListenerTest extends WebTestCase
@@ -63,7 +65,17 @@ class ProcessArticleMediaListenerTest extends WebTestCase
         $article = $this->getMockBuilder(ArticleInterface::class)->getMock();
         $article->expects($this->any())->method('getSlug')->willReturn('an-item-with-pic');
 
-        $this->assertInstanceOf(ArticleMediaInterface::class, $this->listener->handleMedia($article, 'embedded6358005131', new Item()));
+        $item = new Item();
+        $rendition = new Rendition();
+        $rendition->setHref('https://s3.superdesk.org/superdesk-test-eu-west-1.s3-eu-west-1.amazonaws.com/20160905140916/12345678987654321a.jpg');
+        $rendition->setHeight(793);
+        $rendition->setWidth(1189);
+        $rendition->setName('original');
+        $rendition->setMedia('20160905140916\/12345678987654321a.jpg');
+        $rendition->setMimetype('image/jpeg');
+        $item->setRenditions(new ArrayCollection([$rendition]));
+
+        $this->assertInstanceOf(ArticleMediaInterface::class, $this->listener->handleMedia($article, 'embedded6358005131', $item));
     }
 
     /**

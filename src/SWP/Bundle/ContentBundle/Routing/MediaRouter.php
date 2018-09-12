@@ -73,12 +73,10 @@ class MediaRouter extends Router implements VersatileGeneratorInterface
             return $name->getValues()->getImage();
         }
 
-        if ($values->getImage() instanceof ImageInterface) {
-            return $values->getImage();
-        } elseif ($values->getFile() instanceof FileInterface) {
-            return $values->getFile();
+        if (($image = $values->getImage()) instanceof ImageInterface) {
+            return $image;
+        } elseif (($file = $values->getFile()) instanceof FileInterface) {
+            return $file;
         }
-
-        return;
     }
 }

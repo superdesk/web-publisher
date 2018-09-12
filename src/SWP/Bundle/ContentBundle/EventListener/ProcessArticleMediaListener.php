@@ -17,7 +17,6 @@ declare(strict_types=1);
 namespace SWP\Bundle\ContentBundle\EventListener;
 
 use SWP\Bundle\ContentBundle\Event\ArticleEvent;
-use SWP\Component\Bridge\Model\ItemInterface;
 
 class ProcessArticleMediaListener extends AbstractArticleMediaListener
 {
@@ -34,17 +33,16 @@ class ProcessArticleMediaListener extends AbstractArticleMediaListener
 
         foreach ($package->getItems() as $packageItem) {
             $key = $packageItem->getName();
-            if (ItemInterface::TYPE_PICTURE === $packageItem->getType() || ItemInterface::TYPE_FILE === $packageItem->getType()) {
+            if ($this->isTypeAllowed($packageItem->getType())) {
                 $this->removeArticleMediaIfNeeded($key, $article);
 
                 $articleMedia = $this->handleMedia($article, $key, $packageItem);
-
                 $this->articleMediaRepository->persist($articleMedia);
             }
 
             if (null !== $packageItem->getItems() && 0 !== $packageItem->getItems()->count()) {
                 foreach ($packageItem->getItems() as $key => $item) {
-                    if (ItemInterface::TYPE_PICTURE === $item->getType() || ItemInterface::TYPE_FILE === $item->getType()) {
+                    if ($this->isTypeAllowed($item->getType())) {
                         $this->removeArticleMediaIfNeeded($key, $article);
 
                         $articleMedia = $this->handleMedia($article, $key, $item);

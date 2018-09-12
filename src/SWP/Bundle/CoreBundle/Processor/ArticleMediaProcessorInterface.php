@@ -17,14 +17,9 @@ declare(strict_types=1);
 namespace SWP\Bundle\CoreBundle\Processor;
 
 use SWP\Bundle\ContentBundle\Model\ArticleInterface;
-use SWP\Bundle\ContentBundle\Processor\ArticleBodyProcessorInterface as BaseProcessorInterface;
 use SWP\Bundle\CoreBundle\Model\PackageInterface;
 
-interface ArticleBodyProcessorInterface extends BaseProcessorInterface
+interface ArticleMediaProcessorInterface
 {
-    /**
-     * @param PackageInterface $package
-     * @param ArticleInterface $article
-     */
     public function fillArticleMedia(PackageInterface $package, ArticleInterface $article): void;
 }

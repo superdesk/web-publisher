@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Superdesk Web Publisher Content Bundle.
  *
@@ -17,14 +19,9 @@ namespace SWP\Bundle\ContentBundle\Processor;
 use SWP\Bundle\ContentBundle\Model\ArticleInterface;
 use SWP\Bundle\ContentBundle\Model\ArticleMediaInterface;
 
-/**
- * Interface ArticleBodyProcessorInterface.
- */
 interface ArticleBodyProcessorInterface
 {
-    /**
-     * @param ArticleInterface      $article
-     * @param ArticleMediaInterface $articleMedia
-     */
-    public function replaceBodyImagesWithMedia(ArticleInterface $article, ArticleMediaInterface $articleMedia);
+    public function process(ArticleInterface $article, ArticleMediaInterface $articleMedia): void;
+
+    public function supports(string $type): bool;
 }

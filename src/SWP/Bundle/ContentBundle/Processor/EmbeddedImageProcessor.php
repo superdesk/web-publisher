@@ -5,47 +5,43 @@ declare(strict_types=1);
 /*
  * This file is part of the Superdesk Web Publisher Content Bundle.
  *
- * Copyright 2016 Sourcefabric z.ú. and contributors.
+ * Copyright 2018 Sourcefabric z.ú. and contributors.
  *
  * For the full copyright and license information, please see the
  * AUTHORS and LICENSE files distributed with this source code.
  *
- * @copyright 2016 Sourcefabric z.ú
+ * @copyright 2018 Sourcefabric z.ú
  * @license http://www.superdesk.org/license
  */
 
 namespace SWP\Bundle\ContentBundle\Processor;
 
+use SWP\Bundle\ContentBundle\File\FileExtensionCheckerInterface;
 use SWP\Bundle\ContentBundle\Manager\MediaManagerInterface;
 use SWP\Bundle\ContentBundle\Model\ArticleInterface;
 use SWP\Bundle\ContentBundle\Model\ArticleMedia;
 use SWP\Bundle\ContentBundle\Model\ArticleMediaInterface;
 use Symfony\Component\DomCrawler\Crawler;
 
-/**
- * Class ArticleBodyProcessor.
- */
-class ArticleBodyProcessor implements ArticleBodyProcessorInterface
+final class EmbeddedImageProcessor implements ArticleBodyProcessorInterface
 {
     /**
      * @var MediaManagerInterface
      */
-    protected $mediaManager;
+    private $mediaManager;
 
     /**
-     * MediaFactory constructor.
-     *
-     * @param MediaManagerInterface $mediaManager
+     * @var FileExtensionCheckerInterface
      */
-    public function __construct(MediaManagerInterface $mediaManager)
+    private $fileExtensionChecker;
+
+    public function __construct(MediaManagerInterface $mediaManager, FileExtensionCheckerInterface $fileExtensionChecker)
     {
         $this->mediaManager = $mediaManager;
+        $this->fileExtensionChecker = $fileExtensionChecker;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function replaceBodyImagesWithMedia(ArticleInterface $article, ArticleMediaInterface $articleMedia)
+    public function process(ArticleInterface $article, ArticleMediaInterface $articleMedia): void
     {
         $body = $article->getBody();
         $mediaId = $articleMedia->getKey();
@@ -87,5 +83,10 @@ class ArticleBodyProcessor implements ArticleBodyProcessorInterface
         }
 
         $article->setBody(str_replace($figureString, $crawler->filter('body')->html(), $body));
+    }
+
+    public function supports(string $type): bool
+    {
+        return $this->fileExtensionChecker->isImage($type);
     }
 }

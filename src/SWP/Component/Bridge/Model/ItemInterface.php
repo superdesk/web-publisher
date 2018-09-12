@@ -29,6 +29,10 @@ interface ItemInterface extends ContentInterface
 
     const TYPE_COMPOSITE = 'composite';
 
+    const TYPE_VIDEO = 'video';
+
+    const TYPE_AUDIO = 'audio';
+
     /**
      * @return string
      */

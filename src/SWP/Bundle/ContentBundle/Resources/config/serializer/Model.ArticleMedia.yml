@@ -17,4 +17,6 @@ SWP\Bundle\ContentBundle\Model\ArticleMedia:
                 route: swp_media_get
                 parameters:
                     mediaId: "expr(object.getImage() ? object.getImage().getAssetId() : object.getFile().getAssetId())"
-                    extension: "expr(object.getImage() ? object.getImage().getFileExtension() : object.getImage().getFileExtension())"
+                    extension: "expr(object.getImage() ? object.getImage().getFileExtension() : object.getFile().getFileExtension())"
+            exclusion:
+                exclude_if: "expr(null === object.getFile() && null === object.getImage())"

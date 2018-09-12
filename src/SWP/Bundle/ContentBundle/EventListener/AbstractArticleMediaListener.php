@@ -58,9 +58,7 @@ abstract class AbstractArticleMediaListener
             $this->articleMediaRepository->persist($rendition);
         }
 
-        if (ItemInterface::TYPE_PICTURE === $item->getType()) {
-            $this->articleBodyProcessor->replaceBodyImagesWithMedia($article, $articleMedia);
-        }
+        $this->articleBodyProcessor->process($article, $articleMedia);
 
         if (ArticleInterface::KEY_FEATURE_MEDIA === $key) {
             $article->setFeatureMedia($articleMedia);
@@ -93,5 +91,15 @@ abstract class AbstractArticleMediaListener
         if (null !== $existingArticleMedia) {
             $this->articleMediaRepository->remove($existingArticleMedia);
         }
+    }
+
+    public function isTypeAllowed(string $type): bool
+    {
+        return \in_array($type, [
+            ItemInterface::TYPE_PICTURE,
+            ItemInterface::TYPE_VIDEO,
+            ItemInterface::TYPE_FILE,
+            ItemInterface::TYPE_AUDIO,
+        ], true);
     }
 }

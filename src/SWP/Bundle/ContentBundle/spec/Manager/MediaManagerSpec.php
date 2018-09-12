@@ -16,6 +16,7 @@ namespace spec\SWP\Bundle\ContentBundle\Manager;
 
 use PhpSpec\ObjectBehavior;
 use SWP\Bundle\ContentBundle\Doctrine\ArticleMediaRepositoryInterface;
+use SWP\Bundle\ContentBundle\Factory\FileFactoryInterface;
 use SWP\Bundle\ContentBundle\Manager\MediaManager;
 use League\Flysystem\Filesystem;
 use SWP\Component\Storage\Factory\FactoryInterface;
@@ -28,7 +29,7 @@ class MediaManagerSpec extends ObjectBehavior
         Filesystem $filesystem,
         RouterInterface $router,
         FactoryInterface $imageFactory,
-        FactoryInterface $fileFactory
+        FileFactoryInterface $fileFactory
     ) {
         $this->beConstructedWith($mediaRepository, $filesystem, $router, $imageFactory, $fileFactory);
     }

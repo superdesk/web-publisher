@@ -16,8 +16,10 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\ContentBundle\Factory\ORM;
 
+use SWP\Bundle\ContentBundle\Doctrine\FileRepositoryInterface;
 use SWP\Bundle\ContentBundle\Doctrine\ImageRepositoryInterface;
 use SWP\Bundle\ContentBundle\Model\ArticleMedia;
+use SWP\Bundle\ContentBundle\Model\FileInterface;
 use SWP\Bundle\ContentBundle\Model\ImageRendition;
 use SWP\Bundle\ContentBundle\Factory\MediaFactoryInterface;
 use SWP\Bundle\ContentBundle\Model\ArticleInterface;
@@ -37,19 +39,22 @@ class MediaFactory implements MediaFactoryInterface
     protected $imageRepository;
 
     /**
+     * @var FileRepositoryInterface
+     */
+    protected $fileRepository;
+
+    /**
      * @var FactoryInterface
      */
     protected $factory;
 
-    /**
-     * MediaFactory constructor.
-     *
-     * @param ImageRepositoryInterface $imageRepository
-     * @param FactoryInterface         $factory
-     */
-    public function __construct(ImageRepositoryInterface $imageRepository, FactoryInterface $factory)
-    {
+    public function __construct(
+        ImageRepositoryInterface $imageRepository,
+        FileRepositoryInterface $fileRepository,
+        FactoryInterface $factory
+    ) {
         $this->imageRepository = $imageRepository;
+        $this->fileRepository = $fileRepository;
         $this->factory = $factory;
     }
 
@@ -61,7 +66,12 @@ class MediaFactory implements MediaFactoryInterface
         $articleMedia = $this->factory->create();
         $articleMedia->setArticle($article);
         $articleMedia->setFromItem($item);
-        $articleMedia = $this->createImageMedia($articleMedia, $key, $item);
+
+        if (ItemInterface::TYPE_PICTURE === $item->getType()) {
+            $articleMedia = $this->createImageMedia($articleMedia, $key, $item);
+        } else {
+            $articleMedia = $this->createFileMedia($articleMedia, $key, $item);
+        }
 
         return $articleMedia;
     }
@@ -93,6 +103,22 @@ class MediaFactory implements MediaFactoryInterface
         return $imageRendition;
     }
 
+    protected function createFileMedia(ArticleMedia $articleMedia, string $key, ItemInterface $item): ArticleMediaInterface
+    {
+        if (0 === $item->getRenditions()->count()) {
+            return $articleMedia;
+        }
+
+        $originalRendition = $this->findOriginalRendition($item);
+
+        $articleMedia->setMimetype($originalRendition->getMimetype());
+        $articleMedia->setKey($key);
+        $file = $this->findFile($originalRendition->getMedia());
+        $articleMedia->setFile($file);
+
+        return $articleMedia;
+    }
+
     /**
      * Handle Article Media with Image (add renditions, set mimetype etc.).
      *
@@ -108,11 +134,7 @@ class MediaFactory implements MediaFactoryInterface
             return $articleMedia;
         }
 
-        $originalRendition = $item->getRenditions()->filter(
-            function (RenditionInterface $rendition) {
-                return 'original' === $rendition->getName();
-            }
-        )->first();
+        $originalRendition = $this->findOriginalRendition($item);
 
         $articleMedia->setMimetype($originalRendition->getMimetype());
         $articleMedia->setKey($key);
@@ -129,6 +151,20 @@ class MediaFactory implements MediaFactoryInterface
         }
 
         return $articleMedia;
+    }
+
+    private function findOriginalRendition(ItemInterface $item): RenditionInterface
+    {
+        return $item->getRenditions()->filter(
+            function (RenditionInterface $rendition) {
+                return 'original' === $rendition->getName();
+            }
+        )->first();
+    }
+
+    protected function findFile(string $mediaId): ?FileInterface
+    {
+        return $this->fileRepository->findFileByAssetId(ArticleMedia::handleMediaId($mediaId));
     }
 
     protected function findImage(string $mediaId)

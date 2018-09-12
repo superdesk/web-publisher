@@ -30,6 +30,7 @@ class ImageRepository extends EntityRepository implements ImageRepositoryInterfa
             ->where('i.assetId = :assetId')
             ->setParameter('assetId', $assetId)
             ->getQuery()
+            ->setMaxResults(1)
             ->getResult();
 
         if (0 === count($images)) {

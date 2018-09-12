@@ -18,7 +18,7 @@ namespace SWP\Bundle\CoreBundle\Request\ParamConverter;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use SWP\Bundle\ContentBundle\Factory\ArticleFactoryInterface;
-use SWP\Bundle\CoreBundle\Processor\ArticleBodyProcessorInterface;
+use SWP\Bundle\CoreBundle\Processor\ArticleMediaProcessorInterface;
 use Takeit\Bundle\AmpHtmlBundle\Request\ParamConverter\ResolveEntityParamConverter as BaseResolveEntityParamConverter;
 use SWP\Bundle\CoreBundle\Model\ArticleInterface;
 use SWP\Bundle\CoreBundle\Model\PackageInterface;
@@ -44,9 +44,9 @@ class ResolveEntityParamConverter extends BaseResolveEntityParamConverter
     protected $templateContext;
 
     /**
-     * @var ArticleBodyProcessorInterface
+     * @var ArticleMediaProcessorInterface
      */
-    protected $articleBodyProcessor;
+    protected $articleMediaProcessor;
 
     /**
      * @var ArticleFactoryInterface
@@ -66,17 +66,17 @@ class ResolveEntityParamConverter extends BaseResolveEntityParamConverter
     /**
      * ResolveEntityParamConverter constructor.
      *
-     * @param array                         $mapping
-     * @param Context                       $templateContext
-     * @param ArticleBodyProcessorInterface $articleBodyProcessor
-     * @param RepositoryInterface           $packageRepository
-     * @param ArticleFactoryInterface       $articleFactory
-     * @param ManagerRegistry|null          $registry
+     * @param array                          $mapping
+     * @param Context                        $templateContext
+     * @param ArticleMediaProcessorInterface $articleMediaProcessor
+     * @param RepositoryInterface            $packageRepository
+     * @param ArticleFactoryInterface        $articleFactory
+     * @param ManagerRegistry|null           $registry
      */
     public function __construct(
         array $mapping,
         Context $templateContext,
-        ArticleBodyProcessorInterface $articleBodyProcessor,
+        ArticleMediaProcessorInterface $articleMediaProcessor,
         RepositoryInterface $packageRepository,
         ArticleFactoryInterface $articleFactory,
         ManagerRegistry $registry = null
@@ -84,7 +84,7 @@ class ResolveEntityParamConverter extends BaseResolveEntityParamConverter
         $this->mapping = $mapping;
         $this->packageRepository = $packageRepository;
         $this->templateContext = $templateContext;
-        $this->articleBodyProcessor = $articleBodyProcessor;
+        $this->articleMediaProcessor = $articleMediaProcessor;
         $this->articleFactory = $articleFactory;
         $this->registry = $registry;
 
@@ -111,7 +111,7 @@ class ResolveEntityParamConverter extends BaseResolveEntityParamConverter
         $package = $this->findPackageOr404((int) $id);
         /** @var ArticleInterface $article */
         $article = $this->articleFactory->createFromPackage($package);
-        $this->articleBodyProcessor->fillArticleMedia($package, $article);
+        $this->articleMediaProcessor->fillArticleMedia($package, $article);
         $article->setId($id);
 
         $request->attributes->set($name, $article);
