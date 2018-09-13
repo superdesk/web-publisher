@@ -4,6 +4,7 @@ default:
     suites:
         default:
             contexts:
+                - rdx\behatvars\BehatVariablesContext
                 - FeatureContext
                 - AuthTokenContext:
                     userProvider: '@swp.security.user_provider'
@@ -13,6 +14,7 @@ default:
                 - Behatch\Context\JsonContext
 
     extensions:
+        rdx\behatvars\BehatVariablesExtension: ~
         Behat\Symfony2Extension:
             kernel:
                 env: "test"

@@ -31,6 +31,7 @@ return [
     Takeit\Bundle\AmpHtmlBundle\TakeitAmpHtmlBundle::class => ['all' => true],
     Doctrine\Bundle\MigrationsBundle\DoctrineMigrationsBundle::class => ['all' => true],
     Lexik\Bundle\JWTAuthenticationBundle\LexikJWTAuthenticationBundle::class => ['all' => true],
+    Gesdinet\JWTRefreshTokenBundle\GesdinetJWTRefreshTokenBundle::class => ['all' => true],
 
     SWP\Bundle\StorageBundle\SWPStorageBundle::class => ['all' => true],
     SWP\Bundle\MultiTenancyBundle\SWPMultiTenancyBundle::class => ['all' => true],
