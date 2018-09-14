@@ -70,7 +70,7 @@ before_script:
 script:
 - sudo supervisord -c /etc/supervisor/supervisord.conf
 - sudo supervisorctl status
-- bin/behat -f progress
+- bin/behat -f progress -vvv
 - bin/phpspec run
 - bin/phpunit -c app/
 - bin/phpunit --stderr -c app/ src/SWP/Bundle/CoreBundle/Tests/Security/Storage/DynamicDomainSessionStorageTest.php
