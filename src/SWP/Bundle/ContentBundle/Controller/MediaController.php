@@ -19,8 +19,6 @@ namespace SWP\Bundle\ContentBundle\Controller;
 use SWP\Bundle\ContentBundle\File\FileExtensionChecker;
 use SWP\Bundle\ContentBundle\File\FileExtensionCheckerInterface;
 use SWP\Bundle\ContentBundle\Model\ArticleMedia;
-use SWP\Bundle\ContentBundle\Model\FileInterface;
-use SWP\Bundle\ContentBundle\Model\Image;
 use SWP\Bundle\ContentBundle\Provider\FileProvider;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
