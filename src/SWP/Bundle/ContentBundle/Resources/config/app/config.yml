@@ -52,11 +52,20 @@ cmf_core:
 
 oneup_flysystem:
     adapters:
-        filesystem_adapter:
+        aws_adapter:
+            awss3v3:
+                client: Aws\S3\S3Client
+                bucket: '%env(FS_AWS_S3_BUCKET)%'
+                prefix: '%env(FS_AWS_S3_PREFIX)%'
+        local_adapter:
             local:
                 directory: '%kernel.root_dir%/../web/uploads/'
-
+        fallback_adapter:
+            fallback:
+                mainAdapter: '%fs_main_adapter%'
+                fallback: local_adapter
+                forceCopyOnMain: ~
     filesystems:
         swp_filesystem:
-            adapter: filesystem_adapter
+            adapter: fallback_adapter
             alias: swp_filesystem

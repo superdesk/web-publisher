@@ -23,4 +23,6 @@ interface FileExtensionCheckerInterface
     public function isVideo(string $mimeType): bool;
 
     public function isImage(string $mimeType): bool;
+
+    public function isAttachment(string $mimeType): bool;
 }

@@ -62,3 +62,12 @@ parameters:
     env(FIXTURES_TYPE): dev
 
     JWT_PASS_PHRASE:
+
+    FS_AWS_S3_VERSION:
+    FS_AWS_S3_REGION:
+    FS_AWS_S3_KEY:
+    FS_AWS_S3_SECRET:
+    FS_AWS_S3_PREFIX: ~
+    FS_AWS_S3_BUCKET:
+    fs_main_adapter: '%env(FS_MAIN_ADAPTER)%'
+    env(FS_MAIN_ADAPTER): local_adapter

@@ -33,6 +33,11 @@ final class FileExtensionChecker implements FileExtensionCheckerInterface
         return $this->startsWith($mimeType, 'image');
     }
 
+    public function isAttachment(string $mimeType): bool
+    {
+        return $this->startsWith($mimeType, 'application');
+    }
+
     private function startsWith(string $mimeType, string $string): bool
     {
         return 0 === strpos($mimeType, $string);

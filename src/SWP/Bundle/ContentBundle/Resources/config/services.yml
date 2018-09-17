@@ -259,3 +259,12 @@ services:
             - { name: doctrine.event_listener, event: prePersist }
 
     SWP\Bundle\ContentBundle\File\FileExtensionChecker: ~
+
+    Aws\S3\S3Client:
+        arguments:
+            -
+                version: '%env(FS_AWS_S3_VERSION)%'
+                region: '%env(FS_AWS_S3_REGION)%'
+                credentials:
+                    key: '%env(FS_AWS_S3_KEY)%'
+                    secret: '%env(FS_AWS_S3_SECRET)%'

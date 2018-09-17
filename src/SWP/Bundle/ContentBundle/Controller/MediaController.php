@@ -16,7 +16,10 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\ContentBundle\Controller;
 
+use SWP\Bundle\ContentBundle\File\FileExtensionChecker;
+use SWP\Bundle\ContentBundle\File\FileExtensionCheckerInterface;
 use SWP\Bundle\ContentBundle\Model\ArticleMedia;
+use SWP\Bundle\ContentBundle\Model\FileInterface;
 use SWP\Bundle\ContentBundle\Model\Image;
 use SWP\Bundle\ContentBundle\Provider\FileProvider;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -53,7 +56,11 @@ class MediaController extends Controller
         }
 
         $response = new Response();
-        if ($media instanceof Image) {
+        /** @var FileExtensionCheckerInterface $fileExtensionChecker */
+        $fileExtensionChecker = $this->container->get(FileExtensionChecker::class);
+        $mimeType = Mime::getMimeFromExtension($extension);
+
+        if (!$fileExtensionChecker->isAttachment($mimeType)) {
             $disposition = $response->headers->makeDisposition(ResponseHeaderBag::DISPOSITION_INLINE, str_replace('/', '_', $mediaId.'.'.$media->getFileExtension()));
         } else {
             $disposition = $response->headers->makeDisposition(ResponseHeaderBag::DISPOSITION_ATTACHMENT, str_replace('/', '_', $mediaId.'.'.$media->getFileExtension()));
