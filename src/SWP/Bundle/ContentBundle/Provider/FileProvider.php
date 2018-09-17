@@ -57,14 +57,10 @@ final class FileProvider implements FileProviderInterface
             return null;
         }
 
-        if ($this->fileExtensionChecker->isVideo($mimeType) || $this->fileExtensionChecker->isAudio($mimeType)) {
-            return $this->fileRepository->findFileByAssetId($id);
-        }
-
         if ($this->fileExtensionChecker->isImage($mimeType)) {
             return $this->imageRepository->findImageByAssetId($id);
         }
 
-        return null;
+        return $this->fileRepository->findFileByAssetId($id);
     }
 }
