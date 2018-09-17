@@ -1,0 +1,99 @@
+fos_http_cache:
+    user_context:
+        enabled: false
+    tags:
+        enabled: true
+    cache_manager:
+        enabled: true
+        generate_url_type: 0
+    proxy_client:
+        varnish:
+            http:
+                servers: "%cache_servers%"
+                base_url: "%env(SWP_DOMAIN)%"
+    invalidation:
+        rules:
+            -
+                match:
+                    attributes:
+                        _route: "swp_api_content_update_lists|swp_api_content_delete_lists"
+                routes:
+                    swp_api_content_list_lists: ~
+                    swp_api_content_show_lists: ~
+            -
+                match:
+                    attributes:
+                        _route: "swp_api_content_update_routes|swp_api_content_delete_routes"
+                routes:
+                    swp_api_content_list_routes: ~
+                    swp_api_content_show_routes: ~
+            -
+                match:
+                    attributes:
+                        _route: "swp_api_content_create_routes"
+                routes:
+                    swp_api_content_list_routes: ~
+            -
+                match:
+                    attributes:
+                        _route: "swp_api_content_update_articles"
+                routes:
+                    swp_api_content_list_articles: ~
+                    swp_api_content_show_articles: ~
+                    swp_api_core_list_packages: ~
+            -
+                match:
+                    attributes:
+                        _route: "swp_api_templates_update_widget|swp_api_templates_delete_widget"
+                routes:
+                    swp_api_templates_list_widgets: ~
+                    swp_api_templates_get_widget: ~
+            -
+                match:
+                    attributes:
+                        _route: "swp_api_templates_update_widget|swp_api_templates_delete_widget"
+                routes:
+                    swp_api_templates_list_widgets: ~
+                    swp_api_templates_get_widget: ~
+            -
+                match:
+                    attributes:
+                        _route: "swp_api_templates_update_container|swp_api_templates_delete_container|swp_api_templates_link_container"
+                routes:
+                    swp_api_templates_list_containers: ~
+                    swp_api_templates_get_container: ~
+            -
+                match:
+                    attributes:
+                        _route: "swp_api_core_update_tenant|swp_api_core_delete_tenant"
+                routes:
+                    swp_api_core_list_tenants: ~
+                    swp_api_core_get_tenant: ~
+            -
+                match:
+                    attributes:
+                        _route: "swp_api_core_update_rule|swp_api_core_delete_rule"
+                routes:
+                    swp_api_core_list_rule: ~
+                    swp_api_core_get_rule: ~
+            -
+                match:
+                    attributes:
+                        _route: "swp_api_core_update_organization_rule|swp_api_core_delete_organization_rule"
+                routes:
+                    swp_api_core_list_organization_rules: ~
+                    swp_api_core_show_organization_rule: ~
+            -
+                match:
+                    attributes:
+                        _route: "swp_api_core_move_menu|swp_api_core_delete_menu"
+                routes:
+                    swp_api_core_list_menu: ~
+                    swp_api_core_list_children_menu: ~
+                    swp_api_core_get_menu: ~
+            -
+                match:
+                    attributes:
+                        _route: "swp_api_core_create_menu"
+                routes:
+                    swp_api_core_list_menu: ~
