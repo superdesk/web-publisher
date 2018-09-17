@@ -68,12 +68,10 @@ class MediaFactory implements MediaFactoryInterface
         $articleMedia->setFromItem($item);
 
         if (ItemInterface::TYPE_PICTURE === $item->getType()) {
-            $articleMedia = $this->createImageMedia($articleMedia, $key, $item);
-        } else {
-            $articleMedia = $this->createFileMedia($articleMedia, $key, $item);
+            return $this->createImageMedia($articleMedia, $key, $item);
         }
 
-        return $articleMedia;
+        return $this->createFileMedia($articleMedia, $key, $item);
     }
 
     /**
