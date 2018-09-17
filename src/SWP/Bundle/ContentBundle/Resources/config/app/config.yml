@@ -1,5 +1,12 @@
 parameters:
     jms_serializer.camel_case_naming_strategy.class: JMS\Serializer\Naming\IdenticalPropertyNamingStrategy
+    FS_MAIN_ADAPTER: local_adapter
+    env(FS_AWS_S3_BUCKET): ''
+    env(FS_AWS_S3_PREFIX): ~
+    env(FS_AWS_S3_VERSION): 'latest'
+    env(FS_AWS_S3_REGION): ''
+    env(FS_AWS_S3_KEY): ''
+    env(FS_AWS_S3_SECRET): ''
 
 jms_serializer:
     metadata:
@@ -55,8 +62,8 @@ oneup_flysystem:
         aws_adapter:
             awss3v3:
                 client: Aws\S3\S3Client
-                bucket: '%env(FS_AWS_S3_BUCKET)%'
-                prefix: '%env(FS_AWS_S3_PREFIX)%'
+                bucket: '%env(resolve:FS_AWS_S3_BUCKET)%'
+                prefix: '%env(resolve:FS_AWS_S3_PREFIX)%'
         local_adapter:
             local:
                 directory: '%kernel.root_dir%/../web/uploads/'

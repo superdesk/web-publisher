@@ -52,7 +52,8 @@
     "willdurand/hateoas-bundle": "^1.2",
     "hoa/mime": "3.16.01.15",
     "phpoption/phpoption": "1.5.*",
-    "burgov/key-value-form-bundle": "@stable"
+    "burgov/key-value-form-bundle": "@stable",
+    "litipk/flysystem-fallback-adapter": "dev-master"
   },
   "require-dev": {
     "phpspec/phpspec": "^2.4",

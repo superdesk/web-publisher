@@ -263,8 +263,8 @@ services:
     Aws\S3\S3Client:
         arguments:
             -
-                version: '%env(FS_AWS_S3_VERSION)%'
-                region: '%env(FS_AWS_S3_REGION)%'
+                version: '%env(resolve:FS_AWS_S3_VERSION)%'
+                region: '%env(resolve:FS_AWS_S3_REGION)%'
                 credentials:
-                    key: '%env(FS_AWS_S3_KEY)%'
-                    secret: '%env(FS_AWS_S3_SECRET)%'
+                    key: '%env(resolve:FS_AWS_S3_KEY)%'
+                    secret: '%env(resolve:FS_AWS_S3_SECRET)%'
