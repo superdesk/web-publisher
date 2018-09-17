@@ -7,6 +7,7 @@ This changelog references the relevant changes (bug and security fixes) done in 
 To get the diff for a specific change, go to https://github.com/superdesk/web-publisher/commit/XXX where XXX is the change hash
 
 * 1.4.0
+ * feature [#626] Allow to store files on AWS
  * feature [#621] Added support for audio/video files
  * feature [#608] Invalidate varnish cache for article and route page when article is updated
  * feature [#593] Added support for media lists/slideshows
