@@ -31,6 +31,10 @@ security:
         registration:
             pattern: ^/api/[v0-9]{2}/users/register
             security: false
+        refresh_jwt:
+            pattern:  ^/api/[v0-9]{2}/token/refresh
+            stateless: true
+            anonymous: true
         internal_api:
             pattern: ^/api
             anonymous: false
@@ -66,4 +70,5 @@ security:
     access_control:
         - { path: "^/preview/article", roles: ROLE_EDITOR }
         - { path: "^/api/[v0-9]{2}/users/profile/*", roles: ROLE_USER }
+        - { path: "^/api/[v0-9]{2}/token/refresh", roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: "^/api", roles: ROLE_INTERNAL_API }

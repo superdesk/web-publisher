@@ -1,0 +1,3 @@
+gesdinet_jwt_refresh_token:
+    path:     /api/{version}/token/refresh
+    defaults: { _controller: gesdinet.jwtrefreshtoken:refresh }
