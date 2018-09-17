@@ -85,7 +85,7 @@ To get the diff for a specific change, go to https://github.com/superdesk/web-pu
  * feature [#372] Add Liveblog widget, add external ESI renderer
  * feature [#368] Add Content List Loader
 
-* 1.1.0
+### 1.1.0
  * feature [#364] Add two new user settings
  * improvement [#360] Allow multiple routes filtering in articles loader
  * improvement [#359] Allow removing about field content in user profile
@@ -93,10 +93,10 @@ To get the diff for a specific change, go to https://github.com/superdesk/web-pu
  * improvement [#352] Add caching to static theme assets
  * fix [#350] Add genre property to NINJS schema validator 
 
-* 1.0.1
+### 1.0.1
  * feature [RuleBundle] Implemented name and description fields in Rules API 
 
-* 1.0.0
+### 1.0.0
  * fix Adding article to content lists on publish (#349)
  * fix Set default value for urgency, handle genre as array in package item
  * feature ElasticSearch integration & bugfixes (#336)
