@@ -6,7 +6,7 @@ This changelog references the relevant changes (bug and security fixes) done in 
 
 To get the diff for a specific change, go to https://github.com/superdesk/web-publisher/commit/XXX where XXX is the change hash
 
-* 1.4.0
+### 1.4.0
  * feature [#621] Added support for audio/video files
  * feature [#620, #625] Add support for auth JWT tokens (used by Coral Talk)
  * feature [#618] Implement article CTR calculations
@@ -46,7 +46,7 @@ To get the diff for a specific change, go to https://github.com/superdesk/web-pu
  * improvement [#465] allow filtering by route name in content lists
  * feature [#459] Added an option to preview an article before even publishing it
 
-* 1.3.0
+### 1.3.0
  * feature [#462] Added template widget
  * bug [#460] Install assets when theme is installed
  * feature [#458] Added redirect and notFound functions for twig templates
@@ -75,7 +75,7 @@ To get the diff for a specific change, go to https://github.com/superdesk/web-pu
  * feature [#420] Add statistics to articles. Collect page views and make them visible in template and api
  * feature [#416] Add Webhooks system (with API) to publisher
  
-* 1.2.0
+### 1.2.0
  * feature [#394] Add "template_name" parameter to html widget
  * feature [#393] Introduce "without" keyword for gimmelist and add refactor article sources to allow better filtering
  * [BC Break] feature [#371] Handle article sources (Article source is now an array of sources instead of a string.)
@@ -109,7 +109,7 @@ To get the diff for a specific change, go to https://github.com/superdesk/web-pu
  
  Full list of commits: https://github.com/superdesk/web-publisher/compare/cd75f77...046da8f
 
-* 0.6.0
+### 0.6.0
  * feature [#324] Added an option to sort collections
  * feature [#316] Add possibility to set custom headers and clear cookies with ResponseContext class.
  * feature [#314] Add more options to articles filtering api
@@ -120,7 +120,7 @@ To get the diff for a specific change, go to https://github.com/superdesk/web-pu
  * feature [#297] Add API to delete article
  * feature [#294] Add support for Manual Content List in API
 
-* 0.5.0
+### 0.5.0
  * feature [#281] Allow to filter articles by route id in API
  * feature [#280] Add correct Content-Type header to routes with extensions
  * feature [#279] Allow to filter articles by status in API
@@ -129,7 +129,7 @@ To get the diff for a specific change, go to https://github.com/superdesk/web-pu
  * feature [#212] Implement revisions system for containers
  * feature [#265] Add command to list tenants
 
-* 0.2.0
+### 0.2.0
  * feature [#235] Add API endpoint for rendering single container (and its content)
  * feature [#219] Automatically create menu widget when root menu/navigation is created
  * feature [#218] Assign article to route of type content automatically when article is published
@@ -141,37 +141,37 @@ To get the diff for a specific change, go to https://github.com/superdesk/web-pu
  * feature [#203] Added option to access theme assets with simple /public/{fileName} links
  * change [#207] Changed serialized properties naming strategy from underscore to camelCase
 
-* 0.1.0-11
+### 0.1.0-11
  * feature [#184] Added Google AMP HTML integration
 
-* 0.1.0-10
+### 0.1.0-10
  * feature [#182] [CoreBundle] Implement API token authentication
  * feature [#181] [MenuBundle] Implement possibility to move menu items
  * feature [#176] Added a new way to dynamically handle "resolve target entities"
  * feature [#176] Introduced better inheritance mapping
 
-* 0.1.0-9
+### 0.1.0-9
  * feature [#168] Added automatic content lists
  * feature [#173] Add user registration and login features
  
-* 0.1.0-8
+### 0.1.0-8
  * bug/feature/maintenance [#165] Switch to ORM as main storage backend 
 
-* 0.1.0-7
+### 0.1.0-7
  * maintenance [#156] added memcached to project requirements and configured it as default sessions handler
  * maintenance [#156] Specified project requirements
  * feature [#155] Upgrade Symfony version to 3.1
  * feature [#153] Bump lowest PHP version to ^7.0
  * bug [#152] [ContentBundle] If I correct a headline, it and its article are published in addition to the original (takeit)
 
-* 0.1.0-6
+### 0.1.0-6
  * feature [#138] [RuleBundle][Rule][ContentBundle] Added content to route mapping with simple rules managed by API (takeit)
  * feature [#139] Add default templates for error pages.
  * feature [#128] [ContentBundle] Add route type constraint validator (takeit)
  * bug [#128] [ContentBundle] Improve possibility to un-assign/assign parent routes (takeit)
  * feature [#132] [Template System][TemplateEngine Bundle] implement pagination in gimmelist
 
-* 0.1.0-5 
+### 0.1.0-5 
  * bug [#128] [ContentBundle] Un-assigning content from route doesn't work (takeit)
  * feature [#128] [ContentBundle] Allow to assign/un-assign route to article (takeit)
  * bug [#129] [CoreBundle][ContentBundle] Change template name discovery, add articles_template_name to route (see updated documentation)
