@@ -8,24 +8,42 @@ To get the diff for a specific change, go to https://github.com/superdesk/web-pu
 
 * 1.4.0
  * feature [#621] Added support for audio/video files
+ * feature [#620, #625] Add support for auth JWT tokens (used by Coral Talk)
+ * feature [#618] Implement article CTR calculations
+ * improvement [#615] Add option reorder routes
+ * improvement [#613] Add collection loading to route loader
+ * improvement [#612] Add exclude_article handling to article loader
  * feature [#608] Invalidate varnish cache for article and route page when article is updated
+ * feature [#607] Add time ago extension to twig
+ * improvement [#603] Add option to force remove tenant
  * feature [#593] Added support for media lists/slideshows
  * feature [#595] Return paywallSecured property in the "evaluate" API endpoint
+ * improvement [#587] Update livesite editor
  * feature [#583] Allow to mark articles as "paywall-secured" using rules and destinations
  * bug [#581] Use domain name from tenant as a value of cookie_domain
+ * feature [#577] Implement API for package external data
  * feature [#574] Paywall implementation
+ * feature [#573] Collect article impressions data in database
+ * improvement [#654] Update vendors to symfony4 compatible versions
  * improvement [#560] Add sufix (generated from package guid) for duplicated article slugs
  * bug [#556] Fixed boolean values in Settings API
  * feature [#548] Added periodic ping calls to keep WebSocket connection alive
  * bug [#544] List only published articles in content lists on frontend
- * feature [#538] Store article author images in publisher
+ * feature [#539] Store article author images in publisher
  * bug [#531] Assign package to theme generated articles
  * bug [#530] Authors without slug after publishing article
  * bug [#525] Fixed the status of already published package after the correction
  * improvement [#524] Allow to set published to false when publishing an article
+ * improvement [#521] Unpublish articles (status new) and package (status usable) when it's route is removed
+ * improvement [#511] Add slug property to author meta
+ * feature [#506] Wordpress output channel adapter
  * feature [#503] Added push integration/notification about newly created package based on WebSocket
  * bug [#499] Fixed package preview when template is not set or does not exist
+ * improvement [#497] Upload theme always to generated (from theme name) directory
  * bug [#494] Fixed article's slug line so it can handle chinese chars
+ * feature [#488] Secure content push to Publisher (option to set secret for organization)
+ * bug [#479] Fix article author loaders (sorting) and article media loader (cache key)
+ * improvement [#465] allow filtering by route name in content lists
  * feature [#459] Added an option to preview an article before even publishing it
 
 * 1.3.0
