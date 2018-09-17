@@ -62,7 +62,7 @@ oneup_flysystem:
                 directory: '%kernel.root_dir%/../web/uploads/'
         fallback_adapter:
             fallback:
-                mainAdapter: '%fs_main_adapter%'
+                mainAdapter: '%FS_MAIN_ADAPTER%'
                 fallback: local_adapter
                 forceCopyOnMain: ~
     filesystems:
