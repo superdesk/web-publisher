@@ -95,9 +95,11 @@ class ArticleLoader extends PaginatedLoader implements LoaderInterface
         if ('article' === $type && LoaderInterface::SINGLE === $responseType) {
             $article = null;
             if (array_key_exists('article', $parameters) && $parameters['article'] instanceof ArticleInterface) {
-                $this->dm->detach($parameters['article']);
-                $criteria->set('id', $parameters['article']->getId());
-                unset($parameters['article']);
+                try {
+                    return $this->getArticleMeta($parameters['article']);
+                } catch (NotFoundHttpException $e) {
+                    return;
+                }
             } elseif (array_key_exists('slug', $parameters)) {
                 $criteria->set('slug', $parameters['slug']);
             }
