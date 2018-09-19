@@ -1,10 +1,13 @@
 
-CHANGELOG for version <= 1.4.x
+CHANGELOG for version <= 1.5.x
 ==============================
 
 This changelog references the relevant changes (bug and security fixes) done in <= 1.1 minor versions.
 
 To get the diff for a specific change, go to https://github.com/superdesk/web-publisher/commit/XXX where XXX is the change hash
+
+### 1.5.0
+ * improvement [#630] Add otpion to exclude articles fron content list items
 
 ### 1.4.0
  * feature [#626] Allow to store files on AWS
