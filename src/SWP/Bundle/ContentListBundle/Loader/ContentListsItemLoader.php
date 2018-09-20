@@ -93,6 +93,10 @@ class ContentListsItemLoader extends PaginatedLoader implements LoaderInterface
                 $criteria->set('sticky', $parameters['sticky']);
             }
 
+            if (isset($withoutParameters['content'])) {
+                $criteria->set('exclude_content', $withoutParameters['content']);
+            }
+
             $criteria = $this->applyPaginationToCriteria($criteria, $parameters);
             $contentListItems = $this->contentListItemsRepository->getPaginatedByCriteria($criteria, $criteria->get('order', [
                 'sticky' => 'desc',
