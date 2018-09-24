@@ -1,0 +1,11 @@
+name: keyword
+class: "SWP\\Bundle\\ContentBundle\\Model\\KeywordInterface"
+description: Keyword Meta is representation of Keyword in Superdesk Web Publisher.
+properties:
+    name:
+        description: "Keyword name"
+        type: text
+    slug:
+        description: "Keyword slug used for url"
+        type: text
+to_string: name

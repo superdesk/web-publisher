@@ -44,9 +44,15 @@ class ArticleLoaderTest extends WebTestCase
     {
         $template = '{% gimmelist article from articles with {keywords: ["car"]} %} {% for keyword in article.keywords %} {{ keyword }} {% endfor %} {% endgimmelist %}';
         $result = $this->getRendered($template);
-
         self::assertContains('car', $result);
-        self::assertNotContains('mazda', $result);
+
+        $template = '{% gimmelist article from articles with {keywords: ["big-city"]} %} {% for keyword in article.keywords %} {{ keyword }} {% endfor %} {% endgimmelist %}';
+        $result = $this->getRendered($template);
+        self::assertContains('Big city', $result);
+
+        $template = '{% gimmelist article from articles with {keywords: ["mazda"]} %} {% for keyword in article.keywords %} {{ keyword }} {% endfor %} {% endgimmelist %}';
+        $result = $this->getRendered($template);
+        self::assertNotContains('car', $result);
     }
 
     public function testFilteringByMultipleRoutes()

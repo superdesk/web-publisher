@@ -44,6 +44,8 @@ use SWP\Bundle\ContentBundle\Model\Image;
 use SWP\Bundle\ContentBundle\Model\ImageInterface;
 use SWP\Bundle\ContentBundle\Model\ImageRendition;
 use SWP\Bundle\ContentBundle\Model\ImageRenditionInterface;
+use SWP\Bundle\ContentBundle\Model\Keyword;
+use SWP\Bundle\ContentBundle\Model\KeywordInterface;
 use SWP\Bundle\ContentBundle\Model\Route;
 use SWP\Bundle\ContentBundle\Model\RouteInterface;
 use SWP\Bundle\ContentBundle\Model\Slideshow;
@@ -194,6 +196,16 @@ class Configuration implements ConfigurationInterface
                                             ->children()
                                                 ->scalarNode('model')->cannotBeEmpty()->defaultValue(ImageRendition::class)->end()
                                                 ->scalarNode('interface')->cannotBeEmpty()->defaultValue(ImageRenditionInterface::class)->end()
+                                                ->scalarNode('repository')->defaultValue(EntityRepository::class)->end()
+                                                ->scalarNode('factory')->defaultValue(Factory::class)->end()
+                                                ->scalarNode('object_manager_name')->defaultValue(null)->end()
+                                            ->end()
+                                        ->end()
+                                        ->arrayNode('keyword')
+                                            ->addDefaultsIfNotSet()
+                                            ->children()
+                                                ->scalarNode('model')->cannotBeEmpty()->defaultValue(Keyword::class)->end()
+                                                ->scalarNode('interface')->cannotBeEmpty()->defaultValue(KeywordInterface::class)->end()
                                                 ->scalarNode('repository')->defaultValue(EntityRepository::class)->end()
                                                 ->scalarNode('factory')->defaultValue(Factory::class)->end()
                                                 ->scalarNode('object_manager_name')->defaultValue(null)->end()

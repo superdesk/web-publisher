@@ -55,14 +55,12 @@ final class ArticleDataProvider extends BaseProvider
     public function articleKeywords(): array
     {
         $keywords = [
-            'city',
+            'Big city',
             'traffic',
             'car',
             'news',
             'building',
         ];
-
-        shuffle($keywords);
 
         return $keywords;
     }
