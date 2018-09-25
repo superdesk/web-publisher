@@ -726,7 +726,8 @@ final class ContentPushTest extends WebTestCase
         self::assertArrayHasKey('lead', $content);
         self::assertEquals('some abstract text', $content['lead']);
         self::assertArrayHasKey('keywords', $content);
-        self::assertEquals(['keyword1', 'keyword2'], $content['keywords']);
+        self::assertEquals(['name' => 'keyword1', 'slug' => 'keyword1'], $content['keywords'][0]);
+        self::assertEquals(['name' => 'keyword2', 'slug' => 'keyword2'], $content['keywords'][1]);
     }
 
     public function testArticleUnpublishWhenItemKilled()

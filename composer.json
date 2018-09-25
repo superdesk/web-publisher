@@ -50,6 +50,7 @@
         "ext-curl": "*",
         "ext-zip": "*",
         "ext-gd": "*",
+        "ext-intl": "*",
         "symfony/symfony": "3.4.14",
         "symfony/swiftmailer-bundle": "~3.0",
         "symfony/monolog-bundle": "~3.0",

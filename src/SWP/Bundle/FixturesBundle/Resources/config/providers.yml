@@ -2,6 +2,9 @@ services:
     _defaults:
         tags: ['nelmio_alice.faker.provider']
         autowire: true
+        bind:
+            $keywordRepository: '@swp.repository.keyword'
+            $keywordFactory: '@swp.factory.keyword'
 
     SWP\Bundle\FixturesBundle\Faker\Provider\:
         resource: '../../Faker/Provider/*'

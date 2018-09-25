@@ -460,6 +460,10 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface, Orde
             $articleService = $this->container->get('swp.service.article');
             $sourcesFactory = $this->container->get('swp.factory.article_source');
             $articleSourcesService = $this->container->get('swp.service.article_source');
+
+            $persistedKeywords = $articleDataProvider->articleKeywords();
+            $manager->flush();
+
             foreach ($articles[$env] as $articleData) {
                 /** @var ArticleInterface $article */
                 $article = $this->container->get('swp.factory.article')->create();
@@ -468,8 +472,13 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface, Orde
                 $article->setRoute($this->getRouteByName($articleData['route']));
                 $article->setLocale($articleData['locale']);
                 $article->setCode(md5($articleData['title']));
-                $article->setKeywords($articleDataProvider->articleKeywords());
                 $manager->persist($article);
+                foreach ($persistedKeywords as $index => $persistedKeyword) {
+                    if ($index < 3) {
+                        $article->addKeyword($persistedKeyword);
+                    }
+                }
+                $article->addKeyword($persistedKeywords[rand(3, 4)]);
 
                 if (isset($articleData['extra'])) {
                     $article->setExtra($articleData['extra']);
