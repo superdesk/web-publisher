@@ -110,6 +110,17 @@ class ContentListItemLoaderTest extends WebTestCase
         self::assertEquals(' article4-3-false ', $result);
     }
 
+    public function testExcludingArticles()
+    {
+        $template = '{% gimmelist item from contentListItems with { contentListName: "List1"} without {content: [1,3]} %} {{ item.content.title }} {% endgimmelist %}';
+        $result = $this->getRendered($template);
+        self::assertEquals(' article2  article4 ', $result);
+
+        $template = '{% gimmelist item from contentListItems with { contentListName: "List1"} without {content: 1} %} {{ item.content.title }} {% endgimmelist %}';
+        $result = $this->getRendered($template);
+        self::assertEquals(' article3  article2  article4 ', $result);
+    }
+
     public function testPagination()
     {
         $template = '{% gimmelist item from contentListItems|start(0)|limit(3) with { contentListName: "List1"} %} {{ item.content.title }}-{{ item.position}}-{{ item.sticky ? "true":"false" }} {% endgimmelist %}';

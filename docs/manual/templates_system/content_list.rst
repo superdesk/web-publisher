@@ -82,3 +82,7 @@ Parameters:
 .. code-block:: twig
 
     {% gimmelist item from contentListItems with { contentListId: 1, sticky: true } %} - filter by sticky value.
+
+.. code-block:: twig
+
+    {% gimmelist item from contentListItems with { contentListId: 1, sticky: true } without {content: [1]} %} - exclude article with id 1 (in case of articles as items).

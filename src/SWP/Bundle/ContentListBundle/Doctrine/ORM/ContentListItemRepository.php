@@ -61,6 +61,14 @@ class ContentListItemRepository extends SortableEntityRepository implements Cont
     {
         $queryBuilder = $this->getSortedItems($criteria, $sorting, ['contentList' => $criteria->get('contentList')]);
 
+        if ($criteria->has('exclude_content')) {
+            $excludeContent = $criteria->get('exclude_content');
+            if (\is_numeric($excludeContent)) {
+                $excludeContent = [$excludeContent];
+            }
+            $queryBuilder->andWhere($queryBuilder->expr()->notIn('n.content', $excludeContent));
+        }
+
         if (null === $paginationData) {
             $paginator = new Paginator();
 
