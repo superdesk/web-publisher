@@ -1,14 +1,6 @@
 parameters:
     data_collector.config.class: "Symfony\\Component\\Translation\\DataCollector\\TranslationDataCollector"
 
-web_profiler:
-    toolbar: true
-    intercept_redirects: false
-
-twig:
-    cache: false
-    debug: true
-
 services:
     #Disable translations collector
     data_collector.translation:

@@ -4,5 +4,5 @@ parameters:
 doctrine_cache:
     providers:
         main_cache:
-            type: '%env(resolve:DOCTRINE_CACHE_DRIVER)%'
+            type: array
             namespace: '%env(APP_SECRET)%'

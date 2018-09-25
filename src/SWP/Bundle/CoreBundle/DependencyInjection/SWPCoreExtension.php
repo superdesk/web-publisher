@@ -18,6 +18,7 @@ use SWP\Bundle\StorageBundle\DependencyInjection\Extension\Extension;
 use SWP\Bundle\StorageBundle\Drivers;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\Extension\PrependExtensionInterface;
 use Symfony\Component\DependencyInjection\Loader;
 
 /**
@@ -25,7 +26,7 @@ use Symfony\Component\DependencyInjection\Loader;
  *
  * To learn more see {@link http://symfony.com/doc/current/cookbook/bundles/extension.html}
  */
-class SWPCoreExtension extends Extension
+class SWPCoreExtension extends Extension implements PrependExtensionInterface
 {
     /**
      * {@inheritdoc}
@@ -42,7 +43,13 @@ class SWPCoreExtension extends Extension
         $loader->load('output_channel_adapter.yml');
         $loader->load('websocket.yml');
         $loader->load('commands.yml');
-        $this->loadDeviceListener($config, $loader);
+        $this->loadDeviceListener($config, $loader, $container);
+
+        $config = $container->resolveEnvPlaceholders($config);
+
+        if (!empty($config['superdesk_servers'])) {
+            $container->setParameter('superdesk_servers', $config['superdesk_servers']);
+        }
 
         $this->registerStorage(Drivers::DRIVER_DOCTRINE_ORM, $config['persistence']['orm']['classes'], $container);
     }
@@ -52,5 +59,33 @@ class SWPCoreExtension extends Extension
         if ($config['device_listener']['enabled']) {
             $loader->load('device_listener.yml');
         }
+    }
+
+    public function prepend(ContainerBuilder $container): void
+    {
+        $bundles = $container->getParameter('kernel.bundles');
+
+        if (!isset($bundles['DoctrineCacheBundle'])) {
+            return;
+        }
+
+        $config = $container->getExtensionConfig('doctrine_cache');
+
+        $config[0]['providers']['main_cache']['type'] = '%env(DOCTRINE_CACHE_DRIVER)%';
+//        $config[] = [
+//            'providers' => [
+//                'main_cache' => [
+//                    'type' => '%env(resolve:DOCTRINE_CACHE_DRIVER)%',
+//                    'namespace' => '%env(APP_SECRET)%',
+//                ],
+//            ],
+//        ];
+
+        $config = $container->resolveEnvPlaceholders(
+            $config,
+            true
+        );
+
+        $container->prependExtensionConfig('doctrine_cache', $config[0]);
     }
 }

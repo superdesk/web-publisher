@@ -1,0 +1,5 @@
+sylius_theme:
+    sources:
+        tenantable:
+            directories:
+                - "%kernel.project_dir%/src/SWP/Bundle/CoreBundle/Tests/Fixtures/themes"

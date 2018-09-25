@@ -14,25 +14,13 @@ imports:
 
 parameters:
     templating.cache_warmer.template_paths.class: "Symfony\\Bundle\\FrameworkBundle\\CacheWarmer\\TemplatePathsCacheWarmer"
-    #doctrine_cache_driver: array
 
 sensio_framework_extra:
     view:    { annotations: false }
 
-# Twig Configuration
-twig:
-    debug:            "%kernel.debug%"
-    strict_variables: false
-
 twig_cache:
     service: "doctrine_cache.providers.main_cache"
     key_generator: "swp_core.key_generator.meta_key_generator"
-
-swp_core:
-    device_listener:
-        enabled: true
-    superdesk_servers: '%env(resolve:json:SUPERDESK_SERVERS)%'
-    doctrine_cache_driver: '%env(resolve:DOCTRINE_CACHE_DRIVER)%'
 
 nelmio_api_doc:
     request_listener: false

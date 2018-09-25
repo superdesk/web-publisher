@@ -1,0 +1,5 @@
+parameters:
+    env(SWP_DOMAIN): '%env(SWP_DOMAIN)%'
+    themes.upload_dir: "%kernel.cache_dir%"
+    fixtures_type: '%env(FIXTURES_TYPE)%'
+    test_env: '%env(TEST_ENV)%'
