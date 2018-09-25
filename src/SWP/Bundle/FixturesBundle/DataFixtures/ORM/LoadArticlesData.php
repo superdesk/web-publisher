@@ -24,7 +24,6 @@ use SWP\Bundle\AnalyticsBundle\Model\ArticleStatisticsInterface;
 use SWP\Bundle\ContentBundle\Model\ArticleAuthor;
 use SWP\Bundle\ContentBundle\Model\ArticleInterface;
 use SWP\Bundle\ContentBundle\Model\AuthorMedia;
-use SWP\Bundle\ContentBundle\Model\Keyword;
 use SWP\Bundle\CoreBundle\Model\Image;
 use SWP\Bundle\ContentBundle\Model\ImageRendition;
 use SWP\Bundle\ContentBundle\Model\RouteInterface;
@@ -462,13 +461,7 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface, Orde
             $sourcesFactory = $this->container->get('swp.factory.article_source');
             $articleSourcesService = $this->container->get('swp.service.article_source');
 
-            $persistedKeywords = [];
-            foreach ($articleDataProvider->articleKeywords() as $articleKeyword) {
-                $keyword = new Keyword($articleKeyword);
-                $persistedKeywords[] = $keyword;
-                $manager->persist($keyword);
-            }
-
+            $persistedKeywords = $articleDataProvider->articleKeywords();
             $manager->flush();
 
             foreach ($articles[$env] as $articleData) {
