@@ -216,6 +216,7 @@ services:
         class: SWP\Bundle\ContentBundle\Hydrator\ArticleHydrator
         arguments:
              - '@swp.adder.article_source'
+             - '@swp.adder.article_keyword'
 
     swp_content_bundle.listener.article_publish:
         class: SWP\Bundle\ContentBundle\EventListener\ArticlePublishListener
@@ -239,6 +240,12 @@ services:
             - '@swp.factory.article_source'
             - '@swp.service.article_source'
             - '@swp.repository.article_source'
+
+    swp.adder.article_keyword:
+        class: SWP\Bundle\ContentBundle\Service\ArticleKeywordAdder
+        arguments:
+            - '@swp.factory.keyword'
+            - '@swp.repository.keyword'
 
     swp.service.article_source:
         class: SWP\Bundle\ContentBundle\Service\ArticleSourceService

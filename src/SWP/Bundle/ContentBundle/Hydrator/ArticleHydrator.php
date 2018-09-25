@@ -17,6 +17,7 @@ declare(strict_types=1);
 namespace SWP\Bundle\ContentBundle\Hydrator;
 
 use Doctrine\Common\Collections\Collection;
+use SWP\Bundle\ContentBundle\Service\ArticleKeywordAdderInterface;
 use SWP\Bundle\ContentBundle\Service\ArticleSourcesAdderInterface;
 use SWP\Bundle\ContentBundle\Model\ArticleInterface;
 use SWP\Component\Bridge\Model\ItemInterface;
@@ -30,6 +31,11 @@ final class ArticleHydrator implements ArticleHydratorInterface
     private $articleSourcesAdder;
 
     /**
+     * @var ArticleKeywordAdderInterface
+     */
+    private $articleKeywordAdder;
+
+    /**
      * @var array
      */
     private $allowedTypes = [
@@ -41,19 +47,12 @@ final class ArticleHydrator implements ArticleHydratorInterface
         ItemInterface::TYPE_AUDIO,
     ];
 
-    /**
-     * ArticleHydrator constructor.
-     *
-     * @param ArticleSourcesAdderInterface $articleSourcesAdder
-     */
-    public function __construct(ArticleSourcesAdderInterface $articleSourcesAdder)
+    public function __construct(ArticleSourcesAdderInterface $articleSourcesAdder, ArticleKeywordAdderInterface $articleKeywordAdder)
     {
         $this->articleSourcesAdder = $articleSourcesAdder;
+        $this->articleKeywordAdder = $articleKeywordAdder;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function hydrate(ArticleInterface $article, PackageInterface $package): ArticleInterface
     {
         if ($this->populateByline($package) !== $package->getByLine()) {
@@ -72,11 +71,11 @@ final class ArticleHydrator implements ArticleHydratorInterface
         $article->setExtra($package->getExtra());
 
         $this->populateSources($article, $package);
+        $this->populateKeywords($article, $package);
 
         $article->setLocale($package->getLanguage());
         $article->setLead($this->populateLead($package));
         $article->setMetadata($package->getMetadata());
-        $article->setKeywords($package->getKeywords());
         $article->setRoute($article->getRoute());
 
         return $article;
@@ -174,6 +173,17 @@ final class ArticleHydrator implements ArticleHydratorInterface
             }
 
             $this->articleSourcesAdder->add($article, $item->getSource());
+        }
+    }
+
+    private function populateKeywords(ArticleInterface $article, PackageInterface $package)
+    {
+        if (0 === \count($package->getKeywords())) {
+            return;
+        }
+
+        foreach ($package->getKeywords() as $keyword) {
+            $this->articleKeywordAdder->add($article, $keyword);
         }
     }
 
