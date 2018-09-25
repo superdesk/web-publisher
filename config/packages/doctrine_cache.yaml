@@ -1,0 +1,8 @@
+parameters:
+    env(DOCTRINE_CACHE_DRIVER): array
+
+doctrine_cache:
+    providers:
+        main_cache:
+            type: '%env(resolve:DOCTRINE_CACHE_DRIVER)%'
+            namespace: '%env(APP_SECRET)%'

@@ -3,7 +3,6 @@ imports:
 
 parameters:
     domain: localhost
-    test_env: doctrine
 
 framework:
     secret: "Three can keep a secret, if two of them are dead."

@@ -42,7 +42,7 @@
             "SWP\\Behat\\": "src/SWP/Behat/"
         },
         "exclude-from-classmap": [ "**/Tests/", "**/spec/" ],
-        "classmap": [ "app/AppKernel.php" ]
+        "classmap": ["src/Kernel.php"]
     },
     "require": {
         "php": "^7.1",
@@ -66,7 +66,6 @@
         "twig/extensions": "~1.0",
         "twig/twig": "~2.4",
         "emanueleminotto/twig-cache-bundle": "dev-master",
-        "incenteev/composer-parameter-handler": "~2.0",
         "friendsofsymfony/http-cache": "^2.3",
         "friendsofsymfony/http-cache-bundle": "^2.4",
         "friendsofsymfony/rest-bundle": "2.1.x-dev as 1.5",
@@ -130,7 +129,8 @@
         "behatch/contexts": "^3.0",
         "behat-extension/doctrine-data-fixtures-extension": "^4.0",
         "theofidry/alice-data-fixtures": "^1.0",
-        "doctrine/data-fixtures": "^1.3"
+        "doctrine/data-fixtures": "^1.3",
+        "symfony/dotenv": "^4.1"
     },
     "replace": {
         "swp/common": "self.version",
@@ -155,7 +155,6 @@
     },
     "scripts": {
         "post-install-cmd": [
-            "Incenteev\\ParameterHandler\\ScriptHandler::buildParameters",
             "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::buildBootstrap",
             "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::clearCache",
             "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installAssets",
@@ -163,7 +162,6 @@
             "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::removeSymfonyStandardFiles"
         ],
         "post-update-cmd": [
-            "Incenteev\\ParameterHandler\\ScriptHandler::buildParameters",
             "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::buildBootstrap",
             "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::clearCache",
             "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installAssets",
@@ -185,18 +183,6 @@
         },
         "symfony-app-dir": "app",
         "symfony-web-dir": "web",
-        "symfony-assets-install": "relative",
-        "incenteev-parameters": {
-            "file": "app/config/parameters.yml",
-            "env-map": {
-                "doctrine_cache_driver": "DOCTRINE_CACHE_DRIVER",
-                "env(DATABASE_USER)": "DATABASE_USER",
-                "env(DATABASE_HOST)": "DATABASE_HOST",
-                "env(DATABASE_PORT)": "DATABASE_PORT",
-                "env(DATABASE_NAME)": "DATABASE_NAME",
-                "env(SYMFONY_SECRET)": "SYMFONY_SECRET",
-                "env(SWP_DOMAIN)": "SWP_DOMAIN"
-            }
-        }
+        "symfony-assets-install": "relative"
     }
 }

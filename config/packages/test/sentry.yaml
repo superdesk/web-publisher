@@ -1,0 +1,4 @@
+sentry:
+    dsn: "false"
+    options:
+        environment: "test"

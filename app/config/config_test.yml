@@ -22,34 +22,14 @@ sylius_theme:
     sources:
         tenantable:
             directories:
-                - "%kernel.root_dir%/../src/SWP/Bundle/CoreBundle/Tests/Fixtures/themes"
+                - "%kernel.project_dir%/src/SWP/Bundle/CoreBundle/Tests/Fixtures/themes"
 
 web_profiler:
     toolbar: false
     intercept_redirects: false
 
-swiftmailer:
-    disable_delivery: true
-
-oneup_flysystem:
-    adapters:
-        filesystem_adapter:
-            local:
-                directory: "%kernel.cache_dir%/uploads/"
-
-sentry:
-    dsn: "false"
-    options:
-        environment: "test"
-
 doctrine_cache:
     providers:
         main_cache:
             type: "%doctrine_cache_driver%"
-            namespace: "test_%env(SYMFONY_SECRET)%"
-
-fos_http_cache:
-    proxy_client:
-        noop: ~
-    invalidation:
-        enabled: false
+            namespace: "test_%env(APP_SECRET)%"

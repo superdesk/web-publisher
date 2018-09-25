@@ -1,0 +1,8 @@
+parameters:
+    env(SENTRY_DSN): false
+
+sentry:
+    dsn: '%env(resolve:SENTRY_DSN)%'
+    options:
+        environment: '%kernel.environment%'
+        release: 'dev-master'

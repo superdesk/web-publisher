@@ -259,7 +259,6 @@ and replace the content of ``/var/www/publisher/app/config/parameters.yml`` file
         session_memcached_port: 11211
         session_memcached_prefix: sess
         session_memcached_expire: 3600
-        test_env: doctrine
         allow_origin_cors: '*'
         superdesk_servers:
             - 192.168.0.101 # server domain/IP where Superdesk is installed

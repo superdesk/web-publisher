@@ -1,0 +1,5 @@
+oneup_flysystem:
+    adapters:
+        filesystem_adapter:
+            local:
+                directory: "%kernel.cache_dir%/uploads/"

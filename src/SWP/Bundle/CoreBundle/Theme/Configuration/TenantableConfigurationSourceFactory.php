@@ -36,7 +36,7 @@ final class TenantableConfigurationSourceFactory implements ConfigurationSourceF
                 ->children()
                     ->scalarNode('filename')->defaultValue('theme.json')->cannotBeEmpty()->end()
                     ->arrayNode('directories')
-                        ->defaultValue(['%kernel.root_dir%/themes'])
+                        ->defaultValue(['%kernel.project_dir%/app/themes'])
                         ->requiresAtLeastOneElement()
                         ->performNoDeepMerging()
                         ->prototype('scalar')

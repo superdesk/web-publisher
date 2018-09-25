@@ -1,3 +1,6 @@
+parameters:
+    env(CACHE_SERVERS): '["localhost"]'
+
 fos_http_cache:
     user_context:
         enabled: false
@@ -9,7 +12,7 @@ fos_http_cache:
     proxy_client:
         varnish:
             http:
-                servers: "%cache_servers%"
+                servers: ["localhost"]
                 base_url: "%env(SWP_DOMAIN)%"
     invalidation:
         rules:
