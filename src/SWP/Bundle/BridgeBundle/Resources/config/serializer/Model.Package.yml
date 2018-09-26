@@ -17,4 +17,5 @@ SWP\Component\Bridge\Model\Package:
             type: DateTime
         groups:
             expose: true
+            serialized_name: extra_items
             type: ArrayCollection<string,SWP\Component\Bridge\Model\Group>
