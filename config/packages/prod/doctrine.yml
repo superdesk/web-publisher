@@ -2,7 +2,5 @@ doctrine:
     dbal:
         driver: pdo_pgsql
         url: '%env(resolve:DATABASE_URL)%'
-        server_version: '%env(resolve:DATABASE_SERVER_VERSION)%'
-        charset:  UTF8
         mapping_types:
             json: string

@@ -3,7 +3,6 @@ parameters:
     env(SESSION_MEMCACHED_PORT): 11211
     env(SESSION_MEMCACHED_PREFIX): sess
     env(SESSION_MEMCACHED_EXPIRE): 3600
-    env(SUPERDESK_SERVERS): "https://superdesk.dev"
 
 services:
     session.memcached:

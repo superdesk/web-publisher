@@ -19,7 +19,6 @@ php:
 
 env:
   global:
-  - SYMFONY_ENV="test"
   - ES_VERSION=5.4.0 ES_DOWNLOAD_URL=https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-${ES_VERSION}.deb
   - secure: "PtJdcQoMvkv5+w+u6urW0T57d2WW7+Y57P3Q0sM3uS6zuUG0Xy9qVXlIG7Ilb8Fnn/1V05zYPcFO25BfnW+EGBppT34bq5d9P3PYrFWzfLK2LR9/vdvAHkwi5RJqDwE08VVUhcx+jbTse9hspoeBmBoSu2gi5tTm4pP+WM4mzDiP6EOMHi+EUtWb57RMMKwk5TeKfUUtq/Mcvkhr14leC3XdLDznE16UYcZ+xbzFieMnQXYrZjL5OMfothIuYs0+RzmyCZBfoLf1QVCJSNA4xFgDurL/xbC7gUg7CIHKNRc7Tpcuyk2LHp1WP62WKd9qyysMplP6jdSuaGydfxqpXXMwmBB6MGYjUC/iuDN+G7SR8zbVd90T7wpV+LqeJkiqgzV+BXyQI54n2QnQy0pB2IqTXnH/SPeGidSDDXCbJyfazuMLbWDvlIOjkkwTksieFVTMpPteWen15m88G8X+0ypDv0/HwGDRveoJY9moZx3ecRQTP7dieTnzKrvnolhjlJbPkAbNH7yHOnwQ4w7vSbRRC5zX05dr79FziV3Ykj0cQb2o6GI2GUBEYtUyLhd+P0I33WWtl0fVACEeDZd5nwswMdK6ui3aA9ZLEn9RxeINo27WcRZx4uEcJMa76FEv+5xHHSMBqF4/US3JINN4p/a7/ZjLyZo8hjUTqYWBMfQ="
   matrix:
@@ -53,6 +52,7 @@ install:
 - sudo service elasticsearch restart
 
 before_script:
+- set -a && source .env.test && set +a
 - echo "memory_limit=-1" >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
 - echo 'extension="redis.so"' >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
 - cat ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini|grep redis
