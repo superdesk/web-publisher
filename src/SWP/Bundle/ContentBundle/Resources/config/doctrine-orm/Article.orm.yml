@@ -20,8 +20,6 @@ SWP\Bundle\ContentBundle\Model\Article:
             type: text
         title:
             type: string
-        keywords:
-            type: array
         lead:
             type: text
             nullable: true
@@ -108,4 +106,15 @@ SWP\Bundle\ContentBundle\Model\Article:
                         referencedColumnName: id
                 inverseJoinColumns:
                     author_id:
+                        referencedColumnName: id
+        keywords:
+            targetEntity: SWP\Bundle\ContentBundle\Model\KeywordInterface
+            cascade: ["all"]
+            joinTable:
+                name: swp_article_keyword
+                joinColumns:
+                    article_id:
+                        referencedColumnName: id
+                inverseJoinColumns:
+                    keyword_id:
                         referencedColumnName: id

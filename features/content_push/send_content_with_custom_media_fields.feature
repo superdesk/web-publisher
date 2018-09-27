@@ -67,9 +67,8 @@ Feature: Handling the custom media fields
           "group":"Australia"
         }
       ],
-      "groups":[
-        {
-          "id":"slideshow1",
+      "extra_items":{
+        "slideshow1": {
           "items":[
             {
               "renditions":{
@@ -165,7 +164,7 @@ Feature: Handling the custom media fields
             }
           ]
         }
-      ],
+      },
       "version":"2",
       "byline":"ADmin",
       "keywords":[

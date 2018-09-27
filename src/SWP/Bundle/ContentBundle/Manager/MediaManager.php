@@ -99,7 +99,8 @@ class MediaManager implements MediaManagerInterface
      */
     public function saveFile(UploadedFile $uploadedFile, $fileName)
     {
-        $filePath = $this->getMediaBasePath().'/'.$fileName.'.'.$uploadedFile->guessExtension();
+        $extension = $this->guessExtension($uploadedFile);
+        $filePath = $this->getMediaBasePath().'/'.$fileName.'.'.$extension;
 
         if ($this->filesystem->has($filePath)) {
             return true;
@@ -136,7 +137,9 @@ class MediaManager implements MediaManagerInterface
      */
     public function createMediaAsset(UploadedFile $uploadedFile, string $assetId): FileInterface
     {
-        return $this->fileFactory->createWith($assetId, $uploadedFile->guessExtension());
+        $extension = $this->guessExtension($uploadedFile);
+
+        return $this->fileFactory->createWith($assetId, $extension);
     }
 
     /**
@@ -147,5 +150,16 @@ class MediaManager implements MediaManagerInterface
         $pathElements = ['swp', 'media'];
 
         return implode('/', $pathElements);
+    }
+
+    private function guessExtension(UploadedFile $uploadedFile): string
+    {
+        $extension = $uploadedFile->guessExtension();
+
+        if ('mpga' === $extension && 'mp3' === $uploadedFile->getExtension()) {
+            $extension = 'mp3';
+        }
+
+        return $extension;
     }
 }

@@ -21,6 +21,7 @@ use SWP\Bundle\ContentBundle\Hydrator\ArticleHydratorInterface;
 use SWP\Bundle\ContentBundle\Model\ArticleAuthor;
 use SWP\Bundle\ContentBundle\Model\ArticleInterface;
 use SWP\Bundle\ContentBundle\Model\RouteInterface;
+use SWP\Bundle\ContentBundle\Service\ArticleKeywordAdderInterface;
 use SWP\Bundle\ContentBundle\Service\ArticleSourcesAdderInterface;
 use SWP\Component\Bridge\Model\Item;
 use SWP\Component\Bridge\Model\PackageInterface;
@@ -30,9 +31,9 @@ use SWP\Component\Bridge\Model\PackageInterface;
  */
 final class ArticleHydratorSpec extends ObjectBehavior
 {
-    public function let(ArticleSourcesAdderInterface $articleSourcesAdder)
+    public function let(ArticleSourcesAdderInterface $articleSourcesAdder, ArticleKeywordAdderInterface $articleKeywordAdder)
     {
-        $this->beConstructedWith($articleSourcesAdder);
+        $this->beConstructedWith($articleSourcesAdder, $articleKeywordAdder);
     }
 
     public function it_has_an_interface()
@@ -49,7 +50,8 @@ final class ArticleHydratorSpec extends ObjectBehavior
         PackageInterface $package,
         ArticleInterface $article,
         RouteInterface $route,
-        ArticleSourcesAdderInterface $articleSourcesAdder
+        ArticleSourcesAdderInterface $articleSourcesAdder,
+        ArticleKeywordAdderInterface $articleKeywordAdder
     ) {
         $item = new Item();
         $item->setBody('some item body');
@@ -87,7 +89,8 @@ final class ArticleHydratorSpec extends ObjectBehavior
         $article->setLocale('en')->shouldBeCalled();
         $article->setRoute($route)->shouldBeCalled();
         $article->setMetadata(['some' => 'meta'])->shouldBeCalled();
-        $article->setKeywords(['key1', 'key2'])->shouldBeCalled();
+        $articleKeywordAdder->add($article, 'key1')->shouldBeCalled();
+        $articleKeywordAdder->add($article, 'key2')->shouldBeCalled();
         $article->setSlug('item headline')->shouldNotBeCalled();
         $article->getRoute()->shouldBeCalled()->willReturn($route);
         $articleSourcesAdder->add($article, 'package_source')->shouldBeCalled();
@@ -100,7 +103,8 @@ final class ArticleHydratorSpec extends ObjectBehavior
         PackageInterface $package,
         ArticleInterface $article,
         RouteInterface $route,
-        ArticleSourcesAdderInterface $articleSourcesAdder
+        ArticleSourcesAdderInterface $articleSourcesAdder,
+        ArticleKeywordAdderInterface $articleKeywordAdder
     ) {
         $item = new Item();
         $item->setBody('some item body');
@@ -139,7 +143,8 @@ final class ArticleHydratorSpec extends ObjectBehavior
         $article->setRoute($route)->shouldBeCalled();
         $article->setMetadata(['some' => 'meta'])->shouldBeCalled();
         $article->setSlug('slugline')->shouldBeCalled();
-        $article->setKeywords(['key1', 'key2'])->shouldBeCalled();
+        $articleKeywordAdder->add($article, 'key1')->shouldBeCalled();
+        $articleKeywordAdder->add($article, 'key2')->shouldBeCalled();
         $article->getRoute()->shouldBeCalled()->willReturn($route);
         $articleSourcesAdder->add($article, 'package_source')->shouldBeCalled();
 
