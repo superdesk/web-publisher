@@ -36,9 +36,8 @@ Feature: Handling video groups
           "group":"Australia"
         }
       ],
-      "groups":[
-        {
-          "id":"slideshow1",
+      "extra_items":{
+        "slideshow1": {
           "items":[
             {
               "renditions":{
@@ -74,7 +73,7 @@ Feature: Handling video groups
             }
           ]
         }
-      ],
+      },
       "version":"2",
       "byline":"ADmin",
       "keywords":[

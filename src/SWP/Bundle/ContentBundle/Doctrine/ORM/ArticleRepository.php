@@ -183,10 +183,12 @@ class ArticleRepository extends EntityRepository implements ArticleRepositoryInt
         }
 
         if ($criteria->has('keywords')) {
+            $queryBuilder->leftJoin('a.keywords', 'k');
             $orX = $queryBuilder->expr()->orX();
-            foreach ($criteria->get('keywords') as $value) {
-                $valueExpression = $queryBuilder->expr()->literal('%'.$value.'%');
-                $orX->add($queryBuilder->expr()->like('a.keywords', $valueExpression));
+            foreach ($criteria->get('keywords') as $key => $value) {
+                $queryBuilder->setParameter($key, $value);
+                $orX->add($queryBuilder->expr()->eq('k.name', '?'.$key));
+                $orX->add($queryBuilder->expr()->eq('k.slug', '?'.$key));
             }
 
             $queryBuilder->andWhere($orX);

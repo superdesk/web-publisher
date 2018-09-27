@@ -198,13 +198,14 @@ class ArticleSpec extends ObjectBehavior
 
     public function it_has_no_keywords_by_default()
     {
-        $this->getKeywords()->shouldReturn([]);
+        $this->getKeywords()->shouldHaveType(ArrayCollection::class);
     }
 
     public function its_keywords_is_mutable()
     {
-        $this->setKeywords(['keyword1', 'keyword2']);
-        $this->getKeywords()->shouldReturn(['keyword1', 'keyword2']);
+        $keywordsCollection = new ArrayCollection(['keyword1', 'keyword2']);
+        $this->setKeywords($keywordsCollection);
+        $this->getKeywords()->shouldReturn($keywordsCollection);
     }
 
     public function its_code_is_required()

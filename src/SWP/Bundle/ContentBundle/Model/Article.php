@@ -29,7 +29,7 @@ use SWP\Component\Common\Model\TranslatableTrait;
  */
 class Article implements ArticleInterface
 {
-    use TranslatableTrait, SoftDeletableTrait, TimestampableTrait, AuthorsAwareTrait;
+    use TranslatableTrait, SoftDeletableTrait, TimestampableTrait, AuthorsAwareTrait, KeywordsAwareTrait;
 
     /**
      * @var mixed
@@ -107,11 +107,6 @@ class Article implements ArticleInterface
     protected $lead;
 
     /**
-     * @var array
-     */
-    protected $keywords = [];
-
-    /**
      * @var string
      */
     protected $code;
@@ -141,6 +136,7 @@ class Article implements ArticleInterface
         $this->setMedia(new ArrayCollection());
         $this->sources = new ArrayCollection();
         $this->authors = new ArrayCollection();
+        $this->keywords = new ArrayCollection();
         $this->slideshows = new ArrayCollection();
     }
 
@@ -403,22 +399,6 @@ class Article implements ArticleInterface
     public function setLead($lead)
     {
         $this->lead = $lead;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getKeywords(): array
-    {
-        return $this->keywords;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function setKeywords(array $keywords)
-    {
-        $this->keywords = $keywords;
     }
 
     /**

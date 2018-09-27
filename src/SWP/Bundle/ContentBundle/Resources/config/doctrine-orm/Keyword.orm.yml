@@ -1,0 +1,14 @@
+SWP\Bundle\ContentBundle\Model\Keyword:
+    type: mappedSuperclass
+    table: swp_keyword
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        name:
+            type: string
+        slug:
+            type: string

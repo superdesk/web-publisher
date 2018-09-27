@@ -62,7 +62,8 @@ class PackageSubscriber implements EventSubscriberInterface
     private function processGroups(PackageInterface $package): void
     {
         foreach ((array) $package->getGroups() as $groups) {
-            foreach ((array) $groups as $group) {
+            foreach ((array) $groups as $key => $group) {
+                $group->setCode($key);
                 foreach ($group->getItems() as $groupItem) {
                     $groupItem->setGroup($group);
                     $groupItem->setName($groupItem->getGuid());
