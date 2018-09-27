@@ -13,7 +13,7 @@ Feature: Handling embedded audio
     Then the response status code should be 201
     And the JSON node "media_id" should be equal to "20180904130932/0a6343fb0e968150fc538404b5b72ed9279b9b42edf4c501057a44499c8148d6.mp3"
     And the JSON node "mime_type" should be equal to "audio/mpeg"
-    And the JSON node "URL" should be equal to "http://localhost/media/20180904130932_0a6343fb0e968150fc538404b5b72ed9279b9b42edf4c501057a44499c8148d6.mpga"
+    And the JSON node "URL" should be equal to "http://localhost/media/20180904130932_0a6343fb0e968150fc538404b5b72ed9279b9b42edf4c501057a44499c8148d6.mp3"
     And the JSON node "media" should not be null
 
     When I add "Content-Type" header equal to "application/json"
@@ -118,9 +118,9 @@ Feature: Handling embedded audio
     And I add "Content-Type" header equal to "application/json"
     Then I send a "GET" request to "/api/v1/content/articles/test-audio-in-body"
     Then the response status code should be 200
-    And the JSON node "body" should contain "/media/20180904130932_0a6343fb0e968150fc538404b5b72ed9279b9b42edf4c501057a44499c8148d6.mpga"
+    And the JSON node "body" should contain "/media/20180904130932_0a6343fb0e968150fc538404b5b72ed9279b9b42edf4c501057a44499c8148d6.mp3"
     And the JSON nodes should contain:
-      | media[0].file.assetId         | 20180904130932_0a6343fb0e968150fc538404b5b72ed9279b9b42edf4c501057a44499c8148d6             |
-      | media[0].file.fileExtension   | mpga                                                                                        |
-      | media[0]._links.download.href | /media/20180904130932_0a6343fb0e968150fc538404b5b72ed9279b9b42edf4c501057a44499c8148d6.mpga |
+      | media[0].file.assetId         | 20180904130932_0a6343fb0e968150fc538404b5b72ed9279b9b42edf4c501057a44499c8148d6            |
+      | media[0].file.fileExtension   | mp3                                                                                        |
+      | media[0]._links.download.href | /media/20180904130932_0a6343fb0e968150fc538404b5b72ed9279b9b42edf4c501057a44499c8148d6.mp3 |
     And the JSON node "media[0].image" should be null
