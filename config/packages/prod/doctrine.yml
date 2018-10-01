@@ -1,3 +1,5 @@
 doctrine:
     dbal:
         url: '%env(resolve:DATABASE_URL)%'
+        mapping_types:
+            json: string
