@@ -3,6 +3,7 @@
 
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Component\Console\Input\ArgvInput;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Debug\Debug;
 use Symfony\Component\Dotenv\Dotenv;
 
@@ -35,4 +36,5 @@ if ($debug) {
 
 $kernel = new Kernel($env, $debug);
 $application = new Application($kernel);
+$application->getDefinition()->addOption(new InputOption('--tenant', '-t', InputOption::VALUE_REQUIRED, 'The tenant code'));
 $application->run($input);
