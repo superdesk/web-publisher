@@ -45,13 +45,15 @@ class SWPContentExtension extends Extension implements PrependExtensionInterface
 
     public function prepend(ContainerBuilder $container): void
     {
-        $config[] = [
-            'adapters' => [
-                'fallback_adapter' => [
-                    'fallback' => [
-                        'mainAdapter' => '%env(resolve:FS_MAIN_ADAPTER)%',
-                        'fallback' => 'local_adapter',
-                        'forceCopyOnMain' => false,
+        $config = [
+            [
+                'adapters' => [
+                    'fallback_adapter' => [
+                        'fallback' => [
+                            'mainAdapter' => '%env(resolve:FS_MAIN_ADAPTER)%',
+                            'fallback' => 'local_adapter',
+                            'forceCopyOnMain' => false,
+                        ],
                     ],
                 ],
             ],

@@ -1,6 +1,3 @@
 doctrine:
     dbal:
-        driver: pdo_pgsql
         url: '%env(resolve:DATABASE_URL)%'
-        mapping_types:
-            json: string
