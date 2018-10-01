@@ -35,7 +35,7 @@ matrix:
 before_install:
 - which php
 - sudo pip install supervisor
-- sudo wget -P /etc/supervisor https://gist.githubusercontent.com/takeit/86c925a07cdca17e2fded7fc9f8fc557/raw/fd620ceb17c70364118c73045e9ac08967fbe995/supervisord.conf
+- sudo wget -P /etc/supervisor https://gist.githubusercontent.com/takeit/86c925a07cdca17e2fded7fc9f8fc557/raw/0c669969efac3e7537e6fd01268af54a1c9087fc/supervisord.conf
 - sudo mkdir /var/log/supervisor/
 - sudo chmod -R 777 /var/log/supervisor/
 - sudo /bin/dd if=/dev/zero of=/var/swap.1 bs=1M count=4096
