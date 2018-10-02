@@ -4,6 +4,16 @@
 
 Execute below commands inside `docker` folder of that repository.
 
+#### Prerequisite
+
+Copy `.env.dist` to `.env` and run:
+
+```bash
+cp .env.dist .env
+```
+
+`.env.dist` file contains default environment variables. 
+
 #### Build
 
 ```bash
@@ -20,23 +30,6 @@ docker-compose up -d
 
 ```bash
 docker-compose run php composer install
-```
-
-#### Configure
-
-Make sure to adapt the following values in your configuration file:
-
-```yaml
-# app/config/parameters.yml
-parameters:
-    # ...
-    env(DATABASE_HOST): postgres
-    env(DATABASE_PORT): null
-    env(DATABASE_NAME): publisher
-    env(DATABASE_USER): postgres
-    env(DATABASE_PASSWORD): postgres
-    # ...
-    env(ELASTICA_HOST): elasticsearch
 ```
 
 #### Create database:
@@ -74,7 +67,17 @@ docker-compose run php app/console sylius:theme:assets:install
 
 #### Preview
 
-Go to http://localhost:8080/app_dev.php for viewing the app in dev mode.
+Go to http://localhost:8080 for viewing the app in dev mode.
 
-*Note* If you use Docker for Windows, you might need to additionally 
-change the values of `env(SWP_DOMAIN)` and `cache_servers` params from `localhost` to `127.0.0.1`.
+#### Configure (optional)
+
+If you use Docker for Windows, you might need to additionally 
+change the values of `SWP_DOMAIN` and `CACHE_SERVERS` env vars from `localhost` to `127.0.0.1` in `.env` file.
+
+#### Where to see nginx logs?
+
+`logs` dir will be created inside `docker/` dir. Nginx logs will be visible in `logs/nginx/` dir.
+
+#### Where to see Publisher logs?
+
+`logs` dir will be created inside `docker/` dir. Publisher logs will be visible in `logs/publisher/` dir.

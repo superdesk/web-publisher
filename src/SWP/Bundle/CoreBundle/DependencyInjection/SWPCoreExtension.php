@@ -48,7 +48,7 @@ class SWPCoreExtension extends Extension implements PrependExtensionInterface
         $config = $container->resolveEnvPlaceholders($config);
 
         if (!empty($config['superdesk_servers'])) {
-            $container->setParameter('superdesk_servers', $config['superdesk_servers'][0]);
+            $container->setParameter('superdesk_servers', $config['superdesk_servers']);
         }
 
         $this->registerStorage(Drivers::DRIVER_DOCTRINE_ORM, $config['persistence']['orm']['classes'], $container);

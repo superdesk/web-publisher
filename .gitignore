@@ -12,6 +12,7 @@
 /docs/_extensions/sensio/__pycache__/
 /composer.phar
 /docker/pgsql/config/*
+/docker/.env
 !/docker/pgsql/config/.gitkeep
 /docker/pgsql/data/*
 !/docker/pgsql/data/.gitkeep
