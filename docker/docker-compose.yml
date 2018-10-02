@@ -22,7 +22,6 @@ services:
             - ./elasticsearch:/usr/share/elasticsearch/data:cached
     php:
         build: php7-fpm
-        command: cp .env.dist .env
         ports:
             - "9001:9000"
         depends_on:
