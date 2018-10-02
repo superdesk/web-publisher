@@ -56,8 +56,7 @@ class ContentControllerTest extends WebTestCase
         $this->loadCustomFixtures(['tenant', 'collection_route']);
 
         $client = static::createClient();
-        $client->enableProfiler();
-        $crawler = $client->request('GE:T', '/collection-no-template');
+        $client->request('GET', '/collection-no-template');
 
         self::assertEquals(200, $client->getResponse()->getStatusCode());
         self::assertContains('This is default "category.html.twig" template file.', $client->getResponse()->getContent());
