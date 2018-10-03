@@ -6,7 +6,7 @@ Execute below commands inside `docker` folder of that repository.
 
 #### Prerequisite
 
-Copy `.env.dist` to `.env` and run:
+Copy `.env.dist` to `.env`:
 
 ```bash
 cp .env.dist .env
