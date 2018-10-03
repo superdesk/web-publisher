@@ -17,8 +17,7 @@ declare(strict_types=1);
 namespace SWP\Bundle\CoreBundle\Controller;
 
 use Hoa\Mime\Mime;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
@@ -27,8 +26,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 class ThemeLogoController extends Controller
 {
     /**
-     * @Route("/theme_logo/{id}", options={"expose"=true}, requirements={"id"=".+"}, name="swp_theme_logo_get")
-     * @Method("GET")
+     * @Route("/theme_logo/{id}", options={"expose"=true}, requirements={"id"=".+"}, methods={"GET"}, name="swp_theme_logo_get")
      */
     public function getLogoAction(string $id)
     {

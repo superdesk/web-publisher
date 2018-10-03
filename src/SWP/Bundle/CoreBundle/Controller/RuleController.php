@@ -16,8 +16,7 @@ namespace SWP\Bundle\CoreBundle\Controller;
 
 use FOS\RestBundle\Controller\FOSRestController;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use SWP\Component\Common\Response\ResourcesListResponse;
 use SWP\Component\Common\Response\ResponseContext;
@@ -45,8 +44,7 @@ class RuleController extends FOSRestController
      *         {"name"="sorting", "dataType"="string", "pattern"="[updatedAt]=asc|desc"}
      *     }
      * )
-     * @Route("/api/{version}/rules/", options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_core_list_rule")
-     * @Method("GET")
+     * @Route("/api/{version}/rules/", options={"expose"=true}, defaults={"version"="v1"}, methods={"GET"}, name="swp_api_core_list_rule")
      */
     public function listAction(Request $request)
     {
@@ -72,8 +70,7 @@ class RuleController extends FOSRestController
      *         405="Method Not Allowed."
      *     }
      * )
-     * @Route("/api/{version}/rules/{id}", requirements={"id"="\d+"}, options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_core_get_rule")
-     * @Method("GET")
+     * @Route("/api/{version}/rules/{id}", requirements={"id"="\d+"}, options={"expose"=true}, defaults={"version"="v1"}, methods={"GET"}, name="swp_api_core_get_rule")
      * @ParamConverter("rule", class="SWP\Bundle\CoreBundle\Model\Rule")
      */
     public function getAction(RuleInterface $rule)
@@ -94,8 +91,7 @@ class RuleController extends FOSRestController
      *     },
      *     input="SWP\Bundle\RuleBundle\Form\Type\RuleType"
      * )
-     * @Route("/api/{version}/rules/", options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_core_create_rule")
-     * @Method("POST")
+     * @Route("/api/{version}/rules/", options={"expose"=true}, defaults={"version"="v1"}, methods={"POST"}, name="swp_api_core_create_rule")
      */
     public function createAction(Request $request)
     {
@@ -126,8 +122,7 @@ class RuleController extends FOSRestController
      *         405="Returned when method not allowed."
      *     }
      * )
-     * @Route("/api/{version}/rules/{id}", options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_core_delete_rule", requirements={"id"="\d+"})
-     * @Method("DELETE")
+     * @Route("/api/{version}/rules/{id}", options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_core_delete_rule", methods={"DELETE"}, requirements={"id"="\d+"})
      * @ParamConverter("rule", class="SWP\Bundle\CoreBundle\Model\Rule")
      */
     public function deleteAction(RuleInterface $rule)
@@ -152,8 +147,7 @@ class RuleController extends FOSRestController
      *     },
      *     input="SWP\Bundle\RuleBundle\Form\Type\RuleType"
      * )
-     * @Route("/api/{version}/rules/{id}", options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_core_update_rule", requirements={"id"="\d+"})
-     * @Method("PATCH")
+     * @Route("/api/{version}/rules/{id}", options={"expose"=true}, defaults={"version"="v1"}, methods={"PATCH"}, name="swp_api_core_update_rule", requirements={"id"="\d+"})
      * @ParamConverter("rule", class="SWP\Bundle\CoreBundle\Model\Rule")
      */
     public function updateAction(Request $request, RuleInterface $rule)

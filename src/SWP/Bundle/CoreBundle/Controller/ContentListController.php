@@ -15,8 +15,7 @@
 namespace SWP\Bundle\CoreBundle\Controller;
 
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\Routing\Annotation\Route;
 use SWP\Bundle\ContentListBundle\Form\Type\ContentListType;
 use SWP\Bundle\CoreBundle\Model\ArticleInterface;
 use SWP\Component\Common\Criteria\Criteria;
@@ -46,8 +45,7 @@ class ContentListController extends Controller
      *         {"name"="sorting", "dataType"="string", "pattern"="[updatedAt]=asc|desc"}
      *     }
      * )
-     * @Route("/api/{version}/content/lists/", options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_content_list_lists")
-     * @Method("GET")
+     * @Route("/api/{version}/content/lists/", options={"expose"=true}, defaults={"version"="v1"}, methods={"GET"}, name="swp_api_content_list_lists")
      */
     public function listAction(Request $request)
     {
@@ -66,8 +64,7 @@ class ContentListController extends Controller
      *         200="Returned on success."
      *     }
      * )
-     * @Route("/api/{version}/content/lists/{id}", options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_content_show_lists", requirements={"id"="\d+"})
-     * @Method("GET")
+     * @Route("/api/{version}/content/lists/{id}", options={"expose"=true}, defaults={"version"="v1"}, methods={"GET"}, name="swp_api_content_show_lists", requirements={"id"="\d+"})
      */
     public function getAction($id)
     {
@@ -84,8 +81,7 @@ class ContentListController extends Controller
      *     },
      *     input="SWP\Bundle\ContentListBundle\Form\Type\ContentListType"
      * )
-     * @Route("/api/{version}/content/lists/", options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_content_create_lists")
-     * @Method("POST")
+     * @Route("/api/{version}/content/lists/", options={"expose"=true}, defaults={"version"="v1"}, methods={"POST"}, name="swp_api_content_create_lists")
      */
     public function createAction(Request $request)
     {
@@ -117,8 +113,7 @@ class ContentListController extends Controller
      *     },
      *     input="SWP\Bundle\ContentListBundle\Form\Type\ContentListType"
      * )
-     * @Route("/api/{version}/content/lists/{id}", options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_content_update_lists", requirements={"id"="\d+"})
-     * @Method("PATCH")
+     * @Route("/api/{version}/content/lists/{id}", options={"expose"=true}, defaults={"version"="v1"}, methods={"PATCH"}, name="swp_api_content_update_lists", requirements={"id"="\d+"})
      */
     public function updateAction(Request $request, $id)
     {
@@ -152,8 +147,7 @@ class ContentListController extends Controller
      *         204="Returned on success."
      *     }
      * )
-     * @Route("/api/{version}/content/lists/{id}", options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_content_delete_lists", requirements={"id"="\d+"})
-     * @Method("DELETE")
+     * @Route("/api/{version}/content/lists/{id}", options={"expose"=true}, defaults={"version"="v1"}, methods={"DELETE"}, name="swp_api_content_delete_lists", requirements={"id"="\d+"})
      */
     public function deleteAction($id)
     {
@@ -188,9 +182,7 @@ class ContentListController extends Controller
      *     }
      * )
      *
-     * @Route("/api/{version}/content/lists/{id}", requirements={"id"="\w+"}, defaults={"version"="v1"}, name="swp_api_content_list_link_unlink")
-     *
-     * @Method("LINK|UNLINK")
+     * @Route("/api/{version}/content/lists/{id}", requirements={"id"="\w+"}, defaults={"version"="v1"}, methods={"LINK","UNLINK"}, name="swp_api_content_list_link_unlink")
      *
      * @param Request $request
      * @param string  $id

@@ -15,8 +15,7 @@
 namespace SWP\Bundle\CoreBundle\Controller;
 
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\Routing\Annotation\Route;
 use SWP\Bundle\CoreBundle\Form\Type\FacebookInstantArticlesFeedType;
 use SWP\Bundle\CoreBundle\Model\FacebookInstantArticlesFeedInterface;
 use SWP\Component\Common\Criteria\Criteria;
@@ -42,8 +41,7 @@ class FbiaFeedController extends Controller
      *         {"name"="sorting", "dataType"="string", "pattern"="[updatedAt]=asc|desc"}
      *     }
      * )
-     * @Route("/api/{version}/facebook/instantarticles/feed/", options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_list_facebook_instant_articles_feed")
-     * @Method("GET")
+     * @Route("/api/{version}/facebook/instantarticles/feed/", options={"expose"=true}, defaults={"version"="v1"}, methods={"GET"}, name="swp_api_list_facebook_instant_articles_feed")
      */
     public function listAction(Request $request)
     {
@@ -68,8 +66,7 @@ class FbiaFeedController extends Controller
      *     },
      *     input="SWP\Bundle\CoreBundle\Form\Type\FacebookInstantArticlesFeedType"
      * )
-     * @Route("/api/{version}/facebook/instantarticles/feed/", options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_create_facebook_instant_articles_feed")
-     * @Method("POST")
+     * @Route("/api/{version}/facebook/instantarticles/feed/", options={"expose"=true}, defaults={"version"="v1"}, methods={"POST"}, name="swp_api_create_facebook_instant_articles_feed")
      */
     public function createAction(Request $request)
     {

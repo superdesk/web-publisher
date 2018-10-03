@@ -17,8 +17,7 @@ namespace SWP\Bundle\CoreBundle\Controller;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use GuzzleHttp;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\Routing\Annotation\Route;
 use SWP\Bundle\CoreBundle\Form\Type\SuperdeskCredentialAuthenticationType;
 use SWP\Bundle\CoreBundle\Form\Type\UserAuthenticationType;
 use SWP\Bundle\CoreBundle\Model\ApiKeyInterface;
@@ -47,8 +46,7 @@ class AuthController extends Controller
      *     },
      *     input="SWP\Bundle\CoreBundle\Form\Type\UserAuthenticationType"
      * )
-     * @Route("/api/{version}/auth/", options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_auth")
-     * @Method("POST")
+     * @Route("/api/{version}/auth/", options={"expose"=true}, defaults={"version"="v1"}, methods={"POST"}, name="swp_api_auth")
      */
     public function authenticateAction(Request $request)
     {
@@ -88,8 +86,7 @@ class AuthController extends Controller
      *     },
      *     input="SWP\Bundle\CoreBundle\Form\Type\SuperdeskCredentialAuthenticationType"
      * )
-     * @Route("/api/{version}/auth/superdesk/", options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_auth_superdesk")
-     * @Method("POST")
+     * @Route("/api/{version}/auth/superdesk/", options={"expose"=true}, methods={"POST"}, defaults={"version"="v1"}, name="swp_api_auth_superdesk")
      */
     public function authenticateWithSuperdeskAction(Request $request)
     {
@@ -177,9 +174,7 @@ class AuthController extends Controller
      *         401="No user found or not authorized."
      *     }
      * )
-     * @Route("/api/{version}/livesite/auth/{intention}/", options={"expose"=true}, defaults={"version"="v1", "intention"="api"}, name="swp_api_auth_url")
-     *
-     * @Method("POST")
+     * @Route("/api/{version}/livesite/auth/{intention}/", methods={"POST"}, options={"expose"=true}, defaults={"version"="v1", "intention"="api"}, name="swp_api_auth_url")
      *
      * @return SingleResourceResponse
      */
@@ -209,9 +204,7 @@ class AuthController extends Controller
     /**
      * Redirect authorized user to homepage.
      *
-     * @Route("/api/{version}/livesite/redirect/", options={"expose"=true}, defaults={"version"="v1", "intention"="api"}, name="swp_api_auth_redirect")
-     *
-     * @Method("GET")
+     * @Route("/api/{version}/livesite/redirect/", methods={"GET"}, options={"expose"=true}, defaults={"version"="v1", "intention"="api"}, name="swp_api_auth_redirect")
      *
      * @return RedirectResponse
      */

@@ -15,8 +15,7 @@
 namespace SWP\Bundle\CoreBundle\Controller;
 
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\Routing\Annotation\Route;
 use Superdesk\ContentApiSdk\Exception\InvalidDataException;
 use SWP\Bundle\BridgeBundle\Doctrine\ORM\PackageRepository;
 use SWP\Component\Bridge\Model\ExternalDataInterface;
@@ -39,8 +38,7 @@ class ExternalDataController extends Controller
      *         405="Method Not Allowed."
      *     }
      * )
-     * @Route("/api/{version}/packages/extra/{slug}", options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_core_add_extra_data")
-     * @Method("PUT")
+     * @Route("/api/{version}/packages/extra/{slug}", options={"expose"=true}, defaults={"version"="v1"}, methods={"PUT"}, name="swp_api_core_add_extra_data")
      */
     public function setAction(Request $request, string $slug)
     {
@@ -90,8 +88,7 @@ class ExternalDataController extends Controller
      *         405="Method Not Allowed."
      *     },
      * )
-     * @Route("/api/{version}/packages/extra/{slug}", options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_core_get_extra_data")
-     * @Method("GET")
+     * @Route("/api/{version}/packages/extra/{slug}", options={"expose"=true}, defaults={"version"="v1"}, methods={"GET"}, name="swp_api_core_get_extra_data")
      */
     public function getAction(string $slug)
     {

@@ -18,8 +18,7 @@ namespace SWP\Bundle\CoreBundle\Controller;
 
 use Doctrine\Common\Collections\Collection;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\Routing\Annotation\Route;
 use SWP\Bundle\CoreBundle\Form\Type\CompositePublishActionType;
 use SWP\Bundle\CoreBundle\Form\Type\PackageType;
 use SWP\Bundle\CoreBundle\Form\Type\UnpublishFromTenantsType;
@@ -53,8 +52,7 @@ class PackageController extends Controller
      *         {"name"="sorting", "dataType"="string", "pattern"="[updatedAt]=asc|desc"}
      *     }
      * )
-     * @Route("/api/{version}/packages/", options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_core_list_packages")
-     * @Method("GET")
+     * @Route("/api/{version}/packages/", options={"expose"=true}, defaults={"version"="v1"}, methods={"GET"}, name="swp_api_core_list_packages")
      */
     public function listAction(Request $request)
     {
@@ -80,8 +78,7 @@ class PackageController extends Controller
      *         200="Returned on success."
      *     }
      * )
-     * @Route("/api/{version}/packages/{id}", options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_core_show_package", requirements={"id"="\d+"})
-     * @Method("GET")
+     * @Route("/api/{version}/packages/{id}", options={"expose"=true}, defaults={"version"="v1"}, methods={"GET"}, name="swp_api_core_show_package", requirements={"id"="\d+"})
      */
     public function getAction(int $id)
     {

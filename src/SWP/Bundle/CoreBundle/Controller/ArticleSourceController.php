@@ -17,8 +17,7 @@ declare(strict_types=1);
 namespace SWP\Bundle\CoreBundle\Controller;
 
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\Routing\Annotation\Route;
 use SWP\Component\Common\Criteria\Criteria;
 use SWP\Component\Common\Pagination\PaginationData;
 use SWP\Component\Common\Response\ResourcesListResponse;
@@ -38,8 +37,7 @@ class ArticleSourceController extends Controller
      *         {"name"="sorting", "dataType"="string", "pattern"="[updatedAt]=asc|desc"}
      *     }
      * )
-     * @Route("/api/{version}/content/sources/", options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_core_article_sources")
-     * @Method("GET")
+     * @Route("/api/{version}/content/sources/", options={"expose"=true}, defaults={"version"="v1"}, methods={"GET"}, name="swp_api_core_article_sources")
      */
     public function listAction(Request $request)
     {

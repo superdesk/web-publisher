@@ -19,8 +19,7 @@ use SWP\Component\Common\Pagination\PaginationData;
 use SWP\Component\TemplatesSystem\Gimme\Model\WidgetModelInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\Routing\Annotation\Route;
 use SWP\Component\Common\Response\ResourcesListResponse;
 use SWP\Component\Common\Response\ResponseContext;
 use SWP\Component\Common\Response\SingleResourceResponse;
@@ -44,8 +43,7 @@ class ContainerController extends Controller
      *         {"name"="sorting", "dataType"="string", "pattern"="[updatedAt]=asc|desc"}
      *     }
      * )
-     * @Route("/api/{version}/templates/containers/", options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_templates_list_containers")
-     * @Method("GET")
+     * @Route("/api/{version}/templates/containers/", options={"expose"=true}, defaults={"version"="v1"}, methods={"GET"}, name="swp_api_templates_list_containers")
      *
      * @param Request $request
      *
@@ -70,8 +68,7 @@ class ContainerController extends Controller
      *         404="Container not found"
      *     }
      * )
-     * @Route("/api/{version}/templates/containers/{uuid}", requirements={"uuid"="\w+"}, options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_templates_get_container")
-     * @Method("GET")
+     * @Route("/api/{version}/templates/containers/{uuid}", requirements={"uuid"="\w+"}, options={"expose"=true}, defaults={"version"="v1"}, methods={"GET"}, name="swp_api_templates_get_container")
      *
      * @param string $uuid
      *
@@ -101,8 +98,7 @@ class ContainerController extends Controller
      *         {"name"="onlyWidgets", "dataType"="bool", "required"=false, "description"="Render only container widgets (without container wrapper)"}
      *     }
      * )
-     * @Route("/api/{version}/templates/containers/{uuid}/render/", requirements={"uuid"="\w+"}, options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_templates_render_container")
-     * @Method("GET")
+     * @Route("/api/{version}/templates/containers/{uuid}/render/", requirements={"uuid"="\w+"}, options={"expose"=true}, defaults={"version"="v1"}, methods={"GET"}, name="swp_api_templates_render_container")
      */
     public function renderAction(Request $request, $uuid)
     {
@@ -137,8 +133,7 @@ class ContainerController extends Controller
      *     },
      *     input="SWP\Bundle\TemplatesSystemBundle\Form\Type\ContainerType"
      * )
-     * @Route("/api/{version}/templates/containers/{uuid}", requirements={"uuid"="\w+"}, options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_templates_update_container")
-     * @Method("PATCH")
+     * @Route("/api/{version}/templates/containers/{uuid}", requirements={"uuid"="\w+"}, options={"expose"=true}, defaults={"version"="v1"}, methods={"PATCH"}, name="swp_api_templates_update_container")
      *
      * @param Request $request
      * @param string  $uuid
@@ -193,9 +188,7 @@ class ContainerController extends Controller
      *     }
      * )
      *
-     * @Route("/api/{version}/templates/containers/{uuid}", requirements={"uuid"="\w+"}, defaults={"version"="v1"}, name="swp_api_templates_link_container")
-     *
-     * @Method("LINK|UNLINK")
+     * @Route("/api/{version}/templates/containers/{uuid}", requirements={"uuid"="\w+"}, defaults={"version"="v1"}, methods={"LINK","UNLINK"}, name="swp_api_templates_link_container")
      *
      * @param Request $request
      * @param string  $uuid

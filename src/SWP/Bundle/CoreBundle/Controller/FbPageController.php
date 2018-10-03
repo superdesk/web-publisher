@@ -15,8 +15,7 @@
 namespace SWP\Bundle\CoreBundle\Controller;
 
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\Routing\Annotation\Route;
 use SWP\Bundle\CoreBundle\Form\Type\FacebookPageType;
 use SWP\Bundle\CoreBundle\Model\FacebookPage;
 use SWP\Bundle\FacebookInstantArticlesBundle\Model\PageInterface;
@@ -44,8 +43,7 @@ class FbPageController extends Controller
      *         {"name"="sorting", "dataType"="string", "pattern"="[updatedAt]=asc|desc"}
      *     }
      * )
-     * @Route("/api/{version}/facebook/pages/", options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_list_facebook_pages")
-     * @Method("GET")
+     * @Route("/api/{version}/facebook/pages/", options={"expose"=true}, defaults={"version"="v1"}, methods={"GET"}, name="swp_api_list_facebook_pages")
      */
     public function listAction(Request $request)
     {
@@ -70,8 +68,7 @@ class FbPageController extends Controller
      *     },
      *     input="SWP\Bundle\CoreBundle\Form\Type\FacebookPageType"
      * )
-     * @Route("/api/{version}/facebook/pages/", options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_create_facebook_pages")
-     * @Method("POST")
+     * @Route("/api/{version}/facebook/pages/", options={"expose"=true}, defaults={"version"="v1"}, methods={"POST"}, name="swp_api_create_facebook_pages")
      */
     public function createAction(Request $request)
     {
@@ -101,8 +98,7 @@ class FbPageController extends Controller
      *         409="Page is used by Instant Articles Feed"
      *     }
      * )
-     * @Route("/api/{version}/facebook/pages/{id}", options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_delete_facebook_pages")
-     * @Method("DELETE")
+     * @Route("/api/{version}/facebook/pages/{id}", options={"expose"=true}, defaults={"version"="v1"}, methods={"DELETE"}, name="swp_api_delete_facebook_pages")
      */
     public function deleteAction($id)
     {

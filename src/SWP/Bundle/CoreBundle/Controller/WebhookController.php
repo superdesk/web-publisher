@@ -15,8 +15,7 @@
 namespace SWP\Bundle\CoreBundle\Controller;
 
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use SWP\Bundle\WebhookBundle\Controller\AbstractAPIController;
 use SWP\Bundle\WebhookBundle\Model\WebhookInterface;
@@ -40,9 +39,7 @@ class WebhookController extends AbstractAPIController
      *         {"name"="sorting", "dataType"="string", "pattern"="[updatedAt]=asc|desc"}
      *     }
      * )
-     * @Route("/api/{version}/webhooks/", options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_core_list_webhook")
-     *
-     * @Method("GET")
+     * @Route("/api/{version}/webhooks/", options={"expose"=true}, defaults={"version"="v1"}, methods={"GET"}, name="swp_api_core_list_webhook")
      *
      * @param Request $request
      *
@@ -65,9 +62,7 @@ class WebhookController extends AbstractAPIController
      *         405="Method Not Allowed."
      *     }
      * )
-     * @Route("/api/{version}/webhooks/{id}", requirements={"id"="\d+"}, options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_core_get_webhook")
-     *
-     * @Method("GET")
+     * @Route("/api/{version}/webhooks/{id}", requirements={"id"="\d+"}, options={"expose"=true}, defaults={"version"="v1"}, methods={"GET"}, name="swp_api_core_get_webhook")
      *
      * @ParamConverter("webhook", class="SWP\Bundle\WebhookBundle\Model\Webhook")
      *
@@ -93,9 +88,7 @@ class WebhookController extends AbstractAPIController
      *     },
      *     input="SWP\Bundle\WebhookBundle\Form\Type\WebhookType"
      * )
-     * @Route("/api/{version}/webhooks/", options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_core_create_webhook")
-     *
-     * @Method("POST")
+     * @Route("/api/{version}/webhooks/", options={"expose"=true}, defaults={"version"="v1"}, methods={"POST"}, name="swp_api_core_create_webhook")
      *
      * @param Request $request
      *
@@ -122,9 +115,7 @@ class WebhookController extends AbstractAPIController
      *         405="Returned when method not allowed."
      *     }
      * )
-     * @Route("/api/{version}/webhooks/{id}", options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_core_delete_webhook", requirements={"id"="\d+"})
-     *
-     * @Method("DELETE")
+     * @Route("/api/{version}/webhooks/{id}", options={"expose"=true}, defaults={"version"="v1"}, methods={"DELETE"}, name="swp_api_core_delete_webhook", requirements={"id"="\d+"})
      *
      * @ParamConverter("webhook", class="SWP\Bundle\WebhookBundle\Model\Webhook")
      *
@@ -152,9 +143,7 @@ class WebhookController extends AbstractAPIController
      *     input="SWP\Bundle\WebhookBundle\Form\Type\WebhookType"
      * )
      *
-     * @Route("/api/{version}/webhooks/{id}", options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_core_update_webhook", requirements={"id"="\d+"})
-     *
-     * @Method("PATCH")
+     * @Route("/api/{version}/webhooks/{id}", options={"expose"=true}, defaults={"version"="v1"}, methods={"PATCH"}, name="swp_api_core_update_webhook", requirements={"id"="\d+"})
      *
      * @ParamConverter("webhook", class="SWP\Bundle\WebhookBundle\Model\Webhook")
      *
