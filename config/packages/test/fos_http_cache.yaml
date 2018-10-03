@@ -1,0 +1,5 @@
+fos_http_cache:
+    proxy_client:
+        noop: ~
+    invalidation:
+        enabled: false

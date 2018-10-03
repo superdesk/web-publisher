@@ -11,7 +11,6 @@ imports:
     - { resource: "@SWPPaywallBundle/Resources/config/app/config.yml" }
     - { resource: "@SWPCoreBundle/Resources/config/app/config.yml" }
     - { resource: "@SWPElasticSearchBundle/Resources/config/app/config.yml" }
-    - { resource: parameters.yml }
 
 parameters:
     templating.cache_warmer.template_paths.class: "Symfony\\Bundle\\FrameworkBundle\\CacheWarmer\\TemplatePathsCacheWarmer"
@@ -19,51 +18,9 @@ parameters:
 sensio_framework_extra:
     view:    { annotations: false }
 
-# Twig Configuration
-twig:
-    debug:            "%kernel.debug%"
-    strict_variables: false
-
 twig_cache:
     service: "doctrine_cache.providers.main_cache"
     key_generator: "swp_core.key_generator.meta_key_generator"
 
-doctrine_cache:
-    providers:
-        main_cache:
-            type: '%doctrine_cache_driver%'
-            namespace: '%env(SYMFONY_SECRET)%'
-
-# Swiftmailer Configuration
-swiftmailer:
-    transport: "%mailer_transport%"
-    host:      "%mailer_host%"
-    username:  "%mailer_user%"
-    password:  "%mailer_password%"
-    spool:     { type: memory }
-
-swp_core:
-    device_listener:
-        enabled: true
-
 nelmio_api_doc:
     request_listener: false
-
-nelmio_cors:
-    defaults:
-        allow_credentials: false
-        allow_origin: ["%allow_origin_cors%"]
-        allow_methods: ["POST", "LINK", "UNLINK", "GET", "DELETE", "OPTIONS", "PATCH", "PUT"]
-        allow_headers: ["origin", "content-type", "accept", "authorization", "link"]
-        expose_headers: ["link", "X-Superdesk-Publisher"]
-        max_age: 3600
-    paths:
-        '^/api/': ~
-
-sentry:
-    dsn: "%sentry.dsn%"
-    options:
-        environment: "%kernel.environment%"
-        release: "dev-master"
-
-

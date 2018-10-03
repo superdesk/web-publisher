@@ -19,7 +19,6 @@ php:
 
 env:
   global:
-  - SYMFONY_ENV="test"
   - ES_VERSION=5.4.0 ES_DOWNLOAD_URL=https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-${ES_VERSION}.deb
   - secure: "PtJdcQoMvkv5+w+u6urW0T57d2WW7+Y57P3Q0sM3uS6zuUG0Xy9qVXlIG7Ilb8Fnn/1V05zYPcFO25BfnW+EGBppT34bq5d9P3PYrFWzfLK2LR9/vdvAHkwi5RJqDwE08VVUhcx+jbTse9hspoeBmBoSu2gi5tTm4pP+WM4mzDiP6EOMHi+EUtWb57RMMKwk5TeKfUUtq/Mcvkhr14leC3XdLDznE16UYcZ+xbzFieMnQXYrZjL5OMfothIuYs0+RzmyCZBfoLf1QVCJSNA4xFgDurL/xbC7gUg7CIHKNRc7Tpcuyk2LHp1WP62WKd9qyysMplP6jdSuaGydfxqpXXMwmBB6MGYjUC/iuDN+G7SR8zbVd90T7wpV+LqeJkiqgzV+BXyQI54n2QnQy0pB2IqTXnH/SPeGidSDDXCbJyfazuMLbWDvlIOjkkwTksieFVTMpPteWen15m88G8X+0ypDv0/HwGDRveoJY9moZx3ecRQTP7dieTnzKrvnolhjlJbPkAbNH7yHOnwQ4w7vSbRRC5zX05dr79FziV3Ykj0cQb2o6GI2GUBEYtUyLhd+P0I33WWtl0fVACEeDZd5nwswMdK6ui3aA9ZLEn9RxeINo27WcRZx4uEcJMa76FEv+5xHHSMBqF4/US3JINN4p/a7/ZjLyZo8hjUTqYWBMfQ="
   matrix:
@@ -31,13 +30,12 @@ env:
 matrix:
   allow_failures:
   - php: nightly
-  - php: 7.2
   fast_finish: true
 
 before_install:
 - which php
 - sudo pip install supervisor
-- sudo wget -P /etc/supervisor https://gist.githubusercontent.com/takeit/86c925a07cdca17e2fded7fc9f8fc557/raw/fd620ceb17c70364118c73045e9ac08967fbe995/supervisord.conf
+- sudo wget -P /etc/supervisor https://gist.githubusercontent.com/takeit/86c925a07cdca17e2fded7fc9f8fc557/raw/74ce3313def74a8f245a8ab53f23eb62d2ee2642/supervisord.conf
 - sudo mkdir /var/log/supervisor/
 - sudo chmod -R 777 /var/log/supervisor/
 - sudo /bin/dd if=/dev/zero of=/var/swap.1 bs=1M count=4096
@@ -53,6 +51,7 @@ install:
 - sudo service elasticsearch restart
 
 before_script:
+- set -a && source .env.test && set +a
 - echo "memory_limit=-1" >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
 - echo 'extension="redis.so"' >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
 - cat ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini|grep redis

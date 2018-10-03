@@ -17,8 +17,11 @@ default:
         rdx\behatvars\BehatVariablesExtension: ~
         Behat\Symfony2Extension:
             kernel:
+                class: Kernel
+                path: src/Kernel.php
                 env: "test"
                 debug: "true"
+
         Behat\MinkExtension:
             base_url: "http://localhost/"
             files_path: 'features/fixtures'

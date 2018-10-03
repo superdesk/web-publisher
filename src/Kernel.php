@@ -1,11 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 use Symfony\Component\Config\Loader\LoaderInterface;
-use Symfony\Component\HttpKernel\Kernel;
+use Symfony\Component\HttpKernel\Kernel as BaseKernel;
 use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 
-class AppKernel extends Kernel
+class Kernel extends BaseKernel
 {
     use MicroKernelTrait;
 
@@ -14,7 +16,7 @@ class AppKernel extends Kernel
     public function registerBundles()
     {
         $contents = require $this->getProjectDir().'/config/bundles.php';
-        foreach ($contents as $class => $envs) {
+        foreach ((array) $contents as $class => $envs) {
             if (isset($envs['all']) || isset($envs[$this->environment])) {
                 yield new $class();
             }
@@ -28,9 +30,9 @@ class AppKernel extends Kernel
         $confDir = $this->getProjectDir().'/config';
 
         // old configuration
-        $loader->load($this->getRootDir().'/config/config.yml');
-        if (\file_exists($this->getRootDir().'/config/config_'.$this->getEnvironment().'.yml')) {
-            $loader->load($this->getRootDir().'/config/config_'.$this->getEnvironment().'.yml');
+        $loader->load($this->getProjectDir().'/app/config/config.yml');
+        if (\file_exists($this->getProjectDir().'/app/config/config_'.$this->getEnvironment().'.yml')) {
+            $loader->load($this->getProjectDir().'/app/config/config_'.$this->getEnvironment().'.yml');
         }
 
         $loader->load($confDir.'/packages/*'.self::CONFIG_EXTS, 'glob');
@@ -50,6 +52,17 @@ class AppKernel extends Kernel
         if (is_dir($confDir.'/routes/'.$this->environment)) {
             $routes->import($confDir.'/routes/'.$this->environment.'/**/*'.self::CONFIG_EXTS, '/', 'glob');
         }
+
         $routes->import($confDir.'/routes'.self::CONFIG_EXTS, '/', 'glob');
+    }
+
+    public function getCacheDir(): string
+    {
+        return $this->getProjectDir().'/var/cache/'.$this->environment;
+    }
+
+    public function getLogDir(): string
+    {
+        return $this->getProjectDir().'/var/log';
     }
 }

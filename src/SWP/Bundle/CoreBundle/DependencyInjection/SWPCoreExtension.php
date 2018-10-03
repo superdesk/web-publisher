@@ -18,6 +18,7 @@ use SWP\Bundle\StorageBundle\DependencyInjection\Extension\Extension;
 use SWP\Bundle\StorageBundle\Drivers;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\Extension\PrependExtensionInterface;
 use Symfony\Component\DependencyInjection\Loader;
 
 /**
@@ -25,7 +26,7 @@ use Symfony\Component\DependencyInjection\Loader;
  *
  * To learn more see {@link http://symfony.com/doc/current/cookbook/bundles/extension.html}
  */
-class SWPCoreExtension extends Extension
+class SWPCoreExtension extends Extension implements PrependExtensionInterface
 {
     /**
      * {@inheritdoc}
@@ -44,6 +45,12 @@ class SWPCoreExtension extends Extension
         $loader->load('commands.yml');
         $this->loadDeviceListener($config, $loader);
 
+        $config = $container->resolveEnvPlaceholders($config);
+
+        if (!empty($config['superdesk_servers'])) {
+            $container->setParameter('superdesk_servers', $config['superdesk_servers'][0]);
+        }
+
         $this->registerStorage(Drivers::DRIVER_DOCTRINE_ORM, $config['persistence']['orm']['classes'], $container);
     }
 
@@ -52,5 +59,32 @@ class SWPCoreExtension extends Extension
         if ($config['device_listener']['enabled']) {
             $loader->load('device_listener.yml');
         }
+    }
+
+    public function prepend(ContainerBuilder $container): void
+    {
+        $config = $container->getExtensionConfig('doctrine_cache');
+        $config[0]['providers']['main_cache']['type'] = '%env(DOCTRINE_CACHE_DRIVER)%';
+
+        $config = $container->resolveEnvPlaceholders(
+            $config,
+            true
+        );
+
+        $container->prependExtensionConfig('doctrine_cache', $config[0]);
+
+        $fosHttpCacheConfig = [
+            'debug' => [
+                'enabled' => true,
+            ],
+        ];
+
+        $fosHttpCacheConfig['proxy_client']['varnish']['http']['servers'] = '%env(json:resolve:CACHE_SERVERS)%';
+        $fosHttpCacheConfig = $container->resolveEnvPlaceholders(
+            $fosHttpCacheConfig,
+            true
+        );
+
+        $container->prependExtensionConfig('fos_http_cache', $fosHttpCacheConfig);
     }
 }

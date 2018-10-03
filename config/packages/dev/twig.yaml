@@ -1,0 +1,3 @@
+twig:
+    cache: false
+    debug: true

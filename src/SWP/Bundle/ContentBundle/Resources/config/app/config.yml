@@ -1,6 +1,6 @@
 parameters:
     jms_serializer.camel_case_naming_strategy.class: JMS\Serializer\Naming\IdenticalPropertyNamingStrategy
-    FS_MAIN_ADAPTER: local_adapter
+    env(FS_MAIN_ADAPTER): local_adapter
     env(FS_AWS_S3_BUCKET): ''
     env(FS_AWS_S3_PREFIX): ~
     env(FS_AWS_S3_VERSION): 'latest'
@@ -66,13 +66,8 @@ oneup_flysystem:
                 prefix: '%env(resolve:FS_AWS_S3_PREFIX)%'
         local_adapter:
             local:
-                directory: '%kernel.root_dir%/../web/uploads/'
-        fallback_adapter:
-            fallback:
-                mainAdapter: '%FS_MAIN_ADAPTER%'
-                fallback: local_adapter
-                forceCopyOnMain: ~
+                directory: '%kernel.project_dir%/web/uploads/'
     filesystems:
         swp_filesystem:
-            adapter: fallback_adapter
+            adapter: fallback_adapter # fallback_adapter defined via extension class
             alias: swp_filesystem

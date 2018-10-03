@@ -1,0 +1,13 @@
+parameters:
+    env(CORS_ALLOW_ORIGIN): 'http://localhost'
+
+nelmio_cors:
+    defaults:
+        allow_credentials: false
+        allow_origin: ["%env(resolve:CORS_ALLOW_ORIGIN)%"]
+        allow_methods: ["POST", "LINK", "UNLINK", "GET", "DELETE", "OPTIONS", "PATCH", "PUT"]
+        allow_headers: ["origin", "content-type", "accept", "authorization", "link"]
+        expose_headers: ["link", "X-Superdesk-Publisher"]
+        max_age: 3600
+    paths:
+        '^/api/': ~

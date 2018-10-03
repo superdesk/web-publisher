@@ -3,7 +3,6 @@ imports:
 
 parameters:
     domain: localhost
-    test_env: doctrine
     templating.cache_warmer.template_paths.class: "Symfony\\Bundle\\FrameworkBundle\\CacheWarmer\\TemplatePathsCacheWarmer"
 
 framework:

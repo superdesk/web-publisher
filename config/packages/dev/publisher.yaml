@@ -1,0 +1,4 @@
+parameters:
+    fixtures_type: '%env(FIXTURES_TYPE)%'
+    env(FIXTURES_TYPE): dev
+    test_env: '%env(TEST_ENV)%'

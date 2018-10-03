@@ -1,14 +1,20 @@
+parameters:
+    env(SESSION_MEMCACHED_HOST): localhost
+    env(SESSION_MEMCACHED_PORT): 11211
+    env(SESSION_MEMCACHED_PREFIX): sess
+    env(SESSION_MEMCACHED_EXPIRE): 3600
+
 services:
     session.memcached:
         class: "Memcached"
         arguments:
-            - "%session_memcached_prefix%"
+            - "%env(resolve:SESSION_MEMCACHED_PREFIX)%"
         calls:
-            - [ addServer, [ "%session_memcached_host%", "%session_memcached_port%" ]]
+            - [ addServer, [ "%env(resolve:SESSION_MEMCACHED_HOST)%", "%env(resolve:SESSION_MEMCACHED_PORT)%" ]]
 
     session.handler.memcached:
         class:     "Symfony\\Component\\HttpFoundation\\Session\\Storage\\Handler\\MemcachedSessionHandler"
-        arguments: ["@session.memcached", { prefix: "%session_memcached_prefix%", expiretime: "%session_memcached_expire%" }]
+        arguments: ["@session.memcached", { prefix: "%env(resolve:SESSION_MEMCACHED_PREFIX)%", expiretime: "%env(resolve:SESSION_MEMCACHED_EXPIRE)%" }]
 
     twig.extension.text:
         class: Twig_Extensions_Extension_Text
@@ -30,7 +36,7 @@ doctrine:
                     gedmo_loggable:
                         type: annotation
                         prefix: Gedmo\Loggable\Entity
-                        dir: "%kernel.root_dir%/../vendor/gedmo/doctrine-extensions/lib/Gedmo/Loggable/Entity"
+                        dir: "%kernel.project_dir%/vendor/gedmo/doctrine-extensions/lib/Gedmo/Loggable/Entity"
                         is_bundle: false
                 filters:
                     tenantable:

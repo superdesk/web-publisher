@@ -1,3 +1,7 @@
+parameters:
+    env(APP_LOCALE): en
+    locale: '%env(resolve:APP_LOCALE)%'
+
 framework:
     ide: 'phpstorm://open?file=%%f&line=%%l'
     cache:
@@ -6,7 +10,7 @@ framework:
     translator:
         fallbacks: ["%locale%"]
         logging: false
-    secret: "%env(SYMFONY_SECRET)%"
+    secret: "%env(APP_SECRET)%"
     router:
         strict_requirements: ~
     form:            ~

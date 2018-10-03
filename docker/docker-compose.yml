@@ -1,10 +1,14 @@
-version: '2'
+version: '3.7'
 
 services:
     postgres:
         image: postgres
         ports:
             - "5433:5432"
+        environment:
+          - POSTGRES_DATABASE=publisher_${APP_ENV-dev}
+          - POSTGRES_USER=postgres
+          - POSTGRES_PASSWORD=postgres
     memcached:
         image: memcached
         ports:
@@ -20,21 +24,21 @@ services:
         build: php7-fpm
         ports:
             - "9001:9000"
-        links:
+        depends_on:
             - postgres
             - memcached
             - elasticsearch
             - rabbitmq
         volumes:
             - ../:/var/www/publisher:cached
-            - ./logs/publisher:/var/www/publisher/app/logs:cached
+            - ./logs/publisher:/var/www/publisher/var/log:cached
+        env_file:
+            - .env
     nginx:
         build: nginx
         ports:
             - "8080:80"
-        links:
-            - php
-        volumes_from:
+        depends_on:
             - php
         volumes:
             - ./logs/nginx/:/var/log/nginx:cached
@@ -44,8 +48,6 @@ services:
             - 5672:5672
     supervisor:
         build: supervisor
-        volumes_from:
-            - php
         ports:
             - "8081:8080"
             - "5555:5555"
