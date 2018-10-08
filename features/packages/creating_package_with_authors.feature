@@ -237,7 +237,7 @@ Feature: Checking if the package authors are saved properly
     Then the response status code should be 200
     And the JSON node "authors[0].avatar" should not be null
     And the JSON node "authors[1].avatar" should not be null
-    And the JSON nodes should contain:
+    And the JSON nodes should be equal to:
       | authors[0].name                | Nareg Asmarian                                   |
       | authors[0].biography           | bioquil                                          |
       | authors[0].role                | writer                                           |
