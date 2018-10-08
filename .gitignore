@@ -6,6 +6,7 @@
 /var/*
 !/var/.gitkeep
 /bin/
+!/bin/console
 !/bin/UpdateApplicationVersion.php
 /docs/_build/
 /docs/_extensions/sensio/sphinx/__pycache__/

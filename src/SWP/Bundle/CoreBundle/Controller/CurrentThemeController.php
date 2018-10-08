@@ -91,8 +91,7 @@ class CurrentThemeController extends Controller
      *         200="Returned on success."
      *     }
      * )
-     * @Route("/api/{version}/theme/settings/", options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_theme_settings_list")
-     * @Method("GET")
+     * @Route("/api/{version}/theme/settings/", options={"expose"=true}, defaults={"version"="v1"}, methods={"GET"}, name="swp_api_theme_settings_list")
      *
      * @return SingleResourceResponse
      */

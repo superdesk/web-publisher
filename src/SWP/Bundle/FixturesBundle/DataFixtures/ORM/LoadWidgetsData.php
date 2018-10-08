@@ -16,14 +16,13 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\FixturesBundle\DataFixtures\ORM;
 
-use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use SWP\Bundle\FixturesBundle\AbstractFixture;
 use Doctrine\Common\Persistence\ObjectManager;
 use SWP\Bundle\CoreBundle\Model\WidgetModel;
 use SWP\Component\MultiTenancy\Model\TenantInterface;
 
-class LoadWidgetsData extends AbstractFixture implements FixtureInterface, OrderedFixtureInterface
+class LoadWidgetsData extends AbstractFixture implements OrderedFixtureInterface
 {
     /**
      * {@inheritdoc}

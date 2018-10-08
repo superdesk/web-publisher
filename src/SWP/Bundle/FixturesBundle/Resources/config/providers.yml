@@ -2,6 +2,7 @@ services:
     _defaults:
         tags: ['nelmio_alice.faker.provider']
         autowire: true
+        public: true
         bind:
             $keywordRepository: '@swp.repository.keyword'
             $keywordFactory: '@swp.factory.keyword'

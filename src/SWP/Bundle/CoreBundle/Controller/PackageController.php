@@ -98,9 +98,7 @@ class PackageController extends Controller
      *     },
      *     input="SWP\Bundle\CoreBundle\Form\Type\CompositePublishActionType"
      * )
-     * @Route("/api/{version}/packages/{id}/publish/", options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_core_publish_package", requirements={"id"="\d+"})
-     *
-     * @Method("POST")
+     * @Route("/api/{version}/packages/{id}/publish/", options={"expose"=true}, defaults={"version"="v1"}, methods={"POST"}, name="swp_api_core_publish_package", requirements={"id"="\d+"})
      */
     public function publishAction(Request $request, int $id)
     {
@@ -134,8 +132,7 @@ class PackageController extends Controller
      *     },
      *     input="SWP\Bundle\CoreBundle\Form\Type\UnpublishFromTenantsType"
      * )
-     * @Route("/api/{version}/packages/{id}/unpublish/", options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_core_unpublish_package", requirements={"id"="\d+"})
-     * @Method("POST")
+     * @Route("/api/{version}/packages/{id}/unpublish/", options={"expose"=true}, defaults={"version"="v1"}, methods={"POST"}, name="swp_api_core_unpublish_package", requirements={"id"="\d+"})
      */
     public function unpublishAction(Request $request, int $id)
     {
@@ -173,9 +170,7 @@ class PackageController extends Controller
      *     input="SWP\Bundle\CoreBundle\Form\Type\PackageType"
      * )
      *
-     * @Route("/api/{version}/packages/{id}/", options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_core_update_package", requirements={"id"="\d+"})
-     *
-     * @Method("PATCH")
+     * @Route("/api/{version}/packages/{id}/", options={"expose"=true}, defaults={"version"="v1"}, methods={"PATCH"}, name="swp_api_core_update_package", requirements={"id"="\d+"})
      *
      * @return SingleResourceResponse
      */

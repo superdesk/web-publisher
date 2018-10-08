@@ -143,16 +143,19 @@ class ContentPushController extends Controller
      *         200="Returned on form errors"
      *     }
      * )
-     * @Route("/api/{version}/assets/push/{mediaId}", options={"expose"=true}, defaults={"version"="v1"}, requirements={"mediaId"=".+"}, name="swp_api_assets_get")
-     * @Route("/api/{version}/assets/get/{mediaId}", options={"expose"=true}, defaults={"version"="v1"}, requirements={"mediaId"=".+"}, name="swp_api_assets_get_1")
+     * @Route("/api/{version}/assets/push/{mediaId}.{extension}", options={"expose"=true}, defaults={"version"="v1"}, requirements={"mediaId"=".+"}, name="swp_api_assets_get")
+     * @Route("/api/{version}/assets/get/{mediaId}.{extension}", options={"expose"=true}, defaults={"version"="v1"}, requirements={"mediaId"=".+"}, name="swp_api_assets_get_1")
      * @Method("GET")
      */
-    public function getAssetsAction($mediaId)
+    public function getAssetsAction(string $mediaId, string $extension)
     {
-        $image = $this->get('swp.repository.image')
-            ->findImageByAssetId(ArticleMedia::handleMediaId($mediaId));
+        $fileProvider = $this->container->get(FileProvider::class);
+        $file = $fileProvider->getFile(ArticleMedia::handleMediaId($mediaId), $extension);
 
-        if (null === $image) {
+//        $image = $this->get('swp.repository.image')
+//            ->findImageByAssetId(ArticleMedia::handleMediaId($mediaId));
+
+        if (null === $file) {
             throw new NotFoundHttpException('Media don\'t exist in storage');
         }
 
@@ -160,9 +163,9 @@ class ContentPushController extends Controller
 
         return new SingleResourceResponse([
             'media_id' => $mediaId,
-            'URL' => $mediaManager->getMediaPublicUrl($image),
-            'media' => base64_encode($mediaManager->getFile($image)),
-            'mime_type' => Mime::getMimeFromExtension($image->getFileExtension()),
+            'URL' => $mediaManager->getMediaPublicUrl($file),
+            'media' => base64_encode($mediaManager->getFile($file)),
+            'mime_type' => Mime::getMimeFromExtension($file->getFileExtension()),
             'filemeta' => [],
         ]);
     }

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "242264f7980305b458f4a4f48bd9bb69",
+    "content-hash": "5a6619a7073554cf0d28e0f993b83ea8",
     "packages": [
         {
             "name": "asm89/twig-cache-extension",
@@ -7834,6 +7834,53 @@
             "time": "2018-09-24T06:49:35+00:00"
         },
         {
+            "name": "symfony/flex",
+            "version": "v1.1.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/flex.git",
+                "reference": "9fb60f232af0764d58002e7872acb43a74506d25"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/flex/zipball/9fb60f232af0764d58002e7872acb43a74506d25",
+                "reference": "9fb60f232af0764d58002e7872acb43a74506d25",
+                "shasum": ""
+            },
+            "require": {
+                "composer-plugin-api": "^1.0",
+                "php": "^7.0"
+            },
+            "require-dev": {
+                "composer/composer": "^1.0.2",
+                "symfony/phpunit-bridge": "^3.2.8"
+            },
+            "type": "composer-plugin",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.1-dev"
+                },
+                "class": "Symfony\\Flex\\Flex"
+            },
+            "autoload": {
+                "psr-4": {
+                    "Symfony\\Flex\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Fabien Potencier",
+                    "email": "fabien.potencier@gmail.com"
+                }
+            ],
+            "description": "Composer plugin for Symfony",
+            "time": "2018-09-03T08:17:12+00:00"
+        },
+        {
             "name": "symfony/monolog-bundle",
             "version": "v3.3.0",
             "source": {
@@ -9105,31 +9152,40 @@
     "packages-dev": [
         {
             "name": "behat-extension/doctrine-data-fixtures-extension",
-            "version": "v4.0.1",
+            "version": "dev-container_aware",
             "source": {
                 "type": "git",
-                "url": "https://github.com/BehatExtension/DoctrineDataFixturesExtension.git",
-                "reference": "bd8de54f5329ccb88a752649ba928afa6ec067d7"
+                "url": "https://github.com/takeit/DoctrineDataFixturesExtension.git",
+                "reference": "7ce66c6c04c24226794b16f8c5e9a88b13c2a39e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/BehatExtension/DoctrineDataFixturesExtension/zipball/bd8de54f5329ccb88a752649ba928afa6ec067d7",
-                "reference": "bd8de54f5329ccb88a752649ba928afa6ec067d7",
+                "url": "https://api.github.com/repos/takeit/DoctrineDataFixturesExtension/zipball/7ce66c6c04c24226794b16f8c5e9a88b13c2a39e",
+                "reference": "7ce66c6c04c24226794b16f8c5e9a88b13c2a39e",
                 "shasum": ""
             },
             "require": {
                 "behat/behat": "^3.0",
                 "behat/symfony2-extension": "^2.0",
                 "doctrine/data-fixtures": "^1.0",
-                "php": ">=5.3.6"
+                "doctrine/orm": "^2.6",
+                "php": "^7.1",
+                "symfony/dependency-injection": "^3.4|^4.0"
+            },
+            "require-dev": {
+                "doctrine/doctrine-bundle": "^1.8",
+                "doctrine/doctrine-fixtures-bundle": "^3.0",
+                "phpstan/phpstan": "^0.9.2",
+                "symfony/process": "^3.4|^4.0"
             },
             "suggest": {
-                "doctrine/migrations": "Uses DBAL to load versioned database schema and migration classes"
+                "doctrine/migrations": "Uses DBAL to load versioned database schema and migration classes",
+                "symfony/process": "For backup support on pgsql or mysql platforms"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.0.x-dev"
+                    "dev-master": "5.0.x-dev"
                 }
             },
             "autoload": {
@@ -9137,7 +9193,11 @@
                     "BehatExtension\\DoctrineDataFixturesExtension\\": "src/"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
+            "autoload-dev": {
+                "psr-4": {
+                    "BehatExtension\\DoctrineDataFixturesExtension\\Tests\\": "tests/"
+                }
+            },
             "license": [
                 "MIT"
             ],
@@ -9155,12 +9215,15 @@
             "description": "Doctrine data fixtures extension for Behat",
             "homepage": "http://github.com/BehatExtension/",
             "keywords": [
-                "BDD",
-                "Behat",
-                "Data fixtures",
+                "bdd",
+                "behat",
+                "data fixtures",
                 "doctrine"
             ],
-            "time": "2017-09-28T10:03:21+00:00"
+            "support": {
+                "source": "https://github.com/takeit/DoctrineDataFixturesExtension/tree/v5.0"
+            },
+            "time": "2018-10-04T11:43:46+00:00"
         },
         {
             "name": "behat/behat",
@@ -12557,7 +12620,8 @@
         "emanueleminotto/twig-cache-bundle": 20,
         "facebook/facebook-instant-articles-sdk-php": 20,
         "react/zmq": 20,
-        "roave/security-advisories": 20
+        "roave/security-advisories": 20,
+        "behat-extension/doctrine-data-fixtures-extension": 20
     },
     "prefer-stable": true,
     "prefer-lowest": false,

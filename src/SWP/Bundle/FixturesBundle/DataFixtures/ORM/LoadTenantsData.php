@@ -16,7 +16,6 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\FixturesBundle\DataFixtures\ORM;
 
-use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use SWP\Bundle\FixturesBundle\AbstractFixture;
@@ -24,7 +23,7 @@ use SWP\Component\MultiTenancy\Model\TenantAwareInterface;
 use SWP\Component\Revision\Manager\RevisionManagerInterface;
 use SWP\Component\Revision\Model\RevisionInterface;
 
-class LoadTenantsData extends AbstractFixture implements FixtureInterface, OrderedFixtureInterface
+class LoadTenantsData extends AbstractFixture implements OrderedFixtureInterface
 {
     /**
      * {@inheritdoc}
