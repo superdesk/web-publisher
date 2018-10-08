@@ -17,7 +17,7 @@ use Symfony\Component\DependencyInjection\ContainerAwareTrait;
 final class Version20181008115755 extends AbstractMigration implements ContainerAwareInterface
 {
     use ContainerAwareTrait;
-    
+
     public function up(Schema $schema): void
     {
         // this up() migration is auto-generated, please modify it to your needs
@@ -31,7 +31,7 @@ final class Version20181008115755 extends AbstractMigration implements Container
     {
         $entityManager = $this->container->get('doctrine.orm.default_entity_manager');
         $query = $entityManager
-            ->createQuery('SELECT au.id, au.avatar_url FROM SWP\Bundle\ContentBundle\Model\ArticleAuthor AS au  WHERE au.avatar_url IS NOT NULL');
+            ->createQuery('SELECT au.id, au.avatarUrl FROM SWP\Bundle\ContentBundle\Model\ArticleAuthor AS au  WHERE au.avatarUrl IS NOT NULL');
         $articleAuthors = $query->getArrayResult();
 
         /** @var ArticleAuthorInterface $articleAuthor */
