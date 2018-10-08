@@ -1,0 +1,56 @@
+<?php
+
+declare(strict_types=1);
+
+namespace SWP\Migrations;
+
+use Doctrine\DBAL\Schema\Schema;
+use Doctrine\Migrations\AbstractMigration;
+use SWP\Bundle\ContentBundle\Model\ArticleAuthor;
+use SWP\Bundle\ContentBundle\Model\ArticleAuthorInterface;
+
+/**
+ * Auto-generated Migration: Please modify to your needs!
+ */
+final class Version20181008115755 extends AbstractMigration
+{
+    public function up(Schema $schema): void
+    {
+        // this up() migration is auto-generated, please modify it to your needs
+        $this->abortIf('postgresql' !== $this->connection->getDatabasePlatform()->getName(), 'Migration can only be executed safely on \'postgresql\'.');
+    }
+
+    /**
+     * @param Schema $schema
+     */
+    public function postUp(Schema $schema)
+    {
+        $entityManager = $this->container->get('doctrine.orm.default_entity_manager');
+        $query = $entityManager
+            ->createQuery('SELECT au.id, au.avatar_url FROM SWP\Bundle\ContentBundle\Model\ArticleAuthor AS au  WHERE au.avatar_url IS NOT NULL');
+        $articleAuthors = $query->getArrayResult();
+
+        /** @var ArticleAuthorInterface $articleAuthor */
+        foreach ((array) $articleAuthors as $articleAuthor) {
+            $avatarUrl = explode('/author/media', $articleAuthor['avatarUrl'])[1];
+
+            $qb = $entityManager->createQueryBuilder();
+            $query = $qb->update(ArticleAuthor::class, 'au')
+                ->set('au.avatarUrl', ':url')
+                ->where('au.id = :id')
+                ->setParameters([
+                    'url' => '/author/media'.$avatarUrl,
+                    'id' => $articleAuthor['id'],
+                ])
+                ->getQuery();
+
+            $query->execute();
+        }
+    }
+
+    public function down(Schema $schema): void
+    {
+        // this down() migration is auto-generated, please modify it to your needs
+        $this->abortIf('postgresql' !== $this->connection->getDatabasePlatform()->getName(), 'Migration can only be executed safely on \'postgresql\'.');
+    }
+}
