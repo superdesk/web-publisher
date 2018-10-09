@@ -682,3 +682,9 @@ services:
         arguments:
             - '@swp.factory.media'
             - '@swp_content_bundle.processor.article_body'
+
+    SWP\Bundle\CoreBundle\Serializer\AuthorSerializationSubscriber:
+        arguments:
+          - '@router.default'
+        tags:
+            - { name: jms_serializer.event_subscriber }

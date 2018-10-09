@@ -7,8 +7,11 @@ This changelog references the relevant changes (bug and security fixes) done in 
 To get the diff for a specific change, go to https://github.com/superdesk/web-publisher/commit/XXX where XXX is the change hash
 
 ### 1.5.0
- * improvement [#630] Add otpion to exclude articles fron content list items
+ * improvement [#630] Add option to exclude articles fron content list items
 
+### 1.4.1
+ * bug [#639] Error in generating url to avatar image
+ 
 ### 1.4.0
  * feature [#626] Allow to store files on AWS
  * feature [#621] Added support for audio/video files
