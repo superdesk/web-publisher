@@ -97,7 +97,7 @@ final class DownloadArticleAuthorAvatarListener
             }
             $existingAvatar = $this->entityManager->getRepository(Image::class)->findBy(['assetId' => $assetId]);
             if (\count($existingAvatar) > 0) {
-                $object->setAvatarUrl($this->authorMediaManager->getMediaPublicUrl(\reset($existingAvatar)));
+                $object->setAvatarUrl((string) \reset($existingAvatar));
 
                 return $object;
             }
@@ -122,7 +122,7 @@ final class DownloadArticleAuthorAvatarListener
             $this->entityManager->flush();
 
             $object->setAvatar($avatar);
-            $object->setAvatarUrl($this->authorMediaManager->getMediaPublicUrl($image));
+            $object->setAvatarUrl((string) $image);
         }
 
         return $object;

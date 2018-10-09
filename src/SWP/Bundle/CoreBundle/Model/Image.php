@@ -20,4 +20,8 @@ use SWP\Bundle\ContentBundle\Model\Image as BaseImage;
 
 class Image extends BaseImage implements ImageInterface
 {
+    public function __toString(): string
+    {
+        return $this->assetId.'.'.$this->fileExtension;
+    }
 }
