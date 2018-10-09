@@ -16,31 +16,10 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\CoreBundle\Manager;
 
-use SWP\Bundle\ContentBundle\Model\FileInterface;
 use SWP\Bundle\CoreBundle\Manager\MediaManager as BaseMediaManager;
-use Symfony\Component\Routing\RouterInterface;
 
 final class AuthorMediaManager extends BaseMediaManager
 {
-    public function getMediaPublicUrl(FileInterface $media): string
-    {
-        $tenant = $this->tenantContext->getTenant();
-        if ($subdomain = $tenant->getSubdomain()) {
-            $context = $this->router->getContext();
-            $context->setHost($subdomain.'.'.$context->getHost());
-        }
-
-        return $this->getMediaUri($media);
-    }
-
-    public function getMediaUri(FileInterface $media, $type = RouterInterface::ABSOLUTE_PATH): string
-    {
-        return $this->router->generate('swp_author_media_get', [
-            'mediaId' => $media->getAssetId(),
-            'extension' => $media->getFileExtension(),
-        ], $type);
-    }
-
     protected function getMediaBasePath(): string
     {
         $tenant = $this->tenantContext->getTenant();

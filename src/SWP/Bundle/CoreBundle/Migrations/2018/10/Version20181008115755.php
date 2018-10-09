@@ -36,14 +36,14 @@ final class Version20181008115755 extends AbstractMigration implements Container
 
         /** @var ArticleAuthorInterface $articleAuthor */
         foreach ((array) $articleAuthors as $articleAuthor) {
-            $avatarUrl = explode('/author/media', $articleAuthor['avatarUrl'])[1];
+            $avatarBaseName = explode('/author/media/', $articleAuthor['avatarUrl'])[1];
 
             $qb = $entityManager->createQueryBuilder();
             $query = $qb->update(ArticleAuthor::class, 'au')
                 ->set('au.avatarUrl', ':url')
                 ->where('au.id = :id')
                 ->setParameters([
-                    'url' => '/author/media'.$avatarUrl,
+                    'url' => $avatarBaseName,
                     'id' => $articleAuthor['id'],
                 ])
                 ->getQuery();
