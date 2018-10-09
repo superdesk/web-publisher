@@ -10,7 +10,7 @@ To get the diff for a specific change, go to https://github.com/superdesk/web-pu
  * improvement [#630] Add option to exclude articles fron content list items
 
 ### 1.4.1
- * bug [#639] Generate relative URLs for authors avatars
+ * bug [#639] Error in generating url to avatar image
  
 ### 1.4.0
  * feature [#626] Allow to store files on AWS
