@@ -15,7 +15,6 @@
 namespace SWP\Bundle\CoreBundle\Manager;
 
 use SWP\Bundle\ContentBundle\Manager\MediaManager as BaseMediaManager;
-use SWP\Bundle\ContentBundle\Model\FileInterface;
 use SWP\Component\MultiTenancy\Context\TenantContextInterface;
 
 class MediaManager extends BaseMediaManager
@@ -31,20 +30,6 @@ class MediaManager extends BaseMediaManager
     public function setTenantContext(TenantContextInterface $tenantContext)
     {
         $this->tenantContext = $tenantContext;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getMediaPublicUrl(FileInterface $media)
-    {
-        $tenant = $this->tenantContext->getTenant();
-        if ($subdomain = $tenant->getSubdomain()) {
-            $context = $this->router->getContext();
-            $context->setHost($subdomain.'.'.$context->getHost());
-        }
-
-        return parent::getMediaPublicUrl($media);
     }
 
     /**

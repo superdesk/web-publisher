@@ -10,6 +10,7 @@ To get the diff for a specific change, go to https://github.com/superdesk/web-pu
  * improvement [#630] Add option to exclude articles fron content list items
 
 ### 1.4.1
+ * bug [#641] Fix the assets URLs generating by Media Manager
  * bug [#640] Paywall securing articles doesn't work
  * bug [#639] Error in generating url to avatar image
 
