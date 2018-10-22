@@ -29,3 +29,10 @@ RMT
 nohup.out
 /config/jwt/*.pem*
 !/config/jwt/
+
+###> symfony/framework-bundle ###
+/.env
+/public/bundles/
+/var/
+/vendor/
+###< symfony/framework-bundle ###
