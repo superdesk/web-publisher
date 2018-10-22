@@ -410,7 +410,7 @@ final class ContentPushTest extends WebTestCase
                         [
                             'tenant' => '123abc',
                             'route' => 3,
-                            'fbia' => false,
+                            'isPublishedFbia' => false,
                             'published' => true,
                         ],
                     ],
@@ -1116,7 +1116,7 @@ final class ContentPushTest extends WebTestCase
                         [
                             'tenant' => '123abc',
                             'route' => 3,
-                            'fbia' => false,
+                            'isPublishedFbia' => false,
                             'published' => true,
                         ],
                     ],
@@ -1179,7 +1179,7 @@ final class ContentPushTest extends WebTestCase
                         [
                             'tenant' => '123abc',
                             'route' => $childRouteContent['id'],
-                            'fbia' => false,
+                            'isPublishedFbia' => false,
                             'published' => true,
                         ],
                     ],

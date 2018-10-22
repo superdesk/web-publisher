@@ -7,6 +7,7 @@ This changelog references the relevant changes (bug and security fixes) done in 
 To get the diff for a specific change, go to https://github.com/superdesk/web-publisher/commit/XXX where XXX is the change hash
 
 ### 1.5.0
+ * improvement [#642] Change fbia to isPublishedFbia
  * improvement [#630] Add otpion to exclude articles fron content list items
 
 ### 1.4.0
