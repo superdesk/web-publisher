@@ -26,7 +26,7 @@ interface RulesProcessorInterface
 
     public const KEY_ROUTE = 'route';
 
-    public const KEY_FBIA = 'fbia';
+    public const KEY_FBIA = 'isPublishedFbia';
 
     public const KEY_PUBLISHED = 'published';
 

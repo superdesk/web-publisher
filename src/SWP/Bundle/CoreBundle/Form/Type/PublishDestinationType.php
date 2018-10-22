@@ -33,7 +33,7 @@ final class PublishDestinationType extends AbstractType
         $builder
             ->add('tenant', TenantSelectorType::class)
             ->add('route', TenantAwareRouteSelectorType::class)
-            ->add('fbia', BooleanType::class)
+            ->add('isPublishedFbia', BooleanType::class)
             ->add('packageGuid', TextType::class)
             ->add('published', BooleanType::class)
             ->add('paywallSecured', BooleanType::class)
