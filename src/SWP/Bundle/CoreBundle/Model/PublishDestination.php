@@ -100,7 +100,7 @@ class PublishDestination implements PublishDestinationInterface
      */
     public function isPublishedFbia(): bool
     {
-        return $this->publishedFbia;
+        return $this->isPublishedFbia;
     }
 
     /**
