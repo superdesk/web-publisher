@@ -43,7 +43,7 @@ class PublishDestination implements PublishDestinationInterface
     /**
      * @var bool
      */
-    protected $fbia = true;
+    protected $isPublishedFbia = true;
 
     /**
      * @var bool
@@ -98,17 +98,17 @@ class PublishDestination implements PublishDestinationInterface
     /**
      * {@inheritdoc}
      */
-    public function isFbia(): bool
+    public function isPublishedFbia(): bool
     {
-        return $this->fbia;
+        return $this->isPublishedFbia;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function setFbia(bool $fbia)
+    public function setIsPublishedFbia(bool $isPublishedFbia): void
     {
-        $this->fbia = $fbia;
+        $this->isPublishedFbia = $isPublishedFbia;
     }
 
     /**

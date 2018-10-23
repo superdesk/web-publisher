@@ -87,7 +87,7 @@ Feature: Adding article to bucket based on organization and tenant rules
           "expression":"article.getMetadataByKey(\"located\") matches \"/Sydney/\"",
           "configuration":[
             {
-              "key":"fbia",
+              "key":"isPublishedFbia",
               "value":true
             }
           ]

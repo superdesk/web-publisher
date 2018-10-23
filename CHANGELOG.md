@@ -14,6 +14,7 @@ To get the diff for a specific change, go to https://github.com/superdesk/web-pu
  * bug [#647] Do not allow empty params in ContentListsItemLoader
  * bug [#646] Do not enable tenantable filter in articles count handler
  * feature [#645] Loader for keyword
+ * improvement [#642] Change fbia to isPublishedFbia
  * bug [#641] Fix the assets URLs generating by Media Manager
  * bug [#640] Paywall securing articles doesn't work
  * bug [#639] Error in generating url to avatar image

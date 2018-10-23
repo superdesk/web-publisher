@@ -74,7 +74,7 @@ Feature: Validating if article slugline is created out of the package headline
             {
               "tenant":"123abc",
               "route":6,
-              "fbia":false
+              "isPublishedFbia":false
             }
           ]
         }
@@ -157,7 +157,7 @@ Feature: Validating if article slugline is created out of the package headline
             {
               "tenant":"123abc",
               "route":7,
-              "fbia":false
+              "isPublishedFbia":false
             }
           ]
         }
@@ -239,7 +239,7 @@ Feature: Validating if article slugline is created out of the package headline
             {
               "tenant":"123abc",
               "route":8,
-              "fbia":false
+              "isPublishedFbia":false
             }
           ]
         }
