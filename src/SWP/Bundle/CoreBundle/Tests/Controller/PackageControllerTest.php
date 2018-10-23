@@ -202,7 +202,7 @@ final class PackageControllerTest extends WebTestCase
                         [
                             'tenant' => '123abc',
                             'route' => $routeId,
-                            'fbia' => false,
+                            'isPublishedFbia' => false,
                             'published' => true,
                         ],
                     ],
