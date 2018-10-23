@@ -110,7 +110,7 @@ Feature: Checking if the package with published date in past will be published
             {
               "tenant":"123abc",
               "route":6,
-              "fbia":false,
+              "isPublishedFbia":false,
               "published": true
             }
           ]

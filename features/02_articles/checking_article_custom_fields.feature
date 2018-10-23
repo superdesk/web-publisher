@@ -202,7 +202,7 @@ Feature: Validate custom fields
             {
               "tenant":"123abc",
               "route":6,
-              "fbia":false
+              "isPublishedFbia":false
             }
           ]
         }

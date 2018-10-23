@@ -114,7 +114,7 @@ Feature: Assigning already existing author to another package
             {
               "tenant":"123abc",
               "route":6,
-              "fbia":false
+              "isPublishedFbia":false
             }
           ]
         }
@@ -235,7 +235,7 @@ Feature: Assigning already existing author to another package
             {
               "tenant":"123abc",
               "route":7,
-              "fbia":false
+              "isPublishedFbia":false
             }
           ]
         }

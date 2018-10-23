@@ -114,7 +114,7 @@ Feature: Checking if the package authors are saved properly
             {
               "tenant":"123abc",
               "route":6,
-              "fbia":false,
+              "isPublishedFbia":false,
               "published":true
             }
           ]
@@ -224,7 +224,7 @@ Feature: Checking if the package authors are saved properly
             {
               "tenant":"123abc",
               "route":6,
-              "fbia":false
+              "isPublishedFbia":false
             }
           ]
         }
