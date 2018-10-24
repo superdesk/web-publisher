@@ -18,6 +18,7 @@ The Superdesk Publisher templates system has its own git repository, at: https:/
    slideshow
    routes
    content_list
+   keywords
    templates_caching
    search
    tips
