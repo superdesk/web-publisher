@@ -307,5 +307,10 @@ class TenantControllerTest extends WebTestCase
         $response = \json_decode($client->getResponse()->getContent(), true);
 
         self::assertTrue(5 === $response['articlesCount']);
+
+        $client->request('GET', $this->router->generate('swp_api_core_get_tenant', ['code' => '456def']));
+        $response = \json_decode($client->getResponse()->getContent(), true);
+
+        self::assertTrue(0 === $response['articlesCount']);
     }
 }

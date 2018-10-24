@@ -84,7 +84,6 @@ final class ArticlesCountHandler implements SubscribingHandlerInterface
             $criteria->set('tenantCode', $tenantCode);
             $this->eventDispatcher->dispatch(MultiTenancyEvents::TENANTABLE_DISABLE);
             $count = $this->articleRepository->countByCriteria($criteria, null);
-            $this->eventDispatcher->dispatch(MultiTenancyEvents::TENANTABLE_ENABLE);
 
             return $count;
         }
