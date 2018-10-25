@@ -11,6 +11,8 @@ To get the diff for a specific change, go to https://github.com/superdesk/web-pu
 
 ### 1.4.1
  * improvement [#648] Exclude non-publisher created routes from RouteProvider
+ * bug [#647] Do not allow empty params in ContentListsItemLoader
+ * bug [#646] Do not enable tenantable filter in articles count handler
  * feature [#645] Loader for keyword
  * bug [#641] Fix the assets URLs generating by Media Manager
  * bug [#640] Paywall securing articles doesn't work

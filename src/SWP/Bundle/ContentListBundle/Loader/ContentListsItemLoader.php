@@ -93,7 +93,7 @@ class ContentListsItemLoader extends PaginatedLoader implements LoaderInterface
                 $criteria->set('sticky', $parameters['sticky']);
             }
 
-            if (isset($withoutParameters['content'])) {
+            if (isset($withoutParameters['content']) && !empty($withoutParameters['content'])) {
                 $criteria->set('exclude_content', $withoutParameters['content']);
             }
 
