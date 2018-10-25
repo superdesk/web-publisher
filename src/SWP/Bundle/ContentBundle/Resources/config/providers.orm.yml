@@ -7,13 +7,18 @@ services:
     _defaults:
         public: true
 
+    SWP\Bundle\ContentBundle\Routing\Candidates\Candidates:
+        arguments:
+            - '%cmf_routing.dynamic.locales%'
+            - '%cmf_routing.dynamic.limit_candidates%'
+
     swp.provider.route:
         class: '%swp.provider.route.class%'
         lazy: true
         arguments:
             - '@swp.repository.route'
             - '@doctrine'
-            - '@cmf_routing.orm_candidates'
+            - '@SWP\Bundle\ContentBundle\Routing\Candidates\Candidates'
             - '%cmf_routing.dynamic.persistence.orm.route_class%'
         calls:
             - [setManagerName, ['%cmf_routing.dynamic.persistence.orm.manager_name%']]
