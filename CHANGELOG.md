@@ -10,6 +10,7 @@ To get the diff for a specific change, go to https://github.com/superdesk/web-pu
  * improvement [#630] Add option to exclude articles fron content list items
 
 ### 1.4.1
+ * improvement [#648] Exclude non-publisher created routes from RouteProvider
  * feature [#645] Loader for keyword
  * bug [#641] Fix the assets URLs generating by Media Manager
  * bug [#640] Paywall securing articles doesn't work
