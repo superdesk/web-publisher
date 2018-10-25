@@ -24,6 +24,6 @@ final class Candidates extends BaseCandidates
 
     public function isCandidate($name): bool
     {
-        return 0 === strpos($name, self::PUBLISHER_API_ROUTE_PREFIX);
+        return false === strpos($name, self::PUBLISHER_API_ROUTE_PREFIX);
     }
 }
