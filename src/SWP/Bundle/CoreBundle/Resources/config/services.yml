@@ -481,6 +481,22 @@ services:
         tags:
             - { name: swp.meta_loader.add }
 
+    swp_core.loader.slideshow:
+        class: SWP\Bundle\CoreBundle\Loader\PreviewSlideshowLoader
+        arguments:
+            - "@swp_template_engine_context.factory.meta_factory"
+            - "@swp_template_engine_context"
+        tags:
+            - { name: swp.meta_loader.add }
+
+    swp_core.loader.slideshow_item:
+        class: SWP\Bundle\CoreBundle\Loader\PreviewSlideshowItemLoader
+        arguments:
+            - "@swp_template_engine_context.factory.meta_factory"
+            - "@swp_template_engine_context"
+        tags:
+            - { name: swp.meta_loader.add }
+
     swp_core.fragment.renderer.external:
         class: SWP\Bundle\CoreBundle\Fragment\ExternalFragmentRenderer
         arguments:

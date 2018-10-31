@@ -20,6 +20,7 @@ use SWP\Bundle\ContentBundle\Doctrine\FileRepositoryInterface;
 use SWP\Bundle\ContentBundle\Doctrine\ImageRepositoryInterface;
 use SWP\Bundle\ContentBundle\Model\ArticleMedia;
 use SWP\Bundle\ContentBundle\Model\FileInterface;
+use SWP\Bundle\ContentBundle\Model\Image;
 use SWP\Bundle\ContentBundle\Model\ImageRendition;
 use SWP\Bundle\ContentBundle\Factory\MediaFactoryInterface;
 use SWP\Bundle\ContentBundle\Model\ArticleInterface;
@@ -97,6 +98,7 @@ class MediaFactory implements MediaFactoryInterface
         $imageRendition->setHeight($rendition->getHeight());
         $imageRendition->setWidth($rendition->getWidth());
         $imageRendition->setName($key);
+        $imageRendition->setPreviewUrl($rendition->getHref());
 
         return $imageRendition;
     }
@@ -140,8 +142,9 @@ class MediaFactory implements MediaFactoryInterface
         $articleMedia->setImage($image);
         foreach ($item->getRenditions() as $rendition) {
             $image = $this->findImage($rendition->getMedia());
+
             if (null === $image) {
-                continue;
+                $image = new Image();
             }
 
             $imageRendition = $this->createImageRendition($image, $articleMedia, $rendition->getName(), $rendition);

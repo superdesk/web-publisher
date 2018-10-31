@@ -17,9 +17,11 @@ namespace SWP\Bundle\CoreBundle\Processor;
 use Doctrine\Common\Collections\ArrayCollection;
 use SWP\Bundle\ContentBundle\Factory\MediaFactoryInterface;
 use SWP\Bundle\ContentBundle\Model\ArticleInterface;
+use SWP\Bundle\ContentBundle\Model\SlideshowItem;
 use SWP\Bundle\ContentBundle\Processor\ArticleBodyProcessorInterface;
 use SWP\Bundle\CoreBundle\Model\ArticleMediaInterface;
 use SWP\Bundle\CoreBundle\Model\PackageInterface;
+use SWP\Bundle\CoreBundle\Model\Slideshow;
 use SWP\Component\Bridge\Model\ItemInterface;
 
 final class ArticleMediaProcessor implements ArticleMediaProcessorInterface
@@ -44,6 +46,8 @@ final class ArticleMediaProcessor implements ArticleMediaProcessorInterface
 
     public function fillArticleMedia(PackageInterface $package, ArticleInterface $article): void
     {
+        $this->handleSlideshows($package, $article);
+
         if (null === $package || (null !== $package && 0 === \count($package->getItems()))) {
             return;
         }
@@ -61,6 +65,27 @@ final class ArticleMediaProcessor implements ArticleMediaProcessorInterface
         }
 
         $article->setMedia($articleMedia);
+    }
+
+    private function handleSlideshows(PackageInterface $package, $article)
+    {
+        foreach ((array) $package->getGroups() as $slideshows) {
+            foreach ($slideshows as $packageSlideshow) {
+                $slideshow = new Slideshow();
+                $slideshow->setCode($packageSlideshow->getCode());
+
+                foreach ($packageSlideshow->getItems() as $item) {
+                    $slideshowItem = new SlideshowItem();
+                    $articleMedia = $this->handleMedia($article, $item->getName(), $item);
+                    $slideshowItem->setArticleMedia($articleMedia);
+                    $slideshowItem->setSlideshow($slideshow);
+
+                    $slideshow->addSlideshowItem($slideshowItem);
+                }
+
+                $article->addSlideshow($slideshow);
+            }
+        }
     }
 
     private function handleMedia(ArticleInterface $article, string $key, ItemInterface $item): ArticleMediaInterface

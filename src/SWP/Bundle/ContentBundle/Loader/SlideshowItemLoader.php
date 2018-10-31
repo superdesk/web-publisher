@@ -103,6 +103,6 @@ final class SlideshowItemLoader extends PaginatedLoader implements LoaderInterfa
 
     public function isSupported(string $type): bool
     {
-        return self::SUPPORTED_TYPE === $type;
+        return self::SUPPORTED_TYPE === $type && !$this->context->isPreviewMode();
     }
 }

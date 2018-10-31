@@ -1,31 +1,36 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Superdesk Web Publisher Core Bundle.
  *
- * Copyright 2016 Sourcefabric z.ú. and contributors.
+ * Copyright 2018 Sourcefabric z.ú. and contributors.
  *
  * For the full copyright and license information, please see the
  * AUTHORS and LICENSE files distributed with this source code.
  *
- * @copyright 2016 Sourcefabric z.ú
+ * @copyright 2018 Sourcefabric z.ú
  * @license http://www.superdesk.org/license
  */
 
 namespace SWP\Bundle\CoreBundle\Loader;
 
 use SWP\Bundle\ContentBundle\Loader\PaginatedLoader;
+use SWP\Bundle\ContentBundle\Model\SlideshowInterface;
 use SWP\Component\Common\Criteria\Criteria;
 use SWP\Component\TemplatesSystem\Gimme\Context\Context;
-use SWP\Component\TemplatesSystem\Gimme\Factory\MetaFactory;
+use SWP\Component\TemplatesSystem\Gimme\Factory\MetaFactoryInterface;
 use SWP\Component\TemplatesSystem\Gimme\Loader\LoaderInterface;
 use SWP\Component\TemplatesSystem\Gimme\Meta\Meta;
 use SWP\Component\TemplatesSystem\Gimme\Meta\MetaCollection;
 
-class PreviewArticleMediaLoader extends PaginatedLoader implements LoaderInterface
+final class PreviewSlideshowItemLoader extends PaginatedLoader implements LoaderInterface
 {
+    public const SUPPORTED_TYPE = 'slideshowItems';
+
     /**
-     * @var MetaFactory
+     * @var MetaFactoryInterface
      */
     protected $metaFactory;
 
@@ -34,35 +39,42 @@ class PreviewArticleMediaLoader extends PaginatedLoader implements LoaderInterfa
      */
     protected $context;
 
-    /**
-     * ArticleMediaLoader constructor.
-     *
-     * @param MetaFactory $metaFactory
-     * @param Context     $context
-     */
-    public function __construct(MetaFactory $metaFactory, Context $context)
-    {
+    public function __construct(
+        MetaFactoryInterface $metaFactory,
+        Context $context
+    ) {
         $this->metaFactory = $metaFactory;
         $this->context = $context;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function load($metaType, $withParameters = [], $withoutParameters = [], $responseType = self::SINGLE)
+    public function load($type, $withParameters = [], $withoutParameters = [], $responseType = LoaderInterface::SINGLE)
     {
+        $criteria = new Criteria();
+
         if (LoaderInterface::COLLECTION === $responseType) {
-            $criteria = new Criteria();
             if (array_key_exists('article', $withParameters) && $withParameters['article'] instanceof Meta) {
                 $article = $withParameters['article']->getValues();
-            } elseif (isset($this->context->article) && null !== $this->context->article) {
+            } elseif (isset($this->context->article)) {
                 $article = $this->context->article->getValues();
             } else {
                 return false;
             }
 
+            $slideshow = null;
+
+            if (array_key_exists('slideshow', $withParameters)
+                && ($slideshowParam = $withParameters['slideshow']) instanceof Meta
+                && $slideshowParam->getValues() instanceof SlideshowInterface) {
+                $slideshow = $slideshowParam->getValues();
+            }
+
+            if (null === $slideshow) {
+                return false;
+            }
+
             $criteria = $this->applyPaginationToCriteria($criteria, $withParameters);
-            $articleMedia = $article->getMedia();
+            $articleMedia = $slideshow->getSlideshowItems();
+
             if (0 < \count($articleMedia)) {
                 $collectionCriteria = new \Doctrine\Common\Collections\Criteria(
                     null,
@@ -70,9 +82,9 @@ class PreviewArticleMediaLoader extends PaginatedLoader implements LoaderInterfa
                     $criteria->get('firstResult'),
                     $criteria->get('maxResults')
                 );
+
                 $count = $articleMedia->count();
                 $articleMedia = $articleMedia->matching($collectionCriteria);
-
                 $metaCollection = new MetaCollection();
                 $metaCollection->setTotalItemsCount($count);
                 foreach ($articleMedia as $media) {
@@ -82,15 +94,10 @@ class PreviewArticleMediaLoader extends PaginatedLoader implements LoaderInterfa
                 return $metaCollection;
             }
         }
-
-        return false;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function isSupported(string $type): bool
     {
-        return 'articleMedia' === $type && $this->context->isPreviewMode();
+        return self::SUPPORTED_TYPE === $type && $this->context->isPreviewMode();
     }
 }

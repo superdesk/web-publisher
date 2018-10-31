@@ -52,6 +52,21 @@ class ImageRendition implements ImageRenditionInterface, PersistableInterface
     protected $media;
 
     /**
+     * @var null|string
+     */
+    protected $previewUrl;
+
+    public function setPreviewUrl(?string $previewUrl): void
+    {
+        $this->previewUrl = $previewUrl;
+    }
+
+    public function getPreviewUrl(): ?string
+    {
+        return $this->previewUrl;
+    }
+
+    /**
      * @return ArticleMediaInterface
      */
     public function getMedia(): ArticleMediaInterface
@@ -84,17 +99,17 @@ class ImageRendition implements ImageRenditionInterface, PersistableInterface
     }
 
     /**
-     * @return int
+     * @return null|int
      */
-    public function getId(): int
+    public function getId(): ?int
     {
         return $this->id;
     }
 
     /**
-     * @param int $id
+     * @param null|int $id
      */
-    public function setId(int $id)
+    public function setId(?int $id)
     {
         $this->id = $id;
     }

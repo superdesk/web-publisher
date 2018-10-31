@@ -19,6 +19,7 @@ use SWP\Bundle\ContentBundle\Model\AuthorMedia;
 use SWP\Bundle\ContentBundle\Model\FileInterface;
 use SWP\Bundle\ContentBundle\Model\ImageInterface;
 use SWP\Bundle\ContentBundle\Model\ImageRendition;
+use SWP\Bundle\ContentBundle\Model\ImageRenditionInterface;
 use SWP\Component\TemplatesSystem\Gimme\Meta\Meta;
 use Symfony\Bundle\FrameworkBundle\Routing\Router;
 use Symfony\Cmf\Component\Routing\VersatileGeneratorInterface;
@@ -38,6 +39,10 @@ class MediaRouter extends Router implements VersatileGeneratorInterface
         $routeName = 'swp_media_get';
         if ($name instanceof Meta && $name->getValues() instanceof AuthorMedia) {
             $routeName = 'swp_author_media_get';
+        }
+
+        if ($name->getValues() instanceof ImageRenditionInterface && null !== $name->getValues()->getPreviewUrl()) {
+            return $name->getValues()->getPreviewUrl();
         }
 
         $parameters['mediaId'] = $item->getAssetId();
