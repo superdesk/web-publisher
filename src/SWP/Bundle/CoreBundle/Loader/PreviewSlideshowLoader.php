@@ -16,7 +16,6 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\CoreBundle\Loader;
 
-use Doctrine\Common\Collections\ArrayCollection;
 use SWP\Bundle\ContentBundle\Doctrine\SlideshowRepositoryInterface;
 use SWP\Bundle\ContentBundle\Loader\PaginatedLoader;
 use SWP\Component\Common\Criteria\Criteria;
@@ -67,7 +66,6 @@ final class PreviewSlideshowLoader extends PaginatedLoader implements LoaderInte
             return false;
         }
 
-
         $criteria = $this->applyPaginationToCriteria($criteria, $withParameters);
         $articleMedia = $article->getSlideshows();
 
@@ -93,46 +91,6 @@ final class PreviewSlideshowLoader extends PaginatedLoader implements LoaderInte
         }
 
         return false;
-//        if (LoaderInterface::SINGLE === $responseType) {
-//            if (array_key_exists('name', $parameters) && \is_string($parameters['name'])) {
-//                $criteria->set('name', $parameters['name']);
-//            } else {
-//                return false;
-//            }
-//
-//            $slideshow = $this->slideshowRepository->findOneBy([
-//                'code' => $parameters['name'],
-//                'article' => $criteria->get('article')->getId(),
-//            ]);
-//
-//            if (null !== $slideshow) {
-//                return $this->metaFactory->create($slideshow);
-//            }
-//
-//            return false;
-//        }
-
-        //$slideshows = $this->slideshowRepository->getByCriteria($criteria, $criteria->get('order', []));
-
-//        if (0 === \count($slideshows)) {
-//            return false;
-//        }
-
-//        $slideshows = new ArrayCollection($slideshows);
-//        $criteria = $this->applyPaginationToCriteria($criteria, $parameters);
-
-        $metaCollection = new MetaCollection();
-        //$metaCollection->setTotalItemsCount($this->slideshowRepository->countByCriteria($criteria));
-
-//        foreach ($slideshows as $slideshow) {
-//            $meta = $this->metaFactory->create($slideshow);
-//            if (null !== $meta) {
-//                $metaCollection->add($meta);
-//            }
-//        }
-        //unset($slideshows, $criteria);
-
-        return $metaCollection;
     }
 
     public function isSupported(string $type): bool
