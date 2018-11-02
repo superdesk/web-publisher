@@ -44,7 +44,7 @@ final class EmbeddedImageProcessor implements ArticleBodyProcessorInterface
     public function process(ArticleInterface $article, ArticleMediaInterface $articleMedia): void
     {
         $body = $article->getBody();
-        $mediaId = $articleMedia->getKey();
+        $mediaId = str_replace('/', '\\/', $articleMedia->getKey());
         preg_match(
             "/(<!-- EMBED START Image {id: \"$mediaId\"} -->)(.+?)(<!-- EMBED END Image {id: \"$mediaId\"} -->)/im",
             str_replace(PHP_EOL, '', $body),
