@@ -52,21 +52,6 @@ class ImageRendition implements ImageRenditionInterface, PersistableInterface
     protected $media;
 
     /**
-     * @var null|string
-     */
-    protected $previewUrl;
-
-    public function setPreviewUrl(?string $previewUrl): void
-    {
-        $this->previewUrl = $previewUrl;
-    }
-
-    public function getPreviewUrl(): ?string
-    {
-        return $this->previewUrl;
-    }
-
-    /**
      * @return ArticleMediaInterface
      */
     public function getMedia(): ArticleMediaInterface

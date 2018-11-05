@@ -42,6 +42,11 @@ final class ArticlePreviewer implements ArticlePreviewerInterface
     private $articlePreviewHelper;
 
     /**
+     * @var bool
+     */
+    private $isPreview = false;
+
+    /**
      * ArticlePreviewer constructor.
      *
      * @param ArticleFactoryInterface               $articleFactory
@@ -63,6 +68,8 @@ final class ArticlePreviewer implements ArticlePreviewerInterface
      */
     public function preview(PackageInterface $package, RouteInterface $route): ArticleInterface
     {
+        $this->isPreview = true;
+
         $article = $this->articleFactory->createFromPackage($package);
         $this->articleMediaProcessor->fillArticleMedia($package, $article);
         ArticleAuthorProcessor::processArticleAuthors($article);
@@ -75,5 +82,10 @@ final class ArticlePreviewer implements ArticlePreviewerInterface
         $this->articlePreviewHelper->enablePreview($article);
 
         return $article;
+    }
+
+    public function isPreview(): bool
+    {
+        return $this->isPreview;
     }
 }

@@ -41,9 +41,9 @@ class RegisterMediaFactoryPass implements CompilerPassInterface
         $mediaFactoryDefinition = new Definition(
             $container->getParameter('swp.factory.media.class'),
             [
-                $container->getDefinition('swp.repository.image'),
                 $container->getDefinition('swp.repository.file'),
                 $baseDefinition,
+                $container->getDefinition('swp.factory.image_rendition'),
             ]
         );
         $mediaFactoryDefinition->setPublic(true);
