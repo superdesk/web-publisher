@@ -29,32 +29,29 @@ class SendWebhookConsumer implements ConsumerInterface
      */
     protected $serializer;
 
-    /**
-     * SendWebhookConsumer constructor.
-     *
-     * @param SerializerInterface $serializer
-     */
     public function __construct(SerializerInterface $serializer)
     {
         $this->serializer = $serializer;
     }
 
-    /**
-     * @param AMQPMessage $message
-     *
-     * @return bool|mixed
-     */
-    public function execute(AMQPMessage $message)
+    public function execute(AMQPMessage $message): void
     {
         $decodedMessage = $this->serializer->deserialize($message->body, 'array', 'json');
-        if (!array_key_exists('url', $decodedMessage) || !array_key_exists('subject', $decodedMessage)) {
+        if (!\array_key_exists('url', $decodedMessage) || !array_key_exists('subject', $decodedMessage)) {
             return;
+        }
+
+        $headers = [];
+        if (\array_key_exists('metadata', $decodedMessage)) {
+            foreach ($decodedMessage['metadata'] as $header => $value) {
+                $headers['X-WEBHOOK-'.\strtoupper($header)] = $value;
+            }
         }
 
         $webhookRequest = new GuzzleHttp\Psr7\Request(
             'POST',
             $decodedMessage['url'],
-            [],
+            $headers,
             $this->serializer->serialize($decodedMessage['subject'], 'json')
         );
 
@@ -65,9 +62,6 @@ class SendWebhookConsumer implements ConsumerInterface
         }
     }
 
-    /**
-     * @return Client
-     */
     protected function getClient(): Client
     {
         return new Client();
