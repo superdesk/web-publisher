@@ -189,7 +189,7 @@ class MenuController extends Controller
      * @Route("/api/{version}/menus/{id}", options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_core_delete_menu")
      * @Method("DELETE")
      */
-    public function deleteAction($id)
+    public function deleteAction(int $id)
     {
         $repository = $this->get('swp.repository.menu');
         $menu = $this->findOr404($id);
@@ -234,13 +234,15 @@ class MenuController extends Controller
             $this->get('swp_menu.manager.menu_item')->update($menu);
             $objectManager->flush();
 
+            $this->get('event_dispatcher')->dispatch(MenuEvents::MENU_UPDATED, new GenericEvent($menu));
+
             return new SingleResourceResponse($menu);
         }
 
         return new SingleResourceResponse($form, new ResponseContext(400));
     }
 
-    private function findOr404($id)
+    private function findOr404($id): MenuItemInterface
     {
         if (null === $menu = $this->get('swp.repository.menu')->findOneBy(['id' => $id])) {
             throw new NotFoundHttpException('Menu item was not found.');

@@ -18,6 +18,7 @@ namespace SWP\Bundle\CoreBundle\Webhook;
 
 use SWP\Bundle\ContentBundle\ArticleEvents;
 use SWP\Bundle\ContentBundle\RouteEvents;
+use SWP\Bundle\MenuBundle\MenuEvents;
 use SWP\Component\Bridge\Events as PackageEvents;
 
 /**
@@ -31,8 +32,12 @@ interface WebhookEvents
         'article[published]' => ArticleEvents::POST_PUBLISH,
         'article[unpublished]' => ArticleEvents::POST_UNPUBLISH,
         'article[canceled]' => ArticleEvents::CANCELED,
+        'menu[created]' => MenuEvents::MENU_CREATED,
+        'menu[updated]' => MenuEvents::MENU_UPDATED,
+        'menu[deleted]' => MenuEvents::MENU_DELETED,
         'route[created]' => RouteEvents::POST_CREATE,
         'route[updated]' => RouteEvents::POST_UPDATE,
+        'route[deleted]' => RouteEvents::POST_DELETE,
         'package[created]' => PackageEvents::PACKAGE_POST_CREATE,
         'package[updated]' => PackageEvents::PACKAGE_POST_UPDATE,
         'package[processed]' => PackageEvents::PACKAGE_PROCESSED,
