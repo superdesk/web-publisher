@@ -104,7 +104,7 @@ Feature: Evaluate rules based on publishing destinations when rule of one tenant
         "publish_destination":{
           "tenant":"123abc",
           "route":5,
-          "fbia":false,
+          "isPublishedFbia":false,
           "published":false,
           "packageGuid": "urn:newsml:localhost:2016-09-23T13:56:39.404843:56465de4-0d5c-495a-8e36-3b396def3cf0"
         }

@@ -72,7 +72,7 @@ Feature: Checking if package corrections work fine
             {
               "tenant":"123abc",
               "route":6,
-              "fbia":false,
+              "isPublishedFbia":false,
               "published":true
             }
           ]

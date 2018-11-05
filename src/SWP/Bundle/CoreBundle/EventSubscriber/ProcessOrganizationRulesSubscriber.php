@@ -124,8 +124,8 @@ class ProcessOrganizationRulesSubscriber implements EventSubscriberInterface
             }
 
             $destination->setPublished($tenant['published'] ?? false);
-            $destination->setFbia($tenant['fbia'] ?? false);
             $destination->setPaywallSecured($tenant['paywallSecured'] ?? false);
+            $destination->setIsPublishedFbia($tenant['isPublishedFbia'] ?? false);
 
             $destinations[] = $destination;
         }

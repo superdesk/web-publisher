@@ -339,13 +339,13 @@ final class ArticleAutoPublishTest extends WebTestCase
                         [
                             'tenant' => '123abc',
                             'route' => 4,
-                            'fbia' => false,
+                            'isPublishedFbia' => false,
                             'published' => true,
                         ],
                         [
                             'tenant' => '678iop',
                             'route' => 5,
-                            'fbia' => false,
+                            'isPublishedFbia' => false,
                             'published' => true,
                         ],
                     ],
@@ -507,7 +507,7 @@ final class ArticleAutoPublishTest extends WebTestCase
                         [
                             'tenant' => '123abc',
                             'route' => 3,
-                            'fbia' => false,
+                            'isPublishedFbia' => false,
                             'published' => true,
                         ],
                     ],
@@ -551,7 +551,7 @@ final class ArticleAutoPublishTest extends WebTestCase
                         [
                             'tenant' => '123abc',
                             'route' => 3,
-                            'fbia' => true,
+                            'isPublishedFbia' => true,
                             'published' => true,
                         ],
                     ],
@@ -590,7 +590,7 @@ final class ArticleAutoPublishTest extends WebTestCase
                         [
                             'tenant' => '123abc',
                             'route' => 3,
-                            'fbia' => true,
+                            'isPublishedFbia' => true,
                             'published' => true,
                         ],
                     ],
@@ -614,7 +614,7 @@ final class ArticleAutoPublishTest extends WebTestCase
                         [
                             'tenant' => '123abc',
                             'route' => 3,
-                            'fbia' => false,
+                            'isPublishedFbia' => false,
                             'published' => true,
                         ],
                     ],
@@ -653,7 +653,7 @@ final class ArticleAutoPublishTest extends WebTestCase
                         [
                             'tenant' => '123abc',
                             'route' => 3,
-                            'fbia' => false,
+                            'isPublishedFbia' => false,
                             'published' => true,
                         ],
                     ],

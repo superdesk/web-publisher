@@ -169,7 +169,7 @@ class TenantControllerTest extends WebTestCase
                         [
                             'tenant' => $content['code'],
                             'route' => $routeContent['id'],
-                            'fbia' => false,
+                            'isPublishedFbia' => false,
                             'published' => true,
                         ],
                     ],

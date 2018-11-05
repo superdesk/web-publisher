@@ -8,8 +8,9 @@ SWP\Bundle\CoreBundle\Model\PublishDestination:
             generator:
                 strategy: AUTO
     fields:
-        fbia:
+        isPublishedFbia:
             type: boolean
+            column: fbia
         published:
             type: boolean
         paywallSecured:
