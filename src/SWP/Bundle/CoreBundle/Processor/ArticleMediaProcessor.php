@@ -67,9 +67,9 @@ final class ArticleMediaProcessor implements ArticleMediaProcessorInterface
         $article->setMedia($articleMedia);
     }
 
-    private function handleSlideshows(PackageInterface $package, $article)
+    private function handleSlideshows(PackageInterface $package, ArticleInterface $article): void
     {
-        foreach ((array) $package->getGroups() as $slideshows) {
+        foreach ($package->getGroups()->toArray() as $slideshows) {
             foreach ($slideshows as $packageSlideshow) {
                 $slideshow = new Slideshow();
                 $slideshow->setCode($packageSlideshow->getCode());
