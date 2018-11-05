@@ -38,7 +38,7 @@ final class WebhookEventsSubscriber implements EventSubscriberInterface
 
     private $webhooksRepository;
 
-    private $tenantContent;
+    private $tenantContext;
 
     private $tenantRepository;
 
@@ -52,7 +52,7 @@ final class WebhookEventsSubscriber implements EventSubscriberInterface
         $this->producer = $producer;
         $this->serializer = $serializer;
         $this->webhooksRepository = $webhooksRepository;
-        $this->tenantContent = $tenantContext;
+        $this->tenantContext = $tenantContext;
         $this->tenantRepository = $tenantRepository;
     }
 
@@ -95,18 +95,18 @@ final class WebhookEventsSubscriber implements EventSubscriberInterface
 
         if (
             $subject instanceof TenantAwareInterface
-            && $subject->getTenantCode() !== $this->tenantContent->getTenant()->getCode()
+            && $subject->getTenantCode() !== $this->tenantContext->getTenant()->getCode()
             && null !== $subject->getTenantCode()
             && null !== ($subjectTenant = $this->tenantRepository->findOneByCode($subject->getTenantCode()))
         ) {
-            $originalTenant = $this->tenantContent->getTenant();
-            $this->tenantContent->setTenant($subjectTenant);
+            $originalTenant = $this->tenantContext->getTenant();
+            $this->tenantContext->setTenant($subjectTenant);
         }
 
         $webhooks = $this->webhooksRepository->getEnabledForEvent($this->getEventName($event))->getResult();
 
         if (null !== $originalTenant) {
-            $this->tenantContent->setTenant($originalTenant);
+            $this->tenantContext->setTenant($originalTenant);
         }
 
         return $webhooks;
