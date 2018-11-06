@@ -422,6 +422,12 @@ services:
         tags:
             - { name: jms_serializer.event_subscriber }
 
+    SWP\Bundle\CoreBundle\Serializer\ContentListAwareSerializationSubscriber:
+        arguments:
+            - '@swp.repository.content_list_item'
+        tags:
+            - { name: jms_serializer.event_subscriber }
+
     swp_core.jms_articles_count_handler:
         class: SWP\Bundle\CoreBundle\Serializer\ArticlesCountHandler
         arguments:

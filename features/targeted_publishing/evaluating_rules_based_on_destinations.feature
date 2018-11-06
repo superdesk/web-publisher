@@ -96,9 +96,9 @@ Feature: Evaluate rules based on publishing destinations
       | tenants[1].tenant.code  | 678iop |
       | tenants[1].route.id     | 7      |
     And the JSON node "tenants[0].published" should be false
-    And the JSON node "tenants[0].fbia" should be false
+    And the JSON node "tenants[0].isPublishedFbia" should be false
     And the JSON node "tenants[1].published" should be false
-    And the JSON node "tenants[1].fbia" should be false
+    And the JSON node "tenants[1].isPublishedFbia" should be false
     And I am authenticated as "test.user"
     When I add "Content-Type" header equal to "application/json"
     And I send a "POST" request to "/api/{version}/organization/destinations/" with body:
@@ -107,7 +107,7 @@ Feature: Evaluate rules based on publishing destinations
         "publish_destination":{
           "tenant":"123abc",
           "route":5,
-          "fbia":false,
+          "isPublishedFbia":false,
           "published":false,
           "packageGuid": "urn:newsml:localhost:2016-09-23T13:56:39.404843:56465de4-0d5c-495a-8e36-3b396def3cf0"
         }
@@ -122,7 +122,7 @@ Feature: Evaluate rules based on publishing destinations
         "publish_destination":{
           "tenant":"678iop",
           "route":7,
-          "fbia":false,
+          "isPublishedFbia":false,
           "published":true,
           "packageGuid": "urn:newsml:localhost:2016-09-23T13:56:39.404843:56465de4-0d5c-495a-8e36-3b396def3cf0"
         }
@@ -143,6 +143,6 @@ Feature: Evaluate rules based on publishing destinations
     | tenants[0].route.id     | 5      |
     | tenants[1].route.id     | 7      |
     And the JSON node "tenants[0].published" should be false
-    And the JSON node "tenants[0].fbia" should be false
+    And the JSON node "tenants[0].isPublishedFbia" should be false
     And the JSON node "tenants[1].published" should be true
-    And the JSON node "tenants[1].fbia" should be false
+    And the JSON node "tenants[1].isPublishedFbia" should be false
