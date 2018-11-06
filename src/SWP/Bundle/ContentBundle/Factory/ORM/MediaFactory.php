@@ -19,6 +19,7 @@ namespace SWP\Bundle\ContentBundle\Factory\ORM;
 use SWP\Bundle\ContentBundle\Doctrine\FileRepositoryInterface;
 use SWP\Bundle\ContentBundle\Doctrine\ImageRepositoryInterface;
 use SWP\Bundle\ContentBundle\Model\ArticleMedia;
+use SWP\Bundle\ContentBundle\Model\File;
 use SWP\Bundle\ContentBundle\Model\FileInterface;
 use SWP\Bundle\ContentBundle\Factory\MediaFactoryInterface;
 use SWP\Bundle\ContentBundle\Model\ArticleInterface;
@@ -98,6 +99,14 @@ class MediaFactory implements MediaFactoryInterface
         $articleMedia->setMimetype($originalRendition->getMimetype());
         $articleMedia->setKey($key);
         $file = $this->findFile($originalRendition->getMedia());
+        $articleMedia->setFile($file);
+
+        if (null === $file) {
+            $file = new File();
+            $file->setAssetId($originalRendition->getMedia());
+            $file->setPreviewUrl($originalRendition->getHref());
+        }
+
         $articleMedia->setFile($file);
 
         return $articleMedia;

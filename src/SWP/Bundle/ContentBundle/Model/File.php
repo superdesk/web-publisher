@@ -43,6 +43,11 @@ class File implements FileInterface
     protected $media;
 
     /**
+     * @var string|null
+     */
+    protected $previewUrl;
+
+    /**
      * File constructor.
      */
     public function __construct()
@@ -112,5 +117,15 @@ class File implements FileInterface
     public function setAssetId(string $assetId)
     {
         $this->assetId = $assetId;
+    }
+
+    public function setPreviewUrl(?string $previewUrl): void
+    {
+        $this->previewUrl = $previewUrl;
+    }
+
+    public function getPreviewUrl(): ?string
+    {
+        return $this->previewUrl;
     }
 }
