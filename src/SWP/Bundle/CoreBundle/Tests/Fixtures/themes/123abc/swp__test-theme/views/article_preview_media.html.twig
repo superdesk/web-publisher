@@ -1,0 +1,13 @@
+{% if gimme.article.featureMedia.renditions is iterable %}
+    {% gimme rendition with { 'media': gimme.article.featureMedia, 'name': '16-9', 'fallback': 'original' } %}
+        <img src="{{ url(rendition) }}" style="width: {{ rendition.width }}px; height: {{ rendition.height }}px;" />
+    {% endgimme %}
+{% endif %}
+
+{{ gimme.article.body }}
+
+{% gimmelist media from articleMedia %} <!-- It will use article from context -->
+    {% gimme rendition with { 'name': '16-9', 'fallback': 'original' } %}
+        <img src="{{ url(rendition) }}" style="width: {{ rendition.width }}px; height: {{ rendition.height }}px;" />
+    {% endgimme %}
+{% endgimmelist %}

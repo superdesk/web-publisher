@@ -122,6 +122,7 @@ class MediaFactory implements MediaFactoryInterface
 
             if (null === $image) {
                 $image = $this->imageFactory->create();
+                $image->setAssetId($rendition->getMedia());
             }
 
             $imageRendition = $this->imageRenditionFactory->createWith($articleMedia, $image, $rendition);
