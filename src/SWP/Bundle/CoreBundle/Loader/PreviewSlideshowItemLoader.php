@@ -52,14 +52,6 @@ final class PreviewSlideshowItemLoader extends PaginatedLoader implements Loader
         $criteria = new Criteria();
 
         if (LoaderInterface::COLLECTION === $responseType) {
-//            if (array_key_exists('article', $withParameters) && $withParameters['article'] instanceof Meta) {
-//                $article = $withParameters['article']->getValues();
-//            } elseif (isset($this->context->article)) {
-//                $article = $this->context->article->getValues();
-//            } else {
-//                return false;
-//            }
-
             $slideshow = null;
 
             if (array_key_exists('slideshow', $withParameters)
