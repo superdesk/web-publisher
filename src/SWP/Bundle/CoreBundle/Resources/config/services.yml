@@ -706,6 +706,8 @@ services:
         arguments:
             - '@swp.factory.media'
             - '@swp_content_bundle.processor.article_body'
+            - '@swp.factory.slideshow'
+            - '@swp.factory.slideshow_item'
 
     SWP\Bundle\CoreBundle\Serializer\AuthorSerializationSubscriber:
         arguments:

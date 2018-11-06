@@ -37,15 +37,15 @@ final class RegisterImageRenditionFactoryPass implements CompilerPassInterface
             ]
         );
 
-        $imageRenditionFactoryDefinition = new Definition(
+        $factoryDefinition = new Definition(
             $container->getParameter('swp.factory.image_rendition.class'),
             [
                 $baseDefinition,
             ]
         );
 
-        $imageRenditionFactoryDefinition->setPublic(true);
+        $factoryDefinition->setPublic(true);
 
-        $container->setDefinition('swp.factory.image_rendition', $imageRenditionFactoryDefinition);
+        $container->setDefinition('swp.factory.image_rendition', $factoryDefinition);
     }
 }

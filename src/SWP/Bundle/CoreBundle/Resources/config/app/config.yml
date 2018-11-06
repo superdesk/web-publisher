@@ -95,10 +95,6 @@ swp_content:
                     model: SWP\Bundle\CoreBundle\Model\Route
                 image:
                     model: SWP\Bundle\CoreBundle\Model\Image
-                    factory: SWP\Bundle\CoreBundle\Factory\ImageFactory
-                image_rendition:
-                    model: SWP\Bundle\CoreBundle\Model\ImageRendition
-                    factory: SWP\Bundle\CoreBundle\Factory\ImageRenditionFactory
                 article_source:
                     model: SWP\Bundle\CoreBundle\Model\ArticleSource
                 author:

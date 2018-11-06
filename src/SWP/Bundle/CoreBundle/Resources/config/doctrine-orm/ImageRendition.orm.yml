@@ -1,3 +1,0 @@
-SWP\Bundle\CoreBundle\Model\ImageRendition:
-  type: mappedSuperclass
-  table: swp_image_rendition

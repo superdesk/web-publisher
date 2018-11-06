@@ -17,17 +17,24 @@ declare(strict_types=1);
 namespace SWP\Bundle\ContentBundle\Factory\ORM;
 
 use SWP\Bundle\ContentBundle\Doctrine\FileRepositoryInterface;
+use SWP\Bundle\ContentBundle\Doctrine\ImageRepositoryInterface;
 use SWP\Bundle\ContentBundle\Model\ArticleMedia;
 use SWP\Bundle\ContentBundle\Model\FileInterface;
 use SWP\Bundle\ContentBundle\Factory\MediaFactoryInterface;
 use SWP\Bundle\ContentBundle\Model\ArticleInterface;
 use SWP\Bundle\ContentBundle\Model\ArticleMediaInterface;
+use SWP\Bundle\ContentBundle\Model\ImageInterface;
 use SWP\Component\Bridge\Model\ItemInterface;
 use SWP\Component\Bridge\Model\RenditionInterface;
 use SWP\Component\Storage\Factory\FactoryInterface;
 
 class MediaFactory implements MediaFactoryInterface
 {
+    /**
+     * @var ImageRepositoryInterface
+     */
+    protected $imageRepository;
+
     /**
      * @var FileRepositoryInterface
      */
@@ -43,14 +50,23 @@ class MediaFactory implements MediaFactoryInterface
      */
     protected $imageRenditionFactory;
 
+    /**
+     * @var FactoryInterface
+     */
+    protected $imageFactory;
+
     public function __construct(
+        ImageRepositoryInterface $imageRepository,
         FileRepositoryInterface $fileRepository,
         FactoryInterface $factory,
-        ImageRenditionFactoryInterface $imageRenditionFactory
+        ImageRenditionFactoryInterface $imageRenditionFactory,
+        FactoryInterface $imageFactory
     ) {
+        $this->imageRepository = $imageRepository;
         $this->fileRepository = $fileRepository;
         $this->factory = $factory;
         $this->imageRenditionFactory = $imageRenditionFactory;
+        $this->imageFactory = $imageFactory;
     }
 
     public function create(ArticleInterface $article, string $key, ItemInterface $item): ArticleMediaInterface
@@ -98,14 +114,14 @@ class MediaFactory implements MediaFactoryInterface
         $articleMedia->setMimetype($originalRendition->getMimetype());
         $articleMedia->setKey($key);
 
-        $image = $this->imageFactory->createFromRendition($originalRendition);
+        $image = $this->findImage($originalRendition->getMedia());
         $articleMedia->setImage($image);
 
         foreach ($item->getRenditions() as $rendition) {
-            $image = $this->imageFactory->createFromRendition($rendition);
+            $image = $this->findImage($rendition->getMedia());
 
             if (null === $image) {
-                continue;
+                $image = $this->imageFactory->create();
             }
 
             $imageRendition = $this->imageRenditionFactory->createWith($articleMedia, $image, $rendition);
@@ -127,5 +143,10 @@ class MediaFactory implements MediaFactoryInterface
     protected function findFile(string $mediaId): ?FileInterface
     {
         return $this->fileRepository->findFileByAssetId(ArticleMedia::handleMediaId($mediaId));
+    }
+
+    protected function findImage(string $mediaId): ?ImageInterface
+    {
+        return $this->imageRepository->findImageByAssetId(ArticleMedia::handleMediaId($mediaId));
     }
 }

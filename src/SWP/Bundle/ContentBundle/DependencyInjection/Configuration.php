@@ -25,7 +25,6 @@ use SWP\Bundle\ContentBundle\Doctrine\ORM\SlideshowRepository;
 use SWP\Bundle\ContentBundle\Factory\FileFactory;
 use SWP\Bundle\ContentBundle\Factory\KeywordFactory;
 use SWP\Bundle\ContentBundle\Factory\ORM\ArticleFactory;
-use SWP\Bundle\ContentBundle\Factory\ORM\ImageFactory;
 use SWP\Bundle\ContentBundle\Factory\ORM\ImageRenditionFactory;
 use SWP\Bundle\ContentBundle\Factory\ORM\MediaFactory;
 use SWP\Bundle\ContentBundle\Factory\RouteFactory;
@@ -160,7 +159,7 @@ class Configuration implements ConfigurationInterface
                                                 ->scalarNode('model')->cannotBeEmpty()->defaultValue(Image::class)->end()
                                                 ->scalarNode('interface')->cannotBeEmpty()->defaultValue(ImageInterface::class)->end()
                                                 ->scalarNode('repository')->defaultValue(ImageRepository::class)->end()
-                                                ->scalarNode('factory')->defaultValue(ImageFactory::class)->end()
+                                                ->scalarNode('factory')->defaultValue(Factory::class)->end()
                                                 ->scalarNode('object_manager_name')->defaultValue(null)->end()
                                             ->end()
                                         ->end()

@@ -16,7 +16,7 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\CoreBundle\Loader;
 
-use SWP\Bundle\ContentBundle\Doctrine\SlideshowRepositoryInterface;
+use Doctrine\Common\Collections\Criteria as CollectionCriteria;
 use SWP\Bundle\ContentBundle\Loader\PaginatedLoader;
 use SWP\Component\Common\Criteria\Criteria;
 use SWP\Component\TemplatesSystem\Gimme\Context\Context;
@@ -35,22 +35,15 @@ final class PreviewSlideshowLoader extends PaginatedLoader implements LoaderInte
     private $metaFactory;
 
     /**
-     * @var SlideshowRepositoryInterface
-     */
-    //private $slideshowRepository;
-
-    /**
      * @var Context
      */
     protected $context;
 
     public function __construct(
         MetaFactoryInterface $metaFactory,
-       // SlideshowRepositoryInterface $slideshowRepository,
         Context $context
     ) {
         $this->metaFactory = $metaFactory;
-        //$this->slideshowRepository = $slideshowRepository;
         $this->context = $context;
     }
 
@@ -66,11 +59,26 @@ final class PreviewSlideshowLoader extends PaginatedLoader implements LoaderInte
             return false;
         }
 
+        if (LoaderInterface::SINGLE === $responseType) {
+            if (!(array_key_exists('name', $withParameters) && \is_string($withParameters['name']))) {
+                return false;
+            }
+
+            $criteria = CollectionCriteria::create()->where(CollectionCriteria::expr()->eq('code', $withParameters['name']));
+            $slideshow = $article->getSlideshows()->matching($criteria)->first();
+
+            if (null !== $slideshow) {
+                return $this->metaFactory->create($slideshow);
+            }
+
+            return false;
+        }
+
         $criteria = $this->applyPaginationToCriteria($criteria, $withParameters);
         $articleMedia = $article->getSlideshows();
 
         if (0 < \count($articleMedia)) {
-            $collectionCriteria = new \Doctrine\Common\Collections\Criteria(
+            $collectionCriteria = new CollectionCriteria(
                 null,
                 $criteria->get('order'),
                 $criteria->get('firstResult'),

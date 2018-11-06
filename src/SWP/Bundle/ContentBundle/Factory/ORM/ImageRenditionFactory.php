@@ -2,6 +2,18 @@
 
 declare(strict_types=1);
 
+/*
+ * This file is part of the Superdesk Web Publisher Content Bundle.
+ *
+ * Copyright 2018 Sourcefabric z.ú. and contributors.
+ *
+ * For the full copyright and license information, please see the
+ * AUTHORS and LICENSE files distributed with this source code.
+ *
+ * @copyright 2018 Sourcefabric z.ú
+ * @license http://www.superdesk.org/license
+ */
+
 namespace SWP\Bundle\ContentBundle\Factory\ORM;
 
 use SWP\Bundle\ContentBundle\Model\ArticleMediaInterface;
@@ -10,9 +22,12 @@ use SWP\Bundle\ContentBundle\Model\ImageRenditionInterface;
 use SWP\Component\Bridge\Model\RenditionInterface;
 use SWP\Component\Storage\Factory\FactoryInterface;
 
-class ImageRenditionFactory implements ImageRenditionFactoryInterface
+final class ImageRenditionFactory implements ImageRenditionFactoryInterface
 {
-    protected $decoratedFactory;
+    /**
+     * @var FactoryInterface
+     */
+    private $decoratedFactory;
 
     public function __construct(FactoryInterface $decoratedFactory)
     {
@@ -27,6 +42,7 @@ class ImageRenditionFactory implements ImageRenditionFactoryInterface
         $imageRendition->setHeight($rendition->getHeight());
         $imageRendition->setWidth($rendition->getWidth());
         $imageRendition->setName($rendition->getName());
+        $imageRendition->setPreviewUrl($rendition->getHref());
 
         return $imageRendition;
     }

@@ -17,12 +17,11 @@ namespace SWP\Bundle\CoreBundle\Processor;
 use Doctrine\Common\Collections\ArrayCollection;
 use SWP\Bundle\ContentBundle\Factory\MediaFactoryInterface;
 use SWP\Bundle\ContentBundle\Model\ArticleInterface;
-use SWP\Bundle\ContentBundle\Model\SlideshowItem;
 use SWP\Bundle\ContentBundle\Processor\ArticleBodyProcessorInterface;
 use SWP\Bundle\CoreBundle\Model\ArticleMediaInterface;
 use SWP\Bundle\CoreBundle\Model\PackageInterface;
-use SWP\Bundle\CoreBundle\Model\Slideshow;
 use SWP\Component\Bridge\Model\ItemInterface;
+use SWP\Component\Storage\Factory\FactoryInterface;
 
 final class ArticleMediaProcessor implements ArticleMediaProcessorInterface
 {
@@ -36,19 +35,33 @@ final class ArticleMediaProcessor implements ArticleMediaProcessorInterface
      */
     private $articleBodyProcessor;
 
+    /**
+     * @var FactoryInterface
+     */
+    private $slideshowFactory;
+
+    /**
+     * @var FactoryInterface
+     */
+    private $slideshowItemFactory;
+
     public function __construct(
         MediaFactoryInterface $mediaFactory,
-        ArticleBodyProcessorInterface $articleBodyProcessor
+        ArticleBodyProcessorInterface $articleBodyProcessor,
+        FactoryInterface $slideshowFactory,
+        FactoryInterface $slideshowItemFactory
     ) {
         $this->mediaFactory = $mediaFactory;
         $this->articleBodyProcessor = $articleBodyProcessor;
+        $this->slideshowFactory = $slideshowFactory;
+        $this->slideshowItemFactory = $slideshowItemFactory;
     }
 
     public function fillArticleMedia(PackageInterface $package, ArticleInterface $article): void
     {
         $this->handleSlideshows($package, $article);
 
-        if (null === $package || (null !== $package && 0 === \count($package->getItems()))) {
+        if (0 === \count($package->getItems())) {
             return;
         }
 
@@ -69,22 +82,20 @@ final class ArticleMediaProcessor implements ArticleMediaProcessorInterface
 
     private function handleSlideshows(PackageInterface $package, ArticleInterface $article): void
     {
-        foreach ($package->getGroups()->toArray() as $slideshows) {
-            foreach ($slideshows as $packageSlideshow) {
-                $slideshow = new Slideshow();
-                $slideshow->setCode($packageSlideshow->getCode());
+        foreach ($package->getGroups()->toArray() as $packageSlideshow) {
+            $slideshow = $this->slideshowFactory->create();
+            $slideshow->setCode($packageSlideshow->getCode());
 
-                foreach ($packageSlideshow->getItems() as $item) {
-                    $slideshowItem = new SlideshowItem();
-                    $articleMedia = $this->handleMedia($article, $item->getName(), $item);
-                    $slideshowItem->setArticleMedia($articleMedia);
-                    $slideshowItem->setSlideshow($slideshow);
+            foreach ($packageSlideshow->getItems()->toArray() as $packageSlideshowItem) {
+                $slideshowItem = $this->slideshowItemFactory->create();
+                $articleMedia = $this->handleMedia($article, $packageSlideshowItem->getName(), $packageSlideshowItem);
+                $slideshowItem->setArticleMedia($articleMedia);
+                $slideshowItem->setSlideshow($slideshow);
 
-                    $slideshow->addSlideshowItem($slideshowItem);
-                }
-
-                $article->addSlideshow($slideshow);
+                $slideshow->addSlideshowItem($slideshowItem);
             }
+
+            $article->addSlideshow($slideshow);
         }
     }
 

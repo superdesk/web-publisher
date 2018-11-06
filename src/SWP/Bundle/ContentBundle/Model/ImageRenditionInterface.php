@@ -33,4 +33,8 @@ interface ImageRenditionInterface
      * @return string
      */
     public function getName();
+
+    public function getPreviewUrl(): ?string;
+
+    public function setPreviewUrl(?string $previewUrl): void;
 }
