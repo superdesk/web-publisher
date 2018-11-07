@@ -14,7 +14,6 @@
 
 namespace SWP\Bundle\CoreBundle\Resolver;
 
-use SWP\Bundle\CoreBundle\Model\Article;
 use SWP\Bundle\CoreBundle\Model\ArticleInterface;
 use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 use Symfony\Component\Routing\Matcher\UrlMatcherInterface;
@@ -31,7 +30,7 @@ class ArticleResolver implements ArticleResolverInterface
         $this->matcher = $matcher;
     }
 
-    public function resolve(string $url): ?Article
+    public function resolve(string $url): ?ArticleInterface
     {
         try {
             $route = $this->matcher->match($this->getFragmentFromUrl($url, 'path'));
