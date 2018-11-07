@@ -540,6 +540,7 @@ services:
             - '@swp_multi_tenancy.tenant_resolver'
             - '@swp_multi_tenancy.tenant_context'
             - '@router'
+            - '@swp.resolver.article'
 
     swp_core.article.populator:
         class: SWP\Bundle\CoreBundle\Rule\Populator\ArticlePopulator
@@ -696,3 +697,9 @@ services:
           - '@router.default'
         tags:
             - { name: jms_serializer.event_subscriber }
+
+    swp.resolver.article:
+        class: SWP\Bundle\CoreBundle\Resolver\ArticleResolver
+        public: true
+        arguments:
+            - '@router'
