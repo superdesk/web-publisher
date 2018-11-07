@@ -22,10 +22,10 @@ use SWP\Bundle\AnalyticsBundle\Model\ArticleEventInterface;
 use SWP\Bundle\AnalyticsBundle\Services\ArticleStatisticsServiceInterface;
 use SWP\Bundle\ContentBundle\Model\RouteInterface;
 use SWP\Bundle\CoreBundle\Model\ArticleInterface;
+use SWP\Bundle\CoreBundle\Resolver\ArticleResolverInterface;
 use SWP\Component\MultiTenancy\Context\TenantContextInterface;
 use SWP\Component\MultiTenancy\Resolver\TenantResolver;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 use Symfony\Component\Routing\Matcher\UrlMatcherInterface;
 
 /**
@@ -54,22 +54,22 @@ final class AnalyticsEventConsumer implements ConsumerInterface
     private $matcher;
 
     /**
-     * AnalyticsEventConsumer constructor.
-     *
-     * @param ArticleStatisticsServiceInterface $articleStatisticsService
-     * @param TenantResolver                    $tenantResolver
-     * @param TenantContextInterface            $tenantContext
+     * @var ArticleResolverInterface
      */
+    private $articleResolver;
+
     public function __construct(
         ArticleStatisticsServiceInterface $articleStatisticsService,
         TenantResolver $tenantResolver,
         TenantContextInterface $tenantContext,
-        UrlMatcherInterface $matcher
+        UrlMatcherInterface $matcher,
+        ArticleResolverInterface $articleResolver
     ) {
         $this->articleStatisticsService = $articleStatisticsService;
         $this->tenantResolver = $tenantResolver;
         $this->tenantContext = $tenantContext;
         $this->matcher = $matcher;
+        $this->articleResolver = $articleResolver;
     }
 
     /**
@@ -110,16 +110,12 @@ final class AnalyticsEventConsumer implements ConsumerInterface
         }
 
         foreach ($request->attributes->get('data') as $url) {
-            try {
-                $route = $this->matcher->match($this->getFragmentFromUrl($url, 'path'));
-                if (isset($route['_article_meta']) && $route['_article_meta']->getValues() instanceof ArticleInterface) {
-                    $articleId = $route['_article_meta']->getValues()->getId();
-                    if (!\array_key_exists($articleId, $articles)) {
-                        $articles[$articleId] = $route['_article_meta']->getValues();
-                    }
+            $article = $this->articleResolver->resolve($url);
+            if (null !== $article) {
+                $articleId = $article->getId();
+                if (!\array_key_exists($articleId, $articles)) {
+                    $articles[$articleId] = $article;
                 }
-            } catch (ResourceNotFoundException $e) {
-                //ignore
             }
         }
 

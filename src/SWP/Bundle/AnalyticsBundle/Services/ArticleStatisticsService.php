@@ -114,6 +114,10 @@ class ArticleStatisticsService implements ArticleStatisticsServiceInterface
     {
         /** @var ArticleInterface $article */
         $article = $this->articleRepository->findOneBy(['id' => $articleId]);
+        if (null === $article) {
+            return;
+        }
+
         $articleEvent = $this->getArticleEvent($articleStatistics, $article, ArticleEventInterface::ACTION_PAGEVIEW);
         $articleEvent->setPageViewSource($pageViewSource);
         $articleStatistics->increasePageViewsNumber();
@@ -139,6 +143,10 @@ class ArticleStatisticsService implements ArticleStatisticsServiceInterface
     ): void {
         /** @var ArticleInterface $article */
         $article = $this->articleRepository->findOneBy(['id' => $articleId]);
+        if (null === $article) {
+            return;
+        }
+
         $articleEvent = $this->getArticleEvent($articleStatistics, $article, ArticleEventInterface::ACTION_IMPRESSION);
         $articleEvent->setImpressionArticle($sourceArticle);
         $articleEvent->setImpressionRoute($sourceRoute);

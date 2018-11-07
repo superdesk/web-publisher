@@ -69,4 +69,8 @@ interface ArticleInterface extends BaseArticleInterface, TenantAwareInterface, L
      * @param ExternalArticleInterface $externalArticle
      */
     public function setExternalArticle(ExternalArticleInterface $externalArticle): void;
+
+    public function getCommentsCount(): int;
+
+    public function setCommentsCount(int $commentsCount): void;
 }

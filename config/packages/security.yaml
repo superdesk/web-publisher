@@ -23,7 +23,11 @@ security:
             pattern: ^/api/(doc|[v0-9]{2}/(content/push|assets))
             security: false
         extra_data:
-            pattern: ^/api/(doc|[v0-9]{2}/packages/extra/*)
+            pattern: ^/api/([v0-9]{2}/packages/extra/*)
+            security: false
+        article_comments:
+            pattern: ^/api/([v0-9]{2}/content/articles)
+            methods: PATCH
             security: false
         authentication:
             pattern: ^/api/[v0-9]{2}/(auth|auth/superdesk)
