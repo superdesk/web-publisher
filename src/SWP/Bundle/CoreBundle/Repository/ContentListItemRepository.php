@@ -55,9 +55,11 @@ class ContentListItemRepository extends BaseRepository implements ContentListIte
         $queryBuilder = $this->createQueryBuilder('cl');
 
         return $queryBuilder
-            ->leftJoin('cl.contentList', 'l')
+            ->join('cl.contentList', 'l')
+            ->addSelect('l')
             ->leftJoin('cl.content', 'c')
             ->andWhere('c.id = :article')
+            ->andWhere('l.deletedAt IS NULL')
             ->setParameters([
                 'article' => $article->getId(),
             ])
