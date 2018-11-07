@@ -14,9 +14,9 @@
 
 namespace SWP\Bundle\CoreBundle\Resolver;
 
-use SWP\Bundle\CoreBundle\Model\Article;
+use SWP\Bundle\CoreBundle\Model\ArticleInterface;
 
 interface ArticleResolverInterface
 {
-    public function resolve(string $url): ?Article;
+    public function resolve(string $url): ?ArticleInterface;
 }
