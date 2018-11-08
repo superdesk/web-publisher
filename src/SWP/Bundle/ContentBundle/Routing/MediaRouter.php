@@ -20,6 +20,7 @@ use SWP\Bundle\ContentBundle\Model\FileInterface;
 use SWP\Bundle\ContentBundle\Model\ImageInterface;
 use SWP\Bundle\ContentBundle\Model\ImageRendition;
 use SWP\Bundle\ContentBundle\Model\ImageRenditionInterface;
+use SWP\Bundle\ContentBundle\Model\PreviewUrlAwareInterface;
 use SWP\Component\TemplatesSystem\Gimme\Meta\Meta;
 use Symfony\Bundle\FrameworkBundle\Routing\Router;
 use Symfony\Cmf\Component\Routing\VersatileGeneratorInterface;
@@ -43,6 +44,10 @@ class MediaRouter extends Router implements VersatileGeneratorInterface
 
         if ($name->getValues() instanceof ImageRenditionInterface && null !== $name->getValues()->getPreviewUrl()) {
             return $name->getValues()->getPreviewUrl();
+        }
+
+        if ($item instanceof PreviewUrlAwareInterface && null !== ($previewUrl = $item->getPreviewUrl())) {
+            return $previewUrl;
         }
 
         $parameters['mediaId'] = $item->getAssetId();

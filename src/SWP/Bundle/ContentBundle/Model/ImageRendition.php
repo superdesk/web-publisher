@@ -21,6 +21,8 @@ use SWP\Component\Storage\Model\PersistableInterface;
  */
 class ImageRendition implements ImageRenditionInterface, PersistableInterface
 {
+    use PreviewUrlAwareTrait;
+
     /**
      * @var string
      */
@@ -50,11 +52,6 @@ class ImageRendition implements ImageRenditionInterface, PersistableInterface
      * @var ArticleMediaInterface
      */
     protected $media;
-
-    /**
-     * @var string|null
-     */
-    protected $previewUrl;
 
     /**
      * @return ArticleMediaInterface
@@ -162,15 +159,5 @@ class ImageRendition implements ImageRenditionInterface, PersistableInterface
         $this->name = $name;
 
         return $this;
-    }
-
-    public function setPreviewUrl(?string $previewUrl): void
-    {
-        $this->previewUrl = $previewUrl;
-    }
-
-    public function getPreviewUrl(): ?string
-    {
-        return $this->previewUrl;
     }
 }

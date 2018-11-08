@@ -611,6 +611,7 @@ services:
             - '@swp.factory.article'
             - '@SWP\Bundle\CoreBundle\Processor\ArticleMediaProcessor'
             - '@SWP\Bundle\CoreBundle\Service\ArticlePreviewTemplateHelper'
+            - '@SWP\Bundle\CoreBundle\Context\ArticlePreviewContext'
 
     swp.random_string_generator:
         alias: swp_multi_tenancy.random_string_generator
@@ -714,3 +715,15 @@ services:
           - '@router.default'
         tags:
             - { name: jms_serializer.event_subscriber }
+
+    SWP\Bundle\CoreBundle\Context\ArticlePreviewContext: ~
+
+    SWP\Bundle\CoreBundle\Provider\ArticleMediaAssetProvider:
+        decorates: SWP\Bundle\ContentBundle\Provider\ORM\ArticleMediaAssetProvider
+        arguments:
+            - '@SWP\Bundle\CoreBundle\Provider\ArticleMediaAssetProvider.inner'
+            - '@SWP\Bundle\CoreBundle\Context\ArticlePreviewContext'
+            - '@swp.factory.file'
+            - '@swp.factory.image'
+        public: false
+        decoration_priority: 256

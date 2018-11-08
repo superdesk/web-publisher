@@ -16,15 +16,11 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\ContentBundle\Factory\ORM;
 
-use SWP\Bundle\ContentBundle\Doctrine\FileRepositoryInterface;
-use SWP\Bundle\ContentBundle\Doctrine\ImageRepositoryInterface;
 use SWP\Bundle\ContentBundle\Model\ArticleMedia;
-use SWP\Bundle\ContentBundle\Model\File;
-use SWP\Bundle\ContentBundle\Model\FileInterface;
 use SWP\Bundle\ContentBundle\Factory\MediaFactoryInterface;
 use SWP\Bundle\ContentBundle\Model\ArticleInterface;
 use SWP\Bundle\ContentBundle\Model\ArticleMediaInterface;
-use SWP\Bundle\ContentBundle\Model\ImageInterface;
+use SWP\Bundle\ContentBundle\Provider\ORM\ArticleMediaAssetProviderInterface;
 use SWP\Component\Bridge\Model\ItemInterface;
 use SWP\Component\Bridge\Model\RenditionInterface;
 use SWP\Component\Storage\Factory\FactoryInterface;
@@ -32,14 +28,9 @@ use SWP\Component\Storage\Factory\FactoryInterface;
 class MediaFactory implements MediaFactoryInterface
 {
     /**
-     * @var ImageRepositoryInterface
+     * @var ArticleMediaAssetProviderInterface
      */
-    protected $imageRepository;
-
-    /**
-     * @var FileRepositoryInterface
-     */
-    protected $fileRepository;
+    protected $articleMediaAssetProvider;
 
     /**
      * @var FactoryInterface
@@ -51,23 +42,14 @@ class MediaFactory implements MediaFactoryInterface
      */
     protected $imageRenditionFactory;
 
-    /**
-     * @var FactoryInterface
-     */
-    protected $imageFactory;
-
     public function __construct(
-        ImageRepositoryInterface $imageRepository,
-        FileRepositoryInterface $fileRepository,
+        ArticleMediaAssetProviderInterface $articleMediaAssetProvider,
         FactoryInterface $factory,
-        ImageRenditionFactoryInterface $imageRenditionFactory,
-        FactoryInterface $imageFactory
+        ImageRenditionFactoryInterface $imageRenditionFactory
     ) {
-        $this->imageRepository = $imageRepository;
-        $this->fileRepository = $fileRepository;
+        $this->articleMediaAssetProvider = $articleMediaAssetProvider;
         $this->factory = $factory;
         $this->imageRenditionFactory = $imageRenditionFactory;
-        $this->imageFactory = $imageFactory;
     }
 
     public function create(ArticleInterface $article, string $key, ItemInterface $item): ArticleMediaInterface
@@ -98,15 +80,8 @@ class MediaFactory implements MediaFactoryInterface
 
         $articleMedia->setMimetype($originalRendition->getMimetype());
         $articleMedia->setKey($key);
-        $file = $this->findFile($originalRendition->getMedia());
-        $articleMedia->setFile($file);
 
-        if (null === $file) {
-            $file = new File();
-            $file->setAssetId($originalRendition->getMedia());
-            $file->setPreviewUrl($originalRendition->getHref());
-        }
-
+        $file = $this->articleMediaAssetProvider->getFile($originalRendition);
         $articleMedia->setFile($file);
 
         return $articleMedia;
@@ -123,15 +98,14 @@ class MediaFactory implements MediaFactoryInterface
         $articleMedia->setMimetype($originalRendition->getMimetype());
         $articleMedia->setKey($key);
 
-        $image = $this->findImage($originalRendition->getMedia());
+        $image = $this->articleMediaAssetProvider->getImage($originalRendition);
         $articleMedia->setImage($image);
 
         foreach ($item->getRenditions() as $rendition) {
-            $image = $this->findImage($rendition->getMedia());
+            $image = $this->articleMediaAssetProvider->getImage($rendition);
 
             if (null === $image) {
-                $image = $this->imageFactory->create();
-                $image->setAssetId($rendition->getMedia());
+                continue;
             }
 
             $imageRendition = $this->imageRenditionFactory->createWith($articleMedia, $image, $rendition);
@@ -148,15 +122,5 @@ class MediaFactory implements MediaFactoryInterface
                 return 'original' === $rendition->getName();
             }
         )->first();
-    }
-
-    protected function findFile(string $mediaId): ?FileInterface
-    {
-        return $this->fileRepository->findFileByAssetId(ArticleMedia::handleMediaId($mediaId));
-    }
-
-    protected function findImage(string $mediaId): ?ImageInterface
-    {
-        return $this->imageRepository->findImageByAssetId(ArticleMedia::handleMediaId($mediaId));
     }
 }

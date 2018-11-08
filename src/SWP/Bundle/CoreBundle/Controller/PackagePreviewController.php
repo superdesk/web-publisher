@@ -23,7 +23,6 @@ use SWP\Bundle\ContentBundle\Model\RouteInterface;
 use SWP\Bundle\CoreBundle\Model\ArticleInterface;
 use SWP\Bundle\CoreBundle\Model\PackageInterface;
 use SWP\Bundle\CoreBundle\Model\PackagePreviewTokenInterface;
-use SWP\Bundle\CoreBundle\Processor\ArticleMediaProcessor;
 use SWP\Bundle\CoreBundle\Service\ArticlePreviewer;
 use SWP\Component\Bridge\Events;
 use SWP\Component\Common\Response\SingleResourceResponse;
@@ -40,22 +39,14 @@ class PackagePreviewController extends Controller
      * @Route("/preview/package/{routeId}/{id}", options={"expose"=true}, requirements={"id"="\d+", "routeId"="\d+", "token"=".+"}, name="swp_package_preview")
      * @Method("GET")
      */
-    public function previewAction(Request $request, int $routeId, $id)
+    public function previewAction(int $routeId, $id)
     {
         /** @var RouteInterface $route */
         $route = $this->findRouteOr404($routeId);
         /** @var PackageInterface $package */
         $package = $this->findPackageOr404($id);
-        $article = $this->get('swp.factory.article')->createFromPackage($package);
-        $this->get(ArticleMediaProcessor::class)->fillArticleMedia($package, $article);
-
-        $article->setRoute($route);
-        $metaFactory = $this->get('swp_template_engine_context.factory.meta_factory');
-        $templateEngineContext = $this->get('swp_template_engine_context');
-        $templateEngineContext->setPreviewMode(true);
-        $templateEngineContext->setCurrentPage($metaFactory->create($route));
-        $templateEngineContext->getMetaForValue($article);
-
+        $articlePreviewer = $this->get(ArticlePreviewer::class);
+        $article = $articlePreviewer->preview($package, $route);
         $route = $this->ensureRouteTemplateExists($route, $article);
 
         try {

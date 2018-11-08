@@ -52,8 +52,8 @@ class SWPContentBundle extends Bundle
         parent::build($container);
         $container->addCompilerPass(new RegisterRouteFactoryPass());
         $container->addCompilerPass(new RegisterImageRenditionFactoryPass());
-        $container->addCompilerPass(new RegisterMediaFactoryPass());
         $container->addCompilerPass(new RegisterFileFactoryPass());
+        $container->addCompilerPass(new RegisterMediaFactoryPass());
         $container->addCompilerPass(new RegisterORMArticleFactoryPass());
         $container->addCompilerPass(new RegisterArticleBodyProcessorPass());
     }

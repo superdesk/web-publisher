@@ -17,7 +17,7 @@ namespace SWP\Bundle\ContentBundle\Model;
 /**
  * Interface ImageRenditionInterface.
  */
-interface ImageRenditionInterface
+interface ImageRenditionInterface extends PreviewUrlAwareInterface
 {
     /**
      * @return int
@@ -33,8 +33,4 @@ interface ImageRenditionInterface
      * @return string
      */
     public function getName();
-
-    public function getPreviewUrl(): ?string;
-
-    public function setPreviewUrl(?string $previewUrl): void;
 }

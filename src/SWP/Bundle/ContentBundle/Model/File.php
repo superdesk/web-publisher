@@ -16,9 +16,9 @@ namespace SWP\Bundle\ContentBundle\Model;
 
 use SWP\Component\Common\Model\TimestampableTrait;
 
-class File implements FileInterface
+class File implements FileInterface, PreviewUrlAwareInterface
 {
-    use TimestampableTrait;
+    use TimestampableTrait, PreviewUrlAwareTrait;
 
     /**
      * @var string
@@ -41,11 +41,6 @@ class File implements FileInterface
      * @var ArticleMediaInterface
      */
     protected $media;
-
-    /**
-     * @var string|null
-     */
-    protected $previewUrl;
 
     /**
      * File constructor.
@@ -117,15 +112,5 @@ class File implements FileInterface
     public function setAssetId(string $assetId)
     {
         $this->assetId = $assetId;
-    }
-
-    public function setPreviewUrl(?string $previewUrl): void
-    {
-        $this->previewUrl = $previewUrl;
-    }
-
-    public function getPreviewUrl(): ?string
-    {
-        return $this->previewUrl;
     }
 }

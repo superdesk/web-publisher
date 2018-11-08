@@ -16,6 +16,7 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\CoreBundle\Loader;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use SWP\Bundle\ContentBundle\Loader\PaginatedLoader;
 use SWP\Bundle\ContentBundle\Model\SlideshowInterface;
 use SWP\Component\Common\Criteria\Criteria;
@@ -51,6 +52,14 @@ final class PreviewSlideshowItemLoader extends PaginatedLoader implements Loader
     {
         $criteria = new Criteria();
 
+        if (array_key_exists('article', $withParameters) && $withParameters['article'] instanceof Meta) {
+            $article = $withParameters['article']->getValues();
+        } elseif (isset($this->context->article)) {
+            $article = $this->context->article->getValues();
+        } else {
+            return false;
+        }
+
         if (LoaderInterface::COLLECTION === $responseType) {
             $slideshow = null;
 
@@ -61,13 +70,19 @@ final class PreviewSlideshowItemLoader extends PaginatedLoader implements Loader
             }
 
             if (null === $slideshow) {
-                return false;
+                $slideshowItems = new ArrayCollection();
+                foreach ($article->getSlideshows() as $slideshow) {
+                    foreach ($slideshow->getSlideshowItems() as $slideshowItem) {
+                        $slideshowItems->add($slideshowItem);
+                    }
+                }
+            } else {
+                $slideshowItems = $slideshow->getSlideshowItems();
             }
 
             $criteria = $this->applyPaginationToCriteria($criteria, $withParameters);
-            $articleMedia = $slideshow->getSlideshowItems();
 
-            if (0 < \count($articleMedia)) {
+            if (0 < \count($slideshowItems)) {
                 $collectionCriteria = new \Doctrine\Common\Collections\Criteria(
                     null,
                     $criteria->get('order'),
@@ -75,10 +90,11 @@ final class PreviewSlideshowItemLoader extends PaginatedLoader implements Loader
                     $criteria->get('maxResults')
                 );
 
-                $count = $articleMedia->count();
-                $articleMedia = $articleMedia->matching($collectionCriteria);
+                $count = $slideshowItems->count();
+                $articleMedia = $slideshowItems->matching($collectionCriteria);
                 $metaCollection = new MetaCollection();
                 $metaCollection->setTotalItemsCount($count);
+
                 foreach ($articleMedia as $media) {
                     $metaCollection->add($this->metaFactory->create($media));
                 }

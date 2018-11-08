@@ -63,6 +63,7 @@ class PreviewArticleMediaLoader extends PaginatedLoader implements LoaderInterfa
 
             $criteria = $this->applyPaginationToCriteria($criteria, $withParameters);
             $articleMedia = $article->getMedia();
+
             if (0 < \count($articleMedia)) {
                 $collectionCriteria = new \Doctrine\Common\Collections\Criteria(
                     null,
@@ -75,6 +76,7 @@ class PreviewArticleMediaLoader extends PaginatedLoader implements LoaderInterfa
 
                 $metaCollection = new MetaCollection();
                 $metaCollection->setTotalItemsCount($count);
+
                 foreach ($articleMedia as $media) {
                     $metaCollection->add($this->metaFactory->create($media));
                 }
