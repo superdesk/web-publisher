@@ -556,6 +556,7 @@ services:
             - '@swp_multi_tenancy.tenant_resolver'
             - '@swp_multi_tenancy.tenant_context'
             - '@router'
+            - '@swp.resolver.article'
 
     swp_core.article.populator:
         class: SWP\Bundle\CoreBundle\Rule\Populator\ArticlePopulator
@@ -727,3 +728,9 @@ services:
             - '@swp.factory.image'
         public: false
         decoration_priority: 256
+
+    swp.resolver.article:
+        class: SWP\Bundle\CoreBundle\Resolver\ArticleResolver
+        public: true
+        arguments:
+            - '@router'

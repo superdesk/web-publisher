@@ -16,6 +16,9 @@ SWP\Bundle\CoreBundle\Model\Article:
             type: boolean
         contentLists:
             expose: true
+        commentsCount:
+            expose: true
+            access_type: public_method
     relations:
         -
             rel: slideshows

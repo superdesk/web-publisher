@@ -377,6 +377,7 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface, Orde
                     'external' => [
                         'webcode' => '+jxuk9',
                     ],
+                    'commentsCount' => 20,
                 ],
                 [
                     'title' => 'Test news sports article',
@@ -401,6 +402,7 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface, Orde
                         'webcode' => '+jxux6',
                         'extra data' => 'extra value',
                     ],
+                    'commentsCount' => 34,
                 ],
                 [
                     'title' => 'Test article',
@@ -465,7 +467,7 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface, Orde
             $manager->flush();
 
             foreach ($articles[$env] as $articleData) {
-                /** @var ArticleInterface $article */
+                /** @var \SWP\Bundle\CoreBundle\Model\ArticleInterface $article */
                 $article = $this->container->get('swp.factory.article')->create();
                 $article->setTitle($articleData['title']);
                 $article->setBody($articleData['content']);
@@ -482,6 +484,10 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface, Orde
 
                 if (isset($articleData['extra'])) {
                     $article->setExtra($articleData['extra']);
+                }
+
+                if (isset($articleData['commentsCount'])) {
+                    $article->setCommentsCount($articleData['commentsCount']);
                 }
 
                 if (isset($articleData['authors'])) {

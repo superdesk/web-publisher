@@ -48,6 +48,11 @@ class Article extends BaseArticle implements ArticleInterface
     protected $externalArticle;
 
     /**
+     * @var int
+     */
+    protected $commentsCount;
+
+    /**
      * {@inheritdoc}
      */
     public function setId($id)
@@ -132,5 +137,19 @@ class Article extends BaseArticle implements ArticleInterface
         }
 
         return $data;
+    }
+
+    public function getCommentsCount(): int
+    {
+        if (null === $this->commentsCount) {
+            return 0;
+        }
+
+        return $this->commentsCount;
+    }
+
+    public function setCommentsCount(int $commentsCount): void
+    {
+        $this->commentsCount = $commentsCount;
     }
 }
