@@ -102,9 +102,10 @@ final class WebhookEventsSubscriber implements EventSubscriberInterface
         ) {
             $originalTenant = $this->tenantContext->getTenant();
             $this->tenantContext->setTenant($subjectTenant);
+        } else {
+            $dispatcher->dispatch(MultiTenancyEvents::TENANTABLE_ENABLE);
         }
 
-        $dispatcher->dispatch(MultiTenancyEvents::TENANTABLE_ENABLE);
         $webhooks = $this->webhooksRepository->getEnabledForEvent($webhookEventName)->getResult();
 
         if (null !== $originalTenant) {

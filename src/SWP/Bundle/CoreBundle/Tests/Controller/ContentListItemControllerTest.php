@@ -105,8 +105,8 @@ class ContentListItemControllerTest extends WebTestCase
                     ],
                     "content": null,
                     "id": 3,
-                    "lft": 5,
-                    "rgt": 6,
+                    "lft": 3,
+                    "rgt": 4,
                     "level": 0,
                     "name": "news",
                     "parent": null,
@@ -141,7 +141,7 @@ class ContentListItemControllerTest extends WebTestCase
 
         self::assertEquals(200, $this->client->getResponse()->getStatusCode());
         $content = json_decode($this->client->getResponse()->getContent(), true);
-        self::assertArraySubset(json_decode('{"id":1,"content":{"id":1,"title":"article1","body":"art1","slug":"article-1","publishedAt":null,"status":"published","route":{"id":3,"content":null,"staticPrefix":null,"variablePattern":"\/{slug}","parent":null,"children":[],"lft":5,"rgt": 6,"level":0,"templateName":null,"articlesTemplateName":null,"type":"collection","cacheTimeInSeconds":0,"name":"news","position":1,"_links":{"self":{"href":"\/api\/v1\/content\/routes\/3"}}},"templateName":null,"publishStartDate":null,"publishEndDate":null,"isPublishable":true,"metadata":{"byline":"John Smith","located":"Berlin"},"media":[],"featureMedia":null,"lead":null,"keywords":[],"_links":{"self":{"href":"\/api\/v1\/content\/articles\/article-1"},"online":{"href":"\/article-1"}}},"position":0,"sticky":true,"enabled":true,"_links":{"list":{"href":"\/api\/v1\/content\/lists\/1"},"item":{"href":"\/api\/v1\/content\/lists\/1\/items\/1"}}}', true), $content);
+        self::assertArraySubset(json_decode('{"id":1,"content":{"id":1,"title":"article1","body":"art1","slug":"article-1","publishedAt":null,"status":"published","route":{"id":3,"content":null,"staticPrefix":null,"variablePattern":"\/{slug}","parent":null,"children":[],"lft":3,"rgt": 4,"level":0,"templateName":null,"articlesTemplateName":null,"type":"collection","cacheTimeInSeconds":0,"name":"news","position":1,"_links":{"self":{"href":"\/api\/v1\/content\/routes\/3"}}},"templateName":null,"publishStartDate":null,"publishEndDate":null,"isPublishable":true,"metadata":{"byline":"John Smith","located":"Berlin"},"media":[],"featureMedia":null,"lead":null,"keywords":[],"_links":{"self":{"href":"\/api\/v1\/content\/articles\/article-1"},"online":{"href":"\/article-1"}}},"position":0,"sticky":true,"enabled":true,"_links":{"list":{"href":"\/api\/v1\/content\/lists\/1"},"item":{"href":"\/api\/v1\/content\/lists\/1\/items\/1"}}}', true), $content);
     }
 
     public function testGetSingleArticleAndItsContentLists()
