@@ -612,7 +612,6 @@ services:
             - '@swp.factory.article'
             - '@SWP\Bundle\CoreBundle\Processor\ArticleMediaProcessor'
             - '@SWP\Bundle\CoreBundle\Service\ArticlePreviewTemplateHelper'
-            - '@SWP\Bundle\CoreBundle\Context\ArticlePreviewContext'
 
     swp.random_string_generator:
         alias: swp_multi_tenancy.random_string_generator

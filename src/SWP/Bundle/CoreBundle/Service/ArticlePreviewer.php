@@ -20,7 +20,6 @@ use SWP\Bundle\ContentBundle\Factory\ArticleFactoryInterface;
 use SWP\Bundle\ContentBundle\Model\ArticleInterface;
 use SWP\Bundle\ContentBundle\Model\RouteInterface;
 use SWP\Bundle\ContentBundle\Processor\ArticleAuthorProcessor;
-use SWP\Bundle\CoreBundle\Context\ArticlePreviewContextInterface;
 use SWP\Bundle\CoreBundle\Model\PackageInterface;
 use SWP\Bundle\CoreBundle\Processor\ArticleMediaProcessorInterface;
 use SWP\Component\Common\Exception\NotFoundHttpException;
@@ -42,21 +41,14 @@ final class ArticlePreviewer implements ArticlePreviewerInterface
      */
     private $articlePreviewHelper;
 
-    /**
-     * @var ArticlePreviewContextInterface
-     */
-    private $articlePreviewContext;
-
     public function __construct(
         ArticleFactoryInterface $articleFactory,
         ArticleMediaProcessorInterface $articleMediaProcessor,
-        ArticlePreviewTemplateHelperInterface $articlePreviewHelper,
-        ArticlePreviewContextInterface $articlePreviewContext
+        ArticlePreviewTemplateHelperInterface $articlePreviewHelper
     ) {
         $this->articleFactory = $articleFactory;
         $this->articleMediaProcessor = $articleMediaProcessor;
         $this->articlePreviewHelper = $articlePreviewHelper;
-        $this->articlePreviewContext = $articlePreviewContext;
     }
 
     /**
@@ -64,7 +56,6 @@ final class ArticlePreviewer implements ArticlePreviewerInterface
      */
     public function preview(PackageInterface $package, RouteInterface $route): ArticleInterface
     {
-        $this->articlePreviewContext->setIsPreview(true);
         $article = $this->articleFactory->createFromPackage($package);
 
         $this->articleMediaProcessor->fillArticleMedia($package, $article);

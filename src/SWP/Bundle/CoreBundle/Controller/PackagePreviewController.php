@@ -20,6 +20,7 @@ use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use SWP\Bundle\ContentBundle\Model\RouteInterface;
+use SWP\Bundle\CoreBundle\Context\ArticlePreviewContext;
 use SWP\Bundle\CoreBundle\Model\ArticleInterface;
 use SWP\Bundle\CoreBundle\Model\PackageInterface;
 use SWP\Bundle\CoreBundle\Model\PackagePreviewTokenInterface;
@@ -138,7 +139,9 @@ class PackagePreviewController extends Controller
         $dispatcher->dispatch(Events::SWP_VALIDATION, new GenericEvent($package));
 
         $articlePreviewer = $this->get(ArticlePreviewer::class);
+        $articlePreviewContext = $this->get(ArticlePreviewContext::class);
 
+        $articlePreviewContext->setIsPreview(true);
         $article = $articlePreviewer->preview($package, $existingPreviewToken->getRoute());
         $route = $article->getRoute();
         $route = $this->ensureRouteTemplateExists($route, $article);
