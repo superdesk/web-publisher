@@ -7,6 +7,7 @@ use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use SWP\Bundle\CoreBundle\Model\PackageInterface;
 use SWP\Bundle\FixturesBundle\AbstractFixture;
+use SWP\Bundle\MultiTenancyBundle\MultiTenancyEvents;
 
 class LoadAmpHtmlData extends AbstractFixture implements FixtureInterface, OrderedFixtureInterface
 {
@@ -58,6 +59,7 @@ class LoadAmpHtmlData extends AbstractFixture implements FixtureInterface, Order
             ];
 
             $routeService = $this->container->get('swp.service.route');
+            $dispatcher = $this->container->get('event_dispatcher');
 
             foreach ($routes as $routeData) {
                 $route = $this->container->get('swp.factory.route')->create();
@@ -105,7 +107,9 @@ class LoadAmpHtmlData extends AbstractFixture implements FixtureInterface, Order
                 $article = $this->container->get('swp.factory.article')->create();
                 $article->setTitle($articleData['title']);
                 $article->setBody($articleData['content']);
+                $dispatcher->dispatch(MultiTenancyEvents::TENANTABLE_DISABLE);
                 $article->setRoute($this->getRouteByName($articleData['route']));
+                $dispatcher->dispatch(MultiTenancyEvents::TENANTABLE_ENABLE);
                 $article->setLocale($articleData['locale']);
                 $article->setCode(md5($articleData['title']));
                 $package = $this->createPackage($articleData);
