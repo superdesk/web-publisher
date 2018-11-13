@@ -80,15 +80,16 @@ class CachedTenantContext extends TenantContext implements CachedTenantContextIn
                     if (null !== $tenant->getOutputChannel()) {
                         $tenant->setOutputChannel($this->entityManager->find(OutputChannel::class, $tenant->getOutputChannel()->getId()));
                     }
+                    parent::setTenant($this->attachToEntityManager($tenant));
                 } else {
                     $tenant = $this->tenantResolver->resolve(
                         $currentRequest ? $currentRequest->getHost() : null
                     );
 
+                    parent::setTenant($tenant);
+
                     $this->cacheProvider->save($cacheKey, $tenant);
                 }
-
-                parent::setTenant($tenant);
             }
         }
 
