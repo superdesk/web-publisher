@@ -61,11 +61,11 @@ class CachedTenantContext extends TenantContext implements CachedTenantContextIn
     /**
      * {@inheritdoc}
      */
-    public function getTenant(): TenantInterface
+    public function getTenant(): ?TenantInterface
     {
         $currentRequest = $this->requestStack->getCurrentRequest();
         if ($currentRequest && $this->requestStack->getCurrentRequest()->attributes->get('exception') instanceof TenantNotFoundException) {
-            return;
+            return null;
         }
 
         if (null === $this->tenant) {
