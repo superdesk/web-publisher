@@ -21,6 +21,7 @@ use Doctrine\ORM\EntityManager;
 use SWP\Bundle\CoreBundle\Model\OutputChannel;
 use SWP\Bundle\CoreBundle\Model\Route;
 use SWP\Bundle\MultiTenancyBundle\Context\TenantContext;
+use SWP\Bundle\MultiTenancyBundle\MultiTenancyEvents;
 use SWP\Component\MultiTenancy\Exception\TenantNotFoundException;
 use SWP\Component\MultiTenancy\Model\OrganizationInterface;
 use SWP\Component\MultiTenancy\Model\TenantInterface;
@@ -106,6 +107,7 @@ class CachedTenantContext extends TenantContext implements CachedTenantContextIn
             $host = $subdomain.'.'.$host;
         }
 
+        $this->dispatcher->dispatch(MultiTenancyEvents::TENANTABLE_ENABLE);
         $this->cacheProvider->save(self::getCacheKey($host), $tenant);
     }
 
