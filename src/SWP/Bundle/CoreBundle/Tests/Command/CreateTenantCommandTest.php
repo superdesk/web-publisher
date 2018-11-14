@@ -16,6 +16,7 @@ namespace SWP\Bundle\CoreBundle\Tests\Command;
 
 use SWP\Bundle\FixturesBundle\WebTestCase;
 use SWP\Component\Revision\Model\RevisionInterface;
+use Symfony\Component\Console\Tester\CommandTester;
 
 class CreateTenantCommandTest extends WebTestCase
 {
@@ -32,6 +33,9 @@ class CreateTenantCommandTest extends WebTestCase
     public function testCommand()
     {
         $result = $this->runCommand('swp:tenant:create', ['organization code' => '123456', 'subdomain' => 'test23', 'domain' => 'localhost', 'name' => 'Revision Aware Tenant'], true);
+        if ($result instanceof CommandTester) {
+            $result = $result->getDisplay();
+        }
         preg_match_all('/code: \\e\[32m([azAZ\w]+)\\e\[39m/', $result, $matches);
         $code = $matches[1][0];
         $revisionRepository = $this->getContainer()->get('swp.repository.revision');
