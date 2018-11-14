@@ -63,6 +63,31 @@ Usage:
 
 The above twig code will render the list of articles slideshows for the current article set in context.
 
+Or if there are audio, video, image files in slideshow:
+
+.. code-block:: twig
+
+    {% gimmelist slideshow from slideshows with { article: gimme.article } %}
+        <h2>{{ slideshow.code }}</h2>
+        {% gimmelist slideshowItem from slideshowItems with { article: gimme.article, slideshow: slideshow } %}
+
+            {% if slideshowItem.articleMedia.mimetype starts with 'image' %}
+                {% gimme rendition with {'media': slideshowItem.articleMedia, 'name': '770x515', 'fallback': 'original' } %}
+                    <img src="{{ url(rendition) }}" />
+                {% endgimme %}
+            {% elseif slideshowItem.articleMedia.mimetype starts with 'audio' %}
+                <audio src="{{ url(slideshowItem.articleMedia) }}" controls>
+                    <a href="{{ url(slideshowItem.articleMedia) }}">Download song</a>
+                </audio>
+            {% elseif slideshowItem.articleMedia.mimetype starts with 'video' %}
+                <video src="{{ url(slideshowItem.articleMedia) }}" controls>
+                    <a href="{{ url(slideshowItem.articleMedia) }}">Download video</a>
+                </video>
+            {% endif %}
+
+        {% endgimmelist %}
+    {% endgimmelist %}
+
 Listing all Article's Slideshows and its Items
 ----------------------------------------------
 

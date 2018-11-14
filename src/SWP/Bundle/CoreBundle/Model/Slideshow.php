@@ -16,8 +16,30 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\CoreBundle\Model;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use SWP\Bundle\ContentBundle\Model\Slideshow as BaseSlideshow;
+use SWP\Bundle\ContentBundle\Model\SlideshowItemInterface;
 
 class Slideshow extends BaseSlideshow implements SlideshowInterface
 {
+    protected $items;
+
+    public function __construct()
+    {
+        $this->items = new ArrayCollection();
+
+        parent::__construct();
+    }
+
+    public function addSlideshowItem(SlideshowItemInterface $slideshowItem): void
+    {
+        $slideshowItem->setSlideshow($this);
+        $this->items->add($slideshowItem);
+    }
+
+    public function getSlideshowItems(): Collection
+    {
+        return $this->items;
+    }
 }

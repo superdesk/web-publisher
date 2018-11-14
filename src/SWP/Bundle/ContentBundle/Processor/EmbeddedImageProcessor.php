@@ -73,6 +73,11 @@ final class EmbeddedImageProcessor implements ArticleBodyProcessorInterface
                     }
 
                     $imageElement->setAttribute('src', $this->mediaManager->getMediaUri($rendition->getImage()));
+
+                    if (null === $rendition->getImage()->getId()) {
+                        $imageElement->setAttribute('src', $rendition->getPreviewUrl());
+                    }
+
                     $imageElement->setAttribute('data-media-id', $mediaId);
                     $imageElement->setAttribute('data-image-id', $rendition->getImage()->getAssetId());
                     if (null !== $altAttribute) {

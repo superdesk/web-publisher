@@ -14,13 +14,11 @@ declare(strict_types=1);
  * @license http://www.superdesk.org/license
  */
 
-namespace SWP\Bundle\ContentBundle\Factory;
+namespace SWP\Bundle\ContentBundle\Model;
 
-use SWP\Bundle\ContentBundle\Model\FileInterface;
-
-interface FileFactoryInterface
+interface PreviewUrlAwareInterface
 {
-    public function createWith(string $assetId, string $extension): FileInterface;
+    public function setPreviewUrl(?string $previewUrl): void;
 
-    public function createFile(): FileInterface;
+    public function getPreviewUrl(): ?string;
 }
