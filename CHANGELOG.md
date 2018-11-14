@@ -10,6 +10,7 @@ To get the diff for a specific change, go to https://github.com/superdesk/web-pu
  * improvement [#630] Add option to exclude articles fron content list items
 
 ### 1.4.1
+ * feature [#665] Added route to redirect to an article page by article slug
  * improvement [#648] Exclude non-publisher created routes from RouteProvider
  * bug [#647] Do not allow empty params in ContentListsItemLoader
  * bug [#646] Do not enable tenantable filter in articles count handler
