@@ -14,13 +14,15 @@ declare(strict_types=1);
  * @license http://www.superdesk.org/license
  */
 
-namespace SWP\Bundle\ContentBundle\Factory;
+namespace SWP\Bundle\ContentBundle\Provider\ORM;
 
 use SWP\Bundle\ContentBundle\Model\FileInterface;
+use SWP\Bundle\ContentBundle\Model\ImageInterface;
+use SWP\Component\Bridge\Model\RenditionInterface;
 
-interface FileFactoryInterface
+interface ArticleMediaAssetProviderInterface
 {
-    public function createWith(string $assetId, string $extension): FileInterface;
+    public function getImage(RenditionInterface $rendition): ?ImageInterface;
 
-    public function createFile(): FileInterface;
+    public function getFile(RenditionInterface $rendition): ?FileInterface;
 }

@@ -71,4 +71,9 @@ class FileFactory implements FileFactoryInterface
             return $image;
         }
     }
+
+    public function createFile(): FileInterface
+    {
+        return $this->fileFactory->create();
+    }
 }
