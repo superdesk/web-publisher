@@ -36,8 +36,6 @@ class TenantControllerTest extends WebTestCase
         $this->initDatabase();
 
         $this->loadCustomFixtures(['tenant']);
-        $this->runCommand('swp:organization:create', ['--env' => 'test', '--default' => true], true);
-        $this->runCommand('swp:tenant:create', ['--env' => 'test', '--default' => true], true);
 
         $this->router = $this->getContainer()->get('router');
     }
