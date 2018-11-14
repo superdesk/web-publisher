@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Superdesk Web Publisher Core Bundle.
  *
@@ -50,27 +52,27 @@ class CachedTenantContext extends TenantContext implements CachedTenantContextIn
      */
     public function __construct(TenantResolverInterface $tenantResolver, RequestStack $requestStack, EventDispatcherInterface $dispatcher, Cache $cacheProvider, EntityManager $entityManager)
     {
-        $this->tenantResolver = $tenantResolver;
-        $this->requestStack = $requestStack;
-        $this->dispatcher = $dispatcher;
         $this->cacheProvider = $cacheProvider;
         $this->entityManager = $entityManager;
+
+        parent::__construct($tenantResolver, $requestStack, $dispatcher);
     }
 
     /**
      * {@inheritdoc}
      */
-    public function getTenant()
+    public function getTenant(): ?TenantInterface
     {
         $currentRequest = $this->requestStack->getCurrentRequest();
         if ($currentRequest && $this->requestStack->getCurrentRequest()->attributes->get('exception') instanceof TenantNotFoundException) {
-            return;
+            return null;
         }
 
         if (null === $this->tenant) {
             if (null !== $currentRequest) {
                 $cacheKey = self::getCacheKey($currentRequest->getHost());
-                if ($this->cacheProvider->contains($cacheKey) && ($tenant = $this->cacheProvider->fetch($cacheKey)) instanceof  TenantInterface) {
+
+                if ($this->cacheProvider->contains($cacheKey) && ($tenant = $this->cacheProvider->fetch($cacheKey)) instanceof TenantInterface) {
                     // solution for serialization
                     if (null !== $tenant->getHomepage()) {
                         $tenant->setHomepage($this->entityManager->find(Route::class, $tenant->getHomepage()->getId()));
@@ -83,7 +85,9 @@ class CachedTenantContext extends TenantContext implements CachedTenantContextIn
                     $tenant = $this->tenantResolver->resolve(
                         $currentRequest ? $currentRequest->getHost() : null
                     );
+
                     parent::setTenant($tenant);
+
                     $this->cacheProvider->save($cacheKey, $tenant);
                 }
             }
@@ -95,7 +99,7 @@ class CachedTenantContext extends TenantContext implements CachedTenantContextIn
     /**
      * {@inheritdoc}
      */
-    public function setTenant(TenantInterface $tenant)
+    public function setTenant(TenantInterface $tenant): void
     {
         parent::setTenant($this->attachToEntityManager($tenant));
 
@@ -111,9 +115,9 @@ class CachedTenantContext extends TenantContext implements CachedTenantContextIn
     /**
      * {@inheritdoc}
      */
-    public static function getCacheKey($host)
+    public static function getCacheKey(string $host): string
     {
-        return 'tenant_cache__'.$host;
+        return md5('tenant_cache__'.$host);
     }
 
     private function attachToEntityManager(TenantInterface $tenant): TenantInterface

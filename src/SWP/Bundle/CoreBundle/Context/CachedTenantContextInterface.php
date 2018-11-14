@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Superdesk Web Publisher Core Bundle.
  *
@@ -19,10 +21,5 @@ namespace SWP\Bundle\CoreBundle\Context;
  */
 interface CachedTenantContextInterface
 {
-    /**
-     * @param string $host
-     *
-     * @return mixed
-     */
-    public static function getCacheKey($host);
+    public static function getCacheKey(string $host): string;
 }
