@@ -46,3 +46,10 @@ swp_redirecting_extra_data:
         key: \w+
         value: \+?\w+
     methods: [GET]
+
+swp_redirecting_slug:
+  path: /r/{slug}
+  defaults: { _controller: SWPCoreBundle:Redirecting:redirectBasedOnSlug }
+  requirements:
+    slug: .*
+  methods: [GET]
