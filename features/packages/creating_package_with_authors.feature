@@ -33,7 +33,10 @@ Feature: Checking if the package authors are saved properly
             "qcode":"1",
             "name":"quality check"
           },
-          "role":"writer"
+          "role":"writer",
+          "twitter":"@superdeskman",
+          "instagram":"superdeskman",
+          "facebook":"superdeskman"
         },
         {
           "biography":"not dead yet",
@@ -88,6 +91,9 @@ Feature: Checking if the package authors are saved properly
       | authors[0].role                | writer                      |
       | authors[0].jobtitle.name       | quality check               |
       | authors[0].jobtitle.qcode      | 1                           |
+      | authors[0].twitter             | @superdeskman               |
+      | authors[0].instagram           | superdeskman                |
+      | authors[0].facebook            | superdeskman                |
       | authors[1].name                | vincer vincer               |
       | authors[1].biography           | not dead yet                |
       | authors[1].role                | subeditor                   |
@@ -133,6 +139,9 @@ Feature: Checking if the package authors are saved properly
       | authors[0].jobtitle.name       | quality check               |
       | authors[0].jobtitle.qcode      | 1                           |
       | authors[0].slug                | nareg-asmarian              |
+      | authors[0].twitter             | @superdeskman               |
+      | authors[0].instagram           | superdeskman                |
+      | authors[0].facebook            | superdeskman                |
       | authors[1].name                | vincer vincer               |
       | authors[1].biography           | not dead yet                |
       | authors[1].role                | subeditor                   |
