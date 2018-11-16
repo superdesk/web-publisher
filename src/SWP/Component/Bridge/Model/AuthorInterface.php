@@ -69,4 +69,16 @@ interface AuthorInterface
      * @return mixed
      */
     public function setAvatarUrl(?string $avatarUrl);
+
+    public function getTwitter(): ?string;
+
+    public function setTwitter(?string $twitter): void;
+
+    public function getInstagram(): ?string;
+
+    public function setInstagram(?string $instagram): void;
+
+    public function getFacebook(): ?string;
+
+    public function setFacebook(?string $facebook): void;
 }
