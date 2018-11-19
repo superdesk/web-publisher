@@ -116,6 +116,10 @@ class ArticleRepository extends ContentBundleArticleRepository implements Articl
             unset($sorting['pageViews']);
         }
 
+        if (isset($sorting['commentsCount']) && !empty($sorting['commentsCount'])) {
+            $queryBuilder->andWhere('a.commentsCount IS NOT NULL');
+        }
+
         return parent::applySorting($queryBuilder, $sorting, $alias);
     }
 }
