@@ -164,12 +164,12 @@ class ArticleLoaderTest extends WebTestCase
         $template = '{% gimmelist article from articles|order(\'commentsCount\', \'desc\') %} {{ article.title }} {% endgimmelist %}';
         $result = $this->getRendered($template);
 
-        self::assertEquals(' Test news sports article  Test news article  Test article  Features  Features client1 ', $result);
+        self::assertEquals(' Test news sports article  Test news article ', $result);
 
         $template = '{% gimmelist article from articles|order(\'commentsCount\', \'asc\') %} {{ article.title }} {% endgimmelist %}';
         $result = $this->getRendered($template);
 
-        self::assertEquals(' Test article  Features  Features client1  Test news article  Test news sports article ', $result);
+        self::assertEquals(' Test news article  Test news sports article ', $result);
     }
 
     private function getRendered($template, $context = [])

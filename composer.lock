@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "ba74334d07226a19ffbfd1e9eb78e0d2",
+    "content-hash": "64d0d9176a143b64ba618e5945a347f2",
     "packages": [
         {
             "name": "apache/log4php",
@@ -92,16 +92,16 @@
         },
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.71.5",
+            "version": "3.72.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "ce91558fe7ab0368792c088a573fecf328319deb"
+                "reference": "5e36d7d70917133a244f62ff81d38871669951b5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/ce91558fe7ab0368792c088a573fecf328319deb",
-                "reference": "ce91558fe7ab0368792c088a573fecf328319deb",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/5e36d7d70917133a244f62ff81d38871669951b5",
+                "reference": "5e36d7d70917133a244f62ff81d38871669951b5",
                 "shasum": ""
             },
             "require": {
@@ -171,7 +171,7 @@
                 "s3",
                 "sdk"
             ],
-            "time": "2018-11-13T21:55:30+00:00"
+            "time": "2018-11-16T21:17:38+00:00"
         },
         {
             "name": "behat/behat",
@@ -4790,16 +4790,16 @@
         },
         {
             "name": "lexik/jwt-authentication-bundle",
-            "version": "v2.6.0",
+            "version": "v2.6.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/lexik/LexikJWTAuthenticationBundle.git",
-                "reference": "dc10bb43a8c9fef24edbc9d6fab8cf40d575a903"
+                "reference": "ba179c2f876b96e5cffe5ee75cac883cfe3f8847"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/lexik/LexikJWTAuthenticationBundle/zipball/dc10bb43a8c9fef24edbc9d6fab8cf40d575a903",
-                "reference": "dc10bb43a8c9fef24edbc9d6fab8cf40d575a903",
+                "url": "https://api.github.com/repos/lexik/LexikJWTAuthenticationBundle/zipball/ba179c2f876b96e5cffe5ee75cac883cfe3f8847",
+                "reference": "ba179c2f876b96e5cffe5ee75cac883cfe3f8847",
                 "shasum": ""
             },
             "require": {
@@ -4883,7 +4883,7 @@
                 "rest",
                 "symfony"
             ],
-            "time": "2018-11-01T14:48:31+00:00"
+            "time": "2018-11-18T21:13:33+00:00"
         },
         {
             "name": "litipk/flysystem-fallback-adapter",
@@ -9079,16 +9079,16 @@
         },
         {
             "name": "twig/extensions",
-            "version": "v1.5.2",
+            "version": "v1.5.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/twigphp/Twig-extensions.git",
-                "reference": "2c1a86526d0044065220d1b51ac08348bea5ca82"
+                "reference": "e187386bea539a2cc2726689d6b4d468672a8ab4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/twigphp/Twig-extensions/zipball/2c1a86526d0044065220d1b51ac08348bea5ca82",
-                "reference": "2c1a86526d0044065220d1b51ac08348bea5ca82",
+                "url": "https://api.github.com/repos/twigphp/Twig-extensions/zipball/e187386bea539a2cc2726689d6b4d468672a8ab4",
+                "reference": "e187386bea539a2cc2726689d6b4d468672a8ab4",
                 "shasum": ""
             },
             "require": {
@@ -9130,7 +9130,7 @@
                 "i18n",
                 "text"
             ],
-            "time": "2018-05-22T13:26:07+00:00"
+            "time": "2018-11-16T03:34:09+00:00"
         },
         {
             "name": "twig/twig",
@@ -10486,16 +10486,16 @@
         },
         {
             "name": "liip/functional-test-bundle",
-            "version": "2.0.0-alpha9",
+            "version": "2.0.0-alpha10",
             "source": {
                 "type": "git",
                 "url": "https://github.com/liip/LiipFunctionalTestBundle.git",
-                "reference": "4a71c0c431644550f17367e12011d708ac76eb04"
+                "reference": "ee1b91e16ab20286503051d3478b6438287c36e4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/liip/LiipFunctionalTestBundle/zipball/4a71c0c431644550f17367e12011d708ac76eb04",
-                "reference": "4a71c0c431644550f17367e12011d708ac76eb04",
+                "url": "https://api.github.com/repos/liip/LiipFunctionalTestBundle/zipball/ee1b91e16ab20286503051d3478b6438287c36e4",
+                "reference": "ee1b91e16ab20286503051d3478b6438287c36e4",
                 "shasum": ""
             },
             "require": {
@@ -10556,7 +10556,7 @@
                 "symfony",
                 "testing"
             ],
-            "time": "2018-11-07T21:00:28+00:00"
+            "time": "2018-11-15T17:03:03+00:00"
         },
         {
             "name": "liip/rmt",
@@ -11824,7 +11824,7 @@
                 "pagarme/pagarme-php": ">=0,<3",
                 "paragonie/random_compat": "<2",
                 "paypal/merchant-sdk-php": "<3.12",
-                "phpmailer/phpmailer": ">=5,<5.2.24",
+                "phpmailer/phpmailer": ">=5,<5.2.27|>=6,<6.0.6",
                 "phpunit/phpunit": ">=4.8.19,<4.8.28|>=5.0.10,<5.6.3",
                 "phpwhois/phpwhois": "<=4.2.5",
                 "phpxmlrpc/extras": "<0.6.1",
@@ -11876,7 +11876,7 @@
                 "symfony/yaml": ">=2,<2.0.22|>=2.1,<2.1.7",
                 "tecnickcom/tcpdf": "<6.2.22",
                 "thelia/backoffice-default-template": ">=2.1,<2.1.2",
-                "thelia/thelia": ">=2.1.0-beta1,<2.1.3|>=2.1,<2.1.2",
+                "thelia/thelia": ">=2.1,<2.1.2|>=2.1.0-beta1,<2.1.3",
                 "theonedemon/phpwhois": "<=4.2.5",
                 "titon/framework": ">=0,<9.9.99",
                 "truckersmp/phpwhois": "<=4.3.1",
@@ -11933,7 +11933,7 @@
                 }
             ],
             "description": "Prevents installation of composer packages with known security vulnerabilities: no API, simply require it",
-            "time": "2018-11-01T18:39:28+00:00"
+            "time": "2018-11-16T03:31:38+00:00"
         },
         {
             "name": "sebastian/code-unit-reverse-lookup",
