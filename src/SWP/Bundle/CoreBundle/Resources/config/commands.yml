@@ -8,6 +8,10 @@ services:
         arguments:
             - "@fos_user.util.user_manipulator"
 
+    SWP\Bundle\CoreBundle\Command\ImportUserCommand:
+        arguments:
+            - "@fos_user.util.user_manipulator"
+
     SWP\Bundle\CoreBundle\Command\:
         resource: '../../Command/*'
-        exclude: '../../Command/{CreateUserCommand}.php'
+        exclude: '../../Command/{CreateUserCommand,ImportUserCommand}.php'
