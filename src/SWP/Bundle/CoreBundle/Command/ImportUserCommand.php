@@ -120,6 +120,9 @@ JSON;
 
     protected static $defaultName = 'swp:import:user';
 
+    /**
+     * @var UserManipulator
+     */
     private $userManipulator;
 
     public function __construct(UserManipulator $userManipulator)
@@ -140,7 +143,7 @@ The <info>swp:import:user</info> command imports users data from JSON files:
 
   <info>php %command.full_name% /home/jack/users/</info>
 
-  <info>path</info> argument is the absolute path the directory with the JSON files.
+  <info>path</info> argument is the absolute path to the directory with the JSON files.
 
 EOT
             );
