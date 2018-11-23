@@ -39,7 +39,6 @@ class ImportUserCommand extends ContainerAwareCommand
     "name",
     "email",
     "created",
-    "id",
     "is_staff",
     "is_active"
   ],
@@ -103,16 +102,6 @@ class ImportUserCommand extends ContainerAwareCommand
       "default": "",
       "examples": [
         "2017-12-13T10:47:40"
-      ],
-      "pattern": "^(.*)$"
-    },
-    "id": {
-      "$id": "#/properties/id",
-      "type": "string",
-      "title": "The Id Schema",
-      "default": "",
-      "examples": [
-        "12345"
       ],
       "pattern": "^(.*)$"
     },
@@ -191,7 +180,12 @@ EOT
             }
 
             $userEmail = strtolower($data['email']);
-            $userId = $data['id'];
+            $userId = null;
+
+            if (isset($data['id'])) {
+                $userId = $data['id'];
+            }
+
             $existingUser = $userRepository->findOneByEmail($userEmail);
 
             if (null !== $existingUser) {
@@ -203,13 +197,21 @@ EOT
             /** @var UserInterface $user */
             $user = $this->userManipulator->create($data['display_name'], uniqid('', true), $userEmail, $data['is_active'], $data['is_staff']);
 
+            if (null !== $userId) {
+                $user->setId($userId);
+            }
+
             $user->setFirstName($data['name']['first']);
             $user->setLastName($data['name']['last']);
             $user->setCreatedAt(new \DateTime($data['created']));
-            $user->addRole('ROLE_USER');
+
+            if (!$data['is_staff']) {
+                $user->addRole(UserInterface::ROLE_DEFAULT);
+            }
+
             $objectManager->persist($user);
 
-            $output->writeln("<bg=green;options=bold>$userEmail (id: $userId) imported.</>");
+            $output->writeln("<bg=green;options=bold>$userEmail imported.</>");
         }
 
         $objectManager->flush();
