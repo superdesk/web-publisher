@@ -39,7 +39,9 @@ class ImportUserCommand extends ContainerAwareCommand
     "name",
     "email",
     "created",
-    "id"
+    "id",
+    "is_staff",
+    "is_active"
   ],
   "properties": {
     "display_name": {
@@ -113,6 +115,24 @@ class ImportUserCommand extends ContainerAwareCommand
         "12345"
       ],
       "pattern": "^(.*)$"
+    },
+    "is_staff": {
+      "$id": "#/properties/is_staff",
+      "type": "boolean",
+      "title": "The Is_staff Schema",
+      "default": false,
+      "examples": [
+        true
+      ]
+    },
+    "is_active": {
+      "$id": "#/properties/is_active",
+      "type": "boolean",
+      "title": "The Is_active Schema",
+      "default": false,
+      "examples": [
+        true
+      ]
     }
   }
 }
@@ -181,7 +201,7 @@ EOT
             }
 
             /** @var UserInterface $user */
-            $user = $this->userManipulator->create($data['display_name'], uniqid('', true), $userEmail, true, false);
+            $user = $this->userManipulator->create($data['display_name'], uniqid('', true), $userEmail, $data['is_active'], $data['is_staff']);
 
             $user->setFirstName($data['name']['first']);
             $user->setLastName($data['name']['last']);
