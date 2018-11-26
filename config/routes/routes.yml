@@ -57,3 +57,6 @@ swp_redirecting_slug:
 fos_user_resetting:
   resource: "@FOSUserBundle/Resources/config/routing/resetting.xml"
   prefix: /resetting
+
+fos_user_profile_show:
+  path: /
