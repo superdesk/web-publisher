@@ -75,3 +75,14 @@ Check if users is logged in:
     {% else %}
         {# Show login form #}
     {% endif %}
+
+Password Reset
+--------------
+
+By default, there are a few routes exposed for password reset functionality (provided by FOSUserBundle).
+
+When going to route ``/resetting/request`` (route name is ``fos_user_resetting_request``) the default password reset form will be rendered.
+
+You can override this template in your theme by creating ``FOSUserBundle/views/Resetting/request.html.twig`` file in your theme.
+
+All templates related to password reset functionality which can be overridden can be found `here <https://github.com/FriendsOfSymfony/FOSUserBundle/blob/master/Resources/doc/overriding_templates.rst>`_.
