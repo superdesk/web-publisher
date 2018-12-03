@@ -24,7 +24,7 @@ use SWP\Bundle\ContentBundle\Processor\ArticleBodyProcessorInterface;
 use SWP\Component\Bridge\Model\GroupInterface;
 use SWP\Component\Storage\Factory\FactoryInterface;
 
-class ProcessArticleSlideshowsListener extends AbstractArticleMediaListener
+class ProcessRelatedArticlesListener extends AbstractArticleMediaListener
 {
     /**
      * @var FactoryInterface
@@ -47,36 +47,27 @@ class ProcessArticleSlideshowsListener extends AbstractArticleMediaListener
         $package = $event->getPackage();
         $article = $event->getArticle();
 
-        $groups = $package->getGroups()->filter(function ($group) {
-            return GroupInterface::TYPE_RELATED !== $group->getType();
+        $relatedItemsGroups = $package->getGroups()->filter(function($group) {
+            return $group->getType() === GroupInterface::TYPE_RELATED;
         });
 
-        if (null === $package || (null !== $package && 0 === \count($groups))) {
+        if (null === $package || (null !== $package && 0 === \count($relatedItemsGroups))) {
             return;
         }
 
         $this->removeOldArticleMedia($article);
 
-        foreach ($groups as $packageGroup) {
-            $slideshow = $this->slideshowFactory->create();
-            $slideshow->setCode($packageGroup->getCode());
-            $slideshow->setArticle($article);
 
-            foreach ($packageGroup->getItems() as $item) {
-                if ($this->isTypeAllowed($item->getType())) {
-                    $slideshowItem = new SlideshowItem();
+        foreach ($relatedItemsGroups as $relatedItemsGroup) {
+            // check in db if item exists by guid
+            // if exists, add related item to article
+            // else
+            // related item does not exist
+            // create it
+            //
+            //
+            //
 
-                    $this->removeArticleMediaIfNeeded($item->getName(), $article);
-
-                    $articleMedia = $this->handleMedia($article, $item->getName(), $item);
-                    $this->articleMediaRepository->persist($articleMedia);
-
-                    $slideshowItem->setArticleMedia($articleMedia);
-                    $slideshowItem->setSlideshow($slideshow);
-
-                    $this->articleMediaRepository->persist($slideshowItem);
-                }
-            }
         }
     }
 }

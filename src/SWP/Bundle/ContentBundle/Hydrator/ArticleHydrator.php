@@ -20,6 +20,7 @@ use Doctrine\Common\Collections\Collection;
 use SWP\Bundle\ContentBundle\Service\ArticleKeywordAdderInterface;
 use SWP\Bundle\ContentBundle\Service\ArticleSourcesAdderInterface;
 use SWP\Bundle\ContentBundle\Model\ArticleInterface;
+use SWP\Component\Bridge\Model\GroupInterface;
 use SWP\Component\Bridge\Model\ItemInterface;
 use SWP\Component\Bridge\Model\PackageInterface;
 
@@ -55,6 +56,16 @@ final class ArticleHydrator implements ArticleHydratorInterface
 
     public function hydrate(ArticleInterface $article, PackageInterface $package): ArticleInterface
     {
+        // find article based on related item,
+        // if exists, add it to the current $article
+        // else
+
+        $groups = $package->getGroups()->filter(function ($group) {
+            return GroupInterface::TYPE_RELATED === $group->getType();
+        });
+
+        dump($groups->first()->getItems()->first());
+        die;
         if ($this->populateByline($package) !== $package->getByLine()) {
             $package->setByLine($this->populateByline($package));
         }

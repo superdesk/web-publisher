@@ -127,6 +127,11 @@ class Article implements ArticleInterface
     protected $slideshows;
 
     /**
+     * @var Collection|RelatedArticleInterface[]
+     */
+    protected $relatedArticles;
+
+    /**
      * Article constructor.
      */
     public function __construct()
@@ -517,5 +522,10 @@ class Article implements ArticleInterface
             $slideshow->setArticle(null);
             $this->slideshows->removeElement($slideshow);
         }
+    }
+
+    public function getRelatedArticles(): Collection
+    {
+        return $this->relatedArticles;
     }
 }

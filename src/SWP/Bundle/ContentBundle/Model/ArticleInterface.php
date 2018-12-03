@@ -189,4 +189,6 @@ interface ArticleInterface extends TimestampableInterface, RuleSubjectInterface,
     public function addSlideshow(SlideshowInterface $slideshow): void;
 
     public function removeSlideshow(SlideshowInterface $slideshow): void;
+
+    public function getRelatedArticles(): Collection;
 }
