@@ -1,0 +1,138 @@
+<?php
+
+declare(strict_types=1);
+
+/*
+ * This file is part of the Superdesk Web Publisher Core Bundle.
+ *
+ * Copyright 2018 Sourcefabric z.ú. and contributors.
+ *
+ * For the full copyright and license information, please see the
+ * AUTHORS and LICENSE files distributed with this source code.
+ *
+ * @copyright 2018 Sourcefabric z.ú
+ * @license http://www.superdesk.org/license
+ */
+
+namespace SWP\Bundle\CoreBundle\EventSubscriber;
+
+use GuzzleHttp\Client;
+use SWP\Bundle\ContentBundle\ArticleEvents;
+use SWP\Bundle\CoreBundle\Model\ArticlePreview;
+use SWP\Bundle\CoreBundle\Repository\WebhookRepositoryInterface;
+use SWP\Bundle\CoreBundle\Webhook\WebhookEvents;
+use SWP\Bundle\MultiTenancyBundle\MultiTenancyEvents;
+use SWP\Bundle\WebhookBundle\Model\WebhookInterface;
+use SWP\Component\Common\Serializer\SerializerInterface;
+use SWP\Component\MultiTenancy\Context\TenantContextInterface;
+use SWP\Component\MultiTenancy\Model\TenantAwareInterface;
+use SWP\Component\MultiTenancy\Repository\TenantRepositoryInterface;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Symfony\Component\EventDispatcher\GenericEvent;
+use Webmozart\Assert\Assert;
+
+final class PreviewWebhookEventSubscriber implements EventSubscriberInterface
+{
+    private $serializer;
+
+    private $webhooksRepository;
+
+    private $tenantContext;
+
+    private $tenantRepository;
+
+    public function __construct(
+        SerializerInterface $serializer,
+        WebhookRepositoryInterface $webhooksRepository,
+        TenantContextInterface $tenantContext,
+        TenantRepositoryInterface $tenantRepository
+    ) {
+        $this->serializer = $serializer;
+        $this->webhooksRepository = $webhooksRepository;
+        $this->tenantContext = $tenantContext;
+        $this->tenantRepository = $tenantRepository;
+    }
+
+    public static function getSubscribedEvents()
+    {
+        return [
+            ArticleEvents::PREVIEW => 'processEvent',
+        ];
+    }
+
+    public function processEvent(GenericEvent $event, string $dispatcherEventName, EventDispatcherInterface $dispatcher): void
+    {
+        $subject = $event->getSubject();
+        Assert::isInstanceOf($subject, ArticlePreview::class);
+        $article = $subject->getArticle();
+
+        $webhooks = $this->getWebhooks($article, WebhookEvents::PREVIEW_EVENT, $dispatcher);
+        $headers = [];
+
+        if (!isset($webhooks[0])) {
+            return;
+        }
+
+        /** @var WebhookInterface $webhook */
+        $webhook = $webhooks[0];
+
+        $metadata = [
+                'event' => WebhookEvents::PREVIEW_EVENT,
+                'tenant' => $webhook->getTenantCode(),
+            ];
+
+        foreach ($metadata as $header => $value) {
+            $headers['X-WEBHOOK-'.\strtoupper($header)] = $value;
+        }
+
+        $client = new Client();
+        $requestOptions = [
+                'headers' => $headers,
+                'body' => $this->serializer->serialize($article, 'json'),
+            ];
+
+        /** @var \GuzzleHttp\Psr7\Response $response */
+        $response = $client->post($webhook->getUrl(), $requestOptions);
+        $content = $response->getBody()->getContents();
+
+        $content = json_decode($content, true);
+
+        if (!isset($content['url'])) {
+            return;
+        }
+
+        if ($this->isUrlValid($content['url'])) {
+            $subject->setPreviewUrl($content['url']);
+        }
+    }
+
+    private function isUrlValid(string $url): bool
+    {
+        return false !== filter_var($url, FILTER_VALIDATE_URL);
+    }
+
+    private function getWebhooks($subject, string $webhookEventName, EventDispatcherInterface $dispatcher): array
+    {
+        $originalTenant = null;
+        if (
+            $subject instanceof TenantAwareInterface
+            && $subject->getTenantCode() !== $this->tenantContext->getTenant()->getCode()
+            && null !== $subject->getTenantCode()
+            && null !== ($subjectTenant = $this->tenantRepository->findOneByCode($subject->getTenantCode()))
+        ) {
+            $originalTenant = $this->tenantContext->getTenant();
+            $this->tenantContext->setTenant($subjectTenant);
+        } else {
+            $dispatcher->dispatch(MultiTenancyEvents::TENANTABLE_ENABLE);
+        }
+
+        $webhooks = $this->webhooksRepository->getEnabledForEvent($webhookEventName)->getResult();
+
+        if (null !== $originalTenant) {
+            $this->tenantContext->setTenant($originalTenant);
+        }
+
+        return $webhooks;
+    }
+}

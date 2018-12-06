@@ -114,4 +114,13 @@ class ArticleEvents
      * @var string
      */
     const CANCELED = 'swp.article.canceled';
+
+    /**
+     * The PREVIEW event occurs on article preview.
+     *
+     * @Event("Symfony\Component\EventDispatcher\GenericEvent")
+     *
+     * @var string
+     */
+    const PREVIEW = 'swp.article.preview';
 }
