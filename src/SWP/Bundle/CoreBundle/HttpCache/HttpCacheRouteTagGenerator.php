@@ -24,6 +24,10 @@ final class HttpCacheRouteTagGenerator implements HttpCacheRouteTagGeneratorInte
     {
         $routeId = $route->getId();
 
-        return "route-$routeId";
+        if (null !== $routeId) {
+            return "route-$routeId";
+        }
+
+        return '';
     }
 }
