@@ -4,14 +4,14 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "64d0d9176a143b64ba618e5945a347f2",
+    "content-hash": "b1d5ee9a921b224c66398c1fa3ad6874",
     "packages": [
         {
             "name": "apache/log4php",
             "version": "2.3.0",
             "source": {
                 "type": "git",
-                "url": "https://git-wip-us.apache.org/repos/asf/logging-log4php.git",
+                "url": "https://gitbox.apache.org/repos/asf/logging-log4php.git",
                 "reference": "cac428b6f67d2035af39784da1d1a299ef42fcf2"
             },
             "require": {
@@ -11933,7 +11933,7 @@
                 }
             ],
             "description": "Prevents installation of composer packages with known security vulnerabilities: no API, simply require it",
-            "time": "2018-11-16T03:31:38+00:00"
+            "time": "2018-10-21T18:01:48+00:00"
         },
         {
             "name": "sebastian/code-unit-reverse-lookup",
