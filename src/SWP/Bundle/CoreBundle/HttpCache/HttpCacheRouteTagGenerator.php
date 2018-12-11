@@ -23,11 +23,11 @@ final class HttpCacheRouteTagGenerator implements HttpCacheRouteTagGeneratorInte
     public function generateTag(RouteInterface $route): string
     {
         $routeId = $route->getId();
- 
+
         if (null !== $routeId) {
             return "route-$routeId";
         }
-        
+
         return '';
     }
 }
