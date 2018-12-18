@@ -24,25 +24,16 @@ use SWP\Bundle\CoreBundle\Model\WebhookInterface;
 use SWP\Bundle\CoreBundle\Repository\WebhookRepositoryInterface;
 use SWP\Bundle\CoreBundle\Webhook\WebhookEvents;
 use SWP\Bundle\MultiTenancyBundle\Context\TenantContext;
-use SWP\Bundle\MultiTenancyBundle\MultiTenancyEvents;
-use SWP\Component\MultiTenancy\Model\TenantAwareInterface;
 use SWP\Component\MultiTenancy\Repository\TenantRepositoryInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\EventDispatcher\Event;
 use Symfony\Component\EventDispatcher\GenericEvent;
 
-final class WebhookEventsSubscriber implements EventSubscriberInterface
+final class WebhookEventsSubscriber extends AbstractWebhookEventSubscriber
 {
     private $producer;
 
     private $serializer;
-
-    private $webhooksRepository;
-
-    private $tenantContext;
-
-    private $tenantRepository;
 
     public function __construct(
         ProducerInterface $producer,
@@ -53,9 +44,8 @@ final class WebhookEventsSubscriber implements EventSubscriberInterface
     ) {
         $this->producer = $producer;
         $this->serializer = $serializer;
-        $this->webhooksRepository = $webhooksRepository;
-        $this->tenantContext = $tenantContext;
-        $this->tenantRepository = $tenantRepository;
+
+        parent::__construct($webhooksRepository, $tenantContext, $tenantRepository);
     }
 
     public static function getSubscribedEvents(): array
@@ -89,30 +79,6 @@ final class WebhookEventsSubscriber implements EventSubscriberInterface
                 'subject' => $subject,
             ], 'json'));
         }
-    }
-
-    private function getWebhooks($subject, string $webhookEventName, EventDispatcherInterface $dispatcher): array
-    {
-        $originalTenant = null;
-        if (
-            $subject instanceof TenantAwareInterface
-            && $subject->getTenantCode() !== $this->tenantContext->getTenant()->getCode()
-            && null !== $subject->getTenantCode()
-            && null !== ($subjectTenant = $this->tenantRepository->findOneByCode($subject->getTenantCode()))
-        ) {
-            $originalTenant = $this->tenantContext->getTenant();
-            $this->tenantContext->setTenant($subjectTenant);
-        } else {
-            $dispatcher->dispatch(MultiTenancyEvents::TENANTABLE_ENABLE);
-        }
-
-        $webhooks = $this->webhooksRepository->getEnabledForEvent($webhookEventName)->getResult();
-
-        if (null !== $originalTenant) {
-            $this->tenantContext->setTenant($originalTenant);
-        }
-
-        return $webhooks;
     }
 
     private function getEventName(Event $event): ?string
