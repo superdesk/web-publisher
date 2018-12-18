@@ -26,7 +26,7 @@ use SWP\Component\Bridge\Events as PackageEvents;
  */
 interface WebhookEvents
 {
-    const EVENTS = [
+    public const EVENTS = [
         'article[updated]' => ArticleEvents::POST_UPDATE,
         'article[created]' => ArticleEvents::POST_CREATE,
         'article[published]' => ArticleEvents::POST_PUBLISH,
@@ -42,4 +42,6 @@ interface WebhookEvents
         'package[updated]' => PackageEvents::PACKAGE_POST_UPDATE,
         'package[processed]' => PackageEvents::PACKAGE_PROCESSED,
     ];
+
+    public const PREVIEW_EVENT = 'article[preview]';
 }

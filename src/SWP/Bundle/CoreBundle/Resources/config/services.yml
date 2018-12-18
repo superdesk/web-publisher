@@ -399,6 +399,16 @@ services:
         tags:
             - { name: kernel.event_subscriber }
 
+    swp_core.article_preview_webhook.subscriber:
+        class: SWP\Bundle\CoreBundle\EventSubscriber\PreviewWebhookEventSubscriber
+        arguments:
+            - '@swp.serializer'
+            - '@swp.repository.webhook'
+            - '@swp_multi_tenancy.tenant_context'
+            - '@swp.repository.tenant'
+        tags:
+            - { name: kernel.event_subscriber }
+
     swp_core.jms_tenant_handler:
         class: SWP\Bundle\CoreBundle\Serializer\TenantHandler
         arguments:
