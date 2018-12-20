@@ -10,6 +10,9 @@ To get the diff for a specific change, go to https://github.com/superdesk/web-pu
  * improvement [#630] Add option to exclude articles fron content list items
 
 ### 1.4.1
+ * feature [#674] Added webhook for generating preview URL
+ * feature [#670] Enable password reset
+ * feature [#669] Added command to import users from JSON files
  * feature [#666] Expose values for social accounts for authors
  * feature [#665] Added route to redirect to an article page by article slug
  * feature [#649] Render media in preview when article is not yet published

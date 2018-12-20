@@ -19,9 +19,11 @@ namespace SWP\Bundle\CoreBundle\Controller;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use SWP\Bundle\ContentBundle\ArticleEvents;
 use SWP\Bundle\ContentBundle\Model\RouteInterface;
 use SWP\Bundle\CoreBundle\Context\ArticlePreviewContext;
 use SWP\Bundle\CoreBundle\Model\ArticleInterface;
+use SWP\Bundle\CoreBundle\Model\ArticlePreview;
 use SWP\Bundle\CoreBundle\Model\PackageInterface;
 use SWP\Bundle\CoreBundle\Model\PackagePreviewTokenInterface;
 use SWP\Bundle\CoreBundle\Service\ArticlePreviewer;
@@ -30,6 +32,7 @@ use SWP\Component\Common\Response\SingleResourceResponse;
 use SWP\Component\Common\Response\SingleResourceResponseInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\EventDispatcher\GenericEvent;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
@@ -48,6 +51,16 @@ class PackagePreviewController extends Controller
         $package = $this->findPackageOr404($id);
         $articlePreviewer = $this->get(ArticlePreviewer::class);
         $article = $articlePreviewer->preview($package, $route);
+
+        $articlePreview = new ArticlePreview();
+        $articlePreview->setArticle($article);
+
+        $this->get('event_dispatcher')->dispatch(ArticleEvents::PREVIEW, new GenericEvent($articlePreview));
+
+        if (null !== ($url = $articlePreview->getPreviewUrl())) {
+            return new RedirectResponse($url);
+        }
+
         $route = $this->ensureRouteTemplateExists($route, $article);
 
         try {
@@ -84,13 +97,14 @@ class PackagePreviewController extends Controller
         $package = $this->get('swp_bridge.transformer.json_to_package')->transform($content);
         $dispatcher->dispatch(Events::SWP_VALIDATION, new GenericEvent($package));
 
-        $existingPreviewToken = $this->get('swp.repository.package_preview_token')->findOneBy(['route' => $route]);
+        $tokenRepository = $this->get('swp.repository.package_preview_token');
+        $existingPreviewToken = $tokenRepository->findOneBy(['route' => $route]);
 
         if (null === $existingPreviewToken) {
             $packagePreviewToken = $this->get('swp.factory.package_preview_token')->createTokenizedWith($route, $content);
 
-            $this->get('swp.repository.package_preview_token')->persist($packagePreviewToken);
-            $this->get('swp.repository.package_preview_token')->flush();
+            $tokenRepository->persist($packagePreviewToken);
+            $tokenRepository->flush();
 
             return $this->returnResponseWithPreviewUrl($packagePreviewToken);
         }
@@ -111,11 +125,21 @@ class PackagePreviewController extends Controller
 
     private function returnResponseWithPreviewUrl(PackagePreviewTokenInterface $packagePreviewToken): SingleResourceResponseInterface
     {
-        $url = $this->generateUrl(
-            'swp_package_preview_publish',
-            ['token' => $packagePreviewToken->getToken()],
-            UrlGeneratorInterface::ABSOLUTE_URL
-        );
+        $article = $this->getArticleForPreview($packagePreviewToken);
+        $articlePreview = new ArticlePreview();
+        $articlePreview->setArticle($article);
+
+        $this->get('event_dispatcher')->dispatch(ArticleEvents::PREVIEW, new GenericEvent($articlePreview));
+
+        $url = $articlePreview->getPreviewUrl();
+
+        if (null === $url) {
+            $url = $this->generateUrl(
+                'swp_package_preview_publish',
+                ['token' => $packagePreviewToken->getToken()],
+                UrlGeneratorInterface::ABSOLUTE_URL
+            );
+        }
 
         return new SingleResourceResponse([
             'preview_url' => $url,
@@ -134,19 +158,26 @@ class PackagePreviewController extends Controller
             throw $this->createNotFoundException(sprintf('Token %s is not valid.', $token));
         }
 
+        $article = $this->getArticleForPreview($existingPreviewToken);
+        $route = $article->getRoute();
+        $route = $this->ensureRouteTemplateExists($route, $article);
+
+        return $this->renderTemplateOr404($route);
+    }
+
+    private function getArticleForPreview(PackagePreviewTokenInterface $packagePreviewToken): ArticleInterface
+    {
         $dispatcher = $this->get('event_dispatcher');
-        $package = $this->get('swp_bridge.transformer.json_to_package')->transform($existingPreviewToken->getBody());
+        $package = $this->get('swp_bridge.transformer.json_to_package')->transform($packagePreviewToken->getBody());
         $dispatcher->dispatch(Events::SWP_VALIDATION, new GenericEvent($package));
 
         $articlePreviewer = $this->get(ArticlePreviewer::class);
         $articlePreviewContext = $this->get(ArticlePreviewContext::class);
 
         $articlePreviewContext->setIsPreview(true);
-        $article = $articlePreviewer->preview($package, $existingPreviewToken->getRoute());
-        $route = $article->getRoute();
-        $route = $this->ensureRouteTemplateExists($route, $article);
+        $article = $articlePreviewer->preview($package, $packagePreviewToken->getRoute());
 
-        return $this->renderTemplateOr404($route);
+        return $article;
     }
 
     private function renderTemplateOr404(RouteInterface $route): Response

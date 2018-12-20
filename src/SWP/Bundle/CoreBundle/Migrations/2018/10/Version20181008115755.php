@@ -36,7 +36,13 @@ final class Version20181008115755 extends AbstractMigration implements Container
 
         /** @var ArticleAuthorInterface $articleAuthor */
         foreach ((array) $articleAuthors as $articleAuthor) {
-            $avatarBaseName = explode('/author/media/', $articleAuthor['avatarUrl'])[1];
+            $data = explode('/author/media/', $articleAuthor['avatarUrl']);
+
+            if (!isset($data[1])) {
+                continue;
+            }
+
+            $avatarBaseName = $data[1];
 
             $qb = $entityManager->createQueryBuilder();
             $query = $qb->update(ArticleAuthor::class, 'au')

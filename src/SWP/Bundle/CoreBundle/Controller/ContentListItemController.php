@@ -17,6 +17,8 @@ namespace SWP\Bundle\CoreBundle\Controller;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use SWP\Bundle\ContentBundle\ArticleEvents;
+use SWP\Bundle\ContentBundle\Event\ArticleEvent;
 use SWP\Bundle\ContentListBundle\Form\Type\ContentListItemsType;
 use SWP\Bundle\CoreBundle\Form\Type\ContentListItemType;
 use SWP\Bundle\CoreBundle\Model\ContentListInterface;
@@ -200,6 +202,8 @@ class ContentListItemController extends Controller
                         break;
                 }
             }
+
+            $this->get('event_dispatcher')->dispatch(ArticleEvents::POST_UPDATE, new ArticleEvent($contentListItem->getContent(), null, ArticleEvents::POST_UPDATE));
 
             return new SingleResourceResponse($list, new ResponseContext(201));
         }
