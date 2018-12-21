@@ -378,4 +378,88 @@ final class MultipleWebsitesPublish extends WebTestCase
         self::assertEquals($content['status'], 'unpublished');
         self::assertEquals($content['route']['id'], 4);
     }
+
+    public function testPublishingOnlyOnOtherTenantThanReceivedContent()
+    {
+        $filesystem = new Filesystem();
+        $filesystem->remove($this->getContainer()->getParameter('kernel.cache_dir').'/uploads');
+
+        $client = static::createClient();
+        $client->request(
+            'POST',
+            $this->router->generate('swp_api_assets_push'),
+            [
+                'media_id' => '1234567890987654321a',
+                'media' => new UploadedFile(__DIR__.'/Resources/test_file.png', 'test_file.png', 'image/png', 3992, null, true),
+            ]
+        );
+        $this->assertEquals(201, $client->getResponse()->getStatusCode());
+
+        $client->request(
+            'POST',
+            $this->router->generate('swp_api_assets_push'),
+            [
+                'media_id' => '1234567890987654321b',
+                'media' => new UploadedFile(__DIR__.'/Resources/test_file.png', 'test_file.png', 'image/png', 3992, null, true),
+            ]
+        );
+        $this->assertEquals(201, $client->getResponse()->getStatusCode());
+
+        $client->request(
+            'POST',
+            $this->router->generate('swp_api_assets_push'),
+            [
+                'media_id' => '1234567890987654321c',
+                'media' => new UploadedFile(__DIR__.'/Resources/test_file.png', 'test_file.png', 'image/png', 3992, null, true),
+            ]
+        );
+        $this->assertEquals(201, $client->getResponse()->getStatusCode());
+
+        $client2 = static::createClient([], [
+            'HTTP_HOST' => 'client2.'.$client->getContainer()->getParameter('env(SWP_DOMAIN)'),
+            'HTTP_Authorization' => base64_encode('client2_token'),
+        ]);
+
+        $client2->request('POST', $this->router->generate('swp_api_content_create_routes'), [
+            'route' => [
+                'name' => 'articles',
+                'type' => RouteInterface::TYPE_COLLECTION,
+                'content' => null,
+            ],
+        ]);
+        self::assertEquals(201, $client2->getResponse()->getStatusCode());
+
+        $client2->request('POST', $this->router->generate('swp_api_core_publishing_destination_create'), [
+            'publish_destination' => [
+                'tenant' => '678iop',
+                'route' => 3,
+                'isPublishedFbia' => false,
+                'published' => true,
+                'packageGuid' => 'urn:newsml:localhost:2016-09-23T13:56:39.404843:56465de4-0d5c-495a-8e36-3b396def3cf0',
+            ],
+        ]);
+        self::assertEquals(200, $client2->getResponse()->getStatusCode());
+
+        $client->request(
+            'POST',
+            $this->router->generate('swp_api_content_push'),
+            [],
+            [],
+            ['CONTENT_TYPE' => 'application/json'],
+            self::TEST_ITEM_CONTENT
+        );
+        self::assertEquals(201, $client->getResponse()->getStatusCode());
+
+        $client->request(
+            'POST',
+            $this->router->generate('swp_api_content_push'),
+            [],
+            [],
+            ['CONTENT_TYPE' => 'application/json'],
+            self::TEST_ITEM_CONTENT
+        );
+        self::assertEquals(201, $client->getResponse()->getStatusCode());
+
+        //TODO: check new article serialized content (one send to webhooks)
+    }
 }

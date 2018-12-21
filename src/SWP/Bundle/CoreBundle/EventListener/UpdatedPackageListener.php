@@ -93,8 +93,7 @@ final class UpdatedPackageListener
         }
 
         $this->eventDispatcher->dispatch(MultiTenancyEvents::TENANTABLE_DISABLE);
-
-        foreach ($this->articleRepository->findBy(['package' => $package]) as $article) {
+        foreach ($this->articleRepository->getArticlesByPackage($package)->getQuery()->getResult() as $article) {
             $article = $this->articleHydrator->hydrate($article, $package);
             $this->eventDispatcher->dispatch(ArticleEvents::PRE_UPDATE, new ArticleEvent($article, $package, ArticleEvents::PRE_UPDATE));
             $this->eventDispatcher->dispatch(HttpCacheEvent::EVENT_NAME, new HttpCacheEvent($article));
