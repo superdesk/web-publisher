@@ -459,5 +459,7 @@ final class MultipleWebsitesPublish extends WebTestCase
             self::TEST_ITEM_CONTENT
         );
         self::assertEquals(201, $client->getResponse()->getStatusCode());
+
+        //TODO: check new article serialized content (one send to webhooks)
     }
 }
