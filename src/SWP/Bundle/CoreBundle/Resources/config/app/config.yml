@@ -194,6 +194,8 @@ stof_doctrine_extensions:
             loggable: true
             sortable: true
             tree: true
+    class:
+        timestampable:  SWP\Bundle\ContentBundle\EventListener\TimestampableListener
 
 takeit_amp_html:
     theme:
