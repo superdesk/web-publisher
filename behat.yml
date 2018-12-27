@@ -6,12 +6,12 @@ default:
             contexts:
                 - rdx\behatvars\BehatVariablesContext
                 - FeatureContext
+                - JsonContext
                 - AuthTokenContext:
                     userProvider: '@swp.security.user_provider'
                     apiKeyRepository: '@swp.repository.api_key'
                     apiKeyFactory: '@swp.factory.api_key'
                 - Behat\MinkExtension\Context\MinkContext
-                - Behatch\Context\JsonContext
 
     extensions:
         rdx\behatvars\BehatVariablesExtension: ~

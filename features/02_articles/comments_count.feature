@@ -22,3 +22,4 @@ Feature: Setting comments count in articles
     Then the response status code should be 200
     And the JSON nodes should contain:
       | commentsCount | 31 |
+    And the JSON node "createdAt" should be equal to "updatedAt" node
