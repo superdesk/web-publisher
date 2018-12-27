@@ -9,6 +9,7 @@ Feature: Setting comments count in articles
     Then I should see "Organization Organization1 (code: 123456, secret token: secret_token) has been updated and is enabled!" in the output
     When I add "Content-Type" header equal to "application/json"
     And I add "x-publisher-signature" header equal to "sha1=0dcd1953d72dda47f4a4acedfd638a3c58def7bc"
+    And I wait 3 seconds
     Then I send a "PATCH" request to "/api/v1/content/articles" with body:
      """
       {
@@ -21,3 +22,4 @@ Feature: Setting comments count in articles
     Then the response status code should be 200
     And the JSON nodes should contain:
       | commentsCount | 31 |
+    And the JSON node "createdAt" should be equal to "updatedAt" node
