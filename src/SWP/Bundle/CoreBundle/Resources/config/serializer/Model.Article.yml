@@ -14,6 +14,11 @@ SWP\Bundle\CoreBundle\Model\Article:
         paywallSecured:
             expose: true
             type: boolean
+        contentLists:
+            expose: true
+        commentsCount:
+            expose: true
+            access_type: public_method
     relations:
         -
             rel: slideshows
@@ -21,3 +26,5 @@ SWP\Bundle\CoreBundle\Model\Article:
                 route: swp_api_slideshows_list
                 parameters:
                     articleId: "expr(object.getId())"
+            exclusion:
+                exclude_if: "expr(object.getId() === null)"

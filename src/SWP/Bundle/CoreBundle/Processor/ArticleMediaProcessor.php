@@ -21,6 +21,7 @@ use SWP\Bundle\ContentBundle\Processor\ArticleBodyProcessorInterface;
 use SWP\Bundle\CoreBundle\Model\ArticleMediaInterface;
 use SWP\Bundle\CoreBundle\Model\PackageInterface;
 use SWP\Component\Bridge\Model\ItemInterface;
+use SWP\Component\Storage\Factory\FactoryInterface;
 
 final class ArticleMediaProcessor implements ArticleMediaProcessorInterface
 {
@@ -34,17 +35,33 @@ final class ArticleMediaProcessor implements ArticleMediaProcessorInterface
      */
     private $articleBodyProcessor;
 
+    /**
+     * @var FactoryInterface
+     */
+    private $slideshowFactory;
+
+    /**
+     * @var FactoryInterface
+     */
+    private $slideshowItemFactory;
+
     public function __construct(
         MediaFactoryInterface $mediaFactory,
-        ArticleBodyProcessorInterface $articleBodyProcessor
+        ArticleBodyProcessorInterface $articleBodyProcessor,
+        FactoryInterface $slideshowFactory,
+        FactoryInterface $slideshowItemFactory
     ) {
         $this->mediaFactory = $mediaFactory;
         $this->articleBodyProcessor = $articleBodyProcessor;
+        $this->slideshowFactory = $slideshowFactory;
+        $this->slideshowItemFactory = $slideshowItemFactory;
     }
 
     public function fillArticleMedia(PackageInterface $package, ArticleInterface $article): void
     {
-        if (null === $package || (null !== $package && 0 === \count($package->getItems()))) {
+        $this->handleSlideshows($package, $article);
+
+        if (0 === \count($package->getItems())) {
             return;
         }
 
@@ -61,6 +78,25 @@ final class ArticleMediaProcessor implements ArticleMediaProcessorInterface
         }
 
         $article->setMedia($articleMedia);
+    }
+
+    private function handleSlideshows(PackageInterface $package, ArticleInterface $article): void
+    {
+        foreach ($package->getGroups()->toArray() as $packageSlideshow) {
+            $slideshow = $this->slideshowFactory->create();
+            $slideshow->setCode($packageSlideshow->getCode());
+
+            foreach ($packageSlideshow->getItems()->toArray() as $packageSlideshowItem) {
+                $slideshowItem = $this->slideshowItemFactory->create();
+                $articleMedia = $this->handleMedia($article, $packageSlideshowItem->getName(), $packageSlideshowItem);
+                $slideshowItem->setArticleMedia($articleMedia);
+                $slideshowItem->setSlideshow($slideshow);
+
+                $slideshow->addSlideshowItem($slideshowItem);
+            }
+
+            $article->addSlideshow($slideshow);
+        }
     }
 
     private function handleMedia(ArticleInterface $article, string $key, ItemInterface $item): ArticleMediaInterface

@@ -166,6 +166,7 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface, Orde
         ];
 
         $routeProvider = $this->container->get('swp.provider.route');
+        $keywordFactory = $this->container->get('swp.factory.keyword');
         foreach ($articles as $articleData) {
             /** @var ArticleInterface $article */
             $article = $this->container->get('swp.factory.article')->create();
@@ -178,6 +179,12 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface, Orde
             $author->setRole('Writer');
             $author->setName('John Doe');
             $article->addAuthor($author);
+
+            $keyword1 = $keywordFactory->create('Big city');
+            $keyword2 = $keywordFactory->create('traffic');
+
+            $article->addKeyword($keyword1);
+            $article->addKeyword($keyword2);
 
             if (!isset($articleData['status'])) {
                 $article->setPublishable(true);

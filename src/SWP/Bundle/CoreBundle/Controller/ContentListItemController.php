@@ -17,6 +17,8 @@ namespace SWP\Bundle\CoreBundle\Controller;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use SWP\Bundle\ContentBundle\ArticleEvents;
+use SWP\Bundle\ContentBundle\Event\ArticleEvent;
 use SWP\Bundle\ContentListBundle\Form\Type\ContentListItemsType;
 use SWP\Bundle\CoreBundle\Form\Type\ContentListItemType;
 use SWP\Bundle\CoreBundle\Model\ContentListInterface;
@@ -165,6 +167,7 @@ class ContentListItemController extends Controller
                 throw new ConflictHttpException('List was already updated');
             }
 
+            $updatedArticles = [];
             foreach ($data['items'] as $item) {
                 if (!is_array($item)) {
                     continue;
@@ -180,6 +183,7 @@ class ContentListItemController extends Controller
                         $contentListItem->setPosition($item['position']);
                         $list->setUpdatedAt(new \DateTime('now'));
                         $objectManager->flush();
+                        $updatedArticles[$item['content_id']] = $contentListItem->getContent();
 
                         break;
                     case 'add':
@@ -189,6 +193,7 @@ class ContentListItemController extends Controller
                         $objectManager->persist($contentListItem);
                         $list->setUpdatedAt(new \DateTime('now'));
                         $objectManager->flush();
+                        $updatedArticles[$item['content_id']] = $contentListItem->getContent();
 
                         break;
                     case 'delete':
@@ -196,9 +201,18 @@ class ContentListItemController extends Controller
                         $objectManager->remove($contentListItem);
                         $list->setUpdatedAt(new \DateTime('now'));
                         $objectManager->flush();
+                        $updatedArticles[$item['content_id']] = $contentListItem->getContent();
 
                         break;
                 }
+            }
+
+            foreach ($updatedArticles as $updatedArticle) {
+                $this->get('event_dispatcher')->dispatch(ArticleEvents::POST_UPDATE, new ArticleEvent(
+                    $updatedArticle,
+                    null,
+                    ArticleEvents::POST_UPDATE
+                ));
             }
 
             return new SingleResourceResponse($list, new ResponseContext(201));

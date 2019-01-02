@@ -19,6 +19,7 @@ namespace SWP\Bundle\CoreBundle\EventListener;
 use Superdesk\ContentApiSdk\Exception\AuthenticationException;
 use SWP\Bundle\CoreBundle\Model\OrganizationInterface;
 use SWP\Component\MultiTenancy\Context\TenantContextInterface;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 
@@ -82,7 +83,14 @@ class SecuredContentPushListener
             return;
         }
 
-        $token = hash_hmac('sha1', $request->getContent(), $organizationToken);
+        $content = $request->getContent();
+        if ('swp_api_assets_push' === $routeName) {
+            /** @var UploadedFile $uploadedFile */
+            $uploadedFile = $request->files->all()['media'];
+            $content = \file_get_contents($uploadedFile->getRealPath());
+        }
+
+        $token = hash_hmac('sha1', $content, $organizationToken);
         if ($signature !== 'sha1='.$token) {
             $event->setResponse(new Response('Bad credentials', 401));
             $event->stopPropagation();

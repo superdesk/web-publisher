@@ -23,6 +23,11 @@ class User extends BaseUser implements UserInterface
 {
     use OrganizationAwareTrait;
 
+    public function setId(string $id): void
+    {
+        $this->id = $id;
+    }
+
     /**
      * {@inheritdoc}
      */

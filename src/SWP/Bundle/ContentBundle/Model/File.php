@@ -16,9 +16,9 @@ namespace SWP\Bundle\ContentBundle\Model;
 
 use SWP\Component\Common\Model\TimestampableTrait;
 
-class File implements FileInterface
+class File implements FileInterface, PreviewUrlAwareInterface
 {
-    use TimestampableTrait;
+    use TimestampableTrait, PreviewUrlAwareTrait;
 
     /**
      * @var string

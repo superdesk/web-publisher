@@ -63,7 +63,8 @@ class PreviewArticleMediaLoader extends PaginatedLoader implements LoaderInterfa
 
             $criteria = $this->applyPaginationToCriteria($criteria, $withParameters);
             $articleMedia = $article->getMedia();
-            if (0 < count($articleMedia)) {
+
+            if (0 < \count($articleMedia)) {
                 $collectionCriteria = new \Doctrine\Common\Collections\Criteria(
                     null,
                     $criteria->get('order'),
@@ -75,6 +76,7 @@ class PreviewArticleMediaLoader extends PaginatedLoader implements LoaderInterfa
 
                 $metaCollection = new MetaCollection();
                 $metaCollection->setTotalItemsCount($count);
+
                 foreach ($articleMedia as $media) {
                     $metaCollection->add($this->metaFactory->create($media));
                 }
@@ -91,6 +93,6 @@ class PreviewArticleMediaLoader extends PaginatedLoader implements LoaderInterfa
      */
     public function isSupported(string $type): bool
     {
-        return in_array($type, ['articleMedia']) && $this->context->isPreviewMode();
+        return 'articleMedia' === $type && $this->context->isPreviewMode();
     }
 }

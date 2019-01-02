@@ -11,6 +11,7 @@ use SWP\Bundle\CoreBundle\Consumer\AnalyticsEventConsumer;
 use PhpSpec\ObjectBehavior;
 use SWP\Bundle\CoreBundle\Model\Tenant;
 use SWP\Bundle\CoreBundle\Model\TenantInterface;
+use SWP\Bundle\CoreBundle\Resolver\ArticleResolverInterface;
 use SWP\Component\MultiTenancy\Context\TenantContextInterface;
 use SWP\Component\MultiTenancy\Resolver\TenantResolver;
 use Symfony\Component\HttpFoundation\Request;
@@ -18,19 +19,19 @@ use Symfony\Component\Routing\Matcher\UrlMatcherInterface;
 
 class AnalyticsEventConsumerSpec extends ObjectBehavior
 {
-    public function it_is_initializable(ArticleStatisticsServiceInterface $articleStatisticsService, TenantResolver $tenantResolver, TenantContextInterface $tenantContext, UrlMatcherInterface $matcher)
+    public function it_is_initializable(ArticleStatisticsServiceInterface $articleStatisticsService, TenantResolver $tenantResolver, TenantContextInterface $tenantContext, UrlMatcherInterface $matcher, ArticleResolverInterface $articleResolver)
     {
-        $this->beConstructedWith($articleStatisticsService, $tenantResolver, $tenantContext, $matcher);
+        $this->beConstructedWith($articleStatisticsService, $tenantResolver, $tenantContext, $matcher, $articleResolver);
         $this->shouldHaveType(AnalyticsEventConsumer::class);
     }
 
-    public function it_executes(ArticleStatisticsServiceInterface $articleStatisticsService, TenantResolver $tenantResolver, TenantContextInterface $tenantContext, TenantInterface $tenant, AMQPMessage $AMQPMessage, UrlMatcherInterface $matcher)
+    public function it_executes(ArticleStatisticsServiceInterface $articleStatisticsService, TenantResolver $tenantResolver, TenantContextInterface $tenantContext, TenantInterface $tenant, AMQPMessage $AMQPMessage, UrlMatcherInterface $matcher, ArticleResolverInterface $articleResolver)
     {
         $tenantResolver->resolve(Argument::type('string'))->willReturn($tenant);
         $articleStatisticsService->addArticleEvent(1, 'pageview', [
             ArticleStatisticsServiceInterface::KEY_PAGEVIEW_SOURCE => ArticleEventInterface::PAGEVIEW_SOURCE_EXTERNAL,
         ])->shouldBeCalled();
-        $this->beConstructedWith($articleStatisticsService, $tenantResolver, $tenantContext, $matcher);
+        $this->beConstructedWith($articleStatisticsService, $tenantResolver, $tenantContext, $matcher, $articleResolver);
 
         $request = new Request();
         $request->query->set('articleId', 1);
@@ -38,7 +39,7 @@ class AnalyticsEventConsumerSpec extends ObjectBehavior
         $this->execute($AMQPMessage)->shouldReturn(ConsumerInterface::MSG_ACK);
     }
 
-    public function it_creates_internal_pageview_event(ArticleStatisticsServiceInterface $articleStatisticsService, TenantResolver $tenantResolver, TenantContextInterface $tenantContext, TenantInterface $tenant, AMQPMessage $AMQPMessage, UrlMatcherInterface $matcher)
+    public function it_creates_internal_pageview_event(ArticleStatisticsServiceInterface $articleStatisticsService, TenantResolver $tenantResolver, TenantContextInterface $tenantContext, TenantInterface $tenant, AMQPMessage $AMQPMessage, UrlMatcherInterface $matcher, ArticleResolverInterface $articleResolver)
     {
         $tenantResolver->resolve(Argument::type('string'))->willReturn($tenant);
         $articleStatisticsService->addArticleEvent(1, 'pageview', [
@@ -50,7 +51,7 @@ class AnalyticsEventConsumerSpec extends ObjectBehavior
         $tenantContext->getTenant()->willReturn($tenant);
         $tenantContext->setTenant(Argument::any())->shouldBeCalled();
 
-        $this->beConstructedWith($articleStatisticsService, $tenantResolver, $tenantContext, $matcher);
+        $this->beConstructedWith($articleStatisticsService, $tenantResolver, $tenantContext, $matcher, $articleResolver);
 
         $request = new Request();
         $request->query->set('articleId', 1);
@@ -59,11 +60,11 @@ class AnalyticsEventConsumerSpec extends ObjectBehavior
         $this->execute($AMQPMessage)->shouldReturn(ConsumerInterface::MSG_ACK);
     }
 
-    public function it_stop_execution_on_invalid_data(ArticleStatisticsServiceInterface $articleStatisticsService, TenantResolver $tenantResolver, TenantContextInterface $tenantContext, TenantInterface $tenant, AMQPMessage $AMQPMessage, UrlMatcherInterface $matcher)
+    public function it_stop_execution_on_invalid_data(ArticleStatisticsServiceInterface $articleStatisticsService, TenantResolver $tenantResolver, TenantContextInterface $tenantContext, TenantInterface $tenant, AMQPMessage $AMQPMessage, UrlMatcherInterface $matcher, ArticleResolverInterface $articleResolver)
     {
         $tenantResolver->resolve(Argument::type('string'))->willReturn($tenant);
         $articleStatisticsService->addArticleEvent(1, 'pageview', [])->shouldNotBeCalled();
-        $this->beConstructedWith($articleStatisticsService, $tenantResolver, $tenantContext, $matcher);
+        $this->beConstructedWith($articleStatisticsService, $tenantResolver, $tenantContext, $matcher, $articleResolver);
 
         $AMQPMessage->getBody()->willReturn(serialize([]));
         $this->execute($AMQPMessage)->shouldReturn(ConsumerInterface::MSG_REJECT);

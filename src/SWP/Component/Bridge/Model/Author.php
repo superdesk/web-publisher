@@ -44,6 +44,21 @@ class Author implements AuthorInterface
     protected $avatarUrl;
 
     /**
+     * @var string|null
+     */
+    protected $twitter;
+
+    /**
+     * @var string|null
+     */
+    protected $instagram;
+
+    /**
+     * @var string|null
+     */
+    protected $facebook;
+
+    /**
      * {@inheritdoc}
      */
     public function getName(): ?string
@@ -125,5 +140,35 @@ class Author implements AuthorInterface
     public function setAvatarUrl(?string $avatarUrl)
     {
         $this->avatarUrl = $avatarUrl;
+    }
+
+    public function getTwitter(): ?string
+    {
+        return $this->twitter;
+    }
+
+    public function setTwitter(?string $twitter): void
+    {
+        $this->twitter = $twitter;
+    }
+
+    public function getInstagram(): ?string
+    {
+        return $this->instagram;
+    }
+
+    public function setInstagram(?string $instagram): void
+    {
+        $this->instagram = $instagram;
+    }
+
+    public function getFacebook(): ?string
+    {
+        return $this->facebook;
+    }
+
+    public function setFacebook(?string $facebook): void
+    {
+        $this->facebook = $facebook;
     }
 }

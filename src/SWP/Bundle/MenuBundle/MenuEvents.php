@@ -36,6 +36,15 @@ final class MenuEvents
      */
     const MENU_DELETED = 'swp.menu.deleted';
 
+    /**
+     * The MENU_UPDATED event occurs after menu is updated.
+     *
+     * @Event("Symfony\Component\EventDispatcher\GenericEvent")
+     *
+     * @var string
+     */
+    const MENU_UPDATED = 'swp.menu.updated';
+
     private function __construct()
     {
     }

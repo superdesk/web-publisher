@@ -394,6 +394,18 @@ services:
             - '@old_sound_rabbit_mq.send_webhook_producer'
             - '@jms_serializer'
             - '@swp.repository.webhook'
+            - '@swp_multi_tenancy.tenant_context'
+            - '@swp.repository.tenant'
+        tags:
+            - { name: kernel.event_subscriber }
+
+    swp_core.article_preview_webhook.subscriber:
+        class: SWP\Bundle\CoreBundle\EventSubscriber\PreviewWebhookEventSubscriber
+        arguments:
+            - '@swp.serializer'
+            - '@swp.repository.webhook'
+            - '@swp_multi_tenancy.tenant_context'
+            - '@swp.repository.tenant'
         tags:
             - { name: kernel.event_subscriber }
 
@@ -417,6 +429,12 @@ services:
         arguments:
           - '@swp_multi_tenancy.tenant_context'
           - '@swp.repository.tenant'
+        tags:
+            - { name: jms_serializer.event_subscriber }
+
+    SWP\Bundle\CoreBundle\Serializer\ContentListAwareSerializationSubscriber:
+        arguments:
+            - '@swp.repository.content_list_item'
         tags:
             - { name: jms_serializer.event_subscriber }
 
@@ -481,6 +499,22 @@ services:
         tags:
             - { name: swp.meta_loader.add }
 
+    swp_core.loader.slideshow:
+        class: SWP\Bundle\CoreBundle\Loader\PreviewSlideshowLoader
+        arguments:
+            - "@swp_template_engine_context.factory.meta_factory"
+            - "@swp_template_engine_context"
+        tags:
+            - { name: swp.meta_loader.add }
+
+    swp_core.loader.slideshow_item:
+        class: SWP\Bundle\CoreBundle\Loader\PreviewSlideshowItemLoader
+        arguments:
+            - "@swp_template_engine_context.factory.meta_factory"
+            - "@swp_template_engine_context"
+        tags:
+            - { name: swp.meta_loader.add }
+
     swp_core.fragment.renderer.external:
         class: SWP\Bundle\CoreBundle\Fragment\ExternalFragmentRenderer
         arguments:
@@ -532,6 +566,7 @@ services:
             - '@swp_multi_tenancy.tenant_resolver'
             - '@swp_multi_tenancy.tenant_context'
             - '@router'
+            - '@swp.resolver.article'
 
     swp_core.article.populator:
         class: SWP\Bundle\CoreBundle\Rule\Populator\ArticlePopulator
@@ -682,3 +717,29 @@ services:
         arguments:
             - '@swp.factory.media'
             - '@swp_content_bundle.processor.article_body'
+            - '@swp.factory.slideshow'
+            - '@swp.factory.slideshow_item'
+
+    SWP\Bundle\CoreBundle\Serializer\AuthorSerializationSubscriber:
+        arguments:
+          - '@router.default'
+        tags:
+            - { name: jms_serializer.event_subscriber }
+
+    SWP\Bundle\CoreBundle\Context\ArticlePreviewContext: ~
+
+    SWP\Bundle\CoreBundle\Provider\ArticleMediaAssetProvider:
+        decorates: SWP\Bundle\ContentBundle\Provider\ORM\ArticleMediaAssetProvider
+        arguments:
+            - '@SWP\Bundle\CoreBundle\Provider\ArticleMediaAssetProvider.inner'
+            - '@SWP\Bundle\CoreBundle\Context\ArticlePreviewContext'
+            - '@swp.factory.file'
+            - '@swp.factory.image'
+        public: false
+        decoration_priority: 256
+
+    swp.resolver.article:
+        class: SWP\Bundle\CoreBundle\Resolver\ArticleResolver
+        public: true
+        arguments:
+            - '@router'

@@ -84,9 +84,12 @@ sensio_framework_extra:
 stof_doctrine_extensions:
     orm:
         default:
+            softdeleteable: true
             sortable: true
             tree: true
             timestampable: true
+    class:
+        timestampable:  SWP\Bundle\ContentBundle\EventListener\TimestampableListener
 
 doctrine:
     orm:

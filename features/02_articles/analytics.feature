@@ -1,3 +1,4 @@
+@articles
 Feature: Collect article statistics
   In order to work with article statistics
   As a HTTP Client

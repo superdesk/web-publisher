@@ -15,6 +15,10 @@ Usage:
         <li>{{ author.biography }}</li> <!-- Author's biography -->
         <li>{{ author.jobTitle.name }}</li> <!-- Author's job title name -->
         <li>{{ author.jobTitle.qcode }}</li> <!-- Author's job title code -->
+        {% if author.avatar %}<li> <img src="{{ url(author.avatar) }}"><li>{% endif %} <!-- Author's avatar url. Check first if it's not null - author can be without avatar. -->
+        <li>{{ author.facebook }}</li> <!-- Author's Facebook -->
+        <li>{{ author.instagram }}</li> <!-- Author's Instagram -->
+        <li>{{ author.twitter }}</li> <!-- Author's Twitter -->
     {% endgimme %}
     </ul>
 
@@ -45,6 +49,9 @@ Usage:
         <li>{{ author.jobTitle.name }}</li> <!-- Author's job title name -->
         <li>{{ author.jobTitle.qcode }}</li> <!-- Author's job title code -->
         {% if author.avatar %}<li> <img src="{{ url(author.avatar) }}"><li>{% endif %} <!-- Author's avatar url. Check first if it's not null - author can be without avatar. -->
+        <li>{{ author.facebook }}</li> <!-- Author's Facebook -->
+        <li>{{ author.instagram }}</li> <!-- Author's Instagram -->
+        <li>{{ author.twitter }}</li> <!-- Author's Twitter -->
     {% endgimmelist %}
     </ul>
 

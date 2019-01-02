@@ -26,9 +26,6 @@ interface PackageInterface extends ContentInterface, TimestampableInterface, Ena
      */
     public function getItems();
 
-    /**
-     * @param Collection $items
-     */
     public function setItems(Collection $items);
 
     /**
@@ -38,9 +35,9 @@ interface PackageInterface extends ContentInterface, TimestampableInterface, Ena
 
     public function getExternalData(): ?Collection;
 
+    public function setExternalData(Collection $externalData): void;
+
     public function getGroups(): ?Collection;
 
     public function setGroups(?Collection $groups): void;
-
-    public function setExternalData(Collection $externalData): void;
 }
