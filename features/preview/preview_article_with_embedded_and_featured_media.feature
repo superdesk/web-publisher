@@ -248,5 +248,4 @@ Feature: Preview article with embedded media and feature media
     Then the response status code should be 200
     And the response should contain "https://amazonaws.com/20170111140132/979ff3c8a001d6cb2a7071eab9be852211853990f8d60e693e38f79e972772ea.jpg"
     And the response should contain "embedded9582903151"
-    And the response should contain "https://amazonaws.com/20161206171212/896bd89c2eaa29bbb8a953787a86615c5a9aaf16b4ad93b4ac7f7af23f0c459c.jpg"
     And the response should contain "https://amazonaws.com/20161206161256/383592fef7acb9fc4731a24a691285b7bc51477264a5e343d95c74ccf1d85a93.jpg"

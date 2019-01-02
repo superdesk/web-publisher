@@ -580,7 +580,7 @@ final class ContentPushTest extends WebTestCase
         $client->request('GET', $this->router->generate('swp_package_preview', ['routeId' => 3, 'id' => 1]));
         self::assertEquals(200, $client->getResponse()->getStatusCode());
         $content = $client->getResponse()->getContent();
-        self::assertContains('<figure><img src="/media/20161206171212_896bd89c2eaa29bbb8a953787a86615c5a9aaf16b4ad93b4ac7f7af23f0c459c.jpeg"', $content);
+        self::assertContains('<figure><img src="/media/20161206161256_383592fef7acb9fc4731a24a691285b7bc51477264a5e343d95c74ccf1d85a93.jpeg"', $content);
         self::assertContains('alt="Article loaded from context" src="http://localhost/media/20161206161256_383592fef7acb9fc4731a24a691285b7bc51477264a5e343d95c74ccf1d85a93.jpeg"', $content);
 
         // publish package
