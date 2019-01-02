@@ -16,6 +16,7 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\CoreBundle\Controller;
 
+use SWP\Bundle\CoreBundle\Model\ArticleInterface;
 use SWP\Component\Common\Exception\NotFoundHttpException;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -24,7 +25,7 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class RedirectingController extends Controller
 {
-    public function removeTrailingSlashAction(Request $request)
+    public function removeTrailingSlashAction(Request $request): RedirectResponse
     {
         $pathInfo = $request->getPathInfo();
         $requestUri = $request->getRequestUri();
@@ -34,7 +35,7 @@ class RedirectingController extends Controller
         return $this->redirect($url, 301);
     }
 
-    public function redirectBasedOnExtraDataAction(string $key, string $value)
+    public function redirectBasedOnExtraDataAction(string $key, string $value): RedirectResponse
     {
         $articleRepository = $this->container->get('swp.repository.article');
 
@@ -43,9 +44,30 @@ class RedirectingController extends Controller
             throw new NotFoundHttpException('Article with provided data was not found.');
         }
 
-        $urlGenerator = $this->container->get('cmf_routing.generator');
-        $url = $urlGenerator->generate($existingArticle->getRoute(), ['slug' => $existingArticle->getSlug()], UrlGeneratorInterface::ABSOLUTE_URL);
+        $url = $this->generateArticleUrl($existingArticle);
 
-        return new RedirectResponse($url, 301);
+        return $this->redirect($url, 301);
+    }
+
+    public function redirectBasedOnSlugAction(string $slug): RedirectResponse
+    {
+        $articleRepository = $this->container->get('swp.repository.article');
+
+        $article = $articleRepository->findOneBySlug($slug);
+
+        if (null === $article) {
+            throw new NotFoundHttpException('Article not found.');
+        }
+
+        $url = $this->generateArticleUrl($article);
+
+        return $this->redirect($url, 301);
+    }
+
+    private function generateArticleUrl(ArticleInterface $article): string
+    {
+        $urlGenerator = $this->container->get('cmf_routing.generator');
+
+        return $urlGenerator->generate($article->getRoute(), ['slug' => $article->getSlug()], UrlGeneratorInterface::ABSOLUTE_URL);
     }
 }

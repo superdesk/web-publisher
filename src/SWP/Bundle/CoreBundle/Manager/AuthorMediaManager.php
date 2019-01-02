@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Superdesk Web Publisher Core Bundle.
  *
@@ -14,40 +16,10 @@
 
 namespace SWP\Bundle\CoreBundle\Manager;
 
-use SWP\Bundle\ContentBundle\Model\FileInterface;
 use SWP\Bundle\CoreBundle\Manager\MediaManager as BaseMediaManager;
-use Symfony\Component\Routing\RouterInterface;
 
-class AuthorMediaManager extends BaseMediaManager
+final class AuthorMediaManager extends BaseMediaManager
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function getMediaUri(FileInterface $media, $type = RouterInterface::ABSOLUTE_PATH)
-    {
-        return $this->router->generate('swp_author_media_get', [
-            'mediaId' => $media->getAssetId(),
-            'extension' => $media->getFileExtension(),
-        ], $type);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getMediaPublicUrl(FileInterface $media)
-    {
-        $tenant = $this->tenantContext->getTenant();
-        if ($subdomain = $tenant->getSubdomain()) {
-            $context = $this->router->getContext();
-            $context->setHost($subdomain.'.'.$context->getHost());
-        }
-
-        return parent::getMediaPublicUrl($media);
-    }
-
-    /**
-     * @return string
-     */
     protected function getMediaBasePath(): string
     {
         $tenant = $this->tenantContext->getTenant();

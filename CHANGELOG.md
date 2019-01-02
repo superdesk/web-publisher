@@ -10,6 +10,22 @@ To get the diff for a specific change, go to https://github.com/superdesk/web-pu
  * improvement [#642] Change fbia to isPublishedFbia
  * improvement [#630] Add otpion to exclude articles fron content list items
 
+### 1.4.1
+ * feature [#674] Added webhook for generating preview URL
+ * feature [#670] Enable password reset
+ * feature [#669] Added command to import users from JSON files
+ * feature [#666] Expose values for social accounts for authors
+ * feature [#665] Added route to redirect to an article page by article slug
+ * feature [#649] Render media in preview when article is not yet published
+ * improvement [#648] Exclude non-publisher created routes from RouteProvider
+ * bug [#647] Do not allow empty params in ContentListsItemLoader
+ * bug [#646] Do not enable tenantable filter in articles count handler
+ * feature [#645] Loader for keyword
+ * improvement [#642] Change fbia to isPublishedFbia
+ * bug [#641] Fix the assets URLs generating by Media Manager
+ * bug [#640] Paywall securing articles doesn't work
+ * bug [#639] Error in generating url to avatar image
+
 ### 1.4.0
  * feature [#626] Allow to store files on AWS
  * feature [#621] Added support for audio/video files

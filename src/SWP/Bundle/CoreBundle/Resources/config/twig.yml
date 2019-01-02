@@ -22,6 +22,11 @@ services:
         tags:
             - { name: twig.extension }
 
+    twig.extension.intl:
+        class: Twig_Extensions_Extension_Intl
+        tags:
+            - { name: twig.extension }
+
     swp_core.twig_extension:
         class: SWP\Bundle\CoreBundle\Twig\CoreExtension
         public: false

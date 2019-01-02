@@ -36,8 +36,6 @@ class TenantControllerTest extends WebTestCase
         $this->initDatabase();
 
         $this->loadCustomFixtures(['tenant']);
-        $this->runCommand('swp:organization:create', ['--env' => 'test', '--default' => true], true);
-        $this->runCommand('swp:tenant:create', ['--env' => 'test', '--default' => true], true);
 
         $this->router = $this->getContainer()->get('router');
     }
@@ -307,5 +305,10 @@ class TenantControllerTest extends WebTestCase
         $response = \json_decode($client->getResponse()->getContent(), true);
 
         self::assertTrue(5 === $response['articlesCount']);
+
+        $client->request('GET', $this->router->generate('swp_api_core_get_tenant', ['code' => '456def']));
+        $response = \json_decode($client->getResponse()->getContent(), true);
+
+        self::assertTrue(0 === $response['articlesCount']);
     }
 }

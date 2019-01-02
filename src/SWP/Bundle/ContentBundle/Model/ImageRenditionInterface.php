@@ -17,7 +17,7 @@ namespace SWP\Bundle\ContentBundle\Model;
 /**
  * Interface ImageRenditionInterface.
  */
-interface ImageRenditionInterface
+interface ImageRenditionInterface extends PreviewUrlAwareInterface
 {
     /**
      * @return int

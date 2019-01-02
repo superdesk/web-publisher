@@ -26,4 +26,13 @@ properties:
     avatar:
         description: "Author avatar media object - replaces avatar url"
         type: meta
+    twitter:
+        description: "Author's Twitter"
+        type: text
+    instagram:
+        description: "Author's Instagram"
+        type: text
+    facebook:
+        description: "Author's Facebook"
+        type: text
 to_string: name

@@ -49,6 +49,9 @@ final class UpdatePackageAuthorsListener
                 $author->setBiography($packageAuthor->getBiography());
                 $author->setJobTitle($packageAuthor->getJobTitle());
                 $author->setAvatarUrl($packageAuthor->getAvatarUrl());
+                $author->setInstagram($packageAuthor->getInstagram());
+                $author->setTwitter($packageAuthor->getTwitter());
+                $author->setFacebook($packageAuthor->getFacebook());
                 $authors[] = $author;
 
                 continue;

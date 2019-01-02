@@ -33,7 +33,10 @@ Feature: Checking if the package authors are saved properly
             "qcode":"1",
             "name":"quality check"
           },
-          "role":"writer"
+          "role":"writer",
+          "twitter":"@superdeskman",
+          "instagram":"superdeskman",
+          "facebook":"superdeskman"
         },
         {
           "biography":"not dead yet",
@@ -88,6 +91,9 @@ Feature: Checking if the package authors are saved properly
       | authors[0].role                | writer                      |
       | authors[0].jobtitle.name       | quality check               |
       | authors[0].jobtitle.qcode      | 1                           |
+      | authors[0].twitter             | @superdeskman               |
+      | authors[0].instagram           | superdeskman                |
+      | authors[0].facebook            | superdeskman                |
       | authors[1].name                | vincer vincer               |
       | authors[1].biography           | not dead yet                |
       | authors[1].role                | subeditor                   |
@@ -133,6 +139,9 @@ Feature: Checking if the package authors are saved properly
       | authors[0].jobtitle.name       | quality check               |
       | authors[0].jobtitle.qcode      | 1                           |
       | authors[0].slug                | nareg-asmarian              |
+      | authors[0].twitter             | @superdeskman               |
+      | authors[0].instagram           | superdeskman                |
+      | authors[0].facebook            | superdeskman                |
       | authors[1].name                | vincer vincer               |
       | authors[1].biography           | not dead yet                |
       | authors[1].role                | subeditor                   |
@@ -237,17 +246,17 @@ Feature: Checking if the package authors are saved properly
     Then the response status code should be 200
     And the JSON node "authors[0].avatar" should not be null
     And the JSON node "authors[1].avatar" should not be null
-    And the JSON nodes should contain:
+    And the JSON nodes should be equal to:
       | authors[0].name                | Nareg Asmarian                                   |
       | authors[0].biography           | bioquil                                          |
       | authors[0].role                | writer                                           |
-      | authors[0].avatar_url          | /author/media/nareg-asmarian_fd163b853e3b825257486222cb0f0cc08a6bb687.jpeg |
+      | authors[0].avatar_url          | http://localhost/author/media/nareg-asmarian_fd163b853e3b825257486222cb0f0cc08a6bb687.jpeg |
       | authors[0].jobtitle.name       | quality check                                    |
       | authors[0].jobtitle.qcode      | 1                                                |
       | authors[1].name                | vincer vincer                                    |
       | authors[1].biography           | not dead yet                                     |
       | authors[1].role                | subeditor                                        |
-      | authors[1].avatar_url          | /author/media/vincer-vincer_b92774bece43ddbdefe652cb7567e005cb66032c.jpeg  |
+      | authors[1].avatar_url          | http://localhost/author/media/vincer-vincer_b92774bece43ddbdefe652cb7567e005cb66032c.jpeg  |
       | authors[0].slug                | nareg-asmarian                                   |
       | authors[1].slug                | vincer-vincer                                    |
     And I am authenticated as "test.user"
@@ -419,7 +428,7 @@ Feature: Checking if the package authors are saved properly
       | authors[0].name                | vincer vincer                                   |
       | authors[0].biography           | not dead yet                                    |
       | authors[0].role                | subeditor                                       |
-      | authors[0].avatar_url          | /author/media/vincer-vincer_b92774bece43ddbdefe652cb7567e005cb66032c.jpeg |
+      | authors[0].avatar_url          | http://localhost/author/media/vincer-vincer_b92774bece43ddbdefe652cb7567e005cb66032c.jpeg |
     And the JSON node "authors[1].jobtitle.name" should not exist
     And the JSON node "authors[1].avatar_url" should be null
     And I am authenticated as "test.user"
@@ -434,7 +443,7 @@ Feature: Checking if the package authors are saved properly
       | authors[0].name                | vincer vincer                                   |
       | authors[0].biography           | not dead yet                                    |
       | authors[0].role                | subeditor                                       |
-      | authors[0].avatar_url          | /author/media/vincer-vincer_b92774bece43ddbdefe652cb7567e005cb66032c.jpeg |
+      | authors[0].avatar_url          | http://localhost/author/media/vincer-vincer_b92774bece43ddbdefe652cb7567e005cb66032c.jpeg |
       | authors[0].slug                | vincer-vincer                                   |
     And the JSON node "authors[1].avatar_url" should be null
     Then I send a "GET" request to "/author/media/vincer-vincer_b92774bece43ddbdefe652cb7567e005cb66032c.jpeg"

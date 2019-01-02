@@ -25,6 +25,7 @@ use SWP\Bundle\ContentBundle\Doctrine\ORM\SlideshowRepository;
 use SWP\Bundle\ContentBundle\Factory\FileFactory;
 use SWP\Bundle\ContentBundle\Factory\KeywordFactory;
 use SWP\Bundle\ContentBundle\Factory\ORM\ArticleFactory;
+use SWP\Bundle\ContentBundle\Factory\ORM\ImageRenditionFactory;
 use SWP\Bundle\ContentBundle\Factory\ORM\MediaFactory;
 use SWP\Bundle\ContentBundle\Factory\RouteFactory;
 use SWP\Bundle\ContentBundle\Model\Article;
@@ -208,7 +209,17 @@ class Configuration implements ConfigurationInterface
                                                 ->scalarNode('model')->cannotBeEmpty()->defaultValue(ImageRendition::class)->end()
                                                 ->scalarNode('interface')->cannotBeEmpty()->defaultValue(ImageRenditionInterface::class)->end()
                                                 ->scalarNode('repository')->defaultValue(EntityRepository::class)->end()
-                                                ->scalarNode('factory')->defaultValue(Factory::class)->end()
+                                                ->scalarNode('factory')->defaultValue(ImageRenditionFactory::class)->end()
+                                                ->scalarNode('object_manager_name')->defaultValue(null)->end()
+                                            ->end()
+                                        ->end()
+                                        ->arrayNode('keyword')
+                                            ->addDefaultsIfNotSet()
+                                            ->children()
+                                                ->scalarNode('model')->cannotBeEmpty()->defaultValue(Keyword::class)->end()
+                                                ->scalarNode('interface')->cannotBeEmpty()->defaultValue(KeywordInterface::class)->end()
+                                                ->scalarNode('repository')->defaultValue(EntityRepository::class)->end()
+                                                ->scalarNode('factory')->defaultValue(KeywordFactory::class)->end()
                                                 ->scalarNode('object_manager_name')->defaultValue(null)->end()
                                             ->end()
                                         ->end()

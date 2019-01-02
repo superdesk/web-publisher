@@ -118,6 +118,13 @@ class ArticleAuthorLoaderTest extends WebTestCase
         self::assertEquals(' John Doe john-doe ', $result);
     }
 
+    public function testRenderingAuthorSocialProfiles()
+    {
+        $template = '{% gimmelist author from authors %} {{ author.name }} {{ author.twitter }} {{ author.facebook }} {{ author.instagram }} {% endgimmelist %}';
+        $result = $this->getRendered($template);
+        self::assertEquals(' Tom @superdeskman superdeskman superdeskman  Test Person @superdeskman superdeskman superdeskman  John Doe @superdeskman superdeskman superdeskman  John Doe Second @superdeskman superdeskman superdeskman  Test Person @superdeskman superdeskman superdeskman ', $result);
+    }
+
     private function getRendered($template, $context = [])
     {
         $template = $this->twig->createTemplate($template);

@@ -41,6 +41,17 @@ server.get('/wordpress/test_post', (req, res) => {
   }
 });
 
+// article preview webhook url
+server.post('/return-preview-url', (req, res) => {
+    res.status(200).json({
+        'url': 'http://localhost:3000/api/my-preview-url',
+    });
+});
+
+server.get('/my-preview-url', (req, res) => {
+    res.status(200).json({});
+});
+
 // Payments Hub mock
 server.post('/api/v1/login_check', (req, res) => {
     res.status(200).json({

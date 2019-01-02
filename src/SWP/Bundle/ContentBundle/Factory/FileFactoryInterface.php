@@ -21,4 +21,6 @@ use SWP\Bundle\ContentBundle\Model\FileInterface;
 interface FileFactoryInterface
 {
     public function createWith(string $assetId, string $extension): FileInterface;
+
+    public function createFile(): FileInterface;
 }

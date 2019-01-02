@@ -21,6 +21,8 @@ use SWP\Component\Storage\Model\PersistableInterface;
  */
 class ImageRendition implements ImageRenditionInterface, PersistableInterface
 {
+    use PreviewUrlAwareTrait;
+
     /**
      * @var string
      */
@@ -84,17 +86,17 @@ class ImageRendition implements ImageRenditionInterface, PersistableInterface
     }
 
     /**
-     * @return int
+     * @return null|int
      */
-    public function getId(): int
+    public function getId(): ?int
     {
         return $this->id;
     }
 
     /**
-     * @param int $id
+     * @param null|int $id
      */
-    public function setId(int $id)
+    public function setId(?int $id)
     {
         $this->id = $id;
     }

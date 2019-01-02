@@ -41,13 +41,6 @@ final class ArticlePreviewer implements ArticlePreviewerInterface
      */
     private $articlePreviewHelper;
 
-    /**
-     * ArticlePreviewer constructor.
-     *
-     * @param ArticleFactoryInterface               $articleFactory
-     * @param ArticleMediaProcessorInterface        $articleMediaProcessor
-     * @param ArticlePreviewTemplateHelperInterface $articlePreviewHelper
-     */
     public function __construct(
         ArticleFactoryInterface $articleFactory,
         ArticleMediaProcessorInterface $articleMediaProcessor,
@@ -64,6 +57,7 @@ final class ArticlePreviewer implements ArticlePreviewerInterface
     public function preview(PackageInterface $package, RouteInterface $route): ArticleInterface
     {
         $article = $this->articleFactory->createFromPackage($package);
+
         $this->articleMediaProcessor->fillArticleMedia($package, $article);
         ArticleAuthorProcessor::processArticleAuthors($article);
         $article->setRoute($route);
