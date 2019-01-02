@@ -56,81 +56,87 @@ class LoadArticlesMediaData extends AbstractFixture implements FixtureInterface,
             ],
         ];
 
-        $renditions = [
-            'original' => [
-                'width' => '4000',
-                'height' => '2667',
-                'media' => '12345678987654321a',
+        $articleMedias = [
+            'embedded6358005131' => [
+                'original' => [
+                    'width' => '1200',
+                    'height' => '900',
+                    'media' => '20160905140916/12345678987654321a',
+                ],
+                '16-9' => [
+                    'width' => '1079',
+                    'height' => '720',
+                    'media' => '20160905140916/12345678987654321c',
+                ],
+                '4-3' => [
+                    'width' => '800',
+                    'height' => '533',
+                    'media' => '20160905140916/12345678987654321e',
+                ],
             ],
-            '16-9' => [
-                'width' => '1079',
-                'height' => '720',
-                'media' => '12345678987654321b',
+            'embedded5366428123' => [
+                '600x300' => [
+                    'width' => '400',
+                    'height' => '300',
+                    'media' => '58512c10c3a5be49fad39a2d',
+                ],
+                'viewImage' => [
+                    'width' => '640',
+                    'height' => '480',
+                    'media' => '58512be5c3a5be49fdca1172',
+                ],
+                'thumbnail' => [
+                    'width' => '160',
+                    'height' => '120',
+                    'media' => '58512be5c3a5be49fdca116c',
+                ],
+                'original' => [
+                    'width' => '1200',
+                    'height' => '900',
+                    'media' => '58512be4c3a5be49fdca1168',
+                ],
+                'baseImage' => [
+                    'width' => '1400',
+                    'height' => '1050',
+                    'media' => '58512be5c3a5be49fdca1170',
+                ],
+                '777x600' => [
+                    'width' => '777',
+                    'height' => '582',
+                    'media' => '58512c10c3a5be49fad39a29',
+                ],
             ],
-            '4-3' => [
-                'width' => '800',
-                'height' => '533',
-                'media' => '20160905140916/12345678987654321c',
-            ],
-            'embedded5366428123-600x300' => [
-                'width' => '400',
-                'height' => '300',
-                'media' => '58512c10c3a5be49fad39a2d',
-            ],
-            'embedded5366428123-viewImage' => [
-                'width' => '640',
-                'height' => '480',
-                'media' => '58512be5c3a5be49fdca1172',
-            ],
-            'embedded5366428123-thumbnail' => [
-                'width' => '160',
-                'height' => '120',
-                'media' => '58512be5c3a5be49fdca116c',
-            ],
-            'embedded5366428123-item-original' => [
-                'width' => '1200',
-                'height' => '900',
-                'media' => '58512be4c3a5be49fdca1168',
-            ],
-            'embedded5366428123-baseImage' => [
-                'width' => '1400',
-                'height' => '1050',
-                'media' => '58512be5c3a5be49fdca1170',
-            ],
-            'embedded5366428123-777x600' => [
-                'width' => '777',
-                'height' => '582',
-                'media' => '58512c10c3a5be49fad39a29',
-            ],
-            'embedded11331114891-600x300' => [
-                'width' => '451',
-                'height' => '300',
-                'media' => '58512c44c3a5be49f3529d98',
-            ],
-            'embedded11331114891-viewImage' => [
-                'width' => '640',
-                'height' => '425',
-                'media' => '58512be7c3a5be49fdca1184',
-            ],
-            'embedded11331114891-thumbnail' => [
-                'width' => '180',
-                'height' => '120',
-                'media' => '58512be6c3a5be49fdca117e',
-            ],
-            'embedded11331114891-item-original' => [
-                'width' => '1200',
-                'height' => '797',
-                'media' => '58512be6c3a5be49fdca1178',
-            ],
-            'embedded11331114891-baseImage' => [
-                'width' => '1400',
-                'height' => '929',
-                'media' => '58512be7c3a5be49fdca1182',
-            ],
-            'embedded11331114891-777x600' => [
-                'width' => '777',
-                'height' => '516',
-                'media' => '58512c44c3a5be49f3529d95',
+            'embedded11331114891' => [
+                '600x300' => [
+                    'width' => '451',
+                    'height' => '300',
+                    'media' => '58512c44c3a5be49f3529d98',
+                ],
+                'viewImage' => [
+                    'width' => '640',
+                    'height' => '425',
+                    'media' => '58512be7c3a5be49fdca1184',
+                ],
+                'thumbnail' => [
+                    'width' => '180',
+                    'height' => '120',
+                    'media' => '58512be6c3a5be49fdca117e',
+                ],
+                'original' => [
+                    'width' => '1200',
+                    'height' => '797',
+                    'media' => '58512be6c3a5be49fdca1178',
+                ],
+                'baseImage' => [
+                    'width' => '1400',
+                    'height' => '929',
+                    'media' => '58512be7c3a5be49fdca1182',
+                ],
+                '777x600' => [
+                    'width' => '777',
+                    'height' => '516',
+                    'media' => '58512c44c3a5be49f3529d95',
+                ],
             ],
         ];
 
@@ -148,36 +154,38 @@ class LoadArticlesMediaData extends AbstractFixture implements FixtureInterface,
             $article->setStatus(ArticleInterface::STATUS_PUBLISHED);
             $manager->persist($article);
 
-            // create Media
-            $articleMediaClass = $this->container->getParameter('swp.model.media.class');
-            $articleMedia = new $articleMediaClass();
-            $articleMedia->setArticle($article);
-            $articleMedia->setKey('embedded6358005131');
-            $articleMedia->setBody('article media body');
-            $articleMedia->setByLine('By Best Editor');
-            $articleMedia->setLocated('Porto');
-            $articleMedia->setDescription('Media description');
-            $articleMedia->setUsageTerms('Some super open terms');
-            $articleMedia->setMimetype('image/jpeg');
-            $manager->persist($articleMedia);
+            foreach ($articleMedias as $articleMediaKey => $renditions) {
+                // create Media
+                $articleMediaClass = $this->container->getParameter('swp.model.media.class');
+                $articleMedia = new $articleMediaClass();
+                $articleMedia->setArticle($article);
+                $articleMedia->setKey($articleMediaKey);
+                $articleMedia->setBody('article media body');
+                $articleMedia->setByLine('By Best Editor');
+                $articleMedia->setLocated('Porto');
+                $articleMedia->setDescription('Media description');
+                $articleMedia->setUsageTerms('Some super open terms');
+                $articleMedia->setMimetype('image/jpeg');
+                $manager->persist($articleMedia);
 
-            /* @var $rendition Rendition */
-            foreach ($renditions as $key => $rendition) {
-                $uploadedFile = new UploadedFile($fakeImage, $rendition['media'], 'image/jpeg', filesize($fakeImage), null, true);
-                $image = $mediaManager->handleUploadedFile($uploadedFile, $rendition['media']);
+                /* @var $rendition Rendition */
+                foreach ($renditions as $key => $rendition) {
+                    $uploadedFile = new UploadedFile($fakeImage, $rendition['media'], 'image/jpeg', filesize($fakeImage), null, true);
+                    $image = $mediaManager->handleUploadedFile($uploadedFile, $rendition['media']);
 
-                if ('original' === $key) {
-                    $articleMedia->setImage($image);
+                    if ('original' === $key) {
+                        $articleMedia->setImage($image);
+                    }
+
+                    $imageRendition = new ImageRendition();
+                    $imageRendition->setImage($image);
+                    $imageRendition->setHeight($rendition['height']);
+                    $imageRendition->setWidth($rendition['width']);
+                    $imageRendition->setName($key);
+                    $imageRendition->setMedia($articleMedia);
+                    $articleMedia->addRendition($imageRendition);
+                    $manager->persist($imageRendition);
                 }
-
-                $imageRendition = new ImageRendition();
-                $imageRendition->setImage($image);
-                $imageRendition->setHeight($rendition['height']);
-                $imageRendition->setWidth($rendition['width']);
-                $imageRendition->setName($key);
-                $imageRendition->setMedia($articleMedia);
-                $articleMedia->addRendition($imageRendition);
-                $manager->persist($imageRendition);
             }
         }
 

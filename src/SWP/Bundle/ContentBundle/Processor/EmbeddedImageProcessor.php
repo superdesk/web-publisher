@@ -19,8 +19,8 @@ namespace SWP\Bundle\ContentBundle\Processor;
 use SWP\Bundle\ContentBundle\File\FileExtensionCheckerInterface;
 use SWP\Bundle\ContentBundle\Manager\MediaManagerInterface;
 use SWP\Bundle\ContentBundle\Model\ArticleInterface;
-use SWP\Bundle\ContentBundle\Model\ArticleMedia;
 use SWP\Bundle\ContentBundle\Model\ArticleMediaInterface;
+use SWP\Bundle\ContentBundle\Model\ImageRendition;
 use Symfony\Component\DomCrawler\Crawler;
 
 final class EmbeddedImageProcessor implements ArticleBodyProcessorInterface
@@ -60,8 +60,9 @@ final class EmbeddedImageProcessor implements ArticleBodyProcessorInterface
         $images = $crawler->filter('figure img');
         /** @var \DOMElement $imageElement */
         foreach ($images as $imageElement) {
+            /** @var ImageRendition $rendition */
             foreach ($articleMedia->getRenditions() as $rendition) {
-                if (false !== strpos($imageElement->getAttribute('src'), ArticleMedia::getOriginalMediaId($rendition->getImage()->getAssetId()))) {
+                if ('original' === $rendition->getName()) {
                     $attributes = $imageElement->attributes;
                     $altAttribute = null;
                     if ($imageElement->hasAttribute('alt')) {

@@ -65,15 +65,15 @@ class ArticleMediaLoaderTest extends WebTestCase
         $articleMeta = $articleLoader->load('article', ['slug' => 'test-news-article']);
         $articleMedia = $this->articleMediaLoader->load('articleMedia', ['article' => $articleMeta]);
 
-        self::assertCount(1, $articleMedia);
+        self::assertCount(3, $articleMedia);
         self::assertInstanceOf('SWP\Component\TemplatesSystem\Gimme\Meta\Meta', $articleMedia[0]);
         self::assertEquals('By Best Editor', $articleMedia[0]->byLine);
-        self::assertCount(15, $articleMedia[0]->renditions);
+        self::assertCount(3, $articleMedia[0]->renditions);
 
         // test loading article media without article meta provided - it should use current article from context
         $articleMedia2 = $this->articleMediaLoader->load('articleMedia', []);
         self::assertEquals('By Best Editor', $articleMedia2[0]->byLine);
-        self::assertCount(15, $articleMedia2[0]->renditions);
+        self::assertCount(3, $articleMedia2[0]->renditions);
         self::assertEquals($articleMedia, $articleMedia2);
     }
 }
