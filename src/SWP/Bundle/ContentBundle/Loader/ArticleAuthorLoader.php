@@ -68,6 +68,7 @@ final class ArticleAuthorLoader extends PaginatedLoader implements LoaderInterfa
                 return false;
             }
 
+            $criteria->set('maxResults', 1);
             $author = $this->authorRepository->getQueryByCriteria($criteria, [], 'a')->getQuery()->getOneOrNullResult();
 
             if (null !== $author) {
