@@ -58,15 +58,6 @@ class AddArticleToListListener
      */
     private $contentListItemRepository;
 
-    /**
-     * AutomaticListAddArticleListener constructor.
-     *
-     * @param ContentListRepositoryInterface     $listRepository
-     * @param FactoryInterface                   $listItemFactory
-     * @param ArticleCriteriaMatcherInterface    $articleCriteriaMatcher
-     * @param EventDispatcherInterface           $eventDispatcher
-     * @param ContentListItemRepositoryInterface $contentListItemRepository
-     */
     public function __construct(
         ContentListRepositoryInterface $listRepository,
         FactoryInterface $listItemFactory,
@@ -81,10 +72,7 @@ class AddArticleToListListener
         $this->contentListItemRepository = $contentListItemRepository;
     }
 
-    /**
-     * @param ArticleEvent $event
-     */
-    public function addArticleToList(ArticleEvent $event)
+    public function addArticleToList(ArticleEvent $event): void
     {
         /** @var ArticleInterface $article */
         $article = $event->getArticle();
@@ -119,10 +107,7 @@ class AddArticleToListListener
         $this->eventDispatcher->dispatch(MultiTenancyEvents::TENANTABLE_DISABLE);
     }
 
-    /**
-     * @param ArticleEvent $event
-     */
-    public function addArticleToBucket(ArticleEvent $event)
+    public function addArticleToBucket(ArticleEvent $event): void
     {
         /** @var ArticleInterface $article */
         $article = $event->getArticle();
@@ -150,7 +135,7 @@ class AddArticleToListListener
         }
     }
 
-    private function createAndAddItem(ArticleInterface $article, ContentListInterface $bucket)
+    private function createAndAddItem(ArticleInterface $article, ContentListInterface $bucket): void
     {
         /* @var ContentListItemInterface $contentListItem */
         $contentListItem = $this->listItemFactory->create();
@@ -160,7 +145,7 @@ class AddArticleToListListener
             $contentListItem->setContent($article);
         }
 
-        $contentListItem->setPosition(-1);
+        $contentListItem->setPosition(0);
         $contentListItem->setContentList($bucket);
         $bucket->setUpdatedAt(new \DateTime());
         $this->eventDispatcher->dispatch(
