@@ -65,6 +65,8 @@ class ContentPushController extends Controller
                 'package' => $existingPackage,
             ]));
 
+            // Persist it first so added with correction elements will be handled properly
+            $objectManager->persist($package);
             $package = $objectManager->merge($package);
             $objectManager->flush();
 
