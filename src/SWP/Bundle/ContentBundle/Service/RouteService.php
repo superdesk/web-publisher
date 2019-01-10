@@ -72,8 +72,9 @@ class RouteService implements RouteServiceInterface
 
     public function fillRoute(RouteInterface $route): RouteInterface
     {
-        if (null === $route->getSlug()) {
-            $route->setSlug(Transliterator::urlize($route->getName()));
+        $newSlug = Transliterator::urlize($route->getName());
+        if ($newSlug !== $route->getSlug()) {
+            $route->setSlug($newSlug);
         }
 
         switch ($route->getType()) {
