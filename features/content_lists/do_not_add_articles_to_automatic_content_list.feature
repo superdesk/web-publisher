@@ -80,27 +80,7 @@ Feature: Do not add articles to automatic content lists
       }
      """
     Then the response status code should be 201
-
-#    And I am authenticated as "test.user"
-#    And I add "Content-Type" header equal to "application/json"
-#    Then I send a "POST" request to "/api/{version}/rules/" with body:
-#     """
-#      {
-#        "rule":{
-#          "name":"Test tenant rule",
-#          "description":"Test tenant rule description",
-#          "priority":1,
-#          "expression":"article.getMetadataByKey(\"located\") matches \"/Sydney/\"",
-#          "configuration":[
-#            {
-#              "key":"isPublishedFbia",
-#              "value":true
-#            }
-#          ]
-#        }
-#      }
-#     """
-#    Then the response status code should be 201
+    
     And I am authenticated as "test.user"
     And I add "Content-Type" header equal to "application/json"
     Then I send a "POST" request to "/api/{version}/content/push" with body:
