@@ -562,7 +562,7 @@ services:
 
     SWP\Bundle\CoreBundle\Consumer\AnalyticsEventConsumer:
         arguments:
-            - '@SWP\Bundle\AnalyticsBundle\Services\ArticleStatisticsService'
+            - '@SWP\Bundle\CoreBundle\Service\ArticleStatisticsService'
             - '@swp_multi_tenancy.tenant_resolver'
             - '@swp_multi_tenancy.tenant_context'
             - '@router'
@@ -744,7 +744,7 @@ services:
         arguments:
             - '@router'
 
-    SWP\Bundle\CoreBundle\Services\ArticleStatisticsService:
+    SWP\Bundle\CoreBundle\Service\ArticleStatisticsService:
         public: true
         arguments:
             - '@swp.repository.article'
