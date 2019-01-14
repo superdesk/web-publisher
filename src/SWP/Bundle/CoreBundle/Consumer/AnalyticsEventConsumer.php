@@ -199,6 +199,14 @@ final class AnalyticsEventConsumer implements ConsumerInterface
      */
     private function setTenant(Request $request): void
     {
-        $this->tenantContext->setTenant($this->tenantResolver->resolve($request->getHost()));
+        $this->tenantContext->setTenant(
+            $this->tenantResolver->resolve(
+                $request->server->get('HTTP_REFERER',
+                    $request->query->get('host',
+                        $request->getHost()
+                    )
+                )
+            )
+        );
     }
 }
