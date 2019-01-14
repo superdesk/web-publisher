@@ -23,6 +23,13 @@ use Twig\TwigFunction;
 
 class ArticleEventsExtension extends AbstractExtension
 {
+    protected $analyticsHost;
+
+    public function __construct(string $analyticsHost = null)
+    {
+        $this->analyticsHost = $analyticsHost;
+    }
+
     /**
      * @return TwigFunction[]
      */
@@ -56,6 +63,10 @@ xhr.send(JSON.stringify(arr));
 </script>
 EOT;
 
+        if (null !== $this->analyticsHost) {
+            $jsTemplate = str_replace('/_swp_analytics', $this->analyticsHost.'/_swp_analytics', $jsTemplate);
+        }
+
         return $jsTemplate;
     }
 
@@ -82,6 +93,10 @@ EOT;
         $article = $meta->getValues();
         if (!$article instanceof ArticleInterface) {
             return;
+        }
+
+        if (null !== $this->analyticsHost) {
+            $jsTemplate = str_replace('/_swp_analytics', $this->analyticsHost.'/_swp_analytics', $jsTemplate);
         }
 
         return sprintf($jsTemplate, $article->getId());

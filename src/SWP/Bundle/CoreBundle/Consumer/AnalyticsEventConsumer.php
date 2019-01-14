@@ -86,6 +86,7 @@ final class AnalyticsEventConsumer implements ConsumerInterface
         }
 
         $this->setTenant($request);
+        echo 'Set tenent: '.$this->tenantContext->getTenant()->getCode()."\n";
 
         if ($request->query->has('articleId')) {
             $this->handleArticlePageViews($request);
