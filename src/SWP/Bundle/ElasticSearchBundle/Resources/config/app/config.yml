@@ -55,6 +55,10 @@ fos_elastica:
                             type: "nested"
                             properties:
                                 name: { type: string, analyzer: swp_sources_analyzer }
+                        articleStatistics:
+                            type: "object"
+                            properties:
+                                pageViewsNumber: { type: integer }
                         authors:
                             type: "nested"
                             properties:

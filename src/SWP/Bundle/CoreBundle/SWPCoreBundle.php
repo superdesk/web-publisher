@@ -16,6 +16,7 @@ namespace SWP\Bundle\CoreBundle;
 
 use SWP\Bundle\CoreBundle\DependencyInjection\Compiler\AddCustomTwigCachePass;
 use SWP\Bundle\CoreBundle\DependencyInjection\Compiler\OrganizationThemesProviderPass;
+use SWP\Bundle\CoreBundle\DependencyInjection\Compiler\OverrideArticlePublishListenerPass;
 use SWP\Bundle\CoreBundle\DependencyInjection\Compiler\OverrideArticleSourceAdderPass;
 use SWP\Bundle\CoreBundle\DependencyInjection\Compiler\OverrideContainerProviderPass;
 use SWP\Bundle\CoreBundle\DependencyInjection\Compiler\OverrideDynamicRouterPass;
@@ -68,6 +69,7 @@ class SWPCoreBundle extends Bundle
         $container->addCompilerPass(new OverridePackagePreviewTokenFactoryPass());
         $container->addCompilerPass(new RegisterOutputChannelAdapterPass());
         $container->addCompilerPass(new OverrideMediaFactoryPass());
+        $container->addCompilerPass(new OverrideArticlePublishListenerPass());
     }
 
     /**

@@ -252,4 +252,8 @@ interface ContentInterface extends PersistableInterface, AuthorsAwareInterface
      * @param array|null $extra
      */
     public function setExtra(?array $extra): void;
+
+    public function getFirstPublishedAt(): ?\DateTimeInterface;
+
+    public function setFirstPublishedAt(?\DateTimeInterface $firstPublishedAt): void;
 }
