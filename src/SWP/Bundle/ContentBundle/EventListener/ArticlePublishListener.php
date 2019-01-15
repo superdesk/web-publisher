@@ -20,7 +20,7 @@ use SWP\Bundle\ContentBundle\Event\ArticleEvent;
 use SWP\Bundle\ContentBundle\Model\ArticleInterface;
 use SWP\Bundle\ContentBundle\Service\ArticleServiceInterface;
 
-class ArticlePublishListener
+final class ArticlePublishListener
 {
     /**
      * @var ArticleServiceInterface
