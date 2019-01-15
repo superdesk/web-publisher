@@ -26,7 +26,7 @@ Feature: Preview article under route based on package data with article preview 
           "url": "http://localhost:3000/return-preview-url",
           "events": [
             "article[preview]"
-           ],
+          ],
           "enabled": "1"
         }
       }
