@@ -75,10 +75,6 @@ class Configuration implements ConfigurationInterface
                         ->end()
                     ->end()
                 ->end()
-                ->arrayNode('metrics_listener')
-                    ->addDefaultsIfNotSet()
-                    ->canBeDisabled()
-                ->end()
             ->end();
 
         return $treeBuilder;

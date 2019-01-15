@@ -284,8 +284,6 @@ swp_settings:
             type: string
 
 swp_analytics:
-    metrics_listener:
-        enabled: false
     persistence:
         orm:
             enabled: true

@@ -38,6 +38,8 @@ services:
     swp_core.analytics_extension:
         class: SWP\Bundle\CoreBundle\Twig\ArticleEventsExtension
         public: false
+        arguments:
+            - '%env(resolve:ANALYTICS_HOST)%'
         tags:
             - { name: twig.extension }
 
