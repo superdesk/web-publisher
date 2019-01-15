@@ -24,7 +24,9 @@ Feature: Preview article under route based on package data with article preview 
       {
         "webhook": {
           "url": "http://localhost:3000/return-preview-url",
-          "events": "article[preview]",
+          "events": [
+            "article[preview]"
+          ],
           "enabled": "1"
         }
       }
