@@ -75,7 +75,7 @@ final class AddArticleToListListenerSpec extends ObjectBehavior
         $listItemFactory->create()->willReturn($contentListItem);
 
         $contentListItem->setContent($article)->shouldBeCalled();
-        $contentListItem->setPosition(-1)->shouldBeCalled();
+        $contentListItem->setPosition(0)->shouldBeCalled();
         $contentListItem->setContentList($list)->shouldBeCalled();
 
         $list->setUpdatedAt(Argument::type(\DateTime::class))->shouldBeCalled();
@@ -108,7 +108,7 @@ final class AddArticleToListListenerSpec extends ObjectBehavior
         $listItemFactory->create()->willReturn($contentListItem)->shouldNotBeCalled();
 
         $contentListItem->setContent($article)->shouldNotBeCalled();
-        $contentListItem->setPosition(0)->shouldNotBeCalled();
+        $contentListItem->setPosition(-1)->shouldNotBeCalled();
 
         $this->addArticleToList($event);
 
@@ -132,7 +132,7 @@ final class AddArticleToListListenerSpec extends ObjectBehavior
         $listRepository->findByTypes(['bucket'])->willReturn([$list]);
         $listItemFactory->create()->willReturn($contentListItem);
         $contentListItem->setContent($article)->shouldBeCalled();
-        $contentListItem->setPosition(-1)->shouldBeCalled();
+        $contentListItem->setPosition(0)->shouldBeCalled();
         $contentListItem->setContentList($list)->shouldBeCalled();
         $list->setUpdatedAt(Argument::type(\DateTime::class))->shouldBeCalled();
 
@@ -158,7 +158,7 @@ final class AddArticleToListListenerSpec extends ObjectBehavior
         $listRepository->findByTypes(['bucket'])->willReturn([$list]);
         $listItemFactory->create()->willReturn($contentListItem)->shouldNotBeCalled();
         $contentListItem->setContent($article)->shouldNotBeCalled();
-        $contentListItem->setPosition(0)->shouldNotBeCalled();
+        $contentListItem->setPosition(-1)->shouldNotBeCalled();
 
         $this->addArticleToBucket($event);
 
