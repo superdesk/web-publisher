@@ -130,6 +130,11 @@ class BaseContent implements ContentInterface
      */
     protected $extra;
 
+    /**
+     * @var \DateTimeInterface|null
+     */
+    protected $firstPublishedAt;
+
     public function __construct()
     {
         $this->authors = new ArrayCollection();
@@ -534,5 +539,15 @@ class BaseContent implements ContentInterface
     public function setExtra(?array $extra): void
     {
         $this->extra = $extra;
+    }
+
+    public function getFirstPublishedAt(): ?\DateTimeInterface
+    {
+        return $this->firstPublishedAt;
+    }
+
+    public function setFirstPublishedAt(?\DateTimeInterface $firstPublishedAt): void
+    {
+        $this->firstPublishedAt = $firstPublishedAt;
     }
 }

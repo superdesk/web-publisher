@@ -20,6 +20,10 @@ SWP\Component\Bridge\Model\BaseContent:
             expose: true
             serialized_name: versioncreated
             type: DateTime<'Y-m-d\TH:i:sO'>
+        firstPublishedAt:
+            expose: true
+            serialized_name: firstpublished
+            type: DateTime<'Y-m-d\TH:i:sO'>
         language:
             expose: true
             type: string
