@@ -71,3 +71,5 @@ parameters:
     env(FS_AWS_S3_SECRET):
     env(FS_AWS_S3_PREFIX): ~
     env(FS_AWS_S3_BUCKET):
+
+    env(ANALYTICS_HOST): null

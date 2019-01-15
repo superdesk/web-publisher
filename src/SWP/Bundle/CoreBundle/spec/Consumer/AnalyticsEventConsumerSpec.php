@@ -31,6 +31,12 @@ class AnalyticsEventConsumerSpec extends ObjectBehavior
         $articleStatisticsService->addArticleEvent(1, 'pageview', [
             ArticleStatisticsServiceInterface::KEY_PAGEVIEW_SOURCE => ArticleEventInterface::PAGEVIEW_SOURCE_EXTERNAL,
         ])->shouldBeCalled();
+
+        $tenant = new Tenant();
+        $tenant->setDomainName('localhost');
+        $tenantContext->getTenant()->willReturn($tenant);
+        $tenantContext->setTenant(Argument::any())->shouldBeCalled();
+
         $this->beConstructedWith($articleStatisticsService, $tenantResolver, $tenantContext, $matcher, $articleResolver);
 
         $request = new Request();
@@ -64,6 +70,11 @@ class AnalyticsEventConsumerSpec extends ObjectBehavior
     {
         $tenantResolver->resolve(Argument::type('string'))->willReturn($tenant);
         $articleStatisticsService->addArticleEvent(1, 'pageview', [])->shouldNotBeCalled();
+
+        $tenant = new Tenant();
+        $tenant->setDomainName('localhost');
+        $tenantContext->getTenant()->willReturn($tenant);
+
         $this->beConstructedWith($articleStatisticsService, $tenantResolver, $tenantContext, $matcher, $articleResolver);
 
         $AMQPMessage->getBody()->willReturn(serialize([]));
