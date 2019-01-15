@@ -17,12 +17,13 @@ declare(strict_types=1);
 namespace SWP\Bundle\CoreBundle\EventListener;
 
 use SWP\Bundle\ContentBundle\Event\ArticleEvent;
+use SWP\Bundle\ContentBundle\EventListener\ArticlePublishListener as BaseArticlePublishListener;
 use SWP\Bundle\ContentBundle\Service\ArticleServiceInterface;
 use SWP\Bundle\CoreBundle\Model\Tenant;
 use SWP\Bundle\SettingsBundle\Manager\SettingsManagerInterface;
 use SWP\Component\MultiTenancy\Context\TenantContextInterface;
 
-final class ArticlePublishListener extends \SWP\Bundle\ContentBundle\EventListener\ArticlePublishListener
+final class ArticlePublishListener extends BaseArticlePublishListener
 {
     /**
      * @var ArticleServiceInterface
@@ -71,10 +72,6 @@ final class ArticlePublishListener extends \SWP\Bundle\ContentBundle\EventListen
             return;
         }
 
-        if ($article->isPublished()) {
-            return;
-        }
-
-        $this->articleService->publish($article);
+        parent::publish($event);
     }
 }
