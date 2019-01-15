@@ -1,6 +1,3 @@
-swp_analytics:
-    resource: "@SWPAnalyticsBundle/Resources/config/routing.yml"
-
 swp_content:
     resource: "@SWPContentBundle/Controller/"
     type:     annotation

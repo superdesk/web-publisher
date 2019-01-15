@@ -288,8 +288,6 @@ swp_settings:
             value: false
 
 swp_analytics:
-    metrics_listener:
-        enabled: false
     persistence:
         orm:
             enabled: true
