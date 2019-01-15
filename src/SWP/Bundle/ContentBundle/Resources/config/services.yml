@@ -253,6 +253,7 @@ services:
         arguments:
             - '@swp.factory.keyword'
             - '@swp.repository.keyword'
+            - '@SWP\Bundle\ContentBundle\Service\KeywordBlackLister'
 
     swp.service.article_source:
         class: SWP\Bundle\ContentBundle\Service\ArticleSourceService
@@ -273,6 +274,10 @@ services:
             - { name: doctrine.event_listener, event: prePersist }
 
     SWP\Bundle\ContentBundle\File\FileExtensionChecker: ~
+
+    SWP\Bundle\ContentBundle\Service\KeywordBlackLister:
+        arguments:
+            - '%env(json:BLACKLISTED_KEYWORDS)%'
 
     Aws\S3\S3Client:
         arguments:
