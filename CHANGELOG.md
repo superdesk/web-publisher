@@ -11,6 +11,7 @@ To get the diff for a specific change, go to https://github.com/superdesk/web-pu
 
 ### 1.4.1
  * feature [#699] Allow to blacklist specific article keywords
+ * feature [#696] Allow to use first published date as article publish date
  * bug [#693] Do not add articles to automatic content lists without filters set
  * feature [#674] Added webhook for generating preview URL
  * feature [#670] Enable password reset
