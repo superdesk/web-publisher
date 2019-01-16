@@ -41,16 +41,20 @@ class Webhook extends BaseWebhook implements WebhookInterface
     /**
      * {@inheritdoc}
      */
-    public function getEvents()
+    public function getEvents(): array
     {
-        return $this->events;
+        if (null === $this->events) {
+            return [];
+        }
+
+        return explode(',', $this->events);
     }
 
     /**
      * {@inheritdoc}
      */
-    public function setEvents(string $events): void
+    public function setEvents(array $events): void
     {
-        $this->events = $events;
+        $this->events = implode(',', $events);
     }
 }
