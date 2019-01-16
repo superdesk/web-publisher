@@ -14,11 +14,12 @@ declare(strict_types=1);
  * @license http://www.superdesk.org/license
  */
 
-namespace SWP\Bundle\AnalyticsBundle\Services;
+namespace SWP\Bundle\CoreBundle\Service;
 
 use SWP\Bundle\AnalyticsBundle\Model\ArticleEventInterface;
 use SWP\Bundle\AnalyticsBundle\Model\ArticleStatisticsInterface;
 use SWP\Bundle\AnalyticsBundle\Repository\ArticleEventRepositoryInterface;
+use SWP\Bundle\AnalyticsBundle\Services\ArticleStatisticsServiceInterface;
 use SWP\Bundle\ContentBundle\Doctrine\ArticleRepositoryInterface;
 use SWP\Bundle\ContentBundle\Model\ArticleInterface;
 use SWP\Bundle\ContentBundle\Model\RouteInterface;

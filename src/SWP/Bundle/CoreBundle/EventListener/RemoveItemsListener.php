@@ -17,6 +17,7 @@ declare(strict_types=1);
 namespace SWP\Bundle\CoreBundle\EventListener;
 
 use SWP\Bundle\ContentBundle\Doctrine\ArticleRepositoryInterface;
+use SWP\Bundle\ContentBundle\Model\ArticleInterface;
 use SWP\Bundle\ContentBundle\Provider\RouteProviderInterface;
 use SWP\Bundle\ContentListBundle\Remover\ContentListItemsRemoverInterface;
 use SWP\Component\Common\Criteria\Criteria;
@@ -47,13 +48,6 @@ final class RemoveItemsListener
      */
     private $routeProvider;
 
-    /**
-     * RemoveItemsListener constructor.
-     *
-     * @param ContentListItemsRemoverInterface $contentListItemsRemover
-     * @param ArticleRepositoryInterface       $articleRepository
-     * @param FactoryInterface                 $contentListItemFactory
-     */
     public function __construct(
         ContentListItemsRemoverInterface $contentListItemsRemover,
         ArticleRepositoryInterface $articleRepository,
@@ -66,10 +60,7 @@ final class RemoveItemsListener
         $this->routeProvider = $routeProvider;
     }
 
-    /**
-     * @param GenericEvent $event
-     */
-    public function onListCriteriaChange(GenericEvent $event)
+    public function onListCriteriaChange(GenericEvent $event): void
     {
         $contentList = $event->getSubject();
         if (!$contentList instanceof ContentListInterface) {
@@ -88,7 +79,7 @@ final class RemoveItemsListener
             $filters = $this->determineLimit($contentList, $filters);
 
             $criteria = new Criteria($filters);
-
+            $criteria->set('status', ArticleInterface::STATUS_PUBLISHED);
             if (isset($filters['route'])) {
                 $criteria->set('route', $this->routeProvider->getByMixed($filters['route']));
             }
@@ -111,7 +102,7 @@ final class RemoveItemsListener
         }
     }
 
-    private function determineLimit(ContentListInterface $contentList, array $filters)
+    private function determineLimit(ContentListInterface $contentList, array $filters): array
     {
         $limit = 0 === $contentList->getLimit() || null === $contentList->getLimit() ? 100 : $contentList->getLimit();
         $filters['maxResults'] = $limit;

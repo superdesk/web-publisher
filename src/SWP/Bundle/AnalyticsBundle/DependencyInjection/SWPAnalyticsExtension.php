@@ -36,10 +36,6 @@ class SWPAnalyticsExtension extends Extension
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.yml');
 
-        if ($config['metrics_listener']['enabled']) {
-            $loader->load('metrics.yml');
-        }
-
         if ($config['persistence']['orm']['enabled']) {
             $this->registerStorage(Drivers::DRIVER_DOCTRINE_ORM, $config['persistence']['orm']['classes'], $container);
         }
