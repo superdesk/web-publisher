@@ -89,6 +89,12 @@ Feature: Checking if settings work correctly
         "name":"theme_logo_third"
       },
       {
+        "type":"boolean",
+        "scope":"tenant",
+        "value":false,
+        "name":"use_first_published_as_publish_date"
+      },
+      {
         "label":"Primary Font Family",
         "value":"Roboto",
         "type":"string",
