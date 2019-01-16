@@ -41,7 +41,7 @@ final class ArticleKeywordAdder implements ArticleKeywordAdderInterface
      */
     public function add(ArticleInterface $article, string $name): void
     {
-        if ($this->keywordBlacklister->isBacklisted($name)) {
+        if ($this->keywordBlacklister->isBlacklisted($name)) {
             return;
         }
 
