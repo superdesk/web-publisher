@@ -72,7 +72,7 @@ final class ArticleCriteriaMatcher implements ArticleCriteriaMatcherInterface
             return false;
         }
 
-        foreach ($criteria->get('metadata') as $key => $value) {
+        foreach ((array) $criteria->get('metadata') as $key => $value) {
             if ($value !== $article->getMetadataByKey($key)) {
                 return false;
             }
