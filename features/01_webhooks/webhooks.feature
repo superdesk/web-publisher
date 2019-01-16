@@ -19,11 +19,14 @@ Feature: Manage Webhooks
       {
         "webhook": {
           "url": "https://example.com",
-          "events": "article[published]",
+          "events": [
+            "article[published]"
+          ],
           "enabled": "1"
         }
       }
     """
+    Then the response status code should be 201
 
   Scenario: Listing existing webhooks after creating one
     Given I am authenticated as "test.user"
@@ -32,7 +35,7 @@ Feature: Manage Webhooks
     Then the response status code should be 200
     And the JSON node total should be equal to 1
     And the JSON node "_embedded._items[0].url" should be equal to "https://example.com"
-    And the JSON node "_embedded._items[0].events" should be equal to "article[published]"
+    And the JSON node "_embedded._items[0].events[0]" should be equal to "article[published]"
     And the JSON node "_embedded._items[0].enabled" should be equal to true
 
   Scenario: Updating existing webhook:
@@ -43,7 +46,9 @@ Feature: Manage Webhooks
       {
         "webhook": {
           "url": "https://example2.com",
-          "events": "article[updated]",
+          "events": [
+              "article[updated]"
+          ],
           "enabled": "0"
         }
       }
@@ -56,7 +61,7 @@ Feature: Manage Webhooks
     And I send a GET request to "/api/v1/webhooks/1"
     Then the response status code should be 200
     And the JSON node "url" should be equal to "https://example2.com"
-    And the JSON node "events" should be equal to "article[updated]"
+    And the JSON node "events[0]" should be equal to "article[updated]"
     And the JSON node "enabled" should be false
 
 

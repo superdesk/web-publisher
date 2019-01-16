@@ -29,13 +29,7 @@ interface WebhookInterface extends BaseWebhookInterface, PersistableInterface
      */
     public function getId();
 
-    /**
-     * @return string
-     */
-    public function getEvents();
+    public function getEvents(): array;
 
-    /**
-     * @param string $events
-     */
-    public function setEvents(string $events): void;
+    public function setEvents(array $events): void;
 }

@@ -16,6 +16,7 @@ namespace SWP\Bundle\WebhookBundle\Form\Type;
 
 use SWP\Bundle\CoreBundle\Form\Type\BooleanType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -34,11 +35,11 @@ class WebhookType extends AbstractType
                     new NotBlank(),
                 ],
             ])
-            ->add('events', TextType::class, [
+            ->add('events', CollectionType::class, [
                 'required' => false,
-                'constraints' => [
-                    new NotBlank(),
-                ],
+                'entry_type' => TextType::class,
+                'allow_add' => true,
+                'allow_delete' => true,
             ])
             ->add('enabled', BooleanType::class, [
                 'required' => false,

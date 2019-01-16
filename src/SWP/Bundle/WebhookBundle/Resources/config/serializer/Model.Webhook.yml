@@ -1,0 +1,6 @@
+SWP\Bundle\WebhookBundle\Model\Webhook:
+    exclusion_policy: NONE
+    properties:
+        events:
+            access_type: public_method
+            type: array
