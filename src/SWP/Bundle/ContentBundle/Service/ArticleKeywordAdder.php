@@ -21,17 +21,30 @@ final class ArticleKeywordAdder implements ArticleKeywordAdderInterface
      */
     private $articleKeywordRepository;
 
-    public function __construct(KeywordFactoryInterface $keywordFactory, RepositoryInterface $articleKeywordRepository)
-    {
+    /**
+     * @var KeywordBlackListerInterface
+     */
+    private $keywordBlacklister;
+
+    public function __construct(
+        KeywordFactoryInterface $keywordFactory,
+        RepositoryInterface $articleKeywordRepository,
+        KeywordBlackListerInterface $keywordBlackLister
+    ) {
         $this->keywordFactory = $keywordFactory;
         $this->articleKeywordRepository = $articleKeywordRepository;
+        $this->keywordBlacklister = $keywordBlackLister;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function add(ArticleInterface $article, string $name)
+    public function add(ArticleInterface $article, string $name): void
     {
+        if ($this->keywordBlacklister->isBlacklisted($name)) {
+            return;
+        }
+
         /** @var KeywordInterface $keyword */
         if ($keyword = $this->articleKeywordRepository->findOneBy(['name' => $name])) {
             $article->addKeyword($keyword);
