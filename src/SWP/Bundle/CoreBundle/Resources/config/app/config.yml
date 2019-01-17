@@ -282,6 +282,10 @@ swp_settings:
             value: ""
             scope: theme
             type: string
+        use_first_published_as_publish_date:
+            type: boolean
+            scope: tenant
+            value: false
 
 swp_analytics:
     persistence:

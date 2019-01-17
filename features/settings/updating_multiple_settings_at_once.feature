@@ -107,6 +107,12 @@ Feature: Settings bulk update
         "name":"theme_logo_third"
       },
       {
+        "type":"boolean",
+        "scope":"tenant",
+        "value":false,
+        "name":"use_first_published_as_publish_date"
+      },
+      {
         "label":"Primary Font Family",
         "value":"Lato",
         "type":"string",
@@ -271,6 +277,12 @@ Feature: Settings bulk update
         "name":"theme_logo_third"
       },
       {
+        "type":"boolean",
+        "scope":"tenant",
+        "value":false,
+        "name":"use_first_published_as_publish_date"
+      },
+      {
         "label":"Primary Font Family",
         "value":"Lato",
         "type":"string",
@@ -369,14 +381,14 @@ Feature: Settings bulk update
     And I send a "GET" request to "/api/{version}/settings/"
     Then the response status code should be 200
     And the JSON nodes should contain:
-      | [12].name               | primary_font_family                 |
-      | [12].value              | Lato                                |
-      | [13].name               | secondary_font_family               |
-      | [13].value              | Oswald                              |
+      | [13].name               | primary_font_family                 |
+      | [13].value              | Lato                                |
+      | [14].name               | secondary_font_family               |
+      | [15].value              | Oswald                              |
       | [9].name                | theme_logo                          |
       | [9].value               | .png                                |
-      | [14].name               | body_font_size                      |
-      | [14].value              | 16                                  |
+      | [15].name               | body_font_size                      |
+      | [15].value              | 16                                  |
     And I am authenticated as "test.user"
     When I add "Content-Type" header equal to "application/json"
     And I send a "PATCH" request to "/api/{version}/settings/bulk/" with body:
@@ -398,5 +410,5 @@ Feature: Settings bulk update
     And I send a "GET" request to "/api/{version}/settings/"
     Then the response status code should be 200
     And the JSON nodes should contain:
-      | [15].name                | switch   |
-    And the JSON node "[15].value" should be false
+      | [16].name                | switch   |
+    And the JSON node "[16].value" should be false
