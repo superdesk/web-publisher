@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "a9fa64136ebdde0e3112ec56b575ebdd",
+    "content-hash": "8c5e85bbce77f6c3cf6af0cdfe06b783",
     "packages": [
         {
             "name": "apache/log4php",
@@ -1490,12 +1490,12 @@
             "version": "v2.6.3",
             "source": {
                 "type": "git",
-                "url": "https://github.com/doctrine/doctrine2.git",
+                "url": "https://github.com/doctrine/orm.git",
                 "reference": "434820973cadf2da2d66e7184be370084cc32ca8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/doctrine2/zipball/434820973cadf2da2d66e7184be370084cc32ca8",
+                "url": "https://api.github.com/repos/doctrine/orm/zipball/434820973cadf2da2d66e7184be370084cc32ca8",
                 "reference": "434820973cadf2da2d66e7184be370084cc32ca8",
                 "shasum": ""
             },
@@ -4930,30 +4930,30 @@
         },
         {
             "name": "lullabot/amp",
-            "version": "1.0.7",
+            "version": "1.1.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Lullabot/amp-library.git",
-                "reference": "07f48697714b2de4f82317a4e3a82213db0e3b76"
+                "reference": "54a79b5545141e1bb28d11a8479d7f4e9a5dca9d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Lullabot/amp-library/zipball/07f48697714b2de4f82317a4e3a82213db0e3b76",
-                "reference": "07f48697714b2de4f82317a4e3a82213db0e3b76",
+                "url": "https://api.github.com/repos/Lullabot/amp-library/zipball/54a79b5545141e1bb28d11a8479d7f4e9a5dca9d",
+                "reference": "54a79b5545141e1bb28d11a8479d7f4e9a5dca9d",
                 "shasum": ""
             },
             "require": {
                 "guzzlehttp/guzzle": "~6.1",
                 "marc1706/fast-image-size": "1.*",
-                "masterminds/html5": "^2.2.0",
+                "masterminds/html5": "~2.3.0",
                 "php": ">=5.5.0",
                 "querypath/querypath": ">=3.0.4",
                 "sabberworm/php-css-parser": "^8.0.0",
-                "sebastian/diff": "~1.2"
+                "sebastian/diff": "^1.2 || ^2 || ^3"
             },
             "require-dev": {
                 "php": ">=5.5.0",
-                "phpunit/phpunit": "4.8.*",
+                "phpunit/phpunit": "4.8.* || ^6",
                 "symfony/console": "^2.7.0"
             },
             "type": "library",
@@ -4982,7 +4982,7 @@
                 "drupal",
                 "mobile"
             ],
-            "time": "2016-09-14T04:37:18+00:00"
+            "time": "2018-11-29T12:40:29+00:00"
         },
         {
             "name": "marc1706/fast-image-size",
@@ -5819,16 +5819,16 @@
         },
         {
             "name": "paragonie/random_compat",
-            "version": "v2.0.17",
+            "version": "v2.0.18",
             "source": {
                 "type": "git",
                 "url": "https://github.com/paragonie/random_compat.git",
-                "reference": "29af24f25bab834fcbb38ad2a69fa93b867e070d"
+                "reference": "0a58ef6e3146256cc3dc7cc393927bcc7d1b72db"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/paragonie/random_compat/zipball/29af24f25bab834fcbb38ad2a69fa93b867e070d",
-                "reference": "29af24f25bab834fcbb38ad2a69fa93b867e070d",
+                "url": "https://api.github.com/repos/paragonie/random_compat/zipball/0a58ef6e3146256cc3dc7cc393927bcc7d1b72db",
+                "reference": "0a58ef6e3146256cc3dc7cc393927bcc7d1b72db",
                 "shasum": ""
             },
             "require": {
@@ -5864,7 +5864,7 @@
                 "pseudorandom",
                 "random"
             ],
-            "time": "2018-07-04T16:31:37+00:00"
+            "time": "2019-01-03T20:59:08+00:00"
         },
         {
             "name": "php-amqplib/php-amqplib",
@@ -9021,31 +9021,32 @@
         },
         {
             "name": "takeit/amp-html-bundle",
-            "version": "v0.2",
+            "version": "v1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/takeit/AmpHtmlBundle.git",
-                "reference": "8deb3f53018164e21c735df48358cb3893c64675"
+                "reference": "664934b98c2aa05f30e94aa0d10f0be3170dc478"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/takeit/AmpHtmlBundle/zipball/8deb3f53018164e21c735df48358cb3893c64675",
-                "reference": "8deb3f53018164e21c735df48358cb3893c64675",
+                "url": "https://api.github.com/repos/takeit/AmpHtmlBundle/zipball/664934b98c2aa05f30e94aa0d10f0be3170dc478",
+                "reference": "664934b98c2aa05f30e94aa0d10f0be3170dc478",
                 "shasum": ""
             },
             "require": {
-                "lullabot/amp": "1.0.*",
-                "php": ">=5.5.9|^7.0",
-                "symfony/framework-bundle": "^2.3|^3.0",
-                "symfony/twig-bundle": "^2.3|^3.0"
+                "lullabot/amp": "1.1.*",
+                "php": "^7.1",
+                "symfony/framework-bundle": "^3.4 || ^4.1",
+                "symfony/twig-bundle": "^3.4 || ^4.1"
             },
             "require-dev": {
-                "phpspec/phpspec": "^2.4"
+                "phpspec/phpspec": "^5.1",
+                "sebastian/comparator": "^3.0"
             },
             "type": "symfony-bundle",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "0.2-dev"
+                    "dev-master": "0.3-dev"
                 }
             },
             "autoload": {
@@ -9074,7 +9075,7 @@
                 "google",
                 "html"
             ],
-            "time": "2017-08-08T21:20:49+00:00"
+            "time": "2019-01-17T12:46:56+00:00"
         },
         {
             "name": "true/punycode",
@@ -11987,7 +11988,7 @@
                 }
             ],
             "description": "Prevents installation of composer packages with known security vulnerabilities: no API, simply require it",
-            "time": "2018-12-30T13:00:21+00:00"
+            "time": "2018-10-21T18:01:48+00:00"
         },
         {
             "name": "sebastian/code-unit-reverse-lookup",
