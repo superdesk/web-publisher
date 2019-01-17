@@ -24,27 +24,16 @@ interface ScopeContextInterface
 
     const SCOPE_USER = 'user';
 
-    /**
-     * @return array
-     */
     public function getScopes(): array;
 
-    /**
-     * @return array
-     */
     public function getScopesOwners(): array;
 
     /**
-     * @param string                 $scope
-     * @param SettingsOwnerInterface $owner
-     *
      * @return null|SettingsOwnerInterface
      */
     public function setScopeOwner(string $scope, SettingsOwnerInterface $owner);
 
     /**
-     * @param string $scope
-     *
      * @return null|SettingsOwnerInterface
      */
     public function getScopeOwner(string $scope);

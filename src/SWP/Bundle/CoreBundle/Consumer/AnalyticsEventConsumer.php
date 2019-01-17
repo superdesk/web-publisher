@@ -24,6 +24,7 @@ use SWP\Bundle\ContentBundle\Model\RouteInterface;
 use SWP\Bundle\CoreBundle\Model\ArticleInterface;
 use SWP\Bundle\CoreBundle\Resolver\ArticleResolverInterface;
 use SWP\Component\MultiTenancy\Context\TenantContextInterface;
+use SWP\Component\MultiTenancy\Exception\TenantNotFoundException;
 use SWP\Component\MultiTenancy\Resolver\TenantResolver;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Matcher\UrlMatcherInterface;
@@ -85,7 +86,13 @@ final class AnalyticsEventConsumer implements ConsumerInterface
             return ConsumerInterface::MSG_REJECT;
         }
 
-        $this->setTenant($request);
+        try {
+            $this->setTenant($request);
+        } catch (TenantNotFoundException $e) {
+            echo $e->getMessage()."\n";
+
+            return ConsumerInterface::MSG_REJECT;
+        }
         echo 'Set tenent: '.$this->tenantContext->getTenant()->getCode()."\n";
 
         if ($request->query->has('articleId')) {

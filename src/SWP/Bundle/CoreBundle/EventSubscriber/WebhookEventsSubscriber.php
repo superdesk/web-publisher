@@ -68,16 +68,23 @@ final class WebhookEventsSubscriber extends AbstractWebhookEventSubscriber
         $subject = $this->getSubject($event);
         $webhooks = $this->getWebhooks($subject, $webhookEventName, $dispatcher);
 
+        if (0 === \count($webhooks)) {
+            return;
+        }
+
+        $serializedSubject = $this->serializer->serialize($subject, 'json');
+
         /** @var WebhookInterface $webhook */
         foreach ($webhooks as $webhook) {
-            $this->producer->publish($this->serializer->serialize([
+            $payload = sprintf($this->serializer->serialize([
                 'url' => $webhook->getUrl(),
                 'metadata' => [
                     'event' => $webhookEventName,
                     'tenant' => $webhook->getTenantCode(),
                 ],
-                'subject' => $subject,
-            ], 'json'));
+                'subject' => '%s',
+            ], 'json'), $serializedSubject);
+            $this->producer->publish($payload);
         }
     }
 

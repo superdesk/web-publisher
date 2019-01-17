@@ -380,14 +380,6 @@ services:
             - "@swp_menu.extension_chain"
         public: false
 
-    swp_core.context.scope.subscriber:
-        class: SWP\Bundle\CoreBundle\EventSubscriber\ScopeContextSubscriber
-        arguments:
-          - '@swp_settings.context.scope'
-          - '@swp_core.theme.context.tenant_aware'
-        tags:
-            - { name: kernel.event_subscriber }
-
     swp_core.webhook.subscriber:
         class: SWP\Bundle\CoreBundle\EventSubscriber\WebhookEventsSubscriber
         arguments:
