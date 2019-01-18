@@ -122,6 +122,10 @@ class CachedTenantContext extends TenantContext implements CachedTenantContextIn
 
     private function attachToEntityManager(TenantInterface $tenant): TenantInterface
     {
+        if ($this->entityManager->contains($tenant)) {
+            return $tenant;
+        }
+
         /** @var OrganizationInterface $organization */
         $organization = $this->entityManager->merge($tenant->getOrganization());
         $tenant->setOrganization($organization);
