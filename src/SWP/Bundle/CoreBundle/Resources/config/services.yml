@@ -384,7 +384,7 @@ services:
         class: SWP\Bundle\CoreBundle\EventSubscriber\WebhookEventsSubscriber
         arguments:
             - '@old_sound_rabbit_mq.send_webhook_producer'
-            - '@jms_serializer'
+            - '@swp.serializer'
             - '@swp.repository.webhook'
             - '@swp_multi_tenancy.tenant_context'
             - '@swp.repository.tenant'

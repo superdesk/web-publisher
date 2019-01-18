@@ -16,7 +16,6 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\CoreBundle\EventSubscriber;
 
-use JMS\Serializer\SerializerInterface;
 use OldSound\RabbitMqBundle\RabbitMq\ProducerInterface;
 use SWP\Bundle\ContentBundle\Event\ArticleEvent;
 use SWP\Bundle\ContentBundle\Event\RouteEvent;
@@ -24,6 +23,7 @@ use SWP\Bundle\CoreBundle\Model\WebhookInterface;
 use SWP\Bundle\CoreBundle\Repository\WebhookRepositoryInterface;
 use SWP\Bundle\CoreBundle\Webhook\WebhookEvents;
 use SWP\Bundle\MultiTenancyBundle\Context\TenantContext;
+use SWP\Component\Common\Serializer\SerializerInterface;
 use SWP\Component\MultiTenancy\Repository\TenantRepositoryInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\Event;
@@ -73,7 +73,6 @@ final class WebhookEventsSubscriber extends AbstractWebhookEventSubscriber
         }
 
         $serializedSubject = $this->serializer->serialize($subject, 'json');
-
         /** @var WebhookInterface $webhook */
         foreach ($webhooks as $webhook) {
             $payload = sprintf($this->serializer->serialize([
