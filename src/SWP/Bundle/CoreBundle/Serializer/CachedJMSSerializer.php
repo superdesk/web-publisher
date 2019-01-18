@@ -59,7 +59,11 @@ final class CachedJMSSerializer extends JMSSerializer
     private function getCacheKey($data, string $type = null, string $format = null): ?string
     {
         if ($data instanceof TimestampableInterface && $data instanceof PersistableInterface) {
-            return $data->getId().'__'.$data->getCreatedAt()->getTimestamp().'__'.$data->getUpdatedAt()->getTimestamp().'__'.$format;
+            $keyElements = [$data->getId(), $data->getCreatedAt()->getTimestamp()];
+            $keyElements[] = $data->getUpdatedAt() ? $data->getUpdatedAt()->getTimestamp() : null;
+            $keyElements[] = $format;
+
+            return \implode('__', $keyElements);
         }
 
         if (\is_string($data)) {
