@@ -29,6 +29,7 @@ class ScopeContext extends BaseScopeContext implements ScopeContextInterface
     ];
 
     private $tenantContent;
+
     private $themeContext;
 
     public function __construct(TenantContextInterface $tenantContext, ThemeContextInterface $themeContext)
