@@ -18,6 +18,7 @@ final class Version20190114140249 extends AbstractMigration
         $this->abortIf('postgresql' !== $this->connection->getDatabasePlatform()->getName(), 'Migration can only be executed safely on \'postgresql\'.');
 
         $this->addSql('ALTER TABLE swp_item ADD first_published_at TIMESTAMP(0) WITHOUT TIME ZONE DEFAULT NULL');
+        $this->addSql('ALTER TABLE swp_package ADD first_published_at TIMESTAMP(0) WITHOUT TIME ZONE DEFAULT NULL');
     }
 
     public function down(Schema $schema): void
@@ -26,5 +27,6 @@ final class Version20190114140249 extends AbstractMigration
         $this->abortIf('postgresql' !== $this->connection->getDatabasePlatform()->getName(), 'Migration can only be executed safely on \'postgresql\'.');
 
         $this->addSql('ALTER TABLE swp_item DROP first_published_at');
+        $this->addSql('ALTER TABLE swp_package DROP first_published_at');
     }
 }
