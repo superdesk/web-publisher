@@ -53,8 +53,12 @@ class Package extends BaseContent implements PackageInterface
         $this->externalData = new ArrayCollection();
     }
 
-    public function getItems()
+    public function getItems(): Collection
     {
+        if (null === $this->items) {
+            return new ArrayCollection();
+        }
+
         return $this->items;
     }
 
@@ -103,6 +107,10 @@ class Package extends BaseContent implements PackageInterface
 
     public function getGroups(): ?Collection
     {
+        if (null === $this->groups) {
+            return new ArrayCollection();
+        }
+
         return $this->groups;
     }
 

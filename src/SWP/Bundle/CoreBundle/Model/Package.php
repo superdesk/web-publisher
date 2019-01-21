@@ -47,6 +47,10 @@ class Package extends BasePackage implements PackageInterface
      */
     public function getArticles(): Collection
     {
+        if (null === $this->articles) {
+            return new ArrayCollection();
+        }
+
         return $this->articles;
     }
 
