@@ -64,7 +64,6 @@ EOT
         );
 
         $repositoryManager = $this->getContainer()->get('fos_elastica.manager');
-        /** @var ArticleRepository $repository */
         $repository = $repositoryManager->getRepository($this->getContainer()->getParameter('swp.model.article.class'));
         $articles = $repository
             ->findByCriteria($criteria)
