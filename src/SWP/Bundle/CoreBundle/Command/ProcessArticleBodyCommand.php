@@ -5,12 +5,12 @@ declare(strict_types=1);
 /*
  * This file is part of the Superdesk Web Publisher Core Bundle.
  *
- * Copyright 2018 Sourcefabric z.ú. and contributors.
+ * Copyright 2019 Sourcefabric z.ú. and contributors.
  *
  * For the full copyright and license information, please see the
  * AUTHORS and LICENSE files distributed with this source code.
  *
- * @copyright 2018 Sourcefabric z.ú
+ * @copyright 2019 Sourcefabric z.ú
  * @license http://www.superdesk.org/license
  */
 
@@ -22,16 +22,16 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class ProcessArticleCommand extends ContainerAwareCommand
+class ProcessArticleBodyCommand extends ContainerAwareCommand
 {
-    protected static $defaultName = 'swp:article:process';
+    protected static $defaultName = 'swp:article:process:body';
 
     public function __construct()
     {
         parent::__construct();
     }
 
-    protected function configure()
+    protected function configure(): void
     {
         $this
             ->setName(self::$defaultName)
@@ -49,7 +49,7 @@ EOT
             );
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): void
     {
         $term = $input->getArgument('term');
 
