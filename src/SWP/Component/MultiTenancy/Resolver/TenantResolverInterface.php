@@ -14,16 +14,11 @@
 
 namespace SWP\Component\MultiTenancy\Resolver;
 
+use SWP\Component\MultiTenancy\Model\TenantInterface;
+
 interface TenantResolverInterface
 {
     const LOCALHOST = 'localhost';
 
-    /**
-     * Resolves the tenant based on current host.
-     *
-     * @param string $host The current hostname
-     *
-     * @return \SWP\Component\MultiTenancy\Model\TenantInterface
-     */
-    public function resolve($host);
+    public function resolve(string $host): TenantInterface;
 }

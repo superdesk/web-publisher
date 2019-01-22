@@ -15,6 +15,7 @@
 namespace SWP\Component\MultiTenancy\Resolver;
 
 use SWP\Component\MultiTenancy\Exception\TenantNotFoundException;
+use SWP\Component\MultiTenancy\Model\TenantInterface;
 use SWP\Component\MultiTenancy\Repository\TenantRepositoryInterface;
 
 /**
@@ -27,20 +28,12 @@ class TenantResolver implements TenantResolverInterface
      */
     private $tenantRepository;
 
-    /**
-     * TenantResolver constructor.
-     *
-     * @param TenantRepositoryInterface $tenantRepository
-     */
     public function __construct(TenantRepositoryInterface $tenantRepository)
     {
         $this->tenantRepository = $tenantRepository;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function resolve($host = null)
+    public function resolve(string $host = null): TenantInterface
     {
         // remove www prefix from host
         $host = str_replace('www.', '', $host);

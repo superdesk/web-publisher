@@ -47,6 +47,8 @@ interface MediaManagerInterface
      */
     public function saveFile(UploadedFile $uploadedFile, $fileName);
 
+    public function downloadFile(string $url, string $mediaId, string $mimeType = null): UploadedFile;
+
     /**
      * Get public url (tenant host + path to media) for media.
      *

@@ -14,13 +14,14 @@
 
 namespace SWP\Bundle\ContentBundle\Manager;
 
+use Hoa\Mime\Mime;
 use SWP\Bundle\ContentBundle\Doctrine\ArticleMediaRepositoryInterface;
 use SWP\Bundle\ContentBundle\Factory\FileFactoryInterface;
 use SWP\Bundle\ContentBundle\Model\ArticleMedia;
 use SWP\Bundle\ContentBundle\Model\FileInterface;
-use SWP\Component\Storage\Factory\FactoryInterface;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use League\Flysystem\Filesystem;
+use Symfony\Component\Filesystem\Filesystem as SymfonyFilesystem;
 use Symfony\Component\Routing\RouterInterface;
 
 class MediaManager implements MediaManagerInterface
@@ -41,35 +42,19 @@ class MediaManager implements MediaManagerInterface
     protected $mediaRepository;
 
     /**
-     * @var FactoryInterface
-     */
-    protected $imageFactory;
-
-    /**
      * @var FileFactoryInterface
      */
     protected $fileFactory;
 
-    /**
-     * MediaManager constructor.
-     *
-     * @param ArticleMediaRepositoryInterface $mediaRepository
-     * @param Filesystem                      $filesystem
-     * @param RouterInterface                 $router
-     * @param FactoryInterface                $imageFactory
-     * @param FileFactoryInterface            $fileFactory
-     */
     public function __construct(
         ArticleMediaRepositoryInterface $mediaRepository,
         Filesystem $filesystem,
         RouterInterface $router,
-        FactoryInterface $imageFactory,
         FileFactoryInterface $fileFactory
     ) {
         $this->mediaRepository = $mediaRepository;
         $this->filesystem = $filesystem;
         $this->router = $router;
-        $this->imageFactory = $imageFactory;
         $this->fileFactory = $fileFactory;
     }
 
@@ -111,6 +96,21 @@ class MediaManager implements MediaManagerInterface
         fclose($stream);
 
         return $result;
+    }
+
+    public function downloadFile(string $url, string $mediaId, string $mimeType = null): UploadedFile
+    {
+        $pathParts = \pathinfo($url);
+        if (null === $mimeType) {
+            $mimeType = Mime::getMimeFromExtension($pathParts['extension']);
+        }
+
+        $file = \file_get_contents($url);
+        $tempLocation = \sys_get_temp_dir().\DIRECTORY_SEPARATOR.\sha1($mediaId.date('his'));
+        $filesystem = new SymfonyFilesystem();
+        $filesystem->dumpFile($tempLocation, $file);
+
+        return new UploadedFile($tempLocation, $mediaId, $mimeType, \strlen($file), null, true);
     }
 
     /**

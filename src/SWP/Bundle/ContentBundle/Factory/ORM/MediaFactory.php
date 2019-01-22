@@ -16,10 +16,13 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\ContentBundle\Factory\ORM;
 
+use SWP\Bundle\ContentBundle\Manager\MediaManagerInterface;
 use SWP\Bundle\ContentBundle\Model\ArticleMedia;
 use SWP\Bundle\ContentBundle\Factory\MediaFactoryInterface;
 use SWP\Bundle\ContentBundle\Model\ArticleInterface;
 use SWP\Bundle\ContentBundle\Model\ArticleMediaInterface;
+use SWP\Bundle\ContentBundle\Model\Image;
+use SWP\Bundle\ContentBundle\Model\ImageInterface;
 use SWP\Bundle\ContentBundle\Provider\ORM\ArticleMediaAssetProviderInterface;
 use SWP\Component\Bridge\Model\ItemInterface;
 use SWP\Component\Bridge\Model\RenditionInterface;
@@ -42,14 +45,21 @@ class MediaFactory implements MediaFactoryInterface
      */
     protected $imageRenditionFactory;
 
+    /**
+     * @var MediaManagerInterface
+     */
+    protected $mediaManager;
+
     public function __construct(
         ArticleMediaAssetProviderInterface $articleMediaAssetProvider,
         FactoryInterface $factory,
-        ImageRenditionFactoryInterface $imageRenditionFactory
+        ImageRenditionFactoryInterface $imageRenditionFactory,
+        MediaManagerInterface $mediaManager
     ) {
         $this->articleMediaAssetProvider = $articleMediaAssetProvider;
         $this->factory = $factory;
         $this->imageRenditionFactory = $imageRenditionFactory;
+        $this->mediaManager = $mediaManager;
     }
 
     public function create(ArticleInterface $article, string $key, ItemInterface $item): ArticleMediaInterface
@@ -98,11 +108,11 @@ class MediaFactory implements MediaFactoryInterface
         $articleMedia->setMimetype($originalRendition->getMimetype());
         $articleMedia->setKey($key);
 
-        $image = $this->articleMediaAssetProvider->getImage($originalRendition);
+        $image = $this->getImage($originalRendition);
         $articleMedia->setImage($image);
 
         foreach ($item->getRenditions() as $rendition) {
-            $image = $this->articleMediaAssetProvider->getImage($rendition);
+            $image = $this->getImage($rendition);
 
             if (null === $image) {
                 continue;
@@ -113,6 +123,31 @@ class MediaFactory implements MediaFactoryInterface
         }
 
         return $articleMedia;
+    }
+
+    public function getImage(RenditionInterface $rendition): ?ImageInterface
+    {
+        $file = $this->articleMediaAssetProvider->getImage($rendition);
+        if (null !== $file) {
+            return $file;
+        }
+
+        try {
+            $uploadedFile = $this->mediaManager->downloadFile(
+                $rendition->getHref(),
+                $rendition->getMedia(),
+                $rendition->getMimetype()
+            );
+        } catch (\Exception $e) {
+            // problem with file download - ignore it
+            return null;
+        }
+        /** @var Image $file */
+        $file = $this->mediaManager->handleUploadedFile($uploadedFile, $rendition->getMedia());
+        $file->setWidth($rendition->getWidth());
+        $file->setHeight($rendition->getHeight());
+
+        return $file;
     }
 
     private function findOriginalRendition(ItemInterface $item): RenditionInterface
