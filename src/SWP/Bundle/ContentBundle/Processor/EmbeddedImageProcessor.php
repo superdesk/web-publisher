@@ -45,8 +45,9 @@ final class EmbeddedImageProcessor implements ArticleBodyProcessorInterface
     {
         $body = $article->getBody();
         $mediaId = str_replace('/', '\\/', $articleMedia->getKey());
+
         preg_match(
-            "/(<!-- EMBED START Image {id: \"$mediaId\"} -->)(.+?)(<!-- EMBED END Image {id: \"$mediaId\"} -->)/im",
+            "/(<!-- ?EMBED START Image {id: \"$mediaId\"} ?-->)(.+?)(<!-- ?EMBED END Image {id: \"$mediaId\"} ?-->)/im",
             str_replace(PHP_EOL, '', $body),
             $embeds
         );
@@ -58,6 +59,7 @@ final class EmbeddedImageProcessor implements ArticleBodyProcessorInterface
         $figureString = $embeds[2];
         $crawler = new Crawler($figureString);
         $images = $crawler->filter('figure img');
+
         /** @var \DOMElement $imageElement */
         foreach ($images as $imageElement) {
             /** @var ImageRendition $rendition */
