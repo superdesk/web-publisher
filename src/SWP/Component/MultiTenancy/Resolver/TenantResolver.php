@@ -15,6 +15,7 @@
 namespace SWP\Component\MultiTenancy\Resolver;
 
 use SWP\Component\MultiTenancy\Exception\TenantNotFoundException;
+use SWP\Component\MultiTenancy\Model\TenantInterface;
 use SWP\Component\MultiTenancy\Repository\TenantRepositoryInterface;
 
 /**
@@ -27,20 +28,12 @@ class TenantResolver implements TenantResolverInterface
      */
     private $tenantRepository;
 
-    /**
-     * TenantResolver constructor.
-     *
-     * @param TenantRepositoryInterface $tenantRepository
-     */
     public function __construct(TenantRepositoryInterface $tenantRepository)
     {
         $this->tenantRepository = $tenantRepository;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function resolve($host = null)
+    public function resolve(string $host = null): TenantInterface
     {
         // remove www prefix from host
         $host = str_replace('www.', '', $host);
@@ -61,12 +54,7 @@ class TenantResolver implements TenantResolverInterface
         return $tenant;
     }
 
-    /**
-     * @param string $host
-     *
-     * @return string
-     */
-    protected function extractDomain($host)
+    protected function extractDomain(string $host = null): string
     {
         if (null === $host || TenantResolverInterface::LOCALHOST === $host) {
             return TenantResolverInterface::LOCALHOST;
@@ -90,14 +78,7 @@ class TenantResolver implements TenantResolverInterface
         return $domainString;
     }
 
-    /**
-     * Extracts subdomain from the host.
-     *
-     * @param string $host Hostname
-     *
-     * @return string
-     */
-    protected function extractSubdomain($host)
+    protected function extractSubdomain(string $host): ?string
     {
         $result = $this->extractHost($host);
 
@@ -114,7 +95,7 @@ class TenantResolver implements TenantResolverInterface
             return $subdomain;
         }
 
-        return;
+        return null;
     }
 
     private function extractHost($host)

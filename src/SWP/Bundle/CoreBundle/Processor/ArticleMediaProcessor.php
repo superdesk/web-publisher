@@ -88,7 +88,7 @@ final class ArticleMediaProcessor implements ArticleMediaProcessorInterface
 
             foreach ($packageSlideshow->getItems()->toArray() as $packageSlideshowItem) {
                 $slideshowItem = $this->slideshowItemFactory->create();
-                $articleMedia = $this->handleMedia($article, $packageSlideshowItem->getName(), $packageSlideshowItem);
+                $articleMedia = $this->mediaFactory->create($article, $packageSlideshowItem->getName(), $packageSlideshowItem);
                 $slideshowItem->setArticleMedia($articleMedia);
                 $slideshowItem->setSlideshow($slideshow);
 

@@ -1,0 +1,8 @@
+parameters:
+    excludes_analyse:
+        - *Spec.php
+        - */cache/*
+        - *Test.php
+        - */Tests/*.php
+        - */Tests/**/*.php
+        - */Migrations/*.php

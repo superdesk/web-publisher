@@ -339,8 +339,8 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface, Orde
 
                         $imageRendition = new ImageRendition();
                         $imageRendition->setImage($image);
-                        $imageRendition->setHeight($rendition['height']);
-                        $imageRendition->setWidth($rendition['width']);
+                        $imageRendition->setHeight((int) $rendition['height']);
+                        $imageRendition->setWidth((int) $rendition['width']);
                         $imageRendition->setName($key);
                         $imageRendition->setMedia($articleMedia);
                         $articleMedia->addRendition($imageRendition);
