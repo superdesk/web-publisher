@@ -151,12 +151,14 @@ class MediaFactory implements MediaFactoryInterface
 
             return null;
         }
-        /** @var Image $file */
-        $file = $this->mediaManager->handleUploadedFile($uploadedFile, $rendition->getMedia());
-        $file->setWidth($rendition->getWidth());
-        $file->setHeight($rendition->getHeight());
+        /** @var Image $image */
+        $image = $this->mediaManager->handleUploadedFile($uploadedFile, $rendition->getMedia());
 
-        return $file;
+        list($width, $height) = \getimagesize($uploadedFile->getRealPath());
+        $image->setWidth($width);
+        $image->setHeight($height);
+
+        return $image;
     }
 
     private function findOriginalRendition(ItemInterface $item): RenditionInterface

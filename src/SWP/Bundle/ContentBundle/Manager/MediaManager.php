@@ -64,8 +64,8 @@ class MediaManager implements MediaManagerInterface
     public function handleUploadedFile(UploadedFile $uploadedFile, $mediaId)
     {
         $mediaId = ArticleMedia::handleMediaId($mediaId);
-        $this->saveFile($uploadedFile, $mediaId);
         $asset = $this->createMediaAsset($uploadedFile, $mediaId);
+        $this->saveFile($uploadedFile, $mediaId);
         $this->mediaRepository->persist($asset);
 
         return $asset;
