@@ -81,6 +81,9 @@ final class EmbeddedImageProcessor implements ArticleBodyProcessorInterface
 
                     $imageElement->setAttribute('data-media-id', $mediaId);
                     $imageElement->setAttribute('data-image-id', $rendition->getImage()->getAssetId());
+                    $imageElement->setAttribute('width', (string) $rendition->getWidth());
+                    $imageElement->setAttribute('height', (string) $rendition->getHeight());
+
                     if (null !== $altAttribute) {
                         $imageElement->setAttribute('alt', $altAttribute->nodeValue);
                     }
