@@ -20,5 +20,5 @@ interface TenantResolverInterface
 {
     const LOCALHOST = 'localhost';
 
-    public function resolve(string $host): TenantInterface;
+    public function resolve(string $host = null): TenantInterface;
 }
