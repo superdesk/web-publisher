@@ -20,6 +20,7 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Parameter;
+use Symfony\Component\DependencyInjection\Reference;
 
 class RegisterMediaFactoryPass implements CompilerPassInterface
 {
@@ -42,10 +43,11 @@ class RegisterMediaFactoryPass implements CompilerPassInterface
         $mediaFactoryDefinition = new Definition(
             $container->getParameter('swp.factory.media.class'),
             [
-                $container->findDefinition(ArticleMediaAssetProvider::class),
+                new Reference(ArticleMediaAssetProvider::class),
                 $baseDefinition,
-                $container->findDefinition('swp.factory.image_rendition'),
-                $container->findDefinition('swp_content_bundle.manager.media'),
+                new Reference('swp.factory.image_rendition'),
+                new Reference('swp_content_bundle.manager.media'),
+                new Reference('monolog.logger.swp_asset_download'),
             ]
         );
         $mediaFactoryDefinition->setPublic(true);

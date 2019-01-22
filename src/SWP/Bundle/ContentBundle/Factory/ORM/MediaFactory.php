@@ -16,6 +16,7 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\ContentBundle\Factory\ORM;
 
+use Psr\Log\LoggerInterface;
 use SWP\Bundle\ContentBundle\Manager\MediaManagerInterface;
 use SWP\Bundle\ContentBundle\Model\ArticleMedia;
 use SWP\Bundle\ContentBundle\Factory\MediaFactoryInterface;
@@ -50,16 +51,23 @@ class MediaFactory implements MediaFactoryInterface
      */
     protected $mediaManager;
 
+    /**
+     * @var LoggerInterface
+     */
+    private $logger;
+
     public function __construct(
         ArticleMediaAssetProviderInterface $articleMediaAssetProvider,
         FactoryInterface $factory,
         ImageRenditionFactoryInterface $imageRenditionFactory,
-        MediaManagerInterface $mediaManager
+        MediaManagerInterface $mediaManager,
+        LoggerInterface $logger
     ) {
         $this->articleMediaAssetProvider = $articleMediaAssetProvider;
         $this->factory = $factory;
         $this->imageRenditionFactory = $imageRenditionFactory;
         $this->mediaManager = $mediaManager;
+        $this->logger = $logger;
     }
 
     public function create(ArticleInterface $article, string $key, ItemInterface $item): ArticleMediaInterface
@@ -139,7 +147,8 @@ class MediaFactory implements MediaFactoryInterface
                 $rendition->getMimetype()
             );
         } catch (\Exception $e) {
-            // problem with file download - ignore it
+            $this->logger->error(\sprintf('%s: %s', $rendition->getHref(), $e->getMessage()));
+
             return null;
         }
         /** @var Image $file */
