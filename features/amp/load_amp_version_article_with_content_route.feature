@@ -110,6 +110,10 @@ Feature: Rendering AMP HTML version of the content assigned to route of type "co
      """
     Then the response status code should be 200
 
+    When I go to "http://localhost/contact"
+    Then the response status code should be 200
+    And the response should contain "Abstract html test"
+    
     When I go to "http://localhost/contact?amp"
     Then the response status code should be 200
     And the response should contain "AMP Demo Theme"
