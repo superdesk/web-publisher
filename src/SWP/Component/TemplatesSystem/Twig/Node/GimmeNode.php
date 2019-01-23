@@ -28,8 +28,8 @@ class GimmeNode extends \Twig_Node
      * @param \Twig_Node_Expression|null $parameters
      * @param \Twig_Node_Expression|null $ignoreContext
      * @param \Twig_Node                 $body
-     * @param $lineno
-     * @param null $tag
+     * @param int                        $lineno
+     * @param null                       $tag
      */
     public function __construct(
         \Twig_Node $annotation,

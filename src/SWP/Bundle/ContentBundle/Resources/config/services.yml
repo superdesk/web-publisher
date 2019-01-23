@@ -157,7 +157,6 @@ services:
             - '@swp.repository.media'
             - '@swp_filesystem'
             - '@router'
-            - '@swp.factory.image'
             - '@swp.factory.file'
 
     swp_content_bundle.processor.article_body:

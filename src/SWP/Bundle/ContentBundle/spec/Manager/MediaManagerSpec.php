@@ -19,7 +19,6 @@ use SWP\Bundle\ContentBundle\Doctrine\ArticleMediaRepositoryInterface;
 use SWP\Bundle\ContentBundle\Factory\FileFactoryInterface;
 use SWP\Bundle\ContentBundle\Manager\MediaManager;
 use League\Flysystem\Filesystem;
-use SWP\Component\Storage\Factory\FactoryInterface;
 use Symfony\Component\Routing\RouterInterface;
 
 class MediaManagerSpec extends ObjectBehavior
@@ -28,10 +27,9 @@ class MediaManagerSpec extends ObjectBehavior
         ArticleMediaRepositoryInterface $mediaRepository,
         Filesystem $filesystem,
         RouterInterface $router,
-        FactoryInterface $imageFactory,
         FileFactoryInterface $fileFactory
     ) {
-        $this->beConstructedWith($mediaRepository, $filesystem, $router, $imageFactory, $fileFactory);
+        $this->beConstructedWith($mediaRepository, $filesystem, $router, $fileFactory);
     }
 
     public function it_is_initializable()

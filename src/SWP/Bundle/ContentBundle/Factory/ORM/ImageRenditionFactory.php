@@ -39,8 +39,8 @@ final class ImageRenditionFactory implements ImageRenditionFactoryInterface
         $imageRendition = $this->create();
         $imageRendition->setImage($image);
         $imageRendition->setMedia($articleMedia);
-        $imageRendition->setHeight($rendition->getHeight());
-        $imageRendition->setWidth($rendition->getWidth());
+        $imageRendition->setHeight(null !== $rendition->getHeight() ? $rendition->getHeight() : $image->getHeight());
+        $imageRendition->setWidth(null !== $rendition->getWidth() ? $rendition->getWidth() : $image->getWidth());
         $imageRendition->setName($rendition->getName());
         $imageRendition->setPreviewUrl($rendition->getHref());
 

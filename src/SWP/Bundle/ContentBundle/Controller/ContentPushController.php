@@ -49,9 +49,8 @@ class ContentPushController extends Controller
      */
     public function pushContentAction(Request $request)
     {
-        $content = $request->getContent();
         $dispatcher = $this->get('event_dispatcher');
-        $package = $this->get('swp_bridge.transformer.json_to_package')->transform($content);
+        $package = $this->get('swp_bridge.transformer.json_to_package')->transform($request->getContent());
         $dispatcher->dispatch(Events::SWP_VALIDATION, new GenericEvent($package));
 
         $existingPackage = $this->findExistingPackage($package);
@@ -169,10 +168,11 @@ class ContentPushController extends Controller
 
     protected function findExistingPackage(PackageInterface $package)
     {
-        $existingPackage = $this->getPackageRepository()->findOneBy(['guid' => $package->getGuid()]);
+        $packageRepository = $this->getPackageRepository();
+        $existingPackage = $packageRepository->findOneBy(['guid' => $package->getGuid()]);
 
         if (null === $existingPackage && null !== $package->getEvolvedFrom()) {
-            $existingPackage = $this->getPackageRepository()->findOneBy([
+            $existingPackage = $packageRepository->findOneBy([
                 'guid' => $package->getEvolvedFrom(),
             ]);
         }
