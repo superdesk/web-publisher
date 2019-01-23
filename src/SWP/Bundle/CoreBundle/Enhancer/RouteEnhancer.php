@@ -84,7 +84,7 @@ class RouteEnhancer implements RouteEnhancerInterface
             $defaults = $this->setTemplateName($content, $defaults);
             $defaults = $this->setRouteMeta($defaults);
 
-            if (!isset($defaults['slug']) && RouteInterface::TYPE_CONTENT === $route->getType()) {
+            if (null !== $content && !isset($defaults['slug']) && RouteInterface::TYPE_CONTENT === $route->getType()) {
                 $defaults['slug'] = $content->getSlug();
             }
             $this->enhancedRoutesDefaults[$defaultsKey] = $defaults;
