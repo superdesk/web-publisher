@@ -38,6 +38,7 @@ class ProcessArticleBodyCommand extends ContainerAwareCommand
             ->setDescription('Finds articles by term and runs articles body processors on it.')
             ->addArgument('term', InputArgument::REQUIRED, 'Search term.')
             ->addOption('limit', null, InputArgument::OPTIONAL, 'Limit.', 10)
+            ->addOption('offset', null, InputArgument::OPTIONAL, 'Offset.', 0)
             ->setHelp(<<<'EOT'
 The <info>swp:article:process</info> finds articles by given term and runs article's body processors on it.
 
@@ -67,9 +68,9 @@ EOT
         $repository = $repositoryManager->getRepository($this->getContainer()->getParameter('swp.model.article.class'));
         $articles = $repository
             ->findByCriteria($criteria)
-            ->getResults(0, (int) $input->getOption('limit'));
+            ->getResults((int) $input->getOption('offset'), (int) $input->getOption('limit'));
 
-        $output->writeln('<bg=green;options=bold>There are total of . '.$articles->getTotalHits().' articles.</>');
+        $output->writeln('<bg=green;options=bold>There are total of '.$articles->getTotalHits().' articles.</>');
 
         $articleBodyProcessorChain = $this->getContainer()->get('swp_content_bundle.processor.article_body');
         $articleRepository = $this->getContainer()->get('swp.repository.article');
