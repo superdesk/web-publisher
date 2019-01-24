@@ -76,10 +76,16 @@ class RouteEnhancer implements RouteEnhancerInterface
     {
         $defaultsKey = md5(json_encode($defaults));
         if (!isset($this->enhancedRoutesDefaults[$defaultsKey])) {
+            $route = $defaults[RouteObjectInterface::ROUTE_OBJECT];
+
             $defaults['_controller'] = ContentController::class.'::renderPageAction';
             $defaults = $this->setArticleMeta($this->getContentFromDefaults($defaults), $defaults);
             $defaults = $this->setTemplateName($this->getContentFromDefaults($defaults), $defaults);
             $defaults = $this->setRouteMeta($defaults);
+
+            if (null !== ($article = $this->getContentFromDefaults($defaults)) && !isset($defaults['slug']) && RouteInterface::TYPE_CONTENT === $route->getType()) {
+                $defaults['slug'] = $article->getSlug();
+            }
             $this->enhancedRoutesDefaults[$defaultsKey] = $defaults;
         } else {
             $defaults = $this->enhancedRoutesDefaults[$defaultsKey];
