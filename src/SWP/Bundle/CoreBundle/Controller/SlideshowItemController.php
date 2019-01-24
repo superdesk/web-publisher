@@ -19,6 +19,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use SWP\Bundle\ContentBundle\Model\SlideshowInterface;
 use SWP\Component\Common\Criteria\Criteria;
+use SWP\Component\Common\Exception\NotFoundHttpException;
 use SWP\Component\Common\Pagination\PaginationData;
 use SWP\Component\Common\Response\ResourcesListResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;

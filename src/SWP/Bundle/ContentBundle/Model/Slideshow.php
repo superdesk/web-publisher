@@ -16,11 +16,12 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\ContentBundle\Model;
 
+use SWP\Component\Common\Model\SoftDeletableTrait;
 use SWP\Component\Common\Model\TimestampableTrait;
 
 class Slideshow implements SlideshowInterface
 {
-    use TimestampableTrait;
+    use TimestampableTrait, SoftDeletableTrait;
 
     /**
      * @var string|null

@@ -16,10 +16,11 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\ContentBundle\Model;
 
+use SWP\Component\Common\Model\SoftDeletableInterface;
 use SWP\Component\Common\Model\TimestampableInterface;
 use SWP\Component\Storage\Model\PersistableInterface;
 
-interface SlideshowInterface extends PersistableInterface, TimestampableInterface
+interface SlideshowInterface extends PersistableInterface, TimestampableInterface, SoftDeletableInterface
 {
     public function getCode(): string;
 
