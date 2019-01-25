@@ -76,12 +76,14 @@ class ContentPushConsumer implements ConsumerInterface
         $this->tenantContext = $tenantContext;
     }
 
-    public function execute(AMQPMessage $msg)
+    public function execute(AMQPMessage $msg): int
     {
         try {
             return $this->doExecute($msg);
         } catch (\Exception $e) {
             $this->logger->error($e->getMessage(), ['exception' => $e]);
+
+            return ConsumerInterface::MSG_REJECT;
         }
     }
 
