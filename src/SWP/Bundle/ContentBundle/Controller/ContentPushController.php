@@ -17,6 +17,7 @@ declare(strict_types=1);
 namespace SWP\Bundle\ContentBundle\Controller;
 
 use Hoa\Mime\Mime;
+use SWP\Component\Bridge\Events;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -26,6 +27,7 @@ use SWP\Bundle\ContentBundle\Provider\FileProvider;
 use SWP\Component\Common\Response\ResponseContext;
 use SWP\Component\Common\Response\SingleResourceResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\EventDispatcher\GenericEvent;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
@@ -46,8 +48,11 @@ class ContentPushController extends Controller
      */
     public function pushContentAction(Request $request)
     {
+        $package = $this->container->get('swp_bridge.transformer.json_to_package')->transform($request->getContent());
+        $this->container->get('event_dispatcher')->dispatch(Events::SWP_VALIDATION, new GenericEvent($package));
+
         $payload = \serialize([
-            'content' => $request->getContent(),
+            'package' => $package,
             'tenant' => $this->container->get('swp_multi_tenancy.tenant_context')->getTenant(),
         ]);
         $this->container->get('old_sound_rabbit_mq.content_push_producer')->publish($payload);

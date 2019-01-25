@@ -82,7 +82,6 @@ class ContentPushConsumer implements ConsumerInterface
         try {
             return $this->doExecute($msg);
         } catch (\Exception $e) {
-            dump($e);
             $this->logger->error($e->getMessage(), ['exception' => $e]);
 
             return ConsumerInterface::MSG_REJECT;
@@ -94,11 +93,8 @@ class ContentPushConsumer implements ConsumerInterface
         $decodedMessage = \unserialize($message->body);
         $this->tenantContext->setTenant($decodedMessage['tenant']);
 
-        $package = $this->jsonToPackageTransformer->transform($decodedMessage['content']);
-        $this->eventDispatcher->dispatch(Events::SWP_VALIDATION, new GenericEvent($package));
-
         /** @var PackageInterface $existingPackage */
-        $existingPackage = $this->findExistingPackage($package);
+        $existingPackage = $this->findExistingPackage($decodedMessage['package']);
         if (null !== $existingPackage) {
             $package->setId($existingPackage->getId());
             $package->setCreatedAt($existingPackage->getCreatedAt());

@@ -24,7 +24,9 @@ security:
             security: false
         extra_data:
             pattern: ^/api/([v0-9]{2}/packages/extra/*)
-            methods: POST
+            methods:
+                - POST
+                - PUT
             security: false
         article_comments:
             pattern: ^/api/([v0-9]{2}/content/articles)
