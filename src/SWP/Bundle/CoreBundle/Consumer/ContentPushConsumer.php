@@ -24,6 +24,7 @@ use SWP\Bundle\BridgeBundle\Doctrine\ORM\PackageRepository;
 use SWP\Bundle\CoreBundle\Model\PackageInterface;
 use SWP\Component\Bridge\Transformer\DataTransformerInterface;
 use SWP\Component\MultiTenancy\Context\TenantContextInterface;
+use Symfony\Component\Cache\ResettableInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use SWP\Component\Bridge\Events;
 use Symfony\Component\EventDispatcher\GenericEvent;
@@ -81,6 +82,7 @@ class ContentPushConsumer implements ConsumerInterface
         try {
             return $this->doExecute($msg);
         } catch (\Exception $e) {
+            dump($e);
             $this->logger->error($e->getMessage(), ['exception' => $e]);
 
             return ConsumerInterface::MSG_REJECT;
@@ -90,10 +92,11 @@ class ContentPushConsumer implements ConsumerInterface
     public function doExecute(AMQPMessage $message): int
     {
         $decodedMessage = \unserialize($message->body);
+        $this->tenantContext->setTenant($decodedMessage['tenant']);
+
         $package = $this->jsonToPackageTransformer->transform($decodedMessage['content']);
         $this->eventDispatcher->dispatch(Events::SWP_VALIDATION, new GenericEvent($package));
 
-        $this->tenantContext->setTenant($decodedMessage['tenant']);
         /** @var PackageInterface $existingPackage */
         $existingPackage = $this->findExistingPackage($package);
         if (null !== $existingPackage) {
@@ -111,7 +114,7 @@ class ContentPushConsumer implements ConsumerInterface
             $this->eventDispatcher->dispatch(Events::PACKAGE_POST_UPDATE, new GenericEvent($package, ['eventName' => Events::PACKAGE_POST_UPDATE]));
             $this->eventDispatcher->dispatch(Events::PACKAGE_PROCESSED, new GenericEvent($package, ['eventName' => Events::PACKAGE_PROCESSED]));
 
-            $this->packageObjectManager->clear();
+            $this->reset();
             $this->logger->info(sprintf('Package %s was updated', $existingPackage->getGuid()));
 
             return ConsumerInterface::MSG_ACK;
@@ -122,7 +125,7 @@ class ContentPushConsumer implements ConsumerInterface
         $this->eventDispatcher->dispatch(Events::PACKAGE_POST_CREATE, new GenericEvent($package, ['eventName' => Events::PACKAGE_POST_CREATE]));
         $this->eventDispatcher->dispatch(Events::PACKAGE_PROCESSED, new GenericEvent($package, ['eventName' => Events::PACKAGE_PROCESSED]));
 
-        $this->packageObjectManager->clear();
+        $this->reset();
         $this->logger->info(sprintf('Package %s was created', $package->getGuid()));
 
         return ConsumerInterface::MSG_ACK;
@@ -139,5 +142,13 @@ class ContentPushConsumer implements ConsumerInterface
         }
 
         return $existingPackage;
+    }
+
+    private function reset(): void
+    {
+        $this->packageObjectManager->clear();
+        if ($this->tenantContext instanceof ResettableInterface) {
+            $this->tenantContext->reset();
+        }
     }
 }
