@@ -53,7 +53,7 @@ class Package extends BaseContent implements PackageInterface
         $this->externalData = new ArrayCollection();
     }
 
-    public function getItems()
+    public function getItems(): Collection
     {
         return $this->items;
     }
