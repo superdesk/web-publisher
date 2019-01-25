@@ -51,6 +51,14 @@ class ProcessArticleSlideshowsListener extends AbstractArticleMediaListener
             return;
         }
 
+        foreach ($package->getGroups() as $packageGroup) {
+            foreach ($packageGroup->getItems() as $item) {
+                if ($this->isTypeAllowed($item->getType())) {
+                    $this->removeArticleMediaIfNeeded($item->getName(), $article);
+                }
+            }
+        }
+
         $this->removeOldArticleSlideshows($article);
 
         foreach ($package->getGroups() as $packageGroup) {
@@ -61,10 +69,8 @@ class ProcessArticleSlideshowsListener extends AbstractArticleMediaListener
             foreach ($packageGroup->getItems() as $item) {
                 if ($this->isTypeAllowed($item->getType())) {
                     $slideshowItem = new SlideshowItem();
-
-                    $this->removeArticleMediaIfNeeded($item->getName(), $article);
-
                     $articleMedia = $this->handleMedia($article, $item->getName(), $item);
+
                     $this->articleMediaRepository->persist($articleMedia);
 
                     $slideshowItem->setArticleMedia($articleMedia);

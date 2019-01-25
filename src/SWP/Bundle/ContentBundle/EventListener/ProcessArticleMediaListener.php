@@ -16,11 +16,7 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\ContentBundle\EventListener;
 
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use SWP\Bundle\ContentBundle\Event\ArticleEvent;
-use SWP\Bundle\ContentBundle\Model\ArticleInterface;
-use SWP\Component\Bridge\Model\PackageInterface;
 
 class ProcessArticleMediaListener extends AbstractArticleMediaListener
 {
@@ -34,12 +30,21 @@ class ProcessArticleMediaListener extends AbstractArticleMediaListener
         }
 
         $this->removeOldArticleMedia($article);
-        $this->removeIfNeededAndPersist($package, $article);
-    }
 
-    private function removeIfNeededAndPersist(PackageInterface $package, ArticleInterface $article): void
-    {
-        $items = $this->getItemsWithoutSlideshows($package);
+        $guids = [];
+        foreach ($package->getGroups() as $packageGroup) {
+            foreach ($packageGroup->getItems() as $item) {
+                if ($this->isTypeAllowed($item->getType())) {
+                    $guids[] = $item->getGuid();
+                }
+            }
+        }
+
+        $items = $package->getItems()->filter(
+            function ($entry) use ($guids) {
+                return !\in_array($entry->getGuid(), $guids, true);
+            }
+        );
 
         foreach ($items as $packageItem) {
             $key = $packageItem->getName();
@@ -50,36 +55,22 @@ class ProcessArticleMediaListener extends AbstractArticleMediaListener
                 $this->articleMediaRepository->persist($articleMedia);
             }
 
-            $this->removeIfNeededAndPersist($packageItem, $article);
-        }
-    }
+            if (null !== ($packageItems = $packageItem->getItems()) && 0 !== $packageItems->count()) {
+                $packageItems = $packageItem->getItems()->filter(
+                    function ($entry) use ($guids) {
+                        return !\in_array($entry->getGuid(), $guids, true);
+                    }
+                );
 
-    private function getItemsWithoutSlideshows(PackageInterface $package): Collection
-    {
-        $guids = $this->getSlideshowsGuidsToFilterOut($package);
+                foreach ($packageItems as $key => $item) {
+                    if ($this->isTypeAllowed($item->getType())) {
+                        $this->removeArticleMediaIfNeeded($key, $article);
 
-        if (null !== $package->getItems() && 0 !== $package->getItems()->count()) {
-            return $package->getItems()->filter(
-                function ($entry) use ($guids) {
-                    return !\in_array($entry->getGuid(), $guids, true);
-                }
-            );
-        }
-
-        return new ArrayCollection();
-    }
-
-    private function getSlideshowsGuidsToFilterOut(PackageInterface $package): array
-    {
-        $guids = [];
-        foreach ($package->getGroups() as $packageGroup) {
-            foreach ($packageGroup->getItems() as $item) {
-                if ($this->isTypeAllowed($item->getType())) {
-                    $guids[] = $item->getGuid();
+                        $articleMedia = $this->handleMedia($article, $key, $item);
+                        $this->articleMediaRepository->persist($articleMedia);
+                    }
                 }
             }
         }
-
-        return $guids;
     }
 }

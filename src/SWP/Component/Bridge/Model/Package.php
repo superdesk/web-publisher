@@ -27,7 +27,7 @@ class Package extends BaseContent implements PackageInterface
     /**
      * @var Collection
      */
-    protected $items;
+    public $items;
 
     /**
      * @var string
@@ -53,12 +53,8 @@ class Package extends BaseContent implements PackageInterface
         $this->externalData = new ArrayCollection();
     }
 
-    public function getItems(): Collection
+    public function getItems()
     {
-        if (null === $this->items) {
-            return new ArrayCollection();
-        }
-
         return $this->items;
     }
 
@@ -107,10 +103,6 @@ class Package extends BaseContent implements PackageInterface
 
     public function getGroups(): ?Collection
     {
-        if (null === $this->groups) {
-            return new ArrayCollection();
-        }
-
         return $this->groups;
     }
 
