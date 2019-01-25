@@ -18,8 +18,4 @@ use SWP\Bundle\StorageBundle\Doctrine\ORM\EntityRepository;
 
 class PackageRepository extends EntityRepository
 {
-    public function contains($object)
-    {
-        return $this->_em->contains($object);
-    }
 }
