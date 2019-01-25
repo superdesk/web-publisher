@@ -27,7 +27,7 @@ class Package extends BaseContent implements PackageInterface
     /**
      * @var Collection
      */
-    public $items;
+    protected $items;
 
     /**
      * @var string
