@@ -560,6 +560,15 @@ services:
             - '@router'
             - '@swp.resolver.article'
 
+    SWP\Bundle\CoreBundle\Consumer\ContentPushConsumer:
+        arguments:
+            - '@monolog.logger.swp_content_push'
+            - '@swp.repository.package'
+            - '@event_dispatcher'
+            - '@swp_bridge.transformer.json_to_package'
+            - '@swp.object_manager.package'
+            - '@swp_multi_tenancy.tenant_context'
+
     swp_core.article.populator:
         class: SWP\Bundle\CoreBundle\Rule\Populator\ArticlePopulator
         arguments:
