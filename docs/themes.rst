@@ -142,7 +142,7 @@ If You want to use service worker or manifest file (it must be placed in root le
 
     ex. <link rel="manifest" href="/manifest.json">
 
-Where {fileName} can be only :code:`sw` or :code:`manifest`.
+Where {fileName} can be only :code:`sw`, :code:`manifest`, :code:`favicon` or :code:`ads`.
 
 
 Load bundles' assets
