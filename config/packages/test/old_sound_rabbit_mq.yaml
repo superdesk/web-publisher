@@ -1,0 +1,5 @@
+services:
+    old_sound_rabbit_mq.content_push_producer:
+        class: SWP\Bundle\CoreBundle\Tests\Producer\TestProducer
+        arguments:
+            - '@SWP\Bundle\CoreBundle\Consumer\ContentPushConsumer'
