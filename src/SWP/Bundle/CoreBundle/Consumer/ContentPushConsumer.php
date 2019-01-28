@@ -93,8 +93,11 @@ class ContentPushConsumer implements ConsumerInterface
         $decodedMessage = \unserialize($message->body);
         $this->tenantContext->setTenant($decodedMessage['tenant']);
 
+        /** @var PackageInterface $package */
+        $package = $decodedMessage['package'];
+
         /** @var PackageInterface $existingPackage */
-        $existingPackage = $this->findExistingPackage($decodedMessage['package']);
+        $existingPackage = $this->findExistingPackage($package);
         if (null !== $existingPackage) {
             $package->setId($existingPackage->getId());
             $package->setCreatedAt($existingPackage->getCreatedAt());
