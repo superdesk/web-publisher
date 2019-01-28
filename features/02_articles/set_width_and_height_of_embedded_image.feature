@@ -7,7 +7,7 @@ Feature: Set width and height of embedded images
     Given I add "Content-Type" header equal to "application/json"
     And I send a "POST" request to "/api/v1/assets/push" with parameters:
       | key          | value                 |
-      | media_id     | 20161206161256/383592fef7acb9fc4731a24a691285b7bc51477264a5e343d95c74ccf1d85a93 |
+      | media_id     | 20161206161256/383592fef7acb9fc4731a24a691285b7bc51477264a5e343d95c74ccf1d85a93a |
       | media        | @image.jpg            |
     Then the response status code should be 201
 
@@ -71,9 +71,9 @@ Feature: Set width and height of embedded images
                 "x":1085,
                 "y":368
               },
-              "media":"20161206161256/383592fef7acb9fc4731a24a691285b7bc51477264a5e343d95c74ccf1d85a93.jpg",
+              "media":"20161206161256/383592fef7acb9fc4731a24a691285b7bc51477264a5e343d95c74ccf1d85a93a.jpg",
               "height":1365,
-              "href":"https://amazonaws.com/20161206161256/383592fef7acb9fc4731a24a691285b7bc51477264a5e343d95c74ccf1d85a93.jpg"
+              "href":"https://amazonaws.com/20161206161256/383592fef7acb9fc4731a24a691285b7bc51477264a5e343d95c74ccf1d85a93a.jpg"
             }
           },
           "pubstatus":"usable",
