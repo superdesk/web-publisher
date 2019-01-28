@@ -25,6 +25,7 @@ use Symfony\Component\DomCrawler\Crawler;
 
 final class EmbeddedImageProcessor implements ArticleBodyProcessorInterface
 {
+    private const DEFAULT_ARTICLE_BODY_IMAGE_RENDITION = 'original';
     /**
      * @var MediaManagerInterface
      */
@@ -64,7 +65,7 @@ final class EmbeddedImageProcessor implements ArticleBodyProcessorInterface
         foreach ($images as $imageElement) {
             /** @var ImageRendition $rendition */
             foreach ($articleMedia->getRenditions() as $rendition) {
-                if ('original' === $rendition->getName()) {
+                if (self::DEFAULT_ARTICLE_BODY_IMAGE_RENDITION === $rendition->getName()) {
                     $attributes = $imageElement->attributes;
                     $altAttribute = null;
                     if ($imageElement->hasAttribute('alt')) {
