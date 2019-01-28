@@ -41,6 +41,8 @@ class CachedTenantContext extends TenantContext implements CachedTenantContextIn
      */
     protected $entityManager;
 
+    private $cacheKeys = [];
+
     /**
      * CachedTenantContext constructor.
      *
@@ -109,7 +111,9 @@ class CachedTenantContext extends TenantContext implements CachedTenantContextIn
         }
 
         $this->dispatcher->dispatch(MultiTenancyEvents::TENANTABLE_ENABLE);
-        $this->cacheProvider->save(self::getCacheKey($host), $tenant);
+        $cacheKey = self::getCacheKey($host);
+        $this->cacheKeys[] = $cacheKey;
+        $this->cacheProvider->save($cacheKey, $tenant);
     }
 
     /**
@@ -118,6 +122,14 @@ class CachedTenantContext extends TenantContext implements CachedTenantContextIn
     public static function getCacheKey(string $host): string
     {
         return md5('tenant_cache__'.$host);
+    }
+
+    public function reset()
+    {
+        $this->tenant = null;
+        foreach ($this->cacheKeys as $cacheKey) {
+            $this->cacheProvider->delete($cacheKey);
+        }
     }
 
     private function attachToEntityManager(TenantInterface $tenant): TenantInterface

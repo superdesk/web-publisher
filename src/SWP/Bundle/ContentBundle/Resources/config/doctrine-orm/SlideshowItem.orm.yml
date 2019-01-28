@@ -39,6 +39,7 @@ SWP\Bundle\ContentBundle\Model\SlideshowItem:
         slideshow:
             targetEntity: SWP\Bundle\ContentBundle\Model\SlideshowInterface
             cascade: ["all"]
+            inversedBy: items
             joinColumn:
                 name: slideshow_id
                 referencedColumnName: id

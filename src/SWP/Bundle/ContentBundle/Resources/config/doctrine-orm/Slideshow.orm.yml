@@ -8,6 +8,9 @@ SWP\Bundle\ContentBundle\Model\Slideshow:
             generator:
                 strategy: IDENTITY
     gedmo:
+        soft_deleteable:
+            field_name: deletedAt
+            time_aware: false
         loggable: true
     fields:
         code:
@@ -23,6 +26,9 @@ SWP\Bundle\ContentBundle\Model\Slideshow:
             gedmo:
                 timestampable:
                     on: update
+        deletedAt:
+            type: datetime
+            nullable: true
     manyToOne:
         article:
             targetEntity: SWP\Bundle\ContentBundle\Model\ArticleInterface
@@ -30,3 +36,9 @@ SWP\Bundle\ContentBundle\Model\Slideshow:
             joinColumn:
                 referencedColumnName: id
                 onDelete: CASCADE
+    oneToMany:
+        items:
+            targetEntity: SWP\Bundle\ContentBundle\Model\SlideshowItemInterface
+            mappedBy: slideshow
+            orphanRemoval: true
+            cascade: ['all']
