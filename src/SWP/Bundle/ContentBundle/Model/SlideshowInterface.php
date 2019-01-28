@@ -16,6 +16,7 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\ContentBundle\Model;
 
+use Doctrine\Common\Collections\Collection;
 use SWP\Component\Common\Model\SoftDeletableInterface;
 use SWP\Component\Common\Model\TimestampableInterface;
 use SWP\Component\Storage\Model\PersistableInterface;
@@ -29,4 +30,8 @@ interface SlideshowInterface extends PersistableInterface, TimestampableInterfac
     public function getArticle(): ?ArticleInterface;
 
     public function setArticle(?ArticleInterface $article): void;
+
+    public function getItems(): Collection;
+
+    public function setItems(Collection $items): void;
 }
