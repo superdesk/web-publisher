@@ -55,10 +55,6 @@ class Package extends BaseContent implements PackageInterface
 
     public function getItems(): Collection
     {
-        if (null === $this->items) {
-            return new ArrayCollection();
-        }
-
         return $this->items;
     }
 
@@ -107,10 +103,6 @@ class Package extends BaseContent implements PackageInterface
 
     public function getGroups(): ?Collection
     {
-        if (null === $this->groups) {
-            return new ArrayCollection();
-        }
-
         return $this->groups;
     }
 
