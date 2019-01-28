@@ -22,6 +22,7 @@ use PhpAmqpLib\Message\AMQPMessage;
 use Psr\Log\LoggerInterface;
 use SWP\Bundle\BridgeBundle\Doctrine\ORM\PackageRepository;
 use SWP\Bundle\CoreBundle\Model\PackageInterface;
+use SWP\Bundle\CoreBundle\Model\Tenant;
 use SWP\Component\Bridge\Transformer\DataTransformerInterface;
 use SWP\Component\MultiTenancy\Context\TenantContextInterface;
 use Symfony\Component\Cache\ResettableInterface;
@@ -91,7 +92,7 @@ class ContentPushConsumer implements ConsumerInterface
     public function doExecute(AMQPMessage $message): int
     {
         $decodedMessage = \unserialize($message->body);
-        $this->tenantContext->setTenant($decodedMessage['tenant']);
+        $this->tenantContext->setTenant($this->packageObjectManager->find(Tenant::class, $decodedMessage['tenant']->getId()));
 
         /** @var PackageInterface $package */
         $package = $decodedMessage['package'];
