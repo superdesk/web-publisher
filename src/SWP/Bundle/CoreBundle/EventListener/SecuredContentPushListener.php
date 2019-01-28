@@ -54,8 +54,7 @@ class SecuredContentPushListener
         $routeName = $request->attributes->get('_route');
         if (
             'swp_api_content_push' !== $routeName &&
-            'swp_api_core_add_extra_data' !== $routeName &&
-            'swp_api_core_get_extra_data' !== $routeName
+            'swp_api_core_add_extra_data' !== $routeName
         ) {
             return;
         }

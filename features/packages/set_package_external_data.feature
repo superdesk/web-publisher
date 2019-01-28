@@ -19,7 +19,7 @@ Feature: Working with package external data
     Then the response status code should be 200
 
     When I add "Content-Type" header equal to "application/json"
-    And I add "x-publisher-signature" header equal to "sha1=d24dc6713aa319ef74e42fe9e7783799578b34fc"
+    Given I am authenticated as "test.user"
     And I send a "GET" request to "/api/v1/packages/extra/test-news-article"
     Then the response status code should be 200
     And the JSON nodes should contain:
@@ -46,12 +46,11 @@ Feature: Working with package external data
     Then the response status code should be 404
 
     When I add "Content-Type" header equal to "application/json"
-    And I add "x-publisher-signature" header equal to "sha1=d24dc6713aa319ef74e42fe9e7783799578b34fc"
+    Given I am authenticated as "test.user"
     And I send a "GET" request to "/api/v1/packages/extra/demo-not-exisiting-slug"
     Then the response status code should be 404
 
     When I add "Content-Type" header equal to "application/json"
-    And I add "x-publisher-signature" header equal to "sha1=wrongtoken"
     And I send a "GET" request to "/api/v1/packages/extra/test-news-article"
     Then the response status code should be 401
 

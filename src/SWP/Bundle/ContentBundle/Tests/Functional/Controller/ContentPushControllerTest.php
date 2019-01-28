@@ -38,49 +38,6 @@ final class ContentPushControllerTest extends WebTestCase
         $this->router = $this->getContainer()->get('router');
     }
 
-    public function testContentPush()
-    {
-        $client = static::createClient();
-
-        $client->request(
-            'POST',
-            $this->router->generate('swp_api_content_push'),
-            [],
-            [],
-            ['CONTENT_TYPE' => 'application/json'],
-            self::TEST_CONTENT
-        );
-
-        self::assertEquals(201, $client->getResponse()->getStatusCode());
-    }
-
-    public function testContentPushTwice()
-    {
-        $client = static::createClient();
-
-        $client->request(
-            'POST',
-            $this->router->generate('swp_api_content_push'),
-            [],
-            [],
-            ['CONTENT_TYPE' => 'application/json'],
-            self::TEST_CONTENT
-        );
-
-        self::assertEquals(201, $client->getResponse()->getStatusCode());
-
-        $client->request(
-            'POST',
-            $this->router->generate('swp_api_content_push'),
-            [],
-            [],
-            ['CONTENT_TYPE' => 'application/json'],
-            self::TEST_CONTENT
-        );
-
-        self::assertEquals(201, $client->getResponse()->getStatusCode());
-    }
-
     /**
      * @covers \SWP\Bundle\ContentBundle\Controller\ContentPushController::pushAssetsAction
      */
