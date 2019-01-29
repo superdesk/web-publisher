@@ -64,10 +64,7 @@ final class ArticleBodyExtension extends AbstractExtension
         $embeddedImageProcessor->setDefaultImageRendition($renditionName);
 
         foreach ($article->getMedia() as $media) {
-            dump($media);
             $embeddedImageProcessor->process($article, $media);
         }
-
-        dump($article->getBody());
     }
 }
