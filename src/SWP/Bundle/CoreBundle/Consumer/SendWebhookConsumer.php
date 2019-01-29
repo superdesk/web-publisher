@@ -17,6 +17,7 @@ declare(strict_types=1);
 namespace SWP\Bundle\CoreBundle\Consumer;
 
 use GuzzleHttp\Client;
+use JMS\Serializer\Exception\RuntimeException;
 use JMS\Serializer\SerializerInterface;
 use OldSound\RabbitMqBundle\RabbitMq\ConsumerInterface;
 use PhpAmqpLib\Message\AMQPMessage;
@@ -34,11 +35,16 @@ class SendWebhookConsumer implements ConsumerInterface
         $this->serializer = $serializer;
     }
 
-    public function execute(AMQPMessage $message): void
+    public function execute(AMQPMessage $message): int
     {
-        $decodedMessage = $this->serializer->deserialize($message->body, 'array', 'json');
+        try {
+            $decodedMessage = $this->serializer->deserialize($message->body, 'array', 'json');
+        } catch (RuntimeException $exception) {
+            return ConsumerInterface::MSG_REJECT;
+        }
+
         if (!\array_key_exists('url', $decodedMessage) || !array_key_exists('subject', $decodedMessage)) {
-            return;
+            return ConsumerInterface::MSG_REJECT;
         }
 
         $headers = [];
@@ -58,8 +64,10 @@ class SendWebhookConsumer implements ConsumerInterface
         try {
             $this->getClient()->send($webhookRequest);
         } catch (GuzzleHttp\Exception\ClientException | GuzzleHttp\Exception\ServerException $e) {
-            return;
+            return ConsumerInterface::MSG_REJECT;
         }
+
+        return ConsumerInterface::MSG_ACK;
     }
 
     protected function getClient(): Client
