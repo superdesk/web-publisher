@@ -85,6 +85,7 @@ final class SlideshowLoader extends PaginatedLoader implements LoaderInterface
             return false;
         }
 
+        $criteria = $this->applyPaginationToCriteria($criteria, $parameters);
         $slideshows = $this->slideshowRepository->getByCriteria($criteria, $criteria->get('order', []));
 
         if (0 === \count($slideshows)) {
@@ -92,8 +93,6 @@ final class SlideshowLoader extends PaginatedLoader implements LoaderInterface
         }
 
         $slideshows = new ArrayCollection($slideshows);
-        $criteria = $this->applyPaginationToCriteria($criteria, $parameters);
-
         $metaCollection = new MetaCollection();
         $metaCollection->setTotalItemsCount($this->slideshowRepository->countByCriteria($criteria));
 
