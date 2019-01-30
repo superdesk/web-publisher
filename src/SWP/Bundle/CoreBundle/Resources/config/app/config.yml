@@ -286,6 +286,10 @@ swp_settings:
             type: boolean
             scope: tenant
             value: false
+        override_slug_on_correction:
+            type: boolean
+            scope: tenant
+            value: false
 
 swp_analytics:
     persistence:
