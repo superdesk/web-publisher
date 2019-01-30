@@ -10,6 +10,7 @@ To get the diff for a specific change, go to https://github.com/superdesk/web-pu
  * improvement [#630] Add option to exclude articles fron content list items
 
 ### 1.4.1
+ * feature [#715] Allow to change the article's slug based on settings
  * bug [#708] Allow to render AMP HTML version of content with route of type "content"
  * feature [#706] Added Console Command which processes articles' body
  * feature [#699] Allow to blacklist specific article keywords
