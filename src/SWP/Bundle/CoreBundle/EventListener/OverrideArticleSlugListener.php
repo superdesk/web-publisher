@@ -26,6 +26,7 @@ final class OverrideArticleSlugListener
      * @var SettingsManagerInterface
      */
     private $settingsManager;
+
     /**
      * @var TenantContextInterface
      */
