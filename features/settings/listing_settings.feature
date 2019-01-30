@@ -95,6 +95,12 @@ Feature: Checking if settings work correctly
         "name":"use_first_published_as_publish_date"
       },
       {
+        "type": "boolean",
+        "scope": "tenant",
+        "value": false,
+        "name": "override_slug_on_correction"
+      },
+      {
         "label":"Primary Font Family",
         "value":"Roboto",
         "type":"string",
