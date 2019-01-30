@@ -17,6 +17,7 @@ declare(strict_types=1);
 namespace SWP\Bundle\ContentBundle\Model;
 
 use SWP\Component\Bridge\Model\ItemInterface;
+use SWP\Component\Common\Model\SoftDeletableTrait;
 use SWP\Component\Common\Model\TimestampableTrait;
 use Doctrine\Common\Collections\ArrayCollection;
 
@@ -25,7 +26,7 @@ use Doctrine\Common\Collections\ArrayCollection;
  */
 class ArticleMedia implements ArticleMediaInterface
 {
-    use TimestampableTrait;
+    use TimestampableTrait, SoftDeletableTrait;
 
     /**
      * @var int

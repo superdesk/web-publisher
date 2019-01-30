@@ -31,7 +31,7 @@ class StaticThemeAssetsController extends Controller
     const ASSETS_DIRECTORY = 'public';
 
     /**
-     * @Route("/{fileName}.{fileExtension}", name="static_theme_assets_root", requirements={"fileName": "sw|manifest|favicon"})
+     * @Route("/{fileName}.{fileExtension}", name="static_theme_assets_root", requirements={"fileName": "sw|manifest|favicon|ads"})
      * @Route("/public-{fileName}.{fileExtension}", name="static_theme_assets_root_public", requirements={"fileName"=".+"})
      * @Route("/public/{fileName}.{fileExtension}", name="static_theme_assets_public", requirements={"fileName"=".+"})
      *

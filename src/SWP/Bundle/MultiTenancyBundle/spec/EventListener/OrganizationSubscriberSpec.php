@@ -18,9 +18,11 @@ namespace spec\SWP\Bundle\MultiTenancyBundle\EventListener;
 
 use Doctrine\Common\EventSubscriber;
 use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Event\LifecycleEventArgs;
 use Doctrine\ORM\Events;
 use PhpSpec\ObjectBehavior;
+use Prophecy\Argument;
 use SWP\Bundle\MultiTenancyBundle\EventListener\OrganizationSubscriber;
 use SWP\Component\Common\Exception\UnexpectedTypeException;
 use SWP\Component\MultiTenancy\Context\TenantContextInterface;
@@ -53,15 +55,29 @@ final class OrganizationSubscriberSpec extends ObjectBehavior
 
     public function it_should_skip_when_organization_is_already_set_on_organization_aware_object(
         LifecycleEventArgs $event,
-        OrganizationAwareInterface $organizationAware
+        OrganizationAwareInterface $organizationAware,
+        EntityManagerInterface $entityManager,
+        ContainerInterface $container,
+        TenantContextInterface $tenantContext
     ) {
         $organization = new Organization();
         $organization->setName('org1');
         $organization->setEnabled(true);
         $organization->setCode('123456');
 
+        $tenant = new Tenant();
+        $tenant->setSubdomain('example.com');
+        $tenant->setName('Example');
+        $tenant->setCode('avc2334');
+        $tenant->setOrganization($organization);
+
+        $tenantContext->getTenant()->willReturn($tenant);
+        $container->get('swp_multi_tenancy.tenant_context')->willReturn($tenantContext);
+
         $organizationAware->getOrganization()->shouldBeCalled()->willReturn($organization);
         $event->getEntity()->willReturn($organizationAware);
+        $entityManager->contains(Argument::any())->willReturn(true);
+        $event->getObjectManager()->willReturn($entityManager);
 
         $this->prePersist($event);
         $this->preUpdate($event);
