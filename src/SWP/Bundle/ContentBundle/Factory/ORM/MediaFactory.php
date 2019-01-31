@@ -141,6 +141,7 @@ class MediaFactory implements MediaFactoryInterface
         }
 
         try {
+            $this->logger->info(\sprintf('Downloading %s for media %s', $rendition->getHref(), $rendition->getMedia()));
             $uploadedFile = $this->mediaManager->downloadFile(
                 $rendition->getHref(),
                 $rendition->getMedia(),

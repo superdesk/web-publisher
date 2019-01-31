@@ -19,6 +19,7 @@ use SWP\Bundle\CoreBundle\DependencyInjection\Compiler\OrganizationThemesProvide
 use SWP\Bundle\CoreBundle\DependencyInjection\Compiler\OverrideArticleSourceAdderPass;
 use SWP\Bundle\CoreBundle\DependencyInjection\Compiler\OverrideContainerProviderPass;
 use SWP\Bundle\CoreBundle\DependencyInjection\Compiler\OverrideDynamicRouterPass;
+use SWP\Bundle\CoreBundle\DependencyInjection\Compiler\OverrideEmbeddedImageProcessorPass;
 use SWP\Bundle\CoreBundle\DependencyInjection\Compiler\OverrideMediaFactoryPass;
 use SWP\Bundle\CoreBundle\DependencyInjection\Compiler\OverrideMediaManagerPass;
 use SWP\Bundle\CoreBundle\DependencyInjection\Compiler\OverridePackagePreviewTokenFactoryPass;
@@ -70,6 +71,7 @@ class SWPCoreBundle extends Bundle
         $container->addCompilerPass(new RegisterOutputChannelAdapterPass());
         $container->addCompilerPass(new OverrideMediaFactoryPass());
         $container->addCompilerPass(new OverrideSerializerPass());
+        $container->addCompilerPass(new OverrideEmbeddedImageProcessorPass());
     }
 
     /**
