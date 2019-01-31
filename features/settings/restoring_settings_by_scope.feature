@@ -94,6 +94,12 @@ Feature: Checking if restoring settings by scope works correctly
         "name":"use_first_published_as_publish_date"
       },
       {
+        "type": "boolean",
+        "scope": "tenant",
+        "value": false,
+        "name": "override_slug_on_correction"
+      },
+      {
         "label":"Primary Font Family",
         "value":"Roboto",
         "type":"string",
@@ -277,6 +283,12 @@ Feature: Checking if restoring settings by scope works correctly
         "name":"use_first_published_as_publish_date"
       },
       {
+        "type": "boolean",
+        "scope": "tenant",
+        "value": false,
+        "name": "override_slug_on_correction"
+      },
+      {
         "label":"Primary Font Family",
         "value":"Oswald",
         "type":"string",
@@ -425,6 +437,12 @@ Feature: Checking if restoring settings by scope works correctly
         "scope":"tenant",
         "value":false,
         "name":"use_first_published_as_publish_date"
+      },
+      {
+        "type": "boolean",
+        "scope": "tenant",
+        "value": false,
+        "name": "override_slug_on_correction"
       },
       {
         "label":"Primary Font Family",
