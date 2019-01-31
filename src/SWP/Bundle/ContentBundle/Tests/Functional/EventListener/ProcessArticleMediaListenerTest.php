@@ -90,7 +90,7 @@ class ProcessArticleMediaListenerTest extends WebTestCase
         $expected = $text = <<<'EOT'
  <p>here goes the picture</p><p><br></p>
 <!-- EMBED START Image {id: "embedded6358005131"} -->
-<figure><img src="/media/20160905140916_12345678987654321a.jpeg" data-media-id="embedded6358005131" data-image-id="20160905140916_12345678987654321a" alt="man and tractor"><figcaption>man and tractor</figcaption></figure>
+<figure><img src="/media/20160905140916_12345678987654321a.jpeg" data-media-id="embedded6358005131" data-image-id="20160905140916_12345678987654321a" data-rendition-name="original" width="1189" height="793" alt="man and tractor"><figcaption>man and tractor</figcaption></figure>
 <!-- EMBED END Image {id: "embedded6358005131"} -->
 EOT;
 
@@ -108,13 +108,13 @@ EOT;
 
         $embed1 = <<<'EOT'
 <!-- EMBED START Image {id: "embedded11331114891"} -->
-<figure><img src="/media/58512be6c3a5be49fdca1178.jpeg" data-media-id="embedded11331114891" data-image-id="58512be6c3a5be49fdca1178" alt="Stockholm, Sweden | Photo by Peter Adermark (CC BY-NC-ND 2.0)"><figcaption>Stockholm, Sweden | Photo by Peter Adermark (CC BY-NC-ND 2.0)</figcaption></figure>
+<figure><img src="/media/58512be6c3a5be49fdca1178.jpeg" data-media-id="embedded11331114891" data-image-id="58512be6c3a5be49fdca1178" data-rendition-name="original" width="1200" height="797" alt="Stockholm, Sweden | Photo by Peter Adermark (CC BY-NC-ND 2.0)"><figcaption>Stockholm, Sweden | Photo by Peter Adermark (CC BY-NC-ND 2.0)</figcaption></figure>
 <!-- EMBED END Image {id: "embedded11331114891"} -->
 EOT;
 
         $embed2 = <<<'EOT'
 <!-- EMBED START Image {id: "embedded5366428123"} -->
-<figure><img src="/media/58512be4c3a5be49fdca1168.jpeg" data-media-id="embedded5366428123" data-image-id="58512be4c3a5be49fdca1168" alt="Snapshot of the IPTC summer meeting | Photo by Jill Laurinaitis"><figcaption>Snapshot of the IPTC summer meeting | Photo by Jill Laurinaitis</figcaption></figure>
+<figure><img src="/media/58512be4c3a5be49fdca1168.jpeg" data-media-id="embedded5366428123" data-image-id="58512be4c3a5be49fdca1168" data-rendition-name="original" width="1200" height="900" alt="Snapshot of the IPTC summer meeting | Photo by Jill Laurinaitis"><figcaption>Snapshot of the IPTC summer meeting | Photo by Jill Laurinaitis</figcaption></figure>
 <!-- EMBED END Image {id: "embedded5366428123"} -->
 EOT;
         self::assertContains($embed1, $article->getBody());

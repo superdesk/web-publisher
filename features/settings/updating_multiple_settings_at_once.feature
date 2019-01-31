@@ -113,6 +113,12 @@ Feature: Settings bulk update
         "name":"use_first_published_as_publish_date"
       },
       {
+        "type": "boolean",
+        "scope": "tenant",
+        "value": false,
+        "name": "override_slug_on_correction"
+      },
+      {
         "label":"Primary Font Family",
         "value":"Lato",
         "type":"string",
@@ -283,6 +289,12 @@ Feature: Settings bulk update
         "name":"use_first_published_as_publish_date"
       },
       {
+        "type": "boolean",
+        "scope": "tenant",
+        "value": false,
+        "name": "override_slug_on_correction"
+      },
+      {
         "label":"Primary Font Family",
         "value":"Lato",
         "type":"string",
@@ -381,14 +393,14 @@ Feature: Settings bulk update
     And I send a "GET" request to "/api/{version}/settings/"
     Then the response status code should be 200
     And the JSON nodes should contain:
-      | [13].name               | primary_font_family                 |
-      | [13].value              | Lato                                |
-      | [14].name               | secondary_font_family               |
+      | [14].name               | primary_font_family                 |
+      | [14].value              | Lato                                |
+      | [15].name               | secondary_font_family               |
       | [15].value              | Oswald                              |
       | [9].name                | theme_logo                          |
       | [9].value               | .png                                |
-      | [15].name               | body_font_size                      |
-      | [15].value              | 16                                  |
+      | [16].name               | body_font_size                      |
+      | [16].value              | 16                                  |
     And I am authenticated as "test.user"
     When I add "Content-Type" header equal to "application/json"
     And I send a "PATCH" request to "/api/{version}/settings/bulk/" with body:
@@ -410,5 +422,5 @@ Feature: Settings bulk update
     And I send a "GET" request to "/api/{version}/settings/"
     Then the response status code should be 200
     And the JSON nodes should contain:
-      | [16].name                | switch   |
-    And the JSON node "[16].value" should be false
+      | [17].name                | switch   |
+    And the JSON node "[17].value" should be false

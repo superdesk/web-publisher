@@ -23,8 +23,10 @@ use SWP\Bundle\ContentBundle\Model\ArticleMediaInterface;
 use SWP\Bundle\ContentBundle\Model\ImageRendition;
 use Symfony\Component\DomCrawler\Crawler;
 
-final class EmbeddedImageProcessor implements ArticleBodyProcessorInterface
+final class EmbeddedImageProcessor implements EmbeddedImageProcessorInterface
 {
+    private const DEFAULT_ARTICLE_BODY_IMAGE_RENDITION = 'original';
+
     /**
      * @var MediaManagerInterface
      */
@@ -34,6 +36,11 @@ final class EmbeddedImageProcessor implements ArticleBodyProcessorInterface
      * @var FileExtensionCheckerInterface
      */
     private $fileExtensionChecker;
+
+    /**
+     * @var string
+     */
+    private $defaultImageRendition;
 
     public function __construct(MediaManagerInterface $mediaManager, FileExtensionCheckerInterface $fileExtensionChecker)
     {
@@ -64,7 +71,7 @@ final class EmbeddedImageProcessor implements ArticleBodyProcessorInterface
         foreach ($images as $imageElement) {
             /** @var ImageRendition $rendition */
             foreach ($articleMedia->getRenditions() as $rendition) {
-                if ('original' === $rendition->getName()) {
+                if ($this->getDefaultImageRendition() === $rendition->getName()) {
                     $attributes = $imageElement->attributes;
                     $altAttribute = null;
                     if ($imageElement->hasAttribute('alt')) {
@@ -83,6 +90,7 @@ final class EmbeddedImageProcessor implements ArticleBodyProcessorInterface
 
                     $imageElement->setAttribute('data-media-id', $mediaId);
                     $imageElement->setAttribute('data-image-id', $rendition->getImage()->getAssetId());
+                    $imageElement->setAttribute('data-rendition-name', $this->getDefaultImageRendition());
                     $imageElement->setAttribute('width', (string) $rendition->getWidth());
                     $imageElement->setAttribute('height', (string) $rendition->getHeight());
 
@@ -96,8 +104,22 @@ final class EmbeddedImageProcessor implements ArticleBodyProcessorInterface
         $article->setBody(str_replace($figureString, $crawler->filter('body')->html(), $body));
     }
 
+    public function setDefaultImageRendition(string $renditionName): void
+    {
+        $this->defaultImageRendition = $renditionName;
+    }
+
     public function supports(string $type): bool
     {
         return $this->fileExtensionChecker->isImage($type);
+    }
+
+    private function getDefaultImageRendition(): string
+    {
+        if (null === $this->defaultImageRendition) {
+            return self::DEFAULT_ARTICLE_BODY_IMAGE_RENDITION;
+        }
+
+        return $this->defaultImageRendition;
     }
 }
