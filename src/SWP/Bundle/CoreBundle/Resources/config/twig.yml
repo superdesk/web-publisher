@@ -59,3 +59,12 @@ services:
             - '%kernel.environment%'
         tags:
             - { name: twig.extension }
+
+    swp_core.article_body_twig_extension:
+        class: SWP\Bundle\CoreBundle\Twig\ArticleBodyExtension
+        public: false
+        arguments:
+            - '@swp_content_bundle.manager.media'
+            - '@SWP\Bundle\ContentBundle\File\FileExtensionChecker'
+        tags:
+            - { name: twig.extension }
