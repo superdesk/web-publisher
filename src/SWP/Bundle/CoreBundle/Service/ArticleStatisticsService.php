@@ -44,7 +44,7 @@ class ArticleStatisticsService implements ArticleStatisticsServiceInterface
     /**
      * @var ArticleEventRepositoryInterface
      */
-    protected $articleEventsRepository;
+    protected $articleEventRepository;
 
     /**
      * @var FactoryInterface
@@ -59,13 +59,13 @@ class ArticleStatisticsService implements ArticleStatisticsServiceInterface
     public function __construct(
         ArticleRepositoryInterface $articleRepository,
         RepositoryInterface $articleStatisticsRepository,
-        ArticleEventRepositoryInterface $articleEventsRepository,
+        ArticleEventRepositoryInterface $articleEventRepository,
         FactoryInterface $articleStatisticsFactory,
         FactoryInterface $articleEventFactory
     ) {
         $this->articleRepository = $articleRepository;
         $this->articleStatisticsRepository = $articleStatisticsRepository;
-        $this->articleEventsRepository = $articleEventsRepository;
+        $this->articleEventRepository = $articleEventRepository;
         $this->articleStatisticsFactory = $articleStatisticsFactory;
         $this->articleEventFactory = $articleEventFactory;
     }
@@ -121,9 +121,9 @@ class ArticleStatisticsService implements ArticleStatisticsServiceInterface
 
         $articleEvent = $this->getArticleEvent($articleStatistics, $article, ArticleEventInterface::ACTION_PAGEVIEW);
         $articleEvent->setPageViewSource($pageViewSource);
-        $articleStatistics->increasePageViewsNumber();
+        $articleStatistics->setPageViewsNumber($this->articleEventRepository->getCountForArticleAllPageViews($article) + 1);
         if (ArticleEventInterface::PAGEVIEW_SOURCE_INTERNAL === $pageViewSource) {
-            $internalPageViewsCount = $this->articleEventsRepository->getCountForArticleInternalPageViews($article) + 1;
+            $internalPageViewsCount = $this->articleEventRepository->getCountForArticleInternalPageViews($article) + 1;
             if ($internalPageViewsCount > 0 && $articleStatistics->getImpressionsNumber() > 0) {
                 $articleStatistics->setInternalClickRate(
                     \round($internalPageViewsCount / $articleStatistics->getImpressionsNumber(), 2)
@@ -152,7 +152,7 @@ class ArticleStatisticsService implements ArticleStatisticsServiceInterface
         $articleEvent->setImpressionArticle($sourceArticle);
         $articleEvent->setImpressionRoute($sourceRoute);
         $articleEvent->setImpressionType($type);
-        $articleStatistics->increaseImpressionsNumber();
+        $articleStatistics->setImpressionsNumber($this->articleEventRepository->getCountForArticleAllImpressions($article) + 1);
         $this->articleStatisticsRepository->add($articleStatistics);
     }
 

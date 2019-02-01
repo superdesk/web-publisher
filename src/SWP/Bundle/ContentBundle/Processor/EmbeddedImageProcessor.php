@@ -23,7 +23,7 @@ use SWP\Bundle\ContentBundle\Model\ArticleMediaInterface;
 use SWP\Bundle\ContentBundle\Model\ImageRendition;
 use Symfony\Component\DomCrawler\Crawler;
 
-final class EmbeddedImageProcessor implements EmbeddedImageProcessorInterface
+class EmbeddedImageProcessor implements EmbeddedImageProcessorInterface
 {
     private const DEFAULT_ARTICLE_BODY_IMAGE_RENDITION = 'original';
 
@@ -72,31 +72,7 @@ final class EmbeddedImageProcessor implements EmbeddedImageProcessorInterface
             /** @var ImageRendition $rendition */
             foreach ($articleMedia->getRenditions() as $rendition) {
                 if ($this->getDefaultImageRendition() === $rendition->getName()) {
-                    $attributes = $imageElement->attributes;
-                    $altAttribute = null;
-                    if ($imageElement->hasAttribute('alt')) {
-                        $altAttribute = $attributes->getNamedItem('alt');
-                    }
-
-                    while ($attributes->length) {
-                        $imageElement->removeAttribute($attributes->item(0)->name);
-                    }
-
-                    $imageElement->setAttribute('src', $this->mediaManager->getMediaUri($rendition->getImage()));
-
-                    if (null === $rendition->getImage()->getId()) {
-                        $imageElement->setAttribute('src', $rendition->getPreviewUrl());
-                    }
-
-                    $imageElement->setAttribute('data-media-id', $mediaId);
-                    $imageElement->setAttribute('data-image-id', $rendition->getImage()->getAssetId());
-                    $imageElement->setAttribute('data-rendition-name', $this->getDefaultImageRendition());
-                    $imageElement->setAttribute('width', (string) $rendition->getWidth());
-                    $imageElement->setAttribute('height', (string) $rendition->getHeight());
-
-                    if (null !== $altAttribute) {
-                        $imageElement->setAttribute('alt', $altAttribute->nodeValue);
-                    }
+                    $this->processImageElement($imageElement, $rendition, $mediaId);
                 }
             }
         }
@@ -114,7 +90,31 @@ final class EmbeddedImageProcessor implements EmbeddedImageProcessorInterface
         return $this->fileExtensionChecker->isImage($type);
     }
 
-    private function getDefaultImageRendition(): string
+    protected function processImageElement(\DOMElement $imageElement, ImageRendition $rendition, string $mediaId)
+    {
+        $attributes = $imageElement->attributes;
+        $altAttribute = null;
+        if ($imageElement->hasAttribute('alt')) {
+            $altAttribute = $attributes->getNamedItem('alt');
+        }
+
+        while ($attributes->length) {
+            $imageElement->removeAttribute($attributes->item(0)->name);
+        }
+
+        $imageElement->setAttribute('src', $this->mediaManager->getMediaUri($rendition->getImage()));
+        $imageElement->setAttribute('data-media-id', $mediaId);
+        $imageElement->setAttribute('data-image-id', $rendition->getImage()->getAssetId());
+        $imageElement->setAttribute('data-rendition-name', $this->getDefaultImageRendition());
+        $imageElement->setAttribute('width', (string) $rendition->getWidth());
+        $imageElement->setAttribute('height', (string) $rendition->getHeight());
+
+        if (null !== $altAttribute) {
+            $imageElement->setAttribute('alt', $altAttribute->nodeValue);
+        }
+    }
+
+    protected function getDefaultImageRendition(): string
     {
         if (null === $this->defaultImageRendition) {
             return self::DEFAULT_ARTICLE_BODY_IMAGE_RENDITION;
