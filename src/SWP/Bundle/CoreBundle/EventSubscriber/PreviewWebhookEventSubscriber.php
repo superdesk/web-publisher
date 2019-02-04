@@ -59,7 +59,7 @@ final class PreviewWebhookEventSubscriber extends AbstractWebhookEventSubscriber
         if (!$subject instanceof ArticlePreview) {
             return;
         }
- 
+
         $article = $subject->getArticle();
         $webhooks = $this->getWebhooks($article, WebhookEvents::PREVIEW_EVENT, $dispatcher);
         $headers = [];
