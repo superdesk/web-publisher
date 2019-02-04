@@ -36,7 +36,6 @@ final class ArticleBodyProcessorChain implements ArticleBodyProcessorInterface
     {
         foreach ($this->processors as $processor) {
             if ($processor->supports($articleMedia->getMimetype())) {
-                dump(get_class($processor));
                 $processor->process($article, $articleMedia);
             }
         }
