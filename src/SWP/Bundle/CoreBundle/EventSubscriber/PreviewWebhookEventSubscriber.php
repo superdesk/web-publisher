@@ -27,7 +27,6 @@ use SWP\Component\MultiTenancy\Context\TenantContextInterface;
 use SWP\Component\MultiTenancy\Repository\TenantRepositoryInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
-use Webmozart\Assert\Assert;
 
 final class PreviewWebhookEventSubscriber extends AbstractWebhookEventSubscriber
 {
@@ -57,7 +56,7 @@ final class PreviewWebhookEventSubscriber extends AbstractWebhookEventSubscriber
     public function processEvent(GenericEvent $event, string $dispatcherEventName, EventDispatcherInterface $dispatcher): void
     {
         $subject = $event->getSubject();
-        if (!$subject instanceof ArticlePreview::class) {
+        if (!$subject instanceof ArticlePreview) {
             return;
         }
  
