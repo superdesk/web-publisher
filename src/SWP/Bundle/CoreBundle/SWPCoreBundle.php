@@ -23,7 +23,6 @@ use SWP\Bundle\CoreBundle\DependencyInjection\Compiler\OverrideEmbeddedImageProc
 use SWP\Bundle\CoreBundle\DependencyInjection\Compiler\OverrideMediaFactoryPass;
 use SWP\Bundle\CoreBundle\DependencyInjection\Compiler\OverrideMediaManagerPass;
 use SWP\Bundle\CoreBundle\DependencyInjection\Compiler\OverridePackagePreviewTokenFactoryPass;
-use SWP\Bundle\CoreBundle\DependencyInjection\Compiler\OverrideRouterPass;
 use SWP\Bundle\CoreBundle\DependencyInjection\Compiler\OverrideSerializerPass;
 use SWP\Bundle\CoreBundle\DependencyInjection\Compiler\OverrideSettingsManagerPass;
 use SWP\Bundle\CoreBundle\DependencyInjection\Compiler\OverrideTemplatesSystemPass;
@@ -73,7 +72,6 @@ class SWPCoreBundle extends Bundle
         $container->addCompilerPass(new OverrideMediaFactoryPass());
         $container->addCompilerPass(new OverrideSerializerPass());
         $container->addCompilerPass(new OverrideEmbeddedImageProcessorPass());
-        $container->addCompilerPass(new OverrideRouterPass());
     }
 
     /**
