@@ -52,7 +52,7 @@ final class EmbeddedMediaBlockProcessor implements ArticleBodyProcessorInterface
             return;
         }
 
-        [$mediaBlockDiv, $div, $figureString] = $embeds;
+        [0 => $mediaBlockDiv, 2 => $figureString] = $embeds;
 
         $crawler = new Crawler($figureString);
         $src = $crawler->filterXPath('//img')->attr('src');
