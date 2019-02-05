@@ -551,6 +551,7 @@ services:
     SWP\Bundle\CoreBundle\Consumer\SendWebhookConsumer:
         arguments:
             - '@jms_serializer'
+            - '@monolog.logger.swp_send_webhook'
 
     SWP\Bundle\CoreBundle\Consumer\AnalyticsEventConsumer:
         arguments:

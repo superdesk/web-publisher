@@ -75,14 +75,17 @@ final class WebhookEventsSubscriber extends AbstractWebhookEventSubscriber
         $serializedSubject = $this->serializer->serialize($subject, 'json');
         /** @var WebhookInterface $webhook */
         foreach ($webhooks as $webhook) {
-            $payload = sprintf($this->serializer->serialize([
+            $payload = $this->serializer->serialize([
                 'url' => $webhook->getUrl(),
                 'metadata' => [
                     'event' => $webhookEventName,
                     'tenant' => $webhook->getTenantCode(),
                 ],
-                'subject' => '%s',
-            ], 'json'), $serializedSubject);
+                'subject' => '___SUBJECT___',
+            ], 'json');
+
+            // Do not serialize subject in a loop - serialize it before and inject in string here.
+            $payload = str_replace('"___SUBJECT___"', $serializedSubject, $payload);
             $this->producer->publish($payload);
         }
     }
