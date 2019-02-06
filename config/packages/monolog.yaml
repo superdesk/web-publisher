@@ -1,8 +1,15 @@
 monolog:
     channels:
+        - swp_send_webhook
         - swp_asset_download
         - swp_content_push
     handlers:
+        swp_send_webhook:
+            type:      stream
+            level:     debug
+            max_files: 7
+            path:      '%kernel.logs_dir%/swp_send_webhook_%kernel.environment%.log'
+            channels:  swp_send_webhook
         swp_content_push:
             type:      stream
             level:     debug
