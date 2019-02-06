@@ -41,28 +41,24 @@ final class EmbeddedMediaBlockProcessor implements ArticleBodyProcessorInterface
 
         $body = $article->getBody();
         $mediaId = str_replace('/', '\\/', $articleMedia->getKey());
+        $assetId = $articleMedia->getImage()->getAssetId();
+        $assetId = str_replace('_', '/', $assetId);
 
-        preg_match(
-            '/(<div class="media-block">)(.+?)(<\/div>)/im',
-            str_replace(PHP_EOL, '', $body),
-            $embeds
-        );
+        $crawler = new Crawler();
+        $crawler->addHtmlContent($body);
+        $item = $crawler->filterXPath('//div[@class="media-block"]/img[contains(@src, "'.$assetId.'")]');
 
-        if (empty($embeds)) {
+        $imgElement = $item->first()->getNode(0);
+        if (null === $imgElement) {
             return;
         }
 
-        [0 => $mediaBlockDiv, 2 => $figureString] = $embeds;
+        $mediaBlockElement = $imgElement->parentNode;
+        $captionText = $mediaBlockElement->getElementsByTagName('span')[0]->textContent
+        $editor3MediaBlock = $mediaBlockElement->ownerDocument->saveHTML($mediaBlockElement);
+        $newNodeHtml = '<!-- EMBED START Image {id: "'.$mediaId.'"} --><figure><img src="'.$item->first()->attr('src').'" alt="'.$item->first()->attr('alt').'" /><figcaption>'.$captionText.'</figcaption></figure><!-- EMBED END Image {id: "'.$mediaId.'"} -->';
 
-        $crawler = new Crawler($figureString);
-        $src = $crawler->filterXPath('//img')->attr('src');
-        $alt = $crawler->filterXPath('//img')->attr('alt');
-        $captionNode = $crawler->filterXPath('//span[@class="media-block__description"]')->first();
-        $caption = $captionNode->getNode(0)->textContent;
-
-        $html = '<!-- EMBED START Image {id: "'.$mediaId.'"} --><figure><img src="'.$src.'" alt="'.$alt.'"/><figcaption>'.$caption.'</figcaption></figure><!-- EMBED END Image {id: "'.$mediaId.'"} -->';
-
-        $article->setBody(str_replace($mediaBlockDiv, $html, $body));
+        $article->setBody(str_replace($editor3MediaBlock, $newNodeHtml, $crawler->html()));
     }
 
     public function supports(string $type): bool
