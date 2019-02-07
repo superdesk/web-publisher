@@ -35,7 +35,7 @@ final class EmbeddedMediaBlockProcessor implements ArticleBodyProcessorInterface
 
     public function process(ArticleInterface $article, ArticleMediaInterface $articleMedia): void
     {
-        if (ArticleInterface::KEY_FEATURE_MEDIA === $articleMedia->getKey()) {
+        if (ArticleInterface::KEY_FEATURE_MEDIA === $articleMedia->getKey() || null === $articleMedia->getImage()) {
             return;
         }
 
