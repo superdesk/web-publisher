@@ -156,6 +156,7 @@ class RulesMatcher implements RulesMatcherInterface
             'isPublishedFbia' => $destination->isPublishedFbia(),
             'published' => $destination->isPublished(),
             'paywallSecured' => $destination->isPaywallSecured(),
+            'contentLists' => $destination->getContentLists(),
         ];
     }
 

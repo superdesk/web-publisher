@@ -36,7 +36,9 @@ class TenantResolver implements TenantResolverInterface
     public function resolve(string $host = null): TenantInterface
     {
         // remove www prefix from host
-        $host = str_replace('www.', '', $host);
+        if (null !== $host) {
+            $host = str_replace('www.', '', $host);
+        }
 
         $domain = $this->extractDomain($host);
         $subdomain = $this->extractSubdomain($host);
@@ -78,7 +80,7 @@ class TenantResolver implements TenantResolverInterface
         return $domainString;
     }
 
-    protected function extractSubdomain(string $host): ?string
+    protected function extractSubdomain(string $host = null): ?string
     {
         $result = $this->extractHost($host);
 

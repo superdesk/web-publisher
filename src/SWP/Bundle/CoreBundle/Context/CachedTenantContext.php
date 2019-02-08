@@ -41,6 +41,9 @@ class CachedTenantContext extends TenantContext implements CachedTenantContextIn
      */
     protected $entityManager;
 
+    /**
+     * @var array
+     */
     private $cacheKeys = [];
 
     /**
@@ -70,7 +73,7 @@ class CachedTenantContext extends TenantContext implements CachedTenantContextIn
             return null;
         }
 
-        if (null === $this->tenant) {
+        if (null === parent::getTenant()) {
             if (null !== $currentRequest) {
                 $cacheKey = self::getCacheKey($currentRequest->getHost());
 
@@ -84,13 +87,7 @@ class CachedTenantContext extends TenantContext implements CachedTenantContextIn
                     }
                     parent::setTenant($this->attachToEntityManager($tenant));
                 } else {
-                    $tenant = $this->tenantResolver->resolve(
-                        $currentRequest ? $currentRequest->getHost() : null
-                    );
-
-                    parent::setTenant($tenant);
-
-                    $this->cacheProvider->save($cacheKey, $tenant);
+                    $this->cacheProvider->save($cacheKey, parent::getTenant());
                 }
             }
         }
@@ -105,23 +102,10 @@ class CachedTenantContext extends TenantContext implements CachedTenantContextIn
     {
         parent::setTenant($this->attachToEntityManager($tenant));
 
-        $host = $tenant->getDomainName();
-        if ($subdomain = $tenant->getSubdomain()) {
-            $host = $subdomain.'.'.$host;
-        }
-
         $this->dispatcher->dispatch(MultiTenancyEvents::TENANTABLE_ENABLE);
-        $cacheKey = self::getCacheKey($host);
+        $cacheKey = self::getCacheKey($tenant);
         $this->cacheKeys[] = $cacheKey;
         $this->cacheProvider->save($cacheKey, $tenant);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public static function getCacheKey(string $host): string
-    {
-        return md5('tenant_cache__'.$host);
     }
 
     public function reset()
@@ -130,6 +114,16 @@ class CachedTenantContext extends TenantContext implements CachedTenantContextIn
         foreach ($this->cacheKeys as $cacheKey) {
             $this->cacheProvider->delete($cacheKey);
         }
+    }
+
+    private static function getCacheKey(TenantInterface $tenant): string
+    {
+        $host = $tenant->getDomainName();
+        if ($subdomain = $tenant->getSubdomain()) {
+            $host = $subdomain.'.'.$host;
+        }
+
+        return md5('tenant_cache__'.$host);
     }
 
     private function attachToEntityManager(TenantInterface $tenant): TenantInterface
