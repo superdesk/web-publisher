@@ -73,7 +73,7 @@ class CachedTenantContext extends TenantContext implements CachedTenantContextIn
             return null;
         }
 
-        if (null === parent::getTenant()) {
+        if (null === $this->tenant) {
             if (null !== $currentRequest) {
                 $cacheKey = self::getCacheKey($currentRequest->getHost());
 
