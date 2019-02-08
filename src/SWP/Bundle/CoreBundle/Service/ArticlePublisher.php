@@ -150,8 +150,11 @@ final class ArticlePublisher implements ArticlePublisherInterface
             $this->articleRepository->persist($articleStatistics);
             $this->eventDispatcher->dispatch(Events::SWP_VALIDATION, new GenericEvent($article));
             $article->setPackage($package);
-            $article->setRoute($destination->getRoute());
-            $article->getRoute()->setArticlesUpdatedAt(new \DateTime());
+            $route = $destination->getRoute();
+            if (null !== $route) {
+                $route->setArticlesUpdatedAt(new \DateTime());
+                $article->setRoute($route);
+            }
             $article->setPublishedFBIA($destination->isPublishedFbia());
             $article->setPaywallSecured($destination->isPaywallSecured());
             $article->setArticleStatistics($articleStatistics);
