@@ -22,6 +22,7 @@ use JMS\Serializer\SerializerInterface;
 use OldSound\RabbitMqBundle\RabbitMq\ConsumerInterface;
 use PhpAmqpLib\Message\AMQPMessage;
 use GuzzleHttp;
+use Psr\Log\LoggerInterface;
 
 class SendWebhookConsumer implements ConsumerInterface
 {
@@ -30,16 +31,24 @@ class SendWebhookConsumer implements ConsumerInterface
      */
     protected $serializer;
 
-    public function __construct(SerializerInterface $serializer)
+    /**
+     * @var LoggerInterface
+     */
+    protected $logger;
+
+    public function __construct(SerializerInterface $serializer, LoggerInterface $logger)
     {
         $this->serializer = $serializer;
+        $this->logger = $logger;
     }
 
     public function execute(AMQPMessage $message): int
     {
         try {
             $decodedMessage = $this->serializer->deserialize($message->body, 'array', 'json');
-        } catch (RuntimeException $exception) {
+        } catch (RuntimeException $e) {
+            $this->logger->error('Message REJECTED: '.$e->getMessage(), ['exception' => $e->getTraceAsString()]);
+
             return ConsumerInterface::MSG_REJECT;
         }
 
@@ -63,7 +72,10 @@ class SendWebhookConsumer implements ConsumerInterface
 
         try {
             $this->getClient()->send($webhookRequest);
-        } catch (GuzzleHttp\Exception\ClientException | GuzzleHttp\Exception\ServerException $e) {
+            $this->logger->info(sprintf('Message SEND to url %s', $decodedMessage['url']), $headers);
+        } catch (GuzzleHttp\Exception\ClientException | GuzzleHttp\Exception\ServerException | GuzzleHttp\Exception\ConnectException $e) {
+            $this->logger->error('Message REJECTED: '.$e->getMessage(), ['exception' => $e->getTraceAsString()]);
+
             return ConsumerInterface::MSG_REJECT;
         }
 

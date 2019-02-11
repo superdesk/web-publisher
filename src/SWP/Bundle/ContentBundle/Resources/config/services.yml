@@ -167,7 +167,13 @@ services:
             - '@swp_content_bundle.manager.media'
             - '@SWP\Bundle\ContentBundle\File\FileExtensionChecker'
         tags:
-            - { name: swp.processor.article_body }
+            - { name: swp.processor.article_body, priority: 10 }
+
+    SWP\Bundle\ContentBundle\Processor\EmbeddedMediaBlockProcessor:
+        arguments:
+            - '@SWP\Bundle\ContentBundle\File\FileExtensionChecker'
+        tags:
+            - { name: swp.processor.article_body, priority: 20 }
 
     SWP\Bundle\ContentBundle\Processor\EmbeddedVideoProcessor:
         arguments:
