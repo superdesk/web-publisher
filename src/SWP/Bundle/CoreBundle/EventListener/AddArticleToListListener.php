@@ -99,7 +99,7 @@ class AddArticleToListListener
             );
 
             if (null !== $item) {
-                $contentList->removeItem($item);
+                $this->contentListItemRepository->remove($item);
                 $contentList->setUpdatedAt(new \DateTime());
             }
         }
