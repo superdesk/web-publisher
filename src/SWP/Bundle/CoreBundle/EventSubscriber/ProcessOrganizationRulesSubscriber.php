@@ -101,6 +101,7 @@ class ProcessOrganizationRulesSubscriber implements EventSubscriberInterface
             $this->eventDispatcher->dispatch(MultiTenancyEvents::TENANTABLE_DISABLE);
             $result = $this->rulesMatcher->getMatchedRules($package);
             $publishAction = new CompositePublishAction($this->createDestinations($result));
+
             $this->articlePublisher->publish($package, $publishAction);
             $this->eventDispatcher->dispatch(MultiTenancyEvents::TENANTABLE_ENABLE);
 
@@ -125,7 +126,7 @@ class ProcessOrganizationRulesSubscriber implements EventSubscriberInterface
             $destination->setPublished($tenant['published'] ?? false);
             $destination->setPaywallSecured($tenant['paywallSecured'] ?? false);
             $destination->setIsPublishedFbia($tenant['isPublishedFbia'] ?? false);
-            $destination->setContentLists($tenant['contentLists']);
+            $destination->setContentLists($tenant['contentLists'] ?? []);
 
             $destinations[] = $destination;
         }
