@@ -68,7 +68,8 @@ Feature: Handling the custom media fields
         }
       ],
       "extra_items":{
-        "slideshow1": {
+        "slideshow1":{
+          "type": "media",
           "items":[
             {
               "renditions":{
@@ -190,7 +191,101 @@ Feature: Handling the custom media fields
       ],
       "description_html":"<p><b><u>some abstract text</u></b></p>",
       "located":"Warsaw",
-      "pubstatus":"usable"
+      "pubstatus":"usable",
+      "associations":{
+        "slideshow1--1":{
+          "renditions":{
+            "16-9":{
+              "height":720,
+              "mimetype":"image/jpeg",
+              "width":1079,
+              "media":"1234567890987654321a",
+              "href":"http://localhost:5000/api/upload/1234567890987654321a/raw?_schema=http"
+            },
+            "4-3":{
+              "height":533,
+              "mimetype":"image/jpeg",
+              "width":800,
+              "media":"1234567890987654321b",
+              "href":"http://localhost:5000/api/upload/1234567890987654321b/raw?_schema=http"
+            },
+            "original":{
+              "height":2667,
+              "mimetype":"image/jpeg",
+              "width":4000,
+              "media":"1234567890987654321c",
+              "href":"http://localhost:5000/api/upload/1234567890987654321c/raw?_schema=http"
+            }
+          },
+          "urgency":3,
+          "body_text":"test image",
+          "versioncreated":"2016-08-17T17:46:52+0000",
+          "guid":"tag:localhost:2016:56753145-8d59-4eed-bdd5-387013db97a6",
+          "byline":"Pawe\u0142 Miko\u0142ajczuk",
+          "pubstatus":"usable",
+          "language":"en",
+          "version":"2",
+          "description_text":"test image",
+          "priority":6,
+          "type":"picture",
+          "service":[
+            {
+              "name":"Australian General News",
+              "code":"a"
+            }
+          ],
+          "usageterms":"indefinite-usage",
+          "mimetype":"image/jpeg",
+          "headline":"test image",
+          "located":"Porto"
+        },
+        "slideshow1--2":{
+          "renditions":{
+            "16-9":{
+              "height":720,
+              "mimetype":"image/jpeg",
+              "width":1079,
+              "media":"2234567890987654321a",
+              "href":"http://localhost:5000/api/upload/2234567890987654321a/raw?_schema=http"
+            },
+            "4-3":{
+              "height":533,
+              "mimetype":"image/jpeg",
+              "width":800,
+              "media":"2234567890987654321b",
+              "href":"http://localhost:5000/api/upload/2234567890987654321b/raw?_schema=http"
+            },
+            "original":{
+              "height":2667,
+              "mimetype":"image/jpeg",
+              "width":4000,
+              "media":"2234567890987654321c",
+              "href":"http://localhost:5000/api/upload/2234567890987654321c/raw?_schema=http"
+            }
+          },
+          "urgency":3,
+          "body_text":"test image",
+          "versioncreated":"2016-08-17T17:46:52+0000",
+          "guid":"tag:localhost:2016:56753145-8d59-4eed-bdd5-387013db97a2",
+          "byline":"Pawe\u0142 Miko\u0142ajczuk",
+          "pubstatus":"usable",
+          "language":"en",
+          "version":"2",
+          "description_text":"test image 2",
+          "priority":6,
+          "type":"picture",
+          "service":[
+            {
+              "name":"Australian General News",
+              "code":"a"
+            }
+          ],
+          "usageterms":"indefinite-usage",
+          "mimetype":"image/jpeg",
+          "headline":"test image",
+          "located":"Porto"
+        }
+      }
     }
     """
     Then the response status code should be 201

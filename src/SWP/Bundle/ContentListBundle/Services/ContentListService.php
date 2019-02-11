@@ -53,7 +53,7 @@ final class ContentListService implements ContentListServiceInterface
     /**
      * {@inheritdoc}
      */
-    public function addArticleToContentList(ContentListInterface $contentList, ArticleInterface $article, $position = null)
+    public function addArticleToContentList(ContentListInterface $contentList, ArticleInterface $article, $position = null): ContentListItemInterface
     {
         /* @var ContentListItemInterface $contentListItem */
         $contentListItem = $this->listItemFactory->create();

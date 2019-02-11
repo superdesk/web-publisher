@@ -157,7 +157,6 @@ services:
             - '@swp.repository.media'
             - '@swp_filesystem'
             - '@router'
-            - '@swp.factory.image'
             - '@swp.factory.file'
 
     swp_content_bundle.processor.article_body:
@@ -168,7 +167,13 @@ services:
             - '@swp_content_bundle.manager.media'
             - '@SWP\Bundle\ContentBundle\File\FileExtensionChecker'
         tags:
-            - { name: swp.processor.article_body }
+            - { name: swp.processor.article_body, priority: 10 }
+
+    SWP\Bundle\ContentBundle\Processor\EmbeddedMediaBlockProcessor:
+        arguments:
+            - '@SWP\Bundle\ContentBundle\File\FileExtensionChecker'
+        tags:
+            - { name: swp.processor.article_body, priority: 20 }
 
     SWP\Bundle\ContentBundle\Processor\EmbeddedVideoProcessor:
         arguments:
@@ -253,6 +258,7 @@ services:
         arguments:
             - '@swp.factory.keyword'
             - '@swp.repository.keyword'
+            - '@SWP\Bundle\ContentBundle\Service\KeywordBlackLister'
 
     swp.service.article_source:
         class: SWP\Bundle\ContentBundle\Service\ArticleSourceService
@@ -273,6 +279,10 @@ services:
             - { name: doctrine.event_listener, event: prePersist }
 
     SWP\Bundle\ContentBundle\File\FileExtensionChecker: ~
+
+    SWP\Bundle\ContentBundle\Service\KeywordBlackLister:
+        arguments:
+            - '%env(json:BLACKLISTED_KEYWORDS)%'
 
     Aws\S3\S3Client:
         arguments:

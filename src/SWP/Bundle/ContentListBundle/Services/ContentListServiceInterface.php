@@ -18,15 +18,9 @@ namespace SWP\Bundle\ContentListBundle\Services;
 
 use SWP\Bundle\ContentBundle\Model\ArticleInterface;
 use SWP\Component\ContentList\Model\ContentListInterface;
+use SWP\Component\ContentList\Model\ContentListItemInterface;
 
 interface ContentListServiceInterface
 {
-    /**
-     * @param ContentListInterface $contentList
-     * @param ArticleInterface     $article
-     * @param null                 $position
-     *
-     * @return ContentListItemInterface
-     */
-    public function addArticleToContentList(ContentListInterface $contentList, ArticleInterface $article, $position = null);
+    public function addArticleToContentList(ContentListInterface $contentList, ArticleInterface $article, $position = null): ContentListItemInterface;
 }

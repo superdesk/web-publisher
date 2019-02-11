@@ -20,6 +20,8 @@ use Psr\Log\LoggerInterface;
 use SWP\Bundle\CoreBundle\Model\ArticleInterface;
 use SWP\Component\Common\Event\HttpCacheEvent;
 use SWP\Bundle\CoreBundle\Model\ContainerInterface;
+use SWP\Component\MultiTenancy\Context\TenantContextInterface;
+use SWP\Component\MultiTenancy\Model\TenantInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 class HttpCacheSubscriber implements EventSubscriberInterface
@@ -35,15 +37,21 @@ class HttpCacheSubscriber implements EventSubscriberInterface
     protected $logger;
 
     /**
+     * @var TenantContextInterface
+     */
+    protected $tenantContext;
+
+    /**
      * HttpCacheSubscriber constructor.
      *
      * @param CacheManager    $cacheManager
      * @param LoggerInterface $logger
      */
-    public function __construct(CacheManager $cacheManager, LoggerInterface $logger)
+    public function __construct(CacheManager $cacheManager, LoggerInterface $logger, TenantContextInterface $tenantContext)
     {
         $this->cacheManager = $cacheManager;
         $this->logger = $logger;
+        $this->tenantContext = $tenantContext;
     }
 
     /**
@@ -58,30 +66,35 @@ class HttpCacheSubscriber implements EventSubscriberInterface
         ];
     }
 
-    /**
-     * @param HttpCacheEvent $event
-     */
     public function clearCache(HttpCacheEvent $event): void
     {
+        $headers = ['host' => $this->getHostName($this->tenantContext->getTenant())];
         switch (true) {
             case $event->getSubject() instanceof ContainerInterface:
-                $this->cacheManager->invalidateRoute('swp_api_templates_list_containers');
+                $this->cacheManager->invalidateRoute('swp_api_templates_list_containers', [], $headers);
                 $this->cacheManager->invalidateRoute('swp_api_templates_get_container', [
                     'uuid' => $event->getSubject()->getUuid(),
-                ]);
+                ], $headers);
 
                 break;
 
             case $event->getSubject() instanceof ArticleInterface:
-                if (null !== $event->getSubject()->getRoute()) {
-                    $this->cacheManager->invalidateRoute($event->getSubject());
-                    $this->cacheManager->invalidateRoute($event->getSubject()->getRoute());
+                /** @var ArticleInterface $article */
+                $article = $event->getSubject();
+                if (ArticleInterface::STATUS_PUBLISHED === $article->getStatus() &&
+                    $article->getPublishedAt() >= (new \DateTime('now'))->modify('-1 hour')
+                ) {
+                    if (null !== $article->getRoute()) {
+                        $this->cacheManager->invalidateRoute($article, [], $headers);
+                        $this->cacheManager->invalidateRoute($article->getRoute(), [], $headers);
+                    }
+                    $this->cacheManager->invalidateRoute('swp_api_content_list_articles', [], $headers);
+                    $this->cacheManager->invalidateRoute('swp_api_content_show_articles', [
+                        'id' => $article->getId(),
+                    ], $headers);
+
+                    $this->cacheManager->invalidateRoute('homepage', [], $headers);
                 }
-                $this->cacheManager->invalidateRoute('homepage');
-                $this->cacheManager->invalidateRoute('swp_api_content_list_articles');
-                $this->cacheManager->invalidateRoute('swp_api_content_show_articles', [
-                    'id' => $event->getSubject()->getId(),
-                ]);
 
                 break;
         }
@@ -91,5 +104,16 @@ class HttpCacheSubscriber implements EventSubscriberInterface
         } catch (ExceptionCollection $e) {
             $this->logger->error($e->getMessage());
         }
+    }
+
+    private function getHostName(TenantInterface $tenant): string
+    {
+        $hostName = $tenant->getDomainName();
+
+        if (null !== $tenant->getSubdomain()) {
+            $hostName = $tenant->getSubdomain().'.'.$hostName;
+        }
+
+        return $hostName;
     }
 }

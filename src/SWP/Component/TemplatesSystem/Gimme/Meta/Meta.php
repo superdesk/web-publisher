@@ -217,14 +217,7 @@ class Meta implements MetaInterface
         return true;
     }
 
-    /**
-     * Check if string is JSON.
-     *
-     * @param  string
-     *
-     * @return bool
-     */
-    private function isJson($string)
+    private function isJson(string $string): bool
     {
         json_decode($string);
 
@@ -232,9 +225,9 @@ class Meta implements MetaInterface
     }
 
     /**
-     * @param $value
+     * @param mixed $value
      *
-     * @return Meta
+     * @return mixed|Meta
      */
     private function getValueOrMeta($value)
     {

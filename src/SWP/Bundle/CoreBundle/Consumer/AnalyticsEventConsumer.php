@@ -24,6 +24,7 @@ use SWP\Bundle\ContentBundle\Model\RouteInterface;
 use SWP\Bundle\CoreBundle\Model\ArticleInterface;
 use SWP\Bundle\CoreBundle\Resolver\ArticleResolverInterface;
 use SWP\Component\MultiTenancy\Context\TenantContextInterface;
+use SWP\Component\MultiTenancy\Exception\TenantNotFoundException;
 use SWP\Component\MultiTenancy\Resolver\TenantResolver;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Matcher\UrlMatcherInterface;
@@ -85,8 +86,14 @@ final class AnalyticsEventConsumer implements ConsumerInterface
             return ConsumerInterface::MSG_REJECT;
         }
 
-        $this->setTenant($request);
-        echo 'Set tenent: '.$this->tenantContext->getTenant()->getCode()."\n";
+        try {
+            $this->setTenant($request);
+        } catch (TenantNotFoundException $e) {
+            echo $e->getMessage()."\n";
+
+            return ConsumerInterface::MSG_REJECT;
+        }
+        echo 'Set tenant: '.$this->tenantContext->getTenant()->getCode()."\n";
 
         if ($request->query->has('articleId')) {
             $this->handleArticlePageViews($request);
@@ -111,7 +118,12 @@ final class AnalyticsEventConsumer implements ConsumerInterface
         }
 
         foreach ($request->attributes->get('data') as $url) {
-            $article = $this->articleResolver->resolve($url);
+            try {
+                $article = $this->articleResolver->resolve($url);
+            } catch (\Exception $e) {
+                $article = null;
+            }
+
             if (null !== $article) {
                 $articleId = $article->getId();
                 if (!\array_key_exists($articleId, $articles)) {
@@ -121,11 +133,18 @@ final class AnalyticsEventConsumer implements ConsumerInterface
         }
 
         foreach ($articles as $article) {
+            try {
+                $impressionSource = $this->getImpressionSource($request);
+            } catch (\Exception $e) {
+                continue;
+            }
+
             $this->articleStatisticsService->addArticleEvent(
                 (int) $article->getId(),
                 ArticleEventInterface::ACTION_IMPRESSION,
-                $this->getImpressionSource($request)
+                $impressionSource
             );
+            echo 'Article '.$article->getId()." impression was added \n";
         }
     }
 
@@ -165,7 +184,7 @@ final class AnalyticsEventConsumer implements ConsumerInterface
     {
         $pageViewReferer = $request->query->get('ref', null);
         if (null !== $pageViewReferer) {
-            $refererHost = $this->getFragmentFromUrl($pageViewReferer, 'host');
+            $refererHost = \str_replace('www.', '', $this->getFragmentFromUrl($pageViewReferer, 'host'));
             if ($refererHost && $this->isHostMatchingTenant($refererHost)) {
                 return ArticleEventInterface::PAGEVIEW_SOURCE_INTERNAL;
             }

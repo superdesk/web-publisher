@@ -77,7 +77,7 @@ final class OrganizationSubscriber implements EventSubscriber
 
         if ($entity instanceof OrganizationAwareInterface) {
             // skip when organization is already set
-            if (null !== $entity->getOrganization()) {
+            if (null !== $entity->getOrganization() && $args->getObjectManager()->contains($entity->getOrganization())) {
                 return;
             }
 

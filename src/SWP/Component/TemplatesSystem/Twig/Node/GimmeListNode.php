@@ -150,7 +150,7 @@ class GimmeListNode extends \Twig_Node
                 ->write("  'first'  => true,\n")
                 ->write(");\n");
 
-            if (!$this->getAttribute('ifexpr') && $this->getNode('collectionType')) {
+            if (!$this->getAttribute('ifexpr')) {
                 $compiler
                     ->write('if (is_array(')->subcompile($this->getNode('collectionType'))->raw(') || (is_object(')->subcompile($this->getNode('collectionType'))->raw(') && ')->subcompile($this->getNode('collectionType'))->raw(" instanceof Countable)) {\n")
                     ->indent()

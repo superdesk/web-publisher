@@ -90,15 +90,14 @@
         "superdesk/contentapi-sdk-php": "^1.0.0",
         "justinrainbow/json-schema": "~5.0",
         "jms/translation-bundle": "^1.4.3",
-        "hoa/mime": "3.16.01.15",
-        "hoa/file": "1.16.01.15",
+        "hoa/mime": "3.17.01.10",
+        "hoa/file": "1.17.07.11",
         "sentry/sentry-symfony": "^2.0",
         "danielstjules/stringy": "~3.1",
         "burgov/key-value-form-bundle": "@stable",
         "nelmio/api-doc-bundle": "^2.13",
         "nelmio/cors-bundle": "^1.4",
         "facebook/facebook-instant-articles-sdk-php": "v1.5.*",
-        "takeit/amp-html-bundle": "^0.2.0",
         "masterminds/html5": "2.3.*",
         "asm89/twig-cache-extension": "^1.3",
         "doctrine/doctrine-migrations-bundle": "^1.0",
@@ -117,7 +116,9 @@
         "litipk/flysystem-fallback-adapter": "^0.1.2",
         "gesdinet/jwt-refresh-token-bundle": "^0.5.0",
         "rdx/behat-variables": "^1.2",
-        "apache/log4php": "^2.3"
+        "apache/log4php": "^2.3",
+        "takeit/amp-html-bundle": "^1.0",
+        "blackfire/php-sdk": "^1.17"
     },
     "require-dev": {
         "roave/security-advisories": "dev-master",
@@ -139,7 +140,8 @@
         "behatch/contexts": "^3.0",
         "behat-extension/doctrine-data-fixtures-extension": "^4.0",
         "theofidry/alice-data-fixtures": "^1.0",
-        "doctrine/data-fixtures": "^1.3"
+        "doctrine/data-fixtures": "^1.3",
+        "phpstan/phpstan": "^0.11.1"
     },
     "replace": {
         "swp/common": "self.version",

@@ -31,7 +31,22 @@ class ProcessArticleMediaListener extends AbstractArticleMediaListener
 
         $this->removeOldArticleMedia($article);
 
-        foreach ($package->getItems() as $packageItem) {
+        $guids = [];
+        foreach ($package->getGroups() as $packageGroup) {
+            foreach ($packageGroup->getItems() as $item) {
+                if ($this->isTypeAllowed($item->getType())) {
+                    $guids[] = $item->getGuid();
+                }
+            }
+        }
+
+        $items = $package->getItems()->filter(
+            function ($entry) use ($guids) {
+                return !\in_array($entry->getGuid(), $guids, true);
+            }
+        );
+
+        foreach ($items as $packageItem) {
             $key = $packageItem->getName();
             if ($this->isTypeAllowed($packageItem->getType())) {
                 $this->removeArticleMediaIfNeeded($key, $article);
@@ -40,8 +55,14 @@ class ProcessArticleMediaListener extends AbstractArticleMediaListener
                 $this->articleMediaRepository->persist($articleMedia);
             }
 
-            if (null !== $packageItem->getItems() && 0 !== $packageItem->getItems()->count()) {
-                foreach ($packageItem->getItems() as $key => $item) {
+            if (null !== ($packageItems = $packageItem->getItems()) && 0 !== $packageItems->count()) {
+                $packageItems = $packageItem->getItems()->filter(
+                    function ($entry) use ($guids) {
+                        return !\in_array($entry->getGuid(), $guids, true);
+                    }
+                );
+
+                foreach ($packageItems as $key => $item) {
                     if ($this->isTypeAllowed($item->getType())) {
                         $this->removeArticleMediaIfNeeded($key, $article);
 
