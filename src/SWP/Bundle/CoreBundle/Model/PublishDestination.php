@@ -56,6 +56,11 @@ class PublishDestination implements PublishDestinationInterface
     protected $packageGuid;
 
     /**
+     * @var array
+     */
+    protected $contentLists = [];
+
+    /**
      * {@inheritdoc}
      */
     public function getId()
@@ -141,5 +146,15 @@ class PublishDestination implements PublishDestinationInterface
     public function setPackageGuid(?string $packageGuid): void
     {
         $this->packageGuid = $packageGuid;
+    }
+
+    public function getContentLists(): array
+    {
+        return $this->contentLists;
+    }
+
+    public function setContentLists(array $contentLists): void
+    {
+        $this->contentLists = $contentLists;
     }
 }

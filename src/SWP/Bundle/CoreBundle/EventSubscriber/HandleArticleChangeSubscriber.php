@@ -40,7 +40,6 @@ class HandleArticleChangeSubscriber implements EventSubscriberInterface
     {
         return [
             ArticleEvents::POST_UPDATE => 'processArticle',
-            ArticleEvents::POST_CREATE => 'processArticle',
             ArticleEvents::POST_UNPUBLISH => 'processArticle',
         ];
     }
