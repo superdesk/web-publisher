@@ -6,7 +6,6 @@ SWP\Component\Bridge\Model\Rendition:
         soft_deleteable:
             field_name: deletedAt
             time_aware: false
-        loggable: true
     id:
         id:
             type: integer
