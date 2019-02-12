@@ -10,6 +10,7 @@ To get the diff for a specific change, go to https://github.com/superdesk/web-pu
  * improvement [#630] Add option to exclude articles from content list items
 
 ### 1.5.0
+ * improvement [#727] Turn off loggable extensions on tables
  * feature [#724] Schedule article adding to manual content lists
  * fix [#722] Fix data send via webhook
  * bug [#720] Convert editor3 embedded images format to editor2 format
