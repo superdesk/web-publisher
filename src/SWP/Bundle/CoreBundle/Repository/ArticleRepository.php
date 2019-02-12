@@ -84,6 +84,7 @@ class ArticleRepository extends ContentBundleArticleRepository implements Articl
     {
         if (isset($sorting['pageViews']) && !empty($sorting['pageViews'])) {
             if ($criteria instanceof Criteria && null !== $dateRange = $criteria->get('dateRange', null)) {
+                $startIsToday = date('Ymd') == date('Ymd', strtotime($dateRange[1]));
                 $start = new \DateTime();
                 $start->setTimestamp(strtotime($dateRange[0]));
                 $start->setTime(23, 59, 59);
@@ -94,14 +95,18 @@ class ArticleRepository extends ContentBundleArticleRepository implements Articl
                 $articleEventsQuery = $this->_em->createQueryBuilder()
                     ->from(ArticleEvent::class, 'ae')
                     ->select('COUNT(ae.id)')
-                    ->where('ae.createdAt <= :start')
                     ->andWhere('ae.createdAt >= :end')
                     ->andWhere('ae.articleStatistics = stats.id');
 
                 $queryBuilder
                     ->addSelect(sprintf('(%s) as HIDDEN events_count', $articleEventsQuery))
-                    ->setParameter('start', $start)
                     ->setParameter('end', $end);
+
+                if (!$startIsToday) {
+                    $articleEventsQuery->andWhere('ae.createdAt <= :start');
+                    $queryBuilder->setParameter('start', $start);
+                }
+
                 $queryBuilder->addOrderBy('events_count', $sorting['pageViews']);
             } else {
                 $queryBuilder->addOrderBy($this->getPropertyName('pageViewsNumber', 'stats'), $sorting['pageViews']);
@@ -113,6 +118,6 @@ class ArticleRepository extends ContentBundleArticleRepository implements Articl
             $queryBuilder->andWhere('a.commentsCount IS NOT NULL');
         }
 
-        return parent::applySorting($queryBuilder, $sorting, $alias);
+        parent::applySorting($queryBuilder, $sorting, $alias);
     }
 }
