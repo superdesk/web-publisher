@@ -143,6 +143,9 @@
         "doctrine/data-fixtures": "^1.3",
         "phpstan/phpstan": "^0.11.1"
     },
+    "conflict": {
+        "knplabs/knp-time-bundle": "1.9"
+    },
     "replace": {
         "swp/common": "self.version",
         "swp/multi-tenancy": "self.version",
