@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "fb914166c3bc75fee6a3044c54888773",
+    "content-hash": "c1518277f7d32f3c9541176535272670",
     "packages": [
         {
             "name": "apache/log4php",
@@ -92,23 +92,22 @@
         },
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.87.3",
+            "version": "3.87.9",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "5f9caa48b7871ff24231898c01f51580a83f59b9"
+                "reference": "3508f119723b7ee69929c102e350ea26f3c5ff2d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/5f9caa48b7871ff24231898c01f51580a83f59b9",
-                "reference": "5f9caa48b7871ff24231898c01f51580a83f59b9",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/3508f119723b7ee69929c102e350ea26f3c5ff2d",
+                "reference": "3508f119723b7ee69929c102e350ea26f3c5ff2d",
                 "shasum": ""
             },
             "require": {
                 "ext-json": "*",
                 "ext-pcre": "*",
                 "ext-simplexml": "*",
-                "ext-spl": "*",
                 "guzzlehttp/guzzle": "^5.3.3|^6.2.1",
                 "guzzlehttp/promises": "~1.0",
                 "guzzlehttp/psr7": "^1.4.1",
@@ -171,7 +170,7 @@
                 "s3",
                 "sdk"
             ],
-            "time": "2019-02-04T22:38:14+00:00"
+            "time": "2019-02-12T23:15:22+00:00"
         },
         {
             "name": "behat/behat",
@@ -1056,16 +1055,16 @@
         },
         {
             "name": "doctrine/doctrine-bundle",
-            "version": "1.10.1",
+            "version": "1.10.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/DoctrineBundle.git",
-                "reference": "98551d71f515692c2278073e0d483763ac70b341"
+                "reference": "1f99e6645030542079c57d4680601a4a8778a1bd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/DoctrineBundle/zipball/98551d71f515692c2278073e0d483763ac70b341",
-                "reference": "98551d71f515692c2278073e0d483763ac70b341",
+                "url": "https://api.github.com/repos/doctrine/DoctrineBundle/zipball/1f99e6645030542079c57d4680601a4a8778a1bd",
+                "reference": "1f99e6645030542079c57d4680601a4a8778a1bd",
                 "shasum": ""
             },
             "require": {
@@ -1137,7 +1136,7 @@
                 "orm",
                 "persistence"
             ],
-            "time": "2019-01-07T15:31:08+00:00"
+            "time": "2019-02-06T13:18:04+00:00"
         },
         {
             "name": "doctrine/doctrine-cache-bundle",
@@ -4448,17 +4447,17 @@
         },
         {
             "name": "knplabs/knp-time-bundle",
-            "version": "1.9.0",
+            "version": "1.8.0",
             "target-dir": "Knp/Bundle/TimeBundle",
             "source": {
                 "type": "git",
                 "url": "https://github.com/KnpLabs/KnpTimeBundle.git",
-                "reference": "8111778efe2b5c5065ffc5e81b56c5580e49f690"
+                "reference": "dd7ed9e72e8c28edb596c13e3d3c18c29d1248b4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/KnpLabs/KnpTimeBundle/zipball/8111778efe2b5c5065ffc5e81b56c5580e49f690",
-                "reference": "8111778efe2b5c5065ffc5e81b56c5580e49f690",
+                "url": "https://api.github.com/repos/KnpLabs/KnpTimeBundle/zipball/dd7ed9e72e8c28edb596c13e3d3c18c29d1248b4",
+                "reference": "dd7ed9e72e8c28edb596c13e3d3c18c29d1248b4",
                 "shasum": ""
             },
             "require": {
@@ -4509,20 +4508,20 @@
                 "knplabs",
                 "time"
             ],
-            "time": "2018-12-06T14:53:51+00:00"
+            "time": "2017-12-26T03:59:33+00:00"
         },
         {
             "name": "layershifter/tld-database",
-            "version": "1.0.64",
+            "version": "1.0.65",
             "source": {
                 "type": "git",
                 "url": "https://github.com/layershifter/TLDDatabase.git",
-                "reference": "16d9b7cd195eda57c08c64f75e9dbc175320e0cc"
+                "reference": "d8621514dfe1584f9402a4d663ac121bcfa3e4f7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/layershifter/TLDDatabase/zipball/16d9b7cd195eda57c08c64f75e9dbc175320e0cc",
-                "reference": "16d9b7cd195eda57c08c64f75e9dbc175320e0cc",
+                "url": "https://api.github.com/repos/layershifter/TLDDatabase/zipball/d8621514dfe1584f9402a4d663ac121bcfa3e4f7",
+                "reference": "d8621514dfe1584f9402a4d663ac121bcfa3e4f7",
                 "shasum": ""
             },
             "require": {
@@ -4560,7 +4559,7 @@
                 "domain database",
                 "tld database"
             ],
-            "time": "2018-11-09T09:12:04+00:00"
+            "time": "2019-02-11T14:31:22+00:00"
         },
         {
             "name": "layershifter/tld-extract",
@@ -8112,16 +8111,16 @@
         },
         {
             "name": "sylius/theme-bundle",
-            "version": "v1.2.9",
+            "version": "v1.2.15",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Sylius/SyliusThemeBundle.git",
-                "reference": "af7e4c3598f9448b33170a5813a1d30fbafd2f42"
+                "reference": "acb90f9b7673f1824846308f415d280fc852d4a3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Sylius/SyliusThemeBundle/zipball/af7e4c3598f9448b33170a5813a1d30fbafd2f42",
-                "reference": "af7e4c3598f9448b33170a5813a1d30fbafd2f42",
+                "url": "https://api.github.com/repos/Sylius/SyliusThemeBundle/zipball/acb90f9b7673f1824846308f415d280fc852d4a3",
+                "reference": "acb90f9b7673f1824846308f415d280fc852d4a3",
                 "shasum": ""
             },
             "require": {
@@ -8195,7 +8194,7 @@
                 "themes",
                 "theming"
             ],
-            "time": "2018-10-03T08:40:32+00:00"
+            "time": "2019-01-10T12:13:53+00:00"
         },
         {
             "name": "symfony-cmf/core-bundle",
@@ -11988,16 +11987,16 @@
         },
         {
             "name": "phpstan/phpstan",
-            "version": "0.11.1",
+            "version": "0.11.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpstan.git",
-                "reference": "a138b8a2731b2c19f1dffa2f1411984a638fe977"
+                "reference": "8e185a74004920419ee97bf9dc62e6a175e8dca5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/a138b8a2731b2c19f1dffa2f1411984a638fe977",
-                "reference": "a138b8a2731b2c19f1dffa2f1411984a638fe977",
+                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/8e185a74004920419ee97bf9dc62e6a175e8dca5",
+                "reference": "8e185a74004920419ee97bf9dc62e6a175e8dca5",
                 "shasum": ""
             },
             "require": {
@@ -12057,7 +12056,7 @@
                 "MIT"
             ],
             "description": "PHPStan - PHP Static Analysis Tool",
-            "time": "2019-01-19T20:23:08+00:00"
+            "time": "2019-02-12T14:54:38+00:00"
         },
         {
             "name": "phpunit/php-code-coverage",
@@ -12527,8 +12526,8 @@
                 "doctrine/mongodb-odm-bundle": ">=2,<3.0.1",
                 "doctrine/orm": ">=2,<2.4.8|>=2.5,<2.5.1",
                 "dompdf/dompdf": ">=0.6,<0.6.2",
-                "drupal/core": ">=7,<7.62|>=8,<8.6.6",
-                "drupal/drupal": ">=7,<7.62|>=8,<8.6.6",
+                "drupal/core": ">=7,<7.62|>=8,<8.5.9|>=8.6,<8.6.6",
+                "drupal/drupal": ">=7,<7.62|>=8,<8.5.9|>=8.6,<8.6.6",
                 "erusev/parsedown": "<1.7",
                 "ezsystems/ezpublish-kernel": ">=5.3,<5.3.12.1|>=5.4,<5.4.13.1|>=6,<6.7.9.1|>=6.8,<6.13.5.1|>=7,<7.2.4.1|>=7.3,<7.3.2.1",
                 "ezsystems/ezpublish-legacy": ">=5.3,<5.3.12.6|>=5.4,<5.4.12.3|>=2011,<2017.12.4.3|>=2018.6,<2018.6.1.4|>=2018.9,<2018.9.1.3",
@@ -12683,7 +12682,7 @@
                 }
             ],
             "description": "Prevents installation of composer packages with known security vulnerabilities: no API, simply require it",
-            "time": "2019-02-03T13:48:05+00:00"
+            "time": "2019-02-05T19:58:17+00:00"
         },
         {
             "name": "sebastian/code-unit-reverse-lookup",
