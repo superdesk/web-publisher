@@ -123,6 +123,7 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface, Orde
                 'route' => 'news',
                 'locale' => 'en',
                 'published_at' => '2017-04-05 12:12:00',
+                'extra' => ['video' => 'YES'],
             ],
             [
                 'title' => 'Features',
@@ -197,6 +198,10 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface, Orde
                 $article->setStatus(ArticleInterface::STATUS_PUBLISHED);
             } else {
                 $article->setStatus($articleData['status']);
+            }
+
+            if (isset($articleData['extra'])) {
+                $article->setExtra($articleData['extra']);
             }
 
             $article->setMetadata($this->articleMetadata());

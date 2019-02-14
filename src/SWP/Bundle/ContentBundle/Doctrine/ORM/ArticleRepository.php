@@ -161,7 +161,7 @@ class ArticleRepository extends EntityRepository implements ArticleRepositoryInt
      */
     private function applyCustomFiltering(QueryBuilder $queryBuilder, Criteria $criteria)
     {
-        foreach (['metadata'] as $name) {
+        foreach (['metadata', 'extra'] as $name) {
             if (!$criteria->has($name)) {
                 continue;
             }
@@ -173,9 +173,14 @@ class ArticleRepository extends EntityRepository implements ArticleRepositoryInt
             }
 
             $orX = $queryBuilder->expr()->orX();
-            foreach ($criteria->get($name) as $value) {
-                $valueExpression = $queryBuilder->expr()->literal('%'.$value.'%');
-                $orX->add($queryBuilder->expr()->like('a.metadata', $valueExpression));
+            foreach ($criteria->get($name) as $key => $value) {
+                if ('metadata' === $name) {
+                    $valueExpression = $queryBuilder->expr()->literal('%'.\json_encode([$key => $value]).'%');
+                    $valueExpression = \str_replace('{', '', \str_replace('}', '', $valueExpression));
+                } else {
+                    $valueExpression = $queryBuilder->expr()->literal('%'.\serialize([$key => $value]).'%');
+                }
+                $orX->add($queryBuilder->expr()->like('a.'.$name, $valueExpression));
             }
 
             $queryBuilder->andWhere($orX);
