@@ -126,9 +126,9 @@ class BaseContent implements ContentInterface
     protected $source;
 
     /**
-     * @var array|null
+     * @var array
      */
-    protected $extra;
+    protected $extra = [];
 
     /**
      * @var \DateTimeInterface|null
@@ -528,8 +528,12 @@ class BaseContent implements ContentInterface
     /**
      * {@inheritdoc}
      */
-    public function getExtra(): ?array
+    public function getExtra(): array
     {
+        if (null === $this->extra) {
+            return [];
+        }
+
         return $this->extra;
     }
 
