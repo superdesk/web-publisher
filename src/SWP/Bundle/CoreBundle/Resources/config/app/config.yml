@@ -290,6 +290,10 @@ swp_settings:
             type: boolean
             scope: tenant
             value: false
+        image_author_template:
+            type: string
+            scope: tenant
+            value: "(Foto: {{ author }})"
 
 swp_analytics:
     persistence:

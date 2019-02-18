@@ -32,6 +32,8 @@ final class OverrideEmbeddedImageProcessorPass extends AbstractOverridePass
         $containerProvider
             ->setClass(\SWP\Bundle\CoreBundle\Processor\EmbeddedImageProcessor::class)
             ->setArgument(2, new Reference(ArticlePreviewContext::class))
+            ->setArgument(3, new Reference('swp_settings.manager.settings'))
+            ->setArgument(4, new Reference('swp_multi_tenancy.tenant_context'))
         ;
     }
 }
