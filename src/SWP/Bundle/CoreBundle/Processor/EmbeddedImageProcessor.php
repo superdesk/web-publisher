@@ -64,8 +64,11 @@ final class EmbeddedImageProcessor extends BaseEmbeddedImageProcessor
 
     public function applyByline(ArticleMediaInterface $articleMedia): string
     {
-        $imageAuthorTemplate = $this->settingsManager->get('image_author_template', 'tenant', $this->tenantContext->getTenant());
-        $byline = $articleMedia->getByLine();
+        $imageAuthorTemplate = $this->settingsManager->get('embedded_image_author_template', 'tenant', $this->tenantContext->getTenant());
+
+        if (null === $byline = $articleMedia->getByLine()) {
+            return '';
+        }
 
         return str_replace('{{ author }}', $byline, $imageAuthorTemplate);
     }
