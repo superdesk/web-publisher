@@ -17,7 +17,7 @@ final class Version20190218061714 extends AbstractMigration
         // this up() migration is auto-generated, please modify it to your needs
         $this->abortIf('postgresql' !== $this->connection->getDatabasePlatform()->getName(), 'Migration can only be executed safely on \'postgresql\'.');
 
-        $this->addSql('CREATE INDEX idx_article_events ON swp_article_events (
+        $this->addSql('CREATE INDEX IF NOT EXISTS idx_article_events ON swp_article_events (
           article_statistics_id,
           tenant_code, 
           created_at
