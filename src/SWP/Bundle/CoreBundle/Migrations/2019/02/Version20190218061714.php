@@ -22,6 +22,7 @@ final class Version20190218061714 extends AbstractMigration
           tenant_code, 
           created_at
         )');
+        $this->addSql('ALTER TABLE swp_item ALTER guid TYPE VARCHAR(400)');
     }
 
     public function down(Schema $schema): void
@@ -30,5 +31,6 @@ final class Version20190218061714 extends AbstractMigration
         $this->abortIf('postgresql' !== $this->connection->getDatabasePlatform()->getName(), 'Migration can only be executed safely on \'postgresql\'.');
 
         $this->addSql('DROP INDEX idx_article_events');
+        $this->addSql('ALTER TABLE swp_item ALTER guid TYPE VARCHAR(255)');
     }
 }
