@@ -32,7 +32,7 @@ Full documentation can be found here: [http://superdesk-publisher.readthedocs.or
      * magic_quotes_gpc = Off
      * register_globals = Off
      * session.auto_start = Off
- * Postgresql >= 9.4
+ * Postgresql >= 9.6
    * pdo-pgsql
  * Memcached
    * memcached (running)

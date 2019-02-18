@@ -6,8 +6,11 @@ This changelog references the relevant changes (bug and security fixes) done in 
 
 To get the diff for a specific change, go to https://github.com/superdesk/web-publisher/commit/XXX where XXX is the change hash
 
-### 1.6.0
+### 2.0.0
  * improvement [#630] Add option to exclude articles from content list items
+ 
+### 1.6.0
+ * improvement [#730] Allow to filter articles by data stored in extra
 
 ### 1.5.0
  * improvement [#727] Turn off loggable extensions on tables
