@@ -16,7 +16,11 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\ContentBundle\Processor;
 
+use SWP\Bundle\ContentBundle\Model\ArticleMediaInterface;
+
 interface EmbeddedImageProcessorInterface extends ArticleBodyProcessorInterface
 {
     public function setDefaultImageRendition(string $renditionName): void;
+
+    public function applyByline(ArticleMediaInterface $articleMedia): string;
 }

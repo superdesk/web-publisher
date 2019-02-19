@@ -16,9 +16,12 @@ namespace SWP\Bundle\CoreBundle\Processor;
 
 use SWP\Bundle\ContentBundle\File\FileExtensionCheckerInterface;
 use SWP\Bundle\ContentBundle\Manager\MediaManagerInterface;
+use SWP\Bundle\ContentBundle\Model\ArticleMediaInterface;
 use SWP\Bundle\ContentBundle\Model\ImageRendition;
 use SWP\Bundle\ContentBundle\Processor\EmbeddedImageProcessor as BaseEmbeddedImageProcessor;
 use SWP\Bundle\CoreBundle\Context\ArticlePreviewContextInterface;
+use SWP\Bundle\SettingsBundle\Manager\SettingsManagerInterface;
+use SWP\Component\MultiTenancy\Context\TenantContextInterface;
 
 final class EmbeddedImageProcessor extends BaseEmbeddedImageProcessor
 {
@@ -27,21 +30,46 @@ final class EmbeddedImageProcessor extends BaseEmbeddedImageProcessor
      */
     private $articlePreviewContext;
 
+    /**
+     * @var SettingsManagerInterface
+     */
+    private $settingsManager;
+
+    /**
+     * @var TenantContextInterface
+     */
+    private $tenantContext;
+
     public function __construct(
         MediaManagerInterface $mediaManager,
         FileExtensionCheckerInterface $fileExtensionChecker,
-        ArticlePreviewContextInterface $articlePreviewContext
+        ArticlePreviewContextInterface $articlePreviewContext,
+        SettingsManagerInterface $settingsManager,
+        TenantContextInterface $tenantContext
     ) {
         parent::__construct($mediaManager, $fileExtensionChecker);
         $this->articlePreviewContext = $articlePreviewContext;
+        $this->settingsManager = $settingsManager;
+        $this->tenantContext = $tenantContext;
     }
 
-    protected function processImageElement(\DOMElement $imageElement, ImageRendition $rendition, string $mediaId)
+    protected function processImageElement(\DOMElement $imageElement, ImageRendition $rendition, string $mediaId): void
     {
         parent::processImageElement($imageElement, $rendition, $mediaId);
 
         if ($this->articlePreviewContext->isPreview()) {
             $imageElement->setAttribute('src', $rendition->getPreviewUrl());
         }
+    }
+
+    public function applyByline(ArticleMediaInterface $articleMedia): string
+    {
+        $imageAuthorTemplate = $this->settingsManager->get('embedded_image_author_template', 'tenant', $this->tenantContext->getTenant());
+
+        if (null === ($byline = $articleMedia->getByLine())) {
+            return '';
+        }
+
+        return str_replace('{{ author }}', $byline, $imageAuthorTemplate);
     }
 }

@@ -77,6 +77,9 @@ class EmbeddedImageProcessor implements EmbeddedImageProcessorInterface
             }
         }
 
+        $figCaptionNode = $crawler->filter('figure figcaption')->getNode(0);
+        $this->appendImageByline($articleMedia, $figCaptionNode);
+
         $article->setBody(str_replace($figureString, $crawler->filter('body')->html(), $body));
     }
 
@@ -90,7 +93,21 @@ class EmbeddedImageProcessor implements EmbeddedImageProcessorInterface
         return $this->fileExtensionChecker->isImage($type);
     }
 
-    protected function processImageElement(\DOMElement $imageElement, ImageRendition $rendition, string $mediaId)
+    private function appendImageByline(ArticleMediaInterface $articleMedia, \DOMElement $figCaptionNode): void
+    {
+        $element = new \DOMElement('span');
+        $figCaptionNode->appendChild($element);
+
+        $authorDiv = $figCaptionNode->childNodes[1];
+        $authorDiv->textContent = $this->applyByline($articleMedia);
+    }
+
+    public function applyByline(ArticleMediaInterface $articleMedia): string
+    {
+        return $articleMedia->getByLine();
+    }
+
+    protected function processImageElement(\DOMElement $imageElement, ImageRendition $rendition, string $mediaId): void
     {
         $attributes = $imageElement->attributes;
         $altAttribute = null;

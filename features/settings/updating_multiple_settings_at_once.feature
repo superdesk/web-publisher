@@ -119,6 +119,12 @@ Feature: Settings bulk update
         "name": "override_slug_on_correction"
       },
       {
+        "type": "string",
+        "scope": "tenant",
+        "value": "(Photo: {{ author }})",
+        "name": "embedded_image_author_template"
+      },
+      {
         "label":"Primary Font Family",
         "value":"Lato",
         "type":"string",
@@ -295,6 +301,12 @@ Feature: Settings bulk update
         "name": "override_slug_on_correction"
       },
       {
+        "type": "string",
+        "scope": "tenant",
+        "value": "(Photo: {{ author }})",
+        "name": "embedded_image_author_template"
+      },
+      {
         "label":"Primary Font Family",
         "value":"Lato",
         "type":"string",
@@ -393,14 +405,14 @@ Feature: Settings bulk update
     And I send a "GET" request to "/api/{version}/settings/"
     Then the response status code should be 200
     And the JSON nodes should contain:
-      | [14].name               | primary_font_family                 |
-      | [14].value              | Lato                                |
-      | [15].name               | secondary_font_family               |
-      | [15].value              | Oswald                              |
+      | [15].name               | primary_font_family                 |
+      | [15].value              | Lato                                |
+      | [16].name               | secondary_font_family               |
+      | [16].value              | Oswald                              |
       | [9].name                | theme_logo                          |
       | [9].value               | .png                                |
-      | [16].name               | body_font_size                      |
-      | [16].value              | 16                                  |
+      | [17].name               | body_font_size                      |
+      | [17].value              | 16                                  |
     And I am authenticated as "test.user"
     When I add "Content-Type" header equal to "application/json"
     And I send a "PATCH" request to "/api/{version}/settings/bulk/" with body:
@@ -422,5 +434,5 @@ Feature: Settings bulk update
     And I send a "GET" request to "/api/{version}/settings/"
     Then the response status code should be 200
     And the JSON nodes should contain:
-      | [17].name                | switch   |
-    And the JSON node "[17].value" should be false
+      | [18].name                | switch   |
+    And the JSON node "[18].value" should be false
