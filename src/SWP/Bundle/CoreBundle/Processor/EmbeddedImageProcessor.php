@@ -66,7 +66,7 @@ final class EmbeddedImageProcessor extends BaseEmbeddedImageProcessor
     {
         $imageAuthorTemplate = $this->settingsManager->get('embedded_image_author_template', 'tenant', $this->tenantContext->getTenant());
 
-        if (null === $byline = $articleMedia->getByLine()) {
+        if (null === ($byline = $articleMedia->getByLine())) {
             return '';
         }
 

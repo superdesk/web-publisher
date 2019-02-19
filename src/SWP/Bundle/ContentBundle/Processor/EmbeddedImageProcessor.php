@@ -99,7 +99,6 @@ class EmbeddedImageProcessor implements EmbeddedImageProcessorInterface
         $figCaptionNode->appendChild($element);
 
         $authorDiv = $figCaptionNode->childNodes[1];
-        $authorDiv->setAttribute('class', 'fig-author');
         $authorDiv->textContent = $this->applyByline($articleMedia);
     }
 
