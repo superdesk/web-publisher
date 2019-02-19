@@ -361,13 +361,7 @@ class BaseContent implements ContentInterface
      */
     public function getServicesNames(): array
     {
-        return array_map(function ($service) {
-            if (\is_array($service) && \array_key_exists('name', $service)) {
-                return $service['name'];
-            }
-
-            return $service;
-        }, $this->services);
+        return $this->mapNames($this->services);
     }
 
     /**
@@ -375,13 +369,50 @@ class BaseContent implements ContentInterface
      */
     public function getServicesCodes(): array
     {
-        return array_map(function ($service) {
-            if (\is_array($service) && \array_key_exists('code', $service)) {
-                return $service['code'];
+        return $this->mapCodes($this->services);
+    }
+
+    public function getSubjectsSchemes(): array
+    {
+        return $this->mapSchemes($this->subjects);
+    }
+
+    public function getSubjectsNames(): array
+    {
+        return $this->mapNames($this->subjects);
+    }
+
+    private function mapNames(array $values): array
+    {
+        return array_map(function ($subject) {
+            if (\is_array($subject) && \array_key_exists('name', $subject)) {
+                return $subject['name'];
             }
 
-            return $service;
-        }, $this->services);
+            return $subject;
+        }, $values);
+    }
+
+    private function mapCodes(array $values): array
+    {
+        return array_map(function ($subject) {
+            if (\is_array($subject) && \array_key_exists('code', $subject)) {
+                return $subject['code'];
+            }
+
+            return $subject;
+        }, $values);
+    }
+
+    private function mapSchemes(array $values): array
+    {
+        return array_map(function ($subject) {
+            if (\is_array($subject) && \array_key_exists('scheme', $subject)) {
+                return $subject['scheme'];
+            }
+
+            return $subject;
+        }, $values);
     }
 
     /**

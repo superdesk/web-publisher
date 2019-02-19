@@ -234,12 +234,12 @@ interface ContentInterface extends PersistableInterface, AuthorsAwareInterface
     public function setEvolvedFrom(string $evolvedFrom);
 
     /**
-     * @return null|string
+     * @return string|null
      */
     public function getSource();
 
     /**
-     * @param null|string $source
+     * @param string|null $source
      */
     public function setSource($source);
 
@@ -256,4 +256,8 @@ interface ContentInterface extends PersistableInterface, AuthorsAwareInterface
     public function getFirstPublishedAt(): ?\DateTimeInterface;
 
     public function setFirstPublishedAt(?\DateTimeInterface $firstPublishedAt): void;
+
+    public function getSubjectsSchemes(): array;
+
+    public function getSubjectsNames(): array;
 }
