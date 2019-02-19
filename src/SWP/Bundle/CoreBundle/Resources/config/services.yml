@@ -202,6 +202,12 @@ services:
         tags:
             - { name: kernel.event_subscriber }
 
+    SWP\Bundle\CoreBundle\EventSubscriber\Meta\ArticleContentListsSubscriber:
+        arguments:
+            - "@swp.repository.content_list_item"
+        tags:
+            - { name: kernel.event_subscriber }
+
     swp_core.listener.revision_subscriber:
         class: SWP\Bundle\CoreBundle\EventSubscriber\RevisionsSubscriber
         arguments:

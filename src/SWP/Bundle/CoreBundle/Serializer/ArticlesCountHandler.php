@@ -74,6 +74,8 @@ final class ArticlesCountHandler implements SubscribingHandlerInterface
         $object = $context->getObject();
         $criteria = new Criteria();
         if ($object instanceof PersistableInterface && $object instanceof RouteInterface) {
+            return 0;
+
             $id = $object->getId();
             $criteria->set('route', $id);
 

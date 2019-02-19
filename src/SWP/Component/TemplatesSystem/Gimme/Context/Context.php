@@ -15,12 +15,16 @@
 namespace SWP\Component\TemplatesSystem\Gimme\Context;
 
 use Doctrine\Common\Cache\Cache;
+use SWP\Component\TemplatesSystem\Gimme\Event\MetaEvent;
 use SWP\Component\TemplatesSystem\Gimme\Meta\Meta;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Yaml\Parser;
 
 class Context implements \ArrayAccess
 {
+    const META_EVENT_NAME = 'swp.templates_system.meta.load';
+
     /**
      * Array with current page information's.
      *
@@ -42,9 +46,8 @@ class Context implements \ArrayAccess
      */
     protected $availableConfigs = [];
 
-    /**
-     * @var Cache
-     */
+    protected $dispatcher;
+
     protected $metadataCache;
 
     /**
@@ -72,22 +75,19 @@ class Context implements \ArrayAccess
      */
     private $configurationCache = [];
 
-    /**
-     * Context constructor.
-     *
-     * @param Cache  $metadataCache
-     * @param string $configsPath
-     */
-    public function __construct(Cache $metadataCache, $configsPath = null)
+    public function __construct(EventDispatcherInterface $dispatcher, Cache $metadataCache, $configsPath = null)
     {
         $this->metadataCache = $metadataCache;
         $this->configsPath = $configsPath;
+        $this->dispatcher = $dispatcher;
     }
 
-    /**
-     * @return array
-     */
-    public function getAvailableConfigs()
+    public function dispatchMetaEvent(MetaEvent $event): void
+    {
+        $this->dispatcher->dispatch(self::META_EVENT_NAME, $event);
+    }
+
+    public function getAvailableConfigs(): array
     {
         if (0 === count($this->availableConfigs)) {
             $this->loadConfigsFromPath($this->configsPath);
@@ -148,14 +148,7 @@ class Context implements \ArrayAccess
         }
     }
 
-    /**
-     * @param mixed $value
-     *
-     * @return array
-     *
-     * @throws \Exception
-     */
-    public function getConfigurationForValue($value)
+    public function getConfigurationForValue($value): array
     {
         if (false === is_object($value)) {
             throw new \Exception('Context supports configuration loading only for objects');
@@ -177,22 +170,12 @@ class Context implements \ArrayAccess
         return [];
     }
 
-    /**
-     * @param mixed $value
-     *
-     * @return Meta
-     */
-    public function getMetaForValue($value)
+    public function getMetaForValue($value): Meta
     {
         return new Meta($this, $value, $this->getConfigurationForValue($value));
     }
 
-    /**
-     * @param mixed $value
-     *
-     * @return bool
-     */
-    public function isSupported($value)
+    public function isSupported($value): bool
     {
         if (!is_object($value)) {
             return false;
@@ -209,12 +192,7 @@ class Context implements \ArrayAccess
         return $result;
     }
 
-    /**
-     * @param string $filePath
-     *
-     * @return $this
-     */
-    public function addNewConfig($filePath)
+    public function addNewConfig(string $filePath)
     {
         $cacheKey = md5($filePath);
         if (!$this->metadataCache->contains($cacheKey)) {
@@ -234,14 +212,7 @@ class Context implements \ArrayAccess
         return $configuration;
     }
 
-    /**
-     * Set current context page information's.
-     *
-     * @param Meta $currentPage
-     *
-     * @return self
-     */
-    public function setCurrentPage(Meta $currentPage)
+    public function setCurrentPage(Meta $currentPage): self
     {
         $this->currentPage = $currentPage;
 
@@ -258,16 +229,7 @@ class Context implements \ArrayAccess
         return $this->currentPage;
     }
 
-    /**
-     * Register new meta type, registration is required before setting new value for meta.
-     *
-     * @param Meta|null $meta Meta object
-     *
-     * @throws \Exception if already registered
-     *
-     * @return bool if registered successfully
-     */
-    public function registerMeta(Meta $meta = null)
+    public function registerMeta(Meta $meta = null): bool
     {
         $configuration = $meta->getConfiguration();
         $name = $configuration['name'];

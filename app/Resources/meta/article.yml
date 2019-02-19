@@ -59,4 +59,7 @@ properties:
     commentsCount:
         description: "Number of comments (managed by external system)"
         type: integer
+    contentLists:
+        description: "An array with content lists to witch this article is assigned"
+        type: array
 to_string: title
