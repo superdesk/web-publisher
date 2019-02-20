@@ -214,7 +214,6 @@ class RuleControllerTest extends WebTestCase
 
         self::assertEquals(200, $client->getResponse()->getStatusCode());
         $data = json_decode($client->getResponse()->getContent(), true);
-        self::assertEquals(1, $data['route']['articlesCount']);
         self::assertArraySubset(
             ['route' => ['name' => 'articles/assign-article-automatically-here']],
             $data

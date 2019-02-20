@@ -8,6 +8,7 @@ services:
     swp_template_engine_context:
         class: SWP\Component\TemplatesSystem\Gimme\Context\Context
         arguments:
+            - "@event_dispatcher"
             - "@doctrine_cache.providers.main_cache"
             - "%kernel.root_dir%/Resources/meta"
     context:
