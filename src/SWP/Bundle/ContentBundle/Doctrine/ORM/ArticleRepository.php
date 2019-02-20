@@ -161,7 +161,7 @@ class ArticleRepository extends EntityRepository implements ArticleRepositoryInt
      */
     private function applyCustomFiltering(QueryBuilder $queryBuilder, Criteria $criteria)
     {
-        foreach (['metadata', 'extra'] as $name) {
+        foreach (['metadata', 'extra', 'exclude_metadata', 'exclude_extra'] as $name) {
             if (!$criteria->has($name)) {
                 continue;
             }
@@ -174,13 +174,27 @@ class ArticleRepository extends EntityRepository implements ArticleRepositoryInt
 
             $orX = $queryBuilder->expr()->orX();
             foreach ($criteria->get($name) as $key => $value) {
+                $search = ('***' !== $value) ? [$key => $value] : $key;
                 if ('metadata' === $name) {
-                    $valueExpression = $queryBuilder->expr()->literal('%'.\json_encode([$key => $value]).'%');
-                    $valueExpression = \str_replace('{', '', \str_replace('}', '', $valueExpression));
+                    $valueExpression = \str_replace('{', '',
+                        \str_replace('}', '',
+                            '%'.\json_encode($search).'%'
+                        )
+                    );
                 } else {
-                    $valueExpression = $queryBuilder->expr()->literal('%'.\serialize([$key => $value]).'%');
+                    $valueExpression = '%'.\str_replace('a:1:{', '',
+                        \str_replace(';}', ';',
+                            \serialize($search).'%'
+                        )
+                    );
                 }
-                $orX->add($queryBuilder->expr()->like('a.'.$name, $valueExpression));
+
+                $valueExpression = $queryBuilder->expr()->literal($valueExpression);
+                if (false === strpos($name, 'exclude_')) {
+                    $orX->add($queryBuilder->expr()->like('a.'.$name, $valueExpression));
+                } else {
+                    $orX->add($queryBuilder->expr()->notLike('a.'.\str_replace('exclude_', '', $name), $valueExpression));
+                }
             }
 
             $queryBuilder->andWhere($orX);
