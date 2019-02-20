@@ -20,6 +20,7 @@ use SWP\Bundle\FixturesBundle\WebTestCase;
 use SWP\Component\Common\Criteria\Criteria;
 use SWP\Component\TemplatesSystem\Gimme\Context\Context;
 use SWP\Component\TemplatesSystem\Gimme\Meta\Meta;
+use Symfony\Component\EventDispatcher\EventDispatcher;
 
 class MetaRouterTest extends WebTestCase
 {
@@ -27,7 +28,7 @@ class MetaRouterTest extends WebTestCase
     {
         $article = $this->createMock('SWP\Bundle\ContentBundle\Model\ArticleInterface');
         $router = $this->getContainer()->get('cmf_routing.dynamic_router');
-        $this->assertTrue($router->supports(new Meta(new Context(new ArrayCache()), $article, ['name' => 'article', 'properties' => []])));
+        $this->assertTrue($router->supports(new Meta(new Context(new EventDispatcher(), new ArrayCache()), $article, ['name' => 'article', 'properties' => []])));
     }
 
     public function testSupports()

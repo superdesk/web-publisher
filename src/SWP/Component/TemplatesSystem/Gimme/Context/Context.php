@@ -175,7 +175,7 @@ class Context implements \ArrayAccess
         return new Meta($this, $value, $this->getConfigurationForValue($value));
     }
 
-    public function isSupported($value): bool
+    public function isSupported($value)
     {
         if (!is_object($value)) {
             return false;
@@ -229,7 +229,7 @@ class Context implements \ArrayAccess
         return $this->currentPage;
     }
 
-    public function registerMeta(Meta $meta = null): bool
+    public function registerMeta(Meta $meta = null)
     {
         $configuration = $meta->getConfiguration();
         $name = $configuration['name'];

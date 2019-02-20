@@ -21,6 +21,7 @@ use SWP\Component\TemplatesSystem\Gimme\Loader\ArticleLoader;
 use SWP\Component\TemplatesSystem\Gimme\Loader\ChainLoader;
 use SWP\Component\TemplatesSystem\Twig\Extension\GimmeExtension;
 use SWP\Component\TemplatesSystem\Twig\Node\GimmeListNode;
+use Symfony\Component\EventDispatcher\EventDispatcher;
 
 class GimmeListNodeTest extends \Twig_Test_NodeTestCase
 {
@@ -31,7 +32,7 @@ class GimmeListNodeTest extends \Twig_Test_NodeTestCase
     {
         $env = $this->getEnvironment();
         $metaLoader = new ChainLoader();
-        $context = new Context(new ArrayCache());
+        $context = new Context(new EventDispatcher(), new ArrayCache());
         $metaLoader->addLoader(new ArticleLoader(__DIR__, new MetaFactory($context)));
         $env->addExtension(new GimmeExtension($context, $metaLoader));
 
