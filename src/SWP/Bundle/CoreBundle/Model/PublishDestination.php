@@ -150,6 +150,10 @@ class PublishDestination implements PublishDestinationInterface
 
     public function getContentLists(): array
     {
+        if (null === $this->contentLists) {
+            return [];
+        }
+
         return $this->contentLists;
     }
 
