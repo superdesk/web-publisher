@@ -158,6 +158,7 @@ services:
             - '@swp_filesystem'
             - '@router'
             - '@swp.factory.file'
+            - '@monolog.logger.swp_asset_download'
 
     swp_content_bundle.processor.article_body:
         class: SWP\Bundle\ContentBundle\Processor\ArticleBodyProcessorChain

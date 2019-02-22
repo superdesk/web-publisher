@@ -14,15 +14,23 @@
 
 namespace SWP\Bundle\ContentBundle\Manager;
 
+use GuzzleHttp\Client;
+use GuzzleHttp\Handler\CurlHandler;
+use GuzzleHttp\HandlerStack;
+use GuzzleHttp\Middleware;
 use Hoa\Mime\Mime;
+use Psr\Log\LoggerInterface;
 use SWP\Bundle\ContentBundle\Doctrine\ArticleMediaRepositoryInterface;
 use SWP\Bundle\ContentBundle\Factory\FileFactoryInterface;
 use SWP\Bundle\ContentBundle\Model\ArticleMedia;
 use SWP\Bundle\ContentBundle\Model\FileInterface;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use League\Flysystem\Filesystem;
-use Symfony\Component\Filesystem\Filesystem as SymfonyFilesystem;
 use Symfony\Component\Routing\RouterInterface;
+use GuzzleHttp\Exception\ConnectException;
+use GuzzleHttp\Exception\RequestException;
+use GuzzleHttp\Psr7\Request;
+use GuzzleHttp\Psr7\Response;
 
 class MediaManager implements MediaManagerInterface
 {
@@ -46,16 +54,23 @@ class MediaManager implements MediaManagerInterface
      */
     protected $fileFactory;
 
+    /**
+     * @var LoggerInterface
+     */
+    private $logger;
+
     public function __construct(
         ArticleMediaRepositoryInterface $mediaRepository,
         Filesystem $filesystem,
         RouterInterface $router,
-        FileFactoryInterface $fileFactory
+        FileFactoryInterface $fileFactory,
+        LoggerInterface $logger
     ) {
         $this->mediaRepository = $mediaRepository;
         $this->filesystem = $filesystem;
         $this->router = $router;
         $this->fileFactory = $fileFactory;
+        $this->logger = $logger;
     }
 
     /**
@@ -105,12 +120,13 @@ class MediaManager implements MediaManagerInterface
             $mimeType = Mime::getMimeFromExtension($pathParts['extension']);
         }
 
-        $file = \file_get_contents($url);
-        $tempLocation = \sys_get_temp_dir().\DIRECTORY_SEPARATOR.\sha1($mediaId.date('his'));
-        $filesystem = new SymfonyFilesystem();
-        $filesystem->dumpFile($tempLocation, $file);
+        $handlerStack = HandlerStack::create(new CurlHandler());
+        $handlerStack->push(Middleware::retry($this->retryDecider(), $this->retryDelay()));
+        $client = new Client(array('handler' => $handlerStack));
+        $tempLocation = \rtrim(\sys_get_temp_dir(), '/').DIRECTORY_SEPARATOR.\sha1($mediaId.date('his'));
+        $client->request('GET', $url, ['sink' => $tempLocation]);
 
-        return new UploadedFile($tempLocation, $mediaId, $mimeType, \strlen($file), null, true);
+        return new UploadedFile($tempLocation, $mediaId, $mimeType, \strlen($tempLocation), null, true);
     }
 
     /**
@@ -161,5 +177,47 @@ class MediaManager implements MediaManagerInterface
         }
 
         return $extension;
+    }
+
+    public function retryDecider()
+    {
+        return function (
+            $retries,
+            Request $request,
+            Response $response = null,
+            RequestException $exception = null
+        ): bool {
+            $retry = false;
+            if ($retries >= 4) {
+                $this->logger->error(\sprintf('Maximum number of retires reached'));
+
+                return false;
+            }
+
+            // Retry connection exceptions
+            if ($exception instanceof ConnectException) {
+                $retry = true;
+            }
+
+            if ($response) {
+                // Retry on server errors
+                if ($response->getStatusCode() >= 400) {
+                    $retry = true;
+                }
+            }
+
+            if (true === $retry) {
+                $this->logger->info(\sprintf('Retry downloading %s', $request->getUri()));
+            }
+
+            return $retry;
+        };
+    }
+
+    public function retryDelay()
+    {
+        return function ($numberOfRetries): int {
+            return 1000 * $numberOfRetries;
+        };
     }
 }
