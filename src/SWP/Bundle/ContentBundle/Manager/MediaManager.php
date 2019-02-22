@@ -123,7 +123,7 @@ class MediaManager implements MediaManagerInterface
         $handlerStack = HandlerStack::create(new CurlHandler());
         $handlerStack->push(Middleware::retry($this->retryDecider(), $this->retryDelay()));
         $client = new Client(array('handler' => $handlerStack));
-        $tempLocation = \sys_get_temp_dir().\sha1($mediaId.date('his'));
+        $tempLocation = \rtrim(\sys_get_temp_dir(), '/').DIRECTORY_SEPARATOR.\sha1($mediaId.date('his'));
         $client->request('GET', $url, ['sink' => $tempLocation]);
 
         return new UploadedFile($tempLocation, $mediaId, $mimeType, \strlen($tempLocation), null, true);
