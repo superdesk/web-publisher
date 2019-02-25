@@ -439,6 +439,7 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface, Orde
                         'John Doe Second',
                     ],
                     'sources' => ['Reuters', 'AAP'],
+                    'commentsCount' => 5,
                 ],
                 [
                     'title' => 'Features client1',
@@ -454,6 +455,7 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface, Orde
                     'external' => [
                         'articleNumber' => '64525',
                     ],
+                    'commentsCount' => 10,
                 ],
             ],
         ];
