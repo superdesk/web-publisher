@@ -34,7 +34,7 @@ abstract class PaginatedLoader
         }
 
         if (array_key_exists('order', $parameters)) {
-            $order = $criteria->get('order', []);
+            $order = [];
             foreach ($parameters['order'] as $orderItem) {
                 if (2 === \count($orderItem)) {
                     $order[$orderItem[0]] = $orderItem[1];
