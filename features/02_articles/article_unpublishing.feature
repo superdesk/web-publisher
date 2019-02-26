@@ -51,57 +51,57 @@ Feature: Article un-publishing
     }
     """
     Then the response status code should be 201
-#    And I am authenticated as "test.user"
-#    And I add "Content-Type" header equal to "application/json"
-#    Then I send a "POST" request to "/api/{version}/content/routes/" with body:
-#     """
-#      {
-#        "route":{
-#          "name":"article",
-#          "type":"content"
-#        }
-#      }
-#     """
-#    Then the response status code should be 201
-#    And I am authenticated as "test.user"
-#    And I add "Content-Type" header equal to "application/json"
-#    Then I send a "POST" request to "/api/{version}/packages/6/publish/" with body:
-#     """
-#      {
-#        "publish":{
-#          "destinations":[
-#            {
-#              "tenant":"123abc",
-#              "route":6,
-#              "isPublishedFbia":false,
-#              "published":true
-#            }
-#          ]
-#        }
-#      }
-#     """
-#    Then the response status code should be 201
-#    And I am authenticated as "test.user"
-#    And I add "Content-Type" header equal to "application/json"
-#    Then I send a "GET" request to "/api/{version}/content/articles/abstract-html-test"
-#    Then the response status code should be 200
-#    And the JSON node "slug" should be equal to "abstract-html-test"
-#    And the JSON node "status" should be equal to "published"
-#    And the JSON node "id" should be equal to "6"
-#    When I am authenticated as "test.user"
-#    And I add "Content-Type" header equal to "application/json"
-#    Then I send a "PATCH" request to "/api/v1/content/articles/6" with body:
-#     """
-#      {
-#        "article":{
-#          "status": "unpublished"
-#        }
-#      }
-#     """
-#    Then the response status code should be 200
-#    And I am authenticated as "test.user"
-#    And I add "Content-Type" header equal to "application/json"
-#    Then I send a "GET" request to "/api/{version}/content/articles/abstract-html-test"
-#    Then the response status code should be 200
-#    And the JSON node "slug" should be equal to "abstract-html-test"
-#    And the JSON node "status" should be equal to "unpublished"
+    And I am authenticated as "test.user"
+    And I add "Content-Type" header equal to "application/json"
+    Then I send a "POST" request to "/api/{version}/content/routes/" with body:
+     """
+      {
+        "route":{
+          "name":"article",
+          "type":"content"
+        }
+      }
+     """
+    Then the response status code should be 201
+    And I am authenticated as "test.user"
+    And I add "Content-Type" header equal to "application/json"
+    Then I send a "POST" request to "/api/{version}/packages/6/publish/" with body:
+     """
+      {
+        "publish":{
+          "destinations":[
+            {
+              "tenant":"123abc",
+              "route":6,
+              "isPublishedFbia":false,
+              "published":true
+            }
+          ]
+        }
+      }
+     """
+    Then the response status code should be 201
+    And I am authenticated as "test.user"
+    And I add "Content-Type" header equal to "application/json"
+    Then I send a "GET" request to "/api/{version}/content/articles/abstract-html-test"
+    Then the response status code should be 200
+    And the JSON node "slug" should be equal to "abstract-html-test"
+    And the JSON node "status" should be equal to "published"
+    And the JSON node "id" should be equal to "6"
+    When I am authenticated as "test.user"
+    And I add "Content-Type" header equal to "application/json"
+    Then I send a "PATCH" request to "/api/v1/content/articles/6" with body:
+     """
+      {
+        "article":{
+          "status": "unpublished"
+        }
+      }
+     """
+    Then the response status code should be 200
+    And I am authenticated as "test.user"
+    And I add "Content-Type" header equal to "application/json"
+    Then I send a "GET" request to "/api/{version}/content/articles/abstract-html-test"
+    Then the response status code should be 200
+    And the JSON node "slug" should be equal to "abstract-html-test"
+    And the JSON node "status" should be equal to "unpublished"
