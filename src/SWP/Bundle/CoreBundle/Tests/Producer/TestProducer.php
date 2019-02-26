@@ -31,6 +31,6 @@ final class TestProducer implements ProducerInterface
 
     public function publish($msgBody, $routingKey = '', $additionalProperties = array())
     {
-        $this->consumer->execute(new AMQPMessage($msgBody, $additionalProperties));
+        return $this->consumer->execute(new AMQPMessage($msgBody, $additionalProperties));
     }
 }

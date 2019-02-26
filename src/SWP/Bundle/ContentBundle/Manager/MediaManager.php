@@ -55,22 +55,29 @@ class MediaManager implements MediaManagerInterface
     protected $fileFactory;
 
     /**
-     * @var LoggerInterface
+     * @var bool
      */
     private $logger;
+
+    /**
+     * @var string
+     */
+    private $retryDownloads;
 
     public function __construct(
         ArticleMediaRepositoryInterface $mediaRepository,
         Filesystem $filesystem,
         RouterInterface $router,
         FileFactoryInterface $fileFactory,
-        LoggerInterface $logger
+        LoggerInterface $logger,
+        bool $retryDownloads
     ) {
         $this->mediaRepository = $mediaRepository;
         $this->filesystem = $filesystem;
         $this->router = $router;
         $this->fileFactory = $fileFactory;
         $this->logger = $logger;
+        $this->retryDownloads = $retryDownloads;
     }
 
     /**
@@ -188,6 +195,12 @@ class MediaManager implements MediaManagerInterface
             RequestException $exception = null
         ): bool {
             $retry = false;
+            if (!$this->retryDownloads) {
+                $this->logger->error(\sprintf('Retries are disabled'));
+
+                return false;
+            }
+
             if ($retries >= 4) {
                 $this->logger->error(\sprintf('Maximum number of retires reached'));
 
