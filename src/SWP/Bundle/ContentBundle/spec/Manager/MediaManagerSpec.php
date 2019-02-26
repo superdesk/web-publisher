@@ -31,7 +31,7 @@ class MediaManagerSpec extends ObjectBehavior
         FileFactoryInterface $fileFactory,
         LoggerInterface $logger
     ) {
-        $this->beConstructedWith($mediaRepository, $filesystem, $router, $fileFactory, $logger);
+        $this->beConstructedWith($mediaRepository, $filesystem, $router, $fileFactory, $logger, false);
     }
 
     public function it_is_initializable()
