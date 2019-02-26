@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "c1518277f7d32f3c9541176535272670",
+    "content-hash": "2fb05fe1a704dfd2667f25183c554238",
     "packages": [
         {
             "name": "apache/log4php",
@@ -2625,58 +2625,6 @@
             "time": "2018-12-06T11:02:57+00:00"
         },
         {
-            "name": "gos/pnctl-event-loop-emitter",
-            "version": "v0.1.7",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/GeniusesOfSymfony/PNCTLEventLoopEmitter.git",
-                "reference": "93bb0f0e60e4e1f4025f77c8a4fd9ae0c3b45fb3"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/GeniusesOfSymfony/PNCTLEventLoopEmitter/zipball/93bb0f0e60e4e1f4025f77c8a4fd9ae0c3b45fb3",
-                "reference": "93bb0f0e60e4e1f4025f77c8a4fd9ae0c3b45fb3",
-                "shasum": ""
-            },
-            "require": {
-                "evenement/evenement": "~2.0|~3.0",
-                "php": ">=5.4",
-                "react/event-loop": "~0.4.0|^0.5"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "1.0.x-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Gos\\Component\\PnctlEventLoopEmitter\\": "src/"
-                },
-                "files": [
-                    "src/functions.php"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Johann Saunier",
-                    "email": "johann_27@hotmail.fr"
-                }
-            ],
-            "description": "Pnctl event emitter for event loop",
-            "homepage": "https://github.com/GeniusesOfSymfony/PnctlEventLoopEmitter",
-            "keywords": [
-                "Pnctl",
-                "event loop",
-                "reactphp"
-            ],
-            "time": "2018-04-09T11:12:07+00:00"
-        },
-        {
             "name": "gos/pubsub-router-bundle",
             "version": "v0.3.5",
             "source": {
@@ -2734,25 +2682,25 @@
         },
         {
             "name": "gos/web-socket-bundle",
-            "version": "v1.8.13",
+            "version": "v1.9.0-rc1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/GeniusesOfSymfony/WebSocketBundle.git",
-                "reference": "016f4b49a16731945fc3ee1e0781f53167e393cf"
+                "reference": "482b5a4e9c844e03f41693cf6ec2a1de440973e0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/GeniusesOfSymfony/WebSocketBundle/zipball/016f4b49a16731945fc3ee1e0781f53167e393cf",
-                "reference": "016f4b49a16731945fc3ee1e0781f53167e393cf",
+                "url": "https://api.github.com/repos/GeniusesOfSymfony/WebSocketBundle/zipball/482b5a4e9c844e03f41693cf6ec2a1de440973e0",
+                "reference": "482b5a4e9c844e03f41693cf6ec2a1de440973e0",
                 "shasum": ""
             },
             "require": {
                 "cboden/ratchet": "^0.4.1",
-                "gos/pnctl-event-loop-emitter": "^0.1",
                 "gos/pubsub-router-bundle": "^0.3",
                 "gos/websocket-client": "^0.1",
                 "ocramius/proxy-manager": "^1.0|^2.1",
                 "php": ">=5.4",
+                "react/event-loop": "^1.0",
                 "symfony/framework-bundle": "^2.3|^3.0|^4.0"
             },
             "require-dev": {
@@ -2801,7 +2749,7 @@
                 "io",
                 "websocket"
             ],
-            "time": "2018-07-29T14:31:46+00:00"
+            "time": "2018-08-14T22:30:09+00:00"
         },
         {
             "name": "gos/websocket-client",
@@ -4512,16 +4460,16 @@
         },
         {
             "name": "layershifter/tld-database",
-            "version": "1.0.65",
+            "version": "1.0.66",
             "source": {
                 "type": "git",
                 "url": "https://github.com/layershifter/TLDDatabase.git",
-                "reference": "d8621514dfe1584f9402a4d663ac121bcfa3e4f7"
+                "reference": "0a4fc0c3053d18aa532377d4f3e00aa7c1babae8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/layershifter/TLDDatabase/zipball/d8621514dfe1584f9402a4d663ac121bcfa3e4f7",
-                "reference": "d8621514dfe1584f9402a4d663ac121bcfa3e4f7",
+                "url": "https://api.github.com/repos/layershifter/TLDDatabase/zipball/0a4fc0c3053d18aa532377d4f3e00aa7c1babae8",
+                "reference": "0a4fc0c3053d18aa532377d4f3e00aa7c1babae8",
                 "shasum": ""
             },
             "require": {
@@ -4559,7 +4507,7 @@
                 "domain database",
                 "tld database"
             ],
-            "time": "2019-02-11T14:31:22+00:00"
+            "time": "2019-02-26T09:42:31+00:00"
         },
         {
             "name": "layershifter/tld-extract",
@@ -7204,27 +7152,28 @@
         },
         {
             "name": "react/event-loop",
-            "version": "v0.5.3",
+            "version": "v1.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/reactphp/event-loop.git",
-                "reference": "228178a947de1f7cd9296d691878569628288c6f"
+                "reference": "a0ecac955c67b57c40fe4a1b88a7cca1b58c982d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/reactphp/event-loop/zipball/228178a947de1f7cd9296d691878569628288c6f",
-                "reference": "228178a947de1f7cd9296d691878569628288c6f",
+                "url": "https://api.github.com/repos/reactphp/event-loop/zipball/a0ecac955c67b57c40fe4a1b88a7cca1b58c982d",
+                "reference": "a0ecac955c67b57c40fe4a1b88a7cca1b58c982d",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.3.0"
             },
             "require-dev": {
-                "phpunit/phpunit": "~4.8.35 || ^5.7 || ^6.4"
+                "phpunit/phpunit": "^7.0 || ^6.4 || ^5.7 || ^4.8.35"
             },
             "suggest": {
                 "ext-event": "~1.0 for ExtEventLoop",
-                "ext-pcntl": "For signal handling support when using the StreamSelectLoop"
+                "ext-pcntl": "For signal handling support when using the StreamSelectLoop",
+                "ext-uv": "* for ExtUvLoop"
             },
             "type": "library",
             "autoload": {
@@ -7241,7 +7190,7 @@
                 "asynchronous",
                 "event-loop"
             ],
-            "time": "2018-07-09T13:51:04+00:00"
+            "time": "2019-02-07T16:19:49+00:00"
         },
         {
             "name": "react/promise",
@@ -12448,6 +12397,7 @@
                 "mock",
                 "xunit"
             ],
+            "abandoned": true,
             "time": "2017-06-30T09:13:00+00:00"
         },
         {
