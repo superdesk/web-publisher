@@ -159,6 +159,7 @@ services:
             - '@router'
             - '@swp.factory.file'
             - '@monolog.logger.swp_asset_download'
+            - "@=container.getParameter('kernel.environment') !== 'test' ? true : false"
 
     swp_content_bundle.processor.article_body:
         class: SWP\Bundle\ContentBundle\Processor\ArticleBodyProcessorChain

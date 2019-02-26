@@ -157,6 +157,7 @@ trait EntityRepositoryTrait
 
             if (!empty($order)) {
                 $queryBuilder->addOrderBy($this->getPropertyName($property, $alias), $order);
+                unset($sorting[$property]);
             }
         }
     }
