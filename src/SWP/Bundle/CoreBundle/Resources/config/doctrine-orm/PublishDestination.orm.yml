@@ -17,6 +17,9 @@ SWP\Bundle\CoreBundle\Model\PublishDestination:
             type: boolean
         packageGuid:
             type: string
+        contentLists:
+            nullable: true
+            type: array
         createdAt:
             type: datetime
             gedmo:

@@ -22,14 +22,8 @@ use SWP\Bundle\CoreBundle\Model\ArticleEvent;
 use SWP\Bundle\CoreBundle\Model\PackageInterface;
 use SWP\Component\Common\Criteria\Criteria;
 
-/**
- * Class ArticleRepository.
- */
 class ArticleRepository extends ContentBundleArticleRepository implements ArticleRepositoryInterface
 {
-    /**
-     * {@inheritdoc}
-     */
     public function getByCriteria(Criteria $criteria, array $sorting): QueryBuilder
     {
         $qb = parent::getByCriteria($criteria, $sorting)
@@ -39,9 +33,6 @@ class ArticleRepository extends ContentBundleArticleRepository implements Articl
         return $qb;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getArticlesByCriteriaIds(Criteria $criteria): QueryBuilder
     {
         $queryBuilder = parent::getArticlesByCriteriaIds($criteria)
@@ -51,9 +42,6 @@ class ArticleRepository extends ContentBundleArticleRepository implements Articl
         return $queryBuilder;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getArticleBySlugForPackage(string $slug, PackageInterface $package): QueryBuilder
     {
         $queryBuilder = $this->createQueryBuilder('a');
@@ -67,9 +55,17 @@ class ArticleRepository extends ContentBundleArticleRepository implements Articl
         return $queryBuilder;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    public function getArticlesByPackage(PackageInterface $package): QueryBuilder
+    {
+        $queryBuilder = $this->createQueryBuilder('a');
+        $queryBuilder
+            ->andWhere('a.package = :package')
+            ->setParameter('package', $package)
+        ;
+
+        return $queryBuilder;
+    }
+
     public function getArticleByPackageExtraData(string $key, string $value): QueryBuilder
     {
         $queryBuilder = $this->createQueryBuilder('a');
@@ -84,9 +80,6 @@ class ArticleRepository extends ContentBundleArticleRepository implements Articl
         return $queryBuilder;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function applySorting(QueryBuilder $queryBuilder, array $sorting, string $alias, Criteria $criteria = null)
     {
         if (isset($sorting['pageViews']) && !empty($sorting['pageViews'])) {

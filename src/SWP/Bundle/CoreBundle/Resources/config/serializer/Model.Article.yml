@@ -26,3 +26,5 @@ SWP\Bundle\CoreBundle\Model\Article:
                 route: swp_api_slideshows_list
                 parameters:
                     articleId: "expr(object.getId())"
+            exclusion:
+                exclude_if: "expr(object.getId() === null)"

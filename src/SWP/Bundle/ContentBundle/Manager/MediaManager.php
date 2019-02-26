@@ -14,14 +14,23 @@
 
 namespace SWP\Bundle\ContentBundle\Manager;
 
+use GuzzleHttp\Client;
+use GuzzleHttp\Handler\CurlHandler;
+use GuzzleHttp\HandlerStack;
+use GuzzleHttp\Middleware;
+use Hoa\Mime\Mime;
+use Psr\Log\LoggerInterface;
 use SWP\Bundle\ContentBundle\Doctrine\ArticleMediaRepositoryInterface;
 use SWP\Bundle\ContentBundle\Factory\FileFactoryInterface;
 use SWP\Bundle\ContentBundle\Model\ArticleMedia;
 use SWP\Bundle\ContentBundle\Model\FileInterface;
-use SWP\Component\Storage\Factory\FactoryInterface;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use League\Flysystem\Filesystem;
 use Symfony\Component\Routing\RouterInterface;
+use GuzzleHttp\Exception\ConnectException;
+use GuzzleHttp\Exception\RequestException;
+use GuzzleHttp\Psr7\Request;
+use GuzzleHttp\Psr7\Response;
 
 class MediaManager implements MediaManagerInterface
 {
@@ -41,36 +50,27 @@ class MediaManager implements MediaManagerInterface
     protected $mediaRepository;
 
     /**
-     * @var FactoryInterface
-     */
-    protected $imageFactory;
-
-    /**
      * @var FileFactoryInterface
      */
     protected $fileFactory;
 
     /**
-     * MediaManager constructor.
-     *
-     * @param ArticleMediaRepositoryInterface $mediaRepository
-     * @param Filesystem                      $filesystem
-     * @param RouterInterface                 $router
-     * @param FactoryInterface                $imageFactory
-     * @param FileFactoryInterface            $fileFactory
+     * @var LoggerInterface
      */
+    private $logger;
+
     public function __construct(
         ArticleMediaRepositoryInterface $mediaRepository,
         Filesystem $filesystem,
         RouterInterface $router,
-        FactoryInterface $imageFactory,
-        FileFactoryInterface $fileFactory
+        FileFactoryInterface $fileFactory,
+        LoggerInterface $logger
     ) {
         $this->mediaRepository = $mediaRepository;
         $this->filesystem = $filesystem;
         $this->router = $router;
-        $this->imageFactory = $imageFactory;
         $this->fileFactory = $fileFactory;
+        $this->logger = $logger;
     }
 
     /**
@@ -79,8 +79,8 @@ class MediaManager implements MediaManagerInterface
     public function handleUploadedFile(UploadedFile $uploadedFile, $mediaId)
     {
         $mediaId = ArticleMedia::handleMediaId($mediaId);
-        $this->saveFile($uploadedFile, $mediaId);
         $asset = $this->createMediaAsset($uploadedFile, $mediaId);
+        $this->saveFile($uploadedFile, $mediaId);
         $this->mediaRepository->persist($asset);
 
         return $asset;
@@ -111,6 +111,22 @@ class MediaManager implements MediaManagerInterface
         fclose($stream);
 
         return $result;
+    }
+
+    public function downloadFile(string $url, string $mediaId, string $mimeType = null): UploadedFile
+    {
+        $pathParts = \pathinfo($url);
+        if (null === $mimeType) {
+            $mimeType = Mime::getMimeFromExtension($pathParts['extension']);
+        }
+
+        $handlerStack = HandlerStack::create(new CurlHandler());
+        $handlerStack->push(Middleware::retry($this->retryDecider(), $this->retryDelay()));
+        $client = new Client(array('handler' => $handlerStack));
+        $tempLocation = \rtrim(\sys_get_temp_dir(), '/').DIRECTORY_SEPARATOR.\sha1($mediaId.date('his'));
+        $client->request('GET', $url, ['sink' => $tempLocation]);
+
+        return new UploadedFile($tempLocation, $mediaId, $mimeType, \strlen($tempLocation), null, true);
     }
 
     /**
@@ -161,5 +177,47 @@ class MediaManager implements MediaManagerInterface
         }
 
         return $extension;
+    }
+
+    public function retryDecider()
+    {
+        return function (
+            $retries,
+            Request $request,
+            Response $response = null,
+            RequestException $exception = null
+        ): bool {
+            $retry = false;
+            if ($retries >= 4) {
+                $this->logger->error(\sprintf('Maximum number of retires reached'));
+
+                return false;
+            }
+
+            // Retry connection exceptions
+            if ($exception instanceof ConnectException) {
+                $retry = true;
+            }
+
+            if ($response) {
+                // Retry on server errors
+                if ($response->getStatusCode() >= 400) {
+                    $retry = true;
+                }
+            }
+
+            if (true === $retry) {
+                $this->logger->info(\sprintf('Retry downloading %s', $request->getUri()));
+            }
+
+            return $retry;
+        };
+    }
+
+    public function retryDelay()
+    {
+        return function ($numberOfRetries): int {
+            return 1000 * $numberOfRetries;
+        };
     }
 }

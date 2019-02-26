@@ -89,7 +89,7 @@ final class RuleEvaluatorSpec extends ObjectBehavior
             Argument::type('array')
         )->willReturn(false);
 
-        $logger->error(Argument::type('string'))->shouldBeCalled();
+        $logger->error(Argument::type('string'), Argument::type('array'))->shouldBeCalled();
 
         $this->evaluate($rule, $subject)->shouldReturn(false);
     }

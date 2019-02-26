@@ -44,6 +44,12 @@
         "exclude-from-classmap": [ "**/Tests/", "**/spec/" ],
         "classmap": [ "app/AppKernel.php" ]
     },
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://gitbox.apache.org/repos/asf/logging-log4php.git"
+        }
+    ],
     "require": {
         "php": "^7.1",
         "ext-json": "*",
@@ -51,7 +57,7 @@
         "ext-zip": "*",
         "ext-gd": "*",
         "ext-intl": "*",
-        "symfony/symfony": "3.4.14",
+        "symfony/symfony": "3.4.20",
         "symfony/swiftmailer-bundle": "~3.0",
         "symfony/monolog-bundle": "~3.0",
         "sensio/distribution-bundle": "~v5.0",
@@ -65,7 +71,7 @@
         "guzzlehttp/guzzle": "^6.2",
         "php-http/guzzle6-adapter": "^v1.1",
         "twig/extensions": "~1.0",
-        "twig/twig": "~2.4",
+        "twig/twig": "~2.4 <2.6.1",
         "emanueleminotto/twig-cache-bundle": "dev-master",
         "incenteev/composer-parameter-handler": "~2.0",
         "friendsofsymfony/http-cache": "^2.3",
@@ -84,15 +90,14 @@
         "superdesk/contentapi-sdk-php": "^1.0.0",
         "justinrainbow/json-schema": "~5.0",
         "jms/translation-bundle": "^1.4.3",
-        "hoa/mime": "3.16.01.15",
-        "hoa/file": "1.16.01.15",
+        "hoa/mime": "3.17.01.10",
+        "hoa/file": "1.17.07.11",
         "sentry/sentry-symfony": "^2.0",
         "danielstjules/stringy": "~3.1",
         "burgov/key-value-form-bundle": "@stable",
         "nelmio/api-doc-bundle": "^2.13",
         "nelmio/cors-bundle": "^1.4",
         "facebook/facebook-instant-articles-sdk-php": "v1.5.*",
-        "takeit/amp-html-bundle": "^0.2.0",
         "masterminds/html5": "2.3.*",
         "asm89/twig-cache-extension": "^1.3",
         "doctrine/doctrine-migrations-bundle": "^1.0",
@@ -110,7 +115,10 @@
         "league/flysystem-aws-s3-v3": "^1.0",
         "litipk/flysystem-fallback-adapter": "^0.1.2",
         "gesdinet/jwt-refresh-token-bundle": "^0.5.0",
-        "rdx/behat-variables": "^1.2"
+        "rdx/behat-variables": "^1.2",
+        "apache/log4php": "^2.3",
+        "takeit/amp-html-bundle": "^1.0",
+        "blackfire/php-sdk": "^1.17"
     },
     "require-dev": {
         "roave/security-advisories": "dev-master",
@@ -132,7 +140,11 @@
         "behatch/contexts": "^3.0",
         "behat-extension/doctrine-data-fixtures-extension": "^4.0",
         "theofidry/alice-data-fixtures": "^1.0",
-        "doctrine/data-fixtures": "^1.3"
+        "doctrine/data-fixtures": "^1.3",
+        "phpstan/phpstan": "^0.11.1"
+    },
+    "conflict": {
+        "knplabs/knp-time-bundle": "1.9"
     },
     "replace": {
         "swp/common": "self.version",

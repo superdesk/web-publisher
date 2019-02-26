@@ -14,6 +14,7 @@
 
 namespace SWP\Bundle\BridgeBundle\DependencyInjection;
 
+use SWP\Bundle\BridgeBundle\Doctrine\ORM\PackageRepository;
 use SWP\Bundle\StorageBundle\Doctrine\ORM\EntityRepository;
 use SWP\Component\Bridge\Model\Event;
 use SWP\Component\Bridge\Model\Event\Date;
@@ -66,7 +67,7 @@ class Configuration implements ConfigurationInterface
                                             ->addDefaultsIfNotSet()
                                             ->children()
                                                 ->scalarNode('model')->cannotBeEmpty()->defaultValue(Package::class)->end()
-                                                ->scalarNode('repository')->defaultValue(EntityRepository::class)->end()
+                                                ->scalarNode('repository')->defaultValue(PackageRepository::class)->end()
                                                 ->scalarNode('interface')->defaultValue(PackageInterface::class)->end()
                                                 ->scalarNode('factory')->defaultValue(Factory::class)->end()
                                                 ->scalarNode('object_manager_name')->defaultValue(null)->end()

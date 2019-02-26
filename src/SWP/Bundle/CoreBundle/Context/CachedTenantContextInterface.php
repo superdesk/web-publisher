@@ -16,10 +16,8 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\CoreBundle\Context;
 
-/**
- * Interface CachedTenantContextInterface.
- */
-interface CachedTenantContextInterface
+use Symfony\Component\Cache\ResettableInterface;
+
+interface CachedTenantContextInterface extends ResettableInterface
 {
-    public static function getCacheKey(string $host): string;
 }

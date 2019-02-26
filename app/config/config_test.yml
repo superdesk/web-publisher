@@ -12,6 +12,7 @@ parameters:
     env(PAYWALL_SERVER_PASSWORD): admin
     fixtures_type: '%env(FIXTURES_TYPE)%'
     env(FIXTURES_TYPE): test
+    env(BLACKLISTED_KEYWORDS): '["top_feature"]'
 
 imports:
     - { resource: config_dev.yml }

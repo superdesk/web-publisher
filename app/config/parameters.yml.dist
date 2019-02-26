@@ -47,6 +47,7 @@ parameters:
     env(RABBIT_MQ_PORT): 5672
     env(RABBIT_MQ_USER): guest
     env(RABBIT_MQ_PASSWORD): guest
+    env(RABBIT_MQ_VHOST): /
 
     env(WEBSOCKET_PORT): 8080
     env(WEBSOCKET_HOST): 127.0.0.1
@@ -70,3 +71,7 @@ parameters:
     env(FS_AWS_S3_SECRET):
     env(FS_AWS_S3_PREFIX): ~
     env(FS_AWS_S3_BUCKET):
+
+    env(ANALYTICS_HOST): null
+
+    env(BLACKLISTED_KEYWORDS): '[]'

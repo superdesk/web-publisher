@@ -453,7 +453,7 @@ final class ArticleAutoPublishTest extends WebTestCase
             ],
         ]);
         self::assertEquals(201, $client->getResponse()->getStatusCode());
-        $route2 = json_decode($client->getResponse()->getContent(), true);
+        $route2 = json_decode($client1->getResponse()->getContent(), true);
 
         $client1->request('POST', $this->router->generate('swp_api_core_create_rule'), [
             'rule' => [

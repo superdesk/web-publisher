@@ -54,6 +54,7 @@ abstract class AbstractArticleMediaListener
     public function handleMedia(ArticleInterface $article, string $key, ItemInterface $item): ArticleMediaInterface
     {
         $articleMedia = $this->mediaFactory->create($article, $key, $item);
+
         foreach ($articleMedia->getRenditions() as $rendition) {
             $this->articleMediaRepository->persist($rendition);
         }

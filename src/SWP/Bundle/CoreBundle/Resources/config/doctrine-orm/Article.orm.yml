@@ -38,7 +38,7 @@ SWP\Bundle\CoreBundle\Model\Article:
             mappedBy: impressionArticle
     uniqueConstraints:
         swp_article_slug_idx:
-            columns: [ slug, tenant_code, organization_id ]
+            columns: [ slug, tenant_code, organization_id, deleted_at ]
     indexes:
         swp_status_route:
             columns: [status, route_id]

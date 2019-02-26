@@ -21,4 +21,8 @@ use SWP\Bundle\ContentBundle\Model\ArticleInterface;
 interface ArticleEventRepositoryInterface
 {
     public function getCountForArticleInternalPageViews(ArticleInterface $article): int;
+
+    public function getCountForArticleAllPageViews(ArticleInterface $article): int;
+
+    public function getCountForArticleAllImpressions(ArticleInterface $article): int;
 }

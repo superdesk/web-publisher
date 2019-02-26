@@ -19,12 +19,13 @@ use SWP\Component\TemplatesSystem\Gimme\Factory\MetaFactory;
 use SWP\Component\TemplatesSystem\Gimme\Loader\ArticleLoader;
 use SWP\Component\TemplatesSystem\Gimme\Loader\LoaderInterface;
 use SWP\Component\TemplatesSystem\Gimme\Meta\MetaCollection;
+use Symfony\Component\EventDispatcher\EventDispatcher;
 
 class ArticleLoaderTest extends \PHPUnit_Framework_TestCase
 {
     public function testLoadingCollection()
     {
-        $context = new Context(new ArrayCache());
+        $context = new Context(new EventDispatcher(), new ArrayCache());
         $metaFactory = new MetaFactory($context);
         $articleLoader = new ArticleLoader(__DIR__.'/../../Twig/Node', $metaFactory);
 

@@ -19,6 +19,7 @@ namespace SWP\Bundle\ContentBundle\EventListener;
 use SWP\Bundle\ContentBundle\Doctrine\ArticleMediaRepositoryInterface;
 use SWP\Bundle\ContentBundle\Event\ArticleEvent;
 use SWP\Bundle\ContentBundle\Factory\MediaFactoryInterface;
+use SWP\Bundle\ContentBundle\Model\ArticleInterface;
 use SWP\Bundle\ContentBundle\Model\SlideshowItem;
 use SWP\Bundle\ContentBundle\Processor\ArticleBodyProcessorInterface;
 use SWP\Component\Bridge\Model\GroupInterface;
@@ -55,7 +56,15 @@ class ProcessArticleSlideshowsListener extends AbstractArticleMediaListener
             return;
         }
 
-        $this->removeOldArticleMedia($article);
+        foreach ($package->getGroups() as $packageGroup) {
+            foreach ($packageGroup->getItems() as $item) {
+                if ($this->isTypeAllowed($item->getType())) {
+                    $this->removeArticleMediaIfNeeded($item->getName(), $article);
+                }
+            }
+        }
+
+        $this->removeOldArticleSlideshows($article);
 
         foreach ($groups as $packageGroup) {
             $slideshow = $this->slideshowFactory->create();
@@ -65,10 +74,8 @@ class ProcessArticleSlideshowsListener extends AbstractArticleMediaListener
             foreach ($packageGroup->getItems() as $item) {
                 if ($this->isTypeAllowed($item->getType())) {
                     $slideshowItem = new SlideshowItem();
-
-                    $this->removeArticleMediaIfNeeded($item->getName(), $article);
-
                     $articleMedia = $this->handleMedia($article, $item->getName(), $item);
+
                     $this->articleMediaRepository->persist($articleMedia);
 
                     $slideshowItem->setArticleMedia($articleMedia);
@@ -77,6 +84,13 @@ class ProcessArticleSlideshowsListener extends AbstractArticleMediaListener
                     $this->articleMediaRepository->persist($slideshowItem);
                 }
             }
+        }
+    }
+
+    public function removeOldArticleSlideshows(ArticleInterface $article): void
+    {
+        foreach ($article->getSlideshows() as $slideshow) {
+            $article->removeSlideshow($slideshow);
         }
     }
 }

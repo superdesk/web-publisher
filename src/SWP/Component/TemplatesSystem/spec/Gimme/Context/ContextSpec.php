@@ -18,17 +18,18 @@ use PhpSpec\ObjectBehavior;
 use SWP\Component\TemplatesSystem\Gimme\Context\Context;
 use Doctrine\Common\Cache\Cache;
 use SWP\Component\TemplatesSystem\Gimme\Meta\Meta;
+use Symfony\Component\EventDispatcher\EventDispatcher;
 
 /**
  * @mixin Context
  */
 class ContextSpec extends ObjectBehavior
 {
-    public function let(Cache $cache, Meta $meta)
+    public function let(Cache $cache, Meta $meta, EventDispatcher $eventDispatcher)
     {
         $meta->getConfiguration()->willReturn(['name' => 'article']);
 
-        $this->beConstructedWith($cache, __DIR__.'/../Meta/Resources/meta');
+        $this->beConstructedWith($eventDispatcher, $cache, __DIR__.'/../Meta/Resources/meta');
     }
 
     public function it_is_initializable()
@@ -39,7 +40,7 @@ class ContextSpec extends ObjectBehavior
     /**
      * @param \SWP\Component\TemplatesSystem\Gimme\Meta\Meta $meta
      */
-    public function it_shuld_register_new_meta($meta)
+    public function it_should_register_new_meta($meta)
     {
         $this->registerMeta($meta)->shouldReturn(true);
     }
