@@ -43,7 +43,7 @@ class WebTestCase extends BaseWebTestCase
         }
     }
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         $reflection = new \ReflectionObject($this);
         foreach ($reflection->getProperties() as $prop) {

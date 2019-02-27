@@ -69,16 +69,23 @@ before_script:
 - echo -e "$(echo -e "\e[33;1m$1\e[0;20m" "Testing migrations")"
 - DATABASE_URL="pgsql://postgres:''@127.0.0.1:5432/postgres" app/console doctrine:migrations:migrate --no-interaction --env=test --no-debug -vvv
 - app/console doctrine:cache:clear main_cache --env=test --no-debug -vvv
-
-script:
 - sudo supervisord -c /etc/supervisor/supervisord.conf
 - sudo supervisorctl status
-- bin/behat -f progress -vvv
+
+script:
+- echo 'PHPSPEC' && echo -en 'travis_fold:start:script.1\\r'
 - bin/phpspec run
-- bin/phpunit -c app/
+- echo -en 'travis_fold:end:script.1\\r'
+- echo 'BEHAT' && echo -en 'travis_fold:start:script.2\\r'
+- bin/behat -f progress -vvv
+- echo -en 'travis_fold:end:script.2\\r'
+- echo 'PHPUNIT APP' && echo -en 'travis_fold:start:script.3\\r'
 - bin/phpunit --stderr -c app/ src/SWP/Bundle/CoreBundle/Tests/Security/Storage/DynamicDomainSessionStorageTest.php
 - bin/phpunit --stderr -c app/ src/SWP/Bundle/CoreBundle/Tests/Controller/AuthControllerTest.php
 - bin/phpunit --stderr -c app/ src/SWP/Bundle/CoreBundle/Tests/Controller/RegistrationControllerTest.php
+- bin/phpunit -c app/
+- echo -en 'travis_fold:end:script.3\\r'
+- echo 'PHPUNIT COMPONENTS' && echo -en 'travis_fold:start:script.4\\r'
 - cd src/SWP/Bundle/BridgeBundle && composer $COMPOSER_FLAGS --no-interaction --prefer-dist
   && bin/phpunit
 - cd ../../../../
@@ -93,6 +100,7 @@ script:
 - cd ../../../../
 - cd src/SWP/Bundle/UserBundle && composer $COMPOSER_FLAGS --no-interaction --prefer-dist
   && bin/phpunit --stderr
+- echo -en 'travis_fold:end:script.4\\r'
 
 cache:
   directories:

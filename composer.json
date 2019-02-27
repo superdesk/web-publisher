@@ -108,7 +108,7 @@
         "cboden/ratchet": "^0.4.1",
         "evenement/evenement": "^3.0",
         "react/zmq": "dev-master",
-        "gos/web-socket-bundle": "^1.8",
+        "gos/web-socket-bundle": "^1.9 !=1.9.0-rc2",
         "knplabs/knp-time-bundle": "^1.8",
         "lexik/jwt-authentication-bundle": "^2.5",
         "ramsey/uuid": "^3.8",
