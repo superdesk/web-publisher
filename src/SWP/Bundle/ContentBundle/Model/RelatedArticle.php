@@ -15,7 +15,7 @@ class RelatedArticle implements RelatedArticleInterface
     /**
      * @var ArticleInterface
      */
-    protected $relatedArticle;
+    protected $relatesTo;
 
     /**
      * @var ArticleInterface
@@ -32,12 +32,12 @@ class RelatedArticle implements RelatedArticleInterface
         return $this->id;
     }
 
-    public function getRelatesTo(): ArticleInterface
+    public function getRelatesTo(): ?ArticleInterface
     {
         return $this->relatesTo;
     }
 
-    public function setRelatesTo(ArticleInterface $relatesTo): void
+    public function setRelatesTo(?ArticleInterface $relatesTo): void
     {
         $this->relatesTo = $relatesTo;
     }

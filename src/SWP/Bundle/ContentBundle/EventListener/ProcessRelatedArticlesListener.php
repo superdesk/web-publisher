@@ -16,30 +16,26 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\ContentBundle\EventListener;
 
-use SWP\Bundle\ContentBundle\Doctrine\ArticleMediaRepositoryInterface;
+use SWP\Bundle\ContentBundle\Doctrine\ArticleRepositoryInterface;
 use SWP\Bundle\ContentBundle\Event\ArticleEvent;
-use SWP\Bundle\ContentBundle\Factory\MediaFactoryInterface;
-use SWP\Bundle\ContentBundle\Model\SlideshowItem;
-use SWP\Bundle\ContentBundle\Processor\ArticleBodyProcessorInterface;
 use SWP\Component\Bridge\Model\GroupInterface;
 use SWP\Component\Storage\Factory\FactoryInterface;
 
-class ProcessRelatedArticlesListener extends AbstractArticleMediaListener
+class ProcessRelatedArticlesListener
 {
     /**
      * @var FactoryInterface
      */
-    private $slideshowFactory;
+    private $relatedArticleFactory;
+
+    private $articleRepository;
 
     public function __construct(
-        ArticleMediaRepositoryInterface $articleMediaRepository,
-        MediaFactoryInterface $mediaFactory,
-        ArticleBodyProcessorInterface $articleBodyProcessor,
-        FactoryInterface $slideshowFactory
+        FactoryInterface $relatedArticleFactory,
+        ArticleRepositoryInterface $articleRepository
     ) {
-        $this->slideshowFactory = $slideshowFactory;
-
-        parent::__construct($articleMediaRepository, $mediaFactory, $articleBodyProcessor);
+        $this->relatedArticleFactory = $relatedArticleFactory;
+        $this->articleRepository = $articleRepository;
     }
 
     public function onArticleCreate(ArticleEvent $event): void
@@ -47,27 +43,25 @@ class ProcessRelatedArticlesListener extends AbstractArticleMediaListener
         $package = $event->getPackage();
         $article = $event->getArticle();
 
-        $relatedItemsGroups = $package->getGroups()->filter(function($group) {
-            return $group->getType() === GroupInterface::TYPE_RELATED;
+        $relatedItemsGroups = $package->getGroups()->filter(function ($group) {
+            return GroupInterface::TYPE_RELATED === $group->getType();
         });
 
         if (null === $package || (null !== $package && 0 === \count($relatedItemsGroups))) {
             return;
         }
 
-        $this->removeOldArticleMedia($article);
-
-
         foreach ($relatedItemsGroups as $relatedItemsGroup) {
-            // check in db if item exists by guid
-            // if exists, add related item to article
-            // else
-            // related item does not exist
-            // create it
-            //
-            //
-            //
+            foreach ($relatedItemsGroup->getItems() as $item) {
+                if (null === ($existingArticle = $this->articleRepository->findOneByCode($item->getGuid()))) {
+                    continue;
+                }
 
+                $relatedArticle = $this->relatedArticleFactory->create();
+                $relatedArticle->setArticle($existingArticle);
+
+                $article->addRelatedArticle($relatedArticle);
+            }
         }
     }
 }

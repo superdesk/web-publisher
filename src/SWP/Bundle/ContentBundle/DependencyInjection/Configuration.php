@@ -17,6 +17,7 @@ namespace SWP\Bundle\ContentBundle\DependencyInjection;
 use SWP\Bundle\ContentBundle\Doctrine\ORM\ArticleAuthorRepository;
 use SWP\Bundle\ContentBundle\Doctrine\ORM\ArticleRepository;
 use SWP\Bundle\ContentBundle\Doctrine\ORM\FileRepository;
+use SWP\Bundle\ContentBundle\Doctrine\ORM\RelatedArticleRepository;
 use SWP\Bundle\ContentBundle\Doctrine\ORM\RouteRepository;
 use SWP\Bundle\ContentBundle\Doctrine\ORM\ArticleMediaRepository;
 use SWP\Bundle\ContentBundle\Doctrine\ORM\ImageRepository;
@@ -101,7 +102,7 @@ class Configuration implements ConfigurationInterface
                                             ->children()
                                                 ->scalarNode('model')->cannotBeEmpty()->defaultValue(RelatedArticle::class)->end()
                                                 ->scalarNode('interface')->cannotBeEmpty()->defaultValue(RelatedArticleInterface::class)->end()
-                                                ->scalarNode('repository')->defaultValue(EntityRepository::class)->end()
+                                                ->scalarNode('repository')->defaultValue(RelatedArticleRepository::class)->end()
                                                 ->scalarNode('factory')->defaultValue(Factory::class)->end()
                                                 ->scalarNode('object_manager_name')->defaultValue(null)->end()
                                             ->end()

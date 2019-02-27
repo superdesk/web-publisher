@@ -7,8 +7,6 @@ SWP\Bundle\ContentBundle\Model\RelatedArticle:
       id: true
       generator:
         strategy: IDENTITY
-  gedmo:
-    loggable: true
   fields:
     createdAt:
       type: datetime
@@ -27,7 +25,7 @@ SWP\Bundle\ContentBundle\Model\RelatedArticle:
       inversedBy: relatedItems
       joinColumn:
         referencedColumnName: id
-    relatedArticle:
+    relatesTo:
       targetEntity: SWP\Bundle\ContentBundle\Model\ArticleInterface
       joinColumn:
         referencedColumnName: id

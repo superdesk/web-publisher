@@ -11,9 +11,9 @@ interface RelatedArticleInterface extends TimestampableInterface, PersistableInt
 {
     public function getId(): string;
 
-    public function getRelatesTo(): ArticleInterface;
+    public function getRelatesTo(): ?ArticleInterface;
 
-    public function setRelatesTo(ArticleInterface $relatesTo): void;
+    public function setRelatesTo(?ArticleInterface $relatesTo): void;
 
     public function getArticle(): ArticleInterface;
 

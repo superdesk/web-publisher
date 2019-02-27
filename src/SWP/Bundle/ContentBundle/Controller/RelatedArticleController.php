@@ -1,0 +1,76 @@
+<?php
+
+declare(strict_types=1);
+
+/*
+ * This file is part of the Superdesk Web Publisher Content Bundle.
+ *
+ * Copyright 2019 Sourcefabric z.ú. and contributors.
+ *
+ * For the full copyright and license information, please see the
+ * AUTHORS and LICENSE files distributed with this source code.
+ *
+ * @copyright 2019 Sourcefabric z.ú
+ * @license http://www.superdesk.org/license
+ */
+
+namespace SWP\Bundle\ContentBundle\Controller;
+
+use Nelmio\ApiDocBundle\Annotation\ApiDoc;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use SWP\Bundle\ContentBundle\Model\ArticleInterface;
+use SWP\Component\Common\Criteria\Criteria;
+use SWP\Component\Common\Exception\NotFoundHttpException;
+use SWP\Component\Common\Pagination\PaginationData;
+use SWP\Component\Common\Response\ResourcesListResponse;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Request;
+
+class RelatedArticleController extends Controller
+{
+    /**
+     * List related articles.
+     *
+     * @ApiDoc(
+     *     resource=true,
+     *     description="List related articles",
+     *     statusCodes={
+     *         200="Returned on success.",
+     *         500="Unexpected error."
+     *     },
+     *     filters={
+     *         {"name"="sorting", "dataType"="string", "pattern"="[updatedAt]=asc|desc"}
+     *     }
+     * )
+     * @Route("/api/{version}/content/related/articles/{id}", options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_content_list_related_articles", requirements={"id"="\d"})
+     * @Method("GET")
+     */
+    public function listAction(Request $request, string $id)
+    {
+        $article = $this->findOr404($id);
+
+        $repository = $this->get('swp.repository.related_article');
+
+        $items = $repository->getPaginatedByCriteria(
+            new Criteria([
+                'article' => $article,
+            ]),
+            $request->query->get('sorting', []),
+            new PaginationData($request)
+        );
+
+        return new ResourcesListResponse($items);
+    }
+
+    private function findOr404(string $id): ArticleInterface
+    {
+        $article = $this->get('swp.provider.article')->getOneById($id);
+
+        if (null === $article) {
+            throw new NotFoundHttpException(sprintf('Article "%s" was not found.', $id));
+        }
+
+        return $article;
+    }
+}

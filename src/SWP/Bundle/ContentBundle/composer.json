@@ -54,7 +54,8 @@
     "phpoption/phpoption": "1.5.*",
     "burgov/key-value-form-bundle": "@stable",
     "litipk/flysystem-fallback-adapter": "dev-master",
-    "zendframework/zend-stdlib": "^3.2@dev"
+    "zendframework/zend-stdlib": "^3.2@dev",
+    "doctrine/orm": "^2.6"
   },
   "require-dev": {
     "phpspec/phpspec": "^2.4",
@@ -66,7 +67,6 @@
     "symfony/twig-bundle": "^3.1",
     "symfony/monolog-bridge": "^3.1",
     "symfony/stopwatch": "^3.1",
-    "doctrine/orm": "2.5.*",
     "doctrine/doctrine-bundle": ">=1.6.7 <1.7.0",
     "doctrine/doctrine-fixtures-bundle": "2.3.*",
     "doctrine/data-fixtures": "1.3.*",
