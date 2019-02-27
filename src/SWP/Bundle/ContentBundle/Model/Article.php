@@ -126,11 +126,6 @@ class Article implements ArticleInterface
      */
     protected $slideshows;
 
-//    /**
-//     * @var Collection|RelatedArticleInterface[]
-//     */
-//    protected $relatedArticles;
-
     /**
      * Article constructor.
      */
@@ -405,11 +400,6 @@ class Article implements ArticleInterface
             $slideshow->setArticle(null);
             $this->slideshows->removeElement($slideshow);
         }
-    }
-
-    public function getRelatedArticles(): Collection
-    {
-        return $this->relatedArticles;
     }
 
     public function cancelTimestampable(bool $cancel = true): void
