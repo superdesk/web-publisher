@@ -17,9 +17,11 @@ declare(strict_types=1);
 namespace SWP\Bundle\ContentBundle\Doctrine\ORM;
 
 use Doctrine\ORM\QueryBuilder;
+use Knp\Component\Pager\Pagination\PaginationInterface;
 use SWP\Bundle\ContentBundle\Doctrine\RelatedArticleRepositoryInterface;
 use SWP\Bundle\StorageBundle\Doctrine\ORM\EntityRepository;
 use SWP\Component\Common\Criteria\Criteria;
+use SWP\Component\Common\Pagination\PaginationData;
 
 class RelatedArticleRepository extends EntityRepository implements RelatedArticleRepositoryInterface
 {
@@ -40,13 +42,25 @@ class RelatedArticleRepository extends EntityRepository implements RelatedArticl
 
     public function countByCriteria(Criteria $criteria): int
     {
-        $queryBuilder = $this->createQueryBuilder('s')
-            ->select('COUNT(s.id)');
+        $queryBuilder = $this->createQueryBuilder('ra')
+            ->select('COUNT(ra.id)');
 
         $this->applyCustomCriteria($queryBuilder, $criteria);
-        $this->applyCriteria($queryBuilder, $criteria, 's');
+        $this->applyCriteria($queryBuilder, $criteria, 'ra');
 
         return (int) $queryBuilder->getQuery()->getSingleScalarResult();
+    }
+
+    public function getPaginatedByCriteria(Criteria $criteria, array $sorting = [], PaginationData $paginationData = null): PaginationInterface
+    {
+        $queryBuilder = $this->getQueryByCriteria($criteria, $sorting, 'ra');
+        $this->applyCustomCriteria($queryBuilder, $criteria);
+
+        if (null === $paginationData) {
+            $paginationData = new PaginationData();
+        }
+
+        return $this->getPaginator($queryBuilder, $paginationData);
     }
 
     private function applyCustomCriteria(QueryBuilder $queryBuilder, Criteria $criteria): void

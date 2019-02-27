@@ -251,3 +251,9 @@ Feature: Related items support
     Then I send a "GET" request to "/api/v1/content/related/articles/7"
     Then the response status code should be 200
     And the JSON node "total" should be equal to 1
+    And the JSON node "_embedded._items[0].id" should not exist
+    And the JSON node "_embedded._items[0].relatesTo" should not exist
+    And the JSON node "_embedded._items[0].article.title" should be equal to "hello world 1"
+    And the JSON node "_embedded._items[0].article.id" should be equal to 6
+    And the JSON node "_embedded._items[0].updatedAt" should exist
+    And the JSON node "_embedded._items[0].createdAt" should exist
