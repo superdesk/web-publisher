@@ -244,11 +244,11 @@ Feature: Related items support
     Then I send a "GET" request to "/api/v1/content/articles/abstract-html-test"
     Then the response status code should be 200
     And the JSON nodes should contain:
-      | _links.related.href  | /api/v1/content/related/articles/7  |
+      | _links.related.href  | /api/v1/content/articles/7/related/  |
 
     And I am authenticated as "test.user"
     And I add "Content-Type" header equal to "application/json"
-    Then I send a "GET" request to "/api/v1/content/related/articles/7"
+    Then I send a "GET" request to "/api/v1/content/articles/7/related/"
     Then the response status code should be 200
     And the JSON node "total" should be equal to 1
     And the JSON node "_embedded._items[0].id" should not exist

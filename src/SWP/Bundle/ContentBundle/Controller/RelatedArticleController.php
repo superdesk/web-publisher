@@ -17,8 +17,6 @@ declare(strict_types=1);
 namespace SWP\Bundle\ContentBundle\Controller;
 
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use SWP\Bundle\ContentBundle\Model\ArticleInterface;
 use SWP\Component\Common\Criteria\Criteria;
 use SWP\Component\Common\Exception\NotFoundHttpException;
@@ -43,8 +41,6 @@ class RelatedArticleController extends Controller
      *         {"name"="sorting", "dataType"="string", "pattern"="[updatedAt]=asc|desc"}
      *     }
      * )
-     * @Route("/api/{version}/content/related/articles/{id}", options={"expose"=true}, defaults={"version"="v1"}, name="swp_api_content_list_related_articles", requirements={"id"="\d"})
-     * @Method("GET")
      */
     public function listAction(Request $request, string $id)
     {
