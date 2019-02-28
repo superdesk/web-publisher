@@ -28,6 +28,7 @@ RUN set -ex \
     && docker-php-ext-configure pgsql -with-pgsql=/usr/local/pgsql \
     && docker-php-ext-install pdo pdo_pgsql pgsql \
     && docker-php-ext-install opcache \
+    && docker-php-ext-install sockets \
     && pecl install memcached \
     && docker-php-ext-enable memcached \
     && pecl install zmq-beta \
