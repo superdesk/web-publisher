@@ -127,10 +127,13 @@ class Article implements ArticleInterface
     protected $slideshows;
 
     /**
-     * Article constructor.
+     * @var bool
      */
     private $isTimestampableCanceled = false;
 
+    /**
+     * Article constructor.
+     */
     public function __construct()
     {
         $this->setCreatedAt(new \DateTime());
