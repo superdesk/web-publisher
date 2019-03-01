@@ -1,8 +1,7 @@
 @targeted_publishing
-Feature: Evaluate rules based on publishing destinations when rule of one tenant should be overridden
-  and the second tenant rule should stay
+Feature: Find related articles which were already published based on package data
 
-  Scenario: Override rules using publishing destinations with different mix of rules
+  Scenario: Find related articles based on package data
     Then I am authenticated as "test.user"
     And I add "Content-Type" header equal to "application/json"
     Then I send a "POST" request to "/api/v1/organization/rules/" with body:
