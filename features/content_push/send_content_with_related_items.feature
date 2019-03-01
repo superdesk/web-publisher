@@ -257,3 +257,60 @@ Feature: Related items support
     And the JSON node "_embedded._items[0].article.id" should be equal to 6
     And the JSON node "_embedded._items[0].updatedAt" should exist
     And the JSON node "_embedded._items[0].createdAt" should exist
+
+    Then I add "Content-Type" header equal to "application/json"
+    And I send a "POST" request to "/api/v1/content/push" with body:
+    """
+    {
+      "language":"en",
+      "slugline":"abstract-html-test",
+      "body_html":"<p>some html body</p>",
+      "versioncreated":"2016-09-23T13:57:28+0000",
+      "firstcreated":"2016-05-25T10:23:15+0000",
+      "description_text":"some abstract text",
+      "place":[
+        {
+          "country":"Australia",
+          "world_region":"Oceania",
+          "state":"Australian Capital Territory",
+          "qcode":"ACT",
+          "name":"ACT",
+          "group":"Australia"
+        }
+      ],
+      "extra_items":{},
+      "version":"2",
+      "byline":"ADmin",
+      "keywords":[
+        "keyword1",
+        "keyword2"
+      ],
+      "guid":"urn:newsml:localhost:2016-09-23T13:56:39.404843:56465de4-0d5c-495a-8e36-3b396def3cf0",
+      "priority":6,
+      "subject":[
+        {
+          "name":"lawyer",
+          "code":"02002001"
+        }
+      ],
+      "urgency":3,
+      "type":"text",
+      "headline":"abstract html test",
+      "service":[
+        {
+          "name":"Australian General News",
+          "code":"a"
+        }
+      ],
+      "description_html":"<p><b><u>some abstract text</u></b></p>",
+      "located":"Warsaw",
+      "pubstatus":"usable"
+    }
+    """
+    Then the response status code should be 201
+
+    And I am authenticated as "test.user"
+    And I add "Content-Type" header equal to "application/json"
+    Then I send a "GET" request to "/api/v1/content/articles/7/related/"
+    Then the response status code should be 200
+    And the JSON node "total" should be equal to 0

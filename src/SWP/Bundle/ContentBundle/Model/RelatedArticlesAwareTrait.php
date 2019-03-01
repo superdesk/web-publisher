@@ -16,10 +16,12 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\ContentBundle\Model;
 
+use Doctrine\Common\Collections\Collection;
+
 trait RelatedArticlesAwareTrait
 {
     /**
-     * @var RelatedArticleInterface[]
+     * @var RelatedArticleInterface[]|Collection
      */
     protected $relatedArticles;
 
@@ -34,13 +36,18 @@ trait RelatedArticlesAwareTrait
     public function removeRelatedArticle(RelatedArticleInterface $relatedArticle): void
     {
         if ($this->hasRelatedArticle($relatedArticle)) {
-            $this->relatedArticles->removeElement($relatedArticle);
             $relatedArticle->setRelatesTo(null);
+            $this->relatedArticles->removeElement($relatedArticle);
         }
     }
 
     public function hasRelatedArticle(RelatedArticleInterface $relatedArticle): bool
     {
         return $this->relatedArticles->contains($relatedArticle);
+    }
+
+    public function getRelatedArticles(): Collection
+    {
+        return $this->relatedArticles;
     }
 }

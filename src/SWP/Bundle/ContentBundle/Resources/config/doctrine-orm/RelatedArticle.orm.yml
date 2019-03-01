@@ -29,12 +29,12 @@ SWP\Bundle\ContentBundle\Model\RelatedArticle:
   manyToOne:
     article:
       targetEntity: SWP\Bundle\ContentBundle\Model\ArticleInterface
-      inversedBy: relatedArticles
       joinColumn:
         referencedColumnName: id
         onDelete: CASCADE
     relatesTo:
       targetEntity: SWP\Bundle\ContentBundle\Model\ArticleInterface
+      inversedBy: relatedArticles
       joinColumn:
         referencedColumnName: id
-
+        onDelete: CASCADE

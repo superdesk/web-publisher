@@ -18,7 +18,6 @@ namespace SWP\Bundle\ContentBundle\Loader;
 
 use SWP\Bundle\ContentBundle\Doctrine\ArticleRepositoryInterface;
 use SWP\Bundle\ContentBundle\Doctrine\RelatedArticleRepositoryInterface;
-use SWP\Bundle\ContentBundle\Provider\ArticleProviderInterface;
 use SWP\Component\Common\Criteria\Criteria;
 use SWP\Component\TemplatesSystem\Gimme\Context\Context;
 use SWP\Component\TemplatesSystem\Gimme\Factory\MetaFactoryInterface;
@@ -31,7 +30,7 @@ final class RelatedArticleLoader extends PaginatedLoader implements LoaderInterf
     public const SUPPORTED_TYPE = 'relatedArticles';
 
     /**
-     * @var ArticleProviderInterface
+     * @var ArticleRepositoryInterface
      */
     protected $articleRepository;
 

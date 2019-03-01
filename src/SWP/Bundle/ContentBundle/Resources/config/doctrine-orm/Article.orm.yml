@@ -97,7 +97,7 @@ SWP\Bundle\ContentBundle\Model\Article:
             orphanRemoval: true
         relatedArticles:
             targetEntity: SWP\Bundle\ContentBundle\Model\RelatedArticleInterface
-            mappedBy: article
+            mappedBy: relatesTo
             cascade: ["all"]
             orphanRemoval: true
     manyToMany:

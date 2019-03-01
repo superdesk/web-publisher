@@ -16,6 +16,8 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\ContentBundle\Model;
 
+use Doctrine\Common\Collections\Collection;
+
 interface RelatedArticlesAwareInterface
 {
     public function addRelatedArticle(RelatedArticleInterface $relatedArticle): void;
@@ -23,4 +25,6 @@ interface RelatedArticlesAwareInterface
     public function removeRelatedArticle(RelatedArticleInterface $relatedArticle): void;
 
     public function hasRelatedArticle(RelatedArticleInterface $relatedArticle): bool;
+
+    public function getRelatedArticles(): Collection;
 }

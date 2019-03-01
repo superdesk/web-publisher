@@ -16,11 +16,12 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\ContentBundle\Model;
 
+use SWP\Component\Common\Model\SoftDeletableTrait;
 use SWP\Component\Common\Model\TimestampableTrait;
 
 class RelatedArticle implements RelatedArticleInterface
 {
-    use TimestampableTrait;
+    use TimestampableTrait, SoftDeletableTrait;
 
     protected $id;
 
@@ -39,7 +40,7 @@ class RelatedArticle implements RelatedArticleInterface
         $this->createdAt = new \DateTime();
     }
 
-    public function getId(): string
+    public function getId(): int
     {
         return $this->id;
     }

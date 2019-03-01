@@ -21,8 +21,6 @@ use SWP\Component\Storage\Model\PersistableInterface;
 
 interface RelatedArticleInterface extends TimestampableInterface, PersistableInterface
 {
-    public function getId(): string;
-
     public function getRelatesTo(): ?ArticleInterface;
 
     public function setRelatesTo(?ArticleInterface $relatesTo): void;
