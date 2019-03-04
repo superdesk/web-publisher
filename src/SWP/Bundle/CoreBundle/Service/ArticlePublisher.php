@@ -149,7 +149,7 @@ final class ArticlePublisher implements ArticlePublisherInterface
             $articleStatistics->setArticle($article);
             $this->articleRepository->persist($articleStatistics);
             $this->eventDispatcher->dispatch(Events::SWP_VALIDATION, new GenericEvent($article));
-            $article->setPackage($package);
+            $package->addArticle($article);
             $route = $destination->getRoute();
             if (null !== $route) {
                 $route->setArticlesUpdatedAt(new \DateTime());
