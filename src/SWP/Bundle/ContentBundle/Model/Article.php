@@ -131,9 +131,6 @@ class Article implements ArticleInterface
      */
     private $isTimestampableCanceled = false;
 
-    /**
-     * Article constructor.
-     */
     public function __construct()
     {
         $this->setCreatedAt(new \DateTime());
