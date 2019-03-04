@@ -43,6 +43,7 @@ class PackageRepository extends Repository
             $query = new MultiMatch();
             $query->setFields(['headline^2', 'description^1']);
             $query->setQuery($criteria->getTerm());
+            $query->setType(MultiMatch::TYPE_PHRASE);
             $boolFilter->addMust($query);
         } else {
             $boolFilter->addMust(new MatchAll());

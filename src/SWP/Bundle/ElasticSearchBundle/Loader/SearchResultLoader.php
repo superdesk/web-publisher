@@ -76,7 +76,7 @@ final class SearchResultLoader implements LoaderInterface
             unset($withParameters['order']);
         }
 
-        $criteria = Criteria::fromQueryParameters(isset($withParameters['term']) ? $withParameters['term'] : '', $withParameters);
+        $criteria = Criteria::fromQueryParameters($withParameters['term'] ?? '', $withParameters);
 
         /** @var ArticleRepository $repository */
         $repository = $this->repositoryManager->getRepository($this->modelClass);

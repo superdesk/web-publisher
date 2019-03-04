@@ -42,6 +42,7 @@ class ArticleRepository extends Repository
             $query = new MultiMatch();
             $query->setFields(['title^3', 'lead^2', 'body^1']);
             $query->setQuery($criteria->getTerm());
+            $query->setType(MultiMatch::TYPE_PHRASE);
             $boolFilter->addMust($query);
         } else {
             $boolFilter->addMust(new MatchAll());
