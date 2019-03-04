@@ -175,7 +175,7 @@ class ArticleRepository extends EntityRepository implements ArticleRepositoryInt
             $orX = $queryBuilder->expr()->orX();
             foreach ($criteria->get($name) as $key => $value) {
                 $search = ('***' !== $value) ? [$key => $value] : $key;
-                if ('metadata' === $name) {
+                if ('metadata' === $name || 'exclude_metadata' === $name) {
                     $valueExpression = \str_replace('{', '',
                         \str_replace('}', '',
                             '%'.\json_encode($search).'%'

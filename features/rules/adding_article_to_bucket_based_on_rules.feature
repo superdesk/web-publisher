@@ -54,7 +54,7 @@ Feature: Adding article to bucket based on organization and tenant rules
       }
      """
     Then the response status code should be 201
-    And the Json node "id" should be equal to "7"
+    And the JSON node "id" should be equal to "7"
     And I am authenticated as "test.user"
     And I add "Content-Type" header equal to "application/json"
     Then I send a "POST" request to "/api/{version}/rules/" with body:
@@ -106,12 +106,19 @@ Feature: Adding article to bucket based on organization and tenant rules
     And I add "Content-Type" header equal to "application/json"
     Then I send a "GET" request to "/api/{version}/content/articles/abstract-html-test"
     Then the response status code should be 200
-    And the Json node "isPublishable" should be true
-    And the Json node "isPublishedFBIA" should be true
-    And the Json node "publishedAt" should not be null
-    And the Json node "route.id" should be equal to "6"
-    And the Json node "status" should be equal to "published"
+    And the JSON node "isPublishable" should be true
+    And the JSON node "isPublishedFBIA" should be true
+    And the JSON node "publishedAt" should not be null
+    And the JSON node "route.id" should be equal to "6"
+    And the JSON node "status" should be equal to "published"
     And I am authenticated as "test.user"
     And I add "Content-Type" header equal to "application/json"
     Then I send a "GET" request to "/api/{version}/content/lists/1/items/"
-    And the Json node "total" should be equal to "1"
+    And the JSON node "total" should be equal to "1"
+
+
+    Given I am authenticated as "test.user"
+    And I add "Content-Type" header equal to "application/json"
+    Then I send a "GET" request to "/api/{version}/content/lists/"
+    And the response should be in JSON
+    And the JSON node "_embedded._items[0].contentListItemsCount" should be equal to "1"

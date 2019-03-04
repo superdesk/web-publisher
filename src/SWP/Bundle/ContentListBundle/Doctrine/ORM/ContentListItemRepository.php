@@ -81,4 +81,14 @@ class ContentListItemRepository extends SortableEntityRepository implements Cont
 
         return $this->getPaginator($queryBuilder, $paginationData);
     }
+
+    public function getCountByCriteria(Criteria $criteria): int
+    {
+        return (int) $this->getQueryByCriteria($criteria, $criteria->get('order', []), 'n')
+            ->select('COUNT(n.id)')
+            ->setFirstResult(null)
+            ->setMaxResults(null)
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
 }

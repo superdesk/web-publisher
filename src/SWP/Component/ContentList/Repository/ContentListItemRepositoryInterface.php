@@ -45,4 +45,11 @@ interface ContentListItemRepositoryInterface extends RepositoryInterface
      * @return mixed
      */
     public function getPaginatedByCriteria(Criteria $criteria, array $sorting = [], PaginationData $paginationData = null);
+
+    /**
+     * @param Criteria $criteria
+     *
+     * @return int
+     */
+    public function getCountByCriteria(Criteria $criteria): int;
 }
