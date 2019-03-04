@@ -60,6 +60,7 @@ class Package extends BasePackage implements PackageInterface
     public function removeArticle(ArticleInterface $article)
     {
         if ($this->hasArticle($article)) {
+            $article->setPackage(null);
             $this->articles->removeElement($article);
         }
     }
@@ -70,6 +71,7 @@ class Package extends BasePackage implements PackageInterface
     public function addArticle(ArticleInterface $article)
     {
         if (!$this->hasArticle($article)) {
+            $article->setPackage($this);
             $this->articles->add($article);
         }
     }

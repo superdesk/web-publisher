@@ -445,6 +445,13 @@ services:
         tags:
             - { name: jms_serializer.subscribing_handler }
 
+    SWP\Bundle\CoreBundle\Serializer\ContentListItemsCountHandler:
+        public: false
+        arguments:
+            - '@swp.repository.content_list_item'
+        tags:
+            - { name: jms_serializer.subscribing_handler }
+
     swp_core.article.publisher:
         class: SWP\Bundle\CoreBundle\Service\ArticlePublisher
         arguments:

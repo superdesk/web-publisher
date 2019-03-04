@@ -17,7 +17,6 @@ declare(strict_types=1);
 namespace SWP\Bundle\CoreBundle\Controller;
 
 use SWP\Bundle\CoreBundle\Model\ArticleInterface;
-use SWP\Component\Common\Exception\NotFoundHttpException;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -38,12 +37,11 @@ class RedirectingController extends Controller
     public function redirectBasedOnExtraDataAction(string $key, string $value): RedirectResponse
     {
         $articleRepository = $this->container->get('swp.repository.article');
-
         $existingArticle = $articleRepository->getArticleByPackageExtraData($key, $value)->getQuery()->getOneOrNullResult();
-        if (null === $existingArticle) {
-            throw new NotFoundHttpException('Article with provided data was not found.');
-        }
 
+        if (null === $existingArticle || null === $existingArticle->getRoute()) {
+            throw $this->createNotFoundException('Article with provided data was not found.');
+        }
         $url = $this->generateArticleUrl($existingArticle);
 
         return $this->redirect($url, 301);
@@ -52,13 +50,11 @@ class RedirectingController extends Controller
     public function redirectBasedOnSlugAction(string $slug): RedirectResponse
     {
         $articleRepository = $this->container->get('swp.repository.article');
-
         $article = $articleRepository->findOneBySlug($slug);
 
-        if (null === $article) {
-            throw new NotFoundHttpException('Article not found.');
+        if (null === $article || null === $article->getRoute()) {
+            throw $this->createNotFoundException('Article not found.');
         }
-
         $url = $this->generateArticleUrl($article);
 
         return $this->redirect($url, 301);
