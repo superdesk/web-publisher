@@ -44,3 +44,7 @@ SWP\Component\ContentList\Model\ContentList:
         deletedAt:
             type: datetime
             nullable: true
+
+        contentListItemsUpdatedAt:
+            type: datetime
+            nullable: true

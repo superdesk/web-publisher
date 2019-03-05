@@ -69,7 +69,7 @@ class HandleArticleChangeSubscriber implements EventSubscriberInterface
             if (!$article->isPublished()) {
                 $this->manager->remove($item);
             }
-            $item->getContentList()->setUpdatedAt(new \DateTime('now'));
+            $item->getContentList()->setContentListItemsUpdatedAt(new \DateTime('now'));
         }
         $this->manager->flush();
     }
