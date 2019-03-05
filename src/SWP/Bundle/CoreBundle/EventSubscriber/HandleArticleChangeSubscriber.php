@@ -18,6 +18,7 @@ namespace SWP\Bundle\CoreBundle\EventSubscriber;
 
 use Doctrine\ORM\EntityManagerInterface;
 use SWP\Bundle\ContentBundle\ArticleEvents;
+use SWP\Bundle\ContentBundle\Doctrine\TimestampableCancelInterface;
 use SWP\Bundle\ContentBundle\Event\ArticleEvent;
 use SWP\Bundle\ContentBundle\Model\ArticleInterface;
 use SWP\Bundle\CoreBundle\Model\ContentListItemInterface;
@@ -69,7 +70,11 @@ class HandleArticleChangeSubscriber implements EventSubscriberInterface
             if (!$article->isPublished()) {
                 $this->manager->remove($item);
             }
+            $contentList = $item->getContentList();
             $item->getContentList()->setContentListItemsUpdatedAt(new \DateTime('now'));
+            if ($contentList instanceof TimestampableCancelInterface) {
+                $contentList->cancelTimestampable(true);
+            }
         }
         $this->manager->flush();
     }
