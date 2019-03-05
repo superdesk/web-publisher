@@ -230,7 +230,7 @@ Feature: Making sure that the tenant rules are ignored
     Then the response status code should be 201
     And I am authenticated as "test.user"
     And I add "Content-Type" header equal to "application/json"
-    Then I send a "GET" request to "/api/{version}/content/articles/abstract-html-test-2"
+    Then I send a "GET" request to "/api/{version}/content/articles/abstract-html-test-2-0123456789abc"
     Then the response status code should be 200
     And the JSON nodes should contain:
       | slug                          | abstract-html-test |

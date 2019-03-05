@@ -662,6 +662,8 @@ services:
     SWP\Bundle\CoreBundle\EventListener\DuplicatedSlugListener:
         arguments:
             - '@swp.repository.article'
+            - '@swp.random_string_generator'
+            - '%env(SLUG_REGEX)%'
         tags:
             - { name: kernel.event_listener, event: swp.article.pre_create, method: onArticleCreate }
 

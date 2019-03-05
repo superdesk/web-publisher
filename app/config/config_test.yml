@@ -13,6 +13,7 @@ parameters:
     fixtures_type: '%env(FIXTURES_TYPE)%'
     env(FIXTURES_TYPE): test
     env(BLACKLISTED_KEYWORDS): '["top_feature"]'
+    env(SLUG_REGEX): '/.+(-\d+)$/m'
 
 imports:
     - { resource: config_dev.yml }

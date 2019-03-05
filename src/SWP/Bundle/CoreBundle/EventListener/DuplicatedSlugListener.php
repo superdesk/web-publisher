@@ -19,6 +19,7 @@ namespace SWP\Bundle\CoreBundle\EventListener;
 use SWP\Bundle\ContentBundle\Event\ArticleEvent;
 use SWP\Bundle\CoreBundle\Model\ArticleInterface;
 use SWP\Bundle\CoreBundle\Repository\ArticleRepositoryInterface;
+use SWP\Component\Common\Generator\GeneratorInterface;
 
 class DuplicatedSlugListener
 {
@@ -28,17 +29,23 @@ class DuplicatedSlugListener
     protected $articleRepository;
 
     /**
-     * @param ArticleRepositoryInterface $articleRepository
+     * @var GeneratorInterface
      */
-    public function __construct(ArticleRepositoryInterface $articleRepository)
-    {
-        $this->articleRepository = $articleRepository;
-    }
+    protected $stringGenerator;
 
     /**
-     * @param ArticleEvent $event
+     * @var string|null
      */
-    public function onArticleCreate(ArticleEvent $event)
+    protected $slugRegex;
+
+    public function __construct(ArticleRepositoryInterface $articleRepository, GeneratorInterface $stringGenerator, string $slugRegexp = null)
+    {
+        $this->articleRepository = $articleRepository;
+        $this->stringGenerator = $stringGenerator;
+        $this->slugRegex = $slugRegexp;
+    }
+
+    public function onArticleCreate(ArticleEvent $event): void
     {
         /** @var ArticleInterface $article */
         $article = $event->getArticle();
@@ -48,11 +55,15 @@ class DuplicatedSlugListener
             ->getQuery()
             ->getOneOrNullResult();
 
-        if (null === $existingArticle) {
+        $regexpMatched = false;
+        if (null !== $this->slugRegex && 1 === preg_match('/.+(-\d+)$/m', $article->getSlug())) {
+            $regexpMatched = true;
+        }
+
+        if (null === $existingArticle && !$regexpMatched) {
             return;
         }
 
-        $hash = substr(md5($article->getPackage()->getGuid()), 0, 8);
-        $article->setSlug($article->getSlug().'-'.$hash);
+        $article->setSlug($article->getSlug().'-'.$this->stringGenerator->generate(8));
     }
 }

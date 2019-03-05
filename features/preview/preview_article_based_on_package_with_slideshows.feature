@@ -167,10 +167,10 @@ Feature: Preview article under route based on package data with slideshows
     And the JSON should be equal to:
     """
     {
-        "preview_url": "http:\/\/localhost\/preview\/publish\/package\/0123456789"
+        "preview_url": "http:\/\/localhost\/preview\/publish\/package\/0123456789abc"
     }
     """
-    When I go to "http://localhost/preview/publish/package/0123456789"
+    When I go to "http://localhost/preview/publish/package/0123456789abc"
     Then the response status code should be 200
     And the response should contain "slideshow1"
     And the response should contain "http://localhost:5000/api/upload/1234567890987654321c/raw?_schema=http"
