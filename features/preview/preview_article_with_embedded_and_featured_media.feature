@@ -241,10 +241,10 @@ Feature: Preview article with embedded media and feature media
     And the JSON should be equal to:
     """
     {
-        "preview_url": "http:\/\/localhost\/preview\/publish\/package\/0123456789"
+        "preview_url": "http:\/\/localhost\/preview\/publish\/package\/0123456789abc"
     }
     """
-    When I go to "http://localhost/preview/publish/package/0123456789"
+    When I go to "http://localhost/preview/publish/package/0123456789abc"
     Then the response status code should be 200
     And the response should contain "https://amazonaws.com/20170111140132/979ff3c8a001d6cb2a7071eab9be852211853990f8d60e693e38f79e972772ea.jpg"
     And the response should contain "embedded9582903151"

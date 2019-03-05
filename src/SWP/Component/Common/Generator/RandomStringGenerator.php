@@ -21,37 +21,21 @@ class RandomStringGenerator implements GeneratorInterface
      */
     protected $chars = [];
 
-    /**
-     * @var int
-     */
-    protected $charsCount;
-
-    /**
-     * RandomStringGenerator constructor.
-     */
     public function __construct()
     {
         $this->chars = array_merge(range(0, 9), range('a', 'z'));
-        $this->charsCount = count($this->chars);
     }
 
-    /**
-     * Generate random string.
-     *
-     * @param int $length
-     *
-     * @return string
-     */
-    public function generate($length)
+    public function generate(int $length): string
     {
         if (empty($length)) {
             throw new \InvalidArgumentException("Length can't be empty.");
         }
 
         $random = [];
-
+        $charsCount = count($this->chars);
         for ($i = 0; $i < $length; ++$i) {
-            $random[] = $this->chars[mt_rand(0, $this->charsCount - 1)];
+            $random[] = $this->chars[mt_rand(0, $charsCount - 1)];
         }
 
         return implode('', $random);
