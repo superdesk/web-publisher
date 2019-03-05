@@ -31,17 +31,17 @@ class DuplicatedSlugListener
     /**
      * @var GeneratorInterface
      */
-    protected $randomStringGenerator;
+    protected $stringGenerator;
 
     /**
      * @var string|null
      */
     protected $slugRegex;
 
-    public function __construct(ArticleRepositoryInterface $articleRepository, GeneratorInterface $randomStringGenerator, string $slugRegexp = null)
+    public function __construct(ArticleRepositoryInterface $articleRepository, GeneratorInterface $stringGenerator, string $slugRegexp = null)
     {
         $this->articleRepository = $articleRepository;
-        $this->randomStringGenerator = $randomStringGenerator;
+        $this->stringGenerator = $stringGenerator;
         $this->slugRegex = $slugRegexp;
     }
 
@@ -64,6 +64,6 @@ class DuplicatedSlugListener
             return;
         }
 
-        $article->setSlug($article->getSlug().'-'.$this->randomStringGenerator->generate(8));
+        $article->setSlug($article->getSlug().'-'.$this->stringGenerator->generate(8));
     }
 }

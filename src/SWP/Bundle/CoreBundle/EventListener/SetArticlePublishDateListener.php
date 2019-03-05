@@ -44,9 +44,9 @@ final class SetArticlePublishDateListener
         $package = $event->getPackage();
 
         $useFirstPublished = $this->settingsManager->get('use_first_published_as_publish_date', 'tenant', $this->tenantContext->getTenant());
+
         if ($useFirstPublished && null !== ($firstPublishedAt = $package->getFirstPublishedAt())) {
             $firstPublishedAt->setTimezone(new \DateTimeZone('UTC'));
-
             $article->setPublishedAt($firstPublishedAt);
         }
     }
