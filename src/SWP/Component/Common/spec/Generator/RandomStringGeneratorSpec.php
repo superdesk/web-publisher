@@ -41,10 +41,10 @@ class RandomStringGeneratorSpec extends ObjectBehavior
 
     public function it_should_throw_exception_when_empty_length()
     {
-        $this->shouldThrow(\InvalidArgumentException::class)
+        $this->shouldThrow(\TypeError::class)
             ->during('generate', [null]);
 
-        $this->shouldThrow(\InvalidArgumentException::class)
+        $this->shouldThrow(\TypeError::class)
             ->during('generate', ['']);
     }
 

@@ -28,10 +28,6 @@ class RandomStringGenerator implements GeneratorInterface
 
     public function generate(int $length): string
     {
-        if (empty($length)) {
-            throw new \InvalidArgumentException("Length can't be empty.");
-        }
-
         $random = [];
         $charsCount = count($this->chars);
         for ($i = 0; $i < $length; ++$i) {
