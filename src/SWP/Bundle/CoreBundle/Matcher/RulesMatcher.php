@@ -144,7 +144,7 @@ class RulesMatcher implements RulesMatcherInterface
         $ids = array_column($rules['tenants'], 'tenant');
         $ids = array_unique($ids);
         $tenants = array_filter($rules['tenants'], function ($key, $value) use ($ids) {
-            return \in_array($value, \array_keys($ids));
+            return array_key_exists($value, $ids);
         }, ARRAY_FILTER_USE_BOTH);
 
         $rules['tenants'] = $tenants;

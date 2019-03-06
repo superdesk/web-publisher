@@ -37,4 +37,8 @@ interface PackageInterface extends ContentInterface, TimestampableInterface, Ena
     public function getGroups(): ?Collection;
 
     public function setGroups(?Collection $groups): void;
+
+    public function getRelatedItems(): Collection;
+
+    public function setRelatedItems(Collection $relatedItems): void;
 }

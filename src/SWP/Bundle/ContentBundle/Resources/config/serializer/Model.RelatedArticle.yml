@@ -1,0 +1,9 @@
+SWP\Bundle\ContentBundle\Model\RelatedArticle:
+  exclusion_policy: ALL
+  properties:
+    article:
+      expose: true
+    createdAt:
+      expose: true
+    updatedAt:
+      expose: true

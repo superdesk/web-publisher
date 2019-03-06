@@ -20,6 +20,7 @@ use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use SWP\Bundle\ContentBundle\Model\ArticleAuthor;
 use SWP\Bundle\ContentBundle\Model\ArticleInterface;
+use SWP\Bundle\ContentBundle\Model\RelatedArticle;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -211,10 +212,26 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface, Orde
                     $this->container->get('swp.adder.article_source')->add($article, $source);
                 }
             }
+
             $manager->persist($article);
 
             $this->addReference($article->getSlug(), $article);
         }
+
+        $manager->flush();
+
+        $article = $this->container->get('swp.repository.article')->findOneById(1);
+        $relatedArticle1 = $this->container->get('swp.repository.article')->findOneById(2);
+        $relatedArticle2 = $this->container->get('swp.repository.article')->findOneById(3);
+
+        $related1 = new RelatedArticle();
+        $related1->setArticle($relatedArticle1);
+
+        $related2 = new RelatedArticle();
+        $related2->setArticle($relatedArticle2);
+
+        $article->addRelatedArticle($related1);
+        $article->addRelatedArticle($related2);
 
         $manager->flush();
     }

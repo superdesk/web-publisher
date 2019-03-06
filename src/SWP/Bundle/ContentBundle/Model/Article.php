@@ -30,7 +30,7 @@ use SWP\Component\Common\Model\TranslatableTrait;
  */
 class Article implements ArticleInterface
 {
-    use TranslatableTrait, SoftDeletableTrait, TimestampableTrait, AuthorsAwareTrait, KeywordsAwareTrait, TimestampableCancelTrait;
+    use TranslatableTrait, SoftDeletableTrait, TimestampableTrait, AuthorsAwareTrait, KeywordsAwareTrait, RelatedArticlesAwareTrait, TimestampableCancelTrait;
 
     /**
      * @var mixed
@@ -136,6 +136,7 @@ class Article implements ArticleInterface
         $this->authors = new ArrayCollection();
         $this->keywords = new ArrayCollection();
         $this->slideshows = new ArrayCollection();
+        $this->relatedArticles = new ArrayCollection();
     }
 
     public function setPublishStartDate(\DateTime $startDate = null)

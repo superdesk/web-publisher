@@ -95,6 +95,11 @@ SWP\Bundle\ContentBundle\Model\Article:
             mappedBy: article
             cascade: ["all"]
             orphanRemoval: true
+        relatedArticles:
+            targetEntity: SWP\Bundle\ContentBundle\Model\RelatedArticleInterface
+            mappedBy: relatesTo
+            cascade: ["all"]
+            orphanRemoval: true
     manyToMany:
         authors:
             targetEntity: SWP\Bundle\ContentBundle\Model\ArticleAuthorInterface
