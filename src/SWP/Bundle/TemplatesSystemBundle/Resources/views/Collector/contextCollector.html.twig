@@ -30,22 +30,9 @@
     {# Optional, for showing the most details. #}
     <h2>Template Context</h2>
     <h3>Current Page:</h3>
-    <table >
-        <thead>
-            <tr>
-                <th scope="col" style="width: 25%">Key</th>
-                <th scope="col" style="width: 75%">Value</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for key, value in collector.data.currentPage %}
-                <tr>
-                    <th>{{ key }}</th>
-                    <td>{{ profiler_dump(value) }}</td>
-                </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+    <div>
+        {{ dump(collector.data.currentPage) }}
+    </div>
     <h3>Registered Meta</h3>
     <table >
         <thead>

@@ -21,7 +21,7 @@ use SWP\Component\Common\Model\SoftDeletableInterface;
 use SWP\Component\Common\Model\TimestampableInterface;
 use SWP\Component\Storage\Model\PersistableInterface;
 
-interface ContentListInterface extends TimestampableInterface, SoftDeletableInterface, PersistableInterface, EnableableInterface
+interface ContentListInterface extends TimestampableInterface, SoftDeletableInterface, PersistableInterface, EnableableInterface, ContentListItemsUpdatedAwareInterface
 {
     /**
      * Items are added automatically based on provided criteria.

@@ -141,12 +141,12 @@ Feature: Find related articles which were already published based on package dat
 
     And I am authenticated as "test.user"
     And I add "Content-Type" header equal to "application/json"
-    Then I send a "GET" request to "/api/v1/content/articles/related-1"
+    Then I send a "GET" request to "/api/v1/content/articles/related-1-0123456789abc"
     Then the response status code should be 200
 
     And I am authenticated as "test.user"
     And I add "Content-Type" header equal to "application/json"
-    Then I send a "GET" request to "http://client2.localhost/api/v1/content/articles/related-1"
+    Then I send a "GET" request to "http://client2.localhost/api/v1/content/articles/related-1-0123456789abc"
     Then the response status code should be 200
 
     And I am authenticated as "test.user"

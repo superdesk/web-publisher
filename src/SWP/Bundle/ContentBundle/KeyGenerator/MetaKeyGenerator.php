@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Superdesk Web Publisher Content Bundle.
  *
@@ -17,18 +19,13 @@ namespace SWP\Bundle\ContentBundle\KeyGenerator;
 use Asm89\Twig\CacheExtension\CacheStrategy\KeyGeneratorInterface;
 use SWP\Bundle\ContentBundle\Model\ArticlesUpdatedTimeAwareInterface;
 use SWP\Component\Common\Model\TimestampableInterface;
+use SWP\Component\ContentList\Model\ContentListItemsUpdatedAwareInterface;
 use SWP\Component\Storage\Model\PersistableInterface;
 use SWP\Component\TemplatesSystem\Gimme\Meta\Meta;
 
-/**
- * Key generator for meta objects.
- */
 class MetaKeyGenerator implements KeyGeneratorInterface
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function generateKey($meta)
+    public function generateKey($meta): string
     {
         if (is_object($meta) && $meta instanceof Meta) {
             $value = $meta->getValues();
@@ -41,6 +38,11 @@ class MetaKeyGenerator implements KeyGeneratorInterface
 
             if ($value instanceof ArticlesUpdatedTimeAwareInterface && null !== $value->getArticlesUpdatedAt()) {
                 $date = $value->getArticlesUpdatedAt();
+                $keyElements[] = $date->getTimestamp();
+            }
+
+            if ($value instanceof ContentListItemsUpdatedAwareInterface && null !== $value->getContentListItemsUpdatedAt()) {
+                $date = $value->getContentListItemsUpdatedAt();
                 $keyElements[] = $date->getTimestamp();
             }
 
