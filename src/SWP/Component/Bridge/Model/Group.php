@@ -44,6 +44,11 @@ class Group implements GroupInterface
      */
     protected $package;
 
+    /**
+     * @var string|null
+     */
+    protected $type;
+
     public function __construct()
     {
         $this->items = new ArrayCollection();
@@ -82,5 +87,15 @@ class Group implements GroupInterface
     public function setPackage(PackageInterface $package): void
     {
         $this->package = $package;
+    }
+
+    public function getType(): ?string
+    {
+        return $this->type;
+    }
+
+    public function setType(?string $type): void
+    {
+        $this->type = $type;
     }
 }

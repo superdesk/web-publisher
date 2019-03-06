@@ -1,0 +1,40 @@
+SWP\Bundle\ContentBundle\Model\RelatedArticle:
+  type: mappedSuperclass
+  table: swp_article_related
+  id:
+    id:
+      type: integer
+      id: true
+      generator:
+        strategy: IDENTITY
+  gedmo:
+    soft_deleteable:
+      field_name: deletedAt
+      time_aware: false
+  fields:
+    createdAt:
+      type: datetime
+      gedmo:
+        timestampable:
+          on: create
+    updatedAt:
+      type: datetime
+      nullable: true
+      gedmo:
+        timestampable:
+          on: update
+    deletedAt:
+      type: datetime
+      nullable: true
+  manyToOne:
+    article:
+      targetEntity: SWP\Bundle\ContentBundle\Model\ArticleInterface
+      joinColumn:
+        referencedColumnName: id
+        onDelete: CASCADE
+    relatesTo:
+      targetEntity: SWP\Bundle\ContentBundle\Model\ArticleInterface
+      inversedBy: relatedArticles
+      joinColumn:
+        referencedColumnName: id
+        onDelete: CASCADE
