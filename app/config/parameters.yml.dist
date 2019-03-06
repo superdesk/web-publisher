@@ -75,3 +75,6 @@ parameters:
     env(ANALYTICS_HOST): null
 
     env(BLACKLISTED_KEYWORDS): '[]'
+
+    # regular expression used for matching slugs where publisher will add random string at end of it
+    env(SLUG_REGEX):
