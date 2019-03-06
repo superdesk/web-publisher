@@ -74,7 +74,7 @@ Feature: Related items support
 
     And I am authenticated as "test.user"
     And I add "Content-Type" header equal to "application/json"
-    Then I send a "GET" request to "/api/v1/content/articles/abstract-html-test-1"
+    Then I send a "GET" request to "/api/v1/content/articles/abstract-html-test-1-0123456789abc"
     Then the response status code should be 200
 
     Then I add "Content-Type" header equal to "application/json"
