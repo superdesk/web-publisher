@@ -23,23 +23,13 @@ use Elastica\Query\MultiMatch;
 use Elastica\Query\Nested;
 use Elastica\Query\Range;
 use Elastica\Query\Term;
-use FOS\ElasticaBundle\Finder\PaginatedFinderInterface;
+use FOS\ElasticaBundle\Paginator\PaginatorAdapterInterface;
 use FOS\ElasticaBundle\Repository;
 use SWP\Bundle\ElasticSearchBundle\Criteria\Criteria;
 
 class ArticleRepository extends Repository
 {
-    public function __construct(PaginatedFinderInterface $finder)
-    {
-        parent::__construct($finder);
-    }
-
-    /**
-     * @param Criteria $criteria
-     *
-     * @return \FOS\ElasticaBundle\Paginator\PaginatorAdapterInterface
-     */
-    public function findByCriteria(Criteria $criteria, array $extraFields)
+    public function findByCriteria(Criteria $criteria, array $extraFields): PaginatorAdapterInterface
     {
         $fields = $criteria->getFilters()->getFields();
         $boolFilter = new BoolQuery();
