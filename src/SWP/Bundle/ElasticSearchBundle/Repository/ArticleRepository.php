@@ -23,24 +23,45 @@ use Elastica\Query\MultiMatch;
 use Elastica\Query\Nested;
 use Elastica\Query\Range;
 use Elastica\Query\Term;
+use FOS\ElasticaBundle\Finder\PaginatedFinderInterface;
 use FOS\ElasticaBundle\Repository;
 use SWP\Bundle\ElasticSearchBundle\Criteria\Criteria;
 
 class ArticleRepository extends Repository
 {
+    public function __construct(PaginatedFinderInterface $finder)
+    {
+        parent::__construct($finder);
+    }
+
     /**
      * @param Criteria $criteria
      *
      * @return \FOS\ElasticaBundle\Paginator\PaginatorAdapterInterface
      */
-    public function findByCriteria(Criteria $criteria)
+    public function findByCriteria(Criteria $criteria, array $extraFields)
     {
         $fields = $criteria->getFilters()->getFields();
         $boolFilter = new BoolQuery();
 
         if (null !== $criteria->getTerm() && '' !== $criteria->getTerm()) {
+            $searchBy = ['title', 'lead', 'keywords.name'];
+
+            foreach ($extraFields as $extraField) {
+                $searchBy[] = 'extra.'.$extraField;
+            }
+
+            $searchBy[] = 'body';
+
+            $priority = 1;
+            foreach (array_reverse($searchBy) as $key => $field) {
+                $searchBy[$key] = $field.'^'.$priority;
+
+                ++$priority;
+            }
+
             $query = new MultiMatch();
-            $query->setFields(['title^3', 'lead^2', 'body^1']);
+            $query->setFields($searchBy);
             $query->setQuery($criteria->getTerm());
             $query->setType(MultiMatch::TYPE_PHRASE);
             $boolFilter->addMust($query);

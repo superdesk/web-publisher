@@ -47,6 +47,11 @@ final class SearchResultLoader implements LoaderInterface
     private $modelClass;
 
     /**
+     * @var array
+     */
+    private $extraFields;
+
+    /**
      * SearchResultLoader constructor.
      *
      * @param RepositoryManagerInterface $repositoryManager
@@ -58,12 +63,14 @@ final class SearchResultLoader implements LoaderInterface
         RepositoryManagerInterface $repositoryManager,
         MetaFactoryInterface $metaFactory,
         TenantContextInterface $tenantContext,
-        string $modelClass
+        string $modelClass,
+        array $extraFields
     ) {
         $this->repositoryManager = $repositoryManager;
         $this->metaFactory = $metaFactory;
         $this->tenantContext = $tenantContext;
         $this->modelClass = $modelClass;
+        $this->extraFields = $extraFields;
     }
 
     /**
@@ -80,7 +87,7 @@ final class SearchResultLoader implements LoaderInterface
 
         /** @var ArticleRepository $repository */
         $repository = $this->repositoryManager->getRepository($this->modelClass);
-        $query = $repository->findByCriteria($criteria);
+        $query = $repository->findByCriteria($criteria, $this->extraFields);
         $partialResult = $query->getResults(
             $criteria->getPagination()->getOffset(),
             $criteria->getPagination()->getItemsPerPage()

@@ -74,10 +74,12 @@ class ArticleSearchController extends Controller
             ]
         );
 
+        $extraFields = $this->get('service_container')->getParameter('env(ELASTICA_ARTICLE_EXTRA_FIELDS)');
+dump(serialize(['overtitle' => '']));die;
         $repositoryManager = $this->get('fos_elastica.manager');
         /** @var ArticleRepository $repository */
         $repository = $repositoryManager->getRepository($this->getParameter('swp.model.article.class'));
-        $articles = $repository->findByCriteria($criteria);
+        $articles = $repository->findByCriteria($criteria, json_decode($extraFields, true));
         $paginator = $this->get('knp_paginator');
         $pagination = $paginator->paginate(
             $articles,

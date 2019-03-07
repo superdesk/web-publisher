@@ -75,3 +75,5 @@ parameters:
     env(ANALYTICS_HOST): null
 
     env(BLACKLISTED_KEYWORDS): '[]'
+
+    env(ELASTICA_ARTICLE_EXTRA_FIELDS): '[]'

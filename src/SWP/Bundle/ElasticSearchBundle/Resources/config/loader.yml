@@ -7,5 +7,6 @@ services:
             - '@swp_template_engine_context.factory.meta_factory'
             - '@swp_multi_tenancy.tenant_context'
             - '%swp.model.article.class%'
+            - '%env(json:ELASTICA_ARTICLE_EXTRA_FIELDS)%'
         tags:
             - { name: swp.meta_loader.add }
