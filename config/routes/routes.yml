@@ -1,6 +1,5 @@
 swp_content:
-    resource: "@SWPContentBundle/Controller/"
-    type:     annotation
+  resource: "@SWPContentBundle/Resources/config/routing.yml"
 
 security_login_check:
    path: /security/login_check

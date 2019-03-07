@@ -21,6 +21,16 @@ services:
         tags:
             - { name: swp.meta_loader.add }
 
+    swp_template_engine.loader.related_article:
+        class: SWP\Bundle\ContentBundle\Loader\RelatedArticleLoader
+        arguments:
+            - "@swp.repository.article"
+            - "@swp.repository.related_article"
+            - "@swp_template_engine_context.factory.meta_factory"
+            - "@swp_template_engine_context"
+        tags:
+            - { name: swp.meta_loader.add }
+
     swp_template_engine.loader.media:
         class: SWP\Bundle\ContentBundle\Loader\ArticleMediaLoader
         arguments:
@@ -111,14 +121,22 @@ services:
             - { name: kernel.event_listener, event: swp.article.pre_update, method: onArticleCreate }
 
     SWP\Bundle\ContentBundle\EventListener\ProcessArticleSlideshowsListener:
-            arguments:
-                - '@swp.repository.media'
-                - '@swp.factory.media'
-                - '@swp_content_bundle.processor.article_body'
-                - '@swp.factory.slideshow'
-            tags:
-                - { name: kernel.event_listener, event: swp.article.pre_create, method: onArticleCreate }
-                - { name: kernel.event_listener, event: swp.article.pre_update, method: onArticleCreate }
+        arguments:
+            - '@swp.repository.media'
+            - '@swp.factory.media'
+            - '@swp_content_bundle.processor.article_body'
+            - '@swp.factory.slideshow'
+        tags:
+            - { name: kernel.event_listener, event: swp.article.pre_create, method: onArticleCreate }
+            - { name: kernel.event_listener, event: swp.article.pre_update, method: onArticleCreate }
+
+    SWP\Bundle\ContentBundle\EventListener\ProcessRelatedArticlesListener:
+        arguments:
+             - '@swp.factory.related_article'
+             - '@swp.repository.article'
+        tags:
+            - { name: kernel.event_listener, event: swp.article.pre_create, method: onArticleCreate }
+            - { name: kernel.event_listener, event: swp.article.pre_update, method: onArticleCreate }
 
     SWP\Bundle\ContentBundle\EventListener\SetProvidedPublishedDateListener:
         tags:
