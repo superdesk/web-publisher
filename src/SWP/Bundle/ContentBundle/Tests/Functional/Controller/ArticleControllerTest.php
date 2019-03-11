@@ -335,6 +335,27 @@ class ArticleControllerTest extends WebTestCase
         self::assertEquals(1, $content['total']);
     }
 
+    public function testFilterArticlesByDate()
+    {
+        $date = '2017-04-05 12:12:00';
+        $content = $this->getArticlesByPublicationDate($date, 'publishedAfter');
+        self::assertEquals(4, $content['total']);
+
+        $now = new \DateTime('now');
+        $now->modify('-1 minute');
+        $content = $this->getArticlesByPublicationDate($now->format('Y-m-d H:i:s'), 'publishedBefore');
+        self::assertEquals(1, $content['total']);
+
+        $client = static::createClient();
+        $client->request('GET', $this->router->generate('swp_api_content_list_articles', [
+            'publishedAfter' => '2017-04-05 12:10:00',
+            'publishedBefore' => '2017-04-05 12:15:00',
+        ]));
+        self::assertEquals(200, $client->getResponse()->getStatusCode());
+        $content = json_decode($client->getResponse()->getContent(), true);
+        self::assertEquals(1, $content['total']);
+    }
+
     public function testFilteringArticlesByTitle()
     {
         $content = $this->getArticlesByTitle('Features client1');
