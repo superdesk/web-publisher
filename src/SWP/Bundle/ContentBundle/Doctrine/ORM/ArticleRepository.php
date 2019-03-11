@@ -214,15 +214,17 @@ class ArticleRepository extends EntityRepository implements ArticleRepositoryInt
             $criteria->remove('keywords');
         }
 
-        if ($criteria->has('publishedBefore') && $criteria->get('publishedBefore') instanceof \DateTime) {
+        if ($criteria->has('publishedBefore')) {
+            $publishedBefore = $criteria->get('publishedBefore');
             $queryBuilder->andWhere('a.publishedAt < :before')
-                ->setParameter('before', $criteria->get('publishedBefore'));
+                ->setParameter('before', $publishedBefore instanceof \DateTimeInterface ? $publishedBefore : new \DateTime($publishedBefore));
             $criteria->remove('publishedBefore');
         }
 
-        if ($criteria->has('publishedAfter') && $criteria->get('publishedAfter') instanceof \DateTime) {
+        if ($criteria->has('publishedAfter')) {
+            $publishedAfter = $criteria->get('publishedAfter');
             $queryBuilder->andWhere('a.publishedAt > :after')
-                ->setParameter('after', $criteria->get('publishedAfter'));
+                ->setParameter('after', $publishedAfter instanceof \DateTimeInterface ? $publishedAfter : new \DateTime($publishedAfter));
             $criteria->remove('publishedAfter');
         }
 
