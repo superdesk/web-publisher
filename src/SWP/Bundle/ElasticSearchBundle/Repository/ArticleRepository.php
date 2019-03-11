@@ -53,7 +53,8 @@ class ArticleRepository extends Repository
             $query = new MultiMatch();
             $query->setFields($searchBy);
             $query->setQuery($criteria->getTerm());
-            $query->setType(MultiMatch::TYPE_PHRASE);
+            $query->setType(MultiMatch::TYPE_CROSS_FIELDS);
+            $query->setOperator(MultiMatch::OPERATOR_OR);
             $boolFilter->addMust($query);
         } else {
             $boolFilter->addMust(new MatchAll());
