@@ -76,5 +76,9 @@ parameters:
 
     env(BLACKLISTED_KEYWORDS): '[]'
 
+    # article's extra fields by which to search
+    # first field will have the highest priority when searching, e.g. ["overtitle"]
+    env(ELASTICA_ARTICLE_EXTRA_FIELDS): '[]'
+
     # regular expression used for matching slugs where publisher will add random string at end of it
     env(SLUG_REGEX):
