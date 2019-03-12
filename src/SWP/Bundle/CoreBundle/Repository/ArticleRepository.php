@@ -122,9 +122,5 @@ class ArticleRepository extends ContentBundleArticleRepository implements Articl
                 unset($sorting[$property]);
             }
         }
-
-        if (isset($sorting['commentsCount']) && !empty($sorting['commentsCount'])) {
-            $queryBuilder->andWhere('a.commentsCount IS NOT NULL');
-        }
     }
 }
