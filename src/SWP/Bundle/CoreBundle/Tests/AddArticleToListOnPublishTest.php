@@ -50,11 +50,12 @@ final class AddArticleToListOnPublishTest extends WebTestCase
         $client->request('PATCH',
             $this->router->generate('swp_api_content_update_lists', ['id' => 1]), [
                 'content_list' => [
-                    'filters' => sprintf(
-                        '{"route":[%d],"author":["ADmin"],"metadata":{"located":"Sydney"},"publishedAt":"%s"}',
-                        3,
-                        $now
-                    ),
+                    'filters' => [
+                        'route' => [3],
+                        'author' => ['ADmin'],
+                        'metadata' => '{"located":"Sydney"}',
+                        'publishedAt' => $now,
+                    ],
                 ],
             ]);
 
@@ -82,7 +83,9 @@ final class AddArticleToListOnPublishTest extends WebTestCase
         $client->request('PATCH',
             $this->router->generate('swp_api_content_update_lists', ['id' => 1]), [
                 'content_list' => [
-                    'filters' => '{"route":[99,22]}',
+                    'filters' => [
+                        'route' => [99, 22],
+                    ],
                 ],
             ]);
 
@@ -106,10 +109,9 @@ final class AddArticleToListOnPublishTest extends WebTestCase
         $client->request('PATCH',
             $this->router->generate('swp_api_content_update_lists', ['id' => 1]), [
                 'content_list' => [
-                    'filters' => sprintf(
-                        '{"publishedAt":"%s"}',
-                        $now
-                    ),
+                    'filters' => [
+                        'publishedAt' => $now,
+                    ],
                 ],
             ]);
 
@@ -133,7 +135,9 @@ final class AddArticleToListOnPublishTest extends WebTestCase
         $client->request('PATCH',
             $this->router->generate('swp_api_content_update_lists', ['id' => 1]), [
                 'content_list' => [
-                    'filters' => "{\"publishedAfter\":\"$now\"}",
+                    'filters' => [
+                        'publishedAfter' => $now,
+                    ],
                 ],
             ]);
 
@@ -157,7 +161,9 @@ final class AddArticleToListOnPublishTest extends WebTestCase
         $client->request('PATCH',
             $this->router->generate('swp_api_content_update_lists', ['id' => 1]), [
                 'content_list' => [
-                    'filters' => "{\"publishedBefore\":\"$now\"}",
+                    'filters' => [
+                        'publishedBefore' => $now,
+                    ],
                 ],
             ]);
 
@@ -181,10 +187,11 @@ final class AddArticleToListOnPublishTest extends WebTestCase
         $client->request('PATCH',
             $this->router->generate('swp_api_content_update_lists', ['id' => 1]), [
                 'content_list' => [
-                    'filters' => sprintf(
-                        '{"author":["fake"],"metadata":{"located":"Sydney"},"publishedAt":"%s"}',
-                        $now
-                    ),
+                    'filters' => [
+                        'author' => ['fake'],
+                        'metadata' => '{"located":"Sydney"}',
+                        'publishedAt' => $now,
+                    ],
                 ],
             ]);
 

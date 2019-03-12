@@ -1,4 +1,0 @@
-#SWP\Component\ContentList\Model\ContentList:
-#    properties:
-#        filters:
-#            - SWP\Bundle\ContentListBundle\Validator\Constraints\ContainsValidDate: ~
