@@ -47,14 +47,14 @@ final class ArticleCriteriaMatcher implements ArticleCriteriaMatcherInterface
         }
 
         if ($criteria->has('publishedBefore')) {
-            $publishedBefore = new \DateTime($criteria->get('publishedBefore'));
+            $publishedBefore = $criteria->get('publishedBefore');
             if ($article->getPublishedAt() > $publishedBefore) {
                 return false;
             }
         }
 
         if ($criteria->has('publishedAfter')) {
-            $publishedAfter = new \DateTime($criteria->get('publishedAfter'));
+            $publishedAfter = $criteria->get('publishedAfter');
             if ($article->getPublishedAt() < $publishedAfter) {
                 return false;
             }
@@ -62,7 +62,7 @@ final class ArticleCriteriaMatcher implements ArticleCriteriaMatcherInterface
 
         if ($criteria->has('publishedAt')
             && (!$criteria->has('publishedBefore') || !$criteria->has('publishedAfter'))) {
-            $publishedAt = new \DateTime($criteria->get('publishedAt'));
+            $publishedAt = $criteria->get('publishedAt');
             if ($publishedAt->format('d-m-Y') !== $article->getPublishedAt()->format('d-m-Y')) {
                 return false;
             }
