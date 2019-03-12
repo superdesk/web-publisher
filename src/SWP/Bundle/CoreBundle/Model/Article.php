@@ -50,7 +50,7 @@ class Article extends BaseArticle implements ArticleInterface
     /**
      * @var int
      */
-    protected $commentsCount;
+    protected $commentsCount = 0;
 
     /**
      * {@inheritdoc}
