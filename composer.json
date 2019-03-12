@@ -141,7 +141,8 @@
         "behat-extension/doctrine-data-fixtures-extension": "^4.0",
         "theofidry/alice-data-fixtures": "^1.0",
         "doctrine/data-fixtures": "^1.3",
-        "phpstan/phpstan": "^0.11.1"
+        "phpstan/phpstan": "^0.11.1",
+        "friends-of-behat/service-container-extension": "^1.0"
     },
     "conflict": {
         "knplabs/knp-time-bundle": "1.9"

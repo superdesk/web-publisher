@@ -7,3 +7,15 @@ services:
         arguments:
             - 'SWP\Behat\Version\Version'
         class: SWP\Bundle\CoreBundle\Factory\VersionFactory
+
+#parameters:
+#    behat.doctrine_data_fixtures.service.hook_listener.class: FixturesHookListener
+
+#    behat.doctrine_data_fixtures.service.hook_listener:
+#        class: FixturesHookListener
+#        arguments:
+#            - "feature"
+#        calls:
+#            - [setFixtureService, ['@behat.doctrine_data_fixtures.service.fixture_loader']]
+#        tags:
+#            - { name: event_dispatcher.subscriber }

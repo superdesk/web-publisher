@@ -33,3 +33,6 @@ default:
                 - SWP\Bundle\FixturesBundle\DataFixtures\ORM\LoadTenantsData
                 - SWP\Bundle\FixturesBundle\DataFixtures\ORM\LoadUsersData
                 - SWP\Bundle\FixturesBundle\DataFixtures\ORM\LoadArticlesData
+        FriendsOfBehat\ServiceContainerExtension:
+            imports:
+                - "features/bootstrap/config/services.php"
