@@ -11,7 +11,6 @@ SWP\Bundle\ContentBundle\Model\SlideshowItem:
         soft_deleteable:
             field_name: deletedAt
             time_aware: false
-        loggable: true
     fields:
         createdAt:
             type: datetime
@@ -39,6 +38,7 @@ SWP\Bundle\ContentBundle\Model\SlideshowItem:
         slideshow:
             targetEntity: SWP\Bundle\ContentBundle\Model\SlideshowInterface
             cascade: ["all"]
+            inversedBy: items
             joinColumn:
                 name: slideshow_id
                 referencedColumnName: id

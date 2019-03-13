@@ -86,10 +86,10 @@ Feature: Preview article under route based on package data
     And the JSON should be equal to:
     """
     {
-        "preview_url": "http:\/\/localhost\/preview\/publish\/package\/0123456789"
+        "preview_url": "http:\/\/localhost\/preview\/publish\/package\/0123456789abc"
     }
     """
-    When I go to "http://localhost/preview/publish/package/0123456789"
+    When I go to "http://localhost/preview/publish/package/0123456789abc"
     Then the response status code should be 200
     And the response should contain "package preview test"
     And the response should contain "Name: Nareg Asmarian"
@@ -165,9 +165,9 @@ Feature: Preview article under route based on package data
     And the JSON should be equal to:
     """
     {
-        "preview_url": "http:\/\/localhost\/preview\/publish\/package\/0123456789"
+        "preview_url": "http:\/\/localhost\/preview\/publish\/package\/0123456789abc"
     }
     """
-    When I go to "http://localhost/preview/publish/package/0123456789"
+    When I go to "http://localhost/preview/publish/package/0123456789abc"
     Then the response status code should be 200
     And the response should contain "package preview test edit"

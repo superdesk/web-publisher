@@ -15,6 +15,9 @@ SWP\Component\Bridge\Model\Group:
     fields:
         code:
             type: string
+        type:
+            type: string
+            nullable: true
         deletedAt:
             type: datetime
             nullable: true

@@ -30,7 +30,7 @@ class StaticThemeAssetsController extends Controller
     const ASSETS_DIRECTORY = 'public';
 
     /**
-     * @Route("/{fileName}.{fileExtension}", methods={"GET"}, name="static_theme_assets_root", requirements={"fileName": "sw|manifest|favicon"})
+     * @Route("/{fileName}.{fileExtension}", methods={"GET"}, name="static_theme_assets_root", requirements={"fileName": "sw|manifest|favicon|ads"})
      * @Route("/public-{fileName}.{fileExtension}", methods={"GET"}, name="static_theme_assets_root_public", requirements={"fileName"=".+"})
      * @Route("/public/{fileName}.{fileExtension}", methods={"GET"}, name="static_theme_assets_public", requirements={"fileName"=".+"})
      */
@@ -48,7 +48,7 @@ class StaticThemeAssetsController extends Controller
             }
         }
 
-        throw new NotFoundHttpException('Page was not found.');
+        throw new NotFoundHttpException('File was not found.');
     }
 
     /**
@@ -63,7 +63,7 @@ class StaticThemeAssetsController extends Controller
         } elseif ('tenant' === $type) {
             $theme = $this->loadTenantTheme(str_replace('__', '/', $themeName));
         } else {
-            throw new NotFoundHttpException('Page was not found.');
+            throw new NotFoundHttpException('File was not found.');
         }
 
         $filePath = $theme->getPath().'/screenshots/'.$fileName;
@@ -71,7 +71,7 @@ class StaticThemeAssetsController extends Controller
             return $response;
         }
 
-        throw new NotFoundHttpException('Page was not found.');
+        throw new NotFoundHttpException('File was not found.');
     }
 
     /**
@@ -88,8 +88,14 @@ class StaticThemeAssetsController extends Controller
                 basename($filePath)
             );
             $response->headers->set('Content-Disposition', $disposition);
-            $type = new Mime(new Read($filePath));
-            $mime = str_replace('/x-', '/', Mime::getMimeFromExtension($type->getExtension()));
+
+            try {
+                $type = new Mime(new Read($filePath));
+                $mime = str_replace('/x-', '/', Mime::getMimeFromExtension($type->getExtension()));
+            } catch (\Exception $e) {
+                $mime = 'text/plain';
+            }
+
             $response->headers->set('Content-Type', $mime);
             $response->setStatusCode(Response::HTTP_OK);
             $response->setPublic();
@@ -107,7 +113,7 @@ class StaticThemeAssetsController extends Controller
      */
     private function loadOrganizationTheme(string $themeName)
     {
-        $loadedThemes = $this->container->get('swp_core.loader.organization.theme')->load();
+        $loadedThemes = $this->get('swp_core.loader.organization.theme')->load();
 
         return $this->filterThemes($loadedThemes, $themeName);
     }
@@ -119,7 +125,7 @@ class StaticThemeAssetsController extends Controller
      */
     private function loadTenantTheme(string $themeName)
     {
-        $loadedThemes = $this->container->get('sylius.repository.theme')->findAll();
+        $loadedThemes = $this->get('sylius.repository.theme')->findAll();
 
         return $this->filterThemes($loadedThemes, $themeName);
     }

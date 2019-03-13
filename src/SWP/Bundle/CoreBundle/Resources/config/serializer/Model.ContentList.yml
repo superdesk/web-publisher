@@ -1,5 +1,10 @@
 SWP\Bundle\CoreBundle\Model\ContentList:
     exclusion_policy: ALL
+    properties:
+        contentListItemsCount:
+            serialized_name: contentListItemsCount
+            expose: true
+            type: SWP\Bundle\CoreBundle\Model\ContentListItemsCountInterface
     relations:
         -   rel: self
             href:

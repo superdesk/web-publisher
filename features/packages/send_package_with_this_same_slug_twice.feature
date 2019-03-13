@@ -56,5 +56,5 @@ Feature: Send package with this same slug (but different guid) assigned to tenan
     Then the response status code should be 200
     And I am authenticated as "test.user"
     And I add "Content-Type" header equal to "application/json"
-    Then I send a "GET" request to "/api/v1/content/articles/abstract-html-test-492c31d1"
+    Then I send a "GET" request to "/api/v1/content/articles/abstract-html-test-0123456789abc"
     Then the response status code should be 200

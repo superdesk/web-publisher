@@ -18,6 +18,7 @@ use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Symfony\Component\Routing\Annotation\Route;
 use SWP\Bundle\ContentBundle\Model\SlideshowInterface;
 use SWP\Component\Common\Criteria\Criteria;
+use SWP\Component\Common\Exception\NotFoundHttpException;
 use SWP\Component\Common\Pagination\PaginationData;
 use SWP\Component\Common\Response\ResourcesListResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;

@@ -7,7 +7,7 @@ Feature: Article un-publishing
   Scenario: Check if an article has been un-published successfully
     Given I am authenticated as "test.user"
     When I add "Content-Type" header equal to "application/json"
-    And I send a "POST" request to "/api/{version}/content/push" with body:
+    And I send a "POST" request to "/api/v1/content/push" with body:
     """
     {
       "language":"en",

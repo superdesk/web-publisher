@@ -32,7 +32,9 @@ final class RegisterArticleBodyProcessorPass implements CompilerPassInterface
         $taggedServices = $container->findTaggedServiceIds('swp.processor.article_body');
 
         foreach ($taggedServices as $key => $taggedService) {
-            $definition->addMethodCall('addProcessor', [new Reference($key)]);
+            $priority = (int) ($taggedService[0]['priority'] ?? 0);
+
+            $definition->addMethodCall('addProcessor', [new Reference($key), $priority]);
         }
     }
 }

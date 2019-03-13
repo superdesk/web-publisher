@@ -221,6 +221,7 @@ class TokenAuthenticator extends AbstractGuardAuthenticator
      */
     private function getToken(Request $request)
     {
-        return $request->headers->get('Authorization', $request->query->get('auth_token'));
+        // Check query first in case Authorization header used for Basic Auth
+        return $request->query->get('auth_token', $request->headers->get('Authorization'));
     }
 }

@@ -44,6 +44,11 @@ class Package extends BaseContent implements PackageInterface
      */
     protected $groups;
 
+    /**
+     * @var ItemInterface[]|Collection
+     */
+    protected $relatedItems;
+
     public function __construct()
     {
         parent::__construct();
@@ -51,9 +56,10 @@ class Package extends BaseContent implements PackageInterface
         $this->items = new ArrayCollection();
         $this->groups = new ArrayCollection();
         $this->externalData = new ArrayCollection();
+        $this->relatedItems = new ArrayCollection();
     }
 
-    public function getItems()
+    public function getItems(): Collection
     {
         return $this->items;
     }
@@ -109,5 +115,15 @@ class Package extends BaseContent implements PackageInterface
     public function setGroups(?Collection $groups): void
     {
         $this->groups = $groups;
+    }
+
+    public function getRelatedItems(): Collection
+    {
+        return $this->relatedItems;
+    }
+
+    public function setRelatedItems(Collection $relatedItems): void
+    {
+        $this->relatedItems = $relatedItems;
     }
 }

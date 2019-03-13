@@ -23,53 +23,27 @@ use SWP\Component\Storage\Model\PersistableInterface;
 
 interface PublishDestinationInterface extends TimestampableInterface, PersistableInterface, PaywallSecuredInterface
 {
-    /**
-     * @param RouteInterface $route
-     */
     public function setRoute(RouteInterface $route);
 
-    /**
-     * @return RouteInterface|null
-     */
     public function getRoute();
 
-    /**
-     * @return TenantInterface|null
-     */
     public function getTenant();
 
-    /**
-     * @param TenantInterface $tenant
-     */
     public function setTenant(TenantInterface $tenant);
 
-    /**
-     * @return bool
-     */
     public function isPublishedFbia(): bool;
 
-    /**
-     * @param bool $isPublishedFbia
-     */
     public function setIsPublishedFbia(bool $isPublishedFbia): void;
 
-    /**
-     * @return bool
-     */
     public function isPublished(): bool;
 
-    /**
-     * @param bool $published
-     */
     public function setPublished(bool $published): void;
 
-    /**
-     * @return null|string
-     */
     public function getPackageGuid(): ?string;
 
-    /**
-     * @param null|string $packageGuid
-     */
     public function setPackageGuid(?string $packageGuid): void;
+
+    public function getContentLists(): array;
+
+    public function setContentLists(array $contentLists): void;
 }

@@ -16,9 +16,10 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\CoreBundle\Model;
 
+use SWP\Bundle\ContentBundle\Doctrine\TimestampableCancelInterface;
 use SWP\Component\MultiTenancy\Model\TenantAwareInterface;
 use SWP\Component\ContentList\Model\ContentListInterface as BaseContentListInterface;
 
-interface ContentListInterface extends BaseContentListInterface, TenantAwareInterface
+interface ContentListInterface extends BaseContentListInterface, TenantAwareInterface, TimestampableCancelInterface
 {
 }

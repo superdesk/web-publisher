@@ -20,13 +20,17 @@ use SWP\Bundle\ContentBundle\ArticleEvents;
 use SWP\Bundle\ContentBundle\Doctrine\ArticleRepositoryInterface;
 use SWP\Bundle\ContentBundle\Event\ArticleEvent;
 use SWP\Bundle\ContentBundle\Factory\ArticleFactoryInterface;
+use SWP\Bundle\ContentListBundle\Services\ContentListServiceInterface;
 use SWP\Bundle\CoreBundle\Model\ArticleInterface;
 use SWP\Bundle\CoreBundle\Model\ArticleStatisticsInterface;
 use SWP\Bundle\CoreBundle\Model\CompositePublishActionInterface;
 use SWP\Bundle\CoreBundle\Model\PackageInterface;
 use SWP\Bundle\CoreBundle\Model\PublishDestinationInterface;
 use SWP\Bundle\CoreBundle\Model\TenantInterface;
+use SWP\Bundle\CoreBundle\Repository\ContentListItemRepository;
 use SWP\Component\Bridge\Events;
+use SWP\Component\ContentList\Model\ContentListInterface;
+use SWP\Component\ContentList\Repository\ContentListRepositoryInterface;
 use SWP\Component\MultiTenancy\Context\TenantContextInterface;
 use SWP\Component\Storage\Factory\FactoryInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
@@ -60,21 +64,38 @@ final class ArticlePublisher implements ArticlePublisherInterface
     private $tenantContext;
 
     /**
-     * ArticlePublisher constructor.
-     *
-     * @param ArticleRepositoryInterface $articleRepository
-     * @param EventDispatcherInterface   $eventDispatcher
-     * @param ArticleFactoryInterface    $articleFactory
-     * @param FactoryInterface           $articleStatisticsFactory
-     * @param TenantContextInterface     $tenantContext
+     * @var ContentListRepositoryInterface
      */
-    public function __construct(ArticleRepositoryInterface $articleRepository, EventDispatcherInterface $eventDispatcher, ArticleFactoryInterface $articleFactory, FactoryInterface $articleStatisticsFactory, TenantContextInterface $tenantContext)
-    {
+    private $contentListRepository;
+
+    /**
+     * @var ContentListItemRepository
+     */
+    private $contentListItemRepository;
+
+    /**
+     * @var ContentListServiceInterface
+     */
+    private $contentListService;
+
+    public function __construct(
+        ArticleRepositoryInterface $articleRepository,
+        EventDispatcherInterface $eventDispatcher,
+        ArticleFactoryInterface $articleFactory,
+        FactoryInterface $articleStatisticsFactory,
+        TenantContextInterface $tenantContext,
+        ContentListRepositoryInterface $contentListRepository,
+        ContentListItemRepository $contentListItemRepository,
+        ContentListServiceInterface $contentListService
+    ) {
         $this->articleRepository = $articleRepository;
         $this->eventDispatcher = $eventDispatcher;
         $this->articleFactory = $articleFactory;
         $this->articleStatisticsFactory = $articleStatisticsFactory;
         $this->tenantContext = $tenantContext;
+        $this->contentListRepository = $contentListRepository;
+        $this->contentListItemRepository = $contentListItemRepository;
+        $this->contentListService = $contentListService;
     }
 
     /**
@@ -95,20 +116,19 @@ final class ArticlePublisher implements ArticlePublisherInterface
         $this->articleRepository->flush();
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function publish(PackageInterface $package, CompositePublishActionInterface $action)
     {
+        $originalRequestTenant = $this->tenantContext->getTenant();
         /** @var PublishDestinationInterface $destination */
         foreach ($action->getDestinations() as $destination) {
             $this->tenantContext->setTenant($destination->getTenant());
 
-            /* @var ArticleInterface $existingArticle */
+            /* @var ArticleInterface $article */
             if (null !== ($article = $this->findArticleByTenantAndCode($destination->getTenant()->getCode(), $package->getGuid()))) {
                 $article->setRoute($destination->getRoute());
                 $article->setPublishedFBIA($destination->isPublishedFbia());
                 $article->setPaywallSecured($destination->isPaywallSecured());
+                $this->addToContentLists($destination->getContentLists(), $article);
                 $this->eventDispatcher->dispatch(Events::SWP_VALIDATION, new GenericEvent($article));
                 $this->eventDispatcher->dispatch(ArticleEvents::PRE_UPDATE, new ArticleEvent($article, $package, ArticleEvents::PRE_UPDATE));
                 $this->articleRepository->flush();
@@ -129,11 +149,16 @@ final class ArticlePublisher implements ArticlePublisherInterface
             $articleStatistics->setArticle($article);
             $this->articleRepository->persist($articleStatistics);
             $this->eventDispatcher->dispatch(Events::SWP_VALIDATION, new GenericEvent($article));
-            $article->setPackage($package);
-            $article->setRoute($destination->getRoute());
+            $package->addArticle($article);
+            $route = $destination->getRoute();
+            if (null !== $route) {
+                $route->setArticlesUpdatedAt(new \DateTime());
+                $article->setRoute($route);
+            }
             $article->setPublishedFBIA($destination->isPublishedFbia());
             $article->setPaywallSecured($destination->isPaywallSecured());
             $article->setArticleStatistics($articleStatistics);
+            $this->addToContentLists($destination->getContentLists(), $article);
             $this->articleRepository->persist($article);
             $this->eventDispatcher->dispatch(ArticleEvents::PRE_CREATE, new ArticleEvent($article, $package, ArticleEvents::PRE_CREATE));
             $this->articleRepository->flush();
@@ -143,6 +168,26 @@ final class ArticlePublisher implements ArticlePublisherInterface
                 $this->eventDispatcher->dispatch(ArticleEvents::PUBLISH, new ArticleEvent($article, $package, ArticleEvents::PUBLISH));
             }
             $this->articleRepository->flush();
+        }
+        $this->tenantContext->setTenant($originalRequestTenant);
+    }
+
+    private function addToContentLists(array $contentListsPositions, ArticleInterface $article): void
+    {
+        foreach ($contentListsPositions as $contentListsPosition) {
+            $contentList = $this->contentListRepository->findListById($contentListsPosition['id']);
+            if (null === $contentList) {
+                continue;
+            }
+
+            $existingItemOnList = $this->contentListItemRepository->findItemByArticleAndList($article, $contentList, ContentListInterface::TYPE_MANUAL);
+            if (null === $existingItemOnList) {
+                $this->contentListService->addArticleToContentList(
+                    $contentList,
+                    $article,
+                    $contentListsPosition['position']
+                );
+            }
         }
     }
 

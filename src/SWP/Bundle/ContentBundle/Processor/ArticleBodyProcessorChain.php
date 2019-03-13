@@ -18,17 +18,18 @@ namespace SWP\Bundle\ContentBundle\Processor;
 
 use SWP\Bundle\ContentBundle\Model\ArticleInterface;
 use SWP\Bundle\ContentBundle\Model\ArticleMediaInterface;
+use Zend\Stdlib\PriorityQueue;
 
 final class ArticleBodyProcessorChain implements ArticleBodyProcessorInterface
 {
     /**
-     * @var array
+     * @var PriorityQueue
      */
     private $processors;
 
-    public function __construct(array $processors = [])
+    public function __construct()
     {
-        $this->processors = $processors;
+        $this->processors = new PriorityQueue();
     }
 
     public function process(ArticleInterface $article, ArticleMediaInterface $articleMedia): void
@@ -51,8 +52,8 @@ final class ArticleBodyProcessorChain implements ArticleBodyProcessorInterface
         return false;
     }
 
-    public function addProcessor(ArticleBodyProcessorInterface $articleBodyProcessor): void
+    public function addProcessor(ArticleBodyProcessorInterface $articleBodyProcessor, int $priority = 0): void
     {
-        $this->processors[] = $articleBodyProcessor;
+        $this->processors->insert($articleBodyProcessor, $priority);
     }
 }

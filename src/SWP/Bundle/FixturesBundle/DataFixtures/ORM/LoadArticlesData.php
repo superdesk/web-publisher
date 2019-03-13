@@ -24,6 +24,7 @@ use SWP\Bundle\AnalyticsBundle\Model\ArticleStatisticsInterface;
 use SWP\Bundle\ContentBundle\Model\ArticleAuthor;
 use SWP\Bundle\ContentBundle\Model\ArticleInterface;
 use SWP\Bundle\ContentBundle\Model\AuthorMedia;
+use SWP\Bundle\ContentBundle\Model\RelatedArticle;
 use SWP\Bundle\CoreBundle\Model\Image;
 use SWP\Bundle\ContentBundle\Model\ImageRendition;
 use SWP\Bundle\ContentBundle\Model\RouteInterface;
@@ -339,8 +340,8 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface, Orde
 
                         $imageRendition = new ImageRendition();
                         $imageRendition->setImage($image);
-                        $imageRendition->setHeight($rendition['height']);
-                        $imageRendition->setWidth($rendition['width']);
+                        $imageRendition->setHeight((int) $rendition['height']);
+                        $imageRendition->setWidth((int) $rendition['width']);
                         $imageRendition->setName($key);
                         $imageRendition->setMedia($articleMedia);
                         $articleMedia->addRendition($imageRendition);
@@ -439,6 +440,7 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface, Orde
                         'John Doe Second',
                     ],
                     'sources' => ['Reuters', 'AAP'],
+                    'commentsCount' => 5,
                 ],
                 [
                     'title' => 'Features client1',
@@ -454,6 +456,7 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface, Orde
                     'external' => [
                         'articleNumber' => '64525',
                     ],
+                    'commentsCount' => 10,
                 ],
             ],
         ];
@@ -538,6 +541,21 @@ class LoadArticlesData extends AbstractFixture implements FixtureInterface, Orde
 
                 $this->addReference($article->getSlug(), $article);
             }
+
+            $manager->flush();
+
+            $article = $this->container->get('swp.repository.article')->findOneById(1);
+            $relatedArticle1 = $this->container->get('swp.repository.article')->findOneById(2);
+            $relatedArticle2 = $this->container->get('swp.repository.article')->findOneById(3);
+
+            $related1 = new RelatedArticle();
+            $related1->setArticle($relatedArticle1);
+
+            $related2 = new RelatedArticle();
+            $related2->setArticle($relatedArticle2);
+
+            $article->addRelatedArticle($related1);
+            $article->addRelatedArticle($related2);
 
             $manager->flush();
         }

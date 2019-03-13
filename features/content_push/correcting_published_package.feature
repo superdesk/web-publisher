@@ -145,3 +145,4 @@ Feature: Checking if package corrections work fine
     And the JSON nodes should contain:
       | headline                | testing correction corrected    |
       | status                  | published                       |
+      | slugline                | abstract-html-test-corrected    |

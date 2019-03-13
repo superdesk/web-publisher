@@ -74,7 +74,7 @@
         "guzzlehttp/guzzle": "^6.2",
         "php-http/guzzle6-adapter": "^v1.1",
         "twig/extensions": "~1.0",
-        "twig/twig": "~2.4",
+        "twig/twig": "^2.7",
         "emanueleminotto/twig-cache-bundle": "dev-master",
         "friendsofsymfony/http-cache": "^2.3",
         "friendsofsymfony/http-cache-bundle": "^2.4",
@@ -92,8 +92,8 @@
         "superdesk/contentapi-sdk-php": "^1.0.0",
         "justinrainbow/json-schema": "~5.0",
         "jms/translation-bundle": "^1.4.3",
-        "hoa/mime": "3.16.01.15",
-        "hoa/file": "1.16.01.15",
+        "hoa/mime": "3.17.01.10",
+        "hoa/file": "1.17.07.11",
         "sentry/sentry-symfony": "^2.0",
         "danielstjules/stringy": "~3.1",
         "burgov/key-value-form-bundle": "^1.4",
@@ -111,7 +111,7 @@
         "cboden/ratchet": "^0.4.1",
         "evenement/evenement": "^3.0",
         "react/zmq": "dev-master",
-        "gos/web-socket-bundle": "^1.8",
+        "gos/web-socket-bundle": "^1.9 !=1.9.0-rc2",
         "knplabs/knp-time-bundle": "^1.8",
         "lexik/jwt-authentication-bundle": "^2.5",
         "ramsey/uuid": "^3.8",
@@ -120,7 +120,9 @@
         "gesdinet/jwt-refresh-token-bundle": "^0.5.0",
         "symfony/flex": "^1.1",
         "rdx/behat-variables": "^1.2",
-        "apache/log4php": "^2.3"
+        "apache/log4php": "^2.3",
+        "takeit/amp-html-bundle": "^1.0",
+        "blackfire/php-sdk": "^1.17"
     },
     "require-dev": {
         "roave/security-advisories": "dev-master",
@@ -144,7 +146,8 @@
         "doctrine/data-fixtures": "^1.3",
         "symfony/dotenv": "^4.1",
         "rdx/behat-variables": "^1.2",
-        "symfony/debug-bundle": "^4.2"
+        "symfony/debug-bundle": "^4.2",
+        "phpstan/phpstan": "^0.11.1"
     },
     "replace": {
         "swp/common": "self.version",
@@ -168,7 +171,8 @@
         "swp/paywall": "self.version"
     },
     "conflict": {
-        "symfony/symfony": "*"
+        "symfony/symfony": "*",
+        "knplabs/knp-time-bundle": "1.9"
     },
     "config": {
         "bin-dir": "bin",

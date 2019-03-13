@@ -22,6 +22,8 @@ use SWP\Component\Storage\Model\PersistableInterface;
 
 interface GroupInterface extends PersistableInterface, SoftDeletableInterface
 {
+    public const TYPE_RELATED = 'related_content';
+
     public function getCode(): string;
 
     public function setCode(string $code): void;
@@ -33,4 +35,8 @@ interface GroupInterface extends PersistableInterface, SoftDeletableInterface
     public function getPackage(): PackageInterface;
 
     public function setPackage(PackageInterface $package): void;
+
+    public function getType(): ?string;
+
+    public function setType(?string $type): void;
 }

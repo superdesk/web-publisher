@@ -27,7 +27,6 @@ use SWP\Component\MultiTenancy\Context\TenantContextInterface;
 use SWP\Component\MultiTenancy\Repository\TenantRepositoryInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
-use Webmozart\Assert\Assert;
 
 final class PreviewWebhookEventSubscriber extends AbstractWebhookEventSubscriber
 {
@@ -57,9 +56,11 @@ final class PreviewWebhookEventSubscriber extends AbstractWebhookEventSubscriber
     public function processEvent(GenericEvent $event, string $dispatcherEventName, EventDispatcherInterface $dispatcher): void
     {
         $subject = $event->getSubject();
-        Assert::isInstanceOf($subject, ArticlePreview::class);
-        $article = $subject->getArticle();
+        if (!$subject instanceof ArticlePreview) {
+            return;
+        }
 
+        $article = $subject->getArticle();
         $webhooks = $this->getWebhooks($article, WebhookEvents::PREVIEW_EVENT, $dispatcher);
         $headers = [];
 
@@ -71,9 +72,9 @@ final class PreviewWebhookEventSubscriber extends AbstractWebhookEventSubscriber
         $webhook = $webhooks[0];
 
         $metadata = [
-                'event' => WebhookEvents::PREVIEW_EVENT,
-                'tenant' => $webhook->getTenantCode(),
-            ];
+            'event' => WebhookEvents::PREVIEW_EVENT,
+            'tenant' => $webhook->getTenantCode(),
+        ];
 
         foreach ($metadata as $header => $value) {
             $headers['X-WEBHOOK-'.\strtoupper($header)] = $value;
@@ -81,9 +82,9 @@ final class PreviewWebhookEventSubscriber extends AbstractWebhookEventSubscriber
 
         $client = new Client();
         $requestOptions = [
-                'headers' => $headers,
-                'body' => $this->serializer->serialize($article, 'json'),
-            ];
+            'headers' => $headers,
+            'body' => $this->serializer->serialize($article, 'json'),
+        ];
 
         /** @var \GuzzleHttp\Psr7\Response $response */
         $response = $client->post($webhook->getUrl(), $requestOptions);

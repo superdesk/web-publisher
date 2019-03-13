@@ -87,7 +87,7 @@ class GimmeExtension extends \Twig_Extension implements \Twig_Extension_GlobalsI
                 return $node;
             }, ['needs_context' => false]),
             new \Twig_SimpleFilter('order', function ($node, $value1, $value2) {
-                $node['_collection_type_filters']['order'] = [$value1, $value2];
+                $node['_collection_type_filters']['order'][] = [$value1, $value2];
 
                 return $node;
             }, ['needs_context' => false]),

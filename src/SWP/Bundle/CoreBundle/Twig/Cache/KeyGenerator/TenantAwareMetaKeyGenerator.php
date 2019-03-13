@@ -36,7 +36,7 @@ class TenantAwareMetaKeyGenerator extends MetaKeyGenerator
         $this->revisionContext = $revisionContext;
     }
 
-    public function generateKey($meta)
+    public function generateKey($meta): string
     {
         $revisionKey = '';
         if (null !== $revision = $this->revisionContext->getCurrentRevision()) {

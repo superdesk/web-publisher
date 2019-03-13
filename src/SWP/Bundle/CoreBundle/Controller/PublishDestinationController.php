@@ -47,8 +47,11 @@ class PublishDestinationController extends Controller
      * @param Request $request
      *
      * @return SingleResourceResponse
+     *
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
      */
-    public function createAction(Request $request)
+    public function createAction(Request $request): SingleResourceResponse
     {
         $tenantContext = $this->get('swp_multi_tenancy.tenant_context');
 
@@ -91,12 +94,8 @@ class PublishDestinationController extends Controller
      *
      * @Route("/api/{version}/organization/destinations/{id}", options={"expose"=true}, defaults={"version"="v1"}, methods={"PATCH"}, name="swp_api_core_publishing_destination_update", requirements={"id"="\d+"})
      * @ParamConverter("publishDestination", class="SWP\Bundle\CoreBundle\Model\PublishDestination")
-     *
-     * @param Request $request
-     *
-     * @return SingleResourceResponse
      */
-    public function updateAction(Request $request, PublishDestinationInterface $publishDestination)
+    public function updateAction(Request $request, PublishDestinationInterface $publishDestination): SingleResourceResponse
     {
         $objectManager = $this->get('swp.object_manager.publish_destination');
 

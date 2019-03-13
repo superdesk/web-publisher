@@ -6,7 +6,6 @@ SWP\Component\Bridge\Model\Package:
         soft_deleteable:
             field_name: deletedAt
             time_aware: false
-        loggable: true
     id:
         id:
             type: integer
@@ -70,6 +69,9 @@ SWP\Component\Bridge\Model\Package:
             type: boolean
         extra:
             type: array
+            nullable: true
+        firstPublishedAt:
+            type: datetime
             nullable: true
         createdAt:
             type: datetime

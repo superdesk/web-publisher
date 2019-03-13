@@ -9,3 +9,15 @@ services:
            - {name: 'data_collector', priority: '0'}
         arguments:
         - "@translator.data_collector"
+
+web_profiler:
+    toolbar: true
+    intercept_redirects: false
+
+twig:
+    cache: false
+    debug: true
+
+fidry_alice_data_fixtures:
+    default_purge_mode: "no_purge"
+

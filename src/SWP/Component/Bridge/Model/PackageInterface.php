@@ -21,10 +21,7 @@ use SWP\Component\Common\Model\TimestampableInterface;
 
 interface PackageInterface extends ContentInterface, TimestampableInterface, EnableableInterface, SoftDeletableInterface
 {
-    /**
-     * @return Collection
-     */
-    public function getItems();
+    public function getItems(): Collection;
 
     public function setItems(Collection $items);
 
@@ -40,4 +37,8 @@ interface PackageInterface extends ContentInterface, TimestampableInterface, Ena
     public function getGroups(): ?Collection;
 
     public function setGroups(?Collection $groups): void;
+
+    public function getRelatedItems(): Collection;
+
+    public function setRelatedItems(Collection $relatedItems): void;
 }

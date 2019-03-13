@@ -545,10 +545,10 @@ Feature: Preview article with video, audio and image in slideshows
     And the JSON should be equal to:
     """
     {
-        "preview_url": "http:\/\/localhost\/preview\/publish\/package\/0123456789"
+        "preview_url": "http:\/\/localhost\/preview\/publish\/package\/0123456789abc"
     }
     """
-    When I go to "http://localhost/preview/publish/package/0123456789"
+    When I go to "http://localhost/preview/publish/package/0123456789abc"
     Then the response status code should be 200
     And the response should contain "https://amazonaws.com/2018110714118/68e1b49e00fe67fc25f0e20ad013731140707f22d43feae11f9bac2e458e0355.mp3"
     And the response should contain "https://amazonaws.com/2018110714118/b42edf4c501057a44499c8148d60a6343fb0e968150fc538404b5b72ed9279b9.mp4"

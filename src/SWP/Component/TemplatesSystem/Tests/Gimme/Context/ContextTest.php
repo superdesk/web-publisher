@@ -17,6 +17,7 @@ use Doctrine\Common\Cache\ArrayCache;
 use SWP\Component\TemplatesSystem\Tests\Article;
 use SWP\Component\TemplatesSystem\Gimme\Context\Context;
 use SWP\Component\TemplatesSystem\Gimme\Meta\Meta;
+use Symfony\Component\EventDispatcher\EventDispatcher;
 
 class ContextTest extends \PHPUnit_Framework_TestCase
 {
@@ -27,19 +28,19 @@ class ContextTest extends \PHPUnit_Framework_TestCase
 
     public function testInitialization()
     {
-        $this->context = new Context(new ArrayCache());
+        $this->context = new Context(new EventDispatcher(), new ArrayCache());
         self::assertInstanceOf(Context::class, $this->context);
     }
 
     public function testInitializationWithDefaultConfigurations()
     {
-        $this->context = new Context(new ArrayCache(), __DIR__.'/../../Twig/Node/Resources/meta/');
+        $this->context = new Context(new EventDispatcher(), new ArrayCache(), __DIR__.'/../../Twig/Node/Resources/meta/');
         self::assertCount(1, $this->context->getAvailableConfigs());
     }
 
     public function testAddingNewConfiguration()
     {
-        $this->context = new Context(new ArrayCache());
+        $this->context = new Context(new EventDispatcher(), new ArrayCache());
         $configuration = $this->context->addNewConfig(__DIR__.'/../../Twig/Node/Resources/meta/article.yml');
 
         self::assertCount(1, $this->context->getAvailableConfigs());
@@ -48,7 +49,7 @@ class ContextTest extends \PHPUnit_Framework_TestCase
 
     public function testAddingNewMeta()
     {
-        $this->context = new Context(new ArrayCache(), __DIR__.'/../../Twig/Node/Resources/meta/');
+        $this->context = new Context(new EventDispatcher(), new ArrayCache(), __DIR__.'/../../Twig/Node/Resources/meta/');
         $meta = $this->context->getMetaForValue(new Article());
         $this->context->registerMeta($meta);
 
@@ -58,7 +59,7 @@ class ContextTest extends \PHPUnit_Framework_TestCase
 
     public function testIfIsSupported()
     {
-        $this->context = new Context(new ArrayCache());
+        $this->context = new Context(new EventDispatcher(), new ArrayCache());
         self::assertFalse($this->context->isSupported(new Article()));
 
         $this->context->addNewConfig(__DIR__.'/../../Twig/Node/Resources/meta/article.yml');
@@ -67,7 +68,7 @@ class ContextTest extends \PHPUnit_Framework_TestCase
 
     public function testTemporaryUnsetAndRestore()
     {
-        $this->context = new Context(new ArrayCache(), __DIR__.'/../../Twig/Node/Resources/meta/');
+        $this->context = new Context(new EventDispatcher(), new ArrayCache(), __DIR__.'/../../Twig/Node/Resources/meta/');
         $meta = $this->context->getMetaForValue(new Article());
         $this->context->registerMeta($meta);
 
