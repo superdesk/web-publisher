@@ -17,7 +17,7 @@ default:
         rdx\behatvars\BehatVariablesExtension: ~
         Behat\Symfony2Extension:
             kernel:
-                class: Kernel
+                class: App\Kernel
                 path: src/Kernel.php
                 env: "test"
                 debug: "true"
