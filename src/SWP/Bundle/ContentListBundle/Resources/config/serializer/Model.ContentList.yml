@@ -31,3 +31,6 @@ SWP\Component\ContentList\Model\ContentList:
         updatedAt:
             expose: true
             type: DateTime
+        contentListItemsUpdatedAt:
+            expose: true
+            type: DateTime

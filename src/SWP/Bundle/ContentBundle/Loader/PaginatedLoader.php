@@ -34,9 +34,13 @@ abstract class PaginatedLoader
         }
 
         if (array_key_exists('order', $parameters)) {
-            if (2 === \count($parameters['order'])) {
-                $criteria->set('order', [$parameters['order'][0] => $parameters['order'][1]]);
+            $order = [];
+            foreach ($parameters['order'] as $orderItem) {
+                if (2 === \count($orderItem)) {
+                    $order[$orderItem[0]] = $orderItem[1];
+                }
             }
+            $criteria->set('order', $order);
         }
 
         return $criteria;

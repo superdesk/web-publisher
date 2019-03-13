@@ -97,6 +97,10 @@ server.get('/public-api/v1/subscriptions/', (req, res) => {
     });
 });
 
+server.get('/api/upload/:fileName/raw', (req, res) => {
+  res.sendfile('test_file.png', {root: './'});
+});
+
 server.use('/api', router);
 server.listen(3000, () => {
   console.log('JSON Server is running');

@@ -168,7 +168,7 @@ final class ArticleSourcesTest extends WebTestCase
 
         $client->request(
             'GET',
-            $this->router->generate('swp_api_content_show_articles', ['id' => 'example-headline-2'])
+            $this->router->generate('swp_api_content_show_articles', ['id' => 'example-headline-2-0123456789abc'])
         );
 
         self::assertEquals(200, $client->getResponse()->getStatusCode());

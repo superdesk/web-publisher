@@ -15,6 +15,7 @@
 namespace SWP\Component\TemplatesSystem\Gimme\Meta;
 
 use SWP\Component\TemplatesSystem\Gimme\Context\Context;
+use SWP\Component\TemplatesSystem\Gimme\Event\MetaEvent;
 
 /**
  * Class Meta.
@@ -43,13 +44,6 @@ class Meta implements MetaInterface
      */
     private $copiedValues = [];
 
-    /**
-     * Create Meta class from provided configuration and values.
-     *
-     * @param Context             $context
-     * @param string|array|object $values
-     * @param array               $configuration
-     */
     public function __construct(Context $context, $values, $configuration)
     {
         $this->context = $context;
@@ -190,18 +184,18 @@ class Meta implements MetaInterface
         return true;
     }
 
-    /**
-     * Fill Meta from object. Object must have public getters for properties.
-     *
-     * @param mixed $values        Object with public getters for properties
-     * @param array $configuration
-     *
-     * @return bool
-     */
-    private function fillFromObject($values, array $configuration, string $name)
+    private function fillFromObject($values, array $configuration, string $name): bool
     {
         if (isset($configuration['properties'][$name])) {
             $type = $configuration['properties'][$name]['type'];
+
+            $event = new MetaEvent($this->getValues(), $name);
+            $this->context->dispatchMetaEvent($event);
+            if ($event->isResultSet()) {
+                $this->$name = $event->getResult();
+
+                return true;
+            }
 
             $getterName = 'get'.ucfirst($name);
 
@@ -217,14 +211,7 @@ class Meta implements MetaInterface
         return true;
     }
 
-    /**
-     * Check if string is JSON.
-     *
-     * @param  string
-     *
-     * @return bool
-     */
-    private function isJson($string)
+    private function isJson(string $string): bool
     {
         json_decode($string);
 
@@ -232,9 +219,9 @@ class Meta implements MetaInterface
     }
 
     /**
-     * @param $value
+     * @param mixed $value
      *
-     * @return Meta
+     * @return mixed|Meta
      */
     private function getValueOrMeta($value)
     {

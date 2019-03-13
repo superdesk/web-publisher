@@ -210,7 +210,7 @@ final class AddArticleToListOnPublishTest extends WebTestCase
         self::assertEquals(200, $client->getResponse()->getStatusCode());
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         parent::tearDown();
         unset($this->router);

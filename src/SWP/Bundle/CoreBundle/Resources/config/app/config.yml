@@ -288,10 +288,20 @@ swp_settings:
             value: ""
             scope: theme
             type: string
+        use_first_published_as_publish_date:
+            type: boolean
+            scope: tenant
+            value: false
+        override_slug_on_correction:
+            type: boolean
+            scope: tenant
+            value: false
+        embedded_image_author_template:
+            type: string
+            scope: tenant
+            value: "(Photo: {{ author }})"
 
 swp_analytics:
-    metrics_listener:
-        enabled: false
     persistence:
         orm:
             enabled: true
@@ -331,12 +341,20 @@ old_sound_rabbit_mq:
         send_webhook:
             connection:       default
             exchange_options: {name: '%kernel.environment%_%kernel.secret%_send_webhook', type: direct}
+        content_push:
+            connection:       default
+            exchange_options: {name: '%kernel.environment%_%kernel.secret%_content_push', type: direct}
     consumers:
         send_webhook:
             connection:       default
             exchange_options: {name: '%kernel.environment%_%kernel.secret%_send_webhook', type: direct}
             queue_options:    {name: '%kernel.environment%_%kernel.secret%_send_webhook'}
             callback:         SWP\Bundle\CoreBundle\Consumer\SendWebhookConsumer
+        content_push:
+            connection:       default
+            exchange_options: {name: '%kernel.environment%_%kernel.secret%_content_push', type: direct}
+            queue_options:    {name: '%kernel.environment%_%kernel.secret%_content_push'}
+            callback:         SWP\Bundle\CoreBundle\Consumer\ContentPushConsumer
         analytics_event:
             connection:       default
             exchange_options: {name: '%kernel.environment%_%kernel.secret%_analytics_event', type: direct}

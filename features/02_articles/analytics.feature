@@ -14,9 +14,6 @@ Feature: Collect article statistics
     Then the response status code should be 200
     And the header "terminate-immediately" should be equal to "1"
 
-  Scenario: Running article events consumer
-    When I run "rabbitmq:consumer analytics_event -v" command for 3 seconds
-
   Scenario: Send analytics impressions request
     When I send a POST request to "/_swp_analytics?type=impression&15362257892160.335822969944755" with body:
     """
@@ -25,16 +22,10 @@ Feature: Collect article statistics
     Then the response status code should be 200
     And the header "terminate-immediately" should be equal to "1"
 
-  Scenario: Running article events consumer
-    When I run "rabbitmq:consumer analytics_event -v" command for 3 seconds
-
   Scenario: Send analytics request
     When I go to "/_swp_analytics?articleId=1&sdrybretybr5yrd&&ref=http://localhost/"
     Then the response status code should be 200
     And the header "terminate-immediately" should be equal to "1"
-
-  Scenario: Running article events consumer
-    When I run "rabbitmq:consumer analytics_event -v" command for 3 seconds
 
   Scenario: Check article statistics
     When I am authenticated as "test.user"

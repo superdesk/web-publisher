@@ -21,6 +21,16 @@ services:
         tags:
             - { name: swp.meta_loader.add }
 
+    swp_template_engine.loader.related_article:
+        class: SWP\Bundle\ContentBundle\Loader\RelatedArticleLoader
+        arguments:
+            - "@swp.repository.article"
+            - "@swp.repository.related_article"
+            - "@swp_template_engine_context.factory.meta_factory"
+            - "@swp_template_engine_context"
+        tags:
+            - { name: swp.meta_loader.add }
+
     swp_template_engine.loader.media:
         class: SWP\Bundle\ContentBundle\Loader\ArticleMediaLoader
         arguments:
@@ -111,14 +121,22 @@ services:
             - { name: kernel.event_listener, event: swp.article.pre_update, method: onArticleCreate }
 
     SWP\Bundle\ContentBundle\EventListener\ProcessArticleSlideshowsListener:
-            arguments:
-                - '@swp.repository.media'
-                - '@swp.factory.media'
-                - '@swp_content_bundle.processor.article_body'
-                - '@swp.factory.slideshow'
-            tags:
-                - { name: kernel.event_listener, event: swp.article.pre_create, method: onArticleCreate }
-                - { name: kernel.event_listener, event: swp.article.pre_update, method: onArticleCreate }
+        arguments:
+            - '@swp.repository.media'
+            - '@swp.factory.media'
+            - '@swp_content_bundle.processor.article_body'
+            - '@swp.factory.slideshow'
+        tags:
+            - { name: kernel.event_listener, event: swp.article.pre_create, method: onArticleCreate }
+            - { name: kernel.event_listener, event: swp.article.pre_update, method: onArticleCreate }
+
+    SWP\Bundle\ContentBundle\EventListener\ProcessRelatedArticlesListener:
+        arguments:
+             - '@swp.factory.related_article'
+             - '@swp.repository.article'
+        tags:
+            - { name: kernel.event_listener, event: swp.article.pre_create, method: onArticleCreate }
+            - { name: kernel.event_listener, event: swp.article.pre_update, method: onArticleCreate }
 
     SWP\Bundle\ContentBundle\EventListener\SetProvidedPublishedDateListener:
         tags:
@@ -157,8 +175,9 @@ services:
             - '@swp.repository.media'
             - '@swp_filesystem'
             - '@router'
-            - '@swp.factory.image'
             - '@swp.factory.file'
+            - '@monolog.logger.swp_asset_download'
+            - "@=container.getParameter('kernel.environment') !== 'test' ? true : false"
 
     swp_content_bundle.processor.article_body:
         class: SWP\Bundle\ContentBundle\Processor\ArticleBodyProcessorChain
@@ -168,7 +187,13 @@ services:
             - '@swp_content_bundle.manager.media'
             - '@SWP\Bundle\ContentBundle\File\FileExtensionChecker'
         tags:
-            - { name: swp.processor.article_body }
+            - { name: swp.processor.article_body, priority: 10 }
+
+    SWP\Bundle\ContentBundle\Processor\EmbeddedMediaBlockProcessor:
+        arguments:
+            - '@SWP\Bundle\ContentBundle\File\FileExtensionChecker'
+        tags:
+            - { name: swp.processor.article_body, priority: 20 }
 
     SWP\Bundle\ContentBundle\Processor\EmbeddedVideoProcessor:
         arguments:
@@ -253,6 +278,7 @@ services:
         arguments:
             - '@swp.factory.keyword'
             - '@swp.repository.keyword'
+            - '@SWP\Bundle\ContentBundle\Service\KeywordBlackLister'
 
     swp.service.article_source:
         class: SWP\Bundle\ContentBundle\Service\ArticleSourceService
@@ -273,6 +299,10 @@ services:
             - { name: doctrine.event_listener, event: prePersist }
 
     SWP\Bundle\ContentBundle\File\FileExtensionChecker: ~
+
+    SWP\Bundle\ContentBundle\Service\KeywordBlackLister:
+        arguments:
+            - '%env(json:BLACKLISTED_KEYWORDS)%'
 
     Aws\S3\S3Client:
         arguments:

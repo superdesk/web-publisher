@@ -217,6 +217,8 @@ class ContentListItemController extends Controller
 
             return new SingleResourceResponse($list, new ResponseContext(201));
         }
+
+        return new SingleResourceResponse($form, new ResponseContext(400));
     }
 
     private function findByContentOr404($listId, $contentId): ContentListItemInterface

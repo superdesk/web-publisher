@@ -18,6 +18,7 @@ namespace SWP\Bundle\UserBundle;
 
 use SWP\Bundle\StorageBundle\DependencyInjection\Bundle\Bundle;
 use SWP\Bundle\StorageBundle\Drivers;
+use SWP\Bundle\UserBundle\DependencyInjection\Compiler\DisableLastLoginListenerPass;
 use SWP\Bundle\UserBundle\DependencyInjection\Compiler\OverrideFosMailerPass;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 
@@ -31,6 +32,7 @@ class SWPUserBundle extends Bundle
         parent::build($container);
 
         $container->addCompilerPass(new OverrideFosMailerPass());
+        $container->addCompilerPass(new DisableLastLoginListenerPass());
     }
 
     /**

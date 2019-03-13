@@ -92,14 +92,18 @@ class RulesMatcher implements RulesMatcherInterface
     {
         $article = $this->articleFactory->createFromPackage($package);
         $article->setPackage($package);
+
         $this->eventDispatcher->dispatch(MultiTenancyEvents::TENANTABLE_DISABLE);
 
         $destinations = $this->publishDestinationProvider->getDestinations($package);
         $evaluatedOrganizationRules = $this->processPackageRules($package);
         $evaluatedRules = $this->processArticleRules($article, $destinations);
         $processedRules = $this->rulesProcessor->process(array_merge($evaluatedOrganizationRules, $evaluatedRules));
+        $result = $this->process($processedRules, $destinations);
 
-        return $this->process($processedRules, $destinations);
+        $this->eventDispatcher->dispatch(MultiTenancyEvents::TENANTABLE_ENABLE);
+
+        return $result;
     }
 
     private function process(array $processedRules, array $destinations): array
@@ -140,7 +144,7 @@ class RulesMatcher implements RulesMatcherInterface
         $ids = array_column($rules['tenants'], 'tenant');
         $ids = array_unique($ids);
         $tenants = array_filter($rules['tenants'], function ($key, $value) use ($ids) {
-            return \in_array($value, \array_keys($ids));
+            return array_key_exists($value, $ids);
         }, ARRAY_FILTER_USE_BOTH);
 
         $rules['tenants'] = $tenants;
@@ -156,6 +160,7 @@ class RulesMatcher implements RulesMatcherInterface
             'isPublishedFbia' => $destination->isPublishedFbia(),
             'published' => $destination->isPublished(),
             'paywallSecured' => $destination->isPaywallSecured(),
+            'contentLists' => $destination->getContentLists(),
         ];
     }
 

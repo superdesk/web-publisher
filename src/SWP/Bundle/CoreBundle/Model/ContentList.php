@@ -16,10 +16,11 @@ declare(strict_types=1);
 
 namespace SWP\Bundle\CoreBundle\Model;
 
+use SWP\Bundle\ContentBundle\Doctrine\ORM\TimestampableCancelTrait;
 use SWP\Component\ContentList\Model\ContentList as BaseContentList;
 use SWP\Component\MultiTenancy\Model\TenantAwareTrait;
 
-class ContentList extends BaseContentList implements ContentListInterface
+class ContentList extends BaseContentList implements ContentListInterface, ContentListItemsCountInterface
 {
-    use TenantAwareTrait;
+    use TenantAwareTrait, ContentListItemsCountTrait, TimestampableCancelTrait;
 }

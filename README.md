@@ -16,7 +16,7 @@ Full documentation can be found here: [http://superdesk-publisher.readthedocs.or
 
 ## Requirements
 
- * PHP >= 7.1
+ * PHP >= 7.1.12
    * iconv needs to be enabled
    * Intl needs to be installed with ICU 4+
    * pdo needs to be enabled
@@ -32,7 +32,7 @@ Full documentation can be found here: [http://superdesk-publisher.readthedocs.or
      * magic_quotes_gpc = Off
      * register_globals = Off
      * session.auto_start = Off
- * Postgresql >= 9.4
+ * Postgresql >= 9.6
    * pdo-pgsql
  * Memcached
    * memcached (running)

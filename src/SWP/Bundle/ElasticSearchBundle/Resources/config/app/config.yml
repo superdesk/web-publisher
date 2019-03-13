@@ -7,6 +7,10 @@ fos_elastica:
             settings:
                 analysis:
                     analyzer:
+                        default:
+                            type: custom
+                            tokenizer: standard
+                            filter: [lowercase, swp_ascii_folding]
                         swp_code_analyzer:
                             type: custom
                             tokenizer: whitespace
@@ -18,14 +22,23 @@ fos_elastica:
                             type: custom
                             tokenizer: keyword
                             filter: [standard]
+                        swp_folding_analyzer:
+                            type: custom
+                            tokenizer: standard
+                            filter: [lowercase, swp_ascii_folding]
+                    filter:
+                        swp_ascii_folding:
+                            type: "asciifolding"
+                            preserve_original: true
+
             types:
                 article:
                     properties:
                         id: { type: integer}
                         code: { type: string, analyzer: swp_code_analyzer }
-                        title: { type: string }
-                        body: { type: string }
-                        lead: { type: string }
+                        title: { type: string, analyzer: swp_folding_analyzer }
+                        body: { type: string, analyzer: swp_folding_analyzer }
+                        lead: { type: string, analyzer: swp_folding_analyzer}
                         slug: { type: string }
                         status: { type: string }
                         located:
@@ -55,11 +68,18 @@ fos_elastica:
                             type: "nested"
                             properties:
                                 name: { type: string, analyzer: swp_sources_analyzer }
+                        keywords:
+                            type: "nested"
+                            include_in_root: true
+                            properties:
+                                name: { type: string, analyzer: swp_folding_analyzer }
                         authors:
                             type: "nested"
                             properties:
                                 id: { type: integer }
                                 name: { type: string, analyzer: swp_author_name_analyzer }
+                        extra:
+                            type: object
                     persistence:
                         driver: orm
                         model: "%swp.model.article.class%"

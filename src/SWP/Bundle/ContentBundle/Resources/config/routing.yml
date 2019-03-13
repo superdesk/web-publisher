@@ -1,0 +1,12 @@
+swp_api_content_list_related_articles:
+  path: /api/v1/content/articles/{id}/related/
+  defaults: { _controller: SWPContentBundle:RelatedArticle:list }
+  requirements:
+    id: '\d+'
+  methods: [GET]
+  options:
+    expose: true
+
+swp_content:
+  resource: '@SWPContentBundle/Controller'
+  type: annotation

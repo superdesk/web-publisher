@@ -40,6 +40,8 @@ class ArticleResolver implements ArticleResolverInterface
         } catch (ResourceNotFoundException $e) {
             return null;
         }
+
+        return null;
     }
 
     private function getFragmentFromUrl(string $url, string $fragment): ?string

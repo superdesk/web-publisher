@@ -268,14 +268,7 @@ class SettingsManager implements SettingsManagerInterface
         return $this->settingsRepository->findAllByScopeAndOwner($this->scopeContext)->getQuery()->getResult();
     }
 
-    /**
-     * @param string                      $name
-     * @param string                      $scope
-     * @param SettingsOwnerInterface|null $owner
-     *
-     * @return mixed
-     */
-    private function getSettingFromRepository(string $name, string $scope, SettingsOwnerInterface $owner = null)
+    private function getSettingFromRepository(string $name, string $scope, SettingsOwnerInterface $owner = null): ?SettingsInterface
     {
         return $this->settingsRepository
             ->findOneByNameAndScopeAndOwner($name, $scope, $owner)

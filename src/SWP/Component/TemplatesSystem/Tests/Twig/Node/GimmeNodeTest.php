@@ -21,6 +21,7 @@ use SWP\Component\TemplatesSystem\Gimme\Loader\ArticleLoader;
 use SWP\Component\TemplatesSystem\Gimme\Loader\ChainLoader;
 use SWP\Component\TemplatesSystem\Twig\Extension\GimmeExtension;
 use SWP\Component\TemplatesSystem\Twig\Node\GimmeNode;
+use Symfony\Component\EventDispatcher\EventDispatcher;
 
 class GimmeNodeTest extends \Twig_Test_NodeTestCase
 {
@@ -111,7 +112,7 @@ EOF
             'gimme_with_parameters' => '{% gimme article with {id: 1} %}{{ article.title }}{% endgimme %}',
         ]);
         $metaLoader = new ChainLoader();
-        $context = new Context(new ArrayCache());
+        $context = new Context(new EventDispatcher(), new ArrayCache());
         $metaLoader->addLoader(new ArticleLoader(__DIR__, new MetaFactory($context)));
         $twig = new \Twig_Environment($loader);
         $twig->addExtension(new GimmeExtension($context, $metaLoader));
@@ -126,7 +127,7 @@ EOF
             'error_gimme' => '{% gimme article {id: 1} %}{{ article.title }}{% endgimme %}',
         ]);
         $metaLoader = new ChainLoader();
-        $context = new Context(new ArrayCache());
+        $context = new Context(new EventDispatcher(), new ArrayCache());
         $metaLoader->addLoader(new ArticleLoader(__DIR__, new MetaFactory($context)));
         $twig = new \Twig_Environment($loader);
         $twig->addExtension(new GimmeExtension($context, $metaLoader));

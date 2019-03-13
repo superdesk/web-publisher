@@ -50,7 +50,7 @@ class Article extends BaseArticle implements ArticleInterface
     /**
      * @var int
      */
-    protected $commentsCount;
+    protected $commentsCount = 0;
 
     /**
      * {@inheritdoc}
@@ -71,7 +71,7 @@ class Article extends BaseArticle implements ArticleInterface
     /**
      * {@inheritdoc}
      */
-    public function setPackage(PackageInterface $package)
+    public function setPackage(?PackageInterface $package)
     {
         $this->package = $package;
     }

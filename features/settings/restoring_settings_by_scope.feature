@@ -88,6 +88,24 @@ Feature: Checking if restoring settings by scope works correctly
         "name":"theme_logo_third"
       },
       {
+        "type":"boolean",
+        "scope":"tenant",
+        "value":false,
+        "name":"use_first_published_as_publish_date"
+      },
+      {
+        "type": "boolean",
+        "scope": "tenant",
+        "value": false,
+        "name": "override_slug_on_correction"
+      },
+      {
+        "type": "string",
+        "scope": "tenant",
+        "value": "(Photo: {{ author }})",
+        "name": "embedded_image_author_template"
+      },
+      {
         "label":"Primary Font Family",
         "value":"Roboto",
         "type":"string",
@@ -265,6 +283,24 @@ Feature: Checking if restoring settings by scope works correctly
         "name":"theme_logo_third"
       },
       {
+        "type":"boolean",
+        "scope":"tenant",
+        "value":false,
+        "name":"use_first_published_as_publish_date"
+      },
+      {
+        "type": "boolean",
+        "scope": "tenant",
+        "value": false,
+        "name": "override_slug_on_correction"
+      },
+      {
+        "type": "string",
+        "scope": "tenant",
+        "value": "(Photo: {{ author }})",
+        "name": "embedded_image_author_template"
+      },
+      {
         "label":"Primary Font Family",
         "value":"Oswald",
         "type":"string",
@@ -407,6 +443,24 @@ Feature: Checking if restoring settings by scope works correctly
         "scope":"theme",
         "type":"string",
         "name":"theme_logo_third"
+      },
+      {
+        "type":"boolean",
+        "scope":"tenant",
+        "value":false,
+        "name":"use_first_published_as_publish_date"
+      },
+      {
+        "type": "boolean",
+        "scope": "tenant",
+        "value": false,
+        "name": "override_slug_on_correction"
+      },
+      {
+        "type": "string",
+        "scope": "tenant",
+        "value": "(Photo: {{ author }})",
+        "name": "embedded_image_author_template"
       },
       {
         "label":"Primary Font Family",

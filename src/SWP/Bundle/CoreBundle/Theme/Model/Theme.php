@@ -185,11 +185,18 @@ class Theme extends BaseTheme implements ThemeInterface
     public function serialize(): string
     {
         return serialize([
+            $this->config,
+            $this->logo,
+            $this->generatedData,
+            $this->settings,
             $this->name,
             $this->description,
             $this->path,
             $this->title,
             $this->logoPath,
+            $this->parents,
+            $this->authors,
+            $this->screenshots,
         ]);
     }
 
@@ -199,11 +206,18 @@ class Theme extends BaseTheme implements ThemeInterface
     public function unserialize($serialized): void
     {
         [
+            $this->config,
+            $this->logo,
+            $this->generatedData,
+            $this->settings,
             $this->name,
             $this->description,
             $this->path,
             $this->title,
-            $this->logoPath
+            $this->logoPath,
+            $this->parents,
+            $this->authors,
+            $this->screenshots
         ] = unserialize($serialized);
     }
 }

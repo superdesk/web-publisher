@@ -43,6 +43,10 @@ final class EmbeddedVideoProcessor implements ArticleBodyProcessorInterface
 
     public function process(ArticleInterface $article, ArticleMediaInterface $articleMedia): void
     {
+        if (null === $articleMedia->getFile()) {
+            return;
+        }
+
         $body = $article->getBody();
         preg_match(
             '/<video[^>]*>/',

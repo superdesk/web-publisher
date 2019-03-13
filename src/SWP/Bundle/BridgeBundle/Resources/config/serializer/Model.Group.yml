@@ -5,6 +5,9 @@ SWP\Component\Bridge\Model\Group:
             expose: true
             type: string
             serialized_name: id
+        type:
+            expose: true
+            type: string
         items:
             expose: true
             type: ArrayCollection<string, SWP\Component\Bridge\Model\Item>
