@@ -106,11 +106,7 @@ class ArticleLoader extends PaginatedLoader implements LoaderInterface
 
             try {
                 $article = $this->articleProvider->getOneByCriteria($criteria);
-            } catch (NotFoundHttpException $e) {
-                return;
-            }
 
-            try {
                 return $this->getArticleMeta($article);
             } catch (NotFoundHttpException $e) {
                 return;
@@ -138,7 +134,7 @@ class ArticleLoader extends PaginatedLoader implements LoaderInterface
                 $criteria->set('route', $route);
             }
 
-            foreach (['metadata', 'keywords', 'source', 'author', 'article', 'publishedAfter', 'publishedBefore'] as $item) {
+            foreach (['metadata', 'extra', 'keywords', 'source', 'author', 'article', 'publishedAfter', 'publishedBefore'] as $item) {
                 if (isset($parameters[$item])) {
                     $criteria->set($item, $parameters[$item]);
                 }
@@ -167,8 +163,6 @@ class ArticleLoader extends PaginatedLoader implements LoaderInterface
                 return $metaCollection;
             }
         }
-
-        return;
     }
 
     /**
@@ -183,7 +177,7 @@ class ArticleLoader extends PaginatedLoader implements LoaderInterface
      * @param Criteria $criteria
      * @param array    $parameters
      */
-    private function setDateRangeToCriteria(Criteria $criteria, array $parameters)
+    protected function setDateRangeToCriteria(Criteria $criteria, array $parameters)
     {
         if (isset($parameters['date_range']) && is_array($parameters['date_range']) && 2 === count($parameters['date_range'])) {
             $criteria->set('dateRange', $parameters['date_range']);
@@ -195,12 +189,10 @@ class ArticleLoader extends PaginatedLoader implements LoaderInterface
      *
      * @return \SWP\Component\TemplatesSystem\Gimme\Meta\Meta|void
      */
-    private function getArticleMeta($article)
+    protected function getArticleMeta($article)
     {
         if (null !== $article) {
             return $this->metaFactory->create($article);
         }
-
-        return;
     }
 }

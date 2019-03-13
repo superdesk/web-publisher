@@ -8,11 +8,8 @@ use SWP\Component\Common\Generator\GeneratorInterface;
 
 final class RandomStringGeneratorStub implements GeneratorInterface
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function generate($length)
+    public function generate(int $length): string
     {
-        return '0123456789';
+        return '0123456789abc';
     }
 }

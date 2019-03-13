@@ -1,0 +1,14 @@
+name: relatedArticle
+class: 'SWP\Bundle\ContentBundle\Model\RelatedArticleInterface'
+description: Related Article Meta is representation of related article
+properties:
+  article:
+    description: "Related article"
+    type: meta
+  createdAt:
+    description: "Related article create timestamp"
+    type: datetime
+  updatedAt:
+    description: "Related article update timestamp"
+    type: datetime
+to_string: id

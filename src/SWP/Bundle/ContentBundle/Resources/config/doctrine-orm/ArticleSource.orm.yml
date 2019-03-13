@@ -7,8 +7,6 @@ SWP\Bundle\ContentBundle\Model\ArticleSource:
             id: true
             generator:
                 strategy: IDENTITY
-    gedmo:
-        loggable: true
     fields:
         name:
             type: string

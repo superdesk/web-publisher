@@ -42,6 +42,11 @@ class CachedTenantContext extends TenantContext implements CachedTenantContextIn
     protected $entityManager;
 
     /**
+     * @var array
+     */
+    private $cacheKeys = [];
+
+    /**
      * CachedTenantContext constructor.
      *
      * @param TenantResolverInterface  $tenantResolver
@@ -82,13 +87,7 @@ class CachedTenantContext extends TenantContext implements CachedTenantContextIn
                     }
                     parent::setTenant($this->attachToEntityManager($tenant));
                 } else {
-                    $tenant = $this->tenantResolver->resolve(
-                        $currentRequest ? $currentRequest->getHost() : null
-                    );
-
-                    parent::setTenant($tenant);
-
-                    $this->cacheProvider->save($cacheKey, $tenant);
+                    $this->cacheProvider->save($cacheKey, parent::getTenant());
                 }
             }
         }
@@ -109,19 +108,30 @@ class CachedTenantContext extends TenantContext implements CachedTenantContextIn
         }
 
         $this->dispatcher->dispatch(MultiTenancyEvents::TENANTABLE_ENABLE);
-        $this->cacheProvider->save(self::getCacheKey($host), $tenant);
+        $cacheKey = self::getCacheKey($host);
+        $this->cacheKeys[] = $cacheKey;
+        $this->cacheProvider->save($cacheKey, $tenant);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public static function getCacheKey(string $host): string
+    public function reset()
+    {
+        $this->tenant = null;
+        foreach ($this->cacheKeys as $cacheKey) {
+            $this->cacheProvider->delete($cacheKey);
+        }
+    }
+
+    private static function getCacheKey(string $host): string
     {
         return md5('tenant_cache__'.$host);
     }
 
     private function attachToEntityManager(TenantInterface $tenant): TenantInterface
     {
+        if ($this->entityManager->contains($tenant)) {
+            return $tenant;
+        }
+
         /** @var OrganizationInterface $organization */
         $organization = $this->entityManager->merge($tenant->getOrganization());
         $tenant->setOrganization($organization);

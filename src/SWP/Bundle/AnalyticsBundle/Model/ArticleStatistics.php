@@ -132,19 +132,6 @@ class ArticleStatistics implements ArticleStatisticsInterface, TimestampableInte
     /**
      * {@inheritdoc}
      */
-    public function increasePageViewsNumber(): void
-    {
-        $this->pageViewsNumber = $this->pageViewsNumber + 1;
-    }
-
-    public function increaseImpressionsNumber(): void
-    {
-        $this->impressionsNumber = $this->impressionsNumber + 1;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function getEvents(): Collection
     {
         return $this->events;

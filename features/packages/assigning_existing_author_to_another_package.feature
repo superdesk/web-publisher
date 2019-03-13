@@ -244,7 +244,7 @@ Feature: Assigning already existing author to another package
     Then the response status code should be 201
     And I am authenticated as "test.user"
     And I add "Content-Type" header equal to "application/json"
-    Then I send a "GET" request to "/api/{version}/content/articles/testing-authors-2"
+    Then I send a "GET" request to "/api/{version}/content/articles/testing-authors-2-0123456789abc"
     Then the response status code should be 200
     And the JSON nodes should contain:
       | authors[0].name                | Nareg Asmarian              |

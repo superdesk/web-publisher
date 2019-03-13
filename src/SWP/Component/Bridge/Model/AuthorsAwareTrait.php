@@ -16,6 +16,7 @@ declare(strict_types=1);
 
 namespace SWP\Component\Bridge\Model;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 
 trait AuthorsAwareTrait
@@ -24,6 +25,10 @@ trait AuthorsAwareTrait
 
     public function getAuthors(): Collection
     {
+        if (null === $this->authors) {
+            return new ArrayCollection();
+        }
+
         return $this->authors;
     }
 

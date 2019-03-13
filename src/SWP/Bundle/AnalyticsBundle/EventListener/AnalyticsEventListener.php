@@ -53,13 +53,15 @@ class AnalyticsEventListener
     public function onKernelRequest(GetResponseEvent $event)
     {
         $request = $event->getRequest();
-        if (null !== ($json = file_get_contents('php://input')) && '' !== $json) {
-            $request->attributes->set('data', \json_decode($json, true));
-        } elseif (null !== $json = $request->getContent()) {
-            $request->attributes->set('data', \json_decode($json, true));
-        }
+        if (strpos($request->getPathInfo(), self::EVENT_ENDPOINT) &&
+            in_array($request->getMethod(), ['POST', 'GET'])
+        ) {
+            if (null !== ($json = file_get_contents('php://input')) && '' !== $json) {
+                $request->attributes->set('data', \json_decode($json, true));
+            } elseif (null !== $json = $request->getContent()) {
+                $request->attributes->set('data', \json_decode($json, true));
+            }
 
-        if (strpos($request->getPathInfo(), self::EVENT_ENDPOINT)) {
             $this->producer->publish(serialize($request));
 
             $response = new Response();

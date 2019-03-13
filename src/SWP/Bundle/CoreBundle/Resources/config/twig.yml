@@ -38,6 +38,8 @@ services:
     swp_core.analytics_extension:
         class: SWP\Bundle\CoreBundle\Twig\ArticleEventsExtension
         public: false
+        arguments:
+            - '%env(resolve:ANALYTICS_HOST)%'
         tags:
             - { name: twig.extension }
 
@@ -55,5 +57,14 @@ services:
             - '@swp_multi_tenancy.tenant_context'
             - '@swp_settings.manager.settings'
             - '%kernel.environment%'
+        tags:
+            - { name: twig.extension }
+
+    swp_core.article_body_twig_extension:
+        class: SWP\Bundle\CoreBundle\Twig\ArticleBodyExtension
+        public: false
+        arguments:
+            - '@swp_content_bundle.manager.media'
+            - '@SWP\Bundle\ContentBundle\File\FileExtensionChecker'
         tags:
             - { name: twig.extension }

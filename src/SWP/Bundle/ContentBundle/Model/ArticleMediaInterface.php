@@ -16,12 +16,13 @@ namespace SWP\Bundle\ContentBundle\Model;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use SWP\Component\Bridge\Model\ItemInterface;
+use SWP\Component\Common\Model\SoftDeletableInterface;
 use SWP\Component\Storage\Model\PersistableInterface;
 
 /**
  * Interface ArticleMediaInterface.
  */
-interface ArticleMediaInterface extends PersistableInterface
+interface ArticleMediaInterface extends PersistableInterface, SoftDeletableInterface
 {
     const PATH_MEDIA = 'media';
 

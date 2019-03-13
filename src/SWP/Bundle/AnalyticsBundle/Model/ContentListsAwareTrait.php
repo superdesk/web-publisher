@@ -18,7 +18,7 @@ namespace SWP\Bundle\AnalyticsBundle\Model;
 
 trait ContentListsAwareTrait
 {
-    protected $contentLists;
+    protected $contentLists = [];
 
     public function getContentLists(): array
     {

@@ -74,18 +74,18 @@ final class ArticlesCountHandler implements SubscribingHandlerInterface
         $object = $context->getObject();
         $criteria = new Criteria();
         if ($object instanceof PersistableInterface && $object instanceof RouteInterface) {
+            return 0;
+
             $id = $object->getId();
             $criteria->set('route', $id);
-            $count = $this->articleRepository->countByCriteria($criteria, null);
 
-            return $count;
+            return $this->articleRepository->countByCriteria($criteria, null);
         } elseif ($object instanceof TenantInterface) {
             $tenantCode = $object->getCode();
             $criteria->set('tenantCode', $tenantCode);
             $this->eventDispatcher->dispatch(MultiTenancyEvents::TENANTABLE_DISABLE);
-            $count = $this->articleRepository->countByCriteria($criteria, null);
 
-            return $count;
+            return $this->articleRepository->countByCriteria($criteria, null);
         }
     }
 }

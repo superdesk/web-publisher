@@ -19,6 +19,7 @@ namespace SWP\Bundle\CoreBundle\Form\Type;
 use SWP\Bundle\CoreBundle\Model\PublishDestination;
 use SWP\Bundle\MultiTenancyBundle\Form\Type\TenantSelectorType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -37,6 +38,11 @@ final class PublishDestinationType extends AbstractType
             ->add('packageGuid', TextType::class)
             ->add('published', BooleanType::class)
             ->add('paywallSecured', BooleanType::class)
+            ->add('contentLists', CollectionType::class, [
+                'allow_add' => true,
+                'entry_type' => ContentListPositionType::class,
+                'required' => false,
+            ])
         ;
     }
 

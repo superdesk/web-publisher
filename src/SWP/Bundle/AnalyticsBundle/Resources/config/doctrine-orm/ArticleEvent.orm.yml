@@ -52,3 +52,6 @@ SWP\Bundle\AnalyticsBundle\Model\ArticleEvent:
                 name: article_id
                 referencedColumnName: id
                 onDelete: CASCADE
+    indexes:
+        idx_article_events:
+            columns: [article_statistics_id, tenant_code, created_at]

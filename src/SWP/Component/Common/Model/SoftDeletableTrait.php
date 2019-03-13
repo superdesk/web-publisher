@@ -18,7 +18,7 @@ trait SoftDeletableTrait
     /**
      * @var \DateTime|null
      */
-    protected $deletedAt = null;
+    protected $deletedAt;
 
     /**
      * @return \DateTime|null

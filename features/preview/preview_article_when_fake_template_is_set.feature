@@ -82,5 +82,5 @@ Feature: Preview article based on package when fake template is set.
 	}
     """
     Then the response status code should be 200
-    When I go to "http://localhost/preview/publish/package/0123456789"
+    When I go to "http://localhost/preview/publish/package/0123456789abc"
     Then the response status code should be 404

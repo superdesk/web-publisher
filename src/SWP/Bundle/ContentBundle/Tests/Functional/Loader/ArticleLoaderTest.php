@@ -81,14 +81,16 @@ class ArticleLoaderTest extends WebTestCase
         self::assertCount(5, $articles);
         self::assertTrue(5 === $articles->getTotalItemsCount());
 
-        $articles = $this->articleLoader->load('articles', ['metadata' => ['byline' => 'Jhon Doe']], [], LoaderInterface::COLLECTION);
+        $articles = $this->articleLoader->load('articles', ['extra' => ['video' => 'YES']], [], LoaderInterface::COLLECTION);
+        self::assertCount(1, $articles);
+        self::assertTrue(1 === $articles->getTotalItemsCount());
 
+        $articles = $this->articleLoader->load('articles', ['metadata' => ['byline' => 'Jhon Doe']], [], LoaderInterface::COLLECTION);
         self::assertCount(5, $articles);
         self::assertTrue(5 === $articles->getTotalItemsCount());
 
-        $articlesAsc = $this->articleLoader->load('articles', ['route' => '/news', 'order' => ['title', 'asc']], [], LoaderInterface::COLLECTION);
-        $articlesDesc = $this->articleLoader->load('articles', ['route' => '/news', 'order' => ['title', 'desc']], [], LoaderInterface::COLLECTION);
-
+        $articlesAsc = $this->articleLoader->load('articles', ['route' => '/news', 'order' => [['title', 'asc']]], [], LoaderInterface::COLLECTION);
+        $articlesDesc = $this->articleLoader->load('articles', ['route' => '/news', 'order' => [['title', 'desc']]], [], LoaderInterface::COLLECTION);
         self::assertTrue(count($articlesAsc) == count($articlesDesc));
 
         $count = count($articlesAsc);
@@ -98,12 +100,12 @@ class ArticleLoaderTest extends WebTestCase
 
     public function testLoadWithOrderByIdParameter()
     {
-        $this->assertEquals(3, count($this->articleLoader->load('articles', ['route' => '/news', 'order' => ['id', 'asc']], [], LoaderInterface::COLLECTION)));
+        $this->assertEquals(3, count($this->articleLoader->load('articles', ['route' => '/news', 'order' => [['id', 'asc']]], [], LoaderInterface::COLLECTION)));
     }
 
     public function testLoadWithInvalidOrderByParameter()
     {
-        $articles = $this->articleLoader->load('articles', ['route' => '/news', 'order' => ['truncate Table', 'asc']], [], LoaderInterface::COLLECTION);
+        $articles = $this->articleLoader->load('articles', ['route' => '/news', 'order' => [['truncate Table', 'asc']]], [], LoaderInterface::COLLECTION);
 
         self::assertCount(3, $articles);
     }

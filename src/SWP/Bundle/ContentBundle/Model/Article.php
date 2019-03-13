@@ -19,6 +19,7 @@ namespace SWP\Bundle\ContentBundle\Model;
 use Behat\Transliterator\Transliterator;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use SWP\Bundle\ContentBundle\Doctrine\ORM\TimestampableCancelTrait;
 use SWP\Component\Bridge\Model\AuthorsAwareTrait;
 use SWP\Component\Common\Model\SoftDeletableTrait;
 use SWP\Component\Common\Model\TimestampableTrait;
@@ -29,7 +30,7 @@ use SWP\Component\Common\Model\TranslatableTrait;
  */
 class Article implements ArticleInterface
 {
-    use TranslatableTrait, SoftDeletableTrait, TimestampableTrait, AuthorsAwareTrait, KeywordsAwareTrait;
+    use TranslatableTrait, SoftDeletableTrait, TimestampableTrait, AuthorsAwareTrait, KeywordsAwareTrait, RelatedArticlesAwareTrait, TimestampableCancelTrait;
 
     /**
      * @var mixed
@@ -126,8 +127,6 @@ class Article implements ArticleInterface
      */
     protected $slideshows;
 
-    private $isTimestampableCanceled = false;
-
     public function __construct()
     {
         $this->setCreatedAt(new \DateTime());
@@ -137,6 +136,7 @@ class Article implements ArticleInterface
         $this->authors = new ArrayCollection();
         $this->keywords = new ArrayCollection();
         $this->slideshows = new ArrayCollection();
+        $this->relatedArticles = new ArrayCollection();
     }
 
     public function setPublishStartDate(\DateTime $startDate = null)
@@ -396,15 +396,5 @@ class Article implements ArticleInterface
             $slideshow->setArticle(null);
             $this->slideshows->removeElement($slideshow);
         }
-    }
-
-    public function cancelTimestampable(bool $cancel = true): void
-    {
-        $this->isTimestampableCanceled = $cancel;
-    }
-
-    public function isTimestampableCanceled(): bool
-    {
-        return $this->isTimestampableCanceled;
     }
 }

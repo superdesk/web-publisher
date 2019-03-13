@@ -38,4 +38,34 @@ class ArticleEventRepository extends EntityRepository implements ArticleEventRep
 
         return (int) $qb->getQuery()->getSingleScalarResult();
     }
+
+    public function getCountForArticleAllPageViews(ArticleInterface $article): int
+    {
+        $qb = $this->createQueryBuilder('ae')
+            ->select('COUNT(ae.id)')
+            ->andWhere('ae.action = :action')
+            ->leftJoin('ae.articleStatistics', 'ast')
+            ->andWhere('ast.article = :article')
+            ->setParameters([
+                'article' => $article,
+                'action' => ArticleEventInterface::ACTION_PAGEVIEW,
+            ]);
+
+        return (int) $qb->getQuery()->getSingleScalarResult();
+    }
+
+    public function getCountForArticleAllImpressions(ArticleInterface $article): int
+    {
+        $qb = $this->createQueryBuilder('ae')
+            ->select('COUNT(ae.id)')
+            ->andWhere('ae.action = :action')
+            ->leftJoin('ae.articleStatistics', 'ast')
+            ->andWhere('ast.article = :article')
+            ->setParameters([
+                'article' => $article,
+                'action' => ArticleEventInterface::ACTION_IMPRESSION,
+            ]);
+
+        return (int) $qb->getQuery()->getSingleScalarResult();
+    }
 }

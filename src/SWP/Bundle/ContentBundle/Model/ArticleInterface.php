@@ -25,7 +25,7 @@ use SWP\Component\Storage\Model\PersistableInterface;
 use Symfony\Cmf\Bundle\CoreBundle\PublishWorkflow\PublishableInterface;
 use Symfony\Cmf\Bundle\CoreBundle\PublishWorkflow\PublishTimePeriodInterface;
 
-interface ArticleInterface extends TimestampableInterface, TimestampableCancelInterface, RuleSubjectInterface, TranslatableInterface, PersistableInterface, SoftDeletableInterface, PublishableInterface, PublishTimePeriodInterface, MetadataAwareInterface, MediaAwareArticleInterface, AuthorsAwareInterface, KeywordAwareInterface
+interface ArticleInterface extends TimestampableInterface, TimestampableCancelInterface, RuleSubjectInterface, TranslatableInterface, PersistableInterface, SoftDeletableInterface, PublishableInterface, PublishTimePeriodInterface, MetadataAwareInterface, MediaAwareArticleInterface, AuthorsAwareInterface, KeywordAwareInterface, RelatedArticlesAwareInterface
 {
     const STATUS_NEW = 'new';
 
@@ -132,7 +132,7 @@ interface ArticleInterface extends TimestampableInterface, TimestampableCancelIn
     public function setLead($lead);
 
     /**
-     * @return null|ArticleMediaInterface
+     * @return ArticleMediaInterface|null
      */
     public function getFeatureMedia();
 
