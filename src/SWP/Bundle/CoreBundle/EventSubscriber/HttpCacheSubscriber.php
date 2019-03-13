@@ -82,12 +82,14 @@ class HttpCacheSubscriber implements EventSubscriberInterface
                 /** @var ArticleInterface $article */
                 $article = $event->getSubject();
                 if (ArticleInterface::STATUS_PUBLISHED === $article->getStatus() &&
+                    null !== $article->getId() &&
                     $article->getPublishedAt() >= (new \DateTime('now'))->modify('-1 hour')
                 ) {
                     if (null !== $article->getRoute()) {
                         $this->cacheManager->invalidateRoute($article, [], $headers);
                         $this->cacheManager->invalidateRoute($article->getRoute(), [], $headers);
                     }
+
                     $this->cacheManager->invalidateRoute('swp_api_content_list_articles', [], $headers);
                     $this->cacheManager->invalidateRoute('swp_api_content_show_articles', [
                         'id' => $article->getId(),

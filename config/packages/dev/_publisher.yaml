@@ -1,0 +1,11 @@
+parameters:
+  templating.cache_warmer.template_paths.class: "Symfony\\Bundle\\FrameworkBundle\\CacheWarmer\\TemplatePathsCacheWarmer"
+
+services:
+  #Disable translations collector
+  data_collector.translation:
+    class: "%data_collector.config.class%"
+    tags:
+      - {name: 'data_collector', priority: '0'}
+    arguments:
+      - "@translator.data_collector"
